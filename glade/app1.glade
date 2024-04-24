@@ -51546,43 +51546,15 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="border-width">20</property>
                                                             <property name="spacing">16</property>
                                                             <child>
-                                                            <object class="GtkAlignment" id="alignment3">
+                                                            <!-- n-columns=2 n-rows=2 -->
+                                                            <object class="GtkGrid">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="top-padding">10</property>
-                                                            <property name="bottom-padding">25</property>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox91">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox373">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">30</property>
-                                                            <child>
-                                                            <object class="GtkVBox" id="vbox_person_manage_create">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">12</property>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label153">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Create new person</property>
-                                                            <property name="xalign">0</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkVButtonBox" id="vbuttonbox11">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">12</property>
+                                                            <property name="margin-top">10</property>
+                                                            <property name="margin-bottom">25</property>
+                                                            <property name="row-spacing">10</property>
+                                                            <property name="column-spacing">60</property>
+                                                            <property name="column-homogeneous">True</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_person_add_single">
                                                             <property name="visible">True</property>
@@ -51591,15 +51563,16 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="tooltip-text" translatable="yes">New person</property>
+                                                            <property name="halign">center</property>
                                                             <property name="border-width">0</property>
-                                                            <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_person_add_single_from_main_gui" swapped="no"/>
                                                             <child>
-                                                            <object class="GtkHBox" id="hbox536">
+                                                            <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="border-width">0</property>
-                                                            <property name="spacing">4</property>
+                                                            <property name="border-width">6</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkImage" id="image_persons_new_1">
                                                             <property name="visible">True</property>
@@ -51608,15 +51581,17 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkLabel" id="label141">
+                                                            <object class="GtkLabel" id="label153">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">One</property>
+                                                            <property name="halign">center</property>
+                                                            <property name="label" translatable="yes">Create new person</property>
+                                                            <property name="xalign">0</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -51628,9 +51603,8 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -51641,7 +51615,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="tooltip-text" translatable="yes">New persons (multiple)</property>
-                                                            <property name="relief">half</property>
+                                                            <property name="halign">center</property>
                                                             <signal name="clicked" handler="on_person_add_multiple_from_main_gui" swapped="no"/>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox579">
@@ -51676,48 +51650,10 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">1</property>
                                                             </packing>
                                                             </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkVBox" id="vbox_person_manage_load">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">12</property>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label156">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Load into session</property>
-                                                            <property name="xalign">0</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkVButtonBox" id="vbuttonbox12">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">12</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_recuperate_person">
                                                             <property name="visible">True</property>
@@ -51726,13 +51662,15 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="tooltip-text" translatable="yes">Load person</property>
-                                                            <property name="relief">half</property>
+                                                            <property name="halign">center</property>
                                                             <signal name="clicked" handler="on_recuperate_person_from_main_gui" swapped="no"/>
                                                             <child>
-                                                            <object class="GtkHBox" id="hbox538">
+                                                            <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="spacing">4</property>
+                                                            <property name="border-width">6</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkImage" id="image_persons_open_1">
                                                             <property name="visible">True</property>
@@ -51741,7 +51679,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -51749,7 +51687,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <object class="GtkLabel" id="label258">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">One</property>
+                                                            <property name="label" translatable="yes">Load into session</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -51761,9 +51699,8 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
+                                                            <property name="left-attach">1</property>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -51774,7 +51711,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="tooltip-text" translatable="yes">Load persons from other session</property>
-                                                            <property name="relief">half</property>
+                                                            <property name="halign">center</property>
                                                             <signal name="clicked" handler="on_recuperate_persons_from_session_at_main_gui" swapped="no"/>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox584">
@@ -51809,33 +51746,9 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="left-attach">1</property>
+                                                            <property name="top-attach">1</property>
                                                             </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
                                                             </child>
                                                             </object>
                                                             <packing>
@@ -51850,6 +51763,10 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">12</property>
                                                             <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
                                                             <object class="GtkLabel" id="label_current_person">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -51857,6 +51774,25 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="wrap-mode">word-char</property>
                                                             <property name="ellipsize">end</property>
                                                             <property name="xalign">0</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">This person:</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -51963,7 +51899,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -52126,7 +52062,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             </object>

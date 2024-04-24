@@ -3775,10 +3775,13 @@ public partial class ChronoJumpWindow
 
 	private void on_preferences_activate (object o, EventArgs args) 
 	{
+		Constants.Modes m = current_mode;
 		if(notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
-			preferencesWin = PreferencesWindow.Show(preferences, Constants.Modes.UNDEFINED, configChronojump.Compujump, progVersion);
-		else
-			preferencesWin = PreferencesWindow.Show(preferences, current_mode, configChronojump.Compujump, progVersion);
+			m = Constants.Modes.UNDEFINED;
+
+		preferencesWin = PreferencesWindow.Show(preferences, m, configChronojump.Compujump,
+				(configChronojump.ReadFromCloudMainPath != "" || configChronojump.CanOpenExternalDB),
+				progVersion);
 
 		preferencesWin.FakeButtonMaximizeChanges.Clicked -= new EventHandler (on_preferences_maximize_changes);
 		preferencesWin.FakeButtonMaximizeChanges.Clicked += new EventHandler (on_preferences_maximize_changes);

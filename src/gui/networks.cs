@@ -457,6 +457,7 @@ public partial class ChronoJumpWindow
 
 		label_current_database.UseMarkup = true;
 		label_current_database.TooltipText = configChronojump.LastDBFullPath;
+		button_database_reload.Sensitive = true;
 
 		fillAllCombos ();
 	}

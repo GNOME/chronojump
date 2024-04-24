@@ -42620,6 +42620,7 @@ then click this button.</property>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="spacing">12</property>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox_session_more">
                                                             <property name="visible">True</property>
@@ -51408,6 +51409,111 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox_person_manage_title">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_person_manage_blue">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_person_manage_yellow">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label32">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Manage persons</property>
+                                                            <property name="use-markup">True</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <object class="GtkCheckButton" id="persons_manage_advanced_checkbutton">
+                                                            <property name="label" translatable="yes">Show advanced controls</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            <signal name="clicked" handler="on_persons_manage_advanced_checkbutton_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkSeparator">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="valign">center</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack-type">end</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <object class="GtkFrame" id="frame_persons_top">
                                                             <property name="width-request">600</property>
                                                             <property name="height-request">350</property>
@@ -51438,12 +51544,13 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="border-width">20</property>
-                                                            <property name="spacing">20</property>
+                                                            <property name="spacing">16</property>
                                                             <child>
                                                             <object class="GtkAlignment" id="alignment3">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="bottom-padding">10</property>
+                                                            <property name="top-padding">10</property>
+                                                            <property name="bottom-padding">25</property>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox91">
                                                             <property name="visible">True</property>
@@ -51484,12 +51591,14 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="tooltip-text" translatable="yes">New person</property>
+                                                            <property name="border-width">0</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_person_add_single_from_main_gui" swapped="no"/>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox536">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="border-width">0</property>
                                                             <property name="spacing">4</property>
                                                             <child>
                                                             <object class="GtkImage" id="image_persons_new_1">
@@ -51736,43 +51845,25 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">12</property>
+                                                            <child>
                                                             <object class="GtkLabel" id="label_current_person">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="wrap">True</property>
+                                                            <property name="wrap-mode">word-char</property>
                                                             <property name="ellipsize">end</property>
-                                                            <property name="width-chars">40</property>
                                                             <property name="xalign">0</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">True</property>
+                                                            <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox340">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">20</property>
-                                                            <child>
-                                                            <object class="GtkBox" id="vbox_persons_bottom_no_photo">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="orientation">vertical</property>
-                                                            <property name="spacing">12</property>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox385">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox586">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <child>
-                                                            <object class="GtkVButtonBox" id="vbuttonbox13">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">12</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_edit_current_person_h">
                                                             <property name="visible">True</property>
@@ -51780,7 +51871,6 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="tooltip-text" translatable="yes">Edit selected person</property>
-                                                            <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_edit_current_person_clicked_from_main_gui" swapped="no"/>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox587">
@@ -51819,7 +51909,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">0</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -51830,7 +51920,6 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="tooltip-text" translatable="yes">Delete person from this session.</property>
-                                                            <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_delete_current_person_from_session_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox589">
@@ -51867,30 +51956,31 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
+                                                            <child>
+                                                            <object class="GtkBox" id="persons_manage_advanced_box">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">12</property>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">12</property>
+                                                            <child>
+                                                            <object class="GtkSeparator">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="valign">center</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -51899,13 +51989,41 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkVBox" id="vbox272">
+                                                            <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Advanced</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                             <child>
-                                                            <object class="GtkVBox" id="vbox286">
+                                                            <object class="GtkSeparator">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="valign">center</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButtonBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="orientation">vertical</property>
                                                             <property name="spacing">12</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_show_all_person_events_h">
@@ -51913,7 +52031,6 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
-                                                            <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_show_all_person_events_activate" swapped="no"/>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox390">
@@ -52001,23 +52118,14 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack-type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack-type">end</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">2</property>
                                                             </packing>
                                                             </child>
@@ -52039,49 +52147,15 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </child>
                                                             </object>
                                                             </child>
-                                                            <child type="label">
-                                                            <object class="GtkHBox" id="hbox_person_manage_title">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_person_manage_blue">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
+                                                            <child type="label_item">
+                                                            <placeholder/>
                                                             </child>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_person_manage_yellow">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label32">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Manage persons</property>
-                                                            <property name="use-markup">True</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
                                                             </child>
                                                             </object>
                                                             <packing>

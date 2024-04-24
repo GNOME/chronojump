@@ -51,8 +51,8 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_current_person;
 
 	Gtk.Image image_cloud;
+	Gtk.Box box_database;
 	Gtk.Box box_above_frame_database;
-	Gtk.Frame frame_database;
 	Gtk.Label label_database_at_frame_database;
 	Gtk.Button button_menu_database;
 	Gtk.Image image_database_reload;
@@ -211,13 +211,15 @@ public partial class ChronoJumpWindow
 
 	private bool menuTopAlign()
 	{
-		uint alignTop = (uint) (notebook_capture_analyze.Allocation.Y
-				//-hbox_above_frame_session.SizeRequest().Height);
-				- UtilGtk.WidgetHeight (hbox_above_frame_session));
+		uint alignTop = (uint) notebook_capture_analyze.Allocation.Y;
+
+		if (configChronojump.CanOpenExternalDB || configChronojump.ReadFromCloudMainPath != "")
+			alignTop -= (uint) UtilGtk.WidgetHeight (box_above_frame_database);
+		else
+			alignTop -= (uint) UtilGtk.WidgetHeight (hbox_above_frame_session);
 
 		//for the vbox_frame_session_border & the border of the notebook
-		//12 is the space between externalDB and session
-		alignment_session_persons.TopPadding = alignTop -4 +2 -12;
+		alignment_session_persons.TopPadding = alignTop -4 +2;
 
 		return false;
 	}
@@ -417,8 +419,8 @@ public partial class ChronoJumpWindow
 		label_current_person = (Gtk.Label) builder.GetObject ("label_current_person");
 
 		image_cloud = (Gtk.Image) builder.GetObject ("image_cloud");
+		box_database = (Gtk.Box) builder.GetObject ("box_database");
 		box_above_frame_database = (Gtk.Box) builder.GetObject ("box_above_frame_database");
-		frame_database = (Gtk.Frame) builder.GetObject ("frame_database");
 		label_database_at_frame_database = (Gtk.Label) builder.GetObject ("label_database_at_frame_database");
 		button_menu_database = (Gtk.Button) builder.GetObject ("button_menu_database");
 		image_database_reload = (Gtk.Image) builder.GetObject ("image_database_reload");

@@ -81,7 +81,10 @@ public partial class ChronoJumpWindow
 
 	private void app1s_initializeGui()
 	{
-		if (! configChronojump.CanOpenExternalDB)
+		if (configChronojump.CanOpenExternalDB || configChronojump.ReadFromCloudMainPath != "")
+			alignment_vbox_session_load_or_import_select.TopPadding = (uint)
+				(box_database.Allocation.Y + 2); //related to icons on top of load/import session
+		else
 			alignment_vbox_session_load_or_import_select.TopPadding = (uint)
 				(frame_session.Allocation.Y - 3); //related to icons on top of load/import session
 		/*

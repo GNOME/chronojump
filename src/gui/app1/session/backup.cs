@@ -776,6 +776,7 @@ public partial class ChronoJumpWindow
 	{
 		LogB.Information ("Copy from Cloud, Going to copy to: " + Util.GetCloudReadTempDir ());
 
+		menus_and_mode_sensitive (false);
 		try {
 			app1s_uc = new UtilCopy (-1, false, false, false); //all sessions, no logs, no config, no other DBs
 
@@ -791,6 +792,7 @@ public partial class ChronoJumpWindow
 			app1s_threadBackup.Start();
 		}
 		catch {
+			menus_and_mode_sensitive (true);
 			string myString = string.Format (Catalog.GetString("Cannot copy to {0} "),
 					Util.GetCloudReadTempDir ());
 			new DialogMessage(Constants.MessageTypes.WARNING, myString);
@@ -864,6 +866,7 @@ public partial class ChronoJumpWindow
 			configChronojump.LastDBFullPath = Util.GetCloudReadTempDir ();
 			databaseChange ();
 		}
+		menus_and_mode_sensitive (true);
 	}
 	private bool app1s_CopyFromCloudPulseEnd2 ()
 	{

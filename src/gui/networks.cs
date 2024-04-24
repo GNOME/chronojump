@@ -345,6 +345,9 @@ public partial class ChronoJumpWindow
 					storedCloudDir = configChronojump.LastDBFullPath;
 					databaseChange ();
 				}
+			} else {
+				label_current_database.Text = "(default database)";
+				button_database_reload.Sensitive = false;
 			}
 		}
 

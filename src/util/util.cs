@@ -1555,10 +1555,11 @@ public class Util
 	{
 		int sizeInKB = 0;
 
+		LogB.Information ("GetFullDataSize: " + GetLocalDataDir(false));
 		long fullDataSize = DirSizeWithSubdirs (new DirectoryInfo (GetLocalDataDir(false)));
 		sizeInKB = (int) UtilAll.DivideSafe (fullDataSize, 1024);
 
-		if (! includingLogs)
+		if (! includingLogs && Directory.Exists (UtilAll.GetLogsDir (Config.LastDBFullPathStatic)))
 		{
 			long logsSize = DirSizeWithSubdirs (new DirectoryInfo (UtilAll.GetLogsDir (Config.LastDBFullPathStatic)));
 			sizeInKB -= (int) UtilAll.DivideSafe (logsSize, 1024);

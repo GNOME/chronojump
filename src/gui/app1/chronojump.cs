@@ -1029,7 +1029,7 @@ public partial class ChronoJumpWindow
 		}
 
 		if(! showSendLog && //! showSocialNetworkPoll)
-			configChronojump.ReadFromCloudMainPath == "")
+			configChronojump.ReadFromCloudMainPath == "" && ! configChronojump.CanOpenExternalDB)
 		{
 			if (shouldAskBackupScheduled ())
 				backupScheduledAsk ();

@@ -514,6 +514,7 @@ public partial class ChronoJumpWindow
 			// 3) reassign configChronojump.LastDBFullPath
 			configChronojump.LastDBFullPath = storedDBFilename;
 			storedCloudDir = "";
+			treeview_persons_storeReset();
 
 			// 4) if on cloud, copy to tmp, LastDBFullPath will be at temp (needed for Chronojump)
 			if (configChronojump.ReadFromCloudMainPath != "")

@@ -283,6 +283,10 @@ public class PreferencesWindow
 	Gtk.Label label_progVersion;
 	Gtk.Frame frame_networks;
 	Gtk.CheckButton check_networks_devices;
+	Gtk.Label label_radio_cloud_no;
+	Gtk.Label label_radio_cloud_no_recommended;
+	Gtk.Label label_radio_cloud_write;
+	Gtk.Label label_radio_cloud_read;
 	Gtk.Button button_debug_mode;
 
 	Gtk.RadioButton radio_python_2;
@@ -549,7 +553,19 @@ public class PreferencesWindow
 		PreferencesWindowBox.hbox_camera_stop_after_seconds.Visible = (preferences.videoStopAfter > 0);
 		PreferencesWindowBox.check_camera_stop_after.Active = (preferences.videoStopAfter > 0);
 
+		//advanced tab
+
 		PreferencesWindowBox.createComboDecimals ();
+
+		PreferencesWindowBox.label_radio_cloud_no.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_no.Text + "</b>";
+		PreferencesWindowBox.label_radio_cloud_no_recommended.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_no_recommended.Text + "</b>";
+		PreferencesWindowBox.label_radio_cloud_write.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_write.Text + "</b>";
+		PreferencesWindowBox.label_radio_cloud_read.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_read.Text + "</b>";
+		PreferencesWindowBox.label_radio_cloud_no.UseMarkup = true;
+		PreferencesWindowBox.label_radio_cloud_no_recommended.UseMarkup = true;
+		PreferencesWindowBox.label_radio_cloud_write.UseMarkup = true;
+		PreferencesWindowBox.label_radio_cloud_read.UseMarkup = true;
+
 
 		if(preferences.showPower)
 			PreferencesWindowBox.checkbutton_power.Active = true; 
@@ -3353,6 +3369,10 @@ public class PreferencesWindow
 		label_progVersion = (Gtk.Label) builder.GetObject ("label_progVersion");
 		frame_networks = (Gtk.Frame) builder.GetObject ("frame_networks");
 		check_networks_devices = (Gtk.CheckButton) builder.GetObject ("check_networks_devices");
+		label_radio_cloud_no = (Gtk.Label) builder.GetObject ("label_radio_cloud_no");
+		label_radio_cloud_no_recommended = (Gtk.Label) builder.GetObject ("label_radio_cloud_no_recommended");
+		label_radio_cloud_write = (Gtk.Label) builder.GetObject ("label_radio_cloud_write");
+		label_radio_cloud_read = (Gtk.Label) builder.GetObject ("label_radio_cloud_read");
 		button_debug_mode = (Gtk.Button) builder.GetObject ("button_debug_mode");
 
 		radio_python_2 = (Gtk.RadioButton) builder.GetObject ("radio_python_2");

@@ -7800,13 +7800,55 @@ version:</property>
                             <property name="orientation">vertical</property>
                             <property name="spacing">20</property>
                             <child>
-                              <object class="GtkRadioButton" id="radio_cloud_no">
-                                <property name="label" translatable="yes">Default configuration. Data is captured and analyzed in this computer.</property>
+                              <object class="GtkBox">
                                 <property name="visible">True</property>
-                                <property name="can-focus">True</property>
-                                <property name="receives-default">False</property>
-                                <property name="active">True</property>
-                                <property name="draw-indicator">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="spacing">10</property>
+                                <child>
+                                  <object class="GtkRadioButton" id="radio_cloud_no">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">True</property>
+                                    <property name="receives-default">False</property>
+                                    <property name="active">True</property>
+                                    <property name="draw-indicator">True</property>
+                                    <child>
+                                      <object class="GtkLabel" id="label_radio_cloud_no">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="label" translatable="yes">Default configuration.</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label_radio_cloud_no_recommended">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Recommended.</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Data is captured and analyzed in this computer.</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">2</property>
+                                  </packing>
+                                </child>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -7821,13 +7863,43 @@ version:</property>
                                 <property name="orientation">vertical</property>
                                 <property name="spacing">10</property>
                                 <child>
-                                  <object class="GtkRadioButton" id="radio_cloud_write">
-                                    <property name="label" translatable="yes">Write to cloud. Data is saved to a cloud.</property>
+                                  <object class="GtkBox">
                                     <property name="visible">True</property>
-                                    <property name="can-focus">True</property>
-                                    <property name="receives-default">False</property>
-                                    <property name="draw-indicator">True</property>
-                                    <property name="group">radio_cloud_no</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="spacing">10</property>
+                                    <child>
+                                      <object class="GtkRadioButton" id="radio_cloud_write">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">False</property>
+                                        <property name="draw-indicator">True</property>
+                                        <property name="group">radio_cloud_no</property>
+                                        <child>
+                                          <object class="GtkLabel" id="label_radio_cloud_write">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="label" translatable="yes">Write to cloud.</property>
+                                          </object>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="label" translatable="yes">Data is saved to a cloud.</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -7898,13 +7970,43 @@ version:</property>
                                 <property name="orientation">vertical</property>
                                 <property name="spacing">10</property>
                                 <child>
-                                  <object class="GtkRadioButton" id="radio_cloud_read">
-                                    <property name="label" translatable="yes">Read to cloud. Can read data from different computers configured as "Write to cloud".</property>
+                                  <object class="GtkBox">
                                     <property name="visible">True</property>
-                                    <property name="can-focus">True</property>
-                                    <property name="receives-default">False</property>
-                                    <property name="draw-indicator">True</property>
-                                    <property name="group">radio_cloud_no</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="spacing">10</property>
+                                    <child>
+                                      <object class="GtkRadioButton" id="radio_cloud_read">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">False</property>
+                                        <property name="draw-indicator">True</property>
+                                        <property name="group">radio_cloud_no</property>
+                                        <child>
+                                          <object class="GtkLabel" id="label_radio_cloud_read">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="label" translatable="yes">Read from cloud.</property>
+                                          </object>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="label" translatable="yes">Can read data from different computers configured as "Write to cloud".</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>

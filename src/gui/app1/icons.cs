@@ -43,6 +43,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image app1s_image_button_backup_start;
 	Gtk.Image image_db_view;
 	Gtk.Image image_mode_encoder_capture;
+	Gtk.Image image_button_database_close;
 	Gtk.Image image_person;
 	Gtk.Image image_person1;
 	Gtk.Image image_edit_current_person_h;
@@ -326,9 +327,10 @@ public partial class ChronoJumpWindow
 		image_menu_quit1.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_blue.png");
-		if(Config.ColorBackgroundIsDark)
-			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_yellow.png");
 		image_cloud.Pixbuf = pixbuf;
+		image_database_manage_blue.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_yellow.png");
+		image_database_manage_yellow.Pixbuf = pixbuf;
 
         pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_folders.png");//[By Joeries]
         if (Config.ColorBackgroundIsDark)
@@ -568,6 +570,7 @@ public partial class ChronoJumpWindow
 		image_contacts_edit_selected.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
+		image_button_database_close.Pixbuf = pixbuf;
 		image_contacts_exercise_close.Pixbuf = pixbuf;
 		image_race_inspector_close.Pixbuf = pixbuf;
 		image_encoder_exercise_close.Pixbuf = pixbuf;
@@ -1103,6 +1106,7 @@ public partial class ChronoJumpWindow
 		app1s_image_button_backup_start = (Gtk.Image) builder.GetObject ("app1s_image_button_backup_start");
 		image_db_view = (Gtk.Image) builder.GetObject ("image_db_view");
 		image_mode_encoder_capture = (Gtk.Image) builder.GetObject ("image_mode_encoder_capture");
+		image_button_database_close = (Gtk.Image) builder.GetObject ("image_button_database_close");
 		image_person = (Gtk.Image) builder.GetObject ("image_person");
 		image_person1 = (Gtk.Image) builder.GetObject ("image_person1");
 		image_edit_current_person_h = (Gtk.Image) builder.GetObject ("image_edit_current_person_h");

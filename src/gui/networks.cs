@@ -318,7 +318,7 @@ public partial class ChronoJumpWindow
 		storedCloudDir = "";
 		if (configChronojump.ReadFromCloudMainPath != "" || configChronojump.CanOpenExternalDB)
 		{
-			box_database.Visible = true;
+			box_menu_database.Visible = true;
 			button_menu_database.Visible = true;
 			box_copy_from_cloud_progressbars.Visible = (configChronojump.ReadFromCloudMainPath != "");
 			image_cloud.Visible = (configChronojump.ReadFromCloudMainPath != "");
@@ -347,6 +347,7 @@ public partial class ChronoJumpWindow
 				}
 			} else {
 				label_current_database.Text = "(default database)";
+				label_current_database1.Text = "(default database)";
 				button_database_reload.Sensitive = false;
 			}
 		}
@@ -454,10 +455,12 @@ public partial class ChronoJumpWindow
 			databaseDirName = storedCloudDir;
 
 		label_current_database.Text = "<b>" + Util.GetLastPartOfPath (databaseDirName) + "</b>";
+		label_current_database1.Text = "<b>" + Util.GetLastPartOfPath (databaseDirName) + "</b>";
 
 		label_current_database.UseMarkup = true;
+		label_current_database1.UseMarkup = true;
 		label_current_database.TooltipText = configChronojump.LastDBFullPath;
-		button_database_reload.Sensitive = true;
+		label_current_database1.TooltipText = configChronojump.LastDBFullPath;
 
 		fillAllCombos ();
 	}

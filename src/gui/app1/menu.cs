@@ -28,12 +28,15 @@ using System.Collections.Generic; //List
 
 public partial class ChronoJumpWindow
 {
+	Gtk.Arrow arrow_menu_show_database_left;
+	Gtk.Arrow arrow_menu_show_database_right;
 	Gtk.Arrow arrow_menu_show_session_left;
 	Gtk.Arrow arrow_menu_show_session_right;
 	Gtk.HPaned hpaned_contacts_main;
 	Gtk.Viewport viewport_exit_confirm;
 	Gtk.HBox hbox_social_network_poll;
 	//Gtk.Viewport viewport_start_modes;
+	Gtk.CheckButton check_menu_database;
 	Gtk.EventBox eventbox_check_menu_session;
 	Gtk.EventBox eventbox_button_menu_preferences;
 	Gtk.EventBox eventbox_button_menu_help;
@@ -47,16 +50,18 @@ public partial class ChronoJumpWindow
 	Gtk.EventBox eventbox_persons_up;
 	Gtk.EventBox eventbox_persons_down;
 	Gtk.Label label_current_database;
+	Gtk.Label label_current_database1;
 	Gtk.Label label_current_session;
 	Gtk.Label label_current_person;
 
 	Gtk.Image image_cloud;
-	Gtk.Box box_database;
+	Gtk.Box box_menu_database;
 	Gtk.Box box_above_frame_database;
 	Gtk.Label label_database_at_frame_database;
 	Gtk.Button button_menu_database;
 	Gtk.Button button_database_reload;
 	Gtk.Image image_database_reload;
+	Gtk.Button button_database_change;
 
 	Gtk.CheckButton check_menu_session;
 	Gtk.CheckButton check_manage_persons;
@@ -305,7 +310,7 @@ public partial class ChronoJumpWindow
 			app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.PERSON);
 
-			//do not allow to use session buttons to not confuse the button_close actions
+			//do not allow to use bottomLeft to not confuse the button_close actions
 			box_prefs_help_news_exit.Sensitive = false;
 
 			//arrow_manage_persons_left.Visible = true;
@@ -325,6 +330,13 @@ public partial class ChronoJumpWindow
 	private void on_button_person_close_clicked (object o, EventArgs args)
 	{
 		check_manage_persons.Click ();
+	}
+
+	private void on_check_menu_database_clicked (object o, EventArgs args)
+	{
+		menuShowHorizontalArrow (check_menu_database.Active, arrow_menu_show_database_left, arrow_menu_show_database_right);
+
+		on_database_manage_clicked (o, args);
 	}
 
 	private void on_check_menu_session_clicked (object o, EventArgs args)
@@ -380,6 +392,39 @@ public partial class ChronoJumpWindow
 		return max;
 	}
 
+	private void on_database_manage_clicked (object o, EventArgs args)
+	{
+		if (check_menu_database.Active)
+		{
+			check_menu_database.Sensitive = false;
+			frame_session.Sensitive = false;
+
+			app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.DATABASE);
+
+			//do not allow to use bottomLeft to not confuse the button_close actions
+			box_prefs_help_news_exit.Sensitive = false;
+
+			//arrow_manage_database_left.Visible = true;
+			//arrow_manage_database_right.Visible = false;
+		} else {
+			check_menu_database.Sensitive = true;
+			frame_session.Sensitive = true;
+
+			notebook_sup.CurrentPage = app1s_notebook_sup_entered_from;
+
+			box_prefs_help_news_exit.Sensitive = true;
+
+			//arrow_manage_database_left.Visible = false;
+			//arrow_manage_database_right.Visible = true;;
+		}
+	}
+
+	private void on_button_database_close_clicked (object o, EventArgs args)
+	{
+		check_menu_database.Click ();
+	}
+
 	private void on_session_manage_clicked (object o, EventArgs args)
 	{
 		menus_sensitive_import_not_danger(false);
@@ -397,12 +442,15 @@ public partial class ChronoJumpWindow
 
 	private void connectWidgetsMenu (Gtk.Builder builder)
 	{
+		arrow_menu_show_database_left = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_database_left");
+		arrow_menu_show_database_right = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_database_right");
 		arrow_menu_show_session_left = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_left");
 		arrow_menu_show_session_right = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_right");
 		hpaned_contacts_main = (Gtk.HPaned) builder.GetObject ("hpaned_contacts_main");
 		viewport_exit_confirm = (Gtk.Viewport) builder.GetObject ("viewport_exit_confirm");
 		hbox_social_network_poll = (Gtk.HBox) builder.GetObject ("hbox_social_network_poll");
 		//viewport_start_modes = (Gtk.Viewport) builder.GetObject ("viewport_start_modes");
+		check_menu_database = (Gtk.CheckButton) builder.GetObject ("check_menu_database");
 		eventbox_check_menu_session = (Gtk.EventBox) builder.GetObject ("eventbox_check_menu_session");
 		eventbox_button_menu_preferences = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_preferences");
 		eventbox_button_menu_help = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_help");
@@ -416,16 +464,18 @@ public partial class ChronoJumpWindow
 		eventbox_persons_up = (Gtk.EventBox) builder.GetObject ("eventbox_persons_up");
 		eventbox_persons_down = (Gtk.EventBox) builder.GetObject ("eventbox_persons_down");
 		label_current_database = (Gtk.Label) builder.GetObject ("label_current_database");
+		label_current_database1 = (Gtk.Label) builder.GetObject ("label_current_database1");
 		label_current_session = (Gtk.Label) builder.GetObject ("label_current_session");
 		label_current_person = (Gtk.Label) builder.GetObject ("label_current_person");
 
 		image_cloud = (Gtk.Image) builder.GetObject ("image_cloud");
-		box_database = (Gtk.Box) builder.GetObject ("box_database");
+		box_menu_database = (Gtk.Box) builder.GetObject ("box_menu_database");
 		box_above_frame_database = (Gtk.Box) builder.GetObject ("box_above_frame_database");
 		label_database_at_frame_database = (Gtk.Label) builder.GetObject ("label_database_at_frame_database");
 		button_menu_database = (Gtk.Button) builder.GetObject ("button_menu_database");
 		button_database_reload = (Gtk.Button) builder.GetObject ("button_database_reload");
 		image_database_reload = (Gtk.Image) builder.GetObject ("image_database_reload");
+		button_database_change = (Gtk.Button) builder.GetObject ("button_database_change");
 
 		check_menu_session = (Gtk.CheckButton) builder.GetObject ("check_menu_session");
 		check_manage_persons = (Gtk.CheckButton) builder.GetObject ("check_manage_persons");

@@ -232,7 +232,11 @@ public partial class ChronoJumpWindow
 
 	//to GTK3 colorize
 	Gtk.Frame frame_session;
+	Gtk.Box box_database;
+	Gtk.Box hbox_frame_database_top;
 	Gtk.Box vbox_frame_database_border;
+	Gtk.Image image_database_manage_blue;
+	Gtk.Image image_database_manage_yellow;
 	Gtk.Box vbox_frame_session_border;
 	Gtk.Box box_session_more;
 	Gtk.Box box_session_load_or_import;
@@ -546,7 +550,7 @@ public partial class ChronoJumpWindow
 	private string progVersion;
 	private string progName;
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM, SOCIALNETWORKPOLL, FULLSCREENCAPTURE }
-	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS, MICRODISCOVER, PERSON }
+	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS, MICRODISCOVER, PERSON, DATABASE }
 	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE,
 		JUMPSASYMMETRY, JUMPSEVOLUTION, JUMPSRJFATIGUE,
@@ -1098,8 +1102,8 @@ public partial class ChronoJumpWindow
 			Pixbuf pixbuf;
 
 			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_blue.png");
-			if(Config.ColorBackgroundIsDark)
-				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_yellow.png");
+			//if(Config.ColorBackgroundIsDark)
+			//	pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_yellow.png");
 			image_cloud.Pixbuf = pixbuf;
 
 			personsPhotoShowIfNeeded ();
@@ -1111,6 +1115,7 @@ public partial class ChronoJumpWindow
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, vbox_help);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, vbox_micro_discover);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, vbox_person);
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, box_database);
 
 			/*
 			//notebook_sup
@@ -1159,6 +1164,7 @@ public partial class ChronoJumpWindow
 
 			//session databse
 			UtilGtk.WidgetColor (vbox_frame_database_border, Config.ColorBackgroundShifted);
+			UtilGtk.WidgetColor (hbox_frame_database_top, Config.ColorBackgroundShifted);
 
 			//session
 			UtilGtk.WidgetColor (vbox_frame_session_border, Config.ColorBackgroundShifted);
@@ -1237,6 +1243,7 @@ public partial class ChronoJumpWindow
 		LogB.Information(string.Format("UseSystemColor: {0}, ColorBackgroundIsDark: {1}", Config.UseSystemColor, Config.ColorBackgroundIsDark));
 		if(! Config.UseSystemColor && Config.ColorBackgroundIsDark)
 		{
+			image_database_manage_blue.Visible = false;
 			image_session_new_blue.Visible = false;
 			image_session_load3_blue.Visible = false;
 			image_session_more_window_blue.Visible = false;
@@ -1245,6 +1252,7 @@ public partial class ChronoJumpWindow
 			image_news_blue.Visible = false;
 			image_help_blue.Visible = false;
 
+			image_database_manage_yellow.Visible = true;
 			image_session_new_yellow.Visible = true;
 			image_session_load3_yellow.Visible = true;
 			image_session_more_window_yellow.Visible = true;
@@ -1253,6 +1261,7 @@ public partial class ChronoJumpWindow
 			image_news_yellow.Visible = true;
 			image_help_yellow.Visible = true;
 		} else {
+			image_database_manage_blue.Visible = true;
 			image_session_new_blue.Visible = true;
 			image_session_load3_blue.Visible = true;
 			image_session_more_window_blue.Visible = true;
@@ -1261,6 +1270,7 @@ public partial class ChronoJumpWindow
 			image_news_blue.Visible = true;
 			image_help_blue.Visible = true;
 
+			image_database_manage_yellow.Visible = false;
 			image_session_new_yellow.Visible = false;
 			image_session_load3_yellow.Visible = false;
 			image_session_more_window_yellow.Visible = false;
@@ -10255,8 +10265,12 @@ LogB.Debug("mc finished 5");
 		image_line_person_max = (Gtk.Image) builder.GetObject ("image_line_person_max");
 		image_line_person_max_all_sessions = (Gtk.Image) builder.GetObject ("image_line_person_max_all_sessions");
 
+		box_database = (Gtk.Box) builder.GetObject ("box_database");
 		frame_session = (Gtk.Frame) builder.GetObject ("frame_session");
+		hbox_frame_database_top = (Gtk.Box) builder.GetObject ("hbox_frame_database_top");
 		vbox_frame_database_border = (Gtk.Box) builder.GetObject ("vbox_frame_database_border");
+		image_database_manage_blue = (Gtk.Image) builder.GetObject ("image_database_manage_blue");
+		image_database_manage_yellow = (Gtk.Image) builder.GetObject ("image_database_manage_yellow");
 		vbox_frame_session_border = (Gtk.Box) builder.GetObject ("vbox_frame_session_border");
 		box_session_more = (Gtk.Box) builder.GetObject ("box_session_more");
 		box_session_load_or_import = (Gtk.Box) builder.GetObject ("box_session_load_or_import");

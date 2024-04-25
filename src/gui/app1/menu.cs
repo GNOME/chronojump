@@ -37,6 +37,7 @@ public partial class ChronoJumpWindow
 	Gtk.HBox hbox_social_network_poll;
 	//Gtk.Viewport viewport_start_modes;
 	Gtk.CheckButton check_menu_database;
+	Gtk.Box box_database_manage_read;
 	Gtk.EventBox eventbox_check_menu_session;
 	Gtk.EventBox eventbox_button_menu_preferences;
 	Gtk.EventBox eventbox_button_menu_help;
@@ -61,7 +62,8 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_menu_database;
 	Gtk.Button button_database_reload;
 	Gtk.Image image_database_reload;
-	Gtk.Button button_database_change;
+	Gtk.Button button_database_change_select;
+	Gtk.Button button_database_change_apply;
 
 	Gtk.CheckButton check_menu_session;
 	Gtk.CheckButton check_manage_persons;
@@ -407,6 +409,9 @@ public partial class ChronoJumpWindow
 
 			//arrow_manage_database_left.Visible = true;
 			//arrow_manage_database_right.Visible = false;
+
+			UtilGtk.RemoveChildren (box_database_manage_read);
+			button_database_change_apply.Visible = false;
 		} else {
 			check_menu_database.Sensitive = true;
 			frame_session.Sensitive = true;
@@ -451,6 +456,7 @@ public partial class ChronoJumpWindow
 		hbox_social_network_poll = (Gtk.HBox) builder.GetObject ("hbox_social_network_poll");
 		//viewport_start_modes = (Gtk.Viewport) builder.GetObject ("viewport_start_modes");
 		check_menu_database = (Gtk.CheckButton) builder.GetObject ("check_menu_database");
+		box_database_manage_read = (Gtk.Box) builder.GetObject ("box_database_manage_read");
 		eventbox_check_menu_session = (Gtk.EventBox) builder.GetObject ("eventbox_check_menu_session");
 		eventbox_button_menu_preferences = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_preferences");
 		eventbox_button_menu_help = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_help");
@@ -475,7 +481,8 @@ public partial class ChronoJumpWindow
 		button_menu_database = (Gtk.Button) builder.GetObject ("button_menu_database");
 		button_database_reload = (Gtk.Button) builder.GetObject ("button_database_reload");
 		image_database_reload = (Gtk.Image) builder.GetObject ("image_database_reload");
-		button_database_change = (Gtk.Button) builder.GetObject ("button_database_change");
+		button_database_change_select = (Gtk.Button) builder.GetObject ("button_database_change_select");
+		button_database_change_apply = (Gtk.Button) builder.GetObject ("button_database_change_apply");
 
 		check_menu_session = (Gtk.CheckButton) builder.GetObject ("check_menu_session");
 		check_manage_persons = (Gtk.CheckButton) builder.GetObject ("check_manage_persons");

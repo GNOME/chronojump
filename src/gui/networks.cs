@@ -475,6 +475,27 @@ public partial class ChronoJumpWindow
 	private string storedCloudDir;
 	private string storedDBFilename = ""; //used reload/change database from know where to copy to tmp
 
+	private void on_button_database_change_select_clicked (object o, EventArgs args)
+	{
+		cloudReadFromShowFolders ();
+		button_database_change_apply.Visible = true;
+		button_database_change_apply.Sensitive = cloudReadFolder_l.Count > 0;
+	}
+
+	private void on_button_database_change_apply_clicked (object o, EventArgs args)
+	{
+		foreach (Gtk.RadioButton r in cloudReadFolder_l)
+			if (r.Active)
+			{
+				storedDBFilename = Path.Combine (configChronojump.ReadFromCloudMainPath, r.Label);
+				databaseChangeOrReload ();
+			}
+	}
+
+	/*
+	 * commented as now on cloudRead radio buttons are created.
+	 * TODO: remember to have something working for ExternalDBDefaultPath
+	 *
 	private void on_button_database_change_clicked (object o, EventArgs args)
 	{
 		database_fc = new Gtk.FileChooserNative("Select folder:",
@@ -499,6 +520,7 @@ public partial class ChronoJumpWindow
 		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		database_fc.Destroy();
 	}
+	*/
 
 	private void databaseChangeOrReload ()
 	{
@@ -528,6 +550,41 @@ public partial class ChronoJumpWindow
 			// 5) change database
 			databaseChange ();
 		}
+	}
+
+	List<Gtk.RadioButton> cloudReadFolder_l;
+	private void cloudReadFromShowFolders ()
+	{
+		cloudReadFolder_l = new List<Gtk.RadioButton> ();
+		List<DirectoryInfo> dir_l = Util.GetDirectoriesWithSubdirAndFile (
+				new DirectoryInfo (configChronojump.ReadFromCloudMainPath),
+				"database", "chronojump.db");
+
+		UtilGtk.RemoveChildren (box_database_manage_read);
+
+		//TODO: now default is the first in list, do that default is the currently used
+		bool first = true;
+		Gtk.RadioButton rFirst = null;
+
+		foreach (DirectoryInfo di in dir_l)
+		{
+			if (first) {
+				rFirst = new Gtk.RadioButton (di.Name);
+				box_database_manage_read.PackStart (rFirst, false, false, 0);
+				cloudReadFolder_l.Add (rFirst);
+
+				first = false;
+			} else {
+				Gtk.RadioButton r = new Gtk.RadioButton (rFirst, di.Name);
+				box_database_manage_read.PackStart (r, false, false, 0);
+				cloudReadFolder_l.Add (r);
+			}
+
+		}
+		box_database_manage_read.ShowAll ();
+
+		if(! Config.UseSystemColor)
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_database_manage_read);
 	}
 
 	private void on_button_networks_guest_clicked (object sender, EventArgs e)

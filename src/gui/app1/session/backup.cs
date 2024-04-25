@@ -783,7 +783,7 @@ public partial class ChronoJumpWindow
 			app1s_progressbar_copyFromCloud_dirs.Fraction = 0;
 			app1s_progressbar_copyFromCloud_subDirs.Fraction = 0;
 			button_database_reload.Sensitive = false;
-			button_database_change.Sensitive = false;
+			button_database_change_select.Sensitive = false;
 
 			app1s_threadBackup = new Thread (new ThreadStart (app1s_copyFromCloudDo));
 			GLib.Idle.Add (new GLib.IdleHandler (app1s_CopyFromCloudPulseGTK));
@@ -828,7 +828,7 @@ public partial class ChronoJumpWindow
 		if ( ! app1s_threadBackup.IsAlive )
 		{
 			button_database_reload.Sensitive = true;
-			button_database_change.Sensitive = true;
+			button_database_change_select.Sensitive = true;
 
 			LogB.ThreadEnding();
 			app1s_CopyFromCloudPulseEnd();

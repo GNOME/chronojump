@@ -7822,7 +7822,7 @@ version:</property>
                                 <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkRadioButton" id="radio_cloud_write">
-                                    <property name="label" translatable="yes">Cloud write. Data is saved to a cloud.</property>
+                                    <property name="label" translatable="yes">Write to cloud. Data is saved to a cloud.</property>
                                     <property name="visible">True</property>
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>
@@ -7899,7 +7899,7 @@ version:</property>
                                 <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkRadioButton" id="radio_cloud_read">
-                                    <property name="label" translatable="yes">Cloud read. Can read data from different computers configured as "Cloud Write".</property>
+                                    <property name="label" translatable="yes">Read to cloud. Can read data from different computers configured as "Write to cloud".</property>
                                     <property name="visible">True</property>
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>

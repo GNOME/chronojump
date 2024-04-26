@@ -809,6 +809,13 @@ public class UtilGtk
 			"button:checked {" +
 				"background: " + GetRGBAs (Colors.YELLOW_LIGHT) + ";" + //TODO: try a YELLOW_MID
 			"}" +
+			"button:insensitive {" +
+			    "background: #cccccc;" +
+			    "background-color: #cccccc;" +
+			"}" +
+			"button:insensitive label {" +
+			    "color: #666666;" +
+			"}" +
 
 			//ANY WIDGET
 			//any widget bgCss

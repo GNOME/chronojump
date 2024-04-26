@@ -485,8 +485,7 @@ public partial class ChronoJumpWindow
 	private void on_button_database_change_apply_clicked (object o, EventArgs args)
 	{
 		foreach (Gtk.RadioButton r in cloudReadFolder_l)
-			if (r.Active)
-			{
+			if (r.Active) {
 				storedDBFilename = Path.Combine (configChronojump.ReadFromCloudMainPath, r.Label);
 				databaseChangeOrReload ();
 			}
@@ -564,22 +563,18 @@ public partial class ChronoJumpWindow
 
 		//TODO: now default is the first in list, do that default is the currently used
 		bool first = true;
-		Gtk.RadioButton rFirst = null;
+		Gtk.RadioButton r = null;
 
 		foreach (DirectoryInfo di in dir_l)
 		{
 			if (first) {
-				rFirst = new Gtk.RadioButton (di.Name);
-				box_database_manage_read.PackStart (rFirst, false, false, 0);
-				cloudReadFolder_l.Add (rFirst);
-
+				r = new Gtk.RadioButton (di.Name);
 				first = false;
-			} else {
-				Gtk.RadioButton r = new Gtk.RadioButton (rFirst, di.Name);
-				box_database_manage_read.PackStart (r, false, false, 0);
-				cloudReadFolder_l.Add (r);
-			}
+			} else
+				r = new Gtk.RadioButton (r, di.Name);
 
+			box_database_manage_read.PackStart (r, false, false, 0);
+			cloudReadFolder_l.Add (r);
 		}
 		box_database_manage_read.ShowAll ();
 

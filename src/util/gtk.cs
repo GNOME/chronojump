@@ -592,7 +592,7 @@ public class UtilGtk
 	public static Gdk.Color BLUE_CHRONOJUMP = new Gdk.Color(14,30,70); //so dark, can be used only for background (is the 0e1e46)
 	
 	//used on encoder capture
-	public static Gdk.Color RED_DARK = new Gdk.Color(140,0,0);
+	public static Gdk.Color RED_DARK = new Gdk.Color(140,0,0); //#8c0000
 	public static Gdk.Color RED_LIGHT = new Gdk.Color(238,0,0);
 	public static Gdk.Color GREEN_DARK = new Gdk.Color(0,140,0);
 	public static Gdk.Color GREEN_LIGHT = new Gdk.Color(0,238,0);
@@ -829,6 +829,10 @@ public class UtilGtk
 			//any widget whiteBgCss
 			"*#whiteBgCss {" +
 				"background: #ffffff;" +
+			"}" +
+			"*#alertCss {" +
+				"background-color: #8c0000;" +
+				//"color: #8c0000;" +
 			"}" +
 
 			//VIEWPORT

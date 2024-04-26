@@ -3386,9 +3386,11 @@ public partial class ChronoJumpWindow
 			label_current_session.Text = "<b>" + sessionName + "</b>";
 			label_current_session.UseMarkup = true;
 			label_current_session.TooltipText = sessionName;
+			frame_session.Name = "";
 		} else {
 			label_current_session.Text = "----";
-			label_current_session.TooltipText = "----";
+			label_current_session.TooltipText = "";
+			frame_session.Name = "alertCss";
 		}
 
 		if(mode != Constants.Modes.UNDEFINED)

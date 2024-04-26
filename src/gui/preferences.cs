@@ -266,7 +266,6 @@ public class PreferencesWindow
 	Gtk.RadioButton radio_language_force;
 	Gtk.RadioButton radio_graphs_translate;
 	Gtk.RadioButton radio_graphs_no_translate;
-	Gtk.VBox vbox_need_restart;
 		
 	//advanced tab
 	Gtk.Notebook notebook_advanced;
@@ -292,6 +291,8 @@ public class PreferencesWindow
 	Gtk.RadioButton radio_python_2;
 	Gtk.RadioButton radio_python_3;
 
+	Gtk.Label label_restart;
+	Gtk.HBox hbox_buttoms_bottom;
 	Gtk.Button button_close;
 	Gtk.Image image_button_close;
 	// <---- at glade
@@ -2062,13 +2063,25 @@ public class PreferencesWindow
 
 	/* callbacks SQL change at any change for tab: language */
 
+	private bool restart_active_end ()
+	{
+		hbox_buttons_bottom.Visible = true;
+		label_restart.Visible = false;
+
+		return false; //do not call this again
+	}
+
 	private void on_radio_language_toggled (object obj, EventArgs args)
 	{
 		// A) changes on preferences gui
 		hbox_combo_language.Sensitive = radio_language_force.Active;
 
 		if(hbox_language_signalOn)
-			vbox_need_restart.Visible = true;
+		{
+			hbox_buttons_bottom.Visible = false;
+			label_restart.Visible = true;
+			GLib.Timeout.Add(1500, new GLib.TimeoutHandler(restart_active_end));
+		}
 
 		// B) changes on preferences object and SqlitePreferences
 		changeLanguageOnPreferencesAndDB ();
@@ -2077,7 +2090,11 @@ public class PreferencesWindow
 	{
 		// A) changes on preferences gui
 		if(hbox_language_signalOn)
-			vbox_need_restart.Visible = true;
+		{
+			hbox_buttons_bottom.Visible = false;
+			label_restart.Visible = true;
+			GLib.Timeout.Add(1500, new GLib.TimeoutHandler(restart_active_end));
+		}
 
 		// B) changes on preferences object and SqlitePreferences
 		changeLanguageOnPreferencesAndDB ();
@@ -2121,8 +2138,13 @@ public class PreferencesWindow
 	private void on_radio_translate_toggled (object obj, EventArgs args)
 	{
 		// A) changes on preferences gui
+		//if(hbox_language_signalOn)
 		if(hbox_language_signalOn)
-			vbox_need_restart.Visible = true;
+		{
+			hbox_buttons_bottom.Visible = false;
+			label_restart.Visible = true;
+			GLib.Timeout.Add(1500, new GLib.TimeoutHandler(restart_active_end));
+		}
 
 		// B) changes on preferences object and SqlitePreferences
 		if (preferences.RGraphsTranslate != PreferencesWindowBox.radio_graphs_translate.Active) {
@@ -2329,6 +2351,8 @@ public class PreferencesWindow
 		//notebook_advanced
 		notebook_advanced.Name = "shiftedCss";
 		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_advanced);
+
+		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_restart);
 
 		//send signal to ApplyCSS
 		FakeButtonColorsChanged.Click ();
@@ -3352,7 +3376,6 @@ public class PreferencesWindow
 		radio_language_force = (Gtk.RadioButton) builder.GetObject ("radio_language_force");
 		radio_graphs_translate = (Gtk.RadioButton) builder.GetObject ("radio_graphs_translate");
 		radio_graphs_no_translate = (Gtk.RadioButton) builder.GetObject ("radio_graphs_no_translate");
-		vbox_need_restart = (Gtk.VBox) builder.GetObject ("vbox_need_restart");
 
 		//advanced tab
 		notebook_advanced = (Gtk.Notebook) builder.GetObject ("notebook_advanced");
@@ -3378,6 +3401,8 @@ public class PreferencesWindow
 		radio_python_2 = (Gtk.RadioButton) builder.GetObject ("radio_python_2");
 		radio_python_3 = (Gtk.RadioButton) builder.GetObject ("radio_python_3");
 
+		label_restart = (Gtk.Label) builder.GetObject ("label_restart");
+		hbox_buttoms_bottom = (Gtk.HBox) builder.GetObject ("hbox_buttoms_bottom");
 		button_close = (Gtk.Button) builder.GetObject ("button_close");
 		image_button_close = (Gtk.Image) builder.GetObject ("image_button_close");
 		combo_decimals = (Gtk.ComboBoxText) builder.GetObject ("combo_decimals");

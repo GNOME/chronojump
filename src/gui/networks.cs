@@ -479,7 +479,7 @@ public partial class ChronoJumpWindow
 	{
 		cloudReadFromShowFolders ();
 		button_database_change_apply.Visible = true;
-		button_database_change_apply.Sensitive = cloudReadFolder_l.Count > 0;
+		button_database_change_apply.Sensitive = false;
 	}
 
 	private void on_button_database_change_apply_clicked (object o, EventArgs args)
@@ -575,6 +575,9 @@ public partial class ChronoJumpWindow
 			if (di.Name == Util.GetLastPartOfPath (storedDBFilename))
 				r.Active = true;
 
+			r.Clicked -= new EventHandler (on_cloud_view_radio_clicked); //needed. if not: called multiple times
+			r.Clicked += new EventHandler (on_cloud_view_radio_clicked);
+
 			box_database_manage_read.PackStart (r, false, false, 0);
 			cloudReadFolder_l.Add (r);
 		}
@@ -582,6 +585,15 @@ public partial class ChronoJumpWindow
 
 		if(! Config.UseSystemColor)
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_database_manage_read);
+	}
+
+	private void on_cloud_view_radio_clicked (object o, EventArgs args)
+	{
+		if (! ((Gtk.RadioButton) o).Active)
+			return;
+
+		button_database_change_apply.Sensitive =
+			(((Gtk.RadioButton) o).Label != Util.GetLastPartOfPath (storedDBFilename));
 	}
 
 	private void on_button_networks_guest_clicked (object sender, EventArgs e)

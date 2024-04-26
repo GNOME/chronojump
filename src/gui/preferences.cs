@@ -286,6 +286,8 @@ public class PreferencesWindow
 	Gtk.Label label_radio_cloud_no_recommended;
 	Gtk.Label label_radio_cloud_write;
 	Gtk.Label label_radio_cloud_read;
+	Gtk.Image image_cloud_capture;
+	Gtk.Image image_cloud_view;
 	Gtk.Button button_debug_mode;
 
 	Gtk.RadioButton radio_python_2;
@@ -567,6 +569,8 @@ public class PreferencesWindow
 		PreferencesWindowBox.label_radio_cloud_write.UseMarkup = true;
 		PreferencesWindowBox.label_radio_cloud_read.UseMarkup = true;
 
+		PreferencesWindowBox.image_cloud_capture.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_upload_blue.png");
+		PreferencesWindowBox.image_cloud_view.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
 
 		if(preferences.showPower)
 			PreferencesWindowBox.checkbutton_power.Active = true; 
@@ -3396,6 +3400,8 @@ public class PreferencesWindow
 		label_radio_cloud_no_recommended = (Gtk.Label) builder.GetObject ("label_radio_cloud_no_recommended");
 		label_radio_cloud_write = (Gtk.Label) builder.GetObject ("label_radio_cloud_write");
 		label_radio_cloud_read = (Gtk.Label) builder.GetObject ("label_radio_cloud_read");
+		image_cloud_capture = (Gtk.Image) builder.GetObject ("image_cloud_capture");
+		image_cloud_view = (Gtk.Image) builder.GetObject ("image_cloud_view");
 		button_debug_mode = (Gtk.Button) builder.GetObject ("button_debug_mode");
 
 		radio_python_2 = (Gtk.RadioButton) builder.GetObject ("radio_python_2");

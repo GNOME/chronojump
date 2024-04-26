@@ -55,7 +55,8 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_current_session;
 	Gtk.Label label_current_person;
 
-	Gtk.Image image_cloud;
+	Gtk.Image image_cloud_copy;
+	Gtk.Image image_cloud_view;
 	Gtk.Box box_menu_database;
 	Gtk.Box box_above_frame_database;
 	Gtk.Label label_database_at_frame_database;
@@ -478,7 +479,8 @@ public partial class ChronoJumpWindow
 		label_current_session = (Gtk.Label) builder.GetObject ("label_current_session");
 		label_current_person = (Gtk.Label) builder.GetObject ("label_current_person");
 
-		image_cloud = (Gtk.Image) builder.GetObject ("image_cloud");
+		image_cloud_copy = (Gtk.Image) builder.GetObject ("image_cloud_copy");
+		image_cloud_view = (Gtk.Image) builder.GetObject ("image_cloud_view");
 		box_menu_database = (Gtk.Box) builder.GetObject ("box_menu_database");
 		box_above_frame_database = (Gtk.Box) builder.GetObject ("box_above_frame_database");
 		label_database_at_frame_database = (Gtk.Label) builder.GetObject ("label_database_at_frame_database");

@@ -321,7 +321,7 @@ public partial class ChronoJumpWindow
 			box_menu_database.Visible = true;
 			button_menu_database.Visible = true;
 			box_copy_from_cloud_progressbars.Visible = (configChronojump.ReadFromCloudMainPath != "");
-			image_cloud.Visible = (configChronojump.ReadFromCloudMainPath != "");
+			image_cloud_view.Visible = (configChronojump.ReadFromCloudMainPath != "");
 
 			// if directory on LastDBFullPath does not exists, update field
 			if (configChronojump.LastDBFullPath != "" && ! Util.DirectoryExists (configChronojump.LastDBFullPath))

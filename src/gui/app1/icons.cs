@@ -326,11 +326,16 @@ public partial class ChronoJumpWindow
         image_menu_quit.Pixbuf = pixbuf;
 		image_menu_quit1.Pixbuf = pixbuf;
 
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_blue.png");
-		image_cloud.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_upload_blue.png");
+		image_cloud_copy.Pixbuf = pixbuf;
+
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
 		image_database_manage_blue.Pixbuf = pixbuf;
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_yellow.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_yellow.png");
 		image_database_manage_yellow.Pixbuf = pixbuf;
+
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
+		image_cloud_view.Pixbuf = pixbuf;
 
         pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_folders.png");//[By Joeries]
         if (Config.ColorBackgroundIsDark)

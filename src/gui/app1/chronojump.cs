@@ -1101,10 +1101,10 @@ public partial class ChronoJumpWindow
 
 			Pixbuf pixbuf;
 
-			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_blue.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
 			//if(Config.ColorBackgroundIsDark)
 			//	pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_yellow.png");
-			image_cloud.Pixbuf = pixbuf;
+			image_cloud_view.Pixbuf = pixbuf;
 
 			personsPhotoShowIfNeeded ();
 		}

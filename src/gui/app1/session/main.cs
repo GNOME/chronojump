@@ -194,6 +194,7 @@ public partial class ChronoJumpWindow
 	Gtk.ProgressBar app1s_progressbar_copyToCloud_dirs;
 	Gtk.ProgressBar app1s_progressbar_copyToCloud_subDirs;
 	Gtk.Box box_copy_from_cloud_progressbars;
+	Gtk.Label app1s_label_copyFromCloud_maindir;
 	Gtk.ProgressBar app1s_progressbar_copyFromCloud_dirs;
 	Gtk.ProgressBar app1s_progressbar_copyFromCloud_subDirs;
 
@@ -577,6 +578,7 @@ public partial class ChronoJumpWindow
 		app1s_progressbar_copyToCloud_dirs = (Gtk.ProgressBar) builder.GetObject ("app1s_progressbar_copyToCloud_dirs");
 		app1s_progressbar_copyToCloud_subDirs = (Gtk.ProgressBar) builder.GetObject ("app1s_progressbar_copyToCloud_subDirs");
 		box_copy_from_cloud_progressbars = (Gtk.Box) builder.GetObject ("box_copy_from_cloud_progressbars");
+		app1s_label_copyFromCloud_maindir = (Gtk.Label) builder.GetObject ("app1s_label_copyFromCloud_maindir");
 		app1s_progressbar_copyFromCloud_dirs = (Gtk.ProgressBar) builder.GetObject ("app1s_progressbar_copyFromCloud_dirs");
 		app1s_progressbar_copyFromCloud_subDirs = (Gtk.ProgressBar) builder.GetObject ("app1s_progressbar_copyFromCloud_subDirs");
 

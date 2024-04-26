@@ -64,6 +64,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_database_reload;
 	Gtk.Button button_database_change_select;
 	Gtk.Button button_database_change_apply;
+	Gtk.Button button_database_close;
 
 	Gtk.CheckButton check_menu_session;
 	Gtk.CheckButton check_manage_persons;
@@ -412,6 +413,8 @@ public partial class ChronoJumpWindow
 
 			UtilGtk.RemoveChildren (box_database_manage_read);
 			button_database_change_apply.Visible = false;
+			app1s_label_copyFromCloud_maindir.Text = "";
+			button_database_close.Sensitive = true;
 		} else {
 			check_menu_database.Sensitive = true;
 			frame_session.Sensitive = true;
@@ -483,6 +486,7 @@ public partial class ChronoJumpWindow
 		image_database_reload = (Gtk.Image) builder.GetObject ("image_database_reload");
 		button_database_change_select = (Gtk.Button) builder.GetObject ("button_database_change_select");
 		button_database_change_apply = (Gtk.Button) builder.GetObject ("button_database_change_apply");
+		button_database_close = (Gtk.Button) builder.GetObject ("button_database_close");
 
 		check_menu_session = (Gtk.CheckButton) builder.GetObject ("check_menu_session");
 		check_manage_persons = (Gtk.CheckButton) builder.GetObject ("check_manage_persons");

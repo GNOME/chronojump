@@ -784,6 +784,8 @@ public partial class ChronoJumpWindow
 			app1s_progressbar_copyFromCloud_subDirs.Fraction = 0;
 			button_database_reload.Sensitive = false;
 			button_database_change_select.Sensitive = false;
+			button_database_change_apply.Sensitive = false;
+			button_database_close.Sensitive = false;
 
 			app1s_threadBackup = new Thread (new ThreadStart (app1s_copyFromCloudDo));
 			GLib.Idle.Add (new GLib.IdleHandler (app1s_CopyFromCloudPulseGTK));
@@ -829,6 +831,7 @@ public partial class ChronoJumpWindow
 		{
 			button_database_reload.Sensitive = true;
 			button_database_change_select.Sensitive = true;
+			button_database_change_apply.Sensitive = true;
 
 			LogB.ThreadEnding();
 			app1s_CopyFromCloudPulseEnd();
@@ -841,6 +844,7 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 
+		app1s_label_copyFromCloud_maindir.Text = app1s_uc.LastMainDir;
 		app1s_progressbar_copyFromCloud_dirs.Fraction = UtilAll.DivideSafeFraction (app1s_uc.BackupMainDirsCount, 6);
 		app1s_progressbar_copyFromCloud_subDirs.Fraction =
 			UtilAll.DivideSafeFraction(app1s_uc.BackupSecondDirsCount, app1s_uc.BackupSecondDirsLength);
@@ -868,6 +872,7 @@ public partial class ChronoJumpWindow
 		}
 		else //... or at click on change database
 		{
+			button_database_close.Click ();
 			configChronojump.LastDBFullPath = Util.GetCloudReadTempDir ();
 			databaseChange ();
 		}

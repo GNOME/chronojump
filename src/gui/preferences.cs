@@ -74,7 +74,6 @@ public class PreferencesWindow
 	Gtk.Label label_recommended_undecorated;
 	Gtk.RadioButton radio_font_courier;
 	Gtk.RadioButton radio_font_helvetica;
-	Gtk.Label label_radio_font_needs_restart;
 	Gtk.CheckButton check_rest_time;
 	Gtk.Image image_rest;
 	Gtk.HBox hbox_rest_time_values;
@@ -285,7 +284,7 @@ public class PreferencesWindow
 	Gtk.Label label_radio_cloud_no;
 	Gtk.Label label_radio_cloud_no_recommended;
 	Gtk.Label label_radio_cloud_write;
-	Gtk.Label label_radio_cloud_read;
+	Gtk.Label label_radio_cloud_view;
 	Gtk.Image image_cloud_capture;
 	Gtk.Image image_cloud_view;
 	Gtk.Button button_debug_mode;
@@ -563,11 +562,11 @@ public class PreferencesWindow
 		PreferencesWindowBox.label_radio_cloud_no.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_no.Text + "</b>";
 		PreferencesWindowBox.label_radio_cloud_no_recommended.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_no_recommended.Text + "</b>";
 		PreferencesWindowBox.label_radio_cloud_write.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_write.Text + "</b>";
-		PreferencesWindowBox.label_radio_cloud_read.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_read.Text + "</b>";
+		PreferencesWindowBox.label_radio_cloud_view.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_view.Text + "</b>";
 		PreferencesWindowBox.label_radio_cloud_no.UseMarkup = true;
 		PreferencesWindowBox.label_radio_cloud_no_recommended.UseMarkup = true;
 		PreferencesWindowBox.label_radio_cloud_write.UseMarkup = true;
-		PreferencesWindowBox.label_radio_cloud_read.UseMarkup = true;
+		PreferencesWindowBox.label_radio_cloud_view.UseMarkup = true;
 
 		PreferencesWindowBox.image_cloud_capture.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_upload_blue.png");
 		PreferencesWindowBox.image_cloud_view.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
@@ -2067,7 +2066,13 @@ public class PreferencesWindow
 
 	/* callbacks SQL change at any change for tab: language */
 
-	private bool restart_active_end ()
+	private void restartLabelShow ()
+	{
+		hbox_buttons_bottom.Visible = false;
+		label_restart.Visible = true;
+		GLib.Timeout.Add(1500, new GLib.TimeoutHandler (restartLabelHide));
+	}
+	private bool restartLabelHide ()
 	{
 		hbox_buttons_bottom.Visible = true;
 		label_restart.Visible = false;
@@ -2081,11 +2086,7 @@ public class PreferencesWindow
 		hbox_combo_language.Sensitive = radio_language_force.Active;
 
 		if(hbox_language_signalOn)
-		{
-			hbox_buttons_bottom.Visible = false;
-			label_restart.Visible = true;
-			GLib.Timeout.Add(1500, new GLib.TimeoutHandler(restart_active_end));
-		}
+			restartLabelShow ();
 
 		// B) changes on preferences object and SqlitePreferences
 		changeLanguageOnPreferencesAndDB ();
@@ -2094,11 +2095,7 @@ public class PreferencesWindow
 	{
 		// A) changes on preferences gui
 		if(hbox_language_signalOn)
-		{
-			hbox_buttons_bottom.Visible = false;
-			label_restart.Visible = true;
-			GLib.Timeout.Add(1500, new GLib.TimeoutHandler(restart_active_end));
-		}
+			restartLabelShow ();
 
 		// B) changes on preferences object and SqlitePreferences
 		changeLanguageOnPreferencesAndDB ();
@@ -2144,11 +2141,7 @@ public class PreferencesWindow
 		// A) changes on preferences gui
 		//if(hbox_language_signalOn)
 		if(hbox_language_signalOn)
-		{
-			hbox_buttons_bottom.Visible = false;
-			label_restart.Visible = true;
-			GLib.Timeout.Add(1500, new GLib.TimeoutHandler(restart_active_end));
-		}
+			restartLabelShow ();
 
 		// B) changes on preferences object and SqlitePreferences
 		if (preferences.RGraphsTranslate != PreferencesWindowBox.radio_graphs_translate.Active) {
@@ -2201,7 +2194,7 @@ public class PreferencesWindow
 	private void on_radio_font_courier_toggled (object o, EventArgs args)
 	{
 		// A) changes on preferences gui
-		label_radio_font_needs_restart.Visible = true;
+		restartLabelShow ();
 
 		// B) changes on preferences object and SqlitePreferences
 		changeFontOnPreferencesAndDB ();
@@ -2209,7 +2202,7 @@ public class PreferencesWindow
 	private void on_radio_font_helvetica_toggled (object o, EventArgs args)
 	{
 		// A) changes on preferences gui
-		label_radio_font_needs_restart.Visible = true;
+		restartLabelShow ();
 
 		// B) changes on preferences object and SqlitePreferences
 		changeFontOnPreferencesAndDB ();
@@ -2227,6 +2220,20 @@ public class PreferencesWindow
 			preferences.fontType = Preferences.FontTypes.Courier;
 		}
 	}
+
+	private void on_radio_cloud_no_toggled (object o, EventArgs args)
+	{
+		restartLabelShow ();
+	}
+	private void on_radio_cloud_write_toggled (object o, EventArgs args)
+	{
+		restartLabelShow ();
+	}
+	private void on_radio_cloud_view_toggled (object o, EventArgs args)
+	{
+		restartLabelShow ();
+	}
+
 
 	private void on_checkbutton_mute_logs_clicked (object o, EventArgs args)
 	{
@@ -3188,7 +3195,6 @@ public class PreferencesWindow
 		label_recommended_undecorated = (Gtk.Label) builder.GetObject ("label_recommended_undecorated");
 		radio_font_courier = (Gtk.RadioButton) builder.GetObject ("radio_font_courier");
 		radio_font_helvetica = (Gtk.RadioButton) builder.GetObject ("radio_font_helvetica");
-		label_radio_font_needs_restart = (Gtk.Label) builder.GetObject ("label_radio_font_needs_restart");
 		check_rest_time = (Gtk.CheckButton) builder.GetObject ("check_rest_time");
 		image_rest = (Gtk.Image) builder.GetObject ("image_rest");
 		hbox_rest_time_values = (Gtk.HBox) builder.GetObject ("hbox_rest_time_values");
@@ -3399,7 +3405,7 @@ public class PreferencesWindow
 		label_radio_cloud_no = (Gtk.Label) builder.GetObject ("label_radio_cloud_no");
 		label_radio_cloud_no_recommended = (Gtk.Label) builder.GetObject ("label_radio_cloud_no_recommended");
 		label_radio_cloud_write = (Gtk.Label) builder.GetObject ("label_radio_cloud_write");
-		label_radio_cloud_read = (Gtk.Label) builder.GetObject ("label_radio_cloud_read");
+		label_radio_cloud_view = (Gtk.Label) builder.GetObject ("label_radio_cloud_view");
 		image_cloud_capture = (Gtk.Image) builder.GetObject ("image_cloud_capture");
 		image_cloud_view = (Gtk.Image) builder.GetObject ("image_cloud_view");
 		button_debug_mode = (Gtk.Button) builder.GetObject ("button_debug_mode");

@@ -456,11 +456,10 @@ public partial class ChronoJumpWindow
 
 		label_current_database.Text = "<b>" + Util.GetLastPartOfPath (databaseDirName) + "</b>";
 		label_current_database1.Text = "<b>" + Util.GetLastPartOfPath (databaseDirName) + "</b>";
-
 		label_current_database.UseMarkup = true;
 		label_current_database1.UseMarkup = true;
-		label_current_database.TooltipText = configChronojump.LastDBFullPath;
-		label_current_database1.TooltipText = configChronojump.LastDBFullPath;
+		label_current_database.TooltipText = Util.GetLastPartOfPath (databaseDirName);
+		label_current_database1.TooltipText = Util.GetLastPartOfPath (databaseDirName);
 
 		fillAllCombos ();
 	}

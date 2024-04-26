@@ -561,8 +561,7 @@ public partial class ChronoJumpWindow
 
 		UtilGtk.RemoveChildren (box_database_manage_read);
 
-		//TODO: now default is the first in list, do that default is the currently used
-		bool first = true;
+		bool first = true; //used to assign the rest of the radios to the group of the 1st
 		Gtk.RadioButton r = null;
 
 		foreach (DirectoryInfo di in dir_l)
@@ -572,6 +571,9 @@ public partial class ChronoJumpWindow
 				first = false;
 			} else
 				r = new Gtk.RadioButton (r, di.Name);
+
+			if (di.Name == Util.GetLastPartOfPath (storedDBFilename))
+				r.Active = true;
 
 			box_database_manage_read.PackStart (r, false, false, 0);
 			cloudReadFolder_l.Add (r);

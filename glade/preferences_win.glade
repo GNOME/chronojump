@@ -7878,7 +7878,7 @@ version:</property>
                                           <object class="GtkLabel" id="label_radio_cloud_write">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
-                                            <property name="label" translatable="yes">Write to cloud.</property>
+                                            <property name="label" translatable="yes">Cloud-capture.</property>
                                           </object>
                                         </child>
                                       </object>
@@ -7892,7 +7892,7 @@ version:</property>
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="label" translatable="yes">Data is saved to a cloud.</property>
+                                        <property name="label" translatable="yes">Data is saved to a cloud. Each computer writes to a different folder of the cloud.</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -7985,7 +7985,7 @@ version:</property>
                                           <object class="GtkLabel" id="label_radio_cloud_read">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
-                                            <property name="label" translatable="yes">Read from cloud.</property>
+                                            <property name="label" translatable="yes">Cloud-view.</property>
                                           </object>
                                         </child>
                                       </object>
@@ -7999,7 +7999,7 @@ version:</property>
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="label" translatable="yes">Can read data from different computers configured as "Write to cloud".</property>
+                                        <property name="label" translatable="yes">View data from different computers configured as "Cloud-capture".</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -8068,6 +8068,19 @@ version:</property>
                                 <property name="expand">False</property>
                                 <property name="fill">True</property>
                                 <property name="position">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-top">15</property>
+                                <property name="label" translatable="yes">Restart Chronojump to apply changes.</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">3</property>
                               </packing>
                             </child>
                           </object>

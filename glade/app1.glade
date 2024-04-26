@@ -23090,6 +23090,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -52403,7 +52406,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="spacing">20</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_database_change_apply">
-                                                            <property name="label" translatable="yes">Change database</property>
+                                                            <property name="label" translatable="yes">View selected database</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>

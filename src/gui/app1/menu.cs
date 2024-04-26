@@ -308,6 +308,8 @@ public partial class ChronoJumpWindow
 		if (check_manage_persons.Active)
 		{
 			check_manage_persons.Sensitive = false;
+			//do not unsensitive all the left panel as we want to be able to change person having this opened
+			box_menu_database.Sensitive = false;
 			frame_session.Sensitive = false;
 
 			app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
@@ -320,6 +322,7 @@ public partial class ChronoJumpWindow
 			//arrow_manage_persons_right.Visible = false;
 		} else {
 			check_manage_persons.Sensitive = true;
+			box_menu_database.Sensitive = true;
 			frame_session.Sensitive = true;
 
 			notebook_sup.CurrentPage = app1s_notebook_sup_entered_from;
@@ -399,8 +402,7 @@ public partial class ChronoJumpWindow
 	{
 		if (check_menu_database.Active)
 		{
-			check_menu_database.Sensitive = false;
-			frame_session.Sensitive = false;
+			menus_and_mode_sensitive (false);
 
 			app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.DATABASE);
@@ -416,8 +418,7 @@ public partial class ChronoJumpWindow
 			app1s_label_copyFromCloud_maindir.Text = "";
 			button_database_close.Sensitive = true;
 		} else {
-			check_menu_database.Sensitive = true;
-			frame_session.Sensitive = true;
+			menus_and_mode_sensitive (true);
 
 			notebook_sup.CurrentPage = app1s_notebook_sup_entered_from;
 

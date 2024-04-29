@@ -475,7 +475,8 @@ public partial class ChronoJumpWindow
 				false); //means: do not returnPersonAndPSlist
 
 		personSelectWin = PersonSelectWindow.Show(app1, myPersons, currentPerson, preferences.colorBackground,
-				configChronojump.Raspberry, configChronojump.LowHeight, preferences.personSelectWinImages);
+				configChronojump.Raspberry, configChronojump.LowHeight,
+				preferences.personSelectWinImages, configChronojump.ReadFromCloudMainPath != "");
 		personSelectWin.FakeButtonAddPerson.Clicked -= new EventHandler(on_button_top_person_add_person);
 		personSelectWin.FakeButtonAddPerson.Clicked += new EventHandler(on_button_top_person_add_person);
 

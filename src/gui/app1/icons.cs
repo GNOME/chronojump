@@ -331,7 +331,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
 		image_database_manage_blue.Pixbuf = pixbuf;
-		image_contacs_capture_cloud_view_disabled.Pixbuf = pixbuf;
+		image_contacts_capture_cloud_view_disabled.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_yellow.png");
 		image_database_manage_yellow.Pixbuf = pixbuf;
 

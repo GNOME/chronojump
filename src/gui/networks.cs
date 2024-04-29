@@ -356,11 +356,11 @@ public partial class ChronoJumpWindow
 		//as everything is on tmp and will be deleted
 		if (configChronojump.ReadFromCloudMainPath != "")
 		{
-			box_contacs_capture_cloud_view_disabled.Visible = true;
+			box_contacts_capture_cloud_view_disabled.Visible = true;
 			button_contacts_detect.Visible = false;
 			hbox_contacts_detect_and_execute.Visible = false;
 		} else {
-			box_contacs_capture_cloud_view_disabled.Visible = false;
+			box_contacts_capture_cloud_view_disabled.Visible = false;
 		}
 
 

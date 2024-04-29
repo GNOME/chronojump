@@ -57,8 +57,8 @@ public partial class ChronoJumpWindow
 
 	Gtk.Image image_cloud_copy;
 	Gtk.Image image_cloud_view;
-	Gtk.Box box_contacs_capture_cloud_view_disabled;
-	Gtk.Image image_contacs_capture_cloud_view_disabled;
+	Gtk.Box box_contacts_capture_cloud_view_disabled;
+	Gtk.Image image_contacts_capture_cloud_view_disabled;
 	Gtk.Box box_menu_database;
 	Gtk.Box box_above_frame_database;
 	Gtk.Label label_database_at_frame_database;
@@ -483,8 +483,8 @@ public partial class ChronoJumpWindow
 
 		image_cloud_copy = (Gtk.Image) builder.GetObject ("image_cloud_copy");
 		image_cloud_view = (Gtk.Image) builder.GetObject ("image_cloud_view");
-		box_contacs_capture_cloud_view_disabled = (Gtk.Box) builder.GetObject ("box_contacs_capture_cloud_view_disabled");
-		image_contacs_capture_cloud_view_disabled = (Gtk.Image) builder.GetObject ("image_contacs_capture_cloud_view_disabled");
+		box_contacts_capture_cloud_view_disabled = (Gtk.Box) builder.GetObject ("box_contacts_capture_cloud_view_disabled");
+		image_contacts_capture_cloud_view_disabled = (Gtk.Image) builder.GetObject ("image_contacts_capture_cloud_view_disabled");
 		box_menu_database = (Gtk.Box) builder.GetObject ("box_menu_database");
 		box_above_frame_database = (Gtk.Box) builder.GetObject ("box_above_frame_database");
 		label_database_at_frame_database = (Gtk.Label) builder.GetObject ("label_database_at_frame_database");

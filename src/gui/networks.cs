@@ -365,12 +365,19 @@ public partial class ChronoJumpWindow
 			box_encoder_capture_cloud_view_disabled.Visible = true;
 			button_encoder_detect.Visible = false;
 			hbox_encoder_detect_and_execute.Visible = false;
+
+			//session new
+			box_session_new_cloud_view_disabled.Visible = true;
+			button_session_new.Visible = false;
 		} else {
 			//contacts
 			box_contacts_capture_cloud_view_disabled.Visible = false;
 
 			//encoder
 			box_encoder_capture_cloud_view_disabled.Visible = false;
+
+			//session new
+			box_session_new_cloud_view_disabled.Visible = false;
 		}
 
 

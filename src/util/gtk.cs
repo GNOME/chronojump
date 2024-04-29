@@ -1130,6 +1130,7 @@ public class UtilGtk
 				(w.GetType() == typeof(Gtk.RadioButton) && ((Gtk.RadioButton) w).DrawIndicator) || //same as above
 				w.GetType() == typeof(Gtk.ScrolledWindow) ||
 				w.GetType() == typeof(Gtk.Viewport) ||
+				w.GetType() == typeof(Gtk.ButtonBox) ||
 				w.GetType() == typeof(Gtk.VButtonBox) ||
 				w.GetType() == typeof(Gtk.HButtonBox) ||
 				w.GetType() == typeof(Gtk.Alignment) ||

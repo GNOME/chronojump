@@ -352,6 +352,18 @@ public partial class ChronoJumpWindow
 			}
 		}
 
+		//Cloud-view should not be able to capture, create new person, create new session
+		//as everything is on tmp and will be deleted
+		if (configChronojump.ReadFromCloudMainPath != "")
+		{
+			box_contacs_capture_cloud_view_disabled.Visible = true;
+			button_contacts_detect.Visible = false;
+			hbox_contacts_detect_and_execute.Visible = false;
+		} else {
+			box_contacs_capture_cloud_view_disabled.Visible = false;
+		}
+
+
 		configDo();
 		ChronojumpWindowCont ();
 	}

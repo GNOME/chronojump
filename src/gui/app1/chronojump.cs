@@ -5294,13 +5294,20 @@ public partial class ChronoJumpWindow
 	{
 		//compujump will continue with the top right device button, far from the capture button
 		if (! configChronojump.Compujump)
-		{
-			button_contacts_detect.Visible = show;
-			hbox_contacts_detect_and_execute.Visible = ! show;
+			return;
 
-			button_encoder_detect.Visible = show;
-			hbox_encoder_detect_and_execute.Visible = ! show;
+		if (configChronojump.ReadFromCloudMainPath != "")
+		{
+			button_contacts_detect.Visible = false;
+			hbox_contacts_detect_and_execute.Visible = false;
+			return;
 		}
+
+		button_contacts_detect.Visible = show;
+		hbox_contacts_detect_and_execute.Visible = ! show;
+
+		button_encoder_detect.Visible = show;
+		hbox_encoder_detect_and_execute.Visible = ! show;
 	}
 
 	DiscoverWindow discoverWin;

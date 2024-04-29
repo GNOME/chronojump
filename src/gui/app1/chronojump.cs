@@ -5296,10 +5296,13 @@ public partial class ChronoJumpWindow
 		if (! configChronojump.Compujump)
 			return;
 
+		// Cloud-view cannot capture
 		if (configChronojump.ReadFromCloudMainPath != "")
 		{
 			button_contacts_detect.Visible = false;
 			hbox_contacts_detect_and_execute.Visible = false;
+			button_encoder_detect.Visible = false;
+			hbox_encoder_detect_and_execute.Visible = false;
 			return;
 		}
 

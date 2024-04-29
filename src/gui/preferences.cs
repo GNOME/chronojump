@@ -469,10 +469,12 @@ public class PreferencesWindow
 		else
 			PreferencesWindowBox.check_mode_autoload_at_start.Active = false;
 
+		PreferencesWindowBox.signalsNoFollow = true;
 		if(preferences.fontType == Preferences.FontTypes.Courier)
 			PreferencesWindowBox.radio_font_courier.Active = true;
 		else
 			PreferencesWindowBox.radio_font_helvetica.Active = true;
+		PreferencesWindowBox.signalsNoFollow = false;
 
 		PreferencesWindowBox.check_rest_time.Active = (preferences.restTimeMinutes >= 0);
 		PreferencesWindowBox.on_check_rest_time_toggled (new object (), new EventArgs ());
@@ -853,6 +855,7 @@ public class PreferencesWindow
 		PreferencesWindowBox.update_run_encoder_gui_pps_equivalence_and_max ();
 
 		//language -->
+		PreferencesWindowBox.signalsNoFollow = true;
 		if(preferences.language == "")
 			PreferencesWindowBox.radio_language_detected.Active = true;
 		else
@@ -862,10 +865,8 @@ public class PreferencesWindow
 			PreferencesWindowBox.radio_graphs_translate.Active = true;
 		else
 			PreferencesWindowBox.radio_graphs_no_translate.Active = true;
-			
-		//allow signal to be called
-		PreferencesWindowBox.hbox_language_signalOn = true;
-		
+		PreferencesWindowBox.signalsNoFollow = false;
+
 		if(preferences.useHeightsOnJumpIndexes)
 			PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active = true;
 		else
@@ -2076,7 +2077,7 @@ public class PreferencesWindow
 		// A) changes on preferences gui
 		hbox_combo_language.Sensitive = radio_language_force.Active;
 
-		if(hbox_language_signalOn)
+		if(! signalsNoFollow)
 			restartLabelShow ();
 
 		// B) changes on preferences object and SqlitePreferences
@@ -2085,7 +2086,7 @@ public class PreferencesWindow
 	private	void combo_language_changed (object obj, EventArgs args)
 	{
 		// A) changes on preferences gui
-		if(hbox_language_signalOn)
+		if(! signalsNoFollow)
 			restartLabelShow ();
 
 		// B) changes on preferences object and SqlitePreferences
@@ -2130,8 +2131,7 @@ public class PreferencesWindow
 	private void on_radio_translate_toggled (object obj, EventArgs args)
 	{
 		// A) changes on preferences gui
-		//if(hbox_language_signalOn)
-		if(hbox_language_signalOn)
+		if(! signalsNoFollow)
 			restartLabelShow ();
 
 		// B) changes on preferences object and SqlitePreferences
@@ -2184,6 +2184,9 @@ public class PreferencesWindow
 
 	private void on_radio_font_courier_toggled (object o, EventArgs args)
 	{
+		if (signalsNoFollow)
+			return;
+
 		// A) changes on preferences gui
 		restartLabelShow ();
 
@@ -2192,6 +2195,9 @@ public class PreferencesWindow
 	}
 	private void on_radio_font_helvetica_toggled (object o, EventArgs args)
 	{
+		if (signalsNoFollow)
+			return;
+
 		// A) changes on preferences gui
 		restartLabelShow ();
 
@@ -2842,7 +2848,6 @@ public class PreferencesWindow
 
 	//from Longomatch ;)
 	//(C) Andoni Morales Alastruey
-	bool hbox_language_signalOn = false;
 	void fillLanguages () {
 		int index = 0, active = 0;
 

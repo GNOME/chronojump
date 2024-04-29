@@ -64,6 +64,8 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_encoder_capture_cloud_view_disabled;
 	Gtk.Box box_session_new_cloud_view_disabled;
 	Gtk.Image image_session_new_cloud_view_disabled;
+	Gtk.Box box_person_new_cloud_view_disabled;
+	Gtk.Image image_person_new_cloud_view_disabled;
 
 	Gtk.Box box_menu_database;
 	Gtk.Box box_above_frame_database;
@@ -496,6 +498,8 @@ public partial class ChronoJumpWindow
 		image_encoder_capture_cloud_view_disabled = (Gtk.Image) builder.GetObject ("image_encoder_capture_cloud_view_disabled");
 		box_session_new_cloud_view_disabled = (Gtk.Box) builder.GetObject ("box_session_new_cloud_view_disabled");
 		image_session_new_cloud_view_disabled = (Gtk.Image) builder.GetObject ("image_session_new_cloud_view_disabled");
+		box_person_new_cloud_view_disabled = (Gtk.Box) builder.GetObject ("box_person_new_cloud_view_disabled");
+		image_person_new_cloud_view_disabled = (Gtk.Image) builder.GetObject ("image_person_new_cloud_view_disabled");
 
 		box_menu_database = (Gtk.Box) builder.GetObject ("box_menu_database");
 		box_above_frame_database = (Gtk.Box) builder.GetObject ("box_above_frame_database");

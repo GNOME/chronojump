@@ -369,6 +369,11 @@ public partial class ChronoJumpWindow
 			//session new
 			box_session_new_cloud_view_disabled.Visible = true;
 			button_session_new.Visible = false;
+
+			//person new
+			box_person_new_cloud_view_disabled.Visible = true;
+			button_person_add_single.Visible = false;
+			button_person_add_multiple.Visible = false;
 		} else {
 			//contacts
 			box_contacts_capture_cloud_view_disabled.Visible = false;
@@ -378,6 +383,9 @@ public partial class ChronoJumpWindow
 
 			//session new
 			box_session_new_cloud_view_disabled.Visible = false;
+
+			//person new
+			box_person_new_cloud_view_disabled.Visible = false;
 		}
 
 

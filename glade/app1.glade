@@ -51646,7 +51646,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="border-width">20</property>
                                                             <property name="spacing">16</property>
                                                             <child>
-                                                            <!-- n-columns=2 n-rows=2 -->
+                                                            <!-- n-columns=3 n-rows=2 -->
                                                             <object class="GtkGrid">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -51799,7 +51799,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="left-attach">1</property>
+                                                            <property name="left-attach">2</property>
                                                             <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
@@ -51846,8 +51846,47 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="left-attach">1</property>
+                                                            <property name="left-attach">2</property>
                                                             <property name="top-attach">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkBox" id="box_person_new_cloud_view_disabled">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="valign">center</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">10</property>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_person_new_cloud_view_disabled">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Create person disabled
+on Cloud-view mode</property>
+                                                            <property name="justify">center</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">1</property>
+                                                            <property name="top-attach">0</property>
+                                                            <property name="height">2</property>
                                                             </packing>
                                                             </child>
                                                             </object>

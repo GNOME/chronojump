@@ -68,7 +68,6 @@ public class PreferencesWindow
 	Gtk.CheckButton check_appearance_maximized;
 	Gtk.CheckButton check_appearance_maximized_undecorated;
 	Gtk.CheckButton check_appearance_person_win_hide;
-	Gtk.Label label_persons_on_top_disabled_on_cloud;
 	Gtk.CheckButton check_appearance_person_photo;
 	Gtk.Alignment alignment_undecorated;
 	Gtk.Label label_recommended_undecorated;
@@ -441,18 +440,10 @@ public class PreferencesWindow
 
 		PreferencesWindowBox.signalsNoFollow = false;
 
-		if (canReadDBs) {
-			PreferencesWindowBox.check_appearance_person_win_hide.Sensitive = false;
+		if(preferences.personWinHide)
+			PreferencesWindowBox.check_appearance_person_win_hide.Active = true;
+		else
 			PreferencesWindowBox.check_appearance_person_win_hide.Active = false;
-			PreferencesWindowBox.label_persons_on_top_disabled_on_cloud.Visible = true;
-		} else {
-			if(preferences.personWinHide)
-				PreferencesWindowBox.check_appearance_person_win_hide.Active = true;
-			else
-				PreferencesWindowBox.check_appearance_person_win_hide.Active = false;
-
-			PreferencesWindowBox.label_persons_on_top_disabled_on_cloud.Visible = false;
-		}
 
 		PreferencesWindowBox.check_appearance_person_photo.Sensitive = ! preferences.personWinHide;
 
@@ -3189,7 +3180,6 @@ public class PreferencesWindow
 		check_appearance_maximized = (Gtk.CheckButton) builder.GetObject ("check_appearance_maximized");
 		check_appearance_maximized_undecorated = (Gtk.CheckButton) builder.GetObject ("check_appearance_maximized_undecorated");
 		check_appearance_person_win_hide = (Gtk.CheckButton) builder.GetObject ("check_appearance_person_win_hide");
-		label_persons_on_top_disabled_on_cloud = (Gtk.Label) builder.GetObject ("label_persons_on_top_disabled_on_cloud");
 		check_appearance_person_photo = (Gtk.CheckButton) builder.GetObject ("check_appearance_person_photo");
 		alignment_undecorated = (Gtk.Alignment) builder.GetObject ("alignment_undecorated");
 		label_recommended_undecorated = (Gtk.Label) builder.GetObject ("label_recommended_undecorated");

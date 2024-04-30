@@ -7688,12 +7688,13 @@ version:</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkBox">
+                          <!-- n-columns=2 n-rows=3 -->
+                          <object class="GtkGrid">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <property name="border-width">8</property>
-                            <property name="orientation">vertical</property>
-                            <property name="spacing">20</property>
+                            <property name="row-spacing">20</property>
+                            <property name="column-spacing">20</property>
                             <child>
                               <object class="GtkBox">
                                 <property name="visible">True</property>
@@ -7751,7 +7752,6 @@ version:</property>
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
                                     <property name="halign">start</property>
-                                    <property name="margin-left">30</property>
                                     <property name="label" translatable="yes">Data is captured and analyzed in this computer.</property>
                                   </object>
                                   <packing>
@@ -7762,9 +7762,8 @@ version:</property>
                                 </child>
                               </object>
                               <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">0</property>
                               </packing>
                             </child>
                             <child>
@@ -7836,7 +7835,6 @@ version:</property>
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
                                     <property name="halign">start</property>
-                                    <property name="margin-left">30</property>
                                     <property name="label" translatable="yes">Data is stored on the computer and uploaded to a cloud.</property>
                                   </object>
                                   <packing>
@@ -7850,7 +7848,6 @@ version:</property>
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
                                     <property name="halign">start</property>
-                                    <property name="margin-left">30</property>
                                     <property name="label" translatable="yes">Each computer will use a different folder of the cloud.</property>
                                   </object>
                                   <packing>
@@ -7863,7 +7860,6 @@ version:</property>
                                   <object class="GtkBox">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="margin-left">30</property>
                                     <property name="spacing">6</property>
                                     <child>
                                       <object class="GtkLabel">
@@ -7910,9 +7906,8 @@ version:</property>
                                 </child>
                               </object>
                               <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">1</property>
                               </packing>
                             </child>
                             <child>
@@ -7984,7 +7979,6 @@ version:</property>
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
                                     <property name="halign">start</property>
-                                    <property name="margin-left">30</property>
                                     <property name="label" translatable="yes">View data of each database on the cloud.</property>
                                   </object>
                                   <packing>
@@ -7997,7 +7991,6 @@ version:</property>
                                   <object class="GtkBox">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="margin-left">30</property>
                                     <property name="spacing">6</property>
                                     <child>
                                       <object class="GtkLabel">
@@ -8044,10 +8037,76 @@ version:</property>
                                 </child>
                               </object>
                               <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">2</property>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">2</property>
                               </packing>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="spacing">6</property>
+                                <child>
+                                  <object class="GtkSeparator">
+                                    <property name="width-request">4</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="valign">center</property>
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">4</property>
+                                    <child>
+                                      <object class="GtkImage" id="image_cloud_schema">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="stock">gtk-missing-image</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkButton" id="button_cloud_schema_zoom">
+                                        <property name="label" translatable="yes">Zoom cloud schema </property>
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">True</property>
+                                        <signal name="clicked" handler="on_button_cloud_schema_zoom_clicked" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="left-attach">1</property>
+                                <property name="top-attach">1</property>
+                                <property name="height">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <placeholder/>
                             </child>
                           </object>
                           <packing>

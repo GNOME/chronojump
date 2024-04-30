@@ -286,6 +286,7 @@ public class PreferencesWindow
 	Gtk.Label label_radio_cloud_view;
 	Gtk.Image image_cloud_capture;
 	Gtk.Image image_cloud_view;
+	Gtk.Image image_cloud_schema;
 	Gtk.Button button_debug_mode;
 
 	Gtk.RadioButton radio_python_2;
@@ -563,6 +564,7 @@ public class PreferencesWindow
 
 		PreferencesWindowBox.image_cloud_capture.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_upload_blue.png");
 		PreferencesWindowBox.image_cloud_view.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
+		PreferencesWindowBox.image_cloud_schema.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_schema_small.png");
 
 		if(preferences.showPower)
 			PreferencesWindowBox.checkbutton_power.Active = true; 
@@ -2231,6 +2233,15 @@ public class PreferencesWindow
 		restartLabelShow ();
 	}
 
+	private void on_button_cloud_schema_zoom_clicked (object o, EventArgs args)
+	{
+		new DialogImageTest (
+				Catalog.GetString("Chronojump cloud schema"),
+				Util.GetImagePath(false) + "cloud_schema.png",
+				DialogImageTest.ArchiveType.ASSEMBLY,
+				"", 600, 306
+				);
+	}
 
 	private void on_checkbutton_mute_logs_clicked (object o, EventArgs args)
 	{
@@ -3403,6 +3414,7 @@ public class PreferencesWindow
 		label_radio_cloud_view = (Gtk.Label) builder.GetObject ("label_radio_cloud_view");
 		image_cloud_capture = (Gtk.Image) builder.GetObject ("image_cloud_capture");
 		image_cloud_view = (Gtk.Image) builder.GetObject ("image_cloud_view");
+		image_cloud_schema = (Gtk.Image) builder.GetObject ("image_cloud_schema");
 		button_debug_mode = (Gtk.Button) builder.GetObject ("button_debug_mode");
 
 		radio_python_2 = (Gtk.RadioButton) builder.GetObject ("radio_python_2");

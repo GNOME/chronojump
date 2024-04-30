@@ -70,7 +70,6 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_menu_database;
 	Gtk.Box box_above_frame_database;
 	Gtk.Label label_database_at_frame_database;
-	Gtk.Button button_menu_database;
 	Gtk.Button button_database_reload;
 	Gtk.Image image_database_reload;
 	Gtk.Button button_database_change_select;
@@ -349,9 +348,25 @@ public partial class ChronoJumpWindow
 		check_manage_persons.Click ();
 	}
 
+	private bool menuDatabaseIsActive ()
+	{
+		if (preferences.personWinHide)
+			return check_menu_database1.Active;
+		else
+			return check_menu_database.Active;
+	}
+	private void menuDatabaseDoClick ()
+	{
+		if (preferences.personWinHide)
+			check_menu_database1.Click ();
+		else
+			check_menu_database.Click ();
+	}
+
 	private void on_check_menu_database_clicked (object o, EventArgs args)
 	{
-		menuShowHorizontalArrow (check_menu_database.Active, arrow_menu_show_database_left, arrow_menu_show_database_right);
+		if (preferences.personWinHide)
+			menuShowHorizontalArrow (check_menu_database.Active, arrow_menu_show_database_left, arrow_menu_show_database_right);
 
 		on_database_manage_clicked (o, args);
 	}
@@ -426,7 +441,7 @@ public partial class ChronoJumpWindow
 
 	private void on_database_manage_clicked (object o, EventArgs args)
 	{
-		if (check_menu_database.Active)
+		if (menuDatabaseIsActive ())
 		{
 			menus_and_mode_sensitive (false);
 
@@ -457,7 +472,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_database_close_clicked (object o, EventArgs args)
 	{
-		check_menu_database.Click ();
+		menuDatabaseDoClick ();
 	}
 
 	private void on_session_manage_clicked (object o, EventArgs args)
@@ -519,7 +534,6 @@ public partial class ChronoJumpWindow
 		box_menu_database = (Gtk.Box) builder.GetObject ("box_menu_database");
 		box_above_frame_database = (Gtk.Box) builder.GetObject ("box_above_frame_database");
 		label_database_at_frame_database = (Gtk.Label) builder.GetObject ("label_database_at_frame_database");
-		button_menu_database = (Gtk.Button) builder.GetObject ("button_menu_database");
 		button_database_reload = (Gtk.Button) builder.GetObject ("button_database_reload");
 		image_database_reload = (Gtk.Image) builder.GetObject ("image_database_reload");
 		button_database_change_select = (Gtk.Button) builder.GetObject ("button_database_change_select");

@@ -319,7 +319,7 @@ public partial class ChronoJumpWindow
 		if (configChronojump.ReadFromCloudMainPath != "" || configChronojump.CanOpenExternalDB)
 		{
 			box_menu_database.Visible = true;
-			button_menu_database.Visible = true;
+			check_menu_database1.Visible = true;
 			box_copy_from_cloud_progressbars.Visible = (configChronojump.ReadFromCloudMainPath != "");
 			image_cloud_view.Visible = (configChronojump.ReadFromCloudMainPath != "");
 

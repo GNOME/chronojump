@@ -1025,22 +1025,16 @@
                                     <property name="can-focus">False</property>
                                     <property name="spacing">20</property>
                                     <child>
-                                      <object class="GtkButton" id="button_menu_database">
+                                      <object class="GtkCheckButton" id="check_menu_database1">
                                         <property name="can-focus">True</property>
-                                        <property name="receives-default">True</property>
-                                        <property name="tooltip-text" translatable="yes">Database</property>
+                                        <property name="receives-default">False</property>
+                                        <property name="draw-indicator">False</property>
                                         <signal name="clicked" handler="on_check_menu_database_clicked" swapped="no"/>
                                         <child>
-                                          <object class="GtkEventBox" id="eventbox_button_menu_database">
+                                          <object class="GtkImage" id="image_cloud_view1">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
-                                            <child>
-                                              <object class="GtkLabel" id="label275">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="label">DB</property>
-                                              </object>
-                                            </child>
+                                            <property name="stock">gtk-missing-image</property>
                                           </object>
                                         </child>
                                       </object>
@@ -1075,7 +1069,7 @@
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">1</property>
+                                        <property name="position">2</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1102,7 +1096,7 @@
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">2</property>
+                                        <property name="position">3</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1129,7 +1123,7 @@
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">3</property>
+                                        <property name="position">4</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1157,7 +1151,7 @@
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">4</property>
+                                        <property name="position">5</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1185,7 +1179,7 @@
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">5</property>
+                                        <property name="position">6</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1198,7 +1192,7 @@
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">6</property>
+                                        <property name="position">7</property>
                                       </packing>
                                     </child>
                                   </object>

@@ -340,6 +340,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
 		image_cloud_view.Pixbuf = pixbuf;
+		image_cloud_view1.Pixbuf = pixbuf;
 
         pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_folders.png");//[By Joeries]
         if (Config.ColorBackgroundIsDark)

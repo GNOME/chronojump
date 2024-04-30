@@ -31,7 +31,7 @@ public partial class ChronoJumpWindow
 	Gtk.Alignment alignment_menu_tiny;
 	Gtk.VBox vbox_menu_tiny;
 	Gtk.VBox vbox_menu_tiny_menu; //really the menu (without the logos at the bottom)
-	Gtk.EventBox eventbox_button_menu_database;
+	//Gtk.EventBox eventbox_button_menu_database;
 	Gtk.EventBox eventbox_check_menu_session1;
 	Gtk.EventBox eventbox_button_menu_preferences1;
 	Gtk.EventBox eventbox_button_menu_help1;
@@ -41,10 +41,12 @@ public partial class ChronoJumpWindow
 	Gtk.EventBox eventbox_button_encoder_person_change;
 	Gtk.EventBox eventbox_button_networks_contacts_guest;
 	Gtk.EventBox eventbox_button_networks_encoder_guest;
+	Gtk.CheckButton check_menu_database1;
 	Gtk.CheckButton check_menu_session1;
 	Gtk.Button button_menu_preferences1;
 	Gtk.Button button_menu_news1;
 
+	Gtk.Image image_cloud_view1;
 	Gtk.Image image_menu_folders1;
 	Gtk.Image image_menu_preferences1;
 	Gtk.Image image_menu_help1;
@@ -180,7 +182,7 @@ public partial class ChronoJumpWindow
 		alignment_menu_tiny = (Gtk.Alignment) builder.GetObject ("alignment_menu_tiny");
 		vbox_menu_tiny = (Gtk.VBox) builder.GetObject ("vbox_menu_tiny");
 		vbox_menu_tiny_menu = (Gtk.VBox) builder.GetObject ("vbox_menu_tiny_menu"); //really the menu (without the logos at the bottom)
-		eventbox_button_menu_database = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_database");
+		//eventbox_button_menu_database = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_database");
 		eventbox_check_menu_session1 = (Gtk.EventBox) builder.GetObject ("eventbox_check_menu_session1");
 		eventbox_button_menu_preferences1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_preferences1");
 		eventbox_button_menu_help1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_help1");
@@ -190,10 +192,12 @@ public partial class ChronoJumpWindow
 		eventbox_button_encoder_person_change = (Gtk.EventBox) builder.GetObject ("eventbox_button_encoder_person_change");
 		eventbox_button_networks_contacts_guest = (Gtk.EventBox) builder.GetObject ("eventbox_button_networks_contacts_guest");
 		eventbox_button_networks_encoder_guest = (Gtk.EventBox) builder.GetObject ("eventbox_button_networks_encoder_guest");
+		check_menu_database1 = (Gtk.CheckButton) builder.GetObject ("check_menu_database1");
 		check_menu_session1 = (Gtk.CheckButton) builder.GetObject ("check_menu_session1");
 		button_menu_preferences1 = (Gtk.Button) builder.GetObject ("button_menu_preferences1");
 		button_menu_news1 = (Gtk.Button) builder.GetObject ("button_menu_news1");
 
+		image_cloud_view1 = (Gtk.Image) builder.GetObject ("image_cloud_view1");
 		image_menu_folders1 = (Gtk.Image) builder.GetObject ("image_menu_folders1");
 		image_menu_preferences1 = (Gtk.Image) builder.GetObject ("image_menu_preferences1");
 		image_menu_help1 = (Gtk.Image) builder.GetObject ("image_menu_help1");

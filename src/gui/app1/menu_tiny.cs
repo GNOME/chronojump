@@ -29,8 +29,6 @@ using Gtk;
 public partial class ChronoJumpWindow
 {
 	Gtk.Alignment alignment_menu_tiny;
-	Gtk.Arrow arrow_menu_show_session_left1;
-	Gtk.Arrow arrow_menu_show_session_right1;
 	Gtk.VBox vbox_menu_tiny;
 	Gtk.VBox vbox_menu_tiny_menu; //really the menu (without the logos at the bottom)
 	Gtk.EventBox eventbox_button_menu_database;
@@ -173,8 +171,6 @@ public partial class ChronoJumpWindow
 
 	private void on_check_menu_session1_clicked (object o, EventArgs args)
 	{
-		menuShowHorizontalArrow (check_menu_session1.Active, arrow_menu_show_session_left1, arrow_menu_show_session_right1);
-
 		if(check_menu_session1.Active)
 			on_session_manage_clicked (o, args);
 	}
@@ -182,8 +178,6 @@ public partial class ChronoJumpWindow
 	private void connectWidgetsMenuTiny (Gtk.Builder builder)
 	{
 		alignment_menu_tiny = (Gtk.Alignment) builder.GetObject ("alignment_menu_tiny");
-		arrow_menu_show_session_left1 = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_left1");
-		arrow_menu_show_session_right1 = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_right");
 		vbox_menu_tiny = (Gtk.VBox) builder.GetObject ("vbox_menu_tiny");
 		vbox_menu_tiny_menu = (Gtk.VBox) builder.GetObject ("vbox_menu_tiny_menu"); //really the menu (without the logos at the bottom)
 		eventbox_button_menu_database = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_database");

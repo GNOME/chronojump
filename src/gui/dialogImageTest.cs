@@ -30,7 +30,8 @@ public class DialogImageTest
 	 Gtk.Image image_test;
 	 Gtk.Label label_name_description;
 	 Gtk.Label label_long_description;
-	 Gtk.ScrolledWindow scrolledwindow28;
+	 Gtk.ScrolledWindow scrolledwindowV;
+	 Gtk.ScrolledWindow scrolledwindowH;
 
 	public DialogImageTest (EventType myEventType)
 	{
@@ -50,7 +51,7 @@ public class DialogImageTest
 		label_name_description.UseMarkup = true; 
 
 		if(myEventType.LongDescription.Length == 0)
-			scrolledwindow28.Hide();
+			scrolledwindowH.Hide();
 		else {
 			label_long_description.Text = myEventType.LongDescription; 
 			label_long_description.UseMarkup = true; 
@@ -98,11 +99,14 @@ public class DialogImageTest
 		UtilGtk.IconWindow(dialog_image_test);
 
 		if(longText == "")
-			scrolledwindow28.Hide();
+			scrolledwindowH.Hide();
 		else {
 			label_long_description.Text = longText;
 			label_long_description.UseMarkup = true;
 		}
+
+		if (maxHeight > 0)
+			scrolledwindowV.SetPolicy(PolicyType.Never, PolicyType.Never);
 
 		Pixbuf pixbuf;
 		if(archiveType == ArchiveType.FILE)
@@ -140,6 +144,7 @@ public class DialogImageTest
 		 image_test = (Gtk.Image) builder.GetObject ("image_test");
 		 label_name_description = (Gtk.Label) builder.GetObject ("label_name_description");
 		 label_long_description = (Gtk.Label) builder.GetObject ("label_long_description");
-		 scrolledwindow28 = (Gtk.ScrolledWindow) builder.GetObject ("scrolledwindow28");
+		 scrolledwindowV = (Gtk.ScrolledWindow) builder.GetObject ("scrolledwindowV");
+		 scrolledwindowH = (Gtk.ScrolledWindow) builder.GetObject ("scrolledwindowH");
 	}
 }

@@ -1020,8 +1020,8 @@ public partial class ChronoJumpWindow
 		//2 but do not show session "win" if cloud and still have not loaded the database
 		if (currentSession == null && 	// 1
 				! (configChronojump.ReadFromCloudMainPath != "" && configChronojump.LastDBFullPath == "") && // 2
-				! check_menu_session.Active)
-			check_menu_session.Click(); //have session "win" opened
+				! menuSessionIsActive ())
+			menuSessionDoClick (); //have session "win" opened
 
 		//done after app1.Show in order to be able to gather the colors
 		doLabelsContrast(configChronojump.PersonWinHide);

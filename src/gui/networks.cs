@@ -799,6 +799,7 @@ public partial class ChronoJumpWindow
 			button_session_new.Visible = false;
 			button_session_load.Visible = false;
 			check_menu_session.Visible = false;
+			check_menu_session1.Visible = false;
 
 			if(configChronojump.SessionMode == Config.SessionModeEnum.UNIQUE)
 			{

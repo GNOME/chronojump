@@ -1056,7 +1056,6 @@
                                         <property name="can-focus">True</property>
                                         <property name="receives-default">False</property>
                                         <property name="tooltip-text" translatable="yes">Session</property>
-                                        <property name="active">True</property>
                                         <property name="draw-indicator">False</property>
                                         <signal name="clicked" handler="on_check_menu_session1_clicked" swapped="no"/>
                                         <child>
@@ -1086,7 +1085,6 @@
                                                     <property name="can-focus">False</property>
                                                     <child>
                                                       <object class="GtkArrow" id="arrow_menu_show_session_left1">
-                                                        <property name="visible">True</property>
                                                         <property name="can-focus">False</property>
                                                         <property name="arrow-type">left</property>
                                                       </object>
@@ -1098,6 +1096,7 @@
                                                     </child>
                                                     <child>
                                                       <object class="GtkArrow" id="arrow_menu_show_session_right1">
+                                                        <property name="visible">True</property>
                                                         <property name="can-focus">False</property>
                                                       </object>
                                                       <packing>
@@ -22740,6 +22739,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

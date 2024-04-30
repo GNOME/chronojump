@@ -356,6 +356,21 @@ public partial class ChronoJumpWindow
 		on_database_manage_clicked (o, args);
 	}
 
+	private bool menuSessionIsActive ()
+	{
+		if (preferences.personWinHide)
+			return check_menu_session1.Active;
+		else
+			return check_menu_session.Active;
+	}
+	private void menuSessionDoClick ()
+	{
+		if (preferences.personWinHide)
+			check_menu_session1.Click ();
+		else
+			check_menu_session.Click ();
+	}
+
 	private void on_check_menu_session_clicked (object o, EventArgs args)
 	{
 		menuShowHorizontalArrow (check_menu_session.Active, arrow_menu_show_session_left, arrow_menu_show_session_right);

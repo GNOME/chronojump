@@ -318,43 +318,6 @@ public partial class ChronoJumpWindow
 			app1s_alignment_copyToCloud.Visible = true;
 		}
 
-		storedCloudDir = "";
-		if (configChronojump.ReadFromCloudMainPath != "" || configChronojump.CanOpenExternalDB)
-		{
-			box_menu_database.Visible = true;
-			check_menu_database1.Visible = true;
-			box_copy_from_cloud_progressbars.Visible = (configChronojump.ReadFromCloudMainPath != "");
-			image_cloud_view.Visible = (configChronojump.ReadFromCloudMainPath != "");
-
-			// if directory on LastDBFullPath does not exists, update field
-			if (configChronojump.LastDBFullPath != "" && ! Util.DirectoryExists (configChronojump.LastDBFullPath))
-			{
-				configChronojump.UpdateField ("LastDBFullPath", ""); 	//update file
-				configChronojump.LastDBFullPath = "";			//update variable
-			}
-
-			// if LastDBFullPath exists, use it
-			if (configChronojump.LastDBFullPath != "")
-			{
-				if (configChronojump.ReadFromCloudMainPath != "")
-				{
-					storedDBFilename = configChronojump.LastDBFullPath;
-					databaseCloudCopyToTemp (true); //at boot
-					return; //following code is not going to be executed, will be called when copying thread is finished
-				}
-
-				if (configChronojump.ReadFromCloudMainPath != "" || configChronojump.CanOpenExternalDB)
-				{
-					storedCloudDir = configChronojump.LastDBFullPath;
-					databaseChange ();
-				}
-			} else {
-				label_current_database.Text = "(default database)";
-				label_current_database1.Text = "(default database)";
-				button_database_reload.Sensitive = false;
-			}
-		}
-
 		//Cloud-view should not be able to capture, create new person, create new session
 		//as everything is on tmp and will be deleted
 		if (configChronojump.ReadFromCloudMainPath != "")
@@ -391,6 +354,42 @@ public partial class ChronoJumpWindow
 			box_person_new_cloud_view_disabled.Visible = false;
 		}
 
+		storedCloudDir = "";
+		if (configChronojump.ReadFromCloudMainPath != "" || configChronojump.CanOpenExternalDB)
+		{
+			box_menu_database.Visible = true;
+			check_menu_database1.Visible = true;
+			box_copy_from_cloud_progressbars.Visible = (configChronojump.ReadFromCloudMainPath != "");
+			image_cloud_view.Visible = (configChronojump.ReadFromCloudMainPath != "");
+
+			// if directory on LastDBFullPath does not exists, update field
+			if (configChronojump.LastDBFullPath != "" && ! Util.DirectoryExists (configChronojump.LastDBFullPath))
+			{
+				configChronojump.UpdateField ("LastDBFullPath", ""); 	//update file
+				configChronojump.LastDBFullPath = "";			//update variable
+			}
+
+			// if LastDBFullPath exists, use it
+			if (configChronojump.LastDBFullPath != "")
+			{
+				if (configChronojump.ReadFromCloudMainPath != "")
+				{
+					storedDBFilename = configChronojump.LastDBFullPath;
+					databaseCloudCopyToTemp (true); //at boot
+					return; //following code is not going to be executed, will be called when copying thread is finished
+				}
+
+				if (configChronojump.ReadFromCloudMainPath != "" || configChronojump.CanOpenExternalDB)
+				{
+					storedCloudDir = configChronojump.LastDBFullPath;
+					databaseChange ();
+				}
+			} else {
+				label_current_database.Text = "(default database)";
+				label_current_database1.Text = "(default database)";
+				button_database_reload.Sensitive = false;
+			}
+		}
 
 		configDo();
 		ChronojumpWindowCont ();

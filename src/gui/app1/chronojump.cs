@@ -1159,7 +1159,11 @@ public partial class ChronoJumpWindow
 
 			//persons (main)
 			UtilGtk.WidgetColor (hbox_frame_persons_top, Config.ColorBackgroundShifted);
-			UtilGtk.WidgetColor (vbox_persons, Config.ColorBackgroundShifted);
+			if (selectRowTreeView_persons(treeview_persons, 0))
+				UtilGtk.WidgetColor (vbox_persons, Config.ColorBackgroundShifted);
+			else
+				vbox_persons.Name = "alertCss";
+
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, hbox_frame_persons_top);
 
 			//session databse
@@ -9659,6 +9663,8 @@ LogB.Debug("mc finished 5");
 
 	private void sensitiveGuiNoSession () 
 	{
+		LogB.Information("sensitiveGuiNoSession");
+
 		//menuitems
 		menuSessionSensitive(false);
 		menuPersonSelectedSensitive(false);
@@ -9696,6 +9702,8 @@ LogB.Debug("mc finished 5");
 	
 	private void sensitiveGuiYesSession () 
 	{
+		LogB.Information("sensitiveGuiYesSession");
+
 		button_image_test_zoom.Sensitive = true;
 		frame_persons.Sensitive = true;
 		button_recuperate_person.Sensitive = true;
@@ -9718,6 +9726,9 @@ LogB.Debug("mc finished 5");
 	private void sensitiveGuiNoPerson ()
 	{
 		LogB.Information("sensitiveGuiNoPerson");
+
+		vbox_persons.Name = "alertCss";
+
 		vbox_jumps.Sensitive = false;
 		hbox_jumps_rj.Sensitive = false;
 		button_execute_test.Sensitive = false;
@@ -9751,6 +9762,9 @@ LogB.Debug("mc finished 5");
 	private void sensitiveGuiYesPerson ()
 	{
 		LogB.Information("sensitiveGuiYesPerson");
+
+		vbox_persons.Name = "";
+
 		vbox_jumps.Sensitive = true;
 		hbox_jumps_rj.Sensitive = true;
 		button_execute_test.Sensitive = true;
@@ -9788,6 +9802,8 @@ LogB.Debug("mc finished 5");
 	
 	private void sensitiveGuiEventDoing (bool cont)
 	{
+		LogB.Information("sensitiveGuiEventDoing");
+
 		menus_and_mode_sensitive(false);
 		
 		//jumpsProfile has Sqlite calls. Don't do them while jumping

@@ -207,6 +207,8 @@ namespace Chronojump
 			new ResourceFix ("cloud_upload_blue.png" , "cloud_upload_blue.png"),
 			new ResourceFix ("cloud_view_blue.png" , "cloud_view_blue.png"),
 			new ResourceFix ("cloud_view_yellow.png" , "cloud_view_yellow.png"),
+			new ResourceFix ("cloud_schema.png", "cloud_schema.png"),
+			new ResourceFix ("cloud_schema_small.png", "cloud_schema_small.png"),
 			new ResourceFix ("notifications_blue_1x.png" , "stock_bell.png"),
 			new ResourceFix ("notifications_active_blue_1x.png" , "stock_bell_active.png"),
 			new ResourceFix ("notifications_none_blue_1x.png" , "stock_bell_none.png"),

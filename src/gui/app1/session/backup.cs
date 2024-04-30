@@ -679,10 +679,18 @@ public partial class ChronoJumpWindow
 		try {
 			app1s_uc = new UtilCopy (-1, false, false, false); //all sessions, no logs, no config, no other DBs
 
-			app1s_button_copyToCloud.Label = "Copying …";
-			app1s_button_copyToCloud.Sensitive = false;
-			app1s_progressbar_copyToCloud_dirs.Fraction = 0;
-			app1s_progressbar_copyToCloud_subDirs.Fraction = 0;
+			if (preferences.personWinHide)
+			{
+				image_cloud_copy1.Visible = false;
+				spinner_copyToCloud1.Visible = true;
+				spinner_copyToCloud1.Start ();
+				app1s_label_copyToCloud1.Text = "";
+			} else {
+				app1s_button_copyToCloud.Label = "Copying …";
+				app1s_button_copyToCloud.Sensitive = false;
+				app1s_progressbar_copyToCloud_dirs.Fraction = 0;
+				app1s_progressbar_copyToCloud_subDirs.Fraction = 0;
+			}
 
 			app1s_threadBackup = new Thread (new ThreadStart (app1s_copyToCloudDo));
 			GLib.Idle.Add (new GLib.IdleHandler (app1s_CopyToCloudPulseGTK));
@@ -732,15 +740,24 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 
-		if (exitChronojumpAfterCopyToCloud)
-			app1s_button_copyToCloud.Label = "Copying & exit …";
-		else
-			app1s_button_copyToCloud.Label = "Copying …";
+		if (preferences.personWinHide)
+		{
+			//divided by 7 for having roomt o the subdirs
+			double fraction = 100 * UtilAll.DivideSafeFraction (app1s_uc.BackupMainDirsCount, 7);
+			fraction += 100/7 * UtilAll.DivideSafeFraction(app1s_uc.BackupSecondDirsCount, app1s_uc.BackupSecondDirsLength);
+			app1s_label_copyToCloud1.Text = Math.Round (fraction,1) + "%";
+		} else
+		{
+			if (exitChronojumpAfterCopyToCloud)
+				app1s_button_copyToCloud.Label = "Copying & exit …";
+			else
+				app1s_button_copyToCloud.Label = "Copying …";
 
-		app1s_progressbar_copyToCloud_dirs.Fraction = UtilAll.DivideSafeFraction (app1s_uc.BackupMainDirsCount, 6);
-		app1s_progressbar_copyToCloud_subDirs.Fraction =
-			UtilAll.DivideSafeFraction(app1s_uc.BackupSecondDirsCount, app1s_uc.BackupSecondDirsLength);
-		//6 for: database, encoder, forceSensor, logs, multimedia, raceAnalyzer
+			app1s_progressbar_copyToCloud_dirs.Fraction = UtilAll.DivideSafeFraction (app1s_uc.BackupMainDirsCount, 6);
+			app1s_progressbar_copyToCloud_subDirs.Fraction =
+				UtilAll.DivideSafeFraction(app1s_uc.BackupSecondDirsCount, app1s_uc.BackupSecondDirsLength);
+			//6 for: database, encoder, forceSensor, logs, multimedia, raceAnalyzer
+		}
 
 		Thread.Sleep (30);
 		//LogB.Debug(app1s_threadBackup.ThreadState.ToString());
@@ -748,20 +765,32 @@ public partial class ChronoJumpWindow
 	}
 	private void app1s_CopyToCloudPulseEnd ()
 	{
-		app1s_button_copyToCloud.Label = "Done!";
-		app1s_progressbar_copyToCloud_dirs.Fraction = 1;
-		app1s_progressbar_copyToCloud_subDirs.Fraction = 1;
+		if (preferences.personWinHide) {
+			spinner_copyToCloud1.Stop ();
+			app1s_label_copyToCloud1.Text = "100%";
+		} else {
+			app1s_button_copyToCloud.Label = "Done!";
+			app1s_progressbar_copyToCloud_dirs.Fraction = 1;
+			app1s_progressbar_copyToCloud_subDirs.Fraction = 1;
+		}
 
 		GLib.Timeout.Add (2000, new GLib.TimeoutHandler (app1s_CopyToCloudPulseEnd2));
 	}
 	private bool app1s_CopyToCloudPulseEnd2 ()
 	{
-		//restore the "Copy to cloud", and make button sensitive
-		app1s_button_copyToCloud.Label = copyToCloudButtonLabel;
-		app1s_button_copyToCloud.Sensitive = true;
+		if (preferences.personWinHide)
+		{
+			image_cloud_copy1.Visible = true;
+			spinner_copyToCloud1.Visible = false;
+			app1s_label_copyToCloud1.Text = "";
+		} else {
+			//restore the "Copy to cloud", and make button sensitive
+			app1s_button_copyToCloud.Label = copyToCloudButtonLabel;
+			app1s_button_copyToCloud.Sensitive = true;
 
-		app1s_progressbar_copyToCloud_dirs.Fraction = 0;
-		app1s_progressbar_copyToCloud_subDirs.Fraction = 0;
+			app1s_progressbar_copyToCloud_dirs.Fraction = 0;
+			app1s_progressbar_copyToCloud_subDirs.Fraction = 0;
+		}
 
 		return false;
 	}

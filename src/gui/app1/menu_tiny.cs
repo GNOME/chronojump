@@ -46,6 +46,10 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_menu_preferences1;
 	Gtk.Button button_menu_news1;
 
+	Gtk.Box app1s_box_copyToCloud1;
+	Gtk.Spinner spinner_copyToCloud1;
+	Gtk.Label app1s_label_copyToCloud1;
+	Gtk.Image image_cloud_copy1;
 	Gtk.Image image_cloud_view1;
 	Gtk.Image image_menu_folders1;
 	Gtk.Image image_menu_preferences1;
@@ -197,6 +201,10 @@ public partial class ChronoJumpWindow
 		button_menu_preferences1 = (Gtk.Button) builder.GetObject ("button_menu_preferences1");
 		button_menu_news1 = (Gtk.Button) builder.GetObject ("button_menu_news1");
 
+		app1s_box_copyToCloud1 = (Gtk.Box) builder.GetObject ("app1s_box_copyToCloud1");
+		spinner_copyToCloud1 = (Gtk.Spinner) builder.GetObject ("spinner_copyToCloud1");
+		app1s_label_copyToCloud1 = (Gtk.Label) builder.GetObject ("app1s_label_copyToCloud1");
+		image_cloud_copy1 = (Gtk.Image) builder.GetObject ("image_cloud_copy1");
 		image_cloud_view1 = (Gtk.Image) builder.GetObject ("image_cloud_view1");
 		image_menu_folders1 = (Gtk.Image) builder.GetObject ("image_menu_folders1");
 		image_menu_preferences1 = (Gtk.Image) builder.GetObject ("image_menu_preferences1");

@@ -313,7 +313,10 @@ public partial class ChronoJumpWindow
 		}
 
 		if (configChronojump.CopyToCloudFullPath != "")
+		{
+			app1s_box_copyToCloud1.Visible = true;
 			app1s_alignment_copyToCloud.Visible = true;
+		}
 
 		storedCloudDir = "";
 		if (configChronojump.ReadFromCloudMainPath != "" || configChronojump.CanOpenExternalDB)

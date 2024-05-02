@@ -709,13 +709,9 @@ public partial class ChronoJumpWindow
 
 	private void app1s_copyToCloudDo ()
 	{
-		// 1 delete and create dir
-		if (Directory.Exists (configChronojump.CopyToCloudFullPath))
-			Directory.Delete (configChronojump.CopyToCloudFullPath, true);
+		if (! Directory.Exists (configChronojump.CopyToCloudFullPath))
+			Directory.CreateDirectory (configChronojump.CopyToCloudFullPath);
 
-		System.Threading.Thread.Sleep (100); //to ensure dir is deleted
-
-		Directory.CreateDirectory (configChronojump.CopyToCloudFullPath);
 		System.Threading.Thread.Sleep (1000); //to ensure dir is created
 
 		// 2 do the copy

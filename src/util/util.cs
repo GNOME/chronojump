@@ -3015,7 +3015,7 @@ public class UtilCopy
 						file.Name != "chronojump.db")
 					continue;
 
-				file.CopyTo(Path.Combine(target.FullName, file.Name));
+				file.CopyTo(Path.Combine(target.FullName, file.Name), true);
 			}
 		} catch {
 			LogB.Warning("CopyFilesRecursively catched, maybe disk full");

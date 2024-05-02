@@ -2268,6 +2268,24 @@ public class PreferencesWindow
 		fc.Destroy();
 	}
 
+	private void on_button_cloud_view_databases_clicked (object o, EventArgs args)
+	{
+		List<DirectoryInfo> dir_l = Util.GetCloudViewDatabases (label_cloud_view_path.Text);
+		string str = Catalog.GetString (string.Format ("Not found any database at {0}",
+				label_cloud_view_path.Text));
+		if (dir_l.Count > 0)
+		{
+			str = Catalog.GetString (string.Format ("Databases found at {0}:",
+				label_cloud_view_path.Text));
+
+			str += "\n";
+			foreach (DirectoryInfo dir in dir_l)
+				str += "\n- " + dir.Name;
+		}
+
+		new DialogMessage(Constants.MessageTypes.INFO, 450, 400, str);
+	}
+
 	private void on_button_cloud_schema_zoom_clicked (object o, EventArgs args)
 	{
 		new DialogImageTest (

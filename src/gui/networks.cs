@@ -593,9 +593,7 @@ public partial class ChronoJumpWindow
 	private void cloudReadFromShowFolders ()
 	{
 		cloudReadFolder_l = new List<Gtk.RadioButton> ();
-		List<DirectoryInfo> dir_l = Util.GetDirectoriesWithSubdirAndFile (
-				new DirectoryInfo (configChronojump.ReadFromCloudMainPath),
-				"database", "chronojump.db");
+		List<DirectoryInfo> dir_l = Util.GetCloudViewDatabases (configChronojump.ReadFromCloudMainPath);
 
 		UtilGtk.RemoveChildren (box_database_manage_read);
 

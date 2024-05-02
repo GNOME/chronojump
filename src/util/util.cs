@@ -1067,6 +1067,13 @@ public class Util
 	{
 		return Path.Combine(Path.GetTempPath(), "ChronojumpCloudRead");
 	}
+
+	public static List<DirectoryInfo> GetCloudViewDatabases (string path)
+	{
+		return Util.GetDirectoriesWithSubdirAndFile (
+				new DirectoryInfo (path), "database", "chronojump.db");
+	}
+
 	/*
 	   when exporting a session the 7z filename will be the same than the folder inside
 	   and this is imported correctly on 2.3.0,

@@ -1070,6 +1070,9 @@ public class Util
 
 	public static List<DirectoryInfo> GetCloudViewDatabases (string path)
 	{
+		if (path == "")
+			return new List<DirectoryInfo> ();
+
 		return Util.GetDirectoriesWithSubdirAndFile (
 				new DirectoryInfo (path), "database", "chronojump.db");
 	}

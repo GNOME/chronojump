@@ -323,6 +323,7 @@ public class PreferencesWindow
 	private UtilAll.OperatingSystems operatingSystem;
 	private Preferences preferences; //stored to update SQL if anything changed
 //	private Thread thread;
+	private Config configChronojump;
 
 	//string databaseURL;
 	//string databaseTempURL;
@@ -369,7 +370,7 @@ public class PreferencesWindow
 
 	static public PreferencesWindow Show (
 			Preferences preferences,
-			Constants.Modes menu_mode, bool compujump, bool canReadDBs, string progVersion)
+			Constants.Modes menu_mode, bool compujump, Config configChronojump, string progVersion)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow ();
@@ -377,6 +378,7 @@ public class PreferencesWindow
 
 		PreferencesWindowBox.notebook_top.CurrentPage = Convert.ToInt32(notebook_top_pages.PREFERENCES);
 		PreferencesWindowBox.operatingSystem = UtilAll.GetOSEnum();
+		PreferencesWindowBox.configChronojump = configChronojump;
 
 		if(compujump)
 		{
@@ -2257,9 +2259,14 @@ public class PreferencesWindow
 			if (capture)
 			{
 				label_cloud_capture_path.Text = fc.Filename;
+				configChronojump.UpdateFieldEnsuringDefaultConfigFile (
+						Config.OpEnum.CopyToCloudFullPath.ToString (), fc.Filename);
 			} else {
 				label_cloud_view_path.Text = fc.Filename;
+				configChronojump.UpdateFieldEnsuringDefaultConfigFile (
+						Config.OpEnum.ReadFromCloudMainPath.ToString (), fc.Filename);
 			}
+			restartLabelShow ();
 		}
 
 		fc.Hide ();

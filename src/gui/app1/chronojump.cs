@@ -3797,8 +3797,7 @@ public partial class ChronoJumpWindow
 			m = Constants.Modes.UNDEFINED;
 
 		preferencesWin = PreferencesWindow.Show(preferences, m, configChronojump.Compujump,
-				(configChronojump.ReadFromCloudMainPath != "" || configChronojump.CanOpenExternalDB),
-				progVersion);
+				configChronojump, progVersion);
 
 		preferencesWin.FakeButtonMaximizeChanges.Clicked -= new EventHandler (on_preferences_maximize_changes);
 		preferencesWin.FakeButtonMaximizeChanges.Clicked += new EventHandler (on_preferences_maximize_changes);

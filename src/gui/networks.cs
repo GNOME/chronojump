@@ -509,7 +509,6 @@ public partial class ChronoJumpWindow
 			databaseChangeOrReload ();
 	}
 
-	Gtk.FileChooserNative database_fc;
 	private string storedCloudDir;
 	private string storedDBFilename = ""; //used reload/change database from know where to copy to tmp
 
@@ -529,6 +528,7 @@ public partial class ChronoJumpWindow
 			}
 	}
 
+	//Gtk.FileChooserNative database_fc;
 	/*
 	 * commented as now on cloudRead radio buttons are created.
 	 * TODO: remember to have something working for ExternalDBDefaultPath

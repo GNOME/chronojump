@@ -7778,20 +7778,20 @@ version:</property>
                                     <property name="can-focus">False</property>
                                     <property name="spacing">10</property>
                                     <child>
-                                      <object class="GtkRadioButton" id="radio_cloud_write">
+                                      <object class="GtkRadioButton" id="radio_cloud_capture">
                                         <property name="visible">True</property>
                                         <property name="can-focus">True</property>
                                         <property name="receives-default">False</property>
                                         <property name="draw-indicator">True</property>
                                         <property name="group">radio_cloud_no</property>
-                                        <signal name="toggled" handler="on_radio_cloud_write_toggled" swapped="no"/>
+                                        <signal name="toggled" handler="on_radio_cloud_capture_toggled" swapped="no"/>
                                         <child>
                                           <object class="GtkBox">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
                                             <property name="spacing">4</property>
                                             <child>
-                                              <object class="GtkLabel" id="label_radio_cloud_write">
+                                              <object class="GtkLabel" id="label_radio_cloud_capture">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
                                                 <property name="label" translatable="yes">Cloud-capture</property>
@@ -7874,7 +7874,7 @@ version:</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkLabel" id="label_cloud_write_path">
+                                      <object class="GtkLabel" id="label_cloud_capture_path">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
                                       </object>
@@ -7885,11 +7885,12 @@ version:</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkButton" id="button_cloud_write_path">
+                                      <object class="GtkButton" id="button_cloud_capture_path">
                                         <property name="label" translatable="yes">Change</property>
                                         <property name="visible">True</property>
                                         <property name="can-focus">True</property>
                                         <property name="receives-default">True</property>
+                                        <signal name="clicked" handler="on_button_cloud_capture_path_clicked" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -8005,7 +8006,7 @@ version:</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkLabel" id="label_cloud_read_path">
+                                      <object class="GtkLabel" id="label_cloud_view_path">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
                                       </object>
@@ -8016,11 +8017,12 @@ version:</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkButton" id="button_cloud_read_path">
+                                      <object class="GtkButton" id="button_cloud_view_path">
                                         <property name="label" translatable="yes">Change</property>
                                         <property name="visible">True</property>
                                         <property name="can-focus">True</property>
                                         <property name="receives-default">True</property>
+                                        <signal name="clicked" handler="on_button_cloud_view_path_clicked" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>

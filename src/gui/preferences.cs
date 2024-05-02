@@ -282,11 +282,13 @@ public class PreferencesWindow
 	Gtk.CheckButton check_networks_devices;
 	Gtk.Label label_radio_cloud_no;
 	Gtk.Label label_radio_cloud_no_recommended;
-	Gtk.Label label_radio_cloud_write;
+	Gtk.Label label_radio_cloud_capture;
 	Gtk.Label label_radio_cloud_view;
 	Gtk.Image image_cloud_capture;
 	Gtk.Image image_cloud_view;
 	Gtk.Image image_cloud_schema;
+	Gtk.Label label_cloud_capture_path;
+	Gtk.Label label_cloud_view_path;
 	Gtk.Button button_debug_mode;
 
 	Gtk.RadioButton radio_python_2;
@@ -555,11 +557,11 @@ public class PreferencesWindow
 
 		PreferencesWindowBox.label_radio_cloud_no.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_no.Text + "</b>";
 		PreferencesWindowBox.label_radio_cloud_no_recommended.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_no_recommended.Text + "</b>";
-		PreferencesWindowBox.label_radio_cloud_write.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_write.Text + "</b>";
+		PreferencesWindowBox.label_radio_cloud_capture.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_capture.Text + "</b>";
 		PreferencesWindowBox.label_radio_cloud_view.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_view.Text + "</b>";
 		PreferencesWindowBox.label_radio_cloud_no.UseMarkup = true;
 		PreferencesWindowBox.label_radio_cloud_no_recommended.UseMarkup = true;
-		PreferencesWindowBox.label_radio_cloud_write.UseMarkup = true;
+		PreferencesWindowBox.label_radio_cloud_capture.UseMarkup = true;
 		PreferencesWindowBox.label_radio_cloud_view.UseMarkup = true;
 
 		PreferencesWindowBox.image_cloud_capture.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_upload_blue.png");
@@ -2224,13 +2226,46 @@ public class PreferencesWindow
 	{
 		restartLabelShow ();
 	}
-	private void on_radio_cloud_write_toggled (object o, EventArgs args)
+	private void on_radio_cloud_capture_toggled (object o, EventArgs args)
 	{
 		restartLabelShow ();
 	}
 	private void on_radio_cloud_view_toggled (object o, EventArgs args)
 	{
 		restartLabelShow ();
+	}
+
+	private void on_button_cloud_capture_path_clicked (object o, EventArgs args)
+	{
+		button_cloud_set_path (true);
+	}
+	private void on_button_cloud_view_path_clicked (object o, EventArgs args)
+	{
+		button_cloud_set_path (false);
+	}
+	private void button_cloud_set_path (bool capture) //capture or view
+	{
+		Gtk.FileChooserNative fc = new Gtk.FileChooserNative(Catalog.GetString("Select cloud directory"),
+				preferences_win,
+				FileChooserAction.SelectFolder,
+				Catalog.GetString("Select"),
+				Catalog.GetString("Cancel")
+				);
+
+		if (fc.Run() == (int)ResponseType.Accept)
+		{
+			if (capture)
+			{
+				label_cloud_capture_path.Text = fc.Filename;
+			} else {
+				label_cloud_view_path.Text = fc.Filename;
+			}
+		}
+
+		fc.Hide ();
+
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
+		fc.Destroy();
 	}
 
 	private void on_button_cloud_schema_zoom_clicked (object o, EventArgs args)
@@ -3410,11 +3445,13 @@ public class PreferencesWindow
 		check_networks_devices = (Gtk.CheckButton) builder.GetObject ("check_networks_devices");
 		label_radio_cloud_no = (Gtk.Label) builder.GetObject ("label_radio_cloud_no");
 		label_radio_cloud_no_recommended = (Gtk.Label) builder.GetObject ("label_radio_cloud_no_recommended");
-		label_radio_cloud_write = (Gtk.Label) builder.GetObject ("label_radio_cloud_write");
+		label_radio_cloud_capture = (Gtk.Label) builder.GetObject ("label_radio_cloud_capture");
 		label_radio_cloud_view = (Gtk.Label) builder.GetObject ("label_radio_cloud_view");
 		image_cloud_capture = (Gtk.Image) builder.GetObject ("image_cloud_capture");
 		image_cloud_view = (Gtk.Image) builder.GetObject ("image_cloud_view");
 		image_cloud_schema = (Gtk.Image) builder.GetObject ("image_cloud_schema");
+		label_cloud_capture_path = (Gtk.Label) builder.GetObject ("label_cloud_capture_path");
+		label_cloud_view_path = (Gtk.Label) builder.GetObject ("label_cloud_view_path");
 		button_debug_mode = (Gtk.Button) builder.GetObject ("button_debug_mode");
 
 		radio_python_2 = (Gtk.RadioButton) builder.GetObject ("radio_python_2");

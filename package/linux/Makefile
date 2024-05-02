@@ -20,7 +20,7 @@ install:
 	cp -r ../../win32/deps/FTD2XX_NET_v1.2.0/ deps/FTD2XX_NET_v1.2.0/
 	cp -r ../../win32/deps/library/ deps/library/
 	cp -r ../../win32/deps/modules/ deps/modules/
-	cp ../../images/chronojump_icon.svg deps/chronojump_icon.svg
+	cp ../../images/svg/chronojump_icon.svg deps/chronojump_icon.svg
 
 totar:
 	dotnet publish ../../src/Chronojump-linux.sln -p:BuildTranslations=true --configuration Release -r linux-x64 --self-contained true -o $(APP_DIR)

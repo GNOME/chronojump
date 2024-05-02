@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Chronojump
+GenericName[es]=Sistema de control de saltos
+GenericName=Jump test control system
+Comment=A measurement, management and statistics sport testing tool
+Comment[es]=Herramienta de medidas, gestión y estadísticas de salto deportivo
+Categories= Education;Science;Sports;
+Exec=/usr/local/bin/Chronojump
+Icon=/usr/share/Chronojump/chronojump_icon.svg
+Terminal=false

@@ -280,6 +280,11 @@ public class PreferencesWindow
 	Gtk.Label label_progVersion;
 	Gtk.Frame frame_networks;
 	Gtk.CheckButton check_networks_devices;
+	Gtk.RadioButton radio_cloud_capture;
+	Gtk.RadioButton radio_cloud_view;
+	Gtk.Button button_cloud_capture_path;
+	Gtk.Button button_cloud_view_path;
+	Gtk.Button button_cloud_view_databases;
 	Gtk.Label label_radio_cloud_no;
 	Gtk.Label label_radio_cloud_no_recommended;
 	Gtk.Label label_radio_cloud_capture;
@@ -569,6 +574,7 @@ public class PreferencesWindow
 		PreferencesWindowBox.image_cloud_capture.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_upload_blue.png");
 		PreferencesWindowBox.image_cloud_view.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
 		PreferencesWindowBox.image_cloud_schema.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_schema_small.png");
+		PreferencesWindowBox.buttons_cloud_sensitive ();
 
 		if(preferences.showPower)
 			PreferencesWindowBox.checkbutton_power.Active = true; 
@@ -2226,14 +2232,17 @@ public class PreferencesWindow
 
 	private void on_radio_cloud_no_toggled (object o, EventArgs args)
 	{
+		buttons_cloud_sensitive ();
 		restartLabelShow ();
 	}
 	private void on_radio_cloud_capture_toggled (object o, EventArgs args)
 	{
+		buttons_cloud_sensitive ();
 		restartLabelShow ();
 	}
 	private void on_radio_cloud_view_toggled (object o, EventArgs args)
 	{
+		buttons_cloud_sensitive ();
 		restartLabelShow ();
 	}
 
@@ -2265,7 +2274,10 @@ public class PreferencesWindow
 				label_cloud_view_path.Text = fc.Filename;
 				configChronojump.UpdateFieldEnsuringDefaultConfigFile (
 						Config.OpEnum.ReadFromCloudMainPath.ToString (), fc.Filename);
+
+				button_cloud_view_databases.Sensitive = (fc.Filename != null);
 			}
+			buttons_cloud_sensitive ();
 			restartLabelShow ();
 		}
 
@@ -2273,6 +2285,21 @@ public class PreferencesWindow
 
 		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		fc.Destroy();
+	}
+
+	private void buttons_cloud_sensitive ()
+	{
+		button_cloud_capture_path.Sensitive = false;
+		button_cloud_view_path.Sensitive = false;
+		button_cloud_view_databases.Sensitive = false;
+
+		if (radio_cloud_capture.Active)
+			button_cloud_capture_path.Sensitive = true;
+		else if (radio_cloud_view.Active)
+		{
+			button_cloud_view_path.Sensitive = true;
+			button_cloud_view_databases.Sensitive = (label_cloud_view_path.Text != "");
+		}
 	}
 
 	private void on_button_cloud_view_databases_clicked (object o, EventArgs args)
@@ -3468,6 +3495,11 @@ public class PreferencesWindow
 		label_progVersion = (Gtk.Label) builder.GetObject ("label_progVersion");
 		frame_networks = (Gtk.Frame) builder.GetObject ("frame_networks");
 		check_networks_devices = (Gtk.CheckButton) builder.GetObject ("check_networks_devices");
+		radio_cloud_capture = (Gtk.RadioButton) builder.GetObject ("radio_cloud_capture");
+		radio_cloud_view = (Gtk.RadioButton) builder.GetObject ("radio_cloud_view");
+		button_cloud_capture_path = (Gtk.Button) builder.GetObject ("button_cloud_capture_path");
+		button_cloud_view_path = (Gtk.Button) builder.GetObject ("button_cloud_view_path");
+		button_cloud_view_databases = (Gtk.Button) builder.GetObject ("button_cloud_view_databases");
 		label_radio_cloud_no = (Gtk.Label) builder.GetObject ("label_radio_cloud_no");
 		label_radio_cloud_no_recommended = (Gtk.Label) builder.GetObject ("label_radio_cloud_no_recommended");
 		label_radio_cloud_capture = (Gtk.Label) builder.GetObject ("label_radio_cloud_capture");

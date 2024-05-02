@@ -43,6 +43,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image app1s_image_button_backup_start;
 	Gtk.Image image_db_view;
 	Gtk.Image image_mode_encoder_capture;
+	Gtk.Image image_button_database_close;
 	Gtk.Image image_person;
 	Gtk.Image image_person1;
 	Gtk.Image image_edit_current_person_h;
@@ -203,6 +204,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_capture_adjust;
 	Gtk.Image image_force_sensor_capture_adjust1;
 	Gtk.Image image_force_sensor_capture_adjust_close;
+	Gtk.Image image_force_capture_grid_legend_info;
 	Gtk.Image image_force_sensor_analyze_options;
 	Gtk.Image image_signal_analyze_move_cd_close;
 	Gtk.Image image_force_sensor_analyze_options_close;
@@ -324,10 +326,22 @@ public partial class ChronoJumpWindow
         image_menu_quit.Pixbuf = pixbuf;
 		image_menu_quit1.Pixbuf = pixbuf;
 
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_blue.png");
-		if(Config.ColorBackgroundIsDark)
-			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_yellow.png");
-		image_cloud.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_upload_blue.png");
+		image_cloud_copy.Pixbuf = pixbuf;
+		image_cloud_copy1.Pixbuf = pixbuf;
+
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
+		image_database_manage_blue.Pixbuf = pixbuf;
+		image_contacts_capture_cloud_view_disabled.Pixbuf = pixbuf;
+		image_encoder_capture_cloud_view_disabled.Pixbuf = pixbuf;
+		image_session_new_cloud_view_disabled.Pixbuf = pixbuf;
+		image_person_new_cloud_view_disabled.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_yellow.png");
+		image_database_manage_yellow.Pixbuf = pixbuf;
+
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
+		image_cloud_view.Pixbuf = pixbuf;
+		image_cloud_view1.Pixbuf = pixbuf;
 
         pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_folders.png");//[By Joeries]
         if (Config.ColorBackgroundIsDark)
@@ -338,9 +352,6 @@ public partial class ChronoJumpWindow
 		image_menu_folders2.Pixbuf = pixbuf;
 		image_session_more_window_blue.Pixbuf = pixbuf;
 		image_session_more_window_yellow.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_folders_yellow.png");
-
-		sessions_manage_advanced_image_show.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_down.png");
-		sessions_manage_advanced_image_hide.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_up.png");
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_db_backup.png");
 		image_db_backup.Pixbuf = pixbuf;
@@ -465,6 +476,7 @@ public partial class ChronoJumpWindow
 		image_info_sessions_info.Pixbuf = pixbuf;
 		image_encoder_1RM_info.Pixbuf = pixbuf;
 		image_force_sensor_adjust_help.Pixbuf = pixbuf;
+		image_force_capture_grid_legend_info.Pixbuf = pixbuf;
 
 		//pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_add_test.png");
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_add.png");
@@ -496,6 +508,9 @@ public partial class ChronoJumpWindow
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_recalculate.png");
 		image_recalculate.Pixbuf = pixbuf;
 		image_contacts_recalculate.Pixbuf = pixbuf;
+
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_reload.png"); //same as above but blue
+		image_database_reload.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_build_24.png");
 		image_contacts_repair_selected.Pixbuf = pixbuf;
@@ -566,6 +581,7 @@ public partial class ChronoJumpWindow
 		image_contacts_edit_selected.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
+		image_button_database_close.Pixbuf = pixbuf;
 		image_contacts_exercise_close.Pixbuf = pixbuf;
 		image_race_inspector_close.Pixbuf = pixbuf;
 		image_encoder_exercise_close.Pixbuf = pixbuf;
@@ -1101,6 +1117,7 @@ public partial class ChronoJumpWindow
 		app1s_image_button_backup_start = (Gtk.Image) builder.GetObject ("app1s_image_button_backup_start");
 		image_db_view = (Gtk.Image) builder.GetObject ("image_db_view");
 		image_mode_encoder_capture = (Gtk.Image) builder.GetObject ("image_mode_encoder_capture");
+		image_button_database_close = (Gtk.Image) builder.GetObject ("image_button_database_close");
 		image_person = (Gtk.Image) builder.GetObject ("image_person");
 		image_person1 = (Gtk.Image) builder.GetObject ("image_person1");
 		image_edit_current_person_h = (Gtk.Image) builder.GetObject ("image_edit_current_person_h");
@@ -1262,6 +1279,7 @@ public partial class ChronoJumpWindow
 		image_force_sensor_capture_adjust = (Gtk.Image) builder.GetObject ("image_force_sensor_capture_adjust");
 		image_force_sensor_capture_adjust1 = (Gtk.Image) builder.GetObject ("image_force_sensor_capture_adjust1");
 		image_force_sensor_capture_adjust_close = (Gtk.Image) builder.GetObject ("image_force_sensor_capture_adjust_close");
+		image_force_capture_grid_legend_info = (Gtk.Image) builder.GetObject ("image_force_capture_grid_legend_info");
 		image_force_sensor_analyze_options = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_options");
 		image_signal_analyze_move_cd_close = (Gtk.Image) builder.GetObject ("image_signal_analyze_move_cd_close");
 		image_force_sensor_analyze_options_close = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_options_close");

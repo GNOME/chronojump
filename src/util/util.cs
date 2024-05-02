@@ -286,7 +286,15 @@ public class Util
 			
 		return lastSubEvent; 
 	}
-	
+
+	public static double GetLast (List<double> d_l)
+	{
+		if (d_l.Count == 0)
+			return 0;
+
+		return d_l[d_l.Count -1];
+	}
+
 	public static int GetPosMax (string values)
 	{
 		string [] myStringFull = values.Split(new char[] {'='});
@@ -1059,6 +1067,13 @@ public class Util
 	{
 		return Path.Combine(Path.GetTempPath(), "ChronojumpCloudRead");
 	}
+
+	public static List<DirectoryInfo> GetCloudViewDatabases (string path)
+	{
+		return Util.GetDirectoriesWithSubdirAndFile (
+				new DirectoryInfo (path), "database", "chronojump.db");
+	}
+
 	/*
 	   when exporting a session the 7z filename will be the same than the folder inside
 	   and this is imported correctly on 2.3.0,
@@ -1547,10 +1562,11 @@ public class Util
 	{
 		int sizeInKB = 0;
 
+		LogB.Information ("GetFullDataSize: " + GetLocalDataDir(false));
 		long fullDataSize = DirSizeWithSubdirs (new DirectoryInfo (GetLocalDataDir(false)));
 		sizeInKB = (int) UtilAll.DivideSafe (fullDataSize, 1024);
 
-		if (! includingLogs)
+		if (! includingLogs && Directory.Exists (UtilAll.GetLogsDir (Config.LastDBFullPathStatic)))
 		{
 			long logsSize = DirSizeWithSubdirs (new DirectoryInfo (UtilAll.GetLogsDir (Config.LastDBFullPathStatic)));
 			sizeInKB -= (int) UtilAll.DivideSafe (logsSize, 1024);
@@ -1583,6 +1599,33 @@ public class Util
 			size += DirSizeWithSubdirs (di);
 		}
 		return size;
+	}
+
+	public static List<DirectoryInfo> GetDirectoriesWithSubdirAndFile (DirectoryInfo d, string subdirMatch, string fileMatch)
+	{
+		DirectoryInfo[] dirsAll = d.GetDirectories();
+		List<DirectoryInfo> dirsMatch = new List<DirectoryInfo> ();
+
+		foreach (DirectoryInfo dir1 in dirsAll)
+		{
+			//LogB.Information ("dir1 = " + dir1.Name);
+			foreach (DirectoryInfo dir2 in dir1.GetDirectories())
+			{
+				//LogB.Information ("dir2 = " + dir2.Name);
+				if (dir2.Name != subdirMatch)
+					continue;
+
+				foreach (FileInfo file in dir2.GetFiles())
+				{
+					if (file.Name != fileMatch)
+						continue;
+
+					LogB.Information ("Added:" + dir1.Name);
+					dirsMatch.Add (dir1);
+				}
+			}
+		}
+		return dirsMatch;
 	}
 
 	public static bool FileDelete(string fileName) 

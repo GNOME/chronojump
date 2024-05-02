@@ -284,6 +284,7 @@ public abstract class CairoGraphForceSensor : CairoXY
 public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 {
 	private List<PointF> raw_l;
+	private List<PointF> unfiltered_l;
 	protected List<PointF> points_l; //if butterworth, this will be it
 
 	protected int startAt;
@@ -324,7 +325,8 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font,
-			SignalPointsCairoForceElastic spCairoFE_raw,	//raw (only used if butterworth)
+			SignalPointsCairoForceElastic spCairoFE_raw,
+			SignalPointsCairoForceElastic spCairoFE_unfiltered,	//only used if butterworth
 			SignalPointsCairoForceElastic spCairoFE,	//spCairoFE to plot
 			bool showDistance, bool showSpeed, bool showPower,
 			List<PointF> points_l_interpolated_path, int interpolatedMin, int interpolatedMax,
@@ -337,14 +339,17 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			TriggerList triggerList,
 			bool forceRedraw, PlotTypes plotType)
 	{
-		if (spCairoFE_raw != null)
+		if (spCairoFE_unfiltered != null)
 		{
 			this.points_l = spCairoFE.Force_l;
-			this.raw_l = spCairoFE_raw.Force_l;
+			this.unfiltered_l = spCairoFE_unfiltered.Force_l;
 		} else {
 			this.points_l = spCairoFE.Force_l;
-			this.raw_l = new List <PointF> ();
+			this.unfiltered_l = new List <PointF> ();
 		}
+
+		if (spCairoFE_raw != null)
+			this.raw_l = spCairoFE_raw.Force_l;
 
 		this.capturing = capturing;
 		this.showAccuracy = showAccuracy;
@@ -412,6 +417,17 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			//LogB.Information(string.Format("minY: {0}, maxY: {1}", minY, maxY));
 
 			fixMaximums ();
+
+			//also for unfiltered
+			if (unfiltered_l.Count > 0)
+			{
+				double unfilteredMinY, unfilteredMaxY;
+				PointF.GetMaxMinY (unfiltered_l, out unfilteredMinY, out unfilteredMaxY);
+				if (unfilteredMinY < minY)
+					minY = unfilteredMinY;
+				if (unfilteredMaxY > absoluteMaxY)
+					absoluteMaxY = unfilteredMaxY;
+			}
 
 			// if vertical do have X in the center (at least at start)
 			if (! horizontal)
@@ -560,16 +576,22 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 		if (questionnaire == null && asteroids == null)
 		{
+			//raw
+			g.SetSourceColor (caramel);
+			if (raw_l.Count > 0)
+				plotRealPoints(plotType, raw_l, startAt, false); //fast (but the difference is very low)
+
+			//unfiltered
+			g.SetSourceColor (brown);
+			if (unfiltered_l.Count > 0)
+				plotRealPoints(plotType, unfiltered_l, startAt, false); //fast (but the difference is very low)
+
+			//points_l
 			if (miw.Error == "")
 				paintMaxAvgInWindow (miw.MaxSampleStart, miw.MaxSampleEnd, miw.Max, points_l);
 
 			if (briw.Error == "")
 				briwPlot (points_l);
-
-			g.SetSourceColor (brown);
-
-			if (raw_l.Count > 0)
-				plotRealPoints(plotType, raw_l, startAt, false); //fast (but the difference is very low)
 
 			if(calculatePaintX (xAtMaxY) > leftMargin)
 				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);

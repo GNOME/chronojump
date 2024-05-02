@@ -177,7 +177,16 @@ public class Preferences
 	public double runsIFeedbackSpeedLower; 		//implemented
 
 	//forceSensor
-	public double forceSensorButterworth; //-1 means do not use
+	public double forceSensorIsometricButterworth; //-1 means do not use
+	public double forceSensorElasticButterworth; //-1 means do not use
+	public double forceSensorButterworth (Constants.Modes mode)
+	{
+		if (mode == Constants.Modes.FORCESENSORISOMETRIC)
+			return forceSensorIsometricButterworth;
+		else //if (mode == Constants.Modes.FORCESENSORELASTIC)
+			return forceSensorElasticButterworth;
+	}
+
 	public int forceSensorCaptureWidthSeconds;
 	public bool forceSensorCaptureScroll;
 	public double forceSensorElasticEccMinDispl;
@@ -390,8 +399,23 @@ public class Preferences
 	public Preferences() {
 	}
 	
-	public static Preferences LoadAllFromSqlite() {
-		return SqlitePreferences.SelectAll();
+	public static Preferences LoadAllFromSqlite()
+	{
+		return SqlitePreferences.SelectAll ();
+	}
+
+	public static Preferences LoadAllFromSqliteCloudRead (string databaseCloudRead)
+	{
+		//Sqlite.DisConnect ();
+		//Sqlite.SetHome ();
+		bool ok = true;
+		Preferences p = SqlitePreferences.SelectAllFromCloud (databaseCloudRead, out ok);
+
+		//if there is any problem with cloud database, return the preferences from default database
+		if (ok)
+			return p;
+		else
+			return LoadAllFromSqlite();
 	}
 	
 	public int EncoderCaptureMinHeight(bool inertial) {

@@ -29,11 +29,9 @@ using Gtk;
 public partial class ChronoJumpWindow
 {
 	Gtk.Alignment alignment_menu_tiny;
-	Gtk.Arrow arrow_menu_show_session_left1;
-	Gtk.Arrow arrow_menu_show_session_right1;
 	Gtk.VBox vbox_menu_tiny;
 	Gtk.VBox vbox_menu_tiny_menu; //really the menu (without the logos at the bottom)
-	Gtk.EventBox eventbox_button_menu_database;
+	//Gtk.EventBox eventbox_button_menu_database;
 	Gtk.EventBox eventbox_check_menu_session1;
 	Gtk.EventBox eventbox_button_menu_preferences1;
 	Gtk.EventBox eventbox_button_menu_help1;
@@ -43,10 +41,16 @@ public partial class ChronoJumpWindow
 	Gtk.EventBox eventbox_button_encoder_person_change;
 	Gtk.EventBox eventbox_button_networks_contacts_guest;
 	Gtk.EventBox eventbox_button_networks_encoder_guest;
+	Gtk.CheckButton check_menu_database1;
 	Gtk.CheckButton check_menu_session1;
 	Gtk.Button button_menu_preferences1;
 	Gtk.Button button_menu_news1;
 
+	Gtk.Box app1s_box_copyToCloud1;
+	Gtk.Spinner spinner_copyToCloud1;
+	Gtk.Label app1s_label_copyToCloud1;
+	Gtk.Image image_cloud_copy1;
+	Gtk.Image image_cloud_view1;
 	Gtk.Image image_menu_folders1;
 	Gtk.Image image_menu_preferences1;
 	Gtk.Image image_menu_help1;
@@ -173,8 +177,6 @@ public partial class ChronoJumpWindow
 
 	private void on_check_menu_session1_clicked (object o, EventArgs args)
 	{
-		menuShowHorizontalArrow (check_menu_session1.Active, arrow_menu_show_session_left1, arrow_menu_show_session_right1);
-
 		if(check_menu_session1.Active)
 			on_session_manage_clicked (o, args);
 	}
@@ -182,11 +184,9 @@ public partial class ChronoJumpWindow
 	private void connectWidgetsMenuTiny (Gtk.Builder builder)
 	{
 		alignment_menu_tiny = (Gtk.Alignment) builder.GetObject ("alignment_menu_tiny");
-		arrow_menu_show_session_left1 = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_left1");
-		arrow_menu_show_session_right1 = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_right");
 		vbox_menu_tiny = (Gtk.VBox) builder.GetObject ("vbox_menu_tiny");
 		vbox_menu_tiny_menu = (Gtk.VBox) builder.GetObject ("vbox_menu_tiny_menu"); //really the menu (without the logos at the bottom)
-		eventbox_button_menu_database = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_database");
+		//eventbox_button_menu_database = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_database");
 		eventbox_check_menu_session1 = (Gtk.EventBox) builder.GetObject ("eventbox_check_menu_session1");
 		eventbox_button_menu_preferences1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_preferences1");
 		eventbox_button_menu_help1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_help1");
@@ -196,10 +196,16 @@ public partial class ChronoJumpWindow
 		eventbox_button_encoder_person_change = (Gtk.EventBox) builder.GetObject ("eventbox_button_encoder_person_change");
 		eventbox_button_networks_contacts_guest = (Gtk.EventBox) builder.GetObject ("eventbox_button_networks_contacts_guest");
 		eventbox_button_networks_encoder_guest = (Gtk.EventBox) builder.GetObject ("eventbox_button_networks_encoder_guest");
+		check_menu_database1 = (Gtk.CheckButton) builder.GetObject ("check_menu_database1");
 		check_menu_session1 = (Gtk.CheckButton) builder.GetObject ("check_menu_session1");
 		button_menu_preferences1 = (Gtk.Button) builder.GetObject ("button_menu_preferences1");
 		button_menu_news1 = (Gtk.Button) builder.GetObject ("button_menu_news1");
 
+		app1s_box_copyToCloud1 = (Gtk.Box) builder.GetObject ("app1s_box_copyToCloud1");
+		spinner_copyToCloud1 = (Gtk.Spinner) builder.GetObject ("spinner_copyToCloud1");
+		app1s_label_copyToCloud1 = (Gtk.Label) builder.GetObject ("app1s_label_copyToCloud1");
+		image_cloud_copy1 = (Gtk.Image) builder.GetObject ("image_cloud_copy1");
+		image_cloud_view1 = (Gtk.Image) builder.GetObject ("image_cloud_view1");
 		image_menu_folders1 = (Gtk.Image) builder.GetObject ("image_menu_folders1");
 		image_menu_preferences1 = (Gtk.Image) builder.GetObject ("image_menu_preferences1");
 		image_menu_help1 = (Gtk.Image) builder.GetObject ("image_menu_help1");

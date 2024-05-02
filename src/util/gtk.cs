@@ -37,6 +37,13 @@ public class UtilGtk
 		return (System.Threading.Thread.CurrentThread.ManagedThreadId.ToString() == "1");
 	}
 
+	// to debug
+	// eg call with: UtilGtk. WidgetIsSensitive (alignment_session_persons, "alignment_session_persons", "0");
+	public static void WidgetIsSensitive (Gtk.Widget w, string wName, string whereInCode)
+	{
+		LogB.Information (string.Format ("Widget {0} is sensitive? {1} at {2}", wName, w.Sensitive, whereInCode));
+	}
+
 	/*
 	 *
 	 * COMBO
@@ -585,7 +592,7 @@ public class UtilGtk
 	public static Gdk.Color BLUE_CHRONOJUMP = new Gdk.Color(14,30,70); //so dark, can be used only for background (is the 0e1e46)
 	
 	//used on encoder capture
-	public static Gdk.Color RED_DARK = new Gdk.Color(140,0,0);
+	public static Gdk.Color RED_DARK = new Gdk.Color(140,0,0); //#8c0000
 	public static Gdk.Color RED_LIGHT = new Gdk.Color(238,0,0);
 	public static Gdk.Color GREEN_DARK = new Gdk.Color(0,140,0);
 	public static Gdk.Color GREEN_LIGHT = new Gdk.Color(0,238,0);
@@ -802,6 +809,13 @@ public class UtilGtk
 			"button:checked {" +
 				"background: " + GetRGBAs (Colors.YELLOW_LIGHT) + ";" + //TODO: try a YELLOW_MID
 			"}" +
+			"button:insensitive {" +
+			    "background: #cccccc;" +
+			    "background-color: #cccccc;" +
+			"}" +
+			"button:insensitive label {" +
+			    "color: #666666;" +
+			"}" +
 
 			//ANY WIDGET
 			//any widget bgCss
@@ -815,6 +829,10 @@ public class UtilGtk
 			//any widget whiteBgCss
 			"*#whiteBgCss {" +
 				"background: #ffffff;" +
+			"}" +
+			"*#alertCss {" +
+				"background-color: #8c0000;" +
+				//"color: #8c0000;" +
 			"}" +
 
 			//VIEWPORT
@@ -838,6 +856,12 @@ public class UtilGtk
 			"}" +
 
 			//SEPARATOR
+			"separator#caramelCss {" +
+				//"background-image: none;" +
+				"background: #cf7d00;" +
+				"border-width: 1px;" +
+				"border: #ffffff;" +
+			"}" +
 			"separator#brownCss {" +
 				//"background-image: none;" +
 				"background: #964b00;" +
@@ -1106,6 +1130,7 @@ public class UtilGtk
 				(w.GetType() == typeof(Gtk.RadioButton) && ((Gtk.RadioButton) w).DrawIndicator) || //same as above
 				w.GetType() == typeof(Gtk.ScrolledWindow) ||
 				w.GetType() == typeof(Gtk.Viewport) ||
+				w.GetType() == typeof(Gtk.ButtonBox) ||
 				w.GetType() == typeof(Gtk.VButtonBox) ||
 				w.GetType() == typeof(Gtk.HButtonBox) ||
 				w.GetType() == typeof(Gtk.Alignment) ||

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -127,9 +127,8 @@ public partial class ChronoJumpWindow
 	Config configChronojump;
 	bool maximizeWindowAtStartDone = false;
 
-	private void configInitRead()
+	private void configInitDoAtBoot ()
 	{
-		configChronojump.Read ();
 		LogB.Information("readed config: " + configChronojump.PrintDefined ());
 
 		if(configChronojump.CompujumpStationMode != Constants.Modes.UNDEFINED)
@@ -314,16 +313,54 @@ public partial class ChronoJumpWindow
 		}
 
 		if (configChronojump.CopyToCloudFullPath != "")
+		{
+			app1s_box_copyToCloud1.Visible = true;
 			app1s_alignment_copyToCloud.Visible = true;
+		}
+
+		//Cloud-view should not be able to capture, create new person, create new session
+		//as everything is on tmp and will be deleted
+		if (configChronojump.ReadFromCloudMainPath != "")
+		{
+			//contacts
+			box_contacts_capture_cloud_view_disabled.Visible = true;
+			button_contacts_detect.Visible = false;
+			hbox_contacts_detect_and_execute.Visible = false;
+
+			//encoder
+			box_encoder_capture_cloud_view_disabled.Visible = true;
+			button_encoder_detect.Visible = false;
+			hbox_encoder_detect_and_execute.Visible = false;
+
+			//session new
+			box_session_new_cloud_view_disabled.Visible = true;
+			button_session_new.Visible = false;
+
+			//person new
+			box_person_new_cloud_view_disabled.Visible = true;
+			button_person_add_single.Visible = false;
+			button_person_add_multiple.Visible = false;
+		} else {
+			//contacts
+			box_contacts_capture_cloud_view_disabled.Visible = false;
+
+			//encoder
+			box_encoder_capture_cloud_view_disabled.Visible = false;
+
+			//session new
+			box_session_new_cloud_view_disabled.Visible = false;
+
+			//person new
+			box_person_new_cloud_view_disabled.Visible = false;
+		}
 
 		storedCloudDir = "";
 		if (configChronojump.ReadFromCloudMainPath != "" || configChronojump.CanOpenExternalDB)
 		{
-			box_above_frame_database.Visible = true;
-			frame_database.Visible = true;
-			button_menu_database.Visible = true;
+			box_menu_database.Visible = true;
+			check_menu_database1.Visible = true;
 			box_copy_from_cloud_progressbars.Visible = (configChronojump.ReadFromCloudMainPath != "");
-			image_cloud.Visible = (configChronojump.ReadFromCloudMainPath != "");
+			image_cloud_view.Visible = (configChronojump.ReadFromCloudMainPath != "");
 
 			// if directory on LastDBFullPath does not exists, update field
 			if (configChronojump.LastDBFullPath != "" && ! Util.DirectoryExists (configChronojump.LastDBFullPath))
@@ -337,6 +374,7 @@ public partial class ChronoJumpWindow
 			{
 				if (configChronojump.ReadFromCloudMainPath != "")
 				{
+					storedDBFilename = configChronojump.LastDBFullPath;
 					databaseCloudCopyToTemp (true); //at boot
 					return; //following code is not going to be executed, will be called when copying thread is finished
 				}
@@ -346,6 +384,10 @@ public partial class ChronoJumpWindow
 					storedCloudDir = configChronojump.LastDBFullPath;
 					databaseChange ();
 				}
+			} else {
+				label_current_database.Text = "(default database)";
+				label_current_database1.Text = "(default database)";
+				button_database_reload.Sensitive = false;
 			}
 		}
 
@@ -452,15 +494,45 @@ public partial class ChronoJumpWindow
 			databaseDirName = storedCloudDir;
 
 		label_current_database.Text = "<b>" + Util.GetLastPartOfPath (databaseDirName) + "</b>";
-
+		label_current_database1.Text = "<b>" + Util.GetLastPartOfPath (databaseDirName) + "</b>";
 		label_current_database.UseMarkup = true;
-		label_current_database.TooltipText = configChronojump.LastDBFullPath;
+		label_current_database1.UseMarkup = true;
+		label_current_database.TooltipText = Util.GetLastPartOfPath (databaseDirName);
+		label_current_database1.TooltipText = Util.GetLastPartOfPath (databaseDirName);
 
 		fillAllCombos ();
 	}
 
+	private void on_button_database_reload_clicked (object o, EventArgs args)
+	{
+		if (storedDBFilename != "")
+			databaseChangeOrReload ();
+	}
+
 	Gtk.FileChooserNative database_fc;
 	private string storedCloudDir;
+	private string storedDBFilename = ""; //used reload/change database from know where to copy to tmp
+
+	private void on_button_database_change_select_clicked (object o, EventArgs args)
+	{
+		cloudReadFromShowFolders ();
+		button_database_change_apply.Visible = true;
+		button_database_change_apply.Sensitive = false;
+	}
+
+	private void on_button_database_change_apply_clicked (object o, EventArgs args)
+	{
+		foreach (Gtk.RadioButton r in cloudReadFolder_l)
+			if (r.Active) {
+				storedDBFilename = Path.Combine (configChronojump.ReadFromCloudMainPath, r.Label);
+				databaseChangeOrReload ();
+			}
+	}
+
+	/*
+	 * commented as now on cloudRead radio buttons are created.
+	 * TODO: remember to have something working for ExternalDBDefaultPath
+	 *
 	private void on_button_database_change_clicked (object o, EventArgs args)
 	{
 		database_fc = new Gtk.FileChooserNative("Select folder:",
@@ -476,41 +548,88 @@ public partial class ChronoJumpWindow
 
 		if (database_fc.Run() == (int)ResponseType.Accept)
 		{
-			// 1) check that there is a database/chronojump.db inside
-			if ( ! File.Exists( System.IO.Path.Combine (database_fc.Filename, "database", "chronojump.db")) )
-			{
-				new DialogMessage (Constants.MessageTypes.WARNING,
-						"Error: Need to select a folder that has a \"database\" folder inside an a \"chronojump.db\" file inside.");
-			} else {
-				// 2) update config file (taking care of being default config file)
-				configChronojump.UpdateFieldEnsuringDefaultConfigFile ("LastDBFullPath", database_fc.Filename);
-
-				// 3) reassign configChronojump.LastDBFullPath
-				configChronojump.LastDBFullPath = database_fc.Filename;
-				storedCloudDir = "";
-
-				// 4) if on cloud, copy to tmp, LastDBFullPath will be at temp (needed for Chronojump)
-				if (configChronojump.ReadFromCloudMainPath != "")
-				{
-					storedCloudDir = database_fc.Filename;
-					databaseCloudCopyToTemp (false); //not at boot
-
-					database_fc.Hide ();
-					//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
-					database_fc.Destroy();
-
-					return; //followin code is not going to be executed, will be called when copying thread is finished
-				}
-
-				// 5) change database
-				databaseChange ();
-			}
+			storedDBFilename = database_fc.Filename;
+			databaseChangeOrReload ();
 		}
 
 		database_fc.Hide ();
 
 		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		database_fc.Destroy();
+	}
+	*/
+
+	private void databaseChangeOrReload ()
+	{
+		// 1) check that there is a database/chronojump.db inside
+		if ( ! File.Exists( System.IO.Path.Combine (storedDBFilename, "database", "chronojump.db")) )
+		{
+			new DialogMessage (Constants.MessageTypes.WARNING,
+					"Error: Need to select a folder that has a \"database\" folder inside an a \"chronojump.db\" file inside.");
+		} else {
+			// 2) update config file (taking care of being default config file)
+			configChronojump.UpdateFieldEnsuringDefaultConfigFile ("LastDBFullPath", storedDBFilename);
+
+			// 3) reassign configChronojump.LastDBFullPath
+			configChronojump.LastDBFullPath = storedDBFilename;
+			storedCloudDir = "";
+			treeview_persons_storeReset();
+
+			// 4) if on cloud, copy to tmp, LastDBFullPath will be at temp (needed for Chronojump)
+			if (configChronojump.ReadFromCloudMainPath != "")
+			{
+				storedCloudDir = storedDBFilename;
+				databaseCloudCopyToTemp (false); //not at boot
+
+				return; //following code is not going to be executed, will be called when copying thread is finished
+			}
+
+			// 5) change database
+			databaseChange ();
+		}
+	}
+
+	List<Gtk.RadioButton> cloudReadFolder_l;
+	private void cloudReadFromShowFolders ()
+	{
+		cloudReadFolder_l = new List<Gtk.RadioButton> ();
+		List<DirectoryInfo> dir_l = Util.GetCloudViewDatabases (configChronojump.ReadFromCloudMainPath);
+
+		UtilGtk.RemoveChildren (box_database_manage_read);
+
+		bool first = true; //used to assign the rest of the radios to the group of the 1st
+		Gtk.RadioButton r = null;
+
+		foreach (DirectoryInfo di in dir_l)
+		{
+			if (first) {
+				r = new Gtk.RadioButton (di.Name);
+				first = false;
+			} else
+				r = new Gtk.RadioButton (r, di.Name);
+
+			if (di.Name == Util.GetLastPartOfPath (storedDBFilename))
+				r.Active = true;
+
+			r.Clicked -= new EventHandler (on_cloud_view_radio_clicked); //needed. if not: called multiple times
+			r.Clicked += new EventHandler (on_cloud_view_radio_clicked);
+
+			box_database_manage_read.PackStart (r, false, false, 0);
+			cloudReadFolder_l.Add (r);
+		}
+		box_database_manage_read.ShowAll ();
+
+		if(! Config.UseSystemColor)
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_database_manage_read);
+	}
+
+	private void on_cloud_view_radio_clicked (object o, EventArgs args)
+	{
+		if (! ((Gtk.RadioButton) o).Active)
+			return;
+
+		button_database_change_apply.Sensitive =
+			(((Gtk.RadioButton) o).Label != Util.GetLastPartOfPath (storedDBFilename));
 	}
 
 	private void on_button_networks_guest_clicked (object sender, EventArgs e)
@@ -600,9 +719,6 @@ public partial class ChronoJumpWindow
 	private void configInitFromPreferences()
 	{
 		LogB.Information ("at configInitFromPreferences, configChronojump null? " + (configChronojump == null).ToString ());
-		if(configChronojump == null)
-			configChronojump = new Config();
-
 		configChronojump.Maximized = preferences.maximized;
 		configChronojump.PersonWinHide = preferences.personWinHide;
 		configChronojump.EncoderCaptureShowOnlyBars = preferences.encoderCaptureShowOnlyBars;
@@ -683,6 +799,7 @@ public partial class ChronoJumpWindow
 			button_session_new.Visible = false;
 			button_session_load.Visible = false;
 			check_menu_session.Visible = false;
+			check_menu_session1.Visible = false;
 
 			if(configChronojump.SessionMode == Config.SessionModeEnum.UNIQUE)
 			{

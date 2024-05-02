@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -29,6 +29,7 @@ using Mono.Unix;
 
 public class PersonSelectWindow 
 {
+	// at glade ---->
 	Gtk.Window person_select_window;
 	Gtk.Notebook notebook;
 	Gtk.Viewport viewport1;
@@ -61,6 +62,12 @@ public class PersonSelectWindow
 	Gtk.ScrolledWindow scrolled_main;
 	Gtk.Frame frame_manage_persons;
 	Gtk.Frame frame_delete_person_confirm;
+
+	Gtk.Button button_person_add_single;
+	Gtk.Button button_person_add_multiple;
+	Gtk.Box box_person_new_cloud_view_disabled;
+	Gtk.Image image_person_new_cloud_view_disabled;
+	// <---- at glade
 
 	static PersonSelectWindow PersonSelectWindowBox;
 	
@@ -173,9 +180,11 @@ public class PersonSelectWindow
 		image_manage_persons_cancel.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
 		image_close.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
+		image_person_new_cloud_view_disabled.Pixbuf = pixbuf;
 	}
 	
-	static public PersonSelectWindow Show (Gtk.Window parent, ArrayList persons, Person currentPerson, RGBA colorBackground, bool raspberry, bool lowHeight, bool showImages)
+	static public PersonSelectWindow Show (Gtk.Window parent, ArrayList persons, Person currentPerson, RGBA colorBackground, bool raspberry, bool lowHeight, bool showImages, bool cloudView)
 	{
 		if (PersonSelectWindowBox == null) {
 			PersonSelectWindowBox = new PersonSelectWindow (parent, raspberry, lowHeight);
@@ -199,6 +208,9 @@ public class PersonSelectWindow
 			PersonSelectWindowBox.columns = 2;
 		}
 
+		PersonSelectWindowBox.button_person_add_single.Visible = ! cloudView;
+		PersonSelectWindowBox.button_person_add_multiple.Visible = ! cloudView;
+		PersonSelectWindowBox.box_person_new_cloud_view_disabled.Visible = cloudView;
 
 		/*
 		 * this fixes not being updated ppb viewport and label when starting with images
@@ -552,6 +564,10 @@ public class PersonSelectWindow
 		scrolled_main = (Gtk.ScrolledWindow) builder.GetObject ("scrolled_main");
 		frame_manage_persons = (Gtk.Frame) builder.GetObject ("frame_manage_persons");
 		frame_delete_person_confirm = (Gtk.Frame) builder.GetObject ("frame_delete_person_confirm");
+		button_person_add_single = (Gtk.Button) builder.GetObject ("button_person_add_single");
+		button_person_add_multiple = (Gtk.Button) builder.GetObject ("button_person_add_multiple");
+		box_person_new_cloud_view_disabled = (Gtk.Box) builder.GetObject ("box_person_new_cloud_view_disabled");
+		image_person_new_cloud_view_disabled = (Gtk.Image) builder.GetObject ("image_person_new_cloud_view_disabled");
 	}
 }
 

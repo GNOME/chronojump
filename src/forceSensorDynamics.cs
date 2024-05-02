@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2019-2020   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2019-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -449,18 +449,22 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 	List<double> accel_l;
 	List<double> power_l;
 	private bool zoomed;
+	private double butterworthFreq;
+	private bool debug;
 
 	public ForceSensorDynamicsElastic (List<int> time_micros_l, List<double> force_l, 
 			ForceSensor.CaptureOptions fsco, ForceSensorExercise fse,
 			double personMass, double stiffness,
 			double eccMinDisplacement, double conMinDisplacement,
-			bool zoomed)
+			bool zoomed, double butterworthFreq, bool debug)
 	{
 		RemoveNValues = 10;
 		initialize(true, time_micros_l, force_l, fsco, fse, personMass, stiffness, eccMinDisplacement, conMinDisplacement);
 		convertTimeToSeconds(time_micros_l);
 		removeFirstValue();
 		this.zoomed = zoomed;
+		this.butterworthFreq = butterworthFreq;
+		this.debug = debug;
 
 		if(! fse.ForceResultant)
 		{
@@ -505,6 +509,10 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		accel_l = new List<double>();
 		power_l = new List<double>();
 
+		LogB.Information ("force_l length: " + force_l.Count ());
+		if (force_l.Count () <= RemoveNValues *2)
+			return;
+
 		calculePositions();
 		calculeSpeeds();
 		calculeAccels();
@@ -514,11 +522,12 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 	}
 
 	//TODO: now not need to change because it works, but for future code use: UtileMath.MovingAverage
-	private int smoothFactor = 5; //use odd (impar) values like 5, 7, 9
+	//private int smoothFactor = 5; //use odd (impar) values like 5, 7, 9
 	/*
 	 * A smothFactor == 5, this will use 5 values: 2 previous, current value, 2 post.
 	 * the calculated average is assigned to the current
 	 */
+	/* disabled, using Butterworth
 	private List<double> smoothVariable(List<double> original_l)
 	{
 		List<double> smoothed_l = new List<double>();
@@ -535,18 +544,35 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 
 		return smoothed_l;
 	}
+	*/
 
-		
 	private void calculePositions()
 	{
-		for (int i = 0 ; i < force_l.Count; i ++)
-			position_not_smoothed_l.Add(force_l[i] / stiffness);
+		LogB.Information ("calculePositions");
+		Butterworth bw = new Butterworth (butterworthFreq);
 
-		position_l = smoothVariable(position_not_smoothed_l);
+		for (int i = 0 ; i < force_l.Count; i ++)
+		{
+			position_not_smoothed_l.Add(force_l[i] / stiffness);
+			position_l.Add(force_l[i] / stiffness);
+
+			if (butterworthFreq > 0)
+				bw.AddSample (time_micros_l[i], force_l[i] / stiffness);
+		}
+
+		//position_l = smoothVariable(position_not_smoothed_l);
+		if (butterworthFreq > 0)
+		{
+			bw.Calculate ();
+			position_l = bw.Y_l;
+		}
 	}
 
 	private void calculeSpeeds()
 	{
+		LogB.Information ("calculeSpeeds");
+		Butterworth bw = new Butterworth (butterworthFreq);
+
 		for (int i = 0 ; i < time_l.Count; i ++)
 		{
 			int pre = i - 1;
@@ -558,14 +584,26 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 				post = i;
 
 			speed_l.Add( (position_l[post] - position_l[pre]) / (time_l[post] - time_l[pre]) );
+
+			if (butterworthFreq > 0)
+				bw.AddSample (time_micros_l[i], speed_l[i]);
 		}
 
-		speed_l = smoothVariable(speed_l);
+		//speed_l = smoothVariable(speed_l);
+		if (butterworthFreq > 0)
+		{
+			bw.Calculate ();
+			speed_l = bw.Y_l;
+		}
 	}
 
 	private void calculeAccels()
 	{
-		int window = 10;
+		LogB.Information ("calculeAccels");
+		//int window = 10;
+		int window = 1;
+		Butterworth bw = new Butterworth (butterworthFreq);
+
 		for (int i = 0 ; i < speed_l.Count; i ++)
 		{
 			int pre = i - window;
@@ -576,18 +614,38 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 			else if(post >= speed_l.Count -1)
 				post = speed_l.Count -1;
 
+			/*
+			//debug
+			LogB.Information (string.Format ("calculeAccels: i: {0}, accel: {1:0.###}, " +
+						"pre: {2}, post: {3}, " +
+						"speed_l[post]: {4:0.###}, speed_l[pre]: {5:0.###}, " +
+						"time_l[post]: {6:0.###}, time_l[pre]: {7:0.###}",
+						i, UtilAll.DivideSafe(speed_l[post] - speed_l[pre], time_l[post] - time_l[pre]),
+						pre, post, speed_l[post], speed_l[pre], time_l[post], time_l[pre]
+						));
+			*/
+
 			accel_l.Add( UtilAll.DivideSafe(speed_l[post] - speed_l[pre], time_l[post] - time_l[pre]) );
+			if (butterworthFreq > 0)
+				bw.AddSample (time_micros_l[i], accel_l[i]);
                 }
-		accel_l = smoothVariable(accel_l);
+		//accel_l = smoothVariable(accel_l);
+		if (butterworthFreq > 0)
+		{
+			bw.Calculate ();
+			accel_l = bw.Y_l;
+		}
 	}
 
 	//forces are updated, so do not Add to the list
 	private void calculeForces()
 	{
-		LogB.Information("elastic calculeForces: " + fsco.ToString());
+		if (debug)
+			LogB.Information("elastic calculeForces: " + fsco.ToString());
 		for (int i = 0 ; i < force_l.Count; i ++)
 		{
-			LogB.Information(string.Format("i pre: {0}, force_l[i]: {1}, accel_l[i]: {2}", i, force_l[i], accel_l[i]));
+			if (debug)
+				LogB.Information(string.Format("i pre: {0}, force_l[i]: {1}, speed_l[i]: {2}, accel_l[i]: {3}", i, force_l[i], speed_l[i], accel_l[i]));
 			//LogB.Information(string.Format("i: {0}, force_l[i]: {1}, force_l.Count: {2}", i, force_l[i], force_l.Count));
 			/*
 			double force = Math.Sqrt(
@@ -598,13 +656,15 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 
 			double force = force_l[i]  +  totalMass*(accel_l[i] + 9.81 * Math.Sin(fse.AngleDefault * Math.PI / 180.0));
 
-			LogB.Information(string.Format("post force (but before applying captureoptions): {0}", force));
+			if (debug)
+				LogB.Information(string.Format("post force (but before applying captureoptions): {0}", force));
 
 			//force_l[i] = calculeForceWithCaptureOptions(force); //
 			//2.2.1 this is applied now at constructor
 			force_l[i] = force;
 
-			LogB.Information(string.Format("post force (after applying captureoptions): {0}", force_l[i]));
+			if (debug)
+				LogB.Information(string.Format("post force (after applying captureoptions): {0}\n", force_l[i]));
 		}
 	}
 	
@@ -672,7 +732,10 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 			return l;
 		} else {
 			LogB.Information(string.Format("removeN: {0}, l.Count: {1}", RemoveNValues, l.Count));
-			return l.GetRange(RemoveNValues +1, l.Count - 2*RemoveNValues);
+			if (l.Count > 2 * RemoveNValues)
+				return l.GetRange (RemoveNValues +1, l.Count - 2*RemoveNValues);
+			else
+				return l;
 		}
 	}
 

@@ -144,7 +144,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.48";
+	static string lastChronojumpDatabaseVersion = "2.49";
 
 	public Sqlite()
 	{
@@ -3365,9 +3365,15 @@ class Sqlite
 			}
 			if(currentVersion == "2.47")
 			{
-				LogB.SQL("Inserted into preferences forceSensorButterworth");
-				SqlitePreferences.Insert (SqlitePreferences.ForceSensorButterworth, "15");
+				LogB.SQL("Inserted into preferences forceSensorButterworth (isometric)");
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorIsometricButterworth, "15");
 				currentVersion = updateVersion("2.48");
+			}
+			if(currentVersion == "2.48")
+			{
+				LogB.SQL("Inserted into preferences forceSensorElasticButterworth");
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorElasticButterworth, "3");
+				currentVersion = updateVersion("2.49");
 			}
 
 			/*
@@ -3590,7 +3596,8 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
-		//2.47 - 2.48 Converted DB to 2.48 Inserted into preferences forceSensorButterworth
+		//2.48 - 2.49 Converted DB to 2.49 Inserted into preferences forceSensorElasticButterworth
+		//2.47 - 2.48 Converted DB to 2.48 Inserted into preferences forceSensorButterworth (isometric)
 		//2.46 - 2.47 Converted DB to 2.47 Added RFDs 5-10
 		//2.45 - 2.46 Converted DB to 2.46 Added two missing RunsI feedback variables: RunsIFeedbackShowBestSpeed, RunsIFeedbackShowWorstSpeed
 		//2.44 - 2.45 Converted DB to 2.45 Added JumpsRj, RunsI feedback variables

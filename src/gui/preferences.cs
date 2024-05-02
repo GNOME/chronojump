@@ -73,7 +73,6 @@ public class PreferencesWindow
 	Gtk.Label label_recommended_undecorated;
 	Gtk.RadioButton radio_font_courier;
 	Gtk.RadioButton radio_font_helvetica;
-	Gtk.Label label_radio_font_needs_restart;
 	Gtk.CheckButton check_rest_time;
 	Gtk.Image image_rest;
 	Gtk.HBox hbox_rest_time_values;
@@ -182,9 +181,12 @@ public class PreferencesWindow
 	Gtk.RadioButton radio_encoder_1RM_weighted3;
 
 	//forceSensor tab
-	Gtk.CheckButton check_force_sensor_butterworth;
-	Gtk.Box box_force_sensor_butterworth_values;
-	Gtk.SpinButton spin_force_sensor_butterworth;
+	Gtk.CheckButton check_force_sensor_isometric_butterworth;
+	Gtk.CheckButton check_force_sensor_elastic_butterworth;
+	Gtk.Box box_force_sensor_isometric_butterworth_values;
+	Gtk.Box box_force_sensor_elastic_butterworth_values;
+	Gtk.SpinButton spin_force_sensor_isometric_butterworth;
+	Gtk.SpinButton spin_force_sensor_elastic_butterworth;
 	Gtk.Notebook notebook_force_sensor;
 	Gtk.SpinButton spin_force_sensor_capture_width_graph_seconds;
 	Gtk.RadioButton radio_force_sensor_capture_zoom_out;
@@ -262,9 +264,9 @@ public class PreferencesWindow
 	Gtk.RadioButton radio_language_force;
 	Gtk.RadioButton radio_graphs_translate;
 	Gtk.RadioButton radio_graphs_no_translate;
-	Gtk.VBox vbox_need_restart;
 		
 	//advanced tab
+	Gtk.Notebook notebook_advanced;
 	Gtk.CheckButton checkbutton_ask_deletion;
 	Gtk.Box box_combo_decimals;
 	Gtk.CheckButton checkbutton_mute_logs;
@@ -278,11 +280,22 @@ public class PreferencesWindow
 	Gtk.Label label_progVersion;
 	Gtk.Frame frame_networks;
 	Gtk.CheckButton check_networks_devices;
+	Gtk.Label label_radio_cloud_no;
+	Gtk.Label label_radio_cloud_no_recommended;
+	Gtk.Label label_radio_cloud_capture;
+	Gtk.Label label_radio_cloud_view;
+	Gtk.Image image_cloud_capture;
+	Gtk.Image image_cloud_view;
+	Gtk.Image image_cloud_schema;
+	Gtk.Label label_cloud_capture_path;
+	Gtk.Label label_cloud_view_path;
 	Gtk.Button button_debug_mode;
 
 	Gtk.RadioButton radio_python_2;
 	Gtk.RadioButton radio_python_3;
 
+	Gtk.Label label_restart;
+	Gtk.HBox hbox_buttoms_bottom;
 	Gtk.Button button_close;
 	Gtk.Image image_button_close;
 	// <---- at glade
@@ -356,7 +369,7 @@ public class PreferencesWindow
 
 	static public PreferencesWindow Show (
 			Preferences preferences,
-			Constants.Modes menu_mode, bool compujump, string progVersion)
+			Constants.Modes menu_mode, bool compujump, bool canReadDBs, string progVersion)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow ();
@@ -459,10 +472,12 @@ public class PreferencesWindow
 		else
 			PreferencesWindowBox.check_mode_autoload_at_start.Active = false;
 
+		PreferencesWindowBox.signalsNoFollow = true;
 		if(preferences.fontType == Preferences.FontTypes.Courier)
 			PreferencesWindowBox.radio_font_courier.Active = true;
 		else
 			PreferencesWindowBox.radio_font_helvetica.Active = true;
+		PreferencesWindowBox.signalsNoFollow = false;
 
 		PreferencesWindowBox.check_rest_time.Active = (preferences.restTimeMinutes >= 0);
 		PreferencesWindowBox.on_check_rest_time_toggled (new object (), new EventArgs ());
@@ -536,7 +551,22 @@ public class PreferencesWindow
 		PreferencesWindowBox.hbox_camera_stop_after_seconds.Visible = (preferences.videoStopAfter > 0);
 		PreferencesWindowBox.check_camera_stop_after.Active = (preferences.videoStopAfter > 0);
 
+		//advanced tab
+
 		PreferencesWindowBox.createComboDecimals ();
+
+		PreferencesWindowBox.label_radio_cloud_no.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_no.Text + "</b>";
+		PreferencesWindowBox.label_radio_cloud_no_recommended.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_no_recommended.Text + "</b>";
+		PreferencesWindowBox.label_radio_cloud_capture.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_capture.Text + "</b>";
+		PreferencesWindowBox.label_radio_cloud_view.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_view.Text + "</b>";
+		PreferencesWindowBox.label_radio_cloud_no.UseMarkup = true;
+		PreferencesWindowBox.label_radio_cloud_no_recommended.UseMarkup = true;
+		PreferencesWindowBox.label_radio_cloud_capture.UseMarkup = true;
+		PreferencesWindowBox.label_radio_cloud_view.UseMarkup = true;
+
+		PreferencesWindowBox.image_cloud_capture.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_upload_blue.png");
+		PreferencesWindowBox.image_cloud_view.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
+		PreferencesWindowBox.image_cloud_schema.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_schema_small.png");
 
 		if(preferences.showPower)
 			PreferencesWindowBox.checkbutton_power.Active = true; 
@@ -768,13 +798,24 @@ public class PreferencesWindow
 		//forceSensor -->
 		PreferencesWindowBox.signalsNoFollow = true;
 
-		PreferencesWindowBox.check_force_sensor_butterworth.Active = preferences.forceSensorButterworth >= 0;
-		PreferencesWindowBox.box_force_sensor_butterworth_values.Sensitive = preferences.forceSensorButterworth >= 0;
-		if (preferences.forceSensorButterworth < 0)
-			PreferencesWindowBox.spin_force_sensor_butterworth.Value = 15;
+		//	butterworth isometric
+		PreferencesWindowBox.check_force_sensor_isometric_butterworth.Active = preferences.forceSensorIsometricButterworth >= 0;
+		PreferencesWindowBox.box_force_sensor_isometric_butterworth_values.Sensitive = preferences.forceSensorIsometricButterworth >= 0;
+		if (preferences.forceSensorIsometricButterworth < 0)
+			PreferencesWindowBox.spin_force_sensor_isometric_butterworth.Value = 15;
 		else
-			PreferencesWindowBox.spin_force_sensor_butterworth.Value = preferences.forceSensorButterworth;
+			PreferencesWindowBox.spin_force_sensor_isometric_butterworth.Value = preferences.forceSensorIsometricButterworth;
+
+		//	butterworth elastic
+		PreferencesWindowBox.check_force_sensor_elastic_butterworth.Active = preferences.forceSensorElasticButterworth >= 0;
+		PreferencesWindowBox.box_force_sensor_elastic_butterworth_values.Sensitive = preferences.forceSensorElasticButterworth >= 0;
+		if (preferences.forceSensorElasticButterworth < 0)
+			PreferencesWindowBox.spin_force_sensor_elastic_butterworth.Value = 3;
+		else
+			PreferencesWindowBox.spin_force_sensor_elastic_butterworth.Value = preferences.forceSensorElasticButterworth;
+
 		PreferencesWindowBox.signalsNoFollow = false;
+
 
 		PreferencesWindowBox.spin_force_sensor_capture_width_graph_seconds.Value = preferences.forceSensorCaptureWidthSeconds;
 
@@ -818,6 +859,7 @@ public class PreferencesWindow
 		PreferencesWindowBox.update_run_encoder_gui_pps_equivalence_and_max ();
 
 		//language -->
+		PreferencesWindowBox.signalsNoFollow = true;
 		if(preferences.language == "")
 			PreferencesWindowBox.radio_language_detected.Active = true;
 		else
@@ -827,10 +869,8 @@ public class PreferencesWindow
 			PreferencesWindowBox.radio_graphs_translate.Active = true;
 		else
 			PreferencesWindowBox.radio_graphs_no_translate.Active = true;
-			
-		//allow signal to be called
-		PreferencesWindowBox.hbox_language_signalOn = true;
-		
+		PreferencesWindowBox.signalsNoFollow = false;
+
 		if(preferences.useHeightsOnJumpIndexes)
 			PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active = true;
 		else
@@ -1625,39 +1665,76 @@ public class PreferencesWindow
 
 	/* callbacks SQL change at any change for tab: forceSensor */
 
-	private void on_check_force_sensor_butterworth_clicked (object o, EventArgs args)
+	//butterworth - isometric mode
+	private void on_check_force_sensor_isometric_butterworth_clicked (object o, EventArgs args)
 	{
 		if (signalsNoFollow)
 			return;
 
 		// A) changes on preferences gui
-		box_force_sensor_butterworth_values.Sensitive = check_force_sensor_butterworth.Active;
+		box_force_sensor_isometric_butterworth_values.Sensitive = check_force_sensor_isometric_butterworth.Active;
 
 		// B) changes on preferences object and SqlitePreferences
-		changeForceSensorButterworthOnPreferencesAndDB ();
+		changeForceSensorIsometricButterworthOnPreferencesAndDB ();
 	}
-	private void changeForceSensorButterworthOnPreferencesAndDB ()
+	private void changeForceSensorIsometricButterworthOnPreferencesAndDB ()
 	{
-		if(! PreferencesWindowBox.check_force_sensor_butterworth.Active)
+		if(! PreferencesWindowBox.check_force_sensor_isometric_butterworth.Active)
 		{
-			SqlitePreferences.Update(SqlitePreferences.ForceSensorButterworth, "-1", false);
-			preferences.forceSensorButterworth = -1;
+			SqlitePreferences.Update(SqlitePreferences.ForceSensorIsometricButterworth, "-1", false);
+			preferences.forceSensorIsometricButterworth = -1;
 		} else
-			on_spin_force_sensor_butterworth_value_changed (new object (), new EventArgs ());
+			on_spin_force_sensor_isometric_butterworth_value_changed (new object (), new EventArgs ());
 	}
 
-	private void on_spin_force_sensor_butterworth_value_changed (object o, EventArgs args)
+	private void on_spin_force_sensor_isometric_butterworth_value_changed (object o, EventArgs args)
 	{
 		if (signalsNoFollow)
 			return;
 
 		// B) changes on preferences object and SqlitePreferences
-		preferences.forceSensorButterworth = Preferences.PreferencesChange(
+		preferences.forceSensorIsometricButterworth = Preferences.PreferencesChange(
 				false,
-				SqlitePreferences.ForceSensorButterworth,
-				preferences.forceSensorButterworth,
-				Convert.ToDouble(spin_force_sensor_butterworth.Value));
+				SqlitePreferences.ForceSensorIsometricButterworth,
+				preferences.forceSensorIsometricButterworth,
+				Convert.ToDouble(spin_force_sensor_isometric_butterworth.Value));
 	}
+
+	//butterworth - elastic mode
+	private void on_check_force_sensor_elastic_butterworth_clicked (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		// A) changes on preferences gui
+		box_force_sensor_elastic_butterworth_values.Sensitive = check_force_sensor_elastic_butterworth.Active;
+
+		// B) changes on preferences object and SqlitePreferences
+		changeForceSensorElasticButterworthOnPreferencesAndDB ();
+	}
+	private void changeForceSensorElasticButterworthOnPreferencesAndDB ()
+	{
+		if(! PreferencesWindowBox.check_force_sensor_elastic_butterworth.Active)
+		{
+			SqlitePreferences.Update(SqlitePreferences.ForceSensorElasticButterworth, "-1", false);
+			preferences.forceSensorElasticButterworth = -1;
+		} else
+			on_spin_force_sensor_elastic_butterworth_value_changed (new object (), new EventArgs ());
+	}
+
+	private void on_spin_force_sensor_elastic_butterworth_value_changed (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		// B) changes on preferences object and SqlitePreferences
+		preferences.forceSensorElasticButterworth = Preferences.PreferencesChange(
+				false,
+				SqlitePreferences.ForceSensorElasticButterworth,
+				preferences.forceSensorElasticButterworth,
+				Convert.ToDouble(spin_force_sensor_elastic_butterworth.Value));
+	}
+
 
 	private void on_spin_force_sensor_capture_width_graph_seconds_value_changed (object o, EventArgs args)
 	{
@@ -1985,13 +2062,27 @@ public class PreferencesWindow
 
 	/* callbacks SQL change at any change for tab: language */
 
+	private void restartLabelShow ()
+	{
+		hbox_buttons_bottom.Visible = false;
+		label_restart.Visible = true;
+		GLib.Timeout.Add(1500, new GLib.TimeoutHandler (restartLabelHide));
+	}
+	private bool restartLabelHide ()
+	{
+		hbox_buttons_bottom.Visible = true;
+		label_restart.Visible = false;
+
+		return false; //do not call this again
+	}
+
 	private void on_radio_language_toggled (object obj, EventArgs args)
 	{
 		// A) changes on preferences gui
 		hbox_combo_language.Sensitive = radio_language_force.Active;
 
-		if(hbox_language_signalOn)
-			vbox_need_restart.Visible = true;
+		if(! signalsNoFollow)
+			restartLabelShow ();
 
 		// B) changes on preferences object and SqlitePreferences
 		changeLanguageOnPreferencesAndDB ();
@@ -1999,8 +2090,8 @@ public class PreferencesWindow
 	private	void combo_language_changed (object obj, EventArgs args)
 	{
 		// A) changes on preferences gui
-		if(hbox_language_signalOn)
-			vbox_need_restart.Visible = true;
+		if(! signalsNoFollow)
+			restartLabelShow ();
 
 		// B) changes on preferences object and SqlitePreferences
 		changeLanguageOnPreferencesAndDB ();
@@ -2044,8 +2135,8 @@ public class PreferencesWindow
 	private void on_radio_translate_toggled (object obj, EventArgs args)
 	{
 		// A) changes on preferences gui
-		if(hbox_language_signalOn)
-			vbox_need_restart.Visible = true;
+		if(! signalsNoFollow)
+			restartLabelShow ();
 
 		// B) changes on preferences object and SqlitePreferences
 		if (preferences.RGraphsTranslate != PreferencesWindowBox.radio_graphs_translate.Active) {
@@ -2097,16 +2188,22 @@ public class PreferencesWindow
 
 	private void on_radio_font_courier_toggled (object o, EventArgs args)
 	{
+		if (signalsNoFollow)
+			return;
+
 		// A) changes on preferences gui
-		label_radio_font_needs_restart.Visible = true;
+		restartLabelShow ();
 
 		// B) changes on preferences object and SqlitePreferences
 		changeFontOnPreferencesAndDB ();
 	}
 	private void on_radio_font_helvetica_toggled (object o, EventArgs args)
 	{
+		if (signalsNoFollow)
+			return;
+
 		// A) changes on preferences gui
-		label_radio_font_needs_restart.Visible = true;
+		restartLabelShow ();
 
 		// B) changes on preferences object and SqlitePreferences
 		changeFontOnPreferencesAndDB ();
@@ -2123,6 +2220,80 @@ public class PreferencesWindow
 			SqlitePreferences.Update (SqlitePreferences.FontsOnGraphs, Preferences.FontTypes.Courier.ToString(), false);
 			preferences.fontType = Preferences.FontTypes.Courier;
 		}
+	}
+
+	private void on_radio_cloud_no_toggled (object o, EventArgs args)
+	{
+		restartLabelShow ();
+	}
+	private void on_radio_cloud_capture_toggled (object o, EventArgs args)
+	{
+		restartLabelShow ();
+	}
+	private void on_radio_cloud_view_toggled (object o, EventArgs args)
+	{
+		restartLabelShow ();
+	}
+
+	private void on_button_cloud_capture_path_clicked (object o, EventArgs args)
+	{
+		button_cloud_set_path (true);
+	}
+	private void on_button_cloud_view_path_clicked (object o, EventArgs args)
+	{
+		button_cloud_set_path (false);
+	}
+	private void button_cloud_set_path (bool capture) //capture or view
+	{
+		Gtk.FileChooserNative fc = new Gtk.FileChooserNative(Catalog.GetString("Select cloud directory"),
+				preferences_win,
+				FileChooserAction.SelectFolder,
+				Catalog.GetString("Select"),
+				Catalog.GetString("Cancel")
+				);
+
+		if (fc.Run() == (int)ResponseType.Accept)
+		{
+			if (capture)
+			{
+				label_cloud_capture_path.Text = fc.Filename;
+			} else {
+				label_cloud_view_path.Text = fc.Filename;
+			}
+		}
+
+		fc.Hide ();
+
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
+		fc.Destroy();
+	}
+
+	private void on_button_cloud_view_databases_clicked (object o, EventArgs args)
+	{
+		List<DirectoryInfo> dir_l = Util.GetCloudViewDatabases (label_cloud_view_path.Text);
+		string str = Catalog.GetString (string.Format ("Not found any database at {0}",
+				label_cloud_view_path.Text));
+		if (dir_l.Count > 0)
+		{
+			str = Catalog.GetString (string.Format ("Databases found at {0}:",
+				label_cloud_view_path.Text));
+
+			str += "\n";
+			foreach (DirectoryInfo dir in dir_l)
+				str += "\n- " + dir.Name;
+		}
+
+		new DialogMessage(Constants.MessageTypes.INFO, 450, 400, str);
+	}
+
+	private void on_button_cloud_schema_zoom_clicked (object o, EventArgs args)
+	{
+		new DialogImageTest (
+				Catalog.GetString("Chronojump cloud schema"),
+				Util.GetImagePath(false) + "cloud_schema.png",
+				DialogImageTest.ArchiveType.ASSEMBLY,
+				"", 600, 306
+				);
 	}
 
 	private void on_checkbutton_mute_logs_clicked (object o, EventArgs args)
@@ -2248,6 +2419,12 @@ public class PreferencesWindow
 		//notebook_multimedia
 		notebook_multimedia.Name = "shiftedCss";
 		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_multimedia);
+
+		//notebook_advanced
+		notebook_advanced.Name = "shiftedCss";
+		UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_advanced);
+
+		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_restart);
 
 		//send signal to ApplyCSS
 		FakeButtonColorsChanged.Click ();
@@ -2735,7 +2912,6 @@ public class PreferencesWindow
 
 	//from Longomatch ;)
 	//(C) Andoni Morales Alastruey
-	bool hbox_language_signalOn = false;
 	void fillLanguages () {
 		int index = 0, active = 0;
 
@@ -3078,7 +3254,6 @@ public class PreferencesWindow
 		label_recommended_undecorated = (Gtk.Label) builder.GetObject ("label_recommended_undecorated");
 		radio_font_courier = (Gtk.RadioButton) builder.GetObject ("radio_font_courier");
 		radio_font_helvetica = (Gtk.RadioButton) builder.GetObject ("radio_font_helvetica");
-		label_radio_font_needs_restart = (Gtk.Label) builder.GetObject ("label_radio_font_needs_restart");
 		check_rest_time = (Gtk.CheckButton) builder.GetObject ("check_rest_time");
 		image_rest = (Gtk.Image) builder.GetObject ("image_rest");
 		hbox_rest_time_values = (Gtk.HBox) builder.GetObject ("hbox_rest_time_values");
@@ -3187,9 +3362,12 @@ public class PreferencesWindow
 		radio_encoder_1RM_weighted3 = (Gtk.RadioButton) builder.GetObject ("radio_encoder_1RM_weighted3");
 
 		//forceSensor tab
-		check_force_sensor_butterworth = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_butterworth");
-		box_force_sensor_butterworth_values = (Gtk.Box) builder.GetObject ("box_force_sensor_butterworth_values");
-		spin_force_sensor_butterworth = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_butterworth");
+		check_force_sensor_isometric_butterworth = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_isometric_butterworth");
+		box_force_sensor_isometric_butterworth_values = (Gtk.Box) builder.GetObject ("box_force_sensor_isometric_butterworth_values");
+		spin_force_sensor_isometric_butterworth = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_isometric_butterworth");
+		check_force_sensor_elastic_butterworth = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_elastic_butterworth");
+		box_force_sensor_elastic_butterworth_values = (Gtk.Box) builder.GetObject ("box_force_sensor_elastic_butterworth_values");
+		spin_force_sensor_elastic_butterworth = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_elastic_butterworth");
 		notebook_force_sensor = (Gtk.Notebook) builder.GetObject ("notebook_force_sensor");
 		spin_force_sensor_capture_width_graph_seconds = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_width_graph_seconds");
 		radio_force_sensor_capture_zoom_out = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_zoom_out");
@@ -3267,9 +3445,9 @@ public class PreferencesWindow
 		radio_language_force = (Gtk.RadioButton) builder.GetObject ("radio_language_force");
 		radio_graphs_translate = (Gtk.RadioButton) builder.GetObject ("radio_graphs_translate");
 		radio_graphs_no_translate = (Gtk.RadioButton) builder.GetObject ("radio_graphs_no_translate");
-		vbox_need_restart = (Gtk.VBox) builder.GetObject ("vbox_need_restart");
 
 		//advanced tab
+		notebook_advanced = (Gtk.Notebook) builder.GetObject ("notebook_advanced");
 		checkbutton_ask_deletion = (Gtk.CheckButton) builder.GetObject ("checkbutton_ask_deletion");
 		box_combo_decimals = (Gtk.Box) builder.GetObject ("box_combo_decimals");
 		checkbutton_mute_logs = (Gtk.CheckButton) builder.GetObject ("checkbutton_mute_logs");
@@ -3283,11 +3461,22 @@ public class PreferencesWindow
 		label_progVersion = (Gtk.Label) builder.GetObject ("label_progVersion");
 		frame_networks = (Gtk.Frame) builder.GetObject ("frame_networks");
 		check_networks_devices = (Gtk.CheckButton) builder.GetObject ("check_networks_devices");
+		label_radio_cloud_no = (Gtk.Label) builder.GetObject ("label_radio_cloud_no");
+		label_radio_cloud_no_recommended = (Gtk.Label) builder.GetObject ("label_radio_cloud_no_recommended");
+		label_radio_cloud_capture = (Gtk.Label) builder.GetObject ("label_radio_cloud_capture");
+		label_radio_cloud_view = (Gtk.Label) builder.GetObject ("label_radio_cloud_view");
+		image_cloud_capture = (Gtk.Image) builder.GetObject ("image_cloud_capture");
+		image_cloud_view = (Gtk.Image) builder.GetObject ("image_cloud_view");
+		image_cloud_schema = (Gtk.Image) builder.GetObject ("image_cloud_schema");
+		label_cloud_capture_path = (Gtk.Label) builder.GetObject ("label_cloud_capture_path");
+		label_cloud_view_path = (Gtk.Label) builder.GetObject ("label_cloud_view_path");
 		button_debug_mode = (Gtk.Button) builder.GetObject ("button_debug_mode");
 
 		radio_python_2 = (Gtk.RadioButton) builder.GetObject ("radio_python_2");
 		radio_python_3 = (Gtk.RadioButton) builder.GetObject ("radio_python_3");
 
+		label_restart = (Gtk.Label) builder.GetObject ("label_restart");
+		hbox_buttoms_bottom = (Gtk.HBox) builder.GetObject ("hbox_buttoms_bottom");
 		button_close = (Gtk.Button) builder.GetObject ("button_close");
 		image_button_close = (Gtk.Image) builder.GetObject ("image_button_close");
 		combo_decimals = (Gtk.ComboBoxText) builder.GetObject ("combo_decimals");

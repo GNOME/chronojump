@@ -49,5 +49,5 @@ todeb:
 	mkdir -p deb/usr/share/applications
 	cp Chronojump.desktop deb/usr/share/applications/Chronojump.desktop
 	dotnet publish ../../src/Chronojump-linux.sln -p:BuildTranslations=true --configuration Release -r linux-x64 --self-contained true -o deb/usr/share/Chronojump
-	sh ../../src/post-build-linux.sh deb/usr/share/Chronojump
+	sh ../../src/post-build-linux.sh $(PACKAGE_DIR)/deb/usr/share/Chronojump
 	dpkg -b deb $(PACKAGE_NAME).deb

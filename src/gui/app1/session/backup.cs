@@ -652,7 +652,6 @@ public partial class ChronoJumpWindow
 	 * Works like backup but overwriting and not compressing (and with fewer widgets)
 	 * -----------------------------------------------------------------------------
 	 */
-	private string copyToCloudButtonLabel = "";
 	private bool exitChronojumpAfterCopyToCloud;
 	private bool exitChronojumpAfterCopyToCloudStarted; //to avoid doing it again if person double click on delete event
 
@@ -674,7 +673,6 @@ public partial class ChronoJumpWindow
 	private void copyToCloud_start ()
 	{
 		LogB.Information ("Copy to Cloud, Going to copy to: " + configChronojump.CopyToCloudFullPath);
-		copyToCloudButtonLabel = app1s_button_copyToCloud.Label;
 
 		try {
 			app1s_uc = new UtilCopy (-1, false, false, false); //all sessions, no logs, no config, no other DBs
@@ -686,7 +684,8 @@ public partial class ChronoJumpWindow
 				spinner_copyToCloud1.Start ();
 				app1s_label_copyToCloud1.Text = "";
 			} else {
-				app1s_button_copyToCloud.Label = "Copying …";
+				//image_cloud_copy.Visible = false;
+				label_cloud_copy.Text = "Copying …";
 				app1s_button_copyToCloud.Sensitive = false;
 				app1s_progressbar_copyToCloud_dirs.Fraction = 0;
 				app1s_progressbar_copyToCloud_subDirs.Fraction = 0;
@@ -745,9 +744,9 @@ public partial class ChronoJumpWindow
 		} else
 		{
 			if (exitChronojumpAfterCopyToCloud)
-				app1s_button_copyToCloud.Label = "Copying & exit …";
+				label_cloud_copy.Text = "Copying & exit …";
 			else
-				app1s_button_copyToCloud.Label = "Copying …";
+				label_cloud_copy.Text = "Copying …";
 
 			app1s_progressbar_copyToCloud_dirs.Fraction = UtilAll.DivideSafeFraction (app1s_uc.BackupMainDirsCount, 6);
 			app1s_progressbar_copyToCloud_subDirs.Fraction =
@@ -765,7 +764,7 @@ public partial class ChronoJumpWindow
 			spinner_copyToCloud1.Stop ();
 			app1s_label_copyToCloud1.Text = "100%";
 		} else {
-			app1s_button_copyToCloud.Label = "Done!";
+			label_cloud_copy.Text = "Done!";
 			app1s_progressbar_copyToCloud_dirs.Fraction = 1;
 			app1s_progressbar_copyToCloud_subDirs.Fraction = 1;
 		}
@@ -781,7 +780,8 @@ public partial class ChronoJumpWindow
 			app1s_label_copyToCloud1.Text = "";
 		} else {
 			//restore the "Copy to cloud", and make button sensitive
-			app1s_button_copyToCloud.Label = copyToCloudButtonLabel;
+			//image_cloud_copy.Visible = true;
+			label_cloud_copy.Text = "Copy to cloud";
 			app1s_button_copyToCloud.Sensitive = true;
 
 			app1s_progressbar_copyToCloud_dirs.Fraction = 0;

@@ -2683,6 +2683,7 @@ LogB.Information(" fs R ");
 
 		//initialize
 		forceSensorValues = new ForceSensorValues();
+		spCairoFE_Raw = new SignalPointsCairoForceElastic ();
 
 		//to display on capture tab, or use it if no filter is being used
 		List<int> timesUnfiltered_l = new List<int>();

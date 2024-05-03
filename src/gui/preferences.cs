@@ -2338,10 +2338,17 @@ public class PreferencesWindow
 		{
 			if (capture)
 			{
-				label_cloud_capture_path.Text = fc.Filename;
-				configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
-						Config.OpEnum.CopyToCloudFullPath.ToString (), fc.Filename);
-			} else {
+				if (fc.Filename == UtilAll.GetDefaultLocalDataDir (false) ||
+						fc.Filename == UtilAll.GetDefaultLocalDataDir (true))
+				{
+					new DialogMessage (Constants.MessageTypes.WARNING,
+							Catalog.GetString ("Error. This path is not valid."));
+				} else {
+					label_cloud_capture_path.Text = fc.Filename;
+					configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
+							Config.OpEnum.CopyToCloudFullPath.ToString (), fc.Filename);
+				}
+			} else { 	//view
 				label_cloud_view_path.Text = fc.Filename;
 				configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
 						Config.OpEnum.ReadFromCloudMainPath.ToString (), fc.Filename);

@@ -431,7 +431,6 @@ public class PreferencesWindow
 
 		PWBox.preferences = preferences;
 
-		PWBox.createComboLanguage();
 		Pixbuf pixbuf;
 
 
@@ -509,98 +508,7 @@ public class PreferencesWindow
 			PWBox.spinbutton_rest_seconds.Value = 0;
 		}
 
-		//multimedia tab
-		if(preferences.volumeOn) {
-			PWBox.checkbutton_volume.Active = true; 
-			PWBox.alignment_multimedia_sounds.Visible = true;
-		} else {
-			PWBox.checkbutton_volume.Active = false; 
-			PWBox.alignment_multimedia_sounds.Visible = false;
-		}
 
-		//hide video for compujump
-		if(compujump)
-			PWBox.notebook_multimedia.GetNthPage(1).Hide();
-
-		PWBox.label_camera_error.Visible = false;
-
-		PWBox.label_webcam_windows.Visible =
-			(PWBox.operatingSystem == UtilAll.OperatingSystems.WINDOWS);
-
-		PWBox.hbox_not_recommended_when_not_on_windows.Visible =
-			! (PWBox.operatingSystem == UtilAll.OperatingSystems.WINDOWS);
-
-		if(PWBox.operatingSystem == UtilAll.OperatingSystems.WINDOWS ||
-				PWBox.operatingSystem == UtilAll.OperatingSystems.MACOSX)
-		{
-			if(preferences.gstreamer == Preferences.GstreamerTypes.FFPLAY)
-				PWBox.radio_ffplay.Active = true;
-			else //(preferences.gstreamer == Preferences.GstreamerTypes.SYSTEMSOUNDS)
-				PWBox.radio_sound_systemsounds.Active = true;
-
-			PWBox.radio_gstreamer_0_1.Visible = false;
-			PWBox.radio_gstreamer_1_0.Visible = false;
-		}
-		else //LINUX
-		{
-			if(preferences.gstreamer == Preferences.GstreamerTypes.GST_0_1)
-				PWBox.radio_gstreamer_0_1.Active = true;
-			else if(preferences.gstreamer == Preferences.GstreamerTypes.GST_1_0)
-				PWBox.radio_gstreamer_1_0.Active = true;
-			else if(preferences.gstreamer == Preferences.GstreamerTypes.FFPLAY)
-				PWBox.radio_ffplay.Active = true;
-			else //(preferences.gstreamer == Preferences.GstreamerTypes.SYSTEMSOUNDS)
-				PWBox.radio_sound_systemsounds.Active = true;
-		}
-
-		PWBox.label_test_sound_result.Text = "";
-
-		PWBox.notebook_multimedia_video.CurrentPage = 0; //show only check_devices button
-
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "audio.png");
-		PWBox.image_multimedia_audio.Pixbuf = pixbuf;
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "videocamera_on.png");
-		PWBox.image_multimedia_video.Pixbuf = pixbuf;
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_photo_preview.png");
-		PWBox.image_video_preview.Pixbuf = pixbuf;
-
-		PWBox.spin_camera_stop_after.Value = preferences.videoStopAfter;
-		//PWBox.vbox_camera_stop_after.Visible = (preferences.videoStopAfter > 0);
-		PWBox.hbox_camera_stop_after_seconds.Visible = (preferences.videoStopAfter > 0);
-		PWBox.check_camera_stop_after.Active = (preferences.videoStopAfter > 0);
-
-		//advanced tab
-
-		PWBox.createComboDecimals ();
-
-		PWBox.label_radio_cloud_no.Text = "<b>" + PWBox.label_radio_cloud_no.Text + "</b>";
-		PWBox.label_radio_cloud_no_recommended.Text = "<b>" + PWBox.label_radio_cloud_no_recommended.Text + "</b>";
-		PWBox.label_radio_cloud_capture.Text = "<b>" + PWBox.label_radio_cloud_capture.Text + "</b>";
-		PWBox.label_radio_cloud_view.Text = "<b>" + PWBox.label_radio_cloud_view.Text + "</b>";
-		PWBox.label_radio_cloud_no.UseMarkup = true;
-		PWBox.label_radio_cloud_no_recommended.UseMarkup = true;
-		PWBox.label_radio_cloud_capture.UseMarkup = true;
-		PWBox.label_radio_cloud_view.UseMarkup = true;
-
-		PWBox.image_cloud_capture.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_upload_blue.png");
-		PWBox.image_cloud_view.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
-		PWBox.image_cloud_schema.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_schema_small.png");
-
-		//cloud radios
-		PWBox.signalsNoFollow = true;
-		if (PWBox.configAtPrefs.CopyToCloudFullPath !=  "")
-		{
-			PWBox.radio_cloud_capture.Active = true;
-			PWBox.label_cloud_capture_path.Text = PWBox.configAtPrefs.CopyToCloudFullPath;
-		} else if (PWBox.configAtPrefs.ReadFromCloudMainPath !=  "")
-		{
-			PWBox.radio_cloud_view.Active = true;
-			PWBox.label_cloud_view_path.Text = PWBox.configAtPrefs.ReadFromCloudMainPath;
-		} else
-			PWBox.radio_cloud_no.Active = true;
-		PWBox.signalsNoFollow = false;
-
-		PWBox.buttons_cloud_sensitive ();
 
 		if(preferences.showPower)
 			PWBox.checkbutton_power.Active = true; 
@@ -647,18 +555,6 @@ public class PreferencesWindow
 			PWBox.radio_jumps_dj_heights.Active = true;
 		else
 			PWBox.radio_jumps_dj_times.Active = true;
-
-		if(preferences.askDeletion)
-			PWBox.checkbutton_ask_deletion.Active = true; 
-		else 
-			PWBox.checkbutton_ask_deletion.Active = false; 
-
-		if(preferences.muteLogs)
-			PWBox.checkbutton_mute_logs.Active = true;
-		else
-			PWBox.checkbutton_mute_logs.Active = false;
-
-		PWBox.button_debug_mode.Sensitive = ! preferences.debugMode;
 
 		if(preferences.weightStatsPercent)  
 			PWBox.radio_weight_percent.Active = true; 
@@ -892,19 +788,6 @@ public class PreferencesWindow
 		PWBox.spin_run_encoder_pps.Value = preferences.runEncoderPPS;
 		PWBox.update_run_encoder_gui_pps_equivalence_and_max ();
 
-		//language -->
-		PWBox.signalsNoFollow = true;
-		if(preferences.language == "")
-			PWBox.radio_language_detected.Active = true;
-		else
-			PWBox.radio_language_force.Active = true;
-
-		if(preferences.RGraphsTranslate)
-			PWBox.radio_graphs_translate.Active = true;
-		else
-			PWBox.radio_graphs_no_translate.Active = true;
-		PWBox.signalsNoFollow = false;
-
 		if(preferences.useHeightsOnJumpIndexes)
 			PWBox.radio_use_heights_on_jump_indexes.Active = true;
 		else
@@ -951,8 +834,142 @@ public class PreferencesWindow
 		//help
 		PWBox.image_help_close.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
 
+		showTabMultimedia (preferences, compujump);
+		showTabLanguage (preferences);
+		showTabAdvanced (preferences);
+
 		PWBox.preferences_win.Show ();
 		return PWBox;
+	}
+
+	private static void showTabMultimedia (Preferences preferences, bool compujump)
+	{
+		if(preferences.volumeOn) {
+			PWBox.checkbutton_volume.Active = true;
+			PWBox.alignment_multimedia_sounds.Visible = true;
+		} else {
+			PWBox.checkbutton_volume.Active = false;
+			PWBox.alignment_multimedia_sounds.Visible = false;
+		}
+
+		//hide video for compujump
+		if(compujump)
+			PWBox.notebook_multimedia.GetNthPage(1).Hide();
+
+		PWBox.label_camera_error.Visible = false;
+
+		PWBox.label_webcam_windows.Visible =
+			(PWBox.operatingSystem == UtilAll.OperatingSystems.WINDOWS);
+
+		PWBox.hbox_not_recommended_when_not_on_windows.Visible =
+			! (PWBox.operatingSystem == UtilAll.OperatingSystems.WINDOWS);
+
+		if(PWBox.operatingSystem == UtilAll.OperatingSystems.WINDOWS ||
+				PWBox.operatingSystem == UtilAll.OperatingSystems.MACOSX)
+		{
+			if(preferences.gstreamer == Preferences.GstreamerTypes.FFPLAY)
+				PWBox.radio_ffplay.Active = true;
+			else //(preferences.gstreamer == Preferences.GstreamerTypes.SYSTEMSOUNDS)
+				PWBox.radio_sound_systemsounds.Active = true;
+
+			PWBox.radio_gstreamer_0_1.Visible = false;
+			PWBox.radio_gstreamer_1_0.Visible = false;
+		}
+		else //LINUX
+		{
+			if(preferences.gstreamer == Preferences.GstreamerTypes.GST_0_1)
+				PWBox.radio_gstreamer_0_1.Active = true;
+			else if(preferences.gstreamer == Preferences.GstreamerTypes.GST_1_0)
+				PWBox.radio_gstreamer_1_0.Active = true;
+			else if(preferences.gstreamer == Preferences.GstreamerTypes.FFPLAY)
+				PWBox.radio_ffplay.Active = true;
+			else //(preferences.gstreamer == Preferences.GstreamerTypes.SYSTEMSOUNDS)
+				PWBox.radio_sound_systemsounds.Active = true;
+		}
+
+		PWBox.label_test_sound_result.Text = "";
+
+		PWBox.notebook_multimedia_video.CurrentPage = 0; //show only check_devices button
+
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "audio.png");
+		PWBox.image_multimedia_audio.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "videocamera_on.png");
+		PWBox.image_multimedia_video.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_photo_preview.png");
+		PWBox.image_video_preview.Pixbuf = pixbuf;
+
+		PWBox.spin_camera_stop_after.Value = preferences.videoStopAfter;
+		//PWBox.vbox_camera_stop_after.Visible = (preferences.videoStopAfter > 0);
+		PWBox.hbox_camera_stop_after_seconds.Visible = (preferences.videoStopAfter > 0);
+		PWBox.check_camera_stop_after.Active = (preferences.videoStopAfter > 0);
+	}
+
+	private static void showTabLanguage (Preferences preferences)
+	{
+		PWBox.createComboLanguage();
+
+		PWBox.signalsNoFollow = true;
+		if(preferences.language == "")
+			PWBox.radio_language_detected.Active = true;
+		else
+			PWBox.radio_language_force.Active = true;
+
+		if(preferences.RGraphsTranslate)
+			PWBox.radio_graphs_translate.Active = true;
+		else
+			PWBox.radio_graphs_no_translate.Active = true;
+		PWBox.signalsNoFollow = false;
+	}
+
+	private static void showTabAdvanced (Preferences preferences)
+	{
+		// sub tab: general ---->
+
+		if(preferences.askDeletion)
+			PWBox.checkbutton_ask_deletion.Active = true;
+		else
+			PWBox.checkbutton_ask_deletion.Active = false;
+
+		PWBox.createComboDecimals ();
+
+		// sub tab: cloud ---->
+
+		PWBox.label_radio_cloud_no.Text = "<b>" + PWBox.label_radio_cloud_no.Text + "</b>";
+		PWBox.label_radio_cloud_no_recommended.Text = "<b>" + PWBox.label_radio_cloud_no_recommended.Text + "</b>";
+		PWBox.label_radio_cloud_capture.Text = "<b>" + PWBox.label_radio_cloud_capture.Text + "</b>";
+		PWBox.label_radio_cloud_view.Text = "<b>" + PWBox.label_radio_cloud_view.Text + "</b>";
+		PWBox.label_radio_cloud_no.UseMarkup = true;
+		PWBox.label_radio_cloud_no_recommended.UseMarkup = true;
+		PWBox.label_radio_cloud_capture.UseMarkup = true;
+		PWBox.label_radio_cloud_view.UseMarkup = true;
+
+		PWBox.image_cloud_capture.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_upload_blue.png");
+		PWBox.image_cloud_view.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
+		PWBox.image_cloud_schema.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_schema_small.png");
+
+		PWBox.signalsNoFollow = true;
+		if (PWBox.configAtPrefs.CopyToCloudFullPath !=  "")
+		{
+			PWBox.radio_cloud_capture.Active = true;
+			PWBox.label_cloud_capture_path.Text = PWBox.configAtPrefs.CopyToCloudFullPath;
+		} else if (PWBox.configAtPrefs.ReadFromCloudMainPath !=  "")
+		{
+			PWBox.radio_cloud_view.Active = true;
+			PWBox.label_cloud_view_path.Text = PWBox.configAtPrefs.ReadFromCloudMainPath;
+		} else
+			PWBox.radio_cloud_no.Active = true;
+		PWBox.signalsNoFollow = false;
+
+		PWBox.buttons_cloud_sensitive ();
+
+		// sub tab: advanced ---->
+
+		if(preferences.muteLogs)
+			PWBox.checkbutton_mute_logs.Active = true;
+		else
+			PWBox.checkbutton_mute_logs.Active = false;
+
+		PWBox.button_debug_mode.Sensitive = ! preferences.debugMode;
 	}
 
 

@@ -321,7 +321,7 @@ public class PreferencesWindow
 	public Gtk.Button FakeButtonDebugModeStart;
 	public Gtk.Button FakeButtonDeleteDevices;
 	
-	static PreferencesWindow PreferencesWindowBox;
+	static PreferencesWindow PWBox;
 
 	private RGBA colorBackground;
 	private bool signalsNoFollow;
@@ -386,573 +386,573 @@ public class PreferencesWindow
 			//Constants.Modes menu_mode, bool compujump, Config configChronojump, string progVersion)
 			Constants.Modes menu_mode, bool compujump, string progVersion)
 	{
-		if (PreferencesWindowBox == null) {
-			PreferencesWindowBox = new PreferencesWindow ();
+		if (PWBox == null) {
+			PWBox = new PreferencesWindow ();
 		}
 
-		PreferencesWindowBox.notebook_top.CurrentPage = Convert.ToInt32(notebook_top_pages.PREFERENCES);
-		PreferencesWindowBox.operatingSystem = UtilAll.GetOSEnum();
-		//PreferencesWindowBox.configChronojump = configChronojump;
-		PreferencesWindowBox.configAtPrefs = new Config ();
-		PreferencesWindowBox.configAtPrefs.Read ();
+		PWBox.notebook_top.CurrentPage = Convert.ToInt32(notebook_top_pages.PREFERENCES);
+		PWBox.operatingSystem = UtilAll.GetOSEnum();
+		//PWBox.configChronojump = configChronojump;
+		PWBox.configAtPrefs = new Config ();
+		PWBox.configAtPrefs.Read ();
 
 		if(compujump)
 		{
-			PreferencesWindowBox.check_appearance_person_win_hide.Sensitive = false;
+			PWBox.check_appearance_person_win_hide.Sensitive = false;
 
 			//show version
-			PreferencesWindowBox.vbox_version.Visible = true;
-			PreferencesWindowBox.label_progVersion.Text = "<b>" + progVersion + "</b>";
-			PreferencesWindowBox.label_progVersion.UseMarkup = true;
-			PreferencesWindowBox.check_networks_devices.Active = preferences.networksAllowChangeDevices;
-			PreferencesWindowBox.button_delete_devices.Sensitive = false;
+			PWBox.vbox_version.Visible = true;
+			PWBox.label_progVersion.Text = "<b>" + progVersion + "</b>";
+			PWBox.label_progVersion.UseMarkup = true;
+			PWBox.check_networks_devices.Active = preferences.networksAllowChangeDevices;
+			PWBox.button_delete_devices.Sensitive = false;
 		}
-		PreferencesWindowBox.frame_networks.Visible = compujump;
+		PWBox.frame_networks.Visible = compujump;
 
 		if(menu_mode !=	Constants.Modes.JUMPSSIMPLE && menu_mode != Constants.Modes.JUMPSREACTIVE)
 		{
-			PreferencesWindowBox.notebook.GetNthPage(JUMPSPAGE).Hide();
-			PreferencesWindowBox.check_view_jumps.Active = false;
+			PWBox.notebook.GetNthPage(JUMPSPAGE).Hide();
+			PWBox.check_view_jumps.Active = false;
 		} if(menu_mode != Constants.Modes.RUNSSIMPLE && menu_mode != Constants.Modes.RUNSINTERVALLIC &&
 				menu_mode != Constants.Modes.RUNSENCODER)
 		{
-			PreferencesWindowBox.notebook.GetNthPage(RUNSPAGE).Hide();
-			PreferencesWindowBox.check_view_runs.Active = false;
+			PWBox.notebook.GetNthPage(RUNSPAGE).Hide();
+			PWBox.check_view_runs.Active = false;
 		} if(menu_mode != Constants.Modes.POWERGRAVITATORY && menu_mode != Constants.Modes.POWERINERTIAL)
 		{
-			PreferencesWindowBox.notebook.GetNthPage(WEIGHTSINERTIALPAGE).Hide();
-			PreferencesWindowBox.check_view_weights_inertial.Active = false;
+			PWBox.notebook.GetNthPage(WEIGHTSINERTIALPAGE).Hide();
+			PWBox.check_view_weights_inertial.Active = false;
 		}
 		if(! Constants.ModeIsFORCESENSOR (menu_mode))
 		{
-			PreferencesWindowBox.notebook.GetNthPage(ISOMETRICELASTICPAGE).Hide();
-			PreferencesWindowBox.check_view_isometric_elastic.Active = false;
+			PWBox.notebook.GetNthPage(ISOMETRICELASTICPAGE).Hide();
+			PWBox.check_view_isometric_elastic.Active = false;
 		}
 
-		PreferencesWindowBox.preferences = preferences;
+		PWBox.preferences = preferences;
 
-		PreferencesWindowBox.createComboLanguage();
+		PWBox.createComboLanguage();
 		Pixbuf pixbuf;
 
 
-		PreferencesWindowBox.image_button_close.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
+		PWBox.image_button_close.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
 
 		//appearance tab
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_rest.png");
-		PreferencesWindowBox.image_rest.Pixbuf = pixbuf;
+		PWBox.image_rest.Pixbuf = pixbuf;
 
 		//to avoid changing the sqlite and gui undecorated mode when activating maximized
-		PreferencesWindowBox.signalsNoFollow = true;
+		PWBox.signalsNoFollow = true;
 
 		if(preferences.maximized == Preferences.MaximizedTypes.NO)
 		{
-			PreferencesWindowBox.check_appearance_maximized.Active = false;
-			PreferencesWindowBox.alignment_undecorated.Visible = false;
-			PreferencesWindowBox.label_recommended_undecorated.Visible = false;
+			PWBox.check_appearance_maximized.Active = false;
+			PWBox.alignment_undecorated.Visible = false;
+			PWBox.label_recommended_undecorated.Visible = false;
 		}
 		else {
-			PreferencesWindowBox.check_appearance_maximized.Active = true;
-			PreferencesWindowBox.alignment_undecorated.Visible = true;
-			PreferencesWindowBox.label_recommended_undecorated.Visible = true;
-			PreferencesWindowBox.check_appearance_maximized_undecorated.Active =
+			PWBox.check_appearance_maximized.Active = true;
+			PWBox.alignment_undecorated.Visible = true;
+			PWBox.label_recommended_undecorated.Visible = true;
+			PWBox.check_appearance_maximized_undecorated.Active =
 				(preferences.maximized == Preferences.MaximizedTypes.YESUNDECORATED);
 		}
 
-		PreferencesWindowBox.signalsNoFollow = false;
+		PWBox.signalsNoFollow = false;
 
 		if(preferences.personWinHide)
-			PreferencesWindowBox.check_appearance_person_win_hide.Active = true;
+			PWBox.check_appearance_person_win_hide.Active = true;
 		else
-			PreferencesWindowBox.check_appearance_person_win_hide.Active = false;
+			PWBox.check_appearance_person_win_hide.Active = false;
 
-		PreferencesWindowBox.check_appearance_person_photo.Sensitive = ! preferences.personWinHide;
+		PWBox.check_appearance_person_photo.Sensitive = ! preferences.personWinHide;
 
 		if(preferences.personPhoto)
-			PreferencesWindowBox.check_appearance_person_photo.Active = true;
+			PWBox.check_appearance_person_photo.Active = true;
 		else
-			PreferencesWindowBox.check_appearance_person_photo.Active = false;
+			PWBox.check_appearance_person_photo.Active = false;
 
 		if(preferences.logoAnimatedShow)
-			PreferencesWindowBox.check_logo_animated.Active = true;
+			PWBox.check_logo_animated.Active = true;
 		else
-			PreferencesWindowBox.check_logo_animated.Active = false;
+			PWBox.check_logo_animated.Active = false;
 
-		PreferencesWindowBox.hbox_last_session_and_mode.Visible = ! compujump;
+		PWBox.hbox_last_session_and_mode.Visible = ! compujump;
 
 		if(preferences.loadLastSessionAtStart)
-			PreferencesWindowBox.check_session_autoload_at_start.Active = true;
+			PWBox.check_session_autoload_at_start.Active = true;
 		else
-			PreferencesWindowBox.check_session_autoload_at_start.Active = false;
+			PWBox.check_session_autoload_at_start.Active = false;
 
 		if(preferences.loadLastModeAtStart)
-			PreferencesWindowBox.check_mode_autoload_at_start.Active = true;
+			PWBox.check_mode_autoload_at_start.Active = true;
 		else
-			PreferencesWindowBox.check_mode_autoload_at_start.Active = false;
+			PWBox.check_mode_autoload_at_start.Active = false;
 
-		PreferencesWindowBox.signalsNoFollow = true;
+		PWBox.signalsNoFollow = true;
 		if(preferences.fontType == Preferences.FontTypes.Courier)
-			PreferencesWindowBox.radio_font_courier.Active = true;
+			PWBox.radio_font_courier.Active = true;
 		else
-			PreferencesWindowBox.radio_font_helvetica.Active = true;
-		PreferencesWindowBox.signalsNoFollow = false;
+			PWBox.radio_font_helvetica.Active = true;
+		PWBox.signalsNoFollow = false;
 
-		PreferencesWindowBox.check_rest_time.Active = (preferences.restTimeMinutes >= 0);
-		PreferencesWindowBox.on_check_rest_time_toggled (new object (), new EventArgs ());
+		PWBox.check_rest_time.Active = (preferences.restTimeMinutes >= 0);
+		PWBox.on_check_rest_time_toggled (new object (), new EventArgs ());
 
 		if(preferences.restTimeMinutes >= 0)
 		{
-			PreferencesWindowBox.spinbutton_rest_minutes.Value = preferences.restTimeMinutes;
-			PreferencesWindowBox.spinbutton_rest_seconds.Value = preferences.restTimeSeconds;
+			PWBox.spinbutton_rest_minutes.Value = preferences.restTimeMinutes;
+			PWBox.spinbutton_rest_seconds.Value = preferences.restTimeSeconds;
 		} else { //min == -1 means no restTime
-			PreferencesWindowBox.spinbutton_rest_minutes.Value = 2;
-			PreferencesWindowBox.spinbutton_rest_seconds.Value = 0;
+			PWBox.spinbutton_rest_minutes.Value = 2;
+			PWBox.spinbutton_rest_seconds.Value = 0;
 		}
 
 		//multimedia tab
 		if(preferences.volumeOn) {
-			PreferencesWindowBox.checkbutton_volume.Active = true; 
-			PreferencesWindowBox.alignment_multimedia_sounds.Visible = true;
+			PWBox.checkbutton_volume.Active = true; 
+			PWBox.alignment_multimedia_sounds.Visible = true;
 		} else {
-			PreferencesWindowBox.checkbutton_volume.Active = false; 
-			PreferencesWindowBox.alignment_multimedia_sounds.Visible = false;
+			PWBox.checkbutton_volume.Active = false; 
+			PWBox.alignment_multimedia_sounds.Visible = false;
 		}
 
 		//hide video for compujump
 		if(compujump)
-			PreferencesWindowBox.notebook_multimedia.GetNthPage(1).Hide();
+			PWBox.notebook_multimedia.GetNthPage(1).Hide();
 
-		PreferencesWindowBox.label_camera_error.Visible = false;
+		PWBox.label_camera_error.Visible = false;
 
-		PreferencesWindowBox.label_webcam_windows.Visible =
-			(PreferencesWindowBox.operatingSystem == UtilAll.OperatingSystems.WINDOWS);
+		PWBox.label_webcam_windows.Visible =
+			(PWBox.operatingSystem == UtilAll.OperatingSystems.WINDOWS);
 
-		PreferencesWindowBox.hbox_not_recommended_when_not_on_windows.Visible =
-			! (PreferencesWindowBox.operatingSystem == UtilAll.OperatingSystems.WINDOWS);
+		PWBox.hbox_not_recommended_when_not_on_windows.Visible =
+			! (PWBox.operatingSystem == UtilAll.OperatingSystems.WINDOWS);
 
-		if(PreferencesWindowBox.operatingSystem == UtilAll.OperatingSystems.WINDOWS ||
-				PreferencesWindowBox.operatingSystem == UtilAll.OperatingSystems.MACOSX)
+		if(PWBox.operatingSystem == UtilAll.OperatingSystems.WINDOWS ||
+				PWBox.operatingSystem == UtilAll.OperatingSystems.MACOSX)
 		{
 			if(preferences.gstreamer == Preferences.GstreamerTypes.FFPLAY)
-				PreferencesWindowBox.radio_ffplay.Active = true;
+				PWBox.radio_ffplay.Active = true;
 			else //(preferences.gstreamer == Preferences.GstreamerTypes.SYSTEMSOUNDS)
-				PreferencesWindowBox.radio_sound_systemsounds.Active = true;
+				PWBox.radio_sound_systemsounds.Active = true;
 
-			PreferencesWindowBox.radio_gstreamer_0_1.Visible = false;
-			PreferencesWindowBox.radio_gstreamer_1_0.Visible = false;
+			PWBox.radio_gstreamer_0_1.Visible = false;
+			PWBox.radio_gstreamer_1_0.Visible = false;
 		}
 		else //LINUX
 		{
 			if(preferences.gstreamer == Preferences.GstreamerTypes.GST_0_1)
-				PreferencesWindowBox.radio_gstreamer_0_1.Active = true;
+				PWBox.radio_gstreamer_0_1.Active = true;
 			else if(preferences.gstreamer == Preferences.GstreamerTypes.GST_1_0)
-				PreferencesWindowBox.radio_gstreamer_1_0.Active = true;
+				PWBox.radio_gstreamer_1_0.Active = true;
 			else if(preferences.gstreamer == Preferences.GstreamerTypes.FFPLAY)
-				PreferencesWindowBox.radio_ffplay.Active = true;
+				PWBox.radio_ffplay.Active = true;
 			else //(preferences.gstreamer == Preferences.GstreamerTypes.SYSTEMSOUNDS)
-				PreferencesWindowBox.radio_sound_systemsounds.Active = true;
+				PWBox.radio_sound_systemsounds.Active = true;
 		}
 
-		PreferencesWindowBox.label_test_sound_result.Text = "";
+		PWBox.label_test_sound_result.Text = "";
 
-		PreferencesWindowBox.notebook_multimedia_video.CurrentPage = 0; //show only check_devices button
+		PWBox.notebook_multimedia_video.CurrentPage = 0; //show only check_devices button
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "audio.png");
-		PreferencesWindowBox.image_multimedia_audio.Pixbuf = pixbuf;
+		PWBox.image_multimedia_audio.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "videocamera_on.png");
-		PreferencesWindowBox.image_multimedia_video.Pixbuf = pixbuf;
+		PWBox.image_multimedia_video.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_photo_preview.png");
-		PreferencesWindowBox.image_video_preview.Pixbuf = pixbuf;
+		PWBox.image_video_preview.Pixbuf = pixbuf;
 
-		PreferencesWindowBox.spin_camera_stop_after.Value = preferences.videoStopAfter;
-		//PreferencesWindowBox.vbox_camera_stop_after.Visible = (preferences.videoStopAfter > 0);
-		PreferencesWindowBox.hbox_camera_stop_after_seconds.Visible = (preferences.videoStopAfter > 0);
-		PreferencesWindowBox.check_camera_stop_after.Active = (preferences.videoStopAfter > 0);
+		PWBox.spin_camera_stop_after.Value = preferences.videoStopAfter;
+		//PWBox.vbox_camera_stop_after.Visible = (preferences.videoStopAfter > 0);
+		PWBox.hbox_camera_stop_after_seconds.Visible = (preferences.videoStopAfter > 0);
+		PWBox.check_camera_stop_after.Active = (preferences.videoStopAfter > 0);
 
 		//advanced tab
 
-		PreferencesWindowBox.createComboDecimals ();
+		PWBox.createComboDecimals ();
 
-		PreferencesWindowBox.label_radio_cloud_no.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_no.Text + "</b>";
-		PreferencesWindowBox.label_radio_cloud_no_recommended.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_no_recommended.Text + "</b>";
-		PreferencesWindowBox.label_radio_cloud_capture.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_capture.Text + "</b>";
-		PreferencesWindowBox.label_radio_cloud_view.Text = "<b>" + PreferencesWindowBox.label_radio_cloud_view.Text + "</b>";
-		PreferencesWindowBox.label_radio_cloud_no.UseMarkup = true;
-		PreferencesWindowBox.label_radio_cloud_no_recommended.UseMarkup = true;
-		PreferencesWindowBox.label_radio_cloud_capture.UseMarkup = true;
-		PreferencesWindowBox.label_radio_cloud_view.UseMarkup = true;
+		PWBox.label_radio_cloud_no.Text = "<b>" + PWBox.label_radio_cloud_no.Text + "</b>";
+		PWBox.label_radio_cloud_no_recommended.Text = "<b>" + PWBox.label_radio_cloud_no_recommended.Text + "</b>";
+		PWBox.label_radio_cloud_capture.Text = "<b>" + PWBox.label_radio_cloud_capture.Text + "</b>";
+		PWBox.label_radio_cloud_view.Text = "<b>" + PWBox.label_radio_cloud_view.Text + "</b>";
+		PWBox.label_radio_cloud_no.UseMarkup = true;
+		PWBox.label_radio_cloud_no_recommended.UseMarkup = true;
+		PWBox.label_radio_cloud_capture.UseMarkup = true;
+		PWBox.label_radio_cloud_view.UseMarkup = true;
 
-		PreferencesWindowBox.image_cloud_capture.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_upload_blue.png");
-		PreferencesWindowBox.image_cloud_view.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
-		PreferencesWindowBox.image_cloud_schema.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_schema_small.png");
+		PWBox.image_cloud_capture.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_upload_blue.png");
+		PWBox.image_cloud_view.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
+		PWBox.image_cloud_schema.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_schema_small.png");
 
 		//cloud radios
-		PreferencesWindowBox.signalsNoFollow = true;
-		if (PreferencesWindowBox.configAtPrefs.CopyToCloudFullPath !=  "")
+		PWBox.signalsNoFollow = true;
+		if (PWBox.configAtPrefs.CopyToCloudFullPath !=  "")
 		{
-			PreferencesWindowBox.radio_cloud_capture.Active = true;
-			PreferencesWindowBox.label_cloud_capture_path.Text = PreferencesWindowBox.configAtPrefs.CopyToCloudFullPath;
-		} else if (PreferencesWindowBox.configAtPrefs.ReadFromCloudMainPath !=  "")
+			PWBox.radio_cloud_capture.Active = true;
+			PWBox.label_cloud_capture_path.Text = PWBox.configAtPrefs.CopyToCloudFullPath;
+		} else if (PWBox.configAtPrefs.ReadFromCloudMainPath !=  "")
 		{
-			PreferencesWindowBox.radio_cloud_view.Active = true;
-			PreferencesWindowBox.label_cloud_view_path.Text = PreferencesWindowBox.configAtPrefs.ReadFromCloudMainPath;
+			PWBox.radio_cloud_view.Active = true;
+			PWBox.label_cloud_view_path.Text = PWBox.configAtPrefs.ReadFromCloudMainPath;
 		} else
-			PreferencesWindowBox.radio_cloud_no.Active = true;
-		PreferencesWindowBox.signalsNoFollow = false;
+			PWBox.radio_cloud_no.Active = true;
+		PWBox.signalsNoFollow = false;
 
-		PreferencesWindowBox.buttons_cloud_sensitive ();
+		PWBox.buttons_cloud_sensitive ();
 
 		if(preferences.showPower)
-			PreferencesWindowBox.checkbutton_power.Active = true; 
+			PWBox.checkbutton_power.Active = true; 
 		else
-			PreferencesWindowBox.checkbutton_power.Active = false; 
+			PWBox.checkbutton_power.Active = false; 
 		
 		if(preferences.showStiffness)
-			PreferencesWindowBox.checkbutton_stiffness.Active = true; 
+			PWBox.checkbutton_stiffness.Active = true; 
 		else
-			PreferencesWindowBox.checkbutton_stiffness.Active = false; 
+			PWBox.checkbutton_stiffness.Active = false; 
 		
 		if(preferences.showInitialSpeed)  
-			PreferencesWindowBox.checkbutton_initial_speed.Active = true; 
+			PWBox.checkbutton_initial_speed.Active = true; 
 		else 
-			PreferencesWindowBox.checkbutton_initial_speed.Active = false; 
+			PWBox.checkbutton_initial_speed.Active = false; 
 
 		if(preferences.showJumpRSI)
-			PreferencesWindowBox.checkbutton_jump_rsi.Active = true;
+			PWBox.checkbutton_jump_rsi.Active = true;
 		else
-			PreferencesWindowBox.checkbutton_jump_rsi.Active = false;
+			PWBox.checkbutton_jump_rsi.Active = false;
 
 		/*
 		if(preferences.showAngle)  
-			PreferencesWindowBox.checkbutton_angle.Active = true; 
+			PWBox.checkbutton_angle.Active = true; 
 		else 
-			PreferencesWindowBox.checkbutton_angle.Active = false; 
+			PWBox.checkbutton_angle.Active = false; 
 		*/
 
 		if(preferences.showQIndex || preferences.showDjIndex) { 
-			PreferencesWindowBox.checkbutton_show_tv_tc_index.Active = true; 
+			PWBox.checkbutton_show_tv_tc_index.Active = true; 
 			if(preferences.showQIndex) {
-				PreferencesWindowBox.radiobutton_show_q_index.Active = true; 
+				PWBox.radiobutton_show_q_index.Active = true; 
 			} else {
-				PreferencesWindowBox.radiobutton_show_dj_index.Active = true; 
+				PWBox.radiobutton_show_dj_index.Active = true; 
 			}
-			PreferencesWindowBox.hbox_indexes.Show();
+			PWBox.hbox_indexes.Show();
 		}
 		else {
-			PreferencesWindowBox.checkbutton_show_tv_tc_index.Active = false; 
-			PreferencesWindowBox.hbox_indexes.Hide();
+			PWBox.checkbutton_show_tv_tc_index.Active = false; 
+			PWBox.hbox_indexes.Hide();
 		}
 
 		if(preferences.heightPreferred)
-			PreferencesWindowBox.radio_jumps_dj_heights.Active = true;
+			PWBox.radio_jumps_dj_heights.Active = true;
 		else
-			PreferencesWindowBox.radio_jumps_dj_times.Active = true;
+			PWBox.radio_jumps_dj_times.Active = true;
 
 		if(preferences.askDeletion)
-			PreferencesWindowBox.checkbutton_ask_deletion.Active = true; 
+			PWBox.checkbutton_ask_deletion.Active = true; 
 		else 
-			PreferencesWindowBox.checkbutton_ask_deletion.Active = false; 
+			PWBox.checkbutton_ask_deletion.Active = false; 
 
 		if(preferences.muteLogs)
-			PreferencesWindowBox.checkbutton_mute_logs.Active = true;
+			PWBox.checkbutton_mute_logs.Active = true;
 		else
-			PreferencesWindowBox.checkbutton_mute_logs.Active = false;
+			PWBox.checkbutton_mute_logs.Active = false;
 
-		PreferencesWindowBox.button_debug_mode.Sensitive = ! preferences.debugMode;
+		PWBox.button_debug_mode.Sensitive = ! preferences.debugMode;
 
 		if(preferences.weightStatsPercent)  
-			PreferencesWindowBox.radio_weight_percent.Active = true; 
+			PWBox.radio_weight_percent.Active = true; 
 		else 
-			PreferencesWindowBox.radio_weight_kg.Active = true; 
+			PWBox.radio_weight_kg.Active = true; 
 
 		if(preferences.metersSecondsPreferred)  
-			PreferencesWindowBox.radio_speed_ms.Active = true; 
+			PWBox.radio_speed_ms.Active = true; 
 		else 
-			PreferencesWindowBox.radio_speed_km.Active = true; 
+			PWBox.radio_speed_km.Active = true; 
 
 
 		if(preferences.runSpeedStartArrival)  
-			PreferencesWindowBox.radio_runs_speed_start_arrival.Active = true; 
+			PWBox.radio_runs_speed_start_arrival.Active = true; 
 		else 
-			PreferencesWindowBox.radio_runs_speed_start_leaving.Active = true; 
+			PWBox.radio_runs_speed_start_leaving.Active = true; 
 
 
 		//start of double contacts stuff ----
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_run_simple.png");
-		PreferencesWindowBox.image_races_simple.Pixbuf = pixbuf;
+		PWBox.image_races_simple.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_run_multiple.png");
-		PreferencesWindowBox.image_races_intervallic.Pixbuf = pixbuf;
+		PWBox.image_races_intervallic.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_info.png");
-		PreferencesWindowBox.image_jumps_power_help.Pixbuf = pixbuf;
-		PreferencesWindowBox.image_jumps_stiffness_help.Pixbuf = pixbuf;
-		PreferencesWindowBox.image_button_jumps_dj_heights_times_help.Pixbuf = pixbuf;
-		PreferencesWindowBox.image_run_speed_start_help.Pixbuf = pixbuf;
-		PreferencesWindowBox.image_encoder_inactivity_help.Pixbuf = pixbuf;
-		PreferencesWindowBox.image_encoder_capture_cut_by_triggers_help.Pixbuf = pixbuf;
-		PreferencesWindowBox.image_encoder_inertial_analyze_eq_mass_help.Pixbuf = pixbuf;
+		PWBox.image_jumps_power_help.Pixbuf = pixbuf;
+		PWBox.image_jumps_stiffness_help.Pixbuf = pixbuf;
+		PWBox.image_button_jumps_dj_heights_times_help.Pixbuf = pixbuf;
+		PWBox.image_run_speed_start_help.Pixbuf = pixbuf;
+		PWBox.image_encoder_inactivity_help.Pixbuf = pixbuf;
+		PWBox.image_encoder_capture_cut_by_triggers_help.Pixbuf = pixbuf;
+		PWBox.image_encoder_inertial_analyze_eq_mass_help.Pixbuf = pixbuf;
 
 		if (menu_mode == Constants.Modes.RUNSSIMPLE || menu_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
-			PreferencesWindowBox.notebook_races.CurrentPage = 0;
+			PWBox.notebook_races.CurrentPage = 0;
 
 			if(menu_mode ==	Constants.Modes.RUNSSIMPLE)
-				PreferencesWindowBox.notebook_races_double_contacts.CurrentPage = 0;
+				PWBox.notebook_races_double_contacts.CurrentPage = 0;
 			else if(menu_mode == Constants.Modes.RUNSINTERVALLIC)
-				PreferencesWindowBox.notebook_races_double_contacts.CurrentPage = 1;
+				PWBox.notebook_races_double_contacts.CurrentPage = 1;
 		} else if (menu_mode == Constants.Modes.RUNSENCODER)
-			PreferencesWindowBox.notebook_races.CurrentPage = 1;
+			PWBox.notebook_races.CurrentPage = 1;
 
-		PreferencesWindowBox.checkbutton_runs_prevent_double_contact.Active = 
+		PWBox.checkbutton_runs_prevent_double_contact.Active = 
 			(preferences.runDoubleContactsMode != Constants.DoubleContact.NONE);
-		PreferencesWindowBox.checkbutton_runs_i_prevent_double_contact.Active = 
+		PWBox.checkbutton_runs_i_prevent_double_contact.Active = 
 			(preferences.runIDoubleContactsMode != Constants.DoubleContact.NONE);
 
-		PreferencesWindowBox.spinbutton_runs_prevent_double_contact.Value = 
+		PWBox.spinbutton_runs_prevent_double_contact.Value = 
 			preferences.runDoubleContactsMS;
-		PreferencesWindowBox.spinbutton_runs_i_prevent_double_contact.Value = 
+		PWBox.spinbutton_runs_i_prevent_double_contact.Value = 
 			preferences.runIDoubleContactsMS;
 
 		//---- end of double contacts stuff		
 
 
 		if(preferences.CSVExportDecimalSeparator == "COMMA")
-			PreferencesWindowBox.radio_export_latin.Active = true; 
+			PWBox.radio_export_latin.Active = true; 
 		else
-			PreferencesWindowBox.radio_export_non_latin.Active = true; 
+			PWBox.radio_export_non_latin.Active = true; 
 
 	
 		//encoder capture -->
 
-		PreferencesWindowBox.spin_encoder_capture_time.Value = preferences.encoderCaptureTime;
+		PWBox.spin_encoder_capture_time.Value = preferences.encoderCaptureTime;
 
 		if(preferences.encoderCaptureInactivityEndTime < 0) {
-			PreferencesWindowBox.check_encoder_capture_inactivity_end_time.Active = false;
-			PreferencesWindowBox.hbox_encoder_capture_inactivity_time.Sensitive = false;
-			PreferencesWindowBox.spin_encoder_capture_inactivity_end_time.Value = 3;
+			PWBox.check_encoder_capture_inactivity_end_time.Active = false;
+			PWBox.hbox_encoder_capture_inactivity_time.Sensitive = false;
+			PWBox.spin_encoder_capture_inactivity_end_time.Value = 3;
 		} else {
-			PreferencesWindowBox.check_encoder_capture_inactivity_end_time.Active = true;
-			PreferencesWindowBox.hbox_encoder_capture_inactivity_time.Sensitive = true;
-			PreferencesWindowBox.spin_encoder_capture_inactivity_end_time.Value = preferences.encoderCaptureInactivityEndTime;
+			PWBox.check_encoder_capture_inactivity_end_time.Active = true;
+			PWBox.hbox_encoder_capture_inactivity_time.Sensitive = true;
+			PWBox.spin_encoder_capture_inactivity_end_time.Value = preferences.encoderCaptureInactivityEndTime;
 		}
 
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_weight.png");
-		PreferencesWindowBox.image_encoder_gravitatory.Pixbuf = pixbuf;
+		PWBox.image_encoder_gravitatory.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_inertia.png");
-		PreferencesWindowBox.image_encoder_inertial.Pixbuf = pixbuf;
-		PreferencesWindowBox.image_encoder_inertial2.Pixbuf = pixbuf;
+		PWBox.image_encoder_inertial.Pixbuf = pixbuf;
+		PWBox.image_encoder_inertial2.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_encoder_triggers_no.png");
-		PreferencesWindowBox.image_encoder_triggers.Pixbuf = pixbuf;
+		PWBox.image_encoder_triggers.Pixbuf = pixbuf;
 
 		if(preferences.encoderCaptureInertialDiscardFirstN > 0) {
-			PreferencesWindowBox.checkbutton_encoder_capture_inertial_discard_first_n.Active = true;
-			PreferencesWindowBox.spin_encoder_capture_inertial_discard_first_n.Value = preferences.encoderCaptureInertialDiscardFirstN;
-			PreferencesWindowBox.box_encoder_capture_inertial_discard_first_n.Visible = true;
+			PWBox.checkbutton_encoder_capture_inertial_discard_first_n.Active = true;
+			PWBox.spin_encoder_capture_inertial_discard_first_n.Value = preferences.encoderCaptureInertialDiscardFirstN;
+			PWBox.box_encoder_capture_inertial_discard_first_n.Visible = true;
 		} else {
-			PreferencesWindowBox.checkbutton_encoder_capture_inertial_discard_first_n.Active = false;
-			PreferencesWindowBox.spin_encoder_capture_inertial_discard_first_n.Value = 3;
-			PreferencesWindowBox.box_encoder_capture_inertial_discard_first_n.Visible = false;
+			PWBox.checkbutton_encoder_capture_inertial_discard_first_n.Active = false;
+			PWBox.spin_encoder_capture_inertial_discard_first_n.Value = 3;
+			PWBox.box_encoder_capture_inertial_discard_first_n.Visible = false;
 		}
 
 		if(preferences.encoderCaptureShowNRepetitions < 0) {
-			PreferencesWindowBox.radio_encoder_capture_show_all_bars.Active = true;
-			PreferencesWindowBox.spin_encoder_capture_show_only_some_bars.Value = 10;
+			PWBox.radio_encoder_capture_show_all_bars.Active = true;
+			PWBox.spin_encoder_capture_show_only_some_bars.Value = 10;
 		} else {
-			PreferencesWindowBox.radio_encoder_capture_show_only_some_bars.Active = true;
-			PreferencesWindowBox.spin_encoder_capture_show_only_some_bars.Value = preferences.encoderCaptureShowNRepetitions;
+			PWBox.radio_encoder_capture_show_only_some_bars.Active = true;
+			PWBox.spin_encoder_capture_show_only_some_bars.Value = preferences.encoderCaptureShowNRepetitions;
 		}
 
 
-		PreferencesWindowBox.spin_encoder_capture_barplot_font_size.Value = preferences.encoderCaptureBarplotFontSize;
-		PreferencesWindowBox.check_show_start_and_duration.Active = preferences.encoderShowStartAndDuration;
+		PWBox.spin_encoder_capture_barplot_font_size.Value = preferences.encoderCaptureBarplotFontSize;
+		PWBox.check_show_start_and_duration.Active = preferences.encoderShowStartAndDuration;
 
 		if(preferences.encoderCaptureCutByTriggers == Preferences.TriggerTypes.NO_TRIGGERS)
-			PreferencesWindowBox.radio_encoder_triggers_no.Active = true;
+			PWBox.radio_encoder_triggers_no.Active = true;
 		else {
-			PreferencesWindowBox.radio_encoder_triggers_yes.Active = true;
+			PWBox.radio_encoder_triggers_yes.Active = true;
 			if(preferences.encoderCaptureCutByTriggers == Preferences.TriggerTypes.START_AT_CAPTURE)
-				PreferencesWindowBox.radio_encoder_triggers_yes_start_at_capture.Active = true;
+				PWBox.radio_encoder_triggers_yes_start_at_capture.Active = true;
 			else
-				PreferencesWindowBox.radio_encoder_triggers_yes_start_at_first_trigger.Active = true;
+				PWBox.radio_encoder_triggers_yes_start_at_first_trigger.Active = true;
 		}
 
 		if(preferences.encoderCaptureInfinite)
-			PreferencesWindowBox.check_encoder_capture_infinite.Active = true;
+			PWBox.check_encoder_capture_infinite.Active = true;
 		else
-			PreferencesWindowBox.check_encoder_capture_infinite.Active = false;
+			PWBox.check_encoder_capture_infinite.Active = false;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cont.png");
-		PreferencesWindowBox.image_encoder_capture_infinite.Pixbuf = pixbuf;
+		PWBox.image_encoder_capture_infinite.Pixbuf = pixbuf;
 
 		if(preferences.encoderRepetitionCriteriaGravitatory == Preferences.EncoderRepetitionCriteria.ECC_CON)
-			PreferencesWindowBox.radio_encoder_rep_criteria_gravitatory_ecc_con.Active = true;
+			PWBox.radio_encoder_rep_criteria_gravitatory_ecc_con.Active = true;
 		else if(preferences.encoderRepetitionCriteriaGravitatory == Preferences.EncoderRepetitionCriteria.ECC)
-			PreferencesWindowBox.radio_encoder_rep_criteria_gravitatory_ecc.Active = true;
+			PWBox.radio_encoder_rep_criteria_gravitatory_ecc.Active = true;
 		else // if(preferences.encoderRepetitionCriteriaGravitatory == Preferences.EncoderRepetitionCriteria.CON)
-			PreferencesWindowBox.radio_encoder_rep_criteria_gravitatory_con.Active = true;
+			PWBox.radio_encoder_rep_criteria_gravitatory_con.Active = true;
 
 		if(preferences.encoderRepetitionCriteriaInertial == Preferences.EncoderRepetitionCriteria.ECC_CON)
-			PreferencesWindowBox.radio_encoder_rep_criteria_inertial_ecc_con.Active = true;
+			PWBox.radio_encoder_rep_criteria_inertial_ecc_con.Active = true;
 		else if(preferences.encoderRepetitionCriteriaInertial == Preferences.EncoderRepetitionCriteria.ECC)
-			PreferencesWindowBox.radio_encoder_rep_criteria_inertial_ecc.Active = true;
+			PWBox.radio_encoder_rep_criteria_inertial_ecc.Active = true;
 		else // if(preferences.encoderRepetitionCriteriaInertial == Preferences.EncoderRepetitionCriteria.CON)
-			PreferencesWindowBox.radio_encoder_rep_criteria_inertial_con.Active = true;
+			PWBox.radio_encoder_rep_criteria_inertial_con.Active = true;
 
 		//encoder other -->
-		PreferencesWindowBox.checkbutton_encoder_propulsive.Active = preferences.encoderPropulsive;
+		PWBox.checkbutton_encoder_propulsive.Active = preferences.encoderPropulsive;
 
 		if(preferences.encoderWorkKcal)
-			PreferencesWindowBox.radio_encoder_work_kcal.Active = true;
+			PWBox.radio_encoder_work_kcal.Active = true;
 		else
-			PreferencesWindowBox.radio_encoder_work_joules.Active = true;
+			PWBox.radio_encoder_work_joules.Active = true;
 
 		if(preferences.encoderInertialGraphsX == Preferences.EncoderInertialGraphsXTypes.INERTIA_MOMENT)
-			PreferencesWindowBox.radio_encoder_inertial_analyze_inertia_moment.Active = true;
+			PWBox.radio_encoder_inertial_analyze_inertia_moment.Active = true;
 		else if(preferences.encoderInertialGraphsX == Preferences.EncoderInertialGraphsXTypes.DIAMETER)
-			PreferencesWindowBox.radio_encoder_inertial_analyze_diameter.Active = true;
+			PWBox.radio_encoder_inertial_analyze_diameter.Active = true;
 		else
-			PreferencesWindowBox.radio_encoder_inertial_analyze_equivalent_mass.Active = true;
+			PWBox.radio_encoder_inertial_analyze_equivalent_mass.Active = true;
 
-		PreferencesWindowBox.spin_encoder_smooth_con.Value = preferences.encoderSmoothCon;
+		PWBox.spin_encoder_smooth_con.Value = preferences.encoderSmoothCon;
 
 		if(preferences.encoder1RMMethod == Constants.Encoder1RMMethod.NONWEIGHTED)
-			PreferencesWindowBox.radio_encoder_1RM_nonweighted.Active = true;
+			PWBox.radio_encoder_1RM_nonweighted.Active = true;
 		else if(preferences.encoder1RMMethod == Constants.Encoder1RMMethod.WEIGHTED)
-			PreferencesWindowBox.radio_encoder_1RM_weighted.Active = true;
+			PWBox.radio_encoder_1RM_weighted.Active = true;
 		else if(preferences.encoder1RMMethod == Constants.Encoder1RMMethod.WEIGHTED2)
-			PreferencesWindowBox.radio_encoder_1RM_weighted2.Active = true;
+			PWBox.radio_encoder_1RM_weighted2.Active = true;
 		else //(preferences.encoder1RMMethod == Constants.Encoder1RMMethod.WEIGHTED3)
-			PreferencesWindowBox.radio_encoder_1RM_weighted3.Active = true;
+			PWBox.radio_encoder_1RM_weighted3.Active = true;
 
 		//done here and not in glade to be shown with the decimal point of user language	
-		PreferencesWindowBox.label_encoder_con.Text = (0.7).ToString();
+		PWBox.label_encoder_con.Text = (0.7).ToString();
 
 		//forceSensor -->
-		PreferencesWindowBox.signalsNoFollow = true;
+		PWBox.signalsNoFollow = true;
 
 		//	butterworth isometric
-		PreferencesWindowBox.check_force_sensor_isometric_butterworth.Active = preferences.forceSensorIsometricButterworth >= 0;
-		PreferencesWindowBox.box_force_sensor_isometric_butterworth_values.Sensitive = preferences.forceSensorIsometricButterworth >= 0;
+		PWBox.check_force_sensor_isometric_butterworth.Active = preferences.forceSensorIsometricButterworth >= 0;
+		PWBox.box_force_sensor_isometric_butterworth_values.Sensitive = preferences.forceSensorIsometricButterworth >= 0;
 		if (preferences.forceSensorIsometricButterworth < 0)
-			PreferencesWindowBox.spin_force_sensor_isometric_butterworth.Value = 15;
+			PWBox.spin_force_sensor_isometric_butterworth.Value = 15;
 		else
-			PreferencesWindowBox.spin_force_sensor_isometric_butterworth.Value = preferences.forceSensorIsometricButterworth;
+			PWBox.spin_force_sensor_isometric_butterworth.Value = preferences.forceSensorIsometricButterworth;
 
 		//	butterworth elastic
-		PreferencesWindowBox.check_force_sensor_elastic_butterworth.Active = preferences.forceSensorElasticButterworth >= 0;
-		PreferencesWindowBox.box_force_sensor_elastic_butterworth_values.Sensitive = preferences.forceSensorElasticButterworth >= 0;
+		PWBox.check_force_sensor_elastic_butterworth.Active = preferences.forceSensorElasticButterworth >= 0;
+		PWBox.box_force_sensor_elastic_butterworth_values.Sensitive = preferences.forceSensorElasticButterworth >= 0;
 		if (preferences.forceSensorElasticButterworth < 0)
-			PreferencesWindowBox.spin_force_sensor_elastic_butterworth.Value = 3;
+			PWBox.spin_force_sensor_elastic_butterworth.Value = 3;
 		else
-			PreferencesWindowBox.spin_force_sensor_elastic_butterworth.Value = preferences.forceSensorElasticButterworth;
+			PWBox.spin_force_sensor_elastic_butterworth.Value = preferences.forceSensorElasticButterworth;
 
-		PreferencesWindowBox.signalsNoFollow = false;
+		PWBox.signalsNoFollow = false;
 
 
-		PreferencesWindowBox.spin_force_sensor_capture_width_graph_seconds.Value = preferences.forceSensorCaptureWidthSeconds;
+		PWBox.spin_force_sensor_capture_width_graph_seconds.Value = preferences.forceSensorCaptureWidthSeconds;
 
 		if(preferences.forceSensorCaptureScroll)
-			PreferencesWindowBox.radio_force_sensor_capture_scroll.Active = true;
+			PWBox.radio_force_sensor_capture_scroll.Active = true;
 		else
-			PreferencesWindowBox.radio_force_sensor_capture_zoom_out.Active = true;
+			PWBox.radio_force_sensor_capture_zoom_out.Active = true;
 
-		PreferencesWindowBox.spin_force_sensor_elastic_ecc_min_displ.Value = preferences.forceSensorElasticEccMinDispl;
-		PreferencesWindowBox.spin_force_sensor_elastic_con_min_displ.Value = preferences.forceSensorElasticConMinDispl;
-		PreferencesWindowBox.spin_force_sensor_not_elastic_ecc_min_force.Value = preferences.forceSensorNotElasticEccMinForce;
-		PreferencesWindowBox.spin_force_sensor_not_elastic_con_min_force.Value = preferences.forceSensorNotElasticConMinForce;
+		PWBox.spin_force_sensor_elastic_ecc_min_displ.Value = preferences.forceSensorElasticEccMinDispl;
+		PWBox.spin_force_sensor_elastic_con_min_displ.Value = preferences.forceSensorElasticConMinDispl;
+		PWBox.spin_force_sensor_not_elastic_ecc_min_force.Value = preferences.forceSensorNotElasticEccMinForce;
+		PWBox.spin_force_sensor_not_elastic_con_min_force.Value = preferences.forceSensorNotElasticConMinForce;
 
-		PreferencesWindowBox.spin_force_sensor_graphs_line_width.Value = preferences.forceSensorGraphsLineWidth;
+		PWBox.spin_force_sensor_graphs_line_width.Value = preferences.forceSensorGraphsLineWidth;
 
 		if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.RMSSD)
 		{
-			PreferencesWindowBox.radio_force_sensor_variability_rmssd.Active = true;
-			PreferencesWindowBox.hbox_force_sensor_lag.Visible = true;
+			PWBox.radio_force_sensor_variability_rmssd.Active = true;
+			PWBox.hbox_force_sensor_lag.Visible = true;
 		} else if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CVRMSSD)
 		{
-			PreferencesWindowBox.radio_force_sensor_variability_cvrmssd.Active = true;
-			PreferencesWindowBox.hbox_force_sensor_lag.Visible = true;
+			PWBox.radio_force_sensor_variability_cvrmssd.Active = true;
+			PWBox.hbox_force_sensor_lag.Visible = true;
 		} else if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CV)
 		{
-			PreferencesWindowBox.radio_force_sensor_variability_cv.Active = true;
-			PreferencesWindowBox.hbox_force_sensor_lag.Visible = false;
+			PWBox.radio_force_sensor_variability_cv.Active = true;
+			PWBox.hbox_force_sensor_lag.Visible = false;
 		} else {
-			PreferencesWindowBox.radio_force_sensor_variability_old.Active = true;
-			PreferencesWindowBox.hbox_force_sensor_lag.Visible = false;
+			PWBox.radio_force_sensor_variability_old.Active = true;
+			PWBox.hbox_force_sensor_lag.Visible = false;
 		}
 
-		PreferencesWindowBox.spin_force_sensor_variability_lag.Value = preferences.forceSensorVariabilityLag;
+		PWBox.spin_force_sensor_variability_lag.Value = preferences.forceSensorVariabilityLag;
 
-		PreferencesWindowBox.spin_force_sensor_analyze_ab_slider_increment.Value = preferences.forceSensorAnalyzeABSliderIncrement;
-		PreferencesWindowBox.spin_force_sensor_analyze_max_avg_force_in_window.Value = preferences.forceSensorAnalyzeMaxAVGInWindow;
+		PWBox.spin_force_sensor_analyze_ab_slider_increment.Value = preferences.forceSensorAnalyzeABSliderIncrement;
+		PWBox.spin_force_sensor_analyze_max_avg_force_in_window.Value = preferences.forceSensorAnalyzeMaxAVGInWindow;
 
 		//runEncoder -->
-		PreferencesWindowBox.spin_run_encoder_acceleration.Value = preferences.runEncoderMinAccel;
-		PreferencesWindowBox.spin_run_encoder_pps.Value = preferences.runEncoderPPS;
-		PreferencesWindowBox.update_run_encoder_gui_pps_equivalence_and_max ();
+		PWBox.spin_run_encoder_acceleration.Value = preferences.runEncoderMinAccel;
+		PWBox.spin_run_encoder_pps.Value = preferences.runEncoderPPS;
+		PWBox.update_run_encoder_gui_pps_equivalence_and_max ();
 
 		//language -->
-		PreferencesWindowBox.signalsNoFollow = true;
+		PWBox.signalsNoFollow = true;
 		if(preferences.language == "")
-			PreferencesWindowBox.radio_language_detected.Active = true;
+			PWBox.radio_language_detected.Active = true;
 		else
-			PreferencesWindowBox.radio_language_force.Active = true;
+			PWBox.radio_language_force.Active = true;
 
 		if(preferences.RGraphsTranslate)
-			PreferencesWindowBox.radio_graphs_translate.Active = true;
+			PWBox.radio_graphs_translate.Active = true;
 		else
-			PreferencesWindowBox.radio_graphs_no_translate.Active = true;
-		PreferencesWindowBox.signalsNoFollow = false;
+			PWBox.radio_graphs_no_translate.Active = true;
+		PWBox.signalsNoFollow = false;
 
 		if(preferences.useHeightsOnJumpIndexes)
-			PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active = true;
+			PWBox.radio_use_heights_on_jump_indexes.Active = true;
 		else
-			PreferencesWindowBox.radio_do_not_use_heights_on_jump_indexes.Active = true;
+			PWBox.radio_do_not_use_heights_on_jump_indexes.Active = true;
 
 		if(preferences.importerPythonVersion == Preferences.pythonVersionEnum.Python2)
-			PreferencesWindowBox.radio_python_2.Active = true;
+			PWBox.radio_python_2.Active = true;
 		else //if(preferences.importerPythonVersion == Preferences.pythonVersionEnum.Python3)
-			PreferencesWindowBox.radio_python_3.Active = true;
+			PWBox.radio_python_3.Active = true;
 
-		PreferencesWindowBox.colorChoosedLastDefined = false;
+		PWBox.colorChoosedLastDefined = false;
 		if(preferences.colorBackgroundOsColor) {
-			PreferencesWindowBox.radio_color_os.Active = true;
-			PreferencesWindowBox.button_color_choose.Sensitive = false;
+			PWBox.radio_color_os.Active = true;
+			PWBox.button_color_choose.Sensitive = false;
 
 			//do not show the visible tag at open the window, only when user changes to this option.
-			PreferencesWindowBox.label_radio_color_os_needs_restart.Visible = false;
+			PWBox.label_radio_color_os_needs_restart.Visible = false;
 		}
 		else if((preferences.colorBackgroundString).ToLower() == "#0e1e46") {
-			PreferencesWindowBox.radio_color_chronojump_blue.Active = true;
-			PreferencesWindowBox.button_color_choose.Sensitive = false;
+			PWBox.radio_color_chronojump_blue.Active = true;
+			PWBox.button_color_choose.Sensitive = false;
 		}
 		else {
-			PreferencesWindowBox.colorChoosedLast = preferences.colorBackground;
-			PreferencesWindowBox.colorChoosedLastDefined = true;
+			PWBox.colorChoosedLast = preferences.colorBackground;
+			PWBox.colorChoosedLastDefined = true;
 
-			PreferencesWindowBox.radio_color_custom.Active = true;
-			PreferencesWindowBox.button_color_choose.Sensitive = true;
+			PWBox.radio_color_custom.Active = true;
+			PWBox.button_color_choose.Sensitive = true;
 		}
 
-		PreferencesWindowBox.colorBackground = UtilGtk.ColorParse(preferences.colorBackgroundString);
-		PreferencesWindowBox.paintColorChronojump ();
-		PreferencesWindowBox.paintDrawingArea (PreferencesWindowBox.colorBackground);
-		PreferencesWindowBox.paintBg (PreferencesWindowBox.colorBackground);
+		PWBox.colorBackground = UtilGtk.ColorParse(preferences.colorBackgroundString);
+		PWBox.paintColorChronojump ();
+		PWBox.paintDrawingArea (PWBox.colorBackground);
+		PWBox.paintBg (PWBox.colorBackground);
 
 
 		//tabs selection widgets
-		PreferencesWindowBox.image_view_more_tabs_close.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
-		PreferencesWindowBox.label_mandatory_tabs.Text = "<b>" + PreferencesWindowBox.label_mandatory_tabs.Text + "</b>";
-		PreferencesWindowBox.label_mandatory_tabs.UseMarkup = true;
-		PreferencesWindowBox.label_selectable_tabs.Text = "<b>" + PreferencesWindowBox.label_selectable_tabs.Text + "</b>";
-		PreferencesWindowBox.label_selectable_tabs.UseMarkup = true;
+		PWBox.image_view_more_tabs_close.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
+		PWBox.label_mandatory_tabs.Text = "<b>" + PWBox.label_mandatory_tabs.Text + "</b>";
+		PWBox.label_mandatory_tabs.UseMarkup = true;
+		PWBox.label_selectable_tabs.Text = "<b>" + PWBox.label_selectable_tabs.Text + "</b>";
+		PWBox.label_selectable_tabs.UseMarkup = true;
 
 		//help
-		PreferencesWindowBox.image_help_close.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
+		PWBox.image_help_close.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
 
-		PreferencesWindowBox.preferences_win.Show ();
-		return PreferencesWindowBox;
+		PWBox.preferences_win.Show ();
+		return PWBox;
 	}
 
 
@@ -1061,7 +1061,7 @@ public class PreferencesWindow
 		// B) changes on preferences object and SqlitePreferences
 		preferences.loadLastSessionAtStart = Preferences.PreferencesChange (
 				false, SqlitePreferences.LoadLastSessionAtStart, preferences.loadLastSessionAtStart,
-				PreferencesWindowBox.check_session_autoload_at_start.Active);
+				PWBox.check_session_autoload_at_start.Active);
 
 	}
 
@@ -1070,7 +1070,7 @@ public class PreferencesWindow
 		// B) changes on preferences object and SqlitePreferences
 		preferences.loadLastModeAtStart = Preferences.PreferencesChange (
 				false, SqlitePreferences.LoadLastModeAtStart, preferences.loadLastModeAtStart,
-				PreferencesWindowBox.check_mode_autoload_at_start.Active);
+				PWBox.check_mode_autoload_at_start.Active);
 	}
 
 	private void on_check_logo_animated_toggled (object o, EventArgs args)
@@ -1078,7 +1078,7 @@ public class PreferencesWindow
 		// B) changes on preferences object and SqlitePreferences
 		preferences.logoAnimatedShow = Preferences.PreferencesChange(
 				false, SqlitePreferences.LogoAnimatedShow, preferences.logoAnimatedShow,
-				PreferencesWindowBox.check_logo_animated.Active);
+				PWBox.check_logo_animated.Active);
 	}
 
 	private void on_check_rest_time_toggled (object o, EventArgs args)
@@ -1094,7 +1094,7 @@ public class PreferencesWindow
 			hbox_rest_time_values.Visible = false;
 			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_rest_inactive.png");
 		}
-		PreferencesWindowBox.image_rest.Pixbuf = pixbuf;
+		PWBox.image_rest.Pixbuf = pixbuf;
 
 		// B) changes on preferences object and SqlitePreferences
 		changeRestTimeOnPreferencesAndDB ();
@@ -1114,11 +1114,11 @@ public class PreferencesWindow
 	private void changeRestTimeOnPreferencesAndDB ()
 	{
 		bool changeRestTime = false;
-		int minutes = (int) PreferencesWindowBox.spinbutton_rest_minutes.Value;
-		int seconds = (int) PreferencesWindowBox.spinbutton_rest_seconds.Value;
+		int minutes = (int) PWBox.spinbutton_rest_minutes.Value;
+		int seconds = (int) PWBox.spinbutton_rest_seconds.Value;
 
 		//if we had some time selected previously and now we selected no rest time
-		if(preferences.restTimeMinutes >= 0 && ! PreferencesWindowBox.check_rest_time.Active)
+		if(preferences.restTimeMinutes >= 0 && ! PWBox.check_rest_time.Active)
 		{
 			changeRestTime = true;
 			minutes = -1;
@@ -1182,9 +1182,9 @@ public class PreferencesWindow
 		check_appearance_person_photo.Sensitive = ! check_appearance_person_win_hide.Active;
 
 		// B) changes on preferences object and SqlitePreferences
-		if( preferences.personWinHide != PreferencesWindowBox.check_appearance_person_win_hide.Active ) {
-			SqlitePreferences.Update("personWinHide", PreferencesWindowBox.check_appearance_person_win_hide.Active.ToString(), false);
-			preferences.personWinHide = PreferencesWindowBox.check_appearance_person_win_hide.Active;
+		if( preferences.personWinHide != PWBox.check_appearance_person_win_hide.Active ) {
+			SqlitePreferences.Update("personWinHide", PWBox.check_appearance_person_win_hide.Active.ToString(), false);
+			preferences.personWinHide = PWBox.check_appearance_person_win_hide.Active;
 			FakeButtonPersonWin.Click ();
 		}
 	}
@@ -1192,9 +1192,9 @@ public class PreferencesWindow
 	private void on_check_appearance_person_photo_toggled (object obj, EventArgs args)
 	{
 		// B) changes on preferences object and SqlitePreferences
-		if( preferences.personPhoto != PreferencesWindowBox.check_appearance_person_photo.Active ) {
-			SqlitePreferences.Update("personPhoto", PreferencesWindowBox.check_appearance_person_photo.Active.ToString(), false);
-			preferences.personPhoto = PreferencesWindowBox.check_appearance_person_photo.Active;
+		if( preferences.personPhoto != PWBox.check_appearance_person_photo.Active ) {
+			SqlitePreferences.Update("personPhoto", PWBox.check_appearance_person_photo.Active.ToString(), false);
+			preferences.personPhoto = PWBox.check_appearance_person_photo.Active;
 			FakeButtonPersonWin.Click ();
 		}
 	}
@@ -1204,33 +1204,33 @@ public class PreferencesWindow
 	private void on_checkbutton_power_toggled (object o, EventArgs args)
 	{
 		// B) changes on preferences object and SqlitePreferences
-		if( preferences.showPower != PreferencesWindowBox.checkbutton_power.Active ) {
-			SqlitePreferences.Update("showPower", PreferencesWindowBox.checkbutton_power.Active.ToString(), false);
-			preferences.showPower = PreferencesWindowBox.checkbutton_power.Active;
+		if( preferences.showPower != PWBox.checkbutton_power.Active ) {
+			SqlitePreferences.Update("showPower", PWBox.checkbutton_power.Active.ToString(), false);
+			preferences.showPower = PWBox.checkbutton_power.Active;
 		}
 	}
 	private void on_checkbutton_stiffness_toggled (object o, EventArgs args)
 	{
 		// B) changes on preferences object and SqlitePreferences
-		if( preferences.showStiffness != PreferencesWindowBox.checkbutton_stiffness.Active ) {
-			SqlitePreferences.Update("showStiffness", PreferencesWindowBox.checkbutton_stiffness.Active.ToString(), false);
-			preferences.showStiffness = PreferencesWindowBox.checkbutton_stiffness.Active;
+		if( preferences.showStiffness != PWBox.checkbutton_stiffness.Active ) {
+			SqlitePreferences.Update("showStiffness", PWBox.checkbutton_stiffness.Active.ToString(), false);
+			preferences.showStiffness = PWBox.checkbutton_stiffness.Active;
 		}
 	}
 	private void on_checkbutton_initial_speed_toggled (object o, EventArgs args)
 	{
 		// B) changes on preferences object and SqlitePreferences
-		if( preferences.showInitialSpeed != PreferencesWindowBox.checkbutton_initial_speed.Active ) {
-			SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString(), false);
-			preferences.showInitialSpeed = PreferencesWindowBox.checkbutton_initial_speed.Active;
+		if( preferences.showInitialSpeed != PWBox.checkbutton_initial_speed.Active ) {
+			SqlitePreferences.Update("showInitialSpeed", PWBox.checkbutton_initial_speed.Active.ToString(), false);
+			preferences.showInitialSpeed = PWBox.checkbutton_initial_speed.Active;
 		}
 	}
 	private void on_checkbutton_jump_rsi_toggled (object o, EventArgs args)
 	{
 		// B) changes on preferences object and SqlitePreferences
-		if( preferences.showJumpRSI != PreferencesWindowBox.checkbutton_jump_rsi.Active ) {
-			SqlitePreferences.Update(SqlitePreferences.ShowJumpRSI, PreferencesWindowBox.checkbutton_jump_rsi.Active.ToString(), false);
-			preferences.showJumpRSI = PreferencesWindowBox.checkbutton_jump_rsi.Active;
+		if( preferences.showJumpRSI != PWBox.checkbutton_jump_rsi.Active ) {
+			SqlitePreferences.Update(SqlitePreferences.ShowJumpRSI, PWBox.checkbutton_jump_rsi.Active.ToString(), false);
+			preferences.showJumpRSI = PWBox.checkbutton_jump_rsi.Active;
 		}
 	}
 
@@ -1257,13 +1257,13 @@ public class PreferencesWindow
 	}
 	private void changeQDJIndexOnPreferencesAndDB ()
 	{
-		if(PreferencesWindowBox.checkbutton_show_tv_tc_index.Active) {
+		if(PWBox.checkbutton_show_tv_tc_index.Active) {
 			preferences.showQIndex = Preferences.PreferencesChange(
 					false, "showQIndex", preferences.showQIndex,
-					PreferencesWindowBox.radiobutton_show_q_index.Active);
+					PWBox.radiobutton_show_q_index.Active);
 			preferences.showDjIndex = Preferences.PreferencesChange(
 					false, "showDjIndex", preferences.showDjIndex,
-					PreferencesWindowBox.radiobutton_show_dj_index.Active);
+					PWBox.radiobutton_show_dj_index.Active);
 		} else {
 			preferences.showQIndex = Preferences.PreferencesChange(
 					false, "showQIndex", preferences.showQIndex, false);
@@ -1287,19 +1287,19 @@ public class PreferencesWindow
 	{
 		// B) changes on preferences object and SqlitePreferences
 		if ( ((Gtk.RadioButton) o).Active)
-			if( preferences.weightStatsPercent != PreferencesWindowBox.radio_weight_percent.Active ) {
-				SqlitePreferences.Update("weightStatsPercent", PreferencesWindowBox.radio_weight_percent.Active.ToString(), false);
-				preferences.weightStatsPercent = PreferencesWindowBox.radio_weight_percent.Active;
+			if( preferences.weightStatsPercent != PWBox.radio_weight_percent.Active ) {
+				SqlitePreferences.Update("weightStatsPercent", PWBox.radio_weight_percent.Active.ToString(), false);
+				preferences.weightStatsPercent = PWBox.radio_weight_percent.Active;
 			}
 	}
 	private void on_radio_use_heights_or_not_on_jump_indexes_toggled (object o, EventArgs args)
 	{
 		// B) changes on preferences object and SqlitePreferences
 		if ( ((Gtk.RadioButton) o).Active)
-			if( preferences.useHeightsOnJumpIndexes != PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active ) {
+			if( preferences.useHeightsOnJumpIndexes != PWBox.radio_use_heights_on_jump_indexes.Active ) {
 				SqlitePreferences.Update("useHeightsOnJumpIndexes",
-						PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active.ToString(), false);
-				preferences.useHeightsOnJumpIndexes = PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active;
+						PWBox.radio_use_heights_on_jump_indexes.Active.ToString(), false);
+				preferences.useHeightsOnJumpIndexes = PWBox.radio_use_heights_on_jump_indexes.Active;
 			}
 	}
 
@@ -1309,18 +1309,18 @@ public class PreferencesWindow
 	{
 		// B) changes on preferences object and SqlitePreferences
 		if ( ((Gtk.RadioButton) o).Active)
-			if( preferences.metersSecondsPreferred != PreferencesWindowBox.radio_speed_ms.Active ) {
-				SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.radio_speed_ms.Active.ToString(), false);
-				preferences.metersSecondsPreferred = PreferencesWindowBox.radio_speed_ms.Active;
+			if( preferences.metersSecondsPreferred != PWBox.radio_speed_ms.Active ) {
+				SqlitePreferences.Update("metersSecondsPreferred", PWBox.radio_speed_ms.Active.ToString(), false);
+				preferences.metersSecondsPreferred = PWBox.radio_speed_ms.Active;
 			}
 	}
 	private void on_radio_runs_speed_start_arrival_leaving_toggled (object o, EventArgs args)
 	{
 		// B) changes on preferences object and SqlitePreferences
 		if ( ((Gtk.RadioButton) o).Active)
-			if( preferences.runSpeedStartArrival != PreferencesWindowBox.radio_runs_speed_start_arrival.Active ) {
-				SqlitePreferences.Update("runSpeedStartArrival", PreferencesWindowBox.radio_runs_speed_start_arrival.Active.ToString(), false);
-				preferences.runSpeedStartArrival = PreferencesWindowBox.radio_runs_speed_start_arrival.Active;
+			if( preferences.runSpeedStartArrival != PWBox.radio_runs_speed_start_arrival.Active ) {
+				SqlitePreferences.Update("runSpeedStartArrival", PWBox.radio_runs_speed_start_arrival.Active.ToString(), false);
+				preferences.runSpeedStartArrival = PWBox.radio_runs_speed_start_arrival.Active;
 			}
 	}
 
@@ -1357,21 +1357,21 @@ public class PreferencesWindow
 	{
 		//1.1 was FIRST or AVERAGE or LAST and now will be NONE
 		if( (preferences.runDoubleContactsMode != Constants.DoubleContact.NONE) &&
-				! PreferencesWindowBox.checkbutton_runs_prevent_double_contact.Active)
+				! PWBox.checkbutton_runs_prevent_double_contact.Active)
 		{
 				SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.NONE.ToString(), false);
 				preferences.runDoubleContactsMode = Constants.DoubleContact.NONE;
 		}
-		else if(PreferencesWindowBox.checkbutton_runs_prevent_double_contact.Active)
+		else if(PWBox.checkbutton_runs_prevent_double_contact.Active)
 		{
 			if( preferences.runDoubleContactsMode != Constants.DoubleContact.BIGGEST_TC ) {
 				SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.BIGGEST_TC.ToString(), false);
 				preferences.runDoubleContactsMode = Constants.DoubleContact.BIGGEST_TC;
 			}
 
-			if(preferences.runDoubleContactsMS != (int) PreferencesWindowBox.spinbutton_runs_prevent_double_contact.Value) {
+			if(preferences.runDoubleContactsMS != (int) PWBox.spinbutton_runs_prevent_double_contact.Value) {
 				SqlitePreferences.Update("runDoubleContactsMS",
-						PreferencesWindowBox.spinbutton_runs_prevent_double_contact.Value.ToString(), false); //saved as string
+						PWBox.spinbutton_runs_prevent_double_contact.Value.ToString(), false); //saved as string
 				preferences.runDoubleContactsMS = (int) spinbutton_runs_prevent_double_contact.Value;
 			}
 		}
@@ -1381,21 +1381,21 @@ public class PreferencesWindow
 	{
 		//2.1 was FIRST or AVERAGE or LAST and now will be NONE
 		if( (preferences.runIDoubleContactsMode != Constants.DoubleContact.NONE) &&
-				! PreferencesWindowBox.checkbutton_runs_i_prevent_double_contact.Active)
+				! PWBox.checkbutton_runs_i_prevent_double_contact.Active)
 		{
 				SqlitePreferences.Update("runIDoubleContactsMode", Constants.DoubleContact.NONE.ToString(), false);
 				preferences.runIDoubleContactsMode = Constants.DoubleContact.NONE;
 		}
-		else if(PreferencesWindowBox.checkbutton_runs_i_prevent_double_contact.Active)
+		else if(PWBox.checkbutton_runs_i_prevent_double_contact.Active)
 		{
 			if( preferences.runIDoubleContactsMode != Constants.DoubleContact.BIGGEST_TC ) {
 				SqlitePreferences.Update("runIDoubleContactsMode", Constants.DoubleContact.BIGGEST_TC.ToString(), false);
 				preferences.runIDoubleContactsMode = Constants.DoubleContact.BIGGEST_TC;
 			}
 
-			if(preferences.runIDoubleContactsMS != (int) PreferencesWindowBox.spinbutton_runs_i_prevent_double_contact.Value) {
+			if(preferences.runIDoubleContactsMS != (int) PWBox.spinbutton_runs_i_prevent_double_contact.Value) {
 				SqlitePreferences.Update("runIDoubleContactsMS",
-						PreferencesWindowBox.spinbutton_runs_i_prevent_double_contact.Value.ToString(), false); //saved as string
+						PWBox.spinbutton_runs_i_prevent_double_contact.Value.ToString(), false); //saved as string
 				preferences.runIDoubleContactsMS = (int) spinbutton_runs_i_prevent_double_contact.Value;
 			}
 		}
@@ -1409,7 +1409,7 @@ public class PreferencesWindow
 		preferences.encoderCaptureTime = Preferences.PreferencesChange(
 				false, "encoderCaptureTime",
 				preferences.encoderCaptureTime,
-				(int) PreferencesWindowBox.spin_encoder_capture_time.Value);
+				(int) PWBox.spin_encoder_capture_time.Value);
 	}
 
 	private void on_check_encoder_capture_inactivity_end_time_clicked (object o, EventArgs args)
@@ -1427,7 +1427,7 @@ public class PreferencesWindow
 	}
 	private void changeEncoderInactivityEndTimeOnPreferencesAndDB ()
 	{
-		if(! PreferencesWindowBox.check_encoder_capture_inactivity_end_time.Active)
+		if(! PWBox.check_encoder_capture_inactivity_end_time.Active)
 		{
 			SqlitePreferences.Update("encoderCaptureInactivityEndTime", "-1", false);
 			preferences.encoderCaptureInactivityEndTime = -1;
@@ -1435,7 +1435,7 @@ public class PreferencesWindow
 			preferences.encoderCaptureInactivityEndTime = Preferences.PreferencesChange(
 					false, "encoderCaptureInactivityEndTime",
 					preferences.encoderCaptureInactivityEndTime,
-					(int) PreferencesWindowBox.spin_encoder_capture_inactivity_end_time.Value);
+					(int) PWBox.spin_encoder_capture_inactivity_end_time.Value);
 		}
 	}
 
@@ -1454,7 +1454,7 @@ public class PreferencesWindow
 	}
 	private void changeEncoderInertialDiscardFirstNOnPreferencesAndDB ()
 	{
-		int spinEncoderCaptureDiscardFirstN = Convert.ToInt32(PreferencesWindowBox.spin_encoder_capture_inertial_discard_first_n.Value);
+		int spinEncoderCaptureDiscardFirstN = Convert.ToInt32(PWBox.spin_encoder_capture_inertial_discard_first_n.Value);
 		if(! checkbutton_encoder_capture_inertial_discard_first_n.Active)
 			spinEncoderCaptureDiscardFirstN = 0;
 
@@ -1469,21 +1469,21 @@ public class PreferencesWindow
 	{
 		// B) changes on preferences object and SqlitePreferences
 		//radio_encoder_rep_criteria_gravitatory_*
-		if(PreferencesWindowBox.radio_encoder_rep_criteria_gravitatory_ecc_con.Active &&
+		if(PWBox.radio_encoder_rep_criteria_gravitatory_ecc_con.Active &&
 				preferences.encoderRepetitionCriteriaGravitatory != Preferences.EncoderRepetitionCriteria.ECC_CON)
 		{
 			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaGravitatoryStr,
 					Preferences.EncoderRepetitionCriteria.ECC_CON.ToString(), false);
 			preferences.encoderRepetitionCriteriaGravitatory = Preferences.EncoderRepetitionCriteria.ECC_CON;
 		}
-		else if(PreferencesWindowBox.radio_encoder_rep_criteria_gravitatory_ecc.Active &&
+		else if(PWBox.radio_encoder_rep_criteria_gravitatory_ecc.Active &&
 				preferences.encoderRepetitionCriteriaGravitatory != Preferences.EncoderRepetitionCriteria.ECC)
 		{
 			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaGravitatoryStr,
 					Preferences.EncoderRepetitionCriteria.ECC.ToString(), false);
 			preferences.encoderRepetitionCriteriaGravitatory = Preferences.EncoderRepetitionCriteria.ECC;
 		}
-		else if(PreferencesWindowBox.radio_encoder_rep_criteria_gravitatory_con.Active &&
+		else if(PWBox.radio_encoder_rep_criteria_gravitatory_con.Active &&
 				preferences.encoderRepetitionCriteriaGravitatory != Preferences.EncoderRepetitionCriteria.CON)
 		{
 			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaGravitatoryStr,
@@ -1496,21 +1496,21 @@ public class PreferencesWindow
 	{
 		// B) changes on preferences object and SqlitePreferences
 		//radio_encoder_rep_criteria_inertial_*
-		if(PreferencesWindowBox.radio_encoder_rep_criteria_inertial_ecc_con.Active &&
+		if(PWBox.radio_encoder_rep_criteria_inertial_ecc_con.Active &&
 				preferences.encoderRepetitionCriteriaInertial != Preferences.EncoderRepetitionCriteria.ECC_CON)
 		{
 			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaInertialStr,
 					Preferences.EncoderRepetitionCriteria.ECC_CON.ToString(), false);
 			preferences.encoderRepetitionCriteriaInertial = Preferences.EncoderRepetitionCriteria.ECC_CON;
 		}
-		else if(PreferencesWindowBox.radio_encoder_rep_criteria_inertial_ecc.Active &&
+		else if(PWBox.radio_encoder_rep_criteria_inertial_ecc.Active &&
 				preferences.encoderRepetitionCriteriaInertial != Preferences.EncoderRepetitionCriteria.ECC)
 		{
 			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaInertialStr,
 					Preferences.EncoderRepetitionCriteria.ECC.ToString(), false);
 			preferences.encoderRepetitionCriteriaInertial = Preferences.EncoderRepetitionCriteria.ECC;
 		}
-		else if(PreferencesWindowBox.radio_encoder_rep_criteria_inertial_con.Active &&
+		else if(PWBox.radio_encoder_rep_criteria_inertial_con.Active &&
 				preferences.encoderRepetitionCriteriaInertial != Preferences.EncoderRepetitionCriteria.CON)
 		{
 			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaInertialStr,
@@ -1542,16 +1542,16 @@ public class PreferencesWindow
 	}
 	private void changeEncoderCaptureShowOnlyBarsOnPreferencesAndDB ()
 	{
-		if( preferences.encoderCaptureShowNRepetitions > 0 && PreferencesWindowBox.radio_encoder_capture_show_all_bars.Active )
+		if( preferences.encoderCaptureShowNRepetitions > 0 && PWBox.radio_encoder_capture_show_all_bars.Active )
 		{
 			SqlitePreferences.Update("encoderCaptureShowNRepetitions", "-1", false);
 			preferences.encoderCaptureShowNRepetitions = -1;
 		}
-		else if( PreferencesWindowBox.radio_encoder_capture_show_only_some_bars.Active &&
-				preferences.encoderCaptureShowNRepetitions != (int) PreferencesWindowBox.spin_encoder_capture_show_only_some_bars.Value) {
+		else if( PWBox.radio_encoder_capture_show_only_some_bars.Active &&
+				preferences.encoderCaptureShowNRepetitions != (int) PWBox.spin_encoder_capture_show_only_some_bars.Value) {
 			SqlitePreferences.Update("encoderCaptureShowNRepetitions",
-					PreferencesWindowBox.spin_encoder_capture_show_only_some_bars.Value.ToString(), false);
-			preferences.encoderCaptureShowNRepetitions = (int) PreferencesWindowBox.spin_encoder_capture_show_only_some_bars.Value;
+					PWBox.spin_encoder_capture_show_only_some_bars.Value.ToString(), false);
+			preferences.encoderCaptureShowNRepetitions = (int) PWBox.spin_encoder_capture_show_only_some_bars.Value;
 		}
 	}
 
@@ -1561,7 +1561,7 @@ public class PreferencesWindow
 		preferences.encoderCaptureBarplotFontSize = Preferences.PreferencesChange(
 				false, "encoderCaptureBarplotFontSize",
 				preferences.encoderCaptureBarplotFontSize,
-				(int) PreferencesWindowBox.spin_encoder_capture_barplot_font_size.Value);
+				(int) PWBox.spin_encoder_capture_barplot_font_size.Value);
 	}
 
 	private void on_check_show_start_and_duration_clicked (object o, EventArgs args)
@@ -1570,7 +1570,7 @@ public class PreferencesWindow
 		preferences.encoderShowStartAndDuration = Preferences.PreferencesChange(
 				false, "encoderShowStartAndDuration",
 				preferences.encoderShowStartAndDuration,
-				PreferencesWindowBox.check_show_start_and_duration.Active);
+				PWBox.check_show_start_and_duration.Active);
 	}
 
 	private void on_radio_encoder_triggers_toggled (object o, EventArgs args)
@@ -1581,7 +1581,7 @@ public class PreferencesWindow
 		{
 			vbox_encoder_triggers_yes.Visible = false;
 			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_encoder_triggers_no.png");
-		PreferencesWindowBox.image_encoder_triggers.Pixbuf = pixbuf;
+		PWBox.image_encoder_triggers.Pixbuf = pixbuf;
 		} else {
 			vbox_encoder_triggers_yes.Visible = true;
 			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_encoder_triggers.png");
@@ -1598,21 +1598,21 @@ public class PreferencesWindow
 	}
 	private void changeEncoderCaptureTriggersOnPreferencesAndDB ()
 	{
-		if(PreferencesWindowBox.radio_encoder_triggers_no.Active &&
+		if(PWBox.radio_encoder_triggers_no.Active &&
 				preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS)
 		{
 			SqlitePreferences.Update("encoderCaptureCutByTriggers", Preferences.TriggerTypes.NO_TRIGGERS.ToString(), false);
 			preferences.encoderCaptureCutByTriggers = Preferences.TriggerTypes.NO_TRIGGERS;
 		}
-		else if(PreferencesWindowBox.radio_encoder_triggers_yes.Active &&
-				PreferencesWindowBox.radio_encoder_triggers_yes_start_at_capture.Active &&
+		else if(PWBox.radio_encoder_triggers_yes.Active &&
+				PWBox.radio_encoder_triggers_yes_start_at_capture.Active &&
 				preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.START_AT_CAPTURE)
 		{
 			SqlitePreferences.Update("encoderCaptureCutByTriggers", Preferences.TriggerTypes.START_AT_CAPTURE.ToString(), false);
 			preferences.encoderCaptureCutByTriggers = Preferences.TriggerTypes.START_AT_CAPTURE;
 		}
-		else if(PreferencesWindowBox.radio_encoder_triggers_yes.Active &&
-				PreferencesWindowBox.radio_encoder_triggers_yes_start_at_first_trigger.Active &&
+		else if(PWBox.radio_encoder_triggers_yes.Active &&
+				PWBox.radio_encoder_triggers_yes_start_at_first_trigger.Active &&
 				preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.START_AT_FIRST_ON)
 		{
 			SqlitePreferences.Update("encoderCaptureCutByTriggers", Preferences.TriggerTypes.START_AT_FIRST_ON.ToString(), false);
@@ -1626,7 +1626,7 @@ public class PreferencesWindow
 		preferences.encoderCaptureInfinite = Preferences.PreferencesChange(
 				false,
 				SqlitePreferences.EncoderCaptureInfinite, preferences.encoderCaptureInfinite,
-				PreferencesWindowBox.check_encoder_capture_infinite.Active);
+				PWBox.check_encoder_capture_infinite.Active);
 	}
 
 
@@ -1638,7 +1638,7 @@ public class PreferencesWindow
 		preferences.encoderPropulsive = Preferences.PreferencesChange(
 				false, "encoderPropulsive",
 				preferences.encoderPropulsive,
-				PreferencesWindowBox.checkbutton_encoder_propulsive.Active);
+				PWBox.checkbutton_encoder_propulsive.Active);
 	}
 
 	private void on_radio_encoder_work_toggled (object o, EventArgs args)
@@ -1662,9 +1662,9 @@ public class PreferencesWindow
 	}
 	private Preferences.EncoderInertialGraphsXTypes get_encoderInertialGraphsX_from_gui()
 	{
-		if(PreferencesWindowBox.radio_encoder_inertial_analyze_inertia_moment.Active)
+		if(PWBox.radio_encoder_inertial_analyze_inertia_moment.Active)
 			return Preferences.EncoderInertialGraphsXTypes.INERTIA_MOMENT;
-		else if(PreferencesWindowBox.radio_encoder_inertial_analyze_diameter.Active)
+		else if(PWBox.radio_encoder_inertial_analyze_diameter.Active)
 			return Preferences.EncoderInertialGraphsXTypes.DIAMETER;
 		else
 			return Preferences.EncoderInertialGraphsXTypes.EQUIVALENT_MASS;
@@ -1676,18 +1676,18 @@ public class PreferencesWindow
 		preferences.encoderSmoothCon = Preferences.PreferencesChange(
 				false, "encoderSmoothCon",
 				preferences.encoderSmoothCon,
-				(double) PreferencesWindowBox.spin_encoder_smooth_con.Value);
+				(double) PWBox.spin_encoder_smooth_con.Value);
 	}
 	private void on_radio_encoder_1RM_weight_toggled (object o, EventArgs args)
 	{
 		Constants.Encoder1RMMethod encoder1RMMethod;
-		if(PreferencesWindowBox.radio_encoder_1RM_nonweighted.Active)
+		if(PWBox.radio_encoder_1RM_nonweighted.Active)
 			encoder1RMMethod = Constants.Encoder1RMMethod.NONWEIGHTED;
-		else if(PreferencesWindowBox.radio_encoder_1RM_weighted.Active)
+		else if(PWBox.radio_encoder_1RM_weighted.Active)
 			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED;
-		else if(PreferencesWindowBox.radio_encoder_1RM_weighted2.Active)
+		else if(PWBox.radio_encoder_1RM_weighted2.Active)
 			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED2;
-		else // (PreferencesWindowBox.radio_encoder_1RM_weighted3.Active)
+		else // (PWBox.radio_encoder_1RM_weighted3.Active)
 			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED3;
 
 		if(preferences.encoder1RMMethod != encoder1RMMethod) {
@@ -1713,7 +1713,7 @@ public class PreferencesWindow
 	}
 	private void changeForceSensorIsometricButterworthOnPreferencesAndDB ()
 	{
-		if(! PreferencesWindowBox.check_force_sensor_isometric_butterworth.Active)
+		if(! PWBox.check_force_sensor_isometric_butterworth.Active)
 		{
 			SqlitePreferences.Update(SqlitePreferences.ForceSensorIsometricButterworth, "-1", false);
 			preferences.forceSensorIsometricButterworth = -1;
@@ -1748,7 +1748,7 @@ public class PreferencesWindow
 	}
 	private void changeForceSensorElasticButterworthOnPreferencesAndDB ()
 	{
-		if(! PreferencesWindowBox.check_force_sensor_elastic_butterworth.Active)
+		if(! PWBox.check_force_sensor_elastic_butterworth.Active)
 		{
 			SqlitePreferences.Update(SqlitePreferences.ForceSensorElasticButterworth, "-1", false);
 			preferences.forceSensorElasticButterworth = -1;
@@ -1857,25 +1857,25 @@ public class PreferencesWindow
 			hbox_force_sensor_lag.Visible = false;
 
 		// B) changes on preferences object and SqlitePreferences
-		if(PreferencesWindowBox.radio_force_sensor_variability_rmssd.Active &&
+		if(PWBox.radio_force_sensor_variability_rmssd.Active &&
 				preferences.forceSensorVariabilityMethod != Preferences.VariabilityMethodEnum.RMSSD)
 		{
 			SqlitePreferences.Update(SqlitePreferences.ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.RMSSD.ToString(), false);
 			preferences.forceSensorVariabilityMethod = Preferences.VariabilityMethodEnum.RMSSD;
 		}
-		else if(PreferencesWindowBox.radio_force_sensor_variability_cvrmssd.Active &&
+		else if(PWBox.radio_force_sensor_variability_cvrmssd.Active &&
 				preferences.forceSensorVariabilityMethod != Preferences.VariabilityMethodEnum.CVRMSSD)
 		{
 			SqlitePreferences.Update(SqlitePreferences.ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.CVRMSSD.ToString(), false);
 			preferences.forceSensorVariabilityMethod = Preferences.VariabilityMethodEnum.CVRMSSD;
 		}
-		else if(PreferencesWindowBox.radio_force_sensor_variability_cv.Active &&
+		else if(PWBox.radio_force_sensor_variability_cv.Active &&
 				preferences.forceSensorVariabilityMethod != Preferences.VariabilityMethodEnum.CV)
 		{
 			SqlitePreferences.Update(SqlitePreferences.ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.CV.ToString(), false);
 			preferences.forceSensorVariabilityMethod = Preferences.VariabilityMethodEnum.CV;
 		}
-		else if(PreferencesWindowBox.radio_force_sensor_variability_old.Active &&
+		else if(PWBox.radio_force_sensor_variability_old.Active &&
 				preferences.forceSensorVariabilityMethod != Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD)
 		{
 			SqlitePreferences.Update(SqlitePreferences.ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD.ToString(), false);
@@ -1953,9 +1953,9 @@ public class PreferencesWindow
 		alignment_multimedia_sounds.Visible = checkbutton_volume.Active;
 
 		// B) changes on preferences object and SqlitePreferences
-		if( preferences.volumeOn != PreferencesWindowBox.checkbutton_volume.Active ) {
-			SqlitePreferences.Update ("volumeOn", PreferencesWindowBox.checkbutton_volume.Active.ToString(), false);
-			preferences.volumeOn = PreferencesWindowBox.checkbutton_volume.Active;
+		if( preferences.volumeOn != PWBox.checkbutton_volume.Active ) {
+			SqlitePreferences.Update ("volumeOn", PWBox.checkbutton_volume.Active.ToString(), false);
+			preferences.volumeOn = PWBox.checkbutton_volume.Active;
 		}
 	}
 
@@ -2153,13 +2153,13 @@ public class PreferencesWindow
 			return;
 
 		if (preferences.CSVExportDecimalSeparator == "POINT" &&
-				PreferencesWindowBox.radio_export_latin.Active)
+				PWBox.radio_export_latin.Active)
 		{
 			SqlitePreferences.Update ("CSVExportDecimalSeparator","COMMA", false);
 			preferences.CSVExportDecimalSeparator = "COMMA";
 		}
 		else if (preferences.CSVExportDecimalSeparator == "COMMA" &&
-				! PreferencesWindowBox.radio_export_latin.Active)
+				! PWBox.radio_export_latin.Active)
 		{
 			SqlitePreferences.Update ("CSVExportDecimalSeparator","POINT", false);
 			preferences.CSVExportDecimalSeparator = "POINT";
@@ -2173,10 +2173,10 @@ public class PreferencesWindow
 			restartLabelShow ();
 
 		// B) changes on preferences object and SqlitePreferences
-		if (preferences.RGraphsTranslate != PreferencesWindowBox.radio_graphs_translate.Active) {
+		if (preferences.RGraphsTranslate != PWBox.radio_graphs_translate.Active) {
 			SqlitePreferences.Update ("RGraphsTranslate",
-					PreferencesWindowBox.radio_graphs_translate.Active.ToString(), false);
-			preferences.RGraphsTranslate = PreferencesWindowBox.radio_graphs_translate.Active;
+					PWBox.radio_graphs_translate.Active.ToString(), false);
+			preferences.RGraphsTranslate = PWBox.radio_graphs_translate.Active;
 		}
 	}
 
@@ -2185,15 +2185,15 @@ public class PreferencesWindow
 	private void on_check_networks_devices_clicked (object o, EventArgs args)
 	{
 		// this is not stored in SQL. used on networks
-		preferences.networksAllowChangeDevices = PreferencesWindowBox.check_networks_devices.Active;
+		preferences.networksAllowChangeDevices = PWBox.check_networks_devices.Active;
 	}
 
 	private void on_checkbutton_ask_deletion_clicked (object o, EventArgs args)
 	{
 		// B) changes on preferences object and SqlitePreferences
-		if (preferences.askDeletion != PreferencesWindowBox.checkbutton_ask_deletion.Active) {
-			SqlitePreferences.Update ("askDeletion", PreferencesWindowBox.checkbutton_ask_deletion.Active.ToString(), false);
-			preferences.askDeletion = PreferencesWindowBox.checkbutton_ask_deletion.Active;
+		if (preferences.askDeletion != PWBox.checkbutton_ask_deletion.Active) {
+			SqlitePreferences.Update ("askDeletion", PWBox.checkbutton_ask_deletion.Active.ToString(), false);
+			preferences.askDeletion = PWBox.checkbutton_ask_deletion.Active;
 		}
 	}
 
@@ -2389,9 +2389,9 @@ public class PreferencesWindow
 		/* disabled. Only false since 2.3.0-2
 
 		// B) changes on preferences object and SqlitePreferences
-		if (preferences.muteLogs != PreferencesWindowBox.checkbutton_mute_logs.Active) {
-			SqlitePreferences.Update ("muteLogs", PreferencesWindowBox.checkbutton_mute_logs.Active.ToString(), false);
-			preferences.muteLogs = PreferencesWindowBox.checkbutton_mute_logs.Active;
+		if (preferences.muteLogs != PWBox.checkbutton_mute_logs.Active) {
+			SqlitePreferences.Update ("muteLogs", PWBox.checkbutton_mute_logs.Active.ToString(), false);
+			preferences.muteLogs = PWBox.checkbutton_mute_logs.Active;
 		}
 		*/
 	}
@@ -2400,12 +2400,12 @@ public class PreferencesWindow
 
 	private void on_button_view_more_tabs_clicked (object o, EventArgs args)
 	{
-		PreferencesWindowBox.notebook_top.CurrentPage = Convert.ToInt32(notebook_top_pages.SELECTTABS);
+		PWBox.notebook_top.CurrentPage = Convert.ToInt32(notebook_top_pages.SELECTTABS);
 		hbox_buttons_bottom.Sensitive = false;
 	}
 	private void on_button_view_more_tabs_close_clicked (object o, EventArgs args)
 	{
-		PreferencesWindowBox.notebook_top.CurrentPage = Convert.ToInt32(notebook_top_pages.PREFERENCES);
+		PWBox.notebook_top.CurrentPage = Convert.ToInt32(notebook_top_pages.PREFERENCES);
 		hbox_buttons_bottom.Sensitive = true;
 	}
 
@@ -2429,11 +2429,11 @@ public class PreferencesWindow
 	private void tabShowHide (bool active, int page)
 	{
 		if(active) {
-			PreferencesWindowBox.notebook.GetNthPage(page).Show();
-			PreferencesWindowBox.notebook.CurrentPage = page;
+			PWBox.notebook.GetNthPage(page).Show();
+			PWBox.notebook.CurrentPage = page;
 
 		} else
-			PreferencesWindowBox.notebook.GetNthPage(page).Hide();
+			PWBox.notebook.GetNthPage(page).Hide();
 	}
 
 	// <---- endo of view more tabs
@@ -2445,7 +2445,7 @@ public class PreferencesWindow
 	private void showHelp (string title, helpTypes helpType, string message)
 	{
 		preferences_win.Title = Catalog.GetString("Preferences") + " / " + Catalog.GetString("Help:") + " " + title;
-		PreferencesWindowBox.notebook_top.CurrentPage = Convert.ToInt32(notebook_top_pages.HELP);
+		PWBox.notebook_top.CurrentPage = Convert.ToInt32(notebook_top_pages.HELP);
 		hbox_buttons_bottom.Sensitive = false;
 
 		hbox_stiffness_formula.Visible = (helpType == helpTypes.STIFFNESS);
@@ -2456,7 +2456,7 @@ public class PreferencesWindow
 	private void on_button_help_close_clicked (object o, EventArgs args)
 	{
 		preferences_win.Title = Catalog.GetString("Preferences");
-		PreferencesWindowBox.notebook_top.CurrentPage = Convert.ToInt32(notebook_top_pages.PREFERENCES);
+		PWBox.notebook_top.CurrentPage = Convert.ToInt32(notebook_top_pages.PREFERENCES);
 		hbox_buttons_bottom.Sensitive = true;
 	}
 
@@ -2796,7 +2796,7 @@ public class PreferencesWindow
 		}
 
 		notebook_multimedia_video.CurrentPage = 1;
-		PreferencesWindowBox.createComboCamera(preferences.videoDevice,
+		PWBox.createComboCamera(preferences.videoDevice,
 				preferences.videoDevicePixelFormat, preferences.videoDeviceResolution, preferences.videoDeviceFramerate);
 	}
 
@@ -3053,14 +3053,14 @@ public class PreferencesWindow
 	void on_button_close_clicked (object o, EventArgs args)
 	{
 		/*
-		if( preferences.showAngle != PreferencesWindowBox.checkbutton_angle.Active ) {
-			SqlitePreferences.Update("showAngle", PreferencesWindowBox.checkbutton_angle.Active.ToString(), false);
-			preferences.showAngle = PreferencesWindowBox.checkbutton_angle.Active;
+		if( preferences.showAngle != PWBox.checkbutton_angle.Active ) {
+			SqlitePreferences.Update("showAngle", PWBox.checkbutton_angle.Active.ToString(), false);
+			preferences.showAngle = PWBox.checkbutton_angle.Active;
 		}
 		*/
 
-		PreferencesWindowBox.preferences_win.Hide();
-		PreferencesWindowBox = null;
+		PWBox.preferences_win.Hide();
+		PWBox = null;
 	}
 
 	void on_preferences_delete_event (object o, DeleteEventArgs args)
@@ -3072,8 +3072,8 @@ public class PreferencesWindow
 			args.RetVal = true;
 		else {
 */
-			PreferencesWindowBox.preferences_win.Hide();
-			PreferencesWindowBox = null;
+			PWBox.preferences_win.Hide();
+			PWBox = null;
 //		}
 	}
 
@@ -3283,10 +3283,10 @@ public class PreferencesWindow
 
 	private Preferences.MaximizedTypes get_maximized_from_gui()
 	{
-		if( ! PreferencesWindowBox.check_appearance_maximized.Active )
+		if( ! PWBox.check_appearance_maximized.Active )
 			return Preferences.MaximizedTypes.NO;
 
-		if( ! PreferencesWindowBox.check_appearance_maximized_undecorated.Active )
+		if( ! PWBox.check_appearance_maximized_undecorated.Active )
 			return Preferences.MaximizedTypes.YES;
 
 		return Preferences.MaximizedTypes.YESUNDECORATED;
@@ -3294,9 +3294,9 @@ public class PreferencesWindow
 
 	private Preferences.pythonVersionEnum get_pythonVersion_from_gui()
 	{
-		if( PreferencesWindowBox.radio_python_2.Active)
+		if( PWBox.radio_python_2.Active)
 			return Preferences.pythonVersionEnum.Python2;
-		else //if( PreferencesWindowBox.radio_python_3.Active)
+		else //if( PWBox.radio_python_3.Active)
 			return Preferences.pythonVersionEnum.Python3;
 	}
 

@@ -282,6 +282,7 @@ public class Config
 
 		Config.LastDBFullPathStatic = storedLastDBFullPathStatic;
 	}
+	//text can be empty in order to comment (or maybe implement delete) that parameter
 	public void UpdateField (string field, string text)
 	{
 		string tempfile = Path.GetTempFileName ();
@@ -289,7 +290,7 @@ public class Config
 		LogB.Information( string.Format ("Config.UpdateField tempfile: {0}, configFile: {1}, field: {2}, text: {3}",
 					tempfile, configFile, field, text));
 		
-		if(! File.Exists (configFile)) {
+		if(! File.Exists (configFile) && text != "") {
 			try {
 				using (var writer = new StreamWriter (tempfile))
 				{
@@ -304,24 +305,30 @@ public class Config
 				using (var writer = new StreamWriter(tempfile))
 					using (var reader = new StreamReader (configFile))
 					{
-						bool found = false;
+						bool foundOnFile = false;
 						while (! reader.EndOfStream)
 						{
 							string line = reader.ReadLine ();
-							if (line != "" && line[0] != '#') 
+							if (line != "")
 							{
 								string [] parts = line.Split (new char[] {'='});
-								if (parts.Length == 2 && parts[0] == field)
+								if (parts.Length == 2 && (parts[0] == field || parts[0] == "#" + field))
 								{
-									line = field + "=" + text;
-									found = true;
+									//if (line.StartsWith "#" && text == "")
+										//not need to do nothing
+									if (! line.StartsWith ("#") && text == "")
+										line = "#" + line;
+									else if (text != "")
+										line = field + "=" + text;
+
+									foundOnFile = true;
 								}
 							}
 							writer.WriteLine (line);
 						}
 
 						//if not found it adds the command
-						if (! found)
+						if (! foundOnFile && text != "")
 							writer.WriteLine (field + "=" + text);
 					}
 				File.Copy (tempfile, configFile, true);

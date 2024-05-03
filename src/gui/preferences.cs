@@ -280,6 +280,7 @@ public class PreferencesWindow
 	Gtk.Label label_progVersion;
 	Gtk.Frame frame_networks;
 	Gtk.CheckButton check_networks_devices;
+	Gtk.RadioButton radio_cloud_no;
 	Gtk.RadioButton radio_cloud_capture;
 	Gtk.RadioButton radio_cloud_view;
 	Gtk.Button button_cloud_capture_path;
@@ -328,7 +329,14 @@ public class PreferencesWindow
 	private UtilAll.OperatingSystems operatingSystem;
 	private Preferences preferences; //stored to update SQL if anything changed
 //	private Thread thread;
-	private Config configChronojump;
+
+	/* using configAtPrefs and not pass configChronojump from app1
+	 * this is done because at prefs we maybe change cloud stuff, and this will update chronojump_config file
+	 * but not configChronojump. And then if we open preferences again, radios do not correspond to the previously changed radios.
+	 * So better read config here all the time that will read cloud stuff on chronojump_config.txt
+	 */
+	//private Config configChronojump;
+	private Config configAtPrefs;
 
 	//string databaseURL;
 	//string databaseTempURL;
@@ -375,7 +383,8 @@ public class PreferencesWindow
 
 	static public PreferencesWindow Show (
 			Preferences preferences,
-			Constants.Modes menu_mode, bool compujump, Config configChronojump, string progVersion)
+			//Constants.Modes menu_mode, bool compujump, Config configChronojump, string progVersion)
+			Constants.Modes menu_mode, bool compujump, string progVersion)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow ();
@@ -383,7 +392,9 @@ public class PreferencesWindow
 
 		PreferencesWindowBox.notebook_top.CurrentPage = Convert.ToInt32(notebook_top_pages.PREFERENCES);
 		PreferencesWindowBox.operatingSystem = UtilAll.GetOSEnum();
-		PreferencesWindowBox.configChronojump = configChronojump;
+		//PreferencesWindowBox.configChronojump = configChronojump;
+		PreferencesWindowBox.configAtPrefs = new Config ();
+		PreferencesWindowBox.configAtPrefs.Read ();
 
 		if(compujump)
 		{
@@ -574,6 +585,21 @@ public class PreferencesWindow
 		PreferencesWindowBox.image_cloud_capture.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_upload_blue.png");
 		PreferencesWindowBox.image_cloud_view.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
 		PreferencesWindowBox.image_cloud_schema.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_schema_small.png");
+
+		//cloud radios
+		PreferencesWindowBox.signalsNoFollow = true;
+		if (PreferencesWindowBox.configAtPrefs.CopyToCloudFullPath !=  "")
+		{
+			PreferencesWindowBox.radio_cloud_capture.Active = true;
+			PreferencesWindowBox.label_cloud_capture_path.Text = PreferencesWindowBox.configAtPrefs.CopyToCloudFullPath;
+		} else if (PreferencesWindowBox.configAtPrefs.ReadFromCloudMainPath !=  "")
+		{
+			PreferencesWindowBox.radio_cloud_view.Active = true;
+			PreferencesWindowBox.label_cloud_view_path.Text = PreferencesWindowBox.configAtPrefs.ReadFromCloudMainPath;
+		} else
+			PreferencesWindowBox.radio_cloud_no.Active = true;
+		PreferencesWindowBox.signalsNoFollow = false;
+
 		PreferencesWindowBox.buttons_cloud_sensitive ();
 
 		if(preferences.showPower)
@@ -2232,16 +2258,44 @@ public class PreferencesWindow
 
 	private void on_radio_cloud_no_toggled (object o, EventArgs args)
 	{
+		if (signalsNoFollow)
+			return;
+
+		configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
+			Config.OpEnum.CopyToCloudFullPath.ToString (), "");
+		configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
+			Config.OpEnum.ReadFromCloudMainPath.ToString (), "");
+
 		buttons_cloud_sensitive ();
 		restartLabelShow ();
 	}
+
 	private void on_radio_cloud_capture_toggled (object o, EventArgs args)
 	{
+		if (signalsNoFollow)
+			return;
+
+		if (label_cloud_capture_path.Text != "")
+			configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
+				Config.OpEnum.CopyToCloudFullPath.ToString (), label_cloud_capture_path.Text);
+		configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
+			Config.OpEnum.ReadFromCloudMainPath.ToString (), "");
+
 		buttons_cloud_sensitive ();
 		restartLabelShow ();
 	}
+
 	private void on_radio_cloud_view_toggled (object o, EventArgs args)
 	{
+		if (signalsNoFollow)
+			return;
+
+		configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
+			Config.OpEnum.CopyToCloudFullPath.ToString (), "");
+		if (label_cloud_view_path.Text != "")
+			configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
+					Config.OpEnum.ReadFromCloudMainPath.ToString (), label_cloud_view_path.Text);
+
 		buttons_cloud_sensitive ();
 		restartLabelShow ();
 	}
@@ -2268,11 +2322,11 @@ public class PreferencesWindow
 			if (capture)
 			{
 				label_cloud_capture_path.Text = fc.Filename;
-				configChronojump.UpdateFieldEnsuringDefaultConfigFile (
+				configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
 						Config.OpEnum.CopyToCloudFullPath.ToString (), fc.Filename);
 			} else {
 				label_cloud_view_path.Text = fc.Filename;
-				configChronojump.UpdateFieldEnsuringDefaultConfigFile (
+				configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
 						Config.OpEnum.ReadFromCloudMainPath.ToString (), fc.Filename);
 
 				button_cloud_view_databases.Sensitive = (fc.Filename != null);
@@ -2305,8 +2359,8 @@ public class PreferencesWindow
 	private void on_button_cloud_view_databases_clicked (object o, EventArgs args)
 	{
 		List<DirectoryInfo> dir_l = Util.GetCloudViewDatabases (label_cloud_view_path.Text);
-		string str = Catalog.GetString (string.Format ("Not found any database at {0}",
-				label_cloud_view_path.Text));
+		string str = Catalog.GetString ("Not found any database at path:") + "\n" +
+				label_cloud_view_path.Text;
 		if (dir_l.Count > 0)
 		{
 			str = Catalog.GetString (string.Format ("Databases found at {0}:",
@@ -3495,6 +3549,7 @@ public class PreferencesWindow
 		label_progVersion = (Gtk.Label) builder.GetObject ("label_progVersion");
 		frame_networks = (Gtk.Frame) builder.GetObject ("frame_networks");
 		check_networks_devices = (Gtk.CheckButton) builder.GetObject ("check_networks_devices");
+		radio_cloud_no = (Gtk.RadioButton) builder.GetObject ("radio_cloud_no");
 		radio_cloud_capture = (Gtk.RadioButton) builder.GetObject ("radio_cloud_capture");
 		radio_cloud_view = (Gtk.RadioButton) builder.GetObject ("radio_cloud_view");
 		button_cloud_capture_path = (Gtk.Button) builder.GetObject ("button_cloud_capture_path");

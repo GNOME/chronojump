@@ -1019,6 +1019,7 @@ public partial class ChronoJumpWindow
 		//1 if no session, show new/load session "win"
 		//2 but do not show session "win" if cloud and still have not loaded the database
 		if (currentSession == null && 	// 1
+				! showSendLog &&
 				! (configChronojump.ReadFromCloudMainPath != "" && configChronojump.LastDBFullPath == "") && // 2
 				! menuSessionIsActive ())
 			menuSessionDoClick (); //have session "win" opened

@@ -576,15 +576,18 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 		if (questionnaire == null && asteroids == null)
 		{
-			//raw
-			g.SetSourceColor (caramel);
-			if (raw_l.Count > 0)
-				plotRealPoints(plotType, raw_l, startAt, false); //fast (but the difference is very low)
+			if (points_l_interpolated_path == null || points_l_interpolated_path.Count == 0)
+			{
+				//raw
+				g.SetSourceColor (caramel);
+				if (raw_l.Count > 0)
+					plotRealPoints(plotType, raw_l, startAt, false); //fast (but the difference is very low)
 
-			//unfiltered
-			g.SetSourceColor (brown);
-			if (unfiltered_l.Count > 0)
-				plotRealPoints(plotType, unfiltered_l, startAt, false); //fast (but the difference is very low)
+				//unfiltered
+				g.SetSourceColor (brown);
+				if (unfiltered_l.Count > 0)
+					plotRealPoints(plotType, unfiltered_l, startAt, false); //fast (but the difference is very low)
+			}
 
 			//points_l
 			if (miw.Error == "")

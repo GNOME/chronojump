@@ -1729,6 +1729,8 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 {
 	public double ForceAVG;
 	public double ForceMAX;
+	public double PositionAVG;
+	public double PositionMAX; //unused
 	public double SpeedAVG;
 	public double SpeedMAX;
 	public double AccelAVG;
@@ -1976,6 +1978,7 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 
 		if(CalculedElasticPSAP)
 		{
+			ForceCalcs.GetAverageAndMaxForce (Position_l, countA, countB, out PositionAVG, out PositionMAX);
 			ForceCalcs.GetAverageAndMaxForce (Speed_l, countA, countB, out SpeedAVG, out SpeedMAX);
 			ForceCalcs.GetAverageAndMaxForce (Accel_l, countA, countB, out AccelAVG, out AccelMAX);
 			ForceCalcs.GetAverageAndMaxForce (Power_l, countA, countB, out PowerAVG, out PowerMAX);
@@ -2134,7 +2137,8 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 			Util.DoubleToCSV(rfdAVG, 3, sepString);
 
 		if(elastic)
-			str += sep + "" + sep + 	//position
+			str += sep +
+				Util.DoubleToCSV(PositionAVG, 3, sepString) + sep +
 				Util.DoubleToCSV(SpeedAVG, 3, sepString) + sep +
 				Util.DoubleToCSV(AccelAVG, 3, sepString) + sep +
 				Util.DoubleToCSV(PowerAVG, 3, sepString);

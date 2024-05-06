@@ -1447,6 +1447,7 @@ public partial class ChronoJumpWindow
 
 			if(countA != countB) {
 				tvFS.PassElasticAvgs (
+						Math.Round(fsAI.PositionAVG, 3).ToString(),
 						Math.Round(fsAI.SpeedAVG, 3).ToString(),
 						Math.Round(fsAI.AccelAVG, 3).ToString(),
 						Math.Round(fsAI.PowerAVG, 3).ToString());
@@ -1455,7 +1456,7 @@ public partial class ChronoJumpWindow
 						Math.Round(fsAI.AccelMAX, 3).ToString(),
 						Math.Round(fsAI.PowerMAX, 3).ToString());
 			} else {
-				tvFS.PassElasticAvgs ("", "", "");
+				tvFS.PassElasticAvgs ("", "", "", "");
 				tvFS.PassElasticMaxs ("", "", "");
 			}
 
@@ -2019,6 +2020,7 @@ public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 	private string powerDiff;
 
 	//row 4
+	private string positionAvg;
 	private string speedAvg;
 	private string accelAvg;
 	private string powerAvg;
@@ -2077,8 +2079,9 @@ public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 		this.powerDiff = power;
 	}
 
-	public override void PassElasticAvgs (string speed, string accel, string power)
+	public override void PassElasticAvgs (string position, string speed, string accel, string power)
 	{
+		this.positionAvg = position;
 		this.speedAvg = speed;
 		this.accelAvg = accel;
 		this.powerAvg = power;
@@ -2122,7 +2125,7 @@ public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 	}
 	protected override string [] fillTreeViewAvgElastic (string [] str, int i)
 	{
-		str[i++] = ""; // no position average
+		str[i++] = positionAvg;
 		str[i++] = speedAvg;
 		str[i++] = accelAvg;
 		str[i++] = powerAvg;

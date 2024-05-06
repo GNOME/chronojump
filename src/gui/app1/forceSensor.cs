@@ -2167,7 +2167,7 @@ LogB.Information(" fs R ");
 			return;
 		}
 		List<string> contents = Util.ReadFileAsStringList(fs.FullURL);
-		if(contents.Count < 3)
+		if(contents == null || contents.Count < 3)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileEmptyStr());
 			return;

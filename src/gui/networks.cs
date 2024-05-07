@@ -500,6 +500,20 @@ public partial class ChronoJumpWindow
 		label_current_database.TooltipText = Util.GetLastPartOfPath (databaseDirName);
 		label_current_database1.TooltipText = Util.GetLastPartOfPath (databaseDirName);
 
+		loadPreferencesAtStartOrCloudViewChangeDB ();
+
+		if (preferences.loadLastSessionAtStart && preferences.lastSessionID > 0)
+			changeSessionAtStartOrCloudViewChangeDB ();
+
+		if (preferences.loadLastModeAtStart &&
+					preferences.lastMode != Constants.Modes.UNDEFINED)
+			changeModeAtStartOrCloudViewChangeDB ();
+
+		Config.UseSystemColor = preferences.colorBackgroundOsColor;
+		doLabelsContrast(configChronojump.PersonWinHide);
+		vbox_persons_bottom.Visible = preferences.personPhoto && ! check_menu_session.Active;
+		UtilGtk.ApplyCSS ();
+
 		fillAllCombos ();
 	}
 

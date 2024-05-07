@@ -984,6 +984,9 @@ public partial class ChronoJumpWindow
 				current_mode = preferences.lastMode; //needed for show_start_page () below
 		}
 
+		/*
+		 * Disabled until fix some bug with cloud view change database
+		 *
 		//1 if no session, show new/load session "win"
 		//2 but do not show session "win" if cloud and still have not loaded the database
 		if (currentSession == null && 	// 1
@@ -991,6 +994,7 @@ public partial class ChronoJumpWindow
 				! (configChronojump.ReadFromCloudMainPath != "" && configChronojump.LastDBFullPath == "") && // 2
 				! menuSessionIsActive ())
 			menuSessionDoClick (); //have session "win" opened
+		*/
 
 		//done after app1.Show in order to be able to gather the colors
 		doLabelsContrast(configChronojump.PersonWinHide);

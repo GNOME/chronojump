@@ -215,7 +215,7 @@ public class Config
 
 	public void Read()
 	{
-		string contents = Util.ReadFile(Util.GetConfigFileName(), false);
+		string contents = Util.ReadFile(Util.GetConfigFileName(true), false);
 		if (contents != null && contents != "") 
 		{
 			string line;
@@ -286,7 +286,7 @@ public class Config
 	public void UpdateField (string field, string text)
 	{
 		string tempfile = Path.GetTempFileName ();
-		string configFile = Util.GetConfigFileName ();
+		string configFile = Util.GetConfigFileName (true);
 		LogB.Information( string.Format ("Config.UpdateField tempfile: {0}, configFile: {1}, field: {2}, text: {3}",
 					tempfile, configFile, field, text));
 		

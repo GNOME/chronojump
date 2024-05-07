@@ -985,6 +985,7 @@ public class Util
 	//this will check if any config path is present
 	public static string GetLocalDataDir (bool withFinalSeparator)
 	{
+		//TODO: take care as Config.LastDBFullPathStatic maybe is not the best, maybe the best is storedCloudDir
 		if (Config.LastDBFullPathStatic == "")
 			return UtilAll.GetDefaultLocalDataDir (withFinalSeparator); //this can be checked by Mini
 		else {
@@ -995,9 +996,15 @@ public class Util
 		}
 	}
 
-	public static string GetConfigFileName() {
-		return Path.Combine (GetLocalDataDir (false) +  Path.DirectorySeparatorChar + Constants.FileNameConfig);
+	public static string GetConfigFileName(bool ensureIsDefaultLocalData)
+	{
+		string str = GetLocalDataDir (false);
+		if (ensureIsDefaultLocalData)
+			str = UtilAll.GetDefaultLocalDataDir (false);
+
+		return Path.Combine (str +  Path.DirectorySeparatorChar + Constants.FileNameConfig);
 	}
+
 	public static string GetECapSimSignalFileName() {
 		return Path.Combine (GetLocalDataDir (false) +  Path.DirectorySeparatorChar + "eCapSimSignal.txt");
 	}

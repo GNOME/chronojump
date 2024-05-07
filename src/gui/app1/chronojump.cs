@@ -955,31 +955,7 @@ public partial class ChronoJumpWindow
 
 
 		if(preferences.loadLastSessionAtStart && preferences.lastSessionID > 0 && ! configChronojump.Compujump)
-		{
-			// 1) to avoid impossibility to start Chronojump if there's any problem with this session, first put this to false
-			SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, false, false);
-
-			// 2) load the session (but check if it really exists (extra check))
-			Session sessionLoading = SqliteSession.Select (preferences.lastSessionID.ToString());
-			if(sessionLoading.UniqueID != -1)
-			{
-				currentSession = sessionLoading;
-				on_load_session_accepted();
-
-				// select last person
-				if (preferences.lastPersonID > 0)
-					selectRowTreeView_persons (treeview_persons,
-							myTreeViewPersons.FindRow (preferences.lastPersonID));
-
-				// 3) put preference to true again
-				SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, true, false);
-			}
-			/* commented, as this will be done after mode change
-			else
-				if(! check_menu_session.Active)
-					check_menu_session.Click(); //have session menu opened
-			*/
-		}
+			changeSessionAtStartOrCloudViewChangeDB ();
 
 		initialize_menu_or_menu_tiny();
 		vbox_persons_bottom.Visible = preferences.personPhoto && ! check_menu_session.Active;
@@ -1002,15 +978,7 @@ public partial class ChronoJumpWindow
 					preferences.loadLastModeAtStart &&
 					preferences.lastMode != Constants.Modes.UNDEFINED)
 			{
-				// 0) note this code is repeated on gui/sendLog.cs on_button_open_chronojump_clicked()
-				// 1) to avoid impossibility to start Chronojump if there's any problem with this mode, first put this to false
-				SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, false, false);
-
-				// 2) change mode
-				changeModeCheckRadios (preferences.lastMode); //this will update current_mode
-
-				// 3) put preference to true again
-				SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, true, false);
+				changeModeAtStartOrCloudViewChangeDB ();
 			}
 			else if (preferences.lastMode != Constants.Modes.UNDEFINED)
 				current_mode = preferences.lastMode; //needed for show_start_page () below
@@ -1053,6 +1021,45 @@ public partial class ChronoJumpWindow
 		}
 
 		LogB.Information("Chronojump window started");
+	}
+
+	private void changeSessionAtStartOrCloudViewChangeDB ()
+	{
+		// 1) to avoid impossibility to start Chronojump if there's any problem with this session, first put this to false
+		SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, false, false);
+
+		// 2) load the session (but check if it really exists (extra check))
+		Session sessionLoading = SqliteSession.Select (preferences.lastSessionID.ToString());
+		if(sessionLoading.UniqueID != -1)
+		{
+			currentSession = sessionLoading;
+			on_load_session_accepted();
+
+			// select last person
+			if (preferences.lastPersonID > 0)
+				selectRowTreeView_persons (treeview_persons,
+						myTreeViewPersons.FindRow (preferences.lastPersonID));
+
+			// 3) put preference to true again
+			SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, true, false);
+		}
+		/* commented, as this will be done after mode change
+		   else
+		   if(! check_menu_session.Active)
+		   check_menu_session.Click(); //have session menu opened
+		   */
+	}
+
+	private void changeModeAtStartOrCloudViewChangeDB ()
+	{
+		// 1) to avoid impossibility to start Chronojump if there's any problem with this mode, first put this to false
+		SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, false, false);
+
+		// 2) change mode
+		changeModeCheckRadios (preferences.lastMode); //this will update current_mode
+
+		// 3) put preference to true again
+		SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, true, false);
 	}
 
 	private void initContacts ()

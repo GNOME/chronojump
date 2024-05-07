@@ -703,7 +703,7 @@ public partial class ChronoJumpWindow
 			configChronojump = new Config();
 		configChronojump.Read ();
 
-		loadPreferencesAtStart ();
+		loadPreferencesAtStartOrCloudViewChangeDB ();
 
 		Config.UseSystemColor = preferences.colorBackgroundOsColor;
 
@@ -1414,17 +1414,9 @@ public partial class ChronoJumpWindow
 */
 
 	//different than on_preferences_activate (opening preferences window)
-	private void loadPreferencesAtStart ()
+	private void loadPreferencesAtStartOrCloudViewChangeDB ()
 	{
-		if (configChronojump.ReadFromCloudMainPath != "" && configChronojump.LastDBFullPath != ""
-				&& Util.FileExists (System.IO.Path.Combine (UtilAll.GetDefaultLocalDataDir (false),
-						"database", "chronojumpCloudRead.db")))
-		{
-			preferences = Preferences.LoadAllFromSqliteCloudRead (
-					System.IO.Path.Combine (UtilAll.GetDefaultLocalDataDir (false),
-						"database", "chronojumpCloudRead.db"));
-		} else
-			preferences = Preferences.LoadAllFromSqlite();
+		preferences = Preferences.LoadAllFromSqlite();
 
 		LogB.Mute = preferences.muteLogs;
 
@@ -3363,18 +3355,11 @@ public partial class ChronoJumpWindow
 		//and at end check if it is running that process and kill the last one ffmpeg instance
 		//LogB.Information("Bye4!");
 
-		//on cloud read, copy the the db in order to use preferences table on next chronojump open
-		if (configChronojump.ReadFromCloudMainPath != "" && configChronojump.LastDBFullPath != "")
-		{
-			LogB.Information (string.Format ("Copy cloud DB - ReadFromCloudMainPath: {0}, LastDBFullPath: {1}",
-						configChronojump.ReadFromCloudMainPath, configChronojump.LastDBFullPath));
+		if (configChronojump.ReadFromCloudMainPath != "" && storedDBFilename != "")
 			Util.FileCopySafe (
-					System.IO.Path.Combine (configChronojump.LastDBFullPath,
-						"database", "chronojump.db"),
-					System.IO.Path.Combine (UtilAll.GetDefaultLocalDataDir (false),
-						"database", "chronojumpCloudRead.db"),
-					true);
-		}
+					Path.Combine(Util.GetCloudReadTempDir (), "database", "chronojump.db"),
+					Path.Combine(storedDBFilename, "database", "chronojump.db"),
+					true); //overwrite
 
 		Log.End();
 

@@ -522,7 +522,15 @@ public partial class ChronoJumpWindow
 	private void on_button_database_change_apply_clicked (object o, EventArgs args)
 	{
 		foreach (Gtk.RadioButton r in cloudReadFolder_l)
-			if (r.Active) {
+			if (r.Active)
+			{
+				//if we are not in defaultDB, copy /tmp/ChronojumpCloudRead to LastDBFullPath to ensure changes are copied. Also done on Chronojump exit
+				if (storedDBFilename != "")
+					Util.FileCopySafe (
+							Path.Combine(Util.GetCloudReadTempDir (), "database", "chronojump.db"),
+							Path.Combine(storedDBFilename, "database", "chronojump.db"),
+							true); //overwrite
+
 				storedDBFilename = Path.Combine (configChronojump.ReadFromCloudMainPath, r.Label);
 				databaseChangeOrReload ();
 			}

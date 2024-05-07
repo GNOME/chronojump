@@ -2282,6 +2282,8 @@ public class PreferencesWindow
 			Config.OpEnum.CopyToCloudFullPath.ToString (), "");
 		configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
 			Config.OpEnum.ReadFromCloudMainPath.ToString (), "");
+		configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
+			Config.OpEnum.LastDBFullPath.ToString (), "");
 
 		buttons_cloud_sensitive ();
 		restartLabelShow ();

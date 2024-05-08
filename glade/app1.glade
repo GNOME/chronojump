@@ -23189,6 +23189,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -53458,7 +53461,7 @@ on Cloud-view mode</property>
                                             <property name="can-focus">False</property>
                                             <property name="spacing">40</property>
                                             <child>
-                                              <object class="GtkLabel" id="label_22">
+                                              <object class="GtkLabel" id="label_exit_confirm">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
                                                 <property name="label" translatable="yes">Are you sure you want to exit Chronojump?</property>

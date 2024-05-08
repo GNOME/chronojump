@@ -110,12 +110,14 @@ public class Config
 	// cloud
 	public string CopyToCloudFullPath { 		//for capturing machine
 		get { return configList.GetString (OpEnum.CopyToCloudFullPath); }
+		set { configList.SetValue (OpEnum.CopyToCloudFullPath.ToString (), value); }
 	}
 	public bool CopyToCloudOnExit {			//for capturing machine
 		get { return configList.GetBool (OpEnum.CopyToCloudOnExit); }
 	}
 	public string ReadFromCloudMainPath { 		//for reading machine
 		get { return configList.GetString (OpEnum.ReadFromCloudMainPath); }
+		set { configList.SetValue (OpEnum.ReadFromCloudMainPath.ToString (), value); }
 	}
 
 	// external DB

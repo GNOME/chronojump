@@ -426,6 +426,9 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_selector_menu_2_2_2_title;
 	Gtk.Label label_selector_menu_2_2_2_desc;
 	Gtk.Alignment align_label_selector_menu_2_2_2_desc;
+
+	Gtk.Label label_exit_confirm;
+	Gtk.Button button_exit_cancel;
 	// <---- at glade
 
 	Random rand;
@@ -3843,6 +3846,33 @@ public partial class ChronoJumpWindow
 
 	private void on_preferences_closed (object o, EventArgs args)
 	{
+		// 1) changes on cloud
+		// 1.a) if Read changed path from "" to != "" or viceversa need to restart
+		// 1.b) if Copy changed path from "" to != "" or viceversa need to restart
+		Config configHere = new Config();
+		configHere.Read ();
+		if (
+				(configChronojump.ReadFromCloudMainPath == "") != (configHere.ReadFromCloudMainPath == "") || // 1.a
+				(configChronojump.CopyToCloudFullPath == "") != (configHere.CopyToCloudFullPath == "") // 1.b
+				)
+		{
+			//gui force restart
+			notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.EXITCONFIRM);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_exit_confirm);
+			label_exit_confirm.Text = Catalog.GetString ("Changes on cloud options force to restart Chronojump to apply changes");
+			button_exit_cancel.Visible = false;
+			return;
+		}
+
+		// 1.c) if read path changed, use new path
+		if (configHere.ReadFromCloudMainPath != "" && configHere.ReadFromCloudMainPath != configChronojump.ReadFromCloudMainPath)
+			configChronojump.ReadFromCloudMainPath = configHere.ReadFromCloudMainPath;
+
+		// 1.d) if copy path changed, use new path
+		if (configHere.CopyToCloudFullPath != "" && configHere.CopyToCloudFullPath != configChronojump.CopyToCloudFullPath)
+			configChronojump.CopyToCloudFullPath = configHere.CopyToCloudFullPath;
+
+
 		preferences = preferencesWin.GetPreferences;
 		LogB.Mute = preferences.muteLogs;
 
@@ -10487,6 +10517,9 @@ LogB.Debug("mc finished 5");
 		label_selector_menu_2_2_2_title = (Gtk.Label) builder.GetObject ("label_selector_menu_2_2_2_title");
 		label_selector_menu_2_2_2_desc = (Gtk.Label) builder.GetObject ("label_selector_menu_2_2_2_desc");
 		align_label_selector_menu_2_2_2_desc = (Gtk.Alignment) builder.GetObject ("align_label_selector_menu_2_2_2_desc");
+
+		label_exit_confirm = (Gtk.Label) builder.GetObject ("label_exit_confirm");
+		button_exit_cancel = (Gtk.Button) builder.GetObject ("button_exit_cancel");
 	}
 
 }

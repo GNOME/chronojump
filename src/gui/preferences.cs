@@ -267,6 +267,8 @@ public class PreferencesWindow
 		
 	//advanced tab
 	Gtk.Notebook notebook_advanced;
+	Gtk.Image image_advanced_cloud;
+	Gtk.Image image_advanced_more;
 	Gtk.CheckButton checkbutton_ask_deletion;
 	Gtk.Box box_combo_decimals;
 	Gtk.CheckButton checkbutton_mute_logs;
@@ -923,15 +925,6 @@ public class PreferencesWindow
 
 	private static void showTabAdvanced (Preferences preferences)
 	{
-		// sub tab: general ---->
-
-		if(preferences.askDeletion)
-			PWBox.checkbutton_ask_deletion.Active = true;
-		else
-			PWBox.checkbutton_ask_deletion.Active = false;
-
-		PWBox.createComboDecimals ();
-
 		// sub tab: cloud ---->
 
 		PWBox.label_radio_cloud_no.Text = "<b>" + PWBox.label_radio_cloud_no.Text + "</b>";
@@ -943,6 +936,8 @@ public class PreferencesWindow
 		PWBox.label_radio_cloud_capture.UseMarkup = true;
 		PWBox.label_radio_cloud_view.UseMarkup = true;
 
+		PWBox.image_advanced_cloud.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_blue.png");
+		PWBox.image_advanced_more.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_more_horiz.png");
 		PWBox.image_cloud_capture.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_upload_blue.png");
 		PWBox.image_cloud_view.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
 		PWBox.image_cloud_schema.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_schema_small.png");
@@ -962,7 +957,14 @@ public class PreferencesWindow
 
 		PWBox.buttons_cloud_sensitive ();
 
-		// sub tab: advanced ---->
+		// sub tab: more ---->
+
+		if(preferences.askDeletion)
+			PWBox.checkbutton_ask_deletion.Active = true;
+		else
+			PWBox.checkbutton_ask_deletion.Active = false;
+
+		PWBox.createComboDecimals ();
 
 		if(preferences.muteLogs)
 			PWBox.checkbutton_mute_logs.Active = true;
@@ -3572,6 +3574,8 @@ public class PreferencesWindow
 
 		//advanced tab
 		notebook_advanced = (Gtk.Notebook) builder.GetObject ("notebook_advanced");
+		image_advanced_cloud = (Gtk.Image) builder.GetObject ("image_advanced_cloud");
+		image_advanced_more = (Gtk.Image) builder.GetObject ("image_advanced_more");
 		checkbutton_ask_deletion = (Gtk.CheckButton) builder.GetObject ("checkbutton_ask_deletion");
 		box_combo_decimals = (Gtk.Box) builder.GetObject ("box_combo_decimals");
 		checkbutton_mute_logs = (Gtk.CheckButton) builder.GetObject ("checkbutton_mute_logs");

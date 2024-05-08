@@ -639,6 +639,15 @@ public partial class ChronoJumpWindow
 			box_database_manage_read.PackStart (r, false, false, 0);
 			cloudReadFolder_l.Add (r);
 		}
+
+		if (first) //no directory found
+		{
+			Gtk.Label l = new Gtk.Label ("\n\n" +
+					Catalog.GetString ("Not found any database at path:") + "\n" +
+				configChronojump.ReadFromCloudMainPath);
+			box_database_manage_read.PackStart (l, false, false, 0);
+		}
+
 		box_database_manage_read.ShowAll ();
 
 		if(! Config.UseSystemColor)

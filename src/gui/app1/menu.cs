@@ -33,7 +33,7 @@ public partial class ChronoJumpWindow
 	Gtk.Arrow arrow_menu_show_session_left;
 	Gtk.Arrow arrow_menu_show_session_right;
 	Gtk.HPaned hpaned_contacts_main;
-	Gtk.Viewport viewport_exit_confirm;
+	Gtk.Frame frame_exit_confirm;
 	Gtk.HBox hbox_social_network_poll;
 	//Gtk.Viewport viewport_start_modes;
 	Gtk.CheckButton check_menu_database;
@@ -268,7 +268,8 @@ public partial class ChronoJumpWindow
 			RGBA color = UtilGtk.ColorParse (preferences.colorBackgroundString);
 
 			UtilGtk.WindowColor (app1, color);
-			UtilGtk.ViewportColor (viewport_exit_confirm, color);
+			UtilGtk.WidgetColor (frame_exit_confirm, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_exit_confirm);
 
 			UtilGtk.WidgetColor (vbox_send_log, Config.ColorBackground);
 
@@ -498,7 +499,7 @@ public partial class ChronoJumpWindow
 		arrow_menu_show_session_left = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_left");
 		arrow_menu_show_session_right = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_right");
 		hpaned_contacts_main = (Gtk.HPaned) builder.GetObject ("hpaned_contacts_main");
-		viewport_exit_confirm = (Gtk.Viewport) builder.GetObject ("viewport_exit_confirm");
+		frame_exit_confirm = (Gtk.Frame) builder.GetObject ("frame_exit_confirm");
 		hbox_social_network_poll = (Gtk.HBox) builder.GetObject ("hbox_social_network_poll");
 		//viewport_start_modes = (Gtk.Viewport) builder.GetObject ("viewport_start_modes");
 		check_menu_database = (Gtk.CheckButton) builder.GetObject ("check_menu_database");

@@ -134,7 +134,8 @@ public partial class ChronoJumpWindow
 			RGBA color = UtilGtk.ColorParse (preferences.colorBackgroundString);
 
 			UtilGtk.WindowColor (app1, color);
-			UtilGtk.ViewportColor (viewport_exit_confirm, color);
+			UtilGtk.WidgetColor (frame_exit_confirm, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_exit_confirm);
 			UtilGtk.ViewportColor (viewport_rest_time_contacts, color);
 			UtilGtk.ViewportColor (viewport_rest_time_encoder, color);
 

@@ -2336,6 +2336,8 @@ public class PreferencesWindow
 				Catalog.GetString("Cancel")
 				);
 
+		bool shouldRestart = false; //no restart if path changed, restart if changes from "" to something
+
 		if (fc.Run() == (int)ResponseType.Accept)
 		{
 			if (capture)
@@ -2346,11 +2348,17 @@ public class PreferencesWindow
 					new DialogMessage (Constants.MessageTypes.WARNING,
 							Catalog.GetString ("Error. This path is not valid."));
 				} else {
+					if (label_cloud_capture_path.Text == "")
+						shouldRestart = true;
+
 					label_cloud_capture_path.Text = fc.Filename;
 					configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
 							Config.OpEnum.CopyToCloudFullPath.ToString (), fc.Filename);
 				}
 			} else { 	//view
+				if (label_cloud_view_path.Text == "")
+					shouldRestart = true;
+
 				label_cloud_view_path.Text = fc.Filename;
 				configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
 						Config.OpEnum.ReadFromCloudMainPath.ToString (), fc.Filename);
@@ -2358,7 +2366,9 @@ public class PreferencesWindow
 				button_cloud_view_databases.Sensitive = (fc.Filename != null);
 			}
 			buttons_cloud_sensitive ();
-			restartLabelShow ();
+
+			if (shouldRestart)
+				restartLabelShow ();
 		}
 
 		fc.Hide ();

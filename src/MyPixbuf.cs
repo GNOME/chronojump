@@ -416,6 +416,7 @@ namespace Chronojump
 			new ResourceFix ("calendar.png" , "calendar.png"),
 			new ResourceFix ("chronojump-logo-2024-blue-transp-200h.png" , "chronojump-logo-2024-blue-transp-200h.png"),
 			new ResourceFix ("chronojump-logo-2024-white-transp-200h.png" , "chronojump-logo-2024-white-transp-200h.png"),
+			new ResourceFix ("chronojump-logo-2024-2col-bluebg-210h.png" , "chronojump-logo-2024-2col-bluebg-210h.png"),
 			new ResourceFix ("chronojump-logo-transparent-40h.png" , "chronojump-logo-transparent-40h.png"),
 			new ResourceFix ("chronojump-logo-2013_320.png" , "chronojump-logo-2013_320.png"),
 			new ResourceFix ("chronojump-logo-2013.png" , "chronojump-logo-2013.png"),

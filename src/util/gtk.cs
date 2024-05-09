@@ -957,6 +957,13 @@ public class UtilGtk
 		Gtk.StyleContext.AddProviderForScreen (Gdk.Screen.Default, css, 800); //needed
 	}
 
+	public static bool LogoBlueOrWhite (RGBA bg)
+	{
+		return (colorsContrast (bg, GetRGBA (Colors.BLUE_CHRONOJUMP)) >=
+				colorsContrast (bg, GetRGBA (Colors.WHITE))
+		       );
+	}
+
 	//private static RGBA chronopicViewportDefaultBg;
 	//private static RGBA chronopicLabelsDefaultFg;
 

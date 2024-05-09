@@ -53,7 +53,6 @@ public partial class ChronoJumpWindow
 	*/
 	
 	Gtk.Notebook notebook_chronojump_logo;
-	Gtk.Viewport viewport_chronojump_logo;
 	Gtk.Image image_chronojump_logo;
 	Gtk.DrawingArea drawingarea_chronojump_logo;
 
@@ -68,6 +67,7 @@ public partial class ChronoJumpWindow
 	Gtk.Box hbox_message_permissions_at_boot;
 	Gtk.Label label_message_permissions_at_boot;
 	Gtk.Box hbox_message_camera_at_boot;
+	Gtk.Box box_start_modes_and_version;
 	Gtk.Box hbox_start_window_sub;
 
 	Gtk.Button button_show_modes_contacts;
@@ -157,7 +157,6 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_sprint_person_name;
 
 	Gtk.Label label_version;
-	Gtk.Label label_version_hidden; //just to have logo aligned on the middle
 	//Gtk.Image image_selector_start_encoder_inertial;
 
 	Gtk.RadioButton radio_mode_pulses_small;
@@ -668,10 +667,7 @@ public partial class ChronoJumpWindow
 			buildVersion = buildVersionSplit[0] + "-" + buildVersionSplit[1];
 
 		label_version.Text = buildVersion;
-		label_version_hidden.Text = buildVersion;
 		label_version.Name = "lightCss";
-		//label_version_hidden.Name = "blueChronojumpHideCss";
-		label_version_hidden.Name = "ChronojumpHideCss";
 
 		//manage app1 will not be hiding other windows at start
 		app1Shown = false;
@@ -1082,6 +1078,13 @@ public partial class ChronoJumpWindow
 	//used on this free labels that have to contrast with background
 	private void doLabelsContrast(bool personsAtTop)
 	{
+		if (UtilGtk.LogoBlueOrWhite (Config.ColorBackground))
+			image_chronojump_logo.Pixbuf = Chronojump.MyPixbuf.Get(
+					null, Util.GetImagePath(false) + Constants.FileNameLogoBlueTransp);
+		else
+			image_chronojump_logo.Pixbuf = Chronojump.MyPixbuf.Get(
+					null, Util.GetImagePath(false) + Constants.FileNameLogoWhiteTransp);
+
 		if(personsAtTop)
 		{
 			if(! Config.UseSystemColor)
@@ -1139,6 +1142,7 @@ public partial class ChronoJumpWindow
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_sup);
 			*/
 			//start (modes)
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, box_start_modes_and_version);
 			UtilGtk.WidgetColor (hbox_start_window_sub, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, hbox_start_window_sub);
 			UtilGtk.WidgetColor (notebook_menu_2_2_2, Config.ColorBackgroundShifted);
@@ -10145,7 +10149,6 @@ LogB.Debug("mc finished 5");
 		   */
 
 		notebook_chronojump_logo = (Gtk.Notebook) builder.GetObject ("notebook_chronojump_logo");
-		viewport_chronojump_logo = (Gtk.Viewport) builder.GetObject ("viewport_chronojump_logo");
 		image_chronojump_logo = (Gtk.Image) builder.GetObject ("image_chronojump_logo");
 		drawingarea_chronojump_logo = (Gtk.DrawingArea) builder.GetObject ("drawingarea_chronojump_logo");
 
@@ -10160,6 +10163,7 @@ LogB.Debug("mc finished 5");
 		hbox_message_permissions_at_boot = (Gtk.Box) builder.GetObject ("hbox_message_permissions_at_boot");
 		label_message_permissions_at_boot = (Gtk.Label) builder.GetObject ("label_message_permissions_at_boot");
 		hbox_message_camera_at_boot = (Gtk.Box) builder.GetObject ("hbox_message_camera_at_boot");
+		box_start_modes_and_version = (Gtk.Box) builder.GetObject ("box_start_modes_and_version");
 		hbox_start_window_sub = (Gtk.Box) builder.GetObject ("hbox_start_window_sub");
 
 		button_show_modes_contacts = (Gtk.Button) builder.GetObject ("button_show_modes_contacts");
@@ -10249,7 +10253,6 @@ LogB.Debug("mc finished 5");
 		label_sprint_person_name = (Gtk.Label) builder.GetObject ("label_sprint_person_name");
 
 		label_version = (Gtk.Label) builder.GetObject ("label_version");
-		label_version_hidden = (Gtk.Label) builder.GetObject ("label_version_hidden"); //just to have logo aligned on the middle
 		//image_selector_start_encoder_inertial = (Gtk.Image) builder.GetObject ("image_selector_start_encoder_inertial");
 
 		radio_mode_pulses_small = (Gtk.RadioButton) builder.GetObject ("radio_mode_pulses_small");

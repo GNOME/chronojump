@@ -23184,6 +23184,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -34088,7 +34091,6 @@ Concentric</property>
                                                 </child>
                                                 <child>
                                                   <object class="GtkImage" id="image_logo_encoder">
-                                                    <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
                                                     <property name="stock">gtk-missing-image</property>
                                                     <property name="icon_size">2</property>
@@ -34102,7 +34104,6 @@ Concentric</property>
                                                 </child>
                                                 <child>
                                                   <object class="GtkImage" id="image_logo_encoder_transp">
-                                                    <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
                                                     <property name="stock">gtk-missing-image</property>
                                                   </object>

@@ -50,23 +50,24 @@ public partial class ChronoJumpWindow
 		string databasePath = app1s_ImportDatabasePath();
 		LogB.Information (databasePath);
 
+		/* disabled until finished
 		// ---->
 		LogB.Information ("doing experimental check import names problems");
+		//select all persons on current database
+		ArrayList arrayDB = SqlitePersonSession.SelectCurrentSessionPersons (-1, true);
+
 		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (
 				SqliteSessionSwitcher.DatabaseType.IMPORT, databasePath);
 
-		/*
-		List<PersonSession> ps_l = sessionSwitcher.SelectPersonSessionList (sourceSession);
-		foreach (PersonSession ps in ps_l)
-			LogB.Information (ps.ToString ());
-			*/
-
-		ArrayList array = sessionSwitcher.SelectPersonsInSession (sourceSession);
+		//select all persons on Importing Session (IS)
+		ArrayList arrayIS = sessionSwitcher.SelectPersonsInSession (sourceSession);
 		int count = 0;
-		foreach (PersonAndPS paps in array)
+		foreach (PersonAndPS paps in arrayIS)
 			LogB.Information (string.Format ("[{0}] {1}", count ++, paps));
-		// <----
 
+		PersonAndPSUtil.CompareAtImport (arrayDB, arrayIS);
+		// <----
+		*/
 
 		Session destinationSession = currentSession;
 

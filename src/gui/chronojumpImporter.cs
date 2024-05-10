@@ -15,13 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2019-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2019-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using Gtk;
 using System;
 using System.IO;
 using System.Threading;
+using System.Collections; //ArrayList
 
 public partial class ChronoJumpWindow
 {
@@ -48,6 +49,24 @@ public partial class ChronoJumpWindow
 		int sourceSession = app1s_CurrentSessionId();
 		string databasePath = app1s_ImportDatabasePath();
 		LogB.Information (databasePath);
+
+		// ---->
+		LogB.Information ("doing experimental check import names problems");
+		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (
+				SqliteSessionSwitcher.DatabaseType.IMPORT, databasePath);
+
+		/*
+		List<PersonSession> ps_l = sessionSwitcher.SelectPersonSessionList (sourceSession);
+		foreach (PersonSession ps in ps_l)
+			LogB.Information (ps.ToString ());
+			*/
+
+		ArrayList array = sessionSwitcher.SelectPersonsInSession (sourceSession);
+		int count = 0;
+		foreach (PersonAndPS paps in array)
+			LogB.Information (string.Format ("[{0}] {1}", count ++, paps));
+		// <----
+
 
 		Session destinationSession = currentSession;
 

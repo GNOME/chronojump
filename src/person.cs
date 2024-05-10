@@ -273,7 +273,12 @@ public class PersonAndPS {
 		this.p = p;
 		this.ps = ps;
 	}
-	
+
+	public override string ToString ()
+	{
+		return string.Format ("Person: {0};\nPersonSession: {1}", p, ps);
+	}
+
 	~PersonAndPS() {}
 }
 public static class PersonAndPSUtil {

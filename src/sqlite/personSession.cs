@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -309,11 +309,25 @@ class SqlitePersonSession : Sqlite
 
 		return person_l;
 	}
-	//the difference between this select and others, is that this returns and ArrayList of Persons
-	//this is better than return the strings that can produce bugs in the future
-	//sessionID can be -1
-	public static ArrayList SelectCurrentSessionPersons(int sessionID, bool returnPersonAndPSlist) 
+
+	//normal Chronojump call
+	public static ArrayList SelectCurrentSessionPersons (int sessionID, bool returnPersonAndPSlist)
 	{
+		Sqlite.Open();
+		return selectCurrentSessionPersonsDo (dbcon, sessionID, returnPersonAndPSlist);
+		Sqlite.Close();
+	}
+	//importer call
+	public static ArrayList SelectCurrentSessionPersons (SQLiteConnection dbcon, int sessionID, bool returnPersonAndPSlist)
+	{
+		return selectCurrentSessionPersonsDo (dbcon, sessionID, returnPersonAndPSlist);
+	}
+	//sessionID can be -1
+	private static ArrayList selectCurrentSessionPersonsDo (SQLiteConnection dbcon, int sessionID, bool returnPersonAndPSlist)
+	{
+		// This method should NOT use Sqlite.open() / Sqlite.close(): it should only use dbcon to connect to the database.
+		// This method is used by the importer after opening an arbitrary Chronojump qlite database
+
 		string tp = Constants.PersonTable;
 		string tps = Constants.PersonSessionTable;
 			
@@ -325,7 +339,7 @@ class SqlitePersonSession : Sqlite
 		if(sessionID == -1)
 			sessionIDString = "";
 		
-		Sqlite.Open();
+		dbcmd = dbcon.CreateCommand();
 		dbcmd.CommandText = "SELECT " + tp + ".*" + tpsString +
 			" FROM " + tp + ", " + tps + 
 			" WHERE " + sessionIDString +
@@ -371,12 +385,32 @@ class SqlitePersonSession : Sqlite
 				myArray.Add (person);
 		}
 		reader.Close();
-		Sqlite.Close();
 		return myArray;
 	}
-	
-	//use this in the future:
+
+	//use this in the future. Usual call:
 	public static List<PersonSession> SelectPersonSessionList (bool dbconOpened, int personID, int sessionID)
+	{
+		openIfNeeded (dbconOpened);
+		List<PersonSession> ps_l = selectPersonSessionListDo (dbcon, personID, sessionID);
+		closeIfNeeded (dbconOpened);
+
+		return ps_l;
+	}
+
+	/*
+	//this call is from ChronojumpImporter (unused right now, using SelectCurrentSessionPersons)
+	//inspired on List<SessionTestsCount> selectAllSessionsTestsCountDo (string filterName, int personID, SQLiteConnection dbcon)
+	public static List<PersonSession> SelectPersonSessionList (SQLiteConnection dbcon, int personID, int sessionID)
+	{
+		// This method should NOT use Sqlite.open() / Sqlite.close(): it should only use dbcon to connect to the database.
+		// This method is used by the importer after opening an arbitrary Chronojump Sqlite database
+		return selectPersonSessionListDo (dbcon, personID, sessionID);
+	}
+	*/
+
+	private static List<PersonSession> selectPersonSessionListDo (
+			SQLiteConnection dbcon, int personID, int sessionID)
 	{
 		string tps = Constants.PersonSessionTable;
 
@@ -400,8 +434,7 @@ class SqlitePersonSession : Sqlite
 				andStr = " AND ";
 		}
 
-		openIfNeeded (dbconOpened);
-
+		dbcmd = dbcon.CreateCommand();
 		dbcmd.CommandText = "SELECT " + tps + ".*" +
 			" FROM " + tps +
 			whereStr + personIDStr +
@@ -432,7 +465,6 @@ class SqlitePersonSession : Sqlite
 			list.Add(ps);
 		}
 		reader.Close();
-		closeIfNeeded (dbconOpened);
 
 		return list;
 	}

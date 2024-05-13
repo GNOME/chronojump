@@ -299,13 +299,15 @@ LogB.Information("import L ");
 		try {
 			if(Directory.Exists(Path.Combine(sourceDir, "..", copyToDir)))
 			{
-				LogB.Information ("importFiles " + copyToDir + " path=" + Path.Combine(sourceDir, "..", copyToDir));
+				//LogB.Information ("importFiles " + copyToDir + " path=" + Path.Combine(sourceDir, "..", copyToDir));
 
 				foreach (FileInfo file in new DirectoryInfo(Path.Combine(sourceDir, "..", copyToDir)).GetFiles())
 				{
+					/*
 					LogB.Information (string.Format ("file copy from {0} to {1}",
 								file.Name,
 								Path.Combine(tempImportDir, copyToDir, file.Name)));
+					*/
 					file.CopyTo(Path.Combine(tempImportDir, copyToDir, file.Name));
 				}
 			}

@@ -930,7 +930,7 @@ class ImportSession:
         return name
 
     def _import_encoder_files(self, encoder_table):
-        if self.source_base_directory is None:
+        if self.source_temp_directory is None:
             # We are skipping to copy the Encoding files. This is used in unit tests.
             return
 
@@ -955,7 +955,12 @@ class ImportSession:
             destination_directory = os.path.abspath(destination_directory)  # os.makedirs() can't handle directories with ".."
 
             destination_filename = os.path.join(destination_directory, filename)
-            source_file = os.path.join(self.source_base_directory, original_url, original_filename)
+
+            source_file = os.path.join(self.source_temp_directory, original_url, original_filename)
+
+            if(DEBUGTOFILE):
+                debugFile.write("source_file:\n")
+                debugFile.write(source_file + "\n" )
 
             if not os.path.isdir(destination_directory):
                 os.makedirs(destination_directory)

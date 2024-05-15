@@ -27,7 +27,6 @@ public class About
 {
 	 Gtk.Dialog dialog_about;
 	 Gtk.Image image_logo;
-	 Gtk.Label dialog_about_label_chronojump;
 	 Gtk.Label dialog_about_label_version;
 	 Gtk.Notebook notebook;
 	 Gtk.Image image_button_close;
@@ -65,7 +64,7 @@ public class About
 	 
 		//images:
 		Pixbuf pixbuf;
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogo);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogo2Col);
 		image_logo.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
@@ -81,7 +80,6 @@ public class About
 		if(! Config.UseSystemColor)
 		{
 			UtilGtk.DialogColor(dialog_about, Config.ColorBackground);
-			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, dialog_about_label_chronojump);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, dialog_about_label_version);
 
 			notebook.Name = "bgCss";
@@ -124,8 +122,7 @@ public class About
 	private void connectWidgets (Gtk.Builder builder)
 	{
 		dialog_about = (Gtk.Dialog) builder.GetObject ("dialog_about");
-        image_logo = (Gtk.Image) builder.GetObject ("image_logo");
-		dialog_about_label_chronojump = (Gtk.Label) builder.GetObject ("dialog_about_label_chronojump");
+		image_logo = (Gtk.Image) builder.GetObject ("image_logo");
 		dialog_about_label_version = (Gtk.Label) builder.GetObject ("dialog_about_label_version");
 		notebook = (Gtk.Notebook) builder.GetObject ("notebook");
 		image_button_close = (Gtk.Image) builder.GetObject ("image_button_close");

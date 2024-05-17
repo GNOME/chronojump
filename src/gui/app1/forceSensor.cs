@@ -58,10 +58,12 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_force_sensor_value_min;
 	Gtk.Label label_force_sensor_value_best_second;
 	Gtk.Label label_force_sensor_value_rfd;
-	Gtk.Grid force_capture_grid_colors;
+	Gtk.Grid force_capture_grid_legend;
+	Gtk.Separator separator_force_capture_raw;
 	Gtk.Separator separator_force_capture_unfiltered;
 	Gtk.Separator separator_force_capture_butterworth;
-	Gtk.Label label_force_capture_grid_colors_butterworth_value;
+	Gtk.Box box_force_capture_grid_legend_butterworth;
+	Gtk.Label label_force_capture_grid_legend_butterworth_value;
 	//Gtk.VScale vscale_force_sensor;
 	Gtk.SpinButton spin_force_sensor_calibration_kg_value;
 	Gtk.Box box_force_sensor_capture_magnitudes;
@@ -136,6 +138,7 @@ public partial class ChronoJumpWindow
 	CairoGraphForceSensorSignal cairoGraphForceSensorSignal;
 	SignalPointsCairoForceElastic spCairoFE;
 	SignalPointsCairoForceElastic spCairoFE_Unfiltered; //for capture tab
+	SignalPointsCairoForceElastic spCairoFE_Raw; //RAW but with fsco
 	SignalPointsCairoForceElastic spCairoFEZoom;
 	SignalPointsCairoForceElastic spCairoFE_CD;
 	SignalPointsCairoForceElastic spCairoFEZoom_CD;
@@ -658,6 +661,7 @@ public partial class ChronoJumpWindow
 		event_execute_label_message.Text = "";
 		box_force_sensor_capture_magnitudes.Visible = false;
 		box_force_sensor_analyze_magnitudes.Visible = false;
+		forceSensorGridLegendColors ();
 	}
 
 	private bool pulseGTKForceSensorOther ()
@@ -1168,9 +1172,10 @@ public partial class ChronoJumpWindow
 		//blank Cairo scatterplot graphs
 		cairoGraphForceSensorSignal = null;
 		spCairoFE_Unfiltered = new SignalPointsCairoForceElastic ();
+		spCairoFE_Raw = new SignalPointsCairoForceElastic ();
 		spCairoFE = new SignalPointsCairoForceElastic ();
 		paintPointsInterpolateCairo_l = new List<PointF>();
-		forceSensorGridColors ();
+		forceSensorGridLegendColors ();
 
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
@@ -1336,6 +1341,10 @@ public partial class ChronoJumpWindow
 			//LogB.Information("> 0.5" + (versionDouble >= Convert.ToDouble(Util.ChangeDecimalSeparator("0.5"))).ToString());
 		}
 
+		double stiffness;
+		string stiffnessString;
+		getStiffnessAndStiffnessStringFromSQL(out stiffness, out stiffnessString);
+
 		/*
 		   tare+capture does a tare here in the software
 		   to not call tare function on Arduino and store the tare value there
@@ -1487,12 +1496,32 @@ public partial class ChronoJumpWindow
 				continue;
 			}
 
+			//list of raw points
+			spCairoFE_Raw.Force_l.Add (new PointF (
+						time,
+						ForceSensor.CalculeForceWithCaptureOptions(force, forceSensorCaptureOption)
+						));
+
 			LogB.Information("at bucle6");
 			//LogB.Information(string.Format("time: {0}, force: {1}", time, force));
 			//forceCalculated have abs or inverted
 			//this has to be after readTriggers, because if this "sample" is a trigger we do not have force
-			double forceCalculated = ForceSensor.CalculeForceResultantIfNeeded (force, forceSensorCaptureOption,
+			double forceCalculated = 0;
+			if(currentForceSensorExercise.ComputeAsElastic)
+			{
+				ForceSensorDynamics fsdTemp = new ForceSensorDynamicsElastic(
+						PointF.Xint_l (spCairoFE_Raw.Force_l), PointF.Y_l (spCairoFE_Raw.Force_l),
+						forceSensorCaptureOption, currentForceSensorExercise, currentPersonSession.Weight,
+						stiffness, preferences.forceSensorElasticEccMinDispl, preferences.forceSensorElasticConMinDispl,
+						false, //zoomed
+						-1, false
+						);
+				forceCalculated = Util.GetLast (fsdTemp.GetForces ());
+			} else {
+				//TODO: implement also code based on ForceSensorDynamics here, and then this IfNeeded function can disappear
+				forceCalculated = ForceSensor.CalculeForceResultantIfNeeded (force, forceSensorCaptureOption,
 					currentForceSensorExercise, currentPersonSession.Weight);
+			}
 
 			//if(forceSensorCaptureOption != ForceSensor.CaptureOptions.NORMAL)
 			//	LogB.Information(string.Format("with abs or inverted flag: time: {0}, force: {1}", time, forceCalculated));
@@ -1531,9 +1560,9 @@ public partial class ChronoJumpWindow
 			//changeSlideIfNeeded(time, force);
 		}
 
-		if (preferences.forceSensorButterworth >= 0)
+		if (preferences.forceSensorButterworth (current_mode) >= 0)
 		{
-			Butterworth bw = new Butterworth (preferences.forceSensorButterworth);
+			Butterworth bw = new Butterworth (preferences.forceSensorButterworth (current_mode));
 			bw.AddFromList (spCairoFE_Unfiltered.Force_l);
 			bw.Calculate ();
 
@@ -2138,7 +2167,7 @@ LogB.Information(" fs R ");
 			return;
 		}
 		List<string> contents = Util.ReadFileAsStringList(fs.FullURL);
-		if(contents.Count < 3)
+		if(contents == null || contents.Count < 3)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileEmptyStr());
 			return;
@@ -2165,7 +2194,8 @@ LogB.Information(" fs R ");
 
 			//TODO: maybe need to wait to ensure is copied
 			File.Copy (lastForceSensorFullPath_2SetsCD, UtilEncoder.GetmifCSVFileName_CD (), true); //can be overwritten
-			forceSensorDoSignalGraphReadFile (false, fs.CaptureOption); //cd
+			forceSensorDoSignalGraphReadFile (false, fs.CaptureOption,
+					personSessionForceSensor_2SetsCD.Weight, forceSensorStiffness_2SetsCD); //cd
 
 
 			forceSensorPrepareGraphAI ();
@@ -2457,8 +2487,18 @@ LogB.Information(" fs R ");
 			List<ForceSensorElasticBand> list_fseb = SqliteForceSensorElasticBand.SelectAll(false, true); //not opened, onlyActive
 			if(ForceSensorElasticBand.GetStiffnessOfActiveBands(list_fseb) == 0 || image_button_force_sensor_stiffness_problem.Visible)
 			{
+				//if preferences butterworth changed, the graph will be updated
+				//need to also update the grid before the return
+				//forceSensorGridLegendColors ();
+
 				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to configure fixture to know stiffness of this elastic exercise."));
+
+
+				/*
+				 * before 2024 Apr 16 we returned here, now we continue to be able to show correctly graphs after preferences butterworth change
+				 * check this does not produces any crash
 				return;
+				*/
 			}
 		}
 		box_force_sensor_capture_magnitudes.Visible = currentForceSensorExercise.ComputeAsElastic;
@@ -2561,11 +2601,11 @@ LogB.Information(" fs R ");
 			}
 		}
 
-		if (preferences.forceSensorButterworth >= 0)
+		if (preferences.forceSensorButterworth (current_mode) >= 0)
 		{
 			List<string> contents = Util.ReadFileAsStringList (lastForceSensorFullPath);
 			Butterworth.ForceSensorFileToButterworth (
-					contents, preferences.forceSensorButterworth, UtilEncoder.GetmifCSVFileName ());
+					contents, preferences.forceSensorButterworth (current_mode), UtilEncoder.GetmifCSVFileName ());
 		}
 
 		/*
@@ -2627,10 +2667,10 @@ LogB.Information(" fs R ");
 
 	void forceSensorDoSignalGraph ()
 	{
-		forceSensorDoSignalGraphReadFile (true, getForceSensorCaptureOptions());
+		forceSensorDoSignalGraphReadFile (true, getForceSensorCaptureOptions(), currentPersonSession.Weight, currentForceSensor.Stiffness);
 		forceSensorDoSignalGraphPlot ();
 	}
-	void forceSensorDoSignalGraphReadFile (bool ab, ForceSensor.CaptureOptions fsco)
+	void forceSensorDoSignalGraphReadFile (bool ab, ForceSensor.CaptureOptions fsco, double personWeight, double stiffness)
 	{
 		//LogB.Information("at forceSensorDoSignalGraphReadFile(), filename: " + UtilEncoder.GetmifCSVFileName());
 		List<string> contents;
@@ -2643,6 +2683,7 @@ LogB.Information(" fs R ");
 
 		//initialize
 		forceSensorValues = new ForceSensorValues();
+		spCairoFE_Raw = new SignalPointsCairoForceElastic ();
 
 		//to display on capture tab, or use it if no filter is being used
 		List<int> timesUnfiltered_l = new List<int>();
@@ -2652,7 +2693,7 @@ LogB.Information(" fs R ");
 		List<int> times_l = new List<int>();
 		List<double> forces_l = new List<double>();
 
-		Butterworth bw = new Butterworth (preferences.forceSensorButterworth);
+		Butterworth bw = new Butterworth (preferences.forceSensorButterworth (current_mode));
 
 		foreach(string str in contents)
 		{
@@ -2668,10 +2709,19 @@ LogB.Information(" fs R ");
 
 				if(Util.IsNumber(strFull[0], false) && Util.IsNumber(Util.ChangeDecimalSeparator(strFull[1]), true))
 				{
+					times_l.Add (Convert.ToInt32(strFull[0]));
 					timesUnfiltered_l.Add (Convert.ToInt32(strFull[0]));
-					forcesUnfiltered_l.Add (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
 
-					if (preferences.forceSensorButterworth >= 0)
+					forces_l.Add (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
+					forcesUnfiltered_l.Add (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
+					spCairoFE_Raw.Force_l.Add (new PointF (
+								Convert.ToInt32 (strFull[0]),
+								ForceSensor.CalculeForceWithCaptureOptions(
+									Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])),
+									fsco)
+								));
+
+					if (preferences.forceSensorButterworth (current_mode) >= 0)
 						bw.AddSample (
 								Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[0])),
 								Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
@@ -2679,50 +2729,61 @@ LogB.Information(" fs R ");
 			}
 		}
 
-		if (preferences.forceSensorButterworth >= 0)
+		LogB.Information ("preferences.forceSensorButterworth: " + preferences.forceSensorButterworth (current_mode).ToString ());
+		if (preferences.forceSensorButterworth (current_mode) >= 0)
 		{
 			bw.Calculate ();
 			times_l = bw.Times_l;
-			forces_l = bw.Forces_l;
-		} else {
-			times_l = timesUnfiltered_l;
-			forces_l = forcesUnfiltered_l;
+			forces_l = bw.Y_l;
 		}
 
-		forceSensorGridColors ();
+		forceSensorGridLegendColors ();
 
 		if (ab)
 		{
 			spCairoFE = forceSensorDoSignalGraphReadFileGetSPFE (
 					times_l, forces_l,
-					currentForceSensorExercise, fsco, true);
+					currentForceSensorExercise, fsco, personWeight, stiffness,
+					preferences.forceSensorButterworth (current_mode), true, false);
 			spCairoFE_Unfiltered = forceSensorDoSignalGraphReadFileGetSPFE (
 					timesUnfiltered_l, forcesUnfiltered_l,
-					currentForceSensorExercise, fsco, false);
+					currentForceSensorExercise, fsco, personWeight, stiffness,
+					-1, false, false);
 		}
 		else
 			spCairoFE_CD = forceSensorDoSignalGraphReadFileGetSPFE (
 					times_l, forces_l,
-					currentForceSensorExercise_2SetsCD, fsco, false);
+					currentForceSensorExercise_2SetsCD, fsco, personWeight, stiffness,
+					preferences.forceSensorButterworth (current_mode), false, false);
 	}
 
 	private SignalPointsCairoForceElastic forceSensorDoSignalGraphReadFileGetSPFE (
 			List<int> times_l, List<double> forces_l,
-			ForceSensorExercise fsex, ForceSensor.CaptureOptions fsco, bool updateForceSensorValues)
+			ForceSensorExercise fsex, ForceSensor.CaptureOptions fsco, double personWeight, double stiffness,
+			double butterworth, bool updateForceSensorValues, bool debug)
 	{
 		SignalPointsCairoForceElastic spCairoFETemp = new SignalPointsCairoForceElastic ();
 
 		ForceSensorDynamics fsd;
 		if (fsex.ComputeAsElastic)
 			fsd = new ForceSensorDynamicsElastic (
-					times_l, forces_l, fsco, fsex, currentPersonSession.Weight, currentForceSensor.Stiffness,
-					preferences.forceSensorElasticEccMinDispl, preferences.forceSensorElasticConMinDispl, false);
+					times_l, forces_l, fsco, fsex, personWeight, stiffness,
+					preferences.forceSensorElasticEccMinDispl, preferences.forceSensorElasticConMinDispl,
+					false, butterworth, debug);
 		else
 			fsd = new ForceSensorDynamicsNotElastic (
-					times_l, forces_l, fsco, fsex, currentPersonSession.Weight, currentForceSensor.Stiffness,
+					times_l, forces_l, fsco, fsex, personWeight, stiffness,
 					preferences.forceSensorNotElasticEccMinForce, preferences.forceSensorNotElasticConMinForce);
 
 		forces_l = fsd.GetForces();
+
+		if (debug && forces_l.Count >= 9)
+		{
+			LogB.Information ("RRRRRR after fsd.GetForces 10 forces");
+			for (int k = 0; k <= 9; k ++)
+				LogB.Information (forces_l[k].ToString ());
+		}
+
 		times_l.RemoveAt(0); //always (not-elastic and elastic) 1st has to be removed, because time is not ok there.
 		List<double> position_l = new List<double> ();
 		List<double> speed_l = new List<double> ();
@@ -2786,6 +2847,15 @@ LogB.Information(" fs R ");
 			check_force_sensor_analyze_show_power.Active = check_force_sensor_capture_show_power.Active;
 
 		fsMagnitudesSignalsNoFollow = false;
+	}
+
+	public void on_button_force_capture_grid_legend_info_clicked (object o, EventArgs args)
+	{
+		new DialogMessage (Constants.MessageTypes.INFO, 850, 400,
+				"Explanation of forces shown:\n" +
+				"\n- <b>Raw</b>: Raw data (once tared and calibrated), absolute or inverted values are also applied if necessary." +
+				"\n- <b>Unfiltered</b>: Raw data + projection of exerted force if applicable + effect of rubber band if applicable." +
+				"\n- <b>Butterworth</b>: Apply Butterworth filtering to previous value.");
 	}
 
 	public void on_force_capture_drawingarea_cairo_draw (object o, Gtk.DrawnArgs args)
@@ -2861,6 +2931,8 @@ LogB.Information(" fs R ");
 			spCairoFE = new SignalPointsCairoForceElastic ();
 		if (spCairoFE_Unfiltered == null)
 			spCairoFE_Unfiltered = new SignalPointsCairoForceElastic ();
+		if (spCairoFE_Raw == null)
+			spCairoFE_Raw = new SignalPointsCairoForceElastic ();
 		if (paintPointsInterpolateCairo_l == null)
 			paintPointsInterpolateCairo_l = new List<PointF> ();
 
@@ -2876,23 +2948,34 @@ LogB.Information(" fs R ");
 
 		//TODO: think if this has to be global to use it and do faster, and do not redo bw at all the screen rewrites
 		SignalPointsCairoForceElastic spCairoFECopyToDraw_Unfiltered;
+		SignalPointsCairoForceElastic spCairoFECopyToDraw_Raw;
 		SignalPointsCairoForceElastic spCairoFECopyToDraw;
 
 		spCairoFECopyToDraw_Unfiltered = new SignalPointsCairoForceElastic (
 				spCairoFE_Unfiltered, false, //we only want to plot the force
 				0, pointsToCopy -1, cairoDrawHorizontal);
 
+		spCairoFECopyToDraw_Raw = new SignalPointsCairoForceElastic (
+				spCairoFE_Raw, false, //we only want to plot the force
+				0, pointsToCopy -1, cairoDrawHorizontal);
+
 		spCairoFECopyToDraw = new SignalPointsCairoForceElastic ();
 		if (spCairoFECopyToDraw_Unfiltered.Force_l.Count > 0)
 		{
-			if (preferences.forceSensorButterworth >= 0 && spCairoFECopyToDraw_Unfiltered.Force_l.Count > spCairoFECopyToDraw.Force_l.Count) 
+			if (preferences.forceSensorButterworth (current_mode) >= 0)
 			{
-				Butterworth bw = new Butterworth (preferences.forceSensorButterworth);
-				bw.AddFromList (spCairoFECopyToDraw_Unfiltered.Force_l);
-				bw.Calculate ();
+				if (capturing && spCairoFECopyToDraw_Unfiltered.Force_l.Count > spCairoFECopyToDraw.Force_l.Count)
+				{
+					Butterworth bw = new Butterworth (preferences.forceSensorButterworth (current_mode));
+					bw.AddFromList (spCairoFECopyToDraw_Unfiltered.Force_l);
+					bw.Calculate ();
 
-				//spCairoFECopyToDraw = new SignalPointsCairoForceElastic ();
-				spCairoFECopyToDraw.Force_l = bw.PointF_l;
+					//spCairoFECopyToDraw = new SignalPointsCairoForceElastic ();
+					spCairoFECopyToDraw.Force_l = bw.PointF_l;
+				} else
+					spCairoFECopyToDraw = new SignalPointsCairoForceElastic (
+							spCairoFE, true, //we may plot all variables (not only force)
+							0, pointsToCopy -1, cairoDrawHorizontal);
 			} else {
 				spCairoFECopyToDraw = new SignalPointsCairoForceElastic (
 						spCairoFE_Unfiltered, true, //we may plot all variables (not only force)
@@ -2990,6 +3073,7 @@ LogB.Information(" fs R ");
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 4");
 		cairoGraphForceSensorSignal.DoSendingList (
 				preferences.fontType.ToString(),
+				spCairoFECopyToDraw_Raw, 		//raw (only used to plot Y if butterworth is active)
 				spCairoFECopyToDraw_Unfiltered, 	//raw (only used to plot Y if butterworth is active)
 				spCairoFECopyToDraw, 			//it has also Displ, Speed
 				check_force_sensor_capture_show_distance.Active,
@@ -3024,14 +3108,18 @@ LogB.Information(" fs R ");
 		}
 	}
 
-	private void forceSensorGridColors ()
+	private void forceSensorGridLegendColors ()
 	{
-		force_capture_grid_colors.Visible = preferences.forceSensorButterworth >= 0;
-		if (preferences.forceSensorButterworth >= 0)
+		box_force_capture_grid_legend_butterworth.Visible = preferences.forceSensorButterworth (current_mode) >= 0;
+		if (preferences.forceSensorButterworth (current_mode) >= 0)
 		{
+			separator_force_capture_raw.Name = "caramelCss";
 			separator_force_capture_unfiltered.Name = "brownCss";
 			separator_force_capture_butterworth.Name = "blackCss";
-			label_force_capture_grid_colors_butterworth_value.Text = Util.TrimDecimals (preferences.forceSensorButterworth, 1);
+			label_force_capture_grid_legend_butterworth_value.Text =
+				Util.TrimDecimals (preferences.forceSensorButterworth (current_mode), 1);
+		} else {
+			separator_force_capture_unfiltered.Name = "blackCss";
 		}
 	}
 
@@ -3733,10 +3821,12 @@ LogB.Information(" fs R ");
 		label_force_sensor_value_min = (Gtk.Label) builder.GetObject ("label_force_sensor_value_min");
 		label_force_sensor_value_best_second = (Gtk.Label) builder.GetObject ("label_force_sensor_value_best_second");
 		label_force_sensor_value_rfd = (Gtk.Label) builder.GetObject ("label_force_sensor_value_rfd");
-		force_capture_grid_colors = (Gtk.Grid) builder.GetObject ("force_capture_grid_colors");
+		force_capture_grid_legend = (Gtk.Grid) builder.GetObject ("force_capture_grid_legend");
+		separator_force_capture_raw = (Gtk.Separator) builder.GetObject ("separator_force_capture_raw");
 		separator_force_capture_unfiltered = (Gtk.Separator) builder.GetObject ("separator_force_capture_unfiltered");
 		separator_force_capture_butterworth = (Gtk.Separator) builder.GetObject ("separator_force_capture_butterworth");
-		label_force_capture_grid_colors_butterworth_value = (Gtk.Label) builder.GetObject ("label_force_capture_grid_colors_butterworth_value");
+		box_force_capture_grid_legend_butterworth = (Gtk.Box) builder.GetObject ("box_force_capture_grid_legend_butterworth");
+		label_force_capture_grid_legend_butterworth_value = (Gtk.Label) builder.GetObject ("label_force_capture_grid_legend_butterworth_value");
 		//vscale_force_sensor = (Gtk.VScale) builder.GetObject ("vscale_force_sensor");
 		spin_force_sensor_calibration_kg_value = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_calibration_kg_value");
 		box_force_sensor_capture_magnitudes = (Gtk.Box) builder.GetObject ("box_force_sensor_capture_magnitudes");

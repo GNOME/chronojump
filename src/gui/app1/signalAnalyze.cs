@@ -1480,7 +1480,7 @@ public abstract class TreeviewS2Abstract : TreeviewSAbstract
 	public virtual void PassElasticDiffs (string position, string speed, string accel, string power)
 	{
 	}
-	public virtual void PassElasticAvgs (string speed, string accel, string power)
+	public virtual void PassElasticAvgs (string position, string speed, string accel, string power)
 	{
 	}
 	public virtual void PassElasticMaxs (string speed, string accel, string power)

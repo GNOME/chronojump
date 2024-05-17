@@ -36,6 +36,7 @@ public partial class ChronoJumpWindow
 	// at glade ---->
 	Gtk.HBox app1s_hbox_frame_load;
 	Gtk.HBox app1s_hbox_frame_import;
+	Gtk.Image image_session_load3;
 	Gtk.Image image_session_load3_blue;
 	Gtk.Image image_session_import1_blue;
 	Gtk.Image image_session_load3_yellow;
@@ -80,7 +81,10 @@ public partial class ChronoJumpWindow
 
 	private void app1s_initializeGui()
 	{
-		if (! configChronojump.CanOpenExternalDB)
+		if (configChronojump.CanOpenExternalDB || configChronojump.ReadFromCloudMainPath != "")
+			alignment_vbox_session_load_or_import_select.TopPadding = (uint)
+				(box_database.Allocation.Y + 2); //related to icons on top of load/import session
+		else
 			alignment_vbox_session_load_or_import_select.TopPadding = (uint)
 				(frame_session.Allocation.Y - 3); //related to icons on top of load/import session
 		/*
@@ -403,7 +407,7 @@ public partial class ChronoJumpWindow
 				parameters.Add ("x"); //we need the parent folder
 				parameters.Add ("-aoa"); //Overwrite All existing files without prompt.
 				parameters.Add ("-o" + tempImportExtractDir);
-				parameters.Add (filechooser.Filename);
+				parameters.Add ("\"" + filechooser.Filename + "\""); // \" to fix spaces problems at least on Linux
 
 				string executable = ExecuteProcess.Get7zExecutable (operatingSystem);
 				ExecuteProcess.run (executable, parameters, false, false);
@@ -942,8 +946,9 @@ public partial class ChronoJumpWindow
 
 	void app1s_on_button_cancel2_clicked (object o, EventArgs args)
 	{
-		menus_and_mode_sensitive(true);
-		notebook_supSetOldPage();
+		//menus_and_mode_sensitive(true);
+		//notebook_supSetOldPage();
+		app1s_notebook.CurrentPage = app1s_PAGE_MODES;
 	}
 
 	void app1s_on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
@@ -978,8 +983,9 @@ public partial class ChronoJumpWindow
 	{
 		currentSession = SqliteSession.Select (app1s_selected);
 		on_load_session_accepted();
-		notebook_supSetOldPage();
+		//notebook_supSetOldPage();
 		app1s_notebook_load_button_animation.CurrentPage = 0;
+		app1s_on_button_close0_clicked (new object (), new EventArgs ());
 
 		return false; //do not call this again
 	}
@@ -1088,6 +1094,7 @@ public partial class ChronoJumpWindow
 	{
 		app1s_hbox_frame_load = (Gtk.HBox) builder.GetObject ("app1s_hbox_frame_load");
 		app1s_hbox_frame_import = (Gtk.HBox) builder.GetObject ("app1s_hbox_frame_import");
+		image_session_load3 = (Gtk.Image) builder.GetObject ("image_session_load3");
 		image_session_load3_blue = (Gtk.Image) builder.GetObject ("image_session_load3_blue");
 		image_session_import1_blue = (Gtk.Image) builder.GetObject ("image_session_import1_blue");
 		image_session_load3_yellow = (Gtk.Image) builder.GetObject ("image_session_load3_yellow");

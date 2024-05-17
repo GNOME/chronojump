@@ -1014,6 +1014,15 @@ tryNLS <- function(data){
                         print(model$convInfo)
                         print(model$convInfo$inConv)
                         print(model$convInfo$stopCode)
+                        
+                        # testing biexponential model
+                        # model2 = nls(position ~ Vmax*(time + T0 + (1/K1)*exp(-K1*(time + T0))) -Vmax/K1
+                        #              + Loss*(time + T0 - (1/K2)*exp(K2*(time + T0))) -Vmax/K2
+                        #                 + P0, data
+                        #             , start = list(K1 = 0.81, Vmax = 10, T0 = 0.2, P0 = 0.1, Loss = 0.1, K2 = 0.1), control=nls.control(warnOnly=TRUE, maxiter = 100))
+                        # print("model2")
+                        # print(model2)
+                        
                         if (! model$convInfo$isConv && (model$convInfo$stopCode != 2)){
                                 return(list(regressionDone = FALSE, model = model))
                         } else {

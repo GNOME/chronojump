@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2022-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -240,6 +240,7 @@ public partial class ChronoJumpWindow
 	private static bool needToCloseSessionToCompress;
 	static string app1s_exportText;
 	static long app1s_exportElapsedMs;
+
 	//No GTK here!
 	private void app1s_export()
 	{
@@ -253,7 +254,6 @@ public partial class ChronoJumpWindow
 		if (exportImportCompressed)
 			exportDir = app1s_fileCopyPre;
 
-		//TODO: copy only needed multimedia (photos), videos are discarded by sessions
 		app1s_uc.CopyFilesRecursively (new DirectoryInfo(Util.GetLocalDataDir (false)), new DirectoryInfo (exportDir), 0);
 
 		//TODO: check that db exists and manage sessionSwitcher to go back
@@ -265,6 +265,9 @@ public partial class ChronoJumpWindow
 			//TODO: some error message
 			return;
 		}
+
+		deletePhotosNotInThisSession (exportDir);
+		deleteExercisesNotInThisSession (exportDir);
 
 		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher
 			(SqliteSessionSwitcher.DatabaseType.EXPORT, exportedDB);
@@ -304,10 +307,10 @@ public partial class ChronoJumpWindow
 			List<string> parameters = new List<string>();
 			parameters.Add ("a");
 
-			parameters.Add (app1s_fileCopy + ".7z");
+			parameters.Add ("\"" + app1s_fileCopy + ".7z\"");
 
 			// option 1 add the folder with the files (better to have a dir that can be uncompressed in order to be opened from importer)
-			parameters.Add (app1s_fileCopy);
+			parameters.Add ("\"" + app1s_fileCopy + "\"");
 			// option 2 without the parent folder (cleaner, but do not found how to import)
 			//parameters.Add (app1s_fileCopy + Path.DirectorySeparatorChar + "*");
 
@@ -325,6 +328,58 @@ public partial class ChronoJumpWindow
 		sw.Stop();
 		app1s_exportElapsedMs = sw.ElapsedMilliseconds;
 		LogB.Information("ended app1s_export()");
+	}
+
+	private void deletePhotosNotInThisSession (string exportDir)
+	{
+		//find wich persons we have to delete unwanted multimedia/photos
+		List<Person> person_l = SqlitePersonSession.SelectCurrentSessionPersonsAsList (false, currentSession.UniqueID);
+		List<int> id_l = new List <int>();
+		foreach (Person p in person_l)
+			id_l.Add (p.UniqueID);
+
+		//if any photo is not of a person on exported session, delete photo and the small version
+		deleteImagesNotFoundInIds (Path.Combine (exportDir, "multimedia", "photos"), id_l);
+	}
+
+	private void deleteExercisesNotInThisSession (string exportDir)
+	{
+		//right now only forceSensor //TODO: implement on rest of exercises
+		deleteExercisesForceSensorNotInThisSession (exportDir);
+	}
+	private void deleteExercisesForceSensorNotInThisSession (string exportDir)
+	{
+		//find wich persons we have to delete unwanted multimedia/photos
+		List<ForceSensor> fs_l = SqliteForceSensor.Select (false, -1, -1, currentSession.UniqueID, -1);
+		List<int> id_l = new List <int>();
+		foreach (ForceSensor f in fs_l)
+			id_l.Add (f.ExerciseID);
+
+		deleteImagesNotFoundInIds (Path.Combine (exportDir, "multimedia", "exercises", "forceSensor"), id_l);
+	}
+
+	private void deleteImagesNotFoundInIds (string imagesDir, List<int> id_l)
+	{
+		foreach (string s in Directory.GetFiles (imagesDir))
+		{
+			string filename = Path.GetFileName (s);
+
+			string [] str = filename.Split(new char[] {'.'});
+			if (str.Length != 2)
+				continue;
+
+			if (! Util.IsJpeg (str[1]) && ! Util.IsPng (str[1]))
+				continue;
+
+			if (! Util.IsNumber (str[0], false))
+				continue;
+
+			if (Util.FoundInListInt (id_l, Convert.ToInt32 (str[0])))
+				continue;
+
+			Util.FileDelete (s);
+			Util.FileDelete (Path.Combine (imagesDir, "small", filename));
+		}
 	}
 
 	private void on_app1s_button_export_cancel_clicked (object o, EventArgs args)

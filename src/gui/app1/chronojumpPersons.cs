@@ -35,6 +35,9 @@ public partial class ChronoJumpWindow
 	Gtk.EventBox eventbox_button_person_close;
 	Gtk.Image image_person_manage_blue;
 	Gtk.Image image_person_manage_yellow;
+	Gtk.CheckButton persons_manage_advanced_checkbutton;
+	Gtk.Label persons_manage_advanced_label;
+	Gtk.Box persons_manage_advanced_box;
 	Gtk.Button button_person_merge;
 
 	private void showPersonsOnTop (bool onTop)
@@ -87,6 +90,10 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	private void on_persons_manage_advanced_checkbutton_clicked (object o, EventArgs args)
+	{
+		persons_manage_advanced_box.Visible = persons_manage_advanced_checkbutton.Active;
+	}
 	
 	/* ---------------------------------------------------------
 	 * ----------------  PERSON RECUPERATE, LOAD, EDIT, DELETE -
@@ -468,7 +475,8 @@ public partial class ChronoJumpWindow
 				false); //means: do not returnPersonAndPSlist
 
 		personSelectWin = PersonSelectWindow.Show(app1, myPersons, currentPerson, preferences.colorBackground,
-				configChronojump.Raspberry, configChronojump.LowHeight, preferences.personSelectWinImages);
+				configChronojump.Raspberry, configChronojump.LowHeight,
+				preferences.personSelectWinImages, configChronojump.ReadFromCloudMainPath != "");
 		personSelectWin.FakeButtonAddPerson.Clicked -= new EventHandler(on_button_top_person_add_person);
 		personSelectWin.FakeButtonAddPerson.Clicked += new EventHandler(on_button_top_person_add_person);
 
@@ -634,6 +642,9 @@ public partial class ChronoJumpWindow
 		eventbox_button_person_close = (Gtk.EventBox) builder.GetObject ("eventbox_button_person_close");
 		image_person_manage_blue = (Gtk.Image) builder.GetObject ("image_person_manage_blue");
 		image_person_manage_yellow = (Gtk.Image) builder.GetObject ("image_person_manage_yellow");
+		persons_manage_advanced_checkbutton = (Gtk.CheckButton) builder.GetObject ("persons_manage_advanced_checkbutton");
+		persons_manage_advanced_label = (Gtk.Label) builder.GetObject ("persons_manage_advanced_label");
+		persons_manage_advanced_box = (Gtk.Box) builder.GetObject ("persons_manage_advanced_box");
 		button_person_merge = (Gtk.Button) builder.GetObject ("button_person_merge");
 	}
 }

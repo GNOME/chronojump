@@ -148,6 +148,7 @@ src/Mini/chronojump_mini
 win32/chronojump_innosetup_x86.iss
 win32/chronojump_innosetup_x64.iss
 win32/Makefile
+package/linux/control
 ])
 
 AC_CONFIG_FILES([deb-pkg.sh], [chmod +x deb-pkg.sh])

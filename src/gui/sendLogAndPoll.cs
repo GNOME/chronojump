@@ -283,15 +283,7 @@ public partial class ChronoJumpWindow
 		if(preferences.loadLastModeAtStart &&
 				preferences.lastMode != Constants.Modes.UNDEFINED && ! configChronojump.Compujump)
 		{
-			// 0) note this code is repeated on gui/app1/chronojump.cs public ChronoJumpWindow()
-			// 1) to avoid impossibility to start Chronojump if there's any problem with this mode, first put this to false
-			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, false, false);
-
-			// 2) change mode
-			changeModeCheckRadios (preferences.lastMode);
-
-			// 3) put preference to true again
-			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, true, false);
+			changeModeAtStartOrCloudViewChangeDB ();
 		} else {
 			show_start_page ();
 		}

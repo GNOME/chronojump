@@ -53,7 +53,6 @@ public partial class ChronoJumpWindow
 	*/
 	
 	Gtk.Notebook notebook_chronojump_logo;
-	Gtk.Viewport viewport_chronojump_logo;
 	Gtk.Image image_chronojump_logo;
 	Gtk.DrawingArea drawingarea_chronojump_logo;
 
@@ -68,6 +67,7 @@ public partial class ChronoJumpWindow
 	Gtk.Box hbox_message_permissions_at_boot;
 	Gtk.Label label_message_permissions_at_boot;
 	Gtk.Box hbox_message_camera_at_boot;
+	Gtk.Box box_start_modes_and_version;
 	Gtk.Box hbox_start_window_sub;
 
 	Gtk.Button button_show_modes_contacts;
@@ -157,7 +157,6 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_sprint_person_name;
 
 	Gtk.Label label_version;
-	Gtk.Label label_version_hidden; //just to have logo aligned on the middle
 	//Gtk.Image image_selector_start_encoder_inertial;
 
 	Gtk.RadioButton radio_mode_pulses_small;
@@ -232,7 +231,11 @@ public partial class ChronoJumpWindow
 
 	//to GTK3 colorize
 	Gtk.Frame frame_session;
+	Gtk.Box box_database;
+	Gtk.Box hbox_frame_database_top;
 	Gtk.Box vbox_frame_database_border;
+	Gtk.Image image_database_manage_blue;
+	Gtk.Image image_database_manage_yellow;
 	Gtk.Box vbox_frame_session_border;
 	Gtk.Box box_session_more;
 	Gtk.Box box_session_load_or_import;
@@ -345,7 +348,6 @@ public partial class ChronoJumpWindow
 	Gtk.Frame frame_persons_top;
 	Gtk.Box vbox_persons_bottom;
 	Gtk.Box hbox_persons_bottom_photo;
-	Gtk.Box vbox_persons_bottom_no_photo;
 	Gtk.Button button_recuperate_person;
 	Gtk.Button button_recuperate_persons_from_session;
 	Gtk.Button button_person_add_single;
@@ -423,6 +425,9 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_selector_menu_2_2_2_title;
 	Gtk.Label label_selector_menu_2_2_2_desc;
 	Gtk.Alignment align_label_selector_menu_2_2_2_desc;
+
+	Gtk.Label label_exit_confirm;
+	Gtk.Button button_exit_cancel;
 	// <---- at glade
 
 	Random rand;
@@ -547,7 +552,7 @@ public partial class ChronoJumpWindow
 	private string progVersion;
 	private string progName;
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM, SOCIALNETWORKPOLL, FULLSCREENCAPTURE }
-	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS, MICRODISCOVER, PERSON }
+	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS, MICRODISCOVER, PERSON, DATABASE }
 	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE,
 		JUMPSASYMMETRY, JUMPSEVOLUTION, JUMPSRJFATIGUE,
@@ -576,7 +581,7 @@ public partial class ChronoJumpWindow
 
 	bool app1Shown = false;
 	bool needToShowChronopicRegisterWindow;
-	private bool showSocialNetworkPoll;
+	//private bool showSocialNetworkPoll;
 	private SplashWindow splashWin;
 	private bool showSendLog;
 
@@ -662,10 +667,7 @@ public partial class ChronoJumpWindow
 			buildVersion = buildVersionSplit[0] + "-" + buildVersionSplit[1];
 
 		label_version.Text = buildVersion;
-		label_version_hidden.Text = buildVersion;
 		label_version.Name = "lightCss";
-		//label_version_hidden.Name = "blueChronojumpHideCss";
-		label_version_hidden.Name = "ChronojumpHideCss";
 
 		//manage app1 will not be hiding other windows at start
 		app1Shown = false;
@@ -695,7 +697,12 @@ public partial class ChronoJumpWindow
 		
 		//preferencesLoaded is a fix to a gtk#-net-windows-bug where radiobuttons raise signals
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
-		loadPreferencesAtStart ();
+		//it will open preferences on default db or on chronojumpCloudRead.db if reading from cloud
+		if(configChronojump == null)
+			configChronojump = new Config();
+		configChronojump.Read ();
+
+		loadPreferencesAtStartOrCloudViewChangeDB ();
 
 		Config.UseSystemColor = preferences.colorBackgroundOsColor;
 
@@ -706,18 +713,20 @@ public partial class ChronoJumpWindow
 			hbox_message_permissions_at_boot.Visible = true;
 		}
 
-		showSocialNetworkPoll = (preferences.socialNetworkDatetime == "");
+		//showSocialNetworkPoll = (preferences.socialNetworkDatetime == "");
 		//show send log if needed or other messages
 		if (showSendLog)
 		{
 			show_send_log(sendLogMessage, preferences.crashLogLanguage);
 			notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.SENDLOG);
 		}
+		/*
 		else if (showSocialNetworkPoll)
 		{
 			notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.SOCIALNETWORKPOLL);
 			socialNetworkPollInit();
 		}
+		*/
 		else
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.START);
 
@@ -904,7 +913,7 @@ public partial class ChronoJumpWindow
 		addShortcutsToTooltips(operatingSystem == UtilAll.OperatingSystems.MACOSX);
 
 		LogB.Information("Calling configInitRead from gui / ChronojumpWindow");
-		configInitRead();
+		configInitDoAtBoot ();
 
 		if (debugModeAtStart)
 			on_preferences_debug_mode_start (new object (), new EventArgs ());
@@ -943,31 +952,9 @@ public partial class ChronoJumpWindow
 		} else
 			LogB.Information("Ping discarded (Compujump)");
 
+
 		if(preferences.loadLastSessionAtStart && preferences.lastSessionID > 0 && ! configChronojump.Compujump)
-		{
-			// 1) to avoid impossibility to start Chronojump if there's any problem with this session, first put this to false
-			SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, false, false);
-
-			// 2) load the session (but check if it really exists (extra check))
-			Session sessionLoading = SqliteSession.Select (preferences.lastSessionID.ToString());
-			if(sessionLoading.UniqueID != -1)
-			{
-				currentSession = sessionLoading;
-				on_load_session_accepted();
-
-				// select last person
-				if (preferences.lastPersonID > 0)
-					selectRowTreeView_persons (treeview_persons,
-							myTreeViewPersons.FindRow (preferences.lastPersonID));
-
-				// 3) put preference to true again
-				SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, true, false);
-			} else
-				if(! check_menu_session.Active)
-					check_menu_session.Click(); //have session menu opened
-		} else
-			if(! check_menu_session.Active)
-				check_menu_session.Click(); //have sesion menu opened
+			changeSessionAtStartOrCloudViewChangeDB ();
 
 		initialize_menu_or_menu_tiny();
 		vbox_persons_bottom.Visible = preferences.personPhoto && ! check_menu_session.Active;
@@ -986,22 +973,27 @@ public partial class ChronoJumpWindow
 		//in networks starting mode is always the defined on chronojump_config CompujumpStationMode
 		if (! configChronojump.Compujump)
 		{
-			if(! showSendLog && ! showSocialNetworkPoll && preferences.loadLastModeAtStart &&
+			if(! showSendLog && //! showSocialNetworkPoll &&
+					preferences.loadLastModeAtStart &&
 					preferences.lastMode != Constants.Modes.UNDEFINED)
 			{
-				// 0) note this code is repeated on gui/sendLog.cs on_button_open_chronojump_clicked()
-				// 1) to avoid impossibility to start Chronojump if there's any problem with this mode, first put this to false
-				SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, false, false);
-
-				// 2) change mode
-				changeModeCheckRadios (preferences.lastMode); //this will update current_mode
-
-				// 3) put preference to true again
-				SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, true, false);
+				changeModeAtStartOrCloudViewChangeDB ();
 			}
 			else if (preferences.lastMode != Constants.Modes.UNDEFINED)
 				current_mode = preferences.lastMode; //needed for show_start_page () below
 		}
+
+		/*
+		 * Disabled until fix some bug with cloud view change database
+		 *
+		//1 if no session, show new/load session "win"
+		//2 but do not show session "win" if cloud and still have not loaded the database
+		if (currentSession == null && 	// 1
+				! showSendLog &&
+				! (configChronojump.ReadFromCloudMainPath != "" && configChronojump.LastDBFullPath == "") && // 2
+				! menuSessionIsActive ())
+			menuSessionDoClick (); //have session "win" opened
+		*/
 
 		//done after app1.Show in order to be able to gather the colors
 		doLabelsContrast(configChronojump.PersonWinHide);
@@ -1012,7 +1004,8 @@ public partial class ChronoJumpWindow
 			chronopicRegisterWin.Show();
 		}
 
-		if(! showSendLog && ! showSocialNetworkPoll)
+		if(! showSendLog && //! showSocialNetworkPoll)
+			configChronojump.ReadFromCloudMainPath == "" && ! configChronojump.CanOpenExternalDB)
 		{
 			if (shouldAskBackupScheduled ())
 				backupScheduledAsk ();
@@ -1033,6 +1026,45 @@ public partial class ChronoJumpWindow
 		LogB.Information("Chronojump window started");
 	}
 
+	private void changeSessionAtStartOrCloudViewChangeDB ()
+	{
+		// 1) to avoid impossibility to start Chronojump if there's any problem with this session, first put this to false
+		SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, false, false);
+
+		// 2) load the session (but check if it really exists (extra check))
+		Session sessionLoading = SqliteSession.Select (preferences.lastSessionID.ToString());
+		if(sessionLoading.UniqueID != -1)
+		{
+			currentSession = sessionLoading;
+			on_load_session_accepted();
+
+			// select last person
+			if (preferences.lastPersonID > 0)
+				selectRowTreeView_persons (treeview_persons,
+						myTreeViewPersons.FindRow (preferences.lastPersonID));
+
+			// 3) put preference to true again
+			SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, true, false);
+		}
+		/* commented, as this will be done after mode change
+		   else
+		   if(! check_menu_session.Active)
+		   check_menu_session.Click(); //have session menu opened
+		   */
+	}
+
+	private void changeModeAtStartOrCloudViewChangeDB ()
+	{
+		// 1) to avoid impossibility to start Chronojump if there's any problem with this mode, first put this to false
+		SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, false, false);
+
+		// 2) change mode
+		changeModeCheckRadios (preferences.lastMode); //this will update current_mode
+
+		// 3) put preference to true again
+		SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, true, false);
+	}
+
 	private void initContacts ()
 	{
 		followSignals = false;
@@ -1046,6 +1078,13 @@ public partial class ChronoJumpWindow
 	//used on this free labels that have to contrast with background
 	private void doLabelsContrast(bool personsAtTop)
 	{
+		if (UtilGtk.LogoBlueOrWhite (Config.ColorBackground))
+			image_chronojump_logo.Pixbuf = Chronojump.MyPixbuf.Get(
+					null, Util.GetImagePath(false) + Constants.FileNameLogoBlueTransp);
+		else
+			image_chronojump_logo.Pixbuf = Chronojump.MyPixbuf.Get(
+					null, Util.GetImagePath(false) + Constants.FileNameLogoWhiteTransp);
+
 		if(personsAtTop)
 		{
 			if(! Config.UseSystemColor)
@@ -1054,6 +1093,7 @@ public partial class ChronoJumpWindow
 				UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, hbox_top_person_encoder);
 				UtilGtk.ContrastLabelsGrid (Config.ColorBackgroundIsDark, grid_rest_time_contacts);
 				UtilGtk.ContrastLabelsGrid (Config.ColorBackgroundIsDark, grid_rest_time_encoder);
+				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, app1s_label_copyToCloud1);
 			}
 
 			if(! Config.UseSystemColor && Config.ColorBackgroundIsDark)
@@ -1080,10 +1120,10 @@ public partial class ChronoJumpWindow
 
 			Pixbuf pixbuf;
 
-			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_blue.png");
-			if(Config.ColorBackgroundIsDark)
-				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_yellow.png");
-			image_cloud.Pixbuf = pixbuf;
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
+			//if(Config.ColorBackgroundIsDark)
+			//	pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_yellow.png");
+			image_cloud_view.Pixbuf = pixbuf;
 
 			personsPhotoShowIfNeeded ();
 		}
@@ -1094,6 +1134,7 @@ public partial class ChronoJumpWindow
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, vbox_help);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, vbox_micro_discover);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, vbox_person);
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, box_database);
 
 			/*
 			//notebook_sup
@@ -1101,6 +1142,7 @@ public partial class ChronoJumpWindow
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_sup);
 			*/
 			//start (modes)
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, box_start_modes_and_version);
 			UtilGtk.WidgetColor (hbox_start_window_sub, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, hbox_start_window_sub);
 			UtilGtk.WidgetColor (notebook_menu_2_2_2, Config.ColorBackgroundShifted);
@@ -1137,11 +1179,16 @@ public partial class ChronoJumpWindow
 
 			//persons (main)
 			UtilGtk.WidgetColor (hbox_frame_persons_top, Config.ColorBackgroundShifted);
-			UtilGtk.WidgetColor (vbox_persons, Config.ColorBackgroundShifted);
+			if (selectRowTreeView_persons(treeview_persons, 0))
+				UtilGtk.WidgetColor (vbox_persons, Config.ColorBackgroundShifted);
+			else
+				vbox_persons.Name = "alertCss";
+
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, hbox_frame_persons_top);
 
 			//session databse
 			UtilGtk.WidgetColor (vbox_frame_database_border, Config.ColorBackgroundShifted);
+			UtilGtk.WidgetColor (hbox_frame_database_top, Config.ColorBackgroundShifted);
 
 			//session
 			UtilGtk.WidgetColor (vbox_frame_session_border, Config.ColorBackgroundShifted);
@@ -1220,6 +1267,7 @@ public partial class ChronoJumpWindow
 		LogB.Information(string.Format("UseSystemColor: {0}, ColorBackgroundIsDark: {1}", Config.UseSystemColor, Config.ColorBackgroundIsDark));
 		if(! Config.UseSystemColor && Config.ColorBackgroundIsDark)
 		{
+			image_database_manage_blue.Visible = false;
 			image_session_new_blue.Visible = false;
 			image_session_load3_blue.Visible = false;
 			image_session_more_window_blue.Visible = false;
@@ -1228,6 +1276,7 @@ public partial class ChronoJumpWindow
 			image_news_blue.Visible = false;
 			image_help_blue.Visible = false;
 
+			image_database_manage_yellow.Visible = true;
 			image_session_new_yellow.Visible = true;
 			image_session_load3_yellow.Visible = true;
 			image_session_more_window_yellow.Visible = true;
@@ -1236,6 +1285,7 @@ public partial class ChronoJumpWindow
 			image_news_yellow.Visible = true;
 			image_help_yellow.Visible = true;
 		} else {
+			image_database_manage_blue.Visible = true;
 			image_session_new_blue.Visible = true;
 			image_session_load3_blue.Visible = true;
 			image_session_more_window_blue.Visible = true;
@@ -1244,6 +1294,7 @@ public partial class ChronoJumpWindow
 			image_news_blue.Visible = true;
 			image_help_blue.Visible = true;
 
+			image_database_manage_yellow.Visible = false;
 			image_session_new_yellow.Visible = false;
 			image_session_load3_yellow.Visible = false;
 			image_session_more_window_yellow.Visible = false;
@@ -1370,9 +1421,10 @@ public partial class ChronoJumpWindow
 */
 
 	//different than on_preferences_activate (opening preferences window)
-	private void loadPreferencesAtStart ()
+	private void loadPreferencesAtStartOrCloudViewChangeDB ()
 	{
 		preferences = Preferences.LoadAllFromSqlite();
+
 		LogB.Mute = preferences.muteLogs;
 
 		LogB.Information (string.Format(Catalog.GetString("Chronojump database version file: {0}"), 
@@ -3309,7 +3361,13 @@ public partial class ChronoJumpWindow
 		//maybe better kill ffmpeg before opening other instance
 		//and at end check if it is running that process and kill the last one ffmpeg instance
 		//LogB.Information("Bye4!");
-		
+
+		if (configChronojump.ReadFromCloudMainPath != "" && storedDBFilename != "")
+			Util.FileCopySafe (
+					Path.Combine(Util.GetCloudReadTempDir (), "database", "chronojump.db"),
+					Path.Combine(storedDBFilename, "database", "chronojump.db"),
+					true); //overwrite
+
 		Log.End();
 
 		Application.Quit();
@@ -3322,13 +3380,9 @@ public partial class ChronoJumpWindow
 	 *  --------------------------------------------------------
 	 */
 
-	private void on_new_activate (object o, EventArgs args)
+	private void on_new_session_activate (object o, EventArgs args)
 	{
 		LogB.Information("new session");
-
-		menus_and_mode_sensitive (false);
-		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
-		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.SESSION);
 		sessionAddEditShow (App1saeModes.ADDSESSION);
 	}
 
@@ -3341,9 +3395,11 @@ public partial class ChronoJumpWindow
 			label_current_session.Text = "<b>" + sessionName + "</b>";
 			label_current_session.UseMarkup = true;
 			label_current_session.TooltipText = sessionName;
+			frame_session.Name = "";
 		} else {
 			label_current_session.Text = "----";
-			label_current_session.TooltipText = "----";
+			label_current_session.TooltipText = "";
+			frame_session.Name = "alertCss";
 		}
 
 		if(mode != Constants.Modes.UNDEFINED)
@@ -3388,7 +3444,6 @@ public partial class ChronoJumpWindow
 		//for sure, jumpsExists is false, because we create a new session
 
 		hbox_persons_bottom_photo.Sensitive = false;
-		vbox_persons_bottom_no_photo.Sensitive = false;
 		label_current_person.Text = "";
 		label_top_person_name.Text = "";
 		label_top_encoder_person_name.Text = "";
@@ -3411,9 +3466,6 @@ public partial class ChronoJumpWindow
 		//feedback (more in 1st session created)
 		string feedbackLoadUsers = Catalog.GetString ("Session created, now add or load persons.");
 		new DialogMessage(Constants.MessageTypes.INFO, feedbackLoadUsers);
-
-		//fold menu session
-		check_menu_session.Click();
 
 		SqlitePreferences.Update(SqlitePreferences.LastSessionID, currentSession.UniqueID.ToString(), false);
 	}
@@ -3447,17 +3499,10 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void on_open_activate (object o, EventArgs args) 
+	private void on_open_session_activate (object o, EventArgs args)
 	{
 		LogB.Information("open session");
-
-		//store which page we are on notebook_sup, except if we clicked on "more" from the session tab
-		if(notebook_sup.CurrentPage != Convert.ToInt32(notebook_sup_pages.SESSION))
-			app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
-
-		menus_and_mode_sensitive(false);
 		sessionLoadWindowShow(app1s_windowType.LOAD_SESSION);
-		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.SESSION);
 	}
 
 	//called from open session OR from gui/networks configInit when config.SessionMode == Config.SessionModeEnum.UNIQUE
@@ -3487,12 +3532,7 @@ public partial class ChronoJumpWindow
 
 		definedSession = true;
 
-		//fold menu session
-		if(check_menu_session.Active)
-			check_menu_session.Click();
-
 		hbox_persons_bottom_photo.Sensitive = false;
-		vbox_persons_bottom_no_photo.Sensitive = false;
 		LogB.Information("foundPersons: " + foundPersons.ToString());
 		//if there are persons
 		if(foundPersons) {
@@ -3756,10 +3796,13 @@ public partial class ChronoJumpWindow
 
 	private void on_preferences_activate (object o, EventArgs args) 
 	{
+		Constants.Modes m = current_mode;
 		if(notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
-			preferencesWin = PreferencesWindow.Show(preferences, Constants.Modes.UNDEFINED, configChronojump.Compujump, progVersion);
-		else
-			preferencesWin = PreferencesWindow.Show(preferences, current_mode, configChronojump.Compujump, progVersion);
+			m = Constants.Modes.UNDEFINED;
+
+		preferencesWin = PreferencesWindow.Show(preferences, m, configChronojump.Compujump,
+				//configChronojump, progVersion);
+				progVersion);
 
 		preferencesWin.FakeButtonMaximizeChanges.Clicked -= new EventHandler (on_preferences_maximize_changes);
 		preferencesWin.FakeButtonMaximizeChanges.Clicked += new EventHandler (on_preferences_maximize_changes);
@@ -3807,6 +3850,33 @@ public partial class ChronoJumpWindow
 
 	private void on_preferences_closed (object o, EventArgs args)
 	{
+		// 1) changes on cloud
+		// 1.a) if Read changed path from "" to != "" or viceversa need to restart
+		// 1.b) if Copy changed path from "" to != "" or viceversa need to restart
+		Config configHere = new Config();
+		configHere.Read ();
+		if (
+				(configChronojump.ReadFromCloudMainPath == "") != (configHere.ReadFromCloudMainPath == "") || // 1.a
+				(configChronojump.CopyToCloudFullPath == "") != (configHere.CopyToCloudFullPath == "") // 1.b
+				)
+		{
+			//gui force restart
+			notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.EXITCONFIRM);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_exit_confirm);
+			label_exit_confirm.Text = Catalog.GetString ("Changes on cloud options force to restart Chronojump to apply changes");
+			button_exit_cancel.Visible = false;
+			return;
+		}
+
+		// 1.c) if read path changed, use new path
+		if (configHere.ReadFromCloudMainPath != "" && configHere.ReadFromCloudMainPath != configChronojump.ReadFromCloudMainPath)
+			configChronojump.ReadFromCloudMainPath = configHere.ReadFromCloudMainPath;
+
+		// 1.d) if copy path changed, use new path
+		if (configHere.CopyToCloudFullPath != "" && configHere.CopyToCloudFullPath != configChronojump.CopyToCloudFullPath)
+			configChronojump.CopyToCloudFullPath = configHere.CopyToCloudFullPath;
+
+
 		preferences = preferencesWin.GetPreferences;
 		LogB.Mute = preferences.muteLogs;
 
@@ -5260,13 +5330,23 @@ public partial class ChronoJumpWindow
 	{
 		//compujump will continue with the top right device button, far from the capture button
 		if (! configChronojump.Compujump)
-		{
-			button_contacts_detect.Visible = show;
-			hbox_contacts_detect_and_execute.Visible = ! show;
+			return;
 
-			button_encoder_detect.Visible = show;
-			hbox_encoder_detect_and_execute.Visible = ! show;
+		// Cloud-view cannot capture
+		if (configChronojump.ReadFromCloudMainPath != "")
+		{
+			button_contacts_detect.Visible = false;
+			hbox_contacts_detect_and_execute.Visible = false;
+			button_encoder_detect.Visible = false;
+			hbox_encoder_detect_and_execute.Visible = false;
+			return;
 		}
+
+		button_contacts_detect.Visible = show;
+		hbox_contacts_detect_and_execute.Visible = ! show;
+
+		button_encoder_detect.Visible = show;
+		hbox_encoder_detect_and_execute.Visible = ! show;
 	}
 
 	DiscoverWindow discoverWin;
@@ -8711,6 +8791,7 @@ LogB.Debug("mc finished 5");
 		{
 			getNewsDatetime();
 
+			/*
 			//also manage pending poll
 			if(preferences.socialNetworkDatetime == "-1")
 			{
@@ -8722,6 +8803,7 @@ LogB.Debug("mc finished 5");
 							UtilDate.ToFile(DateTime.Now), false);
 				}
 			}
+			*/
 		}
 	}
 
@@ -9593,7 +9675,7 @@ LogB.Debug("mc finished 5");
 
 	private void menuSessionSensitive(bool option)
 	{
-		frame_session_more_this_session.Sensitive = option;
+		box_session_more_this_session.Sensitive = option;
 		button_menu_session_export.Sensitive = option;
 	}
 	
@@ -9609,11 +9691,12 @@ LogB.Debug("mc finished 5");
 		}
 
 		hbox_persons_bottom_photo.Sensitive = option;
-		vbox_persons_bottom_no_photo.Sensitive = option;
 	}
 
 	private void sensitiveGuiNoSession () 
 	{
+		LogB.Information("sensitiveGuiNoSession");
+
 		//menuitems
 		menuSessionSensitive(false);
 		menuPersonSelectedSensitive(false);
@@ -9625,7 +9708,6 @@ LogB.Debug("mc finished 5");
 		button_person_add_single.Sensitive = false;
 		button_person_add_multiple.Sensitive = false;
 		hbox_persons_bottom_photo.Sensitive = false;
-		vbox_persons_bottom_no_photo.Sensitive = false;
 	
 		button_contacts_person_change.Sensitive = false;
 		button_encoder_person_change.Sensitive = false;
@@ -9652,6 +9734,8 @@ LogB.Debug("mc finished 5");
 	
 	private void sensitiveGuiYesSession () 
 	{
+		LogB.Information("sensitiveGuiYesSession");
+
 		button_image_test_zoom.Sensitive = true;
 		frame_persons.Sensitive = true;
 		button_recuperate_person.Sensitive = true;
@@ -9674,6 +9758,9 @@ LogB.Debug("mc finished 5");
 	private void sensitiveGuiNoPerson ()
 	{
 		LogB.Information("sensitiveGuiNoPerson");
+
+		vbox_persons.Name = "alertCss";
+
 		vbox_jumps.Sensitive = false;
 		hbox_jumps_rj.Sensitive = false;
 		button_execute_test.Sensitive = false;
@@ -9707,6 +9794,9 @@ LogB.Debug("mc finished 5");
 	private void sensitiveGuiYesPerson ()
 	{
 		LogB.Information("sensitiveGuiYesPerson");
+
+		vbox_persons.Name = "";
+
 		vbox_jumps.Sensitive = true;
 		hbox_jumps_rj.Sensitive = true;
 		button_execute_test.Sensitive = true;
@@ -9744,6 +9834,8 @@ LogB.Debug("mc finished 5");
 	
 	private void sensitiveGuiEventDoing (bool cont)
 	{
+		LogB.Information("sensitiveGuiEventDoing");
+
 		menus_and_mode_sensitive(false);
 		
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
@@ -10057,7 +10149,6 @@ LogB.Debug("mc finished 5");
 		   */
 
 		notebook_chronojump_logo = (Gtk.Notebook) builder.GetObject ("notebook_chronojump_logo");
-		viewport_chronojump_logo = (Gtk.Viewport) builder.GetObject ("viewport_chronojump_logo");
 		image_chronojump_logo = (Gtk.Image) builder.GetObject ("image_chronojump_logo");
 		drawingarea_chronojump_logo = (Gtk.DrawingArea) builder.GetObject ("drawingarea_chronojump_logo");
 
@@ -10072,6 +10163,7 @@ LogB.Debug("mc finished 5");
 		hbox_message_permissions_at_boot = (Gtk.Box) builder.GetObject ("hbox_message_permissions_at_boot");
 		label_message_permissions_at_boot = (Gtk.Label) builder.GetObject ("label_message_permissions_at_boot");
 		hbox_message_camera_at_boot = (Gtk.Box) builder.GetObject ("hbox_message_camera_at_boot");
+		box_start_modes_and_version = (Gtk.Box) builder.GetObject ("box_start_modes_and_version");
 		hbox_start_window_sub = (Gtk.Box) builder.GetObject ("hbox_start_window_sub");
 
 		button_show_modes_contacts = (Gtk.Button) builder.GetObject ("button_show_modes_contacts");
@@ -10161,7 +10253,6 @@ LogB.Debug("mc finished 5");
 		label_sprint_person_name = (Gtk.Label) builder.GetObject ("label_sprint_person_name");
 
 		label_version = (Gtk.Label) builder.GetObject ("label_version");
-		label_version_hidden = (Gtk.Label) builder.GetObject ("label_version_hidden"); //just to have logo aligned on the middle
 		//image_selector_start_encoder_inertial = (Gtk.Image) builder.GetObject ("image_selector_start_encoder_inertial");
 
 		radio_mode_pulses_small = (Gtk.RadioButton) builder.GetObject ("radio_mode_pulses_small");
@@ -10233,8 +10324,12 @@ LogB.Debug("mc finished 5");
 		image_line_person_max = (Gtk.Image) builder.GetObject ("image_line_person_max");
 		image_line_person_max_all_sessions = (Gtk.Image) builder.GetObject ("image_line_person_max_all_sessions");
 
+		box_database = (Gtk.Box) builder.GetObject ("box_database");
 		frame_session = (Gtk.Frame) builder.GetObject ("frame_session");
+		hbox_frame_database_top = (Gtk.Box) builder.GetObject ("hbox_frame_database_top");
 		vbox_frame_database_border = (Gtk.Box) builder.GetObject ("vbox_frame_database_border");
+		image_database_manage_blue = (Gtk.Image) builder.GetObject ("image_database_manage_blue");
+		image_database_manage_yellow = (Gtk.Image) builder.GetObject ("image_database_manage_yellow");
 		vbox_frame_session_border = (Gtk.Box) builder.GetObject ("vbox_frame_session_border");
 		box_session_more = (Gtk.Box) builder.GetObject ("box_session_more");
 		box_session_load_or_import = (Gtk.Box) builder.GetObject ("box_session_load_or_import");
@@ -10348,7 +10443,6 @@ LogB.Debug("mc finished 5");
 		frame_persons_top = (Gtk.Frame) builder.GetObject ("frame_persons_top");
 		vbox_persons_bottom = (Gtk.Box) builder.GetObject ("vbox_persons_bottom");
 		hbox_persons_bottom_photo = (Gtk.Box) builder.GetObject ("hbox_persons_bottom_photo");
-		vbox_persons_bottom_no_photo = (Gtk.Box) builder.GetObject ("vbox_persons_bottom_no_photo");
 		button_recuperate_person = (Gtk.Button) builder.GetObject ("button_recuperate_person");
 		button_recuperate_persons_from_session = (Gtk.Button) builder.GetObject ("button_recuperate_persons_from_session");
 		button_person_add_single = (Gtk.Button) builder.GetObject ("button_person_add_single");
@@ -10426,6 +10520,9 @@ LogB.Debug("mc finished 5");
 		label_selector_menu_2_2_2_title = (Gtk.Label) builder.GetObject ("label_selector_menu_2_2_2_title");
 		label_selector_menu_2_2_2_desc = (Gtk.Label) builder.GetObject ("label_selector_menu_2_2_2_desc");
 		align_label_selector_menu_2_2_2_desc = (Gtk.Alignment) builder.GetObject ("align_label_selector_menu_2_2_2_desc");
+
+		label_exit_confirm = (Gtk.Label) builder.GetObject ("label_exit_confirm");
+		button_exit_cancel = (Gtk.Button) builder.GetObject ("button_exit_cancel");
 	}
 
 }

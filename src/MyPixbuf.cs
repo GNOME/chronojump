@@ -49,9 +49,12 @@ namespace Chronojump
                 else
                     pixbuf = new Pixbuf(assembly, resource);
             }
-            catch
+            catch (Exception ex)
             {
-            }
+		    LogB.Information (string.Format (
+					    "catched at MyPixbuf.Get (assembly, resource). assembly: {0}, resource: {1}, exception: {2}",
+					    assembly, resource, ex));
+	    }
             return pixbuf;
         }
 
@@ -67,9 +70,12 @@ namespace Chronojump
             {
                 pixbuf = new Pixbuf(filename);
             }
-            catch
+            catch (Exception ex)
             {
-            }
+		    LogB.Information (string.Format (
+					    "catched at MyPixbuf.Get (filename). filename: {0}, exception: {1}",
+					    filename, ex));
+	    }
             return pixbuf;
         }
 
@@ -198,6 +204,11 @@ namespace Chronojump
 			new ResourceFix ("start-24-blue.png" , "start.png"),
 			new ResourceFix ("cloud_blue.png" , "cloud_blue.png"),
 			new ResourceFix ("cloud_yellow.png" , "cloud_yellow.png"),
+			new ResourceFix ("cloud_upload_blue.png" , "cloud_upload_blue.png"),
+			new ResourceFix ("cloud_view_blue.png" , "cloud_view_blue.png"),
+			new ResourceFix ("cloud_view_yellow.png" , "cloud_view_yellow.png"),
+			new ResourceFix ("cloud_schema.png", "cloud_schema.png"),
+			new ResourceFix ("cloud_schema_small.png", "cloud_schema_small.png"),
 			new ResourceFix ("notifications_blue_1x.png" , "stock_bell.png"),
 			new ResourceFix ("notifications_active_blue_1x.png" , "stock_bell_active.png"),
 			new ResourceFix ("notifications_none_blue_1x.png" , "stock_bell_none.png"),
@@ -263,6 +274,7 @@ namespace Chronojump
 			new ResourceFix ("photo_camera_blue_2x.png" , "image_no_photo.png"),
 			new ResourceFix ("photo_camera_yellow_2x.png" , "image_no_photo_yellow.png"),
 			new ResourceFix ("select_blue_3x.png" , "image_selected.png"),
+			new ResourceFix ("cached_blue_1x.png" , "image_reload.png"),
 			new ResourceFix ("cached_green_1x.png" , "image_recalculate.png"),
 			new ResourceFix ("delete_blue_1x.png" , "stock_delete.png"),
 			new ResourceFix ("create_new_folder_blue_2x.png" , "folder_new_big.png"),
@@ -402,7 +414,9 @@ namespace Chronojump
 			new ResourceFix ("filter_on.png" , "filter_on.png"),
 			new ResourceFix ("filter_off.png" , "filter_off.png"),
 			new ResourceFix ("calendar.png" , "calendar.png"),
-			new ResourceFix ("chronojump-logo-transparent.png" , "chronojump-logo-transparent.png"),
+			new ResourceFix ("chronojump-logo-2024-blue-transp-200h.png" , "chronojump-logo-2024-blue-transp-200h.png"),
+			new ResourceFix ("chronojump-logo-2024-white-transp-200h.png" , "chronojump-logo-2024-white-transp-200h.png"),
+			new ResourceFix ("chronojump-logo-2024-2col-bluebg-210h.png" , "chronojump-logo-2024-2col-bluebg-210h.png"),
 			new ResourceFix ("chronojump-logo-transparent-40h.png" , "chronojump-logo-transparent-40h.png"),
 			new ResourceFix ("chronojump-logo-2013_320.png" , "chronojump-logo-2013_320.png"),
 			new ResourceFix ("chronojump-logo-2013.png" , "chronojump-logo-2013.png"),

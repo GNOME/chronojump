@@ -280,7 +280,7 @@ public class MicroDiscover : MicroComms
 		if(cancel)
 			return false;
 
-		if(getVersion ("get_version:", responseExpected_l, false, 2000, true))
+		if(getVersion ("get_version:", responseExpected_l, false, 2500, true)) // 2000 -> 2500 as seems is better for Every
 		{
 			LogB.Information("Discover found this ForceSensor device: " + micro.Response);
 			if(micro.Response.Contains(forceSensorStr))

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -33,12 +33,15 @@ public partial class ChronoJumpWindow
 	Gtk.Notebook app1s_notebook;
 
 	//notebook tab 0
-	Gtk.Frame frame_session_more_this_session;
+	Gtk.Box box_session_more_this_session;
 	Gtk.Label label_session_more_session_name;
 	Gtk.Button button_menu_session_export;
 	Gtk.EventBox app1s_eventbox_button_close0;
 	Gtk.Image image_session_more_window_blue;
 	Gtk.Image image_session_more_window_yellow;
+	Gtk.CheckButton sessions_manage_advanced_checkbutton;
+	Gtk.Label sessions_manage_advanced_label;
+	Gtk.Box sessions_manage_advanced_box;
 
 	//notebook tab 1
 	Gtk.RadioButton app1s_radio_import_new_session;
@@ -134,6 +137,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label app1sae_label_date;
 	Gtk.Image image_session_new_blue;
 	Gtk.Image image_session_new_yellow;
+	Gtk.Image image_session_new2;
 	Gtk.Image image_sport_undefined;
 	Gtk.Image image_speciallity_undefined;
 	Gtk.Image image_level_undefined;
@@ -190,6 +194,7 @@ public partial class ChronoJumpWindow
 	Gtk.ProgressBar app1s_progressbar_copyToCloud_dirs;
 	Gtk.ProgressBar app1s_progressbar_copyToCloud_subDirs;
 	Gtk.Box box_copy_from_cloud_progressbars;
+	Gtk.Label app1s_label_copyFromCloud_maindir;
 	Gtk.ProgressBar app1s_progressbar_copyFromCloud_dirs;
 	Gtk.ProgressBar app1s_progressbar_copyFromCloud_subDirs;
 
@@ -254,6 +259,7 @@ public partial class ChronoJumpWindow
 	void app1s_on_button_close0_clicked (object o, EventArgs args)
 	{
 		menus_sensitive_import_not_danger(true);
+		menuSessionDoClick ();
 		notebook_supSetOldPage();
 	}
 
@@ -401,17 +407,25 @@ public partial class ChronoJumpWindow
 		app1s_notebook.CurrentPage = app1s_PAGE_MODES;
 	}
 
+	private void on_sessions_manage_advanced_checkbutton_clicked (object o, EventArgs args)
+	{
+		sessions_manage_advanced_box.Visible = sessions_manage_advanced_checkbutton.Active;
+	}
+
 	private void connectWidgetsSessionMain (Gtk.Builder builder)
 	{
 		app1s_notebook = (Gtk.Notebook) builder.GetObject ("app1s_notebook");
 
 		//notebook tab 0
-		frame_session_more_this_session = (Gtk.Frame) builder.GetObject ("frame_session_more_this_session");
+		box_session_more_this_session = (Gtk.Box) builder.GetObject ("box_session_more_this_session");
 		label_session_more_session_name = (Gtk.Label) builder.GetObject ("label_session_more_session_name");
 		button_menu_session_export = (Gtk.Button) builder.GetObject ("button_menu_session_export");
 		app1s_eventbox_button_close0 = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_close0");
 		image_session_more_window_blue = (Gtk.Image) builder.GetObject ("image_session_more_window_blue");
 		image_session_more_window_yellow = (Gtk.Image) builder.GetObject ("image_session_more_window_yellow");
+		sessions_manage_advanced_checkbutton = (Gtk.CheckButton) builder.GetObject ("sessions_manage_advanced_checkbutton");
+		sessions_manage_advanced_label = (Gtk.Label) builder.GetObject ("sessions_manage_advanced_label");
+		sessions_manage_advanced_box = (Gtk.Box) builder.GetObject ("sessions_manage_advanced_box");
 
 		//notebook tab 1
 		app1s_radio_import_new_session = (Gtk.RadioButton) builder.GetObject ("app1s_radio_import_new_session");
@@ -507,6 +521,7 @@ public partial class ChronoJumpWindow
 		app1sae_label_date = (Gtk.Label) builder.GetObject ("app1sae_label_date");
 		image_session_new_blue = (Gtk.Image) builder.GetObject ("image_session_new_blue");
 		image_session_new_yellow = (Gtk.Image) builder.GetObject ("image_session_new_yellow");
+		image_session_new2 = (Gtk.Image) builder.GetObject ("image_session_new2");
 		image_sport_undefined = (Gtk.Image) builder.GetObject ("image_sport_undefined");
 		image_speciallity_undefined = (Gtk.Image) builder.GetObject ("image_speciallity_undefined");
 		image_level_undefined = (Gtk.Image) builder.GetObject ("image_level_undefined");
@@ -563,6 +578,7 @@ public partial class ChronoJumpWindow
 		app1s_progressbar_copyToCloud_dirs = (Gtk.ProgressBar) builder.GetObject ("app1s_progressbar_copyToCloud_dirs");
 		app1s_progressbar_copyToCloud_subDirs = (Gtk.ProgressBar) builder.GetObject ("app1s_progressbar_copyToCloud_subDirs");
 		box_copy_from_cloud_progressbars = (Gtk.Box) builder.GetObject ("box_copy_from_cloud_progressbars");
+		app1s_label_copyFromCloud_maindir = (Gtk.Label) builder.GetObject ("app1s_label_copyFromCloud_maindir");
 		app1s_progressbar_copyFromCloud_dirs = (Gtk.ProgressBar) builder.GetObject ("app1s_progressbar_copyFromCloud_dirs");
 		app1s_progressbar_copyFromCloud_subDirs = (Gtk.ProgressBar) builder.GetObject ("app1s_progressbar_copyFromCloud_subDirs");
 

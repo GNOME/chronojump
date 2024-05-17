@@ -209,7 +209,7 @@ public class ForceSensor
 	public static double CalculeForceResultantIfNeeded (double forceRaw, CaptureOptions fsco, ForceSensorExercise fse, double personMass)//, double stiffness)
 	{
 		if(! fse.ForceResultant)
-			return calculeForceWithCaptureOptions(forceRaw, fsco);
+			return CalculeForceWithCaptureOptions(forceRaw, fsco);
 
 		//forceResultant --->
 
@@ -259,7 +259,7 @@ public class ForceSensor
 		//on 2.2.1 ABS or inverted is not done on forceResultant,
 		//is done on force coming from the sensor
 		if(fsco != CaptureOptions.NORMAL)
-			forceRaw = calculeForceWithCaptureOptions(forceRaw, fsco);
+			forceRaw = CalculeForceWithCaptureOptions(forceRaw, fsco);
 
 	        double forceResultant = forceRaw  +  totalMass*(accel + 9.81 * Math.Sin(fse.AngleDefault * Math.PI / 180.0));
 
@@ -268,7 +268,7 @@ public class ForceSensor
 
 		return forceResultant;
 	}
-	private static double calculeForceWithCaptureOptions(double force, CaptureOptions fsco)
+	public static double CalculeForceWithCaptureOptions(double force, CaptureOptions fsco)
 	{
 		if(fsco == CaptureOptions.ABS)
 			return Math.Abs(force);
@@ -1729,6 +1729,8 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 {
 	public double ForceAVG;
 	public double ForceMAX;
+	public double PositionAVG;
+	public double PositionMAX; //unused
 	public double SpeedAVG;
 	public double SpeedMAX;
 	public double AccelAVG;
@@ -1835,18 +1837,27 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 		{
 			bw.Calculate ();
 			times = bw.Times_l;
-			forces = bw.Forces_l;
+			forces = bw.Y_l;
 		}
 
 		// 2 calcule dynamics for all file
 
 		ForceSensorDynamics forceSensorDynamics;
 		if(fse.ComputeAsElastic)
+		{
 			forceSensorDynamics = new ForceSensorDynamicsElastic(
 					times, forces, fsco, fse, personWeight, stiffness, eccMinDisplacement, conMinDisplacement,
-					(startSample >= 0 && endSample >= 0) //zoomed
+					(startSample >= 0 && endSample >= 0), //zoomed
+					butterworthFreq, false
 					);
-		else
+
+			/*
+			LogB.Information (string.Format (
+						"fsco: {0}, fse: {1}, personWeight: {2}, stiffness: {3}, preferences.forceSensorElasticEccMinDispl: {4}, preferences.forceSensorElasticConMinDispl: {5}, zoomed?: {6}", 
+						fsco, fse, personWeight, stiffness,
+						eccMinDisplacement, conMinDisplacement, (startSample >= 0 && endSample >= 0) ));
+			*/
+		} else
 			forceSensorDynamics = new ForceSensorDynamicsNotElastic(
 					times, forces, fsco, fse, personWeight, stiffness, eccMinDisplacement, conMinDisplacement);
 
@@ -1967,6 +1978,7 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 
 		if(CalculedElasticPSAP)
 		{
+			ForceCalcs.GetAverageAndMaxForce (Position_l, countA, countB, out PositionAVG, out PositionMAX);
 			ForceCalcs.GetAverageAndMaxForce (Speed_l, countA, countB, out SpeedAVG, out SpeedMAX);
 			ForceCalcs.GetAverageAndMaxForce (Accel_l, countA, countB, out AccelAVG, out AccelMAX);
 			ForceCalcs.GetAverageAndMaxForce (Power_l, countA, countB, out PowerAVG, out PowerMAX);
@@ -2125,7 +2137,8 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 			Util.DoubleToCSV(rfdAVG, 3, sepString);
 
 		if(elastic)
-			str += sep + "" + sep + 	//position
+			str += sep +
+				Util.DoubleToCSV(PositionAVG, 3, sepString) + sep +
 				Util.DoubleToCSV(SpeedAVG, 3, sepString) + sep +
 				Util.DoubleToCSV(AccelAVG, 3, sepString) + sep +
 				Util.DoubleToCSV(PowerAVG, 3, sepString);

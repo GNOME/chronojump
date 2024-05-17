@@ -37,6 +37,13 @@ public class UtilGtk
 		return (System.Threading.Thread.CurrentThread.ManagedThreadId.ToString() == "1");
 	}
 
+	// to debug
+	// eg call with: UtilGtk. WidgetIsSensitive (alignment_session_persons, "alignment_session_persons", "0");
+	public static void WidgetIsSensitive (Gtk.Widget w, string wName, string whereInCode)
+	{
+		LogB.Information (string.Format ("Widget {0} is sensitive? {1} at {2}", wName, w.Sensitive, whereInCode));
+	}
+
 	/*
 	 *
 	 * COMBO
@@ -585,7 +592,7 @@ public class UtilGtk
 	public static Gdk.Color BLUE_CHRONOJUMP = new Gdk.Color(14,30,70); //so dark, can be used only for background (is the 0e1e46)
 	
 	//used on encoder capture
-	public static Gdk.Color RED_DARK = new Gdk.Color(140,0,0);
+	public static Gdk.Color RED_DARK = new Gdk.Color(140,0,0); //#8c0000
 	public static Gdk.Color RED_LIGHT = new Gdk.Color(238,0,0);
 	public static Gdk.Color GREEN_DARK = new Gdk.Color(0,140,0);
 	public static Gdk.Color GREEN_LIGHT = new Gdk.Color(0,238,0);
@@ -802,6 +809,13 @@ public class UtilGtk
 			"button:checked {" +
 				"background: " + GetRGBAs (Colors.YELLOW_LIGHT) + ";" + //TODO: try a YELLOW_MID
 			"}" +
+			"button:insensitive {" +
+			    "background: #cccccc;" +
+			    "background-color: #cccccc;" +
+			"}" +
+			"button:insensitive label {" +
+			    "color: #666666;" +
+			"}" +
 
 			//ANY WIDGET
 			//any widget bgCss
@@ -815,6 +829,10 @@ public class UtilGtk
 			//any widget whiteBgCss
 			"*#whiteBgCss {" +
 				"background: #ffffff;" +
+			"}" +
+			"*#alertCss {" +
+				"background-color: #8c0000;" +
+				//"color: #8c0000;" +
 			"}" +
 
 			//VIEWPORT
@@ -838,6 +856,12 @@ public class UtilGtk
 			"}" +
 
 			//SEPARATOR
+			"separator#caramelCss {" +
+				//"background-image: none;" +
+				"background: #cf7d00;" +
+				"border-width: 1px;" +
+				"border: #ffffff;" +
+			"}" +
 			"separator#brownCss {" +
 				//"background-image: none;" +
 				"background: #964b00;" +
@@ -931,6 +955,13 @@ public class UtilGtk
 
 		Gtk.StyleContext.RemoveProviderForScreen (Gdk.Screen.Default, css); //needed
 		Gtk.StyleContext.AddProviderForScreen (Gdk.Screen.Default, css, 800); //needed
+	}
+
+	public static bool LogoBlueOrWhite (RGBA bg)
+	{
+		return (colorsContrast (bg, GetRGBA (Colors.BLUE_CHRONOJUMP)) >=
+				colorsContrast (bg, GetRGBA (Colors.WHITE))
+		       );
 	}
 
 	//private static RGBA chronopicViewportDefaultBg;
@@ -1106,6 +1137,7 @@ public class UtilGtk
 				(w.GetType() == typeof(Gtk.RadioButton) && ((Gtk.RadioButton) w).DrawIndicator) || //same as above
 				w.GetType() == typeof(Gtk.ScrolledWindow) ||
 				w.GetType() == typeof(Gtk.Viewport) ||
+				w.GetType() == typeof(Gtk.ButtonBox) ||
 				w.GetType() == typeof(Gtk.VButtonBox) ||
 				w.GetType() == typeof(Gtk.HButtonBox) ||
 				w.GetType() == typeof(Gtk.Alignment) ||
@@ -1296,7 +1328,7 @@ public class UtilGtk
 	 * this is used when one process takes an image from another process and maybe is not finished
 	 * Now we use imageFileWaitUntilCreated()
 	 */
-	private static void imageFileWaitUntilCreated(string filename) 
+	private static void imageFileWaitUntilCreated (string filename)
 	{
 		while( ! File.Exists(filename) );
 
@@ -1310,27 +1342,7 @@ public class UtilGtk
 		} while( ! hasSize );
 	}
 
-	public static Gtk.Image OpenImageSafe(string filename, Gtk.Image image) 
-	{
-		imageFileWaitUntilCreated(filename);
-		
-		bool readedOk;
-		do {
-			readedOk = true;
-			try {
-				Pixbuf pixbuf = Chronojump.MyPixbuf.Get(filename); //from a file
-				image.Pixbuf = pixbuf;
-			} catch {
-				LogB.Warning("File is still not ready. Wait a bit");
-				System.Threading.Thread.Sleep(50);
-				readedOk = false;
-			}
-		} while( ! readedOk );
-
-		return image;
-	}
-
-	public static Gdk.Pixbuf OpenPixbufSafe(string filename, Gdk.Pixbuf pixbuf) 
+	private static Gdk.Pixbuf openPixbufSafe (string filename, Gdk.Pixbuf pixbuf)
 	{
 		imageFileWaitUntilCreated(filename);
 		
@@ -1346,8 +1358,17 @@ public class UtilGtk
 			readedOk = true;
 			try {
 				pixbuf = Chronojump.MyPixbuf.Get(filename); //from a file
+
+				//since dotnetgtk3 returns null if not ok
+				if (pixbuf == null)
+				{
+					LogB.Warning("File is still not ready (null). Wait a bit");
+					System.Threading.Thread.Sleep(50);
+					readedOk = false;
+					countTimes ++;
+				}
 			} catch {
-				LogB.Warning("File is still not ready. Wait a bit");
+				LogB.Warning("File is still not ready (catched). Wait a bit");
 				System.Threading.Thread.Sleep(50);
 				readedOk = false;
 				countTimes ++;
@@ -1358,6 +1379,22 @@ public class UtilGtk
 			return Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image.png"); //an icon representing an image
 
 		return pixbuf;
+	}
+
+	public static Gdk.Pixbuf OpenPixbufSafe (string filename, Gdk.Pixbuf pixbuf)
+	{
+		return openPixbufSafe (filename, pixbuf);
+	}
+
+	public static Gtk.Image OpenImageSafe (string filename, Gtk.Image image)
+	{
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image.png");
+		pixbuf = openPixbufSafe (filename, pixbuf);
+
+		if (pixbuf != null)
+			image.Pixbuf = pixbuf;
+
+		return image;
 	}
 
 	/*

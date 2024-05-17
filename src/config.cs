@@ -108,14 +108,16 @@ public class Config
 	}
 
 	// cloud
-	public string CopyToCloudFullPath {
+	public string CopyToCloudFullPath { 		//for capturing machine
 		get { return configList.GetString (OpEnum.CopyToCloudFullPath); }
+		set { configList.SetValue (OpEnum.CopyToCloudFullPath.ToString (), value); }
 	}
-	public bool CopyToCloudOnExit {
+	public bool CopyToCloudOnExit {			//for capturing machine
 		get { return configList.GetBool (OpEnum.CopyToCloudOnExit); }
 	}
-	public string ReadFromCloudMainPath {
+	public string ReadFromCloudMainPath { 		//for reading machine
 		get { return configList.GetString (OpEnum.ReadFromCloudMainPath); }
+		set { configList.SetValue (OpEnum.ReadFromCloudMainPath.ToString (), value); }
 	}
 
 	// external DB
@@ -215,7 +217,7 @@ public class Config
 
 	public void Read()
 	{
-		string contents = Util.ReadFile(Util.GetConfigFileName(), false);
+		string contents = Util.ReadFile(Util.GetConfigFileName(true), false);
 		if (contents != null && contents != "") 
 		{
 			string line;
@@ -282,14 +284,15 @@ public class Config
 
 		Config.LastDBFullPathStatic = storedLastDBFullPathStatic;
 	}
+	//text can be empty in order to comment (or maybe implement delete) that parameter
 	public void UpdateField (string field, string text)
 	{
 		string tempfile = Path.GetTempFileName ();
-		string configFile = Util.GetConfigFileName ();
+		string configFile = Util.GetConfigFileName (true);
 		LogB.Information( string.Format ("Config.UpdateField tempfile: {0}, configFile: {1}, field: {2}, text: {3}",
 					tempfile, configFile, field, text));
 		
-		if(! File.Exists (configFile)) {
+		if(! File.Exists (configFile) && text != "") {
 			try {
 				using (var writer = new StreamWriter (tempfile))
 				{
@@ -304,24 +307,30 @@ public class Config
 				using (var writer = new StreamWriter(tempfile))
 					using (var reader = new StreamReader (configFile))
 					{
-						bool found = false;
+						bool foundOnFile = false;
 						while (! reader.EndOfStream)
 						{
 							string line = reader.ReadLine ();
-							if (line != "" && line[0] != '#') 
+							if (line != "")
 							{
 								string [] parts = line.Split (new char[] {'='});
-								if (parts.Length == 2 && parts[0] == field)
+								if (parts.Length == 2 && (parts[0] == field || parts[0] == "#" + field))
 								{
-									line = field + "=" + text;
-									found = true;
+									//if (line.StartsWith "#" && text == "")
+										//not need to do nothing
+									if (! line.StartsWith ("#") && text == "")
+										line = "#" + line;
+									else if (text != "")
+										line = field + "=" + text;
+
+									foundOnFile = true;
 								}
 							}
 							writer.WriteLine (line);
 						}
 
 						//if not found it adds the command
-						if (! found)
+						if (! foundOnFile && text != "")
 							writer.WriteLine (field + "=" + text);
 					}
 				File.Copy (tempfile, configFile, true);
@@ -530,11 +539,11 @@ public class ConfigList
 
 		// cloud
 		list.Add (new ConfigOptionString (Config.OpEnum.CopyToCloudFullPath,
-					"The path where all the data will be copied (uncompressed) to be synced with the cloud service."));
+					"Used on station that is capturing and will send to cloud. This is the path where all the data will be copied (uncompressed) to be synced with the cloud service."));
 		list.Add (new ConfigOptionBool (Config.OpEnum.CopyToCloudOnExit,
-					"If CopyToCloudFullPath is defined, then on Chronojump exit the copy will be done automatically."));
+					"Used on station that is capturing and will send to cloud. If CopyToCloudFullPath is defined, then on Chronojump exit the copy will be done automatically."));
 		list.Add (new ConfigOptionString (Config.OpEnum.ReadFromCloudMainPath,
-					"The path to open cloud DBs (each one will be copied to temp on open). If this active, CanOpenExternalDB will be discarded."));
+					"Used on station that will read from cloud. The path to open cloud DBs (each one will be copied to temp on open, so local DB if exists will not change). If this (ReadFromCloudMainPath) is active, CanOpenExternalDB will be discarded."));
 
 		// externalDB
 		list.Add (new ConfigOptionBool (Config.OpEnum.CanOpenExternalDB,

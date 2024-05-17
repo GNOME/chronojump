@@ -154,43 +154,49 @@ LogB.Information("import A ");
 			}
 		}
 LogB.Information("import B ");
+		string encoderName = "encoder";
 		string forceSensorName = "forceSensor";
 		string raceAnalyzerName = "raceAnalyzer";
 LogB.Information("import C ");
 		Directory.CreateDirectory(tempImportDir);
 LogB.Information("import D ");
-		Directory.CreateDirectory(Path.Combine(tempImportDir, forceSensorName, sourceSession.ToString()));
-LogB.Information("import E ");
-		Directory.CreateDirectory(Path.Combine(tempImportDir, raceAnalyzerName, sourceSession.ToString()));
+		string sourceSessionStr = sourceSession.ToString ();
+		Directory.CreateDirectory(Path.Combine(tempImportDir, encoderName, sourceSessionStr));
+		Directory.CreateDirectory(Path.Combine(tempImportDir, encoderName, sourceSessionStr, "data"));
+		Directory.CreateDirectory(Path.Combine(tempImportDir, encoderName, sourceSessionStr, "data", "curve"));
+		Directory.CreateDirectory(Path.Combine(tempImportDir, encoderName, sourceSessionStr, "data", "signal"));
 
-LogB.Information("import F ");
+LogB.Information("import D2 ");
+		Directory.CreateDirectory(Path.Combine(tempImportDir, forceSensorName, sourceSessionStr));
+LogB.Information("import E ");
+		Directory.CreateDirectory(Path.Combine(tempImportDir, raceAnalyzerName, sourceSessionStr));
+
 		string sourceDir = Path.GetDirectoryName(sourceFile);
-		try {
-			if(Directory.Exists(Path.Combine(sourceDir, "..", forceSensorName, sourceSession.ToString())))
-				foreach (FileInfo file in new DirectoryInfo(Path.Combine(sourceDir, "..", forceSensorName, sourceSession.ToString())).GetFiles())
-					file.CopyTo(Path.Combine(tempImportDir, forceSensorName, sourceSession.ToString(), file.Name));
-		} catch {
-			LogB.Information ("Catched on copying files, disk full or files not fully downloaded (One drive or other cloud problems)");
-			return new Result (false, "", string.Format(Catalog.GetString ("Cannot copy files from {0} to {1}."),
-				Path.Combine(sourceDir, "..", forceSensorName, sourceSession.ToString()),
-				Path.Combine(tempImportDir, forceSensorName, sourceSession.ToString()) + "\n" +
-				Catalog.GetString ("The disk may be full or the files may be copying from a cloud service but have not been downloaded.")
-				));
-		}
+
+		//copy encoder files
+		LogB.Information("import F encoder data curve");
+		Result result = importFiles (sourceDir, Path.Combine (encoderName, sourceSessionStr, "data", "curve"), tempImportDir);
+		if (! result.success)
+			return result;
+
+		LogB.Information("import F encoder data signal");
+		result = importFiles (sourceDir, Path.Combine (encoderName, sourceSessionStr, "data", "signal"), tempImportDir);
+		if (! result.success)
+			return result;
+
+		//copy force sensor files
+		LogB.Information("import F forceSensor");
+		result = importFiles (sourceDir, Path.Combine (forceSensorName, sourceSessionStr), tempImportDir);
+		if (! result.success)
+			return result;
+
+		//copy race analyzer files
+		LogB.Information("import F raceAnalyzer");
+		result = importFiles (sourceDir, Path.Combine (raceAnalyzerName, sourceSessionStr), tempImportDir);
+		if (! result.success)
+			return result;
 
 LogB.Information("import G ");
-		try {
-			if(Directory.Exists(Path.Combine(sourceDir, "..", raceAnalyzerName, sourceSession.ToString())))
-				foreach (FileInfo file in new DirectoryInfo(Path.Combine(sourceDir, "..", raceAnalyzerName, sourceSession.ToString())).GetFiles())
-					file.CopyTo(Path.Combine(tempImportDir, raceAnalyzerName, sourceSession.ToString(), file.Name));
-		} catch {
-			LogB.Information ("Catched on copying files, disk full or files not fully downloaded (One drive or other cloud problems)");
-			return new Result (false, "", string.Format(Catalog.GetString ("Cannot copy files from {0} to {1}"),
-				Path.Combine(sourceDir, "..", raceAnalyzerName, sourceSession.ToString()),
-				Path.Combine(tempImportDir, raceAnalyzerName, sourceSession.ToString()) + "\n" +
-				Catalog.GetString ("The disk may be full or the files may be copying from a cloud service but have not been downloaded.")
-				));
-		}
 
 LogB.Information("import H ");
 
@@ -279,13 +285,42 @@ LogB.Information("import J ");
 			parameters.Add ("NONE");
 
 LogB.Information("import K ");
-		Result result = executeChronojumpImporter (parameters, pythonVersion);
+		result = executeChronojumpImporter (parameters, pythonVersion);
 
 		MessageToPulsebar = "Done!";
 		File.Delete (temporarySourceFile);
 LogB.Information("import L ");
 
 		return result;
+	}
+
+	private Result importFiles (string sourceDir, string copyToDir, string tempImportDir)
+	{
+		try {
+			if(Directory.Exists(Path.Combine(sourceDir, "..", copyToDir)))
+			{
+				//LogB.Information ("importFiles " + copyToDir + " path=" + Path.Combine(sourceDir, "..", copyToDir));
+
+				foreach (FileInfo file in new DirectoryInfo(Path.Combine(sourceDir, "..", copyToDir)).GetFiles())
+				{
+					/*
+					LogB.Information (string.Format ("file copy from {0} to {1}",
+								file.Name,
+								Path.Combine(tempImportDir, copyToDir, file.Name)));
+					*/
+					file.CopyTo(Path.Combine(tempImportDir, copyToDir, file.Name));
+				}
+			}
+
+			return new Result (true, "");
+		} catch {
+			LogB.Information ("Catched on copying files, disk full or files not fully downloaded (One drive or other cloud problems)");
+			return new Result (false, "", string.Format(Catalog.GetString ("Cannot copy files from {0} to {1}."),
+				Path.Combine(sourceDir, "..", copyToDir),
+				Path.Combine(tempImportDir, copyToDir) + "\n" +
+				Catalog.GetString ("The disk may be full or the files may be copying from a cloud service but have not been downloaded.")
+				));
+		}
 	}
 
 	private static void updateDatabase(string databaseFile)
@@ -390,9 +425,9 @@ LogB.Information("import L ");
 		}
 
 		LogB.Information("importer_executable: " + importer_executable);
-		string importer_script_path = System.IO.Path.Combine (Util.GetPrefixDir (), "bin/chronojump_importer.py");
+		string importer_script_path = System.IO.Path.Combine (Util.GetPrefixDir (), "bin/chronojump-importer/chronojump_importer.py");
 		if (UtilAll.IsWindows())
-			importer_script_path = System.IO.Path.Combine (Util.GetPrefixDir (), @"bin\chronojump_importer.py");
+			importer_script_path = System.IO.Path.Combine (Util.GetPrefixDir (), @"bin\chronojump-importer\chronojump_importer.py");
 
 		// first argument of the Python: the path to the script
 		parameters.Insert (0, importer_script_path);

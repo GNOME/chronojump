@@ -1,3 +1,4 @@
+About Python & R:
 Please download and install Python and R from their official website in order to copy them from local drive while making packages. As a result, we don't need to put them in Git.
 
 Python: https://www.python.org/ftp/python/3.12.2/python-3.12.2-macos11.pkg
@@ -5,6 +6,9 @@ Python: https://www.python.org/ftp/python/3.12.2/python-3.12.2-macos11.pkg
 R: 
 https://cran.r-project.org/bin/macosx/big-sur-x86_64/base/R-4.3.3-x86_64.pkg
 https://cran.r-project.org/bin/macosx/big-sur-arm64/base/R-4.3.3-arm64.pkg
+
+About the certificates:
+Double-click the downloaded certificates and add them into macOS Keychain Access Local Items.
 
 1. Install Homebrew (Only when the first time.)
 

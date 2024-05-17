@@ -800,6 +800,13 @@ public class UtilGtk
 			"radio:checked {" +
 				"color: " + Colors.YELLOW.ToString () + ";" + // background: " + Config.ColorBackgroundShifted.ToString () + ";" +
 			"}" +
+			"radio:insensitive {" +
+			    "background: #999999;" +
+			    "background-color: #999999;" +
+			"}" +
+			"radio:insensitive label {" +
+			    "color: #666666;" + //this is not working, maybe label is not in radio
+			"}" +
 
 			//checkbutton checked
 			"checkbutton:checked {" +

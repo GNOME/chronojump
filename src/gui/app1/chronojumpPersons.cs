@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2018-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 //this file has methods of ChronoJumpWindow related to manage persons
@@ -337,6 +337,10 @@ public partial class ChronoJumpWindow
 	private void person_edit_single() {
 		LogB.Information("modify person");
 
+		//just caution if any widget is not unsensitive in the future
+		if (currentPerson == null)
+			return;
+
 		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson, 
 				//preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
 				preferences.digitsNumber,// checkbutton_video_contacts,
@@ -424,7 +428,12 @@ public partial class ChronoJumpWindow
 		personShowAllEventsWin.CloseWindowAfterLoadSession ();
 	}
 
-	private void on_delete_current_person_from_session_clicked (object o, EventArgs args) {
+	private void on_delete_current_person_from_session_clicked (object o, EventArgs args)
+	{
+		//just caution if any widget is not unsensitive in the future
+		if (currentPerson == null)
+			return;
+
 		LogB.Information("delete current person from this session");
 		ConfirmWindow confirmWin = ConfirmWindow.Show(
 				Catalog.GetString("Are you sure you want to delete the current person and all his/her tests (jumps, races, pulses, …) from this session?\n(His/her personal data and tests in other sessions will remain intact.)"), "",

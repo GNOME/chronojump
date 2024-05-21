@@ -27,6 +27,7 @@ public partial class ChronoJumpWindow
 {
 	//Gtk.Button button_edit_current_person;
 	Gtk.Button button_edit_current_person_h;
+	Gtk.Button button_delete_current_person_h;
 	Gtk.Button button_encoder_exercise;
 	Gtk.Button button_encoder_exercise_close_and_capture;
 
@@ -84,6 +85,7 @@ public partial class ChronoJumpWindow
 	{
 		//button_edit_current_person = (Gtk.Button) builder.GetObject ("button_edit_current_person");
 		button_edit_current_person_h = (Gtk.Button) builder.GetObject ("button_edit_current_person_h");
+		button_delete_current_person_h = (Gtk.Button) builder.GetObject ("button_delete_current_person_h");
 		button_encoder_exercise = (Gtk.Button) builder.GetObject ("button_encoder_exercise");
 		button_encoder_exercise_close_and_capture = (Gtk.Button) builder.GetObject ("button_encoder_exercise_close_and_capture");
 	}

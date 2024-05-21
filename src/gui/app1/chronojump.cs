@@ -9691,6 +9691,8 @@ LogB.Debug("mc finished 5");
 		}
 
 		hbox_persons_bottom_photo.Sensitive = option;
+		button_edit_current_person_h.Sensitive = option;
+		button_delete_current_person_h.Sensitive = option;
 	}
 
 	private void sensitiveGuiNoSession () 

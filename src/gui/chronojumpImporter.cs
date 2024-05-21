@@ -61,11 +61,21 @@ public partial class ChronoJumpWindow
 
 		//select all persons on Importing Session (IS)
 		ArrayList arrayIS = sessionSwitcher.SelectPersonsInSession (sourceSession);
+
 		int count = 0;
 		foreach (PersonAndPS paps in arrayIS)
-			LogB.Information (string.Format ("[{0}] {1}", count ++, paps));
+		LogB.Information (string.Format ("[{0}] {1}", count ++, paps));
 
-		PersonAndPSUtil.CompareAtImport (arrayDB, arrayIS);
+		if (arrayIS.Count > 0)
+		{
+			PersonAndPSUtil.CompareAtImportPrintStr (arrayDB, arrayIS);
+
+			LogB.Information ("printing PersonImportConflicts");
+			foreach (PersonImportConflict pic in PersonAndPSUtil.CompareAtImport (arrayDB, arrayIS))
+				LogB.Information (pic.ToString ());
+		}
+
+		return;
 		// <----
 		*/
 

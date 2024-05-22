@@ -967,8 +967,17 @@ public partial class ChronoJumpWindow
 			id = myTreeViewRunsInterval.EventSelectedID;
 		}
 
+		webcamPlay = null; //to solve problems on the other thread caused by these returns
+
 		if (id < 0)
 			return;
+
+		if (! Util.FileExists (Util.GetVideoFileName (sessionID, testType, id)))
+		{
+			new DialogMessage (Constants.MessageTypes.WARNING, 600, 300, Constants.MultimediaFileNoExists +
+					"\n\n" + Util.GetVideoFileName (sessionID, testType, id));
+			return;
+		}
 
 		webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYFILE, UtilAll.GetOSEnum(), "", "", "", "");
 		double videoDuration = webcamPlay.FindVideoDuration (Util.GetVideoFileName (sessionID, testType, id));

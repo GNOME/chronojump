@@ -812,7 +812,7 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 			eccentric <- phases_l$eccentric
 			isometric <- phases_l$isometric
 			concentric <- phases_l$concentric
-	
+
 			#temporary fix problem of found MinSpeedEnd at right
 
 			#if(eccentric == 0 && isometric == 0 && concentric == 0)
@@ -869,7 +869,7 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 	if(eccModesStartOnGround && ! isInertial(repOp$econfName) && 
 	   (repOp$eccon == "e" || repOp$eccon == "ec")) {
 		#if eccentric is undefined, find it
-		if(length(eccentric == 1) && eccentric == 0) {
+		if(length(eccentric) == 1 && eccentric == 0) {
 			if(repOp$eccon == "e")
 				eccentric = 1:length(displacement)
 			else {  #(repOp$eccon=="ec")

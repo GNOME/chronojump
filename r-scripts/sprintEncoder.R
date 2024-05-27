@@ -723,21 +723,25 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, isSpr
         }
 
 	#triggers
-        # triggersOn = triggersOn + sprintFittedDynamics$T0
-        # triggersOff = triggersOff + sprintFittedDynamics$T0
-        print("triggersOn on plot:")
-        print(triggersOn)
-        #TODO: Find why the T0 have to be added twice
-	#triggersOn = triggersOn + 2*sprintFittedDynamics$T0.fitted
-	triggersOn = triggersOn + 2*T0
-        print(triggersOn)
-	abline(v=triggersOn, col="green")
-	print("triggersOff plot:")
-	print(triggersOff)
-	#triggersOff = triggersOff + 2*sprintFittedDynamics$T0.fitted
-	triggersOff = triggersOff + 2*T0
-	print(triggersOff)
-	abline(v=triggersOff, col="red")
+	if ( (length(triggersOn) > 0 && triggersOn[1] != -1) ||
+	    (length(triggersOff) > 0 && triggersOff[1] != -1) )
+	{
+		# triggersOn = triggersOn + sprintFittedDynamics$T0
+		# triggersOff = triggersOff + sprintFittedDynamics$T0
+		print("triggersOn on plot:")
+		print(triggersOn)
+		#TODO: Find why the T0 have to be added twice
+		#triggersOn = triggersOn + 2*sprintFittedDynamics$T0.fitted
+		triggersOn = triggersOn + 2*T0
+		print(triggersOn)
+		abline(v=triggersOn, col="green")
+		print("triggersOff plot:")
+		print(triggersOff)
+		#triggersOff = triggersOff + 2*sprintFittedDynamics$T0.fitted
+		triggersOff = triggersOff + 2*T0
+		print(triggersOff)
+		abline(v=triggersOff, col="red")
+	}
 
 
         plotSize = par("usr")
@@ -1064,14 +1068,24 @@ testEncoderCJ <- function(filename, filenameInstantaneous, testLength, isSprint,
 		return(exportRow)
 	}
 
-	# print("triggersOn in testEncoderCJ:")
-	# print(triggersOn)
-	triggersOn = triggersOn/1000 - sprintRawDynamics$startTime
-	# print("triggersOn in testEncoderCJ:")
-	# print(triggersOn)
-	triggersOff = triggersOff/1000 - sprintRawDynamics$startTime
-	# print("triggersOff in testEncoderCJ:")
-	print(op$triggersOffList)
+	if (length (triggersOn) == 1 && triggersOn == -1)
+		print("no triggersOn")
+	else {
+		#print("triggersOn in testEncoderCJ:")
+		#print(triggersOn)
+		triggersOn = triggersOn/1000 - sprintRawDynamics$startTime
+		#print("triggersOn in testEncoderCJ:")
+		#print(triggersOn)
+	}
+	if (length (triggersOff) == 1 && triggersOff == -1)
+		print("no triggersOff")
+	else {
+		#print("triggersOff in testEncoderCJ:")
+		#print(triggersOff)
+		triggersOff = triggersOff/1000 - sprintRawDynamics$startTime
+		#print("triggersOff in testEncoderCJ:")
+		#print(triggersOff)
+	}
 
         if (#! is.null(regression) &&
 		isSprint &&
@@ -1172,15 +1186,42 @@ testEncoderCJ <- function(filename, filenameInstantaneous, testLength, isSprint,
 			print(srd$Vw)
 		}
 
-		exportInstantaneous <- cbind (srd$time, srd$rawPosition,
-			srd$rawSpeed, srd$rawAccel, #0s are to have same length in all variables
-			srd$rawForce, srd$rawPower,
-			s.fitted, a.fitted, f.fitted, p.fitted
+		if ( (length(triggersOn) > 0 && triggersOn[1] != -1) ||
+		    (length(triggersOff) > 0 && triggersOff[1] != -1) )
+		{
+			triggersOnCol = NULL
+			for(j in 1:length(triggersOn))
+				triggersOnCol = c(triggersOnCol, triggersOn[j])
+			for(k in (length(triggersOn) +1):length(srd$time))
+				triggersOnCol = c(triggersOnCol, NA)
+
+			triggersOffCol = NULL
+			for(j in 1:length(triggersOff))
+				triggersOffCol = c(triggersOffCol, triggersOff[j])
+			for(k in (length (triggersOff) +1):length(srd$time))
+				triggersOffCol = c(triggersOffCol, NA)
+
+			exportInstantaneous <- cbind (srd$time, srd$rawPosition,
+						      srd$rawSpeed, srd$rawAccel, #0s are to have same length in all variables
+						      srd$rawForce, srd$rawPower,
+						      s.fitted, a.fitted, f.fitted, p.fitted,
+						      triggersOnCol, triggersOffCol
 			)
 
-		colnames(exportInstantaneous) = c("Time", "Position",
-			"Speed (raw)", "Accel (raw)", "Force (raw)", "Power (raw)",
-			"Speed (fitted)", "Accel (fitted)", "Force (fitted)", "Power (fitted)")
+			colnames(exportInstantaneous) = c("Time", "Position",
+							  "Speed (raw)", "Accel (raw)", "Force (raw)", "Power (raw)",
+							  "Speed (fitted)", "Accel (fitted)", "Force (fitted)", "Power (fitted)", "Triggers On", "Triggers Off")
+		} else {
+			exportInstantaneous <- cbind (srd$time, srd$rawPosition,
+						      srd$rawSpeed, srd$rawAccel, #0s are to have same length in all variables
+						      srd$rawForce, srd$rawPower,
+						      s.fitted, a.fitted, f.fitted, p.fitted
+			)
+
+			colnames(exportInstantaneous) = c("Time", "Position",
+							  "Speed (raw)", "Accel (raw)", "Force (raw)", "Power (raw)",
+							  "Speed (fitted)", "Accel (fitted)", "Force (fitted)", "Power (fitted)")
+		}
 
 		if(op$decimalCharAtExport == ".")
 			write.csv(exportInstantaneous, file = filenameInstantaneous, row.names = FALSE, na="")

@@ -3198,6 +3198,14 @@ public partial class ChronoJumpWindow
 			LogB.Information("Done!");
 		}
 
+		//Stop camera if a video is being played at this moment
+		if (webcamPlay != null && webcamPlayThread != null && webcamPlayThread.IsAlive)
+		{
+			LogB.Information("Camera is playing, closing it ...");
+			ExecuteProcess.KillExternalProcess (WebcamFfmpeg.GetExecutablePlay (operatingSystem));
+			LogB.Information("Done!");
+		}
+
 		if(threadRFID != null && threadRFID.IsAlive)
 		{
 			LogB.Information("Closing threadRFID");

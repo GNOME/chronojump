@@ -50,33 +50,9 @@ public partial class ChronoJumpWindow
 		string databasePath = app1s_ImportDatabasePath();
 		LogB.Information (databasePath);
 
-		/* disabled until finished
-		// ---->
-		LogB.Information ("doing experimental check import names problems");
-		//select all persons on current database
-		ArrayList arrayDB = SqlitePersonSession.SelectCurrentSessionPersons (-1, true);
-
-		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (
-				SqliteSessionSwitcher.DatabaseType.IMPORT, databasePath);
-
-		//select all persons on Importing Session (IS)
-		ArrayList arrayIS = sessionSwitcher.SelectPersonsInSession (sourceSession);
-
-		int count = 0;
-		foreach (PersonAndPS paps in arrayIS)
-		LogB.Information (string.Format ("[{0}] {1}", count ++, paps));
-
-		if (arrayIS.Count > 0)
-		{
-			PersonAndPSUtil.CompareAtImportPrintStr (arrayDB, arrayIS);
-
-			LogB.Information ("printing PersonImportConflicts");
-			foreach (PersonImportConflict pic in PersonAndPSUtil.CompareAtImport (arrayDB, arrayIS))
-				LogB.Information (pic.ToString ());
-		}
-
-		return;
-		// <----
+		/*
+		if (importSessionCheckConflicts (databasePath, sourceSession))
+			return;
 		*/
 
 		Session destinationSession = currentSession;
@@ -86,6 +62,37 @@ public partial class ChronoJumpWindow
 		}
 
 		importSessionFromDatabasePrepare (databasePath, sourceSession, destinationSession);
+	}
+
+	private bool importSessionCheckConflicts (string databasePath, int sourceSession)
+	{
+		//select all persons on current database
+		ArrayList arrayDB = SqlitePersonSession.SelectCurrentSessionPersons (-1, true);
+
+		//select all sessions on current database
+		List<Session> sessionsDB_l = SqliteSession.SelectAll (false, Sqlite.Orders_by.ID_ASC);
+
+		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (
+				SqliteSessionSwitcher.DatabaseType.IMPORT, databasePath);
+
+		//select all persons on Importing Session (IS)
+		ArrayList arrayIS = sessionSwitcher.SelectPersonsInSession (sourceSession);
+		sessionSwitcher = null;
+
+		bool conflicts = false;
+		if (arrayIS.Count > 0)
+		{
+			//PersonAndPSUtil.CompareAtImportPrintStr (arrayDB, arrayIS);
+
+			LogB.Information ("printing PersonImportConflicts");
+			foreach (PersonImportConflict pic in PersonAndPSUtil.CompareAtImport (arrayDB, arrayIS, sessionsDB_l))
+			{
+				conflicts = true;
+				LogB.Information (pic.ToString ());
+			}
+		}
+
+		return conflicts;
 	}
 
 	private void importSessionFromDatabasePrepare (string databasePath, int sourceSession, Session destinationSession)

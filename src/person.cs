@@ -319,7 +319,7 @@ public static class PersonAndPSUtil
 
 	// papsDB: currentDB; papsIS: Importing Session
 	// TODO: need to send here a List<session> to be able to have lot more content on sessions (not only id)
-	public static List<PersonImportConflict> CompareAtImport (ArrayList papsDB_a, ArrayList papsIS_a)
+	public static List<PersonImportConflict> CompareAtImport (ArrayList papsDB_a, ArrayList papsIS_a, List<Session> sessionsDB_l)
 	{
 		//this will be faster if ArrayList are sorted by name (to lower), and when that name passed, continue
 		List<PersonImportConflict> pic_l = new List<PersonImportConflict> ();
@@ -330,10 +330,18 @@ public static class PersonAndPSUtil
 			foreach(PersonAndPS papsDB in papsDB_a)
 				if (papsIS.p.Name.ToLower () == papsDB.p.Name.ToLower ())
 				{
+					Session session = null;
+					foreach (Session s in sessionsDB_l)
+						if (papsDB.ps.SessionID == s.UniqueID)
+						{
+							session = s;
+							break;
+						}
+
 					if (pic == null)
-						pic = new PersonImportConflict (papsIS.p.Name, papsDB.p.UniqueID, papsDB.ps.SessionID);
+						pic = new PersonImportConflict (papsIS.p.Name, papsDB.p.UniqueID, session);
 					else
-						pic.AddSession (papsDB.ps.SessionID);
+						pic.AddSession (session);
 				}
 			if (pic != null)
 				pic_l.Add (pic);
@@ -349,25 +357,29 @@ public class PersonImportConflict
 	private string nameImporting;
 	private int idAtLocalDB;
 
-	//TODO: this will be a list of Session instead of just sessionID
-	private List<int> sessionsAtLocalDB_l;
+	private List<Session> sessionsAtLocalDB_l;
 
-	public PersonImportConflict (string nameImporting, int idAtLocalDB, int sessionAtLocalDB)
+	public PersonImportConflict (string nameImporting, int idAtLocalDB, Session sessionAtLocalDB)
 	{
 		this.nameImporting = nameImporting;
 		this.idAtLocalDB = idAtLocalDB;
-		sessionsAtLocalDB_l = new List<int> ();
+
+		sessionsAtLocalDB_l = new List<Session> ();
 		sessionsAtLocalDB_l.Add (sessionAtLocalDB);
 	}
 
-	public void AddSession (int sessionAtLocalDB)
+	public void AddSession (Session sessionAtLocalDB)
 	{
 		sessionsAtLocalDB_l.Add (sessionAtLocalDB);
 	}
 
 	public override string ToString ()
 	{
-		return string.Format("nameImporting: {0}, idAtDb: {1}, sessionsAtDB: {2}",
-				nameImporting, idAtLocalDB, Util.ListIntToSQLString (sessionsAtLocalDB_l, ", "));
+		string str = string.Format("nameImporting: {0}, idAtDb: {1}, at sessions:",
+				nameImporting, idAtLocalDB);
+		foreach (Session s in sessionsAtLocalDB_l)
+				str += "\n" + s.ToString ();
+
+		return str;
 	}
 }

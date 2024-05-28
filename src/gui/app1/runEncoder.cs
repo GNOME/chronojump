@@ -483,6 +483,7 @@ public partial class ChronoJumpWindow
 		button_ai_model.Sensitive = false;
 		button_contacts_delete_selected.Sensitive = false;
 		button_ai_model_save_image.Sensitive = false;
+		button_video_play_this_test_contacts.Sensitive = false;
 
 		if (radio_ai_export_individual_current_session.Active)
 		{
@@ -1166,6 +1167,8 @@ public partial class ChronoJumpWindow
 
 	private void run_encoder_load (bool canChoosePersonAndSession)
 	{
+		finishPlayVideoIfRunning ();
+
 		string [] colStr = getRunEncoderLoadColumnsString ();
 		ArrayList dataPrint = getRunEncoderLoadSetsDataPrint (currentPerson.UniqueID, currentSession.UniqueID);
 

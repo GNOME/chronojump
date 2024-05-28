@@ -1007,6 +1007,17 @@ public partial class ChronoJumpWindow
 			} while (webcamPlay != null && webcamPlay.PlayVideoGetSecond >= 0);
 	}
 
+	private void finishPlayVideoIfRunning ()
+	{
+		//Stop camera if a video is being played at this moment
+		if (webcamPlay != null && webcamPlayThread != null && webcamPlayThread.IsAlive)
+		{
+			LogB.Information("Camera is playing, closing it ...");
+			ExecuteProcess.KillExternalProcess (WebcamFfmpeg.GetExecutablePlay (operatingSystem));
+			LogB.Information("Done!");
+		}
+	}
+
 	private double signalTotalTimeCalculate ()
 	{
 		double signalTotalTime = 0;

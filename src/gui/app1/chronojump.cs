@@ -1831,6 +1831,7 @@ public partial class ChronoJumpWindow
 		else if(current_mode == Constants.Modes.RUNSENCODER)
 			runEncoderPersonChanged();
 
+		finishPlayVideoIfRunning ();
 		LogB.Information ("<---- personChanged end");
 	}
 
@@ -3198,13 +3199,7 @@ public partial class ChronoJumpWindow
 			LogB.Information("Done!");
 		}
 
-		//Stop camera if a video is being played at this moment
-		if (webcamPlay != null && webcamPlayThread != null && webcamPlayThread.IsAlive)
-		{
-			LogB.Information("Camera is playing, closing it ...");
-			ExecuteProcess.KillExternalProcess (WebcamFfmpeg.GetExecutablePlay (operatingSystem));
-			LogB.Information("Done!");
-		}
+		finishPlayVideoIfRunning ();
 
 		if(threadRFID != null && threadRFID.IsAlive)
 		{

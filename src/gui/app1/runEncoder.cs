@@ -1227,8 +1227,8 @@ public partial class ChronoJumpWindow
 		if(currentRunEncoder != null)
 			genericWin.SelectRowWithID(0, currentRunEncoder.UniqueID); //colNum, id
 
-		genericWin.VideoColumn = 6;
-		genericWin.CommentColumn = 7;
+		genericWin.VideoColumn = 5;
+		genericWin.CommentColumn = 6;
 
 		genericWin.ShowButtonCancel(true);
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));

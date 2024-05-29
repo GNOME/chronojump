@@ -990,8 +990,12 @@ public partial class ChronoJumpWindow
 		} else {
 			if (Constants.ModeIsENCODER (current_mode)) //encoder video capture ends at signal end
 				diffVideoVsSignal = videoDuration -signalTotalTime;
-			else
+			else {
 				diffVideoVsSignal = videoDuration -preferences.videoStopAfter -signalTotalTime;
+
+				//note on RunEncoder variables runEncoderShiftedMicros and TotalTime are used, see
+				//updateRaceAnalyzerCaptureSpeedTime(bool forceRedraw)
+			}
 
 			LogB.Information (string.Format ("signalTotalTime: {0}, videoDuration: {1}, diffVideoVsSignal: {2}",
 						signalTotalTime, videoDuration, diffVideoVsSignal));

@@ -622,6 +622,9 @@ public partial class ChronoJumpWindow
 			runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderAsLinearEncoderCaptureDo));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKRunEncoderAsLinearEncoderCapture));
 		} else {
+			runEncoderTotalTime = 0;
+			runEncoderShiftedMicros = 0;
+
 			runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderCaptureDo));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKRunEncoderCapture));
 		}
@@ -942,6 +945,7 @@ public partial class ChronoJumpWindow
 						//at load to shift times to the left
 						//at capture to draw a vertical line
 						reCGSD.SetTimeAtEnoughAccelMark (binaryReaded, reCGSD.RunEncoderCaptureSpeed);
+						runEncoderShiftedMicros = binaryReaded[2]; //time
 					}
 
 					//accel/time
@@ -1022,14 +1026,14 @@ public partial class ChronoJumpWindow
 					}
 				}
 			}
-			while(! str.Contains("Capture ended")); //TODO: read after ':' the number of "rows" sent
+			while(! str.Contains("Capture ended"));
 			LogB.Information("Success: received end_capture");
 
 			string [] strEnded = str.Split(new char[] {':'});
-			if(strEnded.Length == 2 && Util.IsNumber(strEnded[1], false))
+			if(strEnded.Length == 3 && Util.IsNumber(strEnded[2], false))
 			{
-				LogB.Information(string.Format("Read {0} rows, sent {1} rows, match: {2}",
-							rowsCount, strEnded[1], rowsCount == Convert.ToInt32(strEnded[1]) ));
+				LogB.Information (string.Format ("runEncoderTotalTime: {0}", strEnded[2]));
+				runEncoderTotalTime = Convert.ToInt32 (strEnded[2]);
 			}
 		}
 
@@ -1441,6 +1445,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	private int runEncoderShiftedMicros = 0;
 	private RunEncoderCaptureGetSpeedAndDisplacement run_encoder_load_set_reCGSD (
 			List<string> contents, bool twoSets,
 			int segmentCm, List<int> segmentVariableCm, double personWeight, int angle)
@@ -1457,15 +1462,25 @@ public partial class ChronoJumpWindow
 		double accel = -1;
 		bool enoughAccelFound = false; //accel has been > preferences.runEncoderMinAccel (default 10ms^2)
 		bool signalShifted = false; //shifted on trigger0 or accel >= minAccel, whatever is first
+
 		string rowPre = "";
 
 		bool firstRow = true;
+		int firstTime = 0;
 		//store data on cairoGraphRaceAnalyzerPoints_dt_l, ...st_l, ...at_l
 		foreach(string row in contents)
 		{
 			if (firstRow) //is this useful at all? because the timePre will be also -1 on the 4th row
 			{
 				firstRow = false;
+
+				string [] timeArray = row.Split(new char[] {';'});
+				if (timeArray.Length > 0 && Util.IsNumber (timeArray[1], false))
+					firstTime = Convert.ToInt32 (timeArray[1]);
+
+				//LogB.Information (string.Format ("at firstRow, row: {0}, firstTime: {1}",
+				//			row, firstTime));
+
 				continue;
 			}
 
@@ -1537,6 +1552,10 @@ public partial class ChronoJumpWindow
 						my_reCGSD.SetTimeAtEnoughAccelOrTrigger0 (shiftTo);
 
 						LogB.Information ("load_set shiftNow with row: " + row);
+						string [] timeArray = row.Split(new char[] {';'});
+						if (timeArray.Length > 0 && Util.IsNumber (timeArray[1], false))
+							runEncoderShiftedMicros = Convert.ToInt32 (timeArray[1]) - firstTime;
+
 						if (my_reCGSD.PassLoadedRow (row))
 							my_reCGSD.CalculeSpeedAt0Shifted (rowPre, row);
 						//LogB.Information(string.Format("after row runEncoderCaptureSpeed: {0}", my_reCGSD.RunEncoderCaptureSpeed));
@@ -2947,6 +2966,17 @@ public partial class ChronoJumpWindow
 		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
 		{
 			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
+			if (sendPoints_l.Count > 0)
+			{
+				if (runEncoderShiftedMicros == 0)
+					videoTime += sendPoints_l[0].X; //TODO: això segurament no s'hauria de tenir en compte quan es fa shift o potser s'hauria de usar el runEncoderShiftedMicros
+				else
+					videoTime -= UtilAll.DivideSafe (runEncoderShiftedMicros, 1000000.0);
+			}
+			//maybe at end there are no pulses. So to sync need TotalTime and last point
+			if (currentRunEncoder != null)
+				videoTime += UtilAll.DivideSafe (currentRunEncoder.TotalTime, 1000000.0) -
+					PointF.Last (sendPoints_l).X;
 
 			//LogB.Information (string.Format ("raceAnalyzer videoTime: {0}, webcamPlay.PlayVideoGetSecond: {1}, -diffVideoVsSignal: {2}",
 			//			videoTime, webcamPlay.PlayVideoGetSecond, diffVideoVsSignal));

@@ -144,7 +144,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.49";
+	static string lastChronojumpDatabaseVersion = "2.50";
 
 	public Sqlite()
 	{
@@ -3375,6 +3375,17 @@ class Sqlite
 				SqlitePreferences.Insert (SqlitePreferences.ForceSensorElasticButterworth, "3");
 				currentVersion = updateVersion("2.49");
 			}
+			if(currentVersion == "2.49")
+			{
+				LogB.SQL("RunEncoder table adding totalTime");
+				try {
+					executeSQL("ALTER TABLE " + Constants.RunEncoderTable + " ADD COLUMN totalTime INT NOT NULL DEFAULT 0;");
+				} catch {
+					LogB.SQL("Catched at Doing ALTER TABLE RunEncoder added totalTime.");
+				}
+
+				currentVersion = updateVersion("2.50");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3596,6 +3607,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.49 - 2.50 Converted DB to 2.50 RunEncoder table added totalTime
 		//2.48 - 2.49 Converted DB to 2.49 Inserted into preferences forceSensorElasticButterworth
 		//2.47 - 2.48 Converted DB to 2.48 Inserted into preferences forceSensorButterworth (isometric)
 		//2.46 - 2.47 Converted DB to 2.47 Added RFDs 5-10

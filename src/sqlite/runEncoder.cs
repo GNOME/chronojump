@@ -55,7 +55,8 @@ class SqliteRunEncoder : Sqlite
 			"datetime TEXT, " + 	//2019-07-11_15-01-44
 			"comments TEXT, " +
 			"videoURL TEXT, " +	//URL of video of signals. stored as relative
-			"angle INT)";		//capture can be at angleDefault (or not), nice if you have a run inclinated exercise and you want to change the angle depending on the place you perform
+			"angle INT, " +		//capture can be at angleDefault (or not), nice if you have a run inclinated exercise and you want to change the angle depending on the place you perform
+			"totalTime INT)";	//needed to sync with video. If we press finish when there are no pulsees we cannot sync. If we use totalTime we can sync.
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
@@ -65,7 +66,7 @@ class SqliteRunEncoder : Sqlite
 		openIfNeeded(dbconOpened);
 
 		dbcmd.CommandText = "INSERT INTO " + table +
-				" (uniqueID, personID, sessionID, exerciseID, device, distance, temperature, filename, url, dateTime, comments, videoURL, angle)" +
+				" (uniqueID, personID, sessionID, exerciseID, device, distance, temperature, filename, url, dateTime, comments, videoURL, angle, totalTime)" +
 				" VALUES " + insertString;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -175,7 +176,8 @@ class SqliteRunEncoder : Sqlite
 					reader[10].ToString(),			//comments
 					reader[11].ToString(),			//videoURL
 					Convert.ToInt32(reader[12].ToString()),	//angle
-					reader[13].ToString()			//exerciseName
+					Convert.ToInt32(reader[13].ToString()),	//totalTime
+					reader[14].ToString()			//exerciseName
 					);
 			list.Add(re);
 		}
@@ -326,7 +328,7 @@ class SqliteRunEncoder : Sqlite
 						myFilename,
 						Util.MakeURLrelative(Util.GetRunEncoderSessionDir(Convert.ToInt32(session.Name))),
 						parsedDate, relt.Comment,
-						"", 0, ""); //import without video and without name on comment
+						"", 0, 0, ""); //import without video and without name on comment
 
 				runEncoder.InsertSQL(true);
 				importedSomething = true;

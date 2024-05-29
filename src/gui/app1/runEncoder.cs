@@ -133,6 +133,7 @@ public partial class ChronoJumpWindow
 	static bool runEncoderProcessFinish;
 	static bool runEncoderProcessCancel;
 	static bool runEncoderProcessError;
+	static int runEncoderTotalTime;
         static string runEncoderPulseMessage = "";
 	static bool runEncoderShouldShowCaptureGraphsWithData; //on change person this is false
 	
@@ -2064,6 +2065,7 @@ public partial class ChronoJumpWindow
 							"", //on capture cannot store comment (comment has to be written after),
 							"", //videoURL
 							Convert.ToInt32(race_analyzer_spinbutton_angle.Value),
+							runEncoderTotalTime,
 							currentRunEncoderExercise.Name);
 
 					currentRunEncoder.UniqueID = currentRunEncoder.InsertSQL(false);

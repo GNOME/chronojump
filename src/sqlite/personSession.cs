@@ -314,8 +314,10 @@ class SqlitePersonSession : Sqlite
 	public static ArrayList SelectCurrentSessionPersons (int sessionID, bool returnPersonAndPSlist)
 	{
 		Sqlite.Open();
-		return selectCurrentSessionPersonsDo (dbcon, sessionID, returnPersonAndPSlist);
+		ArrayList array = selectCurrentSessionPersonsDo (dbcon, sessionID, returnPersonAndPSlist);
 		Sqlite.Close();
+
+		return array;
 	}
 	//importer call
 	public static ArrayList SelectCurrentSessionPersons (SQLiteConnection dbcon, int sessionID, bool returnPersonAndPSlist)

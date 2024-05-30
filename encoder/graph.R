@@ -723,8 +723,14 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
 
 	#draw polygon under position, but only if position is shown
 	if(paintMode != "superpose" && showPosition) {
-		polygon(c(startX:propulsiveEnd, propulsiveEnd, startX),
-			c(yValues[startX:propulsiveEnd], min(yValues), min(yValues)),
+		#when propulsiveEnd is at end, sometimes yValues[propulsiveEnd] is NA, and sometimes the previous value also.
+		#fix with this:
+		propulsiveEndFix = propulsiveEnd
+		if (is.na (yValues[propulsiveEnd]))
+			propulsiveEndFix = length(yValues)
+
+		polygon(c(startX:propulsiveEndFix, propulsiveEndFix, startX),
+			c(yValues[startX:propulsiveEndFix], min(yValues), min(yValues)),
 			col="grey90")
 	}
 

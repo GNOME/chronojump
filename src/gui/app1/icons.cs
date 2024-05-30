@@ -97,10 +97,10 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_button_contacts_exercise_actions_edit_do;
 	Gtk.Image image_button_contacts_exercise_actions_add_do;
 
-	Gtk.Image image_logo_contacts;
-	Gtk.Image image_logo_contacts_transp;
-	Gtk.Image image_logo_encoder;
-	Gtk.Image image_logo_encoder_transp;
+	//Gtk.Image image_logo_contacts;
+	//Gtk.Image image_logo_contacts_transp;
+	//Gtk.Image image_logo_encoder;
+	//Gtk.Image image_logo_encoder_transp;
 	Gtk.Image fullscreen_image_logo;
 	Gtk.Image fullscreen_image_logo_transp;
 
@@ -290,7 +290,7 @@ public partial class ChronoJumpWindow
 	{
 		Pixbuf pixbuf;
 
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogoTransparent);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogoBlueTransp);
 		image_chronojump_logo.Pixbuf = pixbuf;
 
 		//change colors of tests mode
@@ -671,13 +671,13 @@ public partial class ChronoJumpWindow
 		 */
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogo); //44 px height
-		image_logo_contacts.Pixbuf = pixbuf;
-		image_logo_encoder.Pixbuf = pixbuf;
+		//image_logo_contacts.Pixbuf = pixbuf;
+		//image_logo_encoder.Pixbuf = pixbuf;
 		fullscreen_image_logo.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogoTransparent40h); //40 px heigh
-		image_logo_contacts_transp.Pixbuf = pixbuf;
-		image_logo_encoder_transp.Pixbuf = pixbuf;
+		//image_logo_contacts_transp.Pixbuf = pixbuf;
+		//image_logo_encoder_transp.Pixbuf = pixbuf;
 		fullscreen_image_logo_transp.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameIcon);
@@ -1175,10 +1175,10 @@ public partial class ChronoJumpWindow
 		image_button_contacts_exercise_actions_edit_do = (Gtk.Image) builder.GetObject ("image_button_contacts_exercise_actions_edit_do");
 		image_button_contacts_exercise_actions_add_do = (Gtk.Image) builder.GetObject ("image_button_contacts_exercise_actions_add_do");
 
-		image_logo_contacts = (Gtk.Image) builder.GetObject ("image_logo_contacts");
-		image_logo_contacts_transp = (Gtk.Image) builder.GetObject ("image_logo_contacts_transp");
-		image_logo_encoder = (Gtk.Image) builder.GetObject ("image_logo_encoder");
-		image_logo_encoder_transp = (Gtk.Image) builder.GetObject ("image_logo_encoder_transp");
+		//image_logo_contacts = (Gtk.Image) builder.GetObject ("image_logo_contacts");
+		//image_logo_contacts_transp = (Gtk.Image) builder.GetObject ("image_logo_contacts_transp");
+		//image_logo_encoder = (Gtk.Image) builder.GetObject ("image_logo_encoder");
+		//image_logo_encoder_transp = (Gtk.Image) builder.GetObject ("image_logo_encoder_transp");
 		fullscreen_image_logo = (Gtk.Image) builder.GetObject ("fullscreen_image_logo");
 		fullscreen_image_logo_transp = (Gtk.Image) builder.GetObject ("fullscreen_image_logo_transp");
 

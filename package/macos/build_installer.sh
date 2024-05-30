@@ -13,7 +13,7 @@ run_codesign()
 {
     file=$1
     echo ${file}
-    #codesign --deep --force --timestamp --options runtime --sign "Developer ID Application: Cameron White (D5G6C56TBH)" --entitlements entitlements.plist ${file}
+    codesign --deep --force --timestamp --options runtime --sign "Developer ID Application: Association Chronojump (RXJZ6LH5L4)" --entitlements entitlements.plist ${file}
 }
 
 rm -rf ${MAC_APP_BIN_DIR}
@@ -76,9 +76,9 @@ hdiutil create -volname "${MAC_DMG_FILE_NAME} Installer" -srcfolder app -ov -for
 run_codesign ${MAC_DMG_FILE_NAME}
 
 # Notarize
-#echo "Notarizing..."
-#xcrun notarytool submit --wait --apple-id=cameronwhite91@gmail.com --password ${MAC_DEV_PASSWORD} --team-id D5G6C56TBH ${MAC_DMG_FILE_NAME}
+echo "Notarizing..."
+xcrun notarytool submit --wait --apple-id=info@chronojump.org --password ${MAC_DEV_PASSWORD} --team-id RXJZ6LH5L4 ${MAC_DMG_FILE_NAME}
 
 # Staple the result to the dmg
-#echo "Stapling..."
-#xcrun stapler staple ${MAC_DMG_FILE_NAME}
+echo "Stapling..."
+xcrun stapler staple ${MAC_DMG_FILE_NAME}

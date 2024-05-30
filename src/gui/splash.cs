@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -70,9 +70,7 @@ public class SplashWindow
         button_open_docs_folder.Hide();
 
         //put logo image
-        Pixbuf pixbuf;
-        pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogo320);
-        image_logo.Pixbuf = pixbuf;
+        image_logo.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogo2Col);
     }
 
     static public SplashWindow Show()

@@ -81,7 +81,7 @@ public partial class ChronoJumpWindow
 
 		app1s_notebook.CurrentPage = app1s_PAGE_BACKUP;
 
-		app1s_check_backup_include_config.Visible = File.Exists (Util.GetConfigFileName());
+		app1s_check_backup_include_config.Visible = File.Exists (Util.GetConfigFileName(false));
 
 		showBackupEstimatedSize ();
 	}

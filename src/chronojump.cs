@@ -968,10 +968,13 @@ public class ChronoJump
 			//delete the '\n' that ReaderToEnd() has put
 			pid = pid.TrimEnd(new char[1] {'\n'});
 			
-			if(UtilAll.IsWindows())
+			if(operatingSystem == UtilAll.OperatingSystems.WINDOWS ||
+					operatingSystem == UtilAll.OperatingSystems.LINUX)
 				return chronojumpIsExecutingNTimesComparePids("Chronojump", pid);
 			else {
-				//in linux process was names mono, but now is named mono-sgen
+				//old: in linux process was names mono, but now is named mono-sgen
+				//now since dotnet is Chronojump
+				//TODO: check also on mac
 				bool found = chronojumpIsExecutingNTimesComparePids("mono", pid);
 				if(found)
 					return true;

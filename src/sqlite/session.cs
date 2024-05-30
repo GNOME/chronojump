@@ -91,6 +91,29 @@ public class SqliteSessionSwitcher
         }
     }
 
+    /*
+    public List<PersonSession> SelectPersonSessionList (int sessionID)
+    {
+            SqliteGeneral sqliteGeneral = new SqliteGeneral(databasePath);
+            if (!sqliteGeneral.IsOpened)
+                return new List<PersonSession>();
+
+            SQLiteConnection dbcon = sqliteGeneral.connection;
+
+            return SqlitePersonSession.SelectPersonSessionList (dbcon, -1, sessionID);
+    }
+    */
+    public ArrayList SelectPersonsInSession (int sessionID)
+    {
+            SqliteGeneral sqliteGeneral = new SqliteGeneral(databasePath);
+            if (!sqliteGeneral.IsOpened)
+                return new ArrayList ();
+
+            SQLiteConnection dbcon = sqliteGeneral.connection;
+
+            return SqlitePersonSession.SelectCurrentSessionPersons (dbcon, sessionID, true);
+    }
+
     public Session Select(string myUniqueID)
     {
         if (type == DatabaseType.DEFAULT)
@@ -387,6 +410,14 @@ class SqliteSession : Sqlite
 		return selectAllSessionsTestsCountDo (filterName, -1, dbcon); //-1 for allTests, contrary to person show all events use
 	}
 
+	/*
+	// It's used by chronojump-importer and receives a specific database
+	public static List<PersonSession> SelectPersonSessionList (SQLiteConnection dbcon, int sessionID)
+	{
+		return SqlitePersonSession.SelectPersonSessionList (dbcon, -1, sessionID);
+	}
+	*/
+
 	private static double testsProgress;
 	private static int testsAll = 15;
 
@@ -405,7 +436,7 @@ class SqliteSession : Sqlite
 	{
 		Sqlite.Open();
 
-		// SelectAllSessionsTestCount is used here and by the Chronojump importer to allow to pass an arbitrary dbcon.
+		// SelectAllSessionsTestsCount is used here and by the Chronojump importer to allow to pass an arbitrary dbcon.
 		List<SessionTestsCount> stc_l = selectAllSessionsTestsCountDo (filterName, -1, dbcon);
 
 		//close database connection
@@ -419,7 +450,7 @@ class SqliteSession : Sqlite
 	{
 		Sqlite.Open();
 
-		// SelectAllSessionsTestCount is used here and by the Chronojump importer to allow to pass an arbitrary dbcon.
+		// SelectAllSessionsTestsCount is used here and by the Chronojump importer to allow to pass an arbitrary dbcon.
 		List<SessionTestsCount> stc_l = selectAllSessionsTestsCountDo ("", personID, dbcon);
 
 		//close database connection
@@ -479,9 +510,9 @@ class SqliteSession : Sqlite
 
 	private static List<SessionTestsCount> selectAllSessionsTestsCountDo (string filterName, int personID, SQLiteConnection dbcon)
 	{
-		// This method should NOT use Sqlite.open() / Sqlite.close(): it should only use dbcon
-		// to connect to the database. This method is used by the importer after opening an arbitrary
-		// ChronoJump sqlite database. It needs to be refactored to the new database system.
+		// This method should NOT use Sqlite.open() / Sqlite.close(): it should only use dbcon to connect to the database.
+		// This method is used by the importer after opening an arbitrary Chronojump qlite database
+		// It needs to be refactored to the new database system.
 
 		testsProgress = 0;
 		dbcmd = dbcon.CreateCommand();

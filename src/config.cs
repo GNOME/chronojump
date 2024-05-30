@@ -110,12 +110,14 @@ public class Config
 	// cloud
 	public string CopyToCloudFullPath { 		//for capturing machine
 		get { return configList.GetString (OpEnum.CopyToCloudFullPath); }
+		set { configList.SetValue (OpEnum.CopyToCloudFullPath.ToString (), value); }
 	}
 	public bool CopyToCloudOnExit {			//for capturing machine
 		get { return configList.GetBool (OpEnum.CopyToCloudOnExit); }
 	}
 	public string ReadFromCloudMainPath { 		//for reading machine
 		get { return configList.GetString (OpEnum.ReadFromCloudMainPath); }
+		set { configList.SetValue (OpEnum.ReadFromCloudMainPath.ToString (), value); }
 	}
 
 	// external DB
@@ -215,7 +217,7 @@ public class Config
 
 	public void Read()
 	{
-		string contents = Util.ReadFile(Util.GetConfigFileName(), false);
+		string contents = Util.ReadFile(Util.GetConfigFileName(true), false);
 		if (contents != null && contents != "") 
 		{
 			string line;
@@ -286,7 +288,7 @@ public class Config
 	public void UpdateField (string field, string text)
 	{
 		string tempfile = Path.GetTempFileName ();
-		string configFile = Util.GetConfigFileName ();
+		string configFile = Util.GetConfigFileName (true);
 		LogB.Information( string.Format ("Config.UpdateField tempfile: {0}, configFile: {1}, field: {2}, text: {3}",
 					tempfile, configFile, field, text));
 		

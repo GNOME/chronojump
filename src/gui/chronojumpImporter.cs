@@ -15,13 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2019-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2019-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using Gtk;
 using System;
 using System.IO;
 using System.Threading;
+using System.Collections; //ArrayList
 
 public partial class ChronoJumpWindow
 {
@@ -49,6 +50,11 @@ public partial class ChronoJumpWindow
 		string databasePath = app1s_ImportDatabasePath();
 		LogB.Information (databasePath);
 
+		/*
+		if (importSessionCheckConflicts (databasePath, sourceSession))
+			return;
+		*/
+
 		Session destinationSession = currentSession;
 
 		if (app1s_ImportToNewSession ()) {
@@ -56,6 +62,37 @@ public partial class ChronoJumpWindow
 		}
 
 		importSessionFromDatabasePrepare (databasePath, sourceSession, destinationSession);
+	}
+
+	private bool importSessionCheckConflicts (string databasePath, int sourceSession)
+	{
+		//select all persons on current database
+		ArrayList arrayDB = SqlitePersonSession.SelectCurrentSessionPersons (-1, true);
+
+		//select all sessions on current database
+		List<Session> sessionsDB_l = SqliteSession.SelectAll (false, Sqlite.Orders_by.ID_ASC);
+
+		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (
+				SqliteSessionSwitcher.DatabaseType.IMPORT, databasePath);
+
+		//select all persons on Importing Session (IS)
+		ArrayList arrayIS = sessionSwitcher.SelectPersonsInSession (sourceSession);
+		sessionSwitcher = null;
+
+		bool conflicts = false;
+		if (arrayIS.Count > 0)
+		{
+			//PersonAndPSUtil.CompareAtImportPrintStr (arrayDB, arrayIS);
+
+			LogB.Information ("printing PersonImportConflicts");
+			foreach (PersonImportConflict pic in PersonAndPSUtil.CompareAtImport (arrayDB, arrayIS, sessionsDB_l))
+			{
+				conflicts = true;
+				LogB.Information (pic.ToString ());
+			}
+		}
+
+		return conflicts;
 	}
 
 	private void importSessionFromDatabasePrepare (string databasePath, int sourceSession, Session destinationSession)

@@ -390,7 +390,7 @@ public class WebcamFfmpeg : Webcam
 		parameters.Insert (i++, "-exitonkeydown");
 		parameters.Insert (i++, "-exitonmousedown");
 		parameters.Insert (i++, "-window_title");
-		parameters.Insert (i++, Catalog.GetString("Preview. Press any key to exit."));
+		parameters.Insert (i++, Catalog.GetString("\"Preview. Press any key to exit.\""));
 		return parameters;
 	}
 

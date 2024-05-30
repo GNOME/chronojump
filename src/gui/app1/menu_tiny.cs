@@ -85,10 +85,10 @@ public partial class ChronoJumpWindow
 
 		GLib.Timeout.Add(200, new GLib.TimeoutHandler(menuTinyTopAlign));
 
-		image_logo_contacts_transp.Visible = false;
-		image_logo_contacts.Visible = false;
-		image_logo_encoder_transp.Visible = false;
-		image_logo_encoder.Visible = false;
+		//image_logo_contacts_transp.Visible = false;
+		//image_logo_contacts.Visible = false;
+		//image_logo_encoder_transp.Visible = false;
+		//image_logo_encoder.Visible = false;
 		//TODO: check this
 		fullscreen_image_logo.Visible = false;
 		fullscreen_image_logo_transp.Visible = false;
@@ -134,7 +134,8 @@ public partial class ChronoJumpWindow
 			RGBA color = UtilGtk.ColorParse (preferences.colorBackgroundString);
 
 			UtilGtk.WindowColor (app1, color);
-			UtilGtk.ViewportColor (viewport_exit_confirm, color);
+			UtilGtk.WidgetColor (frame_exit_confirm, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_exit_confirm);
 			UtilGtk.ViewportColor (viewport_rest_time_contacts, color);
 			UtilGtk.ViewportColor (viewport_rest_time_encoder, color);
 

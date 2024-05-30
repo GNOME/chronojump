@@ -382,4 +382,22 @@ public class PersonImportConflict
 
 		return str;
 	}
+
+	public string NameImporting {
+		get { return nameImporting; }
+	}
+
+	public string SessionsAtLocalDB {
+		get {
+			string str = "";
+			string sep = "";
+			foreach (Session s in sessionsAtLocalDB_l)
+			{
+				str += sep + string.Format ("[{0}] {1}", s.DateShort, s.Name);
+				sep = "\n";
+			}
+
+			return str;
+		}
+	}
 }

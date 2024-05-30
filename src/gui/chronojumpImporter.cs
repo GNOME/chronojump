@@ -51,8 +51,13 @@ public partial class ChronoJumpWindow
 		LogB.Information (databasePath);
 
 		/*
-		if (importSessionCheckConflicts (databasePath, sourceSession))
+		 * disabled until finished
+		List<PersonImportConflict> pic_l = importSessionCheckConflicts (databasePath, sourceSession);
+		if (pic_l.Count > 0)
+		{
+			importSessionConflictsFillGrid (pic_l);
 			return;
+		}
 		*/
 
 		Session destinationSession = currentSession;
@@ -64,7 +69,7 @@ public partial class ChronoJumpWindow
 		importSessionFromDatabasePrepare (databasePath, sourceSession, destinationSession);
 	}
 
-	private bool importSessionCheckConflicts (string databasePath, int sourceSession)
+	private List<PersonImportConflict> importSessionCheckConflicts (string databasePath, int sourceSession)
 	{
 		//select all persons on current database
 		ArrayList arrayDB = SqlitePersonSession.SelectCurrentSessionPersons (-1, true);
@@ -79,20 +84,50 @@ public partial class ChronoJumpWindow
 		ArrayList arrayIS = sessionSwitcher.SelectPersonsInSession (sourceSession);
 		sessionSwitcher = null;
 
-		bool conflicts = false;
+		List<PersonImportConflict> pic_l = new List<PersonImportConflict> ();
+		//bool conflicts = false;
 		if (arrayIS.Count > 0)
 		{
 			//PersonAndPSUtil.CompareAtImportPrintStr (arrayDB, arrayIS);
 
+			pic_l = PersonAndPSUtil.CompareAtImport (arrayDB, arrayIS, sessionsDB_l);
+
 			LogB.Information ("printing PersonImportConflicts");
-			foreach (PersonImportConflict pic in PersonAndPSUtil.CompareAtImport (arrayDB, arrayIS, sessionsDB_l))
+			foreach (PersonImportConflict pic in pic_l)
 			{
-				conflicts = true;
+				//conflicts = true;
 				LogB.Information (pic.ToString ());
 			}
 		}
 
-		return conflicts;
+		return pic_l;
+	}
+
+	private void importSessionConflictsFillGrid (List<PersonImportConflict> pic_l)
+	{
+		UtilGtk.RemoveChildren (grid_import_session_issues_persons);
+		grid_import_session_issues_persons.ColumnSpacing = 20;
+		grid_import_session_issues_persons.RowSpacing = 14;
+
+		Gtk.Label lCol1Header = new Gtk.Label ("<b>" + "Person name" + "</b>");
+		Gtk.Label lCol2Header = new Gtk.Label ("<b>" + "Already present in session/s" + "</b>");
+		lCol1Header.UseMarkup = true;
+		lCol2Header.UseMarkup = true;
+		grid_import_session_issues_persons.Attach (lCol1Header, 0, 0, 1, 1);
+		grid_import_session_issues_persons.Attach (lCol2Header, 1, 0, 1, 1);
+
+		int row = 1;
+		foreach (PersonImportConflict pic in pic_l)
+		{
+			Gtk.Label lName = new Gtk.Label (pic.NameImporting);
+			Gtk.Label lSessions = new Gtk.Label (pic.SessionsAtLocalDB);
+
+			grid_import_session_issues_persons.Attach (lName, 0, row, 1, 1);
+			grid_import_session_issues_persons.Attach (lSessions, 1, row, 1, 1);
+
+			row ++;
+		}
+		grid_import_session_issues_persons.ShowAll ();
 	}
 
 	private void importSessionFromDatabasePrepare (string databasePath, int sourceSession, Session destinationSession)

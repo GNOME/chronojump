@@ -72,6 +72,13 @@ chmod +x post-build-mac.sh
 
 6. Make a package (Only when a package required)
 
+#Double click the Apple certificates to add them into "Keychain Access"/"Login" (Only the first time)
+#Unlock the keychain, please replase {user} with your real macOS user name (Only the first time)
+sudo security unlock-keychain /Users/{user}/Library/Keychains/login.keychain-db
+
+#Execute this command to check whether the certificates are installed correctly, please replase {user} with your real macOS user name (Only the first time)
+sudo security find-identity codesigning /Users/{user}/Library/Keychains/login.keychain-db
+
 cd "~/Desktop/chronojump/package/macos"
 
 make x64 #Execute this command on x64

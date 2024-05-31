@@ -24,6 +24,12 @@ using System.Collections; //ArrayList
 
 public partial class ChronoJumpWindow
 {
+	List<Gtk.RadioButton> importerConflictsSamePersonYes_l = new List <Gtk.RadioButton> ();
+	List<Gtk.RadioButton> importerConflictsSamePersonNo_l = new List <Gtk.RadioButton> ();
+	List<Gtk.Box> importerConflictsBoxNameAuto_l = new List <Gtk.Box> ();
+	List<Gtk.RadioButton> importerConflictsNameAutoYes_l = new List <Gtk.RadioButton> ();
+	List<Gtk.RadioButton> importerConflictsNameAutoNo_l = new List <Gtk.RadioButton> ();
+
 	private List<PersonImportConflict> importSessionCheckConflicts (string databasePath, int sourceSession)
 	{
 		//select all persons on current database
@@ -60,6 +66,12 @@ public partial class ChronoJumpWindow
 
 	private void importSessionConflictsFillGrid (List<PersonImportConflict> pic_l)
 	{
+		importerConflictsSamePersonYes_l = new List <Gtk.RadioButton> ();
+		importerConflictsSamePersonNo_l = new List <Gtk.RadioButton> ();
+		importerConflictsNameAutoYes_l = new List <Gtk.RadioButton> ();
+		importerConflictsNameAutoNo_l = new List <Gtk.RadioButton> ();
+		importerConflictsBoxNameAuto_l = new List <Gtk.Box> ();
+
 		UtilGtk.RemoveChildren (grid_import_session_issues_persons);
 		grid_import_session_issues_persons.ColumnSpacing = 20;
 		grid_import_session_issues_persons.RowSpacing = 14;
@@ -87,11 +99,20 @@ public partial class ChronoJumpWindow
 			Gtk.Label lSessions = new Gtk.Label (pic.SessionsAtLocalDB);
 
 			//col3
+			//create and attach widgets
 			Gtk.Box bSamePerson = new Gtk.Box (Gtk.Orientation.Horizontal, 10);
 			Gtk.RadioButton rSamePersonYes = new Gtk.RadioButton ("Yes");
 			Gtk.RadioButton rSamePersonNo = new Gtk.RadioButton (rSamePersonYes, "No");
 			bSamePerson.PackStart (rSamePersonYes, false, false, 0);
 			bSamePerson.PackStart (rSamePersonNo, false, false, 0);
+			//connect signals
+			rSamePersonYes.Clicked -= new EventHandler (on_importerConflictsSamePersonYes_radio_clicked);
+			rSamePersonYes.Clicked += new EventHandler (on_importerConflictsSamePersonYes_radio_clicked);
+			rSamePersonNo.Clicked -= new EventHandler (on_importerConflictsSamePersonNo_radio_clicked);
+			rSamePersonNo.Clicked += new EventHandler (on_importerConflictsSamePersonNo_radio_clicked);
+			//add to lists
+			importerConflictsSamePersonYes_l.Add (rSamePersonYes);
+			importerConflictsSamePersonNo_l.Add (rSamePersonNo);
 
 			//col4
 			Gtk.Box bNameAuto = new Gtk.Box (Gtk.Orientation.Vertical, 6);
@@ -115,6 +136,17 @@ public partial class ChronoJumpWindow
 			bNameAuto.PackStart (eNameCustom, false, false, 0);
 			bNameAuto.PackStart (bNameCustomCheck, false, false, 0);
 			bNameAuto.PackStart (lNameCustomCheckSuccess, false, false, 0);
+			//connect signals
+			rNameAutoYes.Clicked -= new EventHandler (on_importerConflictsNameAutoYes_radio_clicked);
+			rNameAutoYes.Clicked += new EventHandler (on_importerConflictsNameAutoYes_radio_clicked);
+			rNameAutoNo.Clicked -= new EventHandler (on_importerConflictsNameAutoNo_radio_clicked);
+			rNameAutoNo.Clicked += new EventHandler (on_importerConflictsNameAutoNo_radio_clicked);
+			//add to lists
+			importerConflictsNameAutoYes_l.Add (rNameAutoYes);
+			importerConflictsNameAutoNo_l.Add (rNameAutoNo);
+			importerConflictsBoxNameAuto_l.Add (bNameAuto);
+			//hide this cell
+			//bNameAuto.Visible = false; //it is hidden after the ShowAll
 
 			//grid vertical aligns
 			lName.Valign = Gtk.Align.Start;
@@ -132,7 +164,53 @@ public partial class ChronoJumpWindow
 		}
 
 		grid_import_session_issues_persons.ShowAll ();
+		//but hide the column4 widgets
+		foreach (Gtk.Box b in importerConflictsBoxNameAuto_l)
+			b.Visible = false;
+
 		if(! Config.UseSystemColor)
 			UtilGtk.ContrastLabelsGrid (Config.ColorBackgroundShiftedIsDark, grid_import_session_issues_persons);
+	}
+
+	private void on_importerConflictsSamePersonYes_radio_clicked (object o, EventArgs args)
+	{
+		Gtk.RadioButton r = (Gtk.RadioButton) o;
+		if (r == null || ! r.Active)
+			return;
+
+		int row = UtilGtk.GetRadioButtonPosInList (importerConflictsSamePersonYes_l, r);
+		if (row >= 0)
+			importerConflictsBoxNameAuto_l[row].Visible = false;
+	}
+	private void on_importerConflictsSamePersonNo_radio_clicked (object o, EventArgs args)
+	{
+		Gtk.RadioButton r = (Gtk.RadioButton) o;
+		if (r == null || ! r.Active)
+			return;
+
+		int row = UtilGtk.GetRadioButtonPosInList (importerConflictsSamePersonNo_l, r);
+		if (row >= 0)
+			importerConflictsBoxNameAuto_l[row].Visible = true;
+	}
+
+	private void on_importerConflictsNameAutoYes_radio_clicked (object o, EventArgs args)
+	{
+		Gtk.RadioButton r = (Gtk.RadioButton) o;
+		if (r == null || ! r.Active)
+			return;
+
+		int row = UtilGtk.GetRadioButtonPosInList (importerConflictsNameAutoYes_l, r);
+		if (row >= 0)
+			LogB.Information ("name auto yes on row: " + row.ToString ());
+	}
+	private void on_importerConflictsNameAutoNo_radio_clicked (object o, EventArgs args)
+	{
+		Gtk.RadioButton r = (Gtk.RadioButton) o;
+		if (r == null || ! r.Active)
+			return;
+
+		int row = UtilGtk.GetRadioButtonPosInList (importerConflictsNameAutoNo_l, r);
+		if (row >= 0)
+			LogB.Information ("name auto no on row: " + row.ToString ());
 	}
 }

@@ -722,6 +722,15 @@ public class UtilGtk
 		return .2126*color.Red + .7152*color.Green + .0722*color.Blue;
 	}
 
+	public static int GetRadioButtonPosInList (List<Gtk.RadioButton> r_l, Gtk.RadioButton r)
+	{
+		for (int i = 0; i < r_l.Count; i ++)
+			if (r_l[i] == r)
+				return i;
+
+		return -1;
+	}
+
 	/*
 	public static Gdk.Color GetBackgroundColorSelected() {
 		Gtk.Style regularLabel = Gtk.Rc.GetStyle (new Gtk.Label());

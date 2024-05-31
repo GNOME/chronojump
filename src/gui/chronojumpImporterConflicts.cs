@@ -27,6 +27,7 @@ public partial class ChronoJumpWindow
 	List<Gtk.RadioButton> importerConflictsSamePersonYes_l = new List <Gtk.RadioButton> ();
 	List<Gtk.RadioButton> importerConflictsSamePersonNo_l = new List <Gtk.RadioButton> ();
 	List<Gtk.Box> importerConflictsBoxNameAuto_l = new List <Gtk.Box> ();
+	List<Gtk.Box> importerConflictsBoxNameAuto2_l = new List <Gtk.Box> ();
 	List<Gtk.RadioButton> importerConflictsNameAutoYes_l = new List <Gtk.RadioButton> ();
 	List<Gtk.RadioButton> importerConflictsNameAutoNo_l = new List <Gtk.RadioButton> ();
 
@@ -71,6 +72,7 @@ public partial class ChronoJumpWindow
 		importerConflictsNameAutoYes_l = new List <Gtk.RadioButton> ();
 		importerConflictsNameAutoNo_l = new List <Gtk.RadioButton> ();
 		importerConflictsBoxNameAuto_l = new List <Gtk.Box> ();
+		importerConflictsBoxNameAuto2_l = new List <Gtk.Box> ();
 
 		UtilGtk.RemoveChildren (grid_import_session_issues_persons);
 		grid_import_session_issues_persons.ColumnSpacing = 20;
@@ -123,19 +125,23 @@ public partial class ChronoJumpWindow
 			bNameAutoYesNo.PackStart (rNameAutoYes, false, false, 0);
 			bNameAutoYesNo.PackStart (rNameAutoNo, false, false, 0);
 			//row2
+			Gtk.Box bNameAuto2 = new Gtk.Box (Gtk.Orientation.Vertical, 6);
+			//row2.1
 			Gtk.Label lNameCustom = new Gtk.Label ("Write new name");
-			//row3
+			//row2.2
 			Gtk.Entry eNameCustom = new Gtk.Entry ();
-			//row4
+			//row2.3
 			Gtk.Button bNameCustomCheck = new Gtk.Button ("Check availability");
-			//row5
+			//row2.4
 			Gtk.Label lNameCustomCheckSuccess = new Gtk.Label ("----");
-			//pack all in vertical box
+			//pack all
 			bNameAuto.PackStart (bNameAutoYesNo, false, false, 0);
-			bNameAuto.PackStart (lNameCustom, false, false, 0);
-			bNameAuto.PackStart (eNameCustom, false, false, 0);
-			bNameAuto.PackStart (bNameCustomCheck, false, false, 0);
-			bNameAuto.PackStart (lNameCustomCheckSuccess, false, false, 0);
+			bNameAuto2.PackStart (lNameCustom, false, false, 0);
+			bNameAuto2.PackStart (eNameCustom, false, false, 0);
+			bNameAuto2.PackStart (bNameCustomCheck, false, false, 0);
+			bNameAuto2.PackStart (lNameCustomCheckSuccess, false, false, 0);
+			bNameAuto.PackStart (bNameAuto2, false, false, 0);
+
 			//connect signals
 			rNameAutoYes.Clicked -= new EventHandler (on_importerConflictsNameAutoYes_radio_clicked);
 			rNameAutoYes.Clicked += new EventHandler (on_importerConflictsNameAutoYes_radio_clicked);
@@ -145,6 +151,7 @@ public partial class ChronoJumpWindow
 			importerConflictsNameAutoYes_l.Add (rNameAutoYes);
 			importerConflictsNameAutoNo_l.Add (rNameAutoNo);
 			importerConflictsBoxNameAuto_l.Add (bNameAuto);
+			importerConflictsBoxNameAuto2_l.Add (bNameAuto2);
 			//hide this cell
 			//bNameAuto.Visible = false; //it is hidden after the ShowAll
 
@@ -178,9 +185,8 @@ public partial class ChronoJumpWindow
 		if (r == null || ! r.Active)
 			return;
 
-		int row = UtilGtk.GetRadioButtonPosInList (importerConflictsSamePersonYes_l, r);
-		if (row >= 0)
-			importerConflictsBoxNameAuto_l[row].Visible = false;
+		importerConflictsManageVisibilities (UtilGtk.GetRadioButtonPosInList (
+					importerConflictsSamePersonYes_l, r));
 	}
 	private void on_importerConflictsSamePersonNo_radio_clicked (object o, EventArgs args)
 	{
@@ -188,9 +194,8 @@ public partial class ChronoJumpWindow
 		if (r == null || ! r.Active)
 			return;
 
-		int row = UtilGtk.GetRadioButtonPosInList (importerConflictsSamePersonNo_l, r);
-		if (row >= 0)
-			importerConflictsBoxNameAuto_l[row].Visible = true;
+		importerConflictsManageVisibilities (UtilGtk.GetRadioButtonPosInList (
+					importerConflictsSamePersonNo_l, r));
 	}
 
 	private void on_importerConflictsNameAutoYes_radio_clicked (object o, EventArgs args)
@@ -199,9 +204,8 @@ public partial class ChronoJumpWindow
 		if (r == null || ! r.Active)
 			return;
 
-		int row = UtilGtk.GetRadioButtonPosInList (importerConflictsNameAutoYes_l, r);
-		if (row >= 0)
-			LogB.Information ("name auto yes on row: " + row.ToString ());
+		importerConflictsManageVisibilities (UtilGtk.GetRadioButtonPosInList (
+					importerConflictsNameAutoYes_l, r));
 	}
 	private void on_importerConflictsNameAutoNo_radio_clicked (object o, EventArgs args)
 	{
@@ -209,8 +213,18 @@ public partial class ChronoJumpWindow
 		if (r == null || ! r.Active)
 			return;
 
-		int row = UtilGtk.GetRadioButtonPosInList (importerConflictsNameAutoNo_l, r);
-		if (row >= 0)
-			LogB.Information ("name auto no on row: " + row.ToString ());
+		importerConflictsManageVisibilities (UtilGtk.GetRadioButtonPosInList (
+					importerConflictsNameAutoNo_l, r));
+	}
+
+	private void importerConflictsManageVisibilities (int row)
+	{
+		if (row < 0)
+			return;
+
+		importerConflictsBoxNameAuto_l[row].Visible = ! importerConflictsSamePersonYes_l[row].Active;
+		importerConflictsBoxNameAuto2_l[row].Visible =
+			! importerConflictsSamePersonYes_l[row].Active &&
+			! importerConflictsNameAutoYes_l[row].Active;
 	}
 }

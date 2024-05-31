@@ -176,7 +176,10 @@ public partial class ChronoJumpWindow
 			b.Visible = false;
 
 		if(! Config.UseSystemColor)
-			UtilGtk.ContrastLabelsGrid (Config.ColorBackgroundShiftedIsDark, grid_import_session_issues_persons);
+		{
+			UtilGtk.WidgetColor (box_session_import_conflicts, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_session_import_conflicts);
+		}
 	}
 
 	private void on_importerConflictsSamePersonYes_radio_clicked (object o, EventArgs args)

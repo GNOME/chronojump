@@ -46,6 +46,7 @@ public partial class ChronoJumpWindow
 	Gtk.ScrolledWindow scrolledwin_session_load;
 	Gtk.CheckButton app1s_check_filter_by_sensor;
 	Gtk.HBox app1s_hbox_combo_tags;
+	Gtk.Box box_session_import_conflicts;
 	Gtk.Grid grid_import_session_issues_persons;
 	// <---- at glade
 
@@ -1105,6 +1106,7 @@ public partial class ChronoJumpWindow
 		scrolledwin_session_load = (Gtk.ScrolledWindow) builder.GetObject ("scrolledwin_session_load");
 		app1s_check_filter_by_sensor = (Gtk.CheckButton) builder.GetObject ("app1s_check_filter_by_sensor");
 		app1s_hbox_combo_tags = (Gtk.HBox) builder.GetObject ("app1s_hbox_combo_tags");
+		box_session_import_conflicts = (Gtk.Box) builder.GetObject ("box_session_import_conflicts");
 		grid_import_session_issues_persons = (Gtk.Grid) builder.GetObject ("grid_import_session_issues_persons");
 	}
 }

@@ -252,6 +252,7 @@ public partial class ChronoJumpWindow
 	const int app1s_PAGE_EXPORT = 8;
 	const int app1s_PAGE_VIEW_DATA_FOLDER = 9;
 	const int app1s_PAGE_IMPORT_FROM_CSV = 10;
+	const int app1s_PAGE_SESSION_IMPORT_CONFLICTS = 11;
 
 	private int app1s_notebook_sup_entered_from; //to store from which page we entered (to return at it)
 

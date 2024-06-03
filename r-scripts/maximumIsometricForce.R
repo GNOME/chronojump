@@ -69,7 +69,8 @@ assignOptions <- function(options)
 	singleOrMultiple 	= options[38], 	#bool (true is single)
 	decimalCharAtExport	= options[39],
         maxAvgWindowSeconds 	= as.numeric(options[40]),
-	includeImagesOnExport 	= options[41]  #bool (true is single)
+        bestStabilityWindowSeconds = as.numeric(options[41]),
+	includeImagesOnExport 	= options[42]  #bool (true is single)
     ))
 }
 
@@ -1215,7 +1216,8 @@ doProcess <- function(pngFile, dataFile, decimalChar, title, exercise, ex_percen
 plotABGraph <- function(pngFile, dataFile, decimalChar, title, exercise, datetime,
 			captureOptions, ex_percentBodyWeight, ex_angle, personMass,
 			startSample, endSample,
-			maxAvgForceInWindow, maxAvgForceInWindowSampleStart, maxAvgForceInWindowSampleEnd)
+			maxAvgForceInWindow, maxAvgForceInWindowSampleStart, maxAvgForceInWindowSampleEnd,
+			bestStabilityInWindow, bestStabilityInWindowSampleStart, bestStabilityInWindowSampleEnd)
 {
 	title = fixTitleAndOtherStrings(title)
 	exercise = fixTitleAndOtherStrings(exercise)
@@ -1257,6 +1259,19 @@ plotABGraph <- function(pngFile, dataFile, decimalChar, title, exercise, datetim
 			 lwd=2, col="green4")
 	}
 
+	if(bestStabilityInWindow > 0)
+	{
+		segments(x[bestStabilityInWindowSampleStart], bestStabilityInWindow,
+			 x[bestStabilityInWindowSampleEnd], bestStabilityInWindow, lwd=2, col="green4")
+		topTick = bestStabilityInWindow/100
+		segments(x[bestStabilityInWindowSampleStart], bestStabilityInWindow - topTick,
+			 x[bestStabilityInWindowSampleStart], bestStabilityInWindow + topTick,
+			 lwd=2, col="green4")
+		segments(x[bestStabilityInWindowSampleEnd], bestStabilityInWindow - topTick,
+			 x[bestStabilityInWindowSampleEnd], bestStabilityInWindow + topTick,
+			 lwd=2, col="green4")
+	}
+
 	endGraph()
 }
 
@@ -1292,8 +1307,11 @@ start <- function(op)
 		maxAvgWindowSecondsHeader = op$maxAvgWindowSeconds
 		if(op$decimalCharAtExport == ",")
 			maxAvgWindowSecondsHeader = format(maxAvgWindowSecondsHeader, decimal.mark=",")
+		bestStabilityWindowSecondsHeader = op$bestStabilityWindowSeconds
+		if(op$decimalCharAtExport == ",")
+			bestStabilityWindowSecondsHeader = format(bestStabilityWindowSecondsHeader, decimal.mark=",")
 
-		exportNames = c("Name","Date","Time","Exercise","Laterality","Set","Repetition","MaxForce (raw)",paste("Max AVG Force in", maxAvgWindowSecondsHeader, "s (raw)"),"MaxForce (model)")
+		exportNames = c("Name","Date","Time","Exercise","Laterality","Set","Repetition","MaxForce (raw)",paste("Max AVG Force in", maxAvgWindowSecondsHeader, "s (raw)"),paste("Best stability in", bestStabilityWindowSecondsHeader, "s (raw)"),"MaxForce (model)")
 		for(i in 1:length(op$drawRfdOptions))
 		{
 			RFDoptions = readRFDOptions(op$drawRfdOptions[i])
@@ -1350,7 +1368,10 @@ start <- function(op)
 					dataFiles$startSample[i], dataFiles$endSample[i],
 					dataFiles$maxAvgForceInWindow[i],
 					(dataFiles$maxAvgForceInWindowSampleStart[i] +1), # +1 because the C# count starts at 0 and R at 1
-					(dataFiles$maxAvgForceInWindowSampleEnd[i] +1)
+					(dataFiles$maxAvgForceInWindowSampleEnd[i] +1),
+					dataFiles$bestStabilityInWindow[i],
+					(dataFiles$bestStabilityInWindowSampleStart[i] +1), # +1 because the C# count starts at 0 and R at 1
+					(dataFiles$bestStabilityInWindowSampleEnd[i] +1)
 			)
 
 			if(! modelOk)
@@ -1361,6 +1382,7 @@ start <- function(op)
 					dataFiles$exercise[i], dataFiles$laterality[i], dataFiles$set[i], dataFiles$rep[i])
 			exportSetDF = cbind (exportSetDF, dataFiles$maxForceRaw[i])
 			exportSetDF = cbind (exportSetDF, dataFiles$maxAvgForceInWindow[i])
+			exportSetDF = cbind (exportSetDF, dataFiles$bestStabilityInWindow[i])
 			for(j in 1:length(exportModelVector))
 				exportSetDF = cbind (exportSetDF, exportModelVector[j])
 

@@ -1275,10 +1275,16 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 	public string fullURL;
 	public bool decimalIsPoint;
 	public double maxForceRaw;
+	//gmaiw:
 	public double maxAvgForceInWindow;
 	public double forceSensorAnalyzeMaxAVGInWindowSeconds;
 	public double maxAvgForceInWindowSampleStart;
 	public double maxAvgForceInWindowSampleEnd;
+	//bsiw:
+	public double bestStabilityInWindow;
+	public double forceSensorAnalyzeBestStabilityInWindowSeconds;
+	public double bestStabilityInWindowSampleStart;
+	public double bestStabilityInWindowSampleEnd;
 	public string laterality;
 	public int setCount;
 	public int repCount;
@@ -1289,6 +1295,8 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 			string fullURL, bool decimalIsPoint, double maxForceRaw,
 			double maxAvgForceInWindow, double forceSensorAnalyzeMaxAVGInWindowSeconds,
 			double maxAvgForceInWindowSampleStart, double maxAvgForceInWindowSampleEnd,
+			double bestStabilityInWindow, double forceSensorAnalyzeBestStabilityInWindowSeconds,
+			double bestStabilityInWindowSampleStart, double bestStabilityInWindowSampleEnd,
 			string laterality, int setCount, int repCount, string commentOfSet,
 			ForceSensor.CaptureOptions fsco, int startSample, int endSample,
 			string title, string exerciseStr, int ex_percentBodyWeight, int ex_angle, double personMass,
@@ -1306,6 +1314,10 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 		this.forceSensorAnalyzeMaxAVGInWindowSeconds = forceSensorAnalyzeMaxAVGInWindowSeconds;
 		this.maxAvgForceInWindowSampleStart = maxAvgForceInWindowSampleStart;
 		this.maxAvgForceInWindowSampleEnd = maxAvgForceInWindowSampleEnd;
+		this.bestStabilityInWindow = bestStabilityInWindow;
+		this.forceSensorAnalyzeBestStabilityInWindowSeconds = forceSensorAnalyzeBestStabilityInWindowSeconds;
+		this.bestStabilityInWindowSampleStart = bestStabilityInWindowSampleStart;
+		this.bestStabilityInWindowSampleEnd = bestStabilityInWindowSampleEnd;
 		this.laterality = laterality;
 		this.setCount = setCount;
 		this.repCount = repCount;
@@ -1333,6 +1345,9 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 			Util.ConvertToPoint(maxAvgForceInWindow) + ";" +
 			maxAvgForceInWindowSampleStart + ";" +
 			maxAvgForceInWindowSampleEnd + ";" +
+			Util.ConvertToPoint(bestStabilityInWindow) + ";" +
+			bestStabilityInWindowSampleStart + ";" +
+			bestStabilityInWindowSampleEnd + ";" +
 			fsco.ToString() + ";" +
 			title + ";" +
 			exerciseStr + ";" +
@@ -1354,6 +1369,7 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 	{
 		return "fullURL;decimalChar;maxForceRaw;" +
 			"maxAvgForceInWindow;maxAvgForceInWindowSampleStart;maxAvgForceInWindowSampleEnd;" +
+			"bestStabilityInWindow;bestStabilityInWindowSampleStart;bestStabilityInWindowSampleEnd;" +
 			"captureOptions;title;exercise;ex_percentBodyWeight;ex_angle;personMass;date;time;laterality;set;rep;" +
 			"triggersON;triggersOFF;" + //unused on export
 			"startSample;endSample;comments";
@@ -1388,6 +1404,7 @@ public class ForceSensorGraphR
 	private bool decimalIsPointAtReadFile; //but on export this will be related to each set
 	private char exportDecimalSeparator;
 	private double forceSensorAnalyzeMaxAVGInWindowSeconds; //on export
+	private double bestStabilityInWindowSeconds; //on export
 	private bool includeImagesOnExport;
 
 	//private method to help on assigning params
@@ -1453,6 +1470,7 @@ public class ForceSensorGraphR
 			char exportDecimalSeparator,
 			List<ForceSensorGraphABExport> fsgABe_l,
 			double forceSensorAnalyzeMaxAVGInWindowSeconds,
+			double bestStabilityInWindowSeconds,
 			bool includeImagesOnExport
 			)
 	{
@@ -1460,6 +1478,7 @@ public class ForceSensorGraphR
 				decimalIsPointAtReadFile, exportDecimalSeparator);
 			
 		this.forceSensorAnalyzeMaxAVGInWindowSeconds = forceSensorAnalyzeMaxAVGInWindowSeconds;
+		this.bestStabilityInWindowSeconds = bestStabilityInWindowSeconds;
 		this.includeImagesOnExport = includeImagesOnExport;
 
 		writeMultipleFilesCSV(fsgABe_l);
@@ -1523,6 +1542,8 @@ public class ForceSensorGraphR
 		string triggersOffStr = TriggerList.TriggersNotFoundString;
 		string forceSensorAnalyzeMaxAVGInWindowSecondsStr =
 			Util.ConvertToPoint(forceSensorAnalyzeMaxAVGInWindowSeconds);
+		string bestStabilityInWindowSecondsStr =
+			Util.ConvertToPoint(bestStabilityInWindowSeconds);
 		string ex_percentBodyWeightStr = ex_percentBodyWeight.ToString ();
 		string ex_angleStr = ex_angle.ToString ();
 		string personMassStr = Util.ConvertToPoint (personMass);
@@ -1533,6 +1554,7 @@ public class ForceSensorGraphR
 			triggersOnStr = printTriggers(TriggerList.Type3.ON);
 			triggersOffStr = printTriggers(TriggerList.Type3.OFF);
 			forceSensorAnalyzeMaxAVGInWindowSecondsStr = "-1";
+			bestStabilityInWindowSecondsStr = "-1";
 		} else {
 			captureOptionsStr = "-1";
 			title = "-1";
@@ -1563,6 +1585,7 @@ public class ForceSensorGraphR
 			"#singleOrMultiple\n" +		Util.BoolToRBool(singleOrMultiple) + "\n" +
 			"#decimalCharAtExport\n" +	exportDecimalSeparator + "\n" +
 			"#maxAvgInWindowSeconds\n" + 	forceSensorAnalyzeMaxAVGInWindowSecondsStr + "\n" +
+			"#bestStabilityInWindowSeconds\n" + 	bestStabilityInWindowSecondsStr + "\n" +
 			"#includeImagesOnExport\n" + 	Util.BoolToRBool(includeImagesOnExport) + "\n";
 
 		/*

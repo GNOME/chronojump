@@ -3030,6 +3030,11 @@ LogB.Information(" fs R ");
 				forceSensorValues.BestRFD = briw.Max;
 		}
 
+		GetBestStabilityInWindow bsiw = new GetBestStabilityInWindow (spCairoFECopyToDraw.Force_l,
+				0, spCairoFECopyToDraw.Force_l.Count -1,
+				preferences.forceSensorAnalyzeMaxAVGInWindow //TODO: maybe pass other window time
+				);
+
 		if (capturing && preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.ASTEROIDS)
 			cairoGraphForceSensorSignal.PassAsteroids = asteroids;
 		else if (capturing && preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
@@ -3085,8 +3090,7 @@ LogB.Information(" fs R ");
 				showLastSeconds,
 				minY, maxY,
 				rectangleN, rectangleRange,
-				gmiw,
-				briw,
+				gmiw, briw, bsiw,
 				triggerListForceSensor_copy,
 				forceRedraw, CairoXY.PlotTypes.LINES);
 

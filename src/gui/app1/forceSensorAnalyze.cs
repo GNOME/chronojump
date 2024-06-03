@@ -969,6 +969,9 @@ public partial class ChronoJumpWindow
 				preferences.forceSensorStartEndOptimized,
 				preferences.CSVExportDecimalSeparatorChar, 	//decimalIsPointAtExport (write)
 				preferences.forceSensorAnalyzeMaxAVGInWindow,
+				preferences.forceSensorCaptureFeedbackAt,
+				preferences.forceSensorVariabilityMethod,
+				preferences.forceSensorVariabilityLag,
 				preferences.forceSensorButterworth (current_mode)
 				);
 
@@ -1161,9 +1164,10 @@ public partial class ChronoJumpWindow
 			rectangleRange = preferences.forceSensorCaptureFeedbackRange;
 		}
 
-		// 3. get gmaiw_l, briw_l, reps_l for both fsAI
+		// 3. get gmaiw_l, briw_l, bsiw_l, reps_l for both fsAI
 		List<GetMaxAvgInWindow> gmaiw_l = new List<GetMaxAvgInWindow> ();
 		List<GetBestRFDInWindow> briw_l = new List<GetBestRFDInWindow> ();
+		List<GetBestStabilityInWindow> bsiw_l = new List<GetBestStabilityInWindow> ();
 		List<ForceSensorRepetition> reps_l = new List<ForceSensorRepetition> ();
 
 		List<ForceSensorAnalyzeInstant> fsAI_l = new List <ForceSensorAnalyzeInstant>() { fsAI_AB, fsAI_CD };
@@ -1191,10 +1195,16 @@ public partial class ChronoJumpWindow
 					briw_l.Add (new GetBestRFDInWindow (new List<PointF>(), 0, 0, 1));
 				else
 					briw_l.Add (fsAI.Briw);
+
+				if (fsAI.Bsiw == null)
+					bsiw_l.Add (new GetBestStabilityInWindow (new List<PointF>(), 0, 0, 1));
+				else
+					bsiw_l.Add (fsAI.Bsiw);
 			}
 			else {
 				gmaiw_l.Add (new GetMaxAvgInWindow ());
 				briw_l.Add (new GetBestRFDInWindow (new List<PointF>(), 0, 0, 1));
+				bsiw_l.Add (new GetBestStabilityInWindow (new List<PointF>(), 0, 0, 1));
 			}
 
 			count ++;
@@ -1269,7 +1279,7 @@ public partial class ChronoJumpWindow
 				check_force_sensor_analyze_show_power.Active,
 				minY, maxY,
 				rectangleN, rectangleRange,
-				briw_l,
+				briw_l, bsiw_l,
 				triggerListForceSensor,
 				hscaleABSampleStart, hscaleABSampleEnd,
 				hscaleCDSampleStart, hscaleCDSampleEnd,
@@ -1354,7 +1364,9 @@ public partial class ChronoJumpWindow
 		double timeB = fsAI.GetTimeMS(countB);
 		double forceA = fsAI.GetForceAtCount(countA);
 		double forceB = fsAI.GetForceAtCount(countB);
-		bool success = fsAI.CalculateRangeParams(countA, countB, preferences.forceSensorAnalyzeMaxAVGInWindow);
+		bool success = fsAI.CalculateRangeParams(countA, countB, preferences.forceSensorAnalyzeMaxAVGInWindow,
+				preferences.forceSensorCaptureFeedbackAt,
+				preferences.forceSensorVariabilityMethod, preferences.forceSensorVariabilityLag);
 		if(success) {
 			tvFS.TimeDiff = Math.Round(timeB - timeA, 1).ToString();
 			tvFS.ForceDiff = forceB - forceA;

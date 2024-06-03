@@ -1740,6 +1740,7 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 
 	private GetMaxAvgInWindow gmaiw;
 	private GetBestRFDInWindow briw;
+	private GetBestStabilityInWindow bsiw;
 	private VariabilityAndAccuracy vaa;
 
 	private ForceSensorValues forceSensorValues;
@@ -1956,7 +1957,8 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 	}
 
 	//calculates from a range
-	public bool CalculateRangeParams (int countA, int countB, double maxAVGInWindowSeconds)
+	public bool CalculateRangeParams (int countA, int countB, double maxAVGInWindowSeconds,
+			int feedbackF, Preferences.VariabilityMethodEnum variabilityMethod, int lag)
 	{
 		//countA will be the lowest and countB the highest to calcule Avg and max correctly no matter if B is before A
 		if(countA > countB) {
@@ -1975,6 +1977,15 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 		briw = new GetBestRFDInWindow (pAB_l, 0, pAB_l.Count -1, 0.05); //50 ms
 		briw.MaxSampleStart += countA;
 		briw.MaxSampleEnd += countA;
+
+		bsiw = new GetBestStabilityInWindow (pAB_l, 0, pAB_l.Count -1, maxAVGInWindowSeconds); //TODO: maybe pass other window time
+		if (bsiw.Error == "")
+		{
+			bsiw.PassVariablesAndCalculate (feedbackF, variabilityMethod, lag);
+
+			bsiw.MaxSampleStart += countA;
+			bsiw.MaxSampleEnd += countA;
+		}
 
 		if(CalculedElasticPSAP)
 		{
@@ -2194,6 +2205,11 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 	public GetBestRFDInWindow Briw
 	{
 		get { return briw; }
+	}
+
+	public GetBestStabilityInWindow Bsiw
+	{
+		get { return bsiw; }
 	}
 
 	public VariabilityAndAccuracy Vaa

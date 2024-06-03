@@ -38,6 +38,9 @@ public class ForceSensorExport : ExportFiles
 	private int forceSensorNotElasticConMinForce;
 	private bool forceSensorStartEndOptimized;
 	private double forceSensorAnalyzeMaxAVGInWindowSeconds;
+	private int forceSensorFeedbackF;
+	private Preferences.VariabilityMethodEnum variabilityMethod;
+	private int forceSensorVariabilityLag;
 	private double butterworthFreq;
 
 	private List<ForceSensor> fs_l;
@@ -61,6 +64,8 @@ public class ForceSensorExport : ExportFiles
 			bool forceSensorStartEndOptimized,
 			char exportDecimalSeparator,
 			double forceSensorAnalyzeMaxAVGInWindowSeconds,
+			int forceSensorFeedbackF,
+			Preferences.VariabilityMethodEnum variabilityMethod, int forceSensorVariabilityLag,
 			double butterworthFreq)
 
 	{
@@ -80,6 +85,9 @@ public class ForceSensorExport : ExportFiles
 		this.forceSensorNotElasticConMinForce = forceSensorNotElasticConMinForce;
 		this.forceSensorStartEndOptimized = forceSensorStartEndOptimized;
 		this.forceSensorAnalyzeMaxAVGInWindowSeconds = forceSensorAnalyzeMaxAVGInWindowSeconds;
+		this.forceSensorFeedbackF = forceSensorFeedbackF;
+		this.variabilityMethod = variabilityMethod;
+		this.forceSensorVariabilityLag = forceSensorVariabilityLag;
 		this.butterworthFreq = butterworthFreq;
 	}
 
@@ -248,7 +256,9 @@ public class ForceSensorExport : ExportFiles
 					double maxAvgForceInWindowSampleStart = 0;
 					double maxAvgForceInWindowSampleEnd = 0;
 					bool success = fsAI.CalculateRangeParams(repConcentricSampleStart, rep.sampleEnd,
-							forceSensorAnalyzeMaxAVGInWindowSeconds);
+							forceSensorAnalyzeMaxAVGInWindowSeconds,
+							forceSensorFeedbackF,
+							variabilityMethod, forceSensorVariabilityLag);
 					if(success) {
 						maxAvgForceInWindow = fsAI.Gmaiw.Max;
 						maxAvgForceInWindowSampleStart = fsAI.Gmaiw.MaxSampleStart;
@@ -309,7 +319,9 @@ public class ForceSensorExport : ExportFiles
 				double maxAvgForceInWindowSampleStart = 0;
 				double maxAvgForceInWindowSampleEnd = 0;
 				bool success = fsAI.CalculateRangeParams(sampleA, sampleB,
-						forceSensorAnalyzeMaxAVGInWindowSeconds);
+						forceSensorAnalyzeMaxAVGInWindowSeconds,
+						forceSensorFeedbackF,
+						variabilityMethod, forceSensorVariabilityLag);
 				if(success) {
 					maxAvgForceInWindow = fsAI.Gmaiw.Max;
 					maxAvgForceInWindowSampleStart = fsAI.Gmaiw.MaxSampleStart;

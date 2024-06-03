@@ -52,13 +52,17 @@ public partial class ChronoJumpWindow
 
 		/*
 		 * disabled until finished
+		 */
 		List<PersonImportConflict> pic_l = importSessionCheckConflicts (databasePath, sourceSession);
 		if (pic_l.Count > 0)
 		{
+			//app1s_notebook_sup_entered_from; //to store from which page we entered (to return at it)
+			app1s_notebook.CurrentPage = app1s_PAGE_SESSION_IMPORT_CONFLICTS;
+
 			importSessionConflictsFillGrid (pic_l);
 			return;
 		}
-		*/
+		/* */
 
 		Session destinationSession = currentSession;
 

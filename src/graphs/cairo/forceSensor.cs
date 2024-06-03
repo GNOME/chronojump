@@ -276,6 +276,31 @@ public abstract class CairoGraphForceSensor : CairoXY
 				calculatePaintX (points_l[end].X), yPx+10);
 	}
 
+	//TODO: fix this for vertical
+	protected void bsiwPlot (List<PointF> points_l, GetBestStabilityInWindow bsiw)
+	{
+		double x1 = calculatePaintX (points_l[bsiw.MaxSampleStart].X);
+		double y1 = calculatePaintY (points_l[bsiw.MaxSampleStart].Y);
+		double x2 = calculatePaintX (points_l[bsiw.MaxSampleEnd].X);
+		double y2 = calculatePaintY (points_l[bsiw.MaxSampleEnd].Y);
+		g.LineWidth = 2;
+
+		//do the segment horizontal at bottom
+		double bsiwY = y1;
+		if (y2 > y1)
+			bsiwY = y2;
+		bsiwY += 10; //10 px below lowest y
+		double bsiwX = UtilAll.DivideSafe (x1 + x2, 2);
+
+		printText (bsiwX, bsiwY, 0, textHeight, "S", g, alignTypes.CENTER);
+		CairoUtil.PaintSegment (g, x1, y1+2, x1, bsiwY);
+		if (bsiwX -5 > x1)
+			CairoUtil.PaintSegment (g, x1, bsiwY, bsiwX -5, bsiwY);
+		CairoUtil.PaintSegment (g, x2, y2+2, x2, bsiwY);
+		if (bsiwX +5 < x2)
+			CairoUtil.PaintSegment (g, x2, bsiwY, bsiwX +5, bsiwY);
+	}
+
 	protected override void writeTitle()
 	{
 	}
@@ -302,6 +327,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	private Cairo.Color colorPathBlue = colorFromRGB (178,223,238);
 	private GetMaxAvgInWindow miw;
 	private GetBestRFDInWindow briw;
+	private GetBestStabilityInWindow bsiw;
 
 	private bool accuracyNowIn;
 	private Cairo.Color colorHead;
@@ -334,8 +360,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			bool showAccuracy, int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
-			GetMaxAvgInWindow miw,
-			GetBestRFDInWindow briw,
+			GetMaxAvgInWindow miw, GetBestRFDInWindow briw, GetBestStabilityInWindow bsiw,
 			TriggerList triggerList,
 			bool forceRedraw, PlotTypes plotType)
 	{
@@ -362,6 +387,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		this.interpolatedMax = interpolatedMax;
 		this.miw = miw;
 		this.briw = briw;
+		this.bsiw = bsiw;
 
 		/*
 		this.oneSerie = ( (pointsDispl_l == null || pointsDispl_l.Count == 0) &&
@@ -595,6 +621,9 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 			if (briw.Error == "")
 				briwPlot (points_l);
+
+			if (bsiw.Error == "")
+				bsiwPlot (points_l, bsiw);
 
 			if(calculatePaintX (xAtMaxY) > leftMargin)
 				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
@@ -926,7 +955,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			bool showDistance, bool showSpeed, bool showPower,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
-			List<GetBestRFDInWindow> briw_l,
+			List<GetBestRFDInWindow> briw_l, List<GetBestStabilityInWindow> bsiw_l,
 			TriggerList triggerList,
 			int hscaleSampleA, int hscaleSampleB,
 			int hscaleSampleC, int hscaleSampleD,
@@ -964,7 +993,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 					hscaleSampleA, hscaleSampleB,
 					hscaleSampleC, hscaleSampleD,
 					zoomed,
-					briw_l,
+					briw_l, bsiw_l,
 					gmaiw_l,
 					exercise, reps_l,
 					forceRedraw, plotType))
@@ -1008,7 +1037,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			int hscaleSampleA, int hscaleSampleB,
 			int hscaleSampleC, int hscaleSampleD,
 			bool zoomed,
-			List<GetBestRFDInWindow> briw_l,
+			List<GetBestRFDInWindow> briw_l, List<GetBestStabilityInWindow> bsiw_l,
 			List<GetMaxAvgInWindow> gmaiw_l,
 			ForceSensorExercise exercise, List<ForceSensorRepetition> reps_l,
 			bool forceRedraw, PlotTypes plotType)
@@ -1296,6 +1325,11 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			paintBriw (points_l, briw_l[0]);
 			if (briw_l.Count > 1)
 				paintBriw (pointsCD_l, briw_l[1]);
+
+			if (bsiw_l[0].Error == "")
+				bsiwPlot (points_l, bsiw_l[0]);
+			if (bsiw_l.Count > 1 && bsiw_l[1].Error == "")
+				bsiwPlot (pointsCD_l, bsiw_l[1]);
 
 			g.LineWidth = 2;
 

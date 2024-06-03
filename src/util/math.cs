@@ -1076,6 +1076,25 @@ public abstract class GetMaxValueInWindow
 				maxSampleStart, maxSampleEnd, max, error);
 	}
 
+	// return -1 if sampleEnd is out of array
+	protected int findSampleAtWindowSeconds (int sampleStart)
+	{
+		double timeStart = p_l[sampleStart].X;
+		for (int i = sampleStart; i < p_l.Count; i ++)
+			if (p_l[i].X - timeStart >= 1000000 * windowSeconds)
+			{
+				if (MathUtil.PassedSampleIsCloserToCriteria (
+							p_l[i].X - timeStart,
+							p_l[i-1].X - timeStart,
+							1000000 * windowSeconds))
+					return i-1;
+				else
+					return i;
+			}
+
+		return -1;
+	}
+
 	public double Max
 	{
 		get { return max; }
@@ -1260,24 +1279,82 @@ public class GetBestRFDInWindow : GetMaxValueInWindow
 			}
 		}
 	}
+}
 
-	// return -1 if sampleEnd is out of array
-	private int findSampleAtWindowSeconds (int sampleStart)
+//note max is here: max estability (that is a low value)
+public class GetBestStabilityInWindow : GetMaxValueInWindow
+{
+	private int feedbackF; //preferences.forceSensorCaptureFeedbackAt;
+	private Preferences.VariabilityMethodEnum variabilityMethod;
+	private int lag;
+
+	public GetBestStabilityInWindow (List<PointF> p_l, int countA, int countB, double windowSeconds)
 	{
-		double timeStart = p_l[sampleStart].X;
-		for (int i = sampleStart; i < p_l.Count; i ++)
-			if (p_l[i].X - timeStart >= 1000000 * windowSeconds)
-			{
-				if (MathUtil.PassedSampleIsCloserToCriteria (
-							p_l[i].X - timeStart,
-							p_l[i-1].X - timeStart,
-							1000000 * windowSeconds))
-					return i-1;
-				else
-					return i;
-			}
+		this.p_l = p_l;
+		this.countA = countA;
+		this.countB = countB;
+		this.windowSeconds = windowSeconds;
 
-		return -1;
+		//define this to not crash if PassVariables is not done
+		variabilityMethod = Preferences.VariabilityMethodEnum.RMSSD;
+		lag = 1;
+
+		error = "";
+
+		if (parametersBad ())
+		{
+			error = string.Format ("p_l.Count: {0}, countA: {1}, countB: {2}, windowSeconds: {3}",
+					p_l.Count, countA, countB, windowSeconds);
+			return;
+		}
+
+		// 2) check if countB - countA fits in window time
+		if (dataTooShort ())
+		{
+			max = 0;
+			maxSampleStart = countA; //there is an error, this will not be used
+			maxSampleEnd = countA; //there is an error, this will not be used
+			error = "Need more time";
+			return;
+		}
+	}
+
+	public void PassVariablesAndCalculate (int feedbackF,
+			Preferences.VariabilityMethodEnum variabilityMethod, int lag)
+	{
+		this.feedbackF = feedbackF;
+		this.variabilityMethod = variabilityMethod;
+		this.lag = lag;
+
+		calculate ();
+	}
+
+	protected override void calculate ()
+	{
+		//note max is here: max estability (that is a low value)
+		max = -1;
+		maxSampleStart = countA; 	//sample where best stability starts (to draw a line)
+		maxSampleEnd = countA; 		//sample where best stability ends (to draw a line)
+		error = "too short for calcule";
+		VariabilityAndAccuracy vac = new VariabilityAndAccuracy ();
+
+		for (int i = countA; i < countB; i ++)
+		{
+			int j = findSampleAtWindowSeconds (i);
+			if (j < 0)
+				return;
+
+			error = ""; //not show the error mark
+			vac.Calculate (p_l, i, j, feedbackF, variabilityMethod, lag);
+			double temp = vac.Variability;
+
+			if (i == countA || temp < max) //max (stability, a low value)
+			{
+				max = temp;
+				maxSampleStart = i;
+				maxSampleEnd = j;
+			}
+		}
 	}
 }
 

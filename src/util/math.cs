@@ -1251,7 +1251,7 @@ public class GetBestRFDInWindow : GetMaxValueInWindow
 				return;
 
 			error = ""; //not show the error mark
-			double temp = ForceCalcs.GetRFD (p_l, j, i);
+			double temp = ForceCalcs.GetRFD (p_l, i, j);
 			if (temp > max)
 			{
 				max = temp;

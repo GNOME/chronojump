@@ -1560,7 +1560,7 @@ public partial class ChronoJumpWindow
 			//	again this should be on fsAI:
 			tvFS_other.SetImpulse (Math.Round (fsAI.CalculateImpulse (countA, countB), 1).ToString(), isAB);
 
-			// 11) calculate variability
+			// 11a) calculate variability
 			int feedbackF = preferences.forceSensorCaptureFeedbackAt;
 
 			fsAI.CalculateVariabilityAndAccuracy (countA, countB, feedbackF,
@@ -1568,6 +1568,22 @@ public partial class ChronoJumpWindow
 			LogB.Information (string.Format ("vaa variability: {0}, feedbackDiff: {1}", fsAI.Vaa.Variability, fsAI.Vaa.FeedbackDiff));
 
 			tvFS_other.SetVariability (Math.Round (fsAI.Vaa.Variability, 3).ToString(), isAB);
+
+			// 11b) stability (window where variability is lower)
+			GetBestStabilityInWindow bsiw = new GetBestStabilityInWindow (fsAI.P_l,
+					countA, countB,
+					preferences.forceSensorAnalyzeMaxAVGInWindow //TODO: maybe pass other window time
+					);
+
+			tvFS_other.SetVariabilityBestInWindowWindowSize (preferences.forceSensorAnalyzeMaxAVGInWindow.ToString ());
+			if (bsiw.Error == "")
+			{
+				bsiw.PassVariablesAndCalculate (
+						preferences.forceSensorCaptureFeedbackAt,
+						preferences.forceSensorVariabilityMethod, preferences.forceSensorVariabilityLag);
+				tvFS_other.SetVariabilityBestInWindow (Math.Round (bsiw.Max, 3).ToString(), isAB);
+			} else
+				tvFS_other.SetVariabilityBestInWindow ("", isAB);
 
 			// 12) calculate Accuracy (Feedback difference)
 			//if(preferences.forceSensorCaptureFeedbackActive && feedbackF > 0)
@@ -2165,12 +2181,16 @@ public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 	private string variabilityAB;
 	private string variabilityCD;
 
+	private string variabilityBestInWindowAB;
+	private string variabilityBestInWindowCD;
+
 	private string feedbackAB;
 	private string feedbackCD;
 
 	private string maxAvgInWindowAB;
 	private string maxAvgInWindowCD;
 
+	private string variabilityBestInWindowWindowSize;
 	private string bestRFDInWindowAB;
 	private string bestRFDInWindowCD;
 
@@ -2215,6 +2235,7 @@ public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 
 		store.AppendValues (fillImpulse ());
 		store.AppendValues (fillVariability ());
+		store.AppendValues (fillVariabilityBestInWindow ());
 
 		if (
 				(feedbackAB != null && feedbackAB != "") ||
@@ -2254,6 +2275,30 @@ public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 			return new String [] {
 				Catalog.GetString ("Variability") + " (" + variabilityMethod + ")",
 					variabilityCD + " " + variabilityUnits
+			};
+	}
+
+	//Stability
+	private string [] fillVariabilityBestInWindow ()
+	{
+		if (showColumnAB && showColumnCD)
+			return new String [] {
+				string.Format("  Lowest in {0} s",
+						Util.TrimDecimals (variabilityBestInWindowWindowSize, 1)),
+					variabilityBestInWindowAB + " " + variabilityUnits,
+					variabilityBestInWindowCD + " " + variabilityUnits,
+			};
+		else if (showColumnAB)
+			return new String [] {
+				string.Format("  Lowest in {0} s",
+						Util.TrimDecimals (variabilityBestInWindowWindowSize, 1)),
+					variabilityBestInWindowAB + " " + variabilityUnits
+			};
+		else //if (showColumnBestInWindowCD)
+			return new String [] {
+				string.Format(" Lowest in {0} s",
+						Util.TrimDecimals (variabilityBestInWindowWindowSize, 1)),
+					variabilityBestInWindowCD + " " + variabilityUnits
 			};
 	}
 
@@ -2317,6 +2362,18 @@ public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 			variabilityAB = s;
 		else
 			variabilityCD = s;
+	}
+
+	public void SetVariabilityBestInWindowWindowSize (string s)
+	{
+		variabilityBestInWindowWindowSize = s;
+	}
+	public void SetVariabilityBestInWindow (string s, bool ab)
+	{
+		if (ab)
+			variabilityBestInWindowAB = s;
+		else
+			variabilityBestInWindowCD = s;
 	}
 
 	public void SetFeedback (string s, bool ab)

@@ -135,6 +135,12 @@
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
+  <object class="GtkAdjustment" id="adjustment28">
+    <property name="lower">0.10</property>
+    <property name="upper">99</property>
+    <property name="step-increment">0.10</property>
+    <property name="page-increment">1</property>
+  </object>
   <object class="GtkAdjustment" id="adjustment3">
     <property name="lower">10</property>
     <property name="upper">3000</property>
@@ -2986,7 +2992,110 @@ It starts before and arrives there with some speed.</property>
                                       <object class="GtkVBox" id="vbox44">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="spacing">12</property>
+                                        <property name="spacing">20</property>
+                                        <child>
+                                          <object class="GtkHBox" id="hbox82">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="spacing">6</property>
+                                            <child>
+                                              <object class="GtkLabel" id="label143">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="label" translatable="yes">A, B slider increment</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkSpinButton" id="spin_force_sensor_analyze_ab_slider_increment">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="has-tooltip">True</property>
+                                                <property name="invisible-char">●</property>
+                                                <property name="width-chars">4</property>
+                                                <property name="primary-icon-activatable">False</property>
+                                                <property name="secondary-icon-activatable">False</property>
+                                                <property name="adjustment">adjustment17</property>
+                                                <property name="climb-rate">1</property>
+                                                <property name="digits">1</property>
+                                                <property name="snap-to-ticks">True</property>
+                                                <property name="numeric">True</property>
+                                                <signal name="value-changed" handler="on_spin_force_sensor_analyze_ab_slider_increment_value_changed" swapped="no"/>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkLabel" id="label145">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="label" translatable="yes">s</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">2</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkAlignment" id="alignment27">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="left-padding">20</property>
+                                                <child>
+                                                  <object class="GtkHBox" id="hbox83">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="spacing">6</property>
+                                                    <child>
+                                                      <object class="GtkLabel" id="label146">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">False</property>
+                                                        <property name="label" translatable="yes">Default:</property>
+                                                        <property name="xalign">0</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkLabel" id="label147">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">False</property>
+                                                        <property name="label">1 s</property>
+                                                        <property name="xalign">0</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">3</property>
+                                              </packing>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
                                         <child>
                                           <object class="GtkVBox" id="vbox47">
                                             <property name="visible">True</property>
@@ -3447,7 +3556,7 @@ It starts before and arrives there with some speed.</property>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
-                                            <property name="position">0</property>
+                                            <property name="position">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3456,11 +3565,11 @@ It starts before and arrives there with some speed.</property>
                                             <property name="can-focus">False</property>
                                             <property name="spacing">10</property>
                                             <child>
-                                              <object class="GtkLabel" id="label130">
+                                              <object class="GtkLabel">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
-                                                <property name="label" translatable="yes">Method to calculate variability</property>
-                                                <property name="xalign">0</property>
+                                                <property name="halign">start</property>
+                                                <property name="label" translatable="yes">Variability</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">True</property>
@@ -3469,10 +3578,24 @@ It starts before and arrives there with some speed.</property>
                                               </packing>
                                             </child>
                                             <child>
+                                              <object class="GtkLabel" id="label130">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="margin-left">30</property>
+                                                <property name="label" translatable="yes">Method to calculate variability</property>
+                                                <property name="xalign">0</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                            <child>
                                               <object class="GtkAlignment" id="alignment24">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
-                                                <property name="left-padding">30</property>
+                                                <property name="left-padding">60</property>
                                                 <child>
                                                   <object class="GtkHBox" id="hbox2">
                                                     <property name="visible">True</property>
@@ -3657,104 +3780,62 @@ It starts before and arrives there with some speed.</property>
                                               <packing>
                                                 <property name="expand">True</property>
                                                 <property name="fill">True</property>
-                                                <property name="position">1</property>
-                                              </packing>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkHBox" id="hbox82">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">False</property>
-                                            <property name="spacing">6</property>
-                                            <child>
-                                              <object class="GtkLabel" id="label143">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="label" translatable="yes">A, B slider increment</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">0</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkSpinButton" id="spin_force_sensor_analyze_ab_slider_increment">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">True</property>
-                                                <property name="has-tooltip">True</property>
-                                                <property name="invisible-char">●</property>
-                                                <property name="width-chars">4</property>
-                                                <property name="primary-icon-activatable">False</property>
-                                                <property name="secondary-icon-activatable">False</property>
-                                                <property name="adjustment">adjustment17</property>
-                                                <property name="climb-rate">1</property>
-                                                <property name="digits">1</property>
-                                                <property name="snap-to-ticks">True</property>
-                                                <property name="numeric">True</property>
-                                                <signal name="value-changed" handler="on_spin_force_sensor_analyze_ab_slider_increment_value_changed" swapped="no"/>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="position">1</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkLabel" id="label145">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="label" translatable="yes">s</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
                                                 <property name="position">2</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <object class="GtkAlignment" id="alignment27">
+                                              <object class="GtkHBox" id="hbox1">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
-                                                <property name="left-padding">20</property>
+                                                <property name="margin-left">30</property>
+                                                <property name="spacing">6</property>
                                                 <child>
-                                                  <object class="GtkHBox" id="hbox83">
+                                                  <object class="GtkLabel" id="label49">
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
-                                                    <property name="spacing">6</property>
-                                                    <child>
-                                                      <object class="GtkLabel" id="label146">
-                                                        <property name="visible">True</property>
-                                                        <property name="can-focus">False</property>
-                                                        <property name="label" translatable="yes">Default:</property>
-                                                        <property name="xalign">0</property>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">False</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkLabel" id="label147">
-                                                        <property name="visible">True</property>
-                                                        <property name="can-focus">False</property>
-                                                        <property name="label">1 s</property>
-                                                        <property name="xalign">0</property>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">False</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
-                                                    </child>
+                                                    <property name="label">Best stability (lack of variability) in</property>
                                                   </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkSpinButton" id="spin_force_sensor_analyze_best_stability_in_window">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">True</property>
+                                                    <property name="has-tooltip">True</property>
+                                                    <property name="invisible-char">●</property>
+                                                    <property name="width-chars">4</property>
+                                                    <property name="text" translatable="yes">1,0</property>
+                                                    <property name="primary-icon-activatable">False</property>
+                                                    <property name="secondary-icon-activatable">False</property>
+                                                    <property name="adjustment">adjustment28</property>
+                                                    <property name="climb-rate">1</property>
+                                                    <property name="digits">1</property>
+                                                    <property name="snap-to-ticks">True</property>
+                                                    <property name="numeric">True</property>
+                                                    <property name="value">1</property>
+                                                    <signal name="value-changed" handler="on_spin_force_sensor_analyze_best_stability_in_window_value_changed" swapped="no"/>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkLabel" id="label54">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="label" translatable="yes">s</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">2</property>
+                                                  </packing>
                                                 </child>
                                               </object>
                                               <packing>
@@ -3767,7 +3848,7 @@ It starts before and arrives there with some speed.</property>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
-                                            <property name="position">2</property>
+                                            <property name="position">3</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3825,7 +3906,7 @@ It starts before and arrives there with some speed.</property>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
-                                            <property name="position">3</property>
+                                            <property name="position">4</property>
                                           </packing>
                                         </child>
                                       </object>

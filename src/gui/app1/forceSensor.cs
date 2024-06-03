@@ -3032,7 +3032,7 @@ LogB.Information(" fs R ");
 
 		GetBestStabilityInWindow bsiw = new GetBestStabilityInWindow (spCairoFECopyToDraw.Force_l,
 				0, spCairoFECopyToDraw.Force_l.Count -1,
-				preferences.forceSensorAnalyzeMaxAVGInWindow //TODO: maybe pass other window time
+				preferences.forceSensorAnalyzeBestStabilityInWindow
 				);
 
 		if (capturing && preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.ASTEROIDS)

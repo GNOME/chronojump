@@ -41,6 +41,7 @@ public class ForceSensorExport : ExportFiles
 	private int forceSensorFeedbackF;
 	private Preferences.VariabilityMethodEnum variabilityMethod;
 	private int forceSensorVariabilityLag;
+	private double forceSensorAnalyzeBestStabilityInWindowSeconds;
 	private double butterworthFreq;
 
 	private List<ForceSensor> fs_l;
@@ -66,6 +67,7 @@ public class ForceSensorExport : ExportFiles
 			double forceSensorAnalyzeMaxAVGInWindowSeconds,
 			int forceSensorFeedbackF,
 			Preferences.VariabilityMethodEnum variabilityMethod, int forceSensorVariabilityLag,
+			double forceSensorAnalyzeBestStabilityInWindowSeconds,
 			double butterworthFreq)
 
 	{
@@ -88,6 +90,7 @@ public class ForceSensorExport : ExportFiles
 		this.forceSensorFeedbackF = forceSensorFeedbackF;
 		this.variabilityMethod = variabilityMethod;
 		this.forceSensorVariabilityLag = forceSensorVariabilityLag;
+		this.forceSensorAnalyzeBestStabilityInWindowSeconds = forceSensorAnalyzeBestStabilityInWindowSeconds;
 		this.butterworthFreq = butterworthFreq;
 	}
 
@@ -258,7 +261,8 @@ public class ForceSensorExport : ExportFiles
 					bool success = fsAI.CalculateRangeParams(repConcentricSampleStart, rep.sampleEnd,
 							forceSensorAnalyzeMaxAVGInWindowSeconds,
 							forceSensorFeedbackF,
-							variabilityMethod, forceSensorVariabilityLag);
+							variabilityMethod, forceSensorVariabilityLag,
+							forceSensorAnalyzeBestStabilityInWindowSeconds);
 					if(success) {
 						maxAvgForceInWindow = fsAI.Gmaiw.Max;
 						maxAvgForceInWindowSampleStart = fsAI.Gmaiw.MaxSampleStart;
@@ -321,7 +325,8 @@ public class ForceSensorExport : ExportFiles
 				bool success = fsAI.CalculateRangeParams(sampleA, sampleB,
 						forceSensorAnalyzeMaxAVGInWindowSeconds,
 						forceSensorFeedbackF,
-						variabilityMethod, forceSensorVariabilityLag);
+						variabilityMethod, forceSensorVariabilityLag,
+						forceSensorAnalyzeBestStabilityInWindowSeconds);
 				if(success) {
 					maxAvgForceInWindow = fsAI.Gmaiw.Max;
 					maxAvgForceInWindowSampleStart = fsAI.Gmaiw.MaxSampleStart;

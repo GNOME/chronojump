@@ -1958,7 +1958,8 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 
 	//calculates from a range
 	public bool CalculateRangeParams (int countA, int countB, double maxAVGInWindowSeconds,
-			int feedbackF, Preferences.VariabilityMethodEnum variabilityMethod, int lag)
+			int feedbackF, Preferences.VariabilityMethodEnum variabilityMethod, int lag,
+			double bestStabilityInWindowSeconds)
 	{
 		//countA will be the lowest and countB the highest to calcule Avg and max correctly no matter if B is before A
 		if(countA > countB) {
@@ -1978,7 +1979,7 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 		briw.MaxSampleStart += countA;
 		briw.MaxSampleEnd += countA;
 
-		bsiw = new GetBestStabilityInWindow (pAB_l, 0, pAB_l.Count -1, maxAVGInWindowSeconds); //TODO: maybe pass other window time
+		bsiw = new GetBestStabilityInWindow (pAB_l, 0, pAB_l.Count -1, bestStabilityInWindowSeconds);
 		if (bsiw.Error == "")
 		{
 			bsiw.PassVariablesAndCalculate (feedbackF, variabilityMethod, lag);

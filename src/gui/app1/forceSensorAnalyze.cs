@@ -972,6 +972,7 @@ public partial class ChronoJumpWindow
 				preferences.forceSensorCaptureFeedbackAt,
 				preferences.forceSensorVariabilityMethod,
 				preferences.forceSensorVariabilityLag,
+				preferences.forceSensorAnalyzeBestStabilityInWindow,
 				preferences.forceSensorButterworth (current_mode)
 				);
 
@@ -1366,7 +1367,9 @@ public partial class ChronoJumpWindow
 		double forceB = fsAI.GetForceAtCount(countB);
 		bool success = fsAI.CalculateRangeParams(countA, countB, preferences.forceSensorAnalyzeMaxAVGInWindow,
 				preferences.forceSensorCaptureFeedbackAt,
-				preferences.forceSensorVariabilityMethod, preferences.forceSensorVariabilityLag);
+				preferences.forceSensorVariabilityMethod, preferences.forceSensorVariabilityLag,
+				preferences.forceSensorAnalyzeBestStabilityInWindow
+				);
 		if(success) {
 			tvFS.TimeDiff = Math.Round(timeB - timeA, 1).ToString();
 			tvFS.ForceDiff = forceB - forceA;
@@ -1572,10 +1575,10 @@ public partial class ChronoJumpWindow
 			// 11b) stability (window where variability is lower)
 			GetBestStabilityInWindow bsiw = new GetBestStabilityInWindow (fsAI.P_l,
 					countA, countB,
-					preferences.forceSensorAnalyzeMaxAVGInWindow //TODO: maybe pass other window time
+					preferences.forceSensorAnalyzeBestStabilityInWindow
 					);
 
-			tvFS_other.SetVariabilityBestInWindowWindowSize (preferences.forceSensorAnalyzeMaxAVGInWindow.ToString ());
+			tvFS_other.SetVariabilityBestInWindowWindowSize (preferences.forceSensorAnalyzeBestStabilityInWindow.ToString ());
 			if (bsiw.Error == "")
 			{
 				bsiw.PassVariablesAndCalculate (

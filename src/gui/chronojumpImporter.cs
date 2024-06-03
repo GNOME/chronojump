@@ -52,7 +52,6 @@ public partial class ChronoJumpWindow
 
 		/*
 		 * disabled until finished
-		 */
 		List<PersonImportConflict> pic_l = importSessionCheckConflicts (databasePath, sourceSession);
 		if (pic_l.Count > 0)
 		{
@@ -62,7 +61,7 @@ public partial class ChronoJumpWindow
 			importSessionConflictsFillGrid (pic_l);
 			return;
 		}
-		/* */
+		*/
 
 		Session destinationSession = currentSession;
 

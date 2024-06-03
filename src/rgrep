@@ -1,0 +1,8 @@
+#!/bin/bash
+#eg:
+#./rgrep GetBestRFDInWindow
+#./rgrep Needed = new Gtk.Button
+str="$*"
+printf "Searching: '$str' (excluding dirs: bin, obj)\n\n"
+
+grep -r "$str" --exclude-dir bin --exclude-dir obj

@@ -153,6 +153,7 @@ class SqlitePreferences : Sqlite
 	public const string ForceSensorMIFDurationSeconds = "forceSensorMIFDurationSeconds";
 	public const string ForceSensorMIFDurationPercent = "forceSensorMIFDurationPercent";
 	public const string ForceSensorAnalyzeABSliderIncrement = "forceSensorAnalyzeABSliderIncrement";
+	public const string ForceSensorAnalyzeBestStabilityInWindow = "forceSensorAnalyzeBestStabilityInWindow";
 	public const string ForceSensorAnalyzeMaxAVGInWindow = "forceSensorAnalyzeMaxAVGInWindow";
 
 	//forceSensor feedback
@@ -396,6 +397,7 @@ class SqlitePreferences : Sqlite
 				Insert (ForceSensorMIFDurationSeconds, "2", dbcmdTr);
 				Insert (ForceSensorMIFDurationPercent, "5", dbcmdTr);
 				Insert (ForceSensorAnalyzeABSliderIncrement, "1", dbcmdTr);
+				Insert (ForceSensorAnalyzeBestStabilityInWindow, "1", dbcmdTr);
 				Insert (ForceSensorAnalyzeMaxAVGInWindow, "1", dbcmdTr);
 
 				//runEncoder
@@ -1066,6 +1068,10 @@ class SqlitePreferences : Sqlite
 
 			else if(reader[0].ToString() == ForceSensorAnalyzeABSliderIncrement)
 				preferences.forceSensorAnalyzeABSliderIncrement = Convert.ToDouble(
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+
+			else if(reader[0].ToString() == ForceSensorAnalyzeBestStabilityInWindow)
+				preferences.forceSensorAnalyzeBestStabilityInWindow = Convert.ToDouble(
 						Util.ChangeDecimalSeparator(reader[1].ToString()));
 
 			else if(reader[0].ToString() == ForceSensorAnalyzeMaxAVGInWindow)

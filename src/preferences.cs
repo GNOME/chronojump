@@ -197,6 +197,7 @@ public class Preferences
 	public VariabilityMethodEnum forceSensorVariabilityMethod;
 	public int forceSensorVariabilityLag;
 	public double forceSensorAnalyzeABSliderIncrement;
+	public double forceSensorAnalyzeBestStabilityInWindow; //seconds
 	public double forceSensorAnalyzeMaxAVGInWindow; //seconds
 	public int forceSensorGraphsLineWidth;
 

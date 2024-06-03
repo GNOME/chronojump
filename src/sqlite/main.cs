@@ -144,7 +144,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.50";
+	static string lastChronojumpDatabaseVersion = "2.51";
 
 	public Sqlite()
 	{
@@ -3386,6 +3386,14 @@ class Sqlite
 
 				currentVersion = updateVersion("2.50");
 			}
+			if(currentVersion == "2.50")
+			{
+				LogB.SQL("Inserted into preferences: forceSensorAnalyzeBestStabilityInWindow");
+
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorAnalyzeBestStabilityInWindow, "1");
+
+				currentVersion = updateVersion("2.51");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3607,6 +3615,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.50 - 2.51 Converted DB to 2.51 Inserted into preferences: forceSensorAnalyzeBestStabilityInWindow
 		//2.49 - 2.50 Converted DB to 2.50 RunEncoder table added totalTime
 		//2.48 - 2.49 Converted DB to 2.49 Inserted into preferences forceSensorElasticButterworth
 		//2.47 - 2.48 Converted DB to 2.48 Inserted into preferences forceSensorButterworth (isometric)

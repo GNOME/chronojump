@@ -182,7 +182,8 @@ class ExecuteProcess
 		{
 			// CommandLineEncoder does not work ok on paramters that start with " like:
 			// " Preview. Press any key to exit.
-			if (UtilAll.IsWindows () && ! parameter.StartsWith ("\""))
+			//if (UtilAll.IsWindows () && ! parameter.StartsWith ("\""))
+			if (! parameter.StartsWith ("\""))
 				parameters_string += CommandLineEncoder.EncodeArgText (parameter) + " ";
 			else
 				parameters_string += parameter + " "; //on Linux, CommandLineEncoder makes maximumIsometricForce.R not found

@@ -91,7 +91,9 @@ class ExecuteProcess
 		string parameters_string = "";
 		foreach (string parameter in parameters)
 		{
-			if (UtilAll.IsWindows ())
+			// CommandLineEncoder does not work ok on paramters that start with " like:
+			// " Preview. Press any key to exit.
+			if (UtilAll.IsWindows () && ! parameter.StartsWith ("\""))
 				parameters_string += CommandLineEncoder.EncodeArgText (parameter) + " ";
 			else
 				parameters_string += parameter + " "; //on Linux, CommandLineEncoder makes maximumIsometricForce.R not found
@@ -178,7 +180,12 @@ class ExecuteProcess
 		string parameters_string = "";
 		foreach (string parameter in parameters)
 		{
-			parameters_string += CommandLineEncoder.EncodeArgText (parameter) + " ";
+			// CommandLineEncoder does not work ok on paramters that start with " like:
+			// " Preview. Press any key to exit.
+			if (UtilAll.IsWindows () && ! parameter.StartsWith ("\""))
+				parameters_string += CommandLineEncoder.EncodeArgText (parameter) + " ";
+			else
+				parameters_string += parameter + " "; //on Linux, CommandLineEncoder makes maximumIsometricForce.R not found
 
 			//done also on runDo
 			//comandLineEncoder converts \net to [SlashN]et

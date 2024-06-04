@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2018-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2018-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System.Collections.Generic; //List
@@ -120,6 +120,12 @@ public class WebcamFfmpeg : Webcam
 		if (ExecuteProcess.IsRunning3 (-1, GetExecutableCapture(os)))
 			return new Result (false, "", "ffmpeg is already running");
 
+		if (! File.Exists(executable))
+		{
+			LogB.Information ("executable does not exists: " + executable);
+			return new Result (false, "", "Executable does not exists: " + executable);
+		}
+
 		List<string> parameters = createParametersPlayPreview();
 
 		process = new Process();
@@ -139,6 +145,12 @@ public class WebcamFfmpeg : Webcam
 		//cannot play preview with camera recording
 		if (ExecuteProcess.IsRunning3 (-1, GetExecutableCapture(os)))
 			return new Result (false, "", "ffmpeg is already running");
+
+		if (! File.Exists(executable))
+		{
+			LogB.Information ("executable does not exists: " + executable);
+			return new Result (false, "", "Executable does not exists: " + executable);
+		}
 
 		List<string> parameters = createParametersPlayPreview();
 

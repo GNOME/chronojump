@@ -120,7 +120,7 @@ public class WebcamFfmpeg : Webcam
 		if (ExecuteProcess.IsRunning3 (-1, GetExecutableCapture(os)))
 			return new Result (false, "", "ffmpeg is already running");
 
-		if (! File.Exists(executable))
+		if (UtilAll.IsWindows () && ! File.Exists(executable)) //note on Linux we call ffmpeg (not a url)
 		{
 			LogB.Information ("executable does not exists: " + executable);
 			return new Result (false, "", "Executable does not exists: " + executable);
@@ -146,7 +146,7 @@ public class WebcamFfmpeg : Webcam
 		if (ExecuteProcess.IsRunning3 (-1, GetExecutableCapture(os)))
 			return new Result (false, "", "ffmpeg is already running");
 
-		if (! File.Exists(executable))
+		if (UtilAll.IsWindows () && ! File.Exists(executable)) //note on Linux we call ffmpeg (not a url)
 		{
 			LogB.Information ("executable does not exists: " + executable);
 			return new Result (false, "", "Executable does not exists: " + executable);

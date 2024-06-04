@@ -347,7 +347,7 @@ start <- function(op)
 			text(x=0, y=0, adj=0.5, cex=1.2, col="red", "This data does not seem a sprint.")
 		} else
 		{
-			exportSprintDynamicsWriteRow (exportRow)
+			exportSprintDynamicsWriteRow (exportRow, op$decimalCharAtExport == ",")
 		}
 
 		endGraph()

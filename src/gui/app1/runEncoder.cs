@@ -1964,16 +1964,32 @@ public partial class ChronoJumpWindow
 					time_l.Add (Convert.ToDouble (cells[i]));
 
 				recsv = new RunEncoderCSV (
-						Convert.ToDouble(cells[0]), Convert.ToDouble(cells[1]), Convert.ToInt32(cells[2]),
-						Convert.ToDouble(cells[3]), Convert.ToDouble(cells[4]), Convert.ToDouble(cells[5]),
-						Convert.ToDouble(cells[6]), Convert.ToDouble(cells[7]), Convert.ToDouble(cells[8]),
-						Convert.ToDouble(cells[9]), Convert.ToDouble(cells[10]), Convert.ToDouble(cells[11]),
-						Convert.ToDouble(cells[12]), Convert.ToDouble(cells[13]), Convert.ToDouble(cells[14]),
-						Convert.ToDouble(cells[15]), Convert.ToDouble(cells[16]), Convert.ToDouble(cells[17]),
-						Convert.ToDouble(cells[18]), Convert.ToDouble(cells[19]), Convert.ToDouble(cells[20]),
-						Convert.ToDouble(cells[21]),
-						Convert.ToDouble(cells[22]), Convert.ToDouble(cells[23]), //vmax raw, amax raw
-						Convert.ToDouble(cells[24]), Convert.ToDouble(cells[25]), //fmax raw, pmax raw
+						Convert.ToDouble (Util.CDS (cells[0])),
+						Convert.ToDouble (Util.CDS (cells[1])),
+						Convert.ToInt32 (cells[2]),
+						Convert.ToDouble (Util.CDS (cells[3])),
+						Convert.ToDouble (Util.CDS (cells[4])),
+						Convert.ToDouble (Util.CDS (cells[5])),
+						Convert.ToDouble (Util.CDS (cells[6])),
+						Convert.ToDouble (Util.CDS (cells[7])),
+						Convert.ToDouble (Util.CDS (cells[8])),
+						Convert.ToDouble (Util.CDS (cells[9])),
+						Convert.ToDouble (Util.CDS (cells[10])),
+						Convert.ToDouble (Util.CDS (cells[11])),
+						Convert.ToDouble (Util.CDS (cells[12])),
+						Convert.ToDouble (Util.CDS (cells[13])),
+						Convert.ToDouble (Util.CDS (cells[14])),
+						Convert.ToDouble (Util.CDS (cells[15])),
+						Convert.ToDouble (Util.CDS (cells[16])),
+						Convert.ToDouble (Util.CDS (cells[17])),
+						Convert.ToDouble (Util.CDS (cells[18])),
+						Convert.ToDouble (Util.CDS (cells[19])),
+						Convert.ToDouble (Util.CDS (cells[20])),
+						Convert.ToDouble (Util.CDS (cells[21])),
+						Convert.ToDouble (Util.CDS (cells[22])),
+						Convert.ToDouble (Util.CDS (cells[23])), //vmax raw, amax raw
+						Convert.ToDouble (Util.CDS (cells[24])),
+						Convert.ToDouble (Util.CDS (cells[25])), //fmax raw, pmax raw
 						time_l
 						);
 			} while(true);

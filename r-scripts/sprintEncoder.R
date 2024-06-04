@@ -1241,7 +1241,7 @@ start <- function(op)
 					  op$mass, op$personHeight, op$tempC,
 					  op$device, op$personName, op$testName, op$datetime, op$startAccel,
 					  op$triggersOnList, op$triggersOffList)
-		exportSprintDynamicsWriteRow (exportRow)
+		exportSprintDynamicsWriteRow (exportRow, op$decimalCharAtExport == ",")
 		endGraph()
 		return()
 	}

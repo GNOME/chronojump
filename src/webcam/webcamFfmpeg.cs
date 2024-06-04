@@ -459,9 +459,14 @@ public class WebcamFfmpeg : Webcam
 		List<string> parameters = new List<string>();
 		int i=0;
 
-		if(os == UtilAll.OperatingSystems.LINUX) { //TODO: check if this works on Mac and Windows
+		if(os == UtilAll.OperatingSystems.LINUX) { //This does not work on Windows. TODO: check if this works on Mac
+
 			parameters.Insert (i++, "-vf");
 			parameters.Insert (i++, "[in]drawtext=text='%{pts\\:hms}':box=1:x=(w-tw)/2:y=h-(3*lh), drawtext=text='pause\\: p, space; next frame\\: s; -+10s\\: left/right':box=1:x=(w-tw)/2:y=h-(lh)[out]");
+		}
+		else {
+			parameters.Insert (i++, "-window_title");
+			parameters.Insert (i++, "Pause: p, space; next frame: s; -+10s: left/right.");
 		}
 
 		parameters.Insert (i ++, "-autoexit");

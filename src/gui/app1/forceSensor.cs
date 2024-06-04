@@ -2101,8 +2101,8 @@ LogB.Information(" fs R ");
 		if(currentForceSensor != null)
 			genericWin.SelectRowWithID(0, currentForceSensor.UniqueID); //colNum, id
 
-		genericWin.VideoColumn = 7;
-		genericWin.CommentColumn = 8;
+		genericWin.VideoColumn = 8;
+		genericWin.CommentColumn = 9;
 
 		genericWin.ShowButtonCancel(true);
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));

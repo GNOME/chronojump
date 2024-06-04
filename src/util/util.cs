@@ -191,6 +191,10 @@ public class Util
 			return("OTHER");
 	}
 
+	//shorter call
+	public static string CDS (string myString) {
+		return ChangeDecimalSeparator (myString);
+	}
 	//used for load from the database all numbers with correct decimal separator (locale defined)
 	//used also for the tvString, tcString, and runIntervalTimesString
 	//also used for reading . data coming from force sensor

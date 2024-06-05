@@ -819,10 +819,11 @@ public partial class ChronoJumpWindow
 		//LogB.Information (string.Format ("on_hscale_ai_value_changed {0} 1", hscaleToDebug));
 
 		//do not allow A or C to be higher than B or D (fix multiple possible problems)
-		if (isLeft && hs.Value > hsRelated.Value)
+		//note it makes push both sides. If wanted to stop at related hscale then hs.Value = hsRelated.Value;
+		if (
+				(isLeft && hs.Value > hsRelated.Value) ||
+				(! isLeft && hs.Value < hsRelated.Value) )
 			hsRelated.Value = hs.Value;
-		else if (! isLeft && hs.Value < hsRelated.Value)
-			hs.Value = hsRelated.Value;
 
 		// 2. fix possible boundaries problem that could happen when there is really few data
 		int count = Convert.ToInt32 (hs.Value);

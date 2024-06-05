@@ -62,6 +62,8 @@ public partial class ChronoJumpWindow
 	Gtk.DrawingArea drawingarea_race_analyzer_capture_speed_time;
 	Gtk.DrawingArea drawingarea_race_analyzer_capture_accel_time;
 	Gtk.VBox vbox_race_analyzer_capture_graphs;
+	Gtk.RadioButton radio_race_analyzer_capture_graph_starts_0;
+	Gtk.RadioButton radio_race_analyzer_capture_graph_starts_grav;
 	Gtk.CheckButton check_race_analyzer_capture_smooth_graphs;
 	Gtk.HScale hscale_race_analyzer_capture_smooth_graphs;
 	Gtk.Label label_race_analyzer_capture_smooth_graphs;
@@ -1462,6 +1464,9 @@ public partial class ChronoJumpWindow
 		double accel = -1;
 		bool enoughAccelFound = false; //accel has been > preferences.runEncoderMinAccel (default 10ms^2)
 		bool signalShifted = false; //shifted on trigger0 or accel >= minAccel, whatever is first
+		//do not shift (mark already shifted) if radio: starts at 0s
+		if (radio_race_analyzer_capture_graph_starts_0.Active)
+			signalShifted = true;
 
 		string rowPre = "";
 
@@ -1771,6 +1776,12 @@ public partial class ChronoJumpWindow
 		string str = run_encoder_load_set (currentRunEncoder.UniqueID);
 		if(str != "")
 			event_execute_label_message.Text = "Recalculated.";
+	}
+
+	private void on_radio_race_analyzer_capture_graph_starts_clicked (object o, EventArgs args)
+	{
+		if (currentRunEncoder != null)
+			run_encoder_load_set (currentRunEncoder.UniqueID);
 	}
 
 	private void raceEncoderCopyToTempAndDoRGraph()
@@ -3151,6 +3162,8 @@ public partial class ChronoJumpWindow
 		vbox_race_analyzer_capture_graphs = (Gtk.VBox) builder.GetObject ("vbox_race_analyzer_capture_graphs");
 		check_race_analyzer_capture_smooth_graphs = (Gtk.CheckButton) builder.GetObject ("check_race_analyzer_capture_smooth_graphs");
 		hscale_race_analyzer_capture_smooth_graphs = (Gtk.HScale) builder.GetObject ("hscale_race_analyzer_capture_smooth_graphs");
+		radio_race_analyzer_capture_graph_starts_0 = (Gtk.RadioButton) builder.GetObject ("radio_race_analyzer_capture_graph_starts_0");
+		radio_race_analyzer_capture_graph_starts_grav = (Gtk.RadioButton) builder.GetObject ("radio_race_analyzer_capture_graph_starts_grav");
 		label_race_analyzer_capture_smooth_graphs = (Gtk.Label) builder.GetObject ("label_race_analyzer_capture_smooth_graphs");
 
 		frame_run_encoder_exercise = (Gtk.Frame) builder.GetObject ("frame_run_encoder_exercise");

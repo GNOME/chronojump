@@ -1787,6 +1787,7 @@
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="primary-icon-sensitive">False</property>
                                                             <signal name="search-changed" handler="on_person_search_search_changed" swapped="no"/>
+                                                            <accelerator key="p" signal="grab-focus" modifiers="GDK_CONTROL_MASK"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -22805,6 +22806,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -52163,7 +52167,6 @@ on Cloud-view mode</property>
                                                             </child>
                                                             </object>
                                                             </child>
-                                                            <accelerator key="p" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>

@@ -89,8 +89,6 @@ public partial class ChronoJumpWindow
 		myTreeViewPersons.SelectNextRow(currentPerson.UniqueID);
 	}
 
-	//TODO: take care not to change this while Sqlite is opened
-	//TODO: put the filter at 0 when new session, load session, import session, ...
 	private void on_person_search_search_changed (object o, EventArgs args)
 	{
 		LogB.Information ("searching: " + person_search.Text);

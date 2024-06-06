@@ -69,6 +69,7 @@ public partial class ChronoJumpWindow
 			destinationSession = null;
 		}
 
+		person_search.Text = "";
 		importSessionFromDatabasePrepare (databasePath, sourceSession, destinationSession);
 	}
 

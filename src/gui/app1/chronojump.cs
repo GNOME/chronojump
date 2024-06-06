@@ -3343,6 +3343,7 @@ public partial class ChronoJumpWindow
 
 		menus_and_mode_sensitive (true);
 		setApp1Title(currentSession.Name, current_mode);
+		person_search.Text = "";
 
 		if(createdStatsWin) {
 			stats_win_initializeSession();
@@ -3430,6 +3431,7 @@ public partial class ChronoJumpWindow
 	private void on_load_session_accepted () 
 	{
 		setApp1Title(currentSession.Name, current_mode);
+		person_search.Text = "";
 	
 		if(createdStatsWin && ! configChronojump.Exhibition) //slow Sqlite calls for Exhibition big data
 			stats_win_initializeSession();

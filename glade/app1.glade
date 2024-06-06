@@ -8357,7 +8357,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="active">True</property>
-                                                            <property name="draw-indicator">True</property>
+                                                            <property name="draw-indicator">False</property>
                                                             <signal name="clicked" handler="on_radio_race_analyzer_capture_graph_starts_clicked" swapped="no"/>
                                                             </object>
                                                             <packing>
@@ -8373,7 +8373,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="tooltip-text" translatable="yes">At &gt;= minimum acceleration</property>
-                                                            <property name="draw-indicator">True</property>
+                                                            <property name="draw-indicator">False</property>
                                                             <property name="group">radio_race_analyzer_capture_graph_starts_0</property>
                                                             <signal name="clicked" handler="on_radio_race_analyzer_capture_graph_starts_clicked" swapped="no"/>
                                                             </object>
@@ -22787,6 +22787,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

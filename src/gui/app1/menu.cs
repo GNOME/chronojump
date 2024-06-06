@@ -70,7 +70,6 @@ public partial class ChronoJumpWindow
 
 	Gtk.Box box_menu_database;
 	Gtk.Box box_above_frame_database;
-	Gtk.Label label_database_at_frame_database;
 	Gtk.Button button_database_reload;
 	Gtk.Image image_database_reload;
 	Gtk.Button button_database_change_select;
@@ -82,8 +81,6 @@ public partial class ChronoJumpWindow
 	//Gtk.Button button_menu_help;
 	Gtk.Button button_menu_news;
 	//Gtk.Alignment alignment_menu_person_options;
-	Gtk.Label label_session_at_frame_session;
-	Gtk.Label label_persons_at_frame_persons;
 
 	Gtk.Button button_session_new;
 	Gtk.Button button_session_load;
@@ -238,8 +235,7 @@ public partial class ChronoJumpWindow
 		else
 			alignTop -= (uint) UtilGtk.WidgetHeight (hbox_above_frame_session);
 
-		//for the vbox_frame_session_border & the border of the notebook
-		alignment_session_persons.TopPadding = alignTop -4 +2;
+		alignment_session_persons.TopPadding = alignTop;
 
 		return false;
 	}
@@ -536,7 +532,6 @@ public partial class ChronoJumpWindow
 
 		box_menu_database = (Gtk.Box) builder.GetObject ("box_menu_database");
 		box_above_frame_database = (Gtk.Box) builder.GetObject ("box_above_frame_database");
-		label_database_at_frame_database = (Gtk.Label) builder.GetObject ("label_database_at_frame_database");
 		button_database_reload = (Gtk.Button) builder.GetObject ("button_database_reload");
 		image_database_reload = (Gtk.Image) builder.GetObject ("image_database_reload");
 		button_database_change_select = (Gtk.Button) builder.GetObject ("button_database_change_select");
@@ -548,8 +543,6 @@ public partial class ChronoJumpWindow
 		//button_menu_help = (Gtk.Button) builder.GetObject ("button_menu_help");
 		button_menu_news = (Gtk.Button) builder.GetObject ("button_menu_news");
 		//alignment_menu_person_options = (Gtk.Alignment) builder.GetObject ("alignment_menu_person_options");
-		label_session_at_frame_session = (Gtk.Label) builder.GetObject ("label_session_at_frame_session");
-		label_persons_at_frame_persons = (Gtk.Label) builder.GetObject ("label_persons_at_frame_persons");
 
 		button_session_new = (Gtk.Button) builder.GetObject ("button_session_new");
 		button_session_load = (Gtk.Button) builder.GetObject ("button_session_load");

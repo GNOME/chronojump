@@ -1777,6 +1777,23 @@
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <object class="GtkSearchEntry" id="person_search">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="width-chars">8</property>
+                                                            <property name="caps-lock-warning">False</property>
+                                                            <property name="primary-icon-name">edit-find-symbolic</property>
+                                                            <property name="primary-icon-activatable">False</property>
+                                                            <property name="primary-icon-sensitive">False</property>
+                                                            <signal name="search-changed" handler="on_person_search_search_changed" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>

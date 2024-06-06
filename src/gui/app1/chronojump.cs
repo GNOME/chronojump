@@ -3464,11 +3464,8 @@ public partial class ChronoJumpWindow
 			label_top_encoder_person_name.Text = "<b>" + currentPerson.Name + "</b>";
 			label_top_encoder_person_name.UseMarkup = true;
 		} else {
-			sensitiveGuiNoPerson();
 			currentPerson = null;
-			label_current_person.Text = "";
-			label_top_person_name.Text = "";
-			label_top_encoder_person_name.Text = "";
+			sensitiveGuiNoPerson ();
 		}
 		button_person_merge.Sensitive = foundPersons;
 
@@ -9712,13 +9709,16 @@ LogB.Debug("mc finished 5");
 		label_top_person_name.Text = "";
 		label_top_encoder_person_name.Text = "";
 		button_person_merge.Sensitive = false;
+
+		if(createdStatsWin)
+			stats_win_hide();
 	}
 	
 	private void sensitiveGuiYesPerson ()
 	{
 		LogB.Information("sensitiveGuiYesPerson");
 
-		vbox_persons.Name = "";
+		vbox_persons.Name = "shiftedCss";
 
 		vbox_jumps.Sensitive = true;
 		hbox_jumps_rj.Sensitive = true;

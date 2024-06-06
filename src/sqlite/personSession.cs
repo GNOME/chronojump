@@ -310,11 +310,19 @@ class SqlitePersonSession : Sqlite
 		return person_l;
 	}
 
-	//normal Chronojump call
+	//normal Chronojump calls
 	public static ArrayList SelectCurrentSessionPersons (int sessionID, bool returnPersonAndPSlist)
 	{
 		Sqlite.Open();
-		ArrayList array = selectCurrentSessionPersonsDo (dbcon, sessionID, returnPersonAndPSlist);
+		ArrayList array = selectCurrentSessionPersonsDo (dbcon, sessionID, returnPersonAndPSlist, "");
+		Sqlite.Close();
+
+		return array;
+	}
+	public static ArrayList SelectCurrentSessionPersons (int sessionID, bool returnPersonAndPSlist, string filterName)
+	{
+		Sqlite.Open();
+		ArrayList array = selectCurrentSessionPersonsDo (dbcon, sessionID, returnPersonAndPSlist, filterName);
 		Sqlite.Close();
 
 		return array;
@@ -322,10 +330,10 @@ class SqlitePersonSession : Sqlite
 	//importer call
 	public static ArrayList SelectCurrentSessionPersons (SQLiteConnection dbcon, int sessionID, bool returnPersonAndPSlist)
 	{
-		return selectCurrentSessionPersonsDo (dbcon, sessionID, returnPersonAndPSlist);
+		return selectCurrentSessionPersonsDo (dbcon, sessionID, returnPersonAndPSlist, "");
 	}
 	//sessionID can be -1
-	private static ArrayList selectCurrentSessionPersonsDo (SQLiteConnection dbcon, int sessionID, bool returnPersonAndPSlist)
+	private static ArrayList selectCurrentSessionPersonsDo (SQLiteConnection dbcon, int sessionID, bool returnPersonAndPSlist, string filterName)
 	{
 		// This method should NOT use Sqlite.open() / Sqlite.close(): it should only use dbcon to connect to the database.
 		// This method is used by the importer after opening an arbitrary Chronojump qlite database
@@ -340,12 +348,17 @@ class SqlitePersonSession : Sqlite
 		string sessionIDString = tps + ".sessionID = " + sessionID + " AND ";
 		if(sessionID == -1)
 			sessionIDString = "";
-		
+
+		string filterNameString = "";
+		if (filterName != "")
+			filterNameString = " AND LOWER(" + tp + ".name) LIKE LOWER ('%" + filterName + "%') ";
+
 		dbcmd = dbcon.CreateCommand();
 		dbcmd.CommandText = "SELECT " + tp + ".*" + tpsString +
 			" FROM " + tp + ", " + tps + 
 			" WHERE " + sessionIDString +
 			tp + ".uniqueID = " + tps + ".personID " +
+			filterNameString +
 			" ORDER BY upper(" + tp + ".name)";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

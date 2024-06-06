@@ -39,6 +39,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label persons_manage_advanced_label;
 	Gtk.Box persons_manage_advanced_box;
 	Gtk.Button button_person_merge;
+	Gtk.SearchEntry person_search;
 
 	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW PERSONS ----------------------
@@ -50,14 +51,33 @@ public partial class ChronoJumpWindow
 		tv.Selection.Changed += onTreeviewPersonsSelectionEntry;
 	}
 
-	private void fillTreeView_persons () {
+	private void fillTreeView_persons ()
+	{
 		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID, 
-				false); //means: do not returnPersonAndPSlist
+				false, //means: do not returnPersonAndPSlist
+				person_search.Text);
 
 		if(myPersons.Count > 0) {
 			//fill treeview
 			myTreeViewPersons.Fill(myPersons, restTime);
+
+			//if filter found nothing previously, current person is null and treeview is unsensitive. Fix it now.
+			if (currentPerson == null)
+			{
+				if (selectRowTreeView_persons (treeview_persons, 0))
+					sensitiveGuiYesPerson ();
+			}
+			else {
+				// if currentPerson is not on the treeview, then select the first one on the treeview
+				if (myTreeViewPersons.FindRow (currentPerson.UniqueID) >= 0)
+					myTreeViewPersons.SelectRowByUniqueID (currentPerson.UniqueID);
+				else
+					selectRowTreeView_persons (treeview_persons, 0);
+			}
+		} else {
+			currentPerson = null;
+			sensitiveGuiNoPerson ();
 		}
 	}
 
@@ -68,7 +88,16 @@ public partial class ChronoJumpWindow
 	private void on_treeview_persons_down (object o, EventArgs args) {
 		myTreeViewPersons.SelectNextRow(currentPerson.UniqueID);
 	}
-	
+
+	//TODO: take care not to change this while Sqlite is opened
+	//TODO: put the filter at 0 when new session, load session, import session, ...
+	private void on_person_search_search_changed (object o, EventArgs args)
+	{
+		LogB.Information ("searching: " + person_search.Text);
+		treeview_persons_storeReset();
+		fillTreeView_persons ();
+	}
+
 	//return true if selection is done (there's any person)
 	private bool selectRowTreeView_persons(Gtk.TreeView tv, int rowNum)
 	{
@@ -539,12 +568,10 @@ public partial class ChronoJumpWindow
 		}
 
 		//if there are no persons
-		if(! foundPersons) {
+		if(! foundPersons)
+		{
 			currentPerson = null;
 			sensitiveGuiNoPerson ();
-			if(createdStatsWin) {
-				stats_win_hide();
-			}
 		}
 	}
 
@@ -738,5 +765,6 @@ public partial class ChronoJumpWindow
 		persons_manage_advanced_label = (Gtk.Label) builder.GetObject ("persons_manage_advanced_label");
 		persons_manage_advanced_box = (Gtk.Box) builder.GetObject ("persons_manage_advanced_box");
 		button_person_merge = (Gtk.Button) builder.GetObject ("button_person_merge");
+		person_search = (Gtk.SearchEntry) builder.GetObject ("person_search");
 	}
 }

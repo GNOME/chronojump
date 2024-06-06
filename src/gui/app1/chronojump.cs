@@ -3545,6 +3545,7 @@ public partial class ChronoJumpWindow
 	{
 		if(overviewWin.SelectedPersonID != -1)
 		{
+			person_search.Text = "";
 			//LogB.Information("selected: " + overviewWin.SelectedPersonID.ToString());
 			selectRowTreeView_persons(treeview_persons,
 					myTreeViewPersons.FindRow(overviewWin.SelectedPersonID));

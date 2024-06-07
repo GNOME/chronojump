@@ -905,9 +905,9 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 				if (answerColor_l[i].R == Questionnaire.red.R &&
 						answerColor_l[i].G == Questionnaire.red.G &&
 						answerColor_l[i].B == Questionnaire.red.B)
-					rectangleM.Add (new QRectangle (false, answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange));
+					rectangleM.Add (new QRectangle (false, answerX -barRange, y_l[i] + barRange/2, barRange, y_l[i+1] - y_l[i] - barRange));
 				else
-					rectangleM.Add (new QRectangle (true, answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange));
+					rectangleM.Add (new QRectangle (true, answerX -barRange, y_l[i] + barRange/2, barRange, y_l[i+1] - y_l[i] - barRange));
 			}
 
 			g.SetSourceRGB(0, 0, 0); //black

@@ -368,6 +368,7 @@ public class Preferences
 	public int forceSensorFeedbackQuestionnaireMax = 100;
 	public int forceSensorFeedbackQuestionnaireMin = 0;
 	public int forceSensorFeedbackQuestionnaireN = 10;
+	public int forceSensorFeedbackQuestionnaireQDuration = 10; //seconds
 	public string forceSensorFeedbackQuestionnaireFile = ""; //if default will be blank
 	//signal direction
 	public bool signalDirectionHorizontal = true;

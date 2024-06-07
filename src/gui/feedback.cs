@@ -238,6 +238,7 @@ public class FeedbackWindow
 	Gtk.SpinButton spin_force_sensor_capture_feedback_questionnaire_max;
 	Gtk.SpinButton spin_force_sensor_capture_feedback_questionnaire_min;
 	Gtk.SpinButton spin_force_sensor_capture_feedback_questionnaire_n;
+	Gtk.SpinButton spin_force_sensor_capture_feedback_questionnaire_qDuration;
 	Gtk.RadioButton radio_force_sensor_capture_feedback_questionnaire_default;
 	Gtk.RadioButton radio_force_sensor_capture_feedback_questionnaire_load;
 	Gtk.Image image_force_sensor_capture_feedback_questionnaire_load_info;
@@ -385,6 +386,7 @@ public class FeedbackWindow
 				preferences.forceSensorFeedbackQuestionnaireMax,
 				preferences.forceSensorFeedbackQuestionnaireMin,
 				preferences.forceSensorFeedbackQuestionnaireN,
+				preferences.forceSensorFeedbackQuestionnaireQDuration,
 				preferences.signalDirectionHorizontal
 				);
 
@@ -463,6 +465,7 @@ public class FeedbackWindow
 			int forceSensorFeedbackQuestionnaireMax,
 			int forceSensorFeedbackQuestionnaireMin,
 			int forceSensorFeedbackQuestionnaireN,
+			int forceSensorFeedbackQuestionnaireQDuration,
 			bool signalDirectionHorizontal
 				)
 	{
@@ -682,6 +685,7 @@ public class FeedbackWindow
 			spin_force_sensor_capture_feedback_questionnaire_max.Value = forceSensorFeedbackQuestionnaireMax;
 			spin_force_sensor_capture_feedback_questionnaire_min.Value = forceSensorFeedbackQuestionnaireMin;
 			spin_force_sensor_capture_feedback_questionnaire_n.Value = forceSensorFeedbackQuestionnaireN;
+			spin_force_sensor_capture_feedback_questionnaire_qDuration.Value = forceSensorFeedbackQuestionnaireQDuration;
 			if (forceSensorFeedbackQuestionnaireFile == null || forceSensorFeedbackQuestionnaireFile == "")
 			{
 				radio_force_sensor_capture_feedback_questionnaire_default.Active = true;
@@ -1516,6 +1520,9 @@ public class FeedbackWindow
 	public int GetForceSensorFeedbackQuestionnaireN {
 		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_questionnaire_n.Value); }
 	}
+	public int GetForceSensorFeedbackQuestionnaireQDuration {
+		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_questionnaire_qDuration.Value); }
+	}
 	public bool GetForceSensorFeedbackQuestionnaireDefaultOrFile {
 		get { return radio_force_sensor_capture_feedback_questionnaire_default.Active; }
 	}
@@ -2079,6 +2086,7 @@ public class FeedbackWindow
 		spin_force_sensor_capture_feedback_questionnaire_max = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_questionnaire_max");
 		spin_force_sensor_capture_feedback_questionnaire_min = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_questionnaire_min");
 		spin_force_sensor_capture_feedback_questionnaire_n = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_questionnaire_n");
+		spin_force_sensor_capture_feedback_questionnaire_qDuration = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_questionnaire_qDuration");
 		radio_force_sensor_capture_feedback_questionnaire_default = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_questionnaire_default");
 		radio_force_sensor_capture_feedback_questionnaire_load = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_questionnaire_load");
 		image_force_sensor_capture_feedback_questionnaire_load_info = (Gtk.Image) builder.GetObject ("image_force_sensor_capture_feedback_questionnaire_load_info");

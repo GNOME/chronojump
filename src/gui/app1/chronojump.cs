@@ -9315,6 +9315,13 @@ LogB.Debug("mc finished 5");
 					preferences.forceSensorFeedbackQuestionnaireN = feedbackQuestionnaireN;
 				}
 
+				int feedbackQuestionnaireQDuration = feedbackWin.GetForceSensorFeedbackQuestionnaireQDuration;
+				if(preferences.forceSensorFeedbackQuestionnaireQDuration != feedbackQuestionnaireQDuration)
+				{
+					//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackQuestionnaireQDuration, feedbackQuestionnaireQDuration.ToString(), false); //TODO
+					preferences.forceSensorFeedbackQuestionnaireQDuration = feedbackQuestionnaireQDuration;
+				}
+
 				string feedbackQuestionnaireFile = "";
 				if (! feedbackWin.GetForceSensorFeedbackQuestionnaireDefaultOrFile)
 					feedbackQuestionnaireFile = feedbackWin.GetForceSensorFeedbackQuestionnaireFile;
@@ -9406,7 +9413,9 @@ LogB.Debug("mc finished 5");
 	private void on_feedback_questionnaire_load (object o, EventArgs args)
 	{
 		if (questionnaire == null)
-			questionnaire = new Questionnaire (preferences.forceSensorFeedbackQuestionnaireN,
+			questionnaire = new Questionnaire (
+					preferences.forceSensorFeedbackQuestionnaireN,
+					preferences.forceSensorFeedbackQuestionnaireQDuration,
 					feedbackWin.GetForceSensorFeedbackQuestionnaireFile);
 
 		feedbackWin.button_force_sensor_capture_feedback_questionnaire_load_analyzed (

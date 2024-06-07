@@ -1427,9 +1427,8 @@ public class Questionnaire
 	private Cairo.Color green = new Cairo.Color (0, 1, 0, 1);
 	private Cairo.Color transp = new Cairo.Color (0, 0, 0, 0);
 
-	private int n; //number of questions
-	//private int qDuration = 15; //time (in seconds) for each question (was 10s before)
-	private int qDuration = 10; //time (in seconds) for each question (was 10s before)
+	private int n; //number of questions (passed from feedback gui)
+	private int qDuration = 10; //duration of each question (passed from feedback gui)
 
 	private List<QuestionAnswers> qa_l = new List<QuestionAnswers> () {
 		new QuestionAnswers ("Year of 1st Chronojump version", "2004", "2008", "2012", "2016"),
@@ -1445,9 +1444,10 @@ public class Questionnaire
 	};
 	private List<QuestionAnswers> qaRandom_l;
 
-	public Questionnaire (int n, string filename)
+	public Questionnaire (int n, int qDuration, string filename)
 	{
 		this.n = n;
+		this.qDuration = qDuration;
 
 		// read questions file if needed
 		if (filename != null && filename != "")

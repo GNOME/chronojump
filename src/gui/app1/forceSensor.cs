@@ -1405,7 +1405,9 @@ public partial class ChronoJumpWindow
 
 		//questionnaire
 		if (preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.QUESTIONNAIRE)
-			questionnaire = new Questionnaire (preferences.forceSensorFeedbackQuestionnaireN,
+			questionnaire = new Questionnaire (
+					preferences.forceSensorFeedbackQuestionnaireN,
+					preferences.forceSensorFeedbackQuestionnaireQDuration,
 					preferences.forceSensorFeedbackQuestionnaireFile);
 		else
 			questionnaire = null;

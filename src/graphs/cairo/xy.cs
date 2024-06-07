@@ -1012,7 +1012,36 @@ public abstract class CairoXY : CairoGeneric
 			aPainted_l.Add (new Point3F (ax, ay, a.Size));
 		}
 
-		double sx, sy;
+		//manage powers
+		List<Power> pPaintable_l = asteroids.GetAllPowersPaintable (lastPointDate, marginAfterInSeconds);
+		List<Point3F> pPainted_l = new List <Point3F> ();
+		double px, py;
+		foreach (Power p in pPaintable_l)
+		{
+			if (horizontal)
+			{
+				px = graphWidth - (p.GetTimeNowProportion (lastPointDate, marginAfterInSeconds) *
+						(graphWidth -getMargins (Directions.LR)) + getMargins (Directions.L));
+				py = calculatePaintY (p.GetYNow (lastPointDate, marginAfterInSeconds));
+			} else {
+				px = calculatePaintX (p.GetYNow (lastPointDate, marginAfterInSeconds));
+				py = p.GetTimeNowProportion (lastPointDate, marginAfterInSeconds) *
+						(graphHeight -getMargins (Directions.BT)) + getMargins (Directions.T);
+			}
+
+			drawCircle (px, py, p.Size, p.Color, true);
+
+			if (asteroids.DoesMovingObjectCrashedWithPlayer (px, py, p.Size,
+					calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y)))
+			{
+				//asteroids.PowerCrashedWithPlayerSetTime (lastPointDate);
+				p.Destroy ();
+				asteroids.Points += 100;
+			}
+
+			pPainted_l.Add (new Point3F (px, py, p.Size));
+		}
+
 		//manage shots
 		double sx, sy;
 		foreach (Shot s in asteroids.GetAllShotsPaintable (lastPointDate))

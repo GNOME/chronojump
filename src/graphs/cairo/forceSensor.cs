@@ -1672,6 +1672,7 @@ public class Asteroids
 	public int ShotsFrequency;
 
 	private List<Asteroid> asteroid_l;
+	private List<Power> power_l;
 	private List<Shot> shot_l;
 	private List<AsteroidPoint> asteroidPoints_l;
 	private Random random = new Random();
@@ -1702,6 +1703,7 @@ public class Asteroids
 		Points = 0;
 		lastCrash = -1; //to not start in red
 		asteroid_l = new List<Asteroid> ();
+		power_l = new List<Power> ();
 		shot_l = new List<Shot> ();
 		asteroidPoints_l = new List<AsteroidPoint> ();
 
@@ -1741,6 +1743,22 @@ public class Asteroids
 					50, createAsteroidColor (), micros, 0));
 					*/
 
+		//create powers (1 each 4 seconds)
+		for (int i = 0; i < recordingTime/10; i ++)
+		{
+			int xStart = random.Next (7*multiplier, 100*multiplier);
+			int usLife = 10*multiplier;
+			int y = random.Next (minY, maxY);
+
+			power_l.Add (new Power (
+						xStart, y, // y (force)
+						usLife, y, // y (force)
+						30, // size
+						new Cairo.Color (.5,.5,.5, 1), //createAsteroidColor (), //TODO: decide how to do this on powers
+						micros
+						//TODO: which power?
+						));
+		}
 	}
 
 	public List<Asteroid> GetAllAsteroidsPaintable (double startAtPointX, int marginAfterInSeconds)
@@ -1761,6 +1779,16 @@ public class Asteroids
 	public void AsteroidCrashedWithPlayerSetTime (double timeNow)
 	{
 		lastCrash = timeNow;
+	}
+
+	public List<Power> GetAllPowersPaintable (double startAtPointX, int marginAfterInSeconds)
+	{
+		List<Power> pPaintable_l = new List<Power> ();
+		foreach (Power a in power_l)
+			if (a.NeedToShow (startAtPointX, marginAfterInSeconds))
+				pPaintable_l.Add (a);
+
+		return pPaintable_l;
 	}
 
 	public void Shot (PointF p)
@@ -1984,11 +2012,11 @@ public class Asteroid : MovingObject
 	}
 }
 
-	public Cairo.Color Color {
-		get { return color; }
-	}
-	public bool Alive {
-		set { alive = value; }
+public class Power : MovingObject
+{
+	public Power (int xStart, int yStart, int usLife, int yEnd, int size, Cairo.Color color, bool micros)
+	{
+		initialize (xStart, yStart, usLife, yEnd, size, color, micros);
 	}
 }
 

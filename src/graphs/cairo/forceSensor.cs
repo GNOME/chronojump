@@ -819,10 +819,11 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 		g.SetFontSize (textHeightHere);
 		g.SetSourceRGB(0, 0, 0); //black
 
+		bool enoughQuestions = true;
+		QuestionAnswers qa = questionnaire.GetQAByMicros (lastPoint.X, ref enoughQuestions);
+
 		// 1) manage finish
-		// 10 questions, do not plot more than 100 seconds
-		// or (if less than 10 questions, do not plot more than those)
-		if (lastPoint.X / 1000000 >= 100 || lastPoint.X / 1000000 >= questionnaire.N * 10)
+		if (! enoughQuestions || lastPoint.X / 1000000 >= questionnaire.N * questionnaire.QDuration)
 		{
 			printText ((graphWidth -getMargins (Directions.LR))/2 +getMargins (Directions.L),
 					.33 * graphHeight, 0, textHeight +4,
@@ -840,8 +841,6 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 		for (int i = 0; i < 6; i ++)
 			y_l.Add (topMargin + (i * ((graphHeight -topMargin - bottomMargin)/5)));
 
-		QuestionAnswers qa = questionnaire.GetQAByMicros (lastPoint.X);
-
 		// 3) write the question (ensure it horizontally fits)
 		string questionText = string.Format ("({0}/{1}) {2}",
 				questionnaire.GetQNumByMicros (lastPoint.X), questionnaire.N, qa.question);
@@ -857,71 +856,81 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 		}
 		g.SetFontSize (textHeightHere);
 
-		// 4) write the answers (ensure they horizontally fit)
-		List<string> answers_l = qa.TopBottom_l;
-		double answerX = questionnaire.GetAnswerXrel (lastPoint.X) *
-			(graphWidth - leftMargin - rightMargin) + leftMargin;
-		for (int i = 0; i < 5; i ++)
+		// 4) write the answers and manage crashes (only if at more than 15% left
+		if (questionnaire.GetAnswerXrel (lastPoint.X) >= .15)
 		{
-			string text = "NSNC";
-			if (i > 0)
-				text = answers_l[i-1];
-
-			textHeightReduced = textHeightHere;
-			if (! textRightAlignedFitsOnLeft (answerX - barRange, text, g, leftMargin))
-				textHeightReduced = findFontThatFitsOnLeft (textHeightHere, answerX - barRange, text, g, leftMargin);
-
-			if (textHeightReduced >= 4)
+			// (ensure they horizontally fit)
+			List<string> answers_l = qa.TopBottom_l;
+			double answerX = questionnaire.GetAnswerXrel (lastPoint.X) *
+				(graphWidth - leftMargin - rightMargin) + leftMargin;
+			for (int i = 0; i < 5; i ++)
 			{
-				g.SetFontSize (textHeightReduced);
-				printText (answerX - barRange, (y_l[i] + y_l[i+1])/2, 0, textHeight +4,
-						text, g, alignTypes.RIGHT);
+				string text = "NSNC";
+				if (i > 0)
+					text = answers_l[i-1];
+
+				textHeightReduced = textHeightHere;
+				if (! textRightAlignedFitsOnLeft (answerX - barRange, text, g, leftMargin))
+					textHeightReduced = findFontThatFitsOnLeft (textHeightHere, answerX - barRange, text, g, leftMargin);
+
+				if (textHeightReduced >= 4)
+				{
+					g.SetFontSize (textHeightReduced);
+					printText (answerX - barRange, (y_l[i] + y_l[i+1])/2, 0, textHeight +4,
+							text, g, alignTypes.RIGHT);
+				}
+				g.SetFontSize (textHeightHere);
 			}
-			g.SetFontSize (textHeightHere);
+
+			// 5) plot horizontal bars
+			g.SetSourceRGB(1, 0, 0); //red
+			double lineLeftX = questionnaire.GetLineStartXrel (lastPoint.X) *
+				(graphWidth - leftMargin - rightMargin) + leftMargin;
+			for (int i = 1; i < 5; i ++)
+			{
+				g.Rectangle (lineLeftX, y_l[i] - barRange/2, answerX - lineLeftX, barRange);
+				g.Fill();
+
+				rectangleM.Add (new QRectangle (false, lineLeftX, y_l[i] - barRange/2, answerX - lineLeftX, barRange));
+			}
+
+			// 6) plot vertical bars
+			List<Cairo.Color> answerColor_l = questionnaire.GetAnswerColor (lastPoint.X, qa);
+			for (int i = 1; i < 5; i ++)
+			{
+				g.SetSourceColor (answerColor_l[i]);
+				g.Rectangle (answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange);
+				g.Fill();
+
+				if (answerColor_l[i].R == Questionnaire.red.R &&
+						answerColor_l[i].G == Questionnaire.red.G &&
+						answerColor_l[i].B == Questionnaire.red.B)
+					rectangleM.Add (new QRectangle (false, answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange));
+				else
+					rectangleM.Add (new QRectangle (true, answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange));
+			}
+
+			g.SetSourceRGB(0, 0, 0); //black
+
+			// 7 manage crash and points
+			if (rectangleM.IsRed (
+						calculatePaintX (lastPoint.X),
+						calculatePaintY (lastPoint.Y) ))
+			{
+				crashedPaintOutRectangle ();
+				questionnaire.Points --;
+			}
+			else if (rectangleM.IsGreen (
+						calculatePaintX (lastPoint.X),
+						calculatePaintY (lastPoint.Y) ) &&
+					//do not assign more than 1 point to each question
+					DateTime.Now.Subtract (questionnaire.LastGreenDt).TotalSeconds >= 1
+				)
+			{
+				questionnaire.Points ++;
+				questionnaire.LastGreenDt = DateTime.Now;
+			}
 		}
-
-		// 5) plot horizontal bars
-		g.SetSourceRGB(1, 0, 0); //red
-		double lineLeftX = questionnaire.GetLineStartXrel (lastPoint.X) *
-			(graphWidth - leftMargin - rightMargin) + leftMargin;
-		for (int i = 1; i < 5; i ++)
-		{
-			g.Rectangle (lineLeftX, y_l[i] - barRange/2, answerX - lineLeftX, barRange);
-			g.Fill();
-
-			rectangleM.Add (new QRectangle (false, lineLeftX, y_l[i] - barRange/2, answerX - lineLeftX, barRange));
-		}
-
-		// 6) plot vertical bars
-		List<Cairo.Color> answerColor_l = questionnaire.GetAnswerColor (lastPoint.X, qa);
-		for (int i = 1; i < 5; i ++)
-		{
-			g.SetSourceColor (answerColor_l[i]);
-			g.Rectangle (answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange);
-			g.Fill();
-
-			if (answerColor_l[i].R == Questionnaire.red.R &&
-					answerColor_l[i].G == Questionnaire.red.G &&
-					answerColor_l[i].B == Questionnaire.red.B)
-				rectangleM.Add (new QRectangle (false, answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange));
-			else
-				rectangleM.Add (new QRectangle (true, answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange));
-		}
-
-		g.SetSourceRGB(0, 0, 0); //black
-
-		// 7 manage crash and points
-		if (rectangleM.IsRed (
-					calculatePaintX (lastPoint.X),
-					calculatePaintY (lastPoint.Y) ))
-		{
-			crashedPaintOutRectangle ();
-			questionnaire.Points --;
-		}
-		else if (rectangleM.IsGreen (
-					calculatePaintX (lastPoint.X),
-					calculatePaintY (lastPoint.Y) ))
-			questionnaire.Points ++;
 
 		g.SetFontSize (textHeightHere);
 		printText (graphWidth -rightMargin, topMargin/2, 0, textHeight +4,
@@ -1412,13 +1421,15 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 public class Questionnaire
 {
 	public int Points;
+	public DateTime LastGreenDt;
 
 	public static Cairo.Color red = new Cairo.Color (1, 0, 0, 1);
 	private Cairo.Color green = new Cairo.Color (0, 1, 0, 1);
 	private Cairo.Color transp = new Cairo.Color (0, 0, 0, 0);
 
 	private int n; //number of questions
-	private int qDuration = 15; //time (in seconds) for each question (was 10s before)
+	//private int qDuration = 15; //time (in seconds) for each question (was 10s before)
+	private int qDuration = 10; //time (in seconds) for each question (was 10s before)
 
 	private List<QuestionAnswers> qa_l = new List<QuestionAnswers> () {
 		new QuestionAnswers ("Year of 1st Chronojump version", "2004", "2008", "2012", "2016"),
@@ -1456,6 +1467,7 @@ public class Questionnaire
 			qaRandom_l = Util.ListGetFirstN (qaRandom_l, n);
 
 		Points = 0;
+		LastGreenDt = DateTime.Now;
 	}
 
 	public bool FileIsOk (string filename)
@@ -1481,17 +1493,31 @@ public class Questionnaire
 		return list;
 	}
 
-	public QuestionAnswers GetQAByMicros (double micros)
+	public QuestionAnswers GetQAByMicros (double micros, ref bool success)
 	{
 		double seconds = micros / 1000000;
 
 		if (seconds > n * qDuration)
 			seconds = 0;
 
+		//seconds += .2 * qDuration; //to show the next question just when ball passes the red/green vertical line
+		seconds += .1 * qDuration; //.1 has a bit of margin between ending a question and starting the next one
+
+		int q;
 		if (seconds < qDuration)
-			return qaRandom_l[0];
+			q = 0;
 		else
-			return qaRandom_l[Convert.ToInt32(Math.Floor(seconds/qDuration))];
+			q = Convert.ToInt32 (Math.Floor (seconds/qDuration));
+
+		//safety to not return outside of list
+		success = true;
+		if (q >= qaRandom_l.Count)
+		{
+			q = 0;
+			success = false;
+		}
+
+		return qaRandom_l[q];
 	}
 
 	//just to track the number of questions
@@ -1501,6 +1527,8 @@ public class Questionnaire
 
 		if (seconds > n * qDuration)
 			seconds = 0;
+
+		seconds += .1 * qDuration; //.1 has a bit of margin between ending a question and starting the next one
 
 		if (seconds < qDuration)
 			return 0 + 1;
@@ -1553,6 +1581,9 @@ public class Questionnaire
 
 	public int N {
 		get { return n; }
+	}
+	public int QDuration {
+		get { return qDuration; }
 	}
 }
 

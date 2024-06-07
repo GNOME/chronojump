@@ -1039,8 +1039,7 @@ public partial class ChronoJumpWindow
 		{
 			//using cairoGraphRaceAnalyzerPoints_st_l instead of raAI_AB.P_l to avoid problems with zoom
 			if (cairoGraphRaceAnalyzerPoints_st_l != null && cairoGraphRaceAnalyzerPoints_st_l.Count > 0)
-				signalTotalTime = PointF.Last (cairoGraphRaceAnalyzerPoints_st_l).X
-					- cairoGraphRaceAnalyzerPoints_st_l[0].X; //consider that the beginning use to be negative part (until a >= 10)
+				signalTotalTime = PointF.Last (cairoGraphRaceAnalyzerPoints_st_l).X;
 		}
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE && selectedJumpRj != null)
 			signalTotalTime = selectedJumpRj.TvSum + selectedJumpRj.TcSumCaringForStartIn;

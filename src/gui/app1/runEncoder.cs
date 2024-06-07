@@ -1313,19 +1313,28 @@ public partial class ChronoJumpWindow
 			return "";
 		}
 
-		List<string> contents = Util.ReadFileAsStringList(re.FullURL);
+		List<string> contents_l = Util.ReadFileAsStringList(re.FullURL);
 		LogB.Information("FullURL: " + re.FullURL);
 
 		if (debugForceTest)
 		{
 			RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetSpeedAndDisplacementTest ();
-			contents = recgsdt.TestData_l;
+			contents_l = recgsdt.TestData_l;
 		}
 
-		if(contents.Count < 3)
+		if(contents_l.Count < 3)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileEmptyStr());
 			return "";
+		}
+
+		//if start at 0 add a time 0 row (if it really does not start at 0)
+		if (radio_race_analyzer_capture_graph_starts_0.Active)
+		{
+			string firstDataLine = contents_l[1]; //contents_l[0] are headers
+			string [] strFull = firstDataLine.Split(new char[] {';'});
+			if (Util.IsNumber (strFull[1], false) && Convert.ToInt32 (strFull[1]) > 0)
+				contents_l.Insert (1, "strFull[0];0;strFull[2]");
 		}
 
 		signalSuperpose_2SetsCDPersonName = "";
@@ -1338,7 +1347,7 @@ public partial class ChronoJumpWindow
 			currentRunEncoder_CD = re;
 			currentRunEncoderExercise_CD = SqliteRunEncoderExercise.Select (false, re.ExerciseID)[0];
 
-			reCGSD_CD = run_encoder_load_set_reCGSD (contents, true, //two sets
+			reCGSD_CD = run_encoder_load_set_reCGSD (contents_l, true, //two sets
 					currentRunEncoderExercise_CD.SegmentCm,
 					currentRunEncoderExercise_CD.SegmentVariableCm,
 					SqlitePersonSession.SelectAttribute (false, re.PersonID, re.SessionID, Constants.Weight),
@@ -1393,7 +1402,7 @@ public partial class ChronoJumpWindow
 			cairoGraphRaceAnalyzerPoints_st_Zoom_CD_l = new List<PointF>();
 			cairoGraphRaceAnalyzerPoints_at_l = new List<PointF>();
 
-			reCGSD = run_encoder_load_set_reCGSD (contents, false,
+			reCGSD = run_encoder_load_set_reCGSD (contents_l, false,
 					currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm,
 					currentPersonSession.Weight, currentRunEncoder.Angle);
 
@@ -1447,9 +1456,9 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private int runEncoderShiftedMicros = 0;
+	private int runEncoderShiftedMicros;
 	private RunEncoderCaptureGetSpeedAndDisplacement run_encoder_load_set_reCGSD (
-			List<string> contents, bool twoSets,
+			List<string> contents_l, bool twoSets,
 			int segmentCm, List<int> segmentVariableCm, double personWeight, int angle)
 	{
 		RunEncoderCaptureGetSpeedAndDisplacement my_reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement (
@@ -1463,6 +1472,7 @@ public partial class ChronoJumpWindow
 		double timePre = -1;
 		double accel = -1;
 		bool enoughAccelFound = false; //accel has been > preferences.runEncoderMinAccel (default 10ms^2)
+		runEncoderShiftedMicros = 0;
 		bool signalShifted = false; //shifted on trigger0 or accel >= minAccel, whatever is first
 		//do not shift (mark already shifted) if radio: starts at 0s
 		if (radio_race_analyzer_capture_graph_starts_0.Active)
@@ -1473,7 +1483,7 @@ public partial class ChronoJumpWindow
 		bool firstRow = true;
 		int firstTime = 0;
 		//store data on cairoGraphRaceAnalyzerPoints_dt_l, ...st_l, ...at_l
-		foreach(string row in contents)
+		foreach(string row in contents_l)
 		{
 			if (firstRow) //is this useful at all? because the timePre will be also -1 on the 4th row
 			{
@@ -2995,6 +3005,7 @@ public partial class ChronoJumpWindow
 			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 			if (sendPoints_l.Count > 0)
 			{
+				//TODO: think if this is needed. In show at 0s as it starts at 0 should not be needed
 				if (runEncoderShiftedMicros == 0)
 					videoTime += sendPoints_l[0].X; //TODO: això segurament no s'hauria de tenir en compte quan es fa shift o potser s'hauria de usar el runEncoderShiftedMicros
 				else

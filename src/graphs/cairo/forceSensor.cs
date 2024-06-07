@@ -1747,14 +1747,14 @@ public class Asteroids
 		for (int i = 0; i < recordingTime/10; i ++)
 		{
 			int xStart = random.Next (7*multiplier, 100*multiplier);
-			int usLife = 10*multiplier;
+			int usLife = 8*multiplier;
 			int y = random.Next (minY, maxY);
 
 			power_l.Add (new Power (
 						xStart, y, // y (force)
 						usLife, y, // y (force)
-						30, // size
-						new Cairo.Color (.5,.5,.5, 1), //createAsteroidColor (), //TODO: decide how to do this on powers
+						35, // size (side)
+						new Cairo.Color (.5,.5,.5, 1), //unused now, as its an empty circle (with 3 borders)
 						micros
 						//TODO: which power?
 						));
@@ -2014,9 +2014,25 @@ public class Asteroid : MovingObject
 
 public class Power : MovingObject
 {
+	//public Cairo.Color ColorBorderExt;
+	//public Cairo.Color ColorBorderMid;
+	//public Cairo.Color ColorBorderInt;
+	private Blink blink;
+
 	public Power (int xStart, int yStart, int usLife, int yEnd, int size, Cairo.Color color, bool micros)
 	{
 		initialize (xStart, yStart, usLife, yEnd, size, color, micros);
+
+		//ColorBorderExt = new Cairo.Color (0, 0, 1, 1);
+		//ColorBorderMid = new Cairo.Color (0, 1, 0, 1);
+		//ColorBorderInt = new Cairo.Color (1, 0, 0, 1);
+
+		blink = new Blink ();
+		blink.Start ();
+	}
+
+	public bool ShowText {
+		get { return blink.IsOn; }
 	}
 }
 

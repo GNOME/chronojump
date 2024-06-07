@@ -1014,7 +1014,6 @@ public abstract class CairoXY : CairoGeneric
 
 		//manage powers
 		List<Power> pPaintable_l = asteroids.GetAllPowersPaintable (lastPointDate, marginAfterInSeconds);
-		List<Point3F> pPainted_l = new List <Point3F> ();
 		double px, py;
 		foreach (Power p in pPaintable_l)
 		{
@@ -1029,17 +1028,25 @@ public abstract class CairoXY : CairoGeneric
 						(graphHeight -getMargins (Directions.BT)) + getMargins (Directions.T);
 			}
 
-			drawCircle (px, py, p.Size, p.Color, true);
+			g.SetSourceColor (bluePlots);
+			g.Rectangle (px -p.Size/2, py -p.Size/2, p.Size, p.Size);
+			g.FillPreserve();
+			g.SetSourceColor (white);
+			g.LineWidth = 2;
+			g.Stroke();
+			g.LineWidth = 1;
 
+			//now only one power type: +100
+			if (p.ShowText)
+				printText (px, py-2, 0, textHeight+2, "+100", g, alignTypes.CENTER);
+
+			//TODO: adapt this to a rectangle
 			if (asteroids.DoesMovingObjectCrashedWithPlayer (px, py, p.Size,
 					calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y)))
 			{
-				//asteroids.PowerCrashedWithPlayerSetTime (lastPointDate);
 				p.Destroy ();
 				asteroids.Points += 100;
 			}
-
-			pPainted_l.Add (new Point3F (px, py, p.Size));
 		}
 
 		//manage shots

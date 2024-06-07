@@ -536,7 +536,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			marginAfterInSeconds = 3; //TODO: or a 1/3 of showLastSeconds TODO: on worm first we need to fix interpolatedPath to be 3s longer
 			*/
 		if ( (asteroids != null || questionnaire != null) && showLastSeconds > 3) //this works also for asteroids
-			marginAfterInSeconds = Convert.ToInt32 (.66 * showLastSeconds); //show in left third of image (to have time/space to answer)
+			marginAfterInSeconds = Convert.ToInt32 (.80 * showLastSeconds); //show blue ball left 20% of image (to have time/space to answer)
 
 		if (showLastSeconds > 0 && points_l.Count > 1)
 		{
@@ -1537,7 +1537,8 @@ public class Questionnaire
 		if (xrel < 0)
 			xrel = 0;
 
-		if (xrel > .3)
+		//Have answer color when arrive at 20% left of image (where blue ball is)
+		if (xrel > .2)
 			return new List<Cairo.Color> { transp, transp, transp, transp, transp };
 
 		List<Cairo.Color> color_l = new List<Cairo.Color> ();

@@ -971,7 +971,6 @@ public abstract class CairoXY : CairoGeneric
 
 		// paint asteroids and manage crashes
 		List<Asteroid> aPaintable_l = asteroids.GetAllAsteroidsPaintable (lastPointDate, marginAfterInSeconds);
-
 		List<Point3F> aPainted_l = new List <Point3F> ();
 		double ax, ay;
 		Cairo.Color colorShield = black;
@@ -1002,7 +1001,7 @@ public abstract class CairoXY : CairoGeneric
 				}
 			}
 
-			if (asteroids.DoesAsteroidCrashedWithPlayer (ax, ay, a.Size,
+			if (asteroids.DoesMovingObjectCrashedWithPlayer (ax, ay, a.Size,
 					calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y)))
 			{
 				asteroids.AsteroidCrashedWithPlayerSetTime (lastPointDate);
@@ -1015,6 +1014,7 @@ public abstract class CairoXY : CairoGeneric
 
 		double sx, sy;
 		//manage shots
+		double sx, sy;
 		foreach (Shot s in asteroids.GetAllShotsPaintable (lastPointDate))
 		{
 			if (horizontal)

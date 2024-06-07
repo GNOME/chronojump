@@ -1708,6 +1708,7 @@ public class Asteroids
 		if (recordingTime < 0)
 			recordingTime = 100;
 
+		//create asteroids
 		for (int i = 0; i < asteroidsFrequency * recordingTime; i ++)
 		{
 			int xStart = random.Next (7*multiplier, 100*multiplier);
@@ -1728,16 +1729,16 @@ public class Asteroids
 						xStart, random.Next (minY, maxY), // y (force)
 						usLife, random.Next (minY, maxY), // y (force)
 						random.Next (20, 100), // size
-						shield,
 						createAsteroidColor (),
-						micros
+						micros,
+						shield
 						));
 		}
 
 		/*
 		//debug with just one
 		asteroid_l.Add (new Asteroid (10 * multiplier, -50, 5 * multiplier, +50,
-					50, 0, createAsteroidColor (), micros));
+					50, createAsteroidColor (), micros, 0));
 					*/
 
 	}
@@ -1752,9 +1753,9 @@ public class Asteroids
 		return aPaintable_l;
 	}
 
-	public bool DoesAsteroidCrashedWithPlayer (double asteroidX, double asteroidY, int asteroidSize, double playerX, double playerY)
+	public bool DoesMovingObjectCrashedWithPlayer (double moX, double moY, int moSize, double playerX, double playerY)
 	{
-		return (CairoUtil.GetDistance2D (asteroidX, asteroidY, playerX, playerY) < asteroidSize + playerRadius);
+		return (CairoUtil.GetDistance2D (moX, moY, playerX, playerY) < moSize + playerRadius);
 	}
 
 	public void AsteroidCrashedWithPlayerSetTime (double timeNow)
@@ -1869,28 +1870,24 @@ public class Asteroids
 	}
 }
 
-public class Asteroid
+public abstract class MovingObject
 {
-	private int xStart; //time. When screen right is this time it will start
-	private int yStart; //force
-	private int usLife; //time
-	private int yEnd; //force
-	private int size;
-	private int shield; // 0 - 3
-	private int pointsOnDestroy; //related to shield initial value
-	private Cairo.Color color;
-	private bool alive;
-	private int multiplier;
+	protected int xStart; //time. When screen right is this time it will start
+	protected int yStart; //force
+	protected int usLife; //time
+	protected int yEnd; //force
+	protected int size;
+	protected Cairo.Color color;
+	protected bool alive;
+	protected int multiplier;
 
-	public Asteroid (int xStart, int yStart, int usLife, int yEnd, int size, int shield, Cairo.Color color, bool micros)
+	protected void initialize (int xStart, int yStart, int usLife, int yEnd, int size, Cairo.Color color,  bool micros)
 	{
 		this.xStart = xStart;
 		this.yStart = yStart;
 		this.usLife = usLife;
 		this.yEnd = yEnd;
 		this.size = size;
-		this.shield = shield;
-		this.pointsOnDestroy = 5 + shield * 5;
 		this.color = color;
 
 		if (micros)
@@ -1947,14 +1944,34 @@ public class Asteroid
 		alive = false;
 	}
 
+	public int Size {
+		get { return size; }
+	}
+	public Cairo.Color Color {
+		get { return color; }
+	}
+	public bool Alive {
+		set { alive = value; }
+	}
+}
+
+public class Asteroid : MovingObject
+{
+	private int shield; // 0 - 3
+	private int pointsOnDestroy; //related to shield initial value
+
+	public Asteroid (int xStart, int yStart, int usLife, int yEnd, int size, Cairo.Color color, bool micros, int shield)
+	{
+		initialize (xStart, yStart, usLife, yEnd, size, color, micros);
+
+		this.shield = shield;
+		this.pointsOnDestroy = 5 + shield * 5;
+	}
+
 	public override string ToString ()
 	{
 		return string.Format ("({0},{1}) ({2},{3}) size: {4} color: ({5},{6},{7} {8})",
 				xStart, yStart, xStart+usLife, yEnd, size, color.R, color.G, color.B, color.A);
-	}
-
-	public int Size {
-		get { return size; }
 	}
 
 	public int Shield {
@@ -1965,6 +1982,7 @@ public class Asteroid
 	public int PointsOnDestroy {
 		get { return pointsOnDestroy; }
 	}
+}
 
 	public Cairo.Color Color {
 		get { return color; }

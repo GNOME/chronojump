@@ -1418,6 +1418,7 @@ public class Questionnaire
 	private Cairo.Color transp = new Cairo.Color (0, 0, 0, 0);
 
 	private int n; //number of questions
+	private int qDuration = 15; //time (in seconds) for each question (was 10s before)
 
 	private List<QuestionAnswers> qa_l = new List<QuestionAnswers> () {
 		new QuestionAnswers ("Year of 1st Chronojump version", "2004", "2008", "2012", "2016"),
@@ -1484,14 +1485,13 @@ public class Questionnaire
 	{
 		double seconds = micros / 1000000;
 
-		//TODO: fix this
-		if (seconds > 100)
+		if (seconds > n * qDuration)
 			seconds = 0;
 
-		if (seconds < 10)
+		if (seconds < qDuration)
 			return qaRandom_l[0];
 		else
-			return qaRandom_l[Convert.ToInt32(Math.Floor(seconds/10))];
+			return qaRandom_l[Convert.ToInt32(Math.Floor(seconds/qDuration))];
 	}
 
 	//just to track the number of questions
@@ -1499,14 +1499,13 @@ public class Questionnaire
 	{
 		double seconds = micros / 1000000;
 
-		//TODO: fix this
-		if (seconds > 100)
+		if (seconds > n * qDuration)
 			seconds = 0;
 
-		if (seconds < 10)
+		if (seconds < qDuration)
 			return 0 + 1;
 		else
-			return Convert.ToInt32(Math.Floor(seconds/10)) + 1;
+			return Convert.ToInt32(Math.Floor(seconds/qDuration)) + 1;
 	}
 
 	public double GetLineStartXrel (double micros)
@@ -1521,14 +1520,13 @@ public class Questionnaire
 	{
 		double seconds = micros / 1000000;
 
-		//TODO: fix this
-		if (seconds > 100)
+		if (seconds > n * qDuration)
 			seconds = 0;
 
-		if (seconds < 10)
-			return 1 - seconds/10;
+		if (seconds < qDuration)
+			return 1 - seconds/qDuration;
 		else
-			return 1 - (seconds % 10)/10;
+			return 1 - (seconds % qDuration)/qDuration;
 	}
 
 	public List<Cairo.Color> GetAnswerColor (double micros, QuestionAnswers qa)

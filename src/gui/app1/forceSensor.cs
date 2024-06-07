@@ -1529,6 +1529,9 @@ public partial class ChronoJumpWindow
 			//force decimal is . since 2.0.3 Before was culture specific.
 			writer.WriteLine(time.ToString() + ";" + Util.ConvertToPoint(force)); //on file force is stored without flags
 
+			//mandatory needed to check if USB has been disconnected
+			forceSensorValues.TimeLast = time;
+
 			//done in two phases in order to avoid having last element empty
 			PointF pNow =  new PointF (time, forceCalculated);
 			spCairoFE_Unfiltered.Force_l.Add (pNow);
@@ -1937,6 +1940,7 @@ LogB.Information(" fs G ");
 LogB.Information(" fs H2 ");
 			if(usbDisconnectedLastTime == forceSensorValues.TimeLast)
 			{
+				//LogB.Information (string.Format ("disconnected?: {0} {1}", usbDisconnectedLastTime, forceSensorValues.TimeLast));
 				usbDisconnectedCount ++;
 
 				/* this was 20 for some years, but some electronics are slower on start sending data

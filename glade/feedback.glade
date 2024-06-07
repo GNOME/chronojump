@@ -6731,7 +6731,7 @@
                                     <property name="spacing">8</property>
                                     <child>
                                       <object class="GtkRadioButton" id="radio_force_sensor_capture_feedback_questionnaire_default">
-                                        <property name="label">Use Chronojump questionnaire</property>
+                                        <property name="label" translatable="yes">Use Chronojump questionnaire</property>
                                         <property name="visible">True</property>
                                         <property name="can-focus">True</property>
                                         <property name="receives-default">False</property>
@@ -6753,7 +6753,7 @@
                                         <property name="spacing">6</property>
                                         <child>
                                           <object class="GtkRadioButton" id="radio_force_sensor_capture_feedback_questionnaire_load">
-                                            <property name="label">Load own questionnaire</property>
+                                            <property name="label" translatable="yes">Load own questionnaire</property>
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
                                             <property name="receives-default">False</property>

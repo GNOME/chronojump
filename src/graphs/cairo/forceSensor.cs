@@ -1678,6 +1678,7 @@ public class Asteroids
 	private List<AsteroidFloatingPoints> asteroidPoints_l;
 	private Random random = new Random();
 	private double lastCrash; //to paint ship in red for half second
+	private AsteroidsPowerEffectManage powerEffectManage;
 
 	private bool micros;
 	private int multiplier;
@@ -1706,6 +1707,7 @@ public class Asteroids
 		power_l = new List<Power> ();
 		shot_l = new List<Shot> ();
 		asteroidPoints_l = new List<AsteroidFloatingPoints> ();
+		powerEffectManage = new AsteroidsPowerEffectManage ();
 
 		if (recordingTime < 0)
 			recordingTime = 100;
@@ -1744,7 +1746,8 @@ public class Asteroids
 					*/
 
 		//create powers (1 each 4 seconds)
-		for (int i = 0; i < recordingTime/10; i ++)
+		//for (int i = 0; i < recordingTime/10; i ++)
+		for (int i = 0; i < recordingTime/2; i ++)
 		{
 			int xStart = random.Next (7*multiplier, 100*multiplier);
 			int usLife = 8*multiplier;
@@ -1756,7 +1759,8 @@ public class Asteroids
 						35, // size (side)
 						new Cairo.Color (.5,.5,.5, 1), //unused now, as its an empty circle (with 3 borders)
 						micros,
-						Power.TypeEnum.POINTS100
+						//Power.TypeEnum.POINTS100
+						Power.TypeEnum.DOUBLESHOT
 						));
 		}
 	}
@@ -1811,7 +1815,7 @@ public class Asteroids
 		if (lastCrash > 0 && timeNow - lastCrash < .5*multiplier)
 			playerColor = redDark;
 
-		CairoUtil.DrawCircle (g, x, y, PlayerRadius, playerColor, true);
+		CairoUtil.DrawCircle (g, x-PlayerRadius/2, y-PlayerRadius/2, PlayerRadius, playerColor, true);
 	}
 
 	public void PaintShot (Shot s, double sx, double sy, double timeNow, bool horizontal, Context g)
@@ -1890,6 +1894,10 @@ public class Asteroids
 		} while (Dark == CairoUtil.ColorIsDark (color));
 
 		return color;
+	}
+
+	public AsteroidsPowerEffectManage PowerEffectManage {
+		get { return powerEffectManage; }
 	}
 }
 
@@ -2017,10 +2025,12 @@ public class Asteroid : MovingObject
 	}
 }
 
+//to display the power and manage the collision with it
 public class Power : MovingObject
 {
-	public enum TypeEnum { POINTS100 }
+	public enum TypeEnum { POINTS100, DOUBLESHOT, TRIPLESHOT }
 	public TypeEnum powerType;
+
 	//public Cairo.Color ColorBorderExt;
 	//public Cairo.Color ColorBorderMid;
 	//public Cairo.Color ColorBorderInt;
@@ -2055,6 +2065,75 @@ public class Power : MovingObject
 	}
 	public TypeEnum PowerType {
 		get { return powerType; }
+	}
+}
+
+//only 1 effect at a time (or none)
+public class AsteroidsPowerEffectManage
+{
+	private AsteroidsPowerEffect apeCurrent;
+
+	public AsteroidsPowerEffectManage ()
+	{
+	}
+
+	//but currently just one at a time
+	public void NewEffect (AsteroidsPowerEffect ape)
+	{
+		apeCurrent = ape;
+	}
+
+	public bool ShowDoubleShot ()
+	{
+		return (apeCurrent != null && apeCurrent.Alive && apeCurrent.PowerType == Power.TypeEnum.DOUBLESHOT);
+	}
+
+	public void EffectShouldEnd ()
+	{
+		if (apeCurrent != null && apeCurrent.Alive)
+			apeCurrent.EffectShouldEnd ();
+	}
+}
+public class AsteroidsPowerEffect
+{
+	private Power.TypeEnum powerType;
+	private int lifespanInSeconds;
+	private bool alive;
+	private DateTime timeStarted;
+
+	public AsteroidsPowerEffect (Power.TypeEnum powerType)
+	{
+		this.powerType = powerType;
+		timeStarted = DateTime.Now;
+
+		if (powerType == Power.TypeEnum.POINTS100)
+		{
+			alive = false;
+			lifespanInSeconds = 0;
+		}
+		else if (powerType == Power.TypeEnum.DOUBLESHOT || powerType == Power.TypeEnum.TRIPLESHOT)
+		{
+			alive = true;
+			lifespanInSeconds = 5;
+		}
+	}
+
+	public bool EffectShouldEnd ()
+	{
+		if (alive && DateTime.Now.Subtract (timeStarted).TotalSeconds > lifespanInSeconds)
+		{
+			alive = false;
+			return true;
+		}
+
+		return false;
+	}
+
+	public Power.TypeEnum PowerType {
+		get { return powerType; }
+	}
+	public bool Alive {
+		get { return alive; }
 	}
 }
 

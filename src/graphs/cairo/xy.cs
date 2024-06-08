@@ -1037,14 +1037,21 @@ public abstract class CairoXY : CairoGeneric
 			g.Stroke();
 			g.LineWidth = 1;
 
-			//now only one power type: +100
 			if (p.ShowText)
-				printText (px, py-2, 0, textHeight+2, "+100", g, alignTypes.CENTER);
+			{
+				if (p.PowerType == Power.TypeEnum.POINTS100)
+					printText (px, py-2, 0, textHeight+2, "+100", g, alignTypes.CENTER);
+				else if (p.PowerType == Power.TypeEnum.DOUBLESHOT)
+					printText (px, py-2, 0, textHeight+2, "II", g, alignTypes.CENTER);
+				else if (p.PowerType == Power.TypeEnum.TRIPLESHOT)
+					printText (px, py-2, 0, textHeight+2, "III", g, alignTypes.CENTER);
+			}
 
 			if (p.HasCrashedWithPlayer (px, py,
 						calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y),
 						Asteroids.PlayerRadius))
 			{
+				asteroids.PowerEffectManage.NewEffect (new AsteroidsPowerEffect (p.PowerType));
 				p.Destroy ();
 
 				if (p.PowerType == Power.TypeEnum.POINTS100)
@@ -1114,10 +1121,21 @@ public abstract class CairoXY : CairoGeneric
 		if (points_l.Count > 3 && lastPointDate >= lastShot + UtilAll.DivideSafe (multiplier, asteroids.ShotsFrequency))
 		{
 			//create new shot
-			if (horizontal)
-				asteroids.Shot (lastPoint);
-			else
-				asteroids.Shot (new PointF (lastPoint.Y, lastPoint.X));
+			if (asteroids.PowerEffectManage.ShowDoubleShot ())
+			{
+				if (horizontal) {
+					asteroids.Shot (new PointF (lastPoint.X, lastPoint.Y -2));
+					asteroids.Shot (new PointF (lastPoint.X, lastPoint.Y +2));
+				} else {
+					asteroids.Shot (new PointF (lastPoint.Y, lastPoint.X -2));
+					asteroids.Shot (new PointF (lastPoint.Y, lastPoint.X +2));
+				}
+			} else {
+				if (horizontal)
+					asteroids.Shot (lastPoint);
+				else
+					asteroids.Shot (new PointF (lastPoint.Y, lastPoint.X));
+			}
 
 			lastShot = lastPointDate;
 		}

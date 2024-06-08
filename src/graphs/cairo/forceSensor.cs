@@ -1670,15 +1670,15 @@ public class Asteroids
 	public int MaxY;
 	public int MinY;
 	public int ShotsFrequency;
+	public const int PlayerRadius = 6;
 
 	private List<Asteroid> asteroid_l;
 	private List<Power> power_l;
 	private List<Shot> shot_l;
-	private List<AsteroidPoint> asteroidPoints_l;
+	private List<AsteroidFloatingPoints> asteroidPoints_l;
 	private Random random = new Random();
 	private double lastCrash; //to paint ship in red for half second
 
-	private const int playerRadius = 6;
 	private bool micros;
 	private int multiplier;
 	private Cairo.Color bluePlots = new Cairo.Color (0, 0, .78, 1);
@@ -1705,7 +1705,7 @@ public class Asteroids
 		asteroid_l = new List<Asteroid> ();
 		power_l = new List<Power> ();
 		shot_l = new List<Shot> ();
-		asteroidPoints_l = new List<AsteroidPoint> ();
+		asteroidPoints_l = new List<AsteroidFloatingPoints> ();
 
 		if (recordingTime < 0)
 			recordingTime = 100;
@@ -1755,8 +1755,8 @@ public class Asteroids
 						usLife, y, // y (force)
 						35, // size (side)
 						new Cairo.Color (.5,.5,.5, 1), //unused now, as its an empty circle (with 3 borders)
-						micros
-						//TODO: which power?
+						micros,
+						Power.TypeEnum.POINTS100
 						));
 		}
 	}
@@ -1769,11 +1769,6 @@ public class Asteroids
 				aPaintable_l.Add (a);
 
 		return aPaintable_l;
-	}
-
-	public bool DoesMovingObjectCrashedWithPlayer (double moX, double moY, int moSize, double playerX, double playerY)
-	{
-		return (CairoUtil.GetDistance2D (moX, moY, playerX, playerY) < moSize + playerRadius);
 	}
 
 	public void AsteroidCrashedWithPlayerSetTime (double timeNow)
@@ -1816,7 +1811,7 @@ public class Asteroids
 		if (lastCrash > 0 && timeNow - lastCrash < .5*multiplier)
 			playerColor = redDark;
 
-		CairoUtil.DrawCircle (g, x, y, playerRadius, playerColor, true);
+		CairoUtil.DrawCircle (g, x, y, PlayerRadius, playerColor, true);
 	}
 
 	public void PaintShot (Shot s, double sx, double sy, double timeNow, bool horizontal, Context g)
@@ -1871,15 +1866,15 @@ public class Asteroids
 		return ShotCrashedEnum.NOCRASHED;
 	}
 
-	public void AddAsteroidPoint (AsteroidPoint ap)
+	public void AddAsteroidFloatingPoints (AsteroidFloatingPoints ap)
 	{
 		asteroidPoints_l.Add (ap);
 	}
 
-	public List<AsteroidPoint> GetAllAsteroidPointsPaintable ()
+	public List<AsteroidFloatingPoints> GetAllAsteroidFloatingPointssPaintable ()
 	{
-		List<AsteroidPoint> apPaintable_l = new List<AsteroidPoint> ();
-		foreach (AsteroidPoint ap in asteroidPoints_l)
+		List<AsteroidFloatingPoints> apPaintable_l = new List<AsteroidFloatingPoints> ();
+		foreach (AsteroidFloatingPoints ap in asteroidPoints_l)
 			if (ap.NeedToShow ())
 				apPaintable_l.Add (ap);
 
@@ -1967,6 +1962,9 @@ public abstract class MovingObject
 		return lifeProportion * (yEnd - yStart) + yStart;
 	}
 
+	public abstract bool HasCrashedWithPlayer (double moX, double moY,
+			double playerX, double playerY, int playerRadius);
+
 	public void Destroy ()
 	{
 		alive = false;
@@ -1996,6 +1994,13 @@ public class Asteroid : MovingObject
 		this.pointsOnDestroy = 5 + shield * 5;
 	}
 
+	//asteroid: circle
+	public override bool HasCrashedWithPlayer (double moX, double moY,
+			double playerX, double playerY, int playerRadius)
+	{
+		return (CairoUtil.GetDistance2D (moX, moY, playerX, playerY) < size + playerRadius);
+	}
+
 	public override string ToString ()
 	{
 		return string.Format ("({0},{1}) ({2},{3}) size: {4} color: ({5},{6},{7} {8})",
@@ -2014,25 +2019,42 @@ public class Asteroid : MovingObject
 
 public class Power : MovingObject
 {
+	public enum TypeEnum { POINTS100 }
+	public TypeEnum powerType;
 	//public Cairo.Color ColorBorderExt;
 	//public Cairo.Color ColorBorderMid;
 	//public Cairo.Color ColorBorderInt;
 	private Blink blink;
 
-	public Power (int xStart, int yStart, int usLife, int yEnd, int size, Cairo.Color color, bool micros)
+	public Power (int xStart, int yStart, int usLife, int yEnd, int size, Cairo.Color color, bool micros, TypeEnum powerType)
 	{
 		initialize (xStart, yStart, usLife, yEnd, size, color, micros);
 
 		//ColorBorderExt = new Cairo.Color (0, 0, 1, 1);
 		//ColorBorderMid = new Cairo.Color (0, 1, 0, 1);
 		//ColorBorderInt = new Cairo.Color (1, 0, 0, 1);
+		this.powerType = powerType;
 
 		blink = new Blink ();
 		blink.Start ();
 	}
 
+	//power: rectangle
+	public override bool HasCrashedWithPlayer (double moX, double moY,
+			double playerX, double playerY, int playerRadius)
+	{
+		return (
+				(playerX +playerRadius >= moX -size) &&
+				(playerX -playerRadius <= moX +size) &&
+				(playerY +playerRadius >= moY -size) &&
+				(playerY -playerRadius <= moY +size) );
+	}
+
 	public bool ShowText {
 		get { return blink.IsOn; }
+	}
+	public TypeEnum PowerType {
+		get { return powerType; }
 	}
 }
 
@@ -2096,7 +2118,7 @@ public class Shot
 }
 
 //to show a +5 on destroying an asteroid
-public class AsteroidPoint
+public class AsteroidFloatingPoints
 {
 	private DateTime timeStart;
 	private double xGraph;
@@ -2105,7 +2127,7 @@ public class AsteroidPoint
 	private bool alive;
 	private const double life = .75; //seconds
 
-	public AsteroidPoint (DateTime timeStart, double xGraph, double yGraph, int points)
+	public AsteroidFloatingPoints (DateTime timeStart, double xGraph, double yGraph, int points)
 	{
 		this.timeStart = timeStart;
 		this.xGraph = xGraph;

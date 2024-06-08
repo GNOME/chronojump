@@ -1001,8 +1001,9 @@ public abstract class CairoXY : CairoGeneric
 				}
 			}
 
-			if (asteroids.DoesMovingObjectCrashedWithPlayer (ax, ay, a.Size,
-					calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y)))
+			if (a.HasCrashedWithPlayer (ax, ay,
+						calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y),
+						Asteroids.PlayerRadius))
 			{
 				asteroids.AsteroidCrashedWithPlayerSetTime (lastPointDate);
 				a.Destroy ();
@@ -1040,12 +1041,18 @@ public abstract class CairoXY : CairoGeneric
 			if (p.ShowText)
 				printText (px, py-2, 0, textHeight+2, "+100", g, alignTypes.CENTER);
 
-			//TODO: adapt this to a rectangle
-			if (asteroids.DoesMovingObjectCrashedWithPlayer (px, py, p.Size,
-					calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y)))
+			if (p.HasCrashedWithPlayer (px, py,
+						calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y),
+						Asteroids.PlayerRadius))
 			{
 				p.Destroy ();
-				asteroids.Points += 100;
+
+				if (p.PowerType == Power.TypeEnum.POINTS100)
+				{
+					asteroids.Points += 100;
+					asteroids.AddAsteroidFloatingPoints (new AsteroidFloatingPoints (
+								DateTime.Now, px, py, 100)); //for 100 points Power
+				}
 			}
 		}
 
@@ -1070,7 +1077,7 @@ public abstract class CairoXY : CairoGeneric
 			if (sce == Asteroids.ShotCrashedEnum.CRASHEDANDDESTROY)
 			{
 				asteroids.Points += asteroid.PointsOnDestroy;
-				asteroids.AddAsteroidPoint (new AsteroidPoint (
+				asteroids.AddAsteroidFloatingPoints (new AsteroidFloatingPoints (
 							DateTime.Now, aPainted_l[i].X, aPainted_l[i].Y, asteroid.PointsOnDestroy));
 				s.Alive = false;
 			} else if (sce == Asteroids.ShotCrashedEnum.CRASHEDNODESTROY)
@@ -1085,7 +1092,7 @@ public abstract class CairoXY : CairoGeneric
 		else
 			g.SetSourceColor (black);
 
-		foreach (AsteroidPoint ap in asteroids.GetAllAsteroidPointsPaintable ())
+		foreach (AsteroidFloatingPoints ap in asteroids.GetAllAsteroidFloatingPointssPaintable ())
 			printText (ap.XGraph, ap.YGraph, 0, textHeight+2,
 					string.Format ("+{0}", ap.Points), g, alignTypes.CENTER);
 

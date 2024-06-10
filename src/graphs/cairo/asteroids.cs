@@ -60,6 +60,7 @@ public class Asteroids
 
 	private List<Asteroid> asteroid_l;
 	private List<Power> power_l;
+	private List<Star> star_l;
 	private List<Shot> shot_l;
 	private List<AsteroidFloatingPoints> asteroidPoints_l;
 	private Random random = new Random();
@@ -100,6 +101,7 @@ public class Asteroids
 		lastCrash = -1; //to not start in red
 		asteroid_l = new List<Asteroid> ();
 		power_l = new List<Power> ();
+		star_l = new List<Star> ();
 		shot_l = new List<Shot> ();
 		asteroidPoints_l = new List<AsteroidFloatingPoints> ();
 		powerEffectManage = new AsteroidsPowerEffectManage ();
@@ -138,8 +140,8 @@ public class Asteroids
 					50, createAsteroidColor (), micros, 0));
 					*/
 
-		Random rnd = new Random();
 		//create powers (aprox 1 each 20 asteroids)
+		Random rnd = new Random();
 		for (int i = 0; i < asteroidsFrequency * recordingTime /20; i ++)
 		{
 			int xStart = random.Next (7*multiplier, 100*multiplier);
@@ -153,6 +155,22 @@ public class Asteroids
 						new Cairo.Color (.5,.5,.5, 1), //unused now, as its an empty circle (with 3 borders)
 						micros,
 						(Power.TypeEnum) rnd.Next (0, Enum.GetNames (typeof (Power.TypeEnum)).Length) //random power
+						));
+		}
+
+		//create stars
+		for (int i = 0; i < recordingTime/2; i ++)
+		{
+			int xStart = random.Next (-100*multiplier, 100*multiplier); //can start at left of 0x
+			int usLife = random.Next (40, 100) * multiplier; //slow
+			int y = random.Next (minY, maxY);
+
+			star_l.Add (new Star (
+						xStart, y, // y (force)
+						usLife, y, // y (force)
+						3, // size (side) //unused right now
+						new Cairo.Color (.5,.5,.5, 1),
+						micros
 						));
 		}
 	}
@@ -185,6 +203,16 @@ public class Asteroids
 				pPaintable_l.Add (a);
 
 		return pPaintable_l;
+	}
+
+	public List<Star> GetAllStarsPaintable (double startAtPointX, int marginAfterInSeconds)
+	{
+		List<Star> paintable_l = new List<Star> ();
+		foreach (Star s in star_l)
+			//if (s.NeedToShow (startAtPointX, marginAfterInSeconds)) //TODO: check this
+				paintable_l.Add (s);
+
+		return paintable_l;
 	}
 
 	public void Shot (PointF p, bool unstoppable)
@@ -467,6 +495,25 @@ public class Power : MovingObject
 	}
 	public TypeEnum PowerType {
 		get { return powerType; }
+	}
+}
+
+public class Star : MovingObject
+{
+	//private Blink blink;
+
+	public Star (int xStart, int yStart, int usLife, int yEnd, int size, Cairo.Color color, bool micros)
+	{
+		initialize (xStart, yStart, usLife, yEnd, size, color, micros);
+
+		//blink = new Blink ();
+		//blink.Start ();
+	}
+
+	public override bool HasCrashedWithPlayer (double moX, double moY,
+			double playerX, double playerY, int playerRadius)
+	{
+		return false;
 	}
 }
 

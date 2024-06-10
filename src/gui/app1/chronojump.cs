@@ -1176,7 +1176,7 @@ public partial class ChronoJumpWindow
 
 			//persons (main)
 			UtilGtk.WidgetColor (hbox_frame_persons_top, Config.ColorBackgroundShifted);
-			if (selectRowTreeView_persons(treeview_persons, 0))
+			if (myTreeViewPersons.IsThereAnyRecord ())
 				UtilGtk.WidgetColor (vbox_persons, Config.ColorBackgroundShifted);
 			else
 				vbox_persons.Name = "alertCss";

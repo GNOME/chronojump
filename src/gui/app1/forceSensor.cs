@@ -628,6 +628,8 @@ public partial class ChronoJumpWindow
 		spCairoFE = new SignalPointsCairoForceElastic ();
 		spCairoFE_CD = new SignalPointsCairoForceElastic ();
 		paintPointsInterpolateCairo_l = new List<PointF>();
+		paintPointsInterpolateCairoArrowBack = new PointF (0, 0);
+		paintPointsInterpolateCairoArrowFront = new PointF (0, 0);
 		force_capture_drawingarea_cairo.QueueDraw ();
 
 		// ... at analyze tab
@@ -1175,6 +1177,8 @@ public partial class ChronoJumpWindow
 		spCairoFE_Raw = new SignalPointsCairoForceElastic ();
 		spCairoFE = new SignalPointsCairoForceElastic ();
 		paintPointsInterpolateCairo_l = new List<PointF>();
+		paintPointsInterpolateCairoArrowBack = new PointF (0, 0);
+		paintPointsInterpolateCairoArrowFront = new PointF (0, 0);
 		forceSensorGridLegendColors ();
 
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
@@ -1420,6 +1424,8 @@ public partial class ChronoJumpWindow
 				preferences.forceSensorFeedbackShotsFrequency,
 				true, -1); //micros, recordingTime
 
+		int lastSampleTime = 0;
+
 		//LogB.Information("pre bucle");
 		//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));
 		while(! forceProcessFinish && ! forceProcessCancel && ! forceProcessKill && ! forceProcessError)
@@ -1558,6 +1564,28 @@ public partial class ChronoJumpWindow
 
 				paintPointsInterpolateCairo_l.Add (new PointF (
 							time, interpolate_l[currentYpos].Y));
+
+				//to show where are heading
+				//check how many samples happen in second to show an arrow from to .5 to 1 second later
+				double timeBetweenSamples = time - lastSampleTime;
+				if (timeBetweenSamples > 0)
+				{
+					int samplesHalfs = Convert.ToInt32 (Math.Ceiling (500000 / timeBetweenSamples));
+					int useSampleHalfs = currentYpos + samplesHalfs;
+					if (useSampleHalfs +1 >= interpolate_l.Count)
+						useSampleHalfs = useSampleHalfs % interpolate_l.Count;
+
+					int samples1s = Convert.ToInt32 (Math.Ceiling (1000000 / timeBetweenSamples));
+					int useSample1s = currentYpos + samples1s;
+					if (useSample1s +1 >= interpolate_l.Count)
+						useSample1s = useSample1s % interpolate_l.Count;
+
+					paintPointsInterpolateCairoArrowBack = new PointF (
+							time+500000, interpolate_l[useSampleHalfs].Y);
+					paintPointsInterpolateCairoArrowFront = new PointF (
+							time+1000000, interpolate_l[useSample1s].Y);
+				}
+				lastSampleTime = time;
 			}
 
 			LogB.Information("at bucle8");
@@ -2940,7 +2968,11 @@ LogB.Information(" fs R ");
 		if (spCairoFE_Raw == null)
 			spCairoFE_Raw = new SignalPointsCairoForceElastic ();
 		if (paintPointsInterpolateCairo_l == null)
+		{
 			paintPointsInterpolateCairo_l = new List<PointF> ();
+			paintPointsInterpolateCairoArrowBack = new PointF (0, 0);
+			paintPointsInterpolateCairoArrowFront = new PointF (0, 0);
+		}
 
 		//create copys to not have problem on updating data that is being graph in other thread (even using static variables)
 		List<PointF> paintPointsInterpolateCairo_l_copy = new List<PointF>();
@@ -3091,6 +3123,8 @@ LogB.Information(" fs R ");
 				check_force_sensor_capture_show_speed.Active,
 				check_force_sensor_capture_show_power.Active,
 				paintPointsInterpolateCairo_l_copy, preferences.forceSensorFeedbackPathMin, preferences.forceSensorFeedbackPathMax,
+				paintPointsInterpolateCairoArrowBack,
+				paintPointsInterpolateCairoArrowFront,
 				capturing, videoShow, videoTime,
 				cairoGraphForceSensorSignalPointsShowAccuracy,
 				showLastSeconds,
@@ -3147,6 +3181,8 @@ LogB.Information(" fs R ");
 	}
 
 	static List<PointF> paintPointsInterpolateCairo_l;
+	static PointF paintPointsInterpolateCairoArrowBack;
+	static PointF paintPointsInterpolateCairoArrowFront;
 
 	private enum ForceSensorGraphs { CAPTURE, ANALYSIS_GENERAL }
 

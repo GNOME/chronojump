@@ -35,6 +35,8 @@ public abstract class CairoGraphForceSensor : CairoXY
 	protected int rectangleN;
 	protected int rectangleRange;
 	protected List<PointF> points_l_interpolated_path;
+	protected PointF interpolated_path_arrow_back;
+	protected PointF interpolated_path_arrow_front;
 	protected int interpolatedMin;
 	protected int interpolatedMax;
 	//protected bool oneSerie; //on elastic is false: more than 1 serie
@@ -356,6 +358,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			SignalPointsCairoForceElastic spCairoFE,	//spCairoFE to plot
 			bool showDistance, bool showSpeed, bool showPower,
 			List<PointF> points_l_interpolated_path, int interpolatedMin, int interpolatedMax,
+			PointF interpolated_path_arrow_back, PointF interpolated_path_arrow_front,
 			bool capturing, bool videoShow, double videoPlayTimeInSeconds,
 			bool showAccuracy, int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
@@ -385,6 +388,8 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		this.points_l_interpolated_path = points_l_interpolated_path;
 		this.interpolatedMin = interpolatedMin;
 		this.interpolatedMax = interpolatedMax;
+		this.interpolated_path_arrow_back = interpolated_path_arrow_back;
+		this.interpolated_path_arrow_front = interpolated_path_arrow_front;
 		this.miw = miw;
 		this.briw = briw;
 		this.bsiw = bsiw;
@@ -531,10 +536,8 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		marginAfterInSeconds = 0;
 
 		//on worm, have it on 3 s
-		/*
 		if (showAccuracy && points_l_interpolated_path != null && points_l_interpolated_path.Count > 0 && showLastSeconds >= 10)
-			marginAfterInSeconds = 3; //TODO: or a 1/3 of showLastSeconds TODO: on worm first we need to fix interpolatedPath to be 3s longer
-			*/
+			marginAfterInSeconds = 3;
 		if ( (asteroids != null || questionnaire != null) && showLastSeconds > 3) //this works also for asteroids
 			marginAfterInSeconds = Convert.ToInt32 (.80 * showLastSeconds); //show blue ball left 20% of image (to have time/space to answer)
 
@@ -597,8 +600,17 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		if (rectangleRange > 0 && showAccuracy)
 			accuracyRectanglePlot (accuracyText);
 		else if (points_l_interpolated_path != null && points_l_interpolated_path.Count > 0)
+		{
 			accuracyPathPlot (accuracyText,
 					points_l.Count, points_l_interpolated_path, plotType);
+
+			//show where is heading
+			plotArrowFree (g, colorPathBlue, 5, 15, true,
+					calculatePaintX (interpolated_path_arrow_back.X),
+				        calculatePaintY (interpolated_path_arrow_back.Y),
+					calculatePaintX (interpolated_path_arrow_front.X),
+					calculatePaintY (interpolated_path_arrow_front.Y));
+		}
 
 		if (questionnaire == null && asteroids == null)
 		{

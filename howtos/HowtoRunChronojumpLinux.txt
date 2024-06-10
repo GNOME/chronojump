@@ -1,3 +1,5 @@
+### For building a Linux package read "package/linux/How to Make Linux Packages.txt"
+
 
 # Install needed packages
 sudo apt update

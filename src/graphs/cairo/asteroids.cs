@@ -484,10 +484,10 @@ public class AsteroidsPowerEffectManage
 		return (apeCurrent != null && apeCurrent.Alive && apeCurrent.PowerType == Power.TypeEnum.UNSTOPPABLESHOT);
 	}
 
-	public void EffectShouldEnd ()
+	public void ShouldEndEffect ()
 	{
 		if (apeCurrent != null && apeCurrent.Alive)
-			apeCurrent.EffectShouldEnd ();
+			apeCurrent.ShouldEndEffect ();
 	}
 }
 public class AsteroidsPowerEffect
@@ -515,7 +515,7 @@ public class AsteroidsPowerEffect
 		}
 	}
 
-	public bool EffectShouldEnd ()
+	public bool ShouldEndEffect ()
 	{
 		if (alive && DateTime.Now.Subtract (timeStarted).TotalSeconds > lifespanInSeconds)
 		{

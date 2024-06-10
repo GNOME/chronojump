@@ -1132,6 +1132,7 @@ public abstract class CairoXY : CairoGeneric
 
 		g.SetFontSize (textHeight);
 
+		asteroids.PowerEffectManage.ShouldEndEffect ();
 		if (points_l.Count > 3 && lastPointDate >= lastShot + UtilAll.DivideSafe (multiplier, asteroids.ShotsFrequency))
 		{
 			//create new shot

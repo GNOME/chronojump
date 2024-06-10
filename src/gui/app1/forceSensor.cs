@@ -1550,7 +1550,7 @@ public partial class ChronoJumpWindow
 				else if (paintPointsInterpolateCairo_l.Count > 0)
 					currentYpos = paintPointsInterpolateCairo_l.Count -1;
 
-				if (currentYpos >= interpolate_l.Count)
+				if (currentYpos +1 >= interpolate_l.Count)
 					currentYpos = currentYpos % interpolate_l.Count;
 
 				//LogB.Information (string.Format ("paintPointsInterpolateCairo_l.Count: {0}, interpolate_l.Count: {1}",

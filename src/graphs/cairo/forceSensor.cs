@@ -1687,6 +1687,7 @@ public class Asteroids
 	//private Cairo.Color white = new Cairo.Color (1, 1, 1, 1);
 	private Cairo.Color yellow = new Cairo.Color (0.906, 0.745, 0.098, 1);
 	private Cairo.Color redDark = new Cairo.Color (0.55, 0, 0, 1);
+	private Cairo.Color red = new Cairo.Color (.784, 0, 0);
 
 	public Asteroids (int maxY, int minY, bool Dark, int asteroidsFrequency, int shotsFrequency, bool micros, int recordingTime)
 	{
@@ -1745,9 +1746,9 @@ public class Asteroids
 					50, createAsteroidColor (), micros, 0));
 					*/
 
+		Random rnd = new Random();
 		//create powers (1 each 4 seconds)
-		//for (int i = 0; i < recordingTime/10; i ++)
-		for (int i = 0; i < recordingTime/2; i ++)
+		for (int i = 0; i < recordingTime/10; i ++)
 		{
 			int xStart = random.Next (7*multiplier, 100*multiplier);
 			int usLife = 8*multiplier;
@@ -1759,8 +1760,7 @@ public class Asteroids
 						35, // size (side)
 						new Cairo.Color (.5,.5,.5, 1), //unused now, as its an empty circle (with 3 borders)
 						micros,
-						//Power.TypeEnum.POINTS100
-						Power.TypeEnum.DOUBLESHOT
+						(Power.TypeEnum) rnd.Next (0, Enum.GetNames (typeof (Power.TypeEnum)).Length) //random power
 						));
 		}
 	}
@@ -1790,9 +1790,9 @@ public class Asteroids
 		return pPaintable_l;
 	}
 
-	public void Shot (PointF p)
+	public void Shot (PointF p, bool unstoppable)
 	{
-		shot_l.Add (new Shot (p, micros));
+		shot_l.Add (new Shot (p, micros, unstoppable));
 	}
 
 	public List<Shot> GetAllShotsPaintable (double timeNow)
@@ -1821,10 +1821,14 @@ public class Asteroids
 	public void PaintShot (Shot s, double sx, double sy, double timeNow, bool horizontal, Context g)
 	{
 		Cairo.Color color = bluePlots;
-		if (Dark)
-			color = yellow;
-		if (s.LifeIsEnding (timeNow))
-			color = gray;
+		if (s.Unstoppable)
+			color = red;
+		else {
+			if (Dark)
+				color = yellow;
+			if (s.LifeIsEnding (timeNow))
+				color = gray;
+		}
 
 		g.Save ();
 		g.LineWidth = 2;
@@ -2028,7 +2032,8 @@ public class Asteroid : MovingObject
 //to display the power and manage the collision with it
 public class Power : MovingObject
 {
-	public enum TypeEnum { POINTS100, DOUBLESHOT, TRIPLESHOT }
+	public enum TypeEnum { POINTS100, DOUBLESHOT, //TRIPLESHOT,
+		UNSTOPPABLESHOT }
 	public TypeEnum powerType;
 
 	//public Cairo.Color ColorBorderExt;
@@ -2088,6 +2093,11 @@ public class AsteroidsPowerEffectManage
 		return (apeCurrent != null && apeCurrent.Alive && apeCurrent.PowerType == Power.TypeEnum.DOUBLESHOT);
 	}
 
+	public bool ShowUnstoppable ()
+	{
+		return (apeCurrent != null && apeCurrent.Alive && apeCurrent.PowerType == Power.TypeEnum.UNSTOPPABLESHOT);
+	}
+
 	public void EffectShouldEnd ()
 	{
 		if (apeCurrent != null && apeCurrent.Alive)
@@ -2111,7 +2121,8 @@ public class AsteroidsPowerEffect
 			alive = false;
 			lifespanInSeconds = 0;
 		}
-		else if (powerType == Power.TypeEnum.DOUBLESHOT || powerType == Power.TypeEnum.TRIPLESHOT)
+		else if (powerType == Power.TypeEnum.DOUBLESHOT ||// powerType == Power.TypeEnum.TRIPLESHOT ||
+				powerType == Power.TypeEnum.UNSTOPPABLESHOT)
 		{
 			alive = true;
 			lifespanInSeconds = 5;
@@ -2147,8 +2158,9 @@ public class Shot
 	private int xStart; //time when started
 	private int yStart;
 	private bool alive;
+	private bool unstoppable;
 
-	public Shot (PointF p, bool micros)
+	public Shot (PointF p, bool micros, bool unstoppable)
 	{
 		this.xStart = Convert.ToInt32 (p.X); //TODO: to the right of the "ship"
 		this.yStart = Convert.ToInt32 (p.Y);
@@ -2158,6 +2170,8 @@ public class Shot
 			multiplier = 1000000;
 		else
 			multiplier = 1000;
+
+		this.unstoppable = unstoppable;
 	}
 
 	public bool NeedToShow (double timeNow)
@@ -2193,6 +2207,9 @@ public class Shot
 	}
 	public bool Alive {
 		set { alive = value; }
+	}
+	public bool Unstoppable {
+		get { return unstoppable; }
 	}
 }
 

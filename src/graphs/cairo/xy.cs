@@ -1042,9 +1042,24 @@ public abstract class CairoXY : CairoGeneric
 				if (p.PowerType == Power.TypeEnum.POINTS100)
 					printText (px, py-2, 0, textHeight+2, "+100", g, alignTypes.CENTER);
 				else if (p.PowerType == Power.TypeEnum.DOUBLESHOT)
-					printText (px, py-2, 0, textHeight+2, "II", g, alignTypes.CENTER);
-				else if (p.PowerType == Power.TypeEnum.TRIPLESHOT)
+				{
+					//printText (px, py-2, 0, textHeight+2, "II", g, alignTypes.CENTER);
+					g.SetSourceColor (white);
+					g.Rectangle (px -p.Size/4, py -5, p.Size/2, 3);
+					g.Rectangle (px -p.Size/4, py +3, p.Size/2, 3);
+					g.Fill();
+				} /*else if (p.PowerType == Power.TypeEnum.TRIPLESHOT)
+				{
 					printText (px, py-2, 0, textHeight+2, "III", g, alignTypes.CENTER);
+				}
+				*/
+				else if (p.PowerType == Power.TypeEnum.UNSTOPPABLESHOT)
+				{
+					g.SetSourceColor (red);
+					g.Rectangle (px -p.Size/4, py -1.5, p.Size/2, 3);
+					g.Fill();
+					g.SetSourceColor (white);
+				}
 			}
 
 			if (p.HasCrashedWithPlayer (px, py,
@@ -1086,11 +1101,10 @@ public abstract class CairoXY : CairoGeneric
 				asteroids.Points += asteroid.PointsOnDestroy;
 				asteroids.AddAsteroidFloatingPoints (new AsteroidFloatingPoints (
 							DateTime.Now, aPainted_l[i].X, aPainted_l[i].Y, asteroid.PointsOnDestroy));
-				s.Alive = false;
+				s.Alive = s.Unstoppable; //kill the shot except if it is unstoppable
 			} else if (sce == Asteroids.ShotCrashedEnum.CRASHEDNODESTROY)
-			{
-				s.Alive = false;
-			} else
+				s.Alive = s.Unstoppable; //kill the shot except if it is unstoppable
+			else
 				asteroids.PaintShot (s, sx, sy, lastPoint.X, horizontal, g);
 		}
 
@@ -1124,17 +1138,17 @@ public abstract class CairoXY : CairoGeneric
 			if (asteroids.PowerEffectManage.ShowDoubleShot ())
 			{
 				if (horizontal) {
-					asteroids.Shot (new PointF (lastPoint.X, lastPoint.Y -2));
-					asteroids.Shot (new PointF (lastPoint.X, lastPoint.Y +2));
+					asteroids.Shot (new PointF (lastPoint.X, lastPoint.Y -2), false);
+					asteroids.Shot (new PointF (lastPoint.X, lastPoint.Y +2), false);
 				} else {
-					asteroids.Shot (new PointF (lastPoint.Y, lastPoint.X -2));
-					asteroids.Shot (new PointF (lastPoint.Y, lastPoint.X +2));
+					asteroids.Shot (new PointF (lastPoint.Y, lastPoint.X -2), false);
+					asteroids.Shot (new PointF (lastPoint.Y, lastPoint.X +2), false);
 				}
 			} else {
 				if (horizontal)
-					asteroids.Shot (lastPoint);
+					asteroids.Shot (lastPoint, asteroids.PowerEffectManage.ShowUnstoppable ());
 				else
-					asteroids.Shot (new PointF (lastPoint.Y, lastPoint.X));
+					asteroids.Shot (new PointF (lastPoint.Y, lastPoint.X), asteroids.PowerEffectManage.ShowUnstoppable ());
 			}
 
 			lastShot = lastPointDate;

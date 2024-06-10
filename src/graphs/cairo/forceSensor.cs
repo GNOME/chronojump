@@ -580,7 +580,22 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			g.SetSourceColor (white);
 
 		if (points_l.Count > 2) //to ensure minX != maxX
+		{
+			//on asteroids show the grid in gray to allow stars be shown
+			if (asteroids != null)
+				g.SetSourceColor (gray);
+
 			paintGrid (gridTypes.BOTH, true, 0);
+
+			if (asteroids != null)
+			{
+				g.SetSourceColor (white);
+				if (asteroids.Dark)
+					g.SetSourceColor (white);
+				else
+					g.SetSourceColor (black);
+			}
+		}
 
 		paintAxis();
 		g.SetSourceColor (black);

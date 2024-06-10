@@ -969,6 +969,36 @@ public abstract class CairoXY : CairoGeneric
 		if (! horizontal)
 			lastPointDate = lastPoint.Y;
 
+		// paint stars
+		double stX, stY;
+		List<Star> stPaintable_l = asteroids.GetAllStarsPaintable (lastPointDate, marginAfterInSeconds);
+		foreach (Star st in stPaintable_l)
+		{
+			if (horizontal)
+			{
+				stX = graphWidth - (st.GetTimeNowProportion (lastPointDate, marginAfterInSeconds) *
+						(graphWidth -getMargins (Directions.LR)) + getMargins (Directions.L));
+				stY = calculatePaintY (st.GetYNow (lastPointDate, marginAfterInSeconds));
+			} else {
+				stX = calculatePaintX (st.GetYNow (lastPointDate, marginAfterInSeconds));
+				stY = st.GetTimeNowProportion (lastPointDate, marginAfterInSeconds) *
+						(graphHeight -getMargins (Directions.BT)) + getMargins (Directions.T);
+			}
+
+			//drawCircle (stX, stY, st.Size, st.Color, true);
+
+			if (asteroids.Dark)
+				g.SetSourceColor (white);
+			else
+				g.SetSourceColor (black);
+
+			g.MoveTo (stX, stY -3);
+			g.LineTo (stX, stY +3);
+			g.MoveTo (stX -3, stY);
+			g.LineTo (stX +3, stY);
+			g.Stroke ();
+		}
+
 		// paint asteroids and manage crashes
 		List<Asteroid> aPaintable_l = asteroids.GetAllAsteroidsPaintable (lastPointDate, marginAfterInSeconds);
 		List<Point3F> aPainted_l = new List <Point3F> ();
@@ -1079,33 +1109,33 @@ public abstract class CairoXY : CairoGeneric
 		}
 
 		//manage shots
-		double sx, sy;
-		foreach (Shot s in asteroids.GetAllShotsPaintable (lastPointDate))
+		double shX, shY;
+		foreach (Shot sh in asteroids.GetAllShotsPaintable (lastPointDate))
 		{
 			if (horizontal)
 			{
-				sx = calculatePaintX (s.GetXNow (lastPointDate));
-				sy = calculatePaintY (s.Ystart);
+				shX = calculatePaintX (sh.GetXNow (lastPointDate));
+				shY = calculatePaintY (sh.Ystart);
 			} else {
-				sx = calculatePaintX (s.Ystart);
-				sy = calculatePaintY (s.GetXNow (lastPointDate));
+				shX = calculatePaintX (sh.Ystart);
+				shY = calculatePaintY (sh.GetXNow (lastPointDate));
 			}
 			//LogB.Information (string.Format ("shot: {0}, {1}", sx, sy));
 
 			int i = 0;
 			Asteroid asteroid;
 			Asteroids.ShotCrashedEnum sce = asteroids.ShotCrashedWithAsteroid (
-					sx, sy, s.Size, aPaintable_l, aPainted_l, out i, out asteroid);
+					shX, shY, sh.Size, aPaintable_l, aPainted_l, out i, out asteroid);
 			if (sce == Asteroids.ShotCrashedEnum.CRASHEDANDDESTROY)
 			{
 				asteroids.Points += asteroid.PointsOnDestroy;
 				asteroids.AddAsteroidFloatingPoints (new AsteroidFloatingPoints (
 							DateTime.Now, aPainted_l[i].X, aPainted_l[i].Y, asteroid.PointsOnDestroy));
-				s.Alive = s.Unstoppable; //kill the shot except if it is unstoppable
+				sh.Alive = sh.Unstoppable; //kill the shot except if it is unstoppable
 			} else if (sce == Asteroids.ShotCrashedEnum.CRASHEDNODESTROY)
-				s.Alive = s.Unstoppable; //kill the shot except if it is unstoppable
+				sh.Alive = sh.Unstoppable; //kill the shot except if it is unstoppable
 			else
-				asteroids.PaintShot (s, sx, sy, lastPoint.X, horizontal, g);
+				asteroids.PaintShot (sh, shX, shY, lastPoint.X, horizontal, g);
 		}
 
 		if (asteroids.Dark)

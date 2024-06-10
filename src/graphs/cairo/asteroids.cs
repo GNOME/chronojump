@@ -133,8 +133,8 @@ public class Asteroids
 					*/
 
 		Random rnd = new Random();
-		//create powers (1 each 4 seconds)
-		for (int i = 0; i < recordingTime/10; i ++)
+		//create powers (aprox 1 each 20 asteroids)
+		for (int i = 0; i < asteroidsFrequency * recordingTime /20; i ++)
 		{
 			int xStart = random.Next (7*multiplier, 100*multiplier);
 			int usLife = 8*multiplier;

@@ -1118,7 +1118,7 @@ public abstract class CairoXY : CairoGeneric
 					string.Format ("+{0}", ap.Points), g, alignTypes.CENTER);
 
 		//add 1 point each s
-		if (lastPointDate >= lastPointUp + multiplier)
+		if (! asteroids.Finished () && lastPointDate >= lastPointUp + multiplier)
 		{
 			asteroids.Points ++;
 			lastPointUp = lastPointDate;
@@ -1127,8 +1127,14 @@ public abstract class CairoXY : CairoGeneric
 		// print points
 		g.SetFontSize (textHeight +8);
 
-		printText (graphWidth -rightMargin -innerMargin, .66*topMargin, 0, textHeight +4,
-				"Points: " + asteroids.Points.ToString (), g, alignTypes.RIGHT);
+		if (asteroids.Finished ())
+			printText ((graphWidth -getMargins (Directions.LR))/2 +getMargins (Directions.L),
+					.33 * graphHeight, 0, textHeight +4,
+					string.Format ("Finished! {0} points", asteroids.Points), g, alignTypes.CENTER);
+		else
+			printText (graphWidth -rightMargin -innerMargin, .66*topMargin, 0, textHeight +4,
+					"Points: " + asteroids.Points.ToString (), g, alignTypes.RIGHT);
+
 
 		g.SetFontSize (textHeight);
 

@@ -75,6 +75,9 @@ public class Asteroids
 	private Cairo.Color redDark = new Cairo.Color (0.55, 0, 0, 1);
 	private Cairo.Color red = new Cairo.Color (.784, 0, 0);
 
+	private DateTime timeStarted;
+	private int recordingTime; //s
+
 	public Asteroids (int maxY, int minY, bool Dark, int asteroidsFrequency, int shotsFrequency, bool micros, int recordingTime)
 	{
 		this.Dark = Dark;
@@ -88,6 +91,11 @@ public class Asteroids
 		else
 			multiplier = 1000;
 
+		if (recordingTime < 0)
+			recordingTime = 100;
+		this.recordingTime = recordingTime;
+		timeStarted = DateTime.Now;
+
 		Points = 0;
 		lastCrash = -1; //to not start in red
 		asteroid_l = new List<Asteroid> ();
@@ -96,8 +104,6 @@ public class Asteroids
 		asteroidPoints_l = new List<AsteroidFloatingPoints> ();
 		powerEffectManage = new AsteroidsPowerEffectManage ();
 
-		if (recordingTime < 0)
-			recordingTime = 100;
 
 		//create asteroids
 		for (int i = 0; i < asteroidsFrequency * recordingTime; i ++)
@@ -149,6 +155,11 @@ public class Asteroids
 						(Power.TypeEnum) rnd.Next (0, Enum.GetNames (typeof (Power.TypeEnum)).Length) //random power
 						));
 		}
+	}
+
+	public bool Finished ()
+	{
+		return (DateTime.Now.Subtract (timeStarted).TotalSeconds > recordingTime);
 	}
 
 	public List<Asteroid> GetAllAsteroidsPaintable (double startAtPointX, int marginAfterInSeconds)

@@ -1,0 +1,20 @@
+
+# Install needed packages
+sudo apt update
+sudo apt install git python3 autoconf libtool intltool pkg-config build-essential libglib2.0-dev gtk-sharp3 dotnet-sdk-7.0
+
+# Download Chronojump from the repo
+git clone https://gitlab.gnome.org/GNOME/chronojump.git
+
+#Change to the .NET version of Chronojump
+cd chronojump
+git checkout dotnetgtk3
+
+# Substitute [chronojump path] with the real path where you cloned the repo
+sh autogen.sh --prefix [chronojump path]/chronojump/package/linux/deps
+
+# Grant the access to the serial port. Change "[username]" by the real unername
+sudo usermod -a -G dialout [username]
+
+# Execute. Change "[UserPath]" by the real path where Chronojump is installed
+dotnet run -r linux-x64 --project /[UserPath]/chronojump/src/Chronojump-linux.csproj --property WarningLevel=0

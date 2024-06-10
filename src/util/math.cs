@@ -1675,17 +1675,33 @@ public class InterpolateSignal
 	{
 		this.point_l = point_l;
 	}
-	public InterpolateSignal (int minY, int maxY, int maxX, int stepX)
+
+	//alternate takes 1 value up, 1 down, ... up is the 70% up, down is the 70% down, (yes seventy, do not need to go up/down always)
+	//double alternateFactor. .7 means will go from 70% top to 70% down
+	public InterpolateSignal (int minY, int maxY, int maxX, int stepX, bool alternate, double alternateFactor)
 	{
 		Random random = new Random();
 		this.point_l = new List<PointF>();
 		int range = maxY - minY;
+		double rangeAlternate = alternateFactor * range;
 
 		//LogB.Information(string.Format("InterpolateSignal maxX: {0}, stepX: {1}", maxX, stepX));
 
+		int j = 0;
 		for(int i = 0; i < maxX; i += stepX)
 		{
-			point_l.Add(new PointF(i, minY + (random.NextDouble() * range)));
+			double nextY = minY + (random.NextDouble() * range);
+			if (alternate)
+			{
+				if (Util.IsEven (j))
+					nextY = maxY - (random.NextDouble() * rangeAlternate);
+				else
+					nextY = minY + (random.NextDouble() * rangeAlternate);
+
+				j ++;
+			}
+
+			point_l.Add (new PointF (i, nextY));
 
 			/*
 			PointF p = new PointF(i, minY + (random.NextDouble() * range));

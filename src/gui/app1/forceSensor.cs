@@ -2427,7 +2427,8 @@ LogB.Information(" fs R ");
 				preferences.forceSensorFeedbackPathMin,
 				preferences.forceSensorFeedbackPathMax,
 				maxx * 1000,
-				preferences.forceSensorFeedbackPathMasterSeconds * 1000
+				preferences.forceSensorFeedbackPathMasterSeconds * 1000,
+				true, .7
 				);
 
 		interpolate_l = interpolateS.GetCubicInterpolated();

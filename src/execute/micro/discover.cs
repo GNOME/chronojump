@@ -403,6 +403,7 @@ public class MicroDiscover : MicroComms
 	private bool discoverFourPlatforms ()
 	{
 		bool success = false;
+		/*
 		List<string> responseExpected_l = new List<string>();
 		responseExpected_l.Add(fourPlatformsStr);
 
@@ -421,6 +422,7 @@ public class MicroDiscover : MicroComms
 		}
 
 		flush(); //empty the port for future use
+		*/
 		return success;
 	}
 

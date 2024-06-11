@@ -43,6 +43,7 @@ public class MicroDiscover : MicroComms
 	private string raceAnalyzerStr = "Race_Analyzer-";
 	private string wichroStr = "Wifi-Controller-"; //Will be used for Wichro and Quick, then user will decide. "local:get_channel;" to know the channel
 	private string encoderStr = "J"; //for encoder send a J and receive a J
+	private string fourPlatformsStr = "4Platforms-";
 
 	public enum Status { NotStarted, Connecting, Detecting, Done };
 	private List<Status> progressBar_l; //progressBars status
@@ -147,6 +148,11 @@ public class MicroDiscover : MicroComms
 					{
 						LogB.Information("calling discoverEncoder");
 						success = discoverEncoder ();
+					}
+					else if (mode == Constants.Modes.OTHER)
+					{
+						LogB.Information("calling discover FourPlatforms");
+						success = discoverFourPlatforms ();
 					}
 				}
 			}
@@ -389,6 +395,30 @@ public class MicroDiscover : MicroComms
 			LogB.Information("Discover found this Multitest device: " + micro.Response);
 
 		LogB.Information("done");
+
+		flush(); //empty the port for future use
+		return success;
+	}
+
+	private bool discoverFourPlatforms ()
+	{
+		bool success = false;
+		List<string> responseExpected_l = new List<string>();
+		responseExpected_l.Add(fourPlatformsStr);
+
+		Thread.Sleep(1500); //wait 1500 ms after open to be able to receive commands
+		if(cancel)
+			return false;
+
+		if(getVersion ("get_version:", responseExpected_l, false, 2000, true))
+		{
+			LogB.Information("Discover found this 4Platforms device: " + micro.Response);
+			if(micro.Response.Contains(fourPlatformsStr))
+			{
+				micro.Discovered = ChronopicRegisterPort.Types.FOURPLATFORMS;
+				success = true;
+			}
+		}
 
 		flush(); //empty the port for future use
 		return success;

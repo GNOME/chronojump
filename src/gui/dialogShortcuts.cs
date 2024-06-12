@@ -50,7 +50,6 @@ public class DialogShortcuts
 	//images on analyze tab
 	Gtk.Image image_jump_1;
 	Gtk.Image image_run_1;
-	Gtk.Image image_fs_4;
 
 
 	public DialogShortcuts (bool isMac)
@@ -131,9 +130,6 @@ public class DialogShortcuts
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_run.png");
 		image_run_1.Pixbuf = pixbuf;
-
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "force_sensor_icon.png");
-		image_fs_4.Pixbuf = pixbuf;
 	}
 
 	public void on_button_close_clicked (object obj, EventArgs args) {
@@ -167,6 +163,5 @@ public class DialogShortcuts
 		image_enc_inert_5 = (Gtk.Image) builder.GetObject ("image_enc_inert_5");
 		image_jump_1 = (Gtk.Image) builder.GetObject ("image_jump_1");
 		image_run_1 = (Gtk.Image) builder.GetObject ("image_run_1");
-		image_fs_4 = (Gtk.Image) builder.GetObject ("image_fs_4");
 	}
 } 

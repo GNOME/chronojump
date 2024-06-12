@@ -29,7 +29,7 @@ public class DialogShortcuts
 	Gtk.Image image_button_close;
 	Gtk.Notebook notebook;
 
-	//images on capture tab
+	//images
 	Gtk.Image image_enc_grav_1;
 	Gtk.Image image_enc_inert_1;
 	Gtk.Image image_fs_1;
@@ -46,8 +46,6 @@ public class DialogShortcuts
 	Gtk.Image image_enc_inert_4;
 	Gtk.Image image_enc_grav_5;
 	Gtk.Image image_enc_inert_5;
-
-	//images on analyze tab
 	Gtk.Image image_jump_1;
 	Gtk.Image image_run_1;
 
@@ -99,7 +97,6 @@ public class DialogShortcuts
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
 		image_button_close.Pixbuf = pixbuf;
 
-		//capture tab
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_weight.png"); //encoder gravitatory
 		image_enc_grav_1.Pixbuf = pixbuf;
 		image_enc_grav_2.Pixbuf = pixbuf;
@@ -124,7 +121,6 @@ public class DialogShortcuts
 		image_ra_2.Pixbuf = pixbuf;
 		image_ra_3.Pixbuf = pixbuf;
 
-		//analyze tab
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_jump.png");
 		image_jump_1.Pixbuf = pixbuf;
 

@@ -1924,7 +1924,7 @@ public partial class ChronoJumpWindow
 			LogB.Information(line);
 			if (line != null)
 			{
-				string [] cells = line.Split(new char[] {';'});
+				string [] cells = line.Split(new char[] {','});
 				dist_l = new List<string> ();
 				for (int i = 26; i < cells.Length; i ++) //Attention!: take care with this 26 if in the future add more columns before dist/times
 				{
@@ -1977,12 +1977,12 @@ public partial class ChronoJumpWindow
 				if (line == null)
 					break;
 
-				string [] cells = line.Split(new char[] {';'});
+				string [] cells = line.Split(new char[] {','});
 
 				// get the times (total columns can be different each time)
 				List<double> time_l = new List<double> ();
 				for (int i = 26; i < cells.Length; i ++) //Attention! take care with this 26 if in the future add more columns before dist/times
-					time_l.Add (Convert.ToDouble (cells[i]));
+					time_l.Add (Convert.ToDouble (Util.CDS (cells[i])));
 
 				recsv = new RunEncoderCSV (
 						Convert.ToDouble (Util.CDS (cells[0])),

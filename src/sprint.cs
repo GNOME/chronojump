@@ -313,6 +313,7 @@ public abstract class RexportedCSV
 		foreach (double time in time_l)
 			timeStr_l.Add (Util.TrimDecimals (time, 3));
 		strArray = Util.AddToArrayString (strArray, timeStr_l);
+		//LogB.Information (Util.StringArrayToStringWithQuotes (strArray, ";"));
 
 		return strArray;
 	}
@@ -408,6 +409,7 @@ public class SprintCSV : RexportedCSV
 		foreach (double time in time_l)
 			timeStr_l.Add (Util.TrimDecimals (time, 3));
 		strArray = Util.AddToArrayString (strArray, timeStr_l);
+		//LogB.Information (Util.StringArrayToStringWithQuotes (strArray, ";"));
 
 		return strArray;
 	}

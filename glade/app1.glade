@@ -8494,7 +8494,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Repair selected (r)</property>
+                                                            <property name="tooltip-text" translatable="yes">Repair selected</property>
                                                             <signal name="clicked" handler="on_button_contacts_repair_selected_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_contacts_repair_selected">
@@ -8503,7 +8503,6 @@ on Cloud-view mode</property>
                                                             <property name="icon_size">1</property>
                                                             </object>
                                                             </child>
-                                                            <accelerator key="r" signal="clicked"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -10807,7 +10806,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Repair selected (r)</property>
+                                                            <property name="tooltip-text" translatable="yes">Repair selected</property>
                                                             <signal name="clicked" handler="on_repair_selected_pulse_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_pulse_repair">
@@ -10815,7 +10814,6 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">False</property>
                                                             </object>
                                                             </child>
-                                                            <accelerator key="r" signal="clicked"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -10929,7 +10927,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Repair selected (r)</property>
+                                                            <property name="tooltip-text" translatable="yes">Repair selected</property>
                                                             <signal name="clicked" handler="on_repair_selected_multi_chronopic_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_multi_chronopic_repair">
@@ -10937,7 +10935,6 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">False</property>
                                                             </object>
                                                             </child>
-                                                            <accelerator key="r" signal="clicked"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -22787,6 +22784,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -8480,7 +8480,6 @@ on Cloud-view mode</property>
                                                             <property name="icon_size">1</property>
                                                             </object>
                                                             </child>
-                                                            <accelerator key="e" signal="clicked"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -22784,6 +22783,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

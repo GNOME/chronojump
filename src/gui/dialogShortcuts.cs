@@ -50,8 +50,6 @@ public class DialogShortcuts
 	//images on analyze tab
 	Gtk.Image image_jump_1;
 	Gtk.Image image_run_1;
-	Gtk.Image image_jump_2;
-	Gtk.Image image_run_2;
 	Gtk.Image image_jump_3;
 	Gtk.Image image_run_3;
 	Gtk.Image image_fs_4;
@@ -132,12 +130,10 @@ public class DialogShortcuts
 		//analyze tab
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_jump.png");
 		image_jump_1.Pixbuf = pixbuf;
-		image_jump_2.Pixbuf = pixbuf;
 		image_jump_3.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_run.png");
 		image_run_1.Pixbuf = pixbuf;
-		image_run_2.Pixbuf = pixbuf;
 		image_run_3.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "force_sensor_icon.png");
@@ -175,8 +171,6 @@ public class DialogShortcuts
 		image_enc_inert_5 = (Gtk.Image) builder.GetObject ("image_enc_inert_5");
 		image_jump_1 = (Gtk.Image) builder.GetObject ("image_jump_1");
 		image_run_1 = (Gtk.Image) builder.GetObject ("image_run_1");
-		image_jump_2 = (Gtk.Image) builder.GetObject ("image_jump_2");
-		image_run_2 = (Gtk.Image) builder.GetObject ("image_run_2");
 		image_jump_3 = (Gtk.Image) builder.GetObject ("image_jump_3");
 		image_run_3 = (Gtk.Image) builder.GetObject ("image_run_3");
 		image_fs_4 = (Gtk.Image) builder.GetObject ("image_fs_4");

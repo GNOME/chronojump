@@ -9441,7 +9441,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Change zoom (z)</property>
+                                                            <property name="tooltip-text" translatable="yes">Change zoom</property>
                                                             <signal name="clicked" handler="on_button_jumps_zoom_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_jumps_zoom">
@@ -9449,7 +9449,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">False</property>
                                                             </object>
                                                             </child>
-                                                            <accelerator key="z" signal="clicked"/>
+                                                            <accelerator key="z" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -9517,7 +9517,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Change zoom (z)</property>
+                                                            <property name="tooltip-text" translatable="yes">Change zoom</property>
                                                             <signal name="clicked" handler="on_button_jumps_rj_zoom_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_jumps_rj_zoom">
@@ -9525,7 +9525,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">False</property>
                                                             </object>
                                                             </child>
-                                                            <accelerator key="z" signal="clicked"/>
+                                                            <accelerator key="z" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -9598,7 +9598,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Change zoom (z)</property>
+                                                            <property name="tooltip-text" translatable="yes">Change zoom</property>
                                                             <signal name="clicked" handler="on_button_runs_zoom_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_runs_zoom">
@@ -9606,7 +9606,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">False</property>
                                                             </object>
                                                             </child>
-                                                            <accelerator key="z" signal="clicked"/>
+                                                            <accelerator key="z" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -9679,7 +9679,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Change zoom (z)</property>
+                                                            <property name="tooltip-text" translatable="yes">Change zoom</property>
                                                             <signal name="clicked" handler="on_button_runs_interval_zoom_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_runs_interval_zoom">
@@ -9687,7 +9687,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">False</property>
                                                             </object>
                                                             </child>
-                                                            <accelerator key="z" signal="clicked"/>
+                                                            <accelerator key="z" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -10643,7 +10643,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Change zoom (z)</property>
+                                                            <property name="tooltip-text" translatable="yes">Change zoom</property>
                                                             <signal name="clicked" handler="on_button_reaction_times_zoom_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_reaction_times_zoom">
@@ -10651,7 +10651,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">False</property>
                                                             </object>
                                                             </child>
-                                                            <accelerator key="z" signal="clicked"/>
+                                                            <accelerator key="z" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -10774,7 +10774,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Change zoom (z)</property>
+                                                            <property name="tooltip-text" translatable="yes">Change zoom</property>
                                                             <signal name="clicked" handler="on_button_pulses_zoom_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_pulses_zoom">
@@ -10784,7 +10784,7 @@ on Cloud-view mode</property>
                                                             <property name="icon_size">1</property>
                                                             </object>
                                                             </child>
-                                                            <accelerator key="z" signal="clicked"/>
+                                                            <accelerator key="z" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -10902,7 +10902,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Change zoom (z)</property>
+                                                            <property name="tooltip-text" translatable="yes">Change zoom</property>
                                                             <signal name="clicked" handler="on_button_multi_chronopic_zoom_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_multi_chronopic_zoom">
@@ -10910,7 +10910,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">False</property>
                                                             </object>
                                                             </child>
-                                                            <accelerator key="z" signal="clicked"/>
+                                                            <accelerator key="z" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>

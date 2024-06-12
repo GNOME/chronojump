@@ -23,6 +23,7 @@ install:
 	cp ../../images/svg/chronojump_icon.svg deps/chronojump_icon.svg
 
 totar:
+	dos2unix ../../src/post-build-linux.sh
 	dotnet publish ../../src/Chronojump-linux.sln -p:BuildTranslations=true --configuration Release -r linux-x64 --self-contained true -o $(APP_DIR)
 	sh ../../src/post-build-linux.sh $(APP_DIR)
 	tar -czvf $(PACKAGE_NAME).tar.gz $(PACKAGE_NAME)/*
@@ -48,6 +49,7 @@ todeb:
 	ln -s /usr/share/Chronojump/Chronojump deb/usr/local/bin/Chronojump	
 	mkdir -p deb/usr/share/applications
 	cp Chronojump.desktop deb/usr/share/applications/Chronojump.desktop
+	dos2unix ../../src/post-build-linux.sh
 	dotnet publish ../../src/Chronojump-linux.sln -p:BuildTranslations=true --configuration Release -r linux-x64 --self-contained true -o deb/usr/share/Chronojump
 	sh ../../src/post-build-linux.sh $(PACKAGE_DIR)/deb/usr/share/Chronojump
 	dpkg -b deb $(PACKAGE_NAME).deb

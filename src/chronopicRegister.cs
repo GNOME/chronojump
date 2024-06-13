@@ -38,7 +38,7 @@ public class ChronopicRegisterPort
 	public string SerialNumber;
 
 	//Note: if this changes, change also on execute/arduinoCapture.cs
-	public enum Types { UNKNOWN, CONTACTS, ENCODER, ARDUINO_RFID, ARDUINO_FORCE, ARDUINO_RUN_ENCODER, ACCELEROMETER, RUN_WIRELESS }
+	public enum Types { UNKNOWN, CONTACTS, ENCODER, ARDUINO_RFID, ARDUINO_FORCE, ARDUINO_RUN_ENCODER, ACCELEROMETER, RUN_WIRELESS, FOURPLATFORMS }
 	public Types Type;
 
 	public bool ConnectedReal; 	//if connexion has been done by ChronopicInit.Do
@@ -87,6 +87,8 @@ public class ChronopicRegisterPort
 			return "Accelerometer";
 		else if(typeStatic == Types.RUN_WIRELESS)
 			return "WICHRO";
+		else if(typeStatic == Types.FOURPLATFORMS)
+			return "FourPlatforms";
 
 		return Catalog.GetString("Unknown");
 	}
@@ -397,6 +399,11 @@ public abstract class ChronopicRegister
 			if (setAnyCompatibleConnectedAsSelectedDo (mode, ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER))
 				return true;
 		}
+		else if (mode == Constants.Modes.OTHER)
+		{
+			if (setAnyCompatibleConnectedAsSelectedDo (mode, ChronopicRegisterPort.Types.FOURPLATFORMS))
+				return true;
+		}
 
 		return false;
 	}
@@ -435,6 +442,8 @@ public abstract class ChronopicRegister
 			else if (Constants.ModeIsFORCESENSOR (mode) && Constants.ModeIsFORCESENSOR (sfm.mode))
 				return sfm.crp;
 			else if (Constants.ModeIsENCODER (mode) && Constants.ModeIsENCODER (sfm.mode))
+				return sfm.crp;
+			else if (mode == Constants.Modes.OTHER && sfm.mode == Constants.Modes.OTHER)
 				return sfm.crp;
 		}
 

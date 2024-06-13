@@ -458,6 +458,8 @@ public class DiscoverWindow
 				 current_mode == Constants.Modes.POWERINERTIAL) &&
 				crpt == ChronopicRegisterPort.Types.ENCODER )
 			return true;
+		else if (current_mode == Constants.Modes.OTHER && crpt == ChronopicRegisterPort.Types.FOURPLATFORMS)
+			return true;
 
 		return false;
 	}

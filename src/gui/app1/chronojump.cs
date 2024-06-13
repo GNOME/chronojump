@@ -5134,6 +5134,12 @@ public partial class ChronoJumpWindow
 			runEncoderProcessCancel = true;
 			return;
 		}
+		if(capturingFourPlatforms == arduinoCaptureStatus.STARTING || capturingFourPlatforms == arduinoCaptureStatus.CAPTURING)
+		{
+			LogB.Information("cancel clicked on fourPlatforms");
+			fourPlatformsProcessCancel = true;
+			return;
+		}
 
 		LogB.Information("cancel clicked one");
 
@@ -5187,6 +5193,12 @@ public partial class ChronoJumpWindow
 		{
 			LogB.Information("finish clicked on runEncoder");
 			runEncoderProcessFinish = true;
+			return;
+		}
+		if(capturingFourPlatforms == arduinoCaptureStatus.STARTING || capturingFourPlatforms == arduinoCaptureStatus.CAPTURING)
+		{
+			LogB.Information("finish clicked on fourPlatforms");
+			fourPlatformsProcessFinish = true;
 			return;
 		}
 
@@ -5506,6 +5518,20 @@ public partial class ChronoJumpWindow
 				on_button_detect_clicked (o, args); //open discover win
 			else
 				on_runs_encoder_capture_clicked ();
+
+			return;
+		}
+		if(current_mode == Constants.Modes.OTHER)
+		{
+			LogB.Debug ("execute test mode: other");
+			/*
+			 * FourPlatforms is not FTDI
+			 */
+
+			if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
+				on_button_detect_clicked (o, args); //open discover win
+			else
+				on_four_platforms_capture_clicked ();
 
 			return;
 		}

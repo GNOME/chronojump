@@ -22,10 +22,7 @@ using System;
 using Gtk;
 //using Glade;
 using System.Text; //StringBuilder
-using System.Collections; //ArrayList
-
 using System.Threading;
-using Mono.Unix;
 
 
 public class FourPlatformsCaptureManage

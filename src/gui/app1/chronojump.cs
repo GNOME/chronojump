@@ -971,7 +971,7 @@ public partial class ChronoJumpWindow
 		app1Shown = true;
 
 		//in networks starting mode is always the defined on chronojump_config CompujumpStationMode
-		if (! configChronojump.Compujump)
+		if (! configChronojump.Compujump && ! configChronojump.FourPlatforms)
 		{
 			if(! showSendLog && //! showSocialNetworkPoll &&
 					preferences.loadLastModeAtStart &&

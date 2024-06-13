@@ -1079,7 +1079,7 @@ public class Constants
 		RUNSSIMPLE, RUNSINTERVALLIC, RUNSENCODER,
 		POWERGRAVITATORY, POWERINERTIAL,
 		FORCESENSORISOMETRIC, FORCESENSORELASTIC,
-		RT, OTHER } //OTHER can be: Multichronopic, Pulse
+		RT, OTHER } //OTHER can be: Multichronopic, Pulse, FourPlatforms
 
 	//to shorten code on the rest of the software
 	public static bool ModeIsENCODER (Modes mode)

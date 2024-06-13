@@ -58,6 +58,7 @@ public class FourPlatformsCaptureManage
 
 	public void Capture ()
 	{
+		finish = false;
 		while (! finish && ! cancel)// && ! error)
 		{
 			if(! fpc.CaptureSample ())
@@ -69,8 +70,13 @@ public class FourPlatformsCaptureManage
 				LogB.Information("fpe: " + fpe.ToString());
 			}
 		}
+		LogB.Information ("calling Stop");
+		fpc.Stop ();
 	}
 
+	public bool Finish {
+		set { finish = value; }
+	}
 	public bool Cancel {
 		set { cancel = value; }
 	}
@@ -86,7 +92,7 @@ public partial class ChronoJumpWindow
 
 	static arduinoCaptureStatus capturingFourPlatforms = arduinoCaptureStatus.STOP;
 
-	FourPlatformsCaptureManage fpcm;
+	static FourPlatformsCaptureManage fpcm;
 	FourPlatformsCapture fpc;
 
 	private void on_four_platforms_capture_clicked ()
@@ -163,7 +169,13 @@ public partial class ChronoJumpWindow
 				fpcm.Cancel = true;
 			}
 
-			event_execute_label_message.Text = "Finished.";
+			//needed to really finish capture and be able  to capture a second time
+			if (fourPlatformsProcessFinish && fpcm != null)
+			{
+				event_execute_label_message.Text = "Finished.";
+				fpcm.Finish = true;
+			}
+
 			blinkCapture.End ();
 			showHideCaptureIcon (false);
 

@@ -127,6 +127,9 @@ public class EncoderPTCaptureManage
 			LogB.Information("cancelled");
 	}
 
+	public bool Finish {
+		set { finish = value; }
+	}
 	public bool Cancel {
 		set { cancel = value; }
 	}

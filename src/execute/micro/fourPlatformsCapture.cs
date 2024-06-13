@@ -155,9 +155,9 @@ public class FourPlatformsCapture: ArduinoCapture
 		else
 		{
 			LogB.Information("AT Capture: cannot stop, going to Disconnect");
-			*/
 			Disconnect ();
 		//}
+		*/
 
 		LogB.Information("Stop, micro.Opened: " + micro.Opened);
 

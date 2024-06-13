@@ -133,7 +133,8 @@ public class FourPlatformsCapture: ArduinoCapture
 		if (str != "")
 		{
 			FourPlatformsEvent fpe = new FourPlatformsEvent (str);
-			list.Add (fpe);
+			if (fpe.Button >= 0)
+				list.Add (fpe);
 		}
 
 		return true;

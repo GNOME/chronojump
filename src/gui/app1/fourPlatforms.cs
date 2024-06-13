@@ -32,15 +32,15 @@ public class FourPlatformsCaptureManage
 	private bool cancel;
 	//private bool error;
 
-	//private List<PointF> points_l;
+	private List<PointF> points_l;
 	
 	public FourPlatformsCaptureManage (
-			FourPlatformsCapture fpc//,
-			//ref List<PointF> points_l
+			FourPlatformsCapture fpc,
+			ref List<PointF> points_l
 			)
 	{
 		this.fpc = fpc;
-		//this.points_l = points_l;
+		this.points_l = points_l;
 	}
 
 	public bool Init ()
@@ -59,6 +59,7 @@ public class FourPlatformsCaptureManage
 	public void Capture ()
 	{
 		finish = false;
+		double timeAccu = 0;
 		while (! finish && ! cancel)// && ! error)
 		{
 			if(! fpc.CaptureSample ())
@@ -68,6 +69,19 @@ public class FourPlatformsCaptureManage
 			{
 				FourPlatformsEvent fpe = fpc.FourPlatformsCaptureReadNext();
 				LogB.Information("fpe: " + fpe.ToString());
+
+				double timeNow = fpe.Time;
+				int button = fpe.Button + 1; //from 0-3 to 1-4
+				//have button as positive or negative and put timeNow as positive
+				if (timeNow < 0)
+				{
+					button *= -1;
+					timeNow = Math.Abs (timeNow);
+				}
+				timeAccu += timeNow;
+				points_l.Add (new PointF (
+							timeAccu, // /1000 ?
+							button));
 			}
 		}
 		LogB.Information ("calling Stop");
@@ -92,12 +106,18 @@ public partial class ChronoJumpWindow
 
 	static arduinoCaptureStatus capturingFourPlatforms = arduinoCaptureStatus.STOP;
 
+	CairoGraphFourPlatforms cairoGraphFourPlatforms;
+	static List<PointF> cairoGraphFourPlatformsPoints_l;
 	static FourPlatformsCaptureManage fpcm;
 	FourPlatformsCapture fpc;
 
 	private void on_four_platforms_capture_clicked ()
 	{
 		capturingFourPlatforms = arduinoCaptureStatus.STARTING;
+
+		//blank Cairo scatterplot graphs
+		cairoGraphFourPlatforms = null;
+		cairoGraphFourPlatformsPoints_l = new List<PointF>();
 
 		fourPlatformsPulseMessage = "";
 		fourPlatformsButtonsSensitive (false);
@@ -140,8 +160,8 @@ public partial class ChronoJumpWindow
 					chronopicRegister.GetSelectedForMode (current_mode).Port);
 
 		fpcm = new FourPlatformsCaptureManage (
-				fpc//,
-				//points_l,
+				fpc,
+				ref cairoGraphFourPlatformsPoints_l
 				);
 
 		if (fpcm.Init ())
@@ -192,7 +212,7 @@ public partial class ChronoJumpWindow
 			fourPlatformsButtonsSensitive (true);
 			hideButtons();
 
-			//drawingarea_race_analyzer_capture_position_time.QueueDraw ();
+			event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 
 			return false;
 		} else {
@@ -202,11 +222,7 @@ public partial class ChronoJumpWindow
 					blinkCapture.Start (); //TODO: but note here is still connecting
 				showHideCaptureIcon (true);
 
-				/*
-				drawingarea_race_analyzer_capture_position_time.QueueDraw ();
-				drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
-				drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
-				*/
+				event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 
 				if(fourPlatformsPulseMessage == capturingMessage)
 					event_execute_button_finish.Sensitive = true;

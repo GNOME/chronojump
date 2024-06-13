@@ -286,9 +286,10 @@ public partial class ChronoJumpWindow
 	//realtime capture graph for jumpRj and runInterval
 	public void on_event_execute_drawingarea_realtime_capture_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
-		//right now only for jump reactive
+		//right now only for jump reactive, runsI, other (fourplatforms)
 		if(current_mode != Constants.Modes.JUMPSREACTIVE &&
-				current_mode != Constants.Modes.RUNSINTERVALLIC)
+				current_mode != Constants.Modes.RUNSINTERVALLIC &&
+				current_mode != Constants.Modes.OTHER)
 			return;
 
 		if(current_mode == Constants.Modes.JUMPSREACTIVE)
@@ -333,6 +334,20 @@ public partial class ChronoJumpWindow
 						selectedRunInterval.Photocell_l,
 						selectedRunInterval.Type, selectedRunInterval.Description, feedbackRunsI); //Description is person.Name
 			}
+		} else if(current_mode == Constants.Modes.OTHER)
+		{
+			if(cairoGraphFourPlatforms == null)// || forceRedraw)
+				cairoGraphFourPlatforms = new CairoGraphFourPlatforms (
+						event_execute_drawingarea_realtime_capture_cairo, "title");
+
+			cairoGraphFourPlatforms.DoSendingList (
+				preferences.fontType.ToString(),
+				cairoGraphFourPlatformsPoints_l, //TODO: should not be safer to send a copy?
+				capturingFourPlatforms == arduinoCaptureStatus.CAPTURING,
+				false, 0,
+				10,
+				//true, CairoXY.PlotTypes.POINTS);
+				true, CairoXY.PlotTypes.POINTSLINES);
 		}
 	}
 

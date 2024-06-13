@@ -4599,6 +4599,7 @@ public partial class ChronoJumpWindow
 			else
 				on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
 
+			align_drawingarea_realtime_capture_cairo.Visible = true; //show realtime graph
 			notebook_capture_analyze.CurrentPage = 0;
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;

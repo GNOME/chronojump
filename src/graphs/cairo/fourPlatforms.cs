@@ -101,6 +101,10 @@ public class CairoGraphFourPlatforms : CairoXY
 		{
 			maxValuesChanged = findPointMaximums(false, points_l);
 			//LogB.Information(string.Format("minY: {0}, maxY: {1}", minY, maxY));
+
+			//forced
+			minY = -4;
+			absoluteMaxY = +4;
 		}
 
 		bool graphInited = false;

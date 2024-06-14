@@ -197,6 +197,8 @@ void startCapture() {
   for (int i = 0; i<=3; i++) {
     Serial.print(lastSensorState[i]);
     Serial.print(";");
+    phaseTime[i] = 0;
+    lastPhaseDuration[i] = 0;
   }
   Serial.println();
 }

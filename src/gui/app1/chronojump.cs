@@ -5105,9 +5105,8 @@ public partial class ChronoJumpWindow
 	
 
 	/*
-	 * cancel and finish
+	 * cancel ------->
 	 */
-
 
 	private void on_cancel_clicked (object o, EventArgs args) 
 	{
@@ -5123,26 +5122,40 @@ public partial class ChronoJumpWindow
 		if (blinkCapture != null)
 			blinkCapture.End ();
 
-		if(capturingForce == arduinoCaptureStatus.STARTING || capturingForce == arduinoCaptureStatus.CAPTURING)
-		{
-			LogB.Information("cancel clicked on force");
-			forceProcessCancel = true;
-			return;
-		}
-		if(capturingRunEncoder == arduinoCaptureStatus.STARTING || capturingRunEncoder == arduinoCaptureStatus.CAPTURING)
-		{
-			LogB.Information("cancel clicked on runEncoder");
-			runEncoderProcessCancel = true;
-			return;
-		}
-		if(capturingFourPlatforms == arduinoCaptureStatus.STARTING || capturingFourPlatforms == arduinoCaptureStatus.CAPTURING)
-		{
-			LogB.Information("cancel clicked on fourPlatforms");
-			fourPlatformsProcessCancel = true;
-			return;
-		}
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+			on_cancel_clicked_2_forceSensor ();
+		else if (current_mode == Constants.Modes.RUNSENCODER)
+			on_cancel_clicked_2_raceAnalyzer ();
+		else if (current_mode == Constants.Modes.OTHER)
+			on_cancel_clicked_2_other ();
+		else
+			on_cancel_clicked_2_contacts_generic ();
+	}
 
-		LogB.Information("cancel clicked one");
+	private void on_cancel_clicked_2_forceSensor ()
+	{
+		LogB.Information (string.Format ("cancel clicked on force, capturingForce = {0}", capturingForce));
+		if(capturingForce == arduinoCaptureStatus.STARTING || capturingForce == arduinoCaptureStatus.CAPTURING)
+			forceProcessCancel = true;
+	}
+
+	private void on_cancel_clicked_2_raceAnalyzer ()
+	{
+		LogB.Information (string.Format ("cancel clicked on raceAnalyzer, capturingRunEncoder = {0}", capturingRunEncoder));
+		if(capturingRunEncoder == arduinoCaptureStatus.STARTING || capturingRunEncoder == arduinoCaptureStatus.CAPTURING)
+			runEncoderProcessCancel = true;
+	}
+
+	private void on_cancel_clicked_2_other ()
+	{
+		LogB.Information (string.Format ("cancel clicked on fourPlatforms, capturingFourPlatforms = {0}", capturingFourPlatforms));
+		if(capturingFourPlatforms == arduinoCaptureStatus.STARTING || capturingFourPlatforms == arduinoCaptureStatus.CAPTURING)
+			fourPlatformsProcessCancel = true;
+	}
+
+	private void on_cancel_clicked_2_contacts_generic ()
+	{
+		LogB.Information("cancel clicked contacts generic");
 
 		if (webcamStatusEnum == WebcamStatusEnum.RECORDING)
 		{
@@ -5172,6 +5185,14 @@ public partial class ChronoJumpWindow
 		//this will actually cancel Read_cambio and then Read_event in order to really cancel
 		Chronopic.CancelDo();
 	}
+
+	/*
+	 * <-------- cancel
+	 */
+
+	/*
+	 * finish ------->
+	 */
 
 	private void on_finish_clicked (object o, EventArgs args) 
 	{

@@ -5205,26 +5205,40 @@ public partial class ChronoJumpWindow
 		//to avoid doble finish or cancel while finishing
 		hideButtons();
 
-		if(capturingForce == arduinoCaptureStatus.STARTING || capturingForce == arduinoCaptureStatus.CAPTURING)
-		{
-			LogB.Information("finish clicked on force");
-			forceProcessFinish = true;
-			return;
-		}
-		if(capturingRunEncoder == arduinoCaptureStatus.STARTING || capturingRunEncoder == arduinoCaptureStatus.CAPTURING)
-		{
-			LogB.Information("finish clicked on runEncoder");
-			runEncoderProcessFinish = true;
-			return;
-		}
-		if(capturingFourPlatforms == arduinoCaptureStatus.STARTING || capturingFourPlatforms == arduinoCaptureStatus.CAPTURING)
-		{
-			LogB.Information("finish clicked on fourPlatforms");
-			fourPlatformsProcessFinish = true;
-			return;
-		}
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+			on_finish_clicked_2_forceSensor ();
+		else if (current_mode == Constants.Modes.RUNSENCODER)
+			on_finish_clicked_2_raceAnalyzer ();
+		else if (current_mode == Constants.Modes.OTHER)
+			on_finish_clicked_2_other ();
+		else
+			on_finish_clicked_2_contacts_generic ();
+	}
 
-		LogB.Information("finish clicked one");
+	private void on_finish_clicked_2_forceSensor ()
+	{
+		LogB.Information (string.Format ("finish clicked on force, capturingForce = {0}", capturingForce));
+		if(capturingForce == arduinoCaptureStatus.STARTING || capturingForce == arduinoCaptureStatus.CAPTURING)
+			forceProcessFinish = true;
+	}
+
+	private void on_finish_clicked_2_raceAnalyzer ()
+	{
+		LogB.Information (string.Format ("finish clicked on raceAnalyzer, capturingRunEncoder = {0}", capturingRunEncoder));
+		if(capturingRunEncoder == arduinoCaptureStatus.STARTING || capturingRunEncoder == arduinoCaptureStatus.CAPTURING)
+			runEncoderProcessFinish = true;
+	}
+
+	private void on_finish_clicked_2_other ()
+	{
+		LogB.Information (string.Format ("finish clicked on fourPlatforms, capturingFourPlatforms = {0}", capturingFourPlatforms));
+		if(capturingFourPlatforms == arduinoCaptureStatus.STARTING || capturingFourPlatforms == arduinoCaptureStatus.CAPTURING)
+			fourPlatformsProcessFinish = true;
+	}
+
+	private void on_finish_clicked_2_contacts_generic ()
+	{
+		LogB.Information("finish clicked contacts generic");
 
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
 		currentEventExecute.Finish = true;
@@ -5254,6 +5268,10 @@ public partial class ChronoJumpWindow
 
 		LogB.Debug("Called finish on multi");
 	}
+
+	/*
+	 * <-------- finish
+	 */
 
 	DialogThreshold dialogThreshold;
 	private void on_threshold_clicked (object o, EventArgs args)

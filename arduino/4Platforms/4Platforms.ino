@@ -81,7 +81,7 @@ void setup() {
 
   // Just to sabilize the inputPin
   delay(100);
-    for(int i=0; i<=3; i++)
+  for(int i=0; i<=3; i++)
   {
     sensorState[i] = !digitalRead(sensorPin[i]);
     lastSensorState[i] = sensorState[i];
@@ -147,6 +147,8 @@ void processCommand(String inputString) {
   String argumentString = get_command_argument(inputString);
   if (commandString == "get_version") {
     getVersion();
+  } else if (commandString == "start_capture") {
+    startCapture();
   } else {
     Serial.println("Not a valid command");
   }
@@ -187,4 +189,12 @@ void changedSensor(int i) {
     timerStart(debounceTimer[i]);
     timerWrite(debounceTimer[i],0);
   }
+}
+
+void startCapture() {
+  for (int i = 0; i<=3; i++) {
+    Serial.print(lastSensorState[i]);
+    Serial.print(";");
+  }
+  Serial.println();
 }

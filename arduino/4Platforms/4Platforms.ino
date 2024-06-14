@@ -149,6 +149,8 @@ void processCommand(String inputString) {
     getVersion();
   } else if (commandString == "start_capture") {
     startCapture();
+  } else if (commandString == "end_capture") {
+    endCapture();
   } else {
     Serial.println("Not a valid command");
   }
@@ -197,4 +199,8 @@ void startCapture() {
     Serial.print(";");
   }
   Serial.println();
+}
+
+void endCapture() {
+  Serial.print("Capture ended");
 }

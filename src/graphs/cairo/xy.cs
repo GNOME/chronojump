@@ -213,14 +213,20 @@ public abstract class CairoXY : CairoGeneric
 	//used by default on jumpsWeightFVProfile
 	//called from almost all methods
 	//true if changed
-	protected bool findPointMaximums(bool showFullGraph)
+	protected bool findPointMaximums (bool showFullGraph)
 	{
 		return findPointMaximums(showFullGraph, point_l);
 	}
 
 	//called from raceAnalyzer (sending it own list of points)
+	protected bool findPointMaximums (bool showFullGraph, List<PointF> points_list)
+	{
+		return findPointMaximums (showFullGraph, points_list, true);
+	}
+
 	//true if changed
-	protected bool findPointMaximums(bool showFullGraph, List<PointF> points_list)
+	//called from fourPlatforms (sending it own list of points)
+	protected bool findPointMaximums (bool showFullGraph, List<PointF> points_list, bool separateMinMaxIfNeeded)
 	{
 		minX = 0;
 		minY = 0;
@@ -272,9 +278,12 @@ public abstract class CairoXY : CairoGeneric
 			maxY += .025 * maxY;
 		}
 
-		//if there is only one point, or by any reason mins == maxs, have mins and maxs separated
-		separateMinXMaxXIfNeeded();
-		separateMinYMaxYIfNeeded();
+		if (separateMinMaxIfNeeded)
+		{
+			//if there is only one point, or by any reason mins == maxs, have mins and maxs separated
+			separateMinXMaxXIfNeeded();
+			separateMinYMaxYIfNeeded();
+		}
 
 		bool changed = false;
 		if(maxX != absoluteMaxX)

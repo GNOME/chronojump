@@ -53,7 +53,7 @@ public class CairoGraphFourPlatforms : CairoXY
 		topMargin = 40;
 		bottomMargin = 40;
 
-		innerMargin = 20;
+		innerMargin = 0;
 
 		yVariable = "";
 		yUnits = "";
@@ -103,7 +103,7 @@ public class CairoGraphFourPlatforms : CairoXY
 
 		if(points_ll != null)
 		{
-			maxValuesChanged = findPointMaximums(false, points_ll[0]);
+			maxValuesChanged = findPointMaximums(false, points_ll[0], false);
 			//LogB.Information(string.Format("minY: {0}, maxY: {1}", minY, maxY));
 
 			//forced
@@ -157,6 +157,8 @@ public class CairoGraphFourPlatforms : CairoXY
 			LogB.Information("Catched on CairoGraphForceSensorSignal soSendingList() g.LineWidth");
 			return graphInited;
 		}
+
+		//paintGrid (gridTypes.VERTICALLINES, true, 0);//axisShiftToRight + 5);
 		pointsRadius = 8;
 
 		startAt = 0;
@@ -181,48 +183,48 @@ public class CairoGraphFourPlatforms : CairoXY
 		{
 			g.MoveTo (leftMargin, calculatePaintY (i));
 			g.LineTo (graphWidth - rightMargin, calculatePaintY (i));
-			printText (4, calculatePaintY (i), 0, textHeight +4,
-					i.ToString (), g, alignTypes.LEFT);
+			printText (leftMargin/2, calculatePaintY (i), 0, textHeight +4,
+					i.ToString (), g, alignTypes.CENTER);
 			g.Stroke (); //needed because if not the move to on printText makes after show a line to the following points
 		}
 
+		g.LineWidth = 2;
 		g.SetSourceColor (black);
 		for (int i = 1; i <= 4; i ++)
 			for (int j = points_ll[i].Count -1; j >= 0 && points_ll[i][j].X >= points_ll[0][startAt].X ; j --)
 			{
-				//if is ON
 				if (points_ll[i][j].Y > i) 	//ON: filled
 				{
-					drawCircle (
-							calculatePaintX (points_ll[i][j].X),
+					drawCircle (calculatePaintX (points_ll[i][j].X),
 							calculatePaintY (i),
 							pointsRadius, black, true);
+
 					continue;
 				}
 
-				//is OFF, should be empty and draw the line to ON at left
-				if (points_ll[i][j].Y < i) 	//is empty
+				if (points_ll[i][j].Y < i) //if OFF, should be empty and draw the line to ON at left
 				{
-					drawCircle (
-							calculatePaintX (points_ll[i][j].X),
+					drawCircle (calculatePaintX (points_ll[i][j].X),
 							calculatePaintY (i),
-							pointsRadius, black, false);
+							pointsRadius, black, white);
 
-					double drawLineToX = calculatePaintX (0);
+					//double drawLineToX = calculatePaintX (0);
+					double drawLineToX = calculatePaintX (points_ll[0][startAt].X) + pointsRadius;
 					if (j -1 >= 0 && points_ll[i][j-1].Y > i && //ON: filled
 							points_ll[i][j-1].X >= points_ll[0][startAt].X)
 					{
-						drawCircle (
-								calculatePaintX (points_ll[i][j-1].X),
+						drawCircle (calculatePaintX (points_ll[i][j-1].X),
 								calculatePaintY (i),
-								pointsRadius, black, false);
-						drawLineToX = calculatePaintX (points_ll[i][j-1].X);
+								pointsRadius, black, true);
+						drawLineToX = calculatePaintX (points_ll[i][j-1].X) + pointsRadius;
 					}
 
-					g.LineWidth = 2;
-					g.MoveTo (calculatePaintX (points_ll[i][j].X), calculatePaintY (i));
-					g.LineTo (drawLineToX, calculatePaintY (i));
-					g.Stroke ();
+					if (calculatePaintX (points_ll[i][j].X) - pointsRadius - drawLineToX > 0)
+					{
+						g.MoveTo (calculatePaintX (points_ll[i][j].X) - pointsRadius, calculatePaintY (i));
+						g.LineTo (drawLineToX, calculatePaintY (i));
+						g.Stroke ();
+					}
 				}
 			}
 

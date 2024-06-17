@@ -30,17 +30,19 @@ public class FourPlatformsCaptureManage
 	private FourPlatformsCapture fpc;
 	private bool finish;
 	private bool cancel;
+	private DateTime timeOfLastCapture; //to show correctly the scroll even with no new data
 	//private bool error;
 
-	private List<PointF> points_l;
+	//private List<PointF> points_l;
+	private List<List<PointF>> points_ll; //[0] will have all and helps to configureTimeWindow
 	
 	public FourPlatformsCaptureManage (
 			FourPlatformsCapture fpc,
-			ref List<PointF> points_l
+			ref List<List<PointF>> points_ll
 			)
 	{
 		this.fpc = fpc;
-		this.points_l = points_l;
+		this.points_ll = points_ll;
 	}
 
 	public bool Init ()
@@ -59,7 +61,11 @@ public class FourPlatformsCaptureManage
 	public void Capture ()
 	{
 		finish = false;
-		double timeAccu = 0;
+
+		List<double> timeAccu_l = new List<double> (); //double to use PointF
+		for (int i = 0; i <= 3 ; i ++)
+			timeAccu_l.Add (0);
+
 		while (! finish && ! cancel)// && ! error)
 		{
 			if(! fpc.CaptureSample ())
@@ -70,22 +76,33 @@ public class FourPlatformsCaptureManage
 				FourPlatformsEvent fpe = fpc.FourPlatformsCaptureReadNext();
 				LogB.Information("fpe: " + fpe.ToString());
 
-				double timeNow = fpe.Time;
-				int button = fpe.Button + 1; //from 0-3 to 1-4
+				int timeNow = fpe.Time; //millis
+
+				//int button = fpe.Button + 1; //from 0-3 to 1-4
 				//have button as positive or negative and put timeNow as positive
 				if (timeNow < 0)
-				{
-					button *= -1;
 					timeNow = Math.Abs (timeNow);
-				}
-				timeAccu += timeNow;
-				points_l.Add (new PointF (
-							timeAccu, // /1000 ?
-							button));
+
+				timeAccu_l[fpe.Button] += timeNow;
+
+				int y = fpe.Button + 1; //1 - 4
+				double ySign = .2;
+				if (fpe.Time < 0)
+					ySign = -.2;
+				//LogB.Information ("fpe.Button: " + fpe.Button);
+				//LogB.Information ("y: " + y);
+				//points_ll[0].Add (new PointF (timeAccu_l[fpe.Button], y+ySign)); //0 has all
+				points_ll[0].Add (new PointF (timeAccu_l[fpe.Button], .1)); //0 has all //to debug
+				points_ll[y].Add (new PointF (timeAccu_l[fpe.Button], y+ySign)); //1-3 each of the sensors
+				timeOfLastCapture = DateTime.Now;
 			}
 		}
 		LogB.Information ("calling Stop");
 		fpc.Stop ();
+	}
+
+	public DateTime TimeOfLastCapture {
+		get { return timeOfLastCapture; }
 	}
 
 	public bool Finish {
@@ -107,7 +124,11 @@ public partial class ChronoJumpWindow
 	static arduinoCaptureStatus capturingFourPlatforms = arduinoCaptureStatus.STOP;
 
 	CairoGraphFourPlatforms cairoGraphFourPlatforms;
-	static List<PointF> cairoGraphFourPlatformsPoints_l;
+	//static List<PointF> cairoGraphFourPlatformsPoints_l;
+	//for making 4 lines each for a sensor, and being continuous (1) or empty (0)
+	//5 PointF lists, 0: have all (to configureTimeWindow), 1-3: each for one button. x=accumulated time, y is on (1) off (0),
+	static List<List<PointF>> cairoGraphFourPlatformsPoints_ll;
+
 	static FourPlatformsCaptureManage fpcm;
 	FourPlatformsCapture fpc;
 
@@ -117,7 +138,10 @@ public partial class ChronoJumpWindow
 
 		//blank Cairo scatterplot graphs
 		cairoGraphFourPlatforms = null;
-		cairoGraphFourPlatformsPoints_l = new List<PointF>();
+		cairoGraphFourPlatformsPoints_ll = new List<List<PointF>>();
+		cairoGraphFourPlatformsPoints_ll.Add (new List<PointF>()); //all buttons
+		for (int i = 0; i < 4; i ++)
+			cairoGraphFourPlatformsPoints_ll.Add (new List<PointF>()); //button 1
 
 		fourPlatformsPulseMessage = "";
 		fourPlatformsButtonsSensitive (false);
@@ -159,10 +183,7 @@ public partial class ChronoJumpWindow
 			fpc = new FourPlatformsCapture (
 					chronopicRegister.GetSelectedForMode (current_mode).Port);
 
-		fpcm = new FourPlatformsCaptureManage (
-				fpc,
-				ref cairoGraphFourPlatformsPoints_l
-				);
+		fpcm = new FourPlatformsCaptureManage (fpc, ref cairoGraphFourPlatformsPoints_ll);
 
 		if (fpcm.Init ())
 		{

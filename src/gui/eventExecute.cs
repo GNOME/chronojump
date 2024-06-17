@@ -340,14 +340,15 @@ public partial class ChronoJumpWindow
 				cairoGraphFourPlatforms = new CairoGraphFourPlatforms (
 						event_execute_drawingarea_realtime_capture_cairo, "title");
 
-			cairoGraphFourPlatforms.DoSendingList (
-				preferences.fontType.ToString(),
-				cairoGraphFourPlatformsPoints_l, //TODO: should not be safer to send a copy?
-				capturingFourPlatforms == arduinoCaptureStatus.CAPTURING,
-				false, 0,
-				10,
-				//true, CairoXY.PlotTypes.POINTS);
-				true, CairoXY.PlotTypes.POINTSLINES);
+			if (fpcm != null)
+				cairoGraphFourPlatforms.DoSendingList (
+						preferences.fontType.ToString(),
+						cairoGraphFourPlatformsPoints_ll,
+						capturingFourPlatforms == arduinoCaptureStatus.CAPTURING,
+						fpcm.TimeOfLastCapture,
+						false, 0,
+						10,
+						true, CairoXY.PlotTypes.POINTSFILL);
 		}
 	}
 

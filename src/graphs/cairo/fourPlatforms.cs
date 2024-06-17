@@ -27,7 +27,7 @@ public class CairoGraphFourPlatforms : CairoXY
 {
 	//private bool horizontal;
 	private int points_l_painted;
-	private List<PointF> points_l; //if butterworth, this will be it
+	private List<List<PointF>> points_ll;
 	private int startAt;
 	private int marginAfterInSeconds;
 	private bool capturing;
@@ -68,15 +68,17 @@ public class CairoGraphFourPlatforms : CairoXY
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font,
-			List<PointF> points_l,
+			List<List<PointF>> points_ll,
 			bool capturing,
+			DateTime timeOfLastCapture,
 			bool videoShow, double videoPlayTimeInSeconds,
 			int showLastSeconds,
 			bool forceRedraw, PlotTypes plotType)
 	{
 		if (doSendingList (font,
-					points_l,
+					points_ll,
 					capturing,
+					timeOfLastCapture,
 					videoShow, videoPlayTimeInSeconds,
 					showLastSeconds,
 					forceRedraw, plotType))
@@ -84,32 +86,46 @@ public class CairoGraphFourPlatforms : CairoXY
 	}
 
 	private bool doSendingList (string font,
-			List<PointF> points_l,
+			List<List<PointF>> points_ll,
 			bool capturing,
+			DateTime timeOfLastCapture,
 			bool videoShow, double videoPlayTimeInSeconds,
 			int showLastSeconds,
 			bool forceRedraw, PlotTypes plotType)
 	{
-		this.points_l = points_l;
+		this.points_ll = points_ll;
 		this.capturing = capturing;
 
 		rightMargin = 40;
 
+		//TODO: s'hauria de veure si anem actualitzant el graf mínim cada dècima de segon (fent scroll amb temps actual)
 		bool maxValuesChanged = false;
 
-		if(points_l != null)
+		if(points_ll != null)
 		{
-			maxValuesChanged = findPointMaximums(false, points_l);
+			maxValuesChanged = findPointMaximums(false, points_ll[0]);
 			//LogB.Information(string.Format("minY: {0}, maxY: {1}", minY, maxY));
 
 			//forced
-			minY = -4;
-			absoluteMaxY = +4;
+			//minY = -4;
+			//absoluteMaxY = +4;
+			minY = 1 - .25;
+			absoluteMaxY = 4 + .25;
+
+			/*
+			//aplicar això quan ja estem a l'scroll
+			if (capturing)
+			{
+				LogB.Information (string.Format ("absoluteMaxX = {0}, totalMillis now: {1}",
+							absoluteMaxX, DateTime.Now.Subtract(timeOfLastCapture).TotalMilliseconds));
+				//			absoluteMaxX += DateTime.Now.Subtract(timeOfLastCapture).TotalMilliseconds;
+			}
+			*/
 		}
 
 		bool graphInited = false;
 		if( maxValuesChanged || forceRedraw ||
-				(points_l != null && points_l.Count != points_l_painted)
+				(points_ll != null && points_ll[0].Count != points_l_painted)
 				)
 		{
 			colorCairoBackground = new Cairo.Color (1, 1, 1, 1);
@@ -119,7 +135,8 @@ public class CairoGraphFourPlatforms : CairoXY
 			points_l_painted = 0;
 		}
 
-		if( points_l == null || points_l.Count == 0)
+		//if( points_l == null || points_l.Count == 0)
+		if( points_ll == null || points_ll[0].Count == 0)
 		{
 			if (! graphInited)
 			{
@@ -140,22 +157,16 @@ public class CairoGraphFourPlatforms : CairoXY
 			LogB.Information("Catched on CairoGraphForceSensorSignal soSendingList() g.LineWidth");
 			return graphInited;
 		}
-		pointsRadius = 10;
+		pointsRadius = 8;
 
 		startAt = 0;
 		marginAfterInSeconds = 0;
 
-		//marginAfterInSeconds = 3;
-		if (showLastSeconds > 0 && points_l.Count > 1)
-		{
-			//if (horizontal)
-				startAt = configureTimeWindowHorizontal (points_l, showLastSeconds, marginAfterInSeconds, 10000); //10 s
-			//else
-			//	startAt = configureTimeWindowVertical (points_l, showLastSeconds, marginAfterInSeconds, 10000);
-		}
+		if (showLastSeconds > 0 && points_ll[0].Count > 1)
+			startAt = configureTimeWindowHorizontal (points_ll[0], showLastSeconds, marginAfterInSeconds, 1000); //data in ms 
 
-		// paint points and maybe interpolated path
-		if(maxValuesChanged || forceRedraw || points_l.Count != points_l_painted)
+		//paint points
+		if(maxValuesChanged || forceRedraw || points_ll[0].Count != points_l_painted)
 			doPlot (plotType);
 
 		return true;
@@ -165,26 +176,32 @@ public class CairoGraphFourPlatforms : CairoXY
 	{
 		g.SetSourceColor (white);
 
-		if (points_l.Count > 0)
+		g.SetSourceColor (gray);
+		for (int i = 1; i <= 4; i ++)
 		{
-			g.SetSourceColor (gray);
-			for (int i = -4; i <= 4; i ++)
-			{
-				if (i == 0)
-					continue;
-
-				g.MoveTo (leftMargin, calculatePaintY (i));
-				g.LineTo (graphWidth - rightMargin, calculatePaintY (i));
-				g.Stroke ();
-				printText (leftMargin-4, calculatePaintY (i), 0, textHeight +4,
-						i.ToString (), g, alignTypes.RIGHT);
-			}
+			g.MoveTo (leftMargin, calculatePaintY (i));
+			g.LineTo (graphWidth - rightMargin, calculatePaintY (i));
+			printText (4, calculatePaintY (i+.2), 0, textHeight +4,
+					string.Format ("{0} ON", i), g, alignTypes.LEFT);
+			printText (4, calculatePaintY (i-.2), 0, textHeight +4,
+					string.Format ("{0} OFF", i), g, alignTypes.LEFT);
+			g.Stroke (); //needed because if not the move to on printText makes after show a line to the following points
 		}
 
 		g.SetSourceColor (black);
-		plotRealPoints (plotType, points_l, startAt, false); //fast (but the difference is very low)
+		for (int i = 1; i <= 4; i ++)
+			for (int j = points_ll[i].Count -1; j >= 0 && points_ll[i][j].X >= points_ll[0][startAt].X ; j --)
+				drawCircle (
+						calculatePaintX (points_ll[i][j].X),
+						calculatePaintY (points_ll[i][j].Y),
+						pointsRadius, black, true);
 
-		points_l_painted = points_l.Count;
+		//debug with points_ll[0]
+		g.SetSourceColor (green);
+			plotRealPoints (plotType, points_ll[0], startAt, false); //fast (but the difference is very low)
+
+		g.SetSourceColor (yellow);
+		points_l_painted = points_ll[0].Count;
 	}
 
 	protected override void writeTitle()

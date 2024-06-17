@@ -166,6 +166,7 @@ public abstract class CairoGeneric
 		g.MoveTo( x - moveToLeft,
 			Convert.ToInt32 (((y+y+height)/2) + textHeight/2) ); //y as int on dotnetgtk3 because on windows top row of text is sometimes not shown if double
 		g.ShowText(text);
+//		g.Stroke ();
 	}
 
 	// fitting on an horizontal space

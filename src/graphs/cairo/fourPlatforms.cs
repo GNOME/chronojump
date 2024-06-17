@@ -181,24 +181,55 @@ public class CairoGraphFourPlatforms : CairoXY
 		{
 			g.MoveTo (leftMargin, calculatePaintY (i));
 			g.LineTo (graphWidth - rightMargin, calculatePaintY (i));
-			printText (4, calculatePaintY (i+.2), 0, textHeight +4,
-					string.Format ("{0} ON", i), g, alignTypes.LEFT);
-			printText (4, calculatePaintY (i-.2), 0, textHeight +4,
-					string.Format ("{0} OFF", i), g, alignTypes.LEFT);
+			printText (4, calculatePaintY (i), 0, textHeight +4,
+					i.ToString (), g, alignTypes.LEFT);
 			g.Stroke (); //needed because if not the move to on printText makes after show a line to the following points
 		}
 
 		g.SetSourceColor (black);
 		for (int i = 1; i <= 4; i ++)
 			for (int j = points_ll[i].Count -1; j >= 0 && points_ll[i][j].X >= points_ll[0][startAt].X ; j --)
-				drawCircle (
-						calculatePaintX (points_ll[i][j].X),
-						calculatePaintY (points_ll[i][j].Y),
-						pointsRadius, black, true);
+			{
+				//if is ON
+				if (points_ll[i][j].Y > i) 	//ON: filled
+				{
+					drawCircle (
+							calculatePaintX (points_ll[i][j].X),
+							calculatePaintY (i),
+							pointsRadius, black, true);
+					continue;
+				}
 
+				//is OFF, should be empty and draw the line to ON at left
+				if (points_ll[i][j].Y < i) 	//is empty
+				{
+					drawCircle (
+							calculatePaintX (points_ll[i][j].X),
+							calculatePaintY (i),
+							pointsRadius, black, false);
+
+					double drawLineToX = calculatePaintX (0);
+					if (j -1 >= 0 && points_ll[i][j-1].Y > i && //ON: filled
+							points_ll[i][j-1].X >= points_ll[0][startAt].X)
+					{
+						drawCircle (
+								calculatePaintX (points_ll[i][j-1].X),
+								calculatePaintY (i),
+								pointsRadius, black, false);
+						drawLineToX = calculatePaintX (points_ll[i][j-1].X);
+					}
+
+					g.LineWidth = 2;
+					g.MoveTo (calculatePaintX (points_ll[i][j].X), calculatePaintY (i));
+					g.LineTo (drawLineToX, calculatePaintY (i));
+					g.Stroke ();
+				}
+			}
+
+		/*
 		//debug with points_ll[0]
-		g.SetSourceColor (green);
-			plotRealPoints (plotType, points_ll[0], startAt, false); //fast (but the difference is very low)
+		plotRealPoints (plotType, points_ll[0], startAt, false); //fast (but the difference is very low)
+		*/
 
 		g.SetSourceColor (yellow);
 		points_l_painted = points_ll[0].Count;

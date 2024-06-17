@@ -72,6 +72,9 @@ public class FourPlatformsCapture: ArduinoCapture
 			Match match = Regex.Match (firmwareVersion, @"4Platforms-(\d+\.\d+)");
 			if(match.Groups.Count == 2)
 				firmwareVersion = match.Groups[1].ToString();
+
+			//wait a bit before sending the start_capture:
+			Thread.Sleep (1000);
 		}
 		micro.Opened = true;
 

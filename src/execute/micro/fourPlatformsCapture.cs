@@ -96,23 +96,33 @@ public class FourPlatformsCapture: ArduinoCapture
 			return false;
 		}
 
-		/*
 		if(! sendCommand ("start_capture:", "Catched 4Platforms capturing"))
-		//if(! sendCommand ("start_simulation:", "Catched 4Platforms capturing"))
 		{
 			return false;
 		}
 
 		responseExpected_l = new List<string>();
-		responseExpected_l.Add ("Starting capture");
+		responseExpected_l.Add ("Starting capture;Status:");
 	
 		//return waitResponse (responseExpected_l, true, 2000);
 		//return waitResponse (responseExpected_l, false, 2000);
-		bool responseOk = waitResponse ("Starting capture", false, 2000, false);
+		if (waitResponse (responseExpected_l, false, 2000, false))
+		{
+			string [] strEnded = micro.Response.Split(new char[] {':'});
+			string [] strEndedStatus = strEnded[1].Split(new char[] {';'});
+			/*
+			if(strEndedStatus.Length == 3 && Util.IsNumber(strEnded[2], false))
+			{
+				LogB.Information (string.Format ("runEncoderTotalTime: {0}", strEnded[2]));
+				runEncoderTotalTime = Convert.ToInt32 (strEnded[2]);
+			}
+			*/
+			LogB.Information (string.Format ("micro.Response: {0}", micro.Response));
+			return true;
+		}
 
-		return responseOk;
-		*/
-		return true;
+		//return responseOk;
+		return false;
 	}
 
 	//if true: continue capturing; if false: error, end
@@ -170,6 +180,8 @@ public class FourPlatformsCapture: ArduinoCapture
 
 	public override bool CanReadFromList ()
 	{
+		//LogB.Information (string.Format ("CanReadFromList: list.Count: {0}, readedPos: {1}",
+		//			list.Count, readedPos));
 		return (list.Count > readedPos);
 	}
 
@@ -203,7 +215,7 @@ public class FourPlatformsEvent
 	public FourPlatformsEvent (string str)
 	{
                 str = str.Trim(); 	//Trim str (to remove newline char)
-		//LogB.Information ("str: |" + str + "|");
+		//LogB.Information ("FourPlatformsEvent str: |" + str + "|");
 
 		string [] strFull = str.Split(new char[] {':'});
 		if (strFull.Length != 2)

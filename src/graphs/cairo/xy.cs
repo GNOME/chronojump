@@ -523,7 +523,7 @@ public abstract class CairoXY : CairoGeneric
 	}
 
 
-	public enum PlotTypes { POINTS, LINES, POINTSLINES }
+	public enum PlotTypes { POINTSFILL, POINTSEMPTY, LINES, POINTSLINES }
 
 	//called from almost all methods
 	protected void plotRealPoints (PlotTypes plotType)
@@ -597,7 +597,10 @@ public abstract class CairoXY : CairoGeneric
 			double ygraph = calculatePaintY(p.Y);
 			g.Arc(xgraph, ygraph, pointsRadius, 0.0, 2.0 * Math.PI); //full circle
 			g.SetSourceColor(colorBackground);
-			g.FillPreserve();
+
+			if(plotType == PlotTypes.POINTSFILL)
+				g.FillPreserve();
+
 			g.SetSourceRGB(0, 0, 0);
 			g.Stroke (); 	//can this be done at the end?
 

@@ -194,6 +194,8 @@ void changedSensor(int i) {
 }
 
 void startCapture() {
+  Serial.flush();
+  Serial.print("Starting capture;Status:");
   for (int i = 0; i<=3; i++) {
     Serial.print(lastSensorState[i]);
     Serial.print(";");

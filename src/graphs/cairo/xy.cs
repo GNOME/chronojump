@@ -582,18 +582,6 @@ public abstract class CairoXY : CairoGeneric
 			g.Stroke ();
 		}
 
-//		lock (point_l) {
-//		List<PointF> point_l_copy = point_l>;
-//		foreach(PointF p in point_l_copy)
-		//foreach(PointF p in points_list)
-		/*
-		int start = lastPointPainted;
-		if(lastPointPainted < 0)
-			start = 0;
-
-		//for(int i = start; i < points_list.Count; i ++)
-		*/
-
 		if(plotType == PlotTypes.LINES)
 			return;
 

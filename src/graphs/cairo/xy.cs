@@ -901,6 +901,7 @@ public abstract class CairoXY : CairoGeneric
 	}
 	*/
 
+	//circle has same color for border and fill (if filled)
 	protected void drawCircle (double x, double y, double radio, Cairo.Color color, bool filled)
 	{
 		g.MoveTo(x +radio, y);
@@ -912,6 +913,17 @@ public abstract class CairoXY : CairoGeneric
 
 		g.Stroke();
 	}
+	//circle is filled and has different color for border than fill
+	protected void drawCircle (double x, double y, double radio, Cairo.Color colorBorder, Cairo.Color colorInside)
+	{
+		g.SetSourceColor (colorInside);
+		g.MoveTo(x +radio, y);
+		g.Arc(x, y, radio, 0.0, 2.0 * Math.PI); //full circle
+		g.FillPreserve();
+		g.SetSourceColor (colorBorder);
+		g.Stroke();
+	}
+
 
 	// Thought for signals like forceSensor where points_l.X is time in microseconds and there is not a sample for each second
 	// but it is also used on encoder

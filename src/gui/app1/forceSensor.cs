@@ -1573,7 +1573,7 @@ public partial class ChronoJumpWindow
 					if (useSample1s +1 >= interpolate_l.Count)
 						useSample1s = useSample1s % interpolate_l.Count;
 					//instead of doing 3s, do the full 10s that are viewed (or whatever window size is being viewed)
-					paintPointsInterpolateCairoFurther_l = new List<PointF>();
+					paintPointsInterpolateCairoFurther_l = new List<PointF>(); //reset the list
 					if (forceSensorShowLastSeconds > 0)
 					{
 						int samplesPerSecond = 10;
@@ -1595,6 +1595,8 @@ public partial class ChronoJumpWindow
 
 			//changeSlideIfNeeded(time, force);
 		}
+
+		paintPointsInterpolateCairoFurther_l = new List<PointF>(); //empty after capturing (do not show)
 
 		if (preferences.forceSensorButterworth (current_mode) >= 0)
 		{

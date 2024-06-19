@@ -616,21 +616,22 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			accuracyRectanglePlot (accuracyText);
 		else if (points_l_interpolated_path != null && points_l_interpolated_path.Count > 0)
 		{
-			// further ---->
-			g.SetSourceColor (colorPathBlueLight);
-			g.LineWidth = calculatePathWidth ();
-			for (int i = 0; i < points_l_interpolated_path_further.Count; i ++)
+			if (points_l_interpolated_path_further.Count > 0) //only is filled while capture
 			{
-				if (i == 0)
-					g.MoveTo (calculatePaintX (points_l_interpolated_path_further[i].X),
-							calculatePaintY (points_l_interpolated_path_further[i].Y));
+				g.SetSourceColor (colorPathBlueLight);
+				g.LineWidth = calculatePathWidth ();
+				for (int i = 0; i < points_l_interpolated_path_further.Count; i ++)
+				{
+					if (i == 0)
+						g.MoveTo (calculatePaintX (points_l_interpolated_path_further[i].X),
+								calculatePaintY (points_l_interpolated_path_further[i].Y));
 
-				if (i + 1 < points_l_interpolated_path_further.Count)
-					g.LineTo (calculatePaintX (points_l_interpolated_path_further[i+1].X),
-							calculatePaintY (points_l_interpolated_path_further[i+1].Y));
+					if (i + 1 < points_l_interpolated_path_further.Count)
+						g.LineTo (calculatePaintX (points_l_interpolated_path_further[i+1].X),
+								calculatePaintY (points_l_interpolated_path_further[i+1].Y));
+				}
+				g.Stroke();
 			}
-			g.Stroke();
-			// <---- further
 
 			accuracyPathPlot (accuracyText,
 					points_l.Count, points_l_interpolated_path, plotType);

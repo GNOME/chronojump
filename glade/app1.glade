@@ -35238,6 +35238,7 @@ on Cloud-view mode</property>
                                                             </child>
                                                             <child>
                                                             <object class="GtkButton" id="fullscreen_button_fullscreen_encoder">
+                                                            <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="can-default">True</property>
                                                             <property name="receives-default">True</property>

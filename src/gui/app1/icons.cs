@@ -34,7 +34,7 @@ public partial class ChronoJumpWindow
 	//Gtk.Image image_minimize;
 	//Gtk.Image image_minimize1;
 	Gtk.Image image_fullscreen;
-	//Gtk.Image image_fullscreen_encoder;
+	Gtk.Image image_fullscreen_encoder;
 	Gtk.Image image_fullscreen_exit;
 	Gtk.Image image_session_delete;
 	Gtk.Image app1s_image_button_close;
@@ -319,7 +319,7 @@ public partial class ChronoJumpWindow
 		//image_minimize.Pixbuf = pixbuf;
 		//image_minimize1.Pixbuf = pixbuf;
 		image_fullscreen.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_fullscreen.png");
-		//image_fullscreen_encoder.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_fullscreen.png");
+		image_fullscreen_encoder.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_fullscreen.png");
 		image_fullscreen_exit.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_fullscreen_exit.png");
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_quit.png");//[By Joeries]
@@ -1108,7 +1108,7 @@ public partial class ChronoJumpWindow
 		//image_minimize = (Gtk.Image) builder.GetObject ("image_minimize");
 		//image_minimize1 = (Gtk.Image) builder.GetObject ("image_minimize1");
 		image_fullscreen = (Gtk.Image) builder.GetObject ("image_fullscreen");
-		//image_fullscreen_encoder = (Gtk.Image) builder.GetObject ("image_fullscreen_encoder");
+		image_fullscreen_encoder = (Gtk.Image) builder.GetObject ("image_fullscreen_encoder");
 		image_fullscreen_exit = (Gtk.Image) builder.GetObject ("image_fullscreen_exit");
 		image_session_delete = (Gtk.Image) builder.GetObject ("image_session_delete");
 		app1s_image_button_close = (Gtk.Image) builder.GetObject ("app1s_image_button_close");

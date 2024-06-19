@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2020-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2020-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -31,24 +31,31 @@ public class DialogShortcuts
 
 	//images
 	Gtk.Image image_enc_grav_1;
-	Gtk.Image image_enc_inert_1;
-	Gtk.Image image_fs_1;
-	Gtk.Image image_ra_1;
 	Gtk.Image image_enc_grav_2;
-	Gtk.Image image_enc_inert_2;
-	Gtk.Image image_fs_2;
-	Gtk.Image image_ra_2;
 	Gtk.Image image_enc_grav_3;
-	Gtk.Image image_enc_inert_3;
-	Gtk.Image image_fs_3;
-	Gtk.Image image_ra_3;
 	Gtk.Image image_enc_grav_4;
-	Gtk.Image image_enc_inert_4;
 	Gtk.Image image_enc_grav_5;
-	Gtk.Image image_enc_inert_5;
-	Gtk.Image image_jump_1;
-	Gtk.Image image_run_1;
+	Gtk.Image image_enc_grav_6;
 
+	Gtk.Image image_enc_inert_1;
+	Gtk.Image image_enc_inert_2;
+	Gtk.Image image_enc_inert_4;
+	Gtk.Image image_enc_inert_5;
+	Gtk.Image image_enc_inert_6;
+	Gtk.Image image_enc_inert_3;
+
+	Gtk.Image image_fs_1;
+	Gtk.Image image_fs_2;
+	Gtk.Image image_fs_3;
+	Gtk.Image image_fs_4;
+
+	Gtk.Image image_ra_1;
+	Gtk.Image image_ra_2;
+	Gtk.Image image_ra_3;
+	Gtk.Image image_ra_4;
+	Gtk.Image image_jump_1;
+
+	Gtk.Image image_run_1;
 
 	public DialogShortcuts (bool isMac)
 	{
@@ -103,6 +110,7 @@ public class DialogShortcuts
 		image_enc_grav_3.Pixbuf = pixbuf;
 		image_enc_grav_4.Pixbuf = pixbuf;
 		image_enc_grav_5.Pixbuf = pixbuf;
+		image_enc_grav_6.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_inertia.png");
 		image_enc_inert_1.Pixbuf = pixbuf;
@@ -110,16 +118,19 @@ public class DialogShortcuts
 		image_enc_inert_3.Pixbuf = pixbuf;
 		image_enc_inert_4.Pixbuf = pixbuf;
 		image_enc_inert_5.Pixbuf = pixbuf;
+		image_enc_inert_6.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "force_sensor_icon.png");
 		image_fs_1.Pixbuf = pixbuf;
 		image_fs_2.Pixbuf = pixbuf;
 		image_fs_3.Pixbuf = pixbuf;
+		image_fs_4.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "race_encoder_icon.png");
 		image_ra_1.Pixbuf = pixbuf;
 		image_ra_2.Pixbuf = pixbuf;
 		image_ra_3.Pixbuf = pixbuf;
+		image_ra_4.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_jump.png");
 		image_jump_1.Pixbuf = pixbuf;
@@ -142,21 +153,25 @@ public class DialogShortcuts
 		image_button_close = (Gtk.Image) builder.GetObject ("image_button_close");
 		notebook = (Gtk.Notebook) builder.GetObject ("notebook");
 		image_enc_grav_1 = (Gtk.Image) builder.GetObject ("image_enc_grav_1");
-		image_enc_inert_1 = (Gtk.Image) builder.GetObject ("image_enc_inert_1");
-		image_fs_1 = (Gtk.Image) builder.GetObject ("image_fs_1");
-		image_ra_1 = (Gtk.Image) builder.GetObject ("image_ra_1");
 		image_enc_grav_2 = (Gtk.Image) builder.GetObject ("image_enc_grav_2");
-		image_enc_inert_2 = (Gtk.Image) builder.GetObject ("image_enc_inert_2");
-		image_fs_2 = (Gtk.Image) builder.GetObject ("image_fs_2");
-		image_ra_2 = (Gtk.Image) builder.GetObject ("image_ra_2");
 		image_enc_grav_3 = (Gtk.Image) builder.GetObject ("image_enc_grav_3");
-		image_enc_inert_3 = (Gtk.Image) builder.GetObject ("image_enc_inert_3");
-		image_fs_3 = (Gtk.Image) builder.GetObject ("image_fs_3");
-		image_ra_3 = (Gtk.Image) builder.GetObject ("image_ra_3");
 		image_enc_grav_4 = (Gtk.Image) builder.GetObject ("image_enc_grav_4");
-		image_enc_inert_4 = (Gtk.Image) builder.GetObject ("image_enc_inert_4");
 		image_enc_grav_5 = (Gtk.Image) builder.GetObject ("image_enc_grav_5");
+		image_enc_grav_6 = (Gtk.Image) builder.GetObject ("image_enc_grav_6");
+		image_enc_inert_1 = (Gtk.Image) builder.GetObject ("image_enc_inert_1");
+		image_enc_inert_2 = (Gtk.Image) builder.GetObject ("image_enc_inert_2");
+		image_enc_inert_3 = (Gtk.Image) builder.GetObject ("image_enc_inert_3");
+		image_enc_inert_4 = (Gtk.Image) builder.GetObject ("image_enc_inert_4");
 		image_enc_inert_5 = (Gtk.Image) builder.GetObject ("image_enc_inert_5");
+		image_enc_inert_6 = (Gtk.Image) builder.GetObject ("image_enc_inert_6");
+		image_fs_1 = (Gtk.Image) builder.GetObject ("image_fs_1");
+		image_fs_2 = (Gtk.Image) builder.GetObject ("image_fs_2");
+		image_fs_3 = (Gtk.Image) builder.GetObject ("image_fs_3");
+		image_fs_4 = (Gtk.Image) builder.GetObject ("image_fs_4");
+		image_ra_1 = (Gtk.Image) builder.GetObject ("image_ra_1");
+		image_ra_2 = (Gtk.Image) builder.GetObject ("image_ra_2");
+		image_ra_3 = (Gtk.Image) builder.GetObject ("image_ra_3");
+		image_ra_4 = (Gtk.Image) builder.GetObject ("image_ra_4");
 		image_jump_1 = (Gtk.Image) builder.GetObject ("image_jump_1");
 		image_run_1 = (Gtk.Image) builder.GetObject ("image_run_1");
 	}

@@ -6976,7 +6976,7 @@ on Cloud-view mode</property>
                                                             <property name="receives-default">True</property>
                                                             <signal name="clicked" handler="on_fullscreen_button_fullscreen_clicked" swapped="no"/>
                                                             <child>
-                                                            <object class="GtkHBox" id="hbox212">
+                                                            <object class="GtkHBox" id="hbox32">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">4</property>
@@ -6994,7 +6994,7 @@ on Cloud-view mode</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkLabel" id="label266">
+                                                            <object class="GtkLabel" id="label141">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="label" translatable="yes">Fullscreen</property>
@@ -7007,7 +7007,7 @@ on Cloud-view mode</property>
                                                             </child>
                                                             </object>
                                                             </child>
-                                                            <accelerator key="Escape" signal="clicked"/>
+                                                            <accelerator key="f" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">1</property>
@@ -35276,7 +35276,7 @@ on Cloud-view mode</property>
                                                             </child>
                                                             </object>
                                                             </child>
-                                                            <accelerator key="Escape" signal="clicked"/>
+                                                            <accelerator key="f" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -54473,7 +54473,7 @@ on Cloud-view mode</property>
                                 </child>
                               </object>
                             </child>
-                            <accelerator key="Escape" signal="clicked"/>
+                            <accelerator key="f" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                           </object>
                           <packing>
                             <property name="expand">True</property>

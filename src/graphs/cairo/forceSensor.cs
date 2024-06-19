@@ -35,8 +35,7 @@ public abstract class CairoGraphForceSensor : CairoXY
 	protected int rectangleN;
 	protected int rectangleRange;
 	protected List<PointF> points_l_interpolated_path;
-	protected PointF interpolated_path_arrow_back;
-	protected PointF interpolated_path_arrow_front;
+	protected List<PointF> points_l_interpolated_path_further;
 	protected int interpolatedMin;
 	protected int interpolatedMax;
 	//protected bool oneSerie; //on elastic is false: more than 1 serie
@@ -327,6 +326,8 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	private int accuracySamplesGood;
 	private int accuracySamplesBad;
 	private Cairo.Color colorPathBlue = colorFromRGB (178,223,238);
+	//private Cairo.Color colorPathBlueLight = colorFromRGB (207,239,250);
+	private Cairo.Color colorPathBlueLight = colorFromRGB (192,236,246);
 	private GetMaxAvgInWindow miw;
 	private GetBestRFDInWindow briw;
 	private GetBestStabilityInWindow bsiw;
@@ -358,7 +359,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			SignalPointsCairoForceElastic spCairoFE,	//spCairoFE to plot
 			bool showDistance, bool showSpeed, bool showPower,
 			List<PointF> points_l_interpolated_path, int interpolatedMin, int interpolatedMax,
-			PointF interpolated_path_arrow_back, PointF interpolated_path_arrow_front,
+			List<PointF> points_l_interpolated_path_further,
 			bool capturing, bool videoShow, double videoPlayTimeInSeconds,
 			bool showAccuracy, int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
@@ -386,10 +387,9 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		this.rectangleN = rectangleN;
 		this.rectangleRange = rectangleRange;
 		this.points_l_interpolated_path = points_l_interpolated_path;
+		this.points_l_interpolated_path_further = points_l_interpolated_path_further;
 		this.interpolatedMin = interpolatedMin;
 		this.interpolatedMax = interpolatedMax;
-		this.interpolated_path_arrow_back = interpolated_path_arrow_back;
-		this.interpolated_path_arrow_front = interpolated_path_arrow_front;
 		this.miw = miw;
 		this.briw = briw;
 		this.bsiw = bsiw;
@@ -616,15 +616,24 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			accuracyRectanglePlot (accuracyText);
 		else if (points_l_interpolated_path != null && points_l_interpolated_path.Count > 0)
 		{
+			// further ---->
+			g.SetSourceColor (colorPathBlueLight);
+			g.LineWidth = calculatePathWidth ();
+			for (int i = 0; i < points_l_interpolated_path_further.Count; i ++)
+			{
+				if (i == 0)
+					g.MoveTo (calculatePaintX (points_l_interpolated_path_further[i].X),
+							calculatePaintY (points_l_interpolated_path_further[i].Y));
+
+				if (i + 1 < points_l_interpolated_path_further.Count)
+					g.LineTo (calculatePaintX (points_l_interpolated_path_further[i+1].X),
+							calculatePaintY (points_l_interpolated_path_further[i+1].Y));
+			}
+			g.Stroke();
+			// <---- further
+
 			accuracyPathPlot (accuracyText,
 					points_l.Count, points_l_interpolated_path, plotType);
-
-			//show where is heading
-			plotArrowFree (g, colorPathBlue, 5, 15, true,
-					calculatePaintX (interpolated_path_arrow_back.X),
-				        calculatePaintY (interpolated_path_arrow_back.Y),
-					calculatePaintX (interpolated_path_arrow_front.X),
-					calculatePaintY (interpolated_path_arrow_front.Y));
 		}
 
 		if (questionnaire == null && asteroids == null)

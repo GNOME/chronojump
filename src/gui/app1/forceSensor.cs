@@ -1576,7 +1576,7 @@ public partial class ChronoJumpWindow
 					paintPointsInterpolateCairoFurther_l = new List<PointF>(); //reset the list
 					if (forceSensorShowLastSeconds > 0)
 					{
-						int samplesPerSecond = 10;
+						int samplesPerSecond = 40; //20 shows some ugly glitches on curves
 						for (int i = 1 ; i <= samplesPerSecond * forceSensorShowLastSeconds ; i ++)
 						{
 							int useSample = Convert.ToInt32 (currentYpos + i * samples1s/samplesPerSecond);

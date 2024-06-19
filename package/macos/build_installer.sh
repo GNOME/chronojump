@@ -13,7 +13,7 @@ run_codesign()
 {
     file=$1
     echo ${file}
-    codesign --deep --force --timestamp --options runtime --sign "Developer ID Application: Association Chronojump (RXJZ6LH5L4)" --entitlements entitlements.plist ${file}
+    codesign --deep --force --timestamp --options runtime --sign "Developer ID Application: Asociacion Chronojump (RXJZ6LH5L4)" --entitlements entitlements.plist ${file}
 }
 
 rm -rf ${MAC_APP_BIN_DIR}

@@ -1946,8 +1946,9 @@ public class Butterworth
 	{
 		get {
 			List<PointF> p_l = new List<PointF> ();
-			for (int i = 0; i < traj.Times.Length; i ++)
-				p_l.Add (new PointF (traj.Times[i], traj.Xs[i]));
+			if (traj != null)
+				for (int i = 0; i < traj.Times.Length; i ++)
+					p_l.Add (new PointF (traj.Times[i], traj.Xs[i]));
 
 			return p_l;
 		}

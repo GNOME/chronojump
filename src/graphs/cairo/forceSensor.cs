@@ -653,21 +653,25 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			}
 
 			//points_l
-			if (miw.Error == "")
-				paintMaxAvgInWindow (miw.MaxSampleStart, miw.MaxSampleEnd, miw.Max, points_l);
+			if (! (points_l_interpolated_path != null && capturing)) //while worm capture do not show this stats
+			{
+				if (miw.Error == "")
+					paintMaxAvgInWindow (miw.MaxSampleStart, miw.MaxSampleEnd, miw.Max, points_l);
 
-			if (briw.Error == "")
-				briwPlot (points_l);
+				if (briw.Error == "")
+					briwPlot (points_l);
 
-			if (bsiw.Error == "")
-				bsiwPlot (points_l, bsiw);
+				if (bsiw.Error == "")
+					bsiwPlot (points_l, bsiw);
 
-			if(calculatePaintX (xAtMaxY) > leftMargin)
-				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
+				if(calculatePaintX (xAtMaxY) > leftMargin)
+					drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
 
-			if(calculatePaintX (xAtMinY) > leftMargin)
-				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
+				if(calculatePaintX (xAtMinY) > leftMargin)
+					drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
+			}
 
+			g.LineWidth = 2;
 			g.SetSourceColor (black);
 			plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)
 		}

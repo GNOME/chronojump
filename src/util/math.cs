@@ -1923,6 +1923,9 @@ public class Butterworth
 
 	public void Calculate ()
 	{
+		if (pForButter_l.Count == 0)
+			return;
+
 		double fps = UtilAll.DivideSafe (pForButter_l.Count,
 				PointF.Last (pForButter_l).X/1000000 - pForButter_l[0].X/1000000);
 

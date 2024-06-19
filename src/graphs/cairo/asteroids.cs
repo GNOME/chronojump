@@ -163,7 +163,10 @@ public class Asteroids
 		{
 			int xStart = random.Next (-100*multiplier, 100*multiplier); //can start at left of 0x
 			int usLife = random.Next (40, 100) * multiplier; //slow
-			int y = random.Next (minY, maxY);
+
+			//show stars at more below and top of the min & max just if person goes there
+			int range = maxY - minY;
+			int y = random.Next (minY - range, maxY + range);
 
 			star_l.Add (new Star (
 						xStart, y, // y (force)

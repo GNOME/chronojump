@@ -1574,10 +1574,10 @@ public partial class ChronoJumpWindow
 						useSample1s = useSample1s % interpolate_l.Count;
 					//instead of doing 3s, do the full 10s that are viewed (or whatever window size is being viewed)
 					paintPointsInterpolateCairoFurther_l = new List<PointF>();
-					if (showLastSeconds > 0)
+					if (forceSensorShowLastSeconds > 0)
 					{
 						int samplesPerSecond = 10;
-						for (int i = 1 ; i <= samplesPerSecond * showLastSeconds ; i ++)
+						for (int i = 1 ; i <= samplesPerSecond * forceSensorShowLastSeconds ; i ++)
 						{
 							int useSample = Convert.ToInt32 (currentYpos + i * samples1s/samplesPerSecond);
 							if (useSample +1 >= interpolate_l.Count)
@@ -2901,7 +2901,7 @@ LogB.Information(" fs R ");
 		updateForceSensorCaptureSignalCairo (true);
 	}
 
-	int showLastSeconds = -1; //show all signal
+	int forceSensorShowLastSeconds = -1; //show all signal
 	private void updateForceSensorCaptureSignalCairo (bool forceRedraw)
 	{
 		bool capturing = (forceCaptureThread != null && forceCaptureThread.IsAlive);
@@ -2947,9 +2947,9 @@ LogB.Information(" fs R ");
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 1");
 
-		showLastSeconds = -1; //show all signal
+		forceSensorShowLastSeconds = -1; //show all signal
 		if (forceCaptureThread != null && forceCaptureThread.IsAlive)
-			showLastSeconds = 10; //TODO: make this configurable from GUI
+			forceSensorShowLastSeconds = 10; //TODO: make this configurable from GUI
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 2");
 		int rectangleN = 0;
@@ -3130,7 +3130,7 @@ LogB.Information(" fs R ");
 				paintPointsInterpolateCairoFurther_l,
 				capturing, videoShow, videoTime,
 				cairoGraphForceSensorSignalPointsShowAccuracy,
-				showLastSeconds,
+				forceSensorShowLastSeconds,
 				minY, maxY,
 				rectangleN, rectangleRange,
 				gmiw, briw, bsiw,

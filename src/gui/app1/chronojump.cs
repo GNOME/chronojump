@@ -331,7 +331,8 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_threshold;
 
 	//force sensor
-	Gtk.Box hbox_capture_phases_time;
+	Gtk.Box hbox_capture_phases;
+	Gtk.Box hbox_capture_time;
 	Gtk.Box box_contacts_load_recalculate;
 
 	//multiChronopic	
@@ -4769,7 +4770,8 @@ public partial class ChronoJumpWindow
 
 	private void showHideCaptureSpecificControls(Constants.Modes m)
 	{
-		hbox_capture_phases_time.Visible = ( ! Constants.ModeIsFORCESENSOR (m) && m != Constants.Modes.RUNSENCODER);
+		hbox_capture_phases.Visible = ( ! Constants.ModeIsFORCESENSOR (m) && m != Constants.Modes.RUNSENCODER);
+		hbox_capture_time.Visible = ( ! Constants.ModeIsFORCESENSOR (m) && m != Constants.Modes.RUNSENCODER);
 
 		if(! configChronojump.Compujump)
 			showWebcamCaptureContactsControls(true);
@@ -10424,7 +10426,8 @@ LogB.Debug("mc finished 5");
 		label_threshold = (Gtk.Label) builder.GetObject ("label_threshold");
 
 		//force sensor
-		hbox_capture_phases_time = (Gtk.Box) builder.GetObject ("hbox_capture_phases_time");
+		hbox_capture_phases = (Gtk.Box) builder.GetObject ("hbox_capture_phases");
+		hbox_capture_time = (Gtk.Box) builder.GetObject ("hbox_capture_time");
 		box_contacts_load_recalculate = (Gtk.Box) builder.GetObject ("box_contacts_load_recalculate");
 
 		//multiChronopic	

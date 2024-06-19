@@ -9855,6 +9855,7 @@ LogB.Debug("mc finished 5");
 		button_execute_test.Sensitive = false;
 		button_auto_start.Sensitive = false;
 		hbox_contacts_camera.Sensitive = false;
+		box_contacts_load_recalculate.Sensitive = false;
 		
 		button_contacts_person_change.Sensitive = false;
 		button_encoder_person_change.Sensitive = false;
@@ -9910,6 +9911,7 @@ LogB.Debug("mc finished 5");
 		button_execute_test.Sensitive = true;
 		button_auto_start.Sensitive = true;
 		hbox_contacts_camera.Sensitive = true;
+		box_contacts_load_recalculate.Sensitive = true;
 
 		button_contacts_person_change.Sensitive = true;
 		button_encoder_person_change.Sensitive = true;

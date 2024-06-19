@@ -99,8 +99,8 @@ public partial class ChronoJumpWindow
 	//Gtk.Image image_logo_contacts_transp;
 	//Gtk.Image image_logo_encoder;
 	//Gtk.Image image_logo_encoder_transp;
-	Gtk.Image fullscreen_image_logo;
-	Gtk.Image fullscreen_image_logo_transp;
+	Gtk.Image fullscreen_image_logo_horizontal_blue;
+	Gtk.Image fullscreen_image_logo_horizontal_white;
 
 	Gtk.Image image_selector_start_jumps1;
 	Gtk.Image image_selector_start_runs1;
@@ -666,15 +666,15 @@ public partial class ChronoJumpWindow
 		 * <------ end of material design icons
 		 */
 
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogo); //44 px height
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogoHorizontalBlue); //50 px height
 		//image_logo_contacts.Pixbuf = pixbuf;
 		//image_logo_encoder.Pixbuf = pixbuf;
-		fullscreen_image_logo.Pixbuf = pixbuf;
+		fullscreen_image_logo_horizontal_blue.Pixbuf = pixbuf;
 
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogoTransparent40h); //40 px heigh
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogoHorizontalWhite); //50 px height
 		//image_logo_contacts_transp.Pixbuf = pixbuf;
 		//image_logo_encoder_transp.Pixbuf = pixbuf;
-		fullscreen_image_logo_transp.Pixbuf = pixbuf;
+		fullscreen_image_logo_horizontal_white.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameIcon);
 		image_logo_icon.Pixbuf = pixbuf;
@@ -1173,8 +1173,8 @@ public partial class ChronoJumpWindow
 		//image_logo_contacts_transp = (Gtk.Image) builder.GetObject ("image_logo_contacts_transp");
 		//image_logo_encoder = (Gtk.Image) builder.GetObject ("image_logo_encoder");
 		//image_logo_encoder_transp = (Gtk.Image) builder.GetObject ("image_logo_encoder_transp");
-		fullscreen_image_logo = (Gtk.Image) builder.GetObject ("fullscreen_image_logo");
-		fullscreen_image_logo_transp = (Gtk.Image) builder.GetObject ("fullscreen_image_logo_transp");
+		fullscreen_image_logo_horizontal_blue = (Gtk.Image) builder.GetObject ("fullscreen_image_logo_horizontal_blue");
+		fullscreen_image_logo_horizontal_white = (Gtk.Image) builder.GetObject ("fullscreen_image_logo_horizontal_white");
 
 		image_selector_start_jumps1 = (Gtk.Image) builder.GetObject ("image_selector_start_jumps1");
 		image_selector_start_runs1 = (Gtk.Image) builder.GetObject ("image_selector_start_runs1");

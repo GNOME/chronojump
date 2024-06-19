@@ -1080,11 +1080,19 @@ public partial class ChronoJumpWindow
 	private void doLabelsContrast(bool personsAtTop)
 	{
 		if (UtilGtk.LogoBlueOrWhite (Config.ColorBackground))
+		{
 			image_chronojump_logo.Pixbuf = Chronojump.MyPixbuf.Get(
 					null, Util.GetImagePath(false) + Constants.FileNameLogoBlueTransp);
-		else
+
+			fullscreen_image_logo_horizontal_blue.Visible = true;
+			fullscreen_image_logo_horizontal_white.Visible = false;
+		} else {
 			image_chronojump_logo.Pixbuf = Chronojump.MyPixbuf.Get(
 					null, Util.GetImagePath(false) + Constants.FileNameLogoWhiteTransp);
+
+			fullscreen_image_logo_horizontal_blue.Visible = false;
+			fullscreen_image_logo_horizontal_white.Visible = true;
+		}
 
 		if(personsAtTop)
 		{
@@ -5933,7 +5941,7 @@ public partial class ChronoJumpWindow
 
 		switch (fileNameString) {
 			case "LOGO":
-				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogo);
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogo2Col);
 				button_image_test_zoom.Hide();
 			break;
 			case "RUNSENCODER":

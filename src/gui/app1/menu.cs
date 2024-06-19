@@ -203,24 +203,7 @@ public partial class ChronoJumpWindow
 
 //		viewport_menu_top.SetSizeRequest(maxWidth, -1); //-1 is height
 
-		if(! Config.UseSystemColor && UtilGtk.ColorIsOkWithLogoTransparent (UtilGtk.ColorParse(preferences.colorBackgroundString)))
-		{
-			//image_logo_contacts.Visible = false;
-			//image_logo_contacts_transp.Visible = true;
-			//image_logo_encoder.Visible = false;
-			//image_logo_encoder_transp.Visible = true;
-			fullscreen_image_logo.Visible = false;
-			fullscreen_image_logo_transp.Visible = true;
-//			radio_show_menu_and_persons_adjust_height(true);
-		} else {
-			//image_logo_contacts.Visible = true;
-			//image_logo_contacts_transp.Visible = false;
-			//image_logo_encoder.Visible = true;
-			//image_logo_encoder_transp.Visible = false;
-			fullscreen_image_logo.Visible = true;
-			fullscreen_image_logo_transp.Visible = false;
-//			radio_show_menu_and_persons_adjust_height(false);
-		}
+		//if(! Config.UseSystemColor && UtilGtk.ColorIsOkWithLogoTransparent (UtilGtk.ColorParse(preferences.colorBackgroundString)))
 
 		if (! configChronojump.CanOpenExternalDB)
 			GLib.Timeout.Add (200, new GLib.TimeoutHandler (menuTopAlign));

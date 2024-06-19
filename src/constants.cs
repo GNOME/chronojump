@@ -592,7 +592,8 @@ public class Constants
 	public static string FileNameLogoBlueTransp = "chronojump-logo-2024-blue-transp-200h.png";
 	public static string FileNameLogoWhiteTransp = "chronojump-logo-2024-white-transp-200h.png";
 	public static string FileNameLogo2Col = "chronojump-logo-2024-2col-bluebg-210h.png";
-	public static string FileNameLogo = "chronojump-logo-2013.png";
+	public static string FileNameLogoHorizontalBlue = "chronojump_logo_2024_horizontal_blue_transp_50h.png";
+	public static string FileNameLogoHorizontalWhite = "chronojump_logo_2024_horizontal_white_transp_50h.png";
 	public static string FileNameLogo320 = "chronojump-logo-2013_320.png";
 	public static string FileNameLogoTransparent40h = "chronojump-logo-transparent-40h.png";
 	public static string FileNameCSS = "report_web_style.css";

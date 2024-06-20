@@ -347,7 +347,7 @@ public partial class ChronoJumpWindow
 						capturingFourPlatforms == arduinoCaptureStatus.CAPTURING,
 						fpcm.TimeOfLastCapture,
 						false, 0,
-						10,
+						10, //but if no capturing it will be -1 (all set)
 						true, CairoXY.PlotTypes.POINTSFILL);
 		}
 	}

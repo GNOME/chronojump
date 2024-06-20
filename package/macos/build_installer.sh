@@ -23,7 +23,8 @@ mkdir -p ${MAC_APP_BIN_DIR} ${MAC_APP_FRAMEWORK_DIR}
 dotnet publish ../../src/Chronojump-mac.sln -p:BuildTranslations=true --configuration Release -r osx-${ARCH} --self-contained true -o ${MAC_APP_BIN_DIR}
 cd ../../src/
 sh post-build-mac.sh ../package/macos/app/Chronojump.app/Contents/Home/bin
-cp ../package/macos/app/Chronojump.app/Contents/Home/bin/runtimes/osx-${ARCH}/native/SQLite.Interop.dll ../package/macos/app/Chronojump.app/Contents/Home/bin/SQLite.Interop.dll
+#cp ../package/macos/app/Chronojump.app/Contents/Home/bin/runtimes/osx-${ARCH}/native/SQLite.Interop.dll ../package/macos/app/Chronojump.app/Contents/Home/bin/SQLite.Interop.dll
+cp ../package/macos/deps/runtimes/osx-${ARCH}/native/SQLite.Interop.dll ../package/macos/app/Chronojump.app/Contents/Home/bin/SQLite.Interop.dll
 cd ../package/macos
 
 # Remove stuff we don't need.
@@ -66,7 +67,7 @@ do
 done
 
 # Sign the main executable and .NET stuff.
-run_codesign ${MAC_APP_DIR}
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/Chronojump
 
 # Create and sign the .dmg image, and include a link to drag the app into /Applications
 echo "Creating dmg..."
@@ -77,7 +78,7 @@ run_codesign ${MAC_DMG_FILE_NAME}
 
 # Notarize
 echo "Notarizing..."
-xcrun notarytool submit --wait --apple-id=info@chronojump.org --password ${MAC_DEV_PASSWORD} --team-id RXJZ6LH5L4 ${MAC_DMG_FILE_NAME}
+xcrun notarytool submit --wait --apple-id=info@chronojump.org --password ${MAC_DEV_PASSWORD} --team-id 4KJ2KSVJZV ${MAC_DMG_FILE_NAME}
 
 # Staple the result to the dmg
 echo "Stapling..."

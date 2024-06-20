@@ -92,8 +92,9 @@ public class FourPlatformsCaptureManage
 				//LogB.Information ("fpe.Button: " + fpe.Button);
 				//LogB.Information ("y: " + y);
 				//points_ll[0].Add (new PointF (timeAccu_l[fpe.Button], y+ySign)); //0 has all
-				points_ll[0].Add (new PointF (timeAccu_l[fpe.Button], .1)); //0 has all //to debug
-				points_ll[y].Add (new PointF (timeAccu_l[fpe.Button], y+ySign)); //1-3 each of the sensors
+				//in seconds
+				points_ll[0].Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), .1)); //0 has all //to debug
+				points_ll[y].Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), y+ySign)); //1-3 each of the sensors
 				timeOfLastCapture = DateTime.Now;
 			}
 		}

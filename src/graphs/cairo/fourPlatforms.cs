@@ -109,6 +109,8 @@ public class CairoGraphFourPlatforms : CairoXY
 			//forced
 			//minY = -4;
 			//absoluteMaxY = +4;
+			if (absoluteMaxX < showLastSeconds)
+				absoluteMaxX = showLastSeconds;
 			minY = 1 - .25;
 			absoluteMaxY = 4 + .25;
 
@@ -158,14 +160,22 @@ public class CairoGraphFourPlatforms : CairoXY
 			return graphInited;
 		}
 
-		//paintGrid (gridTypes.VERTICALLINES, true, 0);//axisShiftToRight + 5);
 		pointsRadius = 8;
 
 		startAt = 0;
 		marginAfterInSeconds = 0;
 
 		if (showLastSeconds > 0 && points_ll[0].Count > 1)
-			startAt = configureTimeWindowHorizontal (points_ll[0], showLastSeconds, marginAfterInSeconds, 1000); //data in ms 
+			startAt = configureTimeWindowHorizontal (points_ll[0], showLastSeconds, marginAfterInSeconds, 1); //data in s
+
+		/*
+		 * Note grid is having in account minX, but as we are having an scroll, things are not shown on the left, but grid starts always at 0, do do not call like this:
+		paintGrid (gridTypes.VERTICALLINES, true, 0);//axisShiftToRight + 5);
+		call like this:
+		*/
+		paintGridNiceAutoValues (g,
+				points_ll[0][startAt].X,
+				absoluteMaxX, minY, absoluteMaxY, gridNiceSeps, gridTypes.VERTICALLINES, 0, textHeight);
 
 		//paint points
 		if(maxValuesChanged || forceRedraw || points_ll[0].Count != points_l_painted)

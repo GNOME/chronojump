@@ -173,6 +173,7 @@ public class CairoGraphFourPlatforms : CairoXY
 		paintGrid (gridTypes.VERTICALLINES, true, 0);//axisShiftToRight + 5);
 		call like this:
 		*/
+		verticalGridLineUnits = " s";
 		paintGridNiceAutoValues (g,
 				points_ll[0][startAt].X,
 				absoluteMaxX, minY, absoluteMaxY, gridNiceSeps, gridTypes.VERTICALLINES, 0, textHeight);

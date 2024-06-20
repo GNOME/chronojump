@@ -310,6 +310,7 @@ public abstract class CairoGeneric
 
 	//this is different on forceSensor: ms to s (and with 's')
 	//this combined with printXAxisText is different on RaceAnalyzer
+	protected string verticalGridLineUnits = "";
 	protected virtual void paintVerticalGridLine(Cairo.Context g, int xtemp, string text, int fontH)
 	{
 		if(fontH < 1)
@@ -318,7 +319,8 @@ public abstract class CairoGeneric
 		g.MoveTo(xtemp, topMargin);
 		g.LineTo(xtemp, graphHeight - bottomMargin);
 
-		printText(xtemp, graphHeight -bottomMargin/2, 0, fontH, text, g, alignTypes.CENTER);
+		printText(xtemp, graphHeight -bottomMargin/2, 0, fontH, text + verticalGridLineUnits,
+				g, alignTypes.CENTER);
 		//LogB.Information("pvgl fontH: " + fontH.ToString());
 	}
 

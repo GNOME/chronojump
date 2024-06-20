@@ -47,3 +47,6 @@ If the computer where the distribution profile was created is not accessible any
     9) Upload the .csr file and click Continue.
     10) A certificate is generated for distribution. Download it and double click it to integrate it in your keychain.
 
+
+IMPORTANT: note on our compiling machine with Catalina, we do not have Xcode installed. It seems we could have Xcode 12.4. Without Xcode the certificates are not correctly created. So we used another machine with Xcode to create the certificates with our apple ID. Then we imported successfully on our Catalina.
+In order to notarize and Stapple we are using command line tools for Xcode 12.4

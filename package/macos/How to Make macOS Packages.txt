@@ -28,6 +28,7 @@ brew install glib
 brew install python3
 brew install dotnet-sdk
 brew install gtk+3
+brew install dos2unix
 
 #Use Mono to compile and build gtk-sharp which is required by autotools as autotools checks whether it exists. But it's not used while running Chronojump.
 brew install mono

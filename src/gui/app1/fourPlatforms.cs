@@ -219,6 +219,7 @@ public partial class ChronoJumpWindow
 			}
 
 			blinkCapture.End ();
+			capturingFourPlatforms = arduinoCaptureStatus.STOP;
 			showHideCaptureIcon (false);
 
 			sensitiveLastTestButtons(false);

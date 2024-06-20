@@ -96,6 +96,10 @@ public class CairoGraphFourPlatforms : CairoXY
 		this.points_ll = points_ll;
 		this.capturing = capturing;
 
+		//force show all set when not capturing
+		if (! capturing)
+			showLastSeconds = -1;
+
 		rightMargin = 40;
 
 		//TODO: s'hauria de veure si anem actualitzant el graf mínim cada dècima de segon (fent scroll amb temps actual)
@@ -109,7 +113,7 @@ public class CairoGraphFourPlatforms : CairoXY
 			//forced
 			//minY = -4;
 			//absoluteMaxY = +4;
-			if (absoluteMaxX < showLastSeconds)
+			if (showLastSeconds > 0 && absoluteMaxX < showLastSeconds)
 				absoluteMaxX = showLastSeconds;
 			minY = 1 - .25;
 			absoluteMaxY = 4 + .25;

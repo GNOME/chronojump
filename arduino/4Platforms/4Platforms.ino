@@ -69,7 +69,7 @@ void setup() {
 
   for(int i=0; i<=3; i++)
   {
-    pinMode(sensorPin[i], INPUT_PULLUP);
+    pinMode(sensorPin[i], INPUT_PULLDOWN);
   }
 
 

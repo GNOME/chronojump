@@ -1,0 +1,98 @@
+About Python & R:
+Please download and install Python and R from their official website in order to copy them from local drive while making packages. As a result, we don't need to put them in Git.
+
+Python: https://www.python.org/ftp/python/3.12.2/python-3.12.2-macos11.pkg
+
+R: 
+https://cran.r-project.org/bin/macosx/big-sur-x86_64/base/R-4.3.3-x86_64.pkg
+https://cran.r-project.org/bin/macosx/big-sur-arm64/base/R-4.3.3-arm64.pkg
+
+About the certificates:
+Double-click the downloaded certificates and add them into macOS Keychain Access Local Items.
+
+1. Install Homebrew (Only when the first time.)
+
+/bin/bash -c "$(curl -fsSL https://raw.githubcontent.com/Homebrew/install/HEAD/install.sh)"
+brew update
+
+2. Execute the following commands (Only when the first time. Please replace "~/Desktop" with the real path of chronojump.)
+
+brew install git
+brew install automake
+brew install autoconf
+brew install libtool
+brew install intltool
+brew install pkg-config
+brew install gettext
+brew install glib
+brew install python3
+brew install dotnet-sdk
+brew install gtk+3
+brew install dos2unix
+
+#Use Mono to compile and build gtk-sharp which is required by autotools as autotools checks whether it exists. But it's not used while running Chronojump.
+brew install mono
+cd "~/Desktop/chronojump"
+git clone -b main https://github.com/mono/gtk-sharp.git
+//Open gtk-sharp/gtk/gui-thread-check/profiler/gui-thread-check.c and comment LINE 98-100
+cd gtk-sharp
+sh autogen.sh --prefix=`pkg-config --variable=prefix mono`
+make
+make install
+
+#Don't need to use jhbuild any more.
+#cd ../package/macos
+#sh gtk-osx-setup.sh
+#export PATH="$PATH:~/.new_local/bin"
+#jhbuild bootstrap-gtk-osx
+#jhbuild build meta-gtk-osx-bootstrap meta-gtk-osx-gtk3
+
+On macOS 10, please execute the following commands because new version installs softwares at opt/homebrew by default, but the old version installs at usr/local.
+
+sudo install -d -o $(whoami) -g admin /opt/homebrew
+sudo brew rebase
+
+Or use ln command:
+
+mkdir -p /opt/homebrew
+cd /opt/homebrew
+ln -s /usr/local/Cellar Cellar
+ln -s /usr/local/lib lib
+
+3. Execute the following commands (Only when the first time, when autotools files changed or when git tag created. Please replace "~/Desktop" with the real path of chronojump.)
+
+cd "~/Desktop/chronojump"
+sh autogen.sh --prefix ~/Desktop/chronojump/package/macos/deps
+make
+make install
+
+4. When no git tags, please modify "src/AssemblyInfo.cs" to add version number like 1.0.0.0:
+
+[assembly: AssemblyVersion("1.0.0.0")]
+
+5. Make post-build-mac.sh executable (Every time when it's changed)
+
+cd "~/Desktop/chronojump/src"
+chmod +x post-build-mac.sh
+
+6. Make a package (Only when a package required)
+
+#Double click the Apple certificates to add them into "Keychain Access"/"Login" (Only the first time)
+#Unlock the keychain, please replase {user} with your real macOS user name (Only the first time)
+sudo security unlock-keychain /Users/{user}/Library/Keychains/login.keychain-db
+
+#Execute this command to check whether the certificates are installed correctly, please replase {user} with your real macOS user name (Only the first time)
+sudo security find-identity codesigning /Users/{user}/Library/Keychains/login.keychain-db
+
+cd "~/Desktop/chronojump/package/macos"
+
+make x64 #Execute this command on x64
+make arm64 #Execute this command on arm64
+
+#Python bundle executable: bin/x64/Python/Versions/Current/bin/python3
+#R bundle executable: R/Resources/R R/Resources/Rscript
+
+7. Software can be run without creating package with
+
+cd src
+dotnet run --project Chronojump-mac.csproj --property WarningLevel=0

@@ -854,7 +854,7 @@ public partial class ChronoJumpWindow
 
 	Thread webcamPlayThread;
 	private double diffVideoVsSignal;
-	private double videoFrames;
+	//private double videoFrames;
 
 	private void on_button_video_play_this_test_contacts_clicked (object o, EventArgs args)
 	{
@@ -967,8 +967,17 @@ public partial class ChronoJumpWindow
 			id = myTreeViewRunsInterval.EventSelectedID;
 		}
 
+		webcamPlay = null; //to solve problems on the other thread caused by these returns
+
 		if (id < 0)
 			return;
+
+		if (! Util.FileExists (Util.GetVideoFileName (sessionID, testType, id)))
+		{
+			new DialogMessage (Constants.MessageTypes.WARNING, 600, 300, Constants.MultimediaFileNoExists +
+					"\n\n" + Util.GetVideoFileName (sessionID, testType, id));
+			return;
+		}
 
 		webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYFILE, UtilAll.GetOSEnum(), "", "", "", "");
 		double videoDuration = webcamPlay.FindVideoDuration (Util.GetVideoFileName (sessionID, testType, id));
@@ -981,8 +990,12 @@ public partial class ChronoJumpWindow
 		} else {
 			if (Constants.ModeIsENCODER (current_mode)) //encoder video capture ends at signal end
 				diffVideoVsSignal = videoDuration -signalTotalTime;
-			else
+			else {
 				diffVideoVsSignal = videoDuration -preferences.videoStopAfter -signalTotalTime;
+
+				//note on RunEncoder variables runEncoderShiftedMicros and TotalTime are used, see
+				//updateRaceAnalyzerCaptureSpeedTime(bool forceRedraw)
+			}
 
 			LogB.Information (string.Format ("signalTotalTime: {0}, videoDuration: {1}, diffVideoVsSignal: {2}",
 						signalTotalTime, videoDuration, diffVideoVsSignal));
@@ -996,6 +1009,17 @@ public partial class ChronoJumpWindow
 		if (playVideo (Util.GetVideoFileName (sessionID, testType, id)))
 			do {
 			} while (webcamPlay != null && webcamPlay.PlayVideoGetSecond >= 0);
+	}
+
+	private void finishPlayVideoIfRunning ()
+	{
+		//Stop camera if a video is being played at this moment
+		if (webcamPlay != null && webcamPlayThread != null && webcamPlayThread.IsAlive)
+		{
+			LogB.Information("Camera is playing, closing it ...");
+			ExecuteProcess.KillExternalProcess (WebcamFfmpeg.GetExecutablePlay (operatingSystem));
+			LogB.Information("Done!");
+		}
 	}
 
 	private double signalTotalTimeCalculate ()
@@ -1015,8 +1039,7 @@ public partial class ChronoJumpWindow
 		{
 			//using cairoGraphRaceAnalyzerPoints_st_l instead of raAI_AB.P_l to avoid problems with zoom
 			if (cairoGraphRaceAnalyzerPoints_st_l != null && cairoGraphRaceAnalyzerPoints_st_l.Count > 0)
-				signalTotalTime = PointF.Last (cairoGraphRaceAnalyzerPoints_st_l).X
-					- cairoGraphRaceAnalyzerPoints_st_l[0].X; //consider that the beginning use to be negative part (until a >= 10)
+				signalTotalTime = PointF.Last (cairoGraphRaceAnalyzerPoints_st_l).X;
 		}
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE && selectedJumpRj != null)
 			signalTotalTime = selectedJumpRj.TvSum + selectedJumpRj.TcSumCaringForStartIn;

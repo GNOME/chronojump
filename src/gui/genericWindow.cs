@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -58,7 +58,7 @@ public class GenericWindow
 	Gtk.HButtonBox hbuttonbox_middle;
 	Gtk.Button button_middle;
 
-	Gtk.Grid grid_person_session;
+	Gtk.Grid grid_session_person;
 	Gtk.Box box_combo_person_select;
 	Gtk.Box box_combo_session_select;
 
@@ -194,11 +194,11 @@ public class GenericWindow
 		foreach(ArrayList widgetArray in array)
 			GenericWindowBox.showWidgetsPowerful(widgetArray);
 
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "video_play.png");
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "video_play.png");
 		GenericWindowBox.image_treeviewload_row_play.Pixbuf = pixbuf;
 
-		GenericWindowBox.image_button_cancel.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
-		GenericWindowBox.image_button_accept.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png");
+		GenericWindowBox.image_button_cancel.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
+		GenericWindowBox.image_button_accept.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_done_blue.png");
 
 		if(showNow)
 			GenericWindowBox.generic_window.Show ();
@@ -220,8 +220,8 @@ public class GenericWindow
 
 		GenericWindowBox.hideWidgets();
 
-		GenericWindowBox.image_button_cancel.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
-		GenericWindowBox.image_button_accept.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png");
+		GenericWindowBox.image_button_cancel.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
+		GenericWindowBox.image_button_accept.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_done_blue.png");
 
 		GenericWindowBox.showWidget(stuff, sensitive);
 		GenericWindowBox.generic_window.Show ();
@@ -264,7 +264,7 @@ public class GenericWindow
 		hbox_all_none_selected.Hide();
 		hbox_combo_all_none_selected.Hide();
 		hbuttonbox_middle.Hide();
-		grid_person_session.Hide ();
+		grid_session_person.Hide ();
 		label_before_textview_treeview.Hide();
 		scrolled_window_textview.Hide();
 		scrolled_window_treeview.Hide();
@@ -338,10 +338,10 @@ public class GenericWindow
 		else if(stuff == Constants.GenericWindowShow.BUTTONMIDDLE) {
 			hbuttonbox_middle.Show();
 		}
-		else if(stuff == Constants.GenericWindowShow.GRIDPERSONSESSION)
+		else if(stuff == Constants.GenericWindowShow.GRIDSESSIONPERSON)
 		{
-			grid_person_session.Show ();
-			UseGridPersonSession = true;
+			grid_session_person.Show ();
+			UseGridSessionPerson = true;
 		}
 		else if(stuff == Constants.GenericWindowShow.LABELBEFORETEXTVIEWTREEVIEW) {
 			label_before_textview_treeview.Show();
@@ -618,17 +618,20 @@ public class GenericWindow
 
 	//what is in app1
 	public Gtk.Button FakeButtonNeedUpdateTreeView;
-	public bool UseGridPersonSession;
+	public bool UseGridSessionPerson;
 	private Person currentPerson;
 	private Session currentSession;
-	private bool followSignals = false;
-	public void SetGridPersonSession (Person currentPerson, Session currentSession)
+	private Constants.Modes currentMode;
+
+	public void SetGridSessionPerson (Person currentPerson, Session currentSession, Constants.Modes currentMode)
 	{
-		UseGridPersonSession = true;
+		UseGridSessionPerson = true;
 		FakeButtonNeedUpdateTreeView = new Gtk.Button ();
+
 		// assign the variables on app1
 		this.currentPerson = currentPerson;
 		this.currentSession = currentSession;
+		this.currentMode = currentMode;
 
 		// create the empty combos
 		combo_person_select = UtilGtk.CreateComboBoxText (box_combo_person_select, new List<string> (), "");
@@ -637,59 +640,97 @@ public class GenericWindow
 		combo_session_select = UtilGtk.CreateComboBoxText (box_combo_session_select, new List<string> (), "");
 		combo_session_select.Changed += new EventHandler (on_combo_session_select_changed);
 
-		// update the combo values
-		updateGridPersonChanged ();
-		updateGridSessionChanged ();
+		gridSessionPerson_sessionComboUpdate ();
+		gridSessionPerson_personComboUpdate ();
 	}
 
-	private void updateGridPersonChanged ()
+	private void gridSessionPerson_sessionComboUpdate ()
 	{
-		// 1) get person and session from gui
-		int personID; string personName;
-		getPersonFromGui (out personID, out personName);
-
+		// 1) get session from gui
 		int sessionID; string sessionName;
 		getSessionFromGui (out sessionID, out sessionName);
 
-		// 2) select sessions for this person
-		List<PersonSession> psCurrentPerson_l = SqlitePersonSession.SelectPersonSessionList (false, personID, -1);
-		List<Session> session_l = SqliteSession.SelectAll (false, Sqlite.Orders_by.DEFAULT);
+		// 2) select all sessions
+		List<Session> session_l = SqliteSession.SelectAll (false, Sqlite.Orders_by.ID_DESC);
+		if(session_l == null || session_l.Count == 0)
+			return;
 
 		List<string> sessionStr_l = new List<string> ();
-		foreach (PersonSession ps in psCurrentPerson_l)
-			foreach (Session s in session_l)
-				if (s.UniqueID == ps.SessionID)
-					sessionStr_l.Add (string.Format("{0}:{1}", s.UniqueID, s.Name));
 
-		// 3) update the session combo
-		followSignals = false;
+		// 3) select on which sessions there are tests of currentMode
+		Sqlite.Open (); // ------->
+
+		ArrayList sessionTests = new ArrayList ();
+		if (Constants.ModeIsFORCESENSOR (currentMode))
+			sessionTests = SqliteSession.SelectAllSessionsTestsForceSensor (currentMode, "");
+		else //if (currentMode == Constants.Modes.RUNSENCODER)
+			sessionTests = SqliteSession.SelectAllSessionsTestsRunEncoder ("");
+
+		Sqlite.Close (); // <--------
+
+		// 4) mix 2 with 3 to have session name of sessions with related tests
+		foreach (string st in sessionTests)
+		{
+			string [] strFull = st.ToString().Split(new char[] {':'});
+			string stSessionCode = strFull[0];
+
+			foreach (Session session in session_l)
+				if (session.UniqueID.ToString () == stSessionCode)
+				{
+					sessionStr_l.Add (string.Format("{0}:{1}", session.UniqueID, session.Name));
+					break;
+				}
+		}
+
+		// 5) update the session combo
 		UtilGtk.ComboUpdate (combo_session_select, sessionStr_l);
 		combo_session_select.Active = UtilGtk.ComboMakeActive (combo_session_select,
 				string.Format ("{0}:{1}", sessionID, sessionName));
-		followSignals = true;
 	}
 
-	private void updateGridSessionChanged ()
+	private void gridSessionPerson_personComboUpdate ()
 	{
-		// 1) get person and session from gui
-		int personID; string personName;
-		getPersonFromGui (out personID, out personName);
-
+		// 1) get session from gui
 		int sessionID; string sessionName;
 		getSessionFromGui (out sessionID, out sessionName);
 
-		// 2) select persons for this session
+		// 2) select all persons on selected session
 		List<Person> person_l = SqlitePersonSession.SelectCurrentSessionPersonsAsList (false, sessionID);
-		List<string> personStr_l = new List<string> ();
-		foreach (Person p in person_l)
-			personStr_l.Add (string.Format("{0}:{1}", p.UniqueID, p.Name));
+		if(person_l == null || person_l.Count == 0)
+		{
+			UtilGtk.ComboUpdate (combo_person_select, new List<string> ());
+			combo_person_select.Active = combo_person_select.Active = 0;
+			return;
+		}
 
-		// 3) update the person combo
-		followSignals = false;
+		List<string> personStr_l = new List<string> ();
+
+		// 3) select which persons of this session have tests tests of currentMode
+		ArrayList personsTests = new ArrayList ();
+		if (Constants.ModeIsFORCESENSOR (currentMode))
+			personsTests = SqliteForceSensor.SelectSessionOverviewSets (false, sessionID, false, currentMode);
+		else //if (currentMode == Constants.Modes.RUNSENCODER)
+			personsTests = SqliteRunEncoder.SelectSessionOverviewSets (false, sessionID, false);
+
+		// 4) mix 2 with 3 to have person name of persons with related tests
+		foreach (string[] pt in personsTests)
+		{
+			string ptPersonID = pt[0];
+			foreach (Person p in person_l)
+				if (p.UniqueID.ToString () == ptPersonID)
+				{
+					personStr_l.Add (string.Format("{0}:{1}", p.UniqueID, p.Name));
+					break;
+				}
+		}
+
+		// 5) update the session combo
 		UtilGtk.ComboUpdate (combo_person_select, personStr_l);
-		combo_person_select.Active = UtilGtk.ComboMakeActive (combo_person_select,
-				string.Format("{0}:{1}", personID, personName));
-		followSignals = true;
+		if (Util.FoundInListString (personStr_l, string.Format ("{0}:{1}", currentPerson.UniqueID, currentPerson.Name)))
+			combo_person_select.Active = UtilGtk.ComboMakeActive (combo_person_select,
+					string.Format("{0}:{1}", currentPerson.UniqueID, currentPerson.Name));
+		else
+			combo_person_select.Active = 0;
 	}
 
 	private void getPersonFromGui (out int personID, out string personName)
@@ -740,20 +781,13 @@ public class GenericWindow
 
 	private void on_combo_person_select_changed (object o, EventArgs args)
 	{
-		if (followSignals)
-		{
-			updateGridPersonChanged ();
-			FakeButtonNeedUpdateTreeView.Click ();
-		}
+		FakeButtonNeedUpdateTreeView.Click ();
 	}
 
 	private void on_combo_session_select_changed (object o, EventArgs args)
 	{
-		if (followSignals)
-		{
-			updateGridSessionChanged ();
-			FakeButtonNeedUpdateTreeView.Click ();
-		}
+		gridSessionPerson_personComboUpdate ();
+		FakeButtonNeedUpdateTreeView.Click ();
 	}
 
 
@@ -1418,7 +1452,7 @@ public class GenericWindow
 		hbuttonbox_middle = (Gtk.HButtonBox) builder.GetObject ("hbuttonbox_middle");
 		button_middle = (Gtk.Button) builder.GetObject ("button_middle");
 
-		grid_person_session = (Gtk.Grid) builder.GetObject ("grid_person_session");
+		grid_session_person = (Gtk.Grid) builder.GetObject ("grid_session_person");
 		box_combo_person_select = (Gtk.Box) builder.GetObject ("box_combo_person_select");
 		box_combo_session_select = (Gtk.Box) builder.GetObject ("box_combo_session_select");
 

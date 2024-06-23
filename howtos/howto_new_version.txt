@@ -219,7 +219,7 @@ to be automatically available on owncloud
 scp -l 8192 Chronojump...exe xaviblas@master.gnome.org:.
 ssh xaviblas@master.gnome.org
 
-cp Chrono...exe /ftp/pub/gnome/binaries/win32/chronojump
+cp Chrono...exe /ftp/pub/gnome/binaries/win64/chronojump
 remember cp and no mv, because "mv always maintains the SELinux context of a specific file whereas cp does not"
 https://discourse.gnome.org/t/signal-ftp-sync-removed-on-master-gnome-org/13239/7
 

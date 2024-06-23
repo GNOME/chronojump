@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2022-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2022-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -23,7 +23,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic; //List<T>
 using System.IO; //DirectoryInfo
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 using System.Text.RegularExpressions; //Regex
 
 class SqliteRunEncoder : Sqlite
@@ -55,7 +55,8 @@ class SqliteRunEncoder : Sqlite
 			"datetime TEXT, " + 	//2019-07-11_15-01-44
 			"comments TEXT, " +
 			"videoURL TEXT, " +	//URL of video of signals. stored as relative
-			"angle INT)";		//capture can be at angleDefault (or not), nice if you have a run inclinated exercise and you want to change the angle depending on the place you perform
+			"angle INT, " +		//capture can be at angleDefault (or not), nice if you have a run inclinated exercise and you want to change the angle depending on the place you perform
+			"totalTime INT)";	//needed to sync with video. If we press finish when there are no pulsees we cannot sync. If we use totalTime we can sync.
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
@@ -65,7 +66,7 @@ class SqliteRunEncoder : Sqlite
 		openIfNeeded(dbconOpened);
 
 		dbcmd.CommandText = "INSERT INTO " + table +
-				" (uniqueID, personID, sessionID, exerciseID, device, distance, temperature, filename, url, dateTime, comments, videoURL, angle)" +
+				" (uniqueID, personID, sessionID, exerciseID, device, distance, temperature, filename, url, dateTime, comments, videoURL, angle, totalTime)" +
 				" VALUES " + insertString;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -153,7 +154,7 @@ class SqliteRunEncoder : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		List<RunEncoder> list = new List<RunEncoder>();
@@ -175,7 +176,8 @@ class SqliteRunEncoder : Sqlite
 					reader[10].ToString(),			//comments
 					reader[11].ToString(),			//videoURL
 					Convert.ToInt32(reader[12].ToString()),	//angle
-					reader[13].ToString()			//exerciseName
+					Convert.ToInt32(reader[13].ToString()),	//totalTime
+					reader[14].ToString()			//exerciseName
 					);
 			list.Add(re);
 		}
@@ -202,7 +204,7 @@ class SqliteRunEncoder : Sqlite
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		ArrayList array = new ArrayList();
@@ -224,21 +226,25 @@ class SqliteRunEncoder : Sqlite
 		return array;
 	}
 
-	public static ArrayList SelectSessionOverviewSets (bool dbconOpened, int sessionID)
+	public static ArrayList SelectSessionOverviewSets (bool dbconOpened, int sessionID, bool byExercises)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
+
+		string byExercisesStr = "";
+		if (byExercises)
+			byExercisesStr = ", exerciseID";
 
 		dbcmd.CommandText =
 			"SELECT person77.uniqueID, person77.name, person77.sex, runEncoderExercise.name, COUNT(*)" +
 			" FROM person77, personSession77, runEncoderExercise, runEncoder" +
 			" WHERE person77.uniqueID == runEncoder.personID AND personSession77.personID == runEncoder.personID AND personSession77.sessionID == runEncoder.sessionID AND runEncoderExercise.uniqueID==runEncoder.exerciseID AND runEncoder.sessionID == " + sessionID +
-			" GROUP BY runEncoder.personID, exerciseID" +
+			" GROUP BY runEncoder.personID" + byExercisesStr +
 			" ORDER BY person77.name";
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		ArrayList array = new ArrayList();
@@ -250,7 +256,7 @@ class SqliteRunEncoder : Sqlite
 				reader[2].ToString(), 	//person sex
 				reader[3].ToString(), 	//exercise name
 				reader[4].ToString()	//sets count
-			};
+			}; //note this is used on gui/genericWindow
 			array.Add (s);
 		}
 
@@ -322,7 +328,7 @@ class SqliteRunEncoder : Sqlite
 						myFilename,
 						Util.MakeURLrelative(Util.GetRunEncoderSessionDir(Convert.ToInt32(session.Name))),
 						parsedDate, relt.Comment,
-						"", 0, ""); //import without video and without name on comment
+						"", 0, 0, ""); //import without video and without name on comment
 
 				runEncoder.InsertSQL(true);
 				importedSomething = true;
@@ -460,7 +466,7 @@ class SqliteRunEncoderExercise : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		List<RunEncoderExercise> list = new List<RunEncoderExercise>();

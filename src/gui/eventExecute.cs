@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -40,6 +40,10 @@ public partial class ChronoJumpWindow
 {
 	Gtk.Label event_execute_label_phases_name;
 	Gtk.Label event_execute_label_message;
+	Gtk.Image image_no_capturing;
+	Gtk.Image image_capturing;
+	Gtk.Image image_no_capturing_encoder;
+	Gtk.Image image_capturing_encoder;
 	Gtk.Label event_graph_label_graph_test;
 
 	Gtk.SpinButton spin_contacts_graph_last_limit;
@@ -282,9 +286,10 @@ public partial class ChronoJumpWindow
 	//realtime capture graph for jumpRj and runInterval
 	public void on_event_execute_drawingarea_realtime_capture_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
-		//right now only for jump reactive
+		//right now only for jump reactive, runsI, other (fourplatforms)
 		if(current_mode != Constants.Modes.JUMPSREACTIVE &&
-				current_mode != Constants.Modes.RUNSINTERVALLIC)
+				current_mode != Constants.Modes.RUNSINTERVALLIC &&
+				current_mode != Constants.Modes.OTHER)
 			return;
 
 		if(current_mode == Constants.Modes.JUMPSREACTIVE)
@@ -329,6 +334,21 @@ public partial class ChronoJumpWindow
 						selectedRunInterval.Photocell_l,
 						selectedRunInterval.Type, selectedRunInterval.Description, feedbackRunsI); //Description is person.Name
 			}
+		} else if(current_mode == Constants.Modes.OTHER)
+		{
+			if(cairoGraphFourPlatforms == null)// || forceRedraw)
+				cairoGraphFourPlatforms = new CairoGraphFourPlatforms (
+						event_execute_drawingarea_realtime_capture_cairo, "title");
+
+			if (fpcm != null)
+				cairoGraphFourPlatforms.DoSendingList (
+						preferences.fontType.ToString(),
+						cairoGraphFourPlatformsPoints_ll,
+						capturingFourPlatforms == arduinoCaptureStatus.CAPTURING,
+						fpcm.TimeOfLastCapture,
+						false, 0,
+						10, //but if no capturing it will be -1 (all set)
+						true, CairoXY.PlotTypes.POINTSFILL);
 		}
 	}
 
@@ -515,9 +535,9 @@ public partial class ChronoJumpWindow
 	{
 		// 1) change icon
 		if(check_runI_realtime_rel_abs.Active)
-			image_check_runI_realtime_rel_abs.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "bar_relative.png");
+			image_check_runI_realtime_rel_abs.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "bar_relative.png");
 		else
-			image_check_runI_realtime_rel_abs.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "bar_absolute.png");
+			image_check_runI_realtime_rel_abs.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "bar_absolute.png");
 
 		// 2) redo graph
 		on_event_execute_drawingarea_realtime_capture_cairo_draw (new object(), new Gtk.DrawnArgs());
@@ -1025,6 +1045,10 @@ public partial class ChronoJumpWindow
 	{
 		event_execute_label_phases_name = (Gtk.Label) builder.GetObject ("event_execute_label_phases_name");
 		event_execute_label_message = (Gtk.Label) builder.GetObject ("event_execute_label_message");
+		image_no_capturing = (Gtk.Image) builder.GetObject ("image_no_capturing");
+		image_capturing = (Gtk.Image) builder.GetObject ("image_capturing");
+		image_no_capturing_encoder = (Gtk.Image) builder.GetObject ("image_no_capturing_encoder");
+		image_capturing_encoder = (Gtk.Image) builder.GetObject ("image_capturing_encoder");
 		event_graph_label_graph_test = (Gtk.Label) builder.GetObject ("event_graph_label_graph_test");
 
 		spin_contacts_graph_last_limit = (Gtk.SpinButton) builder.GetObject ("spin_contacts_graph_last_limit");
@@ -1112,6 +1136,7 @@ public abstract class CairoPaintBarsPre
 	protected int pDN; //preferences.digitsNumber
 	//protected string messageNoStoreCreated;
 	protected double videoTime;
+	protected string screenshotURL;
 
 	protected void initialize (DrawingArea darea, string fontStr, Constants.Modes mode,
 			string personName, string testName, int pDN)
@@ -1122,6 +1147,7 @@ public abstract class CairoPaintBarsPre
 		this.personName = personName;
 		this.testName = testName;
 		this.pDN = pDN;
+		this.screenshotURL = "";
 	}
 
 	// to debug
@@ -1207,6 +1233,12 @@ public abstract class CairoPaintBarsPre
 
 		paintSpecific ();
 		//darea.QueueDraw (); this makes the memory increase a lot! Just call queue when it is needed!
+	}
+
+	protected void passDataForScreenshotIfNeeded ()
+	{
+		if (cb != null && screenshotURL != null && screenshotURL != "")
+			cb.ScreenshotURL = screenshotURL;
 	}
 
 	protected virtual string testsNotFound ()
@@ -1490,6 +1522,11 @@ public abstract class CairoPaintBarsPre
 
 		return cb.FindBarIdInPixel (px, py);
 	}
+
+	public string ScreenshotURL
+	{
+		set { screenshotURL = value; }
+	}
 }
 
 public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
@@ -1667,6 +1704,8 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 					-1, fontHeightForBottomNames, bottomMargin, title,
 					new List<int> (), new List<int> ());
 
+		passDataForScreenshotIfNeeded ();
+
 		cb.GraphDo();
 	}
 }
@@ -1810,6 +1849,9 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 				"", false,
 				-1, fontHeightForBottomNames, bottomMargin, title,
 				new List<int> (), new List<int> ());
+
+		passDataForScreenshotIfNeeded ();
+
 		cb.GraphDo();
 	}
 }
@@ -1922,6 +1964,9 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 				new List<Cairo.Color>(), names_l,
 				-1, fontHeightForBottomNames, bottomMargin, title,
 				new List<int> (), new List<int> ());
+
+		passDataForScreenshotIfNeeded ();
+
 		cb.GraphDo();
 	}
 }
@@ -2045,6 +2090,9 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 				new List<Cairo.Color>(), names_l,
 				-1, fontHeightForBottomNames, bottomMargin, title,
 				new List<int> (), new List<int> ());
+
+		passDataForScreenshotIfNeeded ();
+
 		cb.GraphDo();
 	}
 }
@@ -2227,6 +2275,8 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 
 		if (videoTime > 0)
 			cb.VideoPlayTimeInSeconds = videoTime;
+
+		passDataForScreenshotIfNeeded ();
 
 		cb.GraphDo();
 	}
@@ -2463,6 +2513,8 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 			cb.VideoPlayTimes_l = Util.ListDoubleToAccumulative (time_l);
 		}
 
+		passDataForScreenshotIfNeeded ();
+
 		cb.GraphDo();
 	}
 }
@@ -2551,7 +2603,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 	//copied from gui/encoderGraphObjects (using ArrayList)
 	private ArrayList data; //data is related to mainVariable (barplot)
-	private List<double> lineData_l; //related to secondary variable (by default range)
+	private List<double> lineData_l; //related to secondary variable (by default range (mm))
 	private List<double> dataStart_l; //used on video (in seconds)
 	private List<double> dataDuration_l; //used on video (in seconds)
 	private ArrayList dataRangeOfMovement; //ROM, need it to discard last rep for loss. Is not the same as lineData_l because maybe user selected another variable as secondary. only checks con.
@@ -2590,6 +2642,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	private string workStr;
 	private string impulseStr;
 
+	private bool noMassAndNeeded;
+
 	//just blank the screen
 	public CairoPaintBarplotPreEncoder (DrawingArea darea, string fontStr)
 	{
@@ -2610,11 +2664,27 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 
+		if (noMassAndNeededCheck ())
+		{
+			noMassAndNeeded = true;
+			return;
+		}
+
 		//calcule all graph stuff
 		fillArraysDiscardingReps ();
 		fillVariableListsForGraph ();
 		prepareTitle ();
 		prepareLossArrow ();
+	}
+
+	private bool noMassAndNeededCheck ()
+	{
+		if (! pegbe.hasInertia && pegbe.massDisplaced < 0.00001 &&
+				(pegbe.mainVariable != Constants.Range && pegbe.mainVariable != Constants.RangeAbsolute &&
+				 pegbe.mainVariable != Constants.MeanSpeed && pegbe.mainVariable != Constants.MaxSpeed) )
+				 return true;
+
+		return false;
 	}
 
 	public override void ShowMessage (DrawingArea darea, string fontTypeStr, string message)
@@ -2638,7 +2708,12 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 	protected override void paintSpecific()
 	{
-		paintSpecificDo ();
+		if (noMassAndNeeded)
+			ShowMessage (darea, preferences.fontType.ToString(),
+					Catalog.GetString("Main variable:") + " " + Catalog.GetString(pegbe.mainVariable) + "\n\n" +
+					Catalog.GetString("The bars are not shown because the displaced mass is 0."));
+		else
+			paintSpecificDo ();
 	}
 
 	//preferences can change
@@ -2822,21 +2897,6 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			}
 
 			count ++;
-		}
-		if(maxThisSetForCalc <= 0)
-		{
-			if(countValid > 0 &&
-					(pegbe.mainVariable != Constants.Range && pegbe.mainVariable != Constants.RangeAbsolute &&
-					 pegbe.mainVariable != Constants.MeanSpeed && pegbe.mainVariable != Constants.MaxSpeed) )
-				//TODO:
-				/*
-				ShowMessage(
-						Catalog.GetString("Main variable:") + " " + Catalog.GetString(pegbe.mainVariable) + "\n\n" +
-						Catalog.GetString("Bars are not shown because the displaced mass is 0."),
-						false, false);
-						*/
-
-			return;
 		}
 
 		maxAbsoluteForCalc = maxThisSetForCalc;
@@ -3129,7 +3189,20 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			cb.PassArrowData (cairoBarsArrow);
 
 		if(lineData_l.Count > 0)
-			cb.LineData_l = lineData_l; //range
+		{
+			if (! preferences.encoderCaptureSecondaryVariableYAxisCustom)
+				cb.Cbsld = new CairoBarsSecondaryLineData (
+						lineData_l,
+						-1,
+						-1,
+						pegbe.secondaryVariable);
+			else
+				cb.Cbsld = new CairoBarsSecondaryLineData (
+						lineData_l,
+						preferences.encoderCaptureSecondaryVariableYAxisCustomMax,
+						preferences.encoderCaptureSecondaryVariableYAxisCustomMin,
+						pegbe.secondaryVariable);
+		}
 
 		if(eccOverload_l != null && eccOverload_l.Count > 0)
 		{
@@ -3184,6 +3257,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 			//TODO: used dataStart_l and dataDuration_l
 		}
+
+		passDataForScreenshotIfNeeded ();
 
 		cb.GraphDo();
 	}

@@ -16,7 +16,7 @@
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 #   Copyright (C) 2017-2020   	Xavier Padullés <x.padulles@gmail.com>
-#   Copyright (C) 2017-2021     Xavier de Blas <xaviblas@gmail.com>
+#   Copyright (C) 2017-2024     Xavier de Blas <xaviblas@gmail.com>
 
 #call from Chronojump or:
 
@@ -55,18 +55,22 @@ assignOptions <- function(options)
         captureOptions 		= options[24],
         title 	 		= options[25],
         exercise 	 	= options[26],
-        date	 	 	= options[27],
-        time 	 		= options[28],
-        scriptsPath 		= options[29],
-        triggersOnList  	= as.numeric(unlist(strsplit(options[30], "\\;"))),
-        triggersOffList  	= as.numeric(unlist(strsplit(options[31], "\\;"))),
-        startSample 	= as.numeric(options[32]),
-        endSample 	= as.numeric(options[33]),
-        startEndOptimized 	= options[34], 	#bool
-	singleOrMultiple 	= options[35],   	#bool (true is single)
-	decimalCharAtExport	= options[36],
-        maxAvgWindowSeconds 	= as.numeric(options[37]),
-	includeImagesOnExport 	= options[38]   	#bool (true is single)
+        ex_percentBodyWeight 	= as.numeric(options[27]),
+        ex_angle 		= as.numeric(options[28]),
+        personMass	 	= as.numeric(options[29]),
+        date	 	 	= options[30],
+        time 	 		= options[31],
+        scriptsPath 		= options[32],
+        triggersOnList  	= as.numeric(unlist(strsplit(options[33], "\\;"))),
+        triggersOffList  	= as.numeric(unlist(strsplit(options[34], "\\;"))),
+        startSample 	= as.numeric(options[35]),
+        endSample 	= as.numeric(options[36]),
+        startEndOptimized 	= options[37], 	#bool
+	singleOrMultiple 	= options[38], 	#bool (true is single)
+	decimalCharAtExport	= options[39],
+        maxAvgWindowSeconds 	= as.numeric(options[40]),
+        bestStabilityWindowSeconds = as.numeric(options[41]),
+	includeImagesOnExport 	= options[42]  #bool (true is single)
     ))
 }
 
@@ -119,7 +123,19 @@ getForceModel <- function(time, force, startTime, # startTime is the instant whe
     return(list(fmax = fmax, K = K, T0 = T0, error = 100*residuals(model)/mean(data$force)))
 }
 
-getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, decimalChar, averageLength = 0.1, percentChange = 5, testLength = -1, startSample, endSample)
+#this code is from src/forceSensor.cs CalculateForceResultantIfNeeded ()
+convertForceToResultant <- function (force_vect, ex_percentBodyWeight, ex_angle, personMass)
+{
+    totalMass = 0
+    if (ex_percentBodyWeight > 0 && personMass > 0)
+	    totalMass = ex_percentBodyWeight * personMass / 100.0
+
+    accel = 0 #only on elastic
+    return (force_vect + totalMass * (accel + 9.81 * sin (ex_angle * pi / 180.0)))
+}
+
+getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex_angle, personMass,
+					inputFile, decimalChar, averageLength = 0.1, percentChange = 5, testLength = -1, startSample, endSample)
 {
     print("Entered getDynamicsFromLoadCellFile")
     
@@ -131,9 +147,11 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, decimalChar, 
         originalTest$force = abs(originalTest$force)
     else if(captureOptions == "INVERTED")
         originalTest$force = -1 * originalTest$force
-    
+
+    originalTest$force = convertForceToResultant (originalTest$force, ex_percentBodyWeight, ex_angle, personMass)
+
     print(paste("startSample: ", startSample))
-    print(paste("endtSample: ", endSample))
+    print(paste("endSample: ", endSample))
     
     #If Roptions.txt does have endSample values greater than 1 it means that the user has selected a range
     if( startSample != endSample  & (endSample > 1) & startSample <= length(originalTest$time) & endSample <= length(originalTest$time))
@@ -217,7 +235,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, decimalChar, 
     ))
 }
 
-drawDynamicsFromLoadCell <- function(title, exercise, datetime,
+drawDynamicsFromLoadCell <- function(title, exercise, ex_percentBodyWeight, personMass, datetime,
     dynamics, captureOptions, vlineT0=T, vline50fmax.raw=F, vline50fmax.fitted=F,
     hline50fmax.raw=F, hline50fmax.fitted=F,
     rfdDrawingOptions, triggersOn = "", triggersOff = "", xlimits = NA, forceLines = TRUE, timeLines = TRUE)
@@ -253,14 +271,14 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
         sustainedForce = T
         yHeight = max(dynamics$fmax.raw, dynamics$fmax.fitted) * 1.1
     }
-    
+
     par(mar=c(4,4,3,1))
     #Plotting raw data from startTime to endTime (Only the analysed data)
     if (!is.na(xlimits[1])){
         xWidth = xlimits[2] - xlimits[1]
         plot(dynamics$time[dynamics$startSample:dynamics$endSample], dynamics$f.raw[dynamics$startSample:dynamics$endSample],
              type="l", xlab="Time[s]", ylab="Force[N]",
-             xlim = xlimits, ylim=c(0, yHeight),
+             xlim = xlimits, ylim=c(dynamics$f0.raw * .9, yHeight),
              #main = dynamics$nameOfFile,
              main = paste(parse(text = paste0("'", titleFull, "'"))), #process unicode, needed paste because its an expression. See graph.R
              yaxs= "i", xaxs = "i")
@@ -275,7 +293,7 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
         plot(dynamics$time[dynamics$startSample:dynamics$endSample], dynamics$f.raw[dynamics$startSample:dynamics$endSample],
              type="l", xlab="Time[s]", ylab="Force[N]",
              xlim = c(xmin, xmax),
-             ylim=c(0, yHeight),
+             ylim=c(dynamics$f0.raw * .9, yHeight),
              #main = dynamics$nameOfFile,
              main = paste(parse(text = paste0("'", titleFull, "'"))), #process unicode, needed paste because its an expression. See graph.R
              yaxs= "i", xaxs = "i")
@@ -385,22 +403,25 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
     #Plotting RFD
     #lines(dynamics$time, dynamics$rfd/100, col = "red")
     
-    #Plotting tau
-    abline(v = dynamics$tau.fitted, col = "green4", lty = 3)
-    abline(h = dynamics$fmax.fitted*0.6321206, col = "green4", lty = 3)
-    points(dynamics$tau.fitted, dynamics$fmax.fitted*0.6321206, col = "green4")
-    arrows(x0 = 0, y0 = dynamics$f0.raw,
-           x1 = dynamics$tau.fitted, y1 = dynamics$f0.raw)
-    text(x = (dynamics$tau.fitted / 2), y = dynamics$f0.raw,
-         labels = paste(round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5, col = "blue")
-    # text(x = (dynamics$tau.fitted / 2), y = -20,
-    #      labels = paste(round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5, xpd = TRUE)
+    #Plotting tau but only if ! forceResultant
+    if (! (ex_percentBodyWeight > 0 && personMass > 0))
+    {
+	    abline(v = dynamics$tau.fitted, col = "green4", lty = 3)
+	    abline(h = dynamics$fmax.fitted*0.6321206, col = "green4", lty = 3)
+	    points(dynamics$tau.fitted, dynamics$fmax.fitted*0.6321206, col = "green4")
+	    arrows(x0 = 0, y0 = dynamics$f0.raw,
+		   x1 = dynamics$tau.fitted, y1 = dynamics$f0.raw)
+	    text(x = (dynamics$tau.fitted / 2), y = dynamics$f0.raw,
+		 labels = paste(round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5, col = "blue")
+	    # text(x = (dynamics$tau.fitted / 2), y = -20,
+	    #      labels = paste(round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5, xpd = TRUE)
     
-    arrows(x0 = 0, y0 = 0,
-           x1 = 0, y1 = dynamics$fmax.fitted*0.6321206)
-    
-    text(x = 0, y = dynamics$fmax.fitted*0.6321206 / 2,
-         labels = "63% of fmax", pos = 2, cex = 1.5, srt = 90, col = "blue")
+	    arrows(x0 = 0, y0 = 0,
+		   x1 = 0, y1 = dynamics$fmax.fitted*0.6321206)
+
+	    text(x = 0, y = dynamics$fmax.fitted*0.6321206 / 2,
+		 labels = "63% of fmax", pos = 2, cex = 1.5, srt = 90, col = "blue")
+    }
     
     #Plotting fmax.raw
     text( x = dynamics$tfmax.raw, y = dynamics$fmax.raw,
@@ -442,11 +463,20 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
     #triggers
     abline(v=triggersOn, col="green")
     abline(v=triggersOff, col="red")
-    
-    
+
+    #superscript - is not working on Cairo Windows
+    #paste("K = ", round(dynamics$k.fitted, digits = 2),"s\u207B\u00B9"),
+    #paste("K = ", round(dynamics$k.fitted, digits = 2),"s⁻¹"),
+    #bquote("K =" ~ .(round(dynamics$k.fitted, digits = 2)) ~ s^-1),
+    kLine = ""
+    if (op$os == "Windows")
+	    kLine = bquote("K =" ~ .(round(dynamics$k.fitted, digits = 2)) ~ s^-1)
+    else
+	    kLine = paste("K = ", round(dynamics$k.fitted, digits = 2),"s\u207B\u00B9")
+
     legendText = c(
         paste("Fmax =", round(dynamics$fmax.fitted, digits = 2), "N"),
-        paste("K = ", round(dynamics$k.fitted, digits = 2),"s\u207B\u00B9"),
+	kLine,
         paste("\u03C4 = ", round(dynamics$tau.fitted, digits = 2),"s")
     )
     legendColor = c("blue", "blue", "blue")
@@ -714,7 +744,7 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
     #legendText = c(legendText, paste("RFD0-50 error = ", round((rawRFD - modelRFD)*100/rawRFD, 2), "%"))
     #legendColor = c(legendColor, "grey20")
 
-    legend(x = xmax, y = dynamics$fmax.fitted/2, legend = legendText, xjust = 1, yjust = 0.1, text.col = legendColor)
+    legend(x = xmax, y = dynamics$f0.raw, legend = legendText, xjust = 1, yjust = 0, text.col = legendColor)
 
     if(op$singleOrMultiple == "FALSE")
     {
@@ -1159,7 +1189,8 @@ readImpulseOptions <- function(optionsStr)
     } 
 }
 
-doProcess <- function(pngFile, dataFile, decimalChar, title, exercise, datetime, captureOptions, startSample, endSample)
+doProcess <- function(pngFile, dataFile, decimalChar, title, exercise, ex_percentBodyWeight, ex_angle, personMass,
+		      datetime, captureOptions, startSample, endSample)
 {
 	title = fixTitleAndOtherStrings(title)
 	exercise = fixTitleAndOtherStrings(exercise)
@@ -1168,11 +1199,12 @@ doProcess <- function(pngFile, dataFile, decimalChar, title, exercise, datetime,
 	prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
 
 	print("Going to enter getDynamicsFromLoadCellFille")
-	dynamics = getDynamicsFromLoadCellFile(captureOptions, dataFile, decimalChar,
+	dynamics = getDynamicsFromLoadCellFile(captureOptions, ex_percentBodyWeight, ex_angle, personMass, dataFile, decimalChar,
 			op$averageLength, op$percentChange, testLength = op$testLength, startSample, endSample)
 
 	print("Going to draw")
-	exportedValues = drawDynamicsFromLoadCell(title, exercise, datetime, dynamics, captureOptions,
+	exportedValues = drawDynamicsFromLoadCell(
+			title, exercise, ex_percentBodyWeight, personMass, datetime, dynamics, captureOptions,
 			op$vlineT0, op$vline50fmax.raw, op$vline50fmax.fitted, op$hline50fmax.raw, op$hline50fmax.fitted,
 			op$drawRfdOptions, triggersOn = op$triggersOnList, triggersOff = op$triggersOffList)
 #                       op$drawRfdOptions, xlimits = c(0.5, 1.5))
@@ -1181,8 +1213,11 @@ doProcess <- function(pngFile, dataFile, decimalChar, title, exercise, datetime,
 	return(exportedValues)
 }
 
-plotABGraph <- function(pngFile, dataFile, decimalChar, title, exercise, datetime, captureOptions, startSample, endSample,
-			maxAvgForceInWindow, maxAvgForceInWindowSampleStart, maxAvgForceInWindowSampleEnd)
+plotABGraph <- function(pngFile, dataFile, decimalChar, title, exercise, datetime,
+			captureOptions, ex_percentBodyWeight, ex_angle, personMass,
+			startSample, endSample,
+			maxAvgForceInWindow, maxAvgForceInWindowSampleStart, maxAvgForceInWindowSampleEnd,
+			bestStabilityInWindow, bestStabilityInWindowSampleStart, bestStabilityInWindowSampleEnd)
 {
 	title = fixTitleAndOtherStrings(title)
 	exercise = fixTitleAndOtherStrings(exercise)
@@ -1199,6 +1234,8 @@ plotABGraph <- function(pngFile, dataFile, decimalChar, title, exercise, datetim
 		y = abs(y)
 	else if(captureOptions == "INVERTED")
 		y = -1 * y
+
+	y = convertForceToResultant (y, ex_percentBodyWeight, ex_angle, personMass)
 
 	plot(y ~ x, type="l", xlab="Time (s)", ylab="Force (N)")
 
@@ -1222,6 +1259,19 @@ plotABGraph <- function(pngFile, dataFile, decimalChar, title, exercise, datetim
 			 lwd=2, col="green4")
 	}
 
+	if(bestStabilityInWindow > 0)
+	{
+		segments(x[bestStabilityInWindowSampleStart], bestStabilityInWindow,
+			 x[bestStabilityInWindowSampleEnd], bestStabilityInWindow, lwd=2, col="green4")
+		topTick = bestStabilityInWindow/100
+		segments(x[bestStabilityInWindowSampleStart], bestStabilityInWindow - topTick,
+			 x[bestStabilityInWindowSampleStart], bestStabilityInWindow + topTick,
+			 lwd=2, col="green4")
+		segments(x[bestStabilityInWindowSampleEnd], bestStabilityInWindow - topTick,
+			 x[bestStabilityInWindowSampleEnd], bestStabilityInWindow + topTick,
+			 lwd=2, col="green4")
+	}
+
 	endGraph()
 }
 
@@ -1232,8 +1282,9 @@ start <- function(op)
 		datetime = paste(op$date, op$time, sep=" ")
 		dataFile <- paste(tempPath, "/cj_mif_Data.csv", sep="")
 		pngFile <- paste(tempPath, "/cj_mif_Graph.png", sep="")
-		doProcess(pngFile, dataFile, op$decimalCharAtFile, op$title, op$exercise,
-				datetime, op$captureOptions, op$startSample, op$endSample)
+		doProcess (pngFile, dataFile, op$decimalCharAtFile,
+			  op$title, op$exercise, op$ex_percentBodyWeight, op$ex_angle, op$personMass,
+			  datetime, op$captureOptions, op$startSample, op$endSample)
 	} else {
 		#export
 		#1) define exportDF and the model vector if model does not succeed
@@ -1256,8 +1307,11 @@ start <- function(op)
 		maxAvgWindowSecondsHeader = op$maxAvgWindowSeconds
 		if(op$decimalCharAtExport == ",")
 			maxAvgWindowSecondsHeader = format(maxAvgWindowSecondsHeader, decimal.mark=",")
+		bestStabilityWindowSecondsHeader = op$bestStabilityWindowSeconds
+		if(op$decimalCharAtExport == ",")
+			bestStabilityWindowSecondsHeader = format(bestStabilityWindowSecondsHeader, decimal.mark=",")
 
-		exportNames = c("Name","Date","Time","Exercise","Laterality","Set","Repetition","MaxForce (raw)",paste("Max AVG Force in", maxAvgWindowSecondsHeader, "s (raw)"),"MaxForce (model)")
+		exportNames = c("Name","Date","Time","Exercise","Laterality","Set","Repetition","MaxForce (raw)",paste("Max AVG Force in", maxAvgWindowSecondsHeader, "s (raw)"),paste("Best stability in", bestStabilityWindowSecondsHeader, "s (raw)"),"MaxForce (model)")
 		for(i in 1:length(op$drawRfdOptions))
 		{
 			RFDoptions = readRFDOptions(op$drawRfdOptions[i])
@@ -1294,7 +1348,9 @@ start <- function(op)
 			modelOk = FALSE
 			executing  <- tryCatch({
 				exportModelVector = doProcess(pngFile, as.vector(dataFiles$fullURL[i]),
-					dataFiles$decimalChar[i], dataFiles$title[i], dataFiles$exercise[i], paste(dataFiles$date[i], dataFiles$time[i], sep=" "),
+					dataFiles$decimalChar[i], dataFiles$title[i],
+					dataFiles$exercise[i], dataFiles$ex_percentBodyWeight[i], dataFiles$ex_angle[i], dataFiles$personMass[i],
+					paste(dataFiles$date[i], dataFiles$time[i], sep=" "),
 					dataFiles$captureOptions[i], dataFiles$startSample[i], dataFiles$endSample[i])
 				#countGraph = countGraph +1 #only adds if not error, so the numbering of graphs matches rows in CSV
 
@@ -1308,10 +1364,14 @@ start <- function(op)
 			pngFile <- paste(tempGraphsABFolder, i, ".png", sep="")  #but remember to graph also when model fails
 			plotABGraph(pngFile, as.vector(dataFiles$fullURL[i]),
 					dataFiles$decimalChar[i], dataFiles$title[i], dataFiles$exercise[i], paste(dataFiles$date[i], dataFiles$time[i], sep=" "),
-					dataFiles$captureOptions[i], dataFiles$startSample[i], dataFiles$endSample[i],
+					dataFiles$captureOptions[i], dataFiles$ex_percentBodyWeight[i], dataFiles$ex_angle[i], dataFiles$personMass[i],
+					dataFiles$startSample[i], dataFiles$endSample[i],
 					dataFiles$maxAvgForceInWindow[i],
 					(dataFiles$maxAvgForceInWindowSampleStart[i] +1), # +1 because the C# count starts at 0 and R at 1
-					(dataFiles$maxAvgForceInWindowSampleEnd[i] +1)
+					(dataFiles$maxAvgForceInWindowSampleEnd[i] +1),
+					dataFiles$bestStabilityInWindow[i],
+					(dataFiles$bestStabilityInWindowSampleStart[i] +1), # +1 because the C# count starts at 0 and R at 1
+					(dataFiles$bestStabilityInWindowSampleEnd[i] +1)
 			)
 
 			if(! modelOk)
@@ -1322,6 +1382,7 @@ start <- function(op)
 					dataFiles$exercise[i], dataFiles$laterality[i], dataFiles$set[i], dataFiles$rep[i])
 			exportSetDF = cbind (exportSetDF, dataFiles$maxForceRaw[i])
 			exportSetDF = cbind (exportSetDF, dataFiles$maxAvgForceInWindow[i])
+			exportSetDF = cbind (exportSetDF, dataFiles$bestStabilityInWindow[i])
 			for(j in 1:length(exportModelVector))
 				exportSetDF = cbind (exportSetDF, exportModelVector[j])
 

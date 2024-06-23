@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -65,7 +65,7 @@ public class Config
 		CopyToCloudFullPath, CopyToCloudOnExit, ReadFromCloudMainPath, //cloud
 		CanOpenExternalDB, ExternalDBDefaultPath, //externalDB
 		LastDBFullPath, //cloud & externalDB
-		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, GuiTest, //other
+		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, GuiTest, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
 
@@ -108,14 +108,16 @@ public class Config
 	}
 
 	// cloud
-	public string CopyToCloudFullPath {
+	public string CopyToCloudFullPath { 		//for capturing machine
 		get { return configList.GetString (OpEnum.CopyToCloudFullPath); }
+		set { configList.SetValue (OpEnum.CopyToCloudFullPath.ToString (), value); }
 	}
-	public bool CopyToCloudOnExit {
+	public bool CopyToCloudOnExit {			//for capturing machine
 		get { return configList.GetBool (OpEnum.CopyToCloudOnExit); }
 	}
-	public string ReadFromCloudMainPath {
+	public string ReadFromCloudMainPath { 		//for reading machine
 		get { return configList.GetString (OpEnum.ReadFromCloudMainPath); }
+		set { configList.SetValue (OpEnum.ReadFromCloudMainPath.ToString (), value); }
 	}
 
 	// external DB
@@ -154,6 +156,12 @@ public class Config
 	}
 	public bool LowCPU {
 		get { return configList.GetBool (OpEnum.LowCPU); }
+	}
+	public bool EncoderPT {
+		get { return configList.GetBool (OpEnum.EncoderPT); }
+	}
+	public bool FourPlatforms {
+		get { return configList.GetBool (OpEnum.FourPlatforms); }
 	}
 	public bool GuiTest {
 		get { return configList.GetBool (OpEnum.GuiTest); }
@@ -212,7 +220,7 @@ public class Config
 
 	public void Read()
 	{
-		string contents = Util.ReadFile(Util.GetConfigFileName(), false);
+		string contents = Util.ReadFile(Util.GetConfigFileName(true), false);
 		if (contents != null && contents != "") 
 		{
 			string line;
@@ -279,14 +287,15 @@ public class Config
 
 		Config.LastDBFullPathStatic = storedLastDBFullPathStatic;
 	}
+	//text can be empty in order to comment (or maybe implement delete) that parameter
 	public void UpdateField (string field, string text)
 	{
 		string tempfile = Path.GetTempFileName ();
-		string configFile = Util.GetConfigFileName ();
+		string configFile = Util.GetConfigFileName (true);
 		LogB.Information( string.Format ("Config.UpdateField tempfile: {0}, configFile: {1}, field: {2}, text: {3}",
 					tempfile, configFile, field, text));
 		
-		if(! File.Exists (configFile)) {
+		if(! File.Exists (configFile) && text != "") {
 			try {
 				using (var writer = new StreamWriter (tempfile))
 				{
@@ -301,24 +310,30 @@ public class Config
 				using (var writer = new StreamWriter(tempfile))
 					using (var reader = new StreamReader (configFile))
 					{
-						bool found = false;
+						bool foundOnFile = false;
 						while (! reader.EndOfStream)
 						{
 							string line = reader.ReadLine ();
-							if (line != "" && line[0] != '#') 
+							if (line != "")
 							{
 								string [] parts = line.Split (new char[] {'='});
-								if (parts.Length == 2 && parts[0] == field)
+								if (parts.Length == 2 && (parts[0] == field || parts[0] == "#" + field))
 								{
-									line = field + "=" + text;
-									found = true;
+									//if (line.StartsWith "#" && text == "")
+										//not need to do nothing
+									if (! line.StartsWith ("#") && text == "")
+										line = "#" + line;
+									else if (text != "")
+										line = field + "=" + text;
+
+									foundOnFile = true;
 								}
 							}
 							writer.WriteLine (line);
 						}
 
 						//if not found it adds the command
-						if (! found)
+						if (! foundOnFile && text != "")
 							writer.WriteLine (field + "=" + text);
 					}
 				File.Copy (tempfile, configFile, true);
@@ -461,6 +476,9 @@ public class ConfigList
 			str += "\n" + co.ToString ();
 		}
 		str += "\n\nNote to define need to write option=theOption (without spaces) (paths without quotes (at least on Linux)) at chronojump_config.txt";
+		str += "\n\nExamples:";
+	        str += "\nCanOpenExternalDB=TRUE";
+	        str += "\nSessionMode=POWERGRAVITATORY";
 		str += "\n\nCanOpenExternalDB and ReadFromCloudMainPath only one can be active (if both are, cloud will be used). Because they do the same: show the database button, but on reading from cloud it will do a copy to tmp and operate with this copy.";
 		str += "\n\nThis options are here and not in Sqlite DB because here are more easily changed on configure networks devices (just change a .txt),\n" +
 			"also there is more convenient when related to some machines: eg. a LowHeight will display the gui in a way, but on change to its DB from other machine, we would not to see in LowHeight.";
@@ -524,11 +542,11 @@ public class ConfigList
 
 		// cloud
 		list.Add (new ConfigOptionString (Config.OpEnum.CopyToCloudFullPath,
-					"The path where all the data will be copied (uncompressed) to be synced with the cloud service."));
+					"Used on station that is capturing and will send to cloud. This is the path where all the data will be copied (uncompressed) to be synced with the cloud service."));
 		list.Add (new ConfigOptionBool (Config.OpEnum.CopyToCloudOnExit,
-					"If CopyToCloudFullPath is defined, then on Chronojump exit the copy will be done automatically."));
+					"Used on station that is capturing and will send to cloud. If CopyToCloudFullPath is defined, then on Chronojump exit the copy will be done automatically."));
 		list.Add (new ConfigOptionString (Config.OpEnum.ReadFromCloudMainPath,
-					"The path to open cloud DBs (each one will be copied to temp on open). If this active, CanOpenExternalDB will be discarded."));
+					"Used on station that will read from cloud. The path to open cloud DBs (each one will be copied to temp on open, so local DB if exists will not change). If this (ReadFromCloudMainPath) is active, CanOpenExternalDB will be discarded."));
 
 		// externalDB
 		list.Add (new ConfigOptionBool (Config.OpEnum.CanOpenExternalDB,
@@ -552,6 +570,10 @@ public class ConfigList
 					"Devices with less than 500 px vertical, like Odroid Go Super"));
 		list.Add (new ConfigOptionBool (Config.OpEnum.LowCPU,
 					"Workaround to not show realtime graph on force sensor capture (until its optimized)"));
+		list.Add (new ConfigOptionBool (Config.OpEnum.EncoderPT,
+					"Encoder as Pulse,Time, managed by runEncoder mode"));
+		list.Add (new ConfigOptionBool (Config.OpEnum.FourPlatforms,
+					"Show experimental FourPlatforms mode"));
 		list.Add (new ConfigOptionBool (Config.OpEnum.GuiTest,
 					"To perform tests with the GUI (untested with current code)."));
 

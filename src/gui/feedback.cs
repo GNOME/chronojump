@@ -123,7 +123,21 @@ public class FeedbackWindow
 	Gtk.SpinButton spinbutton_encoder_power_lower;
 	Gtk.SpinButton spinbutton_encoder_peakpower_lower;
 
+	Gtk.Box box_encoder_secondary_variable_y_axis;
+	Gtk.RadioButton radio_encoder_height_auto;
+	Gtk.RadioButton radio_encoder_height_custom;
+	Gtk.Grid grid_encoder_height_custom_values;
+	Gtk.SpinButton spin_encoder_height_custom_max;
+	Gtk.SpinButton spin_encoder_height_custom_min;
+
 	Gtk.CheckButton check_encoder_show_asteroids;
+
+	Gtk.Box box_signal_encoder_y_axis;
+	Gtk.RadioButton radio_signal_encoder_y_axis_auto;
+	Gtk.RadioButton radio_signal_encoder_y_axis_custom;
+	Gtk.Grid grid_signal_encoder_y_axis_custom_values;
+	Gtk.SpinButton spin_signal_encoder_displ_custom_max;
+	Gtk.SpinButton spin_signal_encoder_displ_custom_min;
 
 	Gtk.Button button_test_good;
 	//Gtk.Button button_test_bad;
@@ -224,6 +238,7 @@ public class FeedbackWindow
 	Gtk.SpinButton spin_force_sensor_capture_feedback_questionnaire_max;
 	Gtk.SpinButton spin_force_sensor_capture_feedback_questionnaire_min;
 	Gtk.SpinButton spin_force_sensor_capture_feedback_questionnaire_n;
+	Gtk.SpinButton spin_force_sensor_capture_feedback_questionnaire_qDuration;
 	Gtk.RadioButton radio_force_sensor_capture_feedback_questionnaire_default;
 	Gtk.RadioButton radio_force_sensor_capture_feedback_questionnaire_load;
 	Gtk.Image image_force_sensor_capture_feedback_questionnaire_load_info;
@@ -371,6 +386,7 @@ public class FeedbackWindow
 				preferences.forceSensorFeedbackQuestionnaireMax,
 				preferences.forceSensorFeedbackQuestionnaireMin,
 				preferences.forceSensorFeedbackQuestionnaireN,
+				preferences.forceSensorFeedbackQuestionnaireQDuration,
 				preferences.signalDirectionHorizontal
 				);
 
@@ -449,6 +465,7 @@ public class FeedbackWindow
 			int forceSensorFeedbackQuestionnaireMax,
 			int forceSensorFeedbackQuestionnaireMin,
 			int forceSensorFeedbackQuestionnaireN,
+			int forceSensorFeedbackQuestionnaireQDuration,
 			bool signalDirectionHorizontal
 				)
 	{
@@ -584,6 +601,7 @@ public class FeedbackWindow
 			notebook_capture_feedback.Page = 2; //asteroids
 			label_feedback_asteroids_min_units.Text = "cm";
 			label_feedback_asteroids_max_units.Text = "cm";
+			box_signal_encoder_y_axis.Visible = true;
 
 			notebook_main.GetNthPage(ENCODERAUTOPAGE).Show();
 			notebook_main.GetNthPage(ENCODERMANUALPAGE).Show();
@@ -667,6 +685,7 @@ public class FeedbackWindow
 			spin_force_sensor_capture_feedback_questionnaire_max.Value = forceSensorFeedbackQuestionnaireMax;
 			spin_force_sensor_capture_feedback_questionnaire_min.Value = forceSensorFeedbackQuestionnaireMin;
 			spin_force_sensor_capture_feedback_questionnaire_n.Value = forceSensorFeedbackQuestionnaireN;
+			spin_force_sensor_capture_feedback_questionnaire_qDuration.Value = forceSensorFeedbackQuestionnaireQDuration;
 			if (forceSensorFeedbackQuestionnaireFile == null || forceSensorFeedbackQuestionnaireFile == "")
 			{
 				radio_force_sensor_capture_feedback_questionnaire_default.Active = true;
@@ -685,6 +704,7 @@ public class FeedbackWindow
 
 			box_forceSensor_feedback.Visible = true;
 			check_encoder_show_asteroids.Visible = false;
+			box_signal_encoder_y_axis.Visible = false;
 
 			notebook_main.GetNthPage(SIGNALPAGE).Show();
 		}
@@ -714,7 +734,7 @@ public class FeedbackWindow
 		hbox_combo_encoder_secondary_variable.PackStart(combo_encoder_secondary_variable, false, false, 0);
 		hbox_combo_encoder_secondary_variable.ShowAll();
 		combo_encoder_secondary_variable.Sensitive = true;
-		//combo_encoder_secondary_variable.Changed += new EventHandler (on_combo_encoder_secondary_variable_changed);
+		combo_encoder_secondary_variable.Changed += new EventHandler (on_combo_encoder_secondary_variable_changed);
 	}
 	private void comboEncoderVariableFill(Gtk.ComboBoxText combo)
 	{
@@ -734,10 +754,40 @@ public class FeedbackWindow
 			radio_encoder_relative_to_set.Active = true;
 	}
 
+	// feedback automatic secondary variable ---->
 	private void on_check_encoder_show_secondary_variable_toggled (object o, EventArgs args)
 	{
 		hbox_combo_encoder_secondary_variable.Visible = check_encoder_show_secondary_variable.Active;
+
+		box_encoder_secondary_variable_y_axis.Visible = check_encoder_show_secondary_variable.Active &&
+			UtilGtk.ComboGetActive (combo_encoder_secondary_variable) == Constants.RangeAbsolute;
 	}
+
+	private void on_radio_encoder_height_auto_custom_toggled (object o, EventArgs args)
+	{
+		if (radio_encoder_height_auto.Active)
+			grid_encoder_height_custom_values.Visible = false;
+		if (radio_encoder_height_custom.Active && UtilGtk.ComboGetActive (combo_encoder_secondary_variable) == Constants.RangeAbsolute)
+			grid_encoder_height_custom_values.Visible = true;
+	}
+
+	private void on_combo_encoder_secondary_variable_changed (object o, EventArgs args)
+	{
+		box_encoder_secondary_variable_y_axis.Visible = UtilGtk.ComboGetActive (combo_encoder_secondary_variable) == Constants.RangeAbsolute;
+	}
+	// <---- feedback automatic secondary variable
+	
+	// feedback signal ---->
+
+	private void on_radio_signal_encoder_y_axis_auto_custom_toggled (object o, EventArgs args)
+	{
+		if (radio_signal_encoder_y_axis_auto.Active)
+			grid_signal_encoder_y_axis_custom_values.Visible = false;
+		if (radio_signal_encoder_y_axis_custom.Active)
+			grid_signal_encoder_y_axis_custom_values.Visible = true;
+	}
+
+	// <---- feedback signal
 
 	private void on_check_encoder_inertial_ecc_overload_toggled (object o, EventArgs args)
 	{
@@ -753,7 +803,7 @@ public class FeedbackWindow
 
 	private void putNonStandardIcons() {
 		Pixbuf pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_green.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_green.png");
 		image_repetitive_best_tf_tc.Pixbuf = pixbuf;
 		image_repetitive_best_speed.Pixbuf = pixbuf;
 		image_repetitive_best_time.Pixbuf = pixbuf;
@@ -773,7 +823,7 @@ public class FeedbackWindow
 		image_encoder_peakpower_higher.Pixbuf = pixbuf;
 		image_repetitive_test_good.Pixbuf = pixbuf;
 		
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_red.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_red.png");
 		image_repetitive_worst_tf_tc.Pixbuf = pixbuf;
 		image_repetitive_worst_speed.Pixbuf = pixbuf;
 		image_repetitive_worst_time.Pixbuf = pixbuf;
@@ -793,7 +843,7 @@ public class FeedbackWindow
 		image_encoder_peakpower_lower.Pixbuf = pixbuf;
 		image_repetitive_test_bad.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_info.png");//[By Joeries]
 		image_clusters_info.Pixbuf = pixbuf;
 		image_force_sensor_capture_feedback_questionnaire_load_info.Pixbuf = pixbuf;
 	}
@@ -1412,11 +1462,10 @@ public class FeedbackWindow
 
 	public void on_button_force_sensor_capture_feedback_questionnaire_load_clicked (object o, EventArgs args)
 	{
-		Gtk.FileChooserDialog fc = new Gtk.FileChooserDialog(Catalog.GetString("Load file"),
+		Gtk.FileChooserNative fc = new Gtk.FileChooserNative(Catalog.GetString("Load file"),
 				feedback,
 				FileChooserAction.Open,
-				Catalog.GetString("Cancel"),ResponseType.Cancel,
-				Catalog.GetString("Load"),ResponseType.Accept
+				Catalog.GetString("Load"), Catalog.GetString("Cancel")
 				);
 
 		fc.Filter = new FileFilter();
@@ -1432,7 +1481,7 @@ public class FeedbackWindow
 				LogB.Warning("Cannot be loaded");
 			}
 		}
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		fc.Destroy();
 	}
 
@@ -1470,6 +1519,9 @@ public class FeedbackWindow
 	}
 	public int GetForceSensorFeedbackQuestionnaireN {
 		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_questionnaire_n.Value); }
+	}
+	public int GetForceSensorFeedbackQuestionnaireQDuration {
+		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_questionnaire_qDuration.Value); }
 	}
 	public bool GetForceSensorFeedbackQuestionnaireDefaultOrFile {
 		get { return radio_force_sensor_capture_feedback_questionnaire_default.Active; }
@@ -1621,6 +1673,25 @@ public class FeedbackWindow
 	}
 	public bool GetSecondaryVariableShow {
 		get { return check_encoder_show_secondary_variable.Active; }
+	}
+	public bool GetSecondaryVariableYAxisCustom {
+		get { return radio_encoder_height_custom.Active; }
+	}
+	public int GetSecondaryVariableYAxisCustomMax {
+		get { return Convert.ToInt32 (spin_encoder_height_custom_max.Value); }
+	}
+	public int GetSecondaryVariableYAxisCustomMin {
+		get { return Convert.ToInt32 (spin_encoder_height_custom_min.Value); }
+	}
+
+	public bool GetEncoderSignalDisplAxisCustom {
+		get { return radio_signal_encoder_y_axis_custom.Active; }
+	}
+	public int GetEncoderSignalDisplAxisCustomMax {
+		get { return Convert.ToInt32 (spin_signal_encoder_displ_custom_max.Value); }
+	}
+	public int GetEncoderSignalDisplAxisCustomMin {
+		get { return Convert.ToInt32 (spin_signal_encoder_displ_custom_min.Value); }
 	}
 
 	public Preferences.EncoderPhasesEnum GetEncoderCaptureFeedbackEccon {
@@ -1903,6 +1974,13 @@ public class FeedbackWindow
 
 		check_encoder_show_asteroids = (Gtk.CheckButton) builder.GetObject ("check_encoder_show_asteroids");
 
+		box_signal_encoder_y_axis = (Gtk.Box) builder.GetObject ("box_signal_encoder_y_axis");
+		radio_signal_encoder_y_axis_auto = (Gtk.RadioButton) builder.GetObject ("radio_signal_encoder_y_axis_auto");
+		radio_signal_encoder_y_axis_custom = (Gtk.RadioButton) builder.GetObject ("radio_signal_encoder_y_axis_custom");
+		grid_signal_encoder_y_axis_custom_values = (Gtk.Grid) builder.GetObject ("grid_signal_encoder_y_axis_custom_values");
+		spin_signal_encoder_displ_custom_max = (Gtk.SpinButton) builder.GetObject ("spin_signal_encoder_displ_custom_max");
+		spin_signal_encoder_displ_custom_min = (Gtk.SpinButton) builder.GetObject ("spin_signal_encoder_displ_custom_min");
+
 		button_test_good = (Gtk.Button) builder.GetObject ("button_test_good");
 		//button_test_bad = (Gtk.Button) builder.GetObject ("button_test_bad");
 		label_test_sound_result = (Gtk.Label) builder.GetObject ("label_test_sound_result");
@@ -1946,6 +2024,13 @@ public class FeedbackWindow
 		image_encoder_power_lower = (Gtk.Image) builder.GetObject ("image_encoder_power_lower");
 		image_encoder_peakpower_lower = (Gtk.Image) builder.GetObject ("image_encoder_peakpower_lower");
 		image_repetitive_test_bad = (Gtk.Image) builder.GetObject ("image_repetitive_test_bad");
+
+		box_encoder_secondary_variable_y_axis = (Gtk.Box) builder.GetObject ("box_encoder_secondary_variable_y_axis");
+		radio_encoder_height_auto = (Gtk.RadioButton) builder.GetObject ("radio_encoder_height_auto");
+		radio_encoder_height_custom = (Gtk.RadioButton) builder.GetObject ("radio_encoder_height_custom");
+		grid_encoder_height_custom_values = (Gtk.Grid) builder.GetObject ("grid_encoder_height_custom_values");
+		spin_encoder_height_custom_max = (Gtk.SpinButton) builder.GetObject ("spin_encoder_height_custom_max");
+		spin_encoder_height_custom_min = (Gtk.SpinButton) builder.GetObject ("spin_encoder_height_custom_min");
 
 		//encoder rhythm
 		label_rhythm_tab = (Gtk.Label) builder.GetObject ("label_rhythm_tab");
@@ -2001,6 +2086,7 @@ public class FeedbackWindow
 		spin_force_sensor_capture_feedback_questionnaire_max = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_questionnaire_max");
 		spin_force_sensor_capture_feedback_questionnaire_min = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_questionnaire_min");
 		spin_force_sensor_capture_feedback_questionnaire_n = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_questionnaire_n");
+		spin_force_sensor_capture_feedback_questionnaire_qDuration = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_questionnaire_qDuration");
 		radio_force_sensor_capture_feedback_questionnaire_default = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_questionnaire_default");
 		radio_force_sensor_capture_feedback_questionnaire_load = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_questionnaire_load");
 		image_force_sensor_capture_feedback_questionnaire_load_info = (Gtk.Image) builder.GetObject ("image_force_sensor_capture_feedback_questionnaire_load_info");

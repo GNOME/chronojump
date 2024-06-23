@@ -78,8 +78,8 @@ public class ForceSensorElasticBandsWindow
 	private int stiffnessColumn;
 	private bool followSignals;
 
-	private enum modes { EDITING, ADDING } 
-	private modes currentMode;
+	private enum Modes { EDITING, ADDING } 
+	private Modes currentMode;
 
 	public ForceSensorElasticBandsWindow ()
 	{
@@ -93,19 +93,19 @@ public class ForceSensorElasticBandsWindow
 		builder.Autoconnect (this);
 
 		Pixbuf pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_add.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_add.png");
 		image_add.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_edit.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_edit.png");
 		image_edit.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_delete.png");
 		image_delete.Pixbuf = pixbuf;
 		image_delete_confirm.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "save.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "save.png");
 		image_save.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
 		image_cancel.Pixbuf = pixbuf;
 		image_cancel_delete.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close_blue.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close_blue.png");
 		image_close.Pixbuf = pixbuf;
 
 		//HideOnAccept = true;
@@ -284,7 +284,7 @@ public class ForceSensorElasticBandsWindow
 		ITreeModel myModel = treeview.Model;
 		if (treeview.Selection.GetSelected (out myModel, out iter))
 		{
-			currentMode = modes.EDITING;
+			currentMode = Modes.EDITING;
 			label_edit_or_add.Text = Catalog.GetString("Edit selected");
 			ForceSensorElasticBand fseb = getSelectedForceSensorElasticBand();
 			fill_frame(fseb);
@@ -318,7 +318,7 @@ public class ForceSensorElasticBandsWindow
 
 	private void on_button_add_clicked (object o, EventArgs args)
 	{
-		currentMode = modes.ADDING;
+		currentMode = Modes.ADDING;
 		empty_frame(); //empty all
 		label_edit_or_add.Text = Catalog.GetString("Add new elastic band/tube");
 		treeview.Selection.UnselectAll();
@@ -338,7 +338,7 @@ public class ForceSensorElasticBandsWindow
 			active = Convert.ToInt32(spin_active_units_edit.Value);
 
 		//1) insert on SQL
-		if(currentMode == modes.ADDING)
+		if(currentMode == Modes.ADDING)
 		{
 			//create fseb from frame_in_use
 			ForceSensorElasticBand fseb = new ForceSensorElasticBand(-1, active, entry_brand.Text, entry_color.Text, spin_stiffness_edit.Value, entry_comments.Text);
@@ -349,7 +349,7 @@ public class ForceSensorElasticBandsWindow
 			//unsensitivize frame_in_use
 			frame_in_use.Sensitive = false;
 		}
-		else //(currentMode == modes.EDITING)
+		else //(currentMode == Modes.EDITING)
 		{
 			//get selected just to know uniqueID and if it is active
 			ForceSensorElasticBand fseb = getSelectedForceSensorElasticBand();
@@ -382,7 +382,7 @@ public class ForceSensorElasticBandsWindow
 
 	private void on_button_edit_cancel_clicked (object o, EventArgs args)
 	{
-		if(currentMode == modes.ADDING)
+		if(currentMode == Modes.ADDING)
 			frame_in_use.Sensitive = false;
 
 		notebook.CurrentPage = 0;
@@ -460,7 +460,7 @@ public class ForceSensorElasticBandsWindow
 
 		/*
 		//save and update treeview
-		currentMode = modes.EDITING;
+		currentMode = Modes.EDITING;
 		on_button_edit_save_clicked (new object (), new EventArgs ());
 		*/
 

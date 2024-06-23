@@ -16,12 +16,13 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  *  Copyright (C) 2016, 2019   Xavier Padullés <x.padulles@gmail.com>
- *  Copyright (C) 2016-2017, 2019-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2016-2017, 2019-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using System.IO; 		//for detect OS //TextWriter
 using System.Collections.Generic; //List<T>
+using Kinovea.Filtering;
 
 //note this has doubles. For ints can use Gdk.Point
 public class PointF
@@ -150,6 +151,50 @@ public class PointF
 			return sample + 1;
 	}
 
+	public static List<double> X_l (List<PointF> p_l)
+	{
+		List<double> l = new List<double> ();
+		for (int i = 0; i < p_l.Count ; i ++)
+			l.Add (p_l[i].X);
+
+		return l;
+	}
+	public static List<int> Xint_l (List<PointF> p_l)
+	{
+		List<int> l = new List<int> ();
+		for (int i = 0; i < p_l.Count ; i ++)
+			l.Add (Convert.ToInt32 (p_l[i].X));
+
+		return l;
+	}
+
+
+	public static List<double> Y_l (List<PointF> p_l)
+	{
+		List<double> l = new List<double> ();
+		for (int i = 0; i < p_l.Count ; i ++)
+			l.Add (p_l[i].Y);
+
+		return l;
+	}
+
+	//faster method (not need to loop 2 times)
+	public static void GetMaxMinY (List<PointF> p_l, out double minY, out double maxY)
+	{
+		minY = 0;
+		maxY = 0;
+		if (p_l == null || p_l.Count == 0)
+			return;
+
+		for (int i = 0; i < p_l.Count ; i ++)
+		{
+			if (i == 0 || p_l[i].Y < minY)
+				minY = p_l[i].Y;
+			if (i == 0 || p_l[i].Y > maxY)
+				maxY = p_l[i].Y;
+		}
+	}
+
 	//if want to use sublist just call also below method GetSubList ()
 	public static double GetMaxY (List<PointF> p_l)
 	{
@@ -175,6 +220,40 @@ public class PointF
 				minY = p_l[i].Y;
 
 		return minY;
+	}
+
+	public static PointF GetMaxYAndItsX (List<PointF> p_l)
+	{
+		double maxY = 0;
+		double xAtMaxY = 0;
+		if (p_l == null || p_l.Count == 0)
+			return new PointF (xAtMaxY, maxY);
+
+		for (int i = 0; i < p_l.Count ; i ++)
+			if (i == 0 || p_l[i].Y > maxY)
+			{
+				xAtMaxY = p_l[i].X;
+				maxY = p_l[i].Y;
+			}
+
+		return new PointF (xAtMaxY, maxY);
+	}
+
+	public static PointF GetMinYAndItsX (List<PointF> p_l)
+	{
+		double minY = 0;
+		double xAtMinY = 0;
+		if (p_l == null || p_l.Count == 0)
+			return new PointF (xAtMinY, minY);
+
+		for (int i = 0; i < p_l.Count ; i ++)
+			if (i == 0 || p_l[i].Y < minY)
+			{
+				xAtMinY = p_l[i].X;
+				minY = p_l[i].Y;
+			}
+
+		return new PointF (xAtMinY, minY);
 	}
 
 	//if want to use sublist just call also below method GetSubList ()
@@ -997,6 +1076,25 @@ public abstract class GetMaxValueInWindow
 				maxSampleStart, maxSampleEnd, max, error);
 	}
 
+	// return -1 if sampleEnd is out of array
+	protected int findSampleAtWindowSeconds (int sampleStart)
+	{
+		double timeStart = p_l[sampleStart].X;
+		for (int i = sampleStart; i < p_l.Count; i ++)
+			if (p_l[i].X - timeStart >= 1000000 * windowSeconds)
+			{
+				if (MathUtil.PassedSampleIsCloserToCriteria (
+							p_l[i].X - timeStart,
+							p_l[i-1].X - timeStart,
+							1000000 * windowSeconds))
+					return i-1;
+				else
+					return i;
+			}
+
+		return -1;
+	}
+
 	public double Max
 	{
 		get { return max; }
@@ -1172,7 +1270,7 @@ public class GetBestRFDInWindow : GetMaxValueInWindow
 				return;
 
 			error = ""; //not show the error mark
-			double temp = ForceCalcs.GetRFD (p_l, j, i);
+			double temp = ForceCalcs.GetRFD (p_l, i, j);
 			if (temp > max)
 			{
 				max = temp;
@@ -1181,24 +1279,82 @@ public class GetBestRFDInWindow : GetMaxValueInWindow
 			}
 		}
 	}
+}
 
-	// return -1 if sampleEnd is out of array
-	private int findSampleAtWindowSeconds (int sampleStart)
+//note max is here: max estability (that is a low value)
+public class GetBestStabilityInWindow : GetMaxValueInWindow
+{
+	private int feedbackF; //preferences.forceSensorCaptureFeedbackAt;
+	private Preferences.VariabilityMethodEnum variabilityMethod;
+	private int lag;
+
+	public GetBestStabilityInWindow (List<PointF> p_l, int countA, int countB, double windowSeconds)
 	{
-		double timeStart = p_l[sampleStart].X;
-		for (int i = sampleStart; i < p_l.Count; i ++)
-			if (p_l[i].X - timeStart >= 1000000 * windowSeconds)
-			{
-				if (MathUtil.PassedSampleIsCloserToCriteria (
-							p_l[i].X - timeStart,
-							p_l[i-1].X - timeStart,
-							1000000 * windowSeconds))
-					return i-1;
-				else
-					return i;
-			}
+		this.p_l = p_l;
+		this.countA = countA;
+		this.countB = countB;
+		this.windowSeconds = windowSeconds;
 
-		return -1;
+		//define this to not crash if PassVariables is not done
+		variabilityMethod = Preferences.VariabilityMethodEnum.RMSSD;
+		lag = 1;
+
+		error = "";
+
+		if (parametersBad ())
+		{
+			error = string.Format ("p_l.Count: {0}, countA: {1}, countB: {2}, windowSeconds: {3}",
+					p_l.Count, countA, countB, windowSeconds);
+			return;
+		}
+
+		// 2) check if countB - countA fits in window time
+		if (dataTooShort ())
+		{
+			max = 0;
+			maxSampleStart = countA; //there is an error, this will not be used
+			maxSampleEnd = countA; //there is an error, this will not be used
+			error = "Need more time";
+			return;
+		}
+	}
+
+	public void PassVariablesAndCalculate (int feedbackF,
+			Preferences.VariabilityMethodEnum variabilityMethod, int lag)
+	{
+		this.feedbackF = feedbackF;
+		this.variabilityMethod = variabilityMethod;
+		this.lag = lag;
+
+		calculate ();
+	}
+
+	protected override void calculate ()
+	{
+		//note max is here: max estability (that is a low value)
+		max = -1;
+		maxSampleStart = countA; 	//sample where best stability starts (to draw a line)
+		maxSampleEnd = countA; 		//sample where best stability ends (to draw a line)
+		error = "too short for calcule";
+		VariabilityAndAccuracy vac = new VariabilityAndAccuracy ();
+
+		for (int i = countA; i < countB; i ++)
+		{
+			int j = findSampleAtWindowSeconds (i);
+			if (j < 0)
+				return;
+
+			error = ""; //not show the error mark
+			vac.Calculate (p_l, i, j, feedbackF, variabilityMethod, lag);
+			double temp = vac.Variability;
+
+			if (i == countA || temp < max) //max (stability, a low value)
+			{
+				max = temp;
+				maxSampleStart = i;
+				maxSampleEnd = j;
+			}
+		}
 	}
 }
 
@@ -1513,23 +1669,39 @@ public static class MathUtil
 public class InterpolateSignal
 {
 	private List<PointF> point_l;
-	private enum types { COSINE, CUBIC };
+	private enum Types { COSINE, CUBIC };
 
 	public InterpolateSignal (List<PointF> point_l)
 	{
 		this.point_l = point_l;
 	}
-	public InterpolateSignal (int minY, int maxY, int maxX, int stepX)
+
+	//alternate takes 1 value up, 1 down, ... up is the 70% up, down is the 70% down, (yes seventy, do not need to go up/down always)
+	//double alternateFactor. .7 means will go from 70% top to 70% down
+	public InterpolateSignal (int minY, int maxY, int maxX, int stepX, bool alternate, double alternateFactor)
 	{
 		Random random = new Random();
 		this.point_l = new List<PointF>();
 		int range = maxY - minY;
+		double rangeAlternate = alternateFactor * range;
 
 		//LogB.Information(string.Format("InterpolateSignal maxX: {0}, stepX: {1}", maxX, stepX));
 
+		int j = 0;
 		for(int i = 0; i < maxX; i += stepX)
 		{
-			point_l.Add(new PointF(i, minY + (random.NextDouble() * range)));
+			double nextY = minY + (random.NextDouble() * range);
+			if (alternate)
+			{
+				if (Util.IsEven (j))
+					nextY = maxY - (random.NextDouble() * rangeAlternate);
+				else
+					nextY = minY + (random.NextDouble() * rangeAlternate);
+
+				j ++;
+			}
+
+			point_l.Add (new PointF (i, nextY));
 
 			/*
 			PointF p = new PointF(i, minY + (random.NextDouble() * range));
@@ -1581,19 +1753,19 @@ public class InterpolateSignal
 		InterpolateSignal fsp = new InterpolateSignal(l);
 
 		//cosine
-		fsp.testCosineCubicInterpolateDo(types.COSINE);
+		fsp.testCosineCubicInterpolateDo(Types.COSINE);
 
 		//cubic
-		fsp.testCosineCubicInterpolateDo(types.CUBIC);
-		//fsp.toFile(interpolated_l, types.CUBIC);
+		fsp.testCosineCubicInterpolateDo(Types.CUBIC);
+		//fsp.toFile(interpolated_l, Types.CUBIC);
 	}
 
 	public List<PointF> GetCubicInterpolated()
 	{
-		return testCosineCubicInterpolateDo(types.CUBIC);
+		return testCosineCubicInterpolateDo(Types.CUBIC);
 	}
 
-	private List<PointF> testCosineCubicInterpolateDo(types type)
+	private List<PointF> testCosineCubicInterpolateDo(Types type)
 	{
 		List<PointF> interpolated_l = new List<PointF>();
 
@@ -1603,7 +1775,7 @@ public class InterpolateSignal
 			//for(double j = 0.05; j < 1 ; j += .1) //10 interpolated value for each master (see timeStep on gui/app1/forceSensor.cs)
 			for(double j = 0.005; j < 1 ; j += .01) //100 interpolated value for each master (see timeStep & lastTime += 10000 on gui/app1/forceSensor.cs)
 			{
-				if (type == types.COSINE)
+				if (type == Types.COSINE)
 				{
 					int second = i+1; //the second point
 					if(i == point_l.Count -1)
@@ -1613,7 +1785,7 @@ public class InterpolateSignal
 							point_l[i].X + j*(point_l[second].X - point_l[i].X),
 							CosineInterpolate(point_l[i].Y, point_l[second].Y, j)));
 				}
-				else if(type == types.CUBIC)
+				else if(type == Types.CUBIC)
 				{
 					//for cubic we need two extra points
 					int a = i-1;
@@ -1645,7 +1817,7 @@ public class InterpolateSignal
 	}
 
 	//just to debug, unused right now
-	private void toFile(List<PointF> interpolated_l, types type)
+	private void toFile(List<PointF> interpolated_l, Types type)
 	{
 		TextWriter writer = File.CreateText(
 				Path.Combine(Path.GetTempPath(), string.Format("chronojump_testinterpolate_{0}.csv", type.ToString())));
@@ -1712,3 +1884,118 @@ public class InterpolateSignal
 	*/
 
 }
+
+public class Butterworth
+{
+	private double freq;
+	private List<PointF> pForButter_l;
+	private List<TimedPoint> samples_l;
+
+	private List<int> times_l;
+	private List<double> y_l;
+	FilteredTrajectory traj;
+
+	public Butterworth (double freq)
+	{
+		this.freq = freq;
+
+		pForButter_l = new List<PointF> ();
+		samples_l = new List<TimedPoint>();
+
+		times_l = new List<int>();
+		y_l = new List<double>();
+	}
+
+	public void AddSample (double time, double y)
+	{
+		pForButter_l.Add (new PointF (time, y));
+		samples_l.Add (new TimedPoint((float) y, 0, (long) time));
+	}
+
+	public void AddFromList (List<PointF> p_l)
+	{
+		foreach (PointF p in p_l)
+		{
+			pForButter_l.Add (p);
+			samples_l.Add (new TimedPoint((float) p.Y, 0, (long) p.X));
+		}
+	}
+
+	public void Calculate ()
+	{
+		if (pForButter_l.Count == 0)
+			return;
+
+		double fps = UtilAll.DivideSafe (pForButter_l.Count,
+				PointF.Last (pForButter_l).X/1000000 - pForButter_l[0].X/1000000);
+
+		traj = new FilteredTrajectory();
+		traj.Initialize (samples_l, fps, freq);
+		//traj.Initialize (samples_l, fps, -1); //automatic
+		LogB.Information ("cutoff: " + traj.XCutoff.ToString ());
+
+		for (int i = 0; i < traj.Times.Length; i ++)
+		{
+			times_l.Add (Convert.ToInt32 (traj.Times[i]));
+			y_l.Add (Convert.ToDouble (traj.Xs[i]));
+		}
+	}
+
+	//this is used on capture and on ForceSensorDynamicsElastic
+	public List<PointF> PointF_l
+	{
+		get {
+			List<PointF> p_l = new List<PointF> ();
+			if (traj != null)
+				for (int i = 0; i < traj.Times.Length; i ++)
+					p_l.Add (new PointF (traj.Times[i], traj.Xs[i]));
+
+			return p_l;
+		}
+	}
+
+	//Times_L and Forces_l is used on load
+	public List<int> Times_l {
+		get { return times_l; }
+	}
+	public List<double> Y_l {
+		get { return y_l; }
+	}
+
+	public static void ForceSensorFileToButterworth (List<string> contents, double butterworthFreq, string toFile)
+	{
+		bool headersRow = true;
+		Butterworth bw = new Butterworth (butterworthFreq);
+		foreach (string str in contents)
+		{
+			if(headersRow)
+			{
+				headersRow = false;
+				continue;
+			}
+
+			string [] strFull = str.Split(new char[] {';'});
+			if(strFull.Length != 2)
+				continue;
+
+			if(Util.IsNumber(strFull[0], false) && Util.IsNumber(Util.ChangeDecimalSeparator(strFull[1]), true))
+				bw.AddSample (
+						Convert.ToDouble (strFull[0]),
+						Convert.ToDouble (Util.ChangeDecimalSeparator(strFull[1]))
+					     );
+		}
+		bw.Calculate ();
+
+		TextWriter writer = File.CreateText (toFile);
+		writer.WriteLine ("Time (micros);Force(N)");
+
+		for (int i = 0; i < bw.Times_l.Count; i ++)
+			writer.WriteLine (Util.ConvertToPoint (bw.Times_l[i]) + ";" +
+					Util.ConvertToPoint (bw.Y_l[i]));
+
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
+	}
+}
+

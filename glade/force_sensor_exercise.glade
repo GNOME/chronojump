@@ -1,73 +1,66 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 -->
 <interface>
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="adjustment1">
-    <property name="value">100</property>
-    <property name="lower">0</property>
     <property name="upper">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">0</property>
+    <property name="value">100</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment2">
-    <property name="value">0.10000000000000001</property>
-    <property name="lower">0.10000000000000001</property>
+    <property name="lower">0.10</property>
     <property name="upper">10</property>
-    <property name="step_increment">0.10000000000000001</property>
-    <property name="page_increment">1</property>
-    <property name="page_size">0</property>
+    <property name="value">0.10</property>
+    <property name="step-increment">0.10</property>
+    <property name="page-increment">1</property>
   </object>
   <object class="GtkAdjustment" id="adjustment3">
-    <property name="value">0.10000000000000001</property>
-    <property name="lower">0.10000000000000001</property>
+    <property name="lower">0.10</property>
     <property name="upper">10</property>
-    <property name="step_increment">0.10000000000000001</property>
-    <property name="page_increment">1</property>
-    <property name="page_size">0</property>
+    <property name="value">0.10</property>
+    <property name="step-increment">0.10</property>
+    <property name="page-increment">1</property>
   </object>
   <object class="GtkAdjustment" id="adjustment4">
-    <property name="value">10</property>
     <property name="lower">1</property>
     <property name="upper">999</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">0</property>
+    <property name="value">10</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment5">
-    <property name="value">50</property>
     <property name="lower">1</property>
     <property name="upper">999</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">0</property>
+    <property name="value">50</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment6">
-    <property name="value">1</property>
     <property name="lower">-90</property>
     <property name="upper">90</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">0</property>
+    <property name="value">1</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
-  <!-- interface-requires gtk+ 3.0 -->
-  <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkWindow" id="force_sensor_exercise">
-    <property name="width_request">700</property>
-    <property name="can_focus">False</property>
-    <property name="border_width">10</property>
+    <property name="width-request">700</property>
+    <property name="can-focus">False</property>
+    <property name="border-width">10</property>
     <property name="title" translatable="yes">Chronojump</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
-    <property name="type_hint">dialog</property>
-    <signal name="delete_event" handler="on_delete_event" swapped="no"/>
+    <property name="type-hint">dialog</property>
+    <signal name="delete-event" handler="on_delete_event" swapped="no"/>
     <child>
       <object class="GtkVBox" id="vbox_win">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="spacing">8</property>
         <child>
           <object class="GtkLabel" id="label_header">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -78,22 +71,20 @@
         <child>
           <object class="GtkVBox" id="vbox_data">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="spacing">20</property>
             <child>
               <object class="GtkHBox" id="hbox1">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="spacing">12</property>
                 <child>
                   <object class="GtkEntry" id="entry_name">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
-                    <property name="primary_icon_activatable">False</property>
-                    <property name="secondary_icon_activatable">False</property>
-                    <property name="primary_icon_sensitive">True</property>
-                    <property name="secondary_icon_sensitive">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="invisible-char">●</property>
+                    <property name="primary-icon-activatable">False</property>
+                    <property name="secondary-icon-activatable">False</property>
                     <signal name="changed" handler="on_entry_name_changed" swapped="no"/>
                   </object>
                   <packing>
@@ -104,12 +95,12 @@
                 </child>
                 <child>
                   <object class="GtkHBox" id="hbox_error">
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="spacing">10</property>
                     <child>
                       <object class="GtkImage" id="image_error">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="stock">gtk-no</property>
                       </object>
                       <packing>
@@ -121,7 +112,7 @@
                     <child>
                       <object class="GtkLabel" id="label_error">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -146,22 +137,22 @@
             <child>
               <object class="GtkNotebook" id="notebook_main">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="show_tabs">False</property>
+                <property name="can-focus">True</property>
+                <property name="show-tabs">False</property>
                 <child>
                   <object class="GtkVBox" id="vbox_type">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="border_width">8</property>
+                    <property name="can-focus">False</property>
+                    <property name="border-width">8</property>
                     <property name="spacing">20</property>
                     <child>
                       <object class="GtkLabel" id="label_type">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Chronojump 2.2.2 split force sensor mode into isometric and elastic modes.
 During the conversion, this exercise has been assigned to both modes.
 Do you want to have it in only one mode?</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -172,16 +163,16 @@ Do you want to have it in only one mode?</property>
                     <child>
                       <object class="GtkVBox" id="vbox1">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="spacing">12</property>
                         <child>
                           <object class="GtkRadioButton" id="radio_type_both">
                             <property name="label" translatable="yes">Continue in both modes</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="active">True</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -193,10 +184,10 @@ Do you want to have it in only one mode?</property>
                           <object class="GtkRadioButton" id="radio_type_isometric">
                             <property name="label" translatable="yes">Only for isometric mode</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="active">True</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                             <property name="group">radio_type_both</property>
                           </object>
                           <packing>
@@ -209,10 +200,10 @@ Do you want to have it in only one mode?</property>
                           <object class="GtkRadioButton" id="radio_type_elastic">
                             <property name="label" translatable="yes">Only for elastic mode</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="relief">none</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                             <property name="group">radio_type_both</property>
                           </object>
                           <packing>
@@ -233,25 +224,25 @@ Do you want to have it in only one mode?</property>
                 <child type="tab">
                   <object class="GtkLabel" id="label13">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="label">type: iso/elastic</property>
                   </object>
                   <packing>
-                    <property name="tab_fill">False</property>
+                    <property name="tab-fill">False</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkVBox" id="vbox_force">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="border_width">8</property>
+                    <property name="can-focus">False</property>
+                    <property name="border-width">8</property>
                     <property name="spacing">20</property>
                     <child>
                       <object class="GtkLabel" id="label_force">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">What force do you want to show?</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -262,10 +253,10 @@ Do you want to have it in only one mode?</property>
                     <child>
                       <object class="GtkTextView" id="textview_force_explanation">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can-focus">True</property>
                         <property name="editable">False</property>
-                        <property name="wrap_mode">word</property>
-                        <property name="cursor_visible">False</property>
+                        <property name="wrap-mode">word</property>
+                        <property name="cursor-visible">False</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -276,16 +267,16 @@ Do you want to have it in only one mode?</property>
                     <child>
                       <object class="GtkVBox" id="vbox2">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="spacing">20</property>
                         <child>
                           <object class="GtkRadioButton" id="radio_force_sensor_raw">
                             <property name="label" translatable="yes">Raw data</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="active">True</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                             <signal name="toggled" handler="on_radio_force_toggled" swapped="no"/>
                           </object>
                           <packing>
@@ -297,16 +288,16 @@ Do you want to have it in only one mode?</property>
                         <child>
                           <object class="GtkHBox" id="hbox13">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkRadioButton" id="radio_force_resultant">
                                 <property name="label" translatable="yes">Projection of exerted force</property>
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">False</property>
                                 <property name="active">True</property>
-                                <property name="draw_indicator">True</property>
+                                <property name="draw-indicator">True</property>
                                 <property name="group">radio_force_sensor_raw</property>
                                 <signal name="toggled" handler="on_radio_force_toggled" swapped="no"/>
                               </object>
@@ -319,13 +310,13 @@ Do you want to have it in only one mode?</property>
                             <child>
                               <object class="GtkButton" id="button_force_exerted_help">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">True</property>
                                 <signal name="clicked" handler="on_button_force_exerted_help_clicked" swapped="no"/>
                                 <child>
                                   <object class="GtkImage" id="image_force_exerted_help">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="stock">gtk-missing-image</property>
                                   </object>
                                 </child>
@@ -351,30 +342,33 @@ Do you want to have it in only one mode?</property>
                       </packing>
                     </child>
                   </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
                 <child type="tab">
                   <object class="GtkLabel" id="label3">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="label">force</property>
                   </object>
                   <packing>
                     <property name="position">1</property>
-                    <property name="tab_fill">False</property>
+                    <property name="tab-fill">False</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkVBox" id="vbox_fixation">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="border_width">8</property>
+                    <property name="can-focus">False</property>
+                    <property name="border-width">8</property>
                     <property name="spacing">20</property>
                     <child>
                       <object class="GtkLabel" id="label_fixation">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Fixation</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -385,10 +379,10 @@ Do you want to have it in only one mode?</property>
                     <child>
                       <object class="GtkTextView" id="textview_fixation_explanation">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can-focus">True</property>
                         <property name="editable">False</property>
-                        <property name="wrap_mode">word</property>
-                        <property name="cursor_visible">False</property>
+                        <property name="wrap-mode">word</property>
+                        <property name="cursor-visible">False</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -399,17 +393,17 @@ Do you want to have it in only one mode?</property>
                     <child>
                       <object class="GtkVBox" id="vbox4">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="border_width">8</property>
+                        <property name="can-focus">False</property>
+                        <property name="border-width">8</property>
                         <property name="spacing">20</property>
                         <child>
                           <object class="GtkRadioButton" id="radio_fixation_elastic">
                             <property name="label" translatable="yes">Elastic</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="active">True</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                             <signal name="toggled" handler="on_radio_fixation_toggled" swapped="no"/>
                           </object>
                           <packing>
@@ -422,9 +416,9 @@ Do you want to have it in only one mode?</property>
                           <object class="GtkRadioButton" id="radio_fixation_not_elastic">
                             <property name="label" translatable="yes">Not elastic</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="draw-indicator">True</property>
                             <property name="group">radio_fixation_elastic</property>
                             <signal name="toggled" handler="on_radio_fixation_toggled" swapped="no"/>
                           </object>
@@ -442,30 +436,33 @@ Do you want to have it in only one mode?</property>
                       </packing>
                     </child>
                   </object>
+                  <packing>
+                    <property name="position">2</property>
+                  </packing>
                 </child>
                 <child type="tab">
                   <object class="GtkLabel" id="label4">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="label">fixation</property>
                   </object>
                   <packing>
                     <property name="position">2</property>
-                    <property name="tab_fill">False</property>
+                    <property name="tab-fill">False</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkVBox" id="vbox_mass">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="border_width">8</property>
+                    <property name="can-focus">False</property>
+                    <property name="border-width">8</property>
                     <property name="spacing">20</property>
                     <child>
                       <object class="GtkLabel" id="label_mass">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Total mass management</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -476,10 +473,10 @@ Do you want to have it in only one mode?</property>
                     <child>
                       <object class="GtkTextView" id="textview_mass_explanation">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can-focus">True</property>
                         <property name="editable">False</property>
-                        <property name="wrap_mode">word</property>
-                        <property name="cursor_visible">False</property>
+                        <property name="wrap-mode">word</property>
+                        <property name="cursor-visible">False</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -490,22 +487,22 @@ Do you want to have it in only one mode?</property>
                     <child>
                       <object class="GtkVBox" id="vbox6">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="border_width">8</property>
+                        <property name="can-focus">False</property>
+                        <property name="border-width">8</property>
                         <property name="spacing">12</property>
                         <child>
                           <object class="GtkHBox" id="hbox4">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="spacing">20</property>
                             <child>
                               <object class="GtkRadioButton" id="radio_mass_add">
                                 <property name="label" translatable="yes">Add the effect of mass to raw data</property>
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">False</property>
                                 <property name="active">True</property>
-                                <property name="draw_indicator">True</property>
+                                <property name="draw-indicator">True</property>
                                 <signal name="toggled" handler="on_radio_mass_toggled" swapped="no"/>
                               </object>
                               <packing>
@@ -518,20 +515,19 @@ Do you want to have it in only one mode?</property>
                               <object class="GtkHBox" id="hbox_body_mass_add">
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="spacing">8</property>
                                 <child>
                                   <object class="GtkSpinButton" id="spin_body_mass_add">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
+                                    <property name="can-focus">True</property>
                                     <property name="tooltip-text" translatable="yes">Body mass to be added</property>
-                                    <property name="invisible_char">&#x25CF;</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
+                                    <property name="invisible-char">●</property>
+                                    <property name="width-chars">5</property>
+                                    <property name="primary-icon-activatable">False</property>
+                                    <property name="secondary-icon-activatable">False</property>
                                     <property name="adjustment">adjustment1</property>
-                                    <property name="snap_to_ticks">True</property>
+                                    <property name="snap-to-ticks">True</property>
                                     <property name="numeric">True</property>
                                   </object>
                                   <packing>
@@ -543,7 +539,7 @@ Do you want to have it in only one mode?</property>
                                 <child>
                                   <object class="GtkLabel" id="label2">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="label">%</property>
                                   </object>
                                   <packing>
@@ -570,10 +566,10 @@ Do you want to have it in only one mode?</property>
                           <object class="GtkRadioButton" id="radio_mass_subtract">
                             <property name="label" translatable="yes">Subtract the effect of mass from raw data</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="active">True</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                             <property name="group">radio_mass_add</property>
                             <signal name="toggled" handler="on_radio_mass_toggled" swapped="no"/>
                           </object>
@@ -587,9 +583,9 @@ Do you want to have it in only one mode?</property>
                           <object class="GtkRadioButton" id="radio_mass_nothing">
                             <property name="label" translatable="yes">The effect of mass is included in the raw data</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="draw-indicator">True</property>
                             <property name="group">radio_mass_add</property>
                             <signal name="toggled" handler="on_radio_mass_toggled" swapped="no"/>
                           </object>
@@ -607,34 +603,37 @@ Do you want to have it in only one mode?</property>
                       </packing>
                     </child>
                   </object>
+                  <packing>
+                    <property name="position">3</property>
+                  </packing>
                 </child>
                 <child type="tab">
                   <object class="GtkLabel" id="label5">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="label">mass</property>
                   </object>
                   <packing>
                     <property name="position">3</property>
-                    <property name="tab_fill">False</property>
+                    <property name="tab-fill">False</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkVBox" id="vbox_reps_detect">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="border_width">8</property>
+                    <property name="can-focus">False</property>
+                    <property name="border-width">8</property>
                     <property name="spacing">25</property>
                     <child>
                       <object class="GtkHBox" id="hbox11">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <child>
                           <object class="GtkLabel" id="label_detect_repetitions">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
+                            <property name="can-focus">False</property>
                             <property name="label" translatable="yes">Detect repetitions</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -652,21 +651,21 @@ Do you want to have it in only one mode?</property>
                     <child>
                       <object class="GtkVBox" id="vbox10">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="spacing">16</property>
                         <child>
                           <object class="GtkVBox" id="vbox11">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="spacing">12</property>
                             <child>
                               <object class="GtkRadioButton" id="radio_detect_repetitions_from_prefs">
                                 <property name="label" translatable="yes">Use value on preferences to detect repetitions</property>
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">False</property>
                                 <property name="active">True</property>
-                                <property name="draw_indicator">True</property>
+                                <property name="draw-indicator">True</property>
                                 <signal name="toggled" handler="on_radio_detect_repetitions_toggled" swapped="no"/>
                               </object>
                               <packing>
@@ -678,19 +677,19 @@ Do you want to have it in only one mode?</property>
                             <child>
                               <object class="GtkAlignment" id="alignment3">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="left_padding">30</property>
+                                <property name="can-focus">False</property>
+                                <property name="left-padding">30</property>
                                 <child>
                                   <object class="GtkHBox" id="hbox_detect_repetitions_preferences">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="spacing">20</property>
                                     <child>
                                       <object class="GtkLabel" id="label_repetitions_prefs_ini">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="xalign">0</property>
+                                        <property name="can-focus">False</property>
                                         <property name="label" translatable="yes">Minimal range of movement</property>
+                                        <property name="xalign">0</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -701,12 +700,12 @@ Do you want to have it in only one mode?</property>
                                     <child>
                                       <object class="GtkHBox" id="hbox9">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
+                                        <property name="can-focus">False</property>
                                         <property name="spacing">4</property>
                                         <child>
                                           <object class="GtkLabel" id="label9">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                             <property name="label" translatable="yes">Eccentric</property>
                                           </object>
                                           <packing>
@@ -718,7 +717,7 @@ Do you want to have it in only one mode?</property>
                                         <child>
                                           <object class="GtkLabel" id="label_repetitions_prefs_ecc_value">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -729,7 +728,7 @@ Do you want to have it in only one mode?</property>
                                         <child>
                                           <object class="GtkLabel" id="label_repetitions_prefs_ecc_units">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -747,12 +746,12 @@ Do you want to have it in only one mode?</property>
                                     <child>
                                       <object class="GtkHBox" id="hbox10">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
+                                        <property name="can-focus">False</property>
                                         <property name="spacing">4</property>
                                         <child>
                                           <object class="GtkLabel" id="label11">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                             <property name="label" translatable="yes">Concentric</property>
                                           </object>
                                           <packing>
@@ -764,7 +763,7 @@ Do you want to have it in only one mode?</property>
                                         <child>
                                           <object class="GtkLabel" id="label_repetitions_prefs_con_value">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -775,7 +774,7 @@ Do you want to have it in only one mode?</property>
                                         <child>
                                           <object class="GtkLabel" id="label_repetitions_prefs_con_units">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -809,16 +808,16 @@ Do you want to have it in only one mode?</property>
                         <child>
                           <object class="GtkVBox" id="vbox12">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="spacing">12</property>
                             <child>
                               <object class="GtkRadioButton" id="radio_detect_repetitions_custom">
                                 <property name="label" translatable="yes">Use custom value</property>
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">False</property>
                                 <property name="active">True</property>
-                                <property name="draw_indicator">True</property>
+                                <property name="draw-indicator">True</property>
                                 <property name="group">radio_detect_repetitions_from_prefs</property>
                                 <signal name="toggled" handler="on_radio_detect_repetitions_toggled" swapped="no"/>
                               </object>
@@ -831,22 +830,22 @@ Do you want to have it in only one mode?</property>
                             <child>
                               <object class="GtkAlignment" id="alignment1">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="left_padding">30</property>
+                                <property name="can-focus">False</property>
+                                <property name="left-padding">30</property>
                                 <child>
                                   <object class="GtkVBox" id="vbox13">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <child>
                                       <object class="GtkHBox" id="hbox_detect_repetitions_elastic">
-                                        <property name="can_focus">False</property>
+                                        <property name="can-focus">False</property>
                                         <property name="spacing">20</property>
                                         <child>
                                           <object class="GtkLabel" id="label39">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
+                                            <property name="can-focus">False</property>
                                             <property name="label" translatable="yes">Minimal range of movement</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -857,17 +856,17 @@ Do you want to have it in only one mode?</property>
                                         <child>
                                           <object class="GtkHBox" id="hbox334">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                             <property name="spacing">20</property>
                                             <child>
                                               <object class="GtkHBox" id="hbox_force_sensor_elastic_ecc_min_displ">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="spacing">4</property>
                                                 <child>
                                                   <object class="GtkLabel" id="label414">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can-focus">False</property>
                                                     <property name="label" translatable="yes">Eccentric</property>
                                                   </object>
                                                   <packing>
@@ -879,20 +878,17 @@ Do you want to have it in only one mode?</property>
                                                 <child>
                                                   <object class="GtkSpinButton" id="spin_force_sensor_elastic_ecc_min_displ">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="has_tooltip">True</property>
+                                                    <property name="can-focus">True</property>
+                                                    <property name="has-tooltip">True</property>
                                                     <property name="tooltip-text" translatable="yes">Minimal height</property>
-                                                    <property name="invisible_char">&#x25CF;</property>
-                                                    <property name="width_chars">3</property>
-                                                    <property name="invisible_char_set">True</property>
-                                                    <property name="primary_icon_activatable">False</property>
-                                                    <property name="secondary_icon_activatable">False</property>
-                                                    <property name="primary_icon_sensitive">True</property>
-                                                    <property name="secondary_icon_sensitive">True</property>
+                                                    <property name="invisible-char">●</property>
+                                                    <property name="width-chars">5</property>
+                                                    <property name="primary-icon-activatable">False</property>
+                                                    <property name="secondary-icon-activatable">False</property>
                                                     <property name="adjustment">adjustment2</property>
-                                                    <property name="climb_rate">1</property>
+                                                    <property name="climb-rate">1</property>
                                                     <property name="digits">1</property>
-                                                    <property name="snap_to_ticks">True</property>
+                                                    <property name="snap-to-ticks">True</property>
                                                     <property name="numeric">True</property>
                                                   </object>
                                                   <packing>
@@ -904,7 +900,7 @@ Do you want to have it in only one mode?</property>
                                                 <child>
                                                   <object class="GtkLabel" id="label415">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can-focus">False</property>
                                                     <property name="label">m</property>
                                                   </object>
                                                   <packing>
@@ -923,12 +919,12 @@ Do you want to have it in only one mode?</property>
                                             <child>
                                               <object class="GtkHBox" id="hbox337">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="spacing">4</property>
                                                 <child>
                                                   <object class="GtkLabel" id="label416">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can-focus">False</property>
                                                     <property name="label" translatable="yes">Concentric</property>
                                                   </object>
                                                   <packing>
@@ -940,20 +936,17 @@ Do you want to have it in only one mode?</property>
                                                 <child>
                                                   <object class="GtkSpinButton" id="spin_force_sensor_elastic_con_min_displ">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="has_tooltip">True</property>
+                                                    <property name="can-focus">True</property>
+                                                    <property name="has-tooltip">True</property>
                                                     <property name="tooltip-text" translatable="yes">Minimal height</property>
-                                                    <property name="invisible_char">&#x25CF;</property>
-                                                    <property name="width_chars">3</property>
-                                                    <property name="invisible_char_set">True</property>
-                                                    <property name="primary_icon_activatable">False</property>
-                                                    <property name="secondary_icon_activatable">False</property>
-                                                    <property name="primary_icon_sensitive">True</property>
-                                                    <property name="secondary_icon_sensitive">True</property>
+                                                    <property name="invisible-char">●</property>
+                                                    <property name="width-chars">5</property>
+                                                    <property name="primary-icon-activatable">False</property>
+                                                    <property name="secondary-icon-activatable">False</property>
                                                     <property name="adjustment">adjustment3</property>
-                                                    <property name="climb_rate">1</property>
+                                                    <property name="climb-rate">1</property>
                                                     <property name="digits">1</property>
-                                                    <property name="snap_to_ticks">True</property>
+                                                    <property name="snap-to-ticks">True</property>
                                                     <property name="numeric">True</property>
                                                   </object>
                                                   <packing>
@@ -965,7 +958,7 @@ Do you want to have it in only one mode?</property>
                                                 <child>
                                                   <object class="GtkLabel" id="label417">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can-focus">False</property>
                                                     <property name="label">m</property>
                                                   </object>
                                                   <packing>
@@ -997,14 +990,14 @@ Do you want to have it in only one mode?</property>
                                     </child>
                                     <child>
                                       <object class="GtkHBox" id="hbox_detect_repetitions_not_elastic">
-                                        <property name="can_focus">False</property>
+                                        <property name="can-focus">False</property>
                                         <property name="spacing">20</property>
                                         <child>
                                           <object class="GtkLabel" id="label41">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
+                                            <property name="can-focus">False</property>
                                             <property name="label" translatable="yes">Minimal force</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1015,17 +1008,17 @@ Do you want to have it in only one mode?</property>
                                         <child>
                                           <object class="GtkHBox" id="hbox56">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can-focus">False</property>
                                             <property name="spacing">20</property>
                                             <child>
                                               <object class="GtkHBox" id="hbox_force_sensor_not_elastic_ecc_min_force">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="spacing">4</property>
                                                 <child>
                                                   <object class="GtkLabel" id="label42">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can-focus">False</property>
                                                     <property name="label" translatable="yes">Eccentric</property>
                                                   </object>
                                                   <packing>
@@ -1037,19 +1030,16 @@ Do you want to have it in only one mode?</property>
                                                 <child>
                                                   <object class="GtkSpinButton" id="spin_force_sensor_not_elastic_ecc_min_force">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="has_tooltip">True</property>
+                                                    <property name="can-focus">True</property>
+                                                    <property name="has-tooltip">True</property>
                                                     <property name="tooltip-text" translatable="yes">Minimal height</property>
-                                                    <property name="invisible_char">&#x25CF;</property>
-                                                    <property name="width_chars">3</property>
-                                                    <property name="invisible_char_set">True</property>
-                                                    <property name="primary_icon_activatable">False</property>
-                                                    <property name="secondary_icon_activatable">False</property>
-                                                    <property name="primary_icon_sensitive">True</property>
-                                                    <property name="secondary_icon_sensitive">True</property>
+                                                    <property name="invisible-char">●</property>
+                                                    <property name="width-chars">5</property>
+                                                    <property name="primary-icon-activatable">False</property>
+                                                    <property name="secondary-icon-activatable">False</property>
                                                     <property name="adjustment">adjustment4</property>
-                                                    <property name="climb_rate">1</property>
-                                                    <property name="snap_to_ticks">True</property>
+                                                    <property name="climb-rate">1</property>
+                                                    <property name="snap-to-ticks">True</property>
                                                     <property name="numeric">True</property>
                                                   </object>
                                                   <packing>
@@ -1061,7 +1051,7 @@ Do you want to have it in only one mode?</property>
                                                 <child>
                                                   <object class="GtkLabel" id="label55">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can-focus">False</property>
                                                     <property name="label">N</property>
                                                   </object>
                                                   <packing>
@@ -1080,12 +1070,12 @@ Do you want to have it in only one mode?</property>
                                             <child>
                                               <object class="GtkHBox" id="hbox59">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can-focus">False</property>
                                                 <property name="spacing">4</property>
                                                 <child>
                                                   <object class="GtkLabel" id="label80">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can-focus">False</property>
                                                     <property name="label" translatable="yes">Concentric</property>
                                                   </object>
                                                   <packing>
@@ -1097,19 +1087,16 @@ Do you want to have it in only one mode?</property>
                                                 <child>
                                                   <object class="GtkSpinButton" id="spin_force_sensor_not_elastic_con_min_force">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="has_tooltip">True</property>
+                                                    <property name="can-focus">True</property>
+                                                    <property name="has-tooltip">True</property>
                                                     <property name="tooltip-text" translatable="yes">Minimal height</property>
-                                                    <property name="invisible_char">&#x25CF;</property>
-                                                    <property name="width_chars">3</property>
-                                                    <property name="invisible_char_set">True</property>
-                                                    <property name="primary_icon_activatable">False</property>
-                                                    <property name="secondary_icon_activatable">False</property>
-                                                    <property name="primary_icon_sensitive">True</property>
-                                                    <property name="secondary_icon_sensitive">True</property>
+                                                    <property name="invisible-char">●</property>
+                                                    <property name="width-chars">5</property>
+                                                    <property name="primary-icon-activatable">False</property>
+                                                    <property name="secondary-icon-activatable">False</property>
                                                     <property name="adjustment">adjustment5</property>
-                                                    <property name="climb_rate">1</property>
-                                                    <property name="snap_to_ticks">True</property>
+                                                    <property name="climb-rate">1</property>
+                                                    <property name="snap-to-ticks">True</property>
                                                     <property name="numeric">True</property>
                                                   </object>
                                                   <packing>
@@ -1121,7 +1108,7 @@ Do you want to have it in only one mode?</property>
                                                 <child>
                                                   <object class="GtkLabel" id="label119">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can-focus">False</property>
                                                     <property name="label">N</property>
                                                   </object>
                                                   <packing>
@@ -1175,34 +1162,37 @@ Do you want to have it in only one mode?</property>
                       </packing>
                     </child>
                   </object>
+                  <packing>
+                    <property name="position">4</property>
+                  </packing>
                 </child>
                 <child type="tab">
                   <object class="GtkLabel" id="label1">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="label">repetitionsDetect</property>
                   </object>
                   <packing>
                     <property name="position">4</property>
-                    <property name="tab_fill">False</property>
+                    <property name="tab-fill">False</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkVBox" id="vbox_reps_detect1">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="border_width">8</property>
+                    <property name="can-focus">False</property>
+                    <property name="border-width">8</property>
                     <property name="spacing">25</property>
                     <child>
                       <object class="GtkHBox" id="hbox12">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <child>
                           <object class="GtkLabel" id="label_show_repetitions">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
+                            <property name="can-focus">False</property>
                             <property name="label" translatable="yes">Show repetitions</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1220,16 +1210,16 @@ Do you want to have it in only one mode?</property>
                     <child>
                       <object class="GtkVBox" id="vbox7">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="spacing">16</property>
                         <child>
                           <object class="GtkRadioButton" id="radio_reps_show_concentric">
                             <property name="label" translatable="yes">Show only the phase in which the force increases</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="active">True</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="draw-indicator">True</property>
                             <signal name="toggled" handler="on_radio_reps_show_concentric_toggled" swapped="no"/>
                           </object>
                           <packing>
@@ -1242,9 +1232,9 @@ Do you want to have it in only one mode?</property>
                           <object class="GtkRadioButton" id="radio_reps_show_both">
                             <property name="label" translatable="yes">Show both phases</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="draw-indicator">True</property>
                             <property name="group">radio_reps_show_concentric</property>
                             <signal name="toggled" handler="on_radio_reps_show_both_toggled" swapped="no"/>
                           </object>
@@ -1256,21 +1246,21 @@ Do you want to have it in only one mode?</property>
                         </child>
                         <child>
                           <object class="GtkAlignment" id="alignment_reps_show_both">
-                            <property name="can_focus">False</property>
-                            <property name="left_padding">30</property>
+                            <property name="can-focus">False</property>
+                            <property name="left-padding">30</property>
                             <child>
                               <object class="GtkVBox" id="vbox8">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="spacing">12</property>
                                 <child>
                                   <object class="GtkRadioButton" id="radio_reps_show_both_together">
                                     <property name="label" translatable="yes">Together</property>
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">False</property>
+                                    <property name="can-focus">True</property>
+                                    <property name="receives-default">False</property>
                                     <property name="active">True</property>
-                                    <property name="draw_indicator">True</property>
+                                    <property name="draw-indicator">True</property>
                                   </object>
                                   <packing>
                                     <property name="expand">True</property>
@@ -1282,10 +1272,10 @@ Do you want to have it in only one mode?</property>
                                   <object class="GtkRadioButton" id="radio_reps_show_both_separated">
                                     <property name="label" translatable="yes">Separated</property>
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">False</property>
+                                    <property name="can-focus">True</property>
+                                    <property name="receives-default">False</property>
                                     <property name="active">True</property>
-                                    <property name="draw_indicator">True</property>
+                                    <property name="draw-indicator">True</property>
                                     <property name="group">radio_reps_show_both_together</property>
                                   </object>
                                   <packing>
@@ -1311,30 +1301,33 @@ Do you want to have it in only one mode?</property>
                       </packing>
                     </child>
                   </object>
+                  <packing>
+                    <property name="position">5</property>
+                  </packing>
                 </child>
                 <child type="tab">
                   <object class="GtkLabel" id="label12">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="label">repetitionsShow</property>
                   </object>
                   <packing>
                     <property name="position">5</property>
-                    <property name="tab_fill">False</property>
+                    <property name="tab-fill">False</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkVBox" id="vbox_other">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="border_width">8</property>
+                    <property name="can-focus">False</property>
+                    <property name="border-width">8</property>
                     <property name="spacing">20</property>
                     <child>
                       <object class="GtkLabel" id="label_other">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Other</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1345,10 +1338,10 @@ Do you want to have it in only one mode?</property>
                     <child>
                       <object class="GtkTextView" id="textview_other_explanation">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can-focus">True</property>
                         <property name="editable">False</property>
-                        <property name="wrap_mode">word</property>
-                        <property name="cursor_visible">False</property>
+                        <property name="wrap-mode">word</property>
+                        <property name="cursor-visible">False</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1359,13 +1352,13 @@ Do you want to have it in only one mode?</property>
                     <child>
                       <object class="GtkHBox" id="hbox_angl">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="spacing">16</property>
                         <child>
                           <object class="GtkLabel" id="label_angle_text">
-                            <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
+                            <property name="can-focus">False</property>
                             <property name="label" translatable="yes">Angle</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1376,19 +1369,18 @@ Do you want to have it in only one mode?</property>
                         <child>
                           <object class="GtkHBox" id="hbox_angle">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="spacing">8</property>
                             <child>
                               <object class="GtkSpinButton" id="spin_angle">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="invisible_char">&#x25CF;</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="invisible-char">●</property>
+                                <property name="width-chars">5</property>
+                                <property name="primary-icon-activatable">False</property>
+                                <property name="secondary-icon-activatable">False</property>
                                 <property name="adjustment">adjustment6</property>
-                                <property name="snap_to_ticks">True</property>
+                                <property name="snap-to-ticks">True</property>
                                 <property name="numeric">True</property>
                               </object>
                               <packing>
@@ -1400,8 +1392,8 @@ Do you want to have it in only one mode?</property>
                             <child>
                               <object class="GtkLabel" id="label8">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label">&#xBA;</property>
+                                <property name="can-focus">False</property>
+                                <property name="label">º</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -1426,12 +1418,12 @@ Do you want to have it in only one mode?</property>
                     <child>
                       <object class="GtkHBox" id="hbox8">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="spacing">12</property>
                         <child>
                           <object class="GtkLabel" id="label7">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="label" translatable="yes">Description</property>
                           </object>
                           <packing>
@@ -1443,13 +1435,10 @@ Do you want to have it in only one mode?</property>
                         <child>
                           <object class="GtkEntry" id="entry_description">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">&#x25CF;</property>
-                            <property name="invisible_char_set">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="invisible-char">●</property>
+                            <property name="primary-icon-activatable">False</property>
+                            <property name="secondary-icon-activatable">False</property>
                             <signal name="changed" handler="on_entry_description_changed" swapped="no"/>
                           </object>
                           <packing>
@@ -1466,16 +1455,19 @@ Do you want to have it in only one mode?</property>
                       </packing>
                     </child>
                   </object>
+                  <packing>
+                    <property name="position">6</property>
+                  </packing>
                 </child>
                 <child type="tab">
                   <object class="GtkLabel" id="label6">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="label">other</property>
                   </object>
                   <packing>
                     <property name="position">6</property>
-                    <property name="tab_fill">False</property>
+                    <property name="tab-fill">False</property>
                   </packing>
                 </child>
               </object>
@@ -1488,17 +1480,17 @@ Do you want to have it in only one mode?</property>
             <child>
               <object class="GtkVBox" id="vbox9">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="spacing">4</property>
                 <child>
                   <object class="GtkHBox" id="hbox2">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="spacing">12</property>
                     <child>
                       <object class="GtkLabel" id="label_help">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Help:</property>
                       </object>
                       <packing>
@@ -1510,15 +1502,15 @@ Do you want to have it in only one mode?</property>
                     <child>
                       <object class="GtkRadioButton" id="radio_desc_examples_desc">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <signal name="toggled" handler="on_radio_desc_examples_desc_toggled" swapped="no"/>
                         <child>
                           <object class="GtkLabel" id="label_radio_desc_examples_desc">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="label" translatable="yes">Description</property>
                           </object>
                         </child>
@@ -1532,16 +1524,16 @@ Do you want to have it in only one mode?</property>
                     <child>
                       <object class="GtkRadioButton" id="radio_desc_examples_examples">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
                         <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="draw-indicator">True</property>
                         <property name="group">radio_desc_examples_desc</property>
                         <signal name="toggled" handler="on_radio_desc_examples_examples_toggled" swapped="no"/>
                         <child>
                           <object class="GtkLabel" id="label_radio_desc_examples_examples">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="label" translatable="yes">Examples</property>
                           </object>
                         </child>
@@ -1562,28 +1554,26 @@ Do you want to have it in only one mode?</property>
                 <child>
                   <object class="GtkNotebook" id="notebook_desc_examples">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="show_tabs">False</property>
-                    <property name="show_border">False</property>
+                    <property name="can-focus">True</property>
+                    <property name="show-tabs">False</property>
+                    <property name="show-border">False</property>
                     <child>
                       <object class="GtkScrolledWindow" id="scrolledwindow1">
-                        <property name="height_request">75</property>
+                        <property name="height-request">75</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="hscrollbar_policy">automatic</property>
-                        <property name="vscrollbar_policy">automatic</property>
+                        <property name="can-focus">True</property>
                         <child>
                           <object class="GtkViewport" id="viewport1">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <child>
                               <object class="GtkTextView" id="textview_description">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="border_width">8</property>
+                                <property name="can-focus">True</property>
+                                <property name="border-width">8</property>
                                 <property name="editable">False</property>
-                                <property name="wrap_mode">word</property>
-                                <property name="cursor_visible">False</property>
+                                <property name="wrap-mode">word</property>
+                                <property name="cursor-visible">False</property>
                               </object>
                             </child>
                           </object>
@@ -1593,47 +1583,48 @@ Do you want to have it in only one mode?</property>
                     <child type="tab">
                       <object class="GtkLabel" id="label_notebook_desc_examples_desc_old">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Description</property>
                       </object>
                       <packing>
-                        <property name="tab_fill">False</property>
+                        <property name="tab-fill">False</property>
                       </packing>
                     </child>
                     <child>
                       <object class="GtkScrolledWindow" id="scrolledwindow2">
-                        <property name="height_request">75</property>
+                        <property name="height-request">75</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="hscrollbar_policy">automatic</property>
-                        <property name="vscrollbar_policy">automatic</property>
+                        <property name="can-focus">True</property>
                         <child>
                           <object class="GtkViewport" id="viewport2">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <child>
                               <object class="GtkTextView" id="textview_examples">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="border_width">8</property>
+                                <property name="can-focus">True</property>
+                                <property name="border-width">8</property>
                                 <property name="editable">False</property>
-                                <property name="wrap_mode">word</property>
-                                <property name="cursor_visible">False</property>
+                                <property name="wrap-mode">word</property>
+                                <property name="cursor-visible">False</property>
                               </object>
                             </child>
                           </object>
                         </child>
                       </object>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
                     </child>
                     <child type="tab">
                       <object class="GtkLabel" id="label_notebook_desc_examples_examples_old">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Examples</property>
                       </object>
                       <packing>
                         <property name="position">1</property>
-                        <property name="tab_fill">False</property>
+                        <property name="tab-fill">False</property>
                       </packing>
                     </child>
                   </object>
@@ -1660,35 +1651,34 @@ Do you want to have it in only one mode?</property>
         <child>
           <object class="GtkAlignment" id="alignment2">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="top_padding">12</property>
+            <property name="can-focus">False</property>
+            <property name="top-padding">12</property>
             <child>
               <object class="GtkHBox" id="hbox3">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <child>
                   <object class="GtkHButtonBox" id="hbuttonbox2">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="spacing">20</property>
-                    <property name="layout_style">start</property>
+                    <property name="layout-style">start</property>
                     <child>
                       <object class="GtkButton" id="button_cancel">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="can_default">True</property>
-                        <property name="receives_default">False</property>
+                        <property name="can-focus">True</property>
+                        <property name="can-default">True</property>
+                        <property name="receives-default">False</property>
                         <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
-                        <accelerator key="Escape" signal="clicked"/>
                         <child>
                           <object class="GtkHBox" id="hbox5">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="spacing">10</property>
                             <child>
                               <object class="GtkImage" id="image_cancel">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="stock">gtk-missing-image</property>
                               </object>
                               <packing>
@@ -1700,7 +1690,7 @@ Do you want to have it in only one mode?</property>
                             <child>
                               <object class="GtkLabel" id="label10">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="label" translatable="yes">Cancel</property>
                               </object>
                               <packing>
@@ -1711,6 +1701,7 @@ Do you want to have it in only one mode?</property>
                             </child>
                           </object>
                         </child>
+                        <accelerator key="Escape" signal="clicked"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -1728,25 +1719,24 @@ Do you want to have it in only one mode?</property>
                 <child>
                   <object class="GtkHButtonBox" id="hbuttonbox1">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="spacing">50</property>
-                    <property name="layout_style">end</property>
+                    <property name="layout-style">end</property>
                     <child>
                       <object class="GtkButton" id="button_back">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
                         <signal name="clicked" handler="on_button_back_clicked" swapped="no"/>
-                        <accelerator key="Escape" signal="clicked"/>
                         <child>
                           <object class="GtkHBox" id="hbox38">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="spacing">10</property>
                             <child>
                               <object class="GtkImage" id="image_back">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="stock">gtk-missing-image</property>
                               </object>
                               <packing>
@@ -1758,7 +1748,7 @@ Do you want to have it in only one mode?</property>
                             <child>
                               <object class="GtkLabel" id="label16">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="label" translatable="yes">Back</property>
                               </object>
                               <packing>
@@ -1769,6 +1759,7 @@ Do you want to have it in only one mode?</property>
                             </child>
                           </object>
                         </child>
+                        <accelerator key="Escape" signal="clicked"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1779,23 +1770,22 @@ Do you want to have it in only one mode?</property>
                     <child>
                       <object class="GtkHBox" id="hbox6">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <child>
                           <object class="GtkButton" id="button_next">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
                             <signal name="clicked" handler="on_button_next_clicked" swapped="no"/>
-                            <accelerator key="Escape" signal="clicked"/>
                             <child>
                               <object class="GtkHBox" id="hbox7">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkImage" id="image_next">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="stock">gtk-missing-image</property>
                                   </object>
                                   <packing>
@@ -1807,7 +1797,7 @@ Do you want to have it in only one mode?</property>
                                 <child>
                                   <object class="GtkLabel" id="label_next">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can-focus">False</property>
                                     <property name="label" translatable="yes">Next</property>
                                   </object>
                                   <packing>
@@ -1818,6 +1808,7 @@ Do you want to have it in only one mode?</property>
                                 </child>
                               </object>
                             </child>
+                            <accelerator key="Escape" signal="clicked"/>
                           </object>
                           <packing>
                             <property name="expand">True</property>
@@ -1828,9 +1819,9 @@ Do you want to have it in only one mode?</property>
                         <child>
                           <object class="GtkButton" id="button_accept">
                             <property name="label">gtk-ok</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
-                            <property name="use_stock">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                            <property name="use-stock">True</property>
                             <signal name="clicked" handler="on_button_accept_clicked" swapped="no"/>
                             <accelerator key="Escape" signal="clicked"/>
                           </object>
@@ -1851,7 +1842,7 @@ Do you want to have it in only one mode?</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="pack_type">end</property>
+                    <property name="pack-type">end</property>
                     <property name="position">1</property>
                   </packing>
                 </child>

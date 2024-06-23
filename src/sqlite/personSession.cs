@@ -15,14 +15,14 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 using Mono.Unix;
 using System.Collections.Generic; //List<T>
 
@@ -102,7 +102,7 @@ class SqlitePersonSession : Sqlite
 		//LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		
 		double myReturn = 0;
@@ -129,7 +129,7 @@ class SqlitePersonSession : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		
 		double myReturn = 0;
@@ -187,7 +187,7 @@ class SqlitePersonSession : Sqlite
 			" AND sessionID == " + mySessionID ; 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 	
 		bool exists = new bool();
@@ -231,7 +231,7 @@ class SqlitePersonSession : Sqlite
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 	
 		PersonSession ps = new PersonSession();
@@ -280,7 +280,7 @@ class SqlitePersonSession : Sqlite
 			" ORDER BY upper(" + tp + ".name)";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		List<Person> person_l = new List<Person>();
@@ -309,11 +309,35 @@ class SqlitePersonSession : Sqlite
 
 		return person_l;
 	}
-	//the difference between this select and others, is that this returns and ArrayList of Persons
-	//this is better than return the strings that can produce bugs in the future
-	//sessionID can be -1
-	public static ArrayList SelectCurrentSessionPersons(int sessionID, bool returnPersonAndPSlist) 
+
+	//normal Chronojump calls
+	public static ArrayList SelectCurrentSessionPersons (int sessionID, bool returnPersonAndPSlist)
 	{
+		Sqlite.Open();
+		ArrayList array = selectCurrentSessionPersonsDo (dbcon, sessionID, returnPersonAndPSlist, "");
+		Sqlite.Close();
+
+		return array;
+	}
+	public static ArrayList SelectCurrentSessionPersons (int sessionID, bool returnPersonAndPSlist, string filterName)
+	{
+		Sqlite.Open();
+		ArrayList array = selectCurrentSessionPersonsDo (dbcon, sessionID, returnPersonAndPSlist, filterName);
+		Sqlite.Close();
+
+		return array;
+	}
+	//importer call
+	public static ArrayList SelectCurrentSessionPersons (SQLiteConnection dbcon, int sessionID, bool returnPersonAndPSlist)
+	{
+		return selectCurrentSessionPersonsDo (dbcon, sessionID, returnPersonAndPSlist, "");
+	}
+	//sessionID can be -1
+	private static ArrayList selectCurrentSessionPersonsDo (SQLiteConnection dbcon, int sessionID, bool returnPersonAndPSlist, string filterName)
+	{
+		// This method should NOT use Sqlite.open() / Sqlite.close(): it should only use dbcon to connect to the database.
+		// This method is used by the importer after opening an arbitrary Chronojump qlite database
+
 		string tp = Constants.PersonTable;
 		string tps = Constants.PersonSessionTable;
 			
@@ -324,16 +348,21 @@ class SqlitePersonSession : Sqlite
 		string sessionIDString = tps + ".sessionID = " + sessionID + " AND ";
 		if(sessionID == -1)
 			sessionIDString = "";
-		
-		Sqlite.Open();
+
+		string filterNameString = "";
+		if (filterName != "")
+			filterNameString = " AND LOWER(" + tp + ".name) LIKE LOWER ('%" + filterName + "%') ";
+
+		dbcmd = dbcon.CreateCommand();
 		dbcmd.CommandText = "SELECT " + tp + ".*" + tpsString +
 			" FROM " + tp + ", " + tps + 
 			" WHERE " + sessionIDString +
 			tp + ".uniqueID = " + tps + ".personID " +
+			filterNameString +
 			" ORDER BY upper(" + tp + ".name)";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		ArrayList myArray = new ArrayList(1);
@@ -371,12 +400,32 @@ class SqlitePersonSession : Sqlite
 				myArray.Add (person);
 		}
 		reader.Close();
-		Sqlite.Close();
 		return myArray;
 	}
-	
-	//use this in the future:
+
+	//use this in the future. Usual call:
 	public static List<PersonSession> SelectPersonSessionList (bool dbconOpened, int personID, int sessionID)
+	{
+		openIfNeeded (dbconOpened);
+		List<PersonSession> ps_l = selectPersonSessionListDo (dbcon, personID, sessionID);
+		closeIfNeeded (dbconOpened);
+
+		return ps_l;
+	}
+
+	/*
+	//this call is from ChronojumpImporter (unused right now, using SelectCurrentSessionPersons)
+	//inspired on List<SessionTestsCount> selectAllSessionsTestsCountDo (string filterName, int personID, SQLiteConnection dbcon)
+	public static List<PersonSession> SelectPersonSessionList (SQLiteConnection dbcon, int personID, int sessionID)
+	{
+		// This method should NOT use Sqlite.open() / Sqlite.close(): it should only use dbcon to connect to the database.
+		// This method is used by the importer after opening an arbitrary Chronojump Sqlite database
+		return selectPersonSessionListDo (dbcon, personID, sessionID);
+	}
+	*/
+
+	private static List<PersonSession> selectPersonSessionListDo (
+			SQLiteConnection dbcon, int personID, int sessionID)
 	{
 		string tps = Constants.PersonSessionTable;
 
@@ -400,8 +449,7 @@ class SqlitePersonSession : Sqlite
 				andStr = " AND ";
 		}
 
-		openIfNeeded (dbconOpened);
-
+		dbcmd = dbcon.CreateCommand();
 		dbcmd.CommandText = "SELECT " + tps + ".*" +
 			" FROM " + tps +
 			whereStr + personIDStr +
@@ -410,7 +458,7 @@ class SqlitePersonSession : Sqlite
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		List<PersonSession> list = new List<PersonSession>();
@@ -432,7 +480,6 @@ class SqlitePersonSession : Sqlite
 			list.Add(ps);
 		}
 		reader.Close();
-		closeIfNeeded (dbconOpened);
 
 		return list;
 	}
@@ -598,7 +645,7 @@ class SqlitePersonSession : Sqlite
 			" WHERE personID == " + personID;
 		//LogB.SQL(dbcmd.CommandText.ToString());
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 	
 		bool exists = new bool();
@@ -650,9 +697,9 @@ class SqlitePersonSessionTransaction : Sqlite
 		LogB.SQL("Starting transaction");
 		Sqlite.Open();
 
-		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		using(SQLiteTransaction tr = dbcon.BeginTransaction())
 		{
-			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
 				

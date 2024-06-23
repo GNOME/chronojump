@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2018-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -62,6 +62,8 @@ public partial class ChronoJumpWindow
 	Gtk.DrawingArea drawingarea_race_analyzer_capture_speed_time;
 	Gtk.DrawingArea drawingarea_race_analyzer_capture_accel_time;
 	Gtk.VBox vbox_race_analyzer_capture_graphs;
+	Gtk.RadioButton radio_race_analyzer_capture_graph_starts_0;
+	Gtk.RadioButton radio_race_analyzer_capture_graph_starts_grav;
 	Gtk.CheckButton check_race_analyzer_capture_smooth_graphs;
 	Gtk.HScale hscale_race_analyzer_capture_smooth_graphs;
 	Gtk.Label label_race_analyzer_capture_smooth_graphs;
@@ -133,6 +135,7 @@ public partial class ChronoJumpWindow
 	static bool runEncoderProcessFinish;
 	static bool runEncoderProcessCancel;
 	static bool runEncoderProcessError;
+	static int runEncoderTotalTime;
         static string runEncoderPulseMessage = "";
 	static bool runEncoderShouldShowCaptureGraphsWithData; //on change person this is false
 	
@@ -483,6 +486,7 @@ public partial class ChronoJumpWindow
 		button_ai_model.Sensitive = false;
 		button_contacts_delete_selected.Sensitive = false;
 		button_ai_model_save_image.Sensitive = false;
+		button_video_play_this_test_contacts.Sensitive = false;
 
 		if (radio_ai_export_individual_current_session.Active)
 		{
@@ -532,9 +536,9 @@ public partial class ChronoJumpWindow
 	{
 		Pixbuf pixbuf; //main image
 		if(UtilGtk.ComboGetActive(combo_race_analyzer_device) == RunEncoder.DevicesStringMANUAL)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "run-encoder-manual.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + "run-encoder-manual.png");
 		else
-			pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "run-encoder-resisted.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + "run-encoder-resisted.png");
 
 		image_test.Pixbuf = pixbuf;
 	}
@@ -610,8 +614,22 @@ public partial class ChronoJumpWindow
 				Convert.ToInt32(race_analyzer_spinbutton_angle.Value));
 		runEncoderShouldShowCaptureGraphsWithData = true;
 
-		runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderCaptureDo));
-		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKRunEncoderCapture));
+		blinkCapture = new Blink ();
+
+		if (configChronojump.EncoderPT)
+		{
+			//do not need to show velocimeter
+			drawingarea_race_analyzer_capture_velocimeter_bottom.Visible = false;
+
+			runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderAsLinearEncoderCaptureDo));
+			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKRunEncoderAsLinearEncoderCapture));
+		} else {
+			runEncoderTotalTime = 0;
+			runEncoderShiftedMicros = 0;
+
+			runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderCaptureDo));
+			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKRunEncoderCapture));
+		}
 
 		if(preferences.debugMode)
 			LogB.Information("Debug mode active. Logs active while race analyzer capture");
@@ -629,6 +647,118 @@ public partial class ChronoJumpWindow
 	string capturingMessage = "Capturing ...";
 	static RunEncoderCaptureGetSpeedAndDisplacement reCGSD;
 	static RunEncoderCaptureGetSpeedAndDisplacement reCGSD_CD;
+
+	/*
+	 * runEncoderAsLinearEncoder start ------------>
+	 */
+
+	EncoderPTCaptureManage eptcm;
+	EncoderPTCapture eptc;
+
+	private void runEncoderAsLinearEncoderCaptureDo()
+	{
+		runEncoderPulseMessage = "Capture as linear encoder... please wait";
+		LogB.Information("eptcm start");
+
+		if (eptc == null || eptc.PortName != chronopicRegister.GetSelectedForMode (current_mode).Port)
+			eptc = new EncoderPTCapture (
+					chronopicRegister.GetSelectedForMode (current_mode).Port,
+					preferences.runEncoderPPS);
+		else if (eptc.RunEncoderPPS != preferences.runEncoderPPS)
+			eptc.RunEncoderPPS = preferences.runEncoderPPS;
+
+		//need to pass the ref every capture because every capture we do:
+		//cairo...Points_xx_l = new List<PointF> ()
+		eptcm = new EncoderPTCaptureManage (
+				eptc,
+				ref cairoGraphRaceAnalyzerPoints_dt_l,
+				ref cairoGraphRaceAnalyzerPoints_st_l,
+				ref cairoGraphRaceAnalyzerPoints_at_l
+				);
+
+		LogB.Information("eptcm start do");
+		if (eptcm.Init ())
+		{
+			capturingRunEncoder = arduinoCaptureStatus.CAPTURING;
+			runEncoderPulseMessage = capturingMessage;
+			eptcm.Capture ();
+
+			/*
+			LogB.Information("eptcm end");
+			runEncoderPulseMessage = "Done! check log";
+
+			runEncoderProcessCancel = true;
+			//capturingRunEncoder = arduinoCaptureStatus.STOP;
+			*/
+		}
+	}
+
+	//most of this code comes from pulseGTKRunEncoderCapture ()
+	private bool pulseGTKRunEncoderAsLinearEncoderCapture ()
+	{
+		if(runEncoderCaptureThread == null)
+		{
+			Thread.Sleep (25);
+			return true;
+		}
+
+		event_execute_label_message.Text = runEncoderPulseMessage;
+		if(! runEncoderCaptureThread.IsAlive || runEncoderProcessFinish || runEncoderProcessCancel || runEncoderProcessError) //capture ends
+		{
+			if (runEncoderProcessCancel && eptcm != null)
+			{
+				event_execute_label_message.Text = "Cancelled.";
+				eptcm.Cancel = true;
+			}
+
+			blinkCapture.End ();
+			showHideCaptureIcon (false);
+
+			sensitiveLastTestButtons(false);
+			contactsShowCaptureDoingButtons(false);
+			button_ai_model_options_close_and_analyze.Sensitive = false;
+			button_ai_model.Sensitive = false;
+			button_ai_model_save_image.Sensitive = false;
+			button_contacts_delete_selected.Sensitive = false;
+
+			LogB.ThreadEnding();
+			LogB.Mute = preferences.muteLogs;
+			if(! preferences.muteLogs)
+				LogB.Information("muteLogs INactive. Logs active active again");
+			LogB.ThreadEnded();
+
+			runEncoderButtonsSensitive(true);
+			radio_signal_analyze_current_set.Active = true;
+			hideButtons();
+
+			drawingarea_race_analyzer_capture_position_time.QueueDraw ();
+			drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
+			drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
+
+			return false;
+		} else {
+			if (capturingRunEncoder == arduinoCaptureStatus.CAPTURING)
+			{
+				if (blinkCapture.Status == Blink.StatusEnum.NOTSTARTED)
+					blinkCapture.Start (); //TODO: but note here is still connecting
+				showHideCaptureIcon (true);
+
+				drawingarea_race_analyzer_capture_position_time.QueueDraw ();
+				drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
+				drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
+			}
+		}
+
+		Thread.Sleep (50);
+		//LogB.Information("RunEncoderAsLinearEncoder:"+ runEncoderCaptureThread.ThreadState.ToString());
+		return true;
+	}
+
+	/*
+	 * <---------- runEncoderAsLinearEncoder end
+	 */
+
+
 
 	//non GTK on this method
 	private void runEncoderCaptureDo()
@@ -817,6 +947,7 @@ public partial class ChronoJumpWindow
 						//at load to shift times to the left
 						//at capture to draw a vertical line
 						reCGSD.SetTimeAtEnoughAccelMark (binaryReaded, reCGSD.RunEncoderCaptureSpeed);
+						runEncoderShiftedMicros = binaryReaded[2]; //time
 					}
 
 					//accel/time
@@ -897,14 +1028,14 @@ public partial class ChronoJumpWindow
 					}
 				}
 			}
-			while(! str.Contains("Capture ended")); //TODO: read after ':' the number of "rows" sent
+			while(! str.Contains("Capture ended"));
 			LogB.Information("Success: received end_capture");
 
 			string [] strEnded = str.Split(new char[] {':'});
-			if(strEnded.Length == 2 && Util.IsNumber(strEnded[1], false))
+			if(strEnded.Length == 3 && Util.IsNumber(strEnded[2], false))
 			{
-				LogB.Information(string.Format("Read {0} rows, sent {1} rows, match: {2}",
-							rowsCount, strEnded[1], rowsCount == Convert.ToInt32(strEnded[1]) ));
+				LogB.Information (string.Format ("runEncoderTotalTime: {0}", strEnded[2]));
+				runEncoderTotalTime = Convert.ToInt32 (strEnded[2]);
 			}
 		}
 
@@ -1043,6 +1174,8 @@ public partial class ChronoJumpWindow
 
 	private void run_encoder_load (bool canChoosePersonAndSession)
 	{
+		finishPlayVideoIfRunning ();
+
 		string [] colStr = getRunEncoderLoadColumnsString ();
 		ArrayList dataPrint = getRunEncoderLoadSetsDataPrint (currentPerson.UniqueID, currentSession.UniqueID);
 
@@ -1065,7 +1198,7 @@ public partial class ChronoJumpWindow
 		if (canChoosePersonAndSession)
 		{
 			ArrayList a3 = new ArrayList ();
-			a3.Add (Constants.GenericWindowShow.GRIDPERSONSESSION); a3.Add (true); a3.Add ("");
+			a3.Add (Constants.GenericWindowShow.GRIDSESSIONPERSON); a3.Add (true); a3.Add ("");
 			bigArray.Add (a3);
 
 			title = Catalog.GetString ("Select set to compare");
@@ -1075,7 +1208,7 @@ public partial class ChronoJumpWindow
 
 		if (canChoosePersonAndSession)
 		{
-			genericWin.SetGridPersonSession (currentPerson, currentSession);
+			genericWin.SetGridSessionPerson (currentPerson, currentSession, current_mode);
 
 			//do not allow to edit when can change person/session
 			genericWin.SetTreeview (colStr, false, dataPrint, new ArrayList(), GenericWindow.EditActions.NONE, true);
@@ -1104,8 +1237,8 @@ public partial class ChronoJumpWindow
 		if(currentRunEncoder != null)
 			genericWin.SelectRowWithID(0, currentRunEncoder.UniqueID); //colNum, id
 
-		genericWin.VideoColumn = 6;
-		genericWin.CommentColumn = 7;
+		genericWin.VideoColumn = 5;
+		genericWin.CommentColumn = 6;
 
 		genericWin.ShowButtonCancel(true);
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));
@@ -1156,7 +1289,7 @@ public partial class ChronoJumpWindow
 
 		if (genericWin != null)
 		{
-			if (genericWin.UseGridPersonSession)
+			if (genericWin.UseGridSessionPerson)
 			{
 				personID = genericWin.GetPersonIDFromGui ();
 				sessionID = genericWin.GetSessionIDFromGui ();
@@ -1180,22 +1313,31 @@ public partial class ChronoJumpWindow
 			return "";
 		}
 
-		List<string> contents = Util.ReadFileAsStringList(re.FullURL);
+		List<string> contents_l = Util.ReadFileAsStringList(re.FullURL);
 		LogB.Information("FullURL: " + re.FullURL);
 
 		if (debugForceTest)
 		{
 			RunEncoderCaptureGetSpeedAndDisplacementTest recgsdt = new RunEncoderCaptureGetSpeedAndDisplacementTest ();
-			contents = recgsdt.TestData_l;
+			contents_l = recgsdt.TestData_l;
 		}
 
-		if(contents.Count < 3)
+		if(contents_l.Count < 3)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileEmptyStr());
 			return "";
 		}
 
-		signalSuperpose2SetsCDPersonName = "";
+		//if start at 0 add a time 0 row (if it really does not start at 0)
+		if (radio_race_analyzer_capture_graph_starts_0.Active)
+		{
+			string firstDataLine = contents_l[1]; //contents_l[0] are headers
+			string [] strFull = firstDataLine.Split(new char[] {';'});
+			if (Util.IsNumber (strFull[1], false) && Convert.ToInt32 (strFull[1]) > 0)
+				contents_l.Insert (1, "strFull[0];0;strFull[2]");
+		}
+
+		signalSuperpose_2SetsCDPersonName = "";
 		// trying on _cd to only update the graph
 		if (radio_ai_2sets.Active && radio_ai_cd.Active)
 		{
@@ -1205,14 +1347,14 @@ public partial class ChronoJumpWindow
 			currentRunEncoder_CD = re;
 			currentRunEncoderExercise_CD = SqliteRunEncoderExercise.Select (false, re.ExerciseID)[0];
 
-			reCGSD_CD = run_encoder_load_set_reCGSD (contents, true, //two sets
+			reCGSD_CD = run_encoder_load_set_reCGSD (contents_l, true, //two sets
 					currentRunEncoderExercise_CD.SegmentCm,
 					currentRunEncoderExercise_CD.SegmentVariableCm,
 					SqlitePersonSession.SelectAttribute (false, re.PersonID, re.SessionID, Constants.Weight),
 					re.Angle);
 
 			if (personID != currentPerson.UniqueID)
-				signalSuperpose2SetsCDPersonName = SqlitePerson.SelectAttribute (personID, "name");
+				signalSuperpose_2SetsCDPersonName = SqlitePerson.SelectAttribute (personID, "name");
 
 			if (reCGSD_CD.RunEncoderCaptureSpeedMax > 0)
 				drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
@@ -1260,7 +1402,7 @@ public partial class ChronoJumpWindow
 			cairoGraphRaceAnalyzerPoints_st_Zoom_CD_l = new List<PointF>();
 			cairoGraphRaceAnalyzerPoints_at_l = new List<PointF>();
 
-			reCGSD = run_encoder_load_set_reCGSD (contents, false,
+			reCGSD = run_encoder_load_set_reCGSD (contents_l, false,
 					currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm,
 					currentPersonSession.Weight, currentRunEncoder.Angle);
 
@@ -1314,8 +1456,9 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	private int runEncoderShiftedMicros;
 	private RunEncoderCaptureGetSpeedAndDisplacement run_encoder_load_set_reCGSD (
-			List<string> contents, bool twoSets,
+			List<string> contents_l, bool twoSets,
 			int segmentCm, List<int> segmentVariableCm, double personWeight, int angle)
 	{
 		RunEncoderCaptureGetSpeedAndDisplacement my_reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement (
@@ -1329,16 +1472,30 @@ public partial class ChronoJumpWindow
 		double timePre = -1;
 		double accel = -1;
 		bool enoughAccelFound = false; //accel has been > preferences.runEncoderMinAccel (default 10ms^2)
+		runEncoderShiftedMicros = 0;
 		bool signalShifted = false; //shifted on trigger0 or accel >= minAccel, whatever is first
+		//do not shift (mark already shifted) if radio: starts at 0s
+		if (radio_race_analyzer_capture_graph_starts_0.Active)
+			signalShifted = true;
+
 		string rowPre = "";
 
 		bool firstRow = true;
+		int firstTime = 0;
 		//store data on cairoGraphRaceAnalyzerPoints_dt_l, ...st_l, ...at_l
-		foreach(string row in contents)
+		foreach(string row in contents_l)
 		{
 			if (firstRow) //is this useful at all? because the timePre will be also -1 on the 4th row
 			{
 				firstRow = false;
+
+				string [] timeArray = row.Split(new char[] {';'});
+				if (timeArray.Length > 0 && Util.IsNumber (timeArray[1], false))
+					firstTime = Convert.ToInt32 (timeArray[1]);
+
+				//LogB.Information (string.Format ("at firstRow, row: {0}, firstTime: {1}",
+				//			row, firstTime));
+
 				continue;
 			}
 
@@ -1410,6 +1567,10 @@ public partial class ChronoJumpWindow
 						my_reCGSD.SetTimeAtEnoughAccelOrTrigger0 (shiftTo);
 
 						LogB.Information ("load_set shiftNow with row: " + row);
+						string [] timeArray = row.Split(new char[] {';'});
+						if (timeArray.Length > 0 && Util.IsNumber (timeArray[1], false))
+							runEncoderShiftedMicros = Convert.ToInt32 (timeArray[1]) - firstTime;
+
 						if (my_reCGSD.PassLoadedRow (row))
 							my_reCGSD.CalculeSpeedAt0Shifted (rowPre, row);
 						//LogB.Information(string.Format("after row runEncoderCaptureSpeed: {0}", my_reCGSD.RunEncoderCaptureSpeed));
@@ -1627,6 +1788,12 @@ public partial class ChronoJumpWindow
 			event_execute_label_message.Text = "Recalculated.";
 	}
 
+	private void on_radio_race_analyzer_capture_graph_starts_clicked (object o, EventArgs args)
+	{
+		if (currentRunEncoder != null)
+			run_encoder_load_set (currentRunEncoder.UniqueID);
+	}
+
 	private void raceEncoderCopyToTempAndDoRGraph()
 	{
 		// 0) delete results file
@@ -1757,7 +1924,7 @@ public partial class ChronoJumpWindow
 			LogB.Information(line);
 			if (line != null)
 			{
-				string [] cells = line.Split(new char[] {';'});
+				string [] cells = line.Split(new char[] {','});
 				dist_l = new List<string> ();
 				for (int i = 26; i < cells.Length; i ++) //Attention!: take care with this 26 if in the future add more columns before dist/times
 				{
@@ -1810,24 +1977,40 @@ public partial class ChronoJumpWindow
 				if (line == null)
 					break;
 
-				string [] cells = line.Split(new char[] {';'});
+				string [] cells = line.Split(new char[] {','});
 
 				// get the times (total columns can be different each time)
 				List<double> time_l = new List<double> ();
 				for (int i = 26; i < cells.Length; i ++) //Attention! take care with this 26 if in the future add more columns before dist/times
-					time_l.Add (Convert.ToDouble (cells[i]));
+					time_l.Add (Convert.ToDouble (Util.CDS (cells[i])));
 
 				recsv = new RunEncoderCSV (
-						Convert.ToDouble(cells[0]), Convert.ToDouble(cells[1]), Convert.ToInt32(cells[2]),
-						Convert.ToDouble(cells[3]), Convert.ToDouble(cells[4]), Convert.ToDouble(cells[5]),
-						Convert.ToDouble(cells[6]), Convert.ToDouble(cells[7]), Convert.ToDouble(cells[8]),
-						Convert.ToDouble(cells[9]), Convert.ToDouble(cells[10]), Convert.ToDouble(cells[11]),
-						Convert.ToDouble(cells[12]), Convert.ToDouble(cells[13]), Convert.ToDouble(cells[14]),
-						Convert.ToDouble(cells[15]), Convert.ToDouble(cells[16]), Convert.ToDouble(cells[17]),
-						Convert.ToDouble(cells[18]), Convert.ToDouble(cells[19]), Convert.ToDouble(cells[20]),
-						Convert.ToDouble(cells[21]),
-						Convert.ToDouble(cells[22]), Convert.ToDouble(cells[23]), //vmax raw, amax raw
-						Convert.ToDouble(cells[24]), Convert.ToDouble(cells[25]), //fmax raw, pmax raw
+						Convert.ToDouble (Util.CDS (cells[0])),
+						Convert.ToDouble (Util.CDS (cells[1])),
+						Convert.ToInt32 (cells[2]),
+						Convert.ToDouble (Util.CDS (cells[3])),
+						Convert.ToDouble (Util.CDS (cells[4])),
+						Convert.ToDouble (Util.CDS (cells[5])),
+						Convert.ToDouble (Util.CDS (cells[6])),
+						Convert.ToDouble (Util.CDS (cells[7])),
+						Convert.ToDouble (Util.CDS (cells[8])),
+						Convert.ToDouble (Util.CDS (cells[9])),
+						Convert.ToDouble (Util.CDS (cells[10])),
+						Convert.ToDouble (Util.CDS (cells[11])),
+						Convert.ToDouble (Util.CDS (cells[12])),
+						Convert.ToDouble (Util.CDS (cells[13])),
+						Convert.ToDouble (Util.CDS (cells[14])),
+						Convert.ToDouble (Util.CDS (cells[15])),
+						Convert.ToDouble (Util.CDS (cells[16])),
+						Convert.ToDouble (Util.CDS (cells[17])),
+						Convert.ToDouble (Util.CDS (cells[18])),
+						Convert.ToDouble (Util.CDS (cells[19])),
+						Convert.ToDouble (Util.CDS (cells[20])),
+						Convert.ToDouble (Util.CDS (cells[21])),
+						Convert.ToDouble (Util.CDS (cells[22])),
+						Convert.ToDouble (Util.CDS (cells[23])), //vmax raw, amax raw
+						Convert.ToDouble (Util.CDS (cells[24])),
+						Convert.ToDouble (Util.CDS (cells[25])), //fmax raw, pmax raw
 						time_l
 						);
 			} while(true);
@@ -1890,7 +2073,11 @@ public partial class ChronoJumpWindow
 		if(! runEncoderCaptureThread.IsAlive || runEncoderProcessFinish || runEncoderProcessCancel || runEncoderProcessError) //capture ends
 		{
 			LogB.Information(" re C ");
+			blinkCapture.End ();
+			showHideCaptureIcon (false);
+
 			button_video_play_this_test_contacts.Sensitive = false;
+
 			if(runEncoderProcessFinish)
 			{
 				if (webcamStatusEnum == WebcamStatusEnum.RECORDING)
@@ -1934,6 +2121,7 @@ public partial class ChronoJumpWindow
 							"", //on capture cannot store comment (comment has to be written after),
 							"", //videoURL
 							Convert.ToInt32(race_analyzer_spinbutton_angle.Value),
+							runEncoderTotalTime,
 							currentRunEncoderExercise.Name);
 
 					currentRunEncoder.UniqueID = currentRunEncoder.InsertSQL(false);
@@ -2117,6 +2305,9 @@ public partial class ChronoJumpWindow
 		{
 			LogB.Information(" re G ");
 
+			if (blinkCapture.Status == Blink.StatusEnum.NOTSTARTED)
+				blinkCapture.Start ();
+			showHideCaptureIcon (true);
 
 			LogB.Information(" re H2 ");
 			/*
@@ -2756,10 +2947,10 @@ public partial class ChronoJumpWindow
 			{
 				string abPersonName = "";
 				string cdPersonName = "";
-				if (signalSuperpose2SetsCDPersonName != "")
+				if (signalSuperpose_2SetsCDPersonName != "")
 				{
 					abPersonName = currentPerson.Name + ", ";
-					cdPersonName = signalSuperpose2SetsCDPersonName + ", ";
+					cdPersonName = signalSuperpose_2SetsCDPersonName + ", ";
 				}
 
 				subtitleWithSetsInfo_l.Add (string.Format ("AB: {0}{1}, {2}",
@@ -2812,6 +3003,18 @@ public partial class ChronoJumpWindow
 		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
 		{
 			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
+			if (sendPoints_l.Count > 0)
+			{
+				//TODO: think if this is needed. In show at 0s as it starts at 0 should not be needed
+				if (runEncoderShiftedMicros == 0)
+					videoTime += sendPoints_l[0].X; //TODO: això segurament no s'hauria de tenir en compte quan es fa shift o potser s'hauria de usar el runEncoderShiftedMicros
+				else
+					videoTime -= UtilAll.DivideSafe (runEncoderShiftedMicros, 1000000.0);
+			}
+			//maybe at end there are no pulses. So to sync need TotalTime and last point
+			if (currentRunEncoder != null)
+				videoTime += UtilAll.DivideSafe (currentRunEncoder.TotalTime, 1000000.0) -
+					PointF.Last (sendPoints_l).X;
 
 			//LogB.Information (string.Format ("raceAnalyzer videoTime: {0}, webcamPlay.PlayVideoGetSecond: {1}, -diffVideoVsSignal: {2}",
 			//			videoTime, webcamPlay.PlayVideoGetSecond, diffVideoVsSignal));
@@ -2970,6 +3173,8 @@ public partial class ChronoJumpWindow
 		vbox_race_analyzer_capture_graphs = (Gtk.VBox) builder.GetObject ("vbox_race_analyzer_capture_graphs");
 		check_race_analyzer_capture_smooth_graphs = (Gtk.CheckButton) builder.GetObject ("check_race_analyzer_capture_smooth_graphs");
 		hscale_race_analyzer_capture_smooth_graphs = (Gtk.HScale) builder.GetObject ("hscale_race_analyzer_capture_smooth_graphs");
+		radio_race_analyzer_capture_graph_starts_0 = (Gtk.RadioButton) builder.GetObject ("radio_race_analyzer_capture_graph_starts_0");
+		radio_race_analyzer_capture_graph_starts_grav = (Gtk.RadioButton) builder.GetObject ("radio_race_analyzer_capture_graph_starts_grav");
 		label_race_analyzer_capture_smooth_graphs = (Gtk.Label) builder.GetObject ("label_race_analyzer_capture_smooth_graphs");
 
 		frame_run_encoder_exercise = (Gtk.Frame) builder.GetObject ("frame_run_encoder_exercise");

@@ -1,11 +1,12 @@
-EXTRA_DIST = win32/chronojump_innosetup.iss.in \
+EXTRA_DIST = win32/win32/chronojump_innosetup_x86.iss.in \
+	     win32/win32/chronojump_innosetup_x64.iss.in \
 	     win32/Makefile.in glade/*.glade \
 	     src/chronojump-importer/chronojump_importer.py \
 	     src/chronojump-importer/test-delete.py \
 	     binariesMac/ffplay \
 	     binariesMac/7zz
 
-CLEANFILES = win32/Makefile win32/chronojump_innosetup.iss
+CLEANFILES = win32/Makefile win32/win32/chronojump_innosetup_x86.iss win32/win32/chronojump_innosetup_x64.iss
 
 ACLOCAL_AMFLAGS = -I build/m4 -I build/m4/shave -I build/m4/shamrock
 

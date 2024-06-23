@@ -312,9 +312,12 @@ exportSprintRawPrepareRow <- function (sprintRawDynamics, splitPositionAll, deci
         return(row)
 }
 
-exportSprintDynamicsWriteRow <- function(exportRow)
+exportSprintDynamicsWriteRow <- function(exportRow, decimalIsComma)
 {
-        write.csv2(exportRow, file = paste(tempPath, "/sprintResults.csv", sep = ""), row.names = FALSE)
+	if(decimalIsComma)
+		write.csv2(exportRow, file = paste(tempPath, "/sprintResults.csv", sep = ""), row.names = FALSE)
+	else
+		write.csv(exportRow, file = paste(tempPath, "/sprintResults.csv", sep = ""), row.names = FALSE)
 }
 
 #This is only used on sprintRadar

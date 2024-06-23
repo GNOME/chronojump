@@ -24,7 +24,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -53,29 +53,29 @@ public partial class ChronoJumpWindow
 	*/
 	
 	Gtk.Notebook notebook_chronojump_logo;
-	Gtk.Viewport viewport_chronojump_logo;
 	Gtk.Image image_chronojump_logo;
 	Gtk.DrawingArea drawingarea_chronojump_logo;
 
 	Gtk.Notebook notebook_start; 		//start window or program
 	Gtk.Notebook notebook_sup;
-	Gtk.HBox hbox_other;
+	Gtk.Box hbox_other;
 	Gtk.Box box_contacts_capture_top;
 	Gtk.Notebook notebook_capture_analyze; //not encoder
 	Gtk.Notebook notebook_contacts_execute_or;
 	Gtk.Notebook notebook_analyze; //not encoder
-	Gtk.VBox vbox_contacts_capture_graph;
-	Gtk.HBox hbox_message_permissions_at_boot;
+	Gtk.Box vbox_contacts_capture_graph;
+	Gtk.Box hbox_message_permissions_at_boot;
 	Gtk.Label label_message_permissions_at_boot;
-	Gtk.HBox hbox_message_camera_at_boot;
-	Gtk.HBox hbox_start_window_sub;
+	Gtk.Box hbox_message_camera_at_boot;
+	Gtk.Box box_start_modes_and_version;
+	Gtk.Box hbox_start_window_sub;
 
 	Gtk.Button button_show_modes_contacts;
-	Gtk.HBox hbox_change_modes_contacts;
-	Gtk.HBox hbox_change_modes_encoder;
-	Gtk.HBox hbox_change_modes_jumps;
-	Gtk.HBox hbox_change_modes_runs;
-	Gtk.HBox hbox_change_modes_force_sensor;
+	Gtk.Box hbox_change_modes_contacts;
+	Gtk.Box hbox_change_modes_encoder;
+	Gtk.Box hbox_change_modes_jumps;
+	Gtk.Box hbox_change_modes_runs;
+	Gtk.Box hbox_change_modes_force_sensor;
 	Gtk.RadioButton radio_change_modes_contacts_jumps_simple;
 	Gtk.RadioButton radio_change_modes_contacts_jumps_reactive;
 	Gtk.RadioButton radio_change_modes_contacts_runs_simple;
@@ -126,9 +126,9 @@ public partial class ChronoJumpWindow
 	Gtk.EventBox eventbox_button_exit_cancel;
 	Gtk.EventBox eventbox_button_exit_confirm;
 
-	Gtk.HBox hbox_contacts_sup_capture_analyze_two_buttons;
-	Gtk.HBox hbox_radio_mode_contacts_analyze_buttons;
-	Gtk.HBox hbox_radio_mode_contacts_analyze_jump_simple_buttons;
+	Gtk.Box hbox_contacts_sup_capture_analyze_two_buttons;
+	Gtk.Box hbox_radio_mode_contacts_analyze_buttons;
+	Gtk.Box hbox_radio_mode_contacts_analyze_jump_simple_buttons;
 
 	//radio group
 	Gtk.RadioButton radio_mode_contacts_capture;
@@ -157,7 +157,6 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_sprint_person_name;
 
 	Gtk.Label label_version;
-	Gtk.Label label_version_hidden; //just to have logo aligned on the middle
 	//Gtk.Image image_selector_start_encoder_inertial;
 
 	Gtk.RadioButton radio_mode_pulses_small;
@@ -176,8 +175,10 @@ public partial class ChronoJumpWindow
 	//contact tests execute buttons
 	Gtk.Image image_button_finish;
 	Gtk.Image image_button_finish1;
+	Gtk.Image image_button_finish2;
 	Gtk.Image image_button_cancel; //needed this specially because theme cancel sometimes seems "record"
 	Gtk.Image image_button_cancel1;
+	Gtk.Image image_button_cancel2;
 	//encoder tests execute buttons
 	//Gtk.Image image_encoder_capture_execute;
 	
@@ -206,12 +207,12 @@ public partial class ChronoJumpWindow
 	Gtk.TreeView treeview_pulses;
 	Gtk.TreeView treeview_multi_chronopic;
 	
-	Gtk.HBox hbox_combo_select_jumps;
-	Gtk.HBox hbox_combo_select_jumps_rj;
-	Gtk.HBox hbox_combo_select_runs;
-	Gtk.HBox hbox_combo_select_runs_interval;
-	Gtk.HBox hbox_combo_select_contacts_top_with_arrows;
-	Gtk.HBox hbox_combo_select_contacts_top;
+	Gtk.Box hbox_combo_select_jumps;
+	Gtk.Box hbox_combo_select_jumps_rj;
+	Gtk.Box hbox_combo_select_runs;
+	Gtk.Box hbox_combo_select_runs_interval;
+	Gtk.Box hbox_combo_select_contacts_top_with_arrows;
+	Gtk.Box hbox_combo_select_contacts_top;
 
 	//auto mode	
 	//Gtk.Box hbox_jump_types_options;
@@ -229,6 +230,13 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_line_person_max_all_sessions;
 
 	//to GTK3 colorize
+	Gtk.Frame frame_session;
+	Gtk.Box box_database;
+	Gtk.Box hbox_frame_database_top;
+	Gtk.Box vbox_frame_database_border;
+	Gtk.Image image_database_manage_blue;
+	Gtk.Image image_database_manage_yellow;
+	Gtk.Box vbox_frame_session_border;
 	Gtk.Box box_session_more;
 	Gtk.Box box_session_load_or_import;
 	Gtk.Box box_session_delete;
@@ -240,22 +248,23 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_session_data_folder;
 	Gtk.Box box_session_import_from_csv;
 	Gtk.Box box_help;
-	Gtk.VBox vbox_news2;
+	Gtk.Box vbox_news2;
 	Gtk.Frame frame_news_downloading;
 
 //	Gtk.Box hbox_combo_pulses;
-	Gtk.VBox vbox_jumps;
+	Gtk.Box vbox_jumps;
 	//Gtk.Box hbox_jumps_test;
 	Gtk.Box hbox_jumps_rj;
-	Gtk.VBox vbox_runs;
-	Gtk.HBox hbox_runs_interval_all; //normal and compujump
-	Gtk.VBox vbox_runs_interval;
-	Gtk.VBox vbox_runs_interval_compujump;
+	Gtk.Box vbox_runs;
+	Gtk.Box hbox_runs_interval_all; //normal and compujump
+	Gtk.Box vbox_runs_interval;
+	Gtk.Box vbox_runs_interval_compujump;
 	Gtk.Box hbox_other_mc;
 	Gtk.Box hbox_other_pulses;
 	
 	//menu person
-	//Gtk.VBox vbox_persons;
+	Gtk.Box vbox_persons;
+	Gtk.Box hbox_frame_persons_top;
 	//Gtk.Alignment alignment44;
 	Gtk.Button button_persons_up;
 	Gtk.Button button_persons_down;
@@ -266,12 +275,12 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_contacts_capture_session_overview;
 	Gtk.Button button_contacts_capture_load;
 	Gtk.Button button_contacts_exercise_close_and_recalculate;
-	Gtk.VBox vbox_contacts_signal_comment;
+	Gtk.Box vbox_contacts_signal_comment;
 	Gtk.TextView textview_contacts_signal_comment;
 	Gtk.Button button_contacts_signal_save_comment;
 	Gtk.Frame frame_jumps_automatic;
 	Gtk.Notebook notebook_jumps_automatic;
-	Gtk.HBox hbox_contacts_device_adjust_threshold;
+	Gtk.Box hbox_contacts_device_adjust_threshold;
 
 	Gtk.Button button_contacts_edit_selected;
 	Gtk.Button button_contacts_repair_selected;
@@ -279,7 +288,7 @@ public partial class ChronoJumpWindow
 
 	Gtk.Image extra_windows_jumps_image_dj_fall_calculate;
 	Gtk.Image extra_windows_jumps_image_dj_fall_predefined;
-	Gtk.HBox hbox_extra_window_jumps_fall_height;
+	Gtk.Box hbox_extra_window_jumps_fall_height;
 
 	//other
 	//reaction time
@@ -301,15 +310,15 @@ public partial class ChronoJumpWindow
 	Gtk.Viewport viewport_chronopic_encoder;
 
 	//detect devices
-	Gtk.VBox vbox_micro_discover;
+	Gtk.Box vbox_micro_discover;
 	Gtk.Label label_micro_discover_title;
 	Gtk.Label label_micro_discover_not_found;
 	Gtk.Frame frame_micro_discover;
 	Gtk.Grid grid_micro_discover;
 	Gtk.Box box_micro_discover_nc;
 	Gtk.Label label_micro_discover_nc_current_mode;
-	Gtk.HBox hbox_contacts_detect_and_execute;
-	Gtk.HBox hbox_encoder_detect_and_execute;
+	Gtk.Box hbox_contacts_detect_and_execute;
+	Gtk.Box hbox_encoder_detect_and_execute;
 	Gtk.Button button_contacts_detect;
 	Gtk.Button button_encoder_detect;
 	Gtk.Button button_contacts_detect_small;
@@ -322,7 +331,8 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_threshold;
 
 	//force sensor
-	Gtk.HBox hbox_capture_phases_time;
+	Gtk.Box hbox_capture_phases;
+	Gtk.Box hbox_capture_time;
 	Gtk.Box box_contacts_load_recalculate;
 
 	//multiChronopic	
@@ -337,9 +347,8 @@ public partial class ChronoJumpWindow
 	//widgets for enable or disable
 	Gtk.Frame frame_persons;
 	Gtk.Frame frame_persons_top;
-	Gtk.VBox vbox_persons_bottom;
-	Gtk.HBox hbox_persons_bottom_photo;
-	Gtk.VBox vbox_persons_bottom_no_photo;
+	Gtk.Box vbox_persons_bottom;
+	Gtk.Box hbox_persons_bottom_photo;
 	Gtk.Button button_recuperate_person;
 	Gtk.Button button_recuperate_persons_from_session;
 	Gtk.Button button_person_add_single;
@@ -360,7 +369,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_inspect_last_test_run_intervallic;
 	//Gtk.VBox vbox_last_test_buttons;
 
-	Gtk.HBox hbox_chronopics_and_more;
+	Gtk.Box hbox_chronopics_and_more;
 	Gtk.Button button_contacts_devices_networks;
 	Gtk.Button button_threshold;
 	Gtk.Button button_force_sensor_adjust;
@@ -399,7 +408,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_forcesensor_analyze_save_rfd_auto;
 	Gtk.Image image_forcesensor_analyze_save_rfd_manual;
 
-	Gtk.VBox vbox_help;
+	Gtk.Box vbox_help;
 
 	Gtk.RadioButton radio_menu_2_2_2_jumps;
 	Gtk.RadioButton radio_menu_2_2_2_races;
@@ -418,9 +427,8 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_selector_menu_2_2_2_desc;
 	Gtk.Alignment align_label_selector_menu_2_2_2_desc;
 
-//	Gtk.Viewport viewport29;
-	//Gtk.VBox vbox_manage_persons;
-	Gtk.HBox hbox_frame_persons_top;
+	Gtk.Label label_exit_confirm;
+	Gtk.Button button_exit_cancel;
 	// <---- at glade
 
 	Random rand;
@@ -545,7 +553,7 @@ public partial class ChronoJumpWindow
 	private string progVersion;
 	private string progName;
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM, SOCIALNETWORKPOLL, FULLSCREENCAPTURE }
-	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS, MICRODISCOVER, PERSON }
+	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS, MICRODISCOVER, PERSON, DATABASE }
 	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE,
 		JUMPSASYMMETRY, JUMPSEVOLUTION, JUMPSRJFATIGUE,
@@ -557,7 +565,7 @@ public partial class ChronoJumpWindow
 
 	ChronopicRegister chronopicRegister;
 	Chronopic2016 cp2016;
-	private PhotocellWirelessCapture photocellWirelessCapture;
+	private WichroCapture wichroCapture;
 	private Threshold threshold;
 
 	RestTime restTime;
@@ -574,18 +582,30 @@ public partial class ChronoJumpWindow
 
 	bool app1Shown = false;
 	bool needToShowChronopicRegisterWindow;
-	private bool showSocialNetworkPoll;
+	//private bool showSocialNetworkPoll;
 	private SplashWindow splashWin;
 	private bool showSendLog;
 
+	/*
+		note sometimes sensor is still capturing and chronojump closes nicely (then chronojump_running is being deleted),
+		so crashedBefore is not useful to identify if forceSensor is still capturing.
+		Better use firstCapture, and do it everytime Chronojump is opened
+		*/
+	private bool crashedBefore; //unused
+	private bool firstCapture;
+	private Blink blinkCapture;
+
 	public ChronoJumpWindow(string progVersion, string progName, string runningFileName, SplashWindow splashWin,
-			bool showSendLog, string sendLogMessage, string topMessage, bool showCameraStop, bool debugModeAtStart)
+			bool showSendLog, string sendLogMessage, bool crashedBefore, string topMessage, bool showCameraStop, bool debugModeAtStart)
 	{
 		this.progVersion = progVersion;
 		this.progName = progName;
 		this.runningFileName = runningFileName;
 		this.splashWin = splashWin;
 		this.showSendLog = showSendLog;
+		this.crashedBefore = crashedBefore;
+
+		firstCapture = true;
 
 		//record GetOsEnum on variables to not call it all the time
 		operatingSystem = UtilAll.GetOSEnum();
@@ -648,7 +668,7 @@ public partial class ChronoJumpWindow
 			buildVersion = buildVersionSplit[0] + "-" + buildVersionSplit[1];
 
 		label_version.Text = buildVersion;
-		label_version_hidden.Text = buildVersion;
+		label_version.Name = "lightCss";
 
 		//manage app1 will not be hiding other windows at start
 		app1Shown = false;
@@ -657,8 +677,7 @@ public partial class ChronoJumpWindow
 		//show chronojump logo on down-left area
 		changeTestImage("", "", "LOGO");
 	
-		//white bg
-		eventbox_image_test.OverrideBackgroundColor (StateFlags.Normal, UtilGtk.GetRGBA (UtilGtk.Colors.WHITE));
+		eventbox_image_test.Name = "whiteBgCss"; //white bg
 	
 		//new DialogMessage(Constants.MessageTypes.INFO, UtilGtk.ScreenHeightFitted(false).ToString() );
 		//UtilGtk.ResizeIfNeeded(stats_window);
@@ -679,7 +698,12 @@ public partial class ChronoJumpWindow
 		
 		//preferencesLoaded is a fix to a gtk#-net-windows-bug where radiobuttons raise signals
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
-		loadPreferencesAtStart ();
+		//it will open preferences on default db or on chronojumpCloudRead.db if reading from cloud
+		if(configChronojump == null)
+			configChronojump = new Config();
+		configChronojump.Read ();
+
+		loadPreferencesAtStartOrCloudViewChangeDB ();
 
 		Config.UseSystemColor = preferences.colorBackgroundOsColor;
 
@@ -690,18 +714,20 @@ public partial class ChronoJumpWindow
 			hbox_message_permissions_at_boot.Visible = true;
 		}
 
-		showSocialNetworkPoll = (preferences.socialNetworkDatetime == "");
+		//showSocialNetworkPoll = (preferences.socialNetworkDatetime == "");
 		//show send log if needed or other messages
 		if (showSendLog)
 		{
 			show_send_log(sendLogMessage, preferences.crashLogLanguage);
 			notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.SENDLOG);
 		}
+		/*
 		else if (showSocialNetworkPoll)
 		{
 			notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.SOCIALNETWORKPOLL);
 			socialNetworkPollInit();
 		}
+		*/
 		else
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.START);
 
@@ -733,6 +759,7 @@ public partial class ChronoJumpWindow
 		radio_contacts_graph_allTests.Active = true;
 		radio_contacts_results_personAll.Active = true;
 
+		/*
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_person_close,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes_contacts,
@@ -793,6 +820,7 @@ public partial class ChronoJumpWindow
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_inertial,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		*/
 
 		app1s_eventboxes_paint();
 
@@ -886,7 +914,7 @@ public partial class ChronoJumpWindow
 		addShortcutsToTooltips(operatingSystem == UtilAll.OperatingSystems.MACOSX);
 
 		LogB.Information("Calling configInitRead from gui / ChronojumpWindow");
-		configInitRead();
+		configInitDoAtBoot ();
 
 		if (debugModeAtStart)
 			on_preferences_debug_mode_start (new object (), new EventArgs ());
@@ -925,33 +953,12 @@ public partial class ChronoJumpWindow
 		} else
 			LogB.Information("Ping discarded (Compujump)");
 
+
 		if(preferences.loadLastSessionAtStart && preferences.lastSessionID > 0 && ! configChronojump.Compujump)
-		{
-			// 1) to avoid impossibility to start Chronojump if there's any problem with this session, first put this to false
-			SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, false, false);
-
-			// 2) load the session (but check if it really exists (extra check))
-			Session sessionLoading = SqliteSession.Select (preferences.lastSessionID.ToString());
-			if(sessionLoading.UniqueID != -1)
-			{
-				currentSession = sessionLoading;
-				on_load_session_accepted();
-
-				// select last person
-				if (preferences.lastPersonID > 0)
-					selectRowTreeView_persons (treeview_persons,
-							myTreeViewPersons.FindRow (preferences.lastPersonID));
-
-				// 3) put preference to true again
-				SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, true, false);
-			} else
-				if(! check_menu_session.Active)
-					check_menu_session.Click(); //have session menu opened
-		} else
-			if(! check_menu_session.Active)
-				check_menu_session.Click(); //have sesion menu opened
+			changeSessionAtStartOrCloudViewChangeDB ();
 
 		initialize_menu_or_menu_tiny();
+		vbox_persons_bottom.Visible = preferences.personPhoto && ! check_menu_session.Active;
 
 		presentationPrepare ();
 
@@ -965,24 +972,29 @@ public partial class ChronoJumpWindow
 		app1Shown = true;
 
 		//in networks starting mode is always the defined on chronojump_config CompujumpStationMode
-		if (! configChronojump.Compujump)
+		if (! configChronojump.Compujump && ! configChronojump.FourPlatforms)
 		{
-			if(! showSendLog && ! showSocialNetworkPoll && preferences.loadLastModeAtStart &&
+			if(! showSendLog && //! showSocialNetworkPoll &&
+					preferences.loadLastModeAtStart &&
 					preferences.lastMode != Constants.Modes.UNDEFINED)
 			{
-				// 0) note this code is repeated on gui/sendLog.cs on_button_open_chronojump_clicked()
-				// 1) to avoid impossibility to start Chronojump if there's any problem with this mode, first put this to false
-				SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, false, false);
-
-				// 2) change mode
-				changeModeCheckRadios (preferences.lastMode); //this will update current_mode
-
-				// 3) put preference to true again
-				SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, true, false);
+				changeModeAtStartOrCloudViewChangeDB ();
 			}
 			else if (preferences.lastMode != Constants.Modes.UNDEFINED)
 				current_mode = preferences.lastMode; //needed for show_start_page () below
 		}
+
+		/*
+		 * Disabled until fix some bug with cloud view change database
+		 *
+		//1 if no session, show new/load session "win"
+		//2 but do not show session "win" if cloud and still have not loaded the database
+		if (currentSession == null && 	// 1
+				! showSendLog &&
+				! (configChronojump.ReadFromCloudMainPath != "" && configChronojump.LastDBFullPath == "") && // 2
+				! menuSessionIsActive ())
+			menuSessionDoClick (); //have session "win" opened
+		*/
 
 		//done after app1.Show in order to be able to gather the colors
 		doLabelsContrast(configChronojump.PersonWinHide);
@@ -993,7 +1005,8 @@ public partial class ChronoJumpWindow
 			chronopicRegisterWin.Show();
 		}
 
-		if(! showSendLog && ! showSocialNetworkPoll)
+		if(! showSendLog && //! showSocialNetworkPoll)
+			configChronojump.ReadFromCloudMainPath == "" && ! configChronojump.CanOpenExternalDB)
 		{
 			if (shouldAskBackupScheduled ())
 				backupScheduledAsk ();
@@ -1014,6 +1027,45 @@ public partial class ChronoJumpWindow
 		LogB.Information("Chronojump window started");
 	}
 
+	private void changeSessionAtStartOrCloudViewChangeDB ()
+	{
+		// 1) to avoid impossibility to start Chronojump if there's any problem with this session, first put this to false
+		SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, false, false);
+
+		// 2) load the session (but check if it really exists (extra check))
+		Session sessionLoading = SqliteSession.Select (preferences.lastSessionID.ToString());
+		if(sessionLoading.UniqueID != -1)
+		{
+			currentSession = sessionLoading;
+			on_load_session_accepted();
+
+			// select last person
+			if (preferences.lastPersonID > 0)
+				selectRowTreeView_persons (treeview_persons,
+						myTreeViewPersons.FindRow (preferences.lastPersonID));
+
+			// 3) put preference to true again
+			SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, true, false);
+		}
+		/* commented, as this will be done after mode change
+		   else
+		   if(! check_menu_session.Active)
+		   check_menu_session.Click(); //have session menu opened
+		   */
+	}
+
+	private void changeModeAtStartOrCloudViewChangeDB ()
+	{
+		// 1) to avoid impossibility to start Chronojump if there's any problem with this mode, first put this to false
+		SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, false, false);
+
+		// 2) change mode
+		changeModeCheckRadios (preferences.lastMode); //this will update current_mode
+
+		// 3) put preference to true again
+		SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, true, false);
+	}
+
 	private void initContacts ()
 	{
 		followSignals = false;
@@ -1027,14 +1079,30 @@ public partial class ChronoJumpWindow
 	//used on this free labels that have to contrast with background
 	private void doLabelsContrast(bool personsAtTop)
 	{
+		if (UtilGtk.LogoBlueOrWhite (Config.ColorBackground))
+		{
+			image_chronojump_logo.Pixbuf = Chronojump.MyPixbuf.Get(
+					null, Util.GetImagePath(false) + Constants.FileNameLogoBlueTransp);
+
+			fullscreen_image_logo_horizontal_blue.Visible = true;
+			fullscreen_image_logo_horizontal_white.Visible = false;
+		} else {
+			image_chronojump_logo.Pixbuf = Chronojump.MyPixbuf.Get(
+					null, Util.GetImagePath(false) + Constants.FileNameLogoWhiteTransp);
+
+			fullscreen_image_logo_horizontal_blue.Visible = false;
+			fullscreen_image_logo_horizontal_white.Visible = true;
+		}
+
 		if(personsAtTop)
 		{
 			if(! Config.UseSystemColor)
 			{
-				UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundIsDark, hbox_top_person);
-				UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundIsDark, hbox_top_person_encoder);
+				UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, hbox_top_person);
+				UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, hbox_top_person_encoder);
 				UtilGtk.ContrastLabelsGrid (Config.ColorBackgroundIsDark, grid_rest_time_contacts);
 				UtilGtk.ContrastLabelsGrid (Config.ColorBackgroundIsDark, grid_rest_time_encoder);
+				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, app1s_label_copyToCloud1);
 			}
 
 			if(! Config.UseSystemColor && Config.ColorBackgroundIsDark)
@@ -1052,32 +1120,27 @@ public partial class ChronoJumpWindow
 		} else {
 			if(! Config.UseSystemColor)
 			{
-				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_database_at_frame_database);
 				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_current_database);
-				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_session_at_frame_session);
 				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_current_session);
-				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_persons_at_frame_persons);
 			}
 
 			Pixbuf pixbuf;
 
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "cloud_blue.png");
-			if(Config.ColorBackgroundIsDark)
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "cloud_yellow.png");
-			image_cloud.Pixbuf = pixbuf;
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
+			//if(Config.ColorBackgroundIsDark)
+			//	pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_yellow.png");
+			image_cloud_view.Pixbuf = pixbuf;
 
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo.png");
-			if(Config.ColorBackgroundIsDark)
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo_yellow.png");
-			image_current_person.Pixbuf = pixbuf;
+			personsPhotoShowIfNeeded ();
 		}
 
 		if(! Config.UseSystemColor)
 		{
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundIsDark, app1s_notebook);
-			UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_help);
-			UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_micro_discover);
-			UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_person);
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, vbox_help);
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, vbox_micro_discover);
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, vbox_person);
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, box_database);
 
 			/*
 			//notebook_sup
@@ -1085,8 +1148,9 @@ public partial class ChronoJumpWindow
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_sup);
 			*/
 			//start (modes)
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, box_start_modes_and_version);
 			UtilGtk.WidgetColor (hbox_start_window_sub, Config.ColorBackgroundShifted);
-			UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundShiftedIsDark, hbox_start_window_sub);
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, hbox_start_window_sub);
 			UtilGtk.WidgetColor (notebook_menu_2_2_2, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_menu_2_2_2);
 
@@ -1121,7 +1185,19 @@ public partial class ChronoJumpWindow
 
 			//persons (main)
 			UtilGtk.WidgetColor (hbox_frame_persons_top, Config.ColorBackgroundShifted);
-			UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundShiftedIsDark, hbox_frame_persons_top);
+			if (myTreeViewPersons.IsThereAnyRecord ())
+				UtilGtk.WidgetColor (vbox_persons, Config.ColorBackgroundShifted);
+			else
+				vbox_persons.Name = "alertCss";
+
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, hbox_frame_persons_top);
+
+			//session databse
+			UtilGtk.WidgetColor (vbox_frame_database_border, Config.ColorBackgroundShifted);
+			UtilGtk.WidgetColor (hbox_frame_database_top, Config.ColorBackgroundShifted);
+
+			//session
+			UtilGtk.WidgetColor (vbox_frame_session_border, Config.ColorBackgroundShifted);
 
 			//session (more)
 			UtilGtk.WidgetColor (box_session_more, Config.ColorBackgroundShifted);
@@ -1173,7 +1249,7 @@ public partial class ChronoJumpWindow
 
 			//news
 			UtilGtk.WidgetColor (vbox_news2, Config.ColorBackgroundShifted);
-			UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundShiftedIsDark, vbox_news2);
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, vbox_news2);
 			UtilGtk.WidgetColor (frame_news_downloading, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_news_downloading);
 
@@ -1188,15 +1264,16 @@ public partial class ChronoJumpWindow
 
 			if(Config.ColorBackgroundIsDark)
 				image_chronopic_connect_encoder2.Pixbuf =
-					new Pixbuf (null, Util.GetImagePath(false) + "image_chronopic_connect_yellow.png");
+					Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_chronopic_connect_yellow.png");
 			else
 				image_chronopic_connect_encoder2.Pixbuf =
-					new Pixbuf (null, Util.GetImagePath(false) + "image_chronopic_connect.png");
+					Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_chronopic_connect.png");
 		}
 
 		LogB.Information(string.Format("UseSystemColor: {0}, ColorBackgroundIsDark: {1}", Config.UseSystemColor, Config.ColorBackgroundIsDark));
 		if(! Config.UseSystemColor && Config.ColorBackgroundIsDark)
 		{
+			image_database_manage_blue.Visible = false;
 			image_session_new_blue.Visible = false;
 			image_session_load3_blue.Visible = false;
 			image_session_more_window_blue.Visible = false;
@@ -1205,6 +1282,7 @@ public partial class ChronoJumpWindow
 			image_news_blue.Visible = false;
 			image_help_blue.Visible = false;
 
+			image_database_manage_yellow.Visible = true;
 			image_session_new_yellow.Visible = true;
 			image_session_load3_yellow.Visible = true;
 			image_session_more_window_yellow.Visible = true;
@@ -1213,6 +1291,7 @@ public partial class ChronoJumpWindow
 			image_news_yellow.Visible = true;
 			image_help_yellow.Visible = true;
 		} else {
+			image_database_manage_blue.Visible = true;
 			image_session_new_blue.Visible = true;
 			image_session_load3_blue.Visible = true;
 			image_session_more_window_blue.Visible = true;
@@ -1221,6 +1300,7 @@ public partial class ChronoJumpWindow
 			image_news_blue.Visible = true;
 			image_help_blue.Visible = true;
 
+			image_database_manage_yellow.Visible = false;
 			image_session_new_yellow.Visible = false;
 			image_session_load3_yellow.Visible = false;
 			image_session_more_window_yellow.Visible = false;
@@ -1347,9 +1427,10 @@ public partial class ChronoJumpWindow
 */
 
 	//different than on_preferences_activate (opening preferences window)
-	private void loadPreferencesAtStart ()
+	private void loadPreferencesAtStartOrCloudViewChangeDB ()
 	{
 		preferences = Preferences.LoadAllFromSqlite();
+
 		LogB.Mute = preferences.muteLogs;
 
 		LogB.Information (string.Format(Catalog.GetString("Chronojump database version file: {0}"), 
@@ -1382,9 +1463,6 @@ public partial class ChronoJumpWindow
 
 		//---- video ----
 
-		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_video_contacts);
-		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_video_encoder);
-		
 		//don't raise the signal	
 		checkbutton_video_contacts.Clicked -= new EventHandler(on_checkbutton_video_contacts_clicked);
 		checkbutton_video_contacts.Active = preferences.videoOn;
@@ -1553,88 +1631,6 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	/* ---------------------------------------------------------
-	 * ----------------  TREEVIEW PERSONS ----------------------
-	 *  --------------------------------------------------------
-	 */
-
-	private void createTreeView_persons (Gtk.TreeView tv) {
-		myTreeViewPersons = new TreeViewPersons(tv, get_configured_rest_time_in_seconds());
-		tv.Selection.Changed += onTreeviewPersonsSelectionEntry;
-	}
-
-	private void fillTreeView_persons () {
-		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
-				currentSession.UniqueID, 
-				false); //means: do not returnPersonAndPSlist
-
-		if(myPersons.Count > 0) {
-			//fill treeview
-			myTreeViewPersons.Fill(myPersons, restTime);
-		}
-	}
-
-	private void on_treeview_persons_up (object o, EventArgs args) {
-		myTreeViewPersons.SelectPreviousRow(currentPerson.UniqueID);
-	}
-	
-	private void on_treeview_persons_down (object o, EventArgs args) {
-		myTreeViewPersons.SelectNextRow(currentPerson.UniqueID);
-	}
-	
-	//return true if selection is done (there's any person)
-	private bool selectRowTreeView_persons(Gtk.TreeView tv, int rowNum)
-	{
-		LogB.Information("selectRowTreeView_persons");
-
-		if(! myTreeViewPersons.SelectRow(rowNum))
-			return false;
-		
-		//the selection of row in treeViewPersons.SelectRow is not a real selection 
-		//and unfortunately doesn't raises the on_treeview_persons_cursor_changed ()
-		//for this reason we reproduce the method here
-		ITreeModel model;
-		TreeIter iter;
-		if (tv.Selection.GetSelected (out model, out iter)) {
-			string selectedID = (string) model.GetValue (iter, 0); //ID, Name
-			currentPerson = SqlitePerson.Select(Convert.ToInt32(selectedID));
-			currentPersonSession = SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
-			label_person_change();
-			TreePath path = model.GetPath (iter);
-			tv.ScrollToCell (path, null, true, 0, 0);
-		
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	private void treeview_persons_storeReset()
-	{
-		myTreeViewPersons.RemoveColumns();
-		myTreeViewPersons = new TreeViewPersons(treeview_persons, get_configured_rest_time_in_seconds());
-	}
-	
-	//private void on_treeview_persons_cursor_changed (object o, EventArgs args) {
-	private void onTreeviewPersonsSelectionEntry (object o, EventArgs args)
-	{
-		ITreeModel model;
-		TreeIter iter;
-
-		// you get the iter and the model if something is selected
-		if (((TreeSelection)o).GetSelected(out model, out iter)) {
-			string selectedID = (string) model.GetValue (iter, 0); //ID, Name
-		
-			currentPerson = SqlitePerson.Select(Convert.ToInt32(selectedID));
-			currentPersonSession = SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
-			label_person_change();
-	
-			personChanged();
-			button_persons_up.Sensitive = ! myTreeViewPersons.IsFirst(currentPerson.UniqueID);
-			button_persons_down.Sensitive = ! myTreeViewPersons.IsLast(currentPerson.UniqueID);
-		}
-	}
-
 	private void personChanged()
 	{
 		LogB.Information ("personChanged start ---->");
@@ -1759,6 +1755,7 @@ public partial class ChronoJumpWindow
 		else if(current_mode == Constants.Modes.RUNSENCODER)
 			runEncoderPersonChanged();
 
+		finishPlayVideoIfRunning ();
 		LogB.Information ("<---- personChanged end");
 	}
 
@@ -1781,8 +1778,8 @@ public partial class ChronoJumpWindow
 		myItem.Activated += on_delete_current_person_from_session_clicked;
 		myMenu.Attach( myItem, 0, 1, 3, 4 );
 
-		myMenu.Popup();
 		myMenu.ShowAll();
+		myMenu.Popup();
 	}
 		
 
@@ -1882,10 +1879,10 @@ public partial class ChronoJumpWindow
 		myTreeViewJumps.ExpandState = myTreeViewJumps.ZoomChange(myTreeViewJumps.ExpandState);
 		if(myTreeViewJumps.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_jumps.CollapseAll();
-			image_jumps_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_jumps_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else {
 			treeview_jumps.ExpandAll();
-			image_jumps_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+			image_jumps_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
 		}
 	}
 	
@@ -1940,8 +1937,8 @@ public partial class ChronoJumpWindow
 		myItem.Activated += on_delete_selected_jump_clicked;
 		myMenu.Attach( myItem, 0, 1, 2, 3 );
 
-		myMenu.Popup();
 		myMenu.ShowAll();
+		myMenu.Popup();
 	}
 
 	/* ---------------------------------------------------------
@@ -1990,14 +1987,14 @@ public partial class ChronoJumpWindow
 		myTreeViewJumpsRj.ExpandState = myTreeViewJumpsRj.ZoomChange(myTreeViewJumpsRj.ExpandState);
 		if(myTreeViewJumpsRj.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_jumps_rj.CollapseAll();
-			image_jumps_rj_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_jumps_rj_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else if(myTreeViewJumpsRj.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
 			treeview_jumps_rj.CollapseAll();
 			myTreeViewJumpsRj.ExpandOptimal();
-			image_jumps_rj_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_jumps_rj_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else {
 			treeview_jumps_rj.ExpandAll();
-			image_jumps_rj_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+			image_jumps_rj_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
 		}
 	}
 
@@ -2056,8 +2053,8 @@ public partial class ChronoJumpWindow
 		myItem.Activated += on_delete_selected_jump_rj_clicked;
 		myMenu.Attach( myItem, 0, 1, 3, 4 );
 
-		myMenu.Popup();
 		myMenu.ShowAll();
+		myMenu.Popup();
 	}
 
 	/* ---------------------------------------------------------
@@ -2106,10 +2103,10 @@ public partial class ChronoJumpWindow
 		myTreeViewRuns.ExpandState = myTreeViewRuns.ZoomChange(myTreeViewRuns.ExpandState);
 		if(myTreeViewRuns.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_runs.CollapseAll();
-			image_runs_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_runs_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else {
 			treeview_runs.ExpandAll();
-			image_runs_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+			image_runs_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
 		}
 	}
 	
@@ -2149,8 +2146,8 @@ public partial class ChronoJumpWindow
 		myItem.Activated += on_delete_selected_run_clicked;
 		myMenu.Attach( myItem, 0, 1, 2, 3 );
 
-		myMenu.Popup();
 		myMenu.ShowAll();
+		myMenu.Popup();
 	}
 
 	/* ---------------------------------------------------------
@@ -2200,14 +2197,14 @@ public partial class ChronoJumpWindow
 		myTreeViewRunsInterval.ExpandState = myTreeViewRunsInterval.ZoomChange(myTreeViewRunsInterval.ExpandState);
 		if(myTreeViewRunsInterval.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_runs_interval.CollapseAll();
-			image_runs_interval_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_runs_interval_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else if(myTreeViewRunsInterval.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
 			treeview_runs_interval.CollapseAll();
 			myTreeViewRunsInterval.ExpandOptimal();
-			image_runs_interval_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_runs_interval_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else {
 			treeview_runs_interval.ExpandAll();
-			image_runs_interval_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+			image_runs_interval_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
 		}
 	}
 
@@ -2279,8 +2276,8 @@ public partial class ChronoJumpWindow
 		myItem.Activated += on_delete_selected_run_interval_clicked;
 		myMenu.Attach( myItem, 0, 1, 3, 4 );
 
-		myMenu.Popup();
 		myMenu.ShowAll();
+		myMenu.Popup();
 	}
 
 	/* ---------------------------------------------------------
@@ -2317,10 +2314,10 @@ public partial class ChronoJumpWindow
 				myTreeViewReactionTimes.ExpandState);
 		if(myTreeViewReactionTimes.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_reaction_times.CollapseAll();
-			image_reaction_times_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_reaction_times_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else {
 			treeview_reaction_times.ExpandAll();
-			image_reaction_times_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+			image_reaction_times_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
 		}
 	}
 	
@@ -2358,8 +2355,8 @@ public partial class ChronoJumpWindow
 		myItem.Activated += on_delete_selected_reaction_time_clicked;
 		myMenu.Attach( myItem, 0, 1, 2, 3 );
 
-		myMenu.Popup();
 		myMenu.ShowAll();
+		myMenu.Popup();
 	}
 
 	/* ---------------------------------------------------------
@@ -2393,14 +2390,14 @@ public partial class ChronoJumpWindow
 		myTreeViewPulses.ExpandState = myTreeViewPulses.ZoomChange(myTreeViewPulses.ExpandState);
 		if(myTreeViewPulses.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_pulses.CollapseAll();
-			image_pulses_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_pulses_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else if(myTreeViewPulses.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
 			treeview_pulses.CollapseAll();
 			myTreeViewPulses.ExpandOptimal();
-			image_pulses_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_pulses_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else {
 			treeview_pulses.ExpandAll();
-			image_pulses_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+			image_pulses_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
 		}
 	}
 
@@ -2445,8 +2442,8 @@ public partial class ChronoJumpWindow
 		myItem.Activated += on_delete_selected_pulse_clicked;
 		myMenu.Attach( myItem, 0, 1, 3, 4 );
 
-		myMenu.Popup();
 		myMenu.ShowAll();
+		myMenu.Popup();
 	}
 
 	/* ---------------------------------------------------------
@@ -2485,14 +2482,14 @@ public partial class ChronoJumpWindow
 		myTreeViewMultiChronopic.ExpandState = myTreeViewMultiChronopic.ZoomChange(myTreeViewMultiChronopic.ExpandState);
 		if(myTreeViewMultiChronopic.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_multi_chronopic.CollapseAll();
-			image_multi_chronopic_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_multi_chronopic_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else if(myTreeViewMultiChronopic.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
 			treeview_multi_chronopic.CollapseAll();
 			myTreeViewMultiChronopic.ExpandOptimal();
-			image_multi_chronopic_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+			image_multi_chronopic_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
 		} else {
 			treeview_multi_chronopic.ExpandAll();
-			image_multi_chronopic_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+			image_multi_chronopic_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
 		}
 	}
 	
@@ -2545,8 +2542,8 @@ public partial class ChronoJumpWindow
 		myItem.Activated += on_delete_selected_multi_chronopic_clicked;
 		myMenu.Attach( myItem, 0, 1, 2, 3 );
 
-		myMenu.Popup();
 		myMenu.ShowAll();
+		myMenu.Popup();
 	}
 
 
@@ -3106,16 +3103,27 @@ public partial class ChronoJumpWindow
 		if(currentEventExecute != null && currentEventExecute.IsThreadRunning())
 		{
 			LogB.Information("Closing contacts capture thread...");
+
+			//this will mark the test as cancelled
 			currentEventExecute.Cancel = true;
-			LogB.Information("Done!");
+
+			//this will actually cancel Read_cambio and then Read_event in order to really cancel
+			Chronopic.CancelDo();
+			System.Threading.Thread.Sleep (500); //need to wait a bit to allow other thread to be closed
+
+			if (currentEventExecute.IsThreadRunning())
+			{
+				LogB.Information("currentEventExecute still running, waiting 1s more");
+				System.Threading.Thread.Sleep (1000);
+			}
+			LogB.Information ("currentEventExecute still running? " + currentEventExecute.IsThreadRunning().ToString ());
 
 			LogB.Information("Closing camera if opened...");
 			ExecuteProcess.KillExternalProcess (WebcamFfmpeg.GetExecutableCapture(operatingSystem));
 			LogB.Information("Done!");
-
-			//do not need this, above cancelling is enough
-			//currentEventExecute.ThreadAbort();
 		}
+
+		finishPlayVideoIfRunning ();
 
 		if(threadRFID != null && threadRFID.IsAlive)
 		{
@@ -3123,31 +3131,64 @@ public partial class ChronoJumpWindow
 
 			rfid.Stop();
 			rfidProcessCancel = true;
+			System.Threading.Thread.Sleep(500);
 
-			System.Threading.Thread.Sleep(250);
-
-			if(threadRFID.IsAlive)
+			if(threadRFID != null && threadRFID.IsAlive)
 			{
-				threadRFID.Abort();
+				//threadRFID.Abort(); // obsolete on dotnet
+				LogB.Information("threadRFID still running");
+
+				System.Threading.Thread.Sleep (1000); //need to wait a bit to allow other thread to be closed
+				LogB.Information ("threadRFID still running? " + threadRFID.IsAlive.ToString ());
 			}
 		}
 
 		if(threadImport != null && threadImport.IsAlive)
 		{
 			LogB.Information("Closing threadImport");
-			threadImport.Abort();
+			//threadImport.Abort(); //obsolete on dotnet
+
+			threadImportCancel = true;
+			System.Threading.Thread.Sleep(500);
+
+			if(threadImport != null && threadImport.IsAlive)
+			{
+				System.Threading.Thread.Sleep (1000); //need to wait a bit to allow other thread to be closed
+				LogB.Information ("threadImport still running? " + threadImport.IsAlive.ToString ());
+			}
 		}
 
 		if(app1s_threadBackup != null && app1s_threadBackup.IsAlive)
 		{
 			LogB.Information("Closing app1s_threadBackup");
-			app1s_threadBackup.Abort();
+			//app1s_threadBackup.Abort(); //obsolete on dotnet
+
+			//threadBackupCancel = true;
+			if (app1s_uc != null)
+				app1s_uc.Cancel = true; //this will exit the recursively copy
+
+			System.Threading.Thread.Sleep(500);
+
+			if(app1s_threadBackup != null && app1s_threadBackup.IsAlive)
+			{
+				System.Threading.Thread.Sleep (1000); //need to wait a bit to allow other thread to be closed
+				LogB.Information ("app1s_threadBackup still running? " + app1s_threadBackup.IsAlive.ToString ());
+			}
 		}
 
 		if(app1s_threadExport != null && app1s_threadExport.IsAlive)
 		{
 			LogB.Information("Closing app1s_threadExport");
-			app1s_threadExport.Abort();
+			//app1s_threadExport.Abort(); //obsolete on dotnet
+
+			cancelExport = true;
+			System.Threading.Thread.Sleep(500);
+
+			if(app1s_threadExport != null && app1s_threadExport.IsAlive)
+			{
+				System.Threading.Thread.Sleep (1000); //need to wait a bit to allow other thread to be closed
+				LogB.Information ("app1s_threadExport still running? " + app1s_threadExport.IsAlive.ToString ());
+			}
 		}
 
 		//if capturing on the background finish it
@@ -3201,11 +3242,14 @@ public partial class ChronoJumpWindow
 			Thread.Sleep(1500); //wait 1.5s to actually thread can be cancelled
 		}
 		if(forceOtherThread != null && forceOtherThread.IsAlive)
-			forceOtherThread.Abort();
+		{
+			//forceOtherThread.Abort(); //obsolete on dotnet
+			forceProcessCancel = true;
+		}
 		if(portFSOpened)
 			portFS.Close();
-		if(photocellWirelessCapture != null && photocellWirelessCapture.PortOpened)
-			photocellWirelessCapture.Disconnect();
+		if(wichroCapture != null && wichroCapture.PortOpened)
+			wichroCapture.Disconnect();
 
 		//cancel runEncoder capture process
 		if(capturingRunEncoder == arduinoCaptureStatus.STARTING || capturingRunEncoder == arduinoCaptureStatus.CAPTURING)
@@ -3244,7 +3288,13 @@ public partial class ChronoJumpWindow
 		//maybe better kill ffmpeg before opening other instance
 		//and at end check if it is running that process and kill the last one ffmpeg instance
 		//LogB.Information("Bye4!");
-		
+
+		if (configChronojump.ReadFromCloudMainPath != "" && storedDBFilename != "")
+			Util.FileCopySafe (
+					Path.Combine(Util.GetCloudReadTempDir (), "database", "chronojump.db"),
+					Path.Combine(storedDBFilename, "database", "chronojump.db"),
+					true); //overwrite
+
 		Log.End();
 
 		Application.Quit();
@@ -3257,13 +3307,9 @@ public partial class ChronoJumpWindow
 	 *  --------------------------------------------------------
 	 */
 
-	private void on_new_activate (object o, EventArgs args)
+	private void on_new_session_activate (object o, EventArgs args)
 	{
 		LogB.Information("new session");
-
-		menus_and_mode_sensitive (false);
-		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
-		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.SESSION);
 		sessionAddEditShow (App1saeModes.ADDSESSION);
 	}
 
@@ -3276,9 +3322,11 @@ public partial class ChronoJumpWindow
 			label_current_session.Text = "<b>" + sessionName + "</b>";
 			label_current_session.UseMarkup = true;
 			label_current_session.TooltipText = sessionName;
+			frame_session.Name = "";
 		} else {
 			label_current_session.Text = "----";
-			label_current_session.TooltipText = "----";
+			label_current_session.TooltipText = "";
+			frame_session.Name = "alertCss";
 		}
 
 		if(mode != Constants.Modes.UNDEFINED)
@@ -3301,6 +3349,7 @@ public partial class ChronoJumpWindow
 
 		menus_and_mode_sensitive (true);
 		setApp1Title(currentSession.Name, current_mode);
+		person_search.Text = "";
 
 		if(createdStatsWin) {
 			stats_win_initializeSession();
@@ -3323,7 +3372,6 @@ public partial class ChronoJumpWindow
 		//for sure, jumpsExists is false, because we create a new session
 
 		hbox_persons_bottom_photo.Sensitive = false;
-		vbox_persons_bottom_no_photo.Sensitive = false;
 		label_current_person.Text = "";
 		label_top_person_name.Text = "";
 		label_top_encoder_person_name.Text = "";
@@ -3346,9 +3394,6 @@ public partial class ChronoJumpWindow
 		//feedback (more in 1st session created)
 		string feedbackLoadUsers = Catalog.GetString ("Session created, now add or load persons.");
 		new DialogMessage(Constants.MessageTypes.INFO, feedbackLoadUsers);
-
-		//fold menu session
-		check_menu_session.Click();
 
 		SqlitePreferences.Update(SqlitePreferences.LastSessionID, currentSession.UniqueID.ToString(), false);
 	}
@@ -3382,23 +3427,17 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void on_open_activate (object o, EventArgs args) 
+	private void on_open_session_activate (object o, EventArgs args)
 	{
 		LogB.Information("open session");
-
-		//store which page we are on notebook_sup, except if we clicked on "more" from the session tab
-		if(notebook_sup.CurrentPage != Convert.ToInt32(notebook_sup_pages.SESSION))
-			app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
-
-		menus_and_mode_sensitive(false);
 		sessionLoadWindowShow(app1s_windowType.LOAD_SESSION);
-		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.SESSION);
 	}
 
 	//called from open session OR from gui/networks configInit when config.SessionMode == Config.SessionModeEnum.UNIQUE
 	private void on_load_session_accepted () 
 	{
 		setApp1Title(currentSession.Name, current_mode);
+		person_search.Text = "";
 	
 		if(createdStatsWin && ! configChronojump.Exhibition) //slow Sqlite calls for Exhibition big data
 			stats_win_initializeSession();
@@ -3422,12 +3461,7 @@ public partial class ChronoJumpWindow
 
 		definedSession = true;
 
-		//fold menu session
-		if(check_menu_session.Active)
-			check_menu_session.Click();
-
 		hbox_persons_bottom_photo.Sensitive = false;
-		vbox_persons_bottom_no_photo.Sensitive = false;
 		LogB.Information("foundPersons: " + foundPersons.ToString());
 		//if there are persons
 		if(foundPersons) {
@@ -3438,11 +3472,8 @@ public partial class ChronoJumpWindow
 			label_top_encoder_person_name.Text = "<b>" + currentPerson.Name + "</b>";
 			label_top_encoder_person_name.UseMarkup = true;
 		} else {
-			sensitiveGuiNoPerson();
 			currentPerson = null;
-			label_current_person.Text = "";
-			label_top_person_name.Text = "";
-			label_top_encoder_person_name.Text = "";
+			sensitiveGuiNoPerson ();
 		}
 		button_person_merge.Sensitive = foundPersons;
 
@@ -3523,6 +3554,7 @@ public partial class ChronoJumpWindow
 	{
 		if(overviewWin.SelectedPersonID != -1)
 		{
+			person_search.Text = "";
 			//LogB.Information("selected: " + overviewWin.SelectedPersonID.ToString());
 			selectRowTreeView_persons(treeview_persons,
 					myTreeViewPersons.FindRow(overviewWin.SelectedPersonID));
@@ -3691,10 +3723,13 @@ public partial class ChronoJumpWindow
 
 	private void on_preferences_activate (object o, EventArgs args) 
 	{
+		Constants.Modes m = current_mode;
 		if(notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
-			preferencesWin = PreferencesWindow.Show(preferences, Constants.Modes.UNDEFINED, configChronojump.Compujump, progVersion);
-		else
-			preferencesWin = PreferencesWindow.Show(preferences, current_mode, configChronojump.Compujump, progVersion);
+			m = Constants.Modes.UNDEFINED;
+
+		preferencesWin = PreferencesWindow.Show(preferences, m, configChronojump.Compujump,
+				//configChronojump, progVersion);
+				progVersion);
 
 		preferencesWin.FakeButtonMaximizeChanges.Clicked -= new EventHandler (on_preferences_maximize_changes);
 		preferencesWin.FakeButtonMaximizeChanges.Clicked += new EventHandler (on_preferences_maximize_changes);
@@ -3703,6 +3738,8 @@ public partial class ChronoJumpWindow
 		preferencesWin.FakeButtonConfigurationImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonConfigurationImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonDebugModeStart.Clicked += new EventHandler(on_preferences_debug_mode_start);
+		preferencesWin.FakeButtonDeleteDevices.Clicked += new EventHandler(on_preferences_delete_devices);
+		preferencesWin.FakeButtonColorsChanged.Clicked += new EventHandler(on_preferences_colors_changed);
 		preferencesWin.Button_close.Clicked += new EventHandler(on_preferences_closed);
 	}
 
@@ -3733,8 +3770,40 @@ public partial class ChronoJumpWindow
 		*/
 	}
 
+	private void on_preferences_colors_changed (object o, EventArgs args)
+	{
+		UtilGtk.ApplyCSS ();
+	}
+
 	private void on_preferences_closed (object o, EventArgs args)
 	{
+		// 1) changes on cloud
+		// 1.a) if Read changed path from "" to != "" or viceversa need to restart
+		// 1.b) if Copy changed path from "" to != "" or viceversa need to restart
+		Config configHere = new Config();
+		configHere.Read ();
+		if (
+				(configChronojump.ReadFromCloudMainPath == "") != (configHere.ReadFromCloudMainPath == "") || // 1.a
+				(configChronojump.CopyToCloudFullPath == "") != (configHere.CopyToCloudFullPath == "") // 1.b
+				)
+		{
+			//gui force restart
+			notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.EXITCONFIRM);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_exit_confirm);
+			label_exit_confirm.Text = Catalog.GetString ("Changes on cloud options force to restart Chronojump to apply changes");
+			button_exit_cancel.Visible = false;
+			return;
+		}
+
+		// 1.c) if read path changed, use new path
+		if (configHere.ReadFromCloudMainPath != "" && configHere.ReadFromCloudMainPath != configChronojump.ReadFromCloudMainPath)
+			configChronojump.ReadFromCloudMainPath = configHere.ReadFromCloudMainPath;
+
+		// 1.d) if copy path changed, use new path
+		if (configHere.CopyToCloudFullPath != "" && configHere.CopyToCloudFullPath != configChronojump.CopyToCloudFullPath)
+			configChronojump.CopyToCloudFullPath = configHere.CopyToCloudFullPath;
+
+
 		preferences = preferencesWin.GetPreferences;
 		LogB.Mute = preferences.muteLogs;
 
@@ -3816,6 +3885,9 @@ public partial class ChronoJumpWindow
 		//TODO: only if color changed or personWinHide
 		Config.UseSystemColor = preferences.colorBackgroundOsColor;
 		doLabelsContrast(configChronojump.PersonWinHide);
+		vbox_persons_bottom.Visible = preferences.personPhoto && ! check_menu_session.Active;
+
+		UtilGtk.ApplyCSS ();
 
 
 		if(myTreeViewPersons != null)
@@ -3832,7 +3904,12 @@ public partial class ChronoJumpWindow
 
 		// update force_capture_drawingarea
 		if (Constants.ModeIsFORCESENSOR (current_mode))// && radiobutton_force_sensor_analyze_manual.Active)
+		{
+			if (Util.FileExists(lastForceSensorFullPath))
+				force_sensor_recalculate ();
+
 			forceSensorPrepareGraphAI ();
+		}
 
 		// <---------- end of force sensor changes --------------
 	}
@@ -3990,8 +4067,8 @@ public partial class ChronoJumpWindow
 		if(portREOpened)
 			runEncoderDisconnect();
 
-		if(photocellWirelessCapture != null && photocellWirelessCapture.PortOpened)
-			photocellWirelessCapture.Disconnect();
+		if(wichroCapture != null && wichroCapture.PortOpened)
+			wichroCapture.Disconnect();
 
 		//run simple will be the only one with its drawing are
 		button_inspect_last_test_run_simple.Visible = false;
@@ -4288,20 +4365,18 @@ public partial class ChronoJumpWindow
 				{
 					EncoderConfigurationSQLObject econfSO = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.GRAVITATORY);
 					encoderConfigurationCurrent = econfSO.encoderConfiguration;
-					label_encoder_selected.Text = econfSO.name;
-					label_encoder_top_selected.Text = econfSO.name;
+					setEncoderConfigurationLabels (econfSO.name.ToString (), encoderConfigurationCurrent.code);
 					setEncoderTypePixbuf();
 
 					changed = true;
 				}
-				
+
 				currentEncoderGI = Constants.EncoderGI.GRAVITATORY;
 				encoder_change_displaced_weight_and_1RM ();
 				hbox_capture_1RM.Visible = true;
 
 				//notebook_encoder_capture_extra_mass.CurrentPage = 0;
-				//TODO: show also info on the top
-				label_button_encoder_select.Text = Catalog.GetString("Configure gravitatory encoder");
+				label_button_encoder_select.Text = Catalog.GetString("Configure");
 				label_encoder_exercise_mass.Visible = true;
 				hbox_encoder_exercise_mass.Visible = true;
 				label_encoder_exercise_inertia.Visible = false;
@@ -4326,7 +4401,7 @@ public partial class ChronoJumpWindow
 				label_gravitatory_vpf_propulsive.Visible = preferences.encoderPropulsive;
 
 				notebook_encoder_top.Page = 0;
-				image_encoder_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
+				image_encoder_exercise.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_weight.png");
 			}
 			else //(m == Constants.Modes.POWERINERTIAL)
 			{
@@ -4335,8 +4410,7 @@ public partial class ChronoJumpWindow
 				{
 					EncoderConfigurationSQLObject econfSO = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.INERTIAL);
 					encoderConfigurationCurrent = econfSO.encoderConfiguration;
-					label_encoder_selected.Text = econfSO.name;
-					label_encoder_top_selected.Text = econfSO.name;
+					setEncoderConfigurationLabels (econfSO.name.ToString (), encoderConfigurationCurrent.code);
 					setEncoderTypePixbuf();
 
 					changed = true;
@@ -4346,8 +4420,7 @@ public partial class ChronoJumpWindow
 				hbox_capture_1RM.Visible = false;
 
 				//notebook_encoder_capture_extra_mass.CurrentPage = 1;
-				//TODO: show also info on the top
-				label_button_encoder_select.Text = Catalog.GetString("Configure inertial encoder");
+				label_button_encoder_select.Text = Catalog.GetString("Configure");
 				label_encoder_exercise_mass.Visible = false;
 				hbox_encoder_exercise_mass.Visible = false;
 				label_encoder_exercise_inertia.Visible = true;
@@ -4363,7 +4436,7 @@ public partial class ChronoJumpWindow
 				label_gravitatory_vpf_propulsive.Visible = false;
 
 				notebook_encoder_top.Page = 1;
-				image_encoder_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
+				image_encoder_exercise.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_inertia.png");
 			}
 
 			feedbackWin.View(Constants.BellModes.ENCODERGRAVITATORY, preferences, encoderRhythm, false); //not viewWindow
@@ -4453,6 +4526,8 @@ public partial class ChronoJumpWindow
 				(Convert.ToInt32 (notebook_ai_model_graph_table_triggers_pages.TABLE)).Hide();
 			notebook_ai_model_graph_table_triggers.ShowTabs = false;
 			notebook_ai_model_graph_table_triggers.ShowBorder = false;
+
+			//force_sensor_recalculate ();
 		}
 		else if(m == Constants.Modes.RUNSENCODER)
 		{
@@ -4533,6 +4608,7 @@ public partial class ChronoJumpWindow
 			else
 				on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
 
+			align_drawingarea_realtime_capture_cairo.Visible = true; //show realtime graph
 			notebook_capture_analyze.CurrentPage = 0;
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
@@ -4546,8 +4622,8 @@ public partial class ChronoJumpWindow
 		on_treeview_mode_cursor_changed ();
 
 		//show feedback icon
-		Pixbuf pixbufBellActive = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
-		Pixbuf pixbufBellInactive = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
+		Pixbuf pixbufBellActive = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_active.png");
+		Pixbuf pixbufBellInactive = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_none.png");
 		if(
 				( (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE) &&
 				  feedbackWin.FeedbackActive(Constants.BellModes.JUMPS)) ||
@@ -4595,6 +4671,8 @@ public partial class ChronoJumpWindow
 
 		//on capture, show phases, time, record if we are not on forcesensor mode
 		showHideCaptureSpecificControls (m);
+
+		forceSensorShowFilterIfNeeded ();
 
 		last_menuitem_mode_defined = true;
 
@@ -4700,7 +4778,8 @@ public partial class ChronoJumpWindow
 
 	private void showHideCaptureSpecificControls(Constants.Modes m)
 	{
-		hbox_capture_phases_time.Visible = ( ! Constants.ModeIsFORCESENSOR (m) && m != Constants.Modes.RUNSENCODER);
+		hbox_capture_phases.Visible = ( ! Constants.ModeIsFORCESENSOR (m) && m != Constants.Modes.RUNSENCODER);
+		hbox_capture_time.Visible = ( ! Constants.ModeIsFORCESENSOR (m) && m != Constants.Modes.RUNSENCODER);
 
 		if(! configChronojump.Compujump)
 			showWebcamCaptureContactsControls(true);
@@ -4710,11 +4789,11 @@ public partial class ChronoJumpWindow
 	{
 		Pixbuf pixbuf;
 		if(encoderConfigurationCurrent.type == Constants.EncoderType.LINEAR)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "encoder-l-blue.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "encoder-l-blue.png");
 		else if(encoderConfigurationCurrent.type == Constants.EncoderType.ROTARYFRICTION)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "encoder-rf-blue.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "encoder-rf-blue.png");
 		else // if(encoderConfigurationCurrent.type == Constants.EncoderType.ROTARYAXIS)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "encoder-ra-blue.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "encoder-ra-blue.png");
 
 		image_encoder_top_selected_type.Pixbuf = pixbuf;
 		image_encoder_selected_type.Pixbuf = pixbuf;
@@ -5036,9 +5115,8 @@ public partial class ChronoJumpWindow
 	
 
 	/*
-	 * cancel and finish
+	 * cancel ------->
 	 */
-
 
 	private void on_cancel_clicked (object o, EventArgs args) 
 	{
@@ -5050,20 +5128,44 @@ public partial class ChronoJumpWindow
 
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 
-		if(capturingForce == arduinoCaptureStatus.STARTING || capturingForce == arduinoCaptureStatus.CAPTURING)
-		{
-			LogB.Information("cancel clicked on force");
-			forceProcessCancel = true;
-			return;
-		}
-		if(capturingRunEncoder == arduinoCaptureStatus.STARTING || capturingRunEncoder == arduinoCaptureStatus.CAPTURING)
-		{
-			LogB.Information("cancel clicked on runEncoder");
-			runEncoderProcessCancel = true;
-			return;
-		}
+		showHideCaptureIcon (false);
+		if (blinkCapture != null)
+			blinkCapture.End ();
 
-		LogB.Information("cancel clicked one");
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+			on_cancel_clicked_2_forceSensor ();
+		else if (current_mode == Constants.Modes.RUNSENCODER)
+			on_cancel_clicked_2_raceAnalyzer ();
+		else if (current_mode == Constants.Modes.OTHER)
+			on_cancel_clicked_2_other ();
+		else
+			on_cancel_clicked_2_contacts_generic ();
+	}
+
+	private void on_cancel_clicked_2_forceSensor ()
+	{
+		LogB.Information (string.Format ("cancel clicked on force, capturingForce = {0}", capturingForce));
+		if(capturingForce == arduinoCaptureStatus.STARTING || capturingForce == arduinoCaptureStatus.CAPTURING)
+			forceProcessCancel = true;
+	}
+
+	private void on_cancel_clicked_2_raceAnalyzer ()
+	{
+		LogB.Information (string.Format ("cancel clicked on raceAnalyzer, capturingRunEncoder = {0}", capturingRunEncoder));
+		if(capturingRunEncoder == arduinoCaptureStatus.STARTING || capturingRunEncoder == arduinoCaptureStatus.CAPTURING)
+			runEncoderProcessCancel = true;
+	}
+
+	private void on_cancel_clicked_2_other ()
+	{
+		LogB.Information (string.Format ("cancel clicked on fourPlatforms, capturingFourPlatforms = {0}", capturingFourPlatforms));
+		if(capturingFourPlatforms == arduinoCaptureStatus.STARTING || capturingFourPlatforms == arduinoCaptureStatus.CAPTURING)
+			fourPlatformsProcessCancel = true;
+	}
+
+	private void on_cancel_clicked_2_contacts_generic ()
+	{
+		LogB.Information("cancel clicked contacts generic");
 
 		if (webcamStatusEnum == WebcamStatusEnum.RECORDING)
 		{
@@ -5094,6 +5196,14 @@ public partial class ChronoJumpWindow
 		Chronopic.CancelDo();
 	}
 
+	/*
+	 * <-------- cancel
+	 */
+
+	/*
+	 * finish ------->
+	 */
+
 	private void on_finish_clicked (object o, EventArgs args) 
 	{
 		Button buttonClicked = o as Button;
@@ -5105,20 +5215,40 @@ public partial class ChronoJumpWindow
 		//to avoid doble finish or cancel while finishing
 		hideButtons();
 
-		if(capturingForce == arduinoCaptureStatus.STARTING || capturingForce == arduinoCaptureStatus.CAPTURING)
-		{
-			LogB.Information("finish clicked on force");
-			forceProcessFinish = true;
-			return;
-		}
-		if(capturingRunEncoder == arduinoCaptureStatus.STARTING || capturingRunEncoder == arduinoCaptureStatus.CAPTURING)
-		{
-			LogB.Information("finish clicked on runEncoder");
-			runEncoderProcessFinish = true;
-			return;
-		}
+		if (Constants.ModeIsFORCESENSOR (current_mode))
+			on_finish_clicked_2_forceSensor ();
+		else if (current_mode == Constants.Modes.RUNSENCODER)
+			on_finish_clicked_2_raceAnalyzer ();
+		else if (current_mode == Constants.Modes.OTHER)
+			on_finish_clicked_2_other ();
+		else
+			on_finish_clicked_2_contacts_generic ();
+	}
 
-		LogB.Information("finish clicked one");
+	private void on_finish_clicked_2_forceSensor ()
+	{
+		LogB.Information (string.Format ("finish clicked on force, capturingForce = {0}", capturingForce));
+		if(capturingForce == arduinoCaptureStatus.STARTING || capturingForce == arduinoCaptureStatus.CAPTURING)
+			forceProcessFinish = true;
+	}
+
+	private void on_finish_clicked_2_raceAnalyzer ()
+	{
+		LogB.Information (string.Format ("finish clicked on raceAnalyzer, capturingRunEncoder = {0}", capturingRunEncoder));
+		if(capturingRunEncoder == arduinoCaptureStatus.STARTING || capturingRunEncoder == arduinoCaptureStatus.CAPTURING)
+			runEncoderProcessFinish = true;
+	}
+
+	private void on_finish_clicked_2_other ()
+	{
+		LogB.Information (string.Format ("finish clicked on fourPlatforms, capturingFourPlatforms = {0}", capturingFourPlatforms));
+		if(capturingFourPlatforms == arduinoCaptureStatus.STARTING || capturingFourPlatforms == arduinoCaptureStatus.CAPTURING)
+			fourPlatformsProcessFinish = true;
+	}
+
+	private void on_finish_clicked_2_contacts_generic ()
+	{
+		LogB.Information("finish clicked contacts generic");
 
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
 		currentEventExecute.Finish = true;
@@ -5149,6 +5279,10 @@ public partial class ChronoJumpWindow
 		LogB.Debug("Called finish on multi");
 	}
 
+	/*
+	 * <-------- finish
+	 */
+
 	DialogThreshold dialogThreshold;
 	private void on_threshold_clicked (object o, EventArgs args)
 	{
@@ -5176,13 +5310,23 @@ public partial class ChronoJumpWindow
 	{
 		//compujump will continue with the top right device button, far from the capture button
 		if (! configChronojump.Compujump)
-		{
-			button_contacts_detect.Visible = show;
-			hbox_contacts_detect_and_execute.Visible = ! show;
+			return;
 
-			button_encoder_detect.Visible = show;
-			hbox_encoder_detect_and_execute.Visible = ! show;
+		// Cloud-view cannot capture
+		if (configChronojump.ReadFromCloudMainPath != "")
+		{
+			button_contacts_detect.Visible = false;
+			hbox_contacts_detect_and_execute.Visible = false;
+			button_encoder_detect.Visible = false;
+			hbox_encoder_detect_and_execute.Visible = false;
+			return;
 		}
+
+		button_contacts_detect.Visible = show;
+		hbox_contacts_detect_and_execute.Visible = ! show;
+
+		button_encoder_detect.Visible = show;
+		hbox_encoder_detect_and_execute.Visible = ! show;
 	}
 
 	DiscoverWindow discoverWin;
@@ -5200,6 +5344,11 @@ public partial class ChronoJumpWindow
 			//to have time on Windows to really have sp port closed and be able to read on chronopicRegister and/or discoverWin
 			System.Threading.Thread.Sleep (1000);
 		}
+
+		if (Constants.ModeIsFORCESENSOR (current_mode) && portFSOpened)
+			forceSensorDisconnect ();
+		else if (current_mode == Constants.Modes.RUNSENCODER && portREOpened)
+			runEncoderDisconnect ();
 
 		chronopicRegisterUpdate (false);
 
@@ -5422,6 +5571,20 @@ public partial class ChronoJumpWindow
 
 			return;
 		}
+		if(current_mode == Constants.Modes.OTHER)
+		{
+			LogB.Debug ("execute test mode: other");
+			/*
+			 * FourPlatforms is not FTDI
+			 */
+
+			if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
+				on_button_detect_clicked (o, args); //open discover win
+			else
+				on_four_platforms_capture_clicked ();
+
+			return;
+		}
 
 		// stop capturing inertial on the background if we start capturing a contacts test
 		if(encoderThreadBG != null && encoderThreadBG.IsAlive)
@@ -5524,6 +5687,32 @@ public partial class ChronoJumpWindow
 		}
 
 	        UtilGtk.DeviceColors(viewport_chronopics, true);
+	}
+
+	private void showHideCaptureIcon (bool show)
+	{
+		//if show, do it only each half of second, so we need a start time or a flashing class for manage this things
+		if (blinkCapture != null && blinkCapture.Status == Blink.StatusEnum.RUNNING &&
+				blinkCapture.IsOn)
+		{
+			if (Constants.ModeIsENCODER (current_mode))
+			{
+				image_capturing_encoder.Visible = true;
+				image_no_capturing_encoder.Visible = false;
+			} else {
+				image_capturing.Visible = true;
+				image_no_capturing.Visible = false;
+			}
+		} else {
+			if (Constants.ModeIsENCODER (current_mode))
+			{
+				image_capturing_encoder.Visible = false;
+				image_no_capturing_encoder.Visible = true;
+			} else {
+				image_capturing.Visible = false;
+				image_no_capturing.Visible = true;
+			}
+		}
 	}
 
 	// camera stuff if needed
@@ -5655,6 +5844,15 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		if (Constants.ModeIsFORCESENSOR (current_mode) || current_mode == Constants.Modes.RUNSENCODER)
+		{
+			//immediately change the radios
+			if (b == button_signal_analyze_load_ab && ! radio_ai_ab.Active)
+				radio_ai_ab.Click ();
+			if (b == button_signal_analyze_load_cd && ! radio_ai_cd.Active)
+				radio_ai_cd.Click ();
+		}
+
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 			force_sensor_load (b == button_signal_analyze_load_cd); //allows to choose person and session
 		else if(current_mode == Constants.Modes.RUNSENCODER)
@@ -5743,27 +5941,27 @@ public partial class ChronoJumpWindow
 
 		switch (fileNameString) {
 			case "LOGO":
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo);
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogo2Col);
 				button_image_test_zoom.Hide();
 			break;
 			case "RUNSENCODER":
-				//pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameRunEncoder);
-				pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "no_image.png");
+				//pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + Constants.FileNameRunEncoder);
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + "no_image.png");
 				button_image_test_zoom.Hide();
 			break;
 			case "":
-				pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "no_image.png");
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + "no_image.png");
 				button_image_test_zoom.Hide();
 			break;
 			default:
-				pixbuf = new Pixbuf (null, Util.GetImagePath(true) + fileNameString);
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + fileNameString);
 
 				//button image test zoom will have a different image depending on if there's text
 				//future: change tooltip also
 				if(eventTypeString != "" && eventName != "" && eventTypeHasLongDescription (eventTypeString, eventName))
-					pixbufZoom = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInWithTextIcon);
+					pixbufZoom = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameZoomInWithTextIcon);
 				else 
-					pixbufZoom = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
+					pixbufZoom = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
 
 				image_test_zoom.Pixbuf = pixbufZoom;
 				button_image_test_zoom.Show();
@@ -5777,13 +5975,13 @@ public partial class ChronoJumpWindow
 		ExerciseImage ei = new ExerciseImage (current_mode, exerciseID);
 		if (ei.GetUrlIfExists (true) == "")
 		{
-			image_test.Pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "no_image.png");
+			image_test.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + "no_image.png");
 			button_image_test_zoom.Hide ();
 		} else
 		{
 			image_test.Pixbuf = UtilGtk.OpenPixbufSafe (ei.GetUrlIfExists (true), image_test.Pixbuf);
 
-			image_test_zoom.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
+			image_test_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
 			button_image_test_zoom.Show ();
 		}
 	}
@@ -6402,13 +6600,13 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
 
-		if(photocellWirelessCapture == null)
-			photocellWirelessCapture = new PhotocellWirelessCapture(wirelessPort);
+		if(wichroCapture == null)
+			wichroCapture = new WichroCapture(wirelessPort);
 
 		currentEventExecute = new RunExecute(
 				currentPerson.UniqueID, currentSession.UniqueID, 
 				currentRunType.Name, myDistance, 
-				cp2016.CP, photocellWirelessCapture, wirelessPort, wirelessBauds,
+				cp2016.CP, wichroCapture, wirelessPort, wirelessBauds,
 				preferences.digitsNumber, preferences.metersSecondsPreferred,
 				preferences.volumeOn, preferences.gstreamer,
 				progressbarLimit, egd,
@@ -6569,13 +6767,13 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
-		if(photocellWirelessCapture == null)
-			photocellWirelessCapture = new PhotocellWirelessCapture(wirelessPort);
+		if(wichroCapture == null)
+			wichroCapture = new WichroCapture(wirelessPort);
 
 		currentEventExecute = new RunIntervalExecute(
 				currentPerson.UniqueID, currentSession.UniqueID, currentRunIntervalType.Name, 
 				distanceInterval, progressbarLimit, currentRunIntervalType.TracksLimited, 
-				cp2016.CP, photocellWirelessCapture, wirelessPort, wirelessBauds,
+				cp2016.CP, wichroCapture, wirelessPort, wirelessBauds,
 				preferences.digitsNumber, preferences.metersSecondsPreferred,
 				preferences.volumeOn, preferences.gstreamer,
 				feedbackRunsI,
@@ -7116,8 +7314,8 @@ public partial class ChronoJumpWindow
 		*/
 
 		// 2) close ports. Close Arduino capture before calling to device
-		if(photocellWirelessCapture != null && photocellWirelessCapture.PortOpened)
-			photocellWirelessCapture.Disconnect();
+		if(wichroCapture != null && wichroCapture.PortOpened)
+			wichroCapture.Disconnect();
 
 		// 3) show window
 		chronopicRegisterUpdate(true);
@@ -7132,8 +7330,8 @@ public partial class ChronoJumpWindow
 		*/
 
 		// 2) close ports. Close Arduino capture before calling to device
-		if(photocellWirelessCapture != null && photocellWirelessCapture.PortOpened)
-			photocellWirelessCapture.Disconnect();
+		if(wichroCapture != null && wichroCapture.PortOpened)
+			wichroCapture.Disconnect();
 
 		// 3) show window
 		chronopicRegisterUpdate(true);
@@ -8376,11 +8574,9 @@ LogB.Debug("mc finished 5");
 	//changed by chronojump when it's needed
 	private void notebooks_change(Constants.Modes mode)
 	{
-		LogB.Information("notebooks_change");
 		//LogB.Debug(new StackFrame(1).GetMethod().Name);
 
-		//LogB.Information("currentPage" + notebook_execute.CurrentPage.ToString());
-		//LogB.Information("desiredPage" + desiredPage.ToString());
+		LogB.Information ("notebooks_change start, currentPage: " + notebook_execute.CurrentPage.ToString());
 
 		if(mode == Constants.Modes.JUMPSSIMPLE)
 		{
@@ -8485,6 +8681,8 @@ LogB.Debug("mc finished 5");
 			button_auto_start.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 		}
 
+		LogB.Information ("notebooks_change almost end, currentPage: " + notebook_execute.CurrentPage.ToString());
+
 		//Attention: "notebooks_change sqlite problem"
 		//This will call stats_win_change_test_type
 		//that will call on_combo_stats_type_changed
@@ -8558,7 +8756,7 @@ LogB.Debug("mc finished 5");
 					preferences.serverNewsDatetime != "" &&
 					preferences.serverNewsDatetime != preferences.clientNewsDatetime)
 			{
-				Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_store_has_new_products.png");
+				Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_store_has_new_products.png");
 				image_menu_news.Pixbuf = pixbuf;
 				image_menu_news1.Pixbuf = pixbuf;
 			}
@@ -8587,6 +8785,7 @@ LogB.Debug("mc finished 5");
 		{
 			getNewsDatetime();
 
+			/*
 			//also manage pending poll
 			if(preferences.socialNetworkDatetime == "-1")
 			{
@@ -8598,6 +8797,7 @@ LogB.Debug("mc finished 5");
 							UtilDate.ToFile(DateTime.Now), false);
 				}
 			}
+			*/
 		}
 	}
 
@@ -8622,7 +8822,8 @@ LogB.Debug("mc finished 5");
 			preferences.serverNewsDatetime = jsPing.ResultMessage;
 	}
 
-	private void on_preferences_debug_mode_start (object o, EventArgs args) {
+	private void on_preferences_debug_mode_start (object o, EventArgs args)
+	{
 		//first delete debug file
 		Util.FileDelete(System.IO.Path.GetTempPath() + "chronojump-debug.txt");
 
@@ -8630,6 +8831,8 @@ LogB.Debug("mc finished 5");
 		encoderRProcAnalyze.Debug = true;
 		preferences.debugMode = true; //be used by force sensor, importer (can be used easily for all software)
 		LogB.PrintAllThreads = true;
+
+		LogB.Information ("\n\n***\nDEBUG active\n***\n");
 
 		//hbox_gui_tests.Visible = true;
 		//button_carles.Visible = true;
@@ -8643,6 +8846,12 @@ LogB.Debug("mc finished 5");
 			setApp1Title("", current_mode);
 		else
 			setApp1Title(currentSession.Name, current_mode);
+	}
+
+	private void on_preferences_delete_devices (object o, EventArgs args)
+	{
+		chronopicRegisterUpdate (false);
+		button_detect_show_hide (true);
 	}
 
 	//use chronojumpConfig
@@ -8776,9 +8985,9 @@ LogB.Debug("mc finished 5");
 		{
 			// Update bell
 			if(feedbackWin.FeedbackActive(bellMode))
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_active.png");
 			else
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_none.png");
 
 			image_contacts_bell.Pixbuf = pixbuf;
 
@@ -8934,9 +9143,9 @@ LogB.Debug("mc finished 5");
 		{
 			// 1) Update bell
 			if(feedbackWin.FeedbackActive(bellMode))
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_active.png");
 			else
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_none.png");
 
 			image_encoder_bell.Pixbuf = pixbuf;
 
@@ -8969,6 +9178,15 @@ LogB.Debug("mc finished 5");
 			}
 			if(! secondaryVariableShow)
 				secondaryVariableStr = "";
+
+			/* these 6 are not stored on DB yet */
+			preferences.encoderCaptureSecondaryVariableYAxisCustom = feedbackWin.GetSecondaryVariableYAxisCustom;
+			preferences.encoderCaptureSecondaryVariableYAxisCustomMax = feedbackWin.GetSecondaryVariableYAxisCustomMax;
+			preferences.encoderCaptureSecondaryVariableYAxisCustomMin = feedbackWin.GetSecondaryVariableYAxisCustomMin;
+			preferences.encoderSignalDisplAxisCustom = feedbackWin.GetEncoderSignalDisplAxisCustom;
+			preferences.encoderSignalDisplAxisCustomMax = feedbackWin.GetEncoderSignalDisplAxisCustomMax;
+			preferences.encoderSignalDisplAxisCustomMin = feedbackWin.GetEncoderSignalDisplAxisCustomMin;
+
 
 			if(preferences.encoderCaptureFeedbackEccon != feedbackWin.GetEncoderCaptureFeedbackEccon) {
 				SqlitePreferences.Update(SqlitePreferences.EncoderCaptureFeedbackEccon,
@@ -9052,6 +9270,7 @@ LogB.Debug("mc finished 5");
 							secondaryVariableStr, preferences.encoderCaptureShowLoss,
 							false, //not capturing
 							findEccon(true),
+							findMass(Constants.MassType.DISPLACED),
 							feedbackEncoder,
 							encoderConfigurationCurrent.has_inertia,
 							configChronojump.PlaySoundsFromFile,
@@ -9080,9 +9299,9 @@ LogB.Debug("mc finished 5");
 		{
 			// 1) Update bell
 			if(feedbackWin.FeedbackActive(bellMode))
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_active.png");
 			else
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_none.png");
 
 			image_contacts_bell.Pixbuf = pixbuf;
 
@@ -9172,6 +9391,13 @@ LogB.Debug("mc finished 5");
 					preferences.forceSensorFeedbackQuestionnaireN = feedbackQuestionnaireN;
 				}
 
+				int feedbackQuestionnaireQDuration = feedbackWin.GetForceSensorFeedbackQuestionnaireQDuration;
+				if(preferences.forceSensorFeedbackQuestionnaireQDuration != feedbackQuestionnaireQDuration)
+				{
+					//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackQuestionnaireQDuration, feedbackQuestionnaireQDuration.ToString(), false); //TODO
+					preferences.forceSensorFeedbackQuestionnaireQDuration = feedbackQuestionnaireQDuration;
+				}
+
 				string feedbackQuestionnaireFile = "";
 				if (! feedbackWin.GetForceSensorFeedbackQuestionnaireDefaultOrFile)
 					feedbackQuestionnaireFile = feedbackWin.GetForceSensorFeedbackQuestionnaireFile;
@@ -9242,11 +9468,17 @@ LogB.Debug("mc finished 5");
 				{
 					box_encoder_capture_signal_horizontal.Visible = false;
 					box_encoder_capture_signal_vertical.Visible = true;
-					alignment_encoder_capture_signal.Reparent (box_encoder_capture_signal_vertical);
+
+					//alignment_encoder_capture_signal.Reparent (box_encoder_capture_signal_vertical); //deprecated on gtk3
+					box_encoder_capture_signal_horizontal.Remove (alignment_encoder_capture_signal);
+					box_encoder_capture_signal_vertical.Add (alignment_encoder_capture_signal);
 				} else {
 					box_encoder_capture_signal_horizontal.Visible = true;
 					box_encoder_capture_signal_vertical.Visible = false;
-					alignment_encoder_capture_signal.Reparent (box_encoder_capture_signal_horizontal);
+
+					//alignment_encoder_capture_signal.Reparent (box_encoder_capture_signal_horizontal); //deprecated on gtk3
+					box_encoder_capture_signal_vertical.Remove (alignment_encoder_capture_signal);
+					box_encoder_capture_signal_horizontal.Add (alignment_encoder_capture_signal);
 				}
 
 				fixEncoderCaptureWidgetsGeometry ();
@@ -9257,7 +9489,9 @@ LogB.Debug("mc finished 5");
 	private void on_feedback_questionnaire_load (object o, EventArgs args)
 	{
 		if (questionnaire == null)
-			questionnaire = new Questionnaire (preferences.forceSensorFeedbackQuestionnaireN,
+			questionnaire = new Questionnaire (
+					preferences.forceSensorFeedbackQuestionnaireN,
+					preferences.forceSensorFeedbackQuestionnaireQDuration,
 					feedbackWin.GetForceSensorFeedbackQuestionnaireFile);
 
 		feedbackWin.button_force_sensor_capture_feedback_questionnaire_load_analyzed (
@@ -9444,7 +9678,7 @@ LogB.Debug("mc finished 5");
 
 	private void menuSessionSensitive(bool option)
 	{
-		frame_session_more_this_session.Sensitive = option;
+		box_session_more_this_session.Sensitive = option;
 		button_menu_session_export.Sensitive = option;
 	}
 	
@@ -9460,11 +9694,14 @@ LogB.Debug("mc finished 5");
 		}
 
 		hbox_persons_bottom_photo.Sensitive = option;
-		vbox_persons_bottom_no_photo.Sensitive = option;
+		button_edit_current_person_h.Sensitive = option;
+		button_delete_current_person_h.Sensitive = option;
 	}
 
 	private void sensitiveGuiNoSession () 
 	{
+		LogB.Information("sensitiveGuiNoSession");
+
 		//menuitems
 		menuSessionSensitive(false);
 		menuPersonSelectedSensitive(false);
@@ -9476,7 +9713,6 @@ LogB.Debug("mc finished 5");
 		button_person_add_single.Sensitive = false;
 		button_person_add_multiple.Sensitive = false;
 		hbox_persons_bottom_photo.Sensitive = false;
-		vbox_persons_bottom_no_photo.Sensitive = false;
 	
 		button_contacts_person_change.Sensitive = false;
 		button_encoder_person_change.Sensitive = false;
@@ -9503,6 +9739,8 @@ LogB.Debug("mc finished 5");
 	
 	private void sensitiveGuiYesSession () 
 	{
+		LogB.Information("sensitiveGuiYesSession");
+
 		button_image_test_zoom.Sensitive = true;
 		frame_persons.Sensitive = true;
 		button_recuperate_person.Sensitive = true;
@@ -9525,6 +9763,9 @@ LogB.Debug("mc finished 5");
 	private void sensitiveGuiNoPerson ()
 	{
 		LogB.Information("sensitiveGuiNoPerson");
+
+		vbox_persons.Name = "alertCss";
+
 		vbox_jumps.Sensitive = false;
 		hbox_jumps_rj.Sensitive = false;
 		button_execute_test.Sensitive = false;
@@ -9553,11 +9794,17 @@ LogB.Debug("mc finished 5");
 		label_top_person_name.Text = "";
 		label_top_encoder_person_name.Text = "";
 		button_person_merge.Sensitive = false;
+
+		if(createdStatsWin)
+			stats_win_hide();
 	}
 	
 	private void sensitiveGuiYesPerson ()
 	{
 		LogB.Information("sensitiveGuiYesPerson");
+
+		vbox_persons.Name = "shiftedCss";
+
 		vbox_jumps.Sensitive = true;
 		hbox_jumps_rj.Sensitive = true;
 		button_execute_test.Sensitive = true;
@@ -9595,6 +9842,8 @@ LogB.Debug("mc finished 5");
 	
 	private void sensitiveGuiEventDoing (bool cont)
 	{
+		LogB.Information("sensitiveGuiEventDoing");
+
 		menus_and_mode_sensitive(false);
 		
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
@@ -9614,6 +9863,7 @@ LogB.Debug("mc finished 5");
 		button_execute_test.Sensitive = false;
 		button_auto_start.Sensitive = false;
 		hbox_contacts_camera.Sensitive = false;
+		box_contacts_load_recalculate.Sensitive = false;
 		
 		button_contacts_person_change.Sensitive = false;
 		button_encoder_person_change.Sensitive = false;
@@ -9669,6 +9919,7 @@ LogB.Debug("mc finished 5");
 		button_execute_test.Sensitive = true;
 		button_auto_start.Sensitive = true;
 		hbox_contacts_camera.Sensitive = true;
+		box_contacts_load_recalculate.Sensitive = true;
 
 		button_contacts_person_change.Sensitive = true;
 		button_encoder_person_change.Sensitive = true;
@@ -9908,29 +10159,29 @@ LogB.Debug("mc finished 5");
 		   */
 
 		notebook_chronojump_logo = (Gtk.Notebook) builder.GetObject ("notebook_chronojump_logo");
-		viewport_chronojump_logo = (Gtk.Viewport) builder.GetObject ("viewport_chronojump_logo");
 		image_chronojump_logo = (Gtk.Image) builder.GetObject ("image_chronojump_logo");
 		drawingarea_chronojump_logo = (Gtk.DrawingArea) builder.GetObject ("drawingarea_chronojump_logo");
 
 		notebook_start = (Gtk.Notebook) builder.GetObject ("notebook_start"); 		//start window or program
 		notebook_sup = (Gtk.Notebook) builder.GetObject ("notebook_sup");
-		hbox_other = (Gtk.HBox) builder.GetObject ("hbox_other");
+		hbox_other = (Gtk.Box) builder.GetObject ("hbox_other");
 		box_contacts_capture_top = (Gtk.Box) builder.GetObject ("box_contacts_capture_top");
 		notebook_capture_analyze = (Gtk.Notebook) builder.GetObject ("notebook_capture_analyze"); //not encoder
 		notebook_contacts_execute_or = (Gtk.Notebook) builder.GetObject ("notebook_contacts_execute_or");
 		notebook_analyze = (Gtk.Notebook) builder.GetObject ("notebook_analyze"); //not encoder
-		vbox_contacts_capture_graph = (Gtk.VBox) builder.GetObject ("vbox_contacts_capture_graph");
-		hbox_message_permissions_at_boot = (Gtk.HBox) builder.GetObject ("hbox_message_permissions_at_boot");
+		vbox_contacts_capture_graph = (Gtk.Box) builder.GetObject ("vbox_contacts_capture_graph");
+		hbox_message_permissions_at_boot = (Gtk.Box) builder.GetObject ("hbox_message_permissions_at_boot");
 		label_message_permissions_at_boot = (Gtk.Label) builder.GetObject ("label_message_permissions_at_boot");
-		hbox_message_camera_at_boot = (Gtk.HBox) builder.GetObject ("hbox_message_camera_at_boot");
-		hbox_start_window_sub = (Gtk.HBox) builder.GetObject ("hbox_start_window_sub");
+		hbox_message_camera_at_boot = (Gtk.Box) builder.GetObject ("hbox_message_camera_at_boot");
+		box_start_modes_and_version = (Gtk.Box) builder.GetObject ("box_start_modes_and_version");
+		hbox_start_window_sub = (Gtk.Box) builder.GetObject ("hbox_start_window_sub");
 
 		button_show_modes_contacts = (Gtk.Button) builder.GetObject ("button_show_modes_contacts");
-		hbox_change_modes_contacts = (Gtk.HBox) builder.GetObject ("hbox_change_modes_contacts");
-		hbox_change_modes_encoder = (Gtk.HBox) builder.GetObject ("hbox_change_modes_encoder");
-		hbox_change_modes_jumps = (Gtk.HBox) builder.GetObject ("hbox_change_modes_jumps");
-		hbox_change_modes_runs = (Gtk.HBox) builder.GetObject ("hbox_change_modes_runs");
-		hbox_change_modes_force_sensor = (Gtk.HBox) builder.GetObject ("hbox_change_modes_force_sensor");
+		hbox_change_modes_contacts = (Gtk.Box) builder.GetObject ("hbox_change_modes_contacts");
+		hbox_change_modes_encoder = (Gtk.Box) builder.GetObject ("hbox_change_modes_encoder");
+		hbox_change_modes_jumps = (Gtk.Box) builder.GetObject ("hbox_change_modes_jumps");
+		hbox_change_modes_runs = (Gtk.Box) builder.GetObject ("hbox_change_modes_runs");
+		hbox_change_modes_force_sensor = (Gtk.Box) builder.GetObject ("hbox_change_modes_force_sensor");
 		radio_change_modes_contacts_jumps_simple = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_jumps_simple");
 		radio_change_modes_contacts_jumps_reactive = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_jumps_reactive");
 		radio_change_modes_contacts_runs_simple = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_runs_simple");
@@ -9981,9 +10232,9 @@ LogB.Debug("mc finished 5");
 		eventbox_button_exit_cancel = (Gtk.EventBox) builder.GetObject ("eventbox_button_exit_cancel");
 		eventbox_button_exit_confirm = (Gtk.EventBox) builder.GetObject ("eventbox_button_exit_confirm");
 
-		hbox_contacts_sup_capture_analyze_two_buttons = (Gtk.HBox) builder.GetObject ("hbox_contacts_sup_capture_analyze_two_buttons");
-		hbox_radio_mode_contacts_analyze_buttons = (Gtk.HBox) builder.GetObject ("hbox_radio_mode_contacts_analyze_buttons");
-		hbox_radio_mode_contacts_analyze_jump_simple_buttons = (Gtk.HBox) builder.GetObject ("hbox_radio_mode_contacts_analyze_jump_simple_buttons");
+		hbox_contacts_sup_capture_analyze_two_buttons = (Gtk.Box) builder.GetObject ("hbox_contacts_sup_capture_analyze_two_buttons");
+		hbox_radio_mode_contacts_analyze_buttons = (Gtk.Box) builder.GetObject ("hbox_radio_mode_contacts_analyze_buttons");
+		hbox_radio_mode_contacts_analyze_jump_simple_buttons = (Gtk.Box) builder.GetObject ("hbox_radio_mode_contacts_analyze_jump_simple_buttons");
 
 		//radio group
 		radio_mode_contacts_capture = (Gtk.RadioButton) builder.GetObject ("radio_mode_contacts_capture");
@@ -10012,7 +10263,6 @@ LogB.Debug("mc finished 5");
 		label_sprint_person_name = (Gtk.Label) builder.GetObject ("label_sprint_person_name");
 
 		label_version = (Gtk.Label) builder.GetObject ("label_version");
-		label_version_hidden = (Gtk.Label) builder.GetObject ("label_version_hidden"); //just to have logo aligned on the middle
 		//image_selector_start_encoder_inertial = (Gtk.Image) builder.GetObject ("image_selector_start_encoder_inertial");
 
 		radio_mode_pulses_small = (Gtk.RadioButton) builder.GetObject ("radio_mode_pulses_small");
@@ -10031,8 +10281,10 @@ LogB.Debug("mc finished 5");
 		//contact tests execute buttons
 		image_button_finish = (Gtk.Image) builder.GetObject ("image_button_finish");
 		image_button_finish1 = (Gtk.Image) builder.GetObject ("image_button_finish1");
+		image_button_finish2 = (Gtk.Image) builder.GetObject ("image_button_finish2");
 		image_button_cancel = (Gtk.Image) builder.GetObject ("image_button_cancel"); //needed this specially because theme cancel sometimes seems "record"
 		image_button_cancel1 = (Gtk.Image) builder.GetObject ("image_button_cancel1");
+		image_button_cancel2 = (Gtk.Image) builder.GetObject ("image_button_cancel2");
 		//encoder tests execute buttons
 		//image_encoder_capture_execute = (Gtk.Image) builder.GetObject ("image_encoder_capture_execute");
 		fullscreen_capture_box_buttons_finish_cancel = (Gtk.Box) builder.GetObject ("fullscreen_capture_box_buttons_finish_cancel");
@@ -10060,12 +10312,12 @@ LogB.Debug("mc finished 5");
 		treeview_pulses = (Gtk.TreeView) builder.GetObject ("treeview_pulses");
 		treeview_multi_chronopic = (Gtk.TreeView) builder.GetObject ("treeview_multi_chronopic");
 
-		hbox_combo_select_jumps = (Gtk.HBox) builder.GetObject ("hbox_combo_select_jumps");
-		hbox_combo_select_jumps_rj = (Gtk.HBox) builder.GetObject ("hbox_combo_select_jumps_rj");
-		hbox_combo_select_runs = (Gtk.HBox) builder.GetObject ("hbox_combo_select_runs");
-		hbox_combo_select_runs_interval = (Gtk.HBox) builder.GetObject ("hbox_combo_select_runs_interval");
-		hbox_combo_select_contacts_top_with_arrows = (Gtk.HBox) builder.GetObject ("hbox_combo_select_contacts_top_with_arrows");
-		hbox_combo_select_contacts_top = (Gtk.HBox) builder.GetObject ("hbox_combo_select_contacts_top");
+		hbox_combo_select_jumps = (Gtk.Box) builder.GetObject ("hbox_combo_select_jumps");
+		hbox_combo_select_jumps_rj = (Gtk.Box) builder.GetObject ("hbox_combo_select_jumps_rj");
+		hbox_combo_select_runs = (Gtk.Box) builder.GetObject ("hbox_combo_select_runs");
+		hbox_combo_select_runs_interval = (Gtk.Box) builder.GetObject ("hbox_combo_select_runs_interval");
+		hbox_combo_select_contacts_top_with_arrows = (Gtk.Box) builder.GetObject ("hbox_combo_select_contacts_top_with_arrows");
+		hbox_combo_select_contacts_top = (Gtk.Box) builder.GetObject ("hbox_combo_select_contacts_top");
 
 		//auto mode	
 		//hbox_jump_types_options = (Gtk.Box) builder.GetObject ("hbox_jump_types_options");
@@ -10082,6 +10334,13 @@ LogB.Debug("mc finished 5");
 		image_line_person_max = (Gtk.Image) builder.GetObject ("image_line_person_max");
 		image_line_person_max_all_sessions = (Gtk.Image) builder.GetObject ("image_line_person_max_all_sessions");
 
+		box_database = (Gtk.Box) builder.GetObject ("box_database");
+		frame_session = (Gtk.Frame) builder.GetObject ("frame_session");
+		hbox_frame_database_top = (Gtk.Box) builder.GetObject ("hbox_frame_database_top");
+		vbox_frame_database_border = (Gtk.Box) builder.GetObject ("vbox_frame_database_border");
+		image_database_manage_blue = (Gtk.Image) builder.GetObject ("image_database_manage_blue");
+		image_database_manage_yellow = (Gtk.Image) builder.GetObject ("image_database_manage_yellow");
+		vbox_frame_session_border = (Gtk.Box) builder.GetObject ("vbox_frame_session_border");
 		box_session_more = (Gtk.Box) builder.GetObject ("box_session_more");
 		box_session_load_or_import = (Gtk.Box) builder.GetObject ("box_session_load_or_import");
 		box_session_delete = (Gtk.Box) builder.GetObject ("box_session_delete");
@@ -10093,22 +10352,23 @@ LogB.Debug("mc finished 5");
 		box_session_data_folder = (Gtk.Box) builder.GetObject ("box_session_data_folder");
 		box_session_import_from_csv = (Gtk.Box) builder.GetObject ("box_session_import_from_csv");
 		box_help = (Gtk.Box) builder.GetObject ("box_help");
-		vbox_news2 = (Gtk.VBox) builder.GetObject ("vbox_news2");
+		vbox_news2 = (Gtk.Box) builder.GetObject ("vbox_news2");
 		frame_news_downloading = (Gtk.Frame) builder.GetObject ("frame_news_downloading");
 
 		//	hbox_combo_pulses = (Gtk.Box) builder.GetObject ("hbox_combo_pulses");
-		vbox_jumps = (Gtk.VBox) builder.GetObject ("vbox_jumps");
+		vbox_jumps = (Gtk.Box) builder.GetObject ("vbox_jumps");
 		//hbox_jumps_test = (Gtk.Box) builder.GetObject ("hbox_jumps_test");
 		hbox_jumps_rj = (Gtk.Box) builder.GetObject ("hbox_jumps_rj");
-		vbox_runs = (Gtk.VBox) builder.GetObject ("vbox_runs");
-		hbox_runs_interval_all = (Gtk.HBox) builder.GetObject ("hbox_runs_interval_all"); //normal and compujump
-		vbox_runs_interval = (Gtk.VBox) builder.GetObject ("vbox_runs_interval");
-		vbox_runs_interval_compujump = (Gtk.VBox) builder.GetObject ("vbox_runs_interval_compujump");
+		vbox_runs = (Gtk.Box) builder.GetObject ("vbox_runs");
+		hbox_runs_interval_all = (Gtk.Box) builder.GetObject ("hbox_runs_interval_all"); //normal and compujump
+		vbox_runs_interval = (Gtk.Box) builder.GetObject ("vbox_runs_interval");
+		vbox_runs_interval_compujump = (Gtk.Box) builder.GetObject ("vbox_runs_interval_compujump");
 		hbox_other_mc = (Gtk.Box) builder.GetObject ("hbox_other_mc");
 		hbox_other_pulses = (Gtk.Box) builder.GetObject ("hbox_other_pulses");
 
 		//menu person
-		//vbox_persons = (Gtk.VBox) builder.GetObject ("vbox_persons");
+		vbox_persons = (Gtk.Box) builder.GetObject ("vbox_persons");
+		hbox_frame_persons_top = (Gtk.Box) builder.GetObject ("hbox_frame_persons_top");
 		//alignment44 = (Gtk.Alignment) builder.GetObject ("alignment44");
 		button_persons_up = (Gtk.Button) builder.GetObject ("button_persons_up");
 		button_persons_down = (Gtk.Button) builder.GetObject ("button_persons_down");
@@ -10119,12 +10379,12 @@ LogB.Debug("mc finished 5");
 		button_contacts_capture_session_overview = (Gtk.Button) builder.GetObject ("button_contacts_capture_session_overview");
 		button_contacts_capture_load = (Gtk.Button) builder.GetObject ("button_contacts_capture_load");
 		button_contacts_exercise_close_and_recalculate = (Gtk.Button) builder.GetObject ("button_contacts_exercise_close_and_recalculate");
-		vbox_contacts_signal_comment = (Gtk.VBox) builder.GetObject ("vbox_contacts_signal_comment");
+		vbox_contacts_signal_comment = (Gtk.Box) builder.GetObject ("vbox_contacts_signal_comment");
 		textview_contacts_signal_comment = (Gtk.TextView) builder.GetObject ("textview_contacts_signal_comment");
 		button_contacts_signal_save_comment = (Gtk.Button) builder.GetObject ("button_contacts_signal_save_comment");
 		frame_jumps_automatic = (Gtk.Frame) builder.GetObject ("frame_jumps_automatic");
 		notebook_jumps_automatic = (Gtk.Notebook) builder.GetObject ("notebook_jumps_automatic");
-		hbox_contacts_device_adjust_threshold = (Gtk.HBox) builder.GetObject ("hbox_contacts_device_adjust_threshold");
+		hbox_contacts_device_adjust_threshold = (Gtk.Box) builder.GetObject ("hbox_contacts_device_adjust_threshold");
 
 		button_contacts_edit_selected = (Gtk.Button) builder.GetObject ("button_contacts_edit_selected");
 		button_contacts_repair_selected = (Gtk.Button) builder.GetObject ("button_contacts_repair_selected");
@@ -10133,7 +10393,7 @@ LogB.Debug("mc finished 5");
 		//jumps
 		extra_windows_jumps_image_dj_fall_calculate = (Gtk.Image) builder.GetObject ("extra_windows_jumps_image_dj_fall_calculate");
 		extra_windows_jumps_image_dj_fall_predefined = (Gtk.Image) builder.GetObject ("extra_windows_jumps_image_dj_fall_predefined");
-		hbox_extra_window_jumps_fall_height = (Gtk.HBox) builder.GetObject ("hbox_extra_window_jumps_fall_height");
+		hbox_extra_window_jumps_fall_height = (Gtk.Box) builder.GetObject ("hbox_extra_window_jumps_fall_height");
 
 		//other
 		//reaction time
@@ -10155,15 +10415,15 @@ LogB.Debug("mc finished 5");
 		viewport_chronopic_encoder = (Gtk.Viewport) builder.GetObject ("viewport_chronopic_encoder");
 
 		//detect devices
-		vbox_micro_discover = (Gtk.VBox) builder.GetObject ("vbox_micro_discover");
+		vbox_micro_discover = (Gtk.Box) builder.GetObject ("vbox_micro_discover");
 		label_micro_discover_title = (Gtk.Label) builder.GetObject ("label_micro_discover_title");
 		label_micro_discover_not_found = (Gtk.Label) builder.GetObject ("label_micro_discover_not_found");
 		frame_micro_discover = (Gtk.Frame) builder.GetObject ("frame_micro_discover");
 		grid_micro_discover = (Gtk.Grid) builder.GetObject ("grid_micro_discover");
 		box_micro_discover_nc = (Gtk.Box) builder.GetObject ("box_micro_discover_nc");
 		label_micro_discover_nc_current_mode = (Gtk.Label) builder.GetObject ("label_micro_discover_nc_current_mode");
-		hbox_contacts_detect_and_execute = (Gtk.HBox) builder.GetObject ("hbox_contacts_detect_and_execute");
-		hbox_encoder_detect_and_execute = (Gtk.HBox) builder.GetObject ("hbox_encoder_detect_and_execute");
+		hbox_contacts_detect_and_execute = (Gtk.Box) builder.GetObject ("hbox_contacts_detect_and_execute");
+		hbox_encoder_detect_and_execute = (Gtk.Box) builder.GetObject ("hbox_encoder_detect_and_execute");
 		button_contacts_detect = (Gtk.Button) builder.GetObject ("button_contacts_detect");
 		button_encoder_detect = (Gtk.Button) builder.GetObject ("button_encoder_detect");
 		button_contacts_detect_small = (Gtk.Button) builder.GetObject ("button_contacts_detect_small");
@@ -10176,7 +10436,8 @@ LogB.Debug("mc finished 5");
 		label_threshold = (Gtk.Label) builder.GetObject ("label_threshold");
 
 		//force sensor
-		hbox_capture_phases_time = (Gtk.HBox) builder.GetObject ("hbox_capture_phases_time");
+		hbox_capture_phases = (Gtk.Box) builder.GetObject ("hbox_capture_phases");
+		hbox_capture_time = (Gtk.Box) builder.GetObject ("hbox_capture_time");
 		box_contacts_load_recalculate = (Gtk.Box) builder.GetObject ("box_contacts_load_recalculate");
 
 		//multiChronopic	
@@ -10191,9 +10452,8 @@ LogB.Debug("mc finished 5");
 		//widgets for enable or disable
 		frame_persons = (Gtk.Frame) builder.GetObject ("frame_persons");
 		frame_persons_top = (Gtk.Frame) builder.GetObject ("frame_persons_top");
-		vbox_persons_bottom = (Gtk.VBox) builder.GetObject ("vbox_persons_bottom");
-		hbox_persons_bottom_photo = (Gtk.HBox) builder.GetObject ("hbox_persons_bottom_photo");
-		vbox_persons_bottom_no_photo = (Gtk.VBox) builder.GetObject ("vbox_persons_bottom_no_photo");
+		vbox_persons_bottom = (Gtk.Box) builder.GetObject ("vbox_persons_bottom");
+		hbox_persons_bottom_photo = (Gtk.Box) builder.GetObject ("hbox_persons_bottom_photo");
 		button_recuperate_person = (Gtk.Button) builder.GetObject ("button_recuperate_person");
 		button_recuperate_persons_from_session = (Gtk.Button) builder.GetObject ("button_recuperate_persons_from_session");
 		button_person_add_single = (Gtk.Button) builder.GetObject ("button_person_add_single");
@@ -10214,7 +10474,7 @@ LogB.Debug("mc finished 5");
 		button_inspect_last_test_run_intervallic = (Gtk.Button) builder.GetObject ("button_inspect_last_test_run_intervallic");
 		//vbox_last_test_buttons = (Gtk.VBox) builder.GetObject ("vbox_last_test_buttons");
 
-		hbox_chronopics_and_more = (Gtk.HBox) builder.GetObject ("hbox_chronopics_and_more");
+		hbox_chronopics_and_more = (Gtk.Box) builder.GetObject ("hbox_chronopics_and_more");
 		button_contacts_devices_networks = (Gtk.Button) builder.GetObject ("button_contacts_devices_networks");
 		button_threshold = (Gtk.Button) builder.GetObject ("button_threshold");
 		button_force_sensor_adjust = (Gtk.Button) builder.GetObject ("button_force_sensor_adjust");
@@ -10253,7 +10513,7 @@ LogB.Debug("mc finished 5");
 		image_forcesensor_analyze_save_rfd_auto = (Gtk.Image) builder.GetObject ("image_forcesensor_analyze_save_rfd_auto");
 		image_forcesensor_analyze_save_rfd_manual = (Gtk.Image) builder.GetObject ("image_forcesensor_analyze_save_rfd_manual");
 
-		vbox_help = (Gtk.VBox) builder.GetObject ("vbox_help");
+		vbox_help = (Gtk.Box) builder.GetObject ("vbox_help");
 
 		radio_menu_2_2_2_jumps = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_jumps");
 		radio_menu_2_2_2_races = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_races");
@@ -10272,9 +10532,8 @@ LogB.Debug("mc finished 5");
 		label_selector_menu_2_2_2_desc = (Gtk.Label) builder.GetObject ("label_selector_menu_2_2_2_desc");
 		align_label_selector_menu_2_2_2_desc = (Gtk.Alignment) builder.GetObject ("align_label_selector_menu_2_2_2_desc");
 
-		//viewport29 = (Gtk.Viewport) builder.GetObject ("viewport29");
-		//vbox_manage_persons = (Gtk.VBox) builder.GetObject ("vbox_manage_persons");
-		hbox_frame_persons_top = (Gtk.HBox) builder.GetObject ("hbox_frame_persons_top");
+		label_exit_confirm = (Gtk.Label) builder.GetObject ("label_exit_confirm");
+		button_exit_cancel = (Gtk.Button) builder.GetObject ("button_exit_cancel");
 	}
 
 }

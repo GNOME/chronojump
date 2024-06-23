@@ -1,0 +1,70 @@
+1. Open terminal and execute the following commands (Only when the first time. Please replace "/***" with the real path of chronojump)
+
+sudo apt-get update
+cd "/***/chronojump"
+#sudo apt-get -y install dos2unix
+#cd build
+#dos2unix icon-theme-installer
+#dos2unix private-icon-theme-installer
+#cd ..
+sudo apt-get -y install autoconf
+sudo apt-get -y install git
+sudo apt-get -y install libtool
+sudo apt-get -y install intltool
+sudo apt-get -y install pkg-config
+sudo apt -y install build-essential
+sudo apt-get -y install python3
+sudo apt -y install libglib2.0-dev
+sudo apt -y install gtk-sharp3
+#sudo apt -y install checkinstall
+
+#To check how to install .NET 7 on Linux: https://learn.microsoft.com/en-us/dotnet/core/install/linux?WT.mc_id=dotnet-35129-website
+wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+rm packages-microsoft-prod.deb
+sudo apt-get update
+sudo apt-get install -y dotnet-sdk-7.0
+
+2. Execute the following commands (Only when the first time, when autotools files changed or when git tag created. Please replace "/***" with the real path of chronojump)
+
+cd "/***/chronojump"
+#dos2unix autogen.sh
+#dos2unix configure.ac
+
+sh autogen.sh --prefix /***/chronojump/package/linux/deps
+
+make
+make install
+
+3. When no git tags, please modify "src/AssemblyInfo.cs" to add version number like 1.0.0.0
+
+[assembly: AssemblyVersion("1.0.0.0")]
+
+#4. Make post-build-linux.sh executable (Every time when it's changed.  Please replace "/***" with the real path of chronojump)
+
+#cd "~/***/chronojump/src"
+#chmod +x post-build-linux.sh
+#./post-build-linux.sh
+
+5. Make a package (Only when a package required.  Please replace "/***" with the real path of chronojump)
+
+cd "~/***/chronojump/package/linux"
+#Make *.tar.gz
+make tar
+
+#Make *.deb
+make deb
+#When asking for the description, put the English lines on README.md (but without the blank lines).
+
+6. Software can be run without creating package with
+
+cd src
+dos2unix post-build-linux.sh
+dotnet run --project Chronojump-linux.csproj --property WarningLevel=0
+
+found that on capture on KDE Neon crashes with: System.PlatformNotSupportedException: 'System.IO.Ports is currently only supported on Windows
+dotnet --info
+RID:         ubuntu.22.04-x64
+
+fixed with:
+dotnet run -r linux-x64 --project Chronojump-linux.csproj --property WarningLevel=0 --no-self-contained

@@ -35,9 +35,10 @@ public partial class ChronoJumpWindow
 	string app1s_tmpCopy; //contains chronojump_datetime (full path at tmp without the .7z). copy here (tmp) and then compress on person selected folder.
 	string app1s_fullPathCopy; //contains chronojump_datetime (full path with the .7z)
 
-	Gtk.FileChooserDialog app1s_fc;
+	Gtk.FileChooserNative app1s_fc;
 	static UtilCopy app1s_uc;
 	private Thread app1s_threadBackup;
+	//private static bool threadBackupCancel;
 
 	private enum notebook_session_backup_pages { BACKUP_DO, SCHEDULED_QUESTIONS, SCHEDULED_FEEDBACK, DELETE_OLD }
 
@@ -75,12 +76,12 @@ public partial class ChronoJumpWindow
 		app1s_button_delete_old_incomplete.Visible = false;
 		app1s_button_backup_cancel_close.Sensitive = true;
 		image_app1s_button_backup_cancel_close.Pixbuf =
-				new Gdk.Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+				Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_cancel.png");
 		app1s_label_backup_cancel_close.Text = Catalog.GetString("Cancel");
 
 		app1s_notebook.CurrentPage = app1s_PAGE_BACKUP;
 
-		app1s_check_backup_include_config.Visible = File.Exists (Util.GetConfigFileName());
+		app1s_check_backup_include_config.Visible = File.Exists (Util.GetConfigFileName(false));
 
 		showBackupEstimatedSize ();
 	}
@@ -190,7 +191,7 @@ public partial class ChronoJumpWindow
 
 		backup_cancel_close_show_more_notebook = false; //clicking on close should not show session more
 		image_app1s_button_backup_cancel_close.Pixbuf =
-				new Gdk.Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+				Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_close.png");
 		app1s_label_backup_cancel_close.Text = Catalog.GetString("Close");
 		app1s_button_backup_cancel_close.Visible = true;
 	}
@@ -227,11 +228,11 @@ public partial class ChronoJumpWindow
 
 	private void on_app1s_button_backup_select_clicked (object o, EventArgs args)
 	{
-		app1s_fc = new Gtk.FileChooserDialog(Catalog.GetString("Copy database to:"),
+		app1s_fc = new Gtk.FileChooserNative (Catalog.GetString("Copy database to:"),
 				app1,
 				FileChooserAction.SelectFolder,
-				Catalog.GetString("Cancel"),ResponseType.Cancel,
-				Catalog.GetString("Select"),ResponseType.Accept
+				Catalog.GetString("Select"),
+				Catalog.GetString("Cancel")
 				);
 
 		app1s_fc.SetCurrentFolder(preferences.lastBackupDir);
@@ -250,7 +251,7 @@ public partial class ChronoJumpWindow
 
 		app1s_fc.Hide ();
 
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		app1s_fc.Destroy();
 	}
 
@@ -309,7 +310,7 @@ public partial class ChronoJumpWindow
 
 	private bool app1s_BackupPulseGTK ()
 	{
-		if ( ! app1s_threadBackup.IsAlive ) {
+		if ( ! app1s_threadBackup.IsAlive ) {//|| threadBackupCancel) {
 			LogB.ThreadEnding();
 			app1s_BackupPulseEnd();
 
@@ -410,11 +411,11 @@ public partial class ChronoJumpWindow
 		app1s_check_backup_include_config.Sensitive = ! start;
 
 		if(start) {
-			app1s_button_backup_cancel_close.Sensitive = false; //or make cancel sensitive while process?
+			app1s_button_backup_cancel_close.Sensitive = false; //or make cancel sensitive while process? at the moment can only cancel if program exists on_quit2_activate
 		} else {
 			app1s_button_backup_cancel_close.Sensitive = true;
 			image_app1s_button_backup_cancel_close.Pixbuf =
-				new Gdk.Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+				Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_close.png");
 			app1s_label_backup_cancel_close.Text = Catalog.GetString("Close");
 		}
 	}
@@ -455,7 +456,7 @@ public partial class ChronoJumpWindow
 	{
 		label_backup_why.Visible = false; //do not show again label_backup_why
 		image_app1s_button_backup_cancel_close.Pixbuf =
-				new Gdk.Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+				Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_cancel.png");
 		app1s_label_backup_cancel_close.Text = Catalog.GetString("Cancel");
 
 		notebook_session_backup.Page = Convert.ToInt32(notebook_session_backup_pages.DELETE_OLD);
@@ -467,7 +468,7 @@ public partial class ChronoJumpWindow
 		app1s_button_old_backups_delete_do.Sensitive = false;
 		app1s_label_old_backups_delete_done.Visible = true;
 		image_app1s_button_backup_cancel_close.Pixbuf =
-				new Gdk.Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+				Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_close.png");
 		app1s_label_backup_cancel_close.Text = Catalog.GetString("Close");
 	}
 
@@ -651,7 +652,6 @@ public partial class ChronoJumpWindow
 	 * Works like backup but overwriting and not compressing (and with fewer widgets)
 	 * -----------------------------------------------------------------------------
 	 */
-	private string copyToCloudButtonLabel = "";
 	private bool exitChronojumpAfterCopyToCloud;
 	private bool exitChronojumpAfterCopyToCloudStarted; //to avoid doing it again if person double click on delete event
 
@@ -673,15 +673,23 @@ public partial class ChronoJumpWindow
 	private void copyToCloud_start ()
 	{
 		LogB.Information ("Copy to Cloud, Going to copy to: " + configChronojump.CopyToCloudFullPath);
-		copyToCloudButtonLabel = app1s_button_copyToCloud.Label;
 
 		try {
 			app1s_uc = new UtilCopy (-1, false, false, false); //all sessions, no logs, no config, no other DBs
 
-			app1s_button_copyToCloud.Label = "Copying …";
-			app1s_button_copyToCloud.Sensitive = false;
-			app1s_progressbar_copyToCloud_dirs.Fraction = 0;
-			app1s_progressbar_copyToCloud_subDirs.Fraction = 0;
+			if (preferences.personWinHide)
+			{
+				image_cloud_copy1.Visible = false;
+				spinner_copyToCloud1.Visible = true;
+				spinner_copyToCloud1.Start ();
+				app1s_label_copyToCloud1.Text = "";
+			} else {
+				//image_cloud_copy.Visible = false;
+				label_cloud_copy.Text = "Copying …";
+				app1s_button_copyToCloud.Sensitive = false;
+				app1s_progressbar_copyToCloud_dirs.Fraction = 0;
+				app1s_progressbar_copyToCloud_subDirs.Fraction = 0;
+			}
 
 			app1s_threadBackup = new Thread (new ThreadStart (app1s_copyToCloudDo));
 			GLib.Idle.Add (new GLib.IdleHandler (app1s_CopyToCloudPulseGTK));
@@ -700,13 +708,9 @@ public partial class ChronoJumpWindow
 
 	private void app1s_copyToCloudDo ()
 	{
-		// 1 delete and create dir
-		if (Directory.Exists (configChronojump.CopyToCloudFullPath))
-			Directory.Delete (configChronojump.CopyToCloudFullPath, true);
+		if (! Directory.Exists (configChronojump.CopyToCloudFullPath))
+			Directory.CreateDirectory (configChronojump.CopyToCloudFullPath);
 
-		System.Threading.Thread.Sleep (100); //to ensure dir is deleted
-
-		Directory.CreateDirectory (configChronojump.CopyToCloudFullPath);
 		System.Threading.Thread.Sleep (1000); //to ensure dir is created
 
 		// 2 do the copy
@@ -731,15 +735,24 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 
-		if (exitChronojumpAfterCopyToCloud)
-			app1s_button_copyToCloud.Label = "Copying & exit …";
-		else
-			app1s_button_copyToCloud.Label = "Copying …";
+		if (preferences.personWinHide)
+		{
+			//divided by 7 for having roomt o the subdirs
+			double fraction = 100 * UtilAll.DivideSafeFraction (app1s_uc.BackupMainDirsCount, 7);
+			fraction += 100/7 * UtilAll.DivideSafeFraction(app1s_uc.BackupSecondDirsCount, app1s_uc.BackupSecondDirsLength);
+			app1s_label_copyToCloud1.Text = Math.Round (fraction,1) + "%";
+		} else
+		{
+			if (exitChronojumpAfterCopyToCloud)
+				label_cloud_copy.Text = "Copying & exit …";
+			else
+				label_cloud_copy.Text = "Copying …";
 
-		app1s_progressbar_copyToCloud_dirs.Fraction = UtilAll.DivideSafeFraction (app1s_uc.BackupMainDirsCount, 6);
-		app1s_progressbar_copyToCloud_subDirs.Fraction =
-			UtilAll.DivideSafeFraction(app1s_uc.BackupSecondDirsCount, app1s_uc.BackupSecondDirsLength);
-		//6 for: database, encoder, forceSensor, logs, multimedia, raceAnalyzer
+			app1s_progressbar_copyToCloud_dirs.Fraction = UtilAll.DivideSafeFraction (app1s_uc.BackupMainDirsCount, 6);
+			app1s_progressbar_copyToCloud_subDirs.Fraction =
+				UtilAll.DivideSafeFraction(app1s_uc.BackupSecondDirsCount, app1s_uc.BackupSecondDirsLength);
+			//6 for: database, encoder, forceSensor, logs, multimedia, raceAnalyzer
+		}
 
 		Thread.Sleep (30);
 		//LogB.Debug(app1s_threadBackup.ThreadState.ToString());
@@ -747,20 +760,33 @@ public partial class ChronoJumpWindow
 	}
 	private void app1s_CopyToCloudPulseEnd ()
 	{
-		app1s_button_copyToCloud.Label = "Done!";
-		app1s_progressbar_copyToCloud_dirs.Fraction = 1;
-		app1s_progressbar_copyToCloud_subDirs.Fraction = 1;
+		if (preferences.personWinHide) {
+			spinner_copyToCloud1.Stop ();
+			app1s_label_copyToCloud1.Text = "100%";
+		} else {
+			label_cloud_copy.Text = "Done!";
+			app1s_progressbar_copyToCloud_dirs.Fraction = 1;
+			app1s_progressbar_copyToCloud_subDirs.Fraction = 1;
+		}
 
 		GLib.Timeout.Add (2000, new GLib.TimeoutHandler (app1s_CopyToCloudPulseEnd2));
 	}
 	private bool app1s_CopyToCloudPulseEnd2 ()
 	{
-		//restore the "Copy to cloud", and make button sensitive
-		app1s_button_copyToCloud.Label = copyToCloudButtonLabel;
-		app1s_button_copyToCloud.Sensitive = true;
+		if (preferences.personWinHide)
+		{
+			image_cloud_copy1.Visible = true;
+			spinner_copyToCloud1.Visible = false;
+			app1s_label_copyToCloud1.Text = "";
+		} else {
+			//restore the "Copy to cloud", and make button sensitive
+			//image_cloud_copy.Visible = true;
+			label_cloud_copy.Text = "Copy to cloud";
+			app1s_button_copyToCloud.Sensitive = true;
 
-		app1s_progressbar_copyToCloud_dirs.Fraction = 0;
-		app1s_progressbar_copyToCloud_subDirs.Fraction = 0;
+			app1s_progressbar_copyToCloud_dirs.Fraction = 0;
+			app1s_progressbar_copyToCloud_subDirs.Fraction = 0;
+		}
 
 		return false;
 	}
@@ -775,11 +801,16 @@ public partial class ChronoJumpWindow
 	{
 		LogB.Information ("Copy from Cloud, Going to copy to: " + Util.GetCloudReadTempDir ());
 
+		menus_and_mode_sensitive (false);
 		try {
 			app1s_uc = new UtilCopy (-1, false, false, false); //all sessions, no logs, no config, no other DBs
 
 			app1s_progressbar_copyFromCloud_dirs.Fraction = 0;
 			app1s_progressbar_copyFromCloud_subDirs.Fraction = 0;
+			button_database_reload.Sensitive = false;
+			button_database_change_select.Sensitive = false;
+			button_database_change_apply.Sensitive = false;
+			button_database_close.Sensitive = false;
 
 			app1s_threadBackup = new Thread (new ThreadStart (app1s_copyFromCloudDo));
 			GLib.Idle.Add (new GLib.IdleHandler (app1s_CopyFromCloudPulseGTK));
@@ -790,6 +821,7 @@ public partial class ChronoJumpWindow
 			app1s_threadBackup.Start();
 		}
 		catch {
+			menus_and_mode_sensitive (true);
 			string myString = string.Format (Catalog.GetString("Cannot copy to {0} "),
 					Util.GetCloudReadTempDir ());
 			new DialogMessage(Constants.MessageTypes.WARNING, myString);
@@ -822,6 +854,10 @@ public partial class ChronoJumpWindow
 	{
 		if ( ! app1s_threadBackup.IsAlive )
 		{
+			button_database_reload.Sensitive = true;
+			button_database_change_select.Sensitive = true;
+			button_database_change_apply.Sensitive = true;
+
 			LogB.ThreadEnding();
 			app1s_CopyFromCloudPulseEnd();
 
@@ -833,6 +869,7 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 
+		app1s_label_copyFromCloud_maindir.Text = app1s_uc.LastMainDir;
 		app1s_progressbar_copyFromCloud_dirs.Fraction = UtilAll.DivideSafeFraction (app1s_uc.BackupMainDirsCount, 6);
 		app1s_progressbar_copyFromCloud_subDirs.Fraction =
 			UtilAll.DivideSafeFraction(app1s_uc.BackupSecondDirsCount, app1s_uc.BackupSecondDirsLength);
@@ -860,9 +897,11 @@ public partial class ChronoJumpWindow
 		}
 		else //... or at click on change database
 		{
+			button_database_close.Click ();
 			configChronojump.LastDBFullPath = Util.GetCloudReadTempDir ();
 			databaseChange ();
 		}
+		menus_and_mode_sensitive (true);
 	}
 	private bool app1s_CopyFromCloudPulseEnd2 ()
 	{

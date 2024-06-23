@@ -81,7 +81,7 @@ public abstract class CairoXY : CairoGeneric
 	protected double mouseY;
 
 	protected Cairo.Color black;
-	protected Cairo.Color brown;
+	//protected Cairo.Color brown;
 	protected Cairo.Color gray99;
 	protected Cairo.Color gray;
 	protected Cairo.Color grayClear;
@@ -186,7 +186,7 @@ public abstract class CairoXY : CairoGeneric
 		g.SetFontSize(textHeight);
 
 		black = colorFromRGB(0,0,0);
-		brown = new Cairo.Color (0.588,0.294,0);
+		//brown = new Cairo.Color (0.588,0.294,0);
 		gray99 = colorFromRGB(99,99,99);
 		gray = new Cairo.Color (.5, .5, .5, 1);
 		grayClear = new Cairo.Color (.66, .66, .66, 1);
@@ -213,14 +213,20 @@ public abstract class CairoXY : CairoGeneric
 	//used by default on jumpsWeightFVProfile
 	//called from almost all methods
 	//true if changed
-	protected bool findPointMaximums(bool showFullGraph)
+	protected bool findPointMaximums (bool showFullGraph)
 	{
 		return findPointMaximums(showFullGraph, point_l);
 	}
 
 	//called from raceAnalyzer (sending it own list of points)
+	protected bool findPointMaximums (bool showFullGraph, List<PointF> points_list)
+	{
+		return findPointMaximums (showFullGraph, points_list, true);
+	}
+
 	//true if changed
-	protected bool findPointMaximums(bool showFullGraph, List<PointF> points_list)
+	//called from fourPlatforms (sending it own list of points)
+	protected bool findPointMaximums (bool showFullGraph, List<PointF> points_list, bool separateMinMaxIfNeeded)
 	{
 		minX = 0;
 		minY = 0;
@@ -272,9 +278,12 @@ public abstract class CairoXY : CairoGeneric
 			maxY += .025 * maxY;
 		}
 
-		//if there is only one point, or by any reason mins == maxs, have mins and maxs separated
-		separateMinXMaxXIfNeeded();
-		separateMinYMaxYIfNeeded();
+		if (separateMinMaxIfNeeded)
+		{
+			//if there is only one point, or by any reason mins == maxs, have mins and maxs separated
+			separateMinXMaxXIfNeeded();
+			separateMinYMaxYIfNeeded();
+		}
 
 		bool changed = false;
 		if(maxX != absoluteMaxX)
@@ -523,7 +532,7 @@ public abstract class CairoXY : CairoGeneric
 	}
 
 
-	public enum PlotTypes { POINTS, LINES, POINTSLINES }
+	public enum PlotTypes { POINTSFILL, POINTSEMPTY, LINES, POINTSLINES }
 
 	//called from almost all methods
 	protected void plotRealPoints (PlotTypes plotType)
@@ -573,18 +582,6 @@ public abstract class CairoXY : CairoGeneric
 			g.Stroke ();
 		}
 
-//		lock (point_l) {
-//		List<PointF> point_l_copy = point_l>;
-//		foreach(PointF p in point_l_copy)
-		//foreach(PointF p in points_list)
-		/*
-		int start = lastPointPainted;
-		if(lastPointPainted < 0)
-			start = 0;
-
-		//for(int i = start; i < points_list.Count; i ++)
-		*/
-
 		if(plotType == PlotTypes.LINES)
 			return;
 
@@ -597,7 +594,10 @@ public abstract class CairoXY : CairoGeneric
 			double ygraph = calculatePaintY(p.Y);
 			g.Arc(xgraph, ygraph, pointsRadius, 0.0, 2.0 * Math.PI); //full circle
 			g.SetSourceColor(colorBackground);
-			g.FillPreserve();
+
+			if(plotType == PlotTypes.POINTSFILL)
+				g.FillPreserve();
+
 			g.SetSourceRGB(0, 0, 0);
 			g.Stroke (); 	//can this be done at the end?
 
@@ -901,6 +901,7 @@ public abstract class CairoXY : CairoGeneric
 	}
 	*/
 
+	//circle has same color for border and fill (if filled)
 	protected void drawCircle (double x, double y, double radio, Cairo.Color color, bool filled)
 	{
 		g.MoveTo(x +radio, y);
@@ -912,6 +913,17 @@ public abstract class CairoXY : CairoGeneric
 
 		g.Stroke();
 	}
+	//circle is filled and has different color for border than fill
+	protected void drawCircle (double x, double y, double radio, Cairo.Color colorBorder, Cairo.Color colorInside)
+	{
+		g.SetSourceColor (colorInside);
+		g.MoveTo(x +radio, y);
+		g.Arc(x, y, radio, 0.0, 2.0 * Math.PI); //full circle
+		g.FillPreserve();
+		g.SetSourceColor (colorBorder);
+		g.Stroke();
+	}
+
 
 	// Thought for signals like forceSensor where points_l.X is time in microseconds and there is not a sample for each second
 	// but it is also used on encoder
@@ -969,9 +981,38 @@ public abstract class CairoXY : CairoGeneric
 		if (! horizontal)
 			lastPointDate = lastPoint.Y;
 
+		// paint stars
+		double stX, stY;
+		List<Star> stPaintable_l = asteroids.GetAllStarsPaintable (lastPointDate, marginAfterInSeconds);
+		foreach (Star st in stPaintable_l)
+		{
+			if (horizontal)
+			{
+				stX = graphWidth - (st.GetTimeNowProportion (lastPointDate, marginAfterInSeconds) *
+						(graphWidth -getMargins (Directions.LR)) + getMargins (Directions.L));
+				stY = calculatePaintY (st.GetYNow (lastPointDate, marginAfterInSeconds));
+			} else {
+				stX = calculatePaintX (st.GetYNow (lastPointDate, marginAfterInSeconds));
+				stY = st.GetTimeNowProportion (lastPointDate, marginAfterInSeconds) *
+						(graphHeight -getMargins (Directions.BT)) + getMargins (Directions.T);
+			}
+
+			//drawCircle (stX, stY, st.Size, st.Color, true);
+
+			if (asteroids.Dark)
+				g.SetSourceColor (white);
+			else
+				g.SetSourceColor (black);
+
+			g.MoveTo (stX, stY -3);
+			g.LineTo (stX, stY +3);
+			g.MoveTo (stX -3, stY);
+			g.LineTo (stX +3, stY);
+			g.Stroke ();
+		}
+
 		// paint asteroids and manage crashes
 		List<Asteroid> aPaintable_l = asteroids.GetAllAsteroidsPaintable (lastPointDate, marginAfterInSeconds);
-
 		List<Point3F> aPainted_l = new List <Point3F> ();
 		double ax, ay;
 		Cairo.Color colorShield = black;
@@ -1002,8 +1043,9 @@ public abstract class CairoXY : CairoGeneric
 				}
 			}
 
-			if (asteroids.DoesAsteroidCrashedWithPlayer (ax, ay, a.Size,
-					calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y)))
+			if (a.HasCrashedWithPlayer (ax, ay,
+						calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y),
+						Asteroids.PlayerRadius))
 			{
 				asteroids.AsteroidCrashedWithPlayerSetTime (lastPointDate);
 				a.Destroy ();
@@ -1013,35 +1055,99 @@ public abstract class CairoXY : CairoGeneric
 			aPainted_l.Add (new Point3F (ax, ay, a.Size));
 		}
 
-		double sx, sy;
-		//manage shots
-		foreach (Shot s in asteroids.GetAllShotsPaintable (lastPointDate))
+		//manage powers
+		List<Power> pPaintable_l = asteroids.GetAllPowersPaintable (lastPointDate, marginAfterInSeconds);
+		double px, py;
+		foreach (Power p in pPaintable_l)
 		{
 			if (horizontal)
 			{
-				sx = calculatePaintX (s.GetXNow (lastPointDate));
-				sy = calculatePaintY (s.Ystart);
+				px = graphWidth - (p.GetTimeNowProportion (lastPointDate, marginAfterInSeconds) *
+						(graphWidth -getMargins (Directions.LR)) + getMargins (Directions.L));
+				py = calculatePaintY (p.GetYNow (lastPointDate, marginAfterInSeconds));
 			} else {
-				sx = calculatePaintX (s.Ystart);
-				sy = calculatePaintY (s.GetXNow (lastPointDate));
+				px = calculatePaintX (p.GetYNow (lastPointDate, marginAfterInSeconds));
+				py = p.GetTimeNowProportion (lastPointDate, marginAfterInSeconds) *
+						(graphHeight -getMargins (Directions.BT)) + getMargins (Directions.T);
+			}
+
+			g.SetSourceColor (bluePlots);
+			g.Rectangle (px -p.Size/2, py -p.Size/2, p.Size, p.Size);
+			g.FillPreserve();
+			g.SetSourceColor (white);
+			g.LineWidth = 2;
+			g.Stroke();
+			g.LineWidth = 1;
+
+			if (p.ShowText)
+			{
+				if (p.PowerType == Power.TypeEnum.POINTS100)
+					printText (px, py-2, 0, textHeight+2, "+100", g, alignTypes.CENTER);
+				else if (p.PowerType == Power.TypeEnum.DOUBLESHOT)
+				{
+					//printText (px, py-2, 0, textHeight+2, "II", g, alignTypes.CENTER);
+					g.SetSourceColor (white);
+					g.Rectangle (px -p.Size/4, py -5, p.Size/2, 3);
+					g.Rectangle (px -p.Size/4, py +3, p.Size/2, 3);
+					g.Fill();
+				} /*else if (p.PowerType == Power.TypeEnum.TRIPLESHOT)
+				{
+					printText (px, py-2, 0, textHeight+2, "III", g, alignTypes.CENTER);
+				}
+				*/
+				else if (p.PowerType == Power.TypeEnum.UNSTOPPABLESHOT)
+				{
+					g.SetSourceColor (red);
+					g.Rectangle (px -p.Size/4, py -1.5, p.Size/2, 3);
+					g.Fill();
+					g.SetSourceColor (white);
+				}
+			}
+
+			if (p.HasCrashedWithPlayer (px, py,
+						calculatePaintX (lastPoint.X), calculatePaintY (lastPoint.Y),
+						Asteroids.PlayerRadius))
+			{
+				asteroids.PowerEffectManage.NewEffect (new AsteroidsPowerEffect (p.PowerType));
+				p.Destroy ();
+
+				if (p.PowerType == Power.TypeEnum.POINTS100)
+				{
+					asteroids.Points += 100;
+					asteroids.AddAsteroidFloatingPoints (new AsteroidFloatingPoints (
+								DateTime.Now, px, py, 100)); //for 100 points Power
+				}
+			}
+		}
+
+		//manage shots
+		double shX, shY;
+		foreach (Shot sh in asteroids.GetAllShotsPaintable (lastPointDate))
+		{
+			if (horizontal)
+			{
+				shX = calculatePaintX (sh.GetXNow (lastPointDate));
+				shY = calculatePaintY (sh.Ystart);
+			} else {
+				shX = calculatePaintX (sh.Ystart);
+				shY = calculatePaintY (sh.GetXNow (lastPointDate));
 			}
 			//LogB.Information (string.Format ("shot: {0}, {1}", sx, sy));
 
 			int i = 0;
 			Asteroid asteroid;
 			Asteroids.ShotCrashedEnum sce = asteroids.ShotCrashedWithAsteroid (
-					sx, sy, s.Size, aPaintable_l, aPainted_l, out i, out asteroid);
+					shX, shY, sh.Size, aPaintable_l, aPainted_l, out i, out asteroid);
 			if (sce == Asteroids.ShotCrashedEnum.CRASHEDANDDESTROY)
 			{
 				asteroids.Points += asteroid.PointsOnDestroy;
-				asteroids.AddAsteroidPoint (new AsteroidPoint (
+				asteroids.AddAsteroidFloatingPoints (new AsteroidFloatingPoints (
 							DateTime.Now, aPainted_l[i].X, aPainted_l[i].Y, asteroid.PointsOnDestroy));
-				s.Alive = false;
+				sh.Alive = sh.Unstoppable; //kill the shot except if it is unstoppable
 			} else if (sce == Asteroids.ShotCrashedEnum.CRASHEDNODESTROY)
-			{
-				s.Alive = false;
-			} else
-				asteroids.PaintShot (s, sx, sy, lastPoint.X, horizontal, g);
+				sh.Alive = sh.Unstoppable; //kill the shot except if it is unstoppable
+			else
+				asteroids.PaintShot (sh, shX, shY, lastPoint.X, horizontal, g);
 		}
 
 		if (asteroids.Dark)
@@ -1049,12 +1155,12 @@ public abstract class CairoXY : CairoGeneric
 		else
 			g.SetSourceColor (black);
 
-		foreach (AsteroidPoint ap in asteroids.GetAllAsteroidPointsPaintable ())
+		foreach (AsteroidFloatingPoints ap in asteroids.GetAllAsteroidFloatingPointssPaintable ())
 			printText (ap.XGraph, ap.YGraph, 0, textHeight+2,
 					string.Format ("+{0}", ap.Points), g, alignTypes.CENTER);
 
 		//add 1 point each s
-		if (lastPointDate >= lastPointUp + multiplier)
+		if (! asteroids.Finished () && lastPointDate >= lastPointUp + multiplier)
 		{
 			asteroids.Points ++;
 			lastPointUp = lastPointDate;
@@ -1063,18 +1169,36 @@ public abstract class CairoXY : CairoGeneric
 		// print points
 		g.SetFontSize (textHeight +8);
 
-		printText (graphWidth -rightMargin -innerMargin, .66*topMargin, 0, textHeight +4,
-				"Points: " + asteroids.Points.ToString (), g, alignTypes.RIGHT);
+		if (asteroids.Finished ())
+			printText ((graphWidth -getMargins (Directions.LR))/2 +getMargins (Directions.L),
+					.33 * graphHeight, 0, textHeight +4,
+					string.Format ("Finished! {0} points", asteroids.Points), g, alignTypes.CENTER);
+		else
+			printText (graphWidth -rightMargin -innerMargin, .66*topMargin, 0, textHeight +4,
+					"Points: " + asteroids.Points.ToString (), g, alignTypes.RIGHT);
+
 
 		g.SetFontSize (textHeight);
 
+		asteroids.PowerEffectManage.ShouldEndEffect ();
 		if (points_l.Count > 3 && lastPointDate >= lastShot + UtilAll.DivideSafe (multiplier, asteroids.ShotsFrequency))
 		{
 			//create new shot
-			if (horizontal)
-				asteroids.Shot (lastPoint);
-			else
-				asteroids.Shot (new PointF (lastPoint.Y, lastPoint.X));
+			if (asteroids.PowerEffectManage.ShowDoubleShot ())
+			{
+				if (horizontal) {
+					asteroids.Shot (new PointF (lastPoint.X, lastPoint.Y -2), false);
+					asteroids.Shot (new PointF (lastPoint.X, lastPoint.Y +2), false);
+				} else {
+					asteroids.Shot (new PointF (lastPoint.Y, lastPoint.X -2), false);
+					asteroids.Shot (new PointF (lastPoint.Y, lastPoint.X +2), false);
+				}
+			} else {
+				if (horizontal)
+					asteroids.Shot (lastPoint, asteroids.PowerEffectManage.ShowUnstoppable ());
+				else
+					asteroids.Shot (new PointF (lastPoint.Y, lastPoint.X), asteroids.PowerEffectManage.ShowUnstoppable ());
+			}
 
 			lastShot = lastPointDate;
 		}

@@ -45,6 +45,7 @@ public class RunEncoder
 	private string comments;
 	private string videoURL;
 	private int angle;
+	private int totalTime; //needed to sync with video. If we press finish when there are no pulsees we cannot sync. If we use totalTime we can sync.
 
 	private string exerciseName;
 
@@ -59,7 +60,8 @@ public class RunEncoder
 	//constructor
 	public RunEncoder(int uniqueID, int personID, int sessionID, int exerciseID, Devices device,
 			int distance, int temperature, string filename, string url,
-			string dateTime, string comments, string videoURL, int angle, string exerciseName)
+			string dateTime, string comments, string videoURL, int angle, int totalTime,
+			string exerciseName)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -74,6 +76,7 @@ public class RunEncoder
 		this.comments = comments;
 		this.videoURL = videoURL;
 		this.angle = angle;
+		this.totalTime = totalTime;
 
 		this.exerciseName = exerciseName;
 	}
@@ -93,7 +96,7 @@ public class RunEncoder
 		return
 			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID + ", \"" + device.ToString() + "\", " +
 			distance + ", " + temperature + ", \"" + filename + "\", \"" + url + "\", \"" + dateTime + "\", \"" +
-			comments + "\", \"" + videoURL + "\", " + angle + ")";
+			comments + "\", \"" + videoURL + "\", " + angle + ", " + totalTime + ")";
 	}
 
 	public void UpdateSQL(bool dbconOpened)
@@ -116,6 +119,7 @@ public class RunEncoder
 			"\", comments = \"" + comments +
 			"\", videoURL = \"" + Util.MakeURLrelative(videoURL) +
 			"\", angle = " + angle +
+			", totalTime = " + totalTime +
 			" WHERE uniqueID = " + uniqueID;
 	}
 
@@ -270,6 +274,11 @@ public class RunEncoder
 	{
 		get { return angle; }
 		set { angle = value; }
+	}
+	public int TotalTime
+	{
+		get { return totalTime; }
+		set { totalTime = value; }
 	}
 	public string ExerciseName
 	{

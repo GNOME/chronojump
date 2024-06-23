@@ -1,0 +1,67 @@
+#!/bin/bash
+#this script is done to avid searching on bin and obj dirs
+#eg:
+#./grep GetBestRFDInWindow
+#./grep -ri GetBestRFDInWindow
+#./grep -r Needed = new Gtk.Button
+
+#Robert Siemer https://stackoverflow.com/a/29754866
+LONGOPTS=debug,force,output:,verbose
+OPTIONS=ri
+
+PARSED=$(getopt --options=$OPTIONS --longoptions=$LONGOPTS --name "$0" -- "$@") || exit 2
+eval set -- "$PARSED"
+
+r=n i=n
+# now enjoy the options in order and nicely split until we see --
+while true; do
+	case "$1" in
+		-r)
+			r=y
+			shift
+			;;
+		-i)
+			i=y
+			shift
+			;;
+		--)
+			shift
+			break
+			;;
+		*)
+			echo "Programming error"
+			exit 3
+			;;
+	esac
+done
+
+str="$*"
+
+DarkGray='\033[1;30m'
+Green='\033[0;32m'
+NC='\033[0m' # No Color
+
+excludingDirs=""
+recursive="${DarkGray}Non Recursive${NC}"
+if [ "$r" == "y" ]; then
+	recursive="${Green}Recursive${NC}"
+	excludingDirs="(excluding dirs: bin, obj)"
+fi
+
+caseInsensitive="${DarkGray}Case Sensitive${NC}"
+if [ "$i" == "y" ]; then
+	caseInsensitive="${Green}Case Insensitive${NC}"
+fi
+
+printf "Searching ($recursive, $caseInsensitive) '$str' $excludingDirs\n\n"
+#echo $OPTIONS
+if [ "$r" == "y" ] && [ "$i" == "y" ]; then
+	grep -ri "$str" --exclude-dir bin --exclude-dir obj
+elif [ "$r" == "y" ]; then
+	grep -r "$str" --exclude-dir bin --exclude-dir obj
+elif [ "$i" == "y" ]; then
+	grep -si "$str" * .*
+else
+	grep -s "$str" * .*
+fi
+

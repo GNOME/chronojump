@@ -106,7 +106,7 @@ public class PersonAddMultipleWindow
 	Gtk.CheckButton check_legsLength;
 	Gtk.CheckButton check_hipsHeight;
 
-	Gtk.HBox hbox_h1_h2_help;
+	Gtk.Box hbox_h1_h2_help;
 	Gtk.Label label_h1_legsLength;
 	Gtk.Label label_h2_hipsHeight;
 
@@ -243,17 +243,17 @@ public class PersonAddMultipleWindow
 	{
 		Pixbuf pixbuf;
 		
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVHeadersIcon);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameCSVHeadersIcon);
 		image_csv_headers.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVNoHeadersIcon);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameCSVNoHeadersIcon);
 		image_csv_noheaders.Pixbuf = pixbuf;
 		
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVName1Icon);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameCSVName1Icon);
 		image_name1.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVName2Icon);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameCSVName2Icon);
 		image_name2.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "folder_open.png");
 		image_load.Pixbuf = pixbuf;
 
 		label_csv.Text = Catalog.GetString("CSV file has headers");
@@ -396,12 +396,11 @@ public class PersonAddMultipleWindow
 		
 	void on_button_csv_load_clicked (object obj, EventArgs args) 
 	{
-		Gtk.FileChooserDialog fc=
-			new Gtk.FileChooserDialog(Catalog.GetString("Select CSV file"),
+		Gtk.FileChooserNative fc=
+			new Gtk.FileChooserNative(Catalog.GetString("Select CSV file"),
 					null,
 					FileChooserAction.Open,
-					Catalog.GetString("Cancel"),ResponseType.Cancel,
-					Catalog.GetString("Load"),ResponseType.Accept
+					Catalog.GetString("Load"), Catalog.GetString("Cancel")
 					);
 
 		fc.Filter = new FileFilter();
@@ -538,7 +537,7 @@ public class PersonAddMultipleWindow
 							new DialogMessage(Constants.MessageTypes.WARNING, message);
 
 							file.Close();
-							//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+							//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 							fc.Destroy();
 
 							return;
@@ -570,7 +569,7 @@ public class PersonAddMultipleWindow
 				UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundShiftedIsDark, grid_main);
 		} 
 
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		fc.Destroy();
 	}
 
@@ -701,7 +700,7 @@ public class PersonAddMultipleWindow
 			error_label_repeated_name.Visible = false;
 			error_label_no_weight.Visible = false;
 
-			Gtk.HBox idError = new HBox();
+			Gtk.Box idError = new Box(Gtk.Orientation.Horizontal, 0);
 			/* structure of HBox idError:
 
 			            |  in_session  | in_db   |
@@ -714,11 +713,11 @@ public class PersonAddMultipleWindow
 
 			idError.PackStart (error_label_repeated_name, false, false, 0);
 
-			Gtk.HBox idErrorExistsH = new HBox();
+			Gtk.Box idErrorExistsH = new Box(Gtk.Orientation.Horizontal, 0);
 			idErrorExistsH.PackStart (error_label_in_session, true, true, 0);
 			idErrorExistsH.PackStart (error_label_in_db, true, true, 0);
 			idErrorExistsH.Show();
-			Gtk.VBox idErrorExistsV = new VBox();
+			Gtk.Box idErrorExistsV = new Box(Gtk.Orientation.Vertical, 0);
 			idErrorExistsV.PackStart (idErrorExistsH, true, true, 0);
 			idErrorExistsV.PackStart (error_check_use_stored, false, false, 0);
 			idErrorExistsV.Show();
@@ -747,7 +746,7 @@ public class PersonAddMultipleWindow
 			myRadioF.Show ();
 			radiosF.Add (myRadioF);
 			
-			Gtk.HBox sexBox = new HBox();
+			Gtk.Box sexBox = new Box(Gtk.Orientation.Horizontal, 0);
 			sexBox.PackStart(myRadioU, false, false, 2);
 			sexBox.PackStart(myRadioM, false, false, 2);
 			sexBox.PackStart(myRadioF, false, false, 2);
@@ -1190,7 +1189,7 @@ public class PersonAddMultipleWindow
 		check_legsLength = (Gtk.CheckButton) builder.GetObject ("check_legsLength");
 		check_hipsHeight = (Gtk.CheckButton) builder.GetObject ("check_hipsHeight");
 
-		hbox_h1_h2_help = (Gtk.HBox) builder.GetObject ("hbox_h1_h2_help");
+		hbox_h1_h2_help = (Gtk.Box) builder.GetObject ("hbox_h1_h2_help");
 		label_h1_legsLength = (Gtk.Label) builder.GetObject ("label_h1_legsLength");
 		label_h2_hipsHeight = (Gtk.Label) builder.GetObject ("label_h2_hipsHeight");
 

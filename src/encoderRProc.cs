@@ -155,7 +155,7 @@ public class EncoderRProcCapture : EncoderRProc
 		//If output file is not given, R will try to write in the running folder
 		//in which we may haven't got permissions
 
-		string pBin = UtilEncoder.RProcessBinURL();
+		string pBin = Util.GetRscriptBin();
 
 		pinfo = new ProcessStartInfo();
 
@@ -206,6 +206,7 @@ public class EncoderRProcCapture : EncoderRProc
 	//here curve is sent compressed (string. eg: "0*5 1 0 -1*3 2")
 	public bool SendCurve(int startFrame, string curveCompressed)
 	{
+		//LogB.Debug (string.Format ("curveSend startFrame: {0}, curveCompressed: {1}", startFrame, curveCompressed));
 		/*
 		 * curveCompressed print has made crash Chronojump once.
 		 * Seems to be a problem with multithreading and Console.SetOut, see logB Commit (added a try/catch there)
@@ -242,6 +243,7 @@ public class EncoderRProcCapture : EncoderRProc
 			p.StandardInput.WriteLine(curveCompressed); 	//this will send some lines because compressed data comes with '\n's
 			p.StandardInput.WriteLine("E");		//this will mean the 'E'nd of the curve. Then data can be uncompressed on R
 		} catch {
+			LogB.Information ("catched at SendCurve");
 			return false;
 		}
 
@@ -330,7 +332,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 	
 		pinfo = new ProcessStartInfo();
 
-		string pBin = UtilEncoder.RProcessBinURL();
+		string pBin = Util.GetRscriptBin();
 		
 		if (UtilAll.IsWindows()) {
 			//On win32 R understands backlash as an escape character and 

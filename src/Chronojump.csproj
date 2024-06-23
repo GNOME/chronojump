@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<StartupObject>ChronoJump</StartupObject>
+		<ApplicationIcon>chronojump_icon.ico</ApplicationIcon>
+		<RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <DefineConstants>$(DefineConstants);OSTYPE_WINDOWS</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <DefineConstants>$(DefineConstants);OSTYPE_WINDOWS</DefineConstants>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="GtkSharp" Version="3.24.24.95" />
+		<PackageReference Include="System.Data.SQLite" Version="1.0.117" />
+		<PackageReference Include="System.IO.Ports" Version="7.0.0" />
+		<PackageReference Include="System.Json" Version="4.7.1" />
+		<PackageReference Include="System.Management" Version="5.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Remove="gui\old\chronojumpServerOld.cs" />
+		<Compile Remove="gui\old\presentationWebkit.cs" />
+		<Compile Remove="gui\old\dialogServerStats.cs" />
+		<Compile Remove="gui\old\eventGraphConfigure.cs" />
+		<Compile Remove="gui\old\queryServer.cs" />
+		<Compile Remove="gui\old\helpPorts.cs" />
+		<Compile Remove="gui\old\chronopicWizard.cs" />
+		<Compile Remove="old\server.cs" />
+		<Compile Remove="platform.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Include="../butterworth/Kinovea.Filtering/Butterworth.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/Extensions.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/FilteredTrajectory.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/FilteringResult.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/Kinematics.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/LinearKinematics.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/MathHelper.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/MovingAverage.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/StatsHelper.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/TimedPoint.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/TimeSeriesCollection.cs" />
+		<Compile Include="../butterworth/Kinovea.Filtering/TimeSeriesPadder.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="..\glade\*.glade">
+			<Link>glade\%(Filename)%(Extension)</Link>
+			<LogicalName>%(Filename)%(Extension)</LogicalName>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="..\images\*.png">
+			<Link>images\%(Filename)%(Extension)</Link>
+			<LogicalName>%(Filename)%(Extension)</LogicalName>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="..\images\*.jpg">
+			<Link>images\%(Filename)%(Extension)</Link>
+			<LogicalName>%(Filename)%(Extension)</LogicalName>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="..\images\md\*.png">
+			<Link>images\md\%(Filename)%(Extension)</Link>
+			<LogicalName>%(Filename)%(Extension)</LogicalName>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="..\images\md\*.jpg">
+			<Link>images\md\%(Filename)%(Extension)</Link>
+			<LogicalName>%(Filename)%(Extension)</LogicalName>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="..\images\mini\*.png">
+			<Link>images\mini\%(Filename)%(Extension)</Link>
+			<LogicalName>mini/%(Filename)%(Extension)</LogicalName>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="..\images\mini\*.jpg">
+			<Link>images\mini\%(Filename)%(Extension)</Link>
+			<LogicalName>mini/%(Filename)%(Extension)</LogicalName>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="angle\changelog" />
+	  <None Remove="angle\kneeAngle.cpp" />
+	  <None Remove="angle\kneeAngleFunctions.cpp" />
+	  <None Remove="angle\kneeAngleGlobal.cpp" />
+	  <None Remove="angle\kneeAngleOptions.txt" />
+	  <None Remove="angle\kneeAngleRInside.cpp" />
+	  <None Remove="angle\kneeAngleUtil.cpp" />
+	  <None Remove="angle\kneeAngle_black.png" />
+	  <None Remove="angle\kneeAngle_black.svg" />
+	  <None Remove="angle\kneeAngle_black_contour.png" />
+	  <None Remove="angle\kneeAngle_black_contour.svg" />
+	  <None Remove="angle\kneeAngle_black_without.png" />
+	  <None Remove="angle\kneeAngle_intro.png" />
+	  <None Remove="angle\kneeAngle_intro.svg" />
+	  <None Remove="angle\kneeAngle_skin.png" />
+	  <None Remove="angle\kneeAngle_skin.svg" />
+	  <None Remove="angle\model.RDat" />
+	  <None Remove="angle\old\kneeAngle_with_kalman_and_3d_and_geometric_points.cpp" />
+	  <None Remove="chronojump-importer\chronojump_importer.py" />
+	  <None Remove="chronojump-importer\chronojump_importer_test.py" />
+	  <None Remove="chronojump-importer\easily-debug\ChronojumpImportDebug\database\chronojump.db" />
+	  <None Remove="chronojump-importer\easily-debug\ChronojumpImportDebug\encoder\2\data\curve\1-subj1-2-2019-07-08_12-36-35.txt" />
+	  <None Remove="chronojump-importer\easily-debug\ChronojumpImportDebug\encoder\2\data\signal\1-subj1-2019-07-08_12-36-35.txt" />
+	  <None Remove="chronojump-importer\easily-debug\importDB.tmp" />
+	  <None Remove="chronojump-importer\howto_easily_debug.txt" />
+	  <None Remove="chronojump-importer\Makefile" />
+	  <None Remove="chronojump-importer\Makefile.am" />
+	  <None Remove="chronojump-importer\Makefile.in" />
+	  <None Remove="chronojump-importer\py2exec_chronojump_importer.py" />
+	  <None Remove="chronojump-importer\README.txt" />
+	  <None Remove="chronojump-importer\requirements.txt" />
+	  <None Remove="chronojump-importer\test-delete.py" />
+	  <None Remove="chronojump-importer\tests\edit_dump_sqlite.sh" />
+	  <None Remove="chronojump-importer\tests\generic-destination-a.sqlite" />
+	  <None Remove="chronojump-importer\tests\generic-destination-b.sqlite" />
+	  <None Remove="chronojump-importer\tests\generic-destination-c.sqlite" />
+	  <None Remove="chronojump-importer\tests\generic-expected-a.sqlite" />
+	  <None Remove="chronojump-importer\tests\generic-expected-b.sqlite" />
+	  <None Remove="chronojump-importer\tests\generic-expected-c.sqlite" />
+	  <None Remove="chronojump-importer\tests\generic-source-a.sqlite" />
+	  <None Remove="chronojump-importer\tests\generic-source-b.sqlite" />
+	  <None Remove="chronojump-importer\tests\generic-source-c.sqlite" />
+	  <None Remove="chronojump-importer\tests\padu-destination.sqlite" />
+	  <None Remove="chronojump-importer\tests\padu-expected.sqlite" />
+	  <None Remove="chronojump-importer\tests\padu-source.sqlite" />
+	  <None Remove="chronojump-importer\tests\user-jump-destination.sqlite" />
+	  <None Remove="chronojump-importer\tests\user-jump-expected.sqlite" />
+	  <None Remove="chronojump-importer\tests\user-jump-source.sqlite" />
+	  <None Remove="chronojump-importer\tests\yoyo-destination.sqlite" />
+	  <None Remove="chronojump-importer\tests\yoyo-expected-session-4-to-5.sqlite" />
+	  <None Remove="chronojump-importer\tests\yoyo-expected.sqlite" />
+	  <None Remove="chronojump-importer\tests\yoyo-source.sqlite" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Include="angle\changelog">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="angle\kneeAngle.cpp">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="angle\kneeAngleFunctions.cpp">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="angle\kneeAngleGlobal.cpp">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="angle\kneeAngleOptions.txt">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="angle\kneeAngleRInside.cpp">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="angle\kneeAngleUtil.cpp">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="angle\kneeAngle_black.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="angle\kneeAngle_black.svg">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="angle\kneeAngle_black_contour.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="angle\kneeAngle_black_contour.svg">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="angle\kneeAngle_black_without.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="angle\kneeAngle_intro.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="angle\kneeAngle_intro.svg">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="angle\kneeAngle_skin.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="angle\kneeAngle_skin.svg">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="angle\model.RDat">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="angle\old\kneeAngle_with_kalman_and_3d_and_geometric_points.cpp">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\chronojump_importer.py">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\chronojump_importer_test.py">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\easily-debug\ChronojumpImportDebug\database\chronojump.db">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\easily-debug\ChronojumpImportDebug\encoder\2\data\curve\1-subj1-2-2019-07-08_12-36-35.txt">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\easily-debug\ChronojumpImportDebug\encoder\2\data\signal\1-subj1-2019-07-08_12-36-35.txt">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\easily-debug\importDB.tmp">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\howto_easily_debug.txt">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\Makefile">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\Makefile.am">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\Makefile.in">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\py2exec_chronojump_importer.py">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\README.txt">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\requirements.txt">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\test-delete.py">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\tests\edit_dump_sqlite.sh">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\tests\generic-destination-a.sqlite">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\tests\generic-destination-b.sqlite">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\tests\generic-destination-c.sqlite">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\tests\generic-expected-a.sqlite">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\tests\generic-expected-b.sqlite">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\tests\generic-expected-c.sqlite">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\tests\generic-source-a.sqlite">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\tests\generic-source-b.sqlite">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\tests\generic-source-c.sqlite">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\tests\padu-destination.sqlite">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\tests\padu-expected.sqlite">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\tests\padu-source.sqlite">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\tests\user-jump-destination.sqlite">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\tests\user-jump-expected.sqlite">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\tests\user-jump-source.sqlite">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\tests\yoyo-destination.sqlite">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\tests\yoyo-expected-session-4-to-5.sqlite">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\tests\yoyo-expected.sqlite">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump-importer\tests\yoyo-source.sqlite">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="chronojump_icon.ico" />
+	</ItemGroup>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="call post-build-win.bat &quot;$(OutDir)&quot; $(Configuration)" />
+	</Target>
+</Project>

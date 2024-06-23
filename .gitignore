@@ -80,3 +80,26 @@ chronojump-*.tar.gz
 #MacOS package
 package/macos/Chronojump.app/Contents/Home
 package/macos/Chronojump.app/Contents/Info.plist
+
+#MacOS files
+.DS_Store
+/src/.vs
+/src/obj
+/src/bin
+/configure~
+/src/Properties/PublishProfiles/*.user
+/src/*.user
+/butterworth/.vs
+/butterworth/Kinovea.Filtering/obj
+/butterworth/Kinovea.Filtering/bin
+/butterworth/Sample/obj
+/butterworth/Sample/bin
+/win32/Chronojump-win-x86-1.0.exe
+/win32/Chronojump-win-x64-1.0.exe
+/po/POTFILES
+/obj
+/bin
+package/macos/app/Chronojump.app/Contents/Info.plist
+config.guess~
+config.sub~
+install-sh~

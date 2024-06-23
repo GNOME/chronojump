@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -552,8 +552,7 @@ public partial class ChronoJumpWindow
 	{
 		if(app1sae_mode == App1saeModes.ADDSESSION)
 		{
-			menus_and_mode_sensitive (true); //because we go to main gui, not needed on EDITCURRENTSESSION or EDITOTHERSESSION
-			notebook_supSetOldPage();
+			app1s_notebook.CurrentPage = app1s_PAGE_MODES;
 		}
 		else if(app1sae_mode == App1saeModes.EDITCURRENTSESSION)
 			app1s_notebook.CurrentPage = app1s_PAGE_MODES;
@@ -723,7 +722,7 @@ public partial class ChronoJumpWindow
 				LogB.Information("app1sae_on_button_accept_clicked A");
 				on_new_session_accepted();
 				LogB.Information("app1sae_on_button_accept_clicked B");
-				notebook_supSetOldPage();
+				app1s_on_button_close0_clicked (o, args);
 				LogB.Information("app1sae_on_button_accept_clicked C");
 
 				//tags have not been added yet because there was no sessionID

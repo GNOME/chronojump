@@ -78,7 +78,7 @@ public class RunExecute : EventExecute
 	protected Gtk.Image image_run_execute_photocell_icon;
 	protected Gtk.Label label_run_execute_photocell_code;
 
-	protected PhotocellWirelessCapture photocellWirelessCapture;
+	protected WichroCapture wichroCapture;
 
 //	protected bool firstTrackDone;
 
@@ -88,7 +88,7 @@ public class RunExecute : EventExecute
 	//run execution
 	//if wireless: string wirelessPort, wirelessBauds will be used instead of Chronopic cp
 	public RunExecute(int personID, int sessionID, string type, double distance,   
-			Chronopic cp, PhotocellWirelessCapture photocellWirelessCapture,
+			Chronopic cp, WichroCapture wichroCapture,
 			string wirelessPort, int wirelessBauds,
 			int pDN, bool metersSecondsPreferred,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
@@ -108,7 +108,7 @@ public class RunExecute : EventExecute
 		this.distance = distance;
 		
 		this.cp = cp;
-		this.photocellWirelessCapture = photocellWirelessCapture;
+		this.wichroCapture = wichroCapture;
 		this.wirelessPort = wirelessPort;
 		this.wirelessBauds = wirelessBauds;
 		wireless = (wirelessPort != "" && wirelessBauds > 0);
@@ -333,16 +333,16 @@ public class RunExecute : EventExecute
 				checkDoubleContactTime
 				);
 
-		//PhotocellWirelessCapture pwc = null;
+		//WichroCapture pwc = null;
 		if(wireless)
 		{
-			LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
+			LogB.Information("going to call wichroCapture.CaptureStart ()");
 			feedbackMessage = Catalog.GetString("Please, wait!");
 			needShowFeedbackMessage = true;
 			runPhase = runPhases.START_WIRELESS_UNKNOWN;
-			//photocellWirelessCapture = new PhotocellWirelessCapture(wirelessPort);
-			photocellWirelessCapture.Reset ();
-			if (! photocellWirelessCapture.CaptureStart ())
+			//wichroCapture = new WichroCapture(wirelessPort);
+			wichroCapture.Reset ();
+			if (! wichroCapture.CaptureStart ())
 			{
 				chronopicDisconnected = true;
 				cancel = true; //problem reading line (capturing)
@@ -355,20 +355,20 @@ public class RunExecute : EventExecute
 		do {
 			if (wireless)
 			{
-				if(! photocellWirelessCapture.CaptureLine())
+				if(! wichroCapture.CaptureSample())
 				{
 					chronopicDisconnected = true;
 					cancel = true; //problem reading line (capturing)
 				}
 
 				ok = false;
-				if(photocellWirelessCapture.CanRead())
+				if(wichroCapture.CanReadFromList ())
 				{
 					LogB.Information("waitEvent 3");
-					PhotocellWirelessEvent pwe = photocellWirelessCapture.PhotocellWirelessCaptureReadNext();
-					LogB.Information("wait_event pwe: " + pwe.ToString());
+					WichroEvent we = wichroCapture.WichroCaptureReadNext();
+					LogB.Information("wait_event we: " + we.ToString());
 
-					photocell = pwe.photocell;
+					photocell = we.photocell;
 
 					/*
 					//to debug photocell assignement on Wichro.
@@ -376,10 +376,10 @@ public class RunExecute : EventExecute
 					photocell = randDelete.Next(0,10);
 					*/
 
-					timestamp = pwe.timeMs - timestampAccumulated; //photocell does not send splittime, sends absolute time
+					timestamp = we.timeMs - timestampAccumulated; //photocell does not send splittime, sends absolute time
 					timestampAccumulated += timestamp;
 
-					platformState = pwe.status;
+					platformState = we.status;
 
 					ok = true;
 					LogB.Information("waitEvent 4");
@@ -555,7 +555,7 @@ public class RunExecute : EventExecute
 		} while ( ! exitWaitEventBucle );
 
 		if(wireless)
-			photocellWirelessCapture.Stop(); //Should we do a disconnect here?
+			wichroCapture.Stop(); //Should we do a disconnect here?
 
 		onlyInterval_FinishWaitEventWrite();
 	}
@@ -983,7 +983,7 @@ public class RunIntervalExecute : RunExecute
 
 	//run execution
 	public RunIntervalExecute(int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
-			Chronopic cp, PhotocellWirelessCapture photocellWirelessCapture,
+			Chronopic cp, WichroCapture wichroCapture,
 			string wirelessPort, int wirelessBauds,
 			int pDN, bool metersSecondsPreferred,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
@@ -1023,7 +1023,7 @@ public class RunIntervalExecute : RunExecute
 		
 		
 		this.cp = cp;
-		this.photocellWirelessCapture = photocellWirelessCapture;
+		this.wichroCapture = wichroCapture;
 		this.wirelessPort = wirelessPort;
 		this.wirelessBauds = wirelessBauds;
 		wireless = (wirelessPort != "" && wirelessBauds > 0);

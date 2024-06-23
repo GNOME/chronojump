@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
+<!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="adjustment1">
@@ -257,7 +257,7 @@
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
                                         <property name="activates-default">True</property>
-                                        <property name="width-chars">5</property>
+                                        <property name="width-chars">7</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
                                         <property name="adjustment">adjustment1</property>
@@ -302,7 +302,7 @@
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
                                         <property name="activates-default">True</property>
-                                        <property name="width-chars">5</property>
+                                        <property name="width-chars">7</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
                                         <property name="adjustment">adjustment2</property>
@@ -738,6 +738,7 @@
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
                                         <property name="activates-default">True</property>
+                                        <property name="width-chars">7</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
                                         <property name="adjustment">adjustment3</property>
@@ -784,6 +785,7 @@
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
                                             <property name="invisible-char">●</property>
+                                            <property name="width-chars">7</property>
                                             <property name="primary-icon-activatable">False</property>
                                             <property name="secondary-icon-activatable">False</property>
                                             <property name="adjustment">adjustment4</property>
@@ -826,6 +828,7 @@
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
                                             <property name="invisible-char">●</property>
+                                            <property name="width-chars">7</property>
                                             <property name="primary-icon-activatable">False</property>
                                             <property name="secondary-icon-activatable">False</property>
                                             <property name="adjustment">adjustment5</property>
@@ -929,6 +932,7 @@
                                                 <property name="can-focus">True</property>
                                                 <property name="invisible-char">●</property>
                                                 <property name="activates-default">True</property>
+                                                <property name="width-chars">7</property>
                                                 <property name="primary-icon-activatable">False</property>
                                                 <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment6</property>
@@ -975,6 +979,7 @@
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">True</property>
                                                     <property name="invisible-char">●</property>
+                                                    <property name="width-chars">7</property>
                                                     <property name="primary-icon-activatable">False</property>
                                                     <property name="secondary-icon-activatable">False</property>
                                                     <property name="adjustment">adjustment7</property>
@@ -1017,6 +1022,7 @@
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">True</property>
                                                     <property name="invisible-char">●</property>
+                                                    <property name="width-chars">7</property>
                                                     <property name="primary-icon-activatable">False</property>
                                                     <property name="secondary-icon-activatable">False</property>
                                                     <property name="adjustment">adjustment8</property>
@@ -1118,6 +1124,7 @@
                                                 <property name="can-focus">True</property>
                                                 <property name="invisible-char">●</property>
                                                 <property name="activates-default">True</property>
+                                                <property name="width-chars">7</property>
                                                 <property name="primary-icon-activatable">False</property>
                                                 <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment9</property>
@@ -1164,6 +1171,7 @@
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">True</property>
                                                     <property name="invisible-char">●</property>
+                                                    <property name="width-chars">7</property>
                                                     <property name="primary-icon-activatable">False</property>
                                                     <property name="secondary-icon-activatable">False</property>
                                                     <property name="adjustment">adjustment10</property>
@@ -1206,6 +1214,7 @@
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">True</property>
                                                     <property name="invisible-char">●</property>
+                                                    <property name="width-chars">7</property>
                                                     <property name="primary-icon-activatable">False</property>
                                                     <property name="secondary-icon-activatable">False</property>
                                                     <property name="adjustment">adjustment11</property>

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2020-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2020-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -25,8 +25,8 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow
 {
-	//Gtk.Button button_edit_current_person;
 	Gtk.Button button_edit_current_person_h;
+	Gtk.Button button_delete_current_person_h;
 	Gtk.Button button_encoder_exercise;
 	Gtk.Button button_encoder_exercise_close_and_capture;
 
@@ -49,7 +49,7 @@ public partial class ChronoJumpWindow
 		string down = Catalog.GetString("Down");
 
 		//persons
-		button_edit_current_person_h.TooltipText += string.Format(" ({0}+p)", kCtrl);
+		person_search.TooltipText += string.Format(" ({0}+p)", kCtrl);
 		button_persons_up.TooltipText += string.Format(" ({0}+{1})", kCtrl, up);
 		button_persons_down.TooltipText += string.Format(" ({0}+{1})", kCtrl, down);
 
@@ -82,8 +82,8 @@ public partial class ChronoJumpWindow
 
 	private void connectWidgetsShortcuts (Gtk.Builder builder)
 	{
-		//button_edit_current_person = (Gtk.Button) builder.GetObject ("button_edit_current_person");
 		button_edit_current_person_h = (Gtk.Button) builder.GetObject ("button_edit_current_person_h");
+		button_delete_current_person_h = (Gtk.Button) builder.GetObject ("button_delete_current_person_h");
 		button_encoder_exercise = (Gtk.Button) builder.GetObject ("button_encoder_exercise");
 		button_encoder_exercise_close_and_capture = (Gtk.Button) builder.GetObject ("button_encoder_exercise_close_and_capture");
 	}

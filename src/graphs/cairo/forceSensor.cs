@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2023-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -35,6 +35,7 @@ public abstract class CairoGraphForceSensor : CairoXY
 	protected int rectangleN;
 	protected int rectangleRange;
 	protected List<PointF> points_l_interpolated_path;
+	protected List<PointF> points_l_interpolated_path_further;
 	protected int interpolatedMin;
 	protected int interpolatedMax;
 	//protected bool oneSerie; //on elastic is false: more than 1 serie
@@ -276,6 +277,31 @@ public abstract class CairoGraphForceSensor : CairoXY
 				calculatePaintX (points_l[end].X), yPx+10);
 	}
 
+	//TODO: fix this for vertical
+	protected void bsiwPlot (List<PointF> points_l, GetBestStabilityInWindow bsiw)
+	{
+		double x1 = calculatePaintX (points_l[bsiw.MaxSampleStart].X);
+		double y1 = calculatePaintY (points_l[bsiw.MaxSampleStart].Y);
+		double x2 = calculatePaintX (points_l[bsiw.MaxSampleEnd].X);
+		double y2 = calculatePaintY (points_l[bsiw.MaxSampleEnd].Y);
+		g.LineWidth = 2;
+
+		//do the segment horizontal at bottom
+		double bsiwY = y1;
+		if (y2 > y1)
+			bsiwY = y2;
+		bsiwY += 10; //10 px below lowest y
+		double bsiwX = UtilAll.DivideSafe (x1 + x2, 2);
+
+		printText (bsiwX, bsiwY, 0, textHeight, "S", g, alignTypes.CENTER);
+		CairoUtil.PaintSegment (g, x1, y1+2, x1, bsiwY);
+		if (bsiwX -5 > x1)
+			CairoUtil.PaintSegment (g, x1, bsiwY, bsiwX -5, bsiwY);
+		CairoUtil.PaintSegment (g, x2, y2+2, x2, bsiwY);
+		if (bsiwX +5 < x2)
+			CairoUtil.PaintSegment (g, x2, bsiwY, bsiwX +5, bsiwY);
+	}
+
 	protected override void writeTitle()
 	{
 	}
@@ -283,7 +309,10 @@ public abstract class CairoGraphForceSensor : CairoXY
 
 public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 {
-	protected List<PointF> points_l;
+	private List<PointF> raw_l;
+	private List<PointF> unfiltered_l;
+	protected List<PointF> points_l; //if butterworth, this will be it
+
 	protected int startAt;
 	protected int marginAfterInSeconds;
 	protected bool capturing;
@@ -293,16 +322,15 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	protected int questionnaireMinY;
 	protected int questionnaireMaxY;
 
-	//private List<PointF> butterTrajAutomatic_l;
-	//private double butterTrajAutomaticCutoff;
-	private List<PointF> butterTrajA_l;
-	//private double butterTrajACutoff;
 	private bool showAccuracy;
 	private int accuracySamplesGood;
 	private int accuracySamplesBad;
 	private Cairo.Color colorPathBlue = colorFromRGB (178,223,238);
+	//private Cairo.Color colorPathBlueLight = colorFromRGB (207,239,250);
+	private Cairo.Color colorPathBlueLight = colorFromRGB (192,236,246);
 	private GetMaxAvgInWindow miw;
 	private GetBestRFDInWindow briw;
+	private GetBestStabilityInWindow bsiw;
 
 	private bool accuracyNowIn;
 	private Cairo.Color colorHead;
@@ -326,24 +354,32 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font,
-			SignalPointsCairoForceElastic spCairoFE,
-			//List<PointF> butterTrajAutomatic_l, double butterTrajAutomaticCutoff,
-			List<PointF> butterTrajA_l, //double butterTrajACutoff,
+			SignalPointsCairoForceElastic spCairoFE_raw,
+			SignalPointsCairoForceElastic spCairoFE_unfiltered,	//only used if butterworth
+			SignalPointsCairoForceElastic spCairoFE,	//spCairoFE to plot
 			bool showDistance, bool showSpeed, bool showPower,
 			List<PointF> points_l_interpolated_path, int interpolatedMin, int interpolatedMax,
-			bool capturing, double videoPlayTimeInSeconds, bool showAccuracy, int showLastSeconds,
+			List<PointF> points_l_interpolated_path_further,
+			bool capturing, bool videoShow, double videoPlayTimeInSeconds,
+			bool showAccuracy, int showLastSeconds,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
-			GetMaxAvgInWindow miw,
-			GetBestRFDInWindow briw,
+			GetMaxAvgInWindow miw, GetBestRFDInWindow briw, GetBestStabilityInWindow bsiw,
 			TriggerList triggerList,
 			bool forceRedraw, PlotTypes plotType)
 	{
-		this.points_l = spCairoFE.Force_l;
-		//this.butterTrajAutomatic_l = butterTrajAutomatic_l;
-		//this.butterTrajAutomaticCutoff = butterTrajAutomaticCutoff;
-		this.butterTrajA_l = butterTrajA_l;
-		//this.butterTrajACutoff = butterTrajACutoff;
+		if (spCairoFE_unfiltered != null)
+		{
+			this.points_l = spCairoFE.Force_l;
+			this.unfiltered_l = spCairoFE_unfiltered.Force_l;
+		} else {
+			this.points_l = spCairoFE.Force_l;
+			this.unfiltered_l = new List <PointF> ();
+		}
+
+		if (spCairoFE_raw != null)
+			this.raw_l = spCairoFE_raw.Force_l;
+
 		this.capturing = capturing;
 		this.showAccuracy = showAccuracy;
 		this.minDisplayFNegative = minDisplayFNegative;
@@ -351,10 +387,12 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		this.rectangleN = rectangleN;
 		this.rectangleRange = rectangleRange;
 		this.points_l_interpolated_path = points_l_interpolated_path;
+		this.points_l_interpolated_path_further = points_l_interpolated_path_further;
 		this.interpolatedMin = interpolatedMin;
 		this.interpolatedMax = interpolatedMax;
 		this.miw = miw;
 		this.briw = briw;
+		this.bsiw = bsiw;
 
 		/*
 		this.oneSerie = ( (pointsDispl_l == null || pointsDispl_l.Count == 0) &&
@@ -368,7 +406,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 				Util.BoolToInt (showSpeed) * 50 +
 				Util.BoolToInt (showPower) * 50;
 
-		if (doSendingList (font, videoPlayTimeInSeconds, showLastSeconds, triggerList, forceRedraw, plotType))
+		if (doSendingList (font, videoShow, videoPlayTimeInSeconds, showLastSeconds, triggerList, forceRedraw, plotType))
 		{
 			int atX = 0;
 			bool atTop = true;
@@ -399,7 +437,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 
 	//similar to encoder method but calling configureTimeWindow and using minDisplayF(Negative/Positive)
 	//return true if graph is inited (to dispose it)
-	private bool doSendingList (string font, double videoPlayTimeInSeconds, int showLastSeconds,
+	private bool doSendingList (string font, bool videoShow, double videoPlayTimeInSeconds, int showLastSeconds,
 			TriggerList triggerList, bool forceRedraw, PlotTypes plotType)
 	{
 		bool maxValuesChanged = false;
@@ -410,6 +448,17 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			//LogB.Information(string.Format("minY: {0}, maxY: {1}", minY, maxY));
 
 			fixMaximums ();
+
+			//also for unfiltered
+			if (unfiltered_l.Count > 0)
+			{
+				double unfilteredMinY, unfilteredMaxY;
+				PointF.GetMaxMinY (unfiltered_l, out unfilteredMinY, out unfilteredMaxY);
+				if (unfilteredMinY < minY)
+					minY = unfilteredMinY;
+				if (unfilteredMaxY > absoluteMaxY)
+					absoluteMaxY = unfilteredMaxY;
+			}
 
 			// if vertical do have X in the center (at least at start)
 			if (! horizontal)
@@ -487,12 +536,10 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		marginAfterInSeconds = 0;
 
 		//on worm, have it on 3 s
-		/*
 		if (showAccuracy && points_l_interpolated_path != null && points_l_interpolated_path.Count > 0 && showLastSeconds >= 10)
-			marginAfterInSeconds = 3; //TODO: or a 1/3 of showLastSeconds TODO: on worm first we need to fix interpolatedPath to be 3s longer
-			*/
+			marginAfterInSeconds = 3;
 		if ( (asteroids != null || questionnaire != null) && showLastSeconds > 3) //this works also for asteroids
-			marginAfterInSeconds = Convert.ToInt32 (.66 * showLastSeconds); //show in left third of image (to have time/space to answer)
+			marginAfterInSeconds = Convert.ToInt32 (.80 * showLastSeconds); //show blue ball left 20% of image (to have time/space to answer)
 
 		if (showLastSeconds > 0 && points_l.Count > 1)
 		{
@@ -510,12 +557,16 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		if (points_l != null && points_l.Count > 3 && graphInited && triggerList != null && triggerList.Count() > 0)
 			paintTriggers (points_l, triggerList);
 
-		//videoPlayTimeInSeconds
-		//printText (graphWidth - rightMargin/2, topMargin,
-		//		0, textHeight +4, Util.TrimDecimals (videoPlayTimeInSeconds, 2), g, alignTypes.CENTER);
-		g.MoveTo (calculatePaintX (videoPlayTimeInSeconds * 1000000), topMargin);
-		g.LineTo (calculatePaintX (videoPlayTimeInSeconds * 1000000), graphHeight - bottomMargin);
-		g.Stroke ();
+
+		if (videoShow)
+		{
+			//videoPlayTimeInSeconds
+			//printText (graphWidth - rightMargin/2, topMargin,
+			//		0, textHeight +4, Util.TrimDecimals (videoPlayTimeInSeconds, 2), g, alignTypes.CENTER);
+			g.MoveTo (calculatePaintX (videoPlayTimeInSeconds * 1000000), topMargin);
+			g.LineTo (calculatePaintX (videoPlayTimeInSeconds * 1000000), graphHeight - bottomMargin);
+			g.Stroke ();
+		}
 
 		return true;
 	}
@@ -529,7 +580,22 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			g.SetSourceColor (white);
 
 		if (points_l.Count > 2) //to ensure minX != maxX
+		{
+			//on asteroids show the grid in gray to allow stars be shown
+			if (asteroids != null)
+				g.SetSourceColor (gray);
+
 			paintGrid (gridTypes.BOTH, true, 0);
+
+			if (asteroids != null)
+			{
+				g.SetSourceColor (white);
+				if (asteroids.Dark)
+					g.SetSourceColor (white);
+				else
+					g.SetSourceColor (black);
+			}
+		}
 
 		paintAxis();
 		g.SetSourceColor (black);
@@ -549,41 +615,65 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		if (rectangleRange > 0 && showAccuracy)
 			accuracyRectanglePlot (accuracyText);
 		else if (points_l_interpolated_path != null && points_l_interpolated_path.Count > 0)
+		{
+			if (points_l_interpolated_path_further.Count > 0) //only is filled while capture
+			{
+				g.SetSourceColor (colorPathBlueLight);
+				g.LineWidth = calculatePathWidth ();
+				for (int i = 0; i < points_l_interpolated_path_further.Count; i ++)
+				{
+					if (i == 0)
+						g.MoveTo (calculatePaintX (points_l_interpolated_path_further[i].X),
+								calculatePaintY (points_l_interpolated_path_further[i].Y));
+
+					if (i + 1 < points_l_interpolated_path_further.Count)
+						g.LineTo (calculatePaintX (points_l_interpolated_path_further[i+1].X),
+								calculatePaintY (points_l_interpolated_path_further[i+1].Y));
+				}
+				g.Stroke();
+			}
+
 			accuracyPathPlot (accuracyText,
 					points_l.Count, points_l_interpolated_path, plotType);
+		}
 
 		if (questionnaire == null && asteroids == null)
 		{
-			if (miw.Error == "")
-				paintMaxAvgInWindow (miw.MaxSampleStart, miw.MaxSampleEnd, miw.Max, points_l);
+			if (points_l_interpolated_path == null || points_l_interpolated_path.Count == 0)
+			{
+				//raw
+				g.SetSourceColor (caramel);
+				if (raw_l.Count > 0)
+					plotRealPoints(plotType, raw_l, startAt, false); //fast (but the difference is very low)
 
-			if (briw.Error == "")
-				briwPlot (points_l);
+				//unfiltered
+				g.SetSourceColor (brown);
+				if (unfiltered_l.Count > 0)
+					plotRealPoints(plotType, unfiltered_l, startAt, false); //fast (but the difference is very low)
+			}
 
-			g.SetSourceColor (brown);
-			plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)
+			//points_l
+			if (! (points_l_interpolated_path != null && capturing)) //while worm capture do not show this stats
+			{
+				if (miw.Error == "")
+					paintMaxAvgInWindow (miw.MaxSampleStart, miw.MaxSampleEnd, miw.Max, points_l);
 
-			if(calculatePaintX (xAtMaxY) > leftMargin)
-				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
+				if (briw.Error == "")
+					briwPlot (points_l);
 
-			if(calculatePaintX (xAtMinY) > leftMargin)
-				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
+				if (bsiw.Error == "")
+					bsiwPlot (points_l, bsiw);
 
+				if(calculatePaintX (xAtMaxY) > leftMargin)
+					drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
+
+				if(calculatePaintX (xAtMinY) > leftMargin)
+					drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
+			}
+
+			g.LineWidth = 2;
 			g.SetSourceColor (black);
-			/*
-			if (butterTrajAutomatic_l != null && butterTrajAutomatic_l.Count > 0)
-			{
-				plotRealPoints(plotType, butterTrajAutomatic_l, startAt, false); //fast (but the difference is very low)
-				printText (graphWidth - rightMargin/2, calculatePaintY (PointF.Last (butterTrajAutomatic_l).Y),
-						0, textHeight +4, Util.TrimDecimals (butterTrajAutomaticCutoff, 2), g, alignTypes.RIGHT);
-			}
-			*/
-			if (butterTrajA_l != null && butterTrajA_l.Count > 0)
-			{
-				plotRealPoints(plotType, butterTrajA_l, startAt, false); //fast (but the difference is very low)
-				//printText (graphWidth - rightMargin/2, calculatePaintY (PointF.Last (butterTrajA_l).Y),
-				//		0, textHeight +4, Util.TrimDecimals (butterTrajACutoff, 2), g, alignTypes.RIGHT);
-			}
+			plotRealPoints(plotType, points_l, startAt, false); //fast (but the difference is very low)
 		}
 
 		points_l_painted = points_l.Count;
@@ -723,166 +813,6 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	}
 }
 
-public class CairoGraphForceSensorSignalAsteroids : CairoGraphForceSensorSignal
-{
-	private double lastShot;
-	private double lastPointUp; //each s 1 point up
-	private int multiplier;
-
-	public CairoGraphForceSensorSignalAsteroids (DrawingArea area, string title, bool horizontal)
-	{
-		initForceSensor (area, title, horizontal);
-		multiplier = 1000000; //forceSensor
-
-		lastShot = 0;
-		lastPointUp = 0; //each s 1 point up
-	}
-
-	protected override void plotSpecific ()
-	{
-		if (! capturing)
-			return;
-
-		asteroidsPlot (points_l[points_l.Count -1], startAt, multiplier,
-				marginAfterInSeconds, points_l, horizontal,
-				ref lastShot, ref lastPointUp);
-	}
-}
-
-public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSignal
-{
-	public CairoGraphForceSensorSignalQuestionnaire (DrawingArea area, string title)
-	{
-		initForceSensor (area, title, true);
-	}
-
-	protected override void plotSpecific ()
-	{
-		questionnairePlot (points_l[points_l.Count -1]);
-
-		drawCircle (calculatePaintX (points_l[points_l.Count -1].X),
-				calculatePaintY (points_l[points_l.Count -1].Y), 6, bluePlots, true);
-	}
-
-	private void questionnairePlot (PointF lastPoint)
-	{
-		int textHeightHere = textHeight + 8;
-		g.SetFontSize (textHeightHere);
-		g.SetSourceRGB(0, 0, 0); //black
-
-		// 1) manage finish
-		// 10 questions, do not plot more than 100 seconds
-		// or (if less than 10 questions, do not plot more than those)
-		if (lastPoint.X / 1000000 >= 100 || lastPoint.X / 1000000 >= questionnaire.N * 10)
-		{
-			printText ((graphWidth -getMargins (Directions.LR))/2 +getMargins (Directions.L),
-					.33 * graphHeight, 0, textHeight +4,
-					string.Format ("Finished! {0} points", questionnaire.Points), g, alignTypes.CENTER);
-			g.SetFontSize (textHeight);
-
-			return;
-		}
-
-		// 2) get bars position
-		QRectangleManage rectangleM = new QRectangleManage ();
-
-		double barRange = (graphHeight - topMargin - bottomMargin) /30;
-		List <double> y_l = new List<double> ();
-		for (int i = 0; i < 6; i ++)
-			y_l.Add (topMargin + (i * ((graphHeight -topMargin - bottomMargin)/5)));
-
-		QuestionAnswers qa = questionnaire.GetQAByMicros (lastPoint.X);
-
-		// 3) write the question (ensure it horizontally fits)
-		string questionText = string.Format ("({0}/{1}) {2}",
-				questionnaire.GetQNumByMicros (lastPoint.X), questionnaire.N, qa.question);
-
-		int textHeightReduced = textHeightHere;
-		if (! textFits (questionText, g, graphWidth -leftMargin -rightMargin -70)) //75 for the messages "Force (N)" and "Points: xx" message
-			textHeightReduced = findFontThatFits (textHeightHere, questionText, g, graphWidth -leftMargin -rightMargin -75);
-		if (textHeightReduced >= 2)
-		{
-			g.SetFontSize (textHeightReduced);
-			printText (graphWidth/2 -leftMargin, topMargin/2, 0, textHeightReduced,
-					questionText, g, alignTypes.CENTER);
-		}
-		g.SetFontSize (textHeightHere);
-
-		// 4) write the answers (ensure they horizontally fit)
-		List<string> answers_l = qa.TopBottom_l;
-		double answerX = questionnaire.GetAnswerXrel (lastPoint.X) *
-			(graphWidth - leftMargin - rightMargin) + leftMargin;
-		for (int i = 0; i < 5; i ++)
-		{
-			string text = "NSNC";
-			if (i > 0)
-				text = answers_l[i-1];
-
-			textHeightReduced = textHeightHere;
-			if (! textRightAlignedFitsOnLeft (answerX - barRange, text, g, leftMargin))
-				textHeightReduced = findFontThatFitsOnLeft (textHeightHere, answerX - barRange, text, g, leftMargin);
-
-			if (textHeightReduced >= 4)
-			{
-				g.SetFontSize (textHeightReduced);
-				printText (answerX - barRange, (y_l[i] + y_l[i+1])/2, 0, textHeight +4,
-						text, g, alignTypes.RIGHT);
-			}
-			g.SetFontSize (textHeightHere);
-		}
-
-		// 5) plot horizontal bars
-		g.SetSourceRGB(1, 0, 0); //red
-		double lineLeftX = questionnaire.GetLineStartXrel (lastPoint.X) *
-			(graphWidth - leftMargin - rightMargin) + leftMargin;
-		for (int i = 1; i < 5; i ++)
-		{
-			g.Rectangle (lineLeftX, y_l[i] - barRange/2, answerX - lineLeftX, barRange);
-			g.Fill();
-
-			rectangleM.Add (new QRectangle (false, lineLeftX, y_l[i] - barRange/2, answerX - lineLeftX, barRange));
-		}
-
-		// 6) plot vertical bars
-		List<Cairo.Color> answerColor_l = questionnaire.GetAnswerColor (lastPoint.X, qa);
-		for (int i = 1; i < 5; i ++)
-		{
-			g.SetSourceColor (answerColor_l[i]);
-			g.Rectangle (answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange);
-			g.Fill();
-
-			if (answerColor_l[i].R == Questionnaire.red.R &&
-					answerColor_l[i].G == Questionnaire.red.G &&
-					answerColor_l[i].B == Questionnaire.red.B)
-				rectangleM.Add (new QRectangle (false, answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange));
-			else
-				rectangleM.Add (new QRectangle (true, answerX -barRange/2, y_l[i] + barRange/2, barRange/2, y_l[i+1] - y_l[i] - barRange));
-		}
-
-		g.SetSourceRGB(0, 0, 0); //black
-
-		// 7 manage crash and points
-		if (rectangleM.IsRed (
-					calculatePaintX (lastPoint.X),
-					calculatePaintY (lastPoint.Y) ))
-		{
-			crashedPaintOutRectangle ();
-			questionnaire.Points --;
-		}
-		else if (rectangleM.IsGreen (
-					calculatePaintX (lastPoint.X),
-					calculatePaintY (lastPoint.Y) ))
-			questionnaire.Points ++;
-
-		g.SetFontSize (textHeightHere);
-		printText (graphWidth -rightMargin, topMargin/2, 0, textHeight +4,
-				"Points: " + questionnaire.Points.ToString (), g, alignTypes.RIGHT);
-		g.SetFontSize (textHeight);
-	}
-
-
-}
-
 public class CairoGraphForceSensorAI : CairoGraphForceSensor
 {
 	//private Cairo.Color colorGreen = colorFromRGB (0,200,0);
@@ -906,7 +836,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			bool showDistance, bool showSpeed, bool showPower,
 			int minDisplayFNegative, int minDisplayFPositive,
 			int rectangleN, int rectangleRange,
-			List<GetBestRFDInWindow> briw_l,
+			List<GetBestRFDInWindow> briw_l, List<GetBestStabilityInWindow> bsiw_l,
 			TriggerList triggerList,
 			int hscaleSampleA, int hscaleSampleB,
 			int hscaleSampleC, int hscaleSampleD,
@@ -944,7 +874,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 					hscaleSampleA, hscaleSampleB,
 					hscaleSampleC, hscaleSampleD,
 					zoomed,
-					briw_l,
+					briw_l, bsiw_l,
 					gmaiw_l,
 					exercise, reps_l,
 					forceRedraw, plotType))
@@ -988,7 +918,7 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			int hscaleSampleA, int hscaleSampleB,
 			int hscaleSampleC, int hscaleSampleD,
 			bool zoomed,
-			List<GetBestRFDInWindow> briw_l,
+			List<GetBestRFDInWindow> briw_l, List<GetBestStabilityInWindow> bsiw_l,
 			List<GetMaxAvgInWindow> gmaiw_l,
 			ForceSensorExercise exercise, List<ForceSensorRepetition> reps_l,
 			bool forceRedraw, PlotTypes plotType)
@@ -1277,6 +1207,11 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			if (briw_l.Count > 1)
 				paintBriw (pointsCD_l, briw_l[1]);
 
+			if (bsiw_l[0].Error == "")
+				bsiwPlot (points_l, bsiw_l[0]);
+			if (bsiw_l.Count > 1 && bsiw_l[1].Error == "")
+				bsiwPlot (pointsCD_l, bsiw_l[1]);
+
 			g.LineWidth = 2;
 
 			if (subtitleWithSetsInfo_l.Count > 0)
@@ -1284,10 +1219,21 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 
 			// paint max, min circles
 			if (points_l.Count > 0 && calculatePaintX (xAtMaxY) > leftMargin)
-				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
+				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, yellow, false);
 
 			if (points_l.Count > 0 && calculatePaintX (xAtMinY) > leftMargin)
-				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
+				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, yellow, false);
+
+			if (twoSets && pointsCD_l.Count > 0)
+			{
+				PointF maxCD = PointF.GetMaxYAndItsX (pointsCD_l);
+				PointF minCD = PointF.GetMinYAndItsX (pointsCD_l);
+
+				if (calculatePaintX (maxCD.X) > leftMargin)
+					drawCircle (calculatePaintX (maxCD.X), calculatePaintY (maxCD.Y), 8, green, false);
+				if (calculatePaintX (minCD.X) > leftMargin)
+					drawCircle (calculatePaintX (minCD.X), calculatePaintY (minCD.Y), 8, green, false);
+			}
 
 			points_l_painted = points_l.Count;
 		}
@@ -1344,643 +1290,3 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 
 }
 
-public class Questionnaire
-{
-	public int Points;
-
-	public static Cairo.Color red = new Cairo.Color (1, 0, 0, 1);
-	private Cairo.Color green = new Cairo.Color (0, 1, 0, 1);
-	private Cairo.Color transp = new Cairo.Color (0, 0, 0, 0);
-
-	private int n; //number of questions
-
-	private List<QuestionAnswers> qa_l = new List<QuestionAnswers> () {
-		new QuestionAnswers ("Year of 1st Chronojump version", "2004", "2008", "2012", "2016"),
-		new QuestionAnswers ("Name of wireless photocells", "WICHRO", "RUN+", "PhotoProto", "TopGear"),
-		new QuestionAnswers ("Chronojump products are made in ...", "Barcelona", "Helsinki", "New York", "Munich"),
-		new QuestionAnswers ("Which jumps are used to calculate elasticity?", "CMJ / SJ", "CMJ / ABK", "ABK / DJ", "SJ / ABK"),
-		new QuestionAnswers ("Name of the microcontroller for jumps and races with photocells?", "Chronopic", "Clock fast", "Arduino", "Double step"),
-		new QuestionAnswers ("Race to measure left and right turns?", "3L3R", "Margaria", "505", "100 m hurdles"),
-		new QuestionAnswers ("Biggest contact platform", "A1", "A2", "A3", "A4"),
-		new QuestionAnswers ("Name of 1st version on 2031", "3.1.0", "2.31", "2.3.1", "23.1"),
-		new QuestionAnswers ("Max distance of Race Analyzer", "100 m", "5 m", "10 m", "30 m"),
-		new QuestionAnswers ("Sample frequency of our encoder", "1 kHz", "1 Hz", "10 Hz", "100 Hz")
-	};
-	private List<QuestionAnswers> qaRandom_l;
-
-	public Questionnaire (int n, string filename)
-	{
-		this.n = n;
-
-		// read questions file if needed
-		if (filename != null && filename != "")
-		{
-			List<QuestionAnswers> qaLoading_l = getQuestionsFromFile (filename);
-			if (qaLoading_l != null)
-				qa_l = qaLoading_l;
-		}
-
-		// randomize questions
-		qaRandom_l = Util.ListRandomize (qa_l);
-
-		// if questions < n -> set n; if questions > n -> cut to n
-		if (qaRandom_l.Count < n)
-			n = qaRandom_l.Count;
-		else if (qaRandom_l.Count > n)
-			qaRandom_l = Util.ListGetFirstN (qaRandom_l, n);
-
-		Points = 0;
-	}
-
-	public bool FileIsOk (string filename)
-	{
-		return (getQuestionsFromFile (filename) != null);
-	}
-
-	private List<QuestionAnswers> getQuestionsFromFile (string filename)
-	{
-		List<List<string>> rows_ll = UtilCSV.ReadAsListListString (filename, ';');
-		if (rows_ll.Count == 0 || rows_ll[0].Count != 5)
-		{
-			rows_ll = UtilCSV.ReadAsListListString (filename, ',');
-
-			if (rows_ll.Count == 0 || rows_ll[0].Count != 5)
-				return null;
-		}
-
-		List<QuestionAnswers> list = new List<QuestionAnswers> ();
-		foreach (List<string> row_l in rows_ll)
-			list.Add (new QuestionAnswers(row_l[0], row_l[1], row_l[2], row_l[3], row_l[4]));
-
-		return list;
-	}
-
-	public QuestionAnswers GetQAByMicros (double micros)
-	{
-		double seconds = micros / 1000000;
-
-		//TODO: fix this
-		if (seconds > 100)
-			seconds = 0;
-
-		if (seconds < 10)
-			return qaRandom_l[0];
-		else
-			return qaRandom_l[Convert.ToInt32(Math.Floor(seconds/10))];
-	}
-
-	//just to track the number of questions
-	public int GetQNumByMicros (double micros)
-	{
-		double seconds = micros / 1000000;
-
-		//TODO: fix this
-		if (seconds > 100)
-			seconds = 0;
-
-		if (seconds < 10)
-			return 0 + 1;
-		else
-			return Convert.ToInt32(Math.Floor(seconds/10)) + 1;
-	}
-
-	public double GetLineStartXrel (double micros)
-	{
-		double xrel = GetAnswerXrel (micros) -.3;
-		if (xrel < 0)
-			xrel = 0;
-
-		return xrel;
-	}
-	public double GetAnswerXrel (double micros)
-	{
-		double seconds = micros / 1000000;
-
-		//TODO: fix this
-		if (seconds > 100)
-			seconds = 0;
-
-		if (seconds < 10)
-			return 1 - seconds/10;
-		else
-			return 1 - (seconds % 10)/10;
-	}
-
-	public List<Cairo.Color> GetAnswerColor (double micros, QuestionAnswers qa)
-	{
-		double xrel = GetAnswerXrel (micros) -.3;
-		if (xrel < 0)
-			xrel = 0;
-
-		if (xrel > .3)
-			return new List<Cairo.Color> { transp, transp, transp, transp, transp };
-
-		List<Cairo.Color> color_l = new List<Cairo.Color> ();
-		color_l.Add (transp);
-		foreach (string answer in qa.TopBottom_l)
-		{
-			if (qa.AnswerIsCorrect (answer))
-				color_l.Add (green);
-			else
-				color_l.Add (red);
-		}
-		return color_l;
-	}
-
-	public int N {
-		get { return n; }
-	}
-}
-
-public class QuestionAnswers
-{
-	public List<string> TopBottom_l;
-	public int CorrectPos;
-	public string question;
-
-	private string aCorrect;
-
-	public QuestionAnswers (string question, string aCorrect, string aBad1, string aBad2, string aBad3)
-	{
-		this.question = question;
-		this.aCorrect = aCorrect;
-
-		TopBottom_l = new List<string> () { aCorrect, aBad1, aBad2, aBad3 };
-		TopBottom_l = Util.ListRandomize (TopBottom_l);
-		CorrectPos = Util.FindOnListString (TopBottom_l, aCorrect);
-	}
-
-	public bool AnswerIsCorrect (string answer)
-	{
-		return (answer == aCorrect);
-	}
-}
-
-public class QRectangleManage
-{
-	private List<QRectangle> rectangle_l;
-
-	public QRectangleManage ()
-	{
-		rectangle_l = new List<QRectangle> ();
-	}
-
-	public void Add (QRectangle r)
-	{
-		rectangle_l.Add (r);
-	}
-
-	public bool IsRed (double x, double y)
-	{
-		foreach (QRectangle r in rectangle_l)
-			if (! r.good && r.x <= x && r.x2 >= x &&
-					r.y <= y && r.y2 >= y)
-				return true;
-
-		return false;
-	}
-
-	public bool IsGreen (double x, double y)
-	{
-		foreach (QRectangle r in rectangle_l)
-			if (r.good && r.x <= x && r.x2 >= x &&
-					r.y <= y && r.y2 >= y)
-				return true;
-
-		return false;
-	}
-}
-public class QRectangle
-{
-	public bool good; //true: green, false: red
-	public double x;
-	public double y;
-	public double x2;
-	public double y2;
-
-	public QRectangle (bool good, double x, double y, double width, double height)
-	{
-		this.good = good;
-		this.x = x;
-		this.y = y;
-		this.x2 = x + width;
-		this.y2 = y + height;
-	}
-}
-
-public class Asteroids
-{
-	public int Points;
-	public bool Dark;
-	public int MaxY;
-	public int MinY;
-	public int ShotsFrequency;
-
-	private List<Asteroid> asteroid_l;
-	private List<Shot> shot_l;
-	private List<AsteroidPoint> asteroidPoints_l;
-	private Random random = new Random();
-	private double lastCrash; //to paint ship in red for half second
-
-	private const int playerRadius = 6;
-	private bool micros;
-	private int multiplier;
-	private Cairo.Color bluePlots = new Cairo.Color (0, 0, .78, 1);
-	private Cairo.Color gray = new Cairo.Color (.5, .5, .5, 1);
-	//private Cairo.Color white = new Cairo.Color (1, 1, 1, 1);
-	private Cairo.Color yellow = new Cairo.Color (0.906, 0.745, 0.098, 1);
-	private Cairo.Color redDark = new Cairo.Color (0.55, 0, 0, 1);
-
-	public Asteroids (int maxY, int minY, bool Dark, int asteroidsFrequency, int shotsFrequency, bool micros, int recordingTime)
-	{
-		this.Dark = Dark;
-		this.MaxY = maxY;
-		this.MinY = minY;
-		this.ShotsFrequency = shotsFrequency;
-		this.micros = micros;
-
-		if (micros)
-			multiplier = 1000000;
-		else
-			multiplier = 1000;
-
-		Points = 0;
-		lastCrash = -1; //to not start in red
-		asteroid_l = new List<Asteroid> ();
-		shot_l = new List<Shot> ();
-		asteroidPoints_l = new List<AsteroidPoint> ();
-
-		if (recordingTime < 0)
-			recordingTime = 100;
-
-		for (int i = 0; i < asteroidsFrequency * recordingTime; i ++)
-		{
-			int xStart = random.Next (7*multiplier, 100*multiplier);
-			int usLife = random.Next (3*multiplier/10, 15*multiplier);
-
-			//shield
-			int shield = random.Next (0, 20);
-			if (shield <= 10)
-				shield = 0;
-			else if (shield <= 15)
-				shield = 1;
-			else if (shield <= 18)
-				shield = 2;
-			else
-				shield = 3;
-
-			asteroid_l.Add (new Asteroid (
-						xStart, random.Next (minY, maxY), // y (force)
-						usLife, random.Next (minY, maxY), // y (force)
-						random.Next (20, 100), // size
-						shield,
-						createAsteroidColor (),
-						micros
-						));
-		}
-
-		/*
-		//debug with just one
-		asteroid_l.Add (new Asteroid (10 * multiplier, -50, 5 * multiplier, +50,
-					50, 0, createAsteroidColor (), micros));
-					*/
-
-	}
-
-	public List<Asteroid> GetAllAsteroidsPaintable (double startAtPointX, int marginAfterInSeconds)
-	{
-		List<Asteroid> aPaintable_l = new List<Asteroid> ();
-		foreach (Asteroid a in asteroid_l)
-			if (a.NeedToShow (startAtPointX, marginAfterInSeconds))
-				aPaintable_l.Add (a);
-
-		return aPaintable_l;
-	}
-
-	public bool DoesAsteroidCrashedWithPlayer (double asteroidX, double asteroidY, int asteroidSize, double playerX, double playerY)
-	{
-		return (CairoUtil.GetDistance2D (asteroidX, asteroidY, playerX, playerY) < asteroidSize + playerRadius);
-	}
-
-	public void AsteroidCrashedWithPlayerSetTime (double timeNow)
-	{
-		lastCrash = timeNow;
-	}
-
-	public void Shot (PointF p)
-	{
-		shot_l.Add (new Shot (p, micros));
-	}
-
-	public List<Shot> GetAllShotsPaintable (double timeNow)
-	{
-		List<Shot> sPaintable_l = new List<Shot> ();
-		foreach (Shot s in shot_l)
-			if (s.NeedToShow (timeNow))
-				sPaintable_l.Add (s);
-
-		return sPaintable_l;
-	}
-
-	public void PaintShip (double x, double y, double timeNow, Context g)
-	{
-		Cairo.Color playerColor = bluePlots;
-		if (Dark)
-			playerColor = yellow;
-
-		//after a crash show ship half red for .5 seconds
-		if (lastCrash > 0 && timeNow - lastCrash < .5*multiplier)
-			playerColor = redDark;
-
-		CairoUtil.DrawCircle (g, x, y, playerRadius, playerColor, true);
-	}
-
-	public void PaintShot (Shot s, double sx, double sy, double timeNow, bool horizontal, Context g)
-	{
-		Cairo.Color color = bluePlots;
-		if (Dark)
-			color = yellow;
-		if (s.LifeIsEnding (timeNow))
-			color = gray;
-
-		g.Save ();
-		g.LineWidth = 2;
-		g.SetSourceColor (color);
-
-		if (horizontal) {
-			g.MoveTo (sx -3, sy);
-			g.LineTo (sx +3, sy);
-		} else {
-			g.MoveTo (sx, sy -3);
-			g.LineTo (sx, sy + 3);
-		}
-
-		g.Stroke ();
-		g.Restore ();
-
-		//drawCircle (sx, sy, s.Size, color, true);
-	}
-
-	public enum ShotCrashedEnum { NOCRASHED, CRASHEDNODESTROY, CRASHEDANDDESTROY }
-	public ShotCrashedEnum ShotCrashedWithAsteroid (double sx, double sy, int size,
-			List<Asteroid> asteroid_l, List<Point3F> asteroidXYZ_l,
-			out int i, out Asteroid asteroid) //the i asteroid
-	{
-		asteroid = null;
-
-		for (i = 0; i < asteroidXYZ_l.Count; i ++)
-		{
-			Point3F aXYZ = asteroidXYZ_l[i];
-			if (CairoUtil.GetDistance2D (aXYZ.X, aXYZ.Y, sx, sy) < aXYZ.Z + size)
-			{
-				asteroid_l[i].Shield --;
-				if (asteroid_l[i].Shield < 0)
-				{
-					asteroid_l[i].Alive = false;
-					asteroid = asteroid_l[i];
-					return ShotCrashedEnum.CRASHEDANDDESTROY;
-				} else
-					return ShotCrashedEnum.CRASHEDNODESTROY;
-			}
-		}
-
-		return ShotCrashedEnum.NOCRASHED;
-	}
-
-	public void AddAsteroidPoint (AsteroidPoint ap)
-	{
-		asteroidPoints_l.Add (ap);
-	}
-
-	public List<AsteroidPoint> GetAllAsteroidPointsPaintable ()
-	{
-		List<AsteroidPoint> apPaintable_l = new List<AsteroidPoint> ();
-		foreach (AsteroidPoint ap in asteroidPoints_l)
-			if (ap.NeedToShow ())
-				apPaintable_l.Add (ap);
-
-		return apPaintable_l;
-	}
-
-	private Cairo.Color createAsteroidColor ()
-	{
-		Cairo.Color color;
-		do {
-			color = new Cairo.Color (random.NextDouble (), random.NextDouble (), random.NextDouble (),
-					(double) random.Next (5,10)/10); //alpha: .5-1
-		} while (Dark == CairoUtil.ColorIsDark (color));
-
-		return color;
-	}
-}
-
-public class Asteroid
-{
-	private int xStart; //time. When screen right is this time it will start
-	private int yStart; //force
-	private int usLife; //time
-	private int yEnd; //force
-	private int size;
-	private int shield; // 0 - 3
-	private int pointsOnDestroy; //related to shield initial value
-	private Cairo.Color color;
-	private bool alive;
-	private int multiplier;
-
-	public Asteroid (int xStart, int yStart, int usLife, int yEnd, int size, int shield, Cairo.Color color, bool micros)
-	{
-		this.xStart = xStart;
-		this.yStart = yStart;
-		this.usLife = usLife;
-		this.yEnd = yEnd;
-		this.size = size;
-		this.shield = shield;
-		this.pointsOnDestroy = 5 + shield * 5;
-		this.color = color;
-
-		if (micros)
-			multiplier = 1000000;
-		else
-			multiplier = 1000;
-
-		this.alive = true;
-	}
-
-	public bool NeedToShow (double graphUsStart, int graphSecondsAtRight)
-	{
-		if (! alive)
-			return false;
-
-		int graphUsAtRight = graphSecondsAtRight * multiplier;
-		double graphUsTotalAtRight = graphUsStart + graphUsAtRight;
-
-		// the 3000000 is for having a bit of margin to easily consider radius
-		// to not have asteroids appear/disappear on sides when center arrives to that limits
-		if (xStart - 3*multiplier > graphUsTotalAtRight)
-			return false;
-		if (xStart + usLife + 3*multiplier < graphUsTotalAtRight)
-		{
-			//LogB.Information (string.Format (
-			//			"xStart: {0}, usLife: {1}, multiplier: {2}, graphUsTotalAtRight: {3}",
-			//			xStart, usLife, multiplier, graphUsTotalAtRight));
-			return false;
-		}
-
-		return true;
-	}
-
-	public double GetTimeNowProportion (double graphUsStart, int graphSecondsAtRight)
-	{
-		int graphUsAtRight = graphSecondsAtRight * multiplier;
-		double graphUsTotalAtRight = graphUsStart + graphUsAtRight;
-
-		LogB.Information (string.Format ("GetTimeNowProportion: graphUsStart: {0}, graphSecondsAtRight: {1}, graphUsAtRight: {2}, graphUsTotalAtRight: {3}, total: {4}",
-					graphUsStart, graphSecondsAtRight, graphUsAtRight, graphUsTotalAtRight, UtilAll.DivideSafe (graphUsTotalAtRight - xStart, usLife)));
-
-		return UtilAll.DivideSafe (graphUsTotalAtRight - xStart, usLife);
-	}
-
-	public double GetYNow (double graphUsStart, int graphSecondsAtRight)
-	{
-		double lifeProportion = GetTimeNowProportion (graphUsStart, graphSecondsAtRight);
-		LogB.Information ("lifeProportion:" + lifeProportion);
-		return lifeProportion * (yEnd - yStart) + yStart;
-	}
-
-	public void Destroy ()
-	{
-		alive = false;
-	}
-
-	public override string ToString ()
-	{
-		return string.Format ("({0},{1}) ({2},{3}) size: {4} color: ({5},{6},{7} {8})",
-				xStart, yStart, xStart+usLife, yEnd, size, color.R, color.G, color.B, color.A);
-	}
-
-	public int Size {
-		get { return size; }
-	}
-
-	public int Shield {
-		get { return shield; }
-		set { shield = value; }
-	}
-
-	public int PointsOnDestroy {
-		get { return pointsOnDestroy; }
-	}
-
-	public Cairo.Color Color {
-		get { return color; }
-	}
-	public bool Alive {
-		set { alive = value; }
-	}
-}
-
-public class Shot
-{
-	private const int life = 3; //will not arrive to end of screen (and not kill something that still we have not seen)
-	private const int speed = 3; //relative to ship //note if this change, life will need to change
-	private const int size = 2;
-	private int multiplier;
-
-	private int xStart; //time when started
-	private int yStart;
-	private bool alive;
-
-	public Shot (PointF p, bool micros)
-	{
-		this.xStart = Convert.ToInt32 (p.X); //TODO: to the right of the "ship"
-		this.yStart = Convert.ToInt32 (p.Y);
-		this.alive = true;
-
-		if (micros)
-			multiplier = 1000000;
-		else
-			multiplier = 1000;
-	}
-
-	public bool NeedToShow (double timeNow)
-	{
-		if (! alive)
-			return false;
-
-		if (timeNow - xStart > multiplier * life)
-		       return false;
-
-		return true;
-	}
-
-	public double GetXNow (double timeNow)
-	{
-		return xStart + speed * (timeNow - xStart);
-	}
-
-	// will be shown on gray
-	public bool LifeIsEnding (double timeNow)
-	{
-		if (timeNow - xStart > multiplier * .75 * life && timeNow - xStart <= multiplier * life)
-		       return true;
-
-		return false;
-	}
-
-	public int Ystart {
-		get { return yStart; }
-	}
-	public int Size {
-		get { return size; }
-	}
-	public bool Alive {
-		set { alive = value; }
-	}
-}
-
-//to show a +5 on destroying an asteroid
-public class AsteroidPoint
-{
-	private DateTime timeStart;
-	private double xGraph;
-	private double yGraph;
-	private int points;
-	private bool alive;
-	private const double life = .75; //seconds
-
-	public AsteroidPoint (DateTime timeStart, double xGraph, double yGraph, int points)
-	{
-		this.timeStart = timeStart;
-		this.xGraph = xGraph;
-		this.yGraph = yGraph;
-		this.points = points;
-		this.alive = true;
-	}
-
-	public bool NeedToShow ()
-	{
-		if (! alive)
-			return false;
-
-		if (DateTime.Now.Subtract (timeStart).TotalSeconds > life)
-		       return false;
-
-		return true;
-	}
-
-	public double XGraph {
-		get { return xGraph; }
-	}
-
-	public double YGraph {
-		get { return yGraph; }
-	}
-
-	public int Points {
-		get { return points; }
-	}
-
-	public bool Alive {
-		get { return alive; }
-	}
-}

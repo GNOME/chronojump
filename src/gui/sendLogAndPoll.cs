@@ -95,9 +95,9 @@ public partial class ChronoJumpWindow
 		else
 			radio_log_english.Active = true;
 
-		image_button_send_log.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "send_blue.png");
-		image_button_check_last_version.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_list.png");
-		image_button_open_chronojump.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "chronojump_kangaroo_icon_transp.png");
+        image_button_send_log.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "send_blue.png");
+        image_button_check_last_version.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_list.png");//[By Joeries]
+        image_button_open_chronojump.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "chronojump_kangaroo_icon_transp.png");
 
 		hbox_send_log.Show();
 	}
@@ -182,8 +182,8 @@ public partial class ChronoJumpWindow
 		label_social_network_poll_question.Text = "<b>" + label_social_network_poll_question.Text + "</b>";
 		label_social_network_poll_question.UseMarkup = true;
 
-		image_button_social_network_poll_send.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "send_blue.png");
-		image_button_open_chronojump1.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "chronojump_kangaroo_icon_transp.png");
+		image_button_social_network_poll_send.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "send_blue.png");
+		image_button_open_chronojump1.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "chronojump_kangaroo_icon_transp.png");
 	}
 
 	private void on_radio_social_network_poll_toggled (object o, EventArgs args)
@@ -283,15 +283,7 @@ public partial class ChronoJumpWindow
 		if(preferences.loadLastModeAtStart &&
 				preferences.lastMode != Constants.Modes.UNDEFINED && ! configChronojump.Compujump)
 		{
-			// 0) note this code is repeated on gui/app1/chronojump.cs public ChronoJumpWindow()
-			// 1) to avoid impossibility to start Chronojump if there's any problem with this mode, first put this to false
-			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, false, false);
-
-			// 2) change mode
-			changeModeCheckRadios (preferences.lastMode);
-
-			// 3) put preference to true again
-			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, true, false);
+			changeModeAtStartOrCloudViewChangeDB ();
 		} else {
 			show_start_page ();
 		}

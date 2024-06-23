@@ -191,6 +191,10 @@ public class Util
 			return("OTHER");
 	}
 
+	//shorter call
+	public static string CDS (string myString) {
+		return ChangeDecimalSeparator (myString);
+	}
 	//used for load from the database all numbers with correct decimal separator (locale defined)
 	//used also for the tvString, tcString, and runIntervalTimesString
 	//also used for reading . data coming from force sensor
@@ -286,7 +290,15 @@ public class Util
 			
 		return lastSubEvent; 
 	}
-	
+
+	public static double GetLast (List<double> d_l)
+	{
+		if (d_l.Count == 0)
+			return 0;
+
+		return d_l[d_l.Count -1];
+	}
+
 	public static int GetPosMax (string values)
 	{
 		string [] myStringFull = values.Split(new char[] {'='});
@@ -977,6 +989,7 @@ public class Util
 	//this will check if any config path is present
 	public static string GetLocalDataDir (bool withFinalSeparator)
 	{
+		//TODO: take care as Config.LastDBFullPathStatic maybe is not the best, maybe the best is storedCloudDir
 		if (Config.LastDBFullPathStatic == "")
 			return UtilAll.GetDefaultLocalDataDir (withFinalSeparator); //this can be checked by Mini
 		else {
@@ -987,9 +1000,15 @@ public class Util
 		}
 	}
 
-	public static string GetConfigFileName() {
-		return Path.Combine (GetLocalDataDir (false) +  Path.DirectorySeparatorChar + Constants.FileNameConfig);
+	public static string GetConfigFileName(bool ensureIsDefaultLocalData)
+	{
+		string str = GetLocalDataDir (false);
+		if (ensureIsDefaultLocalData)
+			str = UtilAll.GetDefaultLocalDataDir (false);
+
+		return Path.Combine (str +  Path.DirectorySeparatorChar + Constants.FileNameConfig);
 	}
+
 	public static string GetECapSimSignalFileName() {
 		return Path.Combine (GetLocalDataDir (false) +  Path.DirectorySeparatorChar + "eCapSimSignal.txt");
 	}
@@ -1059,6 +1078,16 @@ public class Util
 	{
 		return Path.Combine(Path.GetTempPath(), "ChronojumpCloudRead");
 	}
+
+	public static List<DirectoryInfo> GetCloudViewDatabases (string path)
+	{
+		if (path == "")
+			return new List<DirectoryInfo> ();
+
+		return Util.GetDirectoriesWithSubdirAndFile (
+				new DirectoryInfo (path), "database", "chronojump.db");
+	}
+
 	/*
 	   when exporting a session the 7z filename will be the same than the folder inside
 	   and this is imported correctly on 2.3.0,
@@ -1459,10 +1488,13 @@ public class Util
 						Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName),
 						".."));
 
-		string baseDirectory = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "..");
+		//Modify baseDirectory to application root path [By Joeries]
+		string baseDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
+		/* string baseDirectory = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "..");
 		if (! Directory.Exists(Path.Combine(baseDirectory, "lib" + Path.DirectorySeparatorChar + "chronojump"))) {
 			baseDirectory = System.IO.Path.Combine(baseDirectory, "..");
 		}
+		*/
 		return baseDirectory;
 	}
 
@@ -1544,10 +1576,11 @@ public class Util
 	{
 		int sizeInKB = 0;
 
+		LogB.Information ("GetFullDataSize: " + GetLocalDataDir(false));
 		long fullDataSize = DirSizeWithSubdirs (new DirectoryInfo (GetLocalDataDir(false)));
 		sizeInKB = (int) UtilAll.DivideSafe (fullDataSize, 1024);
 
-		if (! includingLogs)
+		if (! includingLogs && Directory.Exists (UtilAll.GetLogsDir (Config.LastDBFullPathStatic)))
 		{
 			long logsSize = DirSizeWithSubdirs (new DirectoryInfo (UtilAll.GetLogsDir (Config.LastDBFullPathStatic)));
 			sizeInKB -= (int) UtilAll.DivideSafe (logsSize, 1024);
@@ -1580,6 +1613,33 @@ public class Util
 			size += DirSizeWithSubdirs (di);
 		}
 		return size;
+	}
+
+	public static List<DirectoryInfo> GetDirectoriesWithSubdirAndFile (DirectoryInfo d, string subdirMatch, string fileMatch)
+	{
+		DirectoryInfo[] dirsAll = d.GetDirectories();
+		List<DirectoryInfo> dirsMatch = new List<DirectoryInfo> ();
+
+		foreach (DirectoryInfo dir1 in dirsAll)
+		{
+			//LogB.Information ("dir1 = " + dir1.Name);
+			foreach (DirectoryInfo dir2 in dir1.GetDirectories())
+			{
+				//LogB.Information ("dir2 = " + dir2.Name);
+				if (dir2.Name != subdirMatch)
+					continue;
+
+				foreach (FileInfo file in dir2.GetFiles())
+				{
+					if (file.Name != fileMatch)
+						continue;
+
+					LogB.Information ("Added:" + dir1.Name);
+					dirsMatch.Add (dir1);
+				}
+			}
+		}
+		return dirsMatch;
 	}
 
 	public static bool FileDelete(string fileName) 
@@ -1745,22 +1805,56 @@ public class Util
 		return intsCut;
 	}
 
+	public static string GetRBin ()
+	{
+		string bin = "R";
 
-	public static void RunRScript(string rScript){
+		if (UtilAll.IsWindows())
+		{
+			if (System.Environment.Is64BitProcess)
+				return System.IO.Path.Combine (GetPrefixDir(), @"R\bin\x64\R.exe");
+			else
+				return System.IO.Path.Combine (GetPrefixDir(), @"R\bin\i386\R.exe");
+		} else if (operatingSystem == UtilAll.OperatingSystems.MACOSX)
+			return Constants.ROSX;
+
+		return bin;
+	}
+	public static string GetRscriptBin ()
+	{
+		string bin = "Rscript";
+
+		if (UtilAll.IsWindows())
+		{
+			if (System.Environment.Is64BitProcess)
+				return System.IO.Path.Combine (GetPrefixDir(), @"R\bin\x64\Rscript.exe");
+			else
+				return System.IO.Path.Combine (GetPrefixDir(), @"R\bin\i386\Rscript.exe");
+		} else if (operatingSystem == UtilAll.OperatingSystems.MACOSX)
+			return Constants.RScriptOSX;
+
+		return bin;
+	}
+
+	public static void RunR (string rScript)
+	{
 		//CancelRScript = false;
 
 		ProcessStartInfo pinfo;
 	        Process r;
-		string rBin="R";
+
 		//If output file is not given, R will try to write in the running folder
 		//in which we may haven't got permissions
 		string outputFile = rScript+".Rout";
 		
 		if (File.Exists(outputFile))
 			File.Delete(outputFile);
- 
+
+		string rBin = GetRBin ();
+		LogB.Information ("rBin: " + rBin);
+
 		if (UtilAll.IsWindows())
-			rBin=System.IO.Path.Combine(GetPrefixDir(), "bin/R.exe");
+			rBin = GetRBin ();
 		else if(operatingSystem == UtilAll.OperatingSystems.MACOSX)
 			rBin = Constants.ROSX;
 
@@ -1796,8 +1890,10 @@ public class Util
 			//also if do not work, check about relative paths here: https://stackoverflow.com/questions/52599105/c-sharp-under-linux-process-start-exception-of-no-such-file-or-directory
 			if(operatingSystem == UtilAll.OperatingSystems.LINUX)
 				System.Diagnostics.Process.Start("xdg-open", url);
-			else
+			else if (operatingSystem == UtilAll.OperatingSystems.MACOSX)
 				System.Diagnostics.Process.Start(url);
+			else
+				System.Diagnostics.Process.Start("explorer.exe" , url);
 
 			return true;
 		} catch {
@@ -2827,6 +2923,7 @@ public class UtilCopy
 	public int BackupSecondDirsLength;
 	public string LastMainDir;
 	public string LastSecondDir;
+	public bool Cancel;
 	private int sessionID;
 	private bool copyLogs;
 	private bool copyConfig;
@@ -2846,6 +2943,7 @@ public class UtilCopy
 		BackupSecondDirsLength = 0;
 		LastMainDir = "";
 		LastSecondDir = "";
+		Cancel = false;
 
 		this.sessionID = sessionID;
 		this.copyLogs = copyLogs;
@@ -2856,6 +2954,12 @@ public class UtilCopy
 	//http://stackoverflow.com/a/58779
 	public bool CopyFilesRecursively(DirectoryInfo source, DirectoryInfo target, uint level)
 	{
+		if (Cancel)
+		{
+			LogB.Information ("CopyFilesRecursively cancelled");
+			return false;
+		}
+
 		DirectoryInfo [] diArray = source.GetDirectories();
 		foreach (DirectoryInfo dir in diArray)
 			if(dir.ToString() != backupDirOld) //do not copy backup files
@@ -2922,7 +3026,7 @@ public class UtilCopy
 						file.Name != "chronojump.db")
 					continue;
 
-				file.CopyTo(Path.Combine(target.FullName, file.Name));
+				file.CopyTo(Path.Combine(target.FullName, file.Name), true);
 			}
 		} catch {
 			LogB.Warning("CopyFilesRecursively catched, maybe disk full");

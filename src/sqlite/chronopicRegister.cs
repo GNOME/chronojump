@@ -15,13 +15,13 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 //using System.Data;
 using System.Collections.Generic; //List<T>
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 
 class SqliteChronopicRegister : Sqlite
 {
@@ -54,7 +54,7 @@ class SqliteChronopicRegister : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
-		SqliteDataReader reader = dbcmd.ExecuteReader();
+		SQLiteDataReader reader = dbcmd.ExecuteReader();
 	
 		List<ChronopicRegisterPort> l = new List<ChronopicRegisterPort>();
 		while(reader.Read()) {
@@ -87,7 +87,7 @@ class SqliteChronopicRegister : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader = dbcmd.ExecuteReader();
+		SQLiteDataReader reader = dbcmd.ExecuteReader();
 
 		bool found = false;
 		if (reader.Read ())
@@ -137,5 +137,15 @@ class SqliteChronopicRegister : Sqlite
 		closeIfNeeded(dbconOpened);
 	}
 
+	public static void DeleteAll (bool dbconOpened)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "Delete FROM " + table;
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		closeIfNeeded(dbconOpened);
+	}
 }
 

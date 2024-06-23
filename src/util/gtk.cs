@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -35,6 +35,13 @@ public class UtilGtk
 	{
 		//Only first thread can touch GTK
 		return (System.Threading.Thread.CurrentThread.ManagedThreadId.ToString() == "1");
+	}
+
+	// to debug
+	// eg call with: UtilGtk. WidgetIsSensitive (alignment_session_persons, "alignment_session_persons", "0");
+	public static void WidgetIsSensitive (Gtk.Widget w, string wName, string whereInCode)
+	{
+		LogB.Information (string.Format ("Widget {0} is sensitive? {1} at {2}", wName, w.Sensitive, whereInCode));
 	}
 
 	/*
@@ -585,7 +592,7 @@ public class UtilGtk
 	public static Gdk.Color BLUE_CHRONOJUMP = new Gdk.Color(14,30,70); //so dark, can be used only for background (is the 0e1e46)
 	
 	//used on encoder capture
-	public static Gdk.Color RED_DARK = new Gdk.Color(140,0,0);
+	public static Gdk.Color RED_DARK = new Gdk.Color(140,0,0); //#8c0000
 	public static Gdk.Color RED_LIGHT = new Gdk.Color(238,0,0);
 	public static Gdk.Color GREEN_DARK = new Gdk.Color(0,140,0);
 	public static Gdk.Color GREEN_LIGHT = new Gdk.Color(0,238,0);
@@ -599,8 +606,9 @@ public class UtilGtk
 	public static string ColorGray = "gray";
 
 	public enum Colors {
-		BLACK, BLUE_CHRONOJUMP, BLUE_LIGHT, BLUE_PLOTS, GREEN_PLOTS, GREEN_LIGHT, GREEN_DARK,
-		GRAY, RED_PLOTS, RED_DARK, YELLOW, YELLOW_LIGHT, WHITE }
+		BLACK, BLUE_CHRONOJUMP, BLUE_LIGHT, BLUE_PLOTS,
+		GRAY, GRAY_LIGHT, GREEN_PLOTS, GREEN_LIGHT, GREEN_DARK,
+		RED_PLOTS, RED_DARK, YELLOW, YELLOW_LIGHT, WHITE }
 
 	public static RGBA GetRGBA (Colors colname)
 	{
@@ -614,14 +622,16 @@ public class UtilGtk
 			color.Parse ("#004bee");
 		else if (colname == Colors.BLUE_PLOTS)
 			color.Parse ("#0000c8");
+		else if (colname == Colors.GRAY)
+			color.Parse ("#666666");
+		else if (colname == Colors.GRAY_LIGHT)
+			color.Parse ("#999999");
 		else if (colname == Colors.GREEN_PLOTS)
 			color.Parse ("#00c800");
 		else if (colname == Colors.GREEN_LIGHT)
 			color.Parse ("#00ee00");
 		else if (colname == Colors.GREEN_DARK)
 			color.Parse ("#008c00");
-		else if (colname == Colors.GRAY)
-			color.Parse ("#666666");
 		else if (colname == Colors.RED_PLOTS)
 			color.Parse ("#c80000");
 		else if (colname == Colors.RED_DARK)
@@ -634,6 +644,11 @@ public class UtilGtk
 			color.Parse ("#ffffff");
 
 		return color;
+	}
+
+	public static string GetRGBAs (Colors colname)
+	{
+		return GetRGBA (colname).ToString ();
 	}
 
 	public static bool ColorIsDark (RGBA color)
@@ -694,6 +709,28 @@ public class UtilGtk
 		return (color.Red * 256 > 200 && color.Green * 256 > 200 && color.Blue * 256 < 50);
 	}
 
+	//method withoud the need of HSV
+	//Myindex comment on https://stackoverflow.com/a/9733452
+	private static double colorsContrast (RGBA color1, RGBA color2)
+	{
+		return Math.Abs (colorBrightness (color1) - colorBrightness (color2));
+	}
+	//method withoud the need of HSV
+	//Myindex comment on https://stackoverflow.com/a/9733452
+	private static double colorBrightness (RGBA color)
+	{
+		return .2126*color.Red + .7152*color.Green + .0722*color.Blue;
+	}
+
+	public static int GetRadioButtonPosInList (List<Gtk.RadioButton> r_l, Gtk.RadioButton r)
+	{
+		for (int i = 0; i < r_l.Count; i ++)
+			if (r_l[i] == r)
+				return i;
+
+		return -1;
+	}
+
 	/*
 	public static Gdk.Color GetBackgroundColorSelected() {
 		Gtk.Style regularLabel = Gtk.Rc.GetStyle (new Gtk.Label());
@@ -702,53 +739,254 @@ public class UtilGtk
 	}
 	*/
 
-	public static void ColorsMenuLabel (Gtk.Viewport v, Gtk.Label l)
+	//TODO: have all the css names as enums in order to fail in compile if names like darkCss have any typo
+	public static void ApplyCSS ()
 	{
-		l.OverrideColor (StateFlags.Active, v.StyleContext.GetColor (StateFlags.Selected));
-		l.OverrideColor (StateFlags.Prelight, v.StyleContext.GetColor (StateFlags.Selected));
-	}
+		CssProvider css = new CssProvider ();
+
+		string colBgS = Config.ColorBackground.ToString ();
+		string colShiftedS = Config.ColorBackgroundShifted.ToString ();
+
+		//NOTEBOOK bgCss header, and any label with big contrast with bg
+		string colLabelNotebookBgCss = "#ffffff";
+		if (! Config.ColorBackgroundIsDark)
+			colLabelNotebookBgCss = "#000000";
+
+		string colLabelContrastBgCss = GetRGBAs (Colors.YELLOW); //also used on hover
+		if (colorsContrast (GetRGBA (Colors.YELLOW), Config.ColorBackground) <
+				colorsContrast (GetRGBA (Colors.BLUE_CHRONOJUMP), Config.ColorBackground))
+			colLabelContrastBgCss = GetRGBAs (Colors.BLUE_CHRONOJUMP);
+
+
+		//NOTEBOOK shiftedCss header, and any label with big contrast with bg
+		string colLabelNotebookShiftedCss = "#ffffff";
+		if (! Config.ColorBackgroundShiftedIsDark)
+			colLabelNotebookShiftedCss = "#000000";
+
+		string colLabelContrastShiftedCss = GetRGBAs (Colors.YELLOW); //also used on hover
+		if (colorsContrast (GetRGBA (Colors.YELLOW), Config.ColorBackgroundShifted) <
+				colorsContrast (GetRGBA (Colors.BLUE_CHRONOJUMP), Config.ColorBackgroundShifted))
+			colLabelContrastShiftedCss = GetRGBAs (Colors.BLUE_CHRONOJUMP);
 	
-	public static void ColorsTestLabel (Gtk.Viewport v, Gtk.Label l)
-	{
-		l.OverrideColor (StateFlags.Active, v.StyleContext.GetColor (StateFlags.Selected));
-		l.OverrideColor (StateFlags.Prelight, v.StyleContext.GetColor (StateFlags.Selected));
-	}
-	
-	public static void ColorsRadio (Gtk.Viewport v, Gtk.RadioButton r)
-	{
-		r.OverrideColor (StateFlags.Active, v.StyleContext.GetColor (StateFlags.Selected));
-		r.OverrideColor (StateFlags.Prelight, v.StyleContext.GetColor (StateFlags.Selected));
+		var data =
+			//LABELS
+			//labels lightCss in light color
+			"label#lightCss {" +
+				"color: " + GetRGBAs (Colors.WHITE) + ";" +
+			"}" +
+			//labels darkCss in dark color
+			"label#darkCss {" +
+				"color: #222222;" +
+			"}" +
+			//label used on version hidden
+			/*
+			"label#blueChronojumpHideCss {" +
+				"color: " + GetRGBAs (Colors.BLUE_CHRONOJUMP) + ";" +
+				"background-color: " + GetRGBAs (Colors.BLUE_CHRONOJUMP) + ";" +
+			"}" +
+			*/
+			"label#ChronojumpHideCss {" +
+				"color: " + Config.ColorBackground.ToString () + ";" +
+				"background-color: " + Config.ColorBackground.ToString () + ";" +
+			"}" +
+			"label#ContrastBgCss {" +
+				"color: " + colLabelContrastBgCss + ";" +
+			"}" +
+			"label#ContrastShiftedCss {" +
+				"color: " + colLabelContrastShiftedCss + ";" +
+			"}" +
+			//rest of labels
+			"label {" +
+				"color: #000000;" +
+			"}" +
+
+			//RADIOS, CHECKBUTTONS & BUTTONS
+			//radio normal
+			"radio {" +
+				"color: #ffffff;" +// background: " + Config.ColorBackgroundShifted.ToString () + ";" + //this makes it emtpy ig bg is shifted
+			"}" +
+			//radio checked
+			"radio:checked {" +
+				"color: " + Colors.YELLOW.ToString () + ";" + // background: " + Config.ColorBackgroundShifted.ToString () + ";" +
+			"}" +
+			"radio:insensitive {" +
+			    "background: #999999;" +
+			    "background-color: #999999;" +
+			"}" +
+			"radio:insensitive label {" +
+			    "color: #666666;" + //this is not working, maybe label is not in radio
+			"}" +
+
+			//checkbutton checked
+			"checkbutton:checked {" +
+				"color: " + Colors.YELLOW.ToString () + ";" + // background: " + Config.ColorBackgroundShifted.ToString () + ";" +
+			"}" +
+			//button checked
+			"button:checked {" +
+				"background: " + GetRGBAs (Colors.YELLOW_LIGHT) + ";" + //TODO: try a YELLOW_MID
+			"}" +
+			"button:insensitive {" +
+			    "background: #cccccc;" +
+			    "background-color: #cccccc;" +
+			"}" +
+			"button:insensitive label {" +
+			    "color: #666666;" +
+			"}" +
+
+			//ANY WIDGET
+			//any widget bgCss
+			"*#bgCss {" +
+				"background: " + colBgS + ";" +
+			"}" +
+			//any widget shiftedCss
+			"*#shiftedCss {" +
+				"background: " + colShiftedS + ";" +
+			"}" +
+			//any widget whiteBgCss
+			"*#whiteBgCss {" +
+				"background: #ffffff;" +
+			"}" +
+			"*#alertCss {" +
+				"background-color: #8c0000;" +
+				//"color: #8c0000;" +
+			"}" +
+
+			//VIEWPORT
+			"viewport#yellowLightCss {" +
+				//"background-image: none;" +
+				"background: " + GetRGBAs (Colors.YELLOW_LIGHT) + ";" +
+			"}" +
+			"viewport#greenLightCss {" +
+				//"background-image: none;" +
+				"background: " + GetRGBAs (Colors.GREEN_LIGHT) + ";" +
+			"}" +
+			"viewport#whiteCss {" +
+				//"background-image: none;" +
+				"background: #ffffff;" +
+			"}" +
+			//using border as app1s_viewport_checkbutton_show_data_jumps ... are very thin
+			"viewport#bgCss {" +
+				//"background-image: none;" +
+				"background: " + Config.ColorBackground.ToString () + ";" +
+				"border: " + Config.ColorBackground.ToString () + ";" +
+			"}" +
+
+			//SEPARATOR
+			"separator#caramelCss {" +
+				//"background-image: none;" +
+				"background: #cf7d00;" +
+				"border-width: 1px;" +
+				"border: #ffffff;" +
+			"}" +
+			"separator#brownCss {" +
+				//"background-image: none;" +
+				"background: #964b00;" +
+				"border-width: 1px;" +
+				"border: #ffffff;" +
+			"}" +
+			"separator#blackCss {" +
+				"background: #000000;" +
+				"border-width: 1px;" +
+				"border: #ffffff;" +
+			"}" +
+
+			//NOTEBOOKS bgCss
+			//header
+			"notebook#bgCss header {" +
+				"background-color: " + colBgS + ";" +
+			"}" +
+			//label of the tab
+			"notebook#bgCss tab label {" +
+				"color: " + colLabelNotebookBgCss + ";" +
+			"}" +
+			//label of the tab (checked)
+			"notebook#bgCss tab:checked label {" +
+				"color: " + colLabelContrastBgCss + ";" + //TODO: try a YELLOW_MID
+			"}" +
+			//bg of the tab (hover)
+			"notebook#bgCss tab:hover {" +
+				"background-color: " + colBgS + ";" +
+			"}" +
+			//color of the label of the tab (hover)
+			"notebook#bgCss tab:hover label {" +
+				"color: " + colLabelContrastBgCss + ";" + //TODO: try a YELLOW_MID
+			"}" +
+			//content of the notebook option 1 white
+			/*
+			"notebook#bgCss stack {" +
+				"background-color: #ffffff;" +
+			"}" +
+			*/
+			//content of the notebook option 2 shifted, then need to:
+			//UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook)
+			"notebook#bgCss stack {" +
+				"background-color: " + colShiftedS + ";" +
+			"}" +
+
+			//NOTEBOOKS shiftedCss
+			//(used in notebooks inside other notebooks, like on preferences)
+			//header
+			"notebook#shiftedCss header {" +
+				"background-color: " + colShiftedS + ";" +
+			"}" +
+			//label of the tab
+			"notebook#shiftedCss tab label {" +
+				"color: " + colLabelNotebookShiftedCss + ";" +
+			"}" +
+			//label of the tab (checked)
+			"notebook#shiftedCss tab:checked label {" +
+				"color: " + colLabelContrastShiftedCss + ";" + //TODO: try a YELLOW_MID
+			"}" +
+			//bg of the tab (hover)
+			"notebook#shiftedCss tab:hover {" +
+				"background-color: " + colShiftedS + ";" +
+			"}" +
+			//color of the label of the tab (hover)
+			"notebook#shiftedCss tab:hover label {" +
+				"color: " + colLabelContrastShiftedCss + ";" + //TODO: try a YELLOW_MID
+			"}" +
+			//content of the notebook option 1 white
+			/*
+			"notebook#shiftedCss stack {" +
+				"background-color: #ffffff;" +
+			"}" +
+			*/
+			//content of the notebook option 2 shifted, then need to:
+			//UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook)
+			"notebook#shiftedCss stack {" +
+				"background-color: " + colShiftedS + ";" +
+			"}" +
+
+			//TOOLTIPS
+			"tooltip {" +
+				"background-color: " + GetRGBAs (Colors.BLUE_CHRONOJUMP) + ";" +
+				//"border-width: 1px;" +
+				"border-style: dotted;" + //or dotted, solid, ... see ttps://docs.gtk.org/gtk3/css-properties.html
+				"border-color: #ffffff;" +
+			"}" +
+			"tooltip label {" +
+				"color: #ffffff;" +
+			"}";
+		css.LoadFromData(data);
+
+		Gtk.StyleContext.RemoveProviderForScreen (Gdk.Screen.Default, css); //needed
+		Gtk.StyleContext.AddProviderForScreen (Gdk.Screen.Default, css, 800); //needed
 	}
 
-	public static void ColorsCheckbox (Gtk.Viewport v, Gtk.CheckButton c)
+	public static bool LogoBlueOrWhite (RGBA bg)
 	{
-		c.OverrideColor (StateFlags.Active, v.StyleContext.GetColor (StateFlags.Selected));
-		c.OverrideColor (StateFlags.Prelight, v.StyleContext.GetColor (StateFlags.Selected));
-	}
-	
-	
-	public static void ColorsCheckOnlyPrelight (Gtk.CheckButton c)
-	{
-		//c.ModifyBg(StateType.Normal, WHITE);
-		//c.ModifyBg(StateType.Active, WHITE);
-		//c.ModifyBg(StateType.Prelight, BLUE_CLEAR);
-		
-		//c.ModifyBg(StateType.Active, c.Style.Background(StateType.Selected));
-		//c.ModifyBg(StateType.Prelight, c.Style.Background(StateType.Selected));
+		return (colorsContrast (bg, GetRGBA (Colors.BLUE_CHRONOJUMP)) >=
+				colorsContrast (bg, GetRGBA (Colors.WHITE))
+		       );
 	}
 
-	public static void ColorsTreeView(Gtk.Viewport v, Gtk.TreeView tv)
-	{
-		tv.OverrideColor (StateFlags.Active, v.StyleContext.GetColor (StateFlags.Selected));
-		tv.OverrideColor (StateFlags.Prelight, v.StyleContext.GetColor (StateFlags.Selected));
-	}
-	
-
-	private static RGBA chronopicViewportDefaultBg;
-	private static RGBA chronopicLabelsDefaultFg;
+	//private static RGBA chronopicViewportDefaultBg;
+	//private static RGBA chronopicLabelsDefaultFg;
 
 	public static void DeviceColors (Gtk.Viewport v, bool connected)
 	{
+		/* disabled un gtk3 until find way to do it with css (if needed)
+
 		//if(! (v.StyleContext.GetBackgroundColor (StateFlags.Normal)).Equal(v.StyleContext.GetBackgroundColor (StateFlags.Selected)))
 		RGBA a = v.StyleContext.GetBackgroundColor (StateFlags.Normal);
 		RGBA b = v.StyleContext.GetBackgroundColor (StateFlags.Selected);
@@ -762,100 +1000,86 @@ public class UtilGtk
 			//v.ModifyBg(StateType.Normal, BLUE);
 			v.OverrideBackgroundColor (StateFlags.Normal, v.StyleContext.GetBackgroundColor (StateFlags.Selected));
 		}
+		*/
 	}
 
-	public static void WindowColor (Gtk.Window w, Colors color)
-	{
-		w.OverrideBackgroundColor (StateFlags.Normal, GetRGBA (color));
-	}
 	public static void WindowColor (Gtk.Window w, RGBA color)
 	{
-		w.OverrideBackgroundColor (StateFlags.Normal, color);
+		w.Name = "bgCss";
 	}
 
 	public static void DialogColor (Gtk.Dialog d, RGBA color)
 	{
-		d.OverrideBackgroundColor (StateFlags.Normal, color);
+		d.Name = "bgCss";
 	}
 
 	public static void ViewportColor (Gtk.Viewport v, Colors color)
 	{
-		v.OverrideBackgroundColor (StateFlags.Normal, GetRGBA (color));
+		//v.OverrideBackgroundColor (StateFlags.Normal, GetRGBA (color));
 	}
 	public static void ViewportColor (Gtk.Viewport v, RGBA color)
 	{
-		v.OverrideBackgroundColor (StateFlags.Normal, color);
+		//v.OverrideBackgroundColor (StateFlags.Normal, color);
+	}
+
+	public static void ViewportColorBg (Gtk.Viewport v)
+	{
+		v.Name = "bgCss"; //bg color (has contrast with shifted)
+	}
+	public static void ViewportColorYellowLight (Gtk.Viewport v)
+	{
+		v.Name = "yellowLightCss";
+	}
+	public static void ViewportColorGreenLight (Gtk.Viewport v)
+	{
+		v.Name = "greenLightCss";
+	}
+	public static void ViewportColorWhite (Gtk.Viewport v)
+	{
+		v.Name = "whiteCss";
 	}
 
 	public static void WidgetColor (Gtk.Widget w, RGBA color)
 	{
-		w.OverrideBackgroundColor (StateFlags.Normal, color);
+		w.Name = "shiftedCss";
 	}
 
-	//does not work in gtk3
+	//does not work in gtk3 //just use ViewportColorWhite
+	/*
 	public static void ViewportColorDefault (Gtk.Viewport v)
 	{
 		//v.ModifyBg(StateType.Normal); //resets to the default color
 
 		//create a new viewport and get the color
 		Gtk.Viewport vTemp = new Gtk.Viewport();
+		*/
 		/*
 		Gdk.Color colorViewportDefault = vTemp.StyleContext.GetBackgroundColor (StateFlags.Normal);
 
 		//assign the color to our requested viewport
 		v.ModifyBg(StateType.Normal, colorViewportDefault); //resets to the default color
 		*/
+		/*
 		v.OverrideBackgroundColor (StateFlags.Normal, vTemp.StyleContext.GetBackgroundColor (StateFlags.Normal));
 
 		RGBA newColor = vTemp.StyleContext.GetBackgroundColor (StateFlags.Normal);
 		LogB.Information(string.Format("newColor end: red {0}, green {1}, blue {2}",
 					newColor.Red, newColor.Green, newColor.Blue)); //bad: 0,0,0
 	}
+	*/
 
-	public static void ChronopicColors (Gtk.Viewport v, Gtk.Label l1, Gtk.Label l2, bool connected)
-	{
-		//if(! v.Style.Background(StateType.Normal).Equal(BLUE))
-		//if(! v.StyleContext.GetBackgroundColor (StateFlags.Normal).Equal(v.StyleContext.GetBackgroundColor (StateFlags.Selected)))
-		RGBA a = v.StyleContext.GetBackgroundColor (StateFlags.Normal);
-		RGBA b = v.StyleContext.GetBackgroundColor (StateFlags.Selected);
-		if(! a.Equals (b))
-			chronopicViewportDefaultBg = v.StyleContext.GetBackgroundColor (StateFlags.Normal);
-		
-		//if(! l1.StyleContext.GetColor (StateFlags.Normal).Equal(UtilGtk.Colors.WHITE))
-		RGBA c = l1.StyleContext.GetColor (StateFlags.Normal);
-		if(! c.Equals (GetRGBA (Colors.WHITE)))
-			chronopicLabelsDefaultFg = l1.StyleContext.GetColor (StateFlags.Normal);
-
-		if(connected) {
-			v.OverrideBackgroundColor (StateFlags.Normal, chronopicViewportDefaultBg);
-			l1.OverrideColor (StateFlags.Normal, chronopicLabelsDefaultFg);
-			l2.OverrideColor (StateFlags.Normal, chronopicLabelsDefaultFg);
-		} else {
-			//v.OverrideBackgroundColor (StateFlags.Normal, BLUE);
-			v.OverrideBackgroundColor (StateFlags.Normal, v.StyleContext.GetBackgroundColor (StateFlags.Selected));
-			l1.OverrideColor (StateFlags.Normal, GetRGBA (Colors.WHITE));
-			l2.OverrideColor (StateFlags.Normal, GetRGBA (Colors.WHITE));
-		}
-	}
-
+	/* disabled on gtk3 until find a way to do it (if needed)
 	//changes of colors without widgets that are in a EventBox
 	public static void EventBoxColorBackgroundActive (Gtk.EventBox e, Colors colorActive, Colors colorPrelight)
 	{
 		e.OverrideColor (StateFlags.Active, GetRGBA (colorActive));
 		e.OverrideColor (StateFlags.Prelight, GetRGBA (colorPrelight));
 	}
+	*/
 
 	public static void ContrastLabelsBox (bool bgDark, Gtk.Box box)
 	{
 		contrastLabelsContainer (bgDark, (Gtk.Container) box);
-	}
-	public static void ContrastLabelsHBox (bool bgDark, Gtk.HBox hbox)
-	{
-		contrastLabelsContainer (bgDark, (Gtk.Container) hbox);
-	}
-	public static void ContrastLabelsVBox (bool bgDark, Gtk.VBox vbox)
-	{
-		contrastLabelsContainer (bgDark, (Gtk.Container) vbox);
 	}
 	public static void ContrastLabelsTable (bool bgDark, Gtk.Table table)
 	{
@@ -877,8 +1101,6 @@ public class UtilGtk
 				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundShiftedIsDark, (Gtk.Label) w);
 			else if (w.GetType() == typeof(Gtk.Box))
 				UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, (Gtk.Box) w);
-			else if (w.GetType() == typeof(Gtk.HBox))
-				UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundShiftedIsDark, (Gtk.HBox) w);
 		}
 	}
 	/*
@@ -931,6 +1153,7 @@ public class UtilGtk
 				(w.GetType() == typeof(Gtk.RadioButton) && ((Gtk.RadioButton) w).DrawIndicator) || //same as above
 				w.GetType() == typeof(Gtk.ScrolledWindow) ||
 				w.GetType() == typeof(Gtk.Viewport) ||
+				w.GetType() == typeof(Gtk.ButtonBox) ||
 				w.GetType() == typeof(Gtk.VButtonBox) ||
 				w.GetType() == typeof(Gtk.HButtonBox) ||
 				w.GetType() == typeof(Gtk.Alignment) ||
@@ -942,15 +1165,9 @@ public class UtilGtk
 	public static void ContrastLabelsLabel (bool bgDark, Gtk.Label l)
 	{
 		if(bgDark)
-		{
-			//l.OverrideColor (StateFlags.Normal, GetRGBA (Colors.YELLOW_LIGHT));
-			//l.OverrideColor (StateFlags.Active, GetRGBA (Colors.YELLOW_LIGHT)); //needed for CheckButton and RadioButton
-			l.OverrideColor (StateFlags.Normal, GetRGBA (Colors.WHITE));
-			l.OverrideColor (StateFlags.Active, GetRGBA (Colors.WHITE)); //needed for CheckButton and RadioButton
-		} else {
-			l.OverrideColor (StateFlags.Normal, GetRGBA (Colors.BLACK));
-			//l.OverrideColor (StateFlags.Active, GetRGBA (Colors.BLACK));
-		}
+			l.Name = "lightCss";
+		else
+			l.Name = "darkCss";
 	}
 
 
@@ -960,6 +1177,7 @@ public class UtilGtk
 	 *
 	 */
 
+	/*
 	public static void ResizeIfNeeded(Gtk.Window win) {
 		int winX, winY;
 		win.GetSize(out winX, out winY);
@@ -980,6 +1198,7 @@ public class UtilGtk
 		//libmono-cairo2.0-cil
 		return Gdk.Display.Default.GetScreen(0).Height;
 	}
+	*/
 	
 	public static int WidgetWidth(Gtk.Widget w) {
 		return w.Allocation.Width;
@@ -1048,12 +1267,8 @@ public class UtilGtk
 		l.TooltipText = Util.RemoveMarkup(s);
 	}
 
-	public enum ArrowEnum { NONE, FORWARD, BACKWARD, FORWARD_EMPHASIS }
-	public static Button CreateArrowButton(ArrowType arrow_type, ShadowType shadow_type)
-	{
-		return CreateArrowButton(arrow_type, shadow_type, -1, -1, ArrowEnum.NONE);
-	}
-	public static Button CreateArrowButton(ArrowType arrow_type, ShadowType shadow_type, int width, int height, ArrowEnum customArrow)
+	public enum ArrowEnum { FORWARD, BACKWARD, FORWARD_EMPHASIS, LEFT, RIGHT }
+	public static Button CreateArrowButton (int width, int height, ArrowEnum customArrow)
 	{
 		Button button = new Button ();
 
@@ -1062,25 +1277,23 @@ public class UtilGtk
 		if(height > 0)
 			button.HeightRequest = height;
 
-		if(customArrow == ArrowEnum.NONE)
-		{
-			Arrow  arrow = new Arrow (arrow_type, shadow_type);
-			button.Add(arrow);
-		} else {
-			Pixbuf pixbuf;
-			if(customArrow == ArrowEnum.FORWARD)
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameArrowForward);
-			else if(customArrow == ArrowEnum.BACKWARD)
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameArrowBackward);
-			else if(customArrow == ArrowEnum.FORWARD_EMPHASIS)
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameArrowForwardEmphasis);
-			else
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameArrowForward); //default
+		Pixbuf pixbuf;
+		if(customArrow == ArrowEnum.FORWARD)
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameArrowForward);
+		else if(customArrow == ArrowEnum.BACKWARD)
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameArrowBackward);
+		else if(customArrow == ArrowEnum.FORWARD_EMPHASIS)
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameArrowForwardEmphasis);
+		else if(customArrow == ArrowEnum.LEFT)
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLeft);
+		else if(customArrow == ArrowEnum.RIGHT)
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameRight);
+		else
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameArrowForward); //default
 
-			Gtk.Image image = new Gtk.Image();
-			image.Pixbuf = pixbuf;
-			button.Add(image);
-		}
+		Gtk.Image image = new Gtk.Image();
+		image.Pixbuf = pixbuf;
+		button.Add(image);
 
 		button.ShowAll();
 
@@ -1131,7 +1344,7 @@ public class UtilGtk
 	 * this is used when one process takes an image from another process and maybe is not finished
 	 * Now we use imageFileWaitUntilCreated()
 	 */
-	private static void imageFileWaitUntilCreated(string filename) 
+	private static void imageFileWaitUntilCreated (string filename)
 	{
 		while( ! File.Exists(filename) );
 
@@ -1145,27 +1358,7 @@ public class UtilGtk
 		} while( ! hasSize );
 	}
 
-	public static Gtk.Image OpenImageSafe(string filename, Gtk.Image image) 
-	{
-		imageFileWaitUntilCreated(filename);
-		
-		bool readedOk;
-		do {
-			readedOk = true;
-			try {
-				Pixbuf pixbuf = new Pixbuf (filename); //from a file
-				image.Pixbuf = pixbuf;
-			} catch {
-				LogB.Warning("File is still not ready. Wait a bit");
-				System.Threading.Thread.Sleep(50);
-				readedOk = false;
-			}
-		} while( ! readedOk );
-
-		return image;
-	}
-
-	public static Gdk.Pixbuf OpenPixbufSafe(string filename, Gdk.Pixbuf pixbuf) 
+	private static Gdk.Pixbuf openPixbufSafe (string filename, Gdk.Pixbuf pixbuf)
 	{
 		imageFileWaitUntilCreated(filename);
 		
@@ -1180,9 +1373,18 @@ public class UtilGtk
 		do {
 			readedOk = true;
 			try {
-				pixbuf = new Pixbuf (filename); //from a file
+				pixbuf = Chronojump.MyPixbuf.Get(filename); //from a file
+
+				//since dotnetgtk3 returns null if not ok
+				if (pixbuf == null)
+				{
+					LogB.Warning("File is still not ready (null). Wait a bit");
+					System.Threading.Thread.Sleep(50);
+					readedOk = false;
+					countTimes ++;
+				}
 			} catch {
-				LogB.Warning("File is still not ready. Wait a bit");
+				LogB.Warning("File is still not ready (catched). Wait a bit");
 				System.Threading.Thread.Sleep(50);
 				readedOk = false;
 				countTimes ++;
@@ -1190,9 +1392,25 @@ public class UtilGtk
 		} while( ! readedOk && countTimes < 25);
 
 		if (countTimes >= 25)
-			return new Pixbuf (null, Util.GetImagePath(false) + "image.png"); //an icon representing an image
+			return Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image.png"); //an icon representing an image
 
 		return pixbuf;
+	}
+
+	public static Gdk.Pixbuf OpenPixbufSafe (string filename, Gdk.Pixbuf pixbuf)
+	{
+		return openPixbufSafe (filename, pixbuf);
+	}
+
+	public static Gtk.Image OpenImageSafe (string filename, Gtk.Image image)
+	{
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image.png");
+		pixbuf = openPixbufSafe (filename, pixbuf);
+
+		if (pixbuf != null)
+			image.Pixbuf = pixbuf;
+
+		return image;
 	}
 
 	/*

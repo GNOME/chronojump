@@ -20,7 +20,7 @@
 
 using System;
 using System.Collections.Generic; //List<T>
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 
 class SqliteJson : Sqlite
 {
@@ -97,7 +97,7 @@ class SqliteJson : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader = dbcmd.ExecuteReader();
+		SQLiteDataReader reader = dbcmd.ExecuteReader();
 
 		List<UploadEncoderDataFullObject> l = new List<UploadEncoderDataFullObject>();
 		while(reader.Read())
@@ -193,7 +193,7 @@ class SqliteJson : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader = dbcmd.ExecuteReader();
+		SQLiteDataReader reader = dbcmd.ExecuteReader();
 
 		List<UploadSprintDataObject> l = new List<UploadSprintDataObject>();
 		while(reader.Read())
@@ -256,9 +256,9 @@ class SqliteJson : Sqlite
 		if(listEtTemp.Count > 0)
 		{
 			LogB.Information("Starting to upload {0} exhibitionTests...");
-			using(SqliteTransaction tr = dbcon.BeginTransaction())
+			using(SQLiteTransaction tr = dbcon.BeginTransaction())
 			{
-				using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+				using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 				{
 					dbcmdTr.Transaction = tr;
 
@@ -313,7 +313,7 @@ class SqliteJson : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader = dbcmd.ExecuteReader();
+		SQLiteDataReader reader = dbcmd.ExecuteReader();
 
 		List<ExhibitionTest> l = new List<ExhibitionTest>();
 		while(reader.Read())
@@ -340,7 +340,7 @@ class SqliteJson : Sqlite
 	{
 		DeleteTempExhibitionTest(dbconOpened, et, dbcmd);
 	}
-	public static void DeleteTempExhibitionTest(bool dbconOpened, ExhibitionTest et, SqliteCommand mycmd)
+	public static void DeleteTempExhibitionTest(bool dbconOpened, ExhibitionTest et, SQLiteCommand mycmd)
 	{
 		openIfNeeded(dbconOpened);
 

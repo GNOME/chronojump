@@ -23,7 +23,7 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 
 using Mono.Unix;
 
@@ -46,9 +46,9 @@ class SqliteSpeciallity : Sqlite
 		conversionSubRateTotal = Speciallities.Length;
 		conversionSubRate = 0;
 
-		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		using(SQLiteTransaction tr = dbcon.BeginTransaction())
 		{
-			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
 	
@@ -65,7 +65,7 @@ class SqliteSpeciallity : Sqlite
 		}
 	}
 
-	public static int Insert(bool dbconOpened, SqliteCommand mycmd, int sportID, string speciallityName)
+	public static int Insert(bool dbconOpened, SQLiteCommand mycmd, int sportID, string speciallityName)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -102,7 +102,7 @@ class SqliteSpeciallity : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 
@@ -123,7 +123,7 @@ class SqliteSpeciallity : Sqlite
 			whereString = " WHERE sportID == " + sportFilter;
 
 		Sqlite.Open();
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		ArrayList myArray = new ArrayList(2);
 		int count = 0;
 

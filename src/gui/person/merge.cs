@@ -147,10 +147,10 @@ public class PersonMergeWindow
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook);
 		}
 
-		image_button_cancel.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
-		image_button_back.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "arrow_back.png");
-		image_button_accept.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png");
-		image_button_merge.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "merge.png");
+		image_button_cancel.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
+		image_button_back.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "arrow_back.png");
+		image_button_accept.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_done_blue.png");
+		image_button_merge.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "merge.png");
 
 		person_merge.Parent = parent;
 		this.sessionID = sessionID;
@@ -388,8 +388,8 @@ public class PersonMergeWindow
 		Gtk.RadioButton pRadioB = new Gtk.RadioButton (pRadioA, Catalog.GetString ("Use these values"));
 
 		//to have radios center aligned
-		Gtk.HBox hboxA = new Gtk.HBox (false, 1);
-		Gtk.HBox hboxB = new Gtk.HBox (false, 1);
+		Gtk.Box hboxA = new Gtk.Box (Gtk.Orientation.Horizontal, 1);
+		Gtk.Box hboxB = new Gtk.Box (Gtk.Orientation.Horizontal, 1);
 		hboxA.PackStart (pRadioA, true, false, 0);
 		hboxB.PackStart (pRadioB, true, false, 0);
 
@@ -405,8 +405,8 @@ public class PersonMergeWindow
 		Gtk.RadioButton radioB = new Gtk.RadioButton (radioA, Catalog.GetString ("Use these values"));
 
 		//to have radios center aligned
-		Gtk.HBox hboxA = new Gtk.HBox (false, 1);
-		Gtk.HBox hboxB = new Gtk.HBox (false, 1);
+		Gtk.Box hboxA = new Gtk.Box (Gtk.Orientation.Horizontal, 1);
+		Gtk.Box hboxB = new Gtk.Box (Gtk.Orientation.Horizontal, 1);
 		hboxA.PackStart (radioA, true, false, 0);
 		hboxB.PackStart (radioB, true, false, 0);
 

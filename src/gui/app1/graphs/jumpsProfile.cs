@@ -81,7 +81,7 @@ public partial class ChronoJumpWindow
 	}
 
 	//called just by QueueDraw
-	private void jumpsProfilePlot ()
+	private void jumpsProfilePlot (DrawnArgs args)
 	{
 		if(currentPerson == null || currentSession == null ||
 				drawingarea_jumps_profile == null || drawingarea_jumps_profile.Window == null) //it happens at start on click on analyze
@@ -94,12 +94,12 @@ public partial class ChronoJumpWindow
 			jumpsProfileCalculate ();
 
 		JumpsProfileGraph.Do (jumpsProfile.JumpsDone, jumpsProfile.ErrorSJl,
-				jumpsProfile.GetIndexes(), drawingarea_jumps_profile,
+				jumpsProfile.GetIndexes(), drawingarea_jumps_profile, args,
 				currentPerson.Name, currentSession.DateShort, preferences.fontType.ToString());
 	}
 	private void on_drawingarea_jumps_profile_cairo_draw (object o, Gtk.DrawnArgs args) 
 	{
-		jumpsProfilePlot ();
+		jumpsProfilePlot (args);
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
 	}
 

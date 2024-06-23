@@ -40,20 +40,28 @@ public class DialogMessage
 
 	public DialogMessage (Constants.MessageTypes type, string message)
 	{
-		initialize("", type, message, false);
+		initialize("", type, message, -1, -1, false);
+	}
+	public DialogMessage (Constants.MessageTypes type, int width, int height, string message)
+	{
+		initialize("", type, message, width, height, false);
 	}
 	public DialogMessage (string title, Constants.MessageTypes type, string message)
 	{
-		initialize(title, type, message, false);
+		initialize(title, type, message, -1, -1, false);
+	}
+	public DialogMessage (string title, Constants.MessageTypes type, int width, int height, string message)
+	{
+		initialize(title, type, message, width, height, false);
 	}
 	public DialogMessage (string title, Constants.MessageTypes type, string message, bool showScrolledWinBar)
 	{
-		initialize(title, type, message, showScrolledWinBar);
+		initialize(title, type, message, -1, -1, showScrolledWinBar);
 	}
 	//special caller to show stiffness formula or others
 	public DialogMessage (Constants.MessageTypes type, string message, string objectToShow)
 	{
-		initialize("", type, message, false);
+		initialize("", type, message, -1, -1, false);
 		if(objectToShow == "button_go_r_mac")
 		{
 			button_go_link = Constants.RmacDownload;
@@ -61,7 +69,7 @@ public class DialogMessage
 		}
 	}
 
-	private void initialize(string title, Constants.MessageTypes type, string message, bool showScrolledWinBar)
+	private void initialize (string title, Constants.MessageTypes type, string message, int width, int height, bool showScrolledWinBar)
 	{
 		LogB.Information("Dialog message: " + message);
 
@@ -115,15 +123,23 @@ public class DialogMessage
 				image_help.Show();
 			break;
 			case Constants.MessageTypes.INSPECT:
-				Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_test_inspect.png");
+				Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_test_inspect.png");
 				image_inspect.Pixbuf = pixbuf;
 				image_inspect.Show();
 			break;
 		}
 
+		if (width > 0 && height > 0)
+		{
+			dialog_message.WidthRequest = width;
+			dialog_message.HeightRequest = height;
+		}
+
 		if(showScrolledWinBar)
 		{
-			dialog_message.HeightRequest = 450;
+			if (! (width > 0 && height > 0))
+				dialog_message.HeightRequest = 450;
+
 			scrolledwindow_by_software.SetPolicy(PolicyType.Never, PolicyType.Automatic);
 		}
 		else

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2018-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 //this file has methods of ChronoJumpWindow related to manage menu
@@ -28,16 +28,17 @@ using System.Collections.Generic; //List
 
 public partial class ChronoJumpWindow
 {
-	Gtk.Arrow arrow_menu_show_session_up;
-	Gtk.Arrow arrow_menu_show_session_down;
+	Gtk.Arrow arrow_menu_show_database_left;
+	Gtk.Arrow arrow_menu_show_database_right;
+	Gtk.Arrow arrow_menu_show_session_left;
+	Gtk.Arrow arrow_menu_show_session_right;
 	Gtk.HPaned hpaned_contacts_main;
-	Gtk.Viewport viewport_exit_confirm;
+	Gtk.Frame frame_exit_confirm;
 	Gtk.HBox hbox_social_network_poll;
 	//Gtk.Viewport viewport_start_modes;
+	Gtk.CheckButton check_menu_database;
+	Gtk.Box box_database_manage_read;
 	Gtk.EventBox eventbox_check_menu_session;
-	Gtk.EventBox eventbox_button_menu_session_new;
-	Gtk.EventBox eventbox_button_menu_session_load;
-	Gtk.EventBox eventbox_button_menu_session_more;
 	Gtk.EventBox eventbox_button_menu_preferences;
 	Gtk.EventBox eventbox_button_menu_help;
 	Gtk.EventBox eventbox_button_menu_news;
@@ -50,30 +51,39 @@ public partial class ChronoJumpWindow
 	Gtk.EventBox eventbox_persons_up;
 	Gtk.EventBox eventbox_persons_down;
 	Gtk.Label label_current_database;
+	Gtk.Label label_current_database1;
 	Gtk.Label label_current_session;
 	Gtk.Label label_current_person;
 
-	Gtk.Image image_cloud;
+	Gtk.Label label_cloud_copy;
+	Gtk.Image image_cloud_copy;
+	Gtk.Image image_cloud_view;
+
+	Gtk.Box box_contacts_capture_cloud_view_disabled;
+	Gtk.Image image_contacts_capture_cloud_view_disabled;
+	Gtk.Box box_encoder_capture_cloud_view_disabled;
+	Gtk.Image image_encoder_capture_cloud_view_disabled;
+	Gtk.Box box_session_new_cloud_view_disabled;
+	Gtk.Image image_session_new_cloud_view_disabled;
+	Gtk.Box box_person_new_cloud_view_disabled;
+	Gtk.Image image_person_new_cloud_view_disabled;
+
+	Gtk.Box box_menu_database;
 	Gtk.Box box_above_frame_database;
-	Gtk.Frame frame_database;
-	Gtk.Label label_database_at_frame_database;
-	Gtk.Button button_menu_database;
+	Gtk.Button button_database_reload;
+	Gtk.Image image_database_reload;
+	Gtk.Button button_database_change_select;
+	Gtk.Button button_database_change_apply;
+	Gtk.Button button_database_close;
 
 	Gtk.CheckButton check_menu_session;
 	Gtk.CheckButton check_manage_persons;
 	//Gtk.Button button_menu_help;
 	Gtk.Button button_menu_news;
-	Gtk.VButtonBox vbuttonbox_menu_session;
 	//Gtk.Alignment alignment_menu_person_options;
-	Gtk.Label label_session_at_frame_session;
-	Gtk.Label label_persons_at_frame_persons;
 
-	/*
-	Gtk.Button button_menu_session_new;
-	Gtk.Button button_menu_session_load;
-	Gtk.Button button_menu_session_more;
-	Gtk.Button button_menu_preferences;
-	*/
+	Gtk.Button button_session_new;
+	Gtk.Button button_session_load;
 	Gtk.Button button_menu_exit;
 	/*
 	Gtk.Button button_menu_help_documents;
@@ -91,9 +101,6 @@ public partial class ChronoJumpWindow
 	//menu icons
 	//Gtk.Image image_menu_folders;
 	Gtk.Image image_menu_folders2;
-	Gtk.Image image_session_new3;
-	Gtk.Image image_session_load2;
-	Gtk.Image image_session_more;
 	Gtk.Image image_session_edit2;
 	Gtk.Image image_menu_preferences;
 	Gtk.Image image_persons_manage;
@@ -170,9 +177,6 @@ public partial class ChronoJumpWindow
 		l.Add(button_menu_preferences.SizeRequest().Width);
 
 		//submenus (16 is the horizontal separation of the submenu)
-		l.Add(button_menu_session_new.SizeRequest().Width + 16);
-		l.Add(button_menu_session_load.SizeRequest().Width + 16);
-		l.Add(button_menu_session_more.SizeRequest().Width + 16);
 		l.Add(button_menu_help_documents.SizeRequest().Width + 16);
 		l.Add(button_menu_help_shortcuts.SizeRequest().Width + 16);
 		l.Add(button_menu_help_about.SizeRequest().Width + 16);
@@ -199,36 +203,22 @@ public partial class ChronoJumpWindow
 
 //		viewport_menu_top.SetSizeRequest(maxWidth, -1); //-1 is height
 
-		if(! Config.UseSystemColor && UtilGtk.ColorIsOkWithLogoTransparent (UtilGtk.ColorParse(preferences.colorBackgroundString)))
-		{
-			image_logo_contacts.Visible = false;
-			image_logo_contacts_transp.Visible = true;
-			image_logo_encoder.Visible = false;
-			image_logo_encoder_transp.Visible = true;
-			fullscreen_image_logo.Visible = false;
-			fullscreen_image_logo_transp.Visible = true;
-//			radio_show_menu_and_persons_adjust_height(true);
-		} else {
-			image_logo_contacts.Visible = true;
-			image_logo_contacts_transp.Visible = false;
-			image_logo_encoder.Visible = true;
-			image_logo_encoder_transp.Visible = false;
-			fullscreen_image_logo.Visible = true;
-			fullscreen_image_logo_transp.Visible = false;
-//			radio_show_menu_and_persons_adjust_height(false);
-		}
+		//if(! Config.UseSystemColor && UtilGtk.ColorIsOkWithLogoTransparent (UtilGtk.ColorParse(preferences.colorBackgroundString)))
 
-		GLib.Timeout.Add(200, new GLib.TimeoutHandler(menuTopAlign));
+		if (! configChronojump.CanOpenExternalDB)
+			GLib.Timeout.Add (200, new GLib.TimeoutHandler (menuTopAlign));
 	}
 
 	private bool menuTopAlign()
 	{
-		uint alignTop = (uint) (notebook_capture_analyze.Allocation.Y
-				//-hbox_above_frame_session.SizeRequest().Height);
-				- UtilGtk.WidgetHeight (hbox_above_frame_session));
+		uint alignTop = (uint) notebook_capture_analyze.Allocation.Y;
+
+		if (configChronojump.CanOpenExternalDB || configChronojump.ReadFromCloudMainPath != "")
+			alignTop -= (uint) UtilGtk.WidgetHeight (box_above_frame_database);
+		else
+			alignTop -= (uint) UtilGtk.WidgetHeight (hbox_above_frame_session);
 
 		alignment_session_persons.TopPadding = alignTop;
-		alignment_vbox_session_load_or_import_select.TopPadding = alignTop;
 
 		return false;
 	}
@@ -257,7 +247,8 @@ public partial class ChronoJumpWindow
 			RGBA color = UtilGtk.ColorParse (preferences.colorBackgroundString);
 
 			UtilGtk.WindowColor (app1, color);
-			UtilGtk.ViewportColor (viewport_exit_confirm, color);
+			UtilGtk.WidgetColor (frame_exit_confirm, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_exit_confirm);
 
 			UtilGtk.WidgetColor (vbox_send_log, Config.ColorBackground);
 
@@ -268,13 +259,8 @@ public partial class ChronoJumpWindow
 			UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundShiftedIsDark, hbox_social_network_poll);
 		}
 
+		/*
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session,
-				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_new,
-				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_load,
-				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_more,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_preferences,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
@@ -290,35 +276,52 @@ public partial class ChronoJumpWindow
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_persons_down,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
+		*/
 	}
 
+	/*
 	private void menuShowVerticalArrow (bool selected, Gtk.Arrow a_up, Gtk.Arrow a_down)
 	{
 		a_up.Visible = selected;
 		a_down.Visible = ! selected;
+	}
+	*/
+	private void menuShowHorizontalArrow (bool selected, Gtk.Arrow a_left, Gtk.Arrow a_right)
+	{
+		/*
+		a_left.Visible = selected;
+		a_right.Visible = ! selected;
+		*/
 	}
 
 	private void on_check_manage_persons_clicked (object o, EventArgs args)
 	{
 		if (check_manage_persons.Active)
 		{
+			check_manage_persons.Sensitive = false;
+			//do not unsensitive all the left panel as we want to be able to change person having this opened
+			box_menu_database.Sensitive = false;
+			frame_session.Sensitive = false;
+
 			app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.PERSON);
 
-			//do not allow to use session buttons to not confuse the button_close actions
-			vbuttonbox_menu_session.Sensitive = false;
+			//do not allow to use bottomLeft to not confuse the button_close actions
 			box_prefs_help_news_exit.Sensitive = false;
 
-			arrow_manage_persons_left.Visible = true;
-			arrow_manage_persons_right.Visible = false;
+			//arrow_manage_persons_left.Visible = true;
+			//arrow_manage_persons_right.Visible = false;
 		} else {
+			check_manage_persons.Sensitive = true;
+			box_menu_database.Sensitive = true;
+			frame_session.Sensitive = true;
+
 			notebook_sup.CurrentPage = app1s_notebook_sup_entered_from;
 
-			vbuttonbox_menu_session.Sensitive = true;
 			box_prefs_help_news_exit.Sensitive = true;
 
-			arrow_manage_persons_left.Visible = false;
-			arrow_manage_persons_right.Visible = true;;
+			//arrow_manage_persons_left.Visible = false;
+			//arrow_manage_persons_right.Visible = true;;
 		}
 	}
 	private void on_button_person_close_clicked (object o, EventArgs args)
@@ -326,18 +329,50 @@ public partial class ChronoJumpWindow
 		check_manage_persons.Click ();
 	}
 
+	private bool menuDatabaseIsActive ()
+	{
+		if (preferences.personWinHide)
+			return check_menu_database1.Active;
+		else
+			return check_menu_database.Active;
+	}
+	private void menuDatabaseDoClick ()
+	{
+		if (preferences.personWinHide)
+			check_menu_database1.Click ();
+		else
+			check_menu_database.Click ();
+	}
+
+	private void on_check_menu_database_clicked (object o, EventArgs args)
+	{
+		if (preferences.personWinHide)
+			menuShowHorizontalArrow (check_menu_database.Active, arrow_menu_show_database_left, arrow_menu_show_database_right);
+
+		on_database_manage_clicked (o, args);
+	}
+
+	private bool menuSessionIsActive ()
+	{
+		if (preferences.personWinHide)
+			return check_menu_session1.Active;
+		else
+			return check_menu_session.Active;
+	}
+	private void menuSessionDoClick ()
+	{
+		if (preferences.personWinHide)
+			check_menu_session1.Click ();
+		else
+			check_menu_session.Click ();
+	}
+
 	private void on_check_menu_session_clicked (object o, EventArgs args)
 	{
-		menuShowVerticalArrow (check_menu_session.Active, arrow_menu_show_session_up, arrow_menu_show_session_down);
-		vbuttonbox_menu_session.Visible = check_menu_session.Active;
+		menuShowHorizontalArrow (check_menu_session.Active, arrow_menu_show_session_left, arrow_menu_show_session_right);
 
-		//hide the person photo if anything is unfolded
-		if(preferences.personPhoto)
-			vbox_persons_bottom.Visible = ! check_menu_session.Active;
-
-		//scroll it, but wait a bit before to be all the things at place
-		if(myTreeViewPersons != null)
-			GLib.Timeout.Add(50, new GLib.TimeoutHandler(scrollTreeviewPersons));
+		if(check_menu_session.Active)
+			on_session_manage_clicked (o, args);
 	}
 
 	private bool scrollTreeviewPersons ()
@@ -370,7 +405,7 @@ public partial class ChronoJumpWindow
 		notebook_sup.CurrentPage = app1s_notebook_sup_entered_from;
 
 		//put default news store icon because window has been opened (and hopefully seen)
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_store_blue.png");
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_store_blue.png");
 		image_menu_news.Pixbuf = pixbuf;
 		image_menu_news1.Pixbuf = pixbuf;
 	}
@@ -385,7 +420,43 @@ public partial class ChronoJumpWindow
 		return max;
 	}
 
-	private void on_button_menu_session_more_clicked (object o, EventArgs args)
+	private void on_database_manage_clicked (object o, EventArgs args)
+	{
+		if (menuDatabaseIsActive ())
+		{
+			menus_and_mode_sensitive (false);
+
+			app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.DATABASE);
+
+			//do not allow to use bottomLeft to not confuse the button_close actions
+			box_prefs_help_news_exit.Sensitive = false;
+
+			//arrow_manage_database_left.Visible = true;
+			//arrow_manage_database_right.Visible = false;
+
+			UtilGtk.RemoveChildren (box_database_manage_read);
+			button_database_change_apply.Visible = false;
+			app1s_label_copyFromCloud_maindir.Text = "";
+			button_database_close.Sensitive = true;
+		} else {
+			menus_and_mode_sensitive (true);
+
+			notebook_sup.CurrentPage = app1s_notebook_sup_entered_from;
+
+			box_prefs_help_news_exit.Sensitive = true;
+
+			//arrow_manage_database_left.Visible = false;
+			//arrow_manage_database_right.Visible = true;;
+		}
+	}
+
+	private void on_button_database_close_clicked (object o, EventArgs args)
+	{
+		menuDatabaseDoClick ();
+	}
+
+	private void on_session_manage_clicked (object o, EventArgs args)
 	{
 		menus_sensitive_import_not_danger(false);
 
@@ -402,16 +473,17 @@ public partial class ChronoJumpWindow
 
 	private void connectWidgetsMenu (Gtk.Builder builder)
 	{
-		arrow_menu_show_session_up = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_up");
-		arrow_menu_show_session_down = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_down");
+		arrow_menu_show_database_left = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_database_left");
+		arrow_menu_show_database_right = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_database_right");
+		arrow_menu_show_session_left = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_left");
+		arrow_menu_show_session_right = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_right");
 		hpaned_contacts_main = (Gtk.HPaned) builder.GetObject ("hpaned_contacts_main");
-		viewport_exit_confirm = (Gtk.Viewport) builder.GetObject ("viewport_exit_confirm");
+		frame_exit_confirm = (Gtk.Frame) builder.GetObject ("frame_exit_confirm");
 		hbox_social_network_poll = (Gtk.HBox) builder.GetObject ("hbox_social_network_poll");
 		//viewport_start_modes = (Gtk.Viewport) builder.GetObject ("viewport_start_modes");
+		check_menu_database = (Gtk.CheckButton) builder.GetObject ("check_menu_database");
+		box_database_manage_read = (Gtk.Box) builder.GetObject ("box_database_manage_read");
 		eventbox_check_menu_session = (Gtk.EventBox) builder.GetObject ("eventbox_check_menu_session");
-		eventbox_button_menu_session_new = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_session_new");
-		eventbox_button_menu_session_load = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_session_load");
-		eventbox_button_menu_session_more = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_session_more");
 		eventbox_button_menu_preferences = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_preferences");
 		eventbox_button_menu_help = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_help");
 		eventbox_button_menu_news = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_news");
@@ -424,30 +496,39 @@ public partial class ChronoJumpWindow
 		eventbox_persons_up = (Gtk.EventBox) builder.GetObject ("eventbox_persons_up");
 		eventbox_persons_down = (Gtk.EventBox) builder.GetObject ("eventbox_persons_down");
 		label_current_database = (Gtk.Label) builder.GetObject ("label_current_database");
+		label_current_database1 = (Gtk.Label) builder.GetObject ("label_current_database1");
 		label_current_session = (Gtk.Label) builder.GetObject ("label_current_session");
 		label_current_person = (Gtk.Label) builder.GetObject ("label_current_person");
 
-		image_cloud = (Gtk.Image) builder.GetObject ("image_cloud");
+		label_cloud_copy = (Gtk.Label) builder.GetObject ("label_cloud_copy");
+		image_cloud_copy = (Gtk.Image) builder.GetObject ("image_cloud_copy");
+		image_cloud_view = (Gtk.Image) builder.GetObject ("image_cloud_view");
+
+		box_contacts_capture_cloud_view_disabled = (Gtk.Box) builder.GetObject ("box_contacts_capture_cloud_view_disabled");
+		image_contacts_capture_cloud_view_disabled = (Gtk.Image) builder.GetObject ("image_contacts_capture_cloud_view_disabled");
+		box_encoder_capture_cloud_view_disabled = (Gtk.Box) builder.GetObject ("box_encoder_capture_cloud_view_disabled");
+		image_encoder_capture_cloud_view_disabled = (Gtk.Image) builder.GetObject ("image_encoder_capture_cloud_view_disabled");
+		box_session_new_cloud_view_disabled = (Gtk.Box) builder.GetObject ("box_session_new_cloud_view_disabled");
+		image_session_new_cloud_view_disabled = (Gtk.Image) builder.GetObject ("image_session_new_cloud_view_disabled");
+		box_person_new_cloud_view_disabled = (Gtk.Box) builder.GetObject ("box_person_new_cloud_view_disabled");
+		image_person_new_cloud_view_disabled = (Gtk.Image) builder.GetObject ("image_person_new_cloud_view_disabled");
+
+		box_menu_database = (Gtk.Box) builder.GetObject ("box_menu_database");
 		box_above_frame_database = (Gtk.Box) builder.GetObject ("box_above_frame_database");
-		frame_database = (Gtk.Frame) builder.GetObject ("frame_database");
-		label_database_at_frame_database = (Gtk.Label) builder.GetObject ("label_database_at_frame_database");
-		button_menu_database = (Gtk.Button) builder.GetObject ("button_menu_database");
+		button_database_reload = (Gtk.Button) builder.GetObject ("button_database_reload");
+		image_database_reload = (Gtk.Image) builder.GetObject ("image_database_reload");
+		button_database_change_select = (Gtk.Button) builder.GetObject ("button_database_change_select");
+		button_database_change_apply = (Gtk.Button) builder.GetObject ("button_database_change_apply");
+		button_database_close = (Gtk.Button) builder.GetObject ("button_database_close");
 
 		check_menu_session = (Gtk.CheckButton) builder.GetObject ("check_menu_session");
 		check_manage_persons = (Gtk.CheckButton) builder.GetObject ("check_manage_persons");
 		//button_menu_help = (Gtk.Button) builder.GetObject ("button_menu_help");
 		button_menu_news = (Gtk.Button) builder.GetObject ("button_menu_news");
-		vbuttonbox_menu_session = (Gtk.VButtonBox) builder.GetObject ("vbuttonbox_menu_session");
 		//alignment_menu_person_options = (Gtk.Alignment) builder.GetObject ("alignment_menu_person_options");
-		label_session_at_frame_session = (Gtk.Label) builder.GetObject ("label_session_at_frame_session");
-		label_persons_at_frame_persons = (Gtk.Label) builder.GetObject ("label_persons_at_frame_persons");
 
-		/*
-		button_menu_session_new = (Gtk.Button) builder.GetObject ("button_menu_session_new");
-		button_menu_session_load = (Gtk.Button) builder.GetObject ("button_menu_session_load");
-		button_menu_session_more = (Gtk.Button) builder.GetObject ("button_menu_session_more");
-		button_menu_preferences = (Gtk.Button) builder.GetObject ("button_menu_preferences");
-		*/
+		button_session_new = (Gtk.Button) builder.GetObject ("button_session_new");
+		button_session_load = (Gtk.Button) builder.GetObject ("button_session_load");
 		button_menu_exit = (Gtk.Button) builder.GetObject ("button_menu_exit");
 		/*
 		button_menu_help_documents = (Gtk.Button) builder.GetObject ("button_menu_help_documents");
@@ -465,9 +546,6 @@ public partial class ChronoJumpWindow
 		//menu icons
 		//image_menu_folders = (Gtk.Image) builder.GetObject ("image_menu_folders");
 		image_menu_folders2 = (Gtk.Image) builder.GetObject ("image_menu_folders2");
-		image_session_new3 = (Gtk.Image) builder.GetObject ("image_session_new3");
-		image_session_load2 = (Gtk.Image) builder.GetObject ("image_session_load2");
-		image_session_more = (Gtk.Image) builder.GetObject ("image_session_more");
 		image_session_edit2 = (Gtk.Image) builder.GetObject ("image_session_edit2");
 		image_menu_preferences = (Gtk.Image) builder.GetObject ("image_menu_preferences");
 		image_persons_manage = (Gtk.Image) builder.GetObject ("image_persons_manage");

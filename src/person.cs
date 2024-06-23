@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -264,7 +264,8 @@ public class Person
 }
 
 //useful when you just want to know all of the data of a person in this session
-public class PersonAndPS {
+public class PersonAndPS
+{
 	public Person p;
 	public PersonSession ps;
 	
@@ -273,10 +274,16 @@ public class PersonAndPS {
 		this.p = p;
 		this.ps = ps;
 	}
-	
+
+	public override string ToString ()
+	{
+		return string.Format ("Person: {0};\nPersonSession: {1}", p, ps);
+	}
+
 	~PersonAndPS() {}
 }
-public static class PersonAndPSUtil {
+public static class PersonAndPSUtil
+{
 	public static int Find(ArrayList papsArray, int personID) 
 	{
 		int count = 0;
@@ -287,5 +294,110 @@ public static class PersonAndPSUtil {
 		}
 
 		return -1;
+	}
+
+	// just to debug
+	public static void CompareAtImportPrintStr (ArrayList papsDB_a, ArrayList papsIS_a)
+	{
+		//this will be faster if ArrayList are sorted by name (to lower), and when that name passed, continue
+
+		string conflictsStr = "";
+		foreach (PersonAndPS papsIS in papsIS_a)
+			foreach(PersonAndPS papsDB in papsDB_a)
+				if (papsIS.p.Name.ToLower () == papsDB.p.Name.ToLower ())
+					conflictsStr += "\n" + string.Format ("{0} - {1}; {2}; {3}",
+							papsIS.p.Name,
+							papsDB.p.Name, papsDB.p.UniqueID, papsDB.ps.SessionID);
+
+		if (conflictsStr != "")
+			LogB.Information ("Possible conflicts previous to import:" +
+					"\nPerson name on importing session - person name on DB, ID on DB, session on DB" +
+					conflictsStr);
+		else
+			LogB.Information ("No name conflicts previous to import");
+	}
+
+	// papsDB: currentDB; papsIS: Importing Session
+	// TODO: need to send here a List<session> to be able to have lot more content on sessions (not only id)
+	public static List<PersonImportConflict> CompareAtImport (ArrayList papsDB_a, ArrayList papsIS_a, List<Session> sessionsDB_l)
+	{
+		//this will be faster if ArrayList are sorted by name (to lower), and when that name passed, continue
+		List<PersonImportConflict> pic_l = new List<PersonImportConflict> ();
+
+		foreach (PersonAndPS papsIS in papsIS_a)
+		{
+			PersonImportConflict pic = null;
+			foreach(PersonAndPS papsDB in papsDB_a)
+				if (papsIS.p.Name.ToLower () == papsDB.p.Name.ToLower ())
+				{
+					Session session = null;
+					foreach (Session s in sessionsDB_l)
+						if (papsDB.ps.SessionID == s.UniqueID)
+						{
+							session = s;
+							break;
+						}
+
+					if (pic == null)
+						pic = new PersonImportConflict (papsIS.p.Name, papsDB.p.UniqueID, session);
+					else
+						pic.AddSession (session);
+				}
+			if (pic != null)
+				pic_l.Add (pic);
+		}
+
+		return pic_l;
+	}
+
+}
+
+public class PersonImportConflict
+{
+	private string nameImporting;
+	private int idAtLocalDB;
+
+	private List<Session> sessionsAtLocalDB_l;
+
+	public PersonImportConflict (string nameImporting, int idAtLocalDB, Session sessionAtLocalDB)
+	{
+		this.nameImporting = nameImporting;
+		this.idAtLocalDB = idAtLocalDB;
+
+		sessionsAtLocalDB_l = new List<Session> ();
+		sessionsAtLocalDB_l.Add (sessionAtLocalDB);
+	}
+
+	public void AddSession (Session sessionAtLocalDB)
+	{
+		sessionsAtLocalDB_l.Add (sessionAtLocalDB);
+	}
+
+	public override string ToString ()
+	{
+		string str = string.Format("nameImporting: {0}, idAtDb: {1}, at sessions:",
+				nameImporting, idAtLocalDB);
+		foreach (Session s in sessionsAtLocalDB_l)
+				str += "\n" + s.ToString ();
+
+		return str;
+	}
+
+	public string NameImporting {
+		get { return nameImporting; }
+	}
+
+	public string SessionsAtLocalDB {
+		get {
+			string str = "";
+			string sep = "";
+			foreach (Session s in sessionsAtLocalDB_l)
+			{
+				str += sep + string.Format ("[{0}] {1}", s.DateShort, s.Name);
+				sep = "\n";
+			}
+
+			return str;
+		}
 	}
 }

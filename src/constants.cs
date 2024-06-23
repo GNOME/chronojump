@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -34,11 +34,13 @@ public class Constants
 	{
 		if(e == AuthorsEnum.SOFTWARE)
 			return new String []{
-				"Xavier de Blas Foix <info@chronojump.org>, 2004-2022\n\t" +
+				"Xavier de Blas Foix <info@chronojump.org>, 2004-2024\n\t" +
 					Catalog.GetString("Main developer."),
-					"\nAndoni Morales Alastruey <http://ylatuya.es>, 2009-2020\n\t" +
+					"\nAndoni Morales Alastruey <http://ylatuya.es>, 2009-2023\n\t" +
 						Catalog.GetString("Installation support: Autotools, packaging, bundle."),
-					"\nXavier Padullés <testing@chronojump.org>, 2014-2022\n\t" +
+ 					"\nYang Dejiu <joeries.young@gmail.com>, 2024\n\t" +
+						Catalog.GetString("Installation support: Autotools, packaging, bundle."),
+					"\nXavier Padullés <testing@chronojump.org>, 2014-2024\n\t" +
 						Catalog.GetString("R scripts."),
 					"\nCarles Pina i Estany <http://pinux.info>, 2016-2017\n\t" +
 						Catalog.GetString("Backend developer.") + " " + Catalog.GetString("Import sessions.")
@@ -51,16 +53,16 @@ public class Constants
 					"\n\t" + Catalog.GetString("Django developer."),
 				"\nMarcos Venteo <mventeo@gmail.com>, 2017-2018" +
 					"\n\t" + Catalog.GetString("Django migration."),
-				"\nXavier de Blas Foix <info@chronojump.org>, 2016-2022" +
+				"\nXavier de Blas Foix <info@chronojump.org>, 2016-2024" +
 					"\n\t" + Catalog.GetString("Client-Server integration.") + " " + Catalog.GetString("First Flask iteration."),
 				"\nCarles Pina i Estany <http://pinux.info>, 2016-2017" +
 					"\n\t" + Catalog.GetString("Web services support.")
 			};
 		else if(e == AuthorsEnum.SCIENTIFIC)
 			return new String []{
-				"Josep Ma Padullés <jmpadulles@gmail.com>, 2005-2022" +
+				"Josep Ma Padullés <jmpadulles@gmail.com>, 2005-2024" +
 					"\n\t" + Catalog.GetString("Sports sciences") + ", " + Catalog.GetString("Engineering"),
-				"\nXavier Padullés <testing@chronojump.org>, 2012-2022",
+				"\nXavier Padullés <testing@chronojump.org>, 2012-2024",
 					"\n\t" + Catalog.GetString("Engineering"),
 				"\nJosep Granell <josegranell2005@hotmail.com>, 2018-2022",
 					"\n\t" + Catalog.GetString("Electronics"),
@@ -587,8 +589,11 @@ public class Constants
 	//fileNames
 	//public static string FileNameLogo = "chronojump-boscosystem_white_bg.png";
 	//public static string FileNameLogo320 = "chronojump-boscosystem_320.png";
-	public static string FileNameLogoTransparent = "chronojump-logo-transparent.png";
-	public static string FileNameLogo = "chronojump-logo-2013.png";
+	public static string FileNameLogoBlueTransp = "chronojump-logo-2024-blue-transp-200h.png";
+	public static string FileNameLogoWhiteTransp = "chronojump-logo-2024-white-transp-200h.png";
+	public static string FileNameLogo2Col = "chronojump-logo-2024-2col-bluebg-210h.png";
+	public static string FileNameLogoHorizontalBlue = "chronojump_logo_2024_horizontal_blue_transp_50h.png";
+	public static string FileNameLogoHorizontalWhite = "chronojump_logo_2024_horizontal_white_transp_50h.png";
 	public static string FileNameLogo320 = "chronojump-logo-2013_320.png";
 	public static string FileNameLogoTransparent40h = "chronojump-logo-transparent-40h.png";
 	public static string FileNameCSS = "report_web_style.css";
@@ -973,7 +978,7 @@ public class Constants
 	//heightmetric contains 2 spins
 	public enum GenericWindowShow {
 		ENTRY, ENTRY2, ENTRY3, SPININT, SPININT2, SPININT3, SPINDOUBLE, HBOXSPINDOUBLE2, 
-		HEIGHTMETRIC, CHECK1, COMBO, COMBOALLNONESELECTED, BUTTONMIDDLE, GRIDPERSONSESSION,
+		HEIGHTMETRIC, CHECK1, COMBO, COMBOALLNONESELECTED, BUTTONMIDDLE, GRIDSESSIONPERSON,
 		LABELBEFORETEXTVIEWTREEVIEW, TEXTVIEW, TREEVIEW
 	}
 
@@ -1075,7 +1080,7 @@ public class Constants
 		RUNSSIMPLE, RUNSINTERVALLIC, RUNSENCODER,
 		POWERGRAVITATORY, POWERINERTIAL,
 		FORCESENSORISOMETRIC, FORCESENSORELASTIC,
-		RT, OTHER } //OTHER can be: Multichronopic, Pulse
+		RT, OTHER } //OTHER can be: Multichronopic, Pulse, FourPlatforms
 
 	//to shorten code on the rest of the software
 	public static bool ModeIsENCODER (Modes mode)
@@ -1157,6 +1162,8 @@ public class Constants
 	public static string Invert = "Invert";
 	public static string Selected = "Selected";
 
+	public static string FileNameLeft = "left.png";
+	public static string FileNameRight = "right.png";
 	public static string FileNameArrowForward = "arrow_forward.png";
 	public static string FileNameArrowBackward = "arrow_backward.png";
 	public static string FileNameArrowForwardEmphasis = "arrow_forward_emphasis.png";

@@ -36,6 +36,7 @@ public partial class ChronoJumpWindow
 	// at glade ---->
 	Gtk.HBox app1s_hbox_frame_load;
 	Gtk.HBox app1s_hbox_frame_import;
+	Gtk.Image image_session_load3;
 	Gtk.Image image_session_load3_blue;
 	Gtk.Image image_session_import1_blue;
 	Gtk.Image image_session_load3_yellow;
@@ -45,6 +46,8 @@ public partial class ChronoJumpWindow
 	Gtk.ScrolledWindow scrolledwin_session_load;
 	Gtk.CheckButton app1s_check_filter_by_sensor;
 	Gtk.HBox app1s_hbox_combo_tags;
+	Gtk.Box box_session_import_conflicts;
+	Gtk.Grid grid_import_session_issues_persons;
 	// <---- at glade
 
 	Gtk.ComboBoxText app1s_combo_tags;
@@ -80,8 +83,14 @@ public partial class ChronoJumpWindow
 
 	private void app1s_initializeGui()
 	{
+		if (configChronojump.CanOpenExternalDB || configChronojump.ReadFromCloudMainPath != "")
+			alignment_vbox_session_load_or_import_select.TopPadding = (uint)
+				(box_database.Allocation.Y + 2); //related to icons on top of load/import session
+		else
+			alignment_vbox_session_load_or_import_select.TopPadding = (uint)
+				(frame_session.Allocation.Y - 3); //related to icons on top of load/import session
 		/*
-		 * need these two lines for macOS because there are strange glitches if we do not put them here
+		 * need these two lines for macOS =use there are strange glitches if we do not put them here
 		 * eg. if we start Chronojump and try to import without having done this first:
 		 * app1s_notebook.CurrentPage = app1s_PAGE_SELECT_SESSION;
 		 * then import buttons do not work.
@@ -98,8 +107,9 @@ public partial class ChronoJumpWindow
 			app1s_file_path_import.Visible = false;
 			app1s_notebook_load_button_animation.Visible = true;
 			app1s_hbuttonbox_page2_import.Visible = false;
-			app1s_label_load.Text = "<b>" + Catalog.GetString ("Load session") + "</b>";
-			app1s_label_load.UseMarkup = true;
+			//app1s_label_load.Text = "<b>" + Catalog.GetString ("Load session") + "</b>";
+			//app1s_label_load.UseMarkup = true;
+			app1s_label_load.Text = Catalog.GetString ("Load session");
 			app1s_hbox_frame_load.Visible = true;
 			app1s_hbox_frame_import.Visible = false;
 			app1s_notebook.CurrentPage = app1s_PAGE_SELECT_SESSION;
@@ -110,8 +120,9 @@ public partial class ChronoJumpWindow
 			app1s_file_path_import.Visible = true;
 			app1s_notebook_load_button_animation.Visible = false;
 			app1s_hbuttonbox_page2_import.Visible = true;
-			app1s_label_import.Text = "<b>" + Catalog.GetString ("Import session") + "</b>";
-			app1s_label_import.UseMarkup = true;
+			//app1s_label_import.Text = "<b>" + Catalog.GetString ("Import session") + "</b>";
+			//app1s_label_import.UseMarkup = true;
+			app1s_label_import.Text = Catalog.GetString ("Import session");
 			app1s_hbox_frame_load.Visible = false;
 			app1s_hbox_frame_import.Visible = true;
 			app1s_button_select_file_import_same_database.Visible = false; //is shown when user want to import a second session
@@ -141,12 +152,12 @@ public partial class ChronoJumpWindow
 		app1s_checkbutton_show_data_weights.Active = (current_mode == Constants.Modes.POWERGRAVITATORY);
 		app1s_checkbutton_show_data_inertial.Active = (current_mode == Constants.Modes.POWERINERTIAL);
 
-		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_jumps, UtilGtk.Colors.YELLOW);
-		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_runs, UtilGtk.Colors.YELLOW);
-		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_isometric, UtilGtk.Colors.YELLOW);
-		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_elastic, UtilGtk.Colors.YELLOW);
-		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_weights, UtilGtk.Colors.YELLOW);
-		UtilGtk.ViewportColor (app1s_viewport_checkbutton_show_data_inertial, UtilGtk.Colors.YELLOW);
+		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_jumps);
+		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_runs);
+		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_isometric);
+		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_elastic);
+		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_weights);
+		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_inertial);
 
 		sessionLoadWinSignals = true;
 
@@ -367,10 +378,9 @@ public partial class ChronoJumpWindow
 	private void app1s_chooseDatabaseToImport()
 	{
 		//TODO: try it with Gtk.FileChooserWidget, then we do not need to pass app1 (parent)
-		Gtk.FileChooserDialog filechooser = new Gtk.FileChooserDialog ("Choose Chronojump database to import from",
+		Gtk.FileChooserNative filechooser = new Gtk.FileChooserNative (Catalog.GetString ("Choose Chronojump database to import from"),
 		                                                               app1, FileChooserAction.Open,
-		                                                               "Cancel",ResponseType.Cancel,
-		                                                               "Open",ResponseType.Accept);
+		                                                               Catalog.GetString ("Open"), Catalog.GetString ("Cancel"));
 
 		FileFilter file_filter = new FileFilter();
 
@@ -399,7 +409,7 @@ public partial class ChronoJumpWindow
 				parameters.Add ("x"); //we need the parent folder
 				parameters.Add ("-aoa"); //Overwrite All existing files without prompt.
 				parameters.Add ("-o" + tempImportExtractDir);
-				parameters.Add (filechooser.Filename);
+				parameters.Add ("\"" + filechooser.Filename + "\""); // \" to fix spaces problems at least on Linux
 
 				string executable = ExecuteProcess.Get7zExecutable (operatingSystem);
 				ExecuteProcess.run (executable, parameters, false, false);
@@ -938,8 +948,9 @@ public partial class ChronoJumpWindow
 
 	void app1s_on_button_cancel2_clicked (object o, EventArgs args)
 	{
-		menus_and_mode_sensitive(true);
-		notebook_supSetOldPage();
+		//menus_and_mode_sensitive(true);
+		//notebook_supSetOldPage();
+		app1s_notebook.CurrentPage = app1s_PAGE_MODES;
 	}
 
 	void app1s_on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
@@ -974,8 +985,9 @@ public partial class ChronoJumpWindow
 	{
 		currentSession = SqliteSession.Select (app1s_selected);
 		on_load_session_accepted();
-		notebook_supSetOldPage();
+		//notebook_supSetOldPage();
 		app1s_notebook_load_button_animation.CurrentPage = 0;
+		app1s_on_button_close0_clicked (new object (), new EventArgs ());
 
 		return false; //do not call this again
 	}
@@ -1084,6 +1096,7 @@ public partial class ChronoJumpWindow
 	{
 		app1s_hbox_frame_load = (Gtk.HBox) builder.GetObject ("app1s_hbox_frame_load");
 		app1s_hbox_frame_import = (Gtk.HBox) builder.GetObject ("app1s_hbox_frame_import");
+		image_session_load3 = (Gtk.Image) builder.GetObject ("image_session_load3");
 		image_session_load3_blue = (Gtk.Image) builder.GetObject ("image_session_load3_blue");
 		image_session_import1_blue = (Gtk.Image) builder.GetObject ("image_session_import1_blue");
 		image_session_load3_yellow = (Gtk.Image) builder.GetObject ("image_session_load3_yellow");
@@ -1093,6 +1106,8 @@ public partial class ChronoJumpWindow
 		scrolledwin_session_load = (Gtk.ScrolledWindow) builder.GetObject ("scrolledwin_session_load");
 		app1s_check_filter_by_sensor = (Gtk.CheckButton) builder.GetObject ("app1s_check_filter_by_sensor");
 		app1s_hbox_combo_tags = (Gtk.HBox) builder.GetObject ("app1s_hbox_combo_tags");
+		box_session_import_conflicts = (Gtk.Box) builder.GetObject ("box_session_import_conflicts");
+		grid_import_session_issues_persons = (Gtk.Grid) builder.GetObject ("grid_import_session_issues_persons");
 	}
 }
 

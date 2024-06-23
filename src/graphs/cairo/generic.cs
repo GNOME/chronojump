@@ -44,8 +44,11 @@ public abstract class CairoGeneric
 	protected Cairo.Color red = colorFromRGB(200, 0, 0);
 	Cairo.Color black = colorFromRGB(0, 0, 0);
 	protected Cairo.Color yellow = new Cairo.Color (0.906, 0.745, 0.098, 1);
+	protected Cairo.Color yellowDark = new Cairo.Color (0.804, 0.804, 0, 1);
 	protected Cairo.Color yellowTransp = new Cairo.Color (0.9, 0.9, 0.01, .25);
 	protected Cairo.Color greenTransp = new Cairo.Color (0.01, 0.9, 0.01, .25);
+	protected Cairo.Color brown = new Cairo.Color (0.588, 0.294, 0, 1); //964b00 //if this changes, change on ApplyCss
+	protected Cairo.Color caramel = new Cairo.Color (0.81, 0.49, 0, 1); //cf7d00 brown yellowish
 
 
 
@@ -160,8 +163,10 @@ public abstract class CairoGeneric
 				moveToLeft = te.Width;
 		}
 
-		g.MoveTo( x - moveToLeft, ((y+y+height)/2) + textHeight/2 );
+		g.MoveTo( x - moveToLeft,
+			Convert.ToInt32 (((y+y+height)/2) + textHeight/2) ); //y as int on dotnetgtk3 because on windows top row of text is sometimes not shown if double
 		g.ShowText(text);
+//		g.Stroke ();
 	}
 
 	// fitting on an horizontal space
@@ -274,7 +279,7 @@ public abstract class CairoGeneric
 			for(double i = Math.Floor(minY); i <= Math.Ceiling(maxY) ; i += by)
 			{
 				int ytemp = Convert.ToInt32(calculatePaintY(i));
-				if(ytemp <= topMargin || ytemp >= graphHeight -bottomMargin)
+				if(ytemp < topMargin || ytemp > graphHeight -bottomMargin)
 					continue;
 
 				paintHorizontalGridLine (g, ytemp, Util.TrimDecimals(i, 2), fontH,
@@ -305,6 +310,7 @@ public abstract class CairoGeneric
 
 	//this is different on forceSensor: ms to s (and with 's')
 	//this combined with printXAxisText is different on RaceAnalyzer
+	protected string verticalGridLineUnits = "";
 	protected virtual void paintVerticalGridLine(Cairo.Context g, int xtemp, string text, int fontH)
 	{
 		if(fontH < 1)
@@ -313,7 +319,8 @@ public abstract class CairoGeneric
 		g.MoveTo(xtemp, topMargin);
 		g.LineTo(xtemp, graphHeight - bottomMargin);
 
-		printText(xtemp, graphHeight -bottomMargin/2, 0, fontH, text, g, alignTypes.CENTER);
+		printText(xtemp, graphHeight -bottomMargin/2, 0, fontH, text + verticalGridLineUnits,
+				g, alignTypes.CENTER);
 		//LogB.Information("pvgl fontH: " + fontH.ToString());
 	}
 
@@ -481,7 +488,7 @@ public abstract class CairoGeneric
 	//double mousesFromRight is how many mouses width should be at right of the graph
 	protected void addClickableMark (Cairo.Context g, double mousesFromRight)
 	{
-		Gdk.Pixbuf pixbuf = new Gdk.Pixbuf (null, Util.GetImagePath(false) + "mouse.png"); //18px
+		Gdk.Pixbuf pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "mouse.png"); //18px
 		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf,
 				graphWidth -rightMargin -mousesFromRight*18,// -4,
 				graphHeight - bottomMargin -18 -4);

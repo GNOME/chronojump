@@ -136,9 +136,12 @@ public partial class ChronoJumpWindow
 		Constants.TypeRunsIntervallicStr(),
 	};
 	
-	private void stats_win_change_test_type(int testPage) {
+	private void stats_win_change_test_type(int testPage)
+	{
 		//no statistics for reactionTime, pulse and multichronopic
 		//show a label with this info
+		LogB.Information ("stats_win_change_test_type start, page: " + testPage.ToString ());
+
 		if(testPage >= 4) 
 			notebook_stats_sup.CurrentPage = 1;
 		else {
@@ -170,6 +173,8 @@ public partial class ChronoJumpWindow
 			combo_stats_stat_type.Sensitive = sensitive;
 			vbox_stats_type.Visible = showType;
 		}
+
+		LogB.Information ("stats_win_change_test_type done!");
 	}
 	
 	private static string [] comboStatsSubTypeWithTCOptions = {
@@ -291,14 +296,14 @@ public partial class ChronoJumpWindow
 	
 	private void stats_win_putNonStandardIcons() {
 		Pixbuf pixbuf;
-		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_analyze.png");
+		//pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "gpm-statistics.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_analyze.png");
 		image_stats_win_graph.Pixbuf = pixbuf;
 		image_stats_win_graph1.Pixbuf = pixbuf;
 		image_stats_win_graph3.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "report_view.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "report_view.png");
 		image_stats_win_report_open.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "spreadsheet.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "spreadsheet.png");
 	}
 
 	

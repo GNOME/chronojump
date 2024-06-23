@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2018-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2018-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System.Collections.Generic; //List
@@ -120,6 +120,12 @@ public class WebcamFfmpeg : Webcam
 		if (ExecuteProcess.IsRunning3 (-1, GetExecutableCapture(os)))
 			return new Result (false, "", "ffmpeg is already running");
 
+		if (UtilAll.IsWindows () && ! File.Exists(executable)) //note on Linux we call ffmpeg (not a url)
+		{
+			LogB.Information ("executable does not exists: " + executable);
+			return new Result (false, "", "Executable does not exists: " + executable);
+		}
+
 		List<string> parameters = createParametersPlayPreview();
 
 		process = new Process();
@@ -139,6 +145,12 @@ public class WebcamFfmpeg : Webcam
 		//cannot play preview with camera recording
 		if (ExecuteProcess.IsRunning3 (-1, GetExecutableCapture(os)))
 			return new Result (false, "", "ffmpeg is already running");
+
+		if (UtilAll.IsWindows () && ! File.Exists(executable)) //note on Linux we call ffmpeg (not a url)
+		{
+			LogB.Information ("executable does not exists: " + executable);
+			return new Result (false, "", "Executable does not exists: " + executable);
+		}
 
 		List<string> parameters = createParametersPlayPreview();
 
@@ -390,7 +402,7 @@ public class WebcamFfmpeg : Webcam
 		parameters.Insert (i++, "-exitonkeydown");
 		parameters.Insert (i++, "-exitonmousedown");
 		parameters.Insert (i++, "-window_title");
-		parameters.Insert (i++, Catalog.GetString("Preview. Press any key to exit."));
+		parameters.Insert (i++, Catalog.GetString("\"Preview. Press any key to exit.\""));
 		return parameters;
 	}
 
@@ -447,9 +459,14 @@ public class WebcamFfmpeg : Webcam
 		List<string> parameters = new List<string>();
 		int i=0;
 
-		if(os == UtilAll.OperatingSystems.LINUX) { //TODO: check if this works on Mac and Windows
+		if(os == UtilAll.OperatingSystems.LINUX) { //This does not work on Windows. TODO: check if this works on Mac
+
 			parameters.Insert (i++, "-vf");
 			parameters.Insert (i++, "[in]drawtext=text='%{pts\\:hms}':box=1:x=(w-tw)/2:y=h-(3*lh), drawtext=text='pause\\: p, space; next frame\\: s; -+10s\\: left/right':box=1:x=(w-tw)/2:y=h-(lh)[out]");
+		}
+		else {
+			parameters.Insert (i++, "-window_title");
+			parameters.Insert (i++, "Pause: p, space; next frame: s; -+10s: left/right.");
 		}
 
 		parameters.Insert (i ++, "-autoexit");

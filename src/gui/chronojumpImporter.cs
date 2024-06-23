@@ -15,18 +15,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2019-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2019-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using Gtk;
 using System;
 using System.IO;
 using System.Threading;
+using System.Collections; //ArrayList
 
 public partial class ChronoJumpWindow
 {
 	static ChronojumpImporter.Result importerResult;
 	static Thread threadImport;
+	private static bool threadImportCancel;
 	static ChronojumpImporter chronojumpImporter;
 
 	private void on_button_import_chronojump_session(object o, EventArgs args)
@@ -48,12 +50,26 @@ public partial class ChronoJumpWindow
 		string databasePath = app1s_ImportDatabasePath();
 		LogB.Information (databasePath);
 
+		/*
+		 * disabled until finished
+		List<PersonImportConflict> pic_l = importSessionCheckConflicts (databasePath, sourceSession);
+		if (pic_l.Count > 0)
+		{
+			//app1s_notebook_sup_entered_from; //to store from which page we entered (to return at it)
+			app1s_notebook.CurrentPage = app1s_PAGE_SESSION_IMPORT_CONFLICTS;
+
+			importSessionConflictsFillGrid (pic_l);
+			return;
+		}
+		*/
+
 		Session destinationSession = currentSession;
 
 		if (app1s_ImportToNewSession ()) {
 			destinationSession = null;
 		}
 
+		person_search.Text = "";
 		importSessionFromDatabasePrepare (databasePath, sourceSession, destinationSession);
 	}
 
@@ -105,7 +121,8 @@ public partial class ChronoJumpWindow
 
 	private bool PulseGTKImport ()
 	{
-		if ( ! threadImport.IsAlive ) {
+		if ( ! threadImport.IsAlive || threadImportCancel)
+		{
 			LogB.ThreadEnding();
 			importSessionFromDatabaseEnd();
 

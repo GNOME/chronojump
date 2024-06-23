@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -29,6 +29,7 @@ using Mono.Unix;
 
 public class PersonSelectWindow 
 {
+	// at glade ---->
 	Gtk.Window person_select_window;
 	Gtk.Notebook notebook;
 	Gtk.Viewport viewport1;
@@ -52,7 +53,7 @@ public class PersonSelectWindow
 	Gtk.Image image_merge;
 	Gtk.Image image_person_delete;
 	Gtk.Image image_manage_persons_cancel;
-	Gtk.VBox vbox_corner_controls;
+	Gtk.Box vbox_corner_controls;
 	Gtk.Image image_close;
 	Gtk.Label label_manage_persons;
 	Gtk.Label label_delete_person;
@@ -61,6 +62,12 @@ public class PersonSelectWindow
 	Gtk.ScrolledWindow scrolled_main;
 	Gtk.Frame frame_manage_persons;
 	Gtk.Frame frame_delete_person_confirm;
+
+	Gtk.Button button_person_add_single;
+	Gtk.Button button_person_add_multiple;
+	Gtk.Box box_person_new_cloud_view_disabled;
+	Gtk.Image image_person_new_cloud_view_disabled;
+	// <---- at glade
 
 	static PersonSelectWindow PersonSelectWindowBox;
 	
@@ -119,7 +126,7 @@ public class PersonSelectWindow
 			//UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_confirm);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_manage_persons);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_delete_person);
-			UtilGtk.ContrastLabelsVBox(Config.ColorBackgroundIsDark, vbox_corner_controls);
+			UtilGtk.ContrastLabelsBox(Config.ColorBackgroundIsDark, vbox_corner_controls);
 
 			UtilGtk.WidgetColor (frame_main, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_main);
@@ -151,31 +158,33 @@ public class PersonSelectWindow
 		FakeButtonDone = new Gtk.Button();
 
 		Pixbuf pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_pin.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_person_pin.png");
 		image_manage_persons.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_add.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_person_add.png");
 		image_person_new.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_group_add.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_group_add.png");
 		image_persons_new_plus.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_person_outline.png");
 		image_person_load.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_group_outline.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_group_outline.png");
 		image_persons_open_plus.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_edit.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_edit.png");
 		image_person_edit.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_visibility.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_visibility.png");
 		image_all_persons_events.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "merge.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "merge.png");
 		image_merge.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_delete.png");
 		image_person_delete.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
 		image_manage_persons_cancel.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
 		image_close.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
+		image_person_new_cloud_view_disabled.Pixbuf = pixbuf;
 	}
 	
-	static public PersonSelectWindow Show (Gtk.Window parent, ArrayList persons, Person currentPerson, RGBA colorBackground, bool raspberry, bool lowHeight, bool showImages)
+	static public PersonSelectWindow Show (Gtk.Window parent, ArrayList persons, Person currentPerson, RGBA colorBackground, bool raspberry, bool lowHeight, bool showImages, bool cloudView)
 	{
 		if (PersonSelectWindowBox == null) {
 			PersonSelectWindowBox = new PersonSelectWindow (parent, raspberry, lowHeight);
@@ -199,6 +208,9 @@ public class PersonSelectWindow
 			PersonSelectWindowBox.columns = 2;
 		}
 
+		PersonSelectWindowBox.button_person_add_single.Visible = ! cloudView;
+		PersonSelectWindowBox.button_person_add_multiple.Visible = ! cloudView;
+		PersonSelectWindowBox.box_person_new_cloud_view_disabled.Visible = cloudView;
 
 		/*
 		 * this fixes not being updated ppb viewport and label when starting with images
@@ -361,8 +373,8 @@ public class PersonSelectWindow
 		if(SelectedPerson == null)
 			viewport_person_name.Visible = false;
 		else {
-			UtilGtk.ViewportColor(viewport_person_name, UtilGtk.Colors.YELLOW);
 			viewport_person_name.Visible = true;
+			UtilGtk.ViewportColorYellowLight (viewport_person_name);
 		}
 	}
 
@@ -543,7 +555,7 @@ public class PersonSelectWindow
 		image_merge = (Gtk.Image) builder.GetObject ("image_merge");
 		image_person_delete = (Gtk.Image) builder.GetObject ("image_person_delete");
 		image_manage_persons_cancel = (Gtk.Image) builder.GetObject ("image_manage_persons_cancel");
-		vbox_corner_controls = (Gtk.VBox) builder.GetObject ("vbox_corner_controls");
+		vbox_corner_controls = (Gtk.Box) builder.GetObject ("vbox_corner_controls");
 		image_close = (Gtk.Image) builder.GetObject ("image_close");
 		label_manage_persons = (Gtk.Label) builder.GetObject ("label_manage_persons");
 		label_delete_person = (Gtk.Label) builder.GetObject ("label_delete_person");
@@ -552,6 +564,10 @@ public class PersonSelectWindow
 		scrolled_main = (Gtk.ScrolledWindow) builder.GetObject ("scrolled_main");
 		frame_manage_persons = (Gtk.Frame) builder.GetObject ("frame_manage_persons");
 		frame_delete_person_confirm = (Gtk.Frame) builder.GetObject ("frame_delete_person_confirm");
+		button_person_add_single = (Gtk.Button) builder.GetObject ("button_person_add_single");
+		button_person_add_multiple = (Gtk.Button) builder.GetObject ("button_person_add_multiple");
+		box_person_new_cloud_view_disabled = (Gtk.Box) builder.GetObject ("box_person_new_cloud_view_disabled");
+		image_person_new_cloud_view_disabled = (Gtk.Image) builder.GetObject ("image_person_new_cloud_view_disabled");
 	}
 }
 
@@ -605,9 +621,9 @@ public class PersonPhotoButton
 		Gtk.Viewport viewport = (Gtk.Viewport) box_elements.GetValue(2); //the name
 
 		if(select)
-			UtilGtk.ViewportColor(viewport, UtilGtk.Colors.YELLOW);
+			UtilGtk.ViewportColorYellowLight (viewport);
 		else
-			UtilGtk.ViewportColorDefault(viewport);
+			UtilGtk.ViewportColorWhite (viewport);
 
 		Selected = select;
 	}
@@ -633,7 +649,7 @@ public class PersonPhotoButton
 
 	private void createButton (bool showImage)
 	{
-		Gtk.VBox vbox = new Gtk.VBox();
+		Gtk.Box vbox = new Gtk.Box(Gtk.Orientation.Vertical, 0);
 
 		// need to create image even on no images to manage correctly the getButtonBoxElements ()
 		Gtk.Image image = new Gtk.Image();
@@ -649,7 +665,7 @@ public class PersonPhotoButton
 		label_id.Visible = false; //hide this to the user
 
 		Gtk.Viewport viewport = new Gtk.Viewport();
-		UtilGtk.ViewportColorDefault(viewport);
+		UtilGtk.ViewportColorWhite (viewport);
 		Gtk.Label label_name = new Gtk.Label(personName);
 		label_name.LineWrap = true;
 
@@ -685,7 +701,7 @@ public class PersonPhotoButton
 	private Array getButtonBoxElements (Gtk.Button button)
 	{
 		//access the vbox
-		Gtk.VBox box = (Gtk.VBox) button.Child;
+		Gtk.Box box = (Gtk.Box) button.Child;
 
 		/*
 		LogB.Information("printing children");
@@ -716,9 +732,9 @@ public class PersonPhotoButton
 		Pixbuf pixbuf;
 		try {
 			if(fromFile)
-				pixbuf = new Pixbuf (photoFile); //from a file
+				pixbuf = Chronojump.MyPixbuf.Get(photoFile); //from a file
 			else
-				pixbuf = new Pixbuf (null, photoFile); //from assemblies
+				pixbuf = Chronojump.MyPixbuf.Get(null, photoFile); //from assemblies
 
 			image.Pixbuf = pixbuf;
 		}

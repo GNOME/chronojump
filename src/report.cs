@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -214,8 +214,8 @@ public class Report : ExportSession
 		} catch {}
 		try {
 
-			File.Copy(Util.GetImagesDir() + Path.DirectorySeparatorChar + Constants.FileNameLogo, 
-					Util.GetReportDirectoryName(filename) + Path.DirectorySeparatorChar + Constants.FileNameLogo );
+			File.Copy(Util.GetImagesDir() + Path.DirectorySeparatorChar + Constants.FileNameLogo2Col, 
+					Util.GetReportDirectoryName(filename) + Path.DirectorySeparatorChar + Constants.FileNameLogo2Col );
 		} catch {}
 	}
 	
@@ -232,7 +232,7 @@ public class Report : ExportSession
 		writer.WriteLine("<table width=\"100%\" class=\"empty\"><tr><td>\n");
 		writer.WriteLine("<img src=\"" +
 				Util.GetLastPartOfPath(Util.GetReportDirectoryName(filename)) 
-				+ "/" + Constants.FileNameLogo + "\">\n ");
+				+ "/" + Constants.FileNameLogo2Col + "\">\n ");
 		writer.WriteLine("</td><td width=\"80%\" valign=\"bottom\"><h1>Chronojump report</h1></td></tr>\n");
 		writer.WriteLine("</table>\n");
 			

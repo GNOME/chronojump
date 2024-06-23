@@ -723,8 +723,14 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
 
 	#draw polygon under position, but only if position is shown
 	if(paintMode != "superpose" && showPosition) {
-		polygon(c(startX:propulsiveEnd, propulsiveEnd, startX),
-			c(yValues[startX:propulsiveEnd], min(yValues), min(yValues)),
+		#when propulsiveEnd is at end, sometimes yValues[propulsiveEnd] is NA, and sometimes the previous value also.
+		#fix with this:
+		propulsiveEndFix = propulsiveEnd
+		if (is.na (yValues[propulsiveEnd]))
+			propulsiveEndFix = length(yValues)
+
+		polygon(c(startX:propulsiveEndFix, propulsiveEndFix, startX),
+			c(yValues[startX:propulsiveEndFix], min(yValues), min(yValues)),
 			col="grey90")
 	}
 
@@ -2731,8 +2737,6 @@ checkLateralityDifferent <- function(curves)
 loadLibraries <- function(os) {
         #library("EMD")
         #library("sfsmisc")
-        if(os=="Windows")
-                library("Cairo")
 }
 
 doProcess <- function(options) 
@@ -2796,12 +2800,15 @@ doProcess <- function(options)
         #	This is not calculated yet.
         
         
-        if(op$Analysis != "exportCSV") {
-                if(op$OperatingSystem=="Windows")
-                        Cairo(op$Width, op$Height, file = op$OutputGraph, type="png", bg="white")
-                else
-                        png(op$OutputGraph, width=op$Width, height=op$Height)
-                
+        if(op$Analysis != "exportCSV")
+        {
+		if (op$OperatingSystem == "Windows")
+		{
+			library("Cairo")
+			Cairo (op$OutputGraph, bg="white", width=op$Width, height=op$Height)
+		} else
+			png(op$OutputGraph, width=op$Width, height=op$Height)
+
                 op$Title=gsub('_',' ',op$Title)
                 op$Title=gsub('-','    ',op$Title)
         }
@@ -3407,30 +3414,40 @@ doProcess <- function(options)
                                 smoothProblems = TRUE
                         } else {
                                 #2.b) create a model with x,y to find optimal x
-                                smodel <- smooth.spline(y,x)
-                                smoothingAll <- predict(smodel, maxPowerAtAnyRep)$y
-                                
-                                debugParameters(listN(x, y, maxPowerAtAnyRep, smoothingAll), "paint all smoothing 1")
-                                
-                                #2.c) find x values close to previous model
-                                temp.list <- findXValuesClose(x, y, maxPowerAtAnyRep)
-                                xUpperValue <- temp.list[[1]]
-                                xLowerValue <- temp.list[[2]]
-                                
-                                debugParameters(listN(xUpperValue, xLowerValue), "paint all smoothing 2")
-                                
-                                #3.a) find max power (y) for some smoothings(x) (closer)
-                                x <- seq(from = xUpperValue, to = xLowerValue, length.out = 8)
-                                y <- smoothAllSetYPoints(x, displacementAllSet, 
-                                                         op$EncoderConfigurationName, op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight, 
-                                                         op$gearedDown, op$anglePush, op$angleWeight, op$diameter, op$inertiaMomentum)
-                                
-                                #3.b) create a model with x,y to find optimal x (in closer values)
-                                #but only if we have 4+ unique values for smooth.spline. If not, previous smoothingAll will be used
-                                if(length(unique(x)) >= 4 && length(unique(y)) >= 4) {
-                                        smodel <- smooth.spline(y,x)
-                                        smoothingAll <- predict(smodel, maxPowerAtAnyRep)$y
-                                }
+                                smodel <- smoothSplineSafe(y,x)
+				if(is.null(smodel)) {
+					smoothingAll <- 0
+	                                smoothProblems = TRUE
+				} else {
+					smoothingAll <- predict(smodel, maxPowerAtAnyRep)$y
+
+					debugParameters(listN(x, y, maxPowerAtAnyRep, smoothingAll), "paint all smoothing 1")
+
+					#2.c) find x values close to previous model
+					temp.list <- findXValuesClose(x, y, maxPowerAtAnyRep)
+					xUpperValue <- temp.list[[1]]
+					xLowerValue <- temp.list[[2]]
+
+					debugParameters(listN(xUpperValue, xLowerValue), "paint all smoothing 2")
+
+					#3.a) find max power (y) for some smoothings(x) (closer)
+					x <- seq(from = xUpperValue, to = xLowerValue, length.out = 8)
+					y <- smoothAllSetYPoints(x, displacementAllSet,
+								 op$EncoderConfigurationName, op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight,
+								 op$gearedDown, op$anglePush, op$angleWeight, op$diameter, op$inertiaMomentum)
+
+					#3.b) create a model with x,y to find optimal x (in closer values)
+					#but only if we have 4+ unique values for smooth.spline. If not, previous smoothingAll will be used
+
+					if(length(unique(x)) >= 4 && length(unique(y)) >= 4) {
+						smodel <- smoothSplineSafe (y,x)
+						if(is.null(smodel)) {
+							smoothingAll <- 0
+							smoothProblems = TRUE
+						} else
+							smoothingAll <- predict(smodel, maxPowerAtAnyRep)$y
+					}
+				}
                         }
                         
                         debugParameters(listN(x, y, maxPowerAtAnyRep, smoothingAll), "paint all smoothing 3")

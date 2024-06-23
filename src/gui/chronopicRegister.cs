@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2016-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2016-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -47,14 +47,14 @@ public static class TypePixList
 	{
 		l = new List<TypePix>();
 
-		l.Add(new TypePix(ChronopicRegisterPort.Types.UNKNOWN, new Pixbuf (null, Util.GetImagePath(false) + "board-unknown.png")));
-		l.Add(new TypePix(ChronopicRegisterPort.Types.CONTACTS, new Pixbuf (null, Util.GetImagePath(false) + "board-jump-run.png")));
-		l.Add(new TypePix(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER, new Pixbuf (null, Util.GetImagePath(false) + "board-arduino-run-encoder.png")));
-		l.Add(new TypePix(ChronopicRegisterPort.Types.ARDUINO_FORCE, new Pixbuf (null, Util.GetImagePath(false) + "board-arduino-force.png")));
-		l.Add(new TypePix(ChronopicRegisterPort.Types.ENCODER, new Pixbuf (null, Util.GetImagePath(false) + "board-encoder.png")));
-		l.Add(new TypePix(ChronopicRegisterPort.Types.ARDUINO_RFID, new Pixbuf (null, Util.GetImagePath(false) + "board-arduino-rfid.png")));
-		//l.Add(new TypePix(ChronopicRegisterPort.Types.ACCELEROMETER, new Pixbuf (null, Util.GetImagePath(false) + "board-accelerometer.png")));
-		l.Add(new TypePix(ChronopicRegisterPort.Types.RUN_WIRELESS, new Pixbuf (null, Util.GetImagePath(false) + "board-run-wireless.png")));
+		l.Add(new TypePix(ChronopicRegisterPort.Types.UNKNOWN, Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "board-unknown.png")));
+		l.Add(new TypePix(ChronopicRegisterPort.Types.CONTACTS, Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "board-jump-run.png")));
+		l.Add(new TypePix(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER, Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "board-arduino-run-encoder.png")));
+		l.Add(new TypePix(ChronopicRegisterPort.Types.ARDUINO_FORCE, Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "board-arduino-force.png")));
+		l.Add(new TypePix(ChronopicRegisterPort.Types.ENCODER, Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "board-encoder.png")));
+		l.Add(new TypePix(ChronopicRegisterPort.Types.ARDUINO_RFID, Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "board-arduino-rfid.png")));
+		//l.Add(new TypePix(ChronopicRegisterPort.Types.ACCELEROMETER, Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "board-accelerometer.png")));
+		l.Add(new TypePix(ChronopicRegisterPort.Types.RUN_WIRELESS, Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "board-run-wireless.png")));
 	}
 
 	//used to hide new unfinished devices on chronojump release
@@ -164,7 +164,7 @@ public class DiscoverWindow
 
 		FakeButtonClose = new Gtk.Button();
 		portSelected = new ChronopicRegisterPort ("");
-		image_discover_mode = new Gtk.Image (new Pixbuf (null, Util.GetImagePath(false) + iconModeStr));
+		image_discover_mode = new Gtk.Image (Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + iconModeStr));
 
 		//ChronoDebug cDebug = new ChronoDebug("Discover " + current_mode.ToString());
 		//cDebug.Start();
@@ -178,14 +178,14 @@ public class DiscoverWindow
                         if (crp.Port != "")
 			{
 				if (crp.Type != ChronopicRegisterPort.Types.UNKNOWN &&
-						crp.SerialNumber != ChronopicRegister.SerialNumberNotUnique)
+						! chronopicRegister.SerialNumberIsNotUnique (crp.SerialNumber))
 					alreadyDiscovered_l.Add (crp);
 				else
 					notDiscovered_l.Add (crp);
 			}
 
 		image_button_micro_discover_cancel_close.Pixbuf =
-				new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+				Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
 		label_button_micro_discover_cancel_close.Text = Catalog.GetString("Cancel");
 
 		if (alreadyDiscovered_l.Count > 0 || notDiscovered_l.Count > 0)
@@ -206,7 +206,7 @@ public class DiscoverWindow
 			label_micro_discover_not_found.Visible = true;
 
 			image_button_micro_discover_cancel_close.Pixbuf =
-				new Pixbuf (null, Util.GetImagePath (false) + "image_close.png");
+				Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "image_close.png");
 			label_button_micro_discover_cancel_close.Text = Catalog.GetString("Close");
 		}
 
@@ -241,11 +241,11 @@ public class DiscoverWindow
 
 		Gtk.Label l1 = new Gtk.Label ("<b>" + Catalog.GetString ("Compatibility with") + "</b>");
 		l1.UseMarkup = true;
-		Gtk.HBox hbox_l1 = new Gtk.HBox (false, 10);
+		Gtk.Box hbox_l1 = new Gtk.Box (Gtk.Orientation.Horizontal, 10);
 		hbox_l1.PackStart (l1, false, false, 0);
 		hbox_l1.PackStart (image_discover_mode, false, false, 0);
 		//hbox_l1.Hexpand = true; //this does not work, so create a parent and expand:
-		Gtk.HBox hbox_l1_parent = new Gtk.HBox (false, 0);
+		Gtk.Box hbox_l1_parent = new Gtk.Box (Gtk.Orientation.Horizontal, 0);
 		hbox_l1_parent.PackStart (hbox_l1, true, false, 0);
 
 		grid_micro_discover.Attach (l0, 0, 0, 1, 1);
@@ -419,7 +419,7 @@ public class DiscoverWindow
 			}
 
 			image_button_micro_discover_cancel_close.Pixbuf =
-				new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+				Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
 			label_button_micro_discover_cancel_close.Text = Catalog.GetString("Close");
 
 			if (discoverCloseAfterCancel)
@@ -457,6 +457,8 @@ public class DiscoverWindow
 				(current_mode == Constants.Modes.POWERGRAVITATORY ||
 				 current_mode == Constants.Modes.POWERINERTIAL) &&
 				crpt == ChronopicRegisterPort.Types.ENCODER )
+			return true;
+		else if (current_mode == Constants.Modes.OTHER && crpt == ChronopicRegisterPort.Types.FOURPLATFORMS)
 			return true;
 
 		return false;
@@ -563,8 +565,8 @@ public class DiscoverWindow
 public class ChronopicRegisterWindow
 {
 	Gtk.Window chronopic_register_win;
-	Gtk.VBox vbox_top;
-	Gtk.VBox vbox_main;
+	Gtk.Box vbox_top;
+	Gtk.Box vbox_main;
 	private List<ChronopicRegisterPort> listConnected;
 	public Gtk.Button FakeButtonCloseSerialPort;
 
@@ -632,7 +634,7 @@ public class ChronopicRegisterWindow
 
 	private void createVBoxsViewportAndFrame()
 	{
-		vbox_main = new Gtk.VBox(false, 12);
+		vbox_main = new Gtk.Box(Gtk.Orientation.Vertical, 12);
 		Gtk.Viewport viewport = new Gtk.Viewport(null, null);
 		Gtk.Frame frame = new Gtk.Frame();
 		frame.LabelXalign = 0;
@@ -645,7 +647,7 @@ public class ChronopicRegisterWindow
 		viewport.BorderWidth = 4;
 		frame.Add(viewport);
 
-		vbox_top = new Gtk.VBox(false, 20);
+		vbox_top = new Gtk.Box(Gtk.Orientation.Vertical, 20);
 		vbox_top.Add(frame);
 
 		chronopic_register_win.Add(vbox_top);
@@ -692,8 +694,8 @@ public class ChronopicRegisterWindow
 			grid_main.Attach (label_device, 1, count, 1, 1);
 			label_device.Show();
 
-			Gtk.HBox hbox_type = new Gtk.HBox(false, 6);
-			Button button_left = UtilGtk.CreateArrowButton(ArrowType.Left, ShadowType.In, 50, -1, UtilGtk.ArrowEnum.BACKWARD);
+			Gtk.Box hbox_type = new Gtk.Box(Gtk.Orientation.Horizontal, 6);
+			Button button_left = UtilGtk.CreateArrowButton (50, -1, UtilGtk.ArrowEnum.BACKWARD);
 			button_left.Sensitive = (listConnected[count-1].Type != TypePixList.l[0].Type);
 			button_left.CanFocus = false;
 			button_left.IsFocus = false;
@@ -712,7 +714,7 @@ public class ChronopicRegisterWindow
 			if(ChronopicRegisterPort.TypePrint(listConnected[count-1].Type) == ChronopicRegisterPort.TypePrint(ChronopicRegisterPort.Types.UNKNOWN))
 				arrowEnum = UtilGtk.ArrowEnum.FORWARD_EMPHASIS;
 
-			Button button_right = UtilGtk.CreateArrowButton(ArrowType.Right, ShadowType.In, 50, -1, arrowEnum);
+			Button button_right = UtilGtk.CreateArrowButton (50, -1, arrowEnum);
 
 			button_right.CanFocus = false;
 			button_right.IsFocus = false;
@@ -720,11 +722,11 @@ public class ChronopicRegisterWindow
 			button_right.Sensitive = (listConnected[count-1].Type != TypePixList.l[TypePixList.l.Count -1].Type);
 			hbox_type.PackStart(button_right, true, false, 1);
 
-			Gtk.VBox vbox = new Gtk.VBox(false, 2);
+			Gtk.Box vbox = new Gtk.Box(Gtk.Orientation.Vertical, 2);
 			vbox.Add(hbox_type);
 
-			Gtk.HBox hbox_label_to_align = new Gtk.HBox(false, 0);
-			Gtk.HBox hbox_label = new Gtk.HBox(false, 6);
+			Gtk.Box hbox_label_to_align = new Gtk.Box(Gtk.Orientation.Horizontal, 0);
+			Gtk.Box hbox_label = new Gtk.Box(Gtk.Orientation.Horizontal, 6);
 			Gtk.Label label_selected = new Gtk.Label("<b>" + Catalog.GetString("Selected:") + "</b> ");
 			label_selected.UseMarkup = true;
 			label_selected.Visible = false; //but this will be visible by the chronopic_register_win.ShowAll();
@@ -759,9 +761,9 @@ public class ChronopicRegisterWindow
 	private void createContent(int connectedCount, int unknownCount)
 	{
 		//create top hbox
-		Gtk.HBox hbox = new Gtk.HBox(false, 12);
+		Gtk.Box hbox = new Gtk.Box(Gtk.Orientation.Horizontal, 12);
 
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_chronopic_connect_big.png");
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_chronopic_connect_big.png");
 		//hbox image
 		Gtk.Image image = new Gtk.Image();
 		image.Pixbuf = pixbuf;
@@ -777,7 +779,7 @@ public class ChronopicRegisterWindow
 		if(connectedCount > 0)
 		{
 			createGrid();
-			Gtk.VBox vboxTV = new Gtk.VBox(false, 10);
+			Gtk.Box vboxTV = new Gtk.Box(Gtk.Orientation.Vertical, 10);
 			vboxTV.Add(grid_main);
 			vbox_main.Add(vboxTV);
 		}
@@ -823,10 +825,10 @@ public class ChronopicRegisterWindow
 		Gtk.Label label_macOS = new Gtk.Label(
 				Catalog.GetString("If Chronopic is disconnected after jumps or runs execution,\nthat port will be blocked until restart of machine."));
 
-		Gtk.VBox vbox_m = new Gtk.VBox();
+		Gtk.Box vbox_m = new Gtk.Box();
 		vbox_m.PackStart(label_macOS, false, false, 8);
 
-		Gtk.HBox hbox_m = new Gtk.HBox();
+		Gtk.Box hbox_m = new Gtk.Box();
 		hbox_m.PackStart(vbox_m, false, false, 8);
 
 		if( UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
@@ -856,7 +858,7 @@ public class ChronopicRegisterWindow
 		//<---- button close end
 
 		//add buttons to containers
-		Gtk.HButtonBox hbox = new Gtk.HButtonBox ();
+		Gtk.ButtonBox hbox = new Gtk.ButtonBox (Gtk.Orientation.Horizontal);
 		//hbox.Add(button_close_serial_port);
 
 		hbox.Add(button_close);
@@ -917,10 +919,10 @@ public class ChronopicRegisterWindow
 		right.Sensitive = (type != TypePixList.l[TypePixList.l.Count -1].Type);
 		//LogB.Information("count + tplcount " + count + "," + TypePixList.l.Count);
 
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameArrowForward);
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameArrowForward);
 		//show red image on button right if UNKNOWN
 		if(type == TypePixList.l[0].Type)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameArrowForwardEmphasis);
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameArrowForwardEmphasis);
 
 		Gtk.Image image = (Gtk.Image) right.Child;
 		image.Pixbuf = pixbuf;

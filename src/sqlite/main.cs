@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -23,7 +23,7 @@ using System.Data;
 using System.IO; //"File" things. TextWriter
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List
-using Mono.Data.Sqlite;
+using System.Data.SQLite;
 using System.Diagnostics; 	//for launching other process
 using System.Text.RegularExpressions; //Match
 
@@ -31,7 +31,7 @@ using Mono.Unix;
 
 class SqliteGeneral
 {
-	private SqliteConnection dbcon;
+	private SQLiteConnection dbcon;
 	private bool isOpened;
 	public SqliteGeneral(string databasePath)
 	{
@@ -40,7 +40,7 @@ class SqliteGeneral
 		if (!File.Exists (databasePath)) {
 			return;
 		}
-		dbcon = new SqliteConnection ();
+		dbcon = new SQLiteConnection ();
 		string connectionString = "version = 3; Data source = " + databasePath;
 		dbcon.ConnectionString = connectionString;
 		try {
@@ -72,7 +72,7 @@ class SqliteGeneral
 		}
 	}
 
-	public SqliteConnection connection
+	public SQLiteConnection connection
 	{
 		get
 		{
@@ -80,17 +80,17 @@ class SqliteGeneral
 		}
 	}
 
-	public SqliteCommand command()
+	public SQLiteCommand command()
 	{
-		SqliteCommand dbcmd = dbcon.CreateCommand();
+		SQLiteCommand dbcmd = dbcon.CreateCommand();
 		return dbcmd;
 	}
 }
 
 class Sqlite
 {
-	protected static SqliteConnection dbcon;
-	protected static SqliteCommand dbcmd;
+	protected static SQLiteConnection dbcon;
+	protected static SQLiteCommand dbcmd;
 
 	//since we use installJammer (chronojump 0.7)	
 	//database was on c:\.chronojump\ or in ~/.chronojump
@@ -144,7 +144,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.47";
+	static string lastChronojumpDatabaseVersion = "2.51";
 
 	public Sqlite()
 	{
@@ -233,7 +233,7 @@ class Sqlite
 
 		bool defaultDBLocation = true;
 
-		dbcon = new SqliteConnection();
+		dbcon = new SQLiteConnection();
 
 		/*
 		 * the Open() helps to know it threre are problems with path and sqlite
@@ -286,7 +286,7 @@ class Sqlite
 		try{
 			LogB.SQL(string.Format("Trying database in ... " + connectionString));
 
-		//dbcon = new SqliteConnection();
+		//dbcon = new SQLiteConnection();
 			*/
 		/*
 			dbcon.ConnectionString = connectionString;
@@ -296,7 +296,7 @@ class Sqlite
 			try {
 				LogB.SQL(string.Format("Trying database in ... " + connectionStringTemp));
 
-		//dbcon = new SqliteConnection();
+		//dbcon = new SQLiteConnection();
 				dbcon.ConnectionString = connectionStringTemp;
 				dbcmd = dbcon.CreateCommand();
 			} catch { 
@@ -378,7 +378,7 @@ class Sqlite
 			File.Delete(sqlFileBlank);
 		}
 
-		dbcon = new SqliteConnection();
+		dbcon = new SQLiteConnection();
 		dbcon.ConnectionString = connectionStringBlank;
 		dbcmd = dbcon.CreateCommand();
 
@@ -501,7 +501,7 @@ class Sqlite
 		/*
 		 *it says:
 		 Unhandled Exception: System.NotSupportedException: Only Sqlite Version 3 is supported at this time
-		   at Mono.Data.Sqlite.SqliteConnection.Open () [0x00000]
+		   at Mono.Data.Sqlite.SQLiteConnection.Open () [0x00000]
 		 *
 		Sqlite.Close();
 		connectionString = "version=2; URI=file:" + sqlFile;
@@ -1669,7 +1669,7 @@ class Sqlite
 				Sqlite.Open();
 				
 				dbcmd.CommandText = "DELETE FROM " + Constants.EncoderTable + 
-					" WHERE encoderConfiguration LIKE \"%INERTIAL%\" AND " +
+					" WHERE encoderConfiguration LIKE '%INERTIAL%' AND " +
 					" signalOrCurve == \"curve\"";
 				LogB.SQL(dbcmd.CommandText.ToString());
 				dbcmd.ExecuteNonQuery();
@@ -3204,9 +3204,9 @@ class Sqlite
 							renameColumnLinuxOrMac (Constants.ForceSensorTable, "maxForceRAW", "maxForceRaw");
 						else
 						{
-							using(SqliteTransaction tr = dbcon.BeginTransaction())
+							using(SQLiteTransaction tr = dbcon.BeginTransaction())
 							{
-								using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+								using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 								{
 									dbcmdTr.Transaction = tr;
 
@@ -3362,6 +3362,37 @@ class Sqlite
 				LogB.SQL("Added RFDs 5-10");
 				SqliteForceSensorRFD.UpdateTo2_47 ();
 				currentVersion = updateVersion("2.47");
+			}
+			if(currentVersion == "2.47")
+			{
+				LogB.SQL("Inserted into preferences forceSensorButterworth (isometric)");
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorIsometricButterworth, "15");
+				currentVersion = updateVersion("2.48");
+			}
+			if(currentVersion == "2.48")
+			{
+				LogB.SQL("Inserted into preferences forceSensorElasticButterworth");
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorElasticButterworth, "3");
+				currentVersion = updateVersion("2.49");
+			}
+			if(currentVersion == "2.49")
+			{
+				LogB.SQL("RunEncoder table adding totalTime");
+				try {
+					executeSQL("ALTER TABLE " + Constants.RunEncoderTable + " ADD COLUMN totalTime INT NOT NULL DEFAULT 0;");
+				} catch {
+					LogB.SQL("Catched at Doing ALTER TABLE RunEncoder added totalTime.");
+				}
+
+				currentVersion = updateVersion("2.50");
+			}
+			if(currentVersion == "2.50")
+			{
+				LogB.SQL("Inserted into preferences: forceSensorAnalyzeBestStabilityInWindow");
+
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorAnalyzeBestStabilityInWindow, "1");
+
+				currentVersion = updateVersion("2.51");
 			}
 
 			/*
@@ -3584,6 +3615,10 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.50 - 2.51 Converted DB to 2.51 Inserted into preferences: forceSensorAnalyzeBestStabilityInWindow
+		//2.49 - 2.50 Converted DB to 2.50 RunEncoder table added totalTime
+		//2.48 - 2.49 Converted DB to 2.49 Inserted into preferences forceSensorElasticButterworth
+		//2.47 - 2.48 Converted DB to 2.48 Inserted into preferences forceSensorButterworth (isometric)
 		//2.46 - 2.47 Converted DB to 2.47 Added RFDs 5-10
 		//2.45 - 2.46 Converted DB to 2.46 Added two missing RunsI feedback variables: RunsIFeedbackShowBestSpeed, RunsIFeedbackShowWorstSpeed
 		//2.44 - 2.45 Converted DB to 2.45 Added JumpsRj, RunsI feedback variables
@@ -3804,7 +3839,7 @@ class Sqlite
 		dbcmd.CommandText = "SELECT name FROM sqlite_master WHERE type=\"table\" AND name=\"" + tableName + "\"";
 		LogB.SQL(dbcmd.CommandText.ToString());
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		bool exists = false;
@@ -3827,11 +3862,11 @@ class Sqlite
 			executeSQL("PRAGMA case_sensitive_like=ON;");
 
 		dbcmd.CommandText = "SELECT * FROM sqlite_master WHERE type = \"table\" AND name = \"" +
-			tableName + "\" AND sql LIKE \"%" + columnName + "%\"";
+			tableName + "\" AND sql LIKE '%" + columnName + "%'";
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		bool exists = false;
@@ -3873,7 +3908,7 @@ class Sqlite
 			" WHERE LOWER(name) == LOWER(\"" + findName + "\")" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 	
 		int id = -1;
@@ -3899,7 +3934,7 @@ class Sqlite
 				" GROUP BY name HAVING count > 1";
 		LogB.SQL(dbcmd.CommandText.ToString());
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		List<string> namesConflicting_l = new List<string>();
 		while(reader.Read())
@@ -3916,7 +3951,7 @@ class Sqlite
 			// 2.a) for each duplicate, find distinct names that start similar to it
 			//      to not use them on rename namesConflicting as "name (1)","name (2)" ...
 			dbcmd.CommandText = "SELECT DISTINCT name FROM " + table +
-			" WHERE name LIKE \"" + nameConflict + "%\"";
+			" WHERE name LIKE '" + nameConflict + "%'";
 			LogB.SQL(dbcmd.CommandText.ToString());
 
 			reader = dbcmd.ExecuteReader();
@@ -4055,8 +4090,8 @@ class Sqlite
 		dbcmd.CommandText = "SELECT MAX(uniqueID) FROM " + tableName;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
-		//SqliteDataReader reader;
-		SqliteDataReader reader;
+		//SQLiteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 	
 		int exists = 0;
@@ -4164,7 +4199,7 @@ class Sqlite
 		/* person table */
 
 		dbcmd.CommandText = "SELECT uniqueID, dateBorn FROM person";
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		ArrayList myArray = new ArrayList(1);
 		while(reader.Read()) 
@@ -4253,7 +4288,7 @@ class Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		ArrayList myArray = new ArrayList(1);
 
@@ -4277,7 +4312,7 @@ class Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		ArrayList myArray = new ArrayList(1);
 
@@ -4363,7 +4398,7 @@ class Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		List<SqliteStruct.IntegerText> list = new List<SqliteStruct.IntegerText> ();
@@ -4375,9 +4410,9 @@ class Sqlite
 		reader.Close ();
 
 		//update as transaction
-		using (SqliteTransaction tr = dbcon.BeginTransaction())
+		using (SQLiteTransaction tr = dbcon.BeginTransaction())
 		{
-			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
 
@@ -4415,7 +4450,7 @@ class Sqlite
 		dbcmd.CommandText = "SELECT * " + 
 			"FROM " + tableName + " ORDER BY uniqueID"; 
 		LogB.SQL(dbcmd.CommandText.ToString());
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		while(reader.Read()) {
@@ -4578,7 +4613,7 @@ LogB.SQL("5" + tableName);
 		ArrayList myArray = new ArrayList(2);
 		dbcmd.CommandText = "SELECT * " + 
 			"FROM " + tableName + " ORDER BY uniqueID"; 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		LogB.SQL(dbcmd.CommandText.ToString());
 
@@ -4635,7 +4670,7 @@ LogB.SQL("5" + tableName);
 		Sqlite.dropTable(Constants.ConvertTempTable);
 	}
 
-	protected static string [] DataReaderToStringArray (SqliteDataReader reader, int columns) {
+	protected static string [] DataReaderToStringArray (SQLiteDataReader reader, int columns) {
 		string [] myReaderStr = new String[columns];
 		for (int i=0; i < columns; i ++)
 			myReaderStr[i] = reader[i].ToString();
@@ -4649,7 +4684,7 @@ LogB.SQL("5" + tableName);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader = dbcmd.ExecuteReader();
+		SQLiteDataReader reader = dbcmd.ExecuteReader();
 
 		IDNameList list = new IDNameList();
 		while(reader.Read()) {
@@ -4671,7 +4706,7 @@ LogB.SQL("5" + tableName);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader = dbcmd.ExecuteReader();
+		SQLiteDataReader reader = dbcmd.ExecuteReader();
 
 		IDDoubleList list = new IDDoubleList();
 		while(reader.Read()) {
@@ -4701,7 +4736,7 @@ LogB.SQL("5" + tableName);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		
 		double result = 0;
@@ -4722,7 +4757,7 @@ LogB.SQL("5" + tableName);
 		dbcmd.CommandText = "SELECT MAX(" + column + ") FROM " + tableName ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		
 		int myReturn = 0;
@@ -4744,7 +4779,7 @@ LogB.SQL("5" + tableName);
 		dbcmd.CommandText = "SELECT COUNT(*) FROM " + tableName ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		
 		int myReturn = 0;
@@ -4765,7 +4800,7 @@ LogB.SQL("5" + tableName);
 			" WHERE " + condition + " " + operand + " " + myValue;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		
 		int myReturn = 0;
@@ -4913,7 +4948,7 @@ LogB.SQL("5" + tableName);
 	
 	public static void ConnectServer()
 	{
-		dbcon = new SqliteConnection();
+		dbcon = new SQLiteConnection();
 		dbcon.ConnectionString = connectionStringServer;
 		dbcmd = dbcon.CreateCommand();
 	}

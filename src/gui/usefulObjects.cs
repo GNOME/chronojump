@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -403,6 +403,7 @@ public class PrepareEventGraphBarplotEncoder
 	public bool showLoss;
 	public bool capturing;
 	public string eccon;
+	public double massDisplaced;
 	public FeedbackEncoder feedback;
 	public bool hasInertia;
 	public bool playSoundsFromFile;
@@ -422,7 +423,7 @@ public class PrepareEventGraphBarplotEncoder
 	public PrepareEventGraphBarplotEncoder (
 			string mainVariable, double mainVariableHigher, double mainVariableLower,
 			string secondaryVariable, bool showLoss,
-			bool capturing, string eccon,
+			bool capturing, string eccon, double massDisplaced,
 			FeedbackEncoder feedback,
 			bool hasInertia, bool playSoundsFromFile,
 			List<EncoderBarsData> encoderBarsData_l, Gtk.ListStore encoderCaptureListStore,
@@ -438,6 +439,7 @@ public class PrepareEventGraphBarplotEncoder
 		this.showLoss = showLoss;
 		this.capturing = capturing;
 		this.eccon = eccon;
+		this.massDisplaced = massDisplaced;
 		this.feedback = feedback;
 		this.hasInertia = hasInertia;
 		this.playSoundsFromFile = playSoundsFromFile;
@@ -715,5 +717,39 @@ public class RepetitionMouseLimitsWithSamples : RepetitionMouseLimits
 	public int GetSampleEndOfARep (int rep)
 	{
 		return (sampleEnd_l[rep]);
+	}
+}
+
+public class Blink
+{
+	private DateTime timeStart;
+
+	public enum StatusEnum { NOTSTARTED, RUNNING, ENDED };
+	public StatusEnum Status;
+
+	//constructor
+	public Blink ()
+	{
+		Status = StatusEnum.NOTSTARTED;
+	}
+
+	public void Start ()
+	{
+		timeStart = DateTime.Now;
+		Status = StatusEnum.RUNNING;
+	}
+
+	public void End ()
+	{
+		Status = StatusEnum.ENDED;
+	}
+
+	//to show somthing like the red icon of capturing (blinking)
+	public bool IsOn
+	{
+		get {
+			TimeSpan ts = DateTime.Now.Subtract (timeStart);
+			return (Util.IsEven (Convert.ToInt32 (ts.TotalSeconds)));
+		}
 	}
 }

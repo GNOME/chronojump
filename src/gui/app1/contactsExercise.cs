@@ -162,12 +162,12 @@ public partial class ChronoJumpWindow
 
 	private void on_button_image_test_add_edit_clicked (object o, EventArgs args)
 	{
-		Gtk.FileChooserDialog fc =
-			new Gtk.FileChooserDialog(Catalog.GetString("Select an image"),
+		Gtk.FileChooserNative fc =
+			new Gtk.FileChooserNative(Catalog.GetString("Select an image"),
 					null,
 					FileChooserAction.Open,
-					Catalog.GetString("Cancel"), ResponseType.Cancel,
-					Catalog.GetString("Select"), ResponseType.Accept
+					Catalog.GetString("Select"),
+					Catalog.GetString("Cancel")
 					);
 
 		fc.Filter = new FileFilter();
@@ -199,7 +199,7 @@ public partial class ChronoJumpWindow
 			*/
 		}
 
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		fc.Destroy();
 	}
 
@@ -285,7 +285,7 @@ public partial class ChronoJumpWindow
 
 			label_contacts_exercise_selected_options1.Text = name;
 			image_contacts_exercise_selected_options1.Pixbuf =
-				new Pixbuf (null, Util.GetImagePath(false) + "extra-mass.png");
+				Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "extra-mass.png");
 			image_contacts_exercise_selected_options1.Visible = true;
 		} else {
 			label_contacts_exercise_selected_options1.Text = "";
@@ -300,7 +300,7 @@ public partial class ChronoJumpWindow
 			label_contacts_exercise_selected_options2.Text = name;
 
 			image_contacts_exercise_selected_options2.Pixbuf =
-				new Pixbuf (null, Util.GetImagePath(false) + "image_fall.png");
+				Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_fall.png");
 			image_contacts_exercise_selected_options2.Visible = true;
 		} else {
 			label_contacts_exercise_selected_options2.Text = "";
@@ -346,7 +346,7 @@ public partial class ChronoJumpWindow
 
 			label_contacts_exercise_selected_options2.Text = name;
 			image_contacts_exercise_selected_options2.Pixbuf =
-				new Pixbuf (null, Util.GetImagePath(false) + "extra-mass.png");
+				Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "extra-mass.png");
 			image_contacts_exercise_selected_options2.Visible = true;
 		} else {
 			label_contacts_exercise_selected_options2.Text = "";
@@ -358,9 +358,8 @@ public partial class ChronoJumpWindow
 		{
 			name = extra_window_jumps_rj_spinbutton_fall.Value.ToString() + " cm";
 			label_contacts_exercise_selected_options3.Text = name;
-			image_contacts_exercise_selected_options3.Pixbuf =
-				new Pixbuf (null, Util.GetImagePath(false) + "image_fall.png");
-			image_contacts_exercise_selected_options3.Visible = true;
+			image_contacts_exercise_selected_options3.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_fall.png");//[By Joeries]
+            image_contacts_exercise_selected_options3.Visible = true;
 		} else {
 			label_contacts_exercise_selected_options3.Text = "";
 			image_contacts_exercise_selected_options3.Visible = false;

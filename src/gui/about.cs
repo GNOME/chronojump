@@ -21,12 +21,12 @@
 using System;
 using Gtk;
 using Gdk;
+using Mono.Unix;
 
 public class About
 {
 	 Gtk.Dialog dialog_about;
 	 Gtk.Image image_logo;
-	 Gtk.Label dialog_about_label_chronojump;
 	 Gtk.Label dialog_about_label_version;
 	 Gtk.Notebook notebook;
 	 Gtk.Image image_button_close;
@@ -61,13 +61,13 @@ public class About
 
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_about);
-
+	 
 		//images:
 		Pixbuf pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogo2Col);
 		image_logo.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
 		image_button_close.Pixbuf = pixbuf;
 
 		dialog_about_label_version.Text = version; 
@@ -80,10 +80,9 @@ public class About
 		if(! Config.UseSystemColor)
 		{
 			UtilGtk.DialogColor(dialog_about, Config.ColorBackground);
-			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, dialog_about_label_chronojump);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, dialog_about_label_version);
 
-			UtilGtk.WidgetColor (notebook, Config.ColorBackgroundShifted);
+			notebook.Name = "bgCss";
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook);
 		}
 		
@@ -124,7 +123,6 @@ public class About
 	{
 		dialog_about = (Gtk.Dialog) builder.GetObject ("dialog_about");
 		image_logo = (Gtk.Image) builder.GetObject ("image_logo");
-		dialog_about_label_chronojump = (Gtk.Label) builder.GetObject ("dialog_about_label_chronojump");
 		dialog_about_label_version = (Gtk.Label) builder.GetObject ("dialog_about_label_version");
 		notebook = (Gtk.Notebook) builder.GetObject ("notebook");
 		image_button_close = (Gtk.Image) builder.GetObject ("image_button_close");

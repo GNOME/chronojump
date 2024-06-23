@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -177,6 +177,16 @@ public class Preferences
 	public double runsIFeedbackSpeedLower; 		//implemented
 
 	//forceSensor
+	public double forceSensorIsometricButterworth; //-1 means do not use
+	public double forceSensorElasticButterworth; //-1 means do not use
+	public double forceSensorButterworth (Constants.Modes mode)
+	{
+		if (mode == Constants.Modes.FORCESENSORISOMETRIC)
+			return forceSensorIsometricButterworth;
+		else //if (mode == Constants.Modes.FORCESENSORELASTIC)
+			return forceSensorElasticButterworth;
+	}
+
 	public int forceSensorCaptureWidthSeconds;
 	public bool forceSensorCaptureScroll;
 	public double forceSensorElasticEccMinDispl;
@@ -187,6 +197,7 @@ public class Preferences
 	public VariabilityMethodEnum forceSensorVariabilityMethod;
 	public int forceSensorVariabilityLag;
 	public double forceSensorAnalyzeABSliderIncrement;
+	public double forceSensorAnalyzeBestStabilityInWindow; //seconds
 	public double forceSensorAnalyzeMaxAVGInWindow; //seconds
 	public int forceSensorGraphsLineWidth;
 
@@ -304,6 +315,13 @@ public class Preferences
 	public Constants.EncoderVariablesCapture encoderCaptureMainVariable;
 	public Constants.EncoderVariablesCapture encoderCaptureSecondaryVariable;
 	public bool encoderCaptureSecondaryVariableShow;
+	public bool encoderCaptureSecondaryVariableYAxisCustom; //by default: false
+	public int encoderCaptureSecondaryVariableYAxisCustomMax;
+	public int encoderCaptureSecondaryVariableYAxisCustomMin;
+	public bool encoderSignalDisplAxisCustom;
+	public int encoderSignalDisplAxisCustomMax;
+	public int encoderSignalDisplAxisCustomMin;
+
 	public enum encoderCaptureEccOverloadModes { NOT_SHOW, SHOW_LINE, SHOW_LINE_AND_PERCENT };
 	public encoderCaptureEccOverloadModes encoderCaptureInertialEccOverloadMode; //maybe on the future there is one not inertial
 	public bool encoderCaptureMainVariableThisSetOrHistorical;
@@ -350,6 +368,7 @@ public class Preferences
 	public int forceSensorFeedbackQuestionnaireMax = 100;
 	public int forceSensorFeedbackQuestionnaireMin = 0;
 	public int forceSensorFeedbackQuestionnaireN = 10;
+	public int forceSensorFeedbackQuestionnaireQDuration = 10; //seconds
 	public string forceSensorFeedbackQuestionnaireFile = ""; //if default will be blank
 	//signal direction
 	public bool signalDirectionHorizontal = true;
@@ -382,8 +401,23 @@ public class Preferences
 	public Preferences() {
 	}
 	
-	public static Preferences LoadAllFromSqlite() {
-		return SqlitePreferences.SelectAll();
+	public static Preferences LoadAllFromSqlite()
+	{
+		return SqlitePreferences.SelectAll ();
+	}
+
+	public static Preferences LoadAllFromSqliteCloudRead (string databaseCloudRead)
+	{
+		//Sqlite.DisConnect ();
+		//Sqlite.SetHome ();
+		bool ok = true;
+		Preferences p = SqlitePreferences.SelectAllFromCloud (databaseCloudRead, out ok);
+
+		//if there is any problem with cloud database, return the preferences from default database
+		if (ok)
+			return p;
+		else
+			return LoadAllFromSqlite();
 	}
 	
 	public int EncoderCaptureMinHeight(bool inertial) {

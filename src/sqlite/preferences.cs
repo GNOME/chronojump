@@ -15,15 +15,14 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using System.Data;
 using System.IO;
-using Mono.Data.Sqlite;
 using System.Collections; //ArrayList
-
+using System.Data.SQLite;
 
 class SqlitePreferences : Sqlite
 {
@@ -132,6 +131,8 @@ class SqlitePreferences : Sqlite
 	public const string EncoderRepetitionCriteriaInertialStr = "encoderRepetitionCriteriaInertial";
 
 	//forceSensor
+	public const string ForceSensorIsometricButterworth = "forceSensorButterworth"; //is not named forceSensorIsometricButterworth because on the beginning this was used for both modes
+	public const string ForceSensorElasticButterworth = "forceSensorElasticButterworth";
 	public const string ForceSensorCaptureWidthSeconds = "forceSensorCaptureWidthSeconds";
 	public const string ForceSensorCaptureScroll = "forceSensorCaptureScroll";
 	public const string ForceSensorElasticEccMinDispl = "forceSensorElasticEccMinDispl";
@@ -152,6 +153,7 @@ class SqlitePreferences : Sqlite
 	public const string ForceSensorMIFDurationSeconds = "forceSensorMIFDurationSeconds";
 	public const string ForceSensorMIFDurationPercent = "forceSensorMIFDurationPercent";
 	public const string ForceSensorAnalyzeABSliderIncrement = "forceSensorAnalyzeABSliderIncrement";
+	public const string ForceSensorAnalyzeBestStabilityInWindow = "forceSensorAnalyzeBestStabilityInWindow";
 	public const string ForceSensorAnalyzeMaxAVGInWindow = "forceSensorAnalyzeMaxAVGInWindow";
 
 	//forceSensor feedback
@@ -199,9 +201,9 @@ class SqlitePreferences : Sqlite
 	
 	protected internal static void initializeTable(string databaseVersion, bool creatingBlankDatabase)
 	{
-		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		using(SQLiteTransaction tr = dbcon.BeginTransaction())
 		{
-			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
 
@@ -365,6 +367,8 @@ class SqlitePreferences : Sqlite
 				Insert (EncoderRhythmRestClustersSecondsStr, Util.ConvertToPoint(er.RestClustersSeconds), dbcmdTr);
 
 				//forceSensor
+				Insert (ForceSensorIsometricButterworth, "15", dbcmdTr);
+				Insert (ForceSensorElasticButterworth, "3", dbcmdTr);
 				Insert (ForceSensorCaptureWidthSeconds, "10", dbcmdTr);
 				Insert (ForceSensorCaptureScroll, "True", dbcmdTr); //scroll. not zoom out
 				Insert (ForceSensorElasticEccMinDispl, ".1", dbcmdTr);
@@ -393,6 +397,7 @@ class SqlitePreferences : Sqlite
 				Insert (ForceSensorMIFDurationSeconds, "2", dbcmdTr);
 				Insert (ForceSensorMIFDurationPercent, "5", dbcmdTr);
 				Insert (ForceSensorAnalyzeABSliderIncrement, "1", dbcmdTr);
+				Insert (ForceSensorAnalyzeBestStabilityInWindow, "1", dbcmdTr);
 				Insert (ForceSensorAnalyzeMaxAVGInWindow, "1", dbcmdTr);
 
 				//runEncoder
@@ -461,7 +466,7 @@ class SqlitePreferences : Sqlite
 		Insert(myName, myValue, dbcmd);
 	}
 	//Called from initialize
-	public static void Insert(string myName, string myValue, SqliteCommand mycmd)
+	public static void Insert(string myName, string myValue, SQLiteCommand mycmd)
 	{
 		//Sqlite.Open();
 		mycmd.CommandText = "INSERT INTO " + Constants.PreferencesTable + 
@@ -472,7 +477,7 @@ class SqlitePreferences : Sqlite
 		//Sqlite.Close();
 	}
 
-	protected internal static void insertJumpsRjRunsIFeedback2_45 (SqliteCommand dbcmdTr)
+	protected internal static void insertJumpsRjRunsIFeedback2_45 (SQLiteCommand dbcmdTr)
 	{
 		Insert (JumpsRjFeedbackShowBestTvTc, "True", dbcmdTr);
 		Insert (JumpsRjFeedbackShowWorstTvTc, "True", dbcmdTr);
@@ -505,7 +510,7 @@ class SqlitePreferences : Sqlite
 		Insert (RunsIFeedbackSpeedLower, "3", dbcmdTr);
 	}
 
-	protected internal static void insertJumpsRjRunsIFeedback2_46 (SqliteCommand dbcmdTr)
+	protected internal static void insertJumpsRjRunsIFeedback2_46 (SQLiteCommand dbcmdTr)
 	{
 		Insert (RunsIFeedbackShowBestSpeed, "True", dbcmdTr); //speed
 		Insert (RunsIFeedbackShowWorstSpeed, "True", dbcmdTr); //speed
@@ -542,12 +547,12 @@ class SqlitePreferences : Sqlite
 			Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT value FROM " + Constants.PreferencesTable + 
-			" WHERE name == \"" + myName + "\"" ;
+			" WHERE name = '" + myName + "'" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
-		//SqliteDataReader reader;
-		SqliteDataReader reader;
+		//SQLiteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		string myReturn = "0";
@@ -568,11 +573,52 @@ class SqlitePreferences : Sqlite
 	public static Preferences SelectAll () 
 	{
 		Sqlite.Open();
+		Preferences p = selectAllDo (dbcmd);
+		Sqlite.Close();
+
+		return p;
+	}
+
+	public static Preferences SelectAllFromCloud (string databaseCloudRead, out bool ok)
+	{
+		Preferences p = new Preferences ();
+
+		string connectionString = "version = 3; Data source = " + databaseCloudRead;
+		SQLiteConnection dbconCloud = new SQLiteConnection ();
+		dbconCloud.ConnectionString = connectionString;
+
+		SQLiteCommand dbcmdCloud = dbconCloud.CreateCommand();
+
+		if(dbconCloud.State == System.Data.ConnectionState.Closed)
+		{
+			try {
+				dbconCloud.Open();
+			} catch {
+				LogB.SQL("-- catched --");
+				ok = false;
+				return p;
+			}
+		}
+
+		p = selectAllDo (dbcmdCloud);
+
+		if(dbconCloud.State == System.Data.ConnectionState.Closed)
+		{
+			dbcmdCloud.Dispose(); //this seems critical in multiple open/close SQL
+			dbconCloud.Close();
+		}
+
+		ok = true;
+		return p;
+	}
+
+	private static Preferences selectAllDo (SQLiteCommand dbcmd)
+	{
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PreferencesTable; 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
-		SqliteDataReader reader;
+		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		Preferences preferences = new Preferences();
@@ -937,6 +983,12 @@ class SqlitePreferences : Sqlite
 				preferences.thresholdOther = Convert.ToInt32(reader[1].ToString());
 
 			//force sensor capture
+			else if(reader[0].ToString() == ForceSensorIsometricButterworth)
+				preferences.forceSensorIsometricButterworth = Convert.ToDouble(
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if(reader[0].ToString() == ForceSensorElasticButterworth)
+				preferences.forceSensorElasticButterworth = Convert.ToDouble(
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
 			else if(reader[0].ToString() == ForceSensorCaptureWidthSeconds)
 				preferences.forceSensorCaptureWidthSeconds = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == ForceSensorCaptureScroll)
@@ -1016,6 +1068,10 @@ class SqlitePreferences : Sqlite
 
 			else if(reader[0].ToString() == ForceSensorAnalyzeABSliderIncrement)
 				preferences.forceSensorAnalyzeABSliderIncrement = Convert.ToDouble(
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+
+			else if(reader[0].ToString() == ForceSensorAnalyzeBestStabilityInWindow)
+				preferences.forceSensorAnalyzeBestStabilityInWindow = Convert.ToDouble(
 						Util.ChangeDecimalSeparator(reader[1].ToString()));
 
 			else if(reader[0].ToString() == ForceSensorAnalyzeMaxAVGInWindow)
@@ -1101,7 +1157,6 @@ class SqlitePreferences : Sqlite
 		}
 
 		reader.Close();
-		Sqlite.Close();
 
 		return preferences;
 	}

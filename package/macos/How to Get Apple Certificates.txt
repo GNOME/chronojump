@@ -1,0 +1,52 @@
+
+1. Get an Apple ID if no
+
+https://appleid.apple.com/account?appId=632&returnUrl=https%3A%2F%2Fdeveloper.apple.com%2Faccount%2F
+
+2. Sign into Apple Developer with the Apple ID
+
+https://idmsa.apple.com/IDMSWebAuth/signin?appIdKey=891bd3417a7776362562d2197f89480a8547b108fd934911bcbea0110d07f757&path=%2Faccount%2F&rv=1
+
+3. Go to Apple Developer Account
+
+https://developer.apple.com/account
+
+4. Join Apple Developer Program
+
+https://developer.apple.com/enroll/
+
+Do as the site says. Open "Apple Developer App"/"Account" on iPhone/iPad/Mac to continue, before doing this please sign in iCloud with the Apple ID on local device.
+
+5. Click "Account"/"Certificates, IDs & Profiles" on https://developer.apple.com/
+
+6. Generate Apple certificates.
+
+7. About the private key associated with the Apple certificates:
+
+If the computer who requested the distribution certificate is available (or there is a backup of the distribution assets somewhere):
+
+    1) From the computer where the distribution asset was generated, open Xcode.
+    2) Click on Window, Organizer.
+    3) Expand the Teams section.
+    4) Select your team, select the certificate of "iOS Distribution" type, click Export and follow the instructions.
+    5) Save the exported file and go to your computer.
+    6) Repeat steps 1-3.
+    6) Click Import and select the file you exported before.
+
+If the computer where the distribution profile was created is not accessible anymore (and there is not a backup), you have to revoke the certificate and create a new one. You may need to ask your team admin or agent to give you some privileges in order to generate distribution certificates. Once you have enough privileges, follow these steps (accurate as of 15-May-2013):
+
+    1) Go to this webpage: https://developer.apple.com/devcenter/ios/index.action
+    2) Click on "Member Center" and enter your iOS developer credentials.
+    3) Click on "Certificates, Identifiers & Profiles".
+    4) Click on "Certificates" under the "iOS Apps" section.
+    5) Expand the Certificates section on the left, select Distribution, and click on your distribution certificate.
+    6) Click Revoke and follow the instructions.
+    6) Click on the plus sign to add a new certificate.
+    7) Select "App Store and Ad Hoc" option, and click Continue.
+    8) Follow the steps printed in the webpage. That involves opening the Keychain application on your Mac and generate a Certificate Signing Request from there. Click Continue.
+    9) Upload the .csr file and click Continue.
+    10) A certificate is generated for distribution. Download it and double click it to integrate it in your keychain.
+
+
+IMPORTANT: note on our compiling machine with Catalina, we do not have Xcode installed. It seems we could have Xcode 12.4. Without Xcode the certificates are not correctly created. So we used another machine with Xcode to create the certificates with our apple ID. Then we imported successfully on our Catalina.
+In order to notarize and Stapple we are using command line tools for Xcode 12.4

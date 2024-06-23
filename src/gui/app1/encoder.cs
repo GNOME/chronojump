@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 using System;
 using System.IO; 
@@ -50,7 +50,6 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_encoder_1RM_percent;
 	Gtk.Label label_encoder_im_total;
 	Gtk.SpinButton spin_encoder_im_weights_n;
-	Gtk.Entry entry_encoder_im_weights_n;
 	Gtk.HBox hbox_combo_encoder_anchorage;
 
 	Gtk.Label label_encoder_selected;	
@@ -487,8 +486,7 @@ public partial class ChronoJumpWindow
 		//read from SQL
 		EncoderConfigurationSQLObject econfSO = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.GRAVITATORY);
 		encoderConfigurationCurrent = econfSO.encoderConfiguration;
-		label_encoder_selected.Text = econfSO.name;
-		label_encoder_top_selected.Text = econfSO.name;
+		setEncoderConfigurationLabels (econfSO.name.ToString (), encoderConfigurationCurrent.code);
 		setEncoderTypePixbuf();
 		
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
@@ -572,8 +570,6 @@ public partial class ChronoJumpWindow
 		encoder_configuration_win.Button_close.Clicked -= new EventHandler(on_encoder_configuration_win_closed);
 		
 		EncoderConfiguration eConfNew = encoder_configuration_win.GetAcceptedValues();
-		label_encoder_selected.Text = encoder_configuration_win.Entry_save_name;
-		label_encoder_top_selected.Text = encoder_configuration_win.Entry_save_name;
 
 		if(encoderConfigurationCurrent == eConfNew)
 			return;
@@ -581,6 +577,15 @@ public partial class ChronoJumpWindow
 		bool combo_encoder_anchorage_should_update = (encoderConfigurationCurrent.list_d != eConfNew.list_d);
 		
 		encoderConfigurationCurrent = eConfNew;
+
+		EncoderConfigurationSQLObject econfSO;
+		if (current_mode == Constants.Modes.POWERGRAVITATORY)
+			econfSO = SqliteEncoderConfiguration.SelectActive (Constants.EncoderGI.GRAVITATORY);
+		else
+			econfSO = SqliteEncoderConfiguration.SelectActive (Constants.EncoderGI.INERTIAL);
+
+		setEncoderConfigurationLabels (econfSO.name.ToString (), encoderConfigurationCurrent.code);
+
 		LogB.Information("EncoderConfigurationCurrent = " + encoderConfigurationCurrent.ToStringOutput(EncoderConfiguration.Outputs.SQL));
 		setEncoderTypePixbuf();
 	
@@ -612,12 +617,6 @@ public partial class ChronoJumpWindow
 
 
 	// ---- start of spin_encoder_im_weights_n ---->
-	/*
-	 * when spin is seen the others (-1, entry, +1) are not seen
-	 * -1, 1 change the entry
-	 * entry changes de spin
-	 * spin does not change anything
-	 */
 	
 	//add-remove weights on encoder inertial using '+', '-'
 	private void on_fake_button_encoder_exercise_im_weights_n_plus_clicked(object o, EventArgs args)
@@ -625,47 +624,24 @@ public partial class ChronoJumpWindow
 		if(textview_encoder_signal_comment.IsFocus)
 			textview_encoder_signal_comment.Buffer.Text += '+';
 		else
-			on_button_encoder_im_weights_n_plus_clicked (new object (), new EventArgs ());
+			spin_encoder_im_weights_n.Value += 1;
 	}
 	private void on_fake_button_encoder_exercise_im_weights_n_minus_clicked(object o, EventArgs args)
 	{
 		if(textview_encoder_signal_comment.IsFocus)
 			textview_encoder_signal_comment.Buffer.Text += '-';
 		else
-			on_button_encoder_im_weights_n_minus_clicked (new object (), new EventArgs ());
+			spin_encoder_im_weights_n.Value -= 1;
 	}
 
-	void on_button_encoder_im_weights_n_minus_clicked (object o, EventArgs args) {
-		changeImWeights(-1);
-	}
-	void on_button_encoder_im_weights_n_plus_clicked (object o, EventArgs args) {
-		changeImWeights(+1);
-	}
-	private void changeImWeights(int change) {
-		int newValue = Convert.ToInt32(entry_encoder_im_weights_n.Text) + change;
-
-		double min, max;
-		spin_encoder_im_weights_n.GetRange(out min, out max);
-		if(newValue >= Convert.ToDouble(min) && newValue <= Convert.ToDouble(max))
-			entry_encoder_im_weights_n.Text = newValue.ToString();
-	}
-
-	void on_spin_encoder_im_weights_n_value_changed (object o, EventArgs args) {
+	void on_spin_encoder_im_weights_n_value_changed (object o, EventArgs args)
+	{
 		encoderConfigurationCurrent.extraWeightN = (int) spin_encoder_im_weights_n.Value; 
 		encoderConfigurationCurrent.inertiaTotal = UtilEncoder.CalculeInertiaTotal(encoderConfigurationCurrent);
 		label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
 		label_encoder_top_im.Text = Catalog.GetString("Inertia M.") + ": " + label_encoder_im_total.Text;
-	}
-	void on_entry_encoder_im_weights_n_changed (object o, EventArgs args) 
-	{
-		if(entry_encoder_im_weights_n.Text == "" || entry_encoder_im_weights_n.Text == "00")
-			entry_encoder_im_weights_n.Text = "0";
-		else if(Util.IsNumber(entry_encoder_im_weights_n.Text, false)) //cannot be decimal
-			spin_encoder_im_weights_n.Value = Convert.ToInt32(entry_encoder_im_weights_n.Text);
-		else
-			entry_encoder_im_weights_n.Text = spin_encoder_im_weights_n.Value.ToString();
 
-		label_encoder_top_weights.Text = entry_encoder_im_weights_n.Text;
+		label_encoder_top_weights.Text = spin_encoder_im_weights_n.Value.ToString ();
 	}
 
 	// <---- end of spin_encoder_im_weights_n ----
@@ -1346,6 +1322,10 @@ public partial class ChronoJumpWindow
 
 		fullscreenLastCapture = (buttonClicked == fullscreen_capture_button_cancel);
 
+		if (blinkCapture != null)
+			blinkCapture.End ();
+		showHideCaptureIcon (false);
+
 		eCapture.Cancel();
 	}
 
@@ -1994,8 +1974,7 @@ public partial class ChronoJumpWindow
 				}
 
 				encoderConfigurationGUIUpdate();
-				label_encoder_selected.Text = econfSO.name;
-				label_encoder_top_selected.Text = econfSO.name;
+				setEncoderConfigurationLabels (econfSO.name.ToString (), encoderConfigurationCurrent.code);
 
 				//triggers
 				triggerListEncoder = new TriggerList(
@@ -2137,7 +2116,6 @@ public partial class ChronoJumpWindow
 		if(current_mode == Constants.Modes.POWERINERTIAL)
 		{
 			notebook_encoder_top.Page = 1;
-			//label_button_encoder_select.Text = Catalog.GetString("Configure inertial encoder");
 			label_encoder_exercise_mass.Visible = false;
 			hbox_encoder_exercise_mass.Visible = false;
 			label_encoder_exercise_inertia.Visible = true;
@@ -2154,9 +2132,6 @@ public partial class ChronoJumpWindow
 						);
 			}
 
-			//this will update also spin_encoder_im_weights_n ...
-			entry_encoder_im_weights_n.Text = encoderConfigurationCurrent.extraWeightN.ToString();
-			// ... but we found not updated on some computers, so we force update it
 			spin_encoder_im_weights_n.Value = encoderConfigurationCurrent.extraWeightN;
 
 			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
@@ -2166,7 +2141,6 @@ public partial class ChronoJumpWindow
 		}
 		else { //(current_mode == Constants.Modes.POWERGRAVITATORY)
 			notebook_encoder_top.Page = 0;
-			//label_button_encoder_select.Text = Catalog.GetString("Configure gravitatory encoder");
 			label_encoder_exercise_mass.Visible = true;
 			hbox_encoder_exercise_mass.Visible = true;
 			label_encoder_exercise_inertia.Visible = false;
@@ -2175,6 +2149,12 @@ public partial class ChronoJumpWindow
 			hbox_encoder_exercise_inertial_min_mov.Visible = false;
 			spin_encoder_capture_min_height_gravitatory.Value = preferences.EncoderCaptureMinHeight(false);
 		}
+	}
+
+	private void setEncoderConfigurationLabels (string savedName, string code)
+	{
+		label_encoder_selected.Text = string.Format ("{0} ({1})", savedName, code);
+		label_encoder_top_selected.Text = savedName;
 	}
 
 	void encoderSignalDelete (string signalURL, int signalID) 
@@ -2505,12 +2485,12 @@ public partial class ChronoJumpWindow
 		// 3) prepare and Run the dialog
 
 
-		Gtk.FileChooserDialog fc=
-			new Gtk.FileChooserDialog(exportString,
+		Gtk.FileChooserNative fc =
+			new Gtk.FileChooserNative (exportString,
 					app1,
 					FileChooserAction.Save,
-					Catalog.GetString("Cancel"),ResponseType.Cancel,
-					Catalog.GetString("Accept"),ResponseType.Accept
+					Catalog.GetString("Accept"),
+					Catalog.GetString("Cancel")
 					);
 		fc.CurrentName = nameString;
 
@@ -2769,7 +2749,7 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 		
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		fc.Destroy();
 		
 		return true;
@@ -2807,9 +2787,9 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
 		{
 			if (current_mode == Constants.Modes.FORCESENSORISOMETRIC)
-				nameString += "_isometric_export.csv";
+				nameString += "_isometric_export";
 			else if (current_mode == Constants.Modes.FORCESENSORELASTIC)
-				nameString += "_elastic_export.csv";
+				nameString += "_elastic_export";
 		}
 		else if(
 				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
@@ -2819,12 +2799,12 @@ public partial class ChronoJumpWindow
 
 		// 3) prepare and Run the dialog
 
-		Gtk.FileChooserDialog fc=
-			new Gtk.FileChooserDialog(exportString,
+		Gtk.FileChooserNative fc =
+			new Gtk.FileChooserNative (exportString,
 					app1,
 					FileChooserAction.SelectFolder,
-					Catalog.GetString("Cancel"),ResponseType.Cancel,
-					Catalog.GetString("Accept"),ResponseType.Accept
+					Catalog.GetString("Accept"),
+					Catalog.GetString("Cancel")
 					);
 
 		if (fc.Run() == (int)ResponseType.Accept)
@@ -2911,7 +2891,7 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		fc.Destroy();
 
 		return true;
@@ -4794,7 +4774,7 @@ public partial class ChronoJumpWindow
 
 
 		//pack combos
-		button_combo_encoder_exercise_capture_left = UtilGtk.CreateArrowButton(ArrowType.Left, ShadowType.In, 40, 40, UtilGtk.ArrowEnum.NONE);
+		button_combo_encoder_exercise_capture_left = UtilGtk.CreateArrowButton (40, 40, UtilGtk.ArrowEnum.LEFT);
 		button_combo_encoder_exercise_capture_left.Sensitive = false;
 		button_combo_encoder_exercise_capture_left.Clicked += on_button_encoder_exercise_capture_left_clicked;
 		hbox_combo_encoder_exercise_capture.PackStart(button_combo_encoder_exercise_capture_left, true, true, 0);
@@ -4807,7 +4787,7 @@ public partial class ChronoJumpWindow
 		spin_encoder_capture_curves_best_n.Value = preferences.encoderAutoSaveCurveBestNValue;
 		manageVisibilityOf_spin_encoder_capture_curves_best_n ();
 
-		button_combo_encoder_exercise_capture_right = UtilGtk.CreateArrowButton(ArrowType.Right, ShadowType.In, 40, 40, UtilGtk.ArrowEnum.NONE);
+		button_combo_encoder_exercise_capture_right = UtilGtk.CreateArrowButton (40, 40, UtilGtk.ArrowEnum.RIGHT);
 		button_combo_encoder_exercise_capture_right.Sensitive = true;
 		button_combo_encoder_exercise_capture_right.Clicked += on_button_encoder_exercise_capture_right_clicked;
 		hbox_combo_encoder_exercise_capture.PackStart(button_combo_encoder_exercise_capture_right, true, true, 0);
@@ -4850,7 +4830,7 @@ public partial class ChronoJumpWindow
 		else
 			label_encoder_top_1RM_percent.Text = label_encoder_1RM_percent.Text + " %1RM";
 
-		label_encoder_top_weights.Text = entry_encoder_im_weights_n.Text;
+		label_encoder_top_weights.Text = spin_encoder_im_weights_n.Value.ToString ();
 		label_encoder_top_im.Text = Catalog.GetString("Inertia M.") + ": " + label_encoder_im_total.Text;
 
 
@@ -5104,9 +5084,9 @@ public partial class ChronoJumpWindow
 	{
 		Pixbuf pixbuf;
 		if(radio_encoder_eccon_concentric.Active)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-concentric.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "muscle-concentric.png");
 		else
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-excentric-concentric.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "muscle-excentric-concentric.png");
 
 		image_top_eccon.Pixbuf = pixbuf;
 	}
@@ -5120,11 +5100,11 @@ public partial class ChronoJumpWindow
 	{
 		Pixbuf pixbuf;
 		if(radio_encoder_laterality_r.Active)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-right.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-right.png");
 		else if(radio_encoder_laterality_l.Active)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-left.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-left.png");
 		else
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-both.png");
+			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-both.png");
 
 		image_top_laterality.Pixbuf = pixbuf;
 	}
@@ -5259,6 +5239,10 @@ public partial class ChronoJumpWindow
 	{
 		checkFile(Constants.CheckFileOp.ENCODER_CAPTURE_SAVE_IMAGE);
 	}
+
+	private string screenshotURL = "";
+	private bool screenshotPending;
+
 	void on_button_encoder_capture_save_image_file_selected (string destination)
 	{
 		try {
@@ -5266,7 +5250,16 @@ public partial class ChronoJumpWindow
 				return;
 
 			LogB.Information("Saving");
-			CairoUtil.GetScreenshotFromDrawingArea (encoder_capture_curves_bars_drawingarea_cairo, destination);
+			//screenshot will be done on _draw (gtk3 way)
+			//CairoUtil.GetScreenshotFromDrawingArea (encoder_capture_curves_bars_drawingarea_cairo, destination);
+
+			screenshotURL = destination;
+			screenshotPending = true;
+			if (notebook_start.CurrentPage == Convert.ToInt32 (notebook_start_pages.FULLSCREENCAPTURE))
+				fullscreen_capture_drawingarea_cairo.QueueDraw ();
+			else
+				encoder_capture_curves_bars_drawingarea_cairo.QueueDraw ();
+
 		} catch {
 			string myString = string.Format(
 					Catalog.GetString("Cannot save file {0} "), destination);
@@ -6152,15 +6145,35 @@ public partial class ChronoJumpWindow
 		{
 			//TODO: check this < instead of <= does not fail on capture
 			//this applies to both
-			for(int j=0, i = eCapture.PointsPainted +1 ; i < eCapture.PointsCaptured ; i ++, j++)
+			for (int i = eCapture.PointsPainted +1 ; i < eCapture.PointsCaptured ; i ++)
 			{
-				cairoGraphEncoderSignalPoints_l.Add(eCapture.EncoderCapturePointsCairo[i]);
+				if (preferences.signalDirectionHorizontal)
+					cairoGraphEncoderSignalPoints_l.Add (new PointF (
+								eCapture.EncoderCapturePointsCairo[i].X,
+								UtilAll.DivideSafe (eCapture.EncoderCapturePointsCairo[i].Y, 10.0) //cm
+								));
+				else
+					cairoGraphEncoderSignalPoints_l.Add (new PointF (
+								UtilAll.DivideSafe (eCapture.EncoderCapturePointsCairo[i].X, 10.0), //cm
+								eCapture.EncoderCapturePointsCairo[i].Y
+								));
 			}
 
 			//TODO: check this < instead of <= does not fail on capture
-			if(mode == UpdateEncoderPaintModes.INERTIAL)
-				for(int j=0, i = eCapture.PointsPainted +1 ; i < eCapture.PointsCaptured ; i ++, j ++)
-					cairoGraphEncoderSignalInertialPoints_l.Add(eCapture.EncoderCapturePointsInertialDiscCairo[i]);
+			if (mode == UpdateEncoderPaintModes.INERTIAL)
+				for (int i = eCapture.PointsPainted +1 ; i < eCapture.PointsCaptured ; i ++)
+				{
+					if (preferences.signalDirectionHorizontal)
+						cairoGraphEncoderSignalInertialPoints_l.Add (new PointF (
+									eCapture.EncoderCapturePointsInertialDiscCairo[i].X,
+									UtilAll.DivideSafe (eCapture.EncoderCapturePointsInertialDiscCairo[i].Y, 10.0) //cm
+									));
+					else
+						cairoGraphEncoderSignalInertialPoints_l.Add (new PointF (
+									UtilAll.DivideSafe (eCapture.EncoderCapturePointsInertialDiscCairo[i].X, 10.0), //cm
+									eCapture.EncoderCapturePointsInertialDiscCairo[i].Y
+									));
+				}
 
 			eCapture.PointsPainted = eCapture.PointsCaptured;
 		}
@@ -6187,6 +6200,7 @@ public partial class ChronoJumpWindow
 					secondaryVariable, preferences.encoderCaptureShowLoss,
 					false, //not capturing
 					findEccon(true),
+					findMass(Constants.MassType.DISPLACED),
 					feedbackEncoder,
 					encoderConfigurationCurrent.has_inertia,
 					configChronojump.PlaySoundsFromFile,
@@ -6269,6 +6283,13 @@ public partial class ChronoJumpWindow
 					prepareEventGraphBarplotEncoder, videoTime);
 		}
 
+		if (screenshotPending)
+		{
+			cairoPaintBarsPre.ScreenshotURL = screenshotURL;
+			screenshotPending = false;
+			screenshotURL = "";
+		}
+
 		cairoPaintBarsPre.Paint();
 	}
 
@@ -6291,6 +6312,9 @@ public partial class ChronoJumpWindow
 			else
 				cairoGraphEncoderSignal = new CairoGraphEncoderSignal (
 						encoder_capture_signal_drawingarea_cairo, "title",
+						preferences.encoderSignalDisplAxisCustom,
+						preferences.encoderSignalDisplAxisCustomMax,
+						preferences.encoderSignalDisplAxisCustomMin,
 						preferences.signalDirectionHorizontal);
 		}
 
@@ -6554,6 +6578,7 @@ public partial class ChronoJumpWindow
 					fullscreen_button_fullscreen_encoder.Click ();
 
 				button_video_play_this_test_encoder.Sensitive = false;
+				blinkCapture = new Blink ();
 
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
@@ -6982,6 +7007,11 @@ public partial class ChronoJumpWindow
 		if(! encoderThread.IsAlive || encoderProcessCancel)
 		{
 			LogB.Information("End from capture"); 
+
+			if (blinkCapture != null)
+				blinkCapture.End ();
+			showHideCaptureIcon (false);
+
 			LogB.ThreadEnding();
 
 			if(eCaptureInertialBG != null)
@@ -7003,6 +7033,7 @@ public partial class ChronoJumpWindow
 			LogB.ThreadEnded(); 
 			return false;
 		}
+
 		if(capturingCsharp == encoderCaptureProcess.CAPTURING) 
 		{
 			updatePulsebar(encoderActions.CAPTURE); //activity on pulsebar
@@ -7018,6 +7049,10 @@ public partial class ChronoJumpWindow
 				//updateEncoderCaptureSignalCairo (false, false);
 			}
 			encoder_capture_signal_drawingarea_cairo.QueueDraw ();
+
+			if (blinkCapture.Status == Blink.StatusEnum.NOTSTARTED)
+				blinkCapture.Start ();
+			showHideCaptureIcon (true);
 
 			if(needToRefreshTreeviewCapture) 
 			{
@@ -7042,7 +7077,7 @@ public partial class ChronoJumpWindow
 				treeviewEncoderCaptureRemoveColumns();
 				eCapture.Ecca.curvesAccepted = createTreeViewEncoderCapture(encoderCaptureStringR);
 
-				//if(plotCurvesBars) {
+				//if(plotCurvesBars) {}
 				string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
 				double mainVariableHigher = feedbackWin.GetMainVariableHigher(mainVariable);
 				double mainVariableLower = feedbackWin.GetMainVariableLower(mainVariable);
@@ -7059,6 +7094,7 @@ public partial class ChronoJumpWindow
 						secondaryVariable, preferences.encoderCaptureShowLoss,
 						true, //capturing
 						findEccon(true),
+						findMass(Constants.MassType.DISPLACED),
 						feedbackEncoder,
 						encoderConfigurationCurrent.has_inertia,
 						configChronojump.PlaySoundsFromFile,
@@ -7093,7 +7129,13 @@ public partial class ChronoJumpWindow
 			//changed trying to fix crash of nuell 27/may/2016
 			//LogB.Debug(" Cap:", encoderThread.ThreadState.ToString());
 			//LogB.Information(" Cap:" + encoderThread.ThreadState.ToString());
-		} else if(capturingCsharp == encoderCaptureProcess.STOPPING) {
+		}
+		else if(capturingCsharp == encoderCaptureProcess.STOPPING)
+		{
+			if (blinkCapture != null)
+				blinkCapture.End ();
+			showHideCaptureIcon (false);
+
 			//stop video		
 			webcamEncoderEnd (); //this will end but file will be copied later (when we have encoderSignalUniqueID)
 
@@ -7556,7 +7598,7 @@ public partial class ChronoJumpWindow
 
 		if(eai != null)
 			CairoUtil.PaintVerticalLinesAndRectangleOnSurface (
-					(DrawingArea) o,
+					(DrawingArea) o, args,
 					eai.GetVerticalLinePosition(Convert.ToInt32(hscale_encoder_analyze_a.Value)),
 					eai.GetVerticalLinePosition(Convert.ToInt32(hscale_encoder_analyze_b.Value)),
 					checkbutton_encoder_analyze_b.Active,
@@ -7669,6 +7711,7 @@ public partial class ChronoJumpWindow
 						secondaryVariable, preferences.encoderCaptureShowLoss,
 						false, //not capturing
 						findEccon(true),
+						findMass(Constants.MassType.DISPLACED),
 						feedbackEncoder,
 						encoderConfigurationCurrent.has_inertia,
 						configChronojump.PlaySoundsFromFile,
@@ -8190,7 +8233,6 @@ public partial class ChronoJumpWindow
 		label_encoder_1RM_percent = (Gtk.Label) builder.GetObject ("label_encoder_1RM_percent");
 		label_encoder_im_total = (Gtk.Label) builder.GetObject ("label_encoder_im_total");
 		spin_encoder_im_weights_n = (Gtk.SpinButton) builder.GetObject ("spin_encoder_im_weights_n");
-		entry_encoder_im_weights_n = (Gtk.Entry) builder.GetObject ("entry_encoder_im_weights_n");
 		hbox_combo_encoder_anchorage = (Gtk.HBox) builder.GetObject ("hbox_combo_encoder_anchorage");
 
 		label_encoder_selected = (Gtk.Label) builder.GetObject ("label_encoder_selected");	

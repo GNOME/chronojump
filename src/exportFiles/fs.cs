@@ -38,6 +38,11 @@ public class ForceSensorExport : ExportFiles
 	private int forceSensorNotElasticConMinForce;
 	private bool forceSensorStartEndOptimized;
 	private double forceSensorAnalyzeMaxAVGInWindowSeconds;
+	private int forceSensorFeedbackF;
+	private Preferences.VariabilityMethodEnum variabilityMethod;
+	private int forceSensorVariabilityLag;
+	private double forceSensorAnalyzeBestStabilityInWindowSeconds;
+	private double butterworthFreq;
 
 	private List<ForceSensor> fs_l;
 	private ArrayList fsEx_l;
@@ -59,7 +64,11 @@ public class ForceSensorExport : ExportFiles
 			int forceSensorNotElasticConMinForce,
 			bool forceSensorStartEndOptimized,
 			char exportDecimalSeparator,
-			double forceSensorAnalyzeMaxAVGInWindowSeconds)
+			double forceSensorAnalyzeMaxAVGInWindowSeconds,
+			int forceSensorFeedbackF,
+			Preferences.VariabilityMethodEnum variabilityMethod, int forceSensorVariabilityLag,
+			double forceSensorAnalyzeBestStabilityInWindowSeconds,
+			double butterworthFreq)
 
 	{
 		Button_done = new Gtk.Button();
@@ -78,6 +87,11 @@ public class ForceSensorExport : ExportFiles
 		this.forceSensorNotElasticConMinForce = forceSensorNotElasticConMinForce;
 		this.forceSensorStartEndOptimized = forceSensorStartEndOptimized;
 		this.forceSensorAnalyzeMaxAVGInWindowSeconds = forceSensorAnalyzeMaxAVGInWindowSeconds;
+		this.forceSensorFeedbackF = forceSensorFeedbackF;
+		this.variabilityMethod = variabilityMethod;
+		this.forceSensorVariabilityLag = forceSensorVariabilityLag;
+		this.forceSensorAnalyzeBestStabilityInWindowSeconds = forceSensorAnalyzeBestStabilityInWindowSeconds;
+		this.butterworthFreq = butterworthFreq;
 	}
 
 	private string getTempGraphsDir() {
@@ -194,6 +208,7 @@ public class ForceSensorExport : ExportFiles
 			ForceSensorAnalyzeInstant fsAI = new ForceSensorAnalyzeInstant(
 					"",
 					fs.FullURL,
+					butterworthFreq,
 					-1, -1,
 					fsEx, ps.Weight,
 					fs.CaptureOption, fs.Stiffness,
@@ -202,10 +217,10 @@ public class ForceSensorExport : ExportFiles
 
 			// 5) call R
 			string title = p.Name;
-			string exercise = fsEx.Name;
+			string exerciseStr = fsEx.Name;
 			if (isWindows) {
 				title = Util.ConvertToUnicode(title);
-				exercise = Util.ConvertToUnicode(exercise);
+				exerciseStr = Util.ConvertToUnicode(exerciseStr);
 			}
 			if (title == null || title == "")
 				title = "unnamed";
@@ -214,9 +229,13 @@ public class ForceSensorExport : ExportFiles
 			string destination = UtilEncoder.GetmifCSVInputMulti();
 			Util.FileDelete(destination);
 
-			//copy file to tmp to be readed by R
 			string fsFullURLMoved = Path.Combine(getTempSourceFilesDir(), count.ToString() + ".csv");
-			File.Copy(fs.FullURL, fsFullURLMoved, true); //can be overwritten
+			if (butterworthFreq < 0)
+			{
+				//copy file to tmp to be readed by R
+				File.Copy(fs.FullURL, fsFullURLMoved, true); //can be overwritten
+			} else
+				Butterworth.ForceSensorFileToButterworth (contents, butterworthFreq, fsFullURLMoved);
 
 			//delete result file
 			Util.FileDelete(getTempCSVFileName());
@@ -236,15 +255,26 @@ public class ForceSensorExport : ExportFiles
 				}
 				else if(rep.type == ForceSensorRepetition.Types.ECC && repConcentricSampleStart != -1)
 				{
+					//gmaiw:
 					double maxAvgForceInWindow = 0;
 					double maxAvgForceInWindowSampleStart = 0;
 					double maxAvgForceInWindowSampleEnd = 0;
+					//bsiw:
+					double bestStabilityInWindow = 0;
+					double bestStabilityInWindowSampleStart = 0;
+					double bestStabilityInWindowSampleEnd = 0;
 					bool success = fsAI.CalculateRangeParams(repConcentricSampleStart, rep.sampleEnd,
-							forceSensorAnalyzeMaxAVGInWindowSeconds);
+							forceSensorAnalyzeMaxAVGInWindowSeconds,
+							forceSensorFeedbackF,
+							variabilityMethod, forceSensorVariabilityLag,
+							forceSensorAnalyzeBestStabilityInWindowSeconds);
 					if(success) {
 						maxAvgForceInWindow = fsAI.Gmaiw.Max;
 						maxAvgForceInWindowSampleStart = fsAI.Gmaiw.MaxSampleStart;
 						maxAvgForceInWindowSampleEnd = fsAI.Gmaiw.MaxSampleEnd;
+						bestStabilityInWindow = fsAI.Bsiw.Max;
+						bestStabilityInWindowSampleStart = fsAI.Bsiw.MaxSampleStart;
+						bestStabilityInWindowSampleEnd = fsAI.Bsiw.MaxSampleEnd;
 					}
 
 					if(! addedSet) {
@@ -256,10 +286,19 @@ public class ForceSensorExport : ExportFiles
 								fsFullURLMoved,
 								Util.CSVDecimalColumnIsPoint(fsFullURLMoved, 1),
 								fsAI.ForceMAX,			//raw
+
+								//gmaiw:
 								maxAvgForceInWindow,		//raw
 								forceSensorAnalyzeMaxAVGInWindowSeconds, //raw
 								maxAvgForceInWindowSampleStart,	//the start sample of the result
 								maxAvgForceInWindowSampleEnd,	//the end sample of the result
+
+								//bsiw:
+								bestStabilityInWindow,		//raw
+								forceSensorAnalyzeBestStabilityInWindowSeconds, //raw
+								bestStabilityInWindowSampleStart,	//the start sample of the result
+								bestStabilityInWindowSampleEnd,	//the end sample of the result
+
 								fs.Laterality,
 								fsesm.GetCount(p.UniqueID, fsEx.UniqueID, fs.Laterality),
 								repCount ++,
@@ -267,7 +306,9 @@ public class ForceSensorExport : ExportFiles
 								fs.CaptureOption,
 								repConcentricSampleStart, 	//start of concentric rep
 								rep.sampleEnd,			//end of eccentric rep
-								title, exercise, fs.DatePublic, fs.TimePublic, new TriggerList()
+								title, exerciseStr,
+								fsEx.PercentBodyWeight, fsEx.AngleDefault, ps.Weight,
+								fs.DatePublic, fs.TimePublic, new TriggerList()
 								));
 
 					lastIsCon = false;
@@ -295,15 +336,26 @@ public class ForceSensorExport : ExportFiles
 					sampleB = repLast.sampleEnd; 	//end of eccentric rep
 				}
 
+				//gmaiw:
 				double maxAvgForceInWindow = 0;
 				double maxAvgForceInWindowSampleStart = 0;
 				double maxAvgForceInWindowSampleEnd = 0;
+				//bsiw:
+				double bestStabilityInWindow = 0;
+				double bestStabilityInWindowSampleStart = 0;
+				double bestStabilityInWindowSampleEnd = 0;
 				bool success = fsAI.CalculateRangeParams(sampleA, sampleB,
-						forceSensorAnalyzeMaxAVGInWindowSeconds);
+						forceSensorAnalyzeMaxAVGInWindowSeconds,
+						forceSensorFeedbackF,
+						variabilityMethod, forceSensorVariabilityLag,
+						forceSensorAnalyzeBestStabilityInWindowSeconds);
 				if(success) {
 					maxAvgForceInWindow = fsAI.Gmaiw.Max;
 					maxAvgForceInWindowSampleStart = fsAI.Gmaiw.MaxSampleStart;
 					maxAvgForceInWindowSampleEnd = fsAI.Gmaiw.MaxSampleEnd;
+					bestStabilityInWindow = fsAI.Bsiw.Max;
+					bestStabilityInWindowSampleStart = fsAI.Bsiw.MaxSampleStart;
+					bestStabilityInWindowSampleEnd = fsAI.Bsiw.MaxSampleEnd;
 				}
 
 				if(! addedSet) {
@@ -315,10 +367,19 @@ public class ForceSensorExport : ExportFiles
 							fsFullURLMoved,
 							Util.CSVDecimalColumnIsPoint(fsFullURLMoved, 1),
 							fsAI.ForceMAX,			//raw
+
+							//gmaiw:
 							maxAvgForceInWindow,		//raw
 							forceSensorAnalyzeMaxAVGInWindowSeconds, //raw
 							maxAvgForceInWindowSampleStart,	//the start sample of the result
 							maxAvgForceInWindowSampleEnd,	//the end sample of the result
+
+							//bsiw:
+							bestStabilityInWindow,		//raw
+							forceSensorAnalyzeBestStabilityInWindowSeconds, //raw
+							bestStabilityInWindowSampleStart,	//the start sample of the result
+							bestStabilityInWindowSampleEnd,	//the end sample of the result
+
 							fs.Laterality,
 							fsesm.GetCount(p.UniqueID, fsEx.UniqueID, fs.Laterality),
 							repCount ++,
@@ -326,7 +387,9 @@ public class ForceSensorExport : ExportFiles
 							fs.CaptureOption,
 							sampleA,
 							sampleB,
-							title, exercise, fs.DatePublic, fs.TimePublic, new TriggerList()
+							title, exerciseStr,
+							fsEx.PercentBodyWeight, fsEx.AngleDefault, ps.Weight,
+							fs.DatePublic, fs.TimePublic, new TriggerList()
 							));
 			}
 		}
@@ -334,7 +397,7 @@ public class ForceSensorExport : ExportFiles
 		if(fsgABe_l.Count > 0)
 		{
 			totalRepsToExport = fsgABe_l.Count;
-			ForceSensorGraph fsg = new ForceSensorGraph(
+			ForceSensorGraphR fsg = new ForceSensorGraphR (
 					rfdList, impulse,
 					duration, durationPercent,
 					forceSensorStartEndOptimized,
@@ -342,6 +405,7 @@ public class ForceSensorExport : ExportFiles
 					exportDecimalSeparator, // at write file
 					fsgABe_l,
 					forceSensorAnalyzeMaxAVGInWindowSeconds,
+					forceSensorAnalyzeBestStabilityInWindowSeconds,
 					includeImages
 					);
 

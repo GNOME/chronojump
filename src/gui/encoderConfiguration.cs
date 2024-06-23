@@ -45,6 +45,8 @@ public class EncoderConfigurationWindow
 	
 	Gtk.Button button_previous;
 	Gtk.Button button_next;
+	Gtk.Image image_previous;
+	Gtk.Image image_next;
 
 	//to colorize
 	Gtk.Label label_radio_linear;
@@ -174,32 +176,36 @@ public class EncoderConfigurationWindow
 		builder.Autoconnect (this);
 		
 		//three encoder types	
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeLinear);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeLinear);
 		image_encoder_linear.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeRotaryFriction);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeRotaryFriction);
 		image_encoder_rotary_friction.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeRotaryAxis);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeRotaryAxis);
 		image_encoder_rotary_axis.Pixbuf = pixbuf;
 		
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderCalculeIM);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameEncoderCalculeIM);
 		image_encoder_calcule_im.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
 		image_capture_cancel.Pixbuf = pixbuf;
 		image_cancel.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_done_blue.png");
 		image_accept.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_edit.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_edit.png");
 		image_edit.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_add.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_add.png");
 		image_add.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_duplicate.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_duplicate.png");
 		image_duplicate.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_delete.png");
 		image_delete.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "left.png");
+		image_previous.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "right.png");
+		image_next.Pixbuf = pixbuf;
 
 		label_side_action.Text = "";
 
@@ -355,7 +361,7 @@ public class EncoderConfigurationWindow
 	private void selectedModeChanged() {
 		EncoderConfiguration ec = (EncoderConfiguration) list[listCurrent];
 		
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + ec.image);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + ec.image);
 		image_encoder_configuration.Pixbuf = pixbuf;
 			
 		TextBuffer tb1 = new TextBuffer (new TextTagTable());
@@ -666,9 +672,9 @@ public class EncoderConfigurationWindow
 		treeview_select.Model = store;
 
 		Pixbuf pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameImport);
 		image_import.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameExport);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameExport);
 		image_export.Pixbuf = pixbuf;
 	}
 
@@ -768,12 +774,11 @@ public class EncoderConfigurationWindow
 
 	void on_button_import_clicked (object o, EventArgs args)
 	{
-		Gtk.FileChooserDialog fc=
-			new Gtk.FileChooserDialog(Catalog.GetString("Select file to import"),
+		Gtk.FileChooserNative fc=
+			new Gtk.FileChooserNative(Catalog.GetString("Select file to import"),
 					encoder_configuration,
 					FileChooserAction.Open,
-					Catalog.GetString("Cancel"),ResponseType.Cancel,
-					Catalog.GetString("Accept"),ResponseType.Accept
+					Catalog.GetString("Accept"), Catalog.GetString("Cancel")
 					);
 
 		fc.Filter = new FileFilter();
@@ -818,19 +823,18 @@ public class EncoderConfigurationWindow
 				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Error importing data."));
 			}
 		}
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		fc.Destroy();
 	}
 
 	string exportFileName;
 	void on_button_export_clicked (object o, EventArgs args)
 	{
-		Gtk.FileChooserDialog fc=
-			new Gtk.FileChooserDialog(Catalog.GetString("Export to file"),
+		Gtk.FileChooserNative fc=
+			new Gtk.FileChooserNative(Catalog.GetString("Export to file"),
 					encoder_configuration,
 					FileChooserAction.Save,
-					Catalog.GetString("Cancel"),ResponseType.Cancel,
-					Catalog.GetString("Accept"),ResponseType.Accept
+					Catalog.GetString("Accept"), Catalog.GetString("Cancel")
 					);
 
 		if (fc.Run() == (int)ResponseType.Accept)
@@ -873,7 +877,7 @@ public class EncoderConfigurationWindow
 			return ;
 		}
 
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		fc.Destroy();
 
 		return;
@@ -1239,6 +1243,8 @@ public class EncoderConfigurationWindow
 
 		button_previous = (Gtk.Button) builder.GetObject ("button_previous");
 		button_next = (Gtk.Button) builder.GetObject ("button_next");
+		image_previous = (Gtk.Image) builder.GetObject ("image_previous");
+		image_next = (Gtk.Image) builder.GetObject ("image_next");
 
 		//to colorize
 		label_radio_linear = (Gtk.Label) builder.GetObject ("label_radio_linear");

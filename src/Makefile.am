@@ -1,10 +1,10 @@
 SUBDIRS = Mini chronojump-importer
 
-ASSEMBLY = Chronojump
-TARGET = exe
+#ASSEMBLY = Chronojump
+#TARGET = exe
 LINK = $(REF_DEP_CHRONOJUMP)
 
-SOURCES = \
+#SOURCES = \
 	graphs/graphs.cs\
 	graphs/jumpsAsymmetry.cs\
 	graphs/jumpsProfile.cs\
@@ -306,7 +306,7 @@ SOURCES = \
 	../butterworth/Kinovea.Filtering/TimeSeriesCollection.cs\
 	../butterworth/Kinovea.Filtering/TimeSeriesPadder.cs
 
-RESOURCES = \
+#RESOURCES = \
 	../glade/app1.glade \
 	../glade/confirm_window.glade \
 	../glade/convert_weight.glade \
@@ -497,6 +497,7 @@ RESOURCES = \
 	../images/md/import_yellow_1x.png,import_yellow.png \
 	../images/md/export_1x.png,export.png \
 	../images/md/settings_blue_1x.png,image_settings.png \
+	../images/md/settings_down_blue_1x.png,image_settings_down.png \
 	../images/md/close_blue_1x.png,image_close_blue.png \
 	../images/md/close_red_1x.png,image_close.png \
 	../images/md/close_blue_2x.png,image_close_big.png \
@@ -513,6 +514,8 @@ RESOURCES = \
 	../images/gtk-floppy.png,floppy.png \
 	../images/md/arrow_back_blue.png,arrow_back.png \
 	../images/md/cancel_red_1x.png,image_cancel.png \
+	../images/md/empty.png,image_empty.png \
+	../images/md/capturing_red_1x.png,image_capturing.png \
 	../images/md/done_blue.png,image_done_blue.png \
 	../images/md/insert_chart_blue_1x.png,image_analyze.png \
 	../images/md/assignment_blue_1x.png,image_analyze_general.png \
@@ -528,7 +531,7 @@ RESOURCES = \
 	../images/md/photo_camera_blue_2x.png,image_no_photo.png \
 	../images/md/photo_camera_yellow_2x.png,image_no_photo_yellow.png \
 	../images/md/select_blue_3x.png,image_selected.png \
-	../images/md/cached_blue_1x.png,image_recalculate.png \
+	../images/md/cached_green_1x.png,image_recalculate.png \
 	../images/md/delete_blue_1x.png,stock_delete.png \
 	../images/md/create_new_folder_blue_2x.png,folder_new_big.png \
 	../images/md/create_new_folder_blue_1x.png,folder_new.png \
@@ -539,6 +542,8 @@ RESOURCES = \
 	../images/md/folder_open_blue_1x.png,folder_open.png \
 	../images/md/folder_open_yellow_1x.png,folder_open_yellow.png \
 	../images/md/folder_open_set_blue_1x.png,folder_open_set.png \
+	../images/md/folder_open_set_ab_blue_1x.png,folder_open_set_ab.png \
+	../images/md/folder_open_set_cd_blue_1x.png,folder_open_set_cd.png \
 	../images/md/visibility_blue_1x.png,image_visibility.png \
 	../images/md/p_pin_blue_1x.png,image_person_pin.png \
 	../images/md/face_blue_1x.png,image_face.png \
@@ -672,6 +677,8 @@ RESOURCES = \
 	../images/md/align_horiz_left.png,align_horiz_left.png \
 	../images/md/align_horiz_center.png,align_horiz_center.png \
 	../images/md/align_horiz_right.png,align_horiz_right.png \
+	../images/md/filter_on.png,filter_on.png \
+	../images/md/filter_off.png,filter_off.png \
 	../images/calendar.png,calendar.png \
 	../images/chronojump-logo-transparent.png,chronojump-logo-transparent.png \
 	../images/chronojump-logo-transparent-40h.png,chronojump-logo-transparent-40h.png \
@@ -750,16 +757,16 @@ RESOURCES = \
 	../images/ok.wav,ok.wav \
 	../images/bad.wav,sound_bad.wav
 
-IMAGES = $(top_srcdir)/images/chronojump-logo-2013.png \
+#IMAGES = $(top_srcdir)/images/chronojump-logo-2013.png \
          $(top_srcdir)/images/chronojump-logo-2013_320.png \
          $(top_srcdir)/images/start.wav \
          $(top_srcdir)/images/ok.wav \
          $(top_srcdir)/images/bad.wav \
          $(top_srcdir)/images/report_web_style.css
 
-LOGO = $(top_srcdir)/images/svg/chronojump_icon.svg
+#LOGO = $(top_srcdir)/images/svg/chronojump_icon.svg
 
-bin_SCRIPTS = chronojump
+#bin_SCRIPTS = chronojump
 
 DESKTOP_FILE = chronojump.desktop.in
 

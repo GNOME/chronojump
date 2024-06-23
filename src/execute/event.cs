@@ -277,9 +277,11 @@ public class EventExecute
 		return false;
 	}
 
+	/* unneded (we use cancel) and also not compatible with current .net
 	public void ThreadAbort() {
 		thread.Abort();
 	}
+	*/
 
 
 	protected void initializeTimer () {

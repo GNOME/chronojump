@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2018-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -235,13 +235,20 @@ public partial class ChronoJumpWindow
 	// <---- at glade
 
 
-	private RepetitionMouseLimits fsAIRepetitionMouseLimits;
 	private RepetitionMouseLimitsWithSamples fsAIRepetitionMouseLimitsCairo;
 	private List<ForceSensorRepetition> rep_lZoomAppliedCairo;
 
 	private enum notebook_ai_top_pages { CURRENTSETSIGNAL, CURRENTSETMODEL, CURRENTSESSION, AUTOMATICOPTIONS }
 
-	private string signalSuperpose2SetsCDPersonName = "";
+
+	//on analyze CD we load a set but it does not change the currentPerson and curretnForceSensor...
+	//so we need to store these variables on load to be able to calculate correctly the CD graph
+	private static string lastForceSensorFullPath_2SetsCD = "";
+	private ForceSensorExercise currentForceSensorExercise_2SetsCD; //only for analyze cd (when 2sets)
+	private PersonSession personSessionForceSensor_2SetsCD;
+	private ForceSensor.CaptureOptions forceSensorCaptureOption_2SetsCD;
+	private double forceSensorStiffness_2SetsCD;
+	private string signalSuperpose_2SetsCDPersonName = "";
 
 	/*
 	 * analyze options -------------------------->
@@ -961,7 +968,12 @@ public partial class ChronoJumpWindow
 				preferences.forceSensorNotElasticConMinForce,
 				preferences.forceSensorStartEndOptimized,
 				preferences.CSVExportDecimalSeparatorChar, 	//decimalIsPointAtExport (write)
-				preferences.forceSensorAnalyzeMaxAVGInWindow
+				preferences.forceSensorAnalyzeMaxAVGInWindow,
+				preferences.forceSensorCaptureFeedbackAt,
+				preferences.forceSensorVariabilityMethod,
+				preferences.forceSensorVariabilityLag,
+				preferences.forceSensorAnalyzeBestStabilityInWindow,
+				preferences.forceSensorButterworth (current_mode)
 				);
 
 		forceSensorExport.Button_done.Clicked -= new EventHandler(force_sensor_export_done);
@@ -1063,33 +1075,37 @@ public partial class ChronoJumpWindow
 		fsAI_AB = new ForceSensorAnalyzeInstant(
 				"AB",
 				lastForceSensorFullPath,
+				preferences.forceSensorButterworth (current_mode),
 				zoomFrameA, zoomFrameB,
 				currentForceSensorExercise, currentPersonSession.Weight,
 				getForceSensorCaptureOptions(), currentForceSensor.Stiffness,
 				eccMinDispl, conMinDispl
 				);
 
-		string fullPath_cd = lastForceSensorFullPath;
-		ForceSensorExercise exercise_cd = currentForceSensorExercise;
 		if (radio_ai_2sets.Active &&
-				lastForceSensorFullPath_CD != null &&
-				lastForceSensorFullPath_CD != "")
-		{
-			fullPath_cd = lastForceSensorFullPath_CD;
-			exercise_cd = currentForceSensorExercise_CD;
-			//TODO: CaptureOptions, Stiffness, also personSession.Weight if compare between persons
-		}
+				lastForceSensorFullPath_2SetsCD != null &&
+				lastForceSensorFullPath_2SetsCD != "")
+			fsAI_CD = new ForceSensorAnalyzeInstant(
+					"CD",
+					lastForceSensorFullPath_2SetsCD,
+					preferences.forceSensorButterworth (current_mode),
+					zoomFrameA, zoomFrameB,
+					currentForceSensorExercise_2SetsCD, personSessionForceSensor_2SetsCD.Weight,
+					forceSensorCaptureOption_2SetsCD, forceSensorStiffness_2SetsCD,
+					eccMinDispl, conMinDispl
+					);
+		else
+			fsAI_CD = new ForceSensorAnalyzeInstant(
+					"CD",
+					lastForceSensorFullPath,
+					preferences.forceSensorButterworth (current_mode),
+					zoomFrameA, zoomFrameB,
+					currentForceSensorExercise, currentPersonSession.Weight,
+					getForceSensorCaptureOptions (), currentForceSensor.Stiffness,
+					eccMinDispl, conMinDispl
+					);
 
 
-		//LogB.Information ("fullPath_cd", fullPath_cd);
-		fsAI_CD = new ForceSensorAnalyzeInstant(
-				"CD",
-				fullPath_cd,
-				zoomFrameA, zoomFrameB,
-				exercise_cd, currentPersonSession.Weight,
-				getForceSensorCaptureOptions(), currentForceSensor.Stiffness,
-				eccMinDispl, conMinDispl
-				);
 		//LogB.Information("created fsAI");
 		//LogB.Information(string.Format("fsAI.GetLength: {0}", fsAI.GetLength()));
 
@@ -1149,9 +1165,10 @@ public partial class ChronoJumpWindow
 			rectangleRange = preferences.forceSensorCaptureFeedbackRange;
 		}
 
-		// 3. get gmaiw_l, briw_l, reps_l for both fsAI
+		// 3. get gmaiw_l, briw_l, bsiw_l, reps_l for both fsAI
 		List<GetMaxAvgInWindow> gmaiw_l = new List<GetMaxAvgInWindow> ();
 		List<GetBestRFDInWindow> briw_l = new List<GetBestRFDInWindow> ();
+		List<GetBestStabilityInWindow> bsiw_l = new List<GetBestStabilityInWindow> ();
 		List<ForceSensorRepetition> reps_l = new List<ForceSensorRepetition> ();
 
 		List<ForceSensorAnalyzeInstant> fsAI_l = new List <ForceSensorAnalyzeInstant>() { fsAI_AB, fsAI_CD };
@@ -1179,10 +1196,16 @@ public partial class ChronoJumpWindow
 					briw_l.Add (new GetBestRFDInWindow (new List<PointF>(), 0, 0, 1));
 				else
 					briw_l.Add (fsAI.Briw);
+
+				if (fsAI.Bsiw == null)
+					bsiw_l.Add (new GetBestStabilityInWindow (new List<PointF>(), 0, 0, 1));
+				else
+					bsiw_l.Add (fsAI.Bsiw);
 			}
 			else {
 				gmaiw_l.Add (new GetMaxAvgInWindow ());
 				briw_l.Add (new GetBestRFDInWindow (new List<PointF>(), 0, 0, 1));
+				bsiw_l.Add (new GetBestStabilityInWindow (new List<PointF>(), 0, 0, 1));
 			}
 
 			count ++;
@@ -1223,14 +1246,14 @@ public partial class ChronoJumpWindow
 				spCairoFESend_CD = spCairoFEZoom_CD;
 
 			if (currentForceSensor != null && currentForceSensorExercise != null &&
-					currentForceSensor_CD != null && currentForceSensorExercise_CD != null)
+					currentForceSensor_CD != null && currentForceSensorExercise_2SetsCD != null)
 			{
 				string abPersonName = "";
 				string cdPersonName = "";
-				if (signalSuperpose2SetsCDPersonName != "")
+				if (signalSuperpose_2SetsCDPersonName != "")
 				{
 					abPersonName = currentPerson.Name + ", ";
-					cdPersonName = signalSuperpose2SetsCDPersonName + ", ";
+					cdPersonName = signalSuperpose_2SetsCDPersonName + ", ";
 				}
 
 				subtitleWithSetsInfo_l.Add (string.Format ("AB: {0}{1}, {2}, {3}",
@@ -1241,7 +1264,7 @@ public partial class ChronoJumpWindow
 
 				subtitleWithSetsInfo_l.Add (string.Format ("CD: {0}{1}, {2}, {3}",
 							cdPersonName,
-							currentForceSensorExercise_CD.Name,
+							currentForceSensorExercise_2SetsCD.Name,
 							currentForceSensor_CD.Laterality,
 							currentForceSensor_CD.DateTimePublic));
 			}
@@ -1257,7 +1280,7 @@ public partial class ChronoJumpWindow
 				check_force_sensor_analyze_show_power.Active,
 				minY, maxY,
 				rectangleN, rectangleRange,
-				briw_l,
+				briw_l, bsiw_l,
 				triggerListForceSensor,
 				hscaleABSampleStart, hscaleABSampleEnd,
 				hscaleCDSampleStart, hscaleCDSampleEnd,
@@ -1302,13 +1325,6 @@ public partial class ChronoJumpWindow
 	{
 	}
 
-	private int fsAIFindBarInPixel (double px, double py)
-	{
-		if(fsAIRepetitionMouseLimits == null)
-			return -1;
-
-		return fsAIRepetitionMouseLimits.FindBarInPixel (px, py);
-	}
 	private int fsAIFindBarInPixelCairo (double px, double py)
 	{
 		if(fsAIRepetitionMouseLimitsCairo == null)
@@ -1349,7 +1365,11 @@ public partial class ChronoJumpWindow
 		double timeB = fsAI.GetTimeMS(countB);
 		double forceA = fsAI.GetForceAtCount(countA);
 		double forceB = fsAI.GetForceAtCount(countB);
-		bool success = fsAI.CalculateRangeParams(countA, countB, preferences.forceSensorAnalyzeMaxAVGInWindow);
+		bool success = fsAI.CalculateRangeParams(countA, countB, preferences.forceSensorAnalyzeMaxAVGInWindow,
+				preferences.forceSensorCaptureFeedbackAt,
+				preferences.forceSensorVariabilityMethod, preferences.forceSensorVariabilityLag,
+				preferences.forceSensorAnalyzeBestStabilityInWindow
+				);
 		if(success) {
 			tvFS.TimeDiff = Math.Round(timeB - timeA, 1).ToString();
 			tvFS.ForceDiff = forceB - forceA;
@@ -1442,6 +1462,7 @@ public partial class ChronoJumpWindow
 
 			if(countA != countB) {
 				tvFS.PassElasticAvgs (
+						Math.Round(fsAI.PositionAVG, 3).ToString(),
 						Math.Round(fsAI.SpeedAVG, 3).ToString(),
 						Math.Round(fsAI.AccelAVG, 3).ToString(),
 						Math.Round(fsAI.PowerAVG, 3).ToString());
@@ -1450,7 +1471,7 @@ public partial class ChronoJumpWindow
 						Math.Round(fsAI.AccelMAX, 3).ToString(),
 						Math.Round(fsAI.PowerMAX, 3).ToString());
 			} else {
-				tvFS.PassElasticAvgs ("", "", "");
+				tvFS.PassElasticAvgs ("", "", "", "");
 				tvFS.PassElasticMaxs ("", "", "");
 			}
 
@@ -1542,7 +1563,7 @@ public partial class ChronoJumpWindow
 			//	again this should be on fsAI:
 			tvFS_other.SetImpulse (Math.Round (fsAI.CalculateImpulse (countA, countB), 1).ToString(), isAB);
 
-			// 11) calculate variability
+			// 11a) calculate variability
 			int feedbackF = preferences.forceSensorCaptureFeedbackAt;
 
 			fsAI.CalculateVariabilityAndAccuracy (countA, countB, feedbackF,
@@ -1550,6 +1571,22 @@ public partial class ChronoJumpWindow
 			LogB.Information (string.Format ("vaa variability: {0}, feedbackDiff: {1}", fsAI.Vaa.Variability, fsAI.Vaa.FeedbackDiff));
 
 			tvFS_other.SetVariability (Math.Round (fsAI.Vaa.Variability, 3).ToString(), isAB);
+
+			// 11b) stability (window where variability is lower)
+			GetBestStabilityInWindow bsiw = new GetBestStabilityInWindow (fsAI.P_l,
+					countA, countB,
+					preferences.forceSensorAnalyzeBestStabilityInWindow
+					);
+
+			tvFS_other.SetVariabilityBestInWindowWindowSize (preferences.forceSensorAnalyzeBestStabilityInWindow.ToString ());
+			if (bsiw.Error == "")
+			{
+				bsiw.PassVariablesAndCalculate (
+						preferences.forceSensorCaptureFeedbackAt,
+						preferences.forceSensorVariabilityMethod, preferences.forceSensorVariabilityLag);
+				tvFS_other.SetVariabilityBestInWindow (Math.Round (bsiw.Max, 3).ToString(), isAB);
+			} else
+				tvFS_other.SetVariabilityBestInWindow ("", isAB);
 
 			// 12) calculate Accuracy (Feedback difference)
 			//if(preferences.forceSensorCaptureFeedbackActive && feedbackF > 0)
@@ -2014,6 +2051,7 @@ public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 	private string powerDiff;
 
 	//row 4
+	private string positionAvg;
 	private string speedAvg;
 	private string accelAvg;
 	private string powerAvg;
@@ -2072,8 +2110,9 @@ public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 		this.powerDiff = power;
 	}
 
-	public override void PassElasticAvgs (string speed, string accel, string power)
+	public override void PassElasticAvgs (string position, string speed, string accel, string power)
 	{
+		this.positionAvg = position;
 		this.speedAvg = speed;
 		this.accelAvg = accel;
 		this.powerAvg = power;
@@ -2117,7 +2156,7 @@ public class TreeviewFSAnalyzeElastic : TreeviewFSAnalyze
 	}
 	protected override string [] fillTreeViewAvgElastic (string [] str, int i)
 	{
-		str[i++] = ""; // no position average
+		str[i++] = positionAvg;
 		str[i++] = speedAvg;
 		str[i++] = accelAvg;
 		str[i++] = powerAvg;
@@ -2145,12 +2184,16 @@ public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 	private string variabilityAB;
 	private string variabilityCD;
 
+	private string variabilityBestInWindowAB;
+	private string variabilityBestInWindowCD;
+
 	private string feedbackAB;
 	private string feedbackCD;
 
 	private string maxAvgInWindowAB;
 	private string maxAvgInWindowCD;
 
+	private string variabilityBestInWindowWindowSize;
 	private string bestRFDInWindowAB;
 	private string bestRFDInWindowCD;
 
@@ -2195,6 +2238,7 @@ public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 
 		store.AppendValues (fillImpulse ());
 		store.AppendValues (fillVariability ());
+		store.AppendValues (fillVariabilityBestInWindow ());
 
 		if (
 				(feedbackAB != null && feedbackAB != "") ||
@@ -2234,6 +2278,30 @@ public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 			return new String [] {
 				Catalog.GetString ("Variability") + " (" + variabilityMethod + ")",
 					variabilityCD + " " + variabilityUnits
+			};
+	}
+
+	//Stability
+	private string [] fillVariabilityBestInWindow ()
+	{
+		if (showColumnAB && showColumnCD)
+			return new String [] {
+				string.Format("  Lowest in {0} s",
+						Util.TrimDecimals (variabilityBestInWindowWindowSize, 1)),
+					variabilityBestInWindowAB + " " + variabilityUnits,
+					variabilityBestInWindowCD + " " + variabilityUnits,
+			};
+		else if (showColumnAB)
+			return new String [] {
+				string.Format("  Lowest in {0} s",
+						Util.TrimDecimals (variabilityBestInWindowWindowSize, 1)),
+					variabilityBestInWindowAB + " " + variabilityUnits
+			};
+		else //if (showColumnBestInWindowCD)
+			return new String [] {
+				string.Format(" Lowest in {0} s",
+						Util.TrimDecimals (variabilityBestInWindowWindowSize, 1)),
+					variabilityBestInWindowCD + " " + variabilityUnits
 			};
 	}
 
@@ -2297,6 +2365,18 @@ public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 			variabilityAB = s;
 		else
 			variabilityCD = s;
+	}
+
+	public void SetVariabilityBestInWindowWindowSize (string s)
+	{
+		variabilityBestInWindowWindowSize = s;
+	}
+	public void SetVariabilityBestInWindow (string s, bool ab)
+	{
+		if (ab)
+			variabilityBestInWindowAB = s;
+		else
+			variabilityBestInWindowCD = s;
 	}
 
 	public void SetFeedback (string s, bool ab)

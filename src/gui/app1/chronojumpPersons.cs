@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2018-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 //this file has methods of ChronoJumpWindow related to manage persons
@@ -35,7 +35,119 @@ public partial class ChronoJumpWindow
 	Gtk.EventBox eventbox_button_person_close;
 	Gtk.Image image_person_manage_blue;
 	Gtk.Image image_person_manage_yellow;
+	Gtk.CheckButton persons_manage_advanced_checkbutton;
+	Gtk.Label persons_manage_advanced_label;
+	Gtk.Box persons_manage_advanced_box;
 	Gtk.Button button_person_merge;
+	Gtk.SearchEntry person_search;
+
+	/* ---------------------------------------------------------
+	 * ----------------  TREEVIEW PERSONS ----------------------
+	 *  --------------------------------------------------------
+	 */
+
+	private void createTreeView_persons (Gtk.TreeView tv) {
+		myTreeViewPersons = new TreeViewPersons(tv, get_configured_rest_time_in_seconds());
+		tv.Selection.Changed += onTreeviewPersonsSelectionEntry;
+	}
+
+	private void fillTreeView_persons ()
+	{
+		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
+				currentSession.UniqueID, 
+				false, //means: do not returnPersonAndPSlist
+				person_search.Text);
+
+		if(myPersons.Count > 0) {
+			//fill treeview
+			myTreeViewPersons.Fill(myPersons, restTime);
+
+			//if filter found nothing previously, current person is null and treeview is unsensitive. Fix it now.
+			if (currentPerson == null)
+			{
+				if (selectRowTreeView_persons (treeview_persons, 0))
+					sensitiveGuiYesPerson ();
+			}
+			else {
+				// if currentPerson is not on the treeview, then select the first one on the treeview
+				if (myTreeViewPersons.FindRow (currentPerson.UniqueID) >= 0)
+					myTreeViewPersons.SelectRowByUniqueID (currentPerson.UniqueID);
+				else
+					selectRowTreeView_persons (treeview_persons, 0);
+			}
+		} else {
+			currentPerson = null;
+			sensitiveGuiNoPerson ();
+		}
+	}
+
+	private void on_treeview_persons_up (object o, EventArgs args) {
+		myTreeViewPersons.SelectPreviousRow(currentPerson.UniqueID);
+	}
+	
+	private void on_treeview_persons_down (object o, EventArgs args) {
+		myTreeViewPersons.SelectNextRow(currentPerson.UniqueID);
+	}
+
+	private void on_person_search_search_changed (object o, EventArgs args)
+	{
+		LogB.Information ("searching: " + person_search.Text);
+		treeview_persons_storeReset();
+		fillTreeView_persons ();
+	}
+
+	//return true if selection is done (there's any person)
+	private bool selectRowTreeView_persons(Gtk.TreeView tv, int rowNum)
+	{
+		LogB.Information("selectRowTreeView_persons");
+
+		if(! myTreeViewPersons.SelectRow(rowNum))
+			return false;
+		
+		//the selection of row in treeViewPersons.SelectRow is not a real selection 
+		//and unfortunately doesn't raises the on_treeview_persons_cursor_changed ()
+		//for this reason we reproduce the method here
+		ITreeModel model;
+		TreeIter iter;
+		if (tv.Selection.GetSelected (out model, out iter)) {
+			string selectedID = (string) model.GetValue (iter, 0); //ID, Name
+			currentPerson = SqlitePerson.Select(Convert.ToInt32(selectedID));
+			currentPersonSession = SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
+			label_person_change();
+			TreePath path = model.GetPath (iter);
+			tv.ScrollToCell (path, null, true, 0, 0);
+		
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private void treeview_persons_storeReset()
+	{
+		myTreeViewPersons.RemoveColumns();
+		myTreeViewPersons = new TreeViewPersons(treeview_persons, get_configured_rest_time_in_seconds());
+	}
+	
+	//private void on_treeview_persons_cursor_changed (object o, EventArgs args) {
+	private void onTreeviewPersonsSelectionEntry (object o, EventArgs args)
+	{
+		ITreeModel model;
+		TreeIter iter;
+
+		// you get the iter and the model if something is selected
+		if (((TreeSelection)o).GetSelected(out model, out iter)) {
+			string selectedID = (string) model.GetValue (iter, 0); //ID, Name
+		
+			currentPerson = SqlitePerson.Select(Convert.ToInt32(selectedID));
+			currentPersonSession = SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
+			label_person_change();
+	
+			personChanged();
+			button_persons_up.Sensitive = ! myTreeViewPersons.IsFirst(currentPerson.UniqueID);
+			button_persons_down.Sensitive = ! myTreeViewPersons.IsLast(currentPerson.UniqueID);
+		}
+	}
 
 	private void showPersonsOnTop (bool onTop)
 	{
@@ -65,21 +177,34 @@ public partial class ChronoJumpWindow
 		label_top_encoder_person_name.Text = "<b>" + currentPerson.Name + "</b>";
 		label_top_encoder_person_name.UseMarkup = true;
 
+		personsPhotoShowIfNeeded ();
+	}
+
+	private void personsPhotoShowIfNeeded ()
+	{
+		if (currentPerson == null)
+			return;
+
 		string filenameMini = Util.UserPhotoURL(true, currentPerson.UniqueID);
 		if(filenameMini != "" && Util.FileExists(filenameMini))
 		{
-			Pixbuf pixbuf = new Pixbuf (filenameMini);
+			Pixbuf pixbuf = Chronojump.MyPixbuf.Get(filenameMini);
 			image_current_person.Pixbuf = pixbuf;
 		} else {
 			//image_current_person.Pixbuf = null;
-			Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo.png");
+			Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_no_photo.png");
 			if(Config.ColorBackgroundIsDark)
-				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo_yellow.png");
+				pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_no_photo_yellow.png");
 			image_current_person.Pixbuf = pixbuf;
 		}
 	}
 
-	
+	private void on_persons_manage_advanced_checkbutton_clicked (object o, EventArgs args)
+	{
+		persons_manage_advanced_box.Visible = persons_manage_advanced_checkbutton.Active;
+	}
+
+
 	/* ---------------------------------------------------------
 	 * ----------------  PERSON RECUPERATE, LOAD, EDIT, DELETE -
 	 *  --------------------------------------------------------
@@ -322,6 +447,10 @@ public partial class ChronoJumpWindow
 	private void person_edit_single() {
 		LogB.Information("modify person");
 
+		//just caution if any widget is not unsensitive in the future
+		if (currentPerson == null)
+			return;
+
 		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson, 
 				//preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
 				preferences.digitsNumber,// checkbutton_video_contacts,
@@ -409,7 +538,12 @@ public partial class ChronoJumpWindow
 		personShowAllEventsWin.CloseWindowAfterLoadSession ();
 	}
 
-	private void on_delete_current_person_from_session_clicked (object o, EventArgs args) {
+	private void on_delete_current_person_from_session_clicked (object o, EventArgs args)
+	{
+		//just caution if any widget is not unsensitive in the future
+		if (currentPerson == null)
+			return;
+
 		LogB.Information("delete current person from this session");
 		ConfirmWindow confirmWin = ConfirmWindow.Show(
 				Catalog.GetString("Are you sure you want to delete the current person and all his/her tests (jumps, races, pulses, …) from this session?\n(His/her personal data and tests in other sessions will remain intact.)"), "",
@@ -432,12 +566,10 @@ public partial class ChronoJumpWindow
 		}
 
 		//if there are no persons
-		if(! foundPersons) {
+		if(! foundPersons)
+		{
 			currentPerson = null;
 			sensitiveGuiNoPerson ();
-			if(createdStatsWin) {
-				stats_win_hide();
-			}
 		}
 	}
 
@@ -460,7 +592,8 @@ public partial class ChronoJumpWindow
 				false); //means: do not returnPersonAndPSlist
 
 		personSelectWin = PersonSelectWindow.Show(app1, myPersons, currentPerson, preferences.colorBackground,
-				configChronojump.Raspberry, configChronojump.LowHeight, preferences.personSelectWinImages);
+				configChronojump.Raspberry, configChronojump.LowHeight,
+				preferences.personSelectWinImages, configChronojump.ReadFromCloudMainPath != "");
 		personSelectWin.FakeButtonAddPerson.Clicked -= new EventHandler(on_button_top_person_add_person);
 		personSelectWin.FakeButtonAddPerson.Clicked += new EventHandler(on_button_top_person_add_person);
 
@@ -626,6 +759,10 @@ public partial class ChronoJumpWindow
 		eventbox_button_person_close = (Gtk.EventBox) builder.GetObject ("eventbox_button_person_close");
 		image_person_manage_blue = (Gtk.Image) builder.GetObject ("image_person_manage_blue");
 		image_person_manage_yellow = (Gtk.Image) builder.GetObject ("image_person_manage_yellow");
+		persons_manage_advanced_checkbutton = (Gtk.CheckButton) builder.GetObject ("persons_manage_advanced_checkbutton");
+		persons_manage_advanced_label = (Gtk.Label) builder.GetObject ("persons_manage_advanced_label");
+		persons_manage_advanced_box = (Gtk.Box) builder.GetObject ("persons_manage_advanced_box");
 		button_person_merge = (Gtk.Button) builder.GetObject ("button_person_merge");
+		person_search = (Gtk.SearchEntry) builder.GetObject ("person_search");
 	}
 }

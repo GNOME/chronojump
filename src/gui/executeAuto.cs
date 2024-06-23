@@ -153,11 +153,11 @@ public class ExecuteAutoWindow
 
 		Pixbuf pixbuf;
 		
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "auto-by-persons.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "auto-by-persons.png");
 		image_auto_by_persons.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "auto-by-tests.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "auto-by-tests.png");
 		image_auto_by_tests.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "auto-by-series.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "auto-by-series.png");
 		image_auto_by_sets.Pixbuf = pixbuf;
 		
 		
@@ -256,8 +256,8 @@ public class ExecuteAutoWindow
 			myItem.Activated += on_delete_selected_row_clicked;
 			myMenu.Attach( myItem, 0, 1, 0, 1 );
 
-			myMenu.Popup();
 			myMenu.ShowAll();
+			myMenu.Popup();
 		}
 	}
 	

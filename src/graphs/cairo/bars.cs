@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -82,7 +82,9 @@ public abstract class CairoBars : CairoGeneric
 	protected RepetitionMouseLimits mouseLimits;
 	protected List<int> id_l; //to pass the uniqueID of some test, eg: RunInterval executions and then find it using mouseLimits
 	protected int selectedPos;
-	protected List<double> lineData_l; //related to secondary variable (by default range)
+
+	protected CairoBarsSecondaryLineData cbsld; //related to secondary variable (by default range)
+
 	protected List<CairoBarsArrow> eccOverload_l;
 	protected bool eccOverloadWriteValue;
 	protected List<int> saved_l;
@@ -101,6 +103,7 @@ public abstract class CairoBars : CairoGeneric
 	protected bool spaceBetweenBars;
 	protected double videoPlayTimeInSeconds;
 	protected List<double> videoPlayTimes_l; //for runInterval (because passed speeds and need times for video)
+	protected string screenshotURL;
 
 	//used when there are two series (for legend)
 	protected string variableSerieA = "";
@@ -122,6 +125,7 @@ public abstract class CairoBars : CairoGeneric
 		edgeBarNums_l = new List<int>();
 		encoderTitle = false;
 		selectedPos = -1;
+		screenshotURL = "";
 	}
 
 	public void PassGuidesData (CairoBarsGuideManage cairoBarsGuideManage)
@@ -230,7 +234,7 @@ public abstract class CairoBars : CairoGeneric
 	protected void drawGuidesDo (int xStart, string imageStr, textTickPos ttp, Cairo.Color color,
 			double top, double avg, double bottom, double topG, double avgG, double bottomG)
 	{
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + imageStr);
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + imageStr);
 		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf, graphWidth -rightMargin +xStart, topMargin -24);
 		g.Paint();
 
@@ -359,6 +363,7 @@ public abstract class CairoBars : CairoGeneric
 		//blueChronojump = colorFromRGB(14, 30, 70);
 		//bluePlots = colorFromRGB(0, 0, 200);
 		yellow = colorFromRGB(255,204,1);
+		yellowDark = colorFromRGB(205,205,0);
 
 		//margins
 		leftRightMarginsSet();
@@ -367,7 +372,9 @@ public abstract class CairoBars : CairoGeneric
 
 		mouseLimits = new RepetitionMouseLimits();
 		id_l = new List<int>();
-		lineData_l = new List<double>();
+
+		cbsld = new CairoBarsSecondaryLineData ();
+
 		eccOverload_l = new List<CairoBarsArrow>();
 		eccOverloadWriteValue = false;
 		saved_l = new List<int>();
@@ -442,7 +449,7 @@ public abstract class CairoBars : CairoGeneric
         }
 	protected override double calculatePaintY (double realY)
 	{
-                return graphHeight - (topMargin + bottomMargin) //graph ata area
+                return graphHeight - (topMargin + bottomMargin) //graph data area
 			- UtilAll.DivideSafe(
 				(realY - minY) * (graphHeight - (topMargin+bottomMargin)),
 				//maxY - minY)
@@ -452,14 +459,16 @@ public abstract class CairoBars : CairoGeneric
         }
 
 	//used for plotAlternative (that uses another series, so pass maxY and minY
-	protected double calculatePaintY (double realY, double maxY, double minY)
+	//percentOnTop recommended is 1.2 to have 20% extra margin on the top (highest values will be this % far from max of the graph, needed also because text is above)
+	//if do not want percentOnTop, pass 1
+	protected double calculatePaintY (double realY, double maxY, double minY, double percentOnTop)
 	{
-                return graphHeight - (topMargin + bottomMargin) //graph ata area
+                return graphHeight - (topMargin + bottomMargin) //graph data area
 			- UtilAll.DivideSafe(
 				(realY - minY) * (graphHeight - (topMargin+bottomMargin)),
 				//maxY - minY)
 				//have 20% extra margin on the top (highest values will be this % far from max of the graph, needed also because text is above)
-				1.2*maxY - minY)
+				percentOnTop*maxY - minY)
 			+ topMargin;
 	}
 
@@ -479,7 +488,7 @@ public abstract class CairoBars : CairoGeneric
 				moveToLeft = te.Width;
 		}
 
-		g.MoveTo(x - moveToLeft, y + textH/2);
+		g.MoveTo(x - moveToLeft, Convert.ToInt32 (y + textH/2)); //y as int on dotnetgtk3 because on windows top row of text is sometimes not shown if double
 		g.ShowText(text);
 
 		//restore text size
@@ -510,7 +519,7 @@ public abstract class CairoBars : CairoGeneric
 	{
 		g.Save();
 
-		g.SetFontSize(textH+4);
+		g.SetFontSize (textH);
 		if(bold)
 			g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
 
@@ -664,21 +673,26 @@ public abstract class CairoBars : CairoGeneric
 	}
 
 
-	protected void plotAlternativeLine (List<double> lineData_l)
+	protected void plotAlternativeLine (CairoBarsSecondaryLineData sld)
 	{
 		//be safe
-		if(barsXCenter_l.Count != lineData_l.Count)
+		if(barsXCenter_l.Count != sld.data_l.Count)
 			return;
 
-		g.SetSourceColor(yellow); //to have contrast with the bar
+		//g.SetSourceColor (yellow); //to have contrast with the bar
+		g.SetSourceColor (caramel);
+
+		if (sld.yMin < 0 && sld.yMax < 0) //means detect y range automatically
+		{
+			sld.yMax = MathUtil.GetMax (sld.data_l);
+			sld.yMin = 0; //or MathUtil.GetMin (sld.data_l)
+		}
 
 		// 1) lines
 		bool firstDone = false;
 		for (int i = 0 ; i < barsXCenter_l.Count; i ++)
 		{
-			double y = calculatePaintY (lineData_l[i],
-					MathUtil.GetMax (lineData_l),
-					0);//MathUtil.GetMin (lineData_l));
+			double y = calculatePaintY (sld.data_l[i], sld.yMax, sld.yMin, 1.1);
 
 			if(! firstDone)
 			{
@@ -690,18 +704,47 @@ public abstract class CairoBars : CairoGeneric
 		g.Stroke();
 
 		// 2) points
-		int pointsRadius = 4;
+		int pointsRadius = 5;
 		for (int i = 0 ; i < barsXCenter_l.Count; i ++)
 		{
-			double y = calculatePaintY (lineData_l[i],
-					MathUtil.GetMax (lineData_l),
-					0);//MathUtil.GetMin (lineData_l));
+			double y = calculatePaintY (sld.data_l[i], sld.yMax, sld.yMin, 1.1);
 
+			g.SetSourceColor (brown);
 			g.Arc(barsXCenter_l[i], y, pointsRadius, 0.0, 2.0 * Math.PI); //full circle
 			g.FillPreserve();
+			g.SetSourceColor (white);
 			g.Stroke();
 		}
+		g.SetSourceColor (caramel);
 
+		// 3) axis
+		double yMaxPaint = calculatePaintY (sld.yMax, sld.yMax, sld.yMin, 1.1);
+		double yMinPaint = calculatePaintY (sld.yMin, sld.yMax, sld.yMin, 1.1);
+
+		g.MoveTo (leftMargin +4, yMinPaint);
+		g.LineTo (leftMargin, yMinPaint);
+		g.LineTo (leftMargin, yMaxPaint);
+		g.LineTo (leftMargin +4, yMaxPaint);
+		g.Stroke ();
+
+		string str = sld.magnitude + " (" + sld.units + ")";
+		Cairo.TextExtents te = g.TextExtents (str);
+		printTextRotated (leftMargin -4, (yMaxPaint + yMinPaint)/2 +te.Width/2, 0, textHeight -2,
+				str, g, false);
+
+		str = Util.TrimDecimals (sld.yMin, 2);
+		te = g.TextExtents (str);
+		printTextRotated (leftMargin -4, yMinPaint +te.Width/2, 0, textHeight -2,
+				str, g, false);
+
+		str = Util.TrimDecimals (sld.yMax, 2);
+		te = g.TextExtents (str);
+		printTextRotated (leftMargin -4, yMaxPaint +te.Width/2, 0, textHeight -2,
+				str, g, false);
+
+		g.Stroke ();
+
+		// 4) default g values
 		g.SetSourceColor(black);
 	}
 
@@ -1025,6 +1068,13 @@ public abstract class CairoBars : CairoGeneric
 
 	protected void writeMessageAtCenter(string message)
 	{
+		if (message.Contains ('\n'))
+		{
+			printTextMultiline (graphWidth/2, graphHeight/2, 0, textHeight + 2,
+					message, g, alignTypes.CENTER, false); //do not show with yellow rectangle ass its difficoult to align
+			return;
+		}
+
 		Cairo.TextExtents te;
 		int messageTextHeight = textHeight +2;
 
@@ -1036,11 +1086,14 @@ public abstract class CairoBars : CairoGeneric
 		} while (te.Width >= .9 * graphWidth && messageTextHeight >= 1);
 
 		g.SetSourceColor(yellow); //to have contrast with the bar
+
 		g.Rectangle(graphWidth/2 -te.Width/2 -1, graphHeight/2 -messageTextHeight -1,
 				te.Width +2, te.Height+4);
+
 		g.Fill();
 
 		g.SetSourceColor(black);
+
 		printText (graphWidth/2, graphHeight/2 -messageTextHeight/2,
 				0, messageTextHeight,
 				message, g, alignTypes.CENTER);
@@ -1164,9 +1217,8 @@ public abstract class CairoBars : CairoGeneric
 		set { selectedPos = value; }
 	}
 
-	//related to secondary variable (by default range)
-	public List<double> LineData_l {
-		set { lineData_l = value; }
+	public CairoBarsSecondaryLineData Cbsld {
+		set { cbsld = value; }
 	}
 
 	public List<CairoBarsArrow> EccOverload_l {
@@ -1195,6 +1247,11 @@ public abstract class CairoBars : CairoGeneric
 
 	public int Decs {
 		set { decs = value; }
+	}
+
+	public string ScreenshotURL
+	{
+		set { screenshotURL = value; }
 	}
 }
 
@@ -1423,8 +1480,8 @@ public class CairoBars1Series : CairoBars
 		if(cairoBarsArrow != null)
 			plotArrow();
 
-		if(lineData_l.Count > 0)
-			plotAlternativeLine(lineData_l);
+		if (cbsld.data_l.Count > 0)
+			plotAlternativeLine (cbsld);
 
 		if (edgeBarNums_l.Count > 0)
 			plotEdgeBarNums ();
@@ -1443,6 +1500,9 @@ public class CairoBars1Series : CairoBars
 			else
 				addClickableMark (g, 1); //default
 		}
+
+		if (screenshotURL != "")
+			CairoUtil.GetScreenshotFromDrawingArea (area, g, screenshotURL);
 
 		endGraphDisposing(g, surface, area.Window);
 	}
@@ -1767,7 +1827,7 @@ public class CairoBarsNHSeries : CairoBars
 							{
 								g.SetSourceColor(white);
 								int sep = 4;
-								printTextRotated (x +adjustX +barWidth -sep, graphHeight -bottomMargin -sep, 0, textHeight, "Ecc", g, true);
+								printTextRotated (x +adjustX +barWidth -sep, graphHeight -bottomMargin -sep, 0, textHeight+4, "Ecc", g, true);
 								g.SetSourceColor(black);
 							}
 						}
@@ -1824,7 +1884,7 @@ public class CairoBarsNHSeries : CairoBars
 						{
 							g.SetSourceColor(white);
 							int sep = 4;
-							printTextRotated (x +adjustX +barWidth -sep, graphHeight -bottomMargin -sep, 0, textHeight, "Con", g, true);
+							printTextRotated (x +adjustX +barWidth -sep, graphHeight -bottomMargin -sep, 4, textHeight, "Con", g, true);
 							g.SetSourceColor(black);
 						}
 					}
@@ -1934,8 +1994,8 @@ public class CairoBarsNHSeries : CairoBars
 		if(cairoBarsArrow != null)
 			plotArrow();
 
-		if(lineData_l.Count > 0)
-			plotAlternativeLine(lineData_l);
+		if (cbsld.data_l.Count > 0)
+			plotAlternativeLine (cbsld);
 
 		if(eccOverload_l.Count > 0)
 			plotEccOverload();
@@ -1957,6 +2017,9 @@ public class CairoBarsNHSeries : CairoBars
 			else
 				addClickableMark (g, 1); //default
 		}
+
+		if (screenshotURL != "")
+			CairoUtil.GetScreenshotFromDrawingArea (area, g, screenshotURL);
 
 		endGraphDisposing(g, surface, area.Window);
 	}
@@ -2158,5 +2221,53 @@ public class CairoBarsArrow
 	{
 		return string.Format("x0pos: {0}, y0: {1}, x1pos: {2}, y1: {3}",
 				x0pos, y0, x1pos, y1);
+	}
+}
+
+//related to secondary variable (on encoder default is range)
+public class CairoBarsSecondaryLineData
+{
+	public string units;
+	public List<double> data_l;
+	public double yMax;
+	public double yMin;
+	public string magnitude;
+
+	public CairoBarsSecondaryLineData ()
+	{
+		data_l = new List<double> ();
+	}
+
+	public CairoBarsSecondaryLineData (
+			List<double> data_l, double yMax, double yMin, string magnitude)
+	{
+		this.data_l = data_l;
+
+		//manage problems if both values are the same of min > max
+		if (yMax == yMin) {
+			this.yMax = -1;
+			this.yMin = -1;
+		} else if (yMax > yMin) {
+			this.yMax = yMax;
+			this.yMin = yMin;
+		} else {
+			this.yMin = yMax;
+			this.yMax = yMin;
+		}
+
+		this.magnitude = magnitude;
+
+		if (magnitude == Constants.MeanSpeed || magnitude == Constants.MaxSpeed)
+			this.units = "m/s";
+		else if (magnitude == Constants.MeanForce || magnitude == Constants.MaxForce)
+			this.units = "N";
+		else if (magnitude == Constants.MeanPower || magnitude == Constants.PeakPower)
+			this.units = "W";
+		else { //(magnitude == Constants.RangeAbsolute)
+			this.units = "cm";
+			this.magnitude = "ROM"; //to display better on graph
+			for (int i = 0; i < data_l.Count; i ++)
+				data_l[i] = data_l[i] / 10.0;
+		}
 	}
 }

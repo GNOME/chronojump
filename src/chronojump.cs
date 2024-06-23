@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -30,7 +30,8 @@ using System.Diagnostics; //Process
 using System.Collections; //ArrayList
 
 using System.Runtime.InteropServices;
-
+using Chronojump;
+using System.Data.SQLite;
 
 public class ChronoJump 
 {
@@ -53,6 +54,8 @@ public class ChronoJump
 	string splashMessage = "";
 	bool creatingDB = false; //on creation and on update always refresh labels
 	bool updatingDB = false;
+	private static bool printAllByUser = false; //printAll chosed by user on argv params
+	private static bool printAllOnCreateDB = false; //on creation of DB force a printAll to see any problem on log
 	private static string baseDirectory;
 	private static bool debugModeAtStart;
 
@@ -68,9 +71,59 @@ public class ChronoJump
 		operatingSystem = UtilAll.GetOSEnum();
 		Util.operatingSystem = operatingSystem;
 
-		//show version on console and exit before the starting logs
-		//note version, version2 args are available since: 2.2.0-112-ga4eaadcbc
-		if(args.Length > 0 && args[0] != "simulatedCapture" && args[0] != "printAll" && args[0] != "debug")
+		//Determine library directory according to certain OS. [By Joeries]
+		if (UtilAll.IsWindows())
+		{
+			NativeLibraryResolver.Init(AppDomain.CurrentDomain.BaseDirectory);
+		}
+		else if (Util.operatingSystem == UtilAll.OperatingSystems.LINUX)
+		{
+#if DEBUG
+            NativeLibraryResolver.Init("/usr/lib/x86_64-linux-gnu");
+#else
+			NativeLibraryResolver.Init("/usr/lib/x86_64-linux-gnu");
+			//NativeLibraryResolver.Init(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "x86_64-linux-gnu"));
+#endif
+		}
+		else
+		{
+			//To prevent sqlite3_prepare_interop aborting
+			try
+			{
+				var dbPath = Path.Combine(Util.GetDatabaseDir(), "chronojump-test.db");
+				string connectionString = $"Data Source={dbPath}";
+				using (var connection = new SQLiteConnection(connectionString))
+				{
+					connection.Open();
+					var sql = "SELECT 1";
+					using (var command = new SQLiteCommand(sql, connection))
+					{
+						command.ExecuteNonQuery();
+					}
+					connection.Close();
+				}
+				File.Delete(dbPath);
+			}
+			catch { }
+
+#if DEBUG
+            NativeLibraryResolver.Init("/opt/homebrew/lib");
+#else
+            var gtk3Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../Frameworks/gtk3");
+            var gtk3SharePath = Path.Combine(gtk3Path, "share");
+			var gtk3LibPath = Path.Combine(gtk3Path, "lib");
+			var gtk3PixbufPath = Path.Combine(gtk3LibPath, "gdk-pixbuf-2.0/2.10.0/loaders.cache");
+			Environment.SetEnvironmentVariable("XDG_DATA_DIRS", gtk3SharePath);
+			Environment.SetEnvironmentVariable("GDK_PIXBUF_MODULE_FILE", gtk3PixbufPath);
+			Environment.SetEnvironmentVariable("GTK_PATH", gtk3LibPath);
+			Environment.SetEnvironmentVariable("LD_LIBRARY_PATH", "$GTK_PATH:$LD_LIBRARY_PATH");
+			NativeLibraryResolver.Init(gtk3LibPath);
+#endif
+		}
+
+        //show version on console and exit before the starting logs
+        //note version, version2 args are available since: 2.2.0-112-ga4eaadcbc
+        if (args.Length > 0 && args[0] != "simulatedCapture" && args[0] != "printAll" && args[0] != "debug")
 		{
 			string helpMessage = "Execute 'chronojump' or 'chronojump option'" +
 				"\nOptions:" +
@@ -150,7 +203,10 @@ public class ChronoJump
 			if (args[0] == "simulatedCapture")
 				Config.SimulatedCapture = true;
 			if (args[0] == "printAll" || (args.Length > 1 && args[1] == "printAll"))
+			{
+				printAllByUser = true;
 				LogB.PrintAllThreads = true;
+			}
 			else if (args[0] == "debug" || (args.Length > 1 && args[1] == "debug"))
 				debugModeAtStart = true;
 		}
@@ -160,6 +216,7 @@ public class ChronoJump
 
 		//we need to set Util.operatingSytem before GetPrefixDir()
 		baseDirectory = Util.GetPrefixDir();
+		string baseDirectoryR = System.IO.Path.Combine(baseDirectory, "R");
 
 		/*
 		 * location of gtkrc file
@@ -169,7 +226,15 @@ public class ChronoJump
 		//Rc.AddDefaultFile (Util.GetThemeFile());
 		//LogB.Information("gtk theme:" + Util.GetThemeFile());
 
-		if(UtilAll.IsWindows()) {
+		if(UtilAll.IsWindows())
+		{
+			//needed to avoid crash on opening FileChooserDialog, also FileChooserNative, at least on windows
+			//TODO: delete one of these two: DIRS or DIR
+			//note without these lines it works on dotnet run, but on the isntalled package these are needed
+			Environment.SetEnvironmentVariable ("XDG_DATA_DIRS", baseDirectory);
+			Environment.SetEnvironmentVariable ("XDG_DATA_DIR", baseDirectory);
+			Environment.SetEnvironmentVariable ("GSETTINGS_SCHEMA_DIR", System.IO.Path.Combine (baseDirectory, @"share\glib-2.0\schemas")); //this works !!!! but from dotnet run works also without this
+
 			//Environment.SetEnvironmentVariable ("R_HOME", RelativeToPrefix ("library"));
 			//rBinPath = RelativeToPrefix ("lib");
 			//rBinPath = RelativeToPrefix ("library");
@@ -177,7 +242,7 @@ public class ChronoJump
 			string x64 = "bin" + System.IO.Path.DirectorySeparatorChar + "x64";
 			string i386 = "bin" + System.IO.Path.DirectorySeparatorChar + "i386";
 			var rPath = System.Environment.Is64BitProcess ? 
-				System.IO.Path.Combine(baseDirectory, x64) : System.IO.Path.Combine(baseDirectory, i386);
+				System.IO.Path.Combine(baseDirectoryR, x64) : System.IO.Path.Combine(baseDirectoryR, i386);
 
 			if (Directory.Exists(rPath) == false) {
 				LogB.Error("Could not found the specified path to the directory containing R.dll: ", rPath);
@@ -192,8 +257,8 @@ public class ChronoJump
 			
 			//use this because we don't want to look at the registry
 			//we don't want to force user to install R
-			Environment.SetEnvironmentVariable ("R_HOME", baseDirectory);
-			LogB.Information("R_HOME:", baseDirectory);
+			Environment.SetEnvironmentVariable ("R_HOME", baseDirectoryR);
+			LogB.Information("R_HOME:", baseDirectoryR);
 		} else {
 			switch (operatingSystem) {
 				case UtilAll.OperatingSystems.MACOSX:
@@ -277,14 +342,15 @@ public class ChronoJump
 #if OSTYPE_WINDOWS
 				g_setenv ("LANGUAGE", language, true);
 #endif
-			}
-		}
-		catch {
-			LogB.Warning("Problem reading language on start");
-		}
-	}
+                }
+            }
+            catch
+            {
+                LogB.Warning("Problem reading language on start");
+            }
+        }
 
-	Catalog.Init("chronojump",System.IO.Path.Combine(Util.GetPrefixDir(),"share/locale"));
+        Catalog.Init("chronojump", System.IO.Path.Combine(Util.GetPrefixDir(), "share", "locale"));//To use the specific path separator on certain OS [By Joeries]
 
 	new ChronoJump(args);
 	}
@@ -321,6 +387,7 @@ public class ChronoJump
 
 	//used when Chronojump is being running two or more times (quadriple-click on start)
 	bool quitNowCjTwoTimes = false;
+	private bool badExit;
 
 	protected void sqliteThings ()
 	{
@@ -328,7 +395,7 @@ public class ChronoJump
 		configChronojump.Read ();
 		configChronojump.PrintDefined ();
 
-		bool badExit = checkIfChronojumpExitAbnormally();
+		badExit = checkIfChronojumpExitAbnormally();
 		if(badExit) {
 			if(chronojumpIsExecutingNTimes())
 			{
@@ -389,7 +456,11 @@ public class ChronoJump
 		*/
 		
 		//Chech if the DB file exists
-		if (!Sqlite.CheckTables(defaultDBLocation)) {
+		if (!Sqlite.CheckTables(defaultDBLocation))
+		{
+			printAllOnCreateDB = true;
+			LogB.PrintAllThreads = true;
+
 			LogB.SQL ( Catalog.GetString ("no tables, creating …") );
 
 			creatingDB = true;
@@ -577,6 +648,11 @@ public class ChronoJump
 
 	protected void readMessageToStart()
 	{
+		//if we force to printAll thread because we were creating db
+		//and we have not runt with printAll, now put printAllThread to false again
+		if (printAllOnCreateDB && ! printAllByUser)
+			LogB.PrintAllThreads = false;
+
 		if(messageToShowOnBoot.Length > 0)
 		{
 			if(chronojumpHasToExit)
@@ -656,7 +732,9 @@ public class ChronoJump
 		bool showCameraStop = (ExecuteProcess.IsRunning3 (-1, WebcamFfmpeg.GetExecutableCapture(operatingSystem)));
 
 		new ChronoJumpWindow(progVersion, progName, runningFileName, splashWin,
-				sendLog, messageToShowOnBoot, topMessage, showCameraStop, debugModeAtStart);
+				sendLog, messageToShowOnBoot,
+				badExit, //unused
+				topMessage, showCameraStop, debugModeAtStart);
 	}
 
 	private bool linuxUserHasPermissions ()
@@ -890,10 +968,13 @@ public class ChronoJump
 			//delete the '\n' that ReaderToEnd() has put
 			pid = pid.TrimEnd(new char[1] {'\n'});
 			
-			if(UtilAll.IsWindows())
+			if(operatingSystem == UtilAll.OperatingSystems.WINDOWS ||
+					operatingSystem == UtilAll.OperatingSystems.LINUX)
 				return chronojumpIsExecutingNTimesComparePids("Chronojump", pid);
 			else {
-				//in linux process was names mono, but now is named mono-sgen
+				//old: in linux process was names mono, but now is named mono-sgen
+				//now since dotnet is Chronojump
+				//TODO: check also on mac
 				bool found = chronojumpIsExecutingNTimesComparePids("mono", pid);
 				if(found)
 					return true;

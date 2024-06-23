@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2023  Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2016-2024  Xavier de Blas <xaviblas@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,9 +24,11 @@
 using System;
 using System.Collections.Generic; //List<T>
 using System.Diagnostics; 	//for detect OS and for Process
+using System.Text.RegularExpressions; //Regex
 using System.IO.Ports;
-using FTD2XX_NET;
 using Mono.Unix;
+using System.Management;
+using System.Runtime.Versioning; //SupportedOSPlatform
 
 
 public class ChronopicRegisterPort
@@ -36,7 +38,7 @@ public class ChronopicRegisterPort
 	public string SerialNumber;
 
 	//Note: if this changes, change also on execute/arduinoCapture.cs
-	public enum Types { UNKNOWN, CONTACTS, ENCODER, ARDUINO_RFID, ARDUINO_FORCE, ARDUINO_RUN_ENCODER, ACCELEROMETER, RUN_WIRELESS }
+	public enum Types { UNKNOWN, CONTACTS, ENCODER, ARDUINO_RFID, ARDUINO_FORCE, ARDUINO_RUN_ENCODER, ACCELEROMETER, RUN_WIRELESS, FOURPLATFORMS }
 	public Types Type;
 
 	public bool ConnectedReal; 	//if connexion has been done by ChronopicInit.Do
@@ -85,6 +87,8 @@ public class ChronopicRegisterPort
 			return "Accelerometer";
 		else if(typeStatic == Types.RUN_WIRELESS)
 			return "WICHRO";
+		else if(typeStatic == Types.FOURPLATFORMS)
+			return "FourPlatforms";
 
 		return Catalog.GetString("Unknown");
 	}
@@ -196,9 +200,19 @@ public class ChronopicRegisterSelectOS
 public abstract class ChronopicRegister
 {
 	protected ChronopicRegisterPortList crpl;
-	public static string SerialNumberNotUnique = "A50285BI"; //A FTDI sadly not unique
 
 	private bool compujump;
+
+	/*
+		"A50285BI": A FTDI sadly not unique
+		on mac now devices are detected with a '-'
+		so A50285BI can be also -A50282BI. And who knows in the future.
+		Use this to find if is this number.
+	*/
+	public bool SerialNumberIsNotUnique (string serialNum)
+	{
+		return serialNum.Contains ("A50285BI"); //
+	}
 
 	protected void process (bool compujump, bool showRunWireless)
 	{
@@ -257,9 +271,9 @@ public abstract class ChronopicRegister
 		   but the rest of the devices (right now: contact platform, photocells or encoder) all Chronopic (ftdi ok).
 		   Also special case for devices without SerialNumber, eg on Chromebook udevadm does not return the Serial id, so is returned as ""
 		   */
-		if ( (crp.SerialNumber == SerialNumberNotUnique || crp.SerialNumber == "") && ! compujump)
+		if ( (SerialNumberIsNotUnique (crp.SerialNumber) || crp.SerialNumber == "") && ! compujump)
 		{
-			crpl.Add (crp, false); //only add to the current list
+			crpl.Add (crp, false); //only add to the current list //in fact it stores on SQL but everytimetries to discover again
 			return;
 		}
 
@@ -385,6 +399,11 @@ public abstract class ChronopicRegister
 			if (setAnyCompatibleConnectedAsSelectedDo (mode, ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER))
 				return true;
 		}
+		else if (mode == Constants.Modes.OTHER)
+		{
+			if (setAnyCompatibleConnectedAsSelectedDo (mode, ChronopicRegisterPort.Types.FOURPLATFORMS))
+				return true;
+		}
 
 		return false;
 	}
@@ -423,6 +442,8 @@ public abstract class ChronopicRegister
 			else if (Constants.ModeIsFORCESENSOR (mode) && Constants.ModeIsFORCESENSOR (sfm.mode))
 				return sfm.crp;
 			else if (Constants.ModeIsENCODER (mode) && Constants.ModeIsENCODER (sfm.mode))
+				return sfm.crp;
+			else if (mode == Constants.Modes.OTHER && sfm.mode == Constants.Modes.OTHER)
 				return sfm.crp;
 		}
 
@@ -582,96 +603,123 @@ public class ChronopicRegisterMac : ChronopicRegister
 
 public class ChronopicRegisterWindows : ChronopicRegister
 {
-	FTDI ftdiDeviceWin;
-
 	public ChronopicRegisterWindows (bool compujump, bool showRunWireless)
 	{
 		process(compujump, showRunWireless);
 	}
 
+	[SupportedOSPlatform("windows")]
 	protected override void createList()
 	{
-		// Create new instance of the FTDI device class
-		//TODO: check that is created only once?
-		ftdiDeviceWin = new FTDI();
+		/*
+		ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * From Win32_USBHub"); //aixo no identifica el COM pero no cal. troba el FTDI
+		printSearchedDevice (searcher, "Win32_USBHub");
 
-		uint numDevices = getFTDIdevicesWindows();
-		if(numDevices > 0)
-			createListDo(numDevices);
+		searcher = new ManagementObjectSearcher("SELECT * From Win32_SerialPort"); //no troba el COM5 que es el meu
+		printSearchedDevice (searcher, "Win32_SerialPort");
+
+		//searcher = new ManagementObjectSearcher("root\\WMI", "SELECT * FROM MSSerial_PortName"); //crash access denied
+		//searcher = new ManagementObjectSearcher("SELECT * FROM MSSerial_PortName"); //crash invalid class
+		*/
+
+		ManagementObjectSearcher searcher = new ManagementObjectSearcher ("SELECT * FROM Win32_PnPEntity");
+		createListDo (searcher);
 	}
 
-	private uint getFTDIdevicesWindows()
+	[SupportedOSPlatform("windows")]
+	private void createListDo (ManagementObjectSearcher searcher)
 	{
-		//based on: http://www.ftdichip.com/Support/SoftwareExamples/CodeExamples/CSharp/EEPROM.zip
-
-		//UInt32 ftdiDeviceCount = 0;
-		uint ftdiDeviceCount = 0;
-		FTDI.FT_STATUS ftStatus = FTDI.FT_STATUS.FT_OK;
-
-		// Determine the number of FTDI devices connected to the machine
-		ftStatus = ftdiDeviceWin.GetNumberOfDevices(ref ftdiDeviceCount);
-		// Check status
-		if (ftStatus != FTDI.FT_STATUS.FT_OK) {
-			LogB.Error("FTDI GetNumberOfDevices failed");
-			return 0;
-		}
-		if (ftdiDeviceCount == 0) {
-			LogB.Information("FTDI GetNumberOfDevices 0");
-			return 0;
-		}
-
-		return ftdiDeviceCount;
-	}
-
-	private void createListDo(uint ftdiDeviceCount)
-	{
-		FTDI.FT_STATUS ftStatus = FTDI.FT_STATUS.FT_OK;
-
-		// Allocate storage for device info list
-		FTDI.FT_DEVICE_INFO_NODE[] ftdiDeviceList = new FTDI.FT_DEVICE_INFO_NODE[ftdiDeviceCount];
-
-		// Populate our device list
-		ftStatus = ftdiDeviceWin.GetDeviceList(ftdiDeviceList);
-
-		if (ftStatus == FTDI.FT_STATUS.FT_OK)
-		{
-			for (uint i = 0; i < ftdiDeviceCount; i++)
+		foreach (ManagementObject queryObj in searcher.Get())
+			if (searchDeviceAccept (queryObj))
 			{
-				LogB.Information(String.Format("Device Index: " + i.ToString()));
-				LogB.Information(String.Format("Flags: " + String.Format("{0:x}", ftdiDeviceList[i].Flags)));
-				LogB.Information(String.Format("Type: " + ftdiDeviceList[i].Type.ToString()));
-				LogB.Information(String.Format("ID: " + String.Format("{0:x}", ftdiDeviceList[i].ID)));
-				LogB.Information(String.Format("Location ID: " + String.Format("{0:x}", ftdiDeviceList[i].LocId)));
-				LogB.Information(String.Format("Serial Number: " + ftdiDeviceList[i].SerialNumber.ToString()));
-				LogB.Information(String.Format("Description: " + ftdiDeviceList[i].Description.ToString()));
-
-				string port = getComPort(ftdiDeviceList[i]);
-				ChronopicRegisterPort crp = new ChronopicRegisterPort(port);
+				ChronopicRegisterPort crp = new ChronopicRegisterPort (getPort (queryObj));
 				crp.FTDI = true;
-				crp.SerialNumber = ftdiDeviceList[i].SerialNumber.ToString();
+				crp.SerialNumber = getSerialNumber (queryObj);
 				crp.Type = ChronopicRegisterPort.Types.UNKNOWN;
 				
 				LogB.Information(string.Format("crp: " + crp.ToString()));
 
 				registerAddOrUpdate(crp);
 			}
-		}
 	}
 
-	private string getComPort(FTDI.FT_DEVICE_INFO_NODE node)
+	[SupportedOSPlatform("windows")]
+	private string getPort (ManagementObject queryObj)
 	{
-		string comport = "";
-		//http://stackoverflow.com/questions/2279646/finding-usb-serial-ports-from-a-net-application-under-windows-7
-		if (ftdiDeviceWin.OpenByLocation(node.LocId) == FTDI.FT_STATUS.FT_OK)
-		{
-			try {
-				ftdiDeviceWin.GetCOMPort(out comport);
+		foreach (System.Management.PropertyData Data in queryObj.Properties)
+			if (Data.Value != null && Data.Name == "Caption")
+			{
+				MatchCollection matches = Regex.Matches(Data.Value.ToString(), @"(COM\d+)");
+				if (matches.Count == 1)
+					return matches[0].ToString ();
 			}
-			finally {
-				ftdiDeviceWin.Close();
-			}
-		}
 
-		return comport;
+		return "";
 	}
+
+	[SupportedOSPlatform("windows")]
+	private string getSerialNumber (ManagementObject queryObj)
+	{
+		foreach (System.Management.PropertyData Data in queryObj.Properties)
+			if (Data.Value != null && Data.Name == "DeviceID")
+			{
+				MatchCollection matches = Regex.Matches(Data.Value.ToString(), @".*\+.*\+(.*)A\\0000");
+				if (matches.Count == 1)
+					return matches[0].Groups[1].Value.ToString ();
+			}
+
+		return "";
+	}
+
+	[SupportedOSPlatform("windows")]
+	private bool searchDeviceAccept (ManagementObject queryObj)
+	{
+		bool ftdi = false;
+		bool com = false;
+		bool deviceID = false;
+		foreach (System.Management.PropertyData Data in queryObj.Properties)
+			if (Data.Value != null)
+			{
+				if (Data.Name == "Manufacturer" && Data.Value.ToString().Contains ("FTDI"))
+					ftdi = true;
+				if (Data.Name == "Caption")
+				{
+					MatchCollection matches = Regex.Matches(Data.Value.ToString(), @"(COM\d+)");
+					if (matches.Count == 1)
+						com = true;
+				}
+				if (Data.Name == "DeviceID")
+				{
+					MatchCollection matches = Regex.Matches(Data.Value.ToString(), @".*\+.*\+(.*)A\\0000");
+					if (matches.Count == 1)
+					{
+						//LogB.Information ("DeviceID match: " + Data.Value);
+						deviceID = true;
+					}
+				}
+			}
+
+		//LogB.Information (string.Format ("at searchDeviceAccent ftdi: {0}, com: {1}, deviceID: {2}" ,ftdi, com, deviceID));
+		return (ftdi && com && deviceID);
+	}
+
+		/* My encoder returns (when "Win32_PnPEntity")
+		USB device searching:Win32_PnPEntity
+		Caption:USB Serial Port (COM5)
+		ClassGuid:{4d36e978-e325-11ce-bfc1-08002be10318}
+		ConfigManagerErrorCode:0
+		ConfigManagerUserConfig:False
+		CreationClassName:Win32_PnPEntity
+		Description:USB Serial Port
+		DeviceID:FTDIBUS\VID_0403+PID_6001+AC01TXY0A\0000
+		HardwareID:System.String[]
+		Manufacturer:FTDI
+		PNPClass:Ports
+		PNPDeviceID:FTDIBUS\VID_0403+PID_6001+AC01TXY0A\0000
+		Present:True
+		Service:FTSER2K
+		Status:OK
+		SystemCreationClassName:Win32_ComputerSystem
+		SystemName:DESKTOP-JE8KCA5
+		*/
 }

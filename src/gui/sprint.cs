@@ -403,7 +403,7 @@ public partial class ChronoJumpWindow
 			LogB.Information(line);
 			if (line != null)
 			{
-				string [] cells = line.Split(new char[] {';'});
+				string [] cells = line.Split(new char[] {','});
 				dist_l = new List<string> ();
 				for (int i = 26; i < cells.Length; i ++) //Attention!: take care with this 26 if in the future add more columns before dist/times
 				{
@@ -452,26 +452,43 @@ public partial class ChronoJumpWindow
 				if (line == null)
 					break;
 
-				string [] cells = line.Split(new char[] {';'});
+				string [] cells = line.Split(new char[] {','});
 
 				// get the times (total columns can be different each time)
 				List<double> time_l = new List<double> ();
 				for (int i = 26; i < cells.Length; i ++) //Attention! take care with this 26 if in the future add more columns before dist/times
-					time_l.Add (Convert.ToDouble (cells[i]));
+					time_l.Add (Convert.ToDouble (Util.CDS (cells[i])));
 
 				csv = new SprintCSV (
-						Convert.ToDouble(cells[0]), Convert.ToDouble(cells[1]), Convert.ToInt32(cells[2]),
-						Convert.ToDouble(cells[3]), Convert.ToDouble(cells[4]), Convert.ToDouble(cells[5]),
-						Convert.ToDouble(cells[6]), Convert.ToDouble(cells[7]), Convert.ToDouble(cells[8]),
-						Convert.ToDouble(cells[9]), Convert.ToDouble(cells[10]), Convert.ToDouble(cells[11]),
-						Convert.ToDouble(cells[12]), Convert.ToDouble(cells[13]), Convert.ToDouble(cells[14]),
-						Convert.ToDouble(cells[15]), Convert.ToDouble(cells[16]), Convert.ToDouble(cells[17]),
-						Convert.ToDouble(cells[18]), Convert.ToDouble(cells[19]), Convert.ToDouble(cells[20]),
-						Convert.ToDouble(cells[21]),
-						Convert.ToDouble(cells[22]), Convert.ToDouble(cells[23]), //vmax raw, amax raw //both unused
-						Convert.ToDouble(cells[24]), Convert.ToDouble(cells[25]), //fmax raw, pmax raw //both unused
-						time_l
-						);
+						Convert.ToDouble (Util.CDS (cells[0])),
+						Convert.ToDouble (Util.CDS (cells[1])),
+						Convert.ToInt32 (cells[2]),
+						Convert.ToDouble (Util.CDS (cells[3])),
+						Convert.ToDouble (Util.CDS (cells[4])),
+						Convert.ToDouble (Util.CDS (cells[5])),
+						Convert.ToDouble (Util.CDS (cells[6])),
+						Convert.ToDouble (Util.CDS (cells[7])),
+						Convert.ToDouble (Util.CDS (cells[8])),
+						Convert.ToDouble (Util.CDS (cells[9])),
+						Convert.ToDouble (Util.CDS (cells[10])),
+						Convert.ToDouble (Util.CDS (cells[11])),
+						Convert.ToDouble (Util.CDS (cells[12])),
+						Convert.ToDouble (Util.CDS (cells[13])),
+						Convert.ToDouble (Util.CDS (cells[14])),
+						Convert.ToDouble (Util.CDS (cells[15])),
+						Convert.ToDouble (Util.CDS (cells[16])),
+						Convert.ToDouble (Util.CDS (cells[17])),
+						Convert.ToDouble (Util.CDS (cells[18])),
+						Convert.ToDouble (Util.CDS (cells[19])),
+						Convert.ToDouble (Util.CDS (cells[20])),
+						Convert.ToDouble (Util.CDS (cells[21])),
+						Convert.ToDouble (Util.CDS (cells[22])),
+						Convert.ToDouble (Util.CDS (cells[23])),
+						//vmax raw, amax raw //both unused
+						Convert.ToDouble (Util.CDS (cells[24])),
+						Convert.ToDouble (Util.CDS (cells[25])),
+						//fmax raw, pmax raw //both unused
+						time_l);
 			} while(true);
 		}
 

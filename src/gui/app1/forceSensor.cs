@@ -3028,9 +3028,9 @@ LogB.Information(" fs R ");
 			}
 		}
 
-		//create inerpolate_l_copy for path, but not on load
+		//create interpolate_l_copy for path, but not on load
 		if (interpolate_l != null && preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.PATH)
-			for (int i = 0; i < pointsToCopy; i ++)
+			for (int i = 0; i < pointsToCopy && paintPointsInterpolateCairo_l != null && i < paintPointsInterpolateCairo_l.Count ; i ++) //added paintPointsInterpolateCairo_l checks to not crash on delete set
 				paintPointsInterpolateCairo_l_copy.Add (paintPointsInterpolateCairo_l[i]);
 
 		TriggerList triggerListForceSensor_copy = new TriggerList ();

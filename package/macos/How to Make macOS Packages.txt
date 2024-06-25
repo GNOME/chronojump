@@ -13,6 +13,10 @@ Double-click the downloaded certificates and add them into macOS Keychain Access
 1. Install Homebrew (Only when the first time.)
 
 /bin/bash -c "$(curl -fsSL https://raw.githubcontent.com/Homebrew/install/HEAD/install.sh)"
+
+#Note this also installs xcode command line tools (at least on m2)
+#Then added homebrew to the path (as brew asked to do)
+
 brew update
 
 2. Execute the following commands (Only when the first time. Please replace "~/Desktop" with the real path of chronojump.)
@@ -26,9 +30,15 @@ brew install pkg-config
 brew install gettext
 brew install glib
 brew install python3
-brew install dotnet-sdk
+#brew install dotnet-sdk  (this is 8.0 . On arm64 we have download sdk 7 from: https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-7.0.410-macos-arm64-installer)
 brew install gtk+3
+brew install adwaita-icon-theme (on m2)
+brew install librsvg
 brew install dos2unix
+
+git clone chronojump:
+(not ssh:)
+git clone https://gitlab.gnome.org/GNOME/chronojump.git
 
 #Use Mono to compile and build gtk-sharp which is required by autotools as autotools checks whether it exists. But it's not used while running Chronojump.
 brew install mono
@@ -63,8 +73,9 @@ ln -s /usr/local/lib lib
 
 cd "~/Desktop/chronojump"
 sh autogen.sh --prefix ~/Desktop/chronojump/package/macos/deps
+./configure #at least needed on m2
 make
-make install
+make install #sudo make install (at least on m2)
 
 4. When no git tags, please modify "src/AssemblyInfo.cs" to add version number like 1.0.0.0:
 

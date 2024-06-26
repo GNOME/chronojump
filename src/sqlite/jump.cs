@@ -318,8 +318,10 @@ class SqliteJump : Sqlite
 		if (pID >= 0)
 			personIDStr = " AND personID = " + pID;
 
-		dbcmd.CommandText = "SELECT personID, type, AVG (tv), MAX (tv) FROM jump" +
-			" WHERE sessionID = " + sID + personIDStr +
+		dbcmd.CommandText = "SELECT personID, type, " +
+			"AVG (tv * tv * 1.22625), " +
+			"MAX (tv * tv * 1.22625) " +
+			" FROM jump WHERE sessionID = " + sID + personIDStr +
 			" AND type = '" + jumpType + "'" +
 			" GROUP BY personID ORDER BY personID";
 		LogB.SQL(dbcmd.CommandText.ToString());

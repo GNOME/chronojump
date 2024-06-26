@@ -435,12 +435,12 @@ public abstract class ExportSession
 
 				if (idd.personID < 0)
 					str += " :";
-				else
-				{
+				else {
+					//idd.avg, idd.max are heights in m
 					if (avgOrMax)
-						str += string.Format ("{0}:", Util.TrimDecimals (idd.avg, dec));
+						str += string.Format ("{0}:", Util.TrimDecimals (100 * idd.avg, dec));
 					else
-						str += string.Format ("{0}:", Util.TrimDecimals (idd.max, dec));
+						str += string.Format ("{0}:", Util.TrimDecimals (100 * idd.max, dec));
 				}
 			}
 			myData.Add (str);

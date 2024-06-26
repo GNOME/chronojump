@@ -2363,12 +2363,13 @@ public partial class ChronoJumpWindow
 
 		//on force sensor add exercise and laterality
 		//and if elastic, exercise should have (stiffness)
-		if(
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_MODEL ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_CD )
+		if (
+				(currentForceSensor != null && currentForceSensorExercise != null) &&
+				(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
+				 checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_MODEL ||
+				 checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL ||
+				 checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB ||
+				 checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_CD) )
 		{
 			string exName = Util.RemoveBackSlash (Util.RemoveSlash (currentForceSensorExercise.Name));
 

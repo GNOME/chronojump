@@ -52,18 +52,18 @@ compare <- function ()
 	#"zerosAtLeft, zerosAtRight" "182" "30" 
 	reducedCurve_l$startPos
 	# 1659
-	abline (v=1659, col="black")
+	#abline (v=1659, col="black")
 	reducedCurve_l$endPos #3069
 	#abline (v=3069, col="black")
 
 	curvesSet[i,2] <- curvesSet[i,1] + (reducedCurve_l$endPos -1) #3089.5
 	#print(curvesSet[i,2])
 	abline (v=3089, col="black")
-	mtext (side=3, at=3089, "EccSerieEnd")
+	mtext (side=3, at=3089, "EccSetEnd")
 
 	curvesSet[i,1] <- curvesSet[i,1] + (reducedCurve_l$startPos -1) #1679.5
 	abline (v=1679.5, col="black")
-	mtext (side=3, at=1679.5, "EccSerieStart")
+	mtext (side=3, at=1679.5, "EccSetStart")
 
 	#SESSION
 	#from graph.R !singleFile
@@ -78,6 +78,10 @@ compare <- function ()
 	mtext (side=1, at=313+xDiff, "EccSessionStart", col="red")
 	abline (v=1391+xDiff, col="red")
 	mtext (side=1, at=1391+xDiff, "EccSessionEnd", col="red")
+
+	#FIX: not using reduceCurveByPredictStartEnd at start SESSION
+	abline (v=xDiff, col="red")
+	mtext (side=1, at=xDiff, "EccSessionStart FIX", col="red", line = -1)
 }
 
 png ("compare.png", width=1920, height=1200)
@@ -85,7 +89,8 @@ getData ()
 compare ()
 dev.off ()
 
-#so the problem is:
-#on saving the curves to the file, the curves start at xDiff: 1698. And then on graph.R it is made also a reduceCurveByPredictStartEnd that reduces more the ecc. So the ecc starts just when is clearly going down
-#how it has been cutted on the first place?
+#the problem is:
+#on saving the curves to the file, the curves start at xDiff: 1698. And then on graph.R it is made also a reduceCurveByPredictStartEnd that reduces more the ecc. So the ecc starts just when is clearly going down.
+
+#The solution (see FIX) is not reduce curve on !singleCurve at start of ecc because it was already reduced on capture.R
 #see compare.png

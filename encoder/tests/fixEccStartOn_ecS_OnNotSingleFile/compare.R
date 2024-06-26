@@ -1,9 +1,9 @@
-#emulating kinematicsF
-#CROSSVALIDATESMOOTH=0
+CROSSVALIDATESMOOTH=0 #for getSpeed
 #g=9.81
 source("/home/xavier/informatica/progs_meus/chronojump/encoder/util.R")
 source("/home/xavier/informatica/progs_meus/chronojump/encoder/graph.R") #for findCurvesNew
 
+minHeight = 5 * 10
 displSet = NULL
 displSession = NULL
 posSet = NULL
@@ -39,8 +39,9 @@ compare <- function ()
 	lines (posSession2, col = "red")
 
 	#SET
+	print ("SET")
 	#from graph.R singleFile
-	curvesSet <- findCurvesNew(displSet, "ecS", FALSE, 5) #op$minHeight
+	curvesSet <- findCurvesNew(displSet, "ecS", FALSE, minHeight)
 	curvesSet
 	#  startStored endStored startHStored
 	#1        21.5    3191.5            0
@@ -48,40 +49,64 @@ compare <- function ()
 	#...
 	i=1
 	displacementTemp = displSet[curvesSet[i,1]:curvesSet[i,2]]
-	reducedCurve_l <- reduceCurveByPredictStartEnd (displacementTemp, "e", 5) #op$MinHeight)
+	reducedCurve_l <- reduceCurveByPredictStartEnd (displacementTemp, "e", minHeight)
+
+	print ("displacementTemp")  
+	print (displacementTemp)  
+	print ("reducedCurve_l")
+	print (reducedCurve_l)
 	#"zerosAtLeft, zerosAtRight" "182" "30" 
-	reducedCurve_l$startPos
+	print(c("start:", reducedCurve_l$startPos))
 	# 1659
 	#abline (v=1659, col="black")
-	reducedCurve_l$endPos #3069
-	#abline (v=3069, col="black")
+	print(c("end:", reducedCurve_l$endPos)) #2729
+	#abline (v=2729, col="black")
 
-	curvesSet[i,2] <- curvesSet[i,1] + (reducedCurve_l$endPos -1) #3089.5
-	#print(curvesSet[i,2])
-	abline (v=3089, col="black")
-	mtext (side=3, at=3089, "EccSetEnd")
+	curvesSet[i,2] <- curvesSet[i,1] + (reducedCurve_l$endPos -1) #2749.5
+	print(curvesSet[i,2])
+	abline (v=2749, col="black")
+	mtext (side=3, at=2749, "EccSetEnd")
 
 	curvesSet[i,1] <- curvesSet[i,1] + (reducedCurve_l$startPos -1) #1679.5
 	abline (v=1679.5, col="black")
 	mtext (side=3, at=1679.5, "EccSetStart")
 
 	#SESSION
+	print ("SESSION")
 	#from graph.R !singleFile
 	endEcc = mean(which(posSession == min(posSession)))
-	ecS_ecc_l <- reduceCurveByPredictStartEnd (displSession[1:endEcc], "e", 5) #op$minHeight
+	ecS_ecc_l <- reduceCurveByPredictStartEnd (displSession[1:endEcc], "e", minHeight)
 	#"zerosAtLeft, zerosAtRight" "32" "30"
-	ecS_ecc_l$start 	#313
-	ecS_ecc_l$endPos 	#1391
+	print ("reduceCurve")
+	print (ecS_ecc_l$start)	#313
+	print (ecS_ecc_l$endPos)  #1051
 
 	#abline (v=313, col="red", lty=3)
 	abline (v=313+xDiff, col="red")
 	mtext (side=1, at=313+xDiff, "EccSessionStart", col="red")
-	abline (v=1391+xDiff, col="red")
-	mtext (side=1, at=1391+xDiff, "EccSessionEnd", col="red")
+	abline (v=1051+xDiff, col="red")
+	mtext (side=1, at=1051+xDiff, "EccSessionEnd", col="red")
 
 	#FIX: not using reduceCurveByPredictStartEnd at start SESSION
 	abline (v=xDiff, col="red")
 	mtext (side=1, at=xDiff, "EccSessionStart FIX", col="red", line = -1)
+
+	spar = .7
+	#show speeds after fix
+	print ("mean,min speed set")
+	speedYSet = getSpeed (displSet[1679:2749], spar)$y
+	print (mean (speedYSet))
+	print (which (speedYSet == min (speedYSet)))
+	#lines(1679:(1679-1+length(speedYSet)), speedYSet*250) #*250 to be able to see it
+
+	print ("mean,min speed session")
+	speedYSession = getSpeed (displSession[1:1051], spar)$y
+	print (mean (speedYSession))
+	print (min (speedYSession))
+	##lines(xDiff:(xDiff-1+length(speedYSession)), speedYSession*250, col="red") #*250 to be able to see it
+
+	abline(v=2749 +21, col="green") #note here is where chronojump is reducing the end!!!
+	#abline(v=3191, col="cyan") #center of the isometric down phase
 }
 
 png ("compare.png", width=1920, height=1200)

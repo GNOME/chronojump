@@ -32,10 +32,11 @@ compare <- function ()
 
 	min(which(posSet == min(posSet, na.rm=T)))  		#3099
 	min(which(posSession == min(posSession, na.rm=T))) 	#1401
-	xDiff = 3099-1401 #1698
+	#xDiff = 3099-1401 #1698
+	xDiff = min(which(posSet == min(posSet, na.rm=T))) - min(which(posSession == min(posSession, na.rm=T)))
 
 	#just to plot
-	posSession2 = c(rep(NA, 1698), posSession)
+	posSession2 = c(rep(NA, xDiff), posSession)
 	lines (posSession2, col = "red")
 
 	#SET
@@ -64,12 +65,12 @@ compare <- function ()
 
 	curvesSet[i,2] <- curvesSet[i,1] + (reducedCurve_l$endPos -1) #2749.5
 	print(curvesSet[i,2])
-	abline (v=2749, col="black")
-	mtext (side=3, at=2749, "EccSetEnd")
+	abline (v=round(curvesSet[i,2]), col="black")
+	mtext (side=3, at=round(curvesSet[i,2]), "EccSetEnd")
 
 	curvesSet[i,1] <- curvesSet[i,1] + (reducedCurve_l$startPos -1) #1679.5
-	abline (v=1679.5, col="black")
-	mtext (side=3, at=1679.5, "EccSetStart")
+	abline (v=round(curvesSet[i,1]), col="black")
+	mtext (side=3, at=round(curvesSet[i,1]), "EccSetStart")
 
 	#SESSION
 	print ("SESSION")
@@ -78,14 +79,14 @@ compare <- function ()
 	ecS_ecc_l <- reduceCurveByPredictStartEnd (displSession[1:endEcc], "e", minHeight)
 	#"zerosAtLeft, zerosAtRight" "32" "30"
 	print ("reduceCurve")
-	print (ecS_ecc_l$start)	#313
-	print (ecS_ecc_l$endPos)  #1051
+	print (ecS_ecc_l$startPos) #313
+	print (ecS_ecc_l$endPos)   #1051
 
 	#abline (v=313, col="red", lty=3)
-	abline (v=313+xDiff, col="red")
-	mtext (side=1, at=313+xDiff, "EccSessionStart", col="red")
-	abline (v=1051+xDiff, col="red")
-	mtext (side=1, at=1051+xDiff, "EccSessionEnd", col="red")
+	abline (v=ecS_ecc_l$start+xDiff, col="red")
+	mtext (side=1, at=ecS_ecc_l$start+xDiff, "EccSessionStart", col="red")
+	abline (v=ecS_ecc_l$endPos+xDiff, col="red")
+	mtext (side=1, at=ecS_ecc_l$endPos+xDiff, "EccSessionEnd", col="red")
 
 	#FIX: not using reduceCurveByPredictStartEnd at start SESSION
 	abline (v=xDiff, col="red")
@@ -94,18 +95,18 @@ compare <- function ()
 	spar = .7
 	#show speeds after fix
 	print ("mean,min speed set")
-	speedYSet = getSpeed (displSet[1679:2749], spar)$y
+	speedYSet = getSpeed (displSet[round(curvesSet[i,1]):round(curvesSet[i,2])], spar)$y
 	print (mean (speedYSet))
 	print (which (speedYSet == min (speedYSet)))
 	#lines(1679:(1679-1+length(speedYSet)), speedYSet*250) #*250 to be able to see it
 
 	print ("mean,min speed session")
-	speedYSession = getSpeed (displSession[1:1051], spar)$y
+	speedYSession = getSpeed (displSession[1:ecS_ecc_l$endPos], spar)$y
 	print (mean (speedYSession))
 	print (min (speedYSession))
 	##lines(xDiff:(xDiff-1+length(speedYSession)), speedYSession*250, col="red") #*250 to be able to see it
 
-	abline(v=2749 +21, col="green") #note here is where chronojump is reducing the end!!!
+	#abline(v=round(curvesSet[i,2]) +21, col="green") #note here is where chronojump is reducing the end!!!
 	#abline(v=3191, col="cyan") #center of the isometric down phase
 }
 

@@ -9,11 +9,17 @@ MAC_APP_FRAMEWORK_DIR="${MAC_APP_DIR}/Contents/Frameworks/"
 ARCH="$2"
 MAC_DMG_FILE_NAME="$1-${ARCH}.dmg"
 
+APPLE_ID=info@chronojump.org
+APPLE_PASSWORD=mylc-ghhj-zfxg-weta
+APPLE_TEAM_ID=RXJZ6LH5L4
+APPLE_APPLICATION_CERT_NAME="Developer ID Application: Asociacion Chronojump (RXJZ6LH5L4)"
+APPLE_INSTALLER_CERT_NAME="Developer ID Installer: Asociacion Chronojump (RXJZ6LH5L4)"
+
 run_codesign()
 {
     file=$1
     echo ${file}
-    codesign --deep --force --timestamp --options runtime --sign "Apple Development: info@chronojump.org (4KJ2KSVJZV)" --entitlements entitlements.plist ${file}
+    codesign --deep --force --timestamp --options runtime --sign "${APPLE_APPLICATION_CERT_NAME}" --entitlements entitlements.plist ${file}
 }
 
 rm -rf ${MAC_APP_BIN_DIR}
@@ -22,7 +28,6 @@ mkdir -p ${MAC_APP_BIN_DIR} ${MAC_APP_FRAMEWORK_DIR}
 
 dotnet publish ../../src/Chronojump-mac.sln -p:BuildTranslations=true --configuration Release -r osx-${ARCH} --self-contained true -o ${MAC_APP_BIN_DIR}
 cd ../../src/
-dos2unix post-build-mac.sh
 sh post-build-mac.sh ../package/macos/app/Chronojump.app/Contents/Home/bin
 #cp ../package/macos/app/Chronojump.app/Contents/Home/bin/runtimes/osx-${ARCH}/native/SQLite.Interop.dll ../package/macos/app/Chronojump.app/Contents/Home/bin/SQLite.Interop.dll
 cp ../package/macos/deps/runtimes/osx-${ARCH}/native/SQLite.Interop.dll ../package/macos/app/Chronojump.app/Contents/Home/bin/SQLite.Interop.dll
@@ -67,8 +72,37 @@ do
     run_codesign ${lib}
 done
 
+for lib in `find ${MAC_APP_BIN_DIR} -name \*.a`
+do
+    run_codesign ${lib}
+done
+
 # Sign the main executable and .NET stuff.
 run_codesign ${MAC_APP_DIR}/Contents/Home/bin/Chronojump
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/createdump
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/ffplay
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/ffmpeg
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/7zz
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libcoreclr.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libSystem.Native.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libSystem.IO.Ports.Native.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libSystem.IO.Compression.Native.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libSystem.Globalization.Native.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libSystem.Security.Cryptography.Native.Apple.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libmscordaccore.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libhostfxr.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libSystem.Net.Security.Native.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libmscordbi.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libhostpolicy.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libSystem.Security.Cryptography.Native.OpenSsl.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libclrjit.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libclrgc.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/3.11/lib/libpython3.11.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/3.11/lib/python3.11/config-3.11-darwin/libpython3.11.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/Current/lib/libpython3.11.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/Current/lib/python3.11/config-3.11-darwin/libpython3.11.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/Current/Python
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/3.11/Python
 
 # Create and sign the .dmg image, and include a link to drag the app into /Applications
 echo "Creating dmg..."
@@ -79,7 +113,7 @@ run_codesign ${MAC_DMG_FILE_NAME}
 
 # Notarize
 echo "Notarizing..."
-xcrun notarytool submit --wait --apple-id=info@chronojump.org --password ${MAC_DEV_PASSWORD} --team-id 4KJ2KSVJZV ${MAC_DMG_FILE_NAME}
+xcrun notarytool submit --wait --apple-id=${APPLE_ID} --password ${APPLE_PASSWORD} --team-id ${APPLE_TEAM_ID} ${MAC_DMG_FILE_NAME}
 
 # Staple the result to the dmg
 echo "Stapling..."

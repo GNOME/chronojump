@@ -31,8 +31,10 @@ bundle:
 	cp -r ../../win32/deps/modules/ deps/modules/
 	rm -rf deps/bin/x64/Python/
 	cp -r /Library/Frameworks/Python.framework/ deps/bin/x64/Python/
+	rm deps/bin/x64/Python/Python
 	rm -rf deps/R/
 	cp -r /Library/Frameworks/R.framework/ deps/R/
+	rm deps/R/R
 
 package-x64:	
 	sh ./build_installer.sh $(PACKAGE_NAME) x64

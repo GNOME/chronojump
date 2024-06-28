@@ -183,3 +183,5 @@ install_plugin_cache(os.path.join(IM_MODULES, "../immodules.cache"),
                      args.resource_dir)
 
 copy_resources(GLIB_SCHEMAS)
+
+shutil.copy2(os.path.join(PREFIX, "lib/libgdk_pixbuf-2.0.dylib"), os.path.join(args.resource_dir, "lib/libgdk_pixbuf-2.0.dylib"))

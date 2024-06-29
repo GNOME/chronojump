@@ -11,7 +11,9 @@ from stat import S_IREAD, S_IRGRP, S_IROTH, S_IWUSR
 PREFIX = "/opt/homebrew"
 GTK_LIB = "/opt/homebrew/lib/libgtk-3.dylib"
 RSVG_LIB = "/opt/homebrew/lib/librsvg-2.2.dylib"
-ROOT_LIBS = [GTK_LIB, RSVG_LIB]
+INTL_LIB = "/opt/homebrew/lib/libintl.8.dylib"
+GLIB_LIB = "/opt/homebrew/lib/libglib-2.0.0.dylib"
+ROOT_LIBS = [GTK_LIB, RSVG_LIB, INTL_LIB, GLIB_LIB]
 ADWAITA_THEME = "/opt/homebrew/share/icons/Adwaita/index.theme"
 PIXBUF_LOADERS = "lib/gdk-pixbuf-2.0/2.10.0"
 IM_MODULES = "lib/gtk-3.0/3.0.0/immodules"

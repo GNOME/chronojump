@@ -1117,7 +1117,7 @@ void showJumpsResults(float maxJump, unsigned int bestJumper, int totalJumps)
 void saveData(String fileName)
 {
   if (sensor == loadCell) {
-    Serial.println("Saving loadCell data: " + String(lastSampleTime) + ";" + String(measured));
+    //Serial.println("Saving loadCell data: " + String(lastSampleTime) + ";" + String(measured));
     dataFile.println(String(lastSampleTime) + ";" + String(measured));
   }
   else if(sensor == raceAnalyzer)

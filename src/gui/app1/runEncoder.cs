@@ -3012,7 +3012,7 @@ public partial class ChronoJumpWindow
 					videoTime -= UtilAll.DivideSafe (runEncoderShiftedMicros, 1000000.0);
 			}
 			//maybe at end there are no pulses. So to sync need TotalTime and last point
-			if (currentRunEncoder != null)
+			if (currentRunEncoder != null && sendPoints_l.Count > 0)
 				videoTime += UtilAll.DivideSafe (currentRunEncoder.TotalTime, 1000000.0) -
 					PointF.Last (sendPoints_l).X;
 

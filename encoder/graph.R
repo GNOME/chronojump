@@ -187,6 +187,19 @@ findCurvesByTriggers <- function(displacement, triggersOnList)
         return(as.data.frame(cbind(start, end, startH)))
 }
 
+getRepsLikeFindCurvesNew <- function (displacement, eccon, inertial, minHeight)
+{
+	repsForEccon_l <- getRepetitionsForEccon (cumsum(displacement), eccon, minHeight, minHeight)
+	df = as.data.frame(cbind(
+				 repsForEccon_l$repStart,
+				 repsForEccon_l$repEnd,
+				 rep (0, length (repsForEccon_l$repStart))
+				 ))
+	df.rownames = c("startStored", "endStored", "startHStored")
+
+	return (df)
+}
+
 #this is equal to runEncoderCaptureCsharp()
 #but note getDisplacement hapens before this function, so no need getDisplacement here
 #also don't need byteReadedRaw, and encoderReadedRaw. encoderReaded is 'displacement' here

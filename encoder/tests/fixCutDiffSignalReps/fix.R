@@ -1,52 +1,53 @@
 
-disSerie <- scan("1569-2024-02-26_11-37-20.txt", sep=",")
-disRep <- scan("chronojump_enc_curve_7_old.txt", sep=",")
-
-disSerie <- disSerie[!is.na(disSerie)]
-disRep <- disRep[!is.na(disRep)]
-
-posSerie = cumsum(disSerie)
-posRep = cumsum(disRep)
-
-plot (posSerie, type="l", xlim=c(5800,11000))
-abline (v=c(8319, 8319+266, 8319+2283), lty=2)
-mtext(side=3, at=8319, "singleFile\nfindCurvesNew cuts\nhere!")
-#This is incorrect, as should be on 7847:7887, and then reduceCurve will cut a bit on the right (like in reps)
-
-#graph.R this rep starts at 6901
-repStart = 6901
-#graph.R singleFile beforeReduce H is 107
-lines (repStart:(repStart+length(posRep)-1),posRep+107, col="red")
-
-abline (v=c(1+repStart, 967+repStart, 1336+repStart, 3700+repStart), col="red", lty=3)
-
-source("/home/xavier/informatica/progs_meus/chronojump/encoder/util.R")
-
-conMinDisplacement = 10
-eccMinDisplacement = 10
-
-par(mfrow=c(3,1))
-plot (posSerie, type="l", main="concentric")
-repsForEccon_l = getRepetitionsForEccon (posSerie, "c", conMinDisplacement, eccMinDisplacement)
-abline (v=repsForEccon_l$repStart)
-abline (v=repsForEccon_l$repEnd, col="red")
-
-plot (posSerie, type="l", main="ec")
-repsForEccon_l = getRepetitionsForEccon (posSerie, "ec", conMinDisplacement, eccMinDisplacement)
-abline (v=repsForEccon_l$repStart)
-abline (v=repsForEccon_l$repEnd, col="red")
-
-plot (posSerie, type="l", main="ecS")
-repsForEccon_l = getRepetitionsForEccon (posSerie, "ecS", conMinDisplacement, eccMinDisplacement)
-abline (v=repsForEccon_l$repStart)
-abline (v=repsForEccon_l$repEnd, col="red")
-par(mfrow=c(1,1))
+#disSerie <- scan("1569-2024-02-26_11-37-20.txt", sep=",")
+#disRep <- scan("chronojump_enc_curve_7_old.txt", sep=",")
+#
+#disSerie <- disSerie[!is.na(disSerie)]
+#disRep <- disRep[!is.na(disRep)]
+#
+#posSerie = cumsum(disSerie)
+#posRep = cumsum(disRep)
+#
+#plot (posSerie, type="l", xlim=c(5800,11000))
+#abline (v=c(8319, 8319+266, 8319+2283), lty=2)
+#mtext(side=3, at=8319, "singleFile\nfindCurvesNew cuts\nhere!")
+##This is incorrect, as should be on 7847:7887, and then reduceCurve will cut a bit on the right (like in reps)
+#
+##graph.R this rep starts at 6901
+#repStart = 6901
+##graph.R singleFile beforeReduce H is 107
+#lines (repStart:(repStart+length(posRep)-1),posRep+107, col="red")
+#
+#abline (v=c(1+repStart, 967+repStart, 1336+repStart, 3700+repStart), col="red", lty=3)
+#
+#source("/home/xavier/informatica/progs_meus/chronojump/encoder/util.R")
+#
+#conMinDisplacement = 10
+#eccMinDisplacement = 10
+#
+#par(mfrow=c(3,1))
+#plot (posSerie, type="l", main="concentric")
+#repsForEccon_l = getRepetitionsForEccon (posSerie, "c", conMinDisplacement, eccMinDisplacement)
+#abline (v=repsForEccon_l$repStart)
+#abline (v=repsForEccon_l$repEnd, col="red")
+#
+#plot (posSerie, type="l", main="ec")
+#repsForEccon_l = getRepetitionsForEccon (posSerie, "ec", conMinDisplacement, eccMinDisplacement)
+#abline (v=repsForEccon_l$repStart)
+#abline (v=repsForEccon_l$repEnd, col="red")
+#
+#plot (posSerie, type="l", main="ecS")
+#repsForEccon_l = getRepetitionsForEccon (posSerie, "ecS", conMinDisplacement, eccMinDisplacement)
+#abline (v=repsForEccon_l$repStart)
+#abline (v=repsForEccon_l$repEnd, col="red")
+#par(mfrow=c(1,1))
 
 #-------------------------------------- 2024 jul 2
 
 source("/home/xavier/informatica/progs_meus/chronojump/encoder/util.R")
 source("/home/xavier/informatica/progs_meus/chronojump/encoder/graph.R")
 
+#0) read set and repetitions
 disSerie <- scan("1569-2024-02-26_11-37-20.txt", sep=",")
 disRep6 <- scan("chronojump_enc_curve_6.txt", sep=",")
 disRep7 <- scan("chronojump_enc_curve_7.txt", sep=",")
@@ -62,10 +63,11 @@ posRep6 = cumsum(disRep6)
 posRep7 = cumsum(disRep7)
 posRep8 = cumsum(disRep8)
 
+#1) get the curves on singleFile and plot them
 curves <- getRepsLikeFindCurvesNew (disSerie, "ecS", FALSE, 10)
 print (curves)
 
-#get the curves on singleFile and plot them
+png ("fix.png", width=1920, height=1080)
 plot (posSerie, type="l")
 for (i in 1:length(curves[,1]))
 {
@@ -92,8 +94,40 @@ for (i in 1:length(curves[,1]))
 	lines (curves[i,1]:(curves[i,1]+length(posTempReduced)-1), posTempReduced+posSerie[curves[i,1]]+10, col="green")
 }
 
-#lines (curves[1,1]:(curves[1,1]+length(posRep6)-1), posRep6, col="red")
-#lines (curves[2,1]:(curves[2,1]+length(posRep7)-1), posRep7+100, col="green")
-#lines (curves[3,1]:(curves[3,1]+length(posRep8)-1), posRep8+150, col="blue")
+#2) now as reps
+graphRep <- function (displRep, xPlotStart, yPlotStartE, yPlotStartC)
+{
+	posRep = cumsum (displRep)
+
+	endEcc = mean(which(posRep == min(posRep)))
+	startCon = mean(which(posRep == min(posRep)))
+
+	print (c("**startCon**", startCon))
+	abline (v=xPlotStart + startCon)
+	ecS_ecc_l <- reduceCurveByPredictStartEnd (posRep[1:endEcc], "e", 10)
+	ecS_con_l <- reduceCurveByPredictStartEnd (posRep[startCon:length(posRep)], "c", 10)
+
+	ecS_ecc_l$startPos = 1
+	ecS_con_l$endPos = length(posRep) - startCon
+
+	eStart = ecS_ecc_l$startPos
+	eEnd = ecS_ecc_l$endPos
+	cStart = ecS_con_l$startPos + startCon #TODO: check that graph.R has this
+	cEnd = ecS_con_l$endPos + startCon #TODO: same as above
+	print (c("eStart", eStart))
+	print (c("eEnd", eEnd))
+	print (c("cStart", cStart))
+	print (c("cEnd", cEnd))
+	#print ("eStart, eEnd, cStart, cEnd", eStart, eEnd, cStart, cEnd)
+
+	ePos = posRep [eStart:eEnd]
+	cPos = posRep [cStart:cEnd]
+	lines (xPlotStart + eStart:(eStart+length(ePos)-1), yPlotStartE + ePos -5, col="blue")
+	lines (xPlotStart + cStart:(cStart+length(cPos)-1), yPlotStartC + cPos -10, col="brown")
+}
+graphRep (disRep6, curves[1,1], posSerie[curves[1,1]], posSerie[curves[1,1]])
+graphRep (disRep7, curves[3,1], posSerie[curves[3,1]], posSerie[curves[3,1]])
+graphRep (disRep8, curves[5,1], posSerie[curves[5,1]], posSerie[curves[5,1]])
+dev.off ()
 
 

@@ -132,30 +132,39 @@ getRepetitionsForEccon <- function (position, eccon, conMinDisplacement, eccMinD
 	#print (c("reps_l", reps_l))
 
 	#start and end of the rep. Always the empty space is fully included to be able to be cut by reduceCurve
-	repStart_c = NULL
-	repEnd_c = NULL
+	repStart_v = NULL #_v because is a vector
+	repEnd_v = NULL
 
 	if (eccon == "c")
 	{
 		for (i in 1:(length(reps_l$cutStart)-1))
 			if (position[reps_l$cutStart[i]] < position[reps_l$cutStart[i+1]])
 			{
-				repStart_c = c(repStart_c, reps_l$cutStart[i])
-				repEnd_c = c(repEnd_c, reps_l$cutEnd[i+1])
+				repStart_v = c(repStart_v, reps_l$cutStart[i])
+				repEnd_v = c(repEnd_v, reps_l$cutEnd[i+1])
 			}
 	}
-	else if (eccon == "ec")
+	else if (eccon == "ec" || eccon == "ecS")
 	{
 		for (i in 1:(length(reps_l$cutStart)-2))
 			if (position[reps_l$cutStart[i]] > position[reps_l$cutStart[i+1]] &&
 			    position[reps_l$cutStart[i+1]] < position[reps_l$cutStart[i+2]])
 			{
-				repStart_c = c(repStart_c, reps_l$cutStart[i])
-				repEnd_c = c(repEnd_c, reps_l$cutEnd[i+2])
+				if (eccon == "ec") # 1 ec rep
+				{
+					repStart_v = c(repStart_v, reps_l$cutStart[i])
+					repEnd_v = c(repEnd_v, reps_l$cutEnd[i+2])
+				} else { # "ecS" # 1e rep and 1c rep
+					repStart_v = c(repStart_v, reps_l$cutStart[i])
+					repEnd_v = c(repEnd_v, reps_l$cutEnd[i+1])
+
+					repStart_v = c(repStart_v, reps_l$cutStart[i+1])
+					repEnd_v = c(repEnd_v, reps_l$cutEnd[i+2])
+				}
 			}
 	}
 
-	repsForEccon_l = list (repStart = repStart_c, repEnd = repEnd_c)
+	repsForEccon_l = list (repStart = repStart_v, repEnd = repEnd_v)
 	#print (c("repsForEccon_l", repsForEccon_l))
 
 	return (repsForEccon_l)

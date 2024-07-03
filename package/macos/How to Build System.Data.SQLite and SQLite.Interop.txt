@@ -1,3 +1,6 @@
+Please note that this instructions are not required to do, ass the System.Data.SQLite is already built.
+
+
 The official Nuget package of "System.Data.SQLite" doesn't support macOS arm64, so we need to build one by ourselves.
 
 1. Download its source code from the following url:

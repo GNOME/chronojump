@@ -15,7 +15,7 @@
 #   along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
-#   Copyright (C) 2014-2023  	Xavier de Blas <xaviblas@gmail.com>
+#   Copyright (C) 2014-2024  	Xavier de Blas <xaviblas@gmail.com>
 #   Copyright (C) 2014-2020   	Xavier Padullés <x.padulles@gmail.com>
 # 
 
@@ -125,6 +125,183 @@ readFromFile.gearedDown <- function(gd) {
 	return( abs( 1 / gd ) )
 }
 
+
+getRepetitionsForEccon <- function (position, eccon, conMinDisplacement, eccMinDisplacement)
+{
+	reps_l = getRepetitions (position, conMinDisplacement, eccMinDisplacement)
+	#print (c("reps_l", reps_l))
+
+	#start and end of the rep. Always the empty space is fully included to be able to be cut by reduceCurve
+	repStart_v = NULL #_v because is a vector
+	repEnd_v = NULL
+
+	if (eccon == "c")
+	{
+		for (i in 1:(length(reps_l$cutStart)-1))
+			if (position[reps_l$cutStart[i]] < position[reps_l$cutStart[i+1]])
+			{
+				repStart_v = c(repStart_v, reps_l$cutStart[i])
+				repEnd_v = c(repEnd_v, reps_l$cutEnd[i+1])
+			}
+	}
+	else if (eccon == "ec" || eccon == "ecS")
+	{
+		for (i in 1:(length(reps_l$cutStart)-2))
+			if (position[reps_l$cutStart[i]] > position[reps_l$cutStart[i+1]] &&
+			    position[reps_l$cutStart[i+1]] < position[reps_l$cutStart[i+2]])
+			{
+				if (eccon == "ec") # 1 ec rep
+				{
+					repStart_v = c(repStart_v, reps_l$cutStart[i])
+					repEnd_v = c(repEnd_v, reps_l$cutEnd[i+2])
+				} else { # "ecS" # 1e rep and 1c rep
+					repStart_v = c(repStart_v, reps_l$cutStart[i])
+					repEnd_v = c(repEnd_v, reps_l$cutEnd[i+1])
+
+					repStart_v = c(repStart_v, reps_l$cutStart[i+1])
+					repEnd_v = c(repEnd_v, reps_l$cutEnd[i+2])
+				}
+			}
+	}
+
+	repsForEccon_l = list (repStart = repStart_v, repEnd = repEnd_v)
+	#print (c("repsForEccon_l", repsForEccon_l))
+
+	return (repsForEccon_l)
+}
+
+#this code is copied from r-scripts/forcePosition.R getRepetitions but here without: meanSpeed, force, RFD
+#here there is also end of the cut
+getRepetitions <- function(position, conMinDisplacement, eccMinDisplacement)
+{
+        #The comments supposes that the current phase is concentric. In the case that the phase is eccentric
+        #the signal is inverted by multiplying it by -1.
+        extremesSamples_l = 1
+        extremesSamplesEnd_l = 1
+
+        #for each phase, stores the sample number of the biggest current sample.
+        possibleExtremeSample = 1
+
+        lastExtremeSample = 1 	#Stores the sample of the last actual maximum of the phase
+        currentSample = 2
+
+	# to find if there is a previous extreme than first one with minDisplacement
+	searchingFirstExtreme = TRUE
+	minimumPosBeforeFirstExtreme = 1
+	maximumPosBeforeFirstExtreme = 1
+	minimumValueBeforeFirstExtreme = position[minimumPosBeforeFirstExtreme]
+	maximumValueBeforeFirstExtreme = position[maximumPosBeforeFirstExtreme]
+
+        #Detecting the first phase type
+        if(position[currentSample] > position[possibleExtremeSample])
+        {
+                concentric = 1
+                minDisplacement = eccMinDisplacement #minDisplacement is referred to the next phase
+        } else {
+                concentric = -1
+                minDisplacement = conMinDisplacement
+	}
+
+        while(currentSample < length(position) -1)
+	{
+		if(searchingFirstExtreme)
+		{
+			if(position[currentSample] > maximumValueBeforeFirstExtreme)
+			{
+				maximumValueBeforeFirstExtreme = position[currentSample]
+				maximumPosBeforeFirstExtreme = currentSample
+			}
+			if(position[currentSample] < minimumValueBeforeFirstExtreme)
+			{
+				minimumValueBeforeFirstExtreme = position[currentSample]
+				minimumPosBeforeFirstExtreme = currentSample
+			}
+		}
+
+                #Checking if the current position is greater than the previous possible maximum
+                if(concentric * position[currentSample] > concentric * position[possibleExtremeSample])
+		{
+                        #The current sample is the new candidate to be a maximum
+                        #print(paste("updated possibleExtremeSample to:", currentSample, "position:", position[currentSample]))
+                        possibleExtremeSample = currentSample
+			# if(concentric == 1)
+			# 	points(x=possibleExtremeSample, y=-0.1, col="green")
+			# else
+			# 	points(x=possibleExtremeSample, y=-0.2, col="red")
+                }
+
+                #Checking if the current position is at minDisplacement below the last possible extreme
+		#we check if distance from currentSample to possibleExtremeSample is greater than minimum, in order to accept possibleExtremeSample
+                if(concentric * position[currentSample] - concentric * position[possibleExtremeSample] < - minDisplacement)
+		{
+			#possibleExtremeSample is now the new extreme
+
+			#firstExtreme will find if there is a previous extreme with minDisplacement
+			if(searchingFirstExtreme)
+			{
+				samplePreFirst = minimumPosBeforeFirstExtreme
+				if(concentric == -1)
+					samplePreFirst = maximumPosBeforeFirstExtreme
+
+				if( samplePreFirst < possibleExtremeSample && (
+				   (concentric == 1 && position[possibleExtremeSample] - position[samplePreFirst] >= conMinDisplacement) ||
+				   (concentric == -1 && position[samplePreFirst] - position[possibleExtremeSample] >= eccMinDisplacement) ) )
+				{
+					#points(x=samplePreFirst, y=position[samplePreFirst], col="blue", cex=8)
+					#TODO: check if this has to be commented or not and also the start as 2 in the returned list
+					extremesSamples_l = c(extremesSamples_l, samplePreFirst)
+					extremesSamplesEnd_l = c(extremesSamplesEnd_l, getEndOfRepetitionCut (position, samplePreFirst))
+					#lastExtremeSample = possibleExtremeSample
+					lastExtremeSample = samplePreFirst
+				}
+				searchingFirstExtreme = FALSE
+			}
+			#abline(v=currentSample, lty=2)
+
+                        # print(paste("-----------minDisplacement detected at", currentSample))
+                        # print(paste("Extreme added at:", possibleExtremeSample))
+
+			#points(x=possibleExtremeSample, y=position[possibleExtremeSample], col="red", cex=4)
+
+			#We can consider that the last extreme in an actual change of phase.
+			extremesSamples_l = c(extremesSamples_l, possibleExtremeSample)
+
+			#extremesSamples_l has the start of the cut, check also the end of the cut
+			extremesSamplesEnd_l = c(extremesSamplesEnd_l, getEndOfRepetitionCut (position, possibleExtremeSample))
+
+			#Save the sample of the last extrme in order to compare new samples with it
+			lastExtremeSample = possibleExtremeSample
+
+			#Changing the phase from concentric to eccentric or viceversa
+			concentric = -concentric
+
+			if (concentric == 1){
+                                minDisplacement = eccMinDisplacement
+                        } else {
+                                minDisplacement = conMinDisplacement
+                        }
+                }
+
+                currentSample = currentSample +1
+        }
+
+	possibleExtremeSampleEnd = getEndOfRepetitionCut (position, possibleExtremeSample)
+	#note first value of extremesSamples_l is discarded (it is the first value of the samples vector)
+	return(list(
+		    cutStart = c(extremesSamples_l[2:length(extremesSamples_l)], possibleExtremeSample),
+		    cutEnd = c(extremesSamplesEnd_l[2:length(extremesSamplesEnd_l)], possibleExtremeSampleEnd)
+		    ))
+}
+
+getEndOfRepetitionCut <- function (position, possibleExtremeSample)
+{
+	endCutFound = FALSE
+	for (endCut in possibleExtremeSample:length(position))
+		if (position[endCut] != position[possibleExtremeSample])
+			return (endCut -1)
+
+	return (length(position))
+}
 
 
 extrema <- function(y, ndata = length(y), ndatam1 = ndata - 1) {

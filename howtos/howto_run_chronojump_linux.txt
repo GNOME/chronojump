@@ -3,7 +3,7 @@
 
 # Install needed packages
 sudo apt update
-sudo apt install git python3 autoconf libtool intltool pkg-config build-essential libglib2.0-dev gtk-sharp3 dotnet-sdk-7.0
+sudo apt install git python3 autoconf libtool intltool pkg-config build-essential libglib2.0-dev gtk-sharp3 dotnet-sdk-7.0 r-base 7zip
 
 # Download Chronojump from the repo
 git clone https://gitlab.gnome.org/GNOME/chronojump.git
@@ -17,3 +17,6 @@ sudo usermod -a -G dialout [username]
 
 # Execute. Change "[UserPath]" by the real path where Chronojump is installed
 dotnet run --project /[UserPath]/chronojump/src/Chronojump-linux.csproj
+
+# Some distros (KDE neon) requires this other command
+dotnet run debug -r linux-x64 --project Chronojump-linux.csproj --property WarningLevel=0 --no-self-contained

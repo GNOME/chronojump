@@ -86,14 +86,31 @@ make install #sudo make install (at least on m2)
 cd "~/Desktop/chronojump/src"
 chmod +x post-build-mac.sh
 
-6. Make a package (Only when a package required)
+6. About the Apple Certs:
 
-#Double click the Apple certificates to add them into "Keychain Access"/"Login" (Only the first time)
+(1) Download the 3 intermediate certificates:
+
+https://www.apple.com/certificateauthority/AppleWWDRCAG3.cer
+
+https://www.apple.com/certificateauthority/AppleWWDRCAG4.cer
+
+https://www.apple.com/certificateauthority/DeveloperIDG2CA.cer
+
+(2) Download the Developer ID Application Cert and Developer ID Installer Cert.
+
+(3) Double-click them and install them into "Keychain Access"/"Login". (Only the first time)
+
 #Unlock the keychain, please replase {user} with your real macOS user name (Only the first time)
 sudo security unlock-keychain /Users/{user}/Library/Keychains/login.keychain-db
 
 #Execute this command to check whether the certificates are installed correctly, please replase {user} with your real macOS user name (Only the first time)
 sudo security find-identity codesigning /Users/{user}/Library/Keychains/login.keychain-db
+
+(4) On KeyChain app select all the Apple Certs and click on Evaluate and then on generic (not signing, generic). Confirm the result is correct and good.
+
+(5) On KeyChain app where there is a blue/white icon of a + sign, click on Get Info and there change the Always Trust to Use System Defaults. Then the blue/white + icon disappeared but on KeyChain it says it is correct.
+
+7. Make a package (Only when a package required)
 
 cd "~/Desktop/chronojump/package/macos"
 
@@ -103,7 +120,7 @@ make arm64 #Execute this command on arm64
 #Python bundle executable: bin/x64/Python/Versions/Current/bin/python3
 #R bundle executable: R/Resources/R R/Resources/Rscript
 
-7. Software can be run without creating package with
+8. Software can be run without creating package with
 
 cd src
 dotnet run --project Chronojump-mac.csproj --property WarningLevel=0

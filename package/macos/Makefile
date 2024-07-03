@@ -35,6 +35,7 @@ bundle:
 	rm -rf deps/R/
 	cp -r /Library/Frameworks/R.framework/ deps/R/
 	rm deps/R/R
+	dos2unix ./build_installer.sh
 
 package-x64:	
 	sh ./build_installer.sh $(PACKAGE_NAME) x64

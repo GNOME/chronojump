@@ -9,6 +9,8 @@ MAC_APP_FRAMEWORK_DIR="${MAC_APP_DIR}/Contents/Frameworks/"
 ARCH="$2"
 MAC_DMG_FILE_NAME="$1-${ARCH}.dmg"
 
+PYTHON_VERSION=3.12
+
 APPLE_ID=info@chronojump.org
 APPLE_PASSWORD=mylc-ghhj-zfxg-weta
 APPLE_TEAM_ID=RXJZ6LH5L4
@@ -28,6 +30,8 @@ mkdir -p ${MAC_APP_BIN_DIR} ${MAC_APP_FRAMEWORK_DIR}
 
 dotnet publish ../../src/Chronojump-mac.sln -p:BuildTranslations=true --configuration Release -r osx-${ARCH} --self-contained true -o ${MAC_APP_BIN_DIR}
 cd ../../src/
+dos2unix post-build-mac.sh
+chmod +x post-build-mac.sh
 sh post-build-mac.sh ../package/macos/app/Chronojump.app/Contents/Home/bin
 #cp ../package/macos/app/Chronojump.app/Contents/Home/bin/runtimes/osx-${ARCH}/native/SQLite.Interop.dll ../package/macos/app/Chronojump.app/Contents/Home/bin/SQLite.Interop.dll
 cp ../package/macos/deps/runtimes/osx-${ARCH}/native/SQLite.Interop.dll ../package/macos/app/Chronojump.app/Contents/Home/bin/SQLite.Interop.dll
@@ -38,16 +42,17 @@ cp ../../binariesMac/ffplay app/Chronojump.app/Contents/Home/bin/bin
 
 #TODO: note these cp are for x64, change it to work also on arm64.
 #Note also joeries has python 3.11
-mkdir -p app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/3.12/lib
-mkdir -p app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/3.12/lib/python3.12/config-3.12-darwin
-mkdir -p app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/Current/lib
-mkdir -p app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/Current/lib/python3.12/config-3.12-darwin
-cp deps/bin/x64/Python/Versions/3.12/lib/libpython3.12.dylib app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/3.12/lib
-cp deps/bin/x64/Python/Versions/3.12/lib/python3.12/config-3.12-darwin/libpython3.12.dylib app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/3.12/lib/python3.12/config-3.12-darwin
-cp deps/bin/x64/Python/Versions/Current/lib/libpython3.12.dylib app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/Current/lib
-cp deps/bin/x64/Python/Versions/Current/lib/python3.12/config-3.12-darwin/libpython3.12.dylib app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/Current/lib/python3.12/config-3.12-darwin
-cp deps/bin/x64/Python/Versions/Current/Python app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/Current
-cp deps/bin/x64/Python/Versions/3.12/Python app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/3.12
+#No need to add these commands as Python files would be copied from /Library/Frameworks/Python.framework automatically.
+#mkdir -p app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/3.12/lib
+#mkdir -p app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/3.12/lib/python3.12/config-3.12-darwin
+#mkdir -p app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/Current/lib
+#mkdir -p app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/Current/lib/python3.12/config-3.12-darwin
+#cp deps/bin/x64/Python/Versions/3.12/lib/libpython3.12.dylib app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/3.12/lib
+#cp deps/bin/x64/Python/Versions/3.12/lib/python3.12/config-3.12-darwin/libpython3.12.dylib app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/3.12/lib/python3.12/config-3.12-darwin
+#cp deps/bin/x64/Python/Versions/Current/lib/libpython3.12.dylib app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/Current/lib
+#cp deps/bin/x64/Python/Versions/Current/lib/python3.12/config-3.12-darwin/libpython3.12.dylib app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/Current/lib/python3.12/config-3.12-darwin
+#cp deps/bin/x64/Python/Versions/Current/Python app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/Current
+#cp deps/bin/x64/Python/Versions/3.12/Python app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/3.12
 
 # Remove stuff we don't need.
 rm ${MAC_APP_BIN_DIR}/*.pdb
@@ -113,12 +118,12 @@ run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libhostpolicy.dylib
 run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libSystem.Security.Cryptography.Native.OpenSsl.dylib
 run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libclrjit.dylib
 run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libclrgc.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/3.12/lib/libpython3.12.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/3.12/lib/python3.12/config-3.12-darwin/libpython3.12.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/Current/lib/libpython3.12.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/Current/lib/python3.12/config-3.12-darwin/libpython3.12.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/${PYTHON_VERSION}/lib/libpython${PYTHON_VERSION}.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/${PYTHON_VERSION}/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/Current/lib/libpython${PYTHON_VERSION}.dylib
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/Current/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib
 run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/Current/Python
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/3.12/Python
+run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/${PYTHON_VERSION}/Python
 
 # Create and sign the .dmg image, and include a link to drag the app into /Applications
 echo "Creating dmg..."

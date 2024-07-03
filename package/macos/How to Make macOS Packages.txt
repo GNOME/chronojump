@@ -120,7 +120,13 @@ make arm64 #Execute this command on arm64
 #Python bundle executable: bin/x64/Python/Versions/Current/bin/python3
 #R bundle executable: R/Resources/R R/Resources/Rscript
 
-8. Software can be run without creating package with
+8. If the final notarizing status is invalid, please execute the following command to check the detail error logs:
+
+xcrun notarytool log --apple-id=${APPLE_ID} --password ${APPLE_PASSWORD} --team-id ${APPLE_TEAM_ID} uuid
+
+#Please replace ${APPLE_ID}, ${APPLE_PASSWORD} and ${APPLE_TEAM_ID} with the Apple ID, Apple ID app-specific password and Apple Team ID. The last parameter "uuid" is the uuid shown while notarizing.
+
+9. Software can be run without creating package with
 
 cd src
 dotnet run --project Chronojump-mac.csproj --property WarningLevel=0

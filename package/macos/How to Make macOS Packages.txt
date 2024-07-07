@@ -3,7 +3,8 @@ Please download and install Python and R from their official website in order to
 
 Python: https://www.python.org/ftp/python/3.12.2/python-3.12.2-macos11.pkg
 
-R: 
+R:
+check R is not installed before, could be a problem on making the package if uses other version, as the version is going to be signed is one of these:
 https://cran.r-project.org/bin/macosx/big-sur-x86_64/base/R-4.3.3-x86_64.pkg
 https://cran.r-project.org/bin/macosx/big-sur-arm64/base/R-4.3.3-arm64.pkg
 
@@ -21,20 +22,11 @@ brew update
 
 2. Execute the following commands (Only when the first time. Please replace "~/Desktop" with the real path of chronojump.)
 
-brew install git
-brew install automake
-brew install autoconf
-brew install libtool
-brew install intltool
-brew install pkg-config
-brew install gettext
-brew install glib
-brew install python3
-#brew install dotnet-sdk  (this is 8.0 . On arm64 we have download sdk 7 from: https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-7.0.410-macos-arm64-installer)
-brew install gtk+3
-brew install adwaita-icon-theme (on m2)
-brew install librsvg
-brew install dos2unix
+brew install git, automake, autoconf, libtool, intltool, pkg-config, gettext, glib, python3, gtk+3, librsvg, dos2unix, adwaita-icon-theme
+
+#brew install dotnet-sdk  (this is 8.0)
+On arm64 we have download sdk 7 from: https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-7.0.410-macos-arm64-installer
+on x64 from https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-7.0.410-macos-x64-installer
 
 git clone chronojump:
 (not ssh:)
@@ -57,7 +49,7 @@ make install
 #jhbuild bootstrap-gtk-osx
 #jhbuild build meta-gtk-osx-bootstrap meta-gtk-osx-gtk3
 
-On macOS 10, please execute the following commands because new version installs softwares at opt/homebrew by default, but the old version installs at usr/local.
+On macOS 10 (Catalina) & 12 (Monterey), please execute the following commands because new version installs softwares at opt/homebrew by default, but the old version installs at usr/local.
 
 sudo install -d -o $(whoami) -g admin /opt/homebrew
 sudo brew rebase
@@ -69,11 +61,15 @@ cd /opt/homebrew
 ln -s /usr/local/Cellar Cellar
 ln -s /usr/local/lib lib
 
+on Monterey (and surely on Catalina) to be able to make x64 we had to:
+copy /usr/local/share/icons to /opt/homebrew/share/
+copy /usr/local/share/glib-2.0 to /opt/homebrew/share/
+
 3. Execute the following commands (Only when the first time, when autotools files changed or when git tag created. Please replace "~/Desktop" with the real path of chronojump.)
 
 cd "~/Desktop/chronojump"
 sh autogen.sh --prefix ~/Desktop/chronojump/package/macos/deps
-./configure #at least needed on m2
+./configure
 make
 make install #sudo make install (at least on m2)
 

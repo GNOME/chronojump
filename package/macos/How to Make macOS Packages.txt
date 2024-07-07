@@ -125,4 +125,6 @@ xcrun notarytool log --apple-id=${APPLE_ID} --password ${APPLE_PASSWORD} --team-
 9. Software can be run without creating package with
 
 cd src
+dos2unix post-build-mac.sh
+chmod +x post-build-mac.sh
 dotnet run --project Chronojump-mac.csproj --property WarningLevel=0

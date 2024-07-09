@@ -35,7 +35,7 @@ String version = "Signal_Generator-0.1";
 //  ...
 
 int mode = 3;
-bool generateSignal = false;
+bool generateSignal = true;
 //this can be quite real data promoting a bit double contacts
 const int randomTCMin = 4;
 const int randomTCMax = 500;
@@ -49,13 +49,13 @@ const String sequences [] = {
   "7;IN;30;25;15;1000;25;40;19;60;24;800,30",
   "5;IN;100;1500;200;5000",
   "6;OUT;1100;40;1200;30;8000",
-  "3;OUT;2000;1000"
+  "3;OUT;2000;100"
 };
 // <---------- end of CHANGE variable here --------
 
 void setup() {
   pinMode(signalPin, OUTPUT);
-  Serial.begin(9600);
+  Serial.begin(115200);
   if (mode == -1)
   {
     randomSeed(analogRead(0));

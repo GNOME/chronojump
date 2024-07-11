@@ -47,7 +47,7 @@ const int randomTFMax = 1200;
 //2nd param is start mode. IN = ON, OUT = OFF
 //values are in milliseconds
 const String sequences [] = {
-  "3;IN;0;0", // This mode is modified through serial input
+  "3;IN;NotSet;NotSet", // This mode is modified through serial input
   "7;IN;30;25;15;1000;25;40;19;60;24;800,30",
   "5;IN;100;1500;200;5000",
   "6;OUT;1100;40;1200;30;8000",
@@ -58,6 +58,8 @@ const String sequences [] = {
 void setup() {
   pinMode(signalPin, OUTPUT);
   Serial.begin(115200);
+  Serial.println("Signal generator");
+  Serial.println("Sequence: " + sequences[mode]);
   if (mode == -1)
   {
     randomSeed(analogRead(0));
@@ -169,7 +171,10 @@ void serialEvent()
   {
     Serial.println("Debug OFF");
     debug = false;
-  } else if( commandString == "mode" )
+  } else if( commandString == "get_sequence" )
+  {
+    Serial.println(sequences[mode]);
+  } else if( commandString == "set_sequence" )
   {
     String modeString = inputString.substring( (inputString.indexOf(";") + 1) , inputString.lastIndexOf(";") );
     sequences[0] = modeString;

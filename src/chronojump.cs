@@ -107,8 +107,14 @@ public class ChronoJump
 			catch { }
 
 #if DEBUG
-            NativeLibraryResolver.Init("/opt/homebrew/lib");
-            //NativeLibraryResolver.Init("/usr/local/lib");//Used on Catalina/Monterey or other macOS versions where brew installs softwares at /usr/local.
+			if (File.Exists("/usr/local/lib/libglib-2.0.0.dylib"))
+			{
+				NativeLibraryResolver.Init("/usr/local/lib");//Used on Catalina/Monterey or other macOS versions where brew installs softwares at /usr/local.
+			}
+			else
+			{
+				NativeLibraryResolver.Init("/opt/homebrew/lib");
+			}
 #else
             var gtk3Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../Frameworks/gtk3");
             var gtk3SharePath = Path.Combine(gtk3Path, "share");

@@ -35,7 +35,8 @@ String version = "Signal_Generator-0.1";
 //  ...
 
 int mode = 3;
-bool generateSignal = false;
+bool generateSignal = true;
+bool debug = false;
 //this can be quite real data promoting a bit double contacts
 const int randomTCMin = 4;
 const int randomTCMax = 500;
@@ -46,16 +47,19 @@ const int randomTFMax = 1200;
 //2nd param is start mode. IN = ON, OUT = OFF
 //values are in milliseconds
 const String sequences [] = {
+  "3;IN;NotSet;NotSet", // This mode is modified through serial input
   "7;IN;30;25;15;1000;25;40;19;60;24;800,30",
   "5;IN;100;1500;200;5000",
   "6;OUT;1100;40;1200;30;8000",
-  "3;OUT;2000;1000"
+  "3;OUT;200;100"
 };
 // <---------- end of CHANGE variable here --------
 
 void setup() {
   pinMode(signalPin, OUTPUT);
-  Serial.begin(9600);
+  Serial.begin(115200);
+  Serial.println("Signal generator");
+  Serial.println("Sequence: " + sequences[mode]);
   if (mode == -1)
   {
     randomSeed(analogRead(0));
@@ -66,7 +70,7 @@ void loop() {
   //signalOn(500);
   //signalOff(100);
 
-  while (generateSignal)
+  if (generateSignal)
   {
     if (mode >= 0)
     {
@@ -124,8 +128,10 @@ String getValue(String data, char separator, int index)
 
 //TC
 void signalOn(int duration) {
-  Serial.print("\nsignalON ");
-  Serial.println(duration);
+  if (debug) {
+    Serial.print("\nsignalON ");
+    Serial.println(duration);
+  }
   digitalWrite(signalPin, HIGH);
   digitalWrite(ledPin, HIGH);
   delay(duration);
@@ -133,8 +139,10 @@ void signalOn(int duration) {
 
 //TF
 void signalOff(int duration) {
-  Serial.print("\nsignalOFF ");
-  Serial.println(duration);
+  if (debug) {
+    Serial.print("\nsignalOFF ");
+    Serial.println(duration);
+  }
   digitalWrite(signalPin, LOW);
   digitalWrite(ledPin, LOW);
   delay(duration);
@@ -143,22 +151,38 @@ void signalOff(int duration) {
 void serialEvent()
 {
   String inputString = Serial.readString();
-  inputString = inputString.substring(0, inputString.lastIndexOf(";"));
-  if (inputString == "start")
+  String commandString = inputString.substring(0, inputString.indexOf(";"));
+  if (commandString == "start")
   {
     Serial.println("Starting signal");
     generateSignal = true;
-  } else if (inputString == "stop")
+  } else if (commandString == "stop")
   {
     generateSignal = false;
     Serial.println("Stoping signal");
-  } else if( inputString == "get_version" )
+  } else if( commandString == "get_version" )
   {
     get_version();
+  } else if( commandString == "start_debug" )
+  {
+    debug = true;
+    Serial.println("Debug ON");
+  } else if( commandString == "end_debug" )
+  {
+    Serial.println("Debug OFF");
+    debug = false;
+  } else if( commandString == "get_sequence" )
+  {
+    Serial.println(sequences[mode]);
+  } else if( commandString == "set_sequence" )
+  {
+    String modeString = inputString.substring( (inputString.indexOf(";") + 1) , inputString.lastIndexOf(";") );
+    sequences[0] = modeString;
+    mode = 0;
   } else
   {
-    Serial.println("mode = " + inputString);
-    mode = inputString.toInt();
+    Serial.println("mode = " + commandString);
+    mode = commandString.toInt();
   }
 }
 

@@ -108,6 +108,7 @@ public class ChronoJump
 
 #if DEBUG
             NativeLibraryResolver.Init("/opt/homebrew/lib");
+            //NativeLibraryResolver.Init("/usr/local/lib");//Used on Catalina/Monterey or other macOS versions where brew installs softwares at /usr/local.
 #else
             var gtk3Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../Frameworks/gtk3");
             var gtk3SharePath = Path.Combine(gtk3Path, "share");
@@ -195,7 +196,7 @@ public class ChronoJump
 		
 		LogSync.Initialize();
 		//1.4.10
-		Log.Start();
+		Log.Start(); //Chronojump would crash if no "Writing" to log files permission while executing "dotnet run".
 		LogB.Debugging = true; //now LogB.Debug will be shown. Also there will be thread info on Warning, Error, Information
 		if(args.Length > 0)
 		{
@@ -619,10 +620,11 @@ public class ChronoJump
 		
 		
 		splashMessageChange(6);  //preparing main window
-		
 
-		//start as "simulated"
-		SqlitePreferences.Update("simulated", "True", true); //dbcon opened
+
+        //Chronojump would crash if no "Writing" permission to db files while executing "dotnet run".
+        //start as "simulated"
+        SqlitePreferences.Update("simulated", "True", true); //dbcon opened
 
 		Sqlite.Close();
 

@@ -12,9 +12,9 @@ PREFIX_OPT_HOMEBREW = "/opt/homebrew"
 PREFIX_USR_LOCAL = "/usr/local"
 GTK_LIB = "/usr/local/lib/libgtk-3.dylib"
 RSVG_LIB = "/usr/local/lib/librsvg-2.2.dylib"
-GLIB_LIB = "/usr/local/lib/libglib-2.0.0.dylib"
 INTL_LIB = "/usr/local/lib/libintl.8.dylib"
-ROOT_LIBS = [GTK_LIB, RSVG_LIB, GLIB_LIB, INTL_LIB,
+GLIB_LIB = "/usr/local/lib/libglib-2.0.0.dylib"
+ROOT_LIBS = [GTK_LIB, RSVG_LIB, INTL_LIB, GLIB_LIB,
 "/usr/local/lib/libgmodule-2.0.0.dylib",
 "/usr/local/lib/libgobject-2.0.0.dylib",
 "/usr/local/lib/libX11.6.dylib",
@@ -61,7 +61,7 @@ def run_install_name_tool(lib, deps, lib_install_dir):
     # dependencies.
     for dep_path in deps:
         dep_lib_name = os.path.basename(os.path.realpath(dep_path))
-        dep_lib = "@executable_path/../Frameworks/gtk3/lib/" + dep_lib_name
+        dep_lib = "@executable_path/../../Frameworks/gtk3/lib/" + dep_lib_name
         cmd = ['install_name_tool', '-change', dep_path, dep_lib, lib]
         subprocess.check_output(cmd)
 
@@ -89,7 +89,6 @@ def copy_resources(res_path):
     src_folder = os.path.join(PREFIX_USR_LOCAL, res_path)
     if not os.path.exists(src_folder):
         src_folder = os.path.join(PREFIX_OPT_HOMEBREW, res_path)
-
     dest_folder = os.path.join(args.resource_dir, res_path)
     shutil.copytree(src_folder,
                     dest_folder,
@@ -132,7 +131,7 @@ def install_plugin_cache(cache_path, resource_dir):
     with open(src_cache, 'r') as src_f:
         contents = src_f.read()
         contents = re.sub(r"/.*/(lib|share)/",
-                          r"@executable_path/../Frameworks/gtk3/lib/\1/", contents)
+                          r"@executable_path/../../Frameworks/gtk3/lib/\1/", contents)
 
         with open(dest_cache, 'w') as dest_f:
             dest_f.write(contents)
@@ -184,4 +183,4 @@ install_plugin_cache(os.path.join(IM_MODULES, "../immodules.cache"),
 
 copy_resources(GLIB_SCHEMAS)
 
-#shutil.copy2(os.path.join(PREFIX, "lib/libgdk_pixbuf-2.0.dylib"), os.path.join(args.resource_dir, "lib/libgdk_pixbuf-2.0.dylib"))
+shutil.copy2(os.path.join(PREFIX, "lib/libgdk_pixbuf-2.0.dylib"), os.path.join(args.resource_dir, "lib/libgdk_pixbuf-2.0.dylib"))

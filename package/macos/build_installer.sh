@@ -73,15 +73,17 @@ echo "Bundling GTK..."
 #fi
 
 if [ -e "/usr/local/lib/libglib-2.0.0.dylib" ]; then
+    dos2unix bundle_gtk_osx10.py
     chmod +x bundle_gtk_osx10.py
     ./bundle_gtk_osx10.py --resource_dir ${MAC_APP_FRAMEWORK_DIR}/gtk3
 else
+    dos2unix bundle_gtk.py
     chmod +x bundle_gtk.py
     ./bundle_gtk.py --resource_dir ${MAC_APP_FRAMEWORK_DIR}/gtk3
 fi
 
 # Add the GTK lib dir to the library search path (for dlopen()), as an alternative to $DYLD_LIBRARY_PATH.
-install_name_tool -add_rpath "@executable_path/../Frameworks/gtk3/lib" ${MAC_APP_BIN_DIR}/Chronojump
+install_name_tool -add_rpath "@executable_path/../../Frameworks/gtk3/lib" ${MAC_APP_BIN_DIR}/Chronojump
 
 touch ${MAC_APP_DIR}
 

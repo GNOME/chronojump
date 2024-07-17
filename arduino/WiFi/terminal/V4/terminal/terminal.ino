@@ -23,8 +23,8 @@ unsigned int deviceVersion = 12;
 // Set up nRF24L01 radio on SPI bus plus pins  (CE & CS)
 
 
-//RF24 radio(A3, A4);    //V3 or less
-RF24 radio(10, 9);       //V4 or more
+//RF24 radio(A3, A4);    //Old versions
+RF24 radio(10, 9);       //New version
 #define red_on digitalWrite(A4,LOW)
 #define green_on digitalWrite(A5,LOW)
 #define blue_on digitalWrite(A3,LOW)
@@ -164,14 +164,14 @@ void setup(void)
   //************************************************************************************
   // A0, A1, A2 connected to the 3xswith
 
-  pinMode(A0, INPUT_PULLUP);  //Old versions
-  //pinMode(A7, INPUT_PULLUP);    //New version
+  //pinMode(A0, INPUT_PULLUP);  //Old versions
+  pinMode(A7, INPUT_PULLUP);    //New version
   pinMode(A1, INPUT_PULLUP);
   pinMode(A2, INPUT_PULLUP);
 
   //   Se leeran en binario y se restará al canal por defecto 125
-  if ( !digitalRead(A0)) {     //Old versions
-  //  if (analogRead(A7)<128) {   //New versions
+  //if ( !digitalRead(A0)) {     //Old versions
+    if (analogRead(A7)<128) {   //New versions
     controlSwitch = 1; //
   }
   if (!digitalRead(A1)) {
@@ -238,6 +238,7 @@ void loop(void)
     {
       executeCommand(instruction.command);
     }
+    
     radio.startListening();
   }
 }
@@ -449,11 +450,11 @@ void beepStop(void)
 }
 
 void sendPong(void) {
-//  Serial.println("Pong");
+  Serial.println("Pong");
   sample.data = deviceType * 1000000 + deviceVersion;
 //  Serial.println(sample.data);
-//  Serial.print("Wifi-Sensor-");
-//  Serial.println(deviceVersion);
+  Serial.print("Wifi-Sensor-");
+  Serial.println(deviceVersion);
   flagint = LOW;
   MsTimer2::stop();
   radio.stopListening();
@@ -462,5 +463,5 @@ void sendPong(void) {
   flagint = LOW;
   if (! unlimitedMode) waitingSensor = false;
   radio.setChannel(terminal0Channel - sample.termNum);
-//  radio.startListening();
+  //radio.startListening();
 }

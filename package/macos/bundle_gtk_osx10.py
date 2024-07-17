@@ -86,9 +86,9 @@ def copy_resources(res_path):
     """
     Copy a folder from ${PREFIX}/${res_path} to Contents/Frameworks/${res_path}.
     """
-    src_folder = os.path.join(PREFIX_OPT_HOMEBREW, res_path)
+    src_folder = os.path.join(PREFIX_USR_LOCAL, res_path)
     if not os.path.exists(src_folder):
-        src_folder = os.path.join(PREFIX_USR_LOCAL, res_path)
+        src_folder = os.path.join(PREFIX_OPT_HOMEBREW, res_path)
 
     dest_folder = os.path.join(args.resource_dir, res_path)
     shutil.copytree(src_folder,
@@ -124,9 +124,9 @@ def install_plugin_cache(cache_path, resource_dir):
     Copy a file such as immodules.cache, and update the library paths to be
     paths inside the .app bundle.
     """
-    src_cache = os.path.join(PREFIX_OPT_HOMEBREW, cache_path)
+    src_cache = os.path.join(PREFIX_USR_LOCAL, cache_path)
     if not os.path.exists(src_cache):
-        src_cache = os.path.join(PREFIX_USR_LOCAL, cache_path)
+        src_cache = os.path.join(PREFIX_OPT_HOMEBREW, cache_path)
     dest_cache = os.path.join(resource_dir, cache_path)
 
     with open(src_cache, 'r') as src_f:

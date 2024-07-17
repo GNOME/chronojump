@@ -8,6 +8,7 @@ MAC_APP_RESOURCE_DIR="${MAC_APP_DIR}/Contents/Resources/"
 MAC_APP_FRAMEWORK_DIR="${MAC_APP_DIR}/Contents/Frameworks/"
 ARCH="$2"
 MAC_DMG_FILE_NAME="$1-${ARCH}.dmg"
+#MAC_PKG_FILE_NAME="$1-${ARCH}.pkg"
 
 PYTHON_VERSION=3.12
 
@@ -61,9 +62,17 @@ rm ${MAC_APP_BIN_DIR}/*.pdb
 echo "Bundling GTK..."
 
 # Get OS Version
-os_version=$(sw_vers -productVersion)    
+#os_version=$(sw_vers -productVersion)    
 # Check whether 10.x
-if echo "$os_version" | grep -q '10\.[0-9]\+\..*'; then
+#if echo "$os_version" | grep -q '10\.[0-9]\+\..*'; then
+#    chmod +x bundle_gtk_osx10.py
+#    ./bundle_gtk_osx10.py --resource_dir ${MAC_APP_FRAMEWORK_DIR}/gtk3
+#else
+#    chmod +x bundle_gtk.py
+#    ./bundle_gtk.py --resource_dir ${MAC_APP_FRAMEWORK_DIR}/gtk3
+#fi
+
+if [ -e "/usr/local/lib/libglib-2.0.0.dylib" ]; then
     chmod +x bundle_gtk_osx10.py
     ./bundle_gtk_osx10.py --resource_dir ${MAC_APP_FRAMEWORK_DIR}/gtk3
 else
@@ -133,9 +142,20 @@ hdiutil create -volname "${MAC_DMG_FILE_NAME} Installer" -srcfolder app -ov -for
 run_codesign ${MAC_DMG_FILE_NAME}
 
 # Notarize
-echo "Notarizing..."
+echo "Notarizing dmg..."
 xcrun notarytool submit --wait --apple-id=${APPLE_ID} --password ${APPLE_PASSWORD} --team-id ${APPLE_TEAM_ID} ${MAC_DMG_FILE_NAME}
 
 # Staple the result to the dmg
-echo "Stapling..."
+echo "Stapling dmg..."
 xcrun stapler staple ${MAC_DMG_FILE_NAME}
+
+#mkdir -p tmp
+#echo "Creating pkg..."
+#pkgbuild --root app/Chronojump.app --identifier org.chronojump.chronojump tmp/${MAC_PKG_FILE_NAME}
+#echo "Signing pkg..."
+#productsign --timestamp --sign "${APPLE_INSTALLER_CERT_NAME}" "tmp/${MAC_PKG_FILE_NAME}" "${MAC_PKG_FILE_NAME}"
+#rm -rf tmp
+#echo "Notarizing pkg..."
+#xcrun notarytool submit --wait --apple-id=${APPLE_ID} --password ${APPLE_PASSWORD} --team-id ${APPLE_TEAM_ID} ${MAC_PKG_FILE_NAME}
+#echo "Stapling pkg..."
+#xcrun stapler staple ${MAC_PKG_FILE_NAME}

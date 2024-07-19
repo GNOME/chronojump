@@ -354,12 +354,11 @@ public class RunInterval : Run
 	public override double Speed
 	{
 		get { 
-			//if(metersSecondsPreferred) {
+			if(metersSecondsPreferred) {
 				return distanceTotal / timeTotal ; 
-			/*} else {
+			} else {
 				return (distanceTotal / timeTotal) * 3.6 ; 
 			}
-			*/
 		}
 	}
 

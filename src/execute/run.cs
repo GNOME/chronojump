@@ -1500,8 +1500,10 @@ public class RunIntervalExecute : RunExecute
 
 			if (jsonUploadTestScript != "")
 			{
+				double maxSpeed = Util.GetRunIVariableDistancesSpeeds (distancesString, intervalTimesString, true);
+
 				Person p = SqlitePerson.Select (false, personID);
-				writeJsonDataThisTest (p);
+				writeJsonDataThisTest (p, maxSpeed);
 				System.Threading.Thread.Sleep(250);
 				ExecuteProcess.run (jsonUploadTestScript, false, false);
 			}
@@ -1530,7 +1532,7 @@ public class RunIntervalExecute : RunExecute
 		}
 	}
 
-	private void writeJsonDataThisTest (Person p)
+	private void writeJsonDataThisTest (Person p, double maxSpeed)
 	{
 		/*
 		 * fix problems managing url on person description as : are trimmed by some part of chronojump
@@ -1548,8 +1550,8 @@ public class RunIntervalExecute : RunExecute
 			"\"Photo\":\"" + description + "\",\n" +
 			"\"Test\":\"Speed\",\n" +
 			"\"Time\":" + Util.ConvertToPoint (Util.TrimDecimals (timeTotal, 2)) + ",\n" +
-			"\"MaxSpeed\":" + 0 + "\n" +
-			//TODO: "\"MaxSpeed\":" + Util.ConvertToPoint ((get last or best speed) + "\n" +
+			//"\"MaxSpeed\":" + 0 + "\n" +
+			"\"MaxSpeed\":" + Util.ConvertToPoint (Util.TrimDecimals (maxSpeed, 2)) + "\n" +
 			"}";
 
 		TextWriter writer = File.CreateText("/tmp/json_sprint_1_test.txt");

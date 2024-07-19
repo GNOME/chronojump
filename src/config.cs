@@ -57,6 +57,14 @@ public class Config
 	public bool EncoderAnalyzeHide;
 	public string RunScriptOnExit;
 
+	public string JsonUploadRunSimpleTestScript = "";
+		//"/home/chronojump/Desktop/xaviB/kings_queens_flowics/json/curl_json_chut_1_test.sh"
+	public string JsonUploadRunSimpleRankingScript = "";
+		//"/home/chronojump/Desktop/xaviB/kings_queens_flowics/json/curl_json_chut_ranking.sh"
+	public string JsonUploadRunIntervalTestScript = "";
+		//"/home/chronojump/Desktop/xaviB/kings_queens_flowics/json/curl_json_sprint_1_test.sh"
+	public string JsonUploadRunIntervalRankingScript = "";
+		//"/home/chronojump/Desktop/xaviB/kings_queens_flowics/json/curl_json_sprint_ranking.sh"
 
 	//remember to change the fill method if this list grows
 	public enum OpEnum {

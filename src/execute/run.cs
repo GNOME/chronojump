@@ -79,6 +79,8 @@ public class RunExecute : EventExecute
 	protected Gtk.Label label_run_execute_photocell_code;
 
 	protected WichroCapture wichroCapture;
+	protected string jsonUploadTestScript;
+	protected string jsonUploadRankingScript;
 
 //	protected bool firstTrackDone;
 
@@ -99,7 +101,9 @@ public class RunExecute : EventExecute
 			Gtk.Image image_run_execute_photocell_icon,
 			Gtk.Label label_run_execute_photocell_code,
 			int graphLimit, bool graphAllTypes, bool graphAllPersons,
-			bool cameraRecording
+			bool cameraRecording,
+			string jsonUploadTestScript,
+			string jsonUploadRankingScript
 			)
 	{
 		this.personID = personID;
@@ -131,6 +135,8 @@ public class RunExecute : EventExecute
 		this.graphAllTypes = graphAllTypes;
 		this.graphAllPersons = graphAllPersons;
 		this.cameraRecording = cameraRecording;
+		this.jsonUploadTestScript = jsonUploadTestScript;
+		this.jsonUploadRankingScript = jsonUploadRankingScript;
 
 		reactionTimeMS = 0;
 
@@ -904,6 +910,23 @@ public class RunExecute : EventExecute
 		if(graphAllTypes)
 			type = "";
 
+
+		if (jsonUploadTestScript != "")
+		{
+			Person p = SqlitePerson.Select (false, personID);
+			writeJsonDataThisTest (p);
+			System.Threading.Thread.Sleep(250);
+			ExecuteProcess.run (jsonUploadTestScript, false, false);
+		}
+
+		if (jsonUploadRankingScript != "")
+		{
+			writeJsonDataRanking (sessionID);
+			System.Threading.Thread.Sleep(250);
+			ExecuteProcess.run (jsonUploadRankingScript, false, false);
+		}
+
+
 		/* 2.2.2 do not do the graph here because PrepareEventGraphRunSimple has an SQL call with a reader
 		   and updateGraph can be also called by gtk thread and also call PrepareEventGraphRunSimple,
 		   so SQL can be tried to open again, but the problem is in reader that if both run at same time it will crash (seen a log on 2.2.1)
@@ -921,6 +944,54 @@ public class RunExecute : EventExecute
 		*/
 		
 		needEndEvent = true; //used for hiding some buttons on eventWindow
+	}
+
+	private void writeJsonDataThisTest (Person p)
+	{
+		/*
+		 * fix problems managing url on person description as : are trimmed by some part of chronojump
+		 * and copyiing pasting url maybe there's space or enter before
+		 */
+		string description = p.Description;
+		description = description.Replace ("\nhttps", "https");
+		description = description.Replace (" https", "https");
+		description = description.Replace ("https //", "https://");
+
+		string jsonStr =
+			"{\n" +
+			"\"Name\":\"" + p.Name + "\",\n" +
+			"\"No\":" + p.Future2 + ",\n" +
+			"\"Photo\":\"" + description + "\",\n" +
+			"\"Test\":\"Chut\",\n" +
+			"\"Time\":" + Util.ConvertToPoint (Util.TrimDecimals (trackTime, 2)) + "\n" +
+			"}";
+
+		TextWriter writer = File.CreateText("/tmp/json_chut_1_test.txt");
+		writer.Write(jsonStr);
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
+	}
+
+	private void writeJsonDataRanking (int sessionID)
+	{
+		List<Ranking> r_l = SqliteRun.GetPersonsRanking (sessionID);
+
+		string jsonStr = "{";
+		jsonStr += "\n\"RankingChut\": [";
+		string commaStr = "";
+		foreach (Ranking r in r_l)
+		{
+			jsonStr += commaStr + r.ToString ();
+			commaStr = ",";
+		}
+		jsonStr += "\n] }";
+
+		TextWriter writer = File.CreateText("/tmp/json_chut_ranking.txt");
+		writer.Write(jsonStr);
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
 	}
 
 	protected string reactionTimeIncludedStr = Catalog.GetString("Included on race time");
@@ -994,7 +1065,9 @@ public class RunIntervalExecute : RunExecute
 			Gtk.Image image_run_execute_running,
 			Gtk.Image image_run_execute_photocell_icon,
 			Gtk.Label label_run_execute_photocell_code,
-			bool cameraRecording
+			bool cameraRecording,
+			string jsonUploadTestScript,
+			string jsonUploadRankingScript
 			)
 	{
 		this.personID = personID;
@@ -1044,6 +1117,8 @@ public class RunIntervalExecute : RunExecute
 		this.image_run_execute_photocell_icon = image_run_execute_photocell_icon;
 		this.label_run_execute_photocell_code = label_run_execute_photocell_code;
 		this.cameraRecording = cameraRecording;
+		this.jsonUploadTestScript = jsonUploadTestScript;
+		this.jsonUploadRankingScript = jsonUploadRankingScript;
 
 		reactionTimeMS = 0;
 		reactionTimeIncludedStr = Catalog.GetString("Included on race time of first track");
@@ -1421,6 +1496,21 @@ public class RunIntervalExecute : RunExecute
 			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString,
 					tracksHere, description, limitString, Util.BoolToNegativeInt(simulated), !startIn, datetime, photocell_l);
 
+			if (jsonUploadTestScript != "")
+			{
+				Person p = SqlitePerson.Select (false, personID);
+				writeJsonDataThisTest (p);
+				System.Threading.Thread.Sleep(250);
+				ExecuteProcess.run (jsonUploadTestScript, false, false);
+			}
+
+			if (jsonUploadRankingScript != "")
+			{
+				writeJsonDataRanking (sessionID);
+				System.Threading.Thread.Sleep(250);
+				ExecuteProcess.run (jsonUploadRankingScript, false, false);
+			}
+
 			if(simulated)
 				feedbackMessage = Catalog.GetString(Constants.SimulatedMessage());
 			else
@@ -1436,6 +1526,56 @@ public class RunIntervalExecute : RunExecute
 
 			needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
 		}
+	}
+
+	private void writeJsonDataThisTest (Person p)
+	{
+		/*
+		 * fix problems managing url on person description as : are trimmed by some part of chronojump
+		 * and copyiing pasting url maybe there's space or enter before
+		 */
+		string description = p.Description;
+		description = description.Replace ("\nhttps", "https");
+		description = description.Replace (" https", "https");
+		description = description.Replace ("https //", "https://");
+
+		string jsonStr =
+			"{\n" +
+			"\"Name\":\"" + p.Name + "\",\n" +
+			"\"No\":" + p.Future2 + ",\n" +
+			"\"Photo\":\"" + description + "\",\n" +
+			"\"Test\":\"Speed\",\n" +
+			"\"Time\":" + Util.ConvertToPoint (Util.TrimDecimals (timeTotal, 2)) + ",\n" +
+			"\"MaxSpeed\":" + 0 + "\n" +
+			//TODO: "\"MaxSpeed\":" + Util.ConvertToPoint ((get last or best speed) + "\n" +
+			"}";
+
+		TextWriter writer = File.CreateText("/tmp/json_sprint_1_test.txt");
+		writer.Write(jsonStr);
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
+	}
+
+	private void writeJsonDataRanking (int sessionID)
+	{
+		List<Ranking> r_l = SqliteRunInterval.GetPersonsRanking (sessionID);
+
+		string jsonStr = "{";
+		jsonStr += "\n\"RankingSprint\": [";
+		string commaStr = "";
+		foreach (Ranking r in r_l)
+		{
+			jsonStr += commaStr + r.ToString ();
+			commaStr = ",";
+		}
+		jsonStr += "\n] }";
+
+		TextWriter writer = File.CreateText("/tmp/json_sprint_ranking.txt");
+		writer.Write(jsonStr);
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
 	}
 
 	~RunIntervalExecute() {}

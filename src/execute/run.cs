@@ -973,12 +973,14 @@ public class RunExecute : EventExecute
 		((IDisposable)writer).Dispose();
 	}
 
-	private void writeJsonDataRanking (int sessionID)
+	protected string jsonDataRankingTitle = "RankingChut";
+	protected string jsonDataRankingFile = "/tmp/json_chut_ranking.txt";
+	protected void writeJsonDataRanking (int sessionID)
 	{
 		List<Ranking> r_l = SqliteRun.GetPersonsRanking (sessionID);
 
 		string jsonStr = "{";
-		jsonStr += "\n\"RankingChut\": [";
+		jsonStr += "\n\"" + jsonDataRankingTitle + "\": [";
 		string commaStr = "";
 		foreach (Ranking r in r_l)
 		{
@@ -987,7 +989,7 @@ public class RunExecute : EventExecute
 		}
 		jsonStr += "\n] }";
 
-		TextWriter writer = File.CreateText("/tmp/json_chut_ranking.txt");
+		TextWriter writer = File.CreateText (jsonDataRankingFile);
 		writer.Write(jsonStr);
 		writer.Flush();
 		writer.Close();
@@ -1557,26 +1559,8 @@ public class RunIntervalExecute : RunExecute
 		((IDisposable)writer).Dispose();
 	}
 
-	private void writeJsonDataRanking (int sessionID)
-	{
-		List<Ranking> r_l = SqliteRunInterval.GetPersonsRanking (sessionID);
-
-		string jsonStr = "{";
-		jsonStr += "\n\"RankingSprint\": [";
-		string commaStr = "";
-		foreach (Ranking r in r_l)
-		{
-			jsonStr += commaStr + r.ToString ();
-			commaStr = ",";
-		}
-		jsonStr += "\n] }";
-
-		TextWriter writer = File.CreateText("/tmp/json_sprint_ranking.txt");
-		writer.Write(jsonStr);
-		writer.Flush();
-		writer.Close();
-		((IDisposable)writer).Dispose();
-	}
+	protected string jsonDataRankingTitle = "RankingSprint";
+	protected string jsonDataRankingFile = "/tmp/json_sprint_ranking.txt";
 
 	~RunIntervalExecute() {}
 }

@@ -743,8 +743,8 @@ public class PersonAddMultipleWindow
 		if (useDescriptionCol)
 			descriptionLabel.Show();
 	
-		grid_main.ColumnSpacing = 4;
-		grid_main.RowSpacing = 4;
+		grid_main.ColumnSpacing = 6;
+		grid_main.RowSpacing = 8;
 
 		int x = 1; //id col 0, errors col1, fullname col (2)
 		grid_main.Attach (errorColumnLabel, x++, 0, 1, 1);

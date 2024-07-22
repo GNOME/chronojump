@@ -1260,6 +1260,7 @@
                                           <object class="GtkHBox" id="hbox1">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
+                                            <property name="spacing">30</property>
                                             <child>
                                               <object class="GtkScrolledWindow" id="scrolledwindow2">
                                                 <property name="width-request">450</property>
@@ -1286,6 +1287,7 @@
                                               <object class="GtkVButtonBox" id="vbuttonbox1">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
+                                                <property name="halign">start</property>
                                                 <child>
                                                   <object class="GtkButton" id="button_csv_load">
                                                     <property name="visible">True</property>

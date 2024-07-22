@@ -438,7 +438,7 @@ neuromuscularProfileWriteData1Person <- function(npj, names_c, outputData1)
 
 	df <- cbind (rep(names_c[1], 4),
 		     c(npj[[1]]$l.context$numJump, npj[[2]]$l.context$numJump, npj[[3]]$l.context$numJump, "AVG"),
-		     77, #TODO: put weight here
+		     c(npj[[1]]$mass, npj[[2]]$mass, npj[[3]]$mass, mean (c(npj[[1]]$mass, npj[[2]]$mass, npj[[3]]$mass), na.rm=T)),
 		     df)
 
 	#colnames(df) <- c(paste("e1.",names(npj[[1]]$e1),sep=""), names(npj[[1]]$c))
@@ -498,7 +498,7 @@ neuromuscularProfileWriteDataNPersons <- function(npj_l, names_c, outputData1)
 
 		df <- cbind (names_c[i],
 		       c(npj[[1]]$l.context$numJump, npj[[2]]$l.context$numJump, npj[[3]]$l.context$numJump, "AVG"),
-		       77, #TODO: put weight here
+		       c(npj[[1]]$mass, npj[[2]]$mass, npj[[3]]$mass, mean (c(npj[[1]]$mass, npj[[2]]$mass, npj[[3]]$mass), na.rm=T)),
 		       df)
 
 		print ("df")

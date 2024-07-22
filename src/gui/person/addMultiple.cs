@@ -1164,102 +1164,102 @@ public class PersonAddMultipleWindow
 		{
 			string clubID = ""; //if it is -1 it will be ""
 
-			if(((Gtk.Entry)entryNames[i]).Text.ToString().Length > 0)
+			if(((Gtk.Entry)entryNames[i]).Text.ToString().Length <= 0)
+				continue;
+
+			sex = Constants.SexU;
+			if (((Gtk.RadioButton) radiosM[i]).Active)
+				sex = Constants.SexM;
+			else if (((Gtk.RadioButton) radiosF[i]).Active)
+				sex = Constants.SexF;
+			if (check_clubID.Active && ((Gtk.SpinButton) spinsClubID[i]).Value >= 0)
+				clubID = ((Gtk.SpinButton) spinsClubID[i]).Value.ToString ();
+			if (check_description.Active)
+				description = ((Gtk.Entry)entryDescriptions[i]).Text.ToString();
+
+			PersonSession psExisting = new PersonSession ();
+			bool createPerson = true;
+			if (error_check_use_stored_l[i].Visible && error_check_use_stored_l[i].Active)
 			{
-				sex = Constants.SexU;
-				if (((Gtk.RadioButton) radiosM[i]).Active)
-					sex = Constants.SexM;
-				else if (((Gtk.RadioButton) radiosF[i]).Active)
-					sex = Constants.SexF;
-				if (check_clubID.Active && ((Gtk.SpinButton) spinsClubID[i]).Value >= 0)
-					clubID = ((Gtk.SpinButton) spinsClubID[i]).Value.ToString ();
-				if (check_description.Active)
-					description = ((Gtk.Entry)entryDescriptions[i]).Text.ToString();
-
-				PersonSession psExisting = new PersonSession ();
-				bool createPerson = true;
-				if (error_check_use_stored_l[i].Visible && error_check_use_stored_l[i].Active)
-				{
-					//do not create person, just load it (create personSession below)
-					currentPerson = SqlitePerson.SelectByName (false,
-							Util.RemoveTilde (((Gtk.Entry)entryNames[i]).Text.ToString()));
-					psExisting = SqlitePersonSession.Select (currentPerson.UniqueID, -1); //if sessionID == -1 we search data in last sessionID
-					createPerson = false;
-				} else {
-					currentPerson = new Person(
-							pID ++,
-							((Gtk.Entry)entryNames[i]).Text.ToString(), //name
-							sex,
-							dateTime,
-							Constants.RaceUndefinedID,
-							Constants.CountryUndefinedID,
-							description, "", clubID, 		//description, future1: rfid, future2: clubID
-							Constants.ServerUndefinedID,
-							""			//linkServerImage
-							);
-
-					persons.Add (currentPerson);
-				}
-
-				weight = (double) ((Gtk.SpinButton) spinsWeight[i]).Value;
-
-				height = 0;
-				if (check_person_height.Active)
-					height = (double) ((Gtk.SpinButton) spinsHeight[i]).Value;
-				if (! createPerson && height == 0 && psExisting.Height > 0)
-					height = psExisting.Height;
-
-				legsLength = 0;
-				if (check_legsLength.Active)
-					legsLength = (double) ((Gtk.SpinButton) spinsLegsLength[i]).Value;
-				if (! createPerson && legsLength == 0 && psExisting.TrochanterToe > 0)
-					legsLength = psExisting.TrochanterToe;
-
-				hipsHeight = 0;
-				if (check_hipsHeight.Active)
-					hipsHeight = (double) ((Gtk.SpinButton) spinsHipsHeight[i]).Value;
-				if (! createPerson && hipsHeight == 0 && psExisting.TrochanterFloorOnFlexion > 0)
-					hipsHeight = psExisting.TrochanterFloorOnFlexion;
-
-				int sportID = currentSession.PersonsSportID;
-				if (! createPerson && sportID == Constants.SportUndefinedID &&
-						psExisting.SportID > Constants.SportUndefinedID)
-					sportID = psExisting.SportID;
-
-				int speciallityID = currentSession.PersonsSpeciallityID;
-				if (! createPerson && speciallityID == Constants.SpeciallityUndefinedID &&
-						psExisting.SpeciallityID > Constants.SpeciallityUndefinedID)
-					speciallityID = psExisting.SpeciallityID;
-
-				int practice = currentSession.PersonsPractice;
-				if (! createPerson && practice == Constants.LevelUndefinedID &&
-						psExisting.Practice > Constants.LevelUndefinedID)
-					practice = psExisting.Practice;
-
-				PersonSession ps = new PersonSession (
-						psID ++,
-						currentPerson.UniqueID, currentSession.UniqueID,
-						height, weight,
-						sportID, speciallityID,	practice,
-						"", 			//comments
-						legsLength, hipsHeight
+				//do not create person, just load it (create personSession below)
+				currentPerson = SqlitePerson.SelectByName (false,
+						Util.RemoveTilde (((Gtk.Entry)entryNames[i]).Text.ToString()));
+				psExisting = SqlitePersonSession.Select (currentPerson.UniqueID, -1); //if sessionID == -1 we search data in last sessionID
+				createPerson = false;
+			} else {
+				currentPerson = new Person(
+						pID ++,
+						((Gtk.Entry)entryNames[i]).Text.ToString(), //name
+						sex,
+						dateTime,
+						Constants.RaceUndefinedID,
+						Constants.CountryUndefinedID,
+						description, "", clubID, 		//description, future1: rfid, future2: clubID
+						Constants.ServerUndefinedID,
+						""			//linkServerImage
 						);
 
-				if (! createPerson && error_label_in_session_l[i].Visible)
-				{
-					//if it is on session not need to create the personSession, just update it
-					//get the personSession on this session
-					psID = SqlitePersonSession.Select (false, currentPerson.UniqueID, currentSession.UniqueID).UniqueID;
-					if (psID > 0)
-					{
-						ps.UniqueID = psID;
-						SqlitePersonSession.Update (false, ps); //update
-					}
-				} else
-					personSessions.Add (ps);
-
-				//personsCreatedCount ++;
+				persons.Add (currentPerson);
 			}
+
+			weight = (double) ((Gtk.SpinButton) spinsWeight[i]).Value;
+
+			height = 0;
+			if (check_person_height.Active)
+				height = (double) ((Gtk.SpinButton) spinsHeight[i]).Value;
+			if (! createPerson && height == 0 && psExisting.Height > 0)
+				height = psExisting.Height;
+
+			legsLength = 0;
+			if (check_legsLength.Active)
+				legsLength = (double) ((Gtk.SpinButton) spinsLegsLength[i]).Value;
+			if (! createPerson && legsLength == 0 && psExisting.TrochanterToe > 0)
+				legsLength = psExisting.TrochanterToe;
+
+			hipsHeight = 0;
+			if (check_hipsHeight.Active)
+				hipsHeight = (double) ((Gtk.SpinButton) spinsHipsHeight[i]).Value;
+			if (! createPerson && hipsHeight == 0 && psExisting.TrochanterFloorOnFlexion > 0)
+				hipsHeight = psExisting.TrochanterFloorOnFlexion;
+
+			int sportID = currentSession.PersonsSportID;
+			if (! createPerson && sportID == Constants.SportUndefinedID &&
+					psExisting.SportID > Constants.SportUndefinedID)
+				sportID = psExisting.SportID;
+
+			int speciallityID = currentSession.PersonsSpeciallityID;
+			if (! createPerson && speciallityID == Constants.SpeciallityUndefinedID &&
+					psExisting.SpeciallityID > Constants.SpeciallityUndefinedID)
+				speciallityID = psExisting.SpeciallityID;
+
+			int practice = currentSession.PersonsPractice;
+			if (! createPerson && practice == Constants.LevelUndefinedID &&
+					psExisting.Practice > Constants.LevelUndefinedID)
+				practice = psExisting.Practice;
+
+			PersonSession ps = new PersonSession (
+					psID ++,
+					currentPerson.UniqueID, currentSession.UniqueID,
+					height, weight,
+					sportID, speciallityID,	practice,
+					"", 			//comments
+					legsLength, hipsHeight
+					);
+
+			if (! createPerson && error_label_in_session_l[i].Visible)
+			{
+				//if it is on session not need to create the personSession, just update it
+				//get the personSession on this session
+				psID = SqlitePersonSession.Select (false, currentPerson.UniqueID, currentSession.UniqueID).UniqueID;
+				if (psID > 0)
+				{
+					ps.UniqueID = psID;
+					SqlitePersonSession.Update (false, ps); //update
+				}
+			} else
+				personSessions.Add (ps);
+
+			//personsCreatedCount ++;
 		}
 	
 		//do the transaction	

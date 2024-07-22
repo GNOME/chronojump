@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -30,20 +30,24 @@ public class PersonAddMultipleTable
 {
 	public string name;
 	public string sex;
+	public int clubID;
 	public double weight;
 	public double height;
 	public double legsLength;
 	public double hipsHeight;
+	public string description;
 
-	public PersonAddMultipleTable (string name, string sex, double weight,
-			double height, double legsLength, double hipsHeight)
+	public PersonAddMultipleTable (string name, string sex, int clubID, double weight,
+			double height, double legsLength, double hipsHeight, string description)
 	{
 		this.name = name;
 		this.sex = sex;
+		this.clubID = clubID;
 		this.weight = weight;
 		this.height = height;
 		this.legsLength = legsLength;
 		this.hipsHeight = hipsHeight;
+		this.description = description;
 	}
 
 	~PersonAddMultipleTable() {}
@@ -102,9 +106,11 @@ public class PersonAddMultipleWindow
 
 	Gtk.CheckButton check_headers;
 	Gtk.CheckButton check_fullname_1_col;
+	Gtk.CheckButton check_clubID;
 	Gtk.CheckButton check_person_height;
 	Gtk.CheckButton check_legsLength;
 	Gtk.CheckButton check_hipsHeight;
+	Gtk.CheckButton check_description;
 
 	Gtk.Box hbox_h1_h2_help;
 	Gtk.Label label_h1_legsLength;
@@ -115,24 +121,30 @@ public class PersonAddMultipleWindow
 	Gtk.Label label_t_name;
 	Gtk.Label label_t_surname;
 	Gtk.Label label_t_genre;
+	Gtk.Label label_t_clubID;
 	Gtk.Label label_t_weight;
 	Gtk.Label label_t_height;
 	Gtk.Label label_t_legsLength;
 	Gtk.Label label_t_hipsHeight;
+	Gtk.Label label_t_description;
 	//show/hide hideable columns of June Carter
 	Gtk.Label label_t_fullname_june;
 	Gtk.Label label_t_name_june;
 	Gtk.Label label_t_surname_june;
+	Gtk.Label label_t_clubID_june;
 	Gtk.Label label_t_height_june;
 	Gtk.Label label_t_legsLength_june;
 	Gtk.Label label_t_hipsHeight_june;
+	Gtk.Label label_t_description_june;
 	//show/hide hideable columns of Johnny Cash
 	Gtk.Label label_t_fullname_johnny;
 	Gtk.Label label_t_name_johnny;
 	Gtk.Label label_t_surname_johnny;
+	Gtk.Label label_t_clubID_johnny;
 	Gtk.Label label_t_height_johnny;
 	Gtk.Label label_t_legsLength_johnny;
 	Gtk.Label label_t_hipsHeight_johnny;
+	Gtk.Label label_t_description_johnny;
 
 	Gtk.TextView textview;
 	//Gtk.ScrolledWindow scrolledwindow;
@@ -145,14 +157,16 @@ public class PersonAddMultipleWindow
 	private enum notebookPages { MAINOPTIONS, TABLEMANUALLY, LOADCSV };
 
 	//use this to read/write table
-	ArrayList entries;
+	ArrayList entryNames;
 	ArrayList radiosU;
 	ArrayList radiosM;
 	ArrayList radiosF;
+	ArrayList spinsClubID;
 	ArrayList spinsWeight;
 	ArrayList spinsHeight;
 	ArrayList spinsLegsLength;
 	ArrayList spinsHipsHeight;
+	ArrayList entryDescriptions;
 
 	
 	int rows;
@@ -267,18 +281,22 @@ public class PersonAddMultipleWindow
 		label_t_surname.Text = "<b>" + label_t_surname.Text + "</b>";
 		label_t_genre.Text = "<b>" + label_t_genre.Text + "</b>";
 		label_t_weight.Text = "<b>" + label_t_weight.Text + "</b>";
+		label_t_clubID.Text = "<b>" + label_t_clubID.Text + "</b>";
 		label_t_height.Text = "<b>" + label_t_height.Text + "</b>";
 		label_t_legsLength.Text = "<b>" + label_t_legsLength.Text + "</b>";
 		label_t_hipsHeight.Text = "<b>" + label_t_hipsHeight.Text + "</b>";
+		label_t_description.Text = "<b>" + label_t_description.Text + "</b>";
 
 		label_t_fullname.UseMarkup = true;
 		label_t_name.UseMarkup = true;
 		label_t_surname.UseMarkup = true;
 		label_t_genre.UseMarkup = true;
 		label_t_weight.UseMarkup = true;
+		label_t_clubID.UseMarkup = true;
 		label_t_height.UseMarkup = true;
 		label_t_legsLength.UseMarkup = true;
 		label_t_hipsHeight.UseMarkup = true;
+		label_t_description.UseMarkup = true;
 	}
 
 	void tableLabelsVisibility ()
@@ -298,20 +316,30 @@ public class PersonAddMultipleWindow
 		label_t_genre.Visible = check_headers.Active;
 		label_t_weight.Visible = check_headers.Active;
 
-		// 3) Height
+		// 3) clubID
+		label_t_clubID.Visible = (check_headers.Active && check_clubID.Active);
+		label_t_clubID_june.Visible = check_clubID.Active;
+		label_t_clubID_johnny.Visible = check_clubID.Active;
+
+		// 4) Height
 		label_t_height.Visible = (check_headers.Active && check_person_height.Active);
 		label_t_height_june.Visible = check_person_height.Active;
 		label_t_height_johnny.Visible = check_person_height.Active;
 
-		// 4) legsLength
+		// 5) legsLength
 		label_t_legsLength.Visible = (check_headers.Active && check_legsLength.Active);
 		label_t_legsLength_june.Visible = check_legsLength.Active;
 		label_t_legsLength_johnny.Visible = check_legsLength.Active;
 
-		// 5) hipsHeight
+		// 6) hipsHeight
 		label_t_hipsHeight.Visible = (check_headers.Active && check_hipsHeight.Active);
 		label_t_hipsHeight_june.Visible = check_hipsHeight.Active;
 		label_t_hipsHeight_johnny.Visible = check_hipsHeight.Active;
+
+		// 7) description
+		label_t_description.Visible = (check_headers.Active && check_description.Active);
+		label_t_description_june.Visible = check_description.Active;
+		label_t_description_johnny.Visible = check_description.Active;
 
 		button_accept.Sensitive = false;
 	}
@@ -426,36 +454,60 @@ public class PersonAddMultipleWindow
 
 			bool headersActive = check_headers.Active;
 			bool name1Col = check_fullname_1_col.Active;
+			bool useClubIDCol = check_clubID.Active;
 			bool useHeightCol = check_person_height.Active;
 			bool useLegsLengthCol = check_legsLength.Active;
 			bool useHipsHeightCol = check_hipsHeight.Active;
+			bool useDescriptionCol = check_description.Active;
 
 			List<string> columns = new List<string>();
 			using (var reader = new CsvFileReader(fc.Filename))
 			{
 				reader.ChangeDelimiter(columnDelimiter);
 				int genreCol = 1;
-				int weightCol = 2;
-				int heightCol = 3;
-				int legsLengthCol = 4;
-				int hipsHeightCol = 5;
+				int clubIDCol = 2;
+				int weightCol = 3;
+				int heightCol = 4;
+				int legsLengthCol = 5;
+				int hipsHeightCol = 6;
+				int descCol = 7;
 
 				if (! name1Col)
 				{
 					genreCol ++;
+					clubIDCol ++;
 					weightCol ++;
 					heightCol ++;
 					legsLengthCol ++;
 					hipsHeightCol ++;
+					descCol ++;
+				}
+				if (! useClubIDCol)
+				{
+					weightCol --;
+					heightCol --;
+					legsLengthCol --;
+					hipsHeightCol --;
+					descCol --;
 				}
 				if (! useHeightCol)
 				{
 					legsLengthCol --;
 					hipsHeightCol --;
+					descCol --;
 				}
 				if (! useLegsLengthCol)
 				{
 					hipsHeightCol --;
+					descCol --;
+				}
+				if (! useHipsHeightCol)
+				{
+					descCol --;
+				}
+				if (! useDescriptionCol)
+				{
+					//nothing
 				}
 
 				int row = 0;
@@ -464,10 +516,12 @@ public class PersonAddMultipleWindow
 					string fullname = "";
 					string onlyname = "";
 					string sex = Constants.SexU;
+					int clubID = -1;
 					double weight = 0;
 					double height = 0;
 					double legsLength = 0;
 					double hipsHeight = 0;
+					string description = "";
 					bool errorsReading = false;
 
 					int col = 0;
@@ -494,6 +548,17 @@ public class PersonAddMultipleWindow
 							sex = Constants.SexM;
 						else if (col == genreCol && (str == "0" || str == Constants.SexF.ToLower() || str == Constants.SexF))
 							sex = Constants.SexF;
+						else if (useClubIDCol && col == clubIDCol)
+						{
+							if (Util.IsNumber (str, false))
+							{
+								try {
+									clubID = Convert.ToInt32 (str);
+								} catch {
+									errorsReading = true;
+								}
+							}
+						}
 						else if (col == weightCol)
 						{
 							try {
@@ -527,6 +592,17 @@ public class PersonAddMultipleWindow
 								errorsReading = true;
 							}
 						}
+						else if (useDescriptionCol && col == descCol)
+						{
+							if (str != "")
+							{
+								try {
+									description = str;
+								} catch {
+									errorsReading = true;
+								}
+							}
+						}
 
 						if (errorsReading)
 						{
@@ -548,8 +624,8 @@ public class PersonAddMultipleWindow
 					//if headers are active do not add first row
 					if( ! (headersActive && row == 0) ) {
 						PersonAddMultipleTable pamt = new PersonAddMultipleTable (
-								Util.MakeValidSQL(fullname), sex, weight,
-								height, legsLength, hipsHeight);
+								Util.MakeValidSQL(fullname), sex, clubID, weight,
+								height, legsLength, hipsHeight, description);
 
 						array.Add(pamt);
 					}
@@ -562,8 +638,8 @@ public class PersonAddMultipleWindow
 			file.Close(); 
 
 			rows = array.Count;
-			createEmptyGrid (useHeightCol, useLegsLengthCol, useHipsHeightCol);
-			fillGridFromCSV (array, useHeightCol, useLegsLengthCol, useHipsHeightCol);
+			createEmptyGrid (useClubIDCol, useHeightCol, useLegsLengthCol, useHipsHeightCol, useDescriptionCol);
+			fillGridFromCSV (array, useClubIDCol, useHeightCol, useLegsLengthCol, useHipsHeightCol, useDescriptionCol);
 
 			if(! Config.UseSystemColor)
 				UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundShiftedIsDark, grid_main);
@@ -579,11 +655,7 @@ public class PersonAddMultipleWindow
 
 		rows = Convert.ToInt32(spin_manually.Value);
 
-		bool useHeightCol = check_person_height.Active;
-		bool useLegsLengthCol = check_legsLength.Active;
-		bool useHipsHeightCol = check_hipsHeight.Active;
-
-		createEmptyGrid (useHeightCol, useLegsLengthCol, useHipsHeightCol);
+		createEmptyGrid (check_clubID.Active, check_person_height.Active, check_legsLength.Active, check_hipsHeight.Active, check_description.Active);
 		if(! Config.UseSystemColor)
 			UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundShiftedIsDark, grid_main);
 	}
@@ -597,7 +669,7 @@ public class PersonAddMultipleWindow
 
 	List<PersonAddMultipleError> pame_l;
 
-	void createEmptyGrid (bool useHeightCol, bool useLegsLengthCol, bool useHipsHeightCol)
+	void createEmptyGrid (bool useClubIDCol, bool useHeightCol, bool useLegsLengthCol, bool useHipsHeightCol, bool useDescriptionCol)
 	{
 		if (grid_main != null && grid_main.Children.Length > 0)
 			UtilGtk.RemoveChildren (grid_main);
@@ -609,46 +681,58 @@ public class PersonAddMultipleWindow
 		error_label_repeated_name_l = new List<Gtk.Label>();
 		error_label_no_weight_l = new List<Gtk.Label>();
 
-		entries = new ArrayList();
+		entryNames = new ArrayList();
 		radiosU = new ArrayList();
 		radiosM = new ArrayList();
 		radiosF = new ArrayList();
+		spinsClubID = new ArrayList();
 		spinsWeight = new ArrayList();
 		spinsHeight = new ArrayList();
 		spinsLegsLength = new ArrayList();
 		spinsHipsHeight = new ArrayList();
+		entryDescriptions = new ArrayList();
 
 		errorColumnLabel = new Gtk.Label("<b>" + Catalog.GetString("Error") + "</b>");
 		Gtk.Label nameLabel = new Gtk.Label("<b>" + Catalog.GetString("Full name") + "</b>");
 		Gtk.Label sexLabel = new Gtk.Label("<b>" + Catalog.GetString("Sex") + "</b>");
+		Gtk.Label clubIDLabel = new Gtk.Label("<b>" + Catalog.GetString("Club ID") + "</b>");
 		Gtk.Label weightLabel = new Gtk.Label("<b>" + Catalog.GetString("Weight") +
 				"</b> (" + Catalog.GetString("Kg") + ")" );
 		Gtk.Label heightLabel = new Gtk.Label("<b>" + Catalog.GetString("Height") +
 				"</b> (" + Catalog.GetString("cm") + ")" );
 		Gtk.Label legsLengthLabel = new Gtk.Label("<b>h1</b> (" + Catalog.GetString("cm") + ")" );
 		Gtk.Label hipsHeightLabel = new Gtk.Label("<b>h2</b> (" + Catalog.GetString("cm") + ")" );
+		Gtk.Label descriptionLabel = new Gtk.Label("<b>" + Catalog.GetString("Description") + "</b>");
 		
 		errorColumnLabel.UseMarkup = true;
 		nameLabel.UseMarkup = true;
 		sexLabel.UseMarkup = true;
 		weightLabel.UseMarkup = true;
+		if (useClubIDCol)
+			clubIDLabel.UseMarkup = true;
 		if (useHeightCol)
 			heightLabel.UseMarkup = true;
 		if (useLegsLengthCol)
 			legsLengthLabel.UseMarkup = true;
 		if (useHipsHeightCol)
 			hipsHeightLabel.UseMarkup = true;
+		if (useDescriptionCol)
+			descriptionLabel.UseMarkup = true;
 
 		nameLabel.Xalign = 0;
 		sexLabel.Xalign = 0;
+		clubIDLabel.Xalign = 0;
 		weightLabel.Xalign = 0;
 		heightLabel.Xalign = 0;
 		legsLengthLabel.Xalign = 0;
 		hipsHeightLabel.Xalign = 0;
+		descriptionLabel.Xalign = 0;
 		
 		errorColumnLabel.Hide();
 		nameLabel.Show();
 		sexLabel.Show();
+		if (useClubIDCol)
+			clubIDLabel.Show();
 		weightLabel.Show();
 		if (useHeightCol)
 			heightLabel.Show();
@@ -656,6 +740,8 @@ public class PersonAddMultipleWindow
 			legsLengthLabel.Show();
 		if (useHipsHeightCol)
 			hipsHeightLabel.Show();
+		if (useDescriptionCol)
+			descriptionLabel.Show();
 	
 		grid_main.ColumnSpacing = 4;
 		grid_main.RowSpacing = 4;
@@ -664,6 +750,8 @@ public class PersonAddMultipleWindow
 		grid_main.Attach (errorColumnLabel, x++, 0, 1, 1);
 		grid_main.Attach (nameLabel, x++, 0, 1, 1);
 		grid_main.Attach (sexLabel, x++, 0, 1, 1);
+		if (useClubIDCol)
+			grid_main.Attach (clubIDLabel, x++, 0, 1, 1);
 		grid_main.Attach (weightLabel, x++, 0, 1, 1);
 		if (useHeightCol)
 			grid_main.Attach (heightLabel, x++, 0, 1, 1);
@@ -671,6 +759,8 @@ public class PersonAddMultipleWindow
 			grid_main.Attach (legsLengthLabel, x++, 0, 1, 1);
 		if (useHipsHeightCol)
 			grid_main.Attach (hipsHeightLabel, x++, 0, 1, 1);
+		if (useDescriptionCol)
+			grid_main.Attach (descriptionLabel, x++, 0, 1, 1);
 
 		for (int count=1; count <= rows; count ++)
 		{
@@ -728,11 +818,11 @@ public class PersonAddMultipleWindow
 
 			grid_main.Attach (idError, x++, count, 1, 1);
 
-			Gtk.Entry myEntry = new Gtk.Entry();
-			grid_main.Attach (myEntry, x++, count, 1, 1);
-			myEntry.Changed += on_entry_changed;
-			myEntry.Show();
-			entries.Add(myEntry);
+			Gtk.Entry entryName = new Gtk.Entry();
+			grid_main.Attach (entryName, x++, count, 1, 1);
+			entryName.Changed += on_entry_name_changed;
+			entryName.Show();
+			entryNames.Add(entryName);
 
 			Gtk.RadioButton myRadioU = new Gtk.RadioButton (Catalog.GetString (Constants.SexU));
 			myRadioU.Show ();
@@ -753,6 +843,13 @@ public class PersonAddMultipleWindow
 			sexBox.Show();
 			grid_main.Attach (sexBox, x++, count, 1, 1);
 
+			if (useClubIDCol)
+			{
+				Gtk.SpinButton mySpinClubID = new Gtk.SpinButton(-1, 100000, 1);
+				grid_main.Attach (mySpinClubID, x++, count, 1, 1);
+				mySpinClubID.Show();
+				spinsClubID.Add (mySpinClubID);
+			}
 
 			Gtk.SpinButton mySpinWeight = new Gtk.SpinButton(0, 300, .1);
 			grid_main.Attach (mySpinWeight, x++, count, 1, 1);
@@ -781,6 +878,14 @@ public class PersonAddMultipleWindow
 				grid_main.Attach (mySpinHipsHeight, x++, count, 1, 1);
 				mySpinHipsHeight.Show();
 				spinsHipsHeight.Add (mySpinHipsHeight);
+			}
+
+			if (useDescriptionCol)
+			{
+				Gtk.Entry entryDescription = new Gtk.Entry();
+				grid_main.Attach (entryDescription, x++, count, 1, 1);
+				entryDescription.Show();
+				entryDescriptions.Add(entryDescription);
 			}
 		}
 
@@ -824,7 +929,7 @@ public class PersonAddMultipleWindow
 		button_accept.Sensitive = true;
 	}
 
-	void on_entry_changed (object o, EventArgs args)
+	void on_entry_name_changed (object o, EventArgs args)
 	{
 		Gtk.Entry entry = o as Gtk.Entry;
 		if (o == null)
@@ -833,15 +938,22 @@ public class PersonAddMultipleWindow
 		entry.Text = Util.MakeValidSQL(entry.Text);
 	}
 
-	void fillGridFromCSV (ArrayList array, bool useHeightCol, bool useLegsLengthCol, bool useHipsHeightCol)
+	void fillGridFromCSV (ArrayList array, bool useClubIDCol, bool useHeightCol, bool useLegsLengthCol, bool useHipsHeightCol, bool useDescriptionCol)
 	{
 		int i = 0;
 		foreach (PersonAddMultipleTable pamt in array)
 		{
-			((Gtk.Entry) entries[i]).Text = pamt.name;
+			((Gtk.Entry) entryNames[i]).Text = pamt.name;
 			((Gtk.RadioButton) radiosU[i]).Active = (pamt.sex == Constants.SexU);
 			((Gtk.RadioButton) radiosM[i]).Active = (pamt.sex == Constants.SexM);
 			((Gtk.RadioButton) radiosF[i]).Active = (pamt.sex == Constants.SexF);
+
+			if (useClubIDCol)
+			{
+				LogB.Information("going to clubID");
+				((Gtk.SpinButton) spinsClubID[i]).Value = pamt.clubID;
+			}
+
 			LogB.Information("going to weight");
 			((Gtk.SpinButton) spinsWeight[i]).Value = pamt.weight;
 
@@ -861,6 +973,12 @@ public class PersonAddMultipleWindow
 				((Gtk.SpinButton) spinsHipsHeight[i]).Value = pamt.hipsHeight;
 				LogB.Information("h2 done");
 			}
+			if (useDescriptionCol)
+			{
+				LogB.Information("going to description");
+				((Gtk.Entry) entryDescriptions[i]).Text = pamt.description;
+			}
+
 			i ++;
 		}
 	}
@@ -885,7 +1003,7 @@ public class PersonAddMultipleWindow
 
 		Sqlite.Open();
 		for (int i = 0; i < rows; i ++) 
-			checkEntries(i, ((Gtk.Entry)entries[i]).Text.ToString(), (int) ((Gtk.SpinButton) spinsWeight[i]).Value);
+			checkEntries(i, ((Gtk.Entry)entryNames[i]).Text.ToString(), (int) ((Gtk.SpinButton) spinsWeight[i]).Value);
 		Sqlite.Close();
 
 		bool errors = false;
@@ -969,12 +1087,13 @@ public class PersonAddMultipleWindow
 				pame_l.Add (new PersonAddMultipleError (count, "", PersonAddMultipleError.ErrorType.NOWEIGHT));
 		}
 	}
-		
+
+	//note no check different ClubID as we can be using persons of different clubs
 	void checkAllEntriesAreDifferent()
 	{
 		ArrayList newNames= new ArrayList();
 		for (int i = 0; i < rows; i ++) 
-			newNames.Add(((Gtk.Entry)entries[i]).Text.ToString());
+			newNames.Add(((Gtk.Entry)entryNames[i]).Text.ToString());
 
 		for(int i=0; i < rows; i++)
 		{
@@ -1033,6 +1152,7 @@ public class PersonAddMultipleWindow
 		double height = 0;
 		double legsLength = 0;
 		double hipsHeight = 0;
+		string description = "";
 				
 		List <Person> persons = new List<Person>();
 		List <PersonSession> personSessions = new List<PersonSession>();
@@ -1040,14 +1160,21 @@ public class PersonAddMultipleWindow
 		DateTime dateTime = DateTime.MinValue;
 
 		//the last is the first for having the first value inserted as currentPerson
-		for (int i = rows -1; i >= 0; i --) 
-			if(((Gtk.Entry)entries[i]).Text.ToString().Length > 0) 
+		for (int i = rows -1; i >= 0; i --)
+		{
+			string clubID = ""; //if it is -1 it will be ""
+
+			if(((Gtk.Entry)entryNames[i]).Text.ToString().Length > 0)
 			{
 				sex = Constants.SexU;
 				if (((Gtk.RadioButton) radiosM[i]).Active)
 					sex = Constants.SexM;
 				else if (((Gtk.RadioButton) radiosF[i]).Active)
 					sex = Constants.SexF;
+				if (check_clubID.Active && ((Gtk.SpinButton) spinsClubID[i]).Value >= 0)
+					clubID = ((Gtk.SpinButton) spinsClubID[i]).Value.ToString ();
+				if (check_description.Active)
+					description = ((Gtk.Entry)entryDescriptions[i]).Text.ToString();
 
 				PersonSession psExisting = new PersonSession ();
 				bool createPerson = true;
@@ -1055,18 +1182,18 @@ public class PersonAddMultipleWindow
 				{
 					//do not create person, just load it (create personSession below)
 					currentPerson = SqlitePerson.SelectByName (false,
-							Util.RemoveTilde (((Gtk.Entry)entries[i]).Text.ToString()));
+							Util.RemoveTilde (((Gtk.Entry)entryNames[i]).Text.ToString()));
 					psExisting = SqlitePersonSession.Select (currentPerson.UniqueID, -1); //if sessionID == -1 we search data in last sessionID
 					createPerson = false;
 				} else {
 					currentPerson = new Person(
 							pID ++,
-							((Gtk.Entry)entries[i]).Text.ToString(), //name
+							((Gtk.Entry)entryNames[i]).Text.ToString(), //name
 							sex,
 							dateTime,
 							Constants.RaceUndefinedID,
 							Constants.CountryUndefinedID,
-							"", "", "", 		//description, future1: rfid, future2: clubID
+							description, "", clubID, 		//description, future1: rfid, future2: clubID
 							Constants.ServerUndefinedID,
 							""			//linkServerImage
 							);
@@ -1133,6 +1260,7 @@ public class PersonAddMultipleWindow
 
 				//personsCreatedCount ++;
 			}
+		}
 	
 		//do the transaction	
 		new SqlitePersonSessionTransaction (persons, personSessions);
@@ -1185,9 +1313,11 @@ public class PersonAddMultipleWindow
 
 		check_headers = (Gtk.CheckButton) builder.GetObject ("check_headers");
 		check_fullname_1_col = (Gtk.CheckButton) builder.GetObject ("check_fullname_1_col");
+		check_clubID = (Gtk.CheckButton) builder.GetObject ("check_clubID");
 		check_person_height = (Gtk.CheckButton) builder.GetObject ("check_person_height");
 		check_legsLength = (Gtk.CheckButton) builder.GetObject ("check_legsLength");
 		check_hipsHeight = (Gtk.CheckButton) builder.GetObject ("check_hipsHeight");
+		check_description = (Gtk.CheckButton) builder.GetObject ("check_description");
 
 		hbox_h1_h2_help = (Gtk.Box) builder.GetObject ("hbox_h1_h2_help");
 		label_h1_legsLength = (Gtk.Label) builder.GetObject ("label_h1_legsLength");
@@ -1198,24 +1328,30 @@ public class PersonAddMultipleWindow
 		label_t_name = (Gtk.Label) builder.GetObject ("label_t_name");
 		label_t_surname = (Gtk.Label) builder.GetObject ("label_t_surname");
 		label_t_genre = (Gtk.Label) builder.GetObject ("label_t_genre");
+		label_t_clubID = (Gtk.Label) builder.GetObject ("label_t_clubID");
 		label_t_weight = (Gtk.Label) builder.GetObject ("label_t_weight");
 		label_t_height = (Gtk.Label) builder.GetObject ("label_t_height");
 		label_t_legsLength = (Gtk.Label) builder.GetObject ("label_t_legsLength");
 		label_t_hipsHeight = (Gtk.Label) builder.GetObject ("label_t_hipsHeight");
+		label_t_description = (Gtk.Label) builder.GetObject ("label_t_description");
 		//show/hide hideable columns of June Carter
 		label_t_fullname_june = (Gtk.Label) builder.GetObject ("label_t_fullname_june");
 		label_t_name_june = (Gtk.Label) builder.GetObject ("label_t_name_june");
 		label_t_surname_june = (Gtk.Label) builder.GetObject ("label_t_surname_june");
+		label_t_clubID_june = (Gtk.Label) builder.GetObject ("label_t_clubID_june");
 		label_t_height_june = (Gtk.Label) builder.GetObject ("label_t_height_june");
 		label_t_legsLength_june = (Gtk.Label) builder.GetObject ("label_t_legsLength_june");
 		label_t_hipsHeight_june = (Gtk.Label) builder.GetObject ("label_t_hipsHeight_june");
+		label_t_description_june = (Gtk.Label) builder.GetObject ("label_t_description_june");
 		//show/hide hideable columns of Johnny Cash
 		label_t_fullname_johnny = (Gtk.Label) builder.GetObject ("label_t_fullname_johnny");
 		label_t_name_johnny = (Gtk.Label) builder.GetObject ("label_t_name_johnny");
 		label_t_surname_johnny = (Gtk.Label) builder.GetObject ("label_t_surname_johnny");
+		label_t_clubID_johnny = (Gtk.Label) builder.GetObject ("label_t_clubID_johnny");
 		label_t_height_johnny = (Gtk.Label) builder.GetObject ("label_t_height_johnny");
 		label_t_legsLength_johnny = (Gtk.Label) builder.GetObject ("label_t_legsLength_johnny");
 		label_t_hipsHeight_johnny = (Gtk.Label) builder.GetObject ("label_t_hipsHeight_johnny");
+		label_t_description_johnny = (Gtk.Label) builder.GetObject ("label_t_description_johnny");
 
 		textview = (Gtk.TextView) builder.GetObject ("textview");
 

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -347,7 +347,7 @@ public class UtilEncoder
 	}
 
 	public static EncoderGraphROptions PrepareEncoderGraphOptions(
-			string title, EncoderStruct es, bool neuromuscularProfileDo, bool translate, bool debug, bool crossValidate,
+			string title, string personName, EncoderStruct es, bool neuromuscularProfileDo, bool translate, bool debug, bool crossValidate,
 			bool cutByTriggers, string triggerStr, bool separateSessionInDays,
 			EncoderGraphROptions.AnalysisModes analysisMode, Preferences.EncoderInertialGraphsXTypes inertialGraphX)
 	{
@@ -355,10 +355,13 @@ public class UtilEncoder
 			
 		title = Util.RemoveBackSlash(title);
 		title = Util.RemoveChar(title, '\''); 
+		personName = Util.RemoveBackSlash(personName);
+		personName = Util.RemoveChar(personName, '\'');
 		
 		if (UtilAll.IsWindows()) {
 			//convert accents to Unicode in order to be plotted correctly on R windows
 			title = Util.ConvertToUnicode(title);
+			personName = Util.ConvertToUnicode(personName);
 
 			//On win32 R understands backlash as an escape character and 
 			//a file path uses Unix-like path separator '/'		
@@ -401,7 +404,7 @@ public class UtilEncoder
 				//es.OutputData2, es.SpecialData, 
 				es.EncoderRPath, es.EncoderTempPath,
 				es.Ep,
-				title, operatingSystem,
+				title, personName, operatingSystem,
 				Util.StringArrayToString(Constants.EncoderEnglishWords,";"),
 				Util.StringArrayToString(encoderTranslatedWordsOK,";"),
 				debug, crossValidate, cutByTriggers, triggerStr, separateSessionInDays,

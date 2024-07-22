@@ -15,7 +15,7 @@
 #   along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
-#   Copyright (C) 2004-2023  	Xavier de Blas <xaviblas@gmail.com>
+#   Copyright (C) 2004-2024  	Xavier de Blas <xaviblas@gmail.com>
 #   Copyright (C) 2014-2020   	Xavier Padullés <x.padulles@gmail.com>
 # 
 
@@ -4057,7 +4057,7 @@ doProcess <- function(options)
 				if (! singleFile)
 					names_c <- curves$seriesName
 				else
-					names_c <- rep ("", 3) #TODO: put person name
+					names_c <- rep (op$PersonName, 3)
 				neuromuscularProfileWriteData1Person (npj, names_c, op$OutputData1)
 			}
 		}

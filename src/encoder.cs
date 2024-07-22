@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -154,6 +154,7 @@ public class EncoderGraphROptions
 	public string encoderTempPath;
 	public EncoderParams ep;
 	public string title;
+	public string personName;
 	public string operatingSystem;
 	public string englishWords;
 	public string translatedWords;
@@ -171,7 +172,7 @@ public class EncoderGraphROptions
 			string inputData, string outputGraph, string outputData1, 
 			string encoderRPath, string encoderTempPath,
 			EncoderParams ep,
-			string title, string operatingSystem,
+			string title, string personName, string operatingSystem,
 			string englishWords, string translatedWords,
 			bool debug, bool crossValidate, bool cutByTriggers, string triggerList,
 			bool separateSessionInDays, AnalysisModes analysisMode, Preferences.EncoderInertialGraphsXTypes inertialGraphX)
@@ -183,6 +184,7 @@ public class EncoderGraphROptions
 		this.encoderTempPath = encoderTempPath;
 		this.ep = ep;
 		this.title = title;
+		this.personName = personName;
 		this.operatingSystem = operatingSystem;
 		this.englishWords = englishWords;
 		this.translatedWords = translatedWords;
@@ -217,7 +219,8 @@ public class EncoderGraphROptions
 			"#triggerList\n" +	triggerList + "\n" +
 			"#separateSessionInDays\n" +	Util.BoolToRBool(separateSessionInDays) + "\n" +
 			"#analysisMode\n" + 	analysisMode.ToString() + "\n" +
-			"#inertialGraphX\n" + 	inertialGraphX.ToString() + "\n";
+			"#inertialGraphX\n" + 	inertialGraphX.ToString() + "\n" +
+			"#personName\n" + 	personName + "\n";
 	}
 	
 

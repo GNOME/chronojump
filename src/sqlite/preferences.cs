@@ -524,14 +524,14 @@ class SqlitePreferences : Sqlite
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
-
-		dbcmd.CommandText = "UPDATE " + Constants.PreferencesTable +
+        
+        dbcmd.CommandText = "UPDATE " + Constants.PreferencesTable +
 			" SET value = \"" + myValue + 
 			"\" WHERE name == \"" + myName + "\"" ;
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-		
-		if(! dbconOpened)
+		LogB.SQL(dbcmd.CommandText.ToString()); 
+        dbcmd.ExecuteNonQuery(); //Would crash if no "Writing" permission to db files while executing "dotnet run".
+
+        if (! dbconOpened)
 			Sqlite.Close();
 	}
 

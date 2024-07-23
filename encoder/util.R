@@ -100,7 +100,8 @@ assignOptions <- function(options) {
 		    #	translatedWords [30]
 		    SeparateSessionInDays = options[35],
 		    AnalysisMode 	 = options[36],
-		    InertialGraphX	 = options[37]
+		    InertialGraphX	 = options[37],
+		    PersonName		= options[38] #used on neuromuscular singleFile
 		    ))
 }
 

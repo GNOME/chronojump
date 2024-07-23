@@ -57,7 +57,6 @@ public class Config
 	public bool EncoderAnalyzeHide;
 	public string RunScriptOnExit;
 
-
 	//remember to change the fill method if this list grows
 	public enum OpEnum {
 		Compujump, CompujumpDjango, CompujumpServerURL, CompujumpStationID, CompujumpStationMode, //networks (main options)
@@ -65,6 +64,7 @@ public class Config
 		CopyToCloudFullPath, CopyToCloudOnExit, ReadFromCloudMainPath, //cloud
 		CanOpenExternalDB, ExternalDBDefaultPath, //externalDB
 		LastDBFullPath, //cloud & externalDB
+		JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, //json upload
 		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, GuiTest, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
@@ -75,6 +75,7 @@ public class Config
 	public static string OpEnum1stCloud = OpEnum.CopyToCloudFullPath.ToString ();
 	public static string OpEnum1stExternalDB = OpEnum.CanOpenExternalDB.ToString ();
 	public static string OpEnum1stCloudAndExternalDB = OpEnum.LastDBFullPath.ToString ();
+	public static string OpEnum1stJsonUpload = OpEnum.JsonUploadRunSimpleTestScript.ToString ();
 	public static string OpEnum1stOther = OpEnum.SessionMode.ToString ();
 	public static string OpEnum1stOutdated = OpEnum.Exhibition.ToString ();
 
@@ -132,6 +133,24 @@ public class Config
 	public string LastDBFullPath {
 		get { return configList.GetString (OpEnum.LastDBFullPath); }
 		set { configList.SetValue (OpEnum.LastDBFullPath.ToString (), value); }
+	}
+
+	//json upload (remember scripts are on innolab/ chronojumpNoGit also session is there
+	public string JsonUploadRunSimpleTestScript {
+		get { return configList.GetString (OpEnum.JsonUploadRunSimpleTestScript); }
+		//"/home/chronojump/Desktop/xaviB/kings_queens_flowics/json/curl_json_chut_1_test.sh"
+	}
+	public string JsonUploadRunSimpleRankingScript {
+		get { return configList.GetString (OpEnum.JsonUploadRunSimpleRankingScript); }
+		//"/home/chronojump/Desktop/xaviB/kings_queens_flowics/json/curl_json_chut_ranking.sh"
+	}
+	public string JsonUploadRunIntervalTestScript {
+		get { return configList.GetString (OpEnum.JsonUploadRunIntervalTestScript); }
+		//"/home/chronojump/Desktop/xaviB/kings_queens_flowics/json/curl_json_sprint_1_test.sh"
+	}
+	public string JsonUploadRunIntervalRankingScript {
+		get { return configList.GetString (OpEnum.JsonUploadRunIntervalRankingScript); }
+		//"/home/chronojump/Desktop/xaviB/kings_queens_flowics/json/curl_json_sprint_ranking.sh"
 	}
 
 	// other
@@ -468,6 +487,8 @@ public class ConfigList
 				str += "\n\nExternalDB:";
 			else if (co.Name == Config.OpEnum1stCloudAndExternalDB)
 				str += "\n\nCloud & externalDB:";
+			else if (co.Name == Config.OpEnum1stJsonUpload)
+				str += "\n\nJson upload:";
 			else if (co.Name == Config.OpEnum1stOther)
 				str += "\n\nOther:";
 			else if (co.Name == Config.OpEnum1stOutdated)
@@ -557,6 +578,16 @@ public class ConfigList
 		// cloud & externalDB
 		list.Add (new ConfigOptionString (Config.OpEnum.LastDBFullPath,
 					"Last path used, Chronojump will open it automatically if not empty and (ReadFromCloudMainPath or CanOpenExternalDB)."));
+
+		// json upload
+		list.Add (new ConfigOptionString (Config.OpEnum.JsonUploadRunSimpleTestScript,
+					"Path to JsonUploadRunSimpleTestScript."));
+		list.Add (new ConfigOptionString (Config.OpEnum.JsonUploadRunSimpleRankingScript,
+					"Path to JsonUploadRunSimpleRankingScript."));
+		list.Add (new ConfigOptionString (Config.OpEnum.JsonUploadRunIntervalTestScript,
+					"Path to JsonUploadRunIntervalTestScript."));
+		list.Add (new ConfigOptionString (Config.OpEnum.JsonUploadRunIntervalRankingScript,
+					"Path to JsonUploadRunIntervalRankingScript."));
 
 		// other
 		list.Add (new ConfigOptionEnum (Config.OpEnum.SessionMode,

@@ -1618,6 +1618,7 @@ public partial class ChronoJumpWindow
 		//send data to encoderRProcAnalyze
 		encoderRProcAnalyze.SendData(
 				title,
+				currentPerson.Name, //used on singleFile
 				false,	//do not use neuromuscularProfile script
 				preferences.RGraphsTranslate,
 				(preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
@@ -2246,6 +2247,7 @@ public partial class ChronoJumpWindow
 				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceAndMinusForUnderscore(lastEncoderSQLSignal.exerciseName) + 
 					"-(" + displacedMass + "Kg)",
+				currentPerson.Name,
 				false, 			//do not use neuromuscularProfile script
 				preferences.RGraphsTranslate,
 				(preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
@@ -4034,6 +4036,7 @@ public partial class ChronoJumpWindow
 
 		encoderRProcAnalyze.SendData(
 				titleStr, 
+				currentPerson.Name, //used on singleFile
 				encoderSelectedAnalysis == "neuromuscularProfile",
 				preferences.RGraphsTranslate,
 				(preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),

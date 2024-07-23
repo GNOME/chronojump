@@ -44,9 +44,9 @@ public class Log
 			} catch {
 				return;
 			}
-		}
-		
-		string filename = UtilAll.GetLogFileCurrent();
+        }
+
+        string filename = UtilAll.GetLogFileCurrent();
 		string filenameOld = UtilAll.GetLogFileOld();
 
 		//if exists, copy to old
@@ -56,21 +56,21 @@ public class Log
 			} catch {}
 		}
 
-		/*
+        /*
 		try {
 			writer = File.CreateText(filename);
 			useConsole = false;
 		} catch {}
 		*/
-	
 
-		//this does not write until exit
-		//StreamWriter sw = new StreamWriter(new BufferedStream(new FileStream(UtilAll.GetLogFileCurrent(), FileMode.Create)));
 
-		//this writes all the time
-		StreamWriter sw = new StreamWriter(new FileStream(UtilAll.GetLogFileCurrent(), FileMode.Create));
+        //this does not write until exit
+        //StreamWriter sw = new StreamWriter(new BufferedStream(new FileStream(UtilAll.GetLogFileCurrent(), FileMode.Create)));
 
-		System.Console.SetOut(sw);
+        //this writes all the time
+        StreamWriter sw = new StreamWriter(new FileStream(UtilAll.GetLogFileCurrent(), FileMode.Create));
+		
+		System.Console.SetOut(sw); //Would crash if no "Writing" permission to log files while executing "dotnet run".
 		System.Console.SetError(sw);
 		sw.AutoFlush = true;
 	}

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -256,6 +256,7 @@ public class EncoderRProcCapture : EncoderRProc
 
 		string scriptOptions = UtilEncoder.PrepareEncoderGraphOptions(
 				"none", 	//title
+				"", 		//personName
 				es, 
 				false,	//neuromuscularProfile
 				false,	//translate (graphs)
@@ -290,6 +291,7 @@ public class EncoderRProcCapture : EncoderRProc
 public class EncoderRProcAnalyze : EncoderRProc 
 {
 	private string title;
+	private string personName;
 	private bool neuromuscularProfileDo;
 	private bool translate;
 	private bool cutByTriggers;
@@ -308,11 +310,12 @@ public class EncoderRProcAnalyze : EncoderRProc
 	public EncoderRProcAnalyze() {
 	}
 
-	public void SendData(string title, bool neuromuscularProfileDo, bool translate,
+	public void SendData(string title, string personName, bool neuromuscularProfileDo, bool translate,
 			bool cutByTriggers, TriggerList triggerList,
 			EncoderGraphROptions.AnalysisModes analysisMode, Preferences.EncoderInertialGraphsXTypes inertialGraphX)
 	{
 		this.title = title;
+		this.personName = personName;
 		this.neuromuscularProfileDo = neuromuscularProfileDo;
 		this.translate = translate;
 		this.cutByTriggers = cutByTriggers;
@@ -526,6 +529,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 	
 		string scriptOptions = UtilEncoder.PrepareEncoderGraphOptions(
 				title,
+				personName,
 				es, 
 				neuromuscularProfileDo,
 				translate,

@@ -15,7 +15,7 @@
 #   along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
-#   Copyright (C) 2014-2017  	Xavier de Blas <xaviblas@gmail.com> 
+#   Copyright (C) 2014-2027  	Xavier de Blas <xaviblas@gmail.com>
 # 
 
 
@@ -438,7 +438,7 @@ neuromuscularProfileWriteData1Person <- function(npj, names_c, outputData1)
 
 	df <- cbind (rep(names_c[1], 4),
 		     c(npj[[1]]$l.context$numJump, npj[[2]]$l.context$numJump, npj[[3]]$l.context$numJump, "AVG"),
-		     77, #TODO: put weight here
+		     c(npj[[1]]$mass, npj[[2]]$mass, npj[[3]]$mass, mean (c(npj[[1]]$mass, npj[[2]]$mass, npj[[3]]$mass), na.rm=T)),
 		     df)
 
 	#colnames(df) <- c(paste("e1.",names(npj[[1]]$e1),sep=""), names(npj[[1]]$c))
@@ -498,7 +498,7 @@ neuromuscularProfileWriteDataNPersons <- function(npj_l, names_c, outputData1)
 
 		df <- cbind (names_c[i],
 		       c(npj[[1]]$l.context$numJump, npj[[2]]$l.context$numJump, npj[[3]]$l.context$numJump, "AVG"),
-		       77, #TODO: put weight here
+		       c(npj[[1]]$mass, npj[[2]]$mass, npj[[3]]$mass, mean (c(npj[[1]]$mass, npj[[2]]$mass, npj[[3]]$mass), na.rm=T)),
 		       df)
 
 		print ("df")

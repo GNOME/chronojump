@@ -6619,7 +6619,10 @@ public partial class ChronoJumpWindow
 				label_run_execute_photocell_code,
 				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
 				radio_contacts_graph_allTests.Active, radio_contacts_results_personAll.Active,
-				webcamStatusEnumSetStart ());
+				webcamStatusEnumSetStart (),
+				configChronojump.JsonUploadRunSimpleTestScript,
+				configChronojump.JsonUploadRunSimpleRankingScript
+				);
 
 		if (! canCaptureC && ! wireless)
 			currentEventExecute.SimulateInitValues(rand);
@@ -6785,7 +6788,10 @@ public partial class ChronoJumpWindow
 				image_run_execute_running,
 				image_run_execute_photocell_icon,
 				label_run_execute_photocell_code,
-				webcamStatusEnumSetStart ());
+				webcamStatusEnumSetStart (),
+				configChronojump.JsonUploadRunIntervalTestScript,
+				configChronojump.JsonUploadRunIntervalRankingScript
+				);
 
 		//suitable for limited by tracks and time
 		if(! canCaptureC && ! wireless)

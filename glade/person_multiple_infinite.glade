@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
+<!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="adjustment1">
@@ -144,6 +144,21 @@
                                             <property name="can-focus">False</property>
                                             <property name="spacing">8</property>
                                             <child>
+                                              <object class="GtkCheckButton" id="check_clubID">
+                                                <property name="label" translatable="yes">Club ID</property>
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="receives-default">False</property>
+                                                <property name="draw-indicator">True</property>
+                                                <signal name="toggled" handler="on_check_person_other_variables_toggled" swapped="no"/>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
                                               <object class="GtkCheckButton" id="check_person_height">
                                                 <property name="label" translatable="yes">Person's height</property>
                                                 <property name="visible">True</property>
@@ -155,7 +170,7 @@
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">True</property>
-                                                <property name="position">0</property>
+                                                <property name="position">1</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -170,7 +185,7 @@
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
-                                                <property name="position">1</property>
+                                                <property name="position">2</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -185,7 +200,22 @@
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
-                                                <property name="position">2</property>
+                                                <property name="position">3</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkCheckButton" id="check_description">
+                                                <property name="label" translatable="yes">Description</property>
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="receives-default">False</property>
+                                                <property name="draw-indicator">True</property>
+                                                <signal name="toggled" handler="on_check_person_other_variables_toggled" swapped="no"/>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">4</property>
                                               </packing>
                                             </child>
                                           </object>
@@ -373,7 +403,6 @@
                                 <child>
                                   <object class="GtkBox" id="hbox_h1_h2_help">
                                     <property name="can-focus">False</property>
-                                    <property name="orientation">horizontal</property>
                                     <property name="spacing">20</property>
                                     <child>
                                       <object class="GtkLabel" id="label_h1_legsLength">
@@ -787,7 +816,7 @@
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
                                                     <property name="n-rows">3</property>
-                                                    <property name="n-columns">8</property>
+                                                    <property name="n-columns">10</property>
                                                     <property name="column-spacing">12</property>
                                                     <property name="row-spacing">8</property>
                                                     <child>
@@ -823,8 +852,8 @@
                                                         <property name="label">56</property>
                                                       </object>
                                                       <packing>
-                                                        <property name="left-attach">4</property>
-                                                        <property name="right-attach">5</property>
+                                                        <property name="left-attach">5</property>
+                                                        <property name="right-attach">6</property>
                                                         <property name="top-attach">1</property>
                                                         <property name="bottom-attach">2</property>
                                                         <property name="x-options"/>
@@ -862,8 +891,8 @@
                                                         <property name="use-markup">True</property>
                                                       </object>
                                                       <packing>
-                                                        <property name="left-attach">4</property>
-                                                        <property name="right-attach">5</property>
+                                                        <property name="left-attach">5</property>
+                                                        <property name="right-attach">6</property>
                                                         <property name="x-options"/>
                                                       </packing>
                                                     </child>
@@ -900,8 +929,8 @@
                                                         <property name="label">86</property>
                                                       </object>
                                                       <packing>
-                                                        <property name="left-attach">4</property>
-                                                        <property name="right-attach">5</property>
+                                                        <property name="left-attach">5</property>
+                                                        <property name="right-attach">6</property>
                                                         <property name="top-attach">2</property>
                                                         <property name="bottom-attach">3</property>
                                                         <property name="x-options"/>
@@ -915,8 +944,8 @@
                                                         <property name="use-markup">True</property>
                                                       </object>
                                                       <packing>
-                                                        <property name="left-attach">5</property>
-                                                        <property name="right-attach">6</property>
+                                                        <property name="left-attach">6</property>
+                                                        <property name="right-attach">7</property>
                                                         <property name="x-options"/>
                                                       </packing>
                                                     </child>
@@ -928,8 +957,8 @@
                                                         <property name="use-markup">True</property>
                                                       </object>
                                                       <packing>
-                                                        <property name="left-attach">6</property>
-                                                        <property name="right-attach">7</property>
+                                                        <property name="left-attach">7</property>
+                                                        <property name="right-attach">8</property>
                                                         <property name="x-options"/>
                                                       </packing>
                                                     </child>
@@ -941,8 +970,8 @@
                                                         <property name="use-markup">True</property>
                                                       </object>
                                                       <packing>
-                                                        <property name="left-attach">7</property>
-                                                        <property name="right-attach">8</property>
+                                                        <property name="left-attach">8</property>
+                                                        <property name="right-attach">9</property>
                                                         <property name="x-options"/>
                                                       </packing>
                                                     </child>
@@ -953,8 +982,8 @@
                                                         <property name="label">170</property>
                                                       </object>
                                                       <packing>
-                                                        <property name="left-attach">5</property>
-                                                        <property name="right-attach">6</property>
+                                                        <property name="left-attach">6</property>
+                                                        <property name="right-attach">7</property>
                                                         <property name="top-attach">1</property>
                                                         <property name="bottom-attach">2</property>
                                                         <property name="x-options"/>
@@ -967,8 +996,8 @@
                                                         <property name="label">188</property>
                                                       </object>
                                                       <packing>
-                                                        <property name="left-attach">5</property>
-                                                        <property name="right-attach">6</property>
+                                                        <property name="left-attach">6</property>
+                                                        <property name="right-attach">7</property>
                                                         <property name="top-attach">2</property>
                                                         <property name="bottom-attach">3</property>
                                                         <property name="x-options"/>
@@ -981,8 +1010,8 @@
                                                         <property name="label">56</property>
                                                       </object>
                                                       <packing>
-                                                        <property name="left-attach">6</property>
-                                                        <property name="right-attach">7</property>
+                                                        <property name="left-attach">7</property>
+                                                        <property name="right-attach">8</property>
                                                         <property name="top-attach">1</property>
                                                         <property name="bottom-attach">2</property>
                                                         <property name="x-options"/>
@@ -995,8 +1024,8 @@
                                                         <property name="label">92</property>
                                                       </object>
                                                       <packing>
-                                                        <property name="left-attach">6</property>
-                                                        <property name="right-attach">7</property>
+                                                        <property name="left-attach">7</property>
+                                                        <property name="right-attach">8</property>
                                                         <property name="top-attach">2</property>
                                                         <property name="bottom-attach">3</property>
                                                         <property name="x-options"/>
@@ -1009,8 +1038,8 @@
                                                         <property name="label">56</property>
                                                       </object>
                                                       <packing>
-                                                        <property name="left-attach">7</property>
-                                                        <property name="right-attach">8</property>
+                                                        <property name="left-attach">8</property>
+                                                        <property name="right-attach">9</property>
                                                         <property name="top-attach">1</property>
                                                         <property name="bottom-attach">2</property>
                                                         <property name="x-options"/>
@@ -1023,8 +1052,8 @@
                                                         <property name="label">47</property>
                                                       </object>
                                                       <packing>
-                                                        <property name="left-attach">7</property>
-                                                        <property name="right-attach">8</property>
+                                                        <property name="left-attach">8</property>
+                                                        <property name="right-attach">9</property>
                                                         <property name="top-attach">2</property>
                                                         <property name="bottom-attach">3</property>
                                                         <property name="x-options"/>
@@ -1112,6 +1141,90 @@
                                                         <property name="x-options"/>
                                                       </packing>
                                                     </child>
+                                                    <child>
+                                                      <object class="GtkLabel" id="label_t_clubID">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">False</property>
+                                                        <property name="label" translatable="yes">Club ID</property>
+                                                        <property name="use-markup">True</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="left-attach">4</property>
+                                                        <property name="right-attach">5</property>
+                                                        <property name="x-options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkLabel" id="label_t_clubID_june">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">False</property>
+                                                        <property name="label">5</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="left-attach">4</property>
+                                                        <property name="right-attach">5</property>
+                                                        <property name="top-attach">1</property>
+                                                        <property name="bottom-attach">2</property>
+                                                        <property name="x-options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkLabel" id="label_t_clubID_johnny">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">False</property>
+                                                        <property name="label">6</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="left-attach">4</property>
+                                                        <property name="right-attach">5</property>
+                                                        <property name="top-attach">2</property>
+                                                        <property name="bottom-attach">3</property>
+                                                        <property name="x-options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkLabel" id="label_t_description">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">False</property>
+                                                        <property name="label" translatable="yes">Description</property>
+                                                        <property name="use-markup">True</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="left-attach">9</property>
+                                                        <property name="right-attach">10</property>
+                                                        <property name="x-options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkLabel" id="label_t_description_june">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">False</property>
+                                                        <property name="label" translatable="yes">Some comment</property>
+                                                        <property name="use-markup">True</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="left-attach">9</property>
+                                                        <property name="right-attach">10</property>
+                                                        <property name="top-attach">1</property>
+                                                        <property name="bottom-attach">2</property>
+                                                        <property name="x-options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkLabel" id="label_t_description_johnny">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">False</property>
+                                                        <property name="label" translatable="yes">Another comment</property>
+                                                        <property name="use-markup">True</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="left-attach">9</property>
+                                                        <property name="right-attach">10</property>
+                                                        <property name="top-attach">2</property>
+                                                        <property name="bottom-attach">3</property>
+                                                        <property name="x-options"/>
+                                                      </packing>
+                                                    </child>
                                                   </object>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -1147,6 +1260,7 @@
                                           <object class="GtkHBox" id="hbox1">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
+                                            <property name="spacing">30</property>
                                             <child>
                                               <object class="GtkScrolledWindow" id="scrolledwindow2">
                                                 <property name="width-request">450</property>
@@ -1173,6 +1287,7 @@
                                               <object class="GtkVButtonBox" id="vbuttonbox1">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
+                                                <property name="halign">start</property>
                                                 <child>
                                                   <object class="GtkButton" id="button_csv_load">
                                                     <property name="visible">True</property>

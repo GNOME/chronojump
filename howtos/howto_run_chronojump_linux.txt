@@ -11,6 +11,8 @@ cd chronojump
 
 # Substitute [chronojump path] with the real path where you cloned the repo
 sh autogen.sh --prefix [chronojump path]/chronojump/package/linux/deps
+# If using the git code but not making the package, this dir will not exist: /package/linux/deps just do this to update version on the software:
+.autogen.sh
 
 # Grant the access to the serial port. Change "[username]" by the real unername
 sudo usermod -a -G dialout [username]

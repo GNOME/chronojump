@@ -279,5 +279,38 @@ class SqliteRunInterval : SqliteRun
 		Sqlite.Close();
 	}
 
+	public static List<Ranking> GetPersonsRanking (int sessionID)
+	{
+		Sqlite.Open ();
+		dbcmd.CommandText =
+			"SELECT MIN(runInterval.timeTotal), person77.name, person77.Description" +
+			" FROM runInterval, person77" +
+			" WHERE sessionID = " + sessionID.ToString () +
+			" AND runInterval.personID = person77.uniqueID" +
+			" GROUP BY personID ORDER BY timeTotal ASC";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		List<Ranking> r_l = new List<Ranking> ();
+		int pos = 1;
+		while(reader.Read())
+		{
+			Ranking r = new Ranking (
+					pos ++,
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString())), 	//result
+					reader[1].ToString(), 	//name
+					reader[2].ToString() 	//photo
+					);
+			r_l.Add (r);
+		}
+
+		reader.Close();
+		Sqlite.Close ();
+
+		return r_l;
+	}
 
 }

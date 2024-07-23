@@ -334,5 +334,68 @@ class SqliteRun : Sqlite
 		Sqlite.Close();
 	}
 
+	public static List<Ranking> GetPersonsRanking (int sessionID)
+	{
+		Sqlite.Open ();
+		dbcmd.CommandText =
+			"SELECT MIN(run.time), person77.name, person77.Description" +
+			" FROM run, person77" +
+			" WHERE sessionID = " + sessionID.ToString () +
+			" AND run.personID = person77.uniqueID" +
+			" GROUP BY personID ORDER BY time ASC";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		List<Ranking> r_l = new List<Ranking> ();
+		int pos = 1;
+		while(reader.Read())
+		{
+			Ranking r = new Ranking (
+					pos ++,
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString())), 	//result
+					reader[1].ToString(), 	//name
+					reader[2].ToString() 	//photo
+					);
+			//LogB.Information ("r.ToString ()");
+			//LogB.Information (r.ToString ());
+			r_l.Add (r);
+		}
+
+		reader.Close();
+		Sqlite.Close ();
+
+		return r_l;
+	}
+}
+
+public class Ranking
+{
+	public int pos;
+	public double result;
+	public string name;
+	public string photo;
+
+	public Ranking (int pos, double result, string name, string photo)
+	{
+		this.pos = pos;
+		this.result = result;
+		this.name = name;
+
+		photo = photo.Replace ("\nhttps", "https");
+		photo = photo.Replace (" https", "https");
+		photo = photo.Replace ("https //", "https://");
+		this.photo = photo;
+	}
+
+	public override string ToString ()
+	{
+		return "\n{ " +
+			string.Format ("\"Pos\":{0}, \"Result\":{1}, \"Name\":\"{2}\", \"Photo\":\"{3}\"",
+					pos, Util.ConvertToPoint (Util.TrimDecimals (result, 2)), name, photo) +
+			"}";
+	}
 }
 

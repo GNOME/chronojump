@@ -707,6 +707,7 @@ public partial class ChronoJumpWindow
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
 				personName, type, preferences.digitsNumber,// preferences.heightPreferred,
+				preferences.metersSecondsPreferred,
 				check_runI_realtime_rel_abs.Active,
 				timesString, distanceInterval, distancesString,
 				photocell_l, isLastCaptured, feedbackRunsI, videoTime);
@@ -1858,10 +1859,13 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 
 public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 {
-	public CairoPaintBarsPreRunSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN)
+	private bool metersSecondsPreferred;
+
+	public CairoPaintBarsPreRunSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN, bool metersSecondsPreferred)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		this.title = generateTitle();
+		this.metersSecondsPreferred = metersSecondsPreferred;
 	}
 
 	public override void StoreEventGraphRuns (PrepareEventGraphRunSimple eventGraph)
@@ -1884,7 +1888,10 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, true, true, true);
 
 		cb.YVariable = Catalog.GetString("Speed");
-		cb.YUnits = "m/s";
+		if (metersSecondsPreferred)
+			cb.YUnits = "m/s";
+		else
+			cb.YUnits = "Km/h";
 
 		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
 		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides
@@ -1923,7 +1930,8 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 		foreach(Run run in eventGraphRunsStored.runsAtSQL)
 		{
 			// 1) Add data
-			point_l.Add(new PointF(countToDraw --, run.Distance/run.Time));
+			run.MetersSecondsPreferred = metersSecondsPreferred;
+			point_l.Add(new PointF(countToDraw --, run.Speed));
 
 			// 2) Add bottom names
 			string typeRowString = "";
@@ -1973,10 +1981,13 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 
 public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 {
-	public CairoPaintBarsPreRunInterval (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN)
+	private bool metersSecondsPreferred;
+
+	public CairoPaintBarsPreRunInterval (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN, bool metersSecondsPreferred)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		this.title = generateTitle();
+		this.metersSecondsPreferred = metersSecondsPreferred;
 	}
 
 	public override void StoreEventGraphRunsInterval (PrepareEventGraphRunInterval eventGraph)
@@ -1999,7 +2010,10 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, true, true, true);
 
 		cb.YVariable = Catalog.GetString("Speed");
-		cb.YUnits = "m/s";
+		if (metersSecondsPreferred)
+			cb.YUnits = "m/s";
+		else
+			cb.YUnits = "Km/h";
 
 		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
 		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides
@@ -2045,6 +2059,7 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 		foreach(RunInterval runI in eventGraphRunsIntervalStored.runsAtSQL)
 		{
 			// 1) Add data
+			runI.MetersSecondsPreferred = metersSecondsPreferred;
 			point_l.Add(new PointF(countToDraw --, runI.Speed));
 
 			// 2) Add bottom names
@@ -2284,6 +2299,7 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 
 public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 {
+	private bool metersSecondsPreferred;
 	private bool isRelative; //related to names: distance and time
 	//private bool ifRSAstartRest; //on RSA if rest starts, this is true and graph do not need to be updated.
 					//but if it is last one then should be painted
@@ -2308,7 +2324,8 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 	}
 
 	public CairoPaintBarsPreRunIntervalRealtimeCapture (DrawingArea darea, string fontStr,
-			Constants.Modes mode, string personName, string testName, int pDN,// bool heightPreferred,
+			Constants.Modes mode, string personName, string testName, int pDN,
+			bool metersSecondsPreferred,
 			bool isRelative,
 			string timesString,
 			double distanceInterval, //know each track distance according to this or distancesString
@@ -2316,6 +2333,7 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 			List<int> photocell_l, bool isLastCaptured, FeedbackRunsInterval feedbackRunsI, double videoTime)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
+		this.metersSecondsPreferred = metersSecondsPreferred;
 		this.feedbackRunsI = feedbackRunsI;
 		this.videoTime = videoTime;
 
@@ -2355,7 +2373,10 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 
 				time_l.Add(time);
 				distance_l.Add(distanceInterval);
-				speed_l.Add(distanceInterval / time);
+				if (metersSecondsPreferred)
+					speed_l.Add(distanceInterval / time);
+				else
+					speed_l.Add(3.6 * distanceInterval / time);
 				//ifRSAstartRest = false;
 			}
 			count ++;

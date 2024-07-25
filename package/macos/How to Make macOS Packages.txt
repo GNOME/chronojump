@@ -49,18 +49,18 @@ make install
 #jhbuild bootstrap-gtk-osx
 #jhbuild build meta-gtk-osx-bootstrap meta-gtk-osx-gtk3
 
-On macOS 10 (Catalina) & 12 (Monterey), please execute the following commands because new version installs softwares at opt/homebrew by default, but the old version installs at usr/local.
+#On macOS 10 (Catalina) & 12 (Monterey), please execute the following commands because new version installs softwares at opt/homebrew by default, but the old version installs at usr/local.
 
-sudo install -d -o $(whoami) -g admin /opt/homebrew
-sudo brew rebase
+#sudo install -d -o $(whoami) -g admin /opt/homebrew
+#sudo brew rebase
 
-Or use ln command:
+#Or use ln command:
 
-mkdir -p /opt/homebrew
-cd /opt/homebrew
-ln -s /usr/local/Cellar Cellar
-ln -s /usr/local/lib lib
-ln -s /usr/local/share share
+#mkdir -p /opt/homebrew
+#cd /opt/homebrew
+#ln -s /usr/local/Cellar Cellar
+#ln -s /usr/local/lib lib
+#ln -s /usr/local/share share
 
 #on Monterey (and surely on Catalina) to be able to make x64 we had to:
 #copy /usr/local/share/icons to /opt/homebrew/share/

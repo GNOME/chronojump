@@ -8,49 +8,26 @@ import shutil
 import subprocess
 from stat import S_IREAD, S_IRGRP, S_IROTH, S_IWUSR
 
-PREFIX_OPT_HOMEBREW = "/opt/homebrew"
-PREFIX_USR_LOCAL = "/usr/local"
-GTK_LIB = "/usr/local/lib/libgtk-3.dylib"
-RSVG_LIB = "/usr/local/lib/librsvg-2.2.dylib"
-INTL_LIB = "/usr/local/lib/libintl.8.dylib"
-GLIB_LIB = "/usr/local/lib/libglib-2.0.0.dylib"
-ROOT_LIBS = [GTK_LIB, RSVG_LIB, INTL_LIB, GLIB_LIB,
-"/usr/local/lib/libgmodule-2.0.0.dylib",
-"/usr/local/lib/libgobject-2.0.0.dylib",
-"/usr/local/lib/libX11.6.dylib",
-"/usr/local/lib/libgraphite2.3.2.1.dylib",
-"/usr/local/lib/libXau.6.0.0.dylib",
-"/usr/local/lib/libXdmcp.6.dylib",
-"/usr/local/lib/libharfbuzz-gobject.0.dylib",
-"/usr/local/lib/libXext.6.dylib",
-"/usr/local/lib/libharfbuzz.0.dylib",
-"/usr/local/lib/libXrender.1.dylib",
-"/usr/local/lib/libatk-1.0.0.dylib",
-"/usr/local/lib/libjpeg.8.3.2.dylib",
-"/usr/local/lib/libcairo-gobject.2.dylib",
-"/usr/local/lib/libpango-1.0.0.dylib",
-"/usr/local/lib/libcairo.2.dylib",
-"/usr/local/lib/libpangocairo-1.0.0.dylib",
-"/usr/local/lib/libepoxy.0.dylib",
-"/usr/local/lib/libpangoft2-1.0.0.dylib",
-"/usr/local/lib/libfontconfig.1.dylib",
-"/usr/local/lib/libpcre2-8.0.dylib",
-"/usr/local/lib/libfreetype.6.dylib",
-"/usr/local/lib/libpixman-1.0.42.2.dylib",
-"/usr/local/lib/libfribidi.0.dylib",
-"/usr/local/lib/libpng16.16.dylib",
-"/usr/local/lib/libgdk-3.0.dylib",
-"/usr/local/lib/libgdk_pixbuf-2.0.0.dylib",
-"/usr/local/lib/libxcb-render.0.dylib",
-"/usr/local/lib/libxcb-shm.0.dylib",
-"/usr/local/lib/libgio-2.0.0.dylib",
-"/usr/local/lib/libxcb.1.dylib"]
+PREFIX = "/opt/homebrew"
+
+# Grab all dependencies of libadwaita / libgtk, plus pixbuf loader plugins.
+GTK_LIB = "/opt/homebrew/lib/libadwaita-1.0.dylib"
+RSVG_LIB = "/opt/homebrew/lib/librsvg-2.2.dylib"
+TIFF_LIB = "/opt/homebrew/lib/libtiff.6.dylib"
+WEBP_DEMUX_LIB = "/opt/homebrew/lib/libwebpdemux.2.dylib"
+WEBP_MUX_LIB = "/opt/homebrew/lib/libwebpmux.3.dylib"
+GTK_LIB = "/opt/homebrew/lib/libgtk-3.dylib"
+ROOT_LIBS = [RSVG_LIB, TIFF_LIB, GTK_LIB]
+
 ADWAITA_THEME = "/opt/homebrew/share/icons/Adwaita/index.theme"
 PIXBUF_LOADERS = "lib/gdk-pixbuf-2.0/2.10.0"
 IM_MODULES = "lib/gtk-3.0/3.0.0/immodules"
 GLIB_SCHEMAS = "share/glib-2.0/schemas"
 
-OTOOL_LIB_REGEX = re.compile("(/usr/local/.*/.dylib)") # Ignore system libraries.
+# Match against non-system libraries
+OTOOL_LIB_REGEX = re.compile(r"(/opt/homebrew/.*\.dylib)")
+# Match against relative paths (webp and related libraries)
+OTOOL_REL_LIB_REGEX = re.compile(r"@rpath/(lib.*\.dylib)")
 
 
 def run_install_name_tool(lib, deps, lib_install_dir):
@@ -60,9 +37,13 @@ def run_install_name_tool(lib, deps, lib_install_dir):
     # Run install_name_tool to fix up the absolute paths to the library
     # dependencies.
     for dep_path in deps:
+        dep_path_basename = os.path.basename(dep_path)
         dep_lib_name = os.path.basename(os.path.realpath(dep_path))
-        dep_lib = "@executable_path/../../Frameworks/gtk3/lib/" + dep_lib_name
-        cmd = ['install_name_tool', '-change', dep_path, dep_lib, lib]
+        dep_lib = "@executable_path/../Frameworks/gtk3/lib/" + dep_lib_name
+        cmd = ['install_name_tool',
+               '-change', dep_path, dep_lib,
+               '-change', f"@rpath/{dep_path_basename}", dep_lib, # For libraries like webp
+               lib]
         subprocess.check_output(cmd)
 
 
@@ -73,6 +54,11 @@ def collect_libs(src_lib, lib_deps):
     cmd = ['otool', '-L', src_lib]
     output = subprocess.check_output(cmd).decode('utf-8')
     referenced_paths = re.findall(OTOOL_LIB_REGEX, output)
+
+    folder = os.path.dirname(src_lib)
+    referenced_paths.extend([os.path.join(folder, lib)
+                            for lib in re.findall(OTOOL_REL_LIB_REGEX, output)])
+
     real_lib_paths = set([os.path.realpath(lib) for lib in referenced_paths])
 
     lib_deps[src_lib] = referenced_paths
@@ -84,21 +70,18 @@ def collect_libs(src_lib, lib_deps):
 
 def copy_resources(res_path):
     """
-    Copy a folder from ${PREFIX}/${res_path} to Contents/Frameworks/${res_path}.
+    Copy a folder from ${PREFIX}/${res_path} to Contents/Resources/${res_path}.
     """
-    src_folder = os.path.join(PREFIX_USR_LOCAL, res_path)
-    if not os.path.exists(src_folder):
-        src_folder = os.path.join(PREFIX_OPT_HOMEBREW, res_path)
     dest_folder = os.path.join(args.resource_dir, res_path)
-    shutil.copytree(src_folder,
+    shutil.copytree(os.path.join(PREFIX, res_path),
                     dest_folder,
                     dirs_exist_ok=True)
 
-                    
+
 def copy_plugins(res_path, lib_install_dir):
     """
     Copy a folder of plugins from ${PREFIX}/${res_path} to
-    Contents/Frameworks/${res_path} and update the library references.
+    Contents/Resources/${res_path} and update the library references.
     """
 
     copy_resources(res_path)
@@ -123,15 +106,13 @@ def install_plugin_cache(cache_path, resource_dir):
     Copy a file such as immodules.cache, and update the library paths to be
     paths inside the .app bundle.
     """
-    src_cache = os.path.join(PREFIX_USR_LOCAL, cache_path)
-    if not os.path.exists(src_cache):
-        src_cache = os.path.join(PREFIX_OPT_HOMEBREW, cache_path)
+    src_cache = os.path.join(PREFIX, cache_path)
     dest_cache = os.path.join(resource_dir, cache_path)
 
     with open(src_cache, 'r') as src_f:
         contents = src_f.read()
         contents = re.sub(r"/.*/(lib|share)/",
-                          r"@executable_path/../../Frameworks/gtk3/lib/\1/", contents)
+                          r"@executable_path/../Frameworks/gtk3/\1/", contents)
 
         with open(dest_cache, 'w') as dest_f:
             dest_f.write(contents)
@@ -164,10 +145,12 @@ gtk_root = os.path.join(os.path.dirname(os.path.realpath(GTK_LIB)), "..")
 shutil.copytree(os.path.join(gtk_root, 'share/locale'),
                 os.path.join(args.resource_dir, 'share/locale'),
                 dirs_exist_ok=True)
+
 shutil.copytree(os.path.join(gtk_root, 'share/icons'),
                 os.path.join(args.resource_dir, 'share/icons'),
                 dirs_exist_ok=True)
 # TODO - could probably trim the number of installed icons.
+
 adwaita_icons = os.path.join(os.path.dirname(os.path.realpath(ADWAITA_THEME)), "..")
 shutil.copytree(adwaita_icons,
                 os.path.join(args.resource_dir, 'share/icons'),
@@ -182,5 +165,3 @@ install_plugin_cache(os.path.join(IM_MODULES, "../immodules.cache"),
                      args.resource_dir)
 
 copy_resources(GLIB_SCHEMAS)
-
-shutil.copy2(os.path.join(PREFIX, "lib/libgdk_pixbuf-2.0.dylib"), os.path.join(args.resource_dir, "lib/libgdk_pixbuf-2.0.dylib"))

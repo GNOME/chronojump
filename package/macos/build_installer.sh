@@ -3,7 +3,7 @@ set -e
 
 MAC_APP_ROOT_DIR=app
 MAC_APP_DIR="${MAC_APP_ROOT_DIR}/Chronojump.app"
-MAC_APP_BIN_DIR="${MAC_APP_DIR}/Contents/Home/bin/"
+MAC_APP_BIN_DIR="${MAC_APP_DIR}/Contents/MacOS/"
 MAC_APP_RESOURCE_DIR="${MAC_APP_DIR}/Contents/Resources/"
 MAC_APP_FRAMEWORK_DIR="${MAC_APP_DIR}/Contents/Frameworks/"
 ARCH="$2"
@@ -33,27 +33,27 @@ dotnet publish ../../src/Chronojump-mac.sln -p:BuildTranslations=true --configur
 cd ../../src/
 dos2unix post-build-mac.sh
 chmod +x post-build-mac.sh
-sh post-build-mac.sh ../package/macos/app/Chronojump.app/Contents/Home/bin
-#cp ../package/macos/app/Chronojump.app/Contents/Home/bin/runtimes/osx-${ARCH}/native/SQLite.Interop.dll ../package/macos/app/Chronojump.app/Contents/Home/bin/SQLite.Interop.dll
-cp ../package/macos/deps/runtimes/osx-${ARCH}/native/SQLite.Interop.dll ../package/macos/app/Chronojump.app/Contents/Home/bin/SQLite.Interop.dll
+sh post-build-mac.sh ../package/macos/app/Chronojump.app/Contents/MacOS
+#cp ../package/macos/app/Chronojump.app/Contents/MacOS/runtimes/osx-${ARCH}/native/SQLite.Interop.dll ../package/macos/app/Chronojump.app/Contents/MacOS/SQLite.Interop.dll
+cp ../package/macos/deps/runtimes/osx-${ARCH}/native/SQLite.Interop.dll ../package/macos/app/Chronojump.app/Contents/MacOS/SQLite.Interop.dll
 cd ../package/macos
-cp ../../binariesMac/7zz app/Chronojump.app/Contents/Home/bin/bin
-cp ../../binariesMac/ffmpeg app/Chronojump.app/Contents/Home/bin/bin
-cp ../../binariesMac/ffplay app/Chronojump.app/Contents/Home/bin/bin
+cp ../../binariesMac/7zz ${MAC_APP_BIN_DIR}/bin
+cp ../../binariesMac/ffmpeg ${MAC_APP_BIN_DIR}/bin
+cp ../../binariesMac/ffplay ${MAC_APP_BIN_DIR}/bin
 
 #TODO: note these cp are for x64, change it to work also on arm64.
 #Note also joeries has python 3.11
 #No need to add these commands as Python files would be copied from /Library/Frameworks/Python.framework automatically.
-#mkdir -p app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/3.12/lib
-#mkdir -p app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/3.12/lib/python3.12/config-3.12-darwin
-#mkdir -p app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/Current/lib
-#mkdir -p app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/Current/lib/python3.12/config-3.12-darwin
-#cp deps/bin/x64/Python/Versions/3.12/lib/libpython3.12.dylib app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/3.12/lib
-#cp deps/bin/x64/Python/Versions/3.12/lib/python3.12/config-3.12-darwin/libpython3.12.dylib app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/3.12/lib/python3.12/config-3.12-darwin
-#cp deps/bin/x64/Python/Versions/Current/lib/libpython3.12.dylib app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/Current/lib
-#cp deps/bin/x64/Python/Versions/Current/lib/python3.12/config-3.12-darwin/libpython3.12.dylib app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/Current/lib/python3.12/config-3.12-darwin
-#cp deps/bin/x64/Python/Versions/Current/Python app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/Current
-#cp deps/bin/x64/Python/Versions/3.12/Python app/Chronojump.app/Contents/Home/bin/bin/x64/Python/Versions/3.12
+#mkdir -p app/Chronojump.app/Contents/MacOS/bin/x64/Python/Versions/3.12/lib
+#mkdir -p app/Chronojump.app/Contents/MacOS/bin/x64/Python/Versions/3.12/lib/python3.12/config-3.12-darwin
+#mkdir -p app/Chronojump.app/Contents/MacOS/bin/x64/Python/Versions/Current/lib
+#mkdir -p app/Chronojump.app/Contents/MacOS/bin/x64/Python/Versions/Current/lib/python3.12/config-3.12-darwin
+#cp deps/bin/x64/Python/Versions/3.12/lib/libpython3.12.dylib app/Chronojump.app/Contents/MacOS/bin/x64/Python/Versions/3.12/lib
+#cp deps/bin/x64/Python/Versions/3.12/lib/python3.12/config-3.12-darwin/libpython3.12.dylib app/Chronojump.app/Contents/MacOS/bin/x64/Python/Versions/3.12/lib/python3.12/config-3.12-darwin
+#cp deps/bin/x64/Python/Versions/Current/lib/libpython3.12.dylib app/Chronojump.app/Contents/MacOS/bin/x64/Python/Versions/Current/lib
+#cp deps/bin/x64/Python/Versions/Current/lib/python3.12/config-3.12-darwin/libpython3.12.dylib app/Chronojump.app/Contents/MacOS/bin/x64/Python/Versions/Current/lib/python3.12/config-3.12-darwin
+#cp deps/bin/x64/Python/Versions/Current/Python app/Chronojump.app/Contents/MacOS/bin/x64/Python/Versions/Current
+#cp deps/bin/x64/Python/Versions/3.12/Python app/Chronojump.app/Contents/MacOS/bin/x64/Python/Versions/3.12
 
 # Remove stuff we don't need.
 rm ${MAC_APP_BIN_DIR}/*.pdb
@@ -73,17 +73,17 @@ echo "Bundling GTK..."
 #fi
 
 if [ -e "/usr/local/lib/libglib-2.0.0.dylib" ]; then
-    dos2unix bundle_gtk_osx10.py
-    chmod +x bundle_gtk_osx10.py
-    ./bundle_gtk_osx10.py --resource_dir ${MAC_APP_FRAMEWORK_DIR}/gtk3
+    dos2unix bundle_gtk_usr_local.py
+    chmod +x bundle_gtk_usr_local.py
+    ./bundle_gtk_usr_local.py --resource_dir ${MAC_APP_FRAMEWORK_DIR}/gtk3
 else
-    dos2unix bundle_gtk.py
-    chmod +x bundle_gtk.py
-    ./bundle_gtk.py --resource_dir ${MAC_APP_FRAMEWORK_DIR}/gtk3
+    dos2unix bundle_gtk_opt_homebrew.py
+    chmod +x bundle_gtk_opt_homebrew.py
+    ./bundle_gtk_opt_homebrew.py --resource_dir ${MAC_APP_FRAMEWORK_DIR}/gtk3
 fi
 
 # Add the GTK lib dir to the library search path (for dlopen()), as an alternative to $DYLD_LIBRARY_PATH.
-install_name_tool -add_rpath "@executable_path/../../Frameworks/gtk3/lib" ${MAC_APP_BIN_DIR}/Chronojump
+install_name_tool -add_rpath "@executable_path/../Frameworks/gtk3/lib" ${MAC_APP_BIN_DIR}/Chronojump
 
 touch ${MAC_APP_DIR}
 
@@ -109,32 +109,86 @@ do
     run_codesign ${lib}
 done
 
+rm -rf ${MAC_APP_BIN_DIR}bin/FTD2XX_NET_v1.0.14
+rm -rf ${MAC_APP_BIN_DIR}FTD2XX_NET_v1.2.0
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/Resources/English.lproj ${MAC_APP_ROOT_DIR}/1_English.lproj
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Resources/English.lproj ${MAC_APP_ROOT_DIR}/2_English.lproj
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcmysql1.1.7 ${MAC_APP_ROOT_DIR}/tdbcmysql1.1.7
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/thread2.8.9 ${MAC_APP_ROOT_DIR}/thread2.8.9
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcodbc1.1.7 ${MAC_APP_ROOT_DIR}/tdbcodbc1.1.7
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tk8.6 ${MAC_APP_ROOT_DIR}/tk8.6
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/itcl4.2.4 ${MAC_APP_ROOT_DIR}/itcl4.2.4
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/sqlite3.44.2 ${MAC_APP_ROOT_DIR}/sqlite3.44.2
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tcl8.6 ${MAC_APP_ROOT_DIR}/tcl8.6
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbc1.1.7 ${MAC_APP_ROOT_DIR}/tdbc1.1.7
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tcl8 ${MAC_APP_ROOT_DIR}/tcl8
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/python${PYTHON_VERSION} ${MAC_APP_ROOT_DIR}/1_python${PYTHON_VERSION}
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/share/doc/python${PYTHON_VERSION} ${MAC_APP_ROOT_DIR}/2_python${PYTHON_VERSION}
+mv ${MAC_APP_BIN_DIR}R/Resources/fontconfig/fontconfig/conf.avail ${MAC_APP_ROOT_DIR}/1_conf.avail
+mv ${MAC_APP_BIN_DIR}R/Resources/fontconfig/fonts/conf.d ${MAC_APP_ROOT_DIR}/1_conf.d
+mv ${MAC_APP_BIN_DIR}R/Versions/Current/Resources/fontconfig/fontconfig/conf.avail ${MAC_APP_ROOT_DIR}/2_conf.avail
+mv ${MAC_APP_BIN_DIR}R/Versions/Current/Resources/fontconfig/fonts/conf.d ${MAC_APP_ROOT_DIR}/2_conf.d
+mv ${MAC_APP_BIN_DIR}fonts/conf.d ${MAC_APP_ROOT_DIR}/3_conf.d
+mv ${MAC_APP_FRAMEWORK_DIR}gtk3/lib/gdk-pixbuf-2.0 ${MAC_APP_ROOT_DIR}/gdk-pixbuf-2.0
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/include/python${PYTHON_VERSION} ${MAC_APP_ROOT_DIR}/3_python${PYTHON_VERSION}
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcpostgres1.1.7 ${MAC_APP_ROOT_DIR}/tdbcpostgres1.1.7
+mv ${MAC_APP_FRAMEWORK_DIR}gtk3/share ${MAC_APP_ROOT_DIR}/share
+mv ${MAC_APP_FRAMEWORK_DIR}gtk3/lib/gtk-3.0 ${MAC_APP_ROOT_DIR}/gtk-3.0
+
+run_codesign ${MAC_APP_BIN_DIR}/createdump
+run_codesign ${MAC_APP_BIN_DIR}/bin/ffplay
+run_codesign ${MAC_APP_BIN_DIR}/bin/ffmpeg
+run_codesign ${MAC_APP_BIN_DIR}/bin/7zz
+run_codesign ${MAC_APP_BIN_DIR}/libcoreclr.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libSystem.Native.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libSystem.IO.Ports.Native.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libSystem.IO.Compression.Native.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libSystem.Globalization.Native.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libSystem.Security.Cryptography.Native.Apple.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libmscordaccore.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libhostfxr.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libSystem.Net.Security.Native.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libmscordbi.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libhostpolicy.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libSystem.Security.Cryptography.Native.OpenSsl.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libclrjit.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libclrgc.dylib
+run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/${PYTHON_VERSION}/lib/libpython${PYTHON_VERSION}.dylib
+run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/${PYTHON_VERSION}/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib
+run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/Current/lib/libpython${PYTHON_VERSION}.dylib
+if [ -e "${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/Current/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib" ]; then
+    run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/Current/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib
+fi
+run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/Current/Python
+run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/${PYTHON_VERSION}/Python
+
 # Sign the main executable and .NET stuff.
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/Chronojump
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/createdump
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/ffplay
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/ffmpeg
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/7zz
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libcoreclr.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libSystem.Native.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libSystem.IO.Ports.Native.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libSystem.IO.Compression.Native.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libSystem.Globalization.Native.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libSystem.Security.Cryptography.Native.Apple.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libmscordaccore.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libhostfxr.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libSystem.Net.Security.Native.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libmscordbi.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libhostpolicy.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libSystem.Security.Cryptography.Native.OpenSsl.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libclrjit.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/libclrgc.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/${PYTHON_VERSION}/lib/libpython${PYTHON_VERSION}.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/${PYTHON_VERSION}/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/Current/lib/libpython${PYTHON_VERSION}.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/Current/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/Current/Python
-run_codesign ${MAC_APP_DIR}/Contents/Home/bin/bin/x64/Python/Versions/${PYTHON_VERSION}/Python
+run_codesign ${MAC_APP_BIN_DIR}/Chronojump
+#run_codesign ${MAC_APP_DIR}
+
+mv ${MAC_APP_ROOT_DIR}/1_English.lproj ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/Resources/English.lproj
+mv ${MAC_APP_ROOT_DIR}/2_English.lproj ${MAC_APP_BIN_DIR}bin/x64/Python/Resources/English.lproj
+mv ${MAC_APP_ROOT_DIR}/tdbcmysql1.1.7 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcmysql1.1.7
+mv ${MAC_APP_ROOT_DIR}/thread2.8.9 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/thread2.8.9
+mv ${MAC_APP_ROOT_DIR}/tdbcodbc1.1.7 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcodbc1.1.7
+mv ${MAC_APP_ROOT_DIR}/tk8.6 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tk8.6
+mv ${MAC_APP_ROOT_DIR}/itcl4.2.4 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/itcl4.2.4
+mv ${MAC_APP_ROOT_DIR}/sqlite3.44.2 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/sqlite3.44.2
+mv ${MAC_APP_ROOT_DIR}/tcl8.6 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tcl8.6
+mv ${MAC_APP_ROOT_DIR}/tdbc1.1.7 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbc1.1.7
+mv ${MAC_APP_ROOT_DIR}/tcl8 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tcl8
+mv ${MAC_APP_ROOT_DIR}/1_python${PYTHON_VERSION} ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/python${PYTHON_VERSION}
+mv ${MAC_APP_ROOT_DIR}/2_python${PYTHON_VERSION} ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/share/doc/python${PYTHON_VERSION}
+mv ${MAC_APP_ROOT_DIR}/1_conf.avail ${MAC_APP_BIN_DIR}R/Resources/fontconfig/fontconfig/conf.avail
+mv ${MAC_APP_ROOT_DIR}/1_conf.d ${MAC_APP_BIN_DIR}R/Resources/fontconfig/fonts/conf.d
+mv ${MAC_APP_ROOT_DIR}/2_conf.avail ${MAC_APP_BIN_DIR}R/Versions/Current/Resources/fontconfig/fontconfig/conf.avail
+mv ${MAC_APP_ROOT_DIR}/2_conf.d ${MAC_APP_BIN_DIR}R/Versions/Current/Resources/fontconfig/fonts/conf.d
+mv ${MAC_APP_ROOT_DIR}/3_conf.d ${MAC_APP_BIN_DIR}fonts/conf.d
+mv ${MAC_APP_ROOT_DIR}/gdk-pixbuf-2.0 ${MAC_APP_FRAMEWORK_DIR}gtk3/lib/gdk-pixbuf-2.0
+mv ${MAC_APP_ROOT_DIR}/3_python${PYTHON_VERSION} ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/include/python${PYTHON_VERSION}
+mv ${MAC_APP_ROOT_DIR}/tdbcpostgres1.1.7 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcpostgres1.1.7
+mv ${MAC_APP_ROOT_DIR}/share ${MAC_APP_FRAMEWORK_DIR}gtk3/share
+mv ${MAC_APP_ROOT_DIR}/gtk-3.0 ${MAC_APP_FRAMEWORK_DIR}gtk3/lib/gtk-3.0
 
 # Create and sign the .dmg image, and include a link to drag the app into /Applications
 echo "Creating dmg..."

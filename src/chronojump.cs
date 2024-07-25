@@ -116,14 +116,14 @@ public class ChronoJump
 				NativeLibraryResolver.Init("/opt/homebrew/lib");
 			}
 #else
-            var gtk3Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../Frameworks/gtk3");
+            var gtk3Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../Frameworks/gtk3");
             var gtk3SharePath = Path.Combine(gtk3Path, "share");
 			var gtk3LibPath = Path.Combine(gtk3Path, "lib");
 			var gtk3PixbufPath = Path.Combine(gtk3LibPath, "gdk-pixbuf-2.0/2.10.0/loaders.cache");
 			Environment.SetEnvironmentVariable("XDG_DATA_DIRS", gtk3SharePath);
 			Environment.SetEnvironmentVariable("GDK_PIXBUF_MODULE_FILE", gtk3PixbufPath);
 			Environment.SetEnvironmentVariable("GTK_PATH", gtk3LibPath);
-			Environment.SetEnvironmentVariable("LD_LIBRARY_PATH", "$GTK_PATH:$LD_LIBRARY_PATH");
+			Environment.SetEnvironmentVariable("DYLD_LIBRARY_PATH", "$DYLD_LIBRARY_PATH:$GTK_PATH");
 			NativeLibraryResolver.Init(gtk3LibPath);
 #endif
 		}

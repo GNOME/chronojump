@@ -109,6 +109,31 @@ do
     run_codesign ${lib}
 done
 
+run_codesign ${MAC_APP_BIN_DIR}/createdump
+run_codesign ${MAC_APP_BIN_DIR}/bin/ffplay
+run_codesign ${MAC_APP_BIN_DIR}/bin/ffmpeg
+run_codesign ${MAC_APP_BIN_DIR}/bin/7zz
+run_codesign ${MAC_APP_BIN_DIR}/libcoreclr.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libSystem.Native.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libSystem.IO.Ports.Native.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libSystem.IO.Compression.Native.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libSystem.Globalization.Native.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libSystem.Security.Cryptography.Native.Apple.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libmscordaccore.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libhostfxr.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libSystem.Net.Security.Native.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libmscordbi.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libhostpolicy.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libSystem.Security.Cryptography.Native.OpenSsl.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libclrjit.dylib
+run_codesign ${MAC_APP_BIN_DIR}/libclrgc.dylib
+run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/${PYTHON_VERSION}/lib/libpython${PYTHON_VERSION}.dylib
+run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/${PYTHON_VERSION}/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib
+run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/Current/lib/libpython${PYTHON_VERSION}.dylib
+run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/Current/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib
+run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/Current/Python
+run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/${PYTHON_VERSION}/Python
+
 rm -rf ${MAC_APP_BIN_DIR}bin/FTD2XX_NET_v1.0.14
 rm -rf ${MAC_APP_BIN_DIR}FTD2XX_NET_v1.2.0
 mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/Resources/English.lproj ${MAC_APP_ROOT_DIR}/1_English.lproj
@@ -134,33 +159,6 @@ mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/include/python${PYTHON_VERS
 mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcpostgres1.1.7 ${MAC_APP_ROOT_DIR}/tdbcpostgres1.1.7
 mv ${MAC_APP_FRAMEWORK_DIR}gtk3/share ${MAC_APP_ROOT_DIR}/share
 mv ${MAC_APP_FRAMEWORK_DIR}gtk3/lib/gtk-3.0 ${MAC_APP_ROOT_DIR}/gtk-3.0
-
-run_codesign ${MAC_APP_BIN_DIR}/createdump
-run_codesign ${MAC_APP_BIN_DIR}/bin/ffplay
-run_codesign ${MAC_APP_BIN_DIR}/bin/ffmpeg
-run_codesign ${MAC_APP_BIN_DIR}/bin/7zz
-run_codesign ${MAC_APP_BIN_DIR}/libcoreclr.dylib
-run_codesign ${MAC_APP_BIN_DIR}/libSystem.Native.dylib
-run_codesign ${MAC_APP_BIN_DIR}/libSystem.IO.Ports.Native.dylib
-run_codesign ${MAC_APP_BIN_DIR}/libSystem.IO.Compression.Native.dylib
-run_codesign ${MAC_APP_BIN_DIR}/libSystem.Globalization.Native.dylib
-run_codesign ${MAC_APP_BIN_DIR}/libSystem.Security.Cryptography.Native.Apple.dylib
-run_codesign ${MAC_APP_BIN_DIR}/libmscordaccore.dylib
-run_codesign ${MAC_APP_BIN_DIR}/libhostfxr.dylib
-run_codesign ${MAC_APP_BIN_DIR}/libSystem.Net.Security.Native.dylib
-run_codesign ${MAC_APP_BIN_DIR}/libmscordbi.dylib
-run_codesign ${MAC_APP_BIN_DIR}/libhostpolicy.dylib
-run_codesign ${MAC_APP_BIN_DIR}/libSystem.Security.Cryptography.Native.OpenSsl.dylib
-run_codesign ${MAC_APP_BIN_DIR}/libclrjit.dylib
-run_codesign ${MAC_APP_BIN_DIR}/libclrgc.dylib
-run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/${PYTHON_VERSION}/lib/libpython${PYTHON_VERSION}.dylib
-run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/${PYTHON_VERSION}/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib
-run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/Current/lib/libpython${PYTHON_VERSION}.dylib
-if [ -e "${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/Current/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib" ]; then
-    run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/Current/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib
-fi
-run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/Current/Python
-run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/${PYTHON_VERSION}/Python
 
 # Sign the main executable and .NET stuff.
 run_codesign ${MAC_APP_BIN_DIR}/Chronojump

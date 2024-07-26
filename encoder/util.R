@@ -1725,6 +1725,20 @@ fixInertialSignalIfNotFullyExtended <- function(signal, checkRevolutions, saveFi
 	return(signal)
 }
 
+getRMSSD <- function (d)
+{
+	sum=0
+	for (i in 1:(length(d)-1))
+		sum = sum + (d[i+1]-d[i])**2
+
+	return (sqrt(sum/(length(d)-1)))
+}
+
+getCVRMSSD <- function (d)
+{
+	rmssd <- getRMSSD (d)
+	return (rmssd / (range (d)[2] - range (d)[1]))
+}
 
 
 #Read a double vector indicating the initial diameter of every loop of the rope

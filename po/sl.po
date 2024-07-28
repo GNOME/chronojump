@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
 "POT-Creation-Date: 2024-07-22 10:09+0000\n"
-"PO-Revision-Date: 2024-07-27 18:32+0200\n"
+"PO-Revision-Date: 2024-07-28 11:28+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -153,10 +153,8 @@ msgid "Tests have >1 flight phase"
 msgstr "Testi imajo več kot 1 fazo leta"
 
 #: ../glade/app1.glade.h:26
-#, fuzzy
-#| msgid "Measured with photocells"
 msgid "Measured by WICHRO or cabled photocells"
-msgstr "Izmerjeno s fotocelicami"
+msgstr "Izmerjeno z WICHRO ali kabelskimi fotocelicami"
 
 #: ../glade/app1.glade.h:27 ../glade/report_window.glade.h:6
 msgid "Intervallic"
@@ -472,10 +470,8 @@ msgid "Smoothing"
 msgstr "Glajenje"
 
 #: ../glade/app1.glade.h:87
-#, fuzzy
-#| msgid "Graph this statistic"
 msgid "Graph starts at …"
-msgstr "Izris statistke"
+msgstr "Graf se začne pri ..."
 
 #: ../glade/app1.glade.h:88
 msgid "0s"
@@ -486,10 +482,8 @@ msgid ">= min a"
 msgstr ">= min a"
 
 #: ../glade/app1.glade.h:90
-#, fuzzy
-#| msgid "Minimum acceleration"
 msgid "At >= minimum acceleration"
-msgstr "Najmanjši pospešek"
+msgstr "Pri >= najmanjšemu pospešku"
 
 #: ../glade/app1.glade.h:91 ../src/gui/executeAuto.cs:523
 msgid "Test"
@@ -615,19 +609,15 @@ msgid "Minimum"
 msgstr "Najnižji"
 
 #: ../glade/app1.glade.h:111
-#, fuzzy
-#| msgid "Test sound"
 msgid "Best second"
-msgstr "Preizkusi zvok"
+msgstr "Drugi najboljši"
 
 #. if (showColumnCD)
 #: ../glade/app1.glade.h:112 ../src/gui/app1/forceSensorAnalyze.cs:2331
 #: ../src/gui/app1/forceSensorAnalyze.cs:2335
 #: ../src/gui/app1/forceSensorAnalyze.cs:2339
-#, fuzzy
-#| msgid "Best"
 msgid "Best RFD"
-msgstr "Najboljše"
+msgstr "Najboljši RFD"
 
 #: ../glade/app1.glade.h:113
 msgid "Butterworth low-pass"
@@ -1120,7 +1110,6 @@ msgid "Dj optimal fall"
 msgstr "Dj optimalen padec"
 
 #: ../glade/app1.glade.h:211
-#, fuzzy
 msgid "FV Profile"
 msgstr "Profil FV"
 
@@ -1134,9 +1123,8 @@ msgstr "Utrujenost"
 
 #: ../glade/app1.glade.h:214
 #, fuzzy
-#| msgid "Races simple"
 msgid "Races / time"
-msgstr "Enostavni teki"
+msgstr "Tekme / čas"
 
 #: ../glade/app1.glade.h:215
 msgid "Sprint"
@@ -1361,7 +1349,7 @@ msgstr "<b>S pomočjo rok</b>"
 #: ../glade/app1.glade.h:266
 #, fuzzy
 msgid "<b>Reactive-reflex</b>"
-msgstr "<b>Reaktivni refleks</b>"
+msgstr "<b>Reakcijski refleks</b>"
 
 #: ../glade/app1.glade.h:267
 msgid ""
@@ -1520,21 +1508,16 @@ msgstr "Dvostranski primanjkljaj"
 
 #: ../glade/app1.glade.h:304
 #, fuzzy
-#| msgid "Lateral"
 msgid "Bilateral"
-msgstr "Dvostranski filter polja"
+msgstr "Dvostransko"
 
 #: ../glade/app1.glade.h:305
-#, fuzzy
-#| msgid "Analyze mean values"
 msgid "Daily mean values"
-msgstr "Analiza srednjih vrednosti"
+msgstr "Povprečne dnevne vrednosti"
 
 #: ../glade/app1.glade.h:306
-#, fuzzy
-#| msgid "Analyze max values"
 msgid "Daily max values"
-msgstr "Analiza najboljših vrednosti"
+msgstr "Največje dnevne vrednosti"
 
 #: ../glade/app1.glade.h:307
 msgid "Only the best jump on each session"
@@ -1640,10 +1623,8 @@ msgid "Simple jumps"
 msgstr "Enostavni skoki"
 
 #: ../glade/app1.glade.h:328
-#, fuzzy
-#| msgid "Include / Discard athletes"
 msgid "Include avg and max tables"
-msgstr "Dodaj / odstrani merjence"
+msgstr "Vključi tabele povp in najv"
 
 #: ../glade/app1.glade.h:329 ../src/exportSession.cs:296 ../src/report.cs:172
 #: ../src/report.cs:175
@@ -1651,8 +1632,6 @@ msgid "Reactive jumps"
 msgstr "Repetitivno-eksplozivni skoki"
 
 #: ../glade/app1.glade.h:330
-#, fuzzy
-#| msgid "Simple Runs"
 msgid "Simple runs"
 msgstr "Enostavni teki"
 
@@ -1662,9 +1641,8 @@ msgstr "Intervalni teki"
 
 #: ../glade/app1.glade.h:332
 #, fuzzy
-#| msgid "Individual / current set"
 msgid "Analyze current set"
-msgstr "Posamezni / trenutni niz"
+msgstr "Analiziraj trenutni nabor"
 
 #: ../glade/app1.glade.h:333
 msgid "Model options"
@@ -1777,9 +1755,8 @@ msgid "100"
 msgstr "100"
 
 #: ../glade/app1.glade.h:361
-#, fuzzy
 msgid "Add RFD"
-msgstr "Dodajanje RFD"
+msgstr "Dodaj RFD"
 
 #: ../glade/app1.glade.h:362
 msgid "Remove RFD"
@@ -2330,9 +2307,8 @@ msgid "Import from another Chronojump"
 msgstr "Uvoz iz drugega Chronojumpa"
 
 #: ../glade/app1.glade.h:480
-#, fuzzy
 msgid "Import jumps or runs from CSV"
-msgstr "Uvoz skokov ali tekov iz datoteke CSV"
+msgstr "Uvozi skoke ali teke iz datoteke CSV"
 
 #: ../glade/app1.glade.h:481
 msgid "Export/Import session"
@@ -2393,9 +2369,8 @@ msgid "Filter by name"
 msgstr "Filtriraj po imenu"
 
 #: ../glade/app1.glade.h:495
-#, fuzzy
 msgid "Filter by tag"
-msgstr "Filter v oznaki"
+msgstr "Filtriraj po oznaki"
 
 #. don't show now
 #: ../glade/app1.glade.h:496 ../src/gui/app1/session/tagSessionSelect.cs:146
@@ -2403,14 +2378,12 @@ msgid "Manage tags"
 msgstr "Upravljanje oznak"
 
 #: ../glade/app1.glade.h:497
-#, fuzzy
 msgid "Filter by sensor data"
-msgstr "Filtriranje po podatkih senzorja"
+msgstr "Filtriraj po podatkih tipal"
 
 #: ../glade/app1.glade.h:498
-#, fuzzy
 msgid "Sensor columns"
-msgstr "Stolpci senzorjev"
+msgstr "Stolpci tipal"
 
 #: ../glade/app1.glade.h:499
 msgid "Loading …"
@@ -2672,10 +2645,8 @@ msgstr ""
 "Izberite, ali si želite ogledati mapo s splošnimi podatki Chronojump ..."
 
 #: ../glade/app1.glade.h:550
-#, fuzzy
-#| msgid "View data folder"
 msgid "View generic data folder"
-msgstr "Poglej mapo podatkov"
+msgstr "Pokaži mapo s splošnimi podatki"
 
 #: ../glade/app1.glade.h:551
 #, fuzzy
@@ -2684,16 +2655,12 @@ msgid "… or the data folder of the current mode and session:"
 msgstr "Uvozi v trenutno sejo"
 
 #: ../glade/app1.glade.h:552
-#, fuzzy
-#| msgid "View data folder"
 msgid "View specific data folder"
-msgstr "Poglej mapo podatkov"
+msgstr "Pokaži določeno podatkovno mapo"
 
 #: ../glade/app1.glade.h:553
-#, fuzzy
-#| msgid "Export to CSV"
 msgid "Import from CSV"
-msgstr "Izvoziti v datoteko CSV"
+msgstr "Uvozi iz CSV"
 
 #: ../glade/app1.glade.h:554
 msgid "Encoder disconnected."
@@ -2708,7 +2675,6 @@ msgid "Check connection"
 msgstr "Preveri povezavo"
 
 #: ../glade/app1.glade.h:557 ../src/constants.cs:257
-#, fuzzy
 msgid "RFID has been disconnected!"
 msgstr "RFID je bil prekinjen!"
 
@@ -2812,18 +2778,14 @@ msgid "Delete person from this session."
 msgstr "Izbriši testiranca iz te seje."
 
 #: ../glade/app1.glade.h:582
-#, fuzzy
-#| msgid "Show all tests of a person"
 msgid "Show all tests of any person"
-msgstr "Pokaži vse teste testiranca"
+msgstr "Pokaži vse teste osebe"
 
 #. this strings will be used on merge persons code. Now are here just to be translated in the meantime.
 #: ../glade/app1.glade.h:583 ../glade/person_merge.glade.h:1
 #: ../glade/person_select_window.glade.h:20 ../src/gui/person/addModify.cs:164
-#, fuzzy
-#| msgid "Please, write the name of the person."
 msgid "Merge with another person"
-msgstr "Vpišite ime osebe."
+msgstr "Združi z drugo osebo"
 
 #: ../glade/app1.glade.h:584
 msgid "Database:"
@@ -2834,10 +2796,8 @@ msgid "Select another database"
 msgstr "Izberite drugo zbirko podatkov"
 
 #: ../glade/app1.glade.h:586
-#, fuzzy
-#| msgid "Use same database"
 msgid "View selected database"
-msgstr "Uporabi isto podatkovno zbirko"
+msgstr "Pokaži izbrano zbirko podatkov"
 
 #: ../glade/app1.glade.h:587
 msgid "Your email"
@@ -3045,16 +3005,12 @@ msgid "Zoom change"
 msgstr "Spremeni približanje"
 
 #: ../glade/dialog_shortcuts.glade.h:23
-#, fuzzy
-#| msgid "Small screens"
 msgid "Fullscreen capture"
-msgstr "Manjši zasloni"
+msgstr "Zajem celotnega zaslona"
 
 #: ../glade/dialog_shortcuts.glade.h:24
-#, fuzzy
-#| msgid "Test"
 msgid "Tests"
-msgstr "Po testih"
+msgstr "Testi"
 
 #: ../glade/dialog_threshold.glade.h:1
 msgid "Chronojump threshold"
@@ -3704,14 +3660,12 @@ msgid "Custom values"
 msgstr "Vrednosti po meri"
 
 #: ../glade/feedback.glade.h:38
-#, fuzzy
 msgid "Max Y"
-msgstr "Največ Y"
+msgstr "Največji Y"
 
 #: ../glade/feedback.glade.h:39
-#, fuzzy
 msgid "Min Y"
-msgstr "Min Y"
+msgstr "Najmanjši Y"
 
 #: ../glade/feedback.glade.h:42
 msgid "Secondary variable"
@@ -4201,15 +4155,12 @@ msgstr ""
 
 #: ../glade/person_merge.glade.h:3
 #, fuzzy
-#| msgid "Select persons to compare"
 msgid "Select the person to merge with:"
-msgstr "Izbor testirancev za primerjavo"
+msgstr "Izberite osebo, s katero želite združiti:"
 
 #: ../glade/person_merge.glade.h:4
-#, fuzzy
-#| msgid "Load into session"
 msgid "Find in session:"
-msgstr "Naloži v sejo"
+msgstr "Najdi v seji:"
 
 #: ../glade/person_merge.glade.h:7 ../glade/person_recuperate.glade.h:6
 #: ../glade/person_show_all_events.glade.h:4
@@ -4222,9 +4173,8 @@ msgstr "Testiranec:"
 
 #: ../glade/person_merge.glade.h:10
 #, fuzzy
-#| msgid "Difference"
 msgid "Check differences"
-msgstr "Razlika"
+msgstr "Preveri razlike"
 
 #: ../glade/person_multiple_infinite.glade.h:1
 msgid "Add multiple persons"
@@ -4296,7 +4246,6 @@ msgid "Units:"
 msgstr "Enote:"
 
 #: ../glade/person_multiple_infinite.glade.h:21
-#, fuzzy
 msgid ""
 "The name of the columns is not relevant, the important thing is the order."
 msgstr "Ime stolpcev ni pomembno, pomemben je vrstni red."
@@ -4310,16 +4259,12 @@ msgid "Weight"
 msgstr "Masa"
 
 #: ../glade/person_multiple_infinite.glade.h:25
-#, fuzzy
-#| msgid "Save comment"
 msgid "Some comment"
-msgstr "Shrani komentar"
+msgstr "Nek komentar"
 
 #: ../glade/person_multiple_infinite.glade.h:26
-#, fuzzy
-#| msgid "Add comment"
 msgid "Another comment"
-msgstr "Dodaj razlago"
+msgstr "Še en komentar"
 
 #: ../glade/person_multiple_infinite.glade.h:27
 msgid "Open CSV file"
@@ -4729,7 +4674,6 @@ msgid "Apply filter on elastic mode"
 msgstr "Končaj samodejni način"
 
 #: ../glade/preferences_win.glade.h:65
-#, fuzzy
 msgid "15,0"
 msgstr "15,0"
 
@@ -5106,12 +5050,10 @@ msgid "Cloud-capture"
 msgstr "Zapri in zajemi"
 
 #: ../glade/preferences_win.glade.h:179
-#, fuzzy
 msgid "Data is stored on the computer and uploaded to a cloud."
 msgstr "Podatki se shranijo v računalnik in naložijo v oblak."
 
 #: ../glade/preferences_win.glade.h:180
-#, fuzzy
 msgid "Each computer will use a different folder of the cloud."
 msgstr "Vsak računalnik bo uporabljal drugo mapo v oblaku."
 
@@ -5124,15 +5066,12 @@ msgid "Cloud-view"
 msgstr "Pogled v oblaku"
 
 #: ../glade/preferences_win.glade.h:184
-#, fuzzy
 msgid "View data of each database on the cloud."
 msgstr "Oglejte si podatke vsake zbirke podatkov v oblaku."
 
 #: ../glade/preferences_win.glade.h:185
-#, fuzzy
-#| msgid "View data folder"
 msgid "View databases"
-msgstr "Poglej mapo podatkov"
+msgstr "Pokaži zbirke podatkov"
 
 #: ../glade/preferences_win.glade.h:186
 #, fuzzy
@@ -5160,10 +5099,8 @@ msgid "Enter debug mode"
 msgstr "Omogoči razhroščevalni način"
 
 #: ../glade/preferences_win.glade.h:192
-#, fuzzy
-#| msgid "Show tests"
 msgid "SQL tests"
-msgstr "Pokaži teste"
+msgstr "Preskusi SQL"
 
 #: ../glade/preferences_win.glade.h:193
 msgid "Short"
@@ -5174,10 +5111,8 @@ msgid "Long"
 msgstr "Dolgo"
 
 #: ../glade/preferences_win.glade.h:195
-#, fuzzy
-#| msgid "Default device"
 msgid "Delete stored devices"
-msgstr "Privzeta naprava"
+msgstr "Izbriši shranjene naprave"
 
 #: ../glade/preferences_win.glade.h:196
 msgid "Do not write debug messages"
@@ -5204,7 +5139,6 @@ msgid "Decimal places"
 msgstr "Decimalna števila"
 
 #: ../glade/preferences_win.glade.h:202
-#, fuzzy
 msgid "Applies to most of the tests and export data"
 msgstr "Velja za večino testov in izvoznih podatkov"
 
@@ -5225,10 +5159,8 @@ msgid "View more tabs"
 msgstr "Poglej več zavihkov"
 
 #: ../glade/preferences_win.glade.h:213
-#, fuzzy
-#| msgid "And starting Chronojump again."
 msgid "Restart Chronojump to apply changes."
-msgstr "In ponovno začenjanje programa ChronoJump."
+msgstr "Znova zaženite Chronojump, da uveljavite spremembe."
 
 #: ../glade/repair_sub_event.glade.h:1
 msgid "Add before"
@@ -5264,10 +5196,8 @@ msgid "Reactive"
 msgstr "Repetitivno-eksplozivni"
 
 #: ../glade/report_window.glade.h:7
-#, fuzzy
-#| msgid "Include tracks"
 msgid "Include laps"
-msgstr "Dodaj steze"
+msgstr "Vključi kroge"
 
 #: ../glade/report_window.glade.h:8
 msgid "Include individual"
@@ -5334,20 +5264,16 @@ msgstr ""
 "primerne za izvajanje testov gibčnosti in RSA)"
 
 #: ../glade/run_type_add.glade.h:12
-#, fuzzy
-#| msgid "Number of different tracks"
 msgid "Number of different laps"
-msgstr "Število različnih stez"
+msgstr "Število različnih krogov"
 
 #: ../glade/run_type_add.glade.h:13
 msgid "Help RSA"
 msgstr "Pomoč RSA"
 
 #: ../glade/run_type_add.glade.h:14
-#, fuzzy
-#| msgid "Distance of each track"
 msgid "Distance of each lap"
-msgstr "Dolžina vsake steze"
+msgstr "Dolžina vsakega kroga"
 
 #: ../glade/run_type_add.glade.h:15
 msgid "(m)"
@@ -5573,10 +5499,9 @@ msgstr ""
 
 # plural
 #: ../src/chronojumpImporter.cs:318
-#, fuzzy, csharp-format
-#| msgid "Cannot copy {0} files from {1} to {2}"
+#, csharp-format
 msgid "Cannot copy files from {0} to {1}."
-msgstr "Ni mogoče kopirati {0} datotek iz {1} v {2}"
+msgstr "Ni mogoče kopirati datotek iz {0} v {1}"
 
 #: ../src/chronojumpImporter.cs:321
 #, fuzzy
@@ -5760,7 +5685,6 @@ msgid "If you want to simulate tests, use {0} session."
 msgstr "Če želite simulirati teste, uporabite sejo {0}."
 
 #: ../src/constants.cs:262
-#, fuzzy
 msgid "This RFID is not registered on server."
 msgstr "Ta RFID ni registriran na strežniku."
 
@@ -5807,9 +5731,8 @@ msgid "Importing from your spreadsheet (LibreOffice, R, MS Excel, …)"
 msgstr "Uvažanje podatkov iz preglednice (LibreOffice, R, MS Excel)"
 
 #: ../src/constants.cs:342
-#, fuzzy
 msgid "Remember the separator character is:"
-msgstr "Ne pozabite, da je znak ločila:"
+msgstr "Ne pozabite, da je znak za ločilo:"
 
 #: ../src/constants.cs:343
 msgid "This can be changed at preferences."
@@ -6182,9 +6105,8 @@ msgstr ""
 "'{0}')"
 
 #: ../src/constants.cs:1026
-#, fuzzy
 msgid "Press enter or tab after editing a cell."
-msgstr "Po urejanju celice pritisnite tipko enter ali tabulatorko."
+msgstr "Po urejanju celice pritisnite vnašalko ali tabulatorko."
 
 #: ../src/constants.cs:1050
 msgid "Sorry, this multimedia file does not exists."
@@ -6807,9 +6729,8 @@ msgstr "intervalni teki"
 
 #: ../src/exportSession.cs:304 ../src/report.cs:188
 #, fuzzy
-#| msgid "with tracks"
 msgid "with laps"
-msgstr "s stezami"
+msgstr "s krogi"
 
 #: ../src/exportSession.cs:328 ../src/report.cs:247
 msgid "SessionID"
@@ -7042,10 +6963,8 @@ msgid "Need to execute races:"
 msgstr "Izvesti je treba skoke"
 
 #: ../src/graphs/cairo/xy.cs:100
-#, fuzzy
-#| msgid "Totaltime cannot be greater."
 msgid "Jumps cannot be the same."
-msgstr "Skupni čas ne more biti večji."
+msgstr "Skoki ne morejo biti enaki."
 
 #: ../src/graphs/cairo/xy.cs:101
 msgid "Optimal fall height"
@@ -7057,9 +6976,8 @@ msgstr "Vrsta skoka:"
 
 #: ../src/graphs/cairo/xy.cs:116
 #, fuzzy
-#| msgid "Add race type"
 msgid "Race type:"
-msgstr "Ustvari novo vrsto teka v podatkovni zbirki"
+msgstr "Vrsta tekmovanja:"
 
 #: ../src/graphs/cairo/xy.cs:657 ../src/graphs/cairo/xy.cs:663
 #: ../src/gui/person/addMultiple.cs:695 ../src/gui/preferences.cs:3159
@@ -7167,7 +7085,6 @@ msgstr "Žal programska oprema R ni nameščena."
 
 #: ../src/gui/app1/chronojump.cs:4691 ../src/gui/app1/encoder.cs:7641
 #: ../src/stats/main.cs:1514
-#, fuzzy
 msgid "Please, install it from here:"
 msgstr "Prosimo, namestite ga od tukaj:"
 
@@ -7214,9 +7131,8 @@ msgid "Device not found"
 msgstr "Naprave ni mogoče najti"
 
 #: ../src/gui/app1/chronojump.cs:5793
-#, fuzzy
 msgid "Sorry, RSA tests cannot be simulated."
-msgstr "Žal videa ni mogoče shraniti."
+msgstr "Žal testov RSA ni mogoče simulirati."
 
 #: ../src/gui/app1/chronojump.cs:5888 ../src/gui/app1/encoder.cs:1403
 msgid "Saved comment."
@@ -7618,7 +7534,6 @@ msgstr ""
 "prilagodljivost in sprostitev nad delovnimi mišicami."
 
 #: ../src/gui/app1/encoder.cs:4597
-#, fuzzy
 msgid "General guidelines to improve the neuromuscular profile:"
 msgstr "Splošne smernice za izboljšanje živčno-mišičnega profila:"
 
@@ -7632,7 +7547,6 @@ msgstr ""
 "izometrično ali koncentrično)."
 
 #: ../src/gui/app1/encoder.cs:4600
-#, fuzzy
 msgid "Then switch to exercises that develop eccentric force in short time."
 msgstr ""
 "Nato preklopite na vaje, ki v kratkem času razvijejo ekscentrično silo."
@@ -7798,9 +7712,8 @@ msgid "R tasks done"
 msgstr "Vse je opravljeno!"
 
 #: ../src/gui/app1/encoder.cs:7325
-#, fuzzy
 msgid "Repetitions processed"
-msgstr "Opravilo brisanja"
+msgstr "Obdelane ponovitve"
 
 #: ../src/gui/app1/encoder.cs:7332
 msgid "Starting process"
@@ -7841,7 +7754,6 @@ msgstr ""
 "Nastavitev popravljena. struna na začetku ni bila popolnoma podaljšana."
 
 #: ../src/gui/app1/forceSensor.cs:159
-#, fuzzy
 msgid "Force sensor is not detected!"
 msgstr "Senzor sile ni zaznan!"
 
@@ -7851,10 +7763,8 @@ msgid "Plug cable and click on 'device' button."
 msgstr "Priključite kabel in kliknite gumb 'naprava'."
 
 #: ../src/gui/app1/forceSensor.cs:306 ../src/gui/app1/forceSensor.cs:325
-#, fuzzy
-#| msgid "Change date"
 msgid "Cleaning device …"
-msgstr "Spremeni datum"
+msgstr "Čiščenje naprave …"
 
 #. if preferences butterworth changed, the graph will be updated
 #. need to also update the grid before the return
@@ -7905,8 +7815,6 @@ msgid "Calibrating will start in …"
 msgstr "Umerjanje se bo začelo v ..."
 
 #: ../src/gui/app1/forceSensor.cs:838
-#, fuzzy
-#| msgid "Calibrate"
 msgid "Calibrating …"
 msgstr "Umerjanje …"
 
@@ -7915,17 +7823,14 @@ msgid "Version of the firmware:"
 msgstr "Različica programske strojne opreme:"
 
 #: ../src/gui/app1/forceSensor.cs:900 ../src/gui/app1/forceSensor.cs:927
-#, fuzzy
-#| msgid "Check last version"
 msgid "Checking version …"
-msgstr "Preveri zadnjo različico"
+msgstr "Preverjanje različice ..."
 
 #. 1 send tare command
 #: ../src/gui/app1/forceSensor.cs:996 ../src/gui/app1/forceSensor.cs:1275
 #, fuzzy
-#| msgid "Preparing camera"
 msgid "Preparing capture …"
-msgstr "Pripravljanje kamere"
+msgstr "Priprava zajetja ..."
 
 #: ../src/gui/app1/forceSensor.cs:1049 ../src/gui/app1/forceSensor.cs:1069
 #: ../src/gui/app1/forceSensor.cs:1617 ../src/gui/app1/forceSensor.cs:1647
@@ -7945,10 +7850,8 @@ msgid "The tare will soon begin"
 msgstr "Tara se bo kmalu začela"
 
 #: ../src/gui/app1/forceSensor.cs:1129
-#, fuzzy
-#| msgid "Please, wait!"
 msgid "Please, wait …"
-msgstr "Prosimo, počakajte"
+msgstr "Prosimo, počakajte …"
 
 #.
 #. * do not do this, sound ends really late
@@ -8043,9 +7946,8 @@ msgstr "Izometrični izteg noge"
 
 #: ../src/gui/app1/forceSensor.cs:3584 ../src/gui/app1/forceSensor.cs:3599
 #, fuzzy
-#| msgid "Delete exercise"
 msgid "Elastic exercise"
-msgstr "Izbriši vajo"
+msgstr "Elastična vaja"
 
 #: ../src/gui/app1/forceSensor.cs:3647
 msgid "Delete exercise"
@@ -8069,18 +7971,14 @@ msgid "Configure bands/tubes"
 msgstr "Nastavitev odzivov"
 
 #: ../src/gui/app1/forceSensor.cs:3727
-#, fuzzy
 msgid "Stiffness:"
-msgstr "Togost"
+msgstr "Togost:"
 
 #: ../src/gui/app1/graphs/jumpsAsymmetry.cs:185
-#, fuzzy
 msgid "higher"
 msgstr "visoka"
 
 #: ../src/gui/app1/graphs/jumpsAsymmetry.cs:186
-#, fuzzy
-#| msgid "Power"
 msgid "lower"
 msgstr "nizka"
 
@@ -8157,7 +8055,7 @@ msgid "-90 means go vertically down."
 msgstr "Vrednost 0 pomeni vodoravno"
 
 #: ../src/gui/app1/runEncoder.cs:2586
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Possible range goes from {0} to {1}."
 msgstr "Možen razpon sega od {0} do {1}."
 
@@ -8220,19 +8118,17 @@ msgid "Copy database to:"
 msgstr "Kopiraj podatkovno zbirko v:"
 
 #: ../src/gui/app1/session/backup.cs:343
-#, fuzzy
-#| msgid "Recording …"
 msgid "Compressing …"
-msgstr "Stiskanje »%s«"
+msgstr "Stiskanje ..."
 
 #: ../src/gui/app1/session/backup.cs:345
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Please, wait approximately 1 minute."
 msgid_plural "Please, wait approximately {0} minutes."
-msgstr[0] "Prosimo, počakajte približno 1 minuto."
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Prosimo, počakajte približno {0} minut."
+msgstr[1] "Prosimo, počakajte približno {0} minuto."
+msgstr[2] "Prosimo, počakajte približno {0} minuti."
+msgstr[3] "Prosimo, počakajte približno {0} minute."
 
 #: ../src/gui/app1/session/backup.cs:377
 #, csharp-format
@@ -8240,10 +8136,9 @@ msgid "Copied in {0} ms."
 msgstr "Kopirano v {0} ms."
 
 #: ../src/gui/app1/session/backup.cs:380
-#, fuzzy, csharp-format
-#| msgid "Copied in {0} ms."
+#, csharp-format
 msgid "Compressed in {0} s."
-msgstr "Kopirano v {0} ms."
+msgstr "Stisnjeno v {0} s."
 
 #: ../src/gui/app1/session/backup.cs:383
 #, fuzzy
@@ -8251,7 +8146,6 @@ msgid "Failed at compress."
 msgstr "Ni uspelo pri stisnitvi."
 
 #: ../src/gui/app1/session/backup.cs:385
-#, fuzzy
 msgid "Copy failed, maybe the disk is full."
 msgstr "Kopiranje ni uspelo, morda je disk poln."
 
@@ -8260,10 +8154,9 @@ msgid "Export session to:"
 msgstr "Izvozi sejo v:"
 
 #: ../src/gui/app1/session/export.cs:188
-#, fuzzy, csharp-format
-#| msgid "Exported in {0} ms"
+#, csharp-format
 msgid "Exported in {0} s"
-msgstr "Izvoženo v {0} ms"
+msgstr "Izvoženo v {0} s"
 
 #: ../src/gui/app1/session/export.cs:251
 msgid "Copying files"
@@ -8946,12 +8839,10 @@ msgstr ""
 "elementov."
 
 #: ../src/gui/forceSensorExercise.cs:443
-#, fuzzy
 msgid ""
 "When the mass doesn't affect the sensor data but it must be added to it."
 msgstr ""
-"Kadar masa ne vpliva na podatke senzorja, vendar jo je treba dodati k "
-"podatkom senzorja."
+"Kadar masa ne vpliva na podatke tipala, vendar jo je treba k njim dodati."
 
 #: ../src/gui/forceSensorExercise.cs:445
 #, fuzzy
@@ -8987,9 +8878,8 @@ msgstr ""
 "spremenijo."
 
 #: ../src/gui/forceSensorExercise.cs:452
-#, fuzzy
 msgid "These values will be used to detect repetitions."
-msgstr "Te vrednosti bodo uporabljene za odkrivanje ponovitev"
+msgstr "Te vrednosti bodo uporabljene za odkrivanje ponovitev."
 
 #: ../src/gui/forceSensorExercise.cs:454
 #, fuzzy
@@ -9043,21 +8933,17 @@ msgid "Movements where a significant mass is accelerated."
 msgstr "Gibi, pri katerih se pospeši velika masa."
 
 #: ../src/gui/forceSensorExercise.cs:475
-#, fuzzy
-#| msgid "Minimal range of movement"
 msgid "Diagonal movement:"
-msgstr "Najmanjši obseg gibanja"
+msgstr "Diagonalno gibanje:"
 
 #: ../src/gui/forceSensorExercise.cs:475
 #, fuzzy
-#| msgid "Lateral"
 msgid "Lateral squat."
-msgstr "Bočno"
+msgstr "Bočni počep"
 
 #: ../src/gui/forceSensorExercise.cs:477
-#, fuzzy
 msgid "Rubber bands, springs, flexible material …"
-msgstr "Gumijasti trakovi, vzmeti, prožni materiali ..."
+msgstr "Gumijasti trakovi, vzmeti, prožni material ..."
 
 #: ../src/gui/forceSensorExercise.cs:479 ../src/gui/forceSensorExercise.cs:481
 #, fuzzy
@@ -9118,16 +9004,12 @@ msgid "Mass is included"
 msgstr "Masa je upoštevana"
 
 #: ../src/gui/forceSensorExercise.cs:516
-#, fuzzy
-#| msgid "Repetition number"
 msgid "Repetitions according to preferences"
-msgstr "Število ponovitev"
+msgstr "Število ponovitev glede na nastavitve"
 
 #: ../src/gui/forceSensorExercise.cs:518
-#, fuzzy
-#| msgid "Repetition number"
 msgid "Repetitions using custom values"
-msgstr "Število ponovitev"
+msgstr "Ponovitve z vrednostmi po meri"
 
 #. if(o == Options.OTHER)
 #: ../src/gui/forceSensorExercise.cs:522
@@ -9244,10 +9126,8 @@ msgid "multi chronopic"
 msgstr "multikronopik"
 
 #: ../src/gui/networks.cs:651 ../src/gui/preferences.cs:2413
-#, fuzzy
-#| msgid "Not found any USB-serial ports."
 msgid "Not found any database at path:"
-msgstr "Ni mogoče najti USB vrat."
+msgstr "Na poti ni bilo mogoče najti nobene zbirke podatkov:"
 
 #: ../src/gui/networks.cs:1029
 #, fuzzy, csharp-format
@@ -9260,8 +9140,6 @@ msgid "The wristband has been read."
 msgstr "Zapestnica je bila prebrana."
 
 #: ../src/gui/networks.cs:1051
-#, fuzzy
-#| msgid "Connecting to server"
 msgid "Connecting to server …"
 msgstr "Poteka povezovanje s strežnikom …"
 
@@ -9405,20 +9283,20 @@ msgstr ""
 
 #. errors
 #: ../src/gui/person/addMultiple.cs:775
-#, fuzzy
-#| msgid "Change current session"
 msgid ""
 "Name already\n"
 "in session"
-msgstr "Zamenjaj trenutno sejo"
+msgstr ""
+"Ime je že\n"
+"v seji"
 
 #: ../src/gui/person/addMultiple.cs:776
-#, fuzzy
-#| msgid "Import from already opened database"
 msgid ""
 "Name already\n"
 "in database"
-msgstr "Uvozi iz že odprte podatkovne zbirke"
+msgstr ""
+"Ime je že\n"
+"v zbirki podatkov"
 
 #: ../src/gui/person/addMultiple.cs:778
 #, fuzzy
@@ -9442,29 +9320,22 @@ msgid "All tests of person '{0}' will be permanently assigned to person '{1}'."
 msgstr "Vsi testi osebe \"{0}\" bodo trajno dodeljeni osebi \"{1}\"."
 
 #: ../src/gui/person/merge.cs:348
-#, fuzzy
-#| msgid "Between persons"
 msgid "Differences between persons"
-msgstr "Med testiranci"
+msgstr "Razlike med osebami"
 
 #: ../src/gui/person/merge.cs:356
-#, fuzzy
-#| msgid "Delete session"
 msgid "Differences in session"
-msgstr "Izbriši sejo"
+msgstr "Razlike v seji"
 
 #: ../src/gui/person/merge.cs:387 ../src/gui/person/merge.cs:388
 #: ../src/gui/person/merge.cs:404 ../src/gui/person/merge.cs:405
-#, fuzzy
-#| msgid "Please fill these values."
 msgid "Use these values"
-msgstr "Izpolnite te vrednosti."
+msgstr "Uporabi te vrednosti"
 
 #: ../src/gui/person/personSelect.cs:497
-#, fuzzy, csharp-format
-#| msgid "Delete person from this session"
+#, csharp-format
 msgid "Delete person '{0}' from this session"
-msgstr "Izbriši testiranca iz te seje"
+msgstr "Izbriši osebo »{0}« iz te seje"
 
 # plural
 #: ../src/gui/person/recuperate.cs:686
@@ -9752,10 +9623,8 @@ msgstr ""
 "strojih"
 
 #: ../src/gui/preferences.cs:3327
-#, fuzzy
-#| msgid "Default device"
 msgid "Deleted stored devices."
-msgstr "Privzeta naprava"
+msgstr "Izbrisane shranjene naprave."
 
 #: ../src/gui/pulse.cs:55
 msgid "pulse"
@@ -9903,7 +9772,6 @@ msgid "And the 'distance' of each different lap will be:"
 msgstr "In »dolžina« vsake različne steze bo:"
 
 #: ../src/gui/sendLogAndPoll.cs:140
-#, fuzzy
 msgid "Thanks"
 msgstr "Hvala!"
 
@@ -12471,13 +12339,10 @@ msgid "Error. {0} has been closed."
 msgstr "Napaka. {0} je vsiljeno zaprt."
 
 #: ../src/webcam/webcam.cs:111
-#, fuzzy, csharp-format
-#| msgid "Error. Cannot open directory."
+#, csharp-format
 msgid "Error. {0} cannot save video."
-msgstr "Napaka: ni mogoče odprti mape."
+msgstr "Napaka. {0} ne more shraniti videa."
 
 #: ../src/webcam/webcamFfmpeg.cs:405
-#, fuzzy
-#| msgid "Preview. Press any key to exit."
 msgid "\"Preview. Press any key to exit.\""
-msgstr "Predogled. Za izhod pritisnite katerokoli tipko."
+msgstr "»Predogled. Za izhod pritisnite poljubno tipko.«"

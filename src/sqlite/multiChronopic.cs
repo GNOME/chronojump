@@ -88,15 +88,15 @@ class SqliteMultiChronopic : Sqlite
 			" cp1InStr, cp1OutStr, cp2InStr, cp2OutStr, cp3InStr, cp3OutStr, cp4InStr, cp4OutStr, " +
 			" vars, description, simulated)" +
 			" VALUES (" + uniqueID + ", " +
-			personID + ", " + sessionID + ", \"" + type + "\", " +
+			personID + ", " + sessionID + ", '" + type + "', " +
 			cp1StartedIn + ", " + cp2StartedIn + ", " +
-			cp3StartedIn + ", " + cp4StartedIn + ", \"" +
-			cp1InStr + "\", \"" + cp1OutStr + "\", \"" +
-			cp2InStr + "\", \"" + cp2OutStr + "\", \"" +
-			cp3InStr + "\", \"" + cp3OutStr + "\", \"" +
-			cp4InStr + "\", \"" + cp4OutStr + "\", \"" +
-			vars + "\", \"" +
-			description + "\", " + simulated + ")" ;
+			cp3StartedIn + ", " + cp4StartedIn + ", '" +
+			cp1InStr + "', '" + cp1OutStr + "', '" +
+			cp2InStr + "', '" + cp2OutStr + "', '" +
+			cp3InStr + "', '" + cp3OutStr + "', '" +
+			cp4InStr + "', '" + cp4OutStr + "', '" +
+			vars + "', '" +
+			description + "', " + simulated + ")" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
@@ -122,12 +122,12 @@ class SqliteMultiChronopic : Sqlite
 
 		string filterPersonString = "";
 		if(personID != -1)
-			filterPersonString = " AND " + tp + ".uniqueID == " + personID;
+			filterPersonString = " AND " + tp + ".uniqueID = " + personID;
 
 		dbcmd.CommandText = "SELECT " + tp + ".name, multiChronopic.* " +
 			" FROM " + tp + ", multiChronopic " +
-			" WHERE " + tp + ".uniqueID == multiChronopic.personID" + 
-			" AND multiChronopic.sessionID == " + sessionID + 
+			" WHERE " + tp + ".uniqueID = multiChronopic.personID" + 
+			" AND multiChronopic.sessionID = " + sessionID + 
 			filterPersonString +
 			" ORDER BY upper(" + tp + ".name), multiChronopic.uniqueID";
 		
@@ -188,7 +188,7 @@ class SqliteMultiChronopic : Sqlite
 		if(!dbconOpened)
 			Sqlite.Open();
 
-		dbcmd.CommandText = "SELECT * FROM " + Constants.MultiChronopicTable + " WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "SELECT * FROM " + Constants.MultiChronopicTable + " WHERE uniqueID = " + uniqueID;
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 
@@ -214,7 +214,7 @@ class SqliteMultiChronopic : Sqlite
 		int maxCPs = 2;
 
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.MultiChronopicTable + 
-			" WHERE (cp3InStr != \"\" OR cp3OutStr != \"\") AND sessionID == " + sessionID;
+			" WHERE (cp3InStr != '' OR cp3OutStr != '') AND sessionID = " + sessionID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SQLiteDataReader reader;
@@ -225,7 +225,7 @@ class SqliteMultiChronopic : Sqlite
 		reader.Close();
 
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.MultiChronopicTable + 
-			" WHERE (cp4InStr != \"\" OR cp4OutStr != \"\") AND sessionID == " + sessionID;
+			" WHERE (cp4InStr != '' OR cp4OutStr != '') AND sessionID = " + sessionID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		reader = dbcmd.ExecuteReader();
@@ -245,9 +245,9 @@ class SqliteMultiChronopic : Sqlite
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.MultiChronopicTable + " SET personID = " + personID + 
-			", vars = \"" + vars + 		//vars is distance on runAnalysis
-			"\", description = \"" + description +
-			"\" WHERE uniqueID == " + eventID ;
+			", vars = '" + vars + 		//vars is distance on runAnalysis
+			"', description = '" + description +
+			"' WHERE uniqueID = " + eventID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();

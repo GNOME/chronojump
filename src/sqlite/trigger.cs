@@ -57,7 +57,7 @@ class SqliteTrigger : Sqlite
 		openIfNeeded(dbconOpened);
 		
 		dbcmd.CommandText = "SELECT * FROM " + table +
-			" WHERE mode = \"" + mode + "\" AND modeID = " + modeID;
+			" WHERE mode = '" + mode + "' AND modeID = " + modeID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
@@ -107,8 +107,8 @@ class SqliteTrigger : Sqlite
 		openIfNeeded(dbconOpened);
 
 		dbcmd.CommandText = "Delete FROM " + table +
-			" WHERE mode = \"" + mode.ToString() +
-			"\" AND modeID = " + modeID;
+			" WHERE mode = '" + mode.ToString() +
+			"' AND modeID = " + modeID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 

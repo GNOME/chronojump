@@ -107,7 +107,7 @@ class Sqlite
 	static string connectionStringTemp = "version = 3; Data source = " + sqlFileTemp;
 
 	//test to try to open db in a dir with accents (latin)
-	//static string connectionString = "globalization requestEncoding=\"iso-8859-1\"; responseEncoding=\"iso-8859-1\"; fileEncoding=\"iso-8859-1\"; culture=\"es-ES\";version = 3; Data source = " + sqlFile;
+	//static string connectionString = "globalization requestEncoding='iso-8859-1'; responseEncoding='iso-8859-1'; fileEncoding='iso-8859-1'; culture='es-ES';version = 3; Data source = " + sqlFile;
 	
 	//create blank database
 	static bool creatingBlankDatabase = false;
@@ -1377,7 +1377,7 @@ class Sqlite
 				//delete all it's runs
 				Sqlite.Open();
 				dbcmd.CommandText = "DELETE FROM " + Constants.RunIntervalTable +
-					" WHERE type == \"RSA 8-4-R3-5\"";
+					" WHERE type = 'RSA 8-4-R3-5'";
 				LogB.SQL(dbcmd.CommandText.ToString());
 				dbcmd.ExecuteNonQuery();
 				
@@ -1549,13 +1549,13 @@ class Sqlite
 						"videoURL, mode, inertiaMomentum, diameter, future1, future2, future3)" +
 						" VALUES (" + es.uniqueID + ", " +
 						es.personID + ", " + es.sessionID + ", " +
-						es.exerciseID + ", \"" + es.eccon + "\", \"" +
-						es.laterality + "\", \"" + es.extraWeight + "\", \"" +
-						es.signalOrCurve + "\", \"" + es.filename + "\", \"" +
-						es.url + "\", " + es.time + ", " + es.minHeight + ", " +
-						Util.ConvertToPoint(es.smooth) + ", \"" + es.description + "\", \"" +
-						es.future1 + "\", \"" + es.future2 + "\", \"LINEAR\", " + //status, videoURL, mode
-						"0, 0, \"\", \"\", \"\")"; //inertiaMomentum, diameter, future1, 2, 3
+						es.exerciseID + ", '" + es.eccon + "', '" +
+						es.laterality + "', '" + es.extraWeight + "', '" +
+						es.signalOrCurve + "', '" + es.filename + "', '" +
+						es.url + "', " + es.time + ", " + es.minHeight + ", " +
+						Util.ConvertToPoint(es.smooth) + ", '" + es.description + "', '" +
+						es.future1 + "', '" + es.future2 + "', 'LINEAR', " + //status, videoURL, mode
+						"0, 0, '', '', '')"; //inertiaMomentum, diameter, future1, 2, 3
 					LogB.SQL(dbcmd.CommandText.ToString());
 					dbcmd.ExecuteNonQuery();
 					count ++;
@@ -1646,13 +1646,13 @@ class Sqlite
 						"videoURL, encoderConfiguration, future1, future2, future3)" +
 						" VALUES (" + es.uniqueID + ", " +
 						es.personID + ", " + es.sessionID + ", " +
-						es.exerciseID + ", \"" + es.eccon + "\", \"" +
-						es.laterality + "\", \"" + es.extraWeight + "\", \"" +
-						es.signalOrCurve + "\", \"" + es.filename + "\", \"" +
-						es.url + "\", " + es.time + ", " + es.minHeight + ", \"" + es.description + "\", \"" + 
-						es.status + "\", \"" + es.videoURL + "\", \"" + 
-						econf.ToStringOutput(EncoderConfiguration.Outputs.SQL) + "\", \"" + //in this conversion put this as default for all SQL rows.
-						es.future1 + "\", \"" + es.future2 + "\", \"" + es.future3 + "\")";
+						es.exerciseID + ", '" + es.eccon + "', '" +
+						es.laterality + "', '" + es.extraWeight + "', '" +
+						es.signalOrCurve + "', '" + es.filename + "', '" +
+						es.url + "', " + es.time + ", " + es.minHeight + ", '" + es.description + "', '" + 
+						es.status + "', '" + es.videoURL + "', '" + 
+						econf.ToStringOutput(EncoderConfiguration.Outputs.SQL) + "', '" + //in this conversion put this as default for all SQL rows.
+						es.future1 + "', '" + es.future2 + "', '" + es.future3 + "')";
 					LogB.SQL(dbcmd.CommandText.ToString());
 					dbcmd.ExecuteNonQuery();
 					count ++;
@@ -1670,7 +1670,7 @@ class Sqlite
 				
 				dbcmd.CommandText = "DELETE FROM " + Constants.EncoderTable + 
 					" WHERE encoderConfiguration LIKE '%INERTIAL%' AND " +
-					" signalOrCurve == \"curve\"";
+					" signalOrCurve = 'curve'";
 				LogB.SQL(dbcmd.CommandText.ToString());
 				dbcmd.ExecuteNonQuery();
 
@@ -2143,23 +2143,23 @@ class Sqlite
 
 				//encoderConfiguration table. Update fields with 6 ':'
 				executeSQL("UPDATE encoderConfiguration " +
-						"SET encoderConfiguration = encoderConfiguration || \":-1:0:0:1:0\" " +
-						"WHERE LENGTH(encoderConfiguration) - LENGTH(REPLACE(encoderConfiguration, \":\", \"\")) = 6");
+						"SET encoderConfiguration = encoderConfiguration || ':-1:0:0:1:0' " +
+						"WHERE LENGTH(encoderConfiguration) - LENGTH(REPLACE(encoderConfiguration, ':', '')) = 6");
 
 				//encoderConfiguration table. Update fields with 10 ':'
 				executeSQL("UPDATE encoderConfiguration " +
-						"SET encoderConfiguration = encoderConfiguration || \":0\" " +
-						"WHERE LENGTH(encoderConfiguration) - LENGTH(REPLACE(encoderConfiguration, \":\", \"\")) = 10");
+						"SET encoderConfiguration = encoderConfiguration || ':0' " +
+						"WHERE LENGTH(encoderConfiguration) - LENGTH(REPLACE(encoderConfiguration, ':', '')) = 10");
 
 				//encoder table. Update fields with 6 ':'
 				executeSQL("UPDATE encoder " +
-						"SET encoderConfiguration = encoderConfiguration || \":-1:0:0:1:0\" " +
-						"WHERE LENGTH(encoderConfiguration) - LENGTH(REPLACE(encoderConfiguration, \":\", \"\")) = 6");
+						"SET encoderConfiguration = encoderConfiguration || ':-1:0:0:1:0' " +
+						"WHERE LENGTH(encoderConfiguration) - LENGTH(REPLACE(encoderConfiguration, ':', '')) = 6");
 
 				//encoder table. Update fields with 10 ':'
 				executeSQL("UPDATE encoder " +
-						"SET encoderConfiguration = encoderConfiguration || \":0\" " +
-						"WHERE LENGTH(encoderConfiguration) - LENGTH(REPLACE(encoderConfiguration, \":\", \"\")) = 10");
+						"SET encoderConfiguration = encoderConfiguration || ':0' " +
+						"WHERE LENGTH(encoderConfiguration) - LENGTH(REPLACE(encoderConfiguration, ':', '')) = 10");
 
 
 				/*
@@ -2172,24 +2172,24 @@ class Sqlite
 				// A) encoderConfiguration table
 				// If ends with ":" convert to ":0"
 				executeSQL("UPDATE encoderConfiguration " +
-						"SET encoderConfiguration = encoderConfiguration || \"0\" " +
-						"WHERE SUBSTR(encoderConfiguration, -1, 1) = \":\"");
+						"SET encoderConfiguration = encoderConfiguration || '0' " +
+						"WHERE SUBSTR(encoderConfiguration, -1, 1) = ':'");
 
 				// If ends with ":-1" convert to ":0"
 				executeSQL("UPDATE encoderConfiguration " +
-						"SET encoderConfiguration = SUBSTR(encoderConfiguration, 0, LENGTH(encoderConfiguration) +1 -2) || \"0\" " +
-						"WHERE SUBSTR(encoderConfiguration, -3, 3) = \":-1\"");
+						"SET encoderConfiguration = SUBSTR(encoderConfiguration, 0, LENGTH(encoderConfiguration) +1 -2) || '0' " +
+						"WHERE SUBSTR(encoderConfiguration, -3, 3) = ':-1'");
 
 				// B) encoder table
 				// If ends with ":" convert to ":0"
 				executeSQL("UPDATE encoder " +
-						"SET encoderConfiguration = encoderConfiguration || \"0\" " +
-						"WHERE SUBSTR(encoderConfiguration, -1, 1) = \":\"");
+						"SET encoderConfiguration = encoderConfiguration || '0' " +
+						"WHERE SUBSTR(encoderConfiguration, -1, 1) = ':'");
 
 				// If ends with ":-1" convert to ":0"
 				executeSQL("UPDATE encoder " +
-						"SET encoderConfiguration = SUBSTR(encoderConfiguration, 0, LENGTH(encoderConfiguration) +1 -2) || \"0\" " +
-						"WHERE SUBSTR(encoderConfiguration, -3, 3) = \":-1\"");
+						"SET encoderConfiguration = SUBSTR(encoderConfiguration, 0, LENGTH(encoderConfiguration) +1 -2) || '0' " +
+						"WHERE SUBSTR(encoderConfiguration, -3, 3) = ':-1'");
 
 				currentVersion = updateVersion("1.38");
 			}
@@ -3003,7 +3003,7 @@ class Sqlite
 			{
 				LogB.SQL("Doing alter table encoderExercise ADD COLUMN type TEXT ...");
 				try {
-					executeSQL("ALTER TABLE " + Constants.EncoderExerciseTable + " ADD COLUMN type TEXT DEFAULT \"ALL\";");
+					executeSQL("ALTER TABLE " + Constants.EncoderExerciseTable + " ADD COLUMN type TEXT DEFAULT 'ALL';");
 				} catch {
 					LogB.SQL("Catched at Doing alter table encoderExercise ADD COLUMN type TEXT ...");
 				}
@@ -3836,7 +3836,7 @@ class Sqlite
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "SELECT name FROM sqlite_master WHERE type=\"table\" AND name=\"" + tableName + "\"";
+		dbcmd.CommandText = "SELECT name FROM sqlite_master WHERE type='table' AND name='" + tableName + "'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 
 		SQLiteDataReader reader;
@@ -3861,8 +3861,8 @@ class Sqlite
 		if(caseSensitive)
 			executeSQL("PRAGMA case_sensitive_like=ON;");
 
-		dbcmd.CommandText = "SELECT * FROM sqlite_master WHERE type = \"table\" AND name = \"" +
-			tableName + "\" AND sql LIKE '%" + columnName + "%'";
+		dbcmd.CommandText = "SELECT * FROM sqlite_master WHERE type = 'table' AND name = '" +
+			tableName + "' AND sql LIKE '%" + columnName + "%'";
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 
@@ -3888,7 +3888,7 @@ class Sqlite
 	//so there is no RENAME COLUMN and we need to do it in old way
 	private static void renameColumnLinuxOrMac (string table, string cOld, string cNew)
 	{
-		executeSQL("ALTER TABLE " + table + " RENAME COLUMN \"" + cOld + "\" TO \"" + cNew + "\";");
+		executeSQL("ALTER TABLE " + table + " RENAME COLUMN '" + cOld + "' TO '" + cNew + "';");
 	}
 
 	public static bool Exists(bool dbconOpened, string tableName, string findName)
@@ -3905,7 +3905,7 @@ class Sqlite
 			Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT uniqueID FROM " + tableName + 
-			" WHERE LOWER(name) == LOWER(\"" + findName + "\")" ;
+			" WHERE LOWER(name) = LOWER('" + findName + "')" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SQLiteDataReader reader;
@@ -3962,7 +3962,7 @@ class Sqlite
 
 			// 2.b) select the ids of each of the nameConflict
 			dbcmd.CommandText = "SELECT uniqueID FROM " + table +
-				" WHERE name = \"" + nameConflict + "\"";
+				" WHERE name = '" + nameConflict + "'";
 			LogB.SQL(dbcmd.CommandText.ToString());
 
 			reader = dbcmd.ExecuteReader();
@@ -4006,8 +4006,8 @@ class Sqlite
 				LogB.Information(string.Format("nameConflict: |{0}| will change to: |{1}|\n\n",
 							nameConflict, nameFixed));
 
-				executeSQL("UPDATE " + table + " SET name = \"" + nameFixed +
-						"\" WHERE uniqueID = " + idsOfThisName_l[i]);
+				executeSQL("UPDATE " + table + " SET name = '" + nameFixed +
+						"' WHERE uniqueID = " + idsOfThisName_l[i]);
 			}
 		}
 	}
@@ -4022,15 +4022,15 @@ class Sqlite
 
 		string strSelect = "SELECT COUNT(" + variable + "), AVG(" + variable + ")";
 		string strFrom   = " FROM " + tableName;
-		string strWhere  = " WHERE " + tableName + ".type = \"" + test + "\"";
+		string strWhere  = " WHERE " + tableName + ".type = '" + test + "'";
 
 		string strSex = "";
 		if(sex == Constants.SexUID)
-			strSex = " AND " + tp + ".sex == \"" + Constants.SexM + "\"";
+			strSex = " AND " + tp + ".sex = '" + Constants.SexM + "'";
 		else if(sex == Constants.SexMID)
-			strSex = " AND " + tp + ".sex == \"" + Constants.SexM + "\"";
+			strSex = " AND " + tp + ".sex = '" + Constants.SexM + "'";
 		else if (sex == Constants.SexFID)
-			strSex = " AND " + tp + ".sex == \"" + Constants.SexF + "\"";
+			strSex = " AND " + tp + ".sex = '" + Constants.SexF + "'";
 
 		string strAge = "";
 		string strEval = "";
@@ -4046,33 +4046,33 @@ class Sqlite
 						strFull[2] + " " + strFull[3];
 			}
 			if(evaluatorID != Constants.AnyID) 
-				strEval = " AND session.evaluatorID == " + evaluatorID;
+				strEval = " AND session.evaluatorID = " + evaluatorID;
 			
 			strSession = " AND " + tableName + ".sessionID = session.uniqueID";
 		}
 
 		string strCountry = "";
 		if(countryID != Constants.CountryUndefinedID) 
-			strCountry = " AND " + tp + ".countryID == " + countryID;
+			strCountry = " AND " + tp + ".countryID = " + countryID;
 
 		string strSport = "";
 		if(sportID != Constants.SportUndefinedID) 
-			strSport = " AND " + tps + ".sportID == " + sportID;
+			strSport = " AND " + tps + ".sportID = " + sportID;
 
 		string strSpeciallity = "";
 		if(speciallityID != Constants.SpeciallityUndefinedID) 
-			strSpeciallity = " AND " + tps + ".speciallityID == " + speciallityID;
+			strSpeciallity = " AND " + tps + ".speciallityID = " + speciallityID;
 		
 		string strLevel = "";
 		if(levelID != Constants.LevelUndefinedID) 
-			strLevel = " AND " + tps + ".practice == " + levelID;
+			strLevel = " AND " + tps + ".practice = " + levelID;
 
 		string strLast = "";
 		if(strSex.Length > 0 || strAge.Length > 0 || 
 				strCountry.Length > 0 || strSport.Length > 0 || strSpeciallity.Length > 0 || strLevel.Length > 0) {
 			strFrom += ", " + tp + ", " + tps;
-			strLast = " AND " + tableName + ".personID == " + tp + ".uniqueID" +
-				" AND " + tp + ".uniqueID == " + tps + ".personID";
+			strLast = " AND " + tableName + ".personID = " + tp + ".uniqueID" +
+				" AND " + tp + ".uniqueID = " + tps + ".personID";
 		}	
 		return strSelect + strFrom + strWhere + strSex + strAge
 			+ strCountry + strSport + strSpeciallity + strLevel + strEval + strSession + strLast;
@@ -4216,8 +4216,8 @@ class Sqlite
 		foreach(string str in myArray) {
 			string [] id_date = str.Split(new char[] {':'});
 			DateTime dt = UtilDate.FromSql(id_date[1]);
-			dbcmd.CommandText = "UPDATE person set dateBorn = \"" + UtilDate.ToSql(dt) +
-				"\" WHERE uniqueID = " + id_date[0];
+			dbcmd.CommandText = "UPDATE person set dateBorn = '" + UtilDate.ToSql(dt) +
+				"' WHERE uniqueID = " + id_date[0];
 			LogB.SQL(dbcmd.CommandText.ToString());
 			dbcmd.ExecuteNonQuery();
 			conversionSubRate ++;
@@ -4244,8 +4244,8 @@ class Sqlite
 		foreach(string str in myArray) {
 			string [] id_date = str.Split(new char[] {':'});
 			DateTime dt = UtilDate.FromSql(id_date[1]);
-			dbcmd.CommandText = "UPDATE session set date = \"" + UtilDate.ToSql(dt) +
-				"\" WHERE uniqueID = " + id_date[0];
+			dbcmd.CommandText = "UPDATE session set date = '" + UtilDate.ToSql(dt) +
+				"' WHERE uniqueID = " + id_date[0];
 			LogB.SQL(dbcmd.CommandText.ToString());
 			dbcmd.ExecuteNonQuery();
 			conversionSubRate ++;
@@ -4272,8 +4272,8 @@ class Sqlite
 		foreach(string str in myArray) {
 			string [] id_date = str.Split(new char[] {':'});
 			DateTime dt = UtilDate.FromSql(id_date[1]);
-			dbcmd.CommandText = "UPDATE SEvaluator set dateBorn = \"" + UtilDate.ToSql(dt) +
-				"\" WHERE uniqueID = " + id_date[0];
+			dbcmd.CommandText = "UPDATE SEvaluator set dateBorn = '" + UtilDate.ToSql(dt) +
+				"' WHERE uniqueID = " + id_date[0];
 			LogB.SQL(dbcmd.CommandText.ToString());
 			dbcmd.ExecuteNonQuery();
 			conversionSubRate ++;
@@ -4337,7 +4337,7 @@ class Sqlite
 			foreach(string name in names) {
 				if(!Exists(false, Constants.JumpTypeTable, name)) {
 					success = true;
-					dbcmd.CommandText = "UPDATE jump SET type = \"" + name + "\" WHERE type == \"DJa\"";
+					dbcmd.CommandText = "UPDATE jump SET type = '" + name + "' WHERE type = 'DJa'";
 					LogB.SQL(dbcmd.CommandText.ToString());
 					dbcmd.ExecuteNonQuery();
 				}
@@ -4353,7 +4353,7 @@ class Sqlite
 			foreach(string name in names) {
 				if(!Exists(false, Constants.JumpTypeTable, name)) {
 					success = true;
-					dbcmd.CommandText = "UPDATE jump SET type = \"" + name + "\" WHERE type == \"DJna\"";
+					dbcmd.CommandText = "UPDATE jump SET type = '" + name + "' WHERE type = 'DJna'";
 					LogB.SQL(dbcmd.CommandText.ToString());
 					dbcmd.ExecuteNonQuery();
 				}
@@ -4370,12 +4370,12 @@ class Sqlite
 		SqliteJumpType.JumpTypeInsert ("DJna:0:0:DJ jump without using arms", true); 
 		
 		//add auto-converted on description
-		dbcmd.CommandText = "UPDATE jump SET description = description || \" Auto-converted from DJ\" WHERE type == \"DJ\"";
+		dbcmd.CommandText = "UPDATE jump SET description = description || ' Auto-converted from DJ' WHERE type = 'DJ'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		//conversion
-		dbcmd.CommandText = "UPDATE jump SET type = \"DJna\" WHERE type == \"DJ\"";
+		dbcmd.CommandText = "UPDATE jump SET type = 'DJna' WHERE type = 'DJ'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -4827,7 +4827,7 @@ LogB.SQL("5" + tableName);
 		bool whereDone = false;
 		string cond1 = "";
 		if(searchValue != "") {
-			cond1 = " WHERE " + columnName + " == \"" + searchValue + "\"";
+			cond1 = " WHERE " + columnName + " = '" + searchValue + "'";
 			whereDone = true;
 		}
 
@@ -4840,11 +4840,11 @@ LogB.SQL("5" + tableName);
 			else
 				cond2Pre = " WHERE ";
 
-			cond2 = cond2Pre + columnNameCondition2 + " == \"" + searchValueCondition2 + "\""; 
+			cond2 = cond2Pre + columnNameCondition2 + " = '" + searchValueCondition2 + "'"; 
 		}
 
 		dbcmd.CommandText = "UPDATE " + tableName +
-			" SET " + columnName + " = \"" + newValue + "\"" +  
+			" SET " + columnName + " = '" + newValue + "'" +  
 			cond1 +
 			cond2
 			;
@@ -4874,7 +4874,7 @@ LogB.SQL("5" + tableName);
 			Sqlite.Open();
 
 		dbcmd.CommandText = "DELETE FROM " + tableName +
-			" WHERE uniqueID == " + uniqueID.ToString();
+			" WHERE uniqueID = " + uniqueID.ToString();
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
@@ -4888,7 +4888,7 @@ LogB.SQL("5" + tableName);
 			Sqlite.Open();
 
 		dbcmd.CommandText = "DELETE FROM " + tableName +
-			" WHERE " + fieldName + " == " + id;
+			" WHERE " + fieldName + " = " + id;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
@@ -4907,7 +4907,7 @@ LogB.SQL("5" + tableName);
 			Sqlite.Open();
 
 		dbcmd.CommandText = "DELETE FROM " + tableName +
-			" WHERE " + colName + " = \"" + searchName + "\"";
+			" WHERE " + colName + " = '" + searchName + "'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
@@ -4921,7 +4921,7 @@ LogB.SQL("5" + tableName);
 			Sqlite.Open();
 
 		dbcmd.CommandText = "DELETE FROM " + tableName +
-			" WHERE " + colName + " == " + id;
+			" WHERE " + colName + " = " + id;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		

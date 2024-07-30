@@ -127,7 +127,7 @@ public class SqliteSessionSwitcher
             SqliteGeneral sqliteGeneral = new SqliteGeneral(databasePath);
             SQLiteCommand dbcommand = sqliteGeneral.command();
 
-            dbcommand.CommandText = "SELECT * FROM Session WHERE uniqueID == @myUniqueID";
+            dbcommand.CommandText = "SELECT * FROM Session WHERE uniqueID = @myUniqueID";
             dbcommand.Parameters.Add(new SQLiteParameter("@myUniqueID", myUniqueID));
 
             SQLiteDataReader reader = dbcommand.ExecuteReader();
@@ -211,10 +211,10 @@ class SqliteSession : Sqlite
 			uniqueID = "NULL";
 
 		dbcmd.CommandText = "INSERT INTO " + tableName + " (uniqueID, name, place, date, personsSportID, personsSpeciallityID, personsPractice, comments, serverUniqueID)" +
-			" VALUES (" + uniqueID + ", \""
-			+ name + "\", \"" + place + "\", \"" + UtilDate.ToSql(date) + "\", " + 
+			" VALUES (" + uniqueID + ", '"
+			+ name + "', '" + place + "', '" + UtilDate.ToSql(date) + "', " + 
 			personsSportID + ", " + personsSpeciallityID + ", " + 
-			personsPractice + ", \"" + comments + "\", " +
+			personsPractice + ", '" + comments + "', " +
 			serverUniqueID + ")" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -244,14 +244,14 @@ class SqliteSession : Sqlite
 		//TODO: serverUniqueID (but cannot be changed in gui/edit, then not need now)
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.SessionTable + " " +
-			" SET name = \"" + name +
-			"\" , date = \"" + UtilDate.ToSql(date) +
-			"\" , place = \"" + place +
-			"\" , personsSportID = " + personsSportID +
+			" SET name = '" + name +
+			"' , date = '" + UtilDate.ToSql(date) +
+			"' , place = '" + place +
+			"' , personsSportID = " + personsSportID +
 			", personsSpeciallityID = " + personsSpeciallityID +
 			", personsPractice = " + personsPractice +
-			", comments = \"" + comments +
-			"\" WHERE uniqueID == " + uniqueID;
+			", comments = '" + comments +
+			"' WHERE uniqueID = " + uniqueID;
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
 	}
@@ -263,7 +263,7 @@ class SqliteSession : Sqlite
 			Sqlite.Open();
 
 		dbcmd.CommandText = "UPDATE " +Constants.SessionTable + " SET serverUniqueID = " + serverID + 
-			" WHERE uniqueID == " + uniqueID ;
+			" WHERE uniqueID = " + uniqueID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -277,7 +277,7 @@ class SqliteSession : Sqlite
 	//be careful because name is not unique
 	public static Session SelectByName(string name)
 	{
-		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE LOWER(name) = LOWER(\"" + name + "\")";
+		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE LOWER(name) = LOWER('" + name + "')";
 
 		List<Session> session_l = selectDo(false, dbcmd);
 		if(session_l.Count == 0)
@@ -289,7 +289,7 @@ class SqliteSession : Sqlite
 	//by ID (default
 	public static Session Select(string myUniqueID)
 	{
-		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE uniqueID == " + myUniqueID ; 
+		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE uniqueID = " + myUniqueID ; 
 
 		List<Session> session_l = selectDo(false, dbcmd);
 		if(session_l.Count == 0)
@@ -525,8 +525,8 @@ class SqliteSession : Sqlite
 			dbcmd.CommandText =
 				"SELECT session.*, sport.name, speciallity.name" +
 				" FROM session, sport, speciallity " +
-				" WHERE session.personsSportID == sport.uniqueID " + 
-				" AND session.personsSpeciallityID == speciallity.UniqueID " +
+				" WHERE session.personsSportID = sport.uniqueID " + 
+				" AND session.personsSpeciallityID = speciallity.UniqueID " +
 				filterNameString + 
 				" ORDER BY session.uniqueID";
 		else {
@@ -534,8 +534,8 @@ class SqliteSession : Sqlite
 			dbcmd.CommandText =
 				"SELECT session.*, sport.name, speciallity.name" +
 				" FROM session, sport, speciallity, " + tps +
-				" WHERE session.personsSportID == sport.uniqueID " +
-				" AND session.personsSpeciallityID == speciallity.UniqueID " +
+				" WHERE session.personsSportID = sport.uniqueID " +
+				" AND session.personsSpeciallityID = speciallity.UniqueID " +
 				" AND " + tps + ".personID = " + personID + " AND " + tps + ".sessionID = session.UniqueID" +
 				filterNameString +
 				" ORDER BY session.uniqueID";
@@ -931,7 +931,7 @@ class SqliteSession : Sqlite
         string typeString = "";
         if (type != "")
         {
-            typeString = connector + "type = \"" + type + "\"";
+            typeString = connector + "type = '" + type + "'";
             connector = " AND ";
         }
 
@@ -1001,11 +1001,11 @@ class SqliteSession : Sqlite
         dbcmd = dbcon.CreateCommand();
 
         // 1) delete the session
-        dbcmd.CommandText = "Delete FROM " + Constants.SessionTable + " WHERE uniqueID == " + sessionID;
+        dbcmd.CommandText = "Delete FROM " + Constants.SessionTable + " WHERE uniqueID = " + sessionID;
         dbcmd.ExecuteNonQuery();
 
         // 2) delete relations (existance) within persons and sessions in this session
-        dbcmd.CommandText = "Delete FROM " + Constants.PersonSessionTable + " WHERE sessionID == " + sessionID;
+        dbcmd.CommandText = "Delete FROM " + Constants.PersonSessionTable + " WHERE sessionID = " + sessionID;
         dbcmd.ExecuteNonQuery();
 
         LogB.Information("DeleteAllStuffDo 1");
@@ -1017,31 +1017,31 @@ class SqliteSession : Sqlite
         // 3) delete tests without files
 
         //delete simple jumps
-        dbcmd.CommandText = "Delete FROM " + Constants.JumpTable + " WHERE sessionID == " + sessionID;
+        dbcmd.CommandText = "Delete FROM " + Constants.JumpTable + " WHERE sessionID = " + sessionID;
         dbcmd.ExecuteNonQuery();
 
         //delete repetitive jumps
-        dbcmd.CommandText = "Delete FROM " + Constants.JumpRjTable + " WHERE sessionID == " + sessionID;
+        dbcmd.CommandText = "Delete FROM " + Constants.JumpRjTable + " WHERE sessionID = " + sessionID;
         dbcmd.ExecuteNonQuery();
 
         //delete simple runs
-        dbcmd.CommandText = "Delete FROM " + Constants.RunTable + " WHERE sessionID == " + sessionID;
+        dbcmd.CommandText = "Delete FROM " + Constants.RunTable + " WHERE sessionID = " + sessionID;
         dbcmd.ExecuteNonQuery();
 
         //delete intervallic runs
-        dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTable + " WHERE sessionID == " + sessionID;
+        dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTable + " WHERE sessionID = " + sessionID;
         dbcmd.ExecuteNonQuery();
 
         //delete reaction times
-        dbcmd.CommandText = "Delete FROM " + Constants.ReactionTimeTable + " WHERE sessionID == " + sessionID;
+        dbcmd.CommandText = "Delete FROM " + Constants.ReactionTimeTable + " WHERE sessionID = " + sessionID;
         dbcmd.ExecuteNonQuery();
 
         //delete pulses
-        dbcmd.CommandText = "Delete FROM " + Constants.PulseTable + " WHERE sessionID == " + sessionID;
+        dbcmd.CommandText = "Delete FROM " + Constants.PulseTable + " WHERE sessionID = " + sessionID;
         dbcmd.ExecuteNonQuery();
 
         //delete multiChronopic
-        dbcmd.CommandText = "Delete FROM " + Constants.MultiChronopicTable + " WHERE sessionID == " + sessionID;
+        dbcmd.CommandText = "Delete FROM " + Constants.MultiChronopicTable + " WHERE sessionID = " + sessionID;
         dbcmd.ExecuteNonQuery();
 
         // 4) delete from encoder start ------>
@@ -1056,7 +1056,7 @@ class SqliteSession : Sqlite
         {
             // 1 get all the encoder signals of that session
             dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.EncoderTable +
-                " WHERE signalOrCurve = \"signal\"" +
+                " WHERE signalOrCurve = 'signal'" +
                 " AND sessionID = " + sessionID;
 
             reader = dbcmd.ExecuteReader();
@@ -1078,8 +1078,8 @@ class SqliteSession : Sqlite
                 //SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(signal));
                 //to export we have to do it with the dbcmd:
                 dbcmd.CommandText = "Delete FROM " + Constants.TriggerTable +
-                    " WHERE mode = \"" + Trigger.Modes.ENCODER.ToString() +
-                    "\" AND modeID = " + Convert.ToInt32(signal);
+                    " WHERE mode = '" + Trigger.Modes.ENCODER.ToString() +
+                    "' AND modeID = " + Convert.ToInt32(signal);
                 LogB.SQL(dbcmd.CommandText.ToString());
                 dbcmd.ExecuteNonQuery();
             }
@@ -1147,8 +1147,8 @@ class SqliteSession : Sqlite
             //SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(fs.UniqueID));
             //to export we have to do it with the dbcmd:
             dbcmd.CommandText = "Delete FROM " + Constants.TriggerTable +
-                " WHERE mode = \"" + Trigger.Modes.FORCESENSOR.ToString() +
-                "\" AND modeID = " + id;
+                " WHERE mode = '" + Trigger.Modes.FORCESENSOR.ToString() +
+                "' AND modeID = " + id;
             LogB.SQL(dbcmd.CommandText.ToString());
             dbcmd.ExecuteNonQuery();
         }
@@ -1191,8 +1191,8 @@ class SqliteSession : Sqlite
             //SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(re.UniqueID));
             //to export we have to do it with the dbcmd:
             dbcmd.CommandText = "Delete FROM " + Constants.TriggerTable +
-                " WHERE mode = \"" + Trigger.Modes.RACEANALYZER.ToString() +
-                "\" AND modeID = " + id;
+                " WHERE mode = '" + Trigger.Modes.RACEANALYZER.ToString() +
+                "' AND modeID = " + id;
             LogB.SQL(dbcmd.CommandText.ToString());
             dbcmd.ExecuteNonQuery();
         }
@@ -1270,13 +1270,13 @@ class SqliteServerSession : SqliteSession
         string uniqueID = "NULL";
 
         dbcmd.CommandText = "INSERT INTO " + tableName + " (uniqueID, name, place, date, personsSportID, personsSpeciallityID, personsPractice, comments, serverUniqueID, evaluatorID, evaluatorCJVersion, evaluatorOS, uploadedDate, uploadingState)" +
-            " VALUES (" + uniqueID + ", \""
-            + name + "\", \"" + place + "\", \"" + UtilDate.ToSql(date) + "\", " +
+            " VALUES (" + uniqueID + ", '"
+            + name + "', '" + place + "', '" + UtilDate.ToSql(date) + "', " +
             personsSportID + ", " + personsSpeciallityID + ", " +
-            personsPractice + ", \"" + comments + "\", " +
-            serverUniqueID + ", " + evaluatorID + ", \"" +
-            evaluatorCJVersion + "\", \"" + evaluatorOS + "\", \"" +
-            UtilDate.ToSql(uploadedDate) + "\", " + uploadingState +
+            personsPractice + ", '" + comments + "', " +
+            serverUniqueID + ", " + evaluatorID + ", '" +
+            evaluatorCJVersion + "', '" + evaluatorOS + "', '" +
+            UtilDate.ToSql(uploadedDate) + "', " + uploadingState +
             ")";
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
@@ -1300,7 +1300,7 @@ class SqliteServerSession : SqliteSession
         Sqlite.Open();
 
         dbcmd.CommandText = "UPDATE " + Constants.SessionTable + " SET uploadingState = " + state +
-            " WHERE uniqueID == " + uniqueID;
+            " WHERE uniqueID = " + uniqueID;
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
 

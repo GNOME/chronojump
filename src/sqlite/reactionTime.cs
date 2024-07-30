@@ -66,8 +66,8 @@ class SqliteReactionTime : Sqlite
 		dbcmd.CommandText = "INSERT INTO " + tableName +  
 				" (uniqueID, personID, sessionID, type, time, description, simulated)" +
 				" VALUES (" + uniqueID + ", "
-				+ personID + ", " + sessionID + ", \"" + type + "\", "
-				+ Util.ConvertToPoint(time) + ", \"" + description + "\", " + simulated + ")" ;
+				+ personID + ", " + sessionID + ", '" + type + "', "
+				+ Util.ConvertToPoint(time) + ", '" + description + "', " + simulated + ")" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -99,7 +99,7 @@ class SqliteReactionTime : Sqlite
 		
 		string filterTypeString = "";
 		if(filterType != "")
-			filterTypeString = " AND reactionTime.type == \"" + filterType + "\" ";
+			filterTypeString = " AND reactionTime.type = '" + filterType + "' ";
 		
 		string orderByString = " ORDER BY upper(" + tp + ".name), reactionTime.uniqueID";
 		if(order == Orders_by.ID_DESC)
@@ -162,7 +162,7 @@ class SqliteReactionTime : Sqlite
 		if(!dbconOpened)
 			Sqlite.Open();
 
-		dbcmd.CommandText = "SELECT * FROM " + Constants.ReactionTimeTable + " WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "SELECT * FROM " + Constants.ReactionTimeTable + " WHERE uniqueID = " + uniqueID;
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 
@@ -184,10 +184,10 @@ class SqliteReactionTime : Sqlite
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.ReactionTimeTable + " SET personID = " + personID + 
-			", type = \"" + type +
-			"\", time = " + Util.ConvertToPoint(time) +
-			", description = \"" + description +
-			"\" WHERE uniqueID == " + eventID ;
+			", type = '" + type +
+			"', time = " + Util.ConvertToPoint(time) +
+			", description = '" + description +
+			"' WHERE uniqueID = " + eventID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();

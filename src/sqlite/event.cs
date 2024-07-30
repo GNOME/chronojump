@@ -64,7 +64,7 @@ class SqliteEvent : Sqlite
 		}
 		mycmd.CommandText = "INSERT INTO graphLinkTable" + 
 				"(uniqueID, tableName, eventName, graphFileName, other1, other2)" +
-				" VALUES (NULL, \"" + tableName + "\", \"" + eventName + "\", \"" + graphFileName + "\", \"\", \"\")" ;
+				" VALUES (NULL, '" + tableName + "', '" + eventName + "', '" + graphFileName + "', '', '')" ;
 		LogB.SQL(mycmd.CommandText.ToString());
 		mycmd.ExecuteNonQuery();
 		//int myLast = dbcon.LastInsertRowId;
@@ -84,7 +84,7 @@ class SqliteEvent : Sqlite
 	{
 		Sqlite.Open();
 
-		dbcmd.CommandText = "SELECT graphFileName FROM graphLinkTable WHERE tableName == \"" + tableName + "\" AND eventName ==\"" + eventName + "\"";
+		dbcmd.CommandText = "SELECT graphFileName FROM graphLinkTable WHERE tableName = '" + tableName + "' AND eventName ='" + eventName + "'";
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -110,7 +110,7 @@ class SqliteEvent : Sqlite
 			Sqlite.Open();
 
 		dbcmd.CommandText = "UPDATE " + tableName + " SET simulated = " + simulated + 
-			" WHERE uniqueID == " + uniqueID ;
+			" WHERE uniqueID = " + uniqueID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -123,7 +123,7 @@ class SqliteEvent : Sqlite
 	private static void convertSimulate(string tableName)
 	{
 		dbcmd.CommandText = "UPDATE " + tableName + " SET simulated = -1" + 
-			" WHERE simulated == 1";
+			" WHERE simulated = 1";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}

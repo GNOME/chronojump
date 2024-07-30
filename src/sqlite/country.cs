@@ -77,8 +77,8 @@ class SqliteCountry : Sqlite
             //" (uniqueID, code, name, continent) VALUES (NULL, '" + code + "', '" + 
             //nameEnglish + "', '" + continent + "')";
             //fix bad chars (') :
-            " (uniqueID, code, name, continent) VALUES (NULL, \"" + code + "\", \"" +
-            nameEnglish + "\", \"" + continent + "\")";
+            " (uniqueID, code, name, continent) VALUES (NULL, '" + code + "', '" +
+            nameEnglish + "', '" + continent + "')";
 
         mycmd.CommandText = myString;
         LogB.SQL(mycmd.CommandText.ToString());
@@ -100,7 +100,7 @@ class SqliteCountry : Sqlite
     {
         Sqlite.Open();
 
-        dbcmd.CommandText = "SELECT uniqueID, name FROM " + Constants.CountryTable + " WHERE continent == \"" + continent + "\"";
+        dbcmd.CommandText = "SELECT uniqueID, name FROM " + Constants.CountryTable + " WHERE continent = '" + continent + "'";
 
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
@@ -137,7 +137,7 @@ class SqliteCountry : Sqlite
     {
         Sqlite.Open();
 
-        dbcmd.CommandText = "SELECT * FROM " + Constants.CountryTable + " WHERE uniqueID == " + uniqueID;
+        dbcmd.CommandText = "SELECT * FROM " + Constants.CountryTable + " WHERE uniqueID = " + uniqueID;
 
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
@@ -160,7 +160,7 @@ class SqliteCountry : Sqlite
     //useful to convert DB from 0.57 to 0.58 (strip republic and kingdom stuff)
     public static bool TableHasOldRepublicStuff()
     {
-        dbcmd.CommandText = "SELECT name FROM " + Constants.CountryTable + " WHERE code == \"DZA\"";
+        dbcmd.CommandText = "SELECT name FROM " + Constants.CountryTable + " WHERE code = 'DZA'";
 
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();

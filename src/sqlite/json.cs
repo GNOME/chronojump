@@ -348,7 +348,7 @@ class SqliteJson : Sqlite
 			"schoolID = " + et.schoolID + " AND " +
 			"groupID = " + et.groupID + " AND " +
 			"personID = " + et.personID + " AND " +
-			"testType = \"" + et.testType.ToString() + "\" AND " +
+			"testType = '" + et.testType.ToString() + "' AND " +
 			"result = " + et.resultToJson;
 		//LogB.SQL(mycmd.CommandText.ToString());
 		mycmd.ExecuteNonQuery();

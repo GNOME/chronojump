@@ -74,12 +74,12 @@ class SqliteJumpRj : SqliteJump
 				" (uniqueID, personID, sessionID, type, tvMax, tcMax, fall, weight, description, " +
 				"tvAvg, tcAvg, tvString, tcString, jumps, time, limited, angleString, simulated, datetime )" +
 				"VALUES (" + uniqueID + ", " +
-				personID + ", " + sessionID + ", \"" + type + "\", " +
-				Util.ConvertToPoint(tvMax) + ", " + Util.ConvertToPoint(tcMax) + ", \"" + 
-				Util.ConvertToPoint(fall) + "\", \"" + Util.ConvertToPoint(weight) + "\", \"" + description + "\", " +
-				Util.ConvertToPoint(tvAvg) + ", " + Util.ConvertToPoint(tcAvg) + ", \"" + 
-				Util.ConvertToPoint(tvString) + "\", \"" + Util.ConvertToPoint(tcString) + "\", " +
-				jumps + ", " + Util.ConvertToPoint(time) + ", \"" + limited + "\", \"" + angleString + "\", " + simulated + ", \"" + datetime + "\")" ;
+				personID + ", " + sessionID + ", '" + type + "', " +
+				Util.ConvertToPoint(tvMax) + ", " + Util.ConvertToPoint(tcMax) + ", '" + 
+				Util.ConvertToPoint(fall) + "', '" + Util.ConvertToPoint(weight) + "', '" + description + "', " +
+				Util.ConvertToPoint(tvAvg) + ", " + Util.ConvertToPoint(tcAvg) + ", '" + 
+				Util.ConvertToPoint(tvString) + "', '" + Util.ConvertToPoint(tcString) + "', " +
+				jumps + ", " + Util.ConvertToPoint(time) + ", '" + limited + "', '" + angleString + "', " + simulated + ", '" + datetime + "')" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -130,7 +130,7 @@ class SqliteJumpRj : SqliteJump
 		string filterTypeString = "";
 		if(filterType != "")
 		{
-			filterTypeString = sep + "jumpRj.type = \"" + filterType + "\"";
+			filterTypeString = sep + "jumpRj.type = '" + filterType + "'";
 			if(sep == " WHERE ")
 				sep = " AND ";
 		}
@@ -180,11 +180,11 @@ class SqliteJumpRj : SqliteJump
 
 		string filterSessionString = "";
 		if(sessionID != -1)
-			filterSessionString = " AND jumpRj.sessionID == " + sessionID;
+			filterSessionString = " AND jumpRj.sessionID = " + sessionID;
 
 		string filterPersonString = "";
 		if(personID != -1)
-			filterPersonString = " AND " + tp + ".uniqueID == " + personID;
+			filterPersonString = " AND " + tp + ".uniqueID = " + personID;
 
 		string filterWeightString = "";
 		if(filterWeight == "withWeight")
@@ -192,17 +192,17 @@ class SqliteJumpRj : SqliteJump
 
 		string filterTypeString = "";
 		if(filterType != "")
-			filterTypeString = " AND jumpRj.type == \"" + filterType + "\" ";
+			filterTypeString = " AND jumpRj.type = '" + filterType + "' ";
 
 		dbcmd.CommandText = "SELECT " + tp + ".name, jumpRj.*, " + tps + ".weight " +
 			" FROM " + tp + ", jumpRj, " + tps + " " +
-			" WHERE " + tp + ".uniqueID == jumpRj.personID" + 
+			" WHERE " + tp + ".uniqueID = jumpRj.personID" + 
 			filterSessionString +
 			filterPersonString +
 			filterWeightString +
 			filterTypeString +
-			" AND " + tps + ".personID == " + tp + ".uniqueID " +
-			" AND " + tps + ".sessionID == jumpRj.sessionID " +
+			" AND " + tps + ".personID = " + tp + ".uniqueID " +
+			" AND " + tps + ".sessionID = jumpRj.sessionID " +
 			" ORDER BY upper(" + tp + ".name), jumpRj.uniqueID";
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -359,8 +359,8 @@ class SqliteJumpRj : SqliteJump
 		dbcmd.CommandText = "UPDATE jumpRj SET personID = " + personID + 
 			", fall = " + Util.ConvertToPoint(Convert.ToDouble(fall)) + 
 			", weight = " + Util.ConvertToPoint(weight) + 
-			", description = \"" + description +
-			"\" WHERE uniqueID == " + jumpID ;
+			", description = '" + description +
+			"' WHERE uniqueID = " + jumpID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();

@@ -259,6 +259,14 @@ public class Util
 
 		return UtilAll.DivideSafe(sum, values.Count);
 	}
+	public static double GetAverage (List<int> values)
+	{
+		double sum = 0;
+		foreach(int i in values)
+			sum += i;
+
+		return UtilAll.DivideSafe(sum, values.Count);
+	}
 	public static double GetAverage (string values)
 	{
 		if(values.Length == 0)
@@ -297,6 +305,15 @@ public class Util
 			return 0;
 
 		return d_l[d_l.Count -1];
+	}
+
+	public static List<int> ListIntReverseSign (List<int> values)
+	{
+		List<int> reversed_l = new List<int> ();
+		foreach(int i in values)
+			reversed_l.Add (-1 * i);
+
+		return reversed_l;
 	}
 
 	public static int GetPosMax (string values)

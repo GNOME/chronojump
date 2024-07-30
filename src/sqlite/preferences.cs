@@ -470,8 +470,8 @@ class SqlitePreferences : Sqlite
 	{
 		//Sqlite.Open();
 		mycmd.CommandText = "INSERT INTO " + Constants.PreferencesTable + 
-			" (name, value) VALUES (\"" + 
-			myName + "\", \"" + myValue + "\")" ;
+			" (name, value) VALUES ('" + 
+			myName + "', '" + myValue + "')" ;
 		LogB.SQL(mycmd.CommandText.ToString());
 		mycmd.ExecuteNonQuery();
 		//Sqlite.Close();
@@ -526,8 +526,8 @@ class SqlitePreferences : Sqlite
 			Sqlite.Open();
         
         dbcmd.CommandText = "UPDATE " + Constants.PreferencesTable +
-			" SET value = \"" + myValue + 
-			"\" WHERE name == \"" + myName + "\"" ;
+			" SET value = '" + myValue + 
+			"' WHERE name = '" + myName + "'" ;
 		LogB.SQL(dbcmd.CommandText.ToString()); 
         dbcmd.ExecuteNonQuery(); //Would crash if no "Writing" permission to db files while executing "dotnet run".
 

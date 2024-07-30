@@ -68,16 +68,16 @@ class SqliteRunInterval : SqliteRun
 		dbcmd.CommandText = "INSERT INTO "+ tableName + 
 				" (uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, description, limited, simulated, initialSpeed, datetime, photocellStr)" +
 				"VALUES (" + uniqueID + ", " +
-				personID + ", " + sessionID + ", \"" + type + "\", " +
+				personID + ", " + sessionID + ", '" + type + "', " +
 				Util.ConvertToPoint(distanceTotal) + ", " + 
 				Util.ConvertToPoint(timeTotal) + ", " + 
-				Util.ConvertToPoint(distanceInterval) + ", \"" + 
-				Util.ConvertToPoint(intervalTimesString) + "\", " +
-				Util.ConvertToPoint(tracks) + ", \"" + 
-				description + "\", \"" + limited + "\", " + simulated + ", " +
-				Util.BoolToInt(initialSpeed) + ", \"" +
-				datetime + "\", \"" +
-				Util.ListIntToSQLString (photocell_l, ";") + "\")";
+				Util.ConvertToPoint(distanceInterval) + ", '" + 
+				Util.ConvertToPoint(intervalTimesString) + "', " +
+				Util.ConvertToPoint(tracks) + ", '" + 
+				description + "', '" + limited + "', " + simulated + ", " +
+				Util.BoolToInt(initialSpeed) + ", '" +
+				datetime + "', '" +
+				Util.ListIntToSQLString (photocell_l, ";") + "')";
 				
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -246,7 +246,7 @@ class SqliteRunInterval : SqliteRun
 				" WHERE " + table + ".personID = " + tp + ".uniqueID" +
 				" AND " + table + ".uniqueID = " + uniqueID;
 		} else
-		dbcmd.CommandText = "SELECT * FROM " + table + " WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "SELECT * FROM " + table + " WHERE uniqueID = " + uniqueID;
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -272,8 +272,8 @@ class SqliteRunInterval : SqliteRun
 			" SET personID = " + personID + 
 			", distanceInterval = " + Util.ConvertToPoint(distanceInterval) +
 			", distanceTotal = " + Util.ConvertToPoint (Util.GetRunITotalDistance (distanceInterval, distancesString, tracks)) +
-			", description = \"" + description +
-			"\" WHERE uniqueID == " + runID ;
+			", description = '" + description +
+			"' WHERE uniqueID = " + runID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();

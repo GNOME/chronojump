@@ -294,7 +294,7 @@ public class LastJumpSimpleTypeParams
 		if(uniqueID != -1)
 			idString = uniqueID.ToString();
 
-		return string.Format("{0}, \"{1}\", {2}, {3}, {4}",
+		return string.Format("{0}, '{1}', {2}, {3}, {4}",
 				idString,
 				name,
 				Util.BoolToInt(weightIsPercent),
@@ -340,7 +340,7 @@ public class LastJumpRjTypeParams
 		if(uniqueID != -1)
 			idString = uniqueID.ToString();
 
-		return string.Format("{0}, \"{1}\", {2}, {3}, {4}, {5}",
+		return string.Format("{0}, '{1}', {2}, {3}, {4}, {5}",
 				idString,
 				name,
 				limitedValue,

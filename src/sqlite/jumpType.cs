@@ -212,10 +212,10 @@ class SqliteJumpType : Sqlite
 
 		mycmd.CommandText = "INSERT INTO " + Constants.JumpTypeTable +  
 				" (uniqueID, name, startIn, weight, description)" +
-				//" VALUES (NULL, \""
-				" VALUES (" + uniqueIDstr + ", \""
-				+ myStr[0] + "\", " + myStr[1] + ", " +	//name, startIn
-				myStr[2] + ", \"" + myStr[3] + "\")" ;	//weight, description
+				//" VALUES (NULL, '"
+				" VALUES (" + uniqueIDstr + ", '"
+				+ myStr[0] + "', " + myStr[1] + ", " +	//name, startIn
+				myStr[2] + ", '" + myStr[3] + "')" ;	//weight, description
 		LogB.SQL(mycmd.CommandText.ToString());
 		mycmd.ExecuteNonQuery();
 		if(! dbconOpened) {
@@ -247,11 +247,11 @@ class SqliteJumpType : Sqlite
 
 		mycmd.CommandText = "INSERT INTO " + Constants.JumpRjTypeTable + 
 				" (uniqueID, name, startIn, weight, jumpsLimited, fixedValue, description)" +
-				//" VALUES (NULL, \""
-				" VALUES (" + uniqueIDstr + ", \""
-				+ myStr[0] + "\", " + myStr[1] + ", " +	//name, startIn
+				//" VALUES (NULL, '"
+				" VALUES (" + uniqueIDstr + ", '"
+				+ myStr[0] + "', " + myStr[1] + ", " +	//name, startIn
 				myStr[2] + ", " + myStr[3] + ", " +	//weight, jumpsLimited
-				myStr[4] + ", \"" + myStr[5] + "\")" ;	//fixedValue, description
+				myStr[4] + ", '" + myStr[5] + "')" ;	//fixedValue, description
 		LogB.SQL(mycmd.CommandText.ToString());
 		mycmd.ExecuteNonQuery();
 		if(! dbconOpened) {
@@ -271,8 +271,8 @@ class SqliteJumpType : Sqlite
 		//onlyName: return only type name
 
 		string whereString = "";
-		if(filter == "TC") { whereString = " WHERE startIn == 0 "; }
-		else if(filter == "nonTC") { whereString = " WHERE startIn == 1 "; }
+		if(filter == "TC") { whereString = " WHERE startIn = 0 "; }
+		else if(filter == "nonTC") { whereString = " WHERE startIn = 1 "; }
 
 		openIfNeeded(dbconOpened);
 
@@ -326,8 +326,8 @@ class SqliteJumpType : Sqlite
 		//onlyName: return only type name
 
 		string whereString = "";
-		if(filter == "TC") { whereString = " WHERE startIn == 0 "; }
-		else if(filter == "nonTC") { whereString = " WHERE startIn == 1 "; }
+		if(filter == "TC") { whereString = " WHERE startIn = 0 "; }
+		else if(filter == "nonTC") { whereString = " WHERE startIn = 1 "; }
 
 		if(! dbconOpened)	
 			Sqlite.Open();
@@ -491,8 +491,8 @@ class SqliteJumpType : Sqlite
 			Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.JumpTypeTable + " " +
-			" WHERE name  = \"" + typeName +
-			"\" ORDER BY uniqueID";
+			" WHERE name  = '" + typeName +
+			"' ORDER BY uniqueID";
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -524,8 +524,8 @@ class SqliteJumpType : Sqlite
 			Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.JumpRjTypeTable + " " +
-			" WHERE name  = \"" + typeName +
-			"\" ORDER BY uniqueID";
+			" WHERE name  = '" + typeName +
+			"' ORDER BY uniqueID";
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -568,7 +568,7 @@ class SqliteJumpType : Sqlite
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT weight " +
 			" FROM " + tableName +
-			" WHERE name == \"" + typeName + "\"";
+			" WHERE name = '" + typeName + "'";
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -596,7 +596,7 @@ class SqliteJumpType : Sqlite
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT startIn " +
 			" FROM " + tableName +
-			" WHERE name == \"" + typeName + "\"";
+			" WHERE name = '" + typeName + "'";
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -620,7 +620,7 @@ class SqliteJumpType : Sqlite
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT fixedValue " +
 			" FROM jumpRjType" +
-			" WHERE name == \"" + typeName + "\"";
+			" WHERE name = '" + typeName + "'";
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -643,8 +643,8 @@ class SqliteJumpType : Sqlite
 	public static void Update(string nameOld, string nameNew)
 	{
 		//Sqlite.Open();
-		dbcmd.CommandText = "UPDATE jumpType SET name = \"" + nameNew + 
-			"\" WHERE name == \"" + nameOld + "\"";
+		dbcmd.CommandText = "UPDATE jumpType SET name = '" + nameNew + 
+			"' WHERE name = '" + nameOld + "'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		//Sqlite.Close();
@@ -653,8 +653,8 @@ class SqliteJumpType : Sqlite
 	public static void UpdateOther(string column, string typeName, string newValue)
 	{
 		//Sqlite.Open();
-		dbcmd.CommandText = "UPDATE jumpType SET " + column + " = \"" + newValue + 
-			"\" WHERE name == \"" + typeName + "\"";
+		dbcmd.CommandText = "UPDATE jumpType SET " + column + " = '" + newValue + 
+			"' WHERE name = '" + typeName + "'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		//Sqlite.Close();
@@ -665,7 +665,7 @@ class SqliteJumpType : Sqlite
 		if(!dbconOpened)
 			Sqlite.Open();
 		dbcmd.CommandText = "Delete FROM " + tableName + 
-			" WHERE name == \"" + name + "\"";
+			" WHERE name = '" + name + "'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		if(!dbconOpened)
@@ -694,8 +694,8 @@ class SqliteJumpType : Sqlite
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.LastJumpSimpleTypeParamsTable + " " +
-			" WHERE name  = \"" + name +
-			"\" ORDER BY uniqueID DESC"; //to shown last if there are more than one by import problems
+			" WHERE name  = '" + name +
+			"' ORDER BY uniqueID DESC"; //to shown last if there are more than one by import problems
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -777,8 +777,8 @@ class SqliteJumpType : Sqlite
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.LastJumpRjTypeParamsTable + " " +
-			" WHERE name  = \"" + name +
-			"\" ORDER BY uniqueID DESC"; //to shown last if there are more than one by import problems
+			" WHERE name  = '" + name +
+			"' ORDER BY uniqueID DESC"; //to shown last if there are more than one by import problems
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

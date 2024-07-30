@@ -116,9 +116,9 @@ public class ForceSensor
 		LogB.Information("toSQLInsert filename: " + filename);
 
 		return
-			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID + ", \"" + captureOption.ToString() + "\", " +
-			angle + ", \"" + laterality + "\", \"" + filename + "\", \"" + url + "\", \"" + dateTime + "\", \"" +
-			comments + "\", \"" + videoURL + "\", " + Util.ConvertToPoint(stiffness) + ", \"" + stiffnessString + "\", " +
+			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID + ", '" + captureOption.ToString() + "', " +
+			angle + ", '" + laterality + "', '" + filename + "', '" + url + "', '" + dateTime + "', '" +
+			comments + "', '" + videoURL + "', " + Util.ConvertToPoint(stiffness) + ", '" + stiffnessString + "', " +
 			Util.ConvertToPoint(maxForceRaw) + ", " + Util.ConvertToPoint(maxAvgForce1s) +
 			")";
 	}
@@ -134,17 +134,17 @@ public class ForceSensor
 			", personID = " + personID +
 			", sessionID = " + sessionID +
 			", exerciseID = " + exerciseID +
-			", captureOption = \"" + captureOption.ToString() +
-			"\", angle = " + angle +
-			", laterality = \"" + laterality +
-			"\", filename = \"" + filename +
-			"\", url = \"" + Util.MakeURLrelative(url) +
-			"\", dateTime = \"" + dateTime +
-			"\", comments = \"" + comments +
-			"\", videoURL = \"" + Util.MakeURLrelative(videoURL) +
-			"\", stiffness = " + Util.ConvertToPoint(stiffness) +
-			", stiffnessString = \"" + stiffnessString +
-			"\", maxForceRaw = " + Util.ConvertToPoint(maxForceRaw) +
+			", captureOption = '" + captureOption.ToString() +
+			"', angle = " + angle +
+			", laterality = '" + laterality +
+			"', filename = '" + filename +
+			"', url = '" + Util.MakeURLrelative(url) +
+			"', dateTime = '" + dateTime +
+			"', comments = '" + comments +
+			"', videoURL = '" + Util.MakeURLrelative(videoURL) +
+			"', stiffness = " + Util.ConvertToPoint(stiffness) +
+			", stiffnessString = '" + stiffnessString +
+			"', maxForceRaw = " + Util.ConvertToPoint(maxForceRaw) +
 			", maxAvgForce1s = " + Util.ConvertToPoint(maxAvgForce1s) +
 			" WHERE uniqueID = " + uniqueID;
 	}
@@ -579,8 +579,8 @@ public class ForceSensorExercise
 			uniqueIDStr = uniqueID.ToString();
 
 		return
-			uniqueIDStr + ", \"" + name + "\", " + percentBodyWeight + ", \"" +
-			resistance + "\", " + angleDefault + ", \"" + description + "\", " +
+			uniqueIDStr + ", '" + name + "', " + percentBodyWeight + ", '" +
+			resistance + "', " + angleDefault + ", '" + description + "', " +
 			Util.BoolToInt(tareBeforeCapture).ToString() + ", " +
 			Util.BoolToInt(forceResultant).ToString() + ", " +
 			TypeToInt ().ToString() + ", " +
@@ -596,8 +596,8 @@ public class ForceSensorExercise
 			uniqueIDStr = uniqueID.ToString();
 
 		return
-			uniqueIDStr + ", \"" + name + "\", " + percentBodyWeight + ", \"" +
-			resistance + "\", " + angleDefault + ", \"" + description + "\", " +
+			uniqueIDStr + ", '" + name + "', " + percentBodyWeight + ", '" +
+			resistance + "', " + angleDefault + ", '" + description + "', " +
 			Util.BoolToInt(tareBeforeCapture).ToString();
 	}
 
@@ -754,8 +754,8 @@ public class ForceSensorElasticBand
 		//LogB.Information("stiffness is: " + stiffness.ToString());
 		return
 			uniqueIDStr + ", " + active.ToString() +
-			", \"" + brand + "\", \"" + color + "\", " +
-			Util.ConvertToPoint(stiffness) + ", \"" + comments + "\"";
+			", '" + brand + "', '" + color + "', " +
+			Util.ConvertToPoint(stiffness) + ", '" + comments + "'";
 	}
 
 	public string [] ToStringArray ()
@@ -1089,10 +1089,10 @@ public class ForceSensorRFD
 	public string ToSQLInsertString()
 	{
 		return
-			"\"" + code  + "\"" + "," +
+			"'" + code  + "'" + "," +
 			Util.BoolToInt(active).ToString() + "," +
-			"\"" + function.ToString() + "\"" + "," +
-			"\"" + type.ToString() + "\"" + "," +
+			"'" + function.ToString() + "'" + "," +
+			"'" + type.ToString() + "'" + "," +
 			num1.ToString() + "," +
 			num2.ToString();
 	}

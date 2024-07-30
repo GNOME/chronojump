@@ -103,7 +103,7 @@ class SqliteForceSensor : Sqlite
     {
         openIfNeeded(dbconOpened);
 
-        dbcmd.CommandText = "UPDATE " + table + " SET comments = \"" + comments + "\"" +
+        dbcmd.CommandText = "UPDATE " + table + " SET comments = '" + comments + "'" +
             " WHERE uniqueID = " + uniqueID;
 
         LogB.SQL(dbcmd.CommandText.ToString());
@@ -218,9 +218,9 @@ class SqliteForceSensor : Sqlite
             Constants.SessionTable + ".name, " +
             Constants.SessionTable + ".date " +
             " FROM " + table + ", " + Constants.PersonTable + ", " + Constants.SessionTable +
-            " WHERE exerciseID == " + exerciseID +
-            " AND " + Constants.PersonTable + ".uniqueID == " + table + ".personID " +
-                " AND " + Constants.SessionTable + ".uniqueID == " + table + ".sessionID " +
+            " WHERE exerciseID = " + exerciseID +
+            " AND " + Constants.PersonTable + ".uniqueID = " + table + ".personID " +
+                " AND " + Constants.SessionTable + ".uniqueID = " + table + ".sessionID " +
             " GROUP BY sessionID, personID";
 
         LogB.SQL(dbcmd.CommandText.ToString());
@@ -266,7 +266,7 @@ class SqliteForceSensor : Sqlite
         dbcmd.CommandText =
             "SELECT person77.uniqueID, person77.name, person77.sex, forceSensorExercise.name, COUNT(*)" +
             " FROM person77, personSession77, forceSensorExercise, forceSensor" +
-            " WHERE person77.uniqueID == forceSensor.personID AND personSession77.personID == forceSensor.personID AND personSession77.sessionID == forceSensor.sessionID AND forceSensorExercise.uniqueID==forceSensor.exerciseID AND forceSensor.sessionID == " + sessionID + elasticStr +
+            " WHERE person77.uniqueID = forceSensor.personID AND personSession77.personID = forceSensor.personID AND personSession77.sessionID = forceSensor.sessionID AND forceSensorExercise.uniqueID=forceSensor.exerciseID AND forceSensor.sessionID = " + sessionID + elasticStr +
             " GROUP BY forceSensor.personID" + byExercisesStr +
             " ORDER BY person77.name";
 
@@ -300,8 +300,8 @@ class SqliteForceSensor : Sqlite
         (SQLiteCommand mycmd, string migrateToTable) //needed for migration from 2_34 to 2.35 on windows
     {
         mycmd.CommandText =
-            "DROP TABLE IF EXISTS \"" + migrateToTable +
-            "\"; CREATE TABLE \"" + migrateToTable + "\" ( " +
+            "DROP TABLE IF EXISTS '" + migrateToTable +
+            "'; CREATE TABLE '" + migrateToTable + "' ( " +
             "uniqueID INTEGER PRIMARY KEY, " +
             "personID INT, " +
             "sessionID INT, " +
@@ -574,12 +574,12 @@ class SqliteForceSensorExercise : Sqlite
             Sqlite.Open();
 
         dbcmd.CommandText = "UPDATE " + table + " SET " +
-            " name = \"" + ex.Name +
-            "\", percentBodyWeight = " + ex.PercentBodyWeight +
-            ", resistance = \"" + ex.Resistance +                   //unused
-            "\", angleDefault = " + ex.AngleDefault +
-            ", description = \"" + ex.Description +
-            "\", tareBeforeCapture = " + Util.BoolToInt(ex.TareBeforeCaptureOnExerciseEdit).ToString() +
+            " name = '" + ex.Name +
+            "', percentBodyWeight = " + ex.PercentBodyWeight +
+            ", resistance = '" + ex.Resistance +                   //unused
+            "', angleDefault = " + ex.AngleDefault +
+            ", description = '" + ex.Description +
+            "', tareBeforeCapture = " + Util.BoolToInt(ex.TareBeforeCaptureOnExerciseEdit).ToString() +
             ", forceResultant = " + Util.BoolToInt(ex.ForceResultant).ToString() +
             ", elastic = " + ex.TypeToInt().ToString() +
             ", eccReps = " + ex.RepetitionsShowToCode().ToString() +
@@ -796,12 +796,12 @@ class SqliteForceSensorExerciseImport : SqliteForceSensorExercise
             Sqlite.Open();
 
         dbcmd.CommandText = "UPDATE " + table + " SET " +
-            " name = \"" + ex.Name +
-            "\", percentBodyWeight = " + ex.PercentBodyWeight +
-            ", resistance = \"" + ex.Resistance +                   //unused
-            "\", angleDefault = " + ex.AngleDefault +
-            ", description = \"" + ex.Description +
-            "\", tareBeforeCapture = " + Util.BoolToInt(ex.TareBeforeCaptureOnExerciseEdit).ToString() +
+            " name = '" + ex.Name +
+            "', percentBodyWeight = " + ex.PercentBodyWeight +
+            ", resistance = '" + ex.Resistance +                   //unused
+            "', angleDefault = " + ex.AngleDefault +
+            ", description = '" + ex.Description +
+            "', tareBeforeCapture = " + Util.BoolToInt(ex.TareBeforeCaptureOnExerciseEdit).ToString() +
             ", forceResultant = " + Util.BoolToInt(ex.ForceResultant).ToString() +
             ", elastic = " + ex.TypeToInt().ToString() + //on this DB conversation cannot be both "-1"
             " WHERE uniqueID = " + ex.UniqueID;
@@ -881,11 +881,11 @@ class SqliteForceSensorElasticBand : Sqlite
 
         dbcmd.CommandText = "UPDATE " + table + " SET " +
             " active = " + eb.Active.ToString() +
-            ", brand = \"" + eb.Brand +
-            "\", color = \"" + eb.Color +
-            "\", stiffness = " + Util.ConvertToPoint(eb.Stiffness) +
-            ", comments = \"" + eb.Comments +
-            "\" WHERE uniqueID = " + eb.UniqueID;
+            ", brand = '" + eb.Brand +
+            "', color = '" + eb.Color +
+            "', stiffness = " + Util.ConvertToPoint(eb.Stiffness) +
+            ", comments = '" + eb.Comments +
+            "' WHERE uniqueID = " + eb.UniqueID;
 
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
@@ -1158,11 +1158,11 @@ class SqliteForceSensorRFD : Sqlite
 
         dbcmd.CommandText = "UPDATE " + table + " SET " +
             " active = " + Util.BoolToInt(rfd.active).ToString() + "," +
-            " function = \"" + rfd.function.ToString() + "\"" + "," +
-            " type = \"" + rfd.type.ToString() + "\"" + "," +
+            " function = '" + rfd.function.ToString() + "'" + "," +
+            " type = '" + rfd.type.ToString() + "'" + "," +
             " num1 = " + rfd.num1.ToString() + "," +
             " num2 = " + rfd.num2.ToString() +
-            " WHERE code = \"" + rfd.code + "\"";
+            " WHERE code = '" + rfd.code + "'";
 
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
@@ -1175,11 +1175,11 @@ class SqliteForceSensorRFD : Sqlite
 
         dbcmd.CommandText = "UPDATE " + table + " SET " +
             " active = " + Util.BoolToInt(impulse.active).ToString() + "," +
-            " function = \"" + impulse.function.ToString() + "\"" + "," +
-            " type = \"" + impulse.type.ToString() + "\"" + "," +
+            " function = '" + impulse.function.ToString() + "'" + "," +
+            " type = '" + impulse.type.ToString() + "'" + "," +
             " num1 = " + impulse.num1.ToString() + "," +
             " num2 = " + impulse.num2.ToString() +
-            " WHERE code = \"" + impulse.code + "\"";
+            " WHERE code = '" + impulse.code + "'";
 
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
@@ -1204,7 +1204,7 @@ class SqliteForceSensorRFD : Sqlite
     {
         openIfNeeded(dbconOpened);
 
-        dbcmd.CommandText = "SELECT * FROM " + table + " WHERE code != \"I\"";
+        dbcmd.CommandText = "SELECT * FROM " + table + " WHERE code != 'I'";
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
 
@@ -1252,7 +1252,7 @@ class SqliteForceSensorRFD : Sqlite
     {
         openIfNeeded(dbconOpened);
 
-        dbcmd.CommandText = "SELECT * FROM " + table + " WHERE code == \"I\"";
+        dbcmd.CommandText = "SELECT * FROM " + table + " WHERE code = 'I'";
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
 

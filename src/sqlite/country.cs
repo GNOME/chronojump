@@ -77,8 +77,8 @@ class SqliteCountry : Sqlite
             //" (uniqueID, code, name, continent) VALUES (NULL, '" + code + "', '" + 
             //nameEnglish + "', '" + continent + "')";
             //fix bad chars (') :
-            " (uniqueID, code, name, continent) VALUES (NULL, \"" + code + "\", \"" +
-            nameEnglish + "\", \"" + continent + "\")";
+            " (uniqueID, code, name, continent) VALUES (NULL, '" + code + "', '" +
+            nameEnglish + "', '" + continent + "')";
 
         mycmd.CommandText = myString;
         LogB.SQL(mycmd.CommandText.ToString());
@@ -100,7 +100,7 @@ class SqliteCountry : Sqlite
     {
         Sqlite.Open();
 
-        dbcmd.CommandText = "SELECT uniqueID, name FROM " + Constants.CountryTable + " WHERE continent == \"" + continent + "\"";
+        dbcmd.CommandText = "SELECT uniqueID, name FROM " + Constants.CountryTable + " WHERE continent = '" + continent + "'";
 
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
@@ -137,7 +137,7 @@ class SqliteCountry : Sqlite
     {
         Sqlite.Open();
 
-        dbcmd.CommandText = "SELECT * FROM " + Constants.CountryTable + " WHERE uniqueID == " + uniqueID;
+        dbcmd.CommandText = "SELECT * FROM " + Constants.CountryTable + " WHERE uniqueID = " + uniqueID;
 
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
@@ -160,7 +160,7 @@ class SqliteCountry : Sqlite
     //useful to convert DB from 0.57 to 0.58 (strip republic and kingdom stuff)
     public static bool TableHasOldRepublicStuff()
     {
-        dbcmd.CommandText = "SELECT name FROM " + Constants.CountryTable + " WHERE code == \"DZA\"";
+        dbcmd.CommandText = "SELECT name FROM " + Constants.CountryTable + " WHERE code = 'DZA'";
 
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
@@ -204,7 +204,7 @@ class SqliteCountry : Sqlite
         "Africa:" + "Comoros:" + Catalog.GetString("Comoros") + ":" + "COM",
         "Africa:" + "Congo, Democratic Republic of the:" + Catalog.GetString("Congo, Democratic Republic of the") + ":" + "COD",
         "Africa:" + "Congo, Republic of the:" + Catalog.GetString("Congo, Republic of the") + ":" + "COG",
-        "Africa:" + "Cote d\'Ivoire:" + Catalog.GetString("Cote d'Ivoire") + ":" + "CIV",
+        "Africa:" + "Cote d\'Ivoire:" + Catalog.GetString("Cote d\'Ivoire") + ":" + "CIV",
         "Africa:" + "Djibouti:" + Catalog.GetString("Djibouti") + ":" + "DJI",
         "Africa:" + "Egypt:" + Catalog.GetString("Egypt") + ":" + "EGY",
         "Africa:" + "Equatorial Guinea:" + Catalog.GetString("Equatorial Guinea") + ":" + "GNQ",
@@ -276,11 +276,11 @@ class SqliteCountry : Sqlite
         "Asia:" + "Japan:" + Catalog.GetString("Japan") + ":" + "JPN",
         "Asia:" + "Jordan:" + Catalog.GetString("Jordan") + ":" + "JOR",
         "Asia:" + "Kazakhstan:" + Catalog.GetString("Kazakhstan") + ":" + "KAZ",
-        "Asia:" + "Korea, Democratic People's Republic of:" + Catalog.GetString("Korea, Democratic People's Republic of") + ":" + "PRK",
+        "Asia:" + "Korea, Democratic People\'s Republic of:" + Catalog.GetString("Korea, Democratic People\'s Republic of") + ":" + "PRK",
         "Asia:" + "Korea, Republic of:" + Catalog.GetString("Korea, Republic of") + ":" + "KOR",
         "Asia:" + "Kuwait:" + Catalog.GetString("Kuwait") + ":" + "KWT",
         "Asia:" + "Kyrgyz Republic:" + Catalog.GetString("Kyrgyz Republic") + ":" + "KGZ",
-        "Asia:" + "Lao People's Democratic Republic:" + Catalog.GetString("Lao People's Democratic Republic") + ":" + "LAO",
+        "Asia:" + "Lao People\'s Democratic Republic:" + Catalog.GetString("Lao People\'s Democratic Republic") + ":" + "LAO",
         "Asia:" + "Lebanon:" + Catalog.GetString("Lebanon") + ":" + "LBN",
         "Asia:" + "Macao:" + Catalog.GetString("Macao") + ":" + "MAC",
         "Asia:" + "Malaysia:" + Catalog.GetString("Malaysia") + ":" + "MYS",

@@ -73,13 +73,13 @@ public class Trigger
 
 	 	return 
 			idStr + "," +
-			"\"" + mode.ToString() + "\"" + "," +
+			"'" + mode.ToString() + "'" + "," +
 			modeID.ToString() + "," +
 			us.ToString() + "," +
 			Util.BoolToInt(inOut).ToString() + "," +
-			"\"" + name.ToString() + "\"" + "," +
-			"\"" + color.ToString() + "\"" + "," +
-			"\"" + comments.ToString() + "\""
+			"'" + name.ToString() + "'" + "," +
+			"'" + color.ToString() + "'" + "," +
+			"'" + comments.ToString() + "'"
 			;
 	}
 

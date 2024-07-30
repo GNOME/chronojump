@@ -1633,12 +1633,12 @@ public class EncoderConfigurationSQLObject
 			 idStr = "NULL";
 
 		 return idStr +
-			 ", \"" + encoderGI.ToString() + "\"" +
-			 ", \"" + active.ToString() + "\"" +
-			 ", \"" + name + "\"" +
-			 ", \"" + encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) + "\"" +
-			 ", \"" + description + "\"" +
-			 ", \"\", \"\", \"\""; //future1, future2, future3
+			 ", '" + encoderGI.ToString() + "'" +
+			 ", '" + active.ToString() + "'" +
+			 ", '" + name + "'" +
+			 ", '" + encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) + "'" +
+			 ", '" + description + "'" +
+			 ", '', '', ''"; //future1, future2, future3
 	}
 
 	public string ToFile()

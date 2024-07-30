@@ -94,9 +94,9 @@ public class RunEncoder
 			uniqueIDStr = uniqueID.ToString();
 
 		return
-			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID + ", \"" + device.ToString() + "\", " +
-			distance + ", " + temperature + ", \"" + filename + "\", \"" + url + "\", \"" + dateTime + "\", \"" +
-			comments + "\", \"" + videoURL + "\", " + angle + ", " + totalTime + ")";
+			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID + ", '" + device.ToString() + "', " +
+			distance + ", " + temperature + ", '" + filename + "', '" + url + "', '" + dateTime + "', '" +
+			comments + "', '" + videoURL + "', " + angle + ", " + totalTime + ")";
 	}
 
 	public void UpdateSQL(bool dbconOpened)
@@ -110,15 +110,15 @@ public class RunEncoder
 			", personID = " + personID +
 			", sessionID = " + sessionID +
 			", exerciseID = " + exerciseID +
-			", device = \"" + device.ToString() +
-			"\", distance = " + distance +
+			", device = '" + device.ToString() +
+			"', distance = " + distance +
 			", temperature = " + temperature +
-			", filename = \"" + filename +
-			"\", url = \"" + Util.MakeURLrelative(url) +
-			"\", dateTime = \"" + dateTime +
-			"\", comments = \"" + comments +
-			"\", videoURL = \"" + Util.MakeURLrelative(videoURL) +
-			"\", angle = " + angle +
+			", filename = '" + filename +
+			"', url = '" + Util.MakeURLrelative(url) +
+			"', dateTime = '" + dateTime +
+			"', comments = '" + comments +
+			"', videoURL = '" + Util.MakeURLrelative(videoURL) +
+			"', angle = " + angle +
 			", totalTime = " + totalTime +
 			" WHERE uniqueID = " + uniqueID;
 	}

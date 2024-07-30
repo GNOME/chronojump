@@ -71,7 +71,7 @@ class SqlitePersonSession : Sqlite
 		        " VALUES ("
 			+ uniqueID + ", " + personID + ", " + sessionID + ", " + 
 			Util.ConvertToPoint(height) + ", " + Util.ConvertToPoint(weight) + ", " +
-			sportID + ", " + speciallityID + ", " + practice + ", \"" + comments + "\", " +
+			sportID + ", " + speciallityID + ", " + practice + ", '" + comments + "', " +
 			Util.ConvertToPoint(trochanterToe) + ", " +
 			Util.ConvertToPoint(trochanterFloorOnFlexion) + ")";
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -153,10 +153,10 @@ class SqlitePersonSession : Sqlite
 			", sportID = " + ps.SportID + 
 			", speciallityID = " + ps.SpeciallityID + 
 			", practice = " + ps.Practice + 
-			", comments = \"" + ps.Comments + 
-			"\", future1 = " + Util.ConvertToPoint(ps.TrochanterToe) +
+			", comments = '" + ps.Comments + 
+			"', future1 = " + Util.ConvertToPoint(ps.TrochanterToe) +
 			", future2 = " + Util.ConvertToPoint(ps.TrochanterFloorOnFlexion) +
-			" WHERE uniqueID == " + ps.UniqueID;
+			" WHERE uniqueID = " + ps.UniqueID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -183,8 +183,8 @@ class SqlitePersonSession : Sqlite
 			Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionTable +
-			" WHERE personID == " + myPersonID + 
-			" AND sessionID == " + mySessionID ; 
+			" WHERE personID = " + myPersonID + 
+			" AND sessionID = " + mySessionID ; 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SQLiteDataReader reader;
@@ -221,12 +221,12 @@ class SqlitePersonSession : Sqlite
 
 		string tps = Constants.PersonSessionTable;
 			
-		string sessionIDString = " AND sessionID == " + sessionID;
+		string sessionIDString = " AND sessionID = " + sessionID;
 		if(sessionID == -1)
 			sessionIDString = " ORDER BY sessionID DESC limit 1";
 
 		dbcmd.CommandText = "SELECT * FROM " + tps +
-			" WHERE personID == " + personID + 
+			" WHERE personID = " + personID + 
 			sessionIDString;
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -492,8 +492,8 @@ class SqlitePersonSession : Sqlite
 
 		//delete relations (existance) within persons and sessions in this session
 		dbcmd.CommandText = "Delete FROM " + Constants.PersonSessionTable + 
-			" WHERE sessionID == " + sessionID +
-			" AND personID == " + personID;
+			" WHERE sessionID = " + sessionID +
+			" AND personID = " + personID;
 		dbcmd.ExecuteNonQuery();
 
 		//2.- Now, it's not in this personSession77 in other sessions, delete if from DB
@@ -505,43 +505,43 @@ class SqlitePersonSession : Sqlite
 		//3.- Delete tests without files
 				
 		//delete simple jumps
-		dbcmd.CommandText = "Delete FROM jump WHERE sessionID == " + sessionID +
-			" AND personID == " + personID;
+		dbcmd.CommandText = "Delete FROM jump WHERE sessionID = " + sessionID +
+			" AND personID = " + personID;
 			
 		dbcmd.ExecuteNonQuery();
 		
 		//delete repetitive jumps
-		dbcmd.CommandText = "Delete FROM jumpRj WHERE sessionID == " + sessionID +
-			" AND personID == " + personID;
+		dbcmd.CommandText = "Delete FROM jumpRj WHERE sessionID = " + sessionID +
+			" AND personID = " + personID;
 		dbcmd.ExecuteNonQuery();
 		
 		//delete simple runs
-		dbcmd.CommandText = "Delete FROM run WHERE sessionID == " + sessionID +
-			" AND personID == " + personID;
+		dbcmd.CommandText = "Delete FROM run WHERE sessionID = " + sessionID +
+			" AND personID = " + personID;
 		
 		dbcmd.ExecuteNonQuery();
 		
 		//delete intervallic runs
-		dbcmd.CommandText = "Delete FROM runInterval WHERE sessionID == " + sessionID +
-			" AND personID == " + personID;
+		dbcmd.CommandText = "Delete FROM runInterval WHERE sessionID = " + sessionID +
+			" AND personID = " + personID;
 			
 		dbcmd.ExecuteNonQuery();
 		
 		//delete reaction times
-		dbcmd.CommandText = "Delete FROM reactionTime WHERE sessionID == " + sessionID +
-			" AND personID == " + personID;
+		dbcmd.CommandText = "Delete FROM reactionTime WHERE sessionID = " + sessionID +
+			" AND personID = " + personID;
 			
 		dbcmd.ExecuteNonQuery();
 		
 		//delete pulses
-		dbcmd.CommandText = "Delete FROM pulse WHERE sessionID == " + sessionID +
-			" AND personID == " + personID;
+		dbcmd.CommandText = "Delete FROM pulse WHERE sessionID = " + sessionID +
+			" AND personID = " + personID;
 			
 		dbcmd.ExecuteNonQuery();
 		
 		//delete multiChronopic
-		dbcmd.CommandText = "Delete FROM multiChronopic WHERE sessionID == " + sessionID +
-			" AND personID == " + personID;
+		dbcmd.CommandText = "Delete FROM multiChronopic WHERE sessionID = " + sessionID +
+			" AND personID = " + personID;
 			
 		dbcmd.ExecuteNonQuery();
 	
@@ -642,7 +642,7 @@ class SqlitePersonSession : Sqlite
 			Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionTable + 
-			" WHERE personID == " + personID;
+			" WHERE personID = " + personID;
 		//LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SQLiteDataReader reader;

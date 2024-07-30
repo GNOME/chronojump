@@ -83,7 +83,7 @@ class SqliteChronopicRegister : Sqlite
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "SELECT * FROM " + table + " WHERE serialNumber = \"" + serialNumber + "\"";
+		dbcmd.CommandText = "SELECT * FROM " + table + " WHERE serialNumber = '" + serialNumber + "'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -104,8 +104,8 @@ class SqliteChronopicRegister : Sqlite
 		openIfNeeded(dbconOpened);
 		
 		dbcmd.CommandText = "INSERT INTO " + table + 
-			" (serialNumber, type) VALUES (\"" + 
-			crp.SerialNumber + "\", \"" + crp.Type.ToString() + "\")" ;
+			" (serialNumber, type) VALUES ('" + 
+			crp.SerialNumber + "', '" + crp.Type.ToString() + "')" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
@@ -117,8 +117,8 @@ class SqliteChronopicRegister : Sqlite
 		openIfNeeded(dbconOpened);
 
 		dbcmd.CommandText = "UPDATE " + table +
-			" SET type = \"" + newType.ToString() + 
-			"\" WHERE serialNumber = \"" + crp.SerialNumber + "\"" ;
+			" SET type = '" + newType.ToString() + 
+			"' WHERE serialNumber = '" + crp.SerialNumber + "'" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		

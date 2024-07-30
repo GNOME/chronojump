@@ -71,7 +71,7 @@ class SqliteSpeciallity : Sqlite
 			Sqlite.Open();
 
 		string myString = "INSERT INTO " + Constants.SpeciallityTable + 
-			" (uniqueID, sportID, name) VALUES (NULL, " + sportID + ", \"" + speciallityName + "\")"; 
+			" (uniqueID, sportID, name) VALUES (NULL, " + sportID + ", '" + speciallityName + "')"; 
 		
 		mycmd.CommandText = myString;
 		LogB.SQL(mycmd.CommandText.ToString());
@@ -97,7 +97,7 @@ class SqliteSpeciallity : Sqlite
 		if(! dbconOpened)
 			Sqlite.Open();
 		
-		dbcmd.CommandText = "SELECT name FROM " + Constants.SpeciallityTable + " WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "SELECT name FROM " + Constants.SpeciallityTable + " WHERE uniqueID = " + uniqueID;
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -120,7 +120,7 @@ class SqliteSpeciallity : Sqlite
 	{
 		string whereString = "";
 		if(sportFilter != -1)
-			whereString = " WHERE sportID == " + sportFilter;
+			whereString = " WHERE sportID = " + sportFilter;
 
 		Sqlite.Open();
 		SQLiteDataReader reader;
@@ -219,7 +219,7 @@ class SqliteSpeciallity : Sqlite
 			Sqlite.Open();
 
 		string myString = "INSERT INTO " + Constants.SpeciallityTable + 
-			" (uniqueID, sportID, name) VALUES (-1, -1, \"\")"; 
+			" (uniqueID, sportID, name) VALUES (-1, -1, '')"; 
 		
 		dbcmd.CommandText = myString;
 		dbcmd.ExecuteNonQuery();

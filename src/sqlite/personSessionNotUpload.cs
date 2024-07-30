@@ -48,7 +48,7 @@ class SqlitePersonSessionNotUpload : Sqlite
 	 {
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT personID FROM " + Constants.PersonNotUploadTable +
-			" WHERE sessionID == " + sessionID;
+			" WHERE sessionID = " + sessionID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -80,7 +80,7 @@ class SqlitePersonSessionNotUpload : Sqlite
 	 {
 		 Sqlite.Open();
 		 dbcmd.CommandText = "Delete FROM " + Constants.PersonNotUploadTable +
-			 " WHERE personID == " + personID + " AND sessionID == " + sessionID;
+			 " WHERE personID = " + personID + " AND sessionID = " + sessionID;
 		 LogB.SQL(dbcmd.CommandText.ToString());
 		 dbcmd.ExecuteNonQuery();
 		 Sqlite.Close();

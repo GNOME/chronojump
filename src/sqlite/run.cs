@@ -70,9 +70,9 @@ class SqliteRun : Sqlite
 		dbcmd.CommandText = "INSERT INTO " + tableName + 
 				" (uniqueID, personID, sessionID, type, distance, time, description, simulated, initialSpeed, datetime)" +
 				" VALUES (" + uniqueID + ", " +
-				+ personID + ", " + sessionID + ", \"" + type + "\", "
-				+ Util.ConvertToPoint(distance) + ", " + Util.ConvertToPoint(time) + ", \"" + 
-				description + "\", " + simulated + ", " + Util.BoolToInt(initialSpeed) + ", \"" + datetime + "\")";
+				+ personID + ", " + sessionID + ", '" + type + "', "
+				+ Util.ConvertToPoint(distance) + ", " + Util.ConvertToPoint(time) + ", '" + 
+				description + "', " + simulated + ", " + Util.BoolToInt(initialSpeed) + ", '" + datetime + "')";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -108,7 +108,7 @@ class SqliteRun : Sqlite
 
 		string filterTypeString = "";
 		if(filterType != "")
-			filterTypeString = " AND " + t + ".type = \"" + filterType + "\" " ;
+			filterTypeString = " AND " + t + ".type = '" + filterType + "' " ;
 
 		string orderByString = string.Format(" ORDER BY upper({0}.name), {1}.uniqueID ", tp, t);
 		if(order == Orders_by.ID_ASC)
@@ -278,7 +278,7 @@ class SqliteRun : Sqlite
 		if(!dbconOpened)
 			Sqlite.Open();
 
-		dbcmd.CommandText = "SELECT * FROM " + Constants.RunTable + " WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "SELECT * FROM " + Constants.RunTable + " WHERE uniqueID = " + uniqueID;
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 
@@ -301,7 +301,7 @@ class SqliteRun : Sqlite
 		Sqlite.Open();
 		
 		dbcmd.CommandText = "SELECT session.date, session.name, MAX(distance/time), run.simulated " + 
-			" FROM run, session WHERE type = \"" + runType.Name + "\" AND personID = " + personID + 
+			" FROM run, session WHERE type = '" + runType.Name + "' AND personID = " + personID + 
 			" AND run.sessionID = session.uniqueID";
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -324,11 +324,11 @@ class SqliteRun : Sqlite
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.RunTable + 
 			" SET personID = " + personID + 
-			", type = \"" + type +
-			"\", distance = " + Util.ConvertToPoint(distance) +
+			", type = '" + type +
+			"', distance = " + Util.ConvertToPoint(distance) +
 			", time = " + Util.ConvertToPoint(Convert.ToDouble(time)) + 
-			", description = \"" + description +
-			"\" WHERE uniqueID == " + runID ;
+			", description = '" + description +
+			"' WHERE uniqueID = " + runID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
@@ -393,7 +393,7 @@ public class Ranking
 	public override string ToString ()
 	{
 		return "\n{ " +
-			string.Format ("\"Pos\":{0}, \"Result\":{1}, \"Name\":\"{2}\", \"Photo\":\"{3}\"",
+			string.Format ("'Pos':{0}, 'Result':{1}, 'Name':'{2}', 'Photo':'{3}'",
 					pos, Util.ConvertToPoint (Util.TrimDecimals (result, 2)), name, photo) +
 			"}";
 	}

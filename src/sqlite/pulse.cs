@@ -67,9 +67,9 @@ class SqlitePulse : Sqlite
 
 		dbcmd.CommandText = "INSERT INTO " + tableName + 
 				" (uniqueID, personID, sessionID, type, fixedPulse, totalPulsesNum, timeString, description, simulated)" +
-				" VALUES (" + uniqueID + ", " + personID + ", " + sessionID + ", \"" + type + "\", "
-				+ Util.ConvertToPoint(fixedPulse) + ", " + totalPulsesNum + ", \""
-				+ timeString + "\", \"" + description + "\", " + simulated + ")" ;
+				" VALUES (" + uniqueID + ", " + personID + ", " + sessionID + ", '" + type + "', "
+				+ Util.ConvertToPoint(fixedPulse) + ", " + totalPulsesNum + ", '"
+				+ timeString + "', '" + description + "', " + simulated + ")" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -96,12 +96,12 @@ class SqlitePulse : Sqlite
 
 		string filterPersonString = "";
 		if(personID != -1)
-			filterPersonString = " AND " + tp + ".uniqueID == " + personID;
+			filterPersonString = " AND " + tp + ".uniqueID = " + personID;
 
 		dbcmd.CommandText = "SELECT " + tp + ".name, pulse.* " +
 			" FROM " + tp + ", pulse " +
-			" WHERE " + tp + ".uniqueID == pulse.personID" + 
-			" AND pulse.sessionID == " + sessionID + 
+			" WHERE " + tp + ".uniqueID = pulse.personID" + 
+			" AND pulse.sessionID = " + sessionID + 
 			filterPersonString +
 			" ORDER BY upper(" + tp + ".name), pulse.uniqueID";
 		
@@ -150,7 +150,7 @@ class SqlitePulse : Sqlite
 		if(!dbconOpened)
 			Sqlite.Open();
 
-		dbcmd.CommandText = "SELECT * FROM " + Constants.PulseTable + " WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "SELECT * FROM " + Constants.PulseTable + " WHERE uniqueID = " + uniqueID;
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -172,8 +172,8 @@ class SqlitePulse : Sqlite
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.PulseTable + 
 			" SET personID = " + personID + 
-			", description = \"" + description +
-			"\" WHERE uniqueID == " + pulseID ;
+			", description = '" + description +
+			"' WHERE uniqueID = " + pulseID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();

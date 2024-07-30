@@ -96,7 +96,7 @@ class SqliteRunEncoder : Sqlite
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "UPDATE " + table + " SET comments = \"" + comments + "\"" +
+		dbcmd.CommandText = "UPDATE " + table + " SET comments = '" + comments + "'" +
 			" WHERE uniqueID = " + uniqueID;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -197,9 +197,9 @@ class SqliteRunEncoder : Sqlite
 			Constants.SessionTable + ".name, " +
 			Constants.SessionTable + ".date " +
 			" FROM " + table + ", " + Constants.PersonTable + ", " + Constants.SessionTable +
-			" WHERE exerciseID == " + exerciseID +
-			" AND " + Constants.PersonTable + ".uniqueID == " + table + ".personID " +
-		        " AND " + Constants.SessionTable + ".uniqueID == " + table + ".sessionID " +
+			" WHERE exerciseID = " + exerciseID +
+			" AND " + Constants.PersonTable + ".uniqueID = " + table + ".personID " +
+		        " AND " + Constants.SessionTable + ".uniqueID = " + table + ".sessionID " +
 			" GROUP BY sessionID, personID";
 
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -238,7 +238,7 @@ class SqliteRunEncoder : Sqlite
 		dbcmd.CommandText =
 			"SELECT person77.uniqueID, person77.name, person77.sex, runEncoderExercise.name, COUNT(*)" +
 			" FROM person77, personSession77, runEncoderExercise, runEncoder" +
-			" WHERE person77.uniqueID == runEncoder.personID AND personSession77.personID == runEncoder.personID AND personSession77.sessionID == runEncoder.sessionID AND runEncoderExercise.uniqueID==runEncoder.exerciseID AND runEncoder.sessionID == " + sessionID +
+			" WHERE person77.uniqueID = runEncoder.personID AND personSession77.personID = runEncoder.personID AND personSession77.sessionID = runEncoder.sessionID AND runEncoderExercise.uniqueID=runEncoder.exerciseID AND runEncoder.sessionID = " + sessionID +
 			" GROUP BY runEncoder.personID" + byExercisesStr +
 			" ORDER BY person77.name";
 
@@ -424,11 +424,11 @@ class SqliteRunEncoderExercise : Sqlite
 			angleDefaultStr = ", angleDefault = " + ex.AngleDefault;
 
 		dbcmd.CommandText = "UPDATE " + table + " SET " +
-			" name = \"" + ex.Name +
-			"\", description = \"" + ex.Description +
-			"\", segmentMeters = " + ex.SegmentCm + 	//cm since DB 2.33
-			", segmentVariableCm = \"" + ex.SegmentVariableCmToSQL +
-			"\", isSprint = " + Util.BoolToInt(ex.IsSprint) +
+			" name = '" + ex.Name +
+			"', description = '" + ex.Description +
+			"', segmentMeters = " + ex.SegmentCm + 	//cm since DB 2.33
+			", segmentVariableCm = '" + ex.SegmentVariableCmToSQL +
+			"', isSprint = " + Util.BoolToInt(ex.IsSprint) +
 			angleDefaultStr +
 			" WHERE uniqueID = " + ex.UniqueID;
 

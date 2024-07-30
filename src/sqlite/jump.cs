@@ -77,10 +77,10 @@ class SqliteJump : Sqlite
 		dbcmd.CommandText = "INSERT INTO " + tableName +  
 				" (uniqueID, personID, sessionID, type, tv, tc, fall, weight, description, angle, simulated, datetime)" +
 				" VALUES (" + uniqueID + ", "
-				+ personID + ", " + sessionID + ", \"" + type + "\", "
-				+ Util.ConvertToPoint(tv) + ", " + Util.ConvertToPoint(tc) + ", " + Util.ConvertToPoint(fall) + ", \"" 
-				+ Util.ConvertToPoint(weight) + "\", \"" + description + "\", "
-				+ Util.ConvertToPoint(angle) + ", " + simulated + ", \"" + datetime + "\")" ;
+				+ personID + ", " + sessionID + ", '" + type + "', "
+				+ Util.ConvertToPoint(tv) + ", " + Util.ConvertToPoint(tc) + ", " + Util.ConvertToPoint(fall) + ", '" 
+				+ Util.ConvertToPoint(weight) + "', '" + description + "', "
+				+ Util.ConvertToPoint(angle) + ", " + simulated + ", '" + datetime + "')" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -113,11 +113,11 @@ class SqliteJump : Sqlite
 
 		string filterSessionString = "";
 		if(sessionID != -1)
-			filterSessionString = " AND jump.sessionID == " + sessionID;
+			filterSessionString = " AND jump.sessionID = " + sessionID;
 
 		string filterPersonString = "";
 		if(personID != -1)
-			filterPersonString = " AND " + tp + ".uniqueID == " + personID;
+			filterPersonString = " AND " + tp + ".uniqueID = " + personID;
 
 		string filterWeightString = "";
 		if(filterWeight == "withWeight")
@@ -125,7 +125,7 @@ class SqliteJump : Sqlite
 
 		string filterTypeString = "";
 		if(filterType != "")
-			filterTypeString = " AND jump.type == \"" + filterType + "\" ";
+			filterTypeString = " AND jump.type = '" + filterType + "' ";
 
 		string orderByString = " ORDER BY upper(" + tp + ".name), jump.uniqueID ";
 		if(order == Orders_by.ID_ASC)
@@ -139,13 +139,13 @@ class SqliteJump : Sqlite
 
 		dbcmd.CommandText = "SELECT " + tp + ".name, jump.*, " + tps + ".weight " +
 			" FROM " + tp + ", jump, " + tps + 
-			" WHERE " + tp + ".uniqueID == jump.personID " + 
+			" WHERE " + tp + ".uniqueID = jump.personID " + 
 			filterSessionString +
 			filterPersonString +
 			filterWeightString +
 			filterTypeString +
-			" AND " + tps + ".personID == " + tp + ".uniqueID " +
-			" AND " + tps + ".sessionID == jump.sessionID " +
+			" AND " + tps + ".personID = " + tp + ".uniqueID " +
+			" AND " + tps + ".sessionID = jump.sessionID " +
 			orderByString +
 			limitString;
 		
@@ -220,21 +220,21 @@ class SqliteJump : Sqlite
 	  string sessionString = "";
 	  if(sID != -1)
 	  {
-		  sessionString = " sessionID == " + sID.ToString();
+		  sessionString = " sessionID = " + sID.ToString();
 		  andString = " AND ";
 	  }
 
 	  string personString = "";
 	  if(pID != -1)
 	  {
-		  personString = andString + " personID == " + pID.ToString();
+		  personString = andString + " personID = " + pID.ToString();
 		  andString = " AND ";
 	  }
 
 	  string jumpTypeString = "";
 	  if(jumpType != "")
 	  {
-		  jumpTypeString = andString + " jump.type = \"" + jumpType + "\" ";
+		  jumpTypeString = andString + " jump.type = '" + jumpType + "' ";
 		  andString = " AND ";
 	  }
 
@@ -399,7 +399,7 @@ class SqliteJump : Sqlite
 		if(!dbconOpened)
 			Sqlite.Open();
 
-		dbcmd.CommandText = "SELECT * FROM jump WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "SELECT * FROM jump WHERE uniqueID = " + uniqueID;
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -441,7 +441,7 @@ class SqliteJump : Sqlite
 		
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT session.date, session.name, MAX(" + sqlSelect + "), jump.simulated " + 
-			" FROM jump, session WHERE type = \"" + jumpType.Name + "\" AND personID = " + personID + 
+			" FROM jump, session WHERE type = '" + jumpType.Name + "' AND personID = " + personID + 
 			" AND jump.sessionID = session.uniqueID";
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -469,31 +469,31 @@ class SqliteJump : Sqlite
 		double sj = selectDouble( 
 				"SELECT MAX(tv * tv * 1.22625) " +
 				" FROM jump " +
-				" WHERE type = \"SJ\" " +
+				" WHERE type = 'SJ' " +
 				" AND personID = " + personID + " AND sessionID = " + sessionID);
 		
 		double sjl = selectDouble( 
 				"SELECT MAX(tv * tv * 1.22625) " +
 				" FROM jump " +
-				" WHERE type = \"SJl\" AND jump.weight = 100 " +
+				" WHERE type = 'SJl' AND jump.weight = 100 " +
 				" AND personID = " + personID + " AND sessionID = " + sessionID);
 		
 		double cmj = selectDouble( 
 				"SELECT MAX(tv * tv * 1.22625) " +
 				" FROM jump " +
-				" WHERE type = \"CMJ\" " +
+				" WHERE type = 'CMJ' " +
 				" AND personID = " + personID + " AND sessionID = " + sessionID);
 		
 		double abk = selectDouble( 
 				"SELECT MAX(tv * tv * 1.22625) " +
 				" FROM jump " +
-				" WHERE type = \"ABK\" " +
+				" WHERE type = 'ABK' " +
 				" AND personID = " + personID + " AND sessionID = " + sessionID);
 		
 		double dja = selectDouble( 
 				"SELECT MAX(tv * tv * 1.22625) " +
 				" FROM jump " +
-				" WHERE type = \"DJa\" " +
+				" WHERE type = 'DJa' " +
 				" AND personID = " + personID + " AND sessionID = " + sessionID);
 
 		Sqlite.Close();
@@ -586,7 +586,7 @@ class SqliteJump : Sqlite
 
 	  // Selecciona les dades de tots els salts
 	  dbcmd.CommandText = "SELECT * FROM jump WHERE personID = " + personID +
-	  " AND sessionID = " + sessionID  +  " AND jump.type = \"" + jumpType + "\"";
+	  " AND sessionID = " + sessionID  +  " AND jump.type = '" + jumpType + "'";
 
 	  if(onlyHigherOfSameFall)
 		  dbcmd.CommandText += " ORDER BY fall DESC, tv DESC";
@@ -634,7 +634,7 @@ class SqliteJump : Sqlite
 
 	  // Selecciona les dades de tots els salts
 	  dbcmd.CommandText = "SELECT * FROM jump WHERE personID = " + personID +
-	  " AND sessionID = " + sessionID  +  " AND (jump.type = \"SJ\" OR jump.type = \"SJl\")";
+	  " AND sessionID = " + sessionID  +  " AND (jump.type = 'SJ' OR jump.type = 'SJl')";
 
 	  if(onlyHigherOfSameWeight)
 		  dbcmd.CommandText += " ORDER BY weight DESC, tv DESC";
@@ -671,14 +671,14 @@ class SqliteJump : Sqlite
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE jump SET personID = " + personID + 
-			", type = \"" + type +
-			"\", tv = " + Util.ConvertToPoint(tv) +
+			", type = '" + type +
+			"', tv = " + Util.ConvertToPoint(tv) +
 			", tc = " + Util.ConvertToPoint(tc) +
 			", fall = " + Util.ConvertToPoint(fall) +
 			", weight = " + Util.ConvertToPoint(weight) + 
-			", description = \"" + description +
-			"\", angle = " + Util.ConvertToPoint(angle) +
-			" WHERE uniqueID == " + jumpID ;
+			", description = '" + description +
+			"', angle = " + Util.ConvertToPoint(angle) +
+			" WHERE uniqueID = " + jumpID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
@@ -688,7 +688,7 @@ class SqliteJump : Sqlite
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + tableName + " SET weight = " + Util.ConvertToPoint(weight) + 
-			" WHERE uniqueID == " + uniqueID ;
+			" WHERE uniqueID = " + uniqueID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
@@ -697,8 +697,8 @@ class SqliteJump : Sqlite
 	public static void UpdateDescription(string tableName, int uniqueID, string description)
 	{
 		Sqlite.Open();
-		dbcmd.CommandText = "UPDATE " + tableName + " SET description = \"" + description + 
-			"\" WHERE uniqueID == " + uniqueID ;
+		dbcmd.CommandText = "UPDATE " + tableName + " SET description = '" + description + 
+			"' WHERE uniqueID = " + uniqueID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
@@ -707,15 +707,15 @@ class SqliteJump : Sqlite
 	//onle for change SJ+ CMJ+ and ABK+ to SJl...
 	public static void ChangeWeightToL()
 	{
-		dbcmd.CommandText = "UPDATE jump SET type = \"SJl\" WHERE type == \"SJ+\"";
+		dbcmd.CommandText = "UPDATE jump SET type = 'SJl' WHERE type = 'SJ+'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
-		dbcmd.CommandText = "UPDATE jump SET type = \"CMJl\" WHERE type == \"CMJ+\"";
+		dbcmd.CommandText = "UPDATE jump SET type = 'CMJl' WHERE type = 'CMJ+'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
-		dbcmd.CommandText = "UPDATE jump SET type = \"ABKl\" WHERE type == \"ABK+\"";
+		dbcmd.CommandText = "UPDATE jump SET type = 'ABKl' WHERE type = 'ABK+'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}

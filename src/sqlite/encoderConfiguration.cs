@@ -169,9 +169,9 @@ class SqliteEncoderConfiguration : Sqlite
 		openIfNeeded(dbconOpened);
 
 		dbcmd.CommandText = "UPDATE " + Constants.EncoderConfigurationTable +
-			" SET encoderConfiguration = \"" + econf.ToStringOutput(EncoderConfiguration.Outputs.SQL) + "\"" +
-			" WHERE encoderGI = \"" + encoderGI.ToString() + "\"" +
-			" AND active = \"True\"";
+			" SET encoderConfiguration = '" + econf.ToStringOutput(EncoderConfiguration.Outputs.SQL) + "'" +
+			" WHERE encoderGI = '" + encoderGI.ToString() + "'" +
+			" AND active = 'True'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -185,10 +185,10 @@ class SqliteEncoderConfiguration : Sqlite
 		openIfNeeded(dbconOpened);
 
 		dbcmd.CommandText = "UPDATE " + Constants.EncoderConfigurationTable +
-			" SET active = \"" + econfSO.active + "\", name = \"" + econfSO.name + "\", " +
-			" encoderConfiguration = \"" + econfSO.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) + "\", " +
-			" description = \"" + econfSO.description + "\"" +
-			" WHERE name = \"" + oldName + "\" AND encoderGI = \"" + encoderGI.ToString() + "\"";
+			" SET active = '" + econfSO.active + "', name = '" + econfSO.name + "', " +
+			" encoderConfiguration = '" + econfSO.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) + "', " +
+			" description = '" + econfSO.description + "'" +
+			" WHERE name = '" + oldName + "' AND encoderGI = '" + encoderGI.ToString() + "'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -216,8 +216,8 @@ class SqliteEncoderConfiguration : Sqlite
 		openIfNeeded(dbconOpened);
 
 		dbcmd.CommandText = "UPDATE " + Constants.EncoderConfigurationTable +
-			" SET active = \"False\"" +
-			" WHERE encoderGI = \"" + encoderGI.ToString() + "\"";
+			" SET active = 'False'" +
+			" WHERE encoderGI = '" + encoderGI.ToString() + "'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -231,10 +231,10 @@ class SqliteEncoderConfiguration : Sqlite
 
 		string nameStr = "";
 		if(name != "")
-			nameStr = " AND name = \"" + name + "\"";
+			nameStr = " AND name = '" + name + "'";
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.EncoderConfigurationTable +
-			" WHERE encoderGI = \"" + encoderGI.ToString() + "\"" + nameStr;
+			" WHERE encoderGI = '" + encoderGI.ToString() + "'" + nameStr;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -273,7 +273,7 @@ class SqliteEncoderConfiguration : Sqlite
 		Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.EncoderConfigurationTable +
-			" WHERE encoderGI = \"" + encoderGI.ToString() + "\" AND active = \"True\"";
+			" WHERE encoderGI = '" + encoderGI.ToString() + "' AND active = 'True'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
@@ -323,7 +323,7 @@ class SqliteEncoderConfiguration : Sqlite
 		openIfNeeded(dbconOpened);
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.EncoderConfigurationTable + 
-			" WHERE encoderGI = \"" + encoderGI.ToString() + "\"" +
+			" WHERE encoderGI = '" + encoderGI.ToString() + "'" +
 		        " AND encoderConfiguration LIKE '" + econf.ToStringOutput(EncoderConfiguration.Outputs.SQLECWINCOMPARE) + "'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -356,7 +356,7 @@ class SqliteEncoderConfiguration : Sqlite
 
 		LogB.Information("SelectByEncoderGIAndName");
 		dbcmd.CommandText = "SELECT * FROM " + Constants.EncoderConfigurationTable +
-			" WHERE encoderGI = \"" + encoderGI.ToString() + "\"" +
+			" WHERE encoderGI = '" + encoderGI.ToString() + "'" +
 		        " AND name = \'" + name + "\'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

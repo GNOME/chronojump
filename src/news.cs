@@ -160,11 +160,11 @@ public class News
 			codeStr = code.ToString();
 
 		return codeStr + ", " + category + ", " + version + ", " +
-			Util.BoolToInt(viewed).ToString() + ", \"" +
-			titleEn + "\", \"" + titleEs + "\", \"" +
-			linkEn + "\", \"" + linkEs + "\", \"" +
-			descriptionEn + "\", \"" + descriptionEs + "\", \"" +
-			linkServerImage + "\"";
+			Util.BoolToInt(viewed).ToString() + ", '" +
+			titleEn + "', '" + titleEs + "', '" +
+			linkEn + "', '" + linkEs + "', '" +
+			descriptionEn + "', '" + descriptionEs + "', '" +
+			linkServerImage + "'";
 	}
 
 	private string toSQLUpdateString()
@@ -173,15 +173,15 @@ public class News
 			" code = " + code +
 			", category = " + category +
 			", version = " + version +
-			", viewed = \"False\"" +
-			", titleEn = \"" + titleEn +
-			"\", titleEs = \"" + titleEs +
-			"\", linkEn = \"" + linkEn +
-			"\", linkEs = \"" + linkEs +
-			"\", descriptionEn = \"" + descriptionEn +
-			"\", descriptionEs = \"" + descriptionEs +
-			"\", linkServerImage = \"" + linkServerImage +
-			"\" WHERE code = " + code;
+			", viewed = 'False'" +
+			", titleEn = '" + titleEn +
+			"', titleEs = '" + titleEs +
+			"', linkEn = '" + linkEn +
+			"', linkEs = '" + linkEs +
+			"', descriptionEn = '" + descriptionEn +
+			"', descriptionEs = '" + descriptionEs +
+			"', linkServerImage = '" + linkServerImage +
+			"' WHERE code = " + code;
 	}
 
 	//check if the image is saved or not, to download it if there where any problems on the server

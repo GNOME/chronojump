@@ -67,10 +67,10 @@ class SqlitePerson : Sqlite
 		//ATTENTION: if this changes, change the Person.ToSQLInsertString()
 		// -----------------------
 		string myString = "INSERT INTO " + Constants.PersonTable + 
-			" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID, linkServerImage) VALUES (" + uniqueID + ", \"" +
-			name + "\", \"" + sex + "\", \"" + UtilDate.ToSql(dateBorn) + "\", " + 
-			race + ", " + countryID + ", \"" + description + "\", \"" +
-			future1 + "\", \"" + future2 + "\", " + serverUniqueID + ", \"" + linkServerImage + "\")";
+			" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID, linkServerImage) VALUES (" + uniqueID + ", '" +
+			name + "', '" + sex + "', '" + UtilDate.ToSql(dateBorn) + "', " + 
+			race + ", " + countryID + ", '" + description + "', '" +
+			future1 + "', '" + future2 + "', " + serverUniqueID + ", '" + linkServerImage + "')";
 		
 		dbcmd.CommandText = myString;
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -97,10 +97,10 @@ class SqlitePerson : Sqlite
 		return Select(false, " WHERE uniqueID = " + uniqueID);
 	}
 	public static Person SelectByName(bool dbconOpened, string name) {
-		return Select(dbconOpened, " WHERE name = \"" + name + "\"");
+		return Select(dbconOpened, " WHERE name = '" + name + "'");
 	}
 	public static Person SelectByRFID(string rfid) {
-		return Select(false, " WHERE future1 = \"" + rfid + "\"");
+		return Select(false, " WHERE future1 = '" + rfid + "'");
 	}
 	public static Person Select(bool dbconOpened, string whereStr)
 	{
@@ -144,7 +144,7 @@ class SqlitePerson : Sqlite
 	{
 		Sqlite.Open();
 
-		dbcmd.CommandText = "SELECT " + attribute + " FROM " + Constants.PersonTable + " WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "SELECT " + attribute + " FROM " + Constants.PersonTable + " WHERE uniqueID = " + uniqueID;
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -200,8 +200,8 @@ class SqlitePerson : Sqlite
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".uniqueID " +
 			" FROM " + tp + "," + tps +
-			" WHERE " + tps + ".sessionID == " + exceptSession +
-			" AND " + tp + ".uniqueID == " + tps + ".personID "; 
+			" WHERE " + tps + ".sessionID = " + exceptSession +
+			" AND " + tp + ".uniqueID = " + tps + ".personID "; 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SQLiteDataReader reader;
@@ -237,8 +237,8 @@ class SqlitePerson : Sqlite
 		} else {
 			dbcmd.CommandText = 
 				"SELECT " + tp + ".* FROM " + tp + ", " + tps + 
-				" WHERE " + tps + ".sessionID == " + inSession + 
-				" AND " + tp + ".uniqueID == " + tps + ".personID " + 
+				" WHERE " + tps + ".sessionID = " + inSession + 
+				" AND " + tp + ".uniqueID = " + tps + ".personID " + 
 				" ORDER BY " + sortedBy;
 		}
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -313,7 +313,7 @@ finishForeach:
 		//session where this person is loaded
 		dbcmd.CommandText = "SELECT sessionID, session.Name, session.Place, session.Date " + 
 			" FROM " + tps + ", session " + 
-			" WHERE personID = " + personID + " AND session.uniqueID == " + tps + ".sessionID " +
+			" WHERE personID = " + personID + " AND session.uniqueID = " + tps + ".sessionID " +
 			" ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
@@ -406,8 +406,8 @@ finishForeach:
 	
 		//EncS (encoder signal)
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.EncoderTable + 
-		       " WHERE personID == " + personID +
-		       " AND signalOrCurve == \"signal\" " +
+		       " WHERE personID = " + personID +
+		       " AND signalOrCurve = 'signal' " +
 			" GROUP BY sessionID ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
@@ -419,8 +419,8 @@ finishForeach:
 	
 		//EncC (encoder curve)
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.EncoderTable + 
-		       " WHERE personID == " + personID +
-		       " AND signalOrCurve == \"curve\" " +
+		       " WHERE personID = " + personID +
+		       " AND signalOrCurve = 'curve' " +
 			" GROUP BY sessionID ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
@@ -636,7 +636,7 @@ finishForeach:
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.PersonTable +
-			" WHERE LOWER(" + Constants.PersonTable + ".name) == LOWER(\"" + personName + "\")" +
+			" WHERE LOWER(" + Constants.PersonTable + ".name) = LOWER('" + personName + "')" +
 			" AND uniqueID != " + uniqueID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
@@ -662,17 +662,17 @@ finishForeach:
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.PersonTable + 
-			" SET name = \"" + myPerson.Name + 
-			"\", sex = \"" + myPerson.Sex +
-			"\", dateborn = \"" + UtilDate.ToSql(myPerson.DateBorn) +
-			"\", race = " + myPerson.Race +
+			" SET name = '" + myPerson.Name + 
+			"', sex = '" + myPerson.Sex +
+			"', dateborn = '" + UtilDate.ToSql(myPerson.DateBorn) +
+			"', race = " + myPerson.Race +
 			", countryID = " + myPerson.CountryID +
-			", description = \"" + myPerson.Description +
-			"\", future1 = \"" + myPerson.Future1 + 		//rfid
-			"\", future2 = \"" + myPerson.Future2 + 		//clubID
-			"\", serverUniqueID = " + myPerson.ServerUniqueID +
-			", linkServerImage = \"" + myPerson.LinkServerImage + //linkServerImage
-			"\" WHERE uniqueID == " + myPerson.UniqueID;
+			", description = '" + myPerson.Description +
+			"', future1 = '" + myPerson.Future1 + 		//rfid
+			"', future2 = '" + myPerson.Future2 + 		//clubID
+			"', serverUniqueID = " + myPerson.ServerUniqueID +
+			", linkServerImage = '" + myPerson.LinkServerImage + //linkServerImage
+			"' WHERE uniqueID = " + myPerson.UniqueID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
@@ -683,8 +683,8 @@ finishForeach:
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.PersonTable +
-			" SET name = \"" + name +
-			"\" WHERE uniqueID = " + uniqueID;
+			" SET name = '" + name +
+			"' WHERE uniqueID = " + uniqueID;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -696,8 +696,8 @@ finishForeach:
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.PersonTable +
-			" SET future1 = \"" + rfid +
-			"\" WHERE uniqueID = " + uniqueID;
+			" SET future1 = '" + rfid +
+			"' WHERE uniqueID = " + uniqueID;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

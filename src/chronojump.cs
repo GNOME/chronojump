@@ -128,6 +128,12 @@ public class ChronoJump
 #endif
 		}
 
+        //Create the Data Directory if not exists
+        if (!Directory.Exists(UtilAll.GetDefaultLocalDataDir(false)))
+        {
+            Directory.CreateDirectory(UtilAll.GetDefaultLocalDataDir(false));
+        }
+
         //show version on console and exit before the starting logs
         //note version, version2 args are available since: 2.2.0-112-ga4eaadcbc
         if (args.Length > 0 && args[0] != "simulatedCapture" && args[0] != "printAll" && args[0] != "debug")

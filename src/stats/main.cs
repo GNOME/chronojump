@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -844,9 +844,10 @@ public class Stat
 		//int parenthesesPos = nameWithMoreData.LastIndexOf('(');
 		//it can have two parentheses, like:
 		//myName (Rj(j))
+		LogB.Information ("fetchNameOnStatsData: " + nameWithMoreData);
 		int parenthesesPos = nameWithMoreData.IndexOf('(');
 		string nameWithoutJumpType;
-		if(parenthesesPos == -1)
+		if(parenthesesPos <= 0) // -1 does not have. 0 if it has on first char that would crash the else condition
 			nameWithoutJumpType = nameWithMoreData;
 		else
 			nameWithoutJumpType = nameWithMoreData.Substring(0, parenthesesPos-1);

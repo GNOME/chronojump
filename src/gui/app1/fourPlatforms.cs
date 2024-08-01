@@ -34,8 +34,10 @@ public class FourPlatformsCaptureManage
 	//private bool error;
 
 	//private List<PointF> points_l;
-	private List<List<PointF>> points_ll; //[0] will have all and helps to configureTimeWindow
-	
+	private List<List<PointF>> points_ll; //[0] will have all and helps to configureTimeWindow (graphical info)
+	private List<List<double>> timesOn_ll; //[0] will have all and helps to configureTimeWindow (time info to sql)
+	private List<List<double>> timesOff_ll; //[0] will have all and helps to configureTimeWindow (time info to sql)
+
 	public FourPlatformsCaptureManage (
 			FourPlatformsCapture fpc,
 			ref List<List<PointF>> points_ll
@@ -43,6 +45,15 @@ public class FourPlatformsCaptureManage
 	{
 		this.fpc = fpc;
 		this.points_ll = points_ll;
+
+		timesOn_ll = new List<List<double>>();
+		timesOff_ll = new List<List<double>>();
+
+		for (int i = 0; i < 4; i ++)
+		{
+			timesOn_ll.Add (new List<double> ());
+			timesOff_ll.Add (new List<double> ());
+		}
 	}
 
 	public bool Init ()
@@ -89,12 +100,18 @@ public class FourPlatformsCaptureManage
 				double ySign = .2;
 				if (fpe.Time < 0)
 					ySign = -.2;
+
+				if (fpe.Time < 0)
+					timesOff_ll[fpe.Button].Add (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000)); //0-3 each of the sensors
+				else
+					timesOn_ll[fpe.Button].Add (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000)); //0-3 each of the sensors
+
 				//LogB.Information ("fpe.Button: " + fpe.Button);
 				//LogB.Information ("y: " + y);
 				//points_ll[0].Add (new PointF (timeAccu_l[fpe.Button], y+ySign)); //0 has all
 				//in seconds
 				points_ll[0].Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), .1)); //0 has all //to debug
-				points_ll[y].Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), y+ySign)); //1-3 each of the sensors
+				points_ll[y].Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), y+ySign)); //1-4 each of the sensors
 				timeOfLastCapture = DateTime.Now;
 			}
 		}
@@ -106,6 +123,12 @@ public class FourPlatformsCaptureManage
 		get { return timeOfLastCapture; }
 	}
 
+	public List<List<double>> TimesOn_ll {
+		get { return timesOn_ll; }
+	}
+	public List<List<double>> TimesOff_ll {
+		get { return timesOff_ll; }
+	}
 	public bool Finish {
 		set { finish = value; }
 	}
@@ -216,6 +239,23 @@ public partial class ChronoJumpWindow
 			{
 				event_execute_label_message.Text = "Finished.";
 				fpcm.Finish = true;
+
+				string insertString = "(NULL, " +
+					currentPerson.UniqueID + ", " +
+					currentSession.UniqueID + ", " +
+					"0, '" + //exerciseID
+					UtilDate.ToFile (DateTime.Now) + "', '" +
+					Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOn_ll[0], 3, "="))  + "', '" +
+					Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOff_ll[0], 3, "=")) + "', '" +
+					Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOn_ll[1], 3, "="))  + "', '" +
+					Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOff_ll[1], 3, "=")) + "', '" +
+					Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOn_ll[2], 3, "="))  + "', '" +
+					Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOff_ll[2], 3, "=")) + "', '" +
+					Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOn_ll[3], 3, "="))  + "', '" +
+					Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOff_ll[3], 3, "=")) + "', " +
+					"'', '', 0)"; //comments, videoURL, totalTime
+
+				SqliteFourPlatforms.Insert (false, insertString);
 			}
 
 			blinkCapture.End ();

@@ -629,78 +629,137 @@ public class ChronopicRegisterWindows : ChronopicRegister
 	[SupportedOSPlatform("windows")]
 	private void createListDo (ManagementObjectSearcher searcher)
 	{
+		//debug
+		LogB.Information ("SerialPort.GetPortNames:");
+		string[] ports = SerialPort.GetPortNames ();
+		foreach (string port in ports)
+			LogB.Information (port);
+
+		int count = 0;
 		foreach (ManagementObject queryObj in searcher.Get())
-			if (searchDeviceAccept (queryObj))
+		{
+			//debug
+			foreach (System.Management.PropertyData Data in queryObj.Properties)
+				LogB.Information (string.Format ("device: {0}, queryObj: Name: {1}, Value: {2}", count, Data.Name, Data.Value));
+			count ++;
+
+			string serialNum = "";
+			string port = "";
+			if (searchDeviceAccept (queryObj, out serialNum, out port))
 			{
-				ChronopicRegisterPort crp = new ChronopicRegisterPort (getPort (queryObj));
+				ChronopicRegisterPort crp = new ChronopicRegisterPort (port);
 				crp.FTDI = true;
-				crp.SerialNumber = getSerialNumber (queryObj);
+				crp.SerialNumber = serialNum;
 				crp.Type = ChronopicRegisterPort.Types.UNKNOWN;
-				
 				LogB.Information(string.Format("crp: " + crp.ToString()));
 
 				registerAddOrUpdate(crp);
 			}
+		}
 	}
 
 	[SupportedOSPlatform("windows")]
-	private string getPort (ManagementObject queryObj)
+	private bool searchDeviceAccept (ManagementObject queryObj, out string deviceIDStr, out string portStr)
 	{
-		foreach (System.Management.PropertyData Data in queryObj.Properties)
-			if (Data.Value != null && Data.Name == "Caption")
-			{
-				MatchCollection matches = Regex.Matches(Data.Value.ToString(), @"(COM\d+)");
-				if (matches.Count == 1)
-					return matches[0].ToString ();
-			}
+		deviceIDStr = "";
+		portStr = "";
 
-		return "";
-	}
+		bool ftdi_b = false;
+		bool com_b = false;
+		bool deviceID_b = false;
 
-	[SupportedOSPlatform("windows")]
-	private string getSerialNumber (ManagementObject queryObj)
-	{
-		foreach (System.Management.PropertyData Data in queryObj.Properties)
-			if (Data.Value != null && Data.Name == "DeviceID")
-			{
-				MatchCollection matches = Regex.Matches(Data.Value.ToString(), @".*\+.*\+(.*)A\\0000");
-				if (matches.Count == 1)
-					return matches[0].Groups[1].Value.ToString ();
-			}
+		bool esp32Caption_b = false;
+		bool esp32DeviceID_b = false;
 
-		return "";
-	}
-
-	[SupportedOSPlatform("windows")]
-	private bool searchDeviceAccept (ManagementObject queryObj)
-	{
-		bool ftdi = false;
-		bool com = false;
-		bool deviceID = false;
 		foreach (System.Management.PropertyData Data in queryObj.Properties)
 			if (Data.Value != null)
 			{
+				/* FTDI devices */
 				if (Data.Name == "Manufacturer" && Data.Value.ToString().Contains ("FTDI"))
-					ftdi = true;
+					ftdi_b = true;
 				if (Data.Name == "Caption")
 				{
 					MatchCollection matches = Regex.Matches(Data.Value.ToString(), @"(COM\d+)");
 					if (matches.Count == 1)
-						com = true;
+					{
+						com_b = true;
+						portStr = matches[0].ToString ();
+					}
 				}
 				if (Data.Name == "DeviceID")
 				{
 					MatchCollection matches = Regex.Matches(Data.Value.ToString(), @".*\+.*\+(.*)A\\0000");
 					if (matches.Count == 1)
 					{
-						//LogB.Information ("DeviceID match: " + Data.Value);
-						deviceID = true;
+						LogB.Information ("DeviceID A match: " + Data.Value);
+						deviceID_b = true;
+						deviceIDStr = matches[0].Groups[1].Value.ToString ();
+					}
+				}
+
+				/*
+				 * detect also ESP32 devices (fourPlatforms).
+				 * They have Name, Caption, Description = USB Composite Device
+				 * They have DeviceID as a mac address (with colons), like this:
+				 * USB\VID_303A&PID_1001\34:85:18:AC:F2:7C
+				 *
+				 */
+				/*
+				if (Data.Name == "Caption" && Data.Value.ToString () == "USB Composite Device")
+				{
+					esp32Caption_b = true;
+					//portStr = "----"; //TODO: how to get the port name on windows?
+				}
+
+				if (Data.Name == "DeviceID")
+				{
+					MatchCollection matches = Regex.Matches(Data.Value.ToString(),
+							@".*\\.*\\(..:..:..:..:..:..)");
+					if (matches.Count == 1)
+					{
+						LogB.Information ("DeviceID B match: " + Data.Value);
+						esp32DeviceID_b = true;
+						deviceIDStr = matches[0].Groups[1].Value.ToString ();
+					}
+				}
+				*/
+				/*
+				 * detect also ESP32 devices (fourPlatforms).
+				 * But is better to look at Caption: 
+				 * "USB Serial Device (COM12)"
+				 * ClassGuid at fourPlatforms devices is always:
+				 * 4d36e978-e325-11ce-bfc1-08002be10318
+				 *
+				 * DeviceID is unique (seems), here my both devices:
+				 * DeviceID, Value: USB\VID_303A&PID_1001&MI_00\7&21041641&0&0000
+				 * DeviceID, Value: USB\VID_303A&PID_1001&MI_00\7&1CE9E710&0&0000
+				 *
+				 * On the other hand, note encoder (FTDI) is: "USB Serial Port (COM5)" 
+				 */
+				if (Data.Name == "Caption" && Data.Value.ToString ().Contains("USB Serial Device"))
+				{
+					esp32Caption_b = true;
+					MatchCollection matches = Regex.Matches(Data.Value.ToString(), @"(COM\d+)");
+					if (matches.Count == 1)
+					{
+						com_b = true;
+						portStr = matches[0].ToString ();
+					}
+				}
+				if (Data.Name == "DeviceID")
+				{
+					MatchCollection matches = Regex.Matches(Data.Value.ToString(), @"USB\\.*\\7&(.*)&0&0000");
+					if (matches.Count == 1)
+					{
+						LogB.Information ("DeviceID B match: " + Data.Value);
+						esp32DeviceID_b = true;
+						deviceIDStr = matches[0].Groups[1].Value.ToString ();
 					}
 				}
 			}
 
-		//LogB.Information (string.Format ("at searchDeviceAccent ftdi: {0}, com: {1}, deviceID: {2}" ,ftdi, com, deviceID));
-		return (ftdi && com && deviceID);
+		LogB.Information (string.Format ("at searchDeviceAccent ftdi: {0}, com: {1}, deviceID: {2}, deviceIDStr: {3}" , ftdi_b, com_b, deviceID_b, deviceIDStr));
+		return ( com_b && ( (ftdi_b && deviceID_b) || (esp32Caption_b && esp32DeviceID_b) ) );
 	}
 
 		/* My encoder returns (when "Win32_PnPEntity")

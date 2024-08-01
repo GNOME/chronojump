@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -200,8 +200,15 @@ class SqliteStat : Sqlite
 						returnValueString		//tv or heightofJump
 					    );
 			} else {
-				//in simple session return: name, sex, height, TF, Fall
-				myArray.Add (reader[0].ToString() + showSexString + showJumpTypeString +
+				//in simple session return: name, sex, jump type (sometimes), height, TF, Fall
+				//
+				//removing parenthesis from personName as will be problematic to distinguish from parenthesis on jump type, that can also be double like (Rj(j))
+				//TODO: in the future return name, sex, jump type in 3 separated fields
+				string personName = reader[0].ToString ();
+				personName = Util.RemoveChar (personName, '(');
+				personName = Util.RemoveChar (personName, ')');
+
+				myArray.Add (personName + showSexString + showJumpTypeString +
 						":" + Util.GetHeightInCentimeters(Util.ChangeDecimalSeparator(
 								reader[3].ToString()))
 						+ ":" + Util.ChangeDecimalSeparator(reader[3].ToString())

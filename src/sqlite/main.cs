@@ -397,11 +397,6 @@ class Sqlite
 
 		string applicationDataDir = Util.GetLocalDataDir (false);
 
-		if(!Directory.Exists(applicationDataDir)) {
-			LogB.SQL("creating dir 1...");
-			Directory.CreateDirectory (applicationDataDir);
-		}
-		
 		if(!Directory.Exists(home)) {
 			LogB.SQL("creating dir 2...");
 			Directory.CreateDirectory (home);

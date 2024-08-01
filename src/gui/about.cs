@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -35,6 +35,7 @@ public class About
 	 Gtk.Label dialog_about_label_developers_networks;
 	 Gtk.Label dialog_about_label_developers_chronopic;
 	 Gtk.Label dialog_about_label_developers_scientific;
+	 Gtk.Label dialog_about_label_developers_testers;
 
 	 Gtk.Label dialog_about_label_documenters;
 	 Gtk.Label dialog_about_label_translators;
@@ -91,6 +92,7 @@ public class About
 		textLabel(Constants.Authors(Constants.AuthorsEnum.NETWORKS), dialog_about_label_developers_networks);
 		textLabel(Constants.Authors(Constants.AuthorsEnum.CHRONOPIC), dialog_about_label_developers_chronopic);
 		textLabel(Constants.Authors(Constants.AuthorsEnum.SCIENTIFIC), dialog_about_label_developers_scientific);
+		textLabel(Constants.Authors(Constants.AuthorsEnum.TESTERS), dialog_about_label_developers_testers);
 
 		//put documenters separated by commas
 		string docsString = "";
@@ -130,6 +132,7 @@ public class About
 		dialog_about_label_developers_networks = (Gtk.Label) builder.GetObject ("dialog_about_label_developers_networks");
 		dialog_about_label_developers_chronopic = (Gtk.Label) builder.GetObject ("dialog_about_label_developers_chronopic");
 		dialog_about_label_developers_scientific = (Gtk.Label) builder.GetObject ("dialog_about_label_developers_scientific");
+		dialog_about_label_developers_testers = (Gtk.Label) builder.GetObject ("dialog_about_label_developers_testers");
 		dialog_about_label_documenters = (Gtk.Label) builder.GetObject ("dialog_about_label_documenters");
 		dialog_about_label_translators = (Gtk.Label) builder.GetObject ("dialog_about_label_translators");
 	}

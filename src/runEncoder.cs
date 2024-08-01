@@ -935,8 +935,8 @@ public class RunEncoderExercise
 			uniqueIDStr = uniqueID.ToString();
 
 		return
-			"(" + uniqueIDStr + ", \"" + name + "\", \"" + description + "\", " +
-			segmentCm + ", \"" + SegmentVariableCmToSQL + "\", " +
+			"(" + uniqueIDStr + ", '" + name + "', '" + description + "', " +
+			segmentCm + ", '" + SegmentVariableCmToSQL + "', " +
 			Util.BoolToInt(isSprint) + ", " + angleDefault + ")";
 	}
 

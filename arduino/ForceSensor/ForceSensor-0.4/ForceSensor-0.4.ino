@@ -22,6 +22,7 @@
 V0.4
 --------------
 Force sensor communicating with Chronojump
+Using version 0.7.5 of HX711 Arduino library (by Bogdan Necula) 
 
 */
 
@@ -38,7 +39,8 @@ String version = "Force_Sensor-0.4";
 int tareAddress = 0;
 int calibrationAddress = 4;
 
-HX711 scale(DOUT, CLK);
+//HX711 scale(DOUT, CLK);
+HX711 scale;
 
 //Data comming from the cell after resting the offset weight
 float offsetted_data = 0;
@@ -62,6 +64,7 @@ unsigned long totalTime = 0;
 
 void setup() {
   Serial.begin(115200);
+  scale.begin(DOUT, CLK);
 
   long tare = 0;
   EEPROM.get(tareAddress, tare);
@@ -103,6 +106,7 @@ void loop() {
     Serial.print(totalTime);
     Serial.print(";");
     Serial.println(scale.get_units(), 2); //scale.get_units() returns a float
+    // Serial.println(scale.get_value(), 2);
   }
 
   //Checking if there's incoming serial data

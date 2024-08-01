@@ -29,7 +29,7 @@ public class Constants
 	
 	//public static string ReadmeTranslators = Catalog.GetString("Translator, there's a glossary that will help you in Chronojump translation:\n http://git.gnome.org/browse/chronojump/plain/glossary/chronojump_glossary_for_translators.html");
 
-	public enum AuthorsEnum { SOFTWARE, NETWORKS, CHRONOPIC, SCIENTIFIC, MATH, DOCUMENTERS }
+	public enum AuthorsEnum { SOFTWARE, NETWORKS, CHRONOPIC, SCIENTIFIC, MATH, DOCUMENTERS, TESTERS }
 	public static string [] Authors(AuthorsEnum e)
 	{
 		if(e == AuthorsEnum.SOFTWARE)
@@ -100,6 +100,11 @@ public class Constants
 				"\nXavier Padullés <testing@chronojump.org>, 2018\n\t" + Catalog.GetString("Improved timers."),
 				"\nFerran Suárez Rodríguez <ferransuarez2@gmail.com>, 2015-2016\n\t" + Catalog.GetString("Chronopic reaction time advanced implementation."),
 					//"Juan Fernando Pardo <juanfer@juanfer.com.ar>\n\t" + "Chronopic2."
+			};
+		else if(e == AuthorsEnum.TESTERS)
+			return new String [] {
+				"Nerea Casal García <nereacg1205@gmail.com>, 2024\n\t" +
+					Catalog.GetString("Mac version")
 			};
 		else
 			return new String []{""};

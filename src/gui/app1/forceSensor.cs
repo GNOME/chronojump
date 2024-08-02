@@ -717,6 +717,7 @@ public partial class ChronoJumpWindow
 			if(forceSensorOtherMode == forceSensorOtherModeEnum.STIFFNESS_DETECT &&
 					forceSensorValues != null)
 			{
+				force_sensor_adjust_label_message.UseMarkup = true;
 				label_force_sensor_value_max.Text = string.Format("{0:0.##}", forceSensorValues.Max);
 				label_force_sensor_value_min.Text = string.Format("{0:0.##}", forceSensorValues.Min);
 				label_force_sensor_value.Text = string.Format("{0:0.##}", forceSensorValues.ValueLast);
@@ -979,12 +980,28 @@ public partial class ChronoJumpWindow
 	//Attention: no GTK here!!
 	private void forceSensorDetectStiffness()
 	{
+		forceSensorOtherMessage = "";
+		forceSensorOtherMessageShowSeconds = secondsEnum.NO;
 		// 0 connect if needed
 		if(! portFSOpened)
 			if(! forceSensorConnect())
 				return;
 
-		forceSensorOtherMessageShowSeconds = secondsEnum.NO;
+
+		// 1 countdown before get stiffness
+		forceSensorTimeStart = DateTime.Now;
+		forceSensorOtherMessageShowSecondsInit = 9.999;
+		forceSensorOtherMessageShowSeconds = secondsEnum.DESC;
+		forceSensorOtherMessage = "0-------d---<b>A</b>---B--\t " +
+			string.Format ("Pull to <b>{0}</b> \t(d-{0} = {1} cm).\t " ,
+					"A", forceSensorStiffMinCm) +
+			Catalog.GetString ("Capture will start in …");
+		do {
+			/* wait for countdown to end
+			LogB.Information (string.Format ("countdown taring: {0}",
+						forceSensorOtherMessageShowSecondsInit - DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds));
+			*/
+		} while (forceSensorOtherMessageShowSecondsInit - DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds > 0);
 
 		double forceAtMin = forceSensorDetectStiffnessDo (forceSensorStiffMinCm, "A");
 		//LogB.Information("forceAtMin: " + forceAtMin.ToString());
@@ -993,6 +1010,21 @@ public partial class ChronoJumpWindow
 			forceSensorOtherMessage = "Error. Force is lower than 0.";
 			return;
 		}
+
+		// 1 countdown before get stiffness
+		forceSensorTimeStart = DateTime.Now;
+		forceSensorOtherMessageShowSecondsInit = 9.999;
+		forceSensorOtherMessageShowSeconds = secondsEnum.DESC;
+		forceSensorOtherMessage = "0-------d---A---<b>B</b>--\t " +
+			string.Format ("Pull to <b>{0}</b> \t(d-{0} = {1} cm).\t " ,
+					"B", forceSensorStiffMaxCm) +
+			Catalog.GetString ("Capture will start in …");
+		do {
+			/* wait for countdown to end
+			LogB.Information (string.Format ("countdown taring: {0}",
+						forceSensorOtherMessageShowSecondsInit - DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds));
+			*/
+		} while (forceSensorOtherMessageShowSecondsInit - DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds > 0);
 
 		double forceAtMax = forceSensorDetectStiffnessDo (forceSensorStiffMaxCm, "B");
 		//LogB.Information("forceAtMax: " + forceAtMax.ToString());
@@ -1013,8 +1045,9 @@ public partial class ChronoJumpWindow
 	//Attention: no GTK here!!
 	private double forceSensorDetectStiffnessDo (int distanceCm, string letter)
 	{
+		forceSensorOtherMessageShowSeconds = secondsEnum.NO;
 		// 1 send tare command
-		if(! forceSensorSendCommand("start_capture:", Catalog.GetString ("Preparing capture …"), "Catched force capturing"))
+		if(! forceSensorSendCommand("start_capture:", Catalog.GetString ("Please, wait …"), "Catched force capturing"))
 			return -1;
 
 		// 2 read confirmation data
@@ -1032,11 +1065,11 @@ public partial class ChronoJumpWindow
 		while(! str.Contains("Starting capture"));
 
 		//forceSensorOtherMessage = string.Format("Please pull the band/tube to {0} cm from its length without tension. You have 10 seconds.", distanceCm);
-		forceSensorOtherMessage = string.Format("0-------d---A---B--\t\tPull to <b>{0}</b> \t(d-{0} = {1} cm). \t", letter, distanceCm);
+		forceSensorOtherMessage = Catalog.GetString ("Capturing");
 		//forceOtherStartMark = true;
 		blinkOther.Start ();
 
-		forceSensorOtherMessageShowSecondsInit = 10.999;
+		forceSensorOtherMessageShowSecondsInit = 5.999;
 		forceSensorOtherMessageShowSeconds = secondsEnum.DESC;
 
 		forceSensorValues = new ForceSensorValues();
@@ -1062,7 +1095,7 @@ public partial class ChronoJumpWindow
 			forceSensorValues.SetMaxMinIfNeeded(force, time);
 
 			count ++;
-		} while (forceSensorValues.TimeLast < 10000000 && count < 1000);
+		} while (forceSensorValues.TimeLast < 5000000 && count < 1000);
 		//if there is a problem on getting time, it will end at 1000 count
 
 		forceSensorOtherMessageShowSeconds = secondsEnum.NO;

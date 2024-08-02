@@ -614,7 +614,7 @@ public partial class ChronoJumpWindow
 				Convert.ToInt32(race_analyzer_spinbutton_angle.Value));
 		runEncoderShouldShowCaptureGraphsWithData = true;
 
-		blinkCapture = new Blink ();
+		blinkCapture = new BlinkImage (image_no_capturing, image_capturing);
 
 		if (configChronojump.EncoderPT)
 		{
@@ -712,7 +712,7 @@ public partial class ChronoJumpWindow
 			}
 
 			blinkCapture.End ();
-			showHideCaptureIcon (false);
+			showHideBlinkIcon (blinkCapture, false);
 
 			sensitiveLastTestButtons(false);
 			contactsShowCaptureDoingButtons(false);
@@ -741,7 +741,7 @@ public partial class ChronoJumpWindow
 			{
 				if (blinkCapture.Status == Blink.StatusEnum.NOTSTARTED)
 					blinkCapture.Start (); //TODO: but note here is still connecting
-				showHideCaptureIcon (true);
+				showHideBlinkIcon (blinkCapture, true);
 
 				drawingarea_race_analyzer_capture_position_time.QueueDraw ();
 				drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
@@ -2074,7 +2074,7 @@ public partial class ChronoJumpWindow
 		{
 			LogB.Information(" re C ");
 			blinkCapture.End ();
-			showHideCaptureIcon (false);
+			showHideBlinkIcon (blinkCapture, false);
 
 			button_video_play_this_test_contacts.Sensitive = false;
 
@@ -2307,7 +2307,7 @@ public partial class ChronoJumpWindow
 
 			if (blinkCapture.Status == Blink.StatusEnum.NOTSTARTED)
 				blinkCapture.Start ();
-			showHideCaptureIcon (true);
+			showHideBlinkIcon (blinkCapture, true);
 
 			LogB.Information(" re H2 ");
 			/*

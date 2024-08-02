@@ -44,6 +44,8 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_capturing;
 	Gtk.Image image_no_capturing_encoder;
 	Gtk.Image image_capturing_encoder;
+	Gtk.Image image_force_sensor_adjust_no_capturing;
+	Gtk.Image image_force_sensor_adjust_capturing;
 	Gtk.Label event_graph_label_graph_test;
 
 	Gtk.SpinButton spin_contacts_graph_last_limit;
@@ -1050,6 +1052,8 @@ public partial class ChronoJumpWindow
 		image_capturing = (Gtk.Image) builder.GetObject ("image_capturing");
 		image_no_capturing_encoder = (Gtk.Image) builder.GetObject ("image_no_capturing_encoder");
 		image_capturing_encoder = (Gtk.Image) builder.GetObject ("image_capturing_encoder");
+		image_force_sensor_adjust_no_capturing = (Gtk.Image) builder.GetObject ("image_force_sensor_adjust_no_capturing");
+		image_force_sensor_adjust_capturing = (Gtk.Image) builder.GetObject ("image_force_sensor_adjust_capturing");
 		event_graph_label_graph_test = (Gtk.Label) builder.GetObject ("event_graph_label_graph_test");
 
 		spin_contacts_graph_last_limit = (Gtk.SpinButton) builder.GetObject ("spin_contacts_graph_last_limit");

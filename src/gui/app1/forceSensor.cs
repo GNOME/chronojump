@@ -457,7 +457,7 @@ public partial class ChronoJumpWindow
 			forceSensorOtherMode = forceSensorOtherModeEnum.TARE;
 
 //			forceOtherStartMark = false;
-			blinkOther = new BlinkImage (image_force_sensor_adjust_no_capturing, image_force_sensor_adjust_capturing); //TODO: other blue image (on adjust)
+			blinkOther = new BlinkImage (image_force_sensor_adjust_no_capturing, image_force_sensor_adjust_capturing);
 
 			forceOtherThread = new Thread(new ThreadStart(forceSensorTare));
 		}
@@ -467,7 +467,7 @@ public partial class ChronoJumpWindow
 			forceSensorOtherMode = forceSensorOtherModeEnum.CALIBRATE;
 
 //			forceOtherStartMark = false;
-			blinkOther = new BlinkImage (image_force_sensor_adjust_no_capturing, image_force_sensor_adjust_capturing); //TODO: blue image (on adjust)
+			blinkOther = new BlinkImage (image_force_sensor_adjust_no_capturing, image_force_sensor_adjust_capturing);
 
 			forceOtherThread = new Thread(new ThreadStart(forceSensorCalibrate));
 		}
@@ -502,7 +502,7 @@ public partial class ChronoJumpWindow
 			forceSensorOtherMode = forceSensorOtherModeEnum.STIFFNESS_DETECT;
 
 //			forceOtherStartMark = false;
-			blinkOther = new BlinkImage (image_force_sensor_adjust_no_capturing, image_force_sensor_adjust_capturing); //TODO: blue image (on top)
+			blinkOther = new BlinkImage (image_no_capturing, image_capturing_blue);
 
 			forceOtherThread = new Thread(new ThreadStart(forceSensorDetectStiffness));
 		}
@@ -1385,7 +1385,7 @@ public partial class ChronoJumpWindow
 			Thread.Sleep (2000); //to allow sound to be played
 			*/
 
-			blinkOther = new BlinkImage (image_no_capturing, image_capturing);
+			blinkOther = new BlinkImage (image_no_capturing, image_capturing_blue);
 			blinkOther.Start ();
 
 			forceSensorOtherMessage = Catalog.GetString ("Taring; …");

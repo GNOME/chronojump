@@ -42,6 +42,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label event_execute_label_message;
 	Gtk.Image image_no_capturing;
 	Gtk.Image image_capturing;
+	Gtk.Image image_capturing_blue; //tare+capture
 	Gtk.Image image_no_capturing_encoder;
 	Gtk.Image image_capturing_encoder;
 	Gtk.Image image_force_sensor_adjust_no_capturing;
@@ -1050,6 +1051,7 @@ public partial class ChronoJumpWindow
 		event_execute_label_message = (Gtk.Label) builder.GetObject ("event_execute_label_message");
 		image_no_capturing = (Gtk.Image) builder.GetObject ("image_no_capturing");
 		image_capturing = (Gtk.Image) builder.GetObject ("image_capturing");
+		image_capturing_blue = (Gtk.Image) builder.GetObject ("image_capturing_blue");
 		image_no_capturing_encoder = (Gtk.Image) builder.GetObject ("image_no_capturing_encoder");
 		image_capturing_encoder = (Gtk.Image) builder.GetObject ("image_capturing_encoder");
 		image_force_sensor_adjust_no_capturing = (Gtk.Image) builder.GetObject ("image_force_sensor_adjust_no_capturing");

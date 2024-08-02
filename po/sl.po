@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2024-07-22 10:09+0000\n"
-"PO-Revision-Date: 2024-07-28 11:28+0200\n"
+"POT-Creation-Date: 2024-08-01 14:02+0000\n"
+"PO-Revision-Date: 2024-08-01 18:23+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -31,7 +31,7 @@ msgid "Chronojump"
 msgstr "Chronojump"
 
 #: ../glade/app1.glade.h:2 ../glade/report_window.glade.h:9
-#: ../src/gui/app1/encoder.cs:5888 ../src/gui/app1/forceSensor.cs:3668
+#: ../src/gui/app1/encoder.cs:5891 ../src/gui/app1/forceSensor.cs:3668
 #: ../src/gui/app1/runEncoder.cs:2790 ../src/gui/app1/session/backup.cs:171
 #: ../src/report.cs:157
 msgid "Session"
@@ -108,13 +108,13 @@ msgid "Races"
 msgstr "Teki"
 
 #: ../glade/app1.glade.h:18 ../glade/preferences_win.glade.h:81
-#: ../src/constants.cs:1124 ../src/gui/app1/session/loadAndImport.cs:298
+#: ../src/constants.cs:1129 ../src/gui/app1/session/loadAndImport.cs:298
 #: ../src/gui/person/showAllEvents.cs:244
 msgid "Isometric"
 msgstr "Enakostrani"
 
 #: ../glade/app1.glade.h:19 ../glade/force_sensor_exercise.glade.h:12
-#: ../glade/preferences_win.glade.h:82 ../src/constants.cs:1126
+#: ../glade/preferences_win.glade.h:82 ../src/constants.cs:1131
 #: ../src/gui/app1/forceSensor.cs:2051
 #: ../src/gui/app1/session/loadAndImport.cs:300
 #: ../src/gui/forceSensorExercise.cs:506 ../src/gui/person/showAllEvents.cs:245
@@ -135,7 +135,7 @@ msgid "Inertial"
 msgstr "Vztrajnostni"
 
 #: ../glade/app1.glade.h:22 ../glade/report_window.glade.h:4
-#: ../src/constants.cs:546 ../src/gui/convertWeight.cs:67
+#: ../src/constants.cs:551 ../src/gui/convertWeight.cs:67
 #: ../src/gui/convertWeight.cs:114
 msgid "Simple"
 msgstr "Enostavni"
@@ -169,10 +169,8 @@ msgid "Tests have >1 lap"
 msgstr "Testi imajo več kot 1 krog"
 
 #: ../glade/app1.glade.h:30
-#, fuzzy
-#| msgid "Race analyzer"
 msgid "Measured by Race Analyzer"
-msgstr "Preučevalnik teka"
+msgstr "Izmerjeno z Analizatorjem teka"
 
 #: ../glade/app1.glade.h:31 ../glade/encoder_configuration.glade.h:35
 #: ../glade/preferences_win.glade.h:70
@@ -194,7 +192,7 @@ msgstr "Multikronopik"
 #. column where the uniqueID of event will be (and will be hidden)
 #: ../glade/app1.glade.h:35 ../glade/edit_event.glade.h:6
 #: ../glade/generic_window.glade.h:7 ../src/gui/app1/encoder.cs:1197
-#: ../src/gui/app1/encoder.cs:5887 ../src/gui/app1/forceSensor.cs:3667
+#: ../src/gui/app1/encoder.cs:5890 ../src/gui/app1/forceSensor.cs:3667
 #: ../src/gui/app1/runEncoder.cs:2789 ../src/gui/encoderTreeviews.cs:886
 #: ../src/gui/executeAuto.cs:522 ../src/gui/overview.cs:98
 #: ../src/gui/overview.cs:294 ../src/gui/overview.cs:303
@@ -217,7 +215,7 @@ msgid "Configure exercise"
 msgstr "Nastavi vajo"
 
 #: ../glade/app1.glade.h:39 ../src/gui/app1/encoder.cs:1198
-#: ../src/gui/app1/encoder.cs:1802 ../src/gui/app1/encoder.cs:5867
+#: ../src/gui/app1/encoder.cs:1803 ../src/gui/app1/encoder.cs:5870
 #: ../src/gui/app1/forceSensor.cs:2049 ../src/gui/app1/forceSensor.cs:3587
 #: ../src/gui/app1/forceSensor.cs:3602 ../src/gui/app1/runEncoder.cs:1154
 #: ../src/gui/app1/runEncoder.cs:2769
@@ -279,7 +277,7 @@ msgstr ""
 "v načinu pogleda v oblaku"
 
 #: ../glade/app1.glade.h:51 ../src/gui/app1/chronojump.cs:5872
-#: ../src/gui/app1/encoder.cs:1390 ../src/gui/app1/encoder.cs:7732
+#: ../src/gui/app1/encoder.cs:1390 ../src/gui/app1/encoder.cs:7735
 msgid "Save comment"
 msgstr "Shrani komentar"
 
@@ -344,7 +342,7 @@ msgstr "Prekliči test"
 #: ../glade/force_sensor_exercise.glade.h:37 ../glade/generic_window.glade.h:9
 #: ../glade/person_merge.glade.h:9 ../glade/person_select_window.glade.h:13
 #: ../src/exportSession.cs:85 ../src/gui/app1/contactsExercise.cs:170
-#: ../src/gui/app1/encoder.cs:2494 ../src/gui/app1/encoder.cs:2808
+#: ../src/gui/app1/encoder.cs:2496 ../src/gui/app1/encoder.cs:2810
 #: ../src/gui/app1/session/backup.cs:80 ../src/gui/app1/session/backup.cs:235
 #: ../src/gui/app1/session/backup.cs:460 ../src/gui/app1/session/export.cs:78
 #: ../src/gui/app1/session/loadAndImport.cs:383
@@ -369,7 +367,7 @@ msgid "Phases"
 msgstr "Koraki"
 
 #: ../glade/app1.glade.h:68 ../glade/edit_event.glade.h:11
-#: ../src/encoder.cs:2515 ../src/exportSession.cs:574
+#: ../src/encoder.cs:2518 ../src/exportSession.cs:574
 #: ../src/exportSession.cs:739 ../src/forceSensor.cs:2115
 #: ../src/graphs/cairo/xy.cs:110 ../src/gui/app1/forceSensorAnalyze.cs:1921
 #: ../src/gui/app1/forceSensorAnalyze.cs:2078
@@ -402,7 +400,7 @@ msgid "degrees"
 msgstr "stopinje"
 
 #: ../glade/app1.glade.h:73 ../glade/feedback.glade.h:94
-#: ../glade/person_recuperate.glade.h:7 ../src/gui/app1/encoder.cs:1849
+#: ../glade/person_recuperate.glade.h:7 ../src/gui/app1/encoder.cs:1850
 #: ../src/gui/app1/forceSensor.cs:2111 ../src/gui/app1/forceSensor.cs:2148
 #: ../src/gui/app1/runEncoder.cs:1207 ../src/gui/app1/runEncoder.cs:1244
 #: ../src/gui/feedback.cs:1468 ../src/gui/person/addMultiple.cs:431
@@ -414,7 +412,7 @@ msgid "Overview of this session"
 msgstr "Pregled trenutne seje"
 
 #: ../glade/app1.glade.h:75 ../glade/dialog_shortcuts.glade.h:15
-#: ../src/gui/app1/encoder.cs:1822
+#: ../src/gui/app1/encoder.cs:1823
 msgid "Load set"
 msgstr "Naloži niz"
 
@@ -513,7 +511,7 @@ msgstr "Izbrano je popravljanje"
 msgid "Delete"
 msgstr "Izbriši"
 
-#: ../glade/app1.glade.h:96 ../src/gui/app1/encoder.cs:2314
+#: ../glade/app1.glade.h:96 ../src/gui/app1/encoder.cs:2316
 msgid "Save image"
 msgstr "Shrani sliko"
 
@@ -521,7 +519,7 @@ msgstr "Shrani sliko"
 msgid "Group"
 msgstr "Skupina"
 
-#: ../glade/app1.glade.h:98 ../src/encoder.cs:2540 ../src/forceSensor.cs:2167
+#: ../glade/app1.glade.h:98 ../src/encoder.cs:2543 ../src/forceSensor.cs:2167
 #: ../src/gui/app1/forceSensorAnalyze.cs:1973
 #: ../src/gui/app1/runEncoderAnalyze.cs:571 ../src/runType.cs:241
 msgid "Average"
@@ -560,7 +558,7 @@ msgstr "Zadnji podatek ritma"
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:110 ../src/stats/main.cs:200
 #: ../src/stats/main.cs:228 ../src/stats/main.cs:370 ../src/stats/main.cs:397
 #: ../src/stats/main.cs:682 ../src/stats/main.cs:704 ../src/stats/main.cs:753
-#: ../src/stats/main.cs:776 ../src/stats/main.cs:803 ../src/stats/main.cs:931
+#: ../src/stats/main.cs:776 ../src/stats/main.cs:803 ../src/stats/main.cs:932
 #: ../src/stats/rjAVGSD.cs:34 ../src/stats/rjEvolution.cs:219
 #: ../src/stats/rjIndex.cs:33 ../src/stats/rjIndex.cs:34
 #: ../src/stats/rjPotencyBosco.cs:33 ../src/stats/rjPotencyBosco.cs:34
@@ -597,7 +595,7 @@ msgid "Race Intervallic"
 msgstr "Intervalni tek"
 
 #: ../glade/app1.glade.h:109 ../glade/feedback.glade.h:86
-#: ../src/encoder.cs:2549 ../src/forceSensor.cs:2189
+#: ../src/encoder.cs:2552 ../src/forceSensor.cs:2189
 #: ../src/gui/app1/forceSensorAnalyze.cs:1982
 #: ../src/gui/app1/runEncoderAnalyze.cs:579 ../src/gui/feedback.cs:1403
 msgid "Maximum"
@@ -635,7 +633,7 @@ msgstr "Nefiltrirano"
 msgid "Forces"
 msgstr "Sile"
 
-#: ../glade/app1.glade.h:117 ../src/constants.cs:1128
+#: ../glade/app1.glade.h:117 ../src/constants.cs:1133
 #: ../src/gui/app1/reactionTime.cs:53
 msgid "Reaction time"
 msgstr "Odzivni čas"
@@ -826,8 +824,8 @@ msgid "Lateral"
 msgstr "Bočno"
 
 #: ../glade/app1.glade.h:159 ../glade/edit_event.glade.h:62
-#: ../src/gui/app1/encoder.cs:1708 ../src/gui/app1/encoder.cs:4841
-#: ../src/sqlite/main.cs:1513
+#: ../src/gui/app1/encoder.cs:1709 ../src/gui/app1/encoder.cs:4844
+#: ../src/sqlite/main.cs:1508
 msgid "Both"
 msgstr "Oboje"
 
@@ -878,15 +876,15 @@ msgstr "10"
 msgid "seconds"
 msgstr "sekund"
 
-#: ../glade/app1.glade.h:168 ../src/gui/app1/encoder.cs:1710
-#: ../src/gui/app1/encoder.cs:4842 ../src/json/compujumpOther.cs:118
-#: ../src/sqlite/main.cs:1519
+#: ../glade/app1.glade.h:168 ../src/gui/app1/encoder.cs:1711
+#: ../src/gui/app1/encoder.cs:4845 ../src/json/compujumpOther.cs:118
+#: ../src/sqlite/main.cs:1514
 msgid "Left"
 msgstr "Levo"
 
-#: ../glade/app1.glade.h:169 ../src/gui/app1/encoder.cs:1712
-#: ../src/gui/app1/encoder.cs:4842 ../src/json/compujumpOther.cs:116
-#: ../src/sqlite/main.cs:1516
+#: ../glade/app1.glade.h:169 ../src/gui/app1/encoder.cs:1713
+#: ../src/gui/app1/encoder.cs:4845 ../src/json/compujumpOther.cs:116
+#: ../src/sqlite/main.cs:1511
 msgid "Right"
 msgstr "Desno"
 
@@ -897,7 +895,6 @@ msgstr "Zaznaj togost traku/cevi"
 
 #: ../glade/app1.glade.h:171 ../glade/force_sensor_exercise.glade.h:10
 #: ../src/gui/forceSensorExercise.cs:504 ../src/gui/forceSensorExercise.cs:760
-#, fuzzy
 msgid "Projection of exerted force"
 msgstr "Projekcija uporabljene sile"
 
@@ -969,7 +966,7 @@ msgstr "Skupna razdalja"
 
 #. Catalog.GetString("Device"),
 #: ../glade/app1.glade.h:188 ../glade/edit_event.glade.h:10
-#: ../glade/run_type_add.glade.h:7 ../src/constants.cs:1528
+#: ../glade/run_type_add.glade.h:7 ../src/constants.cs:1533
 #: ../src/exportSession.cs:738 ../src/graphs/cairo/radial.cs:153
 #: ../src/graphs/cairo/radial.cs:180 ../src/graphs/cairo/xy.cs:111
 #: ../src/gui/app1/runEncoder.cs:1156 ../src/gui/app1/runEncoder.cs:2892
@@ -1057,7 +1054,7 @@ msgstr "Shrani"
 #: ../glade/force_sensor_elastic_bands.glade.h:13
 #: ../glade/person_select_window.glade.h:24
 #: ../glade/preferences_win.glade.h:209 ../src/gui/app1/encoder.cs:1243
-#: ../src/gui/app1/encoder.cs:1850 ../src/gui/app1/encoder.cs:5874
+#: ../src/gui/app1/encoder.cs:1851 ../src/gui/app1/encoder.cs:5877
 #: ../src/gui/app1/forceSensor.cs:2149 ../src/gui/app1/forceSensor.cs:3654
 #: ../src/gui/app1/runEncoder.cs:1245 ../src/gui/app1/runEncoder.cs:2776
 #: ../src/gui/app1/session/backup.cs:195 ../src/gui/app1/session/backup.cs:419
@@ -1105,9 +1102,8 @@ msgid "Jumps profile"
 msgstr "Profil skokov"
 
 #: ../glade/app1.glade.h:210
-#, fuzzy
 msgid "Dj optimal fall"
-msgstr "Dj optimalen padec"
+msgstr "Optimalen padec Dj"
 
 #: ../glade/app1.glade.h:211
 msgid "FV Profile"
@@ -1122,9 +1118,8 @@ msgid "Fatigue"
 msgstr "Utrujenost"
 
 #: ../glade/app1.glade.h:214
-#, fuzzy
 msgid "Races / time"
-msgstr "Tekme / čas"
+msgstr "Teki / čas"
 
 #: ../glade/app1.glade.h:215
 msgid "Sprint"
@@ -1205,7 +1200,7 @@ msgid "Show description"
 msgstr "Pokaži opis"
 
 #: ../glade/app1.glade.h:233 ../glade/force_sensor_exercise.glade.h:32
-#: ../src/constants.cs:312 ../src/constants.cs:1130
+#: ../src/constants.cs:317 ../src/constants.cs:1135
 msgid "Other"
 msgstr "Drugo"
 
@@ -1347,7 +1342,6 @@ msgid "<b>Arms using</b>"
 msgstr "<b>S pomočjo rok</b>"
 
 #: ../glade/app1.glade.h:266
-#, fuzzy
 msgid "<b>Reactive-reflex</b>"
 msgstr "<b>Reakcijski refleks</b>"
 
@@ -1361,13 +1355,12 @@ msgid "Ability to mobilise a submaximal load at a maximum speed."
 msgstr "Zmožnost mobilizacije podpražne obremenitve z največjo hitrostjo."
 
 #: ../glade/app1.glade.h:269
-#, fuzzy
 msgid ""
 "Increasing of strength due to the elastic energy accumulated during the "
 "stretch-shortening cycle."
 msgstr ""
 "Povečanje moči zaradi elastične energije, ki se je nabrala v ciklu "
-"skrajšanja raztezanja."
+"raztezanja-nategovanja."
 
 #: ../glade/app1.glade.h:270
 msgid "Increasing of strength due to arm movement."
@@ -1386,7 +1379,6 @@ msgid "All the definitions are related to jumps."
 msgstr "Vse definicije so povezane s skoki."
 
 #: ../glade/app1.glade.h:273
-#, fuzzy
 msgid "Drop jump goal in this profile is maximum height."
 msgstr "Cilj skoka s padcem v tem profilu je največja višina."
 
@@ -1442,7 +1434,7 @@ msgid ""
 "inertial machines"
 msgstr ""
 "Skoki,\n"
-"inercijski trenažerji"
+"vztrajnostnin trenažerji"
 
 #: ../glade/app1.glade.h:289
 msgid ""
@@ -1461,7 +1453,7 @@ msgstr ""
 "izometrično"
 
 #: ../glade/app1.glade.h:293 ../glade/force_sensor_exercise.glade.h:23
-#: ../glade/preferences_win.glade.h:78 ../src/encoder.cs:1023
+#: ../glade/preferences_win.glade.h:78 ../src/encoder.cs:1026
 #: ../src/sqlite/encoder.cs:644
 msgid "Concentric"
 msgstr "Koncentrično"
@@ -1507,7 +1499,6 @@ msgid "Bilateral deficit"
 msgstr "Dvostranski primanjkljaj"
 
 #: ../glade/app1.glade.h:304
-#, fuzzy
 msgid "Bilateral"
 msgstr "Dvostransko"
 
@@ -1590,7 +1581,7 @@ msgstr "Posamično"
 msgid "Groupwise"
 msgstr "Skupinsko"
 
-#: ../glade/app1.glade.h:320 ../src/gui/app1/encoder.cs:2331
+#: ../glade/app1.glade.h:320 ../src/gui/app1/encoder.cs:2333
 msgid "Save table"
 msgstr "Shrani razpredelnico"
 
@@ -1640,9 +1631,8 @@ msgid "Intervallic runs"
 msgstr "Intervalni teki"
 
 #: ../glade/app1.glade.h:332
-#, fuzzy
 msgid "Analyze current set"
-msgstr "Analiziraj trenutni nabor"
+msgstr "Analiziraj trenutni niz"
 
 #: ../glade/app1.glade.h:333
 msgid "Model options"
@@ -1745,7 +1735,7 @@ msgid "to"
 msgstr "do"
 
 #. This "In" means: "average force in x milliseconds"
-#: ../glade/app1.glade.h:359 ../src/constants.cs:964
+#: ../glade/app1.glade.h:359 ../src/constants.cs:969
 msgid "In"
 msgstr "NA PODLOGI"
 
@@ -1764,7 +1754,7 @@ msgstr "Odstrani RFD"
 
 #. if (showColumnCD)
 #. impulse
-#: ../glade/app1.glade.h:363 ../src/constants.cs:1558
+#: ../glade/app1.glade.h:363 ../src/constants.cs:1563
 #: ../src/gui/app1/forceSensorAnalyze.cs:2257
 #: ../src/gui/app1/forceSensorAnalyze.cs:2259
 #: ../src/gui/app1/forceSensorAnalyze.cs:2261 ../src/gui/encoderTreeviews.cs:88
@@ -1790,21 +1780,21 @@ msgid "RFD calculation"
 msgstr "Izračun eksplozivne moči RFD"
 
 #: ../glade/app1.glade.h:368 ../glade/feedback.glade.h:109
-#: ../src/encoder.cs:2518 ../src/forceSensor.cs:2122
+#: ../src/encoder.cs:2521 ../src/forceSensor.cs:2122
 #: ../src/graphs/cairo/xy.cs:106 ../src/gui/app1/forceSensorAnalyze.cs:2083
 msgid "Acceleration"
 msgstr "Pospešek"
 
 #: ../glade/app1.glade.h:369 ../glade/feedback.glade.h:50
-#: ../src/constants.cs:1524 ../src/encoder.cs:2519 ../src/forceSensor.cs:2116
+#: ../src/constants.cs:1529 ../src/encoder.cs:2522 ../src/forceSensor.cs:2116
 #: ../src/graphs/cairo/xy.cs:107 ../src/gui/app1/forceSensorAnalyze.cs:1922
 #: ../src/gui/app1/forceSensorAnalyze.cs:2079 ../src/gui/overview.cs:313
 msgid "Force"
 msgstr "Sila"
 
 #: ../glade/app1.glade.h:370 ../glade/feedback.glade.h:53
-#: ../glade/preferences_win.glade.h:27 ../src/constants.cs:1525
-#: ../src/encoder.cs:2520 ../src/exportSession.cs:466
+#: ../glade/preferences_win.glade.h:27 ../src/constants.cs:1530
+#: ../src/encoder.cs:2523 ../src/exportSession.cs:466
 #: ../src/exportSession.cs:668 ../src/forceSensor.cs:2123
 #: ../src/graphs/cairo/xy.cs:108 ../src/gui/app1/forceSensorAnalyze.cs:2084
 #: ../src/gui/overview.cs:311 ../src/gui/preferences.cs:2606
@@ -1841,7 +1831,7 @@ msgstr "Končaj nadaljujoči način"
 msgid "Adaptive rhythm"
 msgstr "Prilagodljiv ritem"
 
-#: ../glade/app1.glade.h:378 ../src/gui/app1/encoder.cs:6551
+#: ../glade/app1.glade.h:378 ../src/gui/app1/encoder.cs:6554
 #: ../src/gui/feedback.cs:316
 msgid "Rhythm"
 msgstr "Ritem"
@@ -1850,7 +1840,7 @@ msgstr "Ritem"
 msgid "Capturing with triggers"
 msgstr "Zajemanje s sprožilci"
 
-#: ../glade/app1.glade.h:380 ../src/constants.cs:755
+#: ../glade/app1.glade.h:380 ../src/constants.cs:760
 msgid "Detecting …"
 msgstr "Poteka zaznavanje …"
 
@@ -1882,7 +1872,7 @@ msgstr "Izbriši niz"
 msgid "v,p,f are averages of propulsive phase."
 msgstr "Vrednosti v, p in f so povprečja odrivne faze."
 
-#: ../glade/app1.glade.h:388 ../src/gui/app1/encoder.cs:1801
+#: ../glade/app1.glade.h:388 ../src/gui/app1/encoder.cs:1802
 #: ../src/gui/app1/forceSensor.cs:2048 ../src/gui/app1/runEncoder.cs:1153
 msgid "Set"
 msgstr "Niz"
@@ -1914,7 +1904,7 @@ msgstr "Izbor za shranjevanje"
 msgid "Repetitions"
 msgstr "Ponovitve"
 
-#: ../glade/app1.glade.h:392 ../src/gui/app1/encoder.cs:5147
+#: ../glade/app1.glade.h:392 ../src/gui/app1/encoder.cs:5150
 msgid "Save repetitions"
 msgstr "Shrani ponovitve"
 
@@ -1955,20 +1945,20 @@ msgstr "Ekscentrično-koncentrično"
 msgid "Phase"
 msgstr "Faza"
 
-#: ../glade/app1.glade.h:402 ../src/constants.cs:1552
-#: ../src/gui/app1/encoder.cs:1803 ../src/gui/app1/forceSensor.cs:2053
+#: ../glade/app1.glade.h:402 ../src/constants.cs:1557
+#: ../src/gui/app1/encoder.cs:1804 ../src/gui/app1/forceSensor.cs:2053
 #: ../src/gui/encoderTreeviews.cs:618
 msgid "Laterality"
 msgstr "Lateralno"
 
-#: ../glade/app1.glade.h:403 ../src/constants.cs:1012 ../src/constants.cs:1534
+#: ../glade/app1.glade.h:403 ../src/constants.cs:1017 ../src/constants.cs:1539
 msgid "Mass"
 msgstr "Masa"
 
 #: ../glade/app1.glade.h:404 ../glade/encoder_configuration.glade.h:12
-#: ../src/constants.cs:1553 ../src/gui/app1/encoder.cs:608
+#: ../src/constants.cs:1558 ../src/gui/app1/encoder.cs:608
 #: ../src/gui/app1/encoder.cs:642 ../src/gui/app1/encoder.cs:1606
-#: ../src/gui/app1/encoder.cs:2138 ../src/gui/app1/encoder.cs:4835
+#: ../src/gui/app1/encoder.cs:2139 ../src/gui/app1/encoder.cs:4838
 #: ../src/gui/encoderTreeviews.cs:624
 msgid "Inertia M."
 msgstr "Vztrajnost"
@@ -2008,7 +1998,7 @@ msgid "Kg*cm^2"
 msgstr "Kg*cm^2"
 
 #. checkboxes
-#: ../glade/app1.glade.h:412 ../src/constants.cs:1540
+#: ../glade/app1.glade.h:412 ../src/constants.cs:1545
 #: ../src/forceSensor.cs:2114 ../src/gui/encoderSelectRepetitions.cs:221
 #: ../src/gui/encoderTreeviews.cs:615
 msgid "Repetition"
@@ -2071,7 +2061,6 @@ msgid "Mode:"
 msgstr "Način:"
 
 #: ../glade/app1.glade.h:426
-#, fuzzy
 msgid "Powerbars"
 msgstr "Stolpci moči"
 
@@ -2083,7 +2072,7 @@ msgstr "Križne spremenljivke"
 msgid "Instantaneous analysis"
 msgstr "Hipna analiza"
 
-#: ../glade/app1.glade.h:429 ../src/gui/app1/encoder.cs:4610
+#: ../glade/app1.glade.h:429 ../src/gui/app1/encoder.cs:4613
 msgid "Neuromuscular profile"
 msgstr "Nevro-mišični profil"
 
@@ -2140,15 +2129,15 @@ msgid "Show impulse"
 msgstr "Pokaži impulz"
 
 #: ../glade/app1.glade.h:443 ../glade/feedback.glade.h:83
-#: ../src/constants.cs:1531
+#: ../src/constants.cs:1536
 msgid "Range"
 msgstr "Območje"
 
-#: ../glade/app1.glade.h:444 ../src/constants.cs:1529
+#: ../glade/app1.glade.h:444 ../src/constants.cs:1534
 msgid "Time to Peak Power"
 msgstr "Čas do končne moči"
 
-#: ../glade/app1.glade.h:445 ../src/gui/app1/encoder.cs:4506
+#: ../glade/app1.glade.h:445 ../src/gui/app1/encoder.cs:4509
 msgid "Single repetition"
 msgstr "Ena ponovitev"
 
@@ -2198,7 +2187,7 @@ msgid "Position"
 msgstr "Položaj"
 
 #: ../glade/app1.glade.h:457 ../glade/edit_event.glade.h:12
-#: ../glade/feedback.glade.h:47 ../src/constants.cs:1522 ../src/encoder.cs:2517
+#: ../glade/feedback.glade.h:47 ../src/constants.cs:1527 ../src/encoder.cs:2520
 #: ../src/exportSession.cs:740 ../src/forceSensor.cs:2121
 #: ../src/graphs/cairo/radial.cs:147 ../src/graphs/cairo/xy.cs:105
 #: ../src/gui/app1/forceSensorAnalyze.cs:2082
@@ -2211,15 +2200,15 @@ msgstr "Položaj"
 msgid "Speed"
 msgstr "Hitrost"
 
-#: ../glade/app1.glade.h:458 ../src/gui/app1/encoder.cs:4521
+#: ../glade/app1.glade.h:458 ../src/gui/app1/encoder.cs:4524
 msgid "Side compare"
 msgstr "Primerjava ob strani"
 
-#: ../glade/app1.glade.h:459 ../src/gui/app1/encoder.cs:4533
+#: ../glade/app1.glade.h:459 ../src/gui/app1/encoder.cs:4536
 msgid "Superpose"
 msgstr "Namen"
 
-#: ../glade/app1.glade.h:460 ../src/gui/app1/encoder.cs:4543
+#: ../glade/app1.glade.h:460 ../src/gui/app1/encoder.cs:4546
 msgid "All set"
 msgstr "Vse je pripravljeno"
 
@@ -2227,12 +2216,12 @@ msgstr "Vse je pripravljeno"
 msgid "Same X scale"
 msgstr "Enaka os X"
 
-#: ../glade/app1.glade.h:462 ../src/encoder.cs:2516
+#: ../glade/app1.glade.h:462 ../src/encoder.cs:2519
 msgid "Displacement"
 msgstr "Razmestitev"
 
 #. double rfdDiff = rfdB - rfdA;
-#: ../glade/app1.glade.h:463 ../src/encoder.cs:2527 ../src/forceSensor.cs:2146
+#: ../glade/app1.glade.h:463 ../src/encoder.cs:2530 ../src/forceSensor.cs:2146
 #: ../src/gui/app1/forceSensorAnalyze.cs:1964
 #: ../src/gui/app1/runEncoderAnalyze.cs:563 ../src/treeview/pulse.cs:48
 #: ../src/treeview/pulse.cs:49
@@ -2272,12 +2261,11 @@ msgid "Create new session"
 msgstr "Ustvari novo sejo"
 
 #: ../glade/app1.glade.h:472
-#, fuzzy
 msgid ""
 "Create session disabled\n"
 "on Cloud-view mode"
 msgstr ""
-"Ustvarjanje onemogočene seje\n"
+"Ustvarjanje seje je onemogočeno\n"
 "v načinu pogleda v oblaku"
 
 #. app1s_label_load.Text = "<b>" + Catalog.GetString ("Load session") + "</b>";
@@ -2406,8 +2394,8 @@ msgid "Will be imported into the current session."
 msgstr "Uvoženi bodo v trenutno sejo."
 
 #: ../glade/app1.glade.h:504 ../glade/encoder_configuration.glade.h:33
-#: ../glade/generic_window.glade.h:13 ../src/gui/app1/encoder.cs:2493
-#: ../src/gui/app1/encoder.cs:2807 ../src/gui/encoderConfiguration.cs:781
+#: ../glade/generic_window.glade.h:13 ../src/gui/app1/encoder.cs:2495
+#: ../src/gui/app1/encoder.cs:2809 ../src/gui/encoderConfiguration.cs:781
 #: ../src/gui/encoderConfiguration.cs:837 ../src/gui/executeAuto.cs:562
 #: ../src/gui/person/addModify.cs:381
 msgid "Accept"
@@ -2438,7 +2426,7 @@ msgstr "Ali ste prepričani, da želite izbrisati trenutno sejo"
 msgid "and all the session tests?"
 msgstr "in vsi testi seje?"
 
-#: ../glade/app1.glade.h:511 ../src/constants.cs:246
+#: ../glade/app1.glade.h:511 ../src/constants.cs:251
 msgid "Sorry, this session cannot be modified."
 msgstr "Tte seje ni mogoče spremeniti."
 
@@ -2455,8 +2443,8 @@ msgstr "Mesto"
 
 #. tv.AppendColumn ( Catalog.GetString ("Date"), new CellRendererText(), "text", count++);
 #: ../glade/app1.glade.h:514 ../src/exportSession.cs:331
-#: ../src/graphs/cairo/xy.cs:109 ../src/gui/app1/encoder.cs:1807
-#: ../src/gui/app1/encoder.cs:5888 ../src/gui/app1/forceSensor.cs:2056
+#: ../src/graphs/cairo/xy.cs:109 ../src/gui/app1/encoder.cs:1808
+#: ../src/gui/app1/encoder.cs:5891 ../src/gui/app1/forceSensor.cs:2056
 #: ../src/gui/app1/forceSensor.cs:3668 ../src/gui/app1/runEncoder.cs:1157
 #: ../src/gui/app1/runEncoder.cs:2790
 #: ../src/gui/app1/session/loadAndImport.cs:263
@@ -2555,16 +2543,12 @@ msgstr ""
 "in zaščitene pred izgubo."
 
 #: ../glade/app1.glade.h:530
-#, fuzzy
-#| msgid "Include tracks"
 msgid "Include logs"
-msgstr "Dodaj steze"
+msgstr "Vključi dnevnike"
 
 #: ../glade/app1.glade.h:531
-#, fuzzy
-#| msgid "Include images"
 msgid "Include config files"
-msgstr "Vključi slike"
+msgstr "Vključi prilagoditvene datoteke"
 
 #: ../glade/app1.glade.h:532
 msgid "Select destination"
@@ -2639,7 +2623,6 @@ msgid "Start export"
 msgstr "Začni izvoz"
 
 #: ../glade/app1.glade.h:549
-#, fuzzy
 msgid "Select whether you want to view the Chronojump generic data folder …"
 msgstr ""
 "Izberite, ali si želite ogledati mapo s splošnimi podatki Chronojump ..."
@@ -2649,10 +2632,8 @@ msgid "View generic data folder"
 msgstr "Pokaži mapo s splošnimi podatki"
 
 #: ../glade/app1.glade.h:551
-#, fuzzy
-#| msgid "Import into the current session"
 msgid "… or the data folder of the current mode and session:"
-msgstr "Uvozi v trenutno sejo"
+msgstr "… ali podatkovno mapo trenutnega načina in seje:"
 
 #: ../glade/app1.glade.h:552
 msgid "View specific data folder"
@@ -2674,11 +2655,11 @@ msgstr "Kodirnik je treba povezati in nato klikniti na:"
 msgid "Check connection"
 msgstr "Preveri povezavo"
 
-#: ../glade/app1.glade.h:557 ../src/constants.cs:257
+#: ../glade/app1.glade.h:557 ../src/constants.cs:262
 msgid "RFID has been disconnected!"
 msgstr "RFID je bil prekinjen!"
 
-#: ../glade/app1.glade.h:558 ../src/constants.cs:258
+#: ../glade/app1.glade.h:558 ../src/constants.cs:263
 msgid "Please, connect it and restart Chronojump."
 msgstr "Napravo povežite in ponovno zaženite program."
 
@@ -2706,7 +2687,7 @@ msgstr "Španščina"
 msgid "Open in browser"
 msgstr "Odpri v brskalniku"
 
-#: ../glade/app1.glade.h:565 ../src/constants.cs:901
+#: ../glade/app1.glade.h:565 ../src/constants.cs:906
 msgid "Sorry, cannot open website."
 msgstr "Spletišča ni mogoče odpreti."
 
@@ -2717,9 +2698,8 @@ msgstr "oznaka"
 #. NC means: Not Compatible
 #: ../glade/app1.glade.h:568 ../src/gui/chronopicRegister.cs:309
 #: ../src/gui/chronopicRegister.cs:394
-#, fuzzy
 msgid "NC"
-msgstr "CC BY-NC-SA"
+msgstr "ni združljivo"
 
 #: ../glade/app1.glade.h:569
 msgid "Not compatible with"
@@ -2757,12 +2737,11 @@ msgid "Load persons from other session"
 msgstr "Naloži testirance iz druge seje"
 
 #: ../glade/app1.glade.h:577 ../glade/person_select_window.glade.h:8
-#, fuzzy
 msgid ""
 "Create person disabled\n"
 "on Cloud-view mode"
 msgstr ""
-"Ustvarjanje osebe z onemogočenostjo\n"
+"Ustvarjanje osebe je onemogočeno\n"
 "v načinu pogleda v oblaku"
 
 #: ../glade/app1.glade.h:579
@@ -2819,7 +2798,7 @@ msgstr "Katalonščina\t"
 msgid "Add comments"
 msgstr "Dodaj opombe"
 
-#: ../glade/app1.glade.h:592 ../src/chronojump.cs:886
+#: ../glade/app1.glade.h:592 ../src/chronojump.cs:892
 msgid "Send error log"
 msgstr "Pošlji dnevnik napak"
 
@@ -2893,14 +2872,18 @@ msgid "<b>Hardware: Chronopic</b>"
 msgstr "<b>Strojna oprema: kronopik</b>"
 
 #: ../glade/dialog_about.glade.h:6
+msgid "<b>Software testers</b>"
+msgstr "<b>Preizkuševalci programske opreme</b>"
+
+#: ../glade/dialog_about.glade.h:7
 msgid "Developers"
 msgstr "Razvijalci"
 
-#: ../glade/dialog_about.glade.h:7
+#: ../glade/dialog_about.glade.h:8
 msgid "Documenters"
 msgstr "Pisci dokumentacije"
 
-#: ../glade/dialog_about.glade.h:8
+#: ../glade/dialog_about.glade.h:9
 msgid "Translators"
 msgstr "Prevajalci"
 
@@ -3030,7 +3013,7 @@ msgid "Flight time"
 msgstr "Čas leta"
 
 #: ../glade/edit_event.glade.h:4 ../glade/jump_type_add.glade.h:5
-#: ../src/graphs/cairo/xy.cs:103 ../src/gui/app1/encoder.cs:1804
+#: ../src/graphs/cairo/xy.cs:103 ../src/gui/app1/encoder.cs:1805
 #: ../src/gui/encoderSelectRepetitions.cs:224
 #: ../src/gui/encoderTreeviews.cs:619 ../src/gui/encoderTreeviews.cs:888
 #: ../src/gui/jump.cs:1092 ../src/gui/jump.cs:1318
@@ -3055,7 +3038,7 @@ msgid "Video available"
 msgstr "Razpoložljivi posnetek"
 
 #: ../glade/edit_event.glade.h:16 ../glade/preferences_win.glade.h:16
-#: ../src/constants.cs:960 ../src/encoder.cs:1129 ../src/forceSensor.cs:187
+#: ../src/constants.cs:965 ../src/encoder.cs:1132 ../src/forceSensor.cs:187
 #: ../src/gui/event.cs:321 ../src/gui/genericWindow.cs:957
 #: ../src/gui/jump.cs:1108 ../src/gui/jump.cs:1113 ../src/gui/jump.cs:1150
 #: ../src/gui/jump.cs:1153 ../src/gui/jump.cs:1182 ../src/gui/jump.cs:1185
@@ -3296,7 +3279,7 @@ msgid ""
 "Machine speed / Person speed ratio.\n"
 "Eg. value = 2, means person does twice force at half speed."
 msgstr ""
-"Razmerje hitrosti stroja in hitrosti osebe.\n"
+"Razmerje hitrosti naprave in hitrosti osebe.\n"
 "Npr. vrednost = 2 pomeni, da opravi oseba pri polovični hitrosti dvakratno "
 "silo."
 
@@ -3382,8 +3365,8 @@ msgstr "Podatki merilnika"
 msgid "Select your Chronometer"
 msgstr "Izbor vašega časomera"
 
-#: ../glade/evaluator_window.glade.h:14 ../src/constants.cs:198
-#: ../src/constants.cs:199 ../src/gui/person/addModify.cs:711
+#: ../glade/evaluator_window.glade.h:14 ../src/constants.cs:203
+#: ../src/constants.cs:204 ../src/gui/person/addModify.cs:711
 #: ../src/gui/person/addModify.cs:754
 msgid "Undefined"
 msgstr "Nedoločeno"
@@ -3588,30 +3571,24 @@ msgid "Main variable"
 msgstr "Glavna spremenljivka"
 
 #: ../glade/feedback.glade.h:21
-#| msgid "0"
 msgid "70"
 msgstr "70"
 
 #: ../glade/feedback.glade.h:22
-#| msgid "0"
 msgid "90"
 msgstr "90"
 
 #: ../glade/feedback.glade.h:23
-#, fuzzy
 msgid "Feedback relative to the maximum repetition of …"
-msgstr "Povratne informacije glede na največje ponavljanje ..."
+msgstr "Povratne informacije glede na največ ponavljanj ..."
 
 #: ../glade/feedback.glade.h:24
-#, fuzzy
 msgid "this set"
-msgstr "ni nastavljeno"
+msgstr "ta niz"
 
 #: ../glade/feedback.glade.h:25
-#, fuzzy
 msgid "historical of this person on same exercise and encoder configuration"
-msgstr ""
-"zgodovinska zgodovina te osebe na isti konfiguraciji vadbe in kodirnika"
+msgstr "zgodovina te osebe na isti prilgoditvi vadbe in kodirnika"
 
 #: ../glade/feedback.glade.h:26
 msgid "On eccentric-concentric have feedback …"
@@ -3630,9 +3607,8 @@ msgid "on concentric"
 msgstr "pri koncentrični fazi"
 
 #: ../glade/feedback.glade.h:30
-#, fuzzy
 msgid "Show eccentric overload on inertial"
-msgstr "Pokažite ekscentrično preobremenitev na inercialni"
+msgstr "Pokaži ekscentrično preobremenitev na inertni"
 
 #: ../glade/feedback.glade.h:31
 msgid "Show also percentage"
@@ -3836,9 +3812,8 @@ msgid "Direction"
 msgstr "Smer"
 
 #: ../glade/feedback.glade.h:101
-#, fuzzy
 msgid "Set displacement axis values"
-msgstr "Nastavitev vrednosti osi premika"
+msgstr "Nastavit vrednosti premika osi"
 
 #: ../glade/feedback.glade.h:102
 msgid "Max"
@@ -3923,16 +3898,15 @@ msgid "Confirm deletion"
 msgstr "Potrdi brisanje"
 
 #: ../glade/force_sensor_exercise.glade.h:2
-#, fuzzy
 msgid ""
 "Chronojump 2.2.2 split force sensor mode into isometric and elastic modes.\n"
 "During the conversion, this exercise has been assigned to both modes.\n"
 "Do you want to have it in only one mode?"
 msgstr ""
-"Chronojump 2.2.2 način senzorja deljene sile v izometrične in elastične "
+"Chronojump 2.2.2 - način tipala deljene sile na izometrične in elastične "
 "načine.\n"
 "Med pretvorbo je bila ta vaja dodeljena obema načinoma.\n"
-"Ali ga želite imeti samo v enem načinu?"
+"Ali jo želite imeti samo v enem načinu?"
 
 #: ../glade/force_sensor_exercise.glade.h:5
 msgid "Continue in both modes"
@@ -4051,7 +4025,7 @@ msgstr "gumb"
 msgid "session"
 msgstr " seja "
 
-#: ../glade/generic_window.glade.h:8 ../src/gui/app1/encoder.cs:1809
+#: ../glade/generic_window.glade.h:8 ../src/gui/app1/encoder.cs:1810
 #: ../src/gui/app1/forceSensor.cs:2058 ../src/gui/app1/runEncoder.cs:1159
 #: ../src/gui/encoderSelectRepetitions.cs:231 ../src/gui/report.cs:179
 msgid "Comment"
@@ -4111,12 +4085,12 @@ msgstr "enostaven"
 msgid "repetitive"
 msgstr "repetitivni"
 
-#: ../glade/jump_type_add.glade.h:22 ../src/constants.cs:568
+#: ../glade/jump_type_add.glade.h:22 ../src/constants.cs:573
 #: ../src/gui/app1/contactsExercise.cs:328 ../src/gui/app1/jump.cs:445
 msgid "jumps"
 msgstr "skoki"
 
-#: ../glade/jump_type_add.glade.h:23 ../src/constants.cs:1530
+#: ../glade/jump_type_add.glade.h:23 ../src/constants.cs:1535
 msgid "time"
 msgstr "čas"
 
@@ -4125,7 +4099,7 @@ msgid "fixed: "
 msgstr "nespremenljivo: "
 
 #. not shown, unused
-#: ../glade/overview.glade.h:2 ../src/gui/app1/encoder.cs:5887
+#: ../glade/overview.glade.h:2 ../src/gui/app1/encoder.cs:5890
 #: ../src/gui/app1/forceSensor.cs:3667 ../src/gui/app1/runEncoder.cs:2789
 #: ../src/gui/app1/session/loadAndImport.cs:303
 #: ../src/gui/app1/session/loadAndImport.cs:307 ../src/gui/overview.cs:101
@@ -4146,7 +4120,6 @@ msgid "Select this person"
 msgstr "Izberi testiranca"
 
 #: ../glade/person_merge.glade.h:2
-#, fuzzy
 msgid ""
 "If you have two records in Chronojump for the same person, merge them with "
 "this tool."
@@ -4154,9 +4127,8 @@ msgstr ""
 "Če imate v Chronojumpu dva zapisa za isto osebo, ju združite s tem orodjem."
 
 #: ../glade/person_merge.glade.h:3
-#, fuzzy
 msgid "Select the person to merge with:"
-msgstr "Izberite osebo, s katero želite združiti:"
+msgstr "Izberite osebo, s katero jo želite združiti:"
 
 #: ../glade/person_merge.glade.h:4
 msgid "Find in session:"
@@ -4172,7 +4144,6 @@ msgid "Person:"
 msgstr "Testiranec:"
 
 #: ../glade/person_merge.glade.h:10
-#, fuzzy
 msgid "Check differences"
 msgstr "Preveri razlike"
 
@@ -4252,7 +4223,7 @@ msgstr "Ime stolpcev ni pomembno, pomemben je vrstni red."
 
 #. decimals
 #: ../glade/person_multiple_infinite.glade.h:22 ../glade/person_win.glade.h:10
-#: ../src/constants.cs:1533 ../src/exportSession.cs:347
+#: ../src/constants.cs:1538 ../src/exportSession.cs:347
 #: ../src/exportSession.cs:389 ../src/exportSession.cs:546
 #: ../src/gui/person/addMultiple.cs:699 ../src/stats/djPower.cs:37
 msgid "Weight"
@@ -4493,8 +4464,8 @@ msgid "Show persons photo"
 msgstr "Pokaži slike testirancev"
 
 #. aka == -1.0
-#: ../glade/preferences_win.glade.h:17 ../src/constants.cs:956
-#: ../src/encoder.cs:1131 ../src/forceSensor.cs:189 ../src/forceSensor.cs:199
+#: ../glade/preferences_win.glade.h:17 ../src/constants.cs:961
+#: ../src/encoder.cs:1134 ../src/forceSensor.cs:189 ../src/forceSensor.cs:199
 #: ../src/gui/chronopicRegister.cs:418 ../src/gui/event.cs:325
 #: ../src/gui/jump.cs:1110 ../src/gui/jump.cs:1115 ../src/gui/jump.cs:1336
 #: ../src/gui/jump.cs:1341 ../src/runEncoder.cs:152 ../src/treeview/jump.cs:250
@@ -4504,18 +4475,14 @@ msgid "No"
 msgstr "Ne"
 
 #: ../glade/preferences_win.glade.h:18
-#, fuzzy
-#| msgid "Chronojump Report window"
 msgid "Maximize Chronojump window"
-msgstr "Okno poročila ChronoJump"
+msgstr "Maksimiziraj okno Chronojump"
 
 #: ../glade/preferences_win.glade.h:19
 msgid "Undecorated (remove title bar and resize controls)"
 msgstr "Poenostavljeno (odstrani nazivno vrstico in spremeni velikost gumbov)"
 
 #: ../glade/preferences_win.glade.h:20
-#, fuzzy
-#| msgid "This change needs restarting Chronojump"
 msgid "This change may need restarting Chronojump"
 msgstr "Ta sprememba zahteva ponovni zagon programa Chronojump"
 
@@ -4622,9 +4589,8 @@ msgid "ms"
 msgstr "ms"
 
 #: ../glade/preferences_win.glade.h:51
-#, fuzzy
 msgid "Each track ends before biggest contact time."
-msgstr "Vsaka skladba se konča pred največjim časom stika."
+msgstr "Vsaka steza se konča pred največjim časom stika."
 
 #: ../glade/preferences_win.glade.h:52
 msgid "on simple races"
@@ -4650,28 +4616,23 @@ msgstr "10,0"
 msgid "Detection"
 msgstr "Zaznavanje"
 
-#: ../glade/preferences_win.glade.h:60 ../src/constants.cs:1118
+#: ../glade/preferences_win.glade.h:60 ../src/constants.cs:1123
 #: ../src/gui/app1/session/loadAndImport.cs:295
 #: ../src/gui/person/showAllEvents.cs:243
 msgid "Race analyzer"
 msgstr "Preučevalnik teka"
 
 #: ../glade/preferences_win.glade.h:62
-#, fuzzy
 msgid "Butterworth low-pass filter"
 msgstr "Butterworthov nizkoprepustni filter"
 
 #: ../glade/preferences_win.glade.h:63
-#, fuzzy
-#| msgid "Only for isometric mode"
 msgid "Apply filter on isometric mode"
-msgstr "Samo za izometrični način"
+msgstr "Uporabi filter v izometričnem načinu"
 
 #: ../glade/preferences_win.glade.h:64
-#, fuzzy
-#| msgid "End automatic mode"
 msgid "Apply filter on elastic mode"
-msgstr "Končaj samodejni način"
+msgstr "Uporabi filter v elastičnem načinu"
 
 #: ../glade/preferences_win.glade.h:65
 msgid "15,0"
@@ -4741,7 +4702,6 @@ msgid "Recording time"
 msgstr "Čas snemanja"
 
 #: ../glade/preferences_win.glade.h:93
-#| msgid "0"
 msgid "60"
 msgstr "60"
 
@@ -4766,9 +4726,8 @@ msgid "recommended"
 msgstr "priporočljivo"
 
 #: ../glade/preferences_win.glade.h:101
-#, fuzzy
 msgid "Criteria for selecting the best eccentric-concentric repetition"
-msgstr "Merila za izbiro najboljšega ekscentrično-koncentričnega ponavljanja"
+msgstr "Pogoji za izbor najboljše ekscentrično-koncentrične ponavitve"
 
 #: ../glade/preferences_win.glade.h:102
 msgid "Repetitions to show during capture graph"
@@ -4787,7 +4746,6 @@ msgid "Font size at capture"
 msgstr "Velikost pisave ob zajemu"
 
 #: ../glade/preferences_win.glade.h:106
-#| msgid "1"
 msgid "14"
 msgstr "14"
 
@@ -4823,7 +4781,7 @@ msgstr "Nespremenjeno stalno zajemaj podatke"
 msgid "Not recommended"
 msgstr "Ni priporočeno"
 
-#: ../glade/preferences_win.glade.h:115 ../src/constants.cs:1556
+#: ../glade/preferences_win.glade.h:115 ../src/constants.cs:1561
 msgid "Propulsive"
 msgstr "Odrivni"
 
@@ -4984,7 +4942,7 @@ msgstr "<b>Napredne možnosti</b>"
 #. position of type in the data to be printed
 #. Constants.AllJumpsName or Constants.AllRunsName orConstants.AllPulsesName
 #. column where the uniqueID of event will be (and will be hidden)
-#: ../glade/preferences_win.glade.h:164 ../src/gui/app1/encoder.cs:1808
+#: ../glade/preferences_win.glade.h:164 ../src/gui/app1/encoder.cs:1809
 #: ../src/gui/app1/forceSensor.cs:2057 ../src/gui/app1/runEncoder.cs:1158
 #: ../src/treeview/event.cs:42
 msgid "Video"
@@ -5039,15 +4997,12 @@ msgid "Recommended."
 msgstr "Priporočeno."
 
 #: ../glade/preferences_win.glade.h:177
-#, fuzzy
 msgid "Data is captured and analyzed in this computer."
 msgstr "Podatki se zajamejo in analizirajo v tem računalniku."
 
 #: ../glade/preferences_win.glade.h:178
-#, fuzzy
-#| msgid "Close and capture"
 msgid "Cloud-capture"
-msgstr "Zapri in zajemi"
+msgstr "Zajem v oblaku"
 
 #: ../glade/preferences_win.glade.h:179
 msgid "Data is stored on the computer and uploaded to a cloud."
@@ -5074,9 +5029,8 @@ msgid "View databases"
 msgstr "Pokaži zbirke podatkov"
 
 #: ../glade/preferences_win.glade.h:186
-#, fuzzy
 msgid "Zoom cloud schema "
-msgstr "Shema oblaka Zoom "
+msgstr "Povečaj shemo oblaka "
 
 #: ../glade/preferences_win.glade.h:187
 msgid "Cloud"
@@ -5252,15 +5206,11 @@ msgid "Fixed (distance will be always the same)"
 msgstr "Nespremenljivo (razdalja bo vedno enaka)"
 
 #: ../glade/run_type_add.glade.h:10
-#, fuzzy
-#| msgid ""
-#| "Different (each track have different distance\n"
-#| "suitable for agility tests and RSA)"
 msgid ""
 "Different (each lap have different distance\n"
 "suitable for agility tests and RSA)"
 msgstr ""
-"Različna (vsaka steza je različne razdalje,\n"
+"Različna (vsak krog je različne razdalje,\n"
 "primerne za izvajanje testov gibčnosti in RSA)"
 
 #: ../glade/run_type_add.glade.h:12
@@ -5280,14 +5230,8 @@ msgid "(m)"
 msgstr "(m)"
 
 #: ../glade/run_type_add.glade.h:17
-#, fuzzy
-#| msgid ""
-#| "Limited by\n"
-#| "(how it finishes)"
 msgid "Limited by (how it finishes)"
-msgstr ""
-"Omejeno z\n"
-"(kako se zaključi)"
+msgstr "Omejeno z (kako se zaključi)"
 
 #: ../glade/run_type_add.glade.h:20
 msgid "intervallic"
@@ -5321,7 +5265,7 @@ msgstr "izberi ->"
 msgid "<- unselect"
 msgstr "<- prekliči izbor"
 
-#: ../glade/stats_select_sessions.glade.h:6 ../src/gui/app1/encoder.cs:2417
+#: ../glade/stats_select_sessions.glade.h:6 ../src/gui/app1/encoder.cs:2419
 msgid "all"
 msgstr "vse"
 
@@ -5329,36 +5273,28 @@ msgstr "vse"
 msgid "none"
 msgstr "brez"
 
-#: ../src/chronojump.cs:409
+#: ../src/chronojump.cs:415
 msgid "Chronojump is already running"
 msgstr "Chronojump že teče"
 
-#: ../src/chronojump.cs:410 ../src/chronojump.cs:672 ../src/chronojump.cs:1063
-#: ../src/chronojump.cs:1071
+#: ../src/chronojump.cs:416 ../src/chronojump.cs:678 ../src/chronojump.cs:1069
+#: ../src/chronojump.cs:1077
 msgid "Chronojump will exit now."
 msgstr "ChronoJump bo sedaj končan."
 
-#: ../src/chronojump.cs:471
-#, fuzzy
-#| msgid "no tables, creating ..."
+#: ../src/chronojump.cs:477
 msgid "no tables, creating …"
-msgstr "ni razpredelnic, zato bo ustvarjana ..."
+msgstr "ni razpredelnic, zato se ustvarjajo ..."
 
 #. check (spanish)
 #. http://mail.gnome.org/archives/chronojump-devel-list/2008-March/msg00011.html
-#: ../src/chronojump.cs:510
-#, fuzzy
-#| msgid ""
-#| "Failed database conversion, ensure you have libsqlite3-0 installed. \n"
-#| "If problems persist ask in chronojump-list"
+#: ../src/chronojump.cs:516
 msgid "Failed database conversion, ensure you have libsqlite3-0 installed."
 msgstr ""
-"Pretvarjanje podatkovne zbirke je spodletelo, saj zahteva nameščeno "
-"knjižnico libsqlite3-0. \n"
-"V primeru nadaljnjih težav, bo treba poiskati pomoč na dopisnem seznamu "
-"ChronoJump."
+"Pretvarjanje zbirke podatkov je spodletelo, saj zahteva nameščeno knjižnico "
+"libsqlite3-0."
 
-#: ../src/chronojump.cs:511
+#: ../src/chronojump.cs:517
 #, csharp-format
 msgid ""
 "If you have no data on your database (you just installed Chronojump), you "
@@ -5367,16 +5303,16 @@ msgstr ""
 "V primeru, da v podatkovni zbirki še ni podatkov (program prvič zagnan) je "
 "mogoče težavo odpraviti z izbrisom te datoteke: {0}"
 
-#: ../src/chronojump.cs:513
+#: ../src/chronojump.cs:519
 msgid "And starting Chronojump again."
 msgstr "In ponovno začenjanje programa ChronoJump."
 
-#: ../src/chronojump.cs:526
+#: ../src/chronojump.cs:532
 msgid "All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms)."
 msgstr ""
 "Vsi skoki SzO so preimenovani v 'SzObZ' (Seskok z odskokom brez zamaha)."
 
-#: ../src/chronojump.cs:527
+#: ../src/chronojump.cs:533
 msgid ""
 "If your Drop Jumps were executed using the arms, please rename them manually "
 "as 'DJa'."
@@ -5385,22 +5321,22 @@ msgstr ""
 "preimenovati v 'SzOzZ'."
 
 #. Console.Clear();
-#: ../src/chronojump.cs:537
+#: ../src/chronojump.cs:543
 #, csharp-format
 msgid "Sorry, this Chronojump version ({0}) is too old for your database."
 msgstr ""
 "Različica programa ChronoJump ({0}) je starejša od različice podatkovne "
 "zbirke."
 
-#: ../src/chronojump.cs:538 ../src/chronojumpImporter.cs:247
+#: ../src/chronojump.cs:544 ../src/chronojumpImporter.cs:247
 msgid "Please update Chronojump"
 msgstr "Posodobite program ChronoJump"
 
-#: ../src/chronojump.cs:546
+#: ../src/chronojump.cs:552
 msgid "tables already created"
 msgstr "razpredelnice so že ustvarjene"
 
-#: ../src/chronojump.cs:609
+#: ../src/chronojump.cs:615
 #, csharp-format
 msgid ""
 "\n"
@@ -5411,91 +5347,90 @@ msgstr ""
 "Na voljo je novo različica programa ChronoJump.\n"
 "Trenutna različica programa je: {1}"
 
-#: ../src/chronojump.cs:611
+#: ../src/chronojump.cs:617
 msgid "Please, update to new version."
 msgstr "Posodobite na novo različico."
 
-#: ../src/chronojump.cs:619
+#: ../src/chronojump.cs:625
 msgid "Chronojump crashed before."
 msgstr "ChronoJump se je v preteklosti že sesul."
 
-#: ../src/chronojump.cs:620
+#: ../src/chronojump.cs:626
 msgid "Please, update to new version: "
 msgstr "Posodobite na novo različico: "
 
-#: ../src/chronojump.cs:737
+#: ../src/chronojump.cs:743
 msgid "Need permissions to read from device."
 msgstr "Potrebujete dovoljenja za branje iz naprave."
 
-#: ../src/chronojump.cs:738
+#: ../src/chronojump.cs:744
 msgid "Check software page on Chronojump website"
 msgstr "Preverite stran programske opreme na spletnem mestu Chronojump"
 
-#: ../src/chronojump.cs:888
+#: ../src/chronojump.cs:894
 #, csharp-format
 msgid "Chronojump {0} crashed before."
 msgstr "ChronoJump {0} se je v preteklosti že sesul."
 
-#: ../src/chronojump.cs:889
-#, fuzzy, csharp-format
+#: ../src/chronojump.cs:895
+#, csharp-format
 msgid ""
 "Please, fill your email and click on '{0}' in order to fix this fast and "
 "contact you if appropriate."
 msgstr ""
-"Prosimo, izpolnite e-pošto in kliknite na \"{0}\" da bi popravili to hitro "
-"in vas kontaktirajte, če je to primerno."
+"Vpišite svoj e-naslov in kliknite »{0}«, da to hitro odpravimo in vas po "
+"potrebi kontaktiramo."
 
-#: ../src/chronojump.cs:890
+#: ../src/chronojump.cs:896
 msgid "Your help is needed."
 msgstr "Zahtevana je pomoč."
 
-#: ../src/chronojump.cs:1031
+#: ../src/chronojump.cs:1037
 #, csharp-format
 msgid "Cannot move database directory from {0} to {1}"
 msgstr "Ni mogoče premakniti mape podatkovne zbirke iz {0} v {1}"
 
-#: ../src/chronojump.cs:1033
+#: ../src/chronojump.cs:1039
 msgid "Trying to move/copy each file now"
 msgstr "Poskušanje premikanja/kopiranja vsake datoteke"
 
-#: ../src/chronojump.cs:1061
+#: ../src/chronojump.cs:1067
 #, csharp-format
 msgid "Cannot create directory {0}"
 msgstr "Ni mogoče ustvariti mape {0}"
 
-#: ../src/chronojump.cs:1062 ../src/chronojump.cs:1070
+#: ../src/chronojump.cs:1068 ../src/chronojump.cs:1076
 msgid "Please, do it manually."
 msgstr "Storite to ročno."
 
 # plural
-#: ../src/chronojump.cs:1069
+#: ../src/chronojump.cs:1075
 #, csharp-format
 msgid "Cannot copy {0} files from {1} to {2}"
 msgstr "Ni mogoče kopirati {0} datotek iz {1} v {2}"
 
 # plural
-#: ../src/chronojump.cs:1077
+#: ../src/chronojump.cs:1083
 #, csharp-format
 msgid "Cannot move {0} files from {1} to {2}"
 msgstr "Ni mogoče premakniti {0} datotek iz {1} v {2}"
 
-#: ../src/chronojump.cs:1078
+#: ../src/chronojump.cs:1084
 msgid "Please, do it manually"
 msgstr "Storite to ročno."
 
-#: ../src/chronojump.cs:1084
+#: ../src/chronojump.cs:1090
 #, csharp-format
 msgid "Database is now here: {0}"
 msgstr "Podatkovna zbirka je sedaj na: {0}"
 
 #: ../src/chronojumpImporter.cs:248
-#, fuzzy
 msgid ""
 "Trying to import a newer database version than this Chronojump\n"
 "Please, update the running Chronojump."
 msgstr ""
-"Poskus uvoza novejšo različico zbirke podatkov kot ta Chronojump\n"
-"Prosim, posodobite tekoči Chronojump."
+"Poskus uvoza novejše različice zbirke podatkov kot je ta Chronojump\n"
+"Prosimo, posodobite tekoči Chronojump."
 
 # plural
 #: ../src/chronojumpImporter.cs:318
@@ -5504,12 +5439,11 @@ msgid "Cannot copy files from {0} to {1}."
 msgstr "Ni mogoče kopirati datotek iz {0} v {1}"
 
 #: ../src/chronojumpImporter.cs:321
-#, fuzzy
 msgid ""
 "The disk may be full or the files may be copying from a cloud service but "
 "have not been downloaded."
 msgstr ""
-"Disk je lahko poln ali pa se datoteke kopirajo iz storitve v oblaku, vendar "
+"Disk je morda poln ali pa se datoteke kopirajo iz storitve v oblaku, vendar "
 "niso bile prenesene."
 
 #. return Catalog.GetString("Not configured");
@@ -5604,7 +5538,8 @@ msgstr "Strojna raven kodirnika."
 
 #: ../src/constants.cs:94
 msgid "Skypic, Chronopic, connection between hardware and software."
-msgstr "Napravi skypik in kronopik; povezava med strojno in programsko opremo."
+msgstr ""
+"Napravi Skypic in Chronopic; povezava med strojno in programsko opremo."
 
 #. 2010 he made the visit to the lab
 #: ../src/constants.cs:95
@@ -5627,43 +5562,47 @@ msgstr "Druge zmožnosti."
 msgid "Improved timers."
 msgstr "Izboljšani časomeri."
 
-#: ../src/constants.cs:120
+#: ../src/constants.cs:107
+msgid "Mac version"
+msgstr "Različica za Mac"
+
+#: ../src/constants.cs:125
 msgid "Chronojump profile"
 msgstr "Profil Chronojump"
 
 #. Dummy variables that exists for translating purposes
 #. pragma warning is to avoid warnings of "defined and not used" for these variables.
-#: ../src/constants.cs:194
+#: ../src/constants.cs:199
 msgid "Any"
 msgstr "Katerikoli"
 
-#: ../src/constants.cs:195
+#: ../src/constants.cs:200
 msgid "--Undefined"
 msgstr "--Nedoločeno"
 
-#: ../src/constants.cs:196
+#: ../src/constants.cs:201
 msgid "--Any"
 msgstr "--Katerikoli"
 
-#: ../src/constants.cs:197
+#: ../src/constants.cs:202
 msgid "-None"
 msgstr "-Brez"
 
-#: ../src/constants.cs:200
+#: ../src/constants.cs:205
 msgid "Sedentary/Occasional practice"
 msgstr "Sedeče / Občasne vaje"
 
-#: ../src/constants.cs:201
+#: ../src/constants.cs:206
 msgid "Bench press"
 msgstr "Potisk s prsmi"
 
-#: ../src/constants.cs:202
+#: ../src/constants.cs:207
 msgid "Squat"
 msgstr "Počep"
 
 #. The next two variables got moved from src/execute/event.cs from EventExecute::runATouchPlatform() and
 #. EventExecute::RunANoStrides() and I'm not sure that are used. Left it here for now to avoid any regressions.
-#: ../src/constants.cs:206
+#: ../src/constants.cs:211
 msgid ""
 "Always remember to touch platform at ending. If you don't do it, Chronojump "
 "will crash at next execution."
@@ -5671,36 +5610,36 @@ msgstr ""
 "Po koncu testa se je treba merilne podloge dotakniti. Če se je ne, se "
 "program Chronojump, ob naslednjem zagonu, lahko sesuje."
 
-#: ../src/constants.cs:207
+#: ../src/constants.cs:212
 msgid "This Run Analysis is not valid because there are no strides."
 msgstr "Analiza teka ni veljavna, ker ni zaznanih korakov."
 
-#: ../src/constants.cs:250
+#: ../src/constants.cs:255
 msgid "Chronopic is disconnected."
 msgstr "Naprava kronopik ni povezana."
 
-#: ../src/constants.cs:251
+#: ../src/constants.cs:256
 #, csharp-format
 msgid "If you want to simulate tests, use {0} session."
 msgstr "Če želite simulirati teste, uporabite sejo {0}."
 
-#: ../src/constants.cs:262
+#: ../src/constants.cs:267
 msgid "This RFID is not registered on server."
 msgstr "Ta RFID ni registriran na strežniku."
 
-#: ../src/constants.cs:266
+#: ../src/constants.cs:271
 msgid "Cannot connect with server!"
 msgstr "Povezava s strežnikom ni mogoča!"
 
-#: ../src/constants.cs:276
+#: ../src/constants.cs:281
 msgid "Server is connected."
 msgstr "Strežnik je povezan."
 
-#: ../src/constants.cs:280
+#: ../src/constants.cs:285
 msgid "Sorry, server is currently offline. Try later."
 msgstr "Strežnik trenutno ni povezan v omrežje. Poskusite znova kasneje."
 
-#: ../src/constants.cs:281
+#: ../src/constants.cs:286
 msgid ""
 "Or maybe you are not connected to the Internet or your firewall is "
 "restricting connections"
@@ -5708,187 +5647,186 @@ msgstr ""
 "Morda ni ustrezne povezave na splet ali pa požarni zid omejuje povezovanje s "
 "strežnikom"
 
-#: ../src/constants.cs:324
+#: ../src/constants.cs:329
 msgid "Your software is updated!"
 msgstr "Programska oprema je posodobljena!"
 
-#: ../src/constants.cs:328
+#: ../src/constants.cs:333
 #, csharp-format
 msgid "Update software at {0}"
 msgstr "Posodobi programsko opremo prek {0}"
 
-#: ../src/constants.cs:332
+#: ../src/constants.cs:337
 msgid "Your software is more updated than last published version."
 msgstr ""
 "Nameščena programska oprema je kasnejše različice od zadnje objavljene."
 
-#: ../src/constants.cs:332
+#: ../src/constants.cs:337
 msgid "Please, don't update!"
 msgstr "Posodobitev ni priporočena!"
 
-#: ../src/constants.cs:341
+#: ../src/constants.cs:346
 msgid "Importing from your spreadsheet (LibreOffice, R, MS Excel, …)"
 msgstr "Uvažanje podatkov iz preglednice (LibreOffice, R, MS Excel)"
 
-#: ../src/constants.cs:342
+#: ../src/constants.cs:347
 msgid "Remember the separator character is:"
 msgstr "Ne pozabite, da je znak za ločilo:"
 
-#: ../src/constants.cs:343
+#: ../src/constants.cs:348
 msgid "This can be changed at preferences."
 msgstr "Nastavitev je mogoče spremeniti med možnostmi."
 
-#: ../src/constants.cs:348
-#, fuzzy
+#: ../src/constants.cs:353
 msgid "Please, perform the needed jumps marked in red above."
 msgstr "Prosimo, izvedite potrebne skoke, označene z rdečo zgoraj."
 
-#: ../src/constants.cs:358 ../src/constants.cs:397 ../src/constants.cs:408
-#: ../src/constants.cs:419 ../src/constants.cs:431 ../src/constants.cs:442
-#: ../src/constants.cs:460 ../src/constants.cs:472 ../src/constants.cs:484
-#: ../src/constants.cs:496 ../src/constants.cs:501 ../src/constants.cs:509
-#: ../src/constants.cs:514
+#: ../src/constants.cs:363 ../src/constants.cs:402 ../src/constants.cs:413
+#: ../src/constants.cs:424 ../src/constants.cs:436 ../src/constants.cs:447
+#: ../src/constants.cs:465 ../src/constants.cs:477 ../src/constants.cs:489
+#: ../src/constants.cs:501 ../src/constants.cs:506 ../src/constants.cs:514
+#: ../src/constants.cs:519
 msgid "Peak power"
 msgstr "Končna moč"
 
-#: ../src/constants.cs:358
+#: ../src/constants.cs:363
 msgid "(Watts)"
 msgstr "(vati)"
 
-#: ../src/constants.cs:363 ../src/constants.cs:403 ../src/constants.cs:414
-#: ../src/constants.cs:425 ../src/constants.cs:437 ../src/constants.cs:448
-#: ../src/constants.cs:467 ../src/constants.cs:479 ../src/constants.cs:491
-#: ../src/constants.cs:504 ../src/constants.cs:516
+#: ../src/constants.cs:368 ../src/constants.cs:408 ../src/constants.cs:419
+#: ../src/constants.cs:430 ../src/constants.cs:442 ../src/constants.cs:453
+#: ../src/constants.cs:472 ../src/constants.cs:484 ../src/constants.cs:496
+#: ../src/constants.cs:509 ../src/constants.cs:521
 msgid "body weight"
 msgstr "telesna masa"
 
-#: ../src/constants.cs:363 ../src/constants.cs:403 ../src/constants.cs:414
-#: ../src/constants.cs:425 ../src/constants.cs:437 ../src/constants.cs:448
-#: ../src/constants.cs:467 ../src/constants.cs:479 ../src/constants.cs:491
-#: ../src/constants.cs:504 ../src/constants.cs:516
+#: ../src/constants.cs:368 ../src/constants.cs:408 ../src/constants.cs:419
+#: ../src/constants.cs:430 ../src/constants.cs:442 ../src/constants.cs:453
+#: ../src/constants.cs:472 ../src/constants.cs:484 ../src/constants.cs:496
+#: ../src/constants.cs:509 ../src/constants.cs:521
 msgid "extra weight"
 msgstr "dodatna obtežitev"
 
-#: ../src/constants.cs:363 ../src/constants.cs:402 ../src/constants.cs:413
-#: ../src/constants.cs:424 ../src/constants.cs:436 ../src/constants.cs:447
-#: ../src/constants.cs:466 ../src/constants.cs:478 ../src/constants.cs:490
-#: ../src/constants.cs:503 ../src/constants.cs:515 ../src/stats/fv.cs:51
+#: ../src/constants.cs:368 ../src/constants.cs:407 ../src/constants.cs:418
+#: ../src/constants.cs:429 ../src/constants.cs:441 ../src/constants.cs:452
+#: ../src/constants.cs:471 ../src/constants.cs:483 ../src/constants.cs:495
+#: ../src/constants.cs:508 ../src/constants.cs:520 ../src/stats/fv.cs:51
 #: ../src/stats/fv.cs:52 ../src/stats/jumpIndexes.cs:74
 #: ../src/stats/jumpIndexes.cs:78
 msgid "height"
 msgstr "višina"
 
-#: ../src/constants.cs:465
+#: ../src/constants.cs:470
 msgid "Male applicants to a Faculty of Sport Sciences"
 msgstr "Možki študenti športne fakultete"
 
-#: ../src/constants.cs:477
+#: ../src/constants.cs:482
 msgid "Female elite volleyball"
 msgstr "Ženska profesionalna odbojka"
 
-#: ../src/constants.cs:489
+#: ../src/constants.cs:494
 msgid "Female medium volleyball"
 msgstr "Ženska amaterska odbojka"
 
-#: ../src/constants.cs:502
+#: ../src/constants.cs:507
 msgid "Female sports sciences students"
 msgstr "Ženske študentke športne fakultete"
 
-#: ../src/constants.cs:514
+#: ../src/constants.cs:519
 msgid "Female university students"
 msgstr "Ženske univerzitetne študentke"
 
-#: ../src/constants.cs:523 ../src/constants.cs:1527 ../src/stats/potency.cs:60
+#: ../src/constants.cs:528 ../src/constants.cs:1532 ../src/stats/potency.cs:60
 msgid "Peak Power"
 msgstr "Končna moč"
 
-#: ../src/constants.cs:538
+#: ../src/constants.cs:543
 msgid "Session summary"
 msgstr "Povzetek seje"
 
-#: ../src/constants.cs:542
+#: ../src/constants.cs:547
 msgid "Jumper summary"
 msgstr "Povzetek skakalca"
 
-#: ../src/constants.cs:550
+#: ../src/constants.cs:555
 msgid "Simple with TC"
 msgstr "Preprosto s čS"
 
-#: ../src/constants.cs:554
+#: ../src/constants.cs:559
 msgid "Jumps: Reactive"
 msgstr "Skoki: repetitivno-eksplozivni skok"
 
-#: ../src/constants.cs:558
+#: ../src/constants.cs:563
 msgid "Races: Simple"
 msgstr "Teki: enostavni teki"
 
 # http://www.thefreedictionary.com/intervallic
 # točka 3
-#: ../src/constants.cs:563
+#: ../src/constants.cs:568
 msgid "Races: Intervallic"
 msgstr "Teki: intervalni tek"
 
-#: ../src/constants.cs:572
+#: ../src/constants.cs:577
 msgid "tracks"
 msgstr "steze"
 
-#: ../src/constants.cs:578
+#: ../src/constants.cs:583
 msgid "See all jumps"
 msgstr "Pregled vseh skokov"
 
-#: ../src/constants.cs:582
+#: ../src/constants.cs:587
 msgid "See all races"
 msgstr "Pregled vseh tekov"
 
-#: ../src/constants.cs:586
+#: ../src/constants.cs:591
 msgid "See all pulses"
 msgstr "Pogled vseh ritmičnih podatkov"
 
-#: ../src/constants.cs:723
+#: ../src/constants.cs:728
 msgid "Typical serial and USB-serial ports on Windows:"
 msgstr "Običajna zaporedna in USB vrata na okolju Windows:"
 
-#: ../src/constants.cs:725
+#: ../src/constants.cs:730
 msgid "Also, these are possible:"
 msgstr "Mogoče so tudi:"
 
-#: ../src/constants.cs:732
+#: ../src/constants.cs:737
 msgid "Typical serial ports on GNU/Linux:"
 msgstr "Običajna zaporedna vrata na GNU/Linux:"
 
-#: ../src/constants.cs:734
+#: ../src/constants.cs:739
 msgid "Typical USB-serial ports on GNU/Linux:"
 msgstr "Običajna USB vrata na GNU/Linux:"
 
-#: ../src/constants.cs:736
+#: ../src/constants.cs:741
 msgid "If you use Chronopic3, you will have an USB-serial port."
 msgstr "V primeru uporabe naprave kronopik3 so zahtevana prosta USB vrata."
 
-#: ../src/constants.cs:742
+#: ../src/constants.cs:747
 msgid "Serial ports found:"
 msgstr "Zaznana zaporedna vrata:"
 
-#: ../src/constants.cs:746
+#: ../src/constants.cs:751
 msgid "USB-serial ports found:"
 msgstr "Zaznana USB vrata:"
 
-#: ../src/constants.cs:750
+#: ../src/constants.cs:755
 msgid "Not found any USB-serial ports."
 msgstr "Ni mogoče najti USB vrat."
 
-#: ../src/constants.cs:750
+#: ../src/constants.cs:755
 msgid "Is Chronopic connected?"
 msgstr "Ali je naprava kronopik povezana?"
 
-#: ../src/constants.cs:759
+#: ../src/constants.cs:764
 msgid "Touch device."
 msgstr "Večdotična naprava."
 
-#: ../src/constants.cs:764
+#: ../src/constants.cs:769
 msgid "Chronopic driver has to be installed."
 msgstr "Gonilnike kronopik je treba namestiti."
 
-#: ../src/constants.cs:769
+#: ../src/constants.cs:774
 msgid ""
 "If you have problems connecting with Chronopic, ensure you have the "
 "<b>driver</b> installed at 'Windows Start Menu / Chronojump / Install "
@@ -5898,43 +5836,43 @@ msgstr ""
 "<b>gonilnik</b> nameščen v 'Windows meni Začni / Chronojump / Namesti "
 "gonilnik Chronopic'."
 
-#: ../src/constants.cs:773
+#: ../src/constants.cs:778
 msgid "Check Chronojump software website."
 msgstr "Preveri spletišče programa Chronojump"
 
-#: ../src/constants.cs:777
+#: ../src/constants.cs:782
 msgid "Error. Nothing has been captured."
 msgstr "Napaka! Ni zajetih nobenih podatkov."
 
-#: ../src/constants.cs:822
+#: ../src/constants.cs:827
 msgid "Africa"
 msgstr "Afrika"
 
-#: ../src/constants.cs:823
+#: ../src/constants.cs:828
 msgid "Antarctica"
 msgstr "Antarktika"
 
-#: ../src/constants.cs:824
+#: ../src/constants.cs:829
 msgid "Asia"
 msgstr "Azija"
 
-#: ../src/constants.cs:825
+#: ../src/constants.cs:830
 msgid "Europe"
 msgstr "Evropa"
 
-#: ../src/constants.cs:826
+#: ../src/constants.cs:831
 msgid "North America"
 msgstr "Severna Amerika"
 
-#: ../src/constants.cs:827
+#: ../src/constants.cs:832
 msgid "Oceania"
 msgstr "Oceanija"
 
-#: ../src/constants.cs:828
+#: ../src/constants.cs:833
 msgid "South America"
 msgstr "Južna Amerika"
 
-#: ../src/constants.cs:835
+#: ../src/constants.cs:840
 msgid "Tests are <b>simulated</b> until Chronopic is connected."
 msgstr "Testi so <b>simulirani</b>, dokler je naprava kronopik povezana."
 
@@ -5942,7 +5880,7 @@ msgstr "Testi so <b>simulirani</b>, dokler je naprava kronopik povezana."
 #. Catalog.GetString("Angles") + ":" +
 #. thinking on 99 jumps
 #. thinking on 99 tracks
-#: ../src/constants.cs:839 ../src/exportSession.cs:473
+#: ../src/constants.cs:844 ../src/exportSession.cs:473
 #: ../src/exportSession.cs:579 ../src/exportSession.cs:743
 #: ../src/exportSession.cs:801 ../src/gui/eventExecute.cs:132
 #: ../src/gui/eventExecute.cs:1498 ../src/gui/eventExecute.cs:1624
@@ -5951,126 +5889,125 @@ msgstr "Testi so <b>simulirani</b>, dokler je naprava kronopik povezana."
 msgid "Simulated"
 msgstr "Simulirano"
 
-#: ../src/constants.cs:844
+#: ../src/constants.cs:849
 msgid "All tests available except MultiChronopic."
 msgstr "Razpoložljivi so vsi testi, razen testov za multikronopik."
 
-#: ../src/constants.cs:848
+#: ../src/constants.cs:853
 msgid "All tests available."
 msgstr "Vsi razpoložljivi testi."
 
-#: ../src/constants.cs:853
+#: ../src/constants.cs:858
 msgid "Default"
 msgstr "Privzeto"
 
-#: ../src/constants.cs:868
+#: ../src/constants.cs:873
 msgid "Regular practice"
 msgstr "Redna vadba"
 
-#: ../src/constants.cs:869
+#: ../src/constants.cs:874
 msgid "Competition"
 msgstr "Tekmovanje"
 
-#: ../src/constants.cs:870
+#: ../src/constants.cs:875
 msgid "Elite"
 msgstr "Izbrana vrsta"
 
-#: ../src/constants.cs:893 ../src/constants.cs:1541
-#: ../src/gui/app1/chronojump.cs:3692 ../src/gui/app1/encoder.cs:5394
-#: ../src/gui/app1/encoder.cs:5412
+#: ../src/constants.cs:898 ../src/constants.cs:1546
+#: ../src/gui/app1/chronojump.cs:3692 ../src/gui/app1/encoder.cs:5397
+#: ../src/gui/app1/encoder.cs:5415
 msgid "Not enough data."
 msgstr "Premalo podatkov."
 
-#: ../src/constants.cs:897 ../src/gui/app1/session/backup.cs:61
+#: ../src/constants.cs:902 ../src/gui/app1/session/backup.cs:61
 #: ../src/gui/app1/session/export.cs:46
 msgid "Error. Cannot find database."
 msgstr "Napaka. Ni mogoče najti podatkovne zbirke."
 
-#: ../src/constants.cs:905 ../src/gui/app1/session/main.cs:332
+#: ../src/constants.cs:910 ../src/gui/app1/session/main.cs:332
 #: ../src/gui/app1/session/main.cs:362 ../src/gui/app1/session/main.cs:370
 #: ../src/gui/splash.cs:153
 msgid "Error. Cannot open directory."
 msgstr "Napaka: ni mogoče odprti mape."
 
-#: ../src/constants.cs:909
+#: ../src/constants.cs:914
 msgid "Error. File not found."
 msgstr "Napaka: datoteke ni mogoče najti."
 
-#: ../src/constants.cs:913
+#: ../src/constants.cs:918
 msgid "Error. File is empty."
 msgstr "Napaka: datoteke je prazna."
 
-#: ../src/constants.cs:917
+#: ../src/constants.cs:922
 msgid "Error. Cannot copy file."
 msgstr "Napaka: ni mogoče kopirati datoteke"
 
-#: ../src/constants.cs:921
+#: ../src/constants.cs:926
 msgid "Error. File cannot be saved."
 msgstr "Napaka: datoteke ni mogoče shraniti."
 
-#: ../src/constants.cs:925
+#: ../src/constants.cs:930
 #, csharp-format
 msgid "Sorry, this graph cannot be done with test {0}."
 msgstr "Tega grafa ni mogoče uporabiti s testom {0}."
 
-#: ../src/constants.cs:929
-#, fuzzy
+#: ../src/constants.cs:934
 msgid ""
 "Maybe this file is opened by an SpreadSheet software like Excel. Please, "
 "close that program."
 msgstr ""
-"Morda to datoteko odpre programska oprema SpreadSheet, kot je Excel. "
-"Prosimo, zaprite ta program."
+"Morda to datoteko odpre programska oprema za preglednice, kot sta Excel ali "
+"LibreOffice Calc. Prosimo, zaprite ta program."
 
-#: ../src/constants.cs:968
+#: ../src/constants.cs:973
 msgid "Out"
 msgstr "OB PODLOGI"
 
-#: ../src/constants.cs:988
+#: ../src/constants.cs:993
 msgid "On jumps results tab, power is calculated depending on jump type:"
 msgstr "Na zavihku rezultatov skokov je moč izračunana glede na vrsto skoka:"
 
 #. Catalog.GetString("Jumps with TC & TF: Bosco Relative Power (W/Kg)") +
 #. "\n" +
 #. Catalog.GetString("P = 24.6 * (Total time + Flight time) / Contact time") +
-#: ../src/constants.cs:993
+#: ../src/constants.cs:998
 msgid "Jumps with TC and TF:"
 msgstr "Skoki z čS in čL:"
 
-#: ../src/constants.cs:993
+#: ../src/constants.cs:998
 msgid "Developed by Chronojump team"
 msgstr "Program razvija skupina Chronojump"
 
-#: ../src/constants.cs:995
+#: ../src/constants.cs:1000
 msgid "Calculate the potential energies on fall and after the jump."
 msgstr "Izračunaj potencialne energije padca in po skoku."
 
-#: ../src/constants.cs:996
+#: ../src/constants.cs:1001
 msgid "Divide them by time during force is applied."
 msgstr "Razdeli podatke po času med dodajanjem sile."
 
 #. P = mass * g * ( fallHeight + 1.22625 * Math.Pow(tf,2) ) / (Double)tt;
-#: ../src/constants.cs:999
+#: ../src/constants.cs:1004
 msgid "mass"
 msgstr "masa"
 
-#: ../src/constants.cs:1000
+#: ../src/constants.cs:1005
 msgid "falling height"
 msgstr "višina pada"
 
-#: ../src/constants.cs:1000
+#: ../src/constants.cs:1005
 msgid "flight time"
 msgstr "čas leta"
 
-#: ../src/constants.cs:1001
+#: ../src/constants.cs:1006
 msgid "contact time"
 msgstr "čas stika"
 
-#: ../src/constants.cs:1003
+#: ../src/constants.cs:1008
 msgid "Jumps without TC: Lewis Peak Power 1974 (W)"
 msgstr "Skoki brez čS: vrhnja moč Lewis 1974 (W)"
 
-#: ../src/constants.cs:1005
+#: ../src/constants.cs:1010
 msgid ""
 "P = SQRT(4.9) * 9.8 * (body weight+extra weight) * SQRT(jump height in "
 "meters)"
@@ -6078,23 +6015,23 @@ msgstr ""
 "P = SQRT(4,9) * 9,8 * (telesna masa+dodatna obtežitev) * SQRT(višina skoka v "
 "metrih)"
 
-#: ../src/constants.cs:1007
+#: ../src/constants.cs:1012
 msgid "If you want to use other formulas, go to Analyze."
 msgstr "Če želite uporabiti druge enačbe, poglejte možnosti v odseku Analize."
 
-#: ../src/constants.cs:1013
+#: ../src/constants.cs:1018
 msgid "Contact Time"
 msgstr "Čas stika"
 
-#: ../src/constants.cs:1014
+#: ../src/constants.cs:1019
 msgid "Flight Time"
 msgstr "Čas leta"
 
-#: ../src/constants.cs:1015
+#: ../src/constants.cs:1020
 msgid "See:"
 msgstr "Poglejte:"
 
-#: ../src/constants.cs:1025
+#: ../src/constants.cs:1030
 #, csharp-format
 msgid ""
 "Use this window to repair this test.\n"
@@ -6104,176 +6041,169 @@ msgstr ""
 "Dvakrat kliknite katerokoli celico za urejanje (ločilnik decimalnih mest: "
 "'{0}')"
 
-#: ../src/constants.cs:1026
+#: ../src/constants.cs:1031
 msgid "Press enter or tab after editing a cell."
 msgstr "Po urejanju celice pritisnite vnašalko ali tabulatorko."
 
-#: ../src/constants.cs:1050
+#: ../src/constants.cs:1055
 msgid "Sorry, this multimedia file does not exists."
 msgstr "Predstavnostna datoteka ne obstaja."
 
-#: ../src/constants.cs:1057
+#: ../src/constants.cs:1062
 msgid "Running start. Started with initial speed."
 msgstr "Start v teku. Začetek teka z začetno hitrostjo."
 
-#: ../src/constants.cs:1061
+#: ../src/constants.cs:1066
 msgid "Standing start. Started without initial speed."
 msgstr "Stoječi start. Začetek teka brez začetne hitrosti."
 
-#: ../src/constants.cs:1066
+#: ../src/constants.cs:1071
 msgid "Sorry, no cameras found."
 msgstr "Ni najdenih fotoaparatov."
 
-#: ../src/constants.cs:1110 ../src/gui/app1/encoder.cs:2407
+#: ../src/constants.cs:1115 ../src/gui/app1/encoder.cs:2409
 #: ../src/gui/app1/session/loadAndImport.cs:289
 msgid "Jumps simple"
 msgstr "Enostavni skoki"
 
-#: ../src/constants.cs:1112 ../src/gui/app1/encoder.cs:2409
+#: ../src/constants.cs:1117 ../src/gui/app1/encoder.cs:2411
 msgid "Jumps multiple"
 msgstr "Zaporedni skoki"
 
-#: ../src/constants.cs:1114 ../src/gui/app1/encoder.cs:2411
+#: ../src/constants.cs:1119 ../src/gui/app1/encoder.cs:2413
 #: ../src/gui/app1/session/loadAndImport.cs:293
 msgid "Races simple"
 msgstr "Enostavni teki"
 
-#: ../src/constants.cs:1116 ../src/gui/app1/encoder.cs:2413
+#: ../src/constants.cs:1121 ../src/gui/app1/encoder.cs:2415
 msgid "Races intervallic"
 msgstr "Intervalni teki"
 
-#: ../src/constants.cs:1120
+#: ../src/constants.cs:1125
 msgid "Encoder (gravitatory)"
 msgstr "Kodirnik (težnostni)"
 
-#: ../src/constants.cs:1122
+#: ../src/constants.cs:1127
 msgid "Encoder (inertial)"
 msgstr "Kodirnik (vztrajnostni)"
 
-#: ../src/constants.cs:1519 ../src/gui/jump.cs:76
+#: ../src/constants.cs:1524 ../src/gui/jump.cs:76
 msgid "jump"
 msgstr "skok"
 
-#: ../src/constants.cs:1520
+#: ../src/constants.cs:1525
 msgid "body speed"
 msgstr "hitrost telesa"
 
-#: ../src/constants.cs:1521
+#: ../src/constants.cs:1526
 msgid "speed"
 msgstr "hitrost"
 
-#: ../src/constants.cs:1523
+#: ../src/constants.cs:1528
 msgid "Accel."
 msgstr "Pospeš."
 
-#: ../src/constants.cs:1526
+#: ../src/constants.cs:1531
 msgid "Average Power"
 msgstr "Povprečna moč"
 
-#: ../src/constants.cs:1532
+#: ../src/constants.cs:1537
 msgid "distance"
 msgstr "razdalja"
 
-#: ../src/constants.cs:1535
+#: ../src/constants.cs:1540
 msgid "eccentric"
 msgstr "ekscentrično"
 
-#: ../src/constants.cs:1536
+#: ../src/constants.cs:1541
 msgid "concentric"
 msgstr "koncentrično"
 
-#: ../src/constants.cs:1537
+#: ../src/constants.cs:1542
 msgid "land"
 msgstr "tla"
 
-#: ../src/constants.cs:1538
+#: ../src/constants.cs:1543
 msgid "air"
 msgstr "zrak"
 
-#: ../src/constants.cs:1539
+#: ../src/constants.cs:1544
 msgid "jump height"
 msgstr "višina skoka"
 
-#: ../src/constants.cs:1542
+#: ../src/constants.cs:1547
 msgid "Encoder is not connected."
 msgstr "Kodirnik ni povezan"
 
-#: ../src/constants.cs:1543
+#: ../src/constants.cs:1548
 msgid "prediction"
 msgstr "napoved"
 
-#: ../src/constants.cs:1544
+#: ../src/constants.cs:1549
 msgid "Concentric mean speed on bench press 1RM ="
 msgstr "Koncentrična povprečna hitrost pri potisku mejne teže s prsmi ="
 
-#: ../src/constants.cs:1545
+#: ../src/constants.cs:1550
 msgid "Concentric mean speed on squat 1RM ="
 msgstr "Koncentrična povprečna hitrost pri počepu mejne teže ="
 
-#: ../src/constants.cs:1546
+#: ../src/constants.cs:1551
 msgid "Estimated percentual load ="
 msgstr "Ocenjen a obremenitev"
 
-#: ../src/constants.cs:1547
+#: ../src/constants.cs:1552
 msgid "Adapted from"
 msgstr "Povzeto po"
 
-#: ../src/constants.cs:1548
-#, fuzzy
+#: ../src/constants.cs:1553
 msgid "Mean speed in concentric propulsive phase"
-msgstr "Pri koncentričnih gibih, oceni le odrivni del giba."
+msgstr "Povprečna hitrost v koncentrični odrivni fazi"
 
-#: ../src/constants.cs:1549 ../src/gui/app1/encoder.cs:1476
+#: ../src/constants.cs:1554 ../src/gui/app1/encoder.cs:1476
 msgid "Sorry, no repetitions matched your criteria."
 msgstr "Ni ponovitev, ki ustrezajo kriterijem."
 
-#: ../src/constants.cs:1550
+#: ../src/constants.cs:1555
 msgid "Need at least three jumps"
 msgstr "Izvesti je treba najmanj tri skoke"
 
-#: ../src/constants.cs:1551
-#, fuzzy
-#| msgid "Need at least three jumps"
+#: ../src/constants.cs:1556
 msgid "Need at least three eccentric-concentric jumps"
-msgstr "Izvesti je treba najmanj tri skoke"
+msgstr "Izvesti je treba najmanj tri ekscentično-koncentrične skoke"
 
 #. laterality is stored on English but translated on encoder sqlite select
-#: ../src/constants.cs:1552 ../src/gui/app1/encoder.cs:1891
-#: ../src/sqlite/main.cs:1946 ../src/sqlite/main.cs:1947
+#: ../src/constants.cs:1557 ../src/gui/app1/encoder.cs:1892
+#: ../src/sqlite/main.cs:1941 ../src/sqlite/main.cs:1942
 msgid "RL"
 msgstr "RL"
 
-#: ../src/constants.cs:1552 ../src/gui/app1/encoder.cs:1893
-#: ../src/sqlite/main.cs:1949 ../src/sqlite/main.cs:1950
+#: ../src/constants.cs:1557 ../src/gui/app1/encoder.cs:1894
+#: ../src/sqlite/main.cs:1944 ../src/sqlite/main.cs:1945
 msgid "R"
 msgstr "R"
 
-#: ../src/constants.cs:1552 ../src/sqlite/main.cs:1952
-#: ../src/sqlite/main.cs:1953
+#: ../src/constants.cs:1557 ../src/sqlite/main.cs:1947
+#: ../src/sqlite/main.cs:1948
 msgid "L"
 msgstr "L"
 
-#: ../src/constants.cs:1554
-#, fuzzy
+#: ../src/constants.cs:1559
 msgid "Maximum mean power using the F-V profile"
 msgstr "Največja povprečna moč z uporabo profila F-V"
 
-#: ../src/constants.cs:1555
-#, fuzzy
+#: ../src/constants.cs:1560
 msgid "Mean power parabole using the Power-Load data"
 msgstr "Parabola srednje moči z uporabo podatkov o moči in obremenitvi"
 
-#: ../src/constants.cs:1557
-#, fuzzy
-#| msgid "Propulsive"
+#: ../src/constants.cs:1562
 msgid "Non propulsive"
-msgstr "Odrivni"
+msgstr "Neodrivni"
 
-#: ../src/encoder.cs:1025 ../src/sqlite/encoder.cs:640
+#: ../src/encoder.cs:1028 ../src/sqlite/encoder.cs:640
 msgid "Eccentric-concentric"
 msgstr "Ekscentrično-koncentrično"
 
-#: ../src/encoder.cs:1027
+#: ../src/encoder.cs:1030
 msgid "Concentric-eccentric"
 msgstr "Koncentrično-ekscentrično"
 
@@ -6285,33 +6215,31 @@ msgstr "Koncentrično-ekscentrično"
 #. weight of each extra weight (inertia)
 #. length from center to center (cm) (inertia)
 #. object managing a list of diameters depending on the anchorage position
-#: ../src/encoder.cs:1700 ../src/encoder.cs:1745 ../src/encoder.cs:1767
+#: ../src/encoder.cs:1703 ../src/encoder.cs:1748 ../src/encoder.cs:1770
 #, fuzzy
 msgid "Linear encoder attached to a barbell."
-msgstr "Linearni dajalnik, pritrjen na palico."
+msgstr "Linearni kodirnik, pritrjen na palico."
 
-#: ../src/encoder.cs:1701
-#, fuzzy
+#: ../src/encoder.cs:1704
 msgid "Also common gym tests like jumps or chin-ups."
-msgstr "Tudi običajni testi telovadnice, kot so skoki ali podbradki."
+msgstr "Tudi običajni telovadni testi, kot so skoki ali vese."
 
-#: ../src/encoder.cs:1738 ../src/encoder.cs:1756 ../src/encoder.cs:1778
+#: ../src/encoder.cs:1741 ../src/encoder.cs:1759 ../src/encoder.cs:1781
 #, fuzzy
 msgid "Linear encoder inverted attached to a barbell."
-msgstr "Linearni dajalnik obrnjen, pritrjen na palico."
+msgstr "Linearni kodirnik obrnjen, pritrjen na palico."
 
-#: ../src/encoder.cs:1746 ../src/encoder.cs:1757
+#: ../src/encoder.cs:1749 ../src/encoder.cs:1760
 #, fuzzy
 msgid "Barbell is connected to a weighted moving pulley."
 msgstr "Palica je povezana z uteženo gibljivo jermenico."
 
-#: ../src/encoder.cs:1747 ../src/encoder.cs:1758 ../src/encoder.cs:1769
-#: ../src/encoder.cs:1780 ../src/encoder.cs:1790 ../src/encoder.cs:1976
-#, fuzzy
+#: ../src/encoder.cs:1750 ../src/encoder.cs:1761 ../src/encoder.cs:1772
+#: ../src/encoder.cs:1783 ../src/encoder.cs:1793 ../src/encoder.cs:1979
 msgid "Mass is geared down by 2."
-msgstr "Masa je usmerjena navzdol za 2."
+msgstr "Masa je pomanjšana za faktor 2."
 
-#: ../src/encoder.cs:1768 ../src/encoder.cs:1779
+#: ../src/encoder.cs:1771 ../src/encoder.cs:1782
 #, fuzzy
 msgid ""
 "Barbell is connected to a fixed pulley that is connected to a weighted "
@@ -6319,141 +6247,130 @@ msgid ""
 msgstr ""
 "Barbell je povezan s fiksnim pulleyem, ki je povezan z uteženo gibljivo pulo."
 
-#: ../src/encoder.cs:1789
+#: ../src/encoder.cs:1792
 #, fuzzy
 msgid "Linear encoder attached to a weighted moving pulley."
-msgstr "Linearni dajalnik, pritrjen na uteženo gibljivo jermenico."
+msgstr "Linearni kodirnik, pritrjen na obteženo gibljivo jermenico."
 
-#: ../src/encoder.cs:1799
+#: ../src/encoder.cs:1802
 #, fuzzy
 msgid "Linear encoder on a inclined plane."
-msgstr "Linearni dajalnik na nagnjeni ravnini."
+msgstr "Linearni kodirnik na nagnjeni ravnini."
 
-#: ../src/encoder.cs:1800 ../src/encoder.cs:1811 ../src/encoder.cs:1822
-#, fuzzy
+#: ../src/encoder.cs:1803 ../src/encoder.cs:1814 ../src/encoder.cs:1825
 msgid "Suitable also for horizontal movement. Just set a 0 push angle."
-msgstr "Primerno tudi za vodoravno gibanje. Samo nastavite kot potiskanja 0."
+msgstr "Primerno tudi za vodoravno gibanje. Samo nastavite kot potiska na 0."
 
-#: ../src/encoder.cs:1810 ../src/encoder.cs:1821
+#: ../src/encoder.cs:1813 ../src/encoder.cs:1824
 #, fuzzy
 msgid "Linear encoder on a inclined plane moving a weight in different angle."
 msgstr ""
-"Linearni dajalnik na nagnjeni ravnini, ki premika utež pod različnim kotom."
+"Linearni kodirnik na nagnjeni ravnini, ki premika utež pod različnim kotom."
 
-#: ../src/encoder.cs:1823
+#: ../src/encoder.cs:1826
 #, fuzzy
 msgid ""
 "Force demultiplier refers to the times the rope comes in and comes out from "
 "the moving pulley attached to the extra load."
 msgstr ""
-"Silni demultiplier se nanaša na čase, ko pride vrv in prihaja iz gibljivih "
-"pulovk, pritrjenih na dodatno obremenitev."
+"Demultiplikator sile se nanaša na čase, ko pride vrv in prihaja iz "
+"gibljivega potega, pritrjenega na dodatno obremenitev."
 
-#: ../src/encoder.cs:1824
-#, fuzzy
+#: ../src/encoder.cs:1827
 msgid "In the example image demultiplier is 2, hence multiplier is 1/2."
-msgstr "V primeru slike je demultiplikator 2, zato je množitelj 1/2."
+msgstr "Na sliki primera je demultiplikator 2, zato je množitelj 1/2."
 
-#: ../src/encoder.cs:1845
-#, fuzzy
+#: ../src/encoder.cs:1848
 msgid "Linear encoder on inertia machine."
-msgstr "Premer osi vztrajnostne naprave"
+msgstr "Linearni kodirnik na vztrajnostni napravi."
 
-#: ../src/encoder.cs:1846
-#, fuzzy
+#: ../src/encoder.cs:1849
 msgid "Configuration NOT Recommended! Please use a rotary encoder."
-msgstr "Konfiguracija NI priporočljiva! Uporabite rotacijski dajalnik."
+msgstr "Konfiguracija NI priporočljiva! Uporabite rotacijski kodirnik."
 
-#: ../src/encoder.cs:1847 ../src/encoder.cs:1886 ../src/encoder.cs:1898
-#: ../src/encoder.cs:1910 ../src/encoder.cs:1926 ../src/encoder.cs:1938
-#: ../src/encoder.cs:1950 ../src/encoder.cs:1987 ../src/encoder.cs:1998
-#: ../src/encoder.cs:2009 ../src/encoder.cs:2022
-#, fuzzy
+#: ../src/encoder.cs:1850 ../src/encoder.cs:1889 ../src/encoder.cs:1901
+#: ../src/encoder.cs:1913 ../src/encoder.cs:1929 ../src/encoder.cs:1941
+#: ../src/encoder.cs:1953 ../src/encoder.cs:1990 ../src/encoder.cs:2001
+#: ../src/encoder.cs:2012 ../src/encoder.cs:2025
 msgid ""
 "On inertial machines, 'd' means the average diameter where the pull-push "
 "string is rolled"
 msgstr ""
-"Na inercialnih strojih pomeni \"d\" povprečen premer, pri katerem se vlečeni "
-"niz valja"
+"Na vztrajnostnih napravah pomeni »d« povprečen premer, pri katerem se vrti "
+"vrv potegni-povleci"
 
-#: ../src/encoder.cs:1859
+#: ../src/encoder.cs:1862
 #, fuzzy
 msgid "Rotary friction encoder on pulley."
 msgstr "Rotacijski torni dajalnik na jermenici."
 
-#: ../src/encoder.cs:1866
+#: ../src/encoder.cs:1869
 #, fuzzy
 msgid "Rotary friction encoder on pulley axis."
 msgstr "Rotacijski trenje na osi jermenice."
 
-#: ../src/encoder.cs:1876
+#: ../src/encoder.cs:1879
 #, fuzzy
 msgid "Rotary friction encoder on weighted moving pulley."
-msgstr "Rotacijski torni dajalnik na uteženi gibljivi jermenici."
+msgstr "Kodirnik rotacijskega trenja na uteženi gibljivi jermenici."
 
-#: ../src/encoder.cs:1885
-#, fuzzy
+#: ../src/encoder.cs:1888
 msgid "Rotary friction encoder on inertial machine side."
-msgstr "Rotacijski torni dajalnik na strani inercialnega stroja."
+msgstr "Kodirnik rotacijskega trenja na strani vztrajnostne naprave."
 
-#: ../src/encoder.cs:1897 ../src/encoder.cs:1937
-#, fuzzy
+#: ../src/encoder.cs:1900 ../src/encoder.cs:1940
 msgid ""
 "Rotary friction encoder on inertial machine when person is moving "
 "horizontally."
 msgstr ""
-"Rotacijski torni dajalnik na inercialnem stroju, ko se oseba premika "
+"Kodirnik rotacijskega trenja na vztrajnostni napravi, ko se oseba premika "
 "vodoravno."
 
-#: ../src/encoder.cs:1909 ../src/encoder.cs:1949
-#, fuzzy
+#: ../src/encoder.cs:1912 ../src/encoder.cs:1952
 msgid "Rotary friction encoder on inertial machine geared up."
-msgstr "Rotacijski torni dajalnik na inercialnem stroju je prestavljen."
+msgstr "Kodirnik rotacijskega trenja na vztrajnostni napravi je nameščen."
 
-#: ../src/encoder.cs:1911 ../src/encoder.cs:1951 ../src/encoder.cs:2010
-#: ../src/encoder.cs:2023
-#, fuzzy
+#: ../src/encoder.cs:1914 ../src/encoder.cs:1954 ../src/encoder.cs:2013
+#: ../src/encoder.cs:2026
 msgid "Inertial machine rolls twice faster than body."
-msgstr "Inercialni stroj se vrti dvakrat hitreje kot telo."
+msgstr "Vztrajnostna naprava se vrti dvakrat hitreje kot telo."
 
-#: ../src/encoder.cs:1925
-#, fuzzy
+#: ../src/encoder.cs:1928
 msgid "Rotary friction encoder on inertial machine axis."
-msgstr "Premer osi vztrajnostne naprave"
+msgstr "Kodirnik rotacijskega trenja na osi vztrajnostne naprave."
 
-#: ../src/encoder.cs:1966
+#: ../src/encoder.cs:1969
 #, fuzzy
 msgid "Rotary axis encoder on pulley axis."
 msgstr "Kodirnik rotacijske osi na osi jermenice."
 
-#: ../src/encoder.cs:1975
+#: ../src/encoder.cs:1978
 #, fuzzy
 msgid "Rotary axis encoder on weighted moving pulley."
 msgstr "Kodirnik rotacijske osi na uteženi gibljivi jermenici."
 
-#: ../src/encoder.cs:1986
-#, fuzzy
+#: ../src/encoder.cs:1989
 msgid "Rotary axis encoder on inertial machine."
-msgstr "Premer osi vztrajnostne naprave"
+msgstr "Kodirnik rotacijske osi na vztrajnostni napravi."
 
-#: ../src/encoder.cs:1997
-#, fuzzy
+#: ../src/encoder.cs:2000
 msgid ""
 "Rotary axis encoder on inertial machine when person is moving horizontally."
 msgstr ""
-"Kodirnik vrtljive osi na inercialnem stroju, ko se oseba premika vodoravno."
+"Kodirnik rotacijske osi na vztrajnostni napravi, ko se oseba premika "
+"vodoravno."
 
-#: ../src/encoder.cs:2008
-#, fuzzy
+#: ../src/encoder.cs:2011
 msgid "Rotary axis encoder on inertial machine geared up."
-msgstr "Kodirnik vrtljive osi na inercialnem stroju je nameščen."
+msgstr "Kodirnik rotacijske osi na vztrajnostni napravi je nameščen."
 
-#: ../src/encoder.cs:2021
-#, fuzzy
+#: ../src/encoder.cs:2024
 msgid ""
 "Rotary axis encoder on inertial machine geared up when person is moving "
 "horizontally."
-msgstr "Premer osi vztrajnostne naprave"
+msgstr ""
+"Kodirnik rotacijske osi na vztrajnostni napravi, ki je postavljena navzgor, "
+"ko se oseba premika vodoravno."
 
 #: ../src/encoderRhythm.cs:400 ../src/encoderRhythm.cs:457
 #, csharp-format
@@ -6466,10 +6383,8 @@ msgstr "Počitek {0} s"
 #. Catalog.GetString("Chronopic seems disconnected."));
 #.
 #: ../src/execute/event.cs:625
-#, fuzzy
-#| msgid "Chronopic is disconnected."
 msgid "Chronopic seems disconnected."
-msgstr "Naprava kronopik ni povezana."
+msgstr "Zdi se, da je Chronopic ni povezan."
 
 #. done here before thread starts
 #: ../src/execute/jump.cs:171 ../src/execute/jump.cs:262
@@ -6513,9 +6428,10 @@ msgid "There's contact in {0}. Please leave."
 msgstr "Podloga {0} je v stiku! Pred začetkom mora biti prosta."
 
 #: ../src/execute/multiChronopic.cs:366
-#, fuzzy
 msgid "Press and maintain Test button in all Chronopics simultaneously."
-msgstr "Pritisnite in vzdržujte gumb Test (Preskus) v vseh kronopikah hkrati."
+msgstr ""
+"Pritisnite in vzdržujte gumb Test (Preizkusi/Testiraj) v vseh napravah "
+"Chronopic hkrati."
 
 #: ../src/execute/multiChronopic.cs:393
 msgid "Release Test button in all Chronopics simultaneously."
@@ -6530,7 +6446,7 @@ msgid "Test starts now."
 msgstr "Test se začne izvajati sedaj."
 
 #: ../src/executeProcess.cs:127 ../src/executeProcess.cs:214
-#, fuzzy, csharp-format
+#, csharp-format
 msgid ""
 "Cannot start:\n"
 "{0}\n"
@@ -6540,7 +6456,7 @@ msgid ""
 msgstr ""
 "Ni mogoče zagnati:\n"
 "{0}\n"
-"s parametri:{1}\n"
+"s parametri: {1}\n"
 "Izjema:\n"
 "{2}"
 
@@ -6577,25 +6493,20 @@ msgid "You are OUT, RUN when prepared!"
 msgstr "Ste OB PODLOGI! STECITE, ko boste pripravljeni!"
 
 #: ../src/execute/run.cs:999
-#, fuzzy
-#| msgid "Include tracks"
 msgid "Included on race time"
-msgstr "Dodaj steze"
+msgstr "Vključeno v čas teka"
 
 #: ../src/execute/run.cs:1000
-#, fuzzy
 msgid "Not included on race time"
-msgstr "Ni vključeno v čas tekmovanja"
+msgstr "Ni vključeno v čas teka"
 
 #: ../src/execute/run.cs:1126
-#, fuzzy
 msgid "Included on race time of first track"
-msgstr "Vključeno v čas dirke prve proge"
+msgstr "Vključeno v čas teka na prvi progi"
 
 #: ../src/execute/run.cs:1127
-#, fuzzy
 msgid "Not included on race time of first track"
-msgstr "Ni vključeno v čas dirke prve proge"
+msgstr "Ni vključeno v čas teka na prvi progi"
 
 #: ../src/execute/run.cs:1303
 msgid "Go!"
@@ -6615,18 +6526,17 @@ msgstr[3] "Počakajte {0} sekunde."
 #. new DialogMessage(Constants.MessageTypes.WARNING,
 #. Catalog.GetString("Race will not be recorded, 1st lap is out of time"));
 #: ../src/execute/run.cs:1431
-#, fuzzy
 msgid "Race will not be recorded. Out of time."
-msgstr "Tek ne bo zabeležen, saj je na prvi stezi čas že pretekel"
+msgstr "Tek ne bo zabeležen. Čas je pretekel."
 
 #: ../src/exportFiles/exportFiles.cs:168
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Discarded 1 set for being too short."
 msgid_plural "Discarded {0} sets for being too short."
-msgstr[0] "Zavržen 1 komplet, ker je prekratek."
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Zavrženih {0} nizov, ker so prekratki."
+msgstr[1] "Zavržen {0} niz, ker je prekratek."
+msgstr[2] "Zavržena {0} niza, ker sta prekratka."
+msgstr[3] "Zavrženi {0} nizi, ker so prekratki."
 
 #: ../src/exportFiles/exportFiles.cs:173 ../src/gui/app1/chronojump.cs:3690
 #: ../src/gui/app1/session/export.cs:185 ../src/gui/encoderConfiguration.cs:875
@@ -6638,7 +6548,7 @@ msgstr "Preklicano."
 msgid "Missing data."
 msgstr "Manjkajo podatki."
 
-#: ../src/exportFiles/exportFiles.cs:177 ../src/gui/app1/encoder.cs:5404
+#: ../src/exportFiles/exportFiles.cs:177 ../src/gui/app1/encoder.cs:5407
 msgid "Error doing operation."
 msgstr "Napaka pri delovanju."
 
@@ -6661,15 +6571,14 @@ msgid "Exporting {0}/{1}"
 msgstr "Poteka izvažanje {0}/{1}"
 
 #: ../src/exportFiles/fs.cs:144
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Preparing sets {0}/{1}"
-msgstr "Priprava kompletov {0}/{1}"
+msgstr "Priprava nizov {0}/{1}"
 
 #: ../src/exportFiles/fs.cs:449
-#, fuzzy, csharp-format
-#| msgid "Export repetition from A to B"
+#, csharp-format
 msgid "Exporting repetition {0}/{1}"
-msgstr "Izvozi ponovitve od A do B"
+msgstr "Izvažanje ponovitev {0}/{1}"
 
 #: ../src/exportSession.cs:74
 msgid "Save report as …"
@@ -6690,10 +6599,10 @@ msgid "Cannot export to file {0} "
 msgstr "Ni mogoče izvoziti v datoteko {0}"
 
 #: ../src/exportSession.cs:197 ../src/gui/app1/chronojump.cs:3684
-#: ../src/gui/app1/encoder.cs:2722 ../src/gui/app1/encoder.cs:2908
-#: ../src/gui/app1/encoder.cs:2916 ../src/gui/app1/encoder.cs:2923
-#: ../src/gui/app1/encoder.cs:2930 ../src/gui/app1/encoder.cs:2938
-#: ../src/gui/app1/encoder.cs:2945 ../src/gui/app1/encoder.cs:2953
+#: ../src/gui/app1/encoder.cs:2724 ../src/gui/app1/encoder.cs:2910
+#: ../src/gui/app1/encoder.cs:2918 ../src/gui/app1/encoder.cs:2925
+#: ../src/gui/app1/encoder.cs:2932 ../src/gui/app1/encoder.cs:2940
+#: ../src/gui/app1/encoder.cs:2947 ../src/gui/app1/encoder.cs:2955
 #: ../src/gui/app1/forceSensor.cs:3231 ../src/gui/app1/forceSensor.cs:3243
 #: ../src/gui/app1/forceSensor.cs:3265
 #: ../src/gui/app1/graphs/jumpsAsymmetry.cs:298
@@ -6722,13 +6631,10 @@ msgid "Simple races"
 msgstr "Enostavni teki"
 
 #: ../src/exportSession.cs:303 ../src/report.cs:187 ../src/report.cs:190
-#, fuzzy
-#| msgid "interval runs"
 msgid "interval races"
-msgstr "intervalni teki"
+msgstr "Intervalni teki"
 
 #: ../src/exportSession.cs:304 ../src/report.cs:188
-#, fuzzy
 msgid "with laps"
 msgstr "s krogi"
 
@@ -6736,7 +6642,7 @@ msgstr "s krogi"
 msgid "SessionID"
 msgstr "ID Seje"
 
-#: ../src/exportSession.cs:344 ../src/gui/app1/encoder.cs:1800
+#: ../src/exportSession.cs:344 ../src/gui/app1/encoder.cs:1801
 #: ../src/gui/app1/forceSensor.cs:2047 ../src/gui/app1/runEncoder.cs:1152
 #: ../src/gui/convertWeight.cs:112 ../src/gui/encoderSelectRepetitions.cs:219
 #: ../src/gui/encoderSelectRepetitions.cs:438
@@ -6898,29 +6804,22 @@ msgid "Sample"
 msgstr "Vzorec"
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:119
-#, fuzzy
 msgid "Need to fill person's leg parameters."
-msgstr "Potrebno je izpolniti parametre noge osebe."
+msgstr "Potrebno je izpolniti parametre nog osebe."
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:121
-#, fuzzy
 msgid "Person's leg parameters are incorrect."
-msgstr "Parametri noge osebe so napačni."
+msgstr "Parametri nog osebe so napačni."
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:123
-#, fuzzy
-#| msgid "Need to execute jump/s"
 msgid "Need to execute jumps SJl and/or SJ."
-msgstr "Izvesti je treba skoke"
+msgstr "Potrebno je izvesti skoke SJl in/ali SJ."
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:125
-#, fuzzy
-#| msgid "Need to execute jump/s"
 msgid "Need to execute jumps with different weights."
-msgstr "Izvesti je treba skoke"
+msgstr "Potrebno je izvesti skoke z različnimi utežmi."
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:127
-#, fuzzy
 msgid "F0 and V0 are not > 0."
 msgstr "F0 in V0 nista > 0."
 
@@ -6933,14 +6832,12 @@ msgid "V0 is not > 0."
 msgstr "V0 ni > 0."
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:205
-#, fuzzy
 msgid "Need to develop force"
-msgstr "Potreba po razvoju sile"
+msgstr "Razviti je treba silo:"
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:207
-#, fuzzy
 msgid "Need to develop speed"
-msgstr "Potreba po razvoju hitrosti"
+msgstr "Razviti je treba hitrost:"
 
 #: ../src/graphs/cairo/radial.cs:174
 msgid "Max Speed"
@@ -6951,16 +6848,12 @@ msgstr "Največja hitrost"
 #. done to use Catalog just only on gui/cairo/xy.cs
 #. but jumpsWeightFVProfile has many messages, so done also there, and also on radial
 #: ../src/graphs/cairo/xy.cs:98
-#, fuzzy
-#| msgid "Need to execute jump/s"
 msgid "Need to execute jumps:"
-msgstr "Izvesti je treba skoke"
+msgstr "Izvesti je treba skoke:"
 
 #: ../src/graphs/cairo/xy.cs:99
-#, fuzzy
-#| msgid "Need to execute jump/s"
 msgid "Need to execute races:"
-msgstr "Izvesti je treba skoke"
+msgstr "Izvesti je treba teke:"
 
 #: ../src/graphs/cairo/xy.cs:100
 msgid "Jumps cannot be the same."
@@ -6975,9 +6868,8 @@ msgid "Jump type:"
 msgstr "Vrsta skoka:"
 
 #: ../src/graphs/cairo/xy.cs:116
-#, fuzzy
 msgid "Race type:"
-msgstr "Vrsta tekmovanja:"
+msgstr "Vrsta teka:"
 
 #: ../src/graphs/cairo/xy.cs:657 ../src/graphs/cairo/xy.cs:663
 #: ../src/gui/person/addMultiple.cs:695 ../src/gui/preferences.cs:3159
@@ -7008,16 +6900,14 @@ msgid "Negative index: {0} is higher than {1}"
 msgstr "Negativni kazalnik: {0} je večji od {1}"
 
 #: ../src/graphs/jumpsProfile.cs:249
-#, fuzzy
 msgid "Cannot predict SJl at 100% body weight. Jump height would be negative."
 msgstr ""
-"Ne morem napovedati SJl pri 100% telesni teži. Višina skoka bi bila "
+"Ni možno napovedati SJl pri 100 % telesni teži. Višina skoka bi bila "
 "negativna."
 
 #: ../src/graphs/jumpsProfile.cs:251
-#, fuzzy
 msgid "Problems calculating SJl at 100% body weight."
-msgstr "Težave pri izračunu SJl pri 100% telesni teži."
+msgstr "Težave pri izračunu SJl pri 100 % telesni teži."
 
 #: ../src/gui/app1/chronojump.cs:1436
 #, csharp-format
@@ -7029,7 +6919,7 @@ msgid "Preferences loaded"
 msgstr "Možnosti so naložene"
 
 #: ../src/gui/app1/chronojump.cs:1737
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Sprints of {0}"
 msgstr "Sprinti {0}"
 
@@ -7072,19 +6962,17 @@ msgid "Session created, now add or load persons."
 msgstr "Seja je ustvarjena, sedaj je mogoče dodati ali naložiti testirance."
 
 #: ../src/gui/app1/chronojump.cs:3793
-#, fuzzy
 msgid "Changes on cloud options force to restart Chronojump to apply changes"
 msgstr ""
-"Spremembe v možnostih v oblaku prisilijo, da znova zaženete Chronojump, da "
-"uveljavite spremembe"
+"Spremembe v možnostih v oblaku zahtevajo nov zagon Chronojumpa, da "
+"uveljavite spremembe."
 
 #: ../src/gui/app1/chronojump.cs:4690 ../src/gui/app1/chronojump.cs:4698
-#, fuzzy
 msgid "Sorry, R software is not installed."
 msgstr "Žal programska oprema R ni nameščena."
 
-#: ../src/gui/app1/chronojump.cs:4691 ../src/gui/app1/encoder.cs:7641
-#: ../src/stats/main.cs:1514
+#: ../src/gui/app1/chronojump.cs:4691 ../src/gui/app1/encoder.cs:7644
+#: ../src/stats/main.cs:1515
 msgid "Please, install it from here:"
 msgstr "Prosimo, namestite ga od tukaj:"
 
@@ -7094,32 +6982,27 @@ msgid "Sorry, {0} software is not installed."
 msgstr "Žal programska oprema {0} ni nameščena."
 
 #: ../src/gui/app1/chronojump.cs:5032
-#, fuzzy
-#| msgid "Contact platform"
 msgid "Measured by a contact platform"
-msgstr "Merilna podloga"
+msgstr "Izmerjeno s kontaktno podlogo"
 
 #: ../src/gui/app1/chronojump.cs:5047
-#, fuzzy
 msgid "Isometric force exercises measured by a force sensor"
-msgstr "Izometrične vaje sile, merjene s senzorjem sile"
+msgstr "Vaje izometrične sile, merjene s tipalom sile"
 
 #: ../src/gui/app1/chronojump.cs:5053
-#, fuzzy
 msgid "Elastic force exercises measured by a force sensor"
-msgstr "Vaje z elastično silo, ki jih meri senzor sile"
+msgstr "Vaje elastične sile, merjene s tipalom sile"
 
 #: ../src/gui/app1/chronojump.cs:5059
 #, fuzzy
 msgid "Speed/power exercises displacing weights measured by an encoder"
-msgstr "Vaje za hitrost/moč, ki izpodrivajo uteži, izmerjene s kodirnikom"
+msgstr "Vaje za hitrost/moč z izpodrivanjem uteži, izmerjene s kodirnikom"
 
 #: ../src/gui/app1/chronojump.cs:5065
-#, fuzzy
 msgid ""
 "Speed/power exercises rotating an inertial machine and measured by an encoder"
 msgstr ""
-"Vaje za hitrost/moč, ki vrtijo inercialni stroj in se merijo s kodirnikom"
+"Vaje za hitrost/moč z vrtenjem vztrajnostne naprave, izmerjene s kodirnikom"
 
 #: ../src/gui/app1/chronojump.cs:5356
 #, csharp-format
@@ -7220,8 +7103,8 @@ msgstr "Zaznan je več kot 1 kodirnik"
 msgid "Calibrated"
 msgstr "Umerjeno"
 
-#: ../src/gui/app1/encoder.cs:952 ../src/gui/app1/encoder.cs:5598
-#: ../src/gui/app1/encoder.cs:5856 ../src/gui/app1/forceSensor.cs:424
+#: ../src/gui/app1/encoder.cs:952 ../src/gui/app1/encoder.cs:5601
+#: ../src/gui/app1/encoder.cs:5859 ../src/gui/app1/forceSensor.cs:424
 #: ../src/gui/app1/forceSensor.cs:3573 ../src/gui/app1/forceSensor.cs:3635
 #: ../src/gui/app1/runEncoder.cs:356 ../src/gui/app1/runEncoder.cs:2516
 #: ../src/gui/app1/runEncoder.cs:2755
@@ -7259,7 +7142,6 @@ msgid "Add 1RM value"
 msgstr "Dodaj 1 vrednost mejne teže"
 
 #: ../src/gui/app1/encoder.cs:1374
-#, fuzzy
 msgid "Recalculate this set will remove existing triggers."
 msgstr "Preračunavanje tega niza bo odstranilo obstoječe sprožilce."
 
@@ -7267,18 +7149,17 @@ msgstr "Preračunavanje tega niza bo odstranilo obstoječe sprožilce."
 msgid "Are you sure!"
 msgstr "Ali ste prepričani?"
 
-#: ../src/gui/app1/encoder.cs:1706 ../src/gui/app1/encoder.cs:4841
+#: ../src/gui/app1/encoder.cs:1707 ../src/gui/app1/encoder.cs:4844
 #, fuzzy
-#| msgid "Laterality"
 msgid "Any laterality"
-msgstr "Lateralno"
+msgstr "Vsakršna lateralnost/bočnost"
 
-#: ../src/gui/app1/encoder.cs:1805 ../src/gui/overview.cs:296
+#: ../src/gui/app1/encoder.cs:1806 ../src/gui/overview.cs:296
 #: ../src/gui/overview.cs:305
 msgid "Encoder configuration"
-msgstr "Nastavitev kodrinika"
+msgstr "Nastavitev kodirnika"
 
-#: ../src/gui/app1/encoder.cs:1806 ../src/gui/encoderSelectRepetitions.cs:229
+#: ../src/gui/app1/encoder.cs:1807 ../src/gui/encoderSelectRepetitions.cs:229
 #: ../src/gui/overview.cs:310
 msgid "Contraction"
 msgstr "Krčenje"
@@ -7299,15 +7180,15 @@ msgstr "Krčenje"
 #. a2.Add(Constants.GenericWindowShow.COMBO); a2.Add(true); a2.Add("");
 #. bigArray.Add(a2);
 #.
-#: ../src/gui/app1/encoder.cs:1823 ../src/gui/app1/forceSensor.cs:2100
+#: ../src/gui/app1/encoder.cs:1824 ../src/gui/app1/forceSensor.cs:2100
 #: ../src/gui/app1/runEncoder.cs:1196
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Select set of athlete {0} on this session."
-msgstr "Izbor signala testiranca {0} za to sejo."
+msgstr "Izberite niz atleta {0} za to sejo."
 
 #. genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected set") +
 #. " (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
-#: ../src/gui/app1/encoder.cs:1839 ../src/gui/app1/forceSensor.cs:2136
+#: ../src/gui/app1/encoder.cs:1840 ../src/gui/app1/forceSensor.cs:2136
 #: ../src/gui/app1/runEncoder.cs:1232
 msgid "Change person"
 msgstr "Zamenjaj testiranca"
@@ -7337,54 +7218,54 @@ msgstr "Zamenjaj testiranca"
 #. If user renames it, then an Unnamed will be created next time that a set with new different config is loaded
 #. See: https://gitlab.gnome.org/GNOME/chronojump/-/issues/96
 #.
-#: ../src/gui/app1/encoder.cs:1954
+#: ../src/gui/app1/encoder.cs:1955
 msgid "Unnamed"
 msgstr "Neimenovano"
 
-#: ../src/gui/app1/encoder.cs:2085 ../src/gui/app1/encoder.cs:2997
+#: ../src/gui/app1/encoder.cs:2086 ../src/gui/app1/encoder.cs:2999
 #: ../src/gui/app1/forceSensor.cs:2455 ../src/gui/app1/forceSensor.cs:2492
 #: ../src/gui/app1/runEncoder.cs:1691 ../src/gui/app1/runEncoder.cs:1728
 msgid "Are you sure you want to delete this set?"
 msgstr "Ali ste prepričani, da želite izbrisati ta niz?"
 
-#: ../src/gui/app1/encoder.cs:2085 ../src/gui/app1/encoder.cs:2997
+#: ../src/gui/app1/encoder.cs:2086 ../src/gui/app1/encoder.cs:2999
 msgid "Saved repetitions related to this set will also be deleted."
 msgstr ""
 "Shranjena ponavljanja, kis o povezana s tem nizom, bodo prav tako izbrisana."
 
-#: ../src/gui/app1/encoder.cs:2292
+#: ../src/gui/app1/encoder.cs:2294
 msgid "Export set in CSV format"
 msgstr "Izvozi niz v zapis CSV"
 
-#: ../src/gui/app1/encoder.cs:2326
+#: ../src/gui/app1/encoder.cs:2328
 msgid "Export repetition in CSV format"
 msgstr "Izvozi ponovitve v zapis CSV"
 
-#: ../src/gui/app1/encoder.cs:2540 ../src/gui/app1/encoder.cs:2832
+#: ../src/gui/app1/encoder.cs:2542 ../src/gui/app1/encoder.cs:2834
 #: ../src/gui/app1/session/backup.cs:279 ../src/gui/app1/session/export.cs:113
 msgid "Are you sure you want to overwrite: "
 msgstr "Ali ste prepričani, da želite prepisati datoteko:"
 
-#: ../src/gui/app1/encoder.cs:2735
+#: ../src/gui/app1/encoder.cs:2737
 #, csharp-format
 msgid "Cannot save file {0}"
 msgstr "Ni mogoče shraniti datoteke {0}"
 
-#: ../src/gui/app1/encoder.cs:2736
+#: ../src/gui/app1/encoder.cs:2738
 msgid "Possible causes:"
 msgstr "Možni vzroki:"
 
-#: ../src/gui/app1/encoder.cs:2737
+#: ../src/gui/app1/encoder.cs:2739
 msgid "The disk may be full."
 msgstr "Disk je morda poln."
 
-#: ../src/gui/app1/encoder.cs:2738
+#: ../src/gui/app1/encoder.cs:2740
 msgid "The file may already be open in another application."
 msgstr "Datoteka je morda že odprta v drugem programu."
 
-#: ../src/gui/app1/encoder.cs:2741 ../src/gui/app1/encoder.cs:2883
-#: ../src/gui/app1/encoder.cs:5266 ../src/gui/app1/encoder.cs:5290
-#: ../src/gui/app1/encoder.cs:5378 ../src/gui/app1/forceSensor.cs:3223
+#: ../src/gui/app1/encoder.cs:2743 ../src/gui/app1/encoder.cs:2885
+#: ../src/gui/app1/encoder.cs:5269 ../src/gui/app1/encoder.cs:5293
+#: ../src/gui/app1/encoder.cs:5381 ../src/gui/app1/forceSensor.cs:3223
 #: ../src/gui/app1/forceSensor.cs:3257 ../src/gui/app1/runEncoderAnalyze.cs:263
 #: ../src/gui/app1/runEncoderAnalyze.cs:313 ../src/gui/app1/runEncoder.cs:3136
 #: ../src/gui/encoderConfiguration.cs:869 ../src/gui/person/addModify.cs:411
@@ -7394,164 +7275,155 @@ msgid "Cannot save file {0} "
 msgstr "Ni mogoče shraniti datoteke {0}"
 
 #. 1) create exportString: message to the user
-#: ../src/gui/app1/encoder.cs:2764
+#: ../src/gui/app1/encoder.cs:2766
 msgid "Export data and graphs"
 msgstr "Izvozi podatke in diagrame"
 
-#: ../src/gui/app1/encoder.cs:3014
+#: ../src/gui/app1/encoder.cs:3016
 msgid "Set deleted"
 msgstr "Niz je izbrisan"
 
-#: ../src/gui/app1/encoder.cs:3189 ../src/gui/encoderTreeviews.cs:192
+#: ../src/gui/app1/encoder.cs:3191 ../src/gui/encoderTreeviews.cs:192
 #: ../src/gui/executeAuto.cs:470
 msgid "Saved"
 msgstr "Shranjeno"
 
-#: ../src/gui/app1/encoder.cs:3340
+#: ../src/gui/app1/encoder.cs:3342
 msgid "Set saved"
 msgstr "Niz je shranjen"
 
-#: ../src/gui/app1/encoder.cs:3358
+#: ../src/gui/app1/encoder.cs:3360
 msgid "Sorry, video cannot be stored."
 msgstr "Žal videa ni mogoče shraniti."
 
-#: ../src/gui/app1/encoder.cs:3370
+#: ../src/gui/app1/encoder.cs:3372
 msgid "Set updated"
 msgstr "Niz je posodobljen"
 
-#: ../src/gui/app1/encoder.cs:3390
+#: ../src/gui/app1/encoder.cs:3392
 msgid "Sorry, no repetitions selected."
 msgstr "Ni izbranih ponovitev"
 
 #. cannot do 1RM Any exercise without the "speed at 1RM" exercise parameter
-#: ../src/gui/app1/encoder.cs:3403 ../src/gui/app1/encoder.cs:3431
-#: ../src/gui/app1/encoder.cs:3456 ../src/gui/app1/encoder.cs:3499
-#: ../src/gui/app1/encoder.cs:4757
+#: ../src/gui/app1/encoder.cs:3405 ../src/gui/app1/encoder.cs:3433
+#: ../src/gui/app1/encoder.cs:3458 ../src/gui/app1/encoder.cs:3501
+#: ../src/gui/app1/encoder.cs:4760
 msgid "1RM Any exercise"
 msgstr "Mejna teža katerekoli vaje"
 
-#: ../src/gui/app1/encoder.cs:3405 ../src/gui/app1/encoder.cs:3501
-#: ../src/gui/app1/encoder.cs:4757
+#: ../src/gui/app1/encoder.cs:3407 ../src/gui/app1/encoder.cs:3503
+#: ../src/gui/app1/encoder.cs:4760
 msgid "1RM Bench Press"
 msgstr "Mejna teža potiska s prsmi"
 
-#: ../src/gui/app1/encoder.cs:3407 ../src/gui/app1/encoder.cs:3503
-#: ../src/gui/app1/encoder.cs:4758
+#: ../src/gui/app1/encoder.cs:3409 ../src/gui/app1/encoder.cs:3505
+#: ../src/gui/app1/encoder.cs:4761
 msgid "1RM Squat"
 msgstr "Počep z mejno težo"
 
-#: ../src/gui/app1/encoder.cs:3424
+#: ../src/gui/app1/encoder.cs:3426
 msgid "Sorry, cannot calculate 1RM of different exercises."
 msgstr "Ni mogoče izračunati mejne teže za različne vaje."
 
-#: ../src/gui/app1/encoder.cs:3425
-#, fuzzy
+#: ../src/gui/app1/encoder.cs:3427
 msgid "Please select repetitions of only one exercise type."
 msgstr "Izberite ponovitve samo ene vrste vadbe."
 
-#: ../src/gui/app1/encoder.cs:3440
-#, fuzzy, csharp-format
+#: ../src/gui/app1/encoder.cs:3442
+#, csharp-format
 msgid ""
 "Sorry, parameter: 'speed at 1RM' on exercise: '{0}' cannot be 0 for this "
 "analysis."
 msgstr ""
-"Oprostite, parameter: \"hitrost pri 1RM\" pri vadbi: \"{0}\" za to analizo "
-"ne more biti 0."
+"Žal parameter: »hitrost pri 1RM« pri vadbi »{0}« za to analizo ne more biti "
+"0."
 
-#: ../src/gui/app1/encoder.cs:3442
-#, fuzzy
+#: ../src/gui/app1/encoder.cs:3444
 msgid "Please edit exercise parameters on capture tab."
-msgstr "Prosimo, uredite parametre vadbe na zavihku zajem."
+msgstr "Prosimo, uredite parametre vadbe na zavihku zajema."
 
-#: ../src/gui/app1/encoder.cs:3459
+#: ../src/gui/app1/encoder.cs:3461
 msgid "Sorry, cannot calculate this 1RM test on one set."
 msgstr "Ni mogoče izračunati mejne teže za eno izvedbo vaje."
 
 #. will not be translated
-#: ../src/gui/app1/encoder.cs:3477 ../src/gui/app1/encoder.cs:4976
-#, fuzzy
-#| msgid "Speed,Power / Load"
+#: ../src/gui/app1/encoder.cs:3479 ../src/gui/app1/encoder.cs:4979
 msgid "(Speed,Power) - Load"
-msgstr "Hitrost,moč / Breme"
+msgstr "(Hitrost,moč) - obremenitev"
 
-#: ../src/gui/app1/encoder.cs:3480 ../src/gui/app1/encoder.cs:3507
-#: ../src/gui/app1/encoder.cs:3528
+#: ../src/gui/app1/encoder.cs:3482 ../src/gui/app1/encoder.cs:3509
+#: ../src/gui/app1/encoder.cs:3530
 msgid "Sorry, this graph is not supported yet."
 msgstr "Žal ta graf še ni podprt."
 
-#: ../src/gui/app1/encoder.cs:3789 ../src/gui/encoderSelectRepetitions.cs:177
+#: ../src/gui/app1/encoder.cs:3791 ../src/gui/encoderSelectRepetitions.cs:177
 msgid "All weights"
 msgstr "Vse uteži"
 
-#: ../src/gui/app1/encoder.cs:4589
+#: ../src/gui/app1/encoder.cs:4592
 msgid "About Neuromuscular Profile"
 msgstr "O nevromuskularnem profilu"
 
-#: ../src/gui/app1/encoder.cs:4590
-#, fuzzy
+#: ../src/gui/app1/encoder.cs:4593
 msgid "Load = Average eccentric RFD (Ratio of Force Development)"
 msgstr "Obremenitev = povprečni ekscentrični RFD (razmerje razvoja sile)"
 
-#: ../src/gui/app1/encoder.cs:4591
+#: ../src/gui/app1/encoder.cs:4594
 #, fuzzy
 msgid "Explode = Average relative concentric RFD"
 msgstr "Explode = povprečna relativna koncentrična RFD"
 
-#: ../src/gui/app1/encoder.cs:4592
+#: ../src/gui/app1/encoder.cs:4595
 #, fuzzy
 msgid "Drive = Average relative concentric Impulse"
 msgstr "Pogon = povprečni relativni koncentrični impulz"
 
-#: ../src/gui/app1/encoder.cs:4593
-#, fuzzy
+#: ../src/gui/app1/encoder.cs:4596
 msgid ""
 "General trends to try to develop an 'equilibrated' neuromuscular profile "
 "(always add individual considerations as previous or actual injuries, sport "
 "specificity, muscular chains, etc.)."
 msgstr ""
-"Splošni trendi, ki poskušajo razviti \"enakovreden\" nevromuskularni profil "
-"(vedno dodajte individualne premisleke kot prejšnje ali dejanske poškodbe, "
-"športno specifičnost, mišične verige itd.)."
+"Splošni trendi, ki poskušajo razviti »uravnotežen« nevromuskularni profil "
+"(vedno upoštevajte individualne posebnosti, kot so prejšnje ali dejanske "
+"poškodbe, športno specifičnost, sklope mišic itn.)."
 
-#: ../src/gui/app1/encoder.cs:4594
-#, fuzzy
+#: ../src/gui/app1/encoder.cs:4597
 msgid ""
 "If one of the metrics is under developed (weak) compared with the other two, "
 "prescribe exercises that emphasize its development."
 msgstr ""
-"Če je v primerjavi z drugimi dvema pod razvito (šibko), predpiši vaje, ki "
-"poudarjajo njegov razvoj."
+"Če so v primerjavi z drugima dvema meritve podrazvite (šibke), predpišite "
+"vaje, ki poudarjajo njegov razvoj."
 
-#: ../src/gui/app1/encoder.cs:4595
-#, fuzzy
+#: ../src/gui/app1/encoder.cs:4598
 msgid ""
 "If one of the metrics is over developed (extreme) compared with the other "
 "two, prescribe exercises to emphasize those, but paying attention to "
 "flexibility and relaxation of over working muscles."
 msgstr ""
-"Če je ena od metričnih meritev v primerjavi z drugimi dvema preveč razvita "
-"(ekstremna), predpiši vaje za poudarjanje teh, vendar bodite pozorni na "
-"prilagodljivost in sprostitev nad delovnimi mišicami."
+"Če je ena od meritev v primerjavi z drugimi dvema preveč razvita "
+"(ekstremna), predpišite vaje za poudarjanje teh, vendar bodite pozorni na "
+"prilagodljivost in sprostitev preveč delovnih mišic."
 
-#: ../src/gui/app1/encoder.cs:4597
+#: ../src/gui/app1/encoder.cs:4600
 msgid "General guidelines to improve the neuromuscular profile:"
 msgstr "Splošne smernice za izboljšanje živčno-mišičnega profila:"
 
-#: ../src/gui/app1/encoder.cs:4599
-#, fuzzy
+#: ../src/gui/app1/encoder.cs:4602
 msgid ""
 "Load: Perform exercises that develop maximum force (eccentric, isometric or "
 "concentric)."
 msgstr ""
-"Obremenitev: Izvajajte vaje, ki razvijajo največjo silo (ekscentrično, "
+"Obremenitev: izvajajte vaje, ki razvijajo največjo silo (ekscentrično, "
 "izometrično ali koncentrično)."
 
-#: ../src/gui/app1/encoder.cs:4600
+#: ../src/gui/app1/encoder.cs:4603
 msgid "Then switch to exercises that develop eccentric force in short time."
 msgstr ""
 "Nato preklopite na vaje, ki v kratkem času razvijejo ekscentrično silo."
 
-#: ../src/gui/app1/encoder.cs:4602
+#: ../src/gui/app1/encoder.cs:4605
 #, fuzzy
 msgid ""
 "Explode: Perform exercises that develop force in short time, and maximum "
@@ -7560,207 +7432,182 @@ msgstr ""
 "Eksplodirajte: Izvajajte vaje, ki razvijejo silo v kratkem času in največjo "
 "silo."
 
-#: ../src/gui/app1/encoder.cs:4603
+#: ../src/gui/app1/encoder.cs:4606
 #, fuzzy
 msgid "Drive: Perform exercises where force is developed during more time."
 msgstr "Vožnja: Izvajajte vaje, pri katerih se sila razvije več časa."
 
 #. TODO: translate
-#: ../src/gui/app1/encoder.cs:4606
+#: ../src/gui/app1/encoder.cs:4609
 msgid "Analysis uses the best three jumps using 'jump height' criterion."
 msgstr "Analiza upošteva najboljše tri skoke po kriteriju 'višina skoka'"
 
-#: ../src/gui/app1/encoder.cs:4758
+#: ../src/gui/app1/encoder.cs:4761
 msgid "1RM Indirect"
 msgstr "Neposredna mejna teža"
 
-#: ../src/gui/app1/encoder.cs:4944 ../src/gui/app1/encoder.cs:4947
+#: ../src/gui/app1/encoder.cs:4947 ../src/gui/app1/encoder.cs:4950
 msgid "All exercises"
 msgstr "Vse vaje"
 
-#: ../src/gui/app1/encoder.cs:4972
-#, fuzzy
-#| msgid "Power / Load"
+#: ../src/gui/app1/encoder.cs:4975
 msgid "Power - Load"
-msgstr "Moč / Breme"
+msgstr "Moč / obremenitev"
 
-#: ../src/gui/app1/encoder.cs:4973
-#, fuzzy
-#| msgid "Speed / Load"
+#: ../src/gui/app1/encoder.cs:4976
 msgid "Speed - Load"
-msgstr "Hitrost / Breme"
-
-#: ../src/gui/app1/encoder.cs:4974
-#, fuzzy
-#| msgid "Force / Load"
-msgid "Force - Load"
-msgstr "Sila / Breme"
+msgstr "Hitrost / obremenitev"
 
 #: ../src/gui/app1/encoder.cs:4977
-#, fuzzy
-#| msgid "Force,Power / Speed"
+msgid "Force - Load"
+msgstr "Sila / obremenitev"
+
+#: ../src/gui/app1/encoder.cs:4980
 msgid "(Force,Power) - Speed"
-msgstr "SIla, Moč / Hitrost"
+msgstr "(Sila, moč) / hitrost"
 
-#: ../src/gui/app1/encoder.cs:4978
-#, fuzzy
-#| msgid "Loaded"
+#: ../src/gui/app1/encoder.cs:4981
 msgid "Load - Speed"
-msgstr "Naloženo"
+msgstr "Obremenitev / hitrost"
 
-#: ../src/gui/app1/encoder.cs:4979
-#, fuzzy
-#| msgid "Power / Speed"
+#: ../src/gui/app1/encoder.cs:4982
 msgid "Power - Speed"
 msgstr "Moč / hitrost"
 
-#: ../src/gui/app1/encoder.cs:4989
-#, fuzzy
-#| msgid "Power / Date"
+#: ../src/gui/app1/encoder.cs:4992
 msgid "Power - Date"
-msgstr "Moč / Datum"
+msgstr "Moč / datum"
 
-#: ../src/gui/app1/encoder.cs:4990
-#, fuzzy
-#| msgid "Speed / Date"
+#: ../src/gui/app1/encoder.cs:4993
 msgid "Speed - Date"
-msgstr "Hitrost / Datum"
+msgstr "Hitrost / datum"
 
-#: ../src/gui/app1/encoder.cs:4991
-#, fuzzy
-#| msgid "Force / Date"
+#: ../src/gui/app1/encoder.cs:4994
 msgid "Force - Date"
-msgstr "Sila / Datum"
+msgstr "Sila / datum"
 
-#: ../src/gui/app1/encoder.cs:5144
+#: ../src/gui/app1/encoder.cs:5147
 msgid "Done"
 msgstr "Končano"
 
-#: ../src/gui/app1/encoder.cs:5405
+#: ../src/gui/app1/encoder.cs:5408
 msgid "Operation cancelled."
 msgstr "Opravilo je preklicano."
 
-#: ../src/gui/app1/encoder.cs:5459
+#: ../src/gui/app1/encoder.cs:5462
 #, csharp-format
 msgid "Saved 1RM: {0} Kg."
 msgstr "Shranjena mejna teža: {0} Kg."
 
-#: ../src/gui/app1/encoder.cs:5638
-#, fuzzy
+#: ../src/gui/app1/encoder.cs:5641
 msgid "This exercise has been used on gravitatory and inertial sets."
-msgstr "Ta vaja je bila uporabljena na gravitacijskih in inercialnih množicah."
+msgstr "Ta vaja je bila uporabljena na gravitacijskih in inertnih nizih."
 
-#: ../src/gui/app1/encoder.cs:5650
-#, fuzzy
+#: ../src/gui/app1/encoder.cs:5653
 msgid "This exercise has been used on inertial sets."
-msgstr "Ta vaja je bila uporabljena na inercialnih nizih."
+msgstr "Ta vaja je bila uporabljena na inertnih nizih."
 
-#: ../src/gui/app1/encoder.cs:5662
-#, fuzzy
+#: ../src/gui/app1/encoder.cs:5665
 msgid "This exercise has been used on gravitatory sets."
-msgstr "Ta vaja je bila uporabljena na gravitacijskih sklopih."
+msgstr "Ta vaja je bila uporabljena na gravitacijskih nizih."
 
-#: ../src/gui/app1/encoder.cs:5768 ../src/gui/app1/runEncoder.cs:2688
+#: ../src/gui/app1/encoder.cs:5771 ../src/gui/app1/runEncoder.cs:2688
 #: ../src/gui/forceSensorExercise.cs:792
 msgid "Error: Missing name of exercise."
 msgstr "Napaka: manjka ime vaje."
 
 #. if we add, check that this name does not exists
-#: ../src/gui/app1/encoder.cs:5774 ../src/gui/app1/encoder.cs:5789
+#: ../src/gui/app1/encoder.cs:5777 ../src/gui/app1/encoder.cs:5792
 #: ../src/gui/app1/runEncoder.cs:2694 ../src/gui/app1/runEncoder.cs:2704
 #: ../src/gui/forceSensorExercise.cs:799 ../src/gui/forceSensorExercise.cs:809
 #, csharp-format
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Napaka: vaja z imenom {0} že obstaja."
 
-#: ../src/gui/app1/encoder.cs:5868 ../src/gui/app1/forceSensor.cs:3648
+#: ../src/gui/app1/encoder.cs:5871 ../src/gui/app1/forceSensor.cs:3648
 #: ../src/gui/app1/runEncoder.cs:2770
 msgid "Exercise name:"
 msgstr "Ime vaje:"
 
-#: ../src/gui/app1/encoder.cs:5878 ../src/gui/app1/forceSensor.cs:3658
+#: ../src/gui/app1/encoder.cs:5881 ../src/gui/app1/forceSensor.cs:3658
 #: ../src/gui/app1/runEncoder.cs:2780
 msgid "Sorry, this exercise cannot be deleted until these tests are deleted:"
 msgstr "Vaje ni mogoče izbrisati, dokler niso izbrisani navedeni testi:"
 
-#: ../src/gui/app1/encoder.cs:5904 ../src/gui/app1/forceSensor.cs:3683
+#: ../src/gui/app1/encoder.cs:5907 ../src/gui/app1/forceSensor.cs:3683
 #: ../src/gui/app1/runEncoder.cs:2802
 msgid "Exercise deleted."
 msgstr "Vaja je izbrisana."
 
-#: ../src/gui/app1/encoder.cs:6457 ../src/gui/encoderConfiguration.cs:1099
+#: ../src/gui/app1/encoder.cs:6460 ../src/gui/encoderConfiguration.cs:1099
 msgid "Capturing"
 msgstr "Zajemanje"
 
-#: ../src/gui/app1/encoder.cs:6513 ../src/gui/app1/encoder.cs:6603
+#: ../src/gui/app1/encoder.cs:6516 ../src/gui/app1/encoder.cs:6606
 msgid "Sorry, cannot start capture."
 msgstr "Zajema ni mogoče začeti."
 
-#: ../src/gui/app1/encoder.cs:6555
+#: ../src/gui/app1/encoder.cs:6558
 msgid "Clusters"
 msgstr "Kopice"
 
 #. to allow hslides and table
-#: ../src/gui/app1/encoder.cs:6707 ../src/gui/app1/encoder.cs:7294
+#: ../src/gui/app1/encoder.cs:6710 ../src/gui/app1/encoder.cs:7297
 #: ../src/gui/app1/session/backup.cs:402
 msgid "Please, wait."
 msgstr "Počakajte."
 
-#: ../src/gui/app1/encoder.cs:7313
-#, fuzzy
+#: ../src/gui/app1/encoder.cs:7316
 msgid "R tasks done"
-msgstr "Vse je opravljeno!"
+msgstr "R opravljenih nalog"
 
-#: ../src/gui/app1/encoder.cs:7325
+#: ../src/gui/app1/encoder.cs:7328
 msgid "Repetitions processed"
 msgstr "Obdelane ponovitve"
 
-#: ../src/gui/app1/encoder.cs:7332
+#: ../src/gui/app1/encoder.cs:7335
 msgid "Starting process"
 msgstr "Začetek obdelave"
 
-#: ../src/gui/app1/encoder.cs:7336
+#: ../src/gui/app1/encoder.cs:7339
 msgid "Loading libraries"
 msgstr "Dodatne knjižnice"
 
-#: ../src/gui/app1/encoder.cs:7340
+#: ../src/gui/app1/encoder.cs:7343
 msgid "Starting R"
 msgstr "Poteka zaganjanje R ..."
 
-#: ../src/gui/app1/encoder.cs:7639 ../src/stats/main.cs:1512
+#: ../src/gui/app1/encoder.cs:7642 ../src/stats/main.cs:1513
 msgid "Sorry. Error doing graph."
 msgstr "Oprostite, napaka pri izdelavi grafa."
 
-#: ../src/gui/app1/encoder.cs:7640 ../src/stats/main.cs:1513
+#: ../src/gui/app1/encoder.cs:7643 ../src/stats/main.cs:1514
 msgid "Maybe R is not installed."
 msgstr "Morda R ni nameščen."
 
 #. signal is raised and managed in gui/encoder.cs
-#: ../src/gui/app1/encoder.cs:7648 ../src/gui/app1/encoder.cs:7649
-#: ../src/gui/app1/encoder.cs:7900 ../src/gui/chronopicRegister.cs:412
+#: ../src/gui/app1/encoder.cs:7651 ../src/gui/app1/encoder.cs:7652
+#: ../src/gui/app1/encoder.cs:7903 ../src/gui/chronopicRegister.cs:412
 #: ../src/gui/encoderConfiguration.cs:1157
 msgid "Cancelled"
 msgstr "Preklicano"
 
-#: ../src/gui/app1/encoder.cs:7655 ../src/gui/app1/encoder.cs:7656
-#: ../src/gui/app1/encoder.cs:7841
+#: ../src/gui/app1/encoder.cs:7658 ../src/gui/app1/encoder.cs:7659
+#: ../src/gui/app1/encoder.cs:7844
 msgid "Finished"
 msgstr "Dokončano"
 
-#: ../src/gui/app1/encoder.cs:7890
-#, fuzzy
+#: ../src/gui/app1/encoder.cs:7893
 msgid "Set corrected. string was not fully extended at the beginning."
-msgstr ""
-"Nastavitev popravljena. struna na začetku ni bila popolnoma podaljšana."
+msgstr "Nastavitev popravljena. Vrv na začetku ni bila popolnoma iztegnjena."
 
 #: ../src/gui/app1/forceSensor.cs:159
 msgid "Force sensor is not detected!"
 msgstr "Senzor sile ni zaznan!"
 
 #: ../src/gui/app1/forceSensor.cs:160 ../src/gui/app1/runEncoder.cs:171
-#, fuzzy
 msgid "Plug cable and click on 'device' button."
-msgstr "Priključite kabel in kliknite gumb 'naprava'."
+msgstr "Priključite kabel in kliknite gumb »naprava«."
 
 #: ../src/gui/app1/forceSensor.cs:306 ../src/gui/app1/forceSensor.cs:325
 msgid "Cleaning device …"
@@ -7770,17 +7617,15 @@ msgstr "Čiščenje naprave …"
 #. need to also update the grid before the return
 #. forceSensorGridLegendColors ();
 #: ../src/gui/app1/forceSensor.cs:435 ../src/gui/app1/forceSensor.cs:2535
-#, fuzzy
 msgid "Need to configure fixture to know stiffness of this elastic exercise."
 msgstr ""
-"Morate konfigurirati vpenjalo, da boste vedeli togost te elastične vaje."
+"Morate prilagoditi vpenjalo, da boste poznali togost te elastične vaje."
 
 #: ../src/gui/app1/forceSensor.cs:554
 msgid "Legend:"
 msgstr "Legenda:"
 
 #: ../src/gui/app1/forceSensor.cs:555
-#, fuzzy
 msgid "Length without tension"
 msgstr "Dolžina brez napetosti"
 
@@ -7793,24 +7638,18 @@ msgid "Maximum working distance"
 msgstr "Največja delovna razdalja"
 
 #: ../src/gui/app1/forceSensor.cs:761
-#, fuzzy
 msgid "Taring will start in …"
-msgstr "Tariranje se bo začelo v ..."
+msgstr "Tehtanje se bo začelo v ..."
 
 #: ../src/gui/app1/forceSensor.cs:771
-#, fuzzy
-#| msgid "Loading …"
 msgid "Taring …"
-msgstr "Poteka nalaganje …"
+msgstr "Poteka tehtanje …"
 
 #: ../src/gui/app1/forceSensor.cs:800 ../src/gui/app1/forceSensor.cs:867
-#, fuzzy
-#| msgid "Detecting …"
 msgid "Checking …"
 msgstr "Preverjanje …"
 
 #: ../src/gui/app1/forceSensor.cs:827
-#, fuzzy
 msgid "Calibrating will start in …"
 msgstr "Umerjanje se bo začelo v ..."
 
@@ -7828,26 +7667,21 @@ msgstr "Preverjanje različice ..."
 
 #. 1 send tare command
 #: ../src/gui/app1/forceSensor.cs:996 ../src/gui/app1/forceSensor.cs:1275
-#, fuzzy
 msgid "Preparing capture …"
-msgstr "Priprava zajetja ..."
+msgstr "Priprava zajema ..."
 
 #: ../src/gui/app1/forceSensor.cs:1049 ../src/gui/app1/forceSensor.cs:1069
 #: ../src/gui/app1/forceSensor.cs:1617 ../src/gui/app1/forceSensor.cs:1647
-#, fuzzy
-#| msgid "Opening port …"
 msgid "Ending capture …"
-msgstr "Odpiranje vrat …"
+msgstr "Zaključevanje zajema …"
 
 #: ../src/gui/app1/forceSensor.cs:1086
-#, fuzzy
 msgid "Checking transmission format …"
 msgstr "Preverjanje oblike prenosa ..."
 
 #: ../src/gui/app1/forceSensor.cs:1127
-#, fuzzy
 msgid "The tare will soon begin"
-msgstr "Tara se bo kmalu začela"
+msgstr "Tehtanje se bo kmalu začelo"
 
 #: ../src/gui/app1/forceSensor.cs:1129
 msgid "Please, wait …"
@@ -7859,19 +7693,17 @@ msgstr "Prosimo, počakajte …"
 #. Thread.Sleep (2000); //to allow sound to be played
 #.
 #: ../src/gui/app1/forceSensor.cs:1365
-#, fuzzy
 msgid "Taring; …"
-msgstr "Taring; …"
+msgstr "Poteka tehtanje; …"
 
 #: ../src/gui/app1/forceSensor.cs:1881
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Error. Force too big: {0} N"
-msgstr "Napaka. Sila prevelika: {0} N"
+msgstr "Napaka. Sila je prevelika: {0} N"
 
 #: ../src/gui/app1/forceSensor.cs:1882
-#, fuzzy
 msgid "Bad calibration or too much force for this sensor."
-msgstr "Slaba kalibracija ali prevelika sila za ta senzor."
+msgstr "Slaba kalibracija ali prevelika sila za to tipalo."
 
 #: ../src/gui/app1/forceSensor.cs:1883
 msgid "Stopped."
@@ -7882,46 +7714,37 @@ msgid "Capture option"
 msgstr "Možnosti zajemanja"
 
 #: ../src/gui/app1/forceSensor.cs:2054
-#, fuzzy
-#| msgid "Mean Force"
 msgid "Max force"
-msgstr "<b>Največja sila</b> (N)"
+msgstr "Največja sila"
 
 #: ../src/gui/app1/forceSensor.cs:2055
-#, fuzzy, csharp-format
-#| msgid "Exported in {0} ms"
+#, csharp-format
 msgid "Max AVG Force in {0} s"
-msgstr "Izvoženo v {0} ms"
+msgstr "Največja POVP sila v {0} s"
 
 #: ../src/gui/app1/forceSensor.cs:2108 ../src/gui/app1/runEncoder.cs:1204
-#, fuzzy
-#| msgid "Select persons to compare"
 msgid "Select set to compare"
-msgstr "Izbor testirancev za primerjavo"
+msgstr "Izberite niz za primerjavo"
 
 #: ../src/gui/app1/forceSensor.cs:2284
-#, fuzzy
 msgid ""
 "Loaded set used elastic bands removed from database or with changed values."
 msgstr ""
-"Naloženi nabor je uporabljal elastične trakove, odstranjene iz baze podatkov "
+"Naloženi niz je uporabljal elastične trakove, odstranjene iz zbirke podatkov "
 "ali s spremenjenimi vrednostmi."
 
 #: ../src/gui/app1/forceSensor.cs:2285
-#, fuzzy
 msgid ""
 "Stiffness calculation is correct but stiffness configuration window will not "
 "be able to match elastic bands and total stiffness."
 msgstr ""
-"Izračun togosti je pravilen, vendar okno konfiguracije togosti ne bo moglo "
+"Izračun togosti je pravilen, vendar okno prilagoditev togosti ne bo moglo "
 "ustrezati elastičnim trakom in skupni togosti."
 
 #. event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
 #: ../src/gui/app1/forceSensor.cs:2326 ../src/gui/app1/runEncoder.cs:1281
-#, fuzzy
-#| msgid "Loaded"
 msgid "Loaded:"
-msgstr "Naloženo"
+msgstr "Naloženo:"
 
 #: ../src/gui/app1/forceSensor.cs:2687
 msgid "Error doing graph."
@@ -7933,19 +7756,14 @@ msgid "Probably not sustained force."
 msgstr "Verjetno ne trajna sila."
 
 #: ../src/gui/app1/forceSensor.cs:3281
-#, fuzzy
-#| msgid "Do you want to delete this test?"
 msgid "If you want to calibrate, please tare first."
-msgstr "Ali želite izbrisati ta test?"
+msgstr "Če želite umerjati, najprej stehtajte."
 
 #: ../src/gui/app1/forceSensor.cs:3582 ../src/gui/app1/forceSensor.cs:3597
-#, fuzzy
-#| msgid "Isometric Leg Extension."
 msgid "Isometric exercise"
-msgstr "Izometrični izteg noge"
+msgstr "Izometrična vaja"
 
 #: ../src/gui/app1/forceSensor.cs:3584 ../src/gui/app1/forceSensor.cs:3599
-#, fuzzy
 msgid "Elastic exercise"
 msgstr "Elastična vaja"
 
@@ -7954,21 +7772,16 @@ msgid "Delete exercise"
 msgstr "Izbriši vajo"
 
 #: ../src/gui/app1/forceSensor.cs:3712
-#, fuzzy
-#| msgid "Select encoder configuration"
 msgid "Stiffness configuration"
-msgstr "Izbor nastavitev kodrinika"
+msgstr "Nastavitev togosti"
 
 #: ../src/gui/app1/forceSensor.cs:3712
-#, fuzzy
 msgid "Configure attached elastic bands/tubes"
-msgstr "Konfigurirajte pritrjene elastične trakove/cevi"
+msgstr "Prilagodi pritrjene elastične trakove/cevi"
 
 #: ../src/gui/app1/forceSensor.cs:3724
-#, fuzzy
-#| msgid "Configure feedback"
 msgid "Configure bands/tubes"
-msgstr "Nastavitev odzivov"
+msgstr "Prilagodi trakove/cevi"
 
 #: ../src/gui/app1/forceSensor.cs:3727
 msgid "Stiffness:"
@@ -7983,33 +7796,26 @@ msgid "lower"
 msgstr "nizka"
 
 #: ../src/gui/app1/graphs/jumpsAsymmetry.cs:187
-#, fuzzy
 msgid "Find daily higher of jumps:"
-msgstr "Poiščite dnevno višje skoke:"
+msgstr "Poišči dnevno višje skoke:"
 
 #: ../src/gui/app1/graphs/jumpsProfile.cs:129
-#, fuzzy
-#| msgid "Need to execute jump/s"
 msgid ""
 "Need at least one SJl jump with 100% body weight or two SJl jumps with "
 "different weights."
-msgstr "Izvesti je treba skoke"
+msgstr ""
+"Izvesti je potrebno vsaj en skok SJl s 100 % telesno težo ali dva skoka SJI "
+"z različnimi utežmi."
 
 #: ../src/gui/app1/run.cs:430 ../src/gui/app1/run.cs:445
-#, fuzzy
-#| msgid "Track distance (between platforms)"
 msgid "Lap distance (between barriers)"
-msgstr "Dolžina steze (med merilnima podlogama)"
+msgstr "Razdalja kroga (med ovirami)"
 
 #: ../src/gui/app1/run.cs:431 ../src/gui/app1/run.cs:446
 msgid "Distance in meters"
 msgstr "Razdalja v metrih"
 
 #: ../src/gui/app1/run.cs:435
-#, fuzzy
-#| msgid ""
-#| "Vertical distance between\n"
-#| "stairs third and nine."
 msgid "Vertical distance between stairs third and nine."
 msgstr ""
 "Navpična razdalja med\n"
@@ -8028,31 +7834,24 @@ msgid "Error, weight of the person cannot be 0"
 msgstr "Napaka, masa osebe ne more biti 0"
 
 #: ../src/gui/app1/runEncoder.cs:2576
-#, fuzzy
 msgid ""
 "In a sprint exercise, maximum acceleration is performed at the beginning and "
 "maximum sustained speed at a later time."
 msgstr ""
 "Pri sprinterski vaji se največji pospešek izvede na začetku in največja "
-"trajna hitrost kasneje."
+"trajna hitrost se vzpostavi kasneje."
 
 #: ../src/gui/app1/runEncoder.cs:2583
-#, fuzzy
-#| msgid "Write the name of the exercise:"
 msgid "Default angle of this exercise."
-msgstr "Vpis imena vaje:"
+msgstr "Privzeti kot te vaje."
 
 #: ../src/gui/app1/runEncoder.cs:2584
-#, fuzzy
-#| msgid "0 means horizontally"
 msgid "90 means go vertically up."
-msgstr "Vrednost 0 pomeni vodoravno"
+msgstr "90 predstavlja smer navpično navzgor."
 
 #: ../src/gui/app1/runEncoder.cs:2585
-#, fuzzy
-#| msgid "0 means horizontally"
 msgid "-90 means go vertically down."
-msgstr "Vrednost 0 pomeni vodoravno"
+msgstr "-90 predstavlja smer navpično navzdol."
 
 #: ../src/gui/app1/runEncoder.cs:2586
 #, csharp-format
@@ -8060,10 +7859,8 @@ msgid "Possible range goes from {0} to {1}."
 msgstr "Možen razpon sega od {0} do {1}."
 
 #: ../src/gui/app1/runEncoder.cs:3059
-#, fuzzy
-#| msgid "Accel."
 msgid "Accel"
-msgstr "Pospeš."
+msgstr "Pospeš"
 
 #: ../src/gui/app1/session/addEdit.cs:604 ../src/gui/person/addModify.cs:863
 msgid "Select session date"
@@ -8089,28 +7886,26 @@ msgid "Session: '{0}' exists. Please, use another name"
 msgstr "Seja '{0}'že obstaja. Uporabite drugo ime."
 
 #: ../src/gui/app1/session/backup.cs:97
-#, fuzzy, csharp-format
-#| msgid "Estimated size: {0} MB."
+#, csharp-format
 msgid "Estimated size: {0} MB (uncompressed)."
-msgstr "Ocenjena velikost: {0} MB."
+msgstr "Ocenjena velikost: {0} MB (nestisnjeno)."
 
 #: ../src/gui/app1/session/backup.cs:161
-#, fuzzy
 msgid "You will be prompted for a backup the next time you start Chronojump."
-msgstr "Ko naslednjič zaženete Chronojump, boste pozvani k varnostni kopiji."
+msgstr ""
+"Ko naslednjič zaženete Chronojump, boste pozvani k varnostnemu kopiranju."
 
 #: ../src/gui/app1/session/backup.cs:163
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "You will be prompted for a backup in {0} days."
-msgstr "V {0} dneh boste pozvani k varnostni kopiji."
+msgstr "V {0} dneh boste pozvani k varnostnemu kopiranju."
 
 #: ../src/gui/app1/session/backup.cs:170
-#, fuzzy
 msgid ""
 "You will no longer be bothered with scheduled backups, but you can continue "
 "backing up by clicking on"
 msgstr ""
-"Načrtovane varnostne kopije vas ne bodo več motile, lahko pa nadaljujete z "
+"Načrtovane varnostno kopiranje vas ne bo več motilo, lahko pa nadaljujete z "
 "varnostnim kopiranjem s klikom na"
 
 #: ../src/gui/app1/session/backup.cs:231
@@ -8141,9 +7936,8 @@ msgid "Compressed in {0} s."
 msgstr "Stisnjeno v {0} s."
 
 #: ../src/gui/app1/session/backup.cs:383
-#, fuzzy
 msgid "Failed at compress."
-msgstr "Ni uspelo pri stisnitvi."
+msgstr "Stiskanje je spodletelo."
 
 #: ../src/gui/app1/session/backup.cs:385
 msgid "Copy failed, maybe the disk is full."
@@ -8183,10 +7977,8 @@ msgstr "Intervalni teki"
 
 #. TODO: try it with Gtk.FileChooserWidget, then we do not need to pass app1 (parent)
 #: ../src/gui/app1/session/loadAndImport.cs:381
-#, fuzzy
-#| msgid "Chronojump database version file: {0}"
 msgid "Choose Chronojump database to import from"
-msgstr "Datoteka različice podatkovne zbirke ChronoJump: {0}"
+msgstr "Izberite zbirko podatkov Chronojump za uvoz"
 
 #: ../src/gui/app1/session/loadAndImport.cs:429
 #: ../src/gui/encoderConfiguration.cs:823 ../src/gui/person/addMultiple.cs:609
@@ -8199,7 +7991,6 @@ msgid "Open another database"
 msgstr "Odpri dodatno podatkovno zbirko"
 
 #: ../src/gui/app1/session/main.cs:346
-#, fuzzy
 msgid "No data. Please, perform tests."
 msgstr "Ni podatkov. Prosimo, opravite teste."
 
@@ -8212,16 +8003,12 @@ msgid "Create"
 msgstr "Ustvari"
 
 #: ../src/gui/app1/session/tagSessionSelect.cs:154
-#, fuzzy
-#| msgid "Delete {0} from this session"
 msgid "Select tags for this session"
-msgstr "Izbrisan je {0} iz te seje"
+msgstr "Izberite oznake za to sejo"
 
 #: ../src/gui/app1/session/tagSessionSelect.cs:156
-#, fuzzy
-#| msgid "Select session date"
 msgid "Select tags for session: "
-msgstr "Izberite datum seje"
+msgstr "Izberite oznake za sejo: "
 
 #: ../src/gui/app1/session/tagSessionSelect.cs:160
 msgid "Change name"
@@ -8232,47 +8019,36 @@ msgid "Are you sure you want to delete this tag?"
 msgstr "Ali ste prepričani, da želite izbrisati to oznako?"
 
 #: ../src/gui/chronopic.cs:133
-#, fuzzy
-#| msgid "Please touch the platform or click Chronopic TEST button"
 msgid "Please, touch the platform or click Chronopic TEST button."
 msgstr ""
-"Dotaknite se merilne podloge ali pa kliknite na gumb TEST na napravi kronopik"
+"Dotaknite se merilne podloge ali pa kliknite gumb TEST na napravi Chronopic."
 
 #: ../src/gui/chronopic.cs:136
-#, fuzzy
-#| msgid "Please touch the platform or click Chronopic TEST button"
 msgid "Please, cut photocell barrier or click Chronopic TEST button."
 msgstr ""
-"Dotaknite se merilne podloge ali pa kliknite na gumb TEST na napravi kronopik"
+"Odklopite fotocelično pregrado ali kliknite gumb TEST na napravi Chronopic."
 
 #: ../src/gui/chronopic.cs:155 ../src/gui/chronopic.cs:176
 msgid "Applied"
 msgstr "Uveljavljeno"
 
 #: ../src/gui/chronopic.cs:158
-#, fuzzy
-#| msgid "Connect Chronopics"
 msgid "Connected to Chronopic"
-msgstr "Poveži kronopike"
+msgstr "Povezano s Chronopic"
 
 #: ../src/gui/chronopic.cs:178
 msgid "Failed"
 msgstr "Spodletelo"
 
 #: ../src/gui/chronopicRegister.cs:205
-#, fuzzy
-#| msgid "Device not found"
 msgid "Device not found."
-msgstr "Naprave ni mogoče najti"
+msgstr "Naprave ni mogoče najti."
 
 #: ../src/gui/chronopicRegister.cs:242
-#, fuzzy
 msgid "Compatibility with"
-msgstr "Kompatibilnost:"
+msgstr "Združljivost z"
 
 #: ../src/gui/chronopicRegister.cs:374
-#, fuzzy
-#| msgid "Cancel"
 msgid "Cancelling"
 msgstr "Poteka preklic …"
 
@@ -8290,20 +8066,22 @@ msgstr[2] "Najdeni sta {0} napravi."
 msgstr[3] "Najdene so {0} naprave."
 
 #: ../src/gui/chronopicRegister.cs:802
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "One device is not configured. Please, configure it clicking the arrows."
 msgid_plural ""
 "{0} devices are not configured. Please, configure them clicking the arrows."
 msgstr[0] ""
-"Ena naprava ni konfigurirana. Prosimo, konfigurirajte ga s klikom na puščice."
+"{0} naprav ni prilagojenih. Prosimo, prilagodite jih s klikom na puščice."
 msgstr[1] ""
+"{0} naprava ni prilagojena. Prosimo, prilagodite jo s klikom na puščice."
 msgstr[2] ""
+"{0} napravi nista prilagojeni. Prosimo, prilagodite ju s klikom na puščice."
 msgstr[3] ""
+"{0} naprave niso prilagojene. Prosimo, prilagodite jih s klikom na puščice."
 
 #: ../src/gui/chronopicRegister.cs:810
-#, fuzzy
 msgid "Connect and reopen device window."
-msgstr "Vzpostavite povezavo in znova odprite okno naprave."
+msgstr "Vzpostavi povezavo in znova odpre okno naprave."
 
 #: ../src/gui/confirm.cs:53 ../src/gui/confirm.cs:140
 msgid "Confirm"
@@ -8394,7 +8172,6 @@ msgstr ""
 "dovolj, da se odpravijo težave z elektroniko."
 
 #: ../src/gui/dialogThreshold.cs:130
-#, fuzzy
 msgid ""
 "You may change this value if you have a jumper that loses pressure with the "
 "platform while going down previous to a CMJ or ABK jump."
@@ -8419,7 +8196,6 @@ msgid "On races with photocells a value of 10 ms is the default value."
 msgstr "Pri tekih z uporabo fotocelic je privzeta vrednost 10 ms."
 
 #: ../src/gui/dialogThreshold.cs:137
-#, fuzzy
 msgid ""
 "As Chronojump manages double contacts on photocells, changing threshold "
 "value is not very common."
@@ -8433,7 +8209,7 @@ msgstr "Odvisno od testa lahko uporabnik spremeni vrednosti."
 
 #: ../src/gui/encoderConfiguration.cs:224
 msgid "Select encoder configuration"
-msgstr "Izbor nastavitev kodrinika"
+msgstr "Izbor nastavitev kodirnika"
 
 #: ../src/gui/encoderConfiguration.cs:587
 msgid ""
@@ -8441,7 +8217,7 @@ msgid ""
 "accurate because current method is not using the variation of the cone "
 "diameter as a variable."
 msgstr ""
-"Izračun dinamičnih spremenljivk, kot je moč v stožčastih strojih, ni zelo "
+"Izračun dinamičnih spremenljivk, kot je moč v stožčastih napravah, ni zelo "
 "natančen, ker trenutna metoda ne upošteva spreminjanja premera stožca kot "
 "spremenljivke."
 
@@ -8457,36 +8233,28 @@ msgid "Select file to import"
 msgstr "Izberi datoteko za uvoz"
 
 #: ../src/gui/encoderConfiguration.cs:798
-#, fuzzy
 msgid "Chronojump is currently in gravitory mode."
 msgstr "Chronojump je trenutno v gravitacijskem načinu."
 
 #: ../src/gui/encoderConfiguration.cs:799
-#, fuzzy
-#| msgid "Select encoder configuration"
 msgid "Selected configuration is inertial."
-msgstr "Izbor nastavitev kodrinika"
+msgstr "Izbrana konfiguracija je inertna."
 
 #: ../src/gui/encoderConfiguration.cs:800
-#, fuzzy
 msgid "If you still want to import it, change to inertial mode."
-msgstr "Če ga še vedno želite uvoziti, preklopite na inercialni način."
+msgstr "Če jo še vedno želite uvoziti, preklopite na inertni način."
 
 #: ../src/gui/encoderConfiguration.cs:803
-#, fuzzy
 msgid "Chronojump is currently in inertial mode."
-msgstr "Chronojump je trenutno v inercialnem načinu."
+msgstr "Chronojump je trenutno v inertnem načinu."
 
 #: ../src/gui/encoderConfiguration.cs:804
-#, fuzzy
-#| msgid "Select encoder configuration"
 msgid "Selected configuration is gravitatory."
-msgstr "Izbor nastavitev kodrinika"
+msgstr "Izbrana prilagoditev je gravitacijska."
 
 #: ../src/gui/encoderConfiguration.cs:805
-#, fuzzy
 msgid "If you still want to import it, change to gravitatory mode."
-msgstr "Če ga še vedno želite uvoziti, preklopite na gravitacijski način."
+msgstr "Če jo še vedno želite uvoziti, preklopite na gravitacijski način."
 
 #. add more suffixes until name is unique
 #.
@@ -8517,9 +8285,9 @@ msgid "Max time: {0} s."
 msgstr "Največji čas: {0} sekund."
 
 #: ../src/gui/encoderConfiguration.cs:1120
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Ends at inactivity during {0} s."
-msgstr "na koncu narišite krog"
+msgstr "Konča se z neaktivnostjo v {0} s."
 
 #: ../src/gui/encoderSelectRepetitions.cs:225
 msgid "Mean Power"
@@ -8535,14 +8303,14 @@ msgstr "Povprečna moč"
 
 #. don't show now
 #: ../src/gui/encoderSelectRepetitions.cs:263
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Saved repetitions of athlete {0} on this session."
-msgstr "Shranjene krivulje testiranca {0} iz te seje."
+msgstr "Shranjene ponovitve športnika/ce {0} v tej seji."
 
 #: ../src/gui/encoderSelectRepetitions.cs:265
-#, fuzzy
 msgid "Activate the repetitions you want to use clicking on first column."
-msgstr "Krivulje je mogoče prikazati s klikom na prvi stolpec."
+msgstr ""
+"Aktivirajte ponovitve, ki jih želite uporabiti s klikom prvega stolpca."
 
 #: ../src/gui/encoderSelectRepetitions.cs:351
 msgid "Are you sure you want to delete this repetition?"
@@ -8624,21 +8392,19 @@ msgid "Are you sure you want to delete this test type?"
 msgstr "Ali ste prepričani, da želite izbrisati to vrsto testa?"
 
 #: ../src/gui/eventExecute.cs:1250
-#, fuzzy, csharp-format
-#| msgid "Data of person in this session"
+#, csharp-format
 msgid "{0} has not made any {1} test in this session."
-msgstr "Podatki testiranca v tej seji"
+msgstr "{0} v tej seji ni opravil nobenega testa {1}."
 
 #: ../src/gui/eventExecute.cs:1253
-#, fuzzy, csharp-format
-#| msgid "Data of person in this session"
+#, csharp-format
 msgid "{0} has not made any test in this session."
-msgstr "Podatki testiranca v tej seji"
+msgstr "{0} v tej seji ni opravil nobenega testa."
 
 #: ../src/gui/eventExecute.cs:1257
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "There are no {0} tests in this session."
-msgstr "Izbor signala testiranca {0} za to sejo."
+msgstr "V tej seji ni testov {0}."
 
 #: ../src/gui/eventExecute.cs:1260
 msgid "No tests in this session."
@@ -8653,19 +8419,14 @@ msgid "Last test:"
 msgstr "Zadnji test:"
 
 #: ../src/gui/eventExecute.cs:2152
-#, fuzzy
-#| msgid "View"
 msgid "Viewing:"
-msgstr "Omeji _kot pogleda"
+msgstr "Ogled:"
 
 #: ../src/gui/eventExecute.cs:2734
-#, fuzzy
-#| msgid "Main variable"
 msgid "Main variable:"
-msgstr "Glavna spremenljivka"
+msgstr "Glavna spremenljivka:"
 
 #: ../src/gui/eventExecute.cs:2735
-#, fuzzy
 msgid "The bars are not shown because the displaced mass is 0."
 msgstr "Stolpci niso prikazani, ker je premaknjena masa 0."
 
@@ -8678,9 +8439,9 @@ msgid "Mode"
 msgstr "Način"
 
 #: ../src/gui/executeAuto.cs:473
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Sorry, this sequence '{0}' already exists in database"
-msgstr "Šport '{0}' že obstaja v podatkovni zbirki."
+msgstr "Žal ta niz »{0}« že obstaja v zbirki podatkov."
 
 #: ../src/gui/executeAuto.cs:519
 msgid "Serie"
@@ -8699,10 +8460,8 @@ msgid "Sound not working"
 msgstr "Zvok ne deluje"
 
 #: ../src/gui/feedback.cs:873
-#, fuzzy
-#| msgid "You need to activate sounds in main window"
 msgid "You need to activate sounds in preferences / multimedia."
-msgstr "Zvoke je treba omogočiti v glavnem oknu"
+msgstr "Zvoke morate aktivirati v nastavitvah / večpredstavnosti."
 
 #: ../src/gui/feedback.cs:1233
 msgid ""
@@ -8732,10 +8491,8 @@ msgid "Loaded"
 msgstr "Naloženo"
 
 #: ../src/gui/feedback.cs:1493
-#, fuzzy
-#| msgid "Error. File not found."
 msgid "Error. File not compatible."
-msgstr "Napaka: datoteke ni mogoče najti."
+msgstr "Napaka. Datoteka ni združljiva."
 
 #: ../src/gui/forceSensorElasticBands.cs:222
 msgid "Color"
@@ -8779,38 +8536,31 @@ msgstr ""
 "izračunu)."
 
 #: ../src/gui/forceSensorExercise.cs:432
-#, fuzzy
 msgid ""
 "When you are interested only in the force transmitted to the force sensor. "
 "This option do NOT take into account the effect of the weight or the "
 "acceleration of a mass."
 msgstr ""
-"Če vas zanima le sila, ki se prenaša na senzor sile. Ta možnost NE upošteva "
+"Če vas zanima le sila, ki se prenaša na tipalo sile. Ta možnost NE upošteva "
 "učinka teže ali pospeška mase."
 
 #: ../src/gui/forceSensorExercise.cs:434
-#, fuzzy
 msgid "When you want the resultant of all the forces exerted by the person."
-msgstr "Ko želite rezultat vseh sil, ki jih izvaja oseba."
+msgstr "Ko želite rezultanto vseh sil, ki jih izvaja oseba."
 
 #: ../src/gui/forceSensorExercise.cs:435
-#, fuzzy
 msgid ""
 "Chronojump needs to know the involved mass (usually person's mass) and the "
 "angle."
-msgstr "Chronojump mora poznati vpleteno maso (običajno maso osebe) in kot."
+msgstr "Chronojump mora poznati vpleteno maso (običajno maso osebe) ter kot."
 
 #: ../src/gui/forceSensorExercise.cs:436
-#, fuzzy
 msgid ""
 "This option allows to take into account the effect of the weight or the "
 "acceleration of a mass."
-msgstr ""
-"Če vas zanima le sila, ki se prenaša na senzor sile. Ta možnost NE upošteva "
-"učinka teže ali pospeška mase."
+msgstr "Ta možnost omogoča upoštevanje učinka teže ali pospeška mase."
 
 #: ../src/gui/forceSensorExercise.cs:437
-#, fuzzy
 msgid ""
 "Projection of exerted force is calculated as the sum of forces projected in "
 "the direction defined by the exercise."
@@ -8830,13 +8580,12 @@ msgstr ""
 "omogoča izračun položajev, hitrosti in pospeškov med vadbo."
 
 #: ../src/gui/forceSensorExercise.cs:441
-#, fuzzy
 msgid ""
 "If exerting a force there's no significant elongation you are using not "
 "elastic elements."
 msgstr ""
-"Če pri izvajanju sile ni bistvenega podaljšanja, ne uporabljate elastičnih "
-"elementov."
+"Če pri izvajanju sile ni bistvenega podaljšanja, uporabljate ne elastične "
+"elemente."
 
 #: ../src/gui/forceSensorExercise.cs:443
 msgid ""
@@ -8845,29 +8594,26 @@ msgstr ""
 "Kadar masa ne vpliva na podatke tipala, vendar jo je treba k njim dodati."
 
 #: ../src/gui/forceSensorExercise.cs:445
-#, fuzzy
 msgid ""
 "In some cases the weight of the mass is supported by the sensor but it is "
 "not a force that the subject is exerting. In this case, the sensor will be "
 "tared before starting the test."
 msgstr ""
-"V nekaterih primerih senzor podpira težo mase, vendar ne gre za silo, ki bi "
-"jo izvajal subjekt. V tem primeru se senzor pred začetkom preskusa napne."
+"V nekaterih primerih tipalo podpira težo mase, vendar ne gre za silo, ki bi "
+"jo izvajal subjekt. V tem primeru tipalo pred začetkom preskusa izmeri težo."
 
 #: ../src/gui/forceSensorExercise.cs:447
-#, fuzzy
 msgid ""
 "In some cases the weight is transmitted to the sensor and it is also "
 "supported by the measured limb. If the effect of the mass is not "
 "significant, use this option also."
 msgstr ""
-"V nekaterih primerih se teža prenese na senzor, ki ga podpira tudi merjena "
+"V nekaterih primerih se teža prenese na tipal in ga podpira tudi merjena "
 "okončina. Če učinek mase ni pomemben, uporabite tudi to možnost."
 
 #: ../src/gui/forceSensorExercise.cs:448
-#, fuzzy
 msgid "This configuration is the same as raw data."
-msgstr "Ta konfiguracija je enaka kot neobdelani podatki."
+msgstr "Ta konfiguracija je enaka neobdelanim podatkom."
 
 #: ../src/gui/forceSensorExercise.cs:450
 msgid ""
@@ -8882,11 +8628,11 @@ msgid "These values will be used to detect repetitions."
 msgstr "Te vrednosti bodo uporabljene za odkrivanje ponovitev."
 
 #: ../src/gui/forceSensorExercise.cs:454
-#, fuzzy
 msgid ""
 "Detected repetitions will show only the phase in which the force increases "
 "or also where decreases."
-msgstr "Odkrite ponovitve bodo prikazovale samo koncentrično fazo ali obe."
+msgstr ""
+"Zaznane ponovitve bodo prikazale samo fazo, v kateri sila narašča ali upada."
 
 #. if(o == Options.OTHER)
 #: ../src/gui/forceSensorExercise.cs:456
@@ -8907,28 +8653,25 @@ msgstr "Izometrični izteg noge"
 
 #. if (chronojumpMode == Constants.Modes.FORCESENSORELASTIC)
 #: ../src/gui/forceSensorExercise.cs:471
-#, fuzzy
 msgid ""
 "Upper limb movements against a rubber if the displaced mass is considered "
 "insignificant."
 msgstr ""
-"Gibi zgornjih okončin proti gumi, če se premaknjena masa šteje za nepomembno."
+"Gibi zgornjih okončin po gumi, če se premaknjena masa šteje za nepomembno."
 
 #: ../src/gui/forceSensorExercise.cs:473
 msgid "Vertical:"
 msgstr "Navpično:"
 
 #: ../src/gui/forceSensorExercise.cs:473
-#, fuzzy
 msgid "Squat with the force sensor fixed between the floor and the body."
-msgstr "Izometrični počep s senzorjem sile, pritrjenim med tlemi in telesom."
+msgstr "Čepite s tipalom sile, pritrjenim med tlemi in telesom."
 
 #: ../src/gui/forceSensorExercise.cs:474
 msgid "Horizontal:"
 msgstr "Vodoravno:"
 
 #: ../src/gui/forceSensorExercise.cs:474
-#, fuzzy
 msgid "Movements where a significant mass is accelerated."
 msgstr "Gibi, pri katerih se pospeši velika masa."
 
@@ -8937,55 +8680,50 @@ msgid "Diagonal movement:"
 msgstr "Diagonalno gibanje:"
 
 #: ../src/gui/forceSensorExercise.cs:475
-#, fuzzy
 msgid "Lateral squat."
-msgstr "Bočni počep"
+msgstr "Bočni počep."
 
 #: ../src/gui/forceSensorExercise.cs:477
 msgid "Rubber bands, springs, flexible material …"
 msgstr "Gumijasti trakovi, vzmeti, prožni material ..."
 
 #: ../src/gui/forceSensorExercise.cs:479 ../src/gui/forceSensorExercise.cs:481
-#, fuzzy
 msgid ""
 "In an isometric squat with the force sensor fixed between the floor and the "
 "body, increasing the mass don't affect the measure of the sensor because the "
 "weight is supported by the lower limbs, not the sensor."
 msgstr ""
 "Pri izometričnem počepu s senzorjem sile, ki je pritrjen med tlemi in "
-"telesom, povečanje mase ne vpliva na meritev senzorja, saj težo podpirajo "
-"spodnje okončine in ne senzor."
+"telesom, povečanje mase ne vpliva na meritev tipala, saj težo podpirajo "
+"spodnje okončine in ne tipalo."
 
 #: ../src/gui/forceSensorExercise.cs:483
-#, fuzzy
 msgid ""
 "Hamstring test where the heel of the person is suspended in a cinch attached "
 "to the sensor. The weight of the leg is affecting the measure of the force "
 "transmitted to the sensor but this is not a force exerted by the subject."
 msgstr ""
 "Test stegenske mišice, pri katerem je peta osebe obešena na vrvico, "
-"pritrjeno na senzor. Teža noge vpliva na merjenje sile, ki se prenaša na "
-"senzor, vendar to ni sila, ki bi jo izvajal preiskovanec."
+"pritrjeno na tipalo. Teža noge vpliva na merjenje sile, ki se prenaša na "
+"tipalo, vendar to ni sila, ki bi jo izvajal osebek."
 
 #: ../src/gui/forceSensorExercise.cs:485
-#, fuzzy
 msgid ""
 "Nordic hamstring. In a Nordic hamstring with the sensor attached to the "
 "ankle, the weight affects the values of the sensor but this weight is "
 "supported by the hamstrings we are measuring."
 msgstr ""
-"Nordijska stegenska mišica. Pri nordijskem hamstringu s senzorjem, "
-"pritrjenim na gleženj, teža vpliva na vrednosti senzorja, vendar to težo "
-"podpirajo hamstringi, ki jih merimo."
+"Nordijski test stegenske mišice. Pri nordijski stegenski mišici s tipalom, "
+"pritrjenim na gleženj, teža vpliva na vrednosti tipala, vendar to težo "
+"podpirajo stegenske mišice, ki jih merimo."
 
 #: ../src/gui/forceSensorExercise.cs:486
-#, fuzzy
 msgid ""
 "Pulling on a TRX. Pulling from a TRX implies overcome the body weight. This "
 "body weight is also measured by the sensor."
 msgstr ""
 "Poteg na TRX. Poteg s TRX pomeni premagovanje telesne teže. Težo telesa meri "
-"tudi senzor."
+"tudi tipalo."
 
 #: ../src/gui/forceSensorExercise.cs:508
 msgid "Not Elastic"
@@ -9130,7 +8868,7 @@ msgid "Not found any database at path:"
 msgstr "Na poti ni bilo mogoče najti nobene zbirke podatkov:"
 
 #: ../src/gui/networks.cs:1029
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Identify with admin ID wristband before {0} s."
 msgstr "Identificirajte se z zapestnico skrbniškega ID-ja pred {0} s."
 
@@ -9152,10 +8890,8 @@ msgid "Displaced mass"
 msgstr "Izpodrinjena masa"
 
 #: ../src/gui/overview.cs:314
-#, fuzzy
-#| msgid "Eccentric-concentric"
 msgid "Save criteria on eccentric-concentric"
-msgstr "Ekscentrično-koncentrično"
+msgstr "Shrani pogoje na ekscentrično-koncentrično"
 
 #: ../src/gui/overview.cs:405
 msgid "Force sensor overview"
@@ -9171,9 +8907,9 @@ msgid "Merge persons '{0}' with '{1}' in all sessions."
 msgstr "Združite osebe »{0}« z »{1}« v vseh sejah."
 
 #: ../src/gui/person/addModify.cs:166
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "All tests of person '{0}' will be assigned to person '{1}'."
-msgstr "Vsi testi osebe \"{0}\" bodo dodeljeni osebi \"{1}\"."
+msgstr "Vsi testi osebe »{0}« bodo dodeljeni osebi »{1}«."
 
 #. Are you sure?
 #: ../src/gui/person/addModify.cs:168
@@ -9181,9 +8917,9 @@ msgid "Please, choose person's parameters."
 msgstr "Izberite parametre osebe."
 
 #: ../src/gui/person/addModify.cs:169
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Please, choose person's parameters at session {0}."
-msgstr "Prosimo, izberite parametre osebe na seji {0}."
+msgstr "Prosimo, izberite parametre osebe v seji {0}."
 
 #: ../src/gui/person/addModify.cs:275
 msgid "Edit person"
@@ -9207,10 +8943,8 @@ msgid "Person: '{0}' exists. Please, use another name."
 msgstr "Testiranec: »{0}« že obstaja. Uporabite drugo ime."
 
 #: ../src/gui/person/addModify.cs:1100
-#, fuzzy
-#| msgid "Load persons from other session"
 msgid "Or load this person from another session using this button:"
-msgstr "Naloži testirance iz druge seje"
+msgstr "Ali pa naložite to osebo iz druge seje s tem gumbom:"
 
 #: ../src/gui/person/addMultiple.cs:273 ../src/gui/person/addMultiple.cs:352
 msgid "CSV file has headers"
@@ -9225,47 +8959,37 @@ msgid "CSV file does not have headers"
 msgstr "Datoteka CSV je brez glave stolpcev"
 
 #: ../src/gui/person/addMultiple.cs:367
-#, fuzzy
-#| msgid ""
-#| "To differentiate between male and female,\n"
-#| "use the values 1/0, or m/f, or M/F on the genre column."
 msgid ""
 "To differentiate between male and female,\n"
 "use any of these on the sex column:"
 msgstr ""
-"Za razlikovanje med moškim in žensko,\n"
-"uporabite vrednosti 1/0, m/f ali M/F v stolpcu spola."
+"Za razlikovanje med moškim in žensko,n\n"
+"uporabite eno od teh vrednosti v stolpcu spola."
 
 #: ../src/gui/person/addMultiple.cs:368
 msgid "Unspecified/Unknown:"
 msgstr "Nedoločeno/neznano:"
 
 #: ../src/gui/person/addMultiple.cs:369
-#, fuzzy
-#| msgid "Male"
 msgid "Male:"
-msgstr "Male"
+msgstr "Moški:"
 
 #: ../src/gui/person/addMultiple.cs:370
-#, fuzzy
-#| msgid "Female"
 msgid "Female:"
-msgstr "ženska"
+msgstr "Ženska:"
 
 #: ../src/gui/person/addMultiple.cs:372
 msgid "Save the spreadsheet as CSV (Comma Separated Values)."
 msgstr "Shrani preglednico kot CSV (z vejico ločene vrednosti)"
 
 #: ../src/gui/person/addMultiple.cs:374
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Expected column separator character is '{0}'"
 msgstr "Pričakovani znak ločila stolpcev je »{0}«"
 
 #: ../src/gui/person/addMultiple.cs:375
-#, fuzzy
-#| msgid "This can be changed on preferences."
 msgid "You can change this on Preferences / Language."
-msgstr "Nastavitev je mogoče spremeniti med podrobnostmi"
+msgstr "Nastavitev je mogoče spremeniti pod Nastavitve / Jezik."
 
 #: ../src/gui/person/addMultiple.cs:391
 msgid "Full name in two columns"
@@ -9299,25 +9023,21 @@ msgstr ""
 "v zbirki podatkov"
 
 #: ../src/gui/person/addMultiple.cs:778
-#, fuzzy
-#| msgid "Create new"
 msgid "Repeated name"
-msgstr "Ustvari novo"
+msgstr "Ponavljajoče se ime"
 
 #: ../src/gui/person/addMultiple.cs:779
-#, fuzzy
-#| msgid "Non weighted"
 msgid "No weight"
-msgstr "&Debelina"
+msgstr "Brez teže"
 
 #: ../src/gui/person/addMultiple.cs:902
 msgid "Persons will be created with default session values"
 msgstr "Testiranci bodo ustvarjeni iz podatkov privzete seje"
 
 #: ../src/gui/person/merge.cs:237
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "All tests of person '{0}' will be permanently assigned to person '{1}'."
-msgstr "Vsi testi osebe \"{0}\" bodo trajno dodeljeni osebi \"{1}\"."
+msgstr "Vsi testi osebe »{0}« bodo trajno dodeljeni osebi »{1}«."
 
 #: ../src/gui/person/merge.cs:348
 msgid "Differences between persons"
@@ -9398,35 +9118,28 @@ msgid "Select color"
 msgstr "Izbor barve"
 
 #: ../src/gui/preferences.cs:1973
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "{0} pps is equivalent to a resolution of {1} cm."
 msgstr "{0} pps je enakovredno ločljivosti {1} cm."
 
 #: ../src/gui/preferences.cs:1976
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "{0} pps allows to record up to {1} m/s."
-msgstr "{0} pps omogoča snemanje do {1} m / s."
+msgstr "{0} pps omogoča snemanje do {1} m/s."
 
 #: ../src/gui/preferences.cs:2347
-#, fuzzy
-#| msgid "Select of Birth"
 msgid "Select cloud directory"
-msgstr "Izbor dneva rojstva"
+msgstr "Izberite mapo v oblaku"
 
 #: ../src/gui/preferences.cs:2364
-#, fuzzy
-#| msgid "Error. {0} is not installed."
 msgid "Error. This path is not valid."
-msgstr "Napaka: program {0} ni nameščen."
+msgstr "Napaka. Ta pot ni veljavna."
 
 #: ../src/gui/preferences.cs:2431
-#, fuzzy
-#| msgid "Chronojump devices"
 msgid "Chronojump cloud schema"
-msgstr "Naprave Chronojump"
+msgstr "Shema v oblaku Chronojump"
 
 #: ../src/gui/preferences.cs:2613
-#, fuzzy
 msgid ""
 "In jumps like Dj, Dja you can select to show the heights of the jumps or the "
 "times."
@@ -9434,26 +9147,22 @@ msgstr ""
 "V skokih, kot je Dj, Dja, lahko izberete prikaz višine skokov ali časov."
 
 #: ../src/gui/preferences.cs:2614
-#, fuzzy
 msgid ""
 "But keep in mind that if you display reactive jumps with other jumps (like "
 "CMJ, ABK), then heights will be shown."
 msgstr ""
-"Vendar ne pozabite, da če prikažete reaktivne skoke z drugimi skoki (kot so "
+"Vendar ne pozabite - če prikažete reaktivne skoke z drugimi skoki (kot so "
 "CMJ, ABK), bodo prikazane višine."
 
 #: ../src/gui/preferences.cs:2624
-#, fuzzy
 msgid "If active, repetitions will be cut from set using triggers."
-msgstr "Če je aktivna, bodo ponovitve iz nabora izrezane z uporabo sprožilcev."
+msgstr "Če je aktivno, bodo ponovitve iz nabora izrezane z uporabo sprožilcev."
 
 #: ../src/gui/preferences.cs:2625
-#, fuzzy
 msgid "Trigger signal will be produced by a button connected to the Chronopic."
-msgstr "Sprožilni signal bo ustvaril gumb, povezan s kronopicom."
+msgstr "Sprožilni signal bo ustvaril gumb, povezan s Chronopicom."
 
 #: ../src/gui/preferences.cs:2626
-#, fuzzy
 msgid "This will be only used on gravitatory mode, concentric contraction."
 msgstr ""
 "To se bo uporabljalo samo v gravitacijskem načinu, koncentrični kontrakciji."
@@ -9464,34 +9173,30 @@ msgid ""
 "If \"Cut by triggers\" is inactive, repetitions will be cut automatically "
 "(default behaviour),"
 msgstr ""
-"Če je »Cut by triggers« neaktiven, se ponovitve samodejno izrežejo (privzeto "
-"vedenje),"
+"Če je »Odreži po sprožilcih« neaktiven, se ponovitve samodejno izrežejo "
+"(privzeto vedenje),"
 
 #: ../src/gui/preferences.cs:2628
-#, fuzzy
 msgid ""
 "but pressing trigger button while capturing will plot vertical lines during "
 "analyze instant graphs."
 msgstr ""
 "Toda pritisk na sprožilni gumb med zajemanjem bo med analizo takojšnjih "
-"grafov narišal navpične črte."
+"grafov risal navpične črte."
 
 #: ../src/gui/preferences.cs:2629
-#, fuzzy
 msgid "Encoder Chronopics have trigger functionality since 2017."
 msgstr "Kodirnik Chronopics ima funkcijo sprožilca od leta 2017."
 
 #: ../src/gui/preferences.cs:2630
-#, fuzzy
 msgid ""
 "You can check if your encoder Chronopic accepts triggers pressing test "
 "button."
 msgstr ""
-"Preverite lahko, ali vaš koder Chronopic sprejema sprožilce, ki pritisnejo "
-"testni gumb."
+"Preverite lahko, ali vaš kodirnik Chronopic sprejema sprožilce, ki "
+"pritisnejo testni gumb."
 
 #: ../src/gui/preferences.cs:2631
-#, fuzzy
 msgid ""
 "Your Chronopic is ready for triggers if the green light at the side of "
 "Chronopic test button changes it's state on pressing this button."
@@ -9500,7 +9205,6 @@ msgstr ""
 "testnega gumba Chronopic spremeni stanje ob pritisku na ta gumb."
 
 #: ../src/gui/preferences.cs:2632
-#, fuzzy
 msgid ""
 "At Chronojump website there's a hand push button for using triggers with "
 "ease."
@@ -9509,10 +9213,8 @@ msgstr ""
 "sprožilcev."
 
 #: ../src/gui/preferences.cs:2845
-#, fuzzy
-#| msgid "Error. Cannot open directory."
 msgid "Error. Could not check video devices."
-msgstr "Napaka: ni mogoče odprti mape."
+msgstr "Napaka. Video naprav ni bilo mogoče preveriti."
 
 #: ../src/gui/preferences.cs:2980 ../src/gui/preferences.cs:2981
 #: ../src/gui/preferences.cs:3011 ../src/gui/preferences.cs:3022
@@ -9542,12 +9244,10 @@ msgid "Successfully imported."
 msgstr "Podatki so uspešno uvoženi."
 
 #: ../src/gui/preferences.cs:3225
-#, fuzzy
 msgid "End capture by inactivity"
-msgstr "na koncu narišite krog"
+msgstr "Končaj zajemanje zaradi nedejavnosti"
 
 #: ../src/gui/preferences.cs:3226
-#, fuzzy
 msgid ""
 "If a repetition has been found, test will end at selected inactivity seconds."
 msgstr ""
@@ -9555,7 +9255,6 @@ msgstr ""
 "neaktivnosti."
 
 #: ../src/gui/preferences.cs:3227
-#, fuzzy
 msgid ""
 "If a repetition has not been found, test will end at selected inactivity "
 "seconds (x2)."
@@ -9568,25 +9267,22 @@ msgid "This will let the person to have more time to start movement."
 msgstr "S tem bo imel testiranec več časa za začetek gibanja."
 
 #: ../src/gui/preferences.cs:3229
-#, fuzzy
 msgid ""
 "On inertial, to avoid never ending capture because cone is slowly moving at "
 "the end, this criteria is added:"
 msgstr ""
-"Da bi se izognili neskončnemu zajemanju, ker se stožec na koncu počasi "
-"premika, se doda ta kriterij:"
+"Da bi se izognili neskončnemu zajemanju pri vztrajnostnem, ker se stožec na "
+"koncu počasi premika, bo dodan naslednji kriterij:"
 
 #: ../src/gui/preferences.cs:3230
-#, fuzzy
 msgid ""
 "If passed the double of configured inactivity seconds since last phase, "
 "capture will end."
 msgstr ""
-"Če preteče dvakrat več sekund neaktivnosti od zadnje faze, se zajemanje "
-"konča."
+"Če preteče dvakrat več kot nastavljenih sekund neaktivnosti od zadnje faze, "
+"se zajemanje konča."
 
 #: ../src/gui/preferences.cs:3240
-#, fuzzy
 msgid ""
 "The equivalent mass is a measure of the resistance of a body to change its "
 "linear or rotary velocity."
@@ -9595,32 +9291,29 @@ msgstr ""
 "rotacijske hitrosti."
 
 #: ../src/gui/preferences.cs:3241
-#, fuzzy
 msgid ""
 "From the point of view of a person pulling from a rope, the situation in the "
 "image is equivalent to a rotary inertial machine."
 msgstr ""
-"Z vidika osebe, ki vleče iz vrvi, je situacija na sliki enakovredna "
-"rotacijskemu inercialnemu stroju."
+"Z vidika osebe, ki vleče vrv, je situacija na sliki enakovredna rotacijski "
+"vztrajnostni napravi."
 
 #: ../src/gui/preferences.cs:3242
-#, fuzzy
 msgid ""
 "The equivalent mass takes in account the different configurations of a "
 "inertial machine (diameters, inertia momentum, extra weights and force "
 "multipliers)."
 msgstr ""
-"Ekvivalentna masa upošteva različne konfiguracije inercialnega stroja "
+"Ekvivalentna masa upošteva različne konfiguracije vztrajnostne naprave "
 "(premeri, vztrajnostni moment, dodatne uteži in multiplikatorji sile)."
 
 #: ../src/gui/preferences.cs:3243
-#, fuzzy
 msgid ""
 "This way it is possible to compare the resistance of diferent configurations "
 "on diferent machines."
 msgstr ""
 "Tako je mogoče primerjati odpornost različnih konfiguracij na različnih "
-"strojih"
+"napravah."
 
 #: ../src/gui/preferences.cs:3327
 msgid "Deleted stored devices."
@@ -9685,20 +9378,16 @@ msgid "RaceType: {0}."
 msgstr "VrstaTeka: {0}."
 
 #: ../src/gui/run.cs:782
-#, fuzzy, csharp-format
-#| msgid "This run type is fixed to one run."
-#| msgid_plural "This run type is fixed to {0} runs."
+#, csharp-format
 msgid "This race type is fixed to one lap."
 msgid_plural "This race type is fixed to {0} laps."
-msgstr[0] "Ta vrsta teka je omejena na {0} pretekov."
-msgstr[1] "Ta vrsta teka je omejena na {0} pretek."
-msgstr[2] "Ta vrsta teka je omejena na {0} preteka."
-msgstr[3] "Ta vrsta teka je omejena na {0} preteke."
+msgstr[0] "Ta vrsta teka je omejena na {0} krogov."
+msgstr[1] "Ta vrsta teka je omejena na {0} krog."
+msgstr[2] "Ta vrsta teka je omejena na {0} kroga."
+msgstr[3] "Ta vrsta teka je omejena na {0} kroge."
 
 #: ../src/gui/run.cs:791
-#, fuzzy, csharp-format
-#| msgid "This run type is fixed to one second."
-#| msgid_plural "This run type is fixed to {0} seconds."
+#, csharp-format
 msgid "This race type is fixed to one second."
 msgid_plural "This race type is fixed to {0} seconds."
 msgstr[0] "Ta vrsta teka je omejena na {0} sekund."
@@ -9725,16 +9414,13 @@ msgid "(decimal separator: '{0}')"
 msgstr "(ločilnik decimalnih mest: »{0}«)"
 
 #: ../src/gui/runType.cs:231
-#, fuzzy, csharp-format
-#| msgid "Run type: '{0}' exists. Please, use another name"
+#, csharp-format
 msgid "Race type: '{0}' exists. Please, use another name"
-msgstr "Vrsta teka '{0}' že obstaja. Uporabite drugo ime."
+msgstr "Vrsta teka »{0}« že obstaja. Uporabite drugo ime."
 
 #: ../src/gui/runType.cs:415
-#, fuzzy
-#| msgid "On RSA tests, rest time counts as a \"track\"."
 msgid "On RSA tests, rest time counts as a \"lap\"."
-msgstr "Na preizkusih RSA čas počitka šteje kot \"steza\"."
+msgstr "Na preizkusih RSA čas počitka šteje kot »krog«."
 
 #: ../src/gui/runType.cs:416
 msgid ""
@@ -9752,16 +9438,12 @@ msgid "Run 40 meters, rest 30 seconds."
 msgstr "Teci štirideset metrov, počivaj trideset sekund."
 
 #: ../src/gui/runType.cs:419
-#, fuzzy
-#| msgid "Will be limited by tracks with a fixed value of 16"
 msgid "Will be limited by laps with a fixed value of 16"
-msgstr "Omejeno na stezi s stalno določeno vrednostjo 16"
+msgstr "Omejeno na kroge s stalno določeno vrednostjo 16"
 
 #: ../src/gui/runType.cs:420
-#, fuzzy
-#| msgid "because there are 16 tracks:"
 msgid "because there are 16 laps:"
-msgstr "ker je tam šestnajst stez:"
+msgstr "ker je tam šestnajst krogov:"
 
 #: ../src/gui/runType.cs:421
 msgid "2 different laps: ('Run' and 'rest') x 8 times"
@@ -9804,9 +9486,8 @@ msgid "Error, height of the person cannot be 0"
 msgstr "Napaka, višina osebe ne more biti 0"
 
 #: ../src/gui/sprint.cs:251 ../src/gui/sprint.cs:268
-#, fuzzy
 msgid "This data does not seem a sprint."
-msgstr "Ti podatki se ne zdijo sprint."
+msgstr "Ti podatki se ne zdijo za šprint."
 
 #: ../src/gui/stats.cs:187 ../src/statType.cs:344
 msgid "Average Index"
@@ -9845,16 +9526,12 @@ msgid "Jumper's average"
 msgstr "Povprečje skakalca"
 
 #: ../src/gui/trigger.cs:81
-#, fuzzy
-#| msgid "CSV file does not have headers"
 msgid "This set does not have any triggers."
-msgstr "Datoteka CSV je brez glave stolpcev"
+msgstr "Ta niz nima nobenih sprožilcev."
 
 #: ../src/gui/trigger.cs:83
-#, fuzzy
-#| msgid "Triggers found on this set"
 msgid "Triggers found on this set:"
-msgstr "Zaznani sprožilniki v naboru"
+msgstr "Zaznani sprožilci v tem nizu:"
 
 #: ../src/gui/webcam.cs:148 ../src/gui/webcam.cs:158
 msgid "Preparing camera"
@@ -9877,16 +9554,12 @@ msgid "Ending video"
 msgstr "Zaključevanje posnetka"
 
 #: ../src/gui/webcam.cs:683 ../src/gui/webcam.cs:716
-#, fuzzy
 msgid "Video device is not configured. Check Preferences / Multimedia."
-msgstr ""
-"Video naprava ni konfigurirana. Preverite Nastavitve / Večpredstavnost."
+msgstr "Video naprava ni prilagojena. Preverite Nastavitve / Večpredstavnost."
 
 #: ../src/json/compujump.cs:36
-#, fuzzy
-#| msgid "Could not get last version."
 msgid "Could not get station exercises."
-msgstr "Ni mogoče pridobiti zadnje različice"
+msgstr "Ni mogoče pridobiti vaj na postaji."
 
 #: ../src/json/compujump.cs:286 ../src/json/compujump.cs:293
 msgid "Could not get tasks from other sessions."
@@ -9934,13 +9607,13 @@ msgstr "Zadnja objavljena različica: "
 
 #: ../src/json/json.cs:635 ../src/json/json.cs:652 ../src/json/json.cs:668
 #: ../src/json/json.cs:684
-#, fuzzy, csharp-format
+#, csharp-format
 msgid ""
 "You are not connected to the Internet\n"
 "or {0} server is down."
 msgstr ""
-"Morda ni ustrezne povezave na splet ali pa požarni zid omejuje povezovanje s "
-"strežnikom"
+"Nimate vzpostavljene povezave z internetom\n"
+"ali strežnik {0} ne deluje."
 
 #: ../src/jumpType.cs:79
 msgid "Free Jump"
@@ -10139,7 +9812,6 @@ msgid "Pulse free"
 msgstr "Prosti ritem"
 
 #: ../src/pulseType.cs:47
-#, fuzzy
 msgid ""
 "User executes a pulse without a predefined tempo. <i>Difference</i> will "
 "show the difference between a pulse and it's preceding pulse."
@@ -10324,16 +9996,12 @@ msgid "Purpose"
 msgstr "Namen"
 
 #: ../src/runType.cs:194
-#, fuzzy
-#| msgid ""
-#| "The 20 yard agility run is a simple measure of an athlete’s ability to "
-#| "accelerate, decelerate, change direction, and to accelerate again."
 msgid ""
 "The 20 yard agility race is a simple measure of an athlete’s ability to "
 "accelerate, decelerate, change direction, and to accelerate again."
 msgstr ""
 "20 jardni test agilnosti je enostavno merilo sposobnosti pospeševanja, "
-"zaustavljanja, spreminjanja smeri gibanja in ponovnega pospeševanja. "
+"zaustavljanja, spreminjanja smeri gibanja in ponovnega pospeševanja."
 
 #: ../src/runType.cs:196 ../src/runType.cs:214 ../src/runType.cs:233
 #: ../src/runType.cs:270 ../src/runType.cs:298
@@ -10717,7 +10385,6 @@ msgid "Assessment questionnaire"
 msgstr "Ocenjevalni vprašalnik"
 
 #: ../src/runType.cs:385
-#, fuzzy
 msgid ""
 "Once the test finishes proceed to edit and you will be able to complete the "
 "assessment questionnaire."
@@ -10738,9 +10405,9 @@ msgid "Uploaded"
 msgstr "Poslano"
 
 #: ../src/sprint.cs:174
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Track {0} ({1} m/s) is much faster than track {2} ({3} m/s)."
-msgstr "Track {0} ({1} m/s) je veliko hitrejši od {2} ({3} m/s)."
+msgstr "Steza {0} ({1} m/s) je veliko hitrejša od steze {2} ({3} m/s)."
 
 #. true or false means if it has speciallities
 #. will be 1 (it's also written in Constants.CountryUndefinedID
@@ -10797,7 +10464,7 @@ msgid "Congo, Republic of the"
 msgstr "Republika Kongo"
 
 #: ../src/sqlite/country.cs:207
-msgid "Cote d'Ivoire"
+msgid "Cote d Ivoire"
 msgstr "Slonokoščena obala"
 
 #: ../src/sqlite/country.cs:208
@@ -11085,8 +10752,8 @@ msgid "Kazakhstan"
 msgstr "Kazahstan"
 
 #: ../src/sqlite/country.cs:279
-msgid "Korea, Democratic People's Republic of"
-msgstr "Ljudska demokratična republika Koreja"
+msgid "Korea, Democratic People s Republic of"
+msgstr "Koreja, Demokratična ljudska republika"
 
 #: ../src/sqlite/country.cs:280
 msgid "Korea, Republic of"
@@ -11101,8 +10768,8 @@ msgid "Kyrgyz Republic"
 msgstr "Kirgizistan"
 
 #: ../src/sqlite/country.cs:283
-msgid "Lao People's Democratic Republic"
-msgstr "Ljudska demokratična republika Laos"
+msgid "Lao People s Democratic Republic"
+msgstr "Laoška ljudska demokratična republika"
 
 #: ../src/sqlite/country.cs:284
 msgid "Lebanon"
@@ -11729,7 +11396,6 @@ msgid "Venezuela"
 msgstr "Venezuela"
 
 #: ../src/sqlite/session.cs:239
-#, fuzzy
 msgid "Use this session to simulate tests."
 msgstr "S to sejo lahko simulirate preskuse."
 
@@ -12028,29 +11694,25 @@ msgid "Jumper"
 msgstr "Skakalec"
 
 #: ../src/stats/chronojumpProfile.cs:32
-#, fuzzy
 msgid "F max"
-msgstr "Največja vrednost"
+msgstr "Največja F"
 
 #: ../src/stats/chronojumpProfile.cs:33
-#, fuzzy
 msgid "F explosive"
-msgstr "F eksploziv"
+msgstr "Eksplozivna F"
 
 #: ../src/stats/chronojumpProfile.cs:34
 #, fuzzy
 msgid "Elastic cap."
-msgstr "Cap-Chat"
+msgstr "Elastična kapica."
 
 #: ../src/stats/chronojumpProfile.cs:35
-#, fuzzy
 msgid "Arms use."
-msgstr "Kazalnik uporabe rok"
+msgstr "Uporaba rok."
 
 #: ../src/stats/chronojumpProfile.cs:36
-#, fuzzy
 msgid "F reactive"
-msgstr "Repetitivno-eksplozivni"
+msgstr "Reaktivna F"
 
 #: ../src/stats/djIndex.cs:32
 msgid "Dj Index"
@@ -12113,13 +11775,13 @@ msgid "{0} in Dj Index [(tf-tc)/tc * 100] applied to {1} on {2}"
 msgstr "{0} v indeksu SzO [(čL-čS)/čS * 100] uporabljeno za {1} na {2}"
 
 #: ../src/stats/djPower.cs:135
-#, fuzzy, csharp-format
+#, csharp-format
 msgid ""
 "{0} in Dj Power [mass * g * (fallHeight + 1.22625 * (tf^2) ) / tc] applied "
 "to {1} on {2}"
 msgstr ""
-"{0} v Dj Power [masa * g * (fallHeight + 1.22625 * (tf^2) ) / tc] uporabljen "
-"za {1} na {2}"
+"{0} v moči Dj [masa * g * (višinaPadca + 1,22625 * (tf^2) ) / tc], "
+"uporabljeno za {1} na {2}"
 
 #: ../src/stats/djQ.cs:32
 msgid "Q Index"
@@ -12190,11 +11852,11 @@ msgstr "Vse vrednosti"
 msgid "Avg values of each person"
 msgstr "Srednje vrednosti vsakega testiranca"
 
-#: ../src/stats/main.cs:1331
+#: ../src/stats/main.cs:1332
 msgid "Dispersion"
 msgstr "Razpršitev"
 
-#: ../src/stats/main.cs:1517
+#: ../src/stats/main.cs:1518
 msgid "Chronojump Graph"
 msgstr "Graf ChronoJump"
 
@@ -12233,11 +11895,8 @@ msgid "{0} in Rj Evolution applied to {1} on {2}{3}"
 msgstr "{0} v razvoju RES uporabljen na {1} na {2}{3}"
 
 #: ../src/stats/rjEvolution.cs:286
-#, fuzzy
-#| msgid "{0} in Rj Index [(tfavg-tcavg)/tcavg *100] applied to {1} on {2}"
 msgid "Index is [(tfavg-tcavg)/tcavg *100]"
-msgstr ""
-"{0} v indeksu RES [(čLpovp-čSpovp)/čSpovp*100] uporabljeno na {1} na {2}"
+msgstr "Indeks je [(tfavg-tcavg)/tcavg *100]"
 
 #: ../src/stats/rjIndex.cs:135
 #, csharp-format
@@ -12247,27 +11906,23 @@ msgstr ""
 
 # plural
 #: ../src/stats/runIntervallic.cs:265
-#, fuzzy, csharp-format
-#| msgid " (best run marked)"
-#| msgid_plural " (best {0} consecutive runs marked)"
+#, csharp-format
 msgid " (best race marked)"
 msgid_plural " (best {0} consecutive laps marked)"
-msgstr[0] "(najboljših {0} označenih zaporednih tekov)"
-msgstr[1] "(najboljši {0} označen zaporedni tek)"
-msgstr[2] "(najboljša {0} označena zaporedna teka)"
-msgstr[3] "(najboljši {0} označeni zaporedni teki)"
+msgstr[0] "(označenih najboljših {0} zaporednih krogov)"
+msgstr[1] "(označen najboljši {0} zaporedni krog)"
+msgstr[2] "(označena najboljša {0} zaporedna kroga)"
+msgstr[3] "(označeni najboljši {0} zaporedni krogi)"
 
 #: ../src/stats/runIntervallic.cs:271
-#, fuzzy, csharp-format
-#| msgid "{0} in Run Intervallic applied to {1} on {2}{3}"
+#, csharp-format
 msgid "{0} in Intervallic races applied to {1} on {2}{3}"
-msgstr "{0} v razvoju RES uporabljen na {1} na {2}{3}"
+msgstr "{0} v intervalnih dirkah, ki se uporabljajo za {1} na {2}{3}"
 
 #: ../src/stats/runSimple.cs:131
-#, fuzzy, csharp-format
-#| msgid "{0} in {1} run on {2}"
+#, csharp-format
 msgid "{0} in {1} race on {2}"
-msgstr "{0} v {1} na {2}"
+msgstr "{0} v teku {1} na {2}"
 
 #: ../src/stats/sjCmjAbk.cs:131
 #, csharp-format

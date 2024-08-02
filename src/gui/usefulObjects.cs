@@ -753,3 +753,26 @@ public class Blink
 		}
 	}
 }
+
+public class BlinkImage : Blink
+{
+	public Gtk.Image imageOff;
+	public Gtk.Image imageOn;
+
+	//constructor
+	//TODO: assign color (tare, calibrate, detect stiffness: blue, capture: red)
+	public BlinkImage (Gtk.Image imageOff, Gtk.Image imageOn)
+	{
+		Status = StatusEnum.NOTSTARTED;
+
+		this.imageOff = imageOff;
+		this.imageOn = imageOn;
+	}
+
+	public Gtk.Image ImageOff {
+		get { return imageOff; }
+	}
+	public Gtk.Image ImageOn {
+		get { return imageOn; }
+	}
+}

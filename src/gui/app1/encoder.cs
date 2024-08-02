@@ -1324,7 +1324,7 @@ public partial class ChronoJumpWindow
 
 		if (blinkCapture != null)
 			blinkCapture.End ();
-		showHideCaptureIcon (false);
+		showHideBlinkIcon (blinkCapture, false);
 
 		eCapture.Cancel();
 	}
@@ -6582,7 +6582,7 @@ public partial class ChronoJumpWindow
 					fullscreen_button_fullscreen_encoder.Click ();
 
 				button_video_play_this_test_encoder.Sensitive = false;
-				blinkCapture = new Blink ();
+				blinkCapture = new BlinkImage (image_no_capturing_encoder, image_capturing_encoder);
 
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
@@ -7014,7 +7014,7 @@ public partial class ChronoJumpWindow
 
 			if (blinkCapture != null)
 				blinkCapture.End ();
-			showHideCaptureIcon (false);
+			showHideBlinkIcon (blinkCapture, false);
 
 			LogB.ThreadEnding();
 
@@ -7056,7 +7056,7 @@ public partial class ChronoJumpWindow
 
 			if (blinkCapture.Status == Blink.StatusEnum.NOTSTARTED)
 				blinkCapture.Start ();
-			showHideCaptureIcon (true);
+			showHideBlinkIcon (blinkCapture, true);
 
 			if(needToRefreshTreeviewCapture) 
 			{
@@ -7138,7 +7138,7 @@ public partial class ChronoJumpWindow
 		{
 			if (blinkCapture != null)
 				blinkCapture.End ();
-			showHideCaptureIcon (false);
+			showHideBlinkIcon (blinkCapture, false);
 
 			//stop video		
 			webcamEncoderEnd (); //this will end but file will be copied later (when we have encoderSignalUniqueID)

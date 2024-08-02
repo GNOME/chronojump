@@ -593,7 +593,8 @@ public partial class ChronoJumpWindow
 		*/
 	private bool crashedBefore; //unused
 	private bool firstCapture;
-	private Blink blinkCapture;
+	private BlinkImage blinkCapture;
+	private BlinkImage blinkOther;
 
 	public ChronoJumpWindow(string progVersion, string progName, string runningFileName, SplashWindow splashWin,
 			bool showSendLog, string sendLogMessage, bool crashedBefore, string topMessage, bool showCameraStop, bool debugModeAtStart)
@@ -5128,7 +5129,7 @@ public partial class ChronoJumpWindow
 
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 
-		showHideCaptureIcon (false);
+		showHideBlinkIcon (blinkCapture, false);
 		if (blinkCapture != null)
 			blinkCapture.End ();
 
@@ -5689,29 +5690,18 @@ public partial class ChronoJumpWindow
 	        UtilGtk.DeviceColors(viewport_chronopics, true);
 	}
 
-	private void showHideCaptureIcon (bool show)
+	private void showHideBlinkIcon (BlinkImage bi, bool show)
 	{
-		//if show, do it only each half of second, so we need a start time or a flashing class for manage this things
-		if (blinkCapture != null && blinkCapture.Status == Blink.StatusEnum.RUNNING &&
-				blinkCapture.IsOn)
+		if (bi == null)
+			return;
+
+		if (bi.Status == Blink.StatusEnum.RUNNING && bi.IsOn)
 		{
-			if (Constants.ModeIsENCODER (current_mode))
-			{
-				image_capturing_encoder.Visible = true;
-				image_no_capturing_encoder.Visible = false;
-			} else {
-				image_capturing.Visible = true;
-				image_no_capturing.Visible = false;
-			}
+			bi.ImageOn.Visible = true;
+			bi.ImageOff.Visible = false;
 		} else {
-			if (Constants.ModeIsENCODER (current_mode))
-			{
-				image_capturing_encoder.Visible = false;
-				image_no_capturing_encoder.Visible = true;
-			} else {
-				image_capturing.Visible = false;
-				image_no_capturing.Visible = true;
-			}
+			bi.ImageOn.Visible = false;
+			bi.ImageOff.Visible = true;
 		}
 	}
 

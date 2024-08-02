@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2024-07-31 08:45+0000\n"
-"PO-Revision-Date: 2024-07-31 16:30+0300\n"
+"POT-Creation-Date: 2024-08-01 10:03+0000\n"
+"PO-Revision-Date: 2024-08-02 09:35+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -104,13 +104,13 @@ msgid "Races"
 msgstr "Дистанції"
 
 #: ../glade/app1.glade.h:18 ../glade/preferences_win.glade.h:81
-#: ../src/constants.cs:1124 ../src/gui/app1/session/loadAndImport.cs:298
+#: ../src/constants.cs:1129 ../src/gui/app1/session/loadAndImport.cs:298
 #: ../src/gui/person/showAllEvents.cs:244
 msgid "Isometric"
 msgstr "Ізометричний"
 
 #: ../glade/app1.glade.h:19 ../glade/force_sensor_exercise.glade.h:12
-#: ../glade/preferences_win.glade.h:82 ../src/constants.cs:1126
+#: ../glade/preferences_win.glade.h:82 ../src/constants.cs:1131
 #: ../src/gui/app1/forceSensor.cs:2051
 #: ../src/gui/app1/session/loadAndImport.cs:300
 #: ../src/gui/forceSensorExercise.cs:506 ../src/gui/person/showAllEvents.cs:245
@@ -131,7 +131,7 @@ msgid "Inertial"
 msgstr "Інерційний"
 
 #: ../glade/app1.glade.h:22 ../glade/report_window.glade.h:4
-#: ../src/constants.cs:546 ../src/gui/convertWeight.cs:67
+#: ../src/constants.cs:551 ../src/gui/convertWeight.cs:67
 #: ../src/gui/convertWeight.cs:114
 msgid "Simple"
 msgstr "Простий"
@@ -554,7 +554,7 @@ msgstr "Останній пульс"
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:110 ../src/stats/main.cs:200
 #: ../src/stats/main.cs:228 ../src/stats/main.cs:370 ../src/stats/main.cs:397
 #: ../src/stats/main.cs:682 ../src/stats/main.cs:704 ../src/stats/main.cs:753
-#: ../src/stats/main.cs:776 ../src/stats/main.cs:803 ../src/stats/main.cs:931
+#: ../src/stats/main.cs:776 ../src/stats/main.cs:803 ../src/stats/main.cs:932
 #: ../src/stats/rjAVGSD.cs:34 ../src/stats/rjEvolution.cs:219
 #: ../src/stats/rjIndex.cs:33 ../src/stats/rjIndex.cs:34
 #: ../src/stats/rjPotencyBosco.cs:33 ../src/stats/rjPotencyBosco.cs:34
@@ -627,7 +627,7 @@ msgstr "Без фільтрування"
 msgid "Forces"
 msgstr "Сили"
 
-#: ../glade/app1.glade.h:117 ../src/constants.cs:1128
+#: ../glade/app1.glade.h:117 ../src/constants.cs:1133
 #: ../src/gui/app1/reactionTime.cs:53
 msgid "Reaction time"
 msgstr "Час реакції"
@@ -955,7 +955,7 @@ msgstr "Загальна відстань"
 
 #. Catalog.GetString("Device"),
 #: ../glade/app1.glade.h:188 ../glade/edit_event.glade.h:10
-#: ../glade/run_type_add.glade.h:7 ../src/constants.cs:1528
+#: ../glade/run_type_add.glade.h:7 ../src/constants.cs:1533
 #: ../src/exportSession.cs:738 ../src/graphs/cairo/radial.cs:153
 #: ../src/graphs/cairo/radial.cs:180 ../src/graphs/cairo/xy.cs:111
 #: ../src/gui/app1/runEncoder.cs:1156 ../src/gui/app1/runEncoder.cs:2892
@@ -1189,7 +1189,7 @@ msgid "Show description"
 msgstr "Показати опис"
 
 #: ../glade/app1.glade.h:233 ../glade/force_sensor_exercise.glade.h:32
-#: ../src/constants.cs:312 ../src/constants.cs:1130
+#: ../src/constants.cs:317 ../src/constants.cs:1135
 msgid "Other"
 msgstr "Інше"
 
@@ -1726,7 +1726,7 @@ msgid "to"
 msgstr "до"
 
 #. This "In" means: "average force in x milliseconds"
-#: ../glade/app1.glade.h:359 ../src/constants.cs:964
+#: ../glade/app1.glade.h:359 ../src/constants.cs:969
 msgid "In"
 msgstr "Вхід"
 
@@ -1745,7 +1745,7 @@ msgstr "Вилучити RFD"
 
 #. if (showColumnCD)
 #. impulse
-#: ../glade/app1.glade.h:363 ../src/constants.cs:1558
+#: ../glade/app1.glade.h:363 ../src/constants.cs:1563
 #: ../src/gui/app1/forceSensorAnalyze.cs:2257
 #: ../src/gui/app1/forceSensorAnalyze.cs:2259
 #: ../src/gui/app1/forceSensorAnalyze.cs:2261 ../src/gui/encoderTreeviews.cs:88
@@ -1777,14 +1777,14 @@ msgid "Acceleration"
 msgstr "Прискорення"
 
 #: ../glade/app1.glade.h:369 ../glade/feedback.glade.h:50
-#: ../src/constants.cs:1524 ../src/encoder.cs:2522 ../src/forceSensor.cs:2116
+#: ../src/constants.cs:1529 ../src/encoder.cs:2522 ../src/forceSensor.cs:2116
 #: ../src/graphs/cairo/xy.cs:107 ../src/gui/app1/forceSensorAnalyze.cs:1922
 #: ../src/gui/app1/forceSensorAnalyze.cs:2079 ../src/gui/overview.cs:313
 msgid "Force"
 msgstr "Сила"
 
 #: ../glade/app1.glade.h:370 ../glade/feedback.glade.h:53
-#: ../glade/preferences_win.glade.h:27 ../src/constants.cs:1525
+#: ../glade/preferences_win.glade.h:27 ../src/constants.cs:1530
 #: ../src/encoder.cs:2523 ../src/exportSession.cs:466
 #: ../src/exportSession.cs:668 ../src/forceSensor.cs:2123
 #: ../src/graphs/cairo/xy.cs:108 ../src/gui/app1/forceSensorAnalyze.cs:2084
@@ -1831,7 +1831,7 @@ msgstr "Ритм"
 msgid "Capturing with triggers"
 msgstr "Захоплення із перемикачами"
 
-#: ../glade/app1.glade.h:380 ../src/constants.cs:755
+#: ../glade/app1.glade.h:380 ../src/constants.cs:760
 msgid "Detecting …"
 msgstr "Виявляємо…"
 
@@ -1936,18 +1936,18 @@ msgstr "Ексцентрично-концентричний"
 msgid "Phase"
 msgstr "Фаза"
 
-#: ../glade/app1.glade.h:402 ../src/constants.cs:1552
+#: ../glade/app1.glade.h:402 ../src/constants.cs:1557
 #: ../src/gui/app1/encoder.cs:1804 ../src/gui/app1/forceSensor.cs:2053
 #: ../src/gui/encoderTreeviews.cs:618
 msgid "Laterality"
 msgstr "Латеральність"
 
-#: ../glade/app1.glade.h:403 ../src/constants.cs:1012 ../src/constants.cs:1534
+#: ../glade/app1.glade.h:403 ../src/constants.cs:1017 ../src/constants.cs:1539
 msgid "Mass"
 msgstr "Маса"
 
 #: ../glade/app1.glade.h:404 ../glade/encoder_configuration.glade.h:12
-#: ../src/constants.cs:1553 ../src/gui/app1/encoder.cs:608
+#: ../src/constants.cs:1558 ../src/gui/app1/encoder.cs:608
 #: ../src/gui/app1/encoder.cs:642 ../src/gui/app1/encoder.cs:1606
 #: ../src/gui/app1/encoder.cs:2139 ../src/gui/app1/encoder.cs:4838
 #: ../src/gui/encoderTreeviews.cs:624
@@ -1989,7 +1989,7 @@ msgid "Kg*cm^2"
 msgstr "кг·см²"
 
 #. checkboxes
-#: ../glade/app1.glade.h:412 ../src/constants.cs:1540
+#: ../glade/app1.glade.h:412 ../src/constants.cs:1545
 #: ../src/forceSensor.cs:2114 ../src/gui/encoderSelectRepetitions.cs:221
 #: ../src/gui/encoderTreeviews.cs:615
 msgid "Repetition"
@@ -2120,11 +2120,11 @@ msgid "Show impulse"
 msgstr "Показати імпульс"
 
 #: ../glade/app1.glade.h:443 ../glade/feedback.glade.h:83
-#: ../src/constants.cs:1531
+#: ../src/constants.cs:1536
 msgid "Range"
 msgstr "Діапазон"
 
-#: ../glade/app1.glade.h:444 ../src/constants.cs:1529
+#: ../glade/app1.glade.h:444 ../src/constants.cs:1534
 msgid "Time to Peak Power"
 msgstr "Час до пікової сили"
 
@@ -2178,7 +2178,7 @@ msgid "Position"
 msgstr "Позиція"
 
 #: ../glade/app1.glade.h:457 ../glade/edit_event.glade.h:12
-#: ../glade/feedback.glade.h:47 ../src/constants.cs:1522 ../src/encoder.cs:2520
+#: ../glade/feedback.glade.h:47 ../src/constants.cs:1527 ../src/encoder.cs:2520
 #: ../src/exportSession.cs:740 ../src/forceSensor.cs:2121
 #: ../src/graphs/cairo/radial.cs:147 ../src/graphs/cairo/xy.cs:105
 #: ../src/gui/app1/forceSensorAnalyze.cs:2082
@@ -2417,7 +2417,7 @@ msgstr "Ви справді хочете вилучити поточний се�
 msgid "and all the session tests?"
 msgstr "і усі тести у сеансі?"
 
-#: ../glade/app1.glade.h:511 ../src/constants.cs:246
+#: ../glade/app1.glade.h:511 ../src/constants.cs:251
 msgid "Sorry, this session cannot be modified."
 msgstr "Вибачте, цей сеанс не може бути змінено."
 
@@ -2644,11 +2644,11 @@ msgstr "Будь ласка, з'єднайте його і натисніть т
 msgid "Check connection"
 msgstr "Перевірити з'єднання"
 
-#: ../glade/app1.glade.h:557 ../src/constants.cs:257
+#: ../glade/app1.glade.h:557 ../src/constants.cs:262
 msgid "RFID has been disconnected!"
 msgstr "RFID було від'єднано!"
 
-#: ../glade/app1.glade.h:558 ../src/constants.cs:258
+#: ../glade/app1.glade.h:558 ../src/constants.cs:263
 msgid "Please, connect it and restart Chronojump."
 msgstr "Будь ласка, відновіть з'єднання і перезапустіть Chronojump."
 
@@ -2676,7 +2676,7 @@ msgstr "іспанська"
 msgid "Open in browser"
 msgstr "Відкрити у переглядачі"
 
-#: ../glade/app1.glade.h:565 ../src/constants.cs:901
+#: ../glade/app1.glade.h:565 ../src/constants.cs:906
 msgid "Sorry, cannot open website."
 msgstr "Вибачте, не вдалося відкрити сайт."
 
@@ -2861,14 +2861,19 @@ msgid "<b>Hardware: Chronopic</b>"
 msgstr "<b>Обладнання: Chronopic</b>"
 
 #: ../glade/dialog_about.glade.h:6
+#| msgid "<b>Software</b>"
+msgid "<b>Software testers</b>"
+msgstr "<b>Тестувальники програмного забезпечення</b>"
+
+#: ../glade/dialog_about.glade.h:7
 msgid "Developers"
 msgstr "Розробники"
 
-#: ../glade/dialog_about.glade.h:7
+#: ../glade/dialog_about.glade.h:8
 msgid "Documenters"
 msgstr "Автори документації"
 
-#: ../glade/dialog_about.glade.h:8
+#: ../glade/dialog_about.glade.h:9
 msgid "Translators"
 msgstr "Перекладачі"
 
@@ -3023,7 +3028,7 @@ msgid "Video available"
 msgstr "Доступне відео"
 
 #: ../glade/edit_event.glade.h:16 ../glade/preferences_win.glade.h:16
-#: ../src/constants.cs:960 ../src/encoder.cs:1132 ../src/forceSensor.cs:187
+#: ../src/constants.cs:965 ../src/encoder.cs:1132 ../src/forceSensor.cs:187
 #: ../src/gui/event.cs:321 ../src/gui/genericWindow.cs:957
 #: ../src/gui/jump.cs:1108 ../src/gui/jump.cs:1113 ../src/gui/jump.cs:1150
 #: ../src/gui/jump.cs:1153 ../src/gui/jump.cs:1182 ../src/gui/jump.cs:1185
@@ -3347,8 +3352,8 @@ msgstr "Дані засобу оцінки"
 msgid "Select your Chronometer"
 msgstr "Виберіть ваш хронометр"
 
-#: ../glade/evaluator_window.glade.h:14 ../src/constants.cs:198
-#: ../src/constants.cs:199 ../src/gui/person/addModify.cs:711
+#: ../glade/evaluator_window.glade.h:14 ../src/constants.cs:203
+#: ../src/constants.cs:204 ../src/gui/person/addModify.cs:711
 #: ../src/gui/person/addModify.cs:754
 msgid "Undefined"
 msgstr "Не визначено"
@@ -4068,12 +4073,12 @@ msgstr "прості"
 msgid "repetitive"
 msgstr "повторення"
 
-#: ../glade/jump_type_add.glade.h:22 ../src/constants.cs:568
+#: ../glade/jump_type_add.glade.h:22 ../src/constants.cs:573
 #: ../src/gui/app1/contactsExercise.cs:328 ../src/gui/app1/jump.cs:445
 msgid "jumps"
 msgstr "стрибки"
 
-#: ../glade/jump_type_add.glade.h:23 ../src/constants.cs:1530
+#: ../glade/jump_type_add.glade.h:23 ../src/constants.cs:1535
 msgid "time"
 msgstr "час"
 
@@ -4207,7 +4212,7 @@ msgstr "Назва стовпчика не має значення. Важлив
 
 #. decimals
 #: ../glade/person_multiple_infinite.glade.h:22 ../glade/person_win.glade.h:10
-#: ../src/constants.cs:1533 ../src/exportSession.cs:347
+#: ../src/constants.cs:1538 ../src/exportSession.cs:347
 #: ../src/exportSession.cs:389 ../src/exportSession.cs:546
 #: ../src/gui/person/addMultiple.cs:699 ../src/stats/djPower.cs:37
 msgid "Weight"
@@ -4448,7 +4453,7 @@ msgid "Show persons photo"
 msgstr "Показати фотографії осіб"
 
 #. aka == -1.0
-#: ../glade/preferences_win.glade.h:17 ../src/constants.cs:956
+#: ../glade/preferences_win.glade.h:17 ../src/constants.cs:961
 #: ../src/encoder.cs:1134 ../src/forceSensor.cs:189 ../src/forceSensor.cs:199
 #: ../src/gui/chronopicRegister.cs:418 ../src/gui/event.cs:325
 #: ../src/gui/jump.cs:1110 ../src/gui/jump.cs:1115 ../src/gui/jump.cs:1336
@@ -4600,7 +4605,7 @@ msgstr "10,0"
 msgid "Detection"
 msgstr "Виявлення"
 
-#: ../glade/preferences_win.glade.h:60 ../src/constants.cs:1118
+#: ../glade/preferences_win.glade.h:60 ../src/constants.cs:1123
 #: ../src/gui/app1/session/loadAndImport.cs:295
 #: ../src/gui/person/showAllEvents.cs:243
 msgid "Race analyzer"
@@ -4767,7 +4772,7 @@ msgstr "Захоплювати набори неперервно"
 msgid "Not recommended"
 msgstr "Не рекомендуємо"
 
-#: ../glade/preferences_win.glade.h:115 ../src/constants.cs:1556
+#: ../glade/preferences_win.glade.h:115 ../src/constants.cs:1561
 msgid "Propulsive"
 msgstr "Спонукальна"
 
@@ -5545,43 +5550,48 @@ msgstr "Інші функціональні можливості."
 msgid "Improved timers."
 msgstr "Удосконалені таймери."
 
-#: ../src/constants.cs:120
+#: ../src/constants.cs:107
+#| msgid "Python version"
+msgid "Mac version"
+msgstr "Версія для Mac"
+
+#: ../src/constants.cs:125
 msgid "Chronojump profile"
 msgstr "Профіль Chronojump"
 
 #. Dummy variables that exists for translating purposes
 #. pragma warning is to avoid warnings of "defined and not used" for these variables.
-#: ../src/constants.cs:194
+#: ../src/constants.cs:199
 msgid "Any"
 msgstr "Будь-які"
 
-#: ../src/constants.cs:195
+#: ../src/constants.cs:200
 msgid "--Undefined"
 msgstr "--Не визначено"
 
-#: ../src/constants.cs:196
+#: ../src/constants.cs:201
 msgid "--Any"
 msgstr "--Будь-які"
 
-#: ../src/constants.cs:197
+#: ../src/constants.cs:202
 msgid "-None"
 msgstr "-Немає"
 
-#: ../src/constants.cs:200
+#: ../src/constants.cs:205
 msgid "Sedentary/Occasional practice"
 msgstr "Сидяче/Випадкове вправляння"
 
-#: ../src/constants.cs:201
+#: ../src/constants.cs:206
 msgid "Bench press"
 msgstr "Жим лежачи"
 
-#: ../src/constants.cs:202
+#: ../src/constants.cs:207
 msgid "Squat"
 msgstr "Присідання"
 
 #. The next two variables got moved from src/execute/event.cs from EventExecute::runATouchPlatform() and
 #. EventExecute::RunANoStrides() and I'm not sure that are used. Left it here for now to avoid any regressions.
-#: ../src/constants.cs:206
+#: ../src/constants.cs:211
 msgid ""
 "Always remember to touch platform at ending. If you don't do it, Chronojump "
 "will crash at next execution."
@@ -5589,36 +5599,36 @@ msgstr ""
 "Слід завжди торкатися платформи наприкінці. Якщо ви цього не зробите, "
 "Chronojump завершить роботу в аварійному режимі під час наступного виконання."
 
-#: ../src/constants.cs:207
+#: ../src/constants.cs:212
 msgid "This Run Analysis is not valid because there are no strides."
 msgstr "Цей аналіз забігу є некоректним, оскільки немає кроків."
 
-#: ../src/constants.cs:250
+#: ../src/constants.cs:255
 msgid "Chronopic is disconnected."
 msgstr "Chronopic від'єднано."
 
-#: ../src/constants.cs:251
+#: ../src/constants.cs:256
 #, csharp-format
 msgid "If you want to simulate tests, use {0} session."
 msgstr "Якщо ви хочете імітувати тести, скористайтеся сеансом {0}."
 
-#: ../src/constants.cs:262
+#: ../src/constants.cs:267
 msgid "This RFID is not registered on server."
 msgstr "Цей RFID не зареєстровано на сервері."
 
-#: ../src/constants.cs:266
+#: ../src/constants.cs:271
 msgid "Cannot connect with server!"
 msgstr "Не вдалося встановити з'єднання із сервером!"
 
-#: ../src/constants.cs:276
+#: ../src/constants.cs:281
 msgid "Server is connected."
 msgstr "Сервер з'єднано."
 
-#: ../src/constants.cs:280
+#: ../src/constants.cs:285
 msgid "Sorry, server is currently offline. Try later."
 msgstr "Вибачте, сервер зараз перебуває поза мережею. Спробуйте пізніше."
 
-#: ../src/constants.cs:281
+#: ../src/constants.cs:286
 msgid ""
 "Or maybe you are not connected to the Internet or your firewall is "
 "restricting connections"
@@ -5626,183 +5636,183 @@ msgstr ""
 "Крім того, ваш комп'ютер може бути не з'єднано із інтернетом або брандмауер "
 "на ньому обмежує можливості з'єднання"
 
-#: ../src/constants.cs:324
+#: ../src/constants.cs:329
 msgid "Your software is updated!"
 msgstr "Ваше програмне забезпечення оновлено!"
 
-#: ../src/constants.cs:328
+#: ../src/constants.cs:333
 #, csharp-format
 msgid "Update software at {0}"
 msgstr "Оновити програмне забезпечення на {0}"
 
-#: ../src/constants.cs:332
+#: ../src/constants.cs:337
 msgid "Your software is more updated than last published version."
 msgstr "Ваше програмне забезпечення є новішим за останню випущену версію."
 
-#: ../src/constants.cs:332
+#: ../src/constants.cs:337
 msgid "Please, don't update!"
 msgstr "Будь ласка, не оновлюйте!"
 
-#: ../src/constants.cs:341
+#: ../src/constants.cs:346
 msgid "Importing from your spreadsheet (LibreOffice, R, MS Excel, …)"
 msgstr "Імпортуємо з вашої електронної таблиці (LibreOffice, R, MS Excel…)"
 
-#: ../src/constants.cs:342
+#: ../src/constants.cs:347
 msgid "Remember the separator character is:"
 msgstr "Запам'ятати символ-роздільник:"
 
-#: ../src/constants.cs:343
+#: ../src/constants.cs:348
 msgid "This can be changed at preferences."
 msgstr "Це можна змінити у налаштуваннях."
 
-#: ../src/constants.cs:348
+#: ../src/constants.cs:353
 msgid "Please, perform the needed jumps marked in red above."
 msgstr "Будь ласка, виконайте потрібні стрибки, які позначено червоним вище."
 
-#: ../src/constants.cs:358 ../src/constants.cs:397 ../src/constants.cs:408
-#: ../src/constants.cs:419 ../src/constants.cs:431 ../src/constants.cs:442
-#: ../src/constants.cs:460 ../src/constants.cs:472 ../src/constants.cs:484
-#: ../src/constants.cs:496 ../src/constants.cs:501 ../src/constants.cs:509
-#: ../src/constants.cs:514
+#: ../src/constants.cs:363 ../src/constants.cs:402 ../src/constants.cs:413
+#: ../src/constants.cs:424 ../src/constants.cs:436 ../src/constants.cs:447
+#: ../src/constants.cs:465 ../src/constants.cs:477 ../src/constants.cs:489
+#: ../src/constants.cs:501 ../src/constants.cs:506 ../src/constants.cs:514
+#: ../src/constants.cs:519
 msgid "Peak power"
 msgstr "Пікова потужність"
 
-#: ../src/constants.cs:358
+#: ../src/constants.cs:363
 msgid "(Watts)"
 msgstr "(вати)"
 
-#: ../src/constants.cs:363 ../src/constants.cs:403 ../src/constants.cs:414
-#: ../src/constants.cs:425 ../src/constants.cs:437 ../src/constants.cs:448
-#: ../src/constants.cs:467 ../src/constants.cs:479 ../src/constants.cs:491
-#: ../src/constants.cs:504 ../src/constants.cs:516
+#: ../src/constants.cs:368 ../src/constants.cs:408 ../src/constants.cs:419
+#: ../src/constants.cs:430 ../src/constants.cs:442 ../src/constants.cs:453
+#: ../src/constants.cs:472 ../src/constants.cs:484 ../src/constants.cs:496
+#: ../src/constants.cs:509 ../src/constants.cs:521
 msgid "body weight"
 msgstr "вага тіла"
 
-#: ../src/constants.cs:363 ../src/constants.cs:403 ../src/constants.cs:414
-#: ../src/constants.cs:425 ../src/constants.cs:437 ../src/constants.cs:448
-#: ../src/constants.cs:467 ../src/constants.cs:479 ../src/constants.cs:491
-#: ../src/constants.cs:504 ../src/constants.cs:516
+#: ../src/constants.cs:368 ../src/constants.cs:408 ../src/constants.cs:419
+#: ../src/constants.cs:430 ../src/constants.cs:442 ../src/constants.cs:453
+#: ../src/constants.cs:472 ../src/constants.cs:484 ../src/constants.cs:496
+#: ../src/constants.cs:509 ../src/constants.cs:521
 msgid "extra weight"
 msgstr "додаткова вага"
 
-#: ../src/constants.cs:363 ../src/constants.cs:402 ../src/constants.cs:413
-#: ../src/constants.cs:424 ../src/constants.cs:436 ../src/constants.cs:447
-#: ../src/constants.cs:466 ../src/constants.cs:478 ../src/constants.cs:490
-#: ../src/constants.cs:503 ../src/constants.cs:515 ../src/stats/fv.cs:51
+#: ../src/constants.cs:368 ../src/constants.cs:407 ../src/constants.cs:418
+#: ../src/constants.cs:429 ../src/constants.cs:441 ../src/constants.cs:452
+#: ../src/constants.cs:471 ../src/constants.cs:483 ../src/constants.cs:495
+#: ../src/constants.cs:508 ../src/constants.cs:520 ../src/stats/fv.cs:51
 #: ../src/stats/fv.cs:52 ../src/stats/jumpIndexes.cs:74
 #: ../src/stats/jumpIndexes.cs:78
 msgid "height"
 msgstr "висота"
 
-#: ../src/constants.cs:465
+#: ../src/constants.cs:470
 msgid "Male applicants to a Faculty of Sport Sciences"
 msgstr "Абітурієнти спортивного факультету"
 
-#: ../src/constants.cs:477
+#: ../src/constants.cs:482
 msgid "Female elite volleyball"
 msgstr "Елітні волейболістки"
 
-#: ../src/constants.cs:489
+#: ../src/constants.cs:494
 msgid "Female medium volleyball"
 msgstr "Посередні волейболістки"
 
-#: ../src/constants.cs:502
+#: ../src/constants.cs:507
 msgid "Female sports sciences students"
 msgstr "Студентки спортивного факультету"
 
-#: ../src/constants.cs:514
+#: ../src/constants.cs:519
 msgid "Female university students"
 msgstr "Студентки університету"
 
-#: ../src/constants.cs:523 ../src/constants.cs:1527 ../src/stats/potency.cs:60
+#: ../src/constants.cs:528 ../src/constants.cs:1532 ../src/stats/potency.cs:60
 msgid "Peak Power"
 msgstr "пікова потужність"
 
-#: ../src/constants.cs:538
+#: ../src/constants.cs:543
 msgid "Session summary"
 msgstr "Резюме сеансу"
 
-#: ../src/constants.cs:542
+#: ../src/constants.cs:547
 msgid "Jumper summary"
 msgstr "Резюме щодо стрибуна"
 
-#: ../src/constants.cs:550
+#: ../src/constants.cs:555
 msgid "Simple with TC"
 msgstr "Простий із TC"
 
-#: ../src/constants.cs:554
+#: ../src/constants.cs:559
 msgid "Jumps: Reactive"
 msgstr "Стрибки: реактивні"
 
-#: ../src/constants.cs:558
+#: ../src/constants.cs:563
 msgid "Races: Simple"
 msgstr "Підходи: Прості"
 
-#: ../src/constants.cs:563
+#: ../src/constants.cs:568
 msgid "Races: Intervallic"
 msgstr "Підходи: Інтервальні"
 
-#: ../src/constants.cs:572
+#: ../src/constants.cs:577
 msgid "tracks"
 msgstr "доріжки"
 
-#: ../src/constants.cs:578
+#: ../src/constants.cs:583
 msgid "See all jumps"
 msgstr "Переглянути усі стрибки"
 
-#: ../src/constants.cs:582
+#: ../src/constants.cs:587
 msgid "See all races"
 msgstr "Переглянути усі підходи"
 
-#: ../src/constants.cs:586
+#: ../src/constants.cs:591
 msgid "See all pulses"
 msgstr "Переглянути усі пульсації"
 
-#: ../src/constants.cs:723
+#: ../src/constants.cs:728
 msgid "Typical serial and USB-serial ports on Windows:"
 msgstr "Типові послідовні та USB-послідовні порти у Windows:"
 
-#: ../src/constants.cs:725
+#: ../src/constants.cs:730
 msgid "Also, these are possible:"
 msgstr "Також можливі такі:"
 
-#: ../src/constants.cs:732
+#: ../src/constants.cs:737
 msgid "Typical serial ports on GNU/Linux:"
 msgstr "Типові послідовні порти у GNU/Linux:"
 
-#: ../src/constants.cs:734
+#: ../src/constants.cs:739
 msgid "Typical USB-serial ports on GNU/Linux:"
 msgstr "Типові USB-послідовні порти у GNU/Linux:"
 
-#: ../src/constants.cs:736
+#: ../src/constants.cs:741
 msgid "If you use Chronopic3, you will have an USB-serial port."
 msgstr "Якщо ви користуєтеся Chronopic3, у вас буде USB-послідовний порт."
 
-#: ../src/constants.cs:742
+#: ../src/constants.cs:747
 msgid "Serial ports found:"
 msgstr "Знайдені послідовні порти:"
 
-#: ../src/constants.cs:746
+#: ../src/constants.cs:751
 msgid "USB-serial ports found:"
 msgstr "Виявлені USB-послідовні порти:"
 
-#: ../src/constants.cs:750
+#: ../src/constants.cs:755
 msgid "Not found any USB-serial ports."
 msgstr "Не знайдено жодного послідовного порту USB."
 
-#: ../src/constants.cs:750
+#: ../src/constants.cs:755
 msgid "Is Chronopic connected?"
 msgstr "Чи з'єднано Chronopic?"
 
-#: ../src/constants.cs:759
+#: ../src/constants.cs:764
 msgid "Touch device."
 msgstr "Торкніться пристрою."
 
-#: ../src/constants.cs:764
+#: ../src/constants.cs:769
 msgid "Chronopic driver has to be installed."
 msgstr "Не було встановлено драйвер Chronopic."
 
-#: ../src/constants.cs:769
+#: ../src/constants.cs:774
 msgid ""
 "If you have problems connecting with Chronopic, ensure you have the "
 "<b>driver</b> installed at 'Windows Start Menu / Chronojump / Install "
@@ -5812,43 +5822,43 @@ msgstr ""
 "встановлено <b>драйвер</b> за допомогою пункту «меню «Пуск» Windows» / "
 "«Chronojump» / Встановити драйвер Chronopic»."
 
-#: ../src/constants.cs:773
+#: ../src/constants.cs:778
 msgid "Check Chronojump software website."
 msgstr "Ознайомтеся із сайтом програмного забезпечення Chronojump."
 
-#: ../src/constants.cs:777
+#: ../src/constants.cs:782
 msgid "Error. Nothing has been captured."
 msgstr "Помилка. Ніяких даних не захоплено."
 
-#: ../src/constants.cs:822
+#: ../src/constants.cs:827
 msgid "Africa"
 msgstr "Африка"
 
-#: ../src/constants.cs:823
+#: ../src/constants.cs:828
 msgid "Antarctica"
 msgstr "Антарктида"
 
-#: ../src/constants.cs:824
+#: ../src/constants.cs:829
 msgid "Asia"
 msgstr "Азія"
 
-#: ../src/constants.cs:825
+#: ../src/constants.cs:830
 msgid "Europe"
 msgstr "Європа"
 
-#: ../src/constants.cs:826
+#: ../src/constants.cs:831
 msgid "North America"
 msgstr "Північна Америка"
 
-#: ../src/constants.cs:827
+#: ../src/constants.cs:832
 msgid "Oceania"
 msgstr "Океанія"
 
-#: ../src/constants.cs:828
+#: ../src/constants.cs:833
 msgid "South America"
 msgstr "Південна Америка"
 
-#: ../src/constants.cs:835
+#: ../src/constants.cs:840
 msgid "Tests are <b>simulated</b> until Chronopic is connected."
 msgstr "Тести <b>імітуватимуться</b>, доки не буде з'єднано Chronopic."
 
@@ -5856,7 +5866,7 @@ msgstr "Тести <b>імітуватимуться</b>, доки не буде
 #. Catalog.GetString("Angles") + ":" +
 #. thinking on 99 jumps
 #. thinking on 99 tracks
-#: ../src/constants.cs:839 ../src/exportSession.cs:473
+#: ../src/constants.cs:844 ../src/exportSession.cs:473
 #: ../src/exportSession.cs:579 ../src/exportSession.cs:743
 #: ../src/exportSession.cs:801 ../src/gui/eventExecute.cs:132
 #: ../src/gui/eventExecute.cs:1498 ../src/gui/eventExecute.cs:1624
@@ -5865,69 +5875,69 @@ msgstr "Тести <b>імітуватимуться</b>, доки не буде
 msgid "Simulated"
 msgstr "Імітовано"
 
-#: ../src/constants.cs:844
+#: ../src/constants.cs:849
 msgid "All tests available except MultiChronopic."
 msgstr "Усі тести доступні, окрім MultiChronopic."
 
-#: ../src/constants.cs:848
+#: ../src/constants.cs:853
 msgid "All tests available."
 msgstr "Доступні усі тести."
 
-#: ../src/constants.cs:853
+#: ../src/constants.cs:858
 msgid "Default"
 msgstr "Типовий"
 
-#: ../src/constants.cs:868
+#: ../src/constants.cs:873
 msgid "Regular practice"
 msgstr "Звичайна вправа"
 
-#: ../src/constants.cs:869
+#: ../src/constants.cs:874
 msgid "Competition"
 msgstr "Змагання"
 
-#: ../src/constants.cs:870
+#: ../src/constants.cs:875
 msgid "Elite"
 msgstr "Еліта"
 
-#: ../src/constants.cs:893 ../src/constants.cs:1541
+#: ../src/constants.cs:898 ../src/constants.cs:1546
 #: ../src/gui/app1/chronojump.cs:3692 ../src/gui/app1/encoder.cs:5397
 #: ../src/gui/app1/encoder.cs:5415
 msgid "Not enough data."
 msgstr "Недостатньо даних."
 
-#: ../src/constants.cs:897 ../src/gui/app1/session/backup.cs:61
+#: ../src/constants.cs:902 ../src/gui/app1/session/backup.cs:61
 #: ../src/gui/app1/session/export.cs:46
 msgid "Error. Cannot find database."
 msgstr "Помилка. Не вдалося знайти базу даних."
 
-#: ../src/constants.cs:905 ../src/gui/app1/session/main.cs:332
+#: ../src/constants.cs:910 ../src/gui/app1/session/main.cs:332
 #: ../src/gui/app1/session/main.cs:362 ../src/gui/app1/session/main.cs:370
 #: ../src/gui/splash.cs:153
 msgid "Error. Cannot open directory."
 msgstr "Помилка. Не вдалося відкрити каталог."
 
-#: ../src/constants.cs:909
+#: ../src/constants.cs:914
 msgid "Error. File not found."
 msgstr "Помилка. Файл не знайдено."
 
-#: ../src/constants.cs:913
+#: ../src/constants.cs:918
 msgid "Error. File is empty."
 msgstr "Помилка. Файл є порожнім."
 
-#: ../src/constants.cs:917
+#: ../src/constants.cs:922
 msgid "Error. Cannot copy file."
 msgstr "Помилка. Не вдалося скопіювати файл."
 
-#: ../src/constants.cs:921
+#: ../src/constants.cs:926
 msgid "Error. File cannot be saved."
 msgstr "Помилка. Не вдалося зберегти файл."
 
-#: ../src/constants.cs:925
+#: ../src/constants.cs:930
 #, csharp-format
 msgid "Sorry, this graph cannot be done with test {0}."
 msgstr "Вибачте, цей графік не можна побудувати для тесту {0}."
 
-#: ../src/constants.cs:929
+#: ../src/constants.cs:934
 msgid ""
 "Maybe this file is opened by an SpreadSheet software like Excel. Please, "
 "close that program."
@@ -5935,11 +5945,11 @@ msgstr ""
 "Можливо, цей файл відкрито у електронних таблицях, наприклад Excel. Будь "
 "ласка, закрийте цю програму."
 
-#: ../src/constants.cs:968
+#: ../src/constants.cs:973
 msgid "Out"
 msgstr "Вихід"
 
-#: ../src/constants.cs:988
+#: ../src/constants.cs:993
 msgid "On jumps results tab, power is calculated depending on jump type:"
 msgstr ""
 "На вкладці результатів стрибків сила визначається залежно від типу стрибка:"
@@ -5947,44 +5957,44 @@ msgstr ""
 #. Catalog.GetString("Jumps with TC & TF: Bosco Relative Power (W/Kg)") +
 #. "\n" +
 #. Catalog.GetString("P = 24.6 * (Total time + Flight time) / Contact time") +
-#: ../src/constants.cs:993
+#: ../src/constants.cs:998
 msgid "Jumps with TC and TF:"
 msgstr "Стрибки із TC і TF:"
 
-#: ../src/constants.cs:993
+#: ../src/constants.cs:998
 msgid "Developed by Chronojump team"
 msgstr "Розроблено командою Chronojump"
 
-#: ../src/constants.cs:995
+#: ../src/constants.cs:1000
 msgid "Calculate the potential energies on fall and after the jump."
 msgstr "Обчислити потенційні енергії падіння та після стрибка."
 
-#: ../src/constants.cs:996
+#: ../src/constants.cs:1001
 msgid "Divide them by time during force is applied."
 msgstr "Поділити їх на час прикладання сили."
 
 #. P = mass * g * ( fallHeight + 1.22625 * Math.Pow(tf,2) ) / (Double)tt;
-#: ../src/constants.cs:999
+#: ../src/constants.cs:1004
 msgid "mass"
 msgstr "маса"
 
-#: ../src/constants.cs:1000
+#: ../src/constants.cs:1005
 msgid "falling height"
 msgstr "висота падіння"
 
-#: ../src/constants.cs:1000
+#: ../src/constants.cs:1005
 msgid "flight time"
 msgstr "час польоту"
 
-#: ../src/constants.cs:1001
+#: ../src/constants.cs:1006
 msgid "contact time"
 msgstr "час контакту"
 
-#: ../src/constants.cs:1003
+#: ../src/constants.cs:1008
 msgid "Jumps without TC: Lewis Peak Power 1974 (W)"
 msgstr "Стрибки без TC: пікова потужність Льюїса, 1974 (W)"
 
-#: ../src/constants.cs:1005
+#: ../src/constants.cs:1010
 msgid ""
 "P = SQRT(4.9) * 9.8 * (body weight+extra weight) * SQRT(jump height in "
 "meters)"
@@ -5992,24 +6002,24 @@ msgstr ""
 "P = SQRT(4.9) * 9.8 * (вага тіла+додаткова вага) * SQRT(висота стрибка у "
 "метрах)"
 
-#: ../src/constants.cs:1007
+#: ../src/constants.cs:1012
 msgid "If you want to use other formulas, go to Analyze."
 msgstr ""
 "Якщо ви хочете скористатися іншими формулами, перейдіть до «Аналізувати»."
 
-#: ../src/constants.cs:1013
+#: ../src/constants.cs:1018
 msgid "Contact Time"
 msgstr "Час контакту"
 
-#: ../src/constants.cs:1014
+#: ../src/constants.cs:1019
 msgid "Flight Time"
 msgstr "Час польоту"
 
-#: ../src/constants.cs:1015
+#: ../src/constants.cs:1020
 msgid "See:"
 msgstr "Див.:"
 
-#: ../src/constants.cs:1025
+#: ../src/constants.cs:1030
 #, csharp-format
 msgid ""
 "Use this window to repair this test.\n"
@@ -6019,162 +6029,162 @@ msgstr ""
 "Двічі клацніть на будь-якій комірці, щоб редагувати її (роздільник дробової "
 "частини: «{0}»)"
 
-#: ../src/constants.cs:1026
+#: ../src/constants.cs:1031
 msgid "Press enter or tab after editing a cell."
 msgstr "Натисніть Enter або Tab після редагування вмісту комірки."
 
-#: ../src/constants.cs:1050
+#: ../src/constants.cs:1055
 msgid "Sorry, this multimedia file does not exists."
 msgstr "Вибачте, цього файла мультимедійних даних не існує."
 
-#: ../src/constants.cs:1057
+#: ../src/constants.cs:1062
 msgid "Running start. Started with initial speed."
 msgstr "Динамічний старт. Розпочато із початковою швидкістю."
 
-#: ../src/constants.cs:1061
+#: ../src/constants.cs:1066
 msgid "Standing start. Started without initial speed."
 msgstr "Статичний старт. Розпочато без початкової швидкості."
 
-#: ../src/constants.cs:1066
+#: ../src/constants.cs:1071
 msgid "Sorry, no cameras found."
 msgstr "Вибачте, камер не знайдено."
 
-#: ../src/constants.cs:1110 ../src/gui/app1/encoder.cs:2409
+#: ../src/constants.cs:1115 ../src/gui/app1/encoder.cs:2409
 #: ../src/gui/app1/session/loadAndImport.cs:289
 msgid "Jumps simple"
 msgstr "Прості стрибки"
 
-#: ../src/constants.cs:1112 ../src/gui/app1/encoder.cs:2411
+#: ../src/constants.cs:1117 ../src/gui/app1/encoder.cs:2411
 msgid "Jumps multiple"
 msgstr "Кратні стрибки"
 
-#: ../src/constants.cs:1114 ../src/gui/app1/encoder.cs:2413
+#: ../src/constants.cs:1119 ../src/gui/app1/encoder.cs:2413
 #: ../src/gui/app1/session/loadAndImport.cs:293
 msgid "Races simple"
 msgstr "Забіги просто"
 
-#: ../src/constants.cs:1116 ../src/gui/app1/encoder.cs:2415
+#: ../src/constants.cs:1121 ../src/gui/app1/encoder.cs:2415
 msgid "Races intervallic"
 msgstr "Забіги інтервально"
 
-#: ../src/constants.cs:1120
+#: ../src/constants.cs:1125
 msgid "Encoder (gravitatory)"
 msgstr "Кодувальник (гравітаційний)"
 
-#: ../src/constants.cs:1122
+#: ../src/constants.cs:1127
 msgid "Encoder (inertial)"
 msgstr "Кодувальник (інерційний)"
 
-#: ../src/constants.cs:1519 ../src/gui/jump.cs:76
+#: ../src/constants.cs:1524 ../src/gui/jump.cs:76
 msgid "jump"
 msgstr "перейти"
 
-#: ../src/constants.cs:1520
+#: ../src/constants.cs:1525
 msgid "body speed"
 msgstr "швидкість тіла"
 
-#: ../src/constants.cs:1521
+#: ../src/constants.cs:1526
 msgid "speed"
 msgstr "швидкість"
 
-#: ../src/constants.cs:1523
+#: ../src/constants.cs:1528
 msgid "Accel."
 msgstr "Прискорення"
 
-#: ../src/constants.cs:1526
+#: ../src/constants.cs:1531
 msgid "Average Power"
 msgstr "Середня потужність"
 
-#: ../src/constants.cs:1532
+#: ../src/constants.cs:1537
 msgid "distance"
 msgstr "відстань"
 
-#: ../src/constants.cs:1535
+#: ../src/constants.cs:1540
 msgid "eccentric"
 msgstr "ексентричний"
 
-#: ../src/constants.cs:1536
+#: ../src/constants.cs:1541
 msgid "concentric"
 msgstr "концентричний"
 
-#: ../src/constants.cs:1537
+#: ../src/constants.cs:1542
 msgid "land"
 msgstr "земля"
 
-#: ../src/constants.cs:1538
+#: ../src/constants.cs:1543
 msgid "air"
 msgstr "повітря"
 
-#: ../src/constants.cs:1539
+#: ../src/constants.cs:1544
 msgid "jump height"
 msgstr "Висота стрибка"
 
-#: ../src/constants.cs:1542
+#: ../src/constants.cs:1547
 msgid "Encoder is not connected."
 msgstr "Кодувальний не з'єднано."
 
-#: ../src/constants.cs:1543
+#: ../src/constants.cs:1548
 msgid "prediction"
 msgstr "передбачення"
 
-#: ../src/constants.cs:1544
+#: ../src/constants.cs:1549
 msgid "Concentric mean speed on bench press 1RM ="
 msgstr "Концентрична середня швидкість при жимі лежачи, 1RM ="
 
-#: ../src/constants.cs:1545
+#: ../src/constants.cs:1550
 msgid "Concentric mean speed on squat 1RM ="
 msgstr "Концентрична середня швидкість при присіданні, 1RM ="
 
-#: ../src/constants.cs:1546
+#: ../src/constants.cs:1551
 msgid "Estimated percentual load ="
 msgstr "Оцінка навантаження у відсотках ="
 
-#: ../src/constants.cs:1547
+#: ../src/constants.cs:1552
 msgid "Adapted from"
 msgstr "Адаптовано з"
 
-#: ../src/constants.cs:1548
+#: ../src/constants.cs:1553
 msgid "Mean speed in concentric propulsive phase"
 msgstr "Середня швидкість у концентричній спонукальній фазі"
 
-#: ../src/constants.cs:1549 ../src/gui/app1/encoder.cs:1476
+#: ../src/constants.cs:1554 ../src/gui/app1/encoder.cs:1476
 msgid "Sorry, no repetitions matched your criteria."
 msgstr "Вибачте, жодне повторення не відповідає вашим критеріям."
 
-#: ../src/constants.cs:1550
+#: ../src/constants.cs:1555
 msgid "Need at least three jumps"
 msgstr "Потрібно принаймні три стрибки"
 
-#: ../src/constants.cs:1551
+#: ../src/constants.cs:1556
 msgid "Need at least three eccentric-concentric jumps"
 msgstr "Потрібно принаймні три ексцентрично-концентричні стрибки"
 
 #. laterality is stored on English but translated on encoder sqlite select
-#: ../src/constants.cs:1552 ../src/gui/app1/encoder.cs:1892
+#: ../src/constants.cs:1557 ../src/gui/app1/encoder.cs:1892
 #: ../src/sqlite/main.cs:1941 ../src/sqlite/main.cs:1942
 msgid "RL"
 msgstr "ПЛ"
 
-#: ../src/constants.cs:1552 ../src/gui/app1/encoder.cs:1894
+#: ../src/constants.cs:1557 ../src/gui/app1/encoder.cs:1894
 #: ../src/sqlite/main.cs:1944 ../src/sqlite/main.cs:1945
 msgid "R"
 msgstr "П"
 
-#: ../src/constants.cs:1552 ../src/sqlite/main.cs:1947
+#: ../src/constants.cs:1557 ../src/sqlite/main.cs:1947
 #: ../src/sqlite/main.cs:1948
 msgid "L"
 msgstr "Л"
 
-#: ../src/constants.cs:1554
+#: ../src/constants.cs:1559
 msgid "Maximum mean power using the F-V profile"
 msgstr "Максимальна середня потужність з використанням профілю F-V"
 
-#: ../src/constants.cs:1555
+#: ../src/constants.cs:1560
 msgid "Mean power parabole using the Power-Load data"
 msgstr ""
 "Парабола середнього зусилля з використанням даних «Сила / Навантаження»"
 
-#: ../src/constants.cs:1557
+#: ../src/constants.cs:1562
 msgid "Non propulsive"
 msgstr "Неспонукальна"
 
@@ -6941,7 +6951,7 @@ msgid "Sorry, R software is not installed."
 msgstr "Вибачте, не встановлено пакунки R."
 
 #: ../src/gui/app1/chronojump.cs:4691 ../src/gui/app1/encoder.cs:7644
-#: ../src/stats/main.cs:1514
+#: ../src/stats/main.cs:1515
 msgid "Please, install it from here:"
 msgstr "Будь ласка, встановіть його звідси:"
 
@@ -7537,11 +7547,11 @@ msgstr "Завантажуємо бібліотеки"
 msgid "Starting R"
 msgstr "Запускаємо R"
 
-#: ../src/gui/app1/encoder.cs:7642 ../src/stats/main.cs:1512
+#: ../src/gui/app1/encoder.cs:7642 ../src/stats/main.cs:1513
 msgid "Sorry. Error doing graph."
 msgstr "Вибачте. Помилка під час створення графіка."
 
-#: ../src/gui/app1/encoder.cs:7643 ../src/stats/main.cs:1513
+#: ../src/gui/app1/encoder.cs:7643 ../src/stats/main.cs:1514
 msgid "Maybe R is not installed."
 msgstr "Можливо, R не встановлено."
 
@@ -10319,7 +10329,6 @@ msgid "Congo, Republic of the"
 msgstr "Республіка Конго"
 
 #: ../src/sqlite/country.cs:207
-#| msgid "Cote d'Ivoire"
 msgid "Cote d Ivoire"
 msgstr "Кот-д'Івуар"
 
@@ -10608,7 +10617,6 @@ msgid "Kazakhstan"
 msgstr "Казахстан"
 
 #: ../src/sqlite/country.cs:279
-#| msgid "Korea, Democratic People's Republic of"
 msgid "Korea, Democratic People s Republic of"
 msgstr "Корейська народно-демократична республіка"
 
@@ -10625,7 +10633,6 @@ msgid "Kyrgyz Republic"
 msgstr "Киргизька Республіка"
 
 #: ../src/sqlite/country.cs:283
-#| msgid "Lao People's Democratic Republic"
 msgid "Lao People s Democratic Republic"
 msgstr "Лаоська Народно-Демократична Республіка"
 
@@ -11706,11 +11713,11 @@ msgstr "Усі значення"
 msgid "Avg values of each person"
 msgstr "Середні значення для кожної з осіб"
 
-#: ../src/stats/main.cs:1331
+#: ../src/stats/main.cs:1332
 msgid "Dispersion"
 msgstr "Дисперсія"
 
-#: ../src/stats/main.cs:1517
+#: ../src/stats/main.cs:1518
 msgid "Chronojump Graph"
 msgstr "Графік Chronojump"
 

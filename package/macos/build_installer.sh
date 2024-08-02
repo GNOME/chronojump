@@ -22,7 +22,8 @@ run_codesign()
 {
     file=$1
     echo ${file}
-    codesign --deep --force --timestamp --options runtime --sign "${APPLE_APPLICATION_CERT_NAME}" --entitlements entitlements.plist ${file}
+    #codesign --deep --force --timestamp --options runtime --sign "${APPLE_APPLICATION_CERT_NAME}" --entitlements entitlements.plist ${file}
+    codesign --deep --force --timestamp=none --options runtime --sign "${APPLE_APPLICATION_CERT_NAME}" --entitlements entitlements.plist ${file}
 }
 
 rm -rf ${MAC_APP_BIN_DIR}
@@ -138,14 +139,14 @@ rm -rf ${MAC_APP_BIN_DIR}bin/FTD2XX_NET_v1.0.14
 rm -rf ${MAC_APP_BIN_DIR}FTD2XX_NET_v1.2.0
 mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/Resources/English.lproj ${MAC_APP_ROOT_DIR}/1_English.lproj
 mv ${MAC_APP_BIN_DIR}bin/x64/Python/Resources/English.lproj ${MAC_APP_ROOT_DIR}/2_English.lproj
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcmysql1.1.7 ${MAC_APP_ROOT_DIR}/tdbcmysql1.1.7
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/thread2.8.9 ${MAC_APP_ROOT_DIR}/thread2.8.9
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcodbc1.1.7 ${MAC_APP_ROOT_DIR}/tdbcodbc1.1.7
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcmysql1.1.5 ${MAC_APP_ROOT_DIR}/tdbcmysql1.1.5
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/thread2.8.8 ${MAC_APP_ROOT_DIR}/thread2.8.8
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcodbc1.1.5 ${MAC_APP_ROOT_DIR}/tdbcodbc1.1.5
 mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tk8.6 ${MAC_APP_ROOT_DIR}/tk8.6
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/itcl4.2.4 ${MAC_APP_ROOT_DIR}/itcl4.2.4
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/sqlite3.44.2 ${MAC_APP_ROOT_DIR}/sqlite3.44.2
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/itcl4.2.3 ${MAC_APP_ROOT_DIR}/itcl4.2.3
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/sqlite3.40.0 ${MAC_APP_ROOT_DIR}/sqlite3.40.0
 mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tcl8.6 ${MAC_APP_ROOT_DIR}/tcl8.6
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbc1.1.7 ${MAC_APP_ROOT_DIR}/tdbc1.1.7
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbc1.1.5 ${MAC_APP_ROOT_DIR}/tdbc1.1.5
 mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tcl8 ${MAC_APP_ROOT_DIR}/tcl8
 mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/python${PYTHON_VERSION} ${MAC_APP_ROOT_DIR}/1_python${PYTHON_VERSION}
 mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/share/doc/python${PYTHON_VERSION} ${MAC_APP_ROOT_DIR}/2_python${PYTHON_VERSION}
@@ -156,7 +157,7 @@ mv ${MAC_APP_BIN_DIR}R/Versions/Current/Resources/fontconfig/fonts/conf.d ${MAC_
 mv ${MAC_APP_BIN_DIR}fonts/conf.d ${MAC_APP_ROOT_DIR}/3_conf.d
 mv ${MAC_APP_FRAMEWORK_DIR}gtk3/lib/gdk-pixbuf-2.0 ${MAC_APP_ROOT_DIR}/gdk-pixbuf-2.0
 mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/include/python${PYTHON_VERSION} ${MAC_APP_ROOT_DIR}/3_python${PYTHON_VERSION}
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcpostgres1.1.7 ${MAC_APP_ROOT_DIR}/tdbcpostgres1.1.7
+mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcpostgres1.1.5 ${MAC_APP_ROOT_DIR}/tdbcpostgres1.1.5
 mv ${MAC_APP_FRAMEWORK_DIR}gtk3/share ${MAC_APP_ROOT_DIR}/share
 mv ${MAC_APP_FRAMEWORK_DIR}gtk3/lib/gtk-3.0 ${MAC_APP_ROOT_DIR}/gtk-3.0
 
@@ -166,14 +167,14 @@ run_codesign ${MAC_APP_BIN_DIR}/Chronojump
 
 mv ${MAC_APP_ROOT_DIR}/1_English.lproj ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/Resources/English.lproj
 mv ${MAC_APP_ROOT_DIR}/2_English.lproj ${MAC_APP_BIN_DIR}bin/x64/Python/Resources/English.lproj
-mv ${MAC_APP_ROOT_DIR}/tdbcmysql1.1.7 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcmysql1.1.7
-mv ${MAC_APP_ROOT_DIR}/thread2.8.9 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/thread2.8.9
-mv ${MAC_APP_ROOT_DIR}/tdbcodbc1.1.7 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcodbc1.1.7
+mv ${MAC_APP_ROOT_DIR}/tdbcmysql1.1.5 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcmysql1.1.5
+mv ${MAC_APP_ROOT_DIR}/thread2.8.8 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/thread2.8.8
+mv ${MAC_APP_ROOT_DIR}/tdbcodbc1.1.5 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcodbc1.1.5
 mv ${MAC_APP_ROOT_DIR}/tk8.6 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tk8.6
-mv ${MAC_APP_ROOT_DIR}/itcl4.2.4 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/itcl4.2.4
-mv ${MAC_APP_ROOT_DIR}/sqlite3.44.2 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/sqlite3.44.2
+mv ${MAC_APP_ROOT_DIR}/itcl4.2.3 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/itcl4.2.3
+mv ${MAC_APP_ROOT_DIR}/sqlite3.40.0 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/sqlite3.40.0
 mv ${MAC_APP_ROOT_DIR}/tcl8.6 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tcl8.6
-mv ${MAC_APP_ROOT_DIR}/tdbc1.1.7 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbc1.1.7
+mv ${MAC_APP_ROOT_DIR}/tdbc1.1.5 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbc1.1.5
 mv ${MAC_APP_ROOT_DIR}/tcl8 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tcl8
 mv ${MAC_APP_ROOT_DIR}/1_python${PYTHON_VERSION} ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/python${PYTHON_VERSION}
 mv ${MAC_APP_ROOT_DIR}/2_python${PYTHON_VERSION} ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/share/doc/python${PYTHON_VERSION}
@@ -184,7 +185,7 @@ mv ${MAC_APP_ROOT_DIR}/2_conf.d ${MAC_APP_BIN_DIR}R/Versions/Current/Resources/f
 mv ${MAC_APP_ROOT_DIR}/3_conf.d ${MAC_APP_BIN_DIR}fonts/conf.d
 mv ${MAC_APP_ROOT_DIR}/gdk-pixbuf-2.0 ${MAC_APP_FRAMEWORK_DIR}gtk3/lib/gdk-pixbuf-2.0
 mv ${MAC_APP_ROOT_DIR}/3_python${PYTHON_VERSION} ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/include/python${PYTHON_VERSION}
-mv ${MAC_APP_ROOT_DIR}/tdbcpostgres1.1.7 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcpostgres1.1.7
+mv ${MAC_APP_ROOT_DIR}/tdbcpostgres1.1.5 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcpostgres1.1.5
 mv ${MAC_APP_ROOT_DIR}/share ${MAC_APP_FRAMEWORK_DIR}gtk3/share
 mv ${MAC_APP_ROOT_DIR}/gtk-3.0 ${MAC_APP_FRAMEWORK_DIR}gtk3/lib/gtk-3.0
 

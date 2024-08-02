@@ -42,8 +42,11 @@ public partial class ChronoJumpWindow
 	Gtk.Label event_execute_label_message;
 	Gtk.Image image_no_capturing;
 	Gtk.Image image_capturing;
+	Gtk.Image image_capturing_blue; //tare+capture
 	Gtk.Image image_no_capturing_encoder;
 	Gtk.Image image_capturing_encoder;
+	Gtk.Image image_force_sensor_adjust_no_capturing;
+	Gtk.Image image_force_sensor_adjust_capturing;
 	Gtk.Label event_graph_label_graph_test;
 
 	Gtk.SpinButton spin_contacts_graph_last_limit;
@@ -1048,8 +1051,11 @@ public partial class ChronoJumpWindow
 		event_execute_label_message = (Gtk.Label) builder.GetObject ("event_execute_label_message");
 		image_no_capturing = (Gtk.Image) builder.GetObject ("image_no_capturing");
 		image_capturing = (Gtk.Image) builder.GetObject ("image_capturing");
+		image_capturing_blue = (Gtk.Image) builder.GetObject ("image_capturing_blue");
 		image_no_capturing_encoder = (Gtk.Image) builder.GetObject ("image_no_capturing_encoder");
 		image_capturing_encoder = (Gtk.Image) builder.GetObject ("image_capturing_encoder");
+		image_force_sensor_adjust_no_capturing = (Gtk.Image) builder.GetObject ("image_force_sensor_adjust_no_capturing");
+		image_force_sensor_adjust_capturing = (Gtk.Image) builder.GetObject ("image_force_sensor_adjust_capturing");
 		event_graph_label_graph_test = (Gtk.Label) builder.GetObject ("event_graph_label_graph_test");
 
 		spin_contacts_graph_last_limit = (Gtk.SpinButton) builder.GetObject ("spin_contacts_graph_last_limit");

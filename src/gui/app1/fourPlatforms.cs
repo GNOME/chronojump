@@ -185,7 +185,7 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 
-		blinkCapture = new Blink ();
+		blinkCapture = new BlinkImage (image_no_capturing, image_capturing);
 
 		fourPlatformsCaptureThread = new Thread (new ThreadStart (fourPlatformsCaptureDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKFourPlatformsCapture));
@@ -260,7 +260,7 @@ public partial class ChronoJumpWindow
 
 			blinkCapture.End ();
 			capturingFourPlatforms = arduinoCaptureStatus.STOP;
-			showHideCaptureIcon (false);
+			showHideBlinkIcon (blinkCapture, false);
 
 			sensitiveLastTestButtons(false);
 			contactsShowCaptureDoingButtons(false);
@@ -283,7 +283,7 @@ public partial class ChronoJumpWindow
 			{
 				if (blinkCapture.Status == Blink.StatusEnum.NOTSTARTED)
 					blinkCapture.Start (); //TODO: but note here is still connecting
-				showHideCaptureIcon (true);
+				showHideBlinkIcon (blinkCapture, true);
 
 				event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 

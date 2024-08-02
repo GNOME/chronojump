@@ -131,6 +131,7 @@ public partial class ChronoJumpWindow
 	static arduinoCaptureStatus capturingForce = arduinoCaptureStatus.STOP;
 
 	static bool forceCaptureStartMark; 	//Just needed to display Capturing message (with seconds)
+	//static bool forceOtherStartMark; 	//Just needed to display blink
 	static bool forceTooBigMark;
 	static double forceTooBigValue;
 	static ForceSensorValues forceSensorValues;
@@ -454,12 +455,20 @@ public partial class ChronoJumpWindow
 		{
 			vbox_force_sensor_adjust_actions.Sensitive = false;
 			forceSensorOtherMode = forceSensorOtherModeEnum.TARE;
+
+//			forceOtherStartMark = false;
+			blinkOther = new BlinkImage (image_force_sensor_adjust_no_capturing, image_force_sensor_adjust_capturing);
+
 			forceOtherThread = new Thread(new ThreadStart(forceSensorTare));
 		}
 		else if(o == (object) button_force_sensor_calibrate)
 		{
 			vbox_force_sensor_adjust_actions.Sensitive = false;
 			forceSensorOtherMode = forceSensorOtherModeEnum.CALIBRATE;
+
+//			forceOtherStartMark = false;
+			blinkOther = new BlinkImage (image_force_sensor_adjust_no_capturing, image_force_sensor_adjust_capturing);
+
 			forceOtherThread = new Thread(new ThreadStart(forceSensorCalibrate));
 		}
 		else if (o == (object) button_execute_test)
@@ -491,6 +500,10 @@ public partial class ChronoJumpWindow
 			box_contacts_capture_top.Sensitive = false;
 			forceSensorButtonsSensitive(false);
 			forceSensorOtherMode = forceSensorOtherModeEnum.STIFFNESS_DETECT;
+
+//			forceOtherStartMark = false;
+			blinkOther = new BlinkImage (image_no_capturing, image_capturing_blue);
+
 			forceOtherThread = new Thread(new ThreadStart(forceSensorDetectStiffness));
 		}
 		else { //if (o == (object) button_check_version)
@@ -689,6 +702,7 @@ public partial class ChronoJumpWindow
 
 		if(forceOtherThread.IsAlive)
 		{
+			showHideBlinkIcon (blinkOther, true);
 			if(forceSensorOtherMode == forceSensorOtherModeEnum.TARE ||
 					forceSensorOtherMode == forceSensorOtherModeEnum.CALIBRATE)
 			{
@@ -703,6 +717,7 @@ public partial class ChronoJumpWindow
 			if(forceSensorOtherMode == forceSensorOtherModeEnum.STIFFNESS_DETECT &&
 					forceSensorValues != null)
 			{
+				force_sensor_adjust_label_message.UseMarkup = true;
 				label_force_sensor_value_max.Text = string.Format("{0:0.##}", forceSensorValues.Max);
 				label_force_sensor_value_min.Text = string.Format("{0:0.##}", forceSensorValues.Min);
 				label_force_sensor_value.Text = string.Format("{0:0.##}", forceSensorValues.ValueLast);
@@ -712,6 +727,7 @@ public partial class ChronoJumpWindow
 		}
 		else
 		{
+			showHideBlinkIcon (blinkOther, false);
 			LogB.ThreadEnding();
 
 			if(forceSensorOtherMode == forceSensorOtherModeEnum.TARE ||
@@ -767,6 +783,7 @@ public partial class ChronoJumpWindow
 		} while (forceSensorOtherMessageShowSecondsInit - DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds > 0);
 
 		// 2 send tare command
+		blinkOther.Start ();
 		forceSensorOtherMessageShowSeconds = secondsEnum.ASC;
 		if(! forceSensorSendCommand("tare:", Catalog.GetString ("Taring …"), "Catched force taring"))
 			return;
@@ -779,11 +796,13 @@ public partial class ChronoJumpWindow
 				str = portFS.ReadLine();
 			} catch {
 				forceSensorOtherMessage = "Disconnected";
+				blinkOther.End ();
 				return;
 			}
 			LogB.Information("init string: " + str);
 		}
 		while(! str.Contains("Taring OK"));
+		blinkOther.End ();
 
 		//from Force_Sensor-0.4 at tare returns this: Taring OK:(\d+)
 		Match match = Regex.Match(str, @"Taring OK:(\d+)");
@@ -838,6 +857,7 @@ public partial class ChronoJumpWindow
 					Catalog.GetString ("Calibrating …"), "Catched force calibrating"))
 			return;
 
+		blinkOther.Start ();
 		// 3 read confirmation data
 		string str = "";
 		do {
@@ -846,11 +866,13 @@ public partial class ChronoJumpWindow
 				str = portFS.ReadLine();
 			} catch {
 				forceSensorOtherMessage = "Disconnected";
+				blinkOther.End ();
 				return;
 			}
 			LogB.Information("init string: " + str);
 		}
 		while(! str.Contains("Calibrating OK"));
+		blinkOther.End ();
 
 		//from Force_Sensor-0.4 at calibrate returns this: Calibrating OK:(\d+\.\d+)
 		Match match = Regex.Match(str, @"Calibrating OK:(\d+\.\d+)");
@@ -958,12 +980,28 @@ public partial class ChronoJumpWindow
 	//Attention: no GTK here!!
 	private void forceSensorDetectStiffness()
 	{
+		forceSensorOtherMessage = "";
+		forceSensorOtherMessageShowSeconds = secondsEnum.NO;
 		// 0 connect if needed
 		if(! portFSOpened)
 			if(! forceSensorConnect())
 				return;
 
-		forceSensorOtherMessageShowSeconds = secondsEnum.NO;
+
+		// 1 countdown before get stiffness
+		forceSensorTimeStart = DateTime.Now;
+		forceSensorOtherMessageShowSecondsInit = 9.999;
+		forceSensorOtherMessageShowSeconds = secondsEnum.DESC;
+		forceSensorOtherMessage = "0-------d---<b>A</b>---B--\t " +
+			string.Format ("Pull to <b>{0}</b> \t(d-{0} = {1} cm).\t " ,
+					"A", forceSensorStiffMinCm) +
+			Catalog.GetString ("Capture will start in …");
+		do {
+			/* wait for countdown to end
+			LogB.Information (string.Format ("countdown taring: {0}",
+						forceSensorOtherMessageShowSecondsInit - DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds));
+			*/
+		} while (forceSensorOtherMessageShowSecondsInit - DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds > 0);
 
 		double forceAtMin = forceSensorDetectStiffnessDo (forceSensorStiffMinCm, "A");
 		//LogB.Information("forceAtMin: " + forceAtMin.ToString());
@@ -972,6 +1010,21 @@ public partial class ChronoJumpWindow
 			forceSensorOtherMessage = "Error. Force is lower than 0.";
 			return;
 		}
+
+		// 1 countdown before get stiffness
+		forceSensorTimeStart = DateTime.Now;
+		forceSensorOtherMessageShowSecondsInit = 9.999;
+		forceSensorOtherMessageShowSeconds = secondsEnum.DESC;
+		forceSensorOtherMessage = "0-------d---A---<b>B</b>--\t " +
+			string.Format ("Pull to <b>{0}</b> \t(d-{0} = {1} cm).\t " ,
+					"B", forceSensorStiffMaxCm) +
+			Catalog.GetString ("Capture will start in …");
+		do {
+			/* wait for countdown to end
+			LogB.Information (string.Format ("countdown taring: {0}",
+						forceSensorOtherMessageShowSecondsInit - DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds));
+			*/
+		} while (forceSensorOtherMessageShowSecondsInit - DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds > 0);
 
 		double forceAtMax = forceSensorDetectStiffnessDo (forceSensorStiffMaxCm, "B");
 		//LogB.Information("forceAtMax: " + forceAtMax.ToString());
@@ -992,8 +1045,9 @@ public partial class ChronoJumpWindow
 	//Attention: no GTK here!!
 	private double forceSensorDetectStiffnessDo (int distanceCm, string letter)
 	{
+		forceSensorOtherMessageShowSeconds = secondsEnum.NO;
 		// 1 send tare command
-		if(! forceSensorSendCommand("start_capture:", Catalog.GetString ("Preparing capture …"), "Catched force capturing"))
+		if(! forceSensorSendCommand("start_capture:", Catalog.GetString ("Please, wait …"), "Catched force capturing"))
 			return -1;
 
 		// 2 read confirmation data
@@ -1011,9 +1065,11 @@ public partial class ChronoJumpWindow
 		while(! str.Contains("Starting capture"));
 
 		//forceSensorOtherMessage = string.Format("Please pull the band/tube to {0} cm from its length without tension. You have 10 seconds.", distanceCm);
-		forceSensorOtherMessage = string.Format("0-------d---A---B--\t\tPull to <b>{0}</b> \t(d-{0} = {1} cm). \t", letter, distanceCm);
+		forceSensorOtherMessage = Catalog.GetString ("Capturing");
+		//forceOtherStartMark = true;
+		blinkOther.Start ();
 
-		forceSensorOtherMessageShowSecondsInit = 10.999;
+		forceSensorOtherMessageShowSecondsInit = 5.999;
 		forceSensorOtherMessageShowSeconds = secondsEnum.DESC;
 
 		forceSensorValues = new ForceSensorValues();
@@ -1039,11 +1095,12 @@ public partial class ChronoJumpWindow
 			forceSensorValues.SetMaxMinIfNeeded(force, time);
 
 			count ++;
-		} while (forceSensorValues.TimeLast < 10000000 && count < 1000);
+		} while (forceSensorValues.TimeLast < 5000000 && count < 1000);
 		//if there is a problem on getting time, it will end at 1000 count
 
 		forceSensorOtherMessageShowSeconds = secondsEnum.NO;
 		LogB.Information("timeLast: " + forceSensorValues.TimeLast.ToString());
+		blinkOther.End ();
 
 		LogB.Information("Calling end_capture");
 		if(! forceSensorSendCommand("end_capture:", Catalog.GetString ("Ending capture …"), "Catched ending capture"))
@@ -1190,7 +1247,6 @@ public partial class ChronoJumpWindow
 			fullscreen_button_fullscreen_contacts.Click ();
 
 		cairoGraphForceSensorSignalPointsShowAccuracy = true;
-		blinkCapture = new Blink ();
 
 		forceCaptureThread = new Thread(new ThreadStart(forceSensorCaptureDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKForceSensorCapture));
@@ -1362,6 +1418,9 @@ public partial class ChronoJumpWindow
 			Thread.Sleep (2000); //to allow sound to be played
 			*/
 
+			blinkOther = new BlinkImage (image_no_capturing, image_capturing_blue);
+			blinkOther.Start ();
+
 			forceSensorOtherMessage = Catalog.GetString ("Taring; …");
 			LogB.Information("Taring starts");
 			int taringSample = 0;
@@ -1393,6 +1452,8 @@ public partial class ChronoJumpWindow
 				   */
 				forceTared = UtilAll.DivideSafe(taringSum, taringSamplesTotal);
 			}
+
+			blinkOther.End ();
 		}
 
 		str = "";
@@ -1425,6 +1486,8 @@ public partial class ChronoJumpWindow
 
 		int lastSampleTime = 0;
 
+		blinkCapture = new BlinkImage (image_no_capturing, image_capturing);
+		blinkCapture.Start ();
 		//LogB.Information("pre bucle");
 		//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));
 		while(! forceProcessFinish && ! forceProcessCancel && ! forceProcessKill && ! forceProcessError)
@@ -1596,6 +1659,7 @@ public partial class ChronoJumpWindow
 
 			//changeSlideIfNeeded(time, force);
 		}
+		blinkCapture.End ();
 
 		paintPointsInterpolateCairoFurther_l = new List<PointF>(); //empty after capturing (do not show)
 
@@ -1757,8 +1821,9 @@ LogB.Information(" fs C ");
 						"forceProcessCancel: {2}, forceProcessError: {3}",
 						! forceCaptureThread.IsAlive, forceProcessFinish, forceProcessCancel, forceProcessError));
 
-			showHideCaptureIcon (false);
-			blinkCapture.End ();
+			showHideBlinkIcon (blinkOther, false);
+			showHideBlinkIcon (blinkCapture, false);
+			//blinkCapture.End ();
 
 			button_video_play_this_test_contacts.Sensitive = false;
 
@@ -1944,11 +2009,12 @@ LogB.Information(" fs E ");
 				event_execute_label_message.Text = str;
 				event_execute_label_message.UseMarkup = true;
 
-				if (blinkCapture.Status == Blink.StatusEnum.NOTSTARTED)
-					blinkCapture.Start ();
+				//if (blinkCapture.Status == Blink.StatusEnum.NOTSTARTED)
+				//	blinkCapture.Start ();
 			}
 		}
-		showHideCaptureIcon (true);
+		showHideBlinkIcon (blinkOther, true);
+		showHideBlinkIcon (blinkCapture, true);
 
 LogB.Information(" fs F ");
 

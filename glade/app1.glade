@@ -7642,7 +7642,7 @@ on Cloud-view mode</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkImage" id="image_capturing">
+                                                            <object class="GtkImage" id="image_capturing_blue">
                                                             <property name="can-focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             </object>
@@ -7650,6 +7650,17 @@ on Cloud-view mode</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_capturing">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -7664,7 +7675,7 @@ on Cloud-view mode</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -18058,6 +18069,34 @@ on Cloud-view mode</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_force_sensor_adjust_no_capturing">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_force_sensor_adjust_capturing">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <object class="GtkLabel" id="force_sensor_adjust_label_message">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -18066,8 +18105,15 @@ on Cloud-view mode</property>
                                                             <property name="single-line-mode">True</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">True</property>
+                                                            <property name="expand">False</property>
                                                             <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -22709,6 +22755,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

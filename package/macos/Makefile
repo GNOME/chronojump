@@ -23,10 +23,10 @@ bundle:
 	mkdir -p deps/bin/x64/Python
 	mkdir -p deps/R
 	cp -r ../../win32/deps/bin/chronojump-importer-python3/ deps/bin/chronojump-importer-python3/
-	cp -r ../../win32/deps/bin/FTD2XX_NET_v1.0.14/ deps/bin/FTD2XX_NET_v1.0.14/
+	#cp -r ../../win32/deps/bin/FTD2XX_NET_v1.0.14/ deps/bin/FTD2XX_NET_v1.0.14/
 	cp -r ../../win32/deps/etc/ deps/etc/
-	cp -r ../../win32/deps/fonts/ deps/fonts/
-	cp -r ../../win32/deps/FTD2XX_NET_v1.2.0/ deps/FTD2XX_NET_v1.2.0/
+	#cp -r ../../win32/deps/fonts/ deps/fonts/
+	#cp -r ../../win32/deps/FTD2XX_NET_v1.2.0/ deps/FTD2XX_NET_v1.2.0/
 	cp -r ../../win32/deps/library/ deps/library/
 	cp -r ../../win32/deps/modules/ deps/modules/
 	rm -rf deps/bin/x64/Python/

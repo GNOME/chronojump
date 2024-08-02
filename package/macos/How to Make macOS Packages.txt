@@ -114,8 +114,8 @@ cd "~/Desktop/chronojump/package/macos"
 make x64 #Execute this command on x64
 make arm64 #Execute this command on arm64
 
-#Python bundle executable: bin/x64/Python/Versions/Current/bin/python3
-#R bundle executable: R/Resources/R R/Resources/Rscript
+#Python bundle executable: Resources/Python-x64/Versions/Current/bin/python3
+#R bundle executable: Resources/R-x64/Resources/R Resources/R-x64/Resources/Rscript
 
 8. If the final notarizing status is invalid, please execute the following command to check the detail error logs:
 

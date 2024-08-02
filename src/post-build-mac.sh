@@ -26,3 +26,6 @@ rm -rf "$1/po/Makefile"
 rm -rf "$1/share/doc/chronojump/Makefile.in"
 rm -rf "$1/share/doc/chronojump/Makefile.am"
 rm -rf "$1/share/doc/chronojump/Makefile"
+cp ../binariesMac/7zz $1/bin/7zz
+cp ../binariesMac/ffmpeg $1/bin/ffmpeg
+cp ../binariesMac/ffplay $1/bin/ffplay

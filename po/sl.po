@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
 "POT-Creation-Date: 2024-08-01 14:02+0000\n"
-"PO-Revision-Date: 2024-08-01 18:23+0200\n"
+"PO-Revision-Date: 2024-08-03 12:54+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -6253,7 +6253,6 @@ msgid "Linear encoder attached to a weighted moving pulley."
 msgstr "Linearni kodirnik, pritrjen na obteženo gibljivo jermenico."
 
 #: ../src/encoder.cs:1802
-#, fuzzy
 msgid "Linear encoder on a inclined plane."
 msgstr "Linearni kodirnik na nagnjeni ravnini."
 
@@ -6262,7 +6261,6 @@ msgid "Suitable also for horizontal movement. Just set a 0 push angle."
 msgstr "Primerno tudi za vodoravno gibanje. Samo nastavite kot potiska na 0."
 
 #: ../src/encoder.cs:1813 ../src/encoder.cs:1824
-#, fuzzy
 msgid "Linear encoder on a inclined plane moving a weight in different angle."
 msgstr ""
 "Linearni kodirnik na nagnjeni ravnini, ki premika utež pod različnim kotom."
@@ -6302,12 +6300,12 @@ msgstr ""
 #: ../src/encoder.cs:1862
 #, fuzzy
 msgid "Rotary friction encoder on pulley."
-msgstr "Rotacijski torni dajalnik na jermenici."
+msgstr "Kodirnik rotacijskega trenja na jermenici."
 
 #: ../src/encoder.cs:1869
 #, fuzzy
 msgid "Rotary friction encoder on pulley axis."
-msgstr "Rotacijski trenje na osi jermenice."
+msgstr "Kodirnik rotacijskega trenja na osi jermenice."
 
 #: ../src/encoder.cs:1879
 #, fuzzy
@@ -7369,9 +7367,8 @@ msgid "Load = Average eccentric RFD (Ratio of Force Development)"
 msgstr "Obremenitev = povprečni ekscentrični RFD (razmerje razvoja sile)"
 
 #: ../src/gui/app1/encoder.cs:4594
-#, fuzzy
 msgid "Explode = Average relative concentric RFD"
-msgstr "Explode = povprečna relativna koncentrična RFD"
+msgstr "Eksplozivnost = povprečna relativna koncentrična RFD"
 
 #: ../src/gui/app1/encoder.cs:4595
 #, fuzzy
@@ -7424,18 +7421,17 @@ msgstr ""
 "Nato preklopite na vaje, ki v kratkem času razvijejo ekscentrično silo."
 
 #: ../src/gui/app1/encoder.cs:4605
-#, fuzzy
 msgid ""
 "Explode: Perform exercises that develop force in short time, and maximum "
 "force."
 msgstr ""
-"Eksplodirajte: Izvajajte vaje, ki razvijejo silo v kratkem času in največjo "
-"silo."
+"Eksplozivnost: izvajajte vaje, ki razvijejo silo v kratkem času ter kar "
+"največjo silo."
 
 #: ../src/gui/app1/encoder.cs:4606
 #, fuzzy
 msgid "Drive: Perform exercises where force is developed during more time."
-msgstr "Vožnja: Izvajajte vaje, pri katerih se sila razvije več časa."
+msgstr "Pogon: izvajajte vaje, pri katerih se sila razvije skozi daljši čas."
 
 #. TODO: translate
 #: ../src/gui/app1/encoder.cs:4609

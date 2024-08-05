@@ -1500,10 +1500,11 @@ public class Util
 	public static string GetPrefixDir()
 	{
 		//on mac with the bundle we use this method to return PrefixDir, as BaseDirectory and GetCurrentDirectory() do not work
-		if(operatingSystem == UtilAll.OperatingSystems.MACOSX)
-			return (System.IO.Path.Combine(
-						Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName),
-						".."));
+		//The following lines get the path of dotnet but not the path of Chronojump
+		//if(operatingSystem == UtilAll.OperatingSystems.MACOSX)
+		//	return (System.IO.Path.Combine(
+		//				Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName),
+		//				".."));
 
 		//Modify baseDirectory to application root path [By Joeries]
 		string baseDirectory = System.AppDomain.CurrentDomain.BaseDirectory;

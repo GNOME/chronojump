@@ -21,6 +21,8 @@
 using System;
 using System.Data;
 using System.Collections.Generic; //List<T>
+using System.Runtime.InteropServices;
+using System.ComponentModel.Design;
 
 public class Preferences 
 {
@@ -250,12 +252,27 @@ public class Preferences
 	 * so we need the executable: python, python2, python3
 	 * chronojump_importer.py works on python2 and python3
 	 */
-	public static string GetPythonExecutable (pythonVersionEnum pv)
+	public static string GetPythonExecutable(pythonVersionEnum pv)
 	{
-		if(pv == pythonVersionEnum.Python2)
+		if (pv == pythonVersionEnum.Python2)
+		{
 			return "python2";
-		else if(pv == pythonVersionEnum.Python3)
-			return "python3";
+		}
+		else if (pv == pythonVersionEnum.Python3)
+		{
+			if (Util.operatingSystem == UtilAll.OperatingSystems.LINUX)
+			{
+				return "python3";
+			}
+			else
+			{
+#if DEBUG
+				return "python3";
+#else
+					return $"../Resources/Python-{(RuntimeInformation.ProcessArchitecture.ToString().ToLower())}/Versions/Current/bin/python3";
+#endif
+			}
+		}
 
 		return "python";
 	}

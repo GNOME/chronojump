@@ -1,0 +1,11 @@
+V3
+---------
+First commercial version.
+The firmware matches the hardware version 3
+
+V4
+---------
+The firmware is for hardware version 4
+RCA and LED are separated pins.
+RCA can be put in INPUT (new mode) or OUTPUT(as in V3)
+By default the RCA is in INPUT mode

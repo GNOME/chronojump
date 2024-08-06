@@ -250,9 +250,9 @@ void serialEvent()
       Serial.println(controlSwitch);
     } else if (commandString == "discover") {
       discoverTerminals();
-    } else if(commandString == "setRcaMode:output") {
+    } else if(commandString == "set_rca_mode:output") {
       setRcaMode(output);
-    } else if(commandString == "setRcaMode:input") {
+    } else if(commandString == "set_rca_mode:input") {
       setRcaMode(input);
   } else {
       Serial.println("Wrong local command");

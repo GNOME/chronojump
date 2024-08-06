@@ -135,6 +135,12 @@ public class WichroCapture: ArduinoCapture
 		return true;
 	}
 
+	public bool SensorOnce (int terminal)
+	{
+		//1 is the sensorOnce command
+		return sendCommand (string.Format ("{0}:1;", terminal), "Error doing sensorOnce");
+	}
+
 	public override bool CanReadFromList()
 	{
 		return (list.Count > readedPos);

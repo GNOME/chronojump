@@ -79,6 +79,7 @@ public class RunExecute : EventExecute
 	protected Gtk.Label label_run_execute_photocell_code;
 
 	protected WichroCapture wichroCapture;
+	protected int sensorOnce;
 	protected string jsonUploadTestScript;
 	protected string jsonUploadRankingScript;
 
@@ -101,7 +102,7 @@ public class RunExecute : EventExecute
 			Gtk.Image image_run_execute_photocell_icon,
 			Gtk.Label label_run_execute_photocell_code,
 			int graphLimit, bool graphAllTypes, bool graphAllPersons,
-			bool cameraRecording,
+			bool cameraRecording, int sensorOnce,
 			string jsonUploadTestScript,
 			string jsonUploadRankingScript
 			)
@@ -135,6 +136,7 @@ public class RunExecute : EventExecute
 		this.graphAllTypes = graphAllTypes;
 		this.graphAllPersons = graphAllPersons;
 		this.cameraRecording = cameraRecording;
+		this.sensorOnce = sensorOnce;
 		this.jsonUploadTestScript = jsonUploadTestScript;
 		this.jsonUploadRankingScript = jsonUploadRankingScript;
 
@@ -210,6 +212,13 @@ public class RunExecute : EventExecute
 		 * so we cannot set at the moment startIn, loggedState, runPhase
 		 */
 		LogB.Debug("MANAGE(wireless)!!!!");
+
+		if (sensorOnce >= 0)
+		{
+			LogB.Information ("Calling SensorOnce with terminal: " + sensorOnce.ToString ());
+			bool sensorOnceSuccess = wichroCapture.SensorOnce (sensorOnce);
+			LogB.Information ("sensorOnce succeded = " + sensorOnceSuccess.ToString ());
+		}
 
 		feedbackMessage = Catalog.GetString("RUN when prepared!");
 		needShowFeedbackMessage = true;
@@ -1067,7 +1076,7 @@ public class RunIntervalExecute : RunExecute
 			Gtk.Image image_run_execute_running,
 			Gtk.Image image_run_execute_photocell_icon,
 			Gtk.Label label_run_execute_photocell_code,
-			bool cameraRecording,
+			bool cameraRecording, int sensorOnce,
 			string jsonUploadTestScript,
 			string jsonUploadRankingScript
 			)
@@ -1119,6 +1128,7 @@ public class RunIntervalExecute : RunExecute
 		this.image_run_execute_photocell_icon = image_run_execute_photocell_icon;
 		this.label_run_execute_photocell_code = label_run_execute_photocell_code;
 		this.cameraRecording = cameraRecording;
+		this.sensorOnce = sensorOnce;
 		this.jsonUploadTestScript = jsonUploadTestScript;
 		this.jsonUploadRankingScript = jsonUploadRankingScript;
 

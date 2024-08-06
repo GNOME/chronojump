@@ -1424,7 +1424,7 @@ public partial class ChronoJumpWindow
 			forceSensorOtherMessage = Catalog.GetString ("Taring; …");
 			LogB.Information("Taring starts");
 			int taringSample = 0;
-			int taringSamplesTotal = 50;
+			int taringSamplesTotal = 160;
 			double taringSum = 0;
 			while(! forceProcessFinish && ! forceProcessCancel && ! forceProcessKill && ! forceProcessError &&
 					taringSample < taringSamplesTotal)

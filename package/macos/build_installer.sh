@@ -6,9 +6,11 @@ MAC_APP_DIR="${MAC_APP_ROOT_DIR}/Chronojump.app"
 MAC_APP_BIN_DIR="${MAC_APP_DIR}/Contents/MacOS/"
 MAC_APP_RESOURCE_DIR="${MAC_APP_DIR}/Contents/Resources/"
 MAC_APP_FRAMEWORK_DIR="${MAC_APP_DIR}/Contents/Frameworks/"
-ARCH="$2"
-MAC_DMG_FILE_NAME="$1-${ARCH}.dmg"
-#MAC_PKG_FILE_NAME="$1-${ARCH}.pkg"
+PACKAGE_VERSION="$1"
+ARCH="$(uname -m)"
+MAC_DMG_FILE_NAME="chronojump-${PACKAGE_VERSION}-${ARCH}.dmg"
+MAC_PKG_FILE_NAME="chronojump-${PACKAGE_VERSION}-${ARCH}.pkg"
+PACKAGE_TYPE="$2"
 
 PYTHON_VERSION=3.12
 
@@ -26,6 +28,10 @@ run_codesign()
     #codesign --deep --force --timestamp=none --options runtime --sign "${APPLE_APPLICATION_CERT_NAME}" --entitlements entitlements.plist ${file}
 }
 
+for dir in `find app -mindepth 1 -maxdepth 1 -type d ! -name "Chronojump.app"`
+do
+    rm -rf ${dir}
+done
 rm -rf ${MAC_APP_BIN_DIR}
 #rm -rf ${MAC_APP_FRAMEWORK_DIR}
 mkdir -p ${MAC_APP_BIN_DIR}
@@ -193,28 +199,30 @@ run_codesign ${MAC_APP_BIN_DIR}/Chronojump
 #mv ${MAC_APP_ROOT_DIR}/share ${MAC_APP_FRAMEWORK_DIR}gtk3/share
 #mv ${MAC_APP_ROOT_DIR}/gtk-3.0 ${MAC_APP_FRAMEWORK_DIR}gtk3/lib/gtk-3.0
 
-# Create and sign the .dmg image, and include a link to drag the app into /Applications
-echo "Creating dmg..."
-#ln -s /Applications ${MAC_APP_ROOT_DIR}/Applications
-#hdiutil create -quiet -srcFolder package -volname "${MAC_DMG_FILE_NAME} Installer" -o ${MAC_DMG_FILE_NAME}
-hdiutil create -volname "${MAC_DMG_FILE_NAME} Installer" -srcfolder app -ov -format UDZO ${MAC_DMG_FILE_NAME}
-run_codesign ${MAC_DMG_FILE_NAME}
+if [ "$PACKAGE_TYPE" == "dmg" ]; then  
+    # Create and sign the .dmg image, and include a link to drag the app into /Applications
+    echo "Creating dmg..."
+    #ln -s /Applications ${MAC_APP_ROOT_DIR}/Applications
+    #hdiutil create -quiet -srcFolder package -volname "${MAC_DMG_FILE_NAME} Installer" -o ${MAC_DMG_FILE_NAME}
+    hdiutil create -volname "${MAC_DMG_FILE_NAME} Installer" -srcfolder app -ov -format UDZO ${MAC_DMG_FILE_NAME}
+    run_codesign ${MAC_DMG_FILE_NAME}
 
-# Notarize
-echo "Notarizing dmg..."
-xcrun notarytool submit --wait --apple-id=${APPLE_ID} --password ${APPLE_PASSWORD} --team-id ${APPLE_TEAM_ID} ${MAC_DMG_FILE_NAME}
+    # Notarize
+    echo "Notarizing dmg..."
+    xcrun notarytool submit --wait --apple-id=${APPLE_ID} --password ${APPLE_PASSWORD} --team-id ${APPLE_TEAM_ID} ${MAC_DMG_FILE_NAME}
 
-# Staple the result to the dmg
-echo "Stapling dmg..."
-xcrun stapler staple ${MAC_DMG_FILE_NAME}
-
-#mkdir -p tmp
-#echo "Creating pkg..."
-#pkgbuild --root app/Chronojump.app --identifier org.chronojump.chronojump tmp/${MAC_PKG_FILE_NAME}
-#echo "Signing pkg..."
-#productsign --timestamp --sign "${APPLE_INSTALLER_CERT_NAME}" "tmp/${MAC_PKG_FILE_NAME}" "${MAC_PKG_FILE_NAME}"
-#rm -rf tmp
-#echo "Notarizing pkg..."
-#xcrun notarytool submit --wait --apple-id=${APPLE_ID} --password ${APPLE_PASSWORD} --team-id ${APPLE_TEAM_ID} ${MAC_PKG_FILE_NAME}
-#echo "Stapling pkg..."
-#xcrun stapler staple ${MAC_PKG_FILE_NAME}
+    # Staple the result to the dmg
+    echo "Stapling dmg..."
+    xcrun stapler staple ${MAC_DMG_FILE_NAME}
+else  
+    mkdir -p tmp
+    echo "Creating pkg..."
+    pkgbuild --root app/Chronojump.app/Contents --version "${PACKAGE_VERSION}-${ARCH}" --identifier org.chronojump.chronojump tmp/${MAC_PKG_FILE_NAME}
+    echo "Signing pkg..."
+    productsign --timestamp --sign "${APPLE_INSTALLER_CERT_NAME}" "tmp/${MAC_PKG_FILE_NAME}" "${MAC_PKG_FILE_NAME}"
+    rm -rf tmp
+    echo "Notarizing pkg..."
+    xcrun notarytool submit --wait --apple-id=${APPLE_ID} --password ${APPLE_PASSWORD} --team-id ${APPLE_TEAM_ID} ${MAC_PKG_FILE_NAME}
+    echo "Stapling pkg..."
+    xcrun stapler staple ${MAC_PKG_FILE_NAME}
+fi

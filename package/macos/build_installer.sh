@@ -217,7 +217,7 @@ if [ "$PACKAGE_TYPE" == "dmg" ]; then
 else  
     mkdir -p tmp
     echo "Creating pkg..."
-    pkgbuild --root app/Chronojump.app/Contents --version "${PACKAGE_VERSION}-${ARCH}" --identifier org.chronojump.chronojump tmp/${MAC_PKG_FILE_NAME}
+    pkgbuild --root app --install-location /Applications --version "${PACKAGE_VERSION}-${ARCH}" --identifier org.chronojump.chronojump tmp/${MAC_PKG_FILE_NAME}
     echo "Signing pkg..."
     productsign --timestamp --sign "${APPLE_INSTALLER_CERT_NAME}" "tmp/${MAC_PKG_FILE_NAME}" "${MAC_PKG_FILE_NAME}"
     rm -rf tmp

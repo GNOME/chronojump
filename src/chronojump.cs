@@ -116,7 +116,7 @@ public class ChronoJump
 				NativeLibraryResolver.Init("/opt/homebrew/lib");
 			}
 #else
-            var gtk3Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../Frameworks/gtk3");
+            var gtk3Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../Resources/gtk3");
             var gtk3SharePath = Path.Combine(gtk3Path, "share");
 			var gtk3LibPath = Path.Combine(gtk3Path, "lib");
 			var gtk3PixbufPath = Path.Combine(gtk3LibPath, "gdk-pixbuf-2.0/2.10.0/loaders.cache");
@@ -276,8 +276,8 @@ public class ChronoJump
 			switch (operatingSystem) {
 				case UtilAll.OperatingSystems.MACOSX:
 					LogB.Information(Environment.GetEnvironmentVariable("R_HOME"));
-					rBinPath = "/Library/Frameworks/R.Framework/Libraries";
-						Environment.SetEnvironmentVariable ("R_HOME", "/Library/Frameworks/R.Framework/Resources");
+					rBinPath = $"{Path.GetDirectoryName(Constants.ROSX)}/../Libraries/";
+						Environment.SetEnvironmentVariable ("R_HOME", Path.GetDirectoryName(Constants.ROSX));
 						Environment.SetEnvironmentVariable("PATH", rBinPath + Path.PathSeparator + envPath);
 					LogB.Information("environments");
 					LogB.Information(Environment.GetEnvironmentVariable("R_HOME"));

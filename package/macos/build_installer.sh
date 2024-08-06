@@ -6,9 +6,11 @@ MAC_APP_DIR="${MAC_APP_ROOT_DIR}/Chronojump.app"
 MAC_APP_BIN_DIR="${MAC_APP_DIR}/Contents/MacOS/"
 MAC_APP_RESOURCE_DIR="${MAC_APP_DIR}/Contents/Resources/"
 MAC_APP_FRAMEWORK_DIR="${MAC_APP_DIR}/Contents/Frameworks/"
-ARCH="$2"
-MAC_DMG_FILE_NAME="$1-${ARCH}.dmg"
-#MAC_PKG_FILE_NAME="$1-${ARCH}.pkg"
+PACKAGE_VERSION="$1"
+ARCH="$(uname -m)"
+MAC_DMG_FILE_NAME="chronojump-${PACKAGE_VERSION}-${ARCH}.dmg"
+MAC_PKG_FILE_NAME="chronojump-${PACKAGE_VERSION}-${ARCH}.pkg"
+PACKAGE_TYPE="$2"
 
 PYTHON_VERSION=3.12
 
@@ -22,13 +24,19 @@ run_codesign()
 {
     file=$1
     echo ${file}
-    #codesign --deep --force --timestamp --options runtime --sign "${APPLE_APPLICATION_CERT_NAME}" --entitlements entitlements.plist ${file}
-    codesign --deep --force --timestamp=none --options runtime --sign "${APPLE_APPLICATION_CERT_NAME}" --entitlements entitlements.plist ${file}
+    codesign --deep --force --timestamp --options runtime --sign "${APPLE_APPLICATION_CERT_NAME}" --entitlements entitlements.plist ${file}
+    #codesign --deep --force --timestamp=none --options runtime --sign "${APPLE_APPLICATION_CERT_NAME}" --entitlements entitlements.plist ${file}
 }
 
+for dir in `find app -mindepth 1 -maxdepth 1 -type d ! -name "Chronojump.app"`
+do
+    rm -rf ${dir}
+done
 rm -rf ${MAC_APP_BIN_DIR}
-rm -rf ${MAC_APP_FRAMEWORK_DIR}
-mkdir -p ${MAC_APP_BIN_DIR} ${MAC_APP_FRAMEWORK_DIR}
+#rm -rf ${MAC_APP_FRAMEWORK_DIR}
+mkdir -p ${MAC_APP_BIN_DIR}
+#mkdir ${MAC_APP_FRAMEWORK_DIR}
+rm -rf ${MAC_APP_RESOURCE_DIR}gtk3
 
 dotnet publish ../../src/Chronojump-mac.sln -p:BuildTranslations=true --configuration Release -r osx-${ARCH} --self-contained true -o ${MAC_APP_BIN_DIR}
 cd ../../src/
@@ -38,9 +46,13 @@ sh post-build-mac.sh ../package/macos/app/Chronojump.app/Contents/MacOS
 #cp ../package/macos/app/Chronojump.app/Contents/MacOS/runtimes/osx-${ARCH}/native/SQLite.Interop.dll ../package/macos/app/Chronojump.app/Contents/MacOS/SQLite.Interop.dll
 cp ../package/macos/deps/runtimes/osx-${ARCH}/native/SQLite.Interop.dll ../package/macos/app/Chronojump.app/Contents/MacOS/SQLite.Interop.dll
 cd ../package/macos
-cp ../../binariesMac/7zz ${MAC_APP_BIN_DIR}/bin
-cp ../../binariesMac/ffmpeg ${MAC_APP_BIN_DIR}/bin
-cp ../../binariesMac/ffplay ${MAC_APP_BIN_DIR}/bin
+#cp ../../binariesMac/7zz ${MAC_APP_BIN_DIR}/bin
+#cp ../../binariesMac/ffmpeg ${MAC_APP_BIN_DIR}/bin
+#cp ../../binariesMac/ffplay ${MAC_APP_BIN_DIR}/bin
+rm -rf ${MAC_APP_RESOURCE_DIR}Python-${ARCH}
+rm -rf ${MAC_APP_RESOURCE_DIR}R-${ARCH}
+mv ${MAC_APP_BIN_DIR}bin/x64/Python ${MAC_APP_RESOURCE_DIR}Python-${ARCH}
+mv ${MAC_APP_BIN_DIR}R ${MAC_APP_RESOURCE_DIR}R-${ARCH}
 
 #TODO: note these cp are for x64, change it to work also on arm64.
 #Note also joeries has python 3.11
@@ -67,48 +79,48 @@ echo "Bundling GTK..."
 # Check whether 10.x
 #if echo "$os_version" | grep -q '10\.[0-9]\+\..*'; then
 #    chmod +x bundle_gtk_osx10.py
-#    ./bundle_gtk_osx10.py --resource_dir ${MAC_APP_FRAMEWORK_DIR}/gtk3
+#    ./bundle_gtk_osx10.py --resource_dir ${MAC_APP_RESOURCE_DIR}/gtk3
 #else
 #    chmod +x bundle_gtk.py
-#    ./bundle_gtk.py --resource_dir ${MAC_APP_FRAMEWORK_DIR}/gtk3
+#    ./bundle_gtk.py --resource_dir ${MAC_APP_RESOURCE_DIR}/gtk3
 #fi
 
 if [ -e "/usr/local/lib/libglib-2.0.0.dylib" ]; then
     dos2unix bundle_gtk_usr_local.py
     chmod +x bundle_gtk_usr_local.py
-    ./bundle_gtk_usr_local.py --resource_dir ${MAC_APP_FRAMEWORK_DIR}/gtk3
+    ./bundle_gtk_usr_local.py --resource_dir ${MAC_APP_RESOURCE_DIR}/gtk3
 else
     dos2unix bundle_gtk_opt_homebrew.py
     chmod +x bundle_gtk_opt_homebrew.py
-    ./bundle_gtk_opt_homebrew.py --resource_dir ${MAC_APP_FRAMEWORK_DIR}/gtk3
+    ./bundle_gtk_opt_homebrew.py --resource_dir ${MAC_APP_RESOURCE_DIR}/gtk3
 fi
 
 # Add the GTK lib dir to the library search path (for dlopen()), as an alternative to $DYLD_LIBRARY_PATH.
-install_name_tool -add_rpath "@executable_path/../Frameworks/gtk3/lib" ${MAC_APP_BIN_DIR}/Chronojump
+install_name_tool -add_rpath "@executable_path/../Resources/gtk3/lib" ${MAC_APP_BIN_DIR}/Chronojump
 
 touch ${MAC_APP_DIR}
 
 # Sign the GTK binaries.
 echo "Signing..."
-for lib in `find ${MAC_APP_FRAMEWORK_DIR} -name \*.dylib -or -name \*.so -or -name \*.dll`
+#for lib in `find ${MAC_APP_FRAMEWORK_DIR} -name \*.dylib -or -name \*.so -or -name \*.dll -or -name \*.a`
+#do
+#    run_codesign ${lib}
+#done
+
+for lib in `find ${MAC_APP_RESOURCE_DIR} -name \*.dylib -or -name \*.so -or -name \*.dll -or -name \*.a`
 do
     run_codesign ${lib}
 done
 
-for lib in `find ${MAC_APP_RESOURCE_DIR} -name \*.dylib -or -name \*.so -or -name \*.dll`
+for lib in `find ${MAC_APP_BIN_DIR} -name \*.dylib -or -name \*.so -or -name \*.dll -or -name \*.a`
 do
     run_codesign ${lib}
 done
 
-for lib in `find ${MAC_APP_BIN_DIR} -name \*.dylib -or -name \*.so -or -name \*.dll`
-do
-    run_codesign ${lib}
-done
-
-for lib in `find ${MAC_APP_BIN_DIR} -name \*.a`
-do
-    run_codesign ${lib}
-done
+#for lib in `find ${MAC_APP_BIN_DIR} -name \*.a`
+#do
+#    run_codesign ${lib}
+#done
 
 run_codesign ${MAC_APP_BIN_DIR}/createdump
 run_codesign ${MAC_APP_BIN_DIR}/bin/ffplay
@@ -128,89 +140,89 @@ run_codesign ${MAC_APP_BIN_DIR}/libhostpolicy.dylib
 run_codesign ${MAC_APP_BIN_DIR}/libSystem.Security.Cryptography.Native.OpenSsl.dylib
 run_codesign ${MAC_APP_BIN_DIR}/libclrjit.dylib
 run_codesign ${MAC_APP_BIN_DIR}/libclrgc.dylib
-run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/${PYTHON_VERSION}/lib/libpython${PYTHON_VERSION}.dylib
-run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/${PYTHON_VERSION}/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib
-run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/Current/lib/libpython${PYTHON_VERSION}.dylib
-run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/Current/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib
-run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/Current/Python
-run_codesign ${MAC_APP_BIN_DIR}/bin/x64/Python/Versions/${PYTHON_VERSION}/Python
+run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/${PYTHON_VERSION}/lib/libpython${PYTHON_VERSION}.dylib
+run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/${PYTHON_VERSION}/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib
+run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/Current/lib/libpython${PYTHON_VERSION}.dylib
+run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/Current/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib
+run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/Current/Python
+run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/${PYTHON_VERSION}/Python
 
-rm -rf ${MAC_APP_BIN_DIR}bin/FTD2XX_NET_v1.0.14
-rm -rf ${MAC_APP_BIN_DIR}FTD2XX_NET_v1.2.0
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/Resources/English.lproj ${MAC_APP_ROOT_DIR}/1_English.lproj
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Resources/English.lproj ${MAC_APP_ROOT_DIR}/2_English.lproj
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcmysql1.1.5 ${MAC_APP_ROOT_DIR}/tdbcmysql1.1.5
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/thread2.8.8 ${MAC_APP_ROOT_DIR}/thread2.8.8
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcodbc1.1.5 ${MAC_APP_ROOT_DIR}/tdbcodbc1.1.5
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tk8.6 ${MAC_APP_ROOT_DIR}/tk8.6
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/itcl4.2.3 ${MAC_APP_ROOT_DIR}/itcl4.2.3
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/sqlite3.40.0 ${MAC_APP_ROOT_DIR}/sqlite3.40.0
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tcl8.6 ${MAC_APP_ROOT_DIR}/tcl8.6
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbc1.1.5 ${MAC_APP_ROOT_DIR}/tdbc1.1.5
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tcl8 ${MAC_APP_ROOT_DIR}/tcl8
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/python${PYTHON_VERSION} ${MAC_APP_ROOT_DIR}/1_python${PYTHON_VERSION}
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/share/doc/python${PYTHON_VERSION} ${MAC_APP_ROOT_DIR}/2_python${PYTHON_VERSION}
-mv ${MAC_APP_BIN_DIR}R/Resources/fontconfig/fontconfig/conf.avail ${MAC_APP_ROOT_DIR}/1_conf.avail
-mv ${MAC_APP_BIN_DIR}R/Resources/fontconfig/fonts/conf.d ${MAC_APP_ROOT_DIR}/1_conf.d
-mv ${MAC_APP_BIN_DIR}R/Versions/Current/Resources/fontconfig/fontconfig/conf.avail ${MAC_APP_ROOT_DIR}/2_conf.avail
-mv ${MAC_APP_BIN_DIR}R/Versions/Current/Resources/fontconfig/fonts/conf.d ${MAC_APP_ROOT_DIR}/2_conf.d
-mv ${MAC_APP_BIN_DIR}fonts/conf.d ${MAC_APP_ROOT_DIR}/3_conf.d
-mv ${MAC_APP_FRAMEWORK_DIR}gtk3/lib/gdk-pixbuf-2.0 ${MAC_APP_ROOT_DIR}/gdk-pixbuf-2.0
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/include/python${PYTHON_VERSION} ${MAC_APP_ROOT_DIR}/3_python${PYTHON_VERSION}
-mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcpostgres1.1.5 ${MAC_APP_ROOT_DIR}/tdbcpostgres1.1.5
-mv ${MAC_APP_FRAMEWORK_DIR}gtk3/share ${MAC_APP_ROOT_DIR}/share
-mv ${MAC_APP_FRAMEWORK_DIR}gtk3/lib/gtk-3.0 ${MAC_APP_ROOT_DIR}/gtk-3.0
+#mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/Resources/English.lproj ${MAC_APP_ROOT_DIR}/1_English.lproj
+#mv ${MAC_APP_BIN_DIR}bin/x64/Python/Resources/English.lproj ${MAC_APP_ROOT_DIR}/2_English.lproj
+#mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcmysql1.1.5 ${MAC_APP_ROOT_DIR}/tdbcmysql1.1.5
+#mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/thread2.8.8 ${MAC_APP_ROOT_DIR}/thread2.8.8
+#mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcodbc1.1.5 ${MAC_APP_ROOT_DIR}/tdbcodbc1.1.5
+#mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tk8.6 ${MAC_APP_ROOT_DIR}/tk8.6
+#mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/itcl4.2.3 ${MAC_APP_ROOT_DIR}/itcl4.2.3
+#mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/sqlite3.40.0 ${MAC_APP_ROOT_DIR}/sqlite3.40.0
+#mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tcl8.6 ${MAC_APP_ROOT_DIR}/tcl8.6
+#mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbc1.1.5 ${MAC_APP_ROOT_DIR}/tdbc1.1.5
+#mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tcl8 ${MAC_APP_ROOT_DIR}/tcl8
+#mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/python${PYTHON_VERSION} ${MAC_APP_ROOT_DIR}/1_python${PYTHON_VERSION}
+#mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/share/doc/python${PYTHON_VERSION} ${MAC_APP_ROOT_DIR}/2_python${PYTHON_VERSION}
+#mv ${MAC_APP_BIN_DIR}R/Resources/fontconfig/fontconfig/conf.avail ${MAC_APP_ROOT_DIR}/1_conf.avail
+#mv ${MAC_APP_BIN_DIR}R/Resources/fontconfig/fonts/conf.d ${MAC_APP_ROOT_DIR}/1_conf.d
+#mv ${MAC_APP_BIN_DIR}R/Versions/Current/Resources/fontconfig/fontconfig/conf.avail ${MAC_APP_ROOT_DIR}/2_conf.avail
+#mv ${MAC_APP_BIN_DIR}R/Versions/Current/Resources/fontconfig/fonts/conf.d ${MAC_APP_ROOT_DIR}/2_conf.d
+#mv ${MAC_APP_BIN_DIR}fonts/conf.d ${MAC_APP_ROOT_DIR}/3_conf.d
+#mv ${MAC_APP_FRAMEWORK_DIR}gtk3/lib/gdk-pixbuf-2.0 ${MAC_APP_ROOT_DIR}/gdk-pixbuf-2.0
+#mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/include/python${PYTHON_VERSION} ${MAC_APP_ROOT_DIR}/3_python${PYTHON_VERSION}
+#mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcpostgres1.1.5 ${MAC_APP_ROOT_DIR}/tdbcpostgres1.1.5
+#mv ${MAC_APP_FRAMEWORK_DIR}gtk3/share ${MAC_APP_ROOT_DIR}/share
+#mv ${MAC_APP_FRAMEWORK_DIR}gtk3/lib/gtk-3.0 ${MAC_APP_ROOT_DIR}/gtk-3.0
 
 # Sign the main executable and .NET stuff.
 run_codesign ${MAC_APP_BIN_DIR}/Chronojump
 #run_codesign ${MAC_APP_DIR}
 
-mv ${MAC_APP_ROOT_DIR}/1_English.lproj ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/Resources/English.lproj
-mv ${MAC_APP_ROOT_DIR}/2_English.lproj ${MAC_APP_BIN_DIR}bin/x64/Python/Resources/English.lproj
-mv ${MAC_APP_ROOT_DIR}/tdbcmysql1.1.5 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcmysql1.1.5
-mv ${MAC_APP_ROOT_DIR}/thread2.8.8 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/thread2.8.8
-mv ${MAC_APP_ROOT_DIR}/tdbcodbc1.1.5 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcodbc1.1.5
-mv ${MAC_APP_ROOT_DIR}/tk8.6 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tk8.6
-mv ${MAC_APP_ROOT_DIR}/itcl4.2.3 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/itcl4.2.3
-mv ${MAC_APP_ROOT_DIR}/sqlite3.40.0 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/sqlite3.40.0
-mv ${MAC_APP_ROOT_DIR}/tcl8.6 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tcl8.6
-mv ${MAC_APP_ROOT_DIR}/tdbc1.1.5 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbc1.1.5
-mv ${MAC_APP_ROOT_DIR}/tcl8 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tcl8
-mv ${MAC_APP_ROOT_DIR}/1_python${PYTHON_VERSION} ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/python${PYTHON_VERSION}
-mv ${MAC_APP_ROOT_DIR}/2_python${PYTHON_VERSION} ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/share/doc/python${PYTHON_VERSION}
-mv ${MAC_APP_ROOT_DIR}/1_conf.avail ${MAC_APP_BIN_DIR}R/Resources/fontconfig/fontconfig/conf.avail
-mv ${MAC_APP_ROOT_DIR}/1_conf.d ${MAC_APP_BIN_DIR}R/Resources/fontconfig/fonts/conf.d
-mv ${MAC_APP_ROOT_DIR}/2_conf.avail ${MAC_APP_BIN_DIR}R/Versions/Current/Resources/fontconfig/fontconfig/conf.avail
-mv ${MAC_APP_ROOT_DIR}/2_conf.d ${MAC_APP_BIN_DIR}R/Versions/Current/Resources/fontconfig/fonts/conf.d
-mv ${MAC_APP_ROOT_DIR}/3_conf.d ${MAC_APP_BIN_DIR}fonts/conf.d
-mv ${MAC_APP_ROOT_DIR}/gdk-pixbuf-2.0 ${MAC_APP_FRAMEWORK_DIR}gtk3/lib/gdk-pixbuf-2.0
-mv ${MAC_APP_ROOT_DIR}/3_python${PYTHON_VERSION} ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/include/python${PYTHON_VERSION}
-mv ${MAC_APP_ROOT_DIR}/tdbcpostgres1.1.5 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcpostgres1.1.5
-mv ${MAC_APP_ROOT_DIR}/share ${MAC_APP_FRAMEWORK_DIR}gtk3/share
-mv ${MAC_APP_ROOT_DIR}/gtk-3.0 ${MAC_APP_FRAMEWORK_DIR}gtk3/lib/gtk-3.0
+#mv ${MAC_APP_ROOT_DIR}/1_English.lproj ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/Resources/English.lproj
+#mv ${MAC_APP_ROOT_DIR}/2_English.lproj ${MAC_APP_BIN_DIR}bin/x64/Python/Resources/English.lproj
+#mv ${MAC_APP_ROOT_DIR}/tdbcmysql1.1.5 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcmysql1.1.5
+#mv ${MAC_APP_ROOT_DIR}/thread2.8.8 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/thread2.8.8
+#mv ${MAC_APP_ROOT_DIR}/tdbcodbc1.1.5 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcodbc1.1.5
+#mv ${MAC_APP_ROOT_DIR}/tk8.6 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tk8.6
+#mv ${MAC_APP_ROOT_DIR}/itcl4.2.3 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/itcl4.2.3
+#mv ${MAC_APP_ROOT_DIR}/sqlite3.40.0 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/sqlite3.40.0
+#mv ${MAC_APP_ROOT_DIR}/tcl8.6 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tcl8.6
+#mv ${MAC_APP_ROOT_DIR}/tdbc1.1.5 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbc1.1.5
+#mv ${MAC_APP_ROOT_DIR}/tcl8 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tcl8
+#mv ${MAC_APP_ROOT_DIR}/1_python${PYTHON_VERSION} ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/python${PYTHON_VERSION}
+#mv ${MAC_APP_ROOT_DIR}/2_python${PYTHON_VERSION} ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/share/doc/python${PYTHON_VERSION}
+#mv ${MAC_APP_ROOT_DIR}/1_conf.avail ${MAC_APP_BIN_DIR}R/Resources/fontconfig/fontconfig/conf.avail
+#mv ${MAC_APP_ROOT_DIR}/1_conf.d ${MAC_APP_BIN_DIR}R/Resources/fontconfig/fonts/conf.d
+#mv ${MAC_APP_ROOT_DIR}/2_conf.avail ${MAC_APP_BIN_DIR}R/Versions/Current/Resources/fontconfig/fontconfig/conf.avail
+#mv ${MAC_APP_ROOT_DIR}/2_conf.d ${MAC_APP_BIN_DIR}R/Versions/Current/Resources/fontconfig/fonts/conf.d
+#mv ${MAC_APP_ROOT_DIR}/3_conf.d ${MAC_APP_BIN_DIR}fonts/conf.d
+#mv ${MAC_APP_ROOT_DIR}/gdk-pixbuf-2.0 ${MAC_APP_FRAMEWORK_DIR}gtk3/lib/gdk-pixbuf-2.0
+#mv ${MAC_APP_ROOT_DIR}/3_python${PYTHON_VERSION} ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/include/python${PYTHON_VERSION}
+#mv ${MAC_APP_ROOT_DIR}/tdbcpostgres1.1.5 ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcpostgres1.1.5
+#mv ${MAC_APP_ROOT_DIR}/share ${MAC_APP_FRAMEWORK_DIR}gtk3/share
+#mv ${MAC_APP_ROOT_DIR}/gtk-3.0 ${MAC_APP_FRAMEWORK_DIR}gtk3/lib/gtk-3.0
 
-# Create and sign the .dmg image, and include a link to drag the app into /Applications
-echo "Creating dmg..."
-#ln -s /Applications ${MAC_APP_ROOT_DIR}/Applications
-#hdiutil create -quiet -srcFolder package -volname "${MAC_DMG_FILE_NAME} Installer" -o ${MAC_DMG_FILE_NAME}
-hdiutil create -volname "${MAC_DMG_FILE_NAME} Installer" -srcfolder app -ov -format UDZO ${MAC_DMG_FILE_NAME}
-run_codesign ${MAC_DMG_FILE_NAME}
+if [ "$PACKAGE_TYPE" == "dmg" ]; then  
+    # Create and sign the .dmg image, and include a link to drag the app into /Applications
+    echo "Creating dmg..."
+    #ln -s /Applications ${MAC_APP_ROOT_DIR}/Applications
+    #hdiutil create -quiet -srcFolder package -volname "${MAC_DMG_FILE_NAME} Installer" -o ${MAC_DMG_FILE_NAME}
+    hdiutil create -volname "${MAC_DMG_FILE_NAME} Installer" -srcfolder app -ov -format UDZO ${MAC_DMG_FILE_NAME}
+    run_codesign ${MAC_DMG_FILE_NAME}
 
-# Notarize
-echo "Notarizing dmg..."
-xcrun notarytool submit --wait --apple-id=${APPLE_ID} --password ${APPLE_PASSWORD} --team-id ${APPLE_TEAM_ID} ${MAC_DMG_FILE_NAME}
+    # Notarize
+    echo "Notarizing dmg..."
+    xcrun notarytool submit --wait --apple-id=${APPLE_ID} --password ${APPLE_PASSWORD} --team-id ${APPLE_TEAM_ID} ${MAC_DMG_FILE_NAME}
 
-# Staple the result to the dmg
-echo "Stapling dmg..."
-xcrun stapler staple ${MAC_DMG_FILE_NAME}
-
-#mkdir -p tmp
-#echo "Creating pkg..."
-#pkgbuild --root app/Chronojump.app --identifier org.chronojump.chronojump tmp/${MAC_PKG_FILE_NAME}
-#echo "Signing pkg..."
-#productsign --timestamp --sign "${APPLE_INSTALLER_CERT_NAME}" "tmp/${MAC_PKG_FILE_NAME}" "${MAC_PKG_FILE_NAME}"
-#rm -rf tmp
-#echo "Notarizing pkg..."
-#xcrun notarytool submit --wait --apple-id=${APPLE_ID} --password ${APPLE_PASSWORD} --team-id ${APPLE_TEAM_ID} ${MAC_PKG_FILE_NAME}
-#echo "Stapling pkg..."
-#xcrun stapler staple ${MAC_PKG_FILE_NAME}
+    # Staple the result to the dmg
+    echo "Stapling dmg..."
+    xcrun stapler staple ${MAC_DMG_FILE_NAME}
+else  
+    mkdir -p tmp
+    echo "Creating pkg..."
+    pkgbuild --root app/Chronojump.app/Contents --version "${PACKAGE_VERSION}-${ARCH}" --identifier org.chronojump.chronojump tmp/${MAC_PKG_FILE_NAME}
+    echo "Signing pkg..."
+    productsign --timestamp --sign "${APPLE_INSTALLER_CERT_NAME}" "tmp/${MAC_PKG_FILE_NAME}" "${MAC_PKG_FILE_NAME}"
+    rm -rf tmp
+    echo "Notarizing pkg..."
+    xcrun notarytool submit --wait --apple-id=${APPLE_ID} --password ${APPLE_PASSWORD} --team-id ${APPLE_TEAM_ID} ${MAC_PKG_FILE_NAME}
+    echo "Stapling pkg..."
+    xcrun stapler staple ${MAC_PKG_FILE_NAME}
+fi

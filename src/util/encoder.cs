@@ -432,18 +432,19 @@ public class UtilEncoder
 		string scriptUtilR = GetEncoderScriptUtilR();
 
 			
-		pBin="Rscript";
+		pBin=Util.GetRscriptBin();
+		LogB.Information("pBin:", pBin);
 		if (UtilAll.IsWindows()) {
 			//on Windows we need the \"str\" to call without problems in path with spaces
-			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
-			LogB.Information("pBin:", pBin);
+			//pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
+			//LogB.Information("pBin:", pBin);
 
 			//On win32 R understands backlash as an escape character and 
 			//a file path uses Unix-like path separator '/'		
 			inputData = inputData.Replace("\\","/");
 			scriptUtilR = scriptUtilR.Replace("\\","/");
 		}
-		
+
 		//--- way A. passing options to a file
 		string scriptOptions = 
 			inputData + "\n" + 
@@ -890,9 +891,4 @@ public class UtilEncoder
 		}
 		return activeCurvesList;
 	}
-	
-
-
-		
-
 }

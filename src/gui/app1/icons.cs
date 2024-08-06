@@ -836,6 +836,8 @@ public partial class ChronoJumpWindow
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_capturing.png");
 		image_capturing.Pixbuf = pixbuf;
 		image_capturing_encoder.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_capturing_blue.png");
+		image_capturing_blue.Pixbuf = pixbuf;
 		image_force_sensor_adjust_capturing.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_empty.png");
 		image_no_capturing.Pixbuf = pixbuf;

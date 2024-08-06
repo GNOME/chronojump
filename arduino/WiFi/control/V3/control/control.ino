@@ -45,6 +45,8 @@ RF24 radio(A3, A4);
 #define LED_on digitalWrite(2,HIGH)
 #define LED_off digitalWrite(2,LOW)
 
+int RcaPin = 2;
+
 bool blinkingLED = false;
 int blinkPeriod = 75; //Time between two consecutives rising flank of the LED
 

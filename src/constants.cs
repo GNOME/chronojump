@@ -1179,17 +1179,23 @@ public class Constants
 	 * chronojump / encoder / sessionID / data
 	 * chronojump / encoder / sessionID / graphs
 	 */
-	
+
 	/*
 	 * The installer as from R 3.2.2 puts links to R and Rscript
 	 * in /usr/bin (Mavericks, Yosemite) or /usr/local/bin (El Capitan and later).
 	 * If these are missing, you can run directly the versions in /Library/Frameworks/R.framework/Resources/.
 	 * https://cran.r-project.org/doc/manuals/r-devel/R-admin.pdf
 	 */
+
+#if DEBUG
 	public static string ROSX = "/Library/Frameworks/R.framework/Resources/R";
 	public static string RScriptOSX = "/Library/Frameworks/R.framework/Resources/Rscript";
+#else
+	public static string ROSX = "../Resources/R-{(RuntimeInformation.ProcessArchitecture.ToString().ToLower())}/Resources/R";
+	public static string RScriptOSX = "../Resources/R-{(RuntimeInformation.ProcessArchitecture.ToString().ToLower())}/Resources/Rscript";
+#endif
 
-	public static string RmacDownload = "https://cran-archive.r-project.org/bin/macosx/el-capitan/base/R-3.6.3.nn.pkg";
+    public static string RmacDownload = "https://cran-archive.r-project.org/bin/macosx/el-capitan/base/R-3.6.3.nn.pkg";
 	
 	//public static string EncoderScriptCapturePythonLinux = "pyserial_pyper.py";
 	//public static string EncoderScriptCapturePythonWindows = "pyserial_pyper_windows.exe";

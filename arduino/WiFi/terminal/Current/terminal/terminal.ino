@@ -108,7 +108,7 @@ uint8_t control0Channel = 125; //Channel resulting of the switch at zero state
 uint8_t controlSwitch = 0;      //State of the 3xswithes
 
 bool waitingSensor = true; //Wether the sensor is activated or not
-bool unlimitedMode = true;
+bool unlimitedMode = true; // sensorOnce deactivate the unlimited mode
 
 //Variables to control the blinking of each Color
 bool blinkingRed = false;
@@ -312,7 +312,7 @@ void debounce() {
   sample.state = digitalRead(2);
   Timer1.stop();
 
-  if (sample.state != lastPinState) {
+  if ( !unlimitedMode || sample.state != lastPinState) {
     flagint = HIGH;
     lastPinState = sample.state;
   }

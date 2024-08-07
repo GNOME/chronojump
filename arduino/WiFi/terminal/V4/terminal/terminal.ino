@@ -1,3 +1,23 @@
+/*
+  terminal for Wichro fotocels using the NRf24L01 wireless module with the inverted input.
+  Useful for impact detection with tilt/shock sensors
+
+  Copyright (C) 2018 Xavier de Blas xaviblas@gmail.com
+  Copyright (C) 2018 Xavier Padullés support@chronojump.org
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #include <SPI.h>
 //#include <nRF24L01.h>     //TODO: Check that it is necessary
@@ -7,7 +27,7 @@
 #include <TimerOne.h>
 
 unsigned int deviceType = 1; //Photocel and LightChro sensor
-unsigned int deviceVersion = 12;
+unsigned int deviceVersion = 15;
 //
 // Hardware configuration
 
@@ -75,10 +95,8 @@ unsigned long time0;  //Time when the command is received
 
 bool flagint = LOW;   //Interruption flag. Activated when the sensos changes
 volatile bool lastPinState = LOW;  //stores the state of the pin 2 before the interruption
-volatile int debounceTime = 1;
+unsigned long debounceTime = 2000;
 //The timer overflows inmediately after initialization.
-//We are aware only in the second overflow
-volatile int debounceCount = 0;  //Number of the timer overflows
 
 // First channel to be used. The 6xswitches control the terminal number and the number to add the terminal0Channel
 // The channel 125 is used to listen from the terminals.
@@ -90,7 +108,7 @@ uint8_t control0Channel = 125; //Channel resulting of the switch at zero state
 uint8_t controlSwitch = 0;      //State of the 3xswithes
 
 bool waitingSensor = true; //Wether the sensor is activated or not
-bool unlimitedMode = true;
+bool unlimitedMode = true; // sensorOnce deactivate the unlimited mode
 
 //Variables to control the blinking of each Color
 bool blinkingRed = false;
@@ -142,7 +160,7 @@ void setup(void)
 
   //maximum 125 channels. cell phone and wifi uses 2402-2472. Free from channel 73 to channel 125. Each channels is 1Mhz separated
   radio.setChannel(terminal0Channel - sample.termNum);
-  Serial.print("Terminal Channel: ");
+  Serial.print("Terminal Channel: " + String(terminal0Channel) + " - " + String(sample.termNum) + " = ");
   Serial.println(terminal0Channel - sample.termNum);
 
 
@@ -181,7 +199,8 @@ void setup(void)
     controlSwitch = controlSwitch + 4;
   }
 
-  Serial.print("ControlChannel: ");
+  Serial.println("ControlNum: " + String(controlSwitch));
+  Serial.print("ControlChannel: " + String(control0Channel) + " - " + String(controlSwitch) + " = ");
   Serial.println(control0Channel - controlSwitch);
 
   //Activate interruption service each time the sensor changes state
@@ -206,13 +225,14 @@ void setup(void)
   //  Serial.print("Is chip connected:");
   //  Serial.println(radio.isChipConnected());
 
-  Timer1.initialize(2000); //Initializing the debounce timer to 2 ms
-  Timer1.detachInterrupt();
+  Timer1.initialize(debounceTime);
+  Serial.print("debounceTime: ");
+  Serial.println(debounceTime);
+  Timer1.attachInterrupt(debounce);
+  Timer1.stop();
   sample.state = digitalRead(2);
   lastPinState = sample.state;
   Serial.println("Initial state");
-  Serial.print(lastPinState);
-  Serial.print("\t");
   Serial.println(sample.state);
 }
 
@@ -223,6 +243,7 @@ void loop(void)
   if (flagint == HIGH) //The sensor has changed
   {
     sendSample();
+    // Serial.println(sample.state);
   }
 
   while (radio.available())
@@ -282,35 +303,18 @@ void sendSample(void) {
 
 void controlint()
 {
-//  sample.state = digitalRead(2);
-//  Serial.println("Int");
   if (waitingSensor == true) {
-//  flagint = HIGH;
-//    Timer1.initialize(1000000); //Initializing the debounce timer to 1s
-    Timer1.attachInterrupt(debounce);
-//    Serial.print(lastPinState);
-//    Serial.print("\t");
-//    Serial.println(sample.state);
-    debounceCount = 0;
+    Timer1.initialize(debounceTime);
   }
 }
 
 void debounce() {
-  debounceCount++;
-//  Serial.println(debounceCount);
-  if (debounceCount >= 2) {
-    sample.state = digitalRead(2);
-    Timer1.detachInterrupt();
-//    Serial.println("in debounce");
+  sample.state = digitalRead(2);
+  Timer1.stop();
 
-    if (sample.state != lastPinState) {
-      flagint = HIGH;
-      lastPinState = sample.state;
-      Serial.print(lastPinState);
-      Serial.print("\t");
-      Serial.println(sample.state);
-//      Serial.println(millis());
-    }
+  if ( !unlimitedMode || sample.state != lastPinState) {
+    flagint = HIGH;
+    lastPinState = sample.state;
   }
 }
 

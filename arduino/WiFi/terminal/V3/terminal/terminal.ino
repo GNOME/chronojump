@@ -319,7 +319,7 @@ void debounce() {
   sample.state = digitalRead(2);
   Timer1.stop();
 
-  if (sample.state != lastPinState) {
+  if ( !unlimitedMode || sample.state != lastPinState ) {
     flagint = HIGH;
     lastPinState = sample.state;
   }

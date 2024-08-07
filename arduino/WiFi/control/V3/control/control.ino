@@ -351,6 +351,7 @@ void discoverTerminals(void) {
     //    Serial.println();
   }
   Serial.println(terminalsFound);
+  waitingVersion = false;
 }
 
 bool readSample(void) {

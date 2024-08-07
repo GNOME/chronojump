@@ -27,7 +27,7 @@
 #include <TimerOne.h>
 
 unsigned int deviceType = 1; //Photocel and LightChro sensor
-unsigned int deviceVersion = 14;
+unsigned int deviceVersion = 15;
 //
 // Hardware configuration
 

@@ -28,6 +28,23 @@ run_codesign()
     #codesign --deep --force --timestamp=none --options runtime --sign "${APPLE_APPLICATION_CERT_NAME}" --entitlements entitlements.plist ${file}
 }
 
+for dir in `find deps/bin/x64/Python -type d -name "*.app"`
+do
+    rm -rf ${dir}
+done
+for dir in `find deps/bin/x64/Python -type d -name "*.dSYM"`
+do
+    rm -rf ${dir}
+done
+for dir in `find deps/R -type d -name "*.app"`
+do
+    rm -rf ${dir}
+done
+for dir in `find deps/R -type d -name "*.dSYM"`
+do
+    rm -rf ${dir}
+done
+
 for dir in `find app -mindepth 1 -maxdepth 1 -type d ! -name "Chronojump.app"`
 do
     rm -rf ${dir}
@@ -215,12 +232,20 @@ if [ "$PACKAGE_TYPE" == "dmg" ]; then
     echo "Stapling dmg..."
     xcrun stapler staple ${MAC_DMG_FILE_NAME}
 else  
-    mkdir -p tmp
-    echo "Creating pkg..."
-    pkgbuild --root app/Chronojump.app --install-location /Applications/Chronojump.app --version "${PACKAGE_VERSION}-${ARCH}" --identifier org.chronojump.chronojump tmp/${MAC_PKG_FILE_NAME}
-    echo "Signing pkg..."
-    productsign --timestamp --sign "${APPLE_INSTALLER_CERT_NAME}" "tmp/${MAC_PKG_FILE_NAME}" "${MAC_PKG_FILE_NAME}"
-    rm -rf tmp
+    mkdir -p component-signing
+    mkdir -p component
+    mkdir -p distribution-signing
+    echo "Creating component pkg..."
+    pkgbuild --root app/Chronojump.app --install-location /Applications/Chronojump.app --version "${PACKAGE_VERSION}-${ARCH}" --identifier org.chronojump.chronojump "component-signing/${MAC_PKG_FILE_NAME}"
+    echo "Signing component pkg..."
+    productsign --timestamp --sign "${APPLE_INSTALLER_CERT_NAME}" "component-signing/${MAC_PKG_FILE_NAME}" "component/${MAC_PKG_FILE_NAME}"
+    echo "Creating distribution pkg..."
+    productbuild --package "component/${MAC_PKG_FILE_NAME}" "distribution-signing/${MAC_PKG_FILE_NAME}"
+    echo "Signing distribution pkg..."
+    productsign --timestamp --sign "${APPLE_INSTALLER_CERT_NAME}" "distribution-signing/${MAC_PKG_FILE_NAME}" ${MAC_PKG_FILE_NAME}
+    rm -rf distribution-signing
+    rm -rf component
+    rm -rf component-signing
     echo "Notarizing pkg..."
     xcrun notarytool submit --wait --apple-id=${APPLE_ID} --password ${APPLE_PASSWORD} --team-id ${APPLE_TEAM_ID} ${MAC_PKG_FILE_NAME}
     echo "Stapling pkg..."

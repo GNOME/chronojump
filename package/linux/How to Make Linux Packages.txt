@@ -60,6 +60,7 @@ make deb
 
 cd src
 dos2unix post-build-linux.sh
+chmod +x post-build-linux.sh
 dotnet run --project Chronojump-linux.csproj --property WarningLevel=0
 
 found that on capture on KDE Neon crashes with: System.PlatformNotSupportedException: 'System.IO.Ports is currently only supported on Windows

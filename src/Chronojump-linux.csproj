@@ -19,8 +19,16 @@
 	    <CustomCommands>
 	      <Command>
 	        <type>AfterBuild</type>
-	        <command>post-build-linux.sh ${TargetDir}</command>
+	        <command>dos2unix post-build-linux.sh</command>
 	        <workingdir></workingdir>
+	      </Command>
+	      <Command>
+	        <type>AfterBuild</type>
+	        <command>chmod +x post-build-linux.sh</command>
+	      </Command>
+	      <Command>
+	        <type>AfterBuild</type>
+	        <command>post-build-linux.sh ${TargetDir}</command>
 	      </Command>
 	    </CustomCommands>
 	  </CustomCommands>
@@ -30,6 +38,14 @@
 	  <DefineConstants>$(DefineConstants);OSTYPE_LINUX</DefineConstants>
 	  <CustomCommands>
 	    <CustomCommands>
+	      <Command>
+	        <type>AfterBuild</type>
+	        <command>dos2unix post-build-linux.sh</command>
+	      </Command>
+	      <Command>
+	        <type>AfterBuild</type>
+	        <command>chmod +x post-build-linux.sh</command>
+	      </Command>
 	      <Command>
 	        <type>AfterBuild</type>
 	        <command>post-build-linux.sh ${TargetDir}</command>
@@ -321,6 +337,8 @@
 	  <Content Include="chronojump_icon.ico" />
 	</ItemGroup>
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="dos2unix post-build-linux.sh" />
+	  <Exec Command="chmod +x post-build-linux.sh" />
 	  <Exec Command="sh post-build-linux.sh $(OutDir)" />
 	</Target>
 </Project>

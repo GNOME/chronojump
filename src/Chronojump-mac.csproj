@@ -21,8 +21,16 @@
 	    <CustomCommands>
 	      <Command>
 	        <type>AfterBuild</type>
-	        <command>post-build-mac.sh ${TargetDir}</command>
+	        <command>dos2unix post-build-mac.sh</command>
 	        <workingdir></workingdir>
+	      </Command>
+	      <Command>
+	        <type>AfterBuild</type>
+	        <command>chmod +x post-build-mac.sh</command>
+	      </Command>
+	      <Command>
+	        <type>AfterBuild</type>
+	        <command>post-build-mac.sh ${TargetDir}</command>
 	      </Command>
 	    </CustomCommands>
 	  </CustomCommands>
@@ -32,6 +40,14 @@
 	  <DefineConstants>$(DefineConstants);OSTYPE_OSX</DefineConstants>
 	  <CustomCommands>
 	    <CustomCommands>
+	      <Command>
+	        <type>AfterBuild</type>
+	        <command>dos2unix post-build-mac.sh</command>
+	      </Command>
+	      <Command>
+	        <type>AfterBuild</type>
+	        <command>chmod +x post-build-mac.sh</command>
+	      </Command>
 	      <Command>
 	        <type>AfterBuild</type>
 	        <command>post-build-mac.sh ${TargetDir}</command>

@@ -50,8 +50,8 @@ make deb
 6. Software can be run without creating package with
 
 cd src
-dos2unix post-build-linux.sh
-chmod +x post-build-linux.sh
+#dos2unix post-build-linux.sh
+#chmod +x post-build-linux.sh
 dotnet run --project Chronojump-linux.csproj --property WarningLevel=0
 
 found that on capture on KDE Neon crashes with: System.PlatformNotSupportedException: 'System.IO.Ports is currently only supported on Windows

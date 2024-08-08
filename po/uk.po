@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2024-08-02 15:59+0000\n"
-"PO-Revision-Date: 2024-08-03 21:36+0300\n"
+"POT-Creation-Date: 2024-08-08 10:41+0000\n"
+"PO-Revision-Date: 2024-08-08 19:18+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -104,13 +104,13 @@ msgid "Races"
 msgstr "Дистанції"
 
 #: ../glade/app1.glade.h:18 ../glade/preferences_win.glade.h:81
-#: ../src/constants.cs:1130 ../src/gui/app1/session/loadAndImport.cs:298
+#: ../src/constants.cs:1124 ../src/gui/app1/session/loadAndImport.cs:298
 #: ../src/gui/person/showAllEvents.cs:244
 msgid "Isometric"
 msgstr "Ізометричний"
 
 #: ../glade/app1.glade.h:19 ../glade/force_sensor_exercise.glade.h:12
-#: ../glade/preferences_win.glade.h:82 ../src/constants.cs:1132
+#: ../glade/preferences_win.glade.h:82 ../src/constants.cs:1126
 #: ../src/gui/app1/forceSensor.cs:2117
 #: ../src/gui/app1/session/loadAndImport.cs:300
 #: ../src/gui/forceSensorExercise.cs:506 ../src/gui/person/showAllEvents.cs:245
@@ -559,7 +559,7 @@ msgstr "Останній пульс"
 #: ../src/stats/rjIndex.cs:33 ../src/stats/rjIndex.cs:34
 #: ../src/stats/rjPotencyBosco.cs:33 ../src/stats/rjPotencyBosco.cs:34
 #: ../src/stats/runIntervallic.cs:207 ../src/treeview/event.cs:245
-#: ../src/treeview/jump.cs:512 ../src/treeview/jump.cs:514
+#: ../src/treeview/jump.cs:533 ../src/treeview/jump.cs:535
 #: ../src/treeview/multiChronopic.cs:180 ../src/treeview/pulse.cs:149
 #: ../src/treeview/run.cs:296
 msgid "AVG"
@@ -627,7 +627,7 @@ msgstr "Без фільтрування"
 msgid "Forces"
 msgstr "Сили"
 
-#: ../glade/app1.glade.h:117 ../src/constants.cs:1134
+#: ../glade/app1.glade.h:117 ../src/constants.cs:1128
 #: ../src/gui/app1/reactionTime.cs:53
 msgid "Reaction time"
 msgstr "Час реакції"
@@ -966,7 +966,7 @@ msgid "Distance"
 msgstr "Відстань"
 
 #: ../glade/app1.glade.h:189 ../glade/encoder_configuration.glade.h:36
-#: ../glade/force_sensor_exercise.glade.h:33 ../src/treeview/jump.cs:38
+#: ../glade/force_sensor_exercise.glade.h:33 ../src/treeview/jump.cs:39
 #: ../src/treeview/multiChronopic.cs:231
 msgid "Angle"
 msgstr "Кут"
@@ -1189,7 +1189,7 @@ msgid "Show description"
 msgstr "Показати опис"
 
 #: ../glade/app1.glade.h:233 ../glade/force_sensor_exercise.glade.h:32
-#: ../src/constants.cs:318 ../src/constants.cs:1136
+#: ../src/constants.cs:318 ../src/constants.cs:1130
 msgid "Other"
 msgstr "Інше"
 
@@ -1516,7 +1516,7 @@ msgstr "Лише найкращий стрибок у кожному з сеан
 #: ../src/stats/rjEvolution.cs:73 ../src/stats/rjEvolution.cs:78
 #: ../src/stats/rjIndex.cs:33 ../src/stats/rjPotencyBosco.cs:33
 #: ../src/stats/sjCmjAbk.cs:53 ../src/stats/sjCmjAbkPlus.cs:64
-#: ../src/treeview/jump.cs:73 ../src/treeview/jump.cs:291
+#: ../src/treeview/jump.cs:76 ../src/treeview/jump.cs:311
 msgid "TF"
 msgstr "ЧП"
 
@@ -1533,7 +1533,7 @@ msgstr "Час контакту"
 #: ../src/stats/djQ.cs:35 ../src/stats/graphs/rjEvolution.cs:104
 #: ../src/stats/rjEvolution.cs:72 ../src/stats/rjEvolution.cs:77
 #: ../src/stats/rjIndex.cs:34 ../src/stats/rjPotencyBosco.cs:34
-#: ../src/treeview/jump.cs:72 ../src/treeview/jump.cs:290
+#: ../src/treeview/jump.cs:75 ../src/treeview/jump.cs:310
 msgid "TC"
 msgstr "ЧК"
 
@@ -1805,7 +1805,7 @@ msgstr "Закрити і проаналізувати"
 msgid "Contacts (platform or photocell)"
 msgstr "Контакти (платформа або фотоелемент)"
 
-#: ../glade/app1.glade.h:374 ../src/execute/run.cs:346
+#: ../glade/app1.glade.h:374 ../src/execute/run.cs:355
 #: ../src/gui/networks.cs:989
 msgid "Please, wait!"
 msgstr "Будь ласка, зачекайте."
@@ -1942,7 +1942,7 @@ msgstr "Фаза"
 msgid "Laterality"
 msgstr "Латеральність"
 
-#: ../glade/app1.glade.h:403 ../src/constants.cs:1018 ../src/constants.cs:1540
+#: ../glade/app1.glade.h:403 ../src/constants.cs:1012 ../src/constants.cs:1540
 msgid "Mass"
 msgstr "Маса"
 
@@ -1961,7 +1961,7 @@ msgstr "Додатково"
 #. print Total, AVG, SD
 #: ../glade/app1.glade.h:406 ../src/exportSession.cs:673
 #: ../src/exportSession.cs:840 ../src/treeview/event.cs:238
-#: ../src/treeview/jump.cs:468 ../src/treeview/pulse.cs:131
+#: ../src/treeview/jump.cs:489 ../src/treeview/pulse.cs:131
 #: ../src/treeview/run.cs:277
 msgid "Total"
 msgstr "Загалом"
@@ -2441,7 +2441,7 @@ msgstr "Місце"
 #: ../src/gui/app1/session/loadAndImport.cs:263
 #: ../src/gui/encoderSelectRepetitions.cs:230
 #: ../src/gui/person/showAllEvents.cs:236 ../src/gui/session/selectStats.cs:86
-#: ../src/report.cs:248 ../src/treeview/jump.cs:39 ../src/treeview/run.cs:31
+#: ../src/report.cs:248 ../src/treeview/jump.cs:40 ../src/treeview/run.cs:31
 msgid "Date"
 msgstr "Дата"
 
@@ -2787,7 +2787,7 @@ msgstr "каталонська"
 msgid "Add comments"
 msgstr "Додати коментарі"
 
-#: ../glade/app1.glade.h:592 ../src/chronojump.cs:892
+#: ../glade/app1.glade.h:592 ../src/chronojump.cs:894
 msgid "Send error log"
 msgstr "Надіслати журнал помилок"
 
@@ -3033,8 +3033,8 @@ msgstr "Доступне відео"
 #: ../src/gui/jump.cs:1153 ../src/gui/jump.cs:1182 ../src/gui/jump.cs:1185
 #: ../src/gui/jump.cs:1334 ../src/gui/jump.cs:1339 ../src/gui/jump.cs:1418
 #: ../src/gui/jump.cs:1421 ../src/gui/jump.cs:1468 ../src/gui/jump.cs:1471
-#: ../src/runEncoder.cs:150 ../src/treeview/jump.cs:248
-#: ../src/treeview/jump.cs:366 ../src/treeview/run.cs:112
+#: ../src/runEncoder.cs:150 ../src/treeview/jump.cs:267
+#: ../src/treeview/jump.cs:386 ../src/treeview/run.cs:112
 #: ../src/treeview/run.cs:196
 msgid "Yes"
 msgstr "Так"
@@ -3843,7 +3843,7 @@ msgstr "Додати нову еластичну стрічку/трубу"
 #: ../glade/force_sensor_elastic_bands.glade.h:6
 #: ../glade/preferences_win.glade.h:29 ../src/exportSession.cs:467
 #: ../src/exportSession.cs:669 ../src/gui/forceSensorElasticBands.cs:220
-#: ../src/gui/preferences.cs:2609 ../src/treeview/jump.cs:35
+#: ../src/gui/preferences.cs:2609 ../src/treeview/jump.cs:36
 msgid "Stiffness"
 msgstr "Жорсткість"
 
@@ -4456,8 +4456,8 @@ msgstr "Показати фотографії осіб"
 #: ../src/encoder.cs:1134 ../src/forceSensor.cs:189 ../src/forceSensor.cs:199
 #: ../src/gui/chronopicRegister.cs:418 ../src/gui/event.cs:325
 #: ../src/gui/jump.cs:1110 ../src/gui/jump.cs:1115 ../src/gui/jump.cs:1336
-#: ../src/gui/jump.cs:1341 ../src/runEncoder.cs:152 ../src/treeview/jump.cs:250
-#: ../src/treeview/jump.cs:368 ../src/treeview/run.cs:114
+#: ../src/gui/jump.cs:1341 ../src/runEncoder.cs:152 ../src/treeview/jump.cs:269
+#: ../src/treeview/jump.cs:388 ../src/treeview/run.cs:114
 #: ../src/treeview/run.cs:198
 msgid "No"
 msgstr "Ні"
@@ -4604,7 +4604,7 @@ msgstr "10,0"
 msgid "Detection"
 msgstr "Виявлення"
 
-#: ../glade/preferences_win.glade.h:60 ../src/constants.cs:1124
+#: ../glade/preferences_win.glade.h:60 ../src/constants.cs:1118
 #: ../src/gui/app1/session/loadAndImport.cs:295
 #: ../src/gui/person/showAllEvents.cs:243
 msgid "Race analyzer"
@@ -5265,28 +5265,28 @@ msgstr "всі"
 msgid "none"
 msgstr "нічого"
 
-#: ../src/chronojump.cs:415
+#: ../src/chronojump.cs:417
 msgid "Chronojump is already running"
 msgstr "Chronojump вже запущено"
 
-#: ../src/chronojump.cs:416 ../src/chronojump.cs:678 ../src/chronojump.cs:1069
-#: ../src/chronojump.cs:1077
+#: ../src/chronojump.cs:418 ../src/chronojump.cs:680 ../src/chronojump.cs:1078
+#: ../src/chronojump.cs:1086
 msgid "Chronojump will exit now."
 msgstr "Зараз Chronojump завершить роботу."
 
-#: ../src/chronojump.cs:477
+#: ../src/chronojump.cs:479
 msgid "no tables, creating …"
 msgstr "немає таблиць, створюємо…"
 
 #. check (spanish)
 #. http://mail.gnome.org/archives/chronojump-devel-list/2008-March/msg00011.html
-#: ../src/chronojump.cs:516
+#: ../src/chronojump.cs:518
 msgid "Failed database conversion, ensure you have libsqlite3-0 installed."
 msgstr ""
 "Не вдалося перетворити базу даних, переконайтеся, що встановлено "
 "libsqlite3-0."
 
-#: ../src/chronojump.cs:517
+#: ../src/chronojump.cs:519
 #, csharp-format
 msgid ""
 "If you have no data on your database (you just installed Chronojump), you "
@@ -5295,17 +5295,17 @@ msgstr ""
 "Якщо у вашій базі даних немає даних (ви щойно встановили Chronojump), ви "
 "можете виправити цю проблему вилученням такого файла: {0}"
 
-#: ../src/chronojump.cs:519
+#: ../src/chronojump.cs:521
 msgid "And starting Chronojump again."
 msgstr "І запускаємо Chronojump знову."
 
-#: ../src/chronojump.cs:532
+#: ../src/chronojump.cs:534
 msgid "All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms)."
 msgstr ""
 "Усі стрибки після падіння було перейменовано на «DJna» (стрибки після "
 "падіння без рук)."
 
-#: ../src/chronojump.cs:533
+#: ../src/chronojump.cs:535
 msgid ""
 "If your Drop Jumps were executed using the arms, please rename them manually "
 "as 'DJa'."
@@ -5314,21 +5314,21 @@ msgstr ""
 "ласка, перейменуйте їх вручну на «DJa»."
 
 #. Console.Clear();
-#: ../src/chronojump.cs:543
+#: ../src/chronojump.cs:545
 #, csharp-format
 msgid "Sorry, this Chronojump version ({0}) is too old for your database."
 msgstr ""
 "Вибачте, ця версія Chronojump ({0}) є надто старою для вашої бази даних."
 
-#: ../src/chronojump.cs:544 ../src/chronojumpImporter.cs:247
+#: ../src/chronojump.cs:546 ../src/chronojumpImporter.cs:247
 msgid "Please update Chronojump"
 msgstr "Будь ласка, оновіть Chronojump"
 
-#: ../src/chronojump.cs:552
+#: ../src/chronojump.cs:554
 msgid "tables already created"
 msgstr "таблиці вже створено"
 
-#: ../src/chronojump.cs:615
+#: ../src/chronojump.cs:617
 #, csharp-format
 msgid ""
 "\n"
@@ -5339,32 +5339,32 @@ msgstr ""
 "На сайті доступна нова версія Chronojump.\n"
 "Ваша версія Chronojump: {1}"
 
-#: ../src/chronojump.cs:617
+#: ../src/chronojump.cs:619
 msgid "Please, update to new version."
 msgstr "Будь ласка, оновіть програму до нової версії."
 
-#: ../src/chronojump.cs:625
+#: ../src/chronojump.cs:627
 msgid "Chronojump crashed before."
 msgstr "Раніше Chronojump завершив роботу в аварійному режимі."
 
-#: ../src/chronojump.cs:626
+#: ../src/chronojump.cs:628
 msgid "Please, update to new version: "
 msgstr "Будь ласка, оновіть програму до нової версії: "
 
-#: ../src/chronojump.cs:743
+#: ../src/chronojump.cs:745
 msgid "Need permissions to read from device."
 msgstr "Потрібні права доступу до читання з пристрою."
 
-#: ../src/chronojump.cs:744
+#: ../src/chronojump.cs:746
 msgid "Check software page on Chronojump website"
 msgstr "Ознайомтеся із сторінкою програмного забезпечення на сайті Chronojump"
 
-#: ../src/chronojump.cs:894
+#: ../src/chronojump.cs:896
 #, csharp-format
 msgid "Chronojump {0} crashed before."
 msgstr "Раніше Chronojump {0} завершив роботу в аварійному режимі."
 
-#: ../src/chronojump.cs:895
+#: ../src/chronojump.cs:897
 #, csharp-format
 msgid ""
 "Please, fill your email and click on '{0}' in order to fix this fast and "
@@ -5373,43 +5373,43 @@ msgstr ""
 "Будь ласка, вкажіть вашу адресу електронної пошти і натисніть «{0}» для "
 "пришвидшення виправлення і зв'язку з вами, якщо у цьому виникне потреба."
 
-#: ../src/chronojump.cs:896
+#: ../src/chronojump.cs:898
 msgid "Your help is needed."
 msgstr "Потрібна ваша допомога."
 
-#: ../src/chronojump.cs:1037
+#: ../src/chronojump.cs:1046
 #, csharp-format
 msgid "Cannot move database directory from {0} to {1}"
 msgstr "Не вдалося пересунути каталог бази даних з {0} до {1}"
 
-#: ../src/chronojump.cs:1039
+#: ../src/chronojump.cs:1048
 msgid "Trying to move/copy each file now"
 msgstr "Намагаємося пересунути або скопіювати кожний файл окремо"
 
-#: ../src/chronojump.cs:1067
+#: ../src/chronojump.cs:1076
 #, csharp-format
 msgid "Cannot create directory {0}"
 msgstr "Не вдалося створити каталог {0}"
 
-#: ../src/chronojump.cs:1068 ../src/chronojump.cs:1076
+#: ../src/chronojump.cs:1077 ../src/chronojump.cs:1085
 msgid "Please, do it manually."
 msgstr "Будь ласка, зробіть це вручну."
 
-#: ../src/chronojump.cs:1075
+#: ../src/chronojump.cs:1084
 #, csharp-format
 msgid "Cannot copy {0} files from {1} to {2}"
 msgstr "Не вдалося скопіювати {0} файлів з {1} до {2}"
 
-#: ../src/chronojump.cs:1083
+#: ../src/chronojump.cs:1092
 #, csharp-format
 msgid "Cannot move {0} files from {1} to {2}"
 msgstr "Не вдалося пересунути {0} файлів з {1} до {2}"
 
-#: ../src/chronojump.cs:1084
+#: ../src/chronojump.cs:1093
 msgid "Please, do it manually"
 msgstr "Будь ласка, зробіть це вручну"
 
-#: ../src/chronojump.cs:1090
+#: ../src/chronojump.cs:1099
 #, csharp-format
 msgid "Database is now here: {0}"
 msgstr "Тепер база даних зберігається тут: {0}"
@@ -5952,47 +5952,54 @@ msgid "On jumps results tab, power is calculated depending on jump type:"
 msgstr ""
 "На вкладці результатів стрибків сила визначається залежно від типу стрибка:"
 
+#: ../src/constants.cs:995
+#| msgid "Chronojump graph"
+msgid "Chronojump formula"
+msgstr "Формула Chronojump"
+
+#: ../src/constants.cs:995
+#| msgid "Jumps with TC and TF:"
+msgid "Used on jumps with TC and TF"
+msgstr "Використано для стрибків із TC і TF"
+
 #. Catalog.GetString("Jumps with TC & TF: Bosco Relative Power (W/Kg)") +
 #. "\n" +
 #. Catalog.GetString("P = 24.6 * (Total time + Flight time) / Contact time") +
 #: ../src/constants.cs:999
-msgid "Jumps with TC and TF:"
-msgstr "Стрибки із TC і TF:"
-
-#: ../src/constants.cs:999
-msgid "Developed by Chronojump team"
-msgstr "Розроблено командою Chronojump"
-
-#: ../src/constants.cs:1001
 msgid "Calculate the potential energies on fall and after the jump."
 msgstr "Обчислити потенційні енергії падіння та після стрибка."
 
-#: ../src/constants.cs:1002
+#: ../src/constants.cs:1000
 msgid "Divide them by time during force is applied."
 msgstr "Поділити їх на час прикладання сили."
 
 #. P = mass * g * ( fallHeight + 1.22625 * Math.Pow(tf,2) ) / (Double)tt;
-#: ../src/constants.cs:1005
+#: ../src/constants.cs:1002
 msgid "mass"
 msgstr "маса"
 
-#: ../src/constants.cs:1006
+#: ../src/constants.cs:1003
 msgid "falling height"
 msgstr "висота падіння"
 
-#: ../src/constants.cs:1006
+#: ../src/constants.cs:1003
 msgid "flight time"
 msgstr "час польоту"
 
-#: ../src/constants.cs:1007
+#: ../src/constants.cs:1003
 msgid "contact time"
 msgstr "час контакту"
 
-#: ../src/constants.cs:1009
-msgid "Jumps without TC: Lewis Peak Power 1974 (W)"
-msgstr "Стрибки без TC: пікова потужність Льюїса, 1974 (W)"
+#: ../src/constants.cs:1004
+msgid "Lewis 1974"
+msgstr "Льюїс 1974"
 
-#: ../src/constants.cs:1011
+#: ../src/constants.cs:1004
+#| msgid "Jumps without TC: Lewis Peak Power 1974 (W)"
+msgid "Used on jumps without TC: Lewis Peak Power 1974 (W)"
+msgstr "Використано для стрибків без TC: пікова потужність Льюїса, 1974 (W)"
+
+#: ../src/constants.cs:1005
 msgid ""
 "P = SQRT(4.9) * 9.8 * (body weight+extra weight) * SQRT(jump height in "
 "meters)"
@@ -6000,24 +6007,24 @@ msgstr ""
 "P = SQRT(4.9) * 9.8 * (вага тіла+додаткова вага) * SQRT(висота стрибка у "
 "метрах)"
 
-#: ../src/constants.cs:1013
+#: ../src/constants.cs:1007
 msgid "If you want to use other formulas, go to Analyze."
 msgstr ""
 "Якщо ви хочете скористатися іншими формулами, перейдіть до «Аналізувати»."
 
-#: ../src/constants.cs:1019
+#: ../src/constants.cs:1013
 msgid "Contact Time"
 msgstr "Час контакту"
 
-#: ../src/constants.cs:1020
+#: ../src/constants.cs:1014
 msgid "Flight Time"
 msgstr "Час польоту"
 
-#: ../src/constants.cs:1021
+#: ../src/constants.cs:1015
 msgid "See:"
 msgstr "Див.:"
 
-#: ../src/constants.cs:1031
+#: ../src/constants.cs:1025
 #, csharp-format
 msgid ""
 "Use this window to repair this test.\n"
@@ -6027,49 +6034,49 @@ msgstr ""
 "Двічі клацніть на будь-якій комірці, щоб редагувати її (роздільник дробової "
 "частини: «{0}»)"
 
-#: ../src/constants.cs:1032
+#: ../src/constants.cs:1026
 msgid "Press enter or tab after editing a cell."
 msgstr "Натисніть Enter або Tab після редагування вмісту комірки."
 
-#: ../src/constants.cs:1056
+#: ../src/constants.cs:1050
 msgid "Sorry, this multimedia file does not exists."
 msgstr "Вибачте, цього файла мультимедійних даних не існує."
 
-#: ../src/constants.cs:1063
+#: ../src/constants.cs:1057
 msgid "Running start. Started with initial speed."
 msgstr "Динамічний старт. Розпочато із початковою швидкістю."
 
-#: ../src/constants.cs:1067
+#: ../src/constants.cs:1061
 msgid "Standing start. Started without initial speed."
 msgstr "Статичний старт. Розпочато без початкової швидкості."
 
-#: ../src/constants.cs:1072
+#: ../src/constants.cs:1066
 msgid "Sorry, no cameras found."
 msgstr "Вибачте, камер не знайдено."
 
-#: ../src/constants.cs:1116 ../src/gui/app1/encoder.cs:2409
+#: ../src/constants.cs:1110 ../src/gui/app1/encoder.cs:2409
 #: ../src/gui/app1/session/loadAndImport.cs:289
 msgid "Jumps simple"
 msgstr "Прості стрибки"
 
-#: ../src/constants.cs:1118 ../src/gui/app1/encoder.cs:2411
+#: ../src/constants.cs:1112 ../src/gui/app1/encoder.cs:2411
 msgid "Jumps multiple"
 msgstr "Кратні стрибки"
 
-#: ../src/constants.cs:1120 ../src/gui/app1/encoder.cs:2413
+#: ../src/constants.cs:1114 ../src/gui/app1/encoder.cs:2413
 #: ../src/gui/app1/session/loadAndImport.cs:293
 msgid "Races simple"
 msgstr "Забіги просто"
 
-#: ../src/constants.cs:1122 ../src/gui/app1/encoder.cs:2415
+#: ../src/constants.cs:1116 ../src/gui/app1/encoder.cs:2415
 msgid "Races intervallic"
 msgstr "Забіги інтервально"
 
-#: ../src/constants.cs:1126
+#: ../src/constants.cs:1120
 msgid "Encoder (gravitatory)"
 msgstr "Кодувальник (гравітаційний)"
 
-#: ../src/constants.cs:1128
+#: ../src/constants.cs:1122
 msgid "Encoder (inertial)"
 msgstr "Кодувальник (інерційний)"
 
@@ -6459,39 +6466,39 @@ msgid "You are OUT, come inside and press the 'accept' button"
 msgstr ""
 "Ви ЗЗОВНІ, будь ласка, увійдіть всередину і натисніть кнопку «Прийняти»"
 
-#: ../src/execute/run.cs:214
+#: ../src/execute/run.cs:223
 msgid "RUN when prepared!"
 msgstr "БІЖІТЬ, коли будете готові!"
 
-#: ../src/execute/run.cs:249
+#: ../src/execute/run.cs:258
 msgid "You are IN, RUN when prepared!"
 msgstr "Ви ВСЕРЕДИНІ, БІЖІТЬ, коли будете готові!"
 
-#: ../src/execute/run.cs:258
+#: ../src/execute/run.cs:267
 msgid "You are OUT, RUN when prepared!"
 msgstr "Ви ЗЗОВНІ, БІЖІТЬ, коли будете готові!"
 
-#: ../src/execute/run.cs:999
+#: ../src/execute/run.cs:1008
 msgid "Included on race time"
 msgstr "Включено до часу забігу"
 
-#: ../src/execute/run.cs:1000
+#: ../src/execute/run.cs:1009
 msgid "Not included on race time"
 msgstr "Не включено час забігу"
 
-#: ../src/execute/run.cs:1126
+#: ../src/execute/run.cs:1136
 msgid "Included on race time of first track"
 msgstr "Включено час забігу першої доріжки"
 
-#: ../src/execute/run.cs:1127
+#: ../src/execute/run.cs:1137
 msgid "Not included on race time of first track"
 msgstr "Не включено час забігу першої доріжки"
 
-#: ../src/execute/run.cs:1303
+#: ../src/execute/run.cs:1313
 msgid "Go!"
 msgstr "Перейти!"
 
-#: ../src/execute/run.cs:1306
+#: ../src/execute/run.cs:1316
 #, csharp-format
 msgid "Wait 1 second."
 msgid_plural "Wait {0} seconds."
@@ -6503,7 +6510,7 @@ msgstr[3] "Зачекайте одну секунду."
 #. this dialog can make crash the software because the non-gui part calls it
 #. new DialogMessage(Constants.MessageTypes.WARNING,
 #. Catalog.GetString("Race will not be recorded, 1st lap is out of time"));
-#: ../src/execute/run.cs:1431
+#: ../src/execute/run.cs:1441
 msgid "Race will not be recorded. Out of time."
 msgstr "Забіг не буде записано. Перевищено часове обмеження."
 
@@ -6655,7 +6662,7 @@ msgid "jump ID"
 msgstr "Ід. стрибка"
 
 #: ../src/exportSession.cs:468 ../src/exportSession.cs:744
-#: ../src/exportSession.cs:802 ../src/treeview/jump.cs:36
+#: ../src/exportSession.cs:802 ../src/treeview/jump.cs:37
 msgid "Initial Speed"
 msgstr "Початкова швидкість"
 
@@ -6718,8 +6725,8 @@ msgstr "Обмежено"
 #: ../src/stats/main.cs:683 ../src/stats/main.cs:754 ../src/stats/main.cs:776
 #: ../src/stats/main.cs:803 ../src/stats/rjAVGSD.cs:35
 #: ../src/stats/rjEvolution.cs:219 ../src/stats/runIntervallic.cs:207
-#: ../src/treeview/event.cs:255 ../src/treeview/jump.cs:619
-#: ../src/treeview/jump.cs:621 ../src/treeview/multiChronopic.cs:201
+#: ../src/treeview/event.cs:255 ../src/treeview/jump.cs:642
+#: ../src/treeview/jump.cs:644 ../src/treeview/multiChronopic.cs:201
 #: ../src/treeview/pulse.cs:167 ../src/treeview/run.cs:321
 msgid "SD"
 msgstr "SD"
@@ -7637,7 +7644,6 @@ msgid "Checking version …"
 msgstr "Перевіряємо версію…"
 
 #: ../src/gui/app1/forceSensor.cs:998 ../src/gui/app1/forceSensor.cs:1021
-#| msgid "Taring will start in …"
 msgid "Capture will start in …"
 msgstr "Захоплення розпочнеться за…"
 
@@ -11792,11 +11798,16 @@ msgstr "{0} у {1} стрибку на {2}"
 msgid "{0} in {1} on {2}"
 msgstr "{0} у {1} на {2}"
 
-#: ../src/treeview/jump.cs:393
+#: ../src/treeview/jump.cs:35
+#| msgid "Power - Load"
+msgid "Power formula"
+msgstr "Формула потужності"
+
+#: ../src/treeview/jump.cs:413
 msgid "First photocell"
 msgstr "Перший фотоелемент"
 
-#: ../src/treeview/jump.cs:512 ../src/treeview/jump.cs:619
+#: ../src/treeview/jump.cs:533 ../src/treeview/jump.cs:642
 msgid "photocells not included"
 msgstr "фотоелементи не включено"
 
@@ -11859,6 +11870,9 @@ msgstr "Помилка. {0} не вдалося зберегти відео."
 #: ../src/webcam/webcamFfmpeg.cs:405
 msgid "\"Preview. Press any key to exit.\""
 msgstr "\"Попередній перегляд. Натисніть будь-яку клавішу, щоб вийти.\""
+
+#~ msgid "Developed by Chronojump team"
+#~ msgstr "Розроблено командою Chronojump"
 
 #~ msgid "New"
 #~ msgstr "Створити"

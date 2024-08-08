@@ -17,14 +17,15 @@ sh autogen.sh --prefix [chronojump path]/chronojump/package/linux/deps
 # Grant the access to the serial port. Change "[username]" by the real unername
 sudo usermod -a -G dialout [username]
 
+# cd to src
+cd src
+
 #to ensure encoder, r-scripts folders and others are correctly copied:
 dos2unix post-build-linux.sh
 chmod +x post-build-linux.sh
 
 # Execute. Change "[UserPath]" by the real path where Chronojump is installed
-cd src
 dotnet run --project /[UserPath]/chronojump/src/Chronojump-linux.csproj
 
 # Some distros (KDE neon) requires this other command
-cd src
 dotnet run debug -r linux-x64 --project Chronojump-linux.csproj --property WarningLevel=0 --no-self-contained

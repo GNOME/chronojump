@@ -8,6 +8,10 @@ apt install -y dotnet-sdk-7.0
 cd src
 dotnet build
 
+#to ensure encoder, r-scripts folders and others are correctly copied:
+dos2unix post-build-linux.sh
+chmod +x post-build-linux.sh
+
 dotnet run --project Chronojump-linux.csproj
 
 fails by NativeLibraryResolver

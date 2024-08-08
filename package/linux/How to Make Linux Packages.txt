@@ -2,20 +2,11 @@
 
 sudo apt-get update
 cd "/***/chronojump"
-#sudo apt-get -y install dos2unix
 #cd build
 #dos2unix icon-theme-installer
 #dos2unix private-icon-theme-installer
 #cd ..
-sudo apt-get -y install autoconf
-sudo apt-get -y install git
-sudo apt-get -y install libtool
-sudo apt-get -y install intltool
-sudo apt-get -y install pkg-config
-sudo apt -y install build-essential
-sudo apt-get -y install python3
-sudo apt -y install libglib2.0-dev
-sudo apt -y install gtk-sharp3
+sudo apt-get -y install dos2unix autoconf git libtool intltool pkg-config build-essential python3 libglib2.0-dev gtk-sharp3
 #sudo apt -y install checkinstall
 
 #To check how to install .NET 7 on Linux: https://learn.microsoft.com/en-us/dotnet/core/install/linux?WT.mc_id=dotnet-35129-website

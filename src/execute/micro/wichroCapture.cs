@@ -140,6 +140,11 @@ public class WichroCapture: ArduinoCapture
 		//1 is the sensorOnce command
 		return sendCommand (string.Format ("{0}:1;", terminal), "Error doing sensorOnce");
 	}
+	public bool SensorAll (int terminal) //if used sensorOnce, put terminal as before when capture ends
+	{
+		//256 is the sensorAll command
+		return sendCommand (string.Format ("{0}:256;", terminal), "Error doing sensorAll");
+	}
 
 	public override bool CanReadFromList()
 	{

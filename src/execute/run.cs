@@ -570,7 +570,16 @@ public class RunExecute : EventExecute
 		} while ( ! exitWaitEventBucle );
 
 		if(wireless)
+		{
+			if (sensorOnce >= 0)
+			{
+				LogB.Information ("Calling SensorAll with terminal: " + sensorOnce.ToString ());
+				bool sensorAllSuccess = wichroCapture.SensorAll (sensorOnce);
+				LogB.Information ("sensorAll succeded = " + sensorAllSuccess.ToString ());
+			}
+
 			wichroCapture.Stop(); //Should we do a disconnect here?
+		}
 
 		onlyInterval_FinishWaitEventWrite();
 	}

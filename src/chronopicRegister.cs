@@ -736,7 +736,9 @@ public class ChronopicRegisterWindows : ChronopicRegister
 				 *
 				 * On the other hand, note encoder (FTDI) is: "USB Serial Port (COM5)" 
 				 */
-				if (Data.Name == "Caption" && Data.Value.ToString ().Contains("USB Serial Device"))
+				//if (Data.Name == "Caption" && Data.Value.ToString ().Contains("USB Serial Device"))
+				//do not search USB Serial Device because the string can come translated eg. Dispositivo serie USB
+				if (Data.Name == "Caption" && Data.Value.ToString ().Contains("USB"))
 				{
 					esp32Caption_b = true;
 					MatchCollection matches = Regex.Matches(Data.Value.ToString(), @"(COM\d+)");

@@ -1,5 +1,7 @@
 #!/bin/sh
 cd $(dirname "$0")
+rm -rf ../package/linux/deps/share/chronojump/encoder/
+rm -rf ../package/linux/deps/share/chronojump/r-scripts/
 cp -r $(find ../package/linux/deps/ -mindepth 1 -maxdepth 1 -type d) "$1/"
 mkdir -p "$1/bin/"
 cp -r "./angle/" "$1/bin/angle/"

@@ -319,7 +319,7 @@ void debounce() {
   sample.state = digitalRead(2);
   Timer1.stop();
 
-  if ( !unlimitedMode || sample.state != lastPinState ) {
+  if ( sample.state != lastPinState ) {
     flagint = HIGH;
     lastPinState = sample.state;
   }
@@ -381,6 +381,7 @@ void executeCommand(uint16_t command)
     if ((command & sensorOnce) == sensorOnce) {
       //      Serial.println("activating sensor once");
       time0 = millis(); //empieza a contar time
+      lastPinState = digitalRead(2);
       waitingSensor = true;  //Terminal set to waiting touch/proximity
       unlimitedMode = false;
       interrupts();

@@ -28,4 +28,4 @@ chmod +x post-build-linux.sh
 dotnet run --project /[UserPath]/chronojump/src/Chronojump-linux.csproj
 
 # Some distros (KDE neon) requires this other command
-dotnet run debug -r linux-x64 --project Chronojump-linux.csproj --property WarningLevel=0 --no-self-contained
+dotnet run -r linux-x64 --project /[UserPath]/chronojump/src//Chronojump-linux.csproj --property WarningLevel=0 --no-self-contained

@@ -52,6 +52,8 @@ public class MicroDiscover : MicroComms
 
 	//devices discovered compatible with current mode
 	private static List<ChronopicRegisterPort.Types> discovered_l;
+	
+	private static List<string> connectError_l;
 
 	//9600
 	//private string rfidStr = "YES Chronojump RFID";
@@ -80,6 +82,8 @@ public class MicroDiscover : MicroComms
 	public void DiscoverOneMode (Constants.Modes mode)
 	{
 		discovered_l = new List<ChronopicRegisterPort.Types> ();
+		connectError_l = new List<string> (); //cannot connect, maybe device already opened by another program (like Arduino IDE)
+
 		bool success;
 		for (int i = 0; i < micro_l.Count ; i ++)
 		{
@@ -101,7 +105,8 @@ public class MicroDiscover : MicroComms
 					LogB.Information("calling discoverMultitest");
 					success = discoverMultitest ();
 					LogB.Information("ended discoverMultitest");
-				}
+				} else
+					connectError_l.Add (micro.PortName);
 			}
 			else if(mode == Constants.Modes.RUNSSIMPLE || mode == Constants.Modes.RUNSINTERVALLIC)
 			{
@@ -114,17 +119,23 @@ public class MicroDiscover : MicroComms
 					LogB.Information("calling discoverMultitest");
 					success = discoverMultitest ();
 					LogB.Information("ended discoverMultitest");
-				}
+				} else
+					connectError_l.Add (micro.PortName);
+
 				if (! success)
 				{
 					micro.ClosePort ();
 					micro.Bauds = 115200;
-					LogB.Information("connectAndSleep again");
-					if (! micro.PortName.ToLower().Contains("acm") && connectAndSleep ())
+					if (! micro.PortName.ToLower().Contains("acm"))
 					{
-						LogB.Information("calling discoverWichro");
-						success = discoverWichro ();
-						LogB.Information("ended discoverWichro");
+						LogB.Information("connectAndSleep again");
+						if (connectAndSleep ())
+						{
+							LogB.Information("calling discoverWichro");
+							success = discoverWichro ();
+							LogB.Information("ended discoverWichro");
+						} else
+							connectError_l.Add (micro.PortName);
 					}
 				}
 				LogB.Information("success: " + success.ToString());
@@ -154,7 +165,8 @@ public class MicroDiscover : MicroComms
 						LogB.Information("calling discover FourPlatforms");
 						success = discoverFourPlatforms ();
 					}
-				}
+				} else
+					connectError_l.Add (micro.PortName);
 			}
 
 			micro.ClosePort (); //close even connect failed?
@@ -546,6 +558,10 @@ public class MicroDiscover : MicroComms
 
 	public List<ChronopicRegisterPort.Types> Discovered_l {
 		get { return discovered_l; }
+	}
+
+	public List<string> ConnectError_l {
+		get { return connectError_l; }
 	}
 }
 

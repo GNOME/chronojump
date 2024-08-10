@@ -266,7 +266,9 @@ void serialEvent()
     //      Serial.print(instruction.termNum);
     //      Serial.println("\"");
     sendInstruction(&instruction);
-    if(instruction.command == ping) waitingVersion = true;
+    if(instruction.command == ping) {
+      waitingVersion = true;
+    }
   }
   if (instruction.command & sensorOnce) {
     blinkStart(blinkPeriod);

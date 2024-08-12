@@ -445,6 +445,7 @@ struct inertMachineType {
   unsigned int id;
   String name;
   String description;
+  float inertiaMoment;
   String diameters;
   float gearedDown;
 };
@@ -1176,6 +1177,10 @@ void addInertMachine(String row)
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  inertMachines[totalInertMachines].inertiaMoment = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
+
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   inertMachines[totalInertMachines].diameters = row.substring(prevComaIndex + 1 , nextComaIndex);
 
   prevComaIndex = nextComaIndex;
@@ -1198,6 +1203,7 @@ void saveInertMachines()
     inertFile.print(inertMachines[i].id);
     inertFile.print("," + inertMachines[i].name);
     inertFile.print("," + inertMachines[i].description );
+    inertFile.print("," + String(inertMachines[i].inertiaMoment));
     inertFile.print("," + inertMachines[i].diameters);
     inertFile.println("," + String(inertMachines[i].gearedDown));
   }

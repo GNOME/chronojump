@@ -112,7 +112,7 @@ enum sensorType {
   incLinEncoder = 3,
   incRotEncoder = 4,
   raceAnalyzer = 5,
-  loadCellincEncoder = 6
+  loadCellIncEncoder = 6
 };
 
 enum exerciseType {
@@ -989,16 +989,18 @@ void showSystemInfo(void) {
 
   //Erases the description of the upper menu entry
   printTftText(currentMenu[currentMenuIndex].description,12,100,BLACK);
-  drawLeftButton("-", BLACK, BLACK);
-  drawRightButton("Back", WHITE, RED);
+  //drawLeftButton("-", BLACK, BLACK);
+  //drawRightButton("Back", WHITE, RED);
 
-  printTftText("System Info", 100, 100);
+  printTftText("Firmware version: " + version, 50, 100);
+  printTftText("Current group: " + String(group), 50, 120);
   cenButton.update();
   while (!cenButton.fell()) {
     cenButton.update();
   }
 
-  printTftText("System Info", 100, 100, BLACK);
+  printTftText("Firmware version: " + version, 50, 100, BLACK);
+  printTftText("Current group: " + String(group), 50, 120, BLACK);
   showMenuEntry(currentMenuIndex);
 }
 

@@ -191,11 +191,11 @@ void drawLeftRightButton(int x, int y, String label, uint16_t tColor, uint16_t b
 }
 
 
-//Dialog for selecting float value
-float selectValueDialog(String description, String rangesString, String incString) {
-  return selectValueDialog(description, rangesString, incString,0);
-}
-float selectValueDialog(String description, String rangesString, String incString, unsigned int decimals)
+//Dialog for selecting float value. rangeString is the list of values where the increment change and a list of increments
+//Example: rengesString = "1,5,100", and incString = "1,5" makes 1,2,3,4,5(increments of 1) and 10,15,20,25....95,100(increments of 5) as possible values
+float selectValueDialog(String description, String rangesString, String incString) { return selectValueDialog(description, rangesString, incString,0, 0.0); }
+float selectValueDialog(String description, String rangesString, String incString, unsigned int decimals) { return selectValueDialog(description, rangesString, incString, decimals, 0.0); }
+float selectValueDialog(String description, String rangesString, String incString, unsigned int decimals, float defaultValue)
 {
   //ranges are of the format "1,10,500"
   //increments are in the format of  "2,10"
@@ -238,7 +238,7 @@ float selectValueDialog(String description, String rangesString, String incStrin
     nextColon = incString.indexOf(",", prevColon);
   }
 
-  float value = rangesValues[0];
+  float value = defaultValue;
   submenu = 0;
   unsigned int currentSegment = 1;
   int nextSegment = 0;

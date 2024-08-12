@@ -155,7 +155,7 @@ void updatePersonJump(int totalJumps)
 
 void selectGroup()
 {
-  group = selectValueDialog("Select the group number", "0,9", "1", 0);
+  group = selectValueDialog("Select the group number", "0,9", "1", 0, (float)group);
 
   EEPROM.put(groupAddress, group);
   printTftText("Selecting...", 30, 115, WHITE, 3);

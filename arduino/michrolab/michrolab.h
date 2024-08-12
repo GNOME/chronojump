@@ -136,6 +136,9 @@ int countDirs();
 //Process of changing the person with the blue button
 void selectPerson();
 
+// Select the current group
+void selectGroup();
+
 //Plot raw data in y axis over time horizontal axis
 void Graph(ILI9341_t3 & d, double x, double y, double gx, double gy, double w, double h, double xlo, double xhi, double xinc, double ylo, double yhi, double yinc, String title, String xlabel, String ylabel, unsigned int gcolor, unsigned int acolor, unsigned int pcolor, unsigned int tcolor, unsigned int bcolor, boolean & startOver);
 
@@ -177,3 +180,6 @@ void setRtcTime(String time);
 
 //Update the state of all directional buttons
 void updateButtons();
+
+//Shows a dialog to select a numerical value
+float selectValueDialog(String description, String rangesString, String incString, unsigned int decimals, float defaultValue);

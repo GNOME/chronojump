@@ -168,6 +168,7 @@ run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/Current/lib/libpytho
 run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/Current/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib
 run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/Current/Python
 run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/${PYTHON_VERSION}/Python
+run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Python
 
 #mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/Resources/English.lproj ${MAC_APP_ROOT_DIR}/1_English.lproj
 #mv ${MAC_APP_BIN_DIR}bin/x64/Python/Resources/English.lproj ${MAC_APP_ROOT_DIR}/2_English.lproj

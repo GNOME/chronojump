@@ -792,7 +792,7 @@ void startPowerCapture(void)
   //Depending on the speed of the clock it can be adjusted
   //96 Mhz and 1000 us captures but the screen refreshing becomes unstable
   //72 Mhz and 2000 us captures but the screen refreshing becomes unstable
-  encoderTimer.begin(readEncoder, 2000);
+  //encoderTimer.begin(readEncoder, 2000);
   captureRaw();
 }
 

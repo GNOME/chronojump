@@ -8,6 +8,11 @@ MAC_APP_RESOURCE_DIR="${MAC_APP_DIR}/Contents/Resources/"
 MAC_APP_FRAMEWORK_DIR="${MAC_APP_DIR}/Contents/Frameworks/"
 PACKAGE_VERSION="$1"
 ARCH="$(uname -m)"
+if [ "$ARCH" == "arm64" ]; then  
+    ARCH="arm64"
+else
+    ARCH="x64"
+fi
 MAC_DMG_FILE_NAME="chronojump-${PACKAGE_VERSION}-${ARCH}.dmg"
 MAC_PKG_FILE_NAME="chronojump-${PACKAGE_VERSION}-${ARCH}.pkg"
 PACKAGE_TYPE="$2"

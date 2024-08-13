@@ -10,7 +10,7 @@ SIGNING = "$(PACKAGE_DIR)/../signing"
 USER = $(shell whoami)
 PACKAGE_VERSION = $(shell git describe --abbrev=1)
 PACKAGE_SHORT_VERSION = $(shell git describe | sed 's/-.*//')
-ARCH=$(shell uname -m)
+#ARCH=$(shell uname -m)
 #PACKAGE_NAME = "chronojump-$(PACKAGE_VERSION)"
 
 #all: bundle

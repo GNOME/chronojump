@@ -112,7 +112,7 @@ enum sensorType {
   incLinEncoder = 3,
   incRotEncoder = 4,
   raceAnalyzer = 5,
-  loadCellincEncoder = 6
+  loadCellIncEncoder = 6
 };
 
 enum exerciseType {
@@ -445,6 +445,7 @@ struct inertMachineType {
   unsigned int id;
   String name;
   String description;
+  float inertiaMoment;
   String diameters;
   float gearedDown;
 };
@@ -989,16 +990,18 @@ void showSystemInfo(void) {
 
   //Erases the description of the upper menu entry
   printTftText(currentMenu[currentMenuIndex].description,12,100,BLACK);
-  drawLeftButton("-", BLACK, BLACK);
-  drawRightButton("Back", WHITE, RED);
+  //drawLeftButton("-", BLACK, BLACK);
+  //drawRightButton("Back", WHITE, RED);
 
-  printTftText("System Info", 100, 100);
+  printTftText("Firmware version: " + version, 50, 100);
+  printTftText("Current group: " + String(group), 50, 120);
   cenButton.update();
   while (!cenButton.fell()) {
     cenButton.update();
   }
 
-  printTftText("System Info", 100, 100, BLACK);
+  printTftText("Firmware version: " + version, 50, 100, BLACK);
+  printTftText("Current group: " + String(group), 50, 120, BLACK);
   showMenuEntry(currentMenuIndex);
 }
 
@@ -1174,6 +1177,10 @@ void addInertMachine(String row)
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  inertMachines[totalInertMachines].inertiaMoment = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
+
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   inertMachines[totalInertMachines].diameters = row.substring(prevComaIndex + 1 , nextComaIndex);
 
   prevComaIndex = nextComaIndex;
@@ -1196,6 +1203,7 @@ void saveInertMachines()
     inertFile.print(inertMachines[i].id);
     inertFile.print("," + inertMachines[i].name);
     inertFile.print("," + inertMachines[i].description );
+    inertFile.print("," + String(inertMachines[i].inertiaMoment));
     inertFile.print("," + inertMachines[i].diameters);
     inertFile.println("," + String(inertMachines[i].gearedDown));
   }

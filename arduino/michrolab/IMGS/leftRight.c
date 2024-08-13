@@ -4,7 +4,7 @@
 // Image Size     : 25x25 pixels
 // Memory usage   : 1250 bytes
 
-
+/*
 #if defined(__AVR__)
     #include <avr/pgmspace.h>
 #elif defined(__PIC32MX__)
@@ -12,6 +12,7 @@
 #elif defined(__arm__)
     #define PROGMEM
 #endif
+*/
 
 const unsigned short leftRight[625] PROGMEM={
 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x4A69, 0x0000, 0x0000, 0x0000,   // 0x0010 (16) pixels

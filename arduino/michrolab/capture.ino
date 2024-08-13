@@ -357,7 +357,7 @@ void captureRaw()
           //Calculation of the variables shown in the results
           if (sensor == incLinEncoder || sensor == incRotEncoder ) getEncoderDynamics();
           else if (sensor == loadCell) getLoadCellDynamics();
-          else if (sensor == loadCellincEncoder) getPowerDynamics();
+          else if (sensor == loadCellIncEncoder) getPowerDynamics();
           else if (sensor == raceAnalyzer) getRaceAnalyzerDynamics();
 
           //Value exceeds the plotting area
@@ -414,7 +414,7 @@ void captureRaw()
               tft.setTextColor(WHITE);
             }
 
-          } else if (sensor == loadCellincEncoder) {
+          } else if (sensor == loadCellIncEncoder) {
             endPowerCapture();
           } else if (sensor == raceAnalyzer) {
             endRaceAnalyzerCapture();
@@ -521,7 +521,7 @@ void writeCaptureHeaders()
   if (sensor == loadCell) fileName = fileName + "-F";
   else if (sensor == incLinEncoder) fileName = fileName + "-G";
   else if (sensor == incRotEncoder) fileName = fileName + "-I";
-  else if (sensor == loadCellincEncoder) fileName = fileName + "-P";
+  else if (sensor == loadCellIncEncoder) fileName = fileName + "-P";
   else if (sensor == raceAnalyzer) fileName = fileName + "-R";
 
   fullFileName = "/" + dirName + "/" + fileName + ".TXT";
@@ -781,7 +781,7 @@ void startPowerCapture(void)
   attachInterrupt(rcaPin, changedRCA, CHANGE);
   scale.power_up();
   capturing = true;
-  sensor = loadCellincEncoder;
+  sensor = loadCellIncEncoder;
   maxString = "P";
   plotPeriod = 5;
   newGraphMin = -200;
@@ -792,7 +792,7 @@ void startPowerCapture(void)
   //Depending on the speed of the clock it can be adjusted
   //96 Mhz and 1000 us captures but the screen refreshing becomes unstable
   //72 Mhz and 2000 us captures but the screen refreshing becomes unstable
-  encoderTimer.begin(readEncoder, 2000);
+  //encoderTimer.begin(readEncoder, 2000);
   captureRaw();
 }
 

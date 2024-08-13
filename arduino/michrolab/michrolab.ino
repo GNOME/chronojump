@@ -61,7 +61,7 @@ float load = 0.0;
 bool inertialMode = false;
 long lastPosition = 0;
 long lastSamplePosition;
-int encoderBuffer[20];
+int encoderBuffer[20];      // Increments in encoder position
 byte encoderBufferIndex = 0;
 String encoderString = "";
 int encoderPhase = 0;    // 1 means concentric, -1 means eccentric, 0 unknown (prior detecting first repetition)
@@ -595,6 +595,9 @@ void setup() {
   drawUpperBar(mainMenu, mainMenuItems);
 
   Serial.println("Microlab-" + version);
+  readInertMachinesFile();
+  currentInertMachine = 0;
+  Serial.println(inertMachines[currentInertMachine].inertiaMoment);
   drawMenuBackground();
   backMenu();
   showMenuEntry(currentMenuIndex);
@@ -827,7 +830,7 @@ void serialEvent() {
   } else if (commandString == "saveInertialMachines") {
     saveInertMachines();
   } else if (commandString == "readInertialMachinesFile") {
-    readInertMachineFile();
+    readInertMachinesFile();
   } else if (commandString == "getForceTypes") {
     printForceTypes();
   } else if (commandString == "addForceType") {
@@ -1211,7 +1214,7 @@ void saveInertMachines()
   Serial.println("Saved " + String(totalInertMachines) + " to /CONFIGS/INERMACH.TXT");
 }
 
-void readInertMachineFile()
+void readInertMachinesFile()
 {
   // Serial.println("<readInertialMachinesFile");
   char readChar;

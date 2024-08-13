@@ -767,12 +767,39 @@ void getPowerDynamics()
   float force = scale.get_units();
   //position = encoder.read();
   readEncoder();
-  encoderBufferIndex = (encoderBufferIndex + 1) % 20;
-  float velocity = (float)(position - lastPosition) * 1000 / (totalTime - lastSampleTime);
   lastSampleTime = totalTime;
+  int sampleRate = 160;
+  // We suppose fixed freq of 160Hz. TODO: Check it and/or adapt to the real measured freq
+  float angularVelocity = ( (float)encoderBuffer[encoderBufferIndex]) / 800.0 // Number of turns. 4 * pulses/revolution if it considers each change of state
+    * 2 * 3.1416  // Radians per turn
+    * sampleRate; // freq
+  float lastAngularVelocity =  (float)encoderBuffer[(encoderBufferIndex + 19) % 20 ] / 800.0 * 2 * 3.1416 * sampleRate;
+  float angularAccel = (angularVelocity - lastAngularVelocity) * sampleRate;
+  float radius = inertMachines[currentInertMachine].inertiaMoment / 10000 * angularAccel / force; // inertiaMoment in Kg·cm² converted to kg·m²
   encoderString = "";
-  measured = force * velocity;
-  Serial.println(measured);
+  measured = force * radius * angularVelocity;
+  // Serial.print(totalTime);
+  // Serial.print("\t");
+  // Serial.print(position);
+  // Serial.print("\t");
+  // Serial.print(encoderBuffer[encoderBufferIndex]);
+  // Serial.print("\t");
+  // Serial.print(encoderBuffer[(encoderBufferIndex + 19) % 20 ]);
+  // Serial.print("\t");
+  // Serial.print(angularVelocity);
+  // Serial.print(",");
+  // Serial.print(lastAngularVelocity);
+  // Serial.print("\t");
+  // Serial.print(angularAccel);
+  // Serial.print("\t");
+  // Serial.print(radius);
+  // Serial.print(",");
+  Serial.print(force);
+  Serial.print(",");
+  Serial.print(measured);
+  Serial.println();
+  // delay(1000);
+  encoderBufferIndex = (encoderBufferIndex + 1) % 20;
   if (measured > maxPower) maxPower = measured;
 }
 
@@ -780,8 +807,10 @@ void startPowerCapture(void)
 {
   attachInterrupt(rcaPin, changedRCA, CHANGE);
   scale.power_up();
+  if (!calibratedInertial) calibrateInertial();
   capturing = true;
   sensor = loadCellIncEncoder;
+  inertialMode = true;
   maxString = "P";
   plotPeriod = 5;
   newGraphMin = -200;
@@ -800,6 +829,7 @@ void readEncoder()
 {
   lastPosition = position;
   position = encoder.read();
+  if(inertialMode) position = - abs(position);
   //  encoderString = encoderString + String(position - lastPosition) + ",";
   encoderBuffer[encoderBufferIndex] = position - lastPosition;
 }

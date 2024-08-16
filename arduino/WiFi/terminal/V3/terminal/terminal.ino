@@ -48,13 +48,11 @@ RF24 radio(A3, A4);    //Old versions
 #define red_on digitalWrite(A4,LOW)
 #define green_on digitalWrite(A5,LOW)
 #define blue_on digitalWrite(A3,LOW)
-//#define buzzer_on digitalWrite(7,HIGH)  //Old versions
-#define buzzer_on digitalWrite(A0,HIGH) //New versions
+#define buzzer_on digitalWrite(A0,HIGH)
 #define red_off digitalWrite(A4,HIGH)
 #define green_off digitalWrite(A5,HIGH)
 #define blue_off digitalWrite(A3,HIGH)
-//#define buzzer_off digitalWrite(7,LOW)  //Old versions
-#define buzzer_off digitalWrite(A0,LOW) //New versions
+#define buzzer_off digitalWrite(A0,LOW)
 
 struct instruction_t
 {

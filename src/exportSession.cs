@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -464,6 +464,7 @@ public abstract class ExportSession
 				weightName + ":" + 
 				Catalog.GetString("Height") + ":" +
 				Catalog.GetString("Power") + ":" +
+				Catalog.GetString("Power formula") + ":" +
 				Catalog.GetString("Stiffness") + ":" +
 				Catalog.GetString("Initial Speed") + ":" +
 				"RSI" + ":" +
@@ -504,6 +505,12 @@ public abstract class ExportSession
 			double tc = Convert.ToDouble(myStr[6]);
 			double tf = Convert.ToDouble(myStr[5]);
 
+			string powerFormula = "";
+			if(tc > 0)
+				powerFormula = "Chronojump";
+			else
+				powerFormula = "Lewis 1974";
+
 			myData.Add (	
 					myStr[2] + ":" +  myStr[0] + ":" +  	//person.UniqueID, person.Name
 					myStr[1] + ":" +  			//jump.uniqueID
@@ -512,6 +519,7 @@ public abstract class ExportSession
 					Util.TrimDecimals(extraWeightPrint, dec) + ":" +
 					Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  
 					Util.TrimDecimals(getPower(tc, tf, personWeight, extraWeightInKg, fall), dec) + ":" +
+					powerFormula + ":" +
 					Util.TrimDecimals(Util.GetStiffness(personWeight, extraWeightInKg, tf, tc), dec) + ":" +
 					Util.TrimDecimals(Jump.GetInitialSpeed(myStr[5], preferences.metersSecondsPreferred), dec) + ":" +  //true: m/s
 					Util.TrimDecimals(UtilAll.DivideSafe(Util.GetHeightInMeters(tf), tc), dec) + ":" +

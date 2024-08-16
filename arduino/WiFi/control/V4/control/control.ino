@@ -250,9 +250,9 @@ void serialEvent()
       Serial.println(controlSwitch);
     } else if (commandString == "discover") {
       discoverTerminals();
-    } else if(commandString == "setRcaMode:output") {
+    } else if(commandString == "set_rca_mode:output") {
       setRcaMode(output);
-    } else if(commandString == "setRcaMode:input") {
+    } else if(commandString == "set_rca_mode:input") {
       setRcaMode(input);
   } else {
       Serial.println("Wrong local command");
@@ -266,7 +266,9 @@ void serialEvent()
     //      Serial.print(instruction.termNum);
     //      Serial.println("\"");
     sendInstruction(&instruction);
-    if(instruction.command == ping) waitingVersion = true;
+    if(instruction.command == ping) {
+      waitingVersion = true;
+    }
   }
   if (instruction.command & sensorOnce) {
     blinkStart(blinkPeriod);
@@ -393,6 +395,7 @@ void discoverTerminals(void) {
     //    Serial.println();
   }
   Serial.println(terminalsFound);
+  waitingVersion = false;
 }
 
 bool readSample(void) {

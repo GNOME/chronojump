@@ -164,7 +164,8 @@ public abstract class MicroComms
 			micro.OpenPort ();
 			micro.Opened = true;
 		}
-		catch (System.IO.IOException)
+		//catch (System.IO.IOException)
+		catch (Exception ex)
 		{
 			LogB.Information("Error: could not open port");
 			return false;

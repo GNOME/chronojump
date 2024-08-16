@@ -140,6 +140,7 @@ public class DiscoverWindow
 	private Gtk.Image image_button_micro_discover_cancel_close;
 	private Gtk.Label label_button_micro_discover_cancel_close;
 	private Gtk.Image image_discover_mode;
+	private Gtk.Label label_micro_discover_connect_error;
 	private string useThisStr = "Use this!";
 
 	private ChronopicRegisterPort portSelected;
@@ -150,7 +151,8 @@ public class DiscoverWindow
 			Gtk.Box box_micro_discover_nc,
 			Gtk.Image image_button_micro_discover_cancel_close,
 			Gtk.Label label_button_micro_discover_cancel_close,
-			string iconModeStr
+			string iconModeStr,
+			Gtk.Label label_micro_discover_connect_error
 			)
 	{
 		this.current_mode = current_mode;
@@ -159,6 +161,7 @@ public class DiscoverWindow
 		this.box_micro_discover_nc = box_micro_discover_nc;
 		this.image_button_micro_discover_cancel_close = image_button_micro_discover_cancel_close;
 		this.label_button_micro_discover_cancel_close = label_button_micro_discover_cancel_close;
+		this.label_micro_discover_connect_error = label_micro_discover_connect_error;
 
 		// 1) set up gui
 
@@ -397,6 +400,15 @@ public class DiscoverWindow
 					box_micro_discover_nc.Visible = true;
 				}
 			}
+
+			//show label of busy ports (eg used by Arduino IDE)
+			if (microDiscover.ConnectError_l != null && microDiscover.ConnectError_l.Count > 0)
+			{
+				label_micro_discover_connect_error.Text = Catalog.GetString ("Cannot connect to ports:" ) +
+					Util.ListStringToString (microDiscover.ConnectError_l, ", ");
+				label_micro_discover_connect_error.Visible = true;
+			}
+
 		}
 
 		if(! discoverThread.IsAlive)

@@ -61,7 +61,7 @@ float load = 0.0;
 bool inertialMode = false;
 long lastPosition = 0;
 long lastSamplePosition;
-int encoderBuffer[20];
+int encoderBuffer[20];      // Increments in encoder position
 byte encoderBufferIndex = 0;
 String encoderString = "";
 int encoderPhase = 0;    // 1 means concentric, -1 means eccentric, 0 unknown (prior detecting first repetition)
@@ -112,7 +112,7 @@ enum sensorType {
   incLinEncoder = 3,
   incRotEncoder = 4,
   raceAnalyzer = 5,
-  loadCellincEncoder = 6
+  loadCellIncEncoder = 6
 };
 
 enum exerciseType {
@@ -445,6 +445,7 @@ struct inertMachineType {
   unsigned int id;
   String name;
   String description;
+  float inertiaMoment;
   String diameters;
   float gearedDown;
 };
@@ -594,6 +595,9 @@ void setup() {
   drawUpperBar(mainMenu, mainMenuItems);
 
   Serial.println("Microlab-" + version);
+  readInertMachinesFile();
+  currentInertMachine = 0;
+  Serial.println(inertMachines[currentInertMachine].inertiaMoment);
   drawMenuBackground();
   backMenu();
   showMenuEntry(currentMenuIndex);
@@ -826,7 +830,7 @@ void serialEvent() {
   } else if (commandString == "saveInertialMachines") {
     saveInertMachines();
   } else if (commandString == "readInertialMachinesFile") {
-    readInertMachineFile();
+    readInertMachinesFile();
   } else if (commandString == "getForceTypes") {
     printForceTypes();
   } else if (commandString == "addForceType") {
@@ -989,16 +993,18 @@ void showSystemInfo(void) {
 
   //Erases the description of the upper menu entry
   printTftText(currentMenu[currentMenuIndex].description,12,100,BLACK);
-  drawLeftButton("-", BLACK, BLACK);
-  drawRightButton("Back", WHITE, RED);
+  //drawLeftButton("-", BLACK, BLACK);
+  //drawRightButton("Back", WHITE, RED);
 
-  printTftText("System Info", 100, 100);
+  printTftText("Firmware version: " + version, 50, 100);
+  printTftText("Current group: " + String(group), 50, 120);
   cenButton.update();
   while (!cenButton.fell()) {
     cenButton.update();
   }
 
-  printTftText("System Info", 100, 100, BLACK);
+  printTftText("Firmware version: " + version, 50, 100, BLACK);
+  printTftText("Current group: " + String(group), 50, 120, BLACK);
   showMenuEntry(currentMenuIndex);
 }
 
@@ -1174,6 +1180,10 @@ void addInertMachine(String row)
 
   prevComaIndex = nextComaIndex;
   nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
+  inertMachines[totalInertMachines].inertiaMoment = row.substring(prevComaIndex + 1 , nextComaIndex).toFloat();
+
+  prevComaIndex = nextComaIndex;
+  nextComaIndex = row.indexOf(",", prevComaIndex + 1 );
   inertMachines[totalInertMachines].diameters = row.substring(prevComaIndex + 1 , nextComaIndex);
 
   prevComaIndex = nextComaIndex;
@@ -1196,6 +1206,7 @@ void saveInertMachines()
     inertFile.print(inertMachines[i].id);
     inertFile.print("," + inertMachines[i].name);
     inertFile.print("," + inertMachines[i].description );
+    inertFile.print("," + String(inertMachines[i].inertiaMoment));
     inertFile.print("," + inertMachines[i].diameters);
     inertFile.println("," + String(inertMachines[i].gearedDown));
   }
@@ -1203,7 +1214,7 @@ void saveInertMachines()
   Serial.println("Saved " + String(totalInertMachines) + " to /CONFIGS/INERMACH.TXT");
 }
 
-void readInertMachineFile()
+void readInertMachinesFile()
 {
   // Serial.println("<readInertialMachinesFile");
   char readChar;

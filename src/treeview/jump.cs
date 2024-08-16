@@ -32,11 +32,13 @@ public class TreeViewJumps : TreeViewEvent
 	protected string fallName = Catalog.GetString("Fall") + "\n(cm)";
 	protected string heightName = Catalog.GetString("Height") + "\n(cm)";
 	protected string powerName = Catalog.GetString("Power") + "\n(W)";
+	protected string powerFormulaName = Catalog.GetString("Power formula");
 	protected string stiffnessName = Catalog.GetString("Stiffness") + "\n(N/m)";
 	protected string initialSpeedName = Catalog.GetString("Initial Speed");
 	protected string rsiName = "RSI" + "\n(m/s)";
 	protected string angleName = Catalog.GetString("Angle");
 	protected string datetimeName = Catalog.GetString("Date");
+	protected bool showPowerFormula;
 
 	//one of both indexes can be shown if selected on preferences
 	protected string qIndexName = "Q Index" + "\n(%)";
@@ -62,6 +64,7 @@ public class TreeViewJumps : TreeViewEvent
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllJumpsNameStr();
+		showPowerFormula = true;
 		
 		if(preferences.weightStatsPercent)
 			weightName += "\n(%)";
@@ -87,12 +90,16 @@ public class TreeViewJumps : TreeViewEvent
 		expandState = ExpandStates.MINIMIZED;
 	}
 
+	//used on jumps, jumpsRj
 	protected override int getColsNum() {
 		int i = columnsString.Length;
 		
-		if (preferences.showPower)  
+		if (preferences.showPower)
+		{
 			i ++;
-		if (preferences.showStiffness)  
+			if (showPowerFormula)
+				i ++;
+		} if (preferences.showStiffness)
 			i ++;
 		if (preferences.showInitialSpeed) 
 			i ++;
@@ -105,14 +112,18 @@ public class TreeViewJumps : TreeViewEvent
 		return i +1; //+1 is for the uniqueID hidden col (last)
 	}
 	
+	//used on jumps, jumpsRj
 	protected string [] obtainColumnsString(string [] columnsStringPre) 
 	{
 		//check long of new array
 		int i = columnsStringPre.Length + 3; //columnsStringPre + dateTime + video + description
 		
-		if (preferences.showPower)  
+		if (preferences.showPower)
+		{
 			i ++;
-		if (preferences.showStiffness)  
+			if (showPowerFormula)
+				i ++;
+		} if (preferences.showStiffness)
 			i ++;
 		if (preferences.showInitialSpeed) 
 			i ++;
@@ -137,9 +148,13 @@ public class TreeViewJumps : TreeViewEvent
 		//fill names
 		i = columnsStringPre.Length; //start at end of columnsStringPre
 		
-		if (preferences.showPower)  
+		if (preferences.showPower)
+		{
 			columnsString[i++] = powerName;
-		if (preferences.showStiffness)  
+			if (showPowerFormula)
+				columnsString[i++] = powerFormulaName;
+		}
+		if (preferences.showStiffness)
 			columnsString[i++] = stiffnessName;
 		if (preferences.showInitialSpeed) 
 			columnsString[i++] = initialSpeedName;
@@ -218,15 +233,19 @@ public class TreeViewJumps : TreeViewEvent
 			//takeoff has no tv. power should not be calculated
 			//calculate jumps with tf
 			if(newJump.Tv > 0) {	
-				if(newJump.Tc > 0) 	//if it's Dj (has tf, and tc)
+				if(newJump.Tc > 0) {	//if it's Dj (has tf, and tc)
 					myData[count++] = Util.TrimDecimals(
 							Jump.GetDjPower (newJump.Tc, newJump.Tv, (personWeight + weightInKg), newJump.Fall).ToString(), 1);
-				else {			//it's a simple jump without tc
+					myData[count++] = "Chronojump";
+				} else {			//it's a simple jump without tc
 					myData[count++] = Util.TrimDecimals(
 							Jump.GetPower (newJump.Tv, personWeight, weightInKg).ToString(), 1);
+					myData[count++] = "Lewis 1974";
 				}
-			} else
+			} else {
 				myData[count++] = "0";
+				myData[count++] = "";
+			}
 		}
 
 		if (preferences.showStiffness)
@@ -280,6 +299,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllJumpsNameStr();
+		showPowerFormula = false; //it seems it is always used Chronojump formula (TC + TF)
 			
 		if(preferences.weightStatsPercent)
 			weightName += "\n(%)";
@@ -414,7 +434,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 				myFall = newJumpRj.Fall;
 			else
 				myFall = Convert.ToDouble(Util.GetHeightInCentimeters(myStringTv[lineCount -1]));
-			
+
+			// TODO: check if this is needed, as always it will use GetDjPower
 			if(Convert.ToDouble(thisTc) > 0)
 				myData[count++] = Util.TrimDecimals(
 						Jump.GetDjPower (thisTcD, thisTvD,
@@ -550,6 +571,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 				double tc = Convert.ToDouble(tc_array[i]);
 				double tv = Convert.ToDouble(tv_array[i]);
 				double fall = 0;
+
+				// TODO: check if this is needed, as always it will use GetDjPower
 				if(tc_array[i] == "-1") //startIn at first jump tc is 0, better check like this (string)
 					powerSum += Jump.GetPower (tv, personWeight, weightInKg);
 				else {

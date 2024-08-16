@@ -2,20 +2,11 @@
 
 sudo apt-get update
 cd "/***/chronojump"
-#sudo apt-get -y install dos2unix
 #cd build
 #dos2unix icon-theme-installer
 #dos2unix private-icon-theme-installer
 #cd ..
-sudo apt-get -y install autoconf
-sudo apt-get -y install git
-sudo apt-get -y install libtool
-sudo apt-get -y install intltool
-sudo apt-get -y install pkg-config
-sudo apt -y install build-essential
-sudo apt-get -y install python3
-sudo apt -y install libglib2.0-dev
-sudo apt -y install gtk-sharp3
+sudo apt-get -y install dos2unix autoconf git libtool intltool pkg-config build-essential python3 libglib2.0-dev gtk-sharp3
 #sudo apt -y install checkinstall
 
 #To check how to install .NET 7 on Linux: https://learn.microsoft.com/en-us/dotnet/core/install/linux?WT.mc_id=dotnet-35129-website
@@ -59,7 +50,8 @@ make deb
 6. Software can be run without creating package with
 
 cd src
-dos2unix post-build-linux.sh
+#dos2unix post-build-linux.sh
+#chmod +x post-build-linux.sh
 dotnet run --project Chronojump-linux.csproj --property WarningLevel=0
 
 found that on capture on KDE Neon crashes with: System.PlatformNotSupportedException: 'System.IO.Ports is currently only supported on Windows

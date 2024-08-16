@@ -1,0 +1,66 @@
+The commands are sent to the usb serial to the controler.
+
+The commands can be sent to the controler itself, to on terminal or to all terminals
+
+###############
+## CONTROLER ##
+###############
+
+If the destination of the command is the controler itself the format must be:
+
+local:[command];
+
+The commands that can be sent to the controler are:
+
+Command                                         Action
+------------------------------------------------------
+get_version                                     Returns the version of the firmware
+set_binary_mode                                 The samples are sent in binary mode (bool state, short int terminalNumber, unsigned long int data) to the usb serial
+set_text_mode                                   The samples are sent in text mode to the usb serial
+reset_time                                      Restart the timer to 0
+get_channel                                     Returns the channel configured in the controler
+discover                                        Looks for terminals in the same channel. Sends a ping to all terminals but only receives pong only from the terminals in the same channel.
+                                                !!!Atention the terminasl in other channesl will send pongs to those channels interferring a possible current test
+set_rca_mode                                    Only in V4+. Set if the RCA is reading external signal (input) or is replicating the behaviour of the LED (output).
+
+Examples:
+- To know the firmware version of the controler
+"local:get_verson;"
+
+- To know the channel of the controler
+"local:get_channel;"
+
+- To set the RCA in output mode
+"local:set_rca_mode:output;"
+
+##############
+## Terminal ##
+##############
+
+The commands to the terminal are sent through the controler with the usb serial. The format is as follows:
+
+[terminalNumber]:[decimalCommand];
+
+command             Binary          Decimal     Action
+------------------------------------------------------
+deactivate          0b00000000      0           Deactivate the sensor (RCA and photocell)
+sensorOnce          0b00000001      1           Deactivate the sensor (RCA and photocell) after detecting the first change in the sensor state.
+blinkBlue           0b00000010      2           Start blue light blinking
+blinkGreen          0b00000100      4           Start green light blinking
+blinkRed            0b00001000      8           Start red light blinking
+buzzer              0b00010000      16          Turns on the buzzer
+blue                0b00100000      32          Turns on the blue light
+green               0b01000000      64          Turns on the green light
+red                 0b10000000      128         Turns on the red light
+sensorUnlimited     0b100000000     256         Config the terminal to send a sample en every change of the sensor state
+ping                0b1000000000    512         The terminal returns a sample plus the version of the firmware
+
+Commands can be combined by adding the decimal values
+
+- Activate the blue light (+32) and sense only the first change in the sensor state (+1) in the terminal number 13:
+"13:33;"
+
+- Activate white blinking light (blink blue +2, blink green +4, blink red +8) and sense continuously (+256) on terminal 9
+"9:270;"
+
+

@@ -70,7 +70,7 @@ make install
 
 cd "~/Desktop/chronojump"
 sh autogen.sh --prefix ~/Desktop/chronojump/package/macos/deps
-./configure
+#./configure #Running this command would change prefix to "/usr/local/"
 make
 make install #sudo make install (at least on m2)
 
@@ -116,6 +116,9 @@ make pkg #Execute this command to create *.pkg package; if it says "permission d
 #Python bundle executable: Resources/Python-x64/Versions/Current/bin/python3
 #R bundle executable: Resources/R-x64/Resources/R Resources/R-x64/Resources/Rscript
 
+#While uploading to Apple Store, you could use the following command to verify the *.pkg (Please replace "AppleId" and "AppleAppSpecificPassword" with real Apple credentials and use the real pkg file name):
+xcrun altool --validate-app -f *.pkg -t osx -u AppleId -p AppleAppSpecificPassword
+
 8. If the final notarizing status is invalid, please execute the following command to check the detail error logs:
 
 xcrun notarytool log --apple-id=${APPLE_ID} --password ${APPLE_PASSWORD} --team-id ${APPLE_TEAM_ID} uuid
@@ -125,6 +128,6 @@ xcrun notarytool log --apple-id=${APPLE_ID} --password ${APPLE_PASSWORD} --team-
 9. Software can be run without creating package with
 
 cd src
-dos2unix post-build-mac.sh
-chmod +x post-build-mac.sh
+#dos2unix post-build-mac.sh
+#chmod +x post-build-mac.sh
 dotnet run --project Chronojump-mac.csproj --property WarningLevel=0

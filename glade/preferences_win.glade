@@ -9348,6 +9348,7 @@ version:</property>
                               <object class="GtkTextView" id="textview_help_message">
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
+                                <property name="border-width">4</property>
                                 <property name="editable">False</property>
                                 <property name="wrap-mode">word</property>
                                 <property name="cursor-visible">False</property>

@@ -1291,7 +1291,7 @@ start <- function(op)
 		print("fullURL")
 		print(as.vector(dataFiles$fullURL[i]))
 
-		pngFile <- paste(tempGraphsFolder, i, ".png", sep="")  #but remember to graph also when model fails
+		pngFile <- paste(tempGraphsFolder, i, "_", dataFiles$personName[i], "_", dataFiles$testName[i], ".png", sep="")  #but remember to graph also when model fails
 		prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
 		exportRow = testEncoderCJ(
 				as.vector(dataFiles$fullURL[i]), paste(tempInstantFolder, i, ".csv", sep = ""),
@@ -1325,7 +1325,7 @@ start <- function(op)
 				exportRowDF = cbind (exportRowDF, exportRow[j])
 			exportRowDF = cbind (exportRowDF, dataFiles$comments[i])
 			if(op$includeImagesOnExport)
-				exportRowDF = cbind(exportRowDF, paste(i, ".png", sep=""))
+				exportRowDF = cbind(exportRowDF, paste(i, "_", dataFiles$personName[i], "_", dataFiles$testName[i], ".png", sep=""))
 			if(op$includeInstantaneousOnExport)
 				exportRowDF = cbind(exportRowDF, paste(i, ".csv", sep=""))
 

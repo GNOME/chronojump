@@ -1909,7 +1909,7 @@ public class Util
 			if(operatingSystem == UtilAll.OperatingSystems.LINUX)
 				System.Diagnostics.Process.Start("xdg-open", url);
 			else if (operatingSystem == UtilAll.OperatingSystems.MACOSX)
-				System.Diagnostics.Process.Start(url);
+				System.Diagnostics.Process.Start("open", url);
 			else
 				System.Diagnostics.Process.Start("explorer.exe" , url);
 

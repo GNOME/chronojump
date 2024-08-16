@@ -128,6 +128,8 @@ public class ChronoJump
 #endif
 		}
 
+		Console.WriteLine($"UtilAll.GetDefaultLocalDataDir(false): {UtilAll.GetDefaultLocalDataDir(false)}");
+		Console.WriteLine($"{(Directory.Exists(UtilAll.GetDefaultLocalDataDir(false)) ? "Existing = True" : "Existing = False")}: {UtilAll.GetDefaultLocalDataDir(false)}");
         //Create the Data Directory if not exists
         if (!Directory.Exists(UtilAll.GetDefaultLocalDataDir(false)))
         {
@@ -1028,7 +1030,14 @@ public class ChronoJump
 			}
 		}
 
-		if(moveNeeded) {
+        Console.WriteLine($"reallyOldDB: {reallyOldDB}");
+        Console.WriteLine($"{(Directory.Exists(reallyOldDB) ? "Existing = True" : "Exisiting = False")}: {reallyOldDB}");
+        Console.WriteLine($"oldDB: {oldDB}");
+        Console.WriteLine($"{(Directory.Exists(oldDB) ? "Existing = True" : "Exisiting = False")}: {oldDB}");
+        Console.WriteLine($"newDB: {newDB}");
+        Console.WriteLine($"{(Directory.Exists(newDB) ? "Existing = True" : "Exisiting = False")}: {newDB}");
+
+        if (moveNeeded) {
 			try {
 				Directory.Move(previous, newDB);
 			}

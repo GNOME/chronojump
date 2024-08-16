@@ -317,6 +317,7 @@ public partial class ChronoJumpWindow
 	Gtk.Grid grid_micro_discover;
 	Gtk.Box box_micro_discover_nc;
 	Gtk.Label label_micro_discover_nc_current_mode;
+	Gtk.Label label_micro_discover_connect_error;
 	Gtk.Box hbox_contacts_detect_and_execute;
 	Gtk.Box hbox_encoder_detect_and_execute;
 	Gtk.Button button_contacts_detect;
@@ -5358,6 +5359,7 @@ public partial class ChronoJumpWindow
 		label_micro_discover_title.UseMarkup = true;
 		box_micro_discover_nc.Visible = false;
 		label_micro_discover_nc_current_mode.Text = Constants.ModePrint (current_mode);
+		label_micro_discover_connect_error.Visible = false;
 
 		discoverWin = new DiscoverWindow (current_mode, chronopicRegister,
 			label_micro_discover_not_found,
@@ -5365,7 +5367,8 @@ public partial class ChronoJumpWindow
 			box_micro_discover_nc,
 			image_button_micro_discover_cancel_close,
 			label_button_micro_discover_cancel_close,
-			Constants.ModeIcon (current_mode));
+			Constants.ModeIcon (current_mode),
+			label_micro_discover_connect_error);
 			
 		if(! Config.UseSystemColor)
 			UtilGtk.ContrastLabelsGrid (Config.ColorBackgroundShiftedIsDark, grid_micro_discover);
@@ -6609,7 +6612,7 @@ public partial class ChronoJumpWindow
 				label_run_execute_photocell_code,
 				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
 				radio_contacts_graph_allTests.Active, radio_contacts_results_personAll.Active,
-				webcamStatusEnumSetStart (),
+				webcamStatusEnumSetStart (), configChronojump.WichroSensorOnce,
 				configChronojump.JsonUploadRunSimpleTestScript,
 				configChronojump.JsonUploadRunSimpleRankingScript
 				);
@@ -6778,7 +6781,7 @@ public partial class ChronoJumpWindow
 				image_run_execute_running,
 				image_run_execute_photocell_icon,
 				label_run_execute_photocell_code,
-				webcamStatusEnumSetStart (),
+				webcamStatusEnumSetStart (), configChronojump.WichroSensorOnce,
 				configChronojump.JsonUploadRunIntervalTestScript,
 				configChronojump.JsonUploadRunIntervalRankingScript
 				);
@@ -10418,6 +10421,7 @@ LogB.Debug("mc finished 5");
 		grid_micro_discover = (Gtk.Grid) builder.GetObject ("grid_micro_discover");
 		box_micro_discover_nc = (Gtk.Box) builder.GetObject ("box_micro_discover_nc");
 		label_micro_discover_nc_current_mode = (Gtk.Label) builder.GetObject ("label_micro_discover_nc_current_mode");
+		label_micro_discover_connect_error = (Gtk.Label) builder.GetObject ("label_micro_discover_connect_error");
 		hbox_contacts_detect_and_execute = (Gtk.Box) builder.GetObject ("hbox_contacts_detect_and_execute");
 		hbox_encoder_detect_and_execute = (Gtk.Box) builder.GetObject ("hbox_encoder_detect_and_execute");
 		button_contacts_detect = (Gtk.Button) builder.GetObject ("button_contacts_detect");

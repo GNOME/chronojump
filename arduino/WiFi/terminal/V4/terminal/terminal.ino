@@ -338,12 +338,12 @@ void executeCommand(uint16_t command)
     MsTimer2::stop();
 
     if ((command & red) == red) {
-      Serial.println("activating RED");
+      // Serial.println("activating RED");
       red_on;
     }
 
     if ((command & green) == green) {
-      //      Serial.println("activating GREEN");
+      // Serial.println("activating GREEN");
       green_on;
     }
 
@@ -433,7 +433,7 @@ void deactivateAll(void)
 //For debuging some commands can be received by the Serial port
 void serialEvent()
 {
-  Serial.println("SerialEvent");
+  // Serial.println("SerialEvent");
   String inputString = Serial.readString();
 
   //Trimming all the characters after the ";" including it
@@ -446,7 +446,7 @@ void serialEvent()
   }
 }
 
-void beep(int duration)
+void beep(unsigned int duration)
 {
   MsTimer2::set(duration, beepStop);
   MsTimer2::start();
@@ -460,11 +460,11 @@ void beepStop(void)
 }
 
 void sendPong(void) {
-  Serial.println("Pong");
+  // Serial.println("Pong");
   sample.data = deviceType * 1000000 + deviceVersion;
-//  Serial.println(sample.data);
-  Serial.print("Wifi-Sensor-");
-  Serial.println(deviceVersion);
+  // Serial.println(sample.data);
+  // Serial.print("Wifi-Sensor-");
+  // Serial.println(deviceVersion);
   flagint = LOW;
   MsTimer2::stop();
   radio.stopListening();
@@ -474,4 +474,11 @@ void sendPong(void) {
   if (! unlimitedMode) waitingSensor = false;
   radio.setChannel(terminal0Channel - sample.termNum);
   //radio.startListening();
+  buzzer_on;
+  blinkingGreen = true;
+  blinkStart(75);
+  delay(500);
+  MsTimer2::stop();
+  buzzer_off;
+  blinkingGreen = false;
 }

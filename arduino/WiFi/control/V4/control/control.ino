@@ -365,8 +365,8 @@ unsigned long getLocalTime(void)
   }
   return (totalTime);
 }
-
-void discoverTerminals(void) {
+void discoverTerminals() { discoverTerminals(1); }
+void discoverTerminals(int maxTries) {
   String terminalsFound = "terminals:";
   instruction.command = ping;
   for (int i = 0; i <= 63; i++) {
@@ -376,7 +376,7 @@ void discoverTerminals(void) {
 
 
     bool found = false;
-    for (int tries = 1; tries <= 10 && ! found; tries++) {
+    for (int tries = 1;  tries <= maxTries && ! found; tries++) {
       //      Serial.println(tries);
 
       radio.flush_tx();

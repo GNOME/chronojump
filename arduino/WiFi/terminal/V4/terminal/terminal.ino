@@ -48,13 +48,11 @@ RF24 radio(10, 9);       //New version
 #define red_on digitalWrite(A4,LOW)
 #define green_on digitalWrite(A5,LOW)
 #define blue_on digitalWrite(A3,LOW)
-//#define buzzer_on digitalWrite(7,HIGH)  //Old versions
-#define buzzer_on digitalWrite(A0,HIGH) //New versions
+#define buzzer_on digitalWrite(A0,HIGH)
 #define red_off digitalWrite(A4,HIGH)
 #define green_off digitalWrite(A5,HIGH)
 #define blue_off digitalWrite(A3,HIGH)
-//#define buzzer_off digitalWrite(7,LOW)  //Old versions
-#define buzzer_off digitalWrite(A0,LOW) //New versions
+#define buzzer_off digitalWrite(A0,LOW)
 
 struct instruction_t
 {
@@ -340,12 +338,12 @@ void executeCommand(uint16_t command)
     MsTimer2::stop();
 
     if ((command & red) == red) {
-      Serial.println("activating RED");
+      // Serial.println("activating RED");
       red_on;
     }
 
     if ((command & green) == green) {
-      //      Serial.println("activating GREEN");
+      // Serial.println("activating GREEN");
       green_on;
     }
 
@@ -435,7 +433,7 @@ void deactivateAll(void)
 //For debuging some commands can be received by the Serial port
 void serialEvent()
 {
-  Serial.println("SerialEvent");
+  // Serial.println("SerialEvent");
   String inputString = Serial.readString();
 
   //Trimming all the characters after the ";" including it
@@ -448,7 +446,7 @@ void serialEvent()
   }
 }
 
-void beep(int duration)
+void beep(unsigned int duration)
 {
   MsTimer2::set(duration, beepStop);
   MsTimer2::start();
@@ -462,11 +460,11 @@ void beepStop(void)
 }
 
 void sendPong(void) {
-  Serial.println("Pong");
+  // Serial.println("Pong");
   sample.data = deviceType * 1000000 + deviceVersion;
-//  Serial.println(sample.data);
-  Serial.print("Wifi-Sensor-");
-  Serial.println(deviceVersion);
+  // Serial.println(sample.data);
+  // Serial.print("Wifi-Sensor-");
+  // Serial.println(deviceVersion);
   flagint = LOW;
   MsTimer2::stop();
   radio.stopListening();
@@ -476,4 +474,11 @@ void sendPong(void) {
   if (! unlimitedMode) waitingSensor = false;
   radio.setChannel(terminal0Channel - sample.termNum);
   //radio.startListening();
+  buzzer_on;
+  blinkingGreen = true;
+  blinkStart(75);
+  delay(500);
+  MsTimer2::stop();
+  buzzer_off;
+  blinkingGreen = false;
 }

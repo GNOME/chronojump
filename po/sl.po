@@ -5,13 +5,14 @@
 # Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010.
 # Matej Dremelj <matej.dremelj@gmail.com>, 2010–2021.
 # Matej Urbančič <mateju@svn.gnome.org>, 2009–2021.
+# Martin Srebotnjak <miles@filmsi.net>, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2024-08-09 15:34+0000\n"
-"PO-Revision-Date: 2024-08-10 15:40+0200\n"
+"POT-Creation-Date: 2024-08-18 21:57+0000\n"
+"PO-Revision-Date: 2024-08-19 00:00+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -5496,9 +5497,8 @@ msgid "Client-Server integration."
 msgstr "Odjemalsko-strežniška podpora"
 
 #: ../src/constants.cs:57
-#, fuzzy
 msgid "First Flask iteration."
-msgstr "Prva ponovitev bučke."
+msgstr "Prva ponovitev Flaska."
 
 #: ../src/constants.cs:59
 msgid "Web services support."
@@ -6220,7 +6220,6 @@ msgstr "Koncentrično-ekscentrično"
 #. length from center to center (cm) (inertia)
 #. object managing a list of diameters depending on the anchorage position
 #: ../src/encoder.cs:1703 ../src/encoder.cs:1748 ../src/encoder.cs:1770
-#, fuzzy
 msgid "Linear encoder attached to a barbell."
 msgstr "Linearni kodirnik, pritrjen na palico."
 
@@ -6229,12 +6228,10 @@ msgid "Also common gym tests like jumps or chin-ups."
 msgstr "Tudi običajni telovadni testi, kot so skoki ali vese."
 
 #: ../src/encoder.cs:1741 ../src/encoder.cs:1759 ../src/encoder.cs:1781
-#, fuzzy
 msgid "Linear encoder inverted attached to a barbell."
 msgstr "Linearni kodirnik obrnjen, pritrjen na palico."
 
 #: ../src/encoder.cs:1749 ../src/encoder.cs:1760
-#, fuzzy
 msgid "Barbell is connected to a weighted moving pulley."
 msgstr "Palica je povezana z uteženo gibljivo jermenico."
 
@@ -6244,17 +6241,16 @@ msgid "Mass is geared down by 2."
 msgstr "Masa je pomanjšana za faktor 2."
 
 #: ../src/encoder.cs:1771 ../src/encoder.cs:1782
-#, fuzzy
 msgid ""
 "Barbell is connected to a fixed pulley that is connected to a weighted "
 "moving pulley."
 msgstr ""
-"Barbell je povezan s fiksnim pulleyem, ki je povezan z uteženo gibljivo pulo."
+"Palica je povezana s fiksnim škripcem, ki je povezan z uteženim gibljivim "
+"škripcem."
 
 #: ../src/encoder.cs:1792
-#, fuzzy
 msgid "Linear encoder attached to a weighted moving pulley."
-msgstr "Linearni kodirnik, pritrjen na obteženo gibljivo jermenico."
+msgstr "Linearni kodirnik, pritrjen na obtežen gibljivi škripec."
 
 #: ../src/encoder.cs:1802
 msgid "Linear encoder on a inclined plane."
@@ -6270,13 +6266,12 @@ msgstr ""
 "Linearni kodirnik na nagnjeni ravnini, ki premika utež pod različnim kotom."
 
 #: ../src/encoder.cs:1826
-#, fuzzy
 msgid ""
 "Force demultiplier refers to the times the rope comes in and comes out from "
 "the moving pulley attached to the extra load."
 msgstr ""
-"Demultiplikator sile se nanaša na čase, ko pride vrv in prihaja iz "
-"gibljivega potega, pritrjenega na dodatno obremenitev."
+"Demultiplikator sile se nanaša na čase, ko vrv vstopi in izstopi iz "
+"gibljivega škripca, pritrjenega na dodatno obremenitev."
 
 #: ../src/encoder.cs:1827
 msgid "In the example image demultiplier is 2, hence multiplier is 1/2."
@@ -6302,19 +6297,16 @@ msgstr ""
 "vrv potegni-povleci"
 
 #: ../src/encoder.cs:1862
-#, fuzzy
 msgid "Rotary friction encoder on pulley."
-msgstr "Kodirnik rotacijskega trenja na jermenici."
+msgstr "Kodirnik rotacijskega trenja na škripcu."
 
 #: ../src/encoder.cs:1869
-#, fuzzy
 msgid "Rotary friction encoder on pulley axis."
-msgstr "Kodirnik rotacijskega trenja na osi jermenice."
+msgstr "Kodirnik rotacijskega trenja na osi škripca."
 
 #: ../src/encoder.cs:1879
-#, fuzzy
 msgid "Rotary friction encoder on weighted moving pulley."
-msgstr "Kodirnik rotacijskega trenja na uteženi gibljivi jermenici."
+msgstr "Kodirnik rotacijskega trenja na uteženem gibljivem škripcu."
 
 #: ../src/encoder.cs:1888
 msgid "Rotary friction encoder on inertial machine side."
@@ -6342,14 +6334,12 @@ msgid "Rotary friction encoder on inertial machine axis."
 msgstr "Kodirnik rotacijskega trenja na osi vztrajnostne naprave."
 
 #: ../src/encoder.cs:1969
-#, fuzzy
 msgid "Rotary axis encoder on pulley axis."
-msgstr "Kodirnik rotacijske osi na osi jermenice."
+msgstr "Kodirnik rotacijske osi na osi škripca."
 
 #: ../src/encoder.cs:1978
-#, fuzzy
 msgid "Rotary axis encoder on weighted moving pulley."
-msgstr "Kodirnik rotacijske osi na uteženi gibljivi jermenici."
+msgstr "Kodirnik rotacijske osi na uteženem gibljivem škripcu."
 
 #: ../src/encoder.cs:1989
 msgid "Rotary axis encoder on inertial machine."
@@ -7000,7 +6990,6 @@ msgid "Elastic force exercises measured by a force sensor"
 msgstr "Vaje elastične sile, merjene s tipalom sile"
 
 #: ../src/gui/app1/chronojump.cs:5061
-#, fuzzy
 msgid "Speed/power exercises displacing weights measured by an encoder"
 msgstr "Vaje za hitrost/moč z izpodrivanjem uteži, izmerjene s kodirnikom"
 
@@ -7156,7 +7145,6 @@ msgid "Are you sure!"
 msgstr "Ali ste prepričani?"
 
 #: ../src/gui/app1/encoder.cs:1707 ../src/gui/app1/encoder.cs:4844
-#, fuzzy
 msgid "Any laterality"
 msgstr "Vsakršna lateralnost/bočnost"
 
@@ -7379,9 +7367,8 @@ msgid "Explode = Average relative concentric RFD"
 msgstr "Eksplozivnost = povprečna relativna koncentrična RFD"
 
 #: ../src/gui/app1/encoder.cs:4595
-#, fuzzy
 msgid "Drive = Average relative concentric Impulse"
-msgstr "Pogon = povprečni relativni koncentrični impulz"
+msgstr "Zagon = povprečni relativni koncentrični impulz"
 
 #: ../src/gui/app1/encoder.cs:4596
 msgid ""
@@ -7437,9 +7424,8 @@ msgstr ""
 "največjo silo."
 
 #: ../src/gui/app1/encoder.cs:4606
-#, fuzzy
 msgid "Drive: Perform exercises where force is developed during more time."
-msgstr "Pogon: izvajajte vaje, pri katerih se sila razvije skozi daljši čas."
+msgstr "Zagon: izvajajte vaje, pri katerih se sila razvije skozi daljši čas."
 
 #. TODO: translate
 #: ../src/gui/app1/encoder.cs:4609
@@ -7756,7 +7742,6 @@ msgid "Error doing graph."
 msgstr "Prišlo je do napake pri izrisovanju diagrama."
 
 #: ../src/gui/app1/forceSensor.cs:2754
-#, fuzzy
 msgid "Probably not sustained force."
 msgstr "Verjetno ne trajna sila."
 
@@ -9177,7 +9162,6 @@ msgstr ""
 "To se bo uporabljalo samo v gravitacijskem načinu, koncentrični kontrakciji."
 
 #: ../src/gui/preferences.cs:2627
-#, fuzzy
 msgid ""
 "If \"Cut by triggers\" is inactive, repetitions will be cut automatically "
 "(default behaviour),"
@@ -11711,7 +11695,6 @@ msgid "F explosive"
 msgstr "Eksplozivna F"
 
 #: ../src/stats/chronojumpProfile.cs:34
-#, fuzzy
 msgid "Elastic cap."
 msgstr "Elastična kapica."
 

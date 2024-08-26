@@ -534,8 +534,13 @@ public partial class ChronoJumpWindow
 	private void on_button_database_change_select_clicked (object o, EventArgs args)
 	{
 		cloudReadFromShowFolders ();
+
 		button_database_change_apply.Visible = true;
+
 		button_database_change_apply.Sensitive = false;
+		foreach (Gtk.RadioButton r in cloudReadFolder_l)
+			if (r.Active && Util.GetLastPartOfPath (storedDBFilename) != r.Label)
+				button_database_change_apply.Sensitive = true;
 	}
 
 	private void on_button_database_change_apply_clicked (object o, EventArgs args)

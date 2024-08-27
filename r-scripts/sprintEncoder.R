@@ -1294,7 +1294,8 @@ start <- function(op)
 		pngFile <- paste(tempGraphsFolder, i, "_", dataFiles$personName[i], "_", dataFiles$testName[i], ".png", sep="")  #but remember to graph also when model fails
 		prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
 		exportRow = testEncoderCJ(
-				as.vector(dataFiles$fullURL[i]), paste(tempInstantFolder, i, ".csv", sep = ""),
+				as.vector(dataFiles$fullURL[i]),
+				paste(tempInstantFolder, i, "_", dataFiles$personName[i], "_", dataFiles$testName[i], ".csv", sep=""),
 				dataFiles$testLength[i], as.logical(dataFiles$isSprint)[i], dataFiles$splitLength[i],
 				as.numeric(unlist(strsplit(as.character(dataFiles$splitVariableCm[i]), "\\,"))), #as.character() because -1 (no triggers) is readed as a number and then the strsplit fails
 				splitPositionAll,
@@ -1327,7 +1328,7 @@ start <- function(op)
 			if(op$includeImagesOnExport)
 				exportRowDF = cbind(exportRowDF, paste(i, "_", dataFiles$personName[i], "_", dataFiles$testName[i], ".png", sep=""))
 			if(op$includeInstantaneousOnExport)
-				exportRowDF = cbind(exportRowDF, paste(i, ".csv", sep=""))
+				exportRowDF = cbind(exportRowDF, paste(i, "_", dataFiles$personName[i], "_", dataFiles$testName[i], ".csv", sep=""))
 
 			#write the correct names of the row dataframe
 			namesDF = c("Person","Test","Datetime",names,"comments")

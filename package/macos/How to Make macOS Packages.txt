@@ -73,6 +73,7 @@ sh autogen.sh --prefix ~/Desktop/chronojump/package/macos/deps
 #./configure #Running this command would change prefix to "/usr/local/"
 make
 make install #sudo make install (at least on m2)
+#If "sudo" required, please remove all files/folders in "package/macos/deps" except for "runtimes", "System.Data.SQLite.dll" and "System.Data.SQLite.dll.config" first. It would fail while uploading to Apple Store Conenct with "sudo".
 
 4. When no git tags, please modify "src/AssemblyInfo.cs" to add version number like 1.0.0.0:
 
@@ -110,8 +111,9 @@ sudo security find-identity codesigning /Users/{user}/Library/Keychains/login.ke
 7. Make a package (Only when a package required)
 
 cd "~/Desktop/chronojump/package/macos"
-make dmg #Execute this command to create *.dmg package; if it says "permission denied", please run "sudo make dmg".
-make pkg #Execute this command to create *.pkg package; if it says "permission denied", please run "sudo make pkg".
+make dmg #Execute this command to create *.dmg package.
+make pkg #Execute this command to create *.pkg package.
+#If it says "permission denied", please remove "package/macos/app/Chronojump.app" first. It would fail while uploading to Apple Store Conenct with "sudo".
 
 #Python bundle executable: Resources/Python-x64/Versions/Current/bin/python3
 #R bundle executable: Resources/R-x64/Resources/R Resources/R-x64/Resources/Rscript

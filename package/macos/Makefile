@@ -21,12 +21,14 @@ bundle:
 	rm -rf deps/FTD2XX_NET_v1.2.0
 	rm -rf deps/fonts
 	rm -rf deps/bin/FTD2XX_NET_v1.0.14
-	rm -rf app/Chronojump.app/Contents/Home
-	rm -rf app/Chronojump.app/Contents/Frameworks
+	rm -rf app/Chronojump.app
+	mkdir -p app/Chronojump.app/Contents/MacOS
+	mkdir -p app/Chronojump.app/Contents/Resources
 
 	# Generate Info.plist file
 	cp $(PACKAGE_DIR)/resources/Info.plist $(APP_DIR)
 	sed -e s/{version}/$(PACKAGE_SHORT_VERSION)/ $(PACKAGE_DIR)/resources/Info.plist > $(APP_DIR)/Info.plist
+	cp $(PACKAGE_DIR)/resources/icon.icns $(APP_DIR)/Resources
 
 	mkdir -p deps/bin/x64/Python
 	mkdir -p deps/R

@@ -29,3 +29,15 @@ dotnet run --project /[UserPath]/chronojump/src/Chronojump-linux.csproj
 
 # Some distros (KDE neon) requires this other command
 dotnet run -r linux-x64 --project /[UserPath]/chronojump/src//Chronojump-linux.csproj --property WarningLevel=0 --no-self-contained
+
+# On Raspberry Pi which installs Debian 12, fix it as follows if it says something like "Unable to find entry point named 'SI9dbf9d88aa001ea6'":
+
+1. Copy "package/macos/deps/System.Data.SQLite.dll" and overwrite the original one;
+
+2. Download specific "SQLite.Interop.dll" from https://github.com/rhubarb-geek-nz/SQLite.Interop/releases/download/1.0.118.0/SQLite.Interop-1.0.118.0-debian.12.zip;
+
+3. Copy "SQLite.Interop.dll" to the same location as "System.Data.SQLite.dll";
+
+4. Run Chronojump directly (./Chronojump);
+
+5. The overwritten "System.Data.SQLite.dll" would be reverted if execute "dotnet run"; Otherwise please put the dll files above into standalone *.csproj or post-build scripts.

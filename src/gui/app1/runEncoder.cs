@@ -1244,10 +1244,13 @@ public partial class ChronoJumpWindow
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));
 		genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
 		genericWin.SetButtonAcceptSensitive(false);
-		genericWin.Button_accept.Clicked += new EventHandler(on_run_encoder_load_accepted);
 
-		if (! canChoosePersonAndSession)
+		if (canChoosePersonAndSession)
+			genericWin.Button_accept.Clicked += new EventHandler(on_run_encoder_load_cd_accepted); //gets person and session from genericWin (and uniqueID)
+		else
 		{
+			genericWin.Button_accept.Clicked += new EventHandler(on_run_encoder_load_accepted);
+
 			genericWin.Button_row_play.Clicked += new EventHandler(on_run_encoder_load_signal_row_play);
 			genericWin.Button_row_edit.Clicked += new EventHandler(on_run_encoder_load_signal_row_edit);
 			genericWin.Button_row_edit_apply.Clicked += new EventHandler(on_run_encoder_load_signal_row_edit_apply);
@@ -1270,36 +1273,47 @@ public partial class ChronoJumpWindow
 
 	private void on_run_encoder_load_accepted (object o, EventArgs args)
 	{
-		LogB.Information("on run encoder load accepted");
+		LogB.Information("on_run_encoder_load_accepted");
 		genericWin.Button_accept.Clicked -= new EventHandler(on_run_encoder_load_accepted);
 
+		on_run_encoder_load_set_pre (false);
+	}
+	private void on_run_encoder_load_cd_accepted (object o, EventArgs args)
+	{
+		LogB.Information("on_run_encoder_load_cd_accepted");
+		genericWin.Button_accept.Clicked -= new EventHandler(on_run_encoder_load_cd_accepted);
+
+		on_run_encoder_load_set_pre (true);
+	}
+	private void on_run_encoder_load_set_pre (bool getPersonSessionFromGenericWin)
+	{
 		int uniqueID = genericWin.TreeviewSelectedRowID();
 		radio_signal_analyze_current_set.Active = true;
 
-		string str = run_encoder_load_set (uniqueID);
+		string str = run_encoder_load_set (uniqueID, getPersonSessionFromGenericWin);
 		if(str != "")
 			event_execute_label_message.Text = Catalog.GetString("Loaded:") + " " + str;
 	}
 
 	//this is also called from recalculate
-	private string run_encoder_load_set (int uniqueID)
+	private string run_encoder_load_set (int uniqueID, bool getPersonSessionFromGenericWin)
 	{
 		int personID = currentPerson.UniqueID;
 		int sessionID = currentSession.UniqueID;
 
-		if (genericWin != null)
+		if (genericWin != null && getPersonSessionFromGenericWin)
 		{
-			if (genericWin.UseGridSessionPerson)
-			{
+//			if (genericWin.UseGridSessionPerson)
+//			{
 				personID = genericWin.GetPersonIDFromGui ();
 				sessionID = genericWin.GetSessionIDFromGui ();
-			}
+				//genericWin.UseGridSessionPerson = false;
+//			}
 
 			genericWin.HideAndNull();
 		}
 
 		RunEncoder re = (RunEncoder) SqliteRunEncoder.Select (false, uniqueID, personID, sessionID)[0];
-
 
 		if(re == null)
 		{
@@ -1339,7 +1353,8 @@ public partial class ChronoJumpWindow
 
 		signalSuperpose_2SetsCDPersonName = "";
 		// trying on _cd to only update the graph
-		if (radio_ai_2sets.Active && radio_ai_cd.Active)
+		//if (radio_ai_2sets.Active && radio_ai_cd.Active)
+		if (genericWin != null && getPersonSessionFromGenericWin)
 		{
 			cairoGraphRaceAnalyzerPoints_st_CD_l = new List<PointF>();
 			//cairoGraphRaceAnalyzerPoints_st_CD_l_timeShifted = false; //unused
@@ -1783,7 +1798,7 @@ public partial class ChronoJumpWindow
 
 		currentRunEncoder.UpdateSQL(false);
 
-		string str = run_encoder_load_set (currentRunEncoder.UniqueID);
+		string str = run_encoder_load_set (currentRunEncoder.UniqueID, false);
 		if(str != "")
 			event_execute_label_message.Text = "Recalculated.";
 	}
@@ -1791,7 +1806,7 @@ public partial class ChronoJumpWindow
 	private void on_radio_race_analyzer_capture_graph_starts_clicked (object o, EventArgs args)
 	{
 		if (currentRunEncoder != null)
-			run_encoder_load_set (currentRunEncoder.UniqueID);
+			run_encoder_load_set (currentRunEncoder.UniqueID, false);
 	}
 
 	private void raceEncoderCopyToTempAndDoRGraph()

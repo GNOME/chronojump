@@ -41,3 +41,8 @@ dotnet run -r linux-x64 --project /[UserPath]/chronojump/src//Chronojump-linux.c
 4. Run Chronojump directly ([ChronojumpPath]/src/bin/Debug/net7.0/Chronojump);
 
 5. The overwritten "System.Data.SQLite.dll" would be reverted if execute "dotnet run"; Otherwise please put the dll files above into standalone *.csproj or post-build scripts.
+
+6. If launch from a icon launcher, create a script with 
+	#!/bin/bash
+	export DOTNET_ROOT=/home/cj/.dotnet
+	[ChronojumpPath]/src/bin/Debug/net7.0/Chronojump

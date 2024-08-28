@@ -1189,6 +1189,7 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 		meanSpeed <- mean(abs(kinematics$speedy))
 		meanPower <- mean(abs(kinematics$power))
 	}
+	rvd <- maxSpeed / (maxSpeedT/1000)	# ms->s
 
 	peakPower <- max(abs(kinematics$power))
 	peakPowerT <- min(which(abs(kinematics$power) == peakPower))
@@ -1244,7 +1245,7 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 	equivalentMass = calculateEquivalentMass(inertiaMomentum, gearedDown, diameter)
 
 	return(data.frame(
-			  meanSpeed, maxSpeed, maxSpeedT,
+			  meanSpeed, maxSpeed, maxSpeedT, rvd,
 			  meanPower, peakPower, peakPowerT, pp_ppt,
 			  meanForce, maxForce, maxForceT, maxForce_maxForceT,
 			  mass, massBody, massExtra,		#kinematics$mass is Load

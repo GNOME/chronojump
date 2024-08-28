@@ -1098,7 +1098,7 @@ public partial class ChronoJumpWindow
 
 		image_test_add_edit.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_attachment.png");
 
-		UtilGtk.ApplyCSS ();
+		UtilGtk.ApplyCSS (preferences.fontSizeAtGui);
 	}
 
 

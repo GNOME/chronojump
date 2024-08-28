@@ -740,7 +740,7 @@ public class UtilGtk
 	*/
 
 	//TODO: have all the css names as enums in order to fail in compile if names like darkCss have any typo
-	public static void ApplyCSS ()
+	public static void ApplyCSS (int fontSizeAtGui)
 	{
 		CssProvider css = new CssProvider ();
 
@@ -767,7 +767,21 @@ public class UtilGtk
 		if (colorsContrast (GetRGBA (Colors.YELLOW), Config.ColorBackgroundShifted) <
 				colorsContrast (GetRGBA (Colors.BLUE_CHRONOJUMP), Config.ColorBackgroundShifted))
 			colLabelContrastShiftedCss = GetRGBAs (Colors.BLUE_CHRONOJUMP);
-	
+
+		// font size at gui ---->
+		//default font size
+		Gtk.Viewport vTemp = new Gtk.Viewport();
+		Pango.FontDescription fd = vTemp.StyleContext.GetFont (Gtk.StateFlags.Normal);
+		int defaultFontSize = Convert.ToInt32 (UtilAll.DivideSafe (fd.Size, Pango.Scale.PangoScale));
+		LogB.Information ("default font size: " + defaultFontSize.ToString ());
+
+		string labelFontSize = "";
+		if (fontSizeAtGui >= 0)
+			labelFontSize = string.Format ("font-size: {0}pt;", fontSizeAtGui);
+		else
+			labelFontSize = string.Format ("font-size: {0}pt;", defaultFontSize); //we need to restore it if user selected custom previously
+		// <---- font size at gui
+
 		var data =
 			//LABELS
 			//labels lightCss in light color
@@ -798,6 +812,7 @@ public class UtilGtk
 			//rest of labels
 			"label {" +
 				"color: #000000;" +
+				labelFontSize +
 			"}" +
 
 			//RADIOS, CHECKBUTTONS & BUTTONS

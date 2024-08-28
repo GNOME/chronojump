@@ -517,7 +517,7 @@ public partial class ChronoJumpWindow
 		Config.UseSystemColor = preferences.colorBackgroundOsColor;
 		doLabelsContrast(configChronojump.PersonWinHide);
 		vbox_persons_bottom.Visible = preferences.personPhoto && ! check_menu_session.Active;
-		UtilGtk.ApplyCSS ();
+		UtilGtk.ApplyCSS (preferences.fontSizeAtGui);
 
 		fillAllCombos ();
 	}

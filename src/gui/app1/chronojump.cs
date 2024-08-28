@@ -3774,7 +3774,7 @@ public partial class ChronoJumpWindow
 
 	private void on_preferences_colors_changed (object o, EventArgs args)
 	{
-		UtilGtk.ApplyCSS ();
+		UtilGtk.ApplyCSS (preferences.fontSizeAtGui);
 	}
 
 	private void on_preferences_closed (object o, EventArgs args)
@@ -3889,7 +3889,7 @@ public partial class ChronoJumpWindow
 		doLabelsContrast(configChronojump.PersonWinHide);
 		vbox_persons_bottom.Visible = preferences.personPhoto && ! check_menu_session.Active;
 
-		UtilGtk.ApplyCSS ();
+		UtilGtk.ApplyCSS (preferences.fontSizeAtGui);
 
 
 		if(myTreeViewPersons != null)

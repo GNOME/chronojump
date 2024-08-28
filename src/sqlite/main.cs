@@ -144,7 +144,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.52";
+	static string lastChronojumpDatabaseVersion = "2.53";
 
 	public Sqlite()
 	{
@@ -3397,6 +3397,14 @@ class Sqlite
 
 				currentVersion = updateVersion("2.52");
 			}
+			if(currentVersion == "2.52")
+			{
+				LogB.SQL("Inserted into preferences: fontSizeAtGui");
+
+				SqlitePreferences.Insert ("fontSizeAtGui", "-1");
+
+				currentVersion = updateVersion("2.53");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3621,6 +3629,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.52 - 2.53 Converted DB to 2.53 Inserted into preferences: fontSizeAtGui
 		//2.51 - 2.52 Converted DB to 2.52 Created table fourPlatforms
 		//2.50 - 2.51 Converted DB to 2.51 Inserted into preferences: forceSensorAnalyzeBestStabilityInWindow
 		//2.49 - 2.50 Converted DB to 2.50 RunEncoder table added totalTime

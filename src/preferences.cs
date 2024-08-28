@@ -45,6 +45,7 @@ public class Preferences
 	public bool logoAnimatedShow;
 	public enum FontTypes { Courier, Helvetica};
 	public FontTypes fontType;
+	public int fontSizeAtGui = -1; //-1 default
 	public int restTimeMinutes; //-1 deactivated minutes and seconds
 	public int restTimeSeconds;
 

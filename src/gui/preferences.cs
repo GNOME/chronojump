@@ -64,11 +64,15 @@ public class PreferencesWindow
 	Gtk.TextView textview_help_message;
 	Gtk.Image image_help_close;
 
-	//appearance tab
+	//main, screen tabs
 	Gtk.CheckButton check_appearance_maximized;
 	Gtk.CheckButton check_appearance_maximized_undecorated;
 	Gtk.CheckButton check_appearance_person_win_hide;
 	Gtk.CheckButton check_appearance_person_photo;
+	Gtk.RadioButton radio_font_size_default;
+	Gtk.RadioButton radio_font_size_custom;
+	Gtk.Box box_font_size_custom;
+	Gtk.SpinButton spin_font_size_custom;
 	Gtk.Alignment alignment_undecorated;
 	Gtk.Label label_recommended_undecorated;
 	Gtk.RadioButton radio_font_courier;
@@ -439,7 +443,7 @@ public class PreferencesWindow
 
 		PWBox.image_button_close.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
 
-		//appearance tab
+		//main, screen tabs
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_rest.png");
 		PWBox.image_rest.Pixbuf = pixbuf;
@@ -474,6 +478,16 @@ public class PreferencesWindow
 			PWBox.check_appearance_person_photo.Active = true;
 		else
 			PWBox.check_appearance_person_photo.Active = false;
+
+		if (preferences.fontSizeAtGui < 0)
+		{
+			PWBox.box_font_size_custom.Visible = false;
+			PWBox.radio_font_size_default.Active = true;
+		} else {
+			PWBox.box_font_size_custom.Visible = true;
+			PWBox.spin_font_size_custom.Value = preferences.fontSizeAtGui;
+			PWBox.radio_font_size_custom.Active = true;
+		}
 
 		if(preferences.logoAnimatedShow)
 			PWBox.check_logo_animated.Active = true;
@@ -1218,6 +1232,39 @@ public class PreferencesWindow
 			preferences.personPhoto = PWBox.check_appearance_person_photo.Active;
 			FakeButtonPersonWin.Click ();
 		}
+	}
+
+	private void on_radio_font_size_default_toggled (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		box_font_size_custom.Visible = false;
+
+		// B) changes on preferences object and SqlitePreferences
+		if (preferences.fontSizeAtGui >= 0) {
+			SqlitePreferences.Update("fontSizeAtGui", "-1", false); //saved as string
+			preferences.fontSizeAtGui = (int) -1;
+		}
+	}
+	private void on_radio_font_size_custom_toggled (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		box_font_size_custom.Visible = true;
+
+		// B) changes on preferences object and SqlitePreferences
+		if (preferences.fontSizeAtGui < 0) {
+			SqlitePreferences.Update("fontSizeAtGui",
+					PWBox.spin_font_size_custom.Value.ToString(), false); //saved as string
+			preferences.fontSizeAtGui = (int) spin_font_size_custom.Value;
+		}
+	}
+
+	private void on_spin_font_size_custom_value_changed (object o, EventArgs args)
+	{
+		if (preferences.fontSizeAtGui != (int) PWBox.spin_font_size_custom.Value)
+			preferences.fontSizeAtGui = Preferences.PreferencesChange(
+					false, "fontSizeAtGui",
+					preferences.fontSizeAtGui,
+					(int) PWBox.spin_font_size_custom.Value);
 	}
 
 	/* callbacks SQL change at any change for tab: jumps */
@@ -3384,11 +3431,15 @@ public class PreferencesWindow
 		textview_help_message = (Gtk.TextView) builder.GetObject ("textview_help_message");
 		image_help_close = (Gtk.Image) builder.GetObject ("image_help_close");
 
-		//appearance tab
+		//main, screen tabs
 		check_appearance_maximized = (Gtk.CheckButton) builder.GetObject ("check_appearance_maximized");
 		check_appearance_maximized_undecorated = (Gtk.CheckButton) builder.GetObject ("check_appearance_maximized_undecorated");
 		check_appearance_person_win_hide = (Gtk.CheckButton) builder.GetObject ("check_appearance_person_win_hide");
 		check_appearance_person_photo = (Gtk.CheckButton) builder.GetObject ("check_appearance_person_photo");
+		radio_font_size_custom = (Gtk.RadioButton) builder.GetObject ("radio_font_size_custom");
+		radio_font_size_default = (Gtk.RadioButton) builder.GetObject ("radio_font_size_default");
+		box_font_size_custom = (Gtk.Box) builder.GetObject ("box_font_size_custom");
+		spin_font_size_custom = (Gtk.SpinButton) builder.GetObject ("spin_font_size_custom");
 		alignment_undecorated = (Gtk.Alignment) builder.GetObject ("alignment_undecorated");
 		label_recommended_undecorated = (Gtk.Label) builder.GetObject ("label_recommended_undecorated");
 		radio_font_courier = (Gtk.RadioButton) builder.GetObject ("radio_font_courier");

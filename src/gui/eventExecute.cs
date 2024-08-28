@@ -778,6 +778,9 @@ public partial class ChronoJumpWindow
 		return maxRows;
 	}
 
+	/*
+	 * commented old Pango code (pre Cairo)
+	 *
 	private int calculateBottomMarginForText (int maxRows, Pango.Layout layout)
 	{
 
@@ -850,6 +853,7 @@ public partial class ChronoJumpWindow
 
 		return layout;
 	}
+	*/
 
 	private void hideButtons() {
 		event_execute_button_cancel.Sensitive = false;

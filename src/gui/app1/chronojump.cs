@@ -5134,12 +5134,17 @@ public partial class ChronoJumpWindow
 		if (blinkCapture != null)
 			blinkCapture.End ();
 
+		ChronopicRegisterPort crp = chronopicRegister.GetSelectedForMode (current_mode);
+
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 			on_cancel_clicked_2_forceSensor ();
 		else if (current_mode == Constants.Modes.RUNSENCODER)
 			on_cancel_clicked_2_raceAnalyzer ();
 		else if (current_mode == Constants.Modes.OTHER)
 			on_cancel_clicked_2_other ();
+		else if (current_mode == Constants.Modes.JUMPSSIMPLE &&
+				crp.Port != "" && crp.Type == ChronopicRegisterPort.Types.FOURPLATFORMS)
+			on_cancel_clicked_2_contacts_generic ();
 		else
 			on_cancel_clicked_2_contacts_generic ();
 	}

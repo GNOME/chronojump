@@ -110,3 +110,36 @@ class SqliteFourPlatforms : Sqlite
 	}
 }
 
+//using fourPlatforms to store simple jumps
+class SqliteFourPlatformsJumpsSimple : Sqlite
+{
+	private static string table = Constants.JumpTable;
+
+	public SqliteFourPlatformsJumpsSimple() {
+	}
+
+	//public int Insert (int personID, int sessionID,
+	public void Insert (int personID, int sessionID,
+                                string jumpType, List<double> off_ll, double tc, double fall,
+				double weight, string description, int angle, bool simulated,
+                                string datetimeStr)
+	{
+		Sqlite.Open();
+		using(SQLiteTransaction tr = dbcon.BeginTransaction())
+		{
+			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
+			{
+				dbcmdTr.Transaction = tr;
+				foreach (Double d in off_ll)
+					SqliteJump.InsertDo (true, table,
+							"-1", personID, sessionID, jumpType,
+							d, tc, fall, weight, "", -1, -1, datetimeStr,
+							dbcmdTr);
+			}
+			tr.Commit();
+		}
+		Sqlite.Close();
+	}
+
+	~SqliteFourPlatformsJumpsSimple() {}
+}

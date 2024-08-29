@@ -5216,12 +5216,16 @@ public partial class ChronoJumpWindow
 
 		//to avoid doble finish or cancel while finishing
 		hideButtons();
+		ChronopicRegisterPort crp = chronopicRegister.GetSelectedForMode (current_mode);
 
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 			on_finish_clicked_2_forceSensor ();
 		else if (current_mode == Constants.Modes.RUNSENCODER)
 			on_finish_clicked_2_raceAnalyzer ();
 		else if (current_mode == Constants.Modes.OTHER)
+			on_finish_clicked_2_other ();
+		else if (current_mode == Constants.Modes.JUMPSSIMPLE &&
+				crp.Port != "" && crp.Type == ChronopicRegisterPort.Types.FOURPLATFORMS)
 			on_finish_clicked_2_other ();
 		else
 			on_finish_clicked_2_contacts_generic ();
@@ -5588,6 +5592,15 @@ public partial class ChronoJumpWindow
 				on_four_platforms_capture_clicked ();
 
 			return;
+		}
+		if(current_mode == Constants.Modes.JUMPSSIMPLE) //jumps simple with fourPlatforms
+		{
+			ChronopicRegisterPort crp = chronopicRegister.GetSelectedForMode (current_mode);
+			if (crp.Port != "" && crp.Type == ChronopicRegisterPort.Types.FOURPLATFORMS)
+			{
+				on_four_platforms_capture_clicked ();
+				return;
+			}
 		}
 
 		// stop capturing inertial on the background if we start capturing a contacts test

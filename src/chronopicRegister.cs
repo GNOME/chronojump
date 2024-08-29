@@ -373,6 +373,8 @@ public abstract class ChronopicRegister
 		{
 			if (setAnyCompatibleConnectedAsSelectedDo (mode, ChronopicRegisterPort.Types.CONTACTS))
 				return true;
+			if (setAnyCompatibleConnectedAsSelectedDo (Constants.Modes.JUMPSSIMPLE, ChronopicRegisterPort.Types.FOURPLATFORMS))
+				return true;
 		}
 		else if (mode == Constants.Modes.RUNSSIMPLE || mode == Constants.Modes.RUNSINTERVALLIC)
 		{

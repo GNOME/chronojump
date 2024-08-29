@@ -158,6 +158,9 @@ public partial class ChronoJumpWindow
 
 	private void on_four_platforms_capture_clicked ()
 	{
+		if (current_mode == Constants.Modes.JUMPSSIMPLE && ! align_drawingarea_realtime_capture_cairo.Visible)
+			align_drawingarea_realtime_capture_cairo.Visible = true;
+
 		capturingFourPlatforms = arduinoCaptureStatus.STARTING;
 
 		//blank Cairo scatterplot graphs
@@ -240,22 +243,7 @@ public partial class ChronoJumpWindow
 				event_execute_label_message.Text = "Finished.";
 				fpcm.Finish = true;
 
-				string insertString = "(NULL, " +
-					currentPerson.UniqueID + ", " +
-					currentSession.UniqueID + ", " +
-					"0, '" + //exerciseID
-					UtilDate.ToFile (DateTime.Now) + "', '" +
-					Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOn_ll[0], 3, "="))  + "', '" +
-					Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOff_ll[0], 3, "=")) + "', '" +
-					Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOn_ll[1], 3, "="))  + "', '" +
-					Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOff_ll[1], 3, "=")) + "', '" +
-					Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOn_ll[2], 3, "="))  + "', '" +
-					Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOff_ll[2], 3, "=")) + "', '" +
-					Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOn_ll[3], 3, "="))  + "', '" +
-					Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOff_ll[3], 3, "=")) + "', " +
-					"'', '', 0)"; //comments, videoURL, totalTime
-
-				SqliteFourPlatforms.Insert (false, insertString);
+				fourPlatformsInsertToSQL ();
 			}
 
 			blinkCapture.End ();
@@ -295,6 +283,41 @@ public partial class ChronoJumpWindow
 		Thread.Sleep (50);
 		//LogB.Information("FourPlatforms:"+ fourPlatformsCaptureThread.ThreadState.ToString());
 		return true;
+	}
+
+	private void fourPlatformsInsertToSQL ()
+	{
+		if (current_mode == Constants.Modes.JUMPSSIMPLE)
+			fourPlatformsInsertToSQLJumpSimple ();
+		else if (current_mode == Constants.Modes.OTHER)
+			fourPlatformsInsertToSQLOther ();
+	}
+	private void fourPlatformsInsertToSQLJumpSimple ()
+	{
+		SqliteFourPlatformsJumpsSimple sfpjs = new SqliteFourPlatformsJumpsSimple ();
+		sfpjs.Insert (currentPerson.UniqueID, currentSession.UniqueID,
+				currentJumpType.Name, fpcm.TimesOff_ll[0], 0, 0,  //type, tv, tc, fall,
+				currentPersonSession.Weight, "", -1, false,
+				UtilDate.ToFile(DateTime.Now));
+	}
+	private void fourPlatformsInsertToSQLOther ()
+	{
+		string insertString = "(NULL, " +
+			currentPerson.UniqueID + ", " +
+			currentSession.UniqueID + ", " +
+			"0, '" + //exerciseID
+			UtilDate.ToFile (DateTime.Now) + "', '" +
+			Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOn_ll[0], 3, "="))  + "', '" +
+			Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOff_ll[0], 3, "=")) + "', '" +
+			Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOn_ll[1], 3, "="))  + "', '" +
+			Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOff_ll[1], 3, "=")) + "', '" +
+			Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOn_ll[2], 3, "="))  + "', '" +
+			Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOff_ll[2], 3, "=")) + "', '" +
+			Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOn_ll[3], 3, "="))  + "', '" +
+			Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOff_ll[3], 3, "=")) + "', " +
+			"'', '', 0)"; //comments, videoURL, totalTime
+
+		SqliteFourPlatforms.Insert (false, insertString);
 	}
 
 	private void fourPlatformsButtonsSensitive (bool sensitive)

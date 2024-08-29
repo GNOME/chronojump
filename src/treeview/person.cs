@@ -230,20 +230,22 @@ public class TreeViewPersons
 		SelectRow(FindRow(personID) -1);
 	}
 
-	public int GetPersonIdOfRow (int rowNumber)
+	public IDName GetPersonByRow (int rowNumber)
 	{
 		TreeIter iter;
 		bool iterOk = store.GetIterFirst(out iter);
 		if(iterOk) {
 			int count = 0;
-			while (count < rowNumber) {
-				store.IterNext(ref iter);
-				count ++;
-			}
-
-			return (Convert.ToInt32 ((string) treeview.Model.GetValue (iter, 0)));
+			do {
+				if (rowNumber == count ++)
+					return (new IDName (
+								Convert.ToInt32 ((string) treeview.Model.GetValue (iter, 0)),
+								(string) treeview.Model.GetValue (iter, 1)
+							   ));
+			} while (store.IterNext (ref iter));
 		}
-		return -1;
+
+		return (new IDName (-1, ""));
 	}
 
 	public int CountRows() {

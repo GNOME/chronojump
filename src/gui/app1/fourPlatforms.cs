@@ -32,6 +32,7 @@ public class FourPlatformsCaptureManage
 	private bool cancel;
 	private DateTime timeOfLastCapture; //to show correctly the scroll even with no new data
 	//private bool error;
+	private List<IDName> idName_l;
 
 	//private List<PointF> points_l;
 	private List<List<PointF>> points_ll; //[0] will have all and helps to configureTimeWindow (graphical info)
@@ -40,11 +41,13 @@ public class FourPlatformsCaptureManage
 
 	public FourPlatformsCaptureManage (
 			FourPlatformsCapture fpc,
-			ref List<List<PointF>> points_ll
+			ref List<List<PointF>> points_ll,
+			List<IDName> idName_l
 			)
 	{
 		this.fpc = fpc;
 		this.points_ll = points_ll;
+		this.idName_l = idName_l;
 
 		timesOn_ll = new List<List<double>>();
 		timesOff_ll = new List<List<double>>();
@@ -129,6 +132,9 @@ public class FourPlatformsCaptureManage
 	public List<List<double>> TimesOff_ll {
 		get { return timesOff_ll; }
 	}
+	public List<IDName> IDName_l {
+		get { return idName_l; }
+	}
 	public bool Finish {
 		set { finish = value; }
 	}
@@ -164,9 +170,9 @@ public partial class ChronoJumpWindow
 
 			if (myTreeViewPersons != null && myTreeViewPersons.CountRows () > 4)
 			{
-				LogB.Information ("first four uniqueIDs:");
+				LogB.Information ("first four persons:");
 				for (int i = 0; i < 4; i ++)
-					LogB.Information (myTreeViewPersons.GetPersonIdOfRow (i).ToString ());
+					LogB.Information (myTreeViewPersons.GetPersonByRow (i).ToString ());
 			}
 		}
 
@@ -210,14 +216,14 @@ public partial class ChronoJumpWindow
 		//return true;
 	}
 
-	//Right now the first four on the treeview
-	private List<int> getSelectedPersonIDAndNext3 ()
+	private List<IDName> getSelectedPersonAndNext3 ()
 	{
-		List<int> uniqueID_l = new List<int> ();
-		for (int i = 0; i < 4; i ++)
-			uniqueID_l.Add (myTreeViewPersons.GetPersonIdOfRow (i));
+		int currentPersonRow = myTreeViewPersons.FindRow (currentPerson.UniqueID);
+		List<IDName> p_l = new List<IDName> ();
+		for (int i = currentPersonRow; i < currentPersonRow + 4; i ++)
+			p_l.Add (myTreeViewPersons.GetPersonByRow (i));
 
-		return uniqueID_l;
+		return p_l;
 	}
 
 	private void fourPlatformsCaptureDo ()
@@ -229,7 +235,7 @@ public partial class ChronoJumpWindow
 			fpc = new FourPlatformsCapture (
 					chronopicRegister.GetSelectedForMode (current_mode).Port);
 
-		fpcm = new FourPlatformsCaptureManage (fpc, ref cairoGraphFourPlatformsPoints_ll);
+		fpcm = new FourPlatformsCaptureManage (fpc, ref cairoGraphFourPlatformsPoints_ll, getSelectedPersonAndNext3 ());
 
 		if (fpcm.Init ())
 		{
@@ -321,7 +327,7 @@ public partial class ChronoJumpWindow
 	{
 		SqliteFourPlatformsJumpsSimple sfpjs = new SqliteFourPlatformsJumpsSimple ();
 		sfpjs.Insert (
-				getSelectedPersonIDAndNext3 (), currentSession.UniqueID,
+				getSelectedPersonAndNext3 (), currentSession.UniqueID,
 				currentJumpType.Name,
 				fpcm.TimesOff_ll, fpcm.TimesOn_ll, 0,  //type, tv, tc, fall:TODO,
 				0, "", -1, false, //weight: TODO

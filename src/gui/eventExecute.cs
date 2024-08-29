@@ -348,6 +348,7 @@ public partial class ChronoJumpWindow
 				cairoGraphFourPlatforms.DoSendingList (
 						preferences.fontType.ToString(),
 						cairoGraphFourPlatformsPoints_ll,
+						fpcm.IDName_l,
 						capturingFourPlatforms == arduinoCaptureStatus.CAPTURING,
 						fpcm.TimeOfLastCapture,
 						false, 0,

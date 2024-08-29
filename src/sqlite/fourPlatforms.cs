@@ -119,7 +119,7 @@ class SqliteFourPlatformsJumpsSimple : Sqlite
 	}
 
 	//public int Insert (int personID, int sessionID,
-	public void Insert (List<int> personID_l, int sessionID,
+	public void Insert (List<IDName> person_l, int sessionID,
 			string jumpType, List<List<double>> off_ll, List<List<double>> on_ll, double fall,
 			double weight, string description, int angle, bool simulated,
 			string datetimeStr)
@@ -132,14 +132,14 @@ class SqliteFourPlatformsJumpsSimple : Sqlite
 				dbcmdTr.Transaction = tr;
 				for (int i = 0; i < 4; i ++)
 				{
-					if (personID_l[i] < 0)
+					if (person_l[i].UniqueID < 0)
 						continue;
 
 					//TODO: use also on_ll and fall
 					foreach (Double d in off_ll[i])
 						SqliteJump.InsertDo (true, table,
-								"-1", personID_l[i], sessionID, jumpType,
-								d, 0, fall, weight, "", -1, -1, datetimeStr, //TODO: TC & fall
+								"-1", person_l[i].UniqueID, sessionID, jumpType,
+								d, 0, fall, weight, "", -1, 0, datetimeStr, //TODO: TC & fall
 								dbcmdTr);
 				}
 			}

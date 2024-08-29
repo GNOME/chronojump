@@ -28,6 +28,7 @@ public class CairoGraphFourPlatforms : CairoXY
 	//private bool horizontal;
 	private int points_l_painted;
 	private List<List<PointF>> points_ll;
+	private List<IDName> idName_l;
 	private int startAt;
 	private int marginAfterInSeconds;
 	private bool capturing;
@@ -69,6 +70,7 @@ public class CairoGraphFourPlatforms : CairoXY
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font,
 			List<List<PointF>> points_ll,
+			List<IDName> idName_l,
 			bool capturing,
 			DateTime timeOfLastCapture,
 			bool videoShow, double videoPlayTimeInSeconds,
@@ -77,6 +79,7 @@ public class CairoGraphFourPlatforms : CairoXY
 	{
 		if (doSendingList (font,
 					points_ll,
+					idName_l,
 					capturing,
 					timeOfLastCapture,
 					videoShow, videoPlayTimeInSeconds,
@@ -87,6 +90,7 @@ public class CairoGraphFourPlatforms : CairoXY
 
 	private bool doSendingList (string font,
 			List<List<PointF>> points_ll,
+			List<IDName> idName_l,
 			bool capturing,
 			DateTime timeOfLastCapture,
 			bool videoShow, double videoPlayTimeInSeconds,
@@ -94,6 +98,7 @@ public class CairoGraphFourPlatforms : CairoXY
 			bool forceRedraw, PlotTypes plotType)
 	{
 		this.points_ll = points_ll;
+		this.idName_l = idName_l;
 		this.capturing = capturing;
 
 		//force show all set when not capturing
@@ -198,8 +203,14 @@ public class CairoGraphFourPlatforms : CairoXY
 		{
 			g.MoveTo (leftMargin, calculatePaintY (i));
 			g.LineTo (graphWidth - rightMargin, calculatePaintY (i));
-			printText (leftMargin/2, calculatePaintY (i), 0, textHeight +4,
+
+			if (idName_l != null && idName_l.Count == 4 && idName_l[i-1].UniqueID >= 0)
+				printText (leftMargin/2, calculatePaintY (i -.5), 0, textHeight +4,
+					idName_l[i-1].Name, g, alignTypes.LEFT);
+			else
+				printText (leftMargin/2, calculatePaintY (i), 0, textHeight +4,
 					i.ToString (), g, alignTypes.CENTER);
+
 			g.Stroke (); //needed because if not the move to on printText makes after show a line to the following points
 		}
 

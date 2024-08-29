@@ -265,6 +265,12 @@ public partial class ChronoJumpWindow
 
 			event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 
+			if (current_mode == Constants.Modes.JUMPSSIMPLE)
+			{
+				pre_fillTreeView_jumps (false);
+				updateGraphJumpsSimple();
+			}
+
 			return false;
 		} else {
 			if (capturingFourPlatforms == arduinoCaptureStatus.CAPTURING)

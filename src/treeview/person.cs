@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -228,6 +228,22 @@ public class TreeViewPersons
 	public void SelectPreviousRow(int personID)
 	{
 		SelectRow(FindRow(personID) -1);
+	}
+
+	public int GetPersonIdOfRow (int rowNumber)
+	{
+		TreeIter iter;
+		bool iterOk = store.GetIterFirst(out iter);
+		if(iterOk) {
+			int count = 0;
+			while (count < rowNumber) {
+				store.IterNext(ref iter);
+				count ++;
+			}
+
+			return (Convert.ToInt32 ((string) treeview.Model.GetValue (iter, 0)));
+		}
+		return -1;
 	}
 
 	public int CountRows() {

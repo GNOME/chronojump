@@ -119,10 +119,10 @@ class SqliteFourPlatformsJumpsSimple : Sqlite
 	}
 
 	//public int Insert (int personID, int sessionID,
-	public void Insert (int personID, int sessionID,
-                                string jumpType, List<double> off_ll, double tc, double fall,
-				double weight, string description, int angle, bool simulated,
-                                string datetimeStr)
+	public void Insert (List<int> personID_l, int sessionID,
+			string jumpType, List<List<double>> off_ll, List<List<double>> on_ll, double fall,
+			double weight, string description, int angle, bool simulated,
+			string datetimeStr)
 	{
 		Sqlite.Open();
 		using(SQLiteTransaction tr = dbcon.BeginTransaction())
@@ -130,11 +130,18 @@ class SqliteFourPlatformsJumpsSimple : Sqlite
 			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
-				foreach (Double d in off_ll)
-					SqliteJump.InsertDo (true, table,
-							"-1", personID, sessionID, jumpType,
-							d, tc, fall, weight, "", -1, -1, datetimeStr,
-							dbcmdTr);
+				for (int i = 0; i < 4; i ++)
+				{
+					if (personID_l[i] < 0)
+						continue;
+
+					//TODO: use also on_ll and fall
+					foreach (Double d in off_ll[i])
+						SqliteJump.InsertDo (true, table,
+								"-1", personID_l[i], sessionID, jumpType,
+								d, 0, fall, weight, "", -1, -1, datetimeStr, //TODO: TC & fall
+								dbcmdTr);
+				}
 			}
 			tr.Commit();
 		}

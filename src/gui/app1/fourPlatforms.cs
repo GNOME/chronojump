@@ -159,7 +159,16 @@ public partial class ChronoJumpWindow
 	private void on_four_platforms_capture_clicked ()
 	{
 		if (current_mode == Constants.Modes.JUMPSSIMPLE && ! align_drawingarea_realtime_capture_cairo.Visible)
+		{
 			align_drawingarea_realtime_capture_cairo.Visible = true;
+
+			if (myTreeViewPersons != null && myTreeViewPersons.CountRows () > 4)
+			{
+				LogB.Information ("first four uniqueIDs:");
+				for (int i = 0; i < 4; i ++)
+					LogB.Information (myTreeViewPersons.GetPersonIdOfRow (i).ToString ());
+			}
+		}
 
 		capturingFourPlatforms = arduinoCaptureStatus.STARTING;
 
@@ -199,6 +208,16 @@ public partial class ChronoJumpWindow
 		LogB.ThreadStart();
 		fourPlatformsCaptureThread.Start();
 		//return true;
+	}
+
+	//Right now the first four on the treeview
+	private List<int> getSelectedPersonIDAndNext3 ()
+	{
+		List<int> uniqueID_l = new List<int> ();
+		for (int i = 0; i < 4; i ++)
+			uniqueID_l.Add (myTreeViewPersons.GetPersonIdOfRow (i));
+
+		return uniqueID_l;
 	}
 
 	private void fourPlatformsCaptureDo ()
@@ -301,9 +320,11 @@ public partial class ChronoJumpWindow
 	private void fourPlatformsInsertToSQLJumpSimple ()
 	{
 		SqliteFourPlatformsJumpsSimple sfpjs = new SqliteFourPlatformsJumpsSimple ();
-		sfpjs.Insert (currentPerson.UniqueID, currentSession.UniqueID,
-				currentJumpType.Name, fpcm.TimesOff_ll[0], 0, 0,  //type, tv, tc, fall,
-				currentPersonSession.Weight, "", -1, false,
+		sfpjs.Insert (
+				getSelectedPersonIDAndNext3 (), currentSession.UniqueID,
+				currentJumpType.Name,
+				fpcm.TimesOff_ll, fpcm.TimesOn_ll, 0,  //type, tv, tc, fall:TODO,
+				0, "", -1, false, //weight: TODO
 				UtilDate.ToFile(DateTime.Now));
 	}
 	private void fourPlatformsInsertToSQLOther ()

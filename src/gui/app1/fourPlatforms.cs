@@ -27,6 +27,7 @@ using System.Threading;
 
 public class FourPlatformsCaptureManage
 {
+	private Constants.Modes mode;
 	private FourPlatformsCapture fpc;
 	private bool finish;
 	private bool cancel;
@@ -40,11 +41,13 @@ public class FourPlatformsCaptureManage
 	private List<List<double>> timesOff_ll; //[0] will have all and helps to configureTimeWindow (time info to sql)
 
 	public FourPlatformsCaptureManage (
+			Constants.Modes mode,
 			FourPlatformsCapture fpc,
 			ref List<List<PointF>> points_ll,
 			List<IDName> idName_l
 			)
 	{
+		this.mode = mode;
 		this.fpc = fpc;
 		this.points_ll = points_ll;
 		this.idName_l = idName_l;
@@ -100,9 +103,18 @@ public class FourPlatformsCaptureManage
 				timeAccu_l[fpe.Button] += timeNow;
 
 				int y = fpe.Button + 1; //1 - 4
-				double ySign = .2;
-				if (fpe.Time < 0)
-					ySign = -.2;
+				double ySign;
+
+				if (mode == Constants.Modes.JUMPSSIMPLE)
+				{
+					ySign = 0;
+					if (fpe.Time < 0)
+						ySign = .4;
+				} else { //(mode == Constants.Modes.OTHER)
+					ySign = .2;
+					if (fpe.Time < 0)
+						ySign = -.2;
+				}
 
 				if (fpe.Time < 0)
 					timesOff_ll[fpe.Button].Add (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000)); //0-3 each of the sensors
@@ -235,7 +247,7 @@ public partial class ChronoJumpWindow
 			fpc = new FourPlatformsCapture (
 					chronopicRegister.GetSelectedForMode (current_mode).Port);
 
-		fpcm = new FourPlatformsCaptureManage (fpc, ref cairoGraphFourPlatformsPoints_ll, getSelectedPersonAndNext3 ());
+		fpcm = new FourPlatformsCaptureManage (current_mode, fpc, ref cairoGraphFourPlatformsPoints_ll, getSelectedPersonAndNext3 ());
 
 		if (fpcm.Init ())
 		{

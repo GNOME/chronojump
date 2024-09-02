@@ -27,6 +27,7 @@ public class CairoGraphFourPlatforms : CairoXY
 {
 	//private bool horizontal;
 	private int points_l_painted;
+	private Constants.Modes mode;
 	private List<List<PointF>> points_ll;
 	private List<IDName> idName_l;
 	private int startAt;
@@ -69,6 +70,7 @@ public class CairoGraphFourPlatforms : CairoXY
 
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font,
+			Constants.Modes mode,
 			List<List<PointF>> points_ll,
 			List<IDName> idName_l,
 			bool capturing,
@@ -78,6 +80,7 @@ public class CairoGraphFourPlatforms : CairoXY
 			bool forceRedraw, PlotTypes plotType)
 	{
 		if (doSendingList (font,
+					mode,
 					points_ll,
 					idName_l,
 					capturing,
@@ -89,6 +92,7 @@ public class CairoGraphFourPlatforms : CairoXY
 	}
 
 	private bool doSendingList (string font,
+			Constants.Modes mode,
 			List<List<PointF>> points_ll,
 			List<IDName> idName_l,
 			bool capturing,
@@ -97,6 +101,7 @@ public class CairoGraphFourPlatforms : CairoXY
 			int showLastSeconds,
 			bool forceRedraw, PlotTypes plotType)
 	{
+		this.mode = mode;
 		this.points_ll = points_ll;
 		this.idName_l = idName_l;
 		this.capturing = capturing;
@@ -216,43 +221,14 @@ public class CairoGraphFourPlatforms : CairoXY
 
 		g.LineWidth = 2;
 		g.SetSourceColor (black);
+
 		for (int i = 1; i <= 4; i ++)
-			for (int j = points_ll[i].Count -1; j >= 0 && points_ll[i][j].X >= points_ll[0][startAt].X ; j --)
-			{
-				if (points_ll[i][j].Y > i) 	//ON: filled
-				{
-					drawCircle (calculatePaintX (points_ll[i][j].X),
-							calculatePaintY (i),
-							pointsRadius, black, true);
-
-					continue;
-				}
-
-				if (points_ll[i][j].Y < i) //if OFF, should be empty and draw the line to ON at left
-				{
-					drawCircle (calculatePaintX (points_ll[i][j].X),
-							calculatePaintY (i),
-							pointsRadius, black, white);
-
-					//double drawLineToX = calculatePaintX (0);
-					double drawLineToX = calculatePaintX (points_ll[0][startAt].X) + pointsRadius;
-					if (j -1 >= 0 && points_ll[i][j-1].Y > i && //ON: filled
-							points_ll[i][j-1].X >= points_ll[0][startAt].X)
-					{
-						drawCircle (calculatePaintX (points_ll[i][j-1].X),
-								calculatePaintY (i),
-								pointsRadius, black, true);
-						drawLineToX = calculatePaintX (points_ll[i][j-1].X) + pointsRadius;
-					}
-
-					if (calculatePaintX (points_ll[i][j].X) - pointsRadius - drawLineToX > 0)
-					{
-						g.MoveTo (calculatePaintX (points_ll[i][j].X) - pointsRadius, calculatePaintY (i));
-						g.LineTo (drawLineToX, calculatePaintY (i));
-						g.Stroke ();
-					}
-				}
-			}
+		{
+			if (mode == Constants.Modes.JUMPSSIMPLE)
+				doPlotMarksJumpsSimple (i);
+			else //(mode == Constants.Modes.OTHER)
+				doPlotMarksOther (i);
+		}
 
 		/*
 		//debug with points_ll[0]
@@ -261,6 +237,70 @@ public class CairoGraphFourPlatforms : CairoXY
 
 		g.SetSourceColor (yellow);
 		points_l_painted = points_ll[0].Count;
+	}
+
+	private void doPlotMarksJumpsSimple (int i) //person (row)
+	{
+		if (points_ll[i].Count == 1)
+		{
+			drawCircle (calculatePaintX (points_ll[i][0].X),
+					calculatePaintY (points_ll[i][0].Y),
+					3, black, true);
+			return;
+		}
+
+		for (int j = 0; j < points_ll[i].Count; j ++)
+		{
+			if (j == 0)
+				g.MoveTo (calculatePaintX (points_ll[i][j].X), calculatePaintY (points_ll[i][j].Y));
+			else {
+				g.LineTo (calculatePaintX (points_ll[i][j].X), calculatePaintY (points_ll[i][j-1].Y));
+				g.LineTo (calculatePaintX (points_ll[i][j].X), calculatePaintY (points_ll[i][j].Y));
+			}
+		}
+		g.Stroke ();
+
+		//2 draw the boxes (air), they will also overlap the tc line
+	}
+
+	private void doPlotMarksOther (int i) //person (row)
+	{
+		for (int j = points_ll[i].Count -1; j >= 0 && points_ll[i][j].X >= points_ll[0][startAt].X ; j --)
+		{
+			if (points_ll[i][j].Y > i) 	//ON: filled
+			{
+				drawCircle (calculatePaintX (points_ll[i][j].X),
+						calculatePaintY (i),
+						pointsRadius, black, true);
+
+				continue;
+			}
+
+			if (points_ll[i][j].Y < i) //if OFF, should be empty and draw the line to ON at left
+			{
+				drawCircle (calculatePaintX (points_ll[i][j].X),
+						calculatePaintY (i),
+						pointsRadius, black, white);
+
+				//double drawLineToX = calculatePaintX (0);
+				double drawLineToX = calculatePaintX (points_ll[0][startAt].X) + pointsRadius;
+				if (j -1 >= 0 && points_ll[i][j-1].Y > i && //ON: filled
+						points_ll[i][j-1].X >= points_ll[0][startAt].X)
+				{
+					drawCircle (calculatePaintX (points_ll[i][j-1].X),
+							calculatePaintY (i),
+							pointsRadius, black, true);
+					drawLineToX = calculatePaintX (points_ll[i][j-1].X) + pointsRadius;
+				}
+
+				if (calculatePaintX (points_ll[i][j].X) - pointsRadius - drawLineToX > 0)
+				{
+					g.MoveTo (calculatePaintX (points_ll[i][j].X) - pointsRadius, calculatePaintY (i));
+					g.LineTo (drawLineToX, calculatePaintY (i));
+					g.Stroke ();
+				}
+			}
+		}
 	}
 
 	protected override void writeTitle()

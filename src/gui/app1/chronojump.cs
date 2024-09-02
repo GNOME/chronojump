@@ -5144,7 +5144,7 @@ public partial class ChronoJumpWindow
 			on_cancel_clicked_2_other ();
 		else if (current_mode == Constants.Modes.JUMPSSIMPLE &&
 				crp.Port != "" && crp.Type == ChronopicRegisterPort.Types.FOURPLATFORMS)
-			on_cancel_clicked_2_contacts_generic ();
+			on_cancel_clicked_2_other ();
 		else
 			on_cancel_clicked_2_contacts_generic ();
 	}

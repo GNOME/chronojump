@@ -152,7 +152,7 @@ public class CairoGraphFourPlatforms : CairoXY
 		}
 
 		//if( points_l == null || points_l.Count == 0)
-		if( points_ll == null || points_ll[0].Count == 0)
+		if( (points_ll == null || points_ll[0].Count == 0) && idName_l == null)
 		{
 			if (! graphInited)
 			{
@@ -187,13 +187,18 @@ public class CairoGraphFourPlatforms : CairoXY
 		paintGrid (gridTypes.VERTICALLINES, true, 0);//axisShiftToRight + 5);
 		call like this:
 		*/
-		verticalGridLineUnits = " s";
-		paintGridNiceAutoValues (g,
-				points_ll[0][startAt].X,
-				absoluteMaxX, minY, absoluteMaxY, gridNiceSeps, gridTypes.VERTICALLINES, 0, textHeight);
+		if (points_ll[0].Count > 0)
+		{
+			verticalGridLineUnits = " s";
+			paintGridNiceAutoValues (g,
+					points_ll[0][startAt].X,
+					absoluteMaxX, minY, absoluteMaxY, gridNiceSeps, gridTypes.VERTICALLINES, 0, textHeight);
+		}
 
 		//paint points
 		if(maxValuesChanged || forceRedraw || points_ll[0].Count != points_l_painted)
+			doPlot (plotType);
+		else if (points_ll[0].Count == 0) //to plot just the names when there is no data
 			doPlot (plotType);
 
 		return true;
@@ -229,13 +234,14 @@ public class CairoGraphFourPlatforms : CairoXY
 
 		g.LineWidth = 2;
 
-		for (int i = 1; i <= 4; i ++)
-		{
-			if (mode == Constants.Modes.JUMPSSIMPLE)
-				doPlotMarksJumpsSimple (i);
-			else //(mode == Constants.Modes.OTHER)
-				doPlotMarksOther (i);
-		}
+		if (points_ll[0].Count > 0)
+			for (int i = 1; i <= 4; i ++)
+			{
+				if (mode == Constants.Modes.JUMPSSIMPLE)
+					doPlotMarksJumpsSimple (i);
+				else //(mode == Constants.Modes.OTHER)
+					doPlotMarksOther (i);
+			}
 
 		/*
 		//debug with points_ll[0]

@@ -174,20 +174,28 @@ public partial class ChronoJumpWindow
 	static FourPlatformsCaptureManage fpcm;
 	FourPlatformsCapture fpc;
 
+	//methods used on discoverWin closed, person changed, and Chronojump start (changeMode)
+	private void showHideFourPlatformsJumpsDrawingArea ()
+	{
+		ChronopicRegisterPort crp = chronopicRegister.GetSelectedForMode (current_mode);
+		if (crp.Port != "" && crp.Type == ChronopicRegisterPort.Types.FOURPLATFORMS)
+		{
+			updateFourPlatformsJumpsPersonNames ();
+			align_drawingarea_realtime_capture_cairo.Visible = true;
+		} else
+			align_drawingarea_realtime_capture_cairo.Visible = false;
+	}
+	private void updateFourPlatformsJumpsPersonNames ()
+	{
+		cairoGraphFourPlatformsPoints_ll = new List<List<PointF>>();
+		cairoGraphFourPlatformsPoints_ll.Add (new List<PointF>());
+		fpcm = new FourPlatformsCaptureManage (current_mode, null, ref cairoGraphFourPlatformsPoints_ll, getSelectedPersonAndNext3 ());
+		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
+
+	}
+
 	private void on_four_platforms_capture_clicked ()
 	{
-		if (current_mode == Constants.Modes.JUMPSSIMPLE && ! align_drawingarea_realtime_capture_cairo.Visible)
-		{
-			align_drawingarea_realtime_capture_cairo.Visible = true;
-
-			if (myTreeViewPersons != null && myTreeViewPersons.CountRows () > 4)
-			{
-				LogB.Information ("first four persons:");
-				for (int i = 0; i < 4; i ++)
-					LogB.Information (myTreeViewPersons.GetPersonByRow (i).ToString ());
-			}
-		}
-
 		capturingFourPlatforms = arduinoCaptureStatus.STARTING;
 
 		//blank Cairo scatterplot graphs

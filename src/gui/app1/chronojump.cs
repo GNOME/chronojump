@@ -1697,6 +1697,11 @@ public partial class ChronoJumpWindow
 				jumpsEvolutionCalculate ();
 				drawingarea_jumps_evolution.QueueDraw ();
 			}
+
+			//four platforms
+			ChronopicRegisterPort crp = chronopicRegister.GetSelectedForMode (current_mode);
+			if (crp.Port != "" && crp.Type == ChronopicRegisterPort.Types.FOURPLATFORMS)
+				updateFourPlatformsJumpsPersonNames ();
 		}
 		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
@@ -4220,6 +4225,8 @@ public partial class ChronoJumpWindow
 
 				if(radio_mode_contacts_analyze.Active)
 					radio_mode_contacts_analyze_buttons_visible (m);
+
+				showHideFourPlatformsJumpsDrawingArea ();
 			} else {
 				notebooks_change(m);
 				button_contacts_bells.Sensitive = true;
@@ -5417,12 +5424,14 @@ public partial class ChronoJumpWindow
 			// same for runEncoder
 			else if (current_mode == Constants.Modes.RUNSENCODER && portREOpened)
 				portREOpened = false;
+
+			if (current_mode == Constants.Modes.JUMPSSIMPLE)
+				showHideFourPlatformsJumpsDrawingArea ();
 		}
 
 		notebook_sup.CurrentPage = app1s_notebook_sup_entered_from; //CONTACTS or ENCODER
 		menus_and_mode_sensitive (true);
 	}
-
 
 
 	/*

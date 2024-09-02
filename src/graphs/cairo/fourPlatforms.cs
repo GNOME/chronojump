@@ -208,11 +208,19 @@ public class CairoGraphFourPlatforms : CairoXY
 		{
 			g.MoveTo (leftMargin, calculatePaintY (i));
 			g.LineTo (graphWidth - rightMargin, calculatePaintY (i));
+		}
+		g.Stroke ();
 
-			if (idName_l != null && idName_l.Count == 4 && idName_l[i-1].UniqueID >= 0)
-				printText (leftMargin/2, calculatePaintY (i -.5), 0, textHeight +4,
-					idName_l[i-1].Name, g, alignTypes.LEFT);
-			else
+		g.SetSourceColor (black);
+		for (int i = 1; i <= 4; i ++)
+		{
+			//jumps simple
+			if (mode == Constants.Modes.JUMPSSIMPLE)
+			{
+				if (idName_l != null && idName_l.Count == 4 && idName_l[i-1].UniqueID >= 0)
+					printText (leftMargin/2, calculatePaintY (5 -i +.7), 0, textHeight +4,
+							idName_l[i-1].Name, g, alignTypes.LEFT);
+			} else //(mode == Constants.Modes.OTHER)
 				printText (leftMargin/2, calculatePaintY (i), 0, textHeight +4,
 					i.ToString (), g, alignTypes.CENTER);
 
@@ -220,7 +228,6 @@ public class CairoGraphFourPlatforms : CairoXY
 		}
 
 		g.LineWidth = 2;
-		g.SetSourceColor (black);
 
 		for (int i = 1; i <= 4; i ++)
 		{

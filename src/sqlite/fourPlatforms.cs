@@ -135,12 +135,30 @@ class SqliteFourPlatformsJumpsSimple : Sqlite
 					if (person_l[i].UniqueID < 0)
 						continue;
 
-					//TODO: use also on_ll and fall
-					foreach (Double d in off_ll[i])
-						SqliteJump.InsertDo (true, table,
-								"-1", person_l[i].UniqueID, sessionID, jumpType,
-								d, 0, fall, weight, "", -1, 0, datetimeStr, //TODO: TC & fall
-								dbcmdTr);
+					LogB.Information ("person: " + i.ToString ());
+					double tf = 0;
+					for (int j = 0; j < on_ll[i].Count; j ++)
+					{
+						//LogB.Information (string.Format ("on {0}, onTime {1} ", j, on_ll[i][j]));
+						bool found = false;
+						for (int k = off_ll[i].Count -1; k >= 0; k --)
+						{
+							//LogB.Information (string.Format ("off {0}, offTime {1} ", k, off_ll[i][k]));
+							if (off_ll[i][k] < on_ll[i][j])
+							{
+								//LogB.Information ("found!");
+								tf = on_ll[i][j] - off_ll[i][k];
+								found = true;
+								break;
+							}
+						}
+
+						if (found)
+							SqliteJump.InsertDo (true, table,
+									"-1", person_l[i].UniqueID, sessionID, jumpType,
+									tf, 0, fall, weight, "", -1, 0, datetimeStr, //TODO: TC & fall
+									dbcmdTr);
+					}
 				}
 			}
 			tr.Commit();

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -338,7 +338,7 @@ class SqliteRun : Sqlite
 	{
 		Sqlite.Open ();
 		dbcmd.CommandText =
-			"SELECT MIN(run.time), person77.name, person77.Description" +
+			"SELECT MIN(run.time), person77.name, person77.future2, person77.Description" +
 			" FROM run, person77" +
 			" WHERE sessionID = " + sessionID.ToString () +
 			" AND run.personID = person77.uniqueID" +
@@ -355,9 +355,12 @@ class SqliteRun : Sqlite
 		{
 			Ranking r = new Ranking (
 					pos ++,
-					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString())), 	//result
+					//Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString())), 	//result
+					3.6 * UtilAll.DivideSafe (7,
+						Convert.ToDouble (Util.ChangeDecimalSeparator(reader[0].ToString()))), 	//result (chut is 7 m)
 					reader[1].ToString(), 	//name
-					reader[2].ToString() 	//photo
+					reader[2].ToString(),	//Num
+					reader[3].ToString() 	//photo
 					);
 			//LogB.Information ("r.ToString ()");
 			//LogB.Information (r.ToString ());
@@ -376,13 +379,15 @@ public class Ranking
 	public int pos;
 	public double result;
 	public string name;
+	public string num;
 	public string photo;
 
-	public Ranking (int pos, double result, string name, string photo)
+	public Ranking (int pos, double result, string name, string num, string photo)
 	{
 		this.pos = pos;
 		this.result = result;
 		this.name = name;
+		this.num = num;
 
 		photo = photo.Replace ("\nhttps", "https");
 		photo = photo.Replace (" https", "https");
@@ -392,9 +397,12 @@ public class Ranking
 
 	public override string ToString ()
 	{
+		if (photo == "")
+			photo = "no_photo";
+
 		return "\n{ " +
-			string.Format ("'Pos':{0}, 'Result':{1}, 'Name':'{2}', 'Photo':'{3}'",
-					pos, Util.ConvertToPoint (Util.TrimDecimals (result, 2)), name, photo) +
+			string.Format ("\"Pos\":{0}, \"Result\":{1}, \"Name\":\"{2}\", \"Num\":\"({3})\", \"Photo\":\"{4}\"",
+					pos, Util.ConvertToPoint (Util.TrimDecimals (result, 2)), name, num, photo) +
 			"}";
 	}
 }

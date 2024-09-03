@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -279,11 +279,11 @@ class SqliteRunInterval : SqliteRun
 		Sqlite.Close();
 	}
 
-	public static List<Ranking> GetPersonsRanking (int sessionID)
+	public static new List<Ranking> GetPersonsRanking (int sessionID)
 	{
 		Sqlite.Open ();
 		dbcmd.CommandText =
-			"SELECT MIN(runInterval.timeTotal), person77.name, person77.Description" +
+			"SELECT MIN(runInterval.timeTotal), person77.name, person77.future2, person77.Description" +
 			" FROM runInterval, person77" +
 			" WHERE sessionID = " + sessionID.ToString () +
 			" AND runInterval.personID = person77.uniqueID" +
@@ -302,7 +302,8 @@ class SqliteRunInterval : SqliteRun
 					pos ++,
 					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString())), 	//result
 					reader[1].ToString(), 	//name
-					reader[2].ToString() 	//photo
+					reader[2].ToString(),	//Num
+					reader[3].ToString() 	//photo
 					);
 			r_l.Add (r);
 		}

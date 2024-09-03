@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -939,7 +939,7 @@ public class RunExecute : EventExecute
 
 		if (jsonUploadRankingScript != "")
 		{
-			writeJsonDataRanking (sessionID);
+			writeJsonDataRanking (SqliteRun.GetPersonsRanking (sessionID));
 			System.Threading.Thread.Sleep(250);
 			ExecuteProcess.run (jsonUploadRankingScript, false, false);
 		}
@@ -978,10 +978,12 @@ public class RunExecute : EventExecute
 		string jsonStr =
 			"{\n" +
 			"\"Name\":\"" + p.Name + "\",\n" +
-			"\"No\":" + p.Future2 + ",\n" +
+			"\"No\":\"(" + p.Future2 + ")\",\n" +
 			"\"Photo\":\"" + description + "\",\n" +
 			"\"Test\":\"Chut\",\n" +
-			"\"Time\":" + Util.ConvertToPoint (Util.TrimDecimals (trackTime, 2)) + "\n" +
+			//"\"Time\":" + Util.ConvertToPoint (Util.TrimDecimals (trackTime, 2)) + "\n" +
+			"\"Speed\":" + Util.ConvertToPoint (Util.TrimDecimals ( //chut distance is 7 m
+						3.6 * UtilAll.DivideSafe (7, trackTime), 2)) + "\n" +
 			"}";
 
 		TextWriter writer = File.CreateText("/tmp/json_chut_1_test.txt");
@@ -993,10 +995,8 @@ public class RunExecute : EventExecute
 
 	protected string jsonDataRankingTitle = "RankingChut";
 	protected string jsonDataRankingFile = "/tmp/json_chut_ranking.txt";
-	protected void writeJsonDataRanking (int sessionID)
+	protected void writeJsonDataRanking (List<Ranking> r_l)
 	{
-		List<Ranking> r_l = SqliteRun.GetPersonsRanking (sessionID);
-
 		string jsonStr = "{";
 		jsonStr += "\n\"" + jsonDataRankingTitle + "\": [";
 		string commaStr = "";
@@ -1090,6 +1090,9 @@ public class RunIntervalExecute : RunExecute
 			string jsonUploadRankingScript
 			)
 	{
+		jsonDataRankingTitle = "RankingSprint";
+		jsonDataRankingFile = "/tmp/json_sprint_ranking.txt";
+
 		this.personID = personID;
 		this.sessionID = sessionID;
 		this.type = type;
@@ -1519,7 +1522,9 @@ public class RunIntervalExecute : RunExecute
 
 			if (jsonUploadTestScript != "")
 			{
-				double maxSpeed = Util.GetRunIVariableDistancesSpeeds (distancesString, intervalTimesString, true);
+				//TODO: do this but take in account that mybe is not variable
+				//double maxSpeed = Util.GetRunIVariableDistancesSpeeds (distancesString, intervalTimesString, true);
+				double maxSpeed = 66;
 
 				Person p = SqlitePerson.Select (false, personID);
 				writeJsonDataThisTest (p, maxSpeed);
@@ -1529,7 +1534,7 @@ public class RunIntervalExecute : RunExecute
 
 			if (jsonUploadRankingScript != "")
 			{
-				writeJsonDataRanking (sessionID);
+				writeJsonDataRanking (SqliteRunInterval.GetPersonsRanking (sessionID));
 				System.Threading.Thread.Sleep(250);
 				ExecuteProcess.run (jsonUploadRankingScript, false, false);
 			}
@@ -1565,11 +1570,10 @@ public class RunIntervalExecute : RunExecute
 		string jsonStr =
 			"{\n" +
 			"\"Name\":\"" + p.Name + "\",\n" +
-			"\"No\":" + p.Future2 + ",\n" +
+			"\"No\":\"(" + p.Future2 + ")\",\n" +
 			"\"Photo\":\"" + description + "\",\n" +
 			"\"Test\":\"Speed\",\n" +
 			"\"Time\":" + Util.ConvertToPoint (Util.TrimDecimals (timeTotal, 2)) + ",\n" +
-			//"\"MaxSpeed\":" + 0 + "\n" +
 			"\"MaxSpeed\":" + Util.ConvertToPoint (Util.TrimDecimals (maxSpeed, 2)) + "\n" +
 			"}";
 
@@ -1579,9 +1583,6 @@ public class RunIntervalExecute : RunExecute
 		writer.Close();
 		((IDisposable)writer).Dispose();
 	}
-
-	protected string jsonDataRankingTitle = "RankingSprint";
-	protected string jsonDataRankingFile = "/tmp/json_sprint_ranking.txt";
 
 	~RunIntervalExecute() {}
 }

@@ -22,6 +22,7 @@ using System;
 using System.Data;
 using System.Text; //StringBuilder
 
+//TODO: this should be abstract
 public class Event 
 {
 	protected int personID;

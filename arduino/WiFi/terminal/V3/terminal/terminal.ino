@@ -237,6 +237,7 @@ void setup(void)
   //radio.printPrettyDetails();
   Serial.print("Power: ");
   Serial.println(radio.getPALevel());
+  flagint = LOW;
 }
 
 
@@ -246,7 +247,7 @@ void loop(void)
   if (flagint == HIGH) //The sensor has changed
   {
     sendSample();
-    Serial.println(sample.state);
+    // Serial.println(sample.state);
     // Serial.println(millis());
   }
 
@@ -296,7 +297,13 @@ void sendSample(void) {
   //    Serial.println(radio.getChannel());
   beep(25);
   flagint = LOW;
-  if (! unlimitedMode) waitingSensor = false;
+  if (! unlimitedMode) {
+    waitingSensor = false;
+    sample.state = !lastPinState;
+    delay(2);
+    en = radio.write( &sample, sample_size);
+  }
+
   radio.setChannel(terminal0Channel - sample.termNum);
   radio.startListening();
 
@@ -388,6 +395,7 @@ void executeCommand(uint16_t command)
     if ((command & sensorUnlimited) == sensorUnlimited) {
       //      Serial.println("activating sensor unlimited");
       time0 = millis(); //empieza a contar time
+      lastPinState = digitalRead(2);
       waitingSensor = true;  //Terminal set to waiting touch/proximity
       unlimitedMode = true;
       interrupts();

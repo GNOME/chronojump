@@ -939,7 +939,7 @@ public class RunExecute : EventExecute
 
 		if (jsonUploadRankingScript != "")
 		{
-			writeJsonDataRanking (SqliteRun.GetPersonsRanking (sessionID));
+			writeJsonDataRanking (SqliteRun.GetPersonsRanking (sessionID, distance));
 			System.Threading.Thread.Sleep(250);
 			ExecuteProcess.run (jsonUploadRankingScript, false, false);
 		}
@@ -983,7 +983,7 @@ public class RunExecute : EventExecute
 			"\"Test\":\"Chut\",\n" +
 			//"\"Time\":" + Util.ConvertToPoint (Util.TrimDecimals (trackTime, 2)) + "\n" +
 			"\"Speed\":" + Util.ConvertToPoint (Util.TrimDecimals ( //chut distance is 7 m
-						3.6 * UtilAll.DivideSafe (7, trackTime), 2)) + "\n" +
+						3.6 * UtilAll.DivideSafe (distance, trackTime), 2)) + "\n" +
 			"}";
 
 		TextWriter writer = File.CreateText("/tmp/json_chut_1_test.txt");
@@ -1522,9 +1522,20 @@ public class RunIntervalExecute : RunExecute
 
 			if (jsonUploadTestScript != "")
 			{
-				//TODO: do this but take in account that mybe is not variable
-				//double maxSpeed = Util.GetRunIVariableDistancesSpeeds (distancesString, intervalTimesString, true);
-				double maxSpeed = 66;
+				double maxSpeed = 0;
+				if(distanceInterval == -1)
+					maxSpeed = Util.GetRunIVariableDistancesSpeeds (distancesString, intervalTimesString, true);
+				else {
+					List<double> timeList = ((RunInterval) eventDone).TimeList;
+					int count = 0;
+					foreach (double time in timeList)
+					{
+						if (count == 0 || UtilAll.DivideSafe (distanceInterval, time) > maxSpeed)
+							maxSpeed = UtilAll.DivideSafe (distanceInterval, time);
+
+						count ++;
+					}
+				}
 
 				Person p = SqlitePerson.Select (false, personID);
 				writeJsonDataThisTest (p, maxSpeed);
@@ -1574,7 +1585,7 @@ public class RunIntervalExecute : RunExecute
 			"\"Photo\":\"" + description + "\",\n" +
 			"\"Test\":\"Speed\",\n" +
 			"\"Time\":" + Util.ConvertToPoint (Util.TrimDecimals (timeTotal, 2)) + ",\n" +
-			"\"MaxSpeed\":" + Util.ConvertToPoint (Util.TrimDecimals (maxSpeed, 2)) + "\n" +
+			"\"MaxSpeed\":" + Util.ConvertToPoint (Util.TrimDecimals (3.6 * maxSpeed, 2)) + "\n" +
 			"}";
 
 		TextWriter writer = File.CreateText("/tmp/json_sprint_1_test.txt");

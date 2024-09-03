@@ -276,7 +276,7 @@ public class RunInterval : Run
 		return splitTimes;
 	}
 
-	private List<double> timeList
+	public List<double> TimeList
 	{
 		get {
 			List<double> l = new List<double>();
@@ -292,10 +292,10 @@ public class RunInterval : Run
 	public double TimeLast
 	{
 		get {
-			if(timeList == null || timeList.Count == 0)
+			if(TimeList == null || TimeList.Count == 0)
 				return 0;
 			else
-				return timeList[timeList.Count -1];
+				return TimeList[TimeList.Count -1];
 		}
 	}
 

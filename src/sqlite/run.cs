@@ -334,7 +334,7 @@ class SqliteRun : Sqlite
 		Sqlite.Close();
 	}
 
-	public static List<Ranking> GetPersonsRanking (int sessionID)
+	public static List<Ranking> GetPersonsRanking (int sessionID, double distance)
 	{
 		Sqlite.Open ();
 		dbcmd.CommandText =
@@ -356,7 +356,7 @@ class SqliteRun : Sqlite
 			Ranking r = new Ranking (
 					pos ++,
 					//Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString())), 	//result
-					3.6 * UtilAll.DivideSafe (7,
+					3.6 * UtilAll.DivideSafe (distance,
 						Convert.ToDouble (Util.ChangeDecimalSeparator(reader[0].ToString()))), 	//result (chut is 7 m)
 					reader[1].ToString(), 	//name
 					reader[2].ToString(),	//Num

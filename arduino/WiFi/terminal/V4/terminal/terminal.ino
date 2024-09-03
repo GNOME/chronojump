@@ -230,8 +230,10 @@ void setup(void)
   Timer1.stop();
   sample.state = digitalRead(2);
   lastPinState = sample.state;
-  Serial.println("Initial state");
+  Serial.print("Initial state: ");
   Serial.println(sample.state);
+  // TODO: Understand why flagint is HIGH
+  flagint = LOW;
 }
 
 

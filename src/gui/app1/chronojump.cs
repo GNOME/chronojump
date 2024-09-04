@@ -308,6 +308,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_execute_test;
 	Gtk.Viewport viewport_chronopics;
 	Gtk.Viewport viewport_chronopic_encoder;
+	Gtk.Button button_contacts_json_upload;
 
 	//detect devices
 	Gtk.Box vbox_micro_discover;
@@ -4678,6 +4679,11 @@ public partial class ChronoJumpWindow
 			}
 		}
 
+		//json upload
+		button_contacts_json_upload.Visible = configChronojump.JsonUploadNeedsButton &&
+			(current_mode == Constants.Modes.RUNSSIMPLE ||
+			 current_mode == Constants.Modes.RUNSINTERVALLIC);
+
 		//on capture, show phases, time, record if we are not on forcesensor mode
 		showHideCaptureSpecificControls (m);
 
@@ -6640,6 +6646,7 @@ public partial class ChronoJumpWindow
 				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
 				radio_contacts_graph_allTests.Active, radio_contacts_results_personAll.Active,
 				webcamStatusEnumSetStart (), configChronojump.WichroSensorOnce,
+				configChronojump.JsonUploadNeedsButton,
 				configChronojump.JsonUploadRunSimpleTestScript,
 				configChronojump.JsonUploadRunSimpleRankingScript
 				);
@@ -6718,6 +6725,24 @@ public partial class ChronoJumpWindow
 			webcamRestoreGui (saved);
 		}
 	}
+
+	private void on_button_contacts_json_upload_clicked (object o, EventArgs args)
+	{
+		if (currentEventExecute == null)
+			return;
+
+		if (current_mode == Constants.Modes.RUNSSIMPLE && currentEventExecute.GetType () == typeof(RunExecute))
+		{
+			((RunExecute) currentEventExecute).JsonUploadTestScriptDo ();
+			((RunExecute) currentEventExecute).JsonUploadRankingScriptDo ();
+		}
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC && currentEventExecute.GetType () == typeof(RunIntervalExecute))
+		{
+			((RunIntervalExecute) currentEventExecute).JsonUploadTestScriptDo ();
+			((RunIntervalExecute) currentEventExecute).JsonUploadRankingScriptDo ();
+		}
+	}
+
 
 	/* ---------------------------------------------------------
 	 * ----------------  RUNS EXECUTION (interval) ----------
@@ -6809,6 +6834,7 @@ public partial class ChronoJumpWindow
 				image_run_execute_photocell_icon,
 				label_run_execute_photocell_code,
 				webcamStatusEnumSetStart (), configChronojump.WichroSensorOnce,
+				configChronojump.JsonUploadNeedsButton,
 				configChronojump.JsonUploadRunIntervalTestScript,
 				configChronojump.JsonUploadRunIntervalRankingScript
 				);
@@ -10439,6 +10465,7 @@ LogB.Debug("mc finished 5");
 		button_execute_test = (Gtk.Button) builder.GetObject ("button_execute_test");
 		viewport_chronopics = (Gtk.Viewport) builder.GetObject ("viewport_chronopics");
 		viewport_chronopic_encoder = (Gtk.Viewport) builder.GetObject ("viewport_chronopic_encoder");
+		button_contacts_json_upload = (Gtk.Button) builder.GetObject ("button_contacts_json_upload");
 
 		//detect devices
 		vbox_micro_discover = (Gtk.Box) builder.GetObject ("vbox_micro_discover");

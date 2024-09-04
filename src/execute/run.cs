@@ -80,6 +80,7 @@ public class RunExecute : EventExecute
 
 	protected WichroCapture wichroCapture;
 	protected int sensorOnce;
+	protected bool jsonUploadNeedsButton;
 	protected string jsonUploadTestScript;
 	protected string jsonUploadRankingScript;
 
@@ -103,6 +104,7 @@ public class RunExecute : EventExecute
 			Gtk.Label label_run_execute_photocell_code,
 			int graphLimit, bool graphAllTypes, bool graphAllPersons,
 			bool cameraRecording, int sensorOnce,
+			bool jsonUploadNeedsButton,
 			string jsonUploadTestScript,
 			string jsonUploadRankingScript
 			)
@@ -137,6 +139,7 @@ public class RunExecute : EventExecute
 		this.graphAllPersons = graphAllPersons;
 		this.cameraRecording = cameraRecording;
 		this.sensorOnce = sensorOnce;
+		this.jsonUploadNeedsButton = jsonUploadNeedsButton;
 		this.jsonUploadTestScript = jsonUploadTestScript;
 		this.jsonUploadRankingScript = jsonUploadRankingScript;
 
@@ -928,22 +931,13 @@ public class RunExecute : EventExecute
 		if(graphAllTypes)
 			type = "";
 
-
-		if (jsonUploadTestScript != "")
+		if (! jsonUploadNeedsButton)
 		{
-			Person p = SqlitePerson.Select (false, personID);
-			writeJsonDataThisTest (p);
-			System.Threading.Thread.Sleep(250);
-			ExecuteProcess.run (jsonUploadTestScript, false, false);
+			if (jsonUploadTestScript != "")
+				JsonUploadTestScriptDo ();
+			if (jsonUploadRankingScript != "")
+				JsonUploadRankingScriptDo ();
 		}
-
-		if (jsonUploadRankingScript != "")
-		{
-			writeJsonDataRanking (SqliteRun.GetPersonsRanking (sessionID, distance));
-			System.Threading.Thread.Sleep(250);
-			ExecuteProcess.run (jsonUploadRankingScript, false, false);
-		}
-
 
 		/* 2.2.2 do not do the graph here because PrepareEventGraphRunSimple has an SQL call with a reader
 		   and updateGraph can be also called by gtk thread and also call PrepareEventGraphRunSimple,
@@ -962,6 +956,21 @@ public class RunExecute : EventExecute
 		*/
 		
 		needEndEvent = true; //used for hiding some buttons on eventWindow
+	}
+
+	public virtual void JsonUploadTestScriptDo ()
+	{
+		Person p = SqlitePerson.Select (false, personID);
+		writeJsonDataThisTest (p);
+		System.Threading.Thread.Sleep(250);
+		ExecuteProcess.run (jsonUploadTestScript, false, false);
+	}
+
+	public virtual void JsonUploadRankingScriptDo ()
+	{
+		writeJsonDataRanking (SqliteRun.GetPersonsRanking (sessionID, distance));
+		System.Threading.Thread.Sleep(250);
+		ExecuteProcess.run (jsonUploadRankingScript, false, false);
 	}
 
 	private void writeJsonDataThisTest (Person p)
@@ -1086,6 +1095,7 @@ public class RunIntervalExecute : RunExecute
 			Gtk.Image image_run_execute_photocell_icon,
 			Gtk.Label label_run_execute_photocell_code,
 			bool cameraRecording, int sensorOnce,
+			bool jsonUploadNeedsButton,
 			string jsonUploadTestScript,
 			string jsonUploadRankingScript
 			)
@@ -1141,6 +1151,7 @@ public class RunIntervalExecute : RunExecute
 		this.label_run_execute_photocell_code = label_run_execute_photocell_code;
 		this.cameraRecording = cameraRecording;
 		this.sensorOnce = sensorOnce;
+		this.jsonUploadNeedsButton = jsonUploadNeedsButton;
 		this.jsonUploadTestScript = jsonUploadTestScript;
 		this.jsonUploadRankingScript = jsonUploadRankingScript;
 
@@ -1520,34 +1531,12 @@ public class RunIntervalExecute : RunExecute
 			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString,
 					tracksHere, description, limitString, Util.BoolToNegativeInt(simulated), !startIn, datetime, photocell_l);
 
-			if (jsonUploadTestScript != "")
+			if (! jsonUploadNeedsButton)
 			{
-				double maxSpeed = 0;
-				if(distanceInterval == -1)
-					maxSpeed = Util.GetRunIVariableDistancesSpeeds (distancesString, intervalTimesString, true);
-				else {
-					List<double> timeList = ((RunInterval) eventDone).TimeList;
-					int count = 0;
-					foreach (double time in timeList)
-					{
-						if (count == 0 || UtilAll.DivideSafe (distanceInterval, time) > maxSpeed)
-							maxSpeed = UtilAll.DivideSafe (distanceInterval, time);
-
-						count ++;
-					}
-				}
-
-				Person p = SqlitePerson.Select (false, personID);
-				writeJsonDataThisTest (p, maxSpeed);
-				System.Threading.Thread.Sleep(250);
-				ExecuteProcess.run (jsonUploadTestScript, false, false);
-			}
-
-			if (jsonUploadRankingScript != "")
-			{
-				writeJsonDataRanking (SqliteRunInterval.GetPersonsRanking (sessionID));
-				System.Threading.Thread.Sleep(250);
-				ExecuteProcess.run (jsonUploadRankingScript, false, false);
+				if (jsonUploadTestScript != "")
+					JsonUploadTestScriptDo ();
+				if (jsonUploadRankingScript != "")
+					JsonUploadRankingScriptDo ();
 			}
 
 			if(simulated)
@@ -1565,6 +1554,36 @@ public class RunIntervalExecute : RunExecute
 
 			needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
 		}
+	}
+
+	public override void JsonUploadTestScriptDo ()
+	{
+		double maxSpeed = 0;
+		if(distanceInterval == -1)
+			maxSpeed = Util.GetRunIVariableDistancesSpeeds (distancesString, intervalTimesString, true);
+		else {
+			List<double> timeList = ((RunInterval) eventDone).TimeList;
+			int count = 0;
+			foreach (double time in timeList)
+			{
+				if (count == 0 || UtilAll.DivideSafe (distanceInterval, time) > maxSpeed)
+					maxSpeed = UtilAll.DivideSafe (distanceInterval, time);
+
+				count ++;
+			}
+		}
+
+		Person p = SqlitePerson.Select (false, personID);
+		writeJsonDataThisTest (p, maxSpeed);
+		System.Threading.Thread.Sleep(250);
+		ExecuteProcess.run (jsonUploadTestScript, false, false);
+	}
+
+	public override void JsonUploadRankingScriptDo ()
+	{
+		writeJsonDataRanking (SqliteRunInterval.GetPersonsRanking (sessionID));
+		System.Threading.Thread.Sleep(250);
+		ExecuteProcess.run (jsonUploadRankingScript, false, false);
 	}
 
 	private void writeJsonDataThisTest (Person p, double maxSpeed)

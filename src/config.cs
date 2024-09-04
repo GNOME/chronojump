@@ -64,7 +64,7 @@ public class Config
 		CopyToCloudFullPath, CopyToCloudOnExit, ReadFromCloudMainPath, //cloud
 		CanOpenExternalDB, ExternalDBDefaultPath, //externalDB
 		LastDBFullPath, //cloud & externalDB
-		JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, //json upload
+		JsonUploadNeedsButton, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, //json upload
 		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnce, GuiTest, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
@@ -136,6 +136,9 @@ public class Config
 	}
 
 	//json upload (remember scripts are on innolab/ chronojumpNoGit also session is there
+	public bool JsonUploadNeedsButton {
+		get { return configList.GetBool (OpEnum.JsonUploadNeedsButton); }
+	}
 	public string JsonUploadRunSimpleTestScript {
 		get { return configList.GetString (OpEnum.JsonUploadRunSimpleTestScript); }
 		//"/home/chronojump/Desktop/xaviB/kings_queens_flowics/json/curl_json_chut_1_test.sh"
@@ -583,6 +586,9 @@ public class ConfigList
 					"Last path used, Chronojump will open it automatically if not empty and (ReadFromCloudMainPath or CanOpenExternalDB)."));
 
 		// json upload
+		//JsonUploadNeedsButton
+		list.Add (new ConfigOptionBool (Config.OpEnum.JsonUploadNeedsButton,
+					"TRUE: Need to press a button to json upload a test. FALSE (default): It uploads automatically at capture end."));
 		list.Add (new ConfigOptionString (Config.OpEnum.JsonUploadRunSimpleTestScript,
 					"Path to JsonUploadRunSimpleTestScript."));
 		list.Add (new ConfigOptionString (Config.OpEnum.JsonUploadRunSimpleRankingScript,

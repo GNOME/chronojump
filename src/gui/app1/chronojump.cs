@@ -6645,7 +6645,8 @@ public partial class ChronoJumpWindow
 				label_run_execute_photocell_code,
 				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
 				radio_contacts_graph_allTests.Active, radio_contacts_results_personAll.Active,
-				webcamStatusEnumSetStart (), configChronojump.WichroSensorOnce,
+				webcamStatusEnumSetStart (),
+				configChronojump.WichroSensorOnceA, configChronojump.WichroSensorOnceB,
 				configChronojump.JsonUploadNeedsButton,
 				configChronojump.JsonUploadRunSimpleTestScript,
 				configChronojump.JsonUploadRunSimpleRankingScript
@@ -6833,7 +6834,8 @@ public partial class ChronoJumpWindow
 				image_run_execute_running,
 				image_run_execute_photocell_icon,
 				label_run_execute_photocell_code,
-				webcamStatusEnumSetStart (), configChronojump.WichroSensorOnce,
+				webcamStatusEnumSetStart (),
+				configChronojump.WichroSensorOnceA, configChronojump.WichroSensorOnceB,
 				configChronojump.JsonUploadNeedsButton,
 				configChronojump.JsonUploadRunIntervalTestScript,
 				configChronojump.JsonUploadRunIntervalRankingScript

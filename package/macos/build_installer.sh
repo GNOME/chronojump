@@ -17,6 +17,7 @@ fi
 MAC_INSTALLER_FILE_NAME="chronojump-${PACKAGE_VERSION}-${ARCH}.${PACKAGE_TYPE}"
 
 PYTHON_VERSION=3.12
+R_VERSION=4.3
 
 APPLE_ID=info@chronojump.org
 APPLE_PASSWORD=mylc-ghhj-zfxg-weta
@@ -25,35 +26,53 @@ APPLE_APPLICATION_CERT_NAME="Developer ID Application: Asociacion Chronojump (RX
 APPLE_INSTALLER_CERT_NAME="Developer ID Installer: Asociacion Chronojump (RXJZ6LH5L4)"
 MAC_APPLICATION_CERT_NAME="3rd Party Mac Developer Application: Asociacion Chronojump (RXJZ6LH5L4)"
 MAC_INSTALLER_CERT_NAME="3rd Party Mac Developer Installer: Asociacion Chronojump (RXJZ6LH5L4)"
-APPLICATION_CERT_NAME="${APPLE_APPLICATION_CERT_NAME}"
-INSTALLER_CERT_NAME="${APPLE_INSTALLER_CERT_NAME}"
+if [ "$PACKAGE_TYPE" == "dmg" ]; then  
+    APPLICATION_CERT_NAME="${APPLE_APPLICATION_CERT_NAME}"
+    INSTALLER_CERT_NAME="${APPLE_INSTALLER_CERT_NAME}"
+else
+    APPLICATION_CERT_NAME="${MAC_APPLICATION_CERT_NAME}"
+    INSTALLER_CERT_NAME="${MAC_INSTALLER_CERT_NAME}"
+fi
 
 run_codesign()
 {
     file=$1
     echo ${file}
-    codesign --deep --force --timestamp --options runtime --sign "${APPLICATION_CERT_NAME}" --entitlements entitlements.plist ${file}
-    #codesign --deep --force --timestamp=none --options runtime --sign "${APPLICATION_CERT_NAME}" --entitlements entitlements.plist ${file}
+    codesign --deep --force --timestamp --options runtime --sign "${APPLICATION_CERT_NAME}" --entitlements chronojump.entitlements ${file}
+    #codesign --deep --force --timestamp=none --options runtime --sign "${APPLICATION_CERT_NAME}" --entitlements chronojump.entitlements ${file}
 }
 
-for dir in `find deps/bin/x64/Python -type d -name "*.app"`
-do
-    rm -rf ${dir}
-done
-for dir in `find deps/bin/x64/Python -type d -name "*.dSYM"`
-do
-    rm -rf ${dir}
-done
-for dir in `find deps/R -type d -name "*.app"`
-do
-    rm -rf ${dir}
-done
-for dir in `find deps/R -type d -name "*.dSYM"`
-do
-    rm -rf ${dir}
-done
+#for dir in `find deps/bin/x64/Python -type d -name "*.app"`
+#do
+#    rm -rf ${dir}
+#done
+#for dir in `find deps/bin/x64/Python -type d -name "*.dSYM"`
+#do
+#    rm -rf ${dir}
+#done
+#for dir in `find deps/R -type d -name "*.app"`
+#do
+#    rm -rf ${dir}
+#done
+#for dir in `find deps/R -type d -name "*.dSYM"`
+#do
+#    rm -rf ${dir}
+#done
 
-for dir in `find app -mindepth 1 -maxdepth 1 -type d ! -name "Chronojump.app"`
+#for dir in `find app -mindepth 1 -maxdepth 1 -type d ! -name "Chronojump.app"`
+#do
+#    rm -rf ${dir}
+#done
+
+for dir in `find deps -type d -name "*.app"`
+do
+    rm -rf ${dir}
+done
+for dir in `find deps -type d -name "*.dSYM"`
+do
+    rm -rf ${dir}
+done
+for dir in `find deps -type d -name "_CodeSignature"`
 do
     rm -rf ${dir}
 done
@@ -174,6 +193,30 @@ run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/Current/Python
 run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/${PYTHON_VERSION}/Python
 run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Python
 
+run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/${PYTHON_VERSION}/bin/python3
+run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/${PYTHON_VERSION}/bin/python3-intel64
+run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/${PYTHON_VERSION}/bin/python${PYTHON_VERSION}
+run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/${PYTHON_VERSION}/bin/python${PYTHON_VERSION}-intel64
+run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/Current/bin/python3
+run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/Current/bin/python3-intel64
+run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/Current/bin/python${PYTHON_VERSION}
+run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/Current/bin/python${PYTHON_VERSION}-intel64
+run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Resources/Rscript
+run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Resources/bin/Rscript
+run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Resources/bin/exec/R
+run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Resources/bin/fc-cache
+run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Resources/bin/qpdf
+run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/Resources/Rscript
+run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/Resources/bin/Rscript
+run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/Resources/bin/exec/R
+run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/Resources/bin/fc-cache
+run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/Resources/bin/qpdf
+run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/Rscript
+run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/bin/Rscript
+run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/bin/exec/R
+run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/bin/fc-cache
+run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/bin/qpdf
+
 #mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/Resources/English.lproj ${MAC_APP_ROOT_DIR}/1_English.lproj
 #mv ${MAC_APP_BIN_DIR}bin/x64/Python/Resources/English.lproj ${MAC_APP_ROOT_DIR}/2_English.lproj
 #mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/lib/tdbcmysql1.1.5 ${MAC_APP_ROOT_DIR}/tdbcmysql1.1.5
@@ -251,6 +294,8 @@ else
     productsign --timestamp --sign "${INSTALLER_CERT_NAME}" "component-signing/${MAC_INSTALLER_FILE_NAME}" "component/${MAC_INSTALLER_FILE_NAME}"
     echo "Creating distribution pkg..."
     productbuild --package "component/${MAC_INSTALLER_FILE_NAME}" "distribution-signing/${MAC_INSTALLER_FILE_NAME}"
+    #echo "Creating distribution pkg..."
+    #productbuild --component app/Chronojump.app /Applications "distribution-signing/${MAC_INSTALLER_FILE_NAME}"
     echo "Signing distribution pkg..."
     productsign --timestamp --sign "${INSTALLER_CERT_NAME}" "distribution-signing/${MAC_INSTALLER_FILE_NAME}" ${MAC_INSTALLER_FILE_NAME}
     rm -rf distribution-signing

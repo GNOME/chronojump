@@ -65,7 +65,7 @@ public class Config
 		CanOpenExternalDB, ExternalDBDefaultPath, //externalDB
 		LastDBFullPath, //cloud & externalDB
 		JsonUploadNeedsButton, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, //json upload
-		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnce, GuiTest, //other
+		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, GuiTest, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
 
@@ -185,8 +185,11 @@ public class Config
 	public bool FourPlatforms {
 		get { return configList.GetBool (OpEnum.FourPlatforms); }
 	}
-	public int WichroSensorOnce {
-		get { return configList.GetInt (OpEnum.WichroSensorOnce); }
+	public int WichroSensorOnceA {
+		get { return configList.GetInt (OpEnum.WichroSensorOnceA); }
+	}
+	public int WichroSensorOnceB {
+		get { return configList.GetInt (OpEnum.WichroSensorOnceB); }
 	}
 	public bool GuiTest {
 		get { return configList.GetBool (OpEnum.GuiTest); }
@@ -614,8 +617,10 @@ public class ConfigList
 					"Encoder as Pulse,Time, managed by runEncoder mode"));
 		list.Add (new ConfigOptionBool (Config.OpEnum.FourPlatforms,
 					"Show experimental FourPlatforms mode"));
-		list.Add (new ConfigOptionInt (Config.OpEnum.WichroSensorOnce,
-					"Set sensorOnce at Wichro terminal."));
+		list.Add (new ConfigOptionInt (Config.OpEnum.WichroSensorOnceA,
+					"Set sensorOnce at Wichro terminal at one terminal."));
+		list.Add (new ConfigOptionInt (Config.OpEnum.WichroSensorOnceB,
+					"Set sensorOnce at Wichro terminal at another terminal."));
 		list.Add (new ConfigOptionBool (Config.OpEnum.GuiTest,
 					"To perform tests with the GUI (untested with current code)."));
 

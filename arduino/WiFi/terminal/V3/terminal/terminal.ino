@@ -106,7 +106,7 @@ uint8_t control0Channel = 125; //Channel resulting of the switch at zero state
 uint8_t controlSwitch = 0;      //State of the 3xswithes
 
 bool waitingSensor = true; //Wether the sensor is activated or not
-bool unlimitedMode = true;
+bool unlimitedMode = true; // sensorOnce deactivate the unlimited mode
 
 //Variables to control the blinking of each Color
 bool blinkingRed = false;
@@ -158,8 +158,8 @@ void setup(void)
 
   //maximum 125 channels. cell phone and wifi uses 2402-2472. Free from channel 73 to channel 125. Each channels is 1Mhz separated
   radio.setChannel(terminal0Channel - sample.termNum);
-  Serial.print("Terminal Channel: ");
-  Serial.println(terminal0Channel - sample.termNum);
+  // Serial.print("Terminal Channel: ");
+  // Serial.println(terminal0Channel - sample.termNum);
 
 
   radio.openWritingPipe(pipes[1]);
@@ -198,7 +198,8 @@ void setup(void)
   }
 
   Serial.print("ControlChannel: ");
-  Serial.println(control0Channel - controlSwitch);
+  // Serial.println(control0Channel - controlSwitch);
+  Serial.println(controlSwitch);
 
   //Activate interruption service each time the sensor changes state
   attachInterrupt(digitalPinToInterrupt(2), controlint, CHANGE);
@@ -229,14 +230,12 @@ void setup(void)
   Timer1.stop();
   sample.state = digitalRead(2);
   lastPinState = sample.state;
-  Serial.println("Initial state");
-  Serial.print(lastPinState);
-  Serial.print("\t");
-  Serial.println(sample.state);
+  // Serial.println("Initial state");
+  // Serial.println(sample.state);
   
   //radio.printPrettyDetails();
   Serial.print("Power: ");
-  Serial.println(radio.getPALevel());
+  //Serial.println(radio.getPALevel());
   flagint = LOW;
 }
 
@@ -299,7 +298,7 @@ void sendSample(void) {
   flagint = LOW;
   if (! unlimitedMode) {
     waitingSensor = false;
-    sample.state = !lastPinState;
+    sample.state = !sample.state;;
     delay(2);
     en = radio.write( &sample, sample_size);
   }
@@ -469,9 +468,9 @@ void beepStop(void)
 
 void sendPong(void) {
   sample.data = deviceType * 1000000 + deviceVersion;
-//  Serial.println(sample.data);
-//  Serial.print("Wifi-Sensor-");
-//  Serial.println(deviceVersion);
+  // Serial.println(sample.data);
+  // Serial.print("Wifi-Sensor-");
+  // Serial.println(deviceVersion);
   flagint = LOW;
   MsTimer2::stop();
   radio.stopListening();

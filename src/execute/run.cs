@@ -226,7 +226,7 @@ public class RunExecute : EventExecute
 		}
 		if (sensorOnceB >= 0)
 		{
-			if (sensorOnceA) //sleep 10 ms to not show both sensorOnce at the same time
+			if (sensorOnceA >= 0) //sleep 10 ms to not show both sensorOnce at the same time
 				Thread.Sleep(10);
 
 			LogB.Information ("Calling SensorOnceB with terminal: " + sensorOnceB.ToString ());

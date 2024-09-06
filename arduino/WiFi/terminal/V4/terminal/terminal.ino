@@ -230,9 +230,12 @@ void setup(void)
   Timer1.stop();
   sample.state = digitalRead(2);
   lastPinState = sample.state;
-  Serial.print("Initial state: ");
-  Serial.println(sample.state);
+  // Serial.print("Initial state: ");
+  // Serial.println(sample.state);
   // TODO: Understand why flagint is HIGH
+  //radio.printPrettyDetails();
+  Serial.print("Power: ");
+  Serial.println(radio.getPALevel());
   flagint = LOW;
 }
 
@@ -259,7 +262,7 @@ void loop(void)
     {
       executeCommand(instruction.command);
     }
-    
+
     radio.startListening();
   }
 }
@@ -290,7 +293,6 @@ void sendSample(void) {
   //    Serial.print("getChannel = ");
   //    Serial.println(radio.getChannel());
   flagint = LOW;
-
   // On sensorOnce mode send also the other state in order to facilitate Chronojump the reading
   if (! unlimitedMode) {
     waitingSensor = false;

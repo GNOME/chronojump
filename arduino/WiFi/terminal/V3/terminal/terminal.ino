@@ -158,7 +158,7 @@ void setup(void)
 
   //maximum 125 channels. cell phone and wifi uses 2402-2472. Free from channel 73 to channel 125. Each channels is 1Mhz separated
   radio.setChannel(terminal0Channel - sample.termNum);
-  // Serial.print("Terminal Channel: ");
+  // Serial.print("Terminal Channel: " + String(terminal0Channel) + " - " + String(sample.termNum) + " = ");
   // Serial.println(terminal0Channel - sample.termNum);
 
 
@@ -197,9 +197,9 @@ void setup(void)
     controlSwitch = controlSwitch + 4;
   }
 
-  Serial.print("ControlChannel: ");
+  Serial.println("ControlNum: " + String(controlSwitch));
+  // Serial.print("ControlChannel: " + String(control0Channel) + " - " + String(controlSwitch) + " = ");
   // Serial.println(control0Channel - controlSwitch);
-  Serial.println(controlSwitch);
 
   //Activate interruption service each time the sensor changes state
   attachInterrupt(digitalPinToInterrupt(2), controlint, CHANGE);
@@ -230,12 +230,12 @@ void setup(void)
   Timer1.stop();
   sample.state = digitalRead(2);
   lastPinState = sample.state;
-  // Serial.println("Initial state");
+  // Serial.print("Initial state: ");
   // Serial.println(sample.state);
-  
+  // TODO: Understand why flagint is HIGH
   //radio.printPrettyDetails();
   Serial.print("Power: ");
-  //Serial.println(radio.getPALevel());
+  Serial.println(radio.getPALevel());
   flagint = LOW;
 }
 
@@ -247,7 +247,6 @@ void loop(void)
   {
     sendSample();
     // Serial.println(sample.state);
-    // Serial.println(millis());
   }
 
   while (radio.available())
@@ -256,15 +255,14 @@ void loop(void)
     radio.stopListening();
 //    delay(100);
 //    Serial.print("Command received: ");
-//    Serial.print("termNum received: ");
-//    Serial.println(instruction.termNum);
+//    Serial.println(instruction.command);
 //    radio.flush_rx();
 
-    //Some times the terminal receives instructions of other terminals
     if (instruction.termNum == sample.termNum)
     {
       executeCommand(instruction.command);
     }
+
     radio.startListening();
   }
 }
@@ -294,11 +292,11 @@ void sendSample(void) {
   //    }
   //    Serial.print("getChannel = ");
   //    Serial.println(radio.getChannel());
-  beep(25);
   flagint = LOW;
+  // On sensorOnce mode send also the other state in order to facilitate Chronojump the reading
   if (! unlimitedMode) {
     waitingSensor = false;
-    sample.state = !sample.state;;
+    sample.state = !sample.state;
     delay(2);
     en = radio.write( &sample, sample_size);
   }
@@ -310,6 +308,7 @@ void sendSample(void) {
   //    Serial.print("getChannel = ");
   //    Serial.println(radio.getChannel());
   //    Serial.println(sample.data);
+  beep(25);
 }
 
 void controlint()
@@ -320,12 +319,13 @@ void controlint()
 }
 
 void debounce() {
-  sample.state = digitalRead(2);
+  bool pinState = digitalRead(2);
   Timer1.stop();
 
-  if ( sample.state != lastPinState ) {
+  if (pinState != lastPinState) {
     flagint = HIGH;
-    lastPinState = sample.state;
+    sample.state = pinState;
+    lastPinState = pinState;
   }
 }
 
@@ -345,12 +345,12 @@ void executeCommand(uint16_t command)
     MsTimer2::stop();
 
     if ((command & red) == red) {
-      Serial.println("activating RED");
+      // Serial.println("activating RED");
       red_on;
     }
 
     if ((command & green) == green) {
-      //      Serial.println("activating GREEN");
+      // Serial.println("activating GREEN");
       green_on;
     }
 
@@ -440,7 +440,7 @@ void deactivateAll(void)
 //For debuging some commands can be received by the Serial port
 void serialEvent()
 {
-  Serial.println("SerialEvent");
+  // Serial.println("SerialEvent");
   String inputString = Serial.readString();
 
   //Trimming all the characters after the ";" including it
@@ -453,7 +453,7 @@ void serialEvent()
   }
 }
 
-void beep(int duration)
+void beep(unsigned int duration)
 {
   MsTimer2::set(duration, beepStop);
   MsTimer2::start();
@@ -467,6 +467,7 @@ void beepStop(void)
 }
 
 void sendPong(void) {
+  // Serial.println("Pong");
   sample.data = deviceType * 1000000 + deviceVersion;
   // Serial.println(sample.data);
   // Serial.print("Wifi-Sensor-");
@@ -474,15 +475,17 @@ void sendPong(void) {
   flagint = LOW;
   MsTimer2::stop();
   radio.stopListening();
-  delay(10);
   radio.setChannel(control0Channel - controlSwitch);
-  //delay(10);
   bool en = radio.write( &sample, sample_size);
   flagint = LOW;
   if (! unlimitedMode) waitingSensor = false;
-  //delay(10);
   radio.setChannel(terminal0Channel - sample.termNum);
-  //delay(10);
   //radio.startListening();
-  //delay(10);
+  buzzer_on;
+  blinkingGreen = true;
+  blinkStart(75);
+  delay(500);
+  MsTimer2::stop();
+  buzzer_off;
+  blinkingGreen = false;
 }

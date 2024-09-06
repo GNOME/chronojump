@@ -64,7 +64,7 @@ public class Config
 		CopyToCloudFullPath, CopyToCloudOnExit, ReadFromCloudMainPath, //cloud
 		CanOpenExternalDB, ExternalDBDefaultPath, //externalDB
 		LastDBFullPath, //cloud & externalDB
-		JsonUploadNeedsButton, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, //json upload
+		JsonUploadNeedsButton, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, CanInsertTests, //json upload
 		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, GuiTest, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
@@ -154,6 +154,9 @@ public class Config
 	public string JsonUploadRunIntervalRankingScript {
 		get { return configList.GetString (OpEnum.JsonUploadRunIntervalRankingScript); }
 		//"/home/chronojump/Desktop/xaviB/kings_queens_flowics/json/curl_json_sprint_ranking.sh"
+	}
+	public bool CanInsertTests {
+		get { return configList.GetBool (OpEnum.CanInsertTests); }
 	}
 
 	// other
@@ -600,7 +603,8 @@ public class ConfigList
 					"Path to JsonUploadRunIntervalTestScript."));
 		list.Add (new ConfigOptionString (Config.OpEnum.JsonUploadRunIntervalRankingScript,
 					"Path to JsonUploadRunIntervalRankingScript."));
-
+		list.Add (new ConfigOptionBool (Config.OpEnum.CanInsertTests,
+					"TRUE: A grid is displayed to be able to directly insert a test (implemented on run simple/multiple), it also can upload the test."));
 		// other
 		list.Add (new ConfigOptionEnum (Config.OpEnum.SessionMode,
 					"STANDARD (default), or UNIQUE or MONTHLY",

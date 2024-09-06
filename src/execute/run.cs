@@ -164,6 +164,32 @@ public class RunExecute : EventExecute
 		eventDone = new Run();
 	}
 
+	//contacts_insert_test_button_do, this inserts and later it can be uploaded with button
+	public RunExecute(int personID, int sessionID, string type, double distance, double trackTime,
+			string jsonUploadTestScript, string jsonUploadRankingScript)
+	{
+		this.personID = personID;
+		this.sessionID = sessionID;
+		this.type = type;
+		this.distance = distance;
+		this.trackTime = trackTime;
+		this.jsonUploadTestScript = jsonUploadTestScript;
+		this.jsonUploadRankingScript = jsonUploadRankingScript;
+
+		string table = Constants.RunTable;
+		string datetime = UtilDate.ToFile(DateTime.Now);
+
+		uniqueID = SqliteRun.Insert(false, table, "NULL", personID, sessionID,
+				type, distance, trackTime, "",
+				0, 	//not simulated
+				true,	//initial speed
+				datetime
+				);
+
+		//define the created object
+		eventDone = new Run(uniqueID, personID, sessionID, type, distance, trackTime, "",
+				0, true, datetime);
+	}
 	
 	public override void SimulateInitValues(Random randSent)
 	{
@@ -1204,6 +1230,36 @@ public class RunIntervalExecute : RunExecute
 		eventDone = new RunInterval();
 	}
 
+	//contacts_insert_test_button_do, this inserts and later it can be uploaded with button
+	public RunIntervalExecute(int personID, int sessionID, string type,
+			double distanceInterval, double timeTrack1, double timeTrack2,
+			string jsonUploadTestScript, string jsonUploadRankingScript)
+	{
+		jsonDataRankingTitle = "RankingSprint";
+		jsonDataRankingFile = "/tmp/json_sprint_ranking.txt";
+
+		this.personID = personID;
+		this.sessionID = sessionID;
+		this.type = type;
+		this.distanceInterval = distanceInterval;
+		this.jsonUploadTestScript = jsonUploadTestScript;
+		this.jsonUploadRankingScript = jsonUploadRankingScript;
+
+		double distanceTotal = distanceInterval * 2;
+		string datetime = UtilDate.ToFile(DateTime.Now);
+		timeTotal = timeTrack1 + timeTrack2;
+
+		uniqueID = SqliteRunInterval.Insert(false, Constants.RunIntervalTable, "NULL", personID, sessionID, type,
+				distanceTotal, timeTotal,
+				distanceInterval, timeTrack1 + "=" + timeTrack2, 2,
+				"",
+				"2R", 0, true,
+				datetime, new List<int>()
+				);
+
+		eventDone = new RunInterval (uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, timeTrack1 + "=" + timeTrack2,
+				2, "", "2R", 0, true, datetime, new List<int>());
+	}
 
 	/* only run interval functions */
 

@@ -64,7 +64,7 @@ public class PreferencesWindow
 	Gtk.TextView textview_help_message;
 	Gtk.Image image_help_close;
 
-	//main, screen tabs
+	//main, person tabs
 	Gtk.CheckButton check_appearance_maximized;
 	Gtk.CheckButton check_appearance_maximized_undecorated;
 	Gtk.CheckButton check_appearance_person_win_hide;
@@ -75,7 +75,7 @@ public class PreferencesWindow
 	Gtk.Box box_font_size_custom;
 	Gtk.SpinButton spin_font_size_custom;
 	Gtk.Alignment alignment_undecorated;
-	Gtk.Label label_recommended_undecorated;
+//	Gtk.Label label_recommended_undecorated;
 	Gtk.RadioButton radio_font_courier;
 	Gtk.RadioButton radio_font_helvetica;
 	Gtk.CheckButton check_rest_time;
@@ -444,7 +444,7 @@ public class PreferencesWindow
 
 		PWBox.image_button_close.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
 
-		//main, screen tabs
+		//main, person tabs
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_rest.png");
 		PWBox.image_rest.Pixbuf = pixbuf;
@@ -456,12 +456,12 @@ public class PreferencesWindow
 		{
 			PWBox.check_appearance_maximized.Active = false;
 			PWBox.alignment_undecorated.Visible = false;
-			PWBox.label_recommended_undecorated.Visible = false;
+//			PWBox.label_recommended_undecorated.Visible = false;
 		}
 		else {
 			PWBox.check_appearance_maximized.Active = true;
 			PWBox.alignment_undecorated.Visible = true;
-			PWBox.label_recommended_undecorated.Visible = true;
+//			PWBox.label_recommended_undecorated.Visible = true;
 			PWBox.check_appearance_maximized_undecorated.Active =
 				(preferences.maximized == Preferences.MaximizedTypes.YESUNDECORATED);
 		}
@@ -1190,7 +1190,7 @@ public class PreferencesWindow
 
 		// A) changes on preferences gui
 		alignment_undecorated.Visible = check_appearance_maximized.Active;
-		label_recommended_undecorated.Visible = check_appearance_maximized.Active;
+//		label_recommended_undecorated.Visible = check_appearance_maximized.Active;
 
 		// B) changes on preferences object and SqlitePreferences
 		Preferences.MaximizedTypes maximizedTypeFromGUI = get_maximized_from_gui();
@@ -3447,7 +3447,7 @@ public class PreferencesWindow
 		textview_help_message = (Gtk.TextView) builder.GetObject ("textview_help_message");
 		image_help_close = (Gtk.Image) builder.GetObject ("image_help_close");
 
-		//main, screen tabs
+		//main, person tabs
 		check_appearance_maximized = (Gtk.CheckButton) builder.GetObject ("check_appearance_maximized");
 		check_appearance_maximized_undecorated = (Gtk.CheckButton) builder.GetObject ("check_appearance_maximized_undecorated");
 		check_appearance_person_win_hide = (Gtk.CheckButton) builder.GetObject ("check_appearance_person_win_hide");
@@ -3458,7 +3458,7 @@ public class PreferencesWindow
 		box_font_size_custom = (Gtk.Box) builder.GetObject ("box_font_size_custom");
 		spin_font_size_custom = (Gtk.SpinButton) builder.GetObject ("spin_font_size_custom");
 		alignment_undecorated = (Gtk.Alignment) builder.GetObject ("alignment_undecorated");
-		label_recommended_undecorated = (Gtk.Label) builder.GetObject ("label_recommended_undecorated");
+//		label_recommended_undecorated = (Gtk.Label) builder.GetObject ("label_recommended_undecorated");
 		radio_font_courier = (Gtk.RadioButton) builder.GetObject ("radio_font_courier");
 		radio_font_helvetica = (Gtk.RadioButton) builder.GetObject ("radio_font_helvetica");
 		check_rest_time = (Gtk.CheckButton) builder.GetObject ("check_rest_time");

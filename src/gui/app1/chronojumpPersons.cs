@@ -236,7 +236,7 @@ public partial class ChronoJumpWindow
 		currentPersonSession = personRecuperateWin.CurrentPersonSession;
 		label_person_change();
 		
-		myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
+		myTreeViewPersons.Add (currentPerson);
 
 		int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
 		if(rowToSelect != -1) {
@@ -348,7 +348,7 @@ public partial class ChronoJumpWindow
 	private void person_added ()
 	{
 		label_person_change();
-		myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
+		myTreeViewPersons.Add (currentPerson);
 
 		//when adding new person, photos cannot be recorded as currentPerson.UniqueID
 		//because it was undefined. Copy them now

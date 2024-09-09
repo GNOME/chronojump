@@ -31,8 +31,9 @@ public class TreeViewPersons
 	private Gtk.TreeView treeview;
 
 	private const int colID = 0;
-	private const int colName = 1;
-	private const int colRest = 2;
+	private const int colClubID = 1;
+	private const int colName = 2;
+	private const int colRest = 3;
 
 	//if 0 don't use it
 	//if > 0 then show in red when >= to this value
@@ -48,8 +49,8 @@ public class TreeViewPersons
 
 		RestSecondsMark = restSeconds;
 
-		store = getStore(3);
-		string [] columnsString = { "ID", Catalog.GetString("person"), Catalog.GetString("Rest")};
+		store = getStore (4);
+		string [] columnsString = { "ID", Catalog.GetString ("Club ID"), Catalog.GetString("Person"), Catalog.GetString("Rest")};
 		treeview.Model = store;
 		prepareHeaders(columnsString);
 	}
@@ -71,7 +72,7 @@ public class TreeViewPersons
 		int i=0;
 		bool visible = false;
 		foreach(string myCol in columnsString) {
-			if(i < 2)
+			if(i < 3)
 				UtilGtk.CreateCols(treeview, store, Catalog.GetString(myCol), i++, visible);
 			else {
 				//do it here to use a custom colored Renderer
@@ -87,8 +88,8 @@ public class TreeViewPersons
 				treeview.AppendColumn ( aColumn );
 			}
 
-			if(i == colRest)
-				store.SetSortFunc (colID, UtilGtk.IdColumnCompare);
+			if(i == colClubID || i == colRest)
+				store.SetSortFunc (i, UtilGtk.IdColumnCompare);
 
 			visible = true;
 		}
@@ -154,6 +155,7 @@ public class TreeViewPersons
 
 			store.AppendValues ( new String [] {
 					person.UniqueID.ToString(),
+					person.Future2,			//ClubID
 					person.Name.ToString(),
 					restedTime }
 					);
@@ -268,7 +270,7 @@ public class TreeViewPersons
 
 	
 	//add in the row position by alfabetical order
-	public void Add (string jumperID, string jumperName)
+	public void Add (Person p)
 	{
 		TreeIter iter = new TreeIter();
 		bool iterOk = store.GetIterFirst(out iter);
@@ -278,7 +280,7 @@ public class TreeViewPersons
 		if(iterOk) {
 			do {
 				//search until find when jumperName is lexicographically > than current row
-				if(String.Compare(jumperName.ToUpper(), 
+				if(String.Compare(p.Name.ToUpper(),
 							((string) treeview.Model.GetValue (iter, colName)).ToUpper()) < 0 ) {
 					found = count;
 					break;
@@ -293,12 +295,13 @@ public class TreeViewPersons
 			//store.Insert (out iter2, found);
 			iter2 = store.InsertNode (found);
 			//first ID, then Name
-			store.SetValue (iter2, colID, jumperID);
-			store.SetValue (iter2, colName, jumperName);
+			store.SetValue (iter2, colID, p.UniqueID);
+			store.SetValue (iter2, colClubID, p.Future2);
+			store.SetValue (iter2, colName, p.Name);
 			store.SetValue (iter2, colRest, ""); //restTime
 		} else {
 			//first ID, then Name
-			iter2 = store.AppendValues (jumperID, jumperName, "");
+			iter2 = store.AppendValues (p.UniqueID, p.Future2, p.Name, "");
 		}
 			
 		//scroll treeview if needed

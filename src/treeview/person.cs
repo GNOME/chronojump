@@ -27,8 +27,12 @@ using Mono.Unix;
 
 public class TreeViewPersons
 {
-	protected TreeStore store;
-	protected Gtk.TreeView treeview;
+	private TreeStore store;
+	private Gtk.TreeView treeview;
+
+	private const int colID = 0;
+	private const int colName = 1;
+	private const int colRest = 2;
 
 	//if 0 don't use it
 	//if > 0 then show in red when >= to this value
@@ -50,7 +54,7 @@ public class TreeViewPersons
 		prepareHeaders(columnsString);
 	}
 	
-	protected TreeStore getStore (int columns)
+	private TreeStore getStore (int columns)
 	{
 		//prepares the TreeStore for required columns
 		Type [] types = new Type [columns];
@@ -61,7 +65,7 @@ public class TreeViewPersons
 		return myStore;
 	}
 	
-	protected void prepareHeaders(string [] columnsString) 
+	private void prepareHeaders(string [] columnsString)
 	{
 		treeview.HeadersVisible=true;
 		int i=0;
@@ -83,8 +87,8 @@ public class TreeViewPersons
 				treeview.AppendColumn ( aColumn );
 			}
 
-			if(i == 1)
-				store.SetSortFunc (0, UtilGtk.IdColumnCompare);
+			if(i == colRest)
+				store.SetSortFunc (colID, UtilGtk.IdColumnCompare);
 
 			visible = true;
 		}
@@ -92,7 +96,7 @@ public class TreeViewPersons
 
 	private void RenderRestTime (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
-		string restTime = (string) model.GetValue(iter, 2);
+		string restTime = (string) model.GetValue(iter, colRest);
 
 		if(RestSecondsMark > 0 && LastTestTime.GetSeconds(restTime) >= RestSecondsMark)
 		{
@@ -100,7 +104,7 @@ public class TreeViewPersons
 			Gtk.TreeIter iter2;
 			bool selected = false;
 			if (treeview.Selection.GetSelected (out model2, out iter2))
-				if(model.GetValue(iter, 0).ToString() == model2.GetValue(iter2, 0).ToString())
+				if(model.GetValue(iter, colID).ToString() == model2.GetValue(iter2, colID).ToString())
 					selected = true;
 
 			if(selected) {
@@ -122,7 +126,7 @@ public class TreeViewPersons
 	 * above method solves this
 	private void RenderRestTime (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
-		string restTime = (string) model.GetValue(iter, 2);
+		string restTime = (string) model.GetValue(iter, colRest);
 		(cell as Gtk.CellRendererText).Text = restTime;
 
 		if(RestMinutesMark > 0 && LastTestTime.GetMinutes(restTime) >= RestMinutesMark)
@@ -156,7 +160,7 @@ public class TreeViewPersons
 		}
 
 		//show sorted by column name	
-		store.SetSortColumnId(1, Gtk.SortType.Ascending);
+		store.SetSortColumnId(colName, Gtk.SortType.Ascending);
 
 		store.ChangeSortColumn();
 	}
@@ -193,7 +197,7 @@ public class TreeViewPersons
 		if(iterOk) {
 			int count = 0;
 			do {
-				if(Convert.ToInt32 ((string) treeview.Model.GetValue (iter, 0)) == uniqueID) {
+				if(Convert.ToInt32 ((string) treeview.Model.GetValue (iter, colID)) == uniqueID) {
 					found = count;
 				}
 				count ++;
@@ -239,8 +243,8 @@ public class TreeViewPersons
 			do {
 				if (rowNumber == count ++)
 					return (new IDName (
-								Convert.ToInt32 ((string) treeview.Model.GetValue (iter, 0)),
-								(string) treeview.Model.GetValue (iter, 1)
+								Convert.ToInt32 ((string) treeview.Model.GetValue (iter, colID)),
+								(string) treeview.Model.GetValue (iter, colName)
 							   ));
 			} while (store.IterNext (ref iter));
 		}
@@ -275,7 +279,7 @@ public class TreeViewPersons
 			do {
 				//search until find when jumperName is lexicographically > than current row
 				if(String.Compare(jumperName.ToUpper(), 
-							((string) treeview.Model.GetValue (iter, 1)).ToUpper()) < 0 ) {
+							((string) treeview.Model.GetValue (iter, colName)).ToUpper()) < 0 ) {
 					found = count;
 					break;
 				}
@@ -289,9 +293,9 @@ public class TreeViewPersons
 			//store.Insert (out iter2, found);
 			iter2 = store.InsertNode (found);
 			//first ID, then Name
-			store.SetValue (iter2, 0, jumperID);
-			store.SetValue (iter2, 1, jumperName);
-			store.SetValue (iter2, 2, ""); //restTime
+			store.SetValue (iter2, colID, jumperID);
+			store.SetValue (iter2, colName, jumperName);
+			store.SetValue (iter2, colRest, ""); //restTime
 		} else {
 			//first ID, then Name
 			iter2 = store.AppendValues (jumperID, jumperName, "");
@@ -309,9 +313,9 @@ public class TreeViewPersons
 		if(iterOk) {
 			do {
 				string rested = restTime.RestedTime(
-						Convert.ToInt32(store.GetValue(iter, 0)));
+						Convert.ToInt32(store.GetValue(iter, colID)));
 				if(rested != "")
-					store.SetValue(iter, 2, rested);
+					store.SetValue(iter, colRest, rested);
 
 			} while (store.IterNext (ref iter));
 		}

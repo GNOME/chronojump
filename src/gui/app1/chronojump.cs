@@ -3910,7 +3910,11 @@ public partial class ChronoJumpWindow
 
 
 		if(myTreeViewPersons != null)
+		{
+			treeview_persons_storeReset();
 			myTreeViewPersons.RestSecondsMark = get_configured_rest_time_in_seconds();
+			fillTreeView_persons();
+		}
 
 		//not done here because done on click the checkboxes at preferences win
 		//initialize_menu_or_menu_tiny();

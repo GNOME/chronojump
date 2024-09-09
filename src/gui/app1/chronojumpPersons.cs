@@ -47,7 +47,8 @@ public partial class ChronoJumpWindow
 	 */
 
 	private void createTreeView_persons (Gtk.TreeView tv) {
-		myTreeViewPersons = new TreeViewPersons(tv, get_configured_rest_time_in_seconds());
+		myTreeViewPersons = new TreeViewPersons(tv,
+				preferences.personClubID, get_configured_rest_time_in_seconds());
 		tv.Selection.Changed += onTreeviewPersonsSelectionEntry;
 	}
 
@@ -126,7 +127,8 @@ public partial class ChronoJumpWindow
 	private void treeview_persons_storeReset()
 	{
 		myTreeViewPersons.RemoveColumns();
-		myTreeViewPersons = new TreeViewPersons(treeview_persons, get_configured_rest_time_in_seconds());
+		myTreeViewPersons = new TreeViewPersons (treeview_persons,
+				preferences.personClubID, get_configured_rest_time_in_seconds());
 	}
 	
 	//private void on_treeview_persons_cursor_changed (object o, EventArgs args) {

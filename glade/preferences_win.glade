@@ -757,7 +757,7 @@
                                   <object class="GtkTable" id="table6">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="n-rows">3</property>
+                                    <property name="n-rows">4</property>
                                     <property name="n-columns">2</property>
                                     <property name="column-spacing">20</property>
                                     <property name="row-spacing">16</property>
@@ -772,8 +772,8 @@
                                         <signal name="toggled" handler="on_check_appearance_person_photo_toggled" swapped="no"/>
                                       </object>
                                       <packing>
-                                        <property name="top-attach">2</property>
-                                        <property name="bottom-attach">3</property>
+                                        <property name="top-attach">3</property>
+                                        <property name="bottom-attach">4</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -799,8 +799,8 @@
                                       <packing>
                                         <property name="left-attach">1</property>
                                         <property name="right-attach">2</property>
-                                        <property name="top-attach">2</property>
-                                        <property name="bottom-attach">3</property>
+                                        <property name="top-attach">3</property>
+                                        <property name="bottom-attach">4</property>
                                         <property name="x-options"/>
                                       </packing>
                                     </child>
@@ -937,6 +937,35 @@
                                       <packing>
                                         <property name="top-attach">1</property>
                                         <property name="bottom-attach">2</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="check_appearance_person_clubID">
+                                        <property name="label" translatable="yes">Show persons Club ID</property>
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">False</property>
+                                        <property name="xalign">0</property>
+                                        <property name="draw-indicator">True</property>
+                                        <signal name="toggled" handler="on_check_appearance_person_clubID_toggled" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="top-attach">2</property>
+                                        <property name="bottom-attach">3</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="label180">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="label" translatable="yes">No</property>
+                                      </object>
+                                      <packing>
+                                        <property name="left-attach">1</property>
+                                        <property name="right-attach">2</property>
+                                        <property name="top-attach">2</property>
+                                        <property name="bottom-attach">3</property>
+                                        <property name="x-options"/>
                                       </packing>
                                     </child>
                                   </object>

@@ -68,6 +68,7 @@ public class PreferencesWindow
 	Gtk.CheckButton check_appearance_maximized;
 	Gtk.CheckButton check_appearance_maximized_undecorated;
 	Gtk.CheckButton check_appearance_person_win_hide;
+	Gtk.CheckButton check_appearance_person_clubID;
 	Gtk.CheckButton check_appearance_person_photo;
 	Gtk.RadioButton radio_font_size_default;
 	Gtk.RadioButton radio_font_size_custom;
@@ -473,6 +474,11 @@ public class PreferencesWindow
 			PWBox.check_appearance_person_win_hide.Active = false;
 
 		PWBox.check_appearance_person_photo.Sensitive = ! preferences.personWinHide;
+
+		if(preferences.personClubID)
+			PWBox.check_appearance_person_clubID.Active = true;
+		else
+			PWBox.check_appearance_person_clubID.Active = false;
 
 		if(preferences.personPhoto)
 			PWBox.check_appearance_person_photo.Active = true;
@@ -1220,6 +1226,16 @@ public class PreferencesWindow
 		if( preferences.personWinHide != PWBox.check_appearance_person_win_hide.Active ) {
 			SqlitePreferences.Update("personWinHide", PWBox.check_appearance_person_win_hide.Active.ToString(), false);
 			preferences.personWinHide = PWBox.check_appearance_person_win_hide.Active;
+			FakeButtonPersonWin.Click ();
+		}
+	}
+
+	private void on_check_appearance_person_clubID_toggled (object obj, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		if( preferences.personClubID != PWBox.check_appearance_person_clubID.Active ) {
+			SqlitePreferences.Update("personClubID", PWBox.check_appearance_person_clubID.Active.ToString(), false);
+			preferences.personClubID = PWBox.check_appearance_person_clubID.Active;
 			FakeButtonPersonWin.Click ();
 		}
 	}
@@ -3435,6 +3451,7 @@ public class PreferencesWindow
 		check_appearance_maximized = (Gtk.CheckButton) builder.GetObject ("check_appearance_maximized");
 		check_appearance_maximized_undecorated = (Gtk.CheckButton) builder.GetObject ("check_appearance_maximized_undecorated");
 		check_appearance_person_win_hide = (Gtk.CheckButton) builder.GetObject ("check_appearance_person_win_hide");
+		check_appearance_person_clubID = (Gtk.CheckButton) builder.GetObject ("check_appearance_person_clubID");
 		check_appearance_person_photo = (Gtk.CheckButton) builder.GetObject ("check_appearance_person_photo");
 		radio_font_size_custom = (Gtk.RadioButton) builder.GetObject ("radio_font_size_custom");
 		radio_font_size_default = (Gtk.RadioButton) builder.GetObject ("radio_font_size_default");

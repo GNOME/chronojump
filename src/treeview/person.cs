@@ -43,7 +43,7 @@ public class TreeViewPersons
 	{
 	}
 	
-	public TreeViewPersons (Gtk.TreeView treeview, int restSeconds)
+	public TreeViewPersons (Gtk.TreeView treeview, bool showClubID, int restSeconds)
 	{
 		this.treeview = treeview;
 
@@ -52,7 +52,7 @@ public class TreeViewPersons
 		store = getStore (4);
 		string [] columnsString = { "ID", Catalog.GetString ("Club ID"), Catalog.GetString("Person"), Catalog.GetString("Rest")};
 		treeview.Model = store;
-		prepareHeaders(columnsString);
+		prepareHeaders (columnsString, showClubID);
 	}
 	
 	private TreeStore getStore (int columns)
@@ -66,14 +66,19 @@ public class TreeViewPersons
 		return myStore;
 	}
 	
-	private void prepareHeaders(string [] columnsString)
+	private void prepareHeaders(string [] columnsString, bool showClubID)
 	{
 		treeview.HeadersVisible=true;
 		int i=0;
 		bool visible = false;
 		foreach(string myCol in columnsString) {
 			if(i < 3)
-				UtilGtk.CreateCols(treeview, store, Catalog.GetString(myCol), i++, visible);
+			{
+				if (i == colClubID)
+					UtilGtk.CreateCols(treeview, store, Catalog.GetString(myCol), i++, showClubID);
+				else
+					UtilGtk.CreateCols(treeview, store, Catalog.GetString(myCol), i++, visible);
+			}
 			else {
 				//do it here to use a custom colored Renderer
 				Gtk.TreeViewColumn aColumn = new Gtk.TreeViewColumn ();
@@ -88,8 +93,10 @@ public class TreeViewPersons
 				treeview.AppendColumn ( aColumn );
 			}
 
-			if(i == colClubID || i == colRest)
-				store.SetSortFunc (i, UtilGtk.IdColumnCompare);
+			if(i == colClubID)
+				store.SetSortFunc (i, UtilGtk.IdColumnCompareCol1);
+			else if (i == colRest)
+				store.SetSortFunc (i, UtilGtk.IdColumnCompareCol2);
 
 			visible = true;
 		}

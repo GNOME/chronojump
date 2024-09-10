@@ -752,7 +752,7 @@ public class ChronopicRegisterWindows : ChronopicRegister
 				}
 				if (Data.Name == "DeviceID")
 				{
-					MatchCollection matches = Regex.Matches(Data.Value.ToString(), @"USB\\.*\\7&(.*)&0&0000");
+					MatchCollection matches = Regex.Matches(Data.Value.ToString(), @"USB\\.*\\7&(.*)&0&...."); //the .... was 0000, but found 1 machine where 0002 was required
 					if (matches.Count == 1)
 					{
 						LogB.Information ("DeviceID B match: " + Data.Value);

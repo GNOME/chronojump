@@ -58,6 +58,8 @@ public class JumpExecute : EventExecute
 	protected bool upload;
 	protected int uploadStationId;
 	protected bool django;
+	private bool jsonUploadNeedsButton;
+	private string jsonUploadTestScript;
 
 	public JumpExecute() {
 	}
@@ -75,7 +77,9 @@ public class JumpExecute : EventExecute
 			int graphLimit, bool graphAllTypes, bool graphAllPersons,
 			Gtk.Image image_jump_execute_air, Gtk.Image image_jump_execute_land,
 			bool upload, int uploadStationId, bool django, //upload: configChronojump.Compujump && upload (contacts) button active
-			bool cameraRecording
+			bool cameraRecording,
+			bool jsonUploadNeedsButton,
+			string jsonUploadTestScript
 			)
 	{
 		this.personID = personID;
@@ -107,6 +111,8 @@ public class JumpExecute : EventExecute
 		this.uploadStationId = uploadStationId;
 		this.django = django;
 		this.cameraRecording = cameraRecording;
+		this.jsonUploadNeedsButton = jsonUploadNeedsButton;
+		this.jsonUploadTestScript = jsonUploadTestScript;
 
 		if(TypeHasFall) {
 			hasFall = true;
@@ -126,7 +132,7 @@ public class JumpExecute : EventExecute
 		//initialize eventDone as a Jump		
 		eventDone = new Jump();
 	}
-	
+
 	public override void SimulateInitValues(Random randSent)
 	{
 		LogB.Information ("From execute/jump.cs");
@@ -570,7 +576,14 @@ public class JumpExecute : EventExecute
 		eventDone = new Jump(uniqueID, personID, sessionID, type, tv, tc, fall, 
 				weight, description, angle, Util.BoolToNegativeInt(simulated), datetime);
 
-		if(upload)
+		// upload with json but not to networks
+		if (! jsonUploadNeedsButton)
+		{
+			if (jsonUploadTestScript != "")
+				JsonUploadTestScriptDo ();
+		}
+
+		if(upload) //networks
 		{
 			UploadJumpSimpleDataObject uj = new UploadJumpSimpleDataObject (
 					uploadStationId, (Jump) eventDone, typeID, personWeight, metersSecondsPreferred);
@@ -615,7 +628,43 @@ public class JumpExecute : EventExecute
 		
 		needEndEvent = true; //used for hiding some buttons on eventWindow
 	}
-	
+
+	public void JsonUploadTestScriptDo ()
+	{
+		Person p = SqlitePerson.Select (false, personID);
+		writeJsonDataThisTest (p);
+		System.Threading.Thread.Sleep(250);
+		ExecuteProcess.run (jsonUploadTestScript, false, false);
+	}
+	private void writeJsonDataThisTest (Person p)
+	{
+		/*
+		 * fix problems managing url on person description as : are trimmed by some part of chronojump
+		 * and copyiing pasting url maybe there's space or enter before
+		 */
+		string description = p.Description;
+		description = description.Replace ("\nhttps", "https");
+		description = description.Replace (" https", "https");
+		description = description.Replace ("https //", "https://");
+
+		string jsonStr =
+			"{\n" +
+			"\"Name\":\"" + p.Name + "\",\n" +
+			"\"No\":\"(" + p.Future2 + ")\",\n" +
+			"\"Photo\":\"" + description + "\",\n" +
+			"\"Test\":\"Jump\",\n" +
+			"\"TestType\":\"" + type + "\",\n" +
+			"\"JumpHeightCm\":" + Util.ConvertToPoint (Util.TrimDecimals (
+						Util.GetHeightInCm (tv), 2)) + "\n" +
+			"}";
+
+		TextWriter writer = File.CreateText("/tmp/chronojump_json_jump_1_test.txt");
+		writer.Write(jsonStr);
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
+	}
+
 	protected override void updateTimeProgressBar() {
 		if(jumpPhase == jumpPhases.PLATFORM_END)
 			return;

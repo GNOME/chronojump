@@ -4696,7 +4696,8 @@ public partial class ChronoJumpWindow
 
 		//json upload
 		button_contacts_json_upload.Visible = configChronojump.JsonUploadNeedsButton &&
-			(current_mode == Constants.Modes.RUNSSIMPLE ||
+			(current_mode == Constants.Modes.JUMPSSIMPLE ||
+			current_mode == Constants.Modes.RUNSSIMPLE ||
 			 current_mode == Constants.Modes.RUNSINTERVALLIC);
 
 		//grid insert
@@ -6168,7 +6169,10 @@ public partial class ChronoJumpWindow
 				image_jump_execute_air, image_jump_execute_land,
 				(configChronojump.Compujump && check_contacts_networks_upload.Active),
 				configChronojump.CompujumpStationID, configChronojump.CompujumpDjango,
-				webcamStatusEnumSetStart ());
+				webcamStatusEnumSetStart (),
+				configChronojump.JsonUploadNeedsButton,
+				configChronojump.JsonUploadRunSimpleTestScript
+				);
 
 
 
@@ -6763,7 +6767,11 @@ public partial class ChronoJumpWindow
 		if (currentEventExecute == null)
 			return;
 
-		if (current_mode == Constants.Modes.RUNSSIMPLE && currentEventExecute.GetType () == typeof(RunExecute))
+		if (current_mode == Constants.Modes.JUMPSSIMPLE)
+		{
+			((RunExecute) currentEventExecute).JsonUploadTestScriptDo ();
+		}
+		else if (current_mode == Constants.Modes.RUNSSIMPLE && currentEventExecute.GetType () == typeof(RunExecute))
 		{
 			((RunExecute) currentEventExecute).JsonUploadTestScriptDo ();
 			((RunExecute) currentEventExecute).JsonUploadRankingScriptDo ();

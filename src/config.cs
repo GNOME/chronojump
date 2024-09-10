@@ -64,7 +64,7 @@ public class Config
 		CopyToCloudFullPath, CopyToCloudOnExit, ReadFromCloudMainPath, //cloud
 		CanOpenExternalDB, ExternalDBDefaultPath, //externalDB
 		LastDBFullPath, //cloud & externalDB
-		JsonUploadNeedsButton, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, CanInsertTests, //json upload
+		JsonUploadNeedsButton, JsonUploadJumpSimpleTestScript, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, CanInsertTests, //json upload
 		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, GuiTest, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
@@ -75,7 +75,7 @@ public class Config
 	public static string OpEnum1stCloud = OpEnum.CopyToCloudFullPath.ToString ();
 	public static string OpEnum1stExternalDB = OpEnum.CanOpenExternalDB.ToString ();
 	public static string OpEnum1stCloudAndExternalDB = OpEnum.LastDBFullPath.ToString ();
-	public static string OpEnum1stJsonUpload = OpEnum.JsonUploadRunSimpleTestScript.ToString ();
+	public static string OpEnum1stJsonUpload = OpEnum.JsonUploadNeedsButton.ToString ();
 	public static string OpEnum1stOther = OpEnum.SessionMode.ToString ();
 	public static string OpEnum1stOutdated = OpEnum.Exhibition.ToString ();
 
@@ -138,6 +138,10 @@ public class Config
 	//json upload (remember scripts are on innolab/ chronojumpNoGit also session is there
 	public bool JsonUploadNeedsButton {
 		get { return configList.GetBool (OpEnum.JsonUploadNeedsButton); }
+	}
+	public string JsonUploadJumpSimpleTestScript {
+		get { return configList.GetString (OpEnum.JsonUploadJumpSimpleTestScript); }
+		//"/home/chronojump/Desktop/xaviB/kings_queens_flowics/json/curl_json_jump_1_test.sh"
 	}
 	public string JsonUploadRunSimpleTestScript {
 		get { return configList.GetString (OpEnum.JsonUploadRunSimpleTestScript); }
@@ -595,6 +599,8 @@ public class ConfigList
 		//JsonUploadNeedsButton
 		list.Add (new ConfigOptionBool (Config.OpEnum.JsonUploadNeedsButton,
 					"TRUE: Need to press a button to json upload a test. FALSE (default): It uploads automatically at capture end."));
+		list.Add (new ConfigOptionString (Config.OpEnum.JsonUploadJumpSimpleTestScript,
+					"Path to JsonUploadJumpSimpleTestScript."));
 		list.Add (new ConfigOptionString (Config.OpEnum.JsonUploadRunSimpleTestScript,
 					"Path to JsonUploadRunSimpleTestScript."));
 		list.Add (new ConfigOptionString (Config.OpEnum.JsonUploadRunSimpleRankingScript,

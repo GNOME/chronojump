@@ -1033,12 +1033,11 @@ public class RunExecute : EventExecute
 			"\"No\":\"(" + p.Future2 + ")\",\n" +
 			"\"Photo\":\"" + description + "\",\n" +
 			"\"Test\":\"Chut\",\n" +
-			//"\"Time\":" + Util.ConvertToPoint (Util.TrimDecimals (trackTime, 2)) + "\n" +
-			"\"Speed\":" + Util.ConvertToPoint (Util.TrimDecimals ( //chut distance is 7 m
+			"\"Speed\":" + Util.ConvertToPoint (Util.TrimDecimals (
 						3.6 * UtilAll.DivideSafe (distance, trackTime), 2)) + "\n" +
 			"}";
 
-		TextWriter writer = File.CreateText("/tmp/json_chut_1_test.txt");
+		TextWriter writer = File.CreateText("/tmp/chronojump_json_chut_1_test.txt");
 		writer.Write(jsonStr);
 		writer.Flush();
 		writer.Close();
@@ -1046,7 +1045,7 @@ public class RunExecute : EventExecute
 	}
 
 	protected string jsonDataRankingTitle = "RankingChut";
-	protected string jsonDataRankingFile = "/tmp/json_chut_ranking.txt";
+	protected string jsonDataRankingFile = "/tmp/chronojump_json_chut_ranking.txt";
 	protected void writeJsonDataRanking (List<Ranking> r_l)
 	{
 		string jsonStr = "{";
@@ -1144,7 +1143,7 @@ public class RunIntervalExecute : RunExecute
 			)
 	{
 		jsonDataRankingTitle = "RankingSprint";
-		jsonDataRankingFile = "/tmp/json_sprint_ranking.txt";
+		jsonDataRankingFile = "/tmp/chronojump_json_sprint_ranking.txt";
 
 		this.personID = personID;
 		this.sessionID = sessionID;
@@ -1236,7 +1235,7 @@ public class RunIntervalExecute : RunExecute
 			string jsonUploadTestScript, string jsonUploadRankingScript)
 	{
 		jsonDataRankingTitle = "RankingSprint";
-		jsonDataRankingFile = "/tmp/json_sprint_ranking.txt";
+		jsonDataRankingFile = "/tmp/chronojump_json_sprint_ranking.txt";
 
 		this.personID = personID;
 		this.sessionID = sessionID;
@@ -1681,7 +1680,7 @@ public class RunIntervalExecute : RunExecute
 			"\"MaxSpeed\":" + Util.ConvertToPoint (Util.TrimDecimals (3.6 * maxSpeed, 2)) + "\n" +
 			"}";
 
-		TextWriter writer = File.CreateText("/tmp/json_sprint_1_test.txt");
+		TextWriter writer = File.CreateText("/tmp/chronojump_json_sprint_1_test.txt");
 		writer.Write(jsonStr);
 		writer.Flush();
 		writer.Close();

@@ -3188,7 +3188,7 @@ LogB.Information(" fs R ");
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 4");
 		cairoGraphForceSensorSignal.DoSendingList (
-				preferences.fontType.ToString(),
+				preferences.fontTypeToGraph(),
 				spCairoFECopyToDraw_Raw, 		//raw (only used to plot Y if butterworth is active)
 				spCairoFECopyToDraw_Unfiltered, 	//raw (only used to plot Y if butterworth is active)
 				spCairoFECopyToDraw, 			//it has also Displ, Speed

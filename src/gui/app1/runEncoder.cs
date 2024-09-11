@@ -1427,9 +1427,9 @@ public partial class ChronoJumpWindow
 				{
 					/*
 					   if(radio_race_analyzer_capture_view_simple.Active)
-					   cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture_velocimeter_topleft, preferences.fontType.ToString());
+					   cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture_velocimeter_topleft, preferences.fontTypeToGraph());
 					   else */
-					cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture_velocimeter_bottom, preferences.fontType.ToString());
+					cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture_velocimeter_bottom, preferences.fontTypeToGraph());
 				}
 
 				cairoRadial.GraphSpeedMaxAndDistance(reCGSD.RunEncoderCaptureSpeedMax, reCGSD.RunEncoderCaptureDistance);
@@ -2832,7 +2832,7 @@ public partial class ChronoJumpWindow
 			return;
 
 		if(cairoRadial == null)
-			cairoRadial = new CairoRadial(da, preferences.fontType.ToString());
+			cairoRadial = new CairoRadial(da, preferences.fontTypeToGraph());
 
 		//when person or session changes
 		if(! runEncoderShouldShowCaptureGraphsWithData)
@@ -2911,7 +2911,7 @@ public partial class ChronoJumpWindow
 					true);
 
 		int smoothGui = getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ();
-		cairoGraphRaceAnalyzer_dt.DoSendingList (preferences.fontType.ToString(),
+		cairoGraphRaceAnalyzer_dt.DoSendingList (preferences.fontTypeToGraph(),
 				cairoGraphRaceAnalyzerPoints_dt_l,
 				null,
 				new List<string> (),
@@ -3035,7 +3035,7 @@ public partial class ChronoJumpWindow
 			//			videoTime, webcamPlay.PlayVideoGetSecond, diffVideoVsSignal));
 		}
 
-		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(),
+		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontTypeToGraph(),
 				sendPoints_l,
 				cairoGraphSend_CD,
 				subtitleWithSetsInfo_l,
@@ -3077,7 +3077,7 @@ public partial class ChronoJumpWindow
 					false, feedbackWin.GetRunsEncoderMainVariable (),
 					false);
 
-		cairoGraphRaceAnalyzer_at.DoSendingList (preferences.fontType.ToString(),
+		cairoGraphRaceAnalyzer_at.DoSendingList (preferences.fontTypeToGraph(),
 				cairoGraphRaceAnalyzerPoints_at_l,
 				null,
 				new List<string> (),

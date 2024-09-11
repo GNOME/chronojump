@@ -78,6 +78,7 @@ public class PreferencesWindow
 //	Gtk.Label label_recommended_undecorated;
 	Gtk.RadioButton radio_font_courier;
 	Gtk.RadioButton radio_font_helvetica;
+	Gtk.RadioButton radio_font_noto_sans_cjk_sc;
 	Gtk.CheckButton check_rest_time;
 	Gtk.Image image_rest;
 	Gtk.HBox hbox_rest_time_values;
@@ -515,8 +516,10 @@ public class PreferencesWindow
 		PWBox.signalsNoFollow = true;
 		if(preferences.fontType == Preferences.FontTypes.Courier)
 			PWBox.radio_font_courier.Active = true;
-		else
+		else if (preferences.fontType == Preferences.FontTypes.Helvetica)
 			PWBox.radio_font_helvetica.Active = true;
+		else //if(preferences.fontType == Preferences.FontTypes.Noto_Sans_CJ_SC)
+			PWBox.radio_font_noto_sans_cjk_sc.Active = true;
 		PWBox.signalsNoFollow = false;
 
 		PWBox.check_rest_time.Active = (preferences.restTimeMinutes >= 0);
@@ -2315,18 +2318,7 @@ public class PreferencesWindow
 		}
 	}
 
-	private void on_radio_font_courier_toggled (object o, EventArgs args)
-	{
-		if (signalsNoFollow)
-			return;
-
-		// A) changes on preferences gui
-		restartLabelShow ();
-
-		// B) changes on preferences object and SqlitePreferences
-		changeFontOnPreferencesAndDB ();
-	}
-	private void on_radio_font_helvetica_toggled (object o, EventArgs args)
+	private void on_radio_font_toggled (object o, EventArgs args)
 	{
 		if (signalsNoFollow)
 			return;
@@ -2339,15 +2331,20 @@ public class PreferencesWindow
 	}
 	private void changeFontOnPreferencesAndDB ()
 	{
-		if (preferences.fontType == Preferences.FontTypes.Courier && radio_font_helvetica.Active)
+		if (radio_font_helvetica.Active && preferences.fontType != Preferences.FontTypes.Helvetica)
 		{
 			SqlitePreferences.Update (SqlitePreferences.FontsOnGraphs, Preferences.FontTypes.Helvetica.ToString(), false);
 			preferences.fontType = Preferences.FontTypes.Helvetica;
 		}
-		else if (preferences.fontType == Preferences.FontTypes.Helvetica && radio_font_courier.Active)
+		else if (radio_font_courier.Active && preferences.fontType != Preferences.FontTypes.Courier)
 		{
 			SqlitePreferences.Update (SqlitePreferences.FontsOnGraphs, Preferences.FontTypes.Courier.ToString(), false);
 			preferences.fontType = Preferences.FontTypes.Courier;
+		}
+		else if (radio_font_noto_sans_cjk_sc.Active && preferences.fontType != Preferences.FontTypes.Noto_Sans_CJK_SC)
+		{
+			SqlitePreferences.Update (SqlitePreferences.FontsOnGraphs, Preferences.FontTypes.Noto_Sans_CJK_SC.ToString(), false);
+			preferences.fontType = Preferences.FontTypes.Noto_Sans_CJK_SC;
 		}
 	}
 
@@ -3461,6 +3458,7 @@ public class PreferencesWindow
 //		label_recommended_undecorated = (Gtk.Label) builder.GetObject ("label_recommended_undecorated");
 		radio_font_courier = (Gtk.RadioButton) builder.GetObject ("radio_font_courier");
 		radio_font_helvetica = (Gtk.RadioButton) builder.GetObject ("radio_font_helvetica");
+		radio_font_noto_sans_cjk_sc = (Gtk.RadioButton) builder.GetObject ("radio_font_noto_sans_cjk_sc");
 		check_rest_time = (Gtk.CheckButton) builder.GetObject ("check_rest_time");
 		image_rest = (Gtk.Image) builder.GetObject ("image_rest");
 		hbox_rest_time_values = (Gtk.HBox) builder.GetObject ("hbox_rest_time_values");

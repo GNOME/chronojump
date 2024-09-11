@@ -44,8 +44,13 @@ public class Preferences
 	public string colorBackgroundString; //"" means system color (do not do nothing)
 	public bool colorBackgroundOsColor;
 	public bool logoAnimatedShow;
-	public enum FontTypes { Courier, Helvetica};
+	public enum FontTypes { Courier, Helvetica, Noto_Sans_CJK_SC }; //note '_' will be converted to ' '
 	public FontTypes fontType;
+	//everywhere (also SQL will use the "_" but Cairo will use Noto_Sans_CJK_SC with spaces
+	public string fontTypeToGraph ()
+	{
+		return Util.ChangeChars (fontType.ToString (), "_", " ");
+	}
 	public int fontSizeAtGui = -1; //-1 default
 	public int restTimeMinutes; //-1 deactivated minutes and seconds
 	public int restTimeSeconds;

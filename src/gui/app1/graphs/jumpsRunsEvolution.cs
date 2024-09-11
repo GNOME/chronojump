@@ -128,7 +128,7 @@ public partial class ChronoJumpWindow
 		if(jumpType == Constants.TakeOffName || jumpType == Constants.TakeOffWeightName)
 		{
 			new JumpsEvolutionGraph(drawingarea_jumps_evolution,
-					JumpsEvolutionGraph.Error.TESTINCOMPATIBLE, jumpType, preferences.fontType.ToString());
+					JumpsEvolutionGraph.Error.TESTINCOMPATIBLE, jumpType, preferences.fontTypeToGraph());
 
 			button_jumps_evolution_save_image.Sensitive = false;
 			return;
@@ -139,7 +139,7 @@ public partial class ChronoJumpWindow
 		{
 			//constructor for showing blank screen with a message
 			new JumpsEvolutionGraph(drawingarea_jumps_evolution,
-					JumpsEvolutionGraph.Error.NEEDJUMP, jumpType, preferences.fontType.ToString());
+					JumpsEvolutionGraph.Error.NEEDJUMP, jumpType, preferences.fontTypeToGraph());
 					//currentPerson.Name, jumpType, currentSession.DateShort);
 
 			button_jumps_evolution_save_image.Sensitive = false;
@@ -155,7 +155,7 @@ public partial class ChronoJumpWindow
 					currentPerson.Name, jumpType, currentSession.DateShort,
 					jumpsEvolution.MouseX,
 					jumpsEvolution.MouseY);
-			jumpsEvolutionGraph.Do(preferences.fontType.ToString());
+			jumpsEvolutionGraph.Do(preferences.fontTypeToGraph());
 
 			button_jumps_evolution_save_image.Sensitive = true;
 		}
@@ -358,7 +358,7 @@ public partial class ChronoJumpWindow
 		if(runsEvolution.Point_l.Count == 0)
 		{
 			//constructor for showing blank screen with a message
-			new RunsEvolutionGraph(drawingarea_runs_evolution, runType, preferences.fontType.ToString());
+			new RunsEvolutionGraph(drawingarea_runs_evolution, runType, preferences.fontTypeToGraph());
 					//currentPerson.Name, runType, currentSession.DateShort);
 
 			button_runs_evolution_save_image.Sensitive = false;
@@ -375,7 +375,7 @@ public partial class ChronoJumpWindow
 					preferences.metersSecondsPreferred,
 					runsEvolution.MouseX,
 					runsEvolution.MouseY);
-			runsEvolutionGraph.Do(preferences.fontType.ToString());
+			runsEvolutionGraph.Do(preferences.fontTypeToGraph());
 
 			button_runs_evolution_save_image.Sensitive = true;
 		}

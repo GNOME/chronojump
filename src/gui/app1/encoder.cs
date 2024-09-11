@@ -3024,7 +3024,7 @@ public partial class ChronoJumpWindow
 		updateEncoderAnalyzeExercisesPre ();
 		cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
 				encoder_capture_curves_bars_drawingarea_cairo,
-				preferences.fontType.ToString());
+				preferences.fontTypeToGraph());
 		prepareEventGraphBarplotEncoder = null; //to avoid is repainted again, and sound be repeated;
 
 		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
@@ -5956,7 +5956,7 @@ public partial class ChronoJumpWindow
 		//erase cairo barplot
 		cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
 			encoder_capture_curves_bars_drawingarea_cairo,
-			preferences.fontType.ToString());
+			preferences.fontTypeToGraph());
 		prepareEventGraphBarplotEncoder = null; //to avoid is repainted again, and sound be repeated;
 
 		image_encoder_capture.Sensitive = false;
@@ -6282,7 +6282,7 @@ public partial class ChronoJumpWindow
 				videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 
 			cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
-					preferences, da, preferences.fontType.ToString(),
+					preferences, da, preferences.fontTypeToGraph(),
 					currentPerson.Name, "", 3,
 					prepareEventGraphBarplotEncoder, videoTime);
 		}
@@ -6331,7 +6331,7 @@ public partial class ChronoJumpWindow
 			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 		}
 
-		cairoGraphEncoderSignal.DoSendingList (preferences.fontType.ToString(), inertial,
+		cairoGraphEncoderSignal.DoSendingList (preferences.fontTypeToGraph(), inertial,
 				cairoGraphEncoderSignalPoints_l, cairoGraphEncoderSignalInertialPoints_l, videoTime,
 				forceRedraw, CairoXY.PlotTypes.LINES);
 	}
@@ -6452,11 +6452,11 @@ public partial class ChronoJumpWindow
 
 				cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
 						encoder_capture_curves_bars_drawingarea_cairo,
-						preferences.fontType.ToString());//, "--capturing--");
+						preferences.fontTypeToGraph());//, "--capturing--");
 
 				cairoPaintBarsPre.ShowMessage (
 						encoder_capture_curves_bars_drawingarea_cairo,
-						preferences.fontType.ToString(),
+						preferences.fontTypeToGraph(),
 						Catalog.GetString("Capturing") + " …");
 
 				encoderCaptureStringR = new List<string>();
@@ -6524,7 +6524,7 @@ public partial class ChronoJumpWindow
 					// 3) erase cairo barplot (remove the Capturing...)
 					cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
 							encoder_capture_curves_bars_drawingarea_cairo,
-							preferences.fontType.ToString());
+							preferences.fontTypeToGraph());
 					prepareEventGraphBarplotEncoder = null; //to avoid is repainted again, and sound be repeated;
 
 					// 4) this notebook has capture (signal plotting), and curves (shows R graph)

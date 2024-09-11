@@ -190,6 +190,13 @@
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>
+  <object class="GtkAdjustment" id="adjustment9_20">
+    <property name="lower">9</property>
+    <property name="upper">20</property>
+    <property name="value">12</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
   <object class="GtkWindow" id="preferences_win">
     <property name="width-request">700</property>
     <property name="height-request">450</property>
@@ -7300,6 +7307,7 @@ It starts before and arrives there with some speed.</property>
                           <object class="GtkVBox" id="vbox17">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
+                            <property name="margin-left">20</property>
                             <property name="spacing">10</property>
                             <child>
                               <object class="GtkRadioButton" id="radio_language_detected">
@@ -7428,6 +7436,19 @@ It starts before and arrives there with some speed.</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">(Note for Chinese you need to select a suitable font on Advanced / More)</property>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
                           </object>
                           <packing>
                             <property name="expand">True</property>
@@ -7464,6 +7485,7 @@ It starts before and arrives there with some speed.</property>
                           <object class="GtkHBox" id="hbox4">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
+                            <property name="margin-left">20</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkRadioButton" id="radio_export_latin">
@@ -7504,6 +7526,7 @@ It starts before and arrives there with some speed.</property>
                           <object class="GtkHBox" id="hbox6">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
+                            <property name="margin-left">20</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkRadioButton" id="radio_export_non_latin">
@@ -7571,6 +7594,7 @@ It starts before and arrives there with some speed.</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">False</property>
+                            <property name="margin-left">20</property>
                             <property name="xalign">0</property>
                             <property name="active">True</property>
                             <property name="draw-indicator">True</property>
@@ -7588,6 +7612,7 @@ It starts before and arrives there with some speed.</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">False</property>
+                            <property name="margin-left">20</property>
                             <property name="xalign">0</property>
                             <property name="draw-indicator">True</property>
                             <property name="group">radio_graphs_translate</property>
@@ -8786,7 +8811,7 @@ version:</property>
                                         <property name="receives-default">False</property>
                                         <property name="draw-indicator">True</property>
                                         <property name="group">radio_font_courier</property>
-                                        <signal name="toggled" handler="on_radio_font_helvetica_toggled" swapped="no"/>
+                                        <signal name="toggled" handler="on_radio_font_toggled" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="expand">True</property>
@@ -8802,12 +8827,59 @@ version:</property>
                                         <property name="receives-default">False</property>
                                         <property name="active">True</property>
                                         <property name="draw-indicator">True</property>
-                                        <signal name="toggled" handler="on_radio_font_courier_toggled" swapped="no"/>
+                                        <signal name="toggled" handler="on_radio_font_toggled" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
                                         <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkRadioButton" id="radio_font_noto_sans_cjk_sc">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">False</property>
+                                        <property name="active">True</property>
+                                        <property name="draw-indicator">True</property>
+                                        <property name="group">radio_font_courier</property>
+                                        <signal name="toggled" handler="on_radio_font_toggled" swapped="no"/>
+                                        <child>
+                                          <object class="GtkBox">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="spacing">4</property>
+                                            <child>
+                                              <object class="GtkLabel">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="label" translatable="yes">Noto Sans CJK SC</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkLabel">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="label" translatable="yes">(Recommended for Chinese)</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                          </object>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">2</property>
                                       </packing>
                                     </child>
                                   </object>
@@ -9685,12 +9757,5 @@ version:</property>
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkAdjustment" id="adjustment9_20">
-    <property name="lower">9</property>
-    <property name="upper">20</property>
-    <property name="value">12</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">10</property>
   </object>
 </interface>

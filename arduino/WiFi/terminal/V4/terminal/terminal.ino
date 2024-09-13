@@ -93,7 +93,7 @@ unsigned long time0;  //Time when the command is received
 
 bool flagint = LOW;   //Interruption flag. Activated when the sensos changes
 volatile bool lastPinState = LOW;  //stores the state of the pin 2 before the interruption
-unsigned long debounceTime = 2000;
+unsigned long debounceTime = 1000;
 //The timer overflows inmediately after initialization.
 
 // First channel to be used. The 6xswitches control the terminal number and the number to add the terminal0Channel
@@ -158,8 +158,8 @@ void setup(void)
 
   //maximum 125 channels. cell phone and wifi uses 2402-2472. Free from channel 73 to channel 125. Each channels is 1Mhz separated
   radio.setChannel(terminal0Channel - sample.termNum);
-  Serial.print("Terminal Channel: " + String(terminal0Channel) + " - " + String(sample.termNum) + " = ");
-  Serial.println(terminal0Channel - sample.termNum);
+  // Serial.print("Terminal Channel: " + String(terminal0Channel) + " - " + String(sample.termNum) + " = ");
+  // Serial.println(terminal0Channel - sample.termNum);
 
 
   radio.openWritingPipe(pipes[1]);
@@ -198,8 +198,8 @@ void setup(void)
   }
 
   Serial.println("ControlNum: " + String(controlSwitch));
-  Serial.print("ControlChannel: " + String(control0Channel) + " - " + String(controlSwitch) + " = ");
-  Serial.println(control0Channel - controlSwitch);
+  // Serial.print("ControlChannel: " + String(control0Channel) + " - " + String(controlSwitch) + " = ");
+  // Serial.println(control0Channel - controlSwitch);
 
   //Activate interruption service each time the sensor changes state
   attachInterrupt(digitalPinToInterrupt(2), controlint, CHANGE);
@@ -230,9 +230,12 @@ void setup(void)
   Timer1.stop();
   sample.state = digitalRead(2);
   lastPinState = sample.state;
-  Serial.print("Initial state: ");
-  Serial.println(sample.state);
+  // Serial.print("Initial state: ");
+  // Serial.println(sample.state);
   // TODO: Understand why flagint is HIGH
+  //radio.printPrettyDetails();
+  Serial.print("Power: ");
+  Serial.println(radio.getPALevel());
   flagint = LOW;
 }
 
@@ -259,7 +262,7 @@ void loop(void)
     {
       executeCommand(instruction.command);
     }
-    
+
     radio.startListening();
   }
 }
@@ -279,8 +282,8 @@ void sendSample(void) {
   //    Serial.println(sample.state);
   radio.stopListening();
   radio.setChannel(control0Channel - controlSwitch);
-  //    Serial.print("getChannel = ");
-  //    Serial.println(radio.getChannel());
+  // Serial.print("getChannel = ");
+  // Serial.println(radio.getChannel());
   bool en = radio.write( &sample, sample_size);
   //    if (en) {
   //      Serial.println("Sent OK");
@@ -289,11 +292,11 @@ void sendSample(void) {
   //    }
   //    Serial.print("getChannel = ");
   //    Serial.println(radio.getChannel());
-  beep(25);
   flagint = LOW;
+  // On sensorOnce mode send also the other state in order to facilitate Chronojump the reading
   if (! unlimitedMode) {
     waitingSensor = false;
-    sample.state = !lastPinState;
+    sample.state = !sample.state;
     delay(2);
     en = radio.write( &sample, sample_size);
   }
@@ -305,6 +308,7 @@ void sendSample(void) {
   //    Serial.print("getChannel = ");
   //    Serial.println(radio.getChannel());
   //    Serial.println(sample.data);
+  beep(25);
 }
 
 void controlint()
@@ -315,12 +319,13 @@ void controlint()
 }
 
 void debounce() {
-  sample.state = digitalRead(2);
+  bool pinState = digitalRead(2);
   Timer1.stop();
 
-  if (sample.state != lastPinState) {
+  if (pinState != lastPinState) {
     flagint = HIGH;
-    lastPinState = sample.state;
+    sample.state = pinState;
+    lastPinState = pinState;
   }
 }
 

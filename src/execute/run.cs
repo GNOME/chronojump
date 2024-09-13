@@ -164,6 +164,32 @@ public class RunExecute : EventExecute
 		eventDone = new Run();
 	}
 
+	//contacts_insert_test_button_do, this inserts and later it can be uploaded with button
+	public RunExecute(int personID, int sessionID, string type, double distance, double trackTime,
+			string jsonUploadTestScript, string jsonUploadRankingScript)
+	{
+		this.personID = personID;
+		this.sessionID = sessionID;
+		this.type = type;
+		this.distance = distance;
+		this.trackTime = trackTime;
+		this.jsonUploadTestScript = jsonUploadTestScript;
+		this.jsonUploadRankingScript = jsonUploadRankingScript;
+
+		string table = Constants.RunTable;
+		string datetime = UtilDate.ToFile(DateTime.Now);
+
+		uniqueID = SqliteRun.Insert(false, table, "NULL", personID, sessionID,
+				type, distance, trackTime, "",
+				0, 	//not simulated
+				true,	//initial speed
+				datetime
+				);
+
+		//define the created object
+		eventDone = new Run(uniqueID, personID, sessionID, type, distance, trackTime, "",
+				0, true, datetime);
+	}
 	
 	public override void SimulateInitValues(Random randSent)
 	{
@@ -226,6 +252,9 @@ public class RunExecute : EventExecute
 		}
 		if (sensorOnceB >= 0)
 		{
+			if (sensorOnceA >= 0) //sleep 10 ms to not show both sensorOnce at the same time
+				Thread.Sleep(10);
+
 			LogB.Information ("Calling SensorOnceB with terminal: " + sensorOnceB.ToString ());
 			bool sensorOnceSuccess = wichroCapture.SensorOnce (sensorOnceB);
 			LogB.Information ("sensorOnce succeded = " + sensorOnceSuccess.ToString ());
@@ -371,6 +400,7 @@ public class RunExecute : EventExecute
 			if (! wichroCapture.CaptureStart ())
 			{
 				chronopicDisconnected = true;
+				wichroCapture.Disconnect ();
 				cancel = true; //problem reading line (capturing)
 			} else
 				manageIniWireless();
@@ -1004,12 +1034,11 @@ public class RunExecute : EventExecute
 			"\"No\":\"(" + p.Future2 + ")\",\n" +
 			"\"Photo\":\"" + description + "\",\n" +
 			"\"Test\":\"Chut\",\n" +
-			//"\"Time\":" + Util.ConvertToPoint (Util.TrimDecimals (trackTime, 2)) + "\n" +
-			"\"Speed\":" + Util.ConvertToPoint (Util.TrimDecimals ( //chut distance is 7 m
+			"\"Speed\":" + Util.ConvertToPoint (Util.TrimDecimals (
 						3.6 * UtilAll.DivideSafe (distance, trackTime), 2)) + "\n" +
 			"}";
 
-		TextWriter writer = File.CreateText("/tmp/json_chut_1_test.txt");
+		TextWriter writer = File.CreateText("/tmp/chronojump_json_chut_1_test.txt");
 		writer.Write(jsonStr);
 		writer.Flush();
 		writer.Close();
@@ -1017,7 +1046,7 @@ public class RunExecute : EventExecute
 	}
 
 	protected string jsonDataRankingTitle = "RankingChut";
-	protected string jsonDataRankingFile = "/tmp/json_chut_ranking.txt";
+	protected string jsonDataRankingFile = "/tmp/chronojump_json_chut_ranking.txt";
 	protected void writeJsonDataRanking (List<Ranking> r_l)
 	{
 		string jsonStr = "{";
@@ -1115,7 +1144,7 @@ public class RunIntervalExecute : RunExecute
 			)
 	{
 		jsonDataRankingTitle = "RankingSprint";
-		jsonDataRankingFile = "/tmp/json_sprint_ranking.txt";
+		jsonDataRankingFile = "/tmp/chronojump_json_sprint_ranking.txt";
 
 		this.personID = personID;
 		this.sessionID = sessionID;
@@ -1201,6 +1230,36 @@ public class RunIntervalExecute : RunExecute
 		eventDone = new RunInterval();
 	}
 
+	//contacts_insert_test_button_do, this inserts and later it can be uploaded with button
+	public RunIntervalExecute(int personID, int sessionID, string type,
+			double distanceInterval, double timeTrack1, double timeTrack2,
+			string jsonUploadTestScript, string jsonUploadRankingScript)
+	{
+		jsonDataRankingTitle = "RankingSprint";
+		jsonDataRankingFile = "/tmp/chronojump_json_sprint_ranking.txt";
+
+		this.personID = personID;
+		this.sessionID = sessionID;
+		this.type = type;
+		this.distanceInterval = distanceInterval;
+		this.jsonUploadTestScript = jsonUploadTestScript;
+		this.jsonUploadRankingScript = jsonUploadRankingScript;
+
+		double distanceTotal = distanceInterval * 2;
+		string datetime = UtilDate.ToFile(DateTime.Now);
+		timeTotal = timeTrack1 + timeTrack2;
+
+		uniqueID = SqliteRunInterval.Insert(false, Constants.RunIntervalTable, "NULL", personID, sessionID, type,
+				distanceTotal, timeTotal,
+				distanceInterval, timeTrack1 + "=" + timeTrack2, 2,
+				"",
+				"2R", 0, true,
+				datetime, new List<int>()
+				);
+
+		eventDone = new RunInterval (uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, timeTrack1 + "=" + timeTrack2,
+				2, "", "2R", 0, true, datetime, new List<int>());
+	}
 
 	/* only run interval functions */
 
@@ -1622,7 +1681,7 @@ public class RunIntervalExecute : RunExecute
 			"\"MaxSpeed\":" + Util.ConvertToPoint (Util.TrimDecimals (3.6 * maxSpeed, 2)) + "\n" +
 			"}";
 
-		TextWriter writer = File.CreateText("/tmp/json_sprint_1_test.txt");
+		TextWriter writer = File.CreateText("/tmp/chronojump_json_sprint_1_test.txt");
 		writer.Write(jsonStr);
 		writer.Flush();
 		writer.Close();

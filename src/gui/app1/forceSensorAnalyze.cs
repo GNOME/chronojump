@@ -1272,7 +1272,7 @@ public partial class ChronoJumpWindow
 
 		// 6. draw the cairo graph
 		fsAIRepetitionMouseLimitsCairo = cairoGraphForceSensorAI.DoSendingList (
-				preferences.fontType.ToString(),
+				preferences.fontTypeToGraph(),
 				spCairoFESend, spCairoFESend_CD,
 				subtitleWithSetsInfo_l, radio_ai_cd.Active,
 				check_force_sensor_analyze_show_distance.Active,

@@ -279,7 +279,7 @@ class SqliteRunInterval : SqliteRun
 		Sqlite.Close();
 	}
 
-	public static new List<Ranking> GetPersonsRanking (int sessionID)
+	public static List<Ranking> GetPersonsRanking (int sessionID)
 	{
 		Sqlite.Open ();
 		dbcmd.CommandText =

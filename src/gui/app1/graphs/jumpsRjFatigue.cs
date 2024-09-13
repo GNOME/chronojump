@@ -196,7 +196,7 @@ public partial class ChronoJumpWindow
 				comboSelectJumpsRjFatigueNum.GetSelectedId() < 0)
 		{
 			if(drawingarea_jumps_rj_fatigue != null && drawingarea_jumps_rj_fatigue.Window != null)
-				new JumpsRjFatigueGraph(drawingarea_jumps_rj_fatigue, "", preferences.fontType.ToString());
+				new JumpsRjFatigueGraph(drawingarea_jumps_rj_fatigue, "", preferences.fontTypeToGraph());
 
 			button_jumps_rj_fatigue_save_image.Sensitive = false;
 			return;
@@ -216,7 +216,7 @@ public partial class ChronoJumpWindow
 		if(jumpsRjFatigue.Point_l.Count == 0)
 		{
 			//constructor for showing blank screen with a message
-			new JumpsRjFatigueGraph(drawingarea_jumps_rj_fatigue, jumpType, preferences.fontType.ToString());
+			new JumpsRjFatigueGraph(drawingarea_jumps_rj_fatigue, jumpType, preferences.fontTypeToGraph());
 
 			button_jumps_rj_fatigue_save_image.Sensitive = false;
 
@@ -245,7 +245,7 @@ public partial class ChronoJumpWindow
 					divideIn,
 					jumpsRjFatigue.MouseX,
 					jumpsRjFatigue.MouseY);
-			jumpsRjFatigueGraph.Do(preferences.fontType.ToString());
+			jumpsRjFatigueGraph.Do(preferences.fontTypeToGraph());
 
 			button_jumps_rj_fatigue_save_image.Sensitive = true;
 		}

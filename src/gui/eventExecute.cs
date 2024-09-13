@@ -346,7 +346,7 @@ public partial class ChronoJumpWindow
 
 			if (fpcm != null)
 				cairoGraphFourPlatforms.DoSendingList (
-						preferences.fontType.ToString(),
+						preferences.fontTypeToGraph(),
 						current_mode,
 						cairoGraphFourPlatformsPoints_ll,
 						fpcm.IDName_l,
@@ -554,7 +554,7 @@ public partial class ChronoJumpWindow
 	{
 		//constructor for showing a blank graph
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
-				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString());
+				event_execute_drawingarea_realtime_capture_cairo, preferences.fontTypeToGraph());
 	}
 
 	public void PrepareJumpReactiveRealtimeCaptureGraph (double lastTv, double lastTc, string tvString, string tcString,
@@ -576,7 +576,7 @@ public partial class ChronoJumpWindow
 			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
-				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
+				event_execute_drawingarea_realtime_capture_cairo, preferences.fontTypeToGraph(), current_mode,
 				personName, type, preferences.digitsNumber,// preferences.heightPreferred,
 				//lastTv, lastTc,
 				tvString, tcString, isLastCaptured, feedbackJumpsRj, videoTime);
@@ -689,7 +689,7 @@ public partial class ChronoJumpWindow
 	{
 		//constructor for showing a blank graph
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
-				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString());
+				event_execute_drawingarea_realtime_capture_cairo, preferences.fontTypeToGraph());
 	}
 
 	public void PrepareRunIntervalRealtimeCaptureGraph (string timesString,
@@ -711,7 +711,7 @@ public partial class ChronoJumpWindow
 			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
-				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
+				event_execute_drawingarea_realtime_capture_cairo, preferences.fontTypeToGraph(), current_mode,
 				personName, type, preferences.digitsNumber,// preferences.heightPreferred,
 				preferences.metersSecondsPreferred,
 				check_runI_realtime_rel_abs.Active,
@@ -2743,7 +2743,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	protected override void paintSpecific()
 	{
 		if (noMassAndNeeded)
-			ShowMessage (darea, preferences.fontType.ToString(),
+			ShowMessage (darea, preferences.fontTypeToGraph(),
 					Catalog.GetString("Main variable:") + " " + Catalog.GetString(pegbe.mainVariable) + "\n\n" +
 					Catalog.GetString("The bars are not shown because the displaced mass is 0."));
 		else

@@ -308,7 +308,18 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_execute_test;
 	Gtk.Viewport viewport_chronopics;
 	Gtk.Viewport viewport_chronopic_encoder;
+
 	Gtk.Button button_contacts_json_upload;
+
+	Gtk.Box box_contacts_insert_test;
+	Gtk.Notebook notebook_contacts_insert_test;
+	Gtk.SpinButton contacts_insert_test_spin_total_time;
+	Gtk.SpinButton contacts_insert_test_spin_speed_km_h;
+	Gtk.SpinButton contacts_insert_test_spin_track_1_time;
+	Gtk.SpinButton contacts_insert_test_spin_track_2_time;
+	Gtk.Button contacts_insert_test_button_insert;
+	Gtk.Button contacts_insert_test_button_insert_and_upload;
+	Gtk.Label contacts_insert_test_label_done;
 
 	//detect devices
 	Gtk.Box vbox_micro_discover;
@@ -3899,7 +3910,11 @@ public partial class ChronoJumpWindow
 
 
 		if(myTreeViewPersons != null)
+		{
+			treeview_persons_storeReset();
 			myTreeViewPersons.RestSecondsMark = get_configured_rest_time_in_seconds();
+			fillTreeView_persons();
+		}
 
 		//not done here because done on click the checkboxes at preferences win
 		//initialize_menu_or_menu_tiny();
@@ -4681,8 +4696,21 @@ public partial class ChronoJumpWindow
 
 		//json upload
 		button_contacts_json_upload.Visible = configChronojump.JsonUploadNeedsButton &&
-			(current_mode == Constants.Modes.RUNSSIMPLE ||
+			(current_mode == Constants.Modes.JUMPSSIMPLE ||
+			current_mode == Constants.Modes.RUNSSIMPLE ||
 			 current_mode == Constants.Modes.RUNSINTERVALLIC);
+
+		//grid insert
+		if (current_mode == Constants.Modes.RUNSSIMPLE && configChronojump.CanInsertTests) {
+			box_contacts_insert_test.Visible = true;
+			notebook_contacts_insert_test.CurrentPage = 0;
+		}
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC && configChronojump.CanInsertTests) {
+			box_contacts_insert_test.Visible = true;
+			notebook_contacts_insert_test.CurrentPage = 1;
+		} else
+			box_contacts_insert_test.Visible = false;
+
 
 		//on capture, show phases, time, record if we are not on forcesensor mode
 		showHideCaptureSpecificControls (m);
@@ -5147,6 +5175,11 @@ public partial class ChronoJumpWindow
 		if (blinkCapture != null)
 			blinkCapture.End ();
 
+		if (cp2016.StoredWireless && currentEventExecute != null && currentEventExecute.ChronopicDisconnected)
+		{
+			button_detect_show_hide (true);
+		}
+
 		ChronopicRegisterPort crp = chronopicRegister.GetSelectedForMode (current_mode);
 
 		if (Constants.ModeIsFORCESENSOR (current_mode))
@@ -5332,8 +5365,7 @@ public partial class ChronoJumpWindow
 	//also manages if networks or not, on networks do not show
 	private void button_detect_show_hide (bool show)
 	{
-		//compujump will continue with the top right device button, far from the capture button
-		if (! configChronojump.Compujump)
+		if (configChronojump.Compujump)
 			return;
 
 		// Cloud-view cannot capture
@@ -6141,7 +6173,10 @@ public partial class ChronoJumpWindow
 				image_jump_execute_air, image_jump_execute_land,
 				(configChronojump.Compujump && check_contacts_networks_upload.Active),
 				configChronojump.CompujumpStationID, configChronojump.CompujumpDjango,
-				webcamStatusEnumSetStart ());
+				webcamStatusEnumSetStart (),
+				configChronojump.JsonUploadNeedsButton,
+				configChronojump.JsonUploadRunSimpleTestScript
+				);
 
 
 
@@ -6667,6 +6702,9 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		if(wireless && currentEventExecute.ChronopicDisconnected)
+			button_detect_show_hide (true);
+
 		thisRunIsSimple = true; //used by: on_event_execute_update_graph_in_progress_clicked
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
@@ -6727,12 +6765,20 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+
+	// contacts tests insert, upload -------------->
+
+	//user clicks on upload after doing a test (only visible if config.JsonUploadNeedsButton)
 	private void on_button_contacts_json_upload_clicked (object o, EventArgs args)
 	{
 		if (currentEventExecute == null)
 			return;
 
-		if (current_mode == Constants.Modes.RUNSSIMPLE && currentEventExecute.GetType () == typeof(RunExecute))
+		if (current_mode == Constants.Modes.JUMPSSIMPLE)
+		{
+			((RunExecute) currentEventExecute).JsonUploadTestScriptDo ();
+		}
+		else if (current_mode == Constants.Modes.RUNSSIMPLE && currentEventExecute.GetType () == typeof(RunExecute))
 		{
 			((RunExecute) currentEventExecute).JsonUploadTestScriptDo ();
 			((RunExecute) currentEventExecute).JsonUploadRankingScriptDo ();
@@ -6743,6 +6789,98 @@ public partial class ChronoJumpWindow
 			((RunIntervalExecute) currentEventExecute).JsonUploadRankingScriptDo ();
 		}
 	}
+
+	private bool signalNoFollowContactsInsertRuns;
+	private void on_contacts_insert_test_spin_total_time_value_changed (object o, EventArgs args)
+	{
+		if (signalNoFollowContactsInsertRuns)
+			return;
+
+		if (! Util.IsNumber (label_runs_simple_track_distance_value.Text, true))
+			return;
+
+		signalNoFollowContactsInsertRuns = true;
+		contacts_insert_test_spin_speed_km_h.Value =
+			3.6 * Convert.ToDouble (label_runs_simple_track_distance_value.Text) / contacts_insert_test_spin_total_time.Value;
+		signalNoFollowContactsInsertRuns = false;
+	}
+	private void on_contacts_insert_test_spin_speed_km_h_value_changed (object o, EventArgs args)
+	{
+		if (signalNoFollowContactsInsertRuns)
+			return;
+
+		if (! Util.IsNumber (label_runs_simple_track_distance_value.Text, true))
+			return;
+
+		signalNoFollowContactsInsertRuns = true;
+		contacts_insert_test_spin_total_time.Value =
+			3.6 * Convert.ToDouble (label_runs_simple_track_distance_value.Text) / contacts_insert_test_spin_speed_km_h.Value;
+		signalNoFollowContactsInsertRuns = false;
+	}
+
+	//user insert a test (only visible if config.CanIsertTests)
+	private void on_contacts_insert_test_button_insert_clicked (object o, EventArgs args)
+	{
+		contacts_insert_test_button_insert_do (false);
+	}
+	private void on_contacts_insert_test_button_insert_and_upload_clicked (object o, EventArgs args)
+	{
+		contacts_insert_test_button_insert_do (true);
+	}
+	private void contacts_insert_test_button_insert_do (bool upload)
+	{
+		double distance = 0;
+		if (current_mode == Constants.Modes.RUNSSIMPLE &&
+				contacts_insert_test_spin_total_time.Value > 0)
+		{
+			if (Util.IsNumber (label_runs_simple_track_distance_value.Text, true))
+				distance = Convert.ToDouble (label_runs_simple_track_distance_value.Text);
+			else
+				return;
+
+			currentEventExecute = new RunExecute (
+					currentPerson.UniqueID, currentSession.UniqueID,
+					comboSelectRuns.GetSelectedNameEnglish(), distance,
+					contacts_insert_test_spin_total_time.Value,
+					configChronojump.JsonUploadRunSimpleTestScript,
+					configChronojump.JsonUploadRunSimpleRankingScript
+					);
+
+			myTreeViewRuns.Add (currentPerson.Name, (Run) currentEventExecute.EventDone, "");
+			updateGraphRunsSimple();
+		}
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC &&
+				contacts_insert_test_spin_track_1_time.Value > 0 &&
+				contacts_insert_test_spin_track_2_time.Value > 0)
+		{
+			if (Util.IsNumber (label_runs_interval_track_distance_value.Text, true))
+				distance = Convert.ToDouble (label_runs_interval_track_distance_value.Text);
+			else
+				return;
+
+			currentEventExecute = new RunIntervalExecute (
+					currentPerson.UniqueID, currentSession.UniqueID,
+					comboSelectRunsI.GetSelectedNameEnglish(), distance,
+					contacts_insert_test_spin_track_1_time.Value,
+					contacts_insert_test_spin_track_2_time.Value,
+					configChronojump.JsonUploadRunIntervalTestScript,
+					configChronojump.JsonUploadRunIntervalRankingScript
+					);
+
+			/*
+			 * note there are other transformation used on_run_interval_finished that maybe there are not needed here as they are already done on currentEventExecute creation
+			 * like: MetersSecondsPreferred, Tracks, Limited
+			 */
+			myTreeViewRunsInterval.Add (currentPerson.Name, (RunInterval) currentEventExecute.EventDone, "");
+			updateGraphRunsInterval();
+		}
+
+		//user uploads after inserting a test (only visible if config.CanIsertTests)
+		if (upload)
+			on_button_contacts_json_upload_clicked (new object (), new EventArgs ());
+	}
+
+	// <---------------- contacts tests insert, upload
 
 
 	/* ---------------------------------------------------------
@@ -6856,6 +6994,9 @@ public partial class ChronoJumpWindow
 			}
 			return;
 		}
+
+		if(wireless && currentEventExecute.ChronopicDisconnected)
+			button_detect_show_hide (true);
 
 		thisRunIsSimple = false; //used by: on_event_execute_update_graph_in_progress_clicked
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
@@ -10467,7 +10608,18 @@ LogB.Debug("mc finished 5");
 		button_execute_test = (Gtk.Button) builder.GetObject ("button_execute_test");
 		viewport_chronopics = (Gtk.Viewport) builder.GetObject ("viewport_chronopics");
 		viewport_chronopic_encoder = (Gtk.Viewport) builder.GetObject ("viewport_chronopic_encoder");
+
 		button_contacts_json_upload = (Gtk.Button) builder.GetObject ("button_contacts_json_upload");
+
+		box_contacts_insert_test = (Gtk.Box) builder.GetObject ("box_contacts_insert_test");
+		notebook_contacts_insert_test = (Gtk.Notebook) builder.GetObject ("notebook_contacts_insert_test");
+		contacts_insert_test_spin_total_time = (Gtk.SpinButton) builder.GetObject ("contacts_insert_test_spin_total_time");
+		contacts_insert_test_spin_speed_km_h = (Gtk.SpinButton) builder.GetObject ("contacts_insert_test_spin_speed_km_h");
+		contacts_insert_test_spin_track_1_time = (Gtk.SpinButton) builder.GetObject ("contacts_insert_test_spin_track_1_time");
+		contacts_insert_test_spin_track_2_time = (Gtk.SpinButton) builder.GetObject ("contacts_insert_test_spin_track_2_time");
+		contacts_insert_test_button_insert = (Gtk.Button) builder.GetObject ("contacts_insert_test_button_insert");
+		contacts_insert_test_button_insert_and_upload = (Gtk.Button) builder.GetObject ("contacts_insert_test_button_insert_and_upload");
+		contacts_insert_test_label_done = (Gtk.Label) builder.GetObject ("contacts_insert_test_label_done");
 
 		//detect devices
 		vbox_micro_discover = (Gtk.Box) builder.GetObject ("vbox_micro_discover");

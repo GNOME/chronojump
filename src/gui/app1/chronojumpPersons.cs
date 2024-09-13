@@ -47,7 +47,8 @@ public partial class ChronoJumpWindow
 	 */
 
 	private void createTreeView_persons (Gtk.TreeView tv) {
-		myTreeViewPersons = new TreeViewPersons(tv, get_configured_rest_time_in_seconds());
+		myTreeViewPersons = new TreeViewPersons(tv,
+				preferences.personClubID, get_configured_rest_time_in_seconds());
 		tv.Selection.Changed += onTreeviewPersonsSelectionEntry;
 	}
 
@@ -126,7 +127,8 @@ public partial class ChronoJumpWindow
 	private void treeview_persons_storeReset()
 	{
 		myTreeViewPersons.RemoveColumns();
-		myTreeViewPersons = new TreeViewPersons(treeview_persons, get_configured_rest_time_in_seconds());
+		myTreeViewPersons = new TreeViewPersons (treeview_persons,
+				preferences.personClubID, get_configured_rest_time_in_seconds());
 	}
 	
 	//private void on_treeview_persons_cursor_changed (object o, EventArgs args) {
@@ -236,7 +238,7 @@ public partial class ChronoJumpWindow
 		currentPersonSession = personRecuperateWin.CurrentPersonSession;
 		label_person_change();
 		
-		myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
+		myTreeViewPersons.Add (currentPerson);
 
 		int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
 		if(rowToSelect != -1) {
@@ -348,7 +350,7 @@ public partial class ChronoJumpWindow
 	private void person_added ()
 	{
 		label_person_change();
-		myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
+		myTreeViewPersons.Add (currentPerson);
 
 		//when adding new person, photos cannot be recorded as currentPerson.UniqueID
 		//because it was undefined. Copy them now

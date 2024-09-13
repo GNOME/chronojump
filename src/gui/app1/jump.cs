@@ -380,7 +380,7 @@ public partial class ChronoJumpWindow
 			personStr = currentPerson.Name;
 
 		cairoPaintBarsPre = new CairoPaintBarsPreJumpSimple (
-				event_execute_drawingarea_cairo, preferences.fontType.ToString(), current_mode,
+				event_execute_drawingarea_cairo, preferences.fontTypeToGraph(), current_mode,
 				personStr, typeTemp, preferences.digitsNumber);
 
 		cairoPaintBarsPre.StoreEventGraphJumps (eventGraph);
@@ -424,7 +424,7 @@ public partial class ChronoJumpWindow
 			personStr = currentPerson.Name;
 
 		cairoPaintBarsPre = new CairoPaintBarsPreJumpReactive (
-				event_execute_drawingarea_cairo, preferences.fontType.ToString(), current_mode,
+				event_execute_drawingarea_cairo, preferences.fontTypeToGraph(), current_mode,
 				personStr, typeTemp, preferences.digitsNumber);
 
 		cairoPaintBarsPre.StoreEventGraphJumpsRj (eventGraph);

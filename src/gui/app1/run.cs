@@ -226,7 +226,7 @@ public partial class ChronoJumpWindow
 			(event_execute_drawingarea_cairo == null).ToString());
 
 		cairoPaintBarsPre = new CairoPaintBarsPreRunSimple (
-				event_execute_drawingarea_cairo, preferences.fontType.ToString(), current_mode,
+				event_execute_drawingarea_cairo, preferences.fontTypeToGraph(), current_mode,
 				personStr, typeTemp, preferences.digitsNumber, preferences.metersSecondsPreferred);
 
 		cairoPaintBarsPre.StoreEventGraphRuns (eventGraph);
@@ -234,7 +234,7 @@ public partial class ChronoJumpWindow
 		event_execute_drawingarea_cairo.QueueDraw ();
 
 		cairoManageRunDoubleContacts = new CairoManageRunDoubleContacts (
-				event_execute_drawingarea_run_simple_double_contacts, preferences.fontType.ToString() );
+				event_execute_drawingarea_run_simple_double_contacts, preferences.fontTypeToGraph() );
 	}
 	private void updateGraphRunsInterval ()
 	{
@@ -271,7 +271,7 @@ public partial class ChronoJumpWindow
 			personStr = currentPerson.Name;
 
 		cairoPaintBarsPre = new CairoPaintBarsPreRunInterval (
-				event_execute_drawingarea_cairo, preferences.fontType.ToString(), current_mode,
+				event_execute_drawingarea_cairo, preferences.fontTypeToGraph(), current_mode,
 				personStr, typeTemp, preferences.digitsNumber, preferences.metersSecondsPreferred);
 
 		cairoPaintBarsPre.StoreEventGraphRunsInterval (eventGraph);
@@ -279,7 +279,7 @@ public partial class ChronoJumpWindow
 		event_execute_drawingarea_cairo.QueueDraw ();
 
 		cairoManageRunDoubleContacts = new CairoManageRunDoubleContacts (
-				event_execute_drawingarea_run_simple_double_contacts, preferences.fontType.ToString() );
+				event_execute_drawingarea_run_simple_double_contacts, preferences.fontTypeToGraph() );
 	}
 	
 	private void extra_window_runs_interval_initialize(RunType myRunType) 

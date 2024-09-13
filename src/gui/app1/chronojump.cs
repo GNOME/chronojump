@@ -4292,7 +4292,8 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
-			button_threshold.Visible = true;
+
+			button_threshold.Visible = ! (chronopicRegister != null && chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.RUN_WIRELESS) == 1);
 
 			label_contacts_exercise_selected_options_visible (true);
 			image_top_laterality_contacts.Visible = false;

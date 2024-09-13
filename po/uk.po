@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2024-09-11 11:49+0000\n"
-"PO-Revision-Date: 2024-09-11 16:48+0300\n"
+"POT-Creation-Date: 2024-09-13 15:48+0000\n"
+"PO-Revision-Date: 2024-09-13 21:43+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -91,7 +91,7 @@ msgstr "Зупинити"
 
 #: ../glade/app1.glade.h:16 ../glade/dialog_threshold.glade.h:3
 #: ../glade/preferences_win.glade.h:44 ../glade/report_window.glade.h:10
-#: ../src/exportSession.cs:581 ../src/gui/app1/chronojump.cs:6489
+#: ../src/exportSession.cs:581 ../src/gui/app1/chronojump.cs:6493
 #: ../src/gui/jump.cs:1352 ../src/gui/jump.cs:1407 ../src/gui/jump.cs:1457
 #: ../src/sqlite/speciallity.cs:174 ../src/stats/rjAVGSD.cs:36
 #: ../src/stats/rjPotencyBosco.cs:35
@@ -177,7 +177,7 @@ msgstr "Захоплення"
 msgid "Analyze"
 msgstr "Проаналізувати"
 
-#: ../glade/app1.glade.h:33 ../src/gui/app1/chronojump.cs:7361
+#: ../glade/app1.glade.h:33 ../src/gui/app1/chronojump.cs:7371
 msgid "Pulses"
 msgstr "Дані пульсу"
 
@@ -277,7 +277,7 @@ msgstr ""
 msgid "0,000"
 msgstr "0,000"
 
-#: ../glade/app1.glade.h:52 ../src/gui/app1/chronojump.cs:5926
+#: ../glade/app1.glade.h:52 ../src/gui/app1/chronojump.cs:5930
 #: ../src/gui/app1/encoder.cs:1390 ../src/gui/app1/encoder.cs:7735
 msgid "Save comment"
 msgstr "Зберегти коментар"
@@ -359,8 +359,8 @@ msgstr "Скасувати"
 msgid "Fullscreen"
 msgstr "На увесь екран"
 
-#: ../glade/app1.glade.h:68 ../src/gui/app1/chronojump.cs:6147
-#: ../src/gui/app1/chronojump.cs:6647 ../src/gui/app1/chronojump.cs:7180
+#: ../glade/app1.glade.h:68 ../src/gui/app1/chronojump.cs:6151
+#: ../src/gui/app1/chronojump.cs:6651 ../src/gui/app1/chronojump.cs:7190
 #: ../src/gui/app1/jump.cs:356 ../src/gui/app1/jump.cs:403
 #: ../src/gui/app1/reactionTime.cs:98 ../src/gui/app1/run.cs:198
 #: ../src/gui/app1/run.cs:250
@@ -897,19 +897,19 @@ msgstr "Проєкція напруженої сили"
 msgid "Lights"
 msgstr "Освітлення"
 
-#: ../glade/app1.glade.h:174 ../src/gui/app1/chronojump.cs:7195
+#: ../glade/app1.glade.h:174 ../src/gui/app1/chronojump.cs:7205
 msgid "red"
 msgstr "червоний"
 
-#: ../glade/app1.glade.h:175 ../src/gui/app1/chronojump.cs:7199
+#: ../glade/app1.glade.h:175 ../src/gui/app1/chronojump.cs:7209
 msgid "yellow"
 msgstr "жовтий"
 
-#: ../glade/app1.glade.h:176 ../src/gui/app1/chronojump.cs:7203
+#: ../glade/app1.glade.h:176 ../src/gui/app1/chronojump.cs:7213
 msgid "green"
 msgstr "зелений"
 
-#: ../glade/app1.glade.h:177 ../src/gui/app1/chronojump.cs:7207
+#: ../glade/app1.glade.h:177 ../src/gui/app1/chronojump.cs:7217
 msgid "buzzer"
 msgstr "гудок"
 
@@ -4966,8 +4966,8 @@ msgstr "Примусова мова"
 msgid ""
 "(Note for Chinese you need to select a suitable font on Advanced / More)"
 msgstr ""
-"(Зауважте, що для китайської вам слід вибрати відповідний шрифт на сторінці"
-" «Додатково / Більше»)"
+"(Зауважте, що для китайської вам слід вибрати відповідний шрифт на сторінці "
+"«Додатково / Більше»)"
 
 #: ../glade/preferences_win.glade.h:173
 msgid "Spreadsheet import and export format"
@@ -5114,7 +5114,6 @@ msgid "Noto Sans CJK SC"
 msgstr "Noto Sans CJK SC"
 
 #: ../glade/preferences_win.glade.h:210
-#| msgid "(Recommended)"
 msgid "(Recommended for Chinese)"
 msgstr "(Рекомендовано для китайської)"
 
@@ -6399,8 +6398,9 @@ msgstr "Відпочинок {0} с"
 #. Catalog.GetString("Chronopic seems disconnected."));
 #.
 #: ../src/execute/event.cs:625
-msgid "Chronopic seems disconnected."
-msgstr "Здається, Chronopic від'єднано."
+#| msgid "Chronopic seems disconnected."
+msgid "Device seems disconnected."
+msgstr "Здається, пристрій від'єднано."
 
 #. done here before thread starts
 #: ../src/execute/jump.cs:177 ../src/execute/jump.cs:268
@@ -6507,27 +6507,27 @@ msgstr "Ви ВСЕРЕДИНІ, БІЖІТЬ, коли будете готов�
 msgid "You are OUT, RUN when prepared!"
 msgstr "Ви ЗЗОВНІ, БІЖІТЬ, коли будете готові!"
 
-#: ../src/execute/run.cs:1068
+#: ../src/execute/run.cs:1069
 msgid "Included on race time"
 msgstr "Включено до часу забігу"
 
-#: ../src/execute/run.cs:1069
+#: ../src/execute/run.cs:1070
 msgid "Not included on race time"
 msgstr "Не включено час забігу"
 
-#: ../src/execute/run.cs:1202
+#: ../src/execute/run.cs:1203
 msgid "Included on race time of first track"
 msgstr "Включено час забігу першої доріжки"
 
-#: ../src/execute/run.cs:1203
+#: ../src/execute/run.cs:1204
 msgid "Not included on race time of first track"
 msgstr "Не включено час забігу першої доріжки"
 
-#: ../src/execute/run.cs:1409
+#: ../src/execute/run.cs:1410
 msgid "Go!"
 msgstr "Перейти!"
 
-#: ../src/execute/run.cs:1412
+#: ../src/execute/run.cs:1413
 #, csharp-format
 msgid "Wait 1 second."
 msgid_plural "Wait {0} seconds."
@@ -6539,7 +6539,7 @@ msgstr[3] "Зачекайте одну секунду."
 #. this dialog can make crash the software because the non-gui part calls it
 #. new DialogMessage(Constants.MessageTypes.WARNING,
 #. Catalog.GetString("Race will not be recorded, 1st lap is out of time"));
-#: ../src/execute/run.cs:1537
+#: ../src/execute/run.cs:1538
 msgid "Race will not be recorded. Out of time."
 msgstr "Забіг не буде записано. Перевищено часове обмеження."
 
@@ -6788,7 +6788,7 @@ msgstr "Середня швидкість"
 msgid "Distance interval"
 msgstr "Інтервал відстані"
 
-#: ../src/exportSession.cs:805 ../src/gui/app1/chronojump.cs:6938
+#: ../src/exportSession.cs:805 ../src/gui/app1/chronojump.cs:6945
 #: ../src/gui/run.cs:1333 ../src/gui/run.cs:1401 ../src/gui/run.cs:1453
 msgid "Laps"
 msgstr "Кола"
@@ -7023,60 +7023,60 @@ msgstr ""
 "Вправи на швидкість/потужність із обертанням на інерційній машині та "
 "вимірюванням кодувальником"
 
-#: ../src/gui/app1/chronojump.cs:5408
+#: ../src/gui/app1/chronojump.cs:5412
 #, csharp-format
 msgid "Compatible with: <b>{0}</b>"
 msgstr "Сумісне з <b>{0}</b>"
 
-#: ../src/gui/app1/chronojump.cs:5697 ../src/gui/chronopicRegister.cs:824
+#: ../src/gui/app1/chronojump.cs:5701 ../src/gui/chronopicRegister.cs:824
 msgid "Device not found"
 msgstr "Пристрій не знайдено"
 
-#: ../src/gui/app1/chronojump.cs:5847
+#: ../src/gui/app1/chronojump.cs:5851
 msgid "Sorry, RSA tests cannot be simulated."
 msgstr "Вибачте, тести RSA не можна імітувати."
 
-#: ../src/gui/app1/chronojump.cs:5942 ../src/gui/app1/encoder.cs:1403
+#: ../src/gui/app1/chronojump.cs:5946 ../src/gui/app1/encoder.cs:1403
 msgid "Saved comment."
 msgstr "Збережено коментар."
 
-#: ../src/gui/app1/chronojump.cs:7652
+#: ../src/gui/app1/chronojump.cs:7662
 msgid "Changes"
 msgstr "Зміни"
 
-#: ../src/gui/app1/chronojump.cs:8060 ../src/gui/app1/chronojump.cs:8076
+#: ../src/gui/app1/chronojump.cs:8070 ../src/gui/app1/chronojump.cs:8086
 msgid "Do you want to delete this jump?"
 msgstr "Хочете вилучити цей стрибок?"
 
-#: ../src/gui/app1/chronojump.cs:8158 ../src/gui/app1/chronojump.cs:8176
+#: ../src/gui/app1/chronojump.cs:8168 ../src/gui/app1/chronojump.cs:8186
 msgid "Do you want to delete this race?"
 msgstr "Хочете вилучити цей забіг?"
 
-#: ../src/gui/app1/chronojump.cs:8326
+#: ../src/gui/app1/chronojump.cs:8336
 msgid "Do you want to delete this test?"
 msgstr "Хочете вилучити цей тест?"
 
-#: ../src/gui/app1/chronojump.cs:8423
+#: ../src/gui/app1/chronojump.cs:8433
 msgid "Added simple jump type."
 msgstr "Додано простий тип стрибків."
 
-#: ../src/gui/app1/chronojump.cs:8433
+#: ../src/gui/app1/chronojump.cs:8443
 msgid "Added reactive jump type."
 msgstr "Додано реактивний тип стрибків."
 
-#: ../src/gui/app1/chronojump.cs:8464
+#: ../src/gui/app1/chronojump.cs:8474
 msgid "Added simple race type."
 msgstr "Додано простий тип забігів."
 
-#: ../src/gui/app1/chronojump.cs:8473
+#: ../src/gui/app1/chronojump.cs:8483
 msgid "Added intervallic race type."
 msgstr "Додано інтервальний тип забігів."
 
-#: ../src/gui/app1/chronojump.cs:9139
+#: ../src/gui/app1/chronojump.cs:9149
 msgid "translator-credits"
 msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2020"
 
-#: ../src/gui/app1/chronojump.cs:10317
+#: ../src/gui/app1/chronojump.cs:10327
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr ""
 "Створено з метою тестування. Chronojump завершить роботу у нештатному режимі"

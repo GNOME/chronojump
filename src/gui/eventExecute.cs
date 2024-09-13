@@ -2471,7 +2471,10 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, false, true, true);
 
 		cb.YVariable = Catalog.GetString("Speed");
-		cb.YUnits = "m/s";
+		if (metersSecondsPreferred)
+			cb.YUnits = "m/s";
+		else
+			cb.YUnits = "Km/h";
 
 		cb.GraphInit(fontStr, true, false); //usePersonGuides, useGroupGuides
 

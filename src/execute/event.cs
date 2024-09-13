@@ -622,7 +622,7 @@ public class EventExecute
 		errorWin = ErrorWindow.Show( 
 				Catalog.GetString("Chronopic seems disconnected."));
 				*/
-		new DialogMessage (Constants.MessageTypes.WARNING, Catalog.GetString("Chronopic seems disconnected."));
+		new DialogMessage (Constants.MessageTypes.WARNING, Catalog.GetString("Device seems disconnected."));
 
 		Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
 		//errorWin.Button_accept.Clicked += new EventHandler(cancel_event_before_start);

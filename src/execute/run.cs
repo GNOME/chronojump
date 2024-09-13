@@ -400,6 +400,7 @@ public class RunExecute : EventExecute
 			if (! wichroCapture.CaptureStart ())
 			{
 				chronopicDisconnected = true;
+				wichroCapture.Disconnect ();
 				cancel = true; //problem reading line (capturing)
 			} else
 				manageIniWireless();

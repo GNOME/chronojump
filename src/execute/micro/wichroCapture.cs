@@ -44,13 +44,17 @@ public class WichroCapture: ArduinoCapture
 	{
 		LogB.Information("portOpened: " + micro.Opened);
 		// 0 connect if needed
+
+		List<string> responseExpected_l = new List<string>();
+		responseExpected_l.Add("Wifi-Controller");
 		if(! micro.Opened)
 		{
-			List<string> responseExpected_l = new List<string>();
-			responseExpected_l.Add("Wifi-Controller");
-
 			if(! portConnect (true))
 				return false;
+			if(! getVersion ("local:get_version;", responseExpected_l, false, 2000, true))
+				return false;
+		} else {
+			//we check just to see if device has been disconnected
 			if(! getVersion ("local:get_version;", responseExpected_l, false, 2000, true))
 				return false;
 		}

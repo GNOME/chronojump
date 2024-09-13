@@ -5175,6 +5175,11 @@ public partial class ChronoJumpWindow
 		if (blinkCapture != null)
 			blinkCapture.End ();
 
+		if (cp2016.StoredWireless && currentEventExecute != null && currentEventExecute.ChronopicDisconnected)
+		{
+			button_detect_show_hide (true);
+		}
+
 		ChronopicRegisterPort crp = chronopicRegister.GetSelectedForMode (current_mode);
 
 		if (Constants.ModeIsFORCESENSOR (current_mode))
@@ -5360,8 +5365,7 @@ public partial class ChronoJumpWindow
 	//also manages if networks or not, on networks do not show
 	private void button_detect_show_hide (bool show)
 	{
-		//compujump will continue with the top right device button, far from the capture button
-		if (! configChronojump.Compujump)
+		if (configChronojump.Compujump)
 			return;
 
 		// Cloud-view cannot capture
@@ -6698,6 +6702,9 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		if(wireless && currentEventExecute.ChronopicDisconnected)
+			button_detect_show_hide (true);
+
 		thisRunIsSimple = true; //used by: on_event_execute_update_graph_in_progress_clicked
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
@@ -6987,6 +6994,9 @@ public partial class ChronoJumpWindow
 			}
 			return;
 		}
+
+		if(wireless && currentEventExecute.ChronopicDisconnected)
+			button_detect_show_hide (true);
 
 		thisRunIsSimple = false; //used by: on_event_execute_update_graph_in_progress_clicked
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 

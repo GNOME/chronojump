@@ -208,16 +208,36 @@ run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Resources/bin/Rscript
 run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Resources/bin/exec/R
 run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Resources/bin/fc-cache
 run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Resources/bin/qpdf
-run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/Resources/Rscript
-run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/Resources/bin/Rscript
-run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/Resources/bin/exec/R
-run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/Resources/bin/fc-cache
-run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/Resources/bin/qpdf
-run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/Rscript
-run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/bin/Rscript
-run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/bin/exec/R
-run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/bin/fc-cache
-run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/bin/qpdf
+if [ -e "${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/Resources/Rscript" ]; then
+    run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/Resources/Rscript
+fi
+if [ -e "${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/Resources/bin/Rscript" ]; then
+    run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/Resources/bin/Rscript
+fi
+if [ -e "${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/Resources/bin/exec/R" ]; then
+    run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/Resources/bin/exec/R
+fi
+if [ -e "${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/Resources/bin/fc-cache" ]; then
+    run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/Resources/bin/fc-cache
+fi
+if [ -e "${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/Resources/bin/qpdf" ]; then
+    run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/Resources/bin/qpdf
+fi
+if [ -e "${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/Rscript" ]; then
+    run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/Rscript
+fi
+if [ -e "${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/bin/Rscript" ]; then
+    run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/bin/Rscript
+fi
+if [ -e "${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/bin/exec/R" ]; then
+    run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/bin/exec/R
+fi
+if [ -e "${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/bin/fc-cache" ]; then
+    run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/bin/fc-cache
+fi
+if [ -e "${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/bin/qpdf" ]; then
+    run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/bin/qpdf
+fi
 
 #mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/Resources/English.lproj ${MAC_APP_ROOT_DIR}/1_English.lproj
 #mv ${MAC_APP_BIN_DIR}bin/x64/Python/Resources/English.lproj ${MAC_APP_ROOT_DIR}/2_English.lproj

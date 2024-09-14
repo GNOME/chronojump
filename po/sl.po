@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2024-09-11 11:49+0000\n"
-"PO-Revision-Date: 2024-09-11 22:28+0200\n"
+"POT-Creation-Date: 2024-09-13 15:48+0000\n"
+"PO-Revision-Date: 2024-09-14 10:37+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -96,7 +96,7 @@ msgstr "Zaustavi"
 
 #: ../glade/app1.glade.h:16 ../glade/dialog_threshold.glade.h:3
 #: ../glade/preferences_win.glade.h:44 ../glade/report_window.glade.h:10
-#: ../src/exportSession.cs:581 ../src/gui/app1/chronojump.cs:6489
+#: ../src/exportSession.cs:581 ../src/gui/app1/chronojump.cs:6493
 #: ../src/gui/jump.cs:1352 ../src/gui/jump.cs:1407 ../src/gui/jump.cs:1457
 #: ../src/sqlite/speciallity.cs:174 ../src/stats/rjAVGSD.cs:36
 #: ../src/stats/rjPotencyBosco.cs:35
@@ -182,7 +182,7 @@ msgstr "Zajemanje"
 msgid "Analyze"
 msgstr "Preuči"
 
-#: ../glade/app1.glade.h:33 ../src/gui/app1/chronojump.cs:7361
+#: ../glade/app1.glade.h:33 ../src/gui/app1/chronojump.cs:7371
 msgid "Pulses"
 msgstr "Ritmični testi"
 
@@ -282,7 +282,7 @@ msgstr ""
 msgid "0,000"
 msgstr "0,000"
 
-#: ../glade/app1.glade.h:52 ../src/gui/app1/chronojump.cs:5926
+#: ../glade/app1.glade.h:52 ../src/gui/app1/chronojump.cs:5930
 #: ../src/gui/app1/encoder.cs:1390 ../src/gui/app1/encoder.cs:7735
 msgid "Save comment"
 msgstr "Shrani komentar"
@@ -364,8 +364,8 @@ msgstr "Prekliči"
 msgid "Fullscreen"
 msgstr "Celozaslonski način"
 
-#: ../glade/app1.glade.h:68 ../src/gui/app1/chronojump.cs:6147
-#: ../src/gui/app1/chronojump.cs:6647 ../src/gui/app1/chronojump.cs:7180
+#: ../glade/app1.glade.h:68 ../src/gui/app1/chronojump.cs:6151
+#: ../src/gui/app1/chronojump.cs:6651 ../src/gui/app1/chronojump.cs:7190
 #: ../src/gui/app1/jump.cs:356 ../src/gui/app1/jump.cs:403
 #: ../src/gui/app1/reactionTime.cs:98 ../src/gui/app1/run.cs:198
 #: ../src/gui/app1/run.cs:250
@@ -908,19 +908,19 @@ msgstr "Projekcija uporabljene sile"
 msgid "Lights"
 msgstr "Signalne lučke"
 
-#: ../glade/app1.glade.h:174 ../src/gui/app1/chronojump.cs:7195
+#: ../glade/app1.glade.h:174 ../src/gui/app1/chronojump.cs:7205
 msgid "red"
 msgstr "rdeča"
 
-#: ../glade/app1.glade.h:175 ../src/gui/app1/chronojump.cs:7199
+#: ../glade/app1.glade.h:175 ../src/gui/app1/chronojump.cs:7209
 msgid "yellow"
 msgstr "rumena"
 
-#: ../glade/app1.glade.h:176 ../src/gui/app1/chronojump.cs:7203
+#: ../glade/app1.glade.h:176 ../src/gui/app1/chronojump.cs:7213
 msgid "green"
 msgstr "zelena"
 
-#: ../glade/app1.glade.h:177 ../src/gui/app1/chronojump.cs:7207
+#: ../glade/app1.glade.h:177 ../src/gui/app1/chronojump.cs:7217
 msgid "buzzer"
 msgstr "zvonec"
 
@@ -6405,8 +6405,8 @@ msgstr "Počitek {0} s"
 #. Catalog.GetString("Chronopic seems disconnected."));
 #.
 #: ../src/execute/event.cs:625
-msgid "Chronopic seems disconnected."
-msgstr "Zdi se, da je Chronopic ni povezan."
+msgid "Device seems disconnected."
+msgstr "Zdi se, da naprava ni povezana."
 
 #. done here before thread starts
 #: ../src/execute/jump.cs:177 ../src/execute/jump.cs:268
@@ -6514,28 +6514,28 @@ msgstr "Ste NA PODLOGI! STECITE, ko boste pripravljeni!"
 msgid "You are OUT, RUN when prepared!"
 msgstr "Ste OB PODLOGI! STECITE, ko boste pripravljeni!"
 
-#: ../src/execute/run.cs:1068
+#: ../src/execute/run.cs:1069
 msgid "Included on race time"
 msgstr "Vključeno v čas teka"
 
-#: ../src/execute/run.cs:1069
+#: ../src/execute/run.cs:1070
 msgid "Not included on race time"
 msgstr "Ni vključeno v čas teka"
 
-#: ../src/execute/run.cs:1202
+#: ../src/execute/run.cs:1203
 msgid "Included on race time of first track"
 msgstr "Vključeno v čas teka na prvi progi"
 
-#: ../src/execute/run.cs:1203
+#: ../src/execute/run.cs:1204
 msgid "Not included on race time of first track"
 msgstr "Ni vključeno v čas teka na prvi progi"
 
-#: ../src/execute/run.cs:1409
+#: ../src/execute/run.cs:1410
 msgid "Go!"
 msgstr "Začni!"
 
 # plural
-#: ../src/execute/run.cs:1412
+#: ../src/execute/run.cs:1413
 #, csharp-format
 msgid "Wait 1 second."
 msgid_plural "Wait {0} seconds."
@@ -6547,7 +6547,7 @@ msgstr[3] "Počakajte {0} sekunde."
 #. this dialog can make crash the software because the non-gui part calls it
 #. new DialogMessage(Constants.MessageTypes.WARNING,
 #. Catalog.GetString("Race will not be recorded, 1st lap is out of time"));
-#: ../src/execute/run.cs:1537
+#: ../src/execute/run.cs:1538
 msgid "Race will not be recorded. Out of time."
 msgstr "Tek ne bo zabeležen. Čas je pretekel."
 
@@ -6796,7 +6796,7 @@ msgstr "Povprečna hitrost"
 msgid "Distance interval"
 msgstr "Interval razdalje"
 
-#: ../src/exportSession.cs:805 ../src/gui/app1/chronojump.cs:6938
+#: ../src/exportSession.cs:805 ../src/gui/app1/chronojump.cs:6945
 #: ../src/gui/run.cs:1333 ../src/gui/run.cs:1401 ../src/gui/run.cs:1453
 msgid "Laps"
 msgstr "Krogi"
@@ -7029,63 +7029,63 @@ msgid ""
 msgstr ""
 "Vaje za hitrost/moč z vrtenjem vztrajnostne naprave, izmerjene s kodirnikom"
 
-#: ../src/gui/app1/chronojump.cs:5408
+#: ../src/gui/app1/chronojump.cs:5412
 #, csharp-format
 msgid "Compatible with: <b>{0}</b>"
 msgstr "Združljivo z: <b>{0}</b>"
 
-#: ../src/gui/app1/chronojump.cs:5697 ../src/gui/chronopicRegister.cs:824
+#: ../src/gui/app1/chronojump.cs:5701 ../src/gui/chronopicRegister.cs:824
 msgid "Device not found"
 msgstr "Naprave ni mogoče najti"
 
-#: ../src/gui/app1/chronojump.cs:5847
+#: ../src/gui/app1/chronojump.cs:5851
 msgid "Sorry, RSA tests cannot be simulated."
 msgstr "Žal testov RSA ni mogoče simulirati."
 
-#: ../src/gui/app1/chronojump.cs:5942 ../src/gui/app1/encoder.cs:1403
+#: ../src/gui/app1/chronojump.cs:5946 ../src/gui/app1/encoder.cs:1403
 msgid "Saved comment."
 msgstr "Opomba je shranjena."
 
-#: ../src/gui/app1/chronojump.cs:7652
+#: ../src/gui/app1/chronojump.cs:7662
 msgid "Changes"
 msgstr "Spremembe"
 
-#: ../src/gui/app1/chronojump.cs:8060 ../src/gui/app1/chronojump.cs:8076
+#: ../src/gui/app1/chronojump.cs:8070 ../src/gui/app1/chronojump.cs:8086
 msgid "Do you want to delete this jump?"
 msgstr "Ali želite izbrisati ta skok?"
 
-#: ../src/gui/app1/chronojump.cs:8158 ../src/gui/app1/chronojump.cs:8176
+#: ../src/gui/app1/chronojump.cs:8168 ../src/gui/app1/chronojump.cs:8186
 msgid "Do you want to delete this race?"
 msgstr "Ali želite izbrisati ta tek?"
 
-#: ../src/gui/app1/chronojump.cs:8326
+#: ../src/gui/app1/chronojump.cs:8336
 msgid "Do you want to delete this test?"
 msgstr "Ali želite izbrisati ta test?"
 
-#: ../src/gui/app1/chronojump.cs:8423
+#: ../src/gui/app1/chronojump.cs:8433
 msgid "Added simple jump type."
 msgstr "Dodan je enostavni skok."
 
-#: ../src/gui/app1/chronojump.cs:8433
+#: ../src/gui/app1/chronojump.cs:8443
 msgid "Added reactive jump type."
 msgstr "Dodan je repetitivno-eksplozivni skok."
 
-#: ../src/gui/app1/chronojump.cs:8464
+#: ../src/gui/app1/chronojump.cs:8474
 msgid "Added simple race type."
 msgstr "Dodan je enostavni tek."
 
-#: ../src/gui/app1/chronojump.cs:8473
+#: ../src/gui/app1/chronojump.cs:8483
 msgid "Added intervallic race type."
 msgstr "Dodan je intervalni tek."
 
-#: ../src/gui/app1/chronojump.cs:9139
+#: ../src/gui/app1/chronojump.cs:9149
 msgid "translator-credits"
 msgstr ""
 "Matej Urbančič <mateju@svn.gnome.org>\n"
 "Matej Dremelj\n"
 "Andrej Žnidaršič"
 
-#: ../src/gui/app1/chronojump.cs:10317
+#: ../src/gui/app1/chronojump.cs:10327
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr "Končano za testiranje. Program ChronoJump bo končan z napako."
 

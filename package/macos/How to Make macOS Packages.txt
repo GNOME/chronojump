@@ -94,7 +94,7 @@ https://www.apple.com/certificateauthority/AppleWWDRCAG4.cer
 
 https://www.apple.com/certificateauthority/DeveloperIDG2CA.cer
 
-(2) Download the Developer ID Application Cert and Developer ID Installer Cert.
+(2) Download the Developer ID Application Cert and Developer ID Installer Cert (They are used by dmg and pkg out of Apple Store). Download the 3rd Party Mac Developer Application Cert and 3rd Party Mac Developer Installer Cert (They are used by pkg in Apple Store).
 
 (3) Double-click them and install them into "Keychain Access"/"Login". (Only the first time)
 
@@ -112,7 +112,8 @@ sudo security find-identity codesigning /Users/{user}/Library/Keychains/login.ke
 
 cd "~/Desktop/chronojump/package/macos"
 make dmg #Execute this command to create *.dmg package.
-make pkg #Execute this command to create *.pkg package.
+make pkg #Execute this command to create *.pkg package which is distributed out of Apple Store.
+make apple-store-pkg #Execute this command to create *.pkg package which is distributed in Apple Store.
 #If it says "permission denied", please remove "package/macos/app/Chronojump.app" first. It would fail while uploading to Apple Store Conenct with "sudo".
 
 #Python bundle executable: Resources/Python-x64/Versions/Current/bin/python3

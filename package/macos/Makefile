@@ -16,6 +16,7 @@ PACKAGE_SHORT_VERSION = $(shell git describe | sed 's/-.*//')
 #all: bundle
 dmg: bundle package-dmg
 pkg: bundle package-pkg
+apple-store-pkg: bundle package-apple-store-pkg
 
 bundle:
 	rm -rf deps/FTD2XX_NET_v1.2.0
@@ -57,3 +58,6 @@ package-dmg:
 
 package-pkg:	
 	sh ./build_installer.sh $(PACKAGE_VERSION) pkg
+
+package-apple-store-pkg:	
+	sh ./build_installer.sh $(PACKAGE_VERSION) pkg apple-store

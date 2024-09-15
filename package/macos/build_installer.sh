@@ -8,6 +8,7 @@ MAC_APP_RESOURCE_DIR="${MAC_APP_DIR}/Contents/Resources/"
 #MAC_APP_FRAMEWORK_DIR="${MAC_APP_DIR}/Contents/Frameworks/"
 PACKAGE_VERSION="$1"
 PACKAGE_TYPE="$2"
+PACKAGE_PLACE="$3"
 ARCH="$(uname -m)"
 if [ "$ARCH" == "arm64" ]; then  
     ARCH="arm64"
@@ -26,12 +27,10 @@ APPLE_APPLICATION_CERT_NAME="Developer ID Application: Asociacion Chronojump (RX
 APPLE_INSTALLER_CERT_NAME="Developer ID Installer: Asociacion Chronojump (RXJZ6LH5L4)"
 MAC_APPLICATION_CERT_NAME="3rd Party Mac Developer Application: Asociacion Chronojump (RXJZ6LH5L4)"
 MAC_INSTALLER_CERT_NAME="3rd Party Mac Developer Installer: Asociacion Chronojump (RXJZ6LH5L4)"
-if [ "$PACKAGE_TYPE" == "dmg" ]; then  
-    APPLICATION_CERT_NAME="${APPLE_APPLICATION_CERT_NAME}"
-    INSTALLER_CERT_NAME="${APPLE_INSTALLER_CERT_NAME}"
+if [ "$PACKAGE_PLACE" == "apple-store" ]; then  
+    APPLICATION_CERT_NAME="${MAC_APPLICATION_CERT_NAME}"
+    INSTALLER_CERT_NAME="${MAC_INSTALLER_CERT_NAME}"
 else
-    #APPLICATION_CERT_NAME="${MAC_APPLICATION_CERT_NAME}"
-    #INSTALLER_CERT_NAME="${MAC_INSTALLER_CERT_NAME}"
     APPLICATION_CERT_NAME="${APPLE_APPLICATION_CERT_NAME}"
     INSTALLER_CERT_NAME="${APPLE_INSTALLER_CERT_NAME}"
 fi
@@ -40,8 +39,12 @@ run_codesign()
 {
     file=$1
     echo ${file}
-    codesign --deep --force --timestamp --options runtime --sign "${APPLICATION_CERT_NAME}" --entitlements chronojump.entitlements ${file}
-    #codesign --deep --force --timestamp=none --options runtime --sign "${APPLICATION_CERT_NAME}" --entitlements chronojump.entitlements ${file}
+    if [ "$PACKAGE_PLACE" == "apple-store" ]; then
+        codesign --deep --force --timestamp --options runtime --sign "${APPLICATION_CERT_NAME}" --entitlements chronojump-apple-store.entitlements ${file}
+    else
+        codesign --deep --force --timestamp --options runtime --sign "${APPLICATION_CERT_NAME}" --entitlements chronojump.entitlements ${file}
+        #codesign --deep --force --timestamp=none --options runtime --sign "${APPLICATION_CERT_NAME}" --entitlements chronojump.entitlements ${file}
+    fi
 }
 
 #for dir in `find deps/bin/x64/Python -type d -name "*.app"`
@@ -323,8 +326,10 @@ else
     rm -rf distribution-signing
     rm -rf component
     rm -rf component-signing
-    echo "Notarizing pkg..."
-    xcrun notarytool submit --wait --apple-id=${APPLE_ID} --password ${APPLE_PASSWORD} --team-id ${APPLE_TEAM_ID} ${MAC_INSTALLER_FILE_NAME}
-    echo "Stapling pkg..."
-    xcrun stapler staple ${MAC_INSTALLER_FILE_NAME}
+    if [ "$PACKAGE_PLACE" != "apple-store" ]; then    
+        echo "Notarizing pkg..."
+        xcrun notarytool submit --wait --apple-id=${APPLE_ID} --password ${APPLE_PASSWORD} --team-id ${APPLE_TEAM_ID} ${MAC_INSTALLER_FILE_NAME}
+        echo "Stapling pkg..."
+        xcrun stapler staple ${MAC_INSTALLER_FILE_NAME}
+    fi
 fi

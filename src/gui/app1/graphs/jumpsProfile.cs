@@ -95,7 +95,7 @@ public partial class ChronoJumpWindow
 
 		JumpsProfileGraph.Do (jumpsProfile.JumpsDone, jumpsProfile.ErrorSJl,
 				jumpsProfile.GetIndexes(), drawingarea_jumps_profile, args,
-				currentPerson.Name, currentSession.DateShort, preferences.fontType.ToString());
+				currentPerson.Name, currentSession.DateShort, preferences.fontTypeToGraph());
 	}
 	private void on_drawingarea_jumps_profile_cairo_draw (object o, Gtk.DrawnArgs args) 
 	{

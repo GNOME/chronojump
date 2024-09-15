@@ -248,6 +248,7 @@ public class EncoderCurve
 	public string MeanSpeed;
 	public string MaxSpeed;
 	public string MaxSpeedT;
+	public string RVD;
 	public string MeanPower;
 	public string PeakPower;
 	public string PeakPowerT;
@@ -266,6 +267,7 @@ public class EncoderCurve
 	public EncoderCurve (bool record, string n, 
 			string start, string duration, string height, 
 			string meanSpeed, string maxSpeed, string maxSpeedT,
+			string RVD,
 			string meanPower, string peakPower, string peakPowerT, 
 			string PP_PPT,
 			string meanForce, string maxForce, string maxForceT,
@@ -281,6 +283,7 @@ public class EncoderCurve
 		this.MeanSpeed = meanSpeed;
 		this.MaxSpeed = maxSpeed;
 		this.MaxSpeedT = maxSpeedT;
+		this.RVD = RVD;
 		this.MeanPower = meanPower;
 		this.PeakPower = peakPower;
 		this.PeakPowerT = peakPowerT;
@@ -300,6 +303,7 @@ public class EncoderCurve
 			int inertia, double diameter, double EquivalentMass, 	//3 inertial params
 			string start, string duration, string height,
 			string meanSpeed, string maxSpeed, string maxSpeedT,
+			string RVD,
 			string meanPower, string peakPower, string peakPowerT, 
 			string PP_PPT,
 			string meanForce, string maxForce, string maxForceT,
@@ -321,6 +325,7 @@ public class EncoderCurve
 		this.MeanSpeed = meanSpeed;
 		this.MaxSpeed = maxSpeed;
 		this.MaxSpeedT = maxSpeedT;
+		this.RVD = RVD;
 		this.MeanPower = meanPower;
 		this.PeakPower = peakPower;
 		this.PeakPowerT = peakPowerT;
@@ -338,6 +343,7 @@ public class EncoderCurve
 		EncoderCurve curveCopy = new EncoderCurve(Record, N,
 				Start, Duration, Height,
 				MeanSpeed, MaxSpeed, MaxSpeedT,
+				RVD,
 				MeanPower, PeakPower, PeakPowerT,
 				PP_PPT,
 				MeanForce, MaxForce, MaxForceT,
@@ -460,7 +466,8 @@ public class EncoderCurve
 
 			str +=
 				Start + sep + Duration + sep + Height + sep + 
-				MeanSpeed + sep + MaxSpeed + sep + MaxSpeedT + sep + 
+				MeanSpeed + sep + MaxSpeed + sep + MaxSpeedT + sep +
+				RVD + sep +
 				MeanPower + sep + PeakPower + sep + PeakPowerT + sep + 
 				PP_PPT + sep +
 				MeanForce + sep + MaxForce + sep + MaxForceT + sep +
@@ -481,6 +488,13 @@ public class EncoderCurve
 
 	public double MeanSpeedD { get { return Convert.ToDouble(MeanSpeed); } }
 	public double MaxSpeedD  { get { return Convert.ToDouble(MaxSpeed);  } }
+	/*
+	public double RVD {
+		get {
+			return UtilAll.DivideSafe (MaxSpeedD, Convert.ToDouble (MaxSpeedT) /1000);
+		}
+	}
+	*/
 	public double MeanPowerD { get { return Convert.ToDouble(MeanPower); } }
 	public double PeakPowerD { get { return Convert.ToDouble(PeakPower); } }
 	public double MeanForceD { get { return Convert.ToDouble(MeanForce); } }

@@ -457,6 +457,8 @@ public class DiscoverWindow
 				(current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE) &&
 				crpt == ChronopicRegisterPort.Types.CONTACTS )
 			return true;
+		else if (current_mode == Constants.Modes.JUMPSSIMPLE && crpt == ChronopicRegisterPort.Types.FOURPLATFORMS)
+			return true;
 		else if (
 				(current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC) &&
 				(crpt == ChronopicRegisterPort.Types.CONTACTS || crpt == ChronopicRegisterPort.Types.RUN_WIRELESS) )

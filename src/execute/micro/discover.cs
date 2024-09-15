@@ -107,6 +107,13 @@ public class MicroDiscover : MicroComms
 					LogB.Information("ended discoverMultitest");
 				} else
 					connectError_l.Add (micro.PortName);
+
+				if(mode == Constants.Modes.JUMPSSIMPLE)
+				{
+					micro.Bauds = 115200;
+					LogB.Information("calling discover FourPlatforms from jumps simple mode");
+					success = discoverFourPlatforms ();
+				}
 			}
 			else if(mode == Constants.Modes.RUNSSIMPLE || mode == Constants.Modes.RUNSINTERVALLIC)
 			{

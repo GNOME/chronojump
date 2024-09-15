@@ -197,7 +197,7 @@ public partial class ChronoJumpWindow
 		{
 			if (bars) {
 				//constructor for showing blank screen with a message
-				new CairoBars1Series (drawingarea_jumps_asymmetry, CairoBars.Type.NORMAL, preferences.fontType.ToString(), "Need more data"); //TODO: change message
+				new CairoBars1Series (drawingarea_jumps_asymmetry, CairoBars.Type.NORMAL, preferences.fontTypeToGraph(), "Need more data"); //TODO: change message
 			} else {
 
 				JumpsAsymmetryGraph.Error error = JumpsAsymmetryGraph.Error.NEEDJUMP;
@@ -211,7 +211,7 @@ public partial class ChronoJumpWindow
 					error = JumpsAsymmetryGraph.Error.REPEATEDJUMPS;
 
 				new JumpsAsymmetryGraph (drawingarea_jumps_asymmetry, 
-						error, index, preferences.fontType.ToString());
+						error, index, preferences.fontTypeToGraph());
 			}
 
 			button_jumps_asymmetry_save_image.Sensitive = false;
@@ -219,7 +219,7 @@ public partial class ChronoJumpWindow
 		} else {
 			if (bars) {
 				CairoBars cb = new CairoBars1Series (drawingarea_jumps_asymmetry, CairoBars.Type.NORMAL, false, true, false);
-				cb.GraphInit (preferences.fontType.ToString (), false, false);
+				cb.GraphInit (preferences.fontTypeToGraph (), false, false);
 
 				List<PointF> point_l = new List<PointF>();
 				List<string> names_l = new List<string>();
@@ -246,7 +246,7 @@ public partial class ChronoJumpWindow
 						currentSession.DateShort, false, true,
 						jumpsAsymmetry.MouseX,
 						jumpsAsymmetry.MouseY);
-				jumpsAsymmetryGraph.Do (preferences.fontType.ToString());
+				jumpsAsymmetryGraph.Do (preferences.fontTypeToGraph());
 			}
 
 			button_jumps_asymmetry_save_image.Sensitive = true;

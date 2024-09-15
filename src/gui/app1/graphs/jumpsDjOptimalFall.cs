@@ -96,7 +96,7 @@ public partial class ChronoJumpWindow
 		if(jumpsDjOptimalFall.Point_l.Count == 0)
 		{
 			//constructor for showing blank screen with a message
-			new JumpsDjOptimalFallGraph(drawingarea_jumps_dj_optimal_fall, jumpType, preferences.fontType.ToString());
+			new JumpsDjOptimalFallGraph(drawingarea_jumps_dj_optimal_fall, jumpType, preferences.fontTypeToGraph());
 					//currentPerson.Name, jumpType, currentSession.DateShort);
 
 			button_jumps_dj_optimal_fall_save_image.Sensitive = false;
@@ -113,7 +113,7 @@ public partial class ChronoJumpWindow
 					currentPerson.Name, jumpType, currentSession.DateShort,
 					jumpsDjOptimalFall.MouseX,
 					jumpsDjOptimalFall.MouseY);
-			jumpsDjOptimalFallGraph.Do(preferences.fontType.ToString());
+			jumpsDjOptimalFallGraph.Do(preferences.fontTypeToGraph());
 
 			button_jumps_dj_optimal_fall_save_image.Sensitive = true;
 		}

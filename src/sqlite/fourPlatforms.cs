@@ -110,3 +110,61 @@ class SqliteFourPlatforms : Sqlite
 	}
 }
 
+//using fourPlatforms to store simple jumps
+class SqliteFourPlatformsJumpsSimple : Sqlite
+{
+	private static string table = Constants.JumpTable;
+
+	public SqliteFourPlatformsJumpsSimple() {
+	}
+
+	//public int Insert (int personID, int sessionID,
+	public void Insert (List<IDName> person_l, int sessionID,
+			string jumpType, List<List<double>> off_ll, List<List<double>> on_ll, double fall,
+			double weight, string description, int angle, bool simulated,
+			string datetimeStr)
+	{
+		Sqlite.Open();
+		using(SQLiteTransaction tr = dbcon.BeginTransaction())
+		{
+			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
+			{
+				dbcmdTr.Transaction = tr;
+				for (int i = 0; i < 4; i ++)
+				{
+					if (person_l[i].UniqueID < 0)
+						continue;
+
+					LogB.Information ("person: " + i.ToString ());
+					double tf = 0;
+					for (int j = 0; j < on_ll[i].Count; j ++)
+					{
+						//LogB.Information (string.Format ("on {0}, onTime {1} ", j, on_ll[i][j]));
+						bool found = false;
+						for (int k = off_ll[i].Count -1; k >= 0; k --)
+						{
+							//LogB.Information (string.Format ("off {0}, offTime {1} ", k, off_ll[i][k]));
+							if (off_ll[i][k] < on_ll[i][j])
+							{
+								//LogB.Information ("found!");
+								tf = on_ll[i][j] - off_ll[i][k];
+								found = true;
+								break;
+							}
+						}
+
+						if (found)
+							SqliteJump.InsertDo (true, table,
+									"-1", person_l[i].UniqueID, sessionID, jumpType,
+									tf, 0, fall, weight, "", -1, 0, datetimeStr, //TODO: TC & fall
+									dbcmdTr);
+					}
+				}
+			}
+			tr.Commit();
+		}
+		Sqlite.Close();
+	}
+
+	~SqliteFourPlatformsJumpsSimple() {}
+}

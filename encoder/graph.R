@@ -1570,27 +1570,27 @@ findPosInPaf <- function(var, option) {
         if(var == "Speed")
                 pos = 1
         else if(var == "Power")
-                pos = 4
+                pos = 5
         else if(var == "Force")
-                pos = 8
+                pos = 9
         else if(var == "Load") #MassDisplaced
-                pos = 12
-        else if(var == "MassBody")
                 pos = 13
-        else if(var == "MassExtra")
+        else if(var == "MassBody")
                 pos = 14
-        else if(var == "workJ")
+        else if(var == "MassExtra")
                 pos = 15
-        else if(var == "impulse")
+        else if(var == "workJ")
                 pos = 16
-        else if(var == "Laterality")
+        else if(var == "impulse")
                 pos = 17
-        else if(var == "Inertia")
+        else if(var == "Laterality")
                 pos = 18
-        else if(var == "Diameter") #Inertial
+        else if(var == "Inertia")
                 pos = 19
-        else if(var == "EquivalentMass") #Inertial
+        else if(var == "Diameter") #Inertial
                 pos = 20
+        else if(var == "EquivalentMass") #Inertial
+                pos = 21
         
         if( ( var == "Speed" || var == "Power" || var == "Force") & option == "max")
                 pos=pos+1
@@ -4115,6 +4115,7 @@ doProcess <- function(options)
                         colnames(pafCurves) = c("series","exercise","massBody","massExtra",
                                                 "start","width","height",
                                                 "meanSpeed","maxSpeed","maxSpeedT",
+						"rvd",
                                                 "meanPower","peakPower","peakPowerT",
                                                 "pp_ppt",
                                                 "meanForce", "maxForce", "maxForceT",
@@ -4136,6 +4137,7 @@ doProcess <- function(options)
                                         pafCurvesMax = c("","", max(pafCurves$massBody), max(pafCurves$massExtra),
                                                          max(pafCurves$start),max(pafCurves$width),max(pafCurves$height),
                                                          max(pafCurves$meanSpeed),max(pafCurves$maxSpeed),max(pafCurves$maxSpeedT),
+							 max(pafCurves$rvd),
                                                          max(pafCurves$meanPower),max(pafCurves$peakPower),max(pafCurves$peakPowerT),
                                                          max(pafCurves$pp_ppt),
                                                          max(pafCurves$meanForce), max(pafCurves$maxForce), max(pafCurves$maxForceT),
@@ -4148,6 +4150,7 @@ doProcess <- function(options)
                                         pafCurvesAVG = c("","", mean(pafCurves$massBody), mean(pafCurves$massExtra),
                                                          mean(pafCurves$start),mean(pafCurves$width),mean(pafCurves$height),
                                                          mean(pafCurves$meanSpeed),mean(pafCurves$maxSpeed),mean(pafCurves$maxSpeedT),
+							 mean(pafCurves$rvd),
                                                          mean(pafCurves$meanPower),mean(pafCurves$peakPower),mean(pafCurves$peakPowerT),
                                                          mean(pafCurves$pp_ppt),
                                                          mean(pafCurves$meanForce), mean(pafCurves$maxForce), mean(pafCurves$maxForceT),
@@ -4161,6 +4164,7 @@ doProcess <- function(options)
                                                 pafCurvesSD = c("","", sd(pafCurves$massBody), sd(pafCurves$massExtra),
                                                                 sd(pafCurves$start),sd(pafCurves$width),sd(pafCurves$height),
                                                                 sd(pafCurves$meanSpeed),sd(pafCurves$maxSpeed),sd(pafCurves$maxSpeedT),
+							 	sd(pafCurves$rvd),
                                                                 sd(pafCurves$meanPower),sd(pafCurves$peakPower),sd(pafCurves$peakPowerT),
                                                                 sd(pafCurves$pp_ppt),
                                                                 sd(pafCurves$meanForce), sd(pafCurves$maxForce), sd(pafCurves$maxForceT),

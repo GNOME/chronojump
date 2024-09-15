@@ -289,8 +289,9 @@ public partial class ChronoJumpWindow
 	//realtime capture graph for jumpRj and runInterval
 	public void on_event_execute_drawingarea_realtime_capture_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
-		//right now only for jump reactive, runsI, other (fourplatforms)
-		if(current_mode != Constants.Modes.JUMPSREACTIVE &&
+		//right now only for jump simple (fourPlatforms), reactive, runsI, other (fourplatforms)
+		if(current_mode != Constants.Modes.JUMPSSIMPLE &&
+				current_mode != Constants.Modes.JUMPSREACTIVE &&
 				current_mode != Constants.Modes.RUNSINTERVALLIC &&
 				current_mode != Constants.Modes.OTHER)
 			return;
@@ -337,7 +338,7 @@ public partial class ChronoJumpWindow
 						selectedRunInterval.Photocell_l,
 						selectedRunInterval.Type, selectedRunInterval.Description, feedbackRunsI); //Description is person.Name
 			}
-		} else if(current_mode == Constants.Modes.OTHER)
+		} else if(current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.OTHER)
 		{
 			if(cairoGraphFourPlatforms == null)// || forceRedraw)
 				cairoGraphFourPlatforms = new CairoGraphFourPlatforms (
@@ -345,8 +346,10 @@ public partial class ChronoJumpWindow
 
 			if (fpcm != null)
 				cairoGraphFourPlatforms.DoSendingList (
-						preferences.fontType.ToString(),
+						preferences.fontTypeToGraph(),
+						current_mode,
 						cairoGraphFourPlatformsPoints_ll,
+						fpcm.IDName_l,
 						capturingFourPlatforms == arduinoCaptureStatus.CAPTURING,
 						fpcm.TimeOfLastCapture,
 						false, 0,
@@ -551,7 +554,7 @@ public partial class ChronoJumpWindow
 	{
 		//constructor for showing a blank graph
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
-				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString());
+				event_execute_drawingarea_realtime_capture_cairo, preferences.fontTypeToGraph());
 	}
 
 	public void PrepareJumpReactiveRealtimeCaptureGraph (double lastTv, double lastTc, string tvString, string tcString,
@@ -573,7 +576,7 @@ public partial class ChronoJumpWindow
 			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
-				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
+				event_execute_drawingarea_realtime_capture_cairo, preferences.fontTypeToGraph(), current_mode,
 				personName, type, preferences.digitsNumber,// preferences.heightPreferred,
 				//lastTv, lastTc,
 				tvString, tcString, isLastCaptured, feedbackJumpsRj, videoTime);
@@ -686,7 +689,7 @@ public partial class ChronoJumpWindow
 	{
 		//constructor for showing a blank graph
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
-				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString());
+				event_execute_drawingarea_realtime_capture_cairo, preferences.fontTypeToGraph());
 	}
 
 	public void PrepareRunIntervalRealtimeCaptureGraph (string timesString,
@@ -708,7 +711,7 @@ public partial class ChronoJumpWindow
 			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
-				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
+				event_execute_drawingarea_realtime_capture_cairo, preferences.fontTypeToGraph(), current_mode,
 				personName, type, preferences.digitsNumber,// preferences.heightPreferred,
 				preferences.metersSecondsPreferred,
 				check_runI_realtime_rel_abs.Active,
@@ -778,6 +781,9 @@ public partial class ChronoJumpWindow
 		return maxRows;
 	}
 
+	/*
+	 * commented old Pango code (pre Cairo)
+	 *
 	private int calculateBottomMarginForText (int maxRows, Pango.Layout layout)
 	{
 
@@ -850,6 +856,7 @@ public partial class ChronoJumpWindow
 
 		return layout;
 	}
+	*/
 
 	private void hideButtons() {
 		event_execute_button_cancel.Sensitive = false;
@@ -2464,7 +2471,10 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, false, true, true);
 
 		cb.YVariable = Catalog.GetString("Speed");
-		cb.YUnits = "m/s";
+		if (metersSecondsPreferred)
+			cb.YUnits = "m/s";
+		else
+			cb.YUnits = "Km/h";
 
 		cb.GraphInit(fontStr, true, false); //usePersonGuides, useGroupGuides
 
@@ -2736,7 +2746,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	protected override void paintSpecific()
 	{
 		if (noMassAndNeeded)
-			ShowMessage (darea, preferences.fontType.ToString(),
+			ShowMessage (darea, preferences.fontTypeToGraph(),
 					Catalog.GetString("Main variable:") + " " + Catalog.GetString(pegbe.mainVariable) + "\n\n" +
 					Catalog.GetString("The bars are not shown because the displaced mass is 0."));
 		else

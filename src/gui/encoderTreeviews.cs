@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -76,6 +76,7 @@ public partial class ChronoJumpWindow
 			"v" + "\n (m/s)",
 			"vmax" + "\n (m/s)",
 			"t->vmax" + "\n (s)",
+			"RVD" + "\n (m/s^2)",
 			"p" + "\n (W)",
 			"pmax" + "\n (W)",
 			"t->pmax" + "\n (s)",
@@ -133,12 +134,10 @@ public partial class ChronoJumpWindow
 						//cells[3], 	//massBody
 						//cells[4], 	//massExtra
 						cells[5], cells[6], cells[7], 	//start, duration, height 
-						cells[8], cells[9], cells[10], 	//meanSpeed, maxSpeed, maxSpeedT
-						cells[11], cells[12], cells[13],//meanPower, peakPower, peakPowerT
-						cells[14],			//peakPower / peakPowerT
-						cells[15], cells[16], cells[17], //meanForce, maxForce maxForceT
-						cells[18], 			//meanForce / meanForceT
-						cells[19], cells[20] 		//work, impulse
+						cells[8], cells[9], cells[10], cells[11], 	//speeds
+						cells[12], cells[13], cells[14], cells[15],	//powers
+						cells[16], cells[17], cells[18], cells[19], 	//forces
+						cells[20], cells[21] 		//work, impulse
 						));
 
 		}
@@ -224,33 +223,36 @@ public partial class ChronoJumpWindow
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeedT));
 					break;
 				case 7:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderRVD));
 					break;
 				case 8:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
 					break;
 				case 9:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
 					break;
 				case 10:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPP_PPT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
 					break;
 				case 11:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanForce));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPP_PPT)); //RPD
 					break;
 				case 12:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForce));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanForce));
 					break;
 				case 13:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForceT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForce));
 					break;
 				case 14:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForce_maxForceT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForceT));
 					break;
 				case 15:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderWork));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForce_maxForceT)); //RFD
 					break;
 				case 16:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderWork));
+					break;
+				case 17:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderImpulse));
 					break;
 			}
@@ -633,6 +635,7 @@ public partial class ChronoJumpWindow
 			"v" + "\n(m/s)",
 			"vmax" + "\n(m/s)",
 			"t->vmax" + "\n" + timeUnits,
+			"RVD" + "\n (m/s^2)",
 			"p" + "\n(W)",
 			"pmax" + "\n(W)",
 			"t->pmax" + "\n" + timeUnits,
@@ -736,19 +739,17 @@ public partial class ChronoJumpWindow
 							cells[0], 
 							cells[1],	//seriesName 
 							exerciseName,
-							cells[21],	//laterality
+							cells[22],	//laterality
 							Convert.ToDouble(Util.ChangeDecimalSeparator(cells[4])), 	//extraWeight
 							totalMass, 							//displaceWeight
-							Convert.ToInt32(cells[22]), 					//inertia M. (inertial)
-							Convert.ToDouble(cells[23]), 					//diameter (inertial)
-							Convert.ToDouble(cells[24]), 					//equivalent mass (inertial)
+							Convert.ToInt32(cells[23]), 					//inertia M. (inertial)
+							Convert.ToDouble(cells[24]), 					//diameter (inertial)
+							Convert.ToDouble(cells[25]), 					//equivalent mass (inertial)
 							cells[5], cells[6], cells[7], 
-							cells[8], cells[9], cells[10], 
-							cells[11], cells[12], cells[13],
-							cells[14],
-							cells[15], cells[16], cells[17], //meanForce, maxForce maxForceT
-							cells[18],
-							cells[19], cells[20]
+							cells[8], cells[9], cells[10], cells[11],			//speeds
+							cells[12], cells[13], cells[14], cells[15],			//powers
+							cells[16], cells[17], cells[18], cells[19],			//forces
+							cells[20], cells[21]
 							));
 
 			} while(true);
@@ -842,33 +843,36 @@ public partial class ChronoJumpWindow
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeedT));
 					break;
 				case 15:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderRVD));
 					break;
 				case 16:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
 					break;
 				case 17:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
 					break;
 				case 18:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPP_PPT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
 					break;
 				case 19:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanForce));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPP_PPT));
 					break;
 				case 20:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForce));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanForce));
 					break;
 				case 21:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForceT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForce));
 					break;
 				case 22:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForce_maxForceT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForceT));
 					break;
 				case 23:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderWork));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForce_maxForceT));
 					break;
 				case 24:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderWork));
+					break;
+				case 25:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderImpulse));
 					break;
 			}
@@ -1341,6 +1345,13 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 
+	private void RenderRVD (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		string str = String.Format(UtilGtk.TVNumPrint(curve.RVD,6,3), curve.RVD);
+		renderBoldIfNeeded(cell, curve, str);
+	}
+
 	private void RenderMeanPower (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
@@ -1667,15 +1678,15 @@ public partial class ChronoJumpWindow
 
 
 	/* end of rendering neuromuscular cols */
-	
+
 	//check if there are enought cells, sometimes file is created but data is not completely written
 	private bool fixDecimalsWillWork(bool captureOrAnalyze, string [] cells)
 	{
 		LogB.Information(string.Format("captureOrAnalyze: {0}, cells.Length: {1}", captureOrAnalyze, cells.Length));
 		//LogB.Information(string.Format("cellsString: {0}", Util.StringArrayToString(cells, ";")));
-		if(captureOrAnalyze && cells.Length < 21) 		//from 0 to 20
+		if(captureOrAnalyze && cells.Length < 22) 		//from 0 to 21
 			return false;
-		else if(! captureOrAnalyze && cells.Length < 25) 	//from 0 to 24
+		else if(! captureOrAnalyze && cells.Length < 26) 	//from 0 to 25
 			return false;
 
 		return true;
@@ -1689,38 +1700,38 @@ public partial class ChronoJumpWindow
 		for(int i=5; i <= 7; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),1);
 		
-		//meanSpeed,maxSpeed,maxSpeedT, meanPower,peakPower,peakPowerT
-		for(int i=8; i <= 13; i++)
+		//meanSpeed,maxSpeed,maxSpeedT,rvd, meanPower,peakPower,peakPowerT
+		for(int i=8; i <= 14; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
 		
 		//pp/ppt
-		int pp_ppt = 14;
+		int pp_ppt = 15;
 		cells[pp_ppt] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[pp_ppt])),1); 
 
 		//meanForce, maxForce, maxForceT
-		for(int i=15; i <= 17; i++)
+		for(int i=16; i <= 18; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
 
 		//maxForce_maxForceT
-		int maxForce_maxForceT = 18;
+		int maxForce_maxForceT = 19;
 		cells[maxForce_maxForceT] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[maxForce_maxForceT])),1);
 
-		LogB.Information("cells19: " + cells[19]);
 		LogB.Information("cells20: " + cells[20]);
+		LogB.Information("cells21: " + cells[21]);
 		//work, impulse
-		cells[19] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[19])),3);
 		cells[20] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[20])),3);
+		cells[21] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[21])),3);
 
-		//cells[21] laterality
+		//cells[22] laterality
 
 		//capture does not return inerta
 		//analyze returns inertia (can be different on "saved curves") comes as Kg*m^2, convert it to Kg*cm^2
 		//analyze returns also diameter and equivalentMass (both used on inertial)
 		if(! captureOrAnalyze) {
-			double inertiaInM = Convert.ToDouble(Util.ChangeDecimalSeparator(cells[22]));
-			cells[22] = (Convert.ToInt32(inertiaInM * 10000)).ToString();
-			cells[23] = Util.ChangeDecimalSeparator(cells[23]);
+			double inertiaInM = Convert.ToDouble(Util.ChangeDecimalSeparator(cells[23]));
+			cells[23] = (Convert.ToInt32(inertiaInM * 10000)).ToString();
 			cells[24] = Util.ChangeDecimalSeparator(cells[24]);
+			cells[25] = Util.ChangeDecimalSeparator(cells[25]);
 		}
 
 		return cells;

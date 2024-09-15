@@ -330,6 +330,7 @@ public abstract class CairoBars : CairoGeneric
 	protected void initGraph(string font, double widthPercent1, bool clearDrawingArea)
 	{
 		this.font = font;
+
 		//LogB.Information("Font: " + font);
 
 		//1 create context from area->surface (see xy.cs)

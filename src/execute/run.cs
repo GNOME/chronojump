@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -79,7 +79,9 @@ public class RunExecute : EventExecute
 	protected Gtk.Label label_run_execute_photocell_code;
 
 	protected WichroCapture wichroCapture;
-	protected int sensorOnce;
+	protected int sensorOnceA;
+	protected int sensorOnceB;
+	protected bool jsonUploadNeedsButton;
 	protected string jsonUploadTestScript;
 	protected string jsonUploadRankingScript;
 
@@ -102,7 +104,8 @@ public class RunExecute : EventExecute
 			Gtk.Image image_run_execute_photocell_icon,
 			Gtk.Label label_run_execute_photocell_code,
 			int graphLimit, bool graphAllTypes, bool graphAllPersons,
-			bool cameraRecording, int sensorOnce,
+			bool cameraRecording, int sensorOnceA, int sensorOnceB,
+			bool jsonUploadNeedsButton,
 			string jsonUploadTestScript,
 			string jsonUploadRankingScript
 			)
@@ -136,7 +139,9 @@ public class RunExecute : EventExecute
 		this.graphAllTypes = graphAllTypes;
 		this.graphAllPersons = graphAllPersons;
 		this.cameraRecording = cameraRecording;
-		this.sensorOnce = sensorOnce;
+		this.sensorOnceA = sensorOnceA;
+		this.sensorOnceB = sensorOnceB;
+		this.jsonUploadNeedsButton = jsonUploadNeedsButton;
 		this.jsonUploadTestScript = jsonUploadTestScript;
 		this.jsonUploadRankingScript = jsonUploadRankingScript;
 
@@ -159,6 +164,32 @@ public class RunExecute : EventExecute
 		eventDone = new Run();
 	}
 
+	//contacts_insert_test_button_do, this inserts and later it can be uploaded with button
+	public RunExecute(int personID, int sessionID, string type, double distance, double trackTime,
+			string jsonUploadTestScript, string jsonUploadRankingScript)
+	{
+		this.personID = personID;
+		this.sessionID = sessionID;
+		this.type = type;
+		this.distance = distance;
+		this.trackTime = trackTime;
+		this.jsonUploadTestScript = jsonUploadTestScript;
+		this.jsonUploadRankingScript = jsonUploadRankingScript;
+
+		string table = Constants.RunTable;
+		string datetime = UtilDate.ToFile(DateTime.Now);
+
+		uniqueID = SqliteRun.Insert(false, table, "NULL", personID, sessionID,
+				type, distance, trackTime, "",
+				0, 	//not simulated
+				true,	//initial speed
+				datetime
+				);
+
+		//define the created object
+		eventDone = new Run(uniqueID, personID, sessionID, type, distance, trackTime, "",
+				0, true, datetime);
+	}
 	
 	public override void SimulateInitValues(Random randSent)
 	{
@@ -213,10 +244,19 @@ public class RunExecute : EventExecute
 		 */
 		LogB.Debug("MANAGE(wireless)!!!!");
 
-		if (sensorOnce >= 0)
+		if (sensorOnceA >= 0)
 		{
-			LogB.Information ("Calling SensorOnce with terminal: " + sensorOnce.ToString ());
-			bool sensorOnceSuccess = wichroCapture.SensorOnce (sensorOnce);
+			LogB.Information ("Calling SensorOnceA with terminal: " + sensorOnceA.ToString ());
+			bool sensorOnceSuccess = wichroCapture.SensorOnce (sensorOnceA);
+			LogB.Information ("sensorOnce succeded = " + sensorOnceSuccess.ToString ());
+		}
+		if (sensorOnceB >= 0)
+		{
+			if (sensorOnceA >= 0) //sleep 10 ms to not show both sensorOnce at the same time
+				Thread.Sleep(10);
+
+			LogB.Information ("Calling SensorOnceB with terminal: " + sensorOnceB.ToString ());
+			bool sensorOnceSuccess = wichroCapture.SensorOnce (sensorOnceB);
 			LogB.Information ("sensorOnce succeded = " + sensorOnceSuccess.ToString ());
 		}
 
@@ -360,6 +400,7 @@ public class RunExecute : EventExecute
 			if (! wichroCapture.CaptureStart ())
 			{
 				chronopicDisconnected = true;
+				wichroCapture.Disconnect ();
 				cancel = true; //problem reading line (capturing)
 			} else
 				manageIniWireless();
@@ -571,10 +612,16 @@ public class RunExecute : EventExecute
 
 		if(wireless)
 		{
-			if (sensorOnce >= 0)
+			if (sensorOnceA >= 0)
 			{
-				LogB.Information ("Calling SensorAll with terminal: " + sensorOnce.ToString ());
-				bool sensorAllSuccess = wichroCapture.SensorAll (sensorOnce);
+				LogB.Information ("Calling SensorAll with terminal: " + sensorOnceA.ToString ());
+				bool sensorAllSuccess = wichroCapture.SensorAll (sensorOnceA);
+				LogB.Information ("sensorAll succeded = " + sensorAllSuccess.ToString ());
+			}
+			if (sensorOnceB >= 0)
+			{
+				LogB.Information ("Calling SensorAll with terminal: " + sensorOnceB.ToString ());
+				bool sensorAllSuccess = wichroCapture.SensorAll (sensorOnceB);
 				LogB.Information ("sensorAll succeded = " + sensorAllSuccess.ToString ());
 			}
 
@@ -928,22 +975,13 @@ public class RunExecute : EventExecute
 		if(graphAllTypes)
 			type = "";
 
-
-		if (jsonUploadTestScript != "")
+		if (! jsonUploadNeedsButton)
 		{
-			Person p = SqlitePerson.Select (false, personID);
-			writeJsonDataThisTest (p);
-			System.Threading.Thread.Sleep(250);
-			ExecuteProcess.run (jsonUploadTestScript, false, false);
+			if (jsonUploadTestScript != "")
+				JsonUploadTestScriptDo ();
+			if (jsonUploadRankingScript != "")
+				JsonUploadRankingScriptDo ();
 		}
-
-		if (jsonUploadRankingScript != "")
-		{
-			writeJsonDataRanking (sessionID);
-			System.Threading.Thread.Sleep(250);
-			ExecuteProcess.run (jsonUploadRankingScript, false, false);
-		}
-
 
 		/* 2.2.2 do not do the graph here because PrepareEventGraphRunSimple has an SQL call with a reader
 		   and updateGraph can be also called by gtk thread and also call PrepareEventGraphRunSimple,
@@ -964,6 +1002,21 @@ public class RunExecute : EventExecute
 		needEndEvent = true; //used for hiding some buttons on eventWindow
 	}
 
+	public virtual void JsonUploadTestScriptDo ()
+	{
+		Person p = SqlitePerson.Select (false, personID);
+		writeJsonDataThisTest (p);
+		System.Threading.Thread.Sleep(250);
+		ExecuteProcess.run (jsonUploadTestScript, false, false);
+	}
+
+	public virtual void JsonUploadRankingScriptDo ()
+	{
+		writeJsonDataRanking (SqliteRun.GetPersonsRanking (sessionID, distance));
+		System.Threading.Thread.Sleep(250);
+		ExecuteProcess.run (jsonUploadRankingScript, false, false);
+	}
+
 	private void writeJsonDataThisTest (Person p)
 	{
 		/*
@@ -978,13 +1031,14 @@ public class RunExecute : EventExecute
 		string jsonStr =
 			"{\n" +
 			"\"Name\":\"" + p.Name + "\",\n" +
-			"\"No\":" + p.Future2 + ",\n" +
+			"\"No\":\"(" + p.Future2 + ")\",\n" +
 			"\"Photo\":\"" + description + "\",\n" +
 			"\"Test\":\"Chut\",\n" +
-			"\"Time\":" + Util.ConvertToPoint (Util.TrimDecimals (trackTime, 2)) + "\n" +
+			"\"Speed\":" + Util.ConvertToPoint (Util.TrimDecimals (
+						3.6 * UtilAll.DivideSafe (distance, trackTime), 2)) + "\n" +
 			"}";
 
-		TextWriter writer = File.CreateText("/tmp/json_chut_1_test.txt");
+		TextWriter writer = File.CreateText("/tmp/chronojump_json_chut_1_test.txt");
 		writer.Write(jsonStr);
 		writer.Flush();
 		writer.Close();
@@ -992,11 +1046,9 @@ public class RunExecute : EventExecute
 	}
 
 	protected string jsonDataRankingTitle = "RankingChut";
-	protected string jsonDataRankingFile = "/tmp/json_chut_ranking.txt";
-	protected void writeJsonDataRanking (int sessionID)
+	protected string jsonDataRankingFile = "/tmp/chronojump_json_chut_ranking.txt";
+	protected void writeJsonDataRanking (List<Ranking> r_l)
 	{
-		List<Ranking> r_l = SqliteRun.GetPersonsRanking (sessionID);
-
 		string jsonStr = "{";
 		jsonStr += "\n\"" + jsonDataRankingTitle + "\": [";
 		string commaStr = "";
@@ -1085,11 +1137,15 @@ public class RunIntervalExecute : RunExecute
 			Gtk.Image image_run_execute_running,
 			Gtk.Image image_run_execute_photocell_icon,
 			Gtk.Label label_run_execute_photocell_code,
-			bool cameraRecording, int sensorOnce,
+			bool cameraRecording, int sensorOnceA, int sensorOnceB,
+			bool jsonUploadNeedsButton,
 			string jsonUploadTestScript,
 			string jsonUploadRankingScript
 			)
 	{
+		jsonDataRankingTitle = "RankingSprint";
+		jsonDataRankingFile = "/tmp/chronojump_json_sprint_ranking.txt";
+
 		this.personID = personID;
 		this.sessionID = sessionID;
 		this.type = type;
@@ -1137,7 +1193,9 @@ public class RunIntervalExecute : RunExecute
 		this.image_run_execute_photocell_icon = image_run_execute_photocell_icon;
 		this.label_run_execute_photocell_code = label_run_execute_photocell_code;
 		this.cameraRecording = cameraRecording;
-		this.sensorOnce = sensorOnce;
+		this.sensorOnceA = sensorOnceA;
+		this.sensorOnceB = sensorOnceB;
+		this.jsonUploadNeedsButton = jsonUploadNeedsButton;
 		this.jsonUploadTestScript = jsonUploadTestScript;
 		this.jsonUploadRankingScript = jsonUploadRankingScript;
 
@@ -1172,6 +1230,36 @@ public class RunIntervalExecute : RunExecute
 		eventDone = new RunInterval();
 	}
 
+	//contacts_insert_test_button_do, this inserts and later it can be uploaded with button
+	public RunIntervalExecute(int personID, int sessionID, string type,
+			double distanceInterval, double timeTrack1, double timeTrack2,
+			string jsonUploadTestScript, string jsonUploadRankingScript)
+	{
+		jsonDataRankingTitle = "RankingSprint";
+		jsonDataRankingFile = "/tmp/chronojump_json_sprint_ranking.txt";
+
+		this.personID = personID;
+		this.sessionID = sessionID;
+		this.type = type;
+		this.distanceInterval = distanceInterval;
+		this.jsonUploadTestScript = jsonUploadTestScript;
+		this.jsonUploadRankingScript = jsonUploadRankingScript;
+
+		double distanceTotal = distanceInterval * 2;
+		string datetime = UtilDate.ToFile(DateTime.Now);
+		timeTotal = timeTrack1 + timeTrack2;
+
+		uniqueID = SqliteRunInterval.Insert(false, Constants.RunIntervalTable, "NULL", personID, sessionID, type,
+				distanceTotal, timeTotal,
+				distanceInterval, timeTrack1 + "=" + timeTrack2, 2,
+				"",
+				"2R", 0, true,
+				datetime, new List<int>()
+				);
+
+		eventDone = new RunInterval (uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, timeTrack1 + "=" + timeTrack2,
+				2, "", "2R", 0, true, datetime, new List<int>());
+	}
 
 	/* only run interval functions */
 
@@ -1517,21 +1605,12 @@ public class RunIntervalExecute : RunExecute
 			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString,
 					tracksHere, description, limitString, Util.BoolToNegativeInt(simulated), !startIn, datetime, photocell_l);
 
-			if (jsonUploadTestScript != "")
+			if (! jsonUploadNeedsButton)
 			{
-				double maxSpeed = Util.GetRunIVariableDistancesSpeeds (distancesString, intervalTimesString, true);
-
-				Person p = SqlitePerson.Select (false, personID);
-				writeJsonDataThisTest (p, maxSpeed);
-				System.Threading.Thread.Sleep(250);
-				ExecuteProcess.run (jsonUploadTestScript, false, false);
-			}
-
-			if (jsonUploadRankingScript != "")
-			{
-				writeJsonDataRanking (sessionID);
-				System.Threading.Thread.Sleep(250);
-				ExecuteProcess.run (jsonUploadRankingScript, false, false);
+				if (jsonUploadTestScript != "")
+					JsonUploadTestScriptDo ();
+				if (jsonUploadRankingScript != "")
+					JsonUploadRankingScriptDo ();
 			}
 
 			if(simulated)
@@ -1551,6 +1630,36 @@ public class RunIntervalExecute : RunExecute
 		}
 	}
 
+	public override void JsonUploadTestScriptDo ()
+	{
+		double maxSpeed = 0;
+		if(distanceInterval == -1)
+			maxSpeed = Util.GetRunIVariableDistancesSpeeds (distancesString, intervalTimesString, true);
+		else {
+			List<double> timeList = ((RunInterval) eventDone).TimeList;
+			int count = 0;
+			foreach (double time in timeList)
+			{
+				if (count == 0 || UtilAll.DivideSafe (distanceInterval, time) > maxSpeed)
+					maxSpeed = UtilAll.DivideSafe (distanceInterval, time);
+
+				count ++;
+			}
+		}
+
+		Person p = SqlitePerson.Select (false, personID);
+		writeJsonDataThisTest (p, maxSpeed);
+		System.Threading.Thread.Sleep(250);
+		ExecuteProcess.run (jsonUploadTestScript, false, false);
+	}
+
+	public override void JsonUploadRankingScriptDo ()
+	{
+		writeJsonDataRanking (SqliteRunInterval.GetPersonsRanking (sessionID));
+		System.Threading.Thread.Sleep(250);
+		ExecuteProcess.run (jsonUploadRankingScript, false, false);
+	}
+
 	private void writeJsonDataThisTest (Person p, double maxSpeed)
 	{
 		/*
@@ -1565,23 +1674,19 @@ public class RunIntervalExecute : RunExecute
 		string jsonStr =
 			"{\n" +
 			"\"Name\":\"" + p.Name + "\",\n" +
-			"\"No\":" + p.Future2 + ",\n" +
+			"\"No\":\"(" + p.Future2 + ")\",\n" +
 			"\"Photo\":\"" + description + "\",\n" +
 			"\"Test\":\"Speed\",\n" +
 			"\"Time\":" + Util.ConvertToPoint (Util.TrimDecimals (timeTotal, 2)) + ",\n" +
-			//"\"MaxSpeed\":" + 0 + "\n" +
-			"\"MaxSpeed\":" + Util.ConvertToPoint (Util.TrimDecimals (maxSpeed, 2)) + "\n" +
+			"\"MaxSpeed\":" + Util.ConvertToPoint (Util.TrimDecimals (3.6 * maxSpeed, 2)) + "\n" +
 			"}";
 
-		TextWriter writer = File.CreateText("/tmp/json_sprint_1_test.txt");
+		TextWriter writer = File.CreateText("/tmp/chronojump_json_sprint_1_test.txt");
 		writer.Write(jsonStr);
 		writer.Flush();
 		writer.Close();
 		((IDisposable)writer).Dispose();
 	}
-
-	protected string jsonDataRankingTitle = "RankingSprint";
-	protected string jsonDataRankingFile = "/tmp/json_sprint_ranking.txt";
 
 	~RunIntervalExecute() {}
 }

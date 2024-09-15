@@ -64,15 +64,21 @@ public class PreferencesWindow
 	Gtk.TextView textview_help_message;
 	Gtk.Image image_help_close;
 
-	//appearance tab
+	//main, person tabs
 	Gtk.CheckButton check_appearance_maximized;
 	Gtk.CheckButton check_appearance_maximized_undecorated;
 	Gtk.CheckButton check_appearance_person_win_hide;
+	Gtk.CheckButton check_appearance_person_clubID;
 	Gtk.CheckButton check_appearance_person_photo;
+	Gtk.RadioButton radio_font_size_default;
+	Gtk.RadioButton radio_font_size_custom;
+	Gtk.Box box_font_size_custom;
+	Gtk.SpinButton spin_font_size_custom;
 	Gtk.Alignment alignment_undecorated;
-	Gtk.Label label_recommended_undecorated;
+//	Gtk.Label label_recommended_undecorated;
 	Gtk.RadioButton radio_font_courier;
 	Gtk.RadioButton radio_font_helvetica;
+	Gtk.RadioButton radio_font_noto_sans_cjk_sc;
 	Gtk.CheckButton check_rest_time;
 	Gtk.Image image_rest;
 	Gtk.HBox hbox_rest_time_values;
@@ -439,7 +445,7 @@ public class PreferencesWindow
 
 		PWBox.image_button_close.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
 
-		//appearance tab
+		//main, person tabs
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_rest.png");
 		PWBox.image_rest.Pixbuf = pixbuf;
@@ -451,12 +457,12 @@ public class PreferencesWindow
 		{
 			PWBox.check_appearance_maximized.Active = false;
 			PWBox.alignment_undecorated.Visible = false;
-			PWBox.label_recommended_undecorated.Visible = false;
+//			PWBox.label_recommended_undecorated.Visible = false;
 		}
 		else {
 			PWBox.check_appearance_maximized.Active = true;
 			PWBox.alignment_undecorated.Visible = true;
-			PWBox.label_recommended_undecorated.Visible = true;
+//			PWBox.label_recommended_undecorated.Visible = true;
 			PWBox.check_appearance_maximized_undecorated.Active =
 				(preferences.maximized == Preferences.MaximizedTypes.YESUNDECORATED);
 		}
@@ -470,10 +476,25 @@ public class PreferencesWindow
 
 		PWBox.check_appearance_person_photo.Sensitive = ! preferences.personWinHide;
 
+		if(preferences.personClubID)
+			PWBox.check_appearance_person_clubID.Active = true;
+		else
+			PWBox.check_appearance_person_clubID.Active = false;
+
 		if(preferences.personPhoto)
 			PWBox.check_appearance_person_photo.Active = true;
 		else
 			PWBox.check_appearance_person_photo.Active = false;
+
+		if (preferences.fontSizeAtGui < 0)
+		{
+			PWBox.box_font_size_custom.Visible = false;
+			PWBox.radio_font_size_default.Active = true;
+		} else {
+			PWBox.box_font_size_custom.Visible = true;
+			PWBox.spin_font_size_custom.Value = preferences.fontSizeAtGui;
+			PWBox.radio_font_size_custom.Active = true;
+		}
 
 		if(preferences.logoAnimatedShow)
 			PWBox.check_logo_animated.Active = true;
@@ -495,8 +516,10 @@ public class PreferencesWindow
 		PWBox.signalsNoFollow = true;
 		if(preferences.fontType == Preferences.FontTypes.Courier)
 			PWBox.radio_font_courier.Active = true;
-		else
+		else if (preferences.fontType == Preferences.FontTypes.Helvetica)
 			PWBox.radio_font_helvetica.Active = true;
+		else //if(preferences.fontType == Preferences.FontTypes.Noto_Sans_CJ_SC)
+			PWBox.radio_font_noto_sans_cjk_sc.Active = true;
 		PWBox.signalsNoFollow = false;
 
 		PWBox.check_rest_time.Active = (preferences.restTimeMinutes >= 0);
@@ -1170,7 +1193,7 @@ public class PreferencesWindow
 
 		// A) changes on preferences gui
 		alignment_undecorated.Visible = check_appearance_maximized.Active;
-		label_recommended_undecorated.Visible = check_appearance_maximized.Active;
+//		label_recommended_undecorated.Visible = check_appearance_maximized.Active;
 
 		// B) changes on preferences object and SqlitePreferences
 		Preferences.MaximizedTypes maximizedTypeFromGUI = get_maximized_from_gui();
@@ -1210,6 +1233,16 @@ public class PreferencesWindow
 		}
 	}
 
+	private void on_check_appearance_person_clubID_toggled (object obj, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		if( preferences.personClubID != PWBox.check_appearance_person_clubID.Active ) {
+			SqlitePreferences.Update("personClubID", PWBox.check_appearance_person_clubID.Active.ToString(), false);
+			preferences.personClubID = PWBox.check_appearance_person_clubID.Active;
+			FakeButtonPersonWin.Click ();
+		}
+	}
+
 	private void on_check_appearance_person_photo_toggled (object obj, EventArgs args)
 	{
 		// B) changes on preferences object and SqlitePreferences
@@ -1218,6 +1251,39 @@ public class PreferencesWindow
 			preferences.personPhoto = PWBox.check_appearance_person_photo.Active;
 			FakeButtonPersonWin.Click ();
 		}
+	}
+
+	private void on_radio_font_size_default_toggled (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		box_font_size_custom.Visible = false;
+
+		// B) changes on preferences object and SqlitePreferences
+		if (preferences.fontSizeAtGui >= 0) {
+			SqlitePreferences.Update("fontSizeAtGui", "-1", false); //saved as string
+			preferences.fontSizeAtGui = (int) -1;
+		}
+	}
+	private void on_radio_font_size_custom_toggled (object o, EventArgs args)
+	{
+		// A) changes on preferences gui
+		box_font_size_custom.Visible = true;
+
+		// B) changes on preferences object and SqlitePreferences
+		if (preferences.fontSizeAtGui < 0) {
+			SqlitePreferences.Update("fontSizeAtGui",
+					PWBox.spin_font_size_custom.Value.ToString(), false); //saved as string
+			preferences.fontSizeAtGui = (int) spin_font_size_custom.Value;
+		}
+	}
+
+	private void on_spin_font_size_custom_value_changed (object o, EventArgs args)
+	{
+		if (preferences.fontSizeAtGui != (int) PWBox.spin_font_size_custom.Value)
+			preferences.fontSizeAtGui = Preferences.PreferencesChange(
+					false, "fontSizeAtGui",
+					preferences.fontSizeAtGui,
+					(int) PWBox.spin_font_size_custom.Value);
 	}
 
 	/* callbacks SQL change at any change for tab: jumps */
@@ -2252,18 +2318,7 @@ public class PreferencesWindow
 		}
 	}
 
-	private void on_radio_font_courier_toggled (object o, EventArgs args)
-	{
-		if (signalsNoFollow)
-			return;
-
-		// A) changes on preferences gui
-		restartLabelShow ();
-
-		// B) changes on preferences object and SqlitePreferences
-		changeFontOnPreferencesAndDB ();
-	}
-	private void on_radio_font_helvetica_toggled (object o, EventArgs args)
+	private void on_radio_font_toggled (object o, EventArgs args)
 	{
 		if (signalsNoFollow)
 			return;
@@ -2276,15 +2331,20 @@ public class PreferencesWindow
 	}
 	private void changeFontOnPreferencesAndDB ()
 	{
-		if (preferences.fontType == Preferences.FontTypes.Courier && radio_font_helvetica.Active)
+		if (radio_font_helvetica.Active && preferences.fontType != Preferences.FontTypes.Helvetica)
 		{
 			SqlitePreferences.Update (SqlitePreferences.FontsOnGraphs, Preferences.FontTypes.Helvetica.ToString(), false);
 			preferences.fontType = Preferences.FontTypes.Helvetica;
 		}
-		else if (preferences.fontType == Preferences.FontTypes.Helvetica && radio_font_courier.Active)
+		else if (radio_font_courier.Active && preferences.fontType != Preferences.FontTypes.Courier)
 		{
 			SqlitePreferences.Update (SqlitePreferences.FontsOnGraphs, Preferences.FontTypes.Courier.ToString(), false);
 			preferences.fontType = Preferences.FontTypes.Courier;
+		}
+		else if (radio_font_noto_sans_cjk_sc.Active && preferences.fontType != Preferences.FontTypes.Noto_Sans_CJK_SC)
+		{
+			SqlitePreferences.Update (SqlitePreferences.FontsOnGraphs, Preferences.FontTypes.Noto_Sans_CJK_SC.ToString(), false);
+			preferences.fontType = Preferences.FontTypes.Noto_Sans_CJK_SC;
 		}
 	}
 
@@ -3384,15 +3444,21 @@ public class PreferencesWindow
 		textview_help_message = (Gtk.TextView) builder.GetObject ("textview_help_message");
 		image_help_close = (Gtk.Image) builder.GetObject ("image_help_close");
 
-		//appearance tab
+		//main, person tabs
 		check_appearance_maximized = (Gtk.CheckButton) builder.GetObject ("check_appearance_maximized");
 		check_appearance_maximized_undecorated = (Gtk.CheckButton) builder.GetObject ("check_appearance_maximized_undecorated");
 		check_appearance_person_win_hide = (Gtk.CheckButton) builder.GetObject ("check_appearance_person_win_hide");
+		check_appearance_person_clubID = (Gtk.CheckButton) builder.GetObject ("check_appearance_person_clubID");
 		check_appearance_person_photo = (Gtk.CheckButton) builder.GetObject ("check_appearance_person_photo");
+		radio_font_size_custom = (Gtk.RadioButton) builder.GetObject ("radio_font_size_custom");
+		radio_font_size_default = (Gtk.RadioButton) builder.GetObject ("radio_font_size_default");
+		box_font_size_custom = (Gtk.Box) builder.GetObject ("box_font_size_custom");
+		spin_font_size_custom = (Gtk.SpinButton) builder.GetObject ("spin_font_size_custom");
 		alignment_undecorated = (Gtk.Alignment) builder.GetObject ("alignment_undecorated");
-		label_recommended_undecorated = (Gtk.Label) builder.GetObject ("label_recommended_undecorated");
+//		label_recommended_undecorated = (Gtk.Label) builder.GetObject ("label_recommended_undecorated");
 		radio_font_courier = (Gtk.RadioButton) builder.GetObject ("radio_font_courier");
 		radio_font_helvetica = (Gtk.RadioButton) builder.GetObject ("radio_font_helvetica");
+		radio_font_noto_sans_cjk_sc = (Gtk.RadioButton) builder.GetObject ("radio_font_noto_sans_cjk_sc");
 		check_rest_time = (Gtk.CheckButton) builder.GetObject ("check_rest_time");
 		image_rest = (Gtk.Image) builder.GetObject ("image_rest");
 		hbox_rest_time_values = (Gtk.HBox) builder.GetObject ("hbox_rest_time_values");

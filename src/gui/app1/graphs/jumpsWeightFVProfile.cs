@@ -105,7 +105,7 @@ public partial class ChronoJumpWindow
 				currentPersonSession.TrochanterFloorOnFlexion == Constants.TrochanterFloorOnFlexionUndefinedID)
 		{
 			//constructor for showing blank screen with a message
-			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.NEEDLEGPARAMS, preferences.fontType.ToString());
+			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.NEEDLEGPARAMS, preferences.fontTypeToGraph());
 					//currentPerson.Name, jumpType, currentSession.DateShort);
 
 			return;
@@ -113,7 +113,7 @@ public partial class ChronoJumpWindow
 		else if(currentPersonSession.TrochanterToe <= currentPersonSession.TrochanterFloorOnFlexion)
 		{
 			//constructor for showing blank screen with a message
-			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.BADLEGPARAMS, preferences.fontType.ToString());
+			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.BADLEGPARAMS, preferences.fontTypeToGraph());
 					//currentPerson.Name, jumpType, currentSession.DateShort);
 
 			return;
@@ -127,10 +127,10 @@ public partial class ChronoJumpWindow
 
 		if(jumpsWeightFVProfile.Point_l.Count == 0) {
 			//constructor for showing blank screen with a message
-			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.NEEDJUMPS, preferences.fontType.ToString());
+			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.NEEDJUMPS, preferences.fontTypeToGraph());
 		} else if(jumpsWeightFVProfile.NeedMoreXData) {
 			//constructor for showing blank screen with a message
-			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.NEEDJUMPSX, preferences.fontType.ToString());
+			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.NEEDJUMPSX, preferences.fontTypeToGraph());
 		} else {
 			//create the graph showing the points but showing also the error (if any)
 			JumpsWeightFVProfileGraph.ErrorAtStart errorAtStart = JumpsWeightFVProfileGraph.ErrorAtStart.ALLOK;
@@ -149,7 +149,7 @@ public partial class ChronoJumpWindow
 					currentSession.DateShort,
 					radio_jumps_weight_fv_profile_show_full_graph.Active,
 					errorAtStart);
-			jumpsWeightFVProfileGraph.Do(preferences.fontType.ToString());
+			jumpsWeightFVProfileGraph.Do(preferences.fontTypeToGraph());
 
 			button_jumps_weight_fv_profile_save_image.Sensitive = true;
 		}
@@ -200,7 +200,7 @@ public partial class ChronoJumpWindow
 
 		//redo the graph to delete previous rectangles of previous mouse clicks
 		jumpsWeightFVProfileGraph.PassMouseXY (args.Event.X, args.Event.Y);
-		jumpsWeightFVProfileGraph.Do (preferences.fontType.ToString());
+		jumpsWeightFVProfileGraph.Do (preferences.fontTypeToGraph());
 	}
 
 	private void on_button_jumps_weight_fv_profile_save_image_clicked (object o, EventArgs args)

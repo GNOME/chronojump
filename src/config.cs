@@ -64,8 +64,8 @@ public class Config
 		CopyToCloudFullPath, CopyToCloudOnExit, ReadFromCloudMainPath, //cloud
 		CanOpenExternalDB, ExternalDBDefaultPath, //externalDB
 		LastDBFullPath, //cloud & externalDB
-		JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, //json upload
-		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnce, GuiTest, //other
+		JsonUploadNeedsButton, JsonUploadJumpSimpleTestScript, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, CanInsertTests, //json upload
+		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, GuiTest, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
 
@@ -75,7 +75,7 @@ public class Config
 	public static string OpEnum1stCloud = OpEnum.CopyToCloudFullPath.ToString ();
 	public static string OpEnum1stExternalDB = OpEnum.CanOpenExternalDB.ToString ();
 	public static string OpEnum1stCloudAndExternalDB = OpEnum.LastDBFullPath.ToString ();
-	public static string OpEnum1stJsonUpload = OpEnum.JsonUploadRunSimpleTestScript.ToString ();
+	public static string OpEnum1stJsonUpload = OpEnum.JsonUploadNeedsButton.ToString ();
 	public static string OpEnum1stOther = OpEnum.SessionMode.ToString ();
 	public static string OpEnum1stOutdated = OpEnum.Exhibition.ToString ();
 
@@ -136,6 +136,13 @@ public class Config
 	}
 
 	//json upload (remember scripts are on innolab/ chronojumpNoGit also session is there
+	public bool JsonUploadNeedsButton {
+		get { return configList.GetBool (OpEnum.JsonUploadNeedsButton); }
+	}
+	public string JsonUploadJumpSimpleTestScript {
+		get { return configList.GetString (OpEnum.JsonUploadJumpSimpleTestScript); }
+		//"/home/chronojump/Desktop/xaviB/kings_queens_flowics/json/curl_json_jump_1_test.sh"
+	}
 	public string JsonUploadRunSimpleTestScript {
 		get { return configList.GetString (OpEnum.JsonUploadRunSimpleTestScript); }
 		//"/home/chronojump/Desktop/xaviB/kings_queens_flowics/json/curl_json_chut_1_test.sh"
@@ -151,6 +158,9 @@ public class Config
 	public string JsonUploadRunIntervalRankingScript {
 		get { return configList.GetString (OpEnum.JsonUploadRunIntervalRankingScript); }
 		//"/home/chronojump/Desktop/xaviB/kings_queens_flowics/json/curl_json_sprint_ranking.sh"
+	}
+	public bool CanInsertTests {
+		get { return configList.GetBool (OpEnum.CanInsertTests); }
 	}
 
 	// other
@@ -182,8 +192,11 @@ public class Config
 	public bool FourPlatforms {
 		get { return configList.GetBool (OpEnum.FourPlatforms); }
 	}
-	public int WichroSensorOnce {
-		get { return configList.GetInt (OpEnum.WichroSensorOnce); }
+	public int WichroSensorOnceA {
+		get { return configList.GetInt (OpEnum.WichroSensorOnceA); }
+	}
+	public int WichroSensorOnceB {
+		get { return configList.GetInt (OpEnum.WichroSensorOnceB); }
 	}
 	public bool GuiTest {
 		get { return configList.GetBool (OpEnum.GuiTest); }
@@ -583,6 +596,11 @@ public class ConfigList
 					"Last path used, Chronojump will open it automatically if not empty and (ReadFromCloudMainPath or CanOpenExternalDB)."));
 
 		// json upload
+		//JsonUploadNeedsButton
+		list.Add (new ConfigOptionBool (Config.OpEnum.JsonUploadNeedsButton,
+					"TRUE: Need to press a button to json upload a test. FALSE (default): It uploads automatically at capture end."));
+		list.Add (new ConfigOptionString (Config.OpEnum.JsonUploadJumpSimpleTestScript,
+					"Path to JsonUploadJumpSimpleTestScript."));
 		list.Add (new ConfigOptionString (Config.OpEnum.JsonUploadRunSimpleTestScript,
 					"Path to JsonUploadRunSimpleTestScript."));
 		list.Add (new ConfigOptionString (Config.OpEnum.JsonUploadRunSimpleRankingScript,
@@ -591,7 +609,8 @@ public class ConfigList
 					"Path to JsonUploadRunIntervalTestScript."));
 		list.Add (new ConfigOptionString (Config.OpEnum.JsonUploadRunIntervalRankingScript,
 					"Path to JsonUploadRunIntervalRankingScript."));
-
+		list.Add (new ConfigOptionBool (Config.OpEnum.CanInsertTests,
+					"TRUE: A grid is displayed to be able to directly insert a test (implemented on run simple/multiple), it also can upload the test."));
 		// other
 		list.Add (new ConfigOptionEnum (Config.OpEnum.SessionMode,
 					"STANDARD (default), or UNIQUE or MONTHLY",
@@ -608,8 +627,10 @@ public class ConfigList
 					"Encoder as Pulse,Time, managed by runEncoder mode"));
 		list.Add (new ConfigOptionBool (Config.OpEnum.FourPlatforms,
 					"Show experimental FourPlatforms mode"));
-		list.Add (new ConfigOptionInt (Config.OpEnum.WichroSensorOnce,
-					"Set sensorOnce at Wichro terminal."));
+		list.Add (new ConfigOptionInt (Config.OpEnum.WichroSensorOnceA,
+					"Set sensorOnce at Wichro terminal at one terminal."));
+		list.Add (new ConfigOptionInt (Config.OpEnum.WichroSensorOnceB,
+					"Set sensorOnce at Wichro terminal at another terminal."));
 		list.Add (new ConfigOptionBool (Config.OpEnum.GuiTest,
 					"To perform tests with the GUI (untested with current code)."));
 

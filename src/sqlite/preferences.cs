@@ -217,7 +217,9 @@ class SqlitePreferences : Sqlite
 				//appearance
 				Insert ("maximized", Preferences.MaximizedTypes.NO.ToString(), dbcmdTr);
 				Insert ("personWinHide", "False", dbcmdTr);
+				Insert ("personClubID", "False", dbcmdTr);
 				Insert ("personPhoto", "False", dbcmdTr);
+				Insert ("fontSizeAtGui", "-1", dbcmdTr);
 				Insert (PersonSelectWinImages, "True", dbcmdTr);
 				Insert (MenuType, Preferences.MenuTypes.ALL.ToString(), dbcmdTr);
 
@@ -632,8 +634,12 @@ class SqlitePreferences : Sqlite
 					Enum.Parse(typeof(Preferences.MaximizedTypes), reader[1].ToString());
 			else if(reader[0].ToString() == "personWinHide")
 				preferences.personWinHide = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "personClubID")
+				preferences.personClubID = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "personPhoto")
 				preferences.personPhoto = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "fontSizeAtGui")
+				preferences.fontSizeAtGui = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == PersonSelectWinImages)
 				preferences.personSelectWinImages = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == MenuType)

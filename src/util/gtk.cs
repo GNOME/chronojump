@@ -369,11 +369,27 @@ public class UtilGtk
 		return(ts.IterNChildren());
 	}
 
-	public static int IdColumnCompare (ITreeModel model, TreeIter iter1, TreeIter iter2)     {
+	//default
+	public static int IdColumnCompare (ITreeModel model, TreeIter iter1, TreeIter iter2)
+	{
+		return IdColumnCompareByCol (model, iter1, iter2, 0);
+	}
+	//Note is better to set & get set_sort_func() see: https://python-gtk-3-tutorial.readthedocs.io/en/latest/treeview.html
+	public static int IdColumnCompareCol1 (ITreeModel model, TreeIter iter1, TreeIter iter2)
+	{
+		return IdColumnCompareByCol (model, iter1, iter2, 1);
+	}
+	public static int IdColumnCompareCol2 (ITreeModel model, TreeIter iter1, TreeIter iter2)
+	{
+		return IdColumnCompareByCol (model, iter1, iter2, 2);
+	}
+	//can select the col
+	public static int IdColumnCompareByCol (ITreeModel model, TreeIter iter1, TreeIter iter2, int col)
+	{
 		int val1 = 0;
 		int val2 = 0;
-		val1 = Convert.ToInt32(model.GetValue(iter1, 0));
-		val2 = Convert.ToInt32(model.GetValue(iter2, 0));
+		val1 = Convert.ToInt32 (model.GetValue (iter1, col));
+		val2 = Convert.ToInt32 (model.GetValue (iter2, col));
 		
 		return (val1-val2);
 	}
@@ -740,7 +756,7 @@ public class UtilGtk
 	*/
 
 	//TODO: have all the css names as enums in order to fail in compile if names like darkCss have any typo
-	public static void ApplyCSS ()
+	public static void ApplyCSS (int fontSizeAtGui)
 	{
 		CssProvider css = new CssProvider ();
 
@@ -767,7 +783,21 @@ public class UtilGtk
 		if (colorsContrast (GetRGBA (Colors.YELLOW), Config.ColorBackgroundShifted) <
 				colorsContrast (GetRGBA (Colors.BLUE_CHRONOJUMP), Config.ColorBackgroundShifted))
 			colLabelContrastShiftedCss = GetRGBAs (Colors.BLUE_CHRONOJUMP);
-	
+
+		// font size at gui ---->
+		//default font size
+		Gtk.Viewport vTemp = new Gtk.Viewport();
+		Pango.FontDescription fd = vTemp.StyleContext.GetFont (Gtk.StateFlags.Normal);
+		int defaultFontSize = Convert.ToInt32 (UtilAll.DivideSafe (fd.Size, Pango.Scale.PangoScale));
+		LogB.Information ("default font size: " + defaultFontSize.ToString ());
+
+		string labelFontSize = "";
+		if (fontSizeAtGui >= 0)
+			labelFontSize = string.Format ("font-size: {0}pt;", fontSizeAtGui);
+		else
+			labelFontSize = string.Format ("font-size: {0}pt;", defaultFontSize); //we need to restore it if user selected custom previously
+		// <---- font size at gui
+
 		var data =
 			//LABELS
 			//labels lightCss in light color
@@ -798,6 +828,7 @@ public class UtilGtk
 			//rest of labels
 			"label {" +
 				"color: #000000;" +
+				labelFontSize +
 			"}" +
 
 			//RADIOS, CHECKBUTTONS & BUTTONS

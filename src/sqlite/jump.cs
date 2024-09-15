@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -65,8 +65,14 @@ class SqliteJump : Sqlite
 	 * Jump class methods
 	 */
 	
-	//public static int Insert(int personID, int sessionID, string type, double tv, double tc, int fall, double weight, string limited, string description, int simulated)
+	//normal Chronojump call (will pass dbcmd to the insert.
+	//on SqliteFourPlatformsJumpsSimple it sends its SQLiteCommand to perform a transaction
 	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tv, double tc, double fall, double weight, string description, double angle, int simulated, string datetime)
+	{
+		return InsertDo (dbconOpened, tableName, uniqueID, personID, sessionID, type, tv, tc, fall, weight, description, angle, simulated, datetime, dbcmd);
+	}
+
+	public static int InsertDo (bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tv, double tc, double fall, double weight, string description, double angle, int simulated, string datetime, SQLiteCommand mycmd)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -74,21 +80,21 @@ class SqliteJump : Sqlite
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
 
-		dbcmd.CommandText = "INSERT INTO " + tableName +  
+		mycmd.CommandText = "INSERT INTO " + tableName +
 				" (uniqueID, personID, sessionID, type, tv, tc, fall, weight, description, angle, simulated, datetime)" +
 				" VALUES (" + uniqueID + ", "
 				+ personID + ", " + sessionID + ", '" + type + "', "
 				+ Util.ConvertToPoint(tv) + ", " + Util.ConvertToPoint(tc) + ", " + Util.ConvertToPoint(fall) + ", '" 
 				+ Util.ConvertToPoint(weight) + "', '" + description + "', "
 				+ Util.ConvertToPoint(angle) + ", " + simulated + ", '" + datetime + "')" ;
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
+		LogB.SQL(mycmd.CommandText.ToString());
+		mycmd.ExecuteNonQuery();
 
 		//int myLast = dbcon.LastInsertRowId;
 		//http://stackoverflow.com/questions/4341178/getting-the-last-insert-id-with-sqlite-net-in-c
 		string myString = @"select last_insert_rowid()";
-		dbcmd.CommandText = myString;
-		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
+		mycmd.CommandText = myString;
+		int myLast = Convert.ToInt32(mycmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened)
 			Sqlite.Close();

@@ -531,6 +531,7 @@ void setup() {
 
   scale.begin(DOUT, CLK);
   EEPROM.get(tareAddress, tareValue);
+  Serial.println("Tare in EEPROM:" + String(tareValue));
   //If the arduino has not been tared the default value in the EEPROM is -151.
   //TODO: Check that it is stil true in the current models
   if (tareValue == -151) {
@@ -544,7 +545,8 @@ void setup() {
   //The factor to convert the units coming from the cell to the units used in the calibration
   float calibration_factor = 0.0f;
   EEPROM.get(calibrationAddress, calibration_factor);
-  if (isnan(calibration_factor)) {
+  Serial.println("Calibration in EEPROM:" + String(calibration_factor));
+  if (calibration_factor == 0) {
     scale.set_scale(915.0);// Usual value  in Chronojump strength gauge
     EEPROM.put(calibrationAddress, 915.0);
   } else {
@@ -559,7 +561,8 @@ void setup() {
   }
 
   EEPROM.get(groupAddress, group);
-  if (group == 65535) {
+  Serial.println("Group in EEPROM:" + String(group));
+  if (group == 65535 || group == -1) {
     group = 0;
     EEPROM.put(groupAddress, 0);
   }

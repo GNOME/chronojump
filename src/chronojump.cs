@@ -78,11 +78,32 @@ public class ChronoJump
 		}
 		else if (Util.operatingSystem == UtilAll.OperatingSystems.LINUX)
 		{
+			var arch = "";
+			try
+			{
+				//ProcessStartInfo processStartInfo = new ProcessStartInfo("bash", "-c \"uname -m\"");
+				ProcessStartInfo processStartInfo = new ProcessStartInfo("uname", "-m");
+                processStartInfo.RedirectStandardOutput = true;
+                processStartInfo.UseShellExecute = false;
+                processStartInfo.CreateNoWindow = true;
+				processStartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                using (Process process = Process.Start(processStartInfo))
+				{
+					arch = process.StandardOutput.ReadToEnd().Replace("\r", "").Replace("\n", "");
+                    process.WaitForExit();
+				}
+			}
+			catch
+			{
+				arch = "x86_64";
+			}
+			var sysLibDirName = $"{arch}-linux-gnu";
+			var sysLibDir = $"/usr/lib/{sysLibDirName}";
 #if DEBUG
-            NativeLibraryResolver.Init("/usr/lib/x86_64-linux-gnu");
+			NativeLibraryResolver.Init(sysLibDir);
 #else
-			NativeLibraryResolver.Init("/usr/lib/x86_64-linux-gnu");
-			//NativeLibraryResolver.Init(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "x86_64-linux-gnu"));
+			NativeLibraryResolver.Init(sysLibDir);
+			//NativeLibraryResolver.Init(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, sysLibDirName));
 #endif
 		}
 		else

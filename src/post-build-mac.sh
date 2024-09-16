@@ -29,3 +29,6 @@ rm -rf "$1/share/doc/chronojump/Makefile"
 cp ../binariesMac/7zz $1/bin/7zz
 cp ../binariesMac/ffmpeg $1/bin/ffmpeg
 cp ../binariesMac/ffplay $1/bin/ffplay
+cp ../images/bad.wav $1/share/chronojump/images/bad.wav
+cp ../images/bad.wav $1/share/chronojump/images/ok.wav
+cp ../images/bad.wav $1/share/chronojump/images/start.wav

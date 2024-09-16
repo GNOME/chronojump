@@ -108,7 +108,7 @@ public class ChronoJump
 		}
 		else
 		{
-			//To prevent sqlite3_prepare_interop aborting
+			/*//To prevent sqlite3_prepare_interop aborting
 			try
 			{
 				var dbPath = Path.Combine(Util.GetDatabaseDir(), "chronojump-test.db");
@@ -125,7 +125,7 @@ public class ChronoJump
 				}
 				File.Delete(dbPath);
 			}
-			catch { }
+			catch { }*/
 
 #if DEBUG
 			if (File.Exists("/usr/local/lib/libglib-2.0.0.dylib"))

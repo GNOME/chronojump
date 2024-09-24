@@ -108,7 +108,7 @@ public class MicroDiscover : MicroComms
 				} else
 					connectError_l.Add (micro.PortName);
 
-				if(mode == Constants.Modes.JUMPSSIMPLE)
+				if (! success && mode == Constants.Modes.JUMPSSIMPLE)
 				{
 					micro.Bauds = 115200;
 					LogB.Information("calling discover FourPlatforms from jumps simple mode");

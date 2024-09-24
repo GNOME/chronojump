@@ -300,7 +300,7 @@ class ChronoJumpMini {
 		//return UtilAll.GetApplicationDataDir();
 		//use this, it is referred to the original unchanged dir (ok for Mini)
 		return Path.Combine (
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create),
 				"Chronojump");
 	}
 

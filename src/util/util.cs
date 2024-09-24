@@ -1145,20 +1145,20 @@ public class Util
 		return pathToReturn;
 	}
 
-	/********** end of database paths ************/
+    /********** end of database paths ************/
 
-	/*	
+    /*	
 	public static string GetChronojumpNetworksFile() {
 		return Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create),
 				"Chronojump" + Path.DirectorySeparatorChar + "chronojump_networks.txt");
 	}
 	*/
-	
 
-	/********** start of multimedia paths ************/
 
-	public static string GetMultimediaDir() {
+    /********** start of multimedia paths ************/
+
+    public static string GetMultimediaDir() {
 		return Path.Combine(
 				GetLocalDataDir (false) + Path.DirectorySeparatorChar + "multimedia");
 	}

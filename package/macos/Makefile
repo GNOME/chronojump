@@ -42,15 +42,11 @@ bundle:
 	cp -r ../../win32/deps/modules/ deps/modules/
 	rm -rf deps/bin/x64/Python/
 	cp -r /Library/Frameworks/Python.framework/ deps/bin/x64/Python/
-	find deps/bin/x64/Python/ -type f -name "Info.plist" -exec rm {} \;
-	#find deps/bin/x64/Python/ -type d -name "*.app" -exec rm -rf {} \;
-	#find deps/bin/x64/Python/ -type d -name "*.dSYM" -exec rm -rf {} \;
+	#find deps/bin/x64/Python/ -type f -name "Info.plist" -exec rm {} \;
 	rm -rf deps/R/
 	cp -r /Library/Frameworks/R.framework/ deps/R/
 	rm deps/R/R
-	find deps/R/ -type f -name "Info.plist" -exec rm {} \;
-	#find deps/R/ -type d -name "*.app" -exec rm -rf {} \;
-	#find deps/R/ -type d -name "*.dSYM" -exec rm -rf {} \;
+	#find deps/R/ -type f -name "Info.plist" -exec rm {} \;
 	dos2unix ./build_installer.sh
 
 package-dmg:	

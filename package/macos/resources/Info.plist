@@ -26,13 +26,31 @@
 	<string>public.app-category.sports</string>
 	<key>NSHighResolutionCapable</key>
 	<string>True</string>
-	<key>NSNetworkVolumesUsageDescription</key>
-	<string>YES</string>
-	<key>NSDesktopFolderUsageDescription</key>
-	<string>YES</string>
-	<key>NSRemovableVolumesUsageDescription</key>
-	<string>YES</string>
-	<key>NSCameraUsageDescription</key>
-	<string>YES</string>
+<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+<string>Chronojump needs access to your location.</string>
+<key>NSSystemAdministrationUsageDescription</key>
+<string>The operation being performed by a program in Chronojump requires elevated permission.</string>
+<key>NSAppleEventsUsageDescription</key>
+<string>Chronojump needs access to AppleScript.</string>
+<key>NSRemovableVolumesUsageDescription</key>
+<string>Chronojump needs access to removable volumes.</string>
+<key>NSNetworkVolumesUsageDescription</key>
+<string>Chronojump needs access to network volumes.</string>
+<key>NSAppleMusicUsageDescription</key>
+<string>Chronojump needs access to media library.</string>
+<key>NSDownloadsFolderUsageDescription</key>
+<string>Chronojump needs access to downloads folder.</string>
+<key>NSDesktopFolderUsageDescription</key>
+<string>Chronojump needs access to desktop folder.</string>
+<key>NSDocumentsFolderUsageDescription</key>
+<string>Chronojump needs access to documents folder.</string>
+<key>NSCameraUsageDescription</key>
+<string>Chronojump needs access to the camera.</string>
+<key>NSMicrophoneUsageDescription</key>
+<string>Chronojump needs access to the microphone.</string>
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string>Chronojump needs access to add files to the photo library.</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>Chronojump needs access to photo library.</string>
 </dict>
 </plist>

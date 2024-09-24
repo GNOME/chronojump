@@ -30,6 +30,7 @@ MAC_INSTALLER_CERT_NAME="3rd Party Mac Developer Installer: Asociacion Chronojum
 if [ "$PACKAGE_PLACE" == "apple-store" ]; then  
     APPLICATION_CERT_NAME="${MAC_APPLICATION_CERT_NAME}"
     INSTALLER_CERT_NAME="${MAC_INSTALLER_CERT_NAME}"
+    cp ${MAC_APP_ROOT_DIR}/../resources/embedded.provisionprofile ${MAC_APP_BIN_DIR}../
 else
     APPLICATION_CERT_NAME="${APPLE_APPLICATION_CERT_NAME}"
     INSTALLER_CERT_NAME="${APPLE_INSTALLER_CERT_NAME}"
@@ -38,9 +39,15 @@ fi
 run_codesign()
 {
     file=$1
+    way=$2
     echo ${file}
     if [ "$PACKAGE_PLACE" == "apple-store" ]; then
-        codesign --deep --force --timestamp --options runtime --sign "${APPLICATION_CERT_NAME}" --entitlements chronojump-apple-store.entitlements ${file}
+        #if [ "$file" == "${MAC_APP_BIN_DIR}/Chronojump" ]; then
+        if [ "$way" == "main" ]; then
+            codesign --force --timestamp --options runtime --sign "${APPLICATION_CERT_NAME}" --entitlements apple-store-main.entitlements ${file}
+        else
+            codesign --deep --force --timestamp --options runtime --sign "${APPLICATION_CERT_NAME}" --entitlements apple-store-nested.entitlements ${file}
+        fi
     else
         codesign --deep --force --timestamp --options runtime --sign "${APPLICATION_CERT_NAME}" --entitlements chronojump.entitlements ${file}
         #codesign --deep --force --timestamp=none --options runtime --sign "${APPLICATION_CERT_NAME}" --entitlements chronojump.entitlements ${file}
@@ -81,6 +88,13 @@ for dir in `find deps -type d -name "_CodeSignature"`
 do
     rm -rf ${dir}
 done
+for file in `find deps -type f -name "Info.plist"`
+do
+    rm ${file}
+done
+rm -rf deps/bin/x64/Python/Versions/${PYTHON_VERSION}/lib
+rm -rf deps/bin/x64/Python/Versions/Current/lib
+
 rm -rf ${MAC_APP_BIN_DIR}
 #rm -rf ${MAC_APP_FRAMEWORK_DIR}
 mkdir -p ${MAC_APP_BIN_DIR}
@@ -157,20 +171,15 @@ echo "Signing..."
 #    run_codesign ${lib}
 #done
 
-for lib in `find ${MAC_APP_RESOURCE_DIR} -name \*.dylib -or -name \*.so -or -name \*.dll -or -name \*.a`
+for lib in `find ${MAC_APP_RESOURCE_DIR} -name \*.dylib -or -name \*.so -or -name \*.dll -or -name \*.a -or -name \*.dbf -or -name \*.dta`
 do
     run_codesign ${lib}
 done
 
-for lib in `find ${MAC_APP_BIN_DIR} -name \*.dylib -or -name \*.so -or -name \*.dll -or -name \*.a`
+for lib in `find ${MAC_APP_BIN_DIR} -name \*.dylib -or -name \*.so -or -name \*.dll -or -name \*.a -or -name \*.png`
 do
     run_codesign ${lib}
 done
-
-#for lib in `find ${MAC_APP_BIN_DIR} -name \*.a`
-#do
-#    run_codesign ${lib}
-#done
 
 run_codesign ${MAC_APP_BIN_DIR}/createdump
 run_codesign ${MAC_APP_BIN_DIR}/bin/ffplay
@@ -190,10 +199,10 @@ run_codesign ${MAC_APP_BIN_DIR}/libhostpolicy.dylib
 run_codesign ${MAC_APP_BIN_DIR}/libSystem.Security.Cryptography.Native.OpenSsl.dylib
 run_codesign ${MAC_APP_BIN_DIR}/libclrjit.dylib
 run_codesign ${MAC_APP_BIN_DIR}/libclrgc.dylib
-run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/${PYTHON_VERSION}/lib/libpython${PYTHON_VERSION}.dylib
-run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/${PYTHON_VERSION}/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib
-run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/Current/lib/libpython${PYTHON_VERSION}.dylib
-run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/Current/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib
+#run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/${PYTHON_VERSION}/lib/libpython${PYTHON_VERSION}.dylib
+#run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/${PYTHON_VERSION}/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib
+#run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/Current/lib/libpython${PYTHON_VERSION}.dylib
+#run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/Current/lib/python${PYTHON_VERSION}/config-${PYTHON_VERSION}-darwin/libpython${PYTHON_VERSION}.dylib
 run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/Current/Python
 run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Versions/${PYTHON_VERSION}/Python
 run_codesign ${MAC_APP_RESOURCE_DIR}Python-${ARCH}/Python
@@ -241,6 +250,12 @@ fi
 if [ -e "${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/bin/qpdf" ]; then
     run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/Resources/bin/qpdf
 fi
+if [ -e "${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/R" ]; then
+    run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/Current/R
+fi
+if [ -e "${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/R" ]; then
+    run_codesign ${MAC_APP_RESOURCE_DIR}R-${ARCH}/Versions/${R_VERSION}-${ARCH}/R
+fi
 
 #mv ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/Resources/English.lproj ${MAC_APP_ROOT_DIR}/1_English.lproj
 #mv ${MAC_APP_BIN_DIR}bin/x64/Python/Resources/English.lproj ${MAC_APP_ROOT_DIR}/2_English.lproj
@@ -268,6 +283,7 @@ fi
 
 # Sign the main executable and .NET stuff.
 run_codesign ${MAC_APP_BIN_DIR}/Chronojump
+run_codesign ${MAC_APP_BIN_DIR}/Chronojump main
 #run_codesign ${MAC_APP_DIR}
 
 #mv ${MAC_APP_ROOT_DIR}/1_English.lproj ${MAC_APP_BIN_DIR}bin/x64/Python/Versions/Current/Resources/English.lproj
@@ -309,7 +325,14 @@ if [ "$PACKAGE_TYPE" == "dmg" ]; then
     # Staple the result to the dmg
     echo "Stapling dmg..."
     xcrun stapler staple ${MAC_INSTALLER_FILE_NAME}
-else  
+elif [ "$PACKAGE_PLACE" == "apple-store" ]; then
+    mkdir -p distribution-signing
+    echo "Creating distribution pkg..."
+    productbuild --component app/Chronojump.app /Applications "distribution-signing/${MAC_INSTALLER_FILE_NAME}"
+    echo "Signing distribution pkg..."
+    productsign --timestamp --sign "${INSTALLER_CERT_NAME}" "distribution-signing/${MAC_INSTALLER_FILE_NAME}" ${MAC_INSTALLER_FILE_NAME}
+    rm -rf distribution-signing
+else
     mkdir -p component-signing
     mkdir -p component
     mkdir -p distribution-signing
@@ -319,17 +342,13 @@ else
     productsign --timestamp --sign "${INSTALLER_CERT_NAME}" "component-signing/${MAC_INSTALLER_FILE_NAME}" "component/${MAC_INSTALLER_FILE_NAME}"
     echo "Creating distribution pkg..."
     productbuild --package "component/${MAC_INSTALLER_FILE_NAME}" "distribution-signing/${MAC_INSTALLER_FILE_NAME}"
-    #echo "Creating distribution pkg..."
-    #productbuild --component app/Chronojump.app /Applications "distribution-signing/${MAC_INSTALLER_FILE_NAME}"
     echo "Signing distribution pkg..."
     productsign --timestamp --sign "${INSTALLER_CERT_NAME}" "distribution-signing/${MAC_INSTALLER_FILE_NAME}" ${MAC_INSTALLER_FILE_NAME}
     rm -rf distribution-signing
     rm -rf component
     rm -rf component-signing
-    if [ "$PACKAGE_PLACE" != "apple-store" ]; then    
-        echo "Notarizing pkg..."
-        xcrun notarytool submit --wait --apple-id=${APPLE_ID} --password ${APPLE_PASSWORD} --team-id ${APPLE_TEAM_ID} ${MAC_INSTALLER_FILE_NAME}
-        echo "Stapling pkg..."
-        xcrun stapler staple ${MAC_INSTALLER_FILE_NAME}
-    fi
+    echo "Notarizing pkg..."
+    xcrun notarytool submit --wait --apple-id=${APPLE_ID} --password ${APPLE_PASSWORD} --team-id ${APPLE_TEAM_ID} ${MAC_INSTALLER_FILE_NAME}
+    echo "Stapling pkg..."
+    xcrun stapler staple ${MAC_INSTALLER_FILE_NAME}
 fi

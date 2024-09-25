@@ -118,18 +118,18 @@ public class UtilAll
 
 	}
 
-	/*
+    /*
 	public static string GetApplicationDataDir() {
 		return Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create),
 				"Chronojump");
 	}
 	*/
-	//if withFinalSeparator, then return a '\' or '/' at the end
-	public static string GetDefaultLocalDataDir (bool withFinalSeparator)
+    //if withFinalSeparator, then return a '\' or '/' at the end
+    public static string GetDefaultLocalDataDir (bool withFinalSeparator)
 	{
 		string path = Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create),
 				"Chronojump");
 
 		if(withFinalSeparator)

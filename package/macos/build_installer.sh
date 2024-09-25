@@ -48,7 +48,7 @@ run_codesign()
         else
             codesign --deep --force --timestamp --options runtime --sign "${APPLICATION_CERT_NAME}" --entitlements apple-store-nested.entitlements ${file}
         fi
-    else
+    elif [ "$way" != "main" ]; then
         codesign --deep --force --timestamp --options runtime --sign "${APPLICATION_CERT_NAME}" --entitlements chronojump.entitlements ${file}
         #codesign --deep --force --timestamp=none --options runtime --sign "${APPLICATION_CERT_NAME}" --entitlements chronojump.entitlements ${file}
     fi

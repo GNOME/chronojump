@@ -1129,6 +1129,13 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 					// hscales:     A      B
 					// rep:      |  rep  |
 					// show:        <----|
+					/*
+					LogB.Information (string.Format ("pointsForReps_l.Count: {0}",
+								pointsForReps_l.Count));
+					LogB.Information (string.Format ("rep.sampleStart: {0}",
+								rep.sampleStart));
+								*/
+
 					if (zoomed && rep.sampleStart < 0)
 					{
 						arrowL = true;
@@ -1146,8 +1153,13 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 					{
 						arrowR = true;
 						xgEnd = calculatePaintX (pointsForReps_l[pointsForReps_l.Count -1].X);
-					} else
+					} else {
+						//fix potential crash
+						if (rep.sampleEnd < 0 || rep.sampleEnd >= pointsForReps_l.Count)
+							continue;
+
 						xgEnd = calculatePaintX (pointsForReps_l[rep.sampleEnd].X);
+					}
 
 					//display arrows if needed
 					if (arrowL && arrowR)

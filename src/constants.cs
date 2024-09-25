@@ -1185,8 +1185,8 @@ public class Constants
 	public static string ROSX = "/Library/Frameworks/R.framework/Resources/R";
 	public static string RScriptOSX = "/Library/Frameworks/R.framework/Resources/Rscript";
 #else
-	public static string ROSX = "../Resources/R-{(RuntimeInformation.ProcessArchitecture.ToString().ToLower())}/Resources/R";
-	public static string RScriptOSX = "../Resources/R-{(RuntimeInformation.ProcessArchitecture.ToString().ToLower())}/Resources/Rscript";
+	public static string ROSX = $"../Resources/R-{RuntimeInformation.ProcessArchitecture.ToString().ToLower()}/Resources/R";
+	public static string RScriptOSX = $"../Resources/R-{RuntimeInformation.ProcessArchitecture.ToString().ToLower()}/Resources/Rscript";
 #endif
 
     public static string RmacDownload = "https://cran-archive.r-project.org/bin/macosx/el-capitan/base/R-3.6.3.nn.pkg";

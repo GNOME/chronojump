@@ -276,7 +276,7 @@ public class Preferences
 #if DEBUG
 				return "python3";
 #else
-					return $"../Resources/Python-{(RuntimeInformation.ProcessArchitecture.ToString().ToLower())}/Versions/Current/bin/python3";
+					return $"../Resources/Python-{RuntimeInformation.ProcessArchitecture.ToString().ToLower()}/Versions/Current/bin/python3";
 #endif
 			}
 		}

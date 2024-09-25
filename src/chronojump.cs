@@ -108,7 +108,10 @@ public class ChronoJump
 		}
 		else
 		{
-			/*//To prevent sqlite3_prepare_interop aborting
+			/*
+			 *To prevent sqlite3_prepare_interop aborting on ARM64.
+			 *No longer needed as Intel pkg can run on ARM64.
+			 *
 			try
 			{
 				var dbPath = Path.Combine(Util.GetDatabaseDir(), "chronojump-test.db");
@@ -151,11 +154,14 @@ public class ChronoJump
 
 		Console.WriteLine($"UtilAll.GetDefaultLocalDataDir(false): {UtilAll.GetDefaultLocalDataDir(false)}");
 		Console.WriteLine($"{(Directory.Exists(UtilAll.GetDefaultLocalDataDir(false)) ? "Existing = True" : "Existing = False")}: {UtilAll.GetDefaultLocalDataDir(false)}");
-        //Create the Data Directory if not exists
+        /*
+         * Create the Data Directory if not exists.
+         * No longer needed as it would be created automatically in "UtilAll.GetDefaultLocalDataDir".
+         * 
         if (!Directory.Exists(UtilAll.GetDefaultLocalDataDir(false)))
         {
             Directory.CreateDirectory(UtilAll.GetDefaultLocalDataDir(false));
-        }
+        }*/
 
         //show version on console and exit before the starting logs
         //note version, version2 args are available since: 2.2.0-112-ga4eaadcbc

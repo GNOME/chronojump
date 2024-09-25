@@ -47,8 +47,8 @@ class SqliteFourPlatforms : Sqlite
 			"personID INT, " +
 			"sessionID INT, " +
 			"exerciseID INT, " + //right now all will be exercise 0, until we have a clear idea of what exercises could be done and how can affect measurements
-			"b0_1 TEXT, " +
-			"b0_0 TEXT, " +
+			"b0_1 TEXT, " +  //on
+			"b0_0 TEXT, " +  //off
 			"b1_1 TEXT, " +
 			"b1_0 TEXT, " +
 			"b2_1 TEXT, " +

@@ -93,6 +93,8 @@ public class FourPlatformsCaptureManage
 				FourPlatformsEvent fpe = fpc.FourPlatformsCaptureReadNext();
 				LogB.Information("fpe: " + fpe.ToString());
 
+				fpe.Time *= -1; //first buttons prototype board has the buttons behaviour opposite than the final board
+
 				int timeNow = fpe.Time; //millis
 
 				//int button = fpe.Button + 1; //from 0-3 to 1-4

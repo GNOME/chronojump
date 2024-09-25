@@ -15,7 +15,11 @@ if [ "$ARCH" == "arm64" ]; then
 else
     ARCH="x64"
 fi
-MAC_INSTALLER_FILE_NAME="chronojump-${PACKAGE_VERSION}-${ARCH}.${PACKAGE_TYPE}"
+if [ "$PACKAGE_PLACE" == "apple-store" ]; then
+    MAC_INSTALLER_FILE_NAME="chronojump-${PACKAGE_VERSION}-${ARCH}-${PACKAGE_PLACE}.${PACKAGE_TYPE}"
+else
+    MAC_INSTALLER_FILE_NAME="chronojump-${PACKAGE_VERSION}-${ARCH}.${PACKAGE_TYPE}"
+fi
 
 PYTHON_VERSION=3.12
 R_VERSION=4.3

@@ -562,6 +562,12 @@ public class LeastSquaresLine
 			*/
 	}
 
+	public double CalculateYAtSomeX (double x)
+	{
+		//check first if SlopeIsNaN ()
+		return Slope*x + Intercept;
+	}
+
 	public bool SlopeIsNaN()
 	{
 		return Double.IsNaN(Slope);

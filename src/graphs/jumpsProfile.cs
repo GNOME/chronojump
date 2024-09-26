@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -126,7 +126,7 @@ public class JumpsProfile
 	private JumpsProfileIndex jpi4;
 
 	//sjl calc related
-	private enum SJLEnum { SJL100EXISTS, SJL100CALCNEEDTWOSJLDIFFW, SJL100CALCNEEDSJ,
+	private enum SJLEnum { SJL100EXISTS, SJL100CALCNEEDTWOSJLDIFFW, SJL100CALCNEEDSJ, SJL100CALCNEEDSJL,
 		SJL100CALCPROBLEMS, SJL100CALCNEGATIVE, SJL100CALCOK }
 	private SJLEnum sjlEnum;
 	private double initialSpeedAt100PercentWeight;
@@ -180,8 +180,12 @@ public class JumpsProfile
 			if (j.Type == "SJl")
 				differentWeights_l = Util.AddToListDoubleIfNotExist (differentWeights_l, j.WeightPercent);
 
+		/* needed when parabole was used
 		if (differentWeights_l.Count < 2)
 			return SJLEnum.SJL100CALCNEEDTWOSJLDIFFW; //With this we can show the red ball
+			*/
+		if (differentWeights_l.Count < 1)
+			return SJLEnum.SJL100CALCNEEDSJL;
 
 		// 3) check there is SJ
 		if (sj == 0)
@@ -189,9 +193,16 @@ public class JumpsProfile
 
 		// 4) prepare the points
 		List<PointF> point_l = new List<PointF>();
+		//LogB.Information ("points:");
 		foreach(Jump j in sjSjl_l)
+		{
 			point_l.Add (new PointF (j.WeightPercent, Jump.GetInitialSpeed (j.Tv, true) ));
+			//LogB.Information (new PointF (j.WeightPercent, Jump.GetInitialSpeed (j.Tv, true)).ToString ());
+		}
 
+		/*
+		 * parabole
+		 *
 		LeastSquaresParabole lsp = new LeastSquaresParabole ();
 		lsp.Calculate (point_l);
 
@@ -212,6 +223,13 @@ public class JumpsProfile
 			initialSpeedAt100PercentWeight = 0;
 			return SJLEnum.SJL100CALCNEGATIVE;
 		}
+		*/
+		LeastSquaresLine lsl = new LeastSquaresLine();
+		lsl.Calculate (point_l);
+		if (lsl.SlopeIsNaN())
+			return SJLEnum.SJL100CALCPROBLEMS;
+
+		initialSpeedAt100PercentWeight = lsl.CalculateYAtSomeX (100);
 
 		return SJLEnum.SJL100CALCOK;
 	}

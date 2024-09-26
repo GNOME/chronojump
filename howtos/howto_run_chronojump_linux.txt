@@ -24,11 +24,11 @@ cd src
 dos2unix post-build-linux.sh
 chmod +x post-build-linux.sh
 
-# Execute. Change "[UserPath]" by the real path where Chronojump is installed
-dotnet run --project /[UserPath]/chronojump/src/Chronojump-linux.csproj
+# Execute. Change "[ChronojumpPath]" by the real path where Chronojump is installed
+dotnet run --project /[ChronojumpPath]/src/Chronojump-linux.csproj
 
 # Some distros (KDE neon) requires this other command
-dotnet run -r linux-x64 --project /[UserPath]/chronojump/src//Chronojump-linux.csproj --property WarningLevel=0 --no-self-contained
+dotnet run -r linux-x64 --project /[ChronojumpPath]/src//Chronojump-linux.csproj --property WarningLevel=0 --no-self-contained
 
 # On Raspberry Pi which installs Debian 12, fix it as follows if it says something like "Unable to find entry point named 'SI9dbf9d88aa001ea6'":
 

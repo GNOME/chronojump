@@ -19,6 +19,7 @@
  */
 
 using System;
+using System.Runtime.InteropServices;
 using Mono.Unix;
 //do not use gtk or gdk because this class is used by the server
 //see UtilGtk for eg color definitions

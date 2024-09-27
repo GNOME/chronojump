@@ -123,7 +123,7 @@ class SqliteFourPlatformsJumpsSimple : Sqlite
 
 	//public int Insert (int personID, int sessionID,
 	public void Insert (List<IDName> person_l, int sessionID,
-			string jumpType, List<List<double>> off_ll, List<List<double>> on_ll, double fall,
+			string jumpType, List<List<double>> off_ll, List<List<double>> on_ll, double firstFall,
 			double weight, string description, int angle, bool simulated,
 			string datetimeStr)
 	{
@@ -140,6 +140,13 @@ class SqliteFourPlatformsJumpsSimple : Sqlite
 
 					double tf = 0;
 					double tc = 0;
+					double fall = 0;
+
+					bool firstJump = true; //to use firstFall
+					double thisOnTime = 0;
+					double lastOnTime = 0;
+					double tfLast = 0; //used to calculate fall
+
 					for (int j = 0; j < on_ll[p].Count; j ++)
 					{
 						//LogB.Information (string.Format ("on {0}, onTime {1} ", j, on_ll[p][j]));
@@ -152,6 +159,8 @@ class SqliteFourPlatformsJumpsSimple : Sqlite
 							{
 								//LogB.Information ("found!");
 								tf = on_ll[p][j] - off_ll[p][k];
+								thisOnTime = on_ll[p][j];
+
 								found = true;
 								break;
 							}
@@ -159,17 +168,35 @@ class SqliteFourPlatformsJumpsSimple : Sqlite
 
 						if (found && hasFall)
 						{
-							if (j == 0)
-								found = false;
-							else
-								tc = off_ll[p][k] - on_ll[p][j-1];
+							if (firstJump)
+							{
+								firstJump = false;
+
+								//do not accept a jump with tc when started in
+								if (off_ll[p][0] < on_ll[p][0])
+								{
+									lastOnTime = thisOnTime;
+									tfLast = tf;
+									continue;
+								}
+
+								fall = firstFall;
+							} else
+								fall = Util.GetHeightInCentimeters (tfLast);
+
+							tc = off_ll[p][k] - lastOnTime;
 						}
 
 						if (found)
+						{
 							SqliteJump.InsertDo (true, table,
 									"-1", person_l[p].UniqueID, sessionID, jumpType,
-									tf, tc, fall, weight, "", -1, 0, datetimeStr, //TODO: TC & fall
+									tf, tc, fall, weight, "", -1, 0, datetimeStr,
 									dbcmdTr);
+
+							lastOnTime = thisOnTime;
+							tfLast = tf;
+						}
 					}
 				}
 			}

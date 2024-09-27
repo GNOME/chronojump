@@ -347,14 +347,18 @@ public partial class ChronoJumpWindow
 	}
 	private void fourPlatformsInsertToSQLJumpSimple ()
 	{
-		SqliteFourPlatformsJumpsSimple sfpjs = new SqliteFourPlatformsJumpsSimple (
-				SqliteJumpType.HasFall ("jumpType", currentJumpType.Name)
-				);
+		double firstFall = 0;
+		bool hasFall = currentJumpType.HasFall (configChronojump.Compujump);
+
+		if (hasFall)
+			firstFall = (double) extra_window_jumps_spinbutton_fall.Value; //note will be the fall of first jump, if there are more the height of each jump will be used
+
+		SqliteFourPlatformsJumpsSimple sfpjs = new SqliteFourPlatformsJumpsSimple (hasFall);
 
 		sfpjs.Insert (
 				getSelectedPersonAndNext3 (), currentSession.UniqueID,
 				currentJumpType.Name,
-				fpcm.TimesOff_ll, fpcm.TimesOn_ll, 0,  //type, tv, tc, fall:TODO,
+				fpcm.TimesOff_ll, fpcm.TimesOn_ll, firstFall,  //type, tv, tc, fall
 				0, "", -1, false, //weight: TODO
 				UtilDate.ToFile(DateTime.Now));
 	}

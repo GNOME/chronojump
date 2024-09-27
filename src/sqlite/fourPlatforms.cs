@@ -114,8 +114,11 @@ class SqliteFourPlatforms : Sqlite
 class SqliteFourPlatformsJumpsSimple : Sqlite
 {
 	private static string table = Constants.JumpTable;
+	private bool hasFall;
 
-	public SqliteFourPlatformsJumpsSimple() {
+	public SqliteFourPlatformsJumpsSimple (bool hasFall)
+	{
+		this.hasFall = hasFall;
 	}
 
 	//public int Insert (int personID, int sessionID,
@@ -130,33 +133,42 @@ class SqliteFourPlatformsJumpsSimple : Sqlite
 			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
-				for (int i = 0; i < 4; i ++)
+				for (int p = 0; p < 4; p ++)
 				{
-					if (person_l[i].UniqueID < 0)
+					if (person_l[p].UniqueID < 0)
 						continue;
 
-					LogB.Information ("person: " + i.ToString ());
 					double tf = 0;
-					for (int j = 0; j < on_ll[i].Count; j ++)
+					double tc = 0;
+					for (int j = 0; j < on_ll[p].Count; j ++)
 					{
-						//LogB.Information (string.Format ("on {0}, onTime {1} ", j, on_ll[i][j]));
+						//LogB.Information (string.Format ("on {0}, onTime {1} ", j, on_ll[p][j]));
 						bool found = false;
-						for (int k = off_ll[i].Count -1; k >= 0; k --)
+						int k = 0;
+						for (k = off_ll[p].Count -1; k >= 0; k --)
 						{
-							//LogB.Information (string.Format ("off {0}, offTime {1} ", k, off_ll[i][k]));
-							if (off_ll[i][k] < on_ll[i][j])
+							//LogB.Information (string.Format ("off {0}, offTime {1} ", k, off_ll[p][k]));
+							if (off_ll[p][k] < on_ll[p][j])
 							{
 								//LogB.Information ("found!");
-								tf = on_ll[i][j] - off_ll[i][k];
+								tf = on_ll[p][j] - off_ll[p][k];
 								found = true;
 								break;
 							}
 						}
 
+						if (found && hasFall)
+						{
+							if (j == 0)
+								found = false;
+							else
+								tc = off_ll[p][k] - on_ll[p][j-1];
+						}
+
 						if (found)
 							SqliteJump.InsertDo (true, table,
-									"-1", person_l[i].UniqueID, sessionID, jumpType,
-									tf, 0, fall, weight, "", -1, 0, datetimeStr, //TODO: TC & fall
+									"-1", person_l[p].UniqueID, sessionID, jumpType,
+									tf, tc, fall, weight, "", -1, 0, datetimeStr, //TODO: TC & fall
 									dbcmdTr);
 					}
 				}

@@ -347,7 +347,10 @@ public partial class ChronoJumpWindow
 	}
 	private void fourPlatformsInsertToSQLJumpSimple ()
 	{
-		SqliteFourPlatformsJumpsSimple sfpjs = new SqliteFourPlatformsJumpsSimple ();
+		SqliteFourPlatformsJumpsSimple sfpjs = new SqliteFourPlatformsJumpsSimple (
+				SqliteJumpType.HasFall ("jumpType", currentJumpType.Name)
+				);
+
 		sfpjs.Insert (
 				getSelectedPersonAndNext3 (), currentSession.UniqueID,
 				currentJumpType.Name,

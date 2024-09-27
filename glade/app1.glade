@@ -9694,6 +9694,7 @@ last capture</property>
                                                             </child>
                                                             <child>
                                                             <object class="GtkNotebook" id="notebook_results">
+                                                            <property name="width-request">150</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="show-tabs">False</property>
@@ -10194,6 +10195,16 @@ last capture</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <object class="GtkScrolledWindow">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="vscrollbar-policy">never</property>
+                                                            <child>
+                                                            <object class="GtkViewport">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="shadow-type">none</property>
                                                             <child>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
@@ -10897,6 +10908,10 @@ last capture</property>
                                                             </packing>
                                                             </child>
                                                             </object>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
@@ -11505,7 +11520,7 @@ last capture</property>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="resize">True</property>
+                                                            <property name="resize">False</property>
                                                             <property name="shrink">False</property>
                                                             </packing>
                                                             </child>
@@ -23118,6 +23133,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

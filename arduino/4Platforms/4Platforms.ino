@@ -88,8 +88,9 @@ void setup() {
   for(int i=0; i<=3; i++)
   {
     pinMode(sensorPin[i], INPUT_PULLDOWN);
-  }
+    // pinMode(sensorPin[i], INPUT_PULLUP);
 
+  }
 
   //When the input pin changes the function changedPin() is called
   attachInterrupt(digitalPinToInterrupt(sensorPin[0]), changedFL, CHANGE);
@@ -108,23 +109,9 @@ void setup() {
   digitalWrite(LED_BUILTIN, lastSensorState[1]);
 
   //Configuring the timer for debouncing
-  for(int i= 0; i<=3; i++)
-  {
-    debounceTimer[i] = timerBegin(i, 80, true); // Timer0, clock divider 80
-  }
+  configDebounceTimers(debounceTime);
 
-  timerAttachInterrupt(debounceTimer[0], &FLdebounce, true);
-  timerAttachInterrupt(debounceTimer[1], &FRdebounce, true);
-  timerAttachInterrupt(debounceTimer[2], &BLdebounce, true);
-  timerAttachInterrupt(debounceTimer[3], &BRdebounce, true);
-
-  for(int i= 0; i<=3; i++)
-  {
-    timerAlarmWrite(debounceTimer[i], debounceTime, true);
-    timerAlarmEnable(debounceTimer[i]); // Habilitar la alarma
-    timerStop(debounceTimer[i]);
-  }
-
+  Serial.flush();
 }
 
 void loop() {
@@ -169,6 +156,8 @@ void processCommand(String inputString) {
     startCapture();
   } else if (commandString == "end_capture") {
     endCapture();
+  } else if (commandString == "set_debounce") {
+    setDebounceTime(argumentString.toInt());
   } else {
     Serial.println("Not a valid command");
   }
@@ -225,4 +214,32 @@ void startCapture() {
 
 void endCapture() {
   Serial.print("Capture ended");
+}
+
+void configDebounceTimers() { configDebounceTimers(debounceTime); }
+void configDebounceTimers(unsigned int value) {
+  for(int i= 0; i<=3; i++)
+  {
+    debounceTimer[i] = timerBegin(i, 80, true); // Timer0, clock divider 80
+  }
+
+  setDebounceTime(value);
+
+  timerAttachInterrupt(debounceTimer[0], &FLdebounce, true);
+  timerAttachInterrupt(debounceTimer[1], &FRdebounce, true);
+  timerAttachInterrupt(debounceTimer[2], &BLdebounce, true);
+  timerAttachInterrupt(debounceTimer[3], &BRdebounce, true);
+
+}
+
+void setDebounceTime(unsigned int value) {
+
+  for(int i= 0; i<=3; i++)
+  {
+    timerAlarmWrite(debounceTimer[i], value, true);
+    timerAlarmEnable(debounceTimer[i]); // Habilitar la alarma
+    timerStop(debounceTimer[i]);
+  }
+  Serial.print("Debounce set to: ");
+  Serial.println(value);
 }

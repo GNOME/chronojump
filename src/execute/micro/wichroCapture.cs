@@ -24,11 +24,14 @@ using System.Threading;
 
 public class WichroCapture: ArduinoCapture
 {
+	private string portName;
 	private List<WichroEvent> list = new List<WichroEvent>();
 
 	//constructor
 	public WichroCapture (string portName)
 	{
+		this.portName = portName;
+
 		cancel = false;
 		micro = new Micro (portName, 115200);
 		Reset ();
@@ -42,6 +45,7 @@ public class WichroCapture: ArduinoCapture
 
 	public override bool CaptureStart()
 	{
+		LogB.Information ("At wichroCapture, CaptureStart() Micro: " + micro.ToString ());
 		LogB.Information("portOpened: " + micro.Opened);
 		// 0 connect if needed
 
@@ -213,6 +217,9 @@ public class WichroCapture: ArduinoCapture
 		return true;
 	}
 
+	public string PortName {
+		get { return portName; }
+	}
 }
 
 public class WichroEvent

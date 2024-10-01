@@ -808,6 +808,10 @@ public class UtilGtk
 			"label#darkCss {" +
 				"color: #222222;" +
 			"}" +
+			"label#labelAlertCss {" +
+				//"color: #8c0000;" + //8c0000 is ok for backfound but too dark for label
+				"color: #ee0000;" +
+			"}" +
 			//label used on version hidden
 			/*
 			"label#blueChronojumpHideCss {" +

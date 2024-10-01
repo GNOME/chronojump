@@ -45,7 +45,8 @@ public class PersonRecuperateWindow
 	
 	protected Gtk.Box hbox_from_session_hide; //used in person recuperate multiple (hided in current class)
 	protected Gtk.Box hbox_combo_select_checkboxes_hide; //used in person recuperate multiple (hided in current class)
-	protected Gtk.Box hbox_search_filter_hide; //used in person recuperateWindow (hided in inherited class)
+	protected Gtk.Grid grid_search_filter_hide; //used in person recuperateWindow (hided in inherited class)
+	protected Gtk.Label label_search_filter_too_much;
 	
 	protected TreeStore store;
 	protected string selected;
@@ -93,6 +94,7 @@ public class PersonRecuperateWindow
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_check);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_filter);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_feedback);
+			label_search_filter_too_much.Name = "labelAlertCss";
 		}
 
 		this.currentSession = currentSession;
@@ -172,16 +174,24 @@ public class PersonRecuperateWindow
 		int exceptSession = currentSession.UniqueID;
 		int inSession = -1;	//search persons for recuperating in all sessions
 		ArrayList myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", exceptSession, inSession, searchFilterName);
-		
-		foreach (Person person in myPersons) {
+
+		// Limit at 1000. Seems at 1300 aprox it fails.
+		// And no way to know the error looking at the created iter on doing store.AppendValue
+		if (myPersons.Count >= 1000)
+		{
+			label_search_filter_too_much.Visible = true;
+			return;
+		}
+
+		label_search_filter_too_much.Visible = false;
+		foreach (Person person in myPersons)
 			store.AppendValues (
 					person.UniqueID.ToString(), 
 					person.Name, 
 					getCorrectSex(person.Sex), 
 					person.DateBorn.ToShortDateString(), 
 					person.Description);
-		}	
-		
+
 		//show sorted by column Name	
 		store.SetSortColumnId(1, Gtk.SortType.Ascending);
 		store.ChangeSortColumn();
@@ -333,7 +343,8 @@ public class PersonRecuperateWindow
 		entry_search_filter = (Gtk.Entry) builder.GetObject ("entry_search_filter");
 		hbox_from_session_hide = (Gtk.Box) builder.GetObject ("hbox_from_session_hide"); //used in person recuperate multiple (hided in current class)
 		hbox_combo_select_checkboxes_hide = (Gtk.Box) builder.GetObject ("hbox_combo_select_checkboxes_hide"); //used in person recuperate multiple (hided in current class)
-		hbox_search_filter_hide = (Gtk.Box) builder.GetObject ("hbox_search_filter_hide"); //used in person recuperateWindow (hided in inherited class)
+		grid_search_filter_hide = (Gtk.Grid) builder.GetObject ("grid_search_filter_hide"); //used in person recuperateWindow (hided in inherited class)
+		label_search_filter_too_much = (Gtk.Label) builder.GetObject ("label_search_filter_too_much");
 	}
 
 }
@@ -390,7 +401,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 
 	
 		//this class doesn't allow to search by name
-		hbox_search_filter_hide.Hide();
+		grid_search_filter_hide.Hide();
 		
 		this.currentSession = currentSession;
 		
@@ -559,8 +570,8 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 					getCorrectSex(person.Sex), 
 					person.DateBorn.ToShortDateString(), 
 					person.Description);
-		}	
-		
+		}
+
 		//show sorted by column Name	
 		store.SetSortColumnId(2, Gtk.SortType.Ascending);
 	}
@@ -747,7 +758,7 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 		UtilGtk.IconWindow(person_recuperate);
 
 		//this class doesn't allow to search by name
-		hbox_search_filter_hide.Hide();
+		grid_search_filter_hide.Hide();
 		//this class doesn't use button recuperate
 		button_recuperate.Hide();
 		//this class doesn't use feedback on bottom

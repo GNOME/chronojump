@@ -110,9 +110,14 @@ public class MicroDiscover : MicroComms
 
 				if (! success && mode == Constants.Modes.JUMPSSIMPLE)
 				{
+					micro.ClosePort ();
 					micro.Bauds = 115200;
 					LogB.Information("calling discover FourPlatforms from jumps simple mode");
-					success = discoverFourPlatforms ();
+					if (connectAndSleep ())
+					{
+						flush(); //after connect
+						success = discoverFourPlatforms ();
+					}
 				}
 			}
 			else if(mode == Constants.Modes.RUNSSIMPLE || mode == Constants.Modes.RUNSINTERVALLIC)
@@ -139,6 +144,7 @@ public class MicroDiscover : MicroComms
 						if (connectAndSleep ())
 						{
 							LogB.Information("calling discoverWichro");
+							flush(); //after connect
 							success = discoverWichro ();
 							LogB.Information("ended discoverWichro");
 						} else

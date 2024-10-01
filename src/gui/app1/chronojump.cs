@@ -6661,9 +6661,8 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
-
-		if(wichroCapture == null)
-			wichroCapture = new WichroCapture(wirelessPort);
+		if(wichroCapture == null || wichroCapture.PortName != wirelessPort)
+			wichroCapture = new WichroCapture (wirelessPort);
 
 		currentEventExecute = new RunExecute(
 				currentPerson.UniqueID, currentSession.UniqueID, 
@@ -6955,8 +6954,8 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
-		if(wichroCapture == null)
-			wichroCapture = new WichroCapture(wirelessPort);
+		if(wichroCapture == null || wichroCapture.PortName != wirelessPort)
+			wichroCapture = new WichroCapture (wirelessPort);
 
 		currentEventExecute = new RunIntervalExecute(
 				currentPerson.UniqueID, currentSession.UniqueID, currentRunIntervalType.Name, 

@@ -2324,7 +2324,6 @@ public class PreferencesWindow
 			return;
 
 		// A) changes on preferences gui
-		restartLabelShow ();
 
 		// B) changes on preferences object and SqlitePreferences
 		changeFontOnPreferencesAndDB ();

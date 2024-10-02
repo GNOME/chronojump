@@ -54,6 +54,13 @@ public partial class ChronoJumpWindow
 
 	private void fillTreeView_persons ()
 	{
+		if (currentSession == null)
+		{
+			currentPerson = null;
+			sensitiveGuiNoPerson ();
+			return;
+		}
+
 		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID, 
 				false, //means: do not returnPersonAndPSlist

@@ -27,7 +27,7 @@
 #include <TimerOne.h>
 
 unsigned int deviceType = 1; //Photocel and LightChro sensor
-unsigned int deviceVersion = 15;
+unsigned int deviceVersion = 16;
 //
 // Hardware configuration
 
@@ -45,13 +45,13 @@ unsigned int deviceVersion = 15;
 
 //RF24 radio(A3, A4);    //Old versions
 RF24 radio(10, 9);       //New version
-#define red_on digitalWrite(A4,LOW)
-#define green_on digitalWrite(A5,LOW)
-#define blue_on digitalWrite(A3,LOW)
+#define red_on digitalWrite(A5,LOW)
+#define green_on digitalWrite(A3,LOW)
+#define blue_on digitalWrite(A4,LOW)
 #define buzzer_on digitalWrite(A0,HIGH)
-#define red_off digitalWrite(A4,HIGH)
-#define green_off digitalWrite(A5,HIGH)
-#define blue_off digitalWrite(A3,HIGH)
+#define red_off digitalWrite(A5,HIGH)
+#define green_off digitalWrite(A3,HIGH)
+#define blue_off digitalWrite(A4,HIGH)
 #define buzzer_off digitalWrite(A0,LOW)
 
 struct instruction_t
@@ -486,6 +486,7 @@ void sendPong(void) {
   blinkStart(75);
   delay(500);
   MsTimer2::stop();
+  // TODO: Return to the state before the ping
   buzzer_off;
   blinkingGreen = false;
 }

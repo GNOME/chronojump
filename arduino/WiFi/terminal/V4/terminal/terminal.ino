@@ -45,14 +45,18 @@ unsigned int deviceVersion = 16;
 
 //RF24 radio(A3, A4);    //Old versions
 RF24 radio(10, 9);       //New version
-#define red_on digitalWrite(A5,LOW)
-#define green_on digitalWrite(A3,LOW)
-#define blue_on digitalWrite(A4,LOW)
-#define buzzer_on digitalWrite(A0,HIGH)
-#define red_off digitalWrite(A5,HIGH)
-#define green_off digitalWrite(A3,HIGH)
-#define blue_off digitalWrite(A4,HIGH)
-#define buzzer_off digitalWrite(A0,LOW)
+#define RED_PIN A5
+#define GREEN_PIN A3
+#define BLUE_PIN A4
+#define BUZZER_PIN A0
+#define red_on digitalWrite(RED_PIN,LOW)
+#define green_on digitalWrite(GREEN_PIN,LOW)
+#define blue_on digitalWrite(BLUE_PIN,LOW)
+#define buzzer_on digitalWrite(BUZZER_PIN,HIGH)
+#define red_off digitalWrite(RED_PIN,HIGH)
+#define green_off digitalWrite(GREEN_PIN,HIGH)
+#define blue_off digitalWrite(BLUE_PIN,HIGH)
+#define buzzer_off digitalWrite(BUZZER_PIN,LOW)
 
 struct instruction_t
 {
@@ -413,18 +417,19 @@ void blinkStart(int period)
 {
   MsTimer2::set(period / 2, blinkLed);  //A change in the state of the LEDS must occur every period/2 milliseconds
   MsTimer2::start();
-
+  
   if (blinkingRed) red_on;
   if (blinkingGreen) green_on;
   if (blinkingBlue) blue_on;
+  
 }
 
 //Function that changes the state of the LEDS that should be blinking
 void blinkLed(void)
 {
-  if (blinkingRed) digitalWrite(A4, !digitalRead(A4));
-  if (blinkingGreen) digitalWrite(A5, !digitalRead(A5));
-  if (blinkingBlue) digitalWrite(A3, !digitalRead(A3));
+  if (blinkingRed) digitalWrite(RED_PIN, !digitalRead(RED_PIN));
+  if (blinkingGreen) digitalWrite(GREEN_PIN, !digitalRead(GREEN_PIN));
+  if (blinkingBlue) digitalWrite(BLUE_PIN, !digitalRead(BLUE_PIN));
 }
 
 void deactivateAll(void)

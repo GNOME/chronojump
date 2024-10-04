@@ -158,6 +158,8 @@ public class SprintExport : ExportFiles
 					ps.Height,
 					Util.ChangeSpaceAndMinusForUnderscore (p.Name),
 					Util.ChangeSpaceAndMinusForUnderscore (ri.Type),
+					ri.Datetime,
+					ri.Description,
 					25);
 			sprge_l.Add(sprge);
 		}

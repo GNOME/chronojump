@@ -423,12 +423,13 @@ public class SprintRGraphExport
 	private double mass;
 	private double personHeight;
 	private string personName;
+	private string runType;
 	private double tempC;
 
 	public SprintRGraphExport(
 			string positions, string splitTimes,
 			double mass, double personHeight,
-			string personName, double tempC)
+			string personName, string runType, double tempC)
 	{
 		//if decimal is comma, will be converted to point for R, and also the ; will be _ to differentiate from other ;
 		this.positions = "0_" + Util.ChangeChars(
@@ -440,6 +441,7 @@ public class SprintRGraphExport
 		this.mass = mass;
 		this.personHeight = personHeight;
 		this.personName = personName;
+		this.runType = runType;
 		this.tempC = tempC;
 
 	}
@@ -451,12 +453,13 @@ public class SprintRGraphExport
 			Util.ConvertToPoint(mass) + ";" +
 			Util.ConvertToPoint(personHeight / 100.0) + ";" + //in meters
 			personName + ";" +
+			runType + ";" +
 			Util.ConvertToPoint(tempC);
 	}
 
 	public static string PrintCSVHeaderOnExport()
 	{
-		return "positions;splitTimes;mass;personHeight;personName;tempC;" +
+		return "positions;splitTimes;mass;personHeight;personName;runType;tempC;" +
 			"comments";
 	}
 }

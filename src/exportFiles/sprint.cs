@@ -156,7 +156,8 @@ public class SprintExport : ExportFiles
 					positions, splitTimes,
 					ps.Weight, //TODO: can be more if extra weight
 					ps.Height,
-					title,
+					Util.ChangeSpaceAndMinusForUnderscore (p.Name),
+					Util.ChangeSpaceAndMinusForUnderscore (ri.Type),
 					25);
 			sprge_l.Add(sprge);
 		}

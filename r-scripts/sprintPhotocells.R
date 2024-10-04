@@ -387,7 +387,8 @@ start <- function(op)
 					     as.numeric(unlist(strsplit(as.character(dataFiles$splitTimes[i]), "\\_"))),
 					     splitPositionAll,
 					     dataFiles$mass[i],
-					     dataFiles$personHeight[i], dataFiles$tempC[i], dataFiles$personName[i])
+					     dataFiles$personHeight[i], dataFiles$tempC[i],
+					     paste (dataFiles$personName[i], "-", dataFiles$runType[i]))
 
 		if(! is.null(exportRow))
 		{
@@ -395,6 +396,7 @@ start <- function(op)
 			exportRow = unlist(exportRow) #convert to a vector
 
 			exportRowDF = data.frame(dataFiles$personName[i]) #create dataframe for this row with some columns
+			exportRowDF = cbind (exportRowDF, dataFiles$runType[i])
 			#add exportRow data (this way we solve problems of adding strings with numbers without converting the numbers to strings
 			#(to control if we print them as , or .)
 			for(j in 1:length(exportRow))
@@ -403,7 +405,7 @@ start <- function(op)
 				exportRowDF = cbind(exportRowDF, paste(i, ".png", sep=""))
 
 			#write the correct names of the row dataframe
-			namesDF = c("Person",names)
+			namesDF = c("Person","Run type",names)
 			if(op$includeImagesOnExport)
 				namesDF = c(namesDF, "Image")
 			colnames(exportRowDF) = namesDF

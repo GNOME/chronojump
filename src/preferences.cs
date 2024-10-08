@@ -276,7 +276,12 @@ public class Preferences
 #if DEBUG
 				return "python3";
 #else
-					return $"../Resources/Python-{RuntimeInformation.ProcessArchitecture.ToString().ToLower()}/Versions/Current/bin/python3";
+				var pythonPath = $"../Resources/Python-{RuntimeInformation.ProcessArchitecture.ToString().ToLower()}/Versions/Current/bin/python3";
+				if (!Directory.Exists(Path.GetDirectoryName(pythonPath)))
+				{
+					pythonPath = $"../Resources/Python-x64/Versions/Current/bin/python3";
+				}
+				return pythonPath;
 #endif
 			}
 		}

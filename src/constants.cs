@@ -30,6 +30,17 @@ public class Constants
 	
 	//public static string ReadmeTranslators = Catalog.GetString("Translator, there's a glossary that will help you in Chronojump translation:\n http://git.gnome.org/browse/chronojump/plain/glossary/chronojump_glossary_for_translators.html");
 
+	static Constants()
+	{
+#if !DEBUG
+		if (!Directory.Exists(Path.GetDirectoryName(ROSX)))
+		{
+			ROSX = $"../Resources/R-x64/Resources/R";
+			RScriptOSX = $"../Resources/R-x64/Resources/Rscript";
+		}
+#endif
+	}
+
 	public enum AuthorsEnum { SOFTWARE, NETWORKS, CHRONOPIC, SCIENTIFIC, MATH, DOCUMENTERS, TESTERS }
 	public static string [] Authors(AuthorsEnum e)
 	{

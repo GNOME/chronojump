@@ -97,7 +97,7 @@ unsigned long time0;  //Time when the command is received
 
 bool flagint = LOW;   //Interruption flag. Activated when the sensos changes
 volatile bool lastPinState = LOW;  //stores the state of the pin 2 before the interruption
-unsigned long debounceTime = 1000;
+unsigned long debounceTime = 10000;
 //The timer overflows inmediately after initialization.
 
 // First channel to be used. The 6xswitches control the terminal number and the number to add the terminal0Channel

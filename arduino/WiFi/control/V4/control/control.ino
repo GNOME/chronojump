@@ -26,7 +26,7 @@
 #include <TimerOne.h>
 
 // The first number refers to the hardware version. The seccond to firmware version for this hardware
-String version = "Wifi-Controller-4.0"; //"Wifi-Controller-" is mandatori. Chronojump expects it
+String version = "Wifi-Controller-4.1"; //"Wifi-Controller-" is mandatori. Chronojump expects it
 
 
 //
@@ -217,62 +217,77 @@ void serialEvent()
 {
 
   String inputString = Serial.readString();
-  //  Serial.print("Instruction received from Serial: \"");
-  //  Serial.print(inputString);
-  //  Serial.println("\"");
-  int separatorPosition = inputString.indexOf(":");
+  String currentInstruction = "";
 
-  String terminalString = inputString.substring(0, separatorPosition);
-  //  Serial.print("terminalString:\"");
-  //  Serial.print(terminalString);
-  //  Serial.println("\"");
+  int lastIndex = inputString.lastIndexOf(";");
+  // Serial.println(lastIndex);
+  int prevSeparatorIndex = -1;
+  int nextSeparatorIndex = 0;
+  // Serial.print("Instruction received from Serial: \"");
+  // Serial.print(inputString.substring(0, inputString.length() -1));
+  // Serial.println("\"");
 
-  String commandString = inputString.substring(separatorPosition + 1, inputString.lastIndexOf(";"));
-  //  Serial.print("commandString: \"");
-  //  Serial.print(commandString);
-  //  Serial.println("\"");
+  while (prevSeparatorIndex < lastIndex ) {
+    nextSeparatorIndex = inputString.indexOf(";", prevSeparatorIndex +1);
+    currentInstruction = inputString.substring(prevSeparatorIndex +1 , nextSeparatorIndex +1);
+    // Serial.print("currentInstruction: \"");
+    // Serial.print(currentInstruction);
+    // Serial.println("\"");
+    prevSeparatorIndex = nextSeparatorIndex;
 
-  if (terminalString == "all")  //The command is sent to all the terminals
-  {
-    activateAll(instruction.command);
-  } else if (terminalString == "local") {
-    if (commandString == "get_version") {
-      Serial.println(version);
-    } else if (commandString == "set_binary_mode") {
-      Serial.println("Setting binary mode");
-      binaryMode = true;
-    } else if (commandString == "set_text_mode") {
-      Serial.println("Setting text mode");
-      binaryMode = false;
-    } else if (commandString == "reset_time") {
-      startTime = millis();
-    } else if (commandString == "get_channel") {
-      Serial.println(controlSwitch);
-    } else if (commandString == "discover") {
-      discoverTerminals();
-    } else if(commandString == "set_rca_mode:output") {
-      setRcaMode(output);
-    } else if(commandString == "set_rca_mode:input") {
-      setRcaMode(input);
-  } else {
-      Serial.println("Wrong local command");
+    int separatorPosition = currentInstruction.indexOf(":");
+
+    String terminalString = currentInstruction.substring(0, separatorPosition);
+    // Serial.print("terminalString:\"");
+    // Serial.print(terminalString);
+    // Serial.println("\"");
+
+    String commandString = currentInstruction.substring(separatorPosition + 1, currentInstruction.lastIndexOf(";"));
+    // Serial.print("commandString: \"");
+    // Serial.println(commandString);
+
+    if (terminalString == "all")  //The command is sent to all the terminals
+    {
+      activateAll(instruction.command);
+    } else if (terminalString == "local") {
+      if (commandString == "get_version") {
+        Serial.println(version);
+      } else if (commandString == "set_binary_mode") {
+        Serial.println("Setting binary mode");
+        binaryMode = true;
+      } else if (commandString == "set_text_mode") {
+        Serial.println("Setting text mode");
+        binaryMode = false;
+      } else if (commandString == "reset_time") {
+        startTime = millis();
+      } else if (commandString == "get_channel") {
+        Serial.println(controlSwitch);
+      } else if (commandString == "discover") {
+        discoverTerminals();
+      } else if(commandString == "set_rca_mode:output") {
+        setRcaMode(output);
+      } else if(commandString == "set_rca_mode:input") {
+        setRcaMode(input);
+      } else {
+          Serial.println("Wrong local command");
+      }
+    } else {  // if terminalString is a single remote terminal, Command to a single terminal
+      instruction.command = commandString.toInt();
+      //    Serial.print("Command: ");
+      //    Serial.println(instruction.command);
+      instruction.termNum = terminalString.toInt();
+      //      Serial.print("instruction.termNum:\"");
+      //      Serial.print(instruction.termNum);
+      //      Serial.println("\"");
+      sendInstruction(&instruction);
+      if(instruction.command == ping) {
+        waitingVersion = true;
+      }
     }
-  } else {  // if terminalString is a single remote terminal, Command to a single terminal
-    instruction.command = commandString.toInt();
-    //    Serial.print("Command: ");
-    //    Serial.println(instruction.command);
-    instruction.termNum = terminalString.toInt();
-    //      Serial.print("instruction.termNum:\"");
-    //      Serial.print(instruction.termNum);
-    //      Serial.println("\"");
-    sendInstruction(&instruction);
-    if(instruction.command == ping) {
-      waitingVersion = true;
+    if (instruction.command & sensorOnce) {
+      blinkStart(blinkPeriod);
+      blinkingLED = true;
     }
-  }
-  if (instruction.command & sensorOnce) {
-    blinkStart(blinkPeriod);
-    blinkingLED = true;
   }
   inputString = "";
 }

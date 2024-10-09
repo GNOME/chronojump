@@ -1,12 +1,19 @@
-The commands are sent to the usb serial to the controler.
+The instructions are sent through the usb serial to the controler.
 
-The commands can be sent to the controler itself, to on terminal or to all terminals
+An instruction consist of a destination and a command.
+
+The instructions can be sent to the controler itself, to a terminal or to all terminals
+
+Multiple instructions can be sent in one line.
+
+The format of the instructions are:
+[destination1]:[command1];[destination2]:[command2];[destination3]:[command3];...
 
 ###############
 ## CONTROLER ##
 ###############
 
-If the destination of the command is the controler itself the format must be:
+If the destination of the instruction is the controler itself the format must be:
 
 local:[command];
 
@@ -39,7 +46,7 @@ Examples:
 
 The commands to the terminal are sent through the controler with the usb serial. The format is as follows:
 
-[terminalNumber]:[decimalCommand];
+[terminal1]:[decimalCommand1];[terminal2]:[decimalCommand2];[terminal3]:[decimalCommand3];...
 
 command             Binary          Decimal     Action
 ------------------------------------------------------

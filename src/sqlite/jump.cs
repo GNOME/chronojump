@@ -64,7 +64,7 @@ class SqliteJump : Sqlite
 	/*
 	 * Jump class methods
 	 */
-	
+
 	//normal Chronojump call (will pass dbcmd to the insert.
 	//on SqliteFourPlatformsJumpsSimple it sends its SQLiteCommand to perform a transaction
 	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tv, double tc, double fall, double weight, string description, double angle, int simulated, string datetime)
@@ -100,6 +100,21 @@ class SqliteJump : Sqlite
 			Sqlite.Close();
 
 		return myLast;
+	}
+
+	//sqlite on mac arm64 on creation of jumps table put personID at the end. Doing this to know the pos of each col
+	//as is not efficient, doing out the reader.Read loop
+	private static Dictionary<string, int> readerOrdinals (SQLiteDataReader reader, List<string> columns_l)
+	{
+		Dictionary<string, int> di = new Dictionary<string, int> ();
+
+		foreach (string col in columns_l)
+			di.Add (col, reader.GetOrdinal(col));
+
+		//foreach(KeyValuePair<string, int> entry in di)
+		//	LogB.Information (string.Format ("key: {0}, value: {1}", entry.Key, entry.Value));
+
+		return di;
 	}
 
 	//like SelectJumps, but this returns a string[] :( better use below method if possible
@@ -143,7 +158,7 @@ class SqliteJump : Sqlite
 		if(limit > 0)
 			limitString = " LIMIT " + limit;
 
-		dbcmd.CommandText = "SELECT " + tp + ".name, jump.*, " + tps + ".weight " +
+		dbcmd.CommandText = "SELECT " + tp + ".name AS person_name, jump.*, " + tps + ".weight AS personSession_weight" +
 			" FROM " + tp + ", jump, " + tps + 
 			" WHERE " + tp + ".uniqueID = jump.personID " + 
 			filterSessionString +
@@ -161,28 +176,41 @@ class SqliteJump : Sqlite
 		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
+		Dictionary<string, int> colOrder_d = readerOrdinals (
+				reader,
+				new List<string> {
+					"person_name",
+					"uniqueID", "personID", "sessionID",
+					"type", "tv", "tc", "fall",
+					"weight", "description", "angle",
+					"simulated", "datetime",
+					"personSession_weight"
+				});
+
 		ArrayList myArray = new ArrayList(2);
 
 		int count = new int();
 		count = 0;
-		
+
 		while(reader.Read())
 		{
-			myArray.Add (reader[0].ToString() + ":" +	//person.name
-					reader[1].ToString() + ":" +	//jump.uniqueID
-					reader[2].ToString() + ":" + 	//jump.personID
-					reader[3].ToString() + ":" + 	//jump.sessionID
-					reader[4].ToString() + ":" + 	//jump.type
-					Util.ChangeDecimalSeparator(reader[5].ToString()) + ":" + 	//jump.tv
-					Util.ChangeDecimalSeparator(reader[6].ToString()) + ":" + 	//jump.tc
-					Util.ChangeDecimalSeparator(reader[7].ToString()) + ":" + 	//fall
-					Util.ChangeDecimalSeparator(reader[8].ToString()) + ":" + 	//weight
-					reader[9].ToString() + ":" +	//description
-					Util.ChangeDecimalSeparator(reader[10].ToString()) + ":" +	//angle
-					reader[11].ToString() + ":" +	//simulated
-					reader[12].ToString() + ":" + 	//datetime
-					reader[13].ToString() 		//person.weight
-					);
+			myArray.Add (
+					reader [colOrder_d["person_name"]].ToString () + ":" +
+					reader [colOrder_d["uniqueID"]].ToString () + ":" +
+					reader [colOrder_d["personID"]].ToString () + ":" +
+					reader [colOrder_d["sessionID"]].ToString () + ":" +
+					reader [colOrder_d["type"]].ToString () + ":" +
+					Util.ChangeDecimalSeparator (reader [colOrder_d["tv"]].ToString ()) + ":" +
+					Util.ChangeDecimalSeparator (reader [colOrder_d["tc"]].ToString ()) + ":" +
+					Util.ChangeDecimalSeparator (reader [colOrder_d["fall"]].ToString ()) + ":" +
+					Util.ChangeDecimalSeparator (reader [colOrder_d["weight"]].ToString ()) + ":" +
+					reader [colOrder_d["description"]].ToString () + ":" +
+					Util.ChangeDecimalSeparator (reader [colOrder_d["angle"]].ToString ()) + ":" +
+					reader [colOrder_d["simulated"]].ToString () + ":" +
+					reader [colOrder_d["datetime"]].ToString () + ":" +
+					reader [colOrder_d["personSession_weight"]].ToString ()
+				    );
+
 			count ++;
 		}
 
@@ -523,26 +551,30 @@ class SqliteJump : Sqlite
 	  List<Jump> jmp_l = new List<Jump>();
 	  Jump jmp;
 
+	  Dictionary<string, int> colOrder_d = readerOrdinals (
+			  reader,
+			  new List<string> {
+			  "uniqueID", "personID", "sessionID",
+			  "type", "tv", "tc", "fall",
+			  "weight", "description", "angle",
+			  "simulated", "datetime",
+			  });
+
 	  //LogB.Information("Imprimire Jumps:");
 	  while(reader.Read()) {
 		  jmp = new Jump (
-				  Convert.ToInt32(reader[0].ToString()),              //uniqueID
-				  Convert.ToInt32(reader[1].ToString()),	            //personID
-				  Convert.ToInt32(reader[2].ToString()),	            //sessionID
-				  reader[3].ToString(),                               //type
-				  Convert.ToDouble(Util.ChangeDecimalSeparator(
-						  reader[4].ToString())),                         //tv
-				  Convert.ToDouble(Util.ChangeDecimalSeparator(
-						  reader[5].ToString())),                          //tc
-				  Convert.ToDouble(Util.ChangeDecimalSeparator(
-						  reader[6].ToString())),                          //fall
-				  Convert.ToDouble(Util.ChangeDecimalSeparator(
-						  reader[7].ToString())),                        //weight
-				  reader[8].ToString(),                                // description
-				  Convert.ToDouble(Util.ChangeDecimalSeparator(
-						  reader[9].ToString())),                          //angle
-				  Convert.ToInt32(reader[10].ToString()),              //simulated
-				  reader[11].ToString()                               //datetime
+				  Convert.ToInt32 (reader [colOrder_d["uniqueID"]].ToString ()),
+				  Convert.ToInt32 (reader [colOrder_d["personID"]].ToString ()),
+				  Convert.ToInt32 (reader [colOrder_d["sessionID"]].ToString ()),
+				  reader [colOrder_d["type"]].ToString (),
+				  Convert.ToDouble (Util.ChangeDecimalSeparator (reader [colOrder_d["tv"]].ToString ())),
+				  Convert.ToDouble (Util.ChangeDecimalSeparator (reader [colOrder_d["tc"]].ToString ())),
+				  Convert.ToDouble (Util.ChangeDecimalSeparator (reader [colOrder_d["fall"]].ToString ())),
+				  Convert.ToDouble (Util.ChangeDecimalSeparator (reader [colOrder_d["weight"]].ToString ())),
+				  reader [colOrder_d["description"]].ToString (),
+				  Convert.ToDouble (Util.ChangeDecimalSeparator (reader [colOrder_d["angle"]].ToString ())),
+				  Convert.ToInt32 (reader [colOrder_d["simulated"]].ToString ()),
+				  reader [colOrder_d["datetime"]].ToString ()
 				 );
 
 		  //jumps previous to DB 1.82 have no datetime on jump

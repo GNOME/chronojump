@@ -9875,6 +9875,7 @@ LogB.Debug("mc finished 5");
 	{
 		box_session_more_this_session.Sensitive = option;
 		button_menu_session_export.Sensitive = option;
+		button_menu_session_import_from_csv.Sensitive = option;
 	}
 	
 	private void menuPersonSelectedSensitive(bool option)

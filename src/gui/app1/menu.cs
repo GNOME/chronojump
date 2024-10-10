@@ -469,6 +469,7 @@ public partial class ChronoJumpWindow
 		app1s_label_session_set_name();
 		//do not allow to export session SIMULATED because it could also not be imported
 		button_menu_session_export.Sensitive = (currentSession != null && currentSession.Name != Constants.SessionSimulatedName);
+		button_menu_session_import_from_csv.Sensitive = (currentSession != null && currentSession.Name != Constants.SessionSimulatedName);
 	}
 
 	private void connectWidgetsMenu (Gtk.Builder builder)

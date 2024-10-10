@@ -26,7 +26,7 @@
 #include <TimerOne.h>
 
 // The first number refers to the hardware version. The seccond to firmware version for this hardware
-String version = "Wifi-Controller-4.1"; //"Wifi-Controller-" is mandatori. Chronojump expects it
+String version = "Wifi-Controller-4.2"; //"Wifi-Controller-" is mandatori. Chronojump expects it
 
 
 //
@@ -114,6 +114,8 @@ unsigned long startTime;      //local time when the reset_time function is execu
 unsigned long lastSampleTime; //local time at which some sample has been received without overflow correction
 unsigned long totalTime;      //Total elapsed time since startTime
 
+// unsigned long responseTime = 0;  //For testing response time in a ping
+
 bool waitingVersion = false;
 
 void setup(void)
@@ -159,8 +161,7 @@ void setup(void)
   //  Serial.println(controlSwitch);
 
   radio.begin();
-  radio.setRetries(15, 1); //this is working flawlessly, at least in short distance
-  //radio.setRetries(15, 15); //this is supposedly to fix when there's lot of distance
+  radio.setRetries(1, 15); // Delay and maximum retries. 0.250*(1 + delay) microseconds of delay between retries.
 
   //maximum 125 channels. cell phone and wifi uses 2402-2472. Free from channel 73 to channel 125. Each channels is 1Mhz separated
   radio.setChannel(control0Channel - controlSwitch);
@@ -245,7 +246,6 @@ void serialEvent()
     String commandString = currentInstruction.substring(separatorPosition + 1, currentInstruction.lastIndexOf(";"));
     // Serial.print("commandString: \"");
     // Serial.println(commandString);
-
     if (terminalString == "all")  //The command is sent to all the terminals
     {
       activateAll(instruction.command);
@@ -279,7 +279,10 @@ void serialEvent()
       //      Serial.print("instruction.termNum:\"");
       //      Serial.print(instruction.termNum);
       //      Serial.println("\"");
+
+      // responseTime = micros();   // For testing response time in a ping
       sendInstruction(&instruction);
+      //delay(10);
       if(instruction.command == ping) {
         waitingVersion = true;
       }
@@ -421,6 +424,12 @@ bool readSample(void) {
     radio.read(  &sample, sample_size);
     readed = true;
     blinkStop();
+
+    // Testing the response time in a ping
+    // responseTime = micros() - responseTime;
+    // if (responseTime > 1000) {
+    //   Serial.println(responseTime);
+    // }
     printSample();
   }
 

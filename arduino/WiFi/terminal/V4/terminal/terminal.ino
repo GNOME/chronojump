@@ -27,7 +27,7 @@
 #include <TimerOne.h>
 
 unsigned int deviceType = 1; //Photocel and LightChro sensor
-unsigned int deviceVersion = 16;
+unsigned int deviceVersion = 17;
 //
 // Hardware configuration
 
@@ -134,6 +134,7 @@ void setup(void)
   Serial.println(deviceVersion);
 
   radio.begin();
+  radio.setRetries(1, 15);
 
   //Reading each pin to stablish the terminal number and the listening channel
 
@@ -406,9 +407,7 @@ void executeCommand(uint16_t command)
 
     if ((command & ping) == ping) {
       sample.state = digitalRead(2);
-      //radio.setRetries(15, 15);
       sendPong();
-      //radio.setRetries(5, 15);
     }
   }
 }

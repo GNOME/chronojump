@@ -102,21 +102,6 @@ class SqliteJump : Sqlite
 		return myLast;
 	}
 
-	//sqlite on mac arm64 on creation of jumps table put personID at the end. Doing this to know the pos of each col
-	//as is not efficient, doing out the reader.Read loop
-	private static Dictionary<string, int> readerOrdinals (SQLiteDataReader reader, List<string> columns_l)
-	{
-		Dictionary<string, int> di = new Dictionary<string, int> ();
-
-		foreach (string col in columns_l)
-			di.Add (col, reader.GetOrdinal(col));
-
-		//foreach(KeyValuePair<string, int> entry in di)
-		//	LogB.Information (string.Format ("key: {0}, value: {1}", entry.Key, entry.Value));
-
-		return di;
-	}
-
 	//like SelectJumps, but this returns a string[] :( better use below method if possible
 	//if all sessions, put -1 in sessionID
 	//if all persons, put -1 in personID

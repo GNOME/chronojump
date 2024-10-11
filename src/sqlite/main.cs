@@ -3910,8 +3910,16 @@ class Sqlite
 	}
 
 	/*
-	 * sqlite on mac arm64 on creation of jumps table put personID at the end. Doing this to know the pos of each col
-	 * as is not efficient, doing out the reader.Read loop
+	 * sqlite on mac arm64 found on creation of jumps table on one computer personID column is last column.
+	 * On other computer was correct. So the problem seems to happen randomly (and maybe on whatever table).
+	 * Problem is when doing:
+	 * 	jump.* 		search "\.\*"
+	 * 	* from jump	search "* FROM ", "* from "
+	 * as the order could be different than expected
+	 * when doing SELECT jump.personID, jump.sessionID, ... there is no problem at all
+	 *
+	 * On the SELECTS with * do this to know the pos of each col.
+	 * Is done here (and not inside the reader.Read loop) to be more efficient
 	 */
 	protected static Dictionary<string, int> readerOrdinals (SQLiteDataReader reader, List<string> columns_l)
 	{
@@ -3920,8 +3928,10 @@ class Sqlite
 		foreach (string col in columns_l)
 			di.Add (col, reader.GetOrdinal(col));
 
-		//foreach(KeyValuePair<string, int> entry in di)
-		//	LogB.Information (string.Format ("key: {0}, value: {1}", entry.Key, entry.Value));
+		/*
+		foreach(KeyValuePair<string, int> entry in di)
+			LogB.Information (string.Format ("key: {0}, value: {1}", entry.Key, entry.Value));
+		*/
 
 		return di;
 	}

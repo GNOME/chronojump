@@ -425,10 +425,9 @@ class SqliteJump : Sqlite
 
 		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
-		reader.Read();
 
-		Jump myJump = new Jump(DataReaderToStringArray(reader, 12));
-	
+		Jump myJump = DataReaderToJump (reader)[0];
+
 		reader.Close();
 		
 		if(!dbconOpened)
@@ -526,6 +525,12 @@ class SqliteJump : Sqlite
 		return l;
 	}
 
+	private static List<Jump> DataReaderToJump (SQLiteDataReader reader)
+	{
+		return DataReaderToJump (reader,
+				null,	//we do not care here by the session_l (datetime)
+				new List<Person> (), false);
+	}
 	private static List<Jump> DataReaderToJump (SQLiteDataReader reader, List<Session> session_l)
 	{
 		return DataReaderToJump (reader, session_l, new List<Person> (), false);
@@ -564,7 +569,7 @@ class SqliteJump : Sqlite
 
 		  //jumps previous to DB 1.82 have no datetime on jump
 		  //find session datetime for that jumps
-		  if(jmp.Datetime == "")
+		  if(session_l != null && jmp.Datetime == "")
 		  {
 			  bool found = false;
 			  foreach(Session session in session_l)

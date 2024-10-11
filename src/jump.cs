@@ -57,7 +57,11 @@ public class Jump : Event
 		this.datetime = datetime;
 	}
 
-	//used to select a jump at SqliteJump.SelectJumpData and at Sqlite.converTables
+	/*
+	 * used to select a jump at old Sqlite.converTables
+	 * converTables was last used on DB .79 (2010)
+	 * it is not being updated to use readerOrdinal to fix mac arm problems
+	 */
 	public Jump(string [] eventString)
 	{
 		this.uniqueID = Convert.ToInt32(eventString[0]);

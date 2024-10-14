@@ -141,7 +141,7 @@ public class DiscoverWindow
 	private Gtk.Label label_button_micro_discover_cancel_close;
 	private Gtk.Image image_discover_mode;
 	private Gtk.Label label_micro_discover_connect_error;
-	private string useThisStr = "Use this!";
+	private string useThisStr = "Select!";
 
 	private ChronopicRegisterPort portSelected;
 
@@ -297,7 +297,7 @@ public class DiscoverWindow
 		}
 
 		Gtk.Label label = new Gtk.Label (); //used on NC and ----
-		Gtk.Button b = new Gtk.Button (); //used on Use this!
+		Gtk.Button b = new Gtk.Button (); //used on Select!
 		Gtk.Box box_b_label = new Gtk.Box (Gtk.Orientation.Horizontal, 0);
 
 		if (alreadyDiscovered)
@@ -570,7 +570,7 @@ public class DiscoverWindow
 		get { return chronopicRegister; }
 	}
 
-	//the port that user clicked on "Use this!"
+	//the port that user clicked on "Select!"
 	public ChronopicRegisterPort PortSelected {
 		get { return portSelected; }
 	}

@@ -65,6 +65,7 @@ public class Config
 		CanOpenExternalDB, ExternalDBDefaultPath, //externalDB
 		LastDBFullPath, //cloud & externalDB
 		JsonUploadNeedsButton, JsonUploadJumpSimpleTestScript, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, CanInsertTests, //json upload
+		RemoteTestJumpSimpleFile, RemoteTestRunIntervalFile, //remote execution
 		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, GuiTest, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
@@ -76,6 +77,7 @@ public class Config
 	public static string OpEnum1stExternalDB = OpEnum.CanOpenExternalDB.ToString ();
 	public static string OpEnum1stCloudAndExternalDB = OpEnum.LastDBFullPath.ToString ();
 	public static string OpEnum1stJsonUpload = OpEnum.JsonUploadNeedsButton.ToString ();
+	public static string OpEnum1stRemoteTest = OpEnum.RemoteTestJumpSimpleFile.ToString ();
 	public static string OpEnum1stOther = OpEnum.SessionMode.ToString ();
 	public static string OpEnum1stOutdated = OpEnum.Exhibition.ToString ();
 
@@ -161,6 +163,14 @@ public class Config
 	}
 	public bool CanInsertTests {
 		get { return configList.GetBool (OpEnum.CanInsertTests); }
+	}
+
+	//remoteTest
+	public string RemoteTestJumpSimpleFile {
+		get { return configList.GetString (OpEnum.RemoteTestJumpSimpleFile); }
+	}
+	public string RemoteTestRunIntervalFile {
+		get { return configList.GetString (OpEnum.RemoteTestRunIntervalFile); }
 	}
 
 	// other
@@ -505,6 +515,8 @@ public class ConfigList
 				str += "\n\nCloud & externalDB:";
 			else if (co.Name == Config.OpEnum1stJsonUpload)
 				str += "\n\nJson upload:";
+			else if (co.Name == Config.OpEnum1stRemoteTest)
+				str += "\n\nRemote test:";
 			else if (co.Name == Config.OpEnum1stOther)
 				str += "\n\nOther:";
 			else if (co.Name == Config.OpEnum1stOutdated)
@@ -600,17 +612,24 @@ public class ConfigList
 		list.Add (new ConfigOptionBool (Config.OpEnum.JsonUploadNeedsButton,
 					"TRUE: Need to press a button to json upload a test. FALSE (default): It uploads automatically at capture end."));
 		list.Add (new ConfigOptionString (Config.OpEnum.JsonUploadJumpSimpleTestScript,
-					"Path to JsonUploadJumpSimpleTestScript."));
+					"Full URL to JsonUploadJumpSimpleTestScript."));
 		list.Add (new ConfigOptionString (Config.OpEnum.JsonUploadRunSimpleTestScript,
-					"Path to JsonUploadRunSimpleTestScript."));
+					"Full URL to JsonUploadRunSimpleTestScript."));
 		list.Add (new ConfigOptionString (Config.OpEnum.JsonUploadRunSimpleRankingScript,
-					"Path to JsonUploadRunSimpleRankingScript."));
+					"Full URL to JsonUploadRunSimpleRankingScript."));
 		list.Add (new ConfigOptionString (Config.OpEnum.JsonUploadRunIntervalTestScript,
-					"Path to JsonUploadRunIntervalTestScript."));
+					"Full URL to JsonUploadRunIntervalTestScript."));
 		list.Add (new ConfigOptionString (Config.OpEnum.JsonUploadRunIntervalRankingScript,
-					"Path to JsonUploadRunIntervalRankingScript."));
+					"Full URL to JsonUploadRunIntervalRankingScript."));
 		list.Add (new ConfigOptionBool (Config.OpEnum.CanInsertTests,
 					"TRUE: A grid is displayed to be able to directly insert a test (implemented on run simple/multiple), it also can upload the test."));
+
+		//remote test
+		list.Add (new ConfigOptionString (Config.OpEnum.RemoteTestJumpSimpleFile,
+					"Full URL to the file created as a flag to execute a jump simple."));
+		list.Add (new ConfigOptionString (Config.OpEnum.RemoteTestRunIntervalFile,
+					"Full URL to the file created as a flag to execute a run multiple (intervallic)."));
+
 		// other
 		list.Add (new ConfigOptionEnum (Config.OpEnum.SessionMode,
 					"STANDARD (default), or UNIQUE or MONTHLY",

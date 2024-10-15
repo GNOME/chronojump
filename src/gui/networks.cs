@@ -47,7 +47,7 @@ public partial class ChronoJumpWindow
 
 	Gtk.Label label_logout_seconds;
 	Gtk.Label label_logout_seconds_encoder;
-	
+
 	//better raspberry controls
 	Gtk.HBox hbox_sessions_raspberry;
 	Gtk.HBox hbox_persons_raspberry;
@@ -121,6 +121,10 @@ public partial class ChronoJumpWindow
 	private CompujumpAutologout compujumpAutologout;
 
 	private static RFIDWaitingAdminGuiObjects rfidWaitingAdminGuiObjects;
+
+	RemoteTest remoteTest;
+	static Thread threadRemoteTest;
+	private static bool remoteTestCallNow;
 
 	DialogPersonPopup dialogPersonPopup;
 		
@@ -396,6 +400,20 @@ public partial class ChronoJumpWindow
 			}
 		}
 
+		if (configChronojump.RemoteTestJumpSimpleFile != "" || configChronojump.RemoteTestRunIntervalFile != "")
+		{
+			remoteTest = new RemoteTest (current_mode, configChronojump.RemoteTestJumpSimpleFile, configChronojump.RemoteTestRunIntervalFile);
+
+			//"Call" because it will be called by the main thread (pulseRemoteTestCheck)
+			remoteTest.FakeButtonDo.Clicked += new EventHandler (remoteTestCall);
+
+			threadRemoteTest = new Thread (new ThreadStart (remoteTestCheckStart));
+			GLib.Idle.Add (new GLib.IdleHandler (pulseRemoteTestCheck));
+
+			LogB.ThreadStart();
+			threadRemoteTest.Start();
+		}
+
 		configDo();
 		ChronojumpWindowCont ();
 	}
@@ -463,6 +481,41 @@ public partial class ChronoJumpWindow
 		shouldShowRFIDDisconnected = true;
 		rfidProcessCancel = true;
 	}
+
+	// ----remote test ---->
+	private void remoteTestCheckStart () //no gui here
+	{
+		remoteTest.CheckFileCreation ();
+	}
+	private void remoteTestCall (object o, EventArgs e) //no gui here
+	{
+		remoteTestCallNow = true;
+	}
+	private bool pulseRemoteTestCheck ()
+	{
+		if(! threadRemoteTest.IsAlive)
+		{
+			LogB.ThreadEnding();
+			LogB.ThreadEnded();
+			return false;
+		}
+
+		if (currentSession == null || currentPerson == null)
+			return true;
+
+		//execute test if needed
+		if (remoteTestCallNow &&
+				(current_mode == Constants.Modes.JUMPSSIMPLE ||
+				 current_mode == Constants.Modes.RUNSINTERVALLIC))
+		{
+			remoteTestCallNow = false;
+			button_execute_test.Click ();
+		}
+
+		Thread.Sleep (100);
+		return true;
+	}
+	// <---- remote test ----
 
 	/*
 	 * this controls what is going to be done at en the copying thread

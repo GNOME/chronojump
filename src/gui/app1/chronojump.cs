@@ -3162,6 +3162,12 @@ public partial class ChronoJumpWindow
 			}
 		}
 
+		if (threadRemoteTest != null && threadRemoteTest.IsAlive)
+		{
+			LogB.Information("Closing threadRemoteTest");
+			remoteTest.Stop ();
+		}
+
 		if(threadImport != null && threadImport.IsAlive)
 		{
 			LogB.Information("Closing threadImport");
@@ -4726,6 +4732,8 @@ public partial class ChronoJumpWindow
 
 		setLabelContactsExerciseSelectedOptions();
 
+		if (remoteTest != null)
+			remoteTest.Current_mode = current_mode;
 	}
 
 	private void showMacRInstallMessage ()
@@ -6275,6 +6283,9 @@ public partial class ChronoJumpWindow
 		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
 		//this has to be after webcamRecordEnd in order to see if video is created
 		showHideActionEventButtons(true); //show
+
+		if (remoteTest != null && configChronojump.RemoteTestJumpSimpleFile != "")
+			remoteTest.Captured (configChronojump.RemoteTestJumpSimpleFile);
 	}
 
 	private void chronopicDisconnectedWhileExecuting() {
@@ -7086,6 +7097,9 @@ public partial class ChronoJumpWindow
 
 		if(compujumpAutologout != null)
 			compujumpAutologout.EndCapturingRunInterval();
+
+		if (remoteTest != null && configChronojump.RemoteTestRunIntervalFile != "")
+			remoteTest.Captured (configChronojump.RemoteTestRunIntervalFile);
 	}
 
 	private void calculateSprintAndUpload()

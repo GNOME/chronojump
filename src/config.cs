@@ -626,9 +626,9 @@ public class ConfigList
 
 		//remote test
 		list.Add (new ConfigOptionString (Config.OpEnum.RemoteTestJumpSimpleFile,
-					"Full URL to the file created as a flag to execute a jump simple."));
+					"Full URL to the file created as a flag to execute a jump simple. When test is done a file will be created with the same name + 'Done'"));
 		list.Add (new ConfigOptionString (Config.OpEnum.RemoteTestRunIntervalFile,
-					"Full URL to the file created as a flag to execute a run multiple (intervallic)."));
+					"Full URL to the file created as a flag to execute a run multiple (intervallic). When test is done a file will be created with the same name + 'Done'"));
 
 		// other
 		list.Add (new ConfigOptionEnum (Config.OpEnum.SessionMode,

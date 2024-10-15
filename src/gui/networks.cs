@@ -125,6 +125,7 @@ public partial class ChronoJumpWindow
 	RemoteTest remoteTest;
 	static Thread threadRemoteTest;
 	private static bool remoteTestCallNow;
+	private static string remoteTestTestName;
 
 	DialogPersonPopup dialogPersonPopup;
 		
@@ -489,6 +490,7 @@ public partial class ChronoJumpWindow
 	}
 	private void remoteTestCall (object o, EventArgs e) //no gui here
 	{
+		remoteTestTestName = remoteTest.RemoteTestTestName;
 		remoteTestCallNow = true;
 	}
 	private bool pulseRemoteTestCheck ()
@@ -509,6 +511,12 @@ public partial class ChronoJumpWindow
 				 current_mode == Constants.Modes.RUNSINTERVALLIC))
 		{
 			remoteTestCallNow = false;
+
+			if (current_mode == Constants.Modes.JUMPSSIMPLE &&
+					remoteTestTestName != "" &&
+					comboSelectJumps.EntryExistsByName (remoteTestTestName))
+				combo_select_jumps = comboSelectJumps.SelectByName (remoteTestTestName);
+
 			button_execute_test.Click ();
 		}
 

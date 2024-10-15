@@ -25,6 +25,7 @@ public class RemoteTest
 	private Constants.Modes current_mode;
 	private string jumpSimpleFile;
 	private string runIntervalFile;
+	private string remoteTestTestName;
 	private bool remoteTestDoing; //to just send the signal one time
 	private bool stop; //to end thread on Chronojump exit
 
@@ -37,6 +38,7 @@ public class RemoteTest
 		this.jumpSimpleFile = jumpSimpleFile;
 		this.runIntervalFile = runIntervalFile;
 
+		remoteTestTestName = "";
 		remoteTestDoing = false;
 		stop = false;
 	
@@ -56,6 +58,10 @@ public class RemoteTest
 						! File.Exists (jumpSimpleFile + "Done")) //just be careful
 				{
 					remoteTestDoing = true;
+					remoteTestTestName = "";
+					if (Util.FileReadable (jumpSimpleFile))
+						remoteTestTestName = Util.ReadFile (jumpSimpleFile, true);
+
 					fakeButtonDo.Click ();
 				}
 				else if (current_mode == Constants.Modes.RUNSINTERVALLIC &&
@@ -93,6 +99,11 @@ public class RemoteTest
 	public Gtk.Button FakeButtonDo
 	{
 		get { return fakeButtonDo; }
+	}
+
+	public string RemoteTestTestName
+	{
+		get { return remoteTestTestName; }
 	}
 
 }

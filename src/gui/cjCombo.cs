@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2016-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2016-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -183,7 +183,7 @@ public class CjCombo
 		return "";
 	}
 	
-	public Gtk.ComboBoxText SelectById(int id)
+	public Gtk.ComboBoxText SelectById (int id)
 	{
 		int pos = 0;
 		foreach(SelectTypes type in l_types) 
@@ -198,6 +198,32 @@ public class CjCombo
 		}
 
 		return combo;
+	}
+
+	public Gtk.ComboBoxText SelectByName (string nameEnglish)
+	{
+		int pos = 0;
+		foreach(SelectTypes type in l_types)
+		{
+			if(type.NameEnglish == nameEnglish)
+			{
+				combo.Active = pos;
+				break;
+			}
+
+			pos ++;
+		}
+
+		return combo;
+	}
+
+	public bool EntryExistsByName (string nameEnglish)
+	{
+		foreach(SelectTypes type in l_types)
+			if(type.NameEnglish == nameEnglish)
+				return true;
+
+		return false;
 	}
 
 	public string GetNameTranslated(string nameEnglish)

@@ -49,6 +49,7 @@ RF24 radio(10, 9);       //New version
 #define GREEN_PIN A3
 #define BLUE_PIN A4
 #define BUZZER_PIN A0
+#define BATTERY_PIN A6
 #define red_on digitalWrite(RED_PIN,LOW)
 #define green_on digitalWrite(GREEN_PIN,LOW)
 #define blue_on digitalWrite(BLUE_PIN,LOW)
@@ -67,6 +68,7 @@ struct instruction_t
 // binary commands: each bit represents RED, GREEN, BLUE, BUZZER, BLINK_RED, BLINK_GREEN, BLINK_BLUE, SENSOR
 // 1 means ON
 // 0 means OFF
+const uint16_t batteryLevel  = 0b10000000000; //1024
 const uint16_t ping           = 0b1000000000; //512
 const uint16_t sensorUnlimited = 0b100000000; //256
 const uint16_t red =              0b10000000; //128
@@ -133,6 +135,7 @@ void setup(void)
   Serial.print("Wifi-Sensor-");
   Serial.println(deviceVersion);
 
+  pinMode(BATTERY_PIN, INPUT);
   radio.begin();
   radio.setRetries(1, 15);
 
@@ -258,10 +261,10 @@ void loop(void)
   {
     radio.read(  &instruction, size_instruction);
     radio.stopListening();
-//    delay(100);
-//    Serial.print("Command received: ");
-//    Serial.println(instruction.command);
-//    radio.flush_rx();
+    // delay(100);
+    // Serial.print("Command received: ");
+    // Serial.println(instruction.command);
+    // radio.flush_rx();
 
     if (instruction.termNum == sample.termNum)
     {
@@ -270,6 +273,7 @@ void loop(void)
 
     radio.startListening();
   }
+
 }
 
 void sendSample(void) {
@@ -409,6 +413,10 @@ void executeCommand(uint16_t command)
       sample.state = digitalRead(2);
       sendPong();
     }
+
+    if (( (command & batteryLevel) == batteryLevel)) {
+      sendBatteryLevel();
+    }
   }
 }
 
@@ -484,7 +492,7 @@ void sendPong(void) {
   flagint = LOW;
   if (! unlimitedMode) waitingSensor = false;
   radio.setChannel(terminal0Channel - sample.termNum);
-  //radio.startListening();
+  radio.startListening();
   buzzer_on;
   blinkingGreen = true;
   blinkStart(75);
@@ -493,4 +501,23 @@ void sendPong(void) {
   // TODO: Return to the state before the ping
   buzzer_off;
   blinkingGreen = false;
+}
+
+void sendBatteryLevel() {
+  int batteryValue = 0;
+  for (int i = 0; i<10; i++) {
+    batteryValue += analogRead(BATTERY_PIN);
+    delay (100);
+  }
+  batteryValue = batteryValue / 10;
+  batteryValue = map(batteryValue,600,790, 0, 100);
+  if (batteryValue < 0) batteryValue = 0;
+  if (batteryValue > 100) batteryValue = 100;
+  sample.data = (unsigned long int)batteryValue;
+  radio.stopListening();
+  radio.setChannel(control0Channel - controlSwitch);
+  radio.write( &sample, sample_size);
+  radio.setChannel(terminal0Channel - sample.termNum);
+  radio.startListening();
+  // Serial.println(sample.data);
 }

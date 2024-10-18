@@ -67,6 +67,7 @@ int blinkPeriod = 75; //Time between two consecutives rising flank of the LED
 // binary commands: each bit represents RED, GREEN, BLUE, BUZZER, BLINK_RED, BLINK_GREEN, BLINK_BLUE, SENSOR
 // 1 means ON
 // 0 means OFF
+const uint16_t batteryLevel  = 0b10000000000; //1024
 const uint16_t ping           = 0b1000000000; //512
 const uint16_t sensorUnlimited = 0b100000000; //256
 const uint16_t red =              0b10000000; //128
@@ -116,7 +117,7 @@ unsigned long totalTime;      //Total elapsed time since startTime
 
 // unsigned long responseTime = 0;  //For testing response time in a ping
 
-bool waitingVersion = false;
+bool waitingData = false;
 
 void setup(void)
 {
@@ -196,6 +197,13 @@ void setup(void)
 void loop(void)
 {
   readSample();
+  // if (batteryTimer > 2000) {
+  //   instruction.command = 1024;
+  //   instruction.termNum = 1;
+  //   sendInstruction(&instruction);
+  //   waitingData = true;
+  //   batteryTimer = 0;
+  // }
 }
 
 
@@ -283,8 +291,8 @@ void serialEvent()
       // responseTime = micros();   // For testing response time in a ping
       sendInstruction(&instruction);
       //delay(10);
-      if(instruction.command == ping) {
-        waitingVersion = true;
+      if((instruction.command == ping) ||  (instruction.command == batteryLevel) ) {
+        waitingData = true;
       }
     }
     if (instruction.command & sensorOnce) {
@@ -400,7 +408,7 @@ void discoverTerminals(int maxTries) {
       radio.flush_tx();
       radio.flush_rx();
       instruction.termNum = i;
-      waitingVersion = true;
+      waitingData = true;
       sendInstruction(&instruction);
 
       delay(5);
@@ -413,7 +421,7 @@ void discoverTerminals(int maxTries) {
     //    Serial.println();
   }
   Serial.println(terminalsFound);
-  waitingVersion = false;
+  waitingData = false;
 }
 
 bool readSample(void) {
@@ -450,11 +458,12 @@ void printSample() {
     Serial.print(totalTime);
     Serial.print(";");
     Serial.print(sample.state);
-    if(waitingVersion) {
+    if(waitingData) {
       Serial.print(";");
       Serial.print(sample.data);
-      waitingVersion = false;
+      waitingData = false;
     }
+
     Serial.println();
   } else {
     Serial.write((byte*)&sample, sample_size);

@@ -3152,7 +3152,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		//LogB.Information(string.Format("sumSaved: {0}, countSaved: {1}, div: {2}", sumSaved, countSaved, sumSaved / countSaved));
 
 		//add avg and avg of saved values
-		titleStr = pegbe.mainVariable + " [X: " +
+		titleStr = Catalog.GetString (pegbe.mainVariable) + " [X: " +
 			Util.TrimDecimals( (sumValid / countValid), decimals) +
 			" " + units + "; ";
 

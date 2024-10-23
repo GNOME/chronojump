@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -137,6 +137,17 @@ public class Util
 		return l;
 	}
 
+	public static List<double> SQLStringToListDouble (string sqlString, string sep)
+	{
+		List<double> l = new List<double>();
+		string [] strFull = sqlString.Split(sep.ToCharArray());
+		foreach(string str in strFull)
+			if(IsNumber(str, true))
+				l.Add(Convert.ToDouble(str));
+
+		return l;
+	}
+
 	public static string ListDoubleToString (List<double> d_l, int decs, string sep)
 	{
 		string str = "";
@@ -237,6 +248,19 @@ public class Util
 		}
 		return max ; 
 	}
+	public static double GetMax (List<double> values)
+	{
+		double max = 0;
+		bool firstValue = true;
+		foreach (double d in values)
+		{
+			if (firstValue || d > max)
+				max = d;
+
+			firstValue = false;
+		}
+		return max;
+	}
 	
 	//don't use if there are no jumps, then the big value 999999999 could return
 	public static double GetMin (string values)
@@ -249,6 +273,19 @@ public class Util
 			}
 		}
 		return min ; 
+	}
+	public static double GetMin (List<double> values)
+	{
+		double min = 0;
+		bool firstValue = true;
+		foreach (double d in values)
+		{
+			if (firstValue || d < min)
+				min = d;
+
+			firstValue = false;
+		}
+		return min;
 	}
 	
 	public static double GetAverage (List<double> values)

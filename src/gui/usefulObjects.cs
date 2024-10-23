@@ -163,6 +163,7 @@ public class PrepareEventGraphJumpReactive
 
 	public double personMINAtSQL;
 	public double sessionMINAtSQL;
+	public bool showHeights; //if showHeights graph falling height and jump height
 	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
 
 	public PrepareEventGraphJumpReactive () {
@@ -172,11 +173,12 @@ public class PrepareEventGraphJumpReactive
 	//personID we need to the personsMAX/AVG sql calls
 	//type can be "" for all jumps, then write it under bar
 	public PrepareEventGraphJumpReactive (
-			int sessionID, int personID, bool allPersons, int limit, string type, int selectedID)
+			int sessionID, int personID, bool allPersons, int limit, string type, bool showHeights, int selectedID)
 	{
 		// 1) assign variables
 		this.type = type;
 		this.selectedID = selectedID;
+		this.showHeights = showHeights;
 
 		Sqlite.Open(); // ----------------->
 
@@ -187,24 +189,56 @@ public class PrepareEventGraphJumpReactive
 		jumpsAtSQL = SqliteJumpRj.SelectJumps (true, sessionID, personIDTemp, type,
 				Sqlite.Orders_by.ID_ASC, limit, allPersons); 	//show names on comments only if "all persons"
 
-		// sum of each subjump
-		//string sqlSelect = "tvAvg*jumps";
-		// avg of each subjump
-		string sqlSelect = "tvAvg";
 
-		string table = Constants.JumpRjTable;
+		//as height is quadratic vs tv, we need to calculate height of each of the subjumps, cannot do it directly from sql (as its an string)
+		if (showHeights)
+		{
+			List<JumpRj> jumpsAtSQLWithoutLimit = SqliteJumpRj.SelectJumps (true, sessionID, personIDTemp, type,
+					Sqlite.Orders_by.ID_ASC, 0, allPersons); 	//show names on comments only if "all persons"
 
-		List<double> personStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
-				true, sessionID, personID, table, type, sqlSelect);
-		personMAXAtSQL = personStats[0];
-		personAVGAtSQL = personStats[1];
-		personMINAtSQL = personStats[2];
+			//note falls should be also counted, but all falls are just heights except the last one.
+			//TODO: and we need to add first fall (selected from the software) (if is > 0)
+			List<double> personHeights_l = new List<double> ();
+			List<double> sessionHeights_l = new List<double> ();
 
-		List<double> sessionStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
-				true, sessionID, -1, table, type, sqlSelect);
-		sessionMAXAtSQL = sessionStats[0];
-		sessionAVGAtSQL = sessionStats[1];
-		sessionMINAtSQL = sessionStats[2];
+			foreach (JumpRj jumpRj in jumpsAtSQLWithoutLimit)
+			{
+				double heightAvg = Util.GetAverage (jumpRj.HeightList);
+				if (jumpRj.PersonID == personIDTemp)
+					personHeights_l.Add (heightAvg);
+
+				sessionHeights_l.Add (heightAvg);
+			}
+
+			personMAXAtSQL = Util.GetMax (personHeights_l);
+			personAVGAtSQL = Util.GetAverage (personHeights_l);
+			personMINAtSQL = Util.GetMin (personHeights_l);
+
+			sessionMAXAtSQL = Util.GetMax (sessionHeights_l);
+			sessionAVGAtSQL = Util.GetAverage (sessionHeights_l);
+			sessionMINAtSQL = Util.GetMin (sessionHeights_l);
+		}
+		else
+		{
+			// sum of each subjump
+			//string sqlSelect = "tvAvg*jumps";
+			// avg of each subjump
+			string sqlSelect = "tvAvg";
+
+			string table = Constants.JumpRjTable;
+
+			List<double> personStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
+					true, sessionID, personID, table, type, sqlSelect);
+			personMAXAtSQL = personStats[0];
+			personAVGAtSQL = personStats[1];
+			personMINAtSQL = personStats[2];
+
+			List<double> sessionStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
+					true, sessionID, -1, table, type, sqlSelect);
+			sessionMAXAtSQL = sessionStats[0];
+			sessionAVGAtSQL = sessionStats[1];
+			sessionMINAtSQL = sessionStats[2];
+		}
 
 		Sqlite.Close(); // < -----------------
 	}

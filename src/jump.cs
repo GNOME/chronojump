@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -578,6 +578,16 @@ public class JumpRj : Jump
 		}
 	}
 
+	private double tcFirst
+	{
+		get {
+			if(tcList == null || tcList.Count == 0)
+				return 0;
+			else
+				return tcList[0];
+		}
+	}
+
 	public List<double> HeightList
 	{
 		get {
@@ -588,6 +598,23 @@ public class JumpRj : Jump
 				if(Util.IsNumber(Util.ChangeDecimalSeparator(str), true))
 					l.Add(Util.GetHeightInCentimeters(Convert.ToDouble(Util.ChangeDecimalSeparator(str))));
 			}
+			return l;
+		}
+	}
+
+	public List<double> FallList
+	{
+		get {
+			//get the heights
+			List<double> l = HeightList;
+
+			//insert a fall at position 0 (if started outside)
+			if (tcFirst > 0)
+				l.Insert (0, fall);
+
+			//delete the last flight time
+			l.RemoveAt (l.Count -1);
+
 			return l;
 		}
 	}

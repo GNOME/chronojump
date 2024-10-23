@@ -532,7 +532,12 @@ public partial class ChronoJumpWindow
 	{
 		// Paint cairo graph
 		cairoPaintBarsPre.ShowPersonNames = radio_contacts_results_personAll.Active;
-		//cairoPaintBarsPre.UseHeights = useHeights;
+
+		bool useHeights = false;
+		if (eventGraph != null && eventGraph.showHeights)
+			useHeights = true;
+
+		cairoPaintBarsPre.UseHeights = useHeights;
 
 		cairoPaintBarsPre.Paint();
 	}
@@ -1751,10 +1756,17 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 	{
 		cb = new CairoBarsNHSeries (darea, CairoBars.Type.NORMAL, true, true, true, true);
 
-		cb.YVariable = Catalog.GetString("Time");
-		cb.YUnits = "s";
-		cb.VariableSerieA = Catalog.GetString("Contact time") + " (" + Catalog.GetString("AVG") + ") ";
-		cb.VariableSerieB = Catalog.GetString("Flight time") + " (" + Catalog.GetString("AVG") + ") ";
+		if(UseHeights) {
+			cb.YVariable = Catalog.GetString("Height");
+			cb.YUnits = "cm";
+			cb.VariableSerieA = Catalog.GetString("Falling height") + " (" + Catalog.GetString("AVG") + ") ";
+			cb.VariableSerieB = Catalog.GetString("Jump height") + " (" + Catalog.GetString("AVG") + ") ";
+		} else {
+			cb.YVariable = Catalog.GetString("Time");
+			cb.YUnits = "s";
+			cb.VariableSerieA = Catalog.GetString("Contact time") + " (" + Catalog.GetString("AVG") + ") ";
+			cb.VariableSerieB = Catalog.GetString("Flight time") + " (" + Catalog.GetString("AVG") + ") ";
+		}
 
 		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
 		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides
@@ -1810,6 +1822,10 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 			//avg of the subjumps
 			double valueA = jump.TcAvg; //this cares for the -1 on start in. Does not count it.
 			double valueB = jump.TvAvg;
+			if(UseHeights) {
+				valueA = Util.GetAverage (jump.FallList);
+				valueB = Util.GetAverage (jump.HeightList);
+			}
 
 			//pointA0_l.Add(new PointF(countToDraw, jump.Jumps));
 			pointA1_l.Add(new PointF(countToDraw, valueA));

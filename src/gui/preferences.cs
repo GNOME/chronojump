@@ -2668,9 +2668,10 @@ public class PreferencesWindow
 		showHelp(Catalog.GetString("Stiffness"), helpTypes.STIFFNESS, Constants.HelpStiffnessStr());
 	}
 	private void on_button_jumps_dj_heights_times_help_clicked (object o, EventArgs args) {
-		showHelp(Catalog.GetString("Variables to show at reactive jumps:"), helpTypes.NORMAL,
-				Catalog.GetString("In jumps like Dj, Dja you can select to show the heights of the jumps or the times.") + "\n\n" +
-				Catalog.GetString("But keep in mind that if you display reactive jumps with other jumps (like CMJ, ABK), then heights will be shown."));
+		showHelp (Catalog.GetString("Variables to show at jumps with contact time:"), helpTypes.NORMAL,
+				Catalog.GetString ("You can select to show the heights of the jumps or the times:") + "\n\n" +
+				Catalog.GetString ("- In simple jumps with contact time like Dj, Dja you can select between these variables, but keep in mind that if you display reactive jumps with other jumps (like CMJ, ABK), then heights will be shown.") + "\n\n" +
+				Catalog.GetString ("- In multiple jumps."));
 	}
 
 

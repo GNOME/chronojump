@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -541,9 +541,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 
 		//this values are calculated using the AVG of the tcs or tvs, not as an avg of individual values
 
-		myData[count++] = Util.TrimDecimals(
-				Util.GetHeightInCentimeters(
-					tvAVGDouble.ToString())
+		myData[count++] = Util.TrimDecimals (
+				Util.GetAverage (newJumpRj.HeightList)
 				, pDN);
 
 		if (preferences.showPower || preferences.showStiffness)

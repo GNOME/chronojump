@@ -256,7 +256,8 @@ void serialEvent()
     // Serial.println(commandString);
     if (terminalString == "all")  //The command is sent to all the terminals
     {
-      activateAll(instruction.command);
+      instruction.command = commandString.toInt();
+      sendToAll(instruction.command);
     } else if (terminalString == "local") {
       if (commandString == "get_version") {
         Serial.println(version);
@@ -335,7 +336,7 @@ bool sendInstruction(struct instruction_t *instruction)
 }
 
 // Atention this function is not valid for ping all terminals as it does not wait for response.
-void activateAll(uint16_t command)
+void sendToAll(uint16_t command)
 {
   Serial.println("---------Activating All---------");
   radio.stopListening();

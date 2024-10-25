@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -49,8 +49,8 @@ public class FeedbackWindow
 	Gtk.CheckButton checkbutton_tf_tc_greater;
 	Gtk.CheckButton checkbutton_tf_tc_lower;
 	
-	//Gtk.SpinButton spinbutton_height_greater;
-	//Gtk.SpinButton spinbutton_height_lower;
+	Gtk.SpinButton spinbutton_height_greater;
+	Gtk.SpinButton spinbutton_height_lower;
 	Gtk.SpinButton spinbutton_tf_greater;
 	Gtk.SpinButton spinbutton_tf_lower;
 	Gtk.SpinButton spinbutton_tc_greater;
@@ -338,10 +338,14 @@ public class FeedbackWindow
 		FeedbackWindowBox.showWidgets (bellMode,
 				preferences.jumpsRjFeedbackShowBestTvTc,
 				preferences.jumpsRjFeedbackShowWorstTvTc,
+				preferences.jumpsRjFeedbackHeightGreaterActive,
+				preferences.jumpsRjFeedbackHeightLowerActive,
 				preferences.jumpsRjFeedbackTvGreaterActive,
 				preferences.jumpsRjFeedbackTvLowerActive,
 				preferences.jumpsRjFeedbackTcGreaterActive,
 				preferences.jumpsRjFeedbackTcLowerActive,
+				preferences.jumpsRjFeedbackHeightGreater,
+				preferences.jumpsRjFeedbackHeightLower,
 				preferences.jumpsRjFeedbackTvGreater,
 				preferences.jumpsRjFeedbackTvLower,
 				preferences.jumpsRjFeedbackTcGreater,
@@ -415,10 +419,14 @@ public class FeedbackWindow
 	void showWidgets (Constants.BellModes bellMode,
 			bool jumpsRjFeedbackShowBestTvTc,
 			bool jumpsRjFeedbackShowWorstTvTc,
+			bool jumpsRjFeedbackHeightGreaterActive,
+			bool jumpsRjFeedbackHeightLowerActive,
 			bool jumpsRjFeedbackTvGreaterActive,
 			bool jumpsRjFeedbackTvLowerActive,
 			bool jumpsRjFeedbackTcGreaterActive,
 			bool jumpsRjFeedbackTcLowerActive,
+			double jumpsRjFeedbackHeightGreater,
+			double jumpsRjFeedbackHeightLower,
 			double jumpsRjFeedbackTvGreater,
 			double jumpsRjFeedbackTvLower,
 			double jumpsRjFeedbackTcGreater,
@@ -495,11 +503,15 @@ public class FeedbackWindow
 				checkbutton_jump_tf_tc_worst.Active = jumpsRjFeedbackShowWorstTvTc;
 
 				//1st the spinbuttons and then the checkbuttons because spinbutton changes make checkbuttons active
+				spinbutton_height_greater.Value = jumpsRjFeedbackHeightGreater;
+				spinbutton_height_lower.Value = jumpsRjFeedbackHeightLower;
 				spinbutton_tf_greater.Value = jumpsRjFeedbackTvGreater;
 				spinbutton_tf_lower.Value = jumpsRjFeedbackTvLower;
 				spinbutton_tc_greater.Value = jumpsRjFeedbackTcGreater;
 				spinbutton_tc_lower.Value = jumpsRjFeedbackTcLower;
 
+				checkbutton_height_greater.Active = jumpsRjFeedbackHeightGreaterActive;
+				checkbutton_height_lower.Active = jumpsRjFeedbackHeightLowerActive;
 				checkbutton_tf_greater.Active = jumpsRjFeedbackTvGreaterActive;
 				checkbutton_tf_lower.Active = jumpsRjFeedbackTvLowerActive;
 				checkbutton_tc_greater.Active = jumpsRjFeedbackTcGreaterActive;
@@ -895,7 +907,7 @@ public class FeedbackWindow
 		if(bellMode == Constants.BellModes.JUMPS)
 		{
 			if (
-					//checkbutton_height_greater.Active || checkbutton_height_lower.Active ||
+					checkbutton_height_greater.Active || checkbutton_height_lower.Active ||
 					checkbutton_jump_tf_tc_best.Active || checkbutton_jump_tf_tc_worst.Active ||
 					checkbutton_tf_greater.Active || checkbutton_tf_lower.Active ||
 					checkbutton_tc_lower.Active || checkbutton_tc_greater.Active //||
@@ -1543,14 +1555,12 @@ public class FeedbackWindow
 		get { return checkbutton_jump_tf_tc_worst.Active; }
 	}
 
-	/*
-	public bool HeightGreater {
+	public bool JumpsRjFeedbackHeightGreaterActive {
 		get { return checkbutton_height_greater.Active; }
 	}
-	public bool HeightLower {
+	public bool JumpsRjFeedbackHeightLowerActive {
 		get { return checkbutton_height_lower.Active; }
 	}
-	*/
 
 	public bool JumpsRjFeedbackTvGreaterActive {
 		get { return checkbutton_tf_greater.Active; }
@@ -1573,14 +1583,14 @@ public class FeedbackWindow
 	public bool TfTcLower {
 		get { return checkbutton_tf_tc_lower.Active; }
 	}
+	*/
 
-	public double HeightGreaterValue {
+	public double JumpsRjFeedbackHeightGreater {
 		get { return Convert.ToDouble(spinbutton_height_greater.Value); }
 	}
-	public double HeightLowerValue {
+	public double JumpsRjFeedbackHeightLower {
 		get { return Convert.ToDouble(spinbutton_height_lower.Value); }
 	}
-	*/
 
 	public double JumpsRjFeedbackTvGreater {
 		get { return Convert.ToDouble(spinbutton_tf_greater.Value); }
@@ -1898,8 +1908,8 @@ public class FeedbackWindow
 		checkbutton_tf_tc_greater = (Gtk.CheckButton) builder.GetObject ("checkbutton_tf_tc_greater");
 		checkbutton_tf_tc_lower = (Gtk.CheckButton) builder.GetObject ("checkbutton_tf_tc_lower");
 
-		//spinbutton_height_greater = (Gtk.SpinButton) builder.GetObject ("spinbutton_height_greater");
-		//spinbutton_height_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_height_lower");
+		spinbutton_height_greater = (Gtk.SpinButton) builder.GetObject ("spinbutton_height_greater");
+		spinbutton_height_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_height_lower");
 		spinbutton_tf_greater = (Gtk.SpinButton) builder.GetObject ("spinbutton_tf_greater");
 		spinbutton_tf_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_tf_lower");
 		spinbutton_tc_greater = (Gtk.SpinButton) builder.GetObject ("spinbutton_tc_greater");

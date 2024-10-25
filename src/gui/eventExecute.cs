@@ -2325,8 +2325,9 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 			if(b < min)
 				min = b;
 
-			if (! UseHeights)
-			{
+			if (UseHeights)
+				colorMain_l.Add (feedbackJumpsRj.AssignColorMainByHeight (b));
+			else {
 				colorMain_l.Add (feedbackJumpsRj.AssignColorMain (b));
 				colorSecondary_l.Add (feedbackJumpsRj.AssignColorSecondary (a));
 			}

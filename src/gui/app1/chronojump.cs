@@ -9219,6 +9219,18 @@ LogB.Debug("mc finished 5");
 						preferences.jumpsRjFeedbackShowWorstTvTc,
 						feedbackWin.JumpsRjFeedbackShowWorstTvTc);
 
+				preferences.jumpsRjFeedbackHeightGreaterActive = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjFeedbackHeightGreaterActive,
+						preferences.jumpsRjFeedbackHeightGreaterActive,
+						feedbackWin.JumpsRjFeedbackHeightGreaterActive);
+
+				preferences.jumpsRjFeedbackHeightLowerActive = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjFeedbackHeightLowerActive,
+						preferences.jumpsRjFeedbackHeightLowerActive,
+						feedbackWin.JumpsRjFeedbackHeightLowerActive);
+
 				preferences.jumpsRjFeedbackTvGreaterActive = Preferences.PreferencesChange(
 						true,
 						SqlitePreferences.JumpsRjFeedbackTvGreaterActive,
@@ -9244,6 +9256,18 @@ LogB.Debug("mc finished 5");
 						feedbackWin.JumpsRjFeedbackTcLowerActive);
 
 				// (double) prefs
+				preferences.jumpsRjFeedbackHeightGreater = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjFeedbackHeightGreater,
+						preferences.jumpsRjFeedbackHeightGreater,
+						feedbackWin.JumpsRjFeedbackHeightGreater);
+
+				preferences.jumpsRjFeedbackHeightLower = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjFeedbackHeightLower,
+						preferences.jumpsRjFeedbackHeightLower,
+						feedbackWin.JumpsRjFeedbackHeightLower);
+
 				preferences.jumpsRjFeedbackTvGreater = Preferences.PreferencesChange(
 						true,
 						SqlitePreferences.JumpsRjFeedbackTvGreater,

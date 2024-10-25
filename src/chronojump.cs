@@ -60,10 +60,10 @@ public class ChronoJump
 	private static bool debugModeAtStart;
 
 
-#if OSTYPE_WINDOWS
+//#if OSTYPE_WINDOWS
 	[DllImport("libglib-2.0-0.dll") /* willfully unmapped */ ]
 	static extern bool g_setenv (String env, String val, bool overwrite);
-#endif
+//#endif
 
 	public static void Main(string [] args)
 	{
@@ -380,10 +380,10 @@ public class ChronoJump
 				if(language.Contains("-"))
 					language = language.Replace("-", "_");
 
-				Environment.SetEnvironmentVariable ("LANGUAGE", language); //works
-#if OSTYPE_WINDOWS
-				g_setenv ("LANGUAGE", language, true);
-#endif
+				//Environment.SetEnvironmentVariable ("LANGUAGE", language); //works
+//#if OSTYPE_WINDOWS
+				g_setenv ("LANGUAGE", language, true); //The line above doesn't work on macOS and Linux, but this line does.
+//#endif
                 }
             }
             catch

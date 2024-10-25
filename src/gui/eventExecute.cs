@@ -308,13 +308,15 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.tcString,
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.type,
 							currentPerson.Name,
-							preferences.volumeOn, preferences.gstreamer, feedbackJumpsRj);
+							preferences.volumeOn, preferences.gstreamer, feedbackJumpsRj,
+							preferences.heightPreferred);
 			}
 			else if(selectedJumpRj != null)
 				PrepareJumpReactiveRealtimeCaptureGraph (selectedJumpRj.tvLast, selectedJumpRj.tcLast,
 						selectedJumpRj.TvString, selectedJumpRj.TcString,
 						selectedJumpRj.Type, selectedJumpRj.Description, //Description is person.Name
-						preferences.volumeOn, preferences.gstreamer, feedbackJumpsRj);
+						preferences.volumeOn, preferences.gstreamer, feedbackJumpsRj,
+						preferences.heightPreferred);
 		} else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
 			if(currentEventExecute != null && currentEventExecute.IsThreadRunning())
@@ -564,7 +566,8 @@ public partial class ChronoJumpWindow
 
 	public void PrepareJumpReactiveRealtimeCaptureGraph (double lastTv, double lastTc, string tvString, string tcString,
 			string type, string personName,
-			bool volumeOn, Preferences.GstreamerTypes gstreamer, FeedbackJumpsRj feedbackJumpsRj)
+			bool volumeOn, Preferences.GstreamerTypes gstreamer, FeedbackJumpsRj feedbackJumpsRj,
+			bool useHeights)
 	{
 		if(currentPerson == null)
 			return;
@@ -586,9 +589,9 @@ public partial class ChronoJumpWindow
 				//lastTv, lastTc,
 				tvString, tcString, isLastCaptured, feedbackJumpsRj, videoTime);
 
-		// B) Paint cairo graph
-		//cairoPaintBarsPreRealTime.UseHeights = useHeights;
+		cairoPaintBarsPreRealTime.UseHeights = useHeights;
 
+		// B) Paint cairo graph
 		cairoPaintBarsPreRealTime.Paint();
 	}
 	
@@ -960,7 +963,8 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.tcString,
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.type,
 							currentPerson.Name,
-							preferences.volumeOn, preferences.gstreamer, feedbackJumpsRj);
+							preferences.volumeOn, preferences.gstreamer, feedbackJumpsRj,
+							preferences.heightPreferred);
 
 					event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 				}
@@ -2146,8 +2150,8 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 {
 	//private double lastTv;
 	//private double lastTc;
-	private List<double> tv_l;
-	private List<double> tc_l;
+	private List<double> secondary_l; //bar of the left
+	private List<double> main_l; //bar of the right
 	private List<Cairo.Color> colorMain_l;
 	private List<Cairo.Color> colorSecondary_l;
 	private FeedbackJumpsRj feedbackJumpsRj;
@@ -2183,46 +2187,56 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 		//this.lastTv = lastTv;
 		//this.lastTc = lastTc;
 
-		tv_l = new List<double>();
-		tc_l = new List<double>();
+		secondary_l = new List<double>();
+		main_l = new List<double>();
 
-		string [] tvFull = tvString.Split(new char[] {'='});
-		string [] tcFull = tcString.Split(new char[] {'='});
-		if(tvFull.Length != tcFull.Length)
-			return;
+		if (UseHeights)
+		{
+			List<double> tv_l = JumpRj.HeightListFromTvString (tvString);
+			foreach(double d in tv_l)
+				main_l.Add (d);
+		} else {
+			string [] tvFull = tvString.Split(new char[] {'='});
+			string [] tcFull = tcString.Split(new char[] {'='});
+			if(tvFull.Length != tcFull.Length)
+				return;
 
-		foreach(string tv in tvFull)
-			if(Util.IsNumber(tv, true))
-				tv_l.Add(Convert.ToDouble(tv));
-		foreach(string tc in tcFull)
-			if(Util.IsNumber(tc, true))
-				tc_l.Add(Convert.ToDouble(tc));
+			foreach(string tv in tvFull)
+				if(Util.IsNumber(tv, true))
+					main_l.Add(Convert.ToDouble(tv));
+			foreach(string tc in tcFull)
+				if(Util.IsNumber(tc, true))
+					secondary_l.Add(Convert.ToDouble(tc));
+		}
 
-		if (feedbackJumpsRj.EmphasizeBestTvTc)
-			best_l = getBestWorstList (true);
-		else
-			best_l = new List<int> ();
+		if (! UseHeights)
+		{
+			if (feedbackJumpsRj.EmphasizeBestTvTc)
+				best_l = getBestWorstTimesList (true);
+			else
+				best_l = new List<int> ();
 
-		if (feedbackJumpsRj.EmphasizeWorstTvTc)
-			worst_l = getBestWorstList (false);
-		else
-			worst_l = new List<int> ();
+			if (feedbackJumpsRj.EmphasizeWorstTvTc)
+				worst_l = getBestWorstTimesList (false);
+			else
+				worst_l = new List<int> ();
+		}
 
 		colorMain_l = new List<Cairo.Color>();
 		colorSecondary_l = new List<Cairo.Color>();
 	}
 
-	private List<int> getBestWorstList (bool best)
+	private List<int> getBestWorstTimesList (bool best)
 	{
 		int jump = -1;
 		double jumpValue = 0;
-		for (int i = 0; i < tc_l.Count; i ++)
-			if (tc_l[i] > 0 &&
+		for (int i = 0; i < secondary_l.Count; i ++)
+			if (secondary_l[i] > 0 &&
 					( jump == -1 ||
-					  (best && tv_l[i] / tc_l[i] > jumpValue) ||
-					  (! best && tv_l[i] / tc_l[i] < jumpValue) ) )
+					  (best && main_l[i] / secondary_l[i] > jumpValue) ||
+					  (! best && main_l[i] / secondary_l[i] < jumpValue) ) )
 			{
-				jumpValue = tv_l[i] / tc_l[i];
+				jumpValue = main_l[i] / secondary_l[i];
 				jump = i;
 			}
 
@@ -2242,27 +2256,36 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 
 	protected override bool storeCreated ()
 	{
-		return (tv_l.Count == tc_l.Count && tv_l.Count > 0);
+		return (main_l.Count == secondary_l.Count && main_l.Count > 0);
 	}
 
 	protected override bool haveDataToPlot()
 	{
-		return (tv_l.Count == tc_l.Count && tv_l.Count > 0);
+		return (main_l.Count == secondary_l.Count && main_l.Count > 0);
 	}
 
 	protected override void paintSpecific()
 	{
 		//extra check
-		if(tv_l.Count != tc_l.Count)
+		if(main_l.Count != secondary_l.Count)
 			return;
 
-		cb = new CairoBarsNHSeries (darea, CairoBars.Type.NORMAL, true, false, true, true);
+		if (UseHeights)
+			cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, false, true, true);
+		else
+			cb = new CairoBarsNHSeries (darea, CairoBars.Type.NORMAL, true, false, true, true);
 
-		cb.YVariable = Catalog.GetString("Time");
-		cb.YUnits = "s";
+		if(UseHeights) {
+			cb.YVariable = Catalog.GetString("Height");
+			cb.YUnits = "cm";
+			cb.VariableSerieB = Catalog.GetString("Jump height");
+		} else {
+			cb.YVariable = Catalog.GetString("Time");
+			cb.YUnits = "s";
 
-		cb.VariableSerieA = Catalog.GetString("Contact time");
-		cb.VariableSerieB = Catalog.GetString("Flight time");
+			cb.VariableSerieA = Catalog.GetString("Contact time");
+			cb.VariableSerieB = Catalog.GetString("Flight time");
+		}
 
 		cb.GraphInit(fontStr, true, false); //usePersonGuides, useGroupGuides
 
@@ -2272,31 +2295,41 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 
 		//statistics for tv
 		double max = 0;
-		double sum = 0; //for tv_l avg
+		double sum = 0; //for main_l avg
 		double min = 1000;
 
-		for(int i = 0; i < tv_l.Count; i ++)
+		for(int i = 0; i < main_l.Count; i ++)
 		{
-			double tc = Convert.ToDouble(tc_l[i]);
-			double tv = Convert.ToDouble(tv_l[i]);
+			double a = 0;
+			double b = 0;
 
-			pointA_l.Add(new PointF(i+1, tc));
-			pointB_l.Add(new PointF(i+1, tv));
+			if (UseHeights)
+				b = Util.GetHeightInCm (Convert.ToDouble(main_l[i]));
+			else {
+				a = Convert.ToDouble(secondary_l[i]);
+				b = Convert.ToDouble(main_l[i]);
+			}
+
+			pointA_l.Add(new PointF(i+1, a));
+			pointB_l.Add(new PointF(i+1, b));
 			names_l.Add((i+1).ToString());
 
 			//get max (only of tv)
-			if(tv > max)
-				max = tv;
+			if(b > max)
+				max = b;
 
 			//get avg (only of tv)
-			sum += Convert.ToDouble(tv);
+			sum += Convert.ToDouble(b);
 
 			//get min (only of tv)
-			if(tv < min)
-				min = tv;
+			if(b < min)
+				min = b;
 
-			colorMain_l.Add (feedbackJumpsRj.AssignColorMain (tv));
-			colorSecondary_l.Add (feedbackJumpsRj.AssignColorSecondary (tc));
+			if (! UseHeights)
+			{
+				colorMain_l.Add (feedbackJumpsRj.AssignColorMain (b));
+				colorSecondary_l.Add (feedbackJumpsRj.AssignColorSecondary (a));
+			}
 		}
 
 		cb.PassGuidesData (new CairoBarsGuideManage(
@@ -2306,16 +2339,22 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 					0,
 					0,
 					max,
-					sum / tv_l.Count,
+					sum / main_l.Count,
 					min));
 
-		List<List<PointF>> barsSecondary_ll = new List<List<PointF>>();
-		barsSecondary_ll.Add(pointA_l);
-
-		cb.PassData2Series (pointB_l, barsSecondary_ll, false,
-				colorMain_l, colorSecondary_l, names_l,
-				"", false,
-				-1, 14, 8, title, best_l, worst_l);
+		if (UseHeights)
+			cb.PassData1Serie (pointB_l,
+					colorMain_l, names_l,
+					-1, 14, 8,
+					title, best_l, worst_l);
+		else {
+			List<List<PointF>> barsSecondary_ll = new List<List<PointF>>();
+			barsSecondary_ll.Add(pointA_l);
+			cb.PassData2Series (pointB_l, barsSecondary_ll, false,
+					colorMain_l, colorSecondary_l, names_l,
+					"", false,
+					-1, 14, 8, title, best_l, worst_l);
+		}
 
 		if (videoTime > 0)
 			cb.VideoPlayTimeInSeconds = videoTime;

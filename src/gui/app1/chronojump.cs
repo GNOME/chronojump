@@ -2049,7 +2049,8 @@ public partial class ChronoJumpWindow
 		PrepareJumpReactiveRealtimeCaptureGraph (selectedJumpRj.tvLast, selectedJumpRj.tcLast,
 				selectedJumpRj.TvString, selectedJumpRj.TcString,
 				selectedJumpRj.Type, selectedJumpRj.Description, //Description is personName
-				preferences.volumeOn, preferences.gstreamer, feedbackJumpsRj);
+				preferences.volumeOn, preferences.gstreamer, feedbackJumpsRj,
+				preferences.heightPreferred);
 		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 	}
 

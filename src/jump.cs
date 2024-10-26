@@ -601,6 +601,16 @@ public class JumpRj : Jump
 			return l;
 		}
 	}
+	public static List<double> HeightListFromTvString (string tvString)
+	{
+		List<double> l = new List<double>();
+		string [] strFull = tvString.Split(new char[] {'='});
+		foreach(string str in strFull)
+			if(Util.IsNumber(Util.ChangeDecimalSeparator(str), true))
+				l.Add(Util.GetHeightInCentimeters(Convert.ToDouble(Util.ChangeDecimalSeparator(str))));
+
+		return l;
+	}
 
 	public List<double> FallList
 	{

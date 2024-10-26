@@ -416,7 +416,7 @@
                                               <object class="GtkLabel" id="label351">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
-                                                <property name="label" translatable="yes">show best TF / TC</property>
+                                                <property name="label" translatable="yes">show height or best TF / TC</property>
                                                 <property name="use-underline">True</property>
                                               </object>
                                               <packing>
@@ -469,7 +469,7 @@
                                               <object class="GtkLabel" id="label352">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
-                                                <property name="label" translatable="yes">show worst TF / TC</property>
+                                                <property name="label" translatable="yes">show worst height or TF / TC</property>
                                                 <property name="use-underline">True</property>
                                               </object>
                                               <packing>
@@ -1152,6 +1152,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkHBox" id="hbox10">
+                                        <property name="visible">True</property>
                                         <property name="can-focus">False</property>
                                         <property name="homogeneous">True</property>
                                         <child>
@@ -1188,6 +1189,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkSpinButton" id="spinbutton_height_greater">
+                                        <property name="visible">True</property>
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
                                         <property name="width-chars">8</property>
@@ -1209,6 +1211,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkHBox" id="hbox12">
+                                        <property name="visible">True</property>
                                         <property name="can-focus">False</property>
                                         <child>
                                           <object class="GtkCheckButton" id="checkbutton_height_greater">
@@ -1653,6 +1656,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkHBox" id="hbox21">
+                                        <property name="visible">True</property>
                                         <property name="can-focus">False</property>
                                         <property name="homogeneous">True</property>
                                         <child>
@@ -1689,6 +1693,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkSpinButton" id="spinbutton_height_lower">
+                                        <property name="visible">True</property>
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
                                         <property name="width-chars">8</property>
@@ -1710,6 +1715,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkHBox" id="hbox22">
+                                        <property name="visible">True</property>
                                         <property name="can-focus">False</property>
                                         <child>
                                           <object class="GtkCheckButton" id="checkbutton_height_lower">

@@ -2049,7 +2049,8 @@ public partial class ChronoJumpWindow
 		PrepareJumpReactiveRealtimeCaptureGraph (selectedJumpRj.tvLast, selectedJumpRj.tcLast,
 				selectedJumpRj.TvString, selectedJumpRj.TcString,
 				selectedJumpRj.Type, selectedJumpRj.Description, //Description is personName
-				preferences.volumeOn, preferences.gstreamer, feedbackJumpsRj);
+				preferences.volumeOn, preferences.gstreamer, feedbackJumpsRj,
+				preferences.heightPreferred);
 		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 	}
 
@@ -9218,6 +9219,18 @@ LogB.Debug("mc finished 5");
 						preferences.jumpsRjFeedbackShowWorstTvTc,
 						feedbackWin.JumpsRjFeedbackShowWorstTvTc);
 
+				preferences.jumpsRjFeedbackHeightGreaterActive = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjFeedbackHeightGreaterActive,
+						preferences.jumpsRjFeedbackHeightGreaterActive,
+						feedbackWin.JumpsRjFeedbackHeightGreaterActive);
+
+				preferences.jumpsRjFeedbackHeightLowerActive = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjFeedbackHeightLowerActive,
+						preferences.jumpsRjFeedbackHeightLowerActive,
+						feedbackWin.JumpsRjFeedbackHeightLowerActive);
+
 				preferences.jumpsRjFeedbackTvGreaterActive = Preferences.PreferencesChange(
 						true,
 						SqlitePreferences.JumpsRjFeedbackTvGreaterActive,
@@ -9243,6 +9256,18 @@ LogB.Debug("mc finished 5");
 						feedbackWin.JumpsRjFeedbackTcLowerActive);
 
 				// (double) prefs
+				preferences.jumpsRjFeedbackHeightGreater = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjFeedbackHeightGreater,
+						preferences.jumpsRjFeedbackHeightGreater,
+						feedbackWin.JumpsRjFeedbackHeightGreater);
+
+				preferences.jumpsRjFeedbackHeightLower = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjFeedbackHeightLower,
+						preferences.jumpsRjFeedbackHeightLower,
+						feedbackWin.JumpsRjFeedbackHeightLower);
+
 				preferences.jumpsRjFeedbackTvGreater = Preferences.PreferencesChange(
 						true,
 						SqlitePreferences.JumpsRjFeedbackTvGreater,

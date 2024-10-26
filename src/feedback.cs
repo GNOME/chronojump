@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -58,6 +58,18 @@ public class FeedbackJumpsRj : Feedback
 		setBarColors ();
 	}
 
+	public bool HeightGreen (double heightInCm)
+	{
+		return (preferences.jumpsRjFeedbackHeightGreaterActive &&
+				heightInCm >= preferences.jumpsRjFeedbackHeightGreater);
+	}
+
+	public bool HeightRed (double heightInCm)
+	{
+		return (preferences.jumpsRjFeedbackHeightLowerActive &&
+				heightInCm <= preferences.jumpsRjFeedbackHeightLower);
+	}
+
 	public bool TvGreen (double tv)
 	{
 		return (preferences.jumpsRjFeedbackTvGreaterActive && tv >= preferences.jumpsRjFeedbackTvGreater);
@@ -76,6 +88,16 @@ public class FeedbackJumpsRj : Feedback
 	public bool TcRed (double tc)
 	{
 		return (preferences.jumpsRjFeedbackTcGreaterActive && tc >= preferences.jumpsRjFeedbackTcGreater);
+	}
+
+	public Cairo.Color AssignColorMainByHeight (double heightInCm)
+	{
+		if (HeightGreen (heightInCm))
+			return (mainGreen);
+		else if (HeightRed (heightInCm))
+			return (mainRed);
+		else
+			return (CairoGeneric.colorFromRGBA (Config.ColorBackground));
 	}
 
 	public Cairo.Color AssignColorMain (double tv)

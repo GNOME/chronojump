@@ -39,7 +39,7 @@ else
     OS=""
 fi
 
-#Get OS Name
+#Get Arch Name
 ARCH="$(uname -m)"
 if [ "$ARCH" == "x86_64" ]; then  
     ARCH="x64"

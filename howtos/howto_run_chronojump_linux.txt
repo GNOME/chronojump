@@ -17,11 +17,11 @@ sh autogen.sh --prefix [chronojump path]/chronojump/package/linux/deps
 # If using the git code but not making the package, this dir will not exist: /package/linux/deps just do this to update version on the software:
 ./autogen.sh
 
-Note on autogen and make. Call:
+Note on autogen and make. Call these only the first time, any makefile file changed, git tag changed or "package/linux/deps" deleted:
 autogen
 make
-make install (better without sudo if possible. If there is any folder that needs root permissions, better change the permissions of that folder)
-only the first time, any makefile file changed, git tag changed or "package/linux/deps" deleted.
+make install
+(Note make install better without sudo if possible. If there is any folder that needs root permissions, better change the permissions of that folder)
 
 # Grant the access to the serial port. Change "[username]" by the real unername
 sudo usermod -a -G dialout [username]

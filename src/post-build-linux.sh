@@ -38,7 +38,8 @@ cp "../images/start.wav" "$1/share/chronojump/images/start.wav"
 #Get OS Name
 UNAME_ALL=$(echo $(uname -a) | tr [:upper:] [:lower:])
 OS=""
-if [[ "$UNAME_ALL" =~ "debian" ]]; then  
+echo "$UNAME_ALL" | grep "debian"
+if [ "$?" = "0" ]; then  
     OS="debian"
 fi
 

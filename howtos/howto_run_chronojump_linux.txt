@@ -14,8 +14,8 @@ cd chronojump
 
 # Substitute [chronojump path] with the real path where you cloned the repo
 sh autogen.sh --prefix [chronojump path]/chronojump/package/linux/deps
-# If using the git code but not making the package, this dir will not exist: /package/linux/deps just do this to update version on the software:
-./autogen.sh
+#### If using the git code but not making the package, this dir will not exist: /package/linux/deps just do this to update version on the software:
+####./autogen.sh (never to this)
 
 Note on autogen and make. Call these only the first time, any makefile file changed, git tag changed or "package/linux/deps" deleted:
 autogen

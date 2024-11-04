@@ -7,6 +7,7 @@ USER = $(shell whoami)
 PACKAGE_VERSION = $(shell git describe --abbrev=1)
 PACKAGE_NAME = "chronojump-$(PACKAGE_VERSION)"
 APP_DIR = "$(PACKAGE_DIR)/$(PACKAGE_NAME)"
+TARGET = $(TARGET)
 
 tar: install totar
 deb: install todeb
@@ -25,7 +26,7 @@ install:
 totar:
 	dos2unix ../../src/post-build-linux.sh
 	chmod +x ../../src/post-build-linux.sh
-	dotnet publish ../../src/Chronojump-linux.sln -p:BuildTranslations=true --configuration Release -r linux-x64 --self-contained true -o $(APP_DIR)
+	dotnet publish ../../src/Chronojump-linux.sln -p:BuildTranslations=true --configuration Release -r linux-$(TARGET) --self-contained true -o $(APP_DIR)
 	sh ../../src/post-build-linux.sh $(APP_DIR)
 	tar -czvf $(PACKAGE_NAME).tar.gz $(PACKAGE_NAME)/*
 
@@ -52,6 +53,6 @@ todeb:
 	cp Chronojump.desktop deb/usr/share/applications/Chronojump.desktop
 	dos2unix ../../src/post-build-linux.sh
 	chmod +x ../../src/post-build-linux.sh
-	dotnet publish ../../src/Chronojump-linux.sln -p:BuildTranslations=true --configuration Release -r linux-x64 --self-contained true -o deb/usr/share/Chronojump
+	dotnet publish ../../src/Chronojump-linux.sln -p:BuildTranslations=true --configuration Release -r linux-$(TARGET) --self-contained true -o deb/usr/share/Chronojump
 	sh ../../src/post-build-linux.sh $(PACKAGE_DIR)/deb/usr/share/Chronojump
 	dpkg -b deb $(PACKAGE_NAME).deb

@@ -40,11 +40,11 @@ make install
 5. Make a package (Only when a package required.  Please replace "/***" with the real path of chronojump)
 
 cd "~/***/chronojump/package/linux"
-#Make *.tar.gz
-make tar
+#Make *.tar.gz, TARGET=x64, arm or amr64
+make tar TARGET="arm64"
 
-#Make *.deb
-make deb
+#Make *.deb, TARGET=x64, arm or amr64
+make deb TARGET="arm64"
 #When asking for the description, put the English lines on README.md (but without the blank lines).
 
 6. Software can be run without creating package with

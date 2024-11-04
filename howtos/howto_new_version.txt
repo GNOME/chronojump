@@ -64,7 +64,7 @@ Linux stuff
 #VERSION=0.9.4
 #Then go to [1]
 
-
+DEB) 2024: check: How\ to\ Make\ Linux\ Packages.txt
 DEB) create deb package (2023)
 
 sh autogen.sh
@@ -77,6 +77,7 @@ tar -zxvf chronojump-$VERSIONFULL.tar.gz
 cd chronojump-$VERSIONFULL
 ./configure
 make
+
 checkinstall --pkgname="Chronojump" --pkgversion="$VERSIONCODE" --maintainer="Xavier de Blas" --pkglicense="GPL2" --requires="libgtk3.0-cil,libmono-sqlite4.0-cil,libmono-posix4.0-cil,libmono-system-json4.0-cil,r-base,ffmpeg,p7zip-full" --install=no
 
 When asking for the description put the English lines on README.md (but without the blank lines)

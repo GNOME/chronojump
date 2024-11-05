@@ -10,11 +10,11 @@ APP_DIR = "$(PACKAGE_DIR)/$(PACKAGE_NAME)"
 
 TARGET = $(TARGET)
 ifeq ($(TARGET),arm)
-    ARCH = "armhf,armel,armv7l"
+    ARCH = "arm"
 else ifeq ($(TARGET),arm64)
-    ARCH = "arm64,aarch64"
+    ARCH = "arm64"
 else
-    ARCH = "amd64,riscv64,ppc64el,x86_64,s390x,mips64el"
+    ARCH = "amd64"
 endif 
 
 tar: install totar

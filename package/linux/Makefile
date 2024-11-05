@@ -7,7 +7,15 @@ USER = $(shell whoami)
 PACKAGE_VERSION = $(shell git describe --abbrev=1)
 PACKAGE_NAME = "chronojump-$(PACKAGE_VERSION)"
 APP_DIR = "$(PACKAGE_DIR)/$(PACKAGE_NAME)"
+
 TARGET = $(TARGET)
+ifeq ($(TARGET),arm)
+    ARCH = "armhf,armel,armv7l"
+else ifeq ($(TARGET),arm64)
+    ARCH = "arm64,aarch64"
+else
+    ARCH = "amd64,riscv64,ppc64el,x86_64,s390x,mips64el"
+endif 
 
 tar: install totar
 deb: install todeb
@@ -28,7 +36,7 @@ totar:
 	chmod +x ../../src/post-build-linux.sh
 	dotnet publish ../../src/Chronojump-linux.sln -p:BuildTranslations=true --configuration Release -r linux-$(TARGET) --self-contained true -o $(APP_DIR)
 	sh ../../src/post-build-linux.sh $(APP_DIR)
-	tar -czvf $(PACKAGE_NAME).tar.gz $(PACKAGE_NAME)/*
+	tar -czvf $(PACKAGE_NAME)_$(TARGET).tar.gz $(PACKAGE_NAME)/*
 
 todeb:	
 	#checkinstall --pkgname="Chronojump" --pkgversion="$(PACKAGE_VERSION)" --maintainer="Xavier de Blas" --pkglicense="GPL2" --requires="libgtk3.0-cil,r-base,ffmpeg,p7zip-full,python3-minimal" --install=no
@@ -45,7 +53,8 @@ todeb:
 	#EOF
 	rm -rf deb
 	mkdir -p deb/DEBIAN
-	cp control deb/DEBIAN/control
+	#cp control deb/DEBIAN/control
+	sed -e s/{ARCH}/$(ARCH)/ control > deb/DEBIAN/control
 	mkdir -p deb/usr/local/bin
 	mkdir -p deb/usr/share/Chronojump
 	ln -s /usr/share/Chronojump/Chronojump deb/usr/local/bin/Chronojump	
@@ -55,4 +64,4 @@ todeb:
 	chmod +x ../../src/post-build-linux.sh
 	dotnet publish ../../src/Chronojump-linux.sln -p:BuildTranslations=true --configuration Release -r linux-$(TARGET) --self-contained true -o deb/usr/share/Chronojump
 	sh ../../src/post-build-linux.sh $(PACKAGE_DIR)/deb/usr/share/Chronojump
-	dpkg -b deb $(PACKAGE_NAME).deb
+	dpkg -b deb $(PACKAGE_NAME)_$(TARGET).deb

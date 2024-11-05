@@ -1,7 +1,7 @@
 Package: Chronojump
 Version: @PACKAGE_VERSION@
 License: GPL2
-Architecture: amd64
+Architecture: {ARCH}
 Maintainer: Xavier de Blas
 Depends: libgtk3.0-cil,r-base,ffmpeg,p7zip-full,python3-minimal
 Section: default

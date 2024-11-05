@@ -312,14 +312,32 @@ public class ChronoJump
 					LogB.Information(Environment.GetEnvironmentVariable("R_HOME"));
 					LogB.Information(Environment.GetEnvironmentVariable("PATH"));
 
-					/*
+					var gtk3Path = "";
+#if DEBUG
+                    if (File.Exists("/usr/local/lib/libglib-2.0.0.dylib"))
+                    {
+						gtk3Path = "/usr/local/lib/";
+                    }
+                    else
+                    {
+                        gtk3Path = "/opt/homebrew/lib/";
+                    }
+#else
+					gtk3Path= Path.Combine(baseDirectory, "../Resources/");
+#endif
+                    Environment.SetEnvironmentVariable("XDG_DATA_DIRS", System.IO.Path.Combine(gtk3Path, @"gtk3"));
+                    Environment.SetEnvironmentVariable("GSETTINGS_SCHEMA_DIR", System.IO.Path.Combine(gtk3Path, @"gtk3\share\glib-2.0\schemas"));
+					g_setenv("XDG_DATA_DIRS", System.IO.Path.Combine(gtk3Path, @"gtk3"), true);
+                    g_setenv("GSETTINGS_SCHEMA_DIR", System.IO.Path.Combine(gtk3Path, @"gtk3\share\glib-2.0\schemas"), true);
+
+                    /*
 					//Gstreamer stuff (right now not used, we used ffplay)
 					string prefix="/Applications/Chronojump.app/Contents/Home/";
 					Environment.SetEnvironmentVariable ("GST_PLUGIN_PATH", prefix + "lib/gstreamer-0.10");
 					Environment.SetEnvironmentVariable ("GST_PLUGIN_SYSTEM_PATH", prefix + "lib/gstreamer-0.10");
 					Environment.SetEnvironmentVariable ("GST_PLUGIN_SCANNER_PATH", prefix + "lib/gstreamer-0.10/gst-plugin-scanner");
 					*/
-					break;
+                    break;
 				case UtilAll.OperatingSystems.LINUX:
 					rBinPath = @"/usr/lib/R/lib";
 					Environment.SetEnvironmentVariable ("R_HOME", @"/usr/lib/R");
@@ -380,9 +398,9 @@ public class ChronoJump
 				if(language.Contains("-"))
 					language = language.Replace("-", "_");
 
-				//Environment.SetEnvironmentVariable ("LANGUAGE", language); //works
+				Environment.SetEnvironmentVariable ("LANGUAGE", language); //works
 //#if OSTYPE_WINDOWS
-				g_setenv ("LANGUAGE", language, true); //The line above doesn't work on macOS and Linux, but this line does.
+				g_setenv ("LANGUAGE", language, true); //The line above doesn't work on macOS, but this line does.
 //#endif
                 }
             }

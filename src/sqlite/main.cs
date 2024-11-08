@@ -4981,6 +4981,41 @@ LogB.SQL("5" + tableName);
 			Sqlite.Close();
 	}
 
+	public static bool TestCrashOnMacARM ()
+	{
+		LogB.Information ("TestCrashOnMacARM 0");
+		Sqlite.Open();
+		LogB.Information ("TestCrashOnMacARM 1");
+
+		//without jumpType
+		dbcmd.CommandText = "SELECT person77.name, person77.sex, jump.sessionID, jump.tv, jump.weight, jump.type FROM jump, person77 WHERE jump.sessionID = 12 AND jump.personID = person77.uniqueID ORDER BY jump.tv DESC ";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		LogB.Information ("TestCrashOnMacARM 2");
+		//without personSession
+		dbcmd.CommandText = "SELECT person77.name, person77.sex, jump.sessionID, jump.tv, jump.weight, jump.type FROM jump, person77, jumpType WHERE jump.sessionID = 12 AND jumpType.startIn = 1 AND jump.Type = jumpType.name AND jump.personID = person77.uniqueID ORDER BY jump.tv DESC ";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		LogB.Information ("TestCrashOnMacARM 3");
+		//no parenthesis
+		dbcmd.CommandText = "SELECT person77.name, person77.sex, jump.sessionID, jump.tv, jump.weight, personSession77.weight, jump.type FROM jump, person77, personSession77, jumpType WHERE jump.sessionID = 12 AND jumpType.startIn = 1 AND jump.Type = jumpType.name AND jump.personID = person77.uniqueID AND person77.uniqueID = personSession77.personID AND jump.sessionID = personSession77.sessionID ORDER BY jump.tv DESC ";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		LogB.Information ("TestCrashOnMacARM 4");
+		//this surely crash on joeries m2
+		dbcmd.CommandText = "SELECT person77.name, person77.sex, jump.sessionID, jump.tv, jump.weight, personSession77.weight, jump.type FROM jump, person77, personSession77, jumpType WHERE ( jump.sessionID = 12) AND jumpType.startIn = 1 AND jump.Type = jumpType.name AND jump.personID = person77.uniqueID AND person77.uniqueID = personSession77.personID AND jump.sessionID = personSession77.sessionID ORDER BY jump.tv DESC ";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		LogB.Information ("TestCrashOnMacARM 5");
+		Sqlite.Close();
+		LogB.Information ("TestCrashOnMacARM Done!");
+
+		return true;
+	}
 
 	/* end of methods for different classes */
 	

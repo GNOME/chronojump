@@ -3346,6 +3346,13 @@ public class PreferencesWindow
 		label_advanced_feedback.Text = message;
 	}
 
+	private void on_sql_test_crash_mac_silicon_clicked (object o, EventArgs args)
+	{
+		label_advanced_feedback.Text = "";
+		if (Sqlite.TestCrashOnMacARM ())
+			label_advanced_feedback.Text = "SQL tests MacARM Ok!";
+	}
+
 	// <---- end SQL stress tests ----
 
 

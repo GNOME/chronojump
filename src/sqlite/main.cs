@@ -4992,13 +4992,18 @@ LogB.SQL("5" + tableName);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		LogB.Information ("TestCrashOnMacARM 2a"); //checking if the bug was because there is nothing selected from jumpType
+		LogB.Information ("TestCrashOnMacARM 2a"); //is just the jumpType table that is bad for some reason?
+		dbcmd.CommandText = "SELECT * from jumpType";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		LogB.Information ("TestCrashOnMacARM 2b"); //checking if the bug was because there is nothing selected from jumpType. This also fails
 		//without personSession
 		dbcmd.CommandText = "SELECT person77.name, person77.sex, jump.sessionID, jump.tv, jump.weight, jump.type, jumpType.startIn FROM jump, person77, jumpType WHERE jump.sessionID = 12 AND jumpType.startIn = 1 AND jump.Type = jumpType.name AND jump.personID = person77.uniqueID ORDER BY jump.tv DESC ";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		LogB.Information ("TestCrashOnMacARM 2b"); //fails here
+		LogB.Information ("TestCrashOnMacARM 2c"); //fails here
 		//without personSession
 		dbcmd.CommandText = "SELECT person77.name, person77.sex, jump.sessionID, jump.tv, jump.weight, jump.type FROM jump, person77, jumpType WHERE jump.sessionID = 12 AND jumpType.startIn = 1 AND jump.Type = jumpType.name AND jump.personID = person77.uniqueID ORDER BY jump.tv DESC ";
 		LogB.SQL(dbcmd.CommandText.ToString());

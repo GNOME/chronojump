@@ -125,6 +125,7 @@ public partial class ChronoJumpWindow
 	RemoteTest remoteTest;
 	static Thread threadRemoteTest;
 	private static bool remoteTestCallNow;
+	private static bool remoteTestCancelNow;
 	private static string remoteTestTestName;
 
 	DialogPersonPopup dialogPersonPopup;
@@ -403,10 +404,14 @@ public partial class ChronoJumpWindow
 
 		if (configChronojump.RemoteTestJumpSimpleFile != "" || configChronojump.RemoteTestRunIntervalFile != "")
 		{
-			remoteTest = new RemoteTest (current_mode, configChronojump.RemoteTestJumpSimpleFile, configChronojump.RemoteTestRunIntervalFile);
+			remoteTest = new RemoteTest (current_mode,
+					configChronojump.RemoteTestJumpSimpleFile,
+					configChronojump.RemoteTestRunIntervalFile,
+					configChronojump.RemoteTestCancelFile);
 
 			//"Call" because it will be called by the main thread (pulseRemoteTestCheck)
 			remoteTest.FakeButtonDo.Clicked += new EventHandler (remoteTestCall);
+			remoteTest.FakeButtonCancel.Clicked += new EventHandler (remoteTestCancel);
 
 			threadRemoteTest = new Thread (new ThreadStart (remoteTestCheckStart));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseRemoteTestCheck));
@@ -493,6 +498,10 @@ public partial class ChronoJumpWindow
 		remoteTestTestName = remoteTest.RemoteTestTestName;
 		remoteTestCallNow = true;
 	}
+	private void remoteTestCancel (object o, EventArgs e) //no gui here
+	{
+		remoteTestCancelNow = true;
+	}
 	private bool pulseRemoteTestCheck ()
 	{
 		if(! threadRemoteTest.IsAlive)
@@ -518,6 +527,12 @@ public partial class ChronoJumpWindow
 				combo_select_jumps = comboSelectJumps.SelectByName (remoteTestTestName);
 
 			button_execute_test.Click ();
+		}
+
+		if (remoteTestCancelNow)
+		{
+			remoteTestCancelNow = false;
+			event_execute_button_cancel.Click();
 		}
 
 		Thread.Sleep (100);

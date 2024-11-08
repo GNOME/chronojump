@@ -65,7 +65,7 @@ public class Config
 		CanOpenExternalDB, ExternalDBDefaultPath, //externalDB
 		LastDBFullPath, //cloud & externalDB
 		JsonUploadNeedsButton, JsonUploadJumpSimpleTestScript, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, CanInsertTests, //json upload
-		RemoteTestJumpSimpleFile, RemoteTestRunIntervalFile, //remote execution
+		RemoteTestJumpSimpleFile, RemoteTestRunIntervalFile, RemoteTestCancelFile, //remote execution
 		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, GuiTest, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
@@ -171,6 +171,9 @@ public class Config
 	}
 	public string RemoteTestRunIntervalFile {
 		get { return configList.GetString (OpEnum.RemoteTestRunIntervalFile); }
+	}
+	public string RemoteTestCancelFile {
+		get { return configList.GetString (OpEnum.RemoteTestCancelFile); }
 	}
 
 	// other
@@ -629,6 +632,8 @@ public class ConfigList
 					"Full URL to the file created as a flag to execute a jump simple. When test is done a file will be created with the same name + 'Done'. If the file has the English name of the test inside, and that test exist, it will be executed."));
 		list.Add (new ConfigOptionString (Config.OpEnum.RemoteTestRunIntervalFile,
 					"Full URL to the file created as a flag to execute a run multiple (intervallic). When test is done a file will be created with the same name + 'Done'"));
+		list.Add (new ConfigOptionString (Config.OpEnum.RemoteTestCancelFile,
+					"Full URL to the file created as a flag to cancel current RemoteTest."));
 
 		// other
 		list.Add (new ConfigOptionEnum (Config.OpEnum.SessionMode,

@@ -4985,6 +4985,7 @@ LogB.SQL("5" + tableName);
 	{
 		LogB.Information ("TestCrashOnMacARM 0");
 		Sqlite.Open();
+		SQLiteDataReader reader;
 		LogB.Information ("TestCrashOnMacARM 1");
 
 		//without jumpType
@@ -4992,18 +4993,31 @@ LogB.SQL("5" + tableName);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		LogB.Information ("TestCrashOnMacARM 2a"); //is just the jumpType table that is bad for some reason?
+		LogB.Information ("TestCrashOnMacARM 2a"); //is just the jumpType table that is bad for some reason? This is not failing
 		dbcmd.CommandText = "SELECT * from jumpType";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		LogB.Information ("TestCrashOnMacARM 2b"); //checking if the bug was because there is nothing selected from jumpType. This also fails
+		LogB.Information ("TestCrashOnMacARM 2b"); //checking if the bug was because jumpType and jump.type
+		//without personSession
+		dbcmd.CommandText = "SELECT jump.type, jumpType.startIn FROM jump, jumpType WHERE jump.Type = jumpType.name";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		LogB.Information ("Reading data");
+		reader = dbcmd.ExecuteReader();
+		while (reader.Read())
+			LogB.Information (string.Format ("({0} {1}", reader[0], reader[1]));
+		reader.Close();
+
+
+		LogB.Information ("TestCrashOnMacARM 2c"); //checking if the bug was because there is nothing selected from jumpType. This also fails
 		//without personSession
 		dbcmd.CommandText = "SELECT person77.name, person77.sex, jump.sessionID, jump.tv, jump.weight, jump.type, jumpType.startIn FROM jump, person77, jumpType WHERE jump.sessionID = 12 AND jumpType.startIn = 1 AND jump.Type = jumpType.name AND jump.personID = person77.uniqueID ORDER BY jump.tv DESC ";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		LogB.Information ("TestCrashOnMacARM 2c"); //fails here
+		LogB.Information ("TestCrashOnMacARM 2d"); //fails here
 		//without personSession
 		dbcmd.CommandText = "SELECT person77.name, person77.sex, jump.sessionID, jump.tv, jump.weight, jump.type FROM jump, person77, jumpType WHERE jump.sessionID = 12 AND jumpType.startIn = 1 AND jump.Type = jumpType.name AND jump.personID = person77.uniqueID ORDER BY jump.tv DESC ";
 		LogB.SQL(dbcmd.CommandText.ToString());

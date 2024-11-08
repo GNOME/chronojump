@@ -4998,7 +4998,19 @@ LogB.SQL("5" + tableName);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		LogB.Information ("TestCrashOnMacARM 2b"); //checking if the bug was because jumpType and jump.type
+		LogB.Information ("TestCrashOnMacARM 2b0"); //checking if the bug was because jumpType and jump.type
+		//without personSession
+		dbcmd.CommandText = "SELECT jump.type, jumpType.startIn FROM jump, jumpType";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		LogB.Information ("Reading data");
+		reader = dbcmd.ExecuteReader();
+		while (reader.Read())
+			LogB.Information (string.Format ("({0} {1}", reader[0], reader[1]));
+		reader.Close();
+
+		LogB.Information ("TestCrashOnMacARM 2b1"); //checking if the bug was because jumpType and jump.type. This crashes!
 		//without personSession
 		dbcmd.CommandText = "SELECT jump.type, jumpType.startIn FROM jump, jumpType WHERE jump.Type = jumpType.name";
 		LogB.SQL(dbcmd.CommandText.ToString());

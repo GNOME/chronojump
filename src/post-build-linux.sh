@@ -64,5 +64,6 @@ if [ -e "../package/linux/refs/runtimes/$OS.$VERSION-$ARCH/native/SQLite.Interop
     cp "../package/linux/refs/System.Data.SQLite.dll" "$1/System.Data.SQLite.dll"
     cp "../package/linux/refs/System.Data.SQLite.dll.config" "$1/System.Data.SQLite.dll.config"
     cp "../package/linux/refs/runtimes/$OS.$VERSION-$ARCH/native/SQLite.Interop.dll" "$1/SQLite.Interop.dll"
+    cp "../package/linux/refs/runtimes/$OS.$VERSION-$ARCH/native/SQLite.Interop.dll" "$1/runtimes/linux-$ARCH/native/SQLite.Interop.dll"
 fi
 

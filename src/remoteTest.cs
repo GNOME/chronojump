@@ -101,6 +101,9 @@ public class RemoteTest
 						! File.Exists (runIntervalFile + "Done")) //just be careful
 				{
 					remoteTestDoing = true;
+					remoteTestTestName = "";
+					if (Util.FileReadable (runIntervalFile))
+						remoteTestTestName = Util.ReadFile (runIntervalFile, true);
 					fakeButtonDo.Click ();
 				}
 			}

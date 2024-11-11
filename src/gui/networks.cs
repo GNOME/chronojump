@@ -525,6 +525,10 @@ public partial class ChronoJumpWindow
 					remoteTestTestName != "" &&
 					comboSelectJumps.EntryExistsByName (remoteTestTestName))
 				combo_select_jumps = comboSelectJumps.SelectByName (remoteTestTestName);
+			else if (current_mode == Constants.Modes.RUNSINTERVALLIC &&
+					remoteTestTestName != "" &&
+					comboSelectRunsI.EntryExistsByName (remoteTestTestName))
+				combo_select_runs_interval = comboSelectRunsI.SelectByName (remoteTestTestName);
 
 			button_execute_test.Click ();
 		}

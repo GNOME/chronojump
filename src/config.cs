@@ -66,7 +66,7 @@ public class Config
 		LastDBFullPath, //cloud & externalDB
 		JsonUploadNeedsButton, JsonUploadJumpSimpleTestScript, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, CanInsertTests, //json upload
 		RemoteTestJumpSimpleFile, RemoteTestRunIntervalFile, RemoteTestCancelFile, //remote execution
-		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, GuiTest, //other
+		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, GuiTest, NoSendLog, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
 
@@ -213,6 +213,9 @@ public class Config
 	}
 	public bool GuiTest {
 		get { return configList.GetBool (OpEnum.GuiTest); }
+	}
+	public bool NoSendLog {
+		get { return configList.GetBool (OpEnum.NoSendLog); }
 	}
 
 	// outdated or not working
@@ -657,6 +660,8 @@ public class ConfigList
 					"Set sensorOnce at Wichro terminal at another terminal."));
 		list.Add (new ConfigOptionBool (Config.OpEnum.GuiTest,
 					"To perform tests with the GUI (untested with current code)."));
+		list.Add (new ConfigOptionBool (Config.OpEnum.NoSendLog,
+					"On Chronojump open do not show the send log window when crashed before."));
 
 		// outdated or not working
 		list.Add (new ConfigOptionBool (Config.OpEnum.Exhibition,

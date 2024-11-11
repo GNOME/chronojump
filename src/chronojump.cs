@@ -729,7 +729,7 @@ public class ChronoJump
 				}
 				splashWin.ShowButtonClose();
 			} else {
-				if(configChronojump.Compujump || configChronojump.Raspberry)
+				if(configChronojump.Compujump || configChronojump.Raspberry || configChronojump.NoSendLog)
 					startChronojump(false); //don't sendLog
 				else
 					startChronojump(true); //sendLog

@@ -1711,9 +1711,12 @@ public partial class ChronoJumpWindow
 			}
 
 			//four platforms
-			ChronopicRegisterPort crp = chronopicRegister.GetSelectedForMode (current_mode);
-			if (crp.Port != "" && crp.Type == ChronopicRegisterPort.Types.FOURPLATFORMS)
-				updateFourPlatformsJumpsPersonNames ();
+			if (chronopicRegister != null)
+			{
+				ChronopicRegisterPort crp = chronopicRegister.GetSelectedForMode (current_mode);
+				if (crp.Port != "" && crp.Type == ChronopicRegisterPort.Types.FOURPLATFORMS)
+					updateFourPlatformsJumpsPersonNames ();
+			}
 		}
 		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
 		{

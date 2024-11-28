@@ -25,31 +25,16 @@
 #include <printf.h>
 #include <MsTimer2.h>
 #include <TimerOne.h>
+#include "pinout.h"
 
 unsigned int deviceType = 1; //Photocel and LightChro sensor
 unsigned int deviceVersion = 17;
-//
-// Hardware configuration
-
-
-//          pin11 -----  M0
-//          pin12 ----- MSO
-// Arduino  pin13 ----- SCK  NRf24L01
-//          pin A4 ---- CSN
-//          pin A3 ----  CE
-//          3,3v       NRf24L01
-//          GND        NRf24L01
 
 // Set up nRF24L01 radio on SPI bus plus pins  (CE & CS)
 
 
 //RF24 radio(A3, A4);    //Old versions
-RF24 radio(10, 9);       //New version
-#define RED_PIN A5
-#define GREEN_PIN A3
-#define BLUE_PIN A4
-#define BUZZER_PIN A0
-#define BATTERY_PIN A6
+RF24 radio(RADIO_CE, RADIO_CS);       //New version
 #define red_on digitalWrite(RED_PIN,LOW)
 #define green_on digitalWrite(GREEN_PIN,LOW)
 #define blue_on digitalWrite(BLUE_PIN,LOW)
@@ -145,19 +130,14 @@ void setup(void)
   //The first versions of the Quick the microswitch was 5xSwitches. The last one associated to the buzzer
   //In the first versions of the photocells the microswitch was 8xSwitches
   //Remember to change comment/uncomment depending on the hardware version
-
-  pinMode(3, INPUT_PULLUP);   //Least significant bit
-  pinMode(4, INPUT_PULLUP);
-  pinMode(5, INPUT_PULLUP);
-  pinMode(6, INPUT_PULLUP);
-  pinMode(7, INPUT_PULLUP);   //Comment in old versions
-  pinMode(8, INPUT_PULLUP);   //Most significant bit.
+  int idPin[] = {ID1_PIN, ID2_PIN, ID3_PIN, ID4_PIN, ID5_PIN, ID6_PIN};
 
   //for (int pin = 6; pin >= 3; pin--)  //Old versions
-  for (int pin = 8; pin >= 3; pin--)    //New versions
+  for (int i = 5; i >= 0; i--)    //New versions
   {
+    pinMode(idPin[i], INPUT_PULLUP);
     sample.termNum = sample.termNum * 2; //Each bit will be multiplied by 2 as much times as his significance
-    if (!digitalRead(pin)) sample.termNum++;
+    if (!digitalRead(idPin[i])) sample.termNum++;
   }
 
 
@@ -189,19 +169,17 @@ void setup(void)
   // A0, A1, A2 connected to the 3xswith
 
   //pinMode(A0, INPUT_PULLUP);  //Old versions
-  pinMode(A7, INPUT_PULLUP);    //New version
-  pinMode(A1, INPUT_PULLUP);
-  pinMode(A2, INPUT_PULLUP);
+  pinMode(CH1_PIN, INPUT_PULLUP);    //New version
+  pinMode(CH2_PIN, INPUT_PULLUP);
+  pinMode(CH3_PIN, INPUT_PULLUP);
 
-  //   Se leeran en binario y se restará al canal por defecto 125
-  //if ( !digitalRead(A0)) {     //Old versions
-    if (analogRead(A7)<128) {   //New versions
+    if (analogRead(CH1_PIN)<128) {    // A7 cannot be read as digital
     controlSwitch = 1; //
   }
-  if (!digitalRead(A1)) {
+  if (!digitalRead(CH2_PIN)) {
     controlSwitch = controlSwitch + 2;
   }
-  if (!digitalRead(A2)) {
+  if (!digitalRead(CH3_PIN)) {
     controlSwitch = controlSwitch + 4;
   }
 
@@ -212,14 +190,14 @@ void setup(void)
   //Activate interruption service each time the sensor changes state
   attachInterrupt(digitalPinToInterrupt(2), controlint, CHANGE);
 
-  pinMode(A3, OUTPUT);    //Blue
-  pinMode(A4, OUTPUT);    //Green
-  pinMode(A5, OUTPUT);    //Red
-  pinMode(A0, OUTPUT);     //Buzzer
+  pinMode(BLUE_PIN, OUTPUT);    //Blue
+  pinMode(GREEN_PIN, OUTPUT);    //Green
+  pinMode(RED_PIN, OUTPUT);    //Red
+  pinMode(BUZZER_PIN, OUTPUT);     //Buzzer
   buzzer_on;
   delay(100);
   buzzer_off;
-  pinMode(2, INPUT_PULLUP); //Sensor
+  pinMode(SENSOR_PIN, INPUT_PULLUP); //Sensor
 
   red_off;
   green_off;
@@ -236,7 +214,7 @@ void setup(void)
   Serial.println(debounceTime);
   Timer1.attachInterrupt(debounce);
   Timer1.stop();
-  sample.state = digitalRead(2);
+  sample.state = digitalRead(SENSOR_PIN);
   lastPinState = sample.state;
   // Serial.print("Initial state: ");
   // Serial.println(sample.state);
@@ -328,7 +306,7 @@ void controlint()
 }
 
 void debounce() {
-  bool pinState = digitalRead(2);
+  bool pinState = digitalRead(SENSOR_PIN);
   Timer1.stop();
 
   if (pinState != lastPinState) {
@@ -394,7 +372,7 @@ void executeCommand(uint16_t command)
     if ((command & sensorOnce) == sensorOnce) {
       //      Serial.println("activating sensor once");
       time0 = millis(); //empieza a contar time
-      lastPinState = digitalRead(2);
+      lastPinState = digitalRead(SENSOR_PIN);
       waitingSensor = true;  //Terminal set to waiting touch/proximity
       unlimitedMode = false;
       interrupts();
@@ -403,14 +381,14 @@ void executeCommand(uint16_t command)
     if ((command & sensorUnlimited) == sensorUnlimited) {
       //      Serial.println("activating sensor unlimited");
       time0 = millis(); //empieza a contar time
-      lastPinState = digitalRead(2);
+      lastPinState = digitalRead(SENSOR_PIN);
       waitingSensor = true;  //Terminal set to waiting touch/proximity
       unlimitedMode = true;
       interrupts();
     }
 
     if ((command & ping) == ping) {
-      sample.state = digitalRead(2);
+      sample.state = digitalRead(SENSOR_PIN);
       sendPong();
     }
 

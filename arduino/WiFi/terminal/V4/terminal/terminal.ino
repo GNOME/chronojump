@@ -499,3 +499,11 @@ void sendBatteryLevel() {
   radio.startListening();
   // Serial.println(sample.data);
 }
+
+// Returns the number of active LEDs (red, green and/or blue)
+// Useful to atenuate the intensity in the case of combining more than one color
+int getActiveLeds() {
+  return ( ((instruction.command & red) == red)
+  + ( ((instruction.command & green) == green) )
+  + ( ((instruction.command & blue) == blue) ) );
+}

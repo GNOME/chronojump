@@ -30,23 +30,8 @@
 #define CH2_PIN A1
 #define CH3_PIN A2
 
-//Versions 3 and 4
-
-// Pins for the RGB LEDs
-#define RED_PIN A5
-#define GREEN_PIN A3
-#define BLUE_PIN A4
-
-// Pins for the ID of the terminal
-#define ID1_PIN 3
-#define ID2_PIN 4
-#define ID3_PIN 5
-#define ID4_PIN 6
-#define ID5_PIN 7
-#define ID6_PIN 8
-
 //Version 5
-/*
+
 // Pins for the RGB LEDs
 #define RED_PIN D6
 #define GREEN_PIN D7
@@ -59,4 +44,3 @@
 #define ID4_PIN A3
 #define ID5_PIN A4
 #define ID6_PIN A5
-*/

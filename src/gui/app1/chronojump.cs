@@ -567,7 +567,7 @@ public partial class ChronoJumpWindow
 	private string progName;
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM, SOCIALNETWORKPOLL, FULLSCREENCAPTURE }
 	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS, MICRODISCOVER, PERSON, DATABASE }
-	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR }
+	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR, BEEPTEST }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE,
 		JUMPSASYMMETRY, JUMPSEVOLUTION, JUMPSRJFATIGUE,
 		RUNSEVOLUTION, SPRINT, CONTACTS_EXPORT_CSV, SIGNAL_AI, }
@@ -664,6 +664,7 @@ public partial class ChronoJumpWindow
 		connectWidgetsSessionMain (builder);
 		connectWidgetsShortcuts (builder);
 		connectWidgetsSprint (builder);
+		connectWidgetsBeepTest (builder);
 		connectWidgetsStats (builder);
 		connectWidgetsTrigger (builder);
 		connectWidgetsWebcam (builder);

@@ -41,6 +41,21 @@ public class BeepTestStageList
 {
 	private List<BeepTestStage> bts_l;
 
+	public struct StageTrack
+	{
+		public int stage;
+		public int track;
+		public int tracksOfThisStage;
+	
+		public StageTrack (int stage, int track, int tracksOfThisStage)
+		{
+			this.stage = stage;
+			this.track = track;
+			this.tracksOfThisStage = tracksOfThisStage;
+		}
+	}
+	public StageTrack currentStageTrack;
+
 	public BeepTestStageList ()
 	{
 		bts_l = new List<BeepTestStage> ();
@@ -52,7 +67,7 @@ public class BeepTestStageList
 			bts_l.Add (new BeepTestStage (stageMs_l[i], stageTracks_l[i], stageDistances_l[i]));
 	}
 
-	public IntInt GetCurrentStageAndTrack (long currentMs)
+	public void GetCurrentStageAndTrack (long currentMs)
 	{
 		int sum = 0;
 		for (int s = 0; s < bts_l.Count; s ++)
@@ -61,10 +76,16 @@ public class BeepTestStageList
 			{
 				sum += bts_l[s].durationMs;
 				if (currentMs < sum)
-					return new IntInt (s, t);
+				{
+					currentStageTrack = new StageTrack (s, t, bts_l[s].tracks);
+				        return;	
+				}
 			}
 		}
-		return new IntInt (bts_l.Count -1, bts_l[bts_l.Count -1].tracks -1);
+		currentStageTrack = new StageTrack (
+				bts_l.Count -1,
+				bts_l[bts_l.Count -1].tracks -1,
+				bts_l[bts_l.Count -1].tracks);
 	}
 }
 
@@ -94,9 +115,10 @@ public abstract class BeepTest
 		return Convert.ToInt32 (UtilAll.DivideSafe (stopwatch.ElapsedMilliseconds, 1000));
 	}
 
-	protected IntInt getCurrentStageAndTrack ()
+	protected BeepTestStageList.StageTrack getCurrentStageAndTrack ()
 	{
-		return btsl.GetCurrentStageAndTrack (stopwatch.ElapsedMilliseconds);
+		btsl.GetCurrentStageAndTrack (stopwatch.ElapsedMilliseconds);
+		return btsl.currentStageTrack;
 	}
 	
 	protected virtual List<int> stageMs_l
@@ -166,7 +188,7 @@ public class CourseNavette : BeepTest
 		return getCurrentSeconds ();
 	}
 
-	public IntInt GetCurrentStageAndTrack ()
+	public BeepTestStageList.StageTrack GetCurrentStageAndTrack ()
 	{
 		return getCurrentStageAndTrack ();
 	}

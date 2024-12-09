@@ -66,9 +66,10 @@ public partial class ChronoJumpWindow
 
 		label_beepTest_time.Text = (courseNavette.GetCurrentSeconds ()).ToString ();
 
-		IntInt stageAndTrack = courseNavette.GetCurrentStageAndTrack ();
-		label_beepTest_stage.Text = (stageAndTrack.a + 1).ToString ();
-		label_beepTest_track.Text = (stageAndTrack.b + 1).ToString ();
+		BeepTestStageList.StageTrack stageTrack = courseNavette.GetCurrentStageAndTrack ();
+		label_beepTest_stage.Text = (stageTrack.stage + 1).ToString ();
+		label_beepTest_track.Text = string.Format ("{0} / {1}",
+				stageTrack.track + 1, stageTrack.tracksOfThisStage);
 
 		Thread.Sleep (250);
 		return true;

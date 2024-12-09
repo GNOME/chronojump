@@ -18997,7 +18997,7 @@ last capture</property>
                                                             <property name="border-width">8</property>
                                                             <property name="orientation">vertical</property>
                                                             <child>
-                                                            <!-- n-columns=4 n-rows=2 -->
+                                                            <!-- n-columns=5 n-rows=2 -->
                                                             <object class="GtkGrid">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -19022,7 +19022,7 @@ last capture</property>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label">Time (ms)</property>
+                                                            <property name="label">Time (s)</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">1</property>
@@ -19079,6 +19079,21 @@ last capture</property>
                                                             <packing>
                                                             <property name="left-attach">3</property>
                                                             <property name="top-attach">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_beepTest_finish">
+                                                            <property name="label">Finish</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <signal name="clicked" handler="on_button_beepTest_finish_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">4</property>
+                                                            <property name="top-attach">0</property>
+                                                            <property name="height">2</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -23250,6 +23265,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

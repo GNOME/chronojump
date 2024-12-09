@@ -95,6 +95,7 @@ public abstract class BeepTest
 	protected BeepTestStageList btsl;
 	protected DateTime dateIni;
 	protected Stopwatch stopwatch;
+	protected bool finished;
 
 	protected virtual void initialize ()
 	{
@@ -102,6 +103,8 @@ public abstract class BeepTest
 		btsl.CreateList (stageMs_l, stageTracks_l, stageDistances_l);
 
 		stopwatch = new Stopwatch ();
+
+		finished = false;
 	}
 
 	protected void start ()
@@ -132,6 +135,11 @@ public abstract class BeepTest
 	protected virtual List<int> stageDistances_l
 	{
 		get { return (new List<int> ()); }
+	}
+	
+	public bool Finished
+	{
+		get { return (finished); }
 	}
 }
 
@@ -182,7 +190,12 @@ public class CourseNavette : BeepTest
 	{
 		start ();
 	}
-	
+
+	public void Finish ()
+	{
+		finished = true;
+	}
+
 	public int GetCurrentSeconds ()
 	{
 		return getCurrentSeconds ();

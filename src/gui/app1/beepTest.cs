@@ -26,6 +26,8 @@ using Gtk;
 public partial class ChronoJumpWindow
 {
 	// at glade ---->
+	Gtk.Button button_beepTest_start;
+	Gtk.Button button_beepTest_finish;
 	Gtk.Label label_beepTest_time;
 	Gtk.Label label_beepTest_stage;
 	Gtk.Label label_beepTest_track;
@@ -34,12 +36,12 @@ public partial class ChronoJumpWindow
 	static CourseNavette courseNavette;
 	static Thread courseNavetteThread;
 
-	//TODO: need to play with sensitivity of start button
-	//TODO: need to check if thread is running
-	//TODO: need to have a button to stop
 	//TODO: need to auto stop on Chronojump end
 	public void on_button_beepTest_start_clicked (object o, EventArgs args)
 	{
+		button_beepTest_start.Sensitive = false;
+		button_beepTest_finish.Sensitive = true;
+
 		courseNavette = new CourseNavette ();
 
 		courseNavetteThread = new Thread (new ThreadStart (courseNavetteDo));
@@ -47,11 +49,17 @@ public partial class ChronoJumpWindow
 
 		courseNavetteThread.Start();
 	}
+	
+	public void on_button_beepTest_finish_clicked (object o, EventArgs args)
+	{
+		if (courseNavetteThread.IsAlive)
+			courseNavette.Finish ();
+	}
 
 	private void courseNavetteDo ()
 	{
 		courseNavette.Start ();
-		while (true)
+		while (! courseNavette.Finished)
 		{
 		}
 	}
@@ -60,7 +68,8 @@ public partial class ChronoJumpWindow
 	{
 		if (! courseNavetteThread.IsAlive)
 		{
-			//TODO
+			button_beepTest_start.Sensitive = true;
+			button_beepTest_finish.Sensitive = false;
 			return false;
 		}
 
@@ -77,6 +86,8 @@ public partial class ChronoJumpWindow
 
 	private void connectWidgetsBeepTest (Gtk.Builder builder)
 	{
+		button_beepTest_start = (Gtk.Button) builder.GetObject ("button_beepTest_start");
+		button_beepTest_finish = (Gtk.Button) builder.GetObject ("button_beepTest_finish");
 		label_beepTest_time = (Gtk.Label) builder.GetObject ("label_beepTest_time");
 		label_beepTest_stage = (Gtk.Label) builder.GetObject ("label_beepTest_stage");
 		label_beepTest_track = (Gtk.Label) builder.GetObject ("label_beepTest_track");

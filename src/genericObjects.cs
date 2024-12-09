@@ -208,6 +208,7 @@ public class IDNameIDDoubleListOfLists
 	}
 }
 
+/* unused
 public class IntInt
 {
 	public int a;
@@ -219,3 +220,4 @@ public class IntInt
 		this.b = b;
 	}
 }
+*/

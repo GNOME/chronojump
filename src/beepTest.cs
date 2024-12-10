@@ -212,3 +212,80 @@ public class CourseNavette : BeepTest
 	*/
 }
 
+public class Pacer15m : BeepTest
+{
+	protected override List<int> stageMs_l
+	{
+		get {
+			return (new List<int> {
+					6750, 6000, 5684, 5400, 5143, 4909, 4696, 4500, 4320, 4154, 4000,
+					3857, 3724, 3600, 3484, 3375, 3273, 3176, 3086, 3000, 2919
+					} );
+		}
+	}
+
+	protected override List<int> stageTracks_l
+	{
+		get {
+			return (new List<int> {
+					9, 10, 11, 12, 12, 13, 13, 14, 14, 15, 15,
+					16, 17, 17, 18, 18, 19, 19, 20, 20, 21
+					} );
+		}
+	}
+
+	protected override List<int> stageDistances_l  //in mm (to avoid decimals)
+	{
+		get {
+			return (new List<int> {
+					15000, 15000, 15000, 15000, 15000, 15000, 15000, 15000, 15000, 15000, 15000,
+					15000, 15000, 15000, 15000, 15000, 15000, 15000, 15000, 15000, 15000
+					} );
+		}
+	}
+
+	public Pacer15m ()
+	{
+		initialize ();
+	}
+}
+
+public class Pacer20m : BeepTest
+{
+	protected override List<int> stageMs_l
+	{
+		get {
+			return (new List<int> {
+					9000, 8000, 7579, 7200, 6857, 6545, 6261, 6000, 5760, 5538, 5333,
+					5143, 4966, 4800, 4645, 4500, 4364, 4235, 4114, 4000, 3892
+
+					} );
+		}
+	}
+
+	protected override List<int> stageTracks_l
+	{
+		get {
+			return (new List<int> {
+					7, 8, 8, 9, 9, 10, 10, 11, 11, 11, 12,
+					12, 13, 13, 13, 14, 14, 15, 15, 16, 16
+					} );
+		}
+	}
+
+	protected override List<int> stageDistances_l  //in mm (to avoid decimals)
+	{
+		get {
+			return (new List<int> {
+					20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000,
+					20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000
+					} );
+		}
+	}
+
+	public Pacer20m ()
+	{
+		initialize ();
+	}
+}
+

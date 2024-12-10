@@ -71,6 +71,9 @@ public partial class ChronoJumpWindow
 				string.Format ("{0}/{1}", stageTrack.track + 1, stageTrack.tracksOfThisStage),
 				currentPerson.Name);
                 textview_beepTest.Buffer = tbBeepTest;
+
+		restTime.AddOrModify(currentPerson.UniqueID, currentPerson.Name, true);
+		updateRestTimes();
 	}
 
 	public void on_button_beepTest_finish_all_clicked (object o, EventArgs args)

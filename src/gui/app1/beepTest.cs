@@ -109,6 +109,9 @@ public partial class ChronoJumpWindow
 		label_beepTest_track.Text = string.Format ("{0} / {1}",
 				stageTrack.track + 1, stageTrack.tracksOfThisStage);
 
+		if (courseNavette.ShouldBeepNow)
+			 Util.PlaySound(Constants.SoundTypes.CAN_START, preferences.volumeOn, preferences.gstreamer);
+
 		Thread.Sleep (250);
 		return true;
 	}

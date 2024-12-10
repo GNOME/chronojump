@@ -54,6 +54,7 @@ public class BeepTestStageList
 			this.tracksOfThisStage = tracksOfThisStage;
 		}
 	}
+
 	public StageTrack currentStageTrack;
 
 	public BeepTestStageList ()
@@ -97,12 +98,16 @@ public abstract class BeepTest
 	protected Stopwatch stopwatch;
 	protected bool finished;
 
+	private BeepTestStageList.StageTrack previousStageTrack; //to beep sound on track changed
+	private bool shouldBeepNow;
+
 	protected virtual void initialize ()
 	{
 		btsl = new BeepTestStageList ();
 		btsl.CreateList (stageMs_l, stageTracks_l, stageDistances_l);
 
 		stopwatch = new Stopwatch ();
+		previousStageTrack = new BeepTestStageList.StageTrack (-1, -1, -1);
 
 		finished = false;
 	}
@@ -120,10 +125,18 @@ public abstract class BeepTest
 
 	protected BeepTestStageList.StageTrack getCurrentStageAndTrack ()
 	{
+		//update stagetrack
 		btsl.GetCurrentStageAndTrack (stopwatch.ElapsedMilliseconds);
+
+		//manage beep variables
+		shouldBeepNow = (previousStageTrack.stage != btsl.currentStageTrack.stage ||
+				   previousStageTrack.track != btsl.currentStageTrack.track);
+		previousStageTrack = btsl.currentStageTrack;
+
+		//return stage track
 		return btsl.currentStageTrack;
 	}
-	
+
 	protected virtual List<int> stageMs_l
 	{
 		get { return (new List<int> ()); }
@@ -137,6 +150,11 @@ public abstract class BeepTest
 		get { return (new List<int> ()); }
 	}
 	
+	public bool ShouldBeepNow
+	{
+		get { return (shouldBeepNow); }
+	}
+
 	public bool Finished
 	{
 		get { return (finished); }

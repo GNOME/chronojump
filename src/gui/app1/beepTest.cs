@@ -81,6 +81,14 @@ public partial class ChronoJumpWindow
 		if (! threadCourseNavette.IsAlive)
 			return;
 
+		BeepTestStageList.StageTrack stageTrack = courseNavette.GetCurrentStageAndTrack ();
+
+                tbBeepTest.Text += string.Format ("\n{0,5} | {1,5} | {2}", //note 5 is Stage and Track char lengths. Note on glade this textview is set as monospace
+				stageTrack.stage + 1,
+				string.Format ("{0}/{1}", stageTrack.track + 1, stageTrack.tracksOfThisStage),
+				"(Rest of the runners)");
+                textview_beepTest.Buffer = tbBeepTest;
+
 		courseNavette.Finish ();
 	}
 

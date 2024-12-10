@@ -112,18 +112,23 @@ public abstract class BeepTest
 		finished = false;
 	}
 
-	protected void start ()
+	public void Start ()
 	{
 		dateIni = DateTime.Now;
 		stopwatch.Start ();
 	}
 
-	protected int getCurrentSeconds ()
+	public void Finish ()
+	{
+		finished = true;
+	}
+
+	public int GetCurrentSeconds ()
 	{
 		return Convert.ToInt32 (UtilAll.DivideSafe (stopwatch.ElapsedMilliseconds, 1000));
 	}
 
-	protected BeepTestStageList.StageTrack getCurrentStageAndTrack ()
+	public BeepTestStageList.StageTrack GetCurrentStageAndTrack ()
 	{
 		//update stagetrack
 		btsl.GetCurrentStageAndTrack (stopwatch.ElapsedMilliseconds);
@@ -167,10 +172,8 @@ public class CourseNavette : BeepTest
 	{
 		get {
 			return (new List<int> {
-					8500, 8000, 7500, 7270, 6850,
-					6550, 6260, 6000, 5760, 5540,
-					5330, 5140, 4960, 4800, 4645,
-					4500, 4360, 4235, 4115, 5000
+					8500, 8000, 7500, 7270, 6850, 6550, 6260, 6000, 5760, 5540,
+					5330, 5140, 4960, 4800, 4645, 4500, 4360, 4235, 4115, 5000
 					} );
 		}
 	}
@@ -179,10 +182,8 @@ public class CourseNavette : BeepTest
 	{
 		get {
 			return (new List<int> {
-					7,  8,  8,  8,  9,
-					9, 10, 10, 10, 11,
-					11, 12, 12, 13, 13,
-					13, 14, 14, 15, 15 
+					7,  8,  8,  8,  9, 9, 10, 10, 10, 11,
+					11, 12, 12, 13, 13, 13, 14, 14, 15, 15
 					} );
 		}
 	}
@@ -191,10 +192,8 @@ public class CourseNavette : BeepTest
 	{
 		get {
 			return (new List<int> {
-					20000, 20000, 20000, 20000, 20000,
-					20000, 20000, 20000, 20000, 20000,
-					20000, 20000, 20000, 20000, 20000,
-					20000, 20000, 20000, 20000, 20000
+					20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000,
+					20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000
 					} );
 		}
 	}
@@ -204,24 +203,12 @@ public class CourseNavette : BeepTest
 		initialize ();
 	}
 
-	public void Start ()
+	/*
+	 * aixo es antic, buscar el millor càlcul
+	float calculoVO2max()
 	{
-		start ();
+		return distanciaTramo * tramosCompletados * 0.0084 + 36.4;
 	}
-
-	public void Finish ()
-	{
-		finished = true;
-	}
-
-	public int GetCurrentSeconds ()
-	{
-		return getCurrentSeconds ();
-	}
-
-	public BeepTestStageList.StageTrack GetCurrentStageAndTrack ()
-	{
-		return getCurrentStageAndTrack ();
-	}
+	*/
 }
 

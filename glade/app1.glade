@@ -18995,15 +18995,14 @@ last capture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="border-width">8</property>
-                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">20</property>
                                                             <child>
-                                                            <!-- n-columns=5 n-rows=2 -->
-                                                            <object class="GtkGrid">
+                                                            <object class="GtkButtonBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="halign">start</property>
-                                                            <property name="row-spacing">8</property>
-                                                            <property name="column-spacing">8</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">12</property>
+                                                            <property name="layout-style">start</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_beepTest_start">
                                                             <property name="label">Start</property>
@@ -19013,87 +19012,39 @@ last capture</property>
                                                             <signal name="clicked" handler="on_button_beepTest_start_clicked" swapped="no"/>
                                                             </object>
                                                             <packing>
-                                                            <property name="left-attach">0</property>
-                                                            <property name="top-attach">0</property>
-                                                            <property name="height">2</property>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkLabel">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label">Time (s)</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="left-attach">1</property>
-                                                            <property name="top-attach">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label">Stage</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="left-attach">2</property>
-                                                            <property name="top-attach">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label">Track</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="left-attach">3</property>
-                                                            <property name="top-attach">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label_beepTest_time">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="left-attach">1</property>
-                                                            <property name="top-attach">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label_beepTest_stage">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="left-attach">2</property>
-                                                            <property name="top-attach">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label_beepTest_track">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="left-attach">3</property>
-                                                            <property name="top-attach">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkButton" id="button_beepTest_finish">
-                                                            <property name="label">Finish</property>
+                                                            <object class="GtkButton" id="button_beepTest_finish_selected">
+                                                            <property name="label">Finish selected</property>
                                                             <property name="visible">True</property>
                                                             <property name="sensitive">False</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
-                                                            <signal name="clicked" handler="on_button_beepTest_finish_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_beepTest_finish_selected_clicked" swapped="no"/>
                                                             </object>
                                                             <packing>
-                                                            <property name="left-attach">4</property>
-                                                            <property name="top-attach">0</property>
-                                                            <property name="height">2</property>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_beepTest_finish_all">
+                                                            <property name="label">Finish all</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <signal name="clicked" handler="on_button_beepTest_finish_all_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -19104,7 +19055,116 @@ last capture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <placeholder/>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">12</property>
+                                                            <child>
+                                                            <!-- n-columns=3 n-rows=2 -->
+                                                            <object class="GtkGrid">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="halign">start</property>
+                                                            <property name="row-spacing">8</property>
+                                                            <property name="column-spacing">8</property>
+                                                            <child>
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label">Time (s)</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label">Stage</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">1</property>
+                                                            <property name="top-attach">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label">Track</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">2</property>
+                                                            <property name="top-attach">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_beepTest_time">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_beepTest_stage">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">1</property>
+                                                            <property name="top-attach">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_beepTest_track">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">2</property>
+                                                            <property name="top-attach">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkScrolledWindow">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="hscrollbar-policy">never</property>
+                                                            <property name="shadow-type">in</property>
+                                                            <child>
+                                                            <object class="GtkTextView" id="textview_beepTest">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="pixels-below-lines">2</property>
+                                                            <property name="monospace">True</property>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
                                                             </child>
                                                             </object>
                                                             <packing>
@@ -23265,6 +23325,12 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

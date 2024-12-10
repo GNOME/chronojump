@@ -27,33 +27,58 @@ public partial class ChronoJumpWindow
 {
 	// at glade ---->
 	Gtk.Button button_beepTest_start;
-	Gtk.Button button_beepTest_finish;
+	Gtk.Button button_beepTest_finish_selected;
+	Gtk.Button button_beepTest_finish_all;
 	Gtk.Label label_beepTest_time;
 	Gtk.Label label_beepTest_stage;
 	Gtk.Label label_beepTest_track;
+	Gtk.TextView textview_beepTest;
 	// <---- at glade
 
 	static CourseNavette courseNavette;
-	static Thread courseNavetteThread;
+	static Thread threadCourseNavette;
+	TextBuffer tbBeepTest = new TextBuffer (new TextTagTable());
 
-	//TODO: need to auto stop on Chronojump end
 	public void on_button_beepTest_start_clicked (object o, EventArgs args)
 	{
 		button_beepTest_start.Sensitive = false;
-		button_beepTest_finish.Sensitive = true;
+		button_beepTest_finish_selected.Sensitive = true;
+		button_beepTest_finish_all.Sensitive = true;
+
+                tbBeepTest.Text = "Stage | Track | Name";
+                textview_beepTest.Buffer = tbBeepTest;
 
 		courseNavette = new CourseNavette ();
 
-		courseNavetteThread = new Thread (new ThreadStart (courseNavetteDo));
+		threadCourseNavette = new Thread (new ThreadStart (courseNavetteDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseCourseNavette));
 
-		courseNavetteThread.Start();
+		threadCourseNavette.Start();
 	}
 	
-	public void on_button_beepTest_finish_clicked (object o, EventArgs args)
+	public void on_button_beepTest_finish_selected_clicked (object o, EventArgs args)
 	{
-		if (courseNavetteThread.IsAlive)
-			courseNavette.Finish ();
+		if (! threadCourseNavette.IsAlive)
+			return;
+
+		if (currentPerson == null)
+			return;
+
+		BeepTestStageList.StageTrack stageTrack = courseNavette.GetCurrentStageAndTrack ();
+
+                tbBeepTest.Text += string.Format ("\n{0,5} | {1,5} | {2}", //note 5 is Stage and Track char lengths. Note on glade this textview is set as monospace
+				stageTrack.stage + 1,
+				string.Format ("{0}/{1}", stageTrack.track + 1, stageTrack.tracksOfThisStage),
+				currentPerson.Name);
+                textview_beepTest.Buffer = tbBeepTest;
+	}
+
+	public void on_button_beepTest_finish_all_clicked (object o, EventArgs args)
+	{
+		if (! threadCourseNavette.IsAlive)
+			return;
+
+		courseNavette.Finish ();
 	}
 
 	private void courseNavetteDo ()
@@ -66,10 +91,11 @@ public partial class ChronoJumpWindow
 
 	private bool pulseCourseNavette ()
 	{
-		if (! courseNavetteThread.IsAlive)
+		if (! threadCourseNavette.IsAlive)
 		{
 			button_beepTest_start.Sensitive = true;
-			button_beepTest_finish.Sensitive = false;
+			button_beepTest_finish_selected.Sensitive = false;
+			button_beepTest_finish_all.Sensitive = false;
 			return false;
 		}
 
@@ -87,9 +113,11 @@ public partial class ChronoJumpWindow
 	private void connectWidgetsBeepTest (Gtk.Builder builder)
 	{
 		button_beepTest_start = (Gtk.Button) builder.GetObject ("button_beepTest_start");
-		button_beepTest_finish = (Gtk.Button) builder.GetObject ("button_beepTest_finish");
+		button_beepTest_finish_selected = (Gtk.Button) builder.GetObject ("button_beepTest_finish_selected");
+		button_beepTest_finish_all = (Gtk.Button) builder.GetObject ("button_beepTest_finish_all");
 		label_beepTest_time = (Gtk.Label) builder.GetObject ("label_beepTest_time");
 		label_beepTest_stage = (Gtk.Label) builder.GetObject ("label_beepTest_stage");
 		label_beepTest_track = (Gtk.Label) builder.GetObject ("label_beepTest_track");
+		textview_beepTest = (Gtk.TextView) builder.GetObject ("textview_beepTest");
 	}
 }

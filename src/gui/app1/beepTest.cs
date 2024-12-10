@@ -35,8 +35,8 @@ public partial class ChronoJumpWindow
 	Gtk.TextView textview_beepTest;
 	// <---- at glade
 
-	static CourseNavette courseNavette;
-	static Thread threadCourseNavette;
+	static BeepTest beepTest;
+	static Thread threadBeepTest;
 	TextBuffer tbBeepTest = new TextBuffer (new TextTagTable());
 
 	public void on_button_beepTest_start_clicked (object o, EventArgs args)
@@ -48,23 +48,23 @@ public partial class ChronoJumpWindow
                 tbBeepTest.Text = "Stage | Track | Name";
                 textview_beepTest.Buffer = tbBeepTest;
 
-		courseNavette = new CourseNavette ();
+		beepTest = new CourseNavette ();
 
-		threadCourseNavette = new Thread (new ThreadStart (courseNavetteDo));
-		GLib.Idle.Add (new GLib.IdleHandler (pulseCourseNavette));
+		threadBeepTest = new Thread (new ThreadStart (beepTestDo));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseBeepTest));
 
-		threadCourseNavette.Start();
+		threadBeepTest.Start();
 	}
 	
 	public void on_button_beepTest_finish_selected_clicked (object o, EventArgs args)
 	{
-		if (! threadCourseNavette.IsAlive)
+		if (! threadBeepTest.IsAlive)
 			return;
 
 		if (currentPerson == null)
 			return;
 
-		BeepTestStageList.StageTrack stageTrack = courseNavette.GetCurrentStageAndTrack ();
+		BeepTestStageList.StageTrack stageTrack = beepTest.GetCurrentStageAndTrack ();
 
                 tbBeepTest.Text += string.Format ("\n{0,5} | {1,5} | {2}", //note 5 is Stage and Track char lengths. Note on glade this textview is set as monospace
 				stageTrack.stage + 1,
@@ -78,10 +78,10 @@ public partial class ChronoJumpWindow
 
 	public void on_button_beepTest_finish_all_clicked (object o, EventArgs args)
 	{
-		if (! threadCourseNavette.IsAlive)
+		if (! threadBeepTest.IsAlive)
 			return;
 
-		BeepTestStageList.StageTrack stageTrack = courseNavette.GetCurrentStageAndTrack ();
+		BeepTestStageList.StageTrack stageTrack = beepTest.GetCurrentStageAndTrack ();
 
                 tbBeepTest.Text += string.Format ("\n{0,5} | {1,5} | {2}", //note 5 is Stage and Track char lengths. Note on glade this textview is set as monospace
 				stageTrack.stage + 1,
@@ -89,20 +89,20 @@ public partial class ChronoJumpWindow
 				"(Rest of the runners)");
                 textview_beepTest.Buffer = tbBeepTest;
 
-		courseNavette.Finish ();
+		beepTest.Finish ();
 	}
 
-	private void courseNavetteDo ()
+	private void beepTestDo ()
 	{
-		courseNavette.Start ();
-		while (! courseNavette.Finished)
+		beepTest.Start ();
+		while (! beepTest.Finished)
 		{
 		}
 	}
 
-	private bool pulseCourseNavette ()
+	private bool pulseBeepTest ()
 	{
-		if (! threadCourseNavette.IsAlive)
+		if (! threadBeepTest.IsAlive)
 		{
 			button_beepTest_start.Sensitive = true;
 			button_beepTest_finish_selected.Sensitive = false;
@@ -110,14 +110,14 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 
-		label_beepTest_time.Text = (courseNavette.GetCurrentSeconds ()).ToString ();
+		label_beepTest_time.Text = (beepTest.GetCurrentSeconds ()).ToString ();
 
-		BeepTestStageList.StageTrack stageTrack = courseNavette.GetCurrentStageAndTrack ();
+		BeepTestStageList.StageTrack stageTrack = beepTest.GetCurrentStageAndTrack ();
 		label_beepTest_stage.Text = (stageTrack.stage + 1).ToString ();
 		label_beepTest_track.Text = string.Format ("{0} / {1}",
 				stageTrack.track + 1, stageTrack.tracksOfThisStage);
 
-		if (courseNavette.ShouldBeepNow)
+		if (beepTest.ShouldBeepNow) //TODO: change tones with https://superuser.com/questions/1118826/change-tone-pitch-for-file-audio (or have them created before)
 			 Util.PlaySound(Constants.SoundTypes.CAN_START, preferences.volumeOn, preferences.gstreamer);
 
 		Thread.Sleep (250);

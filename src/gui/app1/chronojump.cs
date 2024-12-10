@@ -3173,6 +3173,9 @@ public partial class ChronoJumpWindow
 			remoteTest.Stop ();
 		}
 
+		if (threadCourseNavette.IsAlive && courseNavette != null)
+			courseNavette.Finish ();
+
 		if(threadImport != null && threadImport.IsAlive)
 		{
 			LogB.Information("Closing threadImport");

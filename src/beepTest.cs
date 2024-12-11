@@ -25,12 +25,14 @@ using System.Diagnostics;  //Stopwatch
 public class BeepTestStage
 {
 	public int num;
+	public double speedKmh;
 	public double durationS; //duration of each stage in seconds
 	public int laps; //how many laps have each stage
 	public int distanceM; //distance of each lap
 
-	public BeepTestStage (double durationS, int laps, int distanceM)
+	public BeepTestStage (double speedKmh, double durationS, int laps, int distanceM)
 	{
+		this.speedKmh = speedKmh;
 		this.durationS = durationS;
 		this.laps = laps;
 		this.distanceM = distanceM;
@@ -46,12 +48,14 @@ public class BeepTestStageList
 		public int stage;
 		public int lap;
 		public int lapsOfThisStage;
+		public double speedKmh;
 	
-		public StageLap (int stage, int lap, int lapsOfThisStage)
+		public StageLap (int stage, int lap, int lapsOfThisStage, double speedKmh)
 		{
 			this.stage = stage;
 			this.lap = lap;
 			this.lapsOfThisStage = lapsOfThisStage;
+			this.speedKmh = speedKmh;
 		}
 	}
 
@@ -62,10 +66,10 @@ public class BeepTestStageList
 		bts_l = new List<BeepTestStage> ();
 	}
 
-	public void CreateList (List<double> stageDurationS_l, List<int> stageLaps_l, List<int> stageDistM_l)
+	public void CreateList (List<double> stageSpeedKm_l, List <double> stageDurationS_l, List<int> stageLaps_l, List<int> stageDistM_l)
 	{
 		for (int i = 0; i < stageDurationS_l.Count; i ++)
-			bts_l.Add (new BeepTestStage (stageDurationS_l[i], stageLaps_l[i], stageDistM_l[i]));
+			bts_l.Add (new BeepTestStage (stageSpeedKm_l[i], stageDurationS_l[i], stageLaps_l[i], stageDistM_l[i]));
 	}
 
 	//TODO: calculate total laps run, total m run (at this moment)
@@ -79,7 +83,7 @@ public class BeepTestStageList
 				sum += 1000 * bts_l[s].durationS;
 				if (currentMs < sum)
 				{
-					currentStageLap = new StageLap (s, t, bts_l[s].laps);
+					currentStageLap = new StageLap (s, t, bts_l[s].laps, bts_l[s].speedKmh);
 				        return;	
 				}
 			}
@@ -87,7 +91,8 @@ public class BeepTestStageList
 		currentStageLap = new StageLap (
 				bts_l.Count -1,
 				bts_l[bts_l.Count -1].laps -1,
-				bts_l[bts_l.Count -1].laps);
+				bts_l[bts_l.Count -1].laps,
+				bts_l[bts_l.Count -1].speedKmh);
 	}
 }
 
@@ -105,10 +110,10 @@ public abstract class BeepTest
 	protected virtual void initialize ()
 	{
 		btsl = new BeepTestStageList ();
-		btsl.CreateList (stageDurationS_l, stageLaps_l, stageDistM_l);
+		btsl.CreateList (stageSpeedKm_l, stageDurationS_l, stageLaps_l, stageDistM_l);
 
 		stopwatch = new Stopwatch ();
-		previousStageLap = new BeepTestStageList.StageLap (-1, -1, -1);
+		previousStageLap = new BeepTestStageList.StageLap (-1, -1, -1, -1);
 
 		finished = false;
 	}
@@ -143,7 +148,7 @@ public abstract class BeepTest
 		return btsl.currentStageLap;
 	}
 
-	protected virtual List<double> speedKm_l
+	protected virtual List<double> stageSpeedKm_l
 	{
 		get { return (new List<double> ()); }
 	}
@@ -159,11 +164,16 @@ public abstract class BeepTest
 	{
 		get {
 			List<double> stageSec_l = new List<double> ();
-			for (int i = 0; i < speedKm_l.Count; i ++)
-				stageSec_l.Add (stageDistM_l[i] / (speedKm_l[i]/3.6)); // km/h -> m/s
+			for (int i = 0; i < stageSpeedKm_l.Count; i ++)
+				stageSec_l.Add (stageDistM_l[i] / (stageSpeedKm_l[i]/3.6)); // km/h -> m/s
 
 			return stageSec_l;
 		}
+	}
+
+	public virtual double Vo2max (double maxSpeed)
+	{
+		return -1;
 	}
 
 	public bool ShouldBeepNow
@@ -184,7 +194,7 @@ public class BeepTestLeger20m : BeepTest
 {
 	private bool startAt8Kmh;
 
-	protected override List<double> speedKm_l
+	protected override List<double> stageSpeedKm_l
 	{
 		get {
 			double firstSpeed = 8.5;
@@ -223,13 +233,20 @@ public class BeepTestLeger20m : BeepTest
 		this.startAt8Kmh = startAt8Kmh;
 		initialize ();
 	}
+
+	//https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1725157
+	public override double Vo2max (double maxSpeed)
+	{
+		return maxSpeed * 6.55 - 35.8;
+	}
+
 }
 
 public class BeepTestLeger15m : BeepTest
 {
 	private bool startAt8Kmh;
 
-	protected override List<double> speedKm_l
+	protected override List<double> stageSpeedKm_l
 	{
 		get {
 			double firstSpeed = 8.5;

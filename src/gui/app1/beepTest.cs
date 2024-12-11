@@ -38,6 +38,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_beepTest_time;
 	Gtk.Label label_beepTest_stage;
 	Gtk.Label label_beepTest_lap;
+	Gtk.Label label_beepTest_speed;
 	Gtk.TextView textview_beepTest;
 	// <---- at glade
 
@@ -52,7 +53,10 @@ public partial class ChronoJumpWindow
 		button_beepTest_finish_selected.Sensitive = true;
 		button_beepTest_finish_all.Sensitive = true;
 
-                tbBeepTest.Text = "Stage |  Lap  | Name";
+                tbBeepTest.Text =
+			" Stage |  Lap  | Speed | VO2max | Name " +
+			"\n" +
+			" ----- | ----- | ----- | ------ | ---- ";
                 textview_beepTest.Buffer = tbBeepTest;
 
 		if (radio_beepTest_leger20m.Active)
@@ -82,9 +86,11 @@ public partial class ChronoJumpWindow
 
 		BeepTestStageList.StageLap stageLap = beepTest.GetCurrentStageAndLap ();
 
-                tbBeepTest.Text += string.Format ("\n{0,5} | {1,5} | {2}", //note 5 is "Stage" and " Lap " char lengths. Note on glade this textview is set as monospace
+                tbBeepTest.Text += string.Format ("\n {0,5} | {1,5} | {2,5} | {3,6} | {4}", //note 5 is "Stage" and " Lap " char lengths. Note on glade this textview is set as monospace
 				stageLap.stage + 1,
 				string.Format ("{0}/{1}", stageLap.lap + 1, stageLap.lapsOfThisStage),
+				Util.TrimDecimals (stageLap.speedKmh, 1),
+				Util.TrimDecimals (beepTest.Vo2max (stageLap.speedKmh), 2),
 				currentPerson.Name);
                 textview_beepTest.Buffer = tbBeepTest;
 
@@ -99,9 +105,11 @@ public partial class ChronoJumpWindow
 
 		BeepTestStageList.StageLap stageLap = beepTest.GetCurrentStageAndLap ();
 
-                tbBeepTest.Text += string.Format ("\n{0,5} | {1,5} | {2}", //note 5 is Stage and Lap char lengths. Note on glade this textview is set as monospace
+                tbBeepTest.Text += string.Format ("\n {0,5} | {1,5} | {2,5} | {3,6} | {4}", //note 5 is Stage and Lap char lengths. Note on glade this textview is set as monospace
 				stageLap.stage + 1,
 				string.Format ("{0}/{1}", stageLap.lap + 1, stageLap.lapsOfThisStage),
+				Util.TrimDecimals (stageLap.speedKmh, 1),
+				Util.TrimDecimals (beepTest.Vo2max (stageLap.speedKmh), 2),
 				"(Rest of the runners)");
                 textview_beepTest.Buffer = tbBeepTest;
 
@@ -133,6 +141,7 @@ public partial class ChronoJumpWindow
 		label_beepTest_stage.Text = (stageLap.stage + 1).ToString ();
 		label_beepTest_lap.Text = string.Format ("{0} / {1}",
 				stageLap.lap + 1, stageLap.lapsOfThisStage);
+		label_beepTest_speed.Text = Util.TrimDecimals(stageLap.speedKmh, 1);
 
 		if (beepTest.ShouldBeepNow) //TODO: change tones with https://superuser.com/questions/1118826/change-tone-pitch-for-file-audio (or have them created before)
 			 Util.PlaySound(Constants.SoundTypes.CAN_START, preferences.volumeOn, preferences.gstreamer);
@@ -155,6 +164,7 @@ public partial class ChronoJumpWindow
 		label_beepTest_time = (Gtk.Label) builder.GetObject ("label_beepTest_time");
 		label_beepTest_stage = (Gtk.Label) builder.GetObject ("label_beepTest_stage");
 		label_beepTest_lap = (Gtk.Label) builder.GetObject ("label_beepTest_lap");
+		label_beepTest_speed = (Gtk.Label) builder.GetObject ("label_beepTest_speed");
 		textview_beepTest = (Gtk.TextView) builder.GetObject ("textview_beepTest");
 	}
 }

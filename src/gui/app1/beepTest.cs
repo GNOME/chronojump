@@ -26,11 +26,12 @@ using Gtk;
 public partial class ChronoJumpWindow
 {
 	// at glade ---->
-	Gtk.Grid grid_beepTest_type;
+	Gtk.Box box_beepTest_type_and_options;
 	Gtk.RadioButton radio_beepTest_leger20m;
 	Gtk.RadioButton radio_beepTest_leger15m;
 	Gtk.RadioButton radio_beepTest_pacer15m;
 	Gtk.RadioButton radio_beepTest_pacer20m;
+	Gtk.CheckButton check_beepTest_start8kmh;
 	Gtk.Button button_beepTest_start;
 	Gtk.Button button_beepTest_finish_selected;
 	Gtk.Button button_beepTest_finish_all;
@@ -46,7 +47,7 @@ public partial class ChronoJumpWindow
 
 	public void on_button_beepTest_start_clicked (object o, EventArgs args)
 	{
-		grid_beepTest_type.Sensitive = false;
+		box_beepTest_type_and_options.Sensitive = false;
 		button_beepTest_start.Sensitive = false;
 		button_beepTest_finish_selected.Sensitive = true;
 		button_beepTest_finish_all.Sensitive = true;
@@ -55,9 +56,9 @@ public partial class ChronoJumpWindow
                 textview_beepTest.Buffer = tbBeepTest;
 
 		if (radio_beepTest_leger20m.Active)
-			beepTest = new BeepTestLeger20m ();
+			beepTest = new BeepTestLeger20m (check_beepTest_start8kmh.Active);
 		else if (radio_beepTest_leger15m.Active)
-			beepTest = new BeepTestLeger15m ();
+			beepTest = new BeepTestLeger15m (check_beepTest_start8kmh.Active);
 		/*
 		else if (radio_beepTest_pacer15m.Active)
 			beepTest = new Pacer15m ();
@@ -119,7 +120,7 @@ public partial class ChronoJumpWindow
 	{
 		if (! threadBeepTest.IsAlive)
 		{
-			grid_beepTest_type.Sensitive = true;
+			box_beepTest_type_and_options.Sensitive = true;
 			button_beepTest_start.Sensitive = true;
 			button_beepTest_finish_selected.Sensitive = false;
 			button_beepTest_finish_all.Sensitive = false;
@@ -142,11 +143,12 @@ public partial class ChronoJumpWindow
 
 	private void connectWidgetsBeepTest (Gtk.Builder builder)
 	{
-		grid_beepTest_type = (Gtk.Grid) builder.GetObject ("grid_beepTest_type");
+		box_beepTest_type_and_options = (Gtk.Box) builder.GetObject ("box_beepTest_type_and_options");
 		radio_beepTest_leger20m = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_leger20m");
 		radio_beepTest_leger15m = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_leger15m");
 		radio_beepTest_pacer15m = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_pacer15m");
 		radio_beepTest_pacer20m = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_pacer20m");
+		check_beepTest_start8kmh = (Gtk.CheckButton) builder.GetObject ("check_beepTest_start8kmh");
 		button_beepTest_start = (Gtk.Button) builder.GetObject ("button_beepTest_start");
 		button_beepTest_finish_selected = (Gtk.Button) builder.GetObject ("button_beepTest_finish_selected");
 		button_beepTest_finish_all = (Gtk.Button) builder.GetObject ("button_beepTest_finish_all");

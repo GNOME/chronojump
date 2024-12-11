@@ -158,7 +158,6 @@ public abstract class BeepTest
 	protected List<double> stageDurationS_l
 	{
 		get {
-			LogB.Information ("durations");
 			List<double> stageSec_l = new List<double> ();
 			for (int i = 0; i < speedKm_l.Count; i ++)
 				stageSec_l.Add (stageDistM_l[i] / (speedKm_l[i]/3.6)); // km/h -> m/s
@@ -183,11 +182,17 @@ public abstract class BeepTest
 ///TODO: seguir amb lo de la wikipedia i convertint com aquí
 public class BeepTestLeger20m : BeepTest
 {
+	private bool startAt8Kmh;
+
 	protected override List<double> speedKm_l
 	{
 		get {
+			double firstSpeed = 8.5;
+			if (startAt8Kmh)
+				firstSpeed = 8;
+
 			return (new List<double> {
-					8.5, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12, 12.5, 13.0,
+					firstSpeed, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12, 12.5, 13.0,
 					13.5, 14.0, 14.5, 15.0, 15.5, 16.0, 16.5, 17.0, 17.5, 18.0, 18.5
 					} );
 		}
@@ -213,19 +218,26 @@ public class BeepTestLeger20m : BeepTest
 		}
 	}
 
-	public BeepTestLeger20m ()
+	public BeepTestLeger20m (bool startAt8Kmh)
 	{
+		this.startAt8Kmh = startAt8Kmh;
 		initialize ();
 	}
 }
 
 public class BeepTestLeger15m : BeepTest
 {
+	private bool startAt8Kmh;
+
 	protected override List<double> speedKm_l
 	{
 		get {
+			double firstSpeed = 8.5;
+			if (startAt8Kmh)
+				firstSpeed = 8;
+
 			return (new List<double> {
-					8.5, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12, 12.5, 13.0,
+					firstSpeed, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12, 12.5, 13.0,
 					13.5, 14.0, 14.5, 15.0, 15.5, 16.0, 16.5, 17.0, 17.5, 18.0, 18.5
 					} );
 		}
@@ -251,8 +263,9 @@ public class BeepTestLeger15m : BeepTest
 		}
 	}
 
-	public BeepTestLeger15m ()
+	public BeepTestLeger15m (bool startAt8Kmh)
 	{
+		this.startAt8Kmh = startAt8Kmh;
 		initialize ();
 	}
 }

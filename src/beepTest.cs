@@ -25,15 +25,15 @@ using System.Diagnostics;  //Stopwatch
 public class BeepTestStage
 {
 	public int num;
-	public int durationMs; //duration of each stage in ms
-	public int tracks; //how many tracks have each stage
-	public int distanceMm; //distance of each track (in mm to avoid decimals)
+	public double durationS; //duration of each stage in seconds
+	public int laps; //how many laps have each stage
+	public int distanceM; //distance of each lap
 
-	public BeepTestStage (int durationMs, int tracks, int distanceMm)
+	public BeepTestStage (double durationS, int laps, int distanceM)
 	{
-		this.durationMs = durationMs;
-		this.tracks = tracks;
-		this.distanceMm = distanceMm;
+		this.durationS = durationS;
+		this.laps = laps;
+		this.distanceM = distanceM;
 	}
 }
 
@@ -41,52 +41,53 @@ public class BeepTestStageList
 {
 	private List<BeepTestStage> bts_l;
 
-	public struct StageTrack
+	public struct StageLap
 	{
 		public int stage;
-		public int track;
-		public int tracksOfThisStage;
+		public int lap;
+		public int lapsOfThisStage;
 	
-		public StageTrack (int stage, int track, int tracksOfThisStage)
+		public StageLap (int stage, int lap, int lapsOfThisStage)
 		{
 			this.stage = stage;
-			this.track = track;
-			this.tracksOfThisStage = tracksOfThisStage;
+			this.lap = lap;
+			this.lapsOfThisStage = lapsOfThisStage;
 		}
 	}
 
-	public StageTrack currentStageTrack;
+	public StageLap currentStageLap;
 
 	public BeepTestStageList ()
 	{
 		bts_l = new List<BeepTestStage> ();
 	}
 
-	public void CreateList (List<int> stageMs_l, List<int> stageTracks_l, List<int> stageDistances_l)
+	public void CreateList (List<double> stageDurationS_l, List<int> stageLaps_l, List<int> stageDistM_l)
 	{
-		for (int i = 0; i < stageMs_l.Count; i ++)
-			bts_l.Add (new BeepTestStage (stageMs_l[i], stageTracks_l[i], stageDistances_l[i]));
+		for (int i = 0; i < stageDurationS_l.Count; i ++)
+			bts_l.Add (new BeepTestStage (stageDurationS_l[i], stageLaps_l[i], stageDistM_l[i]));
 	}
 
-	public void GetCurrentStageAndTrack (long currentMs)
+	//TODO: calculate total laps run, total m run (at this moment)
+	public void GetCurrentStageAndLap (long currentMs)
 	{
-		int sum = 0;
+		double sum = 0;
 		for (int s = 0; s < bts_l.Count; s ++)
 		{
-			for (int t = 0; t < bts_l[s].tracks; t ++)
+			for (int t = 0; t < bts_l[s].laps; t ++)
 			{
-				sum += bts_l[s].durationMs;
+				sum += 1000 * bts_l[s].durationS;
 				if (currentMs < sum)
 				{
-					currentStageTrack = new StageTrack (s, t, bts_l[s].tracks);
+					currentStageLap = new StageLap (s, t, bts_l[s].laps);
 				        return;	
 				}
 			}
 		}
-		currentStageTrack = new StageTrack (
+		currentStageLap = new StageLap (
 				bts_l.Count -1,
-				bts_l[bts_l.Count -1].tracks -1,
-				bts_l[bts_l.Count -1].tracks);
+				bts_l[bts_l.Count -1].laps -1,
+				bts_l[bts_l.Count -1].laps);
 	}
 }
 
@@ -98,16 +99,16 @@ public abstract class BeepTest
 	protected Stopwatch stopwatch;
 	protected bool finished;
 
-	private BeepTestStageList.StageTrack previousStageTrack; //to beep sound on track changed
+	private BeepTestStageList.StageLap previousStageLap; //to beep sound on lap changed
 	private bool shouldBeepNow;
 
 	protected virtual void initialize ()
 	{
 		btsl = new BeepTestStageList ();
-		btsl.CreateList (stageMs_l, stageTracks_l, stageDistances_l);
+		btsl.CreateList (stageDurationS_l, stageLaps_l, stageDistM_l);
 
 		stopwatch = new Stopwatch ();
-		previousStageTrack = new BeepTestStageList.StageTrack (-1, -1, -1);
+		previousStageLap = new BeepTestStageList.StageLap (-1, -1, -1);
 
 		finished = false;
 	}
@@ -128,33 +129,44 @@ public abstract class BeepTest
 		return Convert.ToInt32 (UtilAll.DivideSafe (stopwatch.ElapsedMilliseconds, 1000));
 	}
 
-	public BeepTestStageList.StageTrack GetCurrentStageAndTrack ()
+	public BeepTestStageList.StageLap GetCurrentStageAndLap ()
 	{
-		//update stagetrack
-		btsl.GetCurrentStageAndTrack (stopwatch.ElapsedMilliseconds);
+		//update stagelap
+		btsl.GetCurrentStageAndLap (stopwatch.ElapsedMilliseconds);
 
 		//manage beep variables
-		shouldBeepNow = (previousStageTrack.stage != btsl.currentStageTrack.stage ||
-				   previousStageTrack.track != btsl.currentStageTrack.track);
-		previousStageTrack = btsl.currentStageTrack;
+		shouldBeepNow = (previousStageLap.stage != btsl.currentStageLap.stage ||
+				   previousStageLap.lap != btsl.currentStageLap.lap);
+		previousStageLap = btsl.currentStageLap;
 
-		//return stage track
-		return btsl.currentStageTrack;
+		//return stage lap
+		return btsl.currentStageLap;
 	}
 
-	protected virtual List<int> stageMs_l
+	protected virtual List<double> speedKm_l
+	{
+		get { return (new List<double> ()); }
+	}
+	protected virtual List<int> stageLaps_l
 	{
 		get { return (new List<int> ()); }
 	}
-	protected virtual List<int> stageTracks_l
+	protected virtual List<int> stageDistM_l
 	{
 		get { return (new List<int> ()); }
 	}
-	protected virtual List<int> stageDistances_l
+	protected List<double> stageDurationS_l
 	{
-		get { return (new List<int> ()); }
+		get {
+			LogB.Information ("durations");
+			List<double> stageSec_l = new List<double> ();
+			for (int i = 0; i < speedKm_l.Count; i ++)
+				stageSec_l.Add (stageDistM_l[i] / (speedKm_l[i]/3.6)); // km/h -> m/s
+
+			return stageSec_l;
+		}
 	}
-	
+
 	public bool ShouldBeepNow
 	{
 		get { return (shouldBeepNow); }
@@ -166,54 +178,100 @@ public abstract class BeepTest
 	}
 }
 
-public class CourseNavette : BeepTest
+//TODO: maybe there could be an option to calculate stageMs_l from running speeds, as this seem to be the way that many of the tests are shown in tables
+//https://en.wikipedia.org/wiki/Multi-stage_fitness_test
+///TODO: seguir amb lo de la wikipedia i convertint com aquí
+public class BeepTestLeger20m : BeepTest
 {
-	protected override List<int> stageMs_l
+	protected override List<double> speedKm_l
 	{
 		get {
-			return (new List<int> {
-					8500, 8000, 7500, 7270, 6850, 6550, 6260, 6000, 5760, 5540,
-					5330, 5140, 4960, 4800, 4645, 4500, 4360, 4235, 4115, 5000
+			return (new List<double> {
+					8.5, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12, 12.5, 13.0,
+					13.5, 14.0, 14.5, 15.0, 15.5, 16.0, 16.5, 17.0, 17.5, 18.0, 18.5
 					} );
 		}
 	}
 
-	protected override List<int> stageTracks_l
+	protected override List<int> stageLaps_l
 	{
 		get {
 			return (new List<int> {
 					7,  8,  8,  8,  9, 9, 10, 10, 10, 11,
-					11, 12, 12, 13, 13, 13, 14, 14, 15, 15
+					11, 12, 12, 13, 13, 13, 14, 14, 15, 15, 15
 					} );
 		}
 	}
 
-	protected override List<int> stageDistances_l  //in mm (to avoid decimals)
+	protected override List<int> stageDistM_l  //in m
 	{
 		get {
 			return (new List<int> {
-					20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000,
-					20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000
+					20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+					20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20
 					} );
 		}
 	}
 
-	public CourseNavette ()
+	public BeepTestLeger20m ()
 	{
 		initialize ();
 	}
+}
 
-	/*
-	 * aixo es antic, buscar el millor càlcul
-	float calculoVO2max()
+public class BeepTestLeger15m : BeepTest
+{
+	protected override List<double> speedKm_l
 	{
-		return distanciaTramo * tramosCompletados * 0.0084 + 36.4;
+		get {
+			return (new List<double> {
+					8.5, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12, 12.5, 13.0,
+					13.5, 14.0, 14.5, 15.0, 15.5, 16.0, 16.5, 17.0, 17.5, 18.0, 18.5
+					} );
+		}
 	}
-	*/
+
+	protected override List<int> stageLaps_l
+	{
+		get {
+			return (new List<int> {
+					9, 10, 11, 11, 12, 12, 13, 13, 14, 14,
+					15, 16, 16, 17, 17, 18, 18, 19, 19, 20, 21
+					} );
+		}
+	}
+
+	protected override List<int> stageDistM_l  //in m
+	{
+		get {
+			return (new List<int> {
+					15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+					15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15
+					} );
+		}
+	}
+
+	public BeepTestLeger15m ()
+	{
+		initialize ();
+	}
 }
 
 public class Pacer15m : BeepTest
 {
+	/* TODO: put correct values
+	protected override List<double> speedKm_l
+	{
+		get {
+			return (new List<double> {
+					8.5, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12, 12.5, 13.0, 13.5,
+					14.0, 14.5, 15.0, 15.5, 16.0, 16.5, 17.0, 17.5, 18.0, 18.5
+					} );
+		}
+	}
+	*/
+
+	/*
 	protected override List<int> stageMs_l
 	{
 		get {
@@ -223,8 +281,9 @@ public class Pacer15m : BeepTest
 					} );
 		}
 	}
+	*/
 
-	protected override List<int> stageTracks_l
+	protected override List<int> stageLaps_l
 	{
 		get {
 			return (new List<int> {
@@ -234,12 +293,12 @@ public class Pacer15m : BeepTest
 		}
 	}
 
-	protected override List<int> stageDistances_l  //in mm (to avoid decimals)
+	protected override List<int> stageDistM_l  //in m
 	{
 		get {
 			return (new List<int> {
-					15000, 15000, 15000, 15000, 15000, 15000, 15000, 15000, 15000, 15000, 15000,
-					15000, 15000, 15000, 15000, 15000, 15000, 15000, 15000, 15000, 15000
+					15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+					15, 15, 15, 15, 15, 15, 15, 15, 15, 15
 					} );
 		}
 	}
@@ -252,6 +311,19 @@ public class Pacer15m : BeepTest
 
 public class Pacer20m : BeepTest
 {
+	/* TODO: put correct values
+	protected override List<double> speedKm_l
+	{
+		get {
+			return (new List<double> {
+					8.5, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12, 12.5, 13.0, 13.5,
+					14.0, 14.5, 15.0, 15.5, 16.0, 16.5, 17.0, 17.5, 18.0, 18.5
+					} );
+		}
+	}
+	*/
+
+	/*
 	protected override List<int> stageMs_l
 	{
 		get {
@@ -262,8 +334,9 @@ public class Pacer20m : BeepTest
 					} );
 		}
 	}
+	*/
 
-	protected override List<int> stageTracks_l
+	protected override List<int> stageLaps_l
 	{
 		get {
 			return (new List<int> {
@@ -273,12 +346,12 @@ public class Pacer20m : BeepTest
 		}
 	}
 
-	protected override List<int> stageDistances_l  //in mm (to avoid decimals)
+	protected override List<int> stageDistM_l  //in m
 	{
 		get {
 			return (new List<int> {
-					20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000,
-					20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000
+					20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+					20, 20, 20, 20, 20, 20, 20, 20, 20, 20
 					} );
 		}
 	}
@@ -288,4 +361,9 @@ public class Pacer20m : BeepTest
 		initialize ();
 	}
 }
+//TODO: check this:
+//https://en.wikipedia.org/wiki/Multi-stage_fitness_test
+//https://en.wikipedia.org/wiki/Yo-Yo_intermittent_test
 
+//TODO: add https://www.topendsports.com/testing/tests/yo-yo-endurance.htm  https://www.topendsports.com/testing/yo-yo-endurance-levels.htm
+//Castagna 2006

@@ -18998,14 +18998,14 @@ last capture</property>
                                                             <property name="orientation">vertical</property>
                                                             <property name="spacing">16</property>
                                                             <child>
-                                                            <!-- n-columns=4 n-rows=1 -->
+                                                            <!-- n-columns=5 n-rows=1 -->
                                                             <object class="GtkGrid" id="grid_beepTest_type">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="column-spacing">8</property>
                                                             <child>
-                                                            <object class="GtkRadioButton" id="radio_beepTest_courseNavette">
-                                                            <property name="label">Course Navette (20m shuttle run)</property>
+                                                            <object class="GtkRadioButton" id="radio_beepTest_leger20m">
+                                                            <property name="label">Leger 20m shuttle run</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
@@ -19020,30 +19020,28 @@ last capture</property>
                                                             <child>
                                                             <object class="GtkRadioButton" id="radio_beepTest_pacer15m">
                                                             <property name="label">Pacer 15m</property>
-                                                            <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw-indicator">True</property>
-                                                            <property name="group">radio_beepTest_courseNavette</property>
+                                                            <property name="group">radio_beepTest_leger20m</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="left-attach">2</property>
+                                                            <property name="left-attach">3</property>
                                                             <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
                                                             <object class="GtkRadioButton" id="radio_beepTest_pacer20m">
                                                             <property name="label">Pacer 15m</property>
-                                                            <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw-indicator">True</property>
-                                                            <property name="group">radio_beepTest_courseNavette</property>
+                                                            <property name="group">radio_beepTest_leger20m</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="left-attach">3</property>
+                                                            <property name="left-attach">4</property>
                                                             <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
@@ -19055,6 +19053,21 @@ last capture</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">0</property>
+                                                            <property name="top-attach">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkRadioButton" id="radio_beepTest_leger15m">
+                                                            <property name="label">Leger 15m shuttle run</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            <property name="group">radio_beepTest_leger20m</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">2</property>
                                                             <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
@@ -19168,7 +19181,7 @@ last capture</property>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label">Track</property>
+                                                            <property name="label">Lap</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">2</property>
@@ -19196,7 +19209,7 @@ last capture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkLabel" id="label_beepTest_track">
+                                                            <object class="GtkLabel" id="label_beepTest_lap">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             </object>
@@ -23406,6 +23419,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -26,6 +26,8 @@ using Gtk;
 public partial class ChronoJumpWindow
 {
 	// at glade ---->
+	Gtk.Image image_mode_race_beepTest;
+	Gtk.Image image_change_modes_contacts_runs_beepTest;
 	Gtk.Box box_beepTest_type_and_options;
 	Gtk.RadioButton radio_beepTest_leger20m;
 	Gtk.RadioButton radio_beepTest_leger15m;
@@ -186,6 +188,8 @@ public partial class ChronoJumpWindow
 
 	private void connectWidgetsBeepTest (Gtk.Builder builder)
 	{
+		image_mode_race_beepTest = (Gtk.Image) builder.GetObject ("image_mode_race_beepTest");
+		image_change_modes_contacts_runs_beepTest = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_runs_beepTest");
 		box_beepTest_type_and_options = (Gtk.Box) builder.GetObject ("box_beepTest_type_and_options");
 		radio_beepTest_leger20m = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_leger20m");
 		radio_beepTest_leger15m = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_leger15m");

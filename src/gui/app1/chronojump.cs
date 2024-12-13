@@ -81,6 +81,7 @@ public partial class ChronoJumpWindow
 	Gtk.RadioButton radio_change_modes_contacts_runs_simple;
 	Gtk.RadioButton radio_change_modes_contacts_runs_intervallic;
 	Gtk.RadioButton radio_change_modes_contacts_runs_encoder;
+	Gtk.RadioButton radio_change_modes_contacts_runs_beepTest;
 	Gtk.RadioButton radio_change_modes_contacts_isometric;
 	Gtk.RadioButton radio_change_modes_contacts_elastic;
 	Gtk.RadioButton radio_change_modes_encoder_gravitatory;
@@ -4050,6 +4051,13 @@ public partial class ChronoJumpWindow
 			else
 				radio_change_modes_contacts_runs_encoder.Active = true;
 		}
+		else if (m == Constants.Modes.BEEPTEST)
+		{
+			if(radio_change_modes_contacts_runs_beepTest.Active)
+				changeMode (Constants.Modes.BEEPTEST);
+			else
+				radio_change_modes_contacts_runs_beepTest.Active = true;
+		}
 		else if (m == Constants.Modes.POWERGRAVITATORY)
 		{
 			if(radio_change_modes_encoder_gravitatory.Active)
@@ -4639,7 +4647,8 @@ public partial class ChronoJumpWindow
 			label_contacts_exercise_selected_options_visible (true);
 			image_top_laterality_contacts.Visible = false;
 		}
-		else {	//m == Constants.Modes.OTHER (contacts / other)
+		else if (m == Constants.Modes.OTHER) //(contacts / other)
+		{
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			hbox_other.Visible = true;
 			notebooks_change(m);
@@ -4657,6 +4666,21 @@ public partial class ChronoJumpWindow
 
 			label_contacts_exercise_selected_options_visible (true);
 			image_top_laterality_contacts.Visible = false;
+		}
+
+		if (m == Constants.Modes.BEEPTEST)
+		{
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
+			notebooks_change(m);
+			radio_mode_contacts_analyze.Visible = false;
+
+			hbox_change_modes_runs.Visible = true; //TODO: add beep test
+			notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.BEEPTEST);
+			box_contacts_capture_top.Visible = false;
+		} else {
+			radio_mode_contacts_analyze.Visible = true;
+			notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.EXECUTE);
+			box_contacts_capture_top.Visible = true;
 		}
 
 		on_treeview_mode_cursor_changed ();
@@ -4999,6 +5023,10 @@ public partial class ChronoJumpWindow
 	{
 		changeModeCheckRadios (Constants.Modes.RUNSENCODER);
 	}
+	private void on_button_selector_start_beepTest_clicked(object o, EventArgs args)
+	{
+		changeModeCheckRadios (Constants.Modes.BEEPTEST);
+	}
 	private void on_radio_change_modes_contacts_runs_simple_toggled (object o, EventArgs args)
 	{
 		if(radio_change_modes_contacts_runs_simple.Active)
@@ -5013,6 +5041,11 @@ public partial class ChronoJumpWindow
 	{
 		if(radio_change_modes_contacts_runs_encoder.Active)
 			changeMode (Constants.Modes.RUNSENCODER);
+	}
+	private void on_radio_change_modes_contacts_runs_beepTest_toggled (object o, EventArgs args)
+	{
+		if(radio_change_modes_contacts_runs_beepTest.Active)
+			changeMode (Constants.Modes.BEEPTEST);
 	}
 
 	//forceSensor (isometric, elastic)
@@ -8838,6 +8871,15 @@ LogB.Debug("mc finished 5");
 			notebook_results.CurrentPage = 8;
 			changeTestImage("", "", "RUNSENCODER");
 			event_execute_button_finish.Sensitive = false;
+		} else if(mode == Constants.Modes.BEEPTEST)
+		{
+			/*
+			notebook_execute.CurrentPage = 8; //not shown on beep test
+			notebook_options_top.CurrentPage = 8;//not shown on beep test
+			notebook_results.CurrentPage = 8;//not shown on beep test
+			changeTestImage("", "", "RUNSENCODER");//not shown on beep test
+			event_execute_button_finish.Sensitive = false;//not shown on beep test
+			*/
 		} else if (Constants.ModeIsFORCESENSOR (mode))
 		{
 			notebook_execute.CurrentPage = 4;
@@ -10429,6 +10471,7 @@ LogB.Debug("mc finished 5");
 		radio_change_modes_contacts_runs_simple = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_runs_simple");
 		radio_change_modes_contacts_runs_intervallic = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_runs_intervallic");
 		radio_change_modes_contacts_runs_encoder = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_runs_encoder");
+		radio_change_modes_contacts_runs_beepTest = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_runs_beepTest");
 		radio_change_modes_contacts_isometric = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_isometric");
 		radio_change_modes_contacts_elastic = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_elastic");
 		radio_change_modes_encoder_gravitatory = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_encoder_gravitatory");

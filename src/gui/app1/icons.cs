@@ -434,6 +434,8 @@ public partial class ChronoJumpWindow
 		app1s_image_show_data_elastic.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "elastic.png");
 
 		image_run_simple_show_time.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_run_time.png");
+		image_mode_race_beepTest.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "audio.png");
+		image_change_modes_contacts_runs_beepTest.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "audio.png");
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_capture.png");
 		image_tests_capture.Pixbuf = pixbuf;

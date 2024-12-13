@@ -64,12 +64,6 @@ public partial class ChronoJumpWindow
 		button_beepTest_finish_selected.Sensitive = true;
 		button_beepTest_finish_all.Sensitive = true;
 
-                tbBeepTest.Text =
-			" Stage |  Lap  | Speed | VO2max | Name " +
-			"\n" +
-			" ----- | ----- | ----- | ------ | ---- ";
-                textview_beepTest.Buffer = tbBeepTest;
-
 		if (radio_beepTest_leger20m.Active)
 			beepTest = new BeepTestLeger20m (check_beepTest_start8kmh.Active);
 		else if (radio_beepTest_leger15m.Active)
@@ -86,12 +80,52 @@ public partial class ChronoJumpWindow
 					Convert.ToDouble (spin_beepTest_constant_speed.Value),
 					Convert.ToInt32 (spin_beepTest_constant_totalLaps.Value));
 
+		if (beepTest.HasVo2max)
+		{
+			tbBeepTest.Text =
+				" Stage |  Lap  | Speed | VO2max | Name " +
+				"\n" +
+				" ----- | ----- | ----- | ------ | ---- ";
+		} else {
+			tbBeepTest.Text =
+				" Stage |  Lap  | Speed | Name " +
+				"\n" +
+				" ----- | ----- | ----- | ---- ";
+		}
+                textview_beepTest.Buffer = tbBeepTest;
+
 		threadBeepTest = new Thread (new ThreadStart (beepTestDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseBeepTest));
 
 		threadBeepTest.Start();
 	}
-	
+
+	private void beepTestPrintResults (bool allPersons, bool hasVo2Max)
+	{
+		string personName = currentPerson.Name;
+		if (allPersons)
+			personName = "(Rest of the runners)";
+
+		BeepTestStageList.StageLap stageLap = beepTest.GetCurrentStageAndLap ();
+
+		//note 5 is "Stage" and " Lap " char lengths. Note on glade this textview is set as monospace
+		if (hasVo2Max)
+			tbBeepTest.Text += string.Format ("\n {0,5} | {1,5} | {2,5} | {3,6} | {4}",
+					stageLap.stage + 1,
+					string.Format ("{0}/{1}", stageLap.lap + 1, stageLap.lapsOfThisStage),
+					Util.TrimDecimals (stageLap.speedKmh, 1),
+					Util.TrimDecimals (beepTest.Vo2max (stageLap.speedKmh), 2),
+					personName);
+		else
+			tbBeepTest.Text += string.Format ("\n {0,5} | {1,5} | {2,5} | {3}",
+					stageLap.stage + 1,
+					string.Format ("{0}/{1}", stageLap.lap + 1, stageLap.lapsOfThisStage),
+					Util.TrimDecimals (stageLap.speedKmh, 1),
+					personName);
+
+                textview_beepTest.Buffer = tbBeepTest;
+	}
+
 	public void on_button_beepTest_finish_selected_clicked (object o, EventArgs args)
 	{
 		if (! threadBeepTest.IsAlive)
@@ -100,15 +134,7 @@ public partial class ChronoJumpWindow
 		if (currentPerson == null)
 			return;
 
-		BeepTestStageList.StageLap stageLap = beepTest.GetCurrentStageAndLap ();
-
-                tbBeepTest.Text += string.Format ("\n {0,5} | {1,5} | {2,5} | {3,6} | {4}", //note 5 is "Stage" and " Lap " char lengths. Note on glade this textview is set as monospace
-				stageLap.stage + 1,
-				string.Format ("{0}/{1}", stageLap.lap + 1, stageLap.lapsOfThisStage),
-				Util.TrimDecimals (stageLap.speedKmh, 1),
-				Util.TrimDecimals (beepTest.Vo2max (stageLap.speedKmh), 2),
-				currentPerson.Name);
-                textview_beepTest.Buffer = tbBeepTest;
+		beepTestPrintResults (false, beepTest.HasVo2max);
 
 		restTime.AddOrModify(currentPerson.UniqueID, currentPerson.Name, true);
 		updateRestTimes();
@@ -119,15 +145,7 @@ public partial class ChronoJumpWindow
 		if (! threadBeepTest.IsAlive)
 			return;
 
-		BeepTestStageList.StageLap stageLap = beepTest.GetCurrentStageAndLap ();
-
-                tbBeepTest.Text += string.Format ("\n {0,5} | {1,5} | {2,5} | {3,6} | {4}", //note 5 is Stage and Lap char lengths. Note on glade this textview is set as monospace
-				stageLap.stage + 1,
-				string.Format ("{0}/{1}", stageLap.lap + 1, stageLap.lapsOfThisStage),
-				Util.TrimDecimals (stageLap.speedKmh, 1),
-				Util.TrimDecimals (beepTest.Vo2max (stageLap.speedKmh), 2),
-				"(Rest of the runners)");
-                textview_beepTest.Buffer = tbBeepTest;
+		beepTestPrintResults (true, beepTest.HasVo2max);
 
 		beepTest.Finish ();
 	}

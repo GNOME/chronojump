@@ -103,6 +103,7 @@ public abstract class BeepTest
 	protected DateTime dateIni;
 	protected Stopwatch stopwatch;
 	protected bool finished;
+	protected bool hasVo2max; //default false
 
 	private BeepTestStageList.StageLap previousStageLap; //to beep sound on lap changed
 	private bool shouldBeepNow;
@@ -185,6 +186,11 @@ public abstract class BeepTest
 	{
 		get { return (finished); }
 	}
+
+	public bool HasVo2max
+	{
+		get { return (hasVo2max); }
+	}
 }
 
 //TODO: maybe there could be an option to calculate stageMs_l from running speeds, as this seem to be the way that many of the tests are shown in tables
@@ -232,6 +238,7 @@ public class BeepTestLeger20m : BeepTest
 	{
 		this.startAt8Kmh = startAt8Kmh;
 		initialize ();
+		hasVo2max = true;
 	}
 
 	//https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1725157

@@ -391,6 +391,56 @@ public class Pacer20m : BeepTest
 		initialize ();
 	}
 }
+
+public class BeepTestConstantSpeed : BeepTest
+{
+	private int distM;
+	private double speedKmh;
+	private int laps;
+
+	public BeepTestConstantSpeed (int distM, double speedKmh, int laps)
+	{
+		this.distM = distM;
+		this.speedKmh = speedKmh;
+		this.laps = laps;
+
+		initialize ();
+	}
+
+	// each "stage" has one lap, each lap has distM (meters)
+	protected override List<int> stageDistM_l  //in m
+	{
+		get {
+			List<int> l = new List<int> ();
+			for (int i = 0; i < laps; i ++)
+				l.Add (distM);
+			return (l);
+		}
+	}
+
+	// each "stage" is done at speedKmh
+	protected override List<double> stageSpeedKm_l
+	{
+		get {
+			List<double> l = new List<double> ();
+			for (int i = 0; i < laps; i ++)
+				l.Add (speedKmh);
+			return (l);
+		}
+	}
+
+	// each "stage" has one lap (stage is same than lap on this class
+	protected override List<int> stageLaps_l
+	{
+		get {
+			List<int> l = new List<int> ();
+			for (int i = 0; i < laps; i ++)
+				l.Add (1);
+			return (l);
+		}
+	}
+}
+
 //TODO: check this:
 //https://en.wikipedia.org/wiki/Multi-stage_fitness_test
 //https://en.wikipedia.org/wiki/Yo-Yo_intermittent_test

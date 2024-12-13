@@ -31,7 +31,12 @@ public partial class ChronoJumpWindow
 	Gtk.RadioButton radio_beepTest_leger15m;
 	Gtk.RadioButton radio_beepTest_pacer15m;
 	Gtk.RadioButton radio_beepTest_pacer20m;
+	Gtk.RadioButton radio_beepTest_constant;
 	Gtk.CheckButton check_beepTest_start8kmh;
+	Gtk.Box box_beepTest_constant_options;
+	Gtk.SpinButton spin_beepTest_constant_distM;
+	Gtk.SpinButton spin_beepTest_constant_speed;
+	Gtk.SpinButton spin_beepTest_constant_totalLaps;
 	Gtk.Button button_beepTest_start;
 	Gtk.Button button_beepTest_finish_selected;
 	Gtk.Button button_beepTest_finish_all;
@@ -45,6 +50,12 @@ public partial class ChronoJumpWindow
 	static BeepTest beepTest;
 	static Thread threadBeepTest;
 	TextBuffer tbBeepTest = new TextBuffer (new TextTagTable());
+
+	private void on_radio_beepTest_toggled (object o, EventArgs args)
+	{
+		check_beepTest_start8kmh.Visible = (radio_beepTest_leger20m.Active || radio_beepTest_leger15m.Active);
+		box_beepTest_constant_options.Visible = radio_beepTest_constant.Active;
+	}
 
 	public void on_button_beepTest_start_clicked (object o, EventArgs args)
 	{
@@ -69,6 +80,11 @@ public partial class ChronoJumpWindow
 		else if (radio_beepTest_pacer20m.Active)
 			beepTest = new Pacer20m ();
 			*/
+		else if (radio_beepTest_constant.Active)
+			beepTest = new BeepTestConstantSpeed (
+					Convert.ToInt32 (spin_beepTest_constant_distM.Value),
+					Convert.ToDouble (spin_beepTest_constant_speed.Value),
+					Convert.ToInt32 (spin_beepTest_constant_totalLaps.Value));
 
 		threadBeepTest = new Thread (new ThreadStart (beepTestDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseBeepTest));
@@ -157,7 +173,12 @@ public partial class ChronoJumpWindow
 		radio_beepTest_leger15m = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_leger15m");
 		radio_beepTest_pacer15m = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_pacer15m");
 		radio_beepTest_pacer20m = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_pacer20m");
+		radio_beepTest_constant = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_constant");
 		check_beepTest_start8kmh = (Gtk.CheckButton) builder.GetObject ("check_beepTest_start8kmh");
+		box_beepTest_constant_options = (Gtk.Box) builder.GetObject ("box_beepTest_constant_options");
+		spin_beepTest_constant_distM = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_constant_distM");
+		spin_beepTest_constant_speed = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_constant_speed");
+		spin_beepTest_constant_totalLaps = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_constant_totalLaps");
 		button_beepTest_start = (Gtk.Button) builder.GetObject ("button_beepTest_start");
 		button_beepTest_finish_selected = (Gtk.Button) builder.GetObject ("button_beepTest_finish_selected");
 		button_beepTest_finish_all = (Gtk.Button) builder.GetObject ("button_beepTest_finish_all");

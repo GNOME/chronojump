@@ -2212,6 +2212,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
                 
         } else { #more than one series
                 #colBalls = "black"
+		par (mar=c(5,4,8,2))
                 uniqueColors=rainbow(length(unique(seriesName)))
                 
                 # #in x axis move a little every series to right in order to compare
@@ -2326,9 +2327,9 @@ paintCrossVariables <- function (paf, varX, varY, option,
                             legend=unique(seriesName), lty=1, lwd=2, col=uniqueColors, 
                             cex=1, bg="white", ncol=length(unique(seriesName)), bty="n",
                             plot=F)
-                legend(rng[2]-1.25*lg$rect$w,rng[4]+1*lg$rect$h,
+                legend(rng[1],rng[4]+1.5*lg$rect$h,
                        legend=unique(seriesName), lty=1, lwd=2, col=uniqueColors, 
-                       cex=1, bg="white", ncol=6, bty="n",
+                       cex=1, bg="white", ncol=5, bty="n",
                        plot=T, xpd=NA)
         }
         

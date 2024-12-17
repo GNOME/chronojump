@@ -179,8 +179,10 @@ public partial class ChronoJumpWindow
 				stageLap.lap + 1, stageLap.lapsOfThisStage);
 		label_beepTest_speed.Text = Util.TrimDecimals(stageLap.speedKmh, 1);
 
-		if (beepTest.ShouldBeepNow) //TODO: change tones with https://superuser.com/questions/1118826/change-tone-pitch-for-file-audio (or have them created before)
-			 Util.PlaySound(Constants.SoundTypes.CAN_START, preferences.volumeOn, preferences.gstreamer);
+		if (beepTest.ShouldBeepNow == BeepTest.BeepNowEnum.STAGE)
+			 Util.PlaySound(Constants.SoundTypes.CAN_START, preferences.volumeOn, preferences.gstreamer, 2);
+		else if (beepTest.ShouldBeepNow == BeepTest.BeepNowEnum.LAP)
+			Util.PlaySound(Constants.SoundTypes.CAN_START, preferences.volumeOn, preferences.gstreamer);
 
 		Thread.Sleep (250);
 		return true;

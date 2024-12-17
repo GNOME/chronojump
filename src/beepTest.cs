@@ -59,8 +59,6 @@ public class BeepTestStageList
 		}
 	}
 
-	public StageLap currentStageLap;
-
 	public BeepTestStageList ()
 	{
 		bts_l = new List<BeepTestStage> ();
@@ -73,7 +71,7 @@ public class BeepTestStageList
 	}
 
 	//TODO: calculate total laps run, total m run (at this moment)
-	public void GetCurrentStageAndLap (long currentMs)
+	public StageLap GetCurrentStageAndLap (long currentMs)
 	{
 		double sum = 0;
 		for (int s = 0; s < bts_l.Count; s ++)
@@ -82,13 +80,11 @@ public class BeepTestStageList
 			{
 				sum += 1000 * bts_l[s].durationS;
 				if (currentMs < sum)
-				{
-					currentStageLap = new StageLap (s, t, bts_l[s].laps, bts_l[s].speedKmh);
-				        return;	
-				}
+					return new StageLap (s, t, bts_l[s].laps, bts_l[s].speedKmh);
 			}
 		}
-		currentStageLap = new StageLap (
+
+		return new StageLap (
 				bts_l.Count -1,
 				bts_l[bts_l.Count -1].laps -1,
 				bts_l[bts_l.Count -1].laps,
@@ -106,7 +102,8 @@ public abstract class BeepTest
 	protected bool hasVo2max; //default false
 
 	private BeepTestStageList.StageLap previousStageLap; //to beep sound on lap changed
-	private bool shouldBeepNow;
+	public enum BeepNowEnum { NO, LAP, STAGE };
+	private BeepNowEnum shouldBeepNow;
 
 	protected virtual void initialize ()
 	{
@@ -138,15 +135,19 @@ public abstract class BeepTest
 	public BeepTestStageList.StageLap GetCurrentStageAndLap ()
 	{
 		//update stagelap
-		btsl.GetCurrentStageAndLap (stopwatch.ElapsedMilliseconds);
+		BeepTestStageList.StageLap currentStageLap = btsl.GetCurrentStageAndLap (stopwatch.ElapsedMilliseconds);
 
 		//manage beep variables
-		shouldBeepNow = (previousStageLap.stage != btsl.currentStageLap.stage ||
-				   previousStageLap.lap != btsl.currentStageLap.lap);
-		previousStageLap = btsl.currentStageLap;
+		shouldBeepNow = BeepNowEnum.NO;
+		if (previousStageLap.stage >= 0 && //double beep on stage not at start of the test
+				previousStageLap.stage != currentStageLap.stage)
+			shouldBeepNow = BeepNowEnum.STAGE;
+		else if (previousStageLap.lap != currentStageLap.lap)
+			shouldBeepNow = BeepNowEnum.LAP;
 
-		//return stage lap
-		return btsl.currentStageLap;
+		previousStageLap = currentStageLap;
+
+		return currentStageLap;
 	}
 
 	protected virtual List<double> stageSpeedKm_l
@@ -177,7 +178,7 @@ public abstract class BeepTest
 		return -1;
 	}
 
-	public bool ShouldBeepNow
+	public BeepNowEnum ShouldBeepNow
 	{
 		get { return (shouldBeepNow); }
 	}

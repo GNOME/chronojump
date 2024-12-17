@@ -71,8 +71,9 @@ public class BeepTestStageManage
 			bts_l.Add (new BeepTestStage (stageSpeedKm_l[i], stageDurationS_l[i], stageLaps_l[i], stageDistM_l[i]));
 	}
 
-	public StageLapStatus GetCurrentStageLapStatus (long currentMs)
+	public StageLapStatus GetCurrentStageLapStatus (long currentMs, out bool shouldFinish)
 	{
+		shouldFinish = false;
 		double sum = 0;
 		for (int s = 0; s < bts_l.Count; s ++)
 		{
@@ -84,6 +85,7 @@ public class BeepTestStageManage
 			}
 		}
 
+		shouldFinish = true;
 		return new StageLapStatus (
 				bts_l.Count -1,
 				bts_l[bts_l.Count -1].laps -1,
@@ -147,8 +149,13 @@ public abstract class BeepTest
 
 	public BeepTestStageManage.StageLapStatus GetCurrentStageLapStatus ()
 	{
-		//update stagelap
-		BeepTestStageManage.StageLapStatus currentStageLapStatus = btsm.GetCurrentStageLapStatus (stopwatch.ElapsedMilliseconds + startedWithMs);
+		//update stageLapStatus
+		BeepTestStageManage.StageLapStatus currentStageLapStatus = btsm.GetCurrentStageLapStatus (
+				stopwatch.ElapsedMilliseconds + startedWithMs,
+				out bool shouldFinish);
+
+		if (shouldFinish)
+			finished = true;
 
 		//manage beep variables
 		shouldBeepNow = BeepNowEnum.NO;

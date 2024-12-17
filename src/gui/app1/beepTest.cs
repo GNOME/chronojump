@@ -151,8 +151,6 @@ public partial class ChronoJumpWindow
 		if (! threadBeepTest.IsAlive)
 			return;
 
-		beepTestPrintResults (true, beepTest.HasVo2max);
-
 		beepTest.Finish ();
 	}
 
@@ -172,6 +170,8 @@ public partial class ChronoJumpWindow
 			button_beepTest_start.Sensitive = true;
 			button_beepTest_finish_selected.Sensitive = false;
 			button_beepTest_finish_all.Sensitive = false;
+
+			beepTestPrintResults (true, beepTest.HasVo2max);
 			return false;
 		}
 
@@ -190,7 +190,7 @@ public partial class ChronoJumpWindow
 			 Util.PlaySoundGstreamerFromFile (beepTest.GetSoundFileForStage (slStatus.stage, false),
 					 preferences.volumeOn, preferences.gstreamer, 1);
 
-		Thread.Sleep (250);
+		Thread.Sleep (100);
 		return true;
 	}
 

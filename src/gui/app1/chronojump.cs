@@ -3174,7 +3174,7 @@ public partial class ChronoJumpWindow
 			remoteTest.Stop ();
 		}
 
-		if (threadBeepTest.IsAlive && beepTest != null)
+		if (threadBeepTest != null && threadBeepTest.IsAlive && beepTest != null)
 			beepTest.Finish ();
 
 		if(threadImport != null && threadImport.IsAlive)

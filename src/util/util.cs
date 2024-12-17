@@ -2006,9 +2006,17 @@ public class Util
 	{
 		string fileName = "";
 		if(! UseSoundList)
-			fileName = getSound(mySound); //default chronojump
+			fileName = GetSound (mySound); //default chronojump
 		else
-			fileName = getSoundFromSoundList(); //espectacle
+			fileName = getSoundFromSoundList (); //espectacle
+
+		return PlaySoundGstreamerFromFile (fileName, true, gstreamer, times);
+	}
+
+	public static SoundCodes PlaySoundGstreamerFromFile (string fileName, bool volumeOn, Preferences.GstreamerTypes gstreamer, int times)
+	{
+		if ( ! volumeOn )
+			return SoundCodes.VOLUME_OFF;
 
 		if(! File.Exists(fileName)) {
 			LogB.Warning("Cannot found this sound file: " + fileName);
@@ -2098,7 +2106,7 @@ public class Util
 		return SoundCodes.OK;
 	}
 	
-	private static string getSound (Constants.SoundTypes mySound)
+	public static string GetSound (Constants.SoundTypes mySound)
 	{
 		string fileName = "";
 		switch(mySound) {

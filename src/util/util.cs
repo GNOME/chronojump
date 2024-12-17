@@ -1976,8 +1976,16 @@ public class Util
 	public enum SoundCodes { VOLUME_OFF, OK, PROBLEM_NO_FILE, PROBLEM_OTHER };
 	public static bool TestSound;
 
+	//default call
 	public static SoundCodes PlaySound (Constants.SoundTypes mySound,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer)
+	{
+		return PlaySound (mySound, volumeOn, gstreamer, 1);
+	}
+
+	public static SoundCodes PlaySound (Constants.SoundTypes mySound,
+			bool volumeOn, Preferences.GstreamerTypes gstreamer,
+			int times) //times implemented only on ffplay
 	{
 		if ( ! volumeOn )
 			return SoundCodes.VOLUME_OFF;
@@ -1991,10 +1999,10 @@ public class Util
 				gstreamer == Preferences.GstreamerTypes.SYSTEMSOUNDS)
 			return playSoundWindows(mySound);
 		else
-			return playSoundGstreamer(mySound, gstreamer);
+			return playSoundGstreamer(mySound, gstreamer, times);
 	}
 	
-	private static SoundCodes playSoundGstreamer (Constants.SoundTypes mySound, Preferences.GstreamerTypes gstreamer)
+	private static SoundCodes playSoundGstreamer (Constants.SoundTypes mySound, Preferences.GstreamerTypes gstreamer, int times)
 	{
 		string fileName = "";
 		if(! UseSoundList)
@@ -2033,7 +2041,10 @@ public class Util
 				else if(operatingSystem == UtilAll.OperatingSystems.MACOSX)
 					pBin = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay");
 
-				pinfo.Arguments = fileName + " -nodisp -nostats -hide_banner -autoexit";
+				string timesStr = "";
+				if (times > 1)
+					timesStr = string.Format (" -loop {0}", times);
+				pinfo.Arguments = fileName + " -nodisp -nostats -hide_banner -autoexit" + timesStr;
 			}
 
 			pinfo.FileName=pBin;

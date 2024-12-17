@@ -19415,7 +19415,7 @@ last capture</property>
                                                             <property name="orientation">vertical</property>
                                                             <property name="spacing">12</property>
                                                             <child>
-                                                            <!-- n-columns=4 n-rows=2 -->
+                                                            <!-- n-columns=5 n-rows=2 -->
                                                             <object class="GtkGrid">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -19503,6 +19503,32 @@ last capture</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">3</property>
+                                                            <property name="top-attach">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="margin-left">50</property>
+                                                            <property name="label">Work in progress</property>
+                                                            <property name="xalign">0</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">4</property>
+                                                            <property name="top-attach">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="margin-left">50</property>
+                                                            <property name="label">Data is not saved on this version</property>
+                                                            <property name="xalign">0</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">4</property>
                                                             <property name="top-attach">1</property>
                                                             </packing>
                                                             </child>
@@ -23707,6 +23733,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

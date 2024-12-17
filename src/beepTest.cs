@@ -173,6 +173,19 @@ public abstract class BeepTest
 		}
 	}
 
+	//isLastOne allows to play double pip of previous stage sound
+	public virtual string GetSoundFileForStage (int stage, bool isLastOne)
+	{
+		if (stage >= 0 && stage <= 20)
+		{
+			if (! isLastOne)
+				stage += 1;
+
+			return System.IO.Path.Combine (Util.GetSoundsBeepDir(), string.Format ("BEEP{0}.mp3", stage));
+		} else
+			return Util.GetSound (Constants.SoundTypes.CAN_START);
+	}
+
 	public virtual double Vo2max (double maxSpeed)
 	{
 		return -1;
@@ -199,13 +212,20 @@ public abstract class BeepTest
 ///TODO: seguir amb lo de la wikipedia i convertint com aquí
 public class BeepTestLeger20m : BeepTest
 {
-	private bool startAt8Kmh;
+	private bool startFirstAt8Kmh;
+
+	public BeepTestLeger20m (bool startFirstAt8Kmh)
+	{
+		this.startFirstAt8Kmh = startFirstAt8Kmh;
+		initialize ();
+		hasVo2max = true;
+	}
 
 	protected override List<double> stageSpeedKm_l
 	{
 		get {
 			double firstSpeed = 8.5;
-			if (startAt8Kmh)
+			if (startFirstAt8Kmh)
 				firstSpeed = 8;
 
 			return (new List<double> {
@@ -235,13 +255,6 @@ public class BeepTestLeger20m : BeepTest
 		}
 	}
 
-	public BeepTestLeger20m (bool startAt8Kmh)
-	{
-		this.startAt8Kmh = startAt8Kmh;
-		initialize ();
-		hasVo2max = true;
-	}
-
 	//https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1725157
 	public override double Vo2max (double maxSpeed)
 	{
@@ -252,13 +265,19 @@ public class BeepTestLeger20m : BeepTest
 
 public class BeepTestLeger15m : BeepTest
 {
-	private bool startAt8Kmh;
+	private bool startFirstAt8Kmh;
+
+	public BeepTestLeger15m (bool startFirstAt8Kmh)
+	{
+		this.startFirstAt8Kmh = startFirstAt8Kmh;
+		initialize ();
+	}
 
 	protected override List<double> stageSpeedKm_l
 	{
 		get {
 			double firstSpeed = 8.5;
-			if (startAt8Kmh)
+			if (startFirstAt8Kmh)
 				firstSpeed = 8;
 
 			return (new List<double> {
@@ -287,16 +306,15 @@ public class BeepTestLeger15m : BeepTest
 					} );
 		}
 	}
-
-	public BeepTestLeger15m (bool startAt8Kmh)
-	{
-		this.startAt8Kmh = startAt8Kmh;
-		initialize ();
-	}
 }
 
 public class Pacer15m : BeepTest
 {
+	public Pacer15m ()
+	{
+		initialize ();
+	}
+
 	/* TODO: put correct values
 	protected override List<double> speedKm_l
 	{
@@ -340,15 +358,15 @@ public class Pacer15m : BeepTest
 					} );
 		}
 	}
-
-	public Pacer15m ()
-	{
-		initialize ();
-	}
 }
 
 public class Pacer20m : BeepTest
 {
+	public Pacer20m ()
+	{
+		initialize ();
+	}
+
 	/* TODO: put correct values
 	protected override List<double> speedKm_l
 	{
@@ -392,11 +410,6 @@ public class Pacer20m : BeepTest
 					20, 20, 20, 20, 20, 20, 20, 20, 20, 20
 					} );
 		}
-	}
-
-	public Pacer20m ()
-	{
-		initialize ();
 	}
 }
 
@@ -447,6 +460,12 @@ public class BeepTestConstantSpeed : BeepTest
 			return (l);
 		}
 	}
+
+	public override string GetSoundFileForStage (int stage, bool isLastOne)
+	{
+		return Util.GetSound (Constants.SoundTypes.CAN_START);
+	}
+
 }
 
 //TODO: check this:

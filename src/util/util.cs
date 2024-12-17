@@ -1573,6 +1573,10 @@ public class Util
 		return GetImagesDir();
 	}
 
+	public static string GetSoundsBeepDir(){
+		return System.IO.Path.Combine (GetImagesDir(), "sounds", "beepTests");
+	}
+
 	//previous to 2.1.3
 	static string backupDirOld = GetDatabaseDir() + Path.DirectorySeparatorChar + "backup";
 	public static string GetBackupDirOld () {

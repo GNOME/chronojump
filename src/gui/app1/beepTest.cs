@@ -180,9 +180,11 @@ public partial class ChronoJumpWindow
 		label_beepTest_speed.Text = Util.TrimDecimals(stageLap.speedKmh, 1);
 
 		if (beepTest.ShouldBeepNow == BeepTest.BeepNowEnum.STAGE)
-			 Util.PlaySound(Constants.SoundTypes.CAN_START, preferences.volumeOn, preferences.gstreamer, 2);
+			 Util.PlaySoundGstreamerFromFile (beepTest.GetSoundFileForStage (stageLap.stage, true),
+					 preferences.volumeOn, preferences.gstreamer, 2);
 		else if (beepTest.ShouldBeepNow == BeepTest.BeepNowEnum.LAP)
-			Util.PlaySound(Constants.SoundTypes.CAN_START, preferences.volumeOn, preferences.gstreamer);
+			 Util.PlaySoundGstreamerFromFile (beepTest.GetSoundFileForStage (stageLap.stage, false),
+					 preferences.volumeOn, preferences.gstreamer, 1);
 
 		Thread.Sleep (250);
 		return true;

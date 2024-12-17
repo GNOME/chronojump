@@ -90,6 +90,17 @@ public class BeepTestStageList
 				bts_l[bts_l.Count -1].laps,
 				bts_l[bts_l.Count -1].speedKmh);
 	}
+
+	//gets at which millisecond starts an stage
+	public int GetStageTimeStartInMs (int stage)
+	{
+		int sum = 0;
+		for (int s = 0; s < stage -1; s ++)
+			for (int t = 0; t < bts_l[s].laps; t ++)
+				sum += Convert.ToInt32 (1000 * bts_l[s].durationS);
+
+		return sum;
+	}
 }
 
 
@@ -100,6 +111,7 @@ public abstract class BeepTest
 	protected Stopwatch stopwatch;
 	protected bool finished;
 	protected bool hasVo2max; //default false
+	protected int startedWithMs = 0;
 
 	private BeepTestStageList.StageLap previousStageLap; //to beep sound on lap changed
 	public enum BeepNowEnum { NO, LAP, STAGE };
@@ -135,7 +147,7 @@ public abstract class BeepTest
 	public BeepTestStageList.StageLap GetCurrentStageAndLap ()
 	{
 		//update stagelap
-		BeepTestStageList.StageLap currentStageLap = btsl.GetCurrentStageAndLap (stopwatch.ElapsedMilliseconds);
+		BeepTestStageList.StageLap currentStageLap = btsl.GetCurrentStageAndLap (stopwatch.ElapsedMilliseconds + startedWithMs);
 
 		//manage beep variables
 		shouldBeepNow = BeepNowEnum.NO;
@@ -148,6 +160,11 @@ public abstract class BeepTest
 		previousStageLap = currentStageLap;
 
 		return currentStageLap;
+	}
+
+	protected int getStageTimeStartInMs (int stage)
+	{
+		return btsl.GetStageTimeStartInMs (stage);
 	}
 
 	protected virtual List<double> stageSpeedKm_l
@@ -214,11 +231,14 @@ public class BeepTestLeger20m : BeepTest
 {
 	private bool startFirstAt8Kmh;
 
-	public BeepTestLeger20m (bool startFirstAt8Kmh)
+	public BeepTestLeger20m (int startStage, bool startFirstAt8Kmh)
 	{
 		this.startFirstAt8Kmh = startFirstAt8Kmh;
 		initialize ();
 		hasVo2max = true;
+
+		if (startStage > 1)
+			startedWithMs = getStageTimeStartInMs (startStage);
 	}
 
 	protected override List<double> stageSpeedKm_l
@@ -267,10 +287,13 @@ public class BeepTestLeger15m : BeepTest
 {
 	private bool startFirstAt8Kmh;
 
-	public BeepTestLeger15m (bool startFirstAt8Kmh)
+	public BeepTestLeger15m (int startStage, bool startFirstAt8Kmh)
 	{
 		this.startFirstAt8Kmh = startFirstAt8Kmh;
 		initialize ();
+
+		if (startStage > 1)
+			startedWithMs = getStageTimeStartInMs (startStage);
 	}
 
 	protected override List<double> stageSpeedKm_l

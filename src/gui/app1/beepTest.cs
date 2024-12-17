@@ -112,21 +112,21 @@ public partial class ChronoJumpWindow
 		if (allPersons)
 			personName = "(Rest of the runners)";
 
-		BeepTestStageList.StageLap stageLap = beepTest.GetCurrentStageAndLap ();
+		BeepTestStageManage.StageLapStatus slStatus = beepTest.GetCurrentStageLapStatus ();
 
 		//note 5 is "Stage" and " Lap " char lengths. Note on glade this textview is set as monospace
 		if (hasVo2Max)
 			tbBeepTest.Text += string.Format ("\n {0,5} | {1,5} | {2,5} | {3,6} | {4}",
-					stageLap.stage + 1,
-					string.Format ("{0}/{1}", stageLap.lap + 1, stageLap.lapsOfThisStage),
-					Util.TrimDecimals (stageLap.speedKmh, 1),
-					Util.TrimDecimals (beepTest.Vo2max (stageLap.speedKmh), 2),
+					slStatus.stage + 1,
+					string.Format ("{0}/{1}", slStatus.lap + 1, slStatus.lapsOfThisStage),
+					Util.TrimDecimals (slStatus.speedKmh, 1),
+					Util.TrimDecimals (beepTest.Vo2max (slStatus.speedKmh), 2),
 					personName);
 		else
 			tbBeepTest.Text += string.Format ("\n {0,5} | {1,5} | {2,5} | {3}",
-					stageLap.stage + 1,
-					string.Format ("{0}/{1}", stageLap.lap + 1, stageLap.lapsOfThisStage),
-					Util.TrimDecimals (stageLap.speedKmh, 1),
+					slStatus.stage + 1,
+					string.Format ("{0}/{1}", slStatus.lap + 1, slStatus.lapsOfThisStage),
+					Util.TrimDecimals (slStatus.speedKmh, 1),
 					personName);
 
                 textview_beepTest.Buffer = tbBeepTest;
@@ -177,17 +177,17 @@ public partial class ChronoJumpWindow
 
 		label_beepTest_time.Text = (beepTest.GetCurrentSeconds ()).ToString ();
 
-		BeepTestStageList.StageLap stageLap = beepTest.GetCurrentStageAndLap ();
-		label_beepTest_stage.Text = (stageLap.stage + 1).ToString ();
+		BeepTestStageManage.StageLapStatus slStatus = beepTest.GetCurrentStageLapStatus ();
+		label_beepTest_stage.Text = (slStatus.stage + 1).ToString ();
 		label_beepTest_lap.Text = string.Format ("{0} / {1}",
-				stageLap.lap + 1, stageLap.lapsOfThisStage);
-		label_beepTest_speed.Text = Util.TrimDecimals(stageLap.speedKmh, 1);
+				slStatus.lap + 1, slStatus.lapsOfThisStage);
+		label_beepTest_speed.Text = Util.TrimDecimals(slStatus.speedKmh, 1);
 
 		if (beepTest.ShouldBeepNow == BeepTest.BeepNowEnum.STAGE)
-			 Util.PlaySoundGstreamerFromFile (beepTest.GetSoundFileForStage (stageLap.stage, true),
+			 Util.PlaySoundGstreamerFromFile (beepTest.GetSoundFileForStage (slStatus.stage, true),
 					 preferences.volumeOn, preferences.gstreamer, 2);
 		else if (beepTest.ShouldBeepNow == BeepTest.BeepNowEnum.LAP)
-			 Util.PlaySoundGstreamerFromFile (beepTest.GetSoundFileForStage (stageLap.stage, false),
+			 Util.PlaySoundGstreamerFromFile (beepTest.GetSoundFileForStage (slStatus.stage, false),
 					 preferences.volumeOn, preferences.gstreamer, 1);
 
 		Thread.Sleep (250);

@@ -22,9 +22,9 @@ using System;
 using System.Collections.Generic; //List<T>
 using System.Diagnostics;  //Stopwatch
 
+//definition of each stage on the test
 public class BeepTestStage
 {
-	public int num;
 	public double speedKmh;
 	public double durationS; //duration of each stage in seconds
 	public int laps; //how many laps have each stage
@@ -39,18 +39,19 @@ public class BeepTestStage
 	}
 }
 
-public class BeepTestStageList
+public class BeepTestStageManage
 {
 	private List<BeepTestStage> bts_l;
 
-	public struct StageLap
+	//to store current status in the run
+	public struct StageLapStatus
 	{
 		public int stage;
 		public int lap;
 		public int lapsOfThisStage;
 		public double speedKmh;
 	
-		public StageLap (int stage, int lap, int lapsOfThisStage, double speedKmh)
+		public StageLapStatus (int stage, int lap, int lapsOfThisStage, double speedKmh)
 		{
 			this.stage = stage;
 			this.lap = lap;
@@ -59,7 +60,7 @@ public class BeepTestStageList
 		}
 	}
 
-	public BeepTestStageList ()
+	public BeepTestStageManage ()
 	{
 		bts_l = new List<BeepTestStage> ();
 	}
@@ -70,8 +71,7 @@ public class BeepTestStageList
 			bts_l.Add (new BeepTestStage (stageSpeedKm_l[i], stageDurationS_l[i], stageLaps_l[i], stageDistM_l[i]));
 	}
 
-	//TODO: calculate total laps run, total m run (at this moment)
-	public StageLap GetCurrentStageAndLap (long currentMs)
+	public StageLapStatus GetCurrentStageLapStatus (long currentMs)
 	{
 		double sum = 0;
 		for (int s = 0; s < bts_l.Count; s ++)
@@ -80,11 +80,11 @@ public class BeepTestStageList
 			{
 				sum += 1000 * bts_l[s].durationS;
 				if (currentMs < sum)
-					return new StageLap (s, t, bts_l[s].laps, bts_l[s].speedKmh);
+					return new StageLapStatus (s, t, bts_l[s].laps, bts_l[s].speedKmh);
 			}
 		}
 
-		return new StageLap (
+		return new StageLapStatus (
 				bts_l.Count -1,
 				bts_l[bts_l.Count -1].laps -1,
 				bts_l[bts_l.Count -1].laps,
@@ -106,7 +106,7 @@ public class BeepTestStageList
 
 public abstract class BeepTest
 {
-	protected BeepTestStageList btsl;
+	protected BeepTestStageManage btsm;
 	protected DateTime dateIni;
 	protected Stopwatch stopwatch;
 	protected bool finished;
@@ -114,17 +114,17 @@ public abstract class BeepTest
 	protected int startedWithMs = 0;
 	protected bool hasMultipleLapsForStage = false;
 
-	private BeepTestStageList.StageLap previousStageLap; //to beep sound on lap changed
+	private BeepTestStageManage.StageLapStatus previousStageLapStatus; //to beep sound on lap changed
 	public enum BeepNowEnum { NO, LAP, STAGE };
 	private BeepNowEnum shouldBeepNow;
 
 	protected virtual void initialize ()
 	{
-		btsl = new BeepTestStageList ();
-		btsl.CreateList (stageSpeedKm_l, stageDurationS_l, stageLaps_l, stageDistM_l);
+		btsm = new BeepTestStageManage ();
+		btsm.CreateList (stageSpeedKm_l, stageDurationS_l, stageLaps_l, stageDistM_l);
 
 		stopwatch = new Stopwatch ();
-		previousStageLap = new BeepTestStageList.StageLap (-1, -1, -1, -1);
+		previousStageLapStatus = new BeepTestStageManage.StageLapStatus (-1, -1, -1, -1);
 
 		finished = false;
 	}
@@ -145,31 +145,31 @@ public abstract class BeepTest
 		return Convert.ToInt32 (UtilAll.DivideSafe (stopwatch.ElapsedMilliseconds, 1000));
 	}
 
-	public BeepTestStageList.StageLap GetCurrentStageAndLap ()
+	public BeepTestStageManage.StageLapStatus GetCurrentStageLapStatus ()
 	{
 		//update stagelap
-		BeepTestStageList.StageLap currentStageLap = btsl.GetCurrentStageAndLap (stopwatch.ElapsedMilliseconds + startedWithMs);
+		BeepTestStageManage.StageLapStatus currentStageLapStatus = btsm.GetCurrentStageLapStatus (stopwatch.ElapsedMilliseconds + startedWithMs);
 
 		//manage beep variables
 		shouldBeepNow = BeepNowEnum.NO;
-		if (previousStageLap.stage >= 0 && //double beep on stage not at start of the test
-				previousStageLap.stage != currentStageLap.stage)
+		if (previousStageLapStatus.stage >= 0 && //double beep on stage not at start of the test
+				previousStageLapStatus.stage != currentStageLapStatus.stage)
 		{
 			if (hasMultipleLapsForStage) //Constant speed has one lap for each stage (never play double beeps)
 				shouldBeepNow = BeepNowEnum.STAGE;
 			else
 				shouldBeepNow = BeepNowEnum.LAP;
-		} else if (previousStageLap.lap != currentStageLap.lap)
+		} else if (previousStageLapStatus.lap != currentStageLapStatus.lap)
 			shouldBeepNow = BeepNowEnum.LAP;
 
-		previousStageLap = currentStageLap;
+		previousStageLapStatus = currentStageLapStatus;
 
-		return currentStageLap;
+		return currentStageLapStatus;
 	}
 
 	protected int getStageTimeStartInMs (int stage)
 	{
-		return btsl.GetStageTimeStartInMs (stage);
+		return btsm.GetStageTimeStartInMs (stage);
 	}
 
 	protected virtual List<double> stageSpeedKm_l

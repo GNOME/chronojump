@@ -112,6 +112,7 @@ public abstract class BeepTest
 	protected bool finished;
 	protected bool hasVo2max; //default false
 	protected int startedWithMs = 0;
+	protected bool hasMultipleLapsForStage = false;
 
 	private BeepTestStageList.StageLap previousStageLap; //to beep sound on lap changed
 	public enum BeepNowEnum { NO, LAP, STAGE };
@@ -153,8 +154,12 @@ public abstract class BeepTest
 		shouldBeepNow = BeepNowEnum.NO;
 		if (previousStageLap.stage >= 0 && //double beep on stage not at start of the test
 				previousStageLap.stage != currentStageLap.stage)
-			shouldBeepNow = BeepNowEnum.STAGE;
-		else if (previousStageLap.lap != currentStageLap.lap)
+		{
+			if (hasMultipleLapsForStage) //Constant speed has one lap for each stage (never play double beeps)
+				shouldBeepNow = BeepNowEnum.STAGE;
+			else
+				shouldBeepNow = BeepNowEnum.LAP;
+		} else if (previousStageLap.lap != currentStageLap.lap)
 			shouldBeepNow = BeepNowEnum.LAP;
 
 		previousStageLap = currentStageLap;
@@ -236,6 +241,7 @@ public class BeepTestLeger20m : BeepTest
 		this.startFirstAt8Kmh = startFirstAt8Kmh;
 		initialize ();
 		hasVo2max = true;
+		hasMultipleLapsForStage = true;
 
 		if (startStage > 1)
 			startedWithMs = getStageTimeStartInMs (startStage);
@@ -291,6 +297,7 @@ public class BeepTestLeger15m : BeepTest
 	{
 		this.startFirstAt8Kmh = startFirstAt8Kmh;
 		initialize ();
+		hasMultipleLapsForStage = true;
 
 		if (startStage > 1)
 			startedWithMs = getStageTimeStartInMs (startStage);

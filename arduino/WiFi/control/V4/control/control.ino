@@ -21,9 +21,10 @@
 #include <SPI.h>
 //#include <nRF24L01.h>
 #include <RF24.h>
-#include <printf.h>
+//#include <printf.h>
 #include <MsTimer2.h>
 #include <TimerOne.h>
+#include <elapsedMillis.h>
 
 // The first number refers to the hardware version. The seccond to firmware version for this hardware
 String version = "Wifi-Controller-4.2"; //"Wifi-Controller-" is mandatori. Chronojump expects it
@@ -113,7 +114,7 @@ const uint64_t pipes[2] = { 0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL }; //Two radio pipes.
 bool binaryMode = false;
 unsigned long startTime;      //local time when the reset_time function is executed
 unsigned long lastSampleTime; //local time at which some sample has been received without overflow correction
-unsigned long totalTime;      //Total elapsed time since startTime
+elapsedMillis totalTime;      //Total elapsed time since startTime
 
 // unsigned long responseTime = 0;  //For testing response time in a ping
 
@@ -132,7 +133,7 @@ void setup(void)
   //TODO: Try to minimize this parameter as it adds lag from instruction to sensor activation. 1 is too low.
   //Maybe increasing the baud rate we could set it to 1
   Serial.setTimeout(2);
-  printf_begin();       //Needed by radio.printDetails();
+  //printf_begin();       //Needed by radio.printDetails();
 
   LED_on;  //turn off the LED
 
@@ -224,7 +225,6 @@ void debounce() {
 
 void serialEvent()
 {
-
   String inputString = Serial.readString();
   String currentInstruction = "";
 
@@ -376,22 +376,6 @@ void blinkOnce(void)
   LED_on;
 }
 
-//This fucnction manages the time elapsed from the start of the
-unsigned long getLocalTime(void)
-{
-  //not to be confused with sample.data . This is the local time at which the sample has been received.
-  //sample.data is the elapsed time since the terminal received the activating sensor command untill actual activation.
-  unsigned long localSampleTime = millis();
-  if (localSampleTime > startTime)           //No overflow
-  {
-    totalTime = localSampleTime - startTime;
-  } else if (localSampleTime <= startTime)   //Overflow
-  {
-    //Time from the last measure to the overflow event plus the sampleTime
-    totalTime = (4294967295 -  lastSampleTime) + localSampleTime;
-  }
-  return (totalTime);
-}
 void discoverTerminals() { discoverTerminals(1); }
 void discoverTerminals(int maxTries) {
   String terminalsFound = "terminals:";
@@ -429,7 +413,6 @@ bool readSample(void) {
   bool readed = false;
   if (radio.available()) //Some terminal has sent a response
   {
-    totalTime = getLocalTime();
     radio.read(  &sample, sample_size);
     readed = true;
     blinkStop();
@@ -444,7 +427,6 @@ bool readSample(void) {
 
   if (flagint) {
     flagint = false;
-    totalTime = getLocalTime();
     readed = true;
     printSample();
   }

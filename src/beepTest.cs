@@ -39,6 +39,7 @@ public class BeepTestStage
 	}
 }
 
+//manages BeepTestStage list
 public class BeepTestStageManage
 {
 	private List<BeepTestStage> bts_l;
@@ -60,6 +61,7 @@ public class BeepTestStageManage
 		}
 	}
 
+	//constructor
 	public BeepTestStageManage ()
 	{
 		bts_l = new List<BeepTestStage> ();
@@ -105,7 +107,7 @@ public class BeepTestStageManage
 	}
 }
 
-
+//tests creation and interaction with Chronojump events
 public abstract class BeepTest
 {
 	protected BeepTestStageManage btsm;
@@ -116,9 +118,9 @@ public abstract class BeepTest
 	protected int startedWithMs = 0;
 	protected bool hasMultipleLapsForStage = false;
 
-	private BeepTestStageManage.StageLapStatus previousStageLapStatus; //to beep sound on lap changed
+	protected BeepTestStageManage.StageLapStatus previousStageLapStatus; //to beep sound on lap changed
 	public enum BeepNowEnum { NO, LAP, STAGE };
-	private BeepNowEnum shouldBeepNow;
+	protected BeepNowEnum shouldBeepNow;
 
 	protected virtual void initialize ()
 	{
@@ -157,21 +159,21 @@ public abstract class BeepTest
 		if (shouldFinish)
 			finished = true;
 
-		//manage beep variables
-		shouldBeepNow = BeepNowEnum.NO;
-		if (previousStageLapStatus.stage >= 0 && //double beep on stage not at start of the test
-				previousStageLapStatus.stage != currentStageLapStatus.stage)
-		{
-			if (hasMultipleLapsForStage) //Constant speed has one lap for each stage (never play double beeps)
-				shouldBeepNow = BeepNowEnum.STAGE;
-			else
-				shouldBeepNow = BeepNowEnum.LAP;
-		} else if (previousStageLapStatus.lap != currentStageLapStatus.lap)
-			shouldBeepNow = BeepNowEnum.LAP;
+		decideIfShouldBeep (currentStageLapStatus);
 
 		previousStageLapStatus = currentStageLapStatus;
 
 		return currentStageLapStatus;
+	}
+
+	protected virtual void decideIfShouldBeep (BeepTestStageManage.StageLapStatus currentStageLapStatus)
+	{
+		shouldBeepNow = BeepNowEnum.NO;
+		if (previousStageLapStatus.stage >= 0 && //double beep on stage not at start of the test
+				previousStageLapStatus.stage != currentStageLapStatus.stage)
+				shouldBeepNow = BeepNowEnum.STAGE;
+		else if (previousStageLapStatus.lap != currentStageLapStatus.lap)
+			shouldBeepNow = BeepNowEnum.LAP;
 	}
 
 	protected int getStageTimeStartInMs (int stage)
@@ -236,9 +238,6 @@ public abstract class BeepTest
 	}
 }
 
-//TODO: maybe there could be an option to calculate stageMs_l from running speeds, as this seem to be the way that many of the tests are shown in tables
-//https://en.wikipedia.org/wiki/Multi-stage_fitness_test
-///TODO: seguir amb lo de la wikipedia i convertint com aquí
 public class BeepTestLeger20m : BeepTest
 {
 	private bool startFirstAt8Kmh;
@@ -496,6 +495,13 @@ public class BeepTestConstantSpeed : BeepTest
 				l.Add (1);
 			return (l);
 		}
+	}
+
+	protected override void decideIfShouldBeep (BeepTestStageManage.StageLapStatus currentStageLapStatus)
+	{
+		shouldBeepNow = BeepNowEnum.NO;
+		if (previousStageLapStatus.stage != currentStageLapStatus.stage)
+			shouldBeepNow = BeepNowEnum.LAP;
 	}
 
 	public override string GetSoundFileForStage (int stage, bool isLastOne)

@@ -26,16 +26,16 @@ using System.Diagnostics;  //Stopwatch
 public class BeepTestStage
 {
 	public double speedKmh;
-	public double durationS; //duration of each stage in seconds
+	public double lapSeconds; //duration of each lap
 	public int laps; //how many laps have each stage
-	public int distanceM; //distance of each lap
+	public int lapMeters; //distance of each lap
 
-	public BeepTestStage (double speedKmh, double durationS, int laps, int distanceM)
+	public BeepTestStage (double speedKmh, double lapSeconds, int laps, int lapMeters)
 	{
 		this.speedKmh = speedKmh;
-		this.durationS = durationS;
+		this.lapSeconds = lapSeconds;
 		this.laps = laps;
-		this.distanceM = distanceM;
+		this.lapMeters = lapMeters;
 	}
 }
 
@@ -51,13 +51,15 @@ public class BeepTestStageManage
 		public int lap;
 		public int lapsOfThisStage;
 		public double speedKmh;
-	
-		public StageLapStatus (int stage, int lap, int lapsOfThisStage, double speedKmh)
+		public bool resting;
+
+		public StageLapStatus (int stage, int lap, int lapsOfThisStage, double speedKmh, bool resting)
 		{
 			this.stage = stage;
 			this.lap = lap;
 			this.lapsOfThisStage = lapsOfThisStage;
 			this.speedKmh = speedKmh;
+			this.resting = resting;
 		}
 	}
 
@@ -67,13 +69,13 @@ public class BeepTestStageManage
 		bts_l = new List<BeepTestStage> ();
 	}
 
-	public void CreateList (List<double> stageSpeedKm_l, List <double> stageDurationS_l, List<int> stageLaps_l, List<int> stageDistM_l)
+	public void CreateList (List<double> stageSpeedKm_l, List <double> lapDurationS_l, List<int> stageLaps_l, List<int> lapDistM_l)
 	{
-		for (int i = 0; i < stageDurationS_l.Count; i ++)
-			bts_l.Add (new BeepTestStage (stageSpeedKm_l[i], stageDurationS_l[i], stageLaps_l[i], stageDistM_l[i]));
+		for (int i = 0; i < lapDurationS_l.Count; i ++)
+			bts_l.Add (new BeepTestStage (stageSpeedKm_l[i], lapDurationS_l[i], stageLaps_l[i], lapDistM_l[i]));
 	}
 
-	public StageLapStatus GetCurrentStageLapStatus (long currentMs, out bool shouldFinish)
+	public StageLapStatus GetCurrentStageLapStatus (long currentMs, int restSeconds, out bool shouldFinish)
 	{
 		shouldFinish = false;
 		double sum = 0;
@@ -81,18 +83,29 @@ public class BeepTestStageManage
 		{
 			for (int t = 0; t < bts_l[s].laps; t ++)
 			{
-				sum += 1000 * bts_l[s].durationS;
+				sum += 1000 * bts_l[s].lapSeconds;
+				if (restSeconds > 0 && Util.IsEven (t+1))
+					sum += 1000 * restSeconds;
+
 				if (currentMs < sum)
-					return new StageLapStatus (s, t, bts_l[s].laps, bts_l[s].speedKmh);
+					return new StageLapStatus (s, t, bts_l[s].laps, bts_l[s].speedKmh,
+							(restSeconds > 0 && Util.IsEven (t+1) && currentMs + 1000 * restSeconds >= sum) // true if we are resting
+							);
 			}
 		}
 
 		shouldFinish = true;
+		return getLastLapStatus ();
+	}
+
+	protected StageLapStatus getLastLapStatus ()
+	{
 		return new StageLapStatus (
 				bts_l.Count -1,
 				bts_l[bts_l.Count -1].laps -1,
 				bts_l[bts_l.Count -1].laps,
-				bts_l[bts_l.Count -1].speedKmh);
+				bts_l[bts_l.Count -1].speedKmh,
+				false);
 	}
 
 	//gets at which millisecond starts an stage
@@ -101,7 +114,7 @@ public class BeepTestStageManage
 		int sum = 0;
 		for (int s = 0; s < stage -1; s ++)
 			for (int t = 0; t < bts_l[s].laps; t ++)
-				sum += Convert.ToInt32 (1000 * bts_l[s].durationS);
+				sum += Convert.ToInt32 (1000 * bts_l[s].lapSeconds);
 
 		return sum;
 	}
@@ -116,7 +129,7 @@ public abstract class BeepTest
 	protected bool finished;
 	protected bool hasVo2max; //default false
 	protected int startedWithMs = 0;
-	protected bool hasMultipleLapsForStage = false;
+	protected int restSeconds = 0;
 
 	protected BeepTestStageManage.StageLapStatus previousStageLapStatus; //to beep sound on lap changed
 	public enum BeepNowEnum { NO, LAP, STAGE };
@@ -125,10 +138,10 @@ public abstract class BeepTest
 	protected virtual void initialize ()
 	{
 		btsm = new BeepTestStageManage ();
-		btsm.CreateList (stageSpeedKm_l, stageDurationS_l, stageLaps_l, stageDistM_l);
+		btsm.CreateList (stageSpeedKm_l, lapDurationS_l, stageLaps_l, lapDistM_l);
 
 		stopwatch = new Stopwatch ();
-		previousStageLapStatus = new BeepTestStageManage.StageLapStatus (-1, -1, -1, -1);
+		previousStageLapStatus = new BeepTestStageManage.StageLapStatus (-1, -1, -1, -1, false);
 
 		finished = false;
 	}
@@ -154,7 +167,7 @@ public abstract class BeepTest
 		//update stageLapStatus
 		BeepTestStageManage.StageLapStatus currentStageLapStatus = btsm.GetCurrentStageLapStatus (
 				stopwatch.ElapsedMilliseconds + startedWithMs,
-				out bool shouldFinish);
+				restSeconds, out bool shouldFinish);
 
 		if (shouldFinish)
 			finished = true;
@@ -189,16 +202,17 @@ public abstract class BeepTest
 	{
 		get { return (new List<int> ()); }
 	}
-	protected virtual List<int> stageDistM_l
+	protected virtual List<int> lapDistM_l
 	{
 		get { return (new List<int> ()); }
 	}
-	protected List<double> stageDurationS_l
+	protected List<double> lapDurationS_l
+	//protected virtual List<double> lapDurationS_l
 	{
 		get {
 			List<double> stageSec_l = new List<double> ();
 			for (int i = 0; i < stageSpeedKm_l.Count; i ++)
-				stageSec_l.Add (stageDistM_l[i] / (stageSpeedKm_l[i]/3.6)); // km/h -> m/s
+				stageSec_l.Add (lapDistM_l[i] / (stageSpeedKm_l[i]/3.6)); // km/h -> m/s
 
 			return stageSec_l;
 		}
@@ -247,7 +261,6 @@ public class BeepTestLeger20m : BeepTest
 		this.startFirstAt8Kmh = startFirstAt8Kmh;
 		initialize ();
 		hasVo2max = true;
-		hasMultipleLapsForStage = true;
 
 		if (startStage > 1)
 			startedWithMs = getStageTimeStartInMs (startStage);
@@ -277,7 +290,7 @@ public class BeepTestLeger20m : BeepTest
 		}
 	}
 
-	protected override List<int> stageDistM_l  //in m
+	protected override List<int> lapDistM_l  //in m
 	{
 		get {
 			return (new List<int> {
@@ -303,7 +316,6 @@ public class BeepTestLeger15m : BeepTest
 	{
 		this.startFirstAt8Kmh = startFirstAt8Kmh;
 		initialize ();
-		hasMultipleLapsForStage = true;
 
 		if (startStage > 1)
 			startedWithMs = getStageTimeStartInMs (startStage);
@@ -333,7 +345,7 @@ public class BeepTestLeger15m : BeepTest
 		}
 	}
 
-	protected override List<int> stageDistM_l  //in m
+	protected override List<int> lapDistM_l  //in m
 	{
 		get {
 			return (new List<int> {
@@ -385,7 +397,7 @@ public class Pacer15m : BeepTest
 		}
 	}
 
-	protected override List<int> stageDistM_l  //in m
+	protected override List<int> lapDistM_l  //in m
 	{
 		get {
 			return (new List<int> {
@@ -438,7 +450,7 @@ public class Pacer20m : BeepTest
 		}
 	}
 
-	protected override List<int> stageDistM_l  //in m
+	protected override List<int> lapDistM_l  //in m
 	{
 		get {
 			return (new List<int> {
@@ -447,6 +459,75 @@ public class Pacer20m : BeepTest
 					} );
 		}
 	}
+}
+
+//YoYo Intermitent tests
+//tables at: https://en.wikipedia.org/wiki/Yo-Yo_intermittent_test
+public abstract class BeepTestYYI : BeepTest
+{
+	public BeepTestYYI ()
+	{
+		restSeconds = 5;
+	}
+
+	protected override void decideIfShouldBeep (BeepTestStageManage.StageLapStatus currentStageLapStatus)
+	{
+		shouldBeepNow = BeepNowEnum.NO;
+
+		if (previousStageLapStatus.stage >= 0 && //double beep on stage not at start of the test
+				previousStageLapStatus.stage != currentStageLapStatus.stage)
+				shouldBeepNow = BeepNowEnum.STAGE;
+		else if (previousStageLapStatus.lap != currentStageLapStatus.lap)
+			shouldBeepNow = BeepNowEnum.LAP;
+		else if (previousStageLapStatus.resting != currentStageLapStatus.resting)
+			shouldBeepNow = BeepNowEnum.LAP;
+	}
+}
+
+public class BeepTestYYIE1 : BeepTestYYI
+{
+	public BeepTestYYIE1 ()
+	{
+		restSeconds = 5;
+		initialize ();
+	}
+
+	protected override List<double> stageSpeedKm_l
+	{
+		get {
+			return (new List<double> {
+					8.0, 9.0, 10.0, 10.5, 10.75,
+					11.0, 11.25, 11.5, 11.75,
+					12.0, 12.25, 12.5, 12.75,
+					13.0, 13.25, 13.5, 13.75,
+					14.0, 14.25, 14.5
+					} );
+		}
+	}
+
+	protected override List<int> stageLaps_l
+	{
+		get {
+			return (new List<int> {
+					4,  4,  4,  16,  16,
+					16, 6, 6, 12,
+					12, 12, 12, 12,
+					12, 12, 12, 12,
+					12, 12, 12
+					} );
+		}
+	}
+
+	protected override List<int> lapDistM_l  //in m
+	{
+		get {
+			return (new List<int> {
+					20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+					20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+					} );
+		}
+	}
+
 }
 
 public class BeepTestConstantSpeed : BeepTest
@@ -465,7 +546,7 @@ public class BeepTestConstantSpeed : BeepTest
 	}
 
 	// each "stage" has one lap, each lap has distM (meters)
-	protected override List<int> stageDistM_l  //in m
+	protected override List<int> lapDistM_l  //in m
 	{
 		get {
 			List<int> l = new List<int> ();

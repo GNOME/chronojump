@@ -32,6 +32,7 @@ public partial class ChronoJumpWindow
 	Gtk.RadioButton radio_beepTest_leger20m;
 	Gtk.RadioButton radio_beepTest_leger15m;
 	Gtk.RadioButton radio_beepTest_pacer15m;
+	Gtk.RadioButton radio_beepTest_yyie1;
 	Gtk.RadioButton radio_beepTest_pacer20m;
 	Gtk.RadioButton radio_beepTest_constant;
 	Gtk.Box box_beepTest_start_at;
@@ -48,6 +49,8 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_beepTest_stage;
 	Gtk.Label label_beepTest_lap;
 	Gtk.Label label_beepTest_speed;
+	Gtk.Label label_beepTest_runStatus;
+	Gtk.Label label_beepTest_runStatus_value;
 	Gtk.TextView textview_beepTest;
 	// <---- at glade
 
@@ -59,6 +62,10 @@ public partial class ChronoJumpWindow
 	{
 		check_beepTest_start8kmh.Visible = (radio_beepTest_leger20m.Active || radio_beepTest_leger15m.Active);
 		box_beepTest_start_at.Visible = (radio_beepTest_leger20m.Active || radio_beepTest_leger15m.Active);
+
+		label_beepTest_runStatus.Visible = (radio_beepTest_yyie1.Active);
+		label_beepTest_runStatus_value.Visible = (radio_beepTest_yyie1.Active);
+		label_beepTest_runStatus_value.Text = "";
 
 		box_beepTest_constant_options.Visible = radio_beepTest_constant.Active;
 	}
@@ -74,6 +81,8 @@ public partial class ChronoJumpWindow
 			beepTest = new BeepTestLeger20m (Convert.ToInt32 (spin_beepTest_start_at.Value), check_beepTest_start8kmh.Active);
 		else if (radio_beepTest_leger15m.Active)
 			beepTest = new BeepTestLeger15m (Convert.ToInt32 (spin_beepTest_start_at.Value), check_beepTest_start8kmh.Active);
+		else if (radio_beepTest_yyie1.Active)
+			beepTest = new BeepTestYYIE1 ();
 		/*
 		else if (radio_beepTest_pacer15m.Active)
 			beepTest = new Pacer15m ();
@@ -170,6 +179,7 @@ public partial class ChronoJumpWindow
 			button_beepTest_start.Sensitive = true;
 			button_beepTest_finish_selected.Sensitive = false;
 			button_beepTest_finish_all.Sensitive = false;
+			label_beepTest_runStatus_value.Text = "";
 
 			beepTestPrintResults (true, beepTest.HasVo2max);
 			return false;
@@ -182,6 +192,11 @@ public partial class ChronoJumpWindow
 		label_beepTest_lap.Text = string.Format ("{0} / {1}",
 				slStatus.lap + 1, slStatus.lapsOfThisStage);
 		label_beepTest_speed.Text = Util.TrimDecimals(slStatus.speedKmh, 1);
+
+		if (slStatus.resting)
+			label_beepTest_runStatus_value.Text = "Resting";
+		else
+			label_beepTest_runStatus_value.Text = "Running";
 
 		if (beepTest.ShouldBeepNow == BeepTest.BeepNowEnum.STAGE)
 			 Util.PlaySoundGstreamerFromFile (beepTest.GetSoundFileForStage (slStatus.stage, true),
@@ -201,6 +216,7 @@ public partial class ChronoJumpWindow
 		box_beepTest_type_and_options = (Gtk.Box) builder.GetObject ("box_beepTest_type_and_options");
 		radio_beepTest_leger20m = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_leger20m");
 		radio_beepTest_leger15m = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_leger15m");
+		radio_beepTest_yyie1 = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_yyie1");
 		radio_beepTest_pacer15m = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_pacer15m");
 		radio_beepTest_pacer20m = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_pacer20m");
 		radio_beepTest_constant = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_constant");
@@ -218,6 +234,8 @@ public partial class ChronoJumpWindow
 		label_beepTest_stage = (Gtk.Label) builder.GetObject ("label_beepTest_stage");
 		label_beepTest_lap = (Gtk.Label) builder.GetObject ("label_beepTest_lap");
 		label_beepTest_speed = (Gtk.Label) builder.GetObject ("label_beepTest_speed");
+		label_beepTest_runStatus = (Gtk.Label) builder.GetObject ("label_beepTest_runStatus");
+		label_beepTest_runStatus_value = (Gtk.Label) builder.GetObject ("label_beepTest_runStatus_value");
 		textview_beepTest = (Gtk.TextView) builder.GetObject ("textview_beepTest");
 	}
 }

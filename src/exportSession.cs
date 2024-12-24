@@ -328,11 +328,44 @@ public abstract class ExportSession
 				Catalog.GetString ("Place") + ":" + 
 				Catalog.GetString ("Date") + ":" + 
 				Catalog.GetString ("Comments") );
-		myData.Add ( mySession.UniqueID + ":" + mySession.Name + ":" +
+
+		if (sessionID >= 0)
+			myData.Add ( mySession.UniqueID + ":" + mySession.Name + ":" +
 					mySession.Place + ":" + mySession.DateShort + ":" + 
 					Util.RemoveNewLine(mySession.Comments, true) );
+		else {
+			List<int> sWithData_l = new List<int> ();
+			//note same export can select jumpsSimple && jumpsReactive. Same for runs.
+			if (jumpsSimple)
+				sWithData_l = getSessionsWithData (sWithData_l, myJumps);
+			if (jumpsReactive)
+				sWithData_l = getSessionsWithData (sWithData_l, myJumpsRj);
+			if (runsSimple)
+				sWithData_l = getSessionsWithData (sWithData_l, myRuns);
+			if (runsIntervallic)
+				sWithData_l = getSessionsWithData (sWithData_l, myRunsInterval);
+
+			List<Session> s_l = SqliteSession.SelectAll (false, Sqlite.Orders_by.ID_ASC);
+			foreach (Session s in s_l)
+				if (Util.FoundInListInt (sWithData_l, s.UniqueID))
+					myData.Add ( s.UniqueID + ":" + s.Name + ":" +
+							s.Place + ":" + s.DateShort + ":" +
+							Util.RemoveNewLine(s.Comments, true) );
+		}
 		writeData(myData);
 		writeData("VERTICAL-SPACE");
+	}
+
+	private List<int> getSessionsWithData (List<int> sWithData_l, string [] testsArray)
+	{
+		foreach (string str in testsArray)
+		{
+			string [] myStr = str.Split(new char[] {':'});
+			if (Util.IsNumber (myStr[3], false))
+				sWithData_l = Util.AddToListIntIfNotExist (
+						sWithData_l, Convert.ToInt32 (myStr[3]));
+		}
+		return sWithData_l;
 	}
 
 	protected void printPersons()
@@ -343,12 +376,17 @@ public abstract class ExportSession
 				Catalog.GetString ("Sex") + ":" + Catalog.GetString ("Date of Birth") + ":" +
 				Catalog.GetString ("Description") + ":" + 
 				Catalog.GetString ("Height") + ":" + Catalog.GetString("Weight") + ":" +
+				Catalog.GetString ("Leg length") + ":" + Catalog.GetString ("Hips height on SJ flexion") + ":" +
 				Catalog.GetString ("Sport") + ":" + Catalog.GetString("Specialty") + ":" +
 				Catalog.GetString ("Level") + ":" + Catalog.GetString ("Comments")
 			   );
 
 		Sqlite.Open();	
-		foreach (PersonAndPS paps in myPersonsAndPS) {
+		foreach (PersonAndPS paps in myPersonsAndPS)
+		{
+			if (personID >= 0 && paps.p.UniqueID != personID)
+				continue;
+
 			string sportName = (SqliteSport.Select(true, paps.ps.SportID)).Name;
 			string speciallityName = SqliteSpeciallity.Select(true, paps.ps.SpeciallityID);
 			
@@ -357,6 +395,7 @@ public abstract class ExportSession
 					paps.p.Sex + ":" + paps.p.DateBorn.ToShortDateString() + ":" +
 					Util.RemoveNewLine(paps.p.Description, true) + ":" +
 					paps.ps.Height + ":" + paps.ps.Weight + ":" + 
+					paps.ps.TrochanterToe + ":" + paps.ps.TrochanterFloorOnFlexion + ":" +
 					sportName + ":" + speciallityName + ":" +
 					Util.FindLevelName(paps.ps.Practice) + ":" +
 					Util.RemoveNewLine(paps.ps.Comments, true)
@@ -454,7 +493,8 @@ public abstract class ExportSession
 		myData.Add( "\n" + 
 				Catalog.GetString("Person ID") + ":" +
 				Catalog.GetString("Person name") + ":" +
-				Catalog.GetString("jump ID") + ":" + 
+				Catalog.GetString("Session ID") + ":" +
+				Catalog.GetString("Jump ID") + ":" +
 				Catalog.GetString("Type") + ":" + 
 				Catalog.GetString("TC") + ":" + 
 				Catalog.GetString("TF") + ":" + 
@@ -511,6 +551,7 @@ public abstract class ExportSession
 
 			myData.Add (	
 					myStr[2] + ":" +  myStr[0] + ":" +  	//person.UniqueID, person.Name
+					myStr[3] + ":" + 			//session.UniqueID
 					myStr[1] + ":" +  			//jump.uniqueID
 					myStr[4] + ":" +  Util.TrimDecimals(myStr[6], dec) + ":" + 	//jump.type, jump.tc
 					Util.TrimDecimals(myStr[5], dec) + ":" +  Util.TrimDecimals(myStr[7], dec) + ":" + 	//jump.tv, jump.fall
@@ -562,7 +603,8 @@ public abstract class ExportSession
 				myData.Add( "\n" + 
 						Catalog.GetString("Person ID") + ":" +
 						Catalog.GetString("Person name") + ":" + 
-						Catalog.GetString("jump ID") + ":" + 
+						Catalog.GetString("Session ID") + ":" +
+						Catalog.GetString("Jump ID") + ":" +
 						Catalog.GetString("jump Type") + ":" + 
 						Catalog.GetString("TC Max") + ":" + 
 						Catalog.GetString("TF Max") + ":" + 
@@ -636,8 +678,9 @@ public abstract class ExportSession
 			
 			myData.Add ( 
 					myStr[2] + ":" +    			//jumpRj.personID
-					myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, jumpRj.uniqueID
-					//myStr[2] + ":" +  myStr[3] + ":" +  	//jumpRj.personID, jumpRj.sessionID
+					myStr[0] + ":" +  			//person.name
+					myStr[3] + ":" +  			//jumpRj.sessionID
+					myStr[1] + ":" +  			//jumpRj.uniqueID
 					myStr[4] + ":" +  		//jumpRj.type 
 					Util.TrimDecimals(myStr[6], dec) + ":" +  		//jumpRj.tcMax 
 					Util.TrimDecimals(myStr[5], dec) + ":" + 		//jumpRj.tvMax
@@ -739,6 +782,7 @@ public abstract class ExportSession
 			myData.Add( "\n" + 
 					Catalog.GetString("Person ID") + ":" +
 					Catalog.GetString("Person name") + ":" +
+					Catalog.GetString("Session ID") + ":" +
 					Catalog.GetString("Race ID") + ":" +
 					Catalog.GetString("Type") + ":" + 
 					Catalog.GetString("Distance") + ":" + 
@@ -757,7 +801,9 @@ public abstract class ExportSession
 
 				myData.Add (
 						myStr[2] + ":" +    			//personID
-						myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, run.uniqueID
+						myStr[0] + ":" + 			//person.name
+						myStr[3] + ":" +    			//sessionID
+						myStr[1] + ":" +  			//run.uniqueID
 						myStr[4] + ":" +  myStr[5] + ":" + 	//run.type, run.distance
 						Util.TrimDecimals(myStr[6], dec) + ":" +  	//run.time
 						speed + ":" + 				//speed in m/s (true)
@@ -794,6 +840,7 @@ public abstract class ExportSession
 				myData.Add( "\n" + 
 						Catalog.GetString("Person ID") + ":" +
 						Catalog.GetString("Person name") + ":" +
+						Catalog.GetString("Session ID") + ":" +
 						Catalog.GetString("run ID") + ":" + 
 						Catalog.GetString("Type") + ":" + 
 						Catalog.GetString("Distance total") + ":" + 
@@ -819,8 +866,10 @@ public abstract class ExportSession
 						myRunTypeString, true);
 			}
 			myData.Add (
-					myStr[2] + ":" +    			//personID
-					myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, run.uniqueID
+					myStr[2] + ":" +    	//personID
+					myStr[0] + ":" +	//person.name
+					myStr[3] + ":" +    	//sessionID
+					myStr[1] + ":" +  	//run.uniqueID
 					myRunTypeString + ":" +  Util.TrimDecimals(myStr[5], dec) + ":" + 	//run.type, run.distancetotal
 					Util.TrimDecimals(myStr[6], dec) + ":" +  		//run.timetotal
 					Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6], true), dec) + ":" + 	//speed AVG in m/s(true)

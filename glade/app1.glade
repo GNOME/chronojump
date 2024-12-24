@@ -4266,7 +4266,7 @@
                                                             <object class="GtkLabel" id="label156">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label">Multi stage tests</property>
+                                                            <property name="label">Multi-stage tests</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -19020,7 +19020,7 @@ last capture</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="border-width">8</property>
                                                             <property name="orientation">vertical</property>
-                                                            <property name="spacing">16</property>
+                                                            <property name="spacing">20</property>
                                                             <child>
                                                             <object class="GtkBox" id="box_beepTest_type_and_options">
                                                             <property name="visible">True</property>

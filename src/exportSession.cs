@@ -281,14 +281,12 @@ public abstract class ExportSession
 
 	protected virtual void printData ()
 	{
-		/*
 		printTitles(Catalog.GetString("Session"));
 		printSessionInfo();
-		
+
 		printTitles(Catalog.GetString("Persons"));
 		printPersons();
-		*/
-		
+
 		if (jumpsSimple)
 			printJumps (Catalog.GetString("Simple jumps"));
 		

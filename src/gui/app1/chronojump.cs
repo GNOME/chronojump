@@ -1405,6 +1405,9 @@ public partial class ChronoJumpWindow
 		//MovingAverage.TestCalculate();
 
 		//TestObjectsDifferences.Test ();
+
+		if (configChronojump.WilightFullURL != "")
+			wilightTest (configChronojump.WilightFullURL, configChronojump.WilightCommandMs);
 	}
 
 /*

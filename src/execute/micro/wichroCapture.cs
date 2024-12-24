@@ -154,6 +154,11 @@ public class WichroCapture: ArduinoCapture
 		return sendCommand (string.Format ("{0}:256;", terminal), "Error doing sensorAll");
 	}
 
+	public bool WilightSendCommand (string str)
+	{
+		return sendCommand (str, "Error sending: " + str);
+	}
+
 	public override bool CanReadFromList()
 	{
 		return (list.Count > readedPos);

@@ -66,7 +66,7 @@ public class Config
 		LastDBFullPath, //cloud & externalDB
 		JsonUploadNeedsButton, JsonUploadJumpSimpleTestScript, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, CanInsertTests, //json upload
 		RemoteTestJumpSimpleFile, RemoteTestRunIntervalFile, RemoteTestCancelFile, //remote execution
-		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, GuiTest, NoSendLog, //other
+		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, WilightFullURL, WilightCommandMs, GuiTest, NoSendLog, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
 
@@ -210,6 +210,12 @@ public class Config
 	}
 	public int WichroSensorOnceB {
 		get { return configList.GetInt (OpEnum.WichroSensorOnceB); }
+	}
+	public string WilightFullURL {
+		get { return configList.GetString (OpEnum.WilightFullURL); }
+	}
+	public int WilightCommandMs {
+		get { return configList.GetInt (OpEnum.WilightCommandMs); }
 	}
 	public bool GuiTest {
 		get { return configList.GetBool (OpEnum.GuiTest); }
@@ -658,6 +664,10 @@ public class ConfigList
 					"Set sensorOnce at Wichro terminal at one terminal."));
 		list.Add (new ConfigOptionInt (Config.OpEnum.WichroSensorOnceB,
 					"Set sensorOnce at Wichro terminal at another terminal."));
+		list.Add (new ConfigOptionString (Config.OpEnum.WilightFullURL,
+					"Full URL of Wilight port, eg: /dev/ttyUSB0"));
+		list.Add (new ConfigOptionInt (Config.OpEnum.WilightCommandMs,
+					"Time between Wilight test commands (in ms). If empty, value is 2000"));
 		list.Add (new ConfigOptionBool (Config.OpEnum.GuiTest,
 					"To perform tests with the GUI (untested with current code)."));
 		list.Add (new ConfigOptionBool (Config.OpEnum.NoSendLog,

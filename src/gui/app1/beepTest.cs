@@ -29,12 +29,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_mode_race_beepTest;
 	Gtk.Image image_change_modes_contacts_runs_beepTest;
 	Gtk.Box box_beepTest_type_and_options;
-	Gtk.RadioButton radio_beepTest_leger20m;
-	Gtk.RadioButton radio_beepTest_leger15m;
-	Gtk.RadioButton radio_beepTest_pacer15m;
-	Gtk.RadioButton radio_beepTest_yyie1;
-	Gtk.RadioButton radio_beepTest_pacer20m;
-	Gtk.RadioButton radio_beepTest_constant;
+	Gtk.ComboBoxText combo_beepTest_type;
 	Gtk.Box box_beepTest_start_at;
 	Gtk.SpinButton spin_beepTest_start_at;
 	Gtk.CheckButton check_beepTest_start8kmh;
@@ -58,16 +53,41 @@ public partial class ChronoJumpWindow
 	static Thread threadBeepTest;
 	TextBuffer tbBeepTest = new TextBuffer (new TextTagTable());
 
-	private void on_radio_beepTest_toggled (object o, EventArgs args)
-	{
-		check_beepTest_start8kmh.Visible = (radio_beepTest_leger20m.Active || radio_beepTest_leger15m.Active);
-		box_beepTest_start_at.Visible = (radio_beepTest_leger20m.Active || radio_beepTest_leger15m.Active);
 
-		label_beepTest_runStatus.Visible = (radio_beepTest_yyie1.Active);
-		label_beepTest_runStatus_value.Visible = (radio_beepTest_yyie1.Active);
+	private void beepTestApp1Init ()
+	{
+		UtilGtk.ComboUpdate (combo_beepTest_type, BeepTest.TypesArray (), "");
+		combo_beepTest_type.Active = 0;
+	}
+
+	private void on_combo_beepTest_type_changed (object o, EventArgs args)
+	{
+		//Leger
+		check_beepTest_start8kmh.Visible = false;
+		box_beepTest_start_at.Visible = false;
+
+		//YoYo Intermitent
+		label_beepTest_runStatus.Visible = false;
+		label_beepTest_runStatus_value.Visible = false;
 		label_beepTest_runStatus_value.Text = "";
 
-		box_beepTest_constant_options.Visible = radio_beepTest_constant.Active;
+		//Constant speed
+		box_beepTest_constant_options.Visible = false;
+
+		string str = UtilGtk.ComboGetActive (combo_beepTest_type);
+
+		if (str == BeepTest.Leger20Name || str == BeepTest.Leger15Name)
+		{
+			check_beepTest_start8kmh.Visible = true;
+			box_beepTest_start_at.Visible = true;
+		}
+		else if (str == BeepTest.YYIE1Name)
+		{
+			label_beepTest_runStatus.Visible = true;
+			label_beepTest_runStatus_value.Visible = true;
+		}
+		else if (str == BeepTest.ConstantSpeedName)
+			box_beepTest_constant_options.Visible = true;
 	}
 
 	public void on_button_beepTest_start_clicked (object o, EventArgs args)
@@ -77,19 +97,14 @@ public partial class ChronoJumpWindow
 		button_beepTest_finish_selected.Sensitive = true;
 		button_beepTest_finish_all.Sensitive = true;
 
-		if (radio_beepTest_leger20m.Active)
+		string str = UtilGtk.ComboGetActive (combo_beepTest_type);
+		if (str == BeepTest.Leger20Name)
 			beepTest = new BeepTestLeger20m (Convert.ToInt32 (spin_beepTest_start_at.Value), check_beepTest_start8kmh.Active);
-		else if (radio_beepTest_leger15m.Active)
+		else if (str == BeepTest.Leger15Name)
 			beepTest = new BeepTestLeger15m (Convert.ToInt32 (spin_beepTest_start_at.Value), check_beepTest_start8kmh.Active);
-		else if (radio_beepTest_yyie1.Active)
+		else if (str == BeepTest.YYIE1Name)
 			beepTest = new BeepTestYYIE1 ();
-		/*
-		else if (radio_beepTest_pacer15m.Active)
-			beepTest = new Pacer15m ();
-		else if (radio_beepTest_pacer20m.Active)
-			beepTest = new Pacer20m ();
-			*/
-		else if (radio_beepTest_constant.Active)
+		else if (str == BeepTest.ConstantSpeedName)
 			beepTest = new BeepTestConstantSpeed (
 					Convert.ToInt32 (spin_beepTest_constant_distM.Value),
 					Convert.ToDouble (spin_beepTest_constant_speed.Value),
@@ -214,12 +229,7 @@ public partial class ChronoJumpWindow
 		image_mode_race_beepTest = (Gtk.Image) builder.GetObject ("image_mode_race_beepTest");
 		image_change_modes_contacts_runs_beepTest = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_runs_beepTest");
 		box_beepTest_type_and_options = (Gtk.Box) builder.GetObject ("box_beepTest_type_and_options");
-		radio_beepTest_leger20m = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_leger20m");
-		radio_beepTest_leger15m = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_leger15m");
-		radio_beepTest_yyie1 = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_yyie1");
-		radio_beepTest_pacer15m = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_pacer15m");
-		radio_beepTest_pacer20m = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_pacer20m");
-		radio_beepTest_constant = (Gtk.RadioButton) builder.GetObject ("radio_beepTest_constant");
+		combo_beepTest_type = (Gtk.ComboBoxText) builder.GetObject ("combo_beepTest_type");
 		check_beepTest_start8kmh = (Gtk.CheckButton) builder.GetObject ("check_beepTest_start8kmh");
 		box_beepTest_start_at = (Gtk.Box) builder.GetObject ("box_beepTest_start_at");
 		spin_beepTest_start_at = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_start_at");

@@ -4677,6 +4677,8 @@ public partial class ChronoJumpWindow
 			hbox_change_modes_runs.Visible = true; //TODO: add beep test
 			notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.BEEPTEST);
 			box_contacts_capture_top.Visible = false;
+
+			beepTestApp1Init ();
 		} else {
 			radio_mode_contacts_analyze.Visible = true;
 			notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.EXECUTE);

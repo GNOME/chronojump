@@ -146,6 +146,21 @@ public abstract class BeepTest
 		finished = false;
 	}
 
+	public static string Leger20Name = "Leger 20 m shuttle run";
+	public static string Leger15Name = "Leger 15 m shuttle run";
+	public static string YYIE1Name = "Yo Yo Intermitent Endurance 1";
+	public static string ConstantSpeedName = "Constant speed";
+	//TODO: have a bool translated like in ForceSensorRFD.FunctionsArray
+	public static string [] TypesArray ()
+	{
+		return new string [] {
+			Leger20Name,
+			Leger15Name,
+			YYIE1Name,
+			ConstantSpeedName
+		};
+	}
+
 	public void Start ()
 	{
 		dateIni = DateTime.Now;

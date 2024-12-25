@@ -44,6 +44,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_beepTest_stage;
 	Gtk.Label label_beepTest_lap;
 	Gtk.Label label_beepTest_speed;
+	Gtk.Image image_beepTest_runStatus;
 	Gtk.Label label_beepTest_runStatus;
 	Gtk.Label label_beepTest_runStatus_value;
 	Gtk.TextView textview_beepTest;
@@ -58,6 +59,7 @@ public partial class ChronoJumpWindow
 	{
 		UtilGtk.ComboUpdate (combo_beepTest_type, BeepTest.TypesArray (), "");
 		combo_beepTest_type.Active = 0;
+		image_beepTest_runStatus.Visible = false;
 	}
 
 	private void on_combo_beepTest_type_changed (object o, EventArgs args)
@@ -96,14 +98,24 @@ public partial class ChronoJumpWindow
 		button_beepTest_start.Sensitive = false;
 		button_beepTest_finish_selected.Sensitive = true;
 		button_beepTest_finish_all.Sensitive = true;
+		image_beepTest_runStatus.Visible = false;
 
 		string str = UtilGtk.ComboGetActive (combo_beepTest_type);
 		if (str == BeepTest.Leger20Name)
+		{
 			beepTest = new BeepTestLeger20m (Convert.ToInt32 (spin_beepTest_start_at.Value), check_beepTest_start8kmh.Active);
+			image_beepTest_runStatus.Visible = true;
+		}
 		else if (str == BeepTest.Leger15Name)
+		{
 			beepTest = new BeepTestLeger15m (Convert.ToInt32 (spin_beepTest_start_at.Value), check_beepTest_start8kmh.Active);
+			image_beepTest_runStatus.Visible = true;
+		}
 		else if (str == BeepTest.YYIE1Name)
+		{
 			beepTest = new BeepTestYYIE1 ();
+			image_beepTest_runStatus.Visible = true;
+		}
 		else if (str == BeepTest.ConstantSpeedName)
 			beepTest = new BeepTestConstantSpeed (
 					Convert.ToInt32 (spin_beepTest_constant_distM.Value),
@@ -220,6 +232,8 @@ public partial class ChronoJumpWindow
 			 Util.PlaySoundGstreamerFromFile (beepTest.GetSoundFileForStage (slStatus.stage, false),
 					 preferences.volumeOn, preferences.gstreamer, 1);
 
+		image_beepTest_runStatus.Pixbuf = beepTest.ImageLapStatus;
+
 		Thread.Sleep (100);
 		return true;
 	}
@@ -244,6 +258,7 @@ public partial class ChronoJumpWindow
 		label_beepTest_stage = (Gtk.Label) builder.GetObject ("label_beepTest_stage");
 		label_beepTest_lap = (Gtk.Label) builder.GetObject ("label_beepTest_lap");
 		label_beepTest_speed = (Gtk.Label) builder.GetObject ("label_beepTest_speed");
+		image_beepTest_runStatus = (Gtk.Image) builder.GetObject ("image_beepTest_runStatus");
 		label_beepTest_runStatus = (Gtk.Label) builder.GetObject ("label_beepTest_runStatus");
 		label_beepTest_runStatus_value = (Gtk.Label) builder.GetObject ("label_beepTest_runStatus_value");
 		textview_beepTest = (Gtk.TextView) builder.GetObject ("textview_beepTest");

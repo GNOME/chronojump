@@ -19345,7 +19345,7 @@ last capture</property>
                                                             <property name="orientation">vertical</property>
                                                             <property name="spacing">12</property>
                                                             <child>
-                                                            <!-- n-columns=6 n-rows=2 -->
+                                                            <!-- n-columns=7 n-rows=2 -->
                                                             <object class="GtkGrid">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -19445,7 +19445,7 @@ last capture</property>
                                                             <property name="xalign">0</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="left-attach">5</property>
+                                                            <property name="left-attach">6</property>
                                                             <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
@@ -19458,7 +19458,7 @@ last capture</property>
                                                             <property name="xalign">0</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="left-attach">5</property>
+                                                            <property name="left-attach">6</property>
                                                             <property name="top-attach">1</property>
                                                             </packing>
                                                             </child>
@@ -19468,7 +19468,7 @@ last capture</property>
                                                             <property name="label" translatable="yes">Status</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="left-attach">4</property>
+                                                            <property name="left-attach">5</property>
                                                             <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
@@ -19477,8 +19477,21 @@ last capture</property>
                                                             <property name="can-focus">False</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="left-attach">4</property>
+                                                            <property name="left-attach">5</property>
                                                             <property name="top-attach">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_beepTest_runStatus">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="margin-left">20</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">4</property>
+                                                            <property name="top-attach">0</property>
+                                                            <property name="height">2</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -23682,6 +23695,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

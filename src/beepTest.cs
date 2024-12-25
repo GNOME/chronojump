@@ -51,15 +51,17 @@ public class BeepTestStageManage
 		public int lap;
 		public int lapsOfThisStage;
 		public double speedKmh;
-		public bool resting;
+		public bool resting; //rest or not rest
+		public bool resting1stHalf; //1st half of the rest (to show walk to one side or to the other) (only applies if resting)
 
-		public StageLapStatus (int stage, int lap, int lapsOfThisStage, double speedKmh, bool resting)
+		public StageLapStatus (int stage, int lap, int lapsOfThisStage, double speedKmh, bool resting, bool resting1stHalf)
 		{
 			this.stage = stage;
 			this.lap = lap;
 			this.lapsOfThisStage = lapsOfThisStage;
 			this.speedKmh = speedKmh;
 			this.resting = resting;
+			this.resting1stHalf = resting1stHalf;
 		}
 	}
 
@@ -89,7 +91,8 @@ public class BeepTestStageManage
 
 				if (currentMs < sum)
 					return new StageLapStatus (s, t, bts_l[s].laps, bts_l[s].speedKmh,
-							(restSeconds > 0 && Util.IsEven (t+1) && currentMs + 1000 * restSeconds >= sum) // true if we are resting
+							(restSeconds > 0 && Util.IsEven (t+1) && currentMs + 1000 * restSeconds >= sum), // true if we are resting
+							(restSeconds > 0 && Util.IsEven (t+1) && currentMs + 1000 * restSeconds/2 < sum) // (if we are resting: true in the 1st part of the rest)
 							);
 			}
 		}
@@ -105,7 +108,7 @@ public class BeepTestStageManage
 				bts_l[bts_l.Count -1].laps -1,
 				bts_l[bts_l.Count -1].laps,
 				bts_l[bts_l.Count -1].speedKmh,
-				false);
+				false, false);
 	}
 
 	//gets at which millisecond starts an stage
@@ -134,6 +137,7 @@ public abstract class BeepTest
 	protected BeepTestStageManage.StageLapStatus previousStageLapStatus; //to beep sound on lap changed
 	public enum BeepNowEnum { NO, LAP, STAGE };
 	protected BeepNowEnum shouldBeepNow;
+	private Gdk.Pixbuf imageLapStatus;
 
 	protected virtual void initialize ()
 	{
@@ -141,7 +145,7 @@ public abstract class BeepTest
 		btsm.CreateList (stageSpeedKm_l, lapDurationS_l, stageLaps_l, lapDistM_l);
 
 		stopwatch = new Stopwatch ();
-		previousStageLapStatus = new BeepTestStageManage.StageLapStatus (-1, -1, -1, -1, false);
+		previousStageLapStatus = new BeepTestStageManage.StageLapStatus (-1, -1, -1, -1, false, false);
 
 		finished = false;
 	}
@@ -188,6 +192,7 @@ public abstract class BeepTest
 			finished = true;
 
 		decideIfShouldBeep (currentStageLapStatus);
+		imageLapStatus = getImageForLapStatus (currentStageLapStatus);
 
 		previousStageLapStatus = currentStageLapStatus;
 
@@ -202,6 +207,22 @@ public abstract class BeepTest
 				shouldBeepNow = BeepNowEnum.STAGE;
 		else if (previousStageLapStatus.lap != currentStageLapStatus.lap)
 			shouldBeepNow = BeepNowEnum.LAP;
+	}
+
+	protected virtual Gdk.Pixbuf getImageForLapStatus (BeepTestStageManage.StageLapStatus currentStageLapStatus)
+	{
+		if (! Util.IsEven (currentStageLapStatus.lap +1))
+			return Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "run_2x.png");
+		else {
+			if (currentStageLapStatus.resting)
+			{
+				if (currentStageLapStatus.resting1stHalf)
+					return Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "walk_back_48px.png");
+				else
+					return Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "walk_48px.png");
+			} else
+				return Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "run_back_2x.png");
+		}
 	}
 
 	protected int getStageTimeStartInMs (int stage)
@@ -254,6 +275,11 @@ public abstract class BeepTest
 	public BeepNowEnum ShouldBeepNow
 	{
 		get { return (shouldBeepNow); }
+	}
+
+	public Gdk.Pixbuf ImageLapStatus
+	{
+		get { return (imageLapStatus); }
 	}
 
 	public bool Finished

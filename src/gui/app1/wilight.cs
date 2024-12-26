@@ -24,6 +24,15 @@ using System.Diagnostics; //Stopwatch
 //TODO: note this dirty code is just for testing, thread is needed...
 public partial class ChronoJumpWindow 
 {
+	// at glade ---->
+	Gtk.ButtonBox buttonbox_wilight_test;
+	// <---- at glade
+
+	private void on_button_wilight_test_clicked (object o, EventArgs args)
+	{
+		wilightTest (configChronojump.WilightPortURL, configChronojump.WilightCommandsURL, configChronojump.WilightCommandMs);
+	}
+
 	private void wilightTest (string portName, string commandsFile, int commandTimeMs)
 	{
 		wichroCapture = new WichroCapture (portName);
@@ -89,6 +98,11 @@ public partial class ChronoJumpWindow
 
 			wichroCapture.Stop(); //Should we do a disconnect here?
 		}
+	}
+		
+	private void connectWidgetsWilight (Gtk.Builder builder)
+	{
+		buttonbox_wilight_test = (Gtk.ButtonBox) builder.GetObject ("buttonbox_wilight_test");
 	}
 }
 

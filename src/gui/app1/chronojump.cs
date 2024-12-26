@@ -666,6 +666,7 @@ public partial class ChronoJumpWindow
 		connectWidgetsShortcuts (builder);
 		connectWidgetsSprint (builder);
 		connectWidgetsBeepTest (builder);
+		connectWidgetsWilight (builder);
 		connectWidgetsStats (builder);
 		connectWidgetsTrigger (builder);
 		connectWidgetsWebcam (builder);
@@ -1407,7 +1408,7 @@ public partial class ChronoJumpWindow
 		//TestObjectsDifferences.Test ();
 
 		if (configChronojump.WilightPortURL != "")
-			wilightTest (configChronojump.WilightPortURL, configChronojump.WilightCommandsURL, configChronojump.WilightCommandMs);
+			buttonbox_wilight_test.Visible = true;
 	}
 
 /*

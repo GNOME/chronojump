@@ -1406,8 +1406,8 @@ public partial class ChronoJumpWindow
 
 		//TestObjectsDifferences.Test ();
 
-		if (configChronojump.WilightFullURL != "")
-			wilightTest (configChronojump.WilightFullURL, configChronojump.WilightCommandMs);
+		if (configChronojump.WilightPortURL != "")
+			wilightTest (configChronojump.WilightPortURL, configChronojump.WilightCommandsURL, configChronojump.WilightCommandMs);
 	}
 
 /*

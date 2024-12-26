@@ -29,14 +29,26 @@ public class WilightTest
 
 	public string DefaultStatusCommand = "0:0;1:0;2:0;3:0;4:0;5:0;6:0;7:0;8:0;9:0;10:0;11:0;12:0;";
 
-	public WilightTest ()
+	public WilightTest (string commandsFile)
 	{
 		command_ll = new List<List<string>> ();
-		command_ll.Add (level0);
-		command_ll.Add (level1);
-		command_ll.Add (level2);
-		command_ll.Add (level3);
-		command_ll.Add (level4);
+
+		if (commandsFile != "")
+		{
+			List<string> commandsFromFile_l = Util.ReadFileAsStringList (commandsFile);
+			List<string> commandsFromFileClean_l = new List<string> ();
+			foreach (string command in commandsFromFile_l)
+				if (! command.StartsWith ("#"))
+					commandsFromFileClean_l.Add (command);
+
+			command_ll.Add (commandsFromFileClean_l);
+		} else {
+			command_ll.Add (level0);
+			command_ll.Add (level1);
+			command_ll.Add (level2);
+			command_ll.Add (level3);
+			command_ll.Add (level4);
+		}
 	
 		currentLevel = 0;
 		currentCommand = 0;

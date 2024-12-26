@@ -24,7 +24,7 @@ using System.Diagnostics; //Stopwatch
 //TODO: note this dirty code is just for testing, thread is needed...
 public partial class ChronoJumpWindow 
 {
-	private void wilightTest (string portName, int commandTimeMs)
+	private void wilightTest (string portName, string commandsFile, int commandTimeMs)
 	{
 		wichroCapture = new WichroCapture (portName);
 		wichroCapture.Reset ();
@@ -39,7 +39,7 @@ public partial class ChronoJumpWindow
 		{
 			System.Threading.Thread.Sleep (1000);
 
-			WilightTest wt = new WilightTest ();
+			WilightTest wt = new WilightTest (commandsFile);
 
 			//needed to set the default status
 			wichroCapture.WilightSendCommand (wt.DefaultStatusCommand);

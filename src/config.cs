@@ -66,7 +66,7 @@ public class Config
 		LastDBFullPath, //cloud & externalDB
 		JsonUploadNeedsButton, JsonUploadJumpSimpleTestScript, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, CanInsertTests, //json upload
 		RemoteTestJumpSimpleFile, RemoteTestRunIntervalFile, RemoteTestCancelFile, //remote execution
-		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, WilightFullURL, WilightCommandMs, GuiTest, NoSendLog, //other
+		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, WilightPortURL, WilightCommandsURL, WilightCommandMs, GuiTest, NoSendLog, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
 
@@ -211,8 +211,11 @@ public class Config
 	public int WichroSensorOnceB {
 		get { return configList.GetInt (OpEnum.WichroSensorOnceB); }
 	}
-	public string WilightFullURL {
-		get { return configList.GetString (OpEnum.WilightFullURL); }
+	public string WilightPortURL {
+		get { return configList.GetString (OpEnum.WilightPortURL); }
+	}
+	public string WilightCommandsURL {
+		get { return configList.GetString (OpEnum.WilightCommandsURL); }
 	}
 	public int WilightCommandMs {
 		get { return configList.GetInt (OpEnum.WilightCommandMs); }
@@ -664,8 +667,10 @@ public class ConfigList
 					"Set sensorOnce at Wichro terminal at one terminal."));
 		list.Add (new ConfigOptionInt (Config.OpEnum.WichroSensorOnceB,
 					"Set sensorOnce at Wichro terminal at another terminal."));
-		list.Add (new ConfigOptionString (Config.OpEnum.WilightFullURL,
+		list.Add (new ConfigOptionString (Config.OpEnum.WilightPortURL,
 					"Full URL of Wilight port, eg: /dev/ttyUSB0"));
+		list.Add (new ConfigOptionString (Config.OpEnum.WilightCommandsURL,
+					"Full URL of File with Wilight commands. Note lines on that file starting with # are ignored"));
 		list.Add (new ConfigOptionInt (Config.OpEnum.WilightCommandMs,
 					"Time between Wilight test commands (in ms). If empty, value is 2000"));
 		list.Add (new ConfigOptionBool (Config.OpEnum.GuiTest,

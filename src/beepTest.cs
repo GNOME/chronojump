@@ -153,6 +153,7 @@ public abstract class BeepTest
 	public static string Leger20Name = "Leger 20 m shuttle run";
 	public static string Leger15Name = "Leger 15 m shuttle run";
 	public static string YYIE1Name = "Yo Yo Intermitent Endurance 1";
+	public static string YYIE2Name = "Yo Yo Intermitent Endurance 2";
 	public static string ConstantSpeedName = "Constant speed";
 	//TODO: have a bool translated like in ForceSensorRFD.FunctionsArray
 	public static string [] TypesArray ()
@@ -161,6 +162,7 @@ public abstract class BeepTest
 			Leger20Name,
 			Leger15Name,
 			YYIE1Name,
+			YYIE2Name,
 			ConstantSpeedName
 		};
 	}
@@ -555,6 +557,48 @@ public class BeepTestYYIE1 : BeepTestYYI
 					12, 12, 12, 12,
 					12, 12, 12, 12,
 					12, 12, 12
+					} );
+		}
+	}
+
+	protected override List<int> lapDistM_l  //in m
+	{
+		get {
+			return (new List<int> {
+					20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+					20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+					} );
+		}
+	}
+
+}
+
+public class BeepTestYYIE2 : BeepTestYYI
+{
+	public BeepTestYYIE2 ()
+	{
+		restSeconds = 5;
+		initialize ();
+	}
+
+	protected override List<double> stageSpeedKm_l
+	{
+		get {
+			return (new List<double> {
+					13.0, 15.0, 16.0, 16.5, 17.0,
+					17.5, 18.0, 18.5, 19.0, 19.5,
+					20.0, 20.5, 21.0, 21.5, 22.0,
+					} );
+		}
+	}
+
+	protected override List<int> stageLaps_l
+	{
+		get {
+			return (new List<int> {
+					2, 2, 4, 6, 8,
+					16, 16, 16, 16, 16,
+					16, 16, 16, 16, 16,
 					} );
 		}
 	}

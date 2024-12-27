@@ -133,6 +133,7 @@ public abstract class BeepTest
 	protected bool hasVo2max; //default false
 	protected int startedWithMs = 0;
 	protected int restSeconds = 0;
+	protected int lapMeters = 20; //this works because these tests have all the laps with same meters, if any test has different meters, do not use this
 
 	protected BeepTestStageManage.StageLapStatus previousStageLapStatus; //to beep sound on lap changed
 	public enum BeepNowEnum { NO, LAP, STAGE };
@@ -244,10 +245,17 @@ public abstract class BeepTest
 	{
 		get { return (new List<int> ()); }
 	}
-	protected virtual List<int> lapDistM_l
+
+	protected List<int> lapDistM_l  //in m
 	{
-		get { return (new List<int> ()); }
+		get {
+			List<int> l = new List<int> ();
+			for (int i = 0; i < stageSpeedKm_l.Count ; i ++)
+				l.Add (lapMeters);
+			return l;
+		}
 	}
+
 	protected List<double> lapDurationS_l
 	//protected virtual List<double> lapDurationS_l
 	{
@@ -336,17 +344,6 @@ public class BeepTestLeger20m : BeepTest
 					} );
 		}
 	}
-
-	protected override List<int> lapDistM_l  //in m
-	{
-		get {
-			return (new List<int> {
-					20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-					20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20
-					} );
-		}
-	}
-
 	//https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1725157
 	public override double Vo2max (double maxSpeed)
 	{
@@ -362,6 +359,9 @@ public class BeepTestLeger15m : BeepTest
 	public BeepTestLeger15m (int startStage, bool startFirstAt8Kmh)
 	{
 		this.startFirstAt8Kmh = startFirstAt8Kmh;
+
+		lapMeters = 15;
+
 		initialize ();
 
 		if (startStage > 1)
@@ -391,6 +391,7 @@ public class BeepTestLeger15m : BeepTest
 					} );
 		}
 	}
+}
 
 	protected override List<int> lapDistM_l  //in m
 	{
@@ -443,16 +444,6 @@ public class Pacer15m : BeepTest
 					} );
 		}
 	}
-
-	protected override List<int> lapDistM_l  //in m
-	{
-		get {
-			return (new List<int> {
-					15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
-					15, 15, 15, 15, 15, 15, 15, 15, 15, 15
-					} );
-		}
-	}
 }
 
 public class Pacer20m : BeepTest
@@ -493,16 +484,6 @@ public class Pacer20m : BeepTest
 			return (new List<int> {
 					7, 8, 8, 9, 9, 10, 10, 11, 11, 11, 12,
 					12, 13, 13, 13, 14, 14, 15, 15, 16, 16
-					} );
-		}
-	}
-
-	protected override List<int> lapDistM_l  //in m
-	{
-		get {
-			return (new List<int> {
-					20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-					20, 20, 20, 20, 20, 20, 20, 20, 20, 20
 					} );
 		}
 	}
@@ -564,17 +545,6 @@ public class BeepTestYYIE1 : BeepTestYYI
 					} );
 		}
 	}
-
-	protected override List<int> lapDistM_l  //in m
-	{
-		get {
-			return (new List<int> {
-					20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-					20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-					} );
-		}
-	}
-
 }
 
 public class BeepTestYYIE2 : BeepTestYYI
@@ -606,17 +576,6 @@ public class BeepTestYYIE2 : BeepTestYYI
 					} );
 		}
 	}
-
-	protected override List<int> lapDistM_l  //in m
-	{
-		get {
-			return (new List<int> {
-					20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-					20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-					} );
-		}
-	}
-
 }
 
 public class BeepTestYYIR1 : BeepTestYYI
@@ -645,16 +604,6 @@ public class BeepTestYYIR1 : BeepTestYYI
 					2, 2, 4, 6, 8,
 					16, 16, 16, 16, 16,
 					16, 16, 16, 16, 16,
-					} );
-		}
-	}
-
-	protected override List<int> lapDistM_l  //in m
-	{
-		get {
-			return (new List<int> {
-					20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-					20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
 					} );
 		}
 	}
@@ -689,42 +638,20 @@ public class BeepTestYYIR2 : BeepTestYYI
 					} );
 		}
 	}
-
-	protected override List<int> lapDistM_l  //in m
-	{
-		get {
-			return (new List<int> {
-					20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-					20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-					} );
-		}
-	}
 }
 
 public class BeepTestConstantSpeed : BeepTest
 {
-	private int distM;
 	private double speedKmh;
 	private int laps;
 
-	public BeepTestConstantSpeed (int distM, double speedKmh, int laps)
+	public BeepTestConstantSpeed (int lapMeters, double speedKmh, int laps)
 	{
-		this.distM = distM;
+		this.lapMeters = lapMeters;
 		this.speedKmh = speedKmh;
 		this.laps = laps;
 
 		initialize ();
-	}
-
-	// each "stage" has one lap, each lap has distM (meters)
-	protected override List<int> lapDistM_l  //in m
-	{
-		get {
-			List<int> l = new List<int> ();
-			for (int i = 0; i < laps; i ++)
-				l.Add (distM);
-			return (l);
-		}
 	}
 
 	// each "stage" is done at speedKmh

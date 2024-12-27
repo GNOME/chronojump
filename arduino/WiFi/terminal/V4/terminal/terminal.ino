@@ -28,7 +28,7 @@
 #include "pinout.h"
 
 unsigned int deviceType = 1; //Photocel and LightChro sensor
-unsigned int deviceVersion = 17;
+unsigned int deviceVersion = 18;
 
 // Set up nRF24L01 radio on SPI bus plus pins  (CE & CS)
 
@@ -256,7 +256,7 @@ void loop(void)
 
 void sendSample(void) {
   //    lastPinState = sample.state;
-  sample.data = (millis() - time0);
+  // sample.data = (millis() - time0);
   flagint = LOW;
   buzzer_off;
   red_off;
@@ -271,21 +271,30 @@ void sendSample(void) {
   radio.setChannel(control0Channel - controlSwitch);
   // Serial.print("getChannel = ");
   // Serial.println(radio.getChannel());
-  bool en = radio.write( &sample, sample_size);
-  //    if (en) {
-  //      Serial.println("Sent OK");
-  //    } else {
-  //      Serial.println("Error sending");
-  //    }
-  //    Serial.print("getChannel = ");
-  //    Serial.println(radio.getChannel());
+  bool sent = radio.write( &sample, sample_size);
+  int retries = 0;
+  while (!sent && (retries < 10) ) {
+    sent = radio.write( &sample, sample_size);
+    retries++;
+  }
   flagint = LOW;
   // On sensorOnce mode send also the other state in order to facilitate Chronojump the reading
   if (! unlimitedMode) {
     waitingSensor = false;
     sample.state = !sample.state;
     delay(2);
-    en = radio.write( &sample, sample_size);
+    sent = radio.write( &sample, sample_size);
+    int retries = 0;
+    while ((retries < 10) && (!sent) ) {
+      sent = radio.write( &sample, sample_size);
+      retries++;
+    }
+  }
+
+  if (!sent) {
+    beep(500);
+  } else {
+    beep(25);
   }
 
   radio.setChannel(terminal0Channel - sample.termNum);
@@ -295,7 +304,6 @@ void sendSample(void) {
   //    Serial.print("getChannel = ");
   //    Serial.println(radio.getChannel());
   //    Serial.println(sample.data);
-  beep(25);
 }
 
 void controlint()
@@ -463,18 +471,11 @@ void sendPong(void) {
   // Serial.print("Wifi-Sensor-");
   // Serial.println(deviceVersion);
   flagint = LOW;
-  MsTimer2::stop();
-  radio.stopListening();
-  radio.setChannel(control0Channel - controlSwitch);
-  bool en = radio.write( &sample, sample_size);
-  flagint = LOW;
-  if (! unlimitedMode) waitingSensor = false;
-  radio.setChannel(terminal0Channel - sample.termNum);
-  radio.startListening();
+  sendSample();
   buzzer_on;
   blinkingGreen = true;
   blinkStart(75);
-  delay(500);
+  delay(250);
   MsTimer2::stop();
   // TODO: Return to the state before the ping
   buzzer_off;

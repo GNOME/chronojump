@@ -27,7 +27,7 @@
 #include <elapsedMillis.h>
 
 // The first number refers to the hardware version. The seccond to firmware version for this hardware
-String version = "Wifi-Controller-4.2"; //"Wifi-Controller-" is mandatori. Chronojump expects it
+String version = "Wifi-Controller-4.3"; //"Wifi-Controller-" is mandatori. Chronojump expects it
 
 
 //
@@ -163,7 +163,7 @@ void setup(void)
   //  Serial.println(controlSwitch);
 
   radio.begin();
-  radio.setRetries(1, 15); // Delay and maximum retries. 0.250*(1 + delay) microseconds of delay between retries.
+  radio.setRetries(0, 15); // Delay and maximum retries. 0.250*(1 + delay) microseconds of delay between retries.
 
   //maximum 125 channels. cell phone and wifi uses 2402-2472. Free from channel 73 to channel 125. Each channels is 1Mhz separated
   radio.setChannel(control0Channel - controlSwitch);
@@ -304,7 +304,7 @@ void serialEvent()
   inputString = "";
 }
 
-bool sendInstruction(struct instruction_t *instruction)
+unsigned int sendInstruction(struct instruction_t *instruction)
 {
 
   //  Serial.print("Sending command \'");
@@ -317,28 +317,23 @@ bool sendInstruction(struct instruction_t *instruction)
 
   radio.stopListening();    //To sent it is necessary to stop listening
 
-  bool en = radio.write( instruction, size_instruction );
+  bool sent = radio.write( instruction, size_instruction );
+  unsigned int retries = 0;
+  while ( !sent && (retries < 10) ) {
+    sent = radio.write( instruction, size_instruction );
+    retries++;
+  }
   radio.setChannel(control0Channel - controlSwitch);    //setting the the channel to the reading channel
   radio.startListening();  //Going back to listening mode
   LED_off;
   instruction->termNum = 0;
 
-  if (!en)  //en is 1 if radio.write went OK
-  {
-    //    Serial.println("Error sending");
-    return (false);
-  } else {
-    //    Serial.print("send instruction:");
-    //    Serial.println(instruction->command);
-    //    Serial.println(instruction->termNum);
-    return (true);
-  }
+  return(retries);
 }
 
 // Atention this function is not valid for ping all terminals as it does not wait for response.
 void sendToAll(uint16_t command)
 {
-  Serial.println("---------Activating All---------");
   radio.stopListening();
   for (int i = 0; i <= 63; i++) {
     radio.setChannel(terminal0Channel - i);
@@ -346,7 +341,7 @@ void sendToAll(uint16_t command)
     //    Serial.println(radio.getChannel());
     instruction.termNum = i;
     instruction.command = command;
-    sendInstruction(&instruction);
+    unsigned int retries = sendInstruction(&instruction);
   }
   radio.startListening();
   radio.setChannel(control0Channel - controlSwitch);

@@ -83,7 +83,8 @@ public partial class ChronoJumpWindow
 			check_beepTest_start8kmh.Visible = true;
 			box_beepTest_start_at.Visible = true;
 		}
-		else if (str == BeepTest.YYIE1Name || str == BeepTest.YYIE2Name)
+		else if (str == BeepTest.YYIE1Name || str == BeepTest.YYIE2Name ||
+				str == BeepTest.YYIR1Name || str == BeepTest.YYIR2Name)
 		{
 			label_beepTest_runStatus.Visible = true;
 			label_beepTest_runStatus_value.Visible = true;
@@ -119,6 +120,16 @@ public partial class ChronoJumpWindow
 		else if (str == BeepTest.YYIE2Name)
 		{
 			beepTest = new BeepTestYYIE2 ();
+			image_beepTest_runStatus.Visible = true;
+		}
+		else if (str == BeepTest.YYIR1Name)
+		{
+			beepTest = new BeepTestYYIR1 ();
+			image_beepTest_runStatus.Visible = true;
+		}
+		else if (str == BeepTest.YYIR2Name)
+		{
+			beepTest = new BeepTestYYIR2 ();
 			image_beepTest_runStatus.Visible = true;
 		}
 		else if (str == BeepTest.ConstantSpeedName)

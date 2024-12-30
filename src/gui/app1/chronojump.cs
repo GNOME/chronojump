@@ -3976,7 +3976,8 @@ public partial class ChronoJumpWindow
 		}
 		else if (current_mode == Constants.Modes.RUNSSIMPLE ||
 				current_mode == Constants.Modes.RUNSINTERVALLIC ||
-				current_mode == Constants.Modes.RUNSENCODER)
+				current_mode == Constants.Modes.RUNSENCODER ||
+				current_mode == Constants.Modes.BEEPTEST)
 		{
 			radio_menu_2_2_2_races.Active = true;
 			button_menu_2_2_2_manage (radio_menu_2_2_2_races, false);

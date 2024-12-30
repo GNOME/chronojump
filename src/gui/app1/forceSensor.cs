@@ -1586,7 +1586,7 @@ public partial class ChronoJumpWindow
 						false, //zoomed
 						-1, false
 						);
-				forceCalculated = Util.GetLast (fsdTemp.GetForces ());
+				forceCalculated = UtilList.GetLast (fsdTemp.GetForces ());
 			} else {
 				//TODO: implement also code based on ForceSensorDynamics here, and then this IfNeeded function can disappear
 				forceCalculated = ForceSensor.CalculeForceResultantIfNeeded (force, forceSensorCaptureOption,

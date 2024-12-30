@@ -178,7 +178,7 @@ public class RunsEvolution : JumpsRunsEvolution
 			dates_l.Add(dt);
 		}
 
-		distance_l = Util.SortDoublesListString(distance_l);
+		distance_l = UtilList.SortDoublesListString(distance_l);
 
 		getLeastSquaresLine ();
 	}

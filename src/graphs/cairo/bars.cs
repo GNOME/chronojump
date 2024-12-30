@@ -1387,8 +1387,8 @@ public class CairoBars1Series : CairoBars
 				barColor = colorMain_l[i];
 
 			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
-					Util.FoundInListInt (best_l, i),
-					Util.FoundInListInt (worst_l, i));
+					UtilList.FoundInListInt (best_l, i),
+					UtilList.FoundInListInt (worst_l, i));
 			barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), i == selectedPos));
 			mouseLimits.AddInPos (i, x, y, x+barWidth, graphHeight -bottomMargin);
 
@@ -1428,7 +1428,7 @@ public class CairoBars1Series : CairoBars
 					graphHeight - fontHeightForBottomNames * 2/3,
 					0, fontHeightForBottomNames,
 					names_l[i] + videoPlayingStr, g, alignTypes.CENTER,
-					Util.FoundInListInt(saved_l, i));
+					UtilList.FoundInListInt(saved_l, i));
 			//LogB.Information("names_l[i]: " + names_l[i]);
 
 			barsXCenter_l.Add(x + barWidth/2);
@@ -1814,8 +1814,8 @@ public class CairoBarsNHSeries : CairoBars
 						barColor = colorSecondary_l[i];
 
 					drawRoundedRectangle (true, x + adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
-							Util.FoundInListInt (best_l, i),
-							Util.FoundInListInt (worst_l, i));
+							UtilList.FoundInListInt (best_l, i),
+							UtilList.FoundInListInt (worst_l, i));
 					resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y-4, pS.Y));
 					//to print line variable if needed
 					//barsXCenter_l.Add(x + adjustX + barWidth/2);
@@ -1867,8 +1867,8 @@ public class CairoBarsNHSeries : CairoBars
 					barColor = colorMain_l[i];
 
 				drawRoundedRectangle (true, x+adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
-						Util.FoundInListInt (best_l, i),
-						Util.FoundInListInt (worst_l, i));
+						UtilList.FoundInListInt (best_l, i),
+						UtilList.FoundInListInt (worst_l, i));
 				resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y, pB.Y));
 				//add for the secondary and for the main bar, no problem both will work
 				mouseLimits.AddInPos (mouseLimitsPos2ndBar, x+adjustX, y, x+adjustX+barWidth, graphHeight -bottomMargin);
@@ -1937,7 +1937,7 @@ public class CairoBarsNHSeries : CairoBars
 					graphHeight -fontHeightForBottomNames * 2/3,
 					0, fontHeightForBottomNames,
 					names_l[i] + videoPlayingStr, g, alignTypes.CENTER,
-					Util.FoundInListInt(saved_l, i));
+					UtilList.FoundInListInt(saved_l, i));
 		}
 
 

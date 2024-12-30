@@ -726,7 +726,7 @@ public class GenericWindow
 
 		// 5) update the session combo
 		UtilGtk.ComboUpdate (combo_person_select, personStr_l);
-		if (Util.FoundInListString (personStr_l, string.Format ("{0}:{1}", currentPerson.UniqueID, currentPerson.Name)))
+		if (UtilList.FoundInListString (personStr_l, string.Format ("{0}:{1}", currentPerson.UniqueID, currentPerson.Name)))
 			combo_person_select.Active = UtilGtk.ComboMakeActive (combo_person_select,
 					string.Format("{0}:{1}", currentPerson.UniqueID, currentPerson.Name));
 		else

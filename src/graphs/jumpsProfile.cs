@@ -178,7 +178,7 @@ public class JumpsProfile
 		List<double> differentWeights_l = new List<double> ();
 		foreach (Jump j in sjSjl_l)
 			if (j.Type == "SJl")
-				differentWeights_l = Util.AddToListDoubleIfNotExist (differentWeights_l, j.WeightPercent);
+				differentWeights_l = UtilList.AddToListDoubleIfNotExist (differentWeights_l, j.WeightPercent);
 
 		/* needed when parabole was used
 		if (differentWeights_l.Count < 2)

@@ -483,7 +483,7 @@ class SqliteRunEncoderExercise : Sqlite
 					reader[1].ToString(),			//name
 					reader[2].ToString(),			//description
 					Convert.ToInt32(reader[3].ToString()),	//segmentCm (cm since DB 2.33)
-					Util.SQLStringToListInt(reader[4].ToString(), ";"),	//segmentVariableCm
+					UtilList.SQLStringToListInt(reader[4].ToString(), ";"),	//segmentVariableCm
 					Util.IntToBool(Convert.ToInt32(reader[5].ToString())),
 					angleDefault
 					);

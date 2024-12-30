@@ -369,14 +369,14 @@ public partial class ChronoJumpWindow
 			currentSession.UniqueID + ", " +
 			"0, '" + //exerciseID
 			UtilDate.ToFile (DateTime.Now) + "', '" +
-			Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOn_ll[0], 3, "="))  + "', '" +
-			Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOff_ll[0], 3, "=")) + "', '" +
-			Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOn_ll[1], 3, "="))  + "', '" +
-			Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOff_ll[1], 3, "=")) + "', '" +
-			Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOn_ll[2], 3, "="))  + "', '" +
-			Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOff_ll[2], 3, "=")) + "', '" +
-			Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOn_ll[3], 3, "="))  + "', '" +
-			Util.ConvertToPoint (Util.ListDoubleToString (fpcm.TimesOff_ll[3], 3, "=")) + "', " +
+			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOn_ll[0], 3, "="))  + "', '" +
+			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOff_ll[0], 3, "=")) + "', '" +
+			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOn_ll[1], 3, "="))  + "', '" +
+			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOff_ll[1], 3, "=")) + "', '" +
+			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOn_ll[2], 3, "="))  + "', '" +
+			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOff_ll[2], 3, "=")) + "', '" +
+			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOn_ll[3], 3, "="))  + "', '" +
+			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOff_ll[3], 3, "=")) + "', " +
 			"'', '', 0)"; //comments, videoURL, totalTime
 
 		SqliteFourPlatforms.Insert (false, insertString);

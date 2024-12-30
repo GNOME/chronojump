@@ -347,7 +347,7 @@ public abstract class ExportSession
 
 			List<Session> s_l = SqliteSession.SelectAll (false, Sqlite.Orders_by.ID_ASC);
 			foreach (Session s in s_l)
-				if (Util.FoundInListInt (sWithData_l, s.UniqueID))
+				if (UtilList.FoundInListInt (sWithData_l, s.UniqueID))
 					myData.Add ( s.UniqueID + ":" + s.Name + ":" +
 							s.Place + ":" + s.DateShort + ":" +
 							Util.RemoveNewLine(s.Comments, true) );
@@ -362,7 +362,7 @@ public abstract class ExportSession
 		{
 			string [] myStr = str.Split(new char[] {':'});
 			if (Util.IsNumber (myStr[3], false))
-				sWithData_l = Util.AddToListIntIfNotExist (
+				sWithData_l = UtilList.AddToListIntIfNotExist (
 						sWithData_l, Convert.ToInt32 (myStr[3]));
 		}
 		return sWithData_l;
@@ -453,7 +453,7 @@ public abstract class ExportSession
 		myData.Add (
 				Catalog.GetString ("Person ID") + ":" +
 				Catalog.GetString ("Person name") + ":" +
-				Util.ListStringToString (jumpTypes_l, ":")
+				UtilList.ListStringToString (jumpTypes_l, ":")
 			  );
 
 		foreach (PersonAndPS paps in myPersonsAndPS)

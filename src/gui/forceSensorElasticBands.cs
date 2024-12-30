@@ -396,7 +396,7 @@ public class ForceSensorElasticBandsWindow
 		if(sessionsWithThisEB.Count == 0)
 			on_button_delete_confirm_clicked (o, args);
 		else {
-			textview_delete.Buffer.Text = Util.ListStringToString(sessionsWithThisEB);
+			textview_delete.Buffer.Text = UtilList.ListStringToString(sessionsWithThisEB);
 			notebook.CurrentPage = 2;
 		}
 	}

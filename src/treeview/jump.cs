@@ -263,13 +263,13 @@ public class TreeViewJumps : TreeViewEvent
 		
 		myData[count++] = UtilDate.GetDatetimePrint(UtilDate.FromFile(newJump.Datetime));
 
-		if (Util.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.JUMP, newJump.UniqueID)))
+		if (UtilList.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.JUMP, newJump.UniqueID)))
 			myData[count++] = Catalog.GetString ("Yes");
 		else
 			myData[count++] = Catalog.GetString ("No");
 		LogB.Information ("find video: " + string.Format ("{0}-{1}", Constants.TestTypes.JUMP, newJump.UniqueID));
 		LogB.Information ("on list:");
-		LogB.Information (Util.ListStringToString (videos_l));
+		LogB.Information (UtilList.ListStringToString (videos_l));
 
 		myData[count++] = newJump.Description;
 		myData[count++] = newJump.UniqueID.ToString();
@@ -382,7 +382,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		
 		myData[count++] = UtilDate.GetDatetimePrint(UtilDate.FromFile(newJumpRj.Datetime));
 
-		if (Util.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.JUMP_RJ, newJumpRj.UniqueID)))
+		if (UtilList.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.JUMP_RJ, newJumpRj.UniqueID)))
 			myData[count++] = Catalog.GetString ("Yes");
 		else
 			myData[count++] = Catalog.GetString ("No");
@@ -542,7 +542,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		//this values are calculated using the AVG of the tcs or tvs, not as an avg of individual values
 
 		myData[count++] = Util.TrimDecimals (
-				Util.GetAverage (newJumpRj.HeightList)
+				UtilList.GetAverage (newJumpRj.HeightList)
 				, pDN);
 
 		if (preferences.showPower || preferences.showStiffness)
@@ -606,7 +606,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 						tvAVGDouble.ToString(), preferences.metersSecondsPreferred)
 					, pDN);
 		if (preferences.showJumpRSI)
-			myData[count++] = Util.TrimDecimals(Util.GetAverage(newJumpRj.RSIList), pDN);
+			myData[count++] = Util.TrimDecimals(UtilList.GetAverage(newJumpRj.RSIList), pDN);
 		if (preferences.showQIndex) 
 			myData[count++] = Util.TrimDecimals(
 					Util.GetQIndex(tvAVGDouble,tcAVGDouble).ToString(), pDN);

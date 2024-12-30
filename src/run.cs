@@ -198,7 +198,7 @@ public class RunInterval : Run
 		this.simulated = Convert.ToInt32(eventString[11]);
 		this.initialSpeed = Util.IntToBool(Convert.ToInt32(eventString[12]));
 		this.datetime = eventString[13];
-		this.photocell_l = Util.SQLStringToListInt(eventString[14], ";");
+		this.photocell_l = UtilList.SQLStringToListInt(eventString[14], ";");
 	}
 
 	public static List<Event> RunIntervalListToEventList(List<RunInterval> runsI)

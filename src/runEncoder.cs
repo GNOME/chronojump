@@ -669,7 +669,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacementTest
 	//for capture
 	public List<int> GetNextSample ()
 	{
-		List<int> binaryReaded = Util.SQLStringToListInt (testData_l[row ++], ";");
+		List<int> binaryReaded = UtilList.SQLStringToListInt (testData_l[row ++], ";");
 		binaryReaded.Add (0); //add byte for encoder or RCA (encoder is 0)
 
 		return binaryReaded;
@@ -841,13 +841,13 @@ public class RunEncoderSegmentCalcs
 
 		//2nd print the data
 		string str = "Debug SegmentCalcs:";
-		str += "\ntimeStart_l:\n\t" + Util.ListDoubleToString (timeStart_l_copy, 3, "; ");
-		str += "\ntimeEnd_l:\n\t" + Util.ListDoubleToString (timeEnd_l_copy, 3, "; ");
-		str += "\ndist_l:\n\t" + Util.ListDoubleToString (dist_l_copy, 3, "; ");
-		str += "\nspeedCont_l:\n\t" + Util.ListDoubleToString (speedCont_l_copy, 3, "; ");
-		str += "\naccel_l:\n\t" + Util.ListDoubleToString (accel_l_copy, 3, "; ");
-		str += "\nforce_l:\n\t" + Util.ListDoubleToString (force_l_copy, 3, "; ");
-		str += "\npower_l:\n\t" + Util.ListDoubleToString (power_l_copy, 3, "; ");
+		str += "\ntimeStart_l:\n\t" + UtilList.ListDoubleToString (timeStart_l_copy, 3, "; ");
+		str += "\ntimeEnd_l:\n\t" + UtilList.ListDoubleToString (timeEnd_l_copy, 3, "; ");
+		str += "\ndist_l:\n\t" + UtilList.ListDoubleToString (dist_l_copy, 3, "; ");
+		str += "\nspeedCont_l:\n\t" + UtilList.ListDoubleToString (speedCont_l_copy, 3, "; ");
+		str += "\naccel_l:\n\t" + UtilList.ListDoubleToString (accel_l_copy, 3, "; ");
+		str += "\nforce_l:\n\t" + UtilList.ListDoubleToString (force_l_copy, 3, "; ");
+		str += "\npower_l:\n\t" + UtilList.ListDoubleToString (power_l_copy, 3, "; ");
 ;
 		return str;
 	}
@@ -919,7 +919,7 @@ public class RunEncoderExercise
 	{
 		return string.Format("{0}:{1}:{2}:{3}:{4}:{5}:{6}",
 				uniqueID, name, description, segmentCm,
-				Util.ListIntToSQLString (segmentVariableCm, ";"),
+				UtilList.ListIntToSQLString (segmentVariableCm, ";"),
 				isSprint, angleDefault);
 	}
 
@@ -963,12 +963,12 @@ public class RunEncoderExercise
 	}
 	public string SegmentVariableCmToSQL
 	{
-		get { return Util.ListIntToSQLString (segmentVariableCm, ";"); }
+		get { return UtilList.ListIntToSQLString (segmentVariableCm, ";"); }
 	}
 	//same as above but return -1 if empty
 	public string SegmentVariableCmToR (string sep)
 	{
-		string str = Util.ListIntToSQLString (segmentVariableCm, sep);
+		string str = UtilList.ListIntToSQLString (segmentVariableCm, sep);
 		if(str == "")
 			str = "-1";
 		return str;

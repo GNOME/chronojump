@@ -405,7 +405,7 @@ public class DiscoverWindow
 			if (microDiscover.ConnectError_l != null && microDiscover.ConnectError_l.Count > 0)
 			{
 				label_micro_discover_connect_error.Text = Catalog.GetString ("Cannot connect to ports:" ) +
-					Util.ListStringToString (microDiscover.ConnectError_l, ", ");
+					UtilList.ListStringToString (microDiscover.ConnectError_l, ", ");
 				label_micro_discover_connect_error.Visible = true;
 			}
 

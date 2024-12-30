@@ -206,13 +206,13 @@ public class Questionnaire
 		}
 
 		// randomize questions
-		qaRandom_l = Util.ListRandomize (qa_l);
+		qaRandom_l = UtilList.ListRandomize (qa_l);
 
 		// if questions < n -> set n; if questions > n -> cut to n
 		if (qaRandom_l.Count < n)
 			n = qaRandom_l.Count;
 		else if (qaRandom_l.Count > n)
-			qaRandom_l = Util.ListGetFirstN (qaRandom_l, n);
+			qaRandom_l = UtilList.ListGetFirstN (qaRandom_l, n);
 
 		Points = 0;
 		LastGreenDt = DateTime.Now;
@@ -349,8 +349,8 @@ public class QuestionAnswers
 		this.aCorrect = aCorrect;
 
 		TopBottom_l = new List<string> () { aCorrect, aBad1, aBad2, aBad3 };
-		TopBottom_l = Util.ListRandomize (TopBottom_l);
-		CorrectPos = Util.FindOnListString (TopBottom_l, aCorrect);
+		TopBottom_l = UtilList.ListRandomize (TopBottom_l);
+		CorrectPos = UtilList.FindOnListString (TopBottom_l, aCorrect);
 	}
 
 	public bool AnswerIsCorrect (string answer)

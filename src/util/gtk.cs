@@ -234,7 +234,7 @@ public class UtilGtk
 			values_l.Add((string) combo.Model.GetValue (iter, 0));
 		} while (combo.Model.IterNext (ref iter));
 
-		return Util.ListStringToStringArray (values_l);
+		return UtilList.ListStringToStringArray (values_l);
 	}
 
 

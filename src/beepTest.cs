@@ -393,16 +393,50 @@ public class BeepTestLeger15m : BeepTest
 	}
 }
 
-	protected override List<int> lapDistM_l  //in m
+/*
+ * https://footballscience.net/testing/aerobic-endurance/university-of-montreal-track-test/
+ * http://www.alfisport.com/News/Tesis/Pruebas_rendimiento.html
+ * https://salutpersonal.wordpress.com/wp-content/uploads/2014/02/test-lc3a9ger-boucher_150214.jpg
+ * https://tfontanet.github.io/cinquieme/5-perimetres-aires-epi-vma.pdf
+ * https://www.traileur.ch/estimation-vma-test-luc-leger-boucher
+ * universitats/blanquerna/assignatures/ergonomia-assignatures/valoracio-funcional-ergonomia/docs/ergonomia/ergonomia-esportiva/calçat-cursa/curs-running-estiu-2016/Apunts/Leger, L & Boucher, R. (1980). An indirect continuous running multistage field test..pdf
+ *
+public class BeepTestMontreal : BeepTest
+{
+	public BeepTestMontreal ()
+	{
+		initialize ();
+		hasVo2max = true;
+	}
+
+	protected override List<double> stageSpeedKm_l
 	{
 		get {
-			return (new List<int> {
-					15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
-					15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15
+			return (new List<double> {
+					6, 7.1, //first two walking, the others running
+					7.16, 8.48, 9.76, 11, 12.21, 13.39,
+					14.54, 15.66, 16.75, 17.83, 18.88,
+					19.91, 20.91, 21.91, 22.88
 					} );
 		}
 	}
+
+	protected override List<int> stageLaps_l
+	{
+		get {
+			return (new List<int> {
+					} );
+		}
+	}
+
+	//https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1725157
+	public override double Vo2max (double maxSpeed)
+	{
+		return maxSpeed * 6.55 - 35.8;
+	}
+
 }
+*/
 
 public class Pacer15m : BeepTest
 {

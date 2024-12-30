@@ -111,6 +111,16 @@ public class BeepTestStageManage
 				false, false);
 	}
 
+	public int GetTotalMeters (int stage, int lap)
+	{
+		int sum = 0;
+		for (int s = 0; s <= stage; s ++)
+			for (int t = 0; t <= lap; t ++)
+				sum += bts_l[s].lapMeters;
+
+		return sum;
+	}
+
 	//gets at which millisecond starts an stage
 	public int GetStageTimeStartInMs (int stage)
 	{
@@ -359,7 +369,7 @@ public abstract class BeepTest
 		return warningManage.PrintAll ();
 	}
 
-	public virtual double Vo2max (double maxSpeed)
+	public virtual double Vo2max ()
 	{
 		return -1;
 	}
@@ -423,9 +433,9 @@ public class BeepTestLeger20m : BeepTest
 		}
 	}
 	//https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1725157
-	public override double Vo2max (double maxSpeed)
+	public override double Vo2max ()
 	{
-		return maxSpeed * 6.55 - 35.8;
+		return currentStageLapStatus.speedKmh * 6.55 - 35.8;
 	}
 
 }
@@ -696,6 +706,7 @@ public class BeepTestYYIR1 : BeepTestYYI
 	{
 		restSeconds = 5;
 		initialize ();
+		hasVo2max = true;
 	}
 
 	protected override List<double> stageSpeedKm_l
@@ -719,6 +730,12 @@ public class BeepTestYYIR1 : BeepTestYYI
 					} );
 		}
 	}
+
+	//https://footballscience.net/testing/aerobic-endurance/yo-yo-tests/
+	public override double Vo2max ()
+	{
+		return btsm.GetTotalMeters (currentStageLapStatus.stage, currentStageLapStatus.lap) * 0.0084 + 36.4;
+	}
 }
 
 public class BeepTestYYIR2 : BeepTestYYI
@@ -727,6 +744,7 @@ public class BeepTestYYIR2 : BeepTestYYI
 	{
 		restSeconds = 5;
 		initialize ();
+		hasVo2max = true;
 	}
 
 	protected override List<double> stageSpeedKm_l
@@ -749,6 +767,12 @@ public class BeepTestYYIR2 : BeepTestYYI
 					16, 16, 16, 16, 16,
 					} );
 		}
+	}
+
+	//https://footballscience.net/testing/aerobic-endurance/yo-yo-tests/
+	public override double Vo2max ()
+	{
+		return btsm.GetTotalMeters (currentStageLapStatus.stage, currentStageLapStatus.lap) * 0.0136 + 45.3;
 	}
 }
 

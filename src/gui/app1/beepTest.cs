@@ -175,7 +175,7 @@ public partial class ChronoJumpWindow
 					slStatus.stage + 1,
 					string.Format ("{0}/{1}", slStatus.lap + 1, slStatus.lapsOfThisStage),
 					Util.TrimDecimals (slStatus.speedKmh, 1),
-					Util.TrimDecimals (beepTest.Vo2max (slStatus.speedKmh), 2),
+					Util.TrimDecimals (beepTest.Vo2max (), 2),
 					personName);
 		else
 			tbBeepTest.Text += string.Format ("\n {0,5} | {1,5} | {2,5} | {3}",

@@ -38,6 +38,7 @@ public partial class ChronoJumpWindow
 	Gtk.SpinButton spin_beepTest_constant_speed;
 	Gtk.SpinButton spin_beepTest_constant_totalLaps;
 	Gtk.Button button_beepTest_start;
+	Gtk.Button button_beepTest_warn_selected;
 	Gtk.Button button_beepTest_finish_selected;
 	Gtk.Button button_beepTest_finish_all;
 	Gtk.Label label_beepTest_time;
@@ -48,11 +49,13 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_beepTest_runStatus;
 	Gtk.Label label_beepTest_runStatus_value;
 	Gtk.TextView textview_beepTest;
+	Gtk.TextView textview_beepTest_warn;
 	// <---- at glade
 
 	static BeepTest beepTest;
 	static Thread threadBeepTest;
 	TextBuffer tbBeepTest = new TextBuffer (new TextTagTable());
+	TextBuffer tbBeepTestWarn = new TextBuffer (new TextTagTable());
 
 
 	private void beepTestApp1Init ()
@@ -97,6 +100,7 @@ public partial class ChronoJumpWindow
 	{
 		box_beepTest_type_and_options.Sensitive = false;
 		button_beepTest_start.Sensitive = false;
+		button_beepTest_warn_selected.Sensitive = true;
 		button_beepTest_finish_selected.Sensitive = true;
 		button_beepTest_finish_all.Sensitive = true;
 
@@ -133,10 +137,28 @@ public partial class ChronoJumpWindow
 		}
                 textview_beepTest.Buffer = tbBeepTest;
 
+		tbBeepTestWarn.Text = "";
+                textview_beepTest_warn.Buffer = tbBeepTestWarn;
+
 		threadBeepTest = new Thread (new ThreadStart (beepTestDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseBeepTest));
 
 		threadBeepTest.Start();
+	}
+
+	public void on_button_beepTest_warn_selected_clicked (object o, EventArgs args)
+	{
+		if (! threadBeepTest.IsAlive)
+			return;
+
+		if (currentPerson == null)
+			return;
+
+		beepTest.WarningAdd (currentPerson.UniqueID, currentPerson.Name);
+
+		//tbBeepTestWarn.Text += beepTest.WarningPrintPerson (currentPerson.UniqueID);
+		tbBeepTestWarn.Text = beepTest.WarningPrintAll ();
+                textview_beepTest_warn.Buffer = tbBeepTestWarn;
 	}
 
 	private void beepTestPrintResults (bool allPersons, bool hasVo2Max)
@@ -201,6 +223,7 @@ public partial class ChronoJumpWindow
 		{
 			box_beepTest_type_and_options.Sensitive = true;
 			button_beepTest_start.Sensitive = true;
+			button_beepTest_warn_selected.Sensitive = false;
 			button_beepTest_finish_selected.Sensitive = false;
 			button_beepTest_finish_all.Sensitive = false;
 			label_beepTest_runStatus_value.Text = "";
@@ -250,6 +273,7 @@ public partial class ChronoJumpWindow
 		spin_beepTest_constant_speed = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_constant_speed");
 		spin_beepTest_constant_totalLaps = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_constant_totalLaps");
 		button_beepTest_start = (Gtk.Button) builder.GetObject ("button_beepTest_start");
+		button_beepTest_warn_selected = (Gtk.Button) builder.GetObject ("button_beepTest_warn_selected");
 		button_beepTest_finish_selected = (Gtk.Button) builder.GetObject ("button_beepTest_finish_selected");
 		button_beepTest_finish_all = (Gtk.Button) builder.GetObject ("button_beepTest_finish_all");
 		label_beepTest_time = (Gtk.Label) builder.GetObject ("label_beepTest_time");
@@ -260,5 +284,6 @@ public partial class ChronoJumpWindow
 		label_beepTest_runStatus = (Gtk.Label) builder.GetObject ("label_beepTest_runStatus");
 		label_beepTest_runStatus_value = (Gtk.Label) builder.GetObject ("label_beepTest_runStatus_value");
 		textview_beepTest = (Gtk.TextView) builder.GetObject ("textview_beepTest");
+		textview_beepTest_warn = (Gtk.TextView) builder.GetObject ("textview_beepTest_warn");
 	}
 }

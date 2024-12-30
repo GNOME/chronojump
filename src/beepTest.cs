@@ -123,6 +123,69 @@ public class BeepTestStageManage
 	}
 }
 
+public class BeepTestWarningManage
+{
+	private List<Warning> warning_l;
+
+	public struct Warning
+	{
+		public int personID;
+		public string personName;
+		public int stage;
+		public int lap;
+
+		public Warning (int personID, string personName, int stage, int lap)
+		{
+			this.personID = personID;
+			this.personName = personName;
+			this.stage = stage;
+			this.lap = lap;
+		}
+	}
+
+	//constructor
+	public BeepTestWarningManage ()
+	{
+		warning_l = new List<Warning> ();
+	}
+
+	public void Add (int personID, string personName, int stage, int lap)
+	{
+		warning_l.Add (new Warning (personID, personName, stage, lap));
+	}
+
+	/* unused
+	public string PrintPerson (int personID)
+	{
+		string str = "";
+		foreach (Warning w in warning_l)
+			if (w.personID == personID)
+				str += string.Format ("\n {0,5} | {1,5}", w.stage +1, w.lap +1);
+
+		if (str != "")
+			str = " Stage |  Lap";
+
+		return str;
+	}
+	*/
+
+	public string PrintAll ()
+	{
+		string str = "";
+		foreach (Warning w in warning_l)
+			str += string.Format ("\n {0,5} | {1,5} | {2}", w.stage +1, w.lap +1, w.personName);
+
+		if (str != "")
+			str = " Stage |  Lap  | Name" +
+				"\n" +
+				" ----- | ----- | ---- " +
+				str;
+
+		return str;
+	}
+
+}
+
 //tests creation and interaction with Chronojump events
 public abstract class BeepTest
 {
@@ -135,15 +198,20 @@ public abstract class BeepTest
 	protected int restSeconds = 0;
 	protected int lapMeters = 20; //this works because these tests have all the laps with same meters, if any test has different meters, do not use this
 
+	protected BeepTestStageManage.StageLapStatus currentStageLapStatus;
 	protected BeepTestStageManage.StageLapStatus previousStageLapStatus; //to beep sound on lap changed
+
 	public enum BeepNowEnum { NO, LAP, STAGE };
 	protected BeepNowEnum shouldBeepNow;
 	private Gdk.Pixbuf imageLapStatus;
+	protected BeepTestWarningManage warningManage;
 
-	protected virtual void initialize ()
+	protected void initialize ()
 	{
 		btsm = new BeepTestStageManage ();
 		btsm.CreateList (stageSpeedKm_l, lapDurationS_l, stageLaps_l, lapDistM_l);
+
+		warningManage = new BeepTestWarningManage ();
 
 		stopwatch = new Stopwatch ();
 		previousStageLapStatus = new BeepTestStageManage.StageLapStatus (-1, -1, -1, -1, false, false);
@@ -191,22 +259,22 @@ public abstract class BeepTest
 	public BeepTestStageManage.StageLapStatus GetCurrentStageLapStatus ()
 	{
 		//update stageLapStatus
-		BeepTestStageManage.StageLapStatus currentStageLapStatus = btsm.GetCurrentStageLapStatus (
+		currentStageLapStatus = btsm.GetCurrentStageLapStatus (
 				stopwatch.ElapsedMilliseconds + startedWithMs,
 				restSeconds, out bool shouldFinish);
 
 		if (shouldFinish)
 			finished = true;
 
-		decideIfShouldBeep (currentStageLapStatus);
-		imageLapStatus = getImageForLapStatus (currentStageLapStatus);
+		decideIfShouldBeep ();
+		imageLapStatus = getImageForLapStatus ();
 
 		previousStageLapStatus = currentStageLapStatus;
 
 		return currentStageLapStatus;
 	}
 
-	protected virtual void decideIfShouldBeep (BeepTestStageManage.StageLapStatus currentStageLapStatus)
+	protected virtual void decideIfShouldBeep ()
 	{
 		shouldBeepNow = BeepNowEnum.NO;
 		if (previousStageLapStatus.stage >= 0 && //double beep on stage not at start of the test
@@ -216,7 +284,7 @@ public abstract class BeepTest
 			shouldBeepNow = BeepNowEnum.LAP;
 	}
 
-	protected virtual Gdk.Pixbuf getImageForLapStatus (BeepTestStageManage.StageLapStatus currentStageLapStatus)
+	protected virtual Gdk.Pixbuf getImageForLapStatus ()
 	{
 		if (! Util.IsEven (currentStageLapStatus.lap +1))
 			return Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "run_2x.png");
@@ -279,6 +347,16 @@ public abstract class BeepTest
 			return System.IO.Path.Combine (Util.GetSoundsBeepDir(), string.Format ("BEEP{0}.mp3", stage));
 		} else
 			return Util.GetSound (Constants.SoundTypes.CAN_START);
+	}
+
+	public void WarningAdd (int personID, string personName)
+	{
+		warningManage.Add (personID, personName, currentStageLapStatus.stage, currentStageLapStatus.lap);
+	}
+
+	public string WarningPrintAll ()
+	{
+		return warningManage.PrintAll ();
 	}
 
 	public virtual double Vo2max (double maxSpeed)
@@ -532,7 +610,7 @@ public abstract class BeepTestYYI : BeepTest
 		restSeconds = 5;
 	}
 
-	protected override void decideIfShouldBeep (BeepTestStageManage.StageLapStatus currentStageLapStatus)
+	protected override void decideIfShouldBeep ()
 	{
 		shouldBeepNow = BeepNowEnum.NO;
 
@@ -710,7 +788,7 @@ public class BeepTestConstantSpeed : BeepTest
 		}
 	}
 
-	protected override void decideIfShouldBeep (BeepTestStageManage.StageLapStatus currentStageLapStatus)
+	protected override void decideIfShouldBeep ()
 	{
 		shouldBeepNow = BeepNowEnum.NO;
 		if (previousStageLapStatus.stage != currentStageLapStatus.stage)

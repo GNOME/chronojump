@@ -19414,14 +19414,17 @@ last capture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkBox" id="box_beepTest2">
+                                                            <!-- n-columns=2 n-rows=2 -->
+                                                            <object class="GtkGrid" id="grid_beepTest">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="spacing">16</property>
+                                                            <property name="row-spacing">20</property>
+                                                            <property name="column-spacing">16</property>
                                                             <child>
                                                             <object class="GtkButtonBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">start</property>
                                                             <property name="orientation">vertical</property>
                                                             <property name="spacing">16</property>
                                                             <property name="layout-style">start</property>
@@ -19451,7 +19454,7 @@ last capture</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -19466,20 +19469,21 @@ last capture</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="hexpand">True</property>
+                                                            <property name="vexpand">True</property>
                                                             <property name="orientation">vertical</property>
                                                             <property name="spacing">12</property>
                                                             <child>
@@ -19487,7 +19491,6 @@ last capture</property>
                                                             <object class="GtkGrid">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="halign">start</property>
                                                             <property name="row-spacing">8</property>
                                                             <property name="column-spacing">8</property>
                                                             <child>
@@ -19578,7 +19581,8 @@ last capture</property>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="margin-left">50</property>
+                                                            <property name="halign">end</property>
+                                                            <property name="hexpand">True</property>
                                                             <property name="label">Work in progress</property>
                                                             <property name="xalign">0</property>
                                                             </object>
@@ -19591,7 +19595,7 @@ last capture</property>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="margin-left">50</property>
+                                                            <property name="halign">end</property>
                                                             <property name="label">Data is not saved on this version</property>
                                                             <property name="xalign">0</property>
                                                             </object>
@@ -19623,7 +19627,6 @@ last capture</property>
                                                             <object class="GtkImage" id="image_beepTest_runStatus">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="margin-left">20</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             </object>
                                                             <packing>
@@ -19662,9 +19665,44 @@ last capture</property>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="left-attach">1</property>
+                                                            <property name="top-attach">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_beepTest_warn_selected">
+                                                            <property name="label">Warn selected</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <property name="valign">start</property>
+                                                            <signal name="clicked" handler="on_button_beepTest_warn_selected_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkScrolledWindow">
+                                                            <property name="height-request">120</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="hscrollbar-policy">never</property>
+                                                            <property name="shadow-type">in</property>
+                                                            <child>
+                                                            <object class="GtkTextView" id="textview_beepTest_warn">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="pixels-below-lines">2</property>
+                                                            <property name="monospace">True</property>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">1</property>
+                                                            <property name="top-attach">1</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -23833,6 +23871,12 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -143,7 +143,7 @@ public class PresentationSlideList
 
 	public bool Read()
 	{
-		List<string> contents_l = Util.ReadFileAsStringList (Util.GetPresentationFileName());
+		List<string> contents_l = Util.ReadFileAsStringList (Util.GetPresentationFileName(), "#");
 		if (contents_l == null || contents_l.Count == 0)
 			return false;
 
@@ -153,7 +153,7 @@ public class PresentationSlideList
 		{
 			if (line == null)
 				break;
-			if (line == "" || line[0] == '#')
+			if (line == "")
 				continue;
 
 			string [] parts = line.Split (new char[] {':'});
@@ -161,10 +161,10 @@ public class PresentationSlideList
 			{
 				//open that file if parts[1] has the full path
 				if (File.Exists (parts[1]))
-					contents_l = Util.ReadFileAsStringList (parts[1]);
+					contents_l = Util.ReadFileAsStringList (parts[1], "#");
 				//open that file if parts[1] is just the filename (getting the url of datadir
 				else if (File.Exists (Util.GetPresentationFileName(parts[1])))
-					contents_l = Util.ReadFileAsStringList (Util.GetPresentationFileName(parts[1]));
+					contents_l = Util.ReadFileAsStringList (Util.GetPresentationFileName(parts[1]), "#");
 			}
 		}
 
@@ -176,7 +176,7 @@ public class PresentationSlideList
 		{
 			if (line == null)
 				break;
-			if (line == "" || line[0] == '#')
+			if (line == "")
 				continue;
 
 			string [] parts = line.Split (new string[] {":::"}, StringSplitOptions.None);

@@ -7679,7 +7679,7 @@ public partial class ChronoJumpWindow
 					LogB.Information("at fff with captureCurvesBarsData_l =");
 					LogB.Information(captureCurvesBarsData_l.Count.ToString());
 				} else {
-					List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetEncoderCurvesTempFileName());
+					List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetEncoderCurvesTempFileName(), "");
 
 					image_encoder_capture = UtilGtk.OpenImageSafe(
 							UtilEncoder.GetEncoderGraphTempFileName(),

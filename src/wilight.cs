@@ -35,13 +35,7 @@ public class WilightTest
 
 		if (commandsFile != "")
 		{
-			List<string> commandsFromFile_l = Util.ReadFileAsStringList (commandsFile);
-			List<string> commandsFromFileClean_l = new List<string> ();
-			foreach (string command in commandsFromFile_l)
-				if (! command.StartsWith ("#"))
-					commandsFromFileClean_l.Add (command);
-
-			command_ll.Add (commandsFromFileClean_l);
+			command_ll.Add (Util.ReadFileAsStringList (commandsFile, "#"));
 		} else {
 			command_ll.Add (level0);
 			command_ll.Add (level1);

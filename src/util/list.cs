@@ -19,12 +19,7 @@
  */
 
 using System;
-//using System.Text; //StringBuilder
-//using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
-//using System.Diagnostics; 	//for detect OS
-//using System.IO; 		//for detect OS
-//using System.Globalization; 	//Unicode
 
 public class UtilList
 {

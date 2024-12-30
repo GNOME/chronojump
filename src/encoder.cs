@@ -2385,7 +2385,7 @@ public class EncoderAnalyzeInstant
 	//2nd.... full data
 	public void ReadArrayFile(string filename)
 	{
-		List<string> lines = Util.ReadFileAsStringList(filename);
+		List<string> lines = Util.ReadFileAsStringList(filename, "");
 		if(lines == null)
 			return;
 		if(lines.Count <= 1) //return if there's only the header
@@ -2409,7 +2409,7 @@ public class EncoderAnalyzeInstant
 	
 	public void ReadGraphParams(string filename)
 	{
-		List<string> lines = Util.ReadFileAsStringList(filename);
+		List<string> lines = Util.ReadFileAsStringList(filename, "");
 		if(lines == null)
 			return;
 		if(lines.Count < 3)

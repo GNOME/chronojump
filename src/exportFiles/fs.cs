@@ -152,7 +152,7 @@ public class ForceSensorExport : ExportFiles
 				continue;
 
 			//check fs has data
-			List<string> contents = Util.ReadFileAsStringList(fs.FullURL);
+			List<string> contents = Util.ReadFileAsStringList(fs.FullURL, "");
 			if(contents.Count < 3)
 			{
 				//new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileEmptyStr());

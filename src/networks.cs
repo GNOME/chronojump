@@ -194,7 +194,7 @@ public class NetworksCheckDevices
 		string filename = path + device + "/operstate";
 		if(File.Exists(filename))
 		{
-			List<string> l = Util.ReadFileAsStringList(filename);
+			List<string> l = Util.ReadFileAsStringList(filename, "");
 			foreach(string str in l)
 				if(str.Contains("up"))
 					return true;

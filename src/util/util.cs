@@ -50,7 +50,7 @@ public class Util
 	 */
 	public static bool CSVDecimalColumnIsPoint(string filename, int column) //column starts at 0
 	{
-		List<string> contents = Util.ReadFileAsStringList(filename);
+		List<string> contents = Util.ReadFileAsStringList(filename, "");
 		bool headersRow = true;
 
 		foreach(string str in contents)
@@ -1693,7 +1693,8 @@ public class Util
 		}
 	}
 	//recommended method
-	public static List<string> ReadFileAsStringList(string fileName)
+	//discardStartingBy == "" (do not discard)
+	public static List<string> ReadFileAsStringList(string fileName, string discardStartingBy)
 	{
 		try {
 			List<string> lines = new List<string>();
@@ -1701,7 +1702,9 @@ public class Util
 			{
 				while (sr.Peek() >= 0)
 				{
-					lines.Add(sr.ReadLine());
+					string line = sr.ReadLine ();
+					if (discardStartingBy == "" || ! line.StartsWith (discardStartingBy))
+						lines.Add (line);
 				}
 			}
 			return(lines);

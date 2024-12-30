@@ -9527,7 +9527,7 @@ LogB.Debug("mc finished 5");
 			//this avoids misbehaviour when bell is pressed and there's no data in treeview
 			EncoderCurve curve = treeviewEncoderCaptureCurvesGetCurve(1, false);
 			if(curve.N != null) {
-				List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetEncoderCurvesTempFileName());
+				List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetEncoderCurvesTempFileName(), "");
 				encoderUpdateTreeViewCapture(contents); //this updates encoderCaptureCurves
 
 				findAndMarkSavedCurves(false, false); //SQL closed; don't update curve SQL records (like future1: meanPower)

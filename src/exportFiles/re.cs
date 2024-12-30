@@ -132,7 +132,7 @@ public class RunEncoderExport : ExportFiles
 				continue;
 
 			//check fs has data
-			List<string> contents = Util.ReadFileAsStringList(re.FullURL);
+			List<string> contents = Util.ReadFileAsStringList(re.FullURL, "");
 			if(contents.Count < 3)
 			{
 				//new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileEmptyStr());
@@ -220,7 +220,7 @@ public class RunEncoderExport : ExportFiles
 			;
 
 		//use this discarded because R discards also
-		List<string> setsProcessedByR = Util.ReadFileAsStringList(RunEncoder.GetCSVResultsURL());
+		List<string> setsProcessedByR = Util.ReadFileAsStringList(RunEncoder.GetCSVResultsURL(), "");
 		discarded = re_l.Count - (setsProcessedByR.Count -1); //-1 for the csv header
 		if(setsProcessedByR.Count -1 <= 0)
 		{

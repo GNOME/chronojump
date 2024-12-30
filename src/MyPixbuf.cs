@@ -389,6 +389,7 @@ namespace Chronojump
 			new ResourceFix ("force_sensor_menu.png" , "force_sensor_menu.png"),
 			new ResourceFix ("force_sensor_icon.png" , "force_sensor_icon.png"),
 			new ResourceFix ("force_sensor_icon_yellow.png" , "force_sensor_icon_yellow.png"),
+			new ResourceFix ("force_2x.png" , "force_2x.png"),
 			new ResourceFix ("isometric.png" , "isometric.png"),
 			new ResourceFix ("elastic.png" , "elastic.png"),
 			new ResourceFix ("isometric_2x.png" , "isometric_2x.png"),

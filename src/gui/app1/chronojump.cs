@@ -426,13 +426,13 @@ public partial class ChronoJumpWindow
 
 	Gtk.RadioButton radio_menu_2_2_2_jumps;
 	Gtk.RadioButton radio_menu_2_2_2_races;
-	Gtk.RadioButton radio_menu_2_2_2_isometric;
+	Gtk.RadioButton radio_menu_2_2_2_force;
 	Gtk.RadioButton radio_menu_2_2_2_elastic;
 	Gtk.RadioButton radio_menu_2_2_2_weights;
 	Gtk.RadioButton radio_menu_2_2_2_inertial;
 	Gtk.EventBox eventbox_radio_menu_2_2_2_jumps;
 	Gtk.EventBox eventbox_radio_menu_2_2_2_races;
-	Gtk.EventBox eventbox_radio_menu_2_2_2_isometric;
+	Gtk.EventBox eventbox_radio_menu_2_2_2_force;
 	Gtk.EventBox eventbox_radio_menu_2_2_2_elastic;
 	Gtk.EventBox eventbox_radio_menu_2_2_2_weights;
 	Gtk.EventBox eventbox_radio_menu_2_2_2_inertial;
@@ -829,7 +829,7 @@ public partial class ChronoJumpWindow
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_races,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_isometric,
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_force,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_elastic,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
@@ -3982,15 +3982,10 @@ public partial class ChronoJumpWindow
 			radio_menu_2_2_2_races.Active = true;
 			button_menu_2_2_2_manage (radio_menu_2_2_2_races, false);
 		}
-		else if (current_mode == Constants.Modes.FORCESENSORISOMETRIC)
+		else if (current_mode == Constants.Modes.FORCESENSORISOMETRIC || current_mode == Constants.Modes.FORCESENSORELASTIC)
 		{
-			radio_menu_2_2_2_isometric.Active = true;
-			button_menu_2_2_2_manage (radio_menu_2_2_2_isometric, false);
-		}
-		else if (current_mode == Constants.Modes.FORCESENSORELASTIC)
-		{
-			radio_menu_2_2_2_elastic.Active = true;
-			button_menu_2_2_2_manage (radio_menu_2_2_2_elastic, false);
+			radio_menu_2_2_2_force.Active = true;
+			button_menu_2_2_2_manage (radio_menu_2_2_2_force, false);
 		}
 		else if (current_mode == Constants.Modes.POWERGRAVITATORY)
 		{
@@ -4550,8 +4545,8 @@ public partial class ChronoJumpWindow
 			vbox_contacts_simple_graph_controls.Visible = false;
 
 			hbox_change_modes_force_sensor.Visible = true;
-			radio_change_modes_contacts_isometric.Visible = (m == Constants.Modes.FORCESENSORISOMETRIC);
-			radio_change_modes_contacts_elastic.Visible = (m == Constants.Modes.FORCESENSORELASTIC);
+			radio_change_modes_contacts_isometric.Visible = (m == Constants.Modes.FORCESENSORISOMETRIC || m == Constants.Modes.FORCESENSORELASTIC);
+			radio_change_modes_contacts_elastic.Visible = (m == Constants.Modes.FORCESENSORISOMETRIC || m == Constants.Modes.FORCESENSORELASTIC);
 
 			//align_check_vbox_contacts_graph_legend.Visible = false;
 			//vbox_contacts_graph_legend.Visible = false;
@@ -5141,29 +5136,23 @@ public partial class ChronoJumpWindow
 
 			notebook_menu_2_2_2.CurrentPage = 1;
 		}
-		else if (o == (object) radio_menu_2_2_2_isometric)
+		else if (o == (object) radio_menu_2_2_2_force)
 		{
-			title = "Isometric";
-			desc = Catalog.GetString ("Isometric force exercises measured by a force sensor");
-			notebook_menu_2_2_2.CurrentPage = 2;
-		}
-		else if (o == (object) radio_menu_2_2_2_elastic)
-		{
-			title = "Elastic";
-			desc = Catalog.GetString ("Elastic force exercises measured by a force sensor");
+			title = "Force tests";
+			desc = Catalog.GetString ("Force exercises measured by a force sensor");
 			notebook_menu_2_2_2.CurrentPage = 2;
 		}
 		else if (o == (object) radio_menu_2_2_2_weights)
 		{
 			title = "Weights";
 			desc = Catalog.GetString ("Speed/power exercises displacing weights measured by an encoder");
-			notebook_menu_2_2_2.CurrentPage = 2;
+			notebook_menu_2_2_2.CurrentPage = 3;
 		}
 		else if (o == (object) radio_menu_2_2_2_inertial)
 		{
 			title = "Inertial";
 			desc = Catalog.GetString ("Speed/power exercises rotating an inertial machine and measured by an encoder");
-			notebook_menu_2_2_2.CurrentPage = 2;
+			notebook_menu_2_2_2.CurrentPage = 3;
 		}
 
 		//do not show desc on races (it has its own labels on table columns)
@@ -5185,12 +5174,8 @@ public partial class ChronoJumpWindow
 
 	private void on_button_menu_2_2_2_go_clicked (object o, EventArgs args)
 	{
-		//jumps, races modes have their own buttons
-		if (radio_menu_2_2_2_isometric.Active)
-			on_button_selector_start_force_sensor_isometric_clicked (new object (), new EventArgs ());
-		else if (radio_menu_2_2_2_elastic.Active)
-			on_button_selector_start_force_sensor_elastic_clicked (new object (), new EventArgs ());
-		else if (radio_menu_2_2_2_weights.Active)
+		//jumps, races, force modes have their own buttons
+		if (radio_menu_2_2_2_weights.Active)
 			on_button_selector_start_encoder_gravitatory_clicked (new object (), new EventArgs ());
 		else if (radio_menu_2_2_2_inertial.Active)
 			on_button_selector_start_encoder_inertial_clicked (new object (), new EventArgs ());
@@ -10822,13 +10807,13 @@ LogB.Debug("mc finished 5");
 
 		radio_menu_2_2_2_jumps = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_jumps");
 		radio_menu_2_2_2_races = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_races");
-		radio_menu_2_2_2_isometric = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_isometric");
+		radio_menu_2_2_2_force = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_force");
 		radio_menu_2_2_2_elastic = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_elastic");
 		radio_menu_2_2_2_weights = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_weights");
 		radio_menu_2_2_2_inertial = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_inertial");
 		eventbox_radio_menu_2_2_2_jumps = (Gtk.EventBox) builder.GetObject ("eventbox_radio_menu_2_2_2_jumps");
 		eventbox_radio_menu_2_2_2_races = (Gtk.EventBox) builder.GetObject ("eventbox_radio_menu_2_2_2_races");
-		eventbox_radio_menu_2_2_2_isometric = (Gtk.EventBox) builder.GetObject ("eventbox_radio_menu_2_2_2_isometric");
+		eventbox_radio_menu_2_2_2_force = (Gtk.EventBox) builder.GetObject ("eventbox_radio_menu_2_2_2_force");
 		eventbox_radio_menu_2_2_2_elastic = (Gtk.EventBox) builder.GetObject ("eventbox_radio_menu_2_2_2_elastic");
 		eventbox_radio_menu_2_2_2_weights = (Gtk.EventBox) builder.GetObject ("eventbox_radio_menu_2_2_2_weights");
 		eventbox_radio_menu_2_2_2_inertial = (Gtk.EventBox) builder.GetObject ("eventbox_radio_menu_2_2_2_inertial");

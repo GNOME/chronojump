@@ -59,7 +59,7 @@ public partial class ChronoJumpWindow
 	{
 		UtilGtk.ComboUpdate (combo_beepTest_type, BeepTest.TypesArray (), "");
 		combo_beepTest_type.Active = 0;
-		image_beepTest_runStatus.Visible = false;
+		image_beepTest_runStatus.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_empty.png");
 	}
 
 	private void on_combo_beepTest_type_changed (object o, EventArgs args)
@@ -99,39 +99,20 @@ public partial class ChronoJumpWindow
 		button_beepTest_start.Sensitive = false;
 		button_beepTest_finish_selected.Sensitive = true;
 		button_beepTest_finish_all.Sensitive = true;
-		image_beepTest_runStatus.Visible = false;
 
 		string str = UtilGtk.ComboGetActive (combo_beepTest_type);
 		if (str == BeepTest.Leger20Name)
-		{
 			beepTest = new BeepTestLeger20m (Convert.ToInt32 (spin_beepTest_start_at.Value), check_beepTest_start8kmh.Active);
-			image_beepTest_runStatus.Visible = true;
-		}
 		else if (str == BeepTest.Leger15Name)
-		{
 			beepTest = new BeepTestLeger15m (Convert.ToInt32 (spin_beepTest_start_at.Value), check_beepTest_start8kmh.Active);
-			image_beepTest_runStatus.Visible = true;
-		}
 		else if (str == BeepTest.YYIE1Name)
-		{
 			beepTest = new BeepTestYYIE1 ();
-			image_beepTest_runStatus.Visible = true;
-		}
 		else if (str == BeepTest.YYIE2Name)
-		{
 			beepTest = new BeepTestYYIE2 ();
-			image_beepTest_runStatus.Visible = true;
-		}
 		else if (str == BeepTest.YYIR1Name)
-		{
 			beepTest = new BeepTestYYIR1 ();
-			image_beepTest_runStatus.Visible = true;
-		}
 		else if (str == BeepTest.YYIR2Name)
-		{
 			beepTest = new BeepTestYYIR2 ();
-			image_beepTest_runStatus.Visible = true;
-		}
 		else if (str == BeepTest.ConstantSpeedName)
 			beepTest = new BeepTestConstantSpeed (
 					Convert.ToInt32 (spin_beepTest_constant_distM.Value),
@@ -223,6 +204,7 @@ public partial class ChronoJumpWindow
 			button_beepTest_finish_selected.Sensitive = false;
 			button_beepTest_finish_all.Sensitive = false;
 			label_beepTest_runStatus_value.Text = "";
+			image_beepTest_runStatus.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_empty.png");
 
 			beepTestPrintResults (true, beepTest.HasVo2max);
 			return false;

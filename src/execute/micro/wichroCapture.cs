@@ -119,6 +119,33 @@ public class WichroCapture: ArduinoCapture
 		return true;
 	}
 
+	public override string CaptureEchoLine ()
+	{
+		string str = "";
+
+		/*
+		 * if at CaptureStart device is disconnected,
+		 * micro gets closed there and here it shoud not readLine
+		 */
+		if (! micro.Opened)
+		{
+			//return false;
+			return "";
+		}
+
+		if(! readLine (out str))
+		{
+			micro.ClosePort ();
+			//return false;
+			return "";
+		}
+
+		//LogB.Information("echo readed: " + str);
+		//return true;
+		return str;
+	}
+
+
 	public override bool Stop()
 	{
 		LogB.Information("AT Capture: STOPPING");

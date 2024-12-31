@@ -48,21 +48,89 @@ public class WilightTest
 		currentCommand = 0;
 	}
 
-	public string GetNext (out bool finished)
+	public string GetNext (out bool finishedAllCommands)
 	{
-		finished = false;
-		string str = command_ll[currentLevel][currentCommand];
+		bool commandValidated = false;
+		string commandStr = "";
+		do {
+			finishedAllCommands = false;
+			commandStr = command_ll[currentLevel][currentCommand];
 
-		if (currentCommand < command_ll[currentLevel].Count -1)
-			currentCommand ++;
-		else if (currentLevel < command_ll.Count -1)
+			if (currentCommand < command_ll[currentLevel].Count -1)
+				currentCommand ++;
+			else if (currentLevel < command_ll.Count -1)
+			{
+				currentLevel ++;
+				currentCommand = 0;
+			} else
+				finishedAllCommands = true;
+
+			commandValidated = validateCommand (commandStr);
+		} while (! (commandValidated || finishedAllCommands));
+
+		//return "" if last command in list is not validated
+		if (! commandValidated)
+			return "";
+
+		return commandStr;
+	}
+
+	/*
+	//from a command detects wich is the terminal that will be active to be clicked
+	public int GetExpectedTerminal (string commandStr)
+	{
+		string [] commandStrFull = commandStr.Split(new char[] {';'});
+		if (commandStrFull.Length < 2)
+			return -1;
+
+		string [] commandStrTerm0 = commandStrFull[0].Split(new char[] {':'});
+		if (commandStrTerm0.Length != 2 || ! Util.IsNumber (commandStrTerm0[1], false))
+			return -1;
+
+		int commandTerm0 = Convert.ToInt32 (commandStrTerm0[1]);
+	}
+	*/
+
+	/*
+	 * Note a command do not need explictely to have an expected return value, maybe we just want to animate the lights but have no user input (touch)
+	 * So to validate a command on creation we just need to check that we have pairs ints separated by : and each pair separated by ;. And also note that it ends with ;
+	 */
+
+	private bool validateCommand (string commandStr)
+	{
+		LogB.Information ("validateCommand Start");
+		if (commandStr == "")
+			return false;
+
+		int lastSemicolon = commandStr.LastIndexOf(';');
+		if (lastSemicolon != commandStr.Length -1)
+			return false;
+
+		commandStr = commandStr.Substring (0, lastSemicolon);
+		LogB.Information ("str without semicolon: " + commandStr);
+
+		string [] strFull = commandStr.Split(new char[] {';'});
+		if (strFull.Length == 0)
 		{
-			currentLevel ++;
-			currentCommand = 0;
-		} else
-			finished = true;
+			LogB.Information ("validateCommand exit 0");
+			return false;
+		}
 
-		return str;
+		foreach (string strX in strFull)
+		{
+			//LogB.Information ("strX: " + strX);
+			string [] strXFull = strX.Split(new char[] {':'});
+			if (strXFull.Length != 2 ||
+					! Util.IsNumber (strXFull[0], false) ||
+					! Util.IsNumber (strXFull[1], false)
+					)
+			{
+				LogB.Information ("validateCommand exit 1");
+				return false;
+			}
+		}
+		LogB.Information ("validateCommand exit OK");
+		return true;
 	}
 
 	//S'encèn 1 llum amb pampallugues

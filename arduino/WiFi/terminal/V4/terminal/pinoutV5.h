@@ -33,14 +33,14 @@
 //Version 5
 
 // Pins for the RGB LEDs
-#define RED_PIN D6
-#define GREEN_PIN D7
-#define BLUE_PIN D8
+#define RED_PIN 6
+#define GREEN_PIN 7
+#define BLUE_PIN 8
 
 // Pins for the ID of the terminal
-#define ID1_PIN D3
-#define ID2_PIN D4
-#define ID3_PIN D5
+#define ID1_PIN 3
+#define ID2_PIN 4
+#define ID3_PIN 5
 #define ID4_PIN A3
 #define ID5_PIN A4
 #define ID6_PIN A5

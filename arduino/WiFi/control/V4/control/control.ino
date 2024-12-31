@@ -2,7 +2,7 @@
   Controler for devices using the NRf24L01 wireless module
 
   Copyright (C) 2018 Xavier de Blas xaviblas@gmail.com
-  Copyright (C) 2018 Xavier Padullés support@chronojump.org
+  Copyright (C) 2018-2024 Xavier Padullés support@chronojump.org
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -120,6 +120,10 @@ elapsedMillis totalTime;      //Total elapsed time since startTime
 
 bool waitingData = false;
 
+bool debugEcho = false;
+bool read13Commands = true;
+
+
 void setup(void)
 {
 
@@ -223,19 +227,84 @@ void debounce() {
   }
 }
 
+//count the number of commands.
+int countSemicolons (String str)
+{
+  int countSemicolons = 0;
+  int currentPos = -1;
+  while (true)
+  {
+    if(str.indexOf (";", (currentPos +1)) == -1)
+      break;
+    else {
+      currentPos = str.indexOf (";", (currentPos +1));
+      countSemicolons ++;
+    }
+  }
+  return countSemicolons;
+}
+
+
 void serialEvent()
 {
-  String inputString = Serial.readString();
+  String inputString = "";
+
+  /*
+  if(debugEcho)
+  {
+    do {
+      inputString = inputString + Serial.readStringUntil(";");
+    } while (countSemicolons (inputString) < 13);
+  } else */
+    //inputString = inputString + Serial.readStringUntil(";");
+  
+  //String inputString = Serial.readStringUntil(";");
+
+  //int stupidVariable = 0;
+
+  /*
+  2024 Dec 31
+  TODO: with the readStringUntil (";"), the stupidVariableStr and the read13Commands, works perfectly
+  try to make it work without the 13 commands
+  try to separate WILIGHT and WICHRO if needed, maybe using .h
+  */
+
+  String stupidVariableStr = "";
+  do {
+    do {
+      inputString += Serial.readStringUntil(";");
+      //Serial.println("input al loop:" + inputString); //aixi funciona, semse aixo 8:32; passa a :32;
+      //stupidVariable = inputString.length (); //aixi no va
+      stupidVariableStr = inputString + "stupid"; //aixi funciona, semse aixo 8:32; passa a :32;
+      //inputString = inputString; //aixi no va
+      //Serial.println(""); //aixi no va
+    } while (inputString.indexOf(";") < 0);
+  } while (read13Commands && countSemicolons (inputString) < 13);
+
+  //Serial.println("input fora del loop:" + inputString);
+
   String currentInstruction = "";
 
   int lastIndex = inputString.lastIndexOf(";");
   // Serial.println(lastIndex);
   int prevSeparatorIndex = -1;
   int nextSeparatorIndex = 0;
-  // Serial.print("Instruction received from Serial: \"");
-  // Serial.print(inputString.substring(0, inputString.length() -1));
-  // Serial.println("\"");
 
+
+  if (debugEcho)
+  {
+    /*
+    if(countSemicolons (inputString) == 13)
+      LED_on;
+    else
+      LED_off;
+    */
+
+    Serial.println(inputString.substring(0, inputString.length() -1)); //echo
+  }
+  //Serial.println(inputString.substring(0, inputString.length() -1)); //echo
+  Serial.println(inputString);
+  
   while (prevSeparatorIndex < lastIndex ) {
     nextSeparatorIndex = inputString.indexOf(";", prevSeparatorIndex +1);
     currentInstruction = inputString.substring(prevSeparatorIndex +1 , nextSeparatorIndex +1);
@@ -301,7 +370,7 @@ void serialEvent()
       blinkingLED = true;
     }
   }
-  inputString = "";
+  //inputString = "";
 }
 
 unsigned int sendInstruction(struct instruction_t *instruction)
@@ -335,7 +404,7 @@ unsigned int sendInstruction(struct instruction_t *instruction)
 void sendToAll(uint16_t command)
 {
   radio.stopListening();
-  for (int i = 0; i <= 63; i++) {
+  for (int i = 0; i <= 12; i++) {
     radio.setChannel(terminal0Channel - i);
     //    Serial.print("getChannel = ");
     //    Serial.println(radio.getChannel());

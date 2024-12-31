@@ -51,9 +51,58 @@ public partial class ChronoJumpWindow
 			WilightTest wt = new WilightTest (commandsFile);
 
 			//needed to set the default status
-			wichroCapture.WilightSendCommand (wt.DefaultStatusCommand);
-
+			wichroCapture.WilightSendCommand (wt.AllOffCommand);
 			System.Threading.Thread.Sleep (1000);
+			/*
+			wichroCapture.Flush (); //to be able to read later
+			System.Threading.Thread.Sleep (1000); //to be able to read later
+			*/
+
+			List<int> color_l = new List<int> ();
+			color_l.Add (128);
+			color_l.Add (64);
+			color_l.Add (32);
+
+			List<string> colorsAll_l = new List<string> ();
+			colorsAll_l.Add (wt.AllRedCommand);
+			colorsAll_l.Add (wt.AllGreenCommand);
+			colorsAll_l.Add (wt.AllBlueCommand);
+			int sleepTime = 500;
+			while (true)
+			{
+				foreach (string colorAllStr in colorsAll_l)
+				{
+					//LogB.Information ("\n\n");
+					wichroCapture.WilightSendCommand (colorAllStr);
+
+					/*
+					//System.Threading.Thread.Sleep (5); //not enough
+					//System.Threading.Thread.Sleep (50);
+
+					if (wichroCapture.BytesToRead ())
+					{
+						string receivedStr = wichroCapture.CaptureEchoLine ();
+						LogB.Information ("received: " + receivedStr);
+						receivedStr = receivedStr.Trim ();
+						LogB.Information ("received2: |" + receivedStr + "|");
+
+						if (colorAllStr == receivedStr)
+							Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
+						else
+							Util.PlaySound (Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
+					}
+					*/
+
+					System.Threading.Thread.Sleep (sleepTime);
+					sleepTime -= 10;
+					if (sleepTime < 100) // arrive to 50 ms is problematic
+						sleepTime = 100;
+				}
+			}
+
+			//needed to set the default status
+			wichroCapture.WilightSendCommand (wt.AllOffCommand);
+			System.Threading.Thread.Sleep (500);
 		
 			Stopwatch stopwatch = new Stopwatch ();
 			stopwatch.Start ();
@@ -70,14 +119,18 @@ public partial class ChronoJumpWindow
 						break;
 
 					string command = wt.GetNext (out finished);
+					if (command == "")
+						continue;
 
 					wichroCapture.WilightSendCommand (command);
 					stopwatch.Restart ();
 				}
 
-				//bool readed = false;
+				//TODO: readed should check that terminal
+				bool readedOn = false;
 				//int readed = 0;
-				//do {
+//				do {
+					LogB.Information ("at do while");
 					if(! wichroCapture.CaptureSample())
 					{
 						LogB.Information ("Problem capturing sample");
@@ -89,9 +142,16 @@ public partial class ChronoJumpWindow
 					{
 						WichroEvent we = wichroCapture.WichroCaptureReadNext();
 						LogB.Information ("Readed!: " + we.ToString ());
-						Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
+						if (we.status == Chronopic.Plataforma.ON)
+						{
+							LogB.Information ("Is ON!");
+							Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
+							readedOn = true;
+						}
 						//readed ++;
 					}
+					System.Threading.Thread.Sleep (1000);
+//				} while (! readedOn);
 				//} while (readed < 2);
 				//System.Threading.Thread.Sleep (1000);
 			}

@@ -27,7 +27,10 @@ public class WilightTest
 	private int currentLevel;
 	private int currentCommand; //in level
 
-	public string DefaultStatusCommand = "0:0;1:0;2:0;3:0;4:0;5:0;6:0;7:0;8:0;9:0;10:0;11:0;12:0;";
+	public string AllOffCommand = "0:0;1:0;2:0;3:0;4:0;5:0;6:0;7:0;8:0;9:0;10:0;11:0;12:0;";
+	public string AllRedCommand = "0:128;1:128;2:128;3:128;4:128;5:128;6:128;7:128;8:128;9:128;10:128;11:128;12:128;";
+	public string AllGreenCommand = "0:64;1:64;2:64;3:64;4:64;5:64;6:64;7:64;8:64;9:64;10:64;11:64;12:64;";
+	public string AllBlueCommand = "0:32;1:32;2:32;3:32;4:32;5:32;6:32;7:32;8:32;9:32;10:32;11:32;12:32;";
 
 	public WilightTest (string commandsFile)
 	{

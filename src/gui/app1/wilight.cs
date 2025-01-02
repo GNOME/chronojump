@@ -49,7 +49,7 @@ public partial class ChronoJumpWindow
 	private void wilightExecute ()
 	{
 		buttonbox_wilight_test.Sensitive = false;
-		label_wilight_test_status.Text = "";
+		label_wilight_test_status.Text = "Doing";
 
 		threadWilight = new Thread (new ThreadStart (wilightTest));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseWilight));
@@ -155,6 +155,7 @@ public partial class ChronoJumpWindow
 		wichroCapture.Flush (); //to be able to read later
 
 		WilightTest wt = new WilightTest (commandsFile);
+		List<int> expectedTerminals_l = new List<int> (); //expected response on this (or them)
 		bool finished = false;
 
 		while (true)
@@ -167,6 +168,7 @@ public partial class ChronoJumpWindow
 				continue;
 
 			wichroCapture.WilightSendCommand (command);
+			expectedTerminals_l = wt.GetExpectedTerminals (command);
 
 			bool readedOn = false;
 			while (! readedOn)
@@ -181,7 +183,8 @@ public partial class ChronoJumpWindow
 				if(wichroCapture.CanReadFromList ())
 				{
 					WichroEvent we = wichroCapture.WichroCaptureReadNext();
-					if (we.status == Chronopic.Plataforma.ON)
+					if (we.status == Chronopic.Plataforma.ON &&
+							UtilList.FoundInListInt (expectedTerminals_l, we.photocell))
 					{
 						//LogB.Information ("Is ON!");
 						Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);

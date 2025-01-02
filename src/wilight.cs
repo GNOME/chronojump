@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2024-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -81,21 +81,34 @@ public class WilightTest
 		return commandStr;
 	}
 
-	/*
-	//from a command detects wich is the terminal that will be active to be clicked
-	public int GetExpectedTerminal (string commandStr)
+	//from a command detects wich is the terminal that will be active to be clicked. Can be plural
+	public List<int> GetExpectedTerminals (string commandStr)
 	{
+		//LogB.Information ("commandStr:" + commandStr);
+		List<int> expected_l = new List<int> ();
+
+		//remove last semicolon on the command
+		int lastSemicolon = commandStr.LastIndexOf(';');
+		if (lastSemicolon != commandStr.Length -1)
+			return expected_l;
+
+		commandStr = commandStr.Substring (0, lastSemicolon);
+
 		string [] commandStrFull = commandStr.Split(new char[] {';'});
-		if (commandStrFull.Length < 2)
-			return -1;
+		if (commandStrFull.Length < 2) //must have the data for the terminal 0 and for at least one terminal
+			return expected_l;
 
 		string [] commandStrTerm0 = commandStrFull[0].Split(new char[] {':'});
-		if (commandStrTerm0.Length != 2 || ! Util.IsNumber (commandStrTerm0[1], false))
-			return -1;
-
 		int commandTerm0 = Convert.ToInt32 (commandStrTerm0[1]);
+
+		foreach (string cThisTerm in commandStrFull)
+		{
+			string [] cThisTermFull = cThisTerm.Split(new char[] {':'});
+			if (Convert.ToInt32 (cThisTermFull[1]) == commandTerm0 +1)
+				expected_l.Add (Convert.ToInt32 (cThisTermFull[0]));
+		}
+		return expected_l;
 	}
-	*/
 
 	/*
 	 * Note a command do not need explictely to have an expected return value, maybe we just want to animate the lights but have no user input (touch)
@@ -104,7 +117,7 @@ public class WilightTest
 
 	private bool validateCommand (string commandStr)
 	{
-		LogB.Information ("validateCommand Start");
+		//LogB.Information ("validateCommand Start");
 		if (commandStr == "")
 			return false;
 
@@ -113,27 +126,19 @@ public class WilightTest
 			return false;
 
 		commandStr = commandStr.Substring (0, lastSemicolon);
-		LogB.Information ("str without semicolon: " + commandStr);
 
 		string [] strFull = commandStr.Split(new char[] {';'});
-		if (strFull.Length == 0)
-		{
-			LogB.Information ("validateCommand exit 0");
+		if (strFull.Length < 0)
 			return false;
-		}
 
 		foreach (string strX in strFull)
 		{
-			//LogB.Information ("strX: " + strX);
 			string [] strXFull = strX.Split(new char[] {':'});
 			if (strXFull.Length != 2 ||
 					! Util.IsNumber (strXFull[0], false) ||
 					! Util.IsNumber (strXFull[1], false)
 					)
-			{
-				LogB.Information ("validateCommand exit 1");
 				return false;
-			}
 		}
 		LogB.Information ("validateCommand exit OK");
 		return true;

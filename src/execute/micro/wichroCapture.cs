@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
- * Copyright (C) 2022-2024  Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2022-2025  Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -109,7 +109,11 @@ public class WichroCapture: ArduinoCapture
 			return false;
 		}
 
-		//LogB.Information("bucle capture call process line");
+		if (str == "")
+			return true;
+
+		LogB.Information("bucle capture call process line:");
+		LogB.Information (string.Format ("|{0}|", str));
 		WichroEvent we = new WichroEvent();
 		if(! processLine (str, out we))
 			return true;

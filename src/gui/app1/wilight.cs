@@ -20,19 +20,28 @@
 
 using System;
 using System.Diagnostics; //Stopwatch
+using Gtk;
 
 //TODO: note this dirty code is just for testing
 public partial class ChronoJumpWindow 
 {
 	// at glade ---->
-	Gtk.Box box_wilight_test;
+	Gtk.Box box_start_wilight;
 	Gtk.ButtonBox buttonbox_wilight_test;
+	Gtk.CheckButton check_wilight_very_verbose;
 	Gtk.Label label_wilight_test_status;
+	Gtk.TextView textview_wilight;
 	// <---- at glade
 
 	static Thread threadWilight;
 	enum wilightTestTypes { SPEED, SEQUENCE };
 	private wilightTestTypes wilightTestType;
+	TextBuffer tbWilight = new TextBuffer (new TextTagTable());
+
+	private void wilightApp1Init ()
+	{
+		tbWilight.Text = "";
+	}
 
 	private void on_button_wilight_test_speed_clicked (object o, EventArgs args)
 	{
@@ -50,6 +59,7 @@ public partial class ChronoJumpWindow
 	{
 		buttonbox_wilight_test.Sensitive = false;
 		label_wilight_test_status.Text = "Doing";
+		tbWilight.Text = "";
 
 		threadWilight = new Thread (new ThreadStart (wilightTest));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseWilight));
@@ -64,7 +74,9 @@ public partial class ChronoJumpWindow
 			wichroCapture.Disconnect();
 
 		if(wichroCapture == null || wichroCapture.PortName != portName)
+		{
 			wichroCapture = new WichroCapture (portName);
+		}
 
 		wichroCapture.Reset ();
 
@@ -77,6 +89,10 @@ public partial class ChronoJumpWindow
 			LogB.Information ("cannot connect");
 			return false;
 		}
+
+		System.Threading.Thread.Sleep (3000); //to be able to read the answer from get_version (coming on CaptureStart)
+		wichroCapture.Flush (); //to be able to read later
+
 		return true;
 	}
 
@@ -102,9 +118,9 @@ public partial class ChronoJumpWindow
 		if (! wilightManageConnect (portName))
 			return;
 
-		//System.Threading.Thread.Sleep (1000);
-
 		wichroCapture.WilightSendCommand (WilightColors.AllOffCommand);
+		System.Threading.Thread.Sleep (1000);
+
 		if (wilightTestType == wilightTestTypes.SPEED)
 		{
 			testSpeed ();
@@ -115,6 +131,8 @@ public partial class ChronoJumpWindow
 			testSequence (commandsFile);
 			wichroCapture.Stop(); //Should we do a disconnect here?
 		}
+
+		System.Threading.Thread.Sleep (1000);
 		wichroCapture.WilightSendCommand (WilightColors.AllOffCommand);
 	}
 
@@ -135,6 +153,9 @@ public partial class ChronoJumpWindow
 			{
 				//LogB.Information ("\n\n");
 				wichroCapture.WilightSendCommand (colorAllStr);
+				tbWilight.Text += "\n> " + colorAllStr;
+				textview_wilight.Buffer = tbWilight;
+
 				System.Threading.Thread.Sleep (sleepTime);
 			}
 			sleepTime -= 50;
@@ -151,9 +172,6 @@ public partial class ChronoJumpWindow
 
 	private void testSequence (string commandsFile)
 	{
-		System.Threading.Thread.Sleep (2500); //to be able to read later
-		wichroCapture.Flush (); //to be able to read later
-
 		WilightTest wt = new WilightTest (commandsFile);
 		List<int> expectedTerminals_l = new List<int> (); //expected response on this (or them)
 		bool finished = false;
@@ -168,6 +186,9 @@ public partial class ChronoJumpWindow
 				continue;
 
 			wichroCapture.WilightSendCommand (command);
+			tbWilight.Text += "\n> " + command;
+			textview_wilight.Buffer = tbWilight;
+
 			expectedTerminals_l = wt.GetExpectedTerminals (command);
 
 			bool readedOn = false;
@@ -182,13 +203,22 @@ public partial class ChronoJumpWindow
 
 				if(wichroCapture.CanReadFromList ())
 				{
+					LogB.Information ("Can read");
 					WichroEvent we = wichroCapture.WichroCaptureReadNext();
 					if (we.status == Chronopic.Plataforma.ON &&
 							UtilList.FoundInListInt (expectedTerminals_l, we.photocell))
 					{
+						tbWilight.Text += "\n< " + we.ToString ();
+						textview_wilight.Buffer = tbWilight;
+
 						//LogB.Information ("Is ON!");
 						Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
 						readedOn = true;
+					}
+					else if (check_wilight_very_verbose.Active)
+					{
+						tbWilight.Text += "\n< " + we.ToString ();
+						textview_wilight.Buffer = tbWilight;
 					}
 				}
 				System.Threading.Thread.Sleep (20);
@@ -210,9 +240,11 @@ public partial class ChronoJumpWindow
 
 	private void connectWidgetsWilight (Gtk.Builder builder)
 	{
-		box_wilight_test = (Gtk.Box) builder.GetObject ("box_wilight_test");
+		box_start_wilight = (Gtk.Box) builder.GetObject ("box_start_wilight");
 		buttonbox_wilight_test = (Gtk.ButtonBox) builder.GetObject ("buttonbox_wilight_test");
+		check_wilight_very_verbose = (Gtk.CheckButton) builder.GetObject ("check_wilight_very_verbose");
 		label_wilight_test_status = (Gtk.Label) builder.GetObject ("label_wilight_test_status");
+		textview_wilight = (Gtk.TextView) builder.GetObject ("textview_wilight");
 	}
 }
 

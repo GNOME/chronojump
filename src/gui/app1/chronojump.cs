@@ -24,7 +24,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -426,6 +426,7 @@ public partial class ChronoJumpWindow
 
 	Gtk.RadioButton radio_menu_2_2_2_jumps;
 	Gtk.RadioButton radio_menu_2_2_2_races;
+	Gtk.RadioButton radio_menu_2_2_2_wilight;
 	Gtk.RadioButton radio_menu_2_2_2_force;
 	Gtk.RadioButton radio_menu_2_2_2_elastic;
 	Gtk.RadioButton radio_menu_2_2_2_weights;
@@ -568,7 +569,7 @@ public partial class ChronoJumpWindow
 	private string progName;
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM, SOCIALNETWORKPOLL, FULLSCREENCAPTURE }
 	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS, MICRODISCOVER, PERSON, DATABASE }
-	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR, BEEPTEST }
+	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR, BEEPTEST, WILIGHT }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE,
 		JUMPSASYMMETRY, JUMPSEVOLUTION, JUMPSRJFATIGUE,
 		RUNSEVOLUTION, SPRINT, CONTACTS_EXPORT_CSV, SIGNAL_AI, }
@@ -1408,7 +1409,9 @@ public partial class ChronoJumpWindow
 		//TestObjectsDifferences.Test ();
 
 		if (configChronojump.WilightPortURL != "")
-			box_wilight_test.Visible = true;
+		{
+			box_start_wilight.Visible = true;
+		}
 	}
 
 /*
@@ -3982,6 +3985,11 @@ public partial class ChronoJumpWindow
 			radio_menu_2_2_2_races.Active = true;
 			button_menu_2_2_2_manage (radio_menu_2_2_2_races, false);
 		}
+		else if (current_mode == Constants.Modes.WILIGHT)
+		{
+			radio_menu_2_2_2_wilight.Active = true;
+			button_menu_2_2_2_manage (radio_menu_2_2_2_wilight, false);
+		}
 		else if (current_mode == Constants.Modes.FORCESENSORISOMETRIC || current_mode == Constants.Modes.FORCESENSORELASTIC)
 		{
 			radio_menu_2_2_2_force.Active = true;
@@ -4685,6 +4693,19 @@ public partial class ChronoJumpWindow
 			box_contacts_capture_top.Visible = true;
 		}
 
+		if (m == Constants.Modes.WILIGHT)
+		{
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
+			notebooks_change(m);
+			radio_mode_contacts_analyze.Visible = false;
+
+			//hbox_change_modes_runs.Visible = true; //TODO: add beep test
+			notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.WILIGHT);
+			box_contacts_capture_top.Visible = false;
+
+			wilightApp1Init ();
+		}
+
 		on_treeview_mode_cursor_changed ();
 
 		//show feedback icon
@@ -5050,6 +5071,11 @@ public partial class ChronoJumpWindow
 			changeMode (Constants.Modes.BEEPTEST);
 	}
 
+	private void on_button_selector_start_wilight_clicked (object o, EventArgs args)
+	{
+		changeModeCheckRadios (Constants.Modes.WILIGHT);
+	}
+
 	//forceSensor (isometric, elastic)
 	private void on_button_selector_start_force_sensor_isometric_clicked(object o, EventArgs args)
 	{
@@ -5136,6 +5162,12 @@ public partial class ChronoJumpWindow
 
 			notebook_menu_2_2_2.CurrentPage = 1;
 		}
+		else if (o == (object) radio_menu_2_2_2_wilight)
+		{
+			title = "Reaction time";
+			desc = "Reaction time tests"; //TODO: make it translatable
+			notebook_menu_2_2_2.CurrentPage = 3;
+		}
 		else if (o == (object) radio_menu_2_2_2_force)
 		{
 			title = "Force tests";
@@ -5175,7 +5207,9 @@ public partial class ChronoJumpWindow
 	private void on_button_menu_2_2_2_go_clicked (object o, EventArgs args)
 	{
 		//jumps, races, force modes have their own buttons
-		if (radio_menu_2_2_2_weights.Active)
+		if (radio_menu_2_2_2_wilight.Active)
+			on_button_selector_start_wilight_clicked (new object (), new EventArgs ());
+		else if (radio_menu_2_2_2_weights.Active)
 			on_button_selector_start_encoder_gravitatory_clicked (new object (), new EventArgs ());
 		else if (radio_menu_2_2_2_inertial.Active)
 			on_button_selector_start_encoder_inertial_clicked (new object (), new EventArgs ());
@@ -10807,6 +10841,7 @@ LogB.Debug("mc finished 5");
 
 		radio_menu_2_2_2_jumps = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_jumps");
 		radio_menu_2_2_2_races = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_races");
+		radio_menu_2_2_2_wilight = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_wilight");
 		radio_menu_2_2_2_force = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_force");
 		radio_menu_2_2_2_elastic = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_elastic");
 		radio_menu_2_2_2_weights = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_weights");

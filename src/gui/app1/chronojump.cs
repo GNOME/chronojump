@@ -3286,7 +3286,7 @@ public partial class ChronoJumpWindow
 		}
 		if(portFSOpened)
 			portFS.Close();
-		if(wichroCapture != null && wichroCapture.PortOpened)
+		if(wichroCapture != null && wichroCapture.PortOpened) //seems it works also for wilight
 			wichroCapture.Disconnect();
 
 		//cancel runEncoder capture process

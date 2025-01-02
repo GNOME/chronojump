@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2024-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -28,13 +28,28 @@ public partial class ChronoJumpWindow
 	Gtk.ButtonBox buttonbox_wilight_test;
 	// <---- at glade
 
+	static Thread threadWilight;
+
 	private void on_button_wilight_test_clicked (object o, EventArgs args)
 	{
-		wilightTest (configChronojump.WilightPortURL, configChronojump.WilightCommandsURL, configChronojump.WilightCommandMs);
+		wilightExecute ();
 	}
 
-	private void wilightTest (string portName, string commandsFile, int commandTimeMs)
+	private void wilightExecute ()
 	{
+		threadWilight = new Thread (new ThreadStart (wilightTest));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseWilight));
+
+		LogB.ThreadStart();
+		threadWilight.Start();
+	}
+
+	private void wilightTest ()
+	{
+		string portName = configChronojump.WilightPortURL;
+		string commandsFile = configChronojump.WilightCommandsURL;
+		int commandTimeMs = configChronojump.WilightCommandMs;
+
 		/*
 		//testing stuff
 		LogB.Information ("wilightTest");
@@ -67,7 +82,11 @@ public partial class ChronoJumpWindow
 			LogB.Information ("cannot connect");
 		} else
 		{
-			System.Threading.Thread.Sleep (1000);
+			//System.Threading.Thread.Sleep (1000);
+
+			testSpeed (false);
+			wichroCapture.Stop(); //Should we do a disconnect here?
+			return;
 
 			WilightTest wt = new WilightTest (commandsFile);
 
@@ -78,10 +97,6 @@ public partial class ChronoJumpWindow
 			wichroCapture.Flush (); //to be able to read later
 			System.Threading.Thread.Sleep (1000); //to be able to read later
 			*/
-
-			testSpeed (false);
-			wichroCapture.Stop(); //Should we do a disconnect here?
-			return;
 
 			//needed to set the default status
 			wichroCapture.WilightSendCommand (WilightColors.AllOffCommand);
@@ -188,6 +203,16 @@ public partial class ChronoJumpWindow
 		}
 	
 		wichroCapture.WilightSendCommand (WilightColors.AllOffCommand);
+	}
+
+	private bool pulseWilight ()
+	{
+		if (! threadWilight.IsAlive)
+		{
+			return false;
+		}
+		Thread.Sleep (50);
+		return true;
 	}
 
 	private void connectWidgetsWilight (Gtk.Builder builder)

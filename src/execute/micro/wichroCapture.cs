@@ -26,6 +26,7 @@ public class WichroCapture: ArduinoCapture
 {
 	private string portName;
 	private List<WichroEvent> list = new List<WichroEvent>();
+	public string discoverResponse;
 
 	//constructor
 	public WichroCapture (string portName)
@@ -41,6 +42,23 @@ public class WichroCapture: ArduinoCapture
 	public void Reset ()
 	{
 		initialize ();
+	}
+
+	public bool Discover()
+	{
+		//TODO: see if need to implement the micro.Opened stuff on CaptureStart (use for these two functions)
+
+		discoverResponse = "";
+		if (!sendCommand ("local:discover;", "Error doing discover"))
+			return false;
+
+		List<string> responseExpected_l = new List<string>();
+		responseExpected_l.Add("terminals:");
+
+		waitResponse (responseExpected_l, false, 10000, false);
+		discoverResponse = micro.Response;
+
+		return true;
 	}
 
 	public override bool CaptureStart()

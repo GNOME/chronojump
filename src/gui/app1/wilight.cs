@@ -34,24 +34,31 @@ public partial class ChronoJumpWindow
 	// <---- at glade
 
 	static Thread threadWilight;
-	enum wilightTestTypes { SPEED, SEQUENCE };
-	private wilightTestTypes wilightTestType;
-	TextBuffer tbWilight = new TextBuffer (new TextTagTable());
+	enum wilightActions { DISCOVER, SPEED, SEQUENCE };
+	private wilightActions wilightAction;
+
+	static TextBuffer tbWilight = new TextBuffer (new TextTagTable());
 
 	private void wilightApp1Init ()
 	{
 		tbWilight.Text = "";
 	}
 
+	private void on_button_wilight_test_discover_clicked (object o, EventArgs args)
+	{
+		wilightAction = wilightActions.DISCOVER;
+		wilightExecute ();
+	}
+
 	private void on_button_wilight_test_speed_clicked (object o, EventArgs args)
 	{
-		wilightTestType = wilightTestTypes.SPEED;
+		wilightAction = wilightActions.SPEED;
 		wilightExecute ();
 	}
 
 	private void on_button_wilight_test_sequence_clicked (object o, EventArgs args)
 	{
-		wilightTestType = wilightTestTypes.SEQUENCE;
+		wilightAction = wilightActions.SEQUENCE;
 		wilightExecute ();
 	}
 
@@ -118,15 +125,22 @@ public partial class ChronoJumpWindow
 		if (! wilightManageConnect (portName))
 			return;
 
+		if (wilightAction == wilightActions.DISCOVER)
+		{
+			discover ();
+			wichroCapture.Stop(); //Should we do a disconnect here?
+			return;
+		}
+
 		wichroCapture.WilightSendCommand (WilightColors.AllOffCommand);
 		System.Threading.Thread.Sleep (1000);
 
-		if (wilightTestType == wilightTestTypes.SPEED)
+		if (wilightAction == wilightActions.SPEED)
 		{
 			testSpeed ();
 			wichroCapture.Stop(); //Should we do a disconnect here?
 		}
-		else if (wilightTestType == wilightTestTypes.SEQUENCE)
+		else if (wilightAction == wilightActions.SEQUENCE)
 		{
 			testSequence (commandsFile);
 			wichroCapture.Stop(); //Should we do a disconnect here?
@@ -136,6 +150,21 @@ public partial class ChronoJumpWindow
 		wichroCapture.WilightSendCommand (WilightColors.AllOffCommand);
 	}
 
+	private void discover ()
+	{
+		tbWilight.Text += "\n> local:discover;";
+		System.Threading.Thread.Sleep (50);
+		bool commandSendOk = wichroCapture.Discover ();
+
+		if (! commandSendOk)
+			LogB.Information ("Error on call to discover");
+		else {
+			LogB.Information ("discover called ok");
+			tbWilight.Text += "\n< " + wichroCapture.discoverResponse;
+		}
+	}
+
+	//TODO: send only to discovered terminals
 	private void testSpeed ()
 	{
 		List<string> colorsAll_l = new List<string> ();
@@ -151,10 +180,8 @@ public partial class ChronoJumpWindow
 		{
 			foreach (string colorAllStr in colorsAll_l)
 			{
-				//LogB.Information ("\n\n");
 				wichroCapture.WilightSendCommand (colorAllStr);
 				tbWilight.Text += "\n> " + colorAllStr;
-				textview_wilight.Buffer = tbWilight;
 
 				System.Threading.Thread.Sleep (sleepTime);
 			}
@@ -170,6 +197,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	//TODO: send only to discovered terminals
 	private void testSequence (string commandsFile)
 	{
 		WilightTest wt = new WilightTest (commandsFile);
@@ -187,7 +215,6 @@ public partial class ChronoJumpWindow
 
 			wichroCapture.WilightSendCommand (command);
 			tbWilight.Text += "\n> " + command;
-			textview_wilight.Buffer = tbWilight;
 
 			expectedTerminals_l = wt.GetExpectedTerminals (command);
 
@@ -209,17 +236,13 @@ public partial class ChronoJumpWindow
 							UtilList.FoundInListInt (expectedTerminals_l, we.photocell))
 					{
 						tbWilight.Text += "\n< " + we.ToString ();
-						textview_wilight.Buffer = tbWilight;
 
 						//LogB.Information ("Is ON!");
 						Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
 						readedOn = true;
 					}
 					else if (check_wilight_very_verbose.Active)
-					{
 						tbWilight.Text += "\n< " + we.ToString ();
-						textview_wilight.Buffer = tbWilight;
-					}
 				}
 				System.Threading.Thread.Sleep (20);
 			}
@@ -228,13 +251,16 @@ public partial class ChronoJumpWindow
 
 	private bool pulseWilight ()
 	{
+		textview_wilight.Buffer = tbWilight;
+
 		if (! threadWilight.IsAlive)
 		{
 			buttonbox_wilight_test.Sensitive = true;
 			label_wilight_test_status.Text = "Done";
 			return false;
 		}
-		Thread.Sleep (50);
+
+		Thread.Sleep (20);
 		return true;
 	}
 

@@ -35,8 +35,29 @@ public partial class ChronoJumpWindow
 
 	private void wilightTest (string portName, string commandsFile, int commandTimeMs)
 	{
-		wichroCapture = new WichroCapture (portName);
+		/*
+		//testing stuff
+		LogB.Information ("wilightTest");
+		WilightTest wtz = new WilightTest (commandsFile);
+		bool finishedz = false;
+		while (true)
+		{
+			if (finishedz) //finished here to have also time to answer to the last command
+				return;
+			LogB.Information (wtz.GetNext (out finishedz));
+		}
+		*/
+
+
+		//real code
+		if(wichroCapture != null && wichroCapture.PortOpened)
+			wichroCapture.Disconnect();
+
+		if(wichroCapture == null || wichroCapture.PortName != portName)
+			wichroCapture = new WichroCapture (portName);
+
 		wichroCapture.Reset ();
+
 		if (! wichroCapture.CaptureStart ())
 		{
 			//chronopicDisconnected = true;
@@ -51,57 +72,19 @@ public partial class ChronoJumpWindow
 			WilightTest wt = new WilightTest (commandsFile);
 
 			//needed to set the default status
-			wichroCapture.WilightSendCommand (wt.AllOffCommand);
+			wichroCapture.WilightSendCommand (WilightColors.AllOffCommand);
 			System.Threading.Thread.Sleep (1000);
 			/*
 			wichroCapture.Flush (); //to be able to read later
 			System.Threading.Thread.Sleep (1000); //to be able to read later
 			*/
 
-			List<int> color_l = new List<int> ();
-			color_l.Add (128);
-			color_l.Add (64);
-			color_l.Add (32);
-
-			List<string> colorsAll_l = new List<string> ();
-			colorsAll_l.Add (wt.AllRedCommand);
-			colorsAll_l.Add (wt.AllGreenCommand);
-			colorsAll_l.Add (wt.AllBlueCommand);
-			int sleepTime = 500;
-			while (true)
-			{
-				foreach (string colorAllStr in colorsAll_l)
-				{
-					//LogB.Information ("\n\n");
-					wichroCapture.WilightSendCommand (colorAllStr);
-
-					/*
-					//System.Threading.Thread.Sleep (5); //not enough
-					//System.Threading.Thread.Sleep (50);
-
-					if (wichroCapture.BytesToRead ())
-					{
-						string receivedStr = wichroCapture.CaptureEchoLine ();
-						LogB.Information ("received: " + receivedStr);
-						receivedStr = receivedStr.Trim ();
-						LogB.Information ("received2: |" + receivedStr + "|");
-
-						if (colorAllStr == receivedStr)
-							Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
-						else
-							Util.PlaySound (Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
-					}
-					*/
-
-					System.Threading.Thread.Sleep (sleepTime);
-					sleepTime -= 10;
-					if (sleepTime < 100) // arrive to 50 ms is problematic
-						sleepTime = 100;
-				}
-			}
+			testSpeed (false);
+			wichroCapture.Stop(); //Should we do a disconnect here?
+			return;
 
 			//needed to set the default status
-			wichroCapture.WilightSendCommand (wt.AllOffCommand);
+			wichroCapture.WilightSendCommand (WilightColors.AllOffCommand);
 			System.Threading.Thread.Sleep (500);
 		
 			Stopwatch stopwatch = new Stopwatch ();
@@ -128,8 +111,7 @@ public partial class ChronoJumpWindow
 
 				//TODO: readed should check that terminal
 				bool readedOn = false;
-				//int readed = 0;
-//				do {
+				//do {
 					LogB.Information ("at do while");
 					if(! wichroCapture.CaptureSample())
 					{
@@ -148,18 +130,66 @@ public partial class ChronoJumpWindow
 							Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
 							readedOn = true;
 						}
-						//readed ++;
 					}
 					System.Threading.Thread.Sleep (1000);
 //				} while (! readedOn);
-				//} while (readed < 2);
 				//System.Threading.Thread.Sleep (1000);
 			}
 
 			wichroCapture.Stop(); //Should we do a disconnect here?
 		}
 	}
-		
+
+	private void testSpeed (bool receiveData)
+	{
+		List<string> colorsAll_l = new List<string> ();
+		colorsAll_l.Add (WilightColors.AllRedCommand);
+		colorsAll_l.Add (WilightColors.AllGreenCommand);
+		colorsAll_l.Add (WilightColors.AllBlueCommand);
+		int sleepTime = 500;
+		int sleepTimeMin = 100; //does not work very good at 50
+		int countDownAtMaxSpeed = 10; //to execute 10 times at max speed
+		bool done = false;
+
+		while (! done)
+		{
+			foreach (string colorAllStr in colorsAll_l)
+			{
+				//LogB.Information ("\n\n");
+				wichroCapture.WilightSendCommand (colorAllStr);
+
+				if (receiveData)
+				{
+					//System.Threading.Thread.Sleep (50); //5 is not enough
+					if (wichroCapture.BytesToRead ())
+					{
+						string receivedStr = wichroCapture.CaptureEchoLine ();
+						LogB.Information ("received: " + receivedStr);
+						receivedStr = receivedStr.Trim ();
+						LogB.Information ("received2: |" + receivedStr + "|");
+
+						if (colorAllStr == receivedStr)
+							Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
+						else
+							Util.PlaySound (Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
+					}
+				}
+				System.Threading.Thread.Sleep (sleepTime);
+			}
+			sleepTime -= 50;
+			if (sleepTime < sleepTimeMin)
+			{
+				sleepTime = sleepTimeMin;
+				countDownAtMaxSpeed --;
+			}
+			//LogB.Information ("sleepTime: " + sleepTime.ToString ());
+			if (countDownAtMaxSpeed <= 0)
+				done = true;
+		}
+	
+		wichroCapture.WilightSendCommand (WilightColors.AllOffCommand);
+	}
+
 	private void connectWidgetsWilight (Gtk.Builder builder)
 	{
 		buttonbox_wilight_test = (Gtk.ButtonBox) builder.GetObject ("buttonbox_wilight_test");

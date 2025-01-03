@@ -16,6 +16,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  *  Copyright (C) 2024   Yang Dejiu <joeries.young@gmail.com>
+ *  Copyright (C) 2024-2025  Xavier de Blas <xaviblas@gmail.com>
  */
 
 using Gdk;
@@ -423,6 +424,7 @@ namespace Chronojump
 			new ResourceFix ("filter_on.png" , "filter_on.png"),
 			new ResourceFix ("filter_off.png" , "filter_off.png"),
 			new ResourceFix ("calendar.png" , "calendar.png"),
+			new ResourceFix ("log.png" , "log.png"),
 			new ResourceFix ("chronojump-logo-2024-blue-transp-200h.png" , "chronojump-logo-2024-blue-transp-200h.png"),
 			new ResourceFix ("chronojump-logo-2024-white-transp-200h.png" , "chronojump-logo-2024-white-transp-200h.png"),
 			new ResourceFix ("chronojump-logo-2024-2col-bluebg-210h.png" , "chronojump-logo-2024-2col-bluebg-210h.png"),

@@ -3647,7 +3647,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
-                                                            <object class="GtkImage" id="image_selector_start_runs2">
+                                                            <object class="GtkImage" id="image_selector_start_wilight">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
@@ -5025,6 +5025,34 @@
                                                           </packing>
                                                         </child>
                                                         <child>
+                                                          <object class="GtkRadioButton" id="radio_change_modes_contacts_wilight">
+                                                            <property name="width-request">40</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw-indicator">False</property>
+                                                            <child>
+                                                            <object class="GtkEventBox" id="eventbox_change_modes_contacts_wilight">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_change_modes_contacts_wilight">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                          </object>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
                                                           <object class="GtkBox" id="hbox_change_modes_force_sensor">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -5092,7 +5120,7 @@
                                                           <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">3</property>
                                                           </packing>
                                                         </child>
                                                       </object>
@@ -24038,6 +24066,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -82,6 +82,7 @@ public partial class ChronoJumpWindow
 	Gtk.RadioButton radio_change_modes_contacts_runs_intervallic;
 	Gtk.RadioButton radio_change_modes_contacts_runs_encoder;
 	Gtk.RadioButton radio_change_modes_contacts_runs_beepTest;
+	Gtk.RadioButton radio_change_modes_contacts_wilight;
 	Gtk.RadioButton radio_change_modes_contacts_isometric;
 	Gtk.RadioButton radio_change_modes_contacts_elastic;
 	Gtk.RadioButton radio_change_modes_encoder_gravitatory;
@@ -91,6 +92,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_change_modes_contacts_runs_simple;
 	//Gtk.Image image_change_modes_contacts_runs_reactive;
 	Gtk.Image image_change_modes_contacts_runs_intervallic;
+	Gtk.Image image_change_modes_contacts_wilight;
 	Gtk.Image image_change_modes_contacts_force_sensor;
 	Gtk.Image image_change_modes_contacts_force_sensor1;
 	Gtk.Image image_change_modes_contacts_runs_encoder;
@@ -4176,6 +4178,7 @@ public partial class ChronoJumpWindow
 		hbox_change_modes_jumps.Visible = false;
 		hbox_change_modes_runs.Visible = false;
 		hbox_change_modes_force_sensor.Visible = false;
+		radio_change_modes_contacts_wilight.Visible = false;
 
 		button_contacts_bells.Sensitive = false;
 
@@ -4702,6 +4705,7 @@ public partial class ChronoJumpWindow
 			//hbox_change_modes_runs.Visible = true; //TODO: add beep test
 			notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.WILIGHT);
 			box_contacts_capture_top.Visible = false;
+			radio_change_modes_contacts_wilight.Visible = true;
 
 			wilightApp1Init ();
 		}
@@ -5165,7 +5169,7 @@ public partial class ChronoJumpWindow
 		else if (o == (object) radio_menu_2_2_2_wilight)
 		{
 			title = "Reaction time";
-			desc = "Reaction time tests"; //TODO: make it translatable
+			desc = "Reaction time tests with Wilight"; //TODO: make it translatable
 			notebook_menu_2_2_2.CurrentPage = 3;
 		}
 		else if (o == (object) radio_menu_2_2_2_force)
@@ -10498,6 +10502,7 @@ LogB.Debug("mc finished 5");
 		radio_change_modes_contacts_runs_intervallic = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_runs_intervallic");
 		radio_change_modes_contacts_runs_encoder = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_runs_encoder");
 		radio_change_modes_contacts_runs_beepTest = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_runs_beepTest");
+		radio_change_modes_contacts_wilight = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_wilight");
 		radio_change_modes_contacts_isometric = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_isometric");
 		radio_change_modes_contacts_elastic = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_elastic");
 		radio_change_modes_encoder_gravitatory = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_encoder_gravitatory");
@@ -10507,6 +10512,7 @@ LogB.Debug("mc finished 5");
 		image_change_modes_contacts_runs_simple = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_runs_simple");
 		//image_change_modes_contacts_runs_reactive = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_runs_reactive");
 		image_change_modes_contacts_runs_intervallic = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_runs_intervallic");
+		image_change_modes_contacts_wilight = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_wilight");
 		image_change_modes_contacts_force_sensor = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_force_sensor");
 		image_change_modes_contacts_force_sensor1 = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_force_sensor1");
 		image_change_modes_contacts_runs_encoder = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_runs_encoder");

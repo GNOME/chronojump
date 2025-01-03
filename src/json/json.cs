@@ -16,6 +16,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Copyright (C) 2016-2017 Carles Pina, Xavier de Blas & Arnau-Lenin Gols
+ * Copyright (C) 2024-2025 Xavier de Blas
  */
 
 using System;
@@ -61,21 +62,32 @@ public class Json
 		return ! string.IsNullOrEmpty(authToken);
 	}
 
-	public bool PostCrashLog(string email, string comments) 
+	public bool PostCrashLog (bool current, string email, string comments)
 	{
-		string filePath = UtilAll.GetLogFileOld();
+		string filePath = "";
+		if (current)
+			filePath = UtilAll.GetLogFileCurrent();
+		else
+			filePath = UtilAll.GetLogFileOld();
 
 		if(! File.Exists(filePath)) {
 			this.ResultMessage = Catalog.GetString("Could not send file.\nIt does not exist.");
 			return false;
 		}
 
+		//note on current log cannot include comments at beginning of the file, so include them on email title
+		string commentsInTitle = "";
 		if(comments != null && comments != "")
-			Util.InsertTextBeginningOfFile(
-					"----------\nUser comments:\n" + comments + "\n----------\n", filePath);
+		{
+			if (current)
+				commentsInTitle = Util.MakeValidSQLAndFileName (comments); //TODO: improve this
+			else
+				Util.InsertTextBeginningOfFile(
+						"----------\nUser comments:\n" + comments + "\n----------\n", filePath);
+		}
 
 		// Create a request using a URL that can receive a post. 
-		if (! createWebRequest(requestType.PUBLIC, "/backtrace/" + UtilAll.ReadVersionFromBuildInfo() + "-" + email))
+		if (! createWebRequest(requestType.PUBLIC, "/backtrace/" + UtilAll.ReadVersionFromBuildInfo() + "-" + email + "-" + commentsInTitle))
 			return false;
 
 		// Set the Method property of the request to POST.

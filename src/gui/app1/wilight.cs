@@ -132,7 +132,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		wichroCapture.WilightSendCommand (WilightColors.AllOffCommand);
+		sendCommandAndTextview (WilightColors.AllOffCommand);
 		System.Threading.Thread.Sleep (1000);
 
 		if (wilightAction == wilightActions.SPEED)
@@ -147,7 +147,7 @@ public partial class ChronoJumpWindow
 		}
 
 		System.Threading.Thread.Sleep (1000);
-		wichroCapture.WilightSendCommand (WilightColors.AllOffCommand);
+		sendCommandAndTextview (WilightColors.AllOffCommand);
 	}
 
 	private void discover ()
@@ -180,9 +180,7 @@ public partial class ChronoJumpWindow
 		{
 			foreach (string colorAllStr in colorsAll_l)
 			{
-				wichroCapture.WilightSendCommand (colorAllStr);
-				tbWilight.Text += "\n> " + colorAllStr;
-
+				sendCommandAndTextview (colorAllStr);
 				System.Threading.Thread.Sleep (sleepTime);
 			}
 			sleepTime -= 50;
@@ -213,9 +211,7 @@ public partial class ChronoJumpWindow
 			if (command == "")
 				continue;
 
-			wichroCapture.WilightSendCommand (command);
-			tbWilight.Text += "\n> " + command;
-
+			sendCommandAndTextview (command);
 			expectedTerminals_l = wt.GetExpectedTerminals (command);
 
 			bool readedOn = false;
@@ -262,6 +258,12 @@ public partial class ChronoJumpWindow
 
 		Thread.Sleep (20);
 		return true;
+	}
+
+	private void sendCommandAndTextview (string command)
+	{
+		wichroCapture.WilightSendCommand (command);
+		tbWilight.Text += "\n> " + command;
 	}
 
 	private void connectWidgetsWilight (Gtk.Builder builder)

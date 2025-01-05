@@ -97,9 +97,9 @@ package/macos/Chronojump.app/Contents/Info.plist
 /win32/Chronojump-win-x86-1.0.exe
 /win32/Chronojump-win-x64-1.0.exe
 /po/POTFILES
-/obj
-/bin
+obj
 package/macos/app/Chronojump.app/Contents/Info.plist
 config.guess~
 config.sub~
 install-sh~
+.vs

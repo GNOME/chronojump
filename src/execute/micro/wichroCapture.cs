@@ -26,7 +26,7 @@ public class WichroCapture: ArduinoCapture
 {
 	private string portName;
 	private List<WichroEvent> list = new List<WichroEvent>();
-	public string discoverResponse;
+	public string wilightResponse;
 
 	//constructor
 	public WichroCapture (string portName)
@@ -48,7 +48,7 @@ public class WichroCapture: ArduinoCapture
 	{
 		//TODO: see if need to implement the micro.Opened stuff on CaptureStart (use for these two functions)
 
-		discoverResponse = "";
+		wilightResponse = "";
 		if (!sendCommand ("local:discover;", "Error doing discover"))
 			return false;
 
@@ -56,7 +56,25 @@ public class WichroCapture: ArduinoCapture
 		responseExpected_l.Add("terminals:");
 
 		waitResponse (responseExpected_l, false, 10000, false);
-		discoverResponse = micro.Response;
+		wilightResponse = micro.Response;
+
+		return true;
+	}
+
+	public bool Ping (int terminal)
+	{
+		//TODO: see if need to implement the micro.Opened stuff on CaptureStart (use for these two functions)
+
+		wilightResponse = "";
+		if (!sendCommand (string.Format ("{0}:512;", terminal), "Error doing ping"))
+			return false;
+
+		//on ping, The terminal returns a sample plus the version of the firmware
+		List<string> responseExpected_l = new List<string>();
+		responseExpected_l.Add("Wifi-Controller");
+
+		waitResponse (responseExpected_l, false, 10000, false);
+		wilightResponse = micro.Response;
 
 		return true;
 	}

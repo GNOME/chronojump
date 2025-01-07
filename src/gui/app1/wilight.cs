@@ -28,13 +28,14 @@ public partial class ChronoJumpWindow
 	// at glade ---->
 	Gtk.Box box_start_wilight;
 	Gtk.ButtonBox buttonbox_wilight_test;
+	Gtk.SpinButton spin_wilight_test_ping;
 	Gtk.CheckButton check_wilight_very_verbose;
 	Gtk.Label label_wilight_test_status;
 	Gtk.TextView textview_wilight;
 	// <---- at glade
 
 	static Thread threadWilight;
-	enum wilightActions { DISCOVER, SPEED, SEQUENCE };
+	enum wilightActions { DISCOVER, PING, SPEED, SEQUENCE };
 	private wilightActions wilightAction;
 
 	static TextBuffer tbWilight = new TextBuffer (new TextTagTable());
@@ -47,6 +48,12 @@ public partial class ChronoJumpWindow
 	private void on_button_wilight_test_discover_clicked (object o, EventArgs args)
 	{
 		wilightAction = wilightActions.DISCOVER;
+		wilightExecute ();
+	}
+
+	private void on_button_wilight_test_ping_clicked (object o, EventArgs args)
+	{
+		wilightAction = wilightActions.PING;
 		wilightExecute ();
 	}
 
@@ -125,9 +132,13 @@ public partial class ChronoJumpWindow
 		if (! wilightManageConnect (portName))
 			return;
 
-		if (wilightAction == wilightActions.DISCOVER)
+		if (wilightAction == wilightActions.DISCOVER || wilightAction == wilightActions.PING)
 		{
-			discover ();
+			if (wilightAction == wilightActions.DISCOVER)
+				discover ();
+			else if (wilightAction == wilightActions.PING)
+				ping (Convert.ToInt32 (spin_wilight_test_ping.Value));
+
 			wichroCapture.Stop(); //Should we do a disconnect here?
 			return;
 		}
@@ -160,7 +171,21 @@ public partial class ChronoJumpWindow
 			LogB.Information ("Error on call to discover");
 		else {
 			LogB.Information ("discover called ok");
-			tbWilight.Text += "\n< " + wichroCapture.discoverResponse;
+			tbWilight.Text += "\n< " + wichroCapture.wilightResponse;
+		}
+	}
+
+	private void ping (int terminal)
+	{
+		tbWilight.Text += string.Format ("\n> {0}:512;", terminal);
+		System.Threading.Thread.Sleep (50);
+		bool commandSendOk = wichroCapture.Ping (terminal);
+
+		if (! commandSendOk)
+			LogB.Information ("Error on call to ping");
+		else {
+			LogB.Information ("ping called ok");
+			tbWilight.Text += "\n< " + wichroCapture.wilightResponse;
 		}
 	}
 
@@ -270,6 +295,7 @@ public partial class ChronoJumpWindow
 	{
 		box_start_wilight = (Gtk.Box) builder.GetObject ("box_start_wilight");
 		buttonbox_wilight_test = (Gtk.ButtonBox) builder.GetObject ("buttonbox_wilight_test");
+		spin_wilight_test_ping = (Gtk.SpinButton) builder.GetObject ("spin_wilight_test_ping");
 		check_wilight_very_verbose = (Gtk.CheckButton) builder.GetObject ("check_wilight_very_verbose");
 		label_wilight_test_status = (Gtk.Label) builder.GetObject ("label_wilight_test_status");
 		textview_wilight = (Gtk.TextView) builder.GetObject ("textview_wilight");

@@ -216,6 +216,8 @@ public abstract class BeepTest
 
 	protected bool hasVoice;
 	public enum VoiceNowEnum { NO, MID, STAGE }; //MID is middle of stage
+	private DateTime lastBeepDt; //to play voice after a delay (not overlap two audios)
+
 	protected VoiceNowEnum shouldVoiceNow; // -1 mean no
 	protected bool has05PercentVoiceThisStage;
 	protected bool has50PercentVoiceThisStage;
@@ -284,6 +286,9 @@ public abstract class BeepTest
 			finished = true;
 
 		decideIfShouldBeep ();
+		if (shouldBeepNow != BeepNowEnum.NO)
+			lastBeepDt = DateTime.Now;
+
 		if (hasVoice)
 			decideIfShouldVoice ();
 		imageLapStatus = getImageForLapStatus ();
@@ -310,6 +315,9 @@ public abstract class BeepTest
 	protected virtual void decideIfShouldVoice ()
 	{
 		shouldVoiceNow = VoiceNowEnum.NO;
+		if (DateTime.Now.Subtract (lastBeepDt).TotalSeconds < 2)
+			return;
+
 		if (! has05PercentVoiceThisStage &&
 				getCurrentPercentageOnStage (currentStageLapStatus.stage) > 05 &&
 				currentStageLapStatus.stage >= 0)

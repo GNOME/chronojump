@@ -197,9 +197,9 @@ public abstract class WebcamFfmpegGetDevicesWinMac : WebcamFfmpegGetDevices
 
 		List<string> resultStr_l = ExecuteProcess.RunAsync (
 			executable,
-			Util.ListStringToString (parameters, " "),
+			UtilList.ListStringToString (parameters, " "),
 			ExecuteProcess.RunAsyncOutput.STDERR);
-		string resultStr = Util.ListStringToString (resultStr_l);
+		string resultStr = UtilList.ListStringToString (resultStr_l);
 
 		LogB.Information("pre");
 		/*
@@ -267,7 +267,7 @@ public abstract class WebcamFfmpegGetDevicesWinMac : WebcamFfmpegGetDevices
 	{
 		LogB.Information("Called parse");
 		LogB.Information("devicesOutput");
-		LogB.Information(Util.ListStringToString (devicesOutput_l));
+		LogB.Information(UtilList.ListStringToString (devicesOutput_l));
 
 		//bool started = false;
 		doingName = true;

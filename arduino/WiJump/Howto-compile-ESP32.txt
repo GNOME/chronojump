@@ -4,4 +4,4 @@ pip3 install pyserial
 
 In Arduino IDE add the this line in File -> Preferences -> Additional boards
 https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
-Download the ESP32 boards
+Download the ESP32 boards Version 2.0.17 (!!! Atention: Version 3.+ doesn't work)

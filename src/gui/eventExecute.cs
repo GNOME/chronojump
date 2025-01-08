@@ -1827,8 +1827,8 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 			double valueA = jump.TcAvg; //this cares for the -1 on start in. Does not count it.
 			double valueB = jump.TvAvg;
 			if(UseHeights) {
-				valueA = Util.GetAverage (jump.FallList);
-				valueB = Util.GetAverage (jump.HeightList);
+				valueA = UtilList.GetAverage (jump.FallList);
+				valueB = UtilList.GetAverage (jump.HeightList);
 			}
 
 			//pointA0_l.Add(new PointF(countToDraw, jump.Jumps));
@@ -2603,7 +2603,7 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 			cb.VideoPlayTimeInSeconds = videoTime;
 
 			//cb.VideoPlayTimes_l = time_l; //VideoPlayTimes is accumulative)
-			cb.VideoPlayTimes_l = Util.ListDoubleToAccumulative (time_l);
+			cb.VideoPlayTimes_l = UtilList.ListDoubleToAccumulative (time_l);
 		}
 
 		passDataForScreenshotIfNeeded ();
@@ -3064,7 +3064,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			{
 				colorPhase = UtilGtk.GetRGBA (UtilGtk.Colors.GREEN_PLOTS);
 				//play sound if value is high, volumeOn == true, is last value, capturing
-				if (pegbe.volumeOn && count == data.Count -1 && pegbe.capturing && ! Util.FoundInListInt (RepetitionsPlayed_l, count))
+				if (pegbe.volumeOn && count == data.Count -1 && pegbe.capturing && ! UtilList.FoundInListInt (RepetitionsPlayed_l, count))
 				{
 					Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
 					RepetitionsPlayed_l.Add (count);
@@ -3074,7 +3074,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			{
 				colorPhase = UtilGtk.GetRGBA (UtilGtk.Colors.RED_PLOTS);
 				//play sound if value is low, volumeOn == true, is last value, capturing
-				if (pegbe.volumeOn && count == data.Count -1 && pegbe.capturing && ! Util.FoundInListInt (RepetitionsPlayed_l, count))
+				if (pegbe.volumeOn && count == data.Count -1 && pegbe.capturing && ! UtilList.FoundInListInt (RepetitionsPlayed_l, count))
 				{
 					Util.PlaySound (Constants.SoundTypes.BAD, pegbe.volumeOn, pegbe.gstreamer);
 					RepetitionsPlayed_l.Add (count);

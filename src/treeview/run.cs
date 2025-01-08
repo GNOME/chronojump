@@ -108,7 +108,7 @@ public class TreeViewRuns : TreeViewEvent
 		myData[count++] = Util.TrimDecimals(newRun.Time.ToString(), pDN);
 		myData[count++] = UtilDate.GetDatetimePrint(UtilDate.FromFile(newRun.Datetime));
 
-		if (Util.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.RUN, newRun.UniqueID)))
+		if (UtilList.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.RUN, newRun.UniqueID)))
 			myData[count++] = Catalog.GetString ("Yes");
 		else
 			myData[count++] = Catalog.GetString ("No");
@@ -192,7 +192,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myData[count++] = "";		//splitTime
 		myData[count++] = UtilDate.GetDatetimePrint(UtilDate.FromFile(newRunI.Datetime));
 
-		if (Util.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.RUN_I, newRunI.UniqueID)))
+		if (UtilList.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.RUN_I, newRunI.UniqueID)))
 			myData[count++] = Catalog.GetString ("Yes");
 		else
 			myData[count++] = Catalog.GetString ("No");

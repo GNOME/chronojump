@@ -2,7 +2,7 @@
   Controler for devices using the NRf24L01 wireless module
 
   Copyright (C) 2018 Xavier de Blas xaviblas@gmail.com
-  Copyright (C) 2018 Xavier Padullés support@chronojump.org
+  Copyright (C) 2018-2024 Xavier Padullés support@chronojump.org
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,12 +21,13 @@
 #include <SPI.h>
 //#include <nRF24L01.h>
 #include <RF24.h>
-#include <printf.h>
+//#include <printf.h>
 #include <MsTimer2.h>
 #include <TimerOne.h>
+#include <elapsedMillis.h>
 
 // The first number refers to the hardware version. The seccond to firmware version for this hardware
-String version = "Wifi-Controller-4.2"; //"Wifi-Controller-" is mandatori. Chronojump expects it
+String version = "Wifi-Controller-4.3"; //"Wifi-Controller-" is mandatori. Chronojump expects it
 
 
 //
@@ -113,11 +114,15 @@ const uint64_t pipes[2] = { 0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL }; //Two radio pipes.
 bool binaryMode = false;
 unsigned long startTime;      //local time when the reset_time function is executed
 unsigned long lastSampleTime; //local time at which some sample has been received without overflow correction
-unsigned long totalTime;      //Total elapsed time since startTime
+elapsedMillis totalTime;      //Total elapsed time since startTime
 
 // unsigned long responseTime = 0;  //For testing response time in a ping
 
 bool waitingData = false;
+
+bool debugEcho = false;
+bool read13Commands = true;
+
 
 void setup(void)
 {
@@ -132,7 +137,7 @@ void setup(void)
   //TODO: Try to minimize this parameter as it adds lag from instruction to sensor activation. 1 is too low.
   //Maybe increasing the baud rate we could set it to 1
   Serial.setTimeout(2);
-  printf_begin();       //Needed by radio.printDetails();
+  //printf_begin();       //Needed by radio.printDetails();
 
   LED_on;  //turn off the LED
 
@@ -162,7 +167,7 @@ void setup(void)
   //  Serial.println(controlSwitch);
 
   radio.begin();
-  radio.setRetries(1, 15); // Delay and maximum retries. 0.250*(1 + delay) microseconds of delay between retries.
+  radio.setRetries(0, 15); // Delay and maximum retries. 0.250*(1 + delay) microseconds of delay between retries.
 
   //maximum 125 channels. cell phone and wifi uses 2402-2472. Free from channel 73 to channel 125. Each channels is 1Mhz separated
   radio.setChannel(control0Channel - controlSwitch);
@@ -222,20 +227,84 @@ void debounce() {
   }
 }
 
+//count the number of commands.
+int countSemicolons (String str)
+{
+  int countSemicolons = 0;
+  int currentPos = -1;
+  while (true)
+  {
+    if(str.indexOf (";", (currentPos +1)) == -1)
+      break;
+    else {
+      currentPos = str.indexOf (";", (currentPos +1));
+      countSemicolons ++;
+    }
+  }
+  return countSemicolons;
+}
+
+
 void serialEvent()
 {
+  String inputString = "";
 
-  String inputString = Serial.readString();
+  /*
+  if(debugEcho)
+  {
+    do {
+      inputString = inputString + Serial.readStringUntil(";");
+    } while (countSemicolons (inputString) < 13);
+  } else */
+    //inputString = inputString + Serial.readStringUntil(";");
+  
+  //String inputString = Serial.readStringUntil(";");
+
+  //int stupidVariable = 0;
+
+  /*
+  2024 Dec 31
+  TODO: with the readStringUntil (";"), the stupidVariableStr and the read13Commands, works perfectly
+  try to make it work without the 13 commands
+  try to separate WILIGHT and WICHRO if needed, maybe using .h
+  */
+
+  String stupidVariableStr = "";
+  do {
+    do {
+      inputString += Serial.readStringUntil(";");
+      //Serial.println("input al loop:" + inputString); //aixi funciona, semse aixo 8:32; passa a :32;
+      //stupidVariable = inputString.length (); //aixi no va
+      stupidVariableStr = inputString + "stupid"; //aixi funciona, semse aixo 8:32; passa a :32;
+      //inputString = inputString; //aixi no va
+      //Serial.println(""); //aixi no va
+    } while (inputString.indexOf(";") < 0);
+  } while (read13Commands && countSemicolons (inputString) < 13);
+
+  //Serial.println("input fora del loop:" + inputString);
+
   String currentInstruction = "";
 
   int lastIndex = inputString.lastIndexOf(";");
   // Serial.println(lastIndex);
   int prevSeparatorIndex = -1;
   int nextSeparatorIndex = 0;
-  // Serial.print("Instruction received from Serial: \"");
-  // Serial.print(inputString.substring(0, inputString.length() -1));
-  // Serial.println("\"");
 
+
+  if (debugEcho)
+  {
+    /*
+    if(countSemicolons (inputString) == 13)
+      LED_on;
+    else
+      LED_off;
+    */
+
+    Serial.println(inputString.substring(0, inputString.length() -1)); //echo
+  }
+  //Serial.println(inputString.substring(0, inputString.length() -1)); //echo
+  Serial.println(inputString);
+  
   while (prevSeparatorIndex < lastIndex ) {
     nextSeparatorIndex = inputString.indexOf(";", prevSeparatorIndex +1);
     currentInstruction = inputString.substring(prevSeparatorIndex +1 , nextSeparatorIndex +1);
@@ -301,10 +370,10 @@ void serialEvent()
       blinkingLED = true;
     }
   }
-  inputString = "";
+  //inputString = "";
 }
 
-bool sendInstruction(struct instruction_t *instruction)
+unsigned int sendInstruction(struct instruction_t *instruction)
 {
 
   //  Serial.print("Sending command \'");
@@ -317,36 +386,31 @@ bool sendInstruction(struct instruction_t *instruction)
 
   radio.stopListening();    //To sent it is necessary to stop listening
 
-  bool en = radio.write( instruction, size_instruction );
+  bool sent = radio.write( instruction, size_instruction );
+  unsigned int retries = 0;
+  while ( !sent && (retries < 10) ) {
+    sent = radio.write( instruction, size_instruction );
+    retries++;
+  }
   radio.setChannel(control0Channel - controlSwitch);    //setting the the channel to the reading channel
   radio.startListening();  //Going back to listening mode
   LED_off;
   instruction->termNum = 0;
 
-  if (!en)  //en is 1 if radio.write went OK
-  {
-    //    Serial.println("Error sending");
-    return (false);
-  } else {
-    //    Serial.print("send instruction:");
-    //    Serial.println(instruction->command);
-    //    Serial.println(instruction->termNum);
-    return (true);
-  }
+  return(retries);
 }
 
 // Atention this function is not valid for ping all terminals as it does not wait for response.
 void sendToAll(uint16_t command)
 {
-  Serial.println("---------Activating All---------");
   radio.stopListening();
-  for (int i = 0; i <= 63; i++) {
+  for (int i = 0; i <= 12; i++) {
     radio.setChannel(terminal0Channel - i);
     //    Serial.print("getChannel = ");
     //    Serial.println(radio.getChannel());
     instruction.termNum = i;
     instruction.command = command;
-    sendInstruction(&instruction);
+    unsigned int retries = sendInstruction(&instruction);
   }
   radio.startListening();
   radio.setChannel(control0Channel - controlSwitch);
@@ -376,22 +440,6 @@ void blinkOnce(void)
   LED_on;
 }
 
-//This fucnction manages the time elapsed from the start of the
-unsigned long getLocalTime(void)
-{
-  //not to be confused with sample.data . This is the local time at which the sample has been received.
-  //sample.data is the elapsed time since the terminal received the activating sensor command untill actual activation.
-  unsigned long localSampleTime = millis();
-  if (localSampleTime > startTime)           //No overflow
-  {
-    totalTime = localSampleTime - startTime;
-  } else if (localSampleTime <= startTime)   //Overflow
-  {
-    //Time from the last measure to the overflow event plus the sampleTime
-    totalTime = (4294967295 -  lastSampleTime) + localSampleTime;
-  }
-  return (totalTime);
-}
 void discoverTerminals() { discoverTerminals(1); }
 void discoverTerminals(int maxTries) {
   String terminalsFound = "terminals:";
@@ -429,7 +477,6 @@ bool readSample(void) {
   bool readed = false;
   if (radio.available()) //Some terminal has sent a response
   {
-    totalTime = getLocalTime();
     radio.read(  &sample, sample_size);
     readed = true;
     blinkStop();
@@ -444,7 +491,6 @@ bool readSample(void) {
 
   if (flagint) {
     flagint = false;
-    totalTime = getLocalTime();
     readed = true;
     printSample();
   }

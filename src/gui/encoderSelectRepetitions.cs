@@ -510,7 +510,7 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 			foreach(string repByWeight in repsByWeights) {
 				string [] chunks = repByWeight.Split(new char[] {'*'});
 				if(Util.IsNumber(chunks[1], true))
-					EncoderInterSessionDateOnXWeights = Util.AddToListDoubleIfNotExist(
+					EncoderInterSessionDateOnXWeights = UtilList.AddToListDoubleIfNotExist(
 							EncoderInterSessionDateOnXWeights, Convert.ToDouble(chunks[1]));
 			}
 		}

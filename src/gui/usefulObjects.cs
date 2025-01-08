@@ -203,20 +203,20 @@ public class PrepareEventGraphJumpReactive
 
 			foreach (JumpRj jumpRj in jumpsAtSQLWithoutLimit)
 			{
-				double heightAvg = Util.GetAverage (jumpRj.HeightList);
+				double heightAvg = UtilList.GetAverage (jumpRj.HeightList);
 				if (jumpRj.PersonID == personIDTemp)
 					personHeights_l.Add (heightAvg);
 
 				sessionHeights_l.Add (heightAvg);
 			}
 
-			personMAXAtSQL = Util.GetMax (personHeights_l);
-			personAVGAtSQL = Util.GetAverage (personHeights_l);
-			personMINAtSQL = Util.GetMin (personHeights_l);
+			personMAXAtSQL = UtilList.GetMax (personHeights_l);
+			personAVGAtSQL = UtilList.GetAverage (personHeights_l);
+			personMINAtSQL = UtilList.GetMin (personHeights_l);
 
-			sessionMAXAtSQL = Util.GetMax (sessionHeights_l);
-			sessionAVGAtSQL = Util.GetAverage (sessionHeights_l);
-			sessionMINAtSQL = Util.GetMin (sessionHeights_l);
+			sessionMAXAtSQL = UtilList.GetMax (sessionHeights_l);
+			sessionAVGAtSQL = UtilList.GetAverage (sessionHeights_l);
+			sessionMINAtSQL = UtilList.GetMin (sessionHeights_l);
 		}
 		else
 		{

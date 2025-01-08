@@ -208,3 +208,16 @@ public class IDNameIDDoubleListOfLists
 	}
 }
 
+/* unused
+public class IntInt
+{
+	public int a;
+	public int b;
+
+	public IntInt (int a, int b)
+	{
+		this.a = a;
+		this.b = b;
+	}
+}
+*/

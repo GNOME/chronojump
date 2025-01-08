@@ -1800,7 +1800,7 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 		//	pDist_l = new List<PointF> ();
 
 
-		List<string> contents = Util.ReadFileAsStringList(file);
+		List<string> contents = Util.ReadFileAsStringList(file, "");
 		bool headersRow = true;
 
 		forceSensorValues = new ForceSensorValues();

@@ -7,11 +7,11 @@
    viewBox="0 0 6.3499999 6.3500002"
    version="1.1"
    id="svg28443"
-   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
    sodipodi:docname="force_sensor_icon.svg"
-   inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/force_sensor_icon_yellow.png"
-   inkscape:export-xdpi="96"
-   inkscape:export-ydpi="96"
+   inkscape:export-filename="../md/force_2x.png"
+   inkscape:export-xdpi="192"
+   inkscape:export-ydpi="192"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -28,17 +28,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.8632737"
-     inkscape:cx="-17.731076"
-     inkscape:cy="114.66959"
+     inkscape:zoom="3.4401042"
+     inkscape:cx="-81.24754"
+     inkscape:cy="43.021953"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="true"
      units="px"
-     inkscape:window-width="1366"
-     inkscape:window-height="740"
-     inkscape:window-x="1920"
-     inkscape:window-y="312"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:pagecheckerboard="0"
      inkscape:snap-global="false"
@@ -76,24 +76,28 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-290.64998)">
-    <circle
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#e7be19;stroke-width:0.39687499;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
-       id="path28990-8"
-       cx="5.3578124"
-       cy="293.82498"
-       r="0.5291667" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#e7be19;stroke-width:0.79374999;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 1.984375,294.48629 v -1.32276 l 1.2024135,6e-5 v 1.3227 l 1.1788365,1.2e-4 v -1.32282"
-       id="path29217"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccccc" />
-    <circle
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#e7be19;stroke-width:0.39687499;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
-       id="path28990-8-3"
-       cx="0.99218756"
-       cy="293.82498"
-       r="0.52916676" />
+    <g
+       id="g2035"
+       transform="translate(10.000417)">
+      <circle
+         style="opacity:1;fill:none;fill-opacity:1;stroke:#e7be19;stroke-width:0.396875;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+         id="path28990-8"
+         cx="5.3578124"
+         cy="293.82498"
+         r="0.5291667" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#e7be19;stroke-width:0.79375;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 1.984375,294.48629 v -1.32276 l 1.2024135,6e-5 v 1.3227 l 1.1788365,1.2e-4 v -1.32282"
+         id="path29217"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccc" />
+      <circle
+         style="opacity:1;fill:none;fill-opacity:1;stroke:#e7be19;stroke-width:0.396875;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+         id="path28990-8-3"
+         cx="0.99218756"
+         cy="293.82498"
+         r="0.52916676" />
+    </g>
     <g
        id="g6053"
        transform="translate(-16.561366,-0.06537396)">
@@ -314,6 +318,17 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:2.11667px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="-6.5241275"
+       y="287.45508"
+       id="text8356-2"><tspan
+         sodipodi:role="line"
+         style="font-size:2.11667px;stroke-width:0.264583"
+         x="-6.5241275"
+         y="287.45508"
+         id="tspan13526-7">force_2x.png 48x48</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:2.11667px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
        x="-26.93395"
        y="319.81332"
        id="text8356-7"><tspan
@@ -444,5 +459,31 @@
          x="-16.641367"
          y="310.87253"
          style="stroke-width:0.0981734">old:</tspan></text>
+    <g
+       id="g2130"
+       transform="translate(14.071859,8.4936888)">
+      <g
+         id="g5761-5"
+         transform="translate(-6.2634202,-14.729724)">
+        <circle
+           style="fill:none;fill-opacity:1;stroke:#0e1e46;stroke-width:0.396875;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+           id="path28990-8-36-2-6"
+           cx="-2.4502106"
+           cy="300.06137"
+           r="0.5291667" />
+        <path
+           style="fill:none;fill-rule:evenodd;stroke:#0e1e46;stroke-width:0.79375;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m -5.8236478,300.72267 v -1.32276 l 1.2024135,6e-5 v 1.3227 l 1.1788365,1.2e-4 v -1.32282"
+           id="path29217-7-7-29"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cccccc" />
+        <circle
+           style="fill:none;fill-opacity:1;stroke:#0e1e46;stroke-width:0.396875;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+           id="path28990-8-3-5-0-1"
+           cx="-6.815835"
+           cy="300.06137"
+           r="0.52916676" />
+      </g>
+    </g>
   </g>
 </svg>

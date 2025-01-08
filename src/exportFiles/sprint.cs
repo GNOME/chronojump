@@ -194,7 +194,7 @@ public class SprintExport : ExportFiles
 			;
 
 		//use this discarded because R discards also
-		List<string> setsProcessedByR = Util.ReadFileAsStringList(RunInterval.GetCSVResultsURL());
+		List<string> setsProcessedByR = Util.ReadFileAsStringList(RunInterval.GetCSVResultsURL(), "");
 		discarded = ri_l.Count - (setsProcessedByR.Count -1); //-1 for the csv header
 		if(setsProcessedByR.Count -1 <= 0)
 		{

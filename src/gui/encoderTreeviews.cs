@@ -484,12 +484,12 @@ public partial class ChronoJumpWindow
 			if(
 					(! curve.Record && ! thisRowDiscarded && saveOption == Constants.EncoderAutoSaveCurve.ALL) ||
 					(! curve.Record && ! thisRowDiscarded && saveOption == Constants.EncoderAutoSaveCurve.BEST && i == bestRow) ||
-					(! curve.Record && ! thisRowDiscarded && saveOption == Constants.EncoderAutoSaveCurve.BESTN && Util.FoundInListInt(list_bestN, i)) ||
+					(! curve.Record && ! thisRowDiscarded && saveOption == Constants.EncoderAutoSaveCurve.BESTN && UtilList.FoundInListInt(list_bestN, i)) ||
 					(! curve.Record && ! thisRowDiscarded && saveOption == Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE &&
 					 i >= bestRow && ( (ecconLast == "c" && i < bestRow + bestN) || (ecconLast != "c" && i < bestRow + 2*bestN) )) ||
 					(! curve.Record && ! thisRowDiscarded && saveOption == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE && fromValidToPenult) ||
 					(curve.Record && (thisRowDiscarded || saveOption == Constants.EncoderAutoSaveCurve.BEST && i != bestRow)) ||
-					(curve.Record && (thisRowDiscarded || saveOption == Constants.EncoderAutoSaveCurve.BESTN && ! Util.FoundInListInt(list_bestN, i))) ||
+					(curve.Record && (thisRowDiscarded || saveOption == Constants.EncoderAutoSaveCurve.BESTN && ! UtilList.FoundInListInt(list_bestN, i))) ||
 					(curve.Record && (thisRowDiscarded || saveOption == Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE && //! (i >= bestRow && i < bestRow + bestN))) ||
 					! (i >= bestRow && ( (ecconLast == "c" && i < bestRow + bestN) || (ecconLast != "c" && i < bestRow + 2*bestN) )))) ||
 					(curve.Record && (thisRowDiscarded || saveOption == Constants.EncoderAutoSaveCurve.NONE)) ||

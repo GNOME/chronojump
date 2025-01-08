@@ -65,8 +65,8 @@ public class Config
 		CanOpenExternalDB, ExternalDBDefaultPath, //externalDB
 		LastDBFullPath, //cloud & externalDB
 		JsonUploadNeedsButton, JsonUploadJumpSimpleTestScript, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, CanInsertTests, //json upload
-		RemoteTestJumpSimpleFile, RemoteTestRunIntervalFile, //remote execution
-		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, GuiTest, //other
+		RemoteTestJumpSimpleFile, RemoteTestRunIntervalFile, RemoteTestCancelFile, //remote execution
+		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, WilightPortURL, WilightCommandsURL, WilightCommandMs, GuiTest, NoSendLog, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
 
@@ -172,6 +172,9 @@ public class Config
 	public string RemoteTestRunIntervalFile {
 		get { return configList.GetString (OpEnum.RemoteTestRunIntervalFile); }
 	}
+	public string RemoteTestCancelFile {
+		get { return configList.GetString (OpEnum.RemoteTestCancelFile); }
+	}
 
 	// other
 	public SessionModeEnum SessionMode {
@@ -208,8 +211,20 @@ public class Config
 	public int WichroSensorOnceB {
 		get { return configList.GetInt (OpEnum.WichroSensorOnceB); }
 	}
+	public string WilightPortURL {
+		get { return configList.GetString (OpEnum.WilightPortURL); }
+	}
+	public string WilightCommandsURL {
+		get { return configList.GetString (OpEnum.WilightCommandsURL); }
+	}
+	public int WilightCommandMs {
+		get { return configList.GetInt (OpEnum.WilightCommandMs); }
+	}
 	public bool GuiTest {
 		get { return configList.GetBool (OpEnum.GuiTest); }
+	}
+	public bool NoSendLog {
+		get { return configList.GetBool (OpEnum.NoSendLog); }
 	}
 
 	// outdated or not working
@@ -628,7 +643,9 @@ public class ConfigList
 		list.Add (new ConfigOptionString (Config.OpEnum.RemoteTestJumpSimpleFile,
 					"Full URL to the file created as a flag to execute a jump simple. When test is done a file will be created with the same name + 'Done'. If the file has the English name of the test inside, and that test exist, it will be executed."));
 		list.Add (new ConfigOptionString (Config.OpEnum.RemoteTestRunIntervalFile,
-					"Full URL to the file created as a flag to execute a run multiple (intervallic). When test is done a file will be created with the same name + 'Done'"));
+					"Full URL to the file created as a flag to execute a run multiple (intervallic). When test is done a file will be created with the same name + 'Done'. If the file has the English name of the test inside, and that test exist, it will be executed."));
+		list.Add (new ConfigOptionString (Config.OpEnum.RemoteTestCancelFile,
+					"Full URL to the file created as a flag to cancel current RemoteTest."));
 
 		// other
 		list.Add (new ConfigOptionEnum (Config.OpEnum.SessionMode,
@@ -650,8 +667,16 @@ public class ConfigList
 					"Set sensorOnce at Wichro terminal at one terminal."));
 		list.Add (new ConfigOptionInt (Config.OpEnum.WichroSensorOnceB,
 					"Set sensorOnce at Wichro terminal at another terminal."));
+		list.Add (new ConfigOptionString (Config.OpEnum.WilightPortURL,
+					"Full URL of Wilight port, eg: /dev/ttyUSB0"));
+		list.Add (new ConfigOptionString (Config.OpEnum.WilightCommandsURL,
+					"Full URL of File with Wilight commands. Note lines on that file starting with # are ignored"));
+		list.Add (new ConfigOptionInt (Config.OpEnum.WilightCommandMs,
+					"Time between Wilight test commands (in ms). If empty, value is 2000"));
 		list.Add (new ConfigOptionBool (Config.OpEnum.GuiTest,
 					"To perform tests with the GUI (untested with current code)."));
+		list.Add (new ConfigOptionBool (Config.OpEnum.NoSendLog,
+					"On Chronojump open do not show the send log window when crashed before."));
 
 		// outdated or not working
 		list.Add (new ConfigOptionBool (Config.OpEnum.Exhibition,

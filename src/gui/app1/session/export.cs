@@ -374,7 +374,7 @@ public partial class ChronoJumpWindow
 			if (! Util.IsNumber (str[0], false))
 				continue;
 
-			if (Util.FoundInListInt (id_l, Convert.ToInt32 (str[0])))
+			if (UtilList.FoundInListInt (id_l, Convert.ToInt32 (str[0])))
 				continue;
 
 			Util.FileDelete (s);

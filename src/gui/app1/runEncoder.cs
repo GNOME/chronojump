@@ -1327,7 +1327,7 @@ public partial class ChronoJumpWindow
 			return "";
 		}
 
-		List<string> contents_l = Util.ReadFileAsStringList(re.FullURL);
+		List<string> contents_l = Util.ReadFileAsStringList(re.FullURL, "");
 		LogB.Information("FullURL: " + re.FullURL);
 
 		if (debugForceTest)

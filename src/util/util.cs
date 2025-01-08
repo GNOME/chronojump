@@ -50,7 +50,7 @@ public class Util
 	 */
 	public static bool CSVDecimalColumnIsPoint(string filename, int column) //column starts at 0
 	{
-		List<string> contents = Util.ReadFileAsStringList(filename);
+		List<string> contents = Util.ReadFileAsStringList(filename, "");
 		bool headersRow = true;
 
 		foreach(string str in contents)
@@ -113,65 +113,6 @@ public class Util
 			return ConvertToComma(s);
 		else
 			return ConvertToPoint(s);
-	}
-
-	public static string ListIntToSQLString (List<int> ints, string sep)
-	{
-		string str = "";
-		string sepStr = "";
-		foreach(int i in ints)
-		{
-			str += sepStr + i.ToString();
-			sepStr = sep;
-		}
-		return str;
-	}
-	public static List<int> SQLStringToListInt (string sqlString, string sep)
-	{
-		List<int> l = new List<int>();
-		string [] strFull = sqlString.Split(sep.ToCharArray());
-		foreach(string str in strFull)
-			if(IsNumber(str, false))
-				l.Add(Convert.ToInt32(str));
-
-		return l;
-	}
-
-	public static List<double> SQLStringToListDouble (string sqlString, string sep)
-	{
-		List<double> l = new List<double>();
-		string [] strFull = sqlString.Split(sep.ToCharArray());
-		foreach(string str in strFull)
-			if(IsNumber(str, true))
-				l.Add(Convert.ToDouble(str));
-
-		return l;
-	}
-
-	public static string ListDoubleToString (List<double> d_l, int decs, string sep)
-	{
-		string str = "";
-		string sepStr = "";
-		foreach (double d in d_l)
-		{
-			str += sepStr + TrimDecimals (d, decs);
-			sepStr = sep;
-		}
-		return str;
-	}
-
-	//to pass a list like: (.5, .7, .2) to: (.5, 1.2, 1.4)
-	public static List<double> ListDoubleToAccumulative (List<double> original_l)
-	{
-		List<double> accu_l = new List<double> ();
-		double previous = 0;
-		foreach (double d in original_l)
-		{
-			accu_l.Add (d + previous);
-			previous = d + previous;
-		}
-
-		return accu_l;
 	}
 
 	//when we do a query to the server, it returns avg as "0,54" because it's latin localized
@@ -248,19 +189,6 @@ public class Util
 		}
 		return max ; 
 	}
-	public static double GetMax (List<double> values)
-	{
-		double max = 0;
-		bool firstValue = true;
-		foreach (double d in values)
-		{
-			if (firstValue || d > max)
-				max = d;
-
-			firstValue = false;
-		}
-		return max;
-	}
 	
 	//don't use if there are no jumps, then the big value 999999999 could return
 	public static double GetMin (string values)
@@ -273,36 +201,6 @@ public class Util
 			}
 		}
 		return min ; 
-	}
-	public static double GetMin (List<double> values)
-	{
-		double min = 0;
-		bool firstValue = true;
-		foreach (double d in values)
-		{
-			if (firstValue || d < min)
-				min = d;
-
-			firstValue = false;
-		}
-		return min;
-	}
-	
-	public static double GetAverage (List<double> values)
-	{
-		double sum = 0;
-		foreach(double d in values)
-			sum += d;
-
-		return UtilAll.DivideSafe(sum, values.Count);
-	}
-	public static double GetAverage (List<int> values)
-	{
-		double sum = 0;
-		foreach(int i in values)
-			sum += i;
-
-		return UtilAll.DivideSafe(sum, values.Count);
 	}
 	public static double GetAverage (string values)
 	{
@@ -334,23 +232,6 @@ public class Util
 			lastSubEvent = Convert.ToDouble(myString);
 			
 		return lastSubEvent; 
-	}
-
-	public static double GetLast (List<double> d_l)
-	{
-		if (d_l.Count == 0)
-			return 0;
-
-		return d_l[d_l.Count -1];
-	}
-
-	public static List<int> ListIntReverseSign (List<int> values)
-	{
-		List<int> reversed_l = new List<int> ();
-		foreach(int i in values)
-			reversed_l.Add (-1 * i);
-
-		return reversed_l;
 	}
 
 	public static int GetPosMax (string values)
@@ -1573,6 +1454,10 @@ public class Util
 		return GetImagesDir();
 	}
 
+	public static string GetSoundsBeepDir(){
+		return System.IO.Path.Combine (GetImagesDir(), "sounds", "beepTests");
+	}
+
 	//previous to 2.1.3
 	static string backupDirOld = GetDatabaseDir() + Path.DirectorySeparatorChar + "backup";
 	public static string GetBackupDirOld () {
@@ -1808,7 +1693,8 @@ public class Util
 		}
 	}
 	//recommended method
-	public static List<string> ReadFileAsStringList(string fileName)
+	//discardStartingBy == "" (do not discard)
+	public static List<string> ReadFileAsStringList(string fileName, string discardStartingBy)
 	{
 		try {
 			List<string> lines = new List<string>();
@@ -1816,7 +1702,9 @@ public class Util
 			{
 				while (sr.Peek() >= 0)
 				{
-					lines.Add(sr.ReadLine());
+					string line = sr.ReadLine ();
+					if (discardStartingBy == "" || ! line.StartsWith (discardStartingBy))
+						lines.Add (line);
 				}
 			}
 			return(lines);
@@ -1976,8 +1864,16 @@ public class Util
 	public enum SoundCodes { VOLUME_OFF, OK, PROBLEM_NO_FILE, PROBLEM_OTHER };
 	public static bool TestSound;
 
+	//default call
 	public static SoundCodes PlaySound (Constants.SoundTypes mySound,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer)
+	{
+		return PlaySound (mySound, volumeOn, gstreamer, 1);
+	}
+
+	public static SoundCodes PlaySound (Constants.SoundTypes mySound,
+			bool volumeOn, Preferences.GstreamerTypes gstreamer,
+			int times) //times implemented only on ffplay
 	{
 		if ( ! volumeOn )
 			return SoundCodes.VOLUME_OFF;
@@ -1991,16 +1887,24 @@ public class Util
 				gstreamer == Preferences.GstreamerTypes.SYSTEMSOUNDS)
 			return playSoundWindows(mySound);
 		else
-			return playSoundGstreamer(mySound, gstreamer);
+			return playSoundGstreamer(mySound, gstreamer, times);
 	}
 	
-	private static SoundCodes playSoundGstreamer (Constants.SoundTypes mySound, Preferences.GstreamerTypes gstreamer)
+	private static SoundCodes playSoundGstreamer (Constants.SoundTypes mySound, Preferences.GstreamerTypes gstreamer, int times)
 	{
 		string fileName = "";
 		if(! UseSoundList)
-			fileName = getSound(mySound); //default chronojump
+			fileName = GetSound (mySound); //default chronojump
 		else
-			fileName = getSoundFromSoundList(); //espectacle
+			fileName = getSoundFromSoundList (); //espectacle
+
+		return PlaySoundGstreamerFromFile (fileName, true, gstreamer, times);
+	}
+
+	public static SoundCodes PlaySoundGstreamerFromFile (string fileName, bool volumeOn, Preferences.GstreamerTypes gstreamer, int times)
+	{
+		if ( ! volumeOn )
+			return SoundCodes.VOLUME_OFF;
 
 		if(! File.Exists(fileName)) {
 			LogB.Warning("Cannot found this sound file: " + fileName);
@@ -2033,7 +1937,10 @@ public class Util
 				else if(operatingSystem == UtilAll.OperatingSystems.MACOSX)
 					pBin = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay");
 
-				pinfo.Arguments = fileName + " -nodisp -nostats -hide_banner -autoexit";
+				string timesStr = "";
+				if (times > 1)
+					timesStr = string.Format (" -loop {0}", times);
+				pinfo.Arguments = fileName + " -nodisp -nostats -hide_banner -autoexit" + timesStr;
 			}
 
 			pinfo.FileName=pBin;
@@ -2087,7 +1994,7 @@ public class Util
 		return SoundCodes.OK;
 	}
 	
-	private static string getSound (Constants.SoundTypes mySound)
+	public static string GetSound (Constants.SoundTypes mySound)
 	{
 		string fileName = "";
 		switch(mySound) {
@@ -2271,37 +2178,6 @@ public class Util
 		return returnString;
 	}
 
-	public static string ListStringToString (List<string> l)
-	{
-		string str = "";
-		string sep = "";
-		if(l == null)
-			return str;
-
-		foreach (string s in l)
-		{
-			str += sep + s;
-			sep = "\n";
-		}
-
-		return str;
-	}
-	public static string ListStringToString (List<string> l, string separator)
-	{
-		if (l == null || l.Count == 0)
-			return "";
-
-		string str = "";
-		string sepDo = "";
-
-		foreach (string s in l)
-		{
-			str += sepDo + s;
-			sepDo = separator;
-		}
-
-		return str;
-	}
 	public static string [] ArrayListToString (ArrayList myArrayList) {
 		//if myArrayList is not defined, return with an empty string
 		try { 
@@ -2345,22 +2221,6 @@ public class Util
 		return myArrayList;
 	}
 
-	public static List<int> AddToListIntIfNotExist (List<int> l, int i) {
-		bool found = FoundInListInt(l, i);
-		if(! found)
-			l.Add(i);
-
-		return l;
-	}
-
-	public static List<double> AddToListDoubleIfNotExist(List<double> l, double d) {
-	 	bool found = FoundInListDouble(l, d);
-		if(!found)
-			l.Add(d);
-	
-		return l;
-	}
-
 	public static bool FoundInArrayList(ArrayList a, string str) {
 		foreach (string str2 in a)
 			if(str2 == str)
@@ -2393,103 +2253,11 @@ public class Util
 		return false;
 	}
 
-	public static bool FoundInListInt(List<int> l, int i) {
-		foreach (int i2 in l)
-			if(i2 == i)
-				return true;
-
-		return false;
-	}
-	public static bool FoundInListDouble(List<double> l, double d) {
-		foreach (double d2 in l)
-			if(d2 == d)
-				return true;
-
-		return false;
-	}
-	public static bool FoundInListString (List<string> l, string s)
-	{
-		foreach (string l2 in l)
-			if(l2 == s)
-				return true;
-
-		return false;
-	}
-	public static bool StartsWithInListString (List<string> l, string s)
-	{
-		foreach (string l2 in l)
-			if(l2.StartsWith (s))
-				return true;
-
-		return false;
-	}
-
 	public static ArrayList RemoveLastArrayElement(ArrayList a) {
 		if(a.Count > 0)
 			a.RemoveAt(a.Count - 1);
 
 		return a;
-	}
-
-	// https://stackoverflow.com/a/273666
-	public static List<T> ListRandomize<T>(List<T> list)
-	{
-		List<T> randomizedList = new List<T>();
-		Random rnd = new Random();
-		while (list.Count > 0)
-		{
-			int index = rnd.Next(0, list.Count); //pick a random item from the master list
-			randomizedList.Add(list[index]); //place it at the end of the randomized list
-			list.RemoveAt(index);
-		}
-		return randomizedList;
-	}
-
-	public static List<T> ListGetFirstN<T> (List<T> original_l, int firstN)
-	{
-		List<T> cutted_l = new List<T>();
-		for (int i = 0; i < firstN; i ++)
-			cutted_l.Add (original_l[i]);
-
-		return cutted_l;
-	}
-
-	public static void TestSortDoublesListstring()
-	{
-		List<string> numbers_l = new List<string>() { "3", "99", "135", "45", "75", "17", "88", "5" }; //ints
-		//List<string> numbers_l = new List<string>() { "3,5", "99,54", "135,1", "45,5", "75,5", "45,9", "88", "45,3" }; //latin
-
-		List<string> numbersSorted_l = SortDoublesListString(numbers_l);
-
-		LogB.Information("Sorted: ");
-		foreach(string s in numbersSorted_l)
-			LogB.Information(s);
-	}
-
-	//sort a list of doubles descending until 0
-	public static List<string> SortDoublesListString (List<string> unsorted_l)
-	{
-		if(unsorted_l.Count < 2)
-			return unsorted_l;
-
-		List<string> sorted_l = new List<string>();
-		for(int i = 0; i < unsorted_l.Count; i ++)
-		{
-			double highest = 0;
-			int highestPos = 0;
-			for(int j = 0; j < unsorted_l.Count; j ++)
-			{
-				double comparingToNum = Convert.ToDouble(unsorted_l[j]);
-				if(comparingToNum > highest)
-				{
-					highest = comparingToNum;
-					highestPos = j;
-				}
-			}
-			sorted_l.Add(unsorted_l[highestPos]); //store highest value on sorted_l
-			unsorted_l[highestPos] = "0"; //mark as 0 on unsortd_l to not choose it again
-		}
-		return sorted_l;
 	}
 
 	/*
@@ -2541,29 +2309,11 @@ public class Util
 		return uniqueString;
 	}
 
-	public static List<string> StringArrayToListString (string [] arrayString)
-	{
-		List<string> str_l = new List<string> ();
-		foreach (string myStr in arrayString)
-			str_l.Add (myStr);
-	
-		return str_l;
-	}
-	
 	//to create an string [] of one member
 	public static string [] StringToStringArray (string str) {
 		string [] ret = new string[1];
 		ret[0] = str;
 		return ret;
-	}
-
-	public static string [] ListStringToStringArray (List<string> string_l)
-	{
-		string [] stringArray = new string[string_l.Count];
-		for(int i = 0; i < string_l.Count; i ++)
-			stringArray[i] = string_l[i];
-
-		return stringArray;
 	}
 
 	public static ArrayList StringToArrayList (string str, char sep) {
@@ -2690,15 +2440,6 @@ public class Util
 
 		}
 		return foundString;
-	}
-
-	public static int FindOnListString (List<string> str_l, string searched)
-	{
-		for (int i = 0; i < str_l.Count; i ++)
-			if(str_l[i] == searched)
-				return i;
-
-		return 0;
 	}
 
 

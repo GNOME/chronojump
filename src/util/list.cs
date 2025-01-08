@@ -1,0 +1,317 @@
+/*
+ * This file is part of ChronoJump
+ *
+ * ChronoJump is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or   
+ *    (at your option) any later version.
+ *    
+ * ChronoJump is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ *    GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ */
+
+using System;
+using System.Collections.Generic; //List<T>
+
+public class UtilList
+{
+	public static string ListIntToSQLString (List<int> ints, string sep)
+	{
+		string str = "";
+		string sepStr = "";
+		foreach(int i in ints)
+		{
+			str += sepStr + i.ToString();
+			sepStr = sep;
+		}
+		return str;
+	}
+
+	public static List<int> SQLStringToListInt (string sqlString, string sep)
+	{
+		List<int> l = new List<int>();
+		string [] strFull = sqlString.Split(sep.ToCharArray());
+		foreach(string str in strFull)
+			if(Util.IsNumber(str, false))
+				l.Add(Convert.ToInt32(str));
+
+		return l;
+	}
+
+	public static List<double> SQLStringToListDouble (string sqlString, string sep)
+	{
+		List<double> l = new List<double>();
+		string [] strFull = sqlString.Split(sep.ToCharArray());
+		foreach(string str in strFull)
+			if(Util.IsNumber(str, true))
+				l.Add(Convert.ToDouble(str));
+
+		return l;
+	}
+
+	public static string ListDoubleToString (List<double> d_l, int decs, string sep)
+	{
+		string str = "";
+		string sepStr = "";
+		foreach (double d in d_l)
+		{
+			str += sepStr + Util.TrimDecimals (d, decs);
+			sepStr = sep;
+		}
+		return str;
+	}
+
+	//to pass a list like: (.5, .7, .2) to: (.5, 1.2, 1.4)
+	public static List<double> ListDoubleToAccumulative (List<double> original_l)
+	{
+		List<double> accu_l = new List<double> ();
+		double previous = 0;
+		foreach (double d in original_l)
+		{
+			accu_l.Add (d + previous);
+			previous = d + previous;
+		}
+
+		return accu_l;
+	}
+
+	public static string ListStringToString (List<string> l)
+	{
+		string str = "";
+		string sep = "";
+		if(l == null)
+			return str;
+
+		foreach (string s in l)
+		{
+			str += sep + s;
+			sep = "\n";
+		}
+
+		return str;
+	}
+
+	public static string ListStringToString (List<string> l, string separator)
+	{
+		if (l == null || l.Count == 0)
+			return "";
+
+		string str = "";
+		string sepDo = "";
+
+		foreach (string s in l)
+		{
+			str += sepDo + s;
+			sepDo = separator;
+		}
+
+		return str;
+	}
+
+	public static List<int> AddToListIntIfNotExist (List<int> l, int i) {
+		bool found = FoundInListInt(l, i);
+		if(! found)
+			l.Add(i);
+
+		return l;
+	}
+
+	public static List<double> AddToListDoubleIfNotExist(List<double> l, double d) {
+	 	bool found = FoundInListDouble(l, d);
+		if(!found)
+			l.Add(d);
+	
+		return l;
+	}
+
+	public static bool FoundInListInt(List<int> l, int i) {
+		foreach (int i2 in l)
+			if(i2 == i)
+				return true;
+
+		return false;
+	}
+	public static bool FoundInListDouble(List<double> l, double d) {
+		foreach (double d2 in l)
+			if(d2 == d)
+				return true;
+
+		return false;
+	}
+	public static bool FoundInListString (List<string> l, string s)
+	{
+		foreach (string l2 in l)
+			if(l2 == s)
+				return true;
+
+		return false;
+	}
+	public static bool StartsWithInListString (List<string> l, string s)
+	{
+		foreach (string l2 in l)
+			if(l2.StartsWith (s))
+				return true;
+
+		return false;
+	}
+
+	// https://stackoverflow.com/a/273666
+	public static List<T> ListRandomize<T>(List<T> list)
+	{
+		List<T> randomizedList = new List<T>();
+		Random rnd = new Random();
+		while (list.Count > 0)
+		{
+			int index = rnd.Next(0, list.Count); //pick a random item from the master list
+			randomizedList.Add(list[index]); //place it at the end of the randomized list
+			list.RemoveAt(index);
+		}
+		return randomizedList;
+	}
+
+	public static List<T> ListGetFirstN<T> (List<T> original_l, int firstN)
+	{
+		List<T> cutted_l = new List<T>();
+		for (int i = 0; i < firstN; i ++)
+			cutted_l.Add (original_l[i]);
+
+		return cutted_l;
+	}
+
+	public static void TestSortDoublesListstring()
+	{
+		List<string> numbers_l = new List<string>() { "3", "99", "135", "45", "75", "17", "88", "5" }; //ints
+		//List<string> numbers_l = new List<string>() { "3,5", "99,54", "135,1", "45,5", "75,5", "45,9", "88", "45,3" }; //latin
+
+		List<string> numbersSorted_l = SortDoublesListString(numbers_l);
+
+		LogB.Information("Sorted: ");
+		foreach(string s in numbersSorted_l)
+			LogB.Information(s);
+	}
+
+	//sort a list of doubles descending until 0
+	public static List<string> SortDoublesListString (List<string> unsorted_l)
+	{
+		if(unsorted_l.Count < 2)
+			return unsorted_l;
+
+		List<string> sorted_l = new List<string>();
+		for(int i = 0; i < unsorted_l.Count; i ++)
+		{
+			double highest = 0;
+			int highestPos = 0;
+			for(int j = 0; j < unsorted_l.Count; j ++)
+			{
+				double comparingToNum = Convert.ToDouble(unsorted_l[j]);
+				if(comparingToNum > highest)
+				{
+					highest = comparingToNum;
+					highestPos = j;
+				}
+			}
+			sorted_l.Add(unsorted_l[highestPos]); //store highest value on sorted_l
+			unsorted_l[highestPos] = "0"; //mark as 0 on unsortd_l to not choose it again
+		}
+		return sorted_l;
+	}
+
+	public static List<string> StringArrayToListString (string [] arrayString)
+	{
+		List<string> str_l = new List<string> ();
+		foreach (string myStr in arrayString)
+			str_l.Add (myStr);
+	
+		return str_l;
+	}
+	
+	public static string [] ListStringToStringArray (List<string> string_l)
+	{
+		string [] stringArray = new string[string_l.Count];
+		for(int i = 0; i < string_l.Count; i ++)
+			stringArray[i] = string_l[i];
+
+		return stringArray;
+	}
+
+	public static int FindOnListString (List<string> str_l, string searched)
+	{
+		for (int i = 0; i < str_l.Count; i ++)
+			if(str_l[i] == searched)
+				return i;
+
+		return 0;
+	}
+
+	public static double GetMax (List<double> values)
+	{
+		double max = 0;
+		bool firstValue = true;
+		foreach (double d in values)
+		{
+			if (firstValue || d > max)
+				max = d;
+
+			firstValue = false;
+		}
+		return max;
+	}
+
+	public static double GetMin (List<double> values)
+	{
+		double min = 0;
+		bool firstValue = true;
+		foreach (double d in values)
+		{
+			if (firstValue || d < min)
+				min = d;
+
+			firstValue = false;
+		}
+		return min;
+	}
+	
+	public static double GetAverage (List<double> values)
+	{
+		double sum = 0;
+		foreach(double d in values)
+			sum += d;
+
+		return UtilAll.DivideSafe(sum, values.Count);
+	}
+	public static double GetAverage (List<int> values)
+	{
+		double sum = 0;
+		foreach(int i in values)
+			sum += i;
+
+		return UtilAll.DivideSafe(sum, values.Count);
+	}
+
+	public static double GetLast (List<double> d_l)
+	{
+		if (d_l.Count == 0)
+			return 0;
+
+		return d_l[d_l.Count -1];
+	}
+
+	public static List<int> ListIntReverseSign (List<int> values)
+	{
+		List<int> reversed_l = new List<int> ();
+		foreach(int i in values)
+			reversed_l.Add (-1 * i);
+
+		return reversed_l;
+	}
+
+}
+

@@ -44,6 +44,16 @@ public abstract class ArduinoCapture : MicroComms
 		return micro.BytesToRead ();
 	}
 
+	public virtual string CaptureEchoLine() //for debugging if the controller returns some echo
+	{
+		return "";
+	}
+
+	public void Flush() //for debugging if the controller returns some echo
+	{
+		flush ();
+	}
+
 	// protected stuff ---->
 
 	protected void initialize ()

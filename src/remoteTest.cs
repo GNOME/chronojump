@@ -25,24 +25,28 @@ public class RemoteTest
 	private Constants.Modes current_mode;
 	private string jumpSimpleFile;
 	private string runIntervalFile;
+	private string cancelFile;
 	private string remoteTestTestName;
 	private bool remoteTestDoing; //to just send the signal one time
 	private bool stop; //to end thread on Chronojump exit
 
 	private Gtk.Button fakeButtonDo; //send the signal to start capture
+	private Gtk.Button fakeButtonCancel; //send the signal to cancel
 
 	//constructor
-	public RemoteTest (Constants.Modes current_mode, string jumpSimpleFile, string runIntervalFile)
+	public RemoteTest (Constants.Modes current_mode, string jumpSimpleFile, string runIntervalFile, string cancelFile)
 	{
 		this.current_mode = current_mode;
 		this.jumpSimpleFile = jumpSimpleFile;
 		this.runIntervalFile = runIntervalFile;
+		this.cancelFile = cancelFile;
 
 		remoteTestTestName = "";
 		remoteTestDoing = false;
 		stop = false;
 	
 		fakeButtonDo = new Button ();
+		fakeButtonCancel = new Button ();
 	}
 
 	//all the time running
@@ -51,8 +55,35 @@ public class RemoteTest
 		while (! stop)
 		{
 			Thread.Sleep (500);
-			if (! remoteTestDoing)
+			if (remoteTestDoing)
 			{
+				if (Util.FileExists (cancelFile))
+				{
+					remoteTestDoing = false;
+
+					//sleep to avoid problems on deleting cancel file created by another program
+					Thread.Sleep (100);
+
+					Util.FileDelete (cancelFile);
+					if (Util.FileExists (jumpSimpleFile))
+						Util.FileDelete (jumpSimpleFile);
+					if (Util.FileExists (runIntervalFile))
+						Util.FileDelete (runIntervalFile);
+
+					fakeButtonCancel.Click ();
+				}
+			}
+			else
+			{
+				/*
+				 * maybe cancel is being send n times, even before the capture,
+				 * or even the file exists when Chronojump is opened,
+				 * so if we are not doing test, delete it
+				 */
+				if (Util.FileExists (cancelFile))
+					Util.FileDelete (cancelFile);
+
+				// jump simple test
 				if (current_mode == Constants.Modes.JUMPSSIMPLE &&
 						Util.FileExists (jumpSimpleFile) &&
 						! File.Exists (jumpSimpleFile + "Done")) //just be careful
@@ -64,11 +95,15 @@ public class RemoteTest
 
 					fakeButtonDo.Click ();
 				}
+				// run interval test
 				else if (current_mode == Constants.Modes.RUNSINTERVALLIC &&
 						Util.FileExists (runIntervalFile) &&
 						! File.Exists (runIntervalFile + "Done")) //just be careful
 				{
 					remoteTestDoing = true;
+					remoteTestTestName = "";
+					if (Util.FileReadable (runIntervalFile))
+						remoteTestTestName = Util.ReadFile (runIntervalFile, true);
 					fakeButtonDo.Click ();
 				}
 			}
@@ -99,6 +134,11 @@ public class RemoteTest
 	public Gtk.Button FakeButtonDo
 	{
 		get { return fakeButtonDo; }
+	}
+
+	public Gtk.Button FakeButtonCancel
+	{
+		get { return fakeButtonCancel; }
 	}
 
 	public string RemoteTestTestName

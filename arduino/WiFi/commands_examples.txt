@@ -9,6 +9,8 @@ Multiple instructions can be sent in one line.
 The format of the instructions are:
 [destination1]:[command1];[destination2]:[command2];[destination3]:[command3];...
 
+Destination can be the terminal number or all
+
 ###############
 ## CONTROLER ##
 ###############
@@ -69,5 +71,8 @@ Commands can be combined by adding the decimal values
 
 - Activate white blinking light (blink blue +2, blink green +4, blink red +8) and sense continuously (+256) on terminal 9
 "9:270;"
+
+- Activate the blue light (+128) of all terminals [0-63]
+"all:128;"
 
 

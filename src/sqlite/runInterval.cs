@@ -77,7 +77,7 @@ class SqliteRunInterval : SqliteRun
 				description + "', '" + limited + "', " + simulated + ", " +
 				Util.BoolToInt(initialSpeed) + ", '" +
 				datetime + "', '" +
-				Util.ListIntToSQLString (photocell_l, ";") + "')";
+				UtilList.ListIntToSQLString (photocell_l, ";") + "')";
 				
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -134,7 +134,7 @@ class SqliteRunInterval : SqliteRun
 					Convert.ToInt32(reader[12].ToString()),	//simulated
 					Util.IntToBool(Convert.ToInt32(reader[13])), //initialSpeed
 					reader[14].ToString(), 		//datetime
-					Util.SQLStringToListInt(reader[15].ToString(), ";")
+					UtilList.SQLStringToListInt(reader[15].ToString(), ";")
 					);
 
 			//runs previous to DB 2.13 have no datetime on run
@@ -213,7 +213,7 @@ class SqliteRunInterval : SqliteRun
 					reader[12].ToString() + ":" +	//simulated
 					Util.IntToBool(Convert.ToInt32(reader[13])) + ":" + //initialSpeed
 					reader[14].ToString() + ":" + 		//datetime
-					Util.SQLStringToListInt(reader[15].ToString(), ";")
+					UtilList.SQLStringToListInt(reader[15].ToString(), ";")
 					);
 			count ++;
 		}

@@ -234,7 +234,7 @@ public class UtilGtk
 			values_l.Add((string) combo.Model.GetValue (iter, 0));
 		} while (combo.Model.IterNext (ref iter));
 
-		return Util.ListStringToStringArray (values_l);
+		return UtilList.ListStringToStringArray (values_l);
 	}
 
 
@@ -388,9 +388,12 @@ public class UtilGtk
 	{
 		int val1 = 0;
 		int val2 = 0;
-		val1 = Convert.ToInt32 (model.GetValue (iter1, col));
-		val2 = Convert.ToInt32 (model.GetValue (iter2, col));
-		
+
+		if (Util.IsNumber (model.GetValue (iter1, col).ToString (), false))
+			val1 = Convert.ToInt32 (model.GetValue (iter1, col));
+		if (Util.IsNumber (model.GetValue (iter2, col).ToString (), false))
+			val2 = Convert.ToInt32 (model.GetValue (iter2, col));
+
 		return (val1-val2);
 	}
 

@@ -1,7 +1,7 @@
 # 
 #  This file is part of ChronoJump
 # 
-#   Copyright (C) 2014-2023  	Xavier de Blas <xaviblas@gmail.com>
+#   Copyright (C) 2014-2024  	Xavier de Blas <xaviblas@gmail.com>
 # 
 
 
@@ -93,7 +93,7 @@ calcule <- function(displacement, op, curveNum, startInSet)
 	cat(paste(#start, #start is not used because we have no data of the initial zeros
 		  (curveNum +1), startInSet, length(displacement), #title, start, width
 		  sum(displacement), #height
-		  paf$meanSpeed, paf$maxSpeed, paf$maxSpeedT, 
+		  paf$meanSpeed, paf$maxSpeed, paf$maxSpeedT, paf$rvd,
 		  paf$meanPower, paf$peakPower, paf$peakPowerT, paf$pp_ppt, 
 		  paf$meanForce, paf$maxForce, paf$maxForceT, paf$maxForce_maxForceT,
 		  paf$workJ, 		# C# will convert to Kcal if needed

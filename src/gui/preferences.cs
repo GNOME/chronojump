@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -275,6 +275,7 @@ public class PreferencesWindow
 	//advanced tab
 	Gtk.Notebook notebook_advanced;
 	Gtk.Image image_advanced_cloud;
+	Gtk.Image image_advanced_logs;
 	Gtk.Image image_advanced_more;
 	Gtk.CheckButton checkbutton_ask_deletion;
 	Gtk.Box box_combo_decimals;
@@ -305,6 +306,16 @@ public class PreferencesWindow
 	Gtk.Label label_cloud_capture_path;
 	Gtk.Label label_cloud_view_path;
 	Gtk.Button button_debug_mode;
+
+	Gtk.Entry entry_send_log;
+	Gtk.TextView textview_send_log_comments;
+	Gtk.RadioButton radio_send_log_current;
+	Gtk.RadioButton radio_send_log_previous;
+	Gtk.Button button_send_log;
+	Gtk.Image image_button_send_log;
+	Gtk.Image image_send_log_no;
+	Gtk.Image image_send_log_yes;
+	Gtk.TextView textview_send_log_message;
 
 	Gtk.RadioButton radio_python_2;
 	Gtk.RadioButton radio_python_3;
@@ -962,10 +973,12 @@ public class PreferencesWindow
 		PWBox.label_radio_cloud_view.UseMarkup = true;
 
 		PWBox.image_advanced_cloud.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_blue.png");
+		PWBox.image_advanced_logs.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "log.png");
 		PWBox.image_advanced_more.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_more_horiz.png");
 		PWBox.image_cloud_capture.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_upload_blue.png");
 		PWBox.image_cloud_view.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
 		PWBox.image_cloud_schema.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_schema_small.png");
+		PWBox.image_button_send_log.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "send_blue.png");
 
 		PWBox.signalsNoFollow = true;
 		if (PWBox.configAtPrefs.CopyToCloudFullPath !=  "")
@@ -981,6 +994,11 @@ public class PreferencesWindow
 		PWBox.signalsNoFollow = false;
 
 		PWBox.buttons_cloud_sensitive ();
+
+		// sub tab: logs ---->
+		PWBox.emailStoredForSendLog = SqlitePreferences.Select("email");
+		if(PWBox.emailStoredForSendLog != null && PWBox.emailStoredForSendLog != "" && PWBox.emailStoredForSendLog != "0")
+			PWBox.entry_send_log.Text = PWBox.emailStoredForSendLog;
 
 		// sub tab: more ---->
 
@@ -3346,8 +3364,73 @@ public class PreferencesWindow
 		label_advanced_feedback.Text = message;
 	}
 
+	private void on_sql_test_crash_mac_silicon_clicked (object o, EventArgs args)
+	{
+		label_advanced_feedback.Text = "";
+		if (Sqlite.TestCrashOnMacARM ())
+			label_advanced_feedback.Text = "SQL tests MacARM Ok!";
+	}
+
 	// <---- end SQL stress tests ----
 
+	// ---- send log ---->
+
+	string emailStoredForSendLog;
+	//note this method is a ripoff of the method on src/gui/sendLogAndPoll.cs
+	private void on_button_send_log_clicked (object o, EventArgs args)
+	{
+		button_send_log.Sensitive = false;
+		TextBuffer tb = new TextBuffer (new TextTagTable());
+		tb.Text = "";
+		textview_send_log_message.Buffer = tb;
+
+		//this allows us to update the textbuffer if button is clicked again
+		GLib.Timeout.Add (200, new GLib.TimeoutHandler (button_send_log_do));
+	}
+	private bool button_send_log_do ()
+	{
+		string email = entry_send_log.Text.ToString();
+		//email can be validated with Util.IsValidEmail(string)
+		//or other methods, but maybe there's no need of complexity now
+
+		//1st save email on sqlite
+		if(email != null && email != "" && email != "0" && email != emailStoredForSendLog)
+			SqlitePreferences.Update("email", email, false);
+
+		string comments = "";
+		/*
+		//2nd add language as comments
+		string language = get_send_log_language();
+		SqlitePreferences.Update("crashLogLanguage", language, false);
+		comments = "Answer in: " + language + "\n";
+		*/
+
+		//3rd if there are comments, add them at the beginning of the file
+		comments += textview_send_log_comments.Buffer.Text;
+
+		//4th send Json
+		Json js = new Json();
+		bool success = js.PostCrashLog (radio_send_log_current.Active, email, comments);
+
+		if(success) {
+			image_send_log_yes.Show();
+			image_send_log_no.Hide();
+			LogB.Information(js.ResultMessage);
+		} else {
+			image_send_log_yes.Hide();
+			image_send_log_no.Show();
+			LogB.Error(js.ResultMessage);
+		}
+
+		TextBuffer tb = new TextBuffer (new TextTagTable());
+		tb.Text = js.ResultMessage;
+		textview_send_log_message.Buffer = tb;
+		button_send_log.Sensitive = true;
+
+		return false; //do not call again
+	}
+
+	// <---- end of sendLog ----
 
 	private void on_debug_mode_clicked (object o, EventArgs args)
 	{
@@ -3655,6 +3738,7 @@ public class PreferencesWindow
 		//advanced tab
 		notebook_advanced = (Gtk.Notebook) builder.GetObject ("notebook_advanced");
 		image_advanced_cloud = (Gtk.Image) builder.GetObject ("image_advanced_cloud");
+		image_advanced_logs = (Gtk.Image) builder.GetObject ("image_advanced_logs");
 		image_advanced_more = (Gtk.Image) builder.GetObject ("image_advanced_more");
 		checkbutton_ask_deletion = (Gtk.CheckButton) builder.GetObject ("checkbutton_ask_deletion");
 		box_combo_decimals = (Gtk.Box) builder.GetObject ("box_combo_decimals");
@@ -3685,6 +3769,16 @@ public class PreferencesWindow
 		label_cloud_capture_path = (Gtk.Label) builder.GetObject ("label_cloud_capture_path");
 		label_cloud_view_path = (Gtk.Label) builder.GetObject ("label_cloud_view_path");
 		button_debug_mode = (Gtk.Button) builder.GetObject ("button_debug_mode");
+
+		entry_send_log = (Gtk.Entry) builder.GetObject ("entry_send_log");
+		textview_send_log_comments = (Gtk.TextView) builder.GetObject ("textview_send_log_comments");
+		radio_send_log_current = (Gtk.RadioButton) builder.GetObject ("radio_send_log_current");
+		radio_send_log_previous = (Gtk.RadioButton) builder.GetObject ("radio_send_log_previous");
+		button_send_log = (Gtk.Button) builder.GetObject ("button_send_log");
+		image_button_send_log = (Gtk.Image) builder.GetObject ("image_button_send_log");
+		image_send_log_no = (Gtk.Image) builder.GetObject ("image_send_log_no");
+		image_send_log_yes = (Gtk.Image) builder.GetObject ("image_send_log_yes");
+		textview_send_log_message = (Gtk.TextView) builder.GetObject ("textview_send_log_message");
 
 		radio_python_2 = (Gtk.RadioButton) builder.GetObject ("radio_python_2");
 		radio_python_3 = (Gtk.RadioButton) builder.GetObject ("radio_python_3");

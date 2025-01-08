@@ -159,7 +159,7 @@ public partial class ChronoJumpWindow
 				app1s_label_import_csv_result.Text = string.Format ("{0} errors found.", error_l.Count);
 
 				TextBuffer tb2 = new TextBuffer (new TextTagTable());
-		                tb2.Text = Util.ListStringToString (error_l);
+		                tb2.Text = UtilList.ListStringToString (error_l);
 				app1s_textview_import_from_csv_errors.Buffer = tb2;
 			} else {
 				app1s_button_import_from_csv_view_errors.Visible = false;
@@ -514,8 +514,8 @@ public class ImportCSVJumpsMultiple : ImportCSV
 					int personID = importCSVPersonFindID (person_l, personName);
 					if (personID >= 0)
 					{
-						string tcString = Util.ListDoubleToString (tf_l, 5, "=");
-						string tfString = Util.ListDoubleToString (tc_l, 5, "=");
+						string tcString = UtilList.ListDoubleToString (tf_l, 5, "=");
+						string tfString = UtilList.ListDoubleToString (tc_l, 5, "=");
 						toImport_l.Add (new JumpRj (-1, personID, currentSessionID, jType,
 									tfString, tcString,
 									jFall, jWeightPercent,
@@ -769,7 +769,7 @@ public class ImportCSVRunsInterval : ImportCSV
 						toImport_l.Add (new RunInterval (-1, personID, currentSessionID, riType,
 									riDistanceTotal, timeTotal,
 									UtilAll.DivideSafe (riDistanceTotal, riTracks), //distanceInterval
-									Util.ListStringToString (times_l, "="), 	//intervalTimesString
+									UtilList.ListStringToString (times_l, "="), 	//intervalTimesString
 									riTracks, "",  					//tracks, description
 									riTracks + "R",					//limited
 									Util.BoolToNegativeInt (false), ! riStartIn, 	//simulated, initialSpeed

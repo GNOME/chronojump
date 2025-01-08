@@ -1,0 +1,43 @@
+Project Description: Generating 21 Tones with Musical Frequencies for the Course Navette
+
+Project Details
+
+This file describes how we generated the 21 tones for the Course Navette using the frequencies of the musical notes of octaves 3, 4 and 5, with the Adobe Audition software. The technical characteristics used for its creation are detailed below:
+
+Note Frequencies:
+
+The frequencies are based on the notes A (A) to G (G) in octaves 3, 4 and 5.
+
+Frequency Table:
+
+Note     | Octave 3 (Hz)| Octave 4 (Hz)| Octave 5 (Hz)
+---------|--------------|--------------|--------------
+A (La)   | 220          | 440          | 880          
+B (Si)   | 246.94       | 493.88       | 987.76       
+C (Do)   | 261.62       | 523.25       | 1046.5       
+D (Re)   | 293.67       | 587.33       | 1174.66      
+E (Mi)   | 329.63       | 659.26       | 1318.52      
+F (Fa)   | 349.23       | 698.46       | 1396.92      
+G (Sol)  | 392          | 783.99       | 1567.98 
+
+Software Used:
+
+Adobe Audition.
+
+Path to Generate Tones:
+
+Go to Effects > Generate > Tones.
+
+Specific Settings:
+
+Waveform: Sine (sine wave).
+
+Frequencies: Enter the 21 frequencies from the table above.
+
+Duration: Each tone has a duration of 1 second.
+
+Gain: All tones are generated with a gain of 0 dB to ensure a uniform level without distortion.
+
+Output Format:
+
+The tones can be exported as individual files in .mp3 format.

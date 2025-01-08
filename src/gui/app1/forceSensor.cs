@@ -1586,7 +1586,7 @@ public partial class ChronoJumpWindow
 						false, //zoomed
 						-1, false
 						);
-				forceCalculated = Util.GetLast (fsdTemp.GetForces ());
+				forceCalculated = UtilList.GetLast (fsdTemp.GetForces ());
 			} else {
 				//TODO: implement also code based on ForceSensorDynamics here, and then this IfNeeded function can disappear
 				forceCalculated = ForceSensor.CalculeForceResultantIfNeeded (force, forceSensorCaptureOption,
@@ -2272,7 +2272,7 @@ LogB.Information(" fs R ");
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
 			return;
 		}
-		List<string> contents = Util.ReadFileAsStringList(fs.FullURL);
+		List<string> contents = Util.ReadFileAsStringList(fs.FullURL, "");
 		if(contents == null || contents.Count < 3)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileEmptyStr());
@@ -2710,7 +2710,7 @@ LogB.Information(" fs R ");
 
 		if (preferences.forceSensorButterworth (current_mode) >= 0)
 		{
-			List<string> contents = Util.ReadFileAsStringList (lastForceSensorFullPath);
+			List<string> contents = Util.ReadFileAsStringList (lastForceSensorFullPath, "");
 			Butterworth.ForceSensorFileToButterworth (
 					contents, preferences.forceSensorButterworth (current_mode), UtilEncoder.GetmifCSVFileName ());
 		}
@@ -2782,9 +2782,9 @@ LogB.Information(" fs R ");
 		//LogB.Information("at forceSensorDoSignalGraphReadFile(), filename: " + UtilEncoder.GetmifCSVFileName());
 		List<string> contents;
 		if (ab)
-			contents = Util.ReadFileAsStringList(UtilEncoder.GetmifCSVFileName ());
+			contents = Util.ReadFileAsStringList(UtilEncoder.GetmifCSVFileName (), "");
 		else //cd
-			contents = Util.ReadFileAsStringList(UtilEncoder.GetmifCSVFileName_CD ());
+			contents = Util.ReadFileAsStringList(UtilEncoder.GetmifCSVFileName_CD (), "");
 
 		bool headersRow = true;
 

@@ -95,12 +95,9 @@ public class PersonAddMultipleWindow
 	
 	Gtk.Image image_csv_headers;
 	Gtk.Image image_csv_noheaders;
-	Gtk.Image image_load;
 	Gtk.Label label_csv;
 	Gtk.Label label_name;
 
-	Gtk.Button button_csv_prepare;
-	
 	Gtk.Image image_name1;
 	Gtk.Image image_name2;
 
@@ -152,8 +149,6 @@ public class PersonAddMultipleWindow
 	Gtk.Label label_message;
 	Gtk.Label label_columns_order;
 	
-	Gtk.Button button_accept;
-
 	private enum notebookPages { MAINOPTIONS, TABLEMANUALLY, LOADCSV };
 
 	//use this to read/write table
@@ -241,9 +236,28 @@ public class PersonAddMultipleWindow
 		} else {
 			notebook.CurrentPage = Convert.ToInt32 (notebookPages.MAINOPTIONS);
 			PersonAddMultipleWindowBox.button_cancel_or_back.Label = Catalog.GetString ("Cancel");
-			PersonAddMultipleWindowBox.button_accept.Sensitive = false;
 		}
 	}
+
+	private void on_button_next_clicked (object o, EventArgs args)
+	{
+		if (notebook.CurrentPage == Convert.ToInt32 (notebookPages.MAINOPTIONS))
+		{
+			if (radio_csv.Active)
+				csv_prepare ();
+			else
+				manually_create ();
+		}
+		else if (notebook.CurrentPage == Convert.ToInt32 (notebookPages.TABLEMANUALLY))
+		{
+			accept ();
+		}
+		else //if (notebook.CurrentPage == Convert.ToInt32 (notebookPages.LOADCSV))
+		{
+			csv_load ();
+		}
+	}
+
 	
 	void on_delete_event (object o, DeleteEventArgs args)
 	{
@@ -266,9 +280,6 @@ public class PersonAddMultipleWindow
 		image_name1.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameCSVName2Icon);
 		image_name2.Pixbuf = pixbuf;
-
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "folder_open.png");
-		image_load.Pixbuf = pixbuf;
 
 		label_csv.Text = Catalog.GetString("CSV file has headers");
 		label_name.Text = Catalog.GetString("Full name in one column");
@@ -340,8 +351,6 @@ public class PersonAddMultipleWindow
 		label_t_description.Visible = (check_headers.Active && check_description.Active);
 		label_t_description_june.Visible = check_description.Active;
 		label_t_description_johnny.Visible = check_description.Active;
-
-		button_accept.Sensitive = false;
 	}
 
 	void on_check_headers_toggled (object obj, EventArgs args)
@@ -402,27 +411,21 @@ public class PersonAddMultipleWindow
 	void on_radio_csv_toggled (object obj, EventArgs args)
 	{
 		if (radio_csv.Active)
-		{
-			button_csv_prepare.Sensitive = true;
 			hbox_manually.Sensitive = false;
-		}
 	}
 	void on_radio_manually_toggled (object obj, EventArgs args)
 	{
 		if (radio_manually.Active)
-		{
-			button_csv_prepare.Sensitive = false;
 			hbox_manually.Sensitive = true;
-		}
 	}
 
-	private void on_button_csv_prepare_clicked (object obj, EventArgs args)
+	private void csv_prepare ()
 	{
 		button_cancel_or_back.Label = Catalog.GetString ("Back");
 		notebook.CurrentPage = Convert.ToInt32 (notebookPages.LOADCSV);
 	}
 		
-	void on_button_csv_load_clicked (object obj, EventArgs args) 
+	void csv_load ()
 	{
 		Gtk.FileChooserNative fc=
 			new Gtk.FileChooserNative(Catalog.GetString("Select CSV file"),
@@ -649,7 +652,7 @@ public class PersonAddMultipleWindow
 		fc.Destroy();
 	}
 
-	void on_button_manually_create_clicked (object obj, EventArgs args) 
+	void manually_create ()
 	{
 		button_cancel_or_back.Label = Catalog.GetString ("Back");
 
@@ -925,8 +928,6 @@ public class PersonAddMultipleWindow
 		grid_main.Show();
 		grid_main.Visible = true;
 		notebook.CurrentPage = Convert.ToInt32 (notebookPages.TABLEMANUALLY);
-
-		button_accept.Sensitive = true;
 	}
 
 	void on_entry_name_changed (object o, EventArgs args)
@@ -983,7 +984,7 @@ public class PersonAddMultipleWindow
 		}
 	}
 
-	void on_button_accept_clicked (object o, EventArgs args)
+	void accept ()
 	{
 		pame_l = new List<PersonAddMultipleError>();
 		foreach (Gtk.Label l in error_label_in_session_l)
@@ -1302,11 +1303,8 @@ public class PersonAddMultipleWindow
 
 		image_csv_headers = (Gtk.Image) builder.GetObject ("image_csv_headers");
 		image_csv_noheaders = (Gtk.Image) builder.GetObject ("image_csv_noheaders");
-		image_load = (Gtk.Image) builder.GetObject ("image_load");
 		label_csv = (Gtk.Label) builder.GetObject ("label_csv");
 		label_name = (Gtk.Label) builder.GetObject ("label_name");
-
-		button_csv_prepare = (Gtk.Button) builder.GetObject ("button_csv_prepare");
 
 		image_name1 = (Gtk.Image) builder.GetObject ("image_name1");
 		image_name2 = (Gtk.Image) builder.GetObject ("image_name2");
@@ -1359,8 +1357,6 @@ public class PersonAddMultipleWindow
 		grid_main = (Gtk.Grid) builder.GetObject ("grid_main");
 		label_message = (Gtk.Label) builder.GetObject ("label_message");
 		label_columns_order = (Gtk.Label) builder.GetObject ("label_columns_order");
-
-		button_accept = (Gtk.Button) builder.GetObject ("button_accept");
 	}
 }
 

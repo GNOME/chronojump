@@ -34,6 +34,8 @@ rm -rf "$1/share/doc/chronojump/Makefile"
 cp "../images/bad.wav" "$1/share/chronojump/images/bad.wav"
 cp "../images/ok.wav" "$1/share/chronojump/images/ok.wav"
 cp "../images/start.wav" "$1/share/chronojump/images/start.wav"
+mkdir -p "$1/share/chronojump/images/sounds/beepTests"
+cp ../images/sounds/beepTests/*.mp3 "$1/share/chronojump/images/sounds/beepTests/"
 
 #Get OS Name
 UNAME_ALL=$(echo $(uname -a) | tr [:upper:] [:lower:])

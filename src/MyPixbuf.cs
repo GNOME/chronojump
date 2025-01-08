@@ -16,6 +16,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  *  Copyright (C) 2024   Yang Dejiu <joeries.young@gmail.com>
+ *  Copyright (C) 2024-2025  Xavier de Blas <xaviblas@gmail.com>
  */
 
 using Gdk;
@@ -176,6 +177,8 @@ namespace Chronojump
 			new ResourceFix ("mini/reaction_time.png" , "mini/reaction_time.png"),
 			new ResourceFix ("reaction_time_discriminative.png" , "reaction_time_discriminative.png"),
 			new ResourceFix ("mini/reaction_time_discriminative.png" , "mini/reaction_time_discriminative.png"),
+			new ResourceFix ("reaction_time_2025_blue_48px.png" , "reaction_time_2025_blue_48px.png"),
+			new ResourceFix ("reaction_time_2025_blue_24px.png" , "reaction_time_2025_blue_24px.png"),
 			new ResourceFix ("dj-from-out.png" , "dj-from-out.png"),
 			new ResourceFix ("dj-from-in.png" , "dj-from-in.png"),
 			new ResourceFix ("jumps-fv.png" , "jumps-fv.png"),
@@ -312,7 +315,10 @@ namespace Chronojump
 			new ResourceFix ("fall.png" , "image_fall.png"),
 			new ResourceFix ("jump_air.png" , "image_jump_air.png"),
 			new ResourceFix ("jump_land.png" , "image_jump_land.png"),
+			new ResourceFix ("walk_blue_48px.png" , "walk_48px.png"),
+			new ResourceFix ("walk_back_blue_48px.png" , "walk_back_48px.png"),
 			new ResourceFix ("run_blue_2x.png" , "run_2x.png"),
+			new ResourceFix ("run_back_blue_2x.png" , "run_back_2x.png"),
 			new ResourceFix ("run_mov_blue_2x.png" , "run_mov_2x.png"),
 			new ResourceFix ("run_blue_1x.png" , "image_run.png"),
 			new ResourceFix ("run_simple_blue_1x.png" , "image_run_simple.png"),
@@ -386,6 +392,7 @@ namespace Chronojump
 			new ResourceFix ("force_sensor_menu.png" , "force_sensor_menu.png"),
 			new ResourceFix ("force_sensor_icon.png" , "force_sensor_icon.png"),
 			new ResourceFix ("force_sensor_icon_yellow.png" , "force_sensor_icon_yellow.png"),
+			new ResourceFix ("force_2x.png" , "force_2x.png"),
 			new ResourceFix ("isometric.png" , "isometric.png"),
 			new ResourceFix ("elastic.png" , "elastic.png"),
 			new ResourceFix ("isometric_2x.png" , "isometric_2x.png"),
@@ -417,6 +424,7 @@ namespace Chronojump
 			new ResourceFix ("filter_on.png" , "filter_on.png"),
 			new ResourceFix ("filter_off.png" , "filter_off.png"),
 			new ResourceFix ("calendar.png" , "calendar.png"),
+			new ResourceFix ("log.png" , "log.png"),
 			new ResourceFix ("chronojump-logo-2024-blue-transp-200h.png" , "chronojump-logo-2024-blue-transp-200h.png"),
 			new ResourceFix ("chronojump-logo-2024-white-transp-200h.png" , "chronojump-logo-2024-white-transp-200h.png"),
 			new ResourceFix ("chronojump-logo-2024-2col-bluebg-210h.png" , "chronojump-logo-2024-2col-bluebg-210h.png"),

@@ -24,7 +24,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -81,6 +81,8 @@ public partial class ChronoJumpWindow
 	Gtk.RadioButton radio_change_modes_contacts_runs_simple;
 	Gtk.RadioButton radio_change_modes_contacts_runs_intervallic;
 	Gtk.RadioButton radio_change_modes_contacts_runs_encoder;
+	Gtk.RadioButton radio_change_modes_contacts_runs_beepTest;
+	Gtk.RadioButton radio_change_modes_contacts_wilight;
 	Gtk.RadioButton radio_change_modes_contacts_isometric;
 	Gtk.RadioButton radio_change_modes_contacts_elastic;
 	Gtk.RadioButton radio_change_modes_encoder_gravitatory;
@@ -90,6 +92,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_change_modes_contacts_runs_simple;
 	//Gtk.Image image_change_modes_contacts_runs_reactive;
 	Gtk.Image image_change_modes_contacts_runs_intervallic;
+	Gtk.Image image_change_modes_contacts_wilight;
 	Gtk.Image image_change_modes_contacts_force_sensor;
 	Gtk.Image image_change_modes_contacts_force_sensor1;
 	Gtk.Image image_change_modes_contacts_runs_encoder;
@@ -425,13 +428,14 @@ public partial class ChronoJumpWindow
 
 	Gtk.RadioButton radio_menu_2_2_2_jumps;
 	Gtk.RadioButton radio_menu_2_2_2_races;
-	Gtk.RadioButton radio_menu_2_2_2_isometric;
+	Gtk.RadioButton radio_menu_2_2_2_wilight;
+	Gtk.RadioButton radio_menu_2_2_2_force;
 	Gtk.RadioButton radio_menu_2_2_2_elastic;
 	Gtk.RadioButton radio_menu_2_2_2_weights;
 	Gtk.RadioButton radio_menu_2_2_2_inertial;
 	Gtk.EventBox eventbox_radio_menu_2_2_2_jumps;
 	Gtk.EventBox eventbox_radio_menu_2_2_2_races;
-	Gtk.EventBox eventbox_radio_menu_2_2_2_isometric;
+	Gtk.EventBox eventbox_radio_menu_2_2_2_force;
 	Gtk.EventBox eventbox_radio_menu_2_2_2_elastic;
 	Gtk.EventBox eventbox_radio_menu_2_2_2_weights;
 	Gtk.EventBox eventbox_radio_menu_2_2_2_inertial;
@@ -567,7 +571,7 @@ public partial class ChronoJumpWindow
 	private string progName;
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM, SOCIALNETWORKPOLL, FULLSCREENCAPTURE }
 	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS, MICRODISCOVER, PERSON, DATABASE }
-	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR }
+	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR, BEEPTEST, WILIGHT }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE,
 		JUMPSASYMMETRY, JUMPSEVOLUTION, JUMPSRJFATIGUE,
 		RUNSEVOLUTION, SPRINT, CONTACTS_EXPORT_CSV, SIGNAL_AI, }
@@ -664,6 +668,8 @@ public partial class ChronoJumpWindow
 		connectWidgetsSessionMain (builder);
 		connectWidgetsShortcuts (builder);
 		connectWidgetsSprint (builder);
+		connectWidgetsBeepTest (builder);
+		connectWidgetsWilight (builder);
 		connectWidgetsStats (builder);
 		connectWidgetsTrigger (builder);
 		connectWidgetsWebcam (builder);
@@ -826,7 +832,7 @@ public partial class ChronoJumpWindow
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_races,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_isometric,
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_force,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_menu_2_2_2_elastic,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
@@ -1403,6 +1409,11 @@ public partial class ChronoJumpWindow
 		//MovingAverage.TestCalculate();
 
 		//TestObjectsDifferences.Test ();
+
+		if (configChronojump.WilightPortURL != "")
+		{
+			box_start_wilight.Visible = true;
+		}
 	}
 
 /*
@@ -1711,9 +1722,12 @@ public partial class ChronoJumpWindow
 			}
 
 			//four platforms
-			ChronopicRegisterPort crp = chronopicRegister.GetSelectedForMode (current_mode);
-			if (crp.Port != "" && crp.Type == ChronopicRegisterPort.Types.FOURPLATFORMS)
-				updateFourPlatformsJumpsPersonNames ();
+			if (chronopicRegister != null)
+			{
+				ChronopicRegisterPort crp = chronopicRegister.GetSelectedForMode (current_mode);
+				if (crp.Port != "" && crp.Type == ChronopicRegisterPort.Types.FOURPLATFORMS)
+					updateFourPlatformsJumpsPersonNames ();
+			}
 		}
 		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
@@ -3169,6 +3183,9 @@ public partial class ChronoJumpWindow
 			remoteTest.Stop ();
 		}
 
+		if (threadBeepTest != null && threadBeepTest.IsAlive && beepTest != null)
+			beepTest.Finish ();
+
 		if(threadImport != null && threadImport.IsAlive)
 		{
 			LogB.Information("Closing threadImport");
@@ -3274,7 +3291,7 @@ public partial class ChronoJumpWindow
 		}
 		if(portFSOpened)
 			portFS.Close();
-		if(wichroCapture != null && wichroCapture.PortOpened)
+		if(wichroCapture != null && wichroCapture.PortOpened) //seems it works also for wilight
 			wichroCapture.Disconnect();
 
 		//cancel runEncoder capture process
@@ -3964,20 +3981,21 @@ public partial class ChronoJumpWindow
 		}
 		else if (current_mode == Constants.Modes.RUNSSIMPLE ||
 				current_mode == Constants.Modes.RUNSINTERVALLIC ||
-				current_mode == Constants.Modes.RUNSENCODER)
+				current_mode == Constants.Modes.RUNSENCODER ||
+				current_mode == Constants.Modes.BEEPTEST)
 		{
 			radio_menu_2_2_2_races.Active = true;
 			button_menu_2_2_2_manage (radio_menu_2_2_2_races, false);
 		}
-		else if (current_mode == Constants.Modes.FORCESENSORISOMETRIC)
+		else if (current_mode == Constants.Modes.WILIGHT)
 		{
-			radio_menu_2_2_2_isometric.Active = true;
-			button_menu_2_2_2_manage (radio_menu_2_2_2_isometric, false);
+			radio_menu_2_2_2_wilight.Active = true;
+			button_menu_2_2_2_manage (radio_menu_2_2_2_wilight, false);
 		}
-		else if (current_mode == Constants.Modes.FORCESENSORELASTIC)
+		else if (current_mode == Constants.Modes.FORCESENSORISOMETRIC || current_mode == Constants.Modes.FORCESENSORELASTIC)
 		{
-			radio_menu_2_2_2_elastic.Active = true;
-			button_menu_2_2_2_manage (radio_menu_2_2_2_elastic, false);
+			radio_menu_2_2_2_force.Active = true;
+			button_menu_2_2_2_manage (radio_menu_2_2_2_force, false);
 		}
 		else if (current_mode == Constants.Modes.POWERGRAVITATORY)
 		{
@@ -4042,6 +4060,13 @@ public partial class ChronoJumpWindow
 				changeMode (Constants.Modes.RUNSENCODER);
 			else
 				radio_change_modes_contacts_runs_encoder.Active = true;
+		}
+		else if (m == Constants.Modes.BEEPTEST)
+		{
+			if(radio_change_modes_contacts_runs_beepTest.Active)
+				changeMode (Constants.Modes.BEEPTEST);
+			else
+				radio_change_modes_contacts_runs_beepTest.Active = true;
 		}
 		else if (m == Constants.Modes.POWERGRAVITATORY)
 		{
@@ -4153,6 +4178,7 @@ public partial class ChronoJumpWindow
 		hbox_change_modes_jumps.Visible = false;
 		hbox_change_modes_runs.Visible = false;
 		hbox_change_modes_force_sensor.Visible = false;
+		radio_change_modes_contacts_wilight.Visible = false;
 
 		button_contacts_bells.Sensitive = false;
 
@@ -4530,8 +4556,8 @@ public partial class ChronoJumpWindow
 			vbox_contacts_simple_graph_controls.Visible = false;
 
 			hbox_change_modes_force_sensor.Visible = true;
-			radio_change_modes_contacts_isometric.Visible = (m == Constants.Modes.FORCESENSORISOMETRIC);
-			radio_change_modes_contacts_elastic.Visible = (m == Constants.Modes.FORCESENSORELASTIC);
+			radio_change_modes_contacts_isometric.Visible = (m == Constants.Modes.FORCESENSORISOMETRIC || m == Constants.Modes.FORCESENSORELASTIC);
+			radio_change_modes_contacts_elastic.Visible = (m == Constants.Modes.FORCESENSORISOMETRIC || m == Constants.Modes.FORCESENSORELASTIC);
 
 			//align_check_vbox_contacts_graph_legend.Visible = false;
 			//vbox_contacts_graph_legend.Visible = false;
@@ -4632,7 +4658,8 @@ public partial class ChronoJumpWindow
 			label_contacts_exercise_selected_options_visible (true);
 			image_top_laterality_contacts.Visible = false;
 		}
-		else {	//m == Constants.Modes.OTHER (contacts / other)
+		else if (m == Constants.Modes.OTHER) //(contacts / other)
+		{
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			hbox_other.Visible = true;
 			notebooks_change(m);
@@ -4650,6 +4677,37 @@ public partial class ChronoJumpWindow
 
 			label_contacts_exercise_selected_options_visible (true);
 			image_top_laterality_contacts.Visible = false;
+		}
+
+		if (m == Constants.Modes.BEEPTEST)
+		{
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
+			notebooks_change(m);
+			radio_mode_contacts_analyze.Visible = false;
+
+			hbox_change_modes_runs.Visible = true; //TODO: add beep test
+			notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.BEEPTEST);
+			box_contacts_capture_top.Visible = false;
+
+			beepTestApp1Init ();
+		} else {
+			radio_mode_contacts_analyze.Visible = true;
+			notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.EXECUTE);
+			box_contacts_capture_top.Visible = true;
+		}
+
+		if (m == Constants.Modes.WILIGHT)
+		{
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
+			notebooks_change(m);
+			radio_mode_contacts_analyze.Visible = false;
+
+			//hbox_change_modes_runs.Visible = true; //TODO: add beep test
+			notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.WILIGHT);
+			box_contacts_capture_top.Visible = false;
+			radio_change_modes_contacts_wilight.Visible = true;
+
+			wilightApp1Init ();
 		}
 
 		on_treeview_mode_cursor_changed ();
@@ -4992,6 +5050,10 @@ public partial class ChronoJumpWindow
 	{
 		changeModeCheckRadios (Constants.Modes.RUNSENCODER);
 	}
+	private void on_button_selector_start_beepTest_clicked(object o, EventArgs args)
+	{
+		changeModeCheckRadios (Constants.Modes.BEEPTEST);
+	}
 	private void on_radio_change_modes_contacts_runs_simple_toggled (object o, EventArgs args)
 	{
 		if(radio_change_modes_contacts_runs_simple.Active)
@@ -5006,6 +5068,16 @@ public partial class ChronoJumpWindow
 	{
 		if(radio_change_modes_contacts_runs_encoder.Active)
 			changeMode (Constants.Modes.RUNSENCODER);
+	}
+	private void on_radio_change_modes_contacts_runs_beepTest_toggled (object o, EventArgs args)
+	{
+		if(radio_change_modes_contacts_runs_beepTest.Active)
+			changeMode (Constants.Modes.BEEPTEST);
+	}
+
+	private void on_button_selector_start_wilight_clicked (object o, EventArgs args)
+	{
+		changeModeCheckRadios (Constants.Modes.WILIGHT);
 	}
 
 	//forceSensor (isometric, elastic)
@@ -5094,29 +5166,29 @@ public partial class ChronoJumpWindow
 
 			notebook_menu_2_2_2.CurrentPage = 1;
 		}
-		else if (o == (object) radio_menu_2_2_2_isometric)
+		else if (o == (object) radio_menu_2_2_2_wilight)
 		{
-			title = "Isometric";
-			desc = Catalog.GetString ("Isometric force exercises measured by a force sensor");
-			notebook_menu_2_2_2.CurrentPage = 2;
+			title = "Reaction time";
+			desc = "Reaction time tests with Wilight"; //TODO: make it translatable
+			notebook_menu_2_2_2.CurrentPage = 3;
 		}
-		else if (o == (object) radio_menu_2_2_2_elastic)
+		else if (o == (object) radio_menu_2_2_2_force)
 		{
-			title = "Elastic";
-			desc = Catalog.GetString ("Elastic force exercises measured by a force sensor");
+			title = "Force tests";
+			desc = Catalog.GetString ("Force exercises measured by a force sensor");
 			notebook_menu_2_2_2.CurrentPage = 2;
 		}
 		else if (o == (object) radio_menu_2_2_2_weights)
 		{
 			title = "Weights";
 			desc = Catalog.GetString ("Speed/power exercises displacing weights measured by an encoder");
-			notebook_menu_2_2_2.CurrentPage = 2;
+			notebook_menu_2_2_2.CurrentPage = 3;
 		}
 		else if (o == (object) radio_menu_2_2_2_inertial)
 		{
 			title = "Inertial";
 			desc = Catalog.GetString ("Speed/power exercises rotating an inertial machine and measured by an encoder");
-			notebook_menu_2_2_2.CurrentPage = 2;
+			notebook_menu_2_2_2.CurrentPage = 3;
 		}
 
 		//do not show desc on races (it has its own labels on table columns)
@@ -5138,11 +5210,9 @@ public partial class ChronoJumpWindow
 
 	private void on_button_menu_2_2_2_go_clicked (object o, EventArgs args)
 	{
-		//jumps, races modes have their own buttons
-		if (radio_menu_2_2_2_isometric.Active)
-			on_button_selector_start_force_sensor_isometric_clicked (new object (), new EventArgs ());
-		else if (radio_menu_2_2_2_elastic.Active)
-			on_button_selector_start_force_sensor_elastic_clicked (new object (), new EventArgs ());
+		//jumps, races, force modes have their own buttons
+		if (radio_menu_2_2_2_wilight.Active)
+			on_button_selector_start_wilight_clicked (new object (), new EventArgs ());
 		else if (radio_menu_2_2_2_weights.Active)
 			on_button_selector_start_encoder_gravitatory_clicked (new object (), new EventArgs ());
 		else if (radio_menu_2_2_2_inertial.Active)
@@ -8831,6 +8901,15 @@ LogB.Debug("mc finished 5");
 			notebook_results.CurrentPage = 8;
 			changeTestImage("", "", "RUNSENCODER");
 			event_execute_button_finish.Sensitive = false;
+		} else if(mode == Constants.Modes.BEEPTEST)
+		{
+			/*
+			notebook_execute.CurrentPage = 8; //not shown on beep test
+			notebook_options_top.CurrentPage = 8;//not shown on beep test
+			notebook_results.CurrentPage = 8;//not shown on beep test
+			changeTestImage("", "", "RUNSENCODER");//not shown on beep test
+			event_execute_button_finish.Sensitive = false;//not shown on beep test
+			*/
 		} else if (Constants.ModeIsFORCESENSOR (mode))
 		{
 			notebook_execute.CurrentPage = 4;
@@ -9486,7 +9565,7 @@ LogB.Debug("mc finished 5");
 			//this avoids misbehaviour when bell is pressed and there's no data in treeview
 			EncoderCurve curve = treeviewEncoderCaptureCurvesGetCurve(1, false);
 			if(curve.N != null) {
-				List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetEncoderCurvesTempFileName());
+				List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetEncoderCurvesTempFileName(), "");
 				encoderUpdateTreeViewCapture(contents); //this updates encoderCaptureCurves
 
 				findAndMarkSavedCurves(false, false); //SQL closed; don't update curve SQL records (like future1: meanPower)
@@ -10422,6 +10501,8 @@ LogB.Debug("mc finished 5");
 		radio_change_modes_contacts_runs_simple = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_runs_simple");
 		radio_change_modes_contacts_runs_intervallic = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_runs_intervallic");
 		radio_change_modes_contacts_runs_encoder = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_runs_encoder");
+		radio_change_modes_contacts_runs_beepTest = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_runs_beepTest");
+		radio_change_modes_contacts_wilight = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_wilight");
 		radio_change_modes_contacts_isometric = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_isometric");
 		radio_change_modes_contacts_elastic = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_elastic");
 		radio_change_modes_encoder_gravitatory = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_encoder_gravitatory");
@@ -10431,6 +10512,7 @@ LogB.Debug("mc finished 5");
 		image_change_modes_contacts_runs_simple = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_runs_simple");
 		//image_change_modes_contacts_runs_reactive = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_runs_reactive");
 		image_change_modes_contacts_runs_intervallic = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_runs_intervallic");
+		image_change_modes_contacts_wilight = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_wilight");
 		image_change_modes_contacts_force_sensor = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_force_sensor");
 		image_change_modes_contacts_force_sensor1 = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_force_sensor1");
 		image_change_modes_contacts_runs_encoder = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_runs_encoder");
@@ -10765,13 +10847,14 @@ LogB.Debug("mc finished 5");
 
 		radio_menu_2_2_2_jumps = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_jumps");
 		radio_menu_2_2_2_races = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_races");
-		radio_menu_2_2_2_isometric = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_isometric");
+		radio_menu_2_2_2_wilight = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_wilight");
+		radio_menu_2_2_2_force = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_force");
 		radio_menu_2_2_2_elastic = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_elastic");
 		radio_menu_2_2_2_weights = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_weights");
 		radio_menu_2_2_2_inertial = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_inertial");
 		eventbox_radio_menu_2_2_2_jumps = (Gtk.EventBox) builder.GetObject ("eventbox_radio_menu_2_2_2_jumps");
 		eventbox_radio_menu_2_2_2_races = (Gtk.EventBox) builder.GetObject ("eventbox_radio_menu_2_2_2_races");
-		eventbox_radio_menu_2_2_2_isometric = (Gtk.EventBox) builder.GetObject ("eventbox_radio_menu_2_2_2_isometric");
+		eventbox_radio_menu_2_2_2_force = (Gtk.EventBox) builder.GetObject ("eventbox_radio_menu_2_2_2_force");
 		eventbox_radio_menu_2_2_2_elastic = (Gtk.EventBox) builder.GetObject ("eventbox_radio_menu_2_2_2_elastic");
 		eventbox_radio_menu_2_2_2_weights = (Gtk.EventBox) builder.GetObject ("eventbox_radio_menu_2_2_2_weights");
 		eventbox_radio_menu_2_2_2_inertial = (Gtk.EventBox) builder.GetObject ("eventbox_radio_menu_2_2_2_inertial");

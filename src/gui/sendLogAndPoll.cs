@@ -134,7 +134,7 @@ public partial class ChronoJumpWindow
 		
 		//4th send Json
 		Json js = new Json();
-		bool success = js.PostCrashLog(email, comments);
+		bool success = js.PostCrashLog (false, email, comments);
 		
 		if(success) {
 			button_send_log.Label = Catalog.GetString("Thanks");

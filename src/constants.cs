@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -1091,7 +1091,7 @@ public class Constants
 	public enum Modes {
 		UNDEFINED,
 		JUMPSSIMPLE, JUMPSREACTIVE,
-		RUNSSIMPLE, RUNSINTERVALLIC, RUNSENCODER,
+		RUNSSIMPLE, RUNSINTERVALLIC, RUNSENCODER, BEEPTEST, WILIGHT,
 		POWERGRAVITATORY, POWERINERTIAL,
 		FORCESENSORISOMETRIC, FORCESENSORELASTIC,
 		RT, OTHER } //OTHER can be: Multichronopic, Pulse, FourPlatforms

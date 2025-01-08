@@ -19,3 +19,7 @@ RCA  --> D3
 HX711 integrated in the PCB assembly
 Added RCA trigger
 Smaller PCB
+
+V0.6
+---------------------------------------------------
+Fixed end_capture and new line issue

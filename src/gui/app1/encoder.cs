@@ -6462,7 +6462,7 @@ public partial class ChronoJumpWindow
 				encoderCaptureStringR = new List<string>();
 				encoderCaptureStringR.Add(
 						",series,exercise,mass,start,width,height," + 
-						"meanSpeed,maxSpeed,maxSpeedT," +
+						"meanSpeed,maxSpeed,maxSpeedT,rvd," +
 						"meanPower,peakPower,peakPowerT,pp_ppt," +
 						"meanForce, maxForce, maxForceT, maxForce_maxForceT," +
 						"workJ, impulse");
@@ -6868,16 +6868,16 @@ public partial class ChronoJumpWindow
 			encoderCaptureStringR.Add(string.Format("\n" + 
 						"{0},2,a,3,4," + 		//id, seriesName, exerciseName, massBody, massExtra
 						"{1},{2},{3}," + 		//start, width, height
-						"{4},{5},{6}," + 		//speeds
-						"{7},{8},{9},{10}," + 		//powers
-						"{11},{12},{13},{14}," + 	//forces
-						"{15},{16}", 			//workJ, impulse
+						"{4},{5},{6},{7}," + 		//speeds
+						"{8},{9},{10},{11}," + 		//powers
+						"{12},{13},{14},{15}," + 	//forces
+						"{16},{17}", 			//workJ, impulse
 					strs[0],
 					strs[1], strs[2], strs[3],		//start, width, height
-					strs[4], strs[5], strs[6],		//speeds
-					strs[7], strs[8], strs[9], strs[10], 	//powers
-					strs[11], strs[12], strs[13], strs[14], //forces
-					strs[15], strs[16] 			//workJ, impulse
+					strs[4], strs[5], strs[6], strs[7],	//speeds
+					strs[8], strs[9], strs[10], strs[11], 	//powers
+					strs[12], strs[13], strs[14], strs[15], //forces
+					strs[16], strs[17] 			//workJ, impulse
 					));
 
 			//LogB.Debug("encoderCaptureStringR");
@@ -6888,12 +6888,12 @@ public partial class ChronoJumpWindow
 			double range = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[3]));
 			double meanSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[4]));
 			double maxSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[5]));
-			double meanForce = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[11]));
-			double maxForce = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[12]));
-			double meanPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[7]));
-			double peakPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[8]));
-			double workJ = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[15]));
-			double impulse = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[16]));
+			double meanForce = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[12]));
+			double maxForce = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[13]));
+			double meanPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[8]));
+			double peakPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[9]));
+			double workJ = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[16]));
+			double impulse = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[17]));
 			captureCurvesBarsData_l.Add (new EncoderBarsData (
 						start, duration, range, meanSpeed, maxSpeed,
 						meanForce, maxForce, meanPower, peakPower, workJ, impulse));
@@ -7076,7 +7076,7 @@ public partial class ChronoJumpWindow
 				}
 
 				//LogB.Error("HERE YES");
-				//LogB.Error(encoderCaptureStringR);
+				//LogB.Error(Util.ListStringToString (encoderCaptureStringR));
 
 				treeviewEncoderCaptureRemoveColumns();
 				eCapture.Ecca.curvesAccepted = createTreeViewEncoderCapture(encoderCaptureStringR);
@@ -7679,7 +7679,7 @@ public partial class ChronoJumpWindow
 					LogB.Information("at fff with captureCurvesBarsData_l =");
 					LogB.Information(captureCurvesBarsData_l.Count.ToString());
 				} else {
-					List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetEncoderCurvesTempFileName());
+					List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetEncoderCurvesTempFileName(), "");
 
 					image_encoder_capture = UtilGtk.OpenImageSafe(
 							UtilEncoder.GetEncoderGraphTempFileName(),

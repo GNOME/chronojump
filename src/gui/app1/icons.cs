@@ -104,6 +104,8 @@ public partial class ChronoJumpWindow
 
 	Gtk.Image image_selector_start_jumps1;
 	Gtk.Image image_selector_start_runs1;
+	Gtk.Image image_selector_start_wilight;
+	Gtk.Image image_selector_start_force_tests;
 	Gtk.Image image_selector_start_isometric;
 	Gtk.Image image_selector_start_elastic;
 	Gtk.Image image_selector_start_displ_weights;
@@ -434,6 +436,8 @@ public partial class ChronoJumpWindow
 		app1s_image_show_data_elastic.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "elastic.png");
 
 		image_run_simple_show_time.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_run_time.png");
+		image_mode_race_beepTest.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "audio.png");
+		image_change_modes_contacts_runs_beepTest.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "audio.png");
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_capture.png");
 		image_tests_capture.Pixbuf = pixbuf;
@@ -685,9 +689,13 @@ public partial class ChronoJumpWindow
 		image_selector_start_jumps1.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "run_mov_2x.png");
 		image_selector_start_runs1.Pixbuf = pixbuf;
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "isometric_2x.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "reaction_time_2025_blue_48px.png");
+		image_selector_start_wilight.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "force_2x.png");
+		image_selector_start_force_tests.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "isometric.png");
 		image_selector_start_isometric.Pixbuf = pixbuf;
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "elastic_2x.png");
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "elastic.png");
 		image_selector_start_elastic.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_weight_mov_2x.png");
 		image_selector_start_displ_weights.Pixbuf = pixbuf;
@@ -718,6 +726,7 @@ public partial class ChronoJumpWindow
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "race_encoder_icon.png");
 		image_mode_race_encoder_small1.Pixbuf = pixbuf;
 		image_change_modes_contacts_runs_encoder.Pixbuf = pixbuf;
+		image_change_modes_contacts_wilight.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "reaction_time_2025_blue_24px.png");
 
 		image_jump_execute_air.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_jump_air.png");
 		image_jump_execute_land.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_jump_land.png");
@@ -1182,6 +1191,8 @@ public partial class ChronoJumpWindow
 
 		image_selector_start_jumps1 = (Gtk.Image) builder.GetObject ("image_selector_start_jumps1");
 		image_selector_start_runs1 = (Gtk.Image) builder.GetObject ("image_selector_start_runs1");
+		image_selector_start_wilight = (Gtk.Image) builder.GetObject ("image_selector_start_wilight");
+		image_selector_start_force_tests= (Gtk.Image) builder.GetObject ("image_selector_start_force_tests");
 		image_selector_start_isometric = (Gtk.Image) builder.GetObject ("image_selector_start_isometric");
 		image_selector_start_elastic = (Gtk.Image) builder.GetObject ("image_selector_start_elastic");
 		image_selector_start_displ_weights = (Gtk.Image) builder.GetObject ("image_selector_start_displ_weights");
@@ -1273,7 +1284,6 @@ public partial class ChronoJumpWindow
 		image_encoder_capture_inertial_con = (Gtk.Image) builder.GetObject ("image_encoder_capture_inertial_con");
 
 		//force sensor
-		//image_selector_start_force_sensor = (Gtk.Image) builder.GetObject ("image_selector_start_force_sensor");
 		image_force_sensor_adjust_help = (Gtk.Image) builder.GetObject ("image_force_sensor_adjust_help");
 		image_force_sensor_analyze_load_abcd = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_load_abcd");
 		image_force_sensor_analyze_load_ab = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_load_ab");

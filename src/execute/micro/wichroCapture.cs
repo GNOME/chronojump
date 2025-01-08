@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
- * Copyright (C) 2022-2024  Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2022-2025  Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -26,6 +26,7 @@ public class WichroCapture: ArduinoCapture
 {
 	private string portName;
 	private List<WichroEvent> list = new List<WichroEvent>();
+	public string wilightResponse;
 
 	//constructor
 	public WichroCapture (string portName)
@@ -41,6 +42,41 @@ public class WichroCapture: ArduinoCapture
 	public void Reset ()
 	{
 		initialize ();
+	}
+
+	public bool Discover()
+	{
+		//TODO: see if need to implement the micro.Opened stuff on CaptureStart (use for these two functions)
+
+		wilightResponse = "";
+		if (!sendCommand ("local:discover;", "Error doing discover"))
+			return false;
+
+		List<string> responseExpected_l = new List<string>();
+		responseExpected_l.Add("terminals:");
+
+		waitResponse (responseExpected_l, false, 10000, false);
+		wilightResponse = micro.Response;
+
+		return true;
+	}
+
+	public bool Ping (int terminal)
+	{
+		//TODO: see if need to implement the micro.Opened stuff on CaptureStart (use for these two functions)
+
+		wilightResponse = "";
+		if (!sendCommand (string.Format ("{0}:512;", terminal), "Error doing ping"))
+			return false;
+
+		//on ping, The terminal returns a sample plus the version of the firmware
+		List<string> responseExpected_l = new List<string>();
+		responseExpected_l.Add("Wifi-Controller");
+
+		waitResponse (responseExpected_l, false, 10000, false);
+		wilightResponse = micro.Response;
+
+		return true;
 	}
 
 	public override bool CaptureStart()
@@ -109,7 +145,11 @@ public class WichroCapture: ArduinoCapture
 			return false;
 		}
 
-		//LogB.Information("bucle capture call process line");
+		if (str == "")
+			return true;
+
+		LogB.Information("bucle capture call process line:");
+		LogB.Information (string.Format ("|{0}|", str));
 		WichroEvent we = new WichroEvent();
 		if(! processLine (str, out we))
 			return true;
@@ -118,6 +158,33 @@ public class WichroCapture: ArduinoCapture
 		LogB.Information("bucle capture list added: " + we.ToString());
 		return true;
 	}
+
+	public override string CaptureEchoLine ()
+	{
+		string str = "";
+
+		/*
+		 * if at CaptureStart device is disconnected,
+		 * micro gets closed there and here it shoud not readLine
+		 */
+		if (! micro.Opened)
+		{
+			//return false;
+			return "";
+		}
+
+		if(! readLine (out str))
+		{
+			micro.ClosePort ();
+			//return false;
+			return "";
+		}
+
+		//LogB.Information("echo readed: " + str);
+		//return true;
+		return str;
+	}
+
 
 	public override bool Stop()
 	{
@@ -152,6 +219,11 @@ public class WichroCapture: ArduinoCapture
 	{
 		//256 is the sensorAll command
 		return sendCommand (string.Format ("{0}:256;", terminal), "Error doing sensorAll");
+	}
+
+	public bool WilightSendCommand (string str)
+	{
+		return sendCommand (str, "Error sending: " + str);
 	}
 
 	public override bool CanReadFromList()

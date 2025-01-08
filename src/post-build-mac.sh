@@ -32,4 +32,6 @@ cp ../binariesMac/ffplay $1/bin/ffplay
 cp ../images/bad.wav $1/share/chronojump/images/bad.wav
 cp ../images/ok.wav $1/share/chronojump/images/ok.wav
 cp ../images/start.wav $1/share/chronojump/images/start.wav
+mkdir -p "$1/share/chronojump/images/sounds/beepTests"
+cp ../images/sounds/beepTests/*.mp3 "$1/share/chronojump/images/sounds/beepTests/"
 cp ../glade/app1.glade $1/glade/app1.glade

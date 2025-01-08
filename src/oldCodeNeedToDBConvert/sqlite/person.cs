@@ -32,10 +32,10 @@ using SQLiteParameter = Microsoft.Data.Sqlite.SqliteParameter;
 #else
 using System.Data.SQLite;
 using SQLiteTransaction = System.Data.SQLite.SQLiteTransaction;
-using SQLiteCommand = Microsoft.Data.Sqlite.SQLiteCommand;
-using SQLiteDataReader = Microsoft.Data.Sqlite.SQLiteDataReader;
-using SQLiteConnection = Microsoft.Data.Sqlite.SQLiteConnection;
-using SQLiteParameter = Microsoft.Data.Sqlite.SQLiteParameter;
+using SQLiteCommand = System.Data.SQLite.SQLiteCommand;
+using SQLiteDataReader = System.Data.SQLite.SQLiteDataReader;
+using SQLiteConnection = System.Data.SQLite.SQLiteConnection;
+using SQLiteParameter = System.Data.SQLite.SQLiteParameter;
 #endif
 
 class SqlitePersonOld : Sqlite

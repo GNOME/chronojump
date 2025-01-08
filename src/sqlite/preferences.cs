@@ -597,8 +597,12 @@ class SqlitePreferences : Sqlite
 	{
 		Preferences p = new Preferences ();
 
+#if MICROSOFT_DATA_SQLITE
+        string connectionString = "Data source = " + databaseCloudRead;
+#else
 		string connectionString = "version = 3; Data source = " + databaseCloudRead;
-		SQLiteConnection dbconCloud = new SQLiteConnection ();
+#endif
+        SQLiteConnection dbconCloud = new SQLiteConnection ();
 		dbconCloud.ConnectionString = connectionString;
 
 		SQLiteCommand dbcmdCloud = dbconCloud.CreateCommand();

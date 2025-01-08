@@ -9,6 +9,7 @@ MAC_APP_RESOURCE_DIR="${MAC_APP_DIR}/Contents/Resources/"
 PACKAGE_VERSION="$1"
 PACKAGE_TYPE="$2"
 PACKAGE_PLACE="$3"
+PACKAGE_SQLITE_LIB="$4"
 ARCH="$(uname -m)"
 if [ "$ARCH" == "arm64" ]; then  
     ARCH="arm64"
@@ -106,7 +107,11 @@ mkdir -p ${MAC_APP_BIN_DIR}
 #mkdir ${MAC_APP_FRAMEWORK_DIR}
 rm -rf ${MAC_APP_RESOURCE_DIR}gtk3
 
+if [ "$PACKAGE_SQLITE_LIB" == "Microsoft.Data.Sqlite" ]; then  
+dotnet publish ../../src/Chronojump-mac-${PACKAGE_SQLITE_LIB}.sln -p:BuildTranslations=true --configuration Release -r osx-${ARCH} --self-contained true -o ${MAC_APP_BIN_DIR}
+else
 dotnet publish ../../src/Chronojump-mac.sln -p:BuildTranslations=true --configuration Release -r osx-${ARCH} --self-contained true -o ${MAC_APP_BIN_DIR}
+fi
 cd ../../src/
 dos2unix post-build-mac.sh
 chmod +x post-build-mac.sh

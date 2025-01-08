@@ -17,6 +17,9 @@ PACKAGE_SHORT_VERSION = $(shell git describe | sed 's/-.*//')
 dmg: bundle package-dmg
 pkg: bundle package-pkg
 apple-store-pkg: bundle package-apple-store-pkg
+dmg-Microsoft.Data.Sqlite: bundle package-dmg-Microsoft.Data.Sqlite
+pkg-Microsoft.Data.Sqlite: bundle package-pkg-Microsoft.Data.Sqlite
+apple-store-pkg-Microsoft.Data.Sqlite: bundle package-apple-store-pkg-Microsoft.Data.Sqlite
 
 bundle:
 	rm -rf deps/FTD2XX_NET_v1.2.0
@@ -57,3 +60,12 @@ package-pkg:
 
 package-apple-store-pkg:	
 	sh ./build_installer.sh $(PACKAGE_VERSION) pkg apple-store
+
+package-dmg-Microsoft.Data.Sqlite:	
+	sh ./build_installer.sh $(PACKAGE_VERSION) dmg not-apple-store Microsoft.Data.Sqlite
+
+package-pkg-Microsoft.Data.Sqlite:	
+	sh ./build_installer.sh $(PACKAGE_VERSION) pkg not-apple-store Microsoft.Data.Sqlite
+
+package-apple-store-pkg-Microsoft.Data.Sqlite:	
+	sh ./build_installer.sh $(PACKAGE_VERSION) pkg apple-store Microsoft.Data.Sqlite

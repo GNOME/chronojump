@@ -31,7 +31,11 @@ using System.Collections; //ArrayList
 
 using System.Runtime.InteropServices;
 using Chronojump;
+#if MICROSOFT_DATA_SQLITE
+using Microsoft.Data.Sqlite;
+#else
 using System.Data.SQLite;
+#endif
 
 public class ChronoJump 
 {

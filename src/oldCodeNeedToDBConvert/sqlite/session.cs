@@ -23,7 +23,21 @@ using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
 using Mono.Unix;
+#if MICROSOFT_DATA_SQLITE
+using Microsoft.Data.Sqlite;
+using SQLiteTransaction = Microsoft.Data.Sqlite.SqliteTransaction;
+using SQLiteCommand = Microsoft.Data.Sqlite.SqliteCommand;
+using SQLiteDataReader = Microsoft.Data.Sqlite.SqliteDataReader;
+using SQLiteConnection = Microsoft.Data.Sqlite.SqliteConnection;
+using SQLiteParameter = Microsoft.Data.Sqlite.SqliteParameter;
+#else
 using System.Data.SQLite;
+using SQLiteTransaction = System.Data.SQLite.SQLiteTransaction;
+using SQLiteCommand = Microsoft.Data.Sqlite.SQLiteCommand;
+using SQLiteDataReader = Microsoft.Data.Sqlite.SQLiteDataReader;
+using SQLiteConnection = Microsoft.Data.Sqlite.SQLiteConnection;
+using SQLiteParameter = Microsoft.Data.Sqlite.SQLiteParameter;
+#endif
 
 class SqliteSessionOld : Sqlite
 {

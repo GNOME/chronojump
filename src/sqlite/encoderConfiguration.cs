@@ -21,7 +21,19 @@
 using System;
 using System.Data;
 using System.Collections.Generic; //List<T>
+#if MICROSOFT_DATA_SQLITE
+using Microsoft.Data.Sqlite;
+using SQLiteTransaction = Microsoft.Data.Sqlite.SqliteTransaction;
+using SQLiteCommand = Microsoft.Data.Sqlite.SqliteCommand;
+using SQLiteDataReader = Microsoft.Data.Sqlite.SqliteDataReader;
+using SQLiteConnection = Microsoft.Data.Sqlite.SqliteConnection;
+#else
 using System.Data.SQLite;
+using SQLiteTransaction = System.Data.SQLite.SQLiteTransaction;
+using SQLiteCommand = Microsoft.Data.Sqlite.SQLiteCommand;
+using SQLiteDataReader = Microsoft.Data.Sqlite.SQLiteDataReader;
+using SQLiteConnection = Microsoft.Data.Sqlite.SQLiteConnection;
+#endif
 
 
 class SqliteEncoderConfiguration : Sqlite

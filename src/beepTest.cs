@@ -80,19 +80,19 @@ public class BeepTestStageManage
 	public StageLapStatus GetCurrentStageLapStatus (long currentMs, int restSeconds, out bool shouldFinish)
 	{
 		shouldFinish = false;
-		double sum = 0;
+		double sumRaceMs = 0;
 		for (int s = 0; s < bts_l.Count; s ++)
 		{
 			for (int t = 0; t < bts_l[s].laps; t ++)
 			{
-				sum += 1000 * bts_l[s].lapSeconds;
+				sumRaceMs += 1000 * bts_l[s].lapSeconds;
 				if (restSeconds > 0 && Util.IsEven (t+1))
-					sum += 1000 * restSeconds;
+					sumRaceMs += 1000 * restSeconds;
 
-				if (currentMs < sum)
+				if (currentMs < sumRaceMs)
 					return new StageLapStatus (s, t, bts_l[s].laps, bts_l[s].speedKmh,
-							(restSeconds > 0 && Util.IsEven (t+1) && currentMs + 1000 * restSeconds >= sum), // true if we are resting
-							(restSeconds > 0 && Util.IsEven (t+1) && currentMs + 1000 * restSeconds/2 < sum) // (if we are resting: true in the 1st part of the rest)
+							(restSeconds > 0 && Util.IsEven (t+1) && currentMs + 1000 * restSeconds >= sumRaceMs), // true if we are resting
+							(restSeconds > 0 && Util.IsEven (t+1) && currentMs + 1000 * restSeconds/2 < sumRaceMs) // (if we are resting: true in the 1st part of the rest)
 							);
 			}
 		}
@@ -213,6 +213,13 @@ public abstract class BeepTest
 
 	public enum BeepNowEnum { NO, LAP, STAGE };
 	protected BeepNowEnum shouldBeepNow;
+
+	protected bool hasVoice;
+	public enum VoiceNowEnum { NO, MID, STAGE }; //MID is middle of stage
+	protected VoiceNowEnum shouldVoiceNow; // -1 mean no
+	protected bool has05PercentVoiceThisStage;
+	protected bool has50PercentVoiceThisStage;
+
 	private Gdk.Pixbuf imageLapStatus;
 	protected BeepTestWarningManage warningManage;
 
@@ -277,6 +284,8 @@ public abstract class BeepTest
 			finished = true;
 
 		decideIfShouldBeep ();
+		if (hasVoice)
+			decideIfShouldVoice ();
 		imageLapStatus = getImageForLapStatus ();
 
 		previousStageLapStatus = currentStageLapStatus;
@@ -289,9 +298,31 @@ public abstract class BeepTest
 		shouldBeepNow = BeepNowEnum.NO;
 		if (previousStageLapStatus.stage >= 0 && //double beep on stage not at start of the test
 				previousStageLapStatus.stage != currentStageLapStatus.stage)
+		{
 				shouldBeepNow = BeepNowEnum.STAGE;
+				has05PercentVoiceThisStage = false;
+				has50PercentVoiceThisStage = false;
+		}
 		else if (previousStageLapStatus.lap != currentStageLapStatus.lap)
 			shouldBeepNow = BeepNowEnum.LAP;
+	}
+
+	protected virtual void decideIfShouldVoice ()
+	{
+		shouldVoiceNow = VoiceNowEnum.NO;
+		if (! has05PercentVoiceThisStage &&
+				getCurrentPercentageOnStage (currentStageLapStatus.stage) > 05 &&
+				currentStageLapStatus.stage >= 0)
+		{
+			shouldVoiceNow = VoiceNowEnum.STAGE;
+			has05PercentVoiceThisStage = true;
+		}
+		else if (! has50PercentVoiceThisStage &&
+				getCurrentPercentageOnStage (currentStageLapStatus.stage) > 50)
+		{
+			shouldVoiceNow = VoiceNowEnum.MID;
+			has50PercentVoiceThisStage = true;
+		}
 	}
 
 	protected virtual Gdk.Pixbuf getImageForLapStatus ()
@@ -313,6 +344,21 @@ public abstract class BeepTest
 	protected int getStageTimeStartInMs (int stage)
 	{
 		return btsm.GetStageTimeStartInMs (stage);
+	}
+
+	protected int getCurrentPercentageOnStage (int currentStage)
+	{
+		currentStage ++;
+		int currentStageStartMs = getStageTimeStartInMs (currentStage);
+		int nextStageStartMs = getStageTimeStartInMs (currentStage + 1);
+		LogB.Information (string.Format ("currentMs: {0}, currentStageStartMs: {1}, nextStageStartMs: {2}, percent: {3}",
+					stopwatch.ElapsedMilliseconds,
+					currentStageStartMs,
+					nextStageStartMs,
+					Convert.ToInt32 (100 * UtilAll.DivideSafe (stopwatch.ElapsedMilliseconds -currentStageStartMs, nextStageStartMs - currentStageStartMs))
+					));
+
+		return Convert.ToInt32 (100 * UtilAll.DivideSafe (stopwatch.ElapsedMilliseconds -currentStageStartMs, nextStageStartMs - currentStageStartMs));
 	}
 
 	protected virtual List<double> stageSpeedKm_l
@@ -359,6 +405,20 @@ public abstract class BeepTest
 			return Util.GetSound (Constants.SoundTypes.CAN_START);
 	}
 
+	//middle is for the .5, 1.5, ...
+	public virtual string GetVoiceFile (int stage, bool middle)
+	{
+		if (stage >= 0 && stage <= 20)
+		{
+			string middleStr = "";
+			if (middle)
+				middleStr = ".5";
+
+			return System.IO.Path.Combine (Util.GetSoundsBeepDir(), string.Format ("Voice{0}{1}.mp3", stage, middleStr));
+		} else
+			return Util.GetSound (Constants.SoundTypes.CAN_START);
+	}
+
 	public void WarningAdd (int personID, string personName)
 	{
 		warningManage.Add (personID, personName, currentStageLapStatus.stage, currentStageLapStatus.lap);
@@ -377,6 +437,11 @@ public abstract class BeepTest
 	public BeepNowEnum ShouldBeepNow
 	{
 		get { return (shouldBeepNow); }
+	}
+
+	public VoiceNowEnum ShouldVoiceNow
+	{
+		get { return (shouldVoiceNow); }
 	}
 
 	public Gdk.Pixbuf ImageLapStatus
@@ -404,6 +469,7 @@ public class BeepTestLeger20m : BeepTest
 		this.startFirstAt8Kmh = startFirstAt8Kmh;
 		initialize ();
 		hasVo2max = true;
+		hasVoice = true;
 
 		if (startStage > 1)
 			startedWithMs = getStageTimeStartInMs (startStage);
@@ -451,6 +517,7 @@ public class BeepTestLeger15m : BeepTest
 		lapMeters = 15;
 
 		initialize ();
+		hasVoice = true;
 
 		if (startStage > 1)
 			startedWithMs = getStageTimeStartInMs (startStage);
@@ -640,6 +707,7 @@ public class BeepTestYYIE1 : BeepTestYYI
 	{
 		restSeconds = 5;
 		initialize ();
+		hasVoice = true;
 	}
 
 	protected override List<double> stageSpeedKm_l
@@ -675,6 +743,7 @@ public class BeepTestYYIE2 : BeepTestYYI
 	{
 		restSeconds = 5;
 		initialize ();
+		hasVoice = true;
 	}
 
 	protected override List<double> stageSpeedKm_l
@@ -707,6 +776,7 @@ public class BeepTestYYIR1 : BeepTestYYI
 		restSeconds = 5;
 		initialize ();
 		hasVo2max = true;
+		hasVoice = true;
 	}
 
 	protected override List<double> stageSpeedKm_l
@@ -745,6 +815,7 @@ public class BeepTestYYIR2 : BeepTestYYI
 		restSeconds = 5;
 		initialize ();
 		hasVo2max = true;
+		hasVoice = true;
 	}
 
 	protected override List<double> stageSpeedKm_l

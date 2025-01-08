@@ -253,6 +253,13 @@ public partial class ChronoJumpWindow
 			 Util.PlaySoundGstreamerFromFile (beepTest.GetSoundFileForStage (slStatus.stage, false),
 					 preferences.volumeOn, preferences.gstreamer, 1);
 
+		if (beepTest.ShouldVoiceNow == BeepTest.VoiceNowEnum.STAGE)
+			 Util.PlaySoundGstreamerFromFile (beepTest.GetVoiceFile (slStatus.stage, false),
+					 preferences.volumeOn, preferences.gstreamer, 1);
+		else if (beepTest.ShouldVoiceNow == BeepTest.VoiceNowEnum.MID)
+			 Util.PlaySoundGstreamerFromFile (beepTest.GetVoiceFile (slStatus.stage, true),
+					 preferences.volumeOn, preferences.gstreamer, 1);
+
 		image_beepTest_runStatus.Pixbuf = beepTest.ImageLapStatus;
 
 		Thread.Sleep (20);

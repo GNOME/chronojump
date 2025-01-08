@@ -255,11 +255,16 @@ class Sqlite
 		 */
 		string sqlFileTest = home + Path.DirectorySeparatorChar + "test.db";
 		string sqlFileTestTemp = temp + Path.DirectorySeparatorChar + "test.db";
+#if MICROSOFT_DATA_SQLITE
+        string connectionStringTest = "Data source = " + sqlFileTest;
+        string connectionStringTestTemp = "Data source = " + sqlFileTestTemp;
+#else
 		string connectionStringTest = "version = 3; Data source = " + sqlFileTest;
 		string connectionStringTestTemp = "version = 3; Data source = " + sqlFileTestTemp;
+#endif
 
 
-		dbcon.ConnectionString = connectionStringTest;
+        dbcon.ConnectionString = connectionStringTest;
 		dbcmd = dbcon.CreateCommand();
 
 		try {

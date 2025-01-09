@@ -18,13 +18,8 @@
  * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
-using System;
-using System.Data;
-using System.IO; //"File" things. TextWriter
 using System.Collections; //ArrayList
-using System.Collections.Generic; //List
 #if MICROSOFT_DATA_SQLITE
-using Microsoft.Data.Sqlite;
 using SQLiteTransaction = Microsoft.Data.Sqlite.SqliteTransaction;
 using SQLiteCommand = Microsoft.Data.Sqlite.SqliteCommand;
 using SQLiteDataReader = Microsoft.Data.Sqlite.SqliteDataReader;
@@ -53,8 +48,12 @@ class SqliteGeneral
 			return;
 		}
 		dbcon = new SQLiteConnection ();
-		string connectionString = "version = 3; Data source = " + databasePath;
-		dbcon.ConnectionString = connectionString;
+#if MICROSOFT_DATA_SQLITE
+        string connectionString = "Data source = " + databasePath;
+#else
+        string connectionString = "version = 3; Data source = " + databasePath;
+#endif
+        dbcon.ConnectionString = connectionString;
 		try {
 			dbcon.Open();
 			isOpened = true;
@@ -113,16 +112,25 @@ class Sqlite
 	private static string temp = Util.GetDatabaseTempDir();
 	private static string sqlFileTemp = temp + Path.DirectorySeparatorChar + "chronojump.db";
 
-	//http://www.mono-project.com/SQLite
+    //http://www.mono-project.com/SQLite
 
+#if MICROSOFT_DATA_SQLITE
+    static string connectionString = "Data source = " + sqlFile;
+    static string connectionStringTemp = "Data source = " + sqlFileTemp;
+#else
 	static string connectionString = "version = 3; Data source = " + sqlFile;
 	static string connectionStringTemp = "version = 3; Data source = " + sqlFileTemp;
+#endif
 
-	//test to try to open db in a dir with accents (latin)
+    //test to try to open db in a dir with accents (latin)
+#if MICROSOFT_DATA_SQLITE
+    //static string connectionString = "globalization requestEncoding='iso-8859-1'; responseEncoding='iso-8859-1'; fileEncoding='iso-8859-1'; culture='es-ES';Data source = " + sqlFile;
+#else
 	//static string connectionString = "globalization requestEncoding='iso-8859-1'; responseEncoding='iso-8859-1'; fileEncoding='iso-8859-1'; culture='es-ES';version = 3; Data source = " + sqlFile;
-	
-	//create blank database
-	static bool creatingBlankDatabase = false;
+#endif
+
+    //create blank database
+    static bool creatingBlankDatabase = false;
 
 	//use LOCAL on chronojump start if db changed
 	//use IMPORTED_SESSION when importing a session
@@ -255,11 +263,16 @@ class Sqlite
 		 */
 		string sqlFileTest = home + Path.DirectorySeparatorChar + "test.db";
 		string sqlFileTestTemp = temp + Path.DirectorySeparatorChar + "test.db";
+#if MICROSOFT_DATA_SQLITE
+        string connectionStringTest = "Data source = " + sqlFileTest;
+        string connectionStringTestTemp = "Data source = " + sqlFileTestTemp;
+#else
 		string connectionStringTest = "version = 3; Data source = " + sqlFileTest;
 		string connectionStringTestTemp = "version = 3; Data source = " + sqlFileTestTemp;
+#endif
 
 
-		dbcon.ConnectionString = connectionStringTest;
+        dbcon.ConnectionString = connectionStringTest;
 		dbcmd = dbcon.CreateCommand();
 
 		try {
@@ -354,17 +367,25 @@ class Sqlite
 		//DB will be updated in gui/networks
 		sqlFile = home + Path.DirectorySeparatorChar + "chronojump.db";
 
+#if MICROSOFT_DATA_SQLITE
+        connectionString = "Data source = " + sqlFile;
+#else
 		connectionString = "version = 3; Data source = " + sqlFile;
-	}
+#endif
+    }
 
 	//used on import
 	public static void setSqlFilePath(string filePath)
 	{
 		sqlFile = filePath;
+#if MICROSOFT_DATA_SQLITE
+        connectionString = "Data source = " + sqlFile;
+#else
 		connectionString = "version = 3; Data source = " + sqlFile;
-	}
+#endif
+    }
 
-	public static void saveClassState()
+    public static void saveClassState()
 	{
 		initialState = new StaticClassState (typeof (Sqlite));
 		initialState.readAttributes ();
@@ -382,10 +403,14 @@ class Sqlite
 	public static void ConnectBlank()
 	{
 		string sqlFileBlank = "chronojump_blank.db"; //copied on /chronojump-x.y/data installjammer will copy it to database
-		string connectionStringBlank = "version = 3; Data source = " + sqlFileBlank;
+#if MICROSOFT_DATA_SQLITE
+        string connectionStringBlank = "Data source = " + sqlFileBlank;
+#else
+        string connectionStringBlank = "version = 3; Data source = " + sqlFileBlank;
+#endif
 
-		//delete blank file if exists
-		if (File.Exists(sqlFileBlank)) {
+        //delete blank file if exists
+        if (File.Exists(sqlFileBlank)) {
 			LogB.SQL("File blank exists, deleting...");
 			File.Delete(sqlFileBlank);
 		}
@@ -5073,9 +5098,13 @@ LogB.SQL("5" + tableName);
 	 */
 	
 	public static string sqlFileServer = home + Path.DirectorySeparatorChar + "chronojump_server.db";
+#if MICROSOFT_DATA_SQLITE
+    static string connectionStringServer = "Data source = " + sqlFileServer;
+#else
 	static string connectionStringServer = "version = 3; Data source = " + sqlFileServer;
-	
-	public static bool CheckFileServer(){
+#endif
+
+    public static bool CheckFileServer(){
 		if (File.Exists(sqlFileServer))
 			return true;
 		else

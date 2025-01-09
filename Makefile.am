@@ -1,5 +1,7 @@
 EXTRA_DIST = win32/win32/chronojump_innosetup_x86.iss.in \
 	     win32/win32/chronojump_innosetup_x64.iss.in \
+	     win32/win32/chronojump_innosetup_arm.iss.in \
+	     win32/win32/chronojump_innosetup_arm64.iss.in \
 	     win32/Makefile.in glade/*.glade \
 	     src/chronojump-importer/chronojump_importer.py \
 	     src/chronojump-importer/test-delete.py \

@@ -121,7 +121,7 @@ elapsedMillis totalTime;      //Total elapsed time since startTime
 bool waitingData = false;
 
 bool debugEcho = false;
-bool read13Commands = true;
+bool read13Commands = false; //note making this true is a big problem because then we cannot send a get_version or a discover (less than 13 commands)
 
 
 void setup(void)
@@ -161,6 +161,7 @@ void setup(void)
     controlSwitch = controlSwitch + 4;
   }
 
+
   //  Serial.print("ControlChannel: ");
   //  Serial.print(control0Channel);
   //  Serial.print(" - ");
@@ -194,8 +195,6 @@ void setup(void)
 
 
   startTime = millis();
-  //  discoverTerminals();
-
 }
 
 
@@ -268,7 +267,6 @@ void serialEvent()
   try to make it work without the 13 commands
   try to separate WILIGHT and WICHRO if needed, maybe using .h
   */
-
   String stupidVariableStr = "";
   do {
     do {
@@ -282,7 +280,6 @@ void serialEvent()
   } while (read13Commands && countSemicolons (inputString) < 13);
 
   //Serial.println("input fora del loop:" + inputString);
-
   String currentInstruction = "";
 
   int lastIndex = inputString.lastIndexOf(";");
@@ -299,12 +296,9 @@ void serialEvent()
     else
       LED_off;
     */
-
-    Serial.println(inputString.substring(0, inputString.length() -1)); //echo
+    Serial.println(inputString);
   }
-  //Serial.println(inputString.substring(0, inputString.length() -1)); //echo
-  Serial.println(inputString);
-  
+
   while (prevSeparatorIndex < lastIndex ) {
     nextSeparatorIndex = inputString.indexOf(";", prevSeparatorIndex +1);
     currentInstruction = inputString.substring(prevSeparatorIndex +1 , nextSeparatorIndex +1);

@@ -32,7 +32,6 @@ unsigned int deviceVersion = 19;
 
 // Set up nRF24L01 radio on SPI bus plus pins  (CE & CS)
 
-
 //RF24 radio(A3, A4);    //Old versions
 RF24 radio(RADIO_CE, RADIO_CS);       //New version
 #define red_on digitalWrite(RED_PIN,LOW)

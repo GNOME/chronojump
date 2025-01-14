@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2020-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2020-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -81,8 +81,8 @@ public partial class ChronoJumpWindow
 		// 3. set hscales
 		signalPrepareGraphAICont (raAI_AB.GetLength(), raAI_CD.GetLength(), zoomFrameB, hsRight);
 
-		// 4. manage save buttons visibilities (TODO)
-		//manage_force_sensor_ai_table_visibilities();
+		// 4. manage save buttons visibilities (all inactive on race analyzer)
+		manage_ai_table_visibilities();
 	}
 
 	private void race_analyzer_analyze_instant_calculate_params_for_treeview (

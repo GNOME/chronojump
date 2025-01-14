@@ -24680,6 +24680,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -29394,11 +29397,11 @@ Concentric</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">8</property>
                                                             <child>
-                                                            <object class="GtkButton" id="button_force_sensor_analyze_AB_save">
+                                                            <object class="GtkButton" id="button_ai_AB_save">
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="tooltip-text" translatable="yes">Export data from A to B</property>
-                                                            <signal name="clicked" handler="on_button_force_sensor_analyze_AB_save_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_ai_AB_save_force_sensor_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox131">
                                                             <property name="visible">True</property>
@@ -29438,11 +29441,11 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_force_sensor_analyze_CD_save">
+                                                            <object class="GtkButton" id="button_ai_CD_save">
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="tooltip-text" translatable="yes">Export data from C to D</property>
-                                                            <signal name="clicked" handler="on_button_force_sensor_analyze_CD_save_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_ai_CD_save_force_sensor_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox72">
                                                             <property name="visible">True</property>

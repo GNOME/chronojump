@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2018-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -45,8 +45,6 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_signal_analyze_load_cd;
 	Gtk.Button button_ai_move_cd_pre;
 	Gtk.Button button_force_sensor_image_save_rfd_manual;
-	Gtk.Button button_force_sensor_analyze_AB_save;
-	Gtk.Button button_force_sensor_analyze_CD_save;
 
 	Gtk.RadioButton radio_force_rfd_search_optimized_ab;
 	Gtk.RadioButton radio_force_rfd_use_ab_range;
@@ -1113,7 +1111,7 @@ public partial class ChronoJumpWindow
 		signalPrepareGraphAICont (fsAI_AB.GetLength(), fsAI_CD.GetLength(), zoomFrameB, hsRight);
 
 		// 4. manage save buttons visibilities
-		manage_force_sensor_ai_table_visibilities();
+		manage_ai_table_visibilities();
 	}
 
 	private void on_check_force_sensor_analyze_show_magnitudes (object o, EventArgs args)
@@ -1331,25 +1329,6 @@ public partial class ChronoJumpWindow
 			return -1;
 
 		return fsAIRepetitionMouseLimitsCairo.FindBarInPixel (px, py);
-	}
-
-
-	private void manage_force_sensor_ai_table_visibilities()
-	{
-		bool visible = true;//checkbutton_force_sensor_ai_b.Active;
-
-		//ForceSensorAnalyzeInstant fsAI = getCorrectAI ();
-		//bool visibleElastic = (visible && fsAI.CalculedElasticPSAP);
-
-		if (visible && canDoForceSensorAnalyzeAB ())
-			button_force_sensor_analyze_AB_save.Visible = true;
-		else
-			button_force_sensor_analyze_AB_save.Visible = false;
-
-		if (visible && canDoForceSensorAnalyzeCD ())
-			button_force_sensor_analyze_CD_save.Visible = true;
-		else
-			button_force_sensor_analyze_CD_save.Visible = false;
 	}
 
 	private void force_sensor_analyze_instant_calculate_params_for_treeview (
@@ -1610,7 +1589,7 @@ public partial class ChronoJumpWindow
 		return (Util.FileExists(lastForceSensorFullPath) && Util.IsNumber (tvFS_CD.TimeDiff, true));
 	}
 
-	private void on_button_force_sensor_analyze_AB_save_clicked (object o, EventArgs args)
+	private void on_button_ai_AB_save_force_sensor_clicked (object o, EventArgs args)
 	{
 		if (tvFS_AB.TimeStart == tvFS_AB.TimeEnd)
 		{
@@ -1623,7 +1602,7 @@ public partial class ChronoJumpWindow
 		else
 			new DialogMessage (Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
 	}
-	private void on_button_force_sensor_analyze_CD_save_clicked (object o, EventArgs args)
+	private void on_button_ai_CD_save_force_sensor_clicked (object o, EventArgs args)
 	{
 		if (tvFS_CD.TimeStart == tvFS_CD.TimeEnd)
 		{
@@ -1683,8 +1662,6 @@ public partial class ChronoJumpWindow
 		button_signal_analyze_load_cd = (Gtk.Button) builder.GetObject ("button_signal_analyze_load_cd");
 		button_ai_move_cd_pre = (Gtk.Button) builder.GetObject ("button_ai_move_cd_pre");
 		button_force_sensor_image_save_rfd_manual = (Gtk.Button) builder.GetObject ("button_force_sensor_image_save_rfd_manual");
-		button_force_sensor_analyze_AB_save = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_AB_save");
-		button_force_sensor_analyze_CD_save = (Gtk.Button) builder.GetObject ("button_force_sensor_analyze_CD_save");
 
 		radio_force_rfd_search_optimized_ab = (Gtk.RadioButton) builder.GetObject ("radio_force_rfd_search_optimized_ab");
 		radio_force_rfd_use_ab_range = (Gtk.RadioButton) builder.GetObject ("radio_force_rfd_use_ab_range");

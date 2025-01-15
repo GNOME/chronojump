@@ -422,8 +422,8 @@ public class Json
 		JsonObject json = new JsonObject();
 
 		LogB.Information("osVersion: " + osVersion);
-		if(osVersion.Length > 13)
-			osVersion = osVersion.Substring(0,13); //at server mysql max length of this param is 15 (windows returns a longer string)
+		if(osVersion.Length > 28)
+			osVersion = osVersion.Substring(0,28); //at server mysql max length of this param is 30 (in the past was 15, but need longer to get mac/win versions). Gunicorn script /srv2/api-app/main.py have been also updated
 
 		LogB.Information("osVersion cutted: " + osVersion);
 		json.Add("os_version", osVersion);
@@ -446,6 +446,7 @@ public class Json
 
 		// Converts it to a String
 		String js = json.ToString();
+		LogB.Information ("js: " + js);
 
 		// Writes the json object into the request dataStream
 		Stream dataStream;

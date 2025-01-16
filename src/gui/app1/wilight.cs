@@ -317,6 +317,17 @@ public partial class ChronoJumpWindow
 			if (wilightProcessCancel && wilightTest != null)
 				wilightTest.Cancel = true;
 
+			if (wilightTest != null && wilightTest.Finished)
+			{
+				LogB.Information ("Finished! create object");
+				Wilight w = new Wilight (-1, currentPerson.UniqueID, currentSession.UniqueID, 0,
+						UtilDate.ToFile (wilightTimeStartCapture), "", //videoURL
+						wilightTest.FinishedMs);
+				LogB.Information ("Insert to SQL!");
+				w.InsertSQL (false);
+				LogB.Information ("Inserted!");
+			}
+
 			buttonbox_wilight_test.Sensitive = true;
 			button_wilight_test_cancel.Sensitive = false;
 			label_wilight_test_status.Text = "Done";

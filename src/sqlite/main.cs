@@ -164,7 +164,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.54";
+	static string lastChronojumpDatabaseVersion = "2.55";
 
 	public Sqlite()
 	{
@@ -3450,6 +3450,14 @@ class Sqlite
 
 				currentVersion = updateVersion("2.54");
 			}
+			if(currentVersion == "2.54")
+			{
+				LogB.SQL("Created tables: Wilight");
+
+				SqliteWilight.createTable();
+
+				currentVersion = updateVersion("2.55");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3662,6 +3670,9 @@ class Sqlite
 		//fourPlatforms
 		SqliteFourPlatforms.createTable ();
 
+		//Wilight
+		SqliteWilight.createTable ();
+
 		creationRate ++;
 		SqlitePreferences.createTable();
 		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
@@ -3674,6 +3685,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.54 - 2.55 Converted DB to 2.55 Created tables: Wilight
 		//2.53 - 2.54 Converted DB to 2.54 Added preferences: personClubID
 		//2.52 - 2.53 Converted DB to 2.53 Inserted into preferences: fontSizeAtGui
 		//2.51 - 2.52 Converted DB to 2.52 Created table fourPlatforms

@@ -22,6 +22,45 @@ using System;
 using System.Collections.Generic; //List<T>
 using System.Diagnostics;  //Stopwatch
 
+public class Wilight
+{
+	private int uniqueID;
+	private int personID;
+	private int sessionID;
+	private int exerciseID; //until wilightExercise table is not created, all will be 0
+	private string dateTime;
+	private string videoURL;
+	private int totalMs;
+
+	public Wilight (int uniqueID, int personID, int sessionID, int exerciseID,
+			string dateTime, string videoURL, int totalMs)
+	{
+		this.uniqueID = uniqueID;
+		this.personID = personID;
+		this.sessionID = sessionID;
+		this.exerciseID = exerciseID;
+		this.dateTime = dateTime;
+		this.videoURL = videoURL;
+		this.totalMs = totalMs;
+	}
+
+	public int InsertSQL (bool dbconOpened)
+	{
+		return SqliteWilight.Insert (dbconOpened, toSQLInsertString());
+	}
+	private string toSQLInsertString()
+	{
+		string uniqueIDStr = "NULL";
+		if(uniqueID != -1)
+			uniqueIDStr = uniqueID.ToString();
+
+		return
+			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID +
+			", '" + dateTime + "', '" + videoURL + "', " + totalMs + ")";
+	}
+}
+
+
 public static class WilightColors
 {
 	public static string AllOffCommand = "0:0;1:0;2:0;3:0;4:0;5:0;6:0;7:0;8:0;9:0;10:0;11:0;12:0;";

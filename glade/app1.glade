@@ -19806,13 +19806,12 @@ last capture</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="halign">center</property>
                                                             <property name="orientation">vertical</property>
-                                                            <property name="spacing">16</property>
+                                                            <property name="spacing">20</property>
                                                             <child>
-                                                            <object class="GtkButtonBox" id="buttonbox_wilight_test">
+                                                            <object class="GtkBox" id="box_wilight_test_actions">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="spacing">24</property>
-                                                            <property name="layout-style">center</property>
+                                                            <property name="spacing">20</property>
                                                             <child>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
@@ -19834,6 +19833,7 @@ last capture</property>
                                                             <object class="GtkSpinButton" id="spin_wilight_portnum">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
+                                                            <property name="text" translatable="yes">0</property>
                                                             <property name="adjustment">adjustment164</property>
                                                             </object>
                                                             <packing>
@@ -19872,6 +19872,7 @@ last capture</property>
                                                             <object class="GtkSpinButton" id="spin_wilight_test_ping">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
+                                                            <property name="text" translatable="yes">0</property>
                                                             <property name="adjustment">adjustment163</property>
                                                             </object>
                                                             <packing>
@@ -19932,7 +19933,7 @@ last capture</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>

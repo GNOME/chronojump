@@ -27,7 +27,7 @@ public partial class ChronoJumpWindow
 {
 	// at glade ---->
 	Gtk.Box box_start_wilight;
-	Gtk.ButtonBox buttonbox_wilight_test;
+	Gtk.Box box_wilight_test_actions;
 	Gtk.SpinButton spin_wilight_portnum;
 	Gtk.Button button_wilight_test_cancel;
 	Gtk.SpinButton spin_wilight_test_ping;
@@ -86,7 +86,7 @@ public partial class ChronoJumpWindow
 
 	private void wilightExecute ()
 	{
-		buttonbox_wilight_test.Sensitive = false;
+		box_wilight_test_actions.Sensitive = false;
 		label_wilight_test_status.Text = "Doing";
 		tbWilightText = "";
 
@@ -160,7 +160,7 @@ public partial class ChronoJumpWindow
 			else if (wilightAction == wilightActions.PING)
 				ping (Convert.ToInt32 (spin_wilight_test_ping.Value));
 
-			buttonbox_wilight_test.Sensitive = true;
+			box_wilight_test_actions.Sensitive = true;
 			label_wilight_test_status.Text = "";
 
 			wichroCapture.Stop(); //Should we do a disconnect here?
@@ -330,7 +330,7 @@ public partial class ChronoJumpWindow
 				LogB.Information ("Inserted!");
 			}
 
-			buttonbox_wilight_test.Sensitive = true;
+			box_wilight_test_actions.Sensitive = true;
 			button_wilight_test_cancel.Sensitive = false;
 			label_wilight_test_status.Text = "Done";
 			return false;
@@ -349,7 +349,7 @@ public partial class ChronoJumpWindow
 	private void connectWidgetsWilight (Gtk.Builder builder)
 	{
 		box_start_wilight = (Gtk.Box) builder.GetObject ("box_start_wilight");
-		buttonbox_wilight_test = (Gtk.ButtonBox) builder.GetObject ("buttonbox_wilight_test");
+		box_wilight_test_actions = (Gtk.Box) builder.GetObject ("box_wilight_test_actions");
 		spin_wilight_portnum = (Gtk.SpinButton) builder.GetObject ("spin_wilight_portnum");
 		button_wilight_test_cancel = (Gtk.Button) builder.GetObject ("button_wilight_test_cancel");
 		spin_wilight_test_ping = (Gtk.SpinButton) builder.GetObject ("spin_wilight_test_ping");

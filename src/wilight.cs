@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic; //List<T>
+using System.Diagnostics;  //Stopwatch
 
 public static class WilightColors
 {
@@ -34,6 +35,9 @@ public class WilightTest
 	private List<List<string>> command_ll;
 	private int currentLevel;
 	private int currentCommand; //in level
+	private bool started;
+	private Stopwatch stopwatch; 
+	public bool Cancel;
 
 	public WilightTest (string commandsFile)
 	{
@@ -52,12 +56,21 @@ public class WilightTest
 	
 		currentLevel = 0;
 		currentCommand = 0;
+		started = false;
+		stopwatch = new Stopwatch ();
+		Cancel = false;
 	}
 
 	public string GetNext (out bool finishedAllCommands)
 	{
 		bool commandValidated = false;
 		string commandStr = "";
+
+		if (! started) {
+			stopwatch.Start ();
+			started = true;
+		}
+
 		do {
 			finishedAllCommands = false;
 			commandStr = command_ll[currentLevel][currentCommand];
@@ -142,6 +155,12 @@ public class WilightTest
 		}
 		LogB.Information ("validateCommand exit OK");
 		return true;
+	}
+
+	public int GetCurrentMs ()
+	{
+		LogB.Information ("GetCurrentMs: " + stopwatch.ElapsedMilliseconds.ToString ());
+		return Convert.ToInt32 (stopwatch.ElapsedMilliseconds);
 	}
 
 	//S'encèn 1 llum amb pampallugues

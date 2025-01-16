@@ -28,6 +28,7 @@ public partial class ChronoJumpWindow
 	// at glade ---->
 	Gtk.Box box_start_wilight;
 	Gtk.ButtonBox buttonbox_wilight_test;
+	Gtk.Button button_wilight_test_cancel;
 	Gtk.SpinButton spin_wilight_test_ping;
 	Gtk.CheckButton check_wilight_very_verbose;
 	Gtk.Label label_wilight_test_status;
@@ -35,14 +36,20 @@ public partial class ChronoJumpWindow
 	// <---- at glade
 
 	static Thread threadWilight;
+	static WilightTest wilightTest;
+	static bool wilightProcessCancel;
+
 	enum wilightActions { DISCOVER, PING, SPEED, SEQUENCE };
 	private wilightActions wilightAction;
 
-	static TextBuffer tbWilight = new TextBuffer (new TextTagTable());
+	//use the string to not have crash by manipulating the TextBuffer outside the pulse thread
+	static string tbWilightText = "";
+	TextBuffer tbWilight = new TextBuffer (new TextTagTable());
 
 	private void wilightApp1Init ()
 	{
-		tbWilight.Text = "";
+		tbWilightText = "";
+		button_wilight_test_cancel.Sensitive = false;
 	}
 
 	private void on_button_wilight_test_discover_clicked (object o, EventArgs args)
@@ -69,13 +76,21 @@ public partial class ChronoJumpWindow
 		wilightExecute ();
 	}
 
+	private void on_button_wilight_test_cancel_clicked (object o, EventArgs args)
+	{
+		wilightProcessCancel = true;
+	}
+
 	private void wilightExecute ()
 	{
 		buttonbox_wilight_test.Sensitive = false;
 		label_wilight_test_status.Text = "Doing";
-		tbWilight.Text = "";
+		tbWilightText = "";
 
-		threadWilight = new Thread (new ThreadStart (wilightTest));
+		wilightProcessCancel = false;
+		button_wilight_test_cancel.Sensitive = true;
+
+		threadWilight = new Thread (new ThreadStart (wilightTestDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseWilight));
 
 		LogB.ThreadStart();
@@ -110,7 +125,7 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
-	private void wilightTest ()
+	private void wilightTestDo ()
 	{
 		string portName = configChronojump.WilightPortURL;
 		string commandsFile = configChronojump.WilightCommandsURL;
@@ -146,6 +161,9 @@ public partial class ChronoJumpWindow
 		sendCommandAndTextview (WilightColors.AllOffCommand);
 		System.Threading.Thread.Sleep (1000);
 
+		//0 time on the microcontroller
+		sendCommandAndTextview ("reset_time");
+
 		if (wilightAction == wilightActions.SPEED)
 		{
 			testSpeed ();
@@ -163,7 +181,7 @@ public partial class ChronoJumpWindow
 
 	private void discover ()
 	{
-		tbWilight.Text += "\n> local:discover;";
+		tbWilightText += "\n> local:discover;";
 		System.Threading.Thread.Sleep (50);
 		bool commandSendOk = wichroCapture.Discover ();
 
@@ -171,13 +189,13 @@ public partial class ChronoJumpWindow
 			LogB.Information ("Error on call to discover");
 		else {
 			LogB.Information ("discover called ok");
-			tbWilight.Text += "\n< " + wichroCapture.wilightResponse;
+			tbWilightText += "\n< " + wichroCapture.wilightResponse;
 		}
 	}
 
 	private void ping (int terminal)
 	{
-		tbWilight.Text += string.Format ("\n> {0}:512;", terminal);
+		tbWilightText += string.Format ("\n> {0}:512;", terminal);
 		System.Threading.Thread.Sleep (50);
 		bool commandSendOk = wichroCapture.Ping (terminal);
 
@@ -185,7 +203,7 @@ public partial class ChronoJumpWindow
 			LogB.Information ("Error on call to ping");
 		else {
 			LogB.Information ("ping called ok");
-			tbWilight.Text += "\n< " + wichroCapture.wilightResponse;
+			tbWilightText += "\n< " + wichroCapture.wilightResponse;
 		}
 	}
 
@@ -223,25 +241,38 @@ public partial class ChronoJumpWindow
 	//TODO: send only to discovered terminals
 	private void testSequence (string commandsFile)
 	{
-		WilightTest wt = new WilightTest (commandsFile);
+		wilightTest = new WilightTest (commandsFile);
 		List<int> expectedTerminals_l = new List<int> (); //expected response on this (or them)
 		bool finished = false;
 
 		while (true)
 		{
-			if (finished) //finished here to have also time to answer to the last command
-				break;
+			if (finished | wilightTest.Cancel) //finished here to have also time to answer to the last command
+			{
+				if (finished)
+					tbWilightText += string.Format ("\nTotal time: {0} ms", wilightTest.GetCurrentMs ());
+				if (wilightTest.Cancel)
+					tbWilightText += "Cancelled";
 
-			string command = wt.GetNext (out finished);
+				break;
+			}
+
+			string command = wilightTest.GetNext (out finished);
 			if (command == "")
 				continue;
 
 			sendCommandAndTextview (command);
-			expectedTerminals_l = wt.GetExpectedTerminals (command);
+			expectedTerminals_l = wilightTest.GetExpectedTerminals (command);
 
 			bool readedOn = false;
 			while (! readedOn)
 			{
+				if (wilightTest.Cancel)
+				{
+					tbWilightText += "Cancelled";
+					break;
+				}
+
 				if(! wichroCapture.CaptureSample())
 				{
 					LogB.Information ("Problem capturing sample");
@@ -256,14 +287,14 @@ public partial class ChronoJumpWindow
 					if (we.status == Chronopic.Plataforma.ON &&
 							UtilList.FoundInListInt (expectedTerminals_l, we.photocell))
 					{
-						tbWilight.Text += "\n< " + we.ToString ();
+						tbWilightText += "\n< " + we.ToString ();
 
 						//LogB.Information ("Is ON!");
 						Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
 						readedOn = true;
 					}
 					else if (check_wilight_very_verbose.Active)
-						tbWilight.Text += "\n< " + we.ToString ();
+						tbWilightText += "\n< " + we.ToString ();
 				}
 				System.Threading.Thread.Sleep (20);
 			}
@@ -272,11 +303,16 @@ public partial class ChronoJumpWindow
 
 	private bool pulseWilight ()
 	{
+		tbWilight.Text = tbWilightText;
 		textview_wilight.Buffer = tbWilight;
 
-		if (! threadWilight.IsAlive)
+		if (! threadWilight.IsAlive || wilightProcessCancel)
 		{
+			if (wilightProcessCancel && wilightTest != null)
+				wilightTest.Cancel = true;
+
 			buttonbox_wilight_test.Sensitive = true;
+			button_wilight_test_cancel.Sensitive = false;
 			label_wilight_test_status.Text = "Done";
 			return false;
 		}
@@ -288,13 +324,14 @@ public partial class ChronoJumpWindow
 	private void sendCommandAndTextview (string command)
 	{
 		wichroCapture.WilightSendCommand (command);
-		tbWilight.Text += "\n> " + command;
+		tbWilightText += "\n> " + command;
 	}
 
 	private void connectWidgetsWilight (Gtk.Builder builder)
 	{
 		box_start_wilight = (Gtk.Box) builder.GetObject ("box_start_wilight");
 		buttonbox_wilight_test = (Gtk.ButtonBox) builder.GetObject ("buttonbox_wilight_test");
+		button_wilight_test_cancel = (Gtk.Button) builder.GetObject ("button_wilight_test_cancel");
 		spin_wilight_test_ping = (Gtk.SpinButton) builder.GetObject ("spin_wilight_test_ping");
 		check_wilight_very_verbose = (Gtk.CheckButton) builder.GetObject ("check_wilight_very_verbose");
 		label_wilight_test_status = (Gtk.Label) builder.GetObject ("label_wilight_test_status");

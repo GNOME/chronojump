@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -66,7 +66,7 @@ public class Config
 		LastDBFullPath, //cloud & externalDB
 		JsonUploadNeedsButton, JsonUploadJumpSimpleTestScript, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, CanInsertTests, //json upload
 		RemoteTestJumpSimpleFile, RemoteTestRunIntervalFile, RemoteTestCancelFile, //remote execution
-		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, WilightPortURL, WilightCommandsURL, WilightCommandMs, GuiTest, NoSendLog, //other
+		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, Wilight, WilightCommandsURL, WilightCommandMs, GuiTest, NoSendLog, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
 
@@ -211,8 +211,8 @@ public class Config
 	public int WichroSensorOnceB {
 		get { return configList.GetInt (OpEnum.WichroSensorOnceB); }
 	}
-	public string WilightPortURL {
-		get { return configList.GetString (OpEnum.WilightPortURL); }
+	public bool Wilight {
+		get { return configList.GetBool (OpEnum.Wilight); }
 	}
 	public string WilightCommandsURL {
 		get { return configList.GetString (OpEnum.WilightCommandsURL); }
@@ -667,8 +667,8 @@ public class ConfigList
 					"Set sensorOnce at Wichro terminal at one terminal."));
 		list.Add (new ConfigOptionInt (Config.OpEnum.WichroSensorOnceB,
 					"Set sensorOnce at Wichro terminal at another terminal."));
-		list.Add (new ConfigOptionString (Config.OpEnum.WilightPortURL,
-					"Full URL of Wilight port, eg: /dev/ttyUSB0"));
+		list.Add (new ConfigOptionBool (Config.OpEnum.Wilight,
+					"Use Wilight, eg: TRUE"));
 		list.Add (new ConfigOptionString (Config.OpEnum.WilightCommandsURL,
 					"Full URL of File with Wilight commands. Note lines on that file starting with # are ignored"));
 		list.Add (new ConfigOptionInt (Config.OpEnum.WilightCommandMs,

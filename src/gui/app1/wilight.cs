@@ -28,6 +28,7 @@ public partial class ChronoJumpWindow
 	// at glade ---->
 	Gtk.Box box_start_wilight;
 	Gtk.ButtonBox buttonbox_wilight_test;
+	Gtk.SpinButton spin_wilight_portnum;
 	Gtk.Button button_wilight_test_cancel;
 	Gtk.SpinButton spin_wilight_test_ping;
 	Gtk.CheckButton check_wilight_very_verbose;
@@ -131,7 +132,6 @@ public partial class ChronoJumpWindow
 
 	private void wilightTestDo ()
 	{
-		string portName = configChronojump.WilightPortURL;
 		string commandsFile = configChronojump.WilightCommandsURL;
 		int commandTimeMs = configChronojump.WilightCommandMs;
 
@@ -148,7 +148,9 @@ public partial class ChronoJumpWindow
 		}
 		*/
 
-		if (! wilightManageConnect (portName))
+		if (! wilightManageConnect (
+					string.Format ("/dev/ttyUSB{0}", Convert.ToInt32 (spin_wilight_portnum.Value))
+					))
 			return;
 
 		if (wilightAction == wilightActions.DISCOVER || wilightAction == wilightActions.PING)
@@ -348,6 +350,7 @@ public partial class ChronoJumpWindow
 	{
 		box_start_wilight = (Gtk.Box) builder.GetObject ("box_start_wilight");
 		buttonbox_wilight_test = (Gtk.ButtonBox) builder.GetObject ("buttonbox_wilight_test");
+		spin_wilight_portnum = (Gtk.SpinButton) builder.GetObject ("spin_wilight_portnum");
 		button_wilight_test_cancel = (Gtk.Button) builder.GetObject ("button_wilight_test_cancel");
 		spin_wilight_test_ping = (Gtk.SpinButton) builder.GetObject ("spin_wilight_test_ping");
 		check_wilight_very_verbose = (Gtk.CheckButton) builder.GetObject ("check_wilight_very_verbose");

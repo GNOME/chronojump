@@ -1410,10 +1410,8 @@ public partial class ChronoJumpWindow
 
 		//TestObjectsDifferences.Test ();
 
-		if (configChronojump.WilightPortURL != "")
-		{
+		if (configChronojump.Wilight)
 			box_start_wilight.Visible = true;
-		}
 	}
 
 /*

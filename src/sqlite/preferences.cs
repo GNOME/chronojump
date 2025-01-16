@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -280,7 +280,7 @@ class SqlitePreferences : Sqlite
 				Insert ("volumeOn", "True", dbcmdTr);
 
 				if(os == UtilAll.OperatingSystems.WINDOWS)
-					Insert (Preferences.GstreamerStr, Preferences.GstreamerTypes.SYSTEMSOUNDS.ToString());
+					Insert (Preferences.GstreamerStr, Preferences.GstreamerTypes.SYSTEMSOUNDS.ToString(), dbcmdTr);
 				else if(os == UtilAll.OperatingSystems.MACOSX)
 					Insert (Preferences.GstreamerStr, Preferences.GstreamerTypes.FFPLAY.ToString(), dbcmdTr);
 				else
@@ -349,7 +349,7 @@ class SqlitePreferences : Sqlite
 				Insert (EncoderRepetitionCriteriaInertialStr, Preferences.EncoderRepetitionCriteria.CON.ToString(), dbcmdTr);
 
 				ArrayList encoderExercises =
-					SqliteEncoder.SelectEncoderExercises(true, -1, true, Constants.EncoderGI.ALL);
+					SqliteEncoder.SelectEncoderExercises(true, -1, true, Constants.EncoderGI.ALL, dbcmdTr);
 
 				if(encoderExercises.Count > 0) {
 					EncoderExercise ex = (EncoderExercise) encoderExercises[0];

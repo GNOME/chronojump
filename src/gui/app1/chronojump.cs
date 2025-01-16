@@ -991,6 +991,10 @@ public partial class ChronoJumpWindow
 		//ensure chronopicRegisterWindow is shown after (on top of) app1
 		app1Shown = true;
 
+		//lastMode WILIGHT only available if is defined on configChronojump
+		if (preferences.lastMode == Constants.Modes.WILIGHT && ! configChronojump.Wilight)
+			preferences.lastMode = Constants.Modes.UNDEFINED;
+
 		//in networks starting mode is always the defined on chronojump_config CompujumpStationMode
 		if (! configChronojump.Compujump && ! configChronojump.FourPlatforms)
 		{

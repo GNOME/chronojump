@@ -154,6 +154,9 @@ public partial class ChronoJumpWindow
 			else if (wilightAction == wilightActions.PING)
 				ping (Convert.ToInt32 (spin_wilight_test_ping.Value));
 
+			buttonbox_wilight_test.Sensitive = true;
+			label_wilight_test_status.Text = "";
+
 			wichroCapture.Stop(); //Should we do a disconnect here?
 			return;
 		}

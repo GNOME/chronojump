@@ -38,6 +38,8 @@ public class WilightTest
 	private bool started;
 	private Stopwatch stopwatch; 
 	public bool Cancel;
+	public bool Finished;
+	public int FinishedMs;
 
 	public WilightTest (string commandsFile)
 	{
@@ -59,9 +61,11 @@ public class WilightTest
 		started = false;
 		stopwatch = new Stopwatch ();
 		Cancel = false;
+		Finished = false;
+		FinishedMs = 0;
 	}
 
-	public string GetNext (out bool finishedAllCommands)
+	public string GetNext ()
 	{
 		bool commandValidated = false;
 		string commandStr = "";
@@ -72,7 +76,6 @@ public class WilightTest
 		}
 
 		do {
-			finishedAllCommands = false;
 			commandStr = command_ll[currentLevel][currentCommand];
 
 			if (currentCommand < command_ll[currentLevel].Count -1)
@@ -82,10 +85,14 @@ public class WilightTest
 				currentLevel ++;
 				currentCommand = 0;
 			} else
-				finishedAllCommands = true;
+			{
+				Finished = true;
+				FinishedMs = Convert.ToInt32 (stopwatch.ElapsedMilliseconds);
+				stopwatch.Stop ();
+			}
 
 			commandValidated = validateCommand (commandStr);
-		} while (! (commandValidated || finishedAllCommands));
+		} while (! (commandValidated || Finished));
 
 		//return "" if last command in list is not validated
 		if (! commandValidated)
@@ -155,12 +162,6 @@ public class WilightTest
 		}
 		LogB.Information ("validateCommand exit OK");
 		return true;
-	}
-
-	public int GetCurrentMs ()
-	{
-		LogB.Information ("GetCurrentMs: " + stopwatch.ElapsedMilliseconds.ToString ());
-		return Convert.ToInt32 (stopwatch.ElapsedMilliseconds);
 	}
 
 	//S'encèn 1 llum amb pampallugues

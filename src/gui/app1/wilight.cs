@@ -38,9 +38,11 @@ public partial class ChronoJumpWindow
 	static Thread threadWilight;
 	static WilightTest wilightTest;
 	static bool wilightProcessCancel;
+	static bool wilightProcessFinish;
 
 	enum wilightActions { DISCOVER, PING, SPEED, SEQUENCE };
 	private wilightActions wilightAction;
+	DateTime wilightTimeStartCapture;
 
 	//use the string to not have crash by manipulating the TextBuffer outside the pulse thread
 	static string tbWilightText = "";
@@ -89,6 +91,8 @@ public partial class ChronoJumpWindow
 
 		wilightProcessCancel = false;
 		button_wilight_test_cancel.Sensitive = true;
+		wilightProcessFinish = false;
+		wilightTimeStartCapture = DateTime.Now; //to have an active count of capture time
 
 		threadWilight = new Thread (new ThreadStart (wilightTestDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseWilight));
@@ -246,21 +250,20 @@ public partial class ChronoJumpWindow
 	{
 		wilightTest = new WilightTest (commandsFile);
 		List<int> expectedTerminals_l = new List<int> (); //expected response on this (or them)
-		bool finished = false;
 
 		while (true)
 		{
-			if (finished | wilightTest.Cancel) //finished here to have also time to answer to the last command
+			if (wilightTest.Finished | wilightTest.Cancel) //finished here to have also time to answer to the last command
 			{
-				if (finished)
-					tbWilightText += string.Format ("\nTotal time: {0} ms", wilightTest.GetCurrentMs ());
+				if (wilightTest.Finished)
+					tbWilightText += string.Format ("\nTotal time: {0} ms", wilightTest.FinishedMs);
 				if (wilightTest.Cancel)
 					tbWilightText += "Cancelled";
 
 				break;
 			}
 
-			string command = wilightTest.GetNext (out finished);
+			string command = wilightTest.GetNext ();
 			if (command == "")
 				continue;
 

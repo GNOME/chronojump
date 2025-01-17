@@ -3525,8 +3525,16 @@ class Sqlite
 	//to create db again, rename it first (as a backup)
 	public static void RenameDatabase ()
 	{
+		LogB.Information ("At RenameDatabase");
 		if (File.Exists (sqlFile))
-			File.Move (sqlFile, "chronojump-MaybeIncomplete-" + UtilDate.ToFile () + ".db");
+		{
+			LogB.Information ("Going to RenameDatabase");
+			File.Move (sqlFile,
+					Path.Combine (Util.GetDatabaseDir (),
+						"chronojump-MaybeIncomplete-" + UtilDate.ToFile () + ".db"));
+
+			LogB.Information ("Database renamed");
+		}
 	}
 
 	public static void CreateTables(bool server)

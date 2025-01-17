@@ -188,6 +188,8 @@ class SqlitePreferences : Sqlite
 	public const string RunEncoderPPS = "runEncoderPPS";
 
 	//advanced
+	public const string RscriptUserURL = "rscriptUserURL";
+	public const string PythonUserURL = "pythonUserURL";
 	public const string ImporterPythonVersion = "importerPythonVersion";
 
 	//session
@@ -450,6 +452,9 @@ class SqlitePreferences : Sqlite
 				//socialNetwork
 				Insert (SocialNetwork, "", dbcmdTr);
 				Insert (SocialNetworkDatetime, "", dbcmdTr);
+
+				Insert (RscriptUserURL, "", dbcmdTr);
+				Insert (PythonUserURL, "", dbcmdTr);
 
 				//session
 				Insert (LoadLastSessionAtStart, "True", dbcmdTr);
@@ -1139,6 +1144,11 @@ class SqlitePreferences : Sqlite
 					Enum.Parse(typeof(Preferences.pythonVersionEnum), reader[1].ToString());
 			else if(reader[0].ToString() == "databaseVersion")
 				preferences.databaseVersion = reader[1].ToString();
+
+			else if(reader[0].ToString() == RscriptUserURL)
+				preferences.rscriptUserURL = reader[1].ToString();
+			else if(reader[0].ToString() == PythonUserURL)
+				preferences.pythonUserURL = reader[1].ToString();
 
 			//session
 			else if(reader[0].ToString() == LoadLastSessionAtStart)

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -248,6 +248,9 @@ public class Preferences
 	public int digitsNumber;
 	public bool muteLogs;
 	public bool networksAllowChangeDevices; //managed on preferences;
+
+	public string rscriptUserURL; //emtpy: default
+	public string pythonUserURL; //emtpy: default
 
 	public enum pythonVersionEnum { Python2, Python3 };
 	public pythonVersionEnum importerPythonVersion;

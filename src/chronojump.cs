@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -452,6 +452,7 @@ public class ChronoJump
 	//used when Chronojump is being running two or more times (quadriple-click on start)
 	bool quitNowCjTwoTimes = false;
 	private bool badExit;
+	private enum sqlActionsEnum { NOTHING, CREATE, DELETEANDCREATE, CHECKIFUPDATE};
 
 	protected void sqliteThings ()
 	{
@@ -518,97 +519,34 @@ public class ChronoJump
 		needUpdateSplashMessage = true;
 		Console.ReadLine();		
 		*/
-		
+
+		sqlActionsEnum sqlAction = sqlActionsEnum.NOTHING;
+
 		//Chech if the DB file exists
-		if (!Sqlite.CheckTables(defaultDBLocation))
+		if (! Sqlite.CheckTables(defaultDBLocation))
 		{
-			printAllOnCreateDB = true;
-			LogB.PrintAllThreads = true;
-
-			LogB.SQL ( Catalog.GetString ("no tables, creating …") );
-
-			creatingDB = true;
-			splashMessageChange(2);  //creating database
-
-
-
-			/*
-			splashMessage = "pre-create";
-			needUpdateSplashMessage = true;
-			Console.ReadLine();		
-			*/
-
-
-
-			Sqlite.CreateDir();
-			Sqlite.CreateFile();
-			//Sqlite.CreateFile(defaultDBLocation);
-
-
-
-			/*
-			splashMessage = "post-create";
-			needUpdateSplashMessage = true;
-			Console.ReadLine();		
-			*/
-
-
-
-			createRunningFileName(runningFileName);
-			Sqlite.CreateTables(false); //not server
-			creatingDB = false;
+			sqlAction = sqlActionsEnum.CREATE;
+			LogB.SQL ("\nGoing to do sqlAction: " + sqlAction.ToString ());
+			sqliteThingsCreateDB ();
 		} else {
-			if(! Sqlite.IsSqlite3()) {
-				bool ok = Sqlite.ConvertFromSqlite2To3();
-				if (!ok) {
-					LogB.Error("problem with sqlite");
-					//check (spanish)
-					//http://mail.gnome.org/archives/chronojump-devel-list/2008-March/msg00011.html
-					string errorMessage = Catalog.GetString("Failed database conversion, ensure you have libsqlite3-0 installed.");
-					errorMessage += "\n\n" + string.Format(Catalog.GetString("If you have no data on your database (you just installed Chronojump), you can fix this problem deleting this file: {0}"), 
-							Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db") + 
-						"\n" + Catalog.GetString("And starting Chronojump again.");
-					LogB.Error(errorMessage);
-					messageToShowOnBoot += errorMessage;
-					chronojumpHasToExit = true;
-					return;
-				}
-				Sqlite.Connect();
+			if (! Sqlite.IsSqlite3 () || ! Sqlite.DBComplete ())
+			{
+				sqlAction = sqlActionsEnum.DELETEANDCREATE;
+				LogB.SQL ("\nGoing to do sqlAction: " + sqlAction.ToString ());
+				Sqlite.RenameDatabase ();
+				System.Threading.Thread.Sleep (100);
+				sqliteThingsCreateDB ();
+			} else {
+				sqlAction = sqlActionsEnum.CHECKIFUPDATE;
+				LogB.SQL ("\nGoing to do sqlAction: " + sqlAction.ToString ());
+				sqliteThingsCheckIfUpdateDB ();
 			}
-
-			splashMessageChange(4);  //updating DB
-			updatingDB = true;
-
-			if(Sqlite.ChangeDjToDJna())
-				messageToShowOnBoot += Catalog.GetString("All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms).") + "\n\n"+ 
-					Catalog.GetString("If your Drop Jumps were executed using the arms, please rename them manually as 'DJa'.") + "\n";
-
-			Sqlite.UpdatingDBFrom = Sqlite.UpdatingDBFromEnum.LOCAL;
-
-			bool softwareIsNew = Sqlite.ConvertToLastChronojumpDBVersion();
-			updatingDB = false;
-			
-				
-			if(! softwareIsNew) {
-				//Console.Clear();
-				string errorMessage = string.Format(Catalog.GetString ("Sorry, this Chronojump version ({0}) is too old for your database."), progVersion) + "\n" +  
-						Catalog.GetString("Please update Chronojump") + ":\n"; 
-				errorMessage += "http://chronojump.org"; 
-				//errorMessage += "\n\n" + Catalog.GetString("Press any key");
-				LogB.Error(errorMessage);
-				messageToShowOnBoot += errorMessage;
-				chronojumpHasToExit = true;
-			}
-
-			LogB.Information ( Catalog.GetString ("tables already created") ); 
-		
-
-			//check for bad Rjs (activate if program crashes and you use it in the same db before v.0.41)
-			//SqliteJump.FindBadRjs();
-		
-			createRunningFileName(runningFileName);
 		}
-		
+
+		//recheck DB is ok
+		if (! sqliteThingsCheckDBIsOkAfterAction (sqlAction))
+			return;
+
 
 		//splashMessageChange(5);  //check for new version
 		splashMessageChange(5);  //connecting to server
@@ -704,6 +642,84 @@ public class ChronoJump
 		
 		needEndSplashWin = true;
 
+	}
+
+	private void sqliteThingsCreateDB ()
+	{
+		printAllOnCreateDB = true;
+		LogB.PrintAllThreads = true;
+		LogB.SQL ( Catalog.GetString ("\n\nno tables, creating …") );
+
+		creatingDB = true;
+		splashMessageChange(2);  //creating database
+
+		Sqlite.CreateDir();
+		Sqlite.CreateFile();
+
+		createRunningFileName(runningFileName);
+		Sqlite.CreateTables(false); //not server
+		creatingDB = false;
+	}
+
+	private void sqliteThingsCheckIfUpdateDB ()
+	{
+		LogB.SQL ("\n\nCheck if update DB");
+		splashMessageChange(4);  //updating DB
+		updatingDB = true;
+
+		if(Sqlite.ChangeDjToDJna())
+			messageToShowOnBoot += Catalog.GetString("All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms).") + "\n\n"+ 
+				Catalog.GetString("If your Drop Jumps were executed using the arms, please rename them manually as 'DJa'.") + "\n";
+
+		Sqlite.UpdatingDBFrom = Sqlite.UpdatingDBFromEnum.LOCAL;
+
+		bool softwareIsNew = Sqlite.ConvertToLastChronojumpDBVersion();
+		updatingDB = false;
+
+
+		if(! softwareIsNew) {
+			//Console.Clear();
+			string errorMessage = string.Format(Catalog.GetString ("Sorry, this Chronojump version ({0}) is too old for your database."), progVersion) + "\n" +  
+				Catalog.GetString("Please update Chronojump") + ":\n"; 
+			errorMessage += "http://chronojump.org"; 
+			//errorMessage += "\n\n" + Catalog.GetString("Press any key");
+			LogB.Error(errorMessage);
+			messageToShowOnBoot += errorMessage;
+			chronojumpHasToExit = true;
+		}
+
+		LogB.Information ( Catalog.GetString ("tables already created") ); 
+
+
+		//check for bad Rjs (activate if program crashes and you use it in the same db before v.0.41)
+		//SqliteJump.FindBadRjs();
+
+		createRunningFileName(runningFileName);
+	}
+
+	private bool sqliteThingsCheckDBIsOkAfterAction (sqlActionsEnum sqlAction)
+	{
+		if (! Sqlite.IsSqlite3 () || ! Sqlite.DBComplete ())
+		{
+			LogB.Error("\n\nproblem with sqlite affter action: " + sqlAction.ToString () + "\n");
+			string errorMessage = Catalog.GetString("Fail on database. Process: " + sqlAction.ToString ());
+			/*
+			errorMessage += "\n\n" + string.Format(Catalog.GetString("If you have no data on your database (you just installed Chronojump), you can fix this problem deleting this file: {0}"), 
+					Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db") + 
+				"\n" + Catalog.GetString("And starting Chronojump again.");
+				*/
+			errorMessage += "\n\n" + string.Format(Catalog.GetString("Please, contact with Chronojump. Send them this file: {0}"), 
+					Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db");
+
+			LogB.Error(errorMessage);
+			messageToShowOnBoot += errorMessage;
+			chronojumpHasToExit = true;
+
+			return false;
+		}
+	
+		LogB.Error("\n\nSqlite ok after action: " + sqlAction.ToString () + "\n\n");
+		return true;
 	}
 
 	private void on_find_version_cancelled(object o, EventArgs args) {

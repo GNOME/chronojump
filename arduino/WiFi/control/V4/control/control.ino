@@ -27,7 +27,7 @@
 #include <elapsedMillis.h>
 
 // The first number refers to the hardware version. The seccond to firmware version for this hardware
-String version = "Wifi-Controller-4.3"; //"Wifi-Controller-" is mandatori. Chronojump expects it
+String version = "Wifi-Controller-4.4"; //"Wifi-Controller-" is mandatori. Chronojump expects it
 
 
 //
@@ -112,7 +112,7 @@ uint8_t controlSwitch = 0;      //State of the 3xswithes
 const uint64_t pipes[2] = { 0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL }; //Two radio pipes. One for emitting and the other for receiving
 
 bool binaryMode = false;
-unsigned long startTime;      //local time when the reset_time function is executed
+//unsigned long startTime;      //local time when the reset_time function is executed
 unsigned long lastSampleTime; //local time at which some sample has been received without overflow correction
 elapsedMillis totalTime;      //Total elapsed time since startTime
 
@@ -194,7 +194,7 @@ void setup(void)
   Serial.println("------------------------");
 
 
-  startTime = millis();
+  //startTime = millis();
 }
 
 
@@ -331,7 +331,7 @@ void serialEvent()
         Serial.println("Setting text mode");
         binaryMode = false;
       } else if (commandString == "reset_time") {
-        startTime = millis();
+        totalTime = 0;
       } else if (commandString == "get_channel") {
         Serial.println(controlSwitch);
       } else if (commandString == "discover") {
@@ -434,9 +434,10 @@ void blinkOnce(void)
   LED_on;
 }
 
-void discoverTerminals() { discoverTerminals(1); }
+void discoverTerminals() { discoverTerminals(5); }
 void discoverTerminals(int maxTries) {
   String terminalsFound = "terminals:";
+  int totalFound = 0;
   instruction.command = ping;
   for (int i = 0; i <= 63; i++) {
     //    Serial.print("TERM: ");
@@ -454,15 +455,19 @@ void discoverTerminals(int maxTries) {
       waitingData = true;
       sendInstruction(&instruction);
 
-      delay(5);
+      delay(10);
       bool readed = readSample();
       if (readed && sample.termNum == i) { //do not do more tries
         found = true;
         terminalsFound = terminalsFound + i + ";";
+        totalFound++;
       }
     }
     //    Serial.println();
   }
+  Serial.print("Total found: ");
+  Serial.println(totalFound);
+  Serial.print("Terminals found: ");
   Serial.println(terminalsFound);
   waitingData = false;
 }

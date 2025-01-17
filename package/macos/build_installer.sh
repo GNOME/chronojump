@@ -101,6 +101,9 @@ done
 rm -rf deps/bin/x64/Python/Versions/${PYTHON_VERSION}/lib
 rm -rf deps/bin/x64/Python/Versions/Current/lib
 
+rm -rf deps/share/chronojump/encoder
+rm -rf deps/share/chronojump/r-scripts
+
 rm -rf ${MAC_APP_BIN_DIR}
 #rm -rf ${MAC_APP_FRAMEWORK_DIR}
 mkdir -p ${MAC_APP_BIN_DIR}

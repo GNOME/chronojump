@@ -56,13 +56,15 @@ public class RunEncoderExport : ExportFiles
 			bool plotRawAccel, bool plotFittedAccel,
 			bool plotRawForce, bool plotFittedForce,
 			bool plotRawPower, bool plotFittedPower,
-			char exportDecimalSeparator
+			char exportDecimalSeparator,
+			string rscriptUserURL
 			)
 	{
 		Button_done = new Gtk.Button();
 
 		assignParams(notebook, labelProgress, progressbar, labelDiscarded, labelResult, includeImages,
-				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator);
+				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator,
+				rscriptUserURL);
 
 		this.includeInstantaneous = includeInstantaneous;
 		this.startAccel = startAccel;
@@ -209,7 +211,7 @@ public class RunEncoderExport : ExportFiles
 				includeImages, includeInstantaneous
 				);
 
-		if(! reg.CallR(imageWidth, imageHeight, false))
+		if(! reg.CallR(imageWidth, imageHeight, false, rscriptUserURL))
 		{
 			failedRprocess = true;
 			return false;

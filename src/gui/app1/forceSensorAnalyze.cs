@@ -971,8 +971,8 @@ public partial class ChronoJumpWindow
 				preferences.forceSensorVariabilityMethod,
 				preferences.forceSensorVariabilityLag,
 				preferences.forceSensorAnalyzeBestStabilityInWindow,
-				preferences.forceSensorButterworth (current_mode)
-				);
+				preferences.forceSensorButterworth (current_mode),
+				preferences.rscriptUserURL);
 
 		forceSensorExport.Button_done.Clicked -= new EventHandler(force_sensor_export_done);
 		forceSensorExport.Button_done.Clicked += new EventHandler(force_sensor_export_done);

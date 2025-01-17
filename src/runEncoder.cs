@@ -1232,11 +1232,11 @@ public class RunEncoderGraph
 		writeMultipleFilesCSV(rege_l);
 	}
 
-	public bool CallR(int graphWidth, int graphHeight, bool singleOrMultiple)
+	public bool CallR(int graphWidth, int graphHeight, bool singleOrMultiple, string rscriptUserURL)
 	{
 		LogB.Information("\nrunEncoder CallR ----->");
 		writeOptionsFile(graphWidth, graphHeight, singleOrMultiple);
-		return ExecuteProcess.CallR(RunEncoder.GetScript());
+		return ExecuteProcess.CallR(RunEncoder.GetScript(), rscriptUserURL);
 	}
 
 	private void writeOptionsFile(int graphWidth, int graphHeight, bool singleOrMultiple)

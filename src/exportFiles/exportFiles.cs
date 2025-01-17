@@ -42,6 +42,7 @@ public abstract class ExportFiles
 	protected int personID; // -1: all
 	protected int sessionID;
 	protected char exportDecimalSeparator;
+	protected string rscriptUserURL;
 
 	protected ArrayList personSession_l;
 
@@ -62,7 +63,8 @@ public abstract class ExportFiles
 			bool includeImages,
 			int imageWidth, int imageHeight,
 			bool isWindows, int personID, int sessionID,
-			char exportDecimalSeparator)
+			char exportDecimalSeparator,
+			string rscriptUserURL)
 
 	{
 		this.notebook = notebook;
@@ -77,6 +79,7 @@ public abstract class ExportFiles
 		this.personID = personID;
 		this.sessionID = sessionID;
 		this.exportDecimalSeparator = exportDecimalSeparator;
+		this.rscriptUserURL = rscriptUserURL;
 	}
 
 	protected void prepare(string exportURL)

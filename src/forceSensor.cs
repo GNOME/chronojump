@@ -1485,11 +1485,11 @@ public class ForceSensorGraphR
 	}
 
 	//multiple is export
-	public bool CallR(int graphWidth, int graphHeight, bool singleOrMultiple)
+	public bool CallR(int graphWidth, int graphHeight, bool singleOrMultiple, string rscriptUserURL)
 	{
 		LogB.Information("\nforceSensor CallR ----->");
 		writeOptionsFile(graphWidth, graphHeight, singleOrMultiple);
-		return ExecuteProcess.CallR(UtilEncoder.GetmifScript());
+		return ExecuteProcess.CallR(UtilEncoder.GetmifScript(), rscriptUserURL);
 	}
 
 	private void writeOptionsFile(int graphWidth, int graphHeight, bool singleOrMultiple)

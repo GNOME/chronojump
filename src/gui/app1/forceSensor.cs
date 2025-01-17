@@ -2746,7 +2746,7 @@ LogB.Information(" fs R ");
 		if(imageHeight < 300)
 			imageHeight = 300; //Not crash R with a png height of -1 or "figure margins too large"
 
-		bool success = fsg.CallR(imageWidth -5, imageHeight -5, true);
+		bool success = fsg.CallR(imageWidth -5, imageHeight -5, true, preferences.rscriptUserURL);
 
 		if(! success)
 		{

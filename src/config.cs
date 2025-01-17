@@ -39,7 +39,6 @@ public class Config
 	   LastDBFullPathStatic = parts[1]; //called from Util.GetLocalDataDir
 	   */
 
-
 	//use this bool because on Windows some File.Copy problems are not catched on gui/app1/encoder.cs checkFile
 	//eg when writing to a file "owned" by another application
 	public static bool ErrorInExport;

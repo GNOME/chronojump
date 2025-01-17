@@ -317,6 +317,15 @@ public class PreferencesWindow
 	Gtk.Image image_send_log_yes;
 	Gtk.TextView textview_send_log_message;
 
+	Gtk.RadioButton radio_rscript_default;
+	Gtk.RadioButton radio_rscript_other;
+	Gtk.Button button_rscript_choose;
+	Gtk.Label label_rscript_user_location;
+	Gtk.RadioButton radio_python_default;
+	Gtk.RadioButton radio_python_other;
+	Gtk.Button button_python_choose;
+	Gtk.Label label_python_user_location;
+
 	Gtk.RadioButton radio_python_2;
 	Gtk.RadioButton radio_python_3;
 
@@ -1001,6 +1010,28 @@ public class PreferencesWindow
 			PWBox.entry_send_log.Text = PWBox.emailStoredForSendLog;
 
 		// sub tab: more ---->
+
+		PWBox.signalsNoFollow = true;
+		if (preferences.rscriptUserURL == "") {
+			PWBox.radio_rscript_default.Active = true;
+			PWBox.button_rscript_choose.Sensitive = false;
+			PWBox.label_rscript_user_location.Text = "";
+		} else {
+			PWBox.radio_rscript_other.Active = true;
+			PWBox.button_rscript_choose.Sensitive = true;
+			PWBox.label_rscript_user_location.Text = preferences.rscriptUserURL;
+		}
+
+		if (preferences.pythonUserURL == "") {
+			PWBox.radio_python_default.Active = true;
+			PWBox.button_python_choose.Sensitive = false;
+			PWBox.label_python_user_location.Text = "";
+		} else {
+			PWBox.radio_python_other.Active = true;
+			PWBox.button_python_choose.Sensitive = true;
+			PWBox.label_python_user_location.Text = preferences.pythonUserURL;
+		}
+		PWBox.signalsNoFollow = false;
 
 		if(preferences.askDeletion)
 			PWBox.checkbutton_ask_deletion.Active = true;
@@ -2512,6 +2543,96 @@ public class PreferencesWindow
 				);
 	}
 
+	private void on_radio_rscript_default_toggled (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		button_rscript_choose.Sensitive = false;
+		//Config.RscriptUserURL = "";
+		rscriptUserChanges ("");
+	}
+	private void on_radio_rscript_other_toggled (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		button_rscript_choose.Sensitive = true;
+		//Config.RscriptUserURL = "";
+		rscriptUserChanges ("");
+	}
+	private void on_button_rscript_choose_clicked (object o, EventArgs args)
+	{
+		string url = chooseFile (Catalog.GetString ("Please, select Rscript file"));
+		rscriptUserChanges (url);
+	}
+	
+	private void rscriptUserChanges (string url)
+	{
+		// A) changes on preferences gui
+		label_rscript_user_location.Text = url;
+		label_rscript_user_location.TooltipText = url;
+
+		// B) changes on preferences object and SqlitePreferences
+		if (preferences.rscriptUserURL != url) {
+			SqlitePreferences.Update (SqlitePreferences.RscriptUserURL, url, false);
+			preferences.rscriptUserURL = url;
+		}
+	}
+
+	private void on_radio_python_default_toggled (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		button_python_choose.Sensitive = false;
+		pythonUserChanges ("");
+	}
+	private void on_radio_python_other_toggled (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		button_python_choose.Sensitive = true;
+		pythonUserChanges ("");
+	}
+	private void on_button_python_choose_clicked (object o, EventArgs args)
+	{
+		string url = chooseFile (Catalog.GetString ("Please, select Python file"));
+		pythonUserChanges (url);
+	}
+
+	private void pythonUserChanges (string url)
+	{
+		// A) changes on preferences gui
+		label_python_user_location.Text = url;
+		label_python_user_location.TooltipText = url;
+
+		// B) changes on preferences object and SqlitePreferences
+		if (preferences.pythonUserURL != url) {
+			SqlitePreferences.Update (SqlitePreferences.PythonUserURL, url, false);
+			preferences.pythonUserURL = url;
+		}
+	}
+
+	private string chooseFile (string text)
+	{
+		string url = "";
+		Gtk.FileChooserNative fc = new Gtk.FileChooserNative(text,
+				preferences_win,
+				FileChooserAction.Open,
+				Catalog.GetString("Select"), Catalog.GetString("Cancel")
+				);
+		if (fc.Run() == (int)ResponseType.Accept) 
+		{
+			url = fc.Filename; //include path?
+		}
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
+		fc.Destroy();
+
+		return url;
+	}
+
 	private void on_checkbutton_mute_logs_clicked (object o, EventArgs args)
 	{
 		/* disabled. Only false since 2.3.0-2
@@ -3779,6 +3900,15 @@ public class PreferencesWindow
 		image_send_log_no = (Gtk.Image) builder.GetObject ("image_send_log_no");
 		image_send_log_yes = (Gtk.Image) builder.GetObject ("image_send_log_yes");
 		textview_send_log_message = (Gtk.TextView) builder.GetObject ("textview_send_log_message");
+
+		radio_rscript_default = (Gtk.RadioButton) builder.GetObject ("radio_rscript_default");
+		radio_rscript_other = (Gtk.RadioButton) builder.GetObject ("radio_rscript_other");
+		label_rscript_user_location = (Gtk.Label) builder.GetObject ("label_rscript_user_location");
+		button_rscript_choose = (Gtk.Button) builder.GetObject ("button_rscript_choose");
+		radio_python_default = (Gtk.RadioButton) builder.GetObject ("radio_python_default");
+		radio_python_other = (Gtk.RadioButton) builder.GetObject ("radio_python_other");
+		button_python_choose = (Gtk.Button) builder.GetObject ("button_python_choose");
+		label_python_user_location = (Gtk.Label) builder.GetObject ("label_python_user_location");
 
 		radio_python_2 = (Gtk.RadioButton) builder.GetObject ("radio_python_2");
 		radio_python_3 = (Gtk.RadioButton) builder.GetObject ("radio_python_3");

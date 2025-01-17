@@ -68,13 +68,13 @@ public class ForceSensorExport : ExportFiles
 			int forceSensorFeedbackF,
 			Preferences.VariabilityMethodEnum variabilityMethod, int forceSensorVariabilityLag,
 			double forceSensorAnalyzeBestStabilityInWindowSeconds,
-			double butterworthFreq)
+			double butterworthFreq, string rscriptUserURL)
 
 	{
 		Button_done = new Gtk.Button();
 
 		assignParams(notebook, labelProgress, progressbar, new Gtk.Label(), labelResult, includeImages,
-				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator);
+				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator, rscriptUserURL);
 
 		this.mode = mode;
 		this.rfdList = rfdList;
@@ -409,7 +409,7 @@ public class ForceSensorExport : ExportFiles
 					includeImages
 					);
 
-			if(! fsg.CallR(imageWidth, imageHeight, false))
+			if(! fsg.CallR(imageWidth, imageHeight, false, rscriptUserURL))
 			{
 				failedRprocess = true;
 				return false;

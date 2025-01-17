@@ -35,12 +35,14 @@ public class SprintRGraph
 	private double tempC;
 	private char exportDecimalSeparator;
 	private bool includeImagesOnExport;
+	private string rscriptUserURL;
 
 	private string errorMessage;
 
 	//constructor for 1 set
 	public SprintRGraph (string positions, string splitTimes,
-			double mass, double personHeight, string personName, double tempC)
+			double mass, double personHeight, string personName, double tempC,
+			string rscriptUserURL)
 	{
 		this.positions = positions;
 		this.splitTimes = splitTimes;
@@ -51,6 +53,7 @@ public class SprintRGraph
 
 		this.exportDecimalSeparator = '.';
 		this.includeImagesOnExport = false;
+		this.rscriptUserURL = rscriptUserURL;
 
 		errorMessage = "";
 	}
@@ -58,7 +61,8 @@ public class SprintRGraph
 	//constructor for export (many sets of possible different persons)
 	public SprintRGraph (List<SprintRGraphExport> sprge_l,
 			char exportDecimalSeparator,
-			bool includeImagesOnExport)
+			bool includeImagesOnExport,
+			string rscriptUserURL)
 	{
 		//to have Roptions.txt with data on row
 		this.positions = "-1";
@@ -70,15 +74,16 @@ public class SprintRGraph
 
 		this.exportDecimalSeparator = exportDecimalSeparator;
 		this.includeImagesOnExport = includeImagesOnExport;
+		this.rscriptUserURL = rscriptUserURL;
 
 		writeMultipleFilesCSV(sprge_l);
 	}
 
-	public bool CallR(int graphWidth, int graphHeight, bool singleOrMultiple)
+	public bool CallR(int graphWidth, int graphHeight, bool singleOrMultiple, string rscriptUserURL)
 	{
 		LogB.Information("\nsprint CallR ----->");
 		writeOptionsFile(graphWidth, graphHeight,singleOrMultiple);
-		return ExecuteProcess.CallR(UtilEncoder.GetSprintPhotocellsScript());
+		return ExecuteProcess.CallR(UtilEncoder.GetSprintPhotocellsScript(), rscriptUserURL);
 	}
 
 	private void writeOptionsFile(int graphWidth, int graphHeight, bool singleOrMultiple)

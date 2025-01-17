@@ -44,13 +44,15 @@ public class SprintExport : ExportFiles
 			int personID,
 			int sessionID,
 			char exportDecimalSeparator,
-			int digitsNumber
+			int digitsNumber,
+			string rscriptUserURL
 			)
 	{
 		Button_done = new Gtk.Button();
 
 		assignParams(notebook, labelProgress, progressbar, labelDiscarded, labelResult, includeImages,
-				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator);
+				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator,
+				rscriptUserURL);
 
 		this.digitsNumber = digitsNumber;
 	}
@@ -143,7 +145,7 @@ public class SprintExport : ExportFiles
 					ps.Weight, 	//TODO: can be more if extra weight
 					ps.Height,
 					"",
-					25);
+					25, rscriptUserURL);
 
 			 if(! sprintRGraph.IsDataOk())
 				continue;
@@ -180,10 +182,11 @@ public class SprintExport : ExportFiles
 		SprintRGraph s = new SprintRGraph (
 				sprge_l,
 				exportDecimalSeparator,
-				includeImages
+				includeImages,
+				rscriptUserURL
 				);
 
-		if(! s.CallR(imageWidth, imageHeight, false))
+		if(! s.CallR(imageWidth, imageHeight, false, rscriptUserURL))
 		{
 			failedRprocess = true;
 			return false;

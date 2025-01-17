@@ -526,9 +526,10 @@ class ExecuteProcess
 		return true;
 	}
 
-	public static bool CallR(string script)
+	//TODO: this should be renamed CallRscript
+	public static bool CallR (string script, string rscriptUserURL)
 	{
-		string executable = Util.GetRscriptBin();
+		string executable = Util.GetRscriptBin (rscriptUserURL);
 		List<string> parameters = new List<string>();
 
 		//A) fix script name

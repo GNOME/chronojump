@@ -1763,9 +1763,11 @@ public class Util
 
 		return bin;
 	}
-	public static string GetRscriptBin ()
+
+	public static string GetRscriptBin (string rscriptUserURL)
 	{
-		string bin = "Rscript";
+		if (rscriptUserURL != "")
+			return rscriptUserURL;
 
 		if (UtilAll.IsWindows())
 		{
@@ -1776,7 +1778,7 @@ public class Util
 		} else if (operatingSystem == UtilAll.OperatingSystems.MACOSX)
 			return Constants.RScriptOSX;
 
-		return bin;
+		return "Rscript";
 	}
 
 	public static void RunR (string rScript)

@@ -262,8 +262,11 @@ public class Preferences
 	 * so we need the executable: python, python2, python3
 	 * chronojump_importer.py works on python2 and python3
 	 */
-	public static string GetPythonExecutable(pythonVersionEnum pv)
+	public static string GetPythonExecutable (pythonVersionEnum pv, string pythonUserURL)
 	{
+		if (pythonUserURL != "")
+			return pythonUserURL;
+
 		if (pv == pythonVersionEnum.Python2)
 		{
 			return "python2";

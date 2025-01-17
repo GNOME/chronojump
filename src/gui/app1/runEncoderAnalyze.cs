@@ -405,7 +405,8 @@ public partial class ChronoJumpWindow
 				Preferences.RunEncoderShouldPlotVariable(Preferences.RunEncoderPlotVariables.FITTEDFORCE),
 				Preferences.RunEncoderShouldPlotVariable(Preferences.RunEncoderPlotVariables.RAWPOWER),
 				Preferences.RunEncoderShouldPlotVariable(Preferences.RunEncoderPlotVariables.FITTEDPOWER),
-				preferences.CSVExportDecimalSeparatorChar      //decimalIsPointAtExport (write)
+				preferences.CSVExportDecimalSeparatorChar,      //decimalIsPointAtExport (write)
+				preferences.rscriptUserURL
 				);
 
 		runEncoderExport.Button_done.Clicked -= new EventHandler(run_encoder_export_done);

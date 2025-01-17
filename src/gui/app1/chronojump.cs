@@ -7197,7 +7197,7 @@ public partial class ChronoJumpWindow
 				currentPersonSession.Weight, //TODO: can be more if extra weight
 				currentPersonSession.Height,
 				currentPerson.Name,
-				25);
+				25, preferences.rscriptUserURL);
 
 		bool sprintRDoneOk = on_button_sprint_do ();
 		string stringResultsFile = RunInterval.GetCSVResultsURL();

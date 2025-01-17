@@ -182,7 +182,7 @@ public partial class ChronoJumpWindow
 			button_sprint.Sensitive = false;
 	}
 
-	public static bool GetSelectedSprint (Gtk.TreeView tv)
+	public static bool GetSelectedSprint (Gtk.TreeView tv, string rscriptUserURL)
 	{
 		ITreeModel model;
 		TreeIter iter;
@@ -203,7 +203,8 @@ public partial class ChronoJumpWindow
 					 currentPersonSession.Weight, //TODO: can be more if extra weight
 					 currentPersonSession.Height,
 					 currentPerson.Name,
-					 25);
+					 25,
+					 rscriptUserURL);
 			return true;
 		}
 		return false;
@@ -219,7 +220,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		if(! GetSelectedSprint(treeview_runs_interval_sprint))
+		if(! GetSelectedSprint(treeview_runs_interval_sprint, preferences.rscriptUserURL))
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Error"));
 			return;
@@ -261,7 +262,8 @@ public partial class ChronoJumpWindow
 		bool success = sprintRGraph.CallR(
 				viewport_sprint.Allocation.Width -5,
 				viewport_sprint.Allocation.Height -5,
-				true); //singleOrMultiple
+				true, //singleOrMultiple
+				preferences.rscriptUserURL);
 
 		if(! success)
 		{
@@ -619,7 +621,8 @@ public partial class ChronoJumpWindow
 				UtilAll.IsWindows(),
 				personID, sessionID,
 				preferences.CSVExportDecimalSeparatorChar,      //decimalIsPointAtExport (write)
-				preferences.digitsNumber);
+				preferences.digitsNumber,
+				preferences.rscriptUserURL);
 
 		sprintExport.Button_done.Clicked -= new EventHandler(sprint_export_done);
 		sprintExport.Button_done.Clicked += new EventHandler(sprint_export_done);

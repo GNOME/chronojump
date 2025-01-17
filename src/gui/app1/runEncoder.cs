@@ -1874,7 +1874,7 @@ public partial class ChronoJumpWindow
 				Preferences.RunEncoderShouldPlotVariable(Preferences.RunEncoderPlotVariables.FITTEDPOWER),
 				triggerListRunEncoder);
 
-		reg.CallR(imageWidth, imageHeight, true);
+		reg.CallR(imageWidth, imageHeight, true, preferences.rscriptUserURL);
 
 		DateTime runEncoderGraphStarted = DateTime.Now;
 		//TODO: check better if png is saved and have a cancel button

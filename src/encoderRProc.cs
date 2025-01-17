@@ -299,7 +299,6 @@ public class EncoderRProcAnalyze : EncoderRProc
 	private TriggerList triggerList;
 	private EncoderGraphROptions.AnalysisModes analysisMode;
 	private Preferences.EncoderInertialGraphsXTypes inertialGraphX;
-	private string rscriptUserURL;
 
 	/*
 	 * to avoid problems on some windows. R exports csv to Util.GetEncoderExportTempFileName()

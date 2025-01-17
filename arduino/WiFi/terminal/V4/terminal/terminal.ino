@@ -28,7 +28,7 @@
 #include "pinout.h"
 
 unsigned int deviceType = 1; //Photocel and LightChro sensor
-unsigned int deviceVersion = 19;
+unsigned int deviceVersion = 20;
 
 // Set up nRF24L01 radio on SPI bus plus pins  (CE & CS)
 
@@ -277,6 +277,7 @@ void sendSample(void) {
     retries++;
   }
   flagint = LOW;
+  if (! unlimitedMode) waitingSensor = false;
   // On sensorOnce mode send also the other state in order to facilitate Chronojump the reading
   /*
   if (! unlimitedMode) {
@@ -480,7 +481,9 @@ void sendPong(void) {
   MsTimer2::stop();
   // TODO: Return to the state before the ping
   buzzer_off;
+  green_off;
   blinkingGreen = false;
+
 }
 
 void sendBatteryLevel() {

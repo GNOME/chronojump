@@ -16,6 +16,9 @@ if [ "$ARCH" == "arm64" ]; then
 else
     ARCH="x64"
 fi
+if [ "$PACKAGE_TYPE" == "dmg" ]; then
+    PACKAGE_PLACE=""
+fi
 if [ "$PACKAGE_PLACE" == "apple-store" ]; then
     MAC_INSTALLER_FILE_NAME="chronojump-${PACKAGE_VERSION}-${ARCH}-${PACKAGE_PLACE}.${PACKAGE_TYPE}"
 else
@@ -77,11 +80,6 @@ run_codesign()
 #    rm -rf ${dir}
 #done
 
-#for dir in `find app -mindepth 1 -maxdepth 1 -type d ! -name "Chronojump.app"`
-#do
-#    rm -rf ${dir}
-#done
-
 for dir in `find deps -type d -name "*.app"`
 do
     rm -rf ${dir}
@@ -98,11 +96,12 @@ for file in `find deps -type f -name "Info.plist"`
 do
     rm ${file}
 done
-rm -rf deps/bin/x64/Python/Versions/${PYTHON_VERSION}/lib
-rm -rf deps/bin/x64/Python/Versions/Current/lib
 
-rm -rf deps/share/chronojump/encoder
-rm -rf deps/share/chronojump/r-scripts
+if [ "$PACKAGE_PLACE" == "apple-store" ]; then
+    rm deps/R/R #Apple Stpre pkg doesn't support this file.
+    rm -rf deps/bin/x64/Python/Versions/${PYTHON_VERSION}/lib #Apple Stpre pkg doesn't support this folder.
+    rm -rf deps/bin/x64/Python/Versions/Current/lib #Apple Stpre pkg doesn't support this folder.
+fi
 
 rm -rf ${MAC_APP_BIN_DIR}
 #rm -rf ${MAC_APP_FRAMEWORK_DIR}

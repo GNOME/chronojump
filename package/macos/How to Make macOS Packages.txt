@@ -113,13 +113,13 @@ sudo security find-identity codesigning /Users/{user}/Library/Keychains/login.ke
 cd "~/Desktop/chronojump/package/macos"
 make dmg #Execute this command to create *.dmg package.
 make pkg #Execute this command to create *.pkg package which is distributed out of Apple Store.
-make apple-store-pkg #Execute this command to create *.pkg package which is distributed in Apple Store. It's not working now while we use GTK3.
+make pkg PLACE="apple-store" #Execute this command to create *.pkg package which is distributed in Apple Store. It's not working now while we use GTK3.
 #If it says "permission denied", please remove "package/macos/app/Chronojump.app" first. It would fail while uploading to Apple Store Conenct with "sudo".
 
 For making an arm64 package using Microsoft.Data.Sqlite, execute the following commands:
-make dmg-Microsoft.Data.Sqlite #Execute this command to create *.dmg package.
-make pkg-Microsoft.Data.Sqlite #Execute this command to create *.pkg package which is distributed out of Apple Store. It's not working now while we use GTK3.
-make apple-store-pkg-Microsoft.Data.Sqlite #Execute this command to create *.pkg package which is distributed in Apple Store.
+make dmg SQLITE_LIB="Microsoft.Data.Sqlite" #Execute this command to create *.dmg package.
+make pkg SQLITE_LIB="Microsoft.Data.Sqlite" #Execute this command to create *.pkg package which is distributed out of Apple Store. It's not working now while we use GTK3.
+make pkg PLACE="apple-store" SQLITE_LIB="Microsoft.Data.Sqlite" #Execute this command to create *.pkg package which is distributed in Apple Store.
 
 #Python bundle executable: Resources/Python-x64/Versions/Current/bin/python3
 #R bundle executable: Resources/R-x64/Resources/R Resources/R-x64/Resources/Rscript

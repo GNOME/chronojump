@@ -52,7 +52,6 @@ class ChronojumpImporter
 	private bool debugToFile;
 
 	Preferences.pythonVersionEnum pythonVersion;
-	private string pythonUserURL;
 
 	// Result struct holds the output, error and success operations. It's used to pass
 	// errors from different layers (e.g. executing Python scripts) to the UI layer
@@ -79,7 +78,7 @@ class ChronojumpImporter
 	// The main method is "import()" which does all the work.
 	public ChronojumpImporter(string sourceFile, string destinationFile,
 			int sourceSession, int destinationSession, bool debugToFile,
-			Preferences.pythonVersionEnum pythonVersion, string pythonUserURL)
+			Preferences.pythonVersionEnum pythonVersion)
 	{
 		this.sourceFile = sourceFile;
 		this.destinationFile = destinationFile;
@@ -88,7 +87,6 @@ class ChronojumpImporter
 		this.debugToFile = debugToFile;
 
 		this.pythonVersion = pythonVersion;
-		this.pythonUserURL = pythonUserURL;
 
 		MessageToPulsebar = "";
 	}
@@ -288,7 +286,7 @@ LogB.Information("import J ");
 			parameters.Add ("NONE");
 
 LogB.Information("import K ");
-		result = executeChronojumpImporter (parameters, pythonVersion, pythonUserURL);
+		result = executeChronojumpImporter (parameters, pythonVersion);
 
 		MessageToPulsebar = "Done!";
 		File.Delete (temporarySourceFile);
@@ -346,7 +344,7 @@ LogB.Information("import L ");
 		Sqlite.Connect ();
 	}
 
-	private static Result getImporterInformation(string filePath, Preferences.pythonVersionEnum pythonVersion, string pythonUserURL)
+	private static Result getImporterInformation(string filePath, Preferences.pythonVersionEnum pythonVersion)
 	{
 		// If Result.success == true Result.output contains a valid JSON string.
 		// It's a string and not a JsonValue for convenience with other methods (at the moment).
@@ -358,7 +356,7 @@ LogB.Information("import L ");
 		parameters.Add (filePath);
 		parameters.Add ("--json_information");
 
-		Result result = executeChronojumpImporter (parameters, pythonVersion, pythonUserURL);
+		Result result = executeChronojumpImporter (parameters, pythonVersion);
 
 		if (result.success) {
 			try {
@@ -374,9 +372,9 @@ LogB.Information("import L ");
 		}
 	}
 
-	public static string GetSessionName(string filePath, int sessionId, Preferences.pythonVersionEnum pythonVersion, string pythonUserURL)
+	public static string GetSessionName(string filePath, int sessionId, Preferences.pythonVersionEnum pythonVersion)
 	{
-		Result information = getImporterInformation (filePath, pythonVersion, pythonUserURL);
+		Result information = getImporterInformation (filePath, pythonVersion);
 		if (information.success == false) {
 			// This shouldn't happen, other getImporterInformation is used in different ways.
 			LogB.Information ("chronojumpImporter::getSessionName failed. Output:" + information.output + "Error:" + information.error);
@@ -402,7 +400,7 @@ LogB.Information("import L ");
 
 	private Result getDatabaseVersionFromFile(string filePath)
 	{
-		Result information = getImporterInformation (filePath, pythonVersion, pythonUserURL);
+		Result information = getImporterInformation (filePath, pythonVersion);
 
 		if (information.success) {
 			JsonValue json = JsonValue.Parse (information.output);
@@ -412,12 +410,12 @@ LogB.Information("import L ");
 		}
 	}
 
-	private static Result executeChronojumpImporter(List<string> parameters, Preferences.pythonVersionEnum pythonVersion, string pythonUserURL)
+	private static Result executeChronojumpImporter(List<string> parameters, Preferences.pythonVersionEnum pythonVersion)
 	{
 		string importer_executable;
 
 		// On Linux, OSX (and Windows since .NET and Python installed) we execute Python and we pass the path to the script as a first argument
-		importer_executable = Preferences.GetPythonExecutable (pythonVersion, pythonUserURL);
+		importer_executable = Preferences.GetPythonExecutable (pythonVersion);
 
 		if (UtilAll.IsWindows())
 		{

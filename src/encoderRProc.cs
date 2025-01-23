@@ -37,7 +37,6 @@ public abstract class EncoderRProc
 
 	protected string optionsFile;	
 	protected EncoderStruct es;
-	protected string rscriptUserURL;
 
 
 	public bool StartOrContinue (EncoderStruct es)
@@ -156,7 +155,7 @@ public class EncoderRProcCapture : EncoderRProc
 		//If output file is not given, R will try to write in the running folder
 		//in which we may haven't got permissions
 
-		string pBin = Util.GetRscriptBin (rscriptUserURL);
+		string pBin = Util.GetRscriptBin ();
 
 		pinfo = new ProcessStartInfo();
 
@@ -313,8 +312,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 
 	public void SendData(string title, string personName, bool neuromuscularProfileDo, bool translate,
 			bool cutByTriggers, TriggerList triggerList,
-			EncoderGraphROptions.AnalysisModes analysisMode, Preferences.EncoderInertialGraphsXTypes inertialGraphX,
-			string rscriptUserURL)
+			EncoderGraphROptions.AnalysisModes analysisMode, Preferences.EncoderInertialGraphsXTypes inertialGraphX)
 	{
 		this.title = title;
 		this.personName = personName;
@@ -324,8 +322,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 		this.triggerList = triggerList;
 		this.analysisMode = analysisMode;
 		this.inertialGraphX = inertialGraphX;
-		this.rscriptUserURL = rscriptUserURL;
-		
+
 		CancelRScript = false;
 	}
 
@@ -338,8 +335,8 @@ public class EncoderRProcAnalyze : EncoderRProc
 	
 		pinfo = new ProcessStartInfo();
 
-		string pBin = Util.GetRscriptBin (rscriptUserURL);
-		
+		string pBin = Util.GetRscriptBin ();
+
 		if (UtilAll.IsWindows()) {
 			//On win32 R understands backlash as an escape character and 
 			//a file path uses Unix-like path separator '/'		

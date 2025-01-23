@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2023-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -44,15 +44,13 @@ public class SprintExport : ExportFiles
 			int personID,
 			int sessionID,
 			char exportDecimalSeparator,
-			int digitsNumber,
-			string rscriptUserURL
+			int digitsNumber
 			)
 	{
 		Button_done = new Gtk.Button();
 
 		assignParams(notebook, labelProgress, progressbar, labelDiscarded, labelResult, includeImages,
-				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator,
-				rscriptUserURL);
+				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator);
 
 		this.digitsNumber = digitsNumber;
 	}
@@ -145,7 +143,7 @@ public class SprintExport : ExportFiles
 					ps.Weight, 	//TODO: can be more if extra weight
 					ps.Height,
 					"",
-					25, rscriptUserURL);
+					25);
 
 			 if(! sprintRGraph.IsDataOk())
 				continue;
@@ -182,11 +180,10 @@ public class SprintExport : ExportFiles
 		SprintRGraph s = new SprintRGraph (
 				sprge_l,
 				exportDecimalSeparator,
-				includeImages,
-				rscriptUserURL
+				includeImages
 				);
 
-		if(! s.CallR(imageWidth, imageHeight, false, rscriptUserURL))
+		if(! s.CallR (imageWidth, imageHeight, false))
 		{
 			failedRprocess = true;
 			return false;

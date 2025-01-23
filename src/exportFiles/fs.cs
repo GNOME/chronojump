@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2021-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2021-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -68,13 +68,13 @@ public class ForceSensorExport : ExportFiles
 			int forceSensorFeedbackF,
 			Preferences.VariabilityMethodEnum variabilityMethod, int forceSensorVariabilityLag,
 			double forceSensorAnalyzeBestStabilityInWindowSeconds,
-			double butterworthFreq, string rscriptUserURL)
+			double butterworthFreq)
 
 	{
 		Button_done = new Gtk.Button();
 
 		assignParams(notebook, labelProgress, progressbar, new Gtk.Label(), labelResult, includeImages,
-				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator, rscriptUserURL);
+				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator);
 
 		this.mode = mode;
 		this.rfdList = rfdList;
@@ -409,7 +409,7 @@ public class ForceSensorExport : ExportFiles
 					includeImages
 					);
 
-			if(! fsg.CallR(imageWidth, imageHeight, false, rscriptUserURL))
+			if(! fsg.CallR(imageWidth, imageHeight, false))
 			{
 				failedRprocess = true;
 				return false;

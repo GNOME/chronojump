@@ -1764,10 +1764,10 @@ public class Util
 		return bin;
 	}
 
-	public static string GetRscriptBin (string rscriptUserURL)
+	public static string GetRscriptBin ()
 	{
-		if (rscriptUserURL != "")
-			return rscriptUserURL;
+		if (Config.RscriptUserURLStatic != "")
+			return Config.RscriptUserURLStatic;
 
 		if (UtilAll.IsWindows())
 		{

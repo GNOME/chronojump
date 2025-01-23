@@ -1625,8 +1625,7 @@ public partial class ChronoJumpWindow
 				(preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
 				triggerListEncoder,
 				getAnalysisMode(),
-				preferences.encoderInertialGraphsX,
-				preferences.rscriptUserURL
+				preferences.encoderInertialGraphsX
 				); 
 		bool result = encoderRProcAnalyze.StartOrContinue(es);
 				
@@ -2255,8 +2254,7 @@ public partial class ChronoJumpWindow
 				(preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
 				new TriggerList(),
 				getAnalysisMode(),
-				preferences.encoderInertialGraphsX,
-				preferences.rscriptUserURL
+				preferences.encoderInertialGraphsX
 				);
 		encoderRProcAnalyze.StartOrContinue(encoderStruct);
 
@@ -3631,8 +3629,7 @@ public partial class ChronoJumpWindow
 			UtilEncoder.RunEncoderCalculeIM(
 					encoder_configuration_win.Spin_im_weight,
 					encoder_configuration_win.Spin_im_length,
-					encoderRProcAnalyze,
-					preferences.rscriptUserURL
+					encoderRProcAnalyze
 					);
 		else
 			encoderProcessCancel = true;
@@ -4051,8 +4048,7 @@ public partial class ChronoJumpWindow
 				(preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
 				triggerListEncoder,
 				getAnalysisMode(),
-				preferences.encoderInertialGraphsX,
-				preferences.rscriptUserURL
+				preferences.encoderInertialGraphsX
 				);
 
 		encoderRProcAnalyze.StartOrContinue(encoderStruct);

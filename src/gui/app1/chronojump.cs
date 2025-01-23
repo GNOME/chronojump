@@ -725,6 +725,9 @@ public partial class ChronoJumpWindow
 
 		loadPreferencesAtStartOrCloudViewChangeDB ();
 
+		Config.RscriptUserURLStatic = configChronojump.RscriptUserURL;
+		Config.PythonUserURLStatic = configChronojump.PythonUserURL;
+
 		Config.UseSystemColor = preferences.colorBackgroundOsColor;
 
 		checkbutton_video_contacts.Visible = true;
@@ -3847,7 +3850,6 @@ public partial class ChronoJumpWindow
 		// 1.d) if copy path changed, use new path
 		if (configHere.CopyToCloudFullPath != "" && configHere.CopyToCloudFullPath != configChronojump.CopyToCloudFullPath)
 			configChronojump.CopyToCloudFullPath = configHere.CopyToCloudFullPath;
-
 
 		preferences = preferencesWin.GetPreferences;
 		LogB.Mute = preferences.muteLogs;
@@ -7197,7 +7199,7 @@ public partial class ChronoJumpWindow
 				currentPersonSession.Weight, //TODO: can be more if extra weight
 				currentPersonSession.Height,
 				currentPerson.Name,
-				25, preferences.rscriptUserURL);
+				25);
 
 		bool sprintRDoneOk = on_button_sprint_do ();
 		string stringResultsFile = RunInterval.GetCSVResultsURL();

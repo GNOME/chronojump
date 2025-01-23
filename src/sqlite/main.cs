@@ -3453,7 +3453,7 @@ class Sqlite
 			}
 			if(currentVersion == "2.55")
 			{
-				LogB.SQL("Added preferences: RscriptUserURL, PythonUserURL");
+				LogB.SQL("Added preferences: RscriptUserURL, PythonUserURL"); //unsed, using Config
 
 				SqlitePreferences.Insert (SqlitePreferences.RscriptUserURL, "");
 				SqlitePreferences.Insert (SqlitePreferences.PythonUserURL, "");

@@ -414,7 +414,7 @@ public class UtilEncoder
 
 	//Inertia Momentum
 	//TODO: make this work with encoderRProc
-	public static void RunEncoderCalculeIM(double weight, double distance, EncoderRProcAnalyze encoderRProcAnalyze, string rscriptUserURL) 
+	public static void RunEncoderCalculeIM(double weight, double distance, EncoderRProcAnalyze encoderRProcAnalyze)
 	{
 		encoderRProcAnalyze.CancelRScript = false;
 
@@ -432,7 +432,7 @@ public class UtilEncoder
 		string scriptUtilR = GetEncoderScriptUtilR();
 
 			
-		pBin=Util.GetRscriptBin(rscriptUserURL);
+		pBin = Util.GetRscriptBin();
 		LogB.Information("pBin:", pBin);
 		if (UtilAll.IsWindows()) {
 			//on Windows we need the \"str\" to call without problems in path with spaces

@@ -1012,24 +1012,29 @@ public class PreferencesWindow
 		// sub tab: more ---->
 
 		PWBox.signalsNoFollow = true;
-		if (preferences.rscriptUserURL == "") {
+
+		LogB.Information ("Config.RscriptUserURLStatic = " + Config.RscriptUserURLStatic.ToString ());
+		LogB.Information ("Config.PythonUserURLStatic = " + Config.PythonUserURLStatic.ToString ());
+
+		if (Config.RscriptUserURLStatic == "") {
 			PWBox.radio_rscript_default.Active = true;
 			PWBox.button_rscript_choose.Sensitive = false;
 			PWBox.entry_rscript_user_location.Text = "";
 		} else {
 			PWBox.radio_rscript_other.Active = true;
 			PWBox.button_rscript_choose.Sensitive = true;
-			PWBox.entry_rscript_user_location.Text = preferences.rscriptUserURL;
+			PWBox.entry_rscript_user_location.Text = Config.RscriptUserURLStatic;
 		}
 
-		if (preferences.pythonUserURL == "") {
+		if (Config.PythonUserURLStatic == "") {
+			PWBox.radio_rscript_default.Active = true;
 			PWBox.radio_python_default.Active = true;
 			PWBox.button_python_choose.Sensitive = false;
 			PWBox.entry_python_user_location.Text = "";
 		} else {
 			PWBox.radio_python_other.Active = true;
 			PWBox.button_python_choose.Sensitive = true;
-			PWBox.entry_python_user_location.Text = preferences.pythonUserURL;
+			PWBox.entry_python_user_location.Text = Config.PythonUserURLStatic;
 		}
 		PWBox.signalsNoFollow = false;
 
@@ -2556,7 +2561,6 @@ public class PreferencesWindow
 			return;
 
 		button_rscript_choose.Sensitive = false;
-		//Config.RscriptUserURL = "";
 		rscriptUserChanges ("");
 	}
 	private void on_radio_rscript_other_toggled (object o, EventArgs args)
@@ -2565,7 +2569,6 @@ public class PreferencesWindow
 			return;
 
 		button_rscript_choose.Sensitive = true;
-		//Config.RscriptUserURL = "";
 		rscriptUserChanges ("");
 	}
 	private void on_button_rscript_choose_clicked (object o, EventArgs args)
@@ -2599,10 +2602,12 @@ public class PreferencesWindow
 	}
 	private void rscriptUserChangesB (string url)
 	{
-		// B) changes on preferences object and SqlitePreferences
-		if (preferences.rscriptUserURL != url) {
-			SqlitePreferences.Update (SqlitePreferences.RscriptUserURL, url, false);
-			preferences.rscriptUserURL = url;
+		// B) changes on Config object and file
+		if (Config.RscriptUserURLStatic != url)
+		{
+			Config.RscriptUserURLStatic = url;
+			configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
+					Config.OpEnum.RscriptUserURL.ToString (), url);
 		}
 	}
 
@@ -2658,10 +2663,12 @@ public class PreferencesWindow
 
 	private void pythonUserChangesB (string url)
 	{
-		// B) changes on preferences object and SqlitePreferences
-		if (preferences.pythonUserURL != url) {
-			SqlitePreferences.Update (SqlitePreferences.PythonUserURL, url, false);
-			preferences.pythonUserURL = url;
+		// B) changes on Config object and file
+		if (Config.PythonUserURLStatic != url)
+		{
+			Config.PythonUserURLStatic = url;
+			configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
+					Config.OpEnum.PythonUserURL.ToString (), url);
 		}
 	}
 

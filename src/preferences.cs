@@ -249,9 +249,6 @@ public class Preferences
 	public bool muteLogs;
 	public bool networksAllowChangeDevices; //managed on preferences;
 
-	public string rscriptUserURL; //emtpy: default
-	public string pythonUserURL; //emtpy: default
-
 	public enum pythonVersionEnum { Python2, Python3 };
 	public pythonVersionEnum importerPythonVersion;
 
@@ -262,10 +259,10 @@ public class Preferences
 	 * so we need the executable: python, python2, python3
 	 * chronojump_importer.py works on python2 and python3
 	 */
-	public static string GetPythonExecutable (pythonVersionEnum pv, string pythonUserURL)
+	public static string GetPythonExecutable (pythonVersionEnum pv)
 	{
-		if (pythonUserURL != "")
-			return pythonUserURL;
+		if (Config.PythonUserURLStatic != "")
+			return Config.PythonUserURLStatic;
 
 		if (pv == pythonVersionEnum.Python2)
 		{

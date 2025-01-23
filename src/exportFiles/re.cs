@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2022-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -56,15 +56,13 @@ public class RunEncoderExport : ExportFiles
 			bool plotRawAccel, bool plotFittedAccel,
 			bool plotRawForce, bool plotFittedForce,
 			bool plotRawPower, bool plotFittedPower,
-			char exportDecimalSeparator,
-			string rscriptUserURL
-			)
+			char exportDecimalSeparator)
 	{
 		Button_done = new Gtk.Button();
 
 		assignParams(notebook, labelProgress, progressbar, labelDiscarded, labelResult, includeImages,
-				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator,
-				rscriptUserURL);
+				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator
+				);
 
 		this.includeInstantaneous = includeInstantaneous;
 		this.startAccel = startAccel;
@@ -211,7 +209,7 @@ public class RunEncoderExport : ExportFiles
 				includeImages, includeInstantaneous
 				);
 
-		if(! reg.CallR(imageWidth, imageHeight, false, rscriptUserURL))
+		if(! reg.CallR(imageWidth, imageHeight, false))
 		{
 			failedRprocess = true;
 			return false;

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2018-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2018-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -1232,11 +1232,11 @@ public class RunEncoderGraph
 		writeMultipleFilesCSV(rege_l);
 	}
 
-	public bool CallR(int graphWidth, int graphHeight, bool singleOrMultiple, string rscriptUserURL)
+	public bool CallR (int graphWidth, int graphHeight, bool singleOrMultiple)
 	{
 		LogB.Information("\nrunEncoder CallR ----->");
 		writeOptionsFile(graphWidth, graphHeight, singleOrMultiple);
-		return ExecuteProcess.CallR(RunEncoder.GetScript(), rscriptUserURL);
+		return ExecuteProcess.CallR (RunEncoder.GetScript());
 	}
 
 	private void writeOptionsFile(int graphWidth, int graphHeight, bool singleOrMultiple)

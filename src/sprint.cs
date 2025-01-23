@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2017-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2017-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -35,14 +35,13 @@ public class SprintRGraph
 	private double tempC;
 	private char exportDecimalSeparator;
 	private bool includeImagesOnExport;
-	private string rscriptUserURL;
 
 	private string errorMessage;
 
 	//constructor for 1 set
 	public SprintRGraph (string positions, string splitTimes,
-			double mass, double personHeight, string personName, double tempC,
-			string rscriptUserURL)
+			double mass, double personHeight, string personName, double tempC
+			)
 	{
 		this.positions = positions;
 		this.splitTimes = splitTimes;
@@ -53,7 +52,6 @@ public class SprintRGraph
 
 		this.exportDecimalSeparator = '.';
 		this.includeImagesOnExport = false;
-		this.rscriptUserURL = rscriptUserURL;
 
 		errorMessage = "";
 	}
@@ -61,8 +59,8 @@ public class SprintRGraph
 	//constructor for export (many sets of possible different persons)
 	public SprintRGraph (List<SprintRGraphExport> sprge_l,
 			char exportDecimalSeparator,
-			bool includeImagesOnExport,
-			string rscriptUserURL)
+			bool includeImagesOnExport
+			)
 	{
 		//to have Roptions.txt with data on row
 		this.positions = "-1";
@@ -74,16 +72,15 @@ public class SprintRGraph
 
 		this.exportDecimalSeparator = exportDecimalSeparator;
 		this.includeImagesOnExport = includeImagesOnExport;
-		this.rscriptUserURL = rscriptUserURL;
 
 		writeMultipleFilesCSV(sprge_l);
 	}
 
-	public bool CallR(int graphWidth, int graphHeight, bool singleOrMultiple, string rscriptUserURL)
+	public bool CallR (int graphWidth, int graphHeight, bool singleOrMultiple)
 	{
 		LogB.Information("\nsprint CallR ----->");
 		writeOptionsFile(graphWidth, graphHeight,singleOrMultiple);
-		return ExecuteProcess.CallR(UtilEncoder.GetSprintPhotocellsScript(), rscriptUserURL);
+		return ExecuteProcess.CallR(UtilEncoder.GetSprintPhotocellsScript());
 	}
 
 	private void writeOptionsFile(int graphWidth, int graphHeight, bool singleOrMultiple)

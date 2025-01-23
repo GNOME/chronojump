@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 using System;
 using System.IO; 
@@ -38,7 +38,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_encoder_exercise_mass;
 	Gtk.HBox hbox_encoder_exercise_mass;
 	Gtk.Label label_encoder_exercise_inertia;
-	Gtk.HBox hbox_encoder_exercise_inertia;
+	Gtk.Box box_encoder_exercise_inertia;
 	Gtk.HBox hbox_encoder_exercise_gravitatory_min_mov;
 	Gtk.HBox hbox_encoder_exercise_inertial_min_mov;
 	Gtk.SpinButton spin_encoder_capture_min_height_gravitatory;
@@ -50,6 +50,7 @@ public partial class ChronoJumpWindow
 	Gtk.HBox hbox_capture_1RM;
 	Gtk.Label label_encoder_1RM_percent;
 	Gtk.Label label_encoder_im_total;
+	Gtk.Label label_encoder_equivalent_mass;
 	Gtk.SpinButton spin_encoder_im_weights_n;
 	Gtk.HBox hbox_combo_encoder_anchorage;
 
@@ -607,13 +608,18 @@ public partial class ChronoJumpWindow
 			encoderConfigurationCurrent.inertiaTotal = UtilEncoder.CalculeInertiaTotal(encoderConfigurationCurrent);
 			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
 			label_encoder_top_im.Text = Catalog.GetString("Inertia M.") + ": " + label_encoder_im_total.Text;
+
+			label_encoder_equivalent_mass.Text = Util.TrimDecimals (UtilEncoder.CalculateEquivalentMass (encoderConfigurationCurrent), 1);
 		}
 	}
 	
-	void on_combo_encoder_anchorage_changed (object o, EventArgs args) {
+	void on_combo_encoder_anchorage_changed (object o, EventArgs args)
+	{
 		string selected = UtilGtk.ComboGetActive(combo_encoder_anchorage);
 		if(selected != "" && Util.IsNumber(selected, true))
 			encoderConfigurationCurrent.d = Convert.ToDouble(selected);
+
+		label_encoder_equivalent_mass.Text = Util.TrimDecimals (UtilEncoder.CalculateEquivalentMass (encoderConfigurationCurrent), 1);
 	}
 
 
@@ -643,6 +649,8 @@ public partial class ChronoJumpWindow
 		label_encoder_top_im.Text = Catalog.GetString("Inertia M.") + ": " + label_encoder_im_total.Text;
 
 		label_encoder_top_weights.Text = spin_encoder_im_weights_n.Value.ToString ();
+
+		label_encoder_equivalent_mass.Text = Util.TrimDecimals (UtilEncoder.CalculateEquivalentMass (encoderConfigurationCurrent), 1);
 	}
 
 	// <---- end of spin_encoder_im_weights_n ----
@@ -2121,7 +2129,7 @@ public partial class ChronoJumpWindow
 			label_encoder_exercise_mass.Visible = false;
 			hbox_encoder_exercise_mass.Visible = false;
 			label_encoder_exercise_inertia.Visible = true;
-			hbox_encoder_exercise_inertia.Visible = true;
+			box_encoder_exercise_inertia.Visible = true;
 			hbox_encoder_exercise_gravitatory_min_mov.Visible = false;
 			hbox_encoder_exercise_inertial_min_mov.Visible = true;
 			
@@ -2140,13 +2148,15 @@ public partial class ChronoJumpWindow
 			label_encoder_top_im.Text = Catalog.GetString("Inertia M.") + ": " + label_encoder_im_total.Text;
 
 			spin_encoder_capture_min_height_inertial.Value = preferences.EncoderCaptureMinHeight(true);
+
+			label_encoder_equivalent_mass.Text = Util.TrimDecimals (UtilEncoder.CalculateEquivalentMass (encoderConfigurationCurrent), 1);
 		}
 		else { //(current_mode == Constants.Modes.POWERGRAVITATORY)
 			notebook_encoder_top.Page = 0;
 			label_encoder_exercise_mass.Visible = true;
 			hbox_encoder_exercise_mass.Visible = true;
 			label_encoder_exercise_inertia.Visible = false;
-			hbox_encoder_exercise_inertia.Visible = false;
+			box_encoder_exercise_inertia.Visible = false;
 			hbox_encoder_exercise_gravitatory_min_mov.Visible = true;
 			hbox_encoder_exercise_inertial_min_mov.Visible = false;
 			spin_encoder_capture_min_height_gravitatory.Value = preferences.EncoderCaptureMinHeight(false);
@@ -8230,7 +8240,7 @@ public partial class ChronoJumpWindow
 		label_encoder_exercise_mass = (Gtk.Label) builder.GetObject ("label_encoder_exercise_mass");
 		hbox_encoder_exercise_mass = (Gtk.HBox) builder.GetObject ("hbox_encoder_exercise_mass");
 		label_encoder_exercise_inertia = (Gtk.Label) builder.GetObject ("label_encoder_exercise_inertia");
-		hbox_encoder_exercise_inertia = (Gtk.HBox) builder.GetObject ("hbox_encoder_exercise_inertia");
+		box_encoder_exercise_inertia = (Gtk.Box) builder.GetObject ("box_encoder_exercise_inertia");
 		hbox_encoder_exercise_gravitatory_min_mov = (Gtk.HBox) builder.GetObject ("hbox_encoder_exercise_gravitatory_min_mov");
 		hbox_encoder_exercise_inertial_min_mov = (Gtk.HBox) builder.GetObject ("hbox_encoder_exercise_inertial_min_mov");
 		spin_encoder_capture_min_height_gravitatory = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_min_height_gravitatory");
@@ -8242,6 +8252,7 @@ public partial class ChronoJumpWindow
 		hbox_capture_1RM = (Gtk.HBox) builder.GetObject ("hbox_capture_1RM");
 		label_encoder_1RM_percent = (Gtk.Label) builder.GetObject ("label_encoder_1RM_percent");
 		label_encoder_im_total = (Gtk.Label) builder.GetObject ("label_encoder_im_total");
+		label_encoder_equivalent_mass = (Gtk.Label) builder.GetObject ("label_encoder_equivalent_mass");
 		spin_encoder_im_weights_n = (Gtk.SpinButton) builder.GetObject ("spin_encoder_im_weights_n");
 		hbox_combo_encoder_anchorage = (Gtk.HBox) builder.GetObject ("hbox_combo_encoder_anchorage");
 

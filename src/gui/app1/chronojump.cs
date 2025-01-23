@@ -4443,7 +4443,7 @@ public partial class ChronoJumpWindow
 				label_encoder_exercise_mass.Visible = true;
 				hbox_encoder_exercise_mass.Visible = true;
 				label_encoder_exercise_inertia.Visible = false;
-				hbox_encoder_exercise_inertia.Visible = false;
+				box_encoder_exercise_inertia.Visible = false;
 				hbox_encoder_exercise_gravitatory_min_mov.Visible = true;
 				hbox_encoder_exercise_inertial_min_mov.Visible = false;
 
@@ -4487,7 +4487,7 @@ public partial class ChronoJumpWindow
 				label_encoder_exercise_mass.Visible = false;
 				hbox_encoder_exercise_mass.Visible = false;
 				label_encoder_exercise_inertia.Visible = true;
-				hbox_encoder_exercise_inertia.Visible = true;
+				box_encoder_exercise_inertia.Visible = true;
 				hbox_encoder_exercise_gravitatory_min_mov.Visible = false;
 				hbox_encoder_exercise_inertial_min_mov.Visible = true;
 

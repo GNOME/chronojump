@@ -433,14 +433,21 @@ public class Json
 
 		json.Add("cj_version", cjVersion);
 
+		LogB.Information("machineID: " + machineID);
 		/*
-		   machine_id is an int (15) unsigned, but seems the 15 is not working, what is used is:
+		   machine_id is an int (15) unsigned
 		   maximum value is: 4294967295
 		   https://www.mysqltutorial.org/mysql-int/
-		   */
-		LogB.Information("machineID: " + machineID);
-		if(machineID.Length >= 10)
+
+		   do not push a machineID number higher than the max in maria DB int
+		   https://stackoverflow.com/a/5634147
+		   note this cannot happen as the maximum generated machineID can be 2147483647
+		*/
+		if (Convert.ToInt32 (machineID) >= 4294967295)
+		{
+			LogB.Information("cutting machineID to 4294967295");
 			machineID = "4294967295";
+		}
 
 		json.Add("machine_id", machineID);
 
@@ -503,7 +510,7 @@ public class Json
 		   https://www.mysqltutorial.org/mysql-int/
 		   */
 		LogB.Information("machineID: " + machineID);
-		if(machineID.Length >= 10)
+		if (Convert.ToInt32 (machineID) >= 4294967295)
 			machineID = "4294967295";
 
 		json.Add("machine_id", machineID);

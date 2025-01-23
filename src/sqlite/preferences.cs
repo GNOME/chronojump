@@ -308,7 +308,7 @@ class SqlitePreferences : Sqlite
 				Insert ("thresholdOther", "50", dbcmdTr);
 
 				Random rnd = new Random();
-				string machineID = rnd.Next().ToString();
+				string machineID = rnd.Next().ToString(); //this will generate a machineID between 0 and 2147483647 (Int32.MaxValue) even on 64 bits
 				Insert ("machineID", machineID, dbcmdTr);
 
 				Insert ("multimediaStorage", Constants.MultimediaStorage.BYSESSION.ToString(), dbcmdTr);

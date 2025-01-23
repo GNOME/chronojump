@@ -201,3 +201,5 @@ If you want to abort a merge done on a git stash pop (discarding the stashed stu
 	git reset --merge
 
 if the problem is on git stash pop see "merge problem on git stash pop" above
+
+https://ohshitgit.com/

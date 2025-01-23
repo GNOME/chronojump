@@ -320,7 +320,7 @@ public class PreferencesWindow
 	Gtk.RadioButton radio_rscript_default;
 	Gtk.RadioButton radio_rscript_other;
 	Gtk.Button button_rscript_choose;
-	Gtk.Label label_rscript_user_location;
+	Gtk.Entry entry_rscript_user_location;
 	Gtk.RadioButton radio_python_default;
 	Gtk.RadioButton radio_python_other;
 	Gtk.Button button_python_choose;
@@ -1015,11 +1015,11 @@ public class PreferencesWindow
 		if (preferences.rscriptUserURL == "") {
 			PWBox.radio_rscript_default.Active = true;
 			PWBox.button_rscript_choose.Sensitive = false;
-			PWBox.label_rscript_user_location.Text = "";
+			PWBox.entry_rscript_user_location.Text = "";
 		} else {
 			PWBox.radio_rscript_other.Active = true;
 			PWBox.button_rscript_choose.Sensitive = true;
-			PWBox.label_rscript_user_location.Text = preferences.rscriptUserURL;
+			PWBox.entry_rscript_user_location.Text = preferences.rscriptUserURL;
 		}
 
 		if (preferences.pythonUserURL == "") {
@@ -2568,16 +2568,35 @@ public class PreferencesWindow
 	}
 	private void on_button_rscript_choose_clicked (object o, EventArgs args)
 	{
+		signalsNoFollow = true;
+
 		string url = chooseFile (Catalog.GetString ("Please, select Rscript file"));
 		rscriptUserChanges (url);
+
+		signalsNoFollow = false;
 	}
-	
+
+	private void on_entry_rscript_user_location_changed (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		string url = entry_rscript_user_location.Text;
+		rscriptUserChangesB (url);
+	}
+
 	private void rscriptUserChanges (string url)
 	{
+		rscriptUserChangesA (url);
+		rscriptUserChangesB (url);
+	}
+	private void rscriptUserChangesA (string url)
+	{
 		// A) changes on preferences gui
-		label_rscript_user_location.Text = url;
-		label_rscript_user_location.TooltipText = url;
-
+		entry_rscript_user_location.Text = url;
+	}
+	private void rscriptUserChangesB (string url)
+	{
 		// B) changes on preferences object and SqlitePreferences
 		if (preferences.rscriptUserURL != url) {
 			SqlitePreferences.Update (SqlitePreferences.RscriptUserURL, url, false);
@@ -3913,7 +3932,7 @@ public class PreferencesWindow
 
 		radio_rscript_default = (Gtk.RadioButton) builder.GetObject ("radio_rscript_default");
 		radio_rscript_other = (Gtk.RadioButton) builder.GetObject ("radio_rscript_other");
-		label_rscript_user_location = (Gtk.Label) builder.GetObject ("label_rscript_user_location");
+		entry_rscript_user_location = (Gtk.Entry) builder.GetObject ("entry_rscript_user_location");
 		button_rscript_choose = (Gtk.Button) builder.GetObject ("button_rscript_choose");
 		radio_python_default = (Gtk.RadioButton) builder.GetObject ("radio_python_default");
 		radio_python_other = (Gtk.RadioButton) builder.GetObject ("radio_python_other");

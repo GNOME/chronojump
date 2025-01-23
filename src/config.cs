@@ -30,6 +30,8 @@ public class Config
 
 	//to avoid passing this info to all the windows and dialogs, just read it here
 	public static bool UseSystemColor; //do nothing at all
+	public static string RscriptUserURLStatic = "";
+	public static string PythonUserURLStatic = "";
 
 	public static string LastDBFullPathStatic = ""; //works even with spaces in name
 	/*
@@ -65,6 +67,7 @@ public class Config
 		LastDBFullPath, //cloud & externalDB
 		JsonUploadNeedsButton, JsonUploadJumpSimpleTestScript, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, CanInsertTests, //json upload
 		RemoteTestJumpSimpleFile, RemoteTestRunIntervalFile, RemoteTestCancelFile, //remote execution
+		RscriptUserURL, PythonUserURL, //User executables locations
 		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, Wilight, WilightCommandsURL, WilightCommandMs, GuiTest, NoSendLog, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
@@ -77,6 +80,7 @@ public class Config
 	public static string OpEnum1stCloudAndExternalDB = OpEnum.LastDBFullPath.ToString ();
 	public static string OpEnum1stJsonUpload = OpEnum.JsonUploadNeedsButton.ToString ();
 	public static string OpEnum1stRemoteTest = OpEnum.RemoteTestJumpSimpleFile.ToString ();
+	public static string OpEnum1stUserExecutables = OpEnum.RscriptUserURL.ToString ();
 	public static string OpEnum1stOther = OpEnum.SessionMode.ToString ();
 	public static string OpEnum1stOutdated = OpEnum.Exhibition.ToString ();
 
@@ -164,7 +168,7 @@ public class Config
 		get { return configList.GetBool (OpEnum.CanInsertTests); }
 	}
 
-	//remoteTest
+	// remoteTest
 	public string RemoteTestJumpSimpleFile {
 		get { return configList.GetString (OpEnum.RemoteTestJumpSimpleFile); }
 	}
@@ -173,6 +177,14 @@ public class Config
 	}
 	public string RemoteTestCancelFile {
 		get { return configList.GetString (OpEnum.RemoteTestCancelFile); }
+	}
+
+	// user executables
+	public string RscriptUserURL {
+		get { return configList.GetString (OpEnum.RscriptUserURL); }
+	}
+	public string PythonUserURL {
+		get { return configList.GetString (OpEnum.PythonUserURL); }
 	}
 
 	// other
@@ -531,6 +543,8 @@ public class ConfigList
 				str += "\n\nJson upload:";
 			else if (co.Name == Config.OpEnum1stRemoteTest)
 				str += "\n\nRemote test:";
+			else if (co.Name == Config.OpEnum1stUserExecutables)
+				str += "\n\nUser executables:";
 			else if (co.Name == Config.OpEnum1stOther)
 				str += "\n\nOther:";
 			else if (co.Name == Config.OpEnum1stOutdated)
@@ -645,6 +659,12 @@ public class ConfigList
 					"Full URL to the file created as a flag to execute a run multiple (intervallic). When test is done a file will be created with the same name + 'Done'. If the file has the English name of the test inside, and that test exist, it will be executed."));
 		list.Add (new ConfigOptionString (Config.OpEnum.RemoteTestCancelFile,
 					"Full URL to the file created as a flag to cancel current RemoteTest."));
+
+		// user executables
+		list.Add (new ConfigOptionString (Config.OpEnum.RscriptUserURL,
+					"Select by user URL to Rscript executable"));
+		list.Add (new ConfigOptionString (Config.OpEnum.PythonUserURL,
+					"Select by user URL to Python executable"));
 
 		// other
 		list.Add (new ConfigOptionEnum (Config.OpEnum.SessionMode,

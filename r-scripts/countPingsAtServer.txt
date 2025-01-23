@@ -1,3 +1,10 @@
+----
+Attention because many machineIDs are 4294967295 because is the maximum number, see json.cs
+this compromises the GROUP BY machineID and the COUNT(DISTINCT machineID)
+----
+
+select COUNT(*) AS conta, ping.* FROM ping where machineID=4294967295 GROUP BY osVersion order by conta;
+
 Different Chronojump installations of a version by operating system
 
 SELECT COUNT(DISTINCT machineID), substring(osVersion, 1,6) AS osv FROM ping WHERE cjVersion LIKE "%2.0.2%" GROUP BY osv;

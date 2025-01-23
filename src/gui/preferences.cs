@@ -324,7 +324,7 @@ public class PreferencesWindow
 	Gtk.RadioButton radio_python_default;
 	Gtk.RadioButton radio_python_other;
 	Gtk.Button button_python_choose;
-	Gtk.Label label_python_user_location;
+	Gtk.Entry entry_python_user_location;
 
 	Gtk.RadioButton radio_python_2;
 	Gtk.RadioButton radio_python_3;
@@ -1025,11 +1025,11 @@ public class PreferencesWindow
 		if (preferences.pythonUserURL == "") {
 			PWBox.radio_python_default.Active = true;
 			PWBox.button_python_choose.Sensitive = false;
-			PWBox.label_python_user_location.Text = "";
+			PWBox.entry_python_user_location.Text = "";
 		} else {
 			PWBox.radio_python_other.Active = true;
 			PWBox.button_python_choose.Sensitive = true;
-			PWBox.label_python_user_location.Text = preferences.pythonUserURL;
+			PWBox.entry_python_user_location.Text = preferences.pythonUserURL;
 		}
 		PWBox.signalsNoFollow = false;
 
@@ -2548,6 +2548,8 @@ public class PreferencesWindow
 				);
 	}
 
+	// ---- rscript_user_location ---->
+
 	private void on_radio_rscript_default_toggled (object o, EventArgs args)
 	{
 		if (signalsNoFollow)
@@ -2604,6 +2606,10 @@ public class PreferencesWindow
 		}
 	}
 
+	// <---- rscript_user_location
+
+	// ---- python_user_location ---->
+
 	private void on_radio_python_default_toggled (object o, EventArgs args)
 	{
 		if (signalsNoFollow)
@@ -2622,22 +2628,44 @@ public class PreferencesWindow
 	}
 	private void on_button_python_choose_clicked (object o, EventArgs args)
 	{
+		signalsNoFollow = true;
+
 		string url = chooseFile (Catalog.GetString ("Please, select Python file"));
 		pythonUserChanges (url);
+
+		signalsNoFollow = false;
+	}
+
+	private void on_entry_python_user_location_changed (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		string url = entry_python_user_location.Text;
+		pythonUserChangesB (url);
 	}
 
 	private void pythonUserChanges (string url)
 	{
+		pythonUserChangesA (url);
+		pythonUserChangesB (url);
+	}
+	private void pythonUserChangesA (string url)
+	{
 		// A) changes on preferences gui
-		label_python_user_location.Text = url;
-		label_python_user_location.TooltipText = url;
+		entry_python_user_location.Text = url;
+	}
 
+	private void pythonUserChangesB (string url)
+	{
 		// B) changes on preferences object and SqlitePreferences
 		if (preferences.pythonUserURL != url) {
 			SqlitePreferences.Update (SqlitePreferences.PythonUserURL, url, false);
 			preferences.pythonUserURL = url;
 		}
 	}
+
+	// <---- python_user_location
 
 	private string chooseFile (string text)
 	{
@@ -3937,7 +3965,7 @@ public class PreferencesWindow
 		radio_python_default = (Gtk.RadioButton) builder.GetObject ("radio_python_default");
 		radio_python_other = (Gtk.RadioButton) builder.GetObject ("radio_python_other");
 		button_python_choose = (Gtk.Button) builder.GetObject ("button_python_choose");
-		label_python_user_location = (Gtk.Label) builder.GetObject ("label_python_user_location");
+		entry_python_user_location = (Gtk.Entry) builder.GetObject ("entry_python_user_location");
 
 		radio_python_2 = (Gtk.RadioButton) builder.GetObject ("radio_python_2");
 		radio_python_3 = (Gtk.RadioButton) builder.GetObject ("radio_python_3");

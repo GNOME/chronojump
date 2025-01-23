@@ -9044,23 +9044,11 @@ version:</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkBox">
+                                      <object class="GtkEntry" id="entry_rscript_user_location">
                                         <property name="visible">True</property>
-                                        <property name="can-focus">False</property>
+                                        <property name="can-focus">True</property>
                                         <property name="hexpand">True</property>
-                                        <property name="orientation">vertical</property>
-                                        <child>
-                                          <object class="GtkEntry" id="entry_rscript_user_location">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">True</property>
-                                            <signal name="changed" handler="on_entry_rscript_user_location_changed" swapped="no"/>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
+                                        <signal name="changed" handler="on_entry_rscript_user_location_changed" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="left-attach">1</property>
@@ -9167,23 +9155,24 @@ version:</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkLabel" id="label_python_user_location">
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">False</property>
-                                        <property name="ellipsize">middle</property>
-                                      </object>
-                                      <packing>
-                                        <property name="left-attach">1</property>
-                                        <property name="top-attach">1</property>
-                                      </packing>
-                                    </child>
-                                    <child>
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">0</property>
+                                        <property name="top-attach">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkEntry" id="entry_python_user_location">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="hexpand">True</property>
+                                        <signal name="changed" handler="on_entry_python_user_location_changed" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="left-attach">1</property>
                                         <property name="top-attach">1</property>
                                       </packing>
                                     </child>

@@ -8666,7 +8666,6 @@ It starts before and arrives there with some speed.</property>
                             <property name="spacing">20</property>
                             <child>
                               <object class="GtkBox" id="box_r_file">
-                                <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <property name="orientation">vertical</property>
                                 <child>

@@ -502,6 +502,8 @@ namespace Chronojump
 			new ResourceFix ("encoder-calcule-im.png" , "encoder-calcule-im.png"),
 			new ResourceFix ("er-axis-on-fixed-pulley-with-weighted-moving-pulley.png" , "encoder-ra-on-fixed-pulley-with-weighted-moving-pulley.png"),
 			new ResourceFix ("inertial-start.png" , "inertial-start.png"),
+			new ResourceFix ("language-r.png" , "language-r.png"),
+			new ResourceFix ("language-python.png" , "language-python.png"),
 			new ResourceFix ("start.wav" , "sound_can_start.wav"),
 			new ResourceFix ("ok.wav" , "ok.wav"),
 			new ResourceFix ("bad.wav" , "sound_bad.wav")

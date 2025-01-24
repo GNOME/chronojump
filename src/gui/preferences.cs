@@ -317,6 +317,8 @@ public class PreferencesWindow
 	Gtk.Image image_send_log_yes;
 	Gtk.TextView textview_send_log_message;
 
+	Gtk.Image image_advanced_r;
+	Gtk.Image image_advanced_python;
 	Gtk.RadioButton radio_r_default;
 	Gtk.RadioButton radio_r_other;
 	Gtk.Button button_r_choose;
@@ -992,6 +994,8 @@ public class PreferencesWindow
 		PWBox.image_cloud_view.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
 		PWBox.image_cloud_schema.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_schema_small.png");
 		PWBox.image_button_send_log.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "send_blue.png");
+		PWBox.image_advanced_r.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "language-r.png");
+		PWBox.image_advanced_python.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "language-python.png");
 
 		PWBox.signalsNoFollow = true;
 		if (PWBox.configAtPrefs.CopyToCloudFullPath !=  "")
@@ -4051,6 +4055,8 @@ public class PreferencesWindow
 		image_send_log_yes = (Gtk.Image) builder.GetObject ("image_send_log_yes");
 		textview_send_log_message = (Gtk.TextView) builder.GetObject ("textview_send_log_message");
 
+		image_advanced_r = (Gtk.Image) builder.GetObject ("image_advanced_r");
+		image_advanced_python = (Gtk.Image) builder.GetObject ("image_advanced_python");
 		radio_r_default = (Gtk.RadioButton) builder.GetObject ("radio_r_default");
 		radio_r_other = (Gtk.RadioButton) builder.GetObject ("radio_r_other");
 		entry_r_user_location = (Gtk.Entry) builder.GetObject ("entry_r_user_location");

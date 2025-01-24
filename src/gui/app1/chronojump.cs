@@ -725,6 +725,7 @@ public partial class ChronoJumpWindow
 
 		loadPreferencesAtStartOrCloudViewChangeDB ();
 
+		Config.RUserURLStatic = configChronojump.RUserURL;
 		Config.RscriptUserURLStatic = configChronojump.RscriptUserURL;
 		Config.PythonUserURLStatic = configChronojump.PythonUserURL;
 

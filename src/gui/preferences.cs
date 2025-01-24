@@ -317,6 +317,10 @@ public class PreferencesWindow
 	Gtk.Image image_send_log_yes;
 	Gtk.TextView textview_send_log_message;
 
+	Gtk.RadioButton radio_r_default;
+	Gtk.RadioButton radio_r_other;
+	Gtk.Button button_r_choose;
+	Gtk.Entry entry_r_user_location;
 	Gtk.RadioButton radio_rscript_default;
 	Gtk.RadioButton radio_rscript_other;
 	Gtk.Button button_rscript_choose;
@@ -1013,27 +1017,43 @@ public class PreferencesWindow
 
 		PWBox.signalsNoFollow = true;
 
+		LogB.Information ("Config.RUserURLStatic = " + Config.RUserURLStatic.ToString ());
 		LogB.Information ("Config.RscriptUserURLStatic = " + Config.RscriptUserURLStatic.ToString ());
 		LogB.Information ("Config.PythonUserURLStatic = " + Config.PythonUserURLStatic.ToString ());
+
+		if (Config.RUserURLStatic == "") {
+			PWBox.radio_r_default.Active = true;
+			PWBox.button_r_choose.Sensitive = false;
+			PWBox.entry_r_user_location.Sensitive = false;
+			PWBox.entry_r_user_location.Text = "";
+		} else {
+			PWBox.radio_r_other.Active = true;
+			PWBox.button_r_choose.Sensitive = true;
+			PWBox.entry_r_user_location.Sensitive = true;
+			PWBox.entry_r_user_location.Text = Config.RUserURLStatic;
+		}
 
 		if (Config.RscriptUserURLStatic == "") {
 			PWBox.radio_rscript_default.Active = true;
 			PWBox.button_rscript_choose.Sensitive = false;
+			PWBox.entry_rscript_user_location.Sensitive = false;
 			PWBox.entry_rscript_user_location.Text = "";
 		} else {
 			PWBox.radio_rscript_other.Active = true;
 			PWBox.button_rscript_choose.Sensitive = true;
+			PWBox.entry_rscript_user_location.Sensitive = true;
 			PWBox.entry_rscript_user_location.Text = Config.RscriptUserURLStatic;
 		}
 
 		if (Config.PythonUserURLStatic == "") {
-			PWBox.radio_rscript_default.Active = true;
 			PWBox.radio_python_default.Active = true;
 			PWBox.button_python_choose.Sensitive = false;
+			PWBox.entry_python_user_location.Sensitive = false;
 			PWBox.entry_python_user_location.Text = "";
 		} else {
 			PWBox.radio_python_other.Active = true;
 			PWBox.button_python_choose.Sensitive = true;
+			PWBox.entry_python_user_location.Sensitive = true;
 			PWBox.entry_python_user_location.Text = Config.PythonUserURLStatic;
 		}
 		PWBox.signalsNoFollow = false;
@@ -2553,6 +2573,68 @@ public class PreferencesWindow
 				);
 	}
 
+	// ---- r_user_location ---->
+
+	private void on_radio_r_default_toggled (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		button_r_choose.Sensitive = false;
+		entry_r_user_location.Sensitive = false;
+		rUserChanges ("");
+	}
+	private void on_radio_r_other_toggled (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		button_r_choose.Sensitive = true;
+		entry_r_user_location.Sensitive = true;
+		rUserChanges ("");
+	}
+	private void on_button_r_choose_clicked (object o, EventArgs args)
+	{
+		signalsNoFollow = true;
+
+		string url = chooseFile (Catalog.GetString ("Please, select R file"));
+		rUserChanges (url);
+
+		signalsNoFollow = false;
+	}
+
+	private void on_entry_r_user_location_changed (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		string url = entry_r_user_location.Text;
+		rUserChangesB (url);
+	}
+
+	private void rUserChanges (string url)
+	{
+		rUserChangesA (url);
+		rUserChangesB (url);
+	}
+	private void rUserChangesA (string url)
+	{
+		// A) changes on preferences gui
+		entry_r_user_location.Text = url;
+	}
+	private void rUserChangesB (string url)
+	{
+		// B) changes on Config object and file
+		if (Config.RUserURLStatic != url)
+		{
+			Config.RUserURLStatic = url;
+			configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
+					Config.OpEnum.RUserURL.ToString (), url);
+		}
+	}
+
+	// <---- r_user_location
+
 	// ---- rscript_user_location ---->
 
 	private void on_radio_rscript_default_toggled (object o, EventArgs args)
@@ -2561,6 +2643,7 @@ public class PreferencesWindow
 			return;
 
 		button_rscript_choose.Sensitive = false;
+		entry_rscript_user_location.Sensitive = false;
 		rscriptUserChanges ("");
 	}
 	private void on_radio_rscript_other_toggled (object o, EventArgs args)
@@ -2569,6 +2652,7 @@ public class PreferencesWindow
 			return;
 
 		button_rscript_choose.Sensitive = true;
+		entry_rscript_user_location.Sensitive = true;
 		rscriptUserChanges ("");
 	}
 	private void on_button_rscript_choose_clicked (object o, EventArgs args)
@@ -2621,6 +2705,7 @@ public class PreferencesWindow
 			return;
 
 		button_python_choose.Sensitive = false;
+		entry_python_user_location.Sensitive = false;
 		pythonUserChanges ("");
 	}
 	private void on_radio_python_other_toggled (object o, EventArgs args)
@@ -2629,6 +2714,7 @@ public class PreferencesWindow
 			return;
 
 		button_python_choose.Sensitive = true;
+		entry_python_user_location.Sensitive = true;
 		pythonUserChanges ("");
 	}
 	private void on_button_python_choose_clicked (object o, EventArgs args)
@@ -3965,6 +4051,10 @@ public class PreferencesWindow
 		image_send_log_yes = (Gtk.Image) builder.GetObject ("image_send_log_yes");
 		textview_send_log_message = (Gtk.TextView) builder.GetObject ("textview_send_log_message");
 
+		radio_r_default = (Gtk.RadioButton) builder.GetObject ("radio_r_default");
+		radio_r_other = (Gtk.RadioButton) builder.GetObject ("radio_r_other");
+		entry_r_user_location = (Gtk.Entry) builder.GetObject ("entry_r_user_location");
+		button_r_choose = (Gtk.Button) builder.GetObject ("button_r_choose");
 		radio_rscript_default = (Gtk.RadioButton) builder.GetObject ("radio_rscript_default");
 		radio_rscript_other = (Gtk.RadioButton) builder.GetObject ("radio_rscript_other");
 		entry_rscript_user_location = (Gtk.Entry) builder.GetObject ("entry_rscript_user_location");

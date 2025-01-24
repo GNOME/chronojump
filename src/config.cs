@@ -30,6 +30,9 @@ public class Config
 
 	//to avoid passing this info to all the windows and dialogs, just read it here
 	public static bool UseSystemColor; //do nothing at all
+
+	//to avoid passing this info to all the windows and dialogs, just read it here
+	public static string RUserURLStatic = "";
 	public static string RscriptUserURLStatic = "";
 	public static string PythonUserURLStatic = "";
 
@@ -67,7 +70,7 @@ public class Config
 		LastDBFullPath, //cloud & externalDB
 		JsonUploadNeedsButton, JsonUploadJumpSimpleTestScript, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, CanInsertTests, //json upload
 		RemoteTestJumpSimpleFile, RemoteTestRunIntervalFile, RemoteTestCancelFile, //remote execution
-		RscriptUserURL, PythonUserURL, //User executables locations
+		RUserURL, RscriptUserURL, PythonUserURL, //User executables locations
 		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, Wilight, WilightCommandsURL, WilightCommandMs, GuiTest, NoSendLog, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
@@ -80,7 +83,7 @@ public class Config
 	public static string OpEnum1stCloudAndExternalDB = OpEnum.LastDBFullPath.ToString ();
 	public static string OpEnum1stJsonUpload = OpEnum.JsonUploadNeedsButton.ToString ();
 	public static string OpEnum1stRemoteTest = OpEnum.RemoteTestJumpSimpleFile.ToString ();
-	public static string OpEnum1stUserExecutables = OpEnum.RscriptUserURL.ToString ();
+	public static string OpEnum1stUserExecutables = OpEnum.RUserURL.ToString ();
 	public static string OpEnum1stOther = OpEnum.SessionMode.ToString ();
 	public static string OpEnum1stOutdated = OpEnum.Exhibition.ToString ();
 
@@ -180,6 +183,9 @@ public class Config
 	}
 
 	// user executables
+	public string RUserURL {
+		get { return configList.GetString (OpEnum.RUserURL); }
+	}
 	public string RscriptUserURL {
 		get { return configList.GetString (OpEnum.RscriptUserURL); }
 	}
@@ -661,6 +667,8 @@ public class ConfigList
 					"Full URL to the file created as a flag to cancel current RemoteTest."));
 
 		// user executables
+		list.Add (new ConfigOptionString (Config.OpEnum.RUserURL,
+					"Select by user URL to R executable"));
 		list.Add (new ConfigOptionString (Config.OpEnum.RscriptUserURL,
 					"Select by user URL to Rscript executable"));
 		list.Add (new ConfigOptionString (Config.OpEnum.PythonUserURL,

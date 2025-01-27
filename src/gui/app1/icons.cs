@@ -520,8 +520,6 @@ public partial class ChronoJumpWindow
 		image_contacts_repair_selected.Pixbuf = pixbuf;
 		//image_jump_reactive_repair.Pixbuf = pixbuf;
 		//image_run_interval_repair.Pixbuf = pixbuf;
-		//image_pulse_repair.Pixbuf = pixbuf;
-		//image_multi_chronopic_repair.Pixbuf = pixbuf;
 		image_encoder_configuration.Pixbuf = pixbuf;
 		image_force_sensor_capture_adjust.Pixbuf = pixbuf;
 		image_force_sensor_capture_adjust1.Pixbuf = pixbuf;
@@ -781,20 +779,6 @@ public partial class ChronoJumpWindow
 		image_mode_contacts_export_csv.Pixbuf = pixbuf;
 		image_force_sensor_analyze_export.Pixbuf = pixbuf;
 		image_export_encoder_signal.Pixbuf = pixbuf;
-
-		//reaction times changes
-		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time);
-		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time_animation_lights);
-		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time_flicker);
-		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time_discriminative);
-
-		//pulses changes
-		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_pulses_free);
-		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_pulses_custom);
-
-		//multichronopic changes
-		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_multichronopic_start);
-		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_multichronopic_run_analysis);
 
 		//open buttons (this is shown better in windows than the default open icon)
 		//pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameOpen);
@@ -1100,9 +1084,6 @@ public partial class ChronoJumpWindow
 		image_jumps_rj_zoom.Pixbuf = pixbuf;
 		image_runs_zoom.Pixbuf = pixbuf;
 		image_runs_interval_zoom.Pixbuf = pixbuf;
-		image_reaction_times_zoom.Pixbuf = pixbuf;
-		image_pulses_zoom.Pixbuf = pixbuf;
-		image_multi_chronopic_zoom.Pixbuf = pixbuf;
 		image_force_sensor_ai_zoom_out.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
 
 		image_test_add_edit.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_attachment.png");

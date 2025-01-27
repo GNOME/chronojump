@@ -4620,10 +4620,10 @@ class Sqlite
 						myEvent = new RunInterval(myReaderStr);
 						break;
 					case Constants.ReactionTimeTable:
-						myEvent = new ReactionTime(myReaderStr);
+						//myEvent = new ReactionTime(myReaderStr);
 						break;
 					case Constants.PulseTable:
-						myEvent = new Pulse(myReaderStr);
+						//myEvent = new Pulse(myReaderStr);
 						break;
 				}
 				myArray.Add(myEvent);
@@ -4756,10 +4756,10 @@ LogB.SQL("5" + tableName);
 					myEvent = new RunInterval(myReaderStr);
 					break;
 				case Constants.ReactionTimeTable:
-					myEvent = new ReactionTime(myReaderStr);
+					//myEvent = new ReactionTime(myReaderStr);
 					break;
 				case Constants.PulseTable:
-					myEvent = new Pulse(myReaderStr);
+					//myEvent = new Pulse(myReaderStr);
 					break;
 			}
 			myArray.Add(myEvent);

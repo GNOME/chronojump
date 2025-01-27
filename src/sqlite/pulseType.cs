@@ -149,31 +149,4 @@ class SqlitePulseType : Sqlite
 		return myTypes;
 	}
 
-	public static PulseType SelectAndReturnPulseType(string typeName) 
-	{
-		Sqlite.Open();
-		dbcmd.CommandText = "SELECT * " +
-			" FROM " + Constants.PulseTypeTable +
-			" WHERE name  = '" + typeName +
-			"' ORDER BY uniqueID";
-		
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		SQLiteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-
-		PulseType myPulseType = new PulseType();
-		
-		while(reader.Read()) {
-			myPulseType.Name = reader[1].ToString();
-			myPulseType.FixedPulse = Convert.ToDouble(reader[2].ToString());
-			myPulseType.TotalPulsesNum = Convert.ToInt32(reader[3]);
-		}
-
-		reader.Close();
-		Sqlite.Close();
-
-		return myPulseType;
-	}
 }	

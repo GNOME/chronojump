@@ -129,7 +129,7 @@ public partial class ChronoJumpWindow
 
 	private void image_test_zoomByAssemblies ()
 	{
-		EventType myType;
+		EventType myType = currentJumpType;
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 			myType = currentJumpType;
 		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
@@ -142,16 +142,7 @@ public partial class ChronoJumpWindow
 		//	myType = currentRunIntervalType;
 		//else if(current_mode == Constants.Modes.FORCESENSOR
 		//	myType = currentForceType;
-		else if(current_mode == Constants.Modes.RT)
-			myType = currentReactionTimeType;
-		else //if(current_mode == Constants.Modes.OTHER
-		{
-			if(radio_mode_multi_chronopic_small.Active)
-				myType = currentMultiChronopicType;
-			else //if(radio_mode_pulses_small.Active)
-				myType = currentPulseType;
-		}
-			
+
 		if(myType.Name == "DJa" && extra_window_jumps_check_dj_fall_calculate.Active)
 			new DialogImageTest("", Util.GetImagePath(false) + "jump_dj_a_inside.png", DialogImageTest.ArchiveType.ASSEMBLY);
 		else if(myType.Name == "DJna" && extra_window_jumps_check_dj_fall_calculate.Active)

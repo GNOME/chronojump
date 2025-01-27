@@ -158,10 +158,6 @@ public partial class ChronoJumpWindow
 			showRunSimpleLabels();
 		} else if(event_execute_tableName == Constants.RunIntervalTable) {
 			showRunIntervalLabels();
-		} else if(event_execute_tableName == Constants.ReactionTimeTable) {
-			showReactionTimeLabels(); 
-		} else if(event_execute_tableName == Constants.PulseTable) {
-			showPulseLabels();
 		}
 
 		clearProgressBars();
@@ -243,37 +239,6 @@ public partial class ChronoJumpWindow
 //		vbox_contacts_graph_legend.Visible = false;
 	}
 	
-	private void showReactionTimeLabels() 
-	{
-		event_graph_label_graph_test.Visible = true;
-		vbox_contacts_simple_graph_controls.Visible = false;
-
-//		align_check_vbox_contacts_graph_legend.Visible = true;
-		//vbox_contacts_graph_legend.Visible = false;
-
-		notebook_results_data.Visible = false;
-	}
-
-	private void showPulseLabels() 
-	{
-		event_graph_label_graph_test.Visible = true;
-		vbox_contacts_simple_graph_controls.Visible = false;
-
-//		align_check_vbox_contacts_graph_legend.Visible = false;
-		//vbox_contacts_graph_legend.Visible = false;
-
-		//show pulse info
-		//event_execute_table_pulse.Show();
-		//event_execute_table_pulse_values.Show();
-
-		//initializeLabels
-		//event_execute_label_pulse_now.Text = "";
-		//event_execute_label_pulse_avg.Text = "";
-
-		notebook_results_data.Visible = true;
-		notebook_results_data.CurrentPage = 2;
-	}
-
 	private void clearProgressBars() 
 	{
 		event_execute_progressbar_event.Fraction = 0;

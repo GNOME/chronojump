@@ -32,6 +32,7 @@ public class Wilight
 	private string videoURL;
 	private int totalMs;
 
+	//regular constructor
 	public Wilight (int uniqueID, int personID, int sessionID, int exerciseID,
 			string dateTime, string videoURL, int totalMs)
 	{
@@ -57,6 +58,16 @@ public class Wilight
 		return
 			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID +
 			", '" + dateTime + "', '" + videoURL + "', " + totalMs + ")";
+	}
+
+	public int UniqueID {
+		get { return uniqueID; }
+	}
+	public int TotalMs {
+		get { return totalMs; }
+	}
+	public string DateTime {
+		get { return dateTime; }
 	}
 }
 

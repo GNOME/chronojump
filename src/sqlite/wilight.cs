@@ -84,5 +84,121 @@ class SqliteWilight : Sqlite
 		return myLast;
 	}
 
+        /*
+         * sID -1 means all sessions
+         * pID -1 means all persons
+         * type "" means all types
+	 * limit 0 means no limit (limit negative is the last results)
+         * personNameInComment is used to be able to display names in graphs
+         *   because event.PersonName makes individual SQL SELECTs
+         */
+
+	public static List<Wilight> Select (bool dbconOpened, int sessionID, int personID//,
+			//string type, Orders_by order, int limit, bool personNameInComment, bool onlyBestInSession
+			)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = selectCreateSelection (sessionID, personID);//, runType, order, limit, onlyBestInSession);
+		LogB.SQL(dbcmd.CommandText.ToString());
+
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		List<Wilight> wilight_l = new List<Wilight>();
+
+		while(reader.Read())
+		{
+			Wilight wilight = new Wilight(
+					Convert.ToInt32(reader[1].ToString()),	//uniqueID
+					Convert.ToInt32(reader[2].ToString()), 	//personID
+					Convert.ToInt32(reader[3].ToString()), 	//sessionID
+					Convert.ToInt32(reader[4].ToString()), 	//type
+					reader[5].ToString(), 	//datetime
+					reader[6].ToString(),	//videoURL
+					Convert.ToInt32(reader[7].ToString())	//totalMs
+					);
+
+			wilight_l.Add (wilight);
+		}
+
+		reader.Close();
+		closeIfNeeded(dbconOpened);
+
+		return wilight_l;
+	}
+
+	//SA for String Array, used on treeview
+	public static string [] SelectSA (bool dbconOpened, int sessionID, int personID//,
+			//string type, Orders_by order, int limit, bool personNameInComment, bool onlyBestInSession
+			)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = selectCreateSelection (sessionID, personID);//, runType, order, limit, onlyBestInSession);
+		LogB.SQL(dbcmd.CommandText.ToString());
+
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		ArrayList myArray = new ArrayList(2);
+
+		int count = new int();
+		count = 0;
+
+		while(reader.Read())
+		{
+			myArray.Add (
+					reader[0].ToString() + ":" + 	//person.name
+					reader[1].ToString() + ":" +	//wilight.uniqueID
+					reader[2].ToString() + ":" + 	//wilight.personID
+					reader[3].ToString() + ":" + 	//wilight.sessionID
+					reader[4].ToString() + ":" + 	//wilight.type
+					reader[5].ToString() + ":" + 	//datetime
+					reader[6].ToString() + ":" +	//videoURL
+					reader[7].ToString()		//totalMs
+					);
+
+			count ++;
+		}
+
+		reader.Close();
+		closeIfNeeded(dbconOpened);
+
+		string [] rows = new string[count];
+		count =0;
+		foreach (string line in myArray) {
+			rows [count++] = line;
+		}
+
+		return rows;
+	}
+
+	// adapted from sqlite/run.cs selectCreateSelection
+	protected static string selectCreateSelection (
+			int sessionID, int personID//,
+			//string filterType, Orders_by order, int limit, bool onlyBestInSession
+			)
+	{
+		string t = Constants.WilightTable;
+		string tp = Constants.PersonTable;
+
+		string filterSessionString = "";
+		if(sessionID != -1)
+			filterSessionString = string.Format(" AND {0}.sessionID = {1}", t, sessionID);
+
+		string filterPersonString = "";
+		if(personID != -1)
+			filterPersonString = string.Format(" AND {0}.uniqueID = {1}", tp, personID);
+
+		return string.Format("SELECT {0}.name, {1}.* ", tp, t) +
+			string.Format(" FROM {0}, {1} ", tp, t) +
+			string.Format(" WHERE {0}.uniqueID = {1}.personID", tp, t) +
+			filterSessionString +
+			filterPersonString;
+	}
 }
 

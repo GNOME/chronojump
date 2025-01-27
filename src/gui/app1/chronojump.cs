@@ -430,6 +430,7 @@ public partial class ChronoJumpWindow
 	private TreeViewRuns myTreeViewRuns;
 	//runs interval
 	private TreeViewRunsInterval myTreeViewRunsInterval;
+	private TreeViewWilight myTreeViewWilight;
 
 	private Preferences preferences;
 	private List<ForceSensorRFD> rfdList;
@@ -708,6 +709,7 @@ public partial class ChronoJumpWindow
 		createTreeView_runs (treeview_runs);
 		createTreeView_runs_interval (treeview_runs_interval);
 		createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
+		createTreeView_wilight (treeview_wilight);
 
 		rfdList = SqliteForceSensorRFD.SelectAll(false);
 		impulse = SqliteForceSensorRFD.SelectImpulse(false);
@@ -1621,6 +1623,21 @@ public partial class ChronoJumpWindow
 			forceSensorPersonChanged();
 		else if(current_mode == Constants.Modes.RUNSENCODER)
 			runEncoderPersonChanged();
+		else if(current_mode == Constants.Modes.WILIGHT)
+		{
+			pre_fillTreeView_wilight (false);
+			/*
+			myTreeViewWilight.SelectPerson(currentPerson.Name);
+
+			updateGraphRunsSimple();
+
+			if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.RUNSEVOLUTION))
+			{
+				runsEvolutionCalculate (true);
+				drawingarea_runs_evolution.QueueDraw ();
+			}
+			*/
+		}
 
 		finishPlayVideoIfRunning ();
 		LogB.Information ("<---- personChanged end");
@@ -2055,6 +2072,18 @@ public partial class ChronoJumpWindow
 			fillTreeView_runs_interval(Constants.AllRunsNameStr(), dbconOpened);
 		else if (combo_select_runs_interval != null)
 			fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_select_runs_interval), dbconOpened);
+	}
+
+	private void pre_fillTreeView_wilight (bool dbconOpened)
+	{
+		treeview_wilight_storeReset();
+
+//		if(radio_contacts_graph_allTests.Active)
+			fillTreeView_wilight ("", dbconOpened);
+		/*
+		else if (combo_select_runs != null)
+			fillTreeView_runs(UtilGtk.ComboGetActive(combo_select_runs), dbconOpened);
+			*/
 	}
 
 
@@ -8744,6 +8773,7 @@ public partial class ChronoJumpWindow
 		treeview_runs = (Gtk.TreeView) builder.GetObject ("treeview_runs");
 		treeview_runs_interval = (Gtk.TreeView) builder.GetObject ("treeview_runs_interval");
 		treeview_runs_interval_sprint = (Gtk.TreeView) builder.GetObject ("treeview_runs_interval_sprint");
+		treeview_wilight = (Gtk.TreeView) builder.GetObject ("treeview_wilight");
 
 		hbox_combo_select_jumps = (Gtk.Box) builder.GetObject ("hbox_combo_select_jumps");
 		hbox_combo_select_jumps_rj = (Gtk.Box) builder.GetObject ("hbox_combo_select_jumps_rj");

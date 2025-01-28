@@ -76,7 +76,7 @@ public partial class ChronoJumpWindow
 			image_jumps_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
 		}
 	}
-	
+
 	private void treeview_jumps_storeReset() {
 		myTreeViewJumps.RemoveColumns();
 		

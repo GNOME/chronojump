@@ -364,6 +364,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_jumps_rj_zoom;
 	Gtk.Image image_runs_zoom;
 	Gtk.Image image_runs_interval_zoom;
+	Gtk.Image image_wilight_zoom;
 	
 	//encoder
 	//Gtk.Image image_encoder_analyze_zoom;
@@ -8951,6 +8952,7 @@ public partial class ChronoJumpWindow
 		image_jumps_rj_zoom = (Gtk.Image) builder.GetObject ("image_jumps_rj_zoom");
 		image_runs_zoom = (Gtk.Image) builder.GetObject ("image_runs_zoom");
 		image_runs_interval_zoom = (Gtk.Image) builder.GetObject ("image_runs_interval_zoom");
+		image_wilight_zoom = (Gtk.Image) builder.GetObject ("image_wilight_zoom");
 
 		//encoder
 		//image_encoder_analyze_zoom = (Gtk.Image) builder.GetObject ("image_encoder_analyze_zoom");

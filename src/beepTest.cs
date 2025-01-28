@@ -25,13 +25,13 @@ using System.Diagnostics;  //Stopwatch
 //definition of each stage on the test
 public class BeepTestStage
 {
-	public int stageName;
+	public string stageName;
 	public double speedKmh;
 	public double lapSeconds; //duration of each lap
 	public int laps; //how many laps have each stage
 	public int lapMeters; //distance of each lap
 
-	public BeepTestStage (int stageName, double speedKmh, double lapSeconds, int laps, int lapMeters)
+	public BeepTestStage (string stageName, double speedKmh, double lapSeconds, int laps, int lapMeters)
 	{
 		this.stageName = stageName;
 		this.speedKmh = speedKmh;
@@ -50,14 +50,14 @@ public class BeepTestStageManage
 	public struct StageLapStatus
 	{
 		public int stage;
-		public int stageName; //on YYI names are quite crazy
+		public string stageName; //on YYI names are quite crazy
 		public int lap;
 		public int lapsOfThisStage;
 		public double speedKmh;
 		public bool resting; //rest or not rest
 		public bool resting1stHalf; //1st half of the rest (to show walk to one side or to the other) (only applies if resting)
 
-		public StageLapStatus (int stage, int stageName, int lap, int lapsOfThisStage, double speedKmh, bool resting, bool resting1stHalf)
+		public StageLapStatus (int stage, string stageName, int lap, int lapsOfThisStage, double speedKmh, bool resting, bool resting1stHalf)
 		{
 			this.stage = stage;
 			this.stageName = stageName;
@@ -75,7 +75,7 @@ public class BeepTestStageManage
 		bts_l = new List<BeepTestStage> ();
 	}
 
-	public void CreateList (List<double> stageSpeedKm_l, List <double> lapDurationS_l, List<int> stageName_l, List<int> stageLaps_l, List<int> lapDistM_l)
+	public void CreateList (List<double> stageSpeedKm_l, List <double> lapDurationS_l, List<string> stageName_l, List<int> stageLaps_l, List<int> lapDistM_l)
 	{
 		for (int i = 0; i < lapDurationS_l.Count; i ++)
 			bts_l.Add (new BeepTestStage (stageName_l[i], stageSpeedKm_l[i], lapDurationS_l[i], stageLaps_l[i], lapDistM_l[i]));
@@ -269,7 +269,7 @@ public abstract class BeepTest
 		warningManage = new BeepTestWarningManage ();
 
 		stopwatch = new Stopwatch ();
-		previousStageLapStatus = new BeepTestStageManage.StageLapStatus (-1, -1, -1, -1, -1, false, false);
+		previousStageLapStatus = new BeepTestStageManage.StageLapStatus (-1, "-1", -1, -1, -1, false, false);
 
 		finished = false;
 	}
@@ -409,12 +409,12 @@ public abstract class BeepTest
 	{
 		get { return (new List<double> ()); }
 	}
-	protected virtual List<int> stageName_l
+	protected virtual List<string> stageName_l
 	{
 		get {
-			List<int> l = new List<int> ();
+			List<string> l = new List<string> ();
 			for (int i = 0; i < stageSpeedKm_l.Count ; i ++)
-				l.Add (i+1);
+				l.Add ((i+1).ToString());
 			return l;
 		}
 	}
@@ -777,6 +777,18 @@ public class BeepTestYYIE1 : BeepTestYYI
 		}
 	}
 
+	protected override List<string> stageName_l
+	{
+		get {
+			return (new List<string> {
+					"1", "3", "5", "6", "6.5",
+					"7", "7.5", "8", "8.5", "9",
+					"9.5", "10", "10.5", "11", "11.5",
+					"12", "12.5", "13", "13.5", "14"
+					} );
+		}
+	}
+
 	protected override List<int> stageLaps_l
 	{
 		get {
@@ -807,6 +819,18 @@ public class BeepTestYYIE2 : BeepTestYYI
 					13.0, 15.0, 16.0, 16.5, 17.0,
 					17.5, 18.0, 18.5, 19.0, 19.5,
 					20.0, 20.5, 21.0, 21.5, 22.0,
+					} );
+		}
+	}
+
+	protected override List<string> stageName_l
+	{
+		get {
+			return (new List<string> {
+					"8", "10", "12", "13", "13.5",
+					"14", "14.5", "15", "15.5", "16",
+					"16.5", "17", "17.5", "18", "18.5",
+					"19", "19.5", "20", "20.5", "21"
 					} );
 		}
 	}
@@ -844,13 +868,13 @@ public class BeepTestYYIR1 : BeepTestYYI
 		}
 	}
 
-	protected override List<int> stageName_l
+	protected override List<string> stageName_l
 	{
 		get {
-			return (new List<int> {
-					5, 9, 11, 12, 13,
-					14, 15, 16, 17, 18,
-					19, 20, 21, 22, 23
+			return (new List<string> {
+					"5", "9", "11", "12", "13",
+					"14", "15", "16", "17", "18",
+					"19", "20", "21", "22", "23"
 					} );
 		}
 	}
@@ -896,13 +920,13 @@ public class BeepTestYYIR2 : BeepTestYYI
 		}
 	}
 
-	protected override List<int> stageName_l
+	protected override List<string> stageName_l
 	{
 		get {
-			return (new List<int> {
-					11, 15, 17, 18, 19,
-					20, 21, 22, 23, 24,
-					25, 26, 27, 28, 29
+			return (new List<string> {
+					"11", "15", "17", "18", "19",
+					"20", "21", "22", "23", "24",
+					"25", "26", "27", "28", "29"
 					} );
 		}
 	}

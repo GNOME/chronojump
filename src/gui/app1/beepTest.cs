@@ -237,7 +237,7 @@ public partial class ChronoJumpWindow
 
 		BeepTestStageManage.StageLapStatus slStatus = beepTest.GetCurrentStageLapStatus ();
 
-		label_beepTest_stage.Text = (slStatus.stageName).ToString ();
+		label_beepTest_stage.Text = slStatus.stageName;
 		label_beepTest_lap.Text = string.Format ("{0} / {1}",
 				slStatus.lap + 1, slStatus.lapsOfThisStage);
 		label_beepTest_speed.Text = Util.TrimDecimals(slStatus.speedKmh, 1);

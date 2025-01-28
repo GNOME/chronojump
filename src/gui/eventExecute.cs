@@ -898,6 +898,11 @@ public partial class ChronoJumpWindow
 			updateGraphRunsInterval ();
 			pre_fillTreeView_runs_interval (false);
 		}
+		else if(current_mode == Constants.Modes.WILIGHT)
+		{
+			//updateGraph___ ();
+			pre_fillTreeView_wilight (false);
+		}
 	}
 
 	private void on_check_run_show_time_toggled (object o, EventArgs args)

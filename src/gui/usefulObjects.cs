@@ -268,7 +268,8 @@ public class PrepareEventGraphJumpReactiveRealtimeCapture
 	~PrepareEventGraphJumpReactiveRealtimeCapture () {}
 }
 
-public class PrepareEventGraphRunSimple {
+public class PrepareEventGraphRunSimple
+{
 	//sql data of previous runs to plot graph and show stats at bottom
 	public List<Run> runsAtSQL;
 	
@@ -491,107 +492,38 @@ public class PrepareEventGraphBarplotEncoder
 	~PrepareEventGraphBarplotEncoder () {}
 }
 
+public class PrepareEventGraphWilight
+{
+	//sql data of previous jumps to plot graph and show stats at bottom
+	public List<Wilight> rowsAtSQL;
+	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
 
-public class PrepareEventGraphPulse {
-	public double lastTime;
-	public string timesString;
-
-	public PrepareEventGraphPulse() {
-	}
-
-	public PrepareEventGraphPulse(double lastTime, string timesString) {
-		this.lastTime = lastTime;
-		this.timesString = timesString;
-	}
-
-	~PrepareEventGraphPulse() {}
-}
-
-public class PrepareEventGraphReactionTime {
-	//sql data of previous rts to plot graph and show stats at bottom
-	public string [] rtsAtSQL;
-	public double personMAXAtSQL;
-	public double sessionMAXAtSQL;
-	public double personMINAtSQL;
-	public double sessionMINAtSQL;
-	public double personAVGAtSQL;
-	public double sessionAVGAtSQL;
-
+	//public double lastTime;
+	//public string timesString;
 	public double time;
 
-	public PrepareEventGraphReactionTime() {
+	public PrepareEventGraphWilight() {
 	}
 
-	public PrepareEventGraphReactionTime(double time, int sessionID, int personID, string table, string type) 
+	public PrepareEventGraphWilight (double time, int sessionID, int personID, bool allPersons, int limit,
+			int selectedID)
 	{
-		Sqlite.Open();
-
-		//obtain data
-		rtsAtSQL = SqliteReactionTime.SelectReactionTimes(true, sessionID, personID, type,
-				Sqlite.Orders_by.ID_DESC, 10); //select only last 10
-		
-		personMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(
-				true, sessionID, personID, table, type, "time");
-		sessionMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(
-				true, sessionID, -1, table, type, "time");
-		
-		personMINAtSQL = SqliteSession.SelectMINEventsOfAType(
-				true, sessionID, personID, table, type, "time");
-		sessionMINAtSQL = SqliteSession.SelectMINEventsOfAType(
-				true, sessionID, -1, table, type, "time");
-
-		personAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
-				true, sessionID, personID, table, type, "time");
-		sessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
-				true, sessionID, -1, table, type, "time");
-		
-		Sqlite.Close();
-	
 		this.time = time;
+		this.selectedID = selectedID;
+
+		int personIDTemp = personID;
+		if(allPersons)
+			personIDTemp = -1;
+
+		rowsAtSQL = SqliteWilight.Select (false, sessionID, personIDTemp, //type,
+				Sqlite.Orders_by.ID_ASC, limit//,
+				//allPersons, 	//show names on comments only if "all persons"
+				//false 	//! onlyBestInSession
+				);
+		LogB.Information ("rowsAtSQL count: " + (rowsAtSQL.Count).ToString ());
 	}
 
-	~PrepareEventGraphReactionTime() {}
-}
-
-public class PrepareEventGraphMultiChronopic {
-	//public double timestamp;
-	public string cp1InStr;
-	public string cp1OutStr;
-	public string cp2InStr;
-	public string cp2OutStr;
-	public string cp3InStr;
-	public string cp3OutStr;
-	public string cp4InStr;
-	public string cp4OutStr;
-	public bool cp1StartedIn;
-	public bool cp2StartedIn;
-	public bool cp3StartedIn;
-	public bool cp4StartedIn;
-
-	public PrepareEventGraphMultiChronopic() {
-	}
-
-	public PrepareEventGraphMultiChronopic(
-			//double timestamp, 
-			bool cp1StartedIn, bool cp2StartedIn, bool cp3StartedIn, bool cp4StartedIn,
-			string cp1InStr, string cp1OutStr, string cp2InStr, string cp2OutStr, 
-			string cp3InStr, string cp3OutStr, string cp4InStr, string cp4OutStr) {
-		//this.timestamp = timestamp;
-		this.cp1StartedIn = cp1StartedIn; 
-		this.cp2StartedIn = cp2StartedIn; 
-		this.cp3StartedIn = cp3StartedIn; 
-		this.cp4StartedIn = cp4StartedIn;
-		this.cp1InStr = cp1InStr;
-		this.cp1OutStr = cp1OutStr;
-		this.cp2InStr = cp2InStr;
-		this.cp2OutStr = cp2OutStr;
-		this.cp3InStr = cp3InStr;
-		this.cp3OutStr = cp3OutStr;
-		this.cp4InStr = cp4InStr;
-		this.cp4OutStr = cp4OutStr;
-	}
-
-	~PrepareEventGraphMultiChronopic() {}
+	~PrepareEventGraphWilight() {}
 }
 
 public class UpdateProgressBar {

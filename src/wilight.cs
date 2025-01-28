@@ -22,11 +22,13 @@ using System;
 using System.Collections.Generic; //List<T>
 using System.Diagnostics;  //Stopwatch
 
-public class Wilight
+public class Wilight : Event
 {
+	/*
 	private int uniqueID;
 	private int personID;
 	private int sessionID;
+	*/
 	private int exerciseID; //until wilightExercise table is not created, all will be 0
 	private string dateTime;
 	private string videoURL;
@@ -45,6 +47,15 @@ public class Wilight
 		this.totalMs = totalMs;
 	}
 
+	public static List<Event> WilightListToEventList (List<Wilight> ws)
+	{
+		List<Event> events = new List<Event>();
+		foreach(Wilight w in ws)
+			events.Add((Event) w);
+
+		return events;
+	}
+
 	public int InsertSQL (bool dbconOpened)
 	{
 		return SqliteWilight.Insert (dbconOpened, toSQLInsertString());
@@ -60,9 +71,6 @@ public class Wilight
 			", '" + dateTime + "', '" + videoURL + "', " + totalMs + ")";
 	}
 
-	public int UniqueID {
-		get { return uniqueID; }
-	}
 	public int TotalMs {
 		get { return totalMs; }
 	}

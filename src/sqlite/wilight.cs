@@ -93,13 +93,18 @@ class SqliteWilight : Sqlite
          *   because event.PersonName makes individual SQL SELECTs
          */
 
-	public static List<Wilight> Select (bool dbconOpened, int sessionID, int personID//,
-			//string type, Orders_by order, int limit, bool personNameInComment, bool onlyBestInSession
+	public static List<Wilight> Select (bool dbconOpened, int sessionID, int personID,
+			//string type,
+			Orders_by order, int limit//, bool personNameInComment, bool onlyBestInSession
 			)
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = selectCreateSelection (sessionID, personID);//, runType, order, limit, onlyBestInSession);
+		dbcmd.CommandText = selectCreateSelection (sessionID, personID,
+				//runType,
+				order, limit
+				//onlyBestInSession
+				);
 		LogB.SQL(dbcmd.CommandText.ToString());
 
 		dbcmd.ExecuteNonQuery();
@@ -130,13 +135,19 @@ class SqliteWilight : Sqlite
 	}
 
 	//SA for String Array, used on treeview
-	public static string [] SelectSA (bool dbconOpened, int sessionID, int personID//,
-			//string type, Orders_by order, int limit, bool personNameInComment, bool onlyBestInSession
+	public static string [] SelectSA (bool dbconOpened, int sessionID, int personID,
+			//string type,
+			Orders_by order, int limit
+			//, bool personNameInComment, bool onlyBestInSession
 			)
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = selectCreateSelection (sessionID, personID);//, runType, order, limit, onlyBestInSession);
+		dbcmd.CommandText = selectCreateSelection (sessionID, personID,
+				//runType,
+				order, limit
+				//onlyBestInSession
+				);
 		LogB.SQL(dbcmd.CommandText.ToString());
 
 		dbcmd.ExecuteNonQuery();
@@ -179,8 +190,10 @@ class SqliteWilight : Sqlite
 
 	// adapted from sqlite/run.cs selectCreateSelection
 	protected static string selectCreateSelection (
-			int sessionID, int personID//,
-			//string filterType, Orders_by order, int limit, bool onlyBestInSession
+			int sessionID, int personID,
+			//string filterType,
+			Orders_by order, int limit
+			//, bool onlyBestInSession
 			)
 	{
 		string t = Constants.WilightTable;
@@ -194,11 +207,26 @@ class SqliteWilight : Sqlite
 		if(personID != -1)
 			filterPersonString = string.Format(" AND {0}.uniqueID = {1}", tp, personID);
 
+		string orderByString = string.Format(" ORDER BY upper({0}.name), {1}.uniqueID ", tp, t);
+		if(order == Orders_by.ID_ASC)
+			orderByString = string.Format(" ORDER BY {0}.uniqueID ", t);
+		else if(order == Orders_by.ID_DESC)
+			orderByString = string.Format(" ORDER BY {0}.uniqueID DESC ", t);
+		//if(onlyBestInSession)
+		//	orderByString = string.Format(" ORDER BY {0}.sessionID, {0}.distance/{0}.time DESC ", t);
+
+		string limitString = "";
+		if(limit > 0)
+			limitString = " LIMIT " + limit;
+
 		return string.Format("SELECT {0}.name, {1}.* ", tp, t) +
 			string.Format(" FROM {0}, {1} ", tp, t) +
 			string.Format(" WHERE {0}.uniqueID = {1}.personID", tp, t) +
 			filterSessionString +
-			filterPersonString;
+			filterPersonString +
+			//filterTypeString +
+			orderByString +
+			limitString;
 	}
 }
 

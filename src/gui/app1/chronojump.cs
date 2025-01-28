@@ -1626,17 +1626,9 @@ public partial class ChronoJumpWindow
 		else if(current_mode == Constants.Modes.WILIGHT)
 		{
 			pre_fillTreeView_wilight (false);
-			/*
 			myTreeViewWilight.SelectPerson(currentPerson.Name);
 
-			updateGraphRunsSimple();
-
-			if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.RUNSEVOLUTION))
-			{
-				runsEvolutionCalculate (true);
-				drawingarea_runs_evolution.QueueDraw ();
-			}
-			*/
+			updateGraphWilight();
 		}
 
 		finishPlayVideoIfRunning ();
@@ -3132,7 +3124,7 @@ public partial class ChronoJumpWindow
 		if(wichroCapture != null && wichroCapture.PortOpened)
 			wichroCapture.Disconnect();
 
-		//run simple will be the only one with its drawing are
+		//run simple will be the only one with its drawing area
 		button_inspect_last_test_run_simple.Visible = false;
 
 		sensitiveLastTestButtons(false);
@@ -3208,6 +3200,7 @@ public partial class ChronoJumpWindow
 		frame_jumps_automatic.Visible = false;
 		check_run_show_time.Visible = false;
 		box_wilight.Visible = false;
+		box_contacts_graph_exercise.Visible = true;
 
 		hbox_combo_select_contacts_top_with_arrows.Visible = false; //TODO: this will be unneded
 
@@ -3679,6 +3672,8 @@ public partial class ChronoJumpWindow
 			radio_change_modes_contacts_wilight.Visible = true;
 
 			box_wilight.Visible = true;
+			box_contacts_graph_exercise.Visible = false;
+
 			wilightApp1Init ();
 		}
 

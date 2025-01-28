@@ -347,6 +347,59 @@ public partial class ChronoJumpWindow
 		tbWilightText += "\n> " + command;
 	}
 
+	private void updateGraphWilight ()
+	{
+		if(currentPerson == null || currentSession == null)
+			return;
+
+		//intializeVariables if not done before
+		event_execute_initializeVariables(
+			(! cp2016.StoredCanCaptureContacts && ! cp2016.StoredWireless), //is simulated
+			currentPerson.UniqueID,
+			currentPerson.Name,
+			"", //Catalog.GetString("Phases"),  	  //name of the different moments
+			Constants.WilightTable, //tableName
+			"" //type
+			);
+
+		/*
+		string typeTemp = currentEventType.Name;
+		if(radio_contacts_graph_allTests.Active)
+			typeTemp = "";
+			*/
+		string typeTemp = "";
+
+		int selectedID = -1;
+		if (myTreeViewWilight != null && myTreeViewWilight.EventSelectedID > 0)
+			selectedID = myTreeViewWilight.EventSelectedID;
+
+		PrepareEventGraphWilight eventGraph = new PrepareEventGraphWilight(
+				1, //unused?
+				currentSession.UniqueID,
+				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
+				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
+				//Constants.WiightTable, typeTemp,
+				selectedID);
+
+		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.runsAtSQL.Count > 0)
+		//	PrepareRunSimpleGraph(eventGraph, false); //don't animate
+
+		string personStr = "";
+		if(! radio_contacts_results_personAll.Active)
+			personStr = currentPerson.Name;
+
+		LogB.Information("event_execute_drawingarea_cairo == null: ",
+			(event_execute_drawingarea_cairo == null).ToString());
+
+		cairoPaintBarsPre = new CairoPaintBarsWilight (
+				event_execute_drawingarea_cairo, preferences.fontTypeToGraph(), current_mode,
+				personStr, typeTemp, preferences.digitsNumber);
+
+		cairoPaintBarsPre.StoreEventGraphWilight (eventGraph);
+		//PrepareRunSimpleGraph(cairoPaintBarsPre.eventGraphRunsStored, false); //do not need, draw event will graph it:
+		event_execute_drawingarea_cairo.QueueDraw ();
+	}
+
 	private void connectWidgetsWilight (Gtk.Builder builder)
 	{
 		box_wilight = (Gtk.Box) builder.GetObject ("box_wilight");

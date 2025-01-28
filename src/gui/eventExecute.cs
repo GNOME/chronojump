@@ -51,6 +51,7 @@ public partial class ChronoJumpWindow
 
 	Gtk.SpinButton spin_contacts_graph_last_limit;
 	Gtk.VBox vbox_contacts_simple_graph_controls;
+	Gtk.Box box_contacts_graph_exercise;
 	Gtk.RadioButton radio_contacts_graph_currentTest;
 	Gtk.RadioButton radio_contacts_graph_allTests;
 	//Gtk.RadioButton radio_contacts_results_personCurrent;
@@ -334,7 +335,8 @@ public partial class ChronoJumpWindow
 		if(current_mode != Constants.Modes.JUMPSSIMPLE &&
 				current_mode != Constants.Modes.JUMPSREACTIVE &&
 				current_mode != Constants.Modes.RUNSSIMPLE &&
-				current_mode != Constants.Modes.RUNSINTERVALLIC)
+				current_mode != Constants.Modes.RUNSINTERVALLIC &&
+				current_mode != Constants.Modes.WILIGHT)
 			return;
 
 		//if object not defined or not defined fo this mode, return
@@ -350,6 +352,8 @@ public partial class ChronoJumpWindow
 			PrepareRunSimpleGraph (cairoPaintBarsPre.eventGraphRunsStored, false);
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			PrepareRunIntervalGraph (cairoPaintBarsPre.eventGraphRunsIntervalStored, false);
+		else if (current_mode == Constants.Modes.WILIGHT)
+			PrepareWilightGraph (cairoPaintBarsPre.eventGraphWilightStored, false);
 	}
 
 	public void on_event_execute_drawingarea_run_simple_double_contacts_cairo_draw (object o, Gtk.DrawnArgs args)
@@ -697,22 +701,13 @@ public partial class ChronoJumpWindow
 		cairoPaintBarsPreRealTime.Paint();
 	}
 
-	// pulse 
-	public void PreparePulseGraph(double lastTime, string timesString) {
-	}
-	
-	public void PrepareReactionTimeGraph(PrepareEventGraphReactionTime eventGraph, bool animate) 
+	public void PrepareWilightGraph (PrepareEventGraphWilight eventGraph, bool animate)
 	{
+		// Paint cairo graph
+		cairoPaintBarsPre.ShowPersonNames = radio_contacts_results_personAll.Active;
+		cairoPaintBarsPre.Paint();
 	}
-	
-	// multi chronopic 
-	public void PrepareMultiChronopicGraph(
-			//double timestamp, 
-			bool cp1StartedIn, bool cp2StartedIn, bool cp3StartedIn, bool cp4StartedIn,
-			string cp1InStr, string cp1OutStr, string cp2InStr, string cp2OutStr, 
-			string cp3InStr, string cp3OutStr, string cp4InStr, string cp4OutStr) { 
-	}
-	
+
 	private int calculateMaxRowsForText (List<Event> events, int longestWordSize, bool allJumps, bool runsPrintTime)
 	{
 		int maxRows = 0;
@@ -850,6 +845,8 @@ public partial class ChronoJumpWindow
 			updateGraphRunsSimple ();
 		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
 			updateGraphRunsInterval ();
+		else if(current_mode == Constants.Modes.WILIGHT)
+			updateGraphWilight ();
 	}
 
 	private void on_radio_contacts_graph_test_toggled (object o, EventArgs args)
@@ -873,6 +870,11 @@ public partial class ChronoJumpWindow
 		{
 			updateGraphRunsInterval ();
 			pre_fillTreeView_runs_interval(false);
+		}
+		else if(current_mode == Constants.Modes.WILIGHT)
+		{
+			updateGraphWilight ();
+			pre_fillTreeView_wilight(false);
 		}
 	}
 
@@ -900,7 +902,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.WILIGHT)
 		{
-			//updateGraph___ ();
+			updateGraphWilight ();
 			pre_fillTreeView_wilight (false);
 		}
 	}
@@ -1045,6 +1047,7 @@ public partial class ChronoJumpWindow
 		event_graph_label_graph_test = (Gtk.Label) builder.GetObject ("event_graph_label_graph_test");
 
 		spin_contacts_graph_last_limit = (Gtk.SpinButton) builder.GetObject ("spin_contacts_graph_last_limit");
+		box_contacts_graph_exercise = (Gtk.Box) builder.GetObject ("box_contacts_graph_exercise");
 		vbox_contacts_simple_graph_controls = (Gtk.VBox) builder.GetObject ("vbox_contacts_simple_graph_controls");
 		radio_contacts_graph_currentTest = (Gtk.RadioButton) builder.GetObject ("radio_contacts_graph_currentTest");
 		radio_contacts_graph_allTests = (Gtk.RadioButton) builder.GetObject ("radio_contacts_graph_allTests");
@@ -1116,6 +1119,9 @@ public abstract class CairoPaintBarsPre
 	//run interval
 	public PrepareEventGraphRunInterval eventGraphRunsIntervalStored;
 
+	//wilight
+	public PrepareEventGraphWilight eventGraphWilightStored;
+
 	//encoder
 	public PrepareEventGraphBarplotEncoder eventGraphEncoderBarplotStored;
 
@@ -1169,6 +1175,9 @@ public abstract class CairoPaintBarsPre
 	{
 	}
 	public virtual void StoreEventGraphRunsInterval (PrepareEventGraphRunInterval eventGraph)
+	{
+	}
+	public virtual void StoreEventGraphWilight (PrepareEventGraphWilight eventGraph)
 	{
 	}
 	public virtual void StoreEventGraphBarplotEncoder (PrepareEventGraphBarplotEncoder eventGraph)
@@ -2652,6 +2661,70 @@ public class CairoManageRunDoubleContacts
 		}
 
 		return timeTotalWithExtraPTL + negativePTLTime;
+	}
+}
+
+public class CairoPaintBarsWilight : CairoPaintBarsPre
+{
+	public CairoPaintBarsWilight (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN)
+	{
+		initialize (darea, fontStr, mode, personName, testName, pDN);
+		this.title = generateTitle();
+	}
+
+	public override void StoreEventGraphWilight (PrepareEventGraphWilight eventGraph)
+	{
+		this.eventGraphWilightStored = eventGraph;
+	}
+
+	protected override bool storeCreated ()
+	{
+		return (eventGraphWilightStored != null);
+	}
+
+	protected override bool haveDataToPlot()
+	{
+		return (eventGraphWilightStored.rowsAtSQL.Count > 0);
+	}
+
+	protected override void paintSpecific()
+	{
+		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, true, true, true);
+
+		cb.YVariable = Catalog.GetString("Time");
+		cb.YUnits = "ms";
+
+		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
+		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides
+
+		List<Event> events = Wilight.WilightListToEventList (eventGraphWilightStored.rowsAtSQL);
+
+		List<PointF> point_l = new List<PointF>();
+		List<string> names_l = new List<string>();
+		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
+
+		int countToDraw = eventGraphWilightStored.rowsAtSQL.Count;
+		foreach (Wilight wilight in eventGraphWilightStored.rowsAtSQL)
+		{
+			point_l.Add(new PointF(countToDraw --, wilight.TotalMs));
+			names_l.Add(""); //TODO
+
+			id_l.Add(wilight.UniqueID);
+
+			if (eventGraphWilightStored.selectedID == wilight.UniqueID)
+				cb.SelectedPos = eventGraphWilightStored.rowsAtSQL.Count -countToDraw -1;
+		}
+		cb.Id_l = id_l;
+
+		cb.PassData1Serie (point_l,
+				new List<Cairo.Color>(), names_l,
+				//-1, fontHeightForBottomNames, bottomMargin, title,
+				-1, 14, 6, title,
+				new List<int> (), new List<int> ());
+
+		passDataForScreenshotIfNeeded ();
+
+		cb.GraphDo();
 	}
 }
 

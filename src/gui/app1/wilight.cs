@@ -1,5 +1,5 @@
 /*
- * This file is part of ChronoJump
+* This file is part of ChronoJump
  *
  * Chronojump is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@ using Gtk;
 public partial class ChronoJumpWindow 
 {
 	// at glade ---->
+	Gtk.Box box_wilight;
 	Gtk.Box box_start_wilight;
 	Gtk.Box box_wilight_test_actions;
 	Gtk.SpinButton spin_wilight_portnum;
@@ -348,6 +349,7 @@ public partial class ChronoJumpWindow
 
 	private void connectWidgetsWilight (Gtk.Builder builder)
 	{
+		box_wilight = (Gtk.Box) builder.GetObject ("box_wilight");
 		box_start_wilight = (Gtk.Box) builder.GetObject ("box_start_wilight");
 		box_wilight_test_actions = (Gtk.Box) builder.GetObject ("box_wilight_test_actions");
 		spin_wilight_portnum = (Gtk.SpinButton) builder.GetObject ("spin_wilight_portnum");

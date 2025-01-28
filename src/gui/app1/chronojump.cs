@@ -509,10 +509,10 @@ public partial class ChronoJumpWindow
 	private string progName;
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM, SOCIALNETWORKPOLL, FULLSCREENCAPTURE }
 	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS, MICRODISCOVER, PERSON, DATABASE }
-	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR, BEEPTEST, WILIGHT }
+	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR, BEEPTEST }
 	private enum notebook_execute_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER }
 	private enum notebook_options_top_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER }
-	private enum notebook_results_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER }
+	private enum notebook_results_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER, WILIGHT }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE,
 		JUMPSASYMMETRY, JUMPSEVOLUTION, JUMPSRJFATIGUE,
 		RUNSEVOLUTION, SPRINT, CONTACTS_EXPORT_CSV, SIGNAL_AI, }
@@ -3207,6 +3207,7 @@ public partial class ChronoJumpWindow
 		vbox_contacts_signal_comment.Visible = false;
 		frame_jumps_automatic.Visible = false;
 		check_run_show_time.Visible = false;
+		box_wilight.Visible = false;
 
 		hbox_combo_select_contacts_top_with_arrows.Visible = false; //TODO: this will be unneded
 
@@ -3674,10 +3675,10 @@ public partial class ChronoJumpWindow
 			radio_mode_contacts_analyze.Visible = false;
 
 			//hbox_change_modes_runs.Visible = true; //TODO: add beep test
-			notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.WILIGHT);
 			box_contacts_capture_top.Visible = false;
 			radio_change_modes_contacts_wilight.Visible = true;
 
+			box_wilight.Visible = true;
 			wilightApp1Init ();
 		}
 
@@ -7137,6 +7138,17 @@ public partial class ChronoJumpWindow
 
 			event_execute_button_finish.Sensitive = false;
 			fullscreen_button_fullscreen_contacts.Sensitive = false;
+		} else if(mode == Constants.Modes.WILIGHT)
+		{
+//			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.JUMPSREACTIVE);
+//			notebook_options_top.CurrentPage = Convert.ToInt32 (notebook_options_top_pages.JUMPSREACTIVE);
+			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.WILIGHT);
+
+			/*
+			if(currentJumpRjType != null)
+				changeTestImage(EventType.Types.JUMP.ToString(),
+						currentJumpRjType.Name, currentJumpRjType.ImageFileName);
+						*/
 		}
 
 		//button_execute_test have to be non sensitive in multichronopic without two cps

@@ -25,13 +25,15 @@ using System.Diagnostics;  //Stopwatch
 //definition of each stage on the test
 public class BeepTestStage
 {
+	public int stageName;
 	public double speedKmh;
 	public double lapSeconds; //duration of each lap
 	public int laps; //how many laps have each stage
 	public int lapMeters; //distance of each lap
 
-	public BeepTestStage (double speedKmh, double lapSeconds, int laps, int lapMeters)
+	public BeepTestStage (int stageName, double speedKmh, double lapSeconds, int laps, int lapMeters)
 	{
+		this.stageName = stageName;
 		this.speedKmh = speedKmh;
 		this.lapSeconds = lapSeconds;
 		this.laps = laps;
@@ -48,15 +50,17 @@ public class BeepTestStageManage
 	public struct StageLapStatus
 	{
 		public int stage;
+		public int stageName; //on YYI names are quite crazy
 		public int lap;
 		public int lapsOfThisStage;
 		public double speedKmh;
 		public bool resting; //rest or not rest
 		public bool resting1stHalf; //1st half of the rest (to show walk to one side or to the other) (only applies if resting)
 
-		public StageLapStatus (int stage, int lap, int lapsOfThisStage, double speedKmh, bool resting, bool resting1stHalf)
+		public StageLapStatus (int stage, int stageName, int lap, int lapsOfThisStage, double speedKmh, bool resting, bool resting1stHalf)
 		{
 			this.stage = stage;
+			this.stageName = stageName;
 			this.lap = lap;
 			this.lapsOfThisStage = lapsOfThisStage;
 			this.speedKmh = speedKmh;
@@ -71,10 +75,10 @@ public class BeepTestStageManage
 		bts_l = new List<BeepTestStage> ();
 	}
 
-	public void CreateList (List<double> stageSpeedKm_l, List <double> lapDurationS_l, List<int> stageLaps_l, List<int> lapDistM_l)
+	public void CreateList (List<double> stageSpeedKm_l, List <double> lapDurationS_l, List<int> stageName_l, List<int> stageLaps_l, List<int> lapDistM_l)
 	{
 		for (int i = 0; i < lapDurationS_l.Count; i ++)
-			bts_l.Add (new BeepTestStage (stageSpeedKm_l[i], lapDurationS_l[i], stageLaps_l[i], lapDistM_l[i]));
+			bts_l.Add (new BeepTestStage (stageName_l[i], stageSpeedKm_l[i], lapDurationS_l[i], stageLaps_l[i], lapDistM_l[i]));
 	}
 
 	public StageLapStatus GetCurrentStageLapStatus (long currentMs, int restSeconds, out bool shouldFinish)
@@ -90,7 +94,9 @@ public class BeepTestStageManage
 					sumRaceMs += 1000 * restSeconds;
 
 				if (currentMs < sumRaceMs)
-					return new StageLapStatus (s, t, bts_l[s].laps, bts_l[s].speedKmh,
+					return new StageLapStatus (
+							s, bts_l[s].stageName,
+							t, bts_l[s].laps, bts_l[s].speedKmh,
 							(restSeconds > 0 && Util.IsEven (t+1) && currentMs + 1000 * restSeconds >= sumRaceMs), // true if we are resting
 							(restSeconds > 0 && Util.IsEven (t+1) && currentMs + 1000 * restSeconds/2 < sumRaceMs) // (if we are resting: true in the 1st part of the rest)
 							);
@@ -104,13 +110,14 @@ public class BeepTestStageManage
 	protected StageLapStatus getLastLapStatus ()
 	{
 		return new StageLapStatus (
-				bts_l.Count -1,
+				bts_l.Count -1, bts_l[bts_l.Count -1].stageName,
 				bts_l[bts_l.Count -1].laps -1,
 				bts_l[bts_l.Count -1].laps,
 				bts_l[bts_l.Count -1].speedKmh,
 				false, false);
 	}
 
+	//Total meters on an stage, lap. Note on YoYo intermitent, it will be different
 	public int GetTotalMeters (int stage, int lap)
 	{
 		int sum = 0;
@@ -120,6 +127,35 @@ public class BeepTestStageManage
 
 		return sum;
 	}
+
+	//Note if an stage has 8 laps, then there are 4 possible "lap" values for the YYIR Vo2max detection
+	public int GetTotalMetersByLapPairs (int stage, int lap)
+	{
+		int sum = 0;
+		int lapPairAccumulated;
+
+		//iterate until this lap, but if it's even, need one more (to have the pair)
+		int untilLap = lap;
+		if (Util.IsEven (lap))
+			untilLap ++;
+
+		for (int s = 0; s <= stage; s ++)
+		{
+			lapPairAccumulated = 0;
+			for (int t = 0; t <= untilLap; t ++)
+			{
+				if (Util.IsEven (t))
+					lapPairAccumulated = bts_l[s].lapMeters;
+				else {
+					sum += bts_l[s].lapMeters + lapPairAccumulated;
+					lapPairAccumulated = 0;
+				}
+			}
+		}
+
+		return sum;
+	}
+
 
 	//gets at which millisecond starts an stage
 	public int GetStageTimeStartInMs (int stage)
@@ -228,12 +264,12 @@ public abstract class BeepTest
 	protected void initialize ()
 	{
 		btsm = new BeepTestStageManage ();
-		btsm.CreateList (stageSpeedKm_l, lapDurationS_l, stageLaps_l, lapDistM_l);
+		btsm.CreateList (stageSpeedKm_l, lapDurationS_l, stageName_l, stageLaps_l, lapDistM_l);
 
 		warningManage = new BeepTestWarningManage ();
 
 		stopwatch = new Stopwatch ();
-		previousStageLapStatus = new BeepTestStageManage.StageLapStatus (-1, -1, -1, -1, false, false);
+		previousStageLapStatus = new BeepTestStageManage.StageLapStatus (-1, -1, -1, -1, -1, false, false);
 
 		finished = false;
 	}
@@ -372,6 +408,15 @@ public abstract class BeepTest
 	protected virtual List<double> stageSpeedKm_l
 	{
 		get { return (new List<double> ()); }
+	}
+	protected virtual List<int> stageName_l
+	{
+		get {
+			List<int> l = new List<int> ();
+			for (int i = 0; i < stageSpeedKm_l.Count ; i ++)
+				l.Add (i+1);
+			return l;
+		}
 	}
 	protected virtual List<int> stageLaps_l
 	{
@@ -707,6 +752,7 @@ public abstract class BeepTestYYI : BeepTest
 		else if (previousStageLapStatus.resting != currentStageLapStatus.resting)
 			shouldBeepNow = BeepNowEnum.LAP;
 	}
+
 }
 
 public class BeepTestYYIE1 : BeepTestYYI
@@ -798,6 +844,17 @@ public class BeepTestYYIR1 : BeepTestYYI
 		}
 	}
 
+	protected override List<int> stageName_l
+	{
+		get {
+			return (new List<int> {
+					5, 9, 11, 12, 13,
+					14, 15, 16, 17, 18,
+					19, 20, 21, 22, 23
+					} );
+		}
+	}
+
 	protected override List<int> stageLaps_l
 	{
 		get {
@@ -812,7 +869,9 @@ public class BeepTestYYIR1 : BeepTestYYI
 	//https://footballscience.net/testing/aerobic-endurance/yo-yo-tests/
 	public override double Vo2max ()
 	{
-		return btsm.GetTotalMeters (currentStageLapStatus.stage, currentStageLapStatus.lap) * 0.0084 + 36.4;
+		LogB.Information (string.Format ("TotalMeters: {0}", btsm.GetTotalMetersByLapPairs (currentStageLapStatus.stage, currentStageLapStatus.lap)));
+		LogB.Information (string.Format ("Vo2max: {0}", btsm.GetTotalMetersByLapPairs (currentStageLapStatus.stage, currentStageLapStatus.lap) * 0.0084 + 36.4));
+		return btsm.GetTotalMetersByLapPairs (currentStageLapStatus.stage, currentStageLapStatus.lap) * 0.0084 + 36.4;
 	}
 }
 
@@ -837,6 +896,17 @@ public class BeepTestYYIR2 : BeepTestYYI
 		}
 	}
 
+	protected override List<int> stageName_l
+	{
+		get {
+			return (new List<int> {
+					11, 15, 17, 18, 19,
+					20, 21, 22, 23, 24,
+					25, 26, 27, 28, 29
+					} );
+		}
+	}
+
 	protected override List<int> stageLaps_l
 	{
 		get {
@@ -851,7 +921,7 @@ public class BeepTestYYIR2 : BeepTestYYI
 	//https://footballscience.net/testing/aerobic-endurance/yo-yo-tests/
 	public override double Vo2max ()
 	{
-		return btsm.GetTotalMeters (currentStageLapStatus.stage, currentStageLapStatus.lap) * 0.0136 + 45.3;
+		return btsm.GetTotalMetersByLapPairs (currentStageLapStatus.stage, currentStageLapStatus.lap) * 0.0136 + 45.3;
 	}
 }
 

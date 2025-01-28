@@ -172,14 +172,14 @@ public partial class ChronoJumpWindow
 		//note 5 is "Stage" and " Lap " char lengths. Note on glade this textview is set as monospace
 		if (hasVo2Max)
 			tbBeepTest.Text += string.Format ("\n {0,5} | {1,5} | {2,5} | {3,6} | {4}",
-					slStatus.stage + 1,
+					slStatus.stageName,
 					string.Format ("{0}/{1}", slStatus.lap + 1, slStatus.lapsOfThisStage),
 					Util.TrimDecimals (slStatus.speedKmh, 1),
 					Util.TrimDecimals (beepTest.Vo2max (), 2),
 					personName);
 		else
 			tbBeepTest.Text += string.Format ("\n {0,5} | {1,5} | {2,5} | {3}",
-					slStatus.stage + 1,
+					slStatus.stageName,
 					string.Format ("{0}/{1}", slStatus.lap + 1, slStatus.lapsOfThisStage),
 					Util.TrimDecimals (slStatus.speedKmh, 1),
 					personName);
@@ -236,7 +236,8 @@ public partial class ChronoJumpWindow
 		label_beepTest_time.Text = (beepTest.GetCurrentSeconds ()).ToString ();
 
 		BeepTestStageManage.StageLapStatus slStatus = beepTest.GetCurrentStageLapStatus ();
-		label_beepTest_stage.Text = (slStatus.stage + 1).ToString ();
+
+		label_beepTest_stage.Text = (slStatus.stageName).ToString ();
 		label_beepTest_lap.Text = string.Format ("{0} / {1}",
 				slStatus.lap + 1, slStatus.lapsOfThisStage);
 		label_beepTest_speed.Text = Util.TrimDecimals(slStatus.speedKmh, 1);

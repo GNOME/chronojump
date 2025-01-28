@@ -131,6 +131,10 @@ class SqliteWilight : Sqlite
 		reader.Close();
 		closeIfNeeded(dbconOpened);
 
+		//get last values on negative limit
+		if (limit < 0 && wilight_l.Count + limit >= 0)
+			wilight_l = wilight_l.GetRange (wilight_l.Count + limit, -1 * limit);
+
 		return wilight_l;
 	}
 

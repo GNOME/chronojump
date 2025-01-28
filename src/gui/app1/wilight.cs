@@ -54,6 +54,7 @@ public partial class ChronoJumpWindow
 	{
 		tbWilightText = "";
 		button_wilight_test_cancel.Sensitive = false;
+		updateGraphWilight();
 	}
 
 	private void on_button_wilight_test_discover_clicked (object o, EventArgs args)

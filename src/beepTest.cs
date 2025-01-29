@@ -772,7 +772,6 @@ public class BeepTestYYIE1 : BeepTestYYI
 	{
 		restSeconds = 5;
 		initialize ();
-		hasVoice = true;
 	}
 
 	protected override List<double> stageSpeedKm_l
@@ -820,7 +819,6 @@ public class BeepTestYYIE2 : BeepTestYYI
 	{
 		restSeconds = 5;
 		initialize ();
-		hasVoice = true;
 	}
 
 	protected override List<double> stageSpeedKm_l
@@ -865,7 +863,6 @@ public class BeepTestYYIR1 : BeepTestYYI
 		restSeconds = 5;
 		initialize ();
 		hasVo2max = true;
-		hasVoice = true;
 	}
 
 	protected override List<double> stageSpeedKm_l
@@ -917,7 +914,6 @@ public class BeepTestYYIR2 : BeepTestYYI
 		restSeconds = 5;
 		initialize ();
 		hasVo2max = true;
-		hasVoice = true;
 	}
 
 	protected override List<double> stageSpeedKm_l

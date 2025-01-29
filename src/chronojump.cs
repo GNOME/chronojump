@@ -257,8 +257,8 @@ public class ChronoJump
 				debugModeAtStart = true;
 		}
 
-		var envPath = Environment.GetEnvironmentVariable ("PATH");
-		var rBinPath = "";
+		string envPath = Environment.GetEnvironmentVariable ("PATH");
+		string rBinPath = "";
 
 		//we need to set Util.operatingSytem before GetPrefixDir()
 		baseDirectory = Util.GetPrefixDir();
@@ -272,89 +272,17 @@ public class ChronoJump
 		//Rc.AddDefaultFile (Util.GetThemeFile());
 		//LogB.Information("gtk theme:" + Util.GetThemeFile());
 
-		if(UtilAll.IsWindows())
-		{
-			//needed to avoid crash on opening FileChooserDialog, also FileChooserNative, at least on windows
-			//TODO: delete one of these two: DIRS or DIR
-			//note without these lines it works on dotnet run, but on the isntalled package these are needed
-			Environment.SetEnvironmentVariable ("XDG_DATA_DIRS", baseDirectory);
-			Environment.SetEnvironmentVariable ("XDG_DATA_DIR", baseDirectory);
-			Environment.SetEnvironmentVariable ("GSETTINGS_SCHEMA_DIR", System.IO.Path.Combine (baseDirectory, @"share\glib-2.0\schemas")); //this works !!!! but from dotnet run works also without this
-
-			//Environment.SetEnvironmentVariable ("R_HOME", RelativeToPrefix ("library"));
-			//rBinPath = RelativeToPrefix ("lib");
-			//rBinPath = RelativeToPrefix ("library");
-			//var rPath = System.Environment.Is64BitProcess ? @"C:\Program Files\R\R-3.0.2\bin\x64" : @"C:\Program Files\R\R-3.0.2\bin\i386";
-			string x64 = "bin" + System.IO.Path.DirectorySeparatorChar + "x64";
-			string i386 = "bin" + System.IO.Path.DirectorySeparatorChar + "i386";
-			var rPath = System.Environment.Is64BitProcess ? 
-				System.IO.Path.Combine(baseDirectoryR, x64) : System.IO.Path.Combine(baseDirectoryR, i386);
-
-			if (Directory.Exists(rPath) == false) {
-				LogB.Error("Could not found the specified path to the directory containing R.dll: ", rPath);
-				throw new DirectoryNotFoundException(string.Format("Could not found the specified path to the directory containing R.dll: {0}", rPath));
-			}
-
-			var newPath = string.Format("{0}{1}{2}", rPath, System.IO.Path.PathSeparator, envPath);
-			LogB.Information("newPath:", newPath);
-		
-			System.Environment.SetEnvironmentVariable("PATH", newPath);
-			LogB.Information("path:", System.Environment.GetEnvironmentVariable("PATH"));
-			
-			//use this because we don't want to look at the registry
-			//we don't want to force user to install R
-			Environment.SetEnvironmentVariable ("R_HOME", baseDirectoryR);
-			LogB.Information("R_HOME:", baseDirectoryR);
-		} else {
-			switch (operatingSystem) {
-				case UtilAll.OperatingSystems.MACOSX:
-					LogB.Information(Environment.GetEnvironmentVariable("R_HOME"));
-					rBinPath = $"{Path.GetDirectoryName(Constants.ROSX)}/../Libraries/";
-						Environment.SetEnvironmentVariable ("R_HOME", Path.GetDirectoryName(Constants.ROSX));
-						Environment.SetEnvironmentVariable("PATH", rBinPath + Path.PathSeparator + envPath);
-					LogB.Information("environments");
-					LogB.Information(Environment.GetEnvironmentVariable("R_HOME"));
-					LogB.Information(Environment.GetEnvironmentVariable("PATH"));
-
-					var gtk3Path = "";
-#if DEBUG
-                    if (File.Exists("/usr/local/lib/libglib-2.0.0.dylib"))
-                    {
-						gtk3Path = "/usr/local/lib/";
-                    }
-                    else
-                    {
-                        gtk3Path = "/opt/homebrew/lib/";
-                    }
-#else
-					gtk3Path= Path.Combine(baseDirectory, "../Resources/");
-#endif
-                    Environment.SetEnvironmentVariable("XDG_DATA_DIRS", System.IO.Path.Combine(gtk3Path, @"gtk3"));
-                    Environment.SetEnvironmentVariable("GSETTINGS_SCHEMA_DIR", System.IO.Path.Combine(gtk3Path, @"gtk3\share\glib-2.0\schemas"));
-					g_setenv("XDG_DATA_DIRS", System.IO.Path.Combine(gtk3Path, @"gtk3"), true);
-                    g_setenv("GSETTINGS_SCHEMA_DIR", System.IO.Path.Combine(gtk3Path, @"gtk3\share\glib-2.0\schemas"), true);
-
-                    /*
-					//Gstreamer stuff (right now not used, we used ffplay)
-					string prefix="/Applications/Chronojump.app/Contents/Home/";
-					Environment.SetEnvironmentVariable ("GST_PLUGIN_PATH", prefix + "lib/gstreamer-0.10");
-					Environment.SetEnvironmentVariable ("GST_PLUGIN_SYSTEM_PATH", prefix + "lib/gstreamer-0.10");
-					Environment.SetEnvironmentVariable ("GST_PLUGIN_SCANNER_PATH", prefix + "lib/gstreamer-0.10/gst-plugin-scanner");
-					*/
-                    break;
-				case UtilAll.OperatingSystems.LINUX:
-					rBinPath = @"/usr/lib/R/lib";
-					Environment.SetEnvironmentVariable ("R_HOME", @"/usr/lib/R");
-					Environment.SetEnvironmentVariable("PATH", envPath + Path.PathSeparator + rBinPath);
-					break;
-			}
-		}
-		
 		LogB.Information("Platform:" + Environment.OSVersion.Platform);
-		
+
+		if(UtilAll.IsWindows())
+			setSystemVariablesWindows (baseDirectoryR, envPath, rBinPath);
+		else if (operatingSystem == UtilAll.OperatingSystems.MACOSX)
+			setSystemVariablesMac (envPath, rBinPath);
+		else if (operatingSystem == UtilAll.OperatingSystems.LINUX)
+			setSystemVariablesLinux (envPath, rBinPath);
+
 		LogB.Information("baseDir0:", System.AppDomain.CurrentDomain.BaseDirectory);
 		LogB.Information("baseDir1:", baseDirectory);
-		LogB.Information("envPath+rBinPath:", envPath + Path.PathSeparator + rBinPath);
 
 
 		//UtilCSV.ReadValues("/tmp/chronojump-encoder-graph-input-multi.csv");	
@@ -377,47 +305,126 @@ public class ChronoJump
 		}
 
 
-	string language = "";
-	if(File.Exists(System.IO.Path.Combine(Util.GetDatabaseDir(), "chronojump.db"))) {
-		try {
-			Sqlite.Connect();
+		string language = "";
+		if(File.Exists(System.IO.Path.Combine(Util.GetDatabaseDir(), "chronojump.db"))) {
+			try {
+				Sqlite.Connect();
 
-			/*
-			 * chronojump 1.5.2 converts DB 1.24 to 1.25 changing language to ""
-			 * but this operation is done later (on sqliteThings)
-			 * We need here! to define the language from the beginning
-			 * so we use language = "" if version is prior to 1.25
-			 */
-			string currentDBVersion = SqlitePreferences.Select("databaseVersion", false);
-			double currentDBVersionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(currentDBVersion));
-			if(currentDBVersionDouble < Convert.ToDouble(Util.ChangeDecimalSeparator("1.25")))
-				language = "";
-			else
-				language = SqlitePreferences.Select("language", false);
+				/*
+				 * chronojump 1.5.2 converts DB 1.24 to 1.25 changing language to ""
+				 * but this operation is done later (on sqliteThings)
+				 * We need here! to define the language from the beginning
+				 * so we use language = "" if version is prior to 1.25
+				 */
+				string currentDBVersion = SqlitePreferences.Select("databaseVersion", false);
+				double currentDBVersionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(currentDBVersion));
+				if(currentDBVersionDouble < Convert.ToDouble(Util.ChangeDecimalSeparator("1.25")))
+					language = "";
+				else
+					language = SqlitePreferences.Select("language", false);
 
-			Sqlite.DisConnect();
-	
-			if(language != "") {
-				//convert pt-BR to pt_BR
-				if(language.Contains("-"))
-					language = language.Replace("-", "_");
+				Sqlite.DisConnect();
 
-				Environment.SetEnvironmentVariable ("LANGUAGE", language); //works
-//#if OSTYPE_WINDOWS
-				g_setenv ("LANGUAGE", language, true); //The line above doesn't work on macOS, but this line does.
-//#endif
-                }
-            }
-            catch
-            {
-                LogB.Warning("Problem reading language on start");
-            }
-        }
+				if(language != "") {
+					//convert pt-BR to pt_BR
+					if(language.Contains("-"))
+						language = language.Replace("-", "_");
 
-        Catalog.Init("chronojump", System.IO.Path.Combine(Util.GetPrefixDir(), "share", "locale"));//To use the specific path separator on certain OS [By Joeries]
+					Environment.SetEnvironmentVariable ("LANGUAGE", language); //works
+												   //#if OSTYPE_WINDOWS
+					g_setenv ("LANGUAGE", language, true); //The line above doesn't work on macOS, but this line does.
+									       //#endif
+				}
+			}
+			catch
+			{
+				LogB.Warning("Problem reading language on start");
+			}
+		}
 
-	new ChronoJump(args);
+		Catalog.Init("chronojump", System.IO.Path.Combine(Util.GetPrefixDir(), "share", "locale"));//To use the specific path separator on certain OS [By Joeries]
+
+		new ChronoJump(args);
 	}
+
+	private static void setSystemVariablesWindows (string baseDirectoryR, string envPath, string rBinPath)
+	{
+		//needed to avoid crash on opening FileChooserDialog, also FileChooserNative, at least on windows
+		//TODO: delete one of these two: DIRS or DIR
+		//note without these lines it works on dotnet run, but on the isntalled package these are needed
+		Environment.SetEnvironmentVariable ("XDG_DATA_DIRS", baseDirectory);
+		Environment.SetEnvironmentVariable ("XDG_DATA_DIR", baseDirectory);
+		Environment.SetEnvironmentVariable ("GSETTINGS_SCHEMA_DIR", System.IO.Path.Combine (baseDirectory, @"share\glib-2.0\schemas")); //this works !!!! but from dotnet run works also without this
+
+		//Environment.SetEnvironmentVariable ("R_HOME", RelativeToPrefix ("library"));
+		//rBinPath = RelativeToPrefix ("lib");
+		//rBinPath = RelativeToPrefix ("library");
+		//var rPath = System.Environment.Is64BitProcess ? @"C:\Program Files\R\R-3.0.2\bin\x64" : @"C:\Program Files\R\R-3.0.2\bin\i386";
+		string x64 = "bin" + System.IO.Path.DirectorySeparatorChar + "x64";
+		string i386 = "bin" + System.IO.Path.DirectorySeparatorChar + "i386";
+		var rPath = System.Environment.Is64BitProcess ?
+			System.IO.Path.Combine(baseDirectoryR, x64) : System.IO.Path.Combine(baseDirectoryR, i386);
+
+		if (Directory.Exists(rPath) == false) {
+			LogB.Error("Could not found the specified path to the directory containing R.dll: ", rPath);
+			throw new DirectoryNotFoundException(string.Format("Could not found the specified path to the directory containing R.dll: {0}", rPath));
+		}
+
+		var newPath = string.Format("{0}{1}{2}", rPath, System.IO.Path.PathSeparator, envPath);
+		LogB.Information("newPath:", newPath);
+
+		System.Environment.SetEnvironmentVariable("PATH", newPath);
+		LogB.Information("path:", System.Environment.GetEnvironmentVariable("PATH"));
+
+		//use this because we don't want to look at the registry
+		//we don't want to force user to install R
+		Environment.SetEnvironmentVariable ("R_HOME", baseDirectoryR);
+		LogB.Information("R_HOME:", baseDirectoryR);
+		LogB.Information("envPath+rBinPath:", envPath + Path.PathSeparator + rBinPath);
+	}
+
+	private static void setSystemVariablesMac (string envPath, string rBinPath)
+	{
+		LogB.Information(Environment.GetEnvironmentVariable("R_HOME"));
+		rBinPath = $"{Path.GetDirectoryName(Constants.ROSX)}/../Libraries/";
+		Environment.SetEnvironmentVariable ("R_HOME", Path.GetDirectoryName(Constants.ROSX));
+		Environment.SetEnvironmentVariable("PATH", rBinPath + Path.PathSeparator + envPath);
+		LogB.Information("environments");
+		LogB.Information(Environment.GetEnvironmentVariable("R_HOME"));
+		LogB.Information(Environment.GetEnvironmentVariable("PATH"));
+
+		var gtk3Path = "";
+#if DEBUG
+		if (File.Exists("/usr/local/lib/libglib-2.0.0.dylib"))
+			gtk3Path = "/usr/local/lib/";
+		else
+			gtk3Path = "/opt/homebrew/lib/";
+#else
+		gtk3Path= Path.Combine(baseDirectory, "../Resources/");
+#endif
+		Environment.SetEnvironmentVariable("XDG_DATA_DIRS", System.IO.Path.Combine(gtk3Path, @"gtk3"));
+		Environment.SetEnvironmentVariable("GSETTINGS_SCHEMA_DIR", System.IO.Path.Combine(gtk3Path, @"gtk3\share\glib-2.0\schemas"));
+		g_setenv("XDG_DATA_DIRS", System.IO.Path.Combine(gtk3Path, @"gtk3"), true);
+		g_setenv("GSETTINGS_SCHEMA_DIR", System.IO.Path.Combine(gtk3Path, @"gtk3\share\glib-2.0\schemas"), true);
+
+		/*
+		//Gstreamer stuff (right now not used, we used ffplay)
+		string prefix="/Applications/Chronojump.app/Contents/Home/";
+		Environment.SetEnvironmentVariable ("GST_PLUGIN_PATH", prefix + "lib/gstreamer-0.10");
+		Environment.SetEnvironmentVariable ("GST_PLUGIN_SYSTEM_PATH", prefix + "lib/gstreamer-0.10");
+		Environment.SetEnvironmentVariable ("GST_PLUGIN_SCANNER_PATH", prefix + "lib/gstreamer-0.10/gst-plugin-scanner");
+		*/
+		LogB.Information("envPath+rBinPath:", envPath + Path.PathSeparator + rBinPath);
+	}
+
+	private static void setSystemVariablesLinux (string envPath, string rBinPath)
+	{
+		rBinPath = @"/usr/lib/R/lib";
+		Environment.SetEnvironmentVariable ("R_HOME", @"/usr/lib/R");
+		Environment.SetEnvironmentVariable("PATH", envPath + Path.PathSeparator + rBinPath);
+		LogB.Information("envPath+rBinPath:", envPath + Path.PathSeparator + rBinPath);
+	}
+
 
 	public static string RelativeToPrefix(string relativePath) {
 		return System.IO.Path.Combine(baseDirectory, relativePath);

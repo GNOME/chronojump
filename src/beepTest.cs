@@ -117,6 +117,10 @@ public class BeepTestStageManage
 				false, false);
 	}
 
+	/*
+	 * Unused!
+	 * Note also it need to be fixed because on stages previous to current need to count all laps
+	 *
 	//Total meters on an stage, lap. Note on YoYo intermitent, it will be different
 	public int GetTotalMeters (int stage, int lap)
 	{
@@ -127,6 +131,7 @@ public class BeepTestStageManage
 
 		return sum;
 	}
+	*/
 
 	//Note if an stage has 8 laps, then there are 4 possible "lap" values for the YYIR Vo2max detection
 	public int GetTotalMetersByLapPairs (int stage, int lap)
@@ -134,13 +139,19 @@ public class BeepTestStageManage
 		int sum = 0;
 		int lapPairAccumulated;
 
-		//iterate until this lap, but if it's even, need one more (to have the pair)
-		int untilLap = lap;
-		if (Util.IsEven (lap))
-			untilLap ++;
-
 		for (int s = 0; s <= stage; s ++)
 		{
+			//at each stage: count all laps; except at current stage: go until lap or lap +1
+			int untilLap = bts_l[s].laps;
+			if (s == stage)
+			{
+				//iterate until this lap, but if it's even, need one more (to have the pair)
+				untilLap = lap;
+				if (Util.IsEven (lap))
+					untilLap ++;
+			}
+			//LogB.Information (string.Format ("stage: {0}, lap: {1}, untilLap: {2}", stage, lap, untilLap));
+
 			lapPairAccumulated = 0;
 			for (int t = 0; t <= untilLap; t ++)
 			{

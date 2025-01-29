@@ -80,14 +80,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_wilight_zoom_clicked (object o, EventArgs args)
 	{
-		myTreeViewWilight.ExpandState = myTreeViewWilight.ZoomChange(myTreeViewWilight.ExpandState);
-		if(myTreeViewWilight.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
-			treeview_wilight.CollapseAll();
-			image_wilight_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
-		} else {
-			treeview_wilight.ExpandAll();
-			image_wilight_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
-		}
+		myTreeViewWilight.ZoomChange (image_wilight_zoom);
 	}
 
 	private void treeview_wilight_storeReset()

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -271,8 +271,31 @@ public class TreeViewEvent
 		}
 	}
 
-	public ExpandStates ZoomChange(ExpandStates myExpand) {
-		if(treeviewHasTwoLevels) {
+	public void ZoomChange (Gtk.Image icon_zoom)
+	{
+		expandState = zoomChangeDo (expandState);
+		if (expandState == TreeViewEvent.ExpandStates.MINIMIZED)
+		{
+			treeview.CollapseAll();
+			icon_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) +
+					Constants.FileNameZoomInIcon);
+		} else if (treeviewHasTwoLevels && expandState == ExpandStates.OPTIMAL)
+		{
+			treeview.CollapseAll();
+			ExpandOptimal();
+			icon_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) +
+					Constants.FileNameZoomInIcon);
+		} else
+		{ //expandState == TreeViewEvent.ExpandStates.MAXIMIZED
+			treeview.ExpandAll();
+			icon_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) +
+					Constants.FileNameZoomOutIcon);
+		}
+	}
+
+	private ExpandStates zoomChangeDo (ExpandStates myExpand)
+	{
+		if (treeviewHasTwoLevels) {
 			if(myExpand == ExpandStates.MINIMIZED)
 				return ExpandStates.OPTIMAL;
 			else if(myExpand == ExpandStates.OPTIMAL)

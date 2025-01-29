@@ -72,18 +72,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_jumps_rj_zoom_clicked (object o, EventArgs args)
 	{
-		myTreeViewJumpsRj.ExpandState = myTreeViewJumpsRj.ZoomChange(myTreeViewJumpsRj.ExpandState);
-		if(myTreeViewJumpsRj.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
-			treeview_jumps_rj.CollapseAll();
-			image_jumps_rj_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
-		} else if(myTreeViewJumpsRj.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
-			treeview_jumps_rj.CollapseAll();
-			myTreeViewJumpsRj.ExpandOptimal();
-			image_jumps_rj_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
-		} else {
-			treeview_jumps_rj.ExpandAll();
-			image_jumps_rj_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
-		}
+		myTreeViewJumpsRj.ZoomChange (image_jumps_rj_zoom);
 	}
 
 	private void treeview_jumps_rj_storeReset()

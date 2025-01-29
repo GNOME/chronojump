@@ -154,6 +154,7 @@ public class EncoderRProcCapture : EncoderRProc
 	{
 		//If output file is not given, R will try to write in the running folder
 		//in which we may haven't got permissions
+		//note we are calling Rscript instead of R
 
 		string pBin = Util.GetRscriptBin ();
 
@@ -165,6 +166,7 @@ public class EncoderRProcCapture : EncoderRProc
 		pinfo.Arguments = "\"" + UtilEncoder.GetEncoderScriptCallCaptureNoRdotNet() + "\" " +
 			"\"" + optionsFile + "\"";
 
+		LogB.Information("pBin:", pBin);
 		LogB.Information("Arguments:", pinfo.Arguments);
 		LogB.Information("--- 1 --- " + optionsFile.ToString() + " ---");
 		LogB.Information("--- 2 --- " + pinfo.Arguments.ToString() + " ---");

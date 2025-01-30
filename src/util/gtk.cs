@@ -623,6 +623,7 @@ public class UtilGtk
 	public static string ColorBad = "red";
 	public static string ColorNothing = "";
 	public static string ColorGray = "gray";
+	public static string ColorBlack = "black";
 
 	public enum Colors {
 		BLACK, BLUE_CHRONOJUMP, BLUE_LIGHT, BLUE_PLOTS,

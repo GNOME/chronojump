@@ -3759,6 +3759,15 @@ public partial class ChronoJumpWindow
 
 		setLabelContactsExerciseSelectedOptions();
 
+		//beepTest changes treeview persons, redo it
+		if(myTreeViewPersons != null)
+		{
+			treeview_persons_storeReset();
+			myTreeViewPersons.RestSecondsMark = get_configured_rest_time_in_seconds();
+			fillTreeView_persons();
+		}
+		updatingRestTimes = (current_mode != Constants.Modes.BEEPTEST);
+
 		if (remoteTest != null)
 			remoteTest.Current_mode = current_mode;
 	}

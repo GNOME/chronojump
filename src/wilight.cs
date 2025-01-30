@@ -91,13 +91,23 @@ public static class WilightColors
 public class WilightTest
 {
 	private List<List<string>> command_ll;
+
 	private int currentLevel;
 	private int currentCommand; //in level
+
+	//in level, to know when to end (as we start randomly on a level command)
+	private int levelStartedWithCommand;
+	//To avoid ending level on the first command (as we iterate by all the commands in level)
+	private bool firstCommandInLevel;
+
 	private bool started;
 	private Stopwatch stopwatch; 
+	private Random random;
+
 	public bool Cancel;
 	public bool Finished;
 	public int FinishedMs;
+
 
 	public WilightTest (string commandsFile)
 	{
@@ -114,13 +124,19 @@ public class WilightTest
 			command_ll.Add (level4);
 		}
 	
+		random = new Random();
+
 		currentLevel = 0;
-		currentCommand = 0;
+		currentCommand = random.Next (0, command_ll[0].Count);
+		levelStartedWithCommand = currentCommand;
+
 		started = false;
 		stopwatch = new Stopwatch ();
 		Cancel = false;
 		Finished = false;
 		FinishedMs = 0;
+
+		firstCommandInLevel = true;
 	}
 
 	public string GetNext ()
@@ -134,19 +150,37 @@ public class WilightTest
 		}
 
 		do {
+			//this is the commandStr that is going to be returned
 			commandStr = command_ll[currentLevel][currentCommand];
+			LogB.Information (string.Format ("\ncurrentLevel: {0}, currentCommand: {1}, levelStartedWithCommand: {2},\ncommandStr: {3}",
+						currentLevel, currentCommand, levelStartedWithCommand, commandStr));
 
-			if (currentCommand < command_ll[currentLevel].Count -1)
-				currentCommand ++;
-			else if (currentLevel < command_ll.Count -1)
+			//then update currentCommand, currentLevel if needed (for next call)
+
+			if (! firstCommandInLevel && currentCommand == levelStartedWithCommand)
 			{
-				currentLevel ++;
-				currentCommand = 0;
-			} else
-			{
-				Finished = true;
-				FinishedMs = Convert.ToInt32 (stopwatch.ElapsedMilliseconds);
-				stopwatch.Stop ();
+				if (currentLevel < command_ll.Count -1)
+				{
+					currentLevel ++;
+					currentCommand = random.Next (0, command_ll[currentLevel].Count);
+					levelStartedWithCommand = currentCommand;
+					firstCommandInLevel = true;
+
+					//do not send this command because is the same as the first in the level
+					continue;
+				} else {
+					Finished = true;
+					FinishedMs = Convert.ToInt32 (stopwatch.ElapsedMilliseconds);
+					stopwatch.Stop ();
+				}
+			}
+			else {
+				if (currentCommand >= command_ll[currentLevel].Count -1)
+					currentCommand = 0;
+				else
+					currentCommand ++;
+
+				firstCommandInLevel = false;
 			}
 
 			commandValidated = validateCommand (commandStr);
@@ -297,7 +331,8 @@ public class WilightTest
 					"0:32;1:8;2:2;3:128;4:4;5:96;6:33;7:0;8:4;9:10;10:2;11:0;12:0;",
 					"0:224;1:8;2:8;3:8;4:96;5:6;6:12;7:12;8:0;9:128;10:225;11:0;12:0;",
 					"0:96;1:2;2:4;3:14;4:12;5:10;6:0;7:8;8:64;9:97;10:224;11:0;12:0;",
-					"0:160;1:96;2:6;3:0;4:0;5:0;6:6;7:10;8:128;9:0;10:14;11:161;12:0;"
+					"0:160;1:96;2:6;3:0;4:0;5:0;6:6;7:10;8:128;9:0;10:14;11:161;12:0;",
+					"0:128;1:128;2:128;3:128;4:128;5:128;6:128;7:128;8:128;9:128;10:128;11:128;12:128;"
 					});
 		}
 	}

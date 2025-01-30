@@ -46,6 +46,10 @@ public partial class ChronoJumpWindow
 	static bool wilightProcessCancel;
 	static bool wilightProcessFinish;
 
+	//to play sound by pulse thread
+	enum wilightSoundEnum { NONE, GOOD, BAD };
+	static wilightSoundEnum haveToPlaySound;
+
 	enum wilightActions { DISCOVER, PING, CHANGECOLOR, SPEED, SEQUENCE };
 	private wilightActions wilightAction;
 	DateTime wilightTimeStartCapture;
@@ -173,12 +177,11 @@ public partial class ChronoJumpWindow
 		//testing stuff
 		LogB.Information ("wilightTest");
 		WilightTest wtz = new WilightTest (commandsFile);
-		bool finishedz = false;
 		while (true)
 		{
-			if (finishedz) //finished here to have also time to answer to the last command
+			if (wtz.Finished) //finished here to have also time to answer to the last command
 				return;
-			LogB.Information (wtz.GetNext (out finishedz));
+			wtz.GetNext ();
 		}
 		*/
 
@@ -223,6 +226,8 @@ public partial class ChronoJumpWindow
 			testSequence (commandsFile);
 			wichroCapture.Stop(); //Should we do a disconnect here?
 		}
+
+		haveToPlaySound = wilightSoundEnum.NONE;
 
 		System.Threading.Thread.Sleep (1000);
 		sendCommandAndTextview (WilightColors.AllOffCommand);
@@ -294,7 +299,6 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	//TODO: send only to discovered terminals
 	private void testSequence (string commandsFile)
 	{
 		wilightTest = new WilightTest (commandsFile);
@@ -313,6 +317,7 @@ public partial class ChronoJumpWindow
 			}
 
 			string command = wilightTest.GetNext ();
+			LogB.Information ("command = " + command);
 			if (command == "")
 				continue;
 
@@ -331,7 +336,8 @@ public partial class ChronoJumpWindow
 				if(! wichroCapture.CaptureSample())
 				{
 					LogB.Information ("Problem capturing sample");
-					Util.PlaySound (Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
+					haveToPlaySound = wilightSoundEnum.BAD;
+
 					break;
 				}
 
@@ -344,8 +350,8 @@ public partial class ChronoJumpWindow
 					{
 						tbWilightText += "\n< " + we.ToString ();
 
-						//LogB.Information ("Is ON!");
-						Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
+						LogB.Information ("Is ON!");
+						haveToPlaySound = wilightSoundEnum.GOOD;
 						readedOn = true;
 					}
 					else if (check_wilight_very_verbose.Active)
@@ -384,13 +390,25 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 
-		Thread.Sleep (20);
+		if (haveToPlaySound == wilightSoundEnum.GOOD)
+		{
+			haveToPlaySound = wilightSoundEnum.NONE;
+			Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
+		} else if (haveToPlaySound == wilightSoundEnum.BAD)
+		{
+			haveToPlaySound = wilightSoundEnum.NONE;
+			Util.PlaySound (Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
+		}
+
+		LogB.Information(" Cur:" + threadWilight.ThreadState.ToString());
+		Thread.Sleep (50);
 		return true;
 	}
 
 	private void sendCommandAndTextview (string command)
 	{
-		wichroCapture.WilightSendCommand (command);
+		bool sendCommandFeedback = wichroCapture.WilightSendCommand (command);
+		LogB.Information ("sendCommandFeedback: " + sendCommandFeedback.ToString ());
 		tbWilightText += "\n> " + command;
 	}
 

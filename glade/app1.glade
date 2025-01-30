@@ -11479,6 +11479,9 @@ last capture</property>
                                                             <object class="GtkTreeView" id="treeview_wilight">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
+                                                            <child internal-child="selection">
+                                                            <object class="GtkTreeSelection"/>
+                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
@@ -18060,6 +18063,21 @@ last capture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkButton" id="button_beepTest_exempt_selected">
+                                                            <property name="label" translatable="yes">Exempt selected</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <signal name="clicked" handler="on_button_beepTest_exempt_selected_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <object class="GtkButton" id="button_beepTest_finish_selected">
                                                             <property name="label">Finish selected</property>
                                                             <property name="visible">True</property>
@@ -18071,7 +18089,7 @@ last capture</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -18086,7 +18104,7 @@ last capture</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">3</property>
+                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -22488,6 +22506,12 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

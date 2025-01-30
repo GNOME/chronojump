@@ -19,6 +19,7 @@
  */
 
 using System;
+using Mono.Unix;
 using System.Collections.Generic; //List<T>
 using System.Diagnostics;  //Stopwatch
 
@@ -242,6 +243,83 @@ public class BeepTestWarningManage
 	}
 
 }
+
+//to store current status in the run
+//Attention: bad class name as it could be confused with Run, RunInterval, RunEncoder
+public class RunnerStatus
+{
+	//note Nothing is not used at the moment
+	public enum StatusEnum { Nothing, Running, Exempt, Finished }
+        //Tr: translated
+        public static string GetStatusEnumTr (StatusEnum se)
+        {
+                return Catalog.GetString (se.ToString ());
+        }
+
+	public int personID;
+	public StatusEnum statusEnum;
+
+	public RunnerStatus (int personID, StatusEnum statusEnum)
+	{
+		this.personID = personID;
+		this.statusEnum = statusEnum;
+	}
+}
+
+//List of the runners and their status
+public class BeepTestRunners
+{
+	private List<RunnerStatus> runnerStatus_l;
+
+	//constructor
+	public BeepTestRunners (List<Person> person_l)
+	{
+		runnerStatus_l = new List<RunnerStatus> ();
+		foreach (Person p in person_l)
+			runnerStatus_l.Add (new RunnerStatus (p.UniqueID, RunnerStatus.StatusEnum.Running));
+	}
+
+	public bool IsRunning (int personID)
+	{
+		foreach (RunnerStatus rs in runnerStatus_l)
+			if (rs.personID == personID)
+				return (rs.statusEnum == RunnerStatus.StatusEnum.Running);
+
+		return false;
+	}
+
+	public void Exempt (int personID)
+	{
+		foreach (RunnerStatus rs in runnerStatus_l)
+			if (rs.personID == personID)
+				rs.statusEnum = RunnerStatus.StatusEnum.Exempt;
+	}
+
+	public void Finished (int personID)
+	{
+		foreach (RunnerStatus rs in runnerStatus_l)
+			if (rs.personID == personID)
+				rs.statusEnum = RunnerStatus.StatusEnum.Finished;
+	}
+
+	//all that are currently running
+	//return the list of the runners that we finish now, to send to treeview_persons
+	public List<int> FinishAllRunners ()
+	{
+		List<int> finishedNow_l = new List<int> ();
+
+		foreach (RunnerStatus rs in runnerStatus_l)
+			if (rs.statusEnum == RunnerStatus.StatusEnum.Running)
+			{
+				rs.statusEnum = RunnerStatus.StatusEnum.Finished;
+				finishedNow_l.Add (rs.personID);
+			}
+
+		return finishedNow_l;
+	}
+
+}
+
 
 //tests creation and interaction with Chronojump events
 public abstract class BeepTest

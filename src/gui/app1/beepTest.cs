@@ -39,6 +39,7 @@ public partial class ChronoJumpWindow
 	Gtk.SpinButton spin_beepTest_constant_totalLaps;
 	Gtk.Button button_beepTest_start;
 	Gtk.Button button_beepTest_warn_selected;
+	Gtk.Button button_beepTest_exempt_selected;
 	Gtk.Button button_beepTest_finish_selected;
 	Gtk.Button button_beepTest_finish_all;
 	Gtk.Label label_beepTest_time;
@@ -96,11 +97,23 @@ public partial class ChronoJumpWindow
 			box_beepTest_constant_options.Visible = true;
 	}
 
+	BeepTestRunners beepTestRunners;
 	public void on_button_beepTest_start_clicked (object o, EventArgs args)
 	{
+		if (currentSession == null)
+			return;
+
+		//Create list and mark all as runners
+		beepTestRunners = new BeepTestRunners (
+			SqlitePersonSession.SelectCurrentSessionPersonsAsList (false, currentSession.UniqueID));
+
+		//put status of all persons as Running (on treeview_persons)
+		myTreeViewPersons.UpdateStatus (-1, RunnerStatus.StatusEnum.Running);
+
 		box_beepTest_type_and_options.Sensitive = false;
 		button_beepTest_start.Sensitive = false;
 		button_beepTest_warn_selected.Sensitive = true;
+		button_beepTest_exempt_selected.Sensitive = true;
 		button_beepTest_finish_selected.Sensitive = true;
 		button_beepTest_finish_all.Sensitive = true;
 
@@ -187,6 +200,24 @@ public partial class ChronoJumpWindow
                 textview_beepTest.Buffer = tbBeepTest;
 	}
 
+	private void beepTestPersonChanged ()
+	{
+		if (beepTestRunners == null)
+			return;
+
+		button_beepTest_exempt_selected.Sensitive = beepTestRunners.IsRunning (currentPerson.UniqueID);
+		button_beepTest_finish_selected.Sensitive = beepTestRunners.IsRunning (currentPerson.UniqueID);
+	}
+
+	public void on_button_beepTest_exempt_selected_clicked (object o, EventArgs args)
+	{
+		beepTestRunners.Exempt (currentPerson.UniqueID);
+		myTreeViewPersons.UpdateStatus (currentPerson.UniqueID, RunnerStatus.StatusEnum.Exempt);
+
+		button_beepTest_exempt_selected.Sensitive = false;
+		button_beepTest_finish_selected.Sensitive = false;
+	}
+
 	public void on_button_beepTest_finish_selected_clicked (object o, EventArgs args)
 	{
 		if (! threadBeepTest.IsAlive)
@@ -194,6 +225,12 @@ public partial class ChronoJumpWindow
 
 		if (currentPerson == null)
 			return;
+
+		beepTestRunners.Finished (currentPerson.UniqueID);
+		myTreeViewPersons.UpdateStatus (currentPerson.UniqueID, RunnerStatus.StatusEnum.Finished);
+
+		button_beepTest_exempt_selected.Sensitive = false;
+		button_beepTest_finish_selected.Sensitive = false;
 
 		beepTestPrintResults (false, beepTest.HasVo2max);
 
@@ -205,6 +242,10 @@ public partial class ChronoJumpWindow
 	{
 		if (! threadBeepTest.IsAlive)
 			return;
+
+		List<int> finishedNow_l = beepTestRunners.FinishAllRunners ();
+		foreach (int i in finishedNow_l)
+			myTreeViewPersons.UpdateStatus (i, RunnerStatus.StatusEnum.Finished);
 
 		beepTest.Finish ();
 	}
@@ -224,6 +265,7 @@ public partial class ChronoJumpWindow
 			box_beepTest_type_and_options.Sensitive = true;
 			button_beepTest_start.Sensitive = true;
 			button_beepTest_warn_selected.Sensitive = false;
+			button_beepTest_exempt_selected.Sensitive = false;
 			button_beepTest_finish_selected.Sensitive = false;
 			button_beepTest_finish_all.Sensitive = false;
 			label_beepTest_runStatus_value.Text = "";
@@ -282,6 +324,7 @@ public partial class ChronoJumpWindow
 		spin_beepTest_constant_totalLaps = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_constant_totalLaps");
 		button_beepTest_start = (Gtk.Button) builder.GetObject ("button_beepTest_start");
 		button_beepTest_warn_selected = (Gtk.Button) builder.GetObject ("button_beepTest_warn_selected");
+		button_beepTest_exempt_selected = (Gtk.Button) builder.GetObject ("button_beepTest_exempt_selected");
 		button_beepTest_finish_selected = (Gtk.Button) builder.GetObject ("button_beepTest_finish_selected");
 		button_beepTest_finish_all = (Gtk.Button) builder.GetObject ("button_beepTest_finish_all");
 		label_beepTest_time = (Gtk.Label) builder.GetObject ("label_beepTest_time");

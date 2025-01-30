@@ -1618,6 +1618,8 @@ public partial class ChronoJumpWindow
 			label_sprint_export_result.Text = "";
 			button_sprint_export_result_open.Visible = false;
 		}
+		else if(current_mode == Constants.Modes.BEEPTEST)
+			beepTestPersonChanged ();
 		else if(Constants.ModeIsENCODER (current_mode))
 			encoderPersonChanged();
 		else if(Constants.ModeIsFORCESENSOR (current_mode))

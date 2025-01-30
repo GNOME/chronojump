@@ -365,8 +365,25 @@ public class TreeViewPersons
 				string rested = restTime.RestedTime(
 						Convert.ToInt32(store.GetValue(iter, colID)));
 				if(rested != "")
-					store.SetValue(iter, colRest, rested);
+					store.SetValue(iter, colRestOrStatus, rested);
+				//else
+				//	store.SetValue(iter, colRest, "");
+				//	above is useful for beepTest putting all to 0 at start, but better have a col with status
 
+			} while (store.IterNext (ref iter));
+		}
+	}
+
+	//personID == -1 means all
+	public void UpdateStatus (int personID, RunnerStatus.StatusEnum statusEnum)
+	{
+		TreeIter iter;
+		bool iterOk = store.GetIterFirst(out iter);
+		if(iterOk) {
+			do {
+				if (personID < 0 || Convert.ToInt32(store.GetValue(iter, colID)) == personID)
+					store.SetValue(iter, colRestOrStatus,
+							Catalog.GetString (statusEnum.ToString ()));
 			} while (store.IterNext (ref iter));
 		}
 	}

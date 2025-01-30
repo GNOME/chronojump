@@ -26,9 +26,10 @@
 #include <MsTimer2.h>
 #include <TimerOne.h>
 #include "pinout.h"
+//#include  <util/parity.h>
 
 unsigned int deviceType = 1; //Photocel and LightChro sensor
-unsigned int deviceVersion = 20;
+unsigned int deviceVersion = 21;
 
 // Set up nRF24L01 radio on SPI bus plus pins  (CE & CS)
 
@@ -107,6 +108,8 @@ int blinkPeriod = 75; //Time between two consecutives rising flank of the LED
 
 const uint64_t pipes[2] = { 0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL }; //Two radio pipes. One for emitting and the other for receiving
 
+//bool debug = false;
+
 void setup(void)
 {
 
@@ -124,6 +127,9 @@ void setup(void)
   radio.setRetries(1, 15);
 
   //Reading each pin to stablish the terminal number and the listening channel
+
+bool waitingSensor = true; //Wether the sensor is activated or not
+bool unlimitedMode = true; // sensorOnce deactivate the unlimited mode
 
   //¡¡¡¡Atention!!!!, the first version of lightChro the pin7 is associated to the buzzer.
   //The first versions of the Quick the microswitch was 5xSwitches. The last one associated to the buzzer
@@ -236,21 +242,30 @@ void loop(void)
 
   while (radio.available())
   {
-    radio.read(  &instruction, size_instruction);
+    radio.read(  &instruction, size_instruction );
     radio.stopListening();
     // delay(100);
     // Serial.print("Command received: ");
     // Serial.println(instruction.command);
     // radio.flush_rx();
 
-    if (instruction.termNum == sample.termNum)
-    {
-      executeCommand(instruction.command);
+    if (instruction.termNum != sample.termNum) {   
+      radio.startListening();
+      break;
     }
 
+    /*
+    //Confirming the reception
+    if ( parityError(instruction.command) && debug) {
+      beep(100);
+      Serial.println(instruction.command, BIN);
+    }
+    */
+    
+    executeCommand(instruction.command);
+    radio.setChannel(terminal0Channel - sample.termNum);
     radio.startListening();
   }
-
 }
 
 void sendSample(void) {
@@ -512,3 +527,14 @@ int getActiveLeds() {
   + ( ((instruction.command & green) == green) )
   + ( ((instruction.command & blue) == blue) ) );
 }
+
+/*
+// The instruction.command includes a parity bit in the Most Significative Bit.
+// This fuction checks that the command has arrived without corruption.
+// It returns true if an even number of bits has changed
+bool parityError (uint16_t var) {
+  // var & 0b1000000000000000 seeks for the parity bit. The Most significant bit
+  // >> 15 shift the bit to the least significant position to have a bool
+  return ( (var & 0b1000000000000000)>>15 != (parity_even_bit(var) ));
+}
+*/

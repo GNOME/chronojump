@@ -31,30 +31,50 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_wilight_test_actions;
 	Gtk.SpinButton spin_wilight_portnum;
 	Gtk.Button button_wilight_test_cancel;
+	Gtk.Button button_wilight_test_finish;
 	Gtk.SpinButton spin_wilight_test_ping;
+	Gtk.Box box_combo_wilight_single_color;
 	Gtk.CheckButton check_wilight_very_verbose;
 	Gtk.Label label_wilight_test_status;
 	Gtk.TextView textview_wilight;
 	// <---- at glade
+
+	Gtk.ComboBoxText combo_wilight_single_color;
 
 	static Thread threadWilight;
 	static WilightTest wilightTest;
 	static bool wilightProcessCancel;
 	static bool wilightProcessFinish;
 
-	enum wilightActions { DISCOVER, PING, SPEED, SEQUENCE };
+	enum wilightActions { DISCOVER, PING, CHANGECOLOR, SPEED, SEQUENCE };
 	private wilightActions wilightAction;
 	DateTime wilightTimeStartCapture;
+
+	private IDNameList wilightColor_l;
 
 	//use the string to not have crash by manipulating the TextBuffer outside the pulse thread
 	static string tbWilightText = "";
 	TextBuffer tbWilight = new TextBuffer (new TextTagTable());
 
+	//called only once
 	private void wilightApp1Init ()
 	{
 		tbWilightText = "";
 		button_wilight_test_cancel.Sensitive = false;
+		button_wilight_test_finish.Sensitive = false;
 		updateGraphWilight();
+
+		wilightColor_l = new IDNameList ();
+		wilightColor_l.Add (new IDName (0, "Black"));
+		wilightColor_l.Add (new IDName (128, "Red"));
+		wilightColor_l.Add (new IDName (64, "Green"));
+		wilightColor_l.Add (new IDName (32, "Blue"));
+
+		combo_wilight_single_color = new ComboBoxText ();
+		UtilGtk.ComboUpdate (combo_wilight_single_color, wilightColor_l.GetNames ());
+		combo_wilight_single_color.Active = 0;
+		box_combo_wilight_single_color.PackStart (combo_wilight_single_color, true, true, 0);
+		box_combo_wilight_single_color.ShowAll ();
 	}
 
 	private void on_button_wilight_test_discover_clicked (object o, EventArgs args)
@@ -66,6 +86,12 @@ public partial class ChronoJumpWindow
 	private void on_button_wilight_test_ping_clicked (object o, EventArgs args)
 	{
 		wilightAction = wilightActions.PING;
+		wilightExecute ();
+	}
+
+	private void on_button_wilight_test_change_color_clicked (object o, EventArgs args)
+	{
+		wilightAction = wilightActions.CHANGECOLOR;
 		wilightExecute ();
 	}
 
@@ -86,6 +112,11 @@ public partial class ChronoJumpWindow
 		wilightProcessCancel = true;
 	}
 
+	private void on_button_wilight_test_finish_clicked (object o, EventArgs args)
+	{
+		wilightProcessFinish = true;
+	}
+
 	private void wilightExecute ()
 	{
 		box_wilight_test_actions.Sensitive = false;
@@ -94,6 +125,7 @@ public partial class ChronoJumpWindow
 
 		wilightProcessCancel = false;
 		button_wilight_test_cancel.Sensitive = true;
+		button_wilight_test_finish.Sensitive = true;
 		wilightProcessFinish = false;
 		wilightTimeStartCapture = DateTime.Now; //to have an active count of capture time
 
@@ -155,12 +187,18 @@ public partial class ChronoJumpWindow
 					))
 			return;
 
-		if (wilightAction == wilightActions.DISCOVER || wilightAction == wilightActions.PING)
+		if (wilightAction == wilightActions.DISCOVER ||
+				wilightAction == wilightActions.PING ||
+				wilightAction == wilightActions.CHANGECOLOR)
 		{
 			if (wilightAction == wilightActions.DISCOVER)
 				discover ();
 			else if (wilightAction == wilightActions.PING)
 				ping (Convert.ToInt32 (spin_wilight_test_ping.Value));
+			else if (wilightAction == wilightActions.CHANGECOLOR)
+				changeColor (Convert.ToInt32 (spin_wilight_test_ping.Value),
+						wilightColor_l.FindID (UtilGtk.ComboGetActive (
+								combo_wilight_single_color)));
 
 			box_wilight_test_actions.Sensitive = true;
 			label_wilight_test_status.Text = "";
@@ -216,6 +254,13 @@ public partial class ChronoJumpWindow
 			LogB.Information ("ping called ok");
 			tbWilightText += "\n< " + wichroCapture.wilightResponse;
 		}
+	}
+
+	private void changeColor (int terminal, int code)
+	{
+		string command = string.Format ("{0}:{1};", terminal, code);
+		System.Threading.Thread.Sleep (50);
+		sendCommandAndTextview (command);
 	}
 
 	//TODO: send only to discovered terminals
@@ -334,6 +379,7 @@ public partial class ChronoJumpWindow
 
 			box_wilight_test_actions.Sensitive = true;
 			button_wilight_test_cancel.Sensitive = false;
+			button_wilight_test_finish.Sensitive = false;
 			label_wilight_test_status.Text = "Done";
 			return false;
 		}
@@ -408,7 +454,9 @@ public partial class ChronoJumpWindow
 		box_wilight_test_actions = (Gtk.Box) builder.GetObject ("box_wilight_test_actions");
 		spin_wilight_portnum = (Gtk.SpinButton) builder.GetObject ("spin_wilight_portnum");
 		button_wilight_test_cancel = (Gtk.Button) builder.GetObject ("button_wilight_test_cancel");
+		button_wilight_test_finish = (Gtk.Button) builder.GetObject ("button_wilight_test_finish");
 		spin_wilight_test_ping = (Gtk.SpinButton) builder.GetObject ("spin_wilight_test_ping");
+		box_combo_wilight_single_color = (Gtk.Box) builder.GetObject ("box_combo_wilight_single_color");
 		check_wilight_very_verbose = (Gtk.CheckButton) builder.GetObject ("check_wilight_very_verbose");
 		label_wilight_test_status = (Gtk.Label) builder.GetObject ("label_wilight_test_status");
 		textview_wilight = (Gtk.TextView) builder.GetObject ("textview_wilight");

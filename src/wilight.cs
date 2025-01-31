@@ -115,7 +115,7 @@ public class WilightTest
 
 		if (commandsFile != "")
 		{
-			command_ll.Add (Util.ReadFileAsStringList (commandsFile, "#"));
+			readCommandsFile (commandsFile);
 		} else {
 			command_ll.Add (level0);
 			command_ll.Add (level1);
@@ -137,6 +137,68 @@ public class WilightTest
 		FinishedMs = 0;
 
 		firstCommandInLevel = true;
+	}
+
+	/*
+	    reads a file like this:
+		Level:0;0:8;1:0;2:0;3:0;4:9;5:0;6:0;7:0;8:0;9:0;10:0;11:0;12:0;
+		Level:0;0:10;1:0;2:0;3:0;4:0;5:0;6:0;7:0;8:0;9:11;10:0;11:0;12:0;
+
+		Level:1;0:6;1:0;2:64;3:0;4:0;5:32;6:0;7:0;8:7;9:0;10:128;11:0;12:0;
+		Level:1;0:4;1:0;2:0;3:5;4:96;5:0;6:0;7:0;8:0;9:96;10:0;11:0;12:32;
+
+	    Note the Levels not need to be ordered, and we can have Level 3 without having Level 2, ...
+	    This should work:
+		Level:3;0:96;1:97;2:0;3:64;4:0;5:6;6:0;7:0;8:8;9:14;10:0;11:32;12:0;
+		Level:3;0:64;1:160;2:8;3:0;4:0;5:0;6:65;7:8;8:14;9:64;10:128;11:0;12:0;
+		Level:1;0:8;1:0;2:0;3:160;4:128;5:0;6:0;7:9;8:0;9:0;10:0;11:0;12:32;
+	*/
+	private void readCommandsFile (string commandsFile)
+	{
+		List<string> com_l = Util.ReadFileAsStringList (commandsFile, "#");
+
+		//LogB.Information (UtilList.ListStringToString (com_l, "\n"));
+		foreach (string com in com_l)
+		{
+			if (com == "" || com.Length == 0)
+				continue;
+
+			if (! com.StartsWith ("Level:"))
+				continue;
+
+			if (com.IndexOf (';') < 0)
+				continue;
+
+			string levelStr = com.Substring (
+					com.IndexOf (':') +1,
+					com.IndexOf (';') -com.IndexOf (':') -1);
+
+			if (! Util.IsNumber (levelStr, false))
+				continue;
+
+			int level = Convert.ToInt32 (levelStr);
+
+			// line needs at least one character more than the first ;
+			// to not fail on "add the command to the sublist"
+			if (com.Length <= com.IndexOf (';') -1)
+				continue;
+
+			// add the sublists needed for that level
+			while (command_ll.Count <= level)
+				command_ll.Add (new List<string> ());
+
+			// add the command to the sublist
+			command_ll[level].Add (com.Substring (com.IndexOf (';') +1));
+		}
+
+		/* debug
+		LogB.Information ("Print the thing!");
+		for (int i = 0; i < command_ll.Count; i ++)
+		{
+			LogB.Information ("On level " + i.ToString());
+			LogB.Information (UtilList.ListStringToString (command_ll[i], "\n"));
+		}
+		*/
 	}
 
 	public string GetNext ()

@@ -66,14 +66,21 @@ public class WichroCapture: ArduinoCapture
 		//TODO: see if need to implement the micro.Opened stuff on CaptureStart (use for these two functions)
 
 		wilightResponse = "";
+		micro.Response = ""; //empty the response
+		LogB.Information ("Ping going to send");
 		if (!sendCommand (string.Format ("{0}:512;", terminal), "Error doing ping"))
 			return false;
 
-		//on ping, The terminal returns a sample plus the version of the firmware
-		List<string> responseExpected_l = new List<string>();
-		responseExpected_l.Add("Wifi-Controller");
+		/*
+		 * on ping, The terminal returns a sample plus the version of the firmware, in the form:
+		 * terminal;time;status;version
+		 * 4;728671;1;100002
+		 */
 
-		waitResponse (responseExpected_l, false, 10000, false);
+		List<string> responseExpected_l = new List<string>();
+		responseExpected_l.Add (string.Format ("{0};", terminal));
+		waitResponse (responseExpected_l, false, 2000, false);
+
 		wilightResponse = micro.Response;
 
 		return true;

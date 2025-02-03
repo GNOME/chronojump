@@ -162,7 +162,6 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 
-		System.Threading.Thread.Sleep (3000); //to be able to read the answer from get_version (coming on CaptureStart)
 		wichroCapture.Flush (); //to be able to read later
 
 		return true;

@@ -1272,6 +1272,14 @@ public class UtilGtk
 		tv.Buffer.Text = "";
 	}
 
+	public static void TextViewScrollToEnd (Gtk.TextView tv)
+	{
+		//https://gtk-sharp-list.ximian.narkive.com/0nusInFU/gtk-textview-and-scrolling-text#post5
+		TextIter ti = tv.Buffer.GetIterAtLine (tv.Buffer.LineCount-1);
+		TextMark tm = tv.Buffer.CreateMark ("eot", ti, false);
+		tv.ScrollToMark (tm, 0, false, 0, 0);
+	}
+
 	public static TextBuffer TextViewPrint(string message) {
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.Text = message;

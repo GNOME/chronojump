@@ -58,6 +58,7 @@ public partial class ChronoJumpWindow
 
 	//use the string to not have crash by manipulating the TextBuffer outside the pulse thread
 	static string tbWilightText = "";
+	static bool needToUpdateTextViewWilight;
 	TextBuffer tbWilight = new TextBuffer (new TextTagTable());
 
 	//called only once
@@ -128,6 +129,7 @@ public partial class ChronoJumpWindow
 		box_wilight_test_actions.Sensitive = false;
 		label_wilight_test_status.Text = "Doing";
 		tbWilightText = "";
+		needToUpdateTextViewWilight = false;
 
 		wilightProcessCancel = false;
 		button_wilight_test_cancel.Sensitive = true;
@@ -211,11 +213,11 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		sendCommandAndTextview (WilightColors.AllOffCommand);
+		sendCommandAndUpdateWilightTextview (WilightColors.AllOffCommand);
 		System.Threading.Thread.Sleep (1000);
 
 		//0 time on the microcontroller
-		sendCommandAndTextview ("reset_time");
+		sendCommandAndUpdateWilightTextview ("reset_time");
 
 		if (wilightAction == wilightActions.SPEED)
 		{
@@ -231,12 +233,13 @@ public partial class ChronoJumpWindow
 		haveToPlaySound = wilightSoundEnum.NONE;
 
 		System.Threading.Thread.Sleep (1000);
-		sendCommandAndTextview (WilightColors.AllOffCommand);
+		sendCommandAndUpdateWilightTextview (WilightColors.AllOffCommand);
 	}
 
 	private void discover ()
 	{
-		tbWilightText += "\n> local:discover;";
+		sendCommandAndUpdateWilightTextview ("local:discover;");
+
 		System.Threading.Thread.Sleep (50);
 		bool commandSendOk = wichroCapture.Discover ();
 
@@ -244,21 +247,22 @@ public partial class ChronoJumpWindow
 			LogB.Information ("Error on call to discover");
 		else {
 			LogB.Information ("discover called ok");
-			tbWilightText += "\n< " + wichroCapture.wilightResponse;
+			updateWilightTextview ("\n< " + wichroCapture.wilightResponse);
 		}
 	}
 
 	private void ping (int terminal)
 	{
-		tbWilightText += string.Format ("\n> {0}:512;", terminal);
+		sendCommandAndUpdateWilightTextview (string.Format ("{0}:512;", terminal));
 		System.Threading.Thread.Sleep (50);
+
 		bool commandSendOk = wichroCapture.Ping (terminal);
 
 		if (! commandSendOk)
 			LogB.Information ("Error on call to ping");
 		else {
 			LogB.Information ("ping called ok");
-			tbWilightText += "\n< " + wichroCapture.wilightResponse;
+			updateWilightTextview ("\n< " + wichroCapture.wilightResponse);
 		}
 	}
 
@@ -266,7 +270,7 @@ public partial class ChronoJumpWindow
 	{
 		string command = string.Format ("{0}:{1};", terminal, code);
 		System.Threading.Thread.Sleep (50);
-		sendCommandAndTextview (command);
+		sendCommandAndUpdateWilightTextview (command);
 	}
 
 	//TODO: send only to discovered terminals
@@ -285,7 +289,7 @@ public partial class ChronoJumpWindow
 		{
 			foreach (string colorAllStr in colorsAll_l)
 			{
-				sendCommandAndTextview (colorAllStr);
+				sendCommandAndUpdateWilightTextview (colorAllStr);
 				System.Threading.Thread.Sleep (sleepTime);
 			}
 			sleepTime -= 50;
@@ -310,9 +314,9 @@ public partial class ChronoJumpWindow
 			if (wilightTest.Finished | wilightTest.Cancel) //finished here to have also time to answer to the last command
 			{
 				if (wilightTest.Finished)
-					tbWilightText += string.Format ("\nTotal time: {0} ms", wilightTest.FinishedMs);
+					updateWilightTextview (string.Format ("\nTotal time: {0} ms", wilightTest.FinishedMs));
 				if (wilightTest.Cancel)
-					tbWilightText += "Cancelled";
+					updateWilightTextview ("Cancelled");
 
 				break;
 			}
@@ -322,7 +326,7 @@ public partial class ChronoJumpWindow
 			if (command == "")
 				continue;
 
-			sendCommandAndTextview (command);
+			sendCommandAndUpdateWilightTextview (command);
 			expectedTerminals_l = wilightTest.GetExpectedTerminals (command);
 
 			bool readedFromExpected = false;
@@ -330,7 +334,7 @@ public partial class ChronoJumpWindow
 			{
 				if (wilightTest.Cancel)
 				{
-					tbWilightText += "Cancelled";
+					updateWilightTextview ("Cancelled");
 					break;
 				}
 
@@ -348,13 +352,13 @@ public partial class ChronoJumpWindow
 					WichroEvent we = wichroCapture.WichroCaptureReadNext();
 					if (UtilList.FoundInListInt (expectedTerminals_l, we.photocell))
 					{
-						tbWilightText += "\n< " + we.ToString ();
+						updateWilightTextview ("\n< " + we.ToString ());
 
 						haveToPlaySound = wilightSoundEnum.GOOD;
 						readedFromExpected = true;
 					}
 					else if (check_wilight_very_verbose.Active)
-						tbWilightText += "\n< " + we.ToString ();
+						updateWilightTextview ("\n< " + we.ToString ());
 				}
 				System.Threading.Thread.Sleep (20);
 			}
@@ -363,8 +367,13 @@ public partial class ChronoJumpWindow
 
 	private bool pulseWilight ()
 	{
-		tbWilight.Text = tbWilightText;
-		textview_wilight.Buffer = tbWilight;
+		if (needToUpdateTextViewWilight)
+		{
+			tbWilight.Text = tbWilightText;
+			textview_wilight.Buffer = tbWilight;
+			UtilGtk.TextViewScrollToEnd (textview_wilight);
+			needToUpdateTextViewWilight = false;
+		}
 
 		if (! threadWilight.IsAlive || wilightProcessCancel)
 		{
@@ -404,11 +413,15 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
-	private void sendCommandAndTextview (string command)
+	private void sendCommandAndUpdateWilightTextview (string command)
 	{
 		bool sendCommandFeedback = wichroCapture.WilightSendCommand (command);
-		LogB.Information ("sendCommandFeedback: " + sendCommandFeedback.ToString ());
-		tbWilightText += "\n> " + command;
+		updateWilightTextview ("\n> " + command);
+	}
+	private void updateWilightTextview (string str)
+	{
+		tbWilightText += str;
+		needToUpdateTextViewWilight = true;
 	}
 
 	private void updateGraphWilight ()

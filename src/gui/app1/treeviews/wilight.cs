@@ -35,7 +35,7 @@ public partial class ChronoJumpWindow
 		myTreeViewWilight = new TreeViewWilight (tv, preferences.digitsNumber, TreeViewEvent.ExpandStates.MINIMIZED );
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
-		//tv.CursorChanged += on_treeview_wilight_cursor_changed;
+		tv.CursorChanged += on_treeview_wilight_cursor_changed;
 	}
 
 	private void fillTreeView_wilight (string filter) {

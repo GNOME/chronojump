@@ -389,6 +389,10 @@ public partial class ChronoJumpWindow
 				LogB.Information ("Insert to SQL!");
 				w.InsertSQL (false);
 				LogB.Information ("Inserted!");
+
+				myTreeViewWilight.Add (currentPerson.Name, w, "");
+
+				updateGraphWilight();
 			}
 
 			box_wilight_test_actions.Sensitive = true;

@@ -385,7 +385,7 @@ public partial class ChronoJumpWindow
 				LogB.Information ("Finished! create object");
 				Wilight w = new Wilight (-1, currentPerson.UniqueID, currentSession.UniqueID, 0,
 						UtilDate.ToFile (wilightTimeStartCapture), "", //videoURL
-						wilightTest.FinishedMs);
+						wilightTest.FinishedMs, "");
 				LogB.Information ("Insert to SQL!");
 				w.InsertSQL (false);
 				LogB.Information ("Inserted!");

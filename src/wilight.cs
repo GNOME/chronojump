@@ -36,7 +36,7 @@ public class Wilight : Event
 
 	//regular constructor
 	public Wilight (int uniqueID, int personID, int sessionID, int exerciseID,
-			string dateTime, string videoURL, int totalMs)
+			string dateTime, string videoURL, int totalMs, string description)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -45,6 +45,7 @@ public class Wilight : Event
 		this.dateTime = dateTime;
 		this.videoURL = videoURL;
 		this.totalMs = totalMs;
+		this.description = description;
 	}
 
 	public static List<Event> WilightListToEventList (List<Wilight> ws)

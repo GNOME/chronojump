@@ -95,10 +95,14 @@ class SqliteWilight : Sqlite
 
 	public static List<Wilight> Select (bool dbconOpened, int sessionID, int personID,
 			//string type,
-			Orders_by order, int limit//, bool personNameInComment, bool onlyBestInSession
+			Orders_by order, int limit, bool personNameInComment//, bool onlyBestInSession
 			)
 	{
 		openIfNeeded(dbconOpened);
+
+		//for personNameInComment
+		List<Person> person_l =
+			SqlitePersonSession.SelectCurrentSessionPersonsAsList (true, sessionID);
 
 		dbcmd.CommandText = selectCreateSelection (sessionID, personID,
 				//runType,
@@ -115,14 +119,25 @@ class SqliteWilight : Sqlite
 
 		while(reader.Read())
 		{
+			// 1. get person name in description if personNameInComment
+			int personIDThisRecord = Convert.ToInt32(reader[2].ToString());
+			string description = "";
+
+			if (personNameInComment)
+				foreach (Person person in person_l)
+					if (person.UniqueID == personIDThisRecord)
+						description = person.Name;
+
+			// 2. create object
 			Wilight wilight = new Wilight(
 					Convert.ToInt32(reader[1].ToString()),	//uniqueID
-					Convert.ToInt32(reader[2].ToString()), 	//personID
+					personIDThisRecord,		 	//personID
 					Convert.ToInt32(reader[3].ToString()), 	//sessionID
 					Convert.ToInt32(reader[4].ToString()), 	//type
 					reader[5].ToString(), 	//datetime
 					reader[6].ToString(),	//videoURL
-					Convert.ToInt32(reader[7].ToString())	//totalMs
+					Convert.ToInt32(reader[7].ToString()),	//totalMs
+					description
 					);
 
 			wilight_l.Add (wilight);

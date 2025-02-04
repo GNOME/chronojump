@@ -83,7 +83,8 @@ public class TreeViewWilight : TreeViewEvent
 				Convert.ToInt32(myStringOfData[4].ToString()),  //exerciseID
 				myStringOfData[5].ToString(),			//datetime
 				myStringOfData[6].ToString(),			//videoURL
-				Convert.ToInt32(myStringOfData[7].ToString())   //totalTime
+				Convert.ToInt32(myStringOfData[7].ToString()),   //totalTime
+				""
 				);
 
 		return wilight;

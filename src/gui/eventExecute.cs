@@ -1351,7 +1351,7 @@ public abstract class CairoPaintBarsPre
 
 			//note jump type will be in one line
 			//TODO: check it in local user language (Catalog)
-			if(allTypes && ev.Type.Length > longestWordSize)
+			if(allTypes && ev.Type != null && ev.Type.Length > longestWordSize)
 			{
 				longestWordSize = ev.Type.Length + addToType.Length;
 				longestWord = ev.Type + addToType;
@@ -2703,13 +2703,35 @@ public class CairoPaintBarsWilight : CairoPaintBarsPre
 		List<string> names_l = new List<string>();
 		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
 
+		//manage bottom text font/spacing of rows
+		string longestWord = findLongestWordCairo (events,
+				true, "", "");
+		int fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);
+
+		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
+				true, false, false);
+		int bottomMargin = cb.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
+
+
 		int countToDraw = eventGraphWilightStored.rowsAtSQL.Count;
 		foreach (Wilight wilight in eventGraphWilightStored.rowsAtSQL)
 		{
+			// 1) Add data
 			point_l.Add(new PointF(countToDraw --, wilight.TotalMs));
-			names_l.Add(""); //TODO
 
-			id_l.Add(wilight.UniqueID);
+			// 2) Add bottom names
+			string typeRowString = "";
+			//if (eventGraphWilightStored.type == "")
+			//	typeRowString = jump.Type;
+
+			names_l.Add (createTextBelowBar(
+						"",
+						typeRowString,
+						wilight.Description, //person name
+						false, false,
+						longestWord.Length, maxRowsForText));
+
+			id_l.Add (wilight.UniqueID);
 
 			if (eventGraphWilightStored.selectedID == wilight.UniqueID)
 				cb.SelectedPos = eventGraphWilightStored.rowsAtSQL.Count -countToDraw -1;
@@ -2718,8 +2740,7 @@ public class CairoPaintBarsWilight : CairoPaintBarsPre
 
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,
-				//-1, fontHeightForBottomNames, bottomMargin, title,
-				-1, 14, 6, title,
+				-1, fontHeightForBottomNames, bottomMargin, title,
 				new List<int> (), new List<int> ());
 
 		passDataForScreenshotIfNeeded ();

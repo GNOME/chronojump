@@ -516,8 +516,8 @@ public class PrepareEventGraphWilight
 			personIDTemp = -1;
 
 		rowsAtSQL = SqliteWilight.Select (false, sessionID, personIDTemp, //type,
-				Sqlite.Orders_by.ID_ASC, limit//,
-				//allPersons, 	//show names on comments only if "all persons"
+				Sqlite.Orders_by.ID_ASC, limit,
+				allPersons//, 	//show names on comments only if "all persons"
 				//false 	//! onlyBestInSession
 				);
 		LogB.Information ("rowsAtSQL count: " + (rowsAtSQL.Count).ToString ());

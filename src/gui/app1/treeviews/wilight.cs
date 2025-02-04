@@ -89,4 +89,30 @@ public partial class ChronoJumpWindow
 		myTreeViewWilight = new TreeViewWilight (treeview_wilight,
 				preferences.digitsNumber, myTreeViewWilight.ExpandState);
 	}
+
+	private void on_treeview_wilight_cursor_changed (object o, EventArgs args)
+	{
+		LogB.Information("Cursor changed");
+
+		sensitiveLastTestButtons(false);
+
+		// don't select if it's a person,
+		// is for not confusing with the person treeviews that controls who jumps
+		if (myTreeViewWilight.EventSelectedID == 0) {
+			myTreeViewWilight.Unselect();
+			showHideActionEventButtons(false); //hide
+		} else {
+			showHideActionEventButtons(true); //show
+			updateGraphWilight (); //to show the selected bar
+		}
+	}
+
+	private void selectWilight (int id)
+	{
+		//LogB.Information ("selectWilight: " + id.ToString ());
+		myTreeViewWilight.ZoomToTestsIfNeeded ();
+		myTreeViewWilight.SelectEvent (id, true); //scroll
+		on_treeview_wilight_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
+	}
+
 }

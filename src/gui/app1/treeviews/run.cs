@@ -94,6 +94,13 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	private void selectRunSimple (int id)
+	{
+		myTreeViewRuns.ZoomToTestsIfNeeded ();
+		myTreeViewRuns.SelectEvent (id, true); //scroll
+		on_treeview_runs_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
+	}
+
 	private void treeviewRunsContextMenu(Run myRun)
 	{
 		Menu myMenu = new Menu ();

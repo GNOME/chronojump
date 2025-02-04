@@ -379,7 +379,8 @@ public partial class ChronoJumpWindow
 				current_mode != Constants.Modes.JUMPSSIMPLE &&
 				current_mode != Constants.Modes.JUMPSREACTIVE &&
 				current_mode != Constants.Modes.RUNSSIMPLE &&
-				current_mode != Constants.Modes.RUNSINTERVALLIC)
+				current_mode != Constants.Modes.RUNSINTERVALLIC &&
+				current_mode != Constants.Modes.WILIGHT)
 			return;
 
 		if(cairoPaintBarsPre == null)
@@ -401,32 +402,8 @@ public partial class ChronoJumpWindow
 			selectRunSimple (id);
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC && myTreeViewRunsInterval != null)
 			selectRunIntervallic (id);
-	}
-
-	private void selectJumpSimple (int id)
-	{
-		myTreeViewJumps.ZoomToTestsIfNeeded ();
-		myTreeViewJumps.SelectEvent (id, true); //scroll
-		on_treeview_jumps_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
-	}
-
-	private void selectJumpReactive (int id)
-	{
-		myTreeViewJumpsRj.ZoomToTestsIfNeeded ();
-		myTreeViewJumpsRj.SelectEvent (id, true); //scroll
-		on_treeview_jumps_rj_cursor_changed (new object (), new EventArgs ()); //in order to update top graph and play video button
-	}
-	private void selectRunSimple (int id)
-	{
-		myTreeViewRuns.ZoomToTestsIfNeeded ();
-		myTreeViewRuns.SelectEvent (id, true); //scroll
-		on_treeview_runs_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
-	}
-	private void selectRunIntervallic (int id)
-	{
-		myTreeViewRunsInterval.ZoomToTestsIfNeeded ();
-		myTreeViewRunsInterval.SelectEvent (id, true); //scroll
-		on_treeview_runs_interval_cursor_changed (new object (), new EventArgs ()); //in order to update top graph and play video button
+		else if (current_mode == Constants.Modes.WILIGHT && myTreeViewWilight != null)
+			selectWilight (id);
 	}
 
 	// simple and DJ jump	

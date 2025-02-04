@@ -113,6 +113,13 @@ public partial class ChronoJumpWindow
 		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 	}
 
+	private void selectJumpReactive (int id)
+	{
+		myTreeViewJumpsRj.ZoomToTestsIfNeeded ();
+		myTreeViewJumpsRj.SelectEvent (id, true); //scroll
+		on_treeview_jumps_rj_cursor_changed (new object (), new EventArgs ()); //in order to update top graph and play video button
+	}
+
 	private void treeviewJumpsRjContextMenu(JumpRj myJump)
 	{
 		Menu myMenu = new Menu ();

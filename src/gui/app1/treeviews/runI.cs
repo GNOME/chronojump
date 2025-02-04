@@ -125,6 +125,13 @@ public partial class ChronoJumpWindow
 		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 	}
 
+	private void selectRunIntervallic (int id)
+	{
+		myTreeViewRunsInterval.ZoomToTestsIfNeeded ();
+		myTreeViewRunsInterval.SelectEvent (id, true); //scroll
+		on_treeview_runs_interval_cursor_changed (new object (), new EventArgs ()); //in order to update top graph and play video button
+	}
+
 	private void treeviewRunsIntervalContextMenu(RunInterval myRun)
 	{
 		Menu myMenu = new Menu ();

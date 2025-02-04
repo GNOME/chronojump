@@ -79,6 +79,8 @@ public partial class ChronoJumpWindow
 		combo_wilight_single_color.Active = 0;
 		box_combo_wilight_single_color.PackStart (combo_wilight_single_color, true, true, 0);
 		box_combo_wilight_single_color.ShowAll ();
+
+		textview_wilight.Name = "fontSize9";
 	}
 
 	private void on_button_wilight_test_discover_clicked (object o, EventArgs args)

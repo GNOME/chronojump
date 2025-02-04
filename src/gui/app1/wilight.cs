@@ -33,13 +33,11 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_wilight_test_cancel;
 	Gtk.Button button_wilight_test_finish;
 	Gtk.SpinButton spin_wilight_test_ping;
-	Gtk.Box box_combo_wilight_single_color;
+	Gtk.ComboBoxText combo_wilight_single_color;
 	Gtk.CheckButton check_wilight_very_verbose;
 	Gtk.Label label_wilight_test_status;
 	Gtk.TextView textview_wilight;
 	// <---- at glade
-
-	Gtk.ComboBoxText combo_wilight_single_color;
 
 	static Thread threadWilight;
 	static WilightTest wilightTest;
@@ -61,7 +59,6 @@ public partial class ChronoJumpWindow
 	static bool needToUpdateTextViewWilight;
 	TextBuffer tbWilight = new TextBuffer (new TextTagTable());
 
-	//called only once
 	private void wilightApp1Init ()
 	{
 		tbWilightText = "";
@@ -75,11 +72,8 @@ public partial class ChronoJumpWindow
 		wilightColor_l.Add (new IDName (64, "Green"));
 		wilightColor_l.Add (new IDName (32, "Blue"));
 
-		combo_wilight_single_color = new ComboBoxText ();
 		UtilGtk.ComboUpdate (combo_wilight_single_color, wilightColor_l.GetNames ());
 		combo_wilight_single_color.Active = 0;
-		box_combo_wilight_single_color.PackStart (combo_wilight_single_color, true, true, 0);
-		box_combo_wilight_single_color.ShowAll ();
 
 		textview_wilight.Name = "fontSize9";
 	}
@@ -490,7 +484,7 @@ public partial class ChronoJumpWindow
 		button_wilight_test_cancel = (Gtk.Button) builder.GetObject ("button_wilight_test_cancel");
 		button_wilight_test_finish = (Gtk.Button) builder.GetObject ("button_wilight_test_finish");
 		spin_wilight_test_ping = (Gtk.SpinButton) builder.GetObject ("spin_wilight_test_ping");
-		box_combo_wilight_single_color = (Gtk.Box) builder.GetObject ("box_combo_wilight_single_color");
+		combo_wilight_single_color = (Gtk.ComboBoxText) builder.GetObject ("combo_wilight_single_color");
 		check_wilight_very_verbose = (Gtk.CheckButton) builder.GetObject ("check_wilight_very_verbose");
 		label_wilight_test_status = (Gtk.Label) builder.GetObject ("label_wilight_test_status");
 		textview_wilight = (Gtk.TextView) builder.GetObject ("textview_wilight");

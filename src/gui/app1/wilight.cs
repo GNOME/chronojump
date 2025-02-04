@@ -323,8 +323,8 @@ public partial class ChronoJumpWindow
 			sendCommandAndTextview (command);
 			expectedTerminals_l = wilightTest.GetExpectedTerminals (command);
 
-			bool readedOn = false;
-			while (! readedOn)
+			bool readedFromExpected = false;
+			while (! readedFromExpected)
 			{
 				if (wilightTest.Cancel)
 				{
@@ -344,14 +344,12 @@ public partial class ChronoJumpWindow
 				{
 					LogB.Information ("Can read");
 					WichroEvent we = wichroCapture.WichroCaptureReadNext();
-					if (we.status == Chronopic.Plataforma.ON &&
-							UtilList.FoundInListInt (expectedTerminals_l, we.photocell))
+					if (UtilList.FoundInListInt (expectedTerminals_l, we.photocell))
 					{
 						tbWilightText += "\n< " + we.ToString ();
 
-						LogB.Information ("Is ON!");
 						haveToPlaySound = wilightSoundEnum.GOOD;
-						readedOn = true;
+						readedFromExpected = true;
 					}
 					else if (check_wilight_very_verbose.Active)
 						tbWilightText += "\n< " + we.ToString ();

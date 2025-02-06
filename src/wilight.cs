@@ -273,7 +273,7 @@ public class WilightTest
 	}
 	public string GetProgressStatus ()
 	{
-		return string.Format ("{0} / {1}", commandsCountReceived, getTotalCommands ());
+		return string.Format ("{0} / {1} - Level: {2}", commandsCountReceived, getTotalCommands (), currentLevel);
 	}
 
 	//from a command detects wich is the terminal that will be active to be clicked. Can be plural

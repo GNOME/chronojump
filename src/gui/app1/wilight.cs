@@ -43,6 +43,7 @@ public partial class ChronoJumpWindow
 	static WilightTest wilightTest;
 	static bool wilightProcessCancel;
 	static bool wilightProcessFinish;
+	static string wilightMessage;
 
 	//to play sound by pulse thread
 	enum wilightSoundEnum { NONE, GOOD, BAD };
@@ -300,6 +301,8 @@ public partial class ChronoJumpWindow
 	private void testSequence (string commandsFile)
 	{
 		wilightTest = new WilightTest (commandsFile);
+		wilightMessage = wilightTest.GetProgressStatus ();
+
 		List<int> expectedTerminals_l = new List<int> (); //expected response on this (or them)
 
 		while (true)
@@ -349,6 +352,10 @@ public partial class ChronoJumpWindow
 
 						haveToPlaySound = wilightSoundEnum.GOOD;
 						readedFromExpected = true;
+
+						wilightTest.CommandsCountReceivedAdd ();
+						wilightMessage = wilightTest.GetProgressStatus ();
+
 					}
 					else if (check_wilight_very_verbose.Active)
 						updateWilightTextview ("\n< " + we.ToString ());
@@ -367,6 +374,8 @@ public partial class ChronoJumpWindow
 			UtilGtk.TextViewScrollToEnd (textview_wilight);
 			needToUpdateTextViewWilight = false;
 		}
+
+		event_execute_label_message.Text = wilightMessage;
 
 		if (! threadWilight.IsAlive || wilightProcessCancel)
 		{
@@ -389,6 +398,7 @@ public partial class ChronoJumpWindow
 
 				myTreeViewWilight.Add (currentPerson.Name, w, "");
 
+				event_execute_label_message.Text = "Finished";
 				updateGraphWilight();
 			}
 

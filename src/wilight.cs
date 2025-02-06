@@ -95,6 +95,7 @@ public class WilightTest
 
 	private int currentLevel;
 	private int currentCommand; //in level
+	private int commandsCountReceived;
 
 	//in level, to know when to end (as we start randomly on a level command)
 	private int levelStartedWithCommand;
@@ -130,6 +131,7 @@ public class WilightTest
 		currentLevel = 0;
 		currentCommand = random.Next (0, command_ll[0].Count);
 		levelStartedWithCommand = currentCommand;
+		commandsCountReceived = 0;
 
 		started = false;
 		stopwatch = new Stopwatch ();
@@ -254,6 +256,24 @@ public class WilightTest
 			return "";
 
 		return commandStr;
+	}
+
+
+	public void CommandsCountReceivedAdd ()
+	{
+		commandsCountReceived ++;
+	}
+	private int getTotalCommands ()
+	{
+		int sum = 0;
+		foreach (List<string> c_l in command_ll)
+			sum += c_l.Count;
+
+		return sum;
+	}
+	public string GetProgressStatus ()
+	{
+		return string.Format ("{0} / {1}", commandsCountReceived, getTotalCommands ());
 	}
 
 	//from a command detects wich is the terminal that will be active to be clicked. Can be plural

@@ -375,8 +375,12 @@ public partial class ChronoJumpWindow
 
 			if (wilightTest != null && wilightTest.Finished)
 			{
+				int exerciseID = 0;
+				if (configChronojump.WilightExerciseID > 0)
+					exerciseID = configChronojump.WilightExerciseID;
+
 				LogB.Information ("Finished! create object");
-				Wilight w = new Wilight (-1, currentPerson.UniqueID, currentSession.UniqueID, 0,
+				Wilight w = new Wilight (-1, currentPerson.UniqueID, currentSession.UniqueID, exerciseID,
 						UtilDate.ToFile (wilightTimeStartCapture), "", //videoURL
 						wilightTest.FinishedMs, "");
 				LogB.Information ("Insert to SQL!");

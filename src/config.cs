@@ -71,7 +71,7 @@ public class Config
 		JsonUploadNeedsButton, JsonUploadJumpSimpleTestScript, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, CanInsertTests, //json upload
 		RemoteTestJumpSimpleFile, RemoteTestRunIntervalFile, RemoteTestCancelFile, //remote execution
 		RUserURL, RscriptUserURL, PythonUserURL, //User executables locations
-		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, Wilight, WilightCommandsURL, GuiTest, NoSendLog, //other
+		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, Wilight, WilightExerciseID, WilightCommandsURL, GuiTest, NoSendLog, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
 
@@ -230,6 +230,9 @@ public class Config
 	}
 	public bool Wilight {
 		get { return configList.GetBool (OpEnum.Wilight); }
+	}
+	public int WilightExerciseID {
+		get { return configList.GetInt (OpEnum.WilightExerciseID); }
 	}
 	public string WilightCommandsURL {
 		get { return configList.GetString (OpEnum.WilightCommandsURL); }
@@ -693,6 +696,8 @@ public class ConfigList
 					"Set sensorOnce at Wichro terminal at another terminal."));
 		list.Add (new ConfigOptionBool (Config.OpEnum.Wilight,
 					"Use Wilight, eg: TRUE"));
+		list.Add (new ConfigOptionInt (Config.OpEnum.WilightExerciseID,
+					"ExerciseID on this computer. This on the future will not be used. Eg: 0"));
 		list.Add (new ConfigOptionString (Config.OpEnum.WilightCommandsURL,
 					"Full URL of File with Wilight commands. Note lines on that file starting with # are ignored"));
 		list.Add (new ConfigOptionBool (Config.OpEnum.GuiTest,

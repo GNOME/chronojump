@@ -168,7 +168,6 @@ public partial class ChronoJumpWindow
 	private void wilightTestDo ()
 	{
 		string commandsFile = configChronojump.WilightCommandsURL;
-		int commandTimeMs = configChronojump.WilightCommandMs;
 
 		/*
 		//testing stuff

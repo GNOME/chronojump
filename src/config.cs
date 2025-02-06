@@ -71,7 +71,7 @@ public class Config
 		JsonUploadNeedsButton, JsonUploadJumpSimpleTestScript, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, CanInsertTests, //json upload
 		RemoteTestJumpSimpleFile, RemoteTestRunIntervalFile, RemoteTestCancelFile, //remote execution
 		RUserURL, RscriptUserURL, PythonUserURL, //User executables locations
-		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, Wilight, WilightCommandsURL, WilightCommandMs, GuiTest, NoSendLog, //other
+		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, Wilight, WilightCommandsURL, GuiTest, NoSendLog, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
 
@@ -233,9 +233,6 @@ public class Config
 	}
 	public string WilightCommandsURL {
 		get { return configList.GetString (OpEnum.WilightCommandsURL); }
-	}
-	public int WilightCommandMs {
-		get { return configList.GetInt (OpEnum.WilightCommandMs); }
 	}
 	public bool GuiTest {
 		get { return configList.GetBool (OpEnum.GuiTest); }
@@ -698,8 +695,6 @@ public class ConfigList
 					"Use Wilight, eg: TRUE"));
 		list.Add (new ConfigOptionString (Config.OpEnum.WilightCommandsURL,
 					"Full URL of File with Wilight commands. Note lines on that file starting with # are ignored"));
-		list.Add (new ConfigOptionInt (Config.OpEnum.WilightCommandMs,
-					"Time between Wilight test commands (in ms). If empty, value is 2000"));
 		list.Add (new ConfigOptionBool (Config.OpEnum.GuiTest,
 					"To perform tests with the GUI (untested with current code)."));
 		list.Add (new ConfigOptionBool (Config.OpEnum.NoSendLog,

@@ -106,7 +106,7 @@ public class TreeViewWilight : TreeViewEvent
 		//myData[count++] = title;
 		
 		myData[count++] = "Default";
-		myData[count++] = wilight.TotalMs.ToString ();
+		myData[count++] = UtilAll.DivideSafe (wilight.TotalMs, 1000).ToString ();
 		myData[count++] = UtilDate.GetDatetimePrint(UtilDate.FromFile(wilight.DateTime));
 		myData[count++] = wilight.UniqueID.ToString ();
 

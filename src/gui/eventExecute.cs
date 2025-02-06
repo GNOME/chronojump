@@ -2694,7 +2694,7 @@ public class CairoPaintBarsWilight : CairoPaintBarsPre
 		foreach (Wilight wilight in eventGraphWilightStored.rowsAtSQL)
 		{
 			// 1) Add data
-			point_l.Add(new PointF(countToDraw --, wilight.TotalMs));
+			point_l.Add(new PointF(countToDraw --, UtilAll.DivideSafe (wilight.TotalMs, 1000)));
 
 			// 2) Add bottom names
 			string typeRowString = "";

@@ -36,7 +36,6 @@ public partial class ChronoJumpWindow
 	Gtk.SpinButton spin_wilight_test_ping;
 	Gtk.ComboBoxText combo_wilight_single_color;
 	Gtk.CheckButton check_wilight_very_verbose;
-	Gtk.Label label_wilight_test_status;
 	Gtk.TextView textview_wilight;
 	// <---- at glade
 
@@ -130,7 +129,6 @@ public partial class ChronoJumpWindow
 	private void wilightExecute ()
 	{
 		box_wilight_test_actions.Sensitive = false;
-		label_wilight_test_status.Text = "Doing";
 		tbWilightText = "";
 		needToUpdateTextViewWilight = false;
 
@@ -209,7 +207,6 @@ public partial class ChronoJumpWindow
 								combo_wilight_single_color)));
 
 			box_wilight_test_actions.Sensitive = true;
-			label_wilight_test_status.Text = "";
 
 			wichroCapture.Stop(); //Should we do a disconnect here?
 			return;
@@ -413,7 +410,6 @@ public partial class ChronoJumpWindow
 			box_wilight_test_actions.Sensitive = true;
 			button_wilight_test_cancel.Sensitive = false;
 			button_wilight_test_finish.Sensitive = false;
-			label_wilight_test_status.Text = "Done";
 			return false;
 		}
 
@@ -551,7 +547,6 @@ public partial class ChronoJumpWindow
 		spin_wilight_test_ping = (Gtk.SpinButton) builder.GetObject ("spin_wilight_test_ping");
 		combo_wilight_single_color = (Gtk.ComboBoxText) builder.GetObject ("combo_wilight_single_color");
 		check_wilight_very_verbose = (Gtk.CheckButton) builder.GetObject ("check_wilight_very_verbose");
-		label_wilight_test_status = (Gtk.Label) builder.GetObject ("label_wilight_test_status");
 		textview_wilight = (Gtk.TextView) builder.GetObject ("textview_wilight");
 	}
 }

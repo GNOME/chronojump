@@ -8739,6 +8739,20 @@ It starts before and arrives there with some speed.</property>
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
+                                        <child>
+                                          <object class="GtkButton" id="button_r_autodetect">
+                                            <property name="label" translatable="yes">Autodetect</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">True</property>
+                                            <signal name="clicked" handler="on_button_r_autodetect_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">2</property>
+                                          </packing>
+                                        </child>
                                       </object>
                                       <packing>
                                         <property name="left-attach">1</property>
@@ -8856,6 +8870,20 @@ It starts before and arrives there with some speed.</property>
                                             <property name="expand">False</property>
                                             <property name="fill">True</property>
                                             <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="button_rscript_autodetect">
+                                            <property name="label" translatable="yes">Autodetect</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">True</property>
+                                            <signal name="clicked" handler="on_button_rscript_autodetect_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">2</property>
                                           </packing>
                                         </child>
                                       </object>
@@ -8976,6 +9004,20 @@ It starts before and arrives there with some speed.</property>
                                             <property name="expand">False</property>
                                             <property name="fill">True</property>
                                             <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="button_python_autodetect">
+                                            <property name="label" translatable="yes">Autodetect</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">True</property>
+                                            <signal name="clicked" handler="on_button_python_autodetect_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">2</property>
                                           </packing>
                                         </child>
                                       </object>

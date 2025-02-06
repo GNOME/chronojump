@@ -2607,6 +2607,11 @@ public class PreferencesWindow
 		signalsNoFollow = false;
 	}
 
+	private void on_button_r_autodetect_clicked (object o, EventArgs args)
+	{
+		//TODO
+	}
+
 	private void on_entry_r_user_location_changed (object o, EventArgs args)
 	{
 		if (signalsNoFollow)
@@ -2669,6 +2674,17 @@ public class PreferencesWindow
 		signalsNoFollow = false;
 	}
 
+	private void on_button_rscript_autodetect_clicked (object o, EventArgs args)
+	{
+		signalsNoFollow = true;
+
+		string url = ExecuteProcess.WhereInstalled ("Rscript");
+		if (url != "")
+			rscriptUserChanges (url);
+
+		signalsNoFollow = false;
+	}
+
 	private void on_entry_rscript_user_location_changed (object o, EventArgs args)
 	{
 		if (signalsNoFollow)
@@ -2727,6 +2743,17 @@ public class PreferencesWindow
 
 		string url = chooseFile (Catalog.GetString ("Please, select Python file"));
 		pythonUserChanges (url);
+
+		signalsNoFollow = false;
+	}
+
+	private void on_button_python_autodetect_clicked (object o, EventArgs args)
+	{
+		signalsNoFollow = true;
+
+		string url = ExecuteProcess.WhereInstalled ("python3");
+		if (url != "")
+			pythonUserChanges (url);
 
 		signalsNoFollow = false;
 	}

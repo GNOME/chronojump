@@ -322,14 +322,17 @@ public class PreferencesWindow
 	Gtk.RadioButton radio_r_default;
 	Gtk.RadioButton radio_r_other;
 	Gtk.Button button_r_choose;
+	Gtk.Button button_r_autodetect;
 	Gtk.Entry entry_r_user_location;
 	Gtk.RadioButton radio_rscript_default;
 	Gtk.RadioButton radio_rscript_other;
 	Gtk.Button button_rscript_choose;
+	Gtk.Button button_rscript_autodetect;
 	Gtk.Entry entry_rscript_user_location;
 	Gtk.RadioButton radio_python_default;
 	Gtk.RadioButton radio_python_other;
 	Gtk.Button button_python_choose;
+	Gtk.Button button_python_autodetect;
 	Gtk.Entry entry_python_user_location;
 
 	Gtk.RadioButton radio_python_2;
@@ -1024,6 +1027,19 @@ public class PreferencesWindow
 		LogB.Information ("Config.RUserURLStatic = " + Config.RUserURLStatic.ToString ());
 		LogB.Information ("Config.RscriptUserURLStatic = " + Config.RscriptUserURLStatic.ToString ());
 		LogB.Information ("Config.PythonUserURLStatic = " + Config.PythonUserURLStatic.ToString ());
+
+		if (PWBox.operatingSystem == UtilAll.OperatingSystems.WINDOWS)
+		{
+			PWBox.button_r_autodetect.Visible = false;
+			PWBox.button_rscript_autodetect.Visible = false;
+			PWBox.button_python_autodetect.Visible = false;
+		}
+		else if (PWBox.operatingSystem == UtilAll.OperatingSystems.MACOSX)
+		{
+			PWBox.button_r_choose.Visible = false;
+			PWBox.button_rscript_choose.Visible = false;
+			PWBox.button_python_choose.Visible = false;
+		}
 
 		if (Config.RUserURLStatic == "") {
 			PWBox.radio_r_default.Active = true;
@@ -4088,13 +4104,16 @@ public class PreferencesWindow
 		radio_r_other = (Gtk.RadioButton) builder.GetObject ("radio_r_other");
 		entry_r_user_location = (Gtk.Entry) builder.GetObject ("entry_r_user_location");
 		button_r_choose = (Gtk.Button) builder.GetObject ("button_r_choose");
+		button_r_autodetect = (Gtk.Button) builder.GetObject ("button_r_autodetect");
 		radio_rscript_default = (Gtk.RadioButton) builder.GetObject ("radio_rscript_default");
 		radio_rscript_other = (Gtk.RadioButton) builder.GetObject ("radio_rscript_other");
 		entry_rscript_user_location = (Gtk.Entry) builder.GetObject ("entry_rscript_user_location");
 		button_rscript_choose = (Gtk.Button) builder.GetObject ("button_rscript_choose");
+		button_rscript_autodetect = (Gtk.Button) builder.GetObject ("button_rscript_autodetect");
 		radio_python_default = (Gtk.RadioButton) builder.GetObject ("radio_python_default");
 		radio_python_other = (Gtk.RadioButton) builder.GetObject ("radio_python_other");
 		button_python_choose = (Gtk.Button) builder.GetObject ("button_python_choose");
+		button_python_autodetect = (Gtk.Button) builder.GetObject ("button_python_autodetect");
 		entry_python_user_location = (Gtk.Entry) builder.GetObject ("entry_python_user_location");
 
 		radio_python_2 = (Gtk.RadioButton) builder.GetObject ("radio_python_2");

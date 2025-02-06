@@ -202,23 +202,6 @@ public partial class ChronoJumpWindow
 		//	maxWidth = frame_persons.SizeRequest().Width;
 
 //		viewport_menu_top.SetSizeRequest(maxWidth, -1); //-1 is height
-
-		if (! configChronojump.CanOpenExternalDB)
-			GLib.Timeout.Add (200, new GLib.TimeoutHandler (menuTopAlign));
-	}
-
-	private bool menuTopAlign()
-	{
-		uint alignTop = (uint) notebook_capture_analyze.Allocation.Y;
-
-		if (configChronojump.CanOpenExternalDB || configChronojump.ReadFromCloudMainPath != "")
-			alignTop -= (uint) UtilGtk.WidgetHeight (box_above_frame_database);
-		else
-			alignTop -= (uint) UtilGtk.WidgetHeight (hbox_above_frame_session);
-
-		alignment_session_persons.TopPadding = alignTop;
-
-		return false;
 	}
 
 	/*

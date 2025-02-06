@@ -1398,13 +1398,14 @@
                                   <object class="GtkVBox" id="vbox61">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="spacing">12</property>
                                     <child>
                                       <object class="GtkBox" id="box_menu_database">
                                         <property name="can-focus">False</property>
                                         <property name="orientation">vertical</property>
+                                        <property name="spacing">4</property>
                                         <child>
                                           <object class="GtkBox" id="box_above_frame_database">
+                                            <property name="height-request">54</property>
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
                                             <property name="margin-left">2</property>
@@ -1415,6 +1416,7 @@
                                                 <property name="can-focus">True</property>
                                                 <property name="receives-default">False</property>
                                                 <property name="tooltip-text" translatable="yes">Database</property>
+                                                <property name="valign">end</property>
                                                 <property name="draw-indicator">False</property>
                                                 <signal name="clicked" handler="on_check_menu_database_clicked" swapped="no"/>
                                                 <child>
@@ -1587,6 +1589,7 @@
                                               <object class="GtkVBox" id="vbox_frame_session_border">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
+                                                <property name="margin-top">4</property>
                                                 <child>
                                                   <object class="GtkBox" id="box_menu_session">
                                                     <property name="visible">True</property>
@@ -1634,6 +1637,7 @@
                                         </child>
                                         <child type="label">
                                           <object class="GtkHBox" id="hbox_above_frame_session">
+                                            <property name="height-request">54</property>
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
                                             <property name="margin-left">2</property>
@@ -1644,6 +1648,7 @@
                                                 <property name="can-focus">True</property>
                                                 <property name="receives-default">False</property>
                                                 <property name="tooltip-text" translatable="yes">Session</property>
+                                                <property name="valign">end</property>
                                                 <property name="draw-indicator">False</property>
                                                 <signal name="clicked" handler="on_check_menu_session_clicked" swapped="no"/>
                                                 <child>
@@ -1718,7 +1723,7 @@
                                                 </child>
                                               </object>
                                               <packing>
-                                                <property name="expand">False</property>
+                                                <property name="expand">True</property>
                                                 <property name="fill">True</property>
                                                 <property name="position">0</property>
                                               </packing>
@@ -1743,6 +1748,7 @@
                                           <object class="GtkAlignment" id="alignment44">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
+                                            <property name="margin-top">4</property>
                                             <property name="bottom-padding">2</property>
                                             <property name="left-padding">2</property>
                                             <property name="right-padding">2</property>
@@ -2747,6 +2753,7 @@
                                         </child>
                                         <child type="label">
                                           <object class="GtkHBox" id="hbox364">
+                                            <property name="height-request">54</property>
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
                                             <property name="margin-left">2</property>
@@ -2756,6 +2763,7 @@
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">True</property>
                                                 <property name="receives-default">False</property>
+                                                <property name="valign">end</property>
                                                 <property name="draw-indicator">False</property>
                                                 <signal name="clicked" handler="on_check_manage_persons_clicked" swapped="no"/>
                                                 <child>
@@ -2850,6 +2858,7 @@
                                         <property name="can-focus">False</property>
                                         <property name="margin-left">2</property>
                                         <property name="margin-right">2</property>
+                                        <property name="margin-top">12</property>
                                         <child>
                                           <object class="GtkBox">
                                             <property name="visible">True</property>
@@ -4805,6 +4814,7 @@
                                                   <object class="GtkBox" id="hbox_change_modes_contacts">
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
+                                                    <property name="valign">end</property>
                                                     <property name="spacing">6</property>
                                                     <child>
                                                       <object class="GtkButton" id="button_show_modes_contacts">
@@ -5151,6 +5161,7 @@
                                                   <object class="GtkBox" id="hbox_contacts_sup_capture_analyze_two_buttons">
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
+                                                    <property name="valign">end</property>
                                                     <property name="spacing">6</property>
                                                     <child>
                                                       <object class="GtkRadioButton" id="radio_mode_contacts_capture">
@@ -33494,6 +33505,7 @@ Concentric</property>
                                                       <object class="GtkAlignment" id="alignment58">
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">False</property>
+                                                        <property name="valign">end</property>
                                                         <property name="right-padding">50</property>
                                                         <child>
                                                           <object class="GtkBox" id="hbox_change_modes_encoder">
@@ -33609,6 +33621,7 @@ Concentric</property>
                                                       <object class="GtkHBox" id="hbox_encoder_sup_capture_analyze_two_buttons">
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">False</property>
+                                                        <property name="valign">end</property>
                                                         <property name="spacing">6</property>
                                                         <child>
                                                           <object class="GtkRadioButton" id="radio_mode_encoder_capture_small">
@@ -33733,6 +33746,7 @@ Concentric</property>
                                                 <child>
                                                   <object class="GtkHBox" id="hbox_top_person_encoder">
                                                     <property name="can-focus">False</property>
+                                                    <property name="valign">end</property>
                                                     <property name="spacing">20</property>
                                                     <child>
                                                       <object class="GtkLabel" id="label_top_encoder_person_name">

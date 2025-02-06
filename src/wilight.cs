@@ -24,15 +24,18 @@ using System.Diagnostics;  //Stopwatch
 
 public class Wilight : Event
 {
-	/*
-	private int uniqueID;
-	private int personID;
-	private int sessionID;
-	*/
 	private int exerciseID; //until wilightExercise table is not created, all will be 0
 	private string dateTime;
 	private string videoURL;
 	private int totalMs;
+
+	/*
+	//constructor used after deleting a test
+	public Wilight ()
+	{
+		this.uniqueID = -1;
+	}
+	*/
 
 	//regular constructor
 	public Wilight (int uniqueID, int personID, int sessionID, int exerciseID,

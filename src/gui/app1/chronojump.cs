@@ -6518,6 +6518,8 @@ public partial class ChronoJumpWindow
 			run_encoder_delete_current_test_pre_question();
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			force_sensor_delete_current_test_pre_question();
+		else if (current_mode == Constants.Modes.WILIGHT)
+			wilight_delete_current_test_pre_question();
 	}
 
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {

@@ -21,6 +21,7 @@
 using System;
 using System.Diagnostics; //Stopwatch
 using Gtk;
+using Mono.Unix;
 
 //TODO: note this dirty code is just for testing
 public partial class ChronoJumpWindow 
@@ -78,6 +79,13 @@ public partial class ChronoJumpWindow
 
 		textview_wilight.Name = "fontSize9";
 	}
+
+	/*
+	private void blankWilightInterface()
+	{
+		//currentWilight = new Wilight ();
+	}
+	*/
 
 	private void on_button_wilight_test_discover_clicked (object o, EventArgs args)
 	{
@@ -393,7 +401,7 @@ public partial class ChronoJumpWindow
 						UtilDate.ToFile (wilightTimeStartCapture), "", //videoURL
 						wilightTest.FinishedMs, "");
 				LogB.Information ("Insert to SQL!");
-				w.InsertSQL (false);
+				w.UniqueID = w.InsertSQL (false);
 				LogB.Information ("Inserted!");
 
 				myTreeViewWilight.Add (currentPerson.Name, w, "");
@@ -487,6 +495,50 @@ public partial class ChronoJumpWindow
 		//PrepareRunSimpleGraph(cairoPaintBarsPre.eventGraphRunsStored, false); //do not need, draw event will graph it:
 		event_execute_drawingarea_cairo.QueueDraw ();
 	}
+
+	private	void wilight_delete_current_test_pre_question ()
+	{
+		//1.- check that there's a line selected
+		//2.- check that this line is a wilight and not a person
+		if (myTreeViewWilight.EventSelectedID > 0) {
+			//3.- display confirmwindow of deletion
+			if (preferences.askDeletion) {
+				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
+							"Are you sure you want to delete this set?"), "", "");
+				confirmWin.Button_accept.Clicked += new EventHandler (wilight_delete_current_test_accepted);
+			} else {
+				wilight_delete_current_test_accepted(new object(), new EventArgs());
+			}
+		}
+	}
+
+	private void wilight_delete_current_test_accepted (object o, EventArgs args)
+	{
+		int id = myTreeViewWilight.EventSelectedID;
+
+		Sqlite.Delete (false, Constants.WilightTable, id);
+
+		myTreeViewWilight.DelEvent(id);
+
+		/* code from runI
+		selectedRunInterval = null;
+		selectedRunIntervalType = null;
+		showHideActionEventButtons(false);
+
+		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.WILIGHT, id );
+		try {
+			if(currentWilight.UniqueID == id)
+				deleted_last_test_update_widgets();
+		} catch {
+			//there's no currentWilight (no one done it now), then it crashed,
+			//but don't need to update widgets
+		}
+		*/
+
+		updateGraphWilight ();
+
+	}
+
 
 	private void connectWidgetsWilight (Gtk.Builder builder)
 	{

@@ -250,7 +250,7 @@ public class WilightTest
 		} while (! (commandValidated || Finished));
 
 		//return "" if last command in list is not validated
-		if (! commandValidated)
+		if (! commandValidated || Finished)
 			return "";
 
 		return commandStr;

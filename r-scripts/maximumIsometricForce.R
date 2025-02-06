@@ -619,7 +619,7 @@ drawDynamicsFromLoadCell <- function(title, exercise, ex_percentBodyWeight, pers
                 
                 if(timeLines){
                   abline(v=time1, lty = 3, col ="brown1")
-                  text(x = time1, y = 0, labels = paste(round(time1, digits = 3),"s"), pos = 3, col = valuesCol)
+                  mtext(paste(round(time1, digits = 3),"s"), col = valuesCol, side=1, at=time1, adj=1, line=.25)
                 }
                 if(forceLines){
                   abline(h=force1, lty = 3, col ="brown1")

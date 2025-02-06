@@ -1041,11 +1041,21 @@ public partial class ChronoJumpWindow
 			image_chronojump_logo.Pixbuf = Chronojump.MyPixbuf.Get(
 					null, Util.GetImagePath(false) + Constants.FileNameLogoBlueTransp);
 
+			image_logo_contacts.Pixbuf = Chronojump.MyPixbuf.Get(
+					null, Util.GetImagePath(false) + Constants.FileNameLogoHorizontalBlue);
+			image_logo_encoder.Pixbuf = Chronojump.MyPixbuf.Get(
+					null, Util.GetImagePath(false) + Constants.FileNameLogoHorizontalBlue);
+
 			fullscreen_image_logo_horizontal_blue.Visible = true;
 			fullscreen_image_logo_horizontal_white.Visible = false;
 		} else {
 			image_chronojump_logo.Pixbuf = Chronojump.MyPixbuf.Get(
 					null, Util.GetImagePath(false) + Constants.FileNameLogoWhiteTransp);
+
+			image_logo_contacts.Pixbuf = Chronojump.MyPixbuf.Get(
+					null, Util.GetImagePath(false) + Constants.FileNameLogoHorizontalWhite);
+			image_logo_encoder.Pixbuf = Chronojump.MyPixbuf.Get(
+					null, Util.GetImagePath(false) + Constants.FileNameLogoHorizontalWhite);
 
 			fullscreen_image_logo_horizontal_blue.Visible = false;
 			fullscreen_image_logo_horizontal_white.Visible = true;

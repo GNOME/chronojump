@@ -203,8 +203,6 @@ public partial class ChronoJumpWindow
 
 //		viewport_menu_top.SetSizeRequest(maxWidth, -1); //-1 is height
 
-		//if(! Config.UseSystemColor && UtilGtk.ColorIsOkWithLogoTransparent (UtilGtk.ColorParse(preferences.colorBackgroundString)))
-
 		if (! configChronojump.CanOpenExternalDB)
 			GLib.Timeout.Add (200, new GLib.TimeoutHandler (menuTopAlign));
 	}

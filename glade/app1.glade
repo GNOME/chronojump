@@ -5586,21 +5586,10 @@
                                                 </child>
                                                 <child>
                                                   <object class="GtkImage" id="image_logo_contacts">
+                                                    <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
                                                     <property name="stock">gtk-missing-image</property>
                                                     <property name="icon_size">2</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="pack-type">end</property>
-                                                    <property name="position">4</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkImage" id="image_logo_contacts_transp">
-                                                    <property name="can-focus">False</property>
-                                                    <property name="stock">gtk-missing-image</property>
                                                   </object>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -34061,6 +34050,7 @@ Concentric</property>
                                                 </child>
                                                 <child>
                                                   <object class="GtkImage" id="image_logo_encoder">
+                                                    <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
                                                     <property name="stock">gtk-missing-image</property>
                                                     <property name="icon_size">2</property>
@@ -34070,18 +34060,6 @@ Concentric</property>
                                                     <property name="fill">False</property>
                                                     <property name="pack-type">end</property>
                                                     <property name="position">2</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkImage" id="image_logo_encoder_transp">
-                                                    <property name="can-focus">False</property>
-                                                    <property name="stock">gtk-missing-image</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="pack-type">end</property>
-                                                    <property name="position">3</property>
                                                   </packing>
                                                 </child>
                                               </object>

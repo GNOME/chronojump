@@ -49,7 +49,7 @@ public partial class ChronoJumpWindow
 	enum wilightSoundEnum { NONE, GOOD, BAD };
 	static wilightSoundEnum haveToPlaySound;
 
-	enum wilightActions { DISCOVER, PING, CHANGECOLOR, SPEED, SEQUENCE };
+	enum wilightActions { DISCOVER, PING, CHANGECOLOR, SPEED, DEMO, SEQUENCE };
 	private wilightActions wilightAction;
 	DateTime wilightTimeStartCapture;
 
@@ -113,6 +113,12 @@ public partial class ChronoJumpWindow
 	private void on_button_wilight_test_sequence_clicked (object o, EventArgs args)
 	{
 		wilightAction = wilightActions.SEQUENCE;
+		wilightExecute ();
+	}
+
+	private void on_button_wilight_test_demo_clicked (object o, EventArgs args)
+	{
+		wilightAction = wilightActions.DEMO;
 		wilightExecute ();
 	}
 
@@ -225,7 +231,12 @@ public partial class ChronoJumpWindow
 		}
 		else if (wilightAction == wilightActions.SEQUENCE)
 		{
-			testSequence (commandsFile);
+			testSequence (commandsFile, false);
+			wichroCapture.Stop(); //Should we do a disconnect here?
+		}
+		else if (wilightAction == wilightActions.DEMO)
+		{
+			testSequence (commandsFile, true);
 			wichroCapture.Stop(); //Should we do a disconnect here?
 		}
 
@@ -303,9 +314,9 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void testSequence (string commandsFile)
+	private void testSequence (string commandsFile, bool isDemo)
 	{
-		wilightTest = new WilightTest (commandsFile);
+		wilightTest = new WilightTest (commandsFile, isDemo);
 		wilightMessage = wilightTest.GetProgressStatus ();
 
 		List<int> expectedTerminals_l = new List<int> (); //expected response on this (or them)
@@ -389,22 +400,25 @@ public partial class ChronoJumpWindow
 
 			if (wilightTest != null && wilightTest.Finished)
 			{
-				int exerciseID = 0;
-				if (configChronojump.WilightExerciseID > 0)
-					exerciseID = configChronojump.WilightExerciseID;
+				if (! wilightTest.IsDemo) //if is not a demo, save it and update treeview and graph
+				{
+					int exerciseID = 0;
+					if (configChronojump.WilightExerciseID > 0)
+						exerciseID = configChronojump.WilightExerciseID;
 
-				LogB.Information ("Finished! create object");
-				Wilight w = new Wilight (-1, currentPerson.UniqueID, currentSession.UniqueID, exerciseID,
-						UtilDate.ToFile (wilightTimeStartCapture), "", //videoURL
-						wilightTest.FinishedMs, "");
-				LogB.Information ("Insert to SQL!");
-				w.UniqueID = w.InsertSQL (false);
-				LogB.Information ("Inserted!");
+					LogB.Information ("Finished! create object");
+					Wilight w = new Wilight (-1, currentPerson.UniqueID, currentSession.UniqueID, exerciseID,
+							UtilDate.ToFile (wilightTimeStartCapture), "", //videoURL
+							wilightTest.FinishedMs, "");
+					LogB.Information ("Insert to SQL!");
+					w.UniqueID = w.InsertSQL (false);
+					LogB.Information ("Inserted!");
 
-				myTreeViewWilight.Add (currentPerson.Name, w, "");
+					myTreeViewWilight.Add (currentPerson.Name, w, "");
+					updateGraphWilight();
+				}
 
 				event_execute_label_message.Text = "Finished";
-				updateGraphWilight();
 			}
 
 			box_wilight_test_actions.Sensitive = true;

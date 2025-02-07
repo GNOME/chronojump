@@ -106,18 +106,53 @@ public class WilightTest
 	private bool firstCommandInLevel;
 
 	private bool started;
-	private Stopwatch stopwatch; 
+	private Stopwatch stopwatch;
+	private bool isDemo;
 	private Random random;
+	private bool isRandom;
 
 	public bool Cancel;
 	public bool Finished;
 	public int FinishedMs;
 
 
-	public WilightTest (string commandsFile)
+	//constructor
+	public WilightTest (string commandsFile, bool isDemo)
 	{
+		this.isDemo = isDemo;
+
 		command_ll = new List<List<string>> ();
 
+		if (isDemo)
+			wilightTestDemoSetVars ();
+		else
+			wilightTestRealSetVars (commandsFile);
+
+		levelStartedWithCommand = currentCommand;
+		commandsCountReceived = 0;
+
+		started = false;
+		stopwatch = new Stopwatch ();
+		Cancel = false;
+		Finished = false;
+		FinishedMs = 0;
+
+		firstCommandInLevel = true;
+	}
+
+	//not random
+	private void wilightTestDemoSetVars ()
+	{
+		command_ll = new List<List<string>> ();
+		command_ll.Add (demoSequence);
+
+		currentLevel = 0;
+		currentCommand = 0;
+		isRandom = false;
+	}
+
+	private void wilightTestRealSetVars (string commandsFile)
+	{
 		if (commandsFile != "")
 		{
 			readCommandsFile (commandsFile);
@@ -133,16 +168,7 @@ public class WilightTest
 
 		currentLevel = 0;
 		currentCommand = random.Next (0, command_ll[0].Count);
-		levelStartedWithCommand = currentCommand;
-		commandsCountReceived = 0;
-
-		started = false;
-		stopwatch = new Stopwatch ();
-		Cancel = false;
-		Finished = false;
-		FinishedMs = 0;
-
-		firstCommandInLevel = true;
+		isRandom = true;
 	}
 
 	/*
@@ -230,7 +256,11 @@ public class WilightTest
 				if (currentLevel < command_ll.Count -1)
 				{
 					currentLevel ++;
-					currentCommand = random.Next (0, command_ll[currentLevel].Count);
+					if (isRandom)
+						currentCommand = random.Next (0, command_ll[currentLevel].Count);
+					else
+						currentCommand ++;
+
 					levelStartedWithCommand = currentCommand;
 					firstCommandInLevel = true;
 
@@ -421,5 +451,28 @@ public class WilightTest
 					"0:128;1:128;2:128;3:128;4:128;5:128;6:128;7:128;8:128;9:128;10:128;11:128;12:128;"
 					});
 		}
+	}
+
+	//not random
+	private List<string> demoSequence
+	{
+		get {
+			return (new List<string> {
+					"0:32;2:33;3:64;4:96;5:128;6:160;7:2;8:4;9:8;10:12;11:14;",
+					"0:64;2:32;3:65;4:96;5:128;6:160;7:2;8:4;9:8;10:12;11:14;",
+					"0:96;2:32;3:64;4:97;5:128;6:160;7:2;8:4;9:8;10:12;11:14;",
+					"0:128;2:32;3:64;4:96;5:129;6:160;7:2;8:4;9:8;10:12;11:14;",
+					"0:160;2:32;3:64;4:96;5:128;6:161;7:2;8:4;9:8;10:12;11:14;",
+					"0:2;2:32;3:64;4:96;5:128;6:160;7:3;8:4;9:8;10:12;11:14;",
+					"0:4;2:32;3:64;4:96;5:128;6:160;7:2;8:5;9:8;10:12;11:14;",
+					"0:8;2:32;3:64;4:96;5:128;6:160;7:2;8:4;9:9;10:12;11:14;",
+					"0:12;2:32;3:64;4:96;5:128;6:160;7:2;8:4;9:8;10:13;11:14;",
+					"0:14;2:32;3:64;4:96;5:128;6:160;7:2;8:4;9:8;10:12;11:15;",
+					});
+		}
+	}
+
+	public bool IsDemo {
+		get { return isDemo; }
 	}
 }

@@ -169,6 +169,8 @@ public partial class ChronoJumpWindow
 			wichroCapture.Disconnect ();
 			//cancel = true; //problem reading line (capturing)
 			Util.PlaySound (Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
+
+			wilightMessage = Catalog.GetString ("Device seems disconnected.");
 			LogB.Information ("cannot connect");
 			return false;
 		}

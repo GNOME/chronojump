@@ -1,0 +1,210 @@
+
+/*
+ * This file is part of ChronoJump
+ *
+ * ChronoJump is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or   
+ *    (at your option) any later version.
+ *    
+ * ChronoJump is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ *    GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ *  Copyright (C) 2025   Xavier de Blas <xaviblas@gmail.com> 
+ */
+
+using System;
+using System.Collections.Generic; //List
+using Gtk;
+using Cairo;
+using Mono.Unix;
+
+public class CairoGraphWilight : CairoXY
+{
+	private int points_l_painted;
+	private List<CairoGraphWilightTerminal> wt_l;
+
+	public CairoGraphWilight (Gtk.DrawingArea area, string font)
+	{
+		initWilight (area, title);//, bool horizontal);
+	}
+
+	/*
+	public void GraphBlank()
+	{
+		initGraph();
+		endGraphDisposing(g, surface, area.Window);
+	}
+	*/
+
+	private void initWilight (DrawingArea area, string title)//, bool horizontal)
+	{
+		this.area = area;
+		this.title = title;
+		//this.horizontal = horizontal;
+		this.colorBackground = colorFromRGBA(Config.ColorBackground); //but note if we are using system colors, this will not match
+
+		points_l_painted = 0;
+
+		//need to be small because graphHeight could be 100,
+		//if margins are big then calculatePaintY could give us reverse results
+		leftMargin = 40;
+		//rightMargin = 40; //defined in subclasses
+		topMargin = 40;
+		bottomMargin = 40;
+
+		innerMargin = 0;
+
+		yVariable = "";
+		yUnits = "";
+
+		xAtMaxY = 0;
+		yAtMaxY = 0;
+		xAtMinY = 0;
+		yAtMinY = 0;
+
+		gridNiceSeps = 7;
+	}
+
+	//separated in two methods to ensure endGraphDisposing on any return of the other method
+	public void DoSendingList (string font,
+			List<CairoGraphWilightTerminal> wt_l,
+			bool forceRedraw)
+	{
+		if (doSendingList (font,
+					wt_l,
+						 //capturing,
+						 forceRedraw//, plotType))
+			))
+				endGraphDisposing (g, surface, area.Window);
+	}
+			
+	private bool doSendingList (string font, List<CairoGraphWilightTerminal> wt_l, bool forceRedraw)
+	{
+		this.wt_l = wt_l;
+
+		bool maxValuesChanged = false;
+	
+		bool graphInited = false;
+		if( maxValuesChanged || forceRedraw ||
+				(wt_l != null)// && wt_l.Count != points_l_painted)
+				)
+		{
+			colorCairoBackground = new Cairo.Color (1, 1, 1, 1);
+
+			initGraph (font, 1, (maxValuesChanged || forceRedraw));
+			graphInited = true;
+			//points_l_painted = 0;
+		}
+
+		if( (wt_l == null || wt_l.Count == 0))// && idName_l == null)
+		{
+			if (! graphInited)
+			{
+				initGraph (font, 1, true);
+				graphInited = true;
+			}
+			return graphInited;
+		}
+
+		//fix an eventual crash on g.LineWidth below
+		if(g == null || ! graphInited)
+			return false;
+
+		//this try/catch is an extra precaution
+		try {
+			g.LineWidth = 1;
+		} catch {
+			LogB.Information("Catched on CairoGraphForceSensorSignal soSendingList() g.LineWidth");
+			return graphInited;
+		}
+
+		pointsRadius = 8;
+
+		/*
+		findPointMaximums (true,
+				CairoGraphWilightTerminal.ListToPointF (wt_l),
+				false);
+		*/
+		for (int i = 0; i < wt_l.Count; i ++)
+		{
+			CairoGraphWilightTerminal wt = wt_l[i];
+			if (i == 0)
+			{
+				minX = wt.x;
+				maxX = wt.x;
+				minY = wt.y;
+				maxY = wt.y;
+			} else {
+				if (wt.x < minX)
+					minX = wt.x;
+				if (wt.x > maxX)
+					maxX = wt.x;
+				if (wt.y < minY)
+					minY = wt.y;
+				if (wt.y > maxY)
+					maxY = wt.x;
+			}
+		}
+		absoluteMaxX = maxX;
+		absoluteMaxY = maxY;
+
+		doPlot ();
+
+		return true;
+	}
+
+	private void doPlot ()
+	{
+		if (wt_l != null && wt_l.Count > 0)
+			foreach (CairoGraphWilightTerminal wt in wt_l)
+				doPlotDrawTerminal (wt);
+	}
+			
+	private void doPlotDrawTerminal (CairoGraphWilightTerminal wt)
+	{
+		drawCircle (calculatePaintX (wt.x),
+				calculatePaintY (wt.y),
+				20, black, true);
+
+		g.SetSourceColor (white);
+		printText (calculatePaintX (wt.x), calculatePaintY (wt.y) -textHeight/2, 0, textHeight +4,
+				wt.code.ToString (), g, alignTypes.CENTER);
+	}
+
+	protected override void writeTitle()
+	{
+	}
+
+}
+
+//code & center of each wilight terminal
+public class CairoGraphWilightTerminal
+{
+	public int code; //currently from 0 to 12
+	public double x; //cm
+	public double y; //cm
+
+	public CairoGraphWilightTerminal (int code, double x, double y)
+	{
+		this.code = code;
+		this.x = x;
+		this.y = y;
+	}
+
+	public static List<PointF> ListToPointF (List<CairoGraphWilightTerminal> wt_l)
+	{
+		List<PointF> p_l = new List<PointF> ();
+		foreach (CairoGraphWilightTerminal wt in wt_l)
+			p_l.Add (new PointF (wt.x, wt.y));
+
+		return p_l;
+	}
+}
+

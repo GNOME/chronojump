@@ -1641,7 +1641,7 @@ public partial class ChronoJumpWindow
 			pre_fillTreeView_wilight (false);
 			myTreeViewWilight.SelectPerson(currentPerson.Name);
 
-			updateGraphWilight();
+			updateGraphWilightBars();
 		}
 
 		finishPlayVideoIfRunning ();
@@ -3368,7 +3368,6 @@ public partial class ChronoJumpWindow
 				notebooks_change(m);
 				button_contacts_bells.Sensitive = true;
 				on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
-				event_execute_drawingarea_realtime_capture_cairo.Visible = true;
 
 				//show icon but have it unsensitive until there's a run
 				button_inspect_last_test_run_intervallic.Visible = true;
@@ -3687,6 +3686,7 @@ public partial class ChronoJumpWindow
 			box_wilight.Visible = true;
 			box_contacts_graph_exercise.Visible = false;
 
+			align_drawingarea_realtime_capture_cairo.Visible = true;
 			wilightApp1Init ();
 		}
 

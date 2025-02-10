@@ -60,12 +60,14 @@ public partial class ChronoJumpWindow
 	static bool needToUpdateTextViewWilight;
 	TextBuffer tbWilight = new TextBuffer (new TextTagTable());
 
+	CairoGraphWilight cairoGraphWilight;
+
 	private void wilightApp1Init ()
 	{
 		tbWilightText = "";
 		button_wilight_test_cancel.Sensitive = false;
 		button_wilight_test_finish.Sensitive = false;
-		updateGraphWilight();
+		updateGraphWilightBars();
 
 		wilightColor_l = new IDNameList ();
 		wilightColor_l.Add (new IDName (0, "Black"));
@@ -417,7 +419,7 @@ public partial class ChronoJumpWindow
 					LogB.Information ("Inserted!");
 
 					myTreeViewWilight.Add (currentPerson.Name, w, "");
-					updateGraphWilight();
+					updateGraphWilightBars();
 				}
 
 				event_execute_label_message.Text = "Finished";
@@ -455,7 +457,7 @@ public partial class ChronoJumpWindow
 		needToUpdateTextViewWilight = true;
 	}
 
-	private void updateGraphWilight ()
+	private void updateGraphWilightBars ()
 	{
 		if(currentPerson == null || currentSession == null)
 			return;
@@ -547,7 +549,7 @@ public partial class ChronoJumpWindow
 		}
 		*/
 
-		updateGraphWilight ();
+		updateGraphWilightBars ();
 
 	}
 

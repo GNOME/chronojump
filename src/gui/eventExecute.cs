@@ -259,6 +259,7 @@ public partial class ChronoJumpWindow
 		if(current_mode != Constants.Modes.JUMPSSIMPLE &&
 				current_mode != Constants.Modes.JUMPSREACTIVE &&
 				current_mode != Constants.Modes.RUNSINTERVALLIC &&
+				current_mode != Constants.Modes.WILIGHT &&
 				current_mode != Constants.Modes.OTHER)
 			return;
 
@@ -323,6 +324,18 @@ public partial class ChronoJumpWindow
 						false, 0,
 						10, //but if no capturing it will be -1 (all set)
 						true, CairoXY.PlotTypes.POINTSFILL);
+		} else if(current_mode == Constants.Modes.WILIGHT)
+		{
+			if(cairoGraphWilight == null)// || forceRedraw)
+				cairoGraphWilight = new CairoGraphWilight (
+						event_execute_drawingarea_realtime_capture_cairo, "title");
+
+			//cairoGraphWilight.GraphBlank ();
+			List<CairoGraphWilightTerminal> wt_l = new List<CairoGraphWilightTerminal> ();
+			wt_l.Add (new CairoGraphWilightTerminal (0, 6.5, 10));
+			for (int i = 1; i <= 12; i ++)
+				wt_l.Add (new CairoGraphWilightTerminal (i, i, 8));
+			cairoGraphWilight.DoSendingList (preferences.fontTypeToGraph(), wt_l, true);
 		}
 	}
 
@@ -823,7 +836,7 @@ public partial class ChronoJumpWindow
 		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
 			updateGraphRunsInterval ();
 		else if(current_mode == Constants.Modes.WILIGHT)
-			updateGraphWilight ();
+			updateGraphWilightBars ();
 	}
 
 	private void on_radio_contacts_graph_test_toggled (object o, EventArgs args)
@@ -850,7 +863,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.WILIGHT)
 		{
-			updateGraphWilight ();
+			updateGraphWilightBars ();
 			pre_fillTreeView_wilight(false);
 		}
 	}
@@ -879,7 +892,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.WILIGHT)
 		{
-			updateGraphWilight ();
+			updateGraphWilightBars ();
 			pre_fillTreeView_wilight (false);
 		}
 	}

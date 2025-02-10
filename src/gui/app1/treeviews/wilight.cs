@@ -103,7 +103,7 @@ public partial class ChronoJumpWindow
 			showHideActionEventButtons(false); //hide
 		} else {
 			showHideActionEventButtons(true); //show
-			updateGraphWilight (); //to show the selected bar
+			updateGraphWilightBars (); //to show the selected bar
 		}
 	}
 

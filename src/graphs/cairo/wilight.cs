@@ -52,14 +52,6 @@ public class CairoGraphWilight : CairoXY
 
 		points_l_painted = 0;
 
-		//need to be small because graphHeight could be 100,
-		//if margins are big then calculatePaintY could give us reverse results
-		leftMargin = 40;
-		//rightMargin = 40; //defined in subclasses
-		topMargin = 40;
-		bottomMargin = 40;
-
-		innerMargin = 0;
 
 		yVariable = "";
 		yUnits = "";
@@ -128,6 +120,7 @@ public class CairoGraphWilight : CairoXY
 		pointsRadius = 8;
 
 		/*
+		//not used because need to do a real working conversion between cm and pixels that has same relation for X and for Y
 		findPointMaximums (true,
 				CairoGraphWilightTerminal.ListToPointF (wt_l),
 				false);
@@ -155,9 +148,51 @@ public class CairoGraphWilight : CairoXY
 		absoluteMaxX = maxX;
 		absoluteMaxY = maxY;
 
+		//need to be small because graphHeight could be 100,
+		//if margins are big then calculatePaintY could give us reverse results
+		leftMargin = 40;
+		rightMargin = 40;
+		topMargin = 40;
+		bottomMargin = 40;
+		innerMargin = 0;
+
+		adjustProportionByMargins ();
 		doPlot ();
 
 		return true;
+	}
+
+	// adjust margins in order to have same relation for X and Y
+	private void adjustProportionByMargins ()
+	{
+		int graphWidthUseful = graphWidth -rightMargin -leftMargin;
+		int graphHeightUseful = graphHeight -topMargin -bottomMargin;
+		double realWidth = maxX - minX;
+		double realHeight = maxY - minY;
+
+		//TODO: note only centers are considered
+		double widthRatio = UtilAll.DivideSafe (graphWidthUseful, realWidth);
+		double heightRatio = UtilAll.DivideSafe (graphHeightUseful, realHeight);
+		//LogB.Information (string.Format ("Width: graphWidthUseful: {0}, realWidth: {1}, ratio: {2}", graphWidthUseful, realWidth, widthRatio));
+		//LogB.Information (string.Format ("Height: graphHeightUseful: {0}, realHeight: {1}, ratio: {2}", graphHeightUseful, realHeight, heightRatio));
+
+		if (heightRatio > widthRatio)
+		{
+			//heightRatio = UtilAll.DivideSafe (graphHeightUseful, realHeight);
+			double graphHeightUsefulFixed = heightRatio * realHeight;
+			//assign the width ratio
+			graphHeightUsefulFixed = widthRatio * realHeight;
+			topMargin += Convert.ToInt32 ((graphHeightUseful - graphHeightUsefulFixed)/2);
+			bottomMargin += Convert.ToInt32 ((graphHeightUseful - graphHeightUsefulFixed)/2);
+		}
+		else if (heightRatio < widthRatio)
+		{
+			double graphWidthUsefulFixed = widthRatio * realWidth;
+			//assign the height ratio
+			graphWidthUsefulFixed = heightRatio * realWidth;
+			leftMargin += Convert.ToInt32 ((graphWidthUseful - graphWidthUsefulFixed)/2);
+			rightMargin += Convert.ToInt32 ((graphWidthUseful - graphWidthUsefulFixed)/2);
+		}
 	}
 
 	private void doPlot ()

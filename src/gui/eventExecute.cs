@@ -332,9 +332,16 @@ public partial class ChronoJumpWindow
 
 			//cairoGraphWilight.GraphBlank ();
 			List<CairoGraphWilightTerminal> wt_l = new List<CairoGraphWilightTerminal> ();
-			wt_l.Add (new CairoGraphWilightTerminal (0, 6.5, 10));
-			for (int i = 1; i <= 12; i ++)
+			//wt_l.Add (new CairoGraphWilightTerminal (0, 6.5, 10));
+			//for (int i = 1; i <= 12; i ++)
+			//	wt_l.Add (new CairoGraphWilightTerminal (i, i, 8));
+			wt_l.Add (new CairoGraphWilightTerminal (0, 7.5, 10));
+			for (int i = 1; i <= 4; i ++)
 				wt_l.Add (new CairoGraphWilightTerminal (i, i, 8));
+			for (int i = 5; i <= 8; i ++)
+				wt_l.Add (new CairoGraphWilightTerminal (i, i+1, 8));
+			for (int i = 9; i <= 12; i ++)
+				wt_l.Add (new CairoGraphWilightTerminal (i, i+2, 8));
 			cairoGraphWilight.DoSendingList (preferences.fontTypeToGraph(), wt_l, true);
 		}
 	}

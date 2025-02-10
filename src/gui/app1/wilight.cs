@@ -35,7 +35,9 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_wilight_test_finish;
 	Gtk.SpinButton spin_wilight_test_ping;
 	Gtk.ComboBoxText combo_wilight_single_color;
+	Gtk.CheckButton check_wilight_show_commands;
 	Gtk.CheckButton check_wilight_very_verbose;
+	Gtk.ScrolledWindow scrolled_wilight_commands;
 	Gtk.TextView textview_wilight;
 	// <---- at glade
 
@@ -67,6 +69,8 @@ public partial class ChronoJumpWindow
 		tbWilightText = "";
 		button_wilight_test_cancel.Sensitive = false;
 		button_wilight_test_finish.Sensitive = false;
+
+		scrolled_wilight_commands.Visible = check_wilight_show_commands.Active;
 		updateGraphWilightBars();
 
 		wilightColor_l = new IDNameList ();
@@ -87,6 +91,11 @@ public partial class ChronoJumpWindow
 		//currentWilight = new Wilight ();
 	}
 	*/
+
+	private void on_check_wilight_show_commands_clicked (object o, EventArgs args)
+	{
+		scrolled_wilight_commands.Visible = check_wilight_show_commands.Active;
+	}
 
 	private void on_button_wilight_test_discover_clicked (object o, EventArgs args)
 	{
@@ -564,7 +573,9 @@ public partial class ChronoJumpWindow
 		button_wilight_test_finish = (Gtk.Button) builder.GetObject ("button_wilight_test_finish");
 		spin_wilight_test_ping = (Gtk.SpinButton) builder.GetObject ("spin_wilight_test_ping");
 		combo_wilight_single_color = (Gtk.ComboBoxText) builder.GetObject ("combo_wilight_single_color");
+		check_wilight_show_commands = (Gtk.CheckButton) builder.GetObject ("check_wilight_show_commands");
 		check_wilight_very_verbose = (Gtk.CheckButton) builder.GetObject ("check_wilight_very_verbose");
+		scrolled_wilight_commands = (Gtk.ScrolledWindow) builder.GetObject ("scrolled_wilight_commands");
 		textview_wilight = (Gtk.TextView) builder.GetObject ("textview_wilight");
 	}
 }

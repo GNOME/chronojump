@@ -422,8 +422,8 @@ public class Json
 		JsonObject json = new JsonObject();
 
 		LogB.Information("osVersion: " + osVersion);
-		if(osVersion.Length > 13)
-			osVersion = osVersion.Substring(0,13); //at server mysql max length of this param is 15 (windows returns a longer string)
+		if(osVersion.Length > 28)
+			osVersion = osVersion.Substring(0,28); //at server mysql max length of this param is 30 (in the past was 15, but need longer to get mac/win versions). Gunicorn script /srv2/api-app/main.py have been also updated
 
 		LogB.Information("osVersion cutted: " + osVersion);
 		json.Add("os_version", osVersion);
@@ -433,19 +433,27 @@ public class Json
 
 		json.Add("cj_version", cjVersion);
 
+		LogB.Information("machineID: " + machineID);
 		/*
-		   machine_id is an int (15) unsigned, but seems the 15 is not working, what is used is:
+		   machine_id is an int (15) unsigned
 		   maximum value is: 4294967295
 		   https://www.mysqltutorial.org/mysql-int/
-		   */
-		LogB.Information("machineID: " + machineID);
-		if(machineID.Length >= 10)
+
+		   do not push a machineID number higher than the max in maria DB int
+		   https://stackoverflow.com/a/5634147
+		   note this cannot happen as the maximum generated machineID can be 2147483647
+		*/
+		if (Convert.ToInt32 (machineID) >= 4294967295)
+		{
+			LogB.Information("cutting machineID to 4294967295");
 			machineID = "4294967295";
+		}
 
 		json.Add("machine_id", machineID);
 
 		// Converts it to a String
 		String js = json.ToString();
+		LogB.Information ("js: " + js);
 
 		// Writes the json object into the request dataStream
 		Stream dataStream;
@@ -502,7 +510,7 @@ public class Json
 		   https://www.mysqltutorial.org/mysql-int/
 		   */
 		LogB.Information("machineID: " + machineID);
-		if(machineID.Length >= 10)
+		if (Convert.ToInt32 (machineID) >= 4294967295)
 			machineID = "4294967295";
 
 		json.Add("machine_id", machineID);

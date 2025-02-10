@@ -30,7 +30,7 @@ using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
 using Mono.Unix;
 using System.Globalization; //CultureInfo stuff
-
+using System.Runtime.InteropServices; //RuntimeInformation
 using System.Diagnostics;  //Stopwatch
 using System.Text.RegularExpressions; //Regex
 
@@ -316,6 +316,24 @@ public class PreferencesWindow
 	Gtk.Image image_send_log_no;
 	Gtk.Image image_send_log_yes;
 	Gtk.TextView textview_send_log_message;
+
+	Gtk.Image image_advanced_r;
+	Gtk.Image image_advanced_python;
+	Gtk.RadioButton radio_r_default;
+	Gtk.RadioButton radio_r_other;
+	Gtk.Button button_r_choose;
+	Gtk.Button button_r_autodetect;
+	Gtk.Entry entry_r_user_location;
+	Gtk.RadioButton radio_rscript_default;
+	Gtk.RadioButton radio_rscript_other;
+	Gtk.Button button_rscript_choose;
+	Gtk.Button button_rscript_autodetect;
+	Gtk.Entry entry_rscript_user_location;
+	Gtk.RadioButton radio_python_default;
+	Gtk.RadioButton radio_python_other;
+	Gtk.Button button_python_choose;
+	Gtk.Button button_python_autodetect;
+	Gtk.Entry entry_python_user_location;
 
 	Gtk.RadioButton radio_python_2;
 	Gtk.RadioButton radio_python_3;
@@ -979,6 +997,8 @@ public class PreferencesWindow
 		PWBox.image_cloud_view.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_view_blue.png");
 		PWBox.image_cloud_schema.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "cloud_schema_small.png");
 		PWBox.image_button_send_log.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "send_blue.png");
+		PWBox.image_advanced_r.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "language-r.png");
+		PWBox.image_advanced_python.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "language-python.png");
 
 		PWBox.signalsNoFollow = true;
 		if (PWBox.configAtPrefs.CopyToCloudFullPath !=  "")
@@ -1001,6 +1021,62 @@ public class PreferencesWindow
 			PWBox.entry_send_log.Text = PWBox.emailStoredForSendLog;
 
 		// sub tab: more ---->
+
+		PWBox.signalsNoFollow = true;
+
+		LogB.Information ("Config.RUserURLStatic = " + Config.RUserURLStatic.ToString ());
+		LogB.Information ("Config.RscriptUserURLStatic = " + Config.RscriptUserURLStatic.ToString ());
+		LogB.Information ("Config.PythonUserURLStatic = " + Config.PythonUserURLStatic.ToString ());
+
+		if (PWBox.operatingSystem == UtilAll.OperatingSystems.WINDOWS)
+		{
+			PWBox.button_r_autodetect.Visible = false;
+			PWBox.button_rscript_autodetect.Visible = false;
+			PWBox.button_python_autodetect.Visible = false;
+		}
+		else if (PWBox.operatingSystem == UtilAll.OperatingSystems.MACOSX)
+		{
+			PWBox.button_r_choose.Visible = false;
+			PWBox.button_rscript_choose.Visible = false;
+			PWBox.button_python_choose.Visible = false;
+		}
+
+		if (Config.RUserURLStatic == "") {
+			PWBox.radio_r_default.Active = true;
+			PWBox.button_r_choose.Sensitive = false;
+			PWBox.entry_r_user_location.Sensitive = false;
+			PWBox.entry_r_user_location.Text = "";
+		} else {
+			PWBox.radio_r_other.Active = true;
+			PWBox.button_r_choose.Sensitive = true;
+			PWBox.entry_r_user_location.Sensitive = true;
+			PWBox.entry_r_user_location.Text = Config.RUserURLStatic;
+		}
+
+		if (Config.RscriptUserURLStatic == "") {
+			PWBox.radio_rscript_default.Active = true;
+			PWBox.button_rscript_choose.Sensitive = false;
+			PWBox.entry_rscript_user_location.Sensitive = false;
+			PWBox.entry_rscript_user_location.Text = "";
+		} else {
+			PWBox.radio_rscript_other.Active = true;
+			PWBox.button_rscript_choose.Sensitive = true;
+			PWBox.entry_rscript_user_location.Sensitive = true;
+			PWBox.entry_rscript_user_location.Text = Config.RscriptUserURLStatic;
+		}
+
+		if (Config.PythonUserURLStatic == "") {
+			PWBox.radio_python_default.Active = true;
+			PWBox.button_python_choose.Sensitive = false;
+			PWBox.entry_python_user_location.Sensitive = false;
+			PWBox.entry_python_user_location.Text = "";
+		} else {
+			PWBox.radio_python_other.Active = true;
+			PWBox.button_python_choose.Sensitive = true;
+			PWBox.entry_python_user_location.Sensitive = true;
+			PWBox.entry_python_user_location.Text = Config.PythonUserURLStatic;
+		}
+		PWBox.signalsNoFollow = false;
 
 		if(preferences.askDeletion)
 			PWBox.checkbutton_ask_deletion.Active = true;
@@ -2421,9 +2497,14 @@ public class PreferencesWindow
 	}
 	private void button_cloud_set_path (bool capture) //capture or view
 	{
+		FileChooserAction action = FileChooserAction.SelectFolder;
+		//mac arm64 crashes on SelectFolder, use Open. The problem in Open is it cannot select a folder that has contents. Only an empty folder
+		if (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX && RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
+			action = FileChooserAction.Open;
+
 		Gtk.FileChooserNative fc = new Gtk.FileChooserNative(Catalog.GetString("Select cloud directory"),
 				preferences_win,
-				FileChooserAction.SelectFolder,
+				action,
 				Catalog.GetString("Select"),
 				Catalog.GetString("Cancel")
 				);
@@ -2510,6 +2591,238 @@ public class PreferencesWindow
 				DialogImageTest.ArchiveType.ASSEMBLY,
 				"", 600, 306
 				);
+	}
+
+	// ---- r_user_location ---->
+
+	private void on_radio_r_default_toggled (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		button_r_choose.Sensitive = false;
+		entry_r_user_location.Sensitive = false;
+		rUserChanges ("");
+	}
+	private void on_radio_r_other_toggled (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		button_r_choose.Sensitive = true;
+		entry_r_user_location.Sensitive = true;
+		rUserChanges ("");
+	}
+	private void on_button_r_choose_clicked (object o, EventArgs args)
+	{
+		signalsNoFollow = true;
+
+		string url = chooseFile (Catalog.GetString ("Please, select R file"));
+		rUserChanges (url);
+
+		signalsNoFollow = false;
+	}
+
+	private void on_button_r_autodetect_clicked (object o, EventArgs args)
+	{
+		//TODO
+	}
+
+	private void on_entry_r_user_location_changed (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		string url = entry_r_user_location.Text;
+		rUserChangesB (url);
+	}
+
+	private void rUserChanges (string url)
+	{
+		rUserChangesA (url);
+		rUserChangesB (url);
+	}
+	private void rUserChangesA (string url)
+	{
+		// A) changes on preferences gui
+		entry_r_user_location.Text = url;
+	}
+	private void rUserChangesB (string url)
+	{
+		// B) changes on Config object and file
+		if (Config.RUserURLStatic != url)
+		{
+			Config.RUserURLStatic = url;
+			configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
+					Config.OpEnum.RUserURL.ToString (), url);
+		}
+	}
+
+	// <---- r_user_location
+
+	// ---- rscript_user_location ---->
+
+	private void on_radio_rscript_default_toggled (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		button_rscript_choose.Sensitive = false;
+		entry_rscript_user_location.Sensitive = false;
+		rscriptUserChanges ("");
+	}
+	private void on_radio_rscript_other_toggled (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		button_rscript_choose.Sensitive = true;
+		entry_rscript_user_location.Sensitive = true;
+		rscriptUserChanges ("");
+	}
+	private void on_button_rscript_choose_clicked (object o, EventArgs args)
+	{
+		signalsNoFollow = true;
+
+		string url = chooseFile (Catalog.GetString ("Please, select Rscript file"));
+		rscriptUserChanges (url);
+
+		signalsNoFollow = false;
+	}
+
+	private void on_button_rscript_autodetect_clicked (object o, EventArgs args)
+	{
+		signalsNoFollow = true;
+
+		string url = ExecuteProcess.WhereInstalled ("Rscript");
+		if (url != "")
+			rscriptUserChanges (url);
+
+		signalsNoFollow = false;
+	}
+
+	private void on_entry_rscript_user_location_changed (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		string url = entry_rscript_user_location.Text;
+		rscriptUserChangesB (url);
+	}
+
+	private void rscriptUserChanges (string url)
+	{
+		rscriptUserChangesA (url);
+		rscriptUserChangesB (url);
+	}
+	private void rscriptUserChangesA (string url)
+	{
+		// A) changes on preferences gui
+		entry_rscript_user_location.Text = url;
+	}
+	private void rscriptUserChangesB (string url)
+	{
+		// B) changes on Config object and file
+		if (Config.RscriptUserURLStatic != url)
+		{
+			Config.RscriptUserURLStatic = url;
+			configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
+					Config.OpEnum.RscriptUserURL.ToString (), url);
+		}
+	}
+
+	// <---- rscript_user_location
+
+	// ---- python_user_location ---->
+
+	private void on_radio_python_default_toggled (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		button_python_choose.Sensitive = false;
+		entry_python_user_location.Sensitive = false;
+		pythonUserChanges ("");
+	}
+	private void on_radio_python_other_toggled (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		button_python_choose.Sensitive = true;
+		entry_python_user_location.Sensitive = true;
+		pythonUserChanges ("");
+	}
+	private void on_button_python_choose_clicked (object o, EventArgs args)
+	{
+		signalsNoFollow = true;
+
+		string url = chooseFile (Catalog.GetString ("Please, select Python file"));
+		pythonUserChanges (url);
+
+		signalsNoFollow = false;
+	}
+
+	private void on_button_python_autodetect_clicked (object o, EventArgs args)
+	{
+		signalsNoFollow = true;
+
+		string url = ExecuteProcess.WhereInstalled ("python3");
+		if (url != "")
+			pythonUserChanges (url);
+
+		signalsNoFollow = false;
+	}
+
+	private void on_entry_python_user_location_changed (object o, EventArgs args)
+	{
+		if (signalsNoFollow)
+			return;
+
+		string url = entry_python_user_location.Text;
+		pythonUserChangesB (url);
+	}
+
+	private void pythonUserChanges (string url)
+	{
+		pythonUserChangesA (url);
+		pythonUserChangesB (url);
+	}
+	private void pythonUserChangesA (string url)
+	{
+		// A) changes on preferences gui
+		entry_python_user_location.Text = url;
+	}
+
+	private void pythonUserChangesB (string url)
+	{
+		// B) changes on Config object and file
+		if (Config.PythonUserURLStatic != url)
+		{
+			Config.PythonUserURLStatic = url;
+			configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
+					Config.OpEnum.PythonUserURL.ToString (), url);
+		}
+	}
+
+	// <---- python_user_location
+
+	private string chooseFile (string text)
+	{
+		string url = "";
+		Gtk.FileChooserNative fc = new Gtk.FileChooserNative(text,
+				preferences_win,
+				FileChooserAction.Open,
+				Catalog.GetString("Select"), Catalog.GetString("Cancel")
+				);
+		if (fc.Run() == (int)ResponseType.Accept) 
+		{
+			url = fc.Filename; //include path?
+		}
+		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
+		fc.Destroy();
+
+		return url;
 	}
 
 	private void on_checkbutton_mute_logs_clicked (object o, EventArgs args)
@@ -3213,9 +3526,14 @@ public class PreferencesWindow
 
 	 void on_button_db_restore_clicked (object o, EventArgs args)
 	 {
+		FileChooserAction action = FileChooserAction.SelectFolder;
+		//mac arm64 crashes on SelectFolder, use Open. The problem in Open is it cannot select a folder that has contents. Only an empty folder
+		if (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX && RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
+			action = FileChooserAction.Open;
+
 		fc = new Gtk.FileChooserNative(Catalog.GetString("Restore database from:"),
 			preferences_win,
-			FileChooserAction.SelectFolder,
+			action,
 			Catalog.GetString("Restore"), Catalog.GetString("Cancel")
 		);
 
@@ -3779,6 +4097,24 @@ public class PreferencesWindow
 		image_send_log_no = (Gtk.Image) builder.GetObject ("image_send_log_no");
 		image_send_log_yes = (Gtk.Image) builder.GetObject ("image_send_log_yes");
 		textview_send_log_message = (Gtk.TextView) builder.GetObject ("textview_send_log_message");
+
+		image_advanced_r = (Gtk.Image) builder.GetObject ("image_advanced_r");
+		image_advanced_python = (Gtk.Image) builder.GetObject ("image_advanced_python");
+		radio_r_default = (Gtk.RadioButton) builder.GetObject ("radio_r_default");
+		radio_r_other = (Gtk.RadioButton) builder.GetObject ("radio_r_other");
+		entry_r_user_location = (Gtk.Entry) builder.GetObject ("entry_r_user_location");
+		button_r_choose = (Gtk.Button) builder.GetObject ("button_r_choose");
+		button_r_autodetect = (Gtk.Button) builder.GetObject ("button_r_autodetect");
+		radio_rscript_default = (Gtk.RadioButton) builder.GetObject ("radio_rscript_default");
+		radio_rscript_other = (Gtk.RadioButton) builder.GetObject ("radio_rscript_other");
+		entry_rscript_user_location = (Gtk.Entry) builder.GetObject ("entry_rscript_user_location");
+		button_rscript_choose = (Gtk.Button) builder.GetObject ("button_rscript_choose");
+		button_rscript_autodetect = (Gtk.Button) builder.GetObject ("button_rscript_autodetect");
+		radio_python_default = (Gtk.RadioButton) builder.GetObject ("radio_python_default");
+		radio_python_other = (Gtk.RadioButton) builder.GetObject ("radio_python_other");
+		button_python_choose = (Gtk.Button) builder.GetObject ("button_python_choose");
+		button_python_autodetect = (Gtk.Button) builder.GetObject ("button_python_autodetect");
+		entry_python_user_location = (Gtk.Entry) builder.GetObject ("entry_python_user_location");
 
 		radio_python_2 = (Gtk.RadioButton) builder.GetObject ("radio_python_2");
 		radio_python_3 = (Gtk.RadioButton) builder.GetObject ("radio_python_3");

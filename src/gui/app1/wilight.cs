@@ -1,5 +1,5 @@
 /*
- * This file is part of ChronoJump
+* This file is part of ChronoJump
  *
  * Chronojump is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,28 +21,80 @@
 using System;
 using System.Diagnostics; //Stopwatch
 using Gtk;
+using Mono.Unix;
 
 //TODO: note this dirty code is just for testing
 public partial class ChronoJumpWindow 
 {
 	// at glade ---->
+	Gtk.Box box_wilight;
 	Gtk.Box box_start_wilight;
-	Gtk.ButtonBox buttonbox_wilight_test;
+	Gtk.Box box_wilight_test_actions;
+	Gtk.SpinButton spin_wilight_portnum;
+	Gtk.Button button_wilight_test_cancel;
+	Gtk.Button button_wilight_test_finish;
 	Gtk.SpinButton spin_wilight_test_ping;
+	Gtk.ComboBoxText combo_wilight_single_color;
+	Gtk.CheckButton check_wilight_show_commands;
 	Gtk.CheckButton check_wilight_very_verbose;
-	Gtk.Label label_wilight_test_status;
+	Gtk.ScrolledWindow scrolled_wilight_commands;
 	Gtk.TextView textview_wilight;
 	// <---- at glade
 
 	static Thread threadWilight;
-	enum wilightActions { DISCOVER, PING, SPEED, SEQUENCE };
-	private wilightActions wilightAction;
+	static WilightTest wilightTest;
+	static bool wilightProcessCancel;
+	static bool wilightProcessFinish;
+	static string wilightMessage;
 
-	static TextBuffer tbWilight = new TextBuffer (new TextTagTable());
+	//to play sound by pulse thread
+	enum wilightSoundEnum { NONE, GOOD, BAD };
+	static wilightSoundEnum haveToPlaySound;
+
+	enum wilightActions { DISCOVER, PING, CHANGECOLOR, SPEED, DEMO, SEQUENCE };
+	private wilightActions wilightAction;
+	DateTime wilightTimeStartCapture;
+
+	private IDNameList wilightColor_l;
+
+	//use the string to not have crash by manipulating the TextBuffer outside the pulse thread
+	static string tbWilightText = "";
+	static bool needToUpdateTextViewWilight;
+	TextBuffer tbWilight = new TextBuffer (new TextTagTable());
+
+	CairoGraphWilight cairoGraphWilight;
 
 	private void wilightApp1Init ()
 	{
-		tbWilight.Text = "";
+		tbWilightText = "";
+		button_wilight_test_cancel.Sensitive = false;
+		button_wilight_test_finish.Sensitive = false;
+
+		scrolled_wilight_commands.Visible = check_wilight_show_commands.Active;
+		updateGraphWilightBars();
+
+		wilightColor_l = new IDNameList ();
+		wilightColor_l.Add (new IDName (0, "Black"));
+		wilightColor_l.Add (new IDName (128, "Red"));
+		wilightColor_l.Add (new IDName (64, "Green"));
+		wilightColor_l.Add (new IDName (32, "Blue"));
+
+		UtilGtk.ComboUpdate (combo_wilight_single_color, wilightColor_l.GetNames ());
+		combo_wilight_single_color.Active = 0;
+
+		textview_wilight.Name = "fontSize9";
+	}
+
+	/*
+	private void blankWilightInterface()
+	{
+		//currentWilight = new Wilight ();
+	}
+	*/
+
+	private void on_check_wilight_show_commands_clicked (object o, EventArgs args)
+	{
+		scrolled_wilight_commands.Visible = check_wilight_show_commands.Active;
 	}
 
 	private void on_button_wilight_test_discover_clicked (object o, EventArgs args)
@@ -54,6 +106,12 @@ public partial class ChronoJumpWindow
 	private void on_button_wilight_test_ping_clicked (object o, EventArgs args)
 	{
 		wilightAction = wilightActions.PING;
+		wilightExecute ();
+	}
+
+	private void on_button_wilight_test_change_color_clicked (object o, EventArgs args)
+	{
+		wilightAction = wilightActions.CHANGECOLOR;
 		wilightExecute ();
 	}
 
@@ -69,13 +127,35 @@ public partial class ChronoJumpWindow
 		wilightExecute ();
 	}
 
+	private void on_button_wilight_test_demo_clicked (object o, EventArgs args)
+	{
+		wilightAction = wilightActions.DEMO;
+		wilightExecute ();
+	}
+
+	private void on_button_wilight_test_cancel_clicked (object o, EventArgs args)
+	{
+		wilightProcessCancel = true;
+	}
+
+	private void on_button_wilight_test_finish_clicked (object o, EventArgs args)
+	{
+		wilightProcessFinish = true;
+	}
+
 	private void wilightExecute ()
 	{
-		buttonbox_wilight_test.Sensitive = false;
-		label_wilight_test_status.Text = "Doing";
-		tbWilight.Text = "";
+		box_wilight_test_actions.Sensitive = false;
+		tbWilightText = "";
+		needToUpdateTextViewWilight = false;
 
-		threadWilight = new Thread (new ThreadStart (wilightTest));
+		wilightProcessCancel = false;
+		button_wilight_test_cancel.Sensitive = true;
+		button_wilight_test_finish.Sensitive = true;
+		wilightProcessFinish = false;
+		wilightTimeStartCapture = DateTime.Now; //to have an active count of capture time
+
+		threadWilight = new Thread (new ThreadStart (wilightTestDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseWilight));
 
 		LogB.ThreadStart();
@@ -100,51 +180,62 @@ public partial class ChronoJumpWindow
 			wichroCapture.Disconnect ();
 			//cancel = true; //problem reading line (capturing)
 			Util.PlaySound (Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
+
+			wilightMessage = Catalog.GetString ("Device seems disconnected.");
 			LogB.Information ("cannot connect");
 			return false;
 		}
 
-		System.Threading.Thread.Sleep (3000); //to be able to read the answer from get_version (coming on CaptureStart)
 		wichroCapture.Flush (); //to be able to read later
 
 		return true;
 	}
 
-	private void wilightTest ()
+	private void wilightTestDo ()
 	{
-		string portName = configChronojump.WilightPortURL;
 		string commandsFile = configChronojump.WilightCommandsURL;
-		int commandTimeMs = configChronojump.WilightCommandMs;
 
 		/*
 		//testing stuff
 		LogB.Information ("wilightTest");
 		WilightTest wtz = new WilightTest (commandsFile);
-		bool finishedz = false;
 		while (true)
 		{
-			if (finishedz) //finished here to have also time to answer to the last command
+			if (wtz.Finished) //finished here to have also time to answer to the last command
 				return;
-			LogB.Information (wtz.GetNext (out finishedz));
+			wtz.GetNext ();
 		}
 		*/
 
-		if (! wilightManageConnect (portName))
+		if (! wilightManageConnect (
+					string.Format ("/dev/ttyUSB{0}", Convert.ToInt32 (spin_wilight_portnum.Value))
+					))
 			return;
 
-		if (wilightAction == wilightActions.DISCOVER || wilightAction == wilightActions.PING)
+		if (wilightAction == wilightActions.DISCOVER ||
+				wilightAction == wilightActions.PING ||
+				wilightAction == wilightActions.CHANGECOLOR)
 		{
 			if (wilightAction == wilightActions.DISCOVER)
 				discover ();
 			else if (wilightAction == wilightActions.PING)
 				ping (Convert.ToInt32 (spin_wilight_test_ping.Value));
+			else if (wilightAction == wilightActions.CHANGECOLOR)
+				changeColor (Convert.ToInt32 (spin_wilight_test_ping.Value),
+						wilightColor_l.FindID (UtilGtk.ComboGetActive (
+								combo_wilight_single_color)));
+
+			box_wilight_test_actions.Sensitive = true;
 
 			wichroCapture.Stop(); //Should we do a disconnect here?
 			return;
 		}
 
-		sendCommandAndTextview (WilightColors.AllOffCommand);
+		sendCommandAndUpdateWilightTextview (WilightColors.AllOffCommand);
 		System.Threading.Thread.Sleep (1000);
+
+		//0 time on the microcontroller
+		sendCommandAndUpdateWilightTextview ("reset_time");
 
 		if (wilightAction == wilightActions.SPEED)
 		{
@@ -153,17 +244,25 @@ public partial class ChronoJumpWindow
 		}
 		else if (wilightAction == wilightActions.SEQUENCE)
 		{
-			testSequence (commandsFile);
+			testSequence (commandsFile, false);
+			wichroCapture.Stop(); //Should we do a disconnect here?
+		}
+		else if (wilightAction == wilightActions.DEMO)
+		{
+			testSequence (commandsFile, true);
 			wichroCapture.Stop(); //Should we do a disconnect here?
 		}
 
+		haveToPlaySound = wilightSoundEnum.NONE;
+
 		System.Threading.Thread.Sleep (1000);
-		sendCommandAndTextview (WilightColors.AllOffCommand);
+		sendCommandAndUpdateWilightTextview (WilightColors.AllOffCommand);
 	}
 
 	private void discover ()
 	{
-		tbWilight.Text += "\n> local:discover;";
+		sendCommandAndUpdateWilightTextview ("local:discover;");
+
 		System.Threading.Thread.Sleep (50);
 		bool commandSendOk = wichroCapture.Discover ();
 
@@ -171,22 +270,30 @@ public partial class ChronoJumpWindow
 			LogB.Information ("Error on call to discover");
 		else {
 			LogB.Information ("discover called ok");
-			tbWilight.Text += "\n< " + wichroCapture.wilightResponse;
+			updateWilightTextview ("\n< " + wichroCapture.wilightResponse);
 		}
 	}
 
 	private void ping (int terminal)
 	{
-		tbWilight.Text += string.Format ("\n> {0}:512;", terminal);
+		sendCommandAndUpdateWilightTextview (string.Format ("{0}:512;", terminal));
 		System.Threading.Thread.Sleep (50);
+
 		bool commandSendOk = wichroCapture.Ping (terminal);
 
 		if (! commandSendOk)
 			LogB.Information ("Error on call to ping");
 		else {
 			LogB.Information ("ping called ok");
-			tbWilight.Text += "\n< " + wichroCapture.wilightResponse;
+			updateWilightTextview ("\n< " + wichroCapture.wilightResponse);
 		}
+	}
+
+	private void changeColor (int terminal, int code)
+	{
+		string command = string.Format ("{0}:{1};", terminal, code);
+		System.Threading.Thread.Sleep (50);
+		sendCommandAndUpdateWilightTextview (command);
 	}
 
 	//TODO: send only to discovered terminals
@@ -205,7 +312,7 @@ public partial class ChronoJumpWindow
 		{
 			foreach (string colorAllStr in colorsAll_l)
 			{
-				sendCommandAndTextview (colorAllStr);
+				sendCommandAndUpdateWilightTextview (colorAllStr);
 				System.Threading.Thread.Sleep (sleepTime);
 			}
 			sleepTime -= 50;
@@ -220,32 +327,47 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	//TODO: send only to discovered terminals
-	private void testSequence (string commandsFile)
+	private void testSequence (string commandsFile, bool isDemo)
 	{
-		WilightTest wt = new WilightTest (commandsFile);
+		wilightTest = new WilightTest (commandsFile, isDemo);
+		wilightMessage = wilightTest.GetProgressStatus ();
+
 		List<int> expectedTerminals_l = new List<int> (); //expected response on this (or them)
-		bool finished = false;
 
 		while (true)
 		{
-			if (finished) //finished here to have also time to answer to the last command
-				break;
+			if (wilightTest.Finished | wilightTest.Cancel) //finished here to have also time to answer to the last command
+			{
+				if (wilightTest.Finished)
+					updateWilightTextview (string.Format ("\nTotal time: {0} ms", wilightTest.FinishedMs));
+				if (wilightTest.Cancel)
+					updateWilightTextview ("Cancelled");
 
-			string command = wt.GetNext (out finished);
+				break;
+			}
+
+			string command = wilightTest.GetNext ();
+			LogB.Information ("command = " + command);
 			if (command == "")
 				continue;
 
-			sendCommandAndTextview (command);
-			expectedTerminals_l = wt.GetExpectedTerminals (command);
+			sendCommandAndUpdateWilightTextview (command);
+			expectedTerminals_l = wilightTest.GetExpectedTerminals (command);
 
-			bool readedOn = false;
-			while (! readedOn)
+			bool readedFromExpected = false;
+			while (! readedFromExpected)
 			{
+				if (wilightTest.Cancel)
+				{
+					updateWilightTextview ("Cancelled");
+					break;
+				}
+
 				if(! wichroCapture.CaptureSample())
 				{
 					LogB.Information ("Problem capturing sample");
-					Util.PlaySound (Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
+					haveToPlaySound = wilightSoundEnum.BAD;
+
 					break;
 				}
 
@@ -253,17 +375,19 @@ public partial class ChronoJumpWindow
 				{
 					LogB.Information ("Can read");
 					WichroEvent we = wichroCapture.WichroCaptureReadNext();
-					if (we.status == Chronopic.Plataforma.ON &&
-							UtilList.FoundInListInt (expectedTerminals_l, we.photocell))
+					if (UtilList.FoundInListInt (expectedTerminals_l, we.photocell))
 					{
-						tbWilight.Text += "\n< " + we.ToString ();
+						updateWilightTextview ("\n< " + we.ToString ());
 
-						//LogB.Information ("Is ON!");
-						Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
-						readedOn = true;
+						haveToPlaySound = wilightSoundEnum.GOOD;
+						readedFromExpected = true;
+
+						wilightTest.CommandsCountReceivedAdd ();
+						wilightMessage = wilightTest.GetProgressStatus ();
+
 					}
 					else if (check_wilight_very_verbose.Active)
-						tbWilight.Text += "\n< " + we.ToString ();
+						updateWilightTextview ("\n< " + we.ToString ());
 				}
 				System.Threading.Thread.Sleep (20);
 			}
@@ -272,32 +396,186 @@ public partial class ChronoJumpWindow
 
 	private bool pulseWilight ()
 	{
-		textview_wilight.Buffer = tbWilight;
-
-		if (! threadWilight.IsAlive)
+		if (needToUpdateTextViewWilight)
 		{
-			buttonbox_wilight_test.Sensitive = true;
-			label_wilight_test_status.Text = "Done";
+			tbWilight.Text = tbWilightText;
+			textview_wilight.Buffer = tbWilight;
+			UtilGtk.TextViewScrollToEnd (textview_wilight);
+			needToUpdateTextViewWilight = false;
+		}
+
+		event_execute_label_message.Text = wilightMessage;
+
+		if (! threadWilight.IsAlive || wilightProcessCancel)
+		{
+			if (wilightProcessCancel && wilightTest != null)
+				wilightTest.Cancel = true;
+
+			if (wilightTest != null && wilightTest.Finished)
+			{
+				if (! wilightTest.IsDemo) //if is not a demo, save it and update treeview and graph
+				{
+					int exerciseID = 0;
+					if (configChronojump.WilightExerciseID > 0)
+						exerciseID = configChronojump.WilightExerciseID;
+
+					LogB.Information ("Finished! create object");
+					Wilight w = new Wilight (-1, currentPerson.UniqueID, currentSession.UniqueID, exerciseID,
+							UtilDate.ToFile (wilightTimeStartCapture), "", //videoURL
+							wilightTest.FinishedMs, "");
+					LogB.Information ("Insert to SQL!");
+					w.UniqueID = w.InsertSQL (false);
+					LogB.Information ("Inserted!");
+
+					myTreeViewWilight.Add (currentPerson.Name, w, "");
+					updateGraphWilightBars();
+				}
+
+				event_execute_label_message.Text = "Finished";
+			}
+
+			box_wilight_test_actions.Sensitive = true;
+			button_wilight_test_cancel.Sensitive = false;
+			button_wilight_test_finish.Sensitive = false;
 			return false;
 		}
 
-		Thread.Sleep (20);
+		if (haveToPlaySound == wilightSoundEnum.GOOD)
+		{
+			haveToPlaySound = wilightSoundEnum.NONE;
+			Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
+		} else if (haveToPlaySound == wilightSoundEnum.BAD)
+		{
+			haveToPlaySound = wilightSoundEnum.NONE;
+			Util.PlaySound (Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
+		}
+
+		LogB.Information(" Cur:" + threadWilight.ThreadState.ToString());
+		Thread.Sleep (50);
 		return true;
 	}
 
-	private void sendCommandAndTextview (string command)
+	private void sendCommandAndUpdateWilightTextview (string command)
 	{
-		wichroCapture.WilightSendCommand (command);
-		tbWilight.Text += "\n> " + command;
+		bool sendCommandFeedback = wichroCapture.WilightSendCommand (command);
+		updateWilightTextview ("\n> " + command);
 	}
+	private void updateWilightTextview (string str)
+	{
+		tbWilightText += str;
+		needToUpdateTextViewWilight = true;
+	}
+
+	private void updateGraphWilightBars ()
+	{
+		if(currentPerson == null || currentSession == null)
+			return;
+
+		//intializeVariables if not done before
+		event_execute_initializeVariables(
+			(! cp2016.StoredCanCaptureContacts && ! cp2016.StoredWireless), //is simulated
+			currentPerson.UniqueID,
+			currentPerson.Name,
+			"", //Catalog.GetString("Phases"),  	  //name of the different moments
+			Constants.WilightTable, //tableName
+			"" //type
+			);
+
+		/*
+		string typeTemp = currentEventType.Name;
+		if(radio_contacts_graph_allTests.Active)
+			typeTemp = "";
+			*/
+		string typeTemp = "";
+
+		int selectedID = -1;
+		if (myTreeViewWilight != null && myTreeViewWilight.EventSelectedID > 0)
+			selectedID = myTreeViewWilight.EventSelectedID;
+
+		PrepareEventGraphWilight eventGraph = new PrepareEventGraphWilight(
+				1, //unused?
+				currentSession.UniqueID,
+				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
+				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
+				//Constants.WiightTable, typeTemp,
+				selectedID);
+
+		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.runsAtSQL.Count > 0)
+		//	PrepareRunSimpleGraph(eventGraph, false); //don't animate
+
+		string personStr = "";
+		if(! radio_contacts_results_personAll.Active)
+			personStr = currentPerson.Name;
+
+		LogB.Information("event_execute_drawingarea_cairo == null: ",
+			(event_execute_drawingarea_cairo == null).ToString());
+
+		cairoPaintBarsPre = new CairoPaintBarsWilight (
+				event_execute_drawingarea_cairo, preferences.fontTypeToGraph(), current_mode,
+				personStr, typeTemp, preferences.digitsNumber);
+
+		cairoPaintBarsPre.StoreEventGraphWilight (eventGraph);
+		//PrepareRunSimpleGraph(cairoPaintBarsPre.eventGraphRunsStored, false); //do not need, draw event will graph it:
+		event_execute_drawingarea_cairo.QueueDraw ();
+	}
+
+	private	void wilight_delete_current_test_pre_question ()
+	{
+		//1.- check that there's a line selected
+		//2.- check that this line is a wilight and not a person
+		if (myTreeViewWilight.EventSelectedID > 0) {
+			//3.- display confirmwindow of deletion
+			if (preferences.askDeletion) {
+				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
+							"Are you sure you want to delete this set?"), "", "");
+				confirmWin.Button_accept.Clicked += new EventHandler (wilight_delete_current_test_accepted);
+			} else {
+				wilight_delete_current_test_accepted(new object(), new EventArgs());
+			}
+		}
+	}
+
+	private void wilight_delete_current_test_accepted (object o, EventArgs args)
+	{
+		int id = myTreeViewWilight.EventSelectedID;
+
+		Sqlite.Delete (false, Constants.WilightTable, id);
+
+		myTreeViewWilight.DelEvent(id);
+
+		/* code from runI
+		selectedRunInterval = null;
+		selectedRunIntervalType = null;
+		showHideActionEventButtons(false);
+
+		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.WILIGHT, id );
+		try {
+			if(currentWilight.UniqueID == id)
+				deleted_last_test_update_widgets();
+		} catch {
+			//there's no currentWilight (no one done it now), then it crashed,
+			//but don't need to update widgets
+		}
+		*/
+
+		updateGraphWilightBars ();
+
+	}
+
 
 	private void connectWidgetsWilight (Gtk.Builder builder)
 	{
+		box_wilight = (Gtk.Box) builder.GetObject ("box_wilight");
 		box_start_wilight = (Gtk.Box) builder.GetObject ("box_start_wilight");
-		buttonbox_wilight_test = (Gtk.ButtonBox) builder.GetObject ("buttonbox_wilight_test");
+		box_wilight_test_actions = (Gtk.Box) builder.GetObject ("box_wilight_test_actions");
+		spin_wilight_portnum = (Gtk.SpinButton) builder.GetObject ("spin_wilight_portnum");
+		button_wilight_test_cancel = (Gtk.Button) builder.GetObject ("button_wilight_test_cancel");
+		button_wilight_test_finish = (Gtk.Button) builder.GetObject ("button_wilight_test_finish");
 		spin_wilight_test_ping = (Gtk.SpinButton) builder.GetObject ("spin_wilight_test_ping");
+		combo_wilight_single_color = (Gtk.ComboBoxText) builder.GetObject ("combo_wilight_single_color");
+		check_wilight_show_commands = (Gtk.CheckButton) builder.GetObject ("check_wilight_show_commands");
 		check_wilight_very_verbose = (Gtk.CheckButton) builder.GetObject ("check_wilight_very_verbose");
-		label_wilight_test_status = (Gtk.Label) builder.GetObject ("label_wilight_test_status");
+		scrolled_wilight_commands = (Gtk.ScrolledWindow) builder.GetObject ("scrolled_wilight_commands");
 		textview_wilight = (Gtk.TextView) builder.GetObject ("textview_wilight");
 	}
 }

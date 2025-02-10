@@ -1,3 +1,10 @@
+----
+Attention because many machineIDs are 4294967295 because is the maximum number, see json.cs
+this compromises the GROUP BY machineID and the COUNT(DISTINCT machineID)
+----
+
+select COUNT(*) AS conta, ping.* FROM ping where machineID=4294967295 GROUP BY osVersion order by conta;
+
 Different Chronojump installations of a version by operating system
 
 SELECT COUNT(DISTINCT machineID), substring(osVersion, 1,6) AS osv FROM ping WHERE cjVersion LIKE "%2.0.2%" GROUP BY osv;
@@ -12,9 +19,52 @@ SELECT COUNT(*) FROM ping WHERE cjVersion LIKE "%2.0.2%" AND osVersion LIKE "%Ma
 SELECT COUNT(*) FROM ping WHERE cjVersion LIKE "%2.0.2%" AND osVersion LIKE "Unix, %" GROUP BY machineID;
 SELECT COUNT(*) FROM ping WHERE cjVersion LIKE "%2.0.2%" AND osVersion LIKE "%Win%" GROUP BY machineID;
 
+
+----
+To know the operating systems:
+#for osCountAlways_c
+SELECT COUNT(*), LEFT (osVersion, 6) FROM ping GROUP BY LEFT (osVersion, 6);
+
+Unix (: Macbooks
+Unix C: ChromeOS
+Unix, : Linux
+
+#for osCount2024_c
+SELECT COUNT(*), LEFT (osVersion, 6) FROM ping WHERE dtPing >= "2024-01-01" and dtPing < "2025-01-01" GROUP BY LEFT (osVersion, 6);
+
+#R code
+osNamesc = c("Windows", "Mac", "Linux", "ChromeOS")
+osCountAlways_c = c(380667, 143474, 12 + 47538, 263)
+osCount2024_c = c(96732, 34329, 5334, 179)
+
+png(filename="chronojump-use-os.png", width=800, height=600)
+par(mfrow=c(1,2))
+barplot(osCountAlways_c, names.arg=osNames_c, col=topo.colors(4), sub="All years")
+barplot(osCount2024_c, names.arg=osNames_c, col=topo.colors(4), sub="2024")
+par(mfrow=c(1,1))
+mtext("Chronojump use (open times) by OS", side=3, line=-2, outer=T)
+dev.off()
+----
+
+
+
+----
 to see evolution of pings by years:
+
+select COUNT(*), LEFT (dtPing, 4) FROM ping GROUP BY LEFT (dtPing, 4);
+#R code
+png(filename="chronojump-use-years.png", width=800, height=600)
+#not using previous to 2017 as versions where not uploading pings, also maybe someone now is using version without pings or is not connected
+years_c = seq(2017,2025)
+pings_c = c(31998, 48838, 60656, 27754, 60715, 84782, 113565, 136574, 4541)
+barplot (pings_c, names.arg=years_c, col=rev(heat.colors(length(years_c))), main="Chronojump use by year (since 2017)", sub="2025, Jan, 14")
+dev.off()
+
+just two years:
+
 select count(*) from ping where dtPing > "2021-01-01" and dtPing < "2022-01-01";
 
+----
 
 SELECT count(*) AS conta, socialNetwork FROM socialNetwork GROUP BY socialNetwork ORDER BY conta DESC;
 

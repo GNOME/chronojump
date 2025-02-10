@@ -157,28 +157,6 @@ class SqlitePulse : Sqlite
 		return myPulses;
 	}
 
-	public static Pulse SelectPulseData(int uniqueID, bool dbconOpened)
-	{
-		if(!dbconOpened)
-			Sqlite.Open();
-
-		dbcmd.CommandText = "SELECT * FROM " + Constants.PulseTable + " WHERE uniqueID = " + uniqueID;
-		
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		SQLiteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-		reader.Read();
-
-		Pulse myPulse = new Pulse(DataReaderToStringArray(reader, 9));
-
-		reader.Close();
-		if(!dbconOpened)
-			Sqlite.Close();
-		return myPulse;
-	}
-
 	public static void Update(int pulseID, int personID, string description)
 	{
 		Sqlite.Open();

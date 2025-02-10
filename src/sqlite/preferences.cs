@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -188,6 +188,11 @@ class SqlitePreferences : Sqlite
 	public const string RunEncoderPPS = "runEncoderPPS";
 
 	//advanced
+	//
+	// no longer used. Use Config for not having problems with cloud
+	public const string RscriptUserURL = "rscriptUserURL";
+	public const string PythonUserURL = "pythonUserURL";
+
 	public const string ImporterPythonVersion = "importerPythonVersion";
 
 	//session
@@ -280,7 +285,7 @@ class SqlitePreferences : Sqlite
 				Insert ("volumeOn", "True", dbcmdTr);
 
 				if(os == UtilAll.OperatingSystems.WINDOWS)
-					Insert (Preferences.GstreamerStr, Preferences.GstreamerTypes.SYSTEMSOUNDS.ToString());
+					Insert (Preferences.GstreamerStr, Preferences.GstreamerTypes.SYSTEMSOUNDS.ToString(), dbcmdTr);
 				else if(os == UtilAll.OperatingSystems.MACOSX)
 					Insert (Preferences.GstreamerStr, Preferences.GstreamerTypes.FFPLAY.ToString(), dbcmdTr);
 				else
@@ -303,7 +308,7 @@ class SqlitePreferences : Sqlite
 				Insert ("thresholdOther", "50", dbcmdTr);
 
 				Random rnd = new Random();
-				string machineID = rnd.Next().ToString();
+				string machineID = rnd.Next().ToString(); //this will generate a machineID between 0 and 2147483647 (Int32.MaxValue) even on 64 bits
 				Insert ("machineID", machineID, dbcmdTr);
 
 				Insert ("multimediaStorage", Constants.MultimediaStorage.BYSESSION.ToString(), dbcmdTr);
@@ -349,7 +354,7 @@ class SqlitePreferences : Sqlite
 				Insert (EncoderRepetitionCriteriaInertialStr, Preferences.EncoderRepetitionCriteria.CON.ToString(), dbcmdTr);
 
 				ArrayList encoderExercises =
-					SqliteEncoder.SelectEncoderExercises(true, -1, true, Constants.EncoderGI.ALL);
+					SqliteEncoder.SelectEncoderExercises(true, -1, true, Constants.EncoderGI.ALL, dbcmdTr);
 
 				if(encoderExercises.Count > 0) {
 					EncoderExercise ex = (EncoderExercise) encoderExercises[0];
@@ -450,6 +455,9 @@ class SqlitePreferences : Sqlite
 				//socialNetwork
 				Insert (SocialNetwork, "", dbcmdTr);
 				Insert (SocialNetworkDatetime, "", dbcmdTr);
+
+				Insert (RscriptUserURL, "", dbcmdTr);
+				Insert (PythonUserURL, "", dbcmdTr);
 
 				//session
 				Insert (LoadLastSessionAtStart, "True", dbcmdTr);
@@ -1139,6 +1147,14 @@ class SqlitePreferences : Sqlite
 					Enum.Parse(typeof(Preferences.pythonVersionEnum), reader[1].ToString());
 			else if(reader[0].ToString() == "databaseVersion")
 				preferences.databaseVersion = reader[1].ToString();
+
+			/*
+			 * no longer used the db info. Use Config for not having problems with cloud
+			else if(reader[0].ToString() == RscriptUserURL)
+				preferences.rscriptUserURL = reader[1].ToString();
+			else if(reader[0].ToString() == PythonUserURL)
+				preferences.pythonUserURL = reader[1].ToString();
+			*/
 
 			//session
 			else if(reader[0].ToString() == LoadLastSessionAtStart)

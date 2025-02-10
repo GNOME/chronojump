@@ -63,6 +63,15 @@ public class IDNameList
 		}
 	}
 
+	public List<string> GetNames ()
+	{
+		List<string> name_l = new List<string> ();
+		foreach (IDName idn in l)
+			name_l.Add (idn.Name);
+
+		return name_l;
+	}
+
 	public void Add(IDName idName) {
 		l.Add(idName);
 	}

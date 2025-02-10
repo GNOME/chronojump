@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -623,6 +623,7 @@ public class UtilGtk
 	public static string ColorBad = "red";
 	public static string ColorNothing = "";
 	public static string ColorGray = "gray";
+	public static string ColorBlack = "black";
 
 	public enum Colors {
 		BLACK, BLUE_CHRONOJUMP, BLUE_LIGHT, BLUE_PLOTS,
@@ -1004,6 +1005,9 @@ public class UtilGtk
 			"}" +
 			"tooltip label {" +
 				"color: #ffffff;" +
+			"}" +
+			"textview#fontSize9 {" +
+			"	font-size: 9pt;" +
 			"}";
 		css.LoadFromData(data);
 
@@ -1266,6 +1270,14 @@ public class UtilGtk
 	public static void TextViewClear (Gtk.TextView tv)
 	{
 		tv.Buffer.Text = "";
+	}
+
+	public static void TextViewScrollToEnd (Gtk.TextView tv)
+	{
+		//https://gtk-sharp-list.ximian.narkive.com/0nusInFU/gtk-textview-and-scrolling-text#post5
+		TextIter ti = tv.Buffer.GetIterAtLine (tv.Buffer.LineCount-1);
+		TextMark tm = tv.Buffer.CreateMark ("eot", ti, false);
+		tv.ScrollToMark (tm, 0, false, 0, 0);
 	}
 
 	public static TextBuffer TextViewPrint(string message) {

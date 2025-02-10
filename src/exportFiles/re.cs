@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2022-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -56,13 +56,13 @@ public class RunEncoderExport : ExportFiles
 			bool plotRawAccel, bool plotFittedAccel,
 			bool plotRawForce, bool plotFittedForce,
 			bool plotRawPower, bool plotFittedPower,
-			char exportDecimalSeparator
-			)
+			char exportDecimalSeparator)
 	{
 		Button_done = new Gtk.Button();
 
 		assignParams(notebook, labelProgress, progressbar, labelDiscarded, labelResult, includeImages,
-				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator);
+				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator
+				);
 
 		this.includeInstantaneous = includeInstantaneous;
 		this.startAccel = startAccel;

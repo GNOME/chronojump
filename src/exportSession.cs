@@ -25,6 +25,7 @@ using System.Xml;	//XmlTextWriter
 using Gtk;		//FileSelection widget
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List
+using System.Runtime.InteropServices; //RuntimeInformation
 using Mono.Unix;
 
 public abstract class ExportSession
@@ -69,22 +70,32 @@ public abstract class ExportSession
 
 	protected void checkFile (string formatFile)
 	{
-		string exportString = "";
-		if(formatFile == "report") {
-			exportString = Catalog.GetString ("Save report as …");
-		} else {
-			exportString = Catalog.GetString ("Export session in format " + formatFile);
-		}
+		string nameString = checkFileSelectName ();
+		string extension = "";
 
-		
-		Gtk.FileChooserNative fc=
-			new Gtk.FileChooserNative(exportString,
-					app1,
-					FileChooserAction.Save,
-					Catalog.GetString("Export"),
-					Catalog.GetString("Cancel")
-					);
-	
+		if(formatFile == "report") {
+			if(UtilAll.IsWindows())
+				extension = ".htm";
+			else
+				extension = ".html";
+		} else
+			extension = ".csv";
+
+		if (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX && RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
+		{
+			filename = Util.GetTempExportDirMacSilicon (
+					nameString +
+					//"_" + UtilDate.ToFile(DateTime.Now) + //to do not need to care about overwrite
+					extension);
+
+			writeFileCheckingOverwrite ();
+		} else {
+			checkFileOpenChooser (nameString + extension, formatFile);
+		}
+	}
+
+	protected string checkFileSelectName ()
+	{
 		//set default name
 		string nameString = "";
 		if (sessionID >= 0)
@@ -97,13 +108,27 @@ public abstract class ExportSession
 		if (sessionID >= 0)
 			nameString += "_" + mySession.DateShortAsSQL;
 
+
+		return nameString;
+	}
+
+	// not used on mac Silicon until fixed
+	protected void checkFileOpenChooser (string nameString, string formatFile)
+	{
+		string exportString = "";
 		if(formatFile == "report") {
-			if(UtilAll.IsWindows())
-				nameString += ".htm";
-			else
-				nameString += ".html";
-		} else
-			nameString += ".csv";
+			exportString = Catalog.GetString ("Save report as …");
+		} else {
+			exportString = Catalog.GetString ("Export session in format " + formatFile);
+		}
+
+		Gtk.FileChooserNative fc =
+			new Gtk.FileChooserNative(exportString,
+					app1,
+					FileChooserAction.Save,
+					Catalog.GetString("Export"),
+					Catalog.GetString("Cancel")
+					);
 
 		fc.CurrentName = nameString;
 
@@ -118,16 +143,7 @@ public abstract class ExportSession
 				filename = Util.AddCsvIfNeeded(filename);
 			}
 
-			if (File.Exists(filename)) {
-				LogB.Warning(string.Format("File {0} exists with attributes {1}, created at {2}",
-							filename, File.GetAttributes(filename), File.GetCreationTime(filename)));
-				LogB.Information("Overwrite …");
-				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite file: "),
-						"", filename);
-				confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
-			} else {
-				writeFile();
-			}
+			writeFileCheckingOverwrite ();
 		}
 		else {
 			LogB.Information("cancelled");
@@ -143,6 +159,20 @@ public abstract class ExportSession
 		
 		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		fc.Destroy();
+	}
+
+	private void writeFileCheckingOverwrite ()
+	{
+		if (File.Exists(filename))
+		{
+			LogB.Warning(string.Format("File {0} exists with attributes {1}, created at {2}",
+						filename, File.GetAttributes(filename), File.GetCreationTime(filename)));
+			LogB.Information("Overwrite …");
+			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite file: "),
+					"", filename);
+			confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
+		} else
+			writeFile();
 	}
 
 	private void on_overwrite_file_accepted(object o, EventArgs args)

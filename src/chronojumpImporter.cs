@@ -24,7 +24,7 @@ using Mono.Unix;
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Copyright (C) 2016-2017   Carles Pina i Estany <carles@pina.cat>
- * Copyright (C) 2019-2020   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2019-2024   Xavier de Blas <xaviblas@gmail.com>
  */
 
 /*
@@ -77,7 +77,8 @@ class ChronojumpImporter
 	// ChronojumpImporter class imports a specific session from sourceFile to destinationFile.
 	// The main method is "import()" which does all the work.
 	public ChronojumpImporter(string sourceFile, string destinationFile,
-			int sourceSession, int destinationSession, bool debugToFile, Preferences.pythonVersionEnum pythonVersion)
+			int sourceSession, int destinationSession, bool debugToFile,
+			Preferences.pythonVersionEnum pythonVersion)
 	{
 		this.sourceFile = sourceFile;
 		this.destinationFile = destinationFile;
@@ -414,7 +415,7 @@ LogB.Information("import L ");
 		string importer_executable;
 
 		// On Linux, OSX (and Windows since .NET and Python installed) we execute Python and we pass the path to the script as a first argument
-		importer_executable = Preferences.GetPythonExecutable(pythonVersion);
+		importer_executable = Preferences.GetPythonExecutable (pythonVersion);
 
 		if (UtilAll.IsWindows())
 		{

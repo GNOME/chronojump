@@ -1193,6 +1193,16 @@ public class Util
 	 * <--------------- end of force sensor suff
 	 */
 
+	//on Silicon we have problems exporting. In the meantime just export to a folder on tmp
+	public static string GetTempExportDirMacSilicon (string name)
+	{
+		string dir = Path.Combine(Path.GetTempPath(), "ChronojumpExportSilicon");
+		if( ! Directory.Exists(dir)) {
+			Directory.CreateDirectory (dir);
+			LogB.Information ("created dir:", dir);
+		}
+		return Path.Combine (dir, name);
+	}
 
 	//videos are organized by sessions. Photos no.
 	public static string GetVideoSessionDir (int sessionID) {
@@ -1763,9 +1773,11 @@ public class Util
 
 		return bin;
 	}
+
 	public static string GetRscriptBin ()
 	{
-		string bin = "Rscript";
+		if (Config.RscriptUserURLStatic != "")
+			return Config.RscriptUserURLStatic;
 
 		if (UtilAll.IsWindows())
 		{
@@ -1776,7 +1788,7 @@ public class Util
 		} else if (operatingSystem == UtilAll.OperatingSystems.MACOSX)
 			return Constants.RScriptOSX;
 
-		return bin;
+		return "Rscript";
 	}
 
 	public static void RunR (string rScript)

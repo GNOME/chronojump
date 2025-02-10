@@ -243,9 +243,14 @@ public abstract class MicroComms
 				LogB.Information("error: " + errorMessage);
 				micro.ClosePort();
 				return false;
+			} else {
+				LogB.Information("error: " + errorMessage);
+				LogB.Information("not managed exception");
+				return false;
 			}
 			//throw;
 		}
+		LogB.Information("success sending command");
 		return true;
 	}
 

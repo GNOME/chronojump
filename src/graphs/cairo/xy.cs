@@ -225,7 +225,7 @@ public abstract class CairoXY : CairoGeneric
 	}
 
 	//true if changed
-	//called from fourPlatforms (sending it own list of points)
+	//called from fourPlatforms and wilight (sending it own list of points)
 	protected bool findPointMaximums (bool showFullGraph, List<PointF> points_list, bool separateMinMaxIfNeeded)
 	{
 		minX = 0;

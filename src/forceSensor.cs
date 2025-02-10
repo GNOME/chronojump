@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2017-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2017-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -1485,11 +1485,11 @@ public class ForceSensorGraphR
 	}
 
 	//multiple is export
-	public bool CallR(int graphWidth, int graphHeight, bool singleOrMultiple)
+	public bool CallR (int graphWidth, int graphHeight, bool singleOrMultiple)
 	{
 		LogB.Information("\nforceSensor CallR ----->");
 		writeOptionsFile(graphWidth, graphHeight, singleOrMultiple);
-		return ExecuteProcess.CallR(UtilEncoder.GetmifScript());
+		return ExecuteProcess.CallR (UtilEncoder.GetmifScript());
 	}
 
 	private void writeOptionsFile(int graphWidth, int graphHeight, bool singleOrMultiple)

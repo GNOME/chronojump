@@ -526,9 +526,10 @@ class ExecuteProcess
 		return true;
 	}
 
-	public static bool CallR(string script)
+	//TODO: this should be renamed CallRscript
+	public static bool CallR (string script)
 	{
-		string executable = Util.GetRscriptBin();
+		string executable = Util.GetRscriptBin ();
 		List<string> parameters = new List<string>();
 
 		//A) fix script name
@@ -570,18 +571,37 @@ class ExecuteProcess
 		return executable;
 	}
 
+	// -------------- which code ------>
 	/*
 	   On Windows everything is installed with the installer,
 	   on Mac we check on some folders, but on Linux better run a "which" command to see if it is installed
 	   */
 	public static bool InstalledOnLinux (string program)
 	{
+		return (whichExecute (program)).success;
+	}
+
+	// take care... which works on Windows?
+	// TODO: check it
+	public static string WhereInstalled (string program)
+	{
+		Result result = whichExecute (program);
+		if (! result.success)
+			return "";
+		return
+			result.stdout;
+	}
+
+	private static Result whichExecute (string program)
+	{
 		List<string> parameters = new List<string>();
 		parameters.Add (program);
 		Result result = run ("which", parameters, true, true);
 
 		LogB.Information (string.Format ("'which {0}' success = {1}", program, result.success));
-		return result.success;
+		return result;
 	}
+	// <--------------- which code -------
+
 
 }

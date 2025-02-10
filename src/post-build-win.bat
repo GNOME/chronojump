@@ -1,5 +1,6 @@
 cd %~dp0
 %~d0
+xcopy /s /e /y /d "..\win32\deps\" "%1" /exclude:post-build-exclude.txt
 REM xcopy /s /e /y /d "..\butterworth\Data\" "%1butterworth\Data\"          
 REM xcopy /s /e /y /d "..\butterworth\Sample\bin\%2\" "%1butterworth\"
 xcopy /s /e /y /d ".\angle\" "%1bin\angle\"   
@@ -8,7 +9,6 @@ xcopy /s /e /y /d "..\encoder\" "%1share\chronojump\encoder\"
 xcopy /s /e /y /d "..\r-scripts\" "%1share\chronojump\r-scripts\"
 xcopy /s /e /y /d "..\po\" "%1po\" /exclude:post-build-exclude.txt
 echo F | xcopy /s /e /y /d "..\win32\chronojump_icon.ico" "%1share\chronojump\images\chronojump_icon.ico"
-xcopy /s /e /y /d "..\win32\deps\" "%1" /exclude:post-build-exclude.txt
 xcopy /s /e /y /d "..\win32\xbuild_files\" "%1xbuild_files\" 
 xcopy /s /e /y /d "..\manual\" "%1share\doc\chronojump\" /exclude:post-build-exclude.txt
 echo F | xcopy /s /e /y /d "..\win32\gtk3-x64\libglib-2.0-0.dll" "%1libglib-2.0-0.dll" 
@@ -22,4 +22,4 @@ xcopy /s /e /y /d "..\win32\gtk3-x64\ssl\" "%1ssl\"
 echo F | xcopy /s /e /y /d "..\images\bad.wav" "%1share\chronojump\images\bad.wav"
 echo F | xcopy /s /e /y /d "..\images\ok.wav" "%1share\chronojump\images\ok.wav"
 echo F | xcopy /s /e /y /d "..\images\start.wav" "%1share\chronojump\images\start.wav"
-echo F | xcopy /s /e /y /d "..\images\sounds\beepTests\*.mp3 "%1\share\chronojump\images\sounds\beepTests\"
+echo F | xcopy /s /e /y /d "..\images\sounds\beepTests\*.mp3" "%1\share\chronojump\images\sounds\beepTests\"

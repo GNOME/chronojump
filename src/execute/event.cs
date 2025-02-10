@@ -73,10 +73,7 @@ public class EventExecute
 	public PrepareEventGraphJumpReactiveRealtimeCapture PrepareEventGraphJumpReactiveRealtimeCaptureObject;
 	public PrepareEventGraphRunSimple PrepareEventGraphRunSimpleObject;
 	public PrepareEventGraphRunIntervalRealtimeCapture PrepareEventGraphRunIntervalRealtimeCaptureObject;
-	public PrepareEventGraphPulse PrepareEventGraphPulseObject;
-	public PrepareEventGraphReactionTime PrepareEventGraphReactionTimeObject;
-	public PrepareEventGraphMultiChronopic PrepareEventGraphMultiChronopicObject;
-	
+
 	protected bool needEndEvent;
 	
 	protected bool volumeOn;

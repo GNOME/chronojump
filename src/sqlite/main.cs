@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System.Collections; //ArrayList
@@ -164,7 +164,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.54";
+	static string lastChronojumpDatabaseVersion = "2.56";
 
 	public Sqlite()
 	{
@@ -480,7 +480,36 @@ class Sqlite
 		return false;
 	}
 
+	public static bool IsSqlite3()
+	{
+		bool personTableExists;
+		try {
+			personTableExists = tableExists (false, Constants.PersonTable); //this is one of the 1st created
+		} catch {
+			return false;
+		}
+		return personTableExists;
+	}
 
+	/*
+	 * To detect if DB failed on creation (but a problem in older version in software),
+	 * so need to create again (in fixed new version of the software)
+	 * PrerencesTable is the last one on creation
+	 */
+	public static bool DBComplete ()
+	{
+		bool dbComplete;
+		try {
+			dbComplete = tableExists (false, Constants.PreferencesTable);
+		} catch {
+			return false;
+		}
+		return dbComplete;
+	}
+
+	/*
+	 * TODO: delete all this
+	 *
 	public static bool IsSqlite3() {
 		if(sqlite3SelectWorks()){
 			LogB.SQL("SQLITE3");
@@ -502,59 +531,25 @@ class Sqlite
 			return false;
 		}
 	}
+	*/
+
+	/*
 	private static bool sqlite3SelectWorks() {
 		try {
 			SqlitePreferences.Select("chronopicPort");
 		} catch {
-			/*
-			try {
-				Sqlite.Close();
-				if(File.Exists(Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db"))
-					File.Move(Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db",
-							Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db");
-
-				dbcon.ConnectionString = connectionStringTemp;
-				dbcmd = dbcon.CreateCommand();
-				Sqlite.Open();
-				SqlitePreferences.Select("chronopicPort");
-			} catch {
-				Sqlite.Close();
-				if(File.Exists(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db"))
-					File.Move(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db",
-							Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db");
-
-			*/
 				return false;
-			//}
 		}
 		return true;
 	}
 	private static bool sqlite2SelectWorks() {
-		/*
-		 *it says:
-		 Unhandled Exception: System.NotSupportedException: Only Sqlite Version 3 is supported at this time
-		   at Mono.Data.Sqlite.SQLiteConnection.Open () [0x00000]
-		 *
-		Sqlite.Close();
-		connectionString = "version=2; URI=file:" + sqlFile;
-		dbcon.ConnectionString = connectionString;
-		Sqlite.Open();
-		try {
-			SqlitePreferences.Select("chronopicPort");
-		} catch {
-			return false;
-		}
-		*/
 		return true;
 	}
 
-
 	public static bool ConvertFromSqlite2To3() {
-		/*
-		 * 1 write the sqlite2 dumped data to an archive
-		 * 2 copy db
-		 * 3 create sqlite3 file from archive
-		 */
+		// 1 write the sqlite2 dumped data to an archive
+		// 2 copy db
+		// 3 create sqlite3 file from archive
 
 		string sqlite2File = Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump-sqlite2.81.db";
 		string sqliteDB = Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db";
@@ -584,20 +579,18 @@ class Sqlite
 			if(File.Exists(sqlite2File)) 
 				LogB.SQL("exists2");
 
-			/*
-			LogB.SQL("{0}-{1}", myPath + Path.DirectorySeparatorChar + sqliteStr , sqlite2File + " .dump");
-			ProcessStartInfo ps = new ProcessStartInfo(myPath + Path.DirectorySeparatorChar + sqliteStr , sqlite2File + " .dump");
+			//LogB.SQL("{0}-{1}", myPath + Path.DirectorySeparatorChar + sqliteStr , sqlite2File + " .dump");
+			//ProcessStartInfo ps = new ProcessStartInfo(myPath + Path.DirectorySeparatorChar + sqliteStr , sqlite2File + " .dump");
 
-			ps.UseShellExecute = false;
-			//ps.UseShellExecute = true;
-			ps.RedirectStandardOutput = true;
-			string output = "";
-			using(Process p = Process.Start(ps)) {
-				//TODO: this doesn't work on windows (it gets hanged)
-				p.WaitForExit();
-				output = p.StandardOutput.ReadToEnd();
-			}
-*/
+			//ps.UseShellExecute = false;
+			////ps.UseShellExecute = true;
+			//ps.RedirectStandardOutput = true;
+			//string output = "";
+			//using(Process p = Process.Start(ps)) {
+			//	//TODO: this doesn't work on windows (it gets hanged)
+			//	p.WaitForExit();
+			//	output = p.StandardOutput.ReadToEnd();
+			//}
 			
 			//write the path to chronojumpdb in a txt file (for convert_database.bat and .sh)
 			TextWriter writer = File.CreateText(myPath + Path.DirectorySeparatorChar + "db_path.txt");
@@ -620,8 +613,8 @@ class Sqlite
 
 		LogB.SQL("done");
 		return true;
-
 	}
+	*/
 
 	//for splashWin text
 	public static string PrintConversionText() {
@@ -1264,7 +1257,7 @@ class Sqlite
 				SqliteJumpType.UpdateOther ("weight", Constants.TakeOffWeightName, "1"); 
 
 				Random rnd = new Random();
-				string machineID = rnd.Next().ToString();
+				string machineID = rnd.Next().ToString(); //this will generate a machineID between 0 and 2147483647 (Int32.MaxValue) even on 64 bits
 				SqlitePreferences.Insert ("machineID", machineID); 
 
 				SqlitePreferences.Update ("databaseVersion", "0.78", true); 
@@ -3450,6 +3443,23 @@ class Sqlite
 
 				currentVersion = updateVersion("2.54");
 			}
+			if(currentVersion == "2.54")
+			{
+				LogB.SQL("Created tables: Wilight");
+
+				SqliteWilight.createTable();
+
+				currentVersion = updateVersion("2.55");
+			}
+			if(currentVersion == "2.55")
+			{
+				LogB.SQL("Added preferences: RscriptUserURL, PythonUserURL"); //unsed, using Config
+
+				SqlitePreferences.Insert (SqlitePreferences.RscriptUserURL, "");
+				SqlitePreferences.Insert (SqlitePreferences.PythonUserURL, "");
+
+				currentVersion = updateVersion("2.56");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3520,7 +3530,22 @@ class Sqlite
 			LogB.SQL("Added Chronopic port");
 		}
 	}
-	
+
+	//to create db again, rename it first (as a backup)
+	public static void RenameDatabase ()
+	{
+		LogB.Information ("At RenameDatabase");
+		if (File.Exists (sqlFile))
+		{
+			LogB.Information ("Going to RenameDatabase");
+			File.Move (sqlFile,
+					Path.Combine (Util.GetDatabaseDir (),
+						"chronojump-MaybeIncomplete-" + UtilDate.ToFile () + ".db"));
+
+			LogB.Information ("Database renamed");
+		}
+	}
+
 	public static void CreateTables(bool server)
 	{
 		Sqlite.Open();
@@ -3662,6 +3687,9 @@ class Sqlite
 		//fourPlatforms
 		SqliteFourPlatforms.createTable ();
 
+		//Wilight
+		SqliteWilight.createTable ();
+
 		creationRate ++;
 		SqlitePreferences.createTable();
 		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
@@ -3674,6 +3702,8 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.55 - 2.56 Converted DB to 2.56 Added preferences: RscriptUserURL, PythonUserURL
+		//2.54 - 2.55 Converted DB to 2.55 Created tables: Wilight
 		//2.53 - 2.54 Converted DB to 2.54 Added preferences: personClubID
 		//2.52 - 2.53 Converted DB to 2.53 Inserted into preferences: fontSizeAtGui
 		//2.51 - 2.52 Converted DB to 2.52 Created table fourPlatforms
@@ -4214,7 +4244,7 @@ class Sqlite
 		dbcmd.CommandText = "DROP TABLE " + tableName;
 		dbcmd.ExecuteNonQuery();
 	}
-				
+
 	protected static void convertPersonAndPersonSessionTo77() {
 		//create person77
 		SqlitePerson sqlitePersonObject = new SqlitePerson();
@@ -4590,10 +4620,10 @@ class Sqlite
 						myEvent = new RunInterval(myReaderStr);
 						break;
 					case Constants.ReactionTimeTable:
-						myEvent = new ReactionTime(myReaderStr);
+						//myEvent = new ReactionTime(myReaderStr);
 						break;
 					case Constants.PulseTable:
-						myEvent = new Pulse(myReaderStr);
+						//myEvent = new Pulse(myReaderStr);
 						break;
 				}
 				myArray.Add(myEvent);
@@ -4726,10 +4756,10 @@ LogB.SQL("5" + tableName);
 					myEvent = new RunInterval(myReaderStr);
 					break;
 				case Constants.ReactionTimeTable:
-					myEvent = new ReactionTime(myReaderStr);
+					//myEvent = new ReactionTime(myReaderStr);
 					break;
 				case Constants.PulseTable:
-					myEvent = new Pulse(myReaderStr);
+					//myEvent = new Pulse(myReaderStr);
 					break;
 			}
 			myArray.Add(myEvent);

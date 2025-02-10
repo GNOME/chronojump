@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -31,6 +31,11 @@ public class Config
 	//to avoid passing this info to all the windows and dialogs, just read it here
 	public static bool UseSystemColor; //do nothing at all
 
+	//to avoid passing this info to all the windows and dialogs, just read it here
+	public static string RUserURLStatic = "";
+	public static string RscriptUserURLStatic = "";
+	public static string PythonUserURLStatic = "";
+
 	public static string LastDBFullPathStatic = ""; //works even with spaces in name
 	/*
 	   About LastDBFullPath and LastDBFullPathStatic:
@@ -38,7 +43,6 @@ public class Config
 	   start when gui is started, to not mess with runningFileName and others
 	   LastDBFullPathStatic = parts[1]; //called from Util.GetLocalDataDir
 	   */
-
 
 	//use this bool because on Windows some File.Copy problems are not catched on gui/app1/encoder.cs checkFile
 	//eg when writing to a file "owned" by another application
@@ -66,7 +70,8 @@ public class Config
 		LastDBFullPath, //cloud & externalDB
 		JsonUploadNeedsButton, JsonUploadJumpSimpleTestScript, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, CanInsertTests, //json upload
 		RemoteTestJumpSimpleFile, RemoteTestRunIntervalFile, RemoteTestCancelFile, //remote execution
-		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, WilightPortURL, WilightCommandsURL, WilightCommandMs, GuiTest, NoSendLog, //other
+		RUserURL, RscriptUserURL, PythonUserURL, //User executables locations
+		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, Wilight, WilightExerciseID, WilightCommandsURL, GuiTest, NoSendLog, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
 
@@ -78,6 +83,7 @@ public class Config
 	public static string OpEnum1stCloudAndExternalDB = OpEnum.LastDBFullPath.ToString ();
 	public static string OpEnum1stJsonUpload = OpEnum.JsonUploadNeedsButton.ToString ();
 	public static string OpEnum1stRemoteTest = OpEnum.RemoteTestJumpSimpleFile.ToString ();
+	public static string OpEnum1stUserExecutables = OpEnum.RUserURL.ToString ();
 	public static string OpEnum1stOther = OpEnum.SessionMode.ToString ();
 	public static string OpEnum1stOutdated = OpEnum.Exhibition.ToString ();
 
@@ -165,7 +171,7 @@ public class Config
 		get { return configList.GetBool (OpEnum.CanInsertTests); }
 	}
 
-	//remoteTest
+	// remoteTest
 	public string RemoteTestJumpSimpleFile {
 		get { return configList.GetString (OpEnum.RemoteTestJumpSimpleFile); }
 	}
@@ -174,6 +180,17 @@ public class Config
 	}
 	public string RemoteTestCancelFile {
 		get { return configList.GetString (OpEnum.RemoteTestCancelFile); }
+	}
+
+	// user executables
+	public string RUserURL {
+		get { return configList.GetString (OpEnum.RUserURL); }
+	}
+	public string RscriptUserURL {
+		get { return configList.GetString (OpEnum.RscriptUserURL); }
+	}
+	public string PythonUserURL {
+		get { return configList.GetString (OpEnum.PythonUserURL); }
 	}
 
 	// other
@@ -211,14 +228,14 @@ public class Config
 	public int WichroSensorOnceB {
 		get { return configList.GetInt (OpEnum.WichroSensorOnceB); }
 	}
-	public string WilightPortURL {
-		get { return configList.GetString (OpEnum.WilightPortURL); }
+	public bool Wilight {
+		get { return configList.GetBool (OpEnum.Wilight); }
+	}
+	public int WilightExerciseID {
+		get { return configList.GetInt (OpEnum.WilightExerciseID); }
 	}
 	public string WilightCommandsURL {
 		get { return configList.GetString (OpEnum.WilightCommandsURL); }
-	}
-	public int WilightCommandMs {
-		get { return configList.GetInt (OpEnum.WilightCommandMs); }
 	}
 	public bool GuiTest {
 		get { return configList.GetBool (OpEnum.GuiTest); }
@@ -532,6 +549,8 @@ public class ConfigList
 				str += "\n\nJson upload:";
 			else if (co.Name == Config.OpEnum1stRemoteTest)
 				str += "\n\nRemote test:";
+			else if (co.Name == Config.OpEnum1stUserExecutables)
+				str += "\n\nUser executables:";
 			else if (co.Name == Config.OpEnum1stOther)
 				str += "\n\nOther:";
 			else if (co.Name == Config.OpEnum1stOutdated)
@@ -647,6 +666,14 @@ public class ConfigList
 		list.Add (new ConfigOptionString (Config.OpEnum.RemoteTestCancelFile,
 					"Full URL to the file created as a flag to cancel current RemoteTest."));
 
+		// user executables
+		list.Add (new ConfigOptionString (Config.OpEnum.RUserURL,
+					"Select by user URL to R executable"));
+		list.Add (new ConfigOptionString (Config.OpEnum.RscriptUserURL,
+					"Select by user URL to Rscript executable"));
+		list.Add (new ConfigOptionString (Config.OpEnum.PythonUserURL,
+					"Select by user URL to Python executable"));
+
 		// other
 		list.Add (new ConfigOptionEnum (Config.OpEnum.SessionMode,
 					"STANDARD (default), or UNIQUE or MONTHLY",
@@ -667,12 +694,12 @@ public class ConfigList
 					"Set sensorOnce at Wichro terminal at one terminal."));
 		list.Add (new ConfigOptionInt (Config.OpEnum.WichroSensorOnceB,
 					"Set sensorOnce at Wichro terminal at another terminal."));
-		list.Add (new ConfigOptionString (Config.OpEnum.WilightPortURL,
-					"Full URL of Wilight port, eg: /dev/ttyUSB0"));
+		list.Add (new ConfigOptionBool (Config.OpEnum.Wilight,
+					"Use Wilight, eg: TRUE"));
+		list.Add (new ConfigOptionInt (Config.OpEnum.WilightExerciseID,
+					"ExerciseID on this computer. This on the future will not be used. Eg: 0"));
 		list.Add (new ConfigOptionString (Config.OpEnum.WilightCommandsURL,
 					"Full URL of File with Wilight commands. Note lines on that file starting with # are ignored"));
-		list.Add (new ConfigOptionInt (Config.OpEnum.WilightCommandMs,
-					"Time between Wilight test commands (in ms). If empty, value is 2000"));
 		list.Add (new ConfigOptionBool (Config.OpEnum.GuiTest,
 					"To perform tests with the GUI (untested with current code)."));
 		list.Add (new ConfigOptionBool (Config.OpEnum.NoSendLog,

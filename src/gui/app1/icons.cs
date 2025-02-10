@@ -95,10 +95,8 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_button_contacts_exercise_actions_edit_do;
 	Gtk.Image image_button_contacts_exercise_actions_add_do;
 
-	//Gtk.Image image_logo_contacts;
-	//Gtk.Image image_logo_contacts_transp;
-	//Gtk.Image image_logo_encoder;
-	//Gtk.Image image_logo_encoder_transp;
+	Gtk.Image image_logo_contacts;
+	Gtk.Image image_logo_encoder;
 	Gtk.Image fullscreen_image_logo_horizontal_blue;
 	Gtk.Image fullscreen_image_logo_horizontal_white;
 
@@ -520,8 +518,6 @@ public partial class ChronoJumpWindow
 		image_contacts_repair_selected.Pixbuf = pixbuf;
 		//image_jump_reactive_repair.Pixbuf = pixbuf;
 		//image_run_interval_repair.Pixbuf = pixbuf;
-		//image_pulse_repair.Pixbuf = pixbuf;
-		//image_multi_chronopic_repair.Pixbuf = pixbuf;
 		image_encoder_configuration.Pixbuf = pixbuf;
 		image_force_sensor_capture_adjust.Pixbuf = pixbuf;
 		image_force_sensor_capture_adjust1.Pixbuf = pixbuf;
@@ -671,13 +667,9 @@ public partial class ChronoJumpWindow
 		 */
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogoHorizontalBlue); //50 px height
-		//image_logo_contacts.Pixbuf = pixbuf;
-		//image_logo_encoder.Pixbuf = pixbuf;
 		fullscreen_image_logo_horizontal_blue.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameLogoHorizontalWhite); //50 px height
-		//image_logo_contacts_transp.Pixbuf = pixbuf;
-		//image_logo_encoder_transp.Pixbuf = pixbuf;
 		fullscreen_image_logo_horizontal_white.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameIcon);
@@ -781,20 +773,6 @@ public partial class ChronoJumpWindow
 		image_mode_contacts_export_csv.Pixbuf = pixbuf;
 		image_force_sensor_analyze_export.Pixbuf = pixbuf;
 		image_export_encoder_signal.Pixbuf = pixbuf;
-
-		//reaction times changes
-		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time);
-		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time_animation_lights);
-		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time_flicker);
-		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time_discriminative);
-
-		//pulses changes
-		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_pulses_free);
-		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_pulses_custom);
-
-		//multichronopic changes
-		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_multichronopic_start);
-		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_multichronopic_run_analysis);
 
 		//open buttons (this is shown better in windows than the default open icon)
 		//pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameOpen);
@@ -1100,10 +1078,8 @@ public partial class ChronoJumpWindow
 		image_jumps_rj_zoom.Pixbuf = pixbuf;
 		image_runs_zoom.Pixbuf = pixbuf;
 		image_runs_interval_zoom.Pixbuf = pixbuf;
-		image_reaction_times_zoom.Pixbuf = pixbuf;
-		image_pulses_zoom.Pixbuf = pixbuf;
-		image_multi_chronopic_zoom.Pixbuf = pixbuf;
 		image_force_sensor_ai_zoom_out.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
+		image_wilight_zoom.Pixbuf = pixbuf;
 
 		image_test_add_edit.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_attachment.png");
 
@@ -1182,10 +1158,8 @@ public partial class ChronoJumpWindow
 		image_button_contacts_exercise_actions_edit_do = (Gtk.Image) builder.GetObject ("image_button_contacts_exercise_actions_edit_do");
 		image_button_contacts_exercise_actions_add_do = (Gtk.Image) builder.GetObject ("image_button_contacts_exercise_actions_add_do");
 
-		//image_logo_contacts = (Gtk.Image) builder.GetObject ("image_logo_contacts");
-		//image_logo_contacts_transp = (Gtk.Image) builder.GetObject ("image_logo_contacts_transp");
-		//image_logo_encoder = (Gtk.Image) builder.GetObject ("image_logo_encoder");
-		//image_logo_encoder_transp = (Gtk.Image) builder.GetObject ("image_logo_encoder_transp");
+		image_logo_contacts = (Gtk.Image) builder.GetObject ("image_logo_contacts");
+		image_logo_encoder = (Gtk.Image) builder.GetObject ("image_logo_encoder");
 		fullscreen_image_logo_horizontal_blue = (Gtk.Image) builder.GetObject ("fullscreen_image_logo_horizontal_blue");
 		fullscreen_image_logo_horizontal_white = (Gtk.Image) builder.GetObject ("fullscreen_image_logo_horizontal_white");
 

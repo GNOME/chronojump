@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -414,7 +414,7 @@ public class UtilEncoder
 
 	//Inertia Momentum
 	//TODO: make this work with encoderRProc
-	public static void RunEncoderCalculeIM(double weight, double distance, EncoderRProcAnalyze encoderRProcAnalyze) 
+	public static void RunEncoderCalculeIM(double weight, double distance, EncoderRProcAnalyze encoderRProcAnalyze)
 	{
 		encoderRProcAnalyze.CancelRScript = false;
 
@@ -432,7 +432,7 @@ public class UtilEncoder
 		string scriptUtilR = GetEncoderScriptUtilR();
 
 			
-		pBin=Util.GetRscriptBin();
+		pBin = Util.GetRscriptBin();
 		LogB.Information("pBin:", pBin);
 		if (UtilAll.IsWindows()) {
 			//on Windows we need the \"str\" to call without problems in path with spaces
@@ -860,7 +860,8 @@ public class UtilEncoder
 		return list;
 	}
 
-	public static int CalculeInertiaTotal (EncoderConfiguration econf) {
+	public static int CalculeInertiaTotal (EncoderConfiguration econf)
+	{
 		//LogB.Debug(econf.ToString(":",false,false));
 		int n = econf.extraWeightN;
 		double weightInKg = econf.extraWeightGrams / 1000.0;
@@ -870,6 +871,15 @@ public class UtilEncoder
 		int im_weights = Convert.ToInt32(n * ( weightInKg * Math.Pow(length,2) ));
 
 		return econf.inertiaMachine + im_weights;
+	}
+
+	// adapted from encoder/util.R calculateEquivalentMass
+	public static double CalculateEquivalentMass (EncoderConfiguration econf)
+	{
+		if (econf.inertiaTotal > 0 && econf.gearedDown > 0 && econf.d > 0)
+			return econf.inertiaTotal * (1/econf.gearedDown) / Math.Pow ((econf.d/2),2);
+		else
+			return 0;
 	}
 
 	public static int GetActiveCurvesNum(ArrayList curvesArray) {

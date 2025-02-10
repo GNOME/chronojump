@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -948,7 +948,20 @@ class SqliteEncoder : Sqlite
     //if encoderGI == GRAVITATORY, return GRAVITATORY and ALL
     //if encoderGI == INERTIAL, return INERTIAL and ALL
     //if encoderGI == ALL, return everything
-    public static ArrayList SelectEncoderExercises(bool dbconOpened, int uniqueID, bool onlyNames, Constants.EncoderGI encoderGI)
+
+    //this is the regular call
+    public static ArrayList SelectEncoderExercises (bool dbconOpened, int uniqueID, bool onlyNames, Constants.EncoderGI encoderGI)
+    {
+	    return selectEncoderExercises (dbconOpened, uniqueID, onlyNames, encoderGI, dbcmd);
+    }
+
+    //called from SqlitePreferences.initializeTable passing the SQLiteCommand of a transaction
+    public static ArrayList SelectEncoderExercises (bool dbconOpened, int uniqueID, bool onlyNames, Constants.EncoderGI encoderGI, SQLiteCommand mycmd)
+    {
+	    return selectEncoderExercises (dbconOpened, uniqueID, onlyNames, encoderGI, mycmd);
+    }
+
+    private static ArrayList selectEncoderExercises (bool dbconOpened, int uniqueID, bool onlyNames, Constants.EncoderGI encoderGI, SQLiteCommand mycmd)
     {
         if (!dbconOpened)
             Sqlite.Open();
@@ -969,15 +982,15 @@ class SqliteEncoder : Sqlite
             encoderGIstr = encoderGIconnector + " type != 'GRAVITATORY'";
 
         if (onlyNames)
-            dbcmd.CommandText = "SELECT name FROM " + Constants.EncoderExerciseTable + uniqueIDStr + encoderGIstr;
+            mycmd.CommandText = "SELECT name FROM " + Constants.EncoderExerciseTable + uniqueIDStr + encoderGIstr;
         else
-            dbcmd.CommandText = "SELECT * FROM " + Constants.EncoderExerciseTable + uniqueIDStr + encoderGIstr;
+            mycmd.CommandText = "SELECT * FROM " + Constants.EncoderExerciseTable + uniqueIDStr + encoderGIstr;
 
-        LogB.SQL(dbcmd.CommandText.ToString());
-        dbcmd.ExecuteNonQuery();
+        LogB.SQL(mycmd.CommandText.ToString());
+        mycmd.ExecuteNonQuery();
 
         SQLiteDataReader reader;
-        reader = dbcmd.ExecuteReader();
+        reader = mycmd.ExecuteReader();
 
         ArrayList array = new ArrayList(1);
         EncoderExercise ex = new EncoderExercise();

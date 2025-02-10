@@ -58,7 +58,6 @@ public partial class ChronoJumpWindow
 
 	Gtk.Notebook notebook_start; 		//start window or program
 	Gtk.Notebook notebook_sup;
-	Gtk.Box hbox_other;
 	Gtk.Box box_contacts_capture_top;
 	Gtk.Notebook notebook_capture_analyze; //not encoder
 	Gtk.Notebook notebook_contacts_execute_or;
@@ -121,8 +120,6 @@ public partial class ChronoJumpWindow
 	Gtk.EventBox eventbox_radio_mode_contacts_analyze;
 	Gtk.EventBox eventbox_radio_mode_encoder_capture_small;
 	Gtk.EventBox eventbox_radio_mode_encoder_analyze_small;
-	Gtk.EventBox eventbox_radio_mode_pulses_small;
-	Gtk.EventBox eventbox_radio_mode_multi_chronopic_small;
 	Gtk.EventBox eventbox_button_open_chronojump;
 	Gtk.EventBox eventbox_button_help_close;
 	Gtk.EventBox eventbox_button_news_close;
@@ -162,9 +159,6 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_version;
 	//Gtk.Image image_selector_start_encoder_inertial;
 
-	Gtk.RadioButton radio_mode_pulses_small;
-	Gtk.RadioButton radio_mode_multi_chronopic_small;
-
 	Gtk.RadioButton radio_mode_encoder_capture_small;
 	Gtk.RadioButton radio_mode_encoder_analyze_small;
 
@@ -201,14 +195,6 @@ public partial class ChronoJumpWindow
 	Gtk.Frame frame_contacts_graph_table;
 	Gtk.HPaned hpaned_contacts_graph_table;
 	Gtk.TreeView treeview_persons;
-	Gtk.TreeView treeview_jumps;
-	Gtk.TreeView treeview_jumps_rj;
-	Gtk.TreeView treeview_runs;
-	Gtk.TreeView treeview_runs_interval;
-	Gtk.TreeView treeview_runs_interval_sprint;
-	Gtk.TreeView treeview_reaction_times;
-	Gtk.TreeView treeview_pulses;
-	Gtk.TreeView treeview_multi_chronopic;
 	
 	Gtk.Box hbox_combo_select_jumps;
 	Gtk.Box hbox_combo_select_jumps_rj;
@@ -254,7 +240,6 @@ public partial class ChronoJumpWindow
 	Gtk.Box vbox_news2;
 	Gtk.Frame frame_news_downloading;
 
-//	Gtk.Box hbox_combo_pulses;
 	Gtk.Box vbox_jumps;
 	//Gtk.Box hbox_jumps_test;
 	Gtk.Box hbox_jumps_rj;
@@ -262,9 +247,7 @@ public partial class ChronoJumpWindow
 	Gtk.Box hbox_runs_interval_all; //normal and compujump
 	Gtk.Box vbox_runs_interval;
 	Gtk.Box vbox_runs_interval_compujump;
-	Gtk.Box hbox_other_mc;
-	Gtk.Box hbox_other_pulses;
-	
+
 	//menu person
 	Gtk.Box vbox_persons;
 	Gtk.Box hbox_frame_persons_top;
@@ -292,20 +275,6 @@ public partial class ChronoJumpWindow
 	Gtk.Image extra_windows_jumps_image_dj_fall_calculate;
 	Gtk.Image extra_windows_jumps_image_dj_fall_predefined;
 	Gtk.Box hbox_extra_window_jumps_fall_height;
-
-	//other
-	//reaction time
-	Gtk.SpinButton spinbutton_animation_lights_speed;
-	Gtk.SpinButton spinbutton_flicker_lights_speed;
-	Gtk.CheckButton check_reaction_time_disc_red;
-	Gtk.CheckButton check_reaction_time_disc_yellow;
-	Gtk.CheckButton check_reaction_time_disc_green;
-	Gtk.CheckButton check_reaction_time_disc_buzzer;
-	Gtk.SpinButton spinbutton_discriminative_lights_minimum;
-	Gtk.SpinButton spinbutton_discriminative_lights_maximum;
-
-	//pulse
-	//Gtk.Button button_repair_selected_pulse;
 
 	Gtk.Box vbox_execute_test;
 	Gtk.Button button_execute_test;
@@ -351,15 +320,6 @@ public partial class ChronoJumpWindow
 	Gtk.Box hbox_capture_time;
 	Gtk.Box box_contacts_load_recalculate;
 
-	//multiChronopic	
-//	Gtk.Box hbox_multi_chronopic_buttons;
-//	Gtk.Button button_multi_chronopic_start;
-//	Gtk.Button button_run_analysis;
-//	Gtk.Entry extra_window_spin_run_analysis_distance;
-//	Gtk.CheckButton extra_window_check_multichronopic_sync;
-//	Gtk.CheckButton extra_window_check_multichronopic_delete_first;
-//	Gtk.Entry entry_multi_chronopic_cp2;
-
 	//widgets for enable or disable
 	Gtk.Frame frame_persons;
 	Gtk.Frame frame_persons_top;
@@ -404,9 +364,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_jumps_rj_zoom;
 	Gtk.Image image_runs_zoom;
 	Gtk.Image image_runs_interval_zoom;
-	Gtk.Image image_reaction_times_zoom;
-	Gtk.Image image_pulses_zoom;
-	Gtk.Image image_multi_chronopic_zoom;
+	Gtk.Image image_wilight_zoom;
 	
 	//encoder
 	//Gtk.Image image_encoder_analyze_zoom;
@@ -473,13 +431,8 @@ public partial class ChronoJumpWindow
 	private TreeViewRuns myTreeViewRuns;
 	//runs interval
 	private TreeViewRunsInterval myTreeViewRunsInterval;
-	//reaction times
-	private TreeViewReactionTimes myTreeViewReactionTimes;
-	//pulses
-	private TreeViewPulses myTreeViewPulses;
-	//multiChronopic
-	private TreeViewMultiChronopic myTreeViewMultiChronopic;
-	
+	private TreeViewWilight myTreeViewWilight;
+
 	private Preferences preferences;
 	private List<ForceSensorRFD> rfdList;
 	private ForceSensorImpulse impulse;
@@ -487,14 +440,10 @@ public partial class ChronoJumpWindow
 	private static Person currentPerson;
 	private static Session currentSession;
 	private static PersonSession currentPersonSession;
-	private static bool definedSession;
 	private static Jump currentJump;
 	private static JumpRj currentJumpRj;
 	private static Run currentRun;
 	private static RunInterval currentRunInterval;
-	private static ReactionTime currentReactionTime;
-	private static Pulse currentPulse;
-	private static MultiChronopic currentMultiChronopic;
 
 	//to be able to resize cairo jumpRj, runI graphs without needing to check sql all the time
 	private static JumpRj selectedJumpRj;
@@ -512,9 +461,6 @@ public partial class ChronoJumpWindow
 	private static RunType currentRunType;
 	private static RunType currentRunIntervalType;
 	bool thisRunIsSimple;	//needed on updating
-	private static PulseType currentPulseType;
-	private static ReactionTimeType currentReactionTimeType;
-	private static MultiChronopicType currentMultiChronopicType;
 	private static Report report;
 	private static List<News> newsAtDB_l; //to not read/write SQL on pingThread and at the same time outside of thread
 	private static List<News> newsAtServer_l; //to not read/write SQL on pingThread and at the same time outside of thread
@@ -545,13 +491,6 @@ public partial class ChronoJumpWindow
 	RepairRunIntervalWindow repairRunIntervalWin;
 	EditRunIntervalWindow editRunIntervalWin;
 
-	EditReactionTimeWindow editReactionTimeWin;
-
-	EditPulseWindow editPulseWin;
-	RepairPulseWindow repairPulseWin;
-	
-	EditMultiChronopicWindow editMultiChronopicWin;
-	
 	ConfirmWindowJumpRun confirmWinJumpRun;	//for deleting jumps and RJ jumps (and runs)
 	ReportWindow reportWin;
 	FeedbackJumpsRj feedbackJumpsRj;
@@ -571,7 +510,10 @@ public partial class ChronoJumpWindow
 	private string progName;
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM, SOCIALNETWORKPOLL, FULLSCREENCAPTURE }
 	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS, MICRODISCOVER, PERSON, DATABASE }
-	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR, BEEPTEST, WILIGHT }
+	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR, BEEPTEST }
+	private enum notebook_execute_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER }
+	private enum notebook_options_top_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER }
+	private enum notebook_results_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER, WILIGHT }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE,
 		JUMPSASYMMETRY, JUMPSEVOLUTION, JUMPSRJFATIGUE,
 		RUNSEVOLUTION, SPRINT, CONTACTS_EXPORT_CSV, SIGNAL_AI, }
@@ -652,12 +594,9 @@ public partial class ChronoJumpWindow
 		connectWidgetsSignalAnalyze (builder);
 		connectWidgetsMenu (builder);
 		connectWidgetsMenuTiny (builder);
-		connectWidgetsMultiChronopic (builder);
 		connectWidgetsNetworks (builder);
 		connectWidgetsNews (builder);
 		connectWidgetsPersons (builder);
-		connectWidgetsPulse (builder);
-		connectWidgetsReactionTime (builder);
 		connectWidgetsRestTime (builder);
 		connectWidgetsRun (builder);
 		connectWidgetsRunEncoder (builder);
@@ -725,6 +664,10 @@ public partial class ChronoJumpWindow
 
 		loadPreferencesAtStartOrCloudViewChangeDB ();
 
+		Config.RUserURLStatic = configChronojump.RUserURL;
+		Config.RscriptUserURLStatic = configChronojump.RscriptUserURL;
+		Config.PythonUserURLStatic = configChronojump.PythonUserURL;
+
 		Config.UseSystemColor = preferences.colorBackgroundOsColor;
 
 		checkbutton_video_contacts.Visible = true;
@@ -767,10 +710,8 @@ public partial class ChronoJumpWindow
 		createTreeView_runs (treeview_runs);
 		createTreeView_runs_interval (treeview_runs_interval);
 		createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
-		createTreeView_reaction_times (treeview_reaction_times);
-		createTreeView_pulses (treeview_pulses);
-		createTreeView_multi_chronopic (false, treeview_multi_chronopic);
-		
+		createTreeView_wilight (treeview_wilight);
+
 		rfdList = SqliteForceSensorRFD.SelectAll(false);
 		impulse = SqliteForceSensorRFD.SelectImpulse(false);
 		initForceSensor ();
@@ -859,10 +800,6 @@ public partial class ChronoJumpWindow
 		createComboSelectRunsInterval(true);
 		createComboSelectContactsTop (); //need to at least have it not null (to not crash on a import session)
 
-
-		//reaction_times has no combo
-		//createComboPulses();
-		//createComboMultiChronopic();
 		createdStatsWin = false;
 
 		createComboSessionLoadTags(true);
@@ -876,9 +813,6 @@ public partial class ChronoJumpWindow
 		feedbackWin.FakeButtonQuestionnaireLoad.Clicked += new EventHandler(on_feedback_questionnaire_load);
 		//to have objects ok to be able to be readed before viewing the feedbackWin
 
-		on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
-		on_extra_window_pulses_test_changed(new object(), new EventArgs());
-		on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
 		on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
 		on_extra_window_runs_test_changed(new object(), new EventArgs());
 		on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
@@ -886,8 +820,7 @@ public partial class ChronoJumpWindow
 		//changeTestImage("", "", "LOGO");
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
-		definedSession = false;
-		
+
 		rand = new Random(40);
 
 		putNonStandardIcons();
@@ -990,6 +923,10 @@ public partial class ChronoJumpWindow
 
 		//ensure chronopicRegisterWindow is shown after (on top of) app1
 		app1Shown = true;
+
+		//lastMode WILIGHT only available if is defined on configChronojump
+		if (preferences.lastMode == Constants.Modes.WILIGHT && ! configChronojump.Wilight)
+			preferences.lastMode = Constants.Modes.UNDEFINED;
 
 		//in networks starting mode is always the defined on chronojump_config CompujumpStationMode
 		if (! configChronojump.Compujump && ! configChronojump.FourPlatforms)
@@ -1104,11 +1041,21 @@ public partial class ChronoJumpWindow
 			image_chronojump_logo.Pixbuf = Chronojump.MyPixbuf.Get(
 					null, Util.GetImagePath(false) + Constants.FileNameLogoBlueTransp);
 
+			image_logo_contacts.Pixbuf = Chronojump.MyPixbuf.Get(
+					null, Util.GetImagePath(false) + Constants.FileNameLogoHorizontalBlue);
+			image_logo_encoder.Pixbuf = Chronojump.MyPixbuf.Get(
+					null, Util.GetImagePath(false) + Constants.FileNameLogoHorizontalBlue);
+
 			fullscreen_image_logo_horizontal_blue.Visible = true;
 			fullscreen_image_logo_horizontal_white.Visible = false;
 		} else {
 			image_chronojump_logo.Pixbuf = Chronojump.MyPixbuf.Get(
 					null, Util.GetImagePath(false) + Constants.FileNameLogoWhiteTransp);
+
+			image_logo_contacts.Pixbuf = Chronojump.MyPixbuf.Get(
+					null, Util.GetImagePath(false) + Constants.FileNameLogoHorizontalWhite);
+			image_logo_encoder.Pixbuf = Chronojump.MyPixbuf.Get(
+					null, Util.GetImagePath(false) + Constants.FileNameLogoHorizontalWhite);
 
 			fullscreen_image_logo_horizontal_blue.Visible = false;
 			fullscreen_image_logo_horizontal_white.Visible = true;
@@ -1410,10 +1357,8 @@ public partial class ChronoJumpWindow
 
 		//TestObjectsDifferences.Test ();
 
-		if (configChronojump.WilightPortURL != "")
-		{
+		if (configChronojump.Wilight)
 			box_start_wilight.Visible = true;
-		}
 	}
 
 /*
@@ -1539,37 +1484,6 @@ public partial class ChronoJumpWindow
 	 *  --------------------------------------------------------
 	 */
 
-
-	public void on_radio_mode_pulses_small_toggled (object obj, EventArgs args) {
-		if(radio_mode_pulses_small.Active)
-		{
-			sensitiveLastTestButtons(false);
-			notebooks_change(Constants.Modes.OTHER);
-			on_extra_window_pulses_test_changed(obj, args);
-
-			event_graph_label_graph_test.Visible = true;
-			vbox_contacts_simple_graph_controls.Visible = false;
-
-			//align_check_vbox_contacts_graph_legend.Visible = false;
-			//vbox_contacts_graph_legend.Visible = false;
-		}
-	}
-
-	public void on_radio_mode_multi_chronopic_small_toggled (object obj, EventArgs args) {
-		if(radio_mode_multi_chronopic_small.Active)
-		{
-			sensitiveLastTestButtons(false);
-			notebooks_change(Constants.Modes.OTHER);
-			on_extra_window_multichronopic_test_changed(obj, args);
-
-			event_graph_label_graph_test.Visible = true;
-			vbox_contacts_simple_graph_controls.Visible = false;
-
-			//align_check_vbox_contacts_graph_legend.Visible = false;
-			//vbox_contacts_graph_legend.Visible = false;
-		}
-	}
-
 	public void on_radio_mode_encoder_capture_small_toggled (object obj, EventArgs args) {
 		if(radio_mode_encoder_capture_small.Active) 
 			notebook_encoder_sup.CurrentPage = 0;
@@ -1588,71 +1502,6 @@ public partial class ChronoJumpWindow
 				on_radio_encoder_analyze_individual_all_sessions (o, args);
 			else if(radio_encoder_analyze_groupal_current_session.Active)
 				on_radio_encoder_analyze_groupal_current_session (o, args);
-		}
-	}
-
-	
-	/* ---------------------------------------------------------
-	 * ----------------  TREEVIEW (generic) --------------------
-	 *  --------------------------------------------------------
-	 */
-
-	private void expandOrMinimizeTreeView(TreeViewEvent tvEvent, TreeView tv) {
-		if(tvEvent.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) 
-			tv.CollapseAll();
-		else if (tvEvent.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
-			tv.CollapseAll();
-			tvEvent.ExpandOptimal();
-		} else   //MAXIMIZED
-			tv.ExpandAll();
-
-		//Log.WriteLine("IS " + tvEvent.ExpandState);
-	}
-
-	private void on_treeview_button_release_event (object o, ButtonReleaseEventArgs args)
-	{
-		Gdk.EventButton e = args.Event;
-		Gtk.TreeView myTv = (Gtk.TreeView) o;
-		if (e.Button == 3) {
-			if(myTv == treeview_persons && currentPerson != null) {
-				treeviewPersonsContextMenu(currentPerson);
-			} else if(myTv == treeview_jumps) {
-				if (myTreeViewJumps.EventSelectedID > 0) {
-					Jump myJump = SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID, false );
-					treeviewJumpsContextMenu(myJump);
-				}
-			} else if(myTv == treeview_jumps_rj) {
-				if (myTreeViewJumpsRj.EventSelectedID > 0) {
-					JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false, false );
-					treeviewJumpsRjContextMenu(myJump);
-				}
-			} else if(myTv == treeview_runs) {
-				if (myTreeViewRuns.EventSelectedID > 0) {
-					Run myRun = SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID, false );
-					treeviewRunsContextMenu(myRun);
-				}
-			} else if(myTv == treeview_runs_interval) {
-				if (myTreeViewRunsInterval.EventSelectedID > 0) {
-					RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false, false );
-					treeviewRunsIntervalContextMenu(myRun);
-				}
-			} else if(myTv == treeview_reaction_times) {
-				if (myTreeViewReactionTimes.EventSelectedID > 0) {
-					ReactionTime myRt = SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID, false );
-					treeviewReactionTimesContextMenu(myRt);
-				}
-			} else if(myTv == treeview_pulses) {
-				if (myTreeViewPulses.EventSelectedID > 0) {
-					Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID, false );
-					treeviewPulsesContextMenu(myPulse);
-				}
-			} else if(myTv == treeview_multi_chronopic) {
-				if (myTreeViewMultiChronopic.EventSelectedID > 0) {
-					MultiChronopic mc = SqliteMultiChronopic.SelectMultiChronopicData( myTreeViewMultiChronopic.EventSelectedID, false );
-					treeviewMultiChronopicContextMenu(mc);
-				}
-			} else
-				LogB.Information(myTv.ToString());
 		}
 	}
 
@@ -1779,807 +1628,25 @@ public partial class ChronoJumpWindow
 			label_sprint_export_result.Text = "";
 			button_sprint_export_result_open.Visible = false;
 		}
-		else if(current_mode == Constants.Modes.RT)
-			updateGraphReactionTimes();
+		else if(current_mode == Constants.Modes.BEEPTEST)
+			beepTestPersonChanged ();
 		else if(Constants.ModeIsENCODER (current_mode))
 			encoderPersonChanged();
 		else if(Constants.ModeIsFORCESENSOR (current_mode))
 			forceSensorPersonChanged();
 		else if(current_mode == Constants.Modes.RUNSENCODER)
 			runEncoderPersonChanged();
+		else if(current_mode == Constants.Modes.WILIGHT)
+		{
+			pre_fillTreeView_wilight (false);
+			myTreeViewWilight.SelectPerson(currentPerson.Name);
+
+			updateGraphWilightBars();
+		}
 
 		finishPlayVideoIfRunning ();
 		LogB.Information ("<---- personChanged end");
 	}
-
-	private void treeviewPersonsContextMenu(Person myPerson) {
-		Menu myMenu = new Menu ();
-		Gtk.MenuItem myItem;
-
-		myItem = new MenuItem ( Catalog.GetString("Edit") + " " + myPerson.Name);
-		myItem.Activated += on_edit_current_person_clicked_from_main_gui;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-
-		myItem = new MenuItem ( Catalog.GetString("Show all tests of") + " " + myPerson.Name);
-		myItem.Activated += on_show_all_person_events_activate;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
-
-		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 2, 3 );
-
-		myItem = new MenuItem ( string.Format(Catalog.GetString("Delete {0} from this session"),myPerson.Name));
-		myItem.Activated += on_delete_current_person_from_session_clicked;
-		myMenu.Attach( myItem, 0, 1, 3, 4 );
-
-		myMenu.ShowAll();
-		myMenu.Popup();
-	}
-		
-
-	private void resetAllTreeViews(bool fillTests, bool resetPersons, bool fillPersons)
-	{
-		//persons
-		if(resetPersons) {
-			treeview_persons_storeReset();
-			if(fillPersons)
-				fillTreeView_persons();
-		}
-
-		treeview_pulses_storeReset();
-		treeview_reaction_times_storeReset();
-
-		//Leave SQL opened in all this process
-		Sqlite.Open(); // ------------------------------
-
-		treeview_multi_chronopic_storeReset(true); //this neeed DB
-
-		if(fillTests)
-		{
-			fillTreeView_pulses(Constants.AllPulsesNameStr(), true);
-			fillTreeView_reaction_times("reactionTime", true);
-			fillTreeView_multi_chronopic(true);
-		}
-
-		if(fillTests) {
-			pre_fillTreeView_jumps (true);
-			pre_fillTreeView_jumps_rj (true);
-			pre_fillTreeView_runs (true);
-			pre_fillTreeView_runs_interval (true);
-		}
-		else {
-			treeview_jumps_storeReset();
-			treeview_jumps_rj_storeReset();
-			treeview_runs_storeReset();
-			treeview_runs_interval_storeReset();
-		}
-
-		//close SQL opened in all this process
-		Sqlite.Close(); // ------------------------------
-	}
-
-
-	/* ---------------------------------------------------------
-	 * ----------------  TREEVIEW JUMPS ------------------------
-	 *  --------------------------------------------------------
-	 */
-
-	private void createTreeView_jumps (Gtk.TreeView tv) {
-		//myTreeViewJumps is a TreeViewJumps instance
-		myTreeViewJumps = new TreeViewJumps(tv, preferences, TreeViewEvent.ExpandStates.MINIMIZED);
-
-		//the glade cursor_changed does not work on mono 1.2.5 windows
-		tv.CursorChanged += on_treeview_jumps_cursor_changed; 
-	}
-
-	private void fillTreeView_jumps (string filter) {
-		fillTreeView_jumps(filter, false);
-	}
-	private void fillTreeView_jumps (string filter, bool dbconOpened)
-	{
-		if (currentSession == null) {
-			/*
-			 * This happens when the user "Imports a session": Chronojump tries to
-			 * update comboboxes, it reaches here because the comboboxes are updated
-			 * But if the user didn't have any
-			 * open session currentSession variable (see below) is null and it crashed here
-			 * (when it did currentSession.UniqueID with currentSession==null)
-			 */
-			return;
-		}
-
-		string [] myJumps = SqliteJump.SelectJumpsSA (dbconOpened,
-				currentSession.UniqueID, currentPersonOrAll (), "", "", Sqlite.Orders_by.DEFAULT, 0);
-
-		myTreeViewJumps.Fill (myJumps, filter,
-				Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.JUMP));
-
-		//if show just one person, have it expanded
-		if (! radio_contacts_results_personAll.Active && currentPerson != null)
-			treeview_jumps.ExpandAll();
-		else
-			expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumps, treeview_jumps);
-	}
-
-	private int currentPersonOrAll ()
-	{
-		if (! radio_contacts_results_personAll.Active && currentPerson != null)
-			return currentPerson.UniqueID;
-		else
-			return -1;
-	}
-
-	private void on_button_jumps_zoom_clicked (object o, EventArgs args) {
-		myTreeViewJumps.ExpandState = myTreeViewJumps.ZoomChange(myTreeViewJumps.ExpandState);
-		if(myTreeViewJumps.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
-			treeview_jumps.CollapseAll();
-			image_jumps_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
-		} else {
-			treeview_jumps.ExpandAll();
-			image_jumps_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
-		}
-	}
-	
-	private void treeview_jumps_storeReset() {
-		myTreeViewJumps.RemoveColumns();
-		
-		myTreeViewJumps = new TreeViewJumps(treeview_jumps, preferences, myTreeViewJumps.ExpandState);
-	}
-
-	// works for jumps/runs (to update some buttons like play video sensitivity)
-	private void on_treeview_mode_cursor_changed ()
-	{
-		if (current_mode == Constants.Modes.JUMPSSIMPLE && myTreeViewJumps != null)
-			on_treeview_jumps_cursor_changed (new object (), new EventArgs ());
-		else if (current_mode == Constants.Modes.JUMPSREACTIVE && myTreeViewJumpsRj != null)
-			on_treeview_jumps_rj_cursor_changed (new object (), new EventArgs ());
-		else if (current_mode == Constants.Modes.RUNSSIMPLE && myTreeViewRuns != null)
-			on_treeview_runs_cursor_changed (new object (), new EventArgs ());
-		else if (current_mode == Constants.Modes.RUNSINTERVALLIC && myTreeViewRunsInterval != null)
-			on_treeview_runs_interval_cursor_changed (new object (), new EventArgs ());
-	}
-
-	private void on_treeview_jumps_cursor_changed (object o, EventArgs args)
-	{
-		LogB.Information("Cursor changed");
-
-		sensitiveLastTestButtons(false);
-
-		// don't select if it's a person, 
-		// is for not confusing with the person treeviews that controls who jumps
-		if (myTreeViewJumps.EventSelectedID == 0) {
-			myTreeViewJumps.Unselect();
-			showHideActionEventButtons(false); //hide
-		} else {
-			showHideActionEventButtons(true); //show
-			updateGraphJumpsSimple (); //to show the selected bar
-		}
-	}
-
-	private void treeviewJumpsContextMenu(Jump myJump) {
-		Menu myMenu = new Menu ();
-		Gtk.MenuItem myItem;
-
-		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
-		myItem.Activated += on_edit_selected_jump_clicked;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-	
-		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 1, 2 );
-
-		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
-		myItem.Activated += on_delete_selected_jump_clicked;
-		myMenu.Attach( myItem, 0, 1, 2, 3 );
-
-		myMenu.ShowAll();
-		myMenu.Popup();
-	}
-
-	/* ---------------------------------------------------------
-	 * ----------------  TREEVIEW JUMPS RJ ---------------------
-	 *  --------------------------------------------------------
-	 */
-
-	private void createTreeView_jumps_rj (Gtk.TreeView tv) {
-		myTreeViewJumpsRj = new TreeViewJumpsRj (tv, preferences, TreeViewEvent.ExpandStates.MINIMIZED);
-
-		//the glade cursor_changed does not work on mono 1.2.5 windows
-		tv.CursorChanged += on_treeview_jumps_rj_cursor_changed; 
-	}
-
-	private void fillTreeView_jumps_rj (string filter) {
-		fillTreeView_jumps_rj (filter, false);
-	}
-	private void fillTreeView_jumps_rj (string filter, bool dbconOpened)
-	{
-		if (currentSession == null) {
-			/*
-			 * This happens when the user "Imports a session": Chronojump tries to
-			 * update comboboxes, it reaches here because the comboboxes are updated
-			 * But if the user didn't have any
-			 * open session currentSession variable (see below) is null and it crashed here
-			 * (when it did currentSession.UniqueID with currentSession==null)
-			 */
-			return;
-		}
-
-		string [] myJumps = SqliteJumpRj.SelectJumpsSA (dbconOpened,
-				currentSession.UniqueID, currentPersonOrAll (), "", "");
-		myTreeViewJumpsRj.Fill (myJumps, filter,
-				Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.JUMP_RJ));
-
-		//if show just one person, have it expanded (optimal)
-		if (! radio_contacts_results_personAll.Active && currentPerson != null)
-		{
-			treeview_jumps_rj.CollapseAll ();
-			((TreeViewEvent) myTreeViewJumpsRj).ExpandOptimal();
-		} else
-			expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumpsRj, treeview_jumps_rj);
-	}
-
-	private void on_button_jumps_rj_zoom_clicked (object o, EventArgs args) {
-		myTreeViewJumpsRj.ExpandState = myTreeViewJumpsRj.ZoomChange(myTreeViewJumpsRj.ExpandState);
-		if(myTreeViewJumpsRj.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
-			treeview_jumps_rj.CollapseAll();
-			image_jumps_rj_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
-		} else if(myTreeViewJumpsRj.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
-			treeview_jumps_rj.CollapseAll();
-			myTreeViewJumpsRj.ExpandOptimal();
-			image_jumps_rj_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
-		} else {
-			treeview_jumps_rj.ExpandAll();
-			image_jumps_rj_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
-		}
-	}
-
-	private void treeview_jumps_rj_storeReset() {
-		myTreeViewJumpsRj.RemoveColumns();
-		myTreeViewJumpsRj = new TreeViewJumpsRj (treeview_jumps_rj, preferences, myTreeViewJumpsRj.ExpandState);
-	}
-
-	private void on_treeview_jumps_rj_cursor_changed (object o, EventArgs args)
-	{
-		sensitiveLastTestButtons(false);
-
-		// don't select if it's a person, 
-		// is for not confusing with the person treeviews that controls who jumps
-		if (myTreeViewJumpsRj.EventSelectedID == 0) {
-			myTreeViewJumpsRj.Unselect();
-			showHideActionEventButtons(false);
-			return;
-		}
-
-		if (myTreeViewJumpsRj.EventSelectedID == -1)
-			myTreeViewJumpsRj.SelectHeaderLine();
-
-		showHideActionEventButtons(true);
-
-		//graph the jump on realtime cairo graph. Using selectedJumpRj to avoid SQL select continuously
-		if(selectedJumpRj == null || selectedJumpRj.UniqueID != myTreeViewJumpsRj.EventSelectedID)
-			selectedJumpRj = SqliteJumpRj.SelectJumpData("jumpRj", myTreeViewJumpsRj.EventSelectedID, true, false); //true: personNameInComment
-
-		updateGraphJumpsReactive (); //to show the selected bar
-
-		blankJumpReactiveRealtimeCaptureGraph ();
-		PrepareJumpReactiveRealtimeCaptureGraph (selectedJumpRj.tvLast, selectedJumpRj.tcLast,
-				selectedJumpRj.TvString, selectedJumpRj.TcString,
-				selectedJumpRj.Type, selectedJumpRj.Description, //Description is personName
-				preferences.volumeOn, preferences.gstreamer, feedbackJumpsRj,
-				preferences.heightPreferred);
-		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
-	}
-
-	private void treeviewJumpsRjContextMenu(JumpRj myJump) {
-		Menu myMenu = new Menu ();
-		Gtk.MenuItem myItem;
-
-		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
-		myItem.Activated += on_edit_selected_jump_rj_clicked;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-
-		myItem = new MenuItem ( Catalog.GetString("Repair selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
-		myItem.Activated += on_repair_selected_jump_rj_clicked;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
-		
-		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 2, 3 );
-
-		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
-		myItem.Activated += on_delete_selected_jump_rj_clicked;
-		myMenu.Attach( myItem, 0, 1, 3, 4 );
-
-		myMenu.ShowAll();
-		myMenu.Popup();
-	}
-
-	/* ---------------------------------------------------------
-	 * ----------------  TREEVIEW RUNS -------------------------
-	 *  --------------------------------------------------------
-	 */
-
-	private void createTreeView_runs (Gtk.TreeView tv) {
-		//myTreeViewRuns is a TreeViewRuns instance
-		myTreeViewRuns = new TreeViewRuns (tv, preferences.digitsNumber, preferences.metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED );
-
-		//the glade cursor_changed does not work on mono 1.2.5 windows
-		tv.CursorChanged += on_treeview_runs_cursor_changed; 
-	}
-
-	private void fillTreeView_runs (string filter) {
-		fillTreeView_runs (filter, false);
-	}
-	private void fillTreeView_runs (string filter, bool dbconOpened)
-	{
-		if (currentSession == null) {
-			/*
-			 * This happens when the user "Imports a session": Chronojump tries to
-			 * update comboboxes, it reaches here because the comboboxes are updated
-			 * But if the user didn't have any
-			 * open session currentSession variable (see below) is null and it crashed here
-			 * (when it did currentSession.UniqueID with currentSession==null)
-			 */
-			return;
-		}
-
-		string [] myRuns = SqliteRun.SelectRunsSA (dbconOpened,
-				currentSession.UniqueID, currentPersonOrAll (), "", Sqlite.Orders_by.DEFAULT, 0);
-
-		myTreeViewRuns.Fill(myRuns, filter,
-				Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.RUN));
-
-		//if show just one person, have it expanded
-		if (! radio_contacts_results_personAll.Active && currentPerson != null)
-			treeview_runs.ExpandAll();
-		else
-			expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRuns, treeview_runs);
-	}
-	
-	private void on_button_runs_zoom_clicked (object o, EventArgs args) {
-		myTreeViewRuns.ExpandState = myTreeViewRuns.ZoomChange(myTreeViewRuns.ExpandState);
-		if(myTreeViewRuns.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
-			treeview_runs.CollapseAll();
-			image_runs_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
-		} else {
-			treeview_runs.ExpandAll();
-			image_runs_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
-		}
-	}
-	
-	private void treeview_runs_storeReset() {
-		myTreeViewRuns.RemoveColumns();
-		myTreeViewRuns = new TreeViewRuns(treeview_runs, preferences.digitsNumber, preferences.metersSecondsPreferred, myTreeViewRuns.ExpandState);
-	}
-
-	private void on_treeview_runs_cursor_changed (object o, EventArgs args)
-	{
-		sensitiveLastTestButtons(false);
-		button_inspect_last_test_run_simple.Sensitive = false;
-
-		// don't select if it's a person, 
-		// is for not confusing with the person treeviews that controls who runs
-		if (myTreeViewRuns.EventSelectedID == 0) {
-			myTreeViewRuns.Unselect();
-			showHideActionEventButtons(false);
-		} else {
-			showHideActionEventButtons(true);
-			updateGraphRunsSimple (); //to show the selected bar
-		}
-	}
-
-	private void treeviewRunsContextMenu(Run myRun) {
-		Menu myMenu = new Menu ();
-		Gtk.MenuItem myItem;
-
-		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
-		myItem.Activated += on_edit_selected_run_clicked;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-
-		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 1, 2 );
-
-		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
-		myItem.Activated += on_delete_selected_run_clicked;
-		myMenu.Attach( myItem, 0, 1, 2, 3 );
-
-		myMenu.ShowAll();
-		myMenu.Popup();
-	}
-
-	/* ---------------------------------------------------------
-	 * ----------------  TREEVIEW RUN INTERVAL -----------------
-	 *  --------------------------------------------------------
-	 */
-
-	private void createTreeView_runs_interval (Gtk.TreeView tv) {
-		//myTreeViewRunsInterval is a TreeViewRunsInterval instance
-		myTreeViewRunsInterval = new TreeViewRunsInterval (tv, preferences.digitsNumber, preferences.metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED);
-
-		//the glade cursor_changed does not work on mono 1.2.5 windows
-		tv.CursorChanged += on_treeview_runs_interval_cursor_changed; 
-	}
-
-	private void fillTreeView_runs_interval (string filter) {
-		fillTreeView_runs_interval (filter, false);
-	}
-	private void fillTreeView_runs_interval (string filter, bool dbconOpened)
-	{
-		if (currentSession == null) {
-			/*
-			 * This happens when the user "Imports a session": Chronojump tries to
-			 * update comboboxes, it reaches here because the comboboxes are updated
-			 * But if the user didn't have any
-			 * open session currentSession variable (see below) is null and it crashed here
-			 * (when it did currentSession.UniqueID with currentSession==null)
-			 */
-			return;
-		}
-
-		string [] myRuns = SqliteRunInterval.SelectRunsSA (dbconOpened,
-				currentSession.UniqueID, currentPersonOrAll (), "");
-		myTreeViewRunsInterval.Fill(myRuns, filter,
-				Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.RUN_I));
-
-		//if show just one person, have it expanded (optimal)
-		if (! radio_contacts_results_personAll.Active && currentPerson != null)
-		{
-			treeview_runs_interval.CollapseAll ();
-			((TreeViewEvent) myTreeViewRunsInterval).ExpandOptimal();
-		} else
-		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRunsInterval, treeview_runs_interval);
-	}
-	
-	private void on_button_runs_interval_zoom_clicked (object o, EventArgs args) {
-		myTreeViewRunsInterval.ExpandState = myTreeViewRunsInterval.ZoomChange(myTreeViewRunsInterval.ExpandState);
-		if(myTreeViewRunsInterval.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
-			treeview_runs_interval.CollapseAll();
-			image_runs_interval_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
-		} else if(myTreeViewRunsInterval.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
-			treeview_runs_interval.CollapseAll();
-			myTreeViewRunsInterval.ExpandOptimal();
-			image_runs_interval_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
-		} else {
-			treeview_runs_interval.ExpandAll();
-			image_runs_interval_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
-		}
-	}
-
-	private void treeview_runs_interval_storeReset() {
-		myTreeViewRunsInterval.RemoveColumns();
-		myTreeViewRunsInterval = new TreeViewRunsInterval (treeview_runs_interval,  
-				preferences.digitsNumber, preferences.metersSecondsPreferred, myTreeViewRunsInterval.ExpandState);
-	}
-
-	private void on_treeview_runs_interval_cursor_changed (object o, EventArgs args)
-	{
-		sensitiveLastTestButtons(false);
-
-		// don't select if it's a person, 
-		// is for not confusing with the person treeviews that controls who runs
-		if (myTreeViewRunsInterval.EventSelectedID == 0) {
-			myTreeViewRunsInterval.Unselect();
-			showHideActionEventButtons(false);
-			return;
-		}
-
-		if (myTreeViewRunsInterval.EventSelectedID == -1)
-			myTreeViewRunsInterval.SelectHeaderLine();
-
-		showHideActionEventButtons(true);
-		button_inspect_last_test_run_intervallic.Sensitive = false;
-
-		//graph the run on realtime cairo graph. Using selectedRunInterval to avoid SQL select continuously
-		if(selectedRunInterval == null || selectedRunIntervalType == null ||
-				selectedRunInterval.UniqueID != myTreeViewRunsInterval.EventSelectedID)
-		{
-			selectedRunInterval = SqliteRunInterval.SelectRunData (Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, true, false);
-			selectedRunIntervalType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(selectedRunInterval.Type, false);
-
-			/*
-			LogB.Information("selectedRunInterval: " + selectedRunInterval.ToString());
-			LogB.Information("selectedRunIntervalType: " + selectedRunIntervalType.ToString());
-			*/
-		}
-
-		updateGraphRunsInterval (); //to show the selected bar
-
-		blankRunIntervalRealtimeCaptureGraph ();
-		PrepareRunIntervalRealtimeCaptureGraph (
-				selectedRunInterval.IntervalTimesString,
-				selectedRunInterval.DistanceInterval,
-				selectedRunIntervalType.DistancesString,
-				selectedRunInterval.Photocell_l,
-				selectedRunInterval.Type, selectedRunInterval.Description, feedbackRunsI); //Description is personName
-		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
-	}
-
-	private void treeviewRunsIntervalContextMenu(RunInterval myRun) {
-		Menu myMenu = new Menu ();
-		Gtk.MenuItem myItem;
-
-		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
-		myItem.Activated += on_edit_selected_run_interval_clicked;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-
-		myItem = new MenuItem ( Catalog.GetString("Repair selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
-		myItem.Activated += on_repair_selected_run_interval_clicked;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
-		
-		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 2, 3 );
-
-		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
-		myItem.Activated += on_delete_selected_run_interval_clicked;
-		myMenu.Attach( myItem, 0, 1, 3, 4 );
-
-		myMenu.ShowAll();
-		myMenu.Popup();
-	}
-
-	/* ---------------------------------------------------------
-	 * ----------------  TREEVIEW REACTION TIMES ---------------
-	 *  --------------------------------------------------------
-	 */
-
-	private void createTreeView_reaction_times (Gtk.TreeView tv) {
-		//myTreeViewReactionTimes is a TreeViewReactionTimes instance
-		myTreeViewReactionTimes = new TreeViewReactionTimes( tv, preferences.digitsNumber, TreeViewEvent.ExpandStates.MINIMIZED);
-
-		//the glade cursor_changed does not work on mono 1.2.5 windows
-		tv.CursorChanged += on_treeview_reaction_times_cursor_changed; 
-	}
-
-	private void fillTreeView_reaction_times (string filter) {
-		fillTreeView_reaction_times (filter, false);
-	}
-	private void fillTreeView_reaction_times (string filter, bool dbconOpened)
-	{
-		//do not crash if arrive here with no session
-		if(currentSession == null)
-			return;
-
-		string [] myRTs = SqliteReactionTime.SelectReactionTimes(dbconOpened, currentSession.UniqueID, -1, "", 
-				Sqlite.Orders_by.DEFAULT, -1);
-
-		myTreeViewReactionTimes.Fill(myRTs, filter, new List<string> ());
-		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewReactionTimes, treeview_reaction_times);
-	}
-	
-	private void on_button_reaction_times_zoom_clicked (object o, EventArgs args) {
-		myTreeViewReactionTimes.ExpandState = myTreeViewReactionTimes.ZoomChange(
-				myTreeViewReactionTimes.ExpandState);
-		if(myTreeViewReactionTimes.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
-			treeview_reaction_times.CollapseAll();
-			image_reaction_times_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
-		} else {
-			treeview_reaction_times.ExpandAll();
-			image_reaction_times_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
-		}
-	}
-	
-	private void treeview_reaction_times_storeReset() {
-		myTreeViewReactionTimes.RemoveColumns();
-		myTreeViewReactionTimes = new TreeViewReactionTimes( treeview_reaction_times, preferences.digitsNumber, myTreeViewReactionTimes.ExpandState );
-	}
-
-	private void on_treeview_reaction_times_cursor_changed (object o, EventArgs args)
-	{
-		sensitiveLastTestButtons(false);
-
-		// don't select if it's a person, 
-		// is for not confusing with the person treeviews that controls who is executing
-		if (myTreeViewReactionTimes.EventSelectedID == 0) {
-			myTreeViewReactionTimes.Unselect();
-			showHideActionEventButtons(false);
-		} else {
-			showHideActionEventButtons(true);
-		}
-	}
-
-	private void treeviewReactionTimesContextMenu(ReactionTime myRt) {
-		Menu myMenu = new Menu ();
-		Gtk.MenuItem myItem;
-
-		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myRt.Type + " (" + myRt.PersonName + ")");
-		myItem.Activated += on_edit_selected_reaction_time_clicked;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-
-		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 1, 2 );
-
-		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myRt.Type + " (" + myRt.PersonName + ")");
-		myItem.Activated += on_delete_selected_reaction_time_clicked;
-		myMenu.Attach( myItem, 0, 1, 2, 3 );
-
-		myMenu.ShowAll();
-		myMenu.Popup();
-	}
-
-	/* ---------------------------------------------------------
-	 * ----------------  TREEVIEW PULSES -----------------------
-	 *  --------------------------------------------------------
-	 */
-
-	private void createTreeView_pulses (Gtk.TreeView tv) {
-		//myTreeViewPulses is a TreeViewPulses instance
-		myTreeViewPulses = new TreeViewPulses( tv, preferences.digitsNumber, TreeViewEvent.ExpandStates.MINIMIZED );
-
-		//the glade cursor_changed does not work on mono 1.2.5 windows
-		tv.CursorChanged += on_treeview_pulses_cursor_changed; 
-	}
-
-	private void fillTreeView_pulses (string filter) {
-		fillTreeView_pulses (filter, false);
-	}
-	private void fillTreeView_pulses (string filter, bool dbconOpened)
-	{
-		//do not crash if arrive here with no session
-		if(currentSession == null)
-			return;
-
-		string [] myPulses = SqlitePulse.SelectPulses(dbconOpened, currentSession.UniqueID, -1);
-		myTreeViewPulses.Fill(myPulses, filter, new List<string> ());
-		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewPulses, treeview_pulses);
-	}
-	
-	private void on_button_pulses_zoom_clicked (object o, EventArgs args) {
-		myTreeViewPulses.ExpandState = myTreeViewPulses.ZoomChange(myTreeViewPulses.ExpandState);
-		if(myTreeViewPulses.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
-			treeview_pulses.CollapseAll();
-			image_pulses_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
-		} else if(myTreeViewPulses.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
-			treeview_pulses.CollapseAll();
-			myTreeViewPulses.ExpandOptimal();
-			image_pulses_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
-		} else {
-			treeview_pulses.ExpandAll();
-			image_pulses_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
-		}
-	}
-
-	private void treeview_pulses_storeReset() {
-		myTreeViewPulses.RemoveColumns();
-		myTreeViewPulses = new TreeViewPulses( treeview_pulses, preferences.digitsNumber, myTreeViewPulses.ExpandState );
-	}
-
-	private void on_treeview_pulses_cursor_changed (object o, EventArgs args)
-	{
-		sensitiveLastTestButtons(false);
-
-		// don't select if it's a person, 
-		// is for not confusing with the person treeviews that controls who is executing
-		if (myTreeViewPulses.EventSelectedID == 0) {
-			myTreeViewPulses.Unselect();
-			showHideActionEventButtons(false);
-		} else if (myTreeViewPulses.EventSelectedID == -1) {
-			myTreeViewPulses.SelectHeaderLine();
-			showHideActionEventButtons(true);
-		} else {
-			showHideActionEventButtons(true);
-		}
-	}
-
-	private void treeviewPulsesContextMenu(Pulse myPulse) {
-		Menu myMenu = new Menu ();
-		Gtk.MenuItem myItem;
-
-		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myPulse.Type + " (" + myPulse.PersonName + ")");
-		myItem.Activated += on_edit_selected_pulse_clicked;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-
-		myItem = new MenuItem ( Catalog.GetString("Repair selected") + " " + myPulse.Type + " (" + myPulse.PersonName + ")");
-		myItem.Activated += on_repair_selected_pulse_clicked;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
-		
-		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 2, 3 );
-
-		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myPulse.Type + " (" + myPulse.PersonName + ")");
-		myItem.Activated += on_delete_selected_pulse_clicked;
-		myMenu.Attach( myItem, 0, 1, 3, 4 );
-
-		myMenu.ShowAll();
-		myMenu.Popup();
-	}
-
-	/* ---------------------------------------------------------
-	 * ----------------  TREEVIEW MULTI CHRONOPIC --------------
-	 *  --------------------------------------------------------
-	 */
-
-	private void createTreeView_multi_chronopic (bool dbconOpened, Gtk.TreeView tv) {
-		//myTreeViewMultiChronopic is a TreeViewMultiChronopic instance
-		if(definedSession)
-			myTreeViewMultiChronopic = new TreeViewMultiChronopic( tv, preferences.digitsNumber, 
-					TreeViewEvent.ExpandStates.MINIMIZED, SqliteMultiChronopic.MaxCPs(dbconOpened, currentSession.UniqueID) );
-		else
-			myTreeViewMultiChronopic = new TreeViewMultiChronopic( tv, preferences.digitsNumber, 
-					TreeViewEvent.ExpandStates.MINIMIZED, 2);
-
-		//the glade cursor_changed does not work on mono 1.2.5 windows
-		tv.CursorChanged += on_treeview_multi_chronopic_cursor_changed; 
-	}
-	
-	private void fillTreeView_multi_chronopic () {
-		fillTreeView_multi_chronopic (false);
-	}
-	private void fillTreeView_multi_chronopic (bool dbconOpened)
-	{
-		//do not crash if arrive here with no session
-		if(currentSession == null)
-			return;
-
-		string [] mcs = SqliteMultiChronopic.SelectTests(dbconOpened, currentSession.UniqueID, -1);
-		myTreeViewMultiChronopic.Fill(mcs, "", new List<string> ());
-		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewMultiChronopic, treeview_multi_chronopic);
-	}
-	
-	private void on_button_multi_chronopic_zoom_clicked (object o, EventArgs args) {
-		myTreeViewMultiChronopic.ExpandState = myTreeViewMultiChronopic.ZoomChange(myTreeViewMultiChronopic.ExpandState);
-		if(myTreeViewMultiChronopic.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
-			treeview_multi_chronopic.CollapseAll();
-			image_multi_chronopic_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
-		} else if(myTreeViewMultiChronopic.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
-			treeview_multi_chronopic.CollapseAll();
-			myTreeViewMultiChronopic.ExpandOptimal();
-			image_multi_chronopic_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
-		} else {
-			treeview_multi_chronopic.ExpandAll();
-			image_multi_chronopic_zoom.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
-		}
-	}
-	
-	private void treeview_multi_chronopic_storeReset(bool dbconOpened) {
-		myTreeViewMultiChronopic.RemoveColumns();
-		if(definedSession)
-			myTreeViewMultiChronopic = new TreeViewMultiChronopic( treeview_multi_chronopic, preferences.digitsNumber, 
-					myTreeViewMultiChronopic.ExpandState, SqliteMultiChronopic.MaxCPs(dbconOpened, currentSession.UniqueID) );
-		else
-			myTreeViewMultiChronopic = new TreeViewMultiChronopic( treeview_multi_chronopic, preferences.digitsNumber, 
-					myTreeViewMultiChronopic.ExpandState, 2);
-	}
-
-	private void on_treeview_multi_chronopic_cursor_changed (object o, EventArgs args)
-	{
-		LogB.Information("Cursor changed");
-		sensitiveLastTestButtons(false);
-
-		// don't select if it's a person, 
-		// is for not confusing with the person treeviews that controls who does events
-		if (myTreeViewMultiChronopic.EventSelectedID == 0) {
-			myTreeViewMultiChronopic.Unselect();
-			showHideActionEventButtons(false); //hide
-		} else if (myTreeViewMultiChronopic.EventSelectedID == -1) {
-			myTreeViewMultiChronopic.SelectHeaderLine();
-			showHideActionEventButtons(true);
-		} else {
-			showHideActionEventButtons(true); //show
-		}
-	}
-
-	private void treeviewMultiChronopicContextMenu(MultiChronopic mc) {
-		Menu myMenu = new Menu ();
-		Gtk.MenuItem myItem;
-
-		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + mc.Type + " (" + mc.PersonName + ")");
-		myItem.Activated += on_edit_selected_multi_chronopic_clicked;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-
-		/*
-		myItem = new MenuItem ( Catalog.GetString("Repair selected") + " " + mc.Type + " (" + mc.PersonName + ")");
-		myItem.Activated += on_repair_selected_multi_chronopic_clicked;
-		myMenu.Attach( myItem, 0, 1, 2, 3 );
-		*/
-		
-		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 1, 2 );
-
-		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + mc.Type + " (" + mc.PersonName + ")");
-		myItem.Activated += on_delete_selected_multi_chronopic_clicked;
-		myMenu.Attach( myItem, 0, 1, 2, 3 );
-
-		myMenu.ShowAll();
-		myMenu.Popup();
-	}
-
 
 
 
@@ -2755,34 +1822,6 @@ public partial class ChronoJumpWindow
 			button_combo_select_contacts_top_right.Sensitive = ! isLast;
 		}
 	}
-
-
-	// ---------------- combo_result TODO: delete all ----------------------
-
-	//no need of reationTimes
-
-	/*
-	private void createComboPulses() {
-		combo_pulses = new ComboBoxText();
-		UtilGtk.ComboUpdate(combo_pulses, SqlitePulseType.SelectPulseTypes(Constants.AllPulsesNameStr(), true), ""); //without filter, only select name
-		
-		combo_pulses.Active = 0;
-		combo_pulses.Changed += new EventHandler (on_combo_pulses_changed);
-
-		hbox_combo_pulses.PackStart(combo_pulses, true, true, 0);
-		hbox_combo_pulses.ShowAll();
-		combo_pulses.Sensitive = false;
-	}
-	*/
-
-	/*
-	private void createComboMultiChronopic() 
-	{
-		button_multi_chronopic_start.Sensitive = false;
-		button_run_analysis.Sensitive = false;
-		extra_window_spin_run_analysis_distance.Sensitive = false;
-	}
-	*/
 
 
 	// -------------- combo select tests changed --------
@@ -3040,28 +2079,17 @@ public partial class ChronoJumpWindow
 			fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_select_runs_interval), dbconOpened);
 	}
 
-	// -------------- combo result tests changed. TODO: delete all --------
-
-	//no need of reationTimes because is done in:
-	//gui/reactionTime on_extra_window_reaction_times_test_changed()
-
-	/*
-	private void on_combo_pulses_changed(object o, EventArgs args)
+	private void pre_fillTreeView_wilight (bool dbconOpened)
 	{
-		//combo_pulses.Changed -= new EventHandler (on_combo_pulses_changed);
+		treeview_wilight_storeReset();
 
-		ComboBoxText combo = o as ComboBoxText;
-		if (o == null)
-			return;
-
-		sensitiveLastTestButtons(false);
-
-		string myText = UtilGtk.ComboGetActive(combo);
-
-		treeview_pulses_storeReset();
-		fillTreeView_pulses(myText);
+//		if(radio_contacts_graph_allTests.Active)
+			fillTreeView_wilight ("", dbconOpened);
+		/*
+		else if (combo_select_runs != null)
+			fillTreeView_runs(UtilGtk.ComboGetActive(combo_select_runs), dbconOpened);
+			*/
 	}
-	*/
 
 
 	/* ---------------------------------------------------------
@@ -3410,7 +2438,6 @@ public partial class ChronoJumpWindow
 
 		sensitiveGuiNoPerson();
 		currentPerson = null;
-		definedSession = true;
 
 		//for sure, jumpsExists is false, because we create a new session
 
@@ -3502,8 +2529,6 @@ public partial class ChronoJumpWindow
 		sensitiveGuiNoSession();
 		sensitiveGuiYesSession();
 
-		definedSession = true;
-
 		hbox_persons_bottom_photo.Sensitive = false;
 		LogB.Information("foundPersons: " + foundPersons.ToString());
 		//if there are persons
@@ -3551,7 +2576,6 @@ public partial class ChronoJumpWindow
 	
 	private void closeSession()
 	{
-		definedSession = false;
 		currentSession = null;
 		sensitiveGuiNoSession();
 
@@ -3846,7 +2870,6 @@ public partial class ChronoJumpWindow
 		if (configHere.CopyToCloudFullPath != "" && configHere.CopyToCloudFullPath != configChronojump.CopyToCloudFullPath)
 			configChronojump.CopyToCloudFullPath = configHere.CopyToCloudFullPath;
 
-
 		preferences = preferencesWin.GetPreferences;
 		LogB.Mute = preferences.muteLogs;
 
@@ -3891,23 +2914,12 @@ public partial class ChronoJumpWindow
 			createTreeView_runs (treeview_runs);
 			createTreeView_runs_interval (treeview_runs_interval);
 			createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
-			createTreeView_pulses(treeview_pulses);
-			createTreeView_reaction_times(treeview_reaction_times);
-			createTreeView_multi_chronopic(false, treeview_multi_chronopic);
 
 			pre_fillTreeView_jumps(false);
 			pre_fillTreeView_jumps_rj(false);
 			pre_fillTreeView_runs(false);
 			pre_fillTreeView_runs_interval(false);
 			//on_combo_pulses_changed(combo_pulses, args);
-
-			//currently no combo_reaction_times
-			treeview_reaction_times_storeReset();
-			fillTreeView_reaction_times("reactionTime");
-
-			//currently no combo_multi_chronopic
-			treeview_multi_chronopic_storeReset(false);
-			fillTreeView_multi_chronopic();
 
 			if(current_mode == Constants.Modes.POWERGRAVITATORY){
 				label_gravitatory_vpf_propulsive.Visible = preferences.encoderPropulsive;
@@ -4125,10 +3137,9 @@ public partial class ChronoJumpWindow
 		if(wichroCapture != null && wichroCapture.PortOpened)
 			wichroCapture.Disconnect();
 
-		//run simple will be the only one with its drawing are
+		//run simple will be the only one with its drawing area
 		button_inspect_last_test_run_simple.Visible = false;
 
-		hbox_other.Visible = false;
 		sensitiveLastTestButtons(false);
 
 		//contacts test buttons: edit, delete
@@ -4201,6 +3212,8 @@ public partial class ChronoJumpWindow
 		vbox_contacts_signal_comment.Visible = false;
 		frame_jumps_automatic.Visible = false;
 		check_run_show_time.Visible = false;
+		box_wilight.Visible = false;
+		box_contacts_graph_exercise.Visible = true;
 
 		hbox_combo_select_contacts_top_with_arrows.Visible = false; //TODO: this will be unneded
 
@@ -4355,7 +3368,6 @@ public partial class ChronoJumpWindow
 				notebooks_change(m);
 				button_contacts_bells.Sensitive = true;
 				on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
-				event_execute_drawingarea_realtime_capture_cairo.Visible = true;
 
 				//show icon but have it unsensitive until there's a run
 				button_inspect_last_test_run_intervallic.Visible = true;
@@ -4439,7 +3451,7 @@ public partial class ChronoJumpWindow
 				label_encoder_exercise_mass.Visible = true;
 				hbox_encoder_exercise_mass.Visible = true;
 				label_encoder_exercise_inertia.Visible = false;
-				hbox_encoder_exercise_inertia.Visible = false;
+				box_encoder_exercise_inertia.Visible = false;
 				hbox_encoder_exercise_gravitatory_min_mov.Visible = true;
 				hbox_encoder_exercise_inertial_min_mov.Visible = false;
 
@@ -4483,7 +3495,7 @@ public partial class ChronoJumpWindow
 				label_encoder_exercise_mass.Visible = false;
 				hbox_encoder_exercise_mass.Visible = false;
 				label_encoder_exercise_inertia.Visible = true;
-				hbox_encoder_exercise_inertia.Visible = true;
+				box_encoder_exercise_inertia.Visible = true;
 				hbox_encoder_exercise_gravitatory_min_mov.Visible = false;
 				hbox_encoder_exercise_inertial_min_mov.Visible = true;
 
@@ -4643,41 +3655,6 @@ public partial class ChronoJumpWindow
 			tvRA_AB = new TreeviewRAAnalyze (treeview_ai_AB, "A", "B");
 			tvRA_CD = new TreeviewRAAnalyze (treeview_ai_CD, "C", "D");
 		}
-		else if(m == Constants.Modes.RT)
-		{
-			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
-			notebooks_change(m);
-			on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
-
-			notebook_capture_analyze.CurrentPage = 0;
-			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
-			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
-			button_threshold.Visible = true;
-			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
-
-			label_contacts_exercise_selected_options_visible (true);
-			image_top_laterality_contacts.Visible = false;
-		}
-		else if (m == Constants.Modes.OTHER) //(contacts / other)
-		{
-			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
-			hbox_other.Visible = true;
-			notebooks_change(m);
-			if(radio_mode_pulses_small.Active)
-				on_extra_window_pulses_test_changed(new object(), new EventArgs());
-			else
-				on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
-
-			align_drawingarea_realtime_capture_cairo.Visible = true; //show realtime graph
-			notebook_capture_analyze.CurrentPage = 0;
-			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
-			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
-			button_threshold.Visible = true;
-			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
-
-			label_contacts_exercise_selected_options_visible (true);
-			image_top_laterality_contacts.Visible = false;
-		}
 
 		if (m == Constants.Modes.BEEPTEST)
 		{
@@ -4703,10 +3680,13 @@ public partial class ChronoJumpWindow
 			radio_mode_contacts_analyze.Visible = false;
 
 			//hbox_change_modes_runs.Visible = true; //TODO: add beep test
-			notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.WILIGHT);
 			box_contacts_capture_top.Visible = false;
 			radio_change_modes_contacts_wilight.Visible = true;
 
+			box_wilight.Visible = true;
+			box_contacts_graph_exercise.Visible = false;
+
+			align_drawingarea_realtime_capture_cairo.Visible = true;
 			wilightApp1Init ();
 		}
 
@@ -4790,6 +3770,15 @@ public partial class ChronoJumpWindow
 		chronojumpWindowTestsNext();
 
 		setLabelContactsExerciseSelectedOptions();
+
+		//beepTest changes treeview persons, redo it
+		if(myTreeViewPersons != null)
+		{
+			treeview_persons_storeReset();
+			myTreeViewPersons.RestSecondsMark = get_configured_rest_time_in_seconds();
+			fillTreeView_persons();
+		}
+		updatingRestTimes = (current_mode != Constants.Modes.BEEPTEST);
 
 		if (remoteTest != null)
 			remoteTest.Current_mode = current_mode;
@@ -5939,27 +4928,6 @@ public partial class ChronoJumpWindow
 			
 			on_run_interval_activate(canCaptureC, wireless);
 		}
-		else if(current_mode == Constants.Modes.RT)
-		{
-			if(extra_window_radio_reaction_time_discriminative.Active)
-				reaction_time_discriminative_lights_prepare();
-
-			on_reaction_time_activate (canCaptureC);
-		}
-		else if(radio_mode_pulses_small.Active)
-		{
-			on_pulse_activate (canCaptureC);
-		}
-		else if(radio_mode_multi_chronopic_small.Active)
-		{
-			on_multi_chronopic_start_clicked(canCaptureC);
-		}
-
-		//if a test has been deleted
-		//notebook_results_data changes to page 3: "deleted test"
-		//when a new test is done
-		//this notebook has to poing again to data of it's test
-		change_notebook_results_data();
 	}
 
 	private void contactsShowCaptureDoingButtons(bool captureDoing)
@@ -6058,20 +5026,6 @@ public partial class ChronoJumpWindow
 		feedbackWin.View(getBellMode(m), preferences, encoderRhythm, true);
 	}
 
-	private void change_notebook_results_data()
-	{
-		//there are some notebook_execute pages that have not notebook_results_data pages
-		//like jump simple (0), run simple (2), reaction time (4)
-		//if(notebook_execute.CurrentPage == 1) //reactive jump
-		//	notebook_results_data.CurrentPage = 0;
-		//else if(notebook_execute.CurrentPage == 3) //interval run
-		//if(notebook_execute.CurrentPage == 3) //interval run
-		//	notebook_results_data.CurrentPage = 1;
-		//else if(notebook_execute.CurrentPage == 6) //pulse
-		if(notebook_execute.CurrentPage == 6) //pulse
-			notebook_results_data.CurrentPage = 2;
-	}
-
 	private void changeTestImage(string eventTypeString, string eventName, string fileNameString)
 	{
 		Pixbuf pixbuf; //main image
@@ -6133,12 +5087,6 @@ public partial class ChronoJumpWindow
 				myType = new JumpType(eventName);
 			else if (eventTypeString == EventType.Types.RUN.ToString()) 
 				myType = new RunType(eventName);
-			else if (eventTypeString == EventType.Types.REACTIONTIME.ToString()) 
-				myType = new ReactionTimeType(eventName);
-			else if (eventTypeString == EventType.Types.PULSE.ToString()) 
-				myType = new PulseType(eventName);
-			else if (eventTypeString == EventType.Types.MULTICHRONOPIC.ToString()) 
-				myType = new MultiChronopicType(eventName);
 			else LogB.Error("Error on eventTypeHasLongDescription");
 
 			if(myType.HasLongDescription)
@@ -6412,15 +5360,6 @@ public partial class ChronoJumpWindow
 					on_run_finished();
 				else
 					on_run_interval_finished();
-				break;
-			case EventType.Types.REACTIONTIME:
-				on_reaction_time_finished();
-				break;
-			case EventType.Types.PULSE:
-				on_pulse_finished();
-				break;
-			case EventType.Types.MULTICHRONOPIC:
-				on_multi_chronopic_finished();
 				break;
 		}
 
@@ -7247,338 +6186,9 @@ public partial class ChronoJumpWindow
 	}
 
 	/* ---------------------------------------------------------
-	 * ----------------  REACTION TIMES EXECUTION --------------
-	 *  --------------------------------------------------------
-	 */
-
-	
-	//suitable for reaction times
-	private void on_reaction_time_activate (bool canCaptureC)
-	{
-		//used by cancel and finish
-		currentEventType = new ReactionTimeType();
-			
-		//hide jumping buttons
-		sensitiveGuiEventDoing(false);
-
-		//show the event doing window
-		double progressbarLimit = 2;
-			
-		//don't let update until test finishes
-		if(createdStatsWin)
-			showUpdateStatsAndHideData(false);
-
-		event_execute_initializeVariables(
-			! canCaptureC,	//is simulated
-			currentPerson.UniqueID, 
-			currentPerson.Name, 
-			Catalog.GetString("Phases"),  	  //name of the different moments
-			Constants.ReactionTimeTable, //tableName
-			"" 
-			);
-		event_execute_button_cancel.Sensitive = true;
-
-		ExecutingGraphData egd = event_execute_prepareForTest ();
-
-		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
-		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
-
-		string sep = "";
-		string description = "";
-		if(extra_window_radio_reaction_time_discriminative.Active) {
-			if(check_reaction_time_disc_red.Active == true) {
-				description += sep + Catalog.GetString("red");
-				sep = " + ";
-			}
-			if(check_reaction_time_disc_yellow.Active == true) {
-				description += sep + Catalog.GetString("yellow");
-				sep = " + ";
-			}
-			if(check_reaction_time_disc_green.Active == true) {
-				description += sep + Catalog.GetString("green");
-				sep = " + ";
-			}
-			if(check_reaction_time_disc_buzzer.Active == true) {
-				description += sep + Catalog.GetString("buzzer");
-				sep = " + ";
-			}
-		}
-		else if(extra_window_radio_reaction_time_animation_lights.Active)
-			description = spinbutton_flicker_lights_speed.Value.ToString() + " - " + label_animation_lights_interval.Text;
-
-		currentEventExecute = new ReactionTimeExecute(currentPerson.UniqueID, currentPerson.Name, 
-				currentSession.UniqueID, currentReactionTimeType.Name, 
-				cp2016.CP, preferences.digitsNumber,
-				preferences.volumeOn, preferences.gstreamer,
-				progressbarLimit, egd, description,
-				webcamStatusEnumSetStart ());
-
-
-		if (! canCaptureC)
-			currentEventExecute.SimulateInitValues(rand);
-	
-		//not on simulated because results would be always 0
-		if( canCaptureC &&
-				(extra_window_radio_reaction_time_discriminative.Active || 
-				 extra_window_radio_reaction_time_animation_lights.Active) )
-			//TODO: do also for flickr
-			currentEventExecute.StartIn = false;
-		
-		currentEventExecute.FakeButtonReactionTimeStart.Clicked += new EventHandler(on_event_execute_reaction_time_start);
-
-		contactsShowCaptureDoingButtons(true);
-		currentEventExecute.Manage(); //check that platform is ok
-		
-		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
-			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
-
-		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked -= new EventHandler (on_test_finished_stop_camera_if_needed);
-		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked += new EventHandler (on_test_finished_stop_camera_if_needed);
-
-		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
-	}	
-
-	private void on_event_execute_reaction_time_start (object o, EventArgs args) 
-	{
-		currentEventExecute.FakeButtonReactionTimeStart.Clicked -= new EventHandler(on_event_execute_reaction_time_start);
-
-		//Fire leds or buzzer on discriminative (if not simulated)
-		if(cp2016.StoredCanCaptureContacts)
-		{
-			if(extra_window_radio_reaction_time_discriminative.Active) {
-				Thread.Sleep(Convert.ToInt32(discriminativeStartTime * 1000)); //in ms
-
-				ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
-				cs.CharToSend = discriminativeCharToSend;
-				cs.Write(cp2016.SP, 0);
-			}
-			else if(extra_window_radio_reaction_time_animation_lights.Active) {
-				int speed = Convert.ToInt32(spinbutton_animation_lights_speed.Value);
-				ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
-				cs.CharToSend = "l";
-				cs.Write(cp2016.SP,speed);
-			}
-
-			LogB.Information("on_event_execute_reaction_time_start check if need to open SP");
-			if(! cp2016.SP.IsOpen) {
-				LogB.Information("opening SP...");
-				cp2016.SP.Open();
-			}
-
-			/*
-			 * some machines needed to flush
-			 * - my Linux laptop two bytes
-			 * - a linux guest on windows host (virtual box) don't need
-			 * Note this will not allow reaction time be lower than 100 ms (DefaultTimeout on chronopic.cs)
-			 */
-			LogB.Information("Going to flush by time out");	//needed on some machines
-			cp2016.CP.FlushByTimeOut();
-			LogB.Information("flushed!");	
-		}
-
-		contactsShowCaptureDoingButtons(true);
-		currentEventExecute.Manage2();
-	}
-
-
-	private void on_reaction_time_finished ()
-	{
-		//test can be deleted if not cancelled
-		sensitiveLastTestButtons(! currentEventExecute.Cancel);
-
-		if ( ! currentEventExecute.Cancel ) {
-
-			currentReactionTime = (ReactionTime) currentEventExecute.EventDone;
-			
-			myTreeViewReactionTimes.Add (currentPerson.Name, currentReactionTime, "");
-
-			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
-			//this has to be after webcamRecordEnd in order to see if video is created
-			showHideActionEventButtons(true); //show
-		
-			if(createdStatsWin) {
-				showUpdateStatsAndHideData(true);
-			}
-		
-			//unhide buttons for delete last reaction time
-			sensitiveGuiYesEvent();
-		}
-		else if( currentEventExecute.ChronopicDisconnected )
-			chronopicDisconnectedWhileExecuting();
-
-		if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
-		{
-			bool saved = webcamEndingSaveFile (Constants.TestTypes.RT, currentReactionTime.UniqueID);
-			webcamRestoreGui (saved);
-		}
-	}
-
-	/* ---------------------------------------------------------
-	 * ----------------  PULSES EXECUTION ----------------------
-	 *  --------------------------------------------------------
-	 */
-
-	private void on_pulse_activate (bool canCaptureC)
-	{
-		LogB.Information("pulse accepted");
-	
-		double pulseStep = 0;
-		int totalPulses = 0;
-
-		if(currentPulseType.Name == "Free") {
-			pulseStep = currentPulseType.FixedPulse; // -1
-			totalPulses = currentPulseType.TotalPulsesNum; //-1
-		} else { //custom (info comes from Extra Window
-			pulseStep = extra_window_pulses_spinbutton_pulse_step.Value;
-			if(extra_window_pulses_checkbutton_unlimited.Active)
-				totalPulses = currentPulseType.TotalPulsesNum; //-1
-			else
-				totalPulses = Convert.ToInt32(
-						extra_window_pulses_spinbutton_total_pulses.Value); //-1: unlimited; or 'n': limited by 'n' pulses
-		}
-
-		//used by cancel and finish
-		//currentEventType = new PulseType();
-		currentEventType = currentPulseType;
-			
-		//hide pulse buttons
-		sensitiveGuiEventDoing(false);
-		
-		//don't let update until test finishes
-		if(createdStatsWin)
-			showUpdateStatsAndHideData(false);
-
-		//show the event doing window
-		event_execute_initializeVariables(
-			! canCaptureC,	//is simulated
-			currentPerson.UniqueID, 
-			currentPerson.Name, 
-			Catalog.GetString("Pulses"),  	  //name of the different moments
-			Constants.PulseTable, //tableName
-			currentPulseType.Name 
-			);
-		event_execute_button_cancel.Sensitive = true;
-
-		ExecutingGraphData egd = event_execute_prepareForTest ();
-
-		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
-		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
-
-		currentEventExecute = new PulseExecute(currentPerson.UniqueID, currentPerson.Name, 
-				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
-				cp2016.CP, preferences.digitsNumber,
-				preferences.volumeOn, preferences.gstreamer, egd,
-				webcamStatusEnumSetStart ());
-
-		
-		if(! canCaptureC)
-			currentEventExecute.SimulateInitValues(rand);
-		
-		contactsShowCaptureDoingButtons(true);
-		currentEventExecute.Manage();
-		
-		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
-			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
-
-		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked -= new EventHandler (on_test_finished_stop_camera_if_needed);
-		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked += new EventHandler (on_test_finished_stop_camera_if_needed);
-
-		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
-	}
-
-	private void on_pulse_finished ()
-	{
-		LogB.Information("pulse finished");
-		
-		//test can be deleted if not cancelled
-		sensitiveLastTestButtons(! currentEventExecute.Cancel);
-
-		if ( ! currentEventExecute.Cancel ) {
-			/*
-			 * CURRENTLY NOT NEEDED... check
-			//if user clicked in finish earlier
-			if(currentPulse.Finish) {
-				currentRunInterval.Tracks = Util.GetNumberOfJumps(currentRunInterval.IntervalTimesString, false);
-				if(currentRunInterval.TracksLimited) {
-					currentRunInterval.Limited = currentRunInterval.Tracks.ToString() + "R";
-				} else {
-					currentRunInterval.Limited = Util.GetTotalTime(
-							currentRunInterval.IntervalTimesString) + "T";
-				}
-			}
-			*/
-			
-			currentPulse = (Pulse) currentEventExecute.EventDone;
-			
-			myTreeViewPulses.Add (currentPerson.Name, currentPulse, "");
-
-			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
-			//this has to be after webcamRecordEnd in order to see if video is created
-			showHideActionEventButtons(true); //show
-			
-			if(createdStatsWin) {
-				showUpdateStatsAndHideData(true);
-			}
-			
-			//unhide buttons for delete last jump
-			sensitiveGuiYesEvent();
-
-			//put correct time value in eventWindow (put the time from chronopic and not onTimer soft chronometer)
-			event_execute_LabelTimeValue = Util.GetTotalTime(currentPulse.TimesString);
-		}
-		else if( currentEventExecute.ChronopicDisconnected )
-			chronopicDisconnectedWhileExecuting();
-
-		if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
-		{
-			bool saved = webcamEndingSaveFile (Constants.TestTypes.PULSE, currentPulse.UniqueID);
-			webcamRestoreGui (saved);
-		}
-	}
-
-	/* ---------------------------------------------------------
 	 * ----------------  MULTI CHRONOPIC EXECUTION -------------
 	 *  --------------------------------------------------------
 	 */
-
-	//recreate is used when a Chronopic was disconnected
-	//
-	//encoderPort is usually "" and will be Util.GetDefaultPort
-	//but, since 1.5.1 when selecting encoder option from main menu,
-	//then encoderPort will be found and send here
-
-	/*
-	//normal call
-	private void createChronopicWindow(bool recreate, string encoderPort) 
-	{
-		ArrayList cpd = new ArrayList();
-		for(int i=1; i<=4;i++) {
-			ChronopicPortData cpdata = new ChronopicPortData(i,"",false);
-			cpd.Add(cpdata);
-		}
-		createChronopicWindow(null, cpd, recreate, encoderPort);
-	}
-	//called directly on autodetect (detected cp and cpd is send)
-	private void createChronopicWindow(Chronopic cp, ArrayList cpd, bool recreate, string encoderPort) 
-	{
-		if(encoderPort == "")
-			encoderPort = Util.GetDefaultPort();
-
-		chronopicWin = ChronopicWindow.Create(cp, cpd, encoderPort, recreate, preferences.volumeOn);
-		//chronopicWin.FakeButtonCancelled.Clicked += new EventHandler(on_chronopic_window_cancelled);
-		
-		if(notebook_sup.CurrentPage == 1) {
-			int cps = chronopicWin.NumConnected();
-			LogB.Debug("cps: " + cps.ToString());
-			chronopicContactsLabels(cps, recreate);
-		}
-		else //(notebook_sup.CurrentPage == 2)
-			chronopicEncoderLabels(recreate);
-		
-		if(recreate)	
-			label_chronopics_multitest.Text = "";
-	}
-	*/
 
 	private void on_chronopic_contacts_clicked (object o, EventArgs args)
 	{
@@ -7716,135 +6326,6 @@ public partial class ChronoJumpWindow
 		*/
 	}
 
-
-	private void on_multi_chronopic_start_clicked (bool canCaptureC)
-	{
-		//new DialogMessage(Constants.MessageTypes.WARNING, "Disabled on version 1.6.3.");
-		//return;
-
-		LogB.Information("multi chronopic accepted");
-		
-		bool syncAvailable = false;
-		if(currentMultiChronopicType.SyncAvailable && extra_window_check_multichronopic_sync.Active)
-			syncAvailable = true;
-
-
-		//used by cancel and finish
-		currentEventType = new MultiChronopicType();
-			
-		//hide pulse buttons
-		sensitiveGuiEventDoing(false);
-		
-		//don't let update until test finishes
-		if(createdStatsWin)
-			showUpdateStatsAndHideData(false);
-
-		//show the event doing window
-		event_execute_initializeVariables(
-			! canCaptureC,	//is simulated
-			currentPerson.UniqueID, 
-			currentPerson.Name, 
-			Catalog.GetString("Changes"),  	  //name of the different moments
-			Constants.MultiChronopicTable, //tableName
-			currentMultiChronopicType.Name
-			); 
-		event_execute_button_cancel.Sensitive = true;
-
-		ExecutingGraphData egd = event_execute_prepareForTest ();
-
-		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_multi_clicked);
-		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_multi_clicked);
-
-		//bool syncAvailable = false;
-		//if(currentMultiChronopicType.SyncAvailable && extra_window_check_multichronopic_sync.Active)
-		//	syncAvailable = true;
-
-		currentEventExecute = new MultiChronopicExecute(
-				currentPerson.UniqueID, currentPerson.Name,
-				currentSession.UniqueID, currentMultiChronopicType.Name,
-				cp2016.CP, cp2016.CP2,
-				syncAvailable, extra_window_check_multichronopic_delete_first.Active,
-				extra_window_spin_run_analysis_distance.Value.ToString(), egd,
-				webcamStatusEnumSetStart ());
-
-		//mark to only get inside on_multi_chronopic_finished one time
-		multiFinishing = false;
-		contactsShowCaptureDoingButtons(true);
-		currentEventExecute.Manage();
-
-		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
-			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
-//		currentEventExecute.FakeButtonRunATouchPlatform.Clicked += new EventHandler(on_event_execute_RunATouchPlatform);
-
-		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked -= new EventHandler (on_test_finished_stop_camera_if_needed);
-		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked += new EventHandler (on_test_finished_stop_camera_if_needed);
-
-		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
-	}
-
-	bool multiFinishing;
-	private void on_multi_chronopic_finished ()
-	{
-		if(multiFinishing)
-			return;
-		else
-			multiFinishing = true;
-
-		//test can be deleted if not cancelled
-		sensitiveLastTestButtons(! currentEventExecute.Cancel);
-
-		if(currentMultiChronopicType.Name == Constants.RunAnalysisName && ! currentEventExecute.MultiChronopicRunAUsedCP2()) 
-			//new DialogMessage(Constants.MessageTypes.WARNING, 
-			//		Catalog.GetString("This Run Analysis is not valid because there are no strides."));
-			currentEventExecute.RunANoStrides();
-		else if ( ! currentEventExecute.Cancel ) {
-LogB.Debug("mc finished 0");
-
-			   //on runAnalysis test, when cp1 ends, run ends,
-			   //but cp2 is still waiting event
-			   //with this will ask cp2 to press button
-			   //solves problem with threads at ending
-
-			//on_finish_multi_clicked(o, args);
-			//this produces also a crash:
-			//new DialogMessage(Constants.MessageTypes.INFO, "Please, touch a platform now.");
-LogB.Debug("mc finished 1");
-			//call write here, because if done in execute/MultiChronopic, will be called n times if n chronopics are working
-			currentEventExecute.MultiChronopicWrite(false);
-LogB.Debug("mc finished 2");
-			currentMultiChronopic = (MultiChronopic) currentEventExecute.EventDone;
-LogB.Debug("mc finished 3");
-			//this produces also a crash:
-			//new DialogMessage(Constants.MessageTypes.INFO, "Please, touch a platform now.");
-
-LogB.Debug("mc finished 4");
-			
-			//if this multichronopic has more chronopics than other in session, then reload treeview, else simply add
-			if(currentMultiChronopic.CPs() != SqliteMultiChronopic.MaxCPs(false, currentSession.UniqueID)) {
-				treeview_multi_chronopic_storeReset(false);
-				fillTreeView_multi_chronopic();
-			} else
-				myTreeViewMultiChronopic.Add (currentPerson.Name, currentMultiChronopic, "");
-LogB.Debug("mc finished 5");
-
-			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
-			//this has to be after webcamRecordEnd in order to see if video is created
-			showHideActionEventButtons(true); //show
-		
-			//unhide buttons for delete last test
-			sensitiveGuiYesEvent();
-		}
-		else if( currentEventExecute.ChronopicDisconnected )
-			chronopicDisconnectedWhileExecuting();
-
-
-		if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
-		{
-			bool saved = webcamEndingSaveFile (Constants.TestTypes.MULTICHRONOPIC, currentMultiChronopic.UniqueID);
-			webcamRestoreGui (saved);
-		}
-	}
-		
 
 	/* ---------------------------------------------------------
 	 * ----------------  EVENTS EDIT ---------------------------
@@ -8023,100 +6504,6 @@ LogB.Debug("mc finished 5");
 			stats_win_fillTreeView_stats(false, false);
 	}
 
-	private void on_edit_selected_reaction_time_clicked (object o, EventArgs args) {
-		//notebooks_change(4); see "notebooks_change sqlite problem"
-		LogB.Information("Edit selected reaction time");
-		//1.- check that there's a line selected
-		//2.- check that this line is a event and not a person
-		if (myTreeViewReactionTimes.EventSelectedID > 0) {
-			//3.- obtain the data of the selected event
-			ReactionTime myRT = SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID, false );
-			eventOldPerson = myRT.PersonID;
-		
-			//4.- edit this event
-			editReactionTimeWin = EditReactionTimeWindow.Show(app1, myRT, preferences.digitsNumber);
-			editReactionTimeWin.Button_accept.Clicked += new EventHandler(on_edit_selected_reaction_time_accepted);
-		}
-	}
-	
-	private void on_edit_selected_reaction_time_accepted (object o, EventArgs args) {
-		LogB.Information("edit selected reaction time accepted");
-		
-		ReactionTime myRT = SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID, false);
-
-		//if person changed, fill treeview again, if not, only update it's line
-		if(eventOldPerson == myRT.PersonID)
-			myTreeViewReactionTimes.Update(myRT);
-		else {
-			treeview_reaction_times_storeReset();
-			fillTreeView_reaction_times(currentReactionTimeType.Name);
-		}
-		
-		updateGraphReactionTimes();
-	}
-	
-	private void on_edit_selected_pulse_clicked (object o, EventArgs args) {
-		//notebooks_change(5); see "notebooks_change sqlite problem"
-		LogB.Information("Edit selected pulse");
-		//1.- check that there's a line selected
-		//2.- check that this line is a event and not a person
-		if (myTreeViewPulses.EventSelectedID > 0) {
-			//3.- obtain the data of the selected event
-			Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID, false );
-			eventOldPerson = myPulse.PersonID;
-		
-			//4.- edit this event
-			editPulseWin = EditPulseWindow.Show(app1, myPulse, preferences.digitsNumber);
-			editPulseWin.Button_accept.Clicked += new EventHandler(on_edit_selected_pulse_accepted);
-		}
-	}
-	
-	private void on_edit_selected_pulse_accepted (object o, EventArgs args) {
-		/*
-		LogB.Information("edit selected pulse accepted");
-		
-		Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID, false );
-
-		//if person changed, fill treeview again, if not, only update it's line
-		if(eventOldPerson == myPulse.PersonID)
-			myTreeViewPulses.Update(myPulse);
-		else {
-			treeview_pulses_storeReset();
-			fillTreeView_pulses(UtilGtk.ComboGetActive(combo_pulses));
-		}
-		*/
-	}
-	
-	private void on_edit_selected_multi_chronopic_clicked (object o, EventArgs args) {
-		//notebooks_change(6); see "notebooks_change sqlite problem"
-		LogB.Information("Edit selected multi chronopic");
-		//1.- check that there's a line selected
-		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (myTreeViewMultiChronopic.EventSelectedID > 0) {
-			//3.- obtain the data of the selected test
-			MultiChronopic mc = SqliteMultiChronopic.SelectMultiChronopicData( myTreeViewMultiChronopic.EventSelectedID, false );
-			eventOldPerson = mc.PersonID;
-		
-			//4.- edit this jump
-			editMultiChronopicWin = EditMultiChronopicWindow.Show(app1, mc, preferences.digitsNumber);
-			editMultiChronopicWin.Button_accept.Clicked += new EventHandler(on_edit_selected_multi_chronopic_accepted);
-		}
-	}
-
-	private void on_edit_selected_multi_chronopic_accepted (object o, EventArgs args) {
-		LogB.Information("edit selected multi chronopic accepted");
-	
-		MultiChronopic mc = SqliteMultiChronopic.SelectMultiChronopicData( myTreeViewMultiChronopic.EventSelectedID, false );
-		
-		//if person changed, fill treeview again, if not, only update it's line
-		if(eventOldPerson == mc.PersonID) 
-			myTreeViewMultiChronopic.Update(mc);
-		else {
-			treeview_multi_chronopic_storeReset(false);
-			fillTreeView_multi_chronopic();
-		}
-	}
-	
 
 	/* ---------------------------------------------------------
 	 * ----------------  EVENTS DELETE -------------------------
@@ -8141,6 +6528,8 @@ LogB.Debug("mc finished 5");
 			run_encoder_delete_current_test_pre_question();
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			force_sensor_delete_current_test_pre_question();
+		else if (current_mode == Constants.Modes.WILIGHT)
+			wilight_delete_current_test_pre_question();
 	}
 
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {
@@ -8334,118 +6723,6 @@ LogB.Debug("mc finished 5");
 		blankRunIntervalRealtimeCaptureGraph ();
 	}
 	
-	private void on_delete_selected_reaction_time_clicked (object o, EventArgs args) {
-		//notebooks_change(4); see "notebooks_change sqlite problem"
-		LogB.Information("delete this reaction time");
-		
-		//1.- check that there's a line selected
-		//2.- check that this line is a jump and not a person
-		LogB.Information(myTreeViewReactionTimes.EventSelectedID.ToString());
-		if (myTreeViewReactionTimes.EventSelectedID > 0) {
-			//3.- display confirmwindow of deletion 
-			if (preferences.askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete this test?", "");
-				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_reaction_time_accepted);
-			} else {
-				on_delete_selected_reaction_time_accepted(o, args);
-			}
-		}
-	}
-		
-	private void on_delete_selected_reaction_time_accepted (object o, EventArgs args) {
-		LogB.Information("accept delete this reaction time");
-		int id = myTreeViewReactionTimes.EventSelectedID;
-		
-		Sqlite.Delete(false, Constants.ReactionTimeTable, id);
-		
-		myTreeViewReactionTimes.DelEvent(id);
-		showHideActionEventButtons(false);
-
-		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.RT, id );
-		try {
-			if(currentReactionTime.UniqueID == id)
-				deleted_last_test_update_widgets();
-		} catch {
-			//there's no currentReactionTime (no one done it now), then it crashed,
-			//but don't need to update widgets
-		}
-
-		updateGraphReactionTimes();
-	}
-
-	private void on_delete_selected_pulse_clicked (object o, EventArgs args) {
-		//notebooks_change(5); see "notebooks_change sqlite problem"
-		LogB.Information("delete this pulse");
-		
-		//1.- check that there's a line selected
-		//2.- check that this line is a jump and not a person
-		LogB.Information(myTreeViewPulses.EventSelectedID.ToString());
-		if (myTreeViewPulses.EventSelectedID > 0) {
-			//3.- display confirmwindow of deletion 
-			if (preferences.askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete this test?", "");
-				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_pulse_accepted);
-			} else {
-				on_delete_selected_pulse_accepted(o, args);
-			}
-		}
-	}
-		
-	private void on_delete_selected_pulse_accepted (object o, EventArgs args) {
-		LogB.Information("accept delete this pulse");
-		int id = myTreeViewPulses.EventSelectedID;
-		
-		Sqlite.Delete(false, Constants.PulseTable, id);
-		
-		myTreeViewPulses.DelEvent(id);
-		showHideActionEventButtons(false);
-
-		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.PULSE, id );
-		try {
-			if(currentPulse.UniqueID == id)
-				deleted_last_test_update_widgets();
-		} catch {
-			//there's no currentPulse (no one done it now), then it crashed,
-			//but don't need to update widgets
-		}
-	}
-
-	private void on_delete_selected_multi_chronopic_clicked (object o, EventArgs args) {
-		//notebooks_change(6); see "notebooks_change sqlite problem"
-		LogB.Information("delete this multi chronopic");
-		//1.- check that there's a line selected
-		//2.- check that this line is a test and not a person (check also if it's not a individual mc, then pass the parent mc)
-		if (myTreeViewMultiChronopic.EventSelectedID > 0) {
-			//3.- display confirmwindow of deletion 
-			if (preferences.askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete this test?"), "");
-				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_multi_chronopic_accepted);
-			} else {
-				on_delete_selected_multi_chronopic_accepted(o, args);
-			}
-		}
-	}
-	
-	private void on_delete_selected_multi_chronopic_accepted (object o, EventArgs args) {
-		LogB.Information("accept delete this multi chronopic");
-		int id = myTreeViewMultiChronopic.EventSelectedID;
-		
-		Sqlite.Delete(false, Constants.MultiChronopicTable, id);
-		
-		myTreeViewMultiChronopic.DelEvent(id);
-		showHideActionEventButtons(false);
-		
-		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.MULTICHRONOPIC, id );
-		try {
-			if(currentMultiChronopic.UniqueID == id)
-				deleted_last_test_update_widgets();
-		} catch {
-			//there's no currentMultiChronopic (no one done it now), then it crashed,
-			//but don't need to update widgets
-		}
-	}
-	
-
 	/* ---------------------------------------------------------
 	 * ----------------  EVENTS INSPECT ------------------------
 	 *  --------------------------------------------------------
@@ -8568,16 +6845,6 @@ LogB.Debug("mc finished 5");
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added intervallic race type."));
 		}
 		updateComboStats();
-	}
-
-	//reactiontime has no types
-
-	private void on_pulse_type_add_activate (object o, EventArgs args) {
-		LogB.Information("Add new pulse type");
-	}
-	
-	private void on_pulse_type_add_accepted (object o, EventArgs args) {
-		LogB.Information("ACCEPTED Add new pulse type");
 	}
 
 	/* ---------------------------------------------------------
@@ -8736,36 +7003,7 @@ LogB.Debug("mc finished 5");
 		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 	}
 
-	private void on_repair_selected_pulse_clicked (object o, EventArgs args) {
-		//notebooks_change(5); see "notebooks_change sqlite problem"
-		LogB.Information("Repair selected pulse");
-		//1.- check that there's a line selected
-		//2.- check that this line is a pulse and not a person 
-		//(check also if it's not a individual pulse, then pass the parent pulse)
-		if (myTreeViewPulses.EventSelectedID > 0) {
-			//3.- obtain the data of the selected pulse
-			Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID, false );
-		
-			//4.- edit this pulse
-			repairPulseWin = RepairPulseWindow.Show(app1, myPulse, preferences.digitsNumber);
-			repairPulseWin.Button_accept.Clicked += new EventHandler(on_repair_selected_pulse_accepted);
-		}
-	}
 	
-	private void on_repair_selected_pulse_accepted (object o, EventArgs args) {
-	/*
-		LogB.Information("repair selected pulse accepted");
-		
-		treeview_pulses_storeReset();
-		fillTreeView_pulses(UtilGtk.ComboGetActive(combo_pulses));
-		*/
-	}
-
-	private void on_repair_selected_multi_chronopic_clicked (object o, EventArgs args) {
-		//notebooks_change(6); see "notebooks_change sqlite problem"
-		LogB.Information("Repair selected multichronopic");
-	}
-
 	/* ---------------------------------------------------------
 	 * ----------------  AUTO MODE -----------------------------
 	 *  --------------------------------------------------------
@@ -8860,45 +7098,45 @@ LogB.Debug("mc finished 5");
 
 		if(mode == Constants.Modes.JUMPSSIMPLE)
 		{
-			notebook_execute.CurrentPage = 0;
-			notebook_options_top.CurrentPage = 0;
-			notebook_results.CurrentPage = 0;
+			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.JUMPSSIMPLE);
+			notebook_options_top.CurrentPage = Convert.ToInt32 (notebook_options_top_pages.JUMPSSIMPLE);
+			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.JUMPSSIMPLE);
 
 			if(currentJumpType != null)
 				changeTestImage(EventType.Types.JUMP.ToString(),
 						currentJumpType.Name, currentJumpType.ImageFileName);
 		} else if(mode == Constants.Modes.JUMPSREACTIVE)
 		{
-			notebook_execute.CurrentPage = 1;
-			notebook_options_top.CurrentPage = 1;
-			notebook_results.CurrentPage = 1;
+			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.JUMPSREACTIVE);
+			notebook_options_top.CurrentPage = Convert.ToInt32 (notebook_options_top_pages.JUMPSREACTIVE);
+			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.JUMPSREACTIVE);
 
 			if(currentJumpRjType != null)
 				changeTestImage(EventType.Types.JUMP.ToString(),
 						currentJumpRjType.Name, currentJumpRjType.ImageFileName);
 		} else if(mode == Constants.Modes.RUNSSIMPLE)
 		{
-			notebook_execute.CurrentPage = 2;
-			notebook_options_top.CurrentPage = 2;
-			notebook_results.CurrentPage = 2;
+			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.RUNSSIMPLE);
+			notebook_options_top.CurrentPage = Convert.ToInt32 (notebook_options_top_pages.RUNSSIMPLE);
+			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.RUNSSIMPLE);
 
 			if(currentRunType != null)
 				changeTestImage(EventType.Types.RUN.ToString(),
 						currentRunType.Name, currentRunType.ImageFileName);
 		} else if(mode == Constants.Modes.RUNSINTERVALLIC)
 		{
-			notebook_execute.CurrentPage = 3;
-			notebook_options_top.CurrentPage = 3;
-			notebook_results.CurrentPage = 3;
+			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.RUNSINTERVALLIC);
+			notebook_options_top.CurrentPage = Convert.ToInt32 (notebook_options_top_pages.RUNSINTERVALLIC);
+			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.RUNSINTERVALLIC);
 
 			if(currentRunIntervalType != null)
 				changeTestImage(EventType.Types.RUN.ToString(),
 						currentRunIntervalType.Name, currentRunIntervalType.ImageFileName);
 		} else if(mode == Constants.Modes.RUNSENCODER)
 		{
-			notebook_execute.CurrentPage = 8;
-			notebook_options_top.CurrentPage = 8;
-			notebook_results.CurrentPage = 8;
+			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.RUNSENCODER);
+			notebook_options_top.CurrentPage = Convert.ToInt32 (notebook_options_top_pages.RUNSENCODER);
+			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.RUNSENCODER);
 			changeTestImage("", "", "RUNSENCODER");
 			event_execute_button_finish.Sensitive = false;
 		} else if(mode == Constants.Modes.BEEPTEST)
@@ -8912,63 +7150,32 @@ LogB.Debug("mc finished 5");
 			*/
 		} else if (Constants.ModeIsFORCESENSOR (mode))
 		{
-			notebook_execute.CurrentPage = 4;
-			notebook_options_top.CurrentPage = 4; //but at FORCESENSOR this notebook is not shown until adjust button is clicked
-			notebook_results.CurrentPage = 4;
+			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.FORCESENSOR);
+			notebook_options_top.CurrentPage =
+				Convert.ToInt32 (notebook_options_top_pages.FORCESENSOR); //but at FORCESENSOR this notebook is not shown until adjust button is clicked
+			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.FORCESENSOR);
 
 			event_execute_button_finish.Sensitive = false;
 			fullscreen_button_fullscreen_contacts.Sensitive = false;
-		} else if(mode == Constants.Modes.RT)
+		} else if(mode == Constants.Modes.WILIGHT)
 		{
-			notebook_execute.CurrentPage = 5;
-			notebook_options_top.CurrentPage = 5;
-			notebook_results.CurrentPage = 5;
+//			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.JUMPSREACTIVE);
+//			notebook_options_top.CurrentPage = Convert.ToInt32 (notebook_options_top_pages.JUMPSREACTIVE);
+			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.WILIGHT);
 
-			if(currentReactionTimeType != null)
-				changeTestImage(EventType.Types.REACTIONTIME.ToString(),
-						currentReactionTimeType.Name, currentReactionTimeType.ImageFileName);
-		} else if(mode == Constants.Modes.OTHER)
-		{
-			if(radio_mode_multi_chronopic_small.Active)
-			{
-				notebook_execute.CurrentPage = 7;
-				notebook_options_top.CurrentPage = 7;
-				notebook_results.CurrentPage = 7;
-
-				if(currentMultiChronopicType != null)
-					changeTestImage(EventType.Types.MULTICHRONOPIC.ToString(),
-							currentMultiChronopicType.Name, currentMultiChronopicType.ImageFileName);
-			} else { //pulses
-				notebook_execute.CurrentPage = 6;
-				notebook_options_top.CurrentPage = 6;
-				notebook_results.CurrentPage = 6;
-
-				if(currentPulseType != null)
-					changeTestImage(EventType.Types.PULSE.ToString(),
-							currentPulseType.Name, currentPulseType.ImageFileName);
-			}
+			/*
+			if(currentJumpRjType != null)
+				changeTestImage(EventType.Types.JUMP.ToString(),
+						currentJumpRjType.Name, currentJumpRjType.ImageFileName);
+						*/
 		}
-
-		//change table under graph
-		change_notebook_results_data();
 
 		//button_execute_test have to be non sensitive in multichronopic without two cps
 		//else has to be sensitive
 
 		//if there are persons
-		if(mode == Constants.Modes.OTHER && radio_mode_multi_chronopic_small.Active)
-		{
-			/*
-			 * disabled on 1.6.3
-			if (chronopicWin.NumConnected() >= 2)
-				extra_window_multichronopic_can_do(true);
-			else 
-				extra_window_multichronopic_can_do(false);
-				*/
-		} else {
-			button_execute_test.Sensitive = myTreeViewPersons.IsThereAnyRecord();
-			button_auto_start.Sensitive = myTreeViewPersons.IsThereAnyRecord();
-		}
+		button_execute_test.Sensitive = myTreeViewPersons.IsThereAnyRecord();
+		button_auto_start.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 
 		LogB.Information ("notebooks_change almost end, currentPage: " + notebook_execute.CurrentPage.ToString());
 
@@ -10194,8 +8401,6 @@ LogB.Debug("mc finished 5");
 		hbox_jumps_rj.Sensitive = false;
 		vbox_runs.Sensitive = false;
 		hbox_runs_interval_all.Sensitive = false;
-		hbox_other_mc.Sensitive = false;
-		hbox_other_pulses.Sensitive = false;
 		sensitiveLastTestButtons(false);
 
 		//do not allow to touch buttons on show table
@@ -10208,8 +8413,6 @@ LogB.Debug("mc finished 5");
 		button_force_sensor_sync.Sensitive = false;
 		button_auto_start.Sensitive = false;
 		frame_contacts_exercise.Sensitive = false;
-
-		//hbox_multi_chronopic_buttons.Sensitive = false;
 	}
    
 	private void sensitiveGuiEventDone ()
@@ -10257,9 +8460,6 @@ LogB.Debug("mc finished 5");
 		hbox_jumps_rj.Sensitive = true;
 		vbox_runs.Sensitive = true;
 		hbox_runs_interval_all.Sensitive = true;
-		hbox_other_mc.Sensitive = true;
-		hbox_other_pulses.Sensitive = true;
-		//hbox_multi_chronopic_buttons.Sensitive = true;
 
 		//allow to touch buttons on show table
 		notebook_results.Sensitive = true;
@@ -10291,23 +8491,8 @@ LogB.Debug("mc finished 5");
 		sensitiveLastTestButtons(true);
 
 		//allow repeat last jump or run (check also if it wasn't cancelled)
-		if(currentEventExecute != null && ! currentEventExecute.Cancel) {
-			switch (currentEventType.Type) {
-				case EventType.Types.REACTIONTIME:
-					LogB.Information("sensitiveGuiEventDone reaction time");
-					break;
-				case EventType.Types.PULSE:
-					LogB.Information("sensitiveGuiEventDone pulse");
-					break;
-				case EventType.Types.MULTICHRONOPIC:
-					LogB.Information("sensitiveGuiEventDone multichronopic");
-					break;
-				default:
-					LogB.Information("sensitiveGuiEventDone default");
-					break;
-			}
+		if(currentEventExecute != null && ! currentEventExecute.Cancel)
 			button_contacts_delete_selected.Sensitive = true;
-		}
 		else
 			sensitiveLastTestButtons(false);
 
@@ -10478,7 +8663,6 @@ LogB.Debug("mc finished 5");
 
 		notebook_start = (Gtk.Notebook) builder.GetObject ("notebook_start"); 		//start window or program
 		notebook_sup = (Gtk.Notebook) builder.GetObject ("notebook_sup");
-		hbox_other = (Gtk.Box) builder.GetObject ("hbox_other");
 		box_contacts_capture_top = (Gtk.Box) builder.GetObject ("box_contacts_capture_top");
 		notebook_capture_analyze = (Gtk.Notebook) builder.GetObject ("notebook_capture_analyze"); //not encoder
 		notebook_contacts_execute_or = (Gtk.Notebook) builder.GetObject ("notebook_contacts_execute_or");
@@ -10541,8 +8725,6 @@ LogB.Debug("mc finished 5");
 		eventbox_radio_mode_contacts_analyze = (Gtk.EventBox) builder.GetObject ("eventbox_radio_mode_contacts_analyze");
 		eventbox_radio_mode_encoder_capture_small = (Gtk.EventBox) builder.GetObject ("eventbox_radio_mode_encoder_capture_small");
 		eventbox_radio_mode_encoder_analyze_small = (Gtk.EventBox) builder.GetObject ("eventbox_radio_mode_encoder_analyze_small");
-		eventbox_radio_mode_pulses_small = (Gtk.EventBox) builder.GetObject ("eventbox_radio_mode_pulses_small");
-		eventbox_radio_mode_multi_chronopic_small = (Gtk.EventBox) builder.GetObject ("eventbox_radio_mode_multi_chronopic_small");
 		eventbox_button_open_chronojump = (Gtk.EventBox) builder.GetObject ("eventbox_button_open_chronojump");
 		eventbox_button_help_close = (Gtk.EventBox) builder.GetObject ("eventbox_button_help_close");
 		eventbox_button_news_close = (Gtk.EventBox) builder.GetObject ("eventbox_button_news_close");
@@ -10581,9 +8763,6 @@ LogB.Debug("mc finished 5");
 
 		label_version = (Gtk.Label) builder.GetObject ("label_version");
 		//image_selector_start_encoder_inertial = (Gtk.Image) builder.GetObject ("image_selector_start_encoder_inertial");
-
-		radio_mode_pulses_small = (Gtk.RadioButton) builder.GetObject ("radio_mode_pulses_small");
-		radio_mode_multi_chronopic_small = (Gtk.RadioButton) builder.GetObject ("radio_mode_multi_chronopic_small");
 
 		radio_mode_encoder_capture_small = (Gtk.RadioButton) builder.GetObject ("radio_mode_encoder_capture_small");
 		radio_mode_encoder_analyze_small = (Gtk.RadioButton) builder.GetObject ("radio_mode_encoder_analyze_small");
@@ -10625,9 +8804,7 @@ LogB.Debug("mc finished 5");
 		treeview_runs = (Gtk.TreeView) builder.GetObject ("treeview_runs");
 		treeview_runs_interval = (Gtk.TreeView) builder.GetObject ("treeview_runs_interval");
 		treeview_runs_interval_sprint = (Gtk.TreeView) builder.GetObject ("treeview_runs_interval_sprint");
-		treeview_reaction_times = (Gtk.TreeView) builder.GetObject ("treeview_reaction_times");
-		treeview_pulses = (Gtk.TreeView) builder.GetObject ("treeview_pulses");
-		treeview_multi_chronopic = (Gtk.TreeView) builder.GetObject ("treeview_multi_chronopic");
+		treeview_wilight = (Gtk.TreeView) builder.GetObject ("treeview_wilight");
 
 		hbox_combo_select_jumps = (Gtk.Box) builder.GetObject ("hbox_combo_select_jumps");
 		hbox_combo_select_jumps_rj = (Gtk.Box) builder.GetObject ("hbox_combo_select_jumps_rj");
@@ -10680,8 +8857,6 @@ LogB.Debug("mc finished 5");
 		hbox_runs_interval_all = (Gtk.Box) builder.GetObject ("hbox_runs_interval_all"); //normal and compujump
 		vbox_runs_interval = (Gtk.Box) builder.GetObject ("vbox_runs_interval");
 		vbox_runs_interval_compujump = (Gtk.Box) builder.GetObject ("vbox_runs_interval_compujump");
-		hbox_other_mc = (Gtk.Box) builder.GetObject ("hbox_other_mc");
-		hbox_other_pulses = (Gtk.Box) builder.GetObject ("hbox_other_pulses");
 
 		//menu person
 		vbox_persons = (Gtk.Box) builder.GetObject ("vbox_persons");
@@ -10711,20 +8886,6 @@ LogB.Debug("mc finished 5");
 		extra_windows_jumps_image_dj_fall_calculate = (Gtk.Image) builder.GetObject ("extra_windows_jumps_image_dj_fall_calculate");
 		extra_windows_jumps_image_dj_fall_predefined = (Gtk.Image) builder.GetObject ("extra_windows_jumps_image_dj_fall_predefined");
 		hbox_extra_window_jumps_fall_height = (Gtk.Box) builder.GetObject ("hbox_extra_window_jumps_fall_height");
-
-		//other
-		//reaction time
-		spinbutton_animation_lights_speed = (Gtk.SpinButton) builder.GetObject ("spinbutton_animation_lights_speed");
-		spinbutton_flicker_lights_speed = (Gtk.SpinButton) builder.GetObject ("spinbutton_flicker_lights_speed");
-		check_reaction_time_disc_red = (Gtk.CheckButton) builder.GetObject ("check_reaction_time_disc_red");
-		check_reaction_time_disc_yellow = (Gtk.CheckButton) builder.GetObject ("check_reaction_time_disc_yellow");
-		check_reaction_time_disc_green = (Gtk.CheckButton) builder.GetObject ("check_reaction_time_disc_green");
-		check_reaction_time_disc_buzzer = (Gtk.CheckButton) builder.GetObject ("check_reaction_time_disc_buzzer");
-		spinbutton_discriminative_lights_minimum = (Gtk.SpinButton) builder.GetObject ("spinbutton_discriminative_lights_minimum");
-		spinbutton_discriminative_lights_maximum = (Gtk.SpinButton) builder.GetObject ("spinbutton_discriminative_lights_maximum");
-
-		//pulse
-		//button_repair_selected_pulse = (Gtk.Button) builder.GetObject ("button_repair_selected_pulse");
 
 		vbox_execute_test = (Gtk.Box) builder.GetObject ("vbox_execute_test");
 		button_execute_test = (Gtk.Button) builder.GetObject ("button_execute_test");
@@ -10770,15 +8931,6 @@ LogB.Debug("mc finished 5");
 		hbox_capture_time = (Gtk.Box) builder.GetObject ("hbox_capture_time");
 		box_contacts_load_recalculate = (Gtk.Box) builder.GetObject ("box_contacts_load_recalculate");
 
-		//multiChronopic	
-		//	hbox_multi_chronopic_buttons = (Gtk.Box) builder.GetObject ("hbox_multi_chronopic_buttons");
-		//	button_multi_chronopic_start = (Gtk.Button) builder.GetObject ("button_multi_chronopic_start");
-		//	button_run_analysis = (Gtk.Button) builder.GetObject ("button_run_analysis");
-		//	extra_window_spin_run_analysis_distance = (Gtk.Entry) builder.GetObject ("extra_window_spin_run_analysis_distance");
-		//	extra_window_check_multichronopic_sync = (Gtk.CheckButton) builder.GetObject ("extra_window_check_multichronopic_sync");
-		//	extra_window_check_multichronopic_delete_first = (Gtk.CheckButton) builder.GetObject ("extra_window_check_multichronopic_delete_first");
-		//	entry_multi_chronopic_cp2 = (Gtk.Entry) builder.GetObject ("entry_multi_chronopic_cp2");
-
 		//widgets for enable or disable
 		frame_persons = (Gtk.Frame) builder.GetObject ("frame_persons");
 		frame_persons_top = (Gtk.Frame) builder.GetObject ("frame_persons_top");
@@ -10823,9 +8975,7 @@ LogB.Debug("mc finished 5");
 		image_jumps_rj_zoom = (Gtk.Image) builder.GetObject ("image_jumps_rj_zoom");
 		image_runs_zoom = (Gtk.Image) builder.GetObject ("image_runs_zoom");
 		image_runs_interval_zoom = (Gtk.Image) builder.GetObject ("image_runs_interval_zoom");
-		image_reaction_times_zoom = (Gtk.Image) builder.GetObject ("image_reaction_times_zoom");
-		image_pulses_zoom = (Gtk.Image) builder.GetObject ("image_pulses_zoom");
-		image_multi_chronopic_zoom = (Gtk.Image) builder.GetObject ("image_multi_chronopic_zoom");
+		image_wilight_zoom = (Gtk.Image) builder.GetObject ("image_wilight_zoom");
 
 		//encoder
 		//image_encoder_analyze_zoom = (Gtk.Image) builder.GetObject ("image_encoder_analyze_zoom");

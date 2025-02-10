@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -29,11 +29,12 @@ public class TreeViewPersons
 {
 	private TreeStore store;
 	private Gtk.TreeView treeview;
+	private bool showRestOrStatus;
 
 	private const int colID = 0;
 	private const int colClubID = 1;
 	private const int colName = 2;
-	private const int colRest = 3;
+	private const int colRestOrStatus = 3; //status is used on beepTest
 
 	//if 0 don't use it
 	//if > 0 then show in red when >= to this value
@@ -43,14 +44,19 @@ public class TreeViewPersons
 	{
 	}
 	
-	public TreeViewPersons (Gtk.TreeView treeview, bool showClubID, int restSeconds)
+	public TreeViewPersons (Gtk.TreeView treeview, bool showClubID, bool showRestOrStatus, int restSeconds)
 	{
 		this.treeview = treeview;
+		this.showRestOrStatus = showRestOrStatus;
 
 		RestSecondsMark = restSeconds;
 
 		store = getStore (4);
+
 		string [] columnsString = { "ID", Catalog.GetString ("Club ID"), Catalog.GetString("Person"), Catalog.GetString("Rest")};
+		if (! showRestOrStatus)
+			columnsString = new string [] { "ID", Catalog.GetString ("Club ID"), Catalog.GetString("Person"), Catalog.GetString("Status")};
+
 		treeview.Model = store;
 		prepareHeaders (columnsString, showClubID);
 	}
@@ -85,7 +91,11 @@ public class TreeViewPersons
 				CellRendererText aCell = new CellRendererText();
 				aColumn.Title = Catalog.GetString(myCol);
 				aColumn.PackStart (aCell, true);
-				aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderRestTime));
+
+				if (showRestOrStatus)
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderRestTime));
+				else
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderStatus));
 
 				aColumn.SortColumnId = i;
 				aColumn.SortIndicator = true;
@@ -102,7 +112,7 @@ public class TreeViewPersons
 
 	private void RenderRestTime (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
-		string restTime = (string) model.GetValue(iter, colRest);
+		string restTime = (string) model.GetValue(iter, colRestOrStatus);
 
 		if(RestSecondsMark > 0 && LastTestTime.GetSeconds(restTime) >= RestSecondsMark)
 		{
@@ -124,6 +134,38 @@ public class TreeViewPersons
 		} else {
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 			(cell as Gtk.CellRendererText).Text = restTime;
+		}
+	}
+
+	private void RenderStatus (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
+	{
+		// 1. decide word to show and fg color
+		// the cell has the translated value
+		string status = (string) model.GetValue(iter, colRestOrStatus);
+		string statusString = status;
+
+		if (statusString == RunnerStatus.GetStatusEnumTr (RunnerStatus.StatusEnum.Nothing))
+			statusString = "";
+		string colorFg = UtilGtk.ColorBlack;
+
+		if (status == RunnerStatus.GetStatusEnumTr (RunnerStatus.StatusEnum.Running))
+			colorFg = UtilGtk.ColorGood;
+
+		// 2. check if is selected. To show bg white color
+		Gtk.ITreeModel model2;
+		Gtk.TreeIter iter2;
+		bool selected = false;
+		if (treeview.Selection.GetSelected (out model2, out iter2))
+			if(model.GetValue(iter, colID).ToString() == model2.GetValue(iter2, colID).ToString())
+				selected = true;
+
+		if(selected) {
+			//based on http://stackoverflow.com/a/9548415
+			(cell as Gtk.CellRendererText).Markup = "<span foreground=\"" + colorFg + "\" background=\"white\">" +statusString + "</span>";
+		}
+		else {
+			(cell as Gtk.CellRendererText).Foreground = colorFg;
+			(cell as Gtk.CellRendererText).Text = statusString;
 		}
 	}
 
@@ -303,7 +345,7 @@ public class TreeViewPersons
 			store.SetValue (iter2, colID, p.UniqueID);
 			store.SetValue (iter2, colClubID, p.Future2);
 			store.SetValue (iter2, colName, p.Name);
-			store.SetValue (iter2, colRest, ""); //restTime
+			store.SetValue (iter2, colRestOrStatus, "");
 		} else {
 			//first ID, then Name
 			iter2 = store.AppendValues (p.UniqueID, p.Future2, p.Name, "");
@@ -323,8 +365,25 @@ public class TreeViewPersons
 				string rested = restTime.RestedTime(
 						Convert.ToInt32(store.GetValue(iter, colID)));
 				if(rested != "")
-					store.SetValue(iter, colRest, rested);
+					store.SetValue(iter, colRestOrStatus, rested);
+				//else
+				//	store.SetValue(iter, colRest, "");
+				//	above is useful for beepTest putting all to 0 at start, but better have a col with status
 
+			} while (store.IterNext (ref iter));
+		}
+	}
+
+	//personID == -1 means all
+	public void UpdateStatus (int personID, RunnerStatus.StatusEnum statusEnum)
+	{
+		TreeIter iter;
+		bool iterOk = store.GetIterFirst(out iter);
+		if(iterOk) {
+			do {
+				if (personID < 0 || Convert.ToInt32(store.GetValue(iter, colID)) == personID)
+					store.SetValue(iter, colRestOrStatus,
+							Catalog.GetString (statusEnum.ToString ()));
 			} while (store.IterNext (ref iter));
 		}
 	}

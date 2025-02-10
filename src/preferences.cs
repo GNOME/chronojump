@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -259,8 +259,11 @@ public class Preferences
 	 * so we need the executable: python, python2, python3
 	 * chronojump_importer.py works on python2 and python3
 	 */
-	public static string GetPythonExecutable(pythonVersionEnum pv)
+	public static string GetPythonExecutable (pythonVersionEnum pv)
 	{
+		if (Config.PythonUserURLStatic != "")
+			return Config.PythonUserURLStatic;
+
 		if (pv == pythonVersionEnum.Python2)
 		{
 			return "python2";

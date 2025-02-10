@@ -63,7 +63,6 @@ public abstract class ExportFiles
 			int imageWidth, int imageHeight,
 			bool isWindows, int personID, int sessionID,
 			char exportDecimalSeparator)
-
 	{
 		this.notebook = notebook;
 		this.labelProgress = labelProgress;

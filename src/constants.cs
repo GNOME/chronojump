@@ -204,6 +204,7 @@ public class Constants
 	public const string RunEncoderTable = "runEncoder";
 	public const string RunEncoderExerciseTable = "runEncoderExercise";
 	public const string FourPlatformsTable = "fourPlatforms";
+	public const string WilightTable = "wilight";
 
 	public const string LastJumpSimpleTypeParamsTable = "lastJumpSimpleTypeParams";
 	public const string LastJumpRjTypeParamsTable = "lastJumpRjTypeParams";
@@ -654,6 +655,7 @@ public class Constants
 	public static string FileNameOpen = "gtk-open.png";
 	public static string FileNameOpen1 = "gtk-open-1.png";
 	public static string FileNameOpenPlus = "gtk-open-plus.png";
+	public static string FileNameZoomOutIcon = "zoom_out.png";
 
 	public static string FileNameImport = "import.png";
 	public static string FileNameImportYellow = "import_yellow.png";

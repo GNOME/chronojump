@@ -13,13 +13,19 @@ PACKAGE_SHORT_VERSION = $(shell git describe | sed 's/-.*//')
 #ARCH=$(shell uname -m)
 #PACKAGE_NAME = "chronojump-$(PACKAGE_VERSION)"
 
+PACKAGE_PLACE = $(PLACE)
+PACKAGE_SQLITE_LIB = $(SQLITE_LIB)
+ifneq ($(PLACE),apple-store)
+    PACKAGE_PLACE = "direct-dist"
+endif
+
+ifneq ($(SQLITE_LIB),Microsoft.Data.Sqlite)
+    PACKAGE_SQLITE_LIB = "System.Data.SQLite"
+endif
+
 #all: bundle
 dmg: bundle package-dmg
 pkg: bundle package-pkg
-apple-store-pkg: bundle package-apple-store-pkg
-dmg-Microsoft.Data.Sqlite: bundle package-dmg-Microsoft.Data.Sqlite
-pkg-Microsoft.Data.Sqlite: bundle package-pkg-Microsoft.Data.Sqlite
-apple-store-pkg-Microsoft.Data.Sqlite: bundle package-apple-store-pkg-Microsoft.Data.Sqlite
 
 bundle:
 	rm -rf deps/FTD2XX_NET_v1.2.0
@@ -28,7 +34,7 @@ bundle:
 	rm -rf app/Chronojump.app
 	mkdir -p app/Chronojump.app/Contents/MacOS
 	mkdir -p app/Chronojump.app/Contents/Resources
-
+	
 	# Generate Info.plist file
 	cp $(PACKAGE_DIR)/resources/Info.plist $(APP_DIR)
 	sed -e s/{version}/$(PACKAGE_SHORT_VERSION)/ $(PACKAGE_DIR)/resources/Info.plist > $(APP_DIR)/Info.plist
@@ -48,24 +54,11 @@ bundle:
 	#find deps/bin/x64/Python/ -type f -name "Info.plist" -exec rm {} \;
 	rm -rf deps/R/
 	cp -r /Library/Frameworks/R.framework/ deps/R/
-	rm deps/R/R
 	#find deps/R/ -type f -name "Info.plist" -exec rm {} \;
 	dos2unix ./build_installer.sh
 
 package-dmg:	
-	sh ./build_installer.sh $(PACKAGE_VERSION) dmg
+	sh ./build_installer.sh $(PACKAGE_VERSION) dmg $(PACKAGE_PLACE) $(PACKAGE_SQLITE_LIB)
 
 package-pkg:	
-	sh ./build_installer.sh $(PACKAGE_VERSION) pkg
-
-package-apple-store-pkg:	
-	sh ./build_installer.sh $(PACKAGE_VERSION) pkg apple-store
-
-package-dmg-Microsoft.Data.Sqlite:	
-	sh ./build_installer.sh $(PACKAGE_VERSION) dmg not-apple-store Microsoft.Data.Sqlite
-
-package-pkg-Microsoft.Data.Sqlite:	
-	sh ./build_installer.sh $(PACKAGE_VERSION) pkg not-apple-store Microsoft.Data.Sqlite
-
-package-apple-store-pkg-Microsoft.Data.Sqlite:	
-	sh ./build_installer.sh $(PACKAGE_VERSION) pkg apple-store Microsoft.Data.Sqlite
+	sh ./build_installer.sh $(PACKAGE_VERSION) pkg $(PACKAGE_PLACE) $(PACKAGE_SQLITE_LIB)

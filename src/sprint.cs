@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2017-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2017-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -40,7 +40,8 @@ public class SprintRGraph
 
 	//constructor for 1 set
 	public SprintRGraph (string positions, string splitTimes,
-			double mass, double personHeight, string personName, double tempC)
+			double mass, double personHeight, string personName, double tempC
+			)
 	{
 		this.positions = positions;
 		this.splitTimes = splitTimes;
@@ -58,7 +59,8 @@ public class SprintRGraph
 	//constructor for export (many sets of possible different persons)
 	public SprintRGraph (List<SprintRGraphExport> sprge_l,
 			char exportDecimalSeparator,
-			bool includeImagesOnExport)
+			bool includeImagesOnExport
+			)
 	{
 		//to have Roptions.txt with data on row
 		this.positions = "-1";
@@ -74,7 +76,7 @@ public class SprintRGraph
 		writeMultipleFilesCSV(sprge_l);
 	}
 
-	public bool CallR(int graphWidth, int graphHeight, bool singleOrMultiple)
+	public bool CallR (int graphWidth, int graphHeight, bool singleOrMultiple)
 	{
 		LogB.Information("\nsprint CallR ----->");
 		writeOptionsFile(graphWidth, graphHeight,singleOrMultiple);

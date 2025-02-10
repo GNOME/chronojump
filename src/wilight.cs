@@ -20,6 +20,69 @@
 
 using System;
 using System.Collections.Generic; //List<T>
+using System.Diagnostics;  //Stopwatch
+
+public class Wilight : Event
+{
+	private int exerciseID; //until wilightExercise table is not created, all will be 0
+	private string dateTime;
+	private string videoURL;
+	private int totalMs;
+
+	/*
+	//constructor used after deleting a test
+	public Wilight ()
+	{
+		this.uniqueID = -1;
+	}
+	*/
+
+	//regular constructor
+	public Wilight (int uniqueID, int personID, int sessionID, int exerciseID,
+			string dateTime, string videoURL, int totalMs, string description)
+	{
+		this.uniqueID = uniqueID;
+		this.personID = personID;
+		this.sessionID = sessionID;
+		this.exerciseID = exerciseID;
+		this.dateTime = dateTime;
+		this.videoURL = videoURL;
+		this.totalMs = totalMs;
+		this.description = description;
+	}
+
+	public static List<Event> WilightListToEventList (List<Wilight> ws)
+	{
+		List<Event> events = new List<Event>();
+		foreach(Wilight w in ws)
+			events.Add((Event) w);
+
+		return events;
+	}
+
+	public int InsertSQL (bool dbconOpened)
+	{
+		return SqliteWilight.Insert (dbconOpened, toSQLInsertString());
+	}
+	private string toSQLInsertString()
+	{
+		string uniqueIDStr = "NULL";
+		if(uniqueID != -1)
+			uniqueIDStr = uniqueID.ToString();
+
+		return
+			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID +
+			", '" + dateTime + "', '" + videoURL + "', " + totalMs + ")";
+	}
+
+	public int TotalMs {
+		get { return totalMs; }
+	}
+	public string DateTime {
+		get { return dateTime; }
+	}
+}
+
 
 public static class WilightColors
 {
@@ -32,16 +95,67 @@ public static class WilightColors
 public class WilightTest
 {
 	private List<List<string>> command_ll;
+
 	private int currentLevel;
 	private int currentCommand; //in level
+	private int commandsCountReceived;
 
-	public WilightTest (string commandsFile)
+	//in level, to know when to end (as we start randomly on a level command)
+	private int levelStartedWithCommand;
+	//To avoid ending level on the first command (as we iterate by all the commands in level)
+	private bool firstCommandInLevel;
+
+	private bool started;
+	private Stopwatch stopwatch;
+	private bool isDemo;
+	private Random random;
+	private bool isRandom;
+
+	public bool Cancel;
+	public bool Finished;
+	public int FinishedMs;
+
+
+	//constructor
+	public WilightTest (string commandsFile, bool isDemo)
 	{
+		this.isDemo = isDemo;
+
 		command_ll = new List<List<string>> ();
 
+		if (isDemo)
+			wilightTestDemoSetVars ();
+		else
+			wilightTestRealSetVars (commandsFile);
+
+		levelStartedWithCommand = currentCommand;
+		commandsCountReceived = 0;
+
+		started = false;
+		stopwatch = new Stopwatch ();
+		Cancel = false;
+		Finished = false;
+		FinishedMs = 0;
+
+		firstCommandInLevel = true;
+	}
+
+	//not random
+	private void wilightTestDemoSetVars ()
+	{
+		command_ll = new List<List<string>> ();
+		command_ll.Add (demoSequence);
+
+		currentLevel = 0;
+		currentCommand = 0;
+		isRandom = false;
+	}
+
+	private void wilightTestRealSetVars (string commandsFile)
+	{
 		if (commandsFile != "")
 		{
-			command_ll.Add (Util.ReadFileAsStringList (commandsFile, "#"));
+			readCommandsFile (commandsFile);
 		} else {
 			command_ll.Add (level0);
 			command_ll.Add (level1);
@@ -50,35 +164,149 @@ public class WilightTest
 			command_ll.Add (level4);
 		}
 	
+		random = new Random();
+
 		currentLevel = 0;
-		currentCommand = 0;
+		currentCommand = random.Next (0, command_ll[0].Count);
+		isRandom = true;
 	}
 
-	public string GetNext (out bool finishedAllCommands)
+	/*
+	    reads a file like this:
+		Level:0;0:8;1:0;2:0;3:0;4:9;5:0;6:0;7:0;8:0;9:0;10:0;11:0;12:0;
+		Level:0;0:10;1:0;2:0;3:0;4:0;5:0;6:0;7:0;8:0;9:11;10:0;11:0;12:0;
+
+		Level:1;0:6;1:0;2:64;3:0;4:0;5:32;6:0;7:0;8:7;9:0;10:128;11:0;12:0;
+		Level:1;0:4;1:0;2:0;3:5;4:96;5:0;6:0;7:0;8:0;9:96;10:0;11:0;12:32;
+
+	    Note the Levels not need to be ordered, and we can have Level 3 without having Level 2, ...
+	    This should work:
+		Level:3;0:96;1:97;2:0;3:64;4:0;5:6;6:0;7:0;8:8;9:14;10:0;11:32;12:0;
+		Level:3;0:64;1:160;2:8;3:0;4:0;5:0;6:65;7:8;8:14;9:64;10:128;11:0;12:0;
+		Level:1;0:8;1:0;2:0;3:160;4:128;5:0;6:0;7:9;8:0;9:0;10:0;11:0;12:32;
+	*/
+	private void readCommandsFile (string commandsFile)
+	{
+		List<string> com_l = Util.ReadFileAsStringList (commandsFile, "#");
+
+		//LogB.Information (UtilList.ListStringToString (com_l, "\n"));
+		foreach (string com in com_l)
+		{
+			if (com == "" || com.Length == 0)
+				continue;
+
+			if (! com.StartsWith ("Level:"))
+				continue;
+
+			if (com.IndexOf (';') < 0)
+				continue;
+
+			string levelStr = com.Substring (
+					com.IndexOf (':') +1,
+					com.IndexOf (';') -com.IndexOf (':') -1);
+
+			if (! Util.IsNumber (levelStr, false))
+				continue;
+
+			int level = Convert.ToInt32 (levelStr);
+
+			// line needs at least one character more than the first ;
+			// to not fail on "add the command to the sublist"
+			if (com.Length <= com.IndexOf (';') -1)
+				continue;
+
+			// add the sublists needed for that level
+			while (command_ll.Count <= level)
+				command_ll.Add (new List<string> ());
+
+			// add the command to the sublist
+			command_ll[level].Add (com.Substring (com.IndexOf (';') +1));
+		}
+
+		/* debug
+		LogB.Information ("Print the thing!");
+		for (int i = 0; i < command_ll.Count; i ++)
+		{
+			LogB.Information ("On level " + i.ToString());
+			LogB.Information (UtilList.ListStringToString (command_ll[i], "\n"));
+		}
+		*/
+	}
+
+	public string GetNext ()
 	{
 		bool commandValidated = false;
 		string commandStr = "";
-		do {
-			finishedAllCommands = false;
-			commandStr = command_ll[currentLevel][currentCommand];
 
-			if (currentCommand < command_ll[currentLevel].Count -1)
-				currentCommand ++;
-			else if (currentLevel < command_ll.Count -1)
+		if (! started) {
+			stopwatch.Start ();
+			started = true;
+		}
+
+		do {
+			//this is the commandStr that is going to be returned
+			commandStr = command_ll[currentLevel][currentCommand];
+			LogB.Information (string.Format ("\ncurrentLevel: {0}, currentCommand: {1}, levelStartedWithCommand: {2},\ncommandStr: {3}",
+						currentLevel, currentCommand, levelStartedWithCommand, commandStr));
+
+			//then update currentCommand, currentLevel if needed (for next call)
+
+			if (! firstCommandInLevel && currentCommand == levelStartedWithCommand)
 			{
-				currentLevel ++;
-				currentCommand = 0;
-			} else
-				finishedAllCommands = true;
+				if (currentLevel < command_ll.Count -1)
+				{
+					currentLevel ++;
+					if (isRandom)
+						currentCommand = random.Next (0, command_ll[currentLevel].Count);
+					else
+						currentCommand ++;
+
+					levelStartedWithCommand = currentCommand;
+					firstCommandInLevel = true;
+
+					//do not send this command because is the same as the first in the level
+					continue;
+				} else {
+					Finished = true;
+					FinishedMs = Convert.ToInt32 (stopwatch.ElapsedMilliseconds);
+					stopwatch.Stop ();
+				}
+			}
+			else {
+				if (currentCommand >= command_ll[currentLevel].Count -1)
+					currentCommand = 0;
+				else
+					currentCommand ++;
+
+				firstCommandInLevel = false;
+			}
 
 			commandValidated = validateCommand (commandStr);
-		} while (! (commandValidated || finishedAllCommands));
+		} while (! (commandValidated || Finished));
 
 		//return "" if last command in list is not validated
-		if (! commandValidated)
+		if (! commandValidated || Finished)
 			return "";
 
 		return commandStr;
+	}
+
+
+	public void CommandsCountReceivedAdd ()
+	{
+		commandsCountReceived ++;
+	}
+	private int getTotalCommands ()
+	{
+		int sum = 0;
+		foreach (List<string> c_l in command_ll)
+			sum += c_l.Count;
+
+		return sum;
+	}
+	public string GetProgressStatus ()
+	{
+		return string.Format ("{0} / {1} - Level: {2}", commandsCountReceived, getTotalCommands (), currentLevel);
 	}
 
 	//from a command detects wich is the terminal that will be active to be clicked. Can be plural
@@ -219,8 +447,32 @@ public class WilightTest
 					"0:32;1:8;2:2;3:128;4:4;5:96;6:33;7:0;8:4;9:10;10:2;11:0;12:0;",
 					"0:224;1:8;2:8;3:8;4:96;5:6;6:12;7:12;8:0;9:128;10:225;11:0;12:0;",
 					"0:96;1:2;2:4;3:14;4:12;5:10;6:0;7:8;8:64;9:97;10:224;11:0;12:0;",
-					"0:160;1:96;2:6;3:0;4:0;5:0;6:6;7:10;8:128;9:0;10:14;11:161;12:0;"
+					"0:160;1:96;2:6;3:0;4:0;5:0;6:6;7:10;8:128;9:0;10:14;11:161;12:0;",
+					"0:128;1:128;2:128;3:128;4:128;5:128;6:128;7:128;8:128;9:128;10:128;11:128;12:128;"
 					});
 		}
+	}
+
+	//not random
+	private List<string> demoSequence
+	{
+		get {
+			return (new List<string> {
+					"0:32;2:33;3:64;4:96;5:128;6:160;7:2;8:4;9:8;10:12;11:14;",
+					"0:64;2:32;3:65;4:96;5:128;6:160;7:2;8:4;9:8;10:12;11:14;",
+					"0:96;2:32;3:64;4:97;5:128;6:160;7:2;8:4;9:8;10:12;11:14;",
+					"0:128;2:32;3:64;4:96;5:129;6:160;7:2;8:4;9:8;10:12;11:14;",
+					"0:160;2:32;3:64;4:96;5:128;6:161;7:2;8:4;9:8;10:12;11:14;",
+					"0:2;2:32;3:64;4:96;5:128;6:160;7:3;8:4;9:8;10:12;11:14;",
+					"0:4;2:32;3:64;4:96;5:128;6:160;7:2;8:5;9:8;10:12;11:14;",
+					"0:8;2:32;3:64;4:96;5:128;6:160;7:2;8:4;9:9;10:12;11:14;",
+					"0:12;2:32;3:64;4:96;5:128;6:160;7:2;8:4;9:8;10:13;11:14;",
+					"0:14;2:32;3:64;4:96;5:128;6:160;7:2;8:4;9:8;10:12;11:15;",
+					});
+		}
+	}
+
+	public bool IsDemo {
+		get { return isDemo; }
 	}
 }

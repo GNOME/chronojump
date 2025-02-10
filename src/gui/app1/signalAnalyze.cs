@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2023-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2023-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -115,6 +115,8 @@ public partial class ChronoJumpWindow
 	Gtk.ProgressBar progressbar_ai_export;
 	Gtk.Label label_ai_export_result;
 	Gtk.Button button_ai_export_result_open;
+	Gtk.Button button_ai_AB_save;
+	Gtk.Button button_ai_CD_save;
 	// <---- at glade
 
 	public enum AlignTypes { LEFT, CENTER, RIGHT };
@@ -153,6 +155,7 @@ public partial class ChronoJumpWindow
 		{
 			box_force_sensor_analyze_magnitudes.Visible = false;
 		}
+		manage_ai_table_visibilities ();
 	}
 
 	private void forceSensorZoomDefaultValues()
@@ -948,6 +951,28 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	private void manage_ai_table_visibilities()
+	{
+		bool visible = true;//checkbutton_force_sensor_ai_b.Active;
+
+		//on race analyzer do not save AB, CD as there are no repetitions, has no sense this (contrary to forceSensor)
+		if (current_mode == Constants.Modes.RUNSENCODER)
+		       visible = false;	
+
+		//ForceSensorAnalyzeInstant fsAI = getCorrectAI ();
+		//bool visibleElastic = (visible && fsAI.CalculedElasticPSAP);
+
+		if (visible && canDoForceSensorAnalyzeAB ())
+			button_ai_AB_save.Visible = true;
+		else
+			button_ai_AB_save.Visible = false;
+
+		if (visible && canDoForceSensorAnalyzeCD ())
+			button_ai_CD_save.Visible = true;
+		else
+			button_ai_CD_save.Visible = false;
+	}
+
 	private void aiButtonsHscaleZoomSensitiveness ()
 	{
 		Gtk.HScale hsLeft = getHScaleABCD (true);
@@ -1366,6 +1391,8 @@ public partial class ChronoJumpWindow
 		progressbar_ai_export = (Gtk.ProgressBar) builder.GetObject ("progressbar_ai_export");
 		label_ai_export_result = (Gtk.Label) builder.GetObject ("label_ai_export_result");
 		button_ai_export_result_open = (Gtk.Button) builder.GetObject ("button_ai_export_result_open");
+		button_ai_AB_save = (Gtk.Button) builder.GetObject ("button_ai_AB_save");
+		button_ai_CD_save = (Gtk.Button) builder.GetObject ("button_ai_CD_save");
 	}
 }
 

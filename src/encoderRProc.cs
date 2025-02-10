@@ -39,7 +39,7 @@ public abstract class EncoderRProc
 	protected EncoderStruct es;
 
 
-	public bool StartOrContinue(EncoderStruct es)
+	public bool StartOrContinue (EncoderStruct es)
 	{
 		status = Status.RUNNING;
 
@@ -154,8 +154,9 @@ public class EncoderRProcCapture : EncoderRProc
 	{
 		//If output file is not given, R will try to write in the running folder
 		//in which we may haven't got permissions
+		//note we are calling Rscript instead of R
 
-		string pBin = Util.GetRscriptBin();
+		string pBin = Util.GetRscriptBin ();
 
 		pinfo = new ProcessStartInfo();
 
@@ -165,6 +166,7 @@ public class EncoderRProcCapture : EncoderRProc
 		pinfo.Arguments = "\"" + UtilEncoder.GetEncoderScriptCallCaptureNoRdotNet() + "\" " +
 			"\"" + optionsFile + "\"";
 
+		LogB.Information("pBin:", pBin);
 		LogB.Information("Arguments:", pinfo.Arguments);
 		LogB.Information("--- 1 --- " + optionsFile.ToString() + " ---");
 		LogB.Information("--- 2 --- " + pinfo.Arguments.ToString() + " ---");
@@ -322,7 +324,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 		this.triggerList = triggerList;
 		this.analysisMode = analysisMode;
 		this.inertialGraphX = inertialGraphX;
-		
+
 		CancelRScript = false;
 	}
 
@@ -335,8 +337,8 @@ public class EncoderRProcAnalyze : EncoderRProc
 	
 		pinfo = new ProcessStartInfo();
 
-		string pBin = Util.GetRscriptBin();
-		
+		string pBin = Util.GetRscriptBin ();
+
 		if (UtilAll.IsWindows()) {
 			//On win32 R understands backlash as an escape character and 
 			//a file path uses Unix-like path separator '/'		

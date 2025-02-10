@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -159,18 +159,24 @@ class SqliteSport : Sqlite
 
 		return mySport;
 	}
-		
-	public static int SelectID(string name)
+
+	/*
+	 * This is run only inside a transaction.
+	 * If we do not pass the command, it crashes on Microsoft.Data.Sqlite:
+	 * Unhandled exception. System.InvalidOperationException: Execute requires the command to have a transaction object when the connection assigned to the command is in a pending local transaction.  The Transaction property of the command has not been initialized.
+	 */
+
+	public static int SelectID (SQLiteCommand mycmd, string name)
 	{
 		//Sqlite.Open();
 		
-		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.SportTable + " WHERE name = '" + name + "'";
+		mycmd.CommandText = "SELECT uniqueID FROM " + Constants.SportTable + " WHERE name = '" + name + "'";
 		
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
+		LogB.SQL(mycmd.CommandText.ToString());
+		mycmd.ExecuteNonQuery();
 
 		SQLiteDataReader reader;
-		reader = dbcmd.ExecuteReader();
+		reader = mycmd.ExecuteReader();
 		reader.Read();
 		int myID = Convert.ToInt32(reader[0]);
 		reader.Close();

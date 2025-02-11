@@ -32,7 +32,7 @@ public class CairoGraphWilight : CairoXY
 
 	public CairoGraphWilight (Gtk.DrawingArea area, string font)
 	{
-		initWilight (area, title);//, bool horizontal);
+		initWilight (area, title);
 	}
 
 	/*
@@ -43,7 +43,7 @@ public class CairoGraphWilight : CairoXY
 	}
 	*/
 
-	private void initWilight (DrawingArea area, string title)//, bool horizontal)
+	private void initWilight (DrawingArea area, string title)
 	{
 		this.area = area;
 		this.title = title;
@@ -204,12 +204,37 @@ public class CairoGraphWilight : CairoXY
 			
 	private void doPlotDrawTerminal (CairoGraphWilightTerminal wt)
 	{
-		drawCircle (calculatePaintX (wt.x),
-				calculatePaintY (wt.y),
-				20, wt.ToColor, true);
+		bool simple = true;
+		if (simple)
+		{
+			drawCircle (calculatePaintX (wt.x),
+					calculatePaintY (wt.y),
+					25, wt.ToColor, true);
 
-		g.SetSourceColor (white);
-		printText (calculatePaintX (wt.x), calculatePaintY (wt.y) -textHeight/2, 0, textHeight +4,
+			// if blink, then draw the half in black
+			if ( (wt.code == 2 || wt.code == 4 || wt.code == 8) ||
+					(wt.code == 3 || wt.code == 5 || wt.code == 9) )
+			{
+				g.SetSourceColor (black);
+				g.Arc (calculatePaintX (wt.x), calculatePaintY (wt.y), 25, 0.75 * Math.PI, 1.75 * Math.PI);
+				g.FillPreserve();
+				g.Stroke ();
+			}
+
+			g.SetSourceColor (white);
+		} else {
+			drawCircle (calculatePaintX (wt.x),
+					calculatePaintY (wt.y),
+					25, wt.ToColor, true);
+
+			drawCircle (calculatePaintX (wt.x),
+					calculatePaintY (wt.y),
+				   12, gray, true);
+
+			g.SetSourceColor (black);
+		}
+
+		printText (calculatePaintX (wt.x), calculatePaintY (wt.y) -textHeight/2 +2, 0, textHeight +4,
 				wt.id.ToString (), g, alignTypes.CENTER);
 	}
 
@@ -245,7 +270,7 @@ public class CairoGraphWilightTerminal
 	}
 
 	public Cairo.Color ToColor {
-		get {
+		get	{
 			int redCode = 128;
 			int greenCode = 64;
 			int blueCode = 32;
@@ -258,12 +283,11 @@ public class CairoGraphWilightTerminal
 				int mask = 1 << i;
 				if ((code & mask) != 0)
 				{
-					LogB.Information (mask.ToString ());
-					if (mask == redCode)
+					if (mask == redCode || mask == 8 || mask == 9)
 						redBit = 1;
-					else if (mask == greenCode)
+					else if (mask == greenCode || mask == 4 || mask == 5)
 						greenBit = 1;
-					else if (mask == blueCode)
+					else if (mask == blueCode || mask == 2 || mask == 3)
 						blueBit = 1;
 				}
 			}

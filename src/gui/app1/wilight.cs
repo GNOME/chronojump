@@ -78,9 +78,9 @@ public partial class ChronoJumpWindow
 
 		wilightColor_l = new IDNameList ();
 		wilightColor_l.Add (new IDName (0, "Black"));
-		wilightColor_l.Add (new IDName (128, "Red"));
-		wilightColor_l.Add (new IDName (64, "Green"));
-		wilightColor_l.Add (new IDName (32, "Blue"));
+		wilightColor_l.Add (new IDName (2, "Red"));
+		wilightColor_l.Add (new IDName (4, "Green"));
+		wilightColor_l.Add (new IDName (8, "Blue"));
 
 		UtilGtk.ComboUpdate (combo_wilight_single_color, wilightColor_l.GetNames ());
 		combo_wilight_single_color.Active = 0;

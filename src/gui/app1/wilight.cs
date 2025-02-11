@@ -60,9 +60,11 @@ public partial class ChronoJumpWindow
 	//use the string to not have crash by manipulating the TextBuffer outside the pulse thread
 	static string tbWilightText = "";
 	static bool needToUpdateTextViewWilight;
+	static bool needToUpdateGraphWilight;
 	TextBuffer tbWilight = new TextBuffer (new TextTagTable());
 
 	CairoGraphWilight cairoGraphWilight;
+	string currentWilightCommand = "";
 
 	private void wilightApp1Init ()
 	{
@@ -294,6 +296,8 @@ public partial class ChronoJumpWindow
 		string command = string.Format ("{0}:{1};", terminal, code);
 		System.Threading.Thread.Sleep (50);
 		sendCommandAndUpdateWilightTextview (command);
+		currentWilightCommand = command; //note this will overwrite the command
+		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 	}
 
 	//TODO: send only to discovered terminals
@@ -353,6 +357,8 @@ public partial class ChronoJumpWindow
 
 			sendCommandAndUpdateWilightTextview (command);
 			expectedTerminals_l = wilightTest.GetExpectedTerminals (command);
+			currentWilightCommand = command;
+			needToUpdateGraphWilight = true;
 
 			bool readedFromExpected = false;
 			while (! readedFromExpected)
@@ -396,12 +402,18 @@ public partial class ChronoJumpWindow
 
 	private bool pulseWilight ()
 	{
+		//TODO: merge these needTo...
 		if (needToUpdateTextViewWilight)
 		{
 			tbWilight.Text = tbWilightText;
 			textview_wilight.Buffer = tbWilight;
 			UtilGtk.TextViewScrollToEnd (textview_wilight);
 			needToUpdateTextViewWilight = false;
+		}
+		if (needToUpdateGraphWilight)
+		{
+			event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
+			needToUpdateGraphWilight = false;
 		}
 
 		event_execute_label_message.Text = wilightMessage;

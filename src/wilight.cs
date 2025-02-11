@@ -92,6 +92,65 @@ public static class WilightColors
 	public static string AllBlueCommand = "0:32;1:32;2:32;3:32;4:32;5:32;6:32;7:32;8:32;9:32;10:32;11:32;12:32;";
 }
 
+//note the command has been validated on validateCommand
+public class WilightCommandToTerminals
+{
+	string commandStr;
+
+	//constructor
+	public WilightCommandToTerminals (string commandStr)
+	{
+		this.commandStr = commandStr;
+
+	}
+
+	public List<CairoGraphWilightTerminal> Do ()
+	{
+		List<CairoGraphWilightTerminal> wt_l = new List<CairoGraphWilightTerminal> ();
+
+		//return if is empty
+		if (commandStr == "")
+			return wt_l;
+
+		//return if not ends with ;
+		//and also delete
+		int lastSemicolon = commandStr.LastIndexOf(';');
+		if (lastSemicolon != commandStr.Length -1)
+			return wt_l;
+
+		commandStr = commandStr.Substring (0, lastSemicolon);
+
+		string [] commandStrFull = commandStr.Split (new char[] {';'});
+		LogB.Information ("At WilightCommandToTerminals.Do, commandStr = " + commandStr);
+
+		foreach (string terminalStr in commandStrFull)
+		{
+			string [] tsFull = terminalStr.Split(new char[] {':'});
+			int id = Convert.ToInt32 (tsFull[0]);
+
+			//TODO: redo this ugly x,y code
+			double x;
+			double y;
+			if (id == 0) {
+				x = 7.5;
+				y = 10;
+			} else {
+				y = 8;
+				if (id <= 4)
+					x = id;
+				else if (id <= 8)
+					x = id + 1;
+				else //if (id <= 12)
+					x = id + 2;
+			}
+
+			wt_l.Add (new CairoGraphWilightTerminal (id, Convert.ToInt32 (tsFull[1]), x, y));
+		}
+
+		return wt_l;
+	}
+}
+
 public class WilightTest
 {
 	private List<List<string>> command_ll;

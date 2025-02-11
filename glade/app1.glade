@@ -8098,13 +8098,6 @@ last capture</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkBox" id="box_wilight">
-                                                            <property name="name">box_wilight</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="border-width">8</property>
-                                                            <property name="orientation">vertical</property>
-                                                            <child>
-                                                            <object class="GtkBox" id="box_wilight_test">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="halign">center</property>
@@ -8243,35 +8236,6 @@ last capture</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">20</property>
                                                             <child>
-                                                            <object class="GtkCheckButton" id="check_wilight_show_commands">
-                                                            <property name="label">Show commands</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">False</property>
-                                                            <property name="draw-indicator">True</property>
-                                                            <signal name="clicked" handler="on_check_wilight_show_commands_clicked" swapped="no"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkCheckButton" id="check_wilight_very_verbose">
-                                                            <property name="label">Show all received events</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">False</property>
-                                                            <property name="draw-indicator">True</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <object class="GtkBox" id="box_wilight_test_actions2">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -8322,7 +8286,7 @@ last capture</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -8361,6 +8325,36 @@ last capture</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkCheckButton" id="check_wilight_show_commands">
+                                                            <property name="label">Show commands</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="margin-left">30</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            <signal name="clicked" handler="on_check_wilight_show_commands_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkCheckButton" id="check_wilight_very_verbose">
+                                                            <property name="label">Show all received events</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">3</property>
                                                             </packing>
                                                             </child>
@@ -8375,39 +8369,6 @@ last capture</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkScrolledWindow" id="scrolled_wilight_commands">
-                                                            <property name="height-request">150</property>
-                                                            <property name="sensitive">False</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="margin-top">12</property>
-                                                            <property name="hscrollbar-policy">never</property>
-                                                            <property name="shadow-type">in</property>
-                                                            <child>
-                                                            <object class="GtkTextView" id="textview_wilight">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="pixels-below-lines">2</property>
-                                                            <property name="editable">False</property>
-                                                            <property name="cursor-visible">False</property>
-                                                            <property name="accepts-tab">False</property>
-                                                            <property name="monospace">True</property>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -8513,6 +8474,7 @@ last capture</property>
                                                             <property name="height-request">125</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="hexpand">True</property>
                                                             <signal name="draw" handler="on_event_execute_drawingarea_realtime_capture_cairo_draw" swapped="no"/>
                                                             </object>
                                                             <packing>
@@ -8524,6 +8486,7 @@ last capture</property>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo">
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">start</property>
                                                             <child>
                                                             <object class="GtkCheckButton" id="check_runI_realtime_rel_abs">
                                                             <property name="visible">True</property>
@@ -8574,6 +8537,31 @@ last capture</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkScrolledWindow" id="scrolled_wilight_commands">
+                                                            <property name="width-request">200</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="margin-left">12</property>
+                                                            <property name="hscrollbar-policy">never</property>
+                                                            <property name="shadow-type">in</property>
+                                                            <child>
+                                                            <object class="GtkTextView" id="textview_wilight">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="pixels-below-lines">2</property>
+                                                            <property name="editable">False</property>
+                                                            <property name="cursor-visible">False</property>
+                                                            <property name="accepts-tab">False</property>
+                                                            <property name="monospace">True</property>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </object>

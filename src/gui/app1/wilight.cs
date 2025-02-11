@@ -30,6 +30,7 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_wilight;
 	Gtk.Box box_start_wilight;
 	Gtk.Box box_wilight_test_actions;
+	Gtk.Box box_wilight_test_actions2;
 	Gtk.SpinButton spin_wilight_portnum;
 	Gtk.Button button_wilight_test_cancel;
 	Gtk.Button button_wilight_test_finish;
@@ -148,6 +149,7 @@ public partial class ChronoJumpWindow
 	private void wilightExecute ()
 	{
 		box_wilight_test_actions.Sensitive = false;
+		box_wilight_test_actions2.Sensitive = false;
 		tbWilightText = "";
 		needToUpdateTextViewWilight = false;
 
@@ -228,6 +230,7 @@ public partial class ChronoJumpWindow
 								combo_wilight_single_color)));
 
 			box_wilight_test_actions.Sensitive = true;
+			box_wilight_test_actions2.Sensitive = true;
 
 			wichroCapture.Stop(); //Should we do a disconnect here?
 			return;
@@ -454,6 +457,7 @@ public partial class ChronoJumpWindow
 			}
 
 			box_wilight_test_actions.Sensitive = true;
+			box_wilight_test_actions2.Sensitive = true;
 			button_wilight_test_cancel.Sensitive = false;
 			button_wilight_test_finish.Sensitive = false;
 			return false;
@@ -587,6 +591,7 @@ public partial class ChronoJumpWindow
 		box_wilight = (Gtk.Box) builder.GetObject ("box_wilight");
 		box_start_wilight = (Gtk.Box) builder.GetObject ("box_start_wilight");
 		box_wilight_test_actions = (Gtk.Box) builder.GetObject ("box_wilight_test_actions");
+		box_wilight_test_actions2 = (Gtk.Box) builder.GetObject ("box_wilight_test_actions2");
 		spin_wilight_portnum = (Gtk.SpinButton) builder.GetObject ("spin_wilight_portnum");
 		button_wilight_test_cancel = (Gtk.Button) builder.GetObject ("button_wilight_test_cancel");
 		button_wilight_test_finish = (Gtk.Button) builder.GetObject ("button_wilight_test_finish");

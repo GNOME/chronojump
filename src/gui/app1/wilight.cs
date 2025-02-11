@@ -428,6 +428,16 @@ public partial class ChronoJumpWindow
 
 		event_execute_label_message.Text = wilightMessage;
 
+		if (haveToPlaySound == wilightSoundEnum.GOOD)
+		{
+			haveToPlaySound = wilightSoundEnum.NONE;
+			Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
+		} else if (haveToPlaySound == wilightSoundEnum.BAD)
+		{
+			haveToPlaySound = wilightSoundEnum.NONE;
+			Util.PlaySound (Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
+		}
+
 		if (! threadWilight.IsAlive || wilightProcessCancel)
 		{
 			if (wilightProcessCancel && wilightTest != null)
@@ -461,16 +471,6 @@ public partial class ChronoJumpWindow
 			button_wilight_test_cancel.Sensitive = false;
 			button_wilight_test_finish.Sensitive = false;
 			return false;
-		}
-
-		if (haveToPlaySound == wilightSoundEnum.GOOD)
-		{
-			haveToPlaySound = wilightSoundEnum.NONE;
-			Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
-		} else if (haveToPlaySound == wilightSoundEnum.BAD)
-		{
-			haveToPlaySound = wilightSoundEnum.NONE;
-			Util.PlaySound (Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
 		}
 
 		LogB.Information(" Cur:" + threadWilight.ThreadState.ToString());

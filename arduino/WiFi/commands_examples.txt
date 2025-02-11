@@ -54,25 +54,25 @@ command             Binary          Decimal     Action
 ------------------------------------------------------
 deactivate          0b00000000      0           Deactivate the sensor (RCA and photocell)
 sensorOnce          0b00000001      1           Deactivate the sensor (RCA and photocell) after detecting the first change in the sensor state.
-blinkBlue           0b00000010      2           Start blue light blinking
-blinkGreen          0b00000100      4           Start green light blinking
-blinkRed            0b00001000      8           Start red light blinking
+red                 0b00000010      2           Activate RED LED
+green               0b00000100      4           Start green light blinking
+blue                0b00001000      8           Start red light blinking
 buzzer              0b00010000      16          Turns on the buzzer
-blue                0b00100000      32          Turns on the blue light
-green               0b01000000      64          Turns on the green light
-red                 0b10000000      128         Turns on the red light
+setIntermittency    0b00100000      32          Set the outputs switching on/off continuously
+empty1              0b01000000      64          For future functions
+empty2              0b10000000      128         For future functions
 sensorUnlimited     0b100000000     256         Config the terminal to send a sample en every change of the sensor state
 ping                0b1000000000    512         The terminal returns a sample plus the version of the firmware
 
 Commands can be combined by adding the decimal values
 
-- Activate the blue light (+32) and sense only the first change in the sensor state (+1) in the terminal number 13:
-"13:33;"
+- On terminal number 13, activate the blue light (+8) and sense only the first change in the sensor state (+1):
+"13:9;"
 
-- Activate white blinking light (blink blue +2, blink green +4, blink red +8) and sense continuously (+256) on terminal 9
-"9:270;"
+- On terminal 9, activate lights (red +2, green +4, blue +8), blink the lights (setIntermittency +32) and sense continuously (+256).
+"9:302;"
 
-- Activate the blue light (+128) of all terminals [0-63]
-"all:128;"
+- Activate the blue light (+8) of all terminals [0-63]
+"all:8;"
 
 

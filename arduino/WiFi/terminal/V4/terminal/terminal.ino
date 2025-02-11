@@ -29,7 +29,7 @@
 //#include  <util/parity.h>
 
 unsigned int deviceType = 1; //Photocel and LightChro sensor
-unsigned int deviceVersion = 22;
+unsigned int deviceVersion = 23;
 
 // Set up nRF24L01 radio on SPI bus plus pins  (CE & CS)
 
@@ -50,19 +50,20 @@ struct instruction_t
   short int termNum;  //The terminal number that have to execute the command
 };
 
-// binary commands: each bit represents RED, GREEN, BLUE, BUZZER, BLINK_RED, BLINK_GREEN, BLINK_BLUE, SENSOR
+// binary commands: each bit represents DEACTIVATE, SENSORONCE, RED, GREEN, BLUE, BUZZER, INTERMITTENCY...
 // 1 means ON
 // 0 means OFF
+
 const uint16_t batteryLevel  = 0b10000000000; //1024
 const uint16_t ping           = 0b1000000000; //512
 const uint16_t sensorUnlimited = 0b100000000; //256
-const uint16_t red =              0b10000000; //128
-const uint16_t green =            0b01000000; //64
-const uint16_t blue =             0b00100000; //32
+//const uint16_t empty1 =         0b10000000; //128
+//const uint16_t empty2 =         0b01000000; //64
+const uint16_t setIntermittency = 0b00100000; //32
 const uint16_t buzzer =           0b00010000; //16
-const uint16_t blinkRed =         0b00001000; //8
-const uint16_t blinkGreen =       0b00000100; //4
-const uint16_t blinkBlue =        0b00000010; //2
+const uint16_t blue =             0b00001000; //8
+const uint16_t green =            0b00000100; //4
+const uint16_t red =              0b00000010; //2
 const uint16_t sensorOnce =       0b00000001; //1
 const uint16_t deactivate =       0b00000000; //0
 
@@ -99,10 +100,14 @@ uint8_t controlSwitch = 0;      //State of the 3xswithes
 bool waitingSensor = true; //Wether the sensor is activated or not
 bool unlimitedMode = true; // sensorOnce deactivate the unlimited mode
 
-//Variables to control the blinking of each Color
-bool blinkingRed = false;
-bool blinkingGreen = false;
-bool blinkingBlue = false;
+// Used to know if each output (LEDs and Buzzer) is active
+bool redIsActive = false;
+bool greenIsActive = false;
+bool blueIsActive = false;
+bool activeBuzzer = false;
+
+// Used to alternate on/off continuously the active outputs
+bool  intermittency = false;
 
 int blinkPeriod = 75; //Time between two consecutives rising flank of the LED
 
@@ -277,9 +282,7 @@ void sendSample(void) {
   green_off;
   blue_off;
   MsTimer2::stop();
-  blinkingRed = false;
-  blinkingGreen = false;
-  blinkingBlue = false;
+  intermittency = false;
   //    Serial.println(sample.state);
   radio.stopListening();
   radio.setChannel(control0Channel - controlSwitch);
@@ -342,103 +345,88 @@ void debounce() {
 
 void executeCommand(uint16_t command)
 {
-  if (command == deactivate) {
-    //    Serial.println("deactivating leds and sensor");
-    deactivateAll();
-  } else
-  {
-    red_off;
-    green_off;
-    blue_off;
-    blinkingRed = false;
-    blinkingGreen = false;
-    blinkingBlue = false;
-    MsTimer2::stop();
+  //    Serial.println("deactivating LEDs, Buzzer and sensor");
+  deactivateAll();
+  intermittency = false;
+  MsTimer2::stop();
 
-    if ((command & red) == red) {
-      // Serial.println("activating RED");
-      red_on;
-    }
+  if ((command & red) == red) {
+    // Serial.println("activating RED");
+    red_on;
+    redIsActive = true;
+  }
 
-    if ((command & green) == green) {
-      // Serial.println("activating GREEN");
-      green_on;
-    }
+  if ((command & green) == green) {
+    // Serial.println("activating GREEN");
+    green_on;
+    greenIsActive = true;
+  }
 
-    if ((command & blue) == blue) {
-      //      Serial.println("activating BLUE");
-      blue_on;
-    }
+  if ((command & blue) == blue) {
+    //      Serial.println("activating BLUE");
+    blue_on;
+    blueIsActive = true;
+  }
 
-    if ((command & buzzer) == buzzer) {
-      //      Serial.println("activating BUZZER");
-      buzzer_on;
-    }
+  if ((command & buzzer) == buzzer) {
+    //      Serial.println("activating BUZZER");
+    buzzer_on;
+    activeBuzzer = true;
+  }
 
-    if ((command & blinkRed) == blinkRed) {
-      //      Serial.println("blinking RED");
-      blinkingRed = true;
-      blinkStart(blinkPeriod);
-    }
+  if ((command & setIntermittency) == setIntermittency) {
+    //      Serial.println("Intermittent");
+    intermittency = true;
+    intermittencyStart(blinkPeriod);
+  }
 
-    if ((command & blinkGreen) == blinkGreen) {
-      //      Serial.println("blinking GREEN");
-      blinkingGreen = true;
-      blinkStart(blinkPeriod);
-    }
+  if ((command & sensorOnce) == sensorOnce) {
+    //      Serial.println("activating sensor once");
+    time0 = millis(); //empieza a contar time
+    lastPinState = digitalRead(SENSOR_PIN);
+    waitingSensor = true;  //Terminal set to waiting touch/proximity
+    unlimitedMode = false;
+    interrupts();
+  }
 
-    if ((command & blinkBlue) == blinkBlue) {
-      //      Serial.println("blinking BLUE");
-      blinkingBlue = true;
-      blinkStart(blinkPeriod);
-    }
+  if ((command & sensorUnlimited) == sensorUnlimited) {
+    //      Serial.println("activating sensor unlimited");
+    time0 = millis(); //empieza a contar time
+    lastPinState = digitalRead(SENSOR_PIN);
+    waitingSensor = true;  //Terminal set to waiting touch/proximity
+    unlimitedMode = true;
+    interrupts();
+  }
 
-    if ((command & sensorOnce) == sensorOnce) {
-      //      Serial.println("activating sensor once");
-      time0 = millis(); //empieza a contar time
-      lastPinState = digitalRead(SENSOR_PIN);
-      waitingSensor = true;  //Terminal set to waiting touch/proximity
-      unlimitedMode = false;
-      interrupts();
-    }
+  if ((command & ping) == ping) {
+    sample.state = digitalRead(SENSOR_PIN);
+    sendPong();
+  }
 
-    if ((command & sensorUnlimited) == sensorUnlimited) {
-      //      Serial.println("activating sensor unlimited");
-      time0 = millis(); //empieza a contar time
-      lastPinState = digitalRead(SENSOR_PIN);
-      waitingSensor = true;  //Terminal set to waiting touch/proximity
-      unlimitedMode = true;
-      interrupts();
-    }
-
-    if ((command & ping) == ping) {
-      sample.state = digitalRead(SENSOR_PIN);
-      sendPong();
-    }
-
-    if (( (command & batteryLevel) == batteryLevel)) {
-      sendBatteryLevel();
-    }
+  if (( (command & batteryLevel) == batteryLevel)) {
+    sendBatteryLevel();
   }
 }
 
-void blinkStart(int period)
+void intermittencyStart(int period)
 {
-  MsTimer2::set(period / 2, blinkLed);  //A change in the state of the LEDS must occur every period/2 milliseconds
+  MsTimer2::set(period / 2, switchPins);  //A change in the state of the LEDS must occur every period/2 milliseconds
   MsTimer2::start();
   
-  if (blinkingRed) red_on;
-  if (blinkingGreen) green_on;
-  if (blinkingBlue) blue_on;
+  if(redIsActive) red_on;
+  if(greenIsActive) green_on;
+  if(blueIsActive) blue_on;
   
 }
 
 //Function that changes the state of the LEDS that should be blinking
-void blinkLed(void)
+void switchPins(void)
 {
-  if (blinkingRed) digitalWrite(RED_PIN, !digitalRead(RED_PIN));
-  if (blinkingGreen) digitalWrite(GREEN_PIN, !digitalRead(GREEN_PIN));
-  if (blinkingBlue) digitalWrite(BLUE_PIN, !digitalRead(BLUE_PIN));
+  
+  if (redIsActive) digitalWrite(RED_PIN, !digitalRead(RED_PIN));
+  if (greenIsActive) digitalWrite(GREEN_PIN, !digitalRead(GREEN_PIN));
+  if (blueIsActive) digitalWrite(BLUE_PIN, !digitalRead(BLUE_PIN));
+  if (activeBuzzer) digitalWrite(BUZZER_PIN, !digitalRead(BUZZER_PIN));
 }
 
 void deactivateAll(void)
@@ -448,6 +436,10 @@ void deactivateAll(void)
   green_off;
   blue_off;
   buzzer_off;
+  redIsActive = false;
+  greenIsActive = false;
+  blueIsActive = false;
+  activeBuzzer = false;
   waitingSensor = false;
 }
 
@@ -489,14 +481,17 @@ void sendPong(void) {
   flagint = LOW;
   sendSample();
   buzzer_on;
-  blinkingGreen = true;
-  blinkStart(75);
+  redIsActive = false;
+  greenIsActive = true;
+  blueIsActive = false;
+  intermittency = true;
+  intermittencyStart(75);
   delay(250);
   MsTimer2::stop();
   // TODO: Return to the state before the ping
   buzzer_off;
   green_off;
-  blinkingGreen = false;
+  greenIsActive = false;
 
 }
 

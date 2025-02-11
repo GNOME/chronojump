@@ -71,16 +71,17 @@ int blinkPeriod = 75; //Time between two consecutives rising flank of the LED
 // binary commands: each bit represents RED, GREEN, BLUE, BUZZER, BLINK_RED, BLINK_GREEN, BLINK_BLUE, SENSOR
 // 1 means ON
 // 0 means OFF
+
 const uint16_t batteryLevel  = 0b10000000000; //1024
 const uint16_t ping           = 0b1000000000; //512
 const uint16_t sensorUnlimited = 0b100000000; //256
-const uint16_t red =              0b10000000; //128
-const uint16_t green =            0b01000000; //64
-const uint16_t blue =             0b00100000; //32
+//const uint16_t empty1 =         0b10000000; //128
+//const uint16_t empty2 =         0b01000000; //64
+const uint16_t setIntermittency = 0b00100000; //32
 const uint16_t buzzer =           0b00010000; //16
-const uint16_t blinkRed =         0b00001000; //8
-const uint16_t blinkGreen =       0b00000100; //4
-const uint16_t blinkBlue =        0b00000010; //2
+const uint16_t blue =             0b00001000; //8
+const uint16_t green =            0b00000100; //4
+const uint16_t red =              0b00000010; //2
 const uint16_t sensorOnce =       0b00000001; //1
 const uint16_t deactivate =       0b00000000; //0
 

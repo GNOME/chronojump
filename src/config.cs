@@ -71,7 +71,8 @@ public class Config
 		JsonUploadNeedsButton, JsonUploadJumpSimpleTestScript, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, CanInsertTests, //json upload
 		RemoteTestJumpSimpleFile, RemoteTestRunIntervalFile, RemoteTestCancelFile, //remote execution
 		RUserURL, RscriptUserURL, PythonUserURL, //User executables locations
-		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU, EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, Wilight, WilightExerciseID, WilightCommandsURL, GuiTest, NoSendLog, //other
+		EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, Wilight, WilightExerciseID, WilightCommandsURL, WilightLayoutURL, //modes
+		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU,  GuiTest, NoSendLog, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
 
@@ -84,6 +85,7 @@ public class Config
 	public static string OpEnum1stJsonUpload = OpEnum.JsonUploadNeedsButton.ToString ();
 	public static string OpEnum1stRemoteTest = OpEnum.RemoteTestJumpSimpleFile.ToString ();
 	public static string OpEnum1stUserExecutables = OpEnum.RUserURL.ToString ();
+	public static string OpEnum1stModes = OpEnum.EncoderPT.ToString ();
 	public static string OpEnum1stOther = OpEnum.SessionMode.ToString ();
 	public static string OpEnum1stOutdated = OpEnum.Exhibition.ToString ();
 
@@ -236,6 +238,9 @@ public class Config
 	}
 	public string WilightCommandsURL {
 		get { return configList.GetString (OpEnum.WilightCommandsURL); }
+	}
+	public string WilightLayoutURL {
+		get { return configList.GetString (OpEnum.WilightLayoutURL); }
 	}
 	public bool GuiTest {
 		get { return configList.GetBool (OpEnum.GuiTest); }
@@ -551,6 +556,8 @@ public class ConfigList
 				str += "\n\nRemote test:";
 			else if (co.Name == Config.OpEnum1stUserExecutables)
 				str += "\n\nUser executables:";
+			else if (co.Name == Config.OpEnum1stModes)
+				str += "\n\nModes:";
 			else if (co.Name == Config.OpEnum1stOther)
 				str += "\n\nOther:";
 			else if (co.Name == Config.OpEnum1stOutdated)
@@ -699,7 +706,9 @@ public class ConfigList
 		list.Add (new ConfigOptionInt (Config.OpEnum.WilightExerciseID,
 					"ExerciseID on this computer. This on the future will not be used. Eg: 0"));
 		list.Add (new ConfigOptionString (Config.OpEnum.WilightCommandsURL,
-					"Full URL of File with Wilight commands. Note lines on that file starting with # are ignored"));
+					"Full URL of File with Wilight commands. Note lines on that file starting with # are ignored."));
+		list.Add (new ConfigOptionString (Config.OpEnum.WilightLayoutURL,
+					"Full URL of File with Wilight terminals layout. Note lines on that file starting with # are ignored. Note decimal char is point."));
 		list.Add (new ConfigOptionBool (Config.OpEnum.GuiTest,
 					"To perform tests with the GUI (untested with current code)."));
 		list.Add (new ConfigOptionBool (Config.OpEnum.NoSendLog,

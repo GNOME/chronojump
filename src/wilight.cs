@@ -150,6 +150,53 @@ public class WilightCommandToTerminals
 	}
 }
 
+public class WilightPos
+{
+	int code;
+	double x;
+	double y;
+
+	public WilightPos (int code, double x, double y)
+	{
+		this.code = code;
+		this.x = x;
+		this.y = y;
+	}
+}
+public class WilightTerminalLayout
+{
+	List<WilightPos> wp_l;
+
+	public WilightTerminalLayout (string layoutFile)
+	{
+		wp_l = new List<WilightPos> ();
+
+		foreach (string wpStr in Util.ReadFileAsStringList (layoutFile, "#"))
+		{
+			if (wpStr == "" || wpStr.Length == 0)
+				continue;
+
+			//layout goes separated by . converted to comma if needed
+			string s = Util.ChangeDecimalSeparator (wpStr);
+
+			string [] sFull = s.Split(new char[] {';'});
+			if (sFull.Length == 3)
+				continue;
+
+			if (! (
+						Util.IsNumber (sFull[0], false) &&
+						Util.IsNumber (sFull[1], true) &&
+						Util.IsNumber (sFull[2], true)))
+				continue;
+
+			wp_l.Add (new WilightPos (Convert.ToInt32 (sFull[0]),
+						Convert.ToDouble (sFull[1]),
+
+						Convert.ToDouble (sFull[2])));
+		}
+	}
+}
+
 public class WilightTest
 {
 	private List<List<string>> command_ll;

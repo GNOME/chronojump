@@ -234,6 +234,8 @@ public partial class ChronoJumpWindow
 		}
 
 		sendCommandAndUpdateWilightTextview (WilightColors.AllOffCommand);
+		currentWilightCommand = (WilightColors.AllOffCommand);
+		needToUpdateGraphWilight = true;
 		System.Threading.Thread.Sleep (1000);
 
 		//0 time on the microcontroller
@@ -258,7 +260,10 @@ public partial class ChronoJumpWindow
 		haveToPlaySound = wilightSoundEnum.NONE;
 
 		System.Threading.Thread.Sleep (1000);
+
 		sendCommandAndUpdateWilightTextview (WilightColors.AllOffCommand);
+		currentWilightCommand = (WilightColors.AllOffCommand);
+		needToUpdateGraphWilight = true;
 	}
 
 	private void discover ()
@@ -314,9 +319,11 @@ public partial class ChronoJumpWindow
 
 		while (! done)
 		{
-			foreach (string colorAllStr in colorsAll_l)
+			foreach (string command in colorsAll_l)
 			{
-				sendCommandAndUpdateWilightTextview (colorAllStr);
+				sendCommandAndUpdateWilightTextview (command);
+				currentWilightCommand = command;
+				needToUpdateGraphWilight = true;
 				System.Threading.Thread.Sleep (sleepTime);
 			}
 			sleepTime -= 50;

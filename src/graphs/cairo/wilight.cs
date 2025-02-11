@@ -206,11 +206,11 @@ public class CairoGraphWilight : CairoXY
 	{
 		drawCircle (calculatePaintX (wt.x),
 				calculatePaintY (wt.y),
-				20, black, true);
+				20, wt.ToColor, true);
 
 		g.SetSourceColor (white);
 		printText (calculatePaintX (wt.x), calculatePaintY (wt.y) -textHeight/2, 0, textHeight +4,
-				wt.code.ToString (), g, alignTypes.CENTER);
+				wt.id.ToString (), g, alignTypes.CENTER);
 	}
 
 	protected override void writeTitle()
@@ -219,15 +219,17 @@ public class CairoGraphWilight : CairoXY
 
 }
 
-//code & center of each wilight terminal
+//id, code & center of each wilight terminal
 public class CairoGraphWilightTerminal
 {
-	public int code; //currently from 0 to 12
+	public int id; //currently from 0 to 12
+	public int code; //powers of 2 (0 - 512)
 	public double x; //cm
 	public double y; //cm
 
-	public CairoGraphWilightTerminal (int code, double x, double y)
+	public CairoGraphWilightTerminal (int id, int code, double x, double y)
 	{
+		this.id = id;
 		this.code = code;
 		this.x = x;
 		this.y = y;
@@ -241,5 +243,34 @@ public class CairoGraphWilightTerminal
 
 		return p_l;
 	}
+
+	public Cairo.Color ToColor {
+		get {
+			int redCode = 128;
+			int greenCode = 64;
+			int blueCode = 32;
+			int redBit = 0;
+			int greenBit = 0;
+			int blueBit = 0;
+
+			for (int i = 0; i < 32; i++)
+			{
+				int mask = 1 << i;
+				if ((code & mask) != 0)
+				{
+					LogB.Information (mask.ToString ());
+					if (mask == redCode)
+						redBit = 1;
+					else if (mask == greenCode)
+						greenBit = 1;
+					else if (mask == blueCode)
+						blueBit = 1;
+				}
+			}
+
+			return (new Cairo.Color (1 * redBit, 1 * greenBit, 1 * blueBit));
+		}
+	}
+
 }
 

@@ -204,36 +204,20 @@ public class CairoGraphWilight : CairoXY
 			
 	private void doPlotDrawTerminal (CairoGraphWilightTerminal wt)
 	{
-		bool simple = true;
-		if (simple)
+		drawCircle (calculatePaintX (wt.x),
+				calculatePaintY (wt.y),
+				25, wt.ToColor, true);
+
+		// if blink, then draw the half in black
+		if (wt.Blinks)
 		{
-			drawCircle (calculatePaintX (wt.x),
-					calculatePaintY (wt.y),
-					25, wt.ToColor, true);
-
-			// if blink, then draw the half in black
-			if ( (wt.code == 2 || wt.code == 4 || wt.code == 8) ||
-					(wt.code == 3 || wt.code == 5 || wt.code == 9) )
-			{
-				g.SetSourceColor (black);
-				g.Arc (calculatePaintX (wt.x), calculatePaintY (wt.y), 25, 0.75 * Math.PI, 1.75 * Math.PI);
-				g.FillPreserve();
-				g.Stroke ();
-			}
-
-			g.SetSourceColor (white);
-		} else {
-			drawCircle (calculatePaintX (wt.x),
-					calculatePaintY (wt.y),
-					25, wt.ToColor, true);
-
-			drawCircle (calculatePaintX (wt.x),
-					calculatePaintY (wt.y),
-				   12, gray, true);
-
 			g.SetSourceColor (black);
+			g.Arc (calculatePaintX (wt.x), calculatePaintY (wt.y), 25, 0.75 * Math.PI, 1.75 * Math.PI);
+			g.FillPreserve();
+			g.Stroke ();
 		}
 
+		g.SetSourceColor (white);
 		printText (calculatePaintX (wt.x), calculatePaintY (wt.y) -textHeight/2 +2, 0, textHeight +4,
 				wt.id.ToString (), g, alignTypes.CENTER);
 	}
@@ -269,25 +253,31 @@ public class CairoGraphWilightTerminal
 		return p_l;
 	}
 
+	public bool Blinks {
+		get {
+			return ((code & 32) != 0);
+		}
+	}
+
 	public Cairo.Color ToColor {
 		get	{
-			int redCode = 128;
-			int greenCode = 64;
-			int blueCode = 32;
+			int redCode = 2;
+			int greenCode = 4;
+			int blueCode = 8;
 			int redBit = 0;
 			int greenBit = 0;
 			int blueBit = 0;
 
-			for (int i = 0; i < 32; i++)
+			for (int i = 0; i < 4; i++)
 			{
 				int mask = 1 << i;
 				if ((code & mask) != 0)
 				{
-					if (mask == redCode || mask == 8 || mask == 9)
+					if (mask == redCode)
 						redBit = 1;
-					else if (mask == greenCode || mask == 4 || mask == 5)
+					else if (mask == greenCode)
 						greenBit = 1;
-					else if (mask == blueCode || mask == 2 || mask == 3)
+					else if (mask == blueCode)
 						blueBit = 1;
 				}
 			}

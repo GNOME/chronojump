@@ -86,10 +86,10 @@ public class Wilight : Event
 
 public static class WilightColors
 {
-	public static string AllOffCommand = "0:0;1:0;2:0;3:0;4:0;5:0;6:0;7:0;8:0;9:0;10:0;11:0;12:0;";
-	public static string AllRedCommand = "0:128;1:128;2:128;3:128;4:128;5:128;6:128;7:128;8:128;9:128;10:128;11:128;12:128;";
-	public static string AllGreenCommand = "0:64;1:64;2:64;3:64;4:64;5:64;6:64;7:64;8:64;9:64;10:64;11:64;12:64;";
-	public static string AllBlueCommand = "0:32;1:32;2:32;3:32;4:32;5:32;6:32;7:32;8:32;9:32;10:32;11:32;12:32;";
+	public static string AllOffCommand =   "0:0;1:0;2:0;3:0;4:0;5:0;6:0;7:0;8:0;9:0;10:0;11:0;12:0;";
+	public static string AllRedCommand =   "0:2;1:2;2:2;3:2;4:2;5:2;6:2;7:2;8:2;9:2;10:2;11:2;12:2;";
+	public static string AllGreenCommand = "0:4;1:4;2:4;3:4;4:4;5:4;6:4;7:4;8:4;9:4;10:4;11:4;12:4;";
+	public static string AllBlueCommand =  "0:8;1:8;2:8;3:8;4:8;5:8;6:8;7:8;8:8;9:8;10:8;11:8;12:8;";
 }
 
 //note the command has been validated on validateCommand
@@ -258,16 +258,18 @@ public class WilightTest
 
 	private void wilightTestRealSetVars (string commandsFile)
 	{
-		if (commandsFile != "")
-		{
+		//if (commandsFile != "")
+		//{
 			readCommandsFile (commandsFile);
-		} else {
+		/*} else {
+		 * 	disabled until all the colors get back to their value
 			command_ll.Add (level0);
 			command_ll.Add (level1);
 			command_ll.Add (level2);
 			command_ll.Add (level3);
 			command_ll.Add (level4);
 		}
+		*/
 	
 		random = new Random();
 
@@ -477,6 +479,8 @@ public class WilightTest
 		return true;
 	}
 
+	/*
+	 * disabled until all the colors get back to their value
 	//S'encèn 1 llum amb pampallugues
 	private List<string> level0
 	{
@@ -557,15 +561,16 @@ public class WilightTest
 					});
 		}
 	}
+	*/
 
 	//not random. 3 easy, 3 very complex.
 	private List<string> demoSequence
 	{
 		get {
 			return (new List<string> {
-					"0:32;1:0;2:0;3:0;4:0;5:0;6:0;7:33;8:0;9:0;10:0;11:0;12:0;",
-					"0:64;1:0;2:0;3:0;4:65;5:0;6:0;7:0;8:0;9:0;10:0;11:0;12:0;",
-					"0:8;1:0;2:0;3:0;4:0;5:0;6:0;7:0;8:9;9:0;10:0;11:0;12:0;",
+					"0:8;1:0;2:0;3:0;4:0;5:0;6:0;7:9;8:0;9:0;10:0;11:0;12:0;",
+					"0:4;1:0;2:0;3:0;4:5;5:0;6:0;7:0;8:0;9:0;10:0;11:0;12:0;",
+					"0:34;1:0;2:0;3:0;4:0;5:0;6:0;7:0;8:35;9:0;10:0;11:0;12:0;",
 					/*
 					"0:32;2:33;3:64;4:96;5:128;6:160;7:2;8:4;9:8;10:12;11:14;",
 					"0:64;2:32;3:65;4:96;5:128;6:160;7:2;8:4;9:8;10:12;11:14;",
@@ -575,9 +580,9 @@ public class WilightTest
 					"0:2;2:32;3:64;4:96;5:128;6:160;7:3;8:4;9:8;10:12;11:14;",
 					"0:4;2:32;3:64;4:96;5:128;6:160;7:2;8:5;9:8;10:12;11:14;",
 					*/
-					"0:8;1:0;2:32;3:64;4:96;5:128;6:160;7:2;8:4;9:9;10:32;11:32;12:0;",
-					"0:64;1:0;2:32;3:65;4:96;5:128;6:160;7:2;8:4;9:8;10:13;11:9;12:0;",
-					"0:128;1:0;2:32;3:64;4:96;5:129;6:160;7:2;8:4;9:8;10:32;11:9;12:0",
+					"0:34;1:0;2:8;3:4;4:12;5:2;6:10;7:40;8:36;9:35;10:8;11:8;12:0;",
+					"0:4;1:0;2:40;3:5;4:12;5:2;6:10;7:40;8:36;9:34;10:36;11:35;12:0;",
+					"0:2;1:0;2:8;3:4;4:12;5:3;6:10;7:40;8:36;9:34;10:8;11:34;12:0;",
 					});
 		}
 	}

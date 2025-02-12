@@ -1360,7 +1360,19 @@ public partial class ChronoJumpWindow
 		if (configChronojump.Wilight)
 			box_start_wilight.Visible = true;
 
-		//plotSequenceWithoutSending ();
+		plotSequenceWithoutSending ();
+		/*
+		wilightTest = new WilightTest (configChronojump.WilightCommandsURL, false);
+		while (true)
+		{
+			if (wilightTest.Finished)
+				break;
+
+			string command = wilightTest.GetNext ();
+			if (command == "")
+				continue;
+		}
+		*/
 	}
 
 /*

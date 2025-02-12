@@ -23,7 +23,6 @@ using System.Diagnostics; //Stopwatch
 using Gtk;
 using Mono.Unix;
 
-//TODO: note this dirty code is just for testing
 public partial class ChronoJumpWindow 
 {
 	// at glade ---->
@@ -35,7 +34,10 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_wilight_test_cancel;
 	Gtk.Button button_wilight_test_finish;
 	Gtk.SpinButton spin_wilight_test_ping;
-	Gtk.ComboBoxText combo_wilight_single_color;
+	Gtk.CheckButton check_wilight_test_r;
+	Gtk.CheckButton check_wilight_test_g;
+	Gtk.CheckButton check_wilight_test_b;
+	Gtk.CheckButton check_wilight_test_blink;
 	Gtk.CheckButton check_wilight_show_commands;
 	Gtk.CheckButton check_wilight_very_verbose;
 	Gtk.ScrolledWindow scrolled_wilight_commands;
@@ -76,15 +78,6 @@ public partial class ChronoJumpWindow
 
 		scrolled_wilight_commands.Visible = check_wilight_show_commands.Active;
 		updateGraphWilightBars();
-
-		wilightColor_l = new IDNameList ();
-		wilightColor_l.Add (new IDName (0, "Black"));
-		wilightColor_l.Add (new IDName (2, "Red"));
-		wilightColor_l.Add (new IDName (4, "Green"));
-		wilightColor_l.Add (new IDName (8, "Blue"));
-
-		UtilGtk.ComboUpdate (combo_wilight_single_color, wilightColor_l.GetNames ());
-		combo_wilight_single_color.Active = 0;
 
 		textview_wilight.Name = "fontSize9";
 
@@ -230,8 +223,10 @@ public partial class ChronoJumpWindow
 				ping (Convert.ToInt32 (spin_wilight_test_ping.Value));
 			else if (wilightAction == wilightActions.CHANGECOLOR)
 				changeColor (Convert.ToInt32 (spin_wilight_test_ping.Value),
-						wilightColor_l.FindID (UtilGtk.ComboGetActive (
-								combo_wilight_single_color)));
+						Util.BoolToInt (check_wilight_test_r.Active),
+						Util.BoolToInt (check_wilight_test_g.Active),
+						Util.BoolToInt (check_wilight_test_b.Active),
+						Util.BoolToInt (check_wilight_test_blink.Active));
 
 			box_wilight_test_actions.Sensitive = true;
 			box_wilight_test_actions2.Sensitive = true;
@@ -310,9 +305,11 @@ public partial class ChronoJumpWindow
 		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
 	}
 
-	private void changeColor (int terminal, int code)
+	private void changeColor (int terminal, int r, int g, int b, int blink)
 	{
-		string command = string.Format ("{0}:{1};", terminal, code);
+		string command = string.Format ("{0}:{1};", terminal,
+				r*2 + g*4 + b*8 + blink*32);
+
 		System.Threading.Thread.Sleep (50);
 		sendCommandAndUpdateWilightTextview (command);
 		currentWilightCommand = command; //note this will overwrite the command
@@ -607,7 +604,10 @@ public partial class ChronoJumpWindow
 		button_wilight_test_cancel = (Gtk.Button) builder.GetObject ("button_wilight_test_cancel");
 		button_wilight_test_finish = (Gtk.Button) builder.GetObject ("button_wilight_test_finish");
 		spin_wilight_test_ping = (Gtk.SpinButton) builder.GetObject ("spin_wilight_test_ping");
-		combo_wilight_single_color = (Gtk.ComboBoxText) builder.GetObject ("combo_wilight_single_color");
+		check_wilight_test_r = (Gtk.CheckButton) builder.GetObject ("check_wilight_test_r");
+		check_wilight_test_g = (Gtk.CheckButton) builder.GetObject ("check_wilight_test_g");
+		check_wilight_test_b = (Gtk.CheckButton) builder.GetObject ("check_wilight_test_b");
+		check_wilight_test_blink = (Gtk.CheckButton) builder.GetObject ("check_wilight_test_blink");
 		check_wilight_show_commands = (Gtk.CheckButton) builder.GetObject ("check_wilight_show_commands");
 		check_wilight_very_verbose = (Gtk.CheckButton) builder.GetObject ("check_wilight_very_verbose");
 		scrolled_wilight_commands = (Gtk.ScrolledWindow) builder.GetObject ("scrolled_wilight_commands");

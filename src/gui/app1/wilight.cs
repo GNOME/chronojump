@@ -65,6 +65,7 @@ public partial class ChronoJumpWindow
 	TextBuffer tbWilight = new TextBuffer (new TextTagTable());
 
 	CairoGraphWilight cairoGraphWilight;
+	WilightTerminalLayout wilightTerminalLayout;
 	string currentWilightCommand = "";
 
 	private void wilightApp1Init ()
@@ -86,6 +87,9 @@ public partial class ChronoJumpWindow
 		combo_wilight_single_color.Active = 0;
 
 		textview_wilight.Name = "fontSize9";
+
+		wilightTerminalLayout = new WilightTerminalLayout ();
+		wilightTerminalLayout.ReadFile (configChronojump.WilightLayoutURL);
 	}
 
 	/*

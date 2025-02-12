@@ -96,11 +96,13 @@ public static class WilightColors
 public class WilightCommandToTerminals
 {
 	string commandStr;
+	WilightTerminalLayout wtl;
 
 	//constructor
-	public WilightCommandToTerminals (string commandStr)
+	public WilightCommandToTerminals (string commandStr, WilightTerminalLayout wtl)
 	{
 		this.commandStr = commandStr;
+		this.wtl = wtl;
 	}
 
 	public List<CairoGraphWilightTerminal> Do ()
@@ -120,30 +122,16 @@ public class WilightCommandToTerminals
 		commandStr = commandStr.Substring (0, lastSemicolon);
 
 		string [] commandStrFull = commandStr.Split (new char[] {';'});
-		LogB.Information ("At WilightCommandToTerminals.Do, commandStr = " + commandStr);
 
 		foreach (string terminalStr in commandStrFull)
 		{
 			string [] tsFull = terminalStr.Split(new char[] {':'});
 			int id = Convert.ToInt32 (tsFull[0]);
 
-			//TODO: redo this ugly x,y code
-			double x;
-			double y;
-			if (id == 0) {
-				x = 7.5;
-				y = 10;
-			} else {
-				y = 8;
-				if (id <= 4)
-					x = id;
-				else if (id <= 8)
-					x = id + 1;
-				else //if (id <= 12)
-					x = id + 2;
-			}
-
-			wt_l.Add (new CairoGraphWilightTerminal (id, Convert.ToInt32 (tsFull[1]), x, y));
+			wt_l.Add (new CairoGraphWilightTerminal (
+						id,
+						Convert.ToInt32 (tsFull[1]),
+						wtl.GetCenterOfATerminal (id)));
 		}
 
 		return wt_l;
@@ -152,22 +140,43 @@ public class WilightCommandToTerminals
 
 public class WilightPos
 {
-	int code;
-	double x;
-	double y;
+	private int code;
+	private PointF center;
 
-	public WilightPos (int code, double x, double y)
+	public WilightPos (int code, PointF center)
 	{
 		this.code = code;
-		this.x = x;
-		this.y = y;
+		this.center = center;
+	}
+
+	public override string ToString ()
+	{
+		return string.Format ("code: {0}, center: {1}", code, center);
+	}
+
+	public int Code {
+		get { return code; }
+	}
+	public PointF Center {
+		get { return center; }
 	}
 }
 public class WilightTerminalLayout
 {
-	List<WilightPos> wp_l;
+	private List<WilightPos> wp_l;
 
-	public WilightTerminalLayout (string layoutFile)
+	//constructor
+	public WilightTerminalLayout ()
+	{
+	}
+
+	/*
+	 * reads a file like (note decimal is point):
+	 * 0;7.5;10
+	 * 1;1;8
+	 * 2;2;8
+	 */
+	public void ReadFile (string layoutFile)
 	{
 		wp_l = new List<WilightPos> ();
 
@@ -180,7 +189,7 @@ public class WilightTerminalLayout
 			string s = Util.ChangeDecimalSeparator (wpStr);
 
 			string [] sFull = s.Split(new char[] {';'});
-			if (sFull.Length == 3)
+			if (sFull.Length != 3)
 				continue;
 
 			if (! (
@@ -190,10 +199,18 @@ public class WilightTerminalLayout
 				continue;
 
 			wp_l.Add (new WilightPos (Convert.ToInt32 (sFull[0]),
-						Convert.ToDouble (sFull[1]),
-
-						Convert.ToDouble (sFull[2])));
+						new PointF (Convert.ToDouble (sFull[1]), Convert.ToDouble (sFull[2]))
+						));
 		}
+	}
+
+	public PointF GetCenterOfATerminal (int code)
+	{
+		foreach (WilightPos wp in wp_l)
+			if (wp.Code == code)
+				return wp.Center;
+
+		return new PointF (0, 0); //just in case
 	}
 }
 

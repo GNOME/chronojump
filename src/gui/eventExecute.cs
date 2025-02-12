@@ -330,7 +330,7 @@ public partial class ChronoJumpWindow
 				cairoGraphWilight = new CairoGraphWilight (
 						event_execute_drawingarea_realtime_capture_cairo, "title");
 
-			WilightCommandToTerminals wctt = new WilightCommandToTerminals (currentWilightCommand);
+			WilightCommandToTerminals wctt = new WilightCommandToTerminals (currentWilightCommand, wilightTerminalLayout);
 			cairoGraphWilight.DoSendingList (preferences.fontTypeToGraph(), wctt.Do (), true);
 		}
 	}

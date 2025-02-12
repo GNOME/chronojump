@@ -243,15 +243,15 @@ public class CairoGraphWilightTerminal
 {
 	public int id; //currently from 0 to 12
 	public int code; //powers of 2 (0 - 512)
-	public double x; //cm
-	public double y; //cm
+	public double x; // (cm)
+	public double y; // (cm)
 
-	public CairoGraphWilightTerminal (int id, int code, double x, double y)
+	public CairoGraphWilightTerminal (int id, int code, PointF center)
 	{
 		this.id = id;
 		this.code = code;
-		this.x = x;
-		this.y = y;
+		this.x = center.X;
+		this.y = center.Y;
 	}
 
 	public static List<PointF> ListToPointF (List<CairoGraphWilightTerminal> wt_l)

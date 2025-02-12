@@ -284,6 +284,7 @@ public class WilightTest
 		Level:3;0:64;1:160;2:8;3:0;4:0;5:0;6:65;7:8;8:14;9:64;10:128;11:0;12:0;
 		Level:1;0:8;1:0;2:0;3:160;4:128;5:0;6:0;7:9;8:0;9:0;10:0;11:0;12:32;
 	*/
+	//note to be random this is readed at each new capture
 	private void readCommandsFile (string commandsFile)
 	{
 		// 1. read the data (note lines don't need to come in a level order)

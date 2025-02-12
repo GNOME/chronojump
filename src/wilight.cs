@@ -294,6 +294,8 @@ public class WilightTest
 	*/
 	private void readCommandsFile (string commandsFile)
 	{
+		// 1. read the data (note lines don't need to come in a level order)
+		List<List<string>> commandNotRandom_ll = new List<List<string>> ();
 		List<string> com_l = Util.ReadFileAsStringList (commandsFile, "#");
 
 		//LogB.Information (UtilList.ListStringToString (com_l, "\n"));
@@ -323,20 +325,29 @@ public class WilightTest
 				continue;
 
 			// add the sublists needed for that level
-			while (command_ll.Count <= level)
-				command_ll.Add (new List<string> ());
+			while (commandNotRandom_ll.Count <= level)
+				commandNotRandom_ll.Add (new List<string> ());
 
 			// add the command to the sublist
-			command_ll[level].Add (com.Substring (com.IndexOf (';') +1));
+			commandNotRandom_ll[level].Add (com.Substring (com.IndexOf (';') +1));
 		}
 
-		/* debug
-		LogB.Information ("Print the thing!");
-		for (int i = 0; i < command_ll.Count; i ++)
-		{
-			LogB.Information ("On level " + i.ToString());
-			LogB.Information (UtilList.ListStringToString (command_ll[i], "\n"));
-		}
+		/*
+		// debug
+		for (int i = 0; i < commandNotRandom_ll.Count; i ++)
+			LogB.Information (string.Format ("(Not random) Level: {0} Commands:\n{1}",
+						i, UtilList.ListStringToString (commandNotRandom_ll[i], "\n")));
+		*/
+
+		// 2. randomize lines in each level
+		foreach (List <string> cnr_l in commandNotRandom_ll)
+			command_ll.Add (UtilList.ListRandomize (cnr_l));
+
+		/*
+		// debug
+		for (int i = 0; i < commandNotRandom_ll.Count; i ++)
+			LogB.Information (string.Format ("(Random) Level: {0} Commands:\n{1}",
+						i, UtilList.ListStringToString (command_ll[i], "\n")));
 		*/
 	}
 
@@ -475,7 +486,7 @@ public class WilightTest
 					)
 				return false;
 		}
-		LogB.Information ("validateCommand exit OK");
+		//LogB.Information ("validateCommand exit OK");
 		return true;
 	}
 

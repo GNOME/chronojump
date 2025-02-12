@@ -299,6 +299,13 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	//just to debug drawingarea
+	private void plotSequenceWithoutSending ()
+	{
+		currentWilightCommand = "0:34;1:0;2:8;3:4;4:12;5:2;6:10;7:40;8:36;9:35;10:14;11:46;12:0;";
+		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
+	}
+
 	private void changeColor (int terminal, int code)
 	{
 		string command = string.Format ("{0}:{1};", terminal, code);

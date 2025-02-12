@@ -1359,6 +1359,8 @@ public partial class ChronoJumpWindow
 
 		if (configChronojump.Wilight)
 			box_start_wilight.Visible = true;
+
+		//plotSequenceWithoutSending ();
 	}
 
 /*

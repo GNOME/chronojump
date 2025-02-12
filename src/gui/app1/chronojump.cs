@@ -3692,6 +3692,7 @@ public partial class ChronoJumpWindow
 		{
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
+			event_graph_label_graph_test.Visible = false;
 			radio_mode_contacts_analyze.Visible = false;
 
 			//hbox_change_modes_runs.Visible = true; //TODO: add beep test

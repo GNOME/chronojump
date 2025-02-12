@@ -2678,7 +2678,7 @@ public class CairoPaintBarsWilight : CairoPaintBarsPre
 		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, true, true, true);
 
 		cb.YVariable = Catalog.GetString("Time");
-		cb.YUnits = "ms";
+		cb.YUnits = "s";
 
 		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
 		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides

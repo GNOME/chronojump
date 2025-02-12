@@ -201,12 +201,17 @@ public class CairoGraphWilight : CairoXY
 			foreach (CairoGraphWilightTerminal wt in wt_l)
 				doPlotDrawTerminal (wt);
 	}
-			
+
 	private void doPlotDrawTerminal (CairoGraphWilightTerminal wt)
 	{
+		Cairo.Color colorBorder = wt.ToColor;
+		if (CairoUtil.ColorIsWhite (wt.ToColor))
+			colorBorder = gray;
+
+		g.LineWidth = 1;
 		drawCircle (calculatePaintX (wt.x),
 				calculatePaintY (wt.y),
-				25, wt.ToColor, true);
+				25, colorBorder, wt.ToColor);
 
 		// if blink, then draw the half in black
 		if (wt.Blinks)
@@ -214,10 +219,15 @@ public class CairoGraphWilight : CairoXY
 			g.SetSourceColor (black);
 			g.Arc (calculatePaintX (wt.x), calculatePaintY (wt.y), 25, 0.75 * Math.PI, 1.75 * Math.PI);
 			g.FillPreserve();
+			g.SetSourceColor (black);
 			g.Stroke ();
 		}
+		g.LineWidth = 1;
 
 		g.SetSourceColor (white);
+		if (CairoUtil.ColorIsWhite (wt.ToColor)) //note if it blinks has white and black
+			g.SetSourceColor (new Cairo.Color (.667, .400, .670)); //#aa6611 https://dev.to/finnhvman/which-colors-look-good-on-black-and-white-2pe6
+
 		printText (calculatePaintX (wt.x), calculatePaintY (wt.y) -textHeight/2 +2, 0, textHeight +4,
 				wt.id.ToString (), g, alignTypes.CENTER);
 	}

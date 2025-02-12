@@ -180,6 +180,13 @@ public static class CairoUtil
 		return (color.R * 256 * 0.299 + color.G * 256 * 0.587 + color.B * 256 * 0.114 < 150);
 	}
 
+	//to decide if bg is white, then draw text in black
+	//using .99 to solve eventual problems with doubles
+	public static bool ColorIsWhite (Cairo.Color color)
+	{
+		return (color.R >= .99 && color.G >= .99 && color.B >= .99);
+	}
+
 	public static double GetDistance2D (double x1, double y1, double x2, double y2)
 	{
 		return Math.Sqrt (Math.Pow (x1 - x2, 2) + Math.Pow (y1 - y2, 2));

@@ -205,11 +205,6 @@ public class WilightTest
 	private int currentCommand; //in level
 	private int commandsCountReceived;
 
-	//in level, to know when to end (as we start randomly on a level command)
-	private int levelStartedWithCommand;
-	//To avoid ending level on the first command (as we iterate by all the commands in level)
-	private bool firstCommandInLevel;
-
 	private bool started;
 	private Stopwatch stopwatch;
 	private bool isDemo;
@@ -233,7 +228,6 @@ public class WilightTest
 		else
 			wilightTestRealSetVars (commandsFile);
 
-		levelStartedWithCommand = currentCommand;
 		commandsCountReceived = 0;
 
 		started = false;
@@ -241,8 +235,6 @@ public class WilightTest
 		Cancel = false;
 		Finished = false;
 		FinishedMs = 0;
-
-		firstCommandInLevel = true;
 	}
 
 	//not random
@@ -274,7 +266,7 @@ public class WilightTest
 		random = new Random();
 
 		currentLevel = 0;
-		currentCommand = random.Next (0, command_ll[0].Count);
+		currentCommand = 0;
 		isRandom = true;
 	}
 
@@ -351,60 +343,40 @@ public class WilightTest
 		*/
 	}
 
+	//note if any problem it will return "" and this will be called again until Finished
 	public string GetNext ()
 	{
-		bool commandValidated = false;
-		string commandStr = "";
-
 		if (! started) {
 			stopwatch.Start ();
 			started = true;
 		}
 
-		do {
-			//this is the commandStr that is going to be returned
-			commandStr = command_ll[currentLevel][currentCommand];
-			LogB.Information (string.Format ("\ncurrentLevel: {0}, currentCommand: {1}, levelStartedWithCommand: {2},\ncommandStr: {3}",
-						currentLevel, currentCommand, levelStartedWithCommand, commandStr));
+		LogB.Information (string.Format ("\nAt Wilight.GetNext, currentLevel: {0}, currentCommand: {1}",
+					currentLevel, currentCommand));
 
-			//then update currentCommand, currentLevel if needed (for next call)
-
-			if (! firstCommandInLevel && currentCommand == levelStartedWithCommand)
-			{
-				if (currentLevel < command_ll.Count -1)
-				{
-					currentLevel ++;
-					if (isRandom)
-						currentCommand = random.Next (0, command_ll[currentLevel].Count);
-					else
-						currentCommand ++;
-
-					levelStartedWithCommand = currentCommand;
-					firstCommandInLevel = true;
-
-					//do not send this command because is the same as the first in the level
-					continue;
-				} else {
-					Finished = true;
-					FinishedMs = Convert.ToInt32 (stopwatch.ElapsedMilliseconds);
-					stopwatch.Stop ();
-				}
-			}
-			else {
-				if (currentCommand >= command_ll[currentLevel].Count -1)
-					currentCommand = 0;
-				else
-					currentCommand ++;
-
-				firstCommandInLevel = false;
-			}
-
-			commandValidated = validateCommand (commandStr);
-		} while (! (commandValidated || Finished));
-
-		//return "" if last command in list is not validated
-		if (! commandValidated || Finished)
+		if (currentLevel >= command_ll.Count)
+		{
+			Finished = true;
+			FinishedMs = Convert.ToInt32 (stopwatch.ElapsedMilliseconds);
+			stopwatch.Stop ();
 			return "";
+		}
+
+		if (currentCommand >= command_ll[currentLevel].Count)
+		{
+			currentLevel ++;
+			currentCommand = 0;
+			return "";
+		}
+
+		//this is the commandStr that is going to be returned
+		string commandStr = command_ll[currentLevel][currentCommand];
+		currentCommand ++;
+
+		if (! validateCommand (commandStr))
+			return "";
+
+		LogB.Information ("\nValidated command: " + commandStr);
 
 		return commandStr;
 	}

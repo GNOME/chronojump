@@ -8313,7 +8313,7 @@ last capture</property>
                                                             </child>
                                                             <child>
                                                             <object class="GtkButton" id="button_wilight_test_demo">
-                                                            <property name="label">Demo</property>
+                                                            <property name="label">Demo (0:12)</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>

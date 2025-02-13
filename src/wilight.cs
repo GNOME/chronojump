@@ -86,10 +86,10 @@ public class Wilight : Event
 
 public static class WilightColors
 {
-	public static string AllOffCommand =   "0:0;1:0;2:0;3:0;4:0;5:0;6:0;7:0;8:0;9:0;10:0;11:0;12:0;";
-	public static string AllRedCommand =   "0:2;1:2;2:2;3:2;4:2;5:2;6:2;7:2;8:2;9:2;10:2;11:2;12:2;";
-	public static string AllGreenCommand = "0:4;1:4;2:4;3:4;4:4;5:4;6:4;7:4;8:4;9:4;10:4;11:4;12:4;";
-	public static string AllBlueCommand =  "0:8;1:8;2:8;3:8;4:8;5:8;6:8;7:8;8:8;9:8;10:8;11:8;12:8;";
+	public static int OFF = 0;
+	public static int RED = 2;
+	public static int GREEN = 4;
+	public static int BLUE = 8;
 }
 
 //note the command has been validated on validateCommand
@@ -211,6 +211,15 @@ public class WilightTerminalLayout
 				return wp.Center;
 
 		return new PointF (0, 0); //just in case
+	}
+
+	public string ColorAll  (int colorCode)
+	{
+		string str = "";
+		foreach (WilightPos wp in wp_l)
+			str += string.Format ("{0}:{1};", wp.Code, colorCode);
+
+		return str;
 	}
 }
 
@@ -434,6 +443,7 @@ public class WilightTest
 		if (commandStrFull.Length < 2) //must have the data for the terminal 0 and for at least one terminal
 			return expected_l;
 
+		//it is the first one, do not need to be named 0
 		string [] commandStrTerm0 = commandStrFull[0].Split(new char[] {':'});
 		int commandTerm0 = Convert.ToInt32 (commandStrTerm0[1]);
 

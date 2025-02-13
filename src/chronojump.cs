@@ -354,7 +354,7 @@ public class ChronoJump
 		//note without these lines it works on dotnet run, but on the isntalled package these are needed
 		Environment.SetEnvironmentVariable ("XDG_DATA_DIRS", baseDirectory);
 		Environment.SetEnvironmentVariable ("XDG_DATA_DIR", baseDirectory);
-		Environment.SetEnvironmentVariable ("GSETTINGS_SCHEMA_DIR", System.IO.Path.Combine (baseDirectory, @"share\glib-2.0\schemas")); //this works !!!! but from dotnet run works also without this
+		Environment.SetEnvironmentVariable ("GSETTINGS_SCHEMA_DIR", System.IO.Path.Combine (baseDirectory, @"share/glib-2.0/schemas")); //this works !!!! but from dotnet run works also without this
 
 		//Environment.SetEnvironmentVariable ("R_HOME", RelativeToPrefix ("library"));
 		//rBinPath = RelativeToPrefix ("lib");
@@ -396,16 +396,16 @@ public class ChronoJump
 		var gtk3Path = "";
 #if DEBUG
 		if (File.Exists("/usr/local/lib/libglib-2.0.0.dylib"))
-			gtk3Path = "/usr/local/lib/";
+			gtk3Path = "/usr/local/";
 		else
-			gtk3Path = "/opt/homebrew/lib/";
+			gtk3Path = "/opt/homebrew/";
 #else
-		gtk3Path= Path.Combine(baseDirectory, "../Resources/");
+		gtk3Path= Path.Combine(baseDirectory, "../Resources/gtk3/");
 #endif
-		Environment.SetEnvironmentVariable("XDG_DATA_DIRS", System.IO.Path.Combine(gtk3Path, @"gtk3"));
-		Environment.SetEnvironmentVariable("GSETTINGS_SCHEMA_DIR", System.IO.Path.Combine(gtk3Path, @"gtk3\share\glib-2.0\schemas"));
-		g_setenv("XDG_DATA_DIRS", System.IO.Path.Combine(gtk3Path, @"gtk3"), true);
-		g_setenv("GSETTINGS_SCHEMA_DIR", System.IO.Path.Combine(gtk3Path, @"gtk3\share\glib-2.0\schemas"), true);
+        Environment.SetEnvironmentVariable("XDG_DATA_DIRS", System.IO.Path.Combine(gtk3Path));
+		Environment.SetEnvironmentVariable("GSETTINGS_SCHEMA_DIR", System.IO.Path.Combine(gtk3Path, @"share/glib-2.0/schemas"));
+		g_setenv("XDG_DATA_DIRS", System.IO.Path.Combine(gtk3Path), true);
+		g_setenv("GSETTINGS_SCHEMA_DIR", System.IO.Path.Combine(gtk3Path, @"share/glib-2.0/schemas"), true);
 
 		/*
 		//Gstreamer stuff (right now not used, we used ffplay)

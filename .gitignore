@@ -103,3 +103,10 @@ config.guess~
 config.sub~
 install-sh~
 .vs
+/package/macos/app/Chronojump.app
+/package/macos/deps/etc
+/package/macos/deps/library
+/package/macos/deps/modules
+/package/macos/deps/R
+*.pkg
+package/linux/control

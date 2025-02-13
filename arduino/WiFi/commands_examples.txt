@@ -23,14 +23,14 @@ The commands that can be sent to the controler are:
 
 Command                                         Action
 ------------------------------------------------------
-get_version                                     Returns the version of the firmware
-set_binary_mode                                 The samples are sent in binary mode (bool state, short int terminalNumber, unsigned long int data) to the usb serial
-set_text_mode                                   The samples are sent in text mode to the usb serial
-reset_time                                      Restart the timer to 0
-get_channel                                     Returns the channel configured in the controler
-discover                                        Looks for terminals in the same channel. Sends a ping to all terminals but only receives pong only from the terminals in the same channel.
-                                                !!!Atention the terminasl in other channesl will send pongs to those channels interferring a possible current test
-set_rca_mode                                    Only in V4+. Set if the RCA is reading external signal (input) or is replicating the behaviour of the LED (output).
+get_version;                                     Returns the version of the firmware
+set_binary_mode;                                 The samples are sent in binary mode (bool state, short int terminalNumber, unsigned long int data) to the usb serial
+set_text_mode;                                   The samples are sent in text mode to the usb serial
+reset_time;                                      Restart the timer to 0
+get_channel;                                     Returns the channel configured in the controler
+discover;                                        Looks for terminals in the same channel. Sends a ping to all terminals but only receives pong only from the terminals in the same channel.
+                                                 !!!Atention the terminasl in other channesl will send pongs to those channels interferring a possible current test
+set_rca_mode;                                    Only in V4+. Set if the RCA is reading external signal (input) or is replicating the behaviour of the LED (output).
 
 Examples:
 - To know the firmware version of the controler

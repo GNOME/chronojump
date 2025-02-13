@@ -88,12 +88,12 @@ public partial class ChronoJumpWindow
 	Gtk.Notebook notebook_results_data;
 
 	Gtk.Alignment align_drawingarea_realtime_capture_cairo;
-	Gtk.DrawingArea event_execute_drawingarea_realtime_capture_cairo;
-	Gtk.DrawingArea event_execute_drawingarea_cairo;
+	Gtk.DrawingArea drawingarea_results_realtime;
+	Gtk.DrawingArea drawingarea_results_session;
 	Gtk.VBox vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo;
 	Gtk.CheckButton check_runI_realtime_rel_abs;
 	Gtk.Image image_check_runI_realtime_rel_abs;
-	Gtk.DrawingArea event_execute_drawingarea_run_simple_double_contacts;
+	Gtk.DrawingArea drawingarea_run_simple_double_contacts;
 	Gtk.Label label_run_simple_double_contacts;
 	/*
 	Gtk.Box hbox_combo_graph_results_width;
@@ -253,7 +253,7 @@ public partial class ChronoJumpWindow
 	}
 
 	//realtime capture graph for jumpRj and runInterval
-	public void on_event_execute_drawingarea_realtime_capture_cairo_draw (object o, Gtk.DrawnArgs args)
+	public void on_drawingarea_results_realtime_draw (object o, Gtk.DrawnArgs args)
 	{
 		//right now only for jump simple (fourPlatforms), reactive, runsI, other (fourplatforms)
 		if(current_mode != Constants.Modes.JUMPSSIMPLE &&
@@ -311,7 +311,7 @@ public partial class ChronoJumpWindow
 		{
 			if(cairoGraphFourPlatforms == null)// || forceRedraw)
 				cairoGraphFourPlatforms = new CairoGraphFourPlatforms (
-						event_execute_drawingarea_realtime_capture_cairo, "title");
+						drawingarea_results_realtime, "title");
 
 			if (fpcm != null)
 				cairoGraphFourPlatforms.DoSendingList (
@@ -328,7 +328,7 @@ public partial class ChronoJumpWindow
 		{
 			if(cairoGraphWilight == null)// || forceRedraw)
 				cairoGraphWilight = new CairoGraphWilight (
-						event_execute_drawingarea_realtime_capture_cairo, "title");
+						drawingarea_results_realtime, "title");
 
 			WilightCommandToTerminals wctt = new WilightCommandToTerminals (currentWilightCommand, wilightTerminalLayout);
 			cairoGraphWilight.DoSendingList (preferences.fontTypeToGraph(), wctt.Do (), true);
@@ -336,9 +336,9 @@ public partial class ChronoJumpWindow
 	}
 
 	//barplot of tests in session
-	public void on_event_execute_drawingarea_cairo_draw (object o, Gtk.DrawnArgs args)
+	public void on_drawingarea_results_session_draw (object o, Gtk.DrawnArgs args)
 	{
-		event_execute_drawingarea_cairo.AddEvents((int) Gdk.EventMask.ButtonPressMask);
+		drawingarea_results_session.AddEvents((int) Gdk.EventMask.ButtonPressMask);
 
 		//right now only for jumps/runs simple
 		if(current_mode != Constants.Modes.JUMPSSIMPLE &&
@@ -365,7 +365,7 @@ public partial class ChronoJumpWindow
 			PrepareWilightGraph (cairoPaintBarsPre.eventGraphWilightStored, false);
 	}
 
-	public void on_event_execute_drawingarea_run_simple_double_contacts_cairo_draw (object o, Gtk.DrawnArgs args)
+	public void on_drawingarea_run_simple_double_contacts_cairo_draw (object o, Gtk.DrawnArgs args)
 	{
 		if(current_mode != Constants.Modes.RUNSSIMPLE &&
 				current_mode != Constants.Modes.RUNSINTERVALLIC)
@@ -381,9 +381,9 @@ public partial class ChronoJumpWindow
 			PrepareRunDoubleContactsGraph (false);
 	}
 
-	private void on_event_execute_drawingarea_cairo_button_press_event (object o, ButtonPressEventArgs args)
+	private void on_drawingarea_results_session_button_press_event (object o, ButtonPressEventArgs args)
 	{
-		LogB.Information("on_event_execute_drawingarea_cairo_button_press_event");
+		LogB.Information("on_drawingarea_results_session_button_press_event");
 		if (
 				current_mode != Constants.Modes.JUMPSSIMPLE &&
 				current_mode != Constants.Modes.JUMPSREACTIVE &&
@@ -508,7 +508,7 @@ public partial class ChronoJumpWindow
 			image_check_runI_realtime_rel_abs.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "bar_absolute.png");
 
 		// 2) redo graph
-		on_event_execute_drawingarea_realtime_capture_cairo_draw (new object(), new Gtk.DrawnArgs());
+		on_drawingarea_results_realtime_draw (new object(), new Gtk.DrawnArgs());
 	}
 
 	// Reactive jump 
@@ -516,7 +516,7 @@ public partial class ChronoJumpWindow
 	{
 		//constructor for showing a blank graph
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
-				event_execute_drawingarea_realtime_capture_cairo, preferences.fontTypeToGraph());
+				drawingarea_results_realtime, preferences.fontTypeToGraph());
 	}
 
 	public void PrepareJumpReactiveRealtimeCaptureGraph (double lastTv, double lastTc, string tvString, string tcString,
@@ -539,7 +539,7 @@ public partial class ChronoJumpWindow
 			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
-				event_execute_drawingarea_realtime_capture_cairo, preferences.fontTypeToGraph(), current_mode,
+				drawingarea_results_realtime, preferences.fontTypeToGraph(), current_mode,
 				personName, type, preferences.digitsNumber,// preferences.heightPreferred,
 				//lastTv, lastTc,
 				tvString, tcString, isLastCaptured, feedbackJumpsRj, videoTime);
@@ -652,7 +652,7 @@ public partial class ChronoJumpWindow
 	{
 		//constructor for showing a blank graph
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
-				event_execute_drawingarea_realtime_capture_cairo, preferences.fontTypeToGraph());
+				drawingarea_results_realtime, preferences.fontTypeToGraph());
 	}
 
 	public void PrepareRunIntervalRealtimeCaptureGraph (string timesString,
@@ -674,7 +674,7 @@ public partial class ChronoJumpWindow
 			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
-				event_execute_drawingarea_realtime_capture_cairo, preferences.fontTypeToGraph(), current_mode,
+				drawingarea_results_realtime, preferences.fontTypeToGraph(), current_mode,
 				personName, type, preferences.digitsNumber,// preferences.heightPreferred,
 				preferences.metersSecondsPreferred,
 				check_runI_realtime_rel_abs.Active,
@@ -924,7 +924,7 @@ public partial class ChronoJumpWindow
 							preferences.volumeOn, preferences.gstreamer, feedbackJumpsRj,
 							preferences.heightPreferred);
 
-					event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
+					drawingarea_results_realtime.QueueDraw ();
 				}
 				break;
 			case EventType.Types.RUN:
@@ -945,7 +945,7 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.photocell_l,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.type,
 							currentPerson.Name, feedbackRunsI);
-					event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
+					drawingarea_results_realtime.QueueDraw ();
 				}
 				break;
 		}
@@ -1070,12 +1070,12 @@ public partial class ChronoJumpWindow
 		notebook_results_data = (Gtk.Notebook) builder.GetObject ("notebook_results_data");
 
 		align_drawingarea_realtime_capture_cairo = (Gtk.Alignment) builder.GetObject ("align_drawingarea_realtime_capture_cairo");
-		event_execute_drawingarea_realtime_capture_cairo = (Gtk.DrawingArea) builder.GetObject ("event_execute_drawingarea_realtime_capture_cairo");
-		event_execute_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("event_execute_drawingarea_cairo");
+		drawingarea_results_realtime = (Gtk.DrawingArea) builder.GetObject ("drawingarea_results_realtime");
+		drawingarea_results_session = (Gtk.DrawingArea) builder.GetObject ("drawingarea_results_session");
 		vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo = (Gtk.VBox) builder.GetObject ("vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo");
 		check_runI_realtime_rel_abs = (Gtk.CheckButton) builder.GetObject ("check_runI_realtime_rel_abs");
 		image_check_runI_realtime_rel_abs = (Gtk.Image) builder.GetObject ("image_check_runI_realtime_rel_abs");
-		event_execute_drawingarea_run_simple_double_contacts = (Gtk.DrawingArea) builder.GetObject ("event_execute_drawingarea_run_simple_double_contacts");
+		drawingarea_run_simple_double_contacts = (Gtk.DrawingArea) builder.GetObject ("drawingarea_run_simple_double_contacts");
 		label_run_simple_double_contacts = (Gtk.Label) builder.GetObject ("label_run_simple_double_contacts");
 		/*
 		   hbox_combo_graph_results_width = (Gtk.Box) builder.GetObject ("hbox_combo_graph_results_width");

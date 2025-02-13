@@ -222,19 +222,19 @@ public partial class ChronoJumpWindow
 		if(! radio_contacts_results_personAll.Active)
 			personStr = currentPerson.Name;
 
-		LogB.Information("event_execute_drawingarea_cairo == null: ",
-			(event_execute_drawingarea_cairo == null).ToString());
+		LogB.Information("drawingarea_results_session == null: ",
+			(drawingarea_results_session == null).ToString());
 
 		cairoPaintBarsPre = new CairoPaintBarsPreRunSimple (
-				event_execute_drawingarea_cairo, preferences.fontTypeToGraph(), current_mode,
+				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
 				personStr, typeTemp, preferences.digitsNumber, preferences.metersSecondsPreferred);
 
 		cairoPaintBarsPre.StoreEventGraphRuns (eventGraph);
 		//PrepareRunSimpleGraph(cairoPaintBarsPre.eventGraphRunsStored, false); //do not need, draw event will graph it:
-		event_execute_drawingarea_cairo.QueueDraw ();
+		drawingarea_results_session.QueueDraw ();
 
 		cairoManageRunDoubleContacts = new CairoManageRunDoubleContacts (
-				event_execute_drawingarea_run_simple_double_contacts, preferences.fontTypeToGraph() );
+				drawingarea_run_simple_double_contacts, preferences.fontTypeToGraph() );
 	}
 	private void updateGraphRunsInterval ()
 	{
@@ -271,15 +271,15 @@ public partial class ChronoJumpWindow
 			personStr = currentPerson.Name;
 
 		cairoPaintBarsPre = new CairoPaintBarsPreRunInterval (
-				event_execute_drawingarea_cairo, preferences.fontTypeToGraph(), current_mode,
+				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
 				personStr, typeTemp, preferences.digitsNumber, preferences.metersSecondsPreferred);
 
 		cairoPaintBarsPre.StoreEventGraphRunsInterval (eventGraph);
 		//PrepareRunIntervalGraph (cairoPaintBarsPre.eventGraphRunsIntervalStored, false); //do not need, draw event will graph it:
-		event_execute_drawingarea_cairo.QueueDraw ();
+		drawingarea_results_session.QueueDraw ();
 
 		cairoManageRunDoubleContacts = new CairoManageRunDoubleContacts (
-				event_execute_drawingarea_run_simple_double_contacts, preferences.fontTypeToGraph() );
+				drawingarea_run_simple_double_contacts, preferences.fontTypeToGraph() );
 	}
 	
 	private void extra_window_runs_interval_initialize(RunType myRunType) 
@@ -530,11 +530,11 @@ public partial class ChronoJumpWindow
 
 	private void on_button_runs_capture_save_image_selected (string destination)
 	{
-		if(event_execute_drawingarea_cairo == null)
+		if(drawingarea_results_session == null)
 			return;
 
 		LogB.Information("Saving");
-		CairoUtil.GetScreenshotFromDrawingArea (event_execute_drawingarea_cairo, destination);
+		CairoUtil.GetScreenshotFromDrawingArea (drawingarea_results_session, destination);
 	}
 	private void on_overwrite_file_runs_capture_save_image_accepted (object o, EventArgs args)
 	{

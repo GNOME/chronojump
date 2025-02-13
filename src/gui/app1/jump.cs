@@ -380,13 +380,13 @@ public partial class ChronoJumpWindow
 			personStr = currentPerson.Name;
 
 		cairoPaintBarsPre = new CairoPaintBarsPreJumpSimple (
-				event_execute_drawingarea_cairo, preferences.fontTypeToGraph(), current_mode,
+				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
 				personStr, typeTemp, preferences.digitsNumber);
 
 		cairoPaintBarsPre.StoreEventGraphJumps (eventGraph);
 
 		//PrepareJumpSimpleGraph(cairoPaintBarsPre.eventGraphJumpsStored, false); //do not need, draw event will graph it:
-		event_execute_drawingarea_cairo.QueueDraw ();
+		drawingarea_results_session.QueueDraw ();
 	}
 	private void updateGraphJumpsReactive ()
 	{
@@ -424,12 +424,12 @@ public partial class ChronoJumpWindow
 			personStr = currentPerson.Name;
 
 		cairoPaintBarsPre = new CairoPaintBarsPreJumpReactive (
-				event_execute_drawingarea_cairo, preferences.fontTypeToGraph(), current_mode,
+				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
 				personStr, typeTemp, preferences.digitsNumber);
 
 		cairoPaintBarsPre.StoreEventGraphJumpsRj (eventGraph);
 		//PrepareJumpReactiveGraph (cairoPaintBarsPre.eventGraphJumpsRjStored, false); //do not need, draw event will graph it:
-		event_execute_drawingarea_cairo.QueueDraw ();
+		drawingarea_results_session.QueueDraw ();
 	}
 	
 	private void extra_window_jumps_rj_initialize(JumpType myJumpType) 
@@ -818,11 +818,11 @@ public partial class ChronoJumpWindow
 
 	private void on_button_jumps_capture_save_image_selected (string destination)
 	{
-		if(event_execute_drawingarea_cairo == null)
+		if(drawingarea_results_session == null)
 			return;
 
 		LogB.Information("Saving");
-		CairoUtil.GetScreenshotFromDrawingArea (event_execute_drawingarea_cairo, destination);
+		CairoUtil.GetScreenshotFromDrawingArea (drawingarea_results_session, destination);
 	}
 	private void on_overwrite_file_jumps_capture_save_image_accepted (object o, EventArgs args)
 	{

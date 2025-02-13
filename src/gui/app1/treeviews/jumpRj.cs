@@ -110,7 +110,7 @@ public partial class ChronoJumpWindow
 				selectedJumpRj.Type, selectedJumpRj.Description, //Description is personName
 				preferences.volumeOn, preferences.gstreamer, feedbackJumpsRj,
 				preferences.heightPreferred);
-		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
+		drawingarea_results_realtime.QueueDraw ();
 	}
 
 	private void selectJumpReactive (int id)

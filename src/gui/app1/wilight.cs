@@ -302,7 +302,7 @@ public partial class ChronoJumpWindow
 	private void plotSequenceWithoutSending ()
 	{
 		currentWilightCommand = "0:34;1:0;2:8;3:4;4:12;5:2;6:10;7:40;8:36;9:35;10:14;11:46;12:0;";
-		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
+		drawingarea_results_realtime.QueueDraw ();
 	}
 
 	private void changeColor (int terminal, int r, int g, int b, int blink)
@@ -313,7 +313,7 @@ public partial class ChronoJumpWindow
 		System.Threading.Thread.Sleep (50);
 		sendCommandAndUpdateWilightTextview (command);
 		currentWilightCommand = command; //note this will overwrite the command
-		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
+		drawingarea_results_realtime.QueueDraw ();
 	}
 
 	//TODO: send only to discovered terminals
@@ -430,7 +430,7 @@ public partial class ChronoJumpWindow
 		}
 		if (needToUpdateGraphWilight)
 		{
-			event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
+			drawingarea_results_realtime.QueueDraw ();
 			needToUpdateGraphWilight = false;
 		}
 
@@ -538,16 +538,16 @@ public partial class ChronoJumpWindow
 		if(! radio_contacts_results_personAll.Active)
 			personStr = currentPerson.Name;
 
-		LogB.Information("event_execute_drawingarea_cairo == null: ",
-			(event_execute_drawingarea_cairo == null).ToString());
+		LogB.Information("drawingarea_results_session == null: ",
+			(drawingarea_results_session == null).ToString());
 
 		cairoPaintBarsPre = new CairoPaintBarsWilight (
-				event_execute_drawingarea_cairo, preferences.fontTypeToGraph(), current_mode,
+				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
 				personStr, typeTemp, preferences.digitsNumber);
 
 		cairoPaintBarsPre.StoreEventGraphWilight (eventGraph);
 		//PrepareRunSimpleGraph(cairoPaintBarsPre.eventGraphRunsStored, false); //do not need, draw event will graph it:
-		event_execute_drawingarea_cairo.QueueDraw ();
+		drawingarea_results_session.QueueDraw ();
 	}
 
 	private	void wilight_delete_current_test_pre_question ()

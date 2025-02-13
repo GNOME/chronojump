@@ -8527,12 +8527,12 @@ last capture</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">2</property>
                                                             <child>
-                                                            <object class="GtkDrawingArea" id="event_execute_drawingarea_realtime_capture_cairo">
+                                                            <object class="GtkDrawingArea" id="drawingarea_results_realtime">
                                                             <property name="height-request">125</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="hexpand">True</property>
-                                                            <signal name="draw" handler="on_event_execute_drawingarea_realtime_capture_cairo_draw" swapped="no"/>
+                                                            <signal name="draw" handler="on_drawingarea_results_realtime_draw" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -9406,12 +9406,12 @@ last capture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
-                                                            <object class="GtkDrawingArea" id="event_execute_drawingarea_cairo">
+                                                            <object class="GtkDrawingArea" id="drawingarea_results_session">
                                                             <property name="width-request">150</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <signal name="button-press-event" handler="on_event_execute_drawingarea_cairo_button_press_event" swapped="no"/>
-                                                            <signal name="draw" handler="on_event_execute_drawingarea_cairo_draw" swapped="no"/>
+                                                            <signal name="button-press-event" handler="on_drawingarea_results_session_button_press_event" swapped="no"/>
+                                                            <signal name="draw" handler="on_drawingarea_results_session_draw" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -17795,11 +17795,11 @@ last capture</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">12</property>
                                                             <child>
-                                                            <object class="GtkDrawingArea" id="event_execute_drawingarea_run_simple_double_contacts">
+                                                            <object class="GtkDrawingArea" id="drawingarea_run_simple_double_contacts">
                                                             <property name="height-request">40</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <signal name="draw" handler="on_event_execute_drawingarea_run_simple_double_contacts_cairo_draw" swapped="no"/>
+                                                            <signal name="draw" handler="on_drawingarea_run_simple_double_contacts_cairo_draw" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>

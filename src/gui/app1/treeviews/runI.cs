@@ -122,7 +122,7 @@ public partial class ChronoJumpWindow
 				selectedRunIntervalType.DistancesString,
 				selectedRunInterval.Photocell_l,
 				selectedRunInterval.Type, selectedRunInterval.Description, feedbackRunsI); //Description is personName
-		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
+		drawingarea_results_realtime.QueueDraw ();
 	}
 
 	private void selectRunIntervallic (int id)

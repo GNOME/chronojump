@@ -6116,7 +6116,7 @@ public partial class ChronoJumpWindow
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempRunInterval");
 
-		event_execute_drawingarea_realtime_capture_cairo.QueueDraw();
+		drawingarea_results_realtime.QueueDraw();
 
 		//Cairo graph is not updated if window is not resized, so force update
 		updateGraphRunsInterval();
@@ -6514,7 +6514,7 @@ public partial class ChronoJumpWindow
 		on_treeview_runs_interval_cursor_changed (new object (), new EventArgs ());
 
 		//update top graph:
-		on_event_execute_drawingarea_realtime_capture_cairo_draw (new object (), new Gtk.DrawnArgs ());
+		on_drawingarea_results_realtime_draw (new object (), new Gtk.DrawnArgs ());
 
 		if(createdStatsWin)
 			stats_win_fillTreeView_stats(false, false);
@@ -6974,8 +6974,8 @@ public partial class ChronoJumpWindow
 			selectJumpReactive (tempSelected);
 
 		//update both graphs
-		event_execute_drawingarea_cairo.QueueDraw ();
-		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
+		drawingarea_results_session.QueueDraw ();
+		drawingarea_results_realtime.QueueDraw ();
 	}
 	
 	private void on_repair_selected_run_interval_clicked (object o, EventArgs args) {
@@ -7015,8 +7015,8 @@ public partial class ChronoJumpWindow
 			selectRunIntervallic (tempSelected);
 
 		//update both graphs
-		event_execute_drawingarea_cairo.QueueDraw ();
-		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
+		drawingarea_results_session.QueueDraw ();
+		drawingarea_results_realtime.QueueDraw ();
 	}
 
 	
@@ -7673,7 +7673,7 @@ public partial class ChronoJumpWindow
 
 			Sqlite.Close(); // <------
 
-			event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
+			drawingarea_results_realtime.QueueDraw ();
 		}
 		else if (Constants.ModeIsENCODER (m))
 		{

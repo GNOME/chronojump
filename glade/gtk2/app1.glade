@@ -6653,7 +6653,7 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">2</property>
                                                             <child>
-                                                            <widget class="GtkDrawingArea" id="event_execute_drawingarea_realtime_capture_cairo">
+                                                            <widget class="GtkDrawingArea" id="drawingarea_results_realtime">
                                                             <property name="height_request">125</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -7116,12 +7116,12 @@ EncoderInertialCapture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
-                                                            <widget class="GtkDrawingArea" id="event_execute_drawingarea_cairo">
+                                                            <widget class="GtkDrawingArea" id="drawingarea_results_session">
                                                             <property name="width_request">150</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <signal name="expose_event" handler="on_event_execute_drawingarea_cairo_expose_event" swapped="no"/>
-                                                            <signal name="button_press_event" handler="on_event_execute_drawingarea_cairo_button_press_event" swapped="no"/>
+                                                            <signal name="button_press_event" handler="on_drawingarea_results_session_button_press_event" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -17080,7 +17080,7 @@ Resisted race analyzer</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">12</property>
                                                             <child>
-                                                            <widget class="GtkDrawingArea" id="event_execute_drawingarea_run_simple_double_contacts">
+                                                            <widget class="GtkDrawingArea" id="drawingarea_run_simple_double_contacts">
                                                             <property name="height_request">40</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>

@@ -1119,7 +1119,7 @@ public partial class ChronoJumpWindow
 			}
 			else if (current_mode == Constants.Modes.JUMPSREACTIVE ||
 					current_mode == Constants.Modes.RUNSINTERVALLIC)
-				event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
+				drawingarea_results_realtime.QueueDraw ();
 
 			spinner_video_play_this_test_contacts.Visible = true;
 		}

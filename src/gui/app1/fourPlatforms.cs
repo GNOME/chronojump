@@ -192,7 +192,7 @@ public partial class ChronoJumpWindow
 		cairoGraphFourPlatformsPoints_ll = new List<List<PointF>>();
 		cairoGraphFourPlatformsPoints_ll.Add (new List<PointF>());
 		fpcm = new FourPlatformsCaptureManage (current_mode, null, ref cairoGraphFourPlatformsPoints_ll, getSelectedPersonAndNext3 ());
-		event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
+		drawingarea_results_realtime.QueueDraw ();
 
 	}
 
@@ -310,7 +310,7 @@ public partial class ChronoJumpWindow
 			fourPlatformsButtonsSensitive (true);
 			hideButtons();
 
-			event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
+			drawingarea_results_realtime.QueueDraw ();
 
 			if (current_mode == Constants.Modes.JUMPSSIMPLE)
 			{
@@ -326,7 +326,7 @@ public partial class ChronoJumpWindow
 					blinkCapture.Start (); //TODO: but note here is still connecting
 				showHideBlinkIcon (blinkCapture, true);
 
-				event_execute_drawingarea_realtime_capture_cairo.QueueDraw ();
+				drawingarea_results_realtime.QueueDraw ();
 
 				if(fourPlatformsPulseMessage == capturingMessage)
 					event_execute_button_finish.Sensitive = true;

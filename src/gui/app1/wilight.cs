@@ -241,7 +241,7 @@ public partial class ChronoJumpWindow
 		System.Threading.Thread.Sleep (1000);
 
 		//0 time on the microcontroller
-		sendCommandAndUpdateWilightTextview ("reset_time");
+		sendCommandAndUpdateWilightTextview ("reset_time;");
 
 		if (wilightAction == wilightActions.SPEED)
 		{

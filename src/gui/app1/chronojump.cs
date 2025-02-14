@@ -1376,6 +1376,7 @@ public partial class ChronoJumpWindow
 				continue;
 		}
 		*/
+		//UtilList.ListRandomize1stAndThenSequentialTest ();
 	}
 
 /*

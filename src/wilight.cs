@@ -301,7 +301,7 @@ public class WilightTest
 
 			// randomize lines in each level
 			foreach (List <string> cnr_l in comReaded_ll)
-				command_ll.Add (UtilList.ListRandomize (cnr_l));
+				command_ll.Add (UtilList.ListRandomize1stAndThenSequential (cnr_l));
 
 			// debug
 			for (int i = 0; i < comReaded_ll.Count; i ++)

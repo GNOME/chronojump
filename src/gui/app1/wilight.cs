@@ -58,8 +58,6 @@ public partial class ChronoJumpWindow
 	private wilightActions wilightAction;
 	DateTime wilightTimeStartCapture;
 
-	private IDNameList wilightColor_l;
-
 	//use the string to not have crash by manipulating the TextBuffer outside the pulse thread
 	static string tbWilightText = "";
 	static bool needToUpdateTextViewWilight;

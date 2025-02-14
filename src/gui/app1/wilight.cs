@@ -351,7 +351,7 @@ public partial class ChronoJumpWindow
 
 	private void testSequence (string commandsFile, bool isDemo)
 	{
-		wilightTest = new WilightTest (commandsFile, isDemo);
+		wilightTest = new WilightTest (commandsFile, wilightTerminalLayout, isDemo);
 		wilightMessage = wilightTest.GetProgressStatus ();
 
 		List<int> expectedTerminals_l = new List<int> (); //expected response on this (or them)

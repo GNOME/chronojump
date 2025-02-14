@@ -229,7 +229,7 @@ public class CairoGraphWilight : CairoXY
 			g.SetSourceColor (new Cairo.Color (.667, .400, .670)); //#aa6611 https://dev.to/finnhvman/which-colors-look-good-on-black-and-white-2pe6
 
 		printText (calculatePaintX (wt.x), calculatePaintY (wt.y) -textHeight/2 +2, 0, textHeight +4,
-				wt.id.ToString (), g, alignTypes.CENTER);
+				wt.codeNum.ToString (), g, alignTypes.CENTER);
 	}
 
 	protected override void writeTitle()
@@ -238,18 +238,18 @@ public class CairoGraphWilight : CairoXY
 
 }
 
-//id, code & center of each wilight terminal
+//codeNum, codeColor & center of each wilight terminal
 public class CairoGraphWilightTerminal
 {
-	public int id; //currently from 0 to 12
-	public int code; //powers of 2 (0 - 512)
+	public int codeNum; //currently from 0 to 12
+	public int codeColor; //powers of 2 (0 - 512)
 	public double x; // (cm)
 	public double y; // (cm)
 
-	public CairoGraphWilightTerminal (int id, int code, PointF center)
+	public CairoGraphWilightTerminal (int codeNum, int codeColor, PointF center)
 	{
-		this.id = id;
-		this.code = code;
+		this.codeNum = codeNum;
+		this.codeColor = codeColor;
 		this.x = center.X;
 		this.y = center.Y;
 	}
@@ -265,7 +265,7 @@ public class CairoGraphWilightTerminal
 
 	public bool Blinks {
 		get {
-			return ((code & 32) != 0);
+			return ((codeColor & 32) != 0);
 		}
 	}
 
@@ -281,7 +281,7 @@ public class CairoGraphWilightTerminal
 			for (int i = 0; i < 4; i++)
 			{
 				int mask = 1 << i;
-				if ((code & mask) != 0)
+				if ((codeColor & mask) != 0)
 				{
 					if (mask == redCode)
 						redBit = 1;

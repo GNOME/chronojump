@@ -131,7 +131,7 @@ public class WilightCommandToTerminals
 			wt_l.Add (new CairoGraphWilightTerminal (
 						id,
 						Convert.ToInt32 (tsFull[1]),
-						wtl.GetCenterOfATerminal (id)));
+						wtl.GetCenterByCodeNum (id)));
 		}
 
 		return wt_l;
@@ -140,22 +140,27 @@ public class WilightCommandToTerminals
 
 public class WilightPos
 {
-	private int code;
+	private string codeLetter;
+	private int codeNum;
 	private PointF center;
 
-	public WilightPos (int code, PointF center)
+	public WilightPos (string codeLetter, int codeNum, PointF center)
 	{
-		this.code = code;
+		this.codeLetter = codeLetter;
+		this.codeNum = codeNum;
 		this.center = center;
 	}
 
 	public override string ToString ()
 	{
-		return string.Format ("code: {0}, center: {1}", code, center);
+		return string.Format ("codeLetter: {0}, codeNum: {1}, center: {2}", codeLetter, codeNum, center);
 	}
 
-	public int Code {
-		get { return code; }
+	public string CodeLetter {
+		get { return codeLetter; }
+	}
+	public int CodeNum {
+		get { return codeNum; }
 	}
 	public PointF Center {
 		get { return center; }
@@ -172,9 +177,9 @@ public class WilightTerminalLayout
 
 	/*
 	 * reads a file like (note decimal is point):
-	 * 0;7.5;10
-	 * 1;1;8
-	 * 2;2;8
+	 * A;0;7.5;10
+	 * B;1;1;8
+	 * C;2;2;8
 	 */
 	public void ReadFile (string layoutFile)
 	{
@@ -189,35 +194,44 @@ public class WilightTerminalLayout
 			string s = Util.ChangeDecimalSeparator (wpStr);
 
 			string [] sFull = s.Split(new char[] {';'});
-			if (sFull.Length != 3)
+			if (sFull.Length != 4)
 				continue;
 
 			if (! (
-						Util.IsNumber (sFull[0], false) &&
-						Util.IsNumber (sFull[1], true) &&
-						Util.IsNumber (sFull[2], true)))
+						Util.IsNumber (sFull[1], false) &&
+						Util.IsNumber (sFull[2], true) &&
+						Util.IsNumber (sFull[3], true)))
 				continue;
 
-			wp_l.Add (new WilightPos (Convert.ToInt32 (sFull[0]),
-						new PointF (Convert.ToDouble (sFull[1]), Convert.ToDouble (sFull[2]))
+			wp_l.Add (new WilightPos (sFull[0], Convert.ToInt32 (sFull[1]),
+						new PointF (Convert.ToDouble (sFull[2]), Convert.ToDouble (sFull[3]))
 						));
 		}
 	}
 
-	public PointF GetCenterOfATerminal (int code)
+	public PointF GetCenterByCodeNum (int codeNum)
 	{
 		foreach (WilightPos wp in wp_l)
-			if (wp.Code == code)
+			if (wp.CodeNum == codeNum)
 				return wp.Center;
 
 		return new PointF (0, 0); //just in case
+	}
+
+	public int GetCodeNumByCodeLetter (string codeLetter)
+	{
+		foreach (WilightPos wp in wp_l)
+			if (wp.CodeLetter == codeLetter)
+				return wp.CodeNum;
+
+		return 0; //just in case
 	}
 
 	public string ColorAll  (int colorCode)
 	{
 		string str = "";
 		foreach (WilightPos wp in wp_l)
-			str += string.Format ("{0}:{1};", wp.Code, colorCode);
+			str += string.Format ("{0}:{1};", wp.CodeNum, colorCode);
 
 		return str;
 	}
@@ -233,7 +247,6 @@ public class WilightTest
 
 	private bool started;
 	private Stopwatch stopwatch;
-	private bool isDemo;
 	private Random random;
 	private bool isRandom;
 
@@ -241,10 +254,17 @@ public class WilightTest
 	public bool Finished;
 	public int FinishedMs;
 
+	//passed params
+	private string commandsFile;
+	private WilightTerminalLayout wilightTerminalLayout;
+	private bool isDemo;
+
 
 	//constructor
-	public WilightTest (string commandsFile, bool isDemo)
+	public WilightTest (string commandsFile, WilightTerminalLayout wilightTerminalLayout, bool isDemo)
 	{
+		this.commandsFile = commandsFile;
+		this.wilightTerminalLayout = wilightTerminalLayout;
 		this.isDemo = isDemo;
 
 		command_ll = new List<List<string>> ();
@@ -252,7 +272,7 @@ public class WilightTest
 		if (isDemo)
 			wilightTestDemoSetVars ();
 		else
-			wilightTestRealSetVars (commandsFile);
+			wilightTestRealSetVars ();
 
 		commandsCountReceived = 0;
 
@@ -266,19 +286,27 @@ public class WilightTest
 	//not random
 	private void wilightTestDemoSetVars ()
 	{
-		command_ll = new List<List<string>> ();
-		command_ll.Add (demoSequence);
+		command_ll = readCommandsFrom (demoSequence);
 
 		currentLevel = 0;
 		currentCommand = 0;
 		isRandom = false;
 	}
 
-	private void wilightTestRealSetVars (string commandsFile)
+	private void wilightTestRealSetVars ()
 	{
 		//if (commandsFile != "")
 		//{
-			readCommandsFile (commandsFile);
+			List<List<string>> comReaded_ll = readCommandsFrom (Util.ReadFileAsStringList (commandsFile, "#"));
+
+			// randomize lines in each level
+			foreach (List <string> cnr_l in comReaded_ll)
+				command_ll.Add (UtilList.ListRandomize (cnr_l));
+
+			// debug
+			for (int i = 0; i < comReaded_ll.Count; i ++)
+				LogB.Information (string.Format ("(Random) Level: {0} Commands:\n{1}",
+							i, UtilList.ListStringToString (command_ll[i], "\n")));
 		/*} else {
 		 * 	disabled until all the colors get back to their value
 			command_ll.Add (level0);
@@ -298,76 +326,108 @@ public class WilightTest
 
 	/*
 	    reads a file like this:
-		Level:0;0:8;1:0;2:0;3:0;4:9;5:0;6:0;7:0;8:0;9:0;10:0;11:0;12:0;
-		Level:0;0:10;1:0;2:0;3:0;4:0;5:0;6:0;7:0;8:0;9:11;10:0;11:0;12:0;
+		Level:0;A:8;B:0;C:0;D:0;E:9;F:0;G:0;H:0;I:0;J:0;K:0;L:0;M:0;
+		Level:0;A:10;B:0;C:0;D:0;E:0;F:0;G:0;H:0;I:0;J:11;K:0;L:0;M:0;
 
-		Level:1;0:6;1:0;2:64;3:0;4:0;5:32;6:0;7:0;8:7;9:0;10:128;11:0;12:0;
-		Level:1;0:4;1:0;2:0;3:5;4:96;5:0;6:0;7:0;8:0;9:96;10:0;11:0;12:32;
+		Level:1;A:6;B:0;C:64;D:0;E:0;F:32;G:0;H:0;I:7;J:0;K:128;L:0;M:0;
+		Level:1;A:4;B:0;C:0;D:5;E:96;F:0;G:0;H:0;I:0;J:96;K:0;L:0;M:32;
 
 	    Note the Levels not need to be ordered, and we can have Level 3 without having Level 2, ...
 	    This should work:
-		Level:3;0:96;1:97;2:0;3:64;4:0;5:6;6:0;7:0;8:8;9:14;10:0;11:32;12:0;
-		Level:3;0:64;1:160;2:8;3:0;4:0;5:0;6:65;7:8;8:14;9:64;10:128;11:0;12:0;
-		Level:1;0:8;1:0;2:0;3:160;4:128;5:0;6:0;7:9;8:0;9:0;10:0;11:0;12:32;
+		Level:3;A:96;B:97;C:0;D:64;E:0;F:6;G:0;H:0;I:8;J:14;K:0;L:32;M:0;
+		Level:3;A:64;B:160;C:8;D:0;E:0;F:0;G:65;H:8;I:14;J:64;K:128;L:0;M:0;
+		Level:1;A:8;B:0;C:0;D:160;E:128;F:0;G:0;H:9;I:0;J:0;K:0;L:0;M:32;
+
+	    eg. last one will be converted to (A->0, M->12) depending on WilightTerminalLayout
+	    Level:1;0:8;1:0;2:0;3:160;4:128;5:0;6:0;7:9;8:0;9:0;10:0;11:0;12:32;
 	*/
+
 	//note to be random this is readed at each new capture
-	private void readCommandsFile (string commandsFile)
+	private List<List<string>> readCommandsFrom (List<string> com_l)
 	{
 		// 1. read the data (note lines don't need to come in a level order)
-		List<List<string>> commandNotRandom_ll = new List<List<string>> ();
-		List<string> com_l = Util.ReadFileAsStringList (commandsFile, "#");
+		List<List<string>> comReaded_ll = new List<List<string>> ();
 
 		//LogB.Information (UtilList.ListStringToString (com_l, "\n"));
+		// 2. parseCommandAndChangeLettersToNums. And add to comReaded_ll
 		foreach (string com in com_l)
 		{
-			if (com == "" || com.Length == 0)
+			// 2.a get the level
+			int level = parseCommandGetLevel (com);
+			if (level < 0)
 				continue;
 
-			if (! com.StartsWith ("Level:"))
+			// 2.b add the sublists needed for that level
+			while (comReaded_ll.Count <= level)
+				comReaded_ll.Add (new List<string> ());
+
+			// 2.c pare the command
+			string comOk = parseCommandChangeLettersToNums (com);
+			if (comOk == "")
 				continue;
 
-			if (com.IndexOf (';') < 0)
-				continue;
-
-			string levelStr = com.Substring (
-					com.IndexOf (':') +1,
-					com.IndexOf (';') -com.IndexOf (':') -1);
-
-			if (! Util.IsNumber (levelStr, false))
-				continue;
-
-			int level = Convert.ToInt32 (levelStr);
-
-			// line needs at least one character more than the first ;
-			// to not fail on "add the command to the sublist"
-			if (com.Length <= com.IndexOf (';') -1)
-				continue;
-
-			// add the sublists needed for that level
-			while (commandNotRandom_ll.Count <= level)
-				commandNotRandom_ll.Add (new List<string> ());
-
-			// add the command to the sublist
-			commandNotRandom_ll[level].Add (com.Substring (com.IndexOf (';') +1));
+			// 2.d add the command to the sublist
+			comReaded_ll[level].Add (comOk);
 		}
 
-		/*
-		// debug
-		for (int i = 0; i < commandNotRandom_ll.Count; i ++)
+		// 2.e debug
+		for (int i = 0; i < comReaded_ll.Count; i ++)
 			LogB.Information (string.Format ("(Not random) Level: {0} Commands:\n{1}",
-						i, UtilList.ListStringToString (commandNotRandom_ll[i], "\n")));
-		*/
+						i, UtilList.ListStringToString (comReaded_ll[i], "\n")));
+		return comReaded_ll;
+	}
 
-		// 2. randomize lines in each level
-		foreach (List <string> cnr_l in commandNotRandom_ll)
-			command_ll.Add (UtilList.ListRandomize (cnr_l));
+	private int parseCommandGetLevel (string com)
+	{
+		// 1. check line is ok
+		// (5th condition: line needs at least one character more than the first ; to not fail on "add the command to the sublist")
+		if (
+				com == "" ||
+				com.Length == 0 ||
+				! com.StartsWith ("Level:") ||
+				! com.EndsWith (";") ||
+				com.Length <= com.IndexOf (';') -1 )
+			return -1;
 
-		/*
-		// debug
-		for (int i = 0; i < commandNotRandom_ll.Count; i ++)
-			LogB.Information (string.Format ("(Random) Level: {0} Commands:\n{1}",
-						i, UtilList.ListStringToString (command_ll[i], "\n")));
-		*/
+		// 2. get the level
+		string levelStr = com.Substring (
+				com.IndexOf (':') +1,
+				com.IndexOf (';') -com.IndexOf (':') -1);
+
+		if (! Util.IsNumber (levelStr, false))
+			return -1;
+
+		return Convert.ToInt32 (levelStr);
+	}
+
+	private string parseCommandChangeLettersToNums (string com)
+	{
+		// 1. remove the last ; and split each of the commands
+		string comFix = com.Substring (0, com.LastIndexOf(';'));
+		string [] comFixFull = comFix.Split(new char[] {';'});
+
+		// 2. change the codeLetter for codeNum according to wilightTerminalLayout
+		string comOk = "";
+		bool isLevel = true;
+		foreach (string sAB in comFixFull)
+		{
+			//discard the "Level:x;"
+			if (isLevel)
+			{
+				isLevel = false;
+				continue;
+			}
+
+			string [] sABFull = sAB.Split(new char[] {':'});
+			if (sABFull.Length != 2)
+				continue;
+
+			comOk += string.Format ("{0}:{1};",
+					wilightTerminalLayout.GetCodeNumByCodeLetter (sABFull[0]),
+					sABFull[1]);
+		}
+
+		return comOk;
 	}
 
 	//note if any problem it will return "" and this will be called again until Finished
@@ -579,12 +639,12 @@ public class WilightTest
 	{
 		get {
 			return (new List<string> {
-					"0:8;1:0;2:0;3:0;4:0;5:0;6:0;7:9;8:0;9:0;10:0;11:0;12:0;",
-					"0:4;1:0;2:0;3:0;4:5;5:0;6:0;7:0;8:0;9:0;10:0;11:0;12:0;",
-					"0:34;1:0;2:0;3:0;4:0;5:0;6:0;7:0;8:35;9:0;10:0;11:0;12:0;",
-					"0:34;1:0;2:8;3:4;4:12;5:2;6:10;7:40;8:36;9:35;10:8;11:8;12:0;",
-					"0:4;1:0;2:40;3:5;4:12;5:2;6:10;7:40;8:36;9:34;10:36;11:34;12:0;",
-					"0:2;1:0;2:8;3:4;4:12;5:3;6:10;7:40;8:36;9:34;10:8;11:34;12:0;",
+					"Level:0;A:8;B:0;C:0;D:0;E:0;F:0;G:0;H:9;I:0;J:0;K:0;L:0;M:0;",
+					"Level:0;A:4;B:0;C:0;D:0;E:5;F:0;G:0;H:0;I:0;J:0;K:0;L:0;M:0;",
+					"Level:0;A:34;B:0;C:0;D:0;E:0;F:0;G:0;H:0;I:35;J:0;K:0;L:0;M:0;",
+					"Level:4;A:8;B:4;C:0;D:36;E:12;F:40;G:42;H:0;I:9;J:46;K:46;L:0;M:40;",
+					"Level:4;A:4;B:36;C:42;D:42;E:8;F:42;G:46;H:0;I:8;J:46;K:5;L:0;M:0;",
+					"Level:4;A:2;B:34;C:46;D:3;E:36;F:8;G:12;H:34;I:0;J:42;K:44;L:0;M:0;"
 					});
 		}
 	}

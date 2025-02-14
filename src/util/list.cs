@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -175,6 +175,31 @@ public class UtilList
 			list.RemoveAt(index);
 		}
 		return randomizedList;
+	}
+
+	public static List<T> ListRandomize1stAndThenSequential<T>(List<T> list)
+	{
+		List<T> randomizedList = new List<T>();
+		Random rnd = new Random();
+		int firstOne = rnd.Next(0, list.Count); //pick a random item from the master list
+
+		for (int i = firstOne; i < list.Count; i ++)
+			randomizedList.Add (list[i]);
+
+		for (int i = 0; i < firstOne; i ++)
+			randomizedList.Add (list[i]);
+
+		return randomizedList;
+	}
+	public static void ListRandomize1stAndThenSequentialTest ()
+	{
+		List<string> a_l = new List<string> { "aaa", "bbb", "ccc", "ddd", "eee" };
+		for (int i = 0; i < 20; i ++)
+		{
+			LogB.Information ("UtilList.ListRandomize1stAndThenSequential:");
+			foreach (string str in ListRandomize1stAndThenSequential (a_l))
+				LogB.Information (str);
+		}
 	}
 
 	public static List<T> ListGetFirstN<T> (List<T> original_l, int firstN)

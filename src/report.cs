@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -64,7 +64,6 @@ public class Report : ExportSession
 		//ShowPulses = true;
 
 		spreadsheetString = "";
-		showDialogMessage = true;
 		fakeButtonDone = new Gtk.Button ();
 
 		StatisticsData = new ArrayList(1);
@@ -90,12 +89,24 @@ public class Report : ExportSession
 		//create directory filename_files/
 		string directoryName = Util.GetReportDirectoryName(filename);
 		if(!Directory.Exists(directoryName)) {
-			Directory.CreateDirectory (directoryName);
+			try {
+				Directory.CreateDirectory (directoryName);
+			} catch {
+				DoneEnum = DoneEnumType.CANNOTCOPY;
+				LogB.Error ("Catched, cannot create directory: " + directoryName);
+				return false;
+			}
 		} else {
 			//if it exists before, delete all pngs
 			string [] pngs = Directory.GetFiles(directoryName, "*.png");
-			foreach(string myFile in pngs) {
-				File.Delete(myFile);
+			try {
+				foreach(string myFile in pngs) {
+					File.Delete(myFile);
+				}
+			} catch {
+				DoneEnum = DoneEnumType.CANNOTCOPY;
+				LogB.Error ("Catched, cannot delete files in: " + directoryName);
+				return false;
 			}
 		}
 

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -30,7 +30,7 @@ using Mono.Unix;
 
 public abstract class ExportSession
 {
-	public enum DoneEnumType { CANCEL, NODATA, CANNOTCOPY, SUCCESS };
+	public enum DoneEnumType { NOTSTARTED, CANCEL, NODATA, CANNOTCOPY, SUCCESS };
 	public DoneEnumType DoneEnum;
 
 	protected Gtk.Button fakeButtonDone;
@@ -65,8 +65,6 @@ public abstract class ExportSession
 	protected bool jumpsReactive;
 	protected bool runsSimple;
 	protected bool runsIntervallic;
-
-	protected bool showDialogMessage; //on report
 
 	protected void checkFile (string formatFile)
 	{
@@ -182,9 +180,13 @@ public abstract class ExportSession
 
 	private void writeFile()
 	{
+		DoneEnum = DoneEnumType.NOTSTARTED;
 		if (! getData())
 		{
-			DoneEnum = DoneEnumType.NODATA;
+			if (DoneEnum == DoneEnumType.NOTSTARTED)
+				DoneEnum = DoneEnumType.NODATA;
+			//report can throw a CANNOT_COPY
+
 			fakeButtonDone.Click ();
 			return;
 		}
@@ -195,10 +197,6 @@ public abstract class ExportSession
 			writer = File.CreateText(tempfile);
 		} catch {
 			LogB.Information("Couldn't create tempfile: " + tempfile);
-			if (showDialogMessage)
-				new DialogMessage( Constants.MessageTypes.WARNING,
-						string.Format(Catalog.GetString("Cannot export to file {0} "), tempfile) );
-
 			DoneEnum = DoneEnumType.CANNOTCOPY;
 			fakeButtonDone.Click ();
 			return;
@@ -212,19 +210,10 @@ public abstract class ExportSession
 			File.Copy(tempfile, filename, true); //can be overwritten
 		} catch {
 			LogB.Information("Couldn't copy to: " + filename);
-			if (showDialogMessage)
-				new DialogMessage( Constants.MessageTypes.WARNING,
-						string.Format(Catalog.GetString("Cannot export to file {0} "), filename) );
-
 			DoneEnum = DoneEnumType.CANNOTCOPY;
 			fakeButtonDone.Click ();
 			return;
 		}
-
-		// 3) show message
-		if (showDialogMessage)
-			new DialogMessage(Constants.MessageTypes.INFO,
-					string.Format(Catalog.GetString("Saved to {0}"), filename) + spreadsheetString);
 
 		DoneEnum = DoneEnumType.SUCCESS;
 		fakeButtonDone.Click ();
@@ -1234,7 +1223,6 @@ public class ExportSessionCSV : ExportSession
 		this.runsIntervallic = runsIntervallic;
 
 		//spreadsheetString = Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
-		showDialogMessage = false;
 		fakeButtonDone = new Gtk.Button ();
 		filename = "";
 	}
@@ -1301,7 +1289,6 @@ public class ExportSessionXML : ExportSession
 		//xr.Formatting = Formatting.Indented;
 		//xr.Indentation = 4;
 
-		showDialogMessage = false;
 		checkFile("XML");
 	}
 	

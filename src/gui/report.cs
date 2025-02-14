@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -53,6 +53,8 @@ public class ReportWindow
 	Gtk.Image image_report_win_graph;
 	Gtk.Image image_report_win_report;
 	Gtk.Image image_report_delete;
+	Gtk.Label label_report_destination;
+	Gtk.Button button_open_report_file;
 	
 	Gtk.VButtonBox right_buttons;
 	
@@ -130,6 +132,9 @@ public class ReportWindow
 			}
 		}
 
+		ReportWindowBox.label_report_destination.Text = "";
+		ReportWindowBox.button_open_report_file.Sensitive = false;
+
 		//manage window color
 		if(! Config.UseSystemColor)
 		{
@@ -137,6 +142,7 @@ public class ReportWindow
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, ReportWindowBox.label_header);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, ReportWindowBox.label_general);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, ReportWindowBox.label_statistics);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, ReportWindowBox.label_report_destination);
 
 			/*
 			UtilGtk.WidgetColor (ReportWindowBox.frame_general, Config.ColorBackgroundShifted);
@@ -512,9 +518,38 @@ public class ReportWindow
 	
 	private void on_button_make_report_clicked (object o, EventArgs args)
 	{
+		report.FakeButtonDone.Clicked -= new EventHandler (on_report_done);
+		report.FakeButtonDone.Clicked += new EventHandler (on_report_done);
+
 		recordData();
 	
 		report.PrepareFile();
+	}
+
+	private void on_report_done (object o, EventArgs args)
+	{
+		bool success = (report.DoneEnum == ExportSession.DoneEnumType.SUCCESS &&
+				report.Filename != "");
+
+		if (success)
+		{
+			label_report_destination.Text = report.Filename;
+			button_open_report_file.Sensitive = true;
+		} else {
+			if (report.DoneEnum == ExportSession.DoneEnumType.CANCEL)
+				label_report_destination.Text = Catalog.GetString ("Cancelled.");
+			else if (report.DoneEnum == ExportSession.DoneEnumType.NODATA)
+				label_report_destination.Text = Catalog.GetString ("Not enough data.");
+			else if (report.DoneEnum == ExportSession.DoneEnumType.CANNOTCOPY)
+				label_report_destination.Text = string.Format (Catalog.GetString ("Cannot export to file {0} "), report.Filename);
+		}
+	}
+
+	private void on_button_open_report_file_clicked (object o, EventArgs args)
+	{
+		if(! Util.OpenURL (report.Filename))
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Catalog.GetString("Error. Cannot open directory.") + "\n\n" + report.Filename);
 	}
 
 	private void connectWidgets (Gtk.Builder builder)
@@ -543,6 +578,8 @@ public class ReportWindow
 		image_report_win_graph = (Gtk.Image) builder.GetObject ("image_report_win_graph");
 		image_report_win_report = (Gtk.Image) builder.GetObject ("image_report_win_report");
 		image_report_delete = (Gtk.Image) builder.GetObject ("image_report_delete");
+		label_report_destination = (Gtk.Label) builder.GetObject ("label_report_destination");
+		button_open_report_file = (Gtk.Button) builder.GetObject ("button_open_report_file");
 
 		right_buttons = (Gtk.VButtonBox) builder.GetObject ("right_buttons");
 	}

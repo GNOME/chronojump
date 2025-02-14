@@ -1361,8 +1361,11 @@ public partial class ChronoJumpWindow
 			box_start_wilight.Visible = true;
 
 		//plotSequenceWithoutSending ();
+
 		/*
-		wilightTest = new WilightTest (configChronojump.WilightCommandsURL, false);
+		WilightTerminalLayout wilightTerminalLayout = new WilightTerminalLayout ();
+		wilightTerminalLayout.ReadFile (configChronojump.WilightLayoutURL);
+		wilightTest = new WilightTest (configChronojump.WilightCommandsURL, wilightTerminalLayout, false);
 		while (true)
 		{
 			if (wilightTest.Finished)

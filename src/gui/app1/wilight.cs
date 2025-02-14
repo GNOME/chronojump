@@ -235,13 +235,13 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		sendCommandAndUpdateWilightTextview (WilightColors.AllOffCommand);
-		currentWilightCommand = (WilightColors.AllOffCommand);
+		sendCommandAndUpdateWilightTextview (wilightTerminalLayout.ColorAll (WilightColors.OFF));
+		currentWilightCommand = wilightTerminalLayout.ColorAll (WilightColors.OFF);
 		needToUpdateGraphWilight = true;
 		System.Threading.Thread.Sleep (1000);
 
 		//0 time on the microcontroller
-		sendCommandAndUpdateWilightTextview ("reset_time");
+		sendCommandAndUpdateWilightTextview ("reset_time;");
 
 		if (wilightAction == wilightActions.SPEED)
 		{
@@ -263,8 +263,8 @@ public partial class ChronoJumpWindow
 
 		System.Threading.Thread.Sleep (1000);
 
-		sendCommandAndUpdateWilightTextview (WilightColors.AllOffCommand);
-		currentWilightCommand = (WilightColors.AllOffCommand);
+		sendCommandAndUpdateWilightTextview (wilightTerminalLayout.ColorAll (WilightColors.OFF));
+		currentWilightCommand = wilightTerminalLayout.ColorAll (WilightColors.OFF);
 		needToUpdateGraphWilight = true;
 	}
 
@@ -320,9 +320,9 @@ public partial class ChronoJumpWindow
 	private void testSpeed ()
 	{
 		List<string> colorsAll_l = new List<string> ();
-		colorsAll_l.Add (WilightColors.AllRedCommand);
-		colorsAll_l.Add (WilightColors.AllGreenCommand);
-		colorsAll_l.Add (WilightColors.AllBlueCommand);
+		colorsAll_l.Add (wilightTerminalLayout.ColorAll (WilightColors.RED));
+		colorsAll_l.Add (wilightTerminalLayout.ColorAll (WilightColors.GREEN));
+		colorsAll_l.Add (wilightTerminalLayout.ColorAll (WilightColors.BLUE));
 		int sleepTime = 500;
 		int sleepTimeMin = 100; //does not work very good at 50
 		int countDownAtMaxSpeed = 10; //to execute 10 times at max speed

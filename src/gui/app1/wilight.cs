@@ -397,7 +397,7 @@ public partial class ChronoJumpWindow
 				{
 					LogB.Information ("Can read");
 					WichroEvent we = wichroCapture.WichroCaptureReadNext();
-					if (UtilList.FoundInListInt (expectedTerminals_l, we.photocell))
+					if (UtilList.FoundInListInt (expectedTerminals_l, we.photocell) && we.status == Chronopic.Plataforma.ON)
 					{
 						updateWilightTextview ("\n< " + we.ToString ());
 

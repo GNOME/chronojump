@@ -20,7 +20,7 @@
 
 using System;
 using System.Collections.Generic; //List<T>
-using System.Diagnostics;  //Stopwatch
+//using System.Diagnostics;  //Stopwatch
 
 public class Wilight : Event
 {
@@ -28,6 +28,7 @@ public class Wilight : Event
 	private string dateTime;
 	private string videoURL;
 	private int totalMs;
+	private string onString; //8;2035;ON=6;2120;ON=...
 
 	/*
 	//constructor used after deleting a test
@@ -39,7 +40,7 @@ public class Wilight : Event
 
 	//regular constructor
 	public Wilight (int uniqueID, int personID, int sessionID, int exerciseID,
-			string dateTime, string videoURL, int totalMs, string description)
+			string dateTime, string videoURL, int totalMs, string onString, string description)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -48,6 +49,7 @@ public class Wilight : Event
 		this.dateTime = dateTime;
 		this.videoURL = videoURL;
 		this.totalMs = totalMs;
+		this.onString = onString;
 		this.description = description;
 	}
 
@@ -72,7 +74,7 @@ public class Wilight : Event
 
 		return
 			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID +
-			", '" + dateTime + "', '" + videoURL + "', " + totalMs + ")";
+			", '" + dateTime + "', '" + videoURL + "', " + totalMs + ", '" + onString + "')";
 	}
 
 	public int TotalMs {
@@ -244,15 +246,13 @@ public class WilightTest
 	private int currentLevel;
 	private int currentCommand; //in level
 	private int commandsCountReceived;
-
-	private bool started;
-	private Stopwatch stopwatch;
 	private Random random;
 	private bool isRandom;
 
 	public bool Cancel;
 	public bool Finished;
-	public int FinishedMs;
+	private List<string> onString_l;
+	private int lastTime;
 
 	//passed params
 	private string commandsFile;
@@ -276,11 +276,10 @@ public class WilightTest
 
 		commandsCountReceived = 0;
 
-		started = false;
-		stopwatch = new Stopwatch ();
 		Cancel = false;
 		Finished = false;
-		FinishedMs = 0;
+		lastTime = 0;
+		onString_l = new List<string> ();
 	}
 
 	//not random
@@ -433,19 +432,12 @@ public class WilightTest
 	//note if any problem it will return "" and this will be called again until Finished
 	public string GetNext ()
 	{
-		if (! started) {
-			stopwatch.Start ();
-			started = true;
-		}
-
 		LogB.Information (string.Format ("\nAt Wilight.GetNext, currentLevel: {0}, currentCommand: {1}",
 					currentLevel, currentCommand));
 
 		if (currentLevel >= command_ll.Count)
 		{
 			Finished = true;
-			FinishedMs = Convert.ToInt32 (stopwatch.ElapsedMilliseconds);
-			stopwatch.Stop ();
 			return "";
 		}
 
@@ -468,6 +460,15 @@ public class WilightTest
 		return commandStr;
 	}
 
+	public void AddToOnString (string str)
+	{
+		onString_l.Add (str);
+	}
+
+	public void SetLastOnTime (int time)
+	{
+		lastTime = time;
+	}
 
 	public void CommandsCountReceivedAdd ()
 	{
@@ -651,5 +652,13 @@ public class WilightTest
 
 	public bool IsDemo {
 		get { return isDemo; }
+	}
+
+	public string OnStringAsString {
+		get { return UtilList.ListStringToString (onString_l, "="); }
+	}
+
+	public int LastTime {
+		get { return lastTime; }
 	}
 }

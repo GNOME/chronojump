@@ -238,9 +238,6 @@ public partial class ChronoJumpWindow
 		needToUpdateGraphWilight = true;
 		System.Threading.Thread.Sleep (1000);
 
-		//0 time on the microcontroller
-		sendCommandAndUpdateWilightTextview ("reset_time;");
-
 		if (wilightAction == wilightActions.SPEED)
 		{
 			testSpeed ();
@@ -354,12 +351,14 @@ public partial class ChronoJumpWindow
 
 		List<int> expectedTerminals_l = new List<int> (); //expected response on this (or them)
 
+		bool firstCommand = true;
 		while (true)
 		{
 			if (wilightTest.Finished | wilightTest.Cancel) //finished here to have also time to answer to the last command
 			{
 				if (wilightTest.Finished)
-					updateWilightTextview (string.Format ("\nTotal time: {0} ms", wilightTest.FinishedMs));
+					updateWilightTextview (string.Format ("\nTotal time: {0} ms",
+								wilightTest.LastTime));
 				if (wilightTest.Cancel)
 					updateWilightTextview ("Cancelled");
 
@@ -371,7 +370,13 @@ public partial class ChronoJumpWindow
 			if (command == "")
 				continue;
 
-			sendCommandAndUpdateWilightTextview (command);
+			if (firstCommand)
+			{
+				//0 time on the microcontroller and add command. All in a single sendCommand to be faster.
+				sendCommandAndUpdateWilightTextview ("local:reset_time;" + command);
+				firstCommand = false;
+			} else
+				sendCommandAndUpdateWilightTextview (command);
 			expectedTerminals_l = wilightTest.GetExpectedTerminals (command);
 			currentWilightCommand = command;
 			needToUpdateGraphWilight = true;
@@ -404,9 +409,10 @@ public partial class ChronoJumpWindow
 						haveToPlaySound = wilightSoundEnum.GOOD;
 						readedFromExpected = true;
 
+						wilightTest.AddToOnString (we.ToString ());
+						wilightTest.SetLastOnTime (we.timeMs);
 						wilightTest.CommandsCountReceivedAdd ();
 						wilightMessage = wilightTest.GetProgressStatus ();
-
 					}
 					else if (check_wilight_very_verbose.Active)
 						updateWilightTextview ("\n< " + we.ToString ());
@@ -460,7 +466,8 @@ public partial class ChronoJumpWindow
 					LogB.Information ("Finished! create object");
 					Wilight w = new Wilight (-1, currentPerson.UniqueID, currentSession.UniqueID, exerciseID,
 							UtilDate.ToFile (wilightTimeStartCapture), "", //videoURL
-							wilightTest.FinishedMs, "");
+							wilightTest.LastTime,
+							wilightTest.OnStringAsString, "");
 					LogB.Information ("Insert to SQL!");
 					w.UniqueID = w.InsertSQL (false);
 					LogB.Information ("Inserted!");

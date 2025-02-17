@@ -14,6 +14,7 @@ cd chronojump
 
 # Substitute [chronojump path] with the real path where you cloned the repo
 sh autogen.sh --prefix [chronojump path]/chronojump/package/linux/deps
+####if dotnet has been run but linux datetime is in the future, when put datetime back ok, need to do again previous command in order to version be really compiled
 #### If using the git code but not making the package, this dir will not exist: /package/linux/deps just do this to update version on the software:
 ####./autogen.sh (never to this)
 

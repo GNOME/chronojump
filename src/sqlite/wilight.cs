@@ -59,7 +59,8 @@ class SqliteWilight : Sqlite
 			"exerciseID INT, " + //right now all will be exercise 0, until we have a clear idea of what exercises could be done
 			"datetime TEXT, " + 	//2019-07-11_15-01-44
 			"videoURL TEXT, " +	//URL of video of signals. stored as relative
-			"totalMs INT)";
+			"totalMs INT, " +
+			"onString TEXT)";	////8;2035;ON=6;2120;ON=...
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -70,7 +71,7 @@ class SqliteWilight : Sqlite
 		openIfNeeded(dbconOpened);
 
 		dbcmd.CommandText = "INSERT INTO " + table +
-				" (uniqueID, personID, sessionID, exerciseID, dateTime, videoURL, totalMs)" +
+				" (uniqueID, personID, sessionID, exerciseID, dateTime, videoURL, totalMs, onString)" +
 				" VALUES " + insertString;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -137,6 +138,7 @@ class SqliteWilight : Sqlite
 					reader[5].ToString(), 	//datetime
 					reader[6].ToString(),	//videoURL
 					Convert.ToInt32(reader[7].ToString()),	//totalMs
+					reader[8].ToString(),	//onString
 					description
 					);
 
@@ -189,7 +191,8 @@ class SqliteWilight : Sqlite
 					reader[4].ToString() + ":" + 	//wilight.type
 					reader[5].ToString() + ":" + 	//datetime
 					reader[6].ToString() + ":" +	//videoURL
-					reader[7].ToString()		//totalMs
+					reader[7].ToString() + ":" + 	//totalMs
+					reader[8].ToString()		//onString
 					);
 
 			count ++;

@@ -164,7 +164,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.56";
+	static string lastChronojumpDatabaseVersion = "2.57";
 
 	public Sqlite()
 	{
@@ -3460,6 +3460,20 @@ class Sqlite
 
 				currentVersion = updateVersion("2.56");
 			}
+			if(currentVersion == "2.56")
+			{
+				LogB.SQL("Doing alter table wilight adding onString");
+				try {
+					//sqlite does not have drop column
+					executeSQL("ALTER TABLE " + Constants.WilightTable + " ADD COLUMN onString TEXT;");
+				} catch {
+					LogB.SQL("Catched at Doing alter table wilight adding onString");
+
+				}
+				LogB.SQL("Done!");
+
+				currentVersion = updateVersion("2.57");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3702,6 +3716,9 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+
+
+		//2.56 - 2.57 Converted DB to 2.57 alter table wilight added onString
 		//2.55 - 2.56 Converted DB to 2.56 Added preferences: RscriptUserURL, PythonUserURL
 		//2.54 - 2.55 Converted DB to 2.55 Created tables: Wilight
 		//2.53 - 2.54 Converted DB to 2.54 Added preferences: personClubID

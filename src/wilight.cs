@@ -641,7 +641,7 @@ public class WilightTest
 			return (new List<string> {
 					"Level:0;A:8;B:0;C:0;D:0;E:0;F:0;G:0;H:9;I:0;J:0;K:0;L:0;M:0;",
 					"Level:0;A:4;B:0;C:0;D:0;E:5;F:0;G:0;H:0;I:0;J:0;K:0;L:0;M:0;",
-					"Level:0;A:34;B:0;C:0;D:0;E:0;F:0;G:0;H:0;I:35;J:0;K:0;L:0;M:0;",
+					"Level:0;A:34;B:0;C:35;D:0;E:0;F:0;G:0;H:0;I:0;J:0;K:0;L:0;M:0;",
 					"Level:4;A:8;B:4;C:0;D:36;E:12;F:40;G:42;H:0;I:9;J:46;K:46;L:0;M:40;",
 					"Level:4;A:4;B:36;C:42;D:42;E:8;F:42;G:46;H:0;I:8;J:46;K:5;L:0;M:0;",
 					"Level:4;A:2;B:34;C:46;D:3;E:36;F:8;G:12;H:34;I:0;J:42;K:44;L:0;M:0;"

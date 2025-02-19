@@ -1044,11 +1044,13 @@ public class PreferencesWindow
 		if (Config.RUserURLStatic == "") {
 			PWBox.radio_r_default.Active = true;
 			PWBox.button_r_choose.Sensitive = false;
+			PWBox.button_r_autodetect.Sensitive = false;
 			PWBox.entry_r_user_location.Sensitive = false;
 			PWBox.entry_r_user_location.Text = "";
 		} else {
 			PWBox.radio_r_other.Active = true;
 			PWBox.button_r_choose.Sensitive = true;
+			PWBox.button_r_autodetect.Sensitive = true;
 			PWBox.entry_r_user_location.Sensitive = true;
 			PWBox.entry_r_user_location.Text = Config.RUserURLStatic;
 		}
@@ -1056,11 +1058,13 @@ public class PreferencesWindow
 		if (Config.RscriptUserURLStatic == "") {
 			PWBox.radio_rscript_default.Active = true;
 			PWBox.button_rscript_choose.Sensitive = false;
+			PWBox.button_rscript_autodetect.Sensitive = false;
 			PWBox.entry_rscript_user_location.Sensitive = false;
 			PWBox.entry_rscript_user_location.Text = "";
 		} else {
 			PWBox.radio_rscript_other.Active = true;
 			PWBox.button_rscript_choose.Sensitive = true;
+			PWBox.button_rscript_autodetect.Sensitive = true;
 			PWBox.entry_rscript_user_location.Sensitive = true;
 			PWBox.entry_rscript_user_location.Text = Config.RscriptUserURLStatic;
 		}
@@ -1068,11 +1072,13 @@ public class PreferencesWindow
 		if (Config.PythonUserURLStatic == "") {
 			PWBox.radio_python_default.Active = true;
 			PWBox.button_python_choose.Sensitive = false;
+			PWBox.button_python_autodetect.Sensitive = false;
 			PWBox.entry_python_user_location.Sensitive = false;
 			PWBox.entry_python_user_location.Text = "";
 		} else {
 			PWBox.radio_python_other.Active = true;
 			PWBox.button_python_choose.Sensitive = true;
+			PWBox.button_python_autodetect.Sensitive = true;
 			PWBox.entry_python_user_location.Sensitive = true;
 			PWBox.entry_python_user_location.Text = Config.PythonUserURLStatic;
 		}
@@ -2601,6 +2607,7 @@ public class PreferencesWindow
 			return;
 
 		button_r_choose.Sensitive = false;
+		button_r_autodetect.Sensitive = false;
 		entry_r_user_location.Sensitive = false;
 		rUserChanges ("");
 	}
@@ -2610,6 +2617,7 @@ public class PreferencesWindow
 			return;
 
 		button_r_choose.Sensitive = true;
+		button_r_autodetect.Sensitive = true;
 		entry_r_user_location.Sensitive = true;
 		rUserChanges ("");
 	}
@@ -2668,6 +2676,7 @@ public class PreferencesWindow
 			return;
 
 		button_rscript_choose.Sensitive = false;
+		button_rscript_autodetect.Sensitive = false;
 		entry_rscript_user_location.Sensitive = false;
 		rscriptUserChanges ("");
 	}
@@ -2677,6 +2686,7 @@ public class PreferencesWindow
 			return;
 
 		button_rscript_choose.Sensitive = true;
+		button_rscript_autodetect.Sensitive = true;
 		entry_rscript_user_location.Sensitive = true;
 		rscriptUserChanges ("");
 	}
@@ -2741,6 +2751,7 @@ public class PreferencesWindow
 			return;
 
 		button_python_choose.Sensitive = false;
+		button_python_autodetect.Sensitive = false;
 		entry_python_user_location.Sensitive = false;
 		pythonUserChanges ("");
 	}
@@ -2750,6 +2761,7 @@ public class PreferencesWindow
 			return;
 
 		button_python_choose.Sensitive = true;
+		button_python_autodetect.Sensitive = true;
 		entry_python_user_location.Sensitive = true;
 		pythonUserChanges ("");
 	}

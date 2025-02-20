@@ -55,8 +55,8 @@ command             Binary          Decimal     Action
 deactivate          0b00000000      0           Deactivate the sensor (RCA and photocell)
 sensorOnce          0b00000001      1           Deactivate the sensor (RCA and photocell) after detecting the first change in the sensor state.
 red                 0b00000010      2           Activate RED LED
-green               0b00000100      4           Start green light blinking
-blue                0b00001000      8           Start red light blinking
+green               0b00000100      4           Activate GREEN LED
+blue                0b00001000      8           Activate BLUE LED
 buzzer              0b00010000      16          Turns on the buzzer
 setIntermittency    0b00100000      32          Set the outputs switching on/off continuously
 empty1              0b01000000      64          For future functions

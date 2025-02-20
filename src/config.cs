@@ -69,7 +69,7 @@ public class Config
 		CanOpenExternalDB, ExternalDBDefaultPath, //externalDB
 		LastDBFullPath, //cloud & externalDB
 		JsonUploadNeedsButton, JsonUploadJumpSimpleTestScript, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, CanInsertTests, //json upload
-		RemoteTestJumpSimpleFile, RemoteTestRunIntervalFile, RemoteTestCancelFile, //remote execution
+		RemoteTestJumpSimpleFile, RemoteTestRunIntervalFile, RemoteTestCancelFile, RemotePersonNextFile, //remote execution
 		RUserURL, RscriptUserURL, PythonUserURL, //User executables locations
 		EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, Wilight, WilightExerciseID, WilightCommandsURL, WilightLayoutURL, //modes
 		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU,  GuiTest, NoSendLog, //other
@@ -182,6 +182,9 @@ public class Config
 	}
 	public string RemoteTestCancelFile {
 		get { return configList.GetString (OpEnum.RemoteTestCancelFile); }
+	}
+	public string RemotePersonNextFile {
+		get { return configList.GetString (OpEnum.RemotePersonNextFile); }
 	}
 
 	// user executables
@@ -672,6 +675,8 @@ public class ConfigList
 					"Full URL to the file created as a flag to execute a run multiple (intervallic). When test is done a file will be created with the same name + 'Done'. If the file has the English name of the test inside, and that test exist, it will be executed."));
 		list.Add (new ConfigOptionString (Config.OpEnum.RemoteTestCancelFile,
 					"Full URL to the file created as a flag to cancel current RemoteTest."));
+		list.Add (new ConfigOptionString (Config.OpEnum.RemotePersonNextFile,
+					"Full URL to the file created as a flag to Add new persons remotely."));
 
 		// user executables
 		list.Add (new ConfigOptionString (Config.OpEnum.RUserURL,

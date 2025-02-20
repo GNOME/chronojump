@@ -40,7 +40,7 @@ public partial class ChronoJumpWindow
 	Gtk.CheckButton check_wilight_test_blink;
 	Gtk.CheckButton check_wilight_show_commands;
 	Gtk.CheckButton check_wilight_very_verbose;
-	Gtk.ScrolledWindow scrolled_wilight_commands;
+	Gtk.Box box_wilight_commands;
 	Gtk.TextView textview_wilight;
 	// <---- at glade
 
@@ -74,7 +74,7 @@ public partial class ChronoJumpWindow
 		button_wilight_test_cancel.Sensitive = false;
 		button_wilight_test_finish.Sensitive = false;
 
-		scrolled_wilight_commands.Visible = check_wilight_show_commands.Active;
+		box_wilight_commands.Visible = check_wilight_show_commands.Active;
 		updateGraphWilightBars();
 
 		textview_wilight.Name = "fontSize9";
@@ -92,7 +92,7 @@ public partial class ChronoJumpWindow
 
 	private void on_check_wilight_show_commands_clicked (object o, EventArgs args)
 	{
-		scrolled_wilight_commands.Visible = check_wilight_show_commands.Active;
+		box_wilight_commands.Visible = check_wilight_show_commands.Active;
 	}
 
 	private void on_button_wilight_test_discover_clicked (object o, EventArgs args)
@@ -608,7 +608,7 @@ public partial class ChronoJumpWindow
 		check_wilight_test_blink = (Gtk.CheckButton) builder.GetObject ("check_wilight_test_blink");
 		check_wilight_show_commands = (Gtk.CheckButton) builder.GetObject ("check_wilight_show_commands");
 		check_wilight_very_verbose = (Gtk.CheckButton) builder.GetObject ("check_wilight_very_verbose");
-		scrolled_wilight_commands = (Gtk.ScrolledWindow) builder.GetObject ("scrolled_wilight_commands");
+		box_wilight_commands = (Gtk.Box) builder.GetObject ("box_wilight_commands");
 		textview_wilight = (Gtk.TextView) builder.GetObject ("textview_wilight");
 	}
 }

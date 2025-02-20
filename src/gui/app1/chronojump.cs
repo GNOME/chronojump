@@ -3231,7 +3231,7 @@ public partial class ChronoJumpWindow
 		frame_jumps_automatic.Visible = false;
 		check_run_show_time.Visible = false;
 		box_wilight.Visible = false;
-		scrolled_wilight_commands.Visible = false;
+		box_wilight_commands.Visible = false;
 		box_contacts_graph_exercise.Visible = true;
 
 		hbox_combo_select_contacts_top_with_arrows.Visible = false; //TODO: this will be unneded

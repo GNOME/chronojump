@@ -30,7 +30,8 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_start_wilight;
 	Gtk.Box box_wilight_test_actions;
 	Gtk.Box box_wilight_test_actions2;
-	Gtk.SpinButton spin_wilight_portnum;
+	//Gtk.SpinButton spin_wilight_portnum;
+	Gtk.Entry entry_wilight_port;
 	Gtk.Button button_wilight_test_cancel;
 	Gtk.Button button_wilight_test_finish;
 	Gtk.SpinButton spin_wilight_test_ping;
@@ -78,6 +79,7 @@ public partial class ChronoJumpWindow
 		updateGraphWilightBars();
 
 		textview_wilight.Name = "fontSize9";
+		entry_wilight_port.Text = "";
 
 		wilightTerminalLayout = new WilightTerminalLayout ();
 		wilightTerminalLayout.ReadFile (configChronojump.WilightLayoutURL);
@@ -206,10 +208,17 @@ public partial class ChronoJumpWindow
 		}
 		*/
 
+		/*
 		if (! wilightManageConnect (
 					string.Format ("/dev/ttyUSB{0}", Convert.ToInt32 (spin_wilight_portnum.Value))
 					))
 			return;
+		*/
+		if (entry_wilight_port.Text == "" || ! wilightManageConnect (entry_wilight_port.Text))
+		{
+			Util.PlaySound (Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
+			return;
+		}
 
 		if (wilightAction == wilightActions.DISCOVER ||
 				wilightAction == wilightActions.PING ||
@@ -605,7 +614,8 @@ public partial class ChronoJumpWindow
 		box_start_wilight = (Gtk.Box) builder.GetObject ("box_start_wilight");
 		box_wilight_test_actions = (Gtk.Box) builder.GetObject ("box_wilight_test_actions");
 		box_wilight_test_actions2 = (Gtk.Box) builder.GetObject ("box_wilight_test_actions2");
-		spin_wilight_portnum = (Gtk.SpinButton) builder.GetObject ("spin_wilight_portnum");
+		//spin_wilight_portnum = (Gtk.SpinButton) builder.GetObject ("spin_wilight_portnum");
+		entry_wilight_port = (Gtk.Entry) builder.GetObject ("entry_wilight_port");
 		button_wilight_test_cancel = (Gtk.Button) builder.GetObject ("button_wilight_test_cancel");
 		button_wilight_test_finish = (Gtk.Button) builder.GetObject ("button_wilight_test_finish");
 		spin_wilight_test_ping = (Gtk.SpinButton) builder.GetObject ("spin_wilight_test_ping");

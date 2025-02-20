@@ -34,6 +34,7 @@ using Mono.Unix;
 	
 public partial class ChronoJumpWindow 
 {
+	// at glade ---->
 	//custom buttons
 	Gtk.HBox hbox_encoder_analyze_signal_or_curves;
 	Gtk.VBox vbox_start_window_main;
@@ -97,11 +98,20 @@ public partial class ChronoJumpWindow
 	Gtk.RadioButton radio_run_interval_compujump_15m;
 	Gtk.RadioButton radio_run_interval_compujump_20m;
 
+	//remote test next person
+	Gtk.Box box_remote_person_next;
+	Gtk.Button button_remote_person_next1;
+	Gtk.Button button_remote_person_next2;
+	Gtk.Button button_remote_person_next3;
+	Gtk.Button button_remote_person_next4;
+	Gtk.Button button_remote_person_next5;
+
 	//shown when menu is hidden
 	//Gtk.HBox hbox_menu_and_preferences_outside_menu_contacts;
 	//Gtk.HBox hbox_menu_and_preferences_outside_menu_encoder;
 	//Gtk.Button button_menu_outside_menu;
 	//Gtk.Button button_menu_outside_menu1;
+	// <---- at glade
 
 	//private enum linuxTypeEnum { NOTLINUX, LINUX, RASPBERRY, NETWORKS }
 	private bool encoderUpdateTreeViewWhileCapturing = true;
@@ -128,6 +138,7 @@ public partial class ChronoJumpWindow
 	private static bool remoteTestCallNow;
 	private static bool remoteTestCancelNow;
 	private static string remoteTestTestName;
+	RemotePersonNext remotePersonNext; //only one instance
 
 	DialogPersonPopup dialogPersonPopup;
 		
@@ -421,6 +432,24 @@ public partial class ChronoJumpWindow
 			threadRemoteTest.Start();
 		}
 
+		if (configChronojump.RemotePersonNextFile != "")
+		{
+			box_remote_person_next.Visible = true;
+
+			remotePersonNext = new RemotePersonNext (
+					configChronojump.RemotePersonNextFile,
+					new List<Gtk.Button> {
+						button_remote_person_next1,
+						button_remote_person_next2,
+						button_remote_person_next3,
+						button_remote_person_next4,
+						button_remote_person_next5 });
+
+			remotePersonNext.ReadFile ();
+			remotePersonNext.AssignButtons ();
+			remotePersonNext.FakeButtonAdd.Clicked += new EventHandler (on_remote_person_next_add);
+		}
+
 		configDo();
 		ChronojumpWindowCont ();
 	}
@@ -544,6 +573,14 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 	// <---- remote test ----
+
+	// ----- remote person ---->
+	private void on_remote_person_next_add (object o, EventArgs args)
+	{
+		LogB.Information (string.Format ("Will add person: {0}",
+					remotePersonNext.ImportPerson));
+	}
+	// <---- remote person ----
 
 	/*
 	 * this controls what is going to be done at en the copying thread
@@ -2054,6 +2091,14 @@ public partial class ChronoJumpWindow
 		radio_run_interval_compujump_10m = (Gtk.RadioButton) builder.GetObject ("radio_run_interval_compujump_10m");
 		radio_run_interval_compujump_15m = (Gtk.RadioButton) builder.GetObject ("radio_run_interval_compujump_15m");
 		radio_run_interval_compujump_20m = (Gtk.RadioButton) builder.GetObject ("radio_run_interval_compujump_20m");
+
+		//remote test next person
+		box_remote_person_next = (Gtk.Box) builder.GetObject ("box_remote_person_next");
+		button_remote_person_next1 = (Gtk.Button) builder.GetObject ("button_remote_person_next1");
+		button_remote_person_next2 = (Gtk.Button) builder.GetObject ("button_remote_person_next2");
+		button_remote_person_next3 = (Gtk.Button) builder.GetObject ("button_remote_person_next3");
+		button_remote_person_next4 = (Gtk.Button) builder.GetObject ("button_remote_person_next4");
+		button_remote_person_next5 = (Gtk.Button) builder.GetObject ("button_remote_person_next5");
 
 		//shown when menu is hidden
 		//hbox_menu_and_preferences_outside_menu_contacts = (Gtk.HBox) builder.GetObject ("hbox_menu_and_preferences_outside_menu_contacts");

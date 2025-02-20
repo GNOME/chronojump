@@ -8886,6 +8886,20 @@ It starts before and arrives there with some speed.</property>
                                             <property name="position">2</property>
                                           </packing>
                                         </child>
+                                        <child>
+                                          <object class="GtkButton" id="button_rscript_usr_local_bin">
+                                            <property name="label">Use: /usr/local/bin/Rscript</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">True</property>
+                                            <signal name="clicked" handler="on_button_rscript_usr_local_bin_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">3</property>
+                                          </packing>
+                                        </child>
                                       </object>
                                       <packing>
                                         <property name="left-attach">1</property>

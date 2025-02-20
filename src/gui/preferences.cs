@@ -328,6 +328,7 @@ public class PreferencesWindow
 	Gtk.RadioButton radio_rscript_other;
 	Gtk.Button button_rscript_choose;
 	Gtk.Button button_rscript_autodetect;
+	Gtk.Button button_rscript_usr_local_bin;
 	Gtk.Entry entry_rscript_user_location;
 	Gtk.RadioButton radio_python_default;
 	Gtk.RadioButton radio_python_other;
@@ -1032,12 +1033,14 @@ public class PreferencesWindow
 		{
 			PWBox.button_r_autodetect.Visible = false;
 			PWBox.button_rscript_autodetect.Visible = false;
+			PWBox.button_rscript_usr_local_bin.Visible = false;
 			PWBox.button_python_autodetect.Visible = false;
 		}
 		else if (PWBox.operatingSystem == UtilAll.OperatingSystems.MACOSX)
 		{
 			PWBox.button_r_choose.Visible = false;
 			PWBox.button_rscript_choose.Visible = false;
+			PWBox.button_rscript_usr_local_bin.Visible = true;
 			PWBox.button_python_choose.Visible = false;
 		}
 
@@ -1059,12 +1062,14 @@ public class PreferencesWindow
 			PWBox.radio_rscript_default.Active = true;
 			PWBox.button_rscript_choose.Sensitive = false;
 			PWBox.button_rscript_autodetect.Sensitive = false;
+			PWBox.button_rscript_usr_local_bin.Sensitive = false;
 			PWBox.entry_rscript_user_location.Sensitive = false;
 			PWBox.entry_rscript_user_location.Text = "";
 		} else {
 			PWBox.radio_rscript_other.Active = true;
 			PWBox.button_rscript_choose.Sensitive = true;
 			PWBox.button_rscript_autodetect.Sensitive = true;
+			PWBox.button_rscript_usr_local_bin.Sensitive = true;
 			PWBox.entry_rscript_user_location.Sensitive = true;
 			PWBox.entry_rscript_user_location.Text = Config.RscriptUserURLStatic;
 		}
@@ -2677,6 +2682,7 @@ public class PreferencesWindow
 
 		button_rscript_choose.Sensitive = false;
 		button_rscript_autodetect.Sensitive = false;
+		button_rscript_usr_local_bin.Sensitive = false;
 		entry_rscript_user_location.Sensitive = false;
 		rscriptUserChanges ("");
 	}
@@ -2687,6 +2693,7 @@ public class PreferencesWindow
 
 		button_rscript_choose.Sensitive = true;
 		button_rscript_autodetect.Sensitive = true;
+		button_rscript_usr_local_bin.Sensitive = true;
 		entry_rscript_user_location.Sensitive = true;
 		rscriptUserChanges ("");
 	}
@@ -2708,6 +2715,13 @@ public class PreferencesWindow
 		if (url != "")
 			rscriptUserChanges (url);
 
+		signalsNoFollow = false;
+	}
+
+	private void on_button_rscript_usr_local_bin_clicked (object o, EventArgs args)
+	{
+		signalsNoFollow = true;
+		rscriptUserChanges ("/usr/local/bin/Rscript");
 		signalsNoFollow = false;
 	}
 
@@ -4122,6 +4136,7 @@ public class PreferencesWindow
 		entry_rscript_user_location = (Gtk.Entry) builder.GetObject ("entry_rscript_user_location");
 		button_rscript_choose = (Gtk.Button) builder.GetObject ("button_rscript_choose");
 		button_rscript_autodetect = (Gtk.Button) builder.GetObject ("button_rscript_autodetect");
+		button_rscript_usr_local_bin = (Gtk.Button) builder.GetObject ("button_rscript_usr_local_bin");
 		radio_python_default = (Gtk.RadioButton) builder.GetObject ("radio_python_default");
 		radio_python_other = (Gtk.RadioButton) builder.GetObject ("radio_python_other");
 		button_python_choose = (Gtk.Button) builder.GetObject ("button_python_choose");

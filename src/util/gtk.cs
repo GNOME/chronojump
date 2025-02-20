@@ -871,6 +871,10 @@ public class UtilGtk
 			"button:insensitive label {" +
 			    "color: #666666;" +
 			"}" +
+			"entry:insensitive {" +
+			    "background: #999999;" +
+			    "background-color: #999999;" +
+			"}" +
 
 			//ANY WIDGET
 			//any widget bgCss

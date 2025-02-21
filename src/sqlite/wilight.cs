@@ -250,5 +250,30 @@ class SqliteWilight : Sqlite
 			orderByString +
 			limitString;
 	}
+
+	public static Wilight SelectData (int uniqueID, bool dbconOpened)
+	{
+		if(!dbconOpened)
+			Sqlite.Open();
+
+		dbcmd.CommandText = "SELECT * FROM " + Constants.WilightTable + " WHERE uniqueID = " + uniqueID;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		reader.Read();
+
+		Wilight wilight = new Wilight(DataReaderToStringArray(reader, 8));
+
+		reader.Close();
+		if(!dbconOpened)
+			Sqlite.Close();
+
+		return wilight;
+	}
+
 }
 

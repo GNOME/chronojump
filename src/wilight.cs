@@ -53,6 +53,20 @@ public class Wilight : Event
 		this.description = description;
 	}
 
+	//used to select a wilight SqliteWilight.SelectData
+	public Wilight (string [] eventString)
+	{
+		this.uniqueID = Convert.ToInt32(eventString[0]);
+		this.personID = Convert.ToInt32(eventString[1]);
+		this.sessionID = Convert.ToInt32(eventString[2]);
+		this.exerciseID = Convert.ToInt32(eventString[3]);
+		this.dateTime = eventString[4];
+		this.videoURL = eventString[5];
+		this.totalMs = Convert.ToInt32(eventString[6]);
+		this.onString = eventString[7];
+		this.description = "";
+	}
+
 	public static List<Event> WilightListToEventList (List<Wilight> ws)
 	{
 		List<Event> events = new List<Event>();

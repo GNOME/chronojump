@@ -25,11 +25,13 @@ public partial class ChronoJumpWindow
 	// at glade ---->
 	//remote test next person
 	Gtk.Box box_remote_person_next;
+	Gtk.Label label_remote_person;
 	Gtk.Button button_remote_person_next1;
 	Gtk.Button button_remote_person_next2;
 	Gtk.Button button_remote_person_next3;
 	Gtk.Button button_remote_person_next4;
 	Gtk.Button button_remote_person_next5;
+	Gtk.Image image_remote_person_refresh;
 	// <---- at glade
 
 	//called on session changed or person changed
@@ -46,6 +48,12 @@ public partial class ChronoJumpWindow
 
 		remotePersonNext.FakeButtonAdd.Clicked -= new EventHandler (on_remote_person_next_add);
 		remotePersonNext.FakeButtonAdd.Clicked += new EventHandler (on_remote_person_next_add);
+	}
+
+	//if the user want to refresh list at any time
+	private void on_button_remote_person_refresh_clicked (object o, EventArgs args)
+	{
+		remotePersonReadAndAssign ();
 	}
 
 	private void on_remote_person_next_add (object o, EventArgs args)
@@ -87,10 +95,12 @@ public partial class ChronoJumpWindow
 	private void connectWidgetsRemotePerson (Gtk.Builder builder)
 	{
 		box_remote_person_next = (Gtk.Box) builder.GetObject ("box_remote_person_next");
+		label_remote_person = (Gtk.Label) builder.GetObject ("label_remote_person");
 		button_remote_person_next1 = (Gtk.Button) builder.GetObject ("button_remote_person_next1");
 		button_remote_person_next2 = (Gtk.Button) builder.GetObject ("button_remote_person_next2");
 		button_remote_person_next3 = (Gtk.Button) builder.GetObject ("button_remote_person_next3");
 		button_remote_person_next4 = (Gtk.Button) builder.GetObject ("button_remote_person_next4");
 		button_remote_person_next5 = (Gtk.Button) builder.GetObject ("button_remote_person_next5");
+		image_remote_person_refresh = (Gtk.Image) builder.GetObject ("image_remote_person_refresh");
 	}
 }

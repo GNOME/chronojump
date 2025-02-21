@@ -513,6 +513,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_reload.png"); //same as above but blue
 		image_database_reload.Pixbuf = pixbuf;
+		image_remote_person_refresh.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_build_24.png");
 		image_contacts_repair_selected.Pixbuf = pixbuf;

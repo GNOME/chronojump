@@ -1229,6 +1229,9 @@ public partial class ChronoJumpWindow
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, fullscreen_label_exercise);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, fullscreen_label_message);
 
+			//other
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_remote_person);
+
 
 			if(Config.ColorBackgroundIsDark)
 				image_chronopic_connect_encoder2.Pixbuf =

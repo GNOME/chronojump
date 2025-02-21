@@ -872,8 +872,8 @@ public class UtilGtk
 			    "color: #666666;" +
 			"}" +
 			"entry:insensitive {" +
-			    "background: #999999;" +
-			    "background-color: #999999;" +
+			    "background: #cccccc;" +
+			    "background-color: #cccccc;" +
 			"}" +
 
 			//ANY WIDGET

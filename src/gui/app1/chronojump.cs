@@ -6556,9 +6556,9 @@ public partial class ChronoJumpWindow
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
 			on_delete_selected_jump_rj_clicked (o, args);
 		else if (current_mode == Constants.Modes.RUNSSIMPLE)
-			on_delete_selected_run_accepted (o, args);
+			on_delete_selected_run_clicked (o, args);
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
-			on_delete_selected_run_interval_accepted (o, args);
+			on_delete_selected_run_interval_clicked (o, args);
 		else if(current_mode == Constants.Modes.RUNSENCODER)
 			run_encoder_delete_current_test_pre_question();
 		else if (Constants.ModeIsFORCESENSOR (current_mode))

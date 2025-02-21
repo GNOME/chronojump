@@ -73,6 +73,11 @@ public partial class ChronoJumpWindow
 					RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false, false );
 					treeviewRunsIntervalContextMenu(myRun);
 				}
+			} else if(myTv == treeview_wilight) {
+				if (myTreeViewWilight.EventSelectedID > 0) {
+					Wilight wilight = SqliteWilight.SelectData(myTreeViewWilight.EventSelectedID, false);
+					treeviewWilightContextMenu (wilight);
+				}
 			} else
 				LogB.Information(myTv.ToString());
 		}

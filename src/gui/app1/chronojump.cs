@@ -6379,6 +6379,7 @@ public partial class ChronoJumpWindow
 			on_edit_selected_run_clicked (o, args);
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			on_edit_selected_run_interval_clicked (o, args);
+		//TODO: wilight
 	}
 
 	private void on_edit_selected_jump_clicked (object o, EventArgs args) {
@@ -6539,6 +6540,25 @@ public partial class ChronoJumpWindow
 			stats_win_fillTreeView_stats(false, false);
 	}
 
+	private void on_edit_selected_wilight_clicked (object o, EventArgs args)
+	{
+		//notebooks_change(2); see "notebooks_change sqlite problem"
+		LogB.Information("Edit selected wilight");
+		//1.- check that there's a line selected
+		//2.- check that this line is a wilight and not a person (check also if it's not a individual RJ, the pass the parent RJ)
+		if (myTreeViewWilight.EventSelectedID > 0) {
+			//3.- obtain the data of the selected wilight
+			Wilight wilight = SqliteWilight.SelectData( myTreeViewWilight.EventSelectedID, false );
+			eventOldPerson = wilight.PersonID;
+
+			/*TODO
+			//4.- edit this run
+			editRunWin = EditRunWindow.Show(app1, myRun, preferences.digitsNumber, preferences.metersSecondsPreferred);
+			editRunWin.Button_accept.Clicked += new EventHandler(on_edit_selected_wilight_accepted);
+			*/
+			new DialogMessage (Constants.MessageTypes.INFO, "TODO");
+		}
+	}
 
 	/* ---------------------------------------------------------
 	 * ----------------  EVENTS DELETE -------------------------
@@ -6564,7 +6584,7 @@ public partial class ChronoJumpWindow
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			force_sensor_delete_current_test_pre_question();
 		else if (current_mode == Constants.Modes.WILIGHT)
-			wilight_delete_current_test_pre_question();
+			on_delete_selected_wilight_clicked (o, args);
 	}
 
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {

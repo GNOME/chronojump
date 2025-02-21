@@ -564,7 +564,7 @@ public partial class ChronoJumpWindow
 		drawingarea_results_session.QueueDraw ();
 	}
 
-	private	void wilight_delete_current_test_pre_question ()
+	private void on_delete_selected_wilight_clicked (object o, EventArgs args)
 	{
 		//1.- check that there's a line selected
 		//2.- check that this line is a wilight and not a person

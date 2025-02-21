@@ -115,4 +115,23 @@ public partial class ChronoJumpWindow
 		on_treeview_wilight_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
 	}
 
+	private void treeviewWilightContextMenu (Wilight wilight)
+	{
+		Menu myMenu = new Menu ();
+		Gtk.MenuItem myItem;
+
+		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " (" + wilight.PersonName + ")");
+		myItem.Activated += on_edit_selected_wilight_clicked;
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
+
+		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
+		myMenu.Attach( mySep, 0, 1, 1, 2 );
+
+		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " (" + wilight.PersonName + ")");
+		myItem.Activated += on_delete_selected_wilight_clicked;
+		myMenu.Attach( myItem, 0, 1, 2, 3 );
+
+		myMenu.ShowAll();
+		myMenu.Popup();
+	}
 }

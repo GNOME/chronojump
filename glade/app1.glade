@@ -11770,6 +11770,7 @@ last capture</property>
                                                             <object class="GtkTreeView" id="treeview_wilight">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
+                                                            <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
                                                             <child internal-child="selection">
                                                             <object class="GtkTreeSelection"/>
                                                             </child>

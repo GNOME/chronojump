@@ -48,7 +48,7 @@ public class Person
 		this.uniqueID = uniqueID;
 	}
 
-	//coming from compujump server
+	//coming from compujump server, networks guest & RemotePerson
 	public Person(bool insertPerson, int uniqueID, string name, string rfid, string image) //TODO:, string clubID)
 	{
 		this.uniqueID = uniqueID;
@@ -127,7 +127,7 @@ public class Person
 
 		LogB.Information(this.ToString());
 	}
-	
+
 	public int InsertAtDB (bool dbconOpened, string tableName) {
 		int myID = SqlitePerson.Insert(dbconOpened,  
 				uniqueID.ToString(), name, sex, dateBorn, race, countryID,

@@ -2748,7 +2748,7 @@
                                                           <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label">Add and select</property>
+                                                            <property name="label">Next person</property>
                                                             <property name="angle">90</property>
                                                           </object>
                                                           <packing>
@@ -2765,7 +2765,7 @@
                                                             <property name="spacing">12</property>
                                                             <property name="layout-style">start</property>
                                                             <child>
-                                                            <object class="GtkButton" id="button_remote_person_next2">
+                                                            <object class="GtkButton" id="button_remote_person_next1">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
@@ -2777,7 +2777,7 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_remote_person_next1">
+                                                            <object class="GtkButton" id="button_remote_person_next2">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
@@ -22763,6 +22763,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

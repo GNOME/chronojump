@@ -24,7 +24,7 @@ public class RemotePersonNext
 {
 	private string file;
 	private List<Gtk.Button> bNext_l;
-	private List<string> p_l;
+	private List<string> pNext_l;
 	private string importPerson = "";
 	public Gtk.Button FakeButtonAdd;
 
@@ -36,20 +36,48 @@ public class RemotePersonNext
 		foreach (Gtk.Button b in bNext_l)
 			b.Clicked += new EventHandler (on_button_clicked);
 
-		p_l = new List<string> ();
+		pNext_l = new List<string> ();
 		FakeButtonAdd = new Gtk.Button ();
 	}
 
 	public void ReadFile ()
 	{
 		importPerson = "";
-		p_l = Util.ReadFileAsStringList (file, "");
+		pNext_l = Util.ReadFileAsStringList (file, "");
 	}
 
-	public void AssignButtons ()
+	public void AssignButtonsToPersonsNotInSession (int sessionID)
 	{
-		for (int i = 0; i < p_l.Count && i < bNext_l.Count; i ++)
-			bNext_l[i].Label = p_l[i];
+		// 1. Create a list of persons in session to not be used on the buttons
+		List<Person> personInSession_l = SqlitePersonSession.SelectCurrentSessionPersonsAsList (false, sessionID);
+		List<string> personName_l = new List<string> ();
+		foreach (Person p in personInSession_l)
+			personName_l.Add (p.Name);
+
+		// 2. Put the labels as empty (and make the buttons unsensitive (or hide them in the future))
+		int i = 0;
+		for (i = 0; i < bNext_l.Count; i ++)
+		{
+			bNext_l[i].Label = "";
+			bNext_l[i].Sensitive = false;
+		}
+
+		// 3. Update the buttons with the next persons to be added on session
+		i = 0;
+		foreach (string pNext in pNext_l)
+		{
+			LogB.Information ("pNext:" + pNext);
+			if (! UtilList.FoundInListString (personName_l, pNext))
+			{
+				LogB.Information ("not found");
+				bNext_l[i].Label = pNext;
+				bNext_l[i].Sensitive = true;
+				i ++;
+			}
+
+			if (i >= bNext_l.Count)
+				break;
+		}
 	}
 
 	private void on_button_clicked (object o, EventArgs args)

@@ -597,6 +597,7 @@ public partial class ChronoJumpWindow
 		connectWidgetsNetworks (builder);
 		connectWidgetsNews (builder);
 		connectWidgetsPersons (builder);
+		connectWidgetsRemotePerson (builder);
 		connectWidgetsRestTime (builder);
 		connectWidgetsRun (builder);
 		connectWidgetsRunEncoder (builder);
@@ -1663,7 +1664,12 @@ public partial class ChronoJumpWindow
 		}
 
 		finishPlayVideoIfRunning ();
+
+		if (configChronojump.RemotePersonNextFile != "")
+			remotePersonReadAndAssign ();
+
 		LogB.Information ("<---- personChanged end");
+
 	}
 
 
@@ -2479,6 +2485,9 @@ public partial class ChronoJumpWindow
 		label_contacts_export_result.Text = "";
 		button_contacts_export_result_open.Visible = false;
 
+		if (configChronojump.RemotePersonNextFile != "")
+			remotePersonReadAndAssign ();
+
 		//feedback (more in 1st session created)
 		string feedbackLoadUsers = Catalog.GetString ("Session created, now add or load persons.");
 		new DialogMessage(Constants.MessageTypes.INFO, feedbackLoadUsers);
@@ -2586,6 +2595,9 @@ public partial class ChronoJumpWindow
 		label_contacts_export_session.Text = currentSession.Name;
 		label_contacts_export_result.Text = "";
 		button_contacts_export_result_open.Visible = false;
+
+		if (configChronojump.RemotePersonNextFile != "")
+			remotePersonReadAndAssign ();
 
 		chronojumpWindowTestsNext();
 

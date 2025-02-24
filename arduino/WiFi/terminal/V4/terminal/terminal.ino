@@ -29,7 +29,7 @@
 //#include  <util/parity.h>
 
 unsigned int deviceType = 1; //Photocel and LightChro sensor
-unsigned int deviceVersion = 23;
+unsigned int deviceVersion = 24;
 
 // Set up nRF24L01 radio on SPI bus plus pins  (CE & CS)
 
@@ -295,7 +295,6 @@ void sendSample(void) {
     retries++;
   }
   flagint = LOW;
-  if (! unlimitedMode) waitingSensor = false;
 
   // On sensorOnce mode send also the other state in order to facilitate Chronojump the reading
   if (! unlimitedMode) {
@@ -479,6 +478,8 @@ void sendPong(void) {
   // Serial.print("Wifi-Sensor-");
   // Serial.println(deviceVersion);
   flagint = LOW;
+  unlimitedMode = true;
+  waitingSensor = true;
   sendSample();
   buzzer_on;
   redIsActive = false;

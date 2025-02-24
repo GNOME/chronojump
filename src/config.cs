@@ -120,14 +120,14 @@ public class Config
 
 	// cloud
 	public string CopyToCloudFullPath { 		//for capturing machine
-		get { return configList.GetString (OpEnum.CopyToCloudFullPath); }
+		get { return configList.GetURL (OpEnum.CopyToCloudFullPath); }
 		set { configList.SetValue (OpEnum.CopyToCloudFullPath.ToString (), value); }
 	}
 	public bool CopyToCloudOnExit {			//for capturing machine
 		get { return configList.GetBool (OpEnum.CopyToCloudOnExit); }
 	}
 	public string ReadFromCloudMainPath { 		//for reading machine
-		get { return configList.GetString (OpEnum.ReadFromCloudMainPath); }
+		get { return configList.GetURL (OpEnum.ReadFromCloudMainPath); }
 		set { configList.SetValue (OpEnum.ReadFromCloudMainPath.ToString (), value); }
 	}
 
@@ -136,12 +136,12 @@ public class Config
 		get { return configList.GetBool (OpEnum.CanOpenExternalDB); }
 	}
 	public string ExternalDBDefaultPath {
-		get { return configList.GetString (OpEnum.ExternalDBDefaultPath); }
+		get { return configList.GetURL (OpEnum.ExternalDBDefaultPath); }
 	}
 
 	// cloud & externalDB
 	public string LastDBFullPath {
-		get { return configList.GetString (OpEnum.LastDBFullPath); }
+		get { return configList.GetURL (OpEnum.LastDBFullPath); }
 		set { configList.SetValue (OpEnum.LastDBFullPath.ToString (), value); }
 	}
 
@@ -150,23 +150,23 @@ public class Config
 		get { return configList.GetBool (OpEnum.JsonUploadNeedsButton); }
 	}
 	public string JsonUploadJumpSimpleTestScript {
-		get { return configList.GetString (OpEnum.JsonUploadJumpSimpleTestScript); }
+		get { return configList.GetURL (OpEnum.JsonUploadJumpSimpleTestScript); }
 		//"/home/chronojump/Desktop/xaviB/kings_queens_flowics/json/curl_json_jump_1_test.sh"
 	}
 	public string JsonUploadRunSimpleTestScript {
-		get { return configList.GetString (OpEnum.JsonUploadRunSimpleTestScript); }
+		get { return configList.GetURL (OpEnum.JsonUploadRunSimpleTestScript); }
 		//"/home/chronojump/Desktop/xaviB/kings_queens_flowics/json/curl_json_chut_1_test.sh"
 	}
 	public string JsonUploadRunSimpleRankingScript {
-		get { return configList.GetString (OpEnum.JsonUploadRunSimpleRankingScript); }
+		get { return configList.GetURL (OpEnum.JsonUploadRunSimpleRankingScript); }
 		//"/home/chronojump/Desktop/xaviB/kings_queens_flowics/json/curl_json_chut_ranking.sh"
 	}
 	public string JsonUploadRunIntervalTestScript {
-		get { return configList.GetString (OpEnum.JsonUploadRunIntervalTestScript); }
+		get { return configList.GetURL (OpEnum.JsonUploadRunIntervalTestScript); }
 		//"/home/chronojump/Desktop/xaviB/kings_queens_flowics/json/curl_json_sprint_1_test.sh"
 	}
 	public string JsonUploadRunIntervalRankingScript {
-		get { return configList.GetString (OpEnum.JsonUploadRunIntervalRankingScript); }
+		get { return configList.GetURL (OpEnum.JsonUploadRunIntervalRankingScript); }
 		//"/home/chronojump/Desktop/xaviB/kings_queens_flowics/json/curl_json_sprint_ranking.sh"
 	}
 	public bool CanInsertTests {
@@ -175,27 +175,27 @@ public class Config
 
 	// remoteTest
 	public string RemoteTestJumpSimpleFile {
-		get { return configList.GetString (OpEnum.RemoteTestJumpSimpleFile); }
+		get { return configList.GetURL (OpEnum.RemoteTestJumpSimpleFile); }
 	}
 	public string RemoteTestRunIntervalFile {
-		get { return configList.GetString (OpEnum.RemoteTestRunIntervalFile); }
+		get { return configList.GetURL (OpEnum.RemoteTestRunIntervalFile); }
 	}
 	public string RemoteTestCancelFile {
-		get { return configList.GetString (OpEnum.RemoteTestCancelFile); }
+		get { return configList.GetURL (OpEnum.RemoteTestCancelFile); }
 	}
 	public string RemotePersonNextFile {
-		get { return configList.GetString (OpEnum.RemotePersonNextFile); }
+		get { return configList.GetURL (OpEnum.RemotePersonNextFile); }
 	}
 
 	// user executables
 	public string RUserURL {
-		get { return configList.GetString (OpEnum.RUserURL); }
+		get { return configList.GetURL (OpEnum.RUserURL); }
 	}
 	public string RscriptUserURL {
-		get { return configList.GetString (OpEnum.RscriptUserURL); }
+		get { return configList.GetURL (OpEnum.RscriptUserURL); }
 	}
 	public string PythonUserURL {
-		get { return configList.GetString (OpEnum.PythonUserURL); }
+		get { return configList.GetURL (OpEnum.PythonUserURL); }
 	}
 
 	// other
@@ -240,10 +240,10 @@ public class Config
 		get { return configList.GetInt (OpEnum.WilightExerciseID); }
 	}
 	public string WilightCommandsURL {
-		get { return configList.GetString (OpEnum.WilightCommandsURL); }
+		get { return configList.GetURL (OpEnum.WilightCommandsURL); }
 	}
 	public string WilightLayoutURL {
-		get { return configList.GetString (OpEnum.WilightLayoutURL); }
+		get { return configList.GetURL (OpEnum.WilightLayoutURL); }
 	}
 	public bool GuiTest {
 		get { return configList.GetBool (OpEnum.GuiTest); }
@@ -282,7 +282,7 @@ public class Config
 
 	private ConfigList configList;
 
-	public Config()
+	public Config ()
 	{
 		/*
 		Maximized = Preferences.MaximizedTypes.NO;
@@ -300,7 +300,7 @@ public class Config
 		RunScriptOnExit = "";
 		*/
 
-		configList = new ConfigList ();
+		configList = new ConfigList (UtilAll.GetOSEnum ());
 	}
 
 	public void Read()
@@ -452,10 +452,13 @@ public class Config
 public class ConfigList
 {
 	public List<ConfigOption> list;
+	public UtilAll.OperatingSystems os;
 
 	// constructor
-	public ConfigList ()
+	public ConfigList (UtilAll.OperatingSystems os)
 	{
+		this.os = os;
+
 		create ();
 		fill ();
 	}
@@ -503,6 +506,29 @@ public class ConfigList
 			{
 				if (co.Defined)
 					return (string) (co.ValuePrint ());
+				else
+					return (string) co.DefaultValue;
+			}
+
+		return "";
+	}
+
+	//like GetString but on Linux, mac allows relative URLs
+	public string GetURL (Config.OpEnum name)
+	{
+		foreach (ConfigOption co in list)
+			if (name.ToString () == co.Name)
+			{
+				if (co.Defined)
+				{
+					string str = (string) (co.ValuePrint ());
+					if (
+							(os == UtilAll.OperatingSystems.LINUX || os == UtilAll.OperatingSystems.MACOSX) &&
+							! str.StartsWith ("/") )
+						return Path.Combine (UtilAll.GetDefaultLocalDataDir (false), str);
+					else
+						return (string) (co.ValuePrint ());
+				}
 				else
 					return (string) co.DefaultValue;
 			}

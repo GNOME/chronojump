@@ -3175,16 +3175,15 @@ public partial class ChronoJumpWindow
 
 		sensitiveLastTestButtons(false);
 
-		//contacts test buttons: edit, delete
+		//contacts test buttons: edit, delete (visible)
 		if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE ||
 				m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC)
-		{
 			button_contacts_edit_selected.Visible = true;
-			button_contacts_delete_selected.Visible = true;
-		} else {
+		else
 			button_contacts_edit_selected.Visible = false;
-			button_contacts_delete_selected.Visible = true;
-		}
+		button_contacts_delete_selected.Visible = true;
+
+		//contacts test buttons: edit, delete (sensitive)
 		button_contacts_edit_selected.Sensitive = false;
 		button_contacts_delete_selected.Sensitive = false;
 

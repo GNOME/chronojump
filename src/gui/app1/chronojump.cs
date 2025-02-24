@@ -5426,7 +5426,7 @@ public partial class ChronoJumpWindow
 	bool updateRestTimes()
 	{
 		if(! updatingRestTimes)
-			return false;
+			return true; //will be called again to not do nothing but it will work again when we are out of beepTest (and updatingRestTimes is true
 
 		//Compujump manage autologout
 		if( currentPerson != null && configChronojump.Compujump && compujumpAutologout != null)

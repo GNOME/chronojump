@@ -55,7 +55,7 @@ public class WichroCapture: ArduinoCapture
 		List<string> responseExpected_l = new List<string>();
 		responseExpected_l.Add("terminals:");
 
-		waitResponse (responseExpected_l, false, 10000, false);
+		waitResponse (responseExpected_l, false, 30000, false); //usually it's 19s
 		wilightResponse = micro.Response;
 
 		return true;

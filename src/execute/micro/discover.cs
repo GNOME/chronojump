@@ -81,8 +81,12 @@ public class MicroDiscover : MicroComms
 	//mode is forceSensor, runsEncoder, ...
 	public void DiscoverOneMode (Constants.Modes mode)
 	{
+		LogB.Information("At DiscoverOneMode with mode: " + mode.ToString ());
 		discovered_l = new List<ChronopicRegisterPort.Types> ();
 		connectError_l = new List<string> (); //cannot connect, maybe device already opened by another program (like Arduino IDE)
+
+
+
 
 		bool success;
 		for (int i = 0; i < micro_l.Count ; i ++)

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -63,6 +63,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_chronopic_connect_contacts2;
 	Gtk.Image image_chronopic_connect_contacts3;
 	Gtk.Image image_chronopic_connect_contacts4;
+	Gtk.Image image_chronopic_connect_contacts5;
 	Gtk.Image image_chronopic_connect_encoder;
 	Gtk.Image image_chronopic_connect_encoder1;
 	Gtk.Image image_chronopic_connect_encoder2;
@@ -500,6 +501,7 @@ public partial class ChronoJumpWindow
 		image_chronopic_connect_contacts2.Pixbuf = pixbuf;
 		image_chronopic_connect_contacts3.Pixbuf = pixbuf;
 		image_chronopic_connect_contacts4.Pixbuf = pixbuf;
+		image_chronopic_connect_contacts5.Pixbuf = pixbuf;
 		image_chronopic_connect_encoder.Pixbuf = pixbuf;
 		image_chronopic_connect_encoder1.Pixbuf = pixbuf;
 		image_chronopic_connect_encoder2.Pixbuf = pixbuf;
@@ -1127,6 +1129,7 @@ public partial class ChronoJumpWindow
 		image_chronopic_connect_contacts2 = (Gtk.Image) builder.GetObject ("image_chronopic_connect_contacts2");
 		image_chronopic_connect_contacts3 = (Gtk.Image) builder.GetObject ("image_chronopic_connect_contacts3");
 		image_chronopic_connect_contacts4 = (Gtk.Image) builder.GetObject ("image_chronopic_connect_contacts4");
+		image_chronopic_connect_contacts5 = (Gtk.Image) builder.GetObject ("image_chronopic_connect_contacts5");
 		image_chronopic_connect_encoder = (Gtk.Image) builder.GetObject ("image_chronopic_connect_encoder");
 		image_chronopic_connect_encoder1 = (Gtk.Image) builder.GetObject ("image_chronopic_connect_encoder1");
 		image_chronopic_connect_encoder2 = (Gtk.Image) builder.GetObject ("image_chronopic_connect_encoder2");

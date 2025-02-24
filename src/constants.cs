@@ -1132,6 +1132,8 @@ public class Constants
 			return Catalog.GetString("Races intervallic");
 		else if(mode == Constants.Modes.RUNSENCODER)
 			return Catalog.GetString("Race analyzer");
+		else if(mode == Constants.Modes.WILIGHT)
+			return Catalog.GetString("Reaction time");
 		else if(mode == Constants.Modes.POWERGRAVITATORY)
 			return Catalog.GetString("Encoder (gravitatory)");
 		else if(mode == Constants.Modes.POWERINERTIAL)
@@ -1161,6 +1163,8 @@ public class Constants
 			return "image_run_multiple.png";
 		else if (mode == Constants.Modes.RUNSENCODER)
 			return "race_encoder_icon.png";
+		else if (mode == Constants.Modes.WILIGHT)
+			return "reaction_time_2025_blue_24px.png";
 		else if (mode == Constants.Modes.POWERGRAVITATORY)
 			return "image_weight.png";
 		else if (mode == Constants.Modes.POWERINERTIAL)
@@ -1170,7 +1174,7 @@ public class Constants
 		else if (mode == Constants.Modes.FORCESENSORELASTIC)
 			return "elastic.png";
 		else
-			return "image_jump_simple"; //to not crash if there is any future mode
+			return "image_jump_simple.png"; //to not crash if there is any future mode
 	}
 
 	public static string All = "All";

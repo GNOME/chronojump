@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
- * Copyright (C) 2022-2024  Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2022-2025  Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -152,6 +152,26 @@ public class MicroDiscover : MicroComms
 					}
 				}
 				LogB.Information("success: " + success.ToString());
+			}
+			else if(mode == Constants.Modes.WILIGHT) //same as WICHRO (but without trying multitest before)
+			{
+				LogB.Information("At DiscoverOneMode WILIGHT");
+				micro.Bauds = 115200;
+				if (! micro.PortName.ToLower().Contains("acm"))
+				{
+					LogB.Information("connectAndSleep again");
+					if (connectAndSleep ())
+					{
+						LogB.Information("calling discoverWichro");
+						flush(); //after connect
+						success = discoverWichro ();
+						LogB.Information("ended discoverWichro");
+					} else
+						connectError_l.Add (micro.PortName);
+				} else {
+					//need to CreateSerialPort, because if not the ClosePort below will crash
+					connectNotSleep ();
+				}
 			}
 			else {
 				if(connectAndSleep ())
@@ -349,6 +369,7 @@ public class MicroDiscover : MicroComms
 		return success;
 	}
 
+	//WICHRO and WILIGHT
 	private bool discoverWichro ()
 	{
 		bool success = false;
@@ -360,7 +381,7 @@ public class MicroDiscover : MicroComms
 		{
 			if(getVersionNTimes (command, responseExpected_l, false, 2, 200))
 			{
-				LogB.Information("Discover found this WICHRO device: " + micro.Response);
+				LogB.Information("Discover found this WICHRO (or WILIGHT) device: " + micro.Response);
 				if(micro.Response.Contains(wichroStr))
 				{
 					micro.Discovered = ChronopicRegisterPort.Types.RUN_WIRELESS;

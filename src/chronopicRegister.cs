@@ -1,6 +1,4 @@
 /*
- * Copyright (C) 2016-2024  Xavier de Blas <xaviblas@gmail.com>
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -14,6 +12,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ *
+ * Copyright (C) 2016-2025  Xavier de Blas <xaviblas@gmail.com>
  */
 
 /*
@@ -37,7 +37,8 @@ public class ChronopicRegisterPort
 	public bool FTDI;
 	public string SerialNumber;
 
-	//Note: if this changes, change also on execute/arduinoCapture.cs
+	//Note: if this changes, change also on execute/micro/*
+	//RUN_WIRELESS is WICHRO and WILIGHT
 	public enum Types { UNKNOWN, CONTACTS, ENCODER, ARDUINO_RFID, ARDUINO_FORCE, ARDUINO_RUN_ENCODER, ACCELEROMETER, RUN_WIRELESS, FOURPLATFORMS }
 	public Types Type;
 
@@ -382,6 +383,11 @@ public abstract class ChronopicRegister
 				return true;
 			//with the repeated FTDI number it will not work until selected at each Chronojump boot
 			else if (setAnyCompatibleConnectedAsSelectedDo (mode, ChronopicRegisterPort.Types.RUN_WIRELESS))
+				return true;
+		}
+		else if (mode == Constants.Modes.WILIGHT) //wilight uses ChronopicRegisterPort.Type.RUN_WIRELESS
+		{
+			if (setAnyCompatibleConnectedAsSelectedDo (mode, ChronopicRegisterPort.Types.RUN_WIRELESS))
 				return true;
 		}
 		else if (Constants.ModeIsENCODER (mode))

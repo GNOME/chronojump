@@ -8244,6 +8244,7 @@ last capture</property>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkBox">
                                                             <property name="can-focus">False</property>
@@ -8281,6 +8282,52 @@ last capture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkButton" id="button_contacts_detect_small_for_wilight">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <property name="tooltip-text" translatable="yes">Change device</property>
+                                                            <signal name="clicked" handler="on_button_detect_clicked" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox9">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_chronopic_connect_contacts5">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-connect</property>
+                                                            <property name="icon_size">2</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_button_contacts_detect4">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Device</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <object class="GtkEntry" id="entry_wilight_port">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
@@ -8288,7 +8335,7 @@ last capture</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -22798,6 +22845,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

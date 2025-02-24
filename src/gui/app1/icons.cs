@@ -431,6 +431,7 @@ public partial class ChronoJumpWindow
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_run.png");
 		app1s_image_show_data_runs.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "race_encoder_icon.png");
+		app1s_image_show_data_reaction_time.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "reaction_time_2025_blue_24px.png");
 		app1s_image_show_data_isometric.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "isometric.png");
 		app1s_image_show_data_elastic.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "elastic.png");
 

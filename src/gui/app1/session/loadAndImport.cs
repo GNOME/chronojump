@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -147,13 +147,18 @@ public partial class ChronoJumpWindow
 		app1s_checkbutton_show_data_runs.Active = (current_mode == Constants.Modes.RUNSSIMPLE ||
 				current_mode == Constants.Modes.RUNSINTERVALLIC ||
 				current_mode == Constants.Modes.RUNSENCODER);
+		app1s_checkbutton_show_data_reaction_time.Active =
+			current_mode == Constants.Modes.WILIGHT && configChronojump.Wilight;
 		app1s_checkbutton_show_data_isometric.Active = (current_mode == Constants.Modes.FORCESENSORISOMETRIC);
 		app1s_checkbutton_show_data_elastic.Active = (current_mode == Constants.Modes.FORCESENSORELASTIC);
 		app1s_checkbutton_show_data_weights.Active = (current_mode == Constants.Modes.POWERGRAVITATORY);
 		app1s_checkbutton_show_data_inertial.Active = (current_mode == Constants.Modes.POWERINERTIAL);
 
+		app1s_box_show_data_reaction_time.Visible = configChronojump.Wilight; //TODO: remove this when the mode is official
+
 		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_jumps);
 		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_runs);
+		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_reaction_time);
 		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_isometric);
 		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_elastic);
 		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_weights);
@@ -180,7 +185,8 @@ public partial class ChronoJumpWindow
 	}
 
 	private TreeStore app1s_getStore (bool loadOrImport, bool showPersons,
-			bool showJumps, bool showRuns, bool showIsometric, bool showElastic,
+			bool showJumps, bool showRuns, bool showReactionTime,
+			bool showIsometric, bool showElastic,
 			bool showWeights, bool showInertial)//, bool showRT, bool showOther)
 	{
 		int columns = 6;
@@ -193,6 +199,8 @@ public partial class ChronoJumpWindow
 			columns += 2;
 		if(showRuns)
 			columns += 3; //includes race analyzer
+		if(showReactionTime)
+			columns ++;
 		if(showIsometric)
 			columns ++;
 		if(showElastic)
@@ -247,7 +255,8 @@ public partial class ChronoJumpWindow
 	}
 
 	private void app1s_createTreeView (Gtk.TreeView tv, bool loadOrImport, bool showPersons,
-			bool showJumps, bool showRuns, bool showIsometric, bool showElastic,
+			bool showJumps, bool showRuns, bool showReactionTime,
+			bool showIsometric, bool showElastic,
 			bool showWeights, bool showInertial)//, bool showRT, bool showOther)
 	{
 		tv.HeadersVisible=true;
@@ -294,6 +303,8 @@ public partial class ChronoJumpWindow
 			tv.AppendColumn (Catalog.GetString ("Races interval"), new CellRendererText(), "text", count++);
 			tv.AppendColumn (Catalog.GetString ("Race analyzer"), new CellRendererText(), "text", count++);
 		}
+		if (showReactionTime)
+			tv.AppendColumn (Catalog.GetString ("Reaction time"), new CellRendererText(), "text", count++);
 		if (showIsometric)
 			tv.AppendColumn (Catalog.GetString ("Isometric"), new CellRendererText(), "text", count++);
 		if (showElastic)
@@ -351,6 +362,9 @@ public partial class ChronoJumpWindow
 
 		app1s_viewport_checkbutton_show_data_runs.Visible =
 			(app1s_check_filter_by_sensor.Active && app1s_checkbutton_show_data_runs.Active);
+
+		app1s_viewport_checkbutton_show_data_reaction_time.Visible =
+			(app1s_check_filter_by_sensor.Active && app1s_checkbutton_show_data_reaction_time.Active);
 
 		app1s_viewport_checkbutton_show_data_isometric.Visible =
 			(app1s_check_filter_by_sensor.Active && app1s_checkbutton_show_data_isometric.Active);
@@ -465,6 +479,7 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
+				app1s_checkbutton_show_data_reaction_time.Active,
 				app1s_checkbutton_show_data_force_sensor.Active,
 				app1s_checkbutton_show_data_encoder.Active,
 				app1s_checkbutton_show_data_rt.Active,
@@ -487,6 +502,7 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
+				app1s_checkbutton_show_data_reaction_time.Active,
 				app1s_checkbutton_show_data_isometric.Active,
 				app1s_checkbutton_show_data_elastic.Active,
 				app1s_checkbutton_show_data_weights.Active,
@@ -499,6 +515,7 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
+				app1s_checkbutton_show_data_reaction_time.Active,
 				app1s_checkbutton_show_data_isometric.Active,
 				app1s_checkbutton_show_data_elastic.Active,
 				app1s_checkbutton_show_data_weights.Active,
@@ -565,6 +582,7 @@ public partial class ChronoJumpWindow
 		bool showPersons = app1s_checkbutton_show_data_persons.Active;
 		bool showJumps = app1s_checkbutton_show_data_jumps.Active;
 		bool showRuns = app1s_checkbutton_show_data_runs.Active;
+		bool showReactionTime = app1s_checkbutton_show_data_reaction_time.Active;
 		bool showIsometric = app1s_checkbutton_show_data_isometric.Active;
 		bool showElastic = app1s_checkbutton_show_data_elastic.Active;
 		bool showWeights = app1s_checkbutton_show_data_weights.Active;
@@ -578,6 +596,8 @@ public partial class ChronoJumpWindow
 			columns += 2;
 		if(showRuns)
 			columns += 3; //includes race analyzer
+		if(showReactionTime)
+			columns ++;
 		if(showIsometric)
 			columns ++;
 		if(showElastic)
@@ -605,7 +625,8 @@ public partial class ChronoJumpWindow
 		{
 			LogB.Information ("sessionTestsCount_l.Count", sessionTestsCount_l.Count);
 			if (discardSessionBySensorFilter (stc,
-						showJumps, showRuns, showIsometric, showElastic,
+						showJumps, showRuns, showReactionTime,
+						showIsometric, showElastic,
 						showWeights, showInertial))
 				continue;
 
@@ -668,6 +689,8 @@ public partial class ChronoJumpWindow
 				strings[i ++] = stc.RunsInterval.ToString ();
 				strings[i ++] = stc.RunsEncoder.ToString ();
 			}
+			if(showReactionTime)
+				strings[i ++] = stc.Wilight.ToString ();
 			if (showIsometric)
 				strings[i ++] = stc.Isometric.ToString ();
 			if (showElastic)
@@ -731,7 +754,8 @@ public partial class ChronoJumpWindow
 	*/
 
 	public bool discardSessionBySensorFilter (SessionTestsCount stc,
-			bool showJumps, bool showRuns, bool showIsometric, bool showElastic,
+			bool showJumps, bool showRuns, bool showReactionTime,
+			bool showIsometric, bool showElastic,
 			bool showWeights, bool showInertial)//, bool showRT, bool showOther)
 	{
 		if (app1s_type == app1s_windowType.IMPORT_SESSION)
@@ -743,6 +767,8 @@ public partial class ChronoJumpWindow
 		if (showJumps && stc.JumpsSimple == 0 && stc.JumpsReactive == 0)
 			return true;
 		else if (showRuns && stc.RunsSimple == 0 && stc.RunsInterval == 0 && stc.RunsEncoder == 0)
+			return true;
+		else if (showReactionTime && stc.Wilight == 0)
 			return true;
 		else if (showIsometric && stc.Isometric == 0)
 			return true;

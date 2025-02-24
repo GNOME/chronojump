@@ -303,6 +303,7 @@ public class SessionTestsCount
 	public int RunsSimple;
 	public int RunsInterval;
 	public int RunsEncoder;
+	public int Wilight;
 	public int Isometric;
 	public int Elastic;
 	public int WeightsSets;

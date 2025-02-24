@@ -433,7 +433,7 @@ class SqliteSession : Sqlite
 	*/
 
 	private static double testsProgress;
-	private static int testsAll = 15;
+	private static int testsAll = 16;
 
 	public static void TestsProgressReset ()
 	{
@@ -507,6 +507,28 @@ class SqliteSession : Sqlite
 		ArrayList array = new ArrayList(2);
 
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.RunEncoderTable +
+			personStr +
+			" GROUP BY sessionID ORDER BY sessionID";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		while(reader.Read())
+			array.Add (reader[0].ToString() + ":" + reader[1].ToString() + ":" );
+
+		reader.Close();
+		return array;
+	}
+
+	//separating selectAllSessionTestsCountDo in parts
+	//for clarity and for being able to be called from another method
+	public static ArrayList SelectAllSessionsTestsWilight (string personStr)
+	{
+		ArrayList array = new ArrayList(2);
+
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.WilightTable +
 			personStr +
 			" GROUP BY sessionID ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -843,6 +865,14 @@ class SqliteSession : Sqlite
 
 		testsProgress = 14;
 
+		//select wilight of each session
+		ArrayList myArray_wi = new ArrayList(2);
+
+		if(tableExists(true, Constants.WilightTable))
+			myArray_wi = SelectAllSessionsTestsWilight (wherePersonStr);
+
+		testsProgress = 15;
+
 		//mix all arrayLists
 		List<SessionTestsCount> stc_l = new List<SessionTestsCount> ();
 		foreach (SessionParams sessionParam in sessionParams_l)
@@ -862,6 +892,7 @@ class SqliteSession : Sqlite
 			stc.RunsSimple = getTestsInTable (myArray_runs, sID);
 			stc.RunsInterval = getTestsInTable (myArray_runs_interval, sID);
 			stc.RunsEncoder = getTestsInTable (myArray_re, sID);
+			stc.Wilight = getTestsInTable (myArray_wi, sID);
 			stc.Isometric = getTestsInTable (myArray_fs_isometric, sID);
 			stc.Elastic = getTestsInTable (myArray_fs_elastic, sID);
 			stc.WeightsSets = getTestsInTable (myArray_enc_g_s, sID);
@@ -875,7 +906,7 @@ class SqliteSession : Sqlite
 			//mySessions [count++] = lineNotReadOnly;
 			stc_l.Add (stc);
 		}
-		testsProgress = 15;
+		testsProgress = 16;
 
 		return stc_l;
 	}

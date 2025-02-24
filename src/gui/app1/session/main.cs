@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -68,15 +68,18 @@ public partial class ChronoJumpWindow
 	Gtk.Entry app1s_entry_search_filter;
 	Gtk.HBox app1s_hbox_tags;
 	Gtk.Button app1s_button_manage_tags;
+	Gtk.Box app1s_box_show_data_reaction_time;
 	Gtk.CheckButton app1s_checkbutton_show_data_persons;
 	Gtk.CheckButton app1s_checkbutton_show_data_jumps;
 	Gtk.CheckButton app1s_checkbutton_show_data_runs;
+	Gtk.CheckButton app1s_checkbutton_show_data_reaction_time;
 	Gtk.CheckButton app1s_checkbutton_show_data_isometric;
 	Gtk.CheckButton app1s_checkbutton_show_data_elastic;
 	Gtk.CheckButton app1s_checkbutton_show_data_weights;
 	Gtk.CheckButton app1s_checkbutton_show_data_inertial;
 	Gtk.Viewport app1s_viewport_checkbutton_show_data_jumps;
 	Gtk.Viewport app1s_viewport_checkbutton_show_data_runs;
+	Gtk.Viewport app1s_viewport_checkbutton_show_data_reaction_time;
 	Gtk.Viewport app1s_viewport_checkbutton_show_data_isometric;
 	Gtk.Viewport app1s_viewport_checkbutton_show_data_elastic;
 	Gtk.Viewport app1s_viewport_checkbutton_show_data_weights;
@@ -87,6 +90,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image app1s_image_show_data_persons;
 	Gtk.Image app1s_image_show_data_jumps;
 	Gtk.Image app1s_image_show_data_runs;
+	Gtk.Image app1s_image_show_data_reaction_time;
 	Gtk.Image app1s_image_show_data_isometric;
 	Gtk.Image app1s_image_show_data_elastic;
 	Gtk.Image app1s_image_show_data_encoder_grav;
@@ -454,15 +458,18 @@ public partial class ChronoJumpWindow
 		app1s_entry_search_filter = (Gtk.Entry) builder.GetObject ("app1s_entry_search_filter");
 		app1s_hbox_tags = (Gtk.HBox) builder.GetObject ("app1s_hbox_tags");
 		app1s_button_manage_tags = (Gtk.Button) builder.GetObject ("app1s_button_manage_tags");
+		app1s_box_show_data_reaction_time = (Gtk.Box) builder.GetObject ("app1s_box_show_data_reaction_time");
 		app1s_checkbutton_show_data_persons = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_persons");
 		app1s_checkbutton_show_data_jumps = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_jumps");
 		app1s_checkbutton_show_data_runs = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_runs");
+		app1s_checkbutton_show_data_reaction_time = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_reaction_time");
 		app1s_checkbutton_show_data_isometric = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_isometric");
 		app1s_checkbutton_show_data_elastic = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_elastic");
 		app1s_checkbutton_show_data_weights = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_weights");
 		app1s_checkbutton_show_data_inertial = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_inertial");
 		app1s_viewport_checkbutton_show_data_jumps = (Gtk.Viewport) builder.GetObject ("app1s_viewport_checkbutton_show_data_jumps");
 		app1s_viewport_checkbutton_show_data_runs = (Gtk.Viewport) builder.GetObject ("app1s_viewport_checkbutton_show_data_runs");
+		app1s_viewport_checkbutton_show_data_reaction_time = (Gtk.Viewport) builder.GetObject ("app1s_viewport_checkbutton_show_data_reaction_time");
 		app1s_viewport_checkbutton_show_data_isometric = (Gtk.Viewport) builder.GetObject ("app1s_viewport_checkbutton_show_data_isometric");
 		app1s_viewport_checkbutton_show_data_elastic = (Gtk.Viewport) builder.GetObject ("app1s_viewport_checkbutton_show_data_elastic");
 		app1s_viewport_checkbutton_show_data_weights = (Gtk.Viewport) builder.GetObject ("app1s_viewport_checkbutton_show_data_weights");
@@ -473,6 +480,7 @@ public partial class ChronoJumpWindow
 		app1s_image_show_data_persons = (Gtk.Image) builder.GetObject ("app1s_image_show_data_persons");
 		app1s_image_show_data_jumps = (Gtk.Image) builder.GetObject ("app1s_image_show_data_jumps");
 		app1s_image_show_data_runs = (Gtk.Image) builder.GetObject ("app1s_image_show_data_runs");
+		app1s_image_show_data_reaction_time = (Gtk.Image) builder.GetObject ("app1s_image_show_data_reaction_time");
 		app1s_image_show_data_isometric = (Gtk.Image) builder.GetObject ("app1s_image_show_data_isometric");
 		app1s_image_show_data_elastic = (Gtk.Image) builder.GetObject ("app1s_image_show_data_elastic");
 		app1s_image_show_data_encoder_grav = (Gtk.Image) builder.GetObject ("app1s_image_show_data_encoder_grav");

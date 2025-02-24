@@ -225,7 +225,7 @@ public partial class ChronoJumpWindow
 				wilightAction == wilightActions.CHANGECOLOR)
 		{
 			if (wilightAction == wilightActions.DISCOVER)
-				discover ();
+				discoverWilight ();
 			else if (wilightAction == wilightActions.PING)
 				ping (Convert.ToInt32 (spin_wilight_test_ping.Value));
 			else if (wilightAction == wilightActions.CHANGECOLOR)
@@ -272,11 +272,11 @@ public partial class ChronoJumpWindow
 		needToUpdateGraphWilight = true;
 	}
 
-	private void discover ()
+	private void discoverWilight ()
 	{
-		sendCommandAndUpdateWilightTextview ("local:discover;");
+		updateWilightTextview ("\n> local:discover;");
+		updateWilightTextview ("\n (this operation can last 30s)");
 
-		System.Threading.Thread.Sleep (50);
 		bool commandSendOk = wichroCapture.Discover ();
 
 		if (! commandSendOk)
@@ -289,8 +289,7 @@ public partial class ChronoJumpWindow
 
 	private void ping (int terminal)
 	{
-		sendCommandAndUpdateWilightTextview (string.Format ("{0}:512;", terminal));
-		System.Threading.Thread.Sleep (50);
+		updateWilightTextview (string.Format ("\n> {0}:512;", terminal));
 
 		bool commandSendOk = wichroCapture.Ping (terminal);
 

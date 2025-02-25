@@ -165,6 +165,9 @@ public class CairoGraphWilight : CairoXY
 	// adjust margins in order to have same relation for X and Y
 	private void adjustProportionByMargins ()
 	{
+		if (minX == maxX || minY == maxY)
+			return;
+
 		int graphWidthUseful = graphWidth -rightMargin -leftMargin;
 		int graphHeightUseful = graphHeight -topMargin -bottomMargin;
 		double realWidth = maxX - minX;

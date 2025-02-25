@@ -924,6 +924,12 @@ public abstract class CairoXY : CairoGeneric
 		g.Stroke();
 	}
 
+	protected void drawLine (double x1, double y1, double x2, double y2)
+	{
+		g.MoveTo (x1, y1);
+		g.LineTo (x2, y2);
+		g.Stroke();
+	}
 
 	// Thought for signals like forceSensor where points_l.X is time in microseconds and there is not a sample for each second
 	// but it is also used on encoder

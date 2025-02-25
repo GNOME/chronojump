@@ -82,7 +82,9 @@ public partial class ChronoJumpWindow
 		entry_wilight_port.Text = "";
 
 		wilightTerminalLayout = new WilightTerminalLayout ();
-		wilightTerminalLayout.ReadFile (configChronojump.WilightLayoutURL);
+
+		if (Util.FileExists (configChronojump.WilightLayoutURL))
+			wilightTerminalLayout.ReadFile (configChronojump.WilightLayoutURL);
 	}
 
 	/*
@@ -115,20 +117,47 @@ public partial class ChronoJumpWindow
 		wilightExecute ();
 	}
 
+	private bool wilightFilesExist ()
+	{
+		List<string> missing_l = Util.FilesExists (
+				new List<string> {
+				configChronojump.WilightLayoutURL, configChronojump.WilightCommandsURL
+				});
+
+		if (missing_l.Count > 0)
+		{
+			event_execute_label_message.Text = string.Format ("Missing file/s: {0}. Fix it and restart Chronojump",
+					UtilList.ListStringToString (missing_l, ", "));
+			box_wilight_test_actions2.Sensitive = false;
+			return false;
+		}
+
+		return true;
+	}
+
 	private void on_button_wilight_test_speed_clicked (object o, EventArgs args)
 	{
+		if (! wilightFilesExist ())
+			return;
+
 		wilightAction = wilightActions.SPEED;
 		wilightExecute ();
 	}
 
 	private void on_button_wilight_test_sequence_clicked (object o, EventArgs args)
 	{
+		if (! wilightFilesExist ())
+			return;
+
 		wilightAction = wilightActions.SEQUENCE;
 		wilightExecute ();
 	}
 
 	private void on_button_wilight_test_demo_clicked (object o, EventArgs args)
 	{
+		if (! wilightFilesExist ())
+			return;
+
 		wilightAction = wilightActions.DEMO;
 		wilightExecute ();
 	}

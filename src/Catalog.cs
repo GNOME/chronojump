@@ -74,12 +74,16 @@ namespace Mono.Unix
         {
             CurrentDomain = package;
 
+#if OSTYPE_LINUX
+
+#else
             if (bindtextdomain(package, localedir) == IntPtr.Zero)
                 throw new Exception();
             if (bind_textdomain_codeset(package, "UTF-8") == IntPtr.Zero)
                 throw new Exception();
             if (textdomain(package) == IntPtr.Zero)
                 throw new Exception();
+#endif
         }
 
         [DllImport("libglib-2.0-0.dll", CallingConvention = CallingConvention.Cdecl)]

@@ -1667,7 +1667,18 @@ public class Util
 		return Directory.Exists(dirName);
 	}
 
-	public static bool FileExists(string fileName){
+	public static List<string> FilesExists (List<string> fileName_l)
+	{
+		List<string> missing_l = new List<string> ();
+		foreach (string fileName in fileName_l)
+			if (! File.Exists (fileName))
+				missing_l.Add (fileName);
+
+		return missing_l;
+	}
+
+	public static bool FileExists(string fileName)
+	{
 		return File.Exists(fileName);
 	}
 	

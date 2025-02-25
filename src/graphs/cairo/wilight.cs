@@ -208,10 +208,11 @@ public class CairoGraphWilight : CairoXY
 		if (CairoUtil.ColorIsWhite (wt.ToColor))
 			colorBorder = gray;
 
+		int radius = 25;
 		g.LineWidth = 1;
 		drawCircle (calculatePaintX (wt.x),
 				calculatePaintY (wt.y),
-				25, colorBorder, wt.ToColor);
+				radius, colorBorder, wt.ToColor);
 
 		// if blink, then draw the half in black
 		if (wt.Blinks)
@@ -223,6 +224,13 @@ public class CairoGraphWilight : CairoXY
 			g.Stroke ();
 		}
 		g.LineWidth = 1;
+
+		if (wt.IsSensitive) //draw a line below the sensitive terminal
+		{
+			g.SetSourceColor (black);
+			drawLine (calculatePaintX (wt.x) -radius, calculatePaintY (wt.y) + 1.25*radius,
+				calculatePaintX (wt.x) +radius, calculatePaintY (wt.y) + 1.25*radius);
+		}
 
 		g.SetSourceColor (white);
 		if (CairoUtil.ColorIsWhite (wt.ToColor)) //note if it blinks has white and black
@@ -266,6 +274,12 @@ public class CairoGraphWilightTerminal
 	public bool Blinks {
 		get {
 			return ((codeColor & 32) != 0);
+		}
+	}
+
+	public bool IsSensitive {
+		get {
+			return (! Util.IsEven (codeColor));
 		}
 	}
 

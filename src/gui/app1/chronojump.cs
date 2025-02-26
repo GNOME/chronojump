@@ -4602,6 +4602,8 @@ public partial class ChronoJumpWindow
 				button_threshold.Visible = (discoverWin.PortSelected.Type != ChronopicRegisterPort.Types.RUN_WIRELESS);
 			else if (current_mode == Constants.Modes.WILIGHT)
 				entry_wilight_port.Text = discoverWin.PortSelected.Port;
+			else if (current_mode == Constants.Modes.OTHER) //FOURPLATFORMS
+				entry_fourPlatforms_port.Text = discoverWin.PortSelected.Port;
 
 			// close portFSOpened after discover to ensure do a forceSensorConnect()
 			if (Constants.ModeIsFORCESENSOR (current_mode) && portFSOpened)

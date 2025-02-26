@@ -162,6 +162,9 @@ public partial class ChronoJumpWindow
 	// at glade ---->
 	Gtk.Box box_start_fourPlatforms;
 	Gtk.Box box_fourPlatforms;
+	Gtk.Entry entry_fourPlatforms_port;
+	Gtk.Button button_fourPlatforms_test_finish;
+	Gtk.Button button_fourPlatforms_test_cancel;
 	// <---- at glade
 
 
@@ -225,11 +228,13 @@ public partial class ChronoJumpWindow
 
 		contactsShowCaptureDoingButtons(true);
 
+		/*
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
+		*/
 
 		blinkCapture = new BlinkImage (image_no_capturing, image_capturing);
 
@@ -271,6 +276,15 @@ public partial class ChronoJumpWindow
 			fourPlatformsPulseMessage = capturingMessage;
 			fpcm.Capture ();
 		}
+	}
+
+	private void on_button_fourPlatforms_test_finish_clicked (object o, EventArgs args)
+	{
+		on_finish_clicked_2_other ();
+	}
+	private void on_button_fourPlatforms_test_cancel_clicked (object o, EventArgs args)
+	{
+		on_cancel_clicked_2_other ();
 	}
 
 	private bool pulseGTKFourPlatformsCapture ()
@@ -410,6 +424,9 @@ public partial class ChronoJumpWindow
 	{
 		box_start_fourPlatforms = (Gtk.Box) builder.GetObject ("box_start_fourPlatforms");
 		box_fourPlatforms = (Gtk.Box) builder.GetObject ("box_fourPlatforms");
+		entry_fourPlatforms_port = (Gtk.Entry) builder.GetObject ("entry_fourPlatforms_port");
+		button_fourPlatforms_test_finish = (Gtk.Button) builder.GetObject ("button_fourPlatforms_test_finish");
+		button_fourPlatforms_test_cancel = (Gtk.Button) builder.GetObject ("button_fourPlatforms_test_cancel");
 	}
 }
 

@@ -169,6 +169,8 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_four_platforms_capture_1_2;
 	Gtk.Button button_four_platforms_capture_1_3;
 	Gtk.Button button_four_platforms_capture_1_4;
+	Gtk.Box box_fourPlatforms_capture_buttons;
+	Gtk.Box box_fourPlatforms_cancel_finish;
 	Gtk.Button button_fourPlatforms_test_finish;
 	Gtk.Button button_fourPlatforms_test_cancel;
 	// <---- at glade
@@ -223,6 +225,9 @@ public partial class ChronoJumpWindow
 			fourPlatformsCaptureType = FourPlatformsCaptureManage.CaptureEnum.FROM1TO3;
 		else if (b == button_four_platforms_capture_1_4)
 			fourPlatformsCaptureType = FourPlatformsCaptureManage.CaptureEnum.FROM1TO4;
+
+		box_fourPlatforms_capture_buttons.Sensitive = false;
+		box_fourPlatforms_cancel_finish.Sensitive = true;
 
 		capturingFourPlatforms = arduinoCaptureStatus.STARTING;
 
@@ -298,10 +303,16 @@ public partial class ChronoJumpWindow
 	private void on_button_fourPlatforms_test_finish_clicked (object o, EventArgs args)
 	{
 		on_finish_clicked_2_other ();
+
+		box_fourPlatforms_capture_buttons.Sensitive = true;
+		box_fourPlatforms_cancel_finish.Sensitive = false;
 	}
 	private void on_button_fourPlatforms_test_cancel_clicked (object o, EventArgs args)
 	{
 		on_cancel_clicked_2_other ();
+
+		box_fourPlatforms_capture_buttons.Sensitive = true;
+		box_fourPlatforms_cancel_finish.Sensitive = false;
 	}
 
 	private bool pulseGTKFourPlatformsCapture ()
@@ -446,6 +457,8 @@ public partial class ChronoJumpWindow
 		button_four_platforms_capture_1_2 = (Gtk.Button) builder.GetObject ("button_four_platforms_capture_1_2");
 		button_four_platforms_capture_1_3 = (Gtk.Button) builder.GetObject ("button_four_platforms_capture_1_3");
 		button_four_platforms_capture_1_4 = (Gtk.Button) builder.GetObject ("button_four_platforms_capture_1_4");
+		box_fourPlatforms_capture_buttons = (Gtk.Box) builder.GetObject ("box_fourPlatforms_capture_buttons");
+		box_fourPlatforms_cancel_finish = (Gtk.Box) builder.GetObject ("box_fourPlatforms_cancel_finish");
 		button_fourPlatforms_test_finish = (Gtk.Button) builder.GetObject ("button_fourPlatforms_test_finish");
 		button_fourPlatforms_test_cancel = (Gtk.Button) builder.GetObject ("button_fourPlatforms_test_cancel");
 	}

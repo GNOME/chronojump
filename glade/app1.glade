@@ -8714,7 +8714,6 @@ last capture</property>
                                                             <property name="spacing">30</property>
                                                             <child>
                                                             <object class="GtkBox">
-                                                            <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
@@ -8782,7 +8781,7 @@ last capture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkBox">
+                                                            <object class="GtkBox" id="box_fourPlatforms_capture_buttons">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">6</property>
@@ -8850,8 +8849,9 @@ last capture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkBox">
+                                                            <object class="GtkBox" id="box_fourPlatforms_cancel_finish">
                                                             <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
@@ -23126,6 +23126,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

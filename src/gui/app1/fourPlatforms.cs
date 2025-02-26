@@ -159,6 +159,12 @@ public class FourPlatformsCaptureManage
 
 public partial class ChronoJumpWindow 
 {
+	// at glade ---->
+	Gtk.Box box_start_fourPlatforms;
+	Gtk.Box box_fourPlatforms;
+	// <---- at glade
+
+
 	Thread fourPlatformsCaptureThread;
 	static bool fourPlatformsProcessFinish;
 	static bool fourPlatformsProcessCancel;
@@ -398,6 +404,12 @@ public partial class ChronoJumpWindow
 		frame_persons.Sensitive = sensitive;
 		hbox_top_person.Sensitive = sensitive;
 		hbox_chronopics_and_more.Sensitive = sensitive;
+	}
+
+	private void connectWidgetsFourPlatforms (Gtk.Builder builder)
+	{
+		box_start_fourPlatforms = (Gtk.Box) builder.GetObject ("box_start_fourPlatforms");
+		box_fourPlatforms = (Gtk.Box) builder.GetObject ("box_fourPlatforms");
 	}
 }
 

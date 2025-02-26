@@ -1096,7 +1096,7 @@ public class Constants
 		RUNSSIMPLE, RUNSINTERVALLIC, RUNSENCODER, BEEPTEST, WILIGHT,
 		POWERGRAVITATORY, POWERINERTIAL,
 		FORCESENSORISOMETRIC, FORCESENSORELASTIC,
-		RT, OTHER } //OTHER can be: Multichronopic, Pulse, FourPlatforms
+		RT, OTHER } //OTHER can be: FourPlatforms
 
 	//to shorten code on the rest of the software
 	public static bool ModeIsENCODER (Modes mode)

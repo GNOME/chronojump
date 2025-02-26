@@ -82,6 +82,7 @@ public partial class ChronoJumpWindow
 	Gtk.RadioButton radio_change_modes_contacts_runs_encoder;
 	Gtk.RadioButton radio_change_modes_contacts_runs_beepTest;
 	Gtk.RadioButton radio_change_modes_contacts_wilight;
+	Gtk.RadioButton radio_change_modes_contacts_fourPlatforms;
 	Gtk.RadioButton radio_change_modes_contacts_isometric;
 	Gtk.RadioButton radio_change_modes_contacts_elastic;
 	Gtk.RadioButton radio_change_modes_encoder_gravitatory;
@@ -387,6 +388,7 @@ public partial class ChronoJumpWindow
 	Gtk.RadioButton radio_menu_2_2_2_jumps;
 	Gtk.RadioButton radio_menu_2_2_2_races;
 	Gtk.RadioButton radio_menu_2_2_2_wilight;
+	Gtk.RadioButton radio_menu_2_2_2_fourPlatforms;
 	Gtk.RadioButton radio_menu_2_2_2_force;
 	Gtk.RadioButton radio_menu_2_2_2_elastic;
 	Gtk.RadioButton radio_menu_2_2_2_weights;
@@ -610,6 +612,7 @@ public partial class ChronoJumpWindow
 		connectWidgetsSprint (builder);
 		connectWidgetsBeepTest (builder);
 		connectWidgetsWilight (builder);
+		connectWidgetsFourPlatforms (builder);
 		connectWidgetsStats (builder);
 		connectWidgetsTrigger (builder);
 		connectWidgetsWebcam (builder);
@@ -1363,6 +1366,8 @@ public partial class ChronoJumpWindow
 
 		if (configChronojump.Wilight)
 			box_start_wilight.Visible = true;
+		if (configChronojump.FourPlatforms)
+			box_start_fourPlatforms.Visible = true;
 
 		//plotSequenceWithoutSending ();
 
@@ -3037,6 +3042,11 @@ public partial class ChronoJumpWindow
 			radio_menu_2_2_2_wilight.Active = true;
 			button_menu_2_2_2_manage (radio_menu_2_2_2_wilight, false);
 		}
+		else if (current_mode == Constants.Modes.OTHER)
+		{
+			radio_menu_2_2_2_fourPlatforms.Active = true;
+			button_menu_2_2_2_manage (radio_menu_2_2_2_fourPlatforms, false);
+		}
 		else if (current_mode == Constants.Modes.FORCESENSORISOMETRIC || current_mode == Constants.Modes.FORCESENSORELASTIC)
 		{
 			radio_menu_2_2_2_force.Active = true;
@@ -3221,7 +3231,9 @@ public partial class ChronoJumpWindow
 		hbox_change_modes_jumps.Visible = false;
 		hbox_change_modes_runs.Visible = false;
 		hbox_change_modes_force_sensor.Visible = false;
+		radio_mode_contacts_analyze.Visible = true;
 		radio_change_modes_contacts_wilight.Visible = false;
+		radio_change_modes_contacts_fourPlatforms.Visible = false;
 
 		button_contacts_bells.Sensitive = false;
 
@@ -3246,6 +3258,8 @@ public partial class ChronoJumpWindow
 		check_run_show_time.Visible = false;
 		box_wilight.Visible = false;
 		box_wilight_commands.Visible = false;
+		box_fourPlatforms.Visible = false;
+		box_contacts_capture_top.Visible = true;
 		box_contacts_graph_exercise.Visible = true;
 
 		hbox_combo_select_contacts_top_with_arrows.Visible = false; //TODO: this will be unneded
@@ -3688,6 +3702,23 @@ public partial class ChronoJumpWindow
 			tvRA_AB = new TreeviewRAAnalyze (treeview_ai_AB, "A", "B");
 			tvRA_CD = new TreeviewRAAnalyze (treeview_ai_CD, "C", "D");
 		}
+		else if (m == Constants.Modes.OTHER) //(contacts / other)
+		{
+			//similar to WILIGHT
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
+			notebooks_change(m);
+			event_graph_label_graph_test.Visible = false;
+			radio_mode_contacts_analyze.Visible = false;
+
+			box_contacts_capture_top.Visible = false;
+			radio_change_modes_contacts_fourPlatforms.Visible = true;
+
+			box_fourPlatforms.Visible = true;
+			box_contacts_graph_exercise.Visible = false;
+
+			align_drawingarea_realtime_capture_cairo.Visible = true;
+			//wilightApp1Init ();
+		}
 
 		if (m == Constants.Modes.BEEPTEST)
 		{
@@ -3701,9 +3732,7 @@ public partial class ChronoJumpWindow
 
 			beepTestApp1Init ();
 		} else {
-			radio_mode_contacts_analyze.Visible = true;
 			notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.EXECUTE);
-			box_contacts_capture_top.Visible = true;
 		}
 
 		if (m == Constants.Modes.WILIGHT)
@@ -4103,6 +4132,11 @@ public partial class ChronoJumpWindow
 		changeModeCheckRadios (Constants.Modes.WILIGHT);
 	}
 
+	private void on_button_selector_start_fourPlatforms_clicked (object o, EventArgs args)
+	{
+		changeModeCheckRadios (Constants.Modes.OTHER);
+	}
+
 	//forceSensor (isometric, elastic)
 	private void on_button_selector_start_force_sensor_isometric_clicked(object o, EventArgs args)
 	{
@@ -4195,6 +4229,12 @@ public partial class ChronoJumpWindow
 			desc = "Reaction time tests with Wilight"; //TODO: make it translatable
 			notebook_menu_2_2_2.CurrentPage = 3;
 		}
+		else if (o == (object) radio_menu_2_2_2_fourPlatforms)
+		{
+			title = "Four Platforms";
+			desc = "Four Platforms mode with custom device"; //TODO: make it translatable
+			notebook_menu_2_2_2.CurrentPage = 3;
+		}
 		else if (o == (object) radio_menu_2_2_2_force)
 		{
 			title = "Force tests";
@@ -4236,6 +4276,8 @@ public partial class ChronoJumpWindow
 		//jumps, races, force modes have their own buttons
 		if (radio_menu_2_2_2_wilight.Active)
 			on_button_selector_start_wilight_clicked (new object (), new EventArgs ());
+		else if (radio_menu_2_2_2_fourPlatforms.Active)
+			on_button_selector_start_fourPlatforms_clicked (new object (), new EventArgs ());
 		else if (radio_menu_2_2_2_weights.Active)
 			on_button_selector_start_encoder_gravitatory_clicked (new object (), new EventArgs ());
 		else if (radio_menu_2_2_2_inertial.Active)
@@ -8743,6 +8785,7 @@ public partial class ChronoJumpWindow
 		radio_change_modes_contacts_runs_encoder = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_runs_encoder");
 		radio_change_modes_contacts_runs_beepTest = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_runs_beepTest");
 		radio_change_modes_contacts_wilight = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_wilight");
+		radio_change_modes_contacts_fourPlatforms = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_fourPlatforms");
 		radio_change_modes_contacts_isometric = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_isometric");
 		radio_change_modes_contacts_elastic = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_contacts_elastic");
 		radio_change_modes_encoder_gravitatory = (Gtk.RadioButton) builder.GetObject ("radio_change_modes_encoder_gravitatory");
@@ -9054,6 +9097,7 @@ public partial class ChronoJumpWindow
 		radio_menu_2_2_2_jumps = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_jumps");
 		radio_menu_2_2_2_races = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_races");
 		radio_menu_2_2_2_wilight = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_wilight");
+		radio_menu_2_2_2_fourPlatforms = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_fourPlatforms");
 		radio_menu_2_2_2_force = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_force");
 		radio_menu_2_2_2_elastic = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_elastic");
 		radio_menu_2_2_2_weights = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_weights");

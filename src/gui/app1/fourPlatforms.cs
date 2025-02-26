@@ -1,3 +1,8 @@
+//TODO: bug: if we detect and without waiting it to finish we click on select and then capture, it gets forever on Please whait
+//TODO: need to implement delete
+//TODO: need to implement assign to another person
+
+
 /*
  * This file is part of ChronoJump
  *
@@ -30,6 +35,7 @@ public class FourPlatformsCaptureManage
 	public enum CaptureEnum { DEFAULT, FROM1TO2, FROM1TO3, FROM1TO4 };
 
 	private Constants.Modes mode;
+	private CaptureEnum captureType;
 	private FourPlatformsCapture fpc;
 	private bool finish;
 	private bool cancel;
@@ -41,17 +47,30 @@ public class FourPlatformsCaptureManage
 	private List<List<PointF>> points_ll; //[0] will have all and helps to configureTimeWindow (graphical info)
 	private List<List<double>> timesOn_ll; //[0] will have all and helps to configureTimeWindow (time info to sql)
 	private List<List<double>> timesOff_ll; //[0] will have all and helps to configureTimeWindow (time info to sql)
+	private List<PointF> stepsBottom_l;
+	private List<PointF> stepsTop_l;
+
+	// for CaptureEnum: FROM1TO2, FROM1TO3, FROM1TO4
+	private enum StepsStatusEnum { NOTSTARTED, DONEBOTTOM, DONETOP };
+	private StepsStatusEnum stepsStatusEnum;
+	private int stepsCompleted;
 
 	public FourPlatformsCaptureManage (
 			Constants.Modes mode,
+			CaptureEnum captureType,
 			FourPlatformsCapture fpc,
 			ref List<List<PointF>> points_ll,
+			ref List<PointF> stepsBottom_l,
+			ref List<PointF> stepsTop_l,
 			List<IDName> idName_l
 			)
 	{
 		this.mode = mode;
+		this.captureType = captureType;
 		this.fpc = fpc;
 		this.points_ll = points_ll;
+		this.stepsBottom_l = stepsBottom_l;
+		this.stepsTop_l = stepsTop_l;
 		this.idName_l = idName_l;
 
 		timesOn_ll = new List<List<double>>();
@@ -66,6 +85,9 @@ public class FourPlatformsCaptureManage
 
 	public bool Init ()
 	{
+		stepsStatusEnum = StepsStatusEnum.NOTSTARTED;
+		stepsCompleted = 0;
+
 		finish = false;
 		cancel = false;
 		//error = false;
@@ -118,6 +140,32 @@ public class FourPlatformsCaptureManage
 					ySign = .2;
 					if (fpe.Time < 0)
 						ySign = -.2;
+
+					//steps stuff
+					//mark the bottom
+					if (stepsStatusEnum != StepsStatusEnum.DONEBOTTOM && y == 1 && fpe.Time < 0)
+					{
+						stepsBottom_l.Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), 1));
+						stepsStatusEnum = StepsStatusEnum.DONEBOTTOM;
+					}
+					//update the bottom as maybe has been repeated later
+					else if (stepsStatusEnum == StepsStatusEnum.DONEBOTTOM && y == 1 && fpe.Time < 0)
+					{
+						stepsBottom_l[stepsBottom_l.Count -1] = new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), 1);
+						stepsStatusEnum = StepsStatusEnum.DONEBOTTOM;
+					}
+
+					//do the top
+					if (stepsStatusEnum == StepsStatusEnum.DONEBOTTOM && fpe.Time > 0 && (
+								(captureType == CaptureEnum.FROM1TO2 && y == 2) ||
+								(captureType == CaptureEnum.FROM1TO3 && y == 3) ||
+								(captureType == CaptureEnum.FROM1TO4 && y == 4)
+								) )
+					{
+						stepsTop_l.Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), y));
+						stepsStatusEnum = StepsStatusEnum.DONETOP;
+						stepsCompleted ++;
+					}
 				}
 
 				if (fpe.Time < 0)
@@ -132,6 +180,9 @@ public class FourPlatformsCaptureManage
 				points_ll[0].Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), .1)); //0 has all //to debug
 				points_ll[y].Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), 5-y+ySign)); //1-4 each of the sensors
 				timeOfLastCapture = DateTime.Now;
+
+				if (stepsCompleted >= 15)
+					finish = true;
 			}
 		}
 		LogB.Information ("calling Stop");
@@ -151,7 +202,11 @@ public class FourPlatformsCaptureManage
 	public List<IDName> IDName_l {
 		get { return idName_l; }
 	}
+	public int StepsCompleted {
+		get { return stepsCompleted; }
+	}
 	public bool Finish {
+		get { return finish; }
 		set { finish = value; }
 	}
 	public bool Cancel {
@@ -189,6 +244,8 @@ public partial class ChronoJumpWindow
 	//for making 4 lines each for a sensor, and being continuous (1) or empty (0)
 	//5 PointF lists, 0: have all (to configureTimeWindow), 1-3: each for one button. x=accumulated time, y is on (1) off (0),
 	static List<List<PointF>> cairoGraphFourPlatformsPoints_ll;
+	static List<PointF> cairoGraphFourPlatformsStepsBottom_l;
+	static List<PointF> cairoGraphFourPlatformsStepsTop_l;
 
 	static FourPlatformsCaptureManage fpcm;
 	FourPlatformsCapture fpc;
@@ -210,9 +267,17 @@ public partial class ChronoJumpWindow
 	{
 		cairoGraphFourPlatformsPoints_ll = new List<List<PointF>>();
 		cairoGraphFourPlatformsPoints_ll.Add (new List<PointF>());
-		fpcm = new FourPlatformsCaptureManage (current_mode, null, ref cairoGraphFourPlatformsPoints_ll, getSelectedPersonAndNext3 ());
-		drawingarea_results_realtime.QueueDraw ();
 
+		cairoGraphFourPlatformsStepsBottom_l = new List<PointF>();
+		cairoGraphFourPlatformsStepsTop_l = new List<PointF>();
+
+		fpcm = new FourPlatformsCaptureManage (current_mode,
+				FourPlatformsCaptureManage.CaptureEnum.DEFAULT, null,
+				ref cairoGraphFourPlatformsPoints_ll,
+				ref cairoGraphFourPlatformsStepsBottom_l,
+				ref cairoGraphFourPlatformsStepsTop_l,
+				getSelectedPersonAndNext3 ());
+		drawingarea_results_realtime.QueueDraw ();
 	}
 
 	private void on_four_platforms_capture_clicked (object o)
@@ -237,6 +302,9 @@ public partial class ChronoJumpWindow
 		cairoGraphFourPlatformsPoints_ll.Add (new List<PointF>()); //all buttons
 		for (int i = 0; i < 4; i ++)
 			cairoGraphFourPlatformsPoints_ll.Add (new List<PointF>()); //button 1
+
+		cairoGraphFourPlatformsStepsBottom_l = new List<PointF>();
+		cairoGraphFourPlatformsStepsTop_l = new List<PointF>();
 
 		fourPlatformsPulseMessage = "";
 		fourPlatformsButtonsSensitive (false);
@@ -290,7 +358,12 @@ public partial class ChronoJumpWindow
 			fpc = new FourPlatformsCapture (
 					chronopicRegister.GetSelectedForMode (current_mode).Port);
 
-		fpcm = new FourPlatformsCaptureManage (current_mode, fpc, ref cairoGraphFourPlatformsPoints_ll, getSelectedPersonAndNext3 ());
+		fpcm = new FourPlatformsCaptureManage (current_mode,
+				fourPlatformsCaptureType, fpc,
+				ref cairoGraphFourPlatformsPoints_ll,
+				ref cairoGraphFourPlatformsStepsBottom_l,
+				ref cairoGraphFourPlatformsStepsTop_l,
+				getSelectedPersonAndNext3 ());
 
 		if (fpcm.Init ())
 		{
@@ -324,7 +397,11 @@ public partial class ChronoJumpWindow
 		}
 
 		event_execute_label_message.Text = fourPlatformsPulseMessage;
-		if(! fourPlatformsCaptureThread.IsAlive || fourPlatformsProcessFinish || fourPlatformsProcessCancel)// || fourPlatformsProcessError) //capture ends
+		if (fpcm != null)
+			event_execute_label_message.Text += string.Format (" ({0})", fpcm.StepsCompleted);
+
+		if(! fourPlatformsCaptureThread.IsAlive || fourPlatformsProcessFinish || fourPlatformsProcessCancel // || fourPlatformsProcessError) //capture ends
+			|| (fpcm != null && fpcm.Finish))
 		{
 			if (fourPlatformsProcessCancel && fpcm != null)
 			{
@@ -332,13 +409,23 @@ public partial class ChronoJumpWindow
 				fpcm.Cancel = true;
 			}
 
-			//needed to really finish capture and be able  to capture a second time
+			//needed to really finish capture and be able to capture a second time
+			//this is finish from button
 			if (fourPlatformsProcessFinish && fpcm != null)
 			{
 				event_execute_label_message.Text = "Finished.";
 				fpcm.Finish = true;
 
 				fourPlatformsInsertToSQL ();
+			}
+			//this is finish from arrive to 15 steps
+			else if (fpcm != null && fpcm.Finish)
+			{
+				event_execute_label_message.Text = "Finished.";
+				fourPlatformsInsertToSQL ();
+
+				box_fourPlatforms_capture_buttons.Sensitive = true;
+				box_fourPlatforms_cancel_finish.Sensitive = false;
 			}
 
 			blinkCapture.End ();

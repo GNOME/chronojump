@@ -29,6 +29,8 @@ public class CairoGraphFourPlatforms : CairoXY
 	private int points_l_painted;
 	private Constants.Modes mode;
 	private List<List<PointF>> points_ll;
+	private List<PointF> stepsBottom_l;
+	private List<PointF> stepsTop_l;
 	private List<IDName> idName_l;
 	private int startAt;
 	private int marginAfterInSeconds;
@@ -73,6 +75,7 @@ public class CairoGraphFourPlatforms : CairoXY
 	public void DoSendingList (string font,
 			Constants.Modes mode,
 			List<List<PointF>> points_ll,
+			List<PointF> stepsBottom_l, List<PointF> stepsTop_l,
 			List<IDName> idName_l,
 			FourPlatformsCaptureManage.CaptureEnum fourPlatformsCaptureType,
 			bool capturing,
@@ -84,6 +87,7 @@ public class CairoGraphFourPlatforms : CairoXY
 		if (doSendingList (font,
 					mode,
 					points_ll,
+					stepsBottom_l, stepsTop_l,
 					idName_l,
 					fourPlatformsCaptureType,
 					capturing,
@@ -97,6 +101,7 @@ public class CairoGraphFourPlatforms : CairoXY
 	private bool doSendingList (string font,
 			Constants.Modes mode,
 			List<List<PointF>> points_ll,
+			List<PointF> stepsBottom_l, List<PointF> stepsTop_l,
 			List<IDName> idName_l,
 			FourPlatformsCaptureManage.CaptureEnum fourPlatformsCaptureType,
 			bool capturing,
@@ -107,6 +112,8 @@ public class CairoGraphFourPlatforms : CairoXY
 	{
 		this.mode = mode;
 		this.points_ll = points_ll;
+		this.stepsBottom_l = stepsBottom_l;
+		this.stepsTop_l = stepsTop_l;
 		this.idName_l = idName_l;
 		this.fourPlatformsCaptureType = fourPlatformsCaptureType;
 		this.capturing = capturing;
@@ -247,12 +254,23 @@ public class CairoGraphFourPlatforms : CairoXY
 				else //(mode == Constants.Modes.OTHER)
 				{
 					doPlotMarksOther (i, fourPlatformsCaptureType == FourPlatformsCaptureManage.CaptureEnum.DEFAULT);
+					/*
 					if (fourPlatformsCaptureType == FourPlatformsCaptureManage.CaptureEnum.FROM1TO2)
 						doPlotArrowsOther (1, 2);
 					else if (fourPlatformsCaptureType == FourPlatformsCaptureManage.CaptureEnum.FROM1TO3)
 						doPlotArrowsOther (1, 3);
 					else if (fourPlatformsCaptureType == FourPlatformsCaptureManage.CaptureEnum.FROM1TO4)
 						doPlotArrowsOther (1, 4);
+						*/
+					if (stepsBottom_l.Count > 0)
+					{
+						for (int j = 0 ; j < stepsBottom_l.Count && j < stepsTop_l.Count ; j ++)
+						{
+							g.MoveTo (calculatePaintX (stepsBottom_l[j].X), calculatePaintY (stepsBottom_l[j].Y));
+							g.LineTo (calculatePaintX (stepsTop_l[j].X), calculatePaintY (stepsTop_l[j].Y));
+							g.Stroke ();
+						}
+					}
 				}
 			}
 
@@ -335,6 +353,7 @@ public class CairoGraphFourPlatforms : CairoXY
 		}
 	}
 
+	/* TODO: unused. Delete it
 	private void doPlotArrowsOther (int sFrom, int sTo)
 	{
 		if (points_ll[sTo].Count < 2 || points_ll[sFrom].Count < 2)
@@ -368,10 +387,13 @@ public class CairoGraphFourPlatforms : CairoXY
 						g.LineTo (calculatePaintX (points_ll[sTo][j].X), calculatePaintY (sTo));
 						g.Stroke ();
 
-						lineCenters_l.Add (new PointF (
-									(calculatePaintX (points_ll[sFrom][k].X) + calculatePaintX (points_ll[sTo][j].X)) /2,
-									(calculatePaintY (sFrom) + calculatePaintY (sTo)) /2
-									));
+						//on center
+						//lineCenters_l.Add (new PointF (
+						//			(calculatePaintX (points_ll[sFrom][k].X) + calculatePaintX (points_ll[sTo][j].X)) /2,
+						//			(calculatePaintY (sFrom) + calculatePaintY (sTo)) /2
+						//			));
+						//on top of sTo
+						lineCenters_l.Add (new PointF (calculatePaintX (points_ll[sTo][j].X), calculatePaintY (sTo) -30));
 						break;
 					}
 				}
@@ -383,6 +405,7 @@ public class CairoGraphFourPlatforms : CairoXY
 		foreach (PointF p in lineCenters_l)
 			printText (p.X, p.Y, 0, textHeight +4, (count --).ToString (), g, alignTypes.CENTER);
 	}
+	*/
 
 	protected override void writeTitle()
 	{

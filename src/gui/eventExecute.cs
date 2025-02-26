@@ -318,6 +318,8 @@ public partial class ChronoJumpWindow
 						preferences.fontTypeToGraph(),
 						current_mode,
 						cairoGraphFourPlatformsPoints_ll,
+						cairoGraphFourPlatformsStepsBottom_l,
+						cairoGraphFourPlatformsStepsTop_l,
 						fpcm.IDName_l,
 						fourPlatformsCaptureType,
 						capturingFourPlatforms == arduinoCaptureStatus.CAPTURING,

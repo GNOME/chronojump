@@ -254,14 +254,6 @@ public class CairoGraphFourPlatforms : CairoXY
 				else //(mode == Constants.Modes.OTHER)
 				{
 					doPlotMarksOther (i, fourPlatformsCaptureType == FourPlatformsCaptureManage.CaptureEnum.DEFAULT);
-					/*
-					if (fourPlatformsCaptureType == FourPlatformsCaptureManage.CaptureEnum.FROM1TO2)
-						doPlotArrowsOther (1, 2);
-					else if (fourPlatformsCaptureType == FourPlatformsCaptureManage.CaptureEnum.FROM1TO3)
-						doPlotArrowsOther (1, 3);
-					else if (fourPlatformsCaptureType == FourPlatformsCaptureManage.CaptureEnum.FROM1TO4)
-						doPlotArrowsOther (1, 4);
-						*/
 					if (stepsBottom_l.Count > 0)
 					{
 						for (int j = 0 ; j < stepsBottom_l.Count && j < stepsTop_l.Count ; j ++)
@@ -352,60 +344,6 @@ public class CairoGraphFourPlatforms : CairoXY
 			}
 		}
 	}
-
-	/* TODO: unused. Delete it
-	private void doPlotArrowsOther (int sFrom, int sTo)
-	{
-		if (points_ll[sTo].Count < 2 || points_ll[sFrom].Count < 2)
-			return;
-
-		g.SetSourceColor (black);
-		List<PointF> lineCenters_l = new List<PointF> ();
-		for (int j = points_ll[sTo].Count -1; j >= 0 && points_ll[sTo][j].X >= points_ll[0][startAt].X ; j --)
-		{
-			if (points_ll[sTo][j].Y > 5-sTo) 	//ON: filled ?
-			{
-				for (int k = points_ll[sFrom].Count -1; k >= 0 && points_ll[sFrom][k].X >= points_ll[0][startAt].X ; k --)
-				{
-					if (points_ll[sFrom][k].Y > 5-sFrom) 	//ON: filled ?
-						continue;
-
-					bool found = false;
-					if (j == 0) //o j == 1, veure el comentari sota
-					{
-						if (points_ll[sFrom][k].X < points_ll[sTo][j].X)
-							found = true;
-					} else {
-						if (points_ll[sFrom][k].X < points_ll[sTo][j].X &&
-								points_ll[sFrom][k].X > points_ll[sTo][j-1].X) //TODO hauria d'anar dos enrere, pq hi ha on i off
-							found = true;
-					}
-
-					if (found)
-					{
-						g.MoveTo (calculatePaintX (points_ll[sFrom][k].X), calculatePaintY (sFrom));
-						g.LineTo (calculatePaintX (points_ll[sTo][j].X), calculatePaintY (sTo));
-						g.Stroke ();
-
-						//on center
-						//lineCenters_l.Add (new PointF (
-						//			(calculatePaintX (points_ll[sFrom][k].X) + calculatePaintX (points_ll[sTo][j].X)) /2,
-						//			(calculatePaintY (sFrom) + calculatePaintY (sTo)) /2
-						//			));
-						//on top of sTo
-						lineCenters_l.Add (new PointF (calculatePaintX (points_ll[sTo][j].X), calculatePaintY (sTo) -30));
-						break;
-					}
-				}
-			}
-		}
-
-		g.SetSourceColor (red);
-		int count = lineCenters_l.Count;
-		foreach (PointF p in lineCenters_l)
-			printText (p.X, p.Y, 0, textHeight +4, (count --).ToString (), g, alignTypes.CENTER);
-	}
-	*/
 
 	protected override void writeTitle()
 	{

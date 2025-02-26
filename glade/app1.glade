@@ -8711,7 +8711,7 @@ last capture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="halign">center</property>
-                                                            <property name="spacing">25</property>
+                                                            <property name="spacing">30</property>
                                                             <child>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
@@ -8787,8 +8787,8 @@ last capture</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <object class="GtkButton" id="button_four_platforms_capture_1_2">
-                                                            <property name="label">1 &lt;-&gt; 2</property>
+                                                            <object class="GtkButton" id="button_four_platforms_capture_default">
+                                                            <property name="label" translatable="yes">Default</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
@@ -8801,8 +8801,8 @@ last capture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_four_platforms_capture_1_3">
-                                                            <property name="label">1 &lt;-&gt; 3</property>
+                                                            <object class="GtkButton" id="button_four_platforms_capture_1_2">
+                                                            <property name="label">1-&gt;2 (1 5reps)</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
@@ -8815,8 +8815,8 @@ last capture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_four_platforms_capture_1_4">
-                                                            <property name="label">1 &lt;-&gt; 4</property>
+                                                            <object class="GtkButton" id="button_four_platforms_capture_1_3">
+                                                            <property name="label">1-&gt;3 (1 5reps)</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
@@ -8826,6 +8826,20 @@ last capture</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_four_platforms_capture_1_4">
+                                                            <property name="label">1-&gt;4 (1 5reps)</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <signal name="clicked" handler="on_button_execute_test_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -23112,6 +23126,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

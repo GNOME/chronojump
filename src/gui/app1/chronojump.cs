@@ -4790,7 +4790,7 @@ public partial class ChronoJumpWindow
 			if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
 				on_button_detect_clicked (o, args); //open discover win
 			else
-				on_four_platforms_capture_clicked ();
+				on_four_platforms_capture_clicked (o);
 
 			return;
 		}
@@ -4799,7 +4799,7 @@ public partial class ChronoJumpWindow
 			ChronopicRegisterPort crp = chronopicRegister.GetSelectedForMode (current_mode);
 			if (crp.Port != "" && crp.Type == ChronopicRegisterPort.Types.FOURPLATFORMS)
 			{
-				on_four_platforms_capture_clicked ();
+				on_four_platforms_capture_clicked (o);
 				return;
 			}
 		}

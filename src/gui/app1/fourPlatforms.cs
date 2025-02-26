@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -27,6 +27,8 @@ using System.Threading;
 
 public class FourPlatformsCaptureManage
 {
+	public enum CaptureEnum { DEFAULT, FROM1TO2, FROM1TO3, FROM1TO4 };
+
 	private Constants.Modes mode;
 	private FourPlatformsCapture fpc;
 	private bool finish;
@@ -163,6 +165,10 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_start_fourPlatforms;
 	Gtk.Box box_fourPlatforms;
 	Gtk.Entry entry_fourPlatforms_port;
+	Gtk.Button button_four_platforms_capture_default;
+	Gtk.Button button_four_platforms_capture_1_2;
+	Gtk.Button button_four_platforms_capture_1_3;
+	Gtk.Button button_four_platforms_capture_1_4;
 	Gtk.Button button_fourPlatforms_test_finish;
 	Gtk.Button button_fourPlatforms_test_cancel;
 	// <---- at glade
@@ -185,6 +191,8 @@ public partial class ChronoJumpWindow
 	static FourPlatformsCaptureManage fpcm;
 	FourPlatformsCapture fpc;
 
+	private FourPlatformsCaptureManage.CaptureEnum fourPlatformsCaptureType;
+
 	//methods used on discoverWin closed, person changed, and Chronojump start (changeMode)
 	private void showHideFourPlatformsJumpsDrawingArea ()
 	{
@@ -205,8 +213,17 @@ public partial class ChronoJumpWindow
 
 	}
 
-	private void on_four_platforms_capture_clicked ()
+	private void on_four_platforms_capture_clicked (object o)
 	{
+		fourPlatformsCaptureType = FourPlatformsCaptureManage.CaptureEnum.DEFAULT;
+		Gtk.Button b = o as Gtk.Button;
+		if (b == button_four_platforms_capture_1_2)
+			fourPlatformsCaptureType = FourPlatformsCaptureManage.CaptureEnum.FROM1TO2;
+		else if (b == button_four_platforms_capture_1_3)
+			fourPlatformsCaptureType = FourPlatformsCaptureManage.CaptureEnum.FROM1TO3;
+		else if (b == button_four_platforms_capture_1_4)
+			fourPlatformsCaptureType = FourPlatformsCaptureManage.CaptureEnum.FROM1TO4;
+
 		capturingFourPlatforms = arduinoCaptureStatus.STARTING;
 
 		//blank Cairo scatterplot graphs
@@ -425,6 +442,10 @@ public partial class ChronoJumpWindow
 		box_start_fourPlatforms = (Gtk.Box) builder.GetObject ("box_start_fourPlatforms");
 		box_fourPlatforms = (Gtk.Box) builder.GetObject ("box_fourPlatforms");
 		entry_fourPlatforms_port = (Gtk.Entry) builder.GetObject ("entry_fourPlatforms_port");
+		button_four_platforms_capture_default = (Gtk.Button) builder.GetObject ("button_four_platforms_capture_default");
+		button_four_platforms_capture_1_2 = (Gtk.Button) builder.GetObject ("button_four_platforms_capture_1_2");
+		button_four_platforms_capture_1_3 = (Gtk.Button) builder.GetObject ("button_four_platforms_capture_1_3");
+		button_four_platforms_capture_1_4 = (Gtk.Button) builder.GetObject ("button_four_platforms_capture_1_4");
 		button_fourPlatforms_test_finish = (Gtk.Button) builder.GetObject ("button_fourPlatforms_test_finish");
 		button_fourPlatforms_test_cancel = (Gtk.Button) builder.GetObject ("button_fourPlatforms_test_cancel");
 	}

@@ -28,7 +28,7 @@
 #include  <util/parity.h>
 
 // The first number refers to the hardware version. The seccond to firmware version for this hardware
-String version = "Wifi-Controller-4.6"; //"Wifi-Controller-" is mandatori. Chronojump expects it
+String version = "Wifi-Controller-4.7"; //"Wifi-Controller-" is mandatori. Chronojump expects it
 
 
 //

@@ -379,8 +379,8 @@ unsigned int sendInstruction(struct instruction_t *instruction)
     sendingRetries++;
   }
 
-  radio.startListening();
   radio.setChannel(control0Channel - controlSwitch);
+  radio.startListening();
 
   if(debug && sendingRetries >0) {
     Serial.println(instruction->termNum);

@@ -231,6 +231,7 @@ void debounce() {
     flagint = HIGH;
     lastPinState = !lastPinState;
     sample.state = lastPinState;
+    sample.termNum = 0;
   }
 }
 

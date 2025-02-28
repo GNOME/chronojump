@@ -1,4 +1,4 @@
-// Hardware pinout
+// V5 Hardware pinout
 
 //  ARDUINO   NRf24L01
 //  ------------------ 

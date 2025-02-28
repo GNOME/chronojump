@@ -28,7 +28,7 @@
 #include  <util/parity.h>
 
 // The first number refers to the hardware version. The seccond to firmware version for this hardware
-String version = "Wifi-Controller-4.5"; //"Wifi-Controller-" is mandatori. Chronojump expects it
+String version = "Wifi-Controller-4.6"; //"Wifi-Controller-" is mandatori. Chronojump expects it
 
 
 //
@@ -52,7 +52,7 @@ RF24 radio(A3, A4);
 #define LED_on digitalWrite(2,HIGH)
 #define LED_off digitalWrite(2,LOW)
 
-int radioDelay = 0;
+int radioDelay = 2;
 
 int rcaPin = 3;
 bool flagint = LOW;   //Interruption flag. Activated when the sensos changes
@@ -192,11 +192,16 @@ void setup(void)
   Timer1.attachInterrupt(debounce);
   Timer1.stop();
 
+  Serial.print("Channel: ");
+  Serial.println(controlSwitch);
+  Serial.print("Power: ");
+  Serial.println(radio.getPALevel());
+  flagint = LOW;
+  Serial.print("Speed:");
+  Serial.println(radio.getDataRate());
   Serial.println("the instructions are [termNum]:[command];");
-
   Serial.println("NumTerm\tTime\tState");
   Serial.println("------------------------");
-
   //startTime = millis();
 }
 

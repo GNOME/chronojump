@@ -22,14 +22,14 @@
 #include <SPI.h>
 //#include <nRF24L01.h>     //TODO: Check that it is necessary
 #include <RF24.h>
-#include <printf.h>
+// #include <printf.h>
 #include <MsTimer2.h>
 #include <TimerOne.h>
 #include "pinout.h"
 //#include  <util/parity.h>
 
 unsigned int deviceType = 1; //Photocel and LightChro sensor
-unsigned int deviceVersion = 24;
+unsigned int deviceVersion = 25;
 
 // Set up nRF24L01 radio on SPI bus plus pins  (CE & CS)
 
@@ -122,7 +122,7 @@ void setup(void)
   //pot= getPALevel( ); //función que retorna potencia programada
 
   Serial.begin(115200);
-  printf_begin(); //Used by radio.printDetails()
+  // printf_begin(); //Used by radio.printDetails()
 
   Serial.print("Wifi-Sensor-");
   Serial.println(deviceVersion);
@@ -193,7 +193,7 @@ bool unlimitedMode = true; // sensorOnce deactivate the unlimited mode
     controlSwitch = controlSwitch + 4;
   }
 
-  Serial.println("ControlNum: " + String(controlSwitch));
+  Serial.println("Channel: " + String(controlSwitch));
   // Serial.print("ControlChannel: " + String(control0Channel) + " - " + String(controlSwitch) + " = ");
   // Serial.println(control0Channel - controlSwitch);
 
@@ -226,13 +226,13 @@ bool unlimitedMode = true; // sensorOnce deactivate the unlimited mode
   Timer1.stop();
   sample.state = digitalRead(SENSOR_PIN);
   lastPinState = sample.state;
-  // Serial.print("Initial state: ");
-  // Serial.println(sample.state);
-  // TODO: Understand why flagint is HIGH
-  //radio.printPrettyDetails();
   Serial.print("Power: ");
+  radio.setPALevel(RF24_PA_MAX); // RF24_PA_MIN(0), RF24_PA_LOW(1), RF24_PA_HIGH(2), RF24_PA_MAX(3)
   Serial.println(radio.getPALevel());
   flagint = LOW;
+  Serial.print("Speed:");
+  // radio.setDataRate(RF24_250KBPS); // 0=RF24_250KBPS 1=RF24_1MBPS 2=250Kbps
+  Serial.println(radio.getDataRate());
 }
 
 
@@ -286,8 +286,6 @@ void sendSample(void) {
   //    Serial.println(sample.state);
   radio.stopListening();
   radio.setChannel(control0Channel - controlSwitch);
-  // Serial.print("getChannel = ");
-  // Serial.println(radio.getChannel());
   bool sent = radio.write( &sample, sample_size);
   int retries = 0;
   while (!sent && (retries < 10) ) {
@@ -472,7 +470,6 @@ void beepStop(void)
 }
 
 void sendPong(void) {
-  // Serial.println("Pong");
   sample.data = deviceType * 1000000 + deviceVersion;
   // Serial.println(sample.data);
   // Serial.print("Wifi-Sensor-");
@@ -493,7 +490,6 @@ void sendPong(void) {
   buzzer_off;
   green_off;
   greenIsActive = false;
-
 }
 
 void sendBatteryLevel() {

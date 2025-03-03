@@ -277,7 +277,7 @@ public class EncoderCaptureLikeRReduceCurveBySpeed
 	*/
 	private int getStableEccentricStart (List<double> dis_l, int minHeight)
 	{
-		return getStableConcentricStart (UtilList.ListReverseSign (dis_l, minHeight));
+		return getStableConcentricStart (UtilList.ListReverseSign (dis_l), minHeight);
 	}
 
 	/* reverse horizontally, getStableConcentricStart, and then horizontally reverse the value again
@@ -317,27 +317,45 @@ public class EncoderCaptureLikeRReduceCurveBySpeed
 
 	private int predictNeededZerosAtLeft (List<double> dis_l)
 	{
-		return 0; //TODO:
-		/*
-		// 1 find the first 3 values
-		firstThreeNonZeroPos <- head (which (displacement [2:length(displacement)] != 0), n = 3);
+		// 1) find the first 3 values (that are non zero)
+		List<int> x_l = new List<int> ();
+		for (int i = 0; i < dis_l.Count && x_l.Count <= 3; i ++)
+			if (! Util.SimilarDouble (dis_l[i], 0))
+				x_l.Add (i);
 
 		// if there are less than 3 values, just return the number of initial zeros (the same will be used)
-		if (length (firstThreeNonZeroPos) < 3)
-			return (firstThreeNonZeroPos[1]);
+		if (x_l.Count < 3)
+		{
+			if (x_l.Count >= 1)
+				return x_l[0];
+			else
+				return 0;
+		}
 
-		position <- cumsum (displacement);
+		List<double> pos_l = UtilList.Cumsum (dis_l);
 
-		// 2 try to find the x at min (position) -1
-		xAtDesiredY <- getXatY (firstThreeNonZeroPos, cumsum(position)[firstThreeNonZeroPos], min(position) -1);
+		// 2) try to find the x at min (position) -1
+		List<PointF> threePoints_l = new List<PointF> ();
+		for (int i = 0; i < 3; i ++)
+			threePoints_l.Add (new PointF (x_l[i], pos_l[i]));
 
-		// if is.nan, the parabole does not pass by the point, we can increase the number of values or just return the num of initial zeros
-		if (is.nan (xAtDesiredY) || xAtDesiredY < 0)
-			return (firstThreeNonZeroPos[1]);
+		//double xAtDesiredY = getXatY (threePoints_l, UtilList.Min (pos_l) -1);
+
+		LeastSquaresParabole lsp = new LeastSquaresParabole ();
+		lsp.Calculate (threePoints_l);
+		double xAtDesiredY = lsp.CalculateXAtSomeY (UtilList.GetMin (pos_l) -1);
+
+		// if null, the parabole does not pass by the point, we can increase the number of values or just return the num of initial zeros
+		if (xAtDesiredY == null || xAtDesiredY < 0)
+		{
+			if (x_l.Count >= 1)
+				return x_l[0];
+			else
+				return 0;
+		}
 
 		// 3 detected num of initial zeros
-		return (round (xAtDesiredY, 0));
-		*/
+		return Convert.ToInt32 (xAtDesiredY);
 	}
 
 	private void cumsumTest ()

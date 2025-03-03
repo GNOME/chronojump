@@ -211,6 +211,15 @@ public class UtilList
 		return cutted_l;
 	}
 
+	public static List<T> ListGetFromToIncluded<T> (List<T> original_l, int iFrom, int iToIncluded)
+	{
+		List<T> cutted_l = new List<T>();
+		for (int i = iFrom; i < iToIncluded; i ++)
+			cutted_l.Add (original_l[i]);
+
+		return cutted_l;
+	}
+
 	public static void TestSortDoublesListstring()
 	{
 		List<string> numbers_l = new List<string>() { "3", "99", "135", "45", "75", "17", "88", "5" }; //ints
@@ -329,7 +338,16 @@ public class UtilList
 		return d_l[d_l.Count -1];
 	}
 
-	public static List<int> ListIntReverseSign (List<int> values)
+	public static List<double> ListReverse (List<double> l)
+	{
+		List<double> rev_l = new List<double> ();
+		for (int i = l.Count -1; i >= 0; i --)
+			rev_l.Add (l[i]);
+
+		return rev_l;
+	}
+
+	public static List<int> ListReverseSign (List<int> values)
 	{
 		List<int> reversed_l = new List<int> ();
 		foreach(int i in values)
@@ -337,6 +355,13 @@ public class UtilList
 
 		return reversed_l;
 	}
+	public static List<double> ListReverseSign (List<double> values)
+	{
+		List<double> reversed_l = new List<double> ();
+		foreach(int i in values)
+			reversed_l.Add (-1 * i);
 
+		return reversed_l;
+	}
 }
 

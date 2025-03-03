@@ -1750,6 +1750,7 @@ getCVRMSSD <- function (d)
 # Example of input of the sequence of the loop and diameter of the loop
 # We use diameters but in the next step we convert to radii
 # d_vector <- c(1.5, 1.5, 1.5, 1.5, 2, 2.5, 2.7, 2.9, 2.95, 3)
+# this functions is used on a test: tests/conical_diameters.R but is not used on the program
 getInertialDiametersPerTick <- function(d_vector)
 {
   #If only one diameter is returned, we assume that the diameter is constant
@@ -1794,9 +1795,15 @@ getInertialDiametersPerTick <- function(d_vector)
   d.approx <- predict(d.smoothed, 0:d[length(d[,1]), 1],0)
   return(d.approx$y)
 }
+
+# This is not useful at all because only on diameter is used:
+# - on capture there is one
+# - on analyze there are different diameters on chronojump-encoder-graph-input-multi.csv but here it is send op$diameter (that is always one)
 #Returns the instant diameter every milisecond, depending on the displacement of the movement
 getInertialDiametersPerMs <- function(displacement, diametersPerTick)
 {
+  #write("at getInertialDiametersPerMs, diametersPerTick: ", stderr())
+  #write(diametersPerTick, stderr())
   if (length(diametersPerTick) == 1) {
     return(diametersPerTick)
   }

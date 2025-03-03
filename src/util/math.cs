@@ -16,7 +16,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  *  Copyright (C) 2016, 2019   Xavier Padullés <x.padulles@gmail.com>
- *  Copyright (C) 2016-2017, 2019-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2016-2017, 2019-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -685,6 +685,22 @@ public class LeastSquaresParabole
 	{
 		//check first CalculatedCoef and Parabole type if needed
 		return Coef[2] * Math.Pow (x, 2) + Coef[1] * x + Coef[0];
+	}
+
+	public double CalculateXAtSomeY (double yDesired)
+	{
+		/*
+		 * generic
+		 * y = ax2 + bx + c
+		 * x <- (-b +- sqrt(b2 -4ac)) / 2a
+		 *
+		 * yDesired = ax2 + bx + c
+		 * 0 = ax2 + bx + c - yDesired
+		 * C = c - yDesired
+		 * x <- (-b +- sqrt(b2 -4aC)) / 2a
+		 */
+		double C = Coef[0] - yDesired;
+		return ( (-Coef[1] - Math.Sqrt (Math.Pow (Coef[1],2) - 4 * Coef[2] * C)) / (2 * Coef[2]) );
 	}
 
 	//this is the X where maxY is found

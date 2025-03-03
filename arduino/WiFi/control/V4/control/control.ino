@@ -114,7 +114,6 @@ uint8_t control0Channel = 125; //Channel resulting of the switch at zero state
 uint8_t controlSwitch = 0;      //State of the 3xswithes
 
 const uint64_t pipes[2] = { 0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL }; //Two radio pipes. One for emitting and the other for receiving
-
 bool binaryMode = false;
 //unsigned long startTime;      //local time when the reset_time function is executed
 unsigned long lastSampleTime; //local time at which some sample has been received without overflow correction
@@ -178,6 +177,12 @@ void setup(void)
   radio.setChannel(control0Channel - controlSwitch);
   radio.openWritingPipe(pipes[0]);
   radio.openReadingPipe(1, pipes[1]);
+
+
+  // This is useful to isolate controler+terminals in the same controler channel
+  // from other controler+terminals in other channels
+  // radio.openWritingPipe(controlSwitch);
+  // radio.openReadingPipe(1,controlSwitch);
   radio.startListening();
 
   //  Serial.println(" Status Radio");

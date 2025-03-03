@@ -159,13 +159,6 @@ bool unlimitedMode = true; // sensorOnce deactivate the unlimited mode
   // Serial.print("Terminal Channel: " + String(terminal0Channel) + " - " + String(sample.termNum) + " = ");
   // Serial.println(terminal0Channel - sample.termNum);
 
-
-  radio.openWritingPipe(pipes[1]);
-  radio.openReadingPipe(1, pipes[0]);
-
-  //radio.enableDynamicAck();
-  radio.startListening();
-
   //  printf(" Status Radio\n\r");
   //  radio.printDetails();
 
@@ -192,6 +185,16 @@ bool unlimitedMode = true; // sensorOnce deactivate the unlimited mode
   if (!digitalRead(CH3_PIN)) {
     controlSwitch = controlSwitch + 4;
   }
+
+  radio.openWritingPipe(pipes[1]);
+  radio.openReadingPipe(1, pipes[0]);
+
+  // This is useful to isolate controler+terminals in the same controler channel
+  // radio.openWritingPipe(controlSwitch);
+  // radio.openReadingPipe(1,controlSwitch);
+
+  //radio.enableDynamicAck();
+  radio.startListening();
 
   Serial.println("Channel: " + String(controlSwitch));
   // Serial.print("ControlChannel: " + String(control0Channel) + " - " + String(controlSwitch) + " = ");

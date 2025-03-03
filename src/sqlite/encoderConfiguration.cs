@@ -79,7 +79,7 @@ class SqliteEncoderConfiguration : Sqlite
 					);
 		else if(encoderGI == Constants.EncoderGI.INERTIAL)
 		{
-			EncoderConfiguration ec = new EncoderConfiguration(Constants.EncoderConfigurationNames.ROTARYAXISINERTIAL);
+			EncoderConfiguration ec = new EncoderConfiguration(EncoderConfiguration.Names.ROTARYAXISINERTIAL);
 			ec.SetInertialDefaultOptions();
 			Insert(true,
 					new EncoderConfigurationSQLObject(
@@ -257,8 +257,8 @@ class SqliteEncoderConfiguration : Sqlite
 		{
 			string [] strFull = reader[4].ToString().Split(new char[] {':'});
 			EncoderConfiguration econf = new EncoderConfiguration(
-					(Constants.EncoderConfigurationNames)
-					Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
+					(EncoderConfiguration.Names)
+					Enum.Parse(typeof(EncoderConfiguration.Names), strFull[0]) );
 			econf.ReadParamsFromSQL(strFull);
 			
 			EncoderConfigurationSQLObject econfSO = new EncoderConfigurationSQLObject(
@@ -299,8 +299,8 @@ class SqliteEncoderConfiguration : Sqlite
 		{
 			string [] strFull = reader[4].ToString().Split(new char[] {':'});
 			EncoderConfiguration econf = new EncoderConfiguration(
-					(Constants.EncoderConfigurationNames)
-					Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
+					(EncoderConfiguration.Names)
+					Enum.Parse(typeof(EncoderConfiguration.Names), strFull[0]) );
 			econf.ReadParamsFromSQL(strFull);
 					
 			econfSO = new EncoderConfigurationSQLObject(
@@ -382,8 +382,8 @@ class SqliteEncoderConfiguration : Sqlite
 		{
 			string [] strFull = reader[4].ToString().Split(new char[] {':'});
 			EncoderConfiguration econf = new EncoderConfiguration(
-					(Constants.EncoderConfigurationNames)
-					Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
+					(EncoderConfiguration.Names)
+					Enum.Parse(typeof(EncoderConfiguration.Names), strFull[0]) );
 			econf.ReadParamsFromSQL(strFull);
 
 			econfSO = new EncoderConfigurationSQLObject(

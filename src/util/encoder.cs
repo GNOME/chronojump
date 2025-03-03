@@ -784,77 +784,77 @@ public class UtilEncoder
 		return fileCurve;
 	}
 
-	public static ArrayList EncoderConfigurationList(Constants.EncoderType encoderType, bool inertial, bool rotaryFrictionOnAxis) {
+	public static ArrayList EncoderConfigurationList (Constants.EncoderType encoderType, bool inertial, bool rotaryFrictionOnAxis) {
 		ArrayList list = new ArrayList();
 		if(encoderType == Constants.EncoderType.LINEAR) {
 			if(! inertial) {
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.LINEAR));
+							EncoderConfiguration.Names.LINEAR));
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.LINEARINVERTED));
+							EncoderConfiguration.Names.LINEARINVERTED));
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1));
+							EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON1));
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1INV));
+							EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON1INV));
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2));
+							EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON2));
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2INV));
+							EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON2INV));
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYONLINEARENCODER));
+							EncoderConfiguration.Names.WEIGHTEDMOVPULLEYONLINEARENCODER));
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.LINEARONPLANE));
+							EncoderConfiguration.Names.LINEARONPLANE));
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.LINEARONPLANEWEIGHTDIFFANGLE));
+							EncoderConfiguration.Names.LINEARONPLANEWEIGHTDIFFANGLE));
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.LINEARONPLANEWEIGHTDIFFANGLEMOVPULLEY));
+							EncoderConfiguration.Names.LINEARONPLANEWEIGHTDIFFANGLEMOVPULLEY));
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.PNEUMATIC));
+							EncoderConfiguration.Names.PNEUMATIC));
 			} else {
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.LINEARINERTIAL));
+							EncoderConfiguration.Names.LINEARINERTIAL));
 			}
 		} else if(encoderType == Constants.EncoderType.ROTARYFRICTION) {
 			if(! inertial) {
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDE));
+							EncoderConfiguration.Names.ROTARYFRICTIONSIDE));
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.ROTARYFRICTIONAXIS));
+							EncoderConfiguration.Names.ROTARYFRICTIONAXIS));
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYFRICTION));
+							EncoderConfiguration.Names.WEIGHTEDMOVPULLEYROTARYFRICTION));
 			}
 			else {
 				if(! rotaryFrictionOnAxis) {
 					list.Add(new EncoderConfiguration(
-								Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIAL));
+								EncoderConfiguration.Names.ROTARYFRICTIONSIDEINERTIAL));
 					list.Add(new EncoderConfiguration(
-								Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIALLATERAL));
+								EncoderConfiguration.Names.ROTARYFRICTIONSIDEINERTIALLATERAL));
 					list.Add(new EncoderConfiguration(
-								Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIALMOVPULLEY));
+								EncoderConfiguration.Names.ROTARYFRICTIONSIDEINERTIALMOVPULLEY));
 				} else {
 					list.Add(new EncoderConfiguration(
-								Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIAL));
+								EncoderConfiguration.Names.ROTARYFRICTIONAXISINERTIAL));
 					list.Add(new EncoderConfiguration(
-								Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIALLATERAL));
+								EncoderConfiguration.Names.ROTARYFRICTIONAXISINERTIALLATERAL));
 					list.Add(new EncoderConfiguration(
-								Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIALMOVPULLEY));
+								EncoderConfiguration.Names.ROTARYFRICTIONAXISINERTIALMOVPULLEY));
 				}
 			}
 		} else if(encoderType == Constants.EncoderType.ROTARYAXIS) {
 			if(! inertial) {
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.ROTARYAXIS));
+							EncoderConfiguration.Names.ROTARYAXIS));
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYAXIS));
+							EncoderConfiguration.Names.WEIGHTEDMOVPULLEYROTARYAXIS));
 			} else {
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.ROTARYAXISINERTIAL));
+							EncoderConfiguration.Names.ROTARYAXISINERTIAL));
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.ROTARYAXISINERTIALLATERAL));
+							EncoderConfiguration.Names.ROTARYAXISINERTIALLATERAL));
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.ROTARYAXISINERTIALMOVPULLEY));
+							EncoderConfiguration.Names.ROTARYAXISINERTIALMOVPULLEY));
 				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.ROTARYAXISINERTIALLATERALMOVPULLEY));
+							EncoderConfiguration.Names.ROTARYAXISINERTIALLATERALMOVPULLEY));
 			}
 		}
 		return list;

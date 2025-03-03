@@ -56,8 +56,8 @@ public class EncoderConfigurationSQLObject
 	{
 		string [] strFull = encoderConfigurationString.Split(new char[] {':'});
 		EncoderConfiguration econf = new EncoderConfiguration(
-				(Constants.EncoderConfigurationNames)
-				Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
+				(EncoderConfiguration.Names)
+				Enum.Parse(typeof(EncoderConfiguration.Names), strFull[0]) );
 		econf.ReadParamsFromSQL(strFull);
 
 		this.uniqueID = uniqueID;
@@ -100,12 +100,12 @@ public class EncoderConfigurationSQLObject
 				else if(parts[0] == "EncoderConfiguration")
 				{
 					string [] ecFull = parts[1].Split(new char[] {':'});
-					if(Enum.IsDefined(typeof(Constants.EncoderConfigurationNames), ecFull[0]))
+					if(Enum.IsDefined(typeof(EncoderConfiguration.Names), ecFull[0]))
 					{
 						//create object
 						encoderConfiguration = new EncoderConfiguration(
-								(Constants.EncoderConfigurationNames)
-								Enum.Parse(typeof(Constants.EncoderConfigurationNames), ecFull[0]) );
+								(EncoderConfiguration.Names)
+								Enum.Parse(typeof(EncoderConfiguration.Names), ecFull[0]) );
 						//assign the rest of params
 						encoderConfiguration.ReadParamsFromSQL(ecFull);
 					}
@@ -159,7 +159,26 @@ public class EncoderConfigurationSQLObject
 
 public class EncoderConfiguration
 {
-	public Constants.EncoderConfigurationNames name;
+	public enum Names { //this names are used on util.R and graph.R change there also if needed
+		// ---- LINEAR ----
+		LINEAR, LINEARINVERTED, LINEARINERTIAL, 
+		WEIGHTEDMOVPULLEYLINEARONPERSON1, WEIGHTEDMOVPULLEYLINEARONPERSON1INV,
+		WEIGHTEDMOVPULLEYLINEARONPERSON2, WEIGHTEDMOVPULLEYLINEARONPERSON2INV,
+		WEIGHTEDMOVPULLEYONLINEARENCODER, 
+		LINEARONPLANE, LINEARONPLANEWEIGHTDIFFANGLE, LINEARONPLANEWEIGHTDIFFANGLEMOVPULLEY,
+		PNEUMATIC,
+		// ---- ROTARY FRICTION ----
+		ROTARYFRICTIONSIDE, ROTARYFRICTIONAXIS,
+		WEIGHTEDMOVPULLEYROTARYFRICTION,
+		ROTARYFRICTIONSIDEINERTIAL, ROTARYFRICTIONAXISINERTIAL,
+		ROTARYFRICTIONSIDEINERTIALLATERAL, ROTARYFRICTIONAXISINERTIALLATERAL,
+		ROTARYFRICTIONSIDEINERTIALMOVPULLEY, ROTARYFRICTIONAXISINERTIALMOVPULLEY,
+		// ---- ROTARY AXIS ----
+		ROTARYAXIS, WEIGHTEDMOVPULLEYROTARYAXIS,
+		ROTARYAXISINERTIAL, ROTARYAXISINERTIALLATERAL, ROTARYAXISINERTIALMOVPULLEY, ROTARYAXISINERTIALLATERALMOVPULLEY
+	}
+
+	public Names name;
 	public Constants.EncoderType type;
 	public int position; //used to find values on the EncoderConfigurationList. Numeration changes on every encoder and on not inertial/inertial
 	public string image;
@@ -196,7 +215,7 @@ public class EncoderConfiguration
 	//this is the default values
 	public EncoderConfiguration()
 	{
-		name = Constants.EncoderConfigurationNames.LINEAR;
+		name = Names.LINEAR;
 		type = Constants.EncoderType.LINEAR;
 		position = 0;
 		image = Constants.FileNameEncoderLinearFreeWeight;
@@ -209,28 +228,28 @@ public class EncoderConfiguration
 	// note: if this changes, change also in:
 	// UtilEncoder.EncoderConfigurationList(enum encoderType)
 	
-	public EncoderConfiguration(Constants.EncoderConfigurationNames name)
+	public EncoderConfiguration(Names name)
 	{
 		this.name = name;
 		setDefaultOptions();
 
 		// ---- LINEAR ----
 		// ---- not inertial
-		if(name == Constants.EncoderConfigurationNames.LINEAR) {
+		if(name == Names.LINEAR) {
 			type = Constants.EncoderType.LINEAR;
 			position = 0;
 			image = Constants.FileNameEncoderLinearFreeWeight;
 			code = Constants.DefaultEncoderConfigurationCode;
 			text = textDefault;
 		}
-		else if(name == Constants.EncoderConfigurationNames.LINEARINVERTED) {
+		else if(name == Names.LINEARINVERTED) {
 			type = Constants.EncoderType.LINEAR;
 			position = 1;
 			image =Constants.FileNameEncoderLinearFreeWeightInv;
 			code = "Linear inv - barbell";
 			text = Catalog.GetString("Linear encoder inverted attached to a barbell.");
 		}
-		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1) {
+		else if(name == Names.WEIGHTEDMOVPULLEYLINEARONPERSON1) {
 			type = Constants.EncoderType.LINEAR;
 			position = 2;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson1;
@@ -241,7 +260,7 @@ public class EncoderConfiguration
 		
 			gearedDown = 2;
 		}
-		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1INV) {
+		else if(name == Names.WEIGHTEDMOVPULLEYLINEARONPERSON1INV) {
 			type = Constants.EncoderType.LINEAR;
 			position = 3;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson1Inv;
@@ -252,7 +271,7 @@ public class EncoderConfiguration
 		
 			gearedDown = 2;
 		}
-		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2) {
+		else if(name == Names.WEIGHTEDMOVPULLEYLINEARONPERSON2) {
 			type = Constants.EncoderType.LINEAR;
 			position = 4;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson2;
@@ -263,7 +282,7 @@ public class EncoderConfiguration
 		
 			gearedDown = 2;
 		}
-		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2INV) {
+		else if(name == Names.WEIGHTEDMOVPULLEYLINEARONPERSON2INV) {
 			type = Constants.EncoderType.LINEAR;
 			position = 5;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson2Inv;
@@ -274,7 +293,7 @@ public class EncoderConfiguration
 		
 			gearedDown = 2;
 		}
-		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYONLINEARENCODER) {
+		else if(name == Names.WEIGHTEDMOVPULLEYONLINEARENCODER) {
 			type = Constants.EncoderType.LINEAR;
 			position = 6;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnLinearEncoder;
@@ -284,7 +303,7 @@ public class EncoderConfiguration
 		
 			gearedDown = 2;
 		}
-		else if(name == Constants.EncoderConfigurationNames.LINEARONPLANE) {
+		else if(name == Names.LINEARONPLANE) {
 			type = Constants.EncoderType.LINEAR;
 			position = 7;
 			image = Constants.FileNameEncoderLinearOnPlane;
@@ -295,7 +314,7 @@ public class EncoderConfiguration
 			has_angle_push = true;
 			has_angle_weight = false;
 		}
-		else if(name == Constants.EncoderConfigurationNames.LINEARONPLANEWEIGHTDIFFANGLE) {
+		else if(name == Names.LINEARONPLANEWEIGHTDIFFANGLE) {
 			type = Constants.EncoderType.LINEAR;
 			position = 8;
 			image = Constants.FileNameEncoderLinearOnPlaneWeightDiffAngle;
@@ -306,7 +325,7 @@ public class EncoderConfiguration
 			has_angle_push = true;
 			has_angle_weight = true;
 		}
-		else if(name == Constants.EncoderConfigurationNames.LINEARONPLANEWEIGHTDIFFANGLEMOVPULLEY) {
+		else if(name == Names.LINEARONPLANEWEIGHTDIFFANGLEMOVPULLEY) {
 			type = Constants.EncoderType.LINEAR;
 			position = 9;
 			image = Constants.FileNameEncoderLinearOnPlaneWeightDiffAngleMovPulley;
@@ -320,7 +339,7 @@ public class EncoderConfiguration
 			has_angle_weight = true;
 			has_gearedDown = true;
 		}
-		if(name == Constants.EncoderConfigurationNames.PNEUMATIC) {
+		if(name == Names.PNEUMATIC) {
 			type = Constants.EncoderType.LINEAR;
 			position = 10;
 			image = Constants.FileNameEncoderLinearPneumatic;
@@ -330,7 +349,7 @@ public class EncoderConfiguration
 			has_angle_push = true;
 		}
 		// ---- inertial
-		else if(name == Constants.EncoderConfigurationNames.LINEARINERTIAL) {
+		else if(name == Names.LINEARINERTIAL) {
 			type = Constants.EncoderType.LINEAR;
 			position = 0;
 			image = Constants.FileNameEncoderLinearInertial;
@@ -344,14 +363,14 @@ public class EncoderConfiguration
 		}
 		// ---- ROTARY FRICTION ----
 		// ---- not inertial
-		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDE) {
+		else if(name == Names.ROTARYFRICTIONSIDE) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 0;
 			image = Constants.FileNameEncoderFrictionSide;
 			code = "Rotary friction - pulley";
 			text = Catalog.GetString("Rotary friction encoder on pulley.");
 		}
-		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXIS) {
+		else if(name == Names.ROTARYFRICTIONAXIS) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 1;
 			image = Constants.FileNameEncoderFrictionAxis;
@@ -361,7 +380,7 @@ public class EncoderConfiguration
 			has_d = true;
 			has_D = true;
 		}
-		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYFRICTION) {
+		else if(name == Names.WEIGHTEDMOVPULLEYROTARYFRICTION) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 2;
 			image = Constants.FileNameEncoderFrictionWithMovPulley;
@@ -370,7 +389,7 @@ public class EncoderConfiguration
 		}
 		// ---- inertial
 		// ---- rotary friction not on axis
-		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIAL) {
+		else if(name == Names.ROTARYFRICTIONSIDEINERTIAL) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 0;
 			image = Constants.FileNameEncoderFrictionSideInertial;
@@ -382,7 +401,7 @@ public class EncoderConfiguration
 			has_D = true;
 			has_inertia = true;
 		}
-		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIALLATERAL) {
+		else if(name == Names.ROTARYFRICTIONSIDEINERTIALLATERAL) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 1;
 			image = Constants.FileNameEncoderFrictionSideInertialLateral;
@@ -394,7 +413,7 @@ public class EncoderConfiguration
 			has_D = true;
 			has_inertia = true;
 		}
-		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIALMOVPULLEY) {
+		else if(name == Names.ROTARYFRICTIONSIDEINERTIALMOVPULLEY) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 2;
 			image = Constants.FileNameEncoderFrictionSideInertialMovPulley;
@@ -410,7 +429,7 @@ public class EncoderConfiguration
 		}
 
 		// ---- rotary friction on axis
-		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIAL) {
+		else if(name == Names.ROTARYFRICTIONAXISINERTIAL) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 0;
 			image = Constants.FileNameEncoderFrictionAxisInertial;
@@ -422,7 +441,7 @@ public class EncoderConfiguration
 			has_inertia = true;
 			rotaryFrictionOnAxis = true;
 		}
-		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIALLATERAL) {
+		else if(name == Names.ROTARYFRICTIONAXISINERTIALLATERAL) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 1;
 			image = Constants.FileNameEncoderFrictionAxisInertialLateral;
@@ -434,7 +453,7 @@ public class EncoderConfiguration
 			has_inertia = true;
 			rotaryFrictionOnAxis = true;
 		}
-		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIALMOVPULLEY) {
+		else if(name == Names.ROTARYFRICTIONAXISINERTIALMOVPULLEY) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 2;
 			image = Constants.FileNameEncoderFrictionAxisInertialMovPulley;
@@ -451,7 +470,7 @@ public class EncoderConfiguration
 
 		// ---- ROTARY AXIS ----
 		// ---- not inertial
-		else if(name == Constants.EncoderConfigurationNames.ROTARYAXIS) {
+		else if(name == Names.ROTARYAXIS) {
 			type = Constants.EncoderType.ROTARYAXIS;
 			position = 0;
 			image = Constants.FileNameEncoderRotaryAxisOnAxis;
@@ -460,7 +479,7 @@ public class EncoderConfiguration
 
 			has_D = true;
 		}
-		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYAXIS) {
+		else if(name == Names.WEIGHTEDMOVPULLEYROTARYAXIS) {
 			type = Constants.EncoderType.ROTARYAXIS;
 			position = 1;
 			image = Constants.FileNameEncoderAxisWithMovPulley;
@@ -471,7 +490,7 @@ public class EncoderConfiguration
 			gearedDown = 2;
 		}
 		// ---- inertial
-		else if(name == Constants.EncoderConfigurationNames.ROTARYAXISINERTIAL) {
+		else if(name == Names.ROTARYAXISINERTIAL) {
 			type = Constants.EncoderType.ROTARYAXIS;
 			position = 0;
 			image = Constants.FileNameEncoderAxisInertial;
@@ -482,7 +501,7 @@ public class EncoderConfiguration
 			has_d = true;
 			has_inertia = true;
 		}
-		else if(name == Constants.EncoderConfigurationNames.ROTARYAXISINERTIALLATERAL) {
+		else if(name == Names.ROTARYAXISINERTIALLATERAL) {
 			type = Constants.EncoderType.ROTARYAXIS;
 			position = 1;
 			image = Constants.FileNameEncoderAxisInertialLateral;
@@ -493,7 +512,7 @@ public class EncoderConfiguration
 			has_d = true;
 			has_inertia = true;
 		}
-		else if(name == Constants.EncoderConfigurationNames.ROTARYAXISINERTIALMOVPULLEY) {
+		else if(name == Names.ROTARYAXISINERTIALMOVPULLEY) {
 			type = Constants.EncoderType.ROTARYAXIS;
 			position = 2;
 			image = Constants.FileNameEncoderAxisInertialMovPulley;
@@ -506,7 +525,7 @@ public class EncoderConfiguration
 			has_inertia = true;
 			has_gearedDown = true;
 		}
-		else if(name == Constants.EncoderConfigurationNames.ROTARYAXISINERTIALLATERALMOVPULLEY) {
+		else if(name == Names.ROTARYAXISINERTIALLATERALMOVPULLEY) {
 			type = Constants.EncoderType.ROTARYAXIS;
 			position = 3;
 			image = Constants.FileNameEncoderAxisInertialMovPulleyLateral;
@@ -545,7 +564,7 @@ public class EncoderConfiguration
 
 	public void SetInertialDefaultOptions()
 	{
-		//after creating Constants.EncoderConfigurationNames.ROTARYAXISINERTIAL
+		//after creating Names.ROTARYAXISINERTIAL
 		inertiaMachine = 900;
 		d = 5;
 		list_d = new List_d(d);
@@ -677,9 +696,9 @@ public class EncoderConfiguration
 	// while capture to show correctly on screen and to send the correct concentric cut to R
 	public bool IsInverted ()
 	{
-		if (name == Constants.EncoderConfigurationNames.LINEARINVERTED ||
-				name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1INV ||
-				name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2INV)
+		if (name == Names.LINEARINVERTED ||
+				name == Names.WEIGHTEDMOVPULLEYLINEARONPERSON1INV ||
+				name == Names.WEIGHTEDMOVPULLEYLINEARONPERSON2INV)
 			return true;
 
 		return false;

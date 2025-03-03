@@ -797,8 +797,8 @@ class SqliteSession : Sqlite
 			//get econf to separate gravitatory and inertial
 			string [] strFull = reader_enc[1].ToString().Split(new char[] {':'});
 			EncoderConfiguration econf = new EncoderConfiguration(
-				(Constants.EncoderConfigurationNames) 
-				Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
+				(EncoderConfiguration.Names) 
+				Enum.Parse(typeof(EncoderConfiguration.Names), strFull[0]) );
 
 			sessionNow = Convert.ToInt32(reader_enc[0].ToString());
 			if(sessionNow != sessionBefore && sessionBefore != -1) {

@@ -342,8 +342,8 @@ class SqliteEncoder : Sqlite
         {
             string[] strFull = reader[15].ToString().Split(new char[] { ':' });
             EncoderConfiguration econf = new EncoderConfiguration(
-                (Constants.EncoderConfigurationNames)
-                Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]));
+                (EncoderConfiguration.Names)
+                Enum.Parse(typeof(EncoderConfiguration.Names), strFull[0]));
             econf.ReadParamsFromSQL(strFull);
 
             //if encoderGI != ALL discard non wanted repetitions
@@ -464,8 +464,8 @@ class SqliteEncoder : Sqlite
             //discard if != encoderGI
             string[] strFull = reader[6].ToString().Split(new char[] { ':' });
             EncoderConfiguration econf = new EncoderConfiguration(
-                (Constants.EncoderConfigurationNames)
-                Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]));
+                (EncoderConfiguration.Names)
+                Enum.Parse(typeof(EncoderConfiguration.Names), strFull[0]));
 
             //if encoderGI != ALL discard non wanted repetitions
             if (encoderGI == Constants.EncoderGI.GRAVITATORY && econf.has_inertia)
@@ -567,8 +567,8 @@ class SqliteEncoder : Sqlite
             //discard if != encoderGI
             string[] strFull = reader[3].ToString().Split(new char[] { ':' });
             EncoderConfiguration econf = new EncoderConfiguration(
-                (Constants.EncoderConfigurationNames)
-                Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]));
+                (EncoderConfiguration.Names)
+                Enum.Parse(typeof(EncoderConfiguration.Names), strFull[0]));
 
             //if encoderGI != ALL discard non wanted repetitions
             if (encoderGI == Constants.EncoderGI.GRAVITATORY && econf.has_inertia)
@@ -636,8 +636,8 @@ class SqliteEncoder : Sqlite
             //discard if != encoderGI
             string[] strFull = reader[3].ToString().Split(new char[] { ':' });
             EncoderConfiguration econf = new EncoderConfiguration(
-                (Constants.EncoderConfigurationNames)
-                Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]));
+                (EncoderConfiguration.Names)
+                Enum.Parse(typeof(EncoderConfiguration.Names), strFull[0]));
 
             //if encoderGI != ALL discard non wanted repetitions
             if (encoderGI == Constants.EncoderGI.GRAVITATORY && econf.has_inertia)
@@ -1061,8 +1061,8 @@ class SqliteEncoder : Sqlite
             //discard if != encoderGI
             string[] strFull = reader[1].ToString().Split(new char[] { ':' });
             EncoderConfiguration econf = new EncoderConfiguration(
-                (Constants.EncoderConfigurationNames)
-                Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]));
+                (EncoderConfiguration.Names)
+                Enum.Parse(typeof(EncoderConfiguration.Names), strFull[0]));
 
             //if encoderGI != ALL discard non wanted repetitions
             if (encoderGI == Constants.EncoderGI.GRAVITATORY && econf.has_inertia)

@@ -34,20 +34,20 @@ public class EncoderCaptureLikeR
 
 	// in signals and curves, need to do conversions (invert, diameter)
 	public List<double> GetDisplacement (
-			bool capturing, Constants.EncoderConfigurationNames econfName,
+			bool capturing, EncoderConfiguration.Names econfName,
 			List<int> dis_l, double diameter, double diameterExt, int gearedDown)
 	{
 		List<double> disFixed_l = new List<double> ();
 
 		// no change on this encoder configurations
-		if (econfName == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1 ||
-				econfName == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1INV ||
-				econfName == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2 ||
-				econfName == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2INV ||
-				econfName == Constants.EncoderConfigurationNames.LINEARONPLANE ||
-				econfName == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDE ||
-				econfName == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYFRICTION ||
-				econfName == Constants.EncoderConfigurationNames.ROTARYAXISINERTIALMOVPULLEY)
+		if (econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON1 ||
+				econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON1INV ||
+				econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON2 ||
+				econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON2INV ||
+				econfName == EncoderConfiguration.Names.LINEARONPLANE ||
+				econfName == EncoderConfiguration.Names.ROTARYFRICTIONSIDE ||
+				econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYROTARYFRICTION ||
+				econfName == EncoderConfiguration.Names.ROTARYAXISINERTIALMOVPULLEY)
 		{
 			foreach (int dis in dis_l)
 				disFixed_l.Add (Convert.ToDouble (dis));
@@ -56,35 +56,35 @@ public class EncoderCaptureLikeR
 		}
 
 		if ( ! capturing && (
-					econfName == Constants.EncoderConfigurationNames.LINEARINVERTED ||
-					econfName == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1INV ||
-					econfName == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2INV) )
+					econfName == EncoderConfiguration.Names.LINEARINVERTED ||
+					econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON1INV ||
+					econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON2INV) )
 			// On inverted modes the direction of the displacement is changed
 		{
 			foreach (int dis in dis_l)
 				disFixed_l.Add (-1 * dis);
 		}
-		else if (econfName == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYONLINEARENCODER)
+		else if (econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYONLINEARENCODER)
 		{
 			// On geared down machines the displacement of the subject is multiplied by gearedDown
 			// default is: gearedDown = 2. Future maybe this will be a parameter
 			foreach (int dis in dis_l)
 				disFixed_l.Add (dis * 2);
 		}
-		else if (econfName == Constants.EncoderConfigurationNames.LINEARONPLANEWEIGHTDIFFANGLEMOVPULLEY)
+		else if (econfName == EncoderConfiguration.Names.LINEARONPLANEWEIGHTDIFFANGLEMOVPULLEY)
 		{
 			foreach (int dis in dis_l)
 				disFixed_l.Add (dis * gearedDown);
 		}
-		else if (econfName == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXIS)
+		else if (econfName == EncoderConfiguration.Names.ROTARYFRICTIONAXIS)
 		{
 			// On rotary friction axis the displacement of the subject is proportional to the axis diameter
 			// and inversely proportional to the diameter where the encoder is coupled
 			foreach (int dis in dis_l)
 				disFixed_l.Add (dis * diameter / diameterExt);
 		}
-		else if (econfName == Constants.EncoderConfigurationNames.ROTARYAXIS ||
-				econfName == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYAXIS)
+		else if (econfName == EncoderConfiguration.Names.ROTARYAXIS ||
+				econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYROTARYAXIS)
 		{
 			//On rotary encoders attached to fixed pulleys next to subjects (see config 1 and 3 in interface),
 			//the displacement of the subject is anlge * radius
@@ -107,7 +107,7 @@ public class EncoderCaptureLikeR
 	 */
 
 	public List<double> GetDisplacementInertial (
-			List<int> dis_l, Constants.EncoderConfigurationNames econfName,
+			List<int> dis_l, EncoderConfiguration.Names econfName,
 			List<double> diameterPerTick_l, double diameterExt, int gearedDown)
 	{
 		LogB.Information ("at getDisplacementInertial");
@@ -115,10 +115,10 @@ public class EncoderCaptureLikeR
 
 		// scanned displacement is ticks of rotary axis encoder
 		// now convert it to mm of body displacement
-		if(econfName == Constants.EncoderConfigurationNames.ROTARYAXISINERTIAL ||
-				econfName == Constants.EncoderConfigurationNames.ROTARYAXISINERTIALLATERAL ||
-				econfName == Constants.EncoderConfigurationNames.ROTARYAXISINERTIALMOVPULLEY ||
-				econfName == Constants.EncoderConfigurationNames.ROTARYAXISINERTIALLATERALMOVPULLEY)
+		if(econfName == EncoderConfiguration.Names.ROTARYAXISINERTIAL ||
+				econfName == EncoderConfiguration.Names.ROTARYAXISINERTIALLATERAL ||
+				econfName == EncoderConfiguration.Names.ROTARYAXISINERTIALMOVPULLEY ||
+				econfName == EncoderConfiguration.Names.ROTARYAXISINERTIALLATERALMOVPULLEY)
 		{
 
 			// Number of revolutions that the flywheel rotates every millisecond
@@ -134,14 +134,14 @@ public class EncoderCaptureLikeR
 			for (int i = 0; i < dis_l.Count ; i ++)
 				disFixed_l.Add (revolutionsPerMs_l[i] * Math.PI * diameterPerTick_l[i] * 10 * gearedDown);
 
-		} else if(econfName == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIAL ||
-				econfName == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIALLATERAL ||
-				econfName == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIALMOVPULLEY)
+		} else if(econfName == EncoderConfiguration.Names.ROTARYFRICTIONSIDEINERTIAL ||
+				econfName == EncoderConfiguration.Names.ROTARYFRICTIONSIDEINERTIALLATERAL ||
+				econfName == EncoderConfiguration.Names.ROTARYFRICTIONSIDEINERTIALMOVPULLEY)
 		{
 			for (int i = 0; i < dis_l.Count ; i ++)
 				disFixed_l.Add (dis_l[i] * diameterPerTick_l[i] * gearedDown / diameterExt); //displacement of the axis
 
-		} else if(econfName == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIALMOVPULLEY)
+		} else if(econfName == EncoderConfiguration.Names.ROTARYFRICTIONAXISINERTIALMOVPULLEY)
 		{
 			// If force multiplier is 2 (gearedDown = 0.5) the displacement of the body is
 			// half the the displacement at the perimeter of the axis

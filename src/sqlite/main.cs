@@ -1505,11 +1505,11 @@ class Sqlite
 			if(currentVersion == "0.95") {
 				Sqlite.Open();
 				
-				Update(true, Constants.EncoderTable, "future3", "", Constants.EncoderConfigurationNames.LINEAR.ToString(), 
+				Update(true, Constants.EncoderTable, "future3", "", EncoderConfiguration.Names.LINEAR.ToString(), 
 						"signalOrCurve", "signal");
-				Update(true, Constants.EncoderTable, "future3", "0", Constants.EncoderConfigurationNames.LINEAR.ToString(), 
+				Update(true, Constants.EncoderTable, "future3", "0", EncoderConfiguration.Names.LINEAR.ToString(), 
 						"signalOrCurve", "signal");
-				Update(true, Constants.EncoderTable, "future3", "1", Constants.EncoderConfigurationNames.LINEARINVERTED.ToString(),
+				Update(true, Constants.EncoderTable, "future3", "1", EncoderConfiguration.Names.LINEARINVERTED.ToString(),
 						"signalOrCurve", "signal");
 
 				LogB.SQL("Encoder signal future3 three modes");
@@ -2125,8 +2125,8 @@ class Sqlite
 
 				//2.a create object
 				EncoderConfiguration econfOnPreferences = new EncoderConfiguration(
-						(Constants.EncoderConfigurationNames)
-						Enum.Parse(typeof(Constants.EncoderConfigurationNames), ecStrFull[0]) );
+						(EncoderConfiguration.Names)
+						Enum.Parse(typeof(EncoderConfiguration.Names), ecStrFull[0]) );
 
 				//2b assign the rest of params
 				econfOnPreferences.ReadParamsFromSQL(ecStrFull);

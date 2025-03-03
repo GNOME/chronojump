@@ -23,17 +23,17 @@ using System.Collections.Generic; //List<T>
 
 // this class will do same as encoder/util.R getDisplacement (), getDisplacementInertial (), getInertialDiametersPerMs ()
 
-public class EncoderCaptureLikeR
+public class EncoderLikeRGetDisplacement
 {
 	private int ticksRotaryEncoder = 200; //our rotary axis encoder sends 200 ticks per revolution
 
 	//constructor
-	public EncoderCaptureLikeR ()
+	public EncoderLikeRGetDisplacement ()
 	{
 	}
 
 	// in signals and curves, need to do conversions (invert, diameter)
-	public List<double> GetDisplacement (
+	private List<double> getDisplacement (
 			bool capturing, EncoderConfiguration.Names econfName,
 			List<int> dis_l, double diameter, double diameterExt, int gearedDown)
 	{
@@ -106,7 +106,7 @@ public class EncoderCaptureLikeR
 	 * This is solved by the function getDisplacementInertialBody
 	 */
 
-	public List<double> GetDisplacementInertial (
+	private List<double> getDisplacementInertial (
 			List<int> dis_l, EncoderConfiguration.Names econfName,
 			List<double> diameterPerTick_l, double diameterExt, int gearedDown)
 	{
@@ -154,17 +154,4 @@ public class EncoderCaptureLikeR
 		}
 		return disFixed_l;
 	}
-
-	/* TODO:
-	// Returns the instant diameter every milisecond, depending on the displacement of the movement
-	public List<double> getInertialDiametersPerMs (List<int> displacement_l, int diametersPerTick)
-	{
-		if (length(diametersPerTick) == 1) {
-			return(diametersPerTick);
-		}
-
-		diameter <- diametersPerTick[abs(cumsum(displacement)) + 1];
-		return(diameter);
-	}
-	*/
 }

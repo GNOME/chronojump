@@ -21,6 +21,17 @@
 using System;
 using System.Collections.Generic; //List<T>
 
+/*
+ * 2023 getStableConcentricStart && reduceCurveByPredictStartEnd
+ *
+ * The initial / final zeros affect a lot to the power. reduceCurveBySpeed depends on this initial zeros, and some parts of the program like analysis set and analysis session sometimes have different number of zeros affecting the result.
+ * This functions deletes initial zeros (as we do not know if movement started)
+ * And calculates where the initial zero should be from a regression from right to left
+ * And reconstruct the displacement
+ * Check tests/fixEccConCutOnNotSingleFile/getCurveStartEnd.R
+ * Check tests/fixEccConCutOnNotSingleFile/fixEccConCutOnNotSingleFile.R
+ */
+
 public class EncoderCaptureLikeRReduceCurveBySpeed
 {
 	public struct ReducedCurve
@@ -157,21 +168,151 @@ public class EncoderCaptureLikeRReduceCurveBySpeed
 		return dis_l.Count -1;
 	}
 
+	// i is the position we are searching if has n zeros at left
+	private bool hasNZerosAtLeft (List<double> dis_l, int i, int n)
+	{
+		if (i <= n)
+			return false;
+
+		for (int j = (i-1); j >= (i-n) ; j --)
+			if (! Util.SimilarDouble (dis_l[j], 0))
+				return false;
+
+		return true;
+	}
+
+	private int zerosAtLeft (List<double> dis_l, int i)
+	{
+		int zeros = 0;
+		if (i == 0)
+			return 0;
+
+		for (int j = (i-1); j >= 0 ; j --)
+		{
+			if (Util.SimilarDouble (dis_l[j], 0))
+				zeros ++;
+			else
+				return (zeros);
+		}
+
+		return zeros;
+	}
+
+	/*
+					con
+					/
+				      t
+				     /
+				 ---s
+			   -----s
+	       -----------S
+	 -----s
+
+		this function finds s that has at least 30 ms of stability at left
+		t is the minHeight needed for being a repetition
+		Considers also that from s,S to top has to be >= minHeight
+		in the graph s,S have 30 zeros or more at left
+		S is the point below t that has more zeros at left
+	*/
 	private int getStableConcentricStart (List<double> dis_l, int minHeight)
 	{
-		return 0; //TODO
+		List<double> pos_l = UtilList.Cumsum (dis_l);
+
+		if (UtilList.GetMax (pos_l) < minHeight)
+			return 0;
+
+		int t = 0;
+		for (int i = 0; i < pos_l.Count ; i ++)
+			if (pos_l[i] >= minHeight)
+			{
+				t = i;
+				break;
+			}
+
+		int nZerosAtLeft = 30;
+		if (t - nZerosAtLeft <= 0)
+			return 0;
+
+		int storedNZerosAtLeft = 0;
+		int storedSample = -1;
+		for (int j = t; j >= nZerosAtLeft; j --)
+			if (pos_l[j] < pos_l[t] &&
+					hasNZerosAtLeft (dis_l, j, nZerosAtLeft) &&
+					UtilList.GetMax (pos_l) - pos_l[j] >= minHeight)
+			{
+				if (storedSample < 0)
+				{
+					storedSample = j;
+					//storedHeight = pos_l[j];
+					storedNZerosAtLeft = zerosAtLeft (dis_l, j);
+				} else
+				{
+					int zerosAtLeftHere = zerosAtLeft (dis_l, j);
+					if (zerosAtLeftHere > storedNZerosAtLeft)
+					{
+						storedSample = j;
+						//storedHeight = pos_l[j];
+						storedNZerosAtLeft = zerosAtLeftHere;
+					}
+				}
+			}
+
+		if (storedSample > 0)
+			return storedSample;
+
+		return 0;
 	}
+
+	/* reverse vertically and getStableConcentricStart
+	  to find A, convert, find B, A == B
+	  FROM 0,0,0,-1,-1,-2, ...  TO: 0,0,0,1,1,2, ...
+	  FROM                TO
+	                        ----
+	                       /
+	                      /
+	0 -A-\            -B-/
+	      \
+	       \
+	        ----
+	*/
 	private int getStableEccentricStart (List<double> dis_l, int minHeight)
 	{
-		return 0; //TODO
+		return getStableConcentricStart (UtilList.ListReverseSign (dis_l, minHeight));
 	}
-	private int getStableConcentricEnd (List<double> dis_l, int minHeight)
-	{
-		return 0; //TODO
-	}
+
+	/* reverse horizontally, getStableConcentricStart, and then horizontally reverse the value again
+	  and vertically to have the - as +
+	  to find A, convert, find B, A = length - B
+	  FROM 0,0,0,-1,-1,-2, ...  TO: 0,0,0,1,1,2, ...
+	  FROM                TO
+	                         --
+	                        /
+	                       /
+	 0 --\            -B--/
+	      \
+	       \
+	        -A--
+	*/
 	private int getStableEccentricEnd (List<double> dis_l, int minHeight)
 	{
-		return 0; //TODO
+		return dis_l.Count -getStableConcentricStart (
+					UtilList.ListReverseSign (UtilList.ListReverse (dis_l)),
+					minHeight);
+	}
+
+	/* reverse horizontally, getStableConcentricStart
+	   to find A, convert (simply reverse horizontally) , find B, A = length - B
+		   FROM                 TO
+		   -A-             ----
+	          /               /
+		 /               /
+	  0 ----/            -B-/
+	*/
+	private int getStableConcentricEnd (List<double> dis_l, int minHeight)
+	{
+		return dis_l.Count -getStableConcentricStart (
+				UtilList.ListReverse (dis_l),
+				minHeight);
 	}
 
 	private int predictNeededZerosAtLeft (List<double> dis_l)
@@ -197,5 +338,23 @@ public class EncoderCaptureLikeRReduceCurveBySpeed
 		// 3 detected num of initial zeros
 		return (round (xAtDesiredY, 0));
 		*/
+	}
+
+	private void cumsumTest ()
+	{
+		//List<double> l = new List<double> { 7, 5, 3.2, 4};
+		//LogB.Information (UtilList.ListDoubleToString
+	}
+
+	private List<double> cumsum (List<double> l)
+	{
+		List<double> cumsum_l = new List<double> ();
+		double sum = 0;
+		for (int i = 0; i < l.Count; i ++)
+		{
+			sum += l[i];
+			cumsum_l.Add (sum);
+		}
+		return cumsum_l;
 	}
 }

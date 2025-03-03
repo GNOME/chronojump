@@ -70,17 +70,25 @@ public class UtilList
 	}
 
 	//to pass a list like: (.5, .7, .2) to: (.5, 1.2, 1.4)
-	public static List<double> ListDoubleToAccumulative (List<double> original_l)
+	public static List<double> Cumsum (List<double> original_l)
 	{
 		List<double> accu_l = new List<double> ();
-		double previous = 0;
+		double sum = 0;
 		foreach (double d in original_l)
 		{
-			accu_l.Add (d + previous);
-			previous = d + previous;
+			sum += d;
+			accu_l.Add (sum);
 		}
 
 		return accu_l;
+	}
+	public static void CumsumTest ()
+	{
+		List<double> l = new List<double> { 7, 5, 3.2, 4};
+
+		LogB.Information (string.Format ("CumsumTest from: {0} to: {1}",
+				UtilList.ListDoubleToString (l, 2, "; "),
+				UtilList.ListDoubleToString (Cumsum (l), 2, "; ") ));
 	}
 
 	public static string ListStringToString (List<string> l)

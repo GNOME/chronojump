@@ -2571,7 +2571,7 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 			cb.VideoPlayTimeInSeconds = videoTime;
 
 			//cb.VideoPlayTimes_l = time_l; //VideoPlayTimes is accumulative)
-			cb.VideoPlayTimes_l = UtilList.ListDoubleToAccumulative (time_l);
+			cb.VideoPlayTimes_l = UtilList.Cumsum (time_l);
 		}
 
 		passDataForScreenshotIfNeeded ();

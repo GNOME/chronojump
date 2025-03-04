@@ -72,7 +72,7 @@ public class Config
 		RemoteTestJumpSimpleFile, RemoteTestRunIntervalFile, RemoteTestCancelFile, RemotePersonNextFile, //remote execution
 		RUserURL, RscriptUserURL, PythonUserURL, //User executables locations
 		EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, Wilight, WilightExerciseID, WilightCommandsURL, WilightLayoutURL, //modes
-		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU,  GuiTest, NoSendLog, //other
+		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU,  GuiTest, NoSendLog, TreeviewResults, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
 
@@ -250,6 +250,9 @@ public class Config
 	}
 	public bool NoSendLog {
 		get { return configList.GetBool (OpEnum.NoSendLog); }
+	}
+	public bool TreeviewResults {
+		get { return configList.GetBool (OpEnum.TreeviewResults); }
 	}
 
 	// outdated or not working
@@ -744,6 +747,8 @@ public class ConfigList
 					"To perform tests with the GUI (untested with current code)."));
 		list.Add (new ConfigOptionBool (Config.OpEnum.NoSendLog,
 					"On Chronojump open do not show the send log window when crashed before."));
+		list.Add (new ConfigOptionBool (Config.OpEnum.TreeviewResults,
+					"Experimental (March 2025) Unified Treeview results session."));
 
 		// outdated or not working
 		list.Add (new ConfigOptionBool (Config.OpEnum.Exhibition,

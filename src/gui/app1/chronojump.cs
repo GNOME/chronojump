@@ -8900,6 +8900,8 @@ public partial class ChronoJumpWindow
 		frame_contacts_graph_table = (Gtk.Frame) builder.GetObject ("frame_contacts_graph_table");
 		hpaned_contacts_graph_table = (Gtk.HPaned) builder.GetObject ("hpaned_contacts_graph_table");
 		treeview_persons = (Gtk.TreeView) builder.GetObject ("treeview_persons");
+		scrolledwindow_treeview_results_session = (Gtk.ScrolledWindow) builder.GetObject ("scrolledwindow_treeview_results_session");
+		treeview_results_session = (Gtk.TreeView) builder.GetObject ("treeview_results_session");
 		treeview_jumps = (Gtk.TreeView) builder.GetObject ("treeview_jumps");
 		treeview_jumps_rj = (Gtk.TreeView) builder.GetObject ("treeview_jumps_rj");
 		treeview_runs = (Gtk.TreeView) builder.GetObject ("treeview_runs");

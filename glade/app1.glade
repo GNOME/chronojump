@@ -10657,6 +10657,10 @@ last capture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
                                                             <object class="GtkNotebook" id="notebook_results">
                                                             <property name="width-request">150</property>
                                                             <property name="visible">True</property>
@@ -10683,9 +10687,6 @@ last capture</property>
                                                             <property name="rules-hint">True</property>
                                                             <property name="enable-search">False</property>
                                                             <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
-                                                            <child internal-child="selection">
-                                                            <object class="GtkTreeSelection"/>
-                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
@@ -10759,9 +10760,6 @@ last capture</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="rules-hint">True</property>
                                                             <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
-                                                            <child internal-child="selection">
-                                                            <object class="GtkTreeSelection"/>
-                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
@@ -10840,9 +10838,6 @@ last capture</property>
                                                             <property name="rules-hint">True</property>
                                                             <property name="enable-search">False</property>
                                                             <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
-                                                            <child internal-child="selection">
-                                                            <object class="GtkTreeSelection"/>
-                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
@@ -10921,9 +10916,6 @@ last capture</property>
                                                             <property name="rules-hint">True</property>
                                                             <property name="enable-search">False</property>
                                                             <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
-                                                            <child internal-child="selection">
-                                                            <object class="GtkTreeSelection"/>
-                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
@@ -12099,9 +12091,6 @@ last capture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
-                                                            <child internal-child="selection">
-                                                            <object class="GtkTreeSelection"/>
-                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
@@ -12160,6 +12149,36 @@ last capture</property>
                                                             <packing>
                                                             <property name="position">6</property>
                                                             <property name="tab-fill">False</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkScrolledWindow" id="scrolledwindow_treeview_results_session">
+                                                            <property name="width-request">200</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="shadow-type">etched-in</property>
+                                                            <child>
+                                                            <object class="GtkTreeView" id="treeview_results_session">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="rules-hint">True</property>
+                                                            <property name="enable-search">False</property>
+                                                            <child internal-child="selection">
+                                                            <object class="GtkTreeSelection"/>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -23126,6 +23145,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

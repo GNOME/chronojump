@@ -425,15 +425,6 @@ public partial class ChronoJumpWindow
 
 	//persons
 	private TreeViewPersons myTreeViewPersons;
-	//simple jumps
-	private TreeViewJumps myTreeViewJumps;
-	//rj jumps
-	private TreeViewJumpsRj myTreeViewJumpsRj;
-	//simple runs
-	private TreeViewRuns myTreeViewRuns;
-	//runs interval
-	private TreeViewRunsInterval myTreeViewRunsInterval;
-	private TreeViewWilight myTreeViewWilight;
 
 	private Preferences preferences;
 	private List<ForceSensorRFD> rfdList;
@@ -710,12 +701,14 @@ public partial class ChronoJumpWindow
 		createTreeView_persons (treeview_persons);
 
 		createTreeView_resultsSession (treeview_results_session);
+		/*
 		createTreeView_jumps (treeview_jumps);
 		createTreeView_jumps_rj (treeview_jumps_rj);
 		createTreeView_runs (treeview_runs);
 		createTreeView_runs_interval (treeview_runs_interval);
-		createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 		createTreeView_wilight (treeview_wilight);
+		*/
+		createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 
 		rfdList = SqliteForceSensorRFD.SelectAll(false);
 		impulse = SqliteForceSensorRFD.SelectImpulse(false);
@@ -1561,11 +1554,10 @@ public partial class ChronoJumpWindow
 		}
 
 		pre_fillTreeView_resultsSession (false);
+		treeViewResultsSession.SelectPerson (currentPerson.Name);
 
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 		{
-			myTreeViewJumps.SelectPerson(currentPerson.Name);
-
 			if(! configChronojump.Exhibition)
 				updateGraphJumpsSimple();
 
@@ -1609,7 +1601,6 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
-			myTreeViewJumpsRj.SelectPerson(currentPerson.Name);
 			selectedJumpRj = null;
 
 			blankJumpReactiveRealtimeCaptureGraph ();
@@ -1623,8 +1614,6 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.RUNSSIMPLE)
 		{
-			myTreeViewRuns.SelectPerson(currentPerson.Name);
-
 			updateGraphRunsSimple();
 
 			if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.RUNSEVOLUTION))
@@ -1635,7 +1624,6 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
-			myTreeViewRunsInterval.SelectPerson(currentPerson.Name);
 			selectedRunInterval = null;
 
 			blankRunIntervalRealtimeCaptureGraph ();
@@ -1663,11 +1651,7 @@ public partial class ChronoJumpWindow
 		else if(current_mode == Constants.Modes.RUNSENCODER)
 			runEncoderPersonChanged();
 		else if(current_mode == Constants.Modes.WILIGHT)
-		{
-			myTreeViewWilight.SelectPerson(currentPerson.Name);
-
 			updateGraphWilightBars();
-		}
 
 		finishPlayVideoIfRunning ();
 
@@ -2075,8 +2059,6 @@ public partial class ChronoJumpWindow
 
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
 		{
-			treeview_jumps_storeReset();
-
 			if(radio_contacts_graph_allTests.Active)
 				fillTreeView_jumps (Constants.AllJumpsNameStr(), dbconOpened);
 			else if (combo_select_jumps != null)
@@ -2084,8 +2066,6 @@ public partial class ChronoJumpWindow
 		}
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
-			treeview_jumps_rj_storeReset();
-
 			if(radio_contacts_graph_allTests.Active)
 				fillTreeView_jumps_rj(Constants.AllJumpsNameStr(), dbconOpened);
 			else if (combo_select_jumps_rj != null)
@@ -2093,24 +2073,18 @@ public partial class ChronoJumpWindow
 		}
 		else if (current_mode == Constants.Modes.RUNSSIMPLE)
 		{
-			treeview_runs_storeReset();
-
 			if(radio_contacts_graph_allTests.Active)
 				fillTreeView_runs(Constants.AllRunsNameStr(), dbconOpened);
 			else if (combo_select_runs != null)
 				fillTreeView_runs(UtilGtk.ComboGetActive(combo_select_runs), dbconOpened);
 		} else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
-			treeview_runs_interval_storeReset();
-
 			if(radio_contacts_graph_allTests.Active)
 				fillTreeView_runs_interval(Constants.AllRunsNameStr(), dbconOpened);
 			else if (combo_select_runs_interval != null)
 				fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_select_runs_interval), dbconOpened);
 		} else if (current_mode == Constants.Modes.WILIGHT)
 		{
-			treeview_wilight_storeReset();
-
 			//		if(radio_contacts_graph_allTests.Active)
 			fillTreeView_wilight ("", dbconOpened);
 			/*
@@ -2120,68 +2094,6 @@ public partial class ChronoJumpWindow
 		} else
 			return;
 	}
-
-	/*
-	//TODO all the pre_fill methods will disappear. Above method will be used
-	private void pre_fillTreeView_jumps (bool dbconOpened)
-	{
-		if (configChronojump.TreeViewResults)
-			return;
-
-		treeview_jumps_storeReset();
-
-		if(radio_contacts_graph_allTests.Active)
-			fillTreeView_jumps(Constants.AllJumpsNameStr(), dbconOpened);
-		else if (combo_select_jumps != null)
-			fillTreeView_jumps(UtilGtk.ComboGetActive(combo_select_jumps), dbconOpened);
-	}
-
-	private void pre_fillTreeView_jumps_rj (bool dbconOpened)
-	{
-		if (configChronojump.TreeViewResults)
-			return;
-
-		treeview_jumps_rj_storeReset();
-
-		if(radio_contacts_graph_allTests.Active)
-			fillTreeView_jumps_rj(Constants.AllJumpsNameStr(), dbconOpened);
-		else if (combo_select_jumps_rj != null)
-			fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_select_jumps_rj), dbconOpened);
-	}
-
-	private void pre_fillTreeView_runs (bool dbconOpened)
-	{
-		treeview_runs_storeReset();
-
-		if(radio_contacts_graph_allTests.Active)
-			fillTreeView_runs(Constants.AllRunsNameStr(), dbconOpened);
-		else if (combo_select_runs != null)
-			fillTreeView_runs(UtilGtk.ComboGetActive(combo_select_runs), dbconOpened);
-	}
-
-	private void pre_fillTreeView_runs_interval (bool dbconOpened)
-	{
-		treeview_runs_interval_storeReset();
-
-		if(radio_contacts_graph_allTests.Active)
-			fillTreeView_runs_interval(Constants.AllRunsNameStr(), dbconOpened);
-		else if (combo_select_runs_interval != null)
-			fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_select_runs_interval), dbconOpened);
-	}
-
-	private void pre_fillTreeView_wilight (bool dbconOpened)
-	{
-		treeview_wilight_storeReset();
-
-//		if(radio_contacts_graph_allTests.Active)
-			fillTreeView_wilight ("", dbconOpened);
-*/
-		/*
-		else if (combo_select_runs != null)
-			fillTreeView_runs(UtilGtk.ComboGetActive(combo_select_runs), dbconOpened);
-			*/
-	//}
-
 
 	/* ---------------------------------------------------------
 	 * ----------------  MINIMIZE, DELETE EVENT, QUIT  ---------
@@ -3007,10 +2919,13 @@ public partial class ChronoJumpWindow
 			
 			
 			createTreeView_resultsSession (treeview_results_session);
+			/*
 			createTreeView_jumps (treeview_jumps);
 			createTreeView_jumps_rj (treeview_jumps_rj);
 			createTreeView_runs (treeview_runs);
 			createTreeView_runs_interval (treeview_runs_interval);
+			createTreeView_wilight (treeview_wilight);
+			*/
 			createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 
 			pre_fillTreeView_resultsSession (false);
@@ -5429,8 +5344,8 @@ public partial class ChronoJumpWindow
 			savedVideoStr = EventEndedSaveVideoFile (Constants.TestTypes.JUMP, currentJump.UniqueID);
 
 		if ( ! currentEventExecute.Cancel ) {
-			myTreeViewJumps.PersonWeight = currentPersonSession.Weight;
-			myTreeViewJumps.Add (currentPerson.Name, currentJump, savedVideoStr);
+			treeViewResultsSession.PersonWeight = currentPersonSession.Weight;
+			treeViewResultsSession.Add (currentPerson.Name, currentJump, savedVideoStr);
 		}
 
 		//2.2.1 Cairo graph is not updated if window is not resized, so force update
@@ -5751,8 +5666,8 @@ public partial class ChronoJumpWindow
 			savedVideoStr = EventEndedSaveVideoFile (Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID);
 
 		if ( ! currentEventExecute.Cancel ) {
-			myTreeViewJumpsRj.PersonWeight = currentPersonSession.Weight;
-			myTreeViewJumpsRj.Add (currentPerson.Name, currentJumpRj, savedVideoStr);
+			treeViewResultsSession.PersonWeight = currentPersonSession.Weight;
+			treeViewResultsSession.Add (currentPerson.Name, currentJumpRj, savedVideoStr);
 		}
 
 		//Cairo graph is not updated if window is not resized, so force update
@@ -5891,7 +5806,7 @@ public partial class ChronoJumpWindow
 		{
 			currentRun.MetersSecondsPreferred = preferences.metersSecondsPreferred;
 
-			myTreeViewRuns.Add (currentPerson.Name, currentRun, savedVideoStr);
+			treeViewResultsSession.Add (currentPerson.Name, currentRun, savedVideoStr);
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created
@@ -6005,7 +5920,7 @@ public partial class ChronoJumpWindow
 					configChronojump.JsonUploadRunSimpleRankingScript
 					);
 
-			myTreeViewRuns.Add (currentPerson.Name, (Run) currentEventExecute.EventDone, "");
+			treeViewResultsSession.Add (currentPerson.Name, (Run) currentEventExecute.EventDone, "");
 			updateGraphRunsSimple();
 		}
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC &&
@@ -6030,7 +5945,7 @@ public partial class ChronoJumpWindow
 			 * note there are other transformation used on_run_interval_finished that maybe there are not needed here as they are already done on currentEventExecute creation
 			 * like: MetersSecondsPreferred, Tracks, Limited
 			 */
-			myTreeViewRunsInterval.Add (currentPerson.Name, (RunInterval) currentEventExecute.EventDone, "");
+			treeViewResultsSession.Add (currentPerson.Name, (RunInterval) currentEventExecute.EventDone, "");
 			updateGraphRunsInterval();
 		}
 
@@ -6203,7 +6118,7 @@ public partial class ChronoJumpWindow
 				}
 			}
 
-			myTreeViewRunsInterval.Add (currentPerson.Name, currentRunInterval, savedVideoStr);
+			treeViewResultsSession.Add (currentPerson.Name, currentRunInterval, savedVideoStr);
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created
@@ -6485,51 +6400,57 @@ public partial class ChronoJumpWindow
 		//TODO: wilight
 	}
 
-	private void on_edit_selected_jump_clicked (object o, EventArgs args) {
+	private void on_edit_selected_jump_clicked (object o, EventArgs args)
+	{
 		//notebooks_change(0); see "notebooks_change sqlite problem"
 		LogB.Information("Edit selected jump (simple)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (myTreeViewJumps.EventSelectedID > 0) {
-			//3.- obtain the data of the selected jump
-			Jump myJump = SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID, false );
-			eventOldPerson = myJump.PersonID;
-		
-			//4.- edit this jump
-			editJumpWin = EditJumpWindow.Show(app1, myJump, preferences.weightStatsPercent, preferences.digitsNumber);
-			editJumpWin.Button_accept.Clicked += new EventHandler(on_edit_selected_jump_accepted);
-		}
+		int selectedID = treeViewResultsSession.EventSelectedID;
+		if (selectedID <= 0)
+			return;
+
+		//3.- obtain the data of the selected jump
+		Jump myJump = SqliteJump.SelectJumpData (selectedID, false);
+		eventOldPerson = myJump.PersonID;
+
+		//4.- edit this jump
+		editJumpWin = EditJumpWindow.Show(app1, myJump, preferences.weightStatsPercent, preferences.digitsNumber);
+		editJumpWin.Button_accept.Clicked += new EventHandler (on_edit_selected_jump_accepted);
 	}
 	
-	private void on_edit_selected_jump_rj_clicked (object o, EventArgs args) {
+	private void on_edit_selected_jump_rj_clicked (object o, EventArgs args)
+	{
 		//notebooks_change(1); see "notebooks_change sqlite problem"
 		LogB.Information("Edit selected jump (RJ)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (myTreeViewJumpsRj.EventSelectedID > 0) {
-			//3.- obtain the data of the selected jump
-			JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false, false );
-			eventOldPerson = myJump.PersonID;
-		
-			//4.- edit this jump
-			editJumpRjWin = EditJumpRjWindow.Show(app1, myJump, preferences.weightStatsPercent, preferences.digitsNumber);
-			editJumpRjWin.Button_accept.Clicked += new EventHandler(on_edit_selected_jump_rj_accepted);
-		}
+		int selectedID = treeViewResultsSession.EventSelectedID;
+		if (selectedID <= 0)
+			return;
+
+		//3.- obtain the data of the selected jump
+		JumpRj myJump = SqliteJumpRj.SelectJumpData ("jumpRj", selectedID, false, false );
+		eventOldPerson = myJump.PersonID;
+
+		//4.- edit this jump
+		editJumpRjWin = EditJumpRjWindow.Show(app1, myJump, preferences.weightStatsPercent, preferences.digitsNumber);
+		editJumpRjWin.Button_accept.Clicked += new EventHandler (on_edit_selected_jump_rj_accepted);
 	}
 	
 	private void on_edit_selected_jump_accepted (object o, EventArgs args)
 	{
 		LogB.Information("edit selected jump accepted");
 	
-		Jump myJump = SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID, false );
+		Jump myJump = SqliteJump.SelectJumpData (treeViewResultsSession.EventSelectedID, false );
 
 		//if person changed, fill treeview again, if not, only update it's line
-		if(eventOldPerson == myJump.PersonID)
+		if (eventOldPerson == myJump.PersonID)
 		{
-			double personWeight = SqlitePersonSession.SelectAttribute(
+			double personWeight = SqlitePersonSession.SelectAttribute (
 					false, myJump.PersonID, currentSession.UniqueID, Constants.Weight);
-			myTreeViewJumps.PersonWeight = personWeight;
-			myTreeViewJumps.Update(myJump);
+			treeViewResultsSession.PersonWeight = personWeight;
+			treeViewResultsSession.Update (myJump);
 		}
 		else
 			pre_fillTreeView_resultsSession (false);
@@ -6545,15 +6466,15 @@ public partial class ChronoJumpWindow
 	{
 		LogB.Information("edit selected jump RJ accepted");
 	
-		JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false, false );
+		JumpRj myJump = SqliteJumpRj.SelectJumpData ("jumpRj", treeViewResultsSession.EventSelectedID, false, false );
 		
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myJump.PersonID)
 		{
-			double personWeight = SqlitePersonSession.SelectAttribute(
+			double personWeight = SqlitePersonSession.SelectAttribute (
 					false, myJump.PersonID, currentSession.UniqueID, Constants.Weight);
-			myTreeViewJumpsRj.PersonWeight = personWeight;
-			myTreeViewJumpsRj.Update(myJump);
+			treeViewResultsSession.PersonWeight = personWeight;
+			treeViewResultsSession.Update(myJump);
 		} else
 			pre_fillTreeView_resultsSession (false);
 
@@ -6563,48 +6484,54 @@ public partial class ChronoJumpWindow
 			stats_win_fillTreeView_stats(false, false);
 	}
 	
-	private void on_edit_selected_run_clicked (object o, EventArgs args) {
+	private void on_edit_selected_run_clicked (object o, EventArgs args)
+	{
 		//notebooks_change(2); see "notebooks_change sqlite problem"
 		LogB.Information("Edit selected run (simple)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (myTreeViewRuns.EventSelectedID > 0) {
-			//3.- obtain the data of the selected run
-			Run myRun = SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID, false );
-			myRun.MetersSecondsPreferred = preferences.metersSecondsPreferred;
-			eventOldPerson = myRun.PersonID;
-		
-			//4.- edit this run
-			editRunWin = EditRunWindow.Show(app1, myRun, preferences.digitsNumber, preferences.metersSecondsPreferred);
-			editRunWin.Button_accept.Clicked += new EventHandler(on_edit_selected_run_accepted);
-		}
+		int selectedID = treeViewResultsSession.EventSelectedID;
+		if (selectedID <= 0)
+			return;
+
+		//3.- obtain the data of the selected run
+		Run myRun = SqliteRun.SelectRunData (selectedID, false);
+		myRun.MetersSecondsPreferred = preferences.metersSecondsPreferred;
+		eventOldPerson = myRun.PersonID;
+
+		//4.- edit this run
+		editRunWin = EditRunWindow.Show(app1, myRun, preferences.digitsNumber, preferences.metersSecondsPreferred);
+		editRunWin.Button_accept.Clicked += new EventHandler (on_edit_selected_run_accepted);
 	}
 	
-	private void on_edit_selected_run_interval_clicked (object o, EventArgs args) {
+	private void on_edit_selected_run_interval_clicked (object o, EventArgs args)
+	{
 		//notebooks_change(3); see "notebooks_change sqlite problem"
 		LogB.Information("Edit selected run interval");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person (check also if it's not a individual subrun, the pass the parent run)
-		if (myTreeViewRunsInterval.EventSelectedID > 0) {
-			//3.- obtain the data of the selected run
-			RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false, false );
-			eventOldPerson = myRun.PersonID;
-		
-			//4.- edit this run
-			editRunIntervalWin = EditRunIntervalWindow.Show(app1, myRun, preferences.digitsNumber, preferences.metersSecondsPreferred);
-			editRunIntervalWin.Button_accept.Clicked += new EventHandler(on_edit_selected_run_interval_accepted);
-		}
+		int selectedID = treeViewResultsSession.EventSelectedID;
+		if (selectedID <= 0)
+			return;
+
+		//3.- obtain the data of the selected run
+		RunInterval myRun = SqliteRunInterval.SelectRunData (Constants.RunIntervalTable, selectedID, false, false );
+		eventOldPerson = myRun.PersonID;
+
+		//4.- edit this run
+		editRunIntervalWin = EditRunIntervalWindow.Show (app1, myRun, preferences.digitsNumber, preferences.metersSecondsPreferred);
+		editRunIntervalWin.Button_accept.Clicked += new EventHandler (on_edit_selected_run_interval_accepted);
 	}
 	
 	private void on_edit_selected_run_accepted (object o, EventArgs args)
 	{
 		LogB.Information("edit selected run accepted");
 
-		Run myRun = SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID, false );
+		Run myRun = SqliteRun.SelectRunData (treeViewResultsSession.EventSelectedID, false );
 		
 		//if person changed, fill treeview again, if not, only update it's line
-		if(eventOldPerson == myRun.PersonID)
-			myTreeViewRuns.Update(myRun);
+		if (eventOldPerson == myRun.PersonID)
+			treeViewResultsSession.Update (myRun);
 		else
 			pre_fillTreeView_resultsSession (false);
 
@@ -6618,16 +6545,16 @@ public partial class ChronoJumpWindow
 	{
 		LogB.Information("edit selected run interval accepted");
 
-		int selectedID = myTreeViewRunsInterval.EventSelectedID;
+		int selectedID = treeViewResultsSession.EventSelectedID;
 		RunInterval myRun = SqliteRunInterval.SelectRunData (Constants.RunIntervalTable, selectedID, false, false);
 
 		//if person changed, fill treeview again, if not, only update it's line
 		//distanceChanged is also managed with no problems because TreeViewEvent.Update has been extend to work with two level treeviews
-		if ( eventOldPerson != myRun.PersonID )// ||
+		if (eventOldPerson != myRun.PersonID)// ||
 				//(editRunIntervalWin != null && editRunIntervalWin.DistanceChanged) )
 			pre_fillTreeView_resultsSession (false);
 		else
-			myTreeViewRunsInterval.Update(myRun);
+			treeViewResultsSession.Update (myRun);
 
 		//update the session barplot
 		updateGraphRunsInterval();
@@ -6649,18 +6576,20 @@ public partial class ChronoJumpWindow
 		LogB.Information("Edit selected wilight");
 		//1.- check that there's a line selected
 		//2.- check that this line is a wilight and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (myTreeViewWilight.EventSelectedID > 0) {
-			//3.- obtain the data of the selected wilight
-			Wilight wilight = SqliteWilight.SelectData( myTreeViewWilight.EventSelectedID, false );
-			eventOldPerson = wilight.PersonID;
+		int selectedID = treeViewResultsSession.EventSelectedID;
+		if (selectedID <= 0)
+			return;
 
-			/*TODO
-			//4.- edit this run
-			editRunWin = EditRunWindow.Show(app1, myRun, preferences.digitsNumber, preferences.metersSecondsPreferred);
-			editRunWin.Button_accept.Clicked += new EventHandler(on_edit_selected_wilight_accepted);
-			*/
-			new DialogMessage (Constants.MessageTypes.INFO, "TODO");
-		}
+		//3.- obtain the data of the selected wilight
+		Wilight wilight = SqliteWilight.SelectData (selectedID, false );
+		eventOldPerson = wilight.PersonID;
+
+		/*TODO
+		//4.- edit this run
+		editRunWin = EditRunWindow.Show(app1, myRun, preferences.digitsNumber, preferences.metersSecondsPreferred);
+		editRunWin.Button_accept.Clicked += new EventHandler(on_edit_selected_wilight_accepted);
+		*/
+		new DialogMessage (Constants.MessageTypes.INFO, "TODO");
 	}
 
 	/* ---------------------------------------------------------
@@ -6695,8 +6624,8 @@ public partial class ChronoJumpWindow
 		LogB.Information("delete this jump (simple)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
-		LogB.Information(myTreeViewJumps.EventSelectedID.ToString());
-		if (myTreeViewJumps.EventSelectedID > 0) {
+		LogB.Information(treeViewResultsSession.EventSelectedID.ToString());
+		if (treeViewResultsSession.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show(Catalog.GetString("Do you want to delete this jump?"), "");
@@ -6712,7 +6641,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("delete this reactive jump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (myTreeViewJumpsRj.EventSelectedID > 0) {
+		if (treeViewResultsSession.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete this jump?"), "");
@@ -6726,11 +6655,11 @@ public partial class ChronoJumpWindow
 	private void on_delete_selected_jump_accepted (object o, EventArgs args)
 	{
 		LogB.Information("accept delete this jump");
-		int id = myTreeViewJumps.EventSelectedID;
+		int id = treeViewResultsSession.EventSelectedID;
 		
 		Sqlite.Delete(false, Constants.JumpTable, id);
 		
-		myTreeViewJumps.DelEvent(id);
+		treeViewResultsSession.DelEvent(id);
 		showHideActionEventButtons(false);
 		
 		if(createdStatsWin) {
@@ -6762,11 +6691,11 @@ public partial class ChronoJumpWindow
 	private void on_delete_selected_jump_rj_accepted (object o, EventArgs args)
 	{
 		LogB.Information("accept delete this jump");
-		int id = myTreeViewJumpsRj.EventSelectedID;
+		int id = treeViewResultsSession.EventSelectedID;
 		
 		Sqlite.Delete(false, Constants.JumpRjTable, id);
 		
-		myTreeViewJumpsRj.DelEvent(id);
+		treeViewResultsSession.DelEvent(id);
 		selectedJumpRj = null;
 		showHideActionEventButtons(false);
 
@@ -6794,7 +6723,7 @@ public partial class ChronoJumpWindow
 		
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
-		if (myTreeViewRuns.EventSelectedID > 0) {
+		if (treeViewResultsSession.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show(Catalog.GetString("Do you want to delete this race?"), "");
@@ -6811,7 +6740,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("delete this race interval");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person (check also if it's a subrun, pass the parent run)
-		if (myTreeViewRunsInterval.EventSelectedID > 0) {
+		if (treeViewResultsSession.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show(
@@ -6826,11 +6755,11 @@ public partial class ChronoJumpWindow
 	private void on_delete_selected_run_accepted (object o, EventArgs args)
 	{
 		LogB.Information("accept delete this race");
-		int id = myTreeViewRuns.EventSelectedID;
+		int id = treeViewResultsSession.EventSelectedID;
 		
 		Sqlite.Delete(false, Constants.RunTable, id);
 		
-		myTreeViewRuns.DelEvent(id);
+		treeViewResultsSession.DelEvent(id);
 		selectedRunInterval = null;
 		selectedRunIntervalType = null;
 		showHideActionEventButtons(false);
@@ -6854,11 +6783,11 @@ public partial class ChronoJumpWindow
 	private void on_delete_selected_run_interval_accepted (object o, EventArgs args)
 	{
 		LogB.Information("accept delete this race");
-		int id = myTreeViewRunsInterval.EventSelectedID;
+		int id = treeViewResultsSession.EventSelectedID;
 		
 		Sqlite.Delete(false, Constants.RunIntervalTable, id);
 		
-		myTreeViewRunsInterval.DelEvent(id);
+		treeViewResultsSession.DelEvent(id);
 		selectedRunInterval = null;
 		showHideActionEventButtons(false);
 		button_inspect_last_test_run_intervallic.Sensitive = false;
@@ -7086,9 +7015,9 @@ public partial class ChronoJumpWindow
 		LogB.Information("Repair selected subjump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (myTreeViewJumpsRj.EventSelectedID > 0) {
+		if (treeViewResultsSession.EventSelectedID > 0) {
 			//3.- obtain the data of the selected jump
-			JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false, false );
+			JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", treeViewResultsSession.EventSelectedID, false, false );
 		
 			//4.- edit this jump
 			repairJumpRjWin = RepairJumpRjWindow.Show(app1, myJump, preferences.digitsNumber);
@@ -7101,12 +7030,12 @@ public partial class ChronoJumpWindow
 		LogB.Information("Repair selected reactive jump accepted");
 
 		int tempSelected = -1;
-		if (myTreeViewJumpsRj.EventSelectedID > 0)
-			tempSelected = myTreeViewJumpsRj.EventSelectedID;
+		if (treeViewResultsSession.EventSelectedID > 0)
+			tempSelected = treeViewResultsSession.EventSelectedID;
 
 		selectedJumpRj = null; // after the repair need to check again jump from SQL and draw at top correctly
 
-		treeview_jumps_rj_storeReset();
+		treeview_results_session_storeReset ();
 		fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_select_jumps_rj));
 		
 		if(createdStatsWin)
@@ -7126,9 +7055,9 @@ public partial class ChronoJumpWindow
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person 
 		//(check also if it's not a individual run interval, then pass the parent run interval)
-		if (myTreeViewRunsInterval.EventSelectedID > 0) {
+		if (treeViewResultsSession.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
-			RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false, false );
+			RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, treeViewResultsSession.EventSelectedID, false, false );
 		
 			//4.- edit this run
 			repairRunIntervalWin = RepairRunIntervalWindow.Show(app1, myRun, preferences.digitsNumber);
@@ -7141,12 +7070,12 @@ public partial class ChronoJumpWindow
 		LogB.Information("repair selected run interval accepted");
 
 		int tempSelected = -1;
-		if (myTreeViewRunsInterval.EventSelectedID > 0)
-			tempSelected = myTreeViewRunsInterval.EventSelectedID;
+		if (treeViewResultsSession.EventSelectedID > 0)
+			tempSelected = treeViewResultsSession.EventSelectedID;
 
 		selectedRunInterval = null; // after the repair need to check again run from SQL and draw at top correctly
 
-		treeview_runs_interval_storeReset();
+		treeview_results_session_storeReset ();
 		fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_select_runs_interval));
 		createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 		
@@ -8960,12 +8889,7 @@ public partial class ChronoJumpWindow
 		treeview_persons = (Gtk.TreeView) builder.GetObject ("treeview_persons");
 		scrolledwindow_treeview_results_session = (Gtk.ScrolledWindow) builder.GetObject ("scrolledwindow_treeview_results_session");
 		treeview_results_session = (Gtk.TreeView) builder.GetObject ("treeview_results_session");
-		treeview_jumps = (Gtk.TreeView) builder.GetObject ("treeview_jumps");
-		treeview_jumps_rj = (Gtk.TreeView) builder.GetObject ("treeview_jumps_rj");
-		treeview_runs = (Gtk.TreeView) builder.GetObject ("treeview_runs");
-		treeview_runs_interval = (Gtk.TreeView) builder.GetObject ("treeview_runs_interval");
 		treeview_runs_interval_sprint = (Gtk.TreeView) builder.GetObject ("treeview_runs_interval_sprint");
-		treeview_wilight = (Gtk.TreeView) builder.GetObject ("treeview_wilight");
 
 		hbox_combo_select_jumps = (Gtk.Box) builder.GetObject ("hbox_combo_select_jumps");
 		hbox_combo_select_jumps_rj = (Gtk.Box) builder.GetObject ("hbox_combo_select_jumps_rj");

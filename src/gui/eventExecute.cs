@@ -406,15 +406,18 @@ public partial class ChronoJumpWindow
 		if(id < 0)
 			return;
 
-		if (current_mode == Constants.Modes.JUMPSSIMPLE && myTreeViewJumps != null)
+		if (treeViewResultsSession == null)
+			return;
+
+		if (current_mode == Constants.Modes.JUMPSSIMPLE)
 			selectJumpSimple (id);
-		else if (current_mode == Constants.Modes.JUMPSREACTIVE && myTreeViewJumpsRj != null)
+		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
 			selectJumpReactive (id);
-		else if (current_mode == Constants.Modes.RUNSSIMPLE && myTreeViewRuns != null)
+		else if (current_mode == Constants.Modes.RUNSSIMPLE)
 			selectRunSimple (id);
-		else if (current_mode == Constants.Modes.RUNSINTERVALLIC && myTreeViewRunsInterval != null)
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			selectRunIntervallic (id);
-		else if (current_mode == Constants.Modes.WILIGHT && myTreeViewWilight != null)
+		else if (current_mode == Constants.Modes.WILIGHT)
 			selectWilight (id);
 	}
 

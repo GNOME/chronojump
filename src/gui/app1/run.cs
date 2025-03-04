@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -205,8 +205,8 @@ public partial class ChronoJumpWindow
 			typeTemp = "";
 
 		int selectedID = -1;
-		if (myTreeViewRuns != null && myTreeViewRuns.EventSelectedID > 0)
-			selectedID = myTreeViewRuns.EventSelectedID;
+		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID > 0)
+			selectedID = treeViewResultsSession.EventSelectedID;
 
 		PrepareEventGraphRunSimple eventGraph = new PrepareEventGraphRunSimple(
 				1, 1, //both unused
@@ -257,8 +257,8 @@ public partial class ChronoJumpWindow
 			typeTemp = "";
 
 		int selectedID = -1;
-		if (myTreeViewRunsInterval != null && myTreeViewRunsInterval.EventSelectedID > 0)
-			selectedID = myTreeViewRunsInterval.EventSelectedID;
+		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID > 0)
+			selectedID = treeViewResultsSession.EventSelectedID;
 
 		PrepareEventGraphRunInterval eventGraph = new PrepareEventGraphRunInterval(
 				currentSession.UniqueID, currentPerson.UniqueID,

@@ -46,67 +46,39 @@ public partial class ChronoJumpWindow
 		//Log.WriteLine("IS " + tvEvent.ExpandState);
 	}
 
-	private void on_treeview_button_release_event (object o, ButtonReleaseEventArgs args)
+	private void on_treeview_results_session_button_release_event (object o, ButtonReleaseEventArgs args)
 	{
 		Gdk.EventButton e = args.Event;
-		Gtk.TreeView myTv = (Gtk.TreeView) o;
-		if (e.Button == 3) {
-			if(myTv == treeview_persons && currentPerson != null) {
-				treeviewPersonsContextMenu(currentPerson);
-			} else if(myTv == treeview_jumps) {
-				if (myTreeViewJumps.EventSelectedID > 0) {
-					Jump myJump = SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID, false );
-					treeviewJumpsContextMenu(myJump);
-				}
-			} else if(myTv == treeview_jumps_rj) {
-				if (myTreeViewJumpsRj.EventSelectedID > 0) {
-					JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false, false );
-					treeviewJumpsRjContextMenu(myJump);
-				}
-			} else if(myTv == treeview_runs) {
-				if (myTreeViewRuns.EventSelectedID > 0) {
-					Run myRun = SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID, false );
-					treeviewRunsContextMenu(myRun);
-				}
-			} else if(myTv == treeview_runs_interval) {
-				if (myTreeViewRunsInterval.EventSelectedID > 0) {
-					RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false, false );
-					treeviewRunsIntervalContextMenu(myRun);
-				}
-			} else if(myTv == treeview_wilight) {
-				if (myTreeViewWilight.EventSelectedID > 0) {
-					Wilight wilight = SqliteWilight.SelectData(myTreeViewWilight.EventSelectedID, false);
-					treeviewWilightContextMenu (wilight);
-				}
-			} else
-				LogB.Information(myTv.ToString());
+		//Gtk.TreeView myTv = (Gtk.TreeView) o;
+		if (e.Button != 3 || treeViewResultsSession.EventSelectedID <= 0)
+			return;
+
+		if (current_mode == Constants.Modes.JUMPSSIMPLE)
+		{
+			Jump myJump = SqliteJump.SelectJumpData (treeViewResultsSession.EventSelectedID, false );
+			treeviewJumpsContextMenu (myJump);
+		}
+		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
+		{
+			JumpRj myJump = SqliteJumpRj.SelectJumpData ("jumpRj", treeViewResultsSession.EventSelectedID, false, false);
+			treeviewJumpsRjContextMenu (myJump);
+		}
+		else if (current_mode == Constants.Modes.RUNSSIMPLE)
+		{
+			Run myRun = SqliteRun.SelectRunData (treeViewResultsSession.EventSelectedID, false);
+			treeviewRunsContextMenu (myRun);
+		}
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
+		{
+			RunInterval myRun = SqliteRunInterval.SelectRunData (Constants.RunIntervalTable, treeViewResultsSession.EventSelectedID, false, false);
+			treeviewRunsIntervalContextMenu (myRun);
+		}
+		else if (current_mode == Constants.Modes.WILIGHT)
+		{
+			Wilight wilight = SqliteWilight.SelectData (treeViewResultsSession.EventSelectedID, false);
+			treeviewWilightContextMenu (wilight);
 		}
 	}
-
-	private void treeviewPersonsContextMenu(Person myPerson)
-	{
-		Menu myMenu = new Menu ();
-		Gtk.MenuItem myItem;
-
-		myItem = new MenuItem ( Catalog.GetString("Edit") + " " + myPerson.Name);
-		myItem.Activated += on_edit_current_person_clicked_from_main_gui;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-
-		myItem = new MenuItem ( Catalog.GetString("Show all tests of") + " " + myPerson.Name);
-		myItem.Activated += on_show_all_person_events_activate;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
-
-		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 2, 3 );
-
-		myItem = new MenuItem ( string.Format(Catalog.GetString("Delete {0} from this session"),myPerson.Name));
-		myItem.Activated += on_delete_current_person_from_session_clicked;
-		myMenu.Attach( myItem, 0, 1, 3, 4 );
-
-		myMenu.ShowAll();
-		myMenu.Popup();
-	}
-		
 
 	private void resetAllTreeViews(bool fillTests, bool resetPersons, bool fillPersons)
 	{
@@ -132,13 +104,17 @@ public partial class ChronoJumpWindow
 	// works for jumps/runs (to update some buttons like play video sensitivity)
 	private void on_treeview_mode_cursor_changed ()
 	{
-		if (current_mode == Constants.Modes.JUMPSSIMPLE && myTreeViewJumps != null)
+		LogB.Information ("on_treeview_mode_cursor_changed");
+		if (treeViewResultsSession == null)
+			return;
+
+		if (current_mode == Constants.Modes.JUMPSSIMPLE)
 			on_treeview_jumps_cursor_changed (new object (), new EventArgs ());
-		else if (current_mode == Constants.Modes.JUMPSREACTIVE && myTreeViewJumpsRj != null)
+		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
 			on_treeview_jumps_rj_cursor_changed (new object (), new EventArgs ());
-		else if (current_mode == Constants.Modes.RUNSSIMPLE && myTreeViewRuns != null)
+		else if (current_mode == Constants.Modes.RUNSSIMPLE)
 			on_treeview_runs_cursor_changed (new object (), new EventArgs ());
-		else if (current_mode == Constants.Modes.RUNSINTERVALLIC && myTreeViewRunsInterval != null)
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			on_treeview_runs_interval_cursor_changed (new object (), new EventArgs ());
 	}
 

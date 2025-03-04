@@ -28,16 +28,6 @@ using System.Collections.Generic; //List
 
 public partial class ChronoJumpWindow 
 {
-	Gtk.TreeView treeview_runs;
-
-	private void createTreeView_runs (Gtk.TreeView tv) {
-		//myTreeViewRuns is a TreeViewRuns instance
-		myTreeViewRuns = new TreeViewRuns (tv, preferences.digitsNumber, preferences.metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED );
-
-		//the glade cursor_changed does not work on mono 1.2.5 windows
-		tv.CursorChanged += on_treeview_runs_cursor_changed; 
-	}
-
 	private void fillTreeView_runs (string filter) {
 		fillTreeView_runs (filter, false);
 	}
@@ -57,32 +47,20 @@ public partial class ChronoJumpWindow
 		string [] myRuns = SqliteRun.SelectRunsSA (dbconOpened,
 				currentSession.UniqueID, currentPersonOrAll (), "", Sqlite.Orders_by.DEFAULT, 0);
 
-		myTreeViewRuns.Fill(myRuns, filter,
-				Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.RUN));
 		if (current_mode == Constants.Modes.RUNSSIMPLE)
 			treeViewResultsSession.Fill (myRuns, filter,
 					Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.RUN));
 
 		//if show just one person, have it expanded
 		if (! radio_contacts_results_personAll.Active && currentPerson != null)
-		{
-			treeview_runs.ExpandAll();
 			treeview_results_session.ExpandAll();
-		} else {
-			expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRuns, treeview_runs);
+		else
 			expandOrMinimizeTreeView((TreeViewEvent) treeViewResultsSession, treeview_results_session);
-		}
 	}
 	
 	private void on_button_runs_zoom_clicked (object o, EventArgs args)
 	{
-		myTreeViewRuns.ZoomChange (image_runs_zoom);
-	}
-	
-	private void treeview_runs_storeReset()
-	{
-		myTreeViewRuns.RemoveColumns();
-		myTreeViewRuns = new TreeViewRuns(treeview_runs, preferences.digitsNumber, preferences.metersSecondsPreferred, myTreeViewRuns.ExpandState);
+		treeViewResultsSession.ZoomChange (image_runs_zoom);
 	}
 
 	private void on_treeview_runs_cursor_changed (object o, EventArgs args)
@@ -92,8 +70,8 @@ public partial class ChronoJumpWindow
 
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who runs
-		if (myTreeViewRuns.EventSelectedID == 0) {
-			myTreeViewRuns.Unselect();
+		if (treeViewResultsSession.EventSelectedID == 0) {
+			treeViewResultsSession.Unselect();
 			showHideActionEventButtons(false);
 		} else {
 			showHideActionEventButtons(true);
@@ -103,8 +81,8 @@ public partial class ChronoJumpWindow
 
 	private void selectRunSimple (int id)
 	{
-		myTreeViewRuns.ZoomToTestsIfNeeded ();
-		myTreeViewRuns.SelectEvent (id, true); //scroll
+		treeViewResultsSession.ZoomToTestsIfNeeded ();
+		treeViewResultsSession.SelectEvent (id, true); //scroll
 		on_treeview_runs_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
 	}
 

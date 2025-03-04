@@ -39,6 +39,7 @@ public partial class ChronoJumpWindow
 
 	private void createTreeView_resultsSession (Gtk.TreeView tv)
 	{
+		LogB.Information ("createTreeView_resultsSession");
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
 			treeViewResultsSession = new TreeViewJumps (tv, preferences, TreeViewEvent.ExpandStates.MINIMIZED);
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
@@ -49,21 +50,21 @@ public partial class ChronoJumpWindow
 			treeViewResultsSession = new TreeViewRunsInterval (tv, preferences.digitsNumber, preferences.metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED);
 		else if (current_mode == Constants.Modes.WILIGHT)
 			treeViewResultsSession = new TreeViewWilight (tv, preferences.digitsNumber, TreeViewEvent.ExpandStates.MINIMIZED );
-		else {
-			treeViewResultsSession = new TreeViewJumps (tv, preferences, TreeViewEvent.ExpandStates.MINIMIZED); //default to fix any temporary crash right now. TODO: fix it
-			return;
-		}
+		else
+			treeViewResultsSession = new TreeViewJumps (tv, preferences, TreeViewEvent.ExpandStates.MINIMIZED); //default to fix any temporary crash at start (seems there is a personChanged but still not mode)
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
+		tv.CursorChanged -= on_treeview_results_session_cursor_changed;
 		tv.CursorChanged += on_treeview_results_session_cursor_changed;
 	}
 
 	private void on_treeview_results_session_cursor_changed (object o, EventArgs args)
 	{
-		//TODO
+		LogB.Information ("on_treeview_results_session_cursor_changed");
+		on_treeview_mode_cursor_changed ();
 	}
 
-	private void treeview_results_session_storeReset()
+	private void treeview_results_session_storeReset ()
 	{
 		if (treeViewResultsSession == null)
 			return;

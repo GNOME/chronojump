@@ -28,17 +28,6 @@ using System.Collections.Generic; //List
 
 public partial class ChronoJumpWindow 
 {
-	Gtk.TreeView treeview_runs_interval;
-
-	private void createTreeView_runs_interval (Gtk.TreeView tv)
-	{
-		//myTreeViewRunsInterval is a TreeViewRunsInterval instance
-		myTreeViewRunsInterval = new TreeViewRunsInterval (tv, preferences.digitsNumber, preferences.metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED);
-
-		//the glade cursor_changed does not work on mono 1.2.5 windows
-		tv.CursorChanged += on_treeview_runs_interval_cursor_changed;
-	}
-
 	private void fillTreeView_runs_interval (string filter)
 	{
 		fillTreeView_runs_interval (filter, false);
@@ -58,8 +47,6 @@ public partial class ChronoJumpWindow
 
 		string [] myRuns = SqliteRunInterval.SelectRunsSA (dbconOpened,
 				currentSession.UniqueID, currentPersonOrAll (), "");
-		myTreeViewRunsInterval.Fill(myRuns, filter,
-				Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.RUN_I));
 		if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			treeViewResultsSession.Fill (myRuns, filter,
 					Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.RUN_I));
@@ -67,27 +54,15 @@ public partial class ChronoJumpWindow
 		//if show just one person, have it expanded (optimal)
 		if (! radio_contacts_results_personAll.Active && currentPerson != null)
 		{
-			treeview_runs_interval.CollapseAll ();
-			((TreeViewEvent) myTreeViewRunsInterval).ExpandOptimal();
-
 			treeview_results_session.CollapseAll ();
 			((TreeViewEvent) treeViewResultsSession).ExpandOptimal();
-		} else {
-			expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRunsInterval, treeview_runs_interval);
+		} else
 			expandOrMinimizeTreeView((TreeViewEvent) treeViewResultsSession, treeview_results_session);
-		}
 	}
 	
 	private void on_button_runs_interval_zoom_clicked (object o, EventArgs args)
 	{
-		myTreeViewRunsInterval.ZoomChange (image_runs_interval_zoom);
-	}
-
-	private void treeview_runs_interval_storeReset()
-	{
-		myTreeViewRunsInterval.RemoveColumns();
-		myTreeViewRunsInterval = new TreeViewRunsInterval (treeview_runs_interval,  
-				preferences.digitsNumber, preferences.metersSecondsPreferred, myTreeViewRunsInterval.ExpandState);
+		treeViewResultsSession.ZoomChange (image_runs_interval_zoom);
 	}
 
 	private void on_treeview_runs_interval_cursor_changed (object o, EventArgs args)
@@ -96,23 +71,23 @@ public partial class ChronoJumpWindow
 
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who runs
-		if (myTreeViewRunsInterval.EventSelectedID == 0) {
-			myTreeViewRunsInterval.Unselect();
+		if (treeViewResultsSession.EventSelectedID == 0) {
+			treeViewResultsSession.Unselect();
 			showHideActionEventButtons(false);
 			return;
 		}
 
-		if (myTreeViewRunsInterval.EventSelectedID == -1)
-			myTreeViewRunsInterval.SelectHeaderLine();
+		if (treeViewResultsSession.EventSelectedID == -1)
+			treeViewResultsSession.SelectHeaderLine();
 
 		showHideActionEventButtons(true);
 		button_inspect_last_test_run_intervallic.Sensitive = false;
 
 		//graph the run on realtime cairo graph. Using selectedRunInterval to avoid SQL select continuously
 		if(selectedRunInterval == null || selectedRunIntervalType == null ||
-				selectedRunInterval.UniqueID != myTreeViewRunsInterval.EventSelectedID)
+				selectedRunInterval.UniqueID != treeViewResultsSession.EventSelectedID)
 		{
-			selectedRunInterval = SqliteRunInterval.SelectRunData (Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, true, false);
+			selectedRunInterval = SqliteRunInterval.SelectRunData (Constants.RunIntervalTable, treeViewResultsSession.EventSelectedID, true, false);
 			selectedRunIntervalType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(selectedRunInterval.Type, false);
 
 			/*
@@ -135,8 +110,8 @@ public partial class ChronoJumpWindow
 
 	private void selectRunIntervallic (int id)
 	{
-		myTreeViewRunsInterval.ZoomToTestsIfNeeded ();
-		myTreeViewRunsInterval.SelectEvent (id, true); //scroll
+		treeViewResultsSession.ZoomToTestsIfNeeded ();
+		treeViewResultsSession.SelectEvent (id, true); //scroll
 		on_treeview_runs_interval_cursor_changed (new object (), new EventArgs ()); //in order to update top graph and play video button
 	}
 

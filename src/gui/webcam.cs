@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2019-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2019-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -275,64 +275,36 @@ public partial class ChronoJumpWindow
 
 	private void button_video_play_selected_test (Constants.Modes m)
 	{
+		if (treeViewResultsSession.EventSelectedID <= 0)
+			return;
+
 		if (m == Constants.Modes.JUMPSSIMPLE)
 			button_video_play_this_test_contacts.Sensitive =
-				(myTreeViewJumps.EventSelectedID > 0 &&
-				 File.Exists(Util.GetVideoFileName(
-						 currentSession.UniqueID,
-						 Constants.TestTypes.JUMP,
-						 myTreeViewJumps.EventSelectedID)));
+				File.Exists(Util.GetVideoFileName (
+							currentSession.UniqueID,
+							Constants.TestTypes.JUMP,
+							treeViewResultsSession.EventSelectedID));
 
 		else if (m == Constants.Modes.JUMPSREACTIVE)
 			button_video_play_this_test_contacts.Sensitive =
-				(myTreeViewJumpsRj.EventSelectedID > 0
-				 && File.Exists(Util.GetVideoFileName(
-						 currentSession.UniqueID,
-						 Constants.TestTypes.JUMP_RJ,
-						 myTreeViewJumpsRj.EventSelectedID)));
+				File.Exists(Util.GetVideoFileName (
+							currentSession.UniqueID,
+							Constants.TestTypes.JUMP_RJ,
+							treeViewResultsSession.EventSelectedID));
 
 		else if (m == Constants.Modes.RUNSSIMPLE)
 			button_video_play_this_test_contacts.Sensitive =
-				(myTreeViewRuns.EventSelectedID > 0 &&
-				 File.Exists(Util.GetVideoFileName(
-						 currentSession.UniqueID,
-						 Constants.TestTypes.RUN,
-						 myTreeViewRuns.EventSelectedID)));
+				File.Exists(Util.GetVideoFileName (
+							currentSession.UniqueID,
+							Constants.TestTypes.RUN,
+							treeViewResultsSession.EventSelectedID));
 
 		else if (m == Constants.Modes.RUNSINTERVALLIC)
 			button_video_play_this_test_contacts.Sensitive =
-				(myTreeViewRunsInterval.EventSelectedID > 0
-				 && File.Exists(Util.GetVideoFileName(
-						 currentSession.UniqueID,
-						 Constants.TestTypes.RUN_I,
-						 myTreeViewRunsInterval.EventSelectedID)));
-
-		/* unused
-		else if (m == Constants.Modes.RT)
-			button_video_play_this_test_contacts.Sensitive =
-				(myTreeViewReactionTimes.EventSelectedID > 0 &&
-				 File.Exists(Util.GetVideoFileName(
-						 currentSession.UniqueID,
-						 Constants.TestTypes.RT,
-						 myTreeViewReactionTimes.EventSelectedID)));
-
-		else if (m == Constants.Modes.OTHER)
-		{
-			button_video_play_this_test_contacts.Sensitive =
-				(myTreeViewPulses.EventSelectedID > 0 &&
-				 File.Exists(Util.GetVideoFileName(
-						 currentSession.UniqueID,
-						 Constants.TestTypes.PULSE,
-						 myTreeViewPulses.EventSelectedID)));
-
-			button_video_play_this_test_contacts.Sensitive =
-				(myTreeViewMultiChronopic.EventSelectedID > 0
-				 && File.Exists(Util.GetVideoFileName(
-						 currentSession.UniqueID,
-						 Constants.TestTypes.MULTICHRONOPIC,
-						 myTreeViewMultiChronopic.EventSelectedID)));
-		}
-		*/
+				File.Exists(Util.GetVideoFileName (
+							currentSession.UniqueID,
+							Constants.TestTypes.RUN_I,
+							treeViewResultsSession.EventSelectedID));
 	}
 
 	public void webcamEncoderEnd ()
@@ -952,19 +924,19 @@ public partial class ChronoJumpWindow
 		}
 		else if (current_mode == Constants.Modes.JUMPSSIMPLE) {
 			testType = Constants.TestTypes.JUMP;
-			id = myTreeViewJumps.EventSelectedID;
+			id = treeViewResultsSession.EventSelectedID;
 		}
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE) {
 			testType = Constants.TestTypes.JUMP_RJ;
-			id = myTreeViewJumpsRj.EventSelectedID;
+			id = treeViewResultsSession.EventSelectedID;
 		}
 		else if (current_mode == Constants.Modes.RUNSSIMPLE) {
 			testType = Constants.TestTypes.RUN;
-			id = myTreeViewRuns.EventSelectedID;
+			id = treeViewResultsSession.EventSelectedID;
 		}
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC) {
 			testType = Constants.TestTypes.RUN_I;
-			id = myTreeViewRunsInterval.EventSelectedID;
+			id = treeViewResultsSession.EventSelectedID;
 		}
 
 		webcamPlay = null; //to solve problems on the other thread caused by these returns

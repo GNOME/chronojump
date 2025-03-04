@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -363,8 +363,8 @@ public partial class ChronoJumpWindow
 			typeTemp = "";
 
 		int selectedID = -1;
-		if (myTreeViewJumps != null && myTreeViewJumps.EventSelectedID > 0)
-			selectedID = myTreeViewJumps.EventSelectedID;
+		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID > 0)
+			selectedID = treeViewResultsSession.EventSelectedID;
 
 		PrepareEventGraphJumpSimple eventGraph = new PrepareEventGraphJumpSimple(
 				tv, tc, currentSession.UniqueID,
@@ -410,8 +410,8 @@ public partial class ChronoJumpWindow
 			typeTemp = "";
 
 		int selectedID = -1;
-		if (myTreeViewJumpsRj != null && myTreeViewJumpsRj.EventSelectedID > 0)
-			selectedID = myTreeViewJumpsRj.EventSelectedID;
+		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID > 0)
+			selectedID = treeViewResultsSession.EventSelectedID;
 
 		PrepareEventGraphJumpReactive eventGraph = new PrepareEventGraphJumpReactive(
 				currentSession.UniqueID, currentPerson.UniqueID,
@@ -805,7 +805,7 @@ public partial class ChronoJumpWindow
 		SqliteJump.UpdateDescription(Constants.JumpTable, 
 			currentJump.UniqueID, currentJump.Description);
 		
-		myTreeViewJumps.Update(currentJump);
+		treeViewResultsSession.Update(currentJump);
 		
 		//sensitive slCMJ options 
 		grid_extra_window_jumps_single_leg_radios.Sensitive = true;

@@ -41,7 +41,11 @@ public class TreeViewEvent
 	protected int eventIDColumn; //column where the uniqueID of event will be (and will be hidden)
 	protected string videoName = Catalog.GetString("Video");
 	protected string descriptionName = Catalog.GetString("Description");
-	
+
+	//to calculate potency (on jumps)
+	protected double personWeight; 
+	protected double weightInKg;
+
 	protected bool weightPercentPreferred;
 	protected List<string> videos_l;
 
@@ -535,5 +539,12 @@ public class TreeViewEvent
 	public ExpandStates ExpandState {
 		get { return expandState; }
 		set { expandState = value; }
+	}
+
+	//used on jumps: Add
+	public double PersonWeight {
+		set {
+			personWeight = value;
+		}
 	}
 }

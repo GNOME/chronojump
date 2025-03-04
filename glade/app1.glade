@@ -2626,7 +2626,7 @@
                                                             <property name="can-focus">True</property>
                                                             <property name="enable-search">False</property>
                                                             <property name="show-expanders">False</property>
-                                                            <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
+                                                            <signal name="button-release-event" handler="on_treeview_persons_button_release_event" swapped="no"/>
                                                             <child internal-child="selection">
                                                             <object class="GtkTreeSelection"/>
                                                             </child>
@@ -10674,29 +10674,7 @@ last capture</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">2</property>
                                                             <child>
-                                                            <object class="GtkScrolledWindow" id="scrolledwindow1">
-                                                            <property name="width-request">200</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="shadow-type">etched-in</property>
-                                                            <child>
-                                                            <object class="GtkTreeView" id="treeview_jumps">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="rules-hint">True</property>
-                                                            <property name="enable-search">False</property>
-                                                            <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
-                                                            <child internal-child="selection">
-                                                            <object class="GtkTreeSelection"/>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox91">
@@ -10751,28 +10729,7 @@ last capture</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">2</property>
                                                             <child>
-                                                            <object class="GtkScrolledWindow" id="scrolledwindow19">
-                                                            <property name="width-request">200</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="shadow-type">etched-in</property>
-                                                            <child>
-                                                            <object class="GtkTreeView" id="treeview_jumps_rj">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="rules-hint">True</property>
-                                                            <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
-                                                            <child internal-child="selection">
-                                                            <object class="GtkTreeSelection"/>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox34">
@@ -10831,29 +10788,7 @@ last capture</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">2</property>
                                                             <child>
-                                                            <object class="GtkScrolledWindow" id="scrolledwindow15">
-                                                            <property name="width-request">200</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="shadow-type">etched-in</property>
-                                                            <child>
-                                                            <object class="GtkTreeView" id="treeview_runs">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="rules-hint">True</property>
-                                                            <property name="enable-search">False</property>
-                                                            <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
-                                                            <child internal-child="selection">
-                                                            <object class="GtkTreeSelection"/>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox36">
@@ -10912,29 +10847,7 @@ last capture</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">2</property>
                                                             <child>
-                                                            <object class="GtkScrolledWindow" id="scrolledwindow16">
-                                                            <property name="width-request">200</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="shadow-type">etched-in</property>
-                                                            <child>
-                                                            <object class="GtkTreeView" id="treeview_runs_interval">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="rules-hint">True</property>
-                                                            <property name="enable-search">False</property>
-                                                            <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
-                                                            <child internal-child="selection">
-                                                            <object class="GtkTreeSelection"/>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox38">
@@ -12092,27 +12005,7 @@ last capture</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">2</property>
                                                             <child>
-                                                            <object class="GtkScrolledWindow">
-                                                            <property name="height-request">200</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="shadow-type">in</property>
-                                                            <child>
-                                                            <object class="GtkTreeView" id="treeview_wilight">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <signal name="button-release-event" handler="on_treeview_button_release_event" swapped="no"/>
-                                                            <child internal-child="selection">
-                                                            <object class="GtkTreeSelection"/>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox19">
@@ -12175,6 +12068,7 @@ last capture</property>
                                                             <child>
                                                             <object class="GtkScrolledWindow" id="scrolledwindow_treeview_results_session">
                                                             <property name="width-request">200</property>
+                                                            <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="shadow-type">etched-in</property>
                                                             <child>
@@ -12183,6 +12077,7 @@ last capture</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="rules-hint">True</property>
                                                             <property name="enable-search">False</property>
+                                                            <signal name="button-release-event" handler="on_treeview_results_session_button_release_event" swapped="no"/>
                                                             <child internal-child="selection">
                                                             <object class="GtkTreeSelection"/>
                                                             </child>
@@ -23159,6 +23054,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

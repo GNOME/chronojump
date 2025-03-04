@@ -43,10 +43,6 @@ public class TreeViewJumps : TreeViewEvent
 	//one of both indexes can be shown if selected on preferences
 	protected string qIndexName = "Q Index" + "\n(%)";
 	protected string djIndexName = "Dj Index" + "\n(%)";
-	
-	//to calculate potency
-	protected double personWeight;
-	protected double weightInKg;
 
 	public TreeViewJumps ()
 	{
@@ -274,13 +270,6 @@ public class TreeViewJumps : TreeViewEvent
 		myData[count++] = newJump.Description;
 		myData[count++] = newJump.UniqueID.ToString();
 		return myData;
-	}
-	
-	//used on Add
-	public double PersonWeight {
-		set {
-			personWeight = value;
-		}
 	}
 
 }

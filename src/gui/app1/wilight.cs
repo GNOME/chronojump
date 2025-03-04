@@ -509,7 +509,7 @@ public partial class ChronoJumpWindow
 					w.UniqueID = w.InsertSQL (false);
 					LogB.Information ("Inserted!");
 
-					myTreeViewWilight.Add (currentPerson.Name, w, "");
+					treeViewResultsSession.Add (currentPerson.Name, w, "");
 					updateGraphWilightBars();
 				}
 
@@ -562,8 +562,8 @@ public partial class ChronoJumpWindow
 		string typeTemp = "";
 
 		int selectedID = -1;
-		if (myTreeViewWilight != null && myTreeViewWilight.EventSelectedID > 0)
-			selectedID = myTreeViewWilight.EventSelectedID;
+		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID > 0)
+			selectedID = treeViewResultsSession.EventSelectedID;
 
 		PrepareEventGraphWilight eventGraph = new PrepareEventGraphWilight(
 				1, //unused?
@@ -596,7 +596,7 @@ public partial class ChronoJumpWindow
 	{
 		//1.- check that there's a line selected
 		//2.- check that this line is a wilight and not a person
-		if (myTreeViewWilight.EventSelectedID > 0) {
+		if (treeViewResultsSession.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion
 			if (preferences.askDeletion) {
 				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
@@ -610,11 +610,11 @@ public partial class ChronoJumpWindow
 
 	private void wilight_delete_current_test_accepted (object o, EventArgs args)
 	{
-		int id = myTreeViewWilight.EventSelectedID;
+		int id = treeViewResultsSession.EventSelectedID;
 
 		Sqlite.Delete (false, Constants.WilightTable, id);
 
-		myTreeViewWilight.DelEvent(id);
+		treeViewResultsSession.DelEvent(id);
 
 		/* code from runI
 		selectedRunInterval = null;

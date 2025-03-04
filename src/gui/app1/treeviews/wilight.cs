@@ -28,16 +28,6 @@ using System.Collections.Generic; //List
 
 public partial class ChronoJumpWindow 
 {
-	Gtk.TreeView treeview_wilight;
-
-	private void createTreeView_wilight (Gtk.TreeView tv) {
-		//myTreeViewWilight is a TreeViewWilight instance
-		myTreeViewWilight = new TreeViewWilight (tv, preferences.digitsNumber, TreeViewEvent.ExpandStates.MINIMIZED );
-
-		//the glade cursor_changed does not work on mono 1.2.5 windows
-		tv.CursorChanged += on_treeview_wilight_cursor_changed;
-	}
-
 	private void fillTreeView_wilight (string filter) {
 		fillTreeView_wilight (filter, false);
 	}
@@ -66,10 +56,6 @@ public partial class ChronoJumpWindow
 				//"",
 				Sqlite.Orders_by.DEFAULT, 0);
 
-		myTreeViewWilight.Fill (wilightSA,
-				//filter,
-				//Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.RUN));
-				"", new List<string> ());
 		if (current_mode == Constants.Modes.WILIGHT)
 			treeViewResultsSession.Fill (wilightSA,
 					//filter,
@@ -78,25 +64,14 @@ public partial class ChronoJumpWindow
 
 		//if show just one person, have it expanded
 		if (! radio_contacts_results_personAll.Active && currentPerson != null)
-		{
-			treeview_wilight.ExpandAll();
 			treeview_results_session.ExpandAll();
-		} else {
-			expandOrMinimizeTreeView((TreeViewEvent) myTreeViewWilight, treeview_wilight);
+		else
 			expandOrMinimizeTreeView((TreeViewEvent) treeViewResultsSession, treeview_results_session);
-		}
 	}
 
 	private void on_button_wilight_zoom_clicked (object o, EventArgs args)
 	{
-		myTreeViewWilight.ZoomChange (image_wilight_zoom);
-	}
-
-	private void treeview_wilight_storeReset()
-	{
-		myTreeViewWilight.RemoveColumns();
-		myTreeViewWilight = new TreeViewWilight (treeview_wilight,
-				preferences.digitsNumber, myTreeViewWilight.ExpandState);
+		treeViewResultsSession.ZoomChange (image_wilight_zoom);
 	}
 
 	private void on_treeview_wilight_cursor_changed (object o, EventArgs args)
@@ -107,8 +82,8 @@ public partial class ChronoJumpWindow
 
 		// don't select if it's a person,
 		// is for not confusing with the person treeviews that controls who jumps
-		if (myTreeViewWilight.EventSelectedID == 0) {
-			myTreeViewWilight.Unselect();
+		if (treeViewResultsSession.EventSelectedID == 0) {
+			treeViewResultsSession.Unselect();
 			showHideActionEventButtons(false); //hide
 		} else {
 			showHideActionEventButtons(true); //show
@@ -119,8 +94,8 @@ public partial class ChronoJumpWindow
 	private void selectWilight (int id)
 	{
 		//LogB.Information ("selectWilight: " + id.ToString ());
-		myTreeViewWilight.ZoomToTestsIfNeeded ();
-		myTreeViewWilight.SelectEvent (id, true); //scroll
+		treeViewResultsSession.ZoomToTestsIfNeeded ();
+		treeViewResultsSession.SelectEvent (id, true); //scroll
 		on_treeview_wilight_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
 	}
 

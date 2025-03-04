@@ -28,17 +28,6 @@ using System.Collections.Generic; //List
 
 public partial class ChronoJumpWindow 
 {
-	Gtk.TreeView treeview_jumps_rj;
-
-
-	private void createTreeView_jumps_rj (Gtk.TreeView tv)
-	{
-		myTreeViewJumpsRj = new TreeViewJumpsRj (tv, preferences, TreeViewEvent.ExpandStates.MINIMIZED);
-
-		//the glade cursor_changed does not work on mono 1.2.5 windows
-		tv.CursorChanged += on_treeview_jumps_rj_cursor_changed; 
-	}
-
 	private void fillTreeView_jumps_rj (string filter)
 	{
 		fillTreeView_jumps_rj (filter, false);
@@ -58,8 +47,6 @@ public partial class ChronoJumpWindow
 
 		string [] myJumps = SqliteJumpRj.SelectJumpsSA (dbconOpened,
 				currentSession.UniqueID, currentPersonOrAll (), "", "");
-		myTreeViewJumpsRj.Fill (myJumps, filter,
-				Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.JUMP_RJ));
 		if (current_mode == Constants.Modes.JUMPSREACTIVE)
 			treeViewResultsSession.Fill (myJumps, filter,
 					Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.JUMP_RJ));
@@ -67,48 +54,38 @@ public partial class ChronoJumpWindow
 		//if show just one person, have it expanded (optimal)
 		if (! radio_contacts_results_personAll.Active && currentPerson != null)
 		{
-			treeview_jumps_rj.CollapseAll ();
-			((TreeViewEvent) myTreeViewJumpsRj).ExpandOptimal();
-
 			treeview_results_session.CollapseAll ();
 			((TreeViewEvent) treeViewResultsSession).ExpandOptimal();
-		} else {
-			expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumpsRj, treeview_jumps_rj);
+		} else
 			expandOrMinimizeTreeView((TreeViewEvent) treeViewResultsSession, treeview_results_session);
-		}
 	}
 
 	private void on_button_jumps_rj_zoom_clicked (object o, EventArgs args)
 	{
-		myTreeViewJumpsRj.ZoomChange (image_jumps_rj_zoom);
-	}
-
-	private void treeview_jumps_rj_storeReset()
-	{
-		myTreeViewJumpsRj.RemoveColumns();
-		myTreeViewJumpsRj = new TreeViewJumpsRj (treeview_jumps_rj, preferences, myTreeViewJumpsRj.ExpandState);
+		treeViewResultsSession.ZoomChange (image_jumps_rj_zoom);
 	}
 
 	private void on_treeview_jumps_rj_cursor_changed (object o, EventArgs args)
 	{
+		LogB.Information ("on_treeview_jumps_rj_cursor_changed");
 		sensitiveLastTestButtons(false);
 
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who jumps
-		if (myTreeViewJumpsRj.EventSelectedID == 0) {
-			myTreeViewJumpsRj.Unselect();
+		if (treeViewResultsSession.EventSelectedID == 0) {
+			treeViewResultsSession.Unselect();
 			showHideActionEventButtons(false);
 			return;
 		}
 
-		if (myTreeViewJumpsRj.EventSelectedID == -1)
-			myTreeViewJumpsRj.SelectHeaderLine();
+		if (treeViewResultsSession.EventSelectedID == -1)
+			treeViewResultsSession.SelectHeaderLine();
 
 		showHideActionEventButtons(true);
 
 		//graph the jump on realtime cairo graph. Using selectedJumpRj to avoid SQL select continuously
-		if(selectedJumpRj == null || selectedJumpRj.UniqueID != myTreeViewJumpsRj.EventSelectedID)
-			selectedJumpRj = SqliteJumpRj.SelectJumpData("jumpRj", myTreeViewJumpsRj.EventSelectedID, true, false); //true: personNameInComment
+		if(selectedJumpRj == null || selectedJumpRj.UniqueID != treeViewResultsSession.EventSelectedID)
+			selectedJumpRj = SqliteJumpRj.SelectJumpData("jumpRj", treeViewResultsSession.EventSelectedID, true, false); //true: personNameInComment
 
 		updateGraphJumpsReactive (); //to show the selected bar
 
@@ -123,8 +100,8 @@ public partial class ChronoJumpWindow
 
 	private void selectJumpReactive (int id)
 	{
-		myTreeViewJumpsRj.ZoomToTestsIfNeeded ();
-		myTreeViewJumpsRj.SelectEvent (id, true); //scroll
+		treeViewResultsSession.ZoomToTestsIfNeeded ();
+		treeViewResultsSession.SelectEvent (id, true); //scroll
 		on_treeview_jumps_rj_cursor_changed (new object (), new EventArgs ()); //in order to update top graph and play video button
 	}
 

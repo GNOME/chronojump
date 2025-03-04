@@ -438,9 +438,6 @@ public partial class ChronoJumpWindow
 						button_remote_person_next5 });
 		}
 
-		if (configChronojump.TreeViewResults)
-			scrolledwindow_treeview_results_session.Visible = true;
-
 		configDo();
 		ChronojumpWindowCont ();
 	}

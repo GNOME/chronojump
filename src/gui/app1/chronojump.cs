@@ -1564,7 +1564,6 @@ public partial class ChronoJumpWindow
 
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 		{
-			pre_fillTreeView_jumps (false);
 			myTreeViewJumps.SelectPerson(currentPerson.Name);
 
 			if(! configChronojump.Exhibition)
@@ -1610,7 +1609,6 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
-			pre_fillTreeView_jumps_rj (false);
 			myTreeViewJumpsRj.SelectPerson(currentPerson.Name);
 			selectedJumpRj = null;
 
@@ -1625,7 +1623,6 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.RUNSSIMPLE)
 		{
-			pre_fillTreeView_runs (false);
 			myTreeViewRuns.SelectPerson(currentPerson.Name);
 
 			updateGraphRunsSimple();
@@ -1638,7 +1635,6 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
-			pre_fillTreeView_runs_interval (false);
 			myTreeViewRunsInterval.SelectPerson(currentPerson.Name);
 			selectedRunInterval = null;
 
@@ -1668,7 +1664,6 @@ public partial class ChronoJumpWindow
 			runEncoderPersonChanged();
 		else if(current_mode == Constants.Modes.WILIGHT)
 		{
-			pre_fillTreeView_wilight (false);
 			myTreeViewWilight.SelectPerson(currentPerson.Name);
 
 			updateGraphWilightBars();
@@ -1936,7 +1931,6 @@ public partial class ChronoJumpWindow
 		on_extra_window_jumps_test_changed(o, args);
 
 		//update the treeview
-		pre_fillTreeView_jumps(false);
 		pre_fillTreeView_resultsSession (false);
 	}
 	
@@ -1990,7 +1984,6 @@ public partial class ChronoJumpWindow
 		on_extra_window_jumps_rj_test_changed(o, args);
 
 		//update the treeview
-		pre_fillTreeView_jumps_rj(false);
 		pre_fillTreeView_resultsSession (false);
 	}
 	
@@ -2032,7 +2025,6 @@ public partial class ChronoJumpWindow
 		on_extra_window_runs_test_changed(o, args);
 
 		//update the treeview
-		pre_fillTreeView_runs(false);
 		pre_fillTreeView_resultsSession (false);
 	}
 	
@@ -2074,7 +2066,6 @@ public partial class ChronoJumpWindow
 		on_extra_window_runs_interval_test_changed(o, args);
 
 		//update the treeview
-		pre_fillTreeView_runs_interval(false);
 		pre_fillTreeView_resultsSession (false);
 	}
 	
@@ -2085,6 +2076,7 @@ public partial class ChronoJumpWindow
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
 		{
 			treeview_jumps_storeReset();
+
 			if(radio_contacts_graph_allTests.Active)
 				fillTreeView_jumps (Constants.AllJumpsNameStr(), dbconOpened);
 			else if (combo_select_jumps != null)
@@ -2093,21 +2085,43 @@ public partial class ChronoJumpWindow
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
 			treeview_jumps_rj_storeReset();
+
 			if(radio_contacts_graph_allTests.Active)
 				fillTreeView_jumps_rj(Constants.AllJumpsNameStr(), dbconOpened);
 			else if (combo_select_jumps_rj != null)
 				fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_select_jumps_rj), dbconOpened);
 		}
-		else if (current_mode == Constants.Modes.RUNSSIMPLE) {
-			// TODO
-                } else if (current_mode == Constants.Modes.RUNSINTERVALLIC) {
-			// TODO
-                } else if (current_mode == Constants.Modes.WILIGHT) {
-		       // TODO
-                } else
+		else if (current_mode == Constants.Modes.RUNSSIMPLE)
+		{
+			treeview_runs_storeReset();
+
+			if(radio_contacts_graph_allTests.Active)
+				fillTreeView_runs(Constants.AllRunsNameStr(), dbconOpened);
+			else if (combo_select_runs != null)
+				fillTreeView_runs(UtilGtk.ComboGetActive(combo_select_runs), dbconOpened);
+		} else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
+		{
+			treeview_runs_interval_storeReset();
+
+			if(radio_contacts_graph_allTests.Active)
+				fillTreeView_runs_interval(Constants.AllRunsNameStr(), dbconOpened);
+			else if (combo_select_runs_interval != null)
+				fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_select_runs_interval), dbconOpened);
+		} else if (current_mode == Constants.Modes.WILIGHT)
+		{
+			treeview_wilight_storeReset();
+
+			//		if(radio_contacts_graph_allTests.Active)
+			fillTreeView_wilight ("", dbconOpened);
+			/*
+			   else if (combo_select_runs != null)
+			   fillTreeView_runs(UtilGtk.ComboGetActive(combo_select_runs), dbconOpened);
+			   */
+		} else
 			return;
 	}
 
+	/*
 	//TODO all the pre_fill methods will disappear. Above method will be used
 	private void pre_fillTreeView_jumps (bool dbconOpened)
 	{
@@ -2161,11 +2175,12 @@ public partial class ChronoJumpWindow
 
 //		if(radio_contacts_graph_allTests.Active)
 			fillTreeView_wilight ("", dbconOpened);
+*/
 		/*
 		else if (combo_select_runs != null)
 			fillTreeView_runs(UtilGtk.ComboGetActive(combo_select_runs), dbconOpened);
 			*/
-	}
+	//}
 
 
 	/* ---------------------------------------------------------
@@ -2998,11 +3013,7 @@ public partial class ChronoJumpWindow
 			createTreeView_runs_interval (treeview_runs_interval);
 			createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 
-			pre_fillTreeView_jumps(false);
-			pre_fillTreeView_jumps_rj(false);
-			pre_fillTreeView_runs(false);
-			pre_fillTreeView_runs_interval(false);
-			//on_combo_pulses_changed(combo_pulses, args);
+			pre_fillTreeView_resultsSession (false);
 
 			if(current_mode == Constants.Modes.POWERGRAVITATORY){
 				label_gravitatory_vpf_propulsive.Visible = preferences.encoderPropulsive;
@@ -6521,7 +6532,7 @@ public partial class ChronoJumpWindow
 			myTreeViewJumps.Update(myJump);
 		}
 		else
-			pre_fillTreeView_jumps(false);
+			pre_fillTreeView_resultsSession (false);
 
 		if(! configChronojump.Exhibition)
 			updateGraphJumpsSimple();
@@ -6544,7 +6555,7 @@ public partial class ChronoJumpWindow
 			myTreeViewJumpsRj.PersonWeight = personWeight;
 			myTreeViewJumpsRj.Update(myJump);
 		} else
-			pre_fillTreeView_jumps_rj(false);
+			pre_fillTreeView_resultsSession (false);
 
 		updateGraphJumpsReactive();
 
@@ -6595,7 +6606,7 @@ public partial class ChronoJumpWindow
 		if(eventOldPerson == myRun.PersonID)
 			myTreeViewRuns.Update(myRun);
 		else
-			pre_fillTreeView_runs(false);
+			pre_fillTreeView_resultsSession (false);
 
 		updateGraphRunsSimple();
 
@@ -6614,7 +6625,7 @@ public partial class ChronoJumpWindow
 		//distanceChanged is also managed with no problems because TreeViewEvent.Update has been extend to work with two level treeviews
 		if ( eventOldPerson != myRun.PersonID )// ||
 				//(editRunIntervalWin != null && editRunIntervalWin.DistanceChanged) )
-			pre_fillTreeView_runs_interval(false);
+			pre_fillTreeView_resultsSession (false);
 		else
 			myTreeViewRunsInterval.Update(myRun);
 
@@ -6935,7 +6946,7 @@ public partial class ChronoJumpWindow
 			createComboSelectJumpsAsymmetry(false);
 			createComboSelectJumpsEvolution(false);
 
-			pre_fillTreeView_jumps(false);
+			pre_fillTreeView_resultsSession (false);
 			combo_select_jumps.Active = UtilGtk.ComboMakeActive(combo_select_jumps, jumpTypeAddWin.Name);
 			update_combo_select_contacts_top_using_combo (combo_select_jumps);
 
@@ -6945,7 +6956,7 @@ public partial class ChronoJumpWindow
 			createComboSelectJumpsRjFatigue(false);
 			//createComboSelectJumpsRjFatigueNum(false); do not need because will be updated by createComboSelectJumpsRjFatigue
 			
-			pre_fillTreeView_jumps_rj(false);
+			pre_fillTreeView_resultsSession (false);
 			combo_select_jumps_rj.Active = UtilGtk.ComboMakeActive(combo_select_jumps_rj, jumpTypeAddWin.Name);
 			update_combo_select_contacts_top_using_combo (combo_select_jumps_rj);
 
@@ -6975,7 +6986,7 @@ public partial class ChronoJumpWindow
 			createComboSelectRuns(false);
 			createComboSelectRunsEvolution(false);
 
-			pre_fillTreeView_runs(false);
+			pre_fillTreeView_resultsSession (false);
 			combo_select_runs.Active = UtilGtk.ComboMakeActive(combo_select_runs, runTypeAddWin.Name);
 
 			update_combo_select_contacts_top_using_combo (combo_select_runs);
@@ -6984,7 +6995,7 @@ public partial class ChronoJumpWindow
 		} else {
 			createComboSelectRunsInterval(false);
 			
-			pre_fillTreeView_runs_interval(false);
+			pre_fillTreeView_resultsSession (false);
 
 			combo_select_runs_interval.Active = UtilGtk.ComboMakeActive(combo_select_runs_interval, runTypeAddWin.Name);
 			update_combo_select_contacts_top_using_combo (combo_select_runs_interval);
@@ -7025,7 +7036,7 @@ public partial class ChronoJumpWindow
 	{
 		string translatedName = comboSelectJumps.GetNameTranslated(jumpsMoreWin.SelectedEventName);
 		combo_select_jumps = comboSelectJumps.DeleteValue(translatedName);
-		pre_fillTreeView_jumps(false);
+		pre_fillTreeView_resultsSession (false);
 
 		extra_window_jumps_initialize(new JumpType("Free"));
 	}
@@ -7034,7 +7045,7 @@ public partial class ChronoJumpWindow
 	{
 		string translatedName = comboSelectJumpsRj.GetNameTranslated(jumpsRjMoreWin.SelectedEventName);
 		combo_select_jumps_rj = comboSelectJumpsRj.DeleteValue(translatedName);
-		pre_fillTreeView_jumps_rj(false);
+		pre_fillTreeView_resultsSession (false);
 
 		extra_window_jumps_rj_initialize(new JumpType("RJ(j)"));
 	}
@@ -7043,7 +7054,7 @@ public partial class ChronoJumpWindow
 	{
 		string translatedName = comboSelectRuns.GetNameTranslated(runsMoreWin.SelectedEventName);
 		combo_select_runs = comboSelectRuns.DeleteValue(translatedName);
-		pre_fillTreeView_runs(false);
+		pre_fillTreeView_resultsSession (false);
 
 		extra_window_runs_initialize(new RunType("Custom"));
 	}
@@ -7052,7 +7063,7 @@ public partial class ChronoJumpWindow
 	{
 		string translatedName = comboSelectRunsI.GetNameTranslated(runsIntervalMoreWin.SelectedEventName);
 		combo_select_runs_interval = comboSelectRunsI.DeleteValue(translatedName);
-		pre_fillTreeView_runs_interval(false);
+		pre_fillTreeView_resultsSession (false);
 
 		extra_window_runs_interval_initialize(new RunType("byLaps"));
 	}

@@ -449,7 +449,7 @@ public partial class ChronoJumpWindow
 
 			if (current_mode == Constants.Modes.JUMPSSIMPLE)
 			{
-				pre_fillTreeView_jumps (false);
+				pre_fillTreeView_resultsSession (false);
 				updateGraphJumpsSimple();
 			}
 

@@ -174,7 +174,6 @@ public partial class ChronoJumpWindow
 						j.InsertAtDB (true, Constants.JumpTable);
 						importedCount ++;
 					}
-					pre_fillTreeView_jumps (true);
 				}
 				else if (app1s_import_jumps_multiple.Active && eventToImport_l.Count > 0)
 				{
@@ -183,7 +182,6 @@ public partial class ChronoJumpWindow
 						jr.InsertAtDB (true, Constants.JumpRjTable);
 						importedCount ++;
 					}
-					pre_fillTreeView_jumps_rj (true);
 				}
 				else if (app1s_import_runs_simple.Active && eventToImport_l.Count > 0)
 				{
@@ -192,7 +190,6 @@ public partial class ChronoJumpWindow
 						r.InsertAtDB (true, Constants.RunTable);
 						importedCount ++;
 					}
-					pre_fillTreeView_runs (true);
 				}
 				else if (app1s_import_runs_intervallic.Active && eventToImport_l.Count > 0)
 				{
@@ -201,8 +198,8 @@ public partial class ChronoJumpWindow
 						ri.InsertAtDB (true, Constants.RunIntervalTable);
 						importedCount ++;
 					}
-					pre_fillTreeView_runs_interval (true);
 				}
+				pre_fillTreeView_resultsSession (true);
 
 				Sqlite.Close (); // <----
 

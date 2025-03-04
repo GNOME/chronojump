@@ -70,12 +70,21 @@ public partial class ChronoJumpWindow
 				//filter,
 				//Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.RUN));
 				"", new List<string> ());
+		if (current_mode == Constants.Modes.WILIGHT)
+			treeViewResultsSession.Fill (wilightSA,
+					//filter,
+					//Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.RUN));
+					"", new List<string> ());
 
 		//if show just one person, have it expanded
 		if (! radio_contacts_results_personAll.Active && currentPerson != null)
+		{
 			treeview_wilight.ExpandAll();
-		else
+			treeview_results_session.ExpandAll();
+		} else {
 			expandOrMinimizeTreeView((TreeViewEvent) myTreeViewWilight, treeview_wilight);
+			expandOrMinimizeTreeView((TreeViewEvent) treeViewResultsSession, treeview_results_session);
+		}
 	}
 
 	private void on_button_wilight_zoom_clicked (object o, EventArgs args)

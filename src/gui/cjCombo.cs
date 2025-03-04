@@ -29,7 +29,6 @@ public partial class ChronoJumpWindow
 		//1) simple jump
 		createComboSelectJumps(false);
 		combo_select_jumps.Active = 0;
-		pre_fillTreeView_jumps(false);
 
 		createComboSelectJumpsDjOptimalFall(false);
 		createComboSelectJumpsWeightFVProfile(false);
@@ -41,18 +40,17 @@ public partial class ChronoJumpWindow
 		//2) reactive jump
 		createComboSelectJumpsRj(false);
 		combo_select_jumps_rj.Active = 0;
-		pre_fillTreeView_jumps_rj(false);
 
 		//3) simple run
 		createComboSelectRuns(false);
 		createComboSelectRunsEvolution(false);
 		combo_select_runs.Active = 0;
-		pre_fillTreeView_runs(false);
 
 		//4) intervallic run
 		createComboSelectRunsInterval(false);
 		combo_select_runs_interval.Active = 0;
-		pre_fillTreeView_runs_interval(false);
+
+		pre_fillTreeView_resultsSession (false);
 
 		// TODO: we need this on encoder or is already done at reloadSession???
 		//createEncoderCombos();

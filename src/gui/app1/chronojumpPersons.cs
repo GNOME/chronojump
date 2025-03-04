@@ -502,11 +502,7 @@ public partial class ChronoJumpWindow
 				sensitiveGuiYesPerson();
 			}
 
-			pre_fillTreeView_jumps(false);
-			pre_fillTreeView_jumps_rj(false);
-			pre_fillTreeView_runs(false);
-			pre_fillTreeView_runs_interval(false);
-//			on_combo_pulses_changed(combo_pulses, args);
+			pre_fillTreeView_resultsSession (false);
 
 			if(createdStatsWin) {
 				stats_win_fillTreeView_stats(false, true);

@@ -841,59 +841,33 @@ public partial class ChronoJumpWindow
 	private void on_radio_contacts_graph_test_toggled (object o, EventArgs args)
 	{
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
-		{
 			updateGraphJumpsSimple ();
-			pre_fillTreeView_jumps(false);
-		}
 		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
-		{
 			updateGraphJumpsReactive ();
-			pre_fillTreeView_jumps_rj(false);
-		}
 		else if(current_mode == Constants.Modes.RUNSSIMPLE)
-		{
 			updateGraphRunsSimple ();
-			pre_fillTreeView_runs(false);
-		}
 		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
-		{
 			updateGraphRunsInterval ();
-			pre_fillTreeView_runs_interval(false);
-		}
 		else if(current_mode == Constants.Modes.WILIGHT)
-		{
 			updateGraphWilightBars ();
-			pre_fillTreeView_wilight(false);
-		}
+
+		pre_fillTreeView_resultsSession (false);
 	}
 
 	private void on_radio_contacts_results_person_toggled (object o, EventArgs args)
 	{
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
-		{
 			updateGraphJumpsSimple ();
-			pre_fillTreeView_jumps (false);
-		}
 		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
-		{
 			updateGraphJumpsReactive ();
-			pre_fillTreeView_jumps_rj (false);
-		}
 		else if(current_mode == Constants.Modes.RUNSSIMPLE)
-		{
 			updateGraphRunsSimple ();
-			pre_fillTreeView_runs (false);
-		}
 		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
-		{
 			updateGraphRunsInterval ();
-			pre_fillTreeView_runs_interval (false);
-		}
 		else if(current_mode == Constants.Modes.WILIGHT)
-		{
 			updateGraphWilightBars ();
-			pre_fillTreeView_wilight (false);
-		}
+
+		pre_fillTreeView_resultsSession (false);
 	}
 
 	private void on_check_run_show_time_toggled (object o, EventArgs args)

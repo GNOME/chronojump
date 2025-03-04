@@ -120,22 +120,10 @@ public partial class ChronoJumpWindow
 		//Leave SQL opened in all this process
 		Sqlite.Open(); // ------------------------------
 
-		if(fillTests) {
+		if(fillTests)
 			pre_fillTreeView_resultsSession (true);
-			pre_fillTreeView_jumps (true);
-			pre_fillTreeView_jumps_rj (true);
-			pre_fillTreeView_runs (true);
-			pre_fillTreeView_runs_interval (true);
-			pre_fillTreeView_wilight (true);
-		}
-		else {
+		else
 			treeview_results_session_storeReset();
-			treeview_jumps_storeReset();
-			treeview_jumps_rj_storeReset();
-			treeview_runs_storeReset();
-			treeview_runs_interval_storeReset();
-			treeview_wilight_storeReset();
-		}
 
 		//close SQL opened in all this process
 		Sqlite.Close(); // ------------------------------

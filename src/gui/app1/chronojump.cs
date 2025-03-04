@@ -709,6 +709,7 @@ public partial class ChronoJumpWindow
 
 		createTreeView_persons (treeview_persons);
 
+		createTreeView_resultsSession (treeview_results_session);
 		createTreeView_jumps (treeview_jumps);
 		createTreeView_jumps_rj (treeview_jumps_rj);
 		createTreeView_runs (treeview_runs);
@@ -1559,6 +1560,8 @@ public partial class ChronoJumpWindow
 			button_contacts_export_result_open.Visible = false;
 		}
 
+		pre_fillTreeView_resultsSession (false);
+
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 		{
 			pre_fillTreeView_jumps (false);
@@ -1934,6 +1937,7 @@ public partial class ChronoJumpWindow
 
 		//update the treeview
 		pre_fillTreeView_jumps(false);
+		pre_fillTreeView_resultsSession (false);
 	}
 	
 	private void on_combo_select_jumps_rj_changed(object o, EventArgs args)
@@ -1987,6 +1991,7 @@ public partial class ChronoJumpWindow
 
 		//update the treeview
 		pre_fillTreeView_jumps_rj(false);
+		pre_fillTreeView_resultsSession (false);
 	}
 	
 	private void on_combo_select_runs_changed(object o, EventArgs args)
@@ -2028,6 +2033,7 @@ public partial class ChronoJumpWindow
 
 		//update the treeview
 		pre_fillTreeView_runs(false);
+		pre_fillTreeView_resultsSession (false);
 	}
 	
 	private void on_combo_select_runs_interval_changed(object o, EventArgs args)
@@ -2069,10 +2075,45 @@ public partial class ChronoJumpWindow
 
 		//update the treeview
 		pre_fillTreeView_runs_interval(false);
+		pre_fillTreeView_resultsSession (false);
 	}
 	
+	private void pre_fillTreeView_resultsSession (bool dbconOpened)
+	{
+		treeview_results_session_storeReset ();
+
+		if (current_mode == Constants.Modes.JUMPSSIMPLE)
+		{
+			treeview_jumps_storeReset();
+			if(radio_contacts_graph_allTests.Active)
+				fillTreeView_jumps (Constants.AllJumpsNameStr(), dbconOpened);
+			else if (combo_select_jumps != null)
+				fillTreeView_jumps (UtilGtk.ComboGetActive(combo_select_jumps), dbconOpened);
+		}
+		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
+		{
+			treeview_jumps_rj_storeReset();
+			if(radio_contacts_graph_allTests.Active)
+				fillTreeView_jumps_rj(Constants.AllJumpsNameStr(), dbconOpened);
+			else if (combo_select_jumps_rj != null)
+				fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_select_jumps_rj), dbconOpened);
+		}
+		else if (current_mode == Constants.Modes.RUNSSIMPLE) {
+			// TODO
+                } else if (current_mode == Constants.Modes.RUNSINTERVALLIC) {
+			// TODO
+                } else if (current_mode == Constants.Modes.WILIGHT) {
+		       // TODO
+                } else
+			return;
+	}
+
+	//TODO all the pre_fill methods will disappear. Above method will be used
 	private void pre_fillTreeView_jumps (bool dbconOpened)
 	{
+		if (configChronojump.TreeViewResults)
+			return;
+
 		treeview_jumps_storeReset();
 
 		if(radio_contacts_graph_allTests.Active)
@@ -2083,6 +2124,9 @@ public partial class ChronoJumpWindow
 
 	private void pre_fillTreeView_jumps_rj (bool dbconOpened)
 	{
+		if (configChronojump.TreeViewResults)
+			return;
+
 		treeview_jumps_rj_storeReset();
 
 		if(radio_contacts_graph_allTests.Active)
@@ -2947,6 +2991,7 @@ public partial class ChronoJumpWindow
 			report.preferences = preferences;
 			
 			
+			createTreeView_resultsSession (treeview_results_session);
 			createTreeView_jumps (treeview_jumps);
 			createTreeView_jumps_rj (treeview_jumps_rj);
 			createTreeView_runs (treeview_runs);
@@ -3170,6 +3215,8 @@ public partial class ChronoJumpWindow
 			tempSessionName = currentSession.Name;
 
 		setApp1Title(tempSessionName, current_mode);
+
+		treeview_results_session_storeReset ();
 
 		//maybe we have the force sensor port opened or runEncoder port opened, close it:
 		if(portFSOpened)

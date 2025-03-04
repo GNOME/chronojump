@@ -1,3 +1,5 @@
+//note this is not valid for encoder until we move all the widgets to contacts
+
 /*
  * This file is part of ChronoJump
  *
@@ -33,6 +35,56 @@ public partial class ChronoJumpWindow
 	Gtk.TreeView treeview_results_session;
 	// <---- at glade
 
+	private TreeViewEvent treeViewResultsSession;
 
+	private void createTreeView_resultsSession (Gtk.TreeView tv)
+	{
+		if (current_mode == Constants.Modes.JUMPSSIMPLE)
+			treeViewResultsSession = new TreeViewJumps (tv, preferences, TreeViewEvent.ExpandStates.MINIMIZED);
+		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
+			treeViewResultsSession = new TreeViewJumpsRj (tv, preferences, TreeViewEvent.ExpandStates.MINIMIZED);
+		else if (current_mode == Constants.Modes.RUNSSIMPLE)
+			treeViewResultsSession = new TreeViewRuns (tv, preferences.digitsNumber, preferences.metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED );
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
+			treeViewResultsSession = new TreeViewRunsInterval (tv, preferences.digitsNumber, preferences.metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED);
+		else if (current_mode == Constants.Modes.WILIGHT)
+			treeViewResultsSession = new TreeViewWilight (tv, preferences.digitsNumber, TreeViewEvent.ExpandStates.MINIMIZED );
+		else {
+			treeViewResultsSession = new TreeViewJumps (tv, preferences, TreeViewEvent.ExpandStates.MINIMIZED); //default to fix any temporary crash right now. TODO: fix it
+			return;
+		}
+
+		//the glade cursor_changed does not work on mono 1.2.5 windows
+		tv.CursorChanged += on_treeview_results_session_cursor_changed;
+	}
+
+	private void on_treeview_results_session_cursor_changed (object o, EventArgs args)
+	{
+		//TODO
+	}
+
+	private void treeview_results_session_storeReset()
+	{
+		if (treeViewResultsSession == null)
+			return;
+
+		treeViewResultsSession.RemoveColumns();
+
+		if (current_mode == Constants.Modes.JUMPSSIMPLE)
+			treeViewResultsSession = new TreeViewJumps (
+					treeview_results_session, preferences, treeViewResultsSession.ExpandState);
+		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
+			treeViewResultsSession = new TreeViewJumpsRj (
+					treeview_results_session, preferences, treeViewResultsSession.ExpandState);
+		else if (current_mode == Constants.Modes.RUNSSIMPLE)
+			treeViewResultsSession = new TreeViewRuns (
+					treeview_results_session, preferences.digitsNumber, preferences.metersSecondsPreferred, treeViewResultsSession.ExpandState);
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
+			treeViewResultsSession = new TreeViewRunsInterval (
+					treeview_results_session, preferences.digitsNumber, preferences.metersSecondsPreferred, treeViewResultsSession.ExpandState);
+		else if (current_mode == Constants.Modes.WILIGHT)
+			treeViewResultsSession = new TreeViewWilight (
+					treeview_results_session, preferences.digitsNumber, treeViewResultsSession.ExpandState);
+	}
 }
 

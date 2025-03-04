@@ -121,6 +121,7 @@ public partial class ChronoJumpWindow
 		Sqlite.Open(); // ------------------------------
 
 		if(fillTests) {
+			pre_fillTreeView_resultsSession (true);
 			pre_fillTreeView_jumps (true);
 			pre_fillTreeView_jumps_rj (true);
 			pre_fillTreeView_runs (true);
@@ -128,6 +129,7 @@ public partial class ChronoJumpWindow
 			pre_fillTreeView_wilight (true);
 		}
 		else {
+			treeview_results_session_storeReset();
 			treeview_jumps_storeReset();
 			treeview_jumps_rj_storeReset();
 			treeview_runs_storeReset();

@@ -60,14 +60,22 @@ public partial class ChronoJumpWindow
 				currentSession.UniqueID, currentPersonOrAll (), "", "");
 		myTreeViewJumpsRj.Fill (myJumps, filter,
 				Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.JUMP_RJ));
+		if (current_mode == Constants.Modes.JUMPSREACTIVE)
+			treeViewResultsSession.Fill (myJumps, filter,
+					Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.JUMP_RJ));
 
 		//if show just one person, have it expanded (optimal)
 		if (! radio_contacts_results_personAll.Active && currentPerson != null)
 		{
 			treeview_jumps_rj.CollapseAll ();
 			((TreeViewEvent) myTreeViewJumpsRj).ExpandOptimal();
-		} else
+
+			treeview_results_session.CollapseAll ();
+			((TreeViewEvent) treeViewResultsSession).ExpandOptimal();
+		} else {
 			expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumpsRj, treeview_jumps_rj);
+			expandOrMinimizeTreeView((TreeViewEvent) treeViewResultsSession, treeview_results_session);
+		}
 	}
 
 	private void on_button_jumps_rj_zoom_clicked (object o, EventArgs args)

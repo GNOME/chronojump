@@ -116,6 +116,8 @@ public partial class ChronoJumpWindow
 			on_treeview_runs_cursor_changed (new object (), new EventArgs ());
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			on_treeview_runs_interval_cursor_changed (new object (), new EventArgs ());
+		else if (current_mode == Constants.Modes.WILIGHT)
+			on_treeview_wilight_cursor_changed (new object (), new EventArgs ());
 	}
 
 	private int currentPersonOrAll ()

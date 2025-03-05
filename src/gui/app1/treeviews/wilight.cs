@@ -71,8 +71,7 @@ public partial class ChronoJumpWindow
 
 	private void on_treeview_wilight_cursor_changed (object o, EventArgs args)
 	{
-		LogB.Information("Cursor changed");
-
+		LogB.Information ("on_treeview_wilight_cursor_changed");
 		sensitiveLastTestButtons(false);
 
 		// don't select if it's a person,

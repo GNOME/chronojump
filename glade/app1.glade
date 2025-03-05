@@ -10656,10 +10656,6 @@ last capture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkBox">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <child>
                                                             <object class="GtkNotebook" id="notebook_results">
                                                             <property name="width-request">150</property>
                                                             <property name="visible">True</property>
@@ -10674,7 +10670,26 @@ last capture</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">2</property>
                                                             <child>
-                                                            <placeholder/>
+                                                            <object class="GtkScrolledWindow" id="scrolledwindow_treeview_results_session">
+                                                            <property name="width-request">200</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="shadow-type">etched-in</property>
+                                                            <child>
+                                                            <object class="GtkTreeView" id="treeview_results_session">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="rules-hint">True</property>
+                                                            <property name="enable-search">False</property>
+                                                            <signal name="button-release-event" handler="on_treeview_results_session_button_release_event" swapped="no"/>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
                                                             </child>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox91">
@@ -10682,15 +10697,15 @@ last capture</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <object class="GtkButton" id="button_jumps_zoom">
+                                                            <object class="GtkButton" id="button_results_session_zoom">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="tooltip-text" translatable="yes">Change zoom</property>
-                                                            <signal name="clicked" handler="on_button_jumps_zoom_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_results_session_zoom_clicked" swapped="no"/>
                                                             <child>
-                                                            <object class="GtkImage" id="image_jumps_zoom">
+                                                            <object class="GtkImage" id="image_results_session_zoom">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             </object>
@@ -10717,186 +10732,9 @@ last capture</property>
                                                             <object class="GtkLabel" id="label91">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Jump</property>
+                                                            <property name="label">resultsSession</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="tab-fill">False</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox278">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">2</property>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkVBox" id="vbox34">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <object class="GtkButton" id="button_jumps_zoom_rj">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Change zoom</property>
-                                                            <signal name="clicked" handler="on_button_jumps_rj_zoom_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_jumps_rj_zoom">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="z" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack-type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child type="tab">
-                                                            <object class="GtkLabel" id="label92">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Jump multiple</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="position">1</property>
-                                                            <property name="tab-fill">False</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox279">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">2</property>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkVBox" id="vbox36">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <object class="GtkButton" id="button_runs_zoom">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Change zoom</property>
-                                                            <signal name="clicked" handler="on_button_runs_zoom_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_runs_zoom">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="z" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack-type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child type="tab">
-                                                            <object class="GtkLabel" id="label96">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Race</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="position">2</property>
-                                                            <property name="tab-fill">False</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox280">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">2</property>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkVBox" id="vbox38">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <object class="GtkButton" id="button_runs_interval_zoom">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Change zoom</property>
-                                                            <signal name="clicked" handler="on_button_runs_interval_zoom_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_runs_interval_zoom">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="z" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack-type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="position">3</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child type="tab">
-                                                            <object class="GtkLabel" id="label97">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Race Intervallic</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="position">3</property>
                                                             <property name="tab-fill">False</property>
                                                             </packing>
                                                             </child>
@@ -11800,7 +11638,7 @@ last capture</property>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="position">4</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child type="tab">
@@ -11810,7 +11648,7 @@ last capture</property>
                                                             <property name="label">force</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="position">4</property>
+                                                            <property name="position">1</property>
                                                             <property name="tab-fill">False</property>
                                                             </packing>
                                                             </child>
@@ -11985,7 +11823,7 @@ last capture</property>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="position">5</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             <child type="tab">
@@ -11995,105 +11833,14 @@ last capture</property>
                                                             <property name="label">RunEncoder</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="position">5</property>
-                                                            <property name="tab-fill">False</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkBox">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">2</property>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkVBox" id="vbox19">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <object class="GtkButton" id="button_wilight_zoom">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Change zoom</property>
-                                                            <signal name="clicked" handler="on_button_wilight_zoom_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_wilight_zoom">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="z" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack-type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="position">6</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child type="tab">
-                                                            <object class="GtkLabel">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label">Wilight</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="position">6</property>
+                                                            <property name="position">2</property>
                                                             <property name="tab-fill">False</property>
                                                             </packing>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkScrolledWindow" id="scrolledwindow_treeview_results_session">
-                                                            <property name="width-request">200</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="shadow-type">etched-in</property>
-                                                            <child>
-                                                            <object class="GtkTreeView" id="treeview_results_session">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="rules-hint">True</property>
-                                                            <property name="enable-search">False</property>
-                                                            <signal name="button-release-event" handler="on_treeview_results_session_button_release_event" swapped="no"/>
-                                                            <child internal-child="selection">
-                                                            <object class="GtkTreeSelection"/>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="resize">False</property>
-                                                            <property name="shrink">False</property>
+                                                            <property name="resize">True</property>
+                                                            <property name="shrink">True</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -23054,6 +22801,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

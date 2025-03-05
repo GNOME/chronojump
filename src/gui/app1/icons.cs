@@ -1077,13 +1077,9 @@ public partial class ChronoJumpWindow
 		image_force_sensor_ai_chained_hscales_link_off.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "link_off.png");
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_in.png");
+		image_results_session_zoom.Pixbuf = pixbuf;
 		image_force_sensor_ai_zoom.Pixbuf = pixbuf;
-		image_jumps_zoom.Pixbuf = pixbuf;
-		image_jumps_rj_zoom.Pixbuf = pixbuf;
-		image_runs_zoom.Pixbuf = pixbuf;
-		image_runs_interval_zoom.Pixbuf = pixbuf;
 		image_force_sensor_ai_zoom_out.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "zoom_out.png");
-		image_wilight_zoom.Pixbuf = pixbuf;
 
 		image_test_add_edit.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_attachment.png");
 

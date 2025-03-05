@@ -361,12 +361,8 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_run_type_delete_simple;
 	Gtk.Image image_run_type_delete_intervallic;
 
-	Gtk.Image image_jumps_zoom;
-	Gtk.Image image_jumps_rj_zoom;
-	Gtk.Image image_runs_zoom;
-	Gtk.Image image_runs_interval_zoom;
-	Gtk.Image image_wilight_zoom;
-	
+	Gtk.Image image_results_session_zoom;
+
 	//encoder
 	//Gtk.Image image_encoder_analyze_zoom;
 	Gtk.Image image_encoder_analyze_stats;
@@ -506,7 +502,7 @@ public partial class ChronoJumpWindow
 	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR, BEEPTEST }
 	private enum notebook_execute_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER }
 	private enum notebook_options_top_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER }
-	private enum notebook_results_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER, WILIGHT }
+	private enum notebook_results_pages { RESULTSSESSION, FORCESENSOR, RUNSENCODER }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE,
 		JUMPSASYMMETRY, JUMPSEVOLUTION, JUMPSRJFATIGUE,
 		RUNSEVOLUTION, SPRINT, CONTACTS_EXPORT_CSV, SIGNAL_AI, }
@@ -7187,7 +7183,7 @@ public partial class ChronoJumpWindow
 		{
 			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.JUMPSSIMPLE);
 			notebook_options_top.CurrentPage = Convert.ToInt32 (notebook_options_top_pages.JUMPSSIMPLE);
-			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.JUMPSSIMPLE);
+			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.RESULTSSESSION);
 
 			if(currentJumpType != null)
 				changeTestImage(EventType.Types.JUMP.ToString(),
@@ -7196,7 +7192,7 @@ public partial class ChronoJumpWindow
 		{
 			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.JUMPSREACTIVE);
 			notebook_options_top.CurrentPage = Convert.ToInt32 (notebook_options_top_pages.JUMPSREACTIVE);
-			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.JUMPSREACTIVE);
+			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.RESULTSSESSION);
 
 			if(currentJumpRjType != null)
 				changeTestImage(EventType.Types.JUMP.ToString(),
@@ -7205,7 +7201,7 @@ public partial class ChronoJumpWindow
 		{
 			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.RUNSSIMPLE);
 			notebook_options_top.CurrentPage = Convert.ToInt32 (notebook_options_top_pages.RUNSSIMPLE);
-			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.RUNSSIMPLE);
+			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.RESULTSSESSION);
 
 			if(currentRunType != null)
 				changeTestImage(EventType.Types.RUN.ToString(),
@@ -7214,7 +7210,7 @@ public partial class ChronoJumpWindow
 		{
 			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.RUNSINTERVALLIC);
 			notebook_options_top.CurrentPage = Convert.ToInt32 (notebook_options_top_pages.RUNSINTERVALLIC);
-			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.RUNSINTERVALLIC);
+			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.RESULTSSESSION);
 
 			if(currentRunIntervalType != null)
 				changeTestImage(EventType.Types.RUN.ToString(),
@@ -7248,7 +7244,7 @@ public partial class ChronoJumpWindow
 		{
 //			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.JUMPSREACTIVE);
 //			notebook_options_top.CurrentPage = Convert.ToInt32 (notebook_options_top_pages.JUMPSREACTIVE);
-			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.WILIGHT);
+			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.RESULTSSESSION);
 
 			/*
 			if(currentJumpRjType != null)
@@ -9056,11 +9052,7 @@ public partial class ChronoJumpWindow
 		image_run_type_delete_simple = (Gtk.Image) builder.GetObject ("image_run_type_delete_simple");
 		image_run_type_delete_intervallic = (Gtk.Image) builder.GetObject ("image_run_type_delete_intervallic");
 
-		image_jumps_zoom = (Gtk.Image) builder.GetObject ("image_jumps_zoom");
-		image_jumps_rj_zoom = (Gtk.Image) builder.GetObject ("image_jumps_rj_zoom");
-		image_runs_zoom = (Gtk.Image) builder.GetObject ("image_runs_zoom");
-		image_runs_interval_zoom = (Gtk.Image) builder.GetObject ("image_runs_interval_zoom");
-		image_wilight_zoom = (Gtk.Image) builder.GetObject ("image_wilight_zoom");
+		image_results_session_zoom = (Gtk.Image) builder.GetObject ("image_results_session_zoom");
 
 		//encoder
 		//image_encoder_analyze_zoom = (Gtk.Image) builder.GetObject ("image_encoder_analyze_zoom");

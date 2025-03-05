@@ -60,11 +60,6 @@ public partial class ChronoJumpWindow
 			expandOrMinimizeTreeView((TreeViewEvent) treeViewResultsSession, treeview_results_session);
 	}
 
-	private void on_button_jumps_rj_zoom_clicked (object o, EventArgs args)
-	{
-		treeViewResultsSession.ZoomChange (image_jumps_rj_zoom);
-	}
-
 	private void on_treeview_jumps_rj_cursor_changed (object o, EventArgs args)
 	{
 		LogB.Information ("on_treeview_jumps_rj_cursor_changed");

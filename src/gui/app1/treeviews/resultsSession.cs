@@ -58,6 +58,11 @@ public partial class ChronoJumpWindow
 		tv.CursorChanged += on_treeview_results_session_cursor_changed;
 	}
 
+	private void on_button_results_session_zoom_clicked (object o, EventArgs args)
+	{
+		treeViewResultsSession.ZoomChange (image_results_session_zoom);
+	}
+
 	private void on_treeview_results_session_cursor_changed (object o, EventArgs args)
 	{
 		LogB.Information ("on_treeview_results_session_cursor_changed");

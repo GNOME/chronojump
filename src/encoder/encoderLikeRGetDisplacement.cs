@@ -33,14 +33,16 @@ public class EncoderLikeRGetDisplacement
 	}
 
 	// in signals and curves, need to do conversions (invert, diameter)
-	private List<double> getDisplacement (
+	public List<double> GetDisplacement (
 			bool capturing, EncoderConfiguration.Names econfName,
 			List<int> dis_l, double diameter, double diameterExt, int gearedDown)
 	{
 		List<double> disFixed_l = new List<double> ();
 
 		// no change on this encoder configurations
-		if (econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON1 ||
+		if (
+				econfName == EncoderConfiguration.Names.LINEAR ||
+				econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON1 ||
 				econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON1INV ||
 				econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON2 ||
 				econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON2INV ||

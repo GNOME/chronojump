@@ -599,10 +599,21 @@ public abstract class EncoderCapture
 							if(compujump && Ecca.curvesAccepted == 0)
 								Networks.WakeUpRaspberryIfNeeded();
 
-							bool success = encoderRProcCapture.SendCurve(
-									ecc.startFrame,
-									UtilEncoder.CompressData(curve, 25)	//compressed
-									);
+							//bool useCsharpMethod = true;
+							bool success;
+							//if (useCsharpMethod)
+								//success = encoderRProcCapture.SendCurveCsharp (
+								//right now just printing on log
+								encoderRProcCapture.SendCurveCsharp (
+										ecc.startFrame,
+										curve
+										);
+							//else
+								success = encoderRProcCapture.SendCurve(
+										ecc.startFrame,
+										UtilEncoder.CompressData(curve, 25)	//compressed
+										);
+
 							if(! success)
 								cancel = true;
 

@@ -69,6 +69,15 @@ public class UtilList
 		return str;
 	}
 
+	public static double Sum (List<double> l)
+	{
+		double sum = 0;
+		foreach (double d in l)
+			sum += d;
+
+		return sum;
+	}
+
 	//to pass a list like: (.5, .7, .2) to: (.5, 1.2, 1.4)
 	public static List<double> Cumsum (List<double> original_l)
 	{
@@ -264,6 +273,15 @@ public class UtilList
 			unsorted_l[highestPos] = "0"; //mark as 0 on unsortd_l to not choose it again
 		}
 		return sorted_l;
+	}
+
+	public static List<int> DoubleArrayToListInt (double [] arrayDouble)
+	{
+		List<int> l = new List<int> ();
+		foreach (double d in arrayDouble)
+			l.Add (Convert.ToInt32 (d));
+	
+		return l;
 	}
 
 	public static List<string> StringArrayToListString (string [] arrayString)

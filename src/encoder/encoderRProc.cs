@@ -252,6 +252,19 @@ public class EncoderRProcCapture : EncoderRProc
 		return true;
 	}
 
+	// experimental reimplementation of R capture with C#. Uncompressed.
+	//public bool SendCurveCsharp (int startFrame, double [] curve)
+	public void SendCurveCsharp (int startFrame, double [] curve)
+	{
+		EncoderLikeR elr = new EncoderLikeR (20); //minHeight TODO: change this
+		elr.Do (
+				true,
+				EncoderConfiguration.Names.LINEAR, //TODO: encoderConfigurationCurrent.Name
+				UtilList.DoubleArrayToListInt (curve),
+				0, 0, 0 //TODO: double diameter, double diameterExt, int gearedDown
+		       );
+	}
+
 	protected override void writeOptionsFile()
 	{
 		optionsFile = Path.GetTempPath() + "Roptions.txt";

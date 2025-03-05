@@ -3157,7 +3157,8 @@ public partial class ChronoJumpWindow
 
 		//contacts test buttons: edit, delete (visible)
 		if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE ||
-				m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC)
+				m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC ||
+				m == Constants.Modes.WILIGHT)
 			button_contacts_edit_selected.Visible = true;
 		else
 			button_contacts_edit_selected.Visible = false;
@@ -6394,7 +6395,8 @@ public partial class ChronoJumpWindow
 			on_edit_selected_run_clicked (o, args);
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			on_edit_selected_run_interval_clicked (o, args);
-		//TODO: wilight
+		else if (current_mode == Constants.Modes.WILIGHT)
+			on_edit_selected_wilight_clicked (o, args);
 	}
 
 	private void on_edit_selected_jump_clicked (object o, EventArgs args)

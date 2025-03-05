@@ -49,8 +49,9 @@ String version = "Wifi-Controller-4.7"; //"Wifi-Controller-" is mandatori. Chron
 // Set up nRF24L01 radio on SPI bus plus pins  (CE & CS)
 RF24 radio(A3, A4);
 
-#define LED_on digitalWrite(2,HIGH)
-#define LED_off digitalWrite(2,LOW)
+int ledPin = 2;
+#define LED_on digitalWrite(ledPin,HIGH)
+#define LED_off digitalWrite(ledPin,LOW)
 
 int radioDelay = 2;
 
@@ -122,6 +123,8 @@ elapsedMillis totalTime;      //Total elapsed time since startTime
 // unsigned long responseTime = 0;  //For testing response time in a ping
 
 bool waitingData = false;
+bool rcaUnlimitedMode = true; // sensorOnce deactivate the unlimited mode
+bool waitingRCA = true;
 
 bool debug = false;
 bool read13Commands = false; //note making this true is a big problem because then we cannot send a get_version or a discover (less than 13 commands)
@@ -226,7 +229,11 @@ void loop(void)
 
 void controlint()
 {
-  Timer1.initialize(debounceTime);
+  if (waitingRCA == true) {
+    Timer1.initialize(debounceTime);
+    blinkingLED = false;
+    blinkStop();
+  }
 }
 
 void debounce() {
@@ -370,6 +377,19 @@ unsigned int sendInstruction(struct instruction_t *instruction)
     return(0);
   }
 
+  // The RCA is treated as the terminal number 0.
+  if (instruction->termNum == 0) {
+    if ( (instruction->command & sensorOnce) == sensorOnce ) {
+    waitingRCA = true; // RCA set to waiting a change in the state
+    rcaUnlimitedMode = false;
+    } else if ( (instruction->command & sensorUnlimited) == sensorUnlimited ) {
+      waitingRCA = true;
+      rcaUnlimitedMode = true;
+      lastPinState = digitalRead(rcaPin);
+      digitalWrite(ledPin, !lastPinState);
+    }
+  }
+
   radio.setChannel(terminal0Channel - instruction->termNum); //Setting the channel correspondig to the terminal number
 
   radio.stopListening();    //To sent it is necessary to stop listening
@@ -421,11 +441,12 @@ void blinkStart(int period)
 void blinkStop(void)
 {
   MsTimer2::stop();
+  digitalWrite(ledPin, !digitalRead(rcaPin));
 }
 
 void blinkLed(void)
 {
-  digitalWrite(2, !digitalRead(2));
+  digitalWrite(ledPin, !digitalRead(ledPin));
 }
 
 void blinkOnce(void)
@@ -507,12 +528,22 @@ void printSample() {
   } else {
     Serial.write((byte*)&sample, sample_size);
   }
-//blinkOnce();
-digitalWrite(2, !sample.state);
-if (rcaMode == output) { digitalWrite(rcaPin, !sample.state); }
-//Serial.print("readed will be:");
-//Serial.println(readed);
+  //blinkOnce();
+  digitalWrite(ledPin, !sample.state);
+  if (rcaMode == output) { digitalWrite(rcaPin, !sample.state); }
+  //Serial.print("readed will be:");
+  //Serial.println(readed);
 
+  // On sensorOnce mode send also the other state in order to facilitate Chronojump the reading
+  if ( ! rcaUnlimitedMode) {
+    waitingRCA = false;
+    delay(2);
+    Serial.print(sample.termNum);
+    Serial.print(";");
+    Serial.print(totalTime);
+    Serial.print(";");
+    Serial.println(!sample.state);
+  }
 }
 
 void setRcaMode(enum pinMode mode) {

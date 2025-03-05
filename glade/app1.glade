@@ -10682,6 +10682,9 @@ last capture</property>
                                                             <property name="rules-hint">True</property>
                                                             <property name="enable-search">False</property>
                                                             <signal name="button-release-event" handler="on_treeview_results_session_button_release_event" swapped="no"/>
+                                                            <child internal-child="selection">
+                                                            <object class="GtkTreeSelection"/>
+                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
@@ -22801,6 +22804,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -53668,7 +53674,6 @@ on Cloud-view mode</property>
                                                     </child>
                                                     <child>
                                                       <object class="GtkButton" id="button_check_last_version">
-                                                        <property name="visible">True</property>
                                                         <property name="can-focus">True</property>
                                                         <property name="can-default">True</property>
                                                         <property name="receives-default">False</property>

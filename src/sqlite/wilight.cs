@@ -275,5 +275,20 @@ class SqliteWilight : Sqlite
 		return wilight;
 	}
 
+	public static void Update (int uniqueID,
+			//string type,	//TODO
+			int personID)
+	{
+		Sqlite.Open();
+		dbcmd.CommandText = "UPDATE " + Constants.WilightTable +
+			" SET personID = " + personID +
+			//", type = '" + type + //remember to close '
+			" WHERE uniqueID = " + uniqueID ;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		Sqlite.Close();
+	}
+
 }
 

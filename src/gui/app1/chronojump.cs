@@ -472,6 +472,7 @@ public partial class ChronoJumpWindow
 	EditJumpRjWindow editJumpRjWin;
 	RepairJumpRjWindow repairJumpRjWin;
 	JumpTypeAddWindow jumpTypeAddWin;
+	EditWilightWindow editWilightWin;
 	
 	RunsMoreWindow runsMoreWin;
 	RunsIntervalMoreWindow runsIntervalMoreWin;
@@ -6580,12 +6581,22 @@ public partial class ChronoJumpWindow
 		Wilight wilight = SqliteWilight.SelectData (selectedID, false );
 		eventOldPerson = wilight.PersonID;
 
-		/*TODO
-		//4.- edit this run
-		editRunWin = EditRunWindow.Show(app1, myRun, preferences.digitsNumber, preferences.metersSecondsPreferred);
-		editRunWin.Button_accept.Clicked += new EventHandler(on_edit_selected_wilight_accepted);
-		*/
-		new DialogMessage (Constants.MessageTypes.INFO, "TODO");
+		//4.- edit this test
+		editWilightWin = EditWilightWindow.Show (app1, wilight);
+		editWilightWin.Button_accept.Clicked += new EventHandler (on_edit_selected_wilight_accepted);
+	}
+	private void on_edit_selected_wilight_accepted (object o, EventArgs args)
+	{
+		LogB.Information("edit selected wilight accepted");
+		Wilight wilight = SqliteWilight.SelectData (treeViewResultsSession.EventSelectedID, false);
+
+		//if person changed, fill treeview again, if not, only update it's line
+		if (eventOldPerson == wilight.PersonID)
+			treeViewResultsSession.Update (wilight);
+		else
+			pre_fillTreeView_resultsSession (false);
+
+		updateGraphWilightBars ();
 	}
 
 	/* ---------------------------------------------------------

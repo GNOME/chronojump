@@ -79,10 +79,13 @@ public class EditEventWindow
 	protected Gtk.Label label_mistakes;
 	protected Gtk.SpinButton spin_mistakes;
 
+	private Gtk.Box hbox_video;
+	private Gtk.Label label_video;
 	protected Gtk.Label label_video_yes_no;
 	protected Gtk.Button button_video_watch;
 	protected Gtk.Image image_video_watch;
 	protected Gtk.Button button_video_url;
+	private Gtk.Box hbox_description;
 	protected Gtk.Entry entry_description;
 	//protected Gtk.TextView textview_description;
 	// <---- at glade
@@ -120,7 +123,9 @@ public class EditEventWindow
 	protected bool showWeight;
 	protected bool showLimited;
 	//protected bool showAngle; //kneeAngle
+	protected bool showVideo;
 	protected bool showMistakes;
+	protected bool showDescription;
 
 	protected string eventBigTypeString = "a test";
 	protected bool headerShowDecimal = true;
@@ -182,7 +187,9 @@ public class EditEventWindow
 		showWeight = true;
 		showLimited = true;
 		//showAngle = true; //kneeAngle
+		showVideo = true;
 		showMistakes = false;
+		showDescription = true;
 		//distanceAtInit = 0;
 
 		label_simulated.Hide();
@@ -279,10 +286,14 @@ public class EditEventWindow
 			spin_mistakes.Hide();
 		}
 
-
-		//also remove new line for old descriptions that used a textview
-		string temp = Util.RemoveTildeAndColonAndDot(myEvent.Description);
-		entry_description.Text = Util.RemoveNewLine(temp, true);
+		if (showDescription) {
+			//also remove new line for old descriptions that used a textview
+			string temp = Util.RemoveTildeAndColonAndDot(myEvent.Description);
+			entry_description.Text = Util.RemoveNewLine(temp, true);
+			hbox_description.Show();
+		} else {
+			hbox_description.Hide();
+		}
 
 		createComboEventType(myEvent);
 		
@@ -315,16 +326,25 @@ public class EditEventWindow
 		hbox_combo_person.PackStart(combo_persons, true, true, 0);
 		hbox_combo_person.ShowAll();
 
-		//show video if available	
-		videoFileName = Util.GetVideoFileName(myEvent.SessionID, typeOfTest, myEvent.UniqueID);
-		if(File.Exists(videoFileName)) {
-			label_video_yes_no.Text = Catalog.GetString("Yes");
-			button_video_watch.Sensitive = true;
-			button_video_url.Sensitive = true;
+		if (showVideo)
+		{
+			//show video if available	
+			videoFileName = Util.GetVideoFileName(myEvent.SessionID, typeOfTest, myEvent.UniqueID);
+			if(File.Exists(videoFileName)) {
+				label_video_yes_no.Text = Catalog.GetString("Yes");
+				button_video_watch.Sensitive = true;
+				button_video_url.Sensitive = true;
+			} else {
+				label_video_yes_no.Text = Catalog.GetString("No");
+				button_video_watch.Sensitive = false;
+				button_video_url.Sensitive = false;
+			}
+
+			label_video.Show ();
+			hbox_video.Show ();
 		} else {
-			label_video_yes_no.Text = Catalog.GetString("No");
-			button_video_watch.Sensitive = false;
-			button_video_url.Sensitive = false;
+			label_video.Hide ();
+			hbox_video.Hide ();
 		}
 	}
 
@@ -661,10 +681,13 @@ public class EditEventWindow
 		label_mistakes = (Gtk.Label) builder.GetObject ("label_mistakes");
 		spin_mistakes = (Gtk.SpinButton) builder.GetObject ("spin_mistakes");
 
+		hbox_video = (Gtk.Box) builder.GetObject ("hbox_video");
+		label_video = (Gtk.Label) builder.GetObject ("label_video");
 		label_video_yes_no = (Gtk.Label) builder.GetObject ("label_video_yes_no");
 		button_video_watch = (Gtk.Button) builder.GetObject ("button_video_watch");
 		image_video_watch = (Gtk.Image) builder.GetObject ("image_video_watch");
 		button_video_url = (Gtk.Button) builder.GetObject ("button_video_url");
+		hbox_description = (Gtk.Box) builder.GetObject ("hbox_description");
 		entry_description = (Gtk.Entry) builder.GetObject ("entry_description");
 		// textview_description = (Gtk.TextView) builder.GetObject ("textview_description");
 	}

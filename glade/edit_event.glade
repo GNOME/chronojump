@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
+<!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="adjustment1">
@@ -478,7 +478,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkHBox" id="hbox1">
+              <object class="GtkHBox" id="hbox_video">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="spacing">20</property>
@@ -719,7 +719,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkHBox" id="hbox4">
+          <object class="GtkHBox" id="hbox_description">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="spacing">10</property>

@@ -244,7 +244,7 @@ public class UtilList
 	public static List<T> ListGetFromToIncluded<T> (List<T> original_l, int iFrom, int iToIncluded)
 	{
 		List<T> cutted_l = new List<T>();
-		for (int i = iFrom; i < iToIncluded; i ++)
+		for (int i = iFrom; i <= iToIncluded && i < original_l.Count; i ++)
 			cutted_l.Add (original_l[i]);
 
 		return cutted_l;

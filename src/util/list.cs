@@ -57,6 +57,7 @@ public class UtilList
 		return l;
 	}
 
+	//an int solution could is: ListIntToSQLString ()
 	public static string ListDoubleToString (List<double> d_l, int decs, string sep)
 	{
 		string str = "";
@@ -78,6 +79,18 @@ public class UtilList
 		return sum;
 	}
 
+	public static List<int> Cumsum (List<int> original_l)
+	{
+		List<int> accu_l = new List<int> ();
+		int sum = 0;
+		foreach (int i in original_l)
+		{
+			sum += i;
+			accu_l.Add (sum);
+		}
+
+		return accu_l;
+	}
 	//to pass a list like: (.5, .7, .2) to: (.5, 1.2, 1.4)
 	public static List<double> Cumsum (List<double> original_l)
 	{

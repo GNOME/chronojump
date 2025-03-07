@@ -146,6 +146,13 @@ public class EncoderRProcCapture : EncoderRProc
 {
 	public Preferences.TriggerTypes CutByTriggers;
 
+	// ---- csharp capture (without R) ---->
+	private EncoderConfiguration.Names econfName;
+	private int minHeight;
+	public List<string []> CsharpMethodRepetitions_al;
+	private int cSharpCurvesAccepted;
+	// <---- csharp capture (without R) ----
+
 	public EncoderRProcCapture()
 	{
 	}
@@ -252,17 +259,29 @@ public class EncoderRProcCapture : EncoderRProc
 		return true;
 	}
 
+	public void InitCsharp (EncoderConfiguration.Names econfName, int minHeight)
+	{
+		this.econfName = econfName;
+		this.minHeight = minHeight;
+
+		CsharpMethodRepetitions_al = new List<string []> ();
+		cSharpCurvesAccepted = 0;
+	}
+
 	// experimental reimplementation of R capture with C#. Uncompressed.
-	//public bool SendCurveCsharp (int startFrame, double [] curve)
 	public void SendCurveCsharp (int startFrame, double [] curve)
 	{
-		EncoderLikeR elr = new EncoderLikeR (20); //minHeight TODO: change this
-		elr.Do (
-				true,
-				EncoderConfiguration.Names.LINEAR, //TODO: encoderConfigurationCurrent.Name
-				UtilList.DoubleArrayToListInt (curve),
-				0, 0, 0 //TODO: double diameter, double diameterExt, int gearedDown
-		       );
+		EncoderLikeR elr = new EncoderLikeR (econfName, minHeight);
+		if (elr.Do (
+					true,
+					UtilList.DoubleArrayToListInt (curve),
+					0, 0, 0, //TODO: double diameter, double diameterExt, int gearedDown
+					startFrame, cSharpCurvesAccepted
+			   ))
+		{
+			cSharpCurvesAccepted ++;
+			CsharpMethodRepetitions_al.Add (elr.RepetitionStrArray);
+		}
 	}
 
 	protected override void writeOptionsFile()

@@ -235,8 +235,12 @@ public abstract class EncoderCapture
 
 	public bool Capture (string outputData1, EncoderRProcCapture encoderRProcCapture,
 			bool compujump, Preferences.TriggerTypes cutByTriggers,
-			double restClustersSeconds, bool playSoundsFromFile, bool cairoHorizontal)
+			double restClustersSeconds, bool playSoundsFromFile, bool cairoHorizontal,
+			bool captureWithoutR, EncoderConfiguration.Names econfName, int minHeight) //the three used on captureWithoutR
 	{
+		if (captureWithoutR)
+			encoderRProcCapture.InitCsharp (econfName, minHeight);
+
 		/*
 		 * removed at 1.7.0
 		if(simulated) {
@@ -599,23 +603,18 @@ public abstract class EncoderCapture
 							if(compujump && Ecca.curvesAccepted == 0)
 								Networks.WakeUpRaspberryIfNeeded();
 
-							//bool useCsharpMethod = true;
-							bool success;
-							//if (useCsharpMethod)
-								//success = encoderRProcCapture.SendCurveCsharp (
-								//right now just printing on log
+							if (captureWithoutR)
 								encoderRProcCapture.SendCurveCsharp (
 										ecc.startFrame,
 										curve
 										);
-							//else
-								success = encoderRProcCapture.SendCurve(
-										ecc.startFrame,
-										UtilEncoder.CompressData(curve, 25)	//compressed
-										);
-
-							if(! success)
-								cancel = true;
+							else {
+								if (! encoderRProcCapture.SendCurve(
+											ecc.startFrame,
+											UtilEncoder.CompressData(curve, 25)	//compressed
+											))
+									cancel = true; //problem sending data to R
+							}
 
 							Ecca.curvesAccepted ++;
 							Ecca.ecc.Add(ecc);

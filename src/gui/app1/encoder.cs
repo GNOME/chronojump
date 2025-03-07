@@ -445,6 +445,8 @@ public partial class ChronoJumpWindow
 	//STOPPING is used to stop the camera. It has to be called only one time
 	enum encoderCaptureProcess { CAPTURING, STOPPING, STOPPED } 
 	static encoderCaptureProcess capturingCsharp;	
+	private bool captureWithoutR = UtilAll.IsMacSilicon ();
+	//private bool captureWithoutR = true;
 		
 	EncoderRProcCapture encoderRProcCapture;
 	EncoderRProcAnalyze encoderRProcAnalyze;
@@ -3584,7 +3586,8 @@ public partial class ChronoJumpWindow
 				encoderRProcCapture.CutByTriggers,
 				encoderRhythm.RestClustersForEncoderCaptureAutoEnding(),
 				configChronojump.PlaySoundsFromFile,
-				preferences.signalDirectionHorizontal
+				preferences.signalDirectionHorizontal,
+				captureWithoutR, encoderConfigurationCurrent.name, preferences.EncoderCaptureMinHeight (encoderConfigurationCurrent.has_inertia)
 				);
 
 		//wait to ensure capture thread has ended
@@ -3628,7 +3631,8 @@ public partial class ChronoJumpWindow
 				Preferences.TriggerTypes.NO_TRIGGERS,
 				0,  //encoderRhythm.RestClustersForEncoderCaptureAutoEnding()
 				false, //configChronojump.PlaySoundsFromFile
-				preferences.signalDirectionHorizontal
+				preferences.signalDirectionHorizontal,
+				false, encoderConfigurationCurrent.name, preferences.EncoderCaptureMinHeight (encoderConfigurationCurrent.has_inertia) //this 3 currently unused on IM (captureWithoutR)
 				);
 
 		//wait to ensure capture thread has ended
@@ -6879,14 +6883,20 @@ public partial class ChronoJumpWindow
 
 			string [] strs = trimmed.Split(new char[] {','});
 
-			//LogB.Information("before add: " + Util.StringArrayToString(strs, "///"));
-			encoderCaptureStringR.Add(string.Format("\n" + 
-						"{0},2,a,3,4," + 		//id, seriesName, exerciseName, massBody, massExtra
-						"{1},{2},{3}," + 		//start, width, height
-						"{4},{5},{6},{7}," + 		//speeds
-						"{8},{9},{10},{11}," + 		//powers
-						"{12},{13},{14},{15}," + 	//forces
-						"{16},{17}", 			//workJ, impulse
+			readingCurveFromRCont (strs);
+		}
+	}
+
+	private void readingCurveFromRCont (string [] strs)
+	{
+		//LogB.Information("before add: " + Util.StringArrayToString(strs, "///"));
+		encoderCaptureStringR.Add(string.Format("\n" +
+					"{0},2,a,3,4," + 		//id, seriesName, exerciseName, massBody, massExtra
+					"{1},{2},{3}," + 		//start, width, height
+					"{4},{5},{6},{7}," + 		//speeds
+					"{8},{9},{10},{11}," + 		//powers
+					"{12},{13},{14},{15}," + 	//forces
+					"{16},{17}", 			//workJ, impulse
 					strs[0],
 					strs[1], strs[2], strs[3],		//start, width, height
 					strs[4], strs[5], strs[6], strs[7],	//speeds
@@ -6895,29 +6905,28 @@ public partial class ChronoJumpWindow
 					strs[16], strs[17] 			//workJ, impulse
 					));
 
-			//LogB.Debug("encoderCaptureStringR");
-			//LogB.Debug(encoderCaptureStringR);
+		//LogB.Debug("encoderCaptureStringR");
+		//LogB.Debug(encoderCaptureStringR);
 
-			double start = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[1]));
-			double duration = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[2]));
-			double range = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[3]));
-			double meanSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[4]));
-			double maxSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[5]));
-			double meanForce = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[12]));
-			double maxForce = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[13]));
-			double meanPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[8]));
-			double peakPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[9]));
-			double workJ = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[16]));
-			double impulse = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[17]));
-			captureCurvesBarsData_l.Add (new EncoderBarsData (
-						start, duration, range, meanSpeed, maxSpeed,
-						meanForce, maxForce, meanPower, peakPower, workJ, impulse));
+		double start = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[1]));
+		double duration = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[2]));
+		double range = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[3]));
+		double meanSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[4]));
+		double maxSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[5]));
+		double meanForce = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[12]));
+		double maxForce = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[13]));
+		double meanPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[8]));
+		double peakPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[9]));
+		double workJ = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[16]));
+		double impulse = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[17]));
+		captureCurvesBarsData_l.Add (new EncoderBarsData (
+					start, duration, range, meanSpeed, maxSpeed,
+					meanForce, maxForce, meanPower, peakPower, workJ, impulse));
 
-			LogB.Information("activating needToRefreshTreeviewCapture");
+		LogB.Information("activating needToRefreshTreeviewCapture");
 
-			//executed on GTK thread pulse method
-			needToRefreshTreeviewCapture = true;
-		}
+		//executed on GTK thread pulse method
+		needToRefreshTreeviewCapture = true;
 	}
 
 	bool shownWaitAtInertialCapture;
@@ -7057,8 +7066,13 @@ public partial class ChronoJumpWindow
 		{
 			updatePulsebar(encoderActions.CAPTURE); //activity on pulsebar
 
-			//capturingSendCurveToR(); //unused, done while capturing
-			readingCurveFromR();
+			if (captureWithoutR)
+			{
+				// >=  because encoderCaptureStringR has a row of titles
+				if (encoderRProcCapture.CsharpMethodRepetitions_al.Count >= encoderCaptureStringR.Count)
+					readingCurveFromRCont (UtilList.GetLast (encoderRProcCapture.CsharpMethodRepetitions_al));
+			} else
+				readingCurveFromR();
 
 			if(encoderConfigurationCurrent.has_inertia) {
 				updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.INERTIAL);

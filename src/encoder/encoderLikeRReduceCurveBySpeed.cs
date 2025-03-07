@@ -32,7 +32,7 @@ using System.Collections.Generic; //List<T>
  * Check tests/fixEccConCutOnNotSingleFile/fixEccConCutOnNotSingleFile.R
  */
 
-public class EncoderCaptureLikeRReduceCurveBySpeed
+public class EncoderLikeRReduceCurveBySpeed
 {
 	public struct ReducedCurve
 	{
@@ -48,9 +48,12 @@ public class EncoderCaptureLikeRReduceCurveBySpeed
 		}
 	}
 
+	public ReducedCurve reducedCurve;
+
 	// constructor
-	public EncoderCaptureLikeRReduceCurveBySpeed ()
+	public EncoderLikeRReduceCurveBySpeed (List<double> dis_l, string eccon, int minHeightMm)
 	{
+		reducedCurve = reduceCurveByPredictStartEnd (dis_l, eccon, minHeightMm);
 	}
 
 	// This should work for all eccons, check tests/fixEccConCutOnNotSingleFile/getCurveStartEnd.R
@@ -112,7 +115,7 @@ public class EncoderCaptureLikeRReduceCurveBySpeed
 			zerosAtRight = predictNeededZerosAtLeft (UtilList.ListReverse (dis_l));
 		}
 
-		LogB.Information (string.Format ("zerosAtLeft: {0}, zerosAtRight: {1}", zerosAtLeft, zerosAtRight));
+		LogB.Information (string.Format ("C# zerosAtLeft: {0}, zerosAtRight: {1}", zerosAtLeft, zerosAtRight));
 
 		int startPos = startByStability + firstInitialNonZero-1 - zerosAtLeft;
 		int endPos = startByStability + firstInitialNonZero-1 + lastFinalNonZero + zerosAtRight;
@@ -317,11 +320,29 @@ public class EncoderCaptureLikeRReduceCurveBySpeed
 
 	private int predictNeededZerosAtLeft (List<double> dis_l)
 	{
+		/*
+		LogB.Information ("____________ C#: predictNeededZerosAtLeft __________");
+		LogB.Information (dis_l.Count.ToString ());
+		if (dis_l.Count >= 30)
+		{
+			LogB.Information ("____________ C#: like head(displacement, 30) __________");
+			List<double> temp_l = UtilList.ListGetFromToIncluded (dis_l, 0, 29);
+			LogB.Information (UtilList.ListDoubleToString (temp_l, 2, " "));
+		}
+		*/
+
 		// 1) find the first 3 values (that are non zero)
+		//LogB.Information ("C# threeNonZeros at positions:");
 		List<int> x_l = new List<int> ();
-		for (int i = 0; i < dis_l.Count && x_l.Count <= 3; i ++)
+		// note 1st value in dis_l is going to be != than 0 but is not counted (the same as in R method)
+		for (int i = 1; i < dis_l.Count; i ++) 		//starting at 2nd value
 			if (! Util.SimilarDouble (dis_l[i], 0))
+			{
 				x_l.Add (i);
+				//LogB.Information (i.ToString ());
+				if (x_l.Count >= 3)
+					break;
+			}
 
 		// if there are less than 3 values, just return the number of initial zeros (the same will be used)
 		if (x_l.Count < 3)
@@ -337,16 +358,22 @@ public class EncoderCaptureLikeRReduceCurveBySpeed
 		// 2) try to find the x at min (position) -1
 		List<PointF> threePoints_l = new List<PointF> ();
 		for (int i = 0; i < 3; i ++)
-			threePoints_l.Add (new PointF (x_l[i], pos_l[i]));
-
-		//double xAtDesiredY = getXatY (threePoints_l, UtilList.Min (pos_l) -1);
+			threePoints_l.Add (new PointF (x_l[i], pos_l[x_l[i]] -1)); // -1 to have data like R
 
 		LeastSquaresParabole lsp = new LeastSquaresParabole ();
 		lsp.Calculate (threePoints_l);
-		double xAtDesiredY = lsp.CalculateXAtSomeY (UtilList.GetMin (pos_l) -1);
+		// LogB.Information (string.Format ("C#: yDesired: {0}", UtilList.GetMin (pos_l) -1));
+
+		double xAtDesiredY = 0;
+		if (lsp.ParaboleType == LeastSquaresParabole.ParaboleTypes.STRAIGHT || lsp.ParaboleTypeAlmostStraight)
+			xAtDesiredY = lsp.CalculateXAtSomeYAsStraightLine (threePoints_l[0], threePoints_l[1], UtilList.GetMin (pos_l) -1);
+		else
+			xAtDesiredY = lsp.CalculateXAtSomeY (UtilList.GetMin (pos_l) -1);
 
 		// if null, the parabole does not pass by the point, we can increase the number of values or just return the num of initial zeros
-		if (xAtDesiredY == null || xAtDesiredY < 0)
+		if (double.IsNaN (xAtDesiredY) || xAtDesiredY < 0 ||
+				! MathUtil.DoubleCanBeInt32Safe (xAtDesiredY)
+				)
 		{
 			if (x_l.Count >= 1)
 				return x_l[0];
@@ -354,25 +381,14 @@ public class EncoderCaptureLikeRReduceCurveBySpeed
 				return 0;
 		}
 
+		//LogB.Information ("xAtDesiredY = ");
+		//LogB.Information (xAtDesiredY.ToString ());
+
 		// 3 detected num of initial zeros
 		return Convert.ToInt32 (xAtDesiredY);
 	}
 
-	private void cumsumTest ()
-	{
-		//List<double> l = new List<double> { 7, 5, 3.2, 4};
-		//LogB.Information (UtilList.ListDoubleToString
-	}
-
-	private List<double> cumsum (List<double> l)
-	{
-		List<double> cumsum_l = new List<double> ();
-		double sum = 0;
-		for (int i = 0; i < l.Count; i ++)
-		{
-			sum += l[i];
-			cumsum_l.Add (sum);
-		}
-		return cumsum_l;
+	public ReducedCurve ReducedCurveGet {
+		get { return reducedCurve; }
 	}
 }

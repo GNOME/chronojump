@@ -15,13 +15,14 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using System.Diagnostics; 	//for detect OS
 using System.IO; 		//for detect OS
 using System.Reflection; // Read Version
+using System.Runtime.InteropServices; //RuntimeInformation
 
 //this class tries to be a space for methods that are used in different classes
 //in chronojump and chronojump_mini
@@ -63,7 +64,12 @@ public class UtilAll
 		else 
 			return false;
 	}
-	
+
+	public static bool IsMacSilicon ()
+	{
+		return (GetOSEnum() == OperatingSystems.MACOSX && RuntimeInformation.ProcessArchitecture == Architecture.Arm64);
+	}
+
 	public static string GetOS()
 	{
 		OperatingSystem os = Environment.OSVersion;

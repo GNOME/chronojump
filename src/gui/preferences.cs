@@ -30,7 +30,6 @@ using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
 using Mono.Unix;
 using System.Globalization; //CultureInfo stuff
-using System.Runtime.InteropServices; //RuntimeInformation
 using System.Diagnostics;  //Stopwatch
 using System.Text.RegularExpressions; //Regex
 
@@ -2510,7 +2509,7 @@ public class PreferencesWindow
 	{
 		FileChooserAction action = FileChooserAction.SelectFolder;
 		//mac arm64 crashes on SelectFolder, use Open. The problem in Open is it cannot select a folder that has contents. Only an empty folder
-		if (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX && RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
+		if (UtilAll.IsMacSilicon ())
 			action = FileChooserAction.Open;
 
 		Gtk.FileChooserNative fc = new Gtk.FileChooserNative(Catalog.GetString("Select cloud directory"),
@@ -3554,7 +3553,7 @@ public class PreferencesWindow
 	 {
 		FileChooserAction action = FileChooserAction.SelectFolder;
 		//mac arm64 crashes on SelectFolder, use Open. The problem in Open is it cannot select a folder that has contents. Only an empty folder
-		if (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX && RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
+		if (UtilAll.IsMacSilicon ())
 			action = FileChooserAction.Open;
 
 		fc = new Gtk.FileChooserNative(Catalog.GetString("Restore database from:"),

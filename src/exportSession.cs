@@ -25,7 +25,6 @@ using System.Xml;	//XmlTextWriter
 using Gtk;		//FileSelection widget
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List
-using System.Runtime.InteropServices; //RuntimeInformation
 using Mono.Unix;
 
 public abstract class ExportSession
@@ -79,7 +78,7 @@ public abstract class ExportSession
 		} else
 			extension = ".csv";
 
-		if (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX && RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
+		if (UtilAll.IsMacSilicon ())
 		{
 			filename = Util.GetTempExportDirMacSilicon (
 					nameString +

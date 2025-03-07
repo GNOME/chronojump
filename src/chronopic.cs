@@ -20,7 +20,6 @@
 using System;
 using System.IO.Ports;
 using System.Threading;
-//using System.Runtime.InteropServices;
 
 using System.Diagnostics; 	//for detect OS
 using System.IO; 		//for detect OS

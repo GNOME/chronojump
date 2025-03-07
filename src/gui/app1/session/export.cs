@@ -24,7 +24,6 @@ using Gtk;
 using System.Collections.Generic;
 using System.Diagnostics;  //Stopwatch
 using System.Threading;
-using System.Runtime.InteropServices; //RuntimeInformation
 using Mono.Unix;
 
 //uses some code on gui/app1/session/backup.cs
@@ -74,7 +73,7 @@ public partial class ChronoJumpWindow
 
 		FileChooserAction action = FileChooserAction.SelectFolder;
 		//mac arm64 crashes on SelectFolder, use Open. The problem in Open is it cannot select a folder that has contents. Only an empty folder
-		if (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX && RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
+		if (UtilAll.IsMacSilicon ())
 			action = FileChooserAction.Open;
 
 		app1s_fc = new Gtk.FileChooserNative (Catalog.GetString("Export session to:"),

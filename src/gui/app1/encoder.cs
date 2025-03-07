@@ -27,7 +27,6 @@ using System.Collections.Generic; //List<T>
 using System.Threading;
 using Mono.Unix;
 using System.Diagnostics; 	//for detect OS and for Process
-using System.Runtime.InteropServices; //RuntimeInformation
 
 
 public partial class ChronoJumpWindow 
@@ -2815,7 +2814,7 @@ public partial class ChronoJumpWindow
 
 		FileChooserAction action = FileChooserAction.SelectFolder;
 		//mac arm64 crashes on SelectFolder, use Open. The problem in Open is it cannot select a folder that has contents. Only an empty folder
-		if (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX && RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
+		if (UtilAll.IsMacSilicon ())
 			action = FileChooserAction.Open;
 
 		Gtk.FileChooserNative fc =

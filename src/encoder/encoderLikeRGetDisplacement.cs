@@ -108,9 +108,10 @@ public class EncoderLikeRGetDisplacement
 	 * This is solved by the function getDisplacementInertialBody
 	 */
 
-	private List<double> getDisplacementInertial (
+	public List<double> GetDisplacementInertial (
 			List<int> dis_l, EncoderConfiguration.Names econfName,
-			List<double> diameterPerTick_l, double diameterExt, int gearedDown)
+			//List<double> diameterPerTick_l, double diameterExt, int gearedDown) //diameterPerTick_l seems is not implemented even on R
+			double diameter, double diameterExt, int gearedDown)
 	{
 		LogB.Information ("at getDisplacementInertial");
 		List<double> disFixed_l = new List<double> ();
@@ -134,14 +135,20 @@ public class EncoderLikeRGetDisplacement
 			// half the the displacement at the perimeter of the axis
 			// Revolutions * perimeter * gearedDown  and converted cm -> mm
 			for (int i = 0; i < dis_l.Count ; i ++)
-				disFixed_l.Add (revolutionsPerMs_l[i] * Math.PI * diameterPerTick_l[i] * 10 * gearedDown);
+			{
+				//disFixed_l.Add (revolutionsPerMs_l[i] * Math.PI * diameterPerTick_l[i] * 10 * gearedDown);
+				disFixed_l.Add (revolutionsPerMs_l[i] * Math.PI * diameter * 10 * gearedDown);
+			}
 
 		} else if(econfName == EncoderConfiguration.Names.ROTARYFRICTIONSIDEINERTIAL ||
 				econfName == EncoderConfiguration.Names.ROTARYFRICTIONSIDEINERTIALLATERAL ||
 				econfName == EncoderConfiguration.Names.ROTARYFRICTIONSIDEINERTIALMOVPULLEY)
 		{
 			for (int i = 0; i < dis_l.Count ; i ++)
-				disFixed_l.Add (dis_l[i] * diameterPerTick_l[i] * gearedDown / diameterExt); //displacement of the axis
+			{
+				//disFixed_l.Add (dis_l[i] * diameterPerTick_l[i] * gearedDown / diameterExt); //displacement of the axis
+				disFixed_l.Add (dis_l[i] * diameter * gearedDown / diameterExt); //displacement of the axis
+			}
 
 		} else if(econfName == EncoderConfiguration.Names.ROTARYFRICTIONAXISINERTIALMOVPULLEY)
 		{

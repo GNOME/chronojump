@@ -236,10 +236,11 @@ public abstract class EncoderCapture
 	public bool Capture (string outputData1, EncoderRProcCapture encoderRProcCapture,
 			bool compujump, Preferences.TriggerTypes cutByTriggers,
 			double restClustersSeconds, bool playSoundsFromFile, bool cairoHorizontal,
-			bool captureWithoutR, EncoderConfiguration.Names econfName, int minHeight) //the three used on captureWithoutR
+			bool captureWithoutR, EncoderConfiguration econf, //captureWithoutR
+			int minHeight) //captureWithoutR
 	{
 		if (captureWithoutR)
-			encoderRProcCapture.InitCsharp (econfName, minHeight);
+			encoderRProcCapture.InitCsharp (econf, eccon, minHeight);
 
 		/*
 		 * removed at 1.7.0

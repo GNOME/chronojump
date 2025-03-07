@@ -3587,7 +3587,8 @@ public partial class ChronoJumpWindow
 				encoderRhythm.RestClustersForEncoderCaptureAutoEnding(),
 				configChronojump.PlaySoundsFromFile,
 				preferences.signalDirectionHorizontal,
-				captureWithoutR, encoderConfigurationCurrent.name, preferences.EncoderCaptureMinHeight (encoderConfigurationCurrent.has_inertia)
+				captureWithoutR, encoderConfigurationCurrent, //captureWithoutR
+				preferences.EncoderCaptureMinHeight (encoderConfigurationCurrent.has_inertia) //captureWithoutR
 				);
 
 		//wait to ensure capture thread has ended
@@ -3632,7 +3633,8 @@ public partial class ChronoJumpWindow
 				0,  //encoderRhythm.RestClustersForEncoderCaptureAutoEnding()
 				false, //configChronojump.PlaySoundsFromFile
 				preferences.signalDirectionHorizontal,
-				false, encoderConfigurationCurrent.name, preferences.EncoderCaptureMinHeight (encoderConfigurationCurrent.has_inertia) //this 3 currently unused on IM (captureWithoutR)
+				false, encoderConfigurationCurrent, //captureWithoutR (not used on IM)
+				preferences.EncoderCaptureMinHeight (encoderConfigurationCurrent.has_inertia) //captureWithoutR (not used on IM)
 				);
 
 		//wait to ensure capture thread has ended

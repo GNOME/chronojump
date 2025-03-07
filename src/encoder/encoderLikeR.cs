@@ -24,15 +24,17 @@ using System.Collections.Generic; //List<T>
 // this class will do same as encoder/capture.R
 public class EncoderLikeR
 {
-	private EncoderConfiguration.Names econfName;
+	private EncoderConfiguration econf;
+	private string eccon;
 	private int minHeightMm;
 
 	private string [] repetitionStrArray;
 
 	//constructor
-	public EncoderLikeR (EncoderConfiguration.Names econfName, int minHeightCm)
+	public EncoderLikeR (EncoderConfiguration econf, string eccon, int minHeightCm)
 	{
-		this.econfName = econfName;
+		this.econf = econf;
+		this.eccon = eccon;
 		this.minHeightMm = minHeightCm * 10;
 	}
 
@@ -49,19 +51,24 @@ public class EncoderLikeR
 
 		// 1) get displacement
 		EncoderLikeRGetDisplacement elrgd = new EncoderLikeRGetDisplacement ();
+		List<double> dis_l = new List<double> ();
 
-		List<double> dis_l = elrgd.GetDisplacement (
-				capturing,
-				econfName,
-				curve_l,
-				diameter, diameterExt, gearedDown
-				);
+		if (econf.has_inertia)
+			dis_l = elrgd.GetDisplacement (
+					capturing, econf.name,
+					curve_l, diameter, diameterExt, gearedDown
+					);
+		else
+			dis_l = elrgd.GetDisplacementInertial (
+					curve_l, econf.name,
+					diameter, diameterExt, gearedDown
+					);
 
 		LogB.Information (string.Format ("encoderLikeR before reduce: dis_l.Count: {0}", dis_l.Count));
 		// 2) reduceCurve by speed
 		EncoderLikeRReduceCurveBySpeed elrrcs = new EncoderLikeRReduceCurveBySpeed (
 				dis_l,
-				"c", 	//TODO: rest of eccons
+				eccon,
 				minHeightMm);
 		EncoderLikeRReduceCurveBySpeed.ReducedCurve reducedCurve = elrrcs.ReducedCurveGet;
 		//dis_l = reducedCurve.dis_l; //this is not used

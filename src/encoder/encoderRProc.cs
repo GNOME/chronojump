@@ -147,7 +147,8 @@ public class EncoderRProcCapture : EncoderRProc
 	public Preferences.TriggerTypes CutByTriggers;
 
 	// ---- csharp capture (without R) ---->
-	private EncoderConfiguration.Names econfName;
+	private EncoderConfiguration econf;
+	private string eccon;
 	private int minHeight;
 	public List<string []> CsharpMethodRepetitions_al;
 	private int cSharpCurvesAccepted;
@@ -259,9 +260,10 @@ public class EncoderRProcCapture : EncoderRProc
 		return true;
 	}
 
-	public void InitCsharp (EncoderConfiguration.Names econfName, int minHeight)
+	public void InitCsharp (EncoderConfiguration econf, string eccon, int minHeight)
 	{
-		this.econfName = econfName;
+		this.econf = econf;
+		this.eccon = eccon;
 		this.minHeight = minHeight;
 
 		CsharpMethodRepetitions_al = new List<string []> ();
@@ -271,7 +273,7 @@ public class EncoderRProcCapture : EncoderRProc
 	// experimental reimplementation of R capture with C#. Uncompressed.
 	public void SendCurveCsharp (int startFrame, double [] curve)
 	{
-		EncoderLikeR elr = new EncoderLikeR (econfName, minHeight);
+		EncoderLikeR elr = new EncoderLikeR (econf, eccon, minHeight);
 		if (elr.Do (
 					true,
 					UtilList.DoubleArrayToListInt (curve),

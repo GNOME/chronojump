@@ -608,13 +608,13 @@ public class LeastSquaresParabole
 		Calculate(measures);
 	}
 
-	public void Calculate(List<PointF> measures)
+	public void Calculate (List<PointF> measures)
 	{
 		/*
-		LogB.Information("printing points at Calculate");
+		LogB.Information("C# printing points at Calculate");
 		foreach(PointF p in measures)
 			LogB.Information(p.ToString());
-			*/
+		*/
 
 		int numMeasures = measures.Count;
 		CalculatedCoef = false;
@@ -699,8 +699,16 @@ public class LeastSquaresParabole
 		 * C = c - yDesired
 		 * x <- (-b +- sqrt(b2 -4aC)) / 2a
 		 */
+		//LogB.Information ("C#: CalculateXAtSomeY:");
+		//LogB.Information (string.Format ("{0}, {1}, {2}", Coef[2], Coef[1], Coef[0]));
+
 		double C = Coef[0] - yDesired;
 		return ( (-Coef[1] - Math.Sqrt (Math.Pow (Coef[1],2) - 4 * Coef[2] * C)) / (2 * Coef[2]) );
+	}
+
+	public double CalculateXAtSomeYAsStraightLine (PointF pre, PointF post, double yDesired)
+	{
+		return (pre.X + (yDesired  - pre.Y) * (post.X - pre.X) / (post.Y - pre.Y));
 	}
 
 	//this is the X where maxY is found
@@ -736,6 +744,10 @@ public class LeastSquaresParabole
 
 			return ParaboleTypes.CONVEX;
 		}
+	}
+
+	public bool ParaboleTypeAlmostStraight {
+		get { return Math.Abs (Coef[2]) < 0.00001; }
 	}
 }
 

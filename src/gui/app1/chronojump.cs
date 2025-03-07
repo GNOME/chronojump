@@ -1279,6 +1279,13 @@ public partial class ChronoJumpWindow
 
 	private void testNewStuff()
 	{
+		/*
+		//Useful to make crash the software (to check how log is working or any related change)
+		List<string> crash_me = new List<string>();
+		crash_me.Add ("1");
+		LogB.Information (crash_me[55].ToString ());
+		*/
+
 		//uncomment it to tests the method for add suffixes _copy2, _copy3 to encoderConfiguration
 		//SqliteEncoderConfiguration.IfNameExistsAddSuffixDoTests();
 

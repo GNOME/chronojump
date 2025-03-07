@@ -743,6 +743,11 @@ getParabole <- function(x, y)
 }
 getXatY <- function (x, y, yDesired)
 {
+	write ("R: getXatY x, y, yDesired", stderr ())
+	write (x, stderr ())
+	write (y, stderr ())
+	write (yDesired, stderr ())
+
 	coefs_l <- getParabole (x,y)
 	a <- coefs_l$a
 	b <- coefs_l$b
@@ -759,14 +764,35 @@ getXatY <- function (x, y, yDesired)
 
 	C <- c - yDesired
 
+	write ("R: getXatY:", stderr ())
+	write (a, stderr ())
+	write (b, stderr ())
+	write (c, stderr ())
+
+	#if a is very close to 0, is an straight line, so interpolate as a line
+	#this comes from: r-scripts/scripts-util.R interpolateXAtY ()
+	if (a < 0.00001)
+		return (x[1] + (yDesired  - y[1]) * (x[2] - x[1]) / (y[2] - y[1]))
+
 	#return ( (-b + sqrt (b^2 - 4 * a * C)) / (2 * a) ) #this will be at right (we do not want it)
 	return ( (-b - sqrt (b^2 - 4 * a * C)) / (2 * a) )
 }
 
 predictNeededZerosAtLeft <- function (displacement)
 {
+	#write ("R: predictNeededZerosAtLeft", stderr ())
+	#write (length(displacement), stderr ())
+	#if (length(displacement) >= 30) {
+	#	write ("R: head(displacement, 30)", stderr ())
+	#	write (head(displacement, 30), stderr ())
+	#}
+
 	# 1 find the first 3 values
-	firstThreeNonZeroPos <- head (which (displacement [2:length(displacement)] != 0), n = 3)
+	# note 1st value is going to be != 0 and is not counted here
+	firstThreeNonZeroPos <- head (which (displacement [2:length(displacement)] != 0), n = 3) #starting at 2nd digit
+
+	#write ("at util.R (1), firstThreeNonZeroPos: ", stderr())
+	#write (firstThreeNonZeroPos, stderr())
 
 	# if there are less than 3 values, just return the number of initial zeros (the same will be used)
 	if (length (firstThreeNonZeroPos) < 3)
@@ -775,11 +801,17 @@ predictNeededZerosAtLeft <- function (displacement)
 	position <- cumsum (displacement)
 
 	# 2 try to find the x at min (position) -1
-	xAtDesiredY <- getXatY (firstThreeNonZeroPos, cumsum(position)[firstThreeNonZeroPos], min(position) -1)
+	xAtDesiredY <- getXatY (firstThreeNonZeroPos, position[firstThreeNonZeroPos], min(position) -1)
+
+	write ("at util.R (2), firstThreeNonZeroPos: ", stderr())
+	write (firstThreeNonZeroPos, stderr())
 
 	# if is.nan, the parabole does not pass by the point, we can increase the number of values or just return the num of initial zeros
 	if (is.nan (xAtDesiredY) || xAtDesiredY < 0)
 		return (firstThreeNonZeroPos[1])
+
+	#write ("at util.R (3), zerosAtLeft should be: ", stderr())
+	#write (xAtDesiredY, stderr())
 
 	# 3 detected num of initial zeros
 	return (round (xAtDesiredY, 0))
@@ -852,7 +884,7 @@ reduceCurveByPredictStartEnd <- function (displacement, eccon, minHeight)
 		zerosAtRight <- predictNeededZerosAtLeft (rev (displacement))
 	}
 
-	print (c("zerosAtLeft, zerosAtRight", zerosAtLeft, zerosAtRight))
+	write (c("R zerosAtLeft, zerosAtRight", zerosAtLeft, zerosAtRight), stderr ())
 
 	startPos <- startByStability + firstInitialNonZero-1 - zerosAtLeft
 	endPos <- startByStability + firstInitialNonZero-1 + lastFinalNonZero + zerosAtRight

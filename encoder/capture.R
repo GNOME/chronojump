@@ -211,6 +211,8 @@ doProcess <- function(options)
 
 		#if(debug)
 		#	write("doProcess 2", stderr())
+		#write("_____________ R: position _________", stderr())
+		#write(cumsum(displacement), stderr())
 			
 		if(isInertial(op$EncoderConfigurationName))
 		{
@@ -262,6 +264,8 @@ doProcess <- function(options)
 
 		#<---- cut curve by reduceCurveBySpeed done
 		
+		#write("_____________ R: position after reduce _________", stderr())
+		#write(cumsum(displacement), stderr())
 			
 		#if(debug)
 		#	write("doProcess 3", stderr())

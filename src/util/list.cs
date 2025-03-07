@@ -369,12 +369,26 @@ public class UtilList
 		return UtilAll.DivideSafe(sum, values.Count);
 	}
 
-	public static double GetLast (List<double> d_l)
+	public static double GetLast (List<double> l)
 	{
-		if (d_l.Count == 0)
+		if (l.Count == 0)
 			return 0;
 
-		return d_l[d_l.Count -1];
+		return l[l.Count -1];
+	}
+	public static string GetLast (List<string> l)
+	{
+		if (l.Count == 0)
+			return "";
+
+		return l[l.Count -1];
+	}
+	public static string [] GetLast (List<string []> l)
+	{
+		if (l.Count == 0)
+			return new string [] {};
+
+		return l[l.Count -1];
 	}
 
 	public static List<double> ListReverse (List<double> l)

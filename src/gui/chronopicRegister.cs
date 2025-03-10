@@ -213,6 +213,18 @@ public class DiscoverWindow
 			label_button_micro_discover_cancel_close.Text = Catalog.GetString("Close");
 		}
 
+		if (current_mode == Constants.Modes.OTHER)
+		{
+			/*
+			 * Tere is a bug at least on my Lenovo T430u, ACM3 is detected but also an unexistant ACM0 (I am not using any hub).
+			 * If I press select while is trying to detect this ACM0, then the cancel does not work ok, because capture then does not work (capture message is sent but arduino did not answer).
+			 * If we wait untile ACM0 is detected (it will show NC), then press Select (ACM3), and capture works
+			 */
+			label_micro_discover_connect_error.Text = "On 4Platforms wait until process ends, and after press: Select!";
+			label_micro_discover_connect_error.Visible = true;
+		} else
+			label_micro_discover_connect_error.Text = "";
+
 		//cDebug.StopAndPrint();
 	}
 

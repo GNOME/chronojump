@@ -274,7 +274,7 @@ public partial class ChronoJumpWindow
 		sendCommandAndUpdateWilightTextview (wilightTerminalLayout.ColorAll (WilightColors.OFF));
 		currentWilightCommand = wilightTerminalLayout.ColorAll (WilightColors.OFF);
 		needToUpdateGraphWilight = true;
-		System.Threading.Thread.Sleep (1000);
+		System.Threading.Thread.Sleep (100);
 
 		if (wilightAction == wilightActions.SPEED)
 		{
@@ -294,7 +294,7 @@ public partial class ChronoJumpWindow
 
 		haveToPlaySound = wilightSoundEnum.NONE;
 
-		System.Threading.Thread.Sleep (1000);
+		System.Threading.Thread.Sleep (50);
 
 		sendCommandAndUpdateWilightTextview (wilightTerminalLayout.ColorAll (WilightColors.OFF));
 		currentWilightCommand = wilightTerminalLayout.ColorAll (WilightColors.OFF);

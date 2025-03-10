@@ -8872,7 +8872,6 @@ last capture</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_fourPlatforms_test_finish">
                                                             <property name="label" translatable="yes">Finish</property>
-                                                            <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <signal name="clicked" handler="on_button_fourPlatforms_test_finish_clicked" swapped="no"/>
@@ -22806,6 +22805,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

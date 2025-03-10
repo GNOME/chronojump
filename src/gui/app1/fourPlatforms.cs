@@ -1,4 +1,3 @@
-//TODO: bug: if we detect and without waiting it to finish we click on select and then capture, it gets forever on Please whait
 //TODO: need to implement delete
 //TODO: need to implement assign to another person
 
@@ -312,6 +311,9 @@ public partial class ChronoJumpWindow
 
 		box_fourPlatforms_capture_buttons.Sensitive = false;
 		box_fourPlatforms_cancel_finish.Sensitive = true;
+
+		//tests 1_2 1_3 1_4 have no finish button as it needs to count 15 (to save correctly from the 1st to the 15th). It will finish automatically
+		button_fourPlatforms_test_finish.Visible = (b == button_four_platforms_capture_default);
 
 		capturingFourPlatforms = arduinoCaptureStatus.STARTING;
 

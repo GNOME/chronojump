@@ -54,9 +54,10 @@ public class FourPlatformsCaptureManage
 	private StepsStatusEnum stepsStatusEnum;
 	private int stepsCompleted;
 	private int stepsTotal = 15;
+
 	//both these will be used to record final time
-	private double stepsStart; //start of the 1st valid step
-	private double stepsEnd; //end of the last valid step
+	private double timeStart; //on steps is start of the 1st valid step. On default (not steps) is first on or off.
+	private double timeEnd; //on steps end of the last valid step. On default (not steps) is last on or off.
 
 	public FourPlatformsCaptureManage (
 			Constants.Modes mode,
@@ -145,38 +146,15 @@ public class FourPlatformsCaptureManage
 						ySign = -.2;
 
 					//steps stuff
-					//mark the bottom
-					if (stepsStatusEnum != StepsStatusEnum.DONEBOTTOM && y == 1 && fpe.Time < 0)
-					{
-						stepsBottom_l.Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), 1));
-						if(stepsCompleted == 0)
-							stepsStart = UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000);
+					if (captureType == CaptureEnum.FROM1TO2 || captureType == CaptureEnum.FROM1TO3 || captureType == CaptureEnum.FROM1TO4)
+						updateStepsCaptureVariables (fpe, timeAccu_l, y);
+					else {
+						//1st contact will update timeStart
+						if (timeStart == 0)
+							timeStart = UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000);
 
-						stepsStatusEnum = StepsStatusEnum.DONEBOTTOM;
-					}
-					//update the bottom as maybe has been repeated later
-					else if (stepsStatusEnum == StepsStatusEnum.DONEBOTTOM && y == 1 && fpe.Time < 0)
-					{
-						stepsBottom_l[stepsBottom_l.Count -1] = new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), 1);
-						if(stepsCompleted == 0)
-							stepsStart = UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000);
-
-						stepsStatusEnum = StepsStatusEnum.DONEBOTTOM;
-					}
-
-					//do the top
-					if (stepsStatusEnum == StepsStatusEnum.DONEBOTTOM && fpe.Time > 0 && (
-								(captureType == CaptureEnum.FROM1TO2 && y == 2) ||
-								(captureType == CaptureEnum.FROM1TO3 && y == 3) ||
-								(captureType == CaptureEnum.FROM1TO4 && y == 4)
-								) )
-					{
-						stepsTop_l.Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), y));
-						stepsStatusEnum = StepsStatusEnum.DONETOP;
-						stepsCompleted ++;
-
-						if (stepsCompleted >= stepsTotal)
-							stepsEnd = UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000);
+						//all contacts will update timeEnd
+						timeEnd = UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000);
 					}
 				}
 
@@ -201,6 +179,43 @@ public class FourPlatformsCaptureManage
 		fpc.Stop ();
 	}
 
+	private void updateStepsCaptureVariables (FourPlatformsEvent fpe, List<double> timeAccu_l, int y)
+	{
+		//mark the bottom
+		if (stepsStatusEnum != StepsStatusEnum.DONEBOTTOM && y == 1 && fpe.Time < 0)
+		{
+			stepsBottom_l.Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), 1));
+			if(stepsCompleted == 0)
+				timeStart = UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000);
+
+			stepsStatusEnum = StepsStatusEnum.DONEBOTTOM;
+		}
+		//update the bottom as maybe has been repeated later
+		else if (stepsStatusEnum == StepsStatusEnum.DONEBOTTOM && y == 1 && fpe.Time < 0)
+		{
+			stepsBottom_l[stepsBottom_l.Count -1] = new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), 1);
+			if(stepsCompleted == 0)
+				timeStart = UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000);
+
+			stepsStatusEnum = StepsStatusEnum.DONEBOTTOM;
+		}
+
+		//do the top
+		if (stepsStatusEnum == StepsStatusEnum.DONEBOTTOM && fpe.Time > 0 && (
+					(captureType == CaptureEnum.FROM1TO2 && y == 2) ||
+					(captureType == CaptureEnum.FROM1TO3 && y == 3) ||
+					(captureType == CaptureEnum.FROM1TO4 && y == 4)
+					) )
+		{
+			stepsTop_l.Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), y));
+			stepsStatusEnum = StepsStatusEnum.DONETOP;
+			stepsCompleted ++;
+
+			if (stepsCompleted >= stepsTotal)
+				timeEnd = UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000);
+		}
+	}
+
 	public DateTime TimeOfLastCapture {
 		get { return timeOfLastCapture; }
 	}
@@ -217,11 +232,11 @@ public class FourPlatformsCaptureManage
 	public int StepsCompleted {
 		get { return stepsCompleted; }
 	}
-	public double StepsStart {
-		get { return stepsStart; }
+	public double TimeStart {
+		get { return timeStart; }
 	}
-	public double StepsEnd {
-		get { return stepsEnd; }
+	public double TimeEnd {
+		get { return timeEnd; }
 	}
 	public bool Finish {
 		get { return finish; }
@@ -534,7 +549,7 @@ public partial class ChronoJumpWindow
 			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOn_ll[3], 3, "="))  + "', '" +
 			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOff_ll[3], 3, "=")) + "', " +
 			"'', '', " +  //comments, videoURL
-			Util.ConvertToPoint (fpcm.StepsEnd - fpcm.StepsStart) + ")"; //totalTime
+			Util.ConvertToPoint (fpcm.TimeEnd - fpcm.TimeStart) + ")";
 
 
 		SqliteFourPlatforms.Insert (false, insertString);

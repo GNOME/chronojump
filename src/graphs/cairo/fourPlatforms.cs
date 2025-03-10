@@ -37,15 +37,14 @@ public class CairoGraphFourPlatforms : CairoXY
 	private FourPlatformsCaptureManage.CaptureEnum fourPlatformsCaptureType;
 	private bool capturing;
 
-	public CairoGraphFourPlatforms (DrawingArea area, string title)//, bool horizontal))
+	public CairoGraphFourPlatforms (DrawingArea area)//, bool horizontal))
 	{
-		initFourPlatforms (area, title);//, bool horizontal);
+		initFourPlatforms (area);//, bool horizontal);
 	}
 
-	private void initFourPlatforms (DrawingArea area, string title)//, bool horizontal)
+	private void initFourPlatforms (DrawingArea area)//, bool horizontal)
 	{
 		this.area = area;
-		this.title = title;
 		//this.horizontal = horizontal;
 		this.colorBackground = colorFromRGBA(Config.ColorBackground); //but note if we are using system colors, this will not match
 
@@ -74,6 +73,7 @@ public class CairoGraphFourPlatforms : CairoXY
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font,
 			Constants.Modes mode,
+			string title,
 			List<List<PointF>> points_ll,
 			List<PointF> stepsBottom_l, List<PointF> stepsTop_l,
 			List<IDName> idName_l,
@@ -86,6 +86,7 @@ public class CairoGraphFourPlatforms : CairoXY
 	{
 		if (doSendingList (font,
 					mode,
+					title,
 					points_ll,
 					stepsBottom_l, stepsTop_l,
 					idName_l,
@@ -100,6 +101,7 @@ public class CairoGraphFourPlatforms : CairoXY
 
 	private bool doSendingList (string font,
 			Constants.Modes mode,
+			string title,
 			List<List<PointF>> points_ll,
 			List<PointF> stepsBottom_l, List<PointF> stepsTop_l,
 			List<IDName> idName_l,
@@ -206,6 +208,9 @@ public class CairoGraphFourPlatforms : CairoXY
 					points_ll[0][startAt].X,
 					absoluteMaxX, minY, absoluteMaxY, gridNiceSeps, gridTypes.VERTICALLINES, 0, textHeight);
 		}
+
+		if (title != "")
+			printText (graphWidth/2, 20, 0, textHeight, title, g, alignTypes.CENTER);
 
 		//paint points
 		if(maxValuesChanged || forceRedraw || points_ll[0].Count != points_l_painted)

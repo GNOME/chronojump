@@ -310,13 +310,13 @@ public partial class ChronoJumpWindow
 		} else if(current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.OTHER)
 		{
 			if(cairoGraphFourPlatforms == null)// || forceRedraw)
-				cairoGraphFourPlatforms = new CairoGraphFourPlatforms (
-						drawingarea_results_realtime, "title");
+				cairoGraphFourPlatforms = new CairoGraphFourPlatforms (drawingarea_results_realtime);
 
 			if (fpcm != null)
 				cairoGraphFourPlatforms.DoSendingList (
 						preferences.fontTypeToGraph(),
 						current_mode,
+						fourPlatformsCaptureType.ToString (),
 						cairoGraphFourPlatformsPoints_ll,
 						cairoGraphFourPlatformsStepsBottom_l,
 						cairoGraphFourPlatformsStepsTop_l,

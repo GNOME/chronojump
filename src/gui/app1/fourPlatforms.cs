@@ -54,6 +54,10 @@ public class FourPlatformsCaptureManage
 	private enum StepsStatusEnum { NOTSTARTED, DONEBOTTOM, DONETOP };
 	private StepsStatusEnum stepsStatusEnum;
 	private int stepsCompleted;
+	private int stepsTotal = 15;
+	//both these will be used to record final time
+	private double stepsStart; //start of the 1st valid step
+	private double stepsEnd; //end of the last valid step
 
 	public FourPlatformsCaptureManage (
 			Constants.Modes mode,
@@ -146,12 +150,18 @@ public class FourPlatformsCaptureManage
 					if (stepsStatusEnum != StepsStatusEnum.DONEBOTTOM && y == 1 && fpe.Time < 0)
 					{
 						stepsBottom_l.Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), 1));
+						if(stepsCompleted == 0)
+							stepsStart = UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000);
+
 						stepsStatusEnum = StepsStatusEnum.DONEBOTTOM;
 					}
 					//update the bottom as maybe has been repeated later
 					else if (stepsStatusEnum == StepsStatusEnum.DONEBOTTOM && y == 1 && fpe.Time < 0)
 					{
 						stepsBottom_l[stepsBottom_l.Count -1] = new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), 1);
+						if(stepsCompleted == 0)
+							stepsStart = UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000);
+
 						stepsStatusEnum = StepsStatusEnum.DONEBOTTOM;
 					}
 
@@ -165,6 +175,9 @@ public class FourPlatformsCaptureManage
 						stepsTop_l.Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), y));
 						stepsStatusEnum = StepsStatusEnum.DONETOP;
 						stepsCompleted ++;
+
+						if (stepsCompleted >= stepsTotal)
+							stepsEnd = UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000);
 					}
 				}
 
@@ -181,7 +194,7 @@ public class FourPlatformsCaptureManage
 				points_ll[y].Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), 5-y+ySign)); //1-4 each of the sensors
 				timeOfLastCapture = DateTime.Now;
 
-				if (stepsCompleted >= 15)
+				if (stepsCompleted >= stepsTotal)
 					finish = true;
 			}
 		}
@@ -204,6 +217,12 @@ public class FourPlatformsCaptureManage
 	}
 	public int StepsCompleted {
 		get { return stepsCompleted; }
+	}
+	public double StepsStart {
+		get { return stepsStart; }
+	}
+	public double StepsEnd {
+		get { return stepsEnd; }
 	}
 	public bool Finish {
 		get { return finish; }
@@ -418,7 +437,7 @@ public partial class ChronoJumpWindow
 
 				fourPlatformsInsertToSQL ();
 			}
-			//this is finish from arrive to 15 steps
+			//this is finish from arrive to stepsTotal steps
 			else if (fpcm != null && fpcm.Finish)
 			{
 				event_execute_label_message.Text = "Finished.";
@@ -512,7 +531,9 @@ public partial class ChronoJumpWindow
 			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOff_ll[2], 3, "=")) + "', '" +
 			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOn_ll[3], 3, "="))  + "', '" +
 			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOff_ll[3], 3, "=")) + "', " +
-			"'', '', 0)"; //comments, videoURL, totalTime
+			"'', '', " +  //comments, videoURL
+			Util.ConvertToPoint (fpcm.StepsEnd - fpcm.StepsStart) + ")"; //totalTime
+
 
 		SqliteFourPlatforms.Insert (false, insertString);
 	}

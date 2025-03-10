@@ -8861,6 +8861,7 @@ last capture</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <signal name="clicked" handler="on_button_fourPlatforms_test_cancel_clicked" swapped="no"/>
+                                                            <accelerator key="Escape" signal="clicked"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -22805,6 +22806,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

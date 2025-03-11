@@ -251,6 +251,21 @@ public class WilightTerminalLayout
 
 		return str;
 	}
+
+	/*
+	 * at layout:
+	 * #term name;term code;x (cm);y (cm)
+	 * A;0;7.5;10
+	 * B;1;1;8
+	 * C;2;2;8
+	 * D;3;3;8
+	 *
+	 * it will return 3 as there are 4 rows in Count
+	 */
+	public int GetMaxTerminal ()
+	{
+		return wp_l.Count -1;
+	}
 }
 
 public class WilightTest

@@ -551,6 +551,9 @@ public class WilightTest
 					string.Format (";{0}:", change.a),
 					string.Format (";{0}:", change.b)
 					);
+
+			// 3. add the a:0 (if not will have the same code as previous command)
+			com += string.Format ("{0}:0;", change.a);
 		}
 		LogB.Information (string.Format ("\n{0}\n{1}\n", comOld, com));
 

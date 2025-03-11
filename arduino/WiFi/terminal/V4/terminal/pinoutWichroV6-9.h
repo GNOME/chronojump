@@ -1,4 +1,4 @@
-// Wichro V[8-9] Hardware pinout
+// Wichro V[6-9] Hardware pinout
 
 //  ARDUINO   NRf24L01
 //  ------------------ 

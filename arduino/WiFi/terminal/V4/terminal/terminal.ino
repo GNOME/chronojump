@@ -111,8 +111,6 @@ bool  intermittency = false;
 
 int blinkPeriod = 75; //Time between two consecutives rising flank of the LED
 
-const uint64_t pipes[2] = { 0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL }; //Two radio pipes. One for emitting and the other for receiving
-
 //bool debug = false;
 
 void setup(void)
@@ -186,14 +184,17 @@ bool unlimitedMode = true; // sensorOnce deactivate the unlimited mode
     controlSwitch = controlSwitch + 4;
   }
 
-  radio.openWritingPipe(pipes[1]);
-  radio.openReadingPipe(1, pipes[0]);
+  // Fixed pipes
+  uint64_t pipes[2] = { 0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL }; //Two radio pipes.
 
-  // This is useful to isolate controler+terminals in the same controler channel
-  // radio.openWritingPipe(controlSwitch);
-  // radio.openReadingPipe(1,controlSwitch);
+  // Pipes depending on the controlSwitch. This is useful to isolate controler+terminals in the same controler channel
+  // from other controler+terminals in other channels.
+  //uint8_t pipes[2] = "";        //Only one array for emitting and receiving
+  // pipes[0] += controlSwitch;
+  // pipes[1] += controlSwitch;
+  radio.openWritingPipe(pipes[1]);     // Terminal -> Controler Pipe
+  radio.openReadingPipe(1, pipes[0]);  // Controler -> Terminal Pipe
 
-  //radio.enableDynamicAck();
   radio.startListening();
 
   Serial.println("Channel: " + String(controlSwitch));

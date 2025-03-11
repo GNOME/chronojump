@@ -388,13 +388,13 @@ unsigned int sendInstruction(struct instruction_t *instruction)
 
   // The RCA is treated as the terminal number 0.
   if (instruction->termNum == 0) {
+    lastPinState = digitalRead(rcaPin);
     if ( (instruction->command & sensorOnce) == sensorOnce ) {
     waitingRCA = true; // RCA set to waiting a change in the state
     rcaUnlimitedMode = false;
     } else if ( (instruction->command & sensorUnlimited) == sensorUnlimited ) {
       waitingRCA = true;
       rcaUnlimitedMode = true;
-      lastPinState = digitalRead(rcaPin);
       digitalWrite(ledPin, !lastPinState);
     }
   }
@@ -544,7 +544,7 @@ void printSample() {
   //Serial.println(readed);
 
   // On sensorOnce mode send also the other state in order to facilitate Chronojump the reading
-  if ( ! rcaUnlimitedMode) {
+  if ( (!rcaUnlimitedMode) && sample.termNum == 0) {
     waitingRCA = false;
     delay(2);
     Serial.print(sample.termNum);

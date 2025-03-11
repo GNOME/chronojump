@@ -250,6 +250,32 @@ public class UtilList
 		return cutted_l;
 	}
 
+	//sort a list of ints descending until 0
+	public static List<int> SortListInt (List<int> unsorted_l)
+	{
+		if(unsorted_l.Count < 2)
+			return unsorted_l;
+
+		List<int> sorted_l = new List<int>();
+		for (int i = 0; i < unsorted_l.Count; i ++)
+		{
+			int highest = 0;
+			int highestPos = 0;
+			for(int j = 0; j < unsorted_l.Count; j ++)
+			{
+				int comparingToNum = unsorted_l[j];
+				if(comparingToNum > highest)
+				{
+					highest = comparingToNum;
+					highestPos = j;
+				}
+			}
+			sorted_l.Add (unsorted_l[highestPos]); //store highest value on sorted_l
+			unsorted_l[highestPos] = 0; //mark as 0 on unsorted_l to not choose it again
+		}
+		return sorted_l;
+	}
+
 	public static void TestSortDoublesListstring()
 	{
 		List<string> numbers_l = new List<string>() { "3", "99", "135", "45", "75", "17", "88", "5" }; //ints
@@ -283,7 +309,7 @@ public class UtilList
 				}
 			}
 			sorted_l.Add(unsorted_l[highestPos]); //store highest value on sorted_l
-			unsorted_l[highestPos] = "0"; //mark as 0 on unsortd_l to not choose it again
+			unsorted_l[highestPos] = "0"; //mark as 0 on unsorted_l to not choose it again
 		}
 		return sorted_l;
 	}

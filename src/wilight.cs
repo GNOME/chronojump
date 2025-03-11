@@ -252,20 +252,30 @@ public class WilightTerminalLayout
 		return str;
 	}
 
-	/*
-	 * at layout:
-	 * #term name;term code;x (cm);y (cm)
-	 * A;0;7.5;10
-	 * B;1;1;8
-	 * C;2;2;8
-	 * D;3;3;8
-	 *
-	 * it will return 3 as there are 4 rows in Count
-	 */
+	private List<int> getTerminalListCodeNums ()
+	{
+		List<int> t_l = new List<int> ();
+		foreach (WilightPos wp in wp_l)
+			t_l.Add (wp.CodeNum);
+
+		return t_l;
+	}
+
+	public int GetMinTerminal (bool excludeReferenceTerminal) //exclude the 0
+	{
+		List<int> t_l = UtilList.SortListInt (getTerminalListCodeNums ());
+		if (excludeReferenceTerminal)
+			return t_l[t_l.Count -2];
+		else
+			return t_l[t_l.Count -1];
+
+	}
 	public int GetMaxTerminal ()
 	{
-		return wp_l.Count -1;
+		List<int> t_l = UtilList.SortListInt (getTerminalListCodeNums ());
+		return t_l[0];
 	}
+	//TODO: do a GetNext for use on parseCommandWithBlacklist ()
 }
 
 public class WilightTest
@@ -490,6 +500,7 @@ public class WilightTest
 			return com;
 
 		// 3. get the necessary changes
+		int minTerminal = wilightTerminalLayout.GetMinTerminal (true);
 		int maxTerminal = wilightTerminalLayout.GetMaxTerminal ();
 		List<IntInt> changes_l = new List<IntInt> ();
 		foreach (int et in expectedTerminals_l)
@@ -506,7 +517,7 @@ public class WilightTest
 			// TODO: fix here as numbers of terminals do not neeed to be correlative, like in TR with 0 is used for platform
 			int etOk = et+1;
 			if (etOk > maxTerminal)
-				etOk = 1; //is not 0 because 0 is the reference terminal (top center)
+				etOk = minTerminal; //is not 0 because 0 is the reference terminal (top center)
 
 			bool success = false;
 			do {
@@ -520,7 +531,7 @@ public class WilightTest
 					// TODO: fix here as numbers of terminals do not neeed to be correlative, like in TR with 0 is used for platform
 					etOk ++;
 					if (etOk > maxTerminal)
-						etOk = 1; //is not 0 because 0 is the reference terminal (top center)
+						etOk = minTerminal; //is not 0 because 0 is the reference terminal (top center)
 				}
 			} while (! success);
 

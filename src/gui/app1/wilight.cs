@@ -39,6 +39,7 @@ public partial class ChronoJumpWindow
 	Gtk.CheckButton check_wilight_test_g;
 	Gtk.CheckButton check_wilight_test_b;
 	Gtk.CheckButton check_wilight_test_blink;
+	Gtk.Entry entry_wilight_blacklist;
 	Gtk.CheckButton check_wilight_show_commands;
 	Gtk.CheckButton check_wilight_very_verbose;
 	Gtk.Box box_wilight_commands;
@@ -283,12 +284,12 @@ public partial class ChronoJumpWindow
 		}
 		else if (wilightAction == wilightActions.SEQUENCE)
 		{
-			testSequence (commandsFile, false);
+			testSequence (commandsFile, entry_wilight_blacklist.Text, false);
 			wichroCapture.Stop(); //Should we do a disconnect here?
 		}
 		else if (wilightAction == wilightActions.DEMO)
 		{
-			testSequence (commandsFile, true);
+			testSequence (commandsFile, entry_wilight_blacklist.Text, true);
 			wichroCapture.Stop(); //Should we do a disconnect here?
 		}
 
@@ -381,9 +382,9 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void testSequence (string commandsFile, bool isDemo)
+	private void testSequence (string commandsFile, string blacklistStr, bool isDemo)
 	{
-		wilightTest = new WilightTest (commandsFile, wilightTerminalLayout, isDemo);
+		wilightTest = new WilightTest (wilightTerminalLayout, commandsFile, blacklistStr, isDemo);
 		wilightMessage = wilightTest.GetProgressStatus ();
 
 		List<int> expectedTerminals_l = new List<int> (); //expected response on this (or them)
@@ -651,6 +652,7 @@ public partial class ChronoJumpWindow
 		check_wilight_test_g = (Gtk.CheckButton) builder.GetObject ("check_wilight_test_g");
 		check_wilight_test_b = (Gtk.CheckButton) builder.GetObject ("check_wilight_test_b");
 		check_wilight_test_blink = (Gtk.CheckButton) builder.GetObject ("check_wilight_test_blink");
+		entry_wilight_blacklist = (Gtk.Entry) builder.GetObject ("entry_wilight_blacklist");
 		check_wilight_show_commands = (Gtk.CheckButton) builder.GetObject ("check_wilight_show_commands");
 		check_wilight_very_verbose = (Gtk.CheckButton) builder.GetObject ("check_wilight_very_verbose");
 		box_wilight_commands = (Gtk.Box) builder.GetObject ("box_wilight_commands");

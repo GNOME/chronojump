@@ -282,21 +282,23 @@ public class WilightTest
 	public bool Finished;
 	private List<string> onString_l;
 	private int lastTime;
+	List<int> blacklist_l;
 
 	//passed params
-	private string commandsFile;
 	private WilightTerminalLayout wilightTerminalLayout;
+	private string commandsFile;
 	private bool isDemo;
 
 
 	//constructor
-	public WilightTest (string commandsFile, WilightTerminalLayout wilightTerminalLayout, bool isDemo)
+	public WilightTest (WilightTerminalLayout wilightTerminalLayout, string commandsFile, string blacklistStr, bool isDemo)
 	{
-		this.commandsFile = commandsFile;
 		this.wilightTerminalLayout = wilightTerminalLayout;
+		this.commandsFile = commandsFile;
 		this.isDemo = isDemo;
 
 		command_ll = new List<List<string>> ();
+		createBlacklist (blacklistStr);
 
 		if (isDemo)
 			wilightTestDemoSetVars ();
@@ -309,6 +311,20 @@ public class WilightTest
 		Finished = false;
 		lastTime = 0;
 		onString_l = new List<string> ();
+	}
+
+	private void createBlacklist (string blacklistStr)
+	{
+		blacklist_l = new List<int> ();
+		if (blacklistStr == "")
+			return;
+
+		string [] strFull = blacklistStr.Split (new char[] {','});
+		foreach (string s in strFull)
+			if (Util.IsNumber (s, false))
+				blacklist_l.Add (Convert.ToInt32 (s));
+
+		return;
 	}
 
 	//not random
@@ -325,7 +341,8 @@ public class WilightTest
 	{
 		//if (commandsFile != "")
 		//{
-			List<List<string>> comReaded_ll = readCommandsFrom (Util.ReadFileAsStringList (commandsFile, "#"));
+			List<List<string>> comReaded_ll = readCommandsFrom (
+					Util.ReadFileAsStringList (commandsFile, "#"));
 
 			// randomize lines in each level
 			foreach (List <string> cnr_l in comReaded_ll)
@@ -389,10 +406,13 @@ public class WilightTest
 			while (comReaded_ll.Count <= level)
 				comReaded_ll.Add (new List<string> ());
 
-			// 2.c pare the command
+			// 2.c parse the command
 			string comOk = parseCommandChangeLettersToNums (com);
 			if (comOk == "")
 				continue;
+
+			if (blacklist_l.Count > 0)
+				comOk = parseCommandWithBlacklist (comOk);
 
 			// 2.d add the command to the sublist
 			comReaded_ll[level].Add (comOk);
@@ -456,6 +476,85 @@ public class WilightTest
 		}
 
 		return comOk;
+	}
+
+	private string parseCommandWithBlacklist (string com)
+	{
+		// 1. remove the last ; and split each of the commands
+		string comPre = com.Substring (0, com.LastIndexOf(';'));
+		string [] comPreFull = comPre.Split (new char[] {';'});
+
+		// 2. get the expected terminals
+		List<int> expectedTerminals_l = GetExpectedTerminals (com);
+		if (expectedTerminals_l.Count == 0)
+			return com;
+
+		// 3. get the necessary changes
+		int maxTerminal = wilightTerminalLayout.GetMaxTerminal ();
+		List<IntInt> changes_l = new List<IntInt> ();
+		foreach (int et in expectedTerminals_l)
+		{
+			// 3.a continue if expected terminal is not blackisted
+			if (! UtilList.FoundInListInt (blacklist_l, et))
+				continue;
+
+			LogB.Information (string.Format ("\nblacklist: command: '{0}', expected: {1}, blacklist: {2}",
+						com, et, UtilList.ListIntToSQLString (blacklist_l, " ")));
+
+			// this expected terminal is blacklisted, change to another one
+			// 3.b get any terminal that is not blacklistd and has a 0 code (or in the future any other terminal)
+			// TODO: fix here as numbers of terminals do not neeed to be correlative, like in TR with 0 is used for platform
+			int etOk = et+1;
+			if (etOk > maxTerminal)
+				etOk = 1; //is not 0 because 0 is the reference terminal (top center)
+
+			bool success = false;
+			do {
+				if (etOk == et)
+					break; //to avoid a hang looping infinitely
+
+				if (! UtilList.FoundInListInt (blacklist_l, etOk) &&
+						! UtilList.FoundInListInt (expectedTerminals_l, etOk))
+					success = true;
+				else {
+					// TODO: fix here as numbers of terminals do not neeed to be correlative, like in TR with 0 is used for platform
+					etOk ++;
+					if (etOk > maxTerminal)
+						etOk = 1; //is not 0 because 0 is the reference terminal (top center)
+				}
+			} while (! success);
+
+			if (success)
+				changes_l.Add (new IntInt (et, etOk));
+		}
+		if (changes_l.Count == 0)
+			return com;
+
+		string comOld = com; //just for debug
+		foreach (IntInt change in changes_l)
+		{
+			LogB.Information (string.Format ("blacklist change terminal {0} to terminal {1}", change.a, change.b));
+			//to avoid sending two differerent codes to same terminal
+			// 1. delete any command of the new terminal
+			//TODO: use regex, or better a WilightCommand object
+			int posStart = com.IndexOf (string.Format (";{0}:", change.b));
+			if (posStart >= 0)
+			{
+				int posEnd = com.IndexOf (';', posStart+1);
+				if (posEnd >= 0)
+					com = com.Substring (0, posStart) +
+						com.Substring (posEnd);
+			}
+
+			// 2. change the old (expected and blaclisted) to a non expected, non blacklisted
+			com = Util.ChangeChars (com,
+					string.Format (";{0}:", change.a),
+					string.Format (";{0}:", change.b)
+					);
+		}
+		LogB.Information (string.Format ("\n{0}\n{1}\n", comOld, com));
+
+		return com;
 	}
 
 	//note if any problem it will return "" and this will be called again until Finished

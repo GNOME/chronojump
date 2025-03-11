@@ -481,6 +481,12 @@ public class Util
 
 		return myStringBuilder.ToString();
 	}
+	public static string RemoveSubstring (string str, string strRemove)
+	{
+		StringBuilder myStringBuilder = new StringBuilder(str);
+		myStringBuilder.Replace (strRemove, "");
+		return myStringBuilder.ToString();
+	}
 
 	public static string RemoveZeroOrMinus(string myString) 
 	{

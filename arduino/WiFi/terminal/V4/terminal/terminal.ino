@@ -189,7 +189,6 @@ bool unlimitedMode = true; // sensorOnce deactivate the unlimited mode
 
   // Pipes depending on the controlSwitch. This is useful to isolate controler+terminals in the same controler channel
   // from other controler+terminals in other channels.
-  //uint8_t pipes[2] = "";        //Only one array for emitting and receiving
   // pipes[0] += controlSwitch;
   // pipes[1] += controlSwitch;
   radio.openWritingPipe(pipes[1]);     // Terminal -> Controler Pipe

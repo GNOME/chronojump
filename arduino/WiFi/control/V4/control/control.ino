@@ -183,7 +183,6 @@ void setup(void)
 
   // Pipes depending on the controlSwitch. This is useful to isolate controler+terminals in the same controler channel
   // from other controler+terminals in other channels.
-  //uint8_t pipes[2] = "";        //Only one array for emitting and receiving
   // pipes[0] += controlSwitch;
   // pipes[1] += controlSwitch;
   radio.openWritingPipe(pipes[0]);     // Controler->Terminal Pipe
@@ -205,12 +204,6 @@ void setup(void)
 
   Serial.print("Channel: ");
   Serial.println(controlSwitch);
-  // Serial.print("Pipe: ");
-  // // Serial.print(pipes[0]); Serial.print(" "); Serial.println(pipes[1]);
-  // for(int i = 0; i<12;i++){
-  //   Serial.print(pipes[0][i], BIN);
-  // }
-  Serial.println();
   Serial.print("Power: ");
   Serial.println(radio.getPALevel());
   flagint = LOW;

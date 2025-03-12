@@ -21,7 +21,6 @@
 
 using System;
 using Gtk;
-using Mono.Unix;
 using System.Collections; //ArrayList
 
 public partial class ChronoJumpWindow 

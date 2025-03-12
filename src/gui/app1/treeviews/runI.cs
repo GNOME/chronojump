@@ -22,7 +22,6 @@
 using System;
 using Gtk;
 //using Glade;
-using Mono.Unix;
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List
 

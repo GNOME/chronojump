@@ -85,6 +85,13 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	private void selectResultsSessionId (int id)
+	{
+		treeViewResultsSession.ZoomToTestsIfNeeded ();
+		treeViewResultsSession.SelectEvent (id, true); //scroll
+
+		on_treeview_results_session_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
+	}
 
 	private void treeview_results_session_storeReset ()
 	{

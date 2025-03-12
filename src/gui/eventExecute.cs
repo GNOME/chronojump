@@ -409,16 +409,10 @@ public partial class ChronoJumpWindow
 		if (treeViewResultsSession == null)
 			return;
 
-		if (current_mode == Constants.Modes.JUMPSSIMPLE)
-			selectJumpSimple (id);
-		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
-			selectJumpReactive (id);
-		else if (current_mode == Constants.Modes.RUNSSIMPLE)
-			selectRunSimple (id);
-		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
-			selectRunIntervallic (id);
-		else if (current_mode == Constants.Modes.WILIGHT)
-			selectWilight (id);
+		if (current_mode == Constants.Modes.RUNSSIMPLE)
+			button_inspect_last_test_run_simple.Sensitive = false;
+
+		selectResultsSessionId (id);
 	}
 
 	// simple and DJ jump	

@@ -7058,7 +7058,7 @@ public partial class ChronoJumpWindow
 			stats_win_fillTreeView_stats(false, false);
 
 		if (tempSelected > 0)
-			selectJumpReactive (tempSelected);
+			selectResultsSessionId (tempSelected);
 
 		//update both graphs
 		drawingarea_results_session.QueueDraw ();
@@ -7099,7 +7099,7 @@ public partial class ChronoJumpWindow
 			stats_win_fillTreeView_stats(false, false);
 
 		if (tempSelected > 0)
-			selectRunIntervallic (tempSelected);
+			selectResultsSessionId (tempSelected);
 
 		//update both graphs
 		drawingarea_results_session.QueueDraw ();

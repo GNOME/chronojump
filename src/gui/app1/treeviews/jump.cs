@@ -56,14 +56,6 @@ public partial class ChronoJumpWindow
 			expandOrMinimizeTreeView((TreeViewEvent) treeViewResultsSession, treeview_results_session);
 	}
 
-	private void selectJumpSimple (int id)
-	{
-		treeViewResultsSession.ZoomToTestsIfNeeded ();
-		treeViewResultsSession.SelectEvent (id, true); //scroll
-
-		on_treeview_results_session_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
-	}
-
 	private void treeviewJumpsContextMenu(Jump myJump)
 	{
 		Menu myMenu = new Menu ();

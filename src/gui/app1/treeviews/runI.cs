@@ -103,13 +103,6 @@ public partial class ChronoJumpWindow
 		drawingarea_results_realtime.QueueDraw ();
 	}
 
-	private void selectRunIntervallic (int id)
-	{
-		treeViewResultsSession.ZoomToTestsIfNeeded ();
-		treeViewResultsSession.SelectEvent (id, true); //scroll
-		on_treeview_results_session_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
-	}
-
 	private void treeviewRunsIntervalContextMenu(RunInterval myRun)
 	{
 		Menu myMenu = new Menu ();

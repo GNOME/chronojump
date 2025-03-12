@@ -286,7 +286,6 @@ public class WilightTest
 	private int currentCommand; //in level
 	private int commandsCountReceived;
 	private Random random;
-	private bool isRandom;
 
 	public bool Cancel;
 	public bool Finished;
@@ -344,7 +343,6 @@ public class WilightTest
 
 		currentLevel = 0;
 		currentCommand = 0;
-		isRandom = false;
 	}
 
 	private void wilightTestRealSetVars ()
@@ -376,7 +374,6 @@ public class WilightTest
 
 		currentLevel = 0;
 		currentCommand = 0;
-		isRandom = true;
 	}
 
 	/*

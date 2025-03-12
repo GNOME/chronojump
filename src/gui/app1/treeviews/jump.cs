@@ -55,24 +55,4 @@ public partial class ChronoJumpWindow
 		else
 			expandOrMinimizeTreeView((TreeViewEvent) treeViewResultsSession, treeview_results_session);
 	}
-
-	private void treeviewJumpsContextMenu(Jump myJump)
-	{
-		Menu myMenu = new Menu ();
-		Gtk.MenuItem myItem;
-
-		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
-		myItem.Activated += on_edit_selected_jump_clicked;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-	
-		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 1, 2 );
-
-		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
-		myItem.Activated += on_delete_selected_jump_clicked;
-		myMenu.Attach( myItem, 0, 1, 2, 3 );
-
-		myMenu.ShowAll();
-		myMenu.Popup();
-	}
 }

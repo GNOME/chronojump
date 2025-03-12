@@ -92,28 +92,4 @@ public partial class ChronoJumpWindow
 				preferences.heightPreferred);
 		drawingarea_results_realtime.QueueDraw ();
 	}
-
-	private void treeviewJumpsRjContextMenu(JumpRj myJump)
-	{
-		Menu myMenu = new Menu ();
-		Gtk.MenuItem myItem;
-
-		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
-		myItem.Activated += on_edit_selected_jump_rj_clicked;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-
-		myItem = new MenuItem ( Catalog.GetString("Repair selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
-		myItem.Activated += on_repair_selected_jump_rj_clicked;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
-		
-		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 2, 3 );
-
-		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
-		myItem.Activated += on_delete_selected_jump_rj_clicked;
-		myMenu.Attach( myItem, 0, 1, 3, 4 );
-
-		myMenu.ShowAll();
-		myMenu.Popup();
-	}
 }

@@ -102,28 +102,4 @@ public partial class ChronoJumpWindow
 				selectedRunInterval.Type, selectedRunInterval.Description, feedbackRunsI); //Description is personName
 		drawingarea_results_realtime.QueueDraw ();
 	}
-
-	private void treeviewRunsIntervalContextMenu(RunInterval myRun)
-	{
-		Menu myMenu = new Menu ();
-		Gtk.MenuItem myItem;
-
-		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
-		myItem.Activated += on_edit_selected_run_interval_clicked;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-
-		myItem = new MenuItem ( Catalog.GetString("Repair selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
-		myItem.Activated += on_repair_selected_run_interval_clicked;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
-		
-		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 2, 3 );
-
-		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
-		myItem.Activated += on_delete_selected_run_interval_clicked;
-		myMenu.Attach( myItem, 0, 1, 3, 4 );
-
-		myMenu.ShowAll();
-		myMenu.Popup();
-	}
 }

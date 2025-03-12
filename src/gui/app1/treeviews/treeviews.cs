@@ -46,40 +46,6 @@ public partial class ChronoJumpWindow
 		//Log.WriteLine("IS " + tvEvent.ExpandState);
 	}
 
-	private void on_treeview_results_session_button_release_event (object o, ButtonReleaseEventArgs args)
-	{
-		Gdk.EventButton e = args.Event;
-		//Gtk.TreeView myTv = (Gtk.TreeView) o;
-		if (e.Button != 3 || treeViewResultsSession.EventSelectedID <= 0)
-			return;
-
-		if (current_mode == Constants.Modes.JUMPSSIMPLE)
-		{
-			Jump myJump = SqliteJump.SelectJumpData (treeViewResultsSession.EventSelectedID, false );
-			treeviewJumpsContextMenu (myJump);
-		}
-		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
-		{
-			JumpRj myJump = SqliteJumpRj.SelectJumpData ("jumpRj", treeViewResultsSession.EventSelectedID, false, false);
-			treeviewJumpsRjContextMenu (myJump);
-		}
-		else if (current_mode == Constants.Modes.RUNSSIMPLE)
-		{
-			Run myRun = SqliteRun.SelectRunData (treeViewResultsSession.EventSelectedID, false);
-			treeviewRunsContextMenu (myRun);
-		}
-		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
-		{
-			RunInterval myRun = SqliteRunInterval.SelectRunData (Constants.RunIntervalTable, treeViewResultsSession.EventSelectedID, false, false);
-			treeviewRunsIntervalContextMenu (myRun);
-		}
-		else if (current_mode == Constants.Modes.WILIGHT)
-		{
-			Wilight wilight = SqliteWilight.SelectData (treeViewResultsSession.EventSelectedID, false);
-			treeviewWilightContextMenu (wilight);
-		}
-	}
-
 	private void resetAllTreeViews(bool fillTests, bool resetPersons, bool fillPersons)
 	{
 		//persons

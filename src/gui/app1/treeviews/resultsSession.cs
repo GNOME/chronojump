@@ -116,5 +116,73 @@ public partial class ChronoJumpWindow
 			treeViewResultsSession = new TreeViewWilight (
 					treeview_results_session, preferences.digitsNumber, treeViewResultsSession.ExpandState);
 	}
+
+	private void on_treeview_results_session_button_release_event (object o, ButtonReleaseEventArgs args)
+	{
+		Gdk.EventButton e = args.Event;
+		//Gtk.TreeView myTv = (Gtk.TreeView) o;
+		if (e.Button != 3 || treeViewResultsSession.EventSelectedID <= 0)
+			return;
+
+		Event ev;
+		if (current_mode == Constants.Modes.JUMPSSIMPLE)
+		{
+			ev = SqliteJump.SelectJumpData (
+					treeViewResultsSession.EventSelectedID, false );
+			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonName + ")");
+		}
+		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
+		{
+			ev = SqliteJumpRj.SelectJumpData (
+					"jumpRj", treeViewResultsSession.EventSelectedID, false, false);
+			treeviewResultsContextMenu (true, " " + ev.Type + " (" + ev.PersonName + ")");
+		}
+		else if (current_mode == Constants.Modes.RUNSSIMPLE)
+		{
+			ev = SqliteRun.SelectRunData (treeViewResultsSession.EventSelectedID, false);
+			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonName + ")");
+		}
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
+		{
+			ev = SqliteRunInterval.SelectRunData (
+					Constants.RunIntervalTable, treeViewResultsSession.EventSelectedID, false, false);
+			treeviewResultsContextMenu (true, " " + ev.Type + " (" + ev.PersonName + ")");
+		}
+		else if (current_mode == Constants.Modes.WILIGHT)
+		{
+			ev = SqliteWilight.SelectData (
+					treeViewResultsSession.EventSelectedID, false);
+			treeviewResultsContextMenu (false, " (" + ev.PersonName + ")");
+		}
+	}
+
+	private void treeviewResultsContextMenu (bool hasRepair, string label)
+	{
+		Menu myMenu = new Menu ();
+		Gtk.MenuItem myItem;
+		uint y = 0;
+
+		myItem = new MenuItem (Catalog.GetString("Edit selected") + label);
+		myItem.Activated += on_button_contacts_edit_selected_clicked;
+		myMenu.Attach( myItem, 0, 1, y, (y++)+1 );
+
+		if (hasRepair)
+		{
+			myItem = new MenuItem (Catalog.GetString("Repair selected") + label);
+			myItem.Activated += on_button_contacts_repair_selected_clicked;
+			myMenu.Attach( myItem, 0, 1, y, (y++)+1 );
+
+			Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
+			myMenu.Attach( mySep, 0, 1, y, (y++)+1 );
+		}
+
+		myItem = new MenuItem (Catalog.GetString("Delete selected") + label);
+		myItem.Activated += on_button_contacts_delete_selected_clicked;
+		myMenu.Attach( myItem, 0, 1, y, (y++)+1 );
+
+		myMenu.ShowAll();
+		myMenu.Popup();
+	}
+
 }
 

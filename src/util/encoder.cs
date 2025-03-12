@@ -876,10 +876,9 @@ public class UtilEncoder
 	// adapted from encoder/util.R calculateEquivalentMass
 	public static double CalculateEquivalentMass (EncoderConfiguration econf)
 	{
-		//note on C# calculations gearedDown check is != 1 as explained on class EncoderConfiguration GearedUpDisplay
 		if (econf.inertiaTotal > 0 && econf.d > 0)
 		{
-			//convert to have same data as R calculation
+			//convert to have same data as R calculation, see: EncoderConfiguration GearedUpDisplay
 			double gearedDownAsR = econf.gearedDown;
 			if (gearedDownAsR < 0)
 				gearedDownAsR = 1/(1.0 * Math.Abs (gearedDownAsR)); //1.0 precaution (not needed because it is already a double)

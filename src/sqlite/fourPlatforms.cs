@@ -96,6 +96,66 @@ class SqliteFourPlatforms : Sqlite
 		return myLast;
 	}
 
+	//SA for String Array, used on treeview
+	public static string [] SelectSA (bool dbconOpened, int sessionID, int personID,
+			//string type,
+			Orders_by order, int limit
+			//, bool personNameInComment, bool onlyBestInSession
+			)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = selectResultsCreateSelection (
+				Constants.FourPlatformsTable,
+				sessionID, personID, "", //type,
+				order, limit, false //onlyBestInSession
+				);
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		ArrayList myArray = new ArrayList(2);
+		int count = new int();
+		count = 0;
+
+		while(reader.Read())
+		{
+			myArray.Add (
+					reader[0].ToString() + ":" + 	//person.name
+					reader[1].ToString() + ":" +	//fourPlaforms.uniqueID
+					reader[2].ToString() + ":" + 	//fourPlaforms.personID
+					reader[3].ToString() + ":" + 	//fourPlaforms.sessionID
+					reader[4].ToString() + ":" + 	//fourPlaforms.type
+					reader[5].ToString() + ":" + 	//fourPlaforms.b0_1
+					reader[6].ToString() + ":" + 	//fourPlaforms.b0_0
+					reader[7].ToString() + ":" + 	//fourPlaforms.b1_1
+					reader[8].ToString() + ":" + 	//fourPlaforms.b1_0
+					reader[9].ToString() + ":" + 	//fourPlaforms.b2_1
+					reader[10].ToString() + ":" + 	//fourPlaforms.b2_0
+					reader[11].ToString() + ":" + 	//fourPlaforms.b3_1
+					reader[12].ToString() + ":" + 	//fourPlaforms.b3_0
+					reader[13].ToString() + ":" + 	//datetime
+					reader[14].ToString() + ":" + 	//comments
+					reader[15].ToString() + ":" +	//videoURL
+					reader[16].ToString()	 	//totalTime
+					);
+
+			count ++;
+		}
+
+		reader.Close();
+		closeIfNeeded(dbconOpened);
+
+		string [] rows = new string[count];
+		count =0;
+		foreach (string line in myArray) {
+			rows [count++] = line;
+		}
+
+		return rows;
+	}
+
 	public static void Update (bool dbconOpened, string updateString)
 	{
 		openIfNeeded(dbconOpened);

@@ -97,7 +97,7 @@ public partial class ChronoJumpWindow
 	{
 		treeViewResultsSession.ZoomToTestsIfNeeded ();
 		treeViewResultsSession.SelectEvent (id, true); //scroll
-		on_treeview_jumps_rj_cursor_changed (new object (), new EventArgs ()); //in order to update top graph and play video button
+		on_treeview_results_session_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
 	}
 
 	private void treeviewJumpsRjContextMenu(JumpRj myJump)

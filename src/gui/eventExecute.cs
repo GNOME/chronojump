@@ -827,7 +827,7 @@ public partial class ChronoJumpWindow
 
 	// ---- test simple controls ----->
 
-	private void on_spin_contacts_graph_last_limit_value_changed (object o, EventArgs args)
+	private void updateGraphResultsSessionByMode ()
 	{
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 			updateGraphJumpsSimple ();
@@ -841,34 +841,21 @@ public partial class ChronoJumpWindow
 			updateGraphWilightBars ();
 	}
 
+	private void on_spin_contacts_graph_last_limit_value_changed (object o, EventArgs args)
+	{
+		updateGraphResultsSessionByMode ();
+	}
+
 	private void on_radio_contacts_graph_test_toggled (object o, EventArgs args)
 	{
-		if(current_mode == Constants.Modes.JUMPSSIMPLE)
-			updateGraphJumpsSimple ();
-		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
-			updateGraphJumpsReactive ();
-		else if(current_mode == Constants.Modes.RUNSSIMPLE)
-			updateGraphRunsSimple ();
-		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
-			updateGraphRunsInterval ();
-		else if(current_mode == Constants.Modes.WILIGHT)
-			updateGraphWilightBars ();
+		updateGraphResultsSessionByMode ();
 
 		pre_fillTreeView_resultsSession (false);
 	}
 
 	private void on_radio_contacts_results_person_toggled (object o, EventArgs args)
 	{
-		if(current_mode == Constants.Modes.JUMPSSIMPLE)
-			updateGraphJumpsSimple ();
-		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
-			updateGraphJumpsReactive ();
-		else if(current_mode == Constants.Modes.RUNSSIMPLE)
-			updateGraphRunsSimple ();
-		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
-			updateGraphRunsInterval ();
-		else if(current_mode == Constants.Modes.WILIGHT)
-			updateGraphWilightBars ();
+		updateGraphResultsSessionByMode ();
 
 		pre_fillTreeView_resultsSession (false);
 	}

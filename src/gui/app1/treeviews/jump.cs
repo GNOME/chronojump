@@ -56,27 +56,12 @@ public partial class ChronoJumpWindow
 			expandOrMinimizeTreeView((TreeViewEvent) treeViewResultsSession, treeview_results_session);
 	}
 
-	private void on_treeview_jumps_cursor_changed (object o, EventArgs args)
-	{
-		LogB.Information ("on_treeview_jumps_cursor_changed");
-		sensitiveLastTestButtons(false);
-
-		// don't select if it's a person, 
-		// is for not confusing with the person treeviews that controls who jumps
-		if (treeViewResultsSession.EventSelectedID == 0) {
-			treeViewResultsSession.Unselect();
-			showHideActionEventButtons(false); //hide
-		} else {
-			showHideActionEventButtons(true); //show
-			updateGraphJumpsSimple (); //to show the selected bar
-		}
-	}
-
 	private void selectJumpSimple (int id)
 	{
 		treeViewResultsSession.ZoomToTestsIfNeeded ();
 		treeViewResultsSession.SelectEvent (id, true); //scroll
-		on_treeview_jumps_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
+
+		on_treeview_results_session_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
 	}
 
 	private void treeviewJumpsContextMenu(Jump myJump)

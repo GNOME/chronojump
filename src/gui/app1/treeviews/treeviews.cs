@@ -101,23 +101,19 @@ public partial class ChronoJumpWindow
 		Sqlite.Close(); // ------------------------------
 	}
 
-	// works for jumps/runs (to update some buttons like play video sensitivity)
-	private void on_treeview_mode_cursor_changed ()
+	private void on_treeview_test_simple_cursor_changed (object o, EventArgs args)
 	{
-		LogB.Information ("on_treeview_mode_cursor_changed");
-		if (treeViewResultsSession == null)
-			return;
+		sensitiveLastTestButtons(false);
 
-		if (current_mode == Constants.Modes.JUMPSSIMPLE)
-			on_treeview_jumps_cursor_changed (new object (), new EventArgs ());
-		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
-			on_treeview_jumps_rj_cursor_changed (new object (), new EventArgs ());
-		else if (current_mode == Constants.Modes.RUNSSIMPLE)
-			on_treeview_runs_cursor_changed (new object (), new EventArgs ());
-		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
-			on_treeview_runs_interval_cursor_changed (new object (), new EventArgs ());
-		else if (current_mode == Constants.Modes.WILIGHT)
-			on_treeview_wilight_cursor_changed (new object (), new EventArgs ());
+		// don't select if it's a person
+		// is for not confusing with the person treeviews that controls who does the test
+		if (treeViewResultsSession.EventSelectedID == 0) {
+			treeViewResultsSession.Unselect();
+			showHideActionEventButtons(false); //hide
+		} else {
+			showHideActionEventButtons(true); //show
+			updateGraphResultsSessionByMode (); //to show the selected bar
+		}
 	}
 
 	private int currentPersonOrAll ()

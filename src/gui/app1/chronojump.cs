@@ -3731,7 +3731,7 @@ public partial class ChronoJumpWindow
 			wilightApp1Init ();
 		}
 
-		on_treeview_mode_cursor_changed ();
+		on_treeview_results_session_cursor_changed (new object (), new EventArgs ());
 
 		//show feedback icon
 		Pixbuf pixbufBellActive = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_active.png");

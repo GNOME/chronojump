@@ -66,8 +66,25 @@ public partial class ChronoJumpWindow
 	private void on_treeview_results_session_cursor_changed (object o, EventArgs args)
 	{
 		LogB.Information ("on_treeview_results_session_cursor_changed");
-		on_treeview_mode_cursor_changed ();
+		if (treeViewResultsSession == null)
+			return;
+
+		if (current_mode == Constants.Modes.JUMPSSIMPLE ||
+				current_mode == Constants.Modes.RUNSSIMPLE ||
+				current_mode == Constants.Modes.WILIGHT)
+		{
+			on_treeview_test_simple_cursor_changed (o, args);
+		}
+		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
+		{
+			on_treeview_jumps_rj_cursor_changed (o, args);
+		}
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
+		{
+			on_treeview_runs_interval_cursor_changed (o, args);
+		}
 	}
+
 
 	private void treeview_results_session_storeReset ()
 	{

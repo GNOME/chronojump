@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -118,9 +118,10 @@ class SqliteRunInterval : SqliteRun
 		//find session datetime for that runs
 		List<Session> session_l = SqliteSession.SelectAll(true, Sqlite.Orders_by.DEFAULT);
 
-		dbcmd.CommandText = selectCreateSelection (Constants.RunIntervalTable,
-				sessionID, personID, runType, order, limit, false);
-
+		dbcmd.CommandText = selectResultsCreateSelection (
+				Constants.RunIntervalTable,
+				sessionID, personID, runType, order, limit, false
+				);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -194,9 +195,10 @@ class SqliteRunInterval : SqliteRun
 		if(!dbconOpened)
 			Sqlite.Open();
 
-		dbcmd.CommandText = selectCreateSelection (Constants.RunIntervalTable,
-				sessionID, personID, runType, Orders_by.DEFAULT, 0, false);
-		
+		dbcmd.CommandText = selectResultsCreateSelection (
+				Constants.RunIntervalTable,
+				sessionID, personID, runType, Orders_by.DEFAULT, 0, false
+				);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 

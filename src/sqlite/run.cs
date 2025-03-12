@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -100,50 +100,6 @@ class SqliteRun : Sqlite
 		return myLast;
 	}
 
-	//note this is selecting also the person.name
-	//used on run and runI
-	// limit 0 means no limit (limit negative is the last results) (used on SelectRuns)
-	protected static string selectCreateSelection (string tableName,
-			int sessionID, int personID, string filterType,
-			Orders_by order, int limit, bool onlyBestInSession)
-	{
-		string t = tableName;
-		string tp = Constants.PersonTable;
-
-		string filterSessionString = "";
-		if(sessionID != -1)
-			filterSessionString = string.Format(" AND {0}.sessionID = {1}", t, sessionID);
-
-		string filterPersonString = "";
-		if(personID != -1)
-			filterPersonString = string.Format(" AND {0}.uniqueID = {1}", tp, personID);
-
-		string filterTypeString = "";
-		if(filterType != "")
-			filterTypeString = " AND " + t + ".type = '" + filterType + "' " ;
-
-		string orderByString = string.Format(" ORDER BY upper({0}.name), {1}.uniqueID ", tp, t);
-		if(order == Orders_by.ID_ASC)
-			orderByString = string.Format(" ORDER BY {0}.uniqueID ", t);
-		else if(order == Orders_by.ID_DESC)
-			orderByString = string.Format(" ORDER BY {0}.uniqueID DESC ", t);
-		if(onlyBestInSession)
-			orderByString = string.Format(" ORDER BY {0}.sessionID, {0}.distance/{0}.time DESC ", t);
-
-		string limitString = "";
-		if(limit > 0)
-			limitString = " LIMIT " + limit;
-
-		return string.Format("SELECT {0}.name, {1}.* ", tp, t) +
-			string.Format(" FROM {0}, {1} ", tp, t) +
-			string.Format(" WHERE {0}.uniqueID = {1}.personID", tp, t) +
-			filterSessionString +
-			filterPersonString +
-			filterTypeString +
-			orderByString +
-			limitString;
-	}
-
 	//like SelectRuns, but this returns a string[] :( better use below method if possible
 	//if all sessions, put -1 in sessionID
 	//if all persons, put -1 in personID
@@ -156,9 +112,10 @@ class SqliteRun : Sqlite
 		if(!dbconOpened)
 			Sqlite.Open();
 
-		dbcmd.CommandText = selectCreateSelection (Constants.RunTable,
-				sessionID, personID, filterType, order, limit, false);
-		
+		dbcmd.CommandText = selectResultsCreateSelection (
+				Constants.RunTable,
+				sessionID, personID, filterType, order, limit, false
+				);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -222,7 +179,10 @@ class SqliteRun : Sqlite
 		List<Session> session_l = SqliteSession.SelectAll(true, Sqlite.Orders_by.DEFAULT);
 
 
-		dbcmd.CommandText = selectCreateSelection (Constants.RunTable, sessionID, personID, runType, order, limit, onlyBestInSession);
+		dbcmd.CommandText = selectResultsCreateSelection (
+				Constants.RunTable,
+				sessionID, personID, runType, order, limit, onlyBestInSession
+				);
 		LogB.SQL(dbcmd.CommandText.ToString());
 
 		dbcmd.ExecuteNonQuery();

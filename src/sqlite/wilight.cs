@@ -105,13 +105,12 @@ class SqliteWilight : Sqlite
 		List<Person> person_l =
 			SqlitePersonSession.SelectCurrentSessionPersonsAsList (true, sessionID);
 
-		dbcmd.CommandText = selectCreateSelection (sessionID, personID,
-				//runType,
-				order, limit
-				//onlyBestInSession
+		dbcmd.CommandText = selectResultsCreateSelection (
+				Constants.WilightTable,
+				sessionID, personID, "", //type,
+				order, limit, false //onlyBestInSession
 				);
 		LogB.SQL(dbcmd.CommandText.ToString());
-
 		dbcmd.ExecuteNonQuery();
 
 		SQLiteDataReader reader;
@@ -164,13 +163,12 @@ class SqliteWilight : Sqlite
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = selectCreateSelection (sessionID, personID,
-				//runType,
-				order, limit
-				//onlyBestInSession
+		dbcmd.CommandText = selectResultsCreateSelection (
+				Constants.WilightTable,
+				sessionID, personID, "", //type,
+				order, limit, false //onlyBestInSession
 				);
 		LogB.SQL(dbcmd.CommandText.ToString());
-
 		dbcmd.ExecuteNonQuery();
 
 		SQLiteDataReader reader;
@@ -208,47 +206,6 @@ class SqliteWilight : Sqlite
 		}
 
 		return rows;
-	}
-
-	// adapted from sqlite/run.cs selectCreateSelection
-	protected static string selectCreateSelection (
-			int sessionID, int personID,
-			//string filterType,
-			Orders_by order, int limit
-			//, bool onlyBestInSession
-			)
-	{
-		string t = Constants.WilightTable;
-		string tp = Constants.PersonTable;
-
-		string filterSessionString = "";
-		if(sessionID != -1)
-			filterSessionString = string.Format(" AND {0}.sessionID = {1}", t, sessionID);
-
-		string filterPersonString = "";
-		if(personID != -1)
-			filterPersonString = string.Format(" AND {0}.uniqueID = {1}", tp, personID);
-
-		string orderByString = string.Format(" ORDER BY upper({0}.name), {1}.uniqueID ", tp, t);
-		if(order == Orders_by.ID_ASC)
-			orderByString = string.Format(" ORDER BY {0}.uniqueID ", t);
-		else if(order == Orders_by.ID_DESC)
-			orderByString = string.Format(" ORDER BY {0}.uniqueID DESC ", t);
-		//if(onlyBestInSession)
-		//	orderByString = string.Format(" ORDER BY {0}.sessionID, {0}.distance/{0}.time DESC ", t);
-
-		string limitString = "";
-		if(limit > 0)
-			limitString = " LIMIT " + limit;
-
-		return string.Format("SELECT {0}.name, {1}.* ", tp, t) +
-			string.Format(" FROM {0}, {1} ", tp, t) +
-			string.Format(" WHERE {0}.uniqueID = {1}.personID", tp, t) +
-			filterSessionString +
-			filterPersonString +
-			//filterTypeString +
-			orderByString +
-			limitString;
 	}
 
 	public static Wilight SelectData (int uniqueID, bool dbconOpened)

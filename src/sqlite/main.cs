@@ -4806,6 +4806,49 @@ LogB.SQL("5" + tableName);
 		Sqlite.dropTable(Constants.ConvertTempTable);
 	}
 
+	//note this is selecting also the person.name
+	//used on run, runI, wilight
+	// limit 0 means no limit (limit negative is the last results) (used on SelectRuns)
+	protected static string selectResultsCreateSelection (string t,
+			int sessionID, int personID, string filterType,
+			Orders_by order, int limit, bool onlyBestInSession)
+	{
+		string tp = Constants.PersonTable;
+
+		string filterSessionString = "";
+		if(sessionID != -1)
+			filterSessionString = string.Format(" AND {0}.sessionID = {1}", t, sessionID);
+
+		string filterPersonString = "";
+		if(personID != -1)
+			filterPersonString = string.Format(" AND {0}.uniqueID = {1}", tp, personID);
+
+		string filterTypeString = "";
+		if(filterType != "")
+			filterTypeString = " AND " + t + ".type = '" + filterType + "' " ;
+
+		string orderByString = string.Format(" ORDER BY upper({0}.name), {1}.uniqueID ", tp, t);
+		if(order == Orders_by.ID_ASC)
+			orderByString = string.Format(" ORDER BY {0}.uniqueID ", t);
+		else if(order == Orders_by.ID_DESC)
+			orderByString = string.Format(" ORDER BY {0}.uniqueID DESC ", t);
+		if(onlyBestInSession)
+			orderByString = string.Format(" ORDER BY {0}.sessionID, {0}.distance/{0}.time DESC ", t);
+
+		string limitString = "";
+		if(limit > 0)
+			limitString = " LIMIT " + limit;
+
+		return string.Format("SELECT {0}.name, {1}.* ", tp, t) +
+			string.Format(" FROM {0}, {1} ", tp, t) +
+			string.Format(" WHERE {0}.uniqueID = {1}.personID", tp, t) +
+			filterSessionString +
+			filterPersonString +
+			filterTypeString +
+			orderByString +
+			limitString;
+	}
+
 	protected static string [] DataReaderToStringArray (SQLiteDataReader reader, int columns) {
 		string [] myReaderStr = new String[columns];
 		for (int i=0; i < columns; i ++)

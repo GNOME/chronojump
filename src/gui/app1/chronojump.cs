@@ -1370,19 +1370,24 @@ public partial class ChronoJumpWindow
 		//plotSequenceWithoutSending ();
 
 		/*
+		 * Debug Wilight blacklist
 		WilightTerminalLayout wilightTerminalLayout = new WilightTerminalLayout ();
 		wilightTerminalLayout.ReadFile (configChronojump.WilightLayoutURL);
-		wilightTest = new WilightTest (configChronojump.WilightCommandsURL, wilightTerminalLayout, false);
+		//wilightTestManage = new WilightTestManage (wilightTerminalLayout, configChronojump.WilightCommandsURL, "", false);
+		wilightTestManage = new WilightTestManage (wilightTerminalLayout, configChronojump.WilightCommandsURL, "10,11,12", false);
+		//wilightTestManage = new WilightTestManage (wilightTerminalLayout, configChronojump.WilightCommandsURL, "39,41,42", false);
 		while (true)
 		{
-			if (wilightTest.Finished)
+			if (wilightTestManage.Finished)
 				break;
 
-			string command = wilightTest.GetNext ();
+			string command = wilightTestManage.GetNext ();
 			if (command == "")
 				continue;
 		}
+		on_quit2_activate ();
 		*/
+
 		//UtilList.ListRandomize1stAndThenSequentialTest ();
 	}
 

@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic; //List<T>
 //using System.Diagnostics;  //Stopwatch
 
+//wilight test (like jump, run, ...)
 public class Wilight : Event
 {
 	private int exerciseID; //until wilightExercise table is not created, all will be 0
@@ -278,7 +279,7 @@ public class WilightTerminalLayout
 	//TODO: do a GetNext for use on parseCommandWithBlacklist ()
 }
 
-public class WilightTest
+public class WilightTestManage
 {
 	private List<List<string>> command_ll; //using strings
 	private List<WilightCommand> wilightCommand_l; //using wilightCommand class
@@ -301,7 +302,7 @@ public class WilightTest
 
 
 	//constructor
-	public WilightTest (WilightTerminalLayout wilightTerminalLayout, string commandsFile, string blacklistStr, bool isDemo)
+	public WilightTestManage (WilightTerminalLayout wilightTerminalLayout, string commandsFile, string blacklistStr, bool isDemo)
 	{
 		this.wilightTerminalLayout = wilightTerminalLayout;
 		this.commandsFile = commandsFile;

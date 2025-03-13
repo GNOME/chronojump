@@ -19,7 +19,6 @@
  */
 
 using System;
-using System.Diagnostics; //Stopwatch
 using Gtk;
 using Mono.Unix;
 
@@ -419,6 +418,15 @@ public partial class ChronoJumpWindow
 			expectedTerminals_l = wilightCommand.GetExpectedTerminals ();
 			currentWilightCommand = wilightCommand;
 			needToUpdateGraphWilight = true;
+
+			if (wilightCommand.TimeMs > 0)
+			{
+				wilightCommand.TimeStart ();
+				while (! wilightCommand.TimeFinished ())
+					System.Threading.Thread.Sleep (20);
+
+				continue;
+			}
 
 			bool readedFromExpected = false;
 			while (! readedFromExpected)

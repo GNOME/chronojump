@@ -20,7 +20,7 @@
 
 using System;
 using System.Collections.Generic; //List<T>
-//using System.Diagnostics;  //Stopwatch
+using System.Diagnostics;  //Stopwatch
 
 //wilight test (like jump, run, ...)
 public class Wilight : Event
@@ -615,20 +615,21 @@ public class WilightCommand
 	private WilightTerminalLayout wilightTerminalLayout;
 
 	private int level;
+	private int timeMs;
+	protected Stopwatch stopwatch;
+
 	private List<WilightTerminalPair> wtp_l;
 
 	//constructor
 	public WilightCommand ()
 	{
-		level = -1;
-		wtp_l = new List<WilightTerminalPair> ();
+		initVariables ();
 	}
 
 	//constructor
 	public WilightCommand (string str)
 	{
-		level = -1;
-		wtp_l = new List<WilightTerminalPair> ();
+		initVariables ();
 
 		// 1. remove the last ; and split each of the commands
 		str = str.Substring (0, str.LastIndexOf(';'));
@@ -653,14 +654,13 @@ public class WilightCommand
 		this.commandOriginalStr = commandOriginalStr;
 		this.wilightTerminalLayout = wilightTerminalLayout;
 
-		level = -1;
-		wtp_l = new List<WilightTerminalPair> ();
+		initVariables ();
 
 		// 1. remove the last ; and split each of the commands
 		string commandStr = commandOriginalStr.Substring (0, commandOriginalStr.LastIndexOf(';'));
 		string [] commandFull = commandStr.Split (new char[] {';'});
 
-		// 2. assing level and create WilightTerminalLetterAndCode list
+		// 2. assing level, time, and create WilightTerminalPair list
 		foreach (string s in commandFull)
 		{
 			string [] sFull = s.Split (new char[] {':'});
@@ -675,6 +675,11 @@ public class WilightCommand
 				continue;
 			}
 
+			if (sFull[0] == "Time") {
+				timeMs = Convert.ToInt32 (sFull[1]);
+				continue;
+			}
+
 			int terminalNum = wilightTerminalLayout.GetCodeNumByCodeLetter (sFull[0]);
 			if (terminalNum < 0)
 				continue;
@@ -685,6 +690,14 @@ public class WilightCommand
 						));
 		}
 		applyBlacklist (blacklist_l);
+	}
+
+	private void initVariables ()
+	{
+		level = -1;
+		timeMs = -1;
+		stopwatch = new Stopwatch ();
+		wtp_l = new List<WilightTerminalPair> ();
 	}
 
 	private void applyBlacklist (List<int> blacklist_l)
@@ -822,8 +835,24 @@ public class WilightCommand
 		return str;
 	}
 
+	public void TimeStart ()
+	{
+		stopwatch.Start ();
+	}
+	public bool TimeFinished ()
+	{
+		return (stopwatch.ElapsedMilliseconds >= timeMs);
+	}
+	public void TimeStop ()
+	{
+		stopwatch.Start ();
+	}
+
 	public int Level {
 		get { return level; }
+	}
+	public int TimeMs {
+		get { return timeMs; }
 	}
 	public List<WilightTerminalPair> Wtp_l {
 		get { return wtp_l; }

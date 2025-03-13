@@ -277,6 +277,8 @@ public class WilightTestManage
 	private List<string> onString_l;
 	private int lastTime;
 	List<int> blacklist_l;
+	private enum randomTypes { NO, BYLEVEL, ALL };
+	private randomTypes randomType;
 
 	//passed params
 	private WilightTerminalLayout wilightTerminalLayout;
@@ -293,6 +295,7 @@ public class WilightTestManage
 
 		wilightCommand_ll = new List<List<WilightCommand>> ();
 		createBlacklist (blacklistStr);
+		randomType = randomTypes.BYLEVEL;
 
 		if (isDemo)
 			wilightTestDemoSetVars ();
@@ -337,9 +340,16 @@ public class WilightTestManage
 			List<List<WilightCommand>> wilightCommandReaded_ll = readCommandsFrom (
 					Util.ReadFileAsStringList (commandsFile, "#"));
 
-			// randomize lines in each level
-			foreach (List <WilightCommand> wilightCommandReaded_l in wilightCommandReaded_ll)
-				wilightCommand_ll.Add (UtilList.ListRandomize1stAndThenSequential (wilightCommandReaded_l));
+			//TODO:
+			/* if (randomType == randomTypes.ALL) 	// randomize all commands
+				foreach (List <WilightCommand> wilightCommandReaded_l in wilightCommandReaded_ll)
+					wilightCommand_ll.Add (UtilList.ListRandomize (wilightCommandReaded_l));
+			else*/ if (randomType == randomTypes.BYLEVEL) 	// randomize commands in each level
+				foreach (List <WilightCommand> wilightCommandReaded_l in wilightCommandReaded_ll)
+					wilightCommand_ll.Add (UtilList.ListRandomize1stAndThenSequential (wilightCommandReaded_l));
+			else if (randomType == randomTypes.NO) 	// do not randomize
+				foreach (List <WilightCommand> wilightCommandReaded_l in wilightCommandReaded_ll)
+					wilightCommand_ll.Add (wilightCommandReaded_l);
 
 			// debug
 			foreach (List<WilightCommand> wilightCommand_l in wilightCommand_ll)
@@ -389,6 +399,24 @@ public class WilightTestManage
 		//LogB.Information (UtilList.ListStringToString (com_l, "\n"));
 		foreach (string com in com_l)
 		{
+			/*
+			if (com.StartsWith ("Random:All"))
+			{
+				randomType = randomTypes.ALL;
+				continue;
+			}
+			*/
+			if (com.StartsWith ("Random:ByLevel")) //default
+			{
+				randomType = randomTypes.BYLEVEL;
+				continue;
+			}
+			if (com.StartsWith ("Random:No"))
+			{
+				randomType = randomTypes.NO;
+				continue;
+			}
+
 			// create the WilightCommand to know the level
 			WilightCommand wc = new WilightCommand (com, wilightTerminalLayout, blacklist_l);
 

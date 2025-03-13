@@ -68,7 +68,7 @@ public partial class ChronoJumpWindow
 
 	CairoGraphWilight cairoGraphWilight;
 	WilightTerminalLayout wilightTerminalLayout;
-	string currentWilightCommand = "";
+	WilightCommand currentWilightCommand;
 
 	private void wilightApp1Init ()
 	{
@@ -82,6 +82,7 @@ public partial class ChronoJumpWindow
 		textview_wilight.Name = "fontSize9";
 		entry_wilight_port.Text = "";
 
+		currentWilightCommand = new WilightCommand ();
 		wilightTerminalLayout = new WilightTerminalLayout ();
 
 		if (Util.FileExists (configChronojump.WilightLayoutURL))
@@ -272,7 +273,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		sendCommandAndUpdateWilightTextview (wilightTerminalLayout.ColorAll (WilightColors.OFF));
+		sendCommandAndUpdateWilightTextview (wilightTerminalLayout.ColorAll (WilightColors.OFF).ToArduinoString);
 		currentWilightCommand = wilightTerminalLayout.ColorAll (WilightColors.OFF);
 		needToUpdateGraphWilight = true;
 		System.Threading.Thread.Sleep (100);
@@ -297,7 +298,7 @@ public partial class ChronoJumpWindow
 
 		System.Threading.Thread.Sleep (50);
 
-		sendCommandAndUpdateWilightTextview (wilightTerminalLayout.ColorAll (WilightColors.OFF));
+		sendCommandAndUpdateWilightTextview (wilightTerminalLayout.ColorAll (WilightColors.OFF).ToArduinoString);
 		currentWilightCommand = wilightTerminalLayout.ColorAll (WilightColors.OFF);
 		needToUpdateGraphWilight = true;
 	}
@@ -334,25 +335,25 @@ public partial class ChronoJumpWindow
 	//just to debug drawingarea
 	private void plotSequenceWithoutSending ()
 	{
-		currentWilightCommand = "0:34;1:0;2:8;3:4;4:12;5:2;6:10;7:40;8:36;9:35;10:14;11:46;12:0;";
+		currentWilightCommand = new WilightCommand ("0:34;1:0;2:8;3:4;4:12;5:2;6:10;7:40;8:36;9:35;10:14;11:46;12:0;");
 		drawingarea_results_realtime.QueueDraw ();
 	}
 
 	private void changeColor (int terminal, int r, int g, int b, int blink)
 	{
-		string command = string.Format ("{0}:{1};", terminal,
-				r*2 + g*4 + b*8 + blink*32);
+		WilightCommand wilightCommand = new WilightCommand (string.Format ("{0}:{1};", terminal,
+				r*2 + g*4 + b*8 + blink*32));
 
 		System.Threading.Thread.Sleep (50);
-		sendCommandAndUpdateWilightTextview (command);
-		currentWilightCommand = command; //note this will overwrite the command
+		sendCommandAndUpdateWilightTextview (wilightCommand.ToArduinoString);
+		currentWilightCommand = wilightCommand; //note this will overwrite the command
 		drawingarea_results_realtime.QueueDraw ();
 	}
 
 	//TODO: send only to discovered terminals
 	private void testSpeed ()
 	{
-		List<string> colorsAll_l = new List<string> ();
+		List<WilightCommand> colorsAll_l = new List<WilightCommand> ();
 		colorsAll_l.Add (wilightTerminalLayout.ColorAll (WilightColors.RED));
 		colorsAll_l.Add (wilightTerminalLayout.ColorAll (WilightColors.GREEN));
 		colorsAll_l.Add (wilightTerminalLayout.ColorAll (WilightColors.BLUE));
@@ -363,10 +364,10 @@ public partial class ChronoJumpWindow
 
 		while (! done)
 		{
-			foreach (string command in colorsAll_l)
+			foreach (WilightCommand wilightCommand in colorsAll_l)
 			{
-				sendCommandAndUpdateWilightTextview (command);
-				currentWilightCommand = command;
+				sendCommandAndUpdateWilightTextview (wilightCommand.ToArduinoString);
+				currentWilightCommand = wilightCommand;
 				needToUpdateGraphWilight = true;
 				System.Threading.Thread.Sleep (sleepTime);
 			}
@@ -403,20 +404,20 @@ public partial class ChronoJumpWindow
 				break;
 			}
 
-			string command = wilightTestManage.GetNext ();
-			LogB.Information ("command = " + command);
-			if (command == "")
+			WilightCommand wilightCommand = wilightTestManage.GetNext ();
+			wilightMessage = wilightTestManage.GetProgressStatus ();
+			if (wilightCommand.IsEmpty)
 				continue;
 
 			if (firstCommand)
 			{
 				//0 time on the microcontroller and add command. All in a single sendCommand to be faster.
-				sendCommandAndUpdateWilightTextview ("local:reset_time;" + command);
+				sendCommandAndUpdateWilightTextview ("local:reset_time;" + wilightCommand.ToArduinoString);
 				firstCommand = false;
 			} else
-				sendCommandAndUpdateWilightTextview (command);
-			expectedTerminals_l = wilightTestManage.GetExpectedTerminals (command);
-			currentWilightCommand = command;
+				sendCommandAndUpdateWilightTextview (wilightCommand.ToArduinoString);
+			expectedTerminals_l = wilightCommand.GetExpectedTerminals ();
+			currentWilightCommand = wilightCommand;
 			needToUpdateGraphWilight = true;
 
 			bool readedFromExpected = false;
@@ -450,7 +451,7 @@ public partial class ChronoJumpWindow
 						wilightTestManage.AddToOnString (we.ToString ());
 						wilightTestManage.SetLastOnTime (we.timeMs);
 						wilightTestManage.CommandsCountReceivedAdd ();
-						wilightMessage = wilightTestManage.GetProgressStatus ();
+						//wilightMessage = wilightTestManage.GetProgressStatus ();
 					}
 					else if (check_wilight_very_verbose.Active)
 						updateWilightTextview ("\n< " + we.ToString ());
@@ -529,10 +530,10 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
-	private void sendCommandAndUpdateWilightTextview (string command)
+	private void sendCommandAndUpdateWilightTextview (string commandStr)
 	{
-		bool sendCommandFeedback = wichroCapture.WilightSendCommand (command);
-		updateWilightTextview ("\n> " + command);
+		bool sendCommandFeedback = wichroCapture.WilightSendCommand (commandStr);
+		updateWilightTextview ("\n> " + commandStr);
 	}
 	private void updateWilightTextview (string str)
 	{

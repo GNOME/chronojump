@@ -109,16 +109,15 @@ public static class WilightColors
 	public static int BLUE = 8;
 }
 
-//note the command has been validated on validateCommand
 public class WilightCommandToTerminals
 {
-	string commandStr;
+	WilightCommand wc;
 	WilightTerminalLayout wtl;
 
 	//constructor
-	public WilightCommandToTerminals (string commandStr, WilightTerminalLayout wtl)
+	public WilightCommandToTerminals (WilightCommand wc, WilightTerminalLayout wtl)
 	{
-		this.commandStr = commandStr;
+		this.wc = wc;
 		this.wtl = wtl;
 	}
 
@@ -127,29 +126,14 @@ public class WilightCommandToTerminals
 		List<CairoGraphWilightTerminal> wt_l = new List<CairoGraphWilightTerminal> ();
 
 		//return if is empty
-		if (commandStr == "")
+		if (wc.IsEmpty)
 			return wt_l;
 
-		//return if not ends with ;
-		//and also delete
-		int lastSemicolon = commandStr.LastIndexOf(';');
-		if (lastSemicolon != commandStr.Length -1)
-			return wt_l;
-
-		commandStr = commandStr.Substring (0, lastSemicolon);
-
-		string [] commandStrFull = commandStr.Split (new char[] {';'});
-
-		foreach (string terminalStr in commandStrFull)
-		{
-			string [] tsFull = terminalStr.Split(new char[] {':'});
-			int id = Convert.ToInt32 (tsFull[0]);
-
+		foreach (WilightTerminalPair wtp in wc.Wtp_l)
 			wt_l.Add (new CairoGraphWilightTerminal (
-						id,
-						Convert.ToInt32 (tsFull[1]),
-						wtl.GetCenterByCodeNum (id)));
-		}
+						wtp.terminalNum,
+						wtp.colorCode,
+						wtl.GetCenterByCodeNum (wtp.terminalNum)));
 
 		return wt_l;
 	}
@@ -210,7 +194,7 @@ public class WilightTerminalLayout
 			//layout goes separated by . converted to comma if needed
 			string s = Util.ChangeDecimalSeparator (wpStr);
 
-			string [] sFull = s.Split(new char[] {';'});
+			string [] sFull = s.Split (new char[] {';'});
 			if (sFull.Length != 4)
 				continue;
 
@@ -244,13 +228,13 @@ public class WilightTerminalLayout
 		return -1; //not found
 	}
 
-	public string ColorAll  (int colorCode)
+	public WilightCommand ColorAll  (int colorCode)
 	{
 		string str = "";
 		foreach (WilightPos wp in wp_l)
 			str += string.Format ("{0}:{1};", wp.CodeNum, colorCode);
 
-		return str;
+		return new WilightCommand (str);
 	}
 
 	private List<int> getTerminalListCodeNums ()
@@ -276,13 +260,12 @@ public class WilightTerminalLayout
 		List<int> t_l = UtilList.SortListInt (getTerminalListCodeNums ());
 		return t_l[0];
 	}
-	//TODO: do a GetNext for use on parseCommandWithBlacklist ()
+	//TODO: do a GetNext for use on applyBlacklist ()
 }
 
 public class WilightTestManage
 {
-	private List<List<string>> command_ll; //using strings
-	private List<WilightCommand> wilightCommand_l; //using wilightCommand class
+	private List<List<WilightCommand>> wilightCommand_ll;
 
 	private int currentLevel;
 	private int currentCommand; //in level
@@ -308,8 +291,7 @@ public class WilightTestManage
 		this.commandsFile = commandsFile;
 		this.isDemo = isDemo;
 
-		command_ll = new List<List<string>> ();
-		wilightCommand_l = new List<WilightCommand> ();
+		wilightCommand_ll = new List<List<WilightCommand>> ();
 		createBlacklist (blacklistStr);
 
 		if (isDemo)
@@ -342,7 +324,7 @@ public class WilightTestManage
 	//not random
 	private void wilightTestDemoSetVars ()
 	{
-		command_ll = readCommandsFrom (demoSequence);
+		wilightCommand_ll = readCommandsFrom (demoSequence);
 
 		currentLevel = 0;
 		currentCommand = 0;
@@ -352,17 +334,17 @@ public class WilightTestManage
 	{
 		//if (commandsFile != "")
 		//{
-			List<List<string>> comReaded_ll = readCommandsFrom (
+			List<List<WilightCommand>> wilightCommandReaded_ll = readCommandsFrom (
 					Util.ReadFileAsStringList (commandsFile, "#"));
 
 			// randomize lines in each level
-			foreach (List <string> cnr_l in comReaded_ll)
-				command_ll.Add (UtilList.ListRandomize1stAndThenSequential (cnr_l));
+			foreach (List <WilightCommand> wilightCommandReaded_l in wilightCommandReaded_ll)
+				wilightCommand_ll.Add (UtilList.ListRandomize1stAndThenSequential (wilightCommandReaded_l));
 
 			// debug
-			for (int i = 0; i < comReaded_ll.Count; i ++)
-				LogB.Information (string.Format ("(Random) Level: {0} Commands:\n{1}",
-							i, UtilList.ListStringToString (command_ll[i], "\n")));
+			foreach (List<WilightCommand> wilightCommand_l in wilightCommand_ll)
+				foreach (WilightCommand wilightCommand in wilightCommand_l)
+				LogB.Information (wilightCommand.ToString ());
 		/*} else {
 		 * 	disabled until all the colors get back to their value
 			command_ll.Add (level0);
@@ -398,216 +380,65 @@ public class WilightTestManage
 	*/
 
 	//note to be random this is readed at each new capture
-	private List<List<string>> readCommandsFrom (List<string> com_l)
+	private List<List<WilightCommand>> readCommandsFrom (List<string> com_l)
 	{
 		// 1. read the data (note lines don't need to come in a level order)
 		List<List<string>> comReaded_ll = new List<List<string>> ();
+		List<List<WilightCommand>> wilightCommandReaded_ll = new List<List<WilightCommand>> ();
 
 		//LogB.Information (UtilList.ListStringToString (com_l, "\n"));
-		// 2. parseCommandAndChangeLettersToNums. And add to comReaded_ll
 		foreach (string com in com_l)
 		{
-			// 2.a get the level
-			int level = parseCommandGetLevel (com);
-			if (level < 0)
-				continue;
+			// create the WilightCommand to know the level
+			WilightCommand wc = new WilightCommand (com, wilightTerminalLayout, blacklist_l);
 
-			// 2.b add the sublists needed for that level
-			while (comReaded_ll.Count <= level)
-				comReaded_ll.Add (new List<string> ());
+			// add the sublists needed for that level
+			while (wilightCommandReaded_ll.Count <= wc.Level)
+				wilightCommandReaded_ll.Add (new List<WilightCommand> ());
 
-			// 2.c parse the command
-			string comOk = parseCommandChangeLettersToNums (com);
-			if (comOk == "")
-				continue;
-
-			if (blacklist_l.Count > 0)
-				comOk = parseCommandWithBlacklist (comOk);
-
-			// 2.d add the command to the sublist
-			comReaded_ll[level].Add (comOk);
-
-			// trying with WilightCommand class
-			wilightCommand_l.Add (new WilightCommand (com, wilightTerminalLayout));
+			// add the command to the sublist
+			wilightCommandReaded_ll[wc.Level].Add (wc);
 		}
 
 		// 2.e debug
-		for (int i = 0; i < comReaded_ll.Count; i ++)
-			LogB.Information (string.Format ("(Not random) Level: {0} Commands:\n{1}",
-						i, UtilList.ListStringToString (comReaded_ll[i], "\n")));
+		foreach (List<WilightCommand> wilightCommandReaded_l in wilightCommandReaded_ll)
+			foreach (WilightCommand wilightCommandReaded in wilightCommandReaded_l)
+				LogB.Information (wilightCommandReaded.ToString ());
 
-		LogB.Information ("Wilight commands as object:");
-		foreach (WilightCommand wc in wilightCommand_l)
-			LogB.Information (wc.ToString ());
-
-		return comReaded_ll;
-	}
-
-	private int parseCommandGetLevel (string com)
-	{
-		// 1. check line is ok
-		// (5th condition: line needs at least one character more than the first ; to not fail on "add the command to the sublist")
-		if (
-				com == "" ||
-				com.Length == 0 ||
-				! com.StartsWith ("Level:") ||
-				! com.EndsWith (";") ||
-				com.Length <= com.IndexOf (';') -1 )
-			return -1;
-
-		// 2. get the level
-		string levelStr = com.Substring (
-				com.IndexOf (':') +1,
-				com.IndexOf (';') -com.IndexOf (':') -1);
-
-		if (! Util.IsNumber (levelStr, false))
-			return -1;
-
-		return Convert.ToInt32 (levelStr);
-	}
-
-	private string parseCommandChangeLettersToNums (string com)
-	{
-		// 1. remove the last ; and split each of the commands
-		string comFix = com.Substring (0, com.LastIndexOf(';'));
-		string [] comFixFull = comFix.Split(new char[] {';'});
-
-		// 2. change the codeLetter for codeNum according to wilightTerminalLayout
-		string comOk = "";
-		bool isLevel = true;
-		foreach (string sAB in comFixFull)
-		{
-			//discard the "Level:x;"
-			if (isLevel)
-			{
-				isLevel = false;
-				continue;
-			}
-
-			string [] sABFull = sAB.Split(new char[] {':'});
-			if (sABFull.Length != 2)
-				continue;
-
-			comOk += string.Format ("{0}:{1};",
-					wilightTerminalLayout.GetCodeNumByCodeLetter (sABFull[0]),
-					sABFull[1]);
-		}
-
-		return comOk;
-	}
-
-	private string parseCommandWithBlacklist (string com)
-	{
-		// 1. remove the last ; and split each of the commands
-		string comPre = com.Substring (0, com.LastIndexOf(';'));
-		string [] comPreFull = comPre.Split (new char[] {';'});
-
-		// 2. get the expected terminals
-		List<int> expectedTerminals_l = GetExpectedTerminals (com);
-		if (expectedTerminals_l.Count == 0)
-			return com;
-
-		// 3. get the necessary changes
-		int minTerminal = wilightTerminalLayout.GetMinTerminal (true);
-		int maxTerminal = wilightTerminalLayout.GetMaxTerminal ();
-		List<IntInt> changes_l = new List<IntInt> ();
-		foreach (int et in expectedTerminals_l)
-		{
-			// 3.a continue if expected terminal is not blackisted
-			if (! UtilList.FoundInListInt (blacklist_l, et))
-				continue;
-
-			LogB.Information (string.Format ("\nblacklist: command: '{0}', expected: {1}, blacklist: {2}",
-						com, et, UtilList.ListIntToSQLString (blacklist_l, " ")));
-
-			// this expected terminal is blacklisted, change to another one
-			// 3.b get any terminal that is not blacklistd and has a 0 code (or in the future any other terminal)
-			// TODO: fix here as numbers of terminals do not neeed to be correlative, like in TR with 0 is used for platform
-			int etOk = et+1;
-			if (etOk > maxTerminal)
-				etOk = minTerminal; //is not 0 because 0 is the reference terminal (top center)
-
-			bool success = false;
-			do {
-				if (etOk == et)
-					break; //to avoid a hang looping infinitely
-
-				if (! UtilList.FoundInListInt (blacklist_l, etOk) &&
-						! UtilList.FoundInListInt (expectedTerminals_l, etOk))
-					success = true;
-				else {
-					// TODO: fix here as numbers of terminals do not neeed to be correlative, like in TR with 0 is used for platform
-					etOk ++;
-					if (etOk > maxTerminal)
-						etOk = minTerminal; //is not 0 because 0 is the reference terminal (top center)
-				}
-			} while (! success);
-
-			if (success)
-				changes_l.Add (new IntInt (et, etOk));
-		}
-		if (changes_l.Count == 0)
-			return com;
-
-		string comOld = com; //just for debug
-		foreach (IntInt change in changes_l)
-		{
-			LogB.Information (string.Format ("blacklist change terminal {0} to terminal {1}", change.a, change.b));
-			//to avoid sending two differerent codes to same terminal
-			// 1. delete any command of the new terminal
-			//TODO: use regex, or better a WilightCommand object
-			int posStart = com.IndexOf (string.Format (";{0}:", change.b));
-			if (posStart >= 0)
-			{
-				int posEnd = com.IndexOf (';', posStart+1);
-				if (posEnd >= 0)
-					com = com.Substring (0, posStart) +
-						com.Substring (posEnd);
-			}
-
-			// 2. change the old (expected and blaclisted) to a non expected, non blacklisted
-			com = Util.ChangeChars (com,
-					string.Format (";{0}:", change.a),
-					string.Format (";{0}:", change.b)
-					);
-
-			// 3. add the a:0 (if not will have the same code as previous command)
-			com += string.Format ("{0}:0;", change.a);
-		}
-		LogB.Information (string.Format ("\n{0}\n{1}\n", comOld, com));
-
-		return com;
+		return wilightCommandReaded_ll;
 	}
 
 	//note if any problem it will return "" and this will be called again until Finished
-	public string GetNext ()
+	public WilightCommand GetNext ()
 	{
 		LogB.Information (string.Format ("\nAt Wilight.GetNext, currentLevel: {0}, currentCommand: {1}",
 					currentLevel, currentCommand));
 
-		if (currentLevel >= command_ll.Count)
+		if (currentLevel >= wilightCommand_ll.Count)
 		{
 			Finished = true;
-			return "";
+			return new WilightCommand ();
 		}
 
-		if (currentCommand >= command_ll[currentLevel].Count)
+		if (currentCommand >= wilightCommand_ll[currentLevel].Count)
 		{
 			currentLevel ++;
 			currentCommand = 0;
-			return "";
+			return new WilightCommand ();
 		}
 
 		//this is the commandStr that is going to be returned
-		string commandStr = command_ll[currentLevel][currentCommand];
+		WilightCommand wilightCommand = wilightCommand_ll[currentLevel][currentCommand];
 		currentCommand ++;
 
+		/* TODO
 		if (! validateCommand (commandStr))
 			return "";
 
 		LogB.Information ("\nValidated command: " + commandStr);
+			*/
 
-		return commandStr;
+		return wilightCommand;
 	}
 
 	public void AddToOnString (string str)
@@ -627,14 +458,15 @@ public class WilightTestManage
 	private int getTotalCommands ()
 	{
 		int sum = 0;
-		foreach (List<string> c_l in command_ll)
-			sum += c_l.Count;
+		foreach (List<WilightCommand> wc_l in wilightCommand_ll)
+			sum += wc_l.Count;
 
 		return sum;
 	}
 	public string GetProgressStatus ()
 	{
-		return string.Format ("{0} / {1} - Level: {2}", commandsCountReceived, getTotalCommands (), currentLevel);
+		return string.Format ("{0} / {1} - Level: {2}",
+				commandsCountReceived, getTotalCommands (), currentLevel);
 	}
 
 	//from a command detects wich is the terminal that will be active to be clicked. Can be plural
@@ -815,26 +647,59 @@ public class WilightTestManage
 
 public class WilightCommand
 {
-	private string commandStr; //just for debug purposes
+	private string commandOriginalStr; //just for debug purposes
+	private WilightTerminalLayout wilightTerminalLayout;
 
 	private int level;
 	private List<WilightTerminalPair> wtp_l;
 
-	//constructor using a commandStr (readed from a file)
-	public WilightCommand (string commandStr, WilightTerminalLayout wilightTerminalLayout)
+	//constructor
+	public WilightCommand ()
 	{
-		this.commandStr = commandStr;
+		level = -1;
+		wtp_l = new List<WilightTerminalPair> ();
+	}
+
+	//constructor
+	public WilightCommand (string str)
+	{
 		level = -1;
 		wtp_l = new List<WilightTerminalPair> ();
 
 		// 1. remove the last ; and split each of the commands
-		commandStr = commandStr.Substring (0, commandStr.LastIndexOf(';'));
+		str = str.Substring (0, str.LastIndexOf(';'));
+		string [] strFull = str.Split (new char[] {';'});
+
+		foreach (string s in strFull)
+		{
+			string [] sFull = s.Split (new char[] {':'});
+			wtp_l.Add (new WilightTerminalPair (
+						Convert.ToInt32 (sFull[0]),
+						Convert.ToInt32 (sFull[1])
+						));
+		}
+	}
+
+	//constructor using a commandStr (readed from a file)
+	public WilightCommand (
+			string commandOriginalStr,
+			WilightTerminalLayout wilightTerminalLayout,
+			List<int> blacklist_l)
+	{
+		this.commandOriginalStr = commandOriginalStr;
+		this.wilightTerminalLayout = wilightTerminalLayout;
+
+		level = -1;
+		wtp_l = new List<WilightTerminalPair> ();
+
+		// 1. remove the last ; and split each of the commands
+		string commandStr = commandOriginalStr.Substring (0, commandOriginalStr.LastIndexOf(';'));
 		string [] commandFull = commandStr.Split (new char[] {';'});
 
 		// 2. assing level and create WilightTerminalLetterAndCode list
 		foreach (string s in commandFull)
 		{
-			string [] sFull = s.Split(new char[] {':'});
+			string [] sFull = s.Split (new char[] {':'});
 			if (sFull.Length != 2)
 				continue;
 
@@ -855,21 +720,149 @@ public class WilightCommand
 						Convert.ToInt32 (sFull[1])
 						));
 		}
+		applyBlacklist (blacklist_l);
 	}
 
-	public override string ToString ()
+	private void applyBlacklist (List<int> blacklist_l)
 	{
-		return string.Format ("Command: {0}, Level: {1}, TerminalPairs: {2}",
-				commandStr, level, wilightTerminalPairListToString ());
+		// 2. get the expected terminals
+		List<int> expectedTerminals_l = GetExpectedTerminals ();
+		if (expectedTerminals_l.Count == 0)
+			return;
+
+		// 3. get the necessary changes
+		int minTerminal = wilightTerminalLayout.GetMinTerminal (true);
+		int maxTerminal = wilightTerminalLayout.GetMaxTerminal ();
+		List<IntInt> changes_l = new List<IntInt> ();
+		foreach (int et in expectedTerminals_l)
+		{
+			// 3.a continue if expected terminal is not blackisted
+			if (! UtilList.FoundInListInt (blacklist_l, et))
+				continue;
+
+			LogB.Information (string.Format ("\nYES OBJECT blacklist: command: '{0}', expected: {1}, blacklist: {2}",
+						this.ToDebugString, et, UtilList.ListIntToSQLString (blacklist_l, " ")));
+
+			// this expected terminal is blacklisted, change to another one
+			// 3.b get any terminal that is not blacklistd and has a 0 code (or in the future any other terminal)
+			// TODO: fix here as numbers of terminals do not neeed to be correlative, like in TR with 0 is used for platform
+			int etOk = et+1;
+			if (etOk > maxTerminal)
+				etOk = minTerminal; //is not 0 because 0 is the reference terminal (top center)
+
+			bool success = false;
+			do {
+				if (etOk == et)
+					break; //to avoid a hang looping infinitely
+
+				if (! UtilList.FoundInListInt (blacklist_l, etOk) &&
+						! UtilList.FoundInListInt (expectedTerminals_l, etOk))
+					success = true;
+				else {
+					// TODO: fix here as numbers of terminals do not neeed to be correlative, like in TR with 0 is used for platform
+					etOk ++;
+					if (etOk > maxTerminal)
+						etOk = minTerminal; //is not 0 because 0 is the reference terminal (top center)
+				}
+			} while (! success);
+
+			if (success)
+				changes_l.Add (new IntInt (et, etOk));
+		}
+		if (changes_l.Count == 0)
+			return;
+
+		foreach (IntInt change in changes_l)
+		{
+			LogB.Information (string.Format ("blacklist change terminal {0} to terminal {1}", change.a, change.b));
+			/*
+			 * eg.blacklist of expected terminal 11
+			 * to avoid sending two differerent codes to same terminal:
+			 * from 0:8;11:9;12:6
+			 * to   0:8;11:0;12:9
+			 */
+			// 1. expected colorCode = 0
+			int colorCode = getTerminalColorCode (change.a);
+			for (int i = 0; i < wtp_l.Count ; i ++)
+				if (wtp_l[i].terminalNum == change.a)
+					wtp_l[i].colorCode = 0;
+
+			// 2. assign colorCode to the new terminal
+			for (int i = 0; i < wtp_l.Count ; i ++)
+				if (wtp_l[i].terminalNum == change.b)
+					wtp_l[i].colorCode = colorCode;
+		}
+		LogB.Information (string.Format ("\nchanged command: {0}", this.ToDebugString));
 	}
 
-	private string wilightTerminalPairListToString ()
+	public List<int> GetExpectedTerminals ()
+	{
+		List<int> expected_l = new List<int> ();
+
+		//num of the reference terminal
+		int terminalReference = wilightTerminalLayout.GetMinTerminal (false);
+		int colorCode = getTerminalColorCode (terminalReference);
+		if (colorCode < 0)
+			return expected_l;
+
+		foreach (WilightTerminalPair wtp in wtp_l)
+			if (wtp.colorCode == colorCode +1)
+				expected_l.Add (wtp.terminalNum);
+
+		return expected_l;
+	}
+
+	private int getTerminalColorCode (int terminalNum)
+	{
+		foreach (WilightTerminalPair wtp in wtp_l)
+			if (wtp.terminalNum == terminalNum)
+				return wtp.colorCode;
+
+		return -1;
+	}
+
+	public bool IsEmpty {
+		get { return wtp_l.Count == 0; }
+	}
+
+	//without the level
+	//with the last ;
+	public string ToArduinoString {
+		get { return wilightTerminalPairListToString (true) + ";"; }
+	}
+
+	public string ToDebugString {
+		get { return string.Format ("Original command: {0}, Fixed command: {1}, Level: {2}, TerminalPairs: {3}",
+				commandOriginalStr,
+				ToArduinoString,
+				level,
+				wilightTerminalPairListToString (false));
+		}
+	}
+
+	private string wilightTerminalPairListToString (bool toArduino)
 	{
 		string str = "";
+		string sep = "";
 		foreach (WilightTerminalPair wtp in wtp_l)
-			str += string.Format ("\n{0}", wtp.ToString ());
+		{
+			if (toArduino)
+			{
+				str += string.Format ("{0}{1}", sep, wtp.ToArduinoString);
+				sep = ";";
+			}
+			else //to debug
+				str += string.Format ("\n{0}", wtp.ToDebugString);
+		}
 
 		return str;
+	}
+
+	public int Level {
+		get { return level; }
+	}
+	public List<WilightTerminalPair> Wtp_l {
+		get { return wtp_l; }
 	}
 }
 
@@ -886,9 +879,12 @@ public class WilightTerminalPair
 		this.colorCode = colorCode;
 	}
 
-	public override string ToString ()
-	{
-		return string.Format ("terminalNum: {0}, colorCode: {1}",
-				terminalNum, colorCode);
+	public string ToArduinoString {
+		get { return string.Format ("{0}:{1}", terminalNum, colorCode); }
+	}
+
+	public string ToDebugString {
+		get { return string.Format ("terminalNum: {0}, colorCode: {1}",
+				terminalNum, colorCode); }
 	}
 }

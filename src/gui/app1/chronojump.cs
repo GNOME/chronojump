@@ -1374,15 +1374,15 @@ public partial class ChronoJumpWindow
 		WilightTerminalLayout wilightTerminalLayout = new WilightTerminalLayout ();
 		wilightTerminalLayout.ReadFile (configChronojump.WilightLayoutURL);
 		//wilightTestManage = new WilightTestManage (wilightTerminalLayout, configChronojump.WilightCommandsURL, "", false);
-		wilightTestManage = new WilightTestManage (wilightTerminalLayout, configChronojump.WilightCommandsURL, "10,11,12", false);
+		wilightTestManage = new WilightTestManage (wilightTerminalLayout, configChronojump.WilightCommandsURL, "4,11,12", false);
 		//wilightTestManage = new WilightTestManage (wilightTerminalLayout, configChronojump.WilightCommandsURL, "39,41,42", false);
 		while (true)
 		{
 			if (wilightTestManage.Finished)
 				break;
 
-			string command = wilightTestManage.GetNext ();
-			if (command == "")
+			WilightCommand wilightCommand = wilightTestManage.GetNext ();
+			if (wilightCommand.IsEmpty)
 				continue;
 		}
 		on_quit2_activate ();

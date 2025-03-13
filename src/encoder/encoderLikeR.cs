@@ -54,14 +54,14 @@ public class EncoderLikeR
 		List<double> dis_l = new List<double> ();
 
 		if (econf.has_inertia)
-			dis_l = elrgd.GetDisplacement (
-					capturing, econf.name,
-					curve_l, diameter, diameterExt, gearedDown
-					);
-		else
 			dis_l = elrgd.GetDisplacementInertial (
 					curve_l, econf.name,
 					diameter, diameterExt, gearedDown
+					);
+		else
+			dis_l = elrgd.GetDisplacement (
+					capturing, econf.name,
+					curve_l, diameter, diameterExt, gearedDown
 					);
 
 		LogB.Information (string.Format ("encoderLikeR before reduce: dis_l.Count: {0}", dis_l.Count));

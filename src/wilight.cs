@@ -240,7 +240,7 @@ public class WilightTerminalLayout
 			if (wp.CodeLetter == codeLetter)
 				return wp.CodeNum;
 
-		return 0; //just in case
+		return -1; //not found
 	}
 
 	public string ColorAll  (int colorCode)
@@ -280,7 +280,8 @@ public class WilightTerminalLayout
 
 public class WilightTest
 {
-	private List<List<string>> command_ll;
+	private List<List<string>> command_ll; //using strings
+	private List<WilightCommand> wilightCommand_l; //using wilightCommand class
 
 	private int currentLevel;
 	private int currentCommand; //in level
@@ -307,6 +308,7 @@ public class WilightTest
 		this.isDemo = isDemo;
 
 		command_ll = new List<List<string>> ();
+		wilightCommand_l = new List<WilightCommand> ();
 		createBlacklist (blacklistStr);
 
 		if (isDemo)
@@ -423,12 +425,20 @@ public class WilightTest
 
 			// 2.d add the command to the sublist
 			comReaded_ll[level].Add (comOk);
+
+			// trying with WilightCommand class
+			wilightCommand_l.Add (new WilightCommand (com, wilightTerminalLayout));
 		}
 
 		// 2.e debug
 		for (int i = 0; i < comReaded_ll.Count; i ++)
 			LogB.Information (string.Format ("(Not random) Level: {0} Commands:\n{1}",
 						i, UtilList.ListStringToString (comReaded_ll[i], "\n")));
+
+		LogB.Information ("Wilight commands as object:");
+		foreach (WilightCommand wc in wilightCommand_l)
+			LogB.Information (wc.ToString ());
+
 		return comReaded_ll;
 	}
 
@@ -799,5 +809,85 @@ public class WilightTest
 
 	public int LastTime {
 		get { return lastTime; }
+	}
+}
+
+public class WilightCommand
+{
+	private string commandStr; //just for debug purposes
+
+	private int level;
+	private List<WilightTerminalPair> wtp_l;
+
+	//constructor using a commandStr (readed from a file)
+	public WilightCommand (string commandStr, WilightTerminalLayout wilightTerminalLayout)
+	{
+		this.commandStr = commandStr;
+		level = -1;
+		wtp_l = new List<WilightTerminalPair> ();
+
+		// 1. remove the last ; and split each of the commands
+		commandStr = commandStr.Substring (0, commandStr.LastIndexOf(';'));
+		string [] commandFull = commandStr.Split (new char[] {';'});
+
+		// 2. assing level and create WilightTerminalLetterAndCode list
+		foreach (string s in commandFull)
+		{
+			string [] sFull = s.Split(new char[] {':'});
+			if (sFull.Length != 2)
+				continue;
+
+			if (! Util.IsNumber (sFull[1], false))
+				continue;
+
+			if (sFull[0] == "Level") {
+				level = Convert.ToInt32 (sFull[1]);
+				continue;
+			}
+
+			int terminalNum = wilightTerminalLayout.GetCodeNumByCodeLetter (sFull[0]);
+			if (terminalNum < 0)
+				continue;
+
+			wtp_l.Add (new WilightTerminalPair (
+						terminalNum,
+						Convert.ToInt32 (sFull[1])
+						));
+		}
+	}
+
+	public override string ToString ()
+	{
+		return string.Format ("Command: {0}, Level: {1}, TerminalPairs: {2}",
+				commandStr, level, wilightTerminalPairListToString ());
+	}
+
+	private string wilightTerminalPairListToString ()
+	{
+		string str = "";
+		foreach (WilightTerminalPair wtp in wtp_l)
+			str += string.Format ("\n{0}", wtp.ToString ());
+
+		return str;
+	}
+}
+
+//terminal num & colorCode
+public class WilightTerminalPair
+{
+	public int terminalNum;
+	public int colorCode;
+
+	//constructor
+	public WilightTerminalPair (int terminalNum, int colorCode)
+	{
+		this.terminalNum = terminalNum;
+		this.colorCode = colorCode;
+	}
+
+	public override string ToString ()
+	{
+		return string.Format ("terminalNum: {0}, colorCode: {1}",
+				terminalNum, colorCode);
 	}
 }

@@ -85,6 +85,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_encoder_capture_inertial_angle_now;
 
 	Gtk.Button button_encoder_capture;
+	Gtk.CheckButton check_encoder_capture_without_r;
 
 	//encoder calibrate/recalibrate widgets
 	Gtk.Button button_encoder_inertial_calibrate;
@@ -445,7 +446,7 @@ public partial class ChronoJumpWindow
 	//STOPPING is used to stop the camera. It has to be called only one time
 	enum encoderCaptureProcess { CAPTURING, STOPPING, STOPPED } 
 	static encoderCaptureProcess capturingCsharp;	
-	private bool captureWithoutR = UtilAll.IsMacSilicon ();
+	private bool captureWithoutR;
 	//private bool captureWithoutR = true;
 		
 	EncoderRProcCapture encoderRProcCapture;
@@ -479,6 +480,7 @@ public partial class ChronoJumpWindow
 
 	private void initEncoder ()
 	{
+		check_encoder_capture_without_r.Visible = operatingSystem == UtilAll.OperatingSystems.LINUX;
 		encoder_pulsebar_capture.Fraction = 1;
 		encoder_pulsebar_capture_label.Text = "";
 		encoder_pulsebar_load_signal_at_analyze.Fraction = 1;
@@ -976,6 +978,7 @@ public partial class ChronoJumpWindow
 //		if(eCaptureInertialBG != null)
 //			eCaptureInertialBG.Finish();
 
+		captureWithoutR = UtilAll.IsMacSilicon () || check_encoder_capture_without_r.Active;
 		firstSetOfCont = firstSet;
 
 		findMaxPowerSpeedForceIntersession();
@@ -8303,6 +8306,7 @@ public partial class ChronoJumpWindow
 		label_encoder_capture_inertial_angle_now = (Gtk.Label) builder.GetObject ("label_encoder_capture_inertial_angle_now");
 
 		button_encoder_capture = (Gtk.Button) builder.GetObject ("button_encoder_capture");
+		check_encoder_capture_without_r = (Gtk.CheckButton) builder.GetObject ("check_encoder_capture_without_r");
 
 		//encoder calibrate/recalibrate widgets
 		button_encoder_inertial_calibrate = (Gtk.Button) builder.GetObject ("button_encoder_inertial_calibrate");

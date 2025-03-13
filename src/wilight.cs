@@ -431,13 +431,6 @@ public class WilightTestManage
 		WilightCommand wilightCommand = wilightCommand_ll[currentLevel][currentCommand];
 		currentCommand ++;
 
-		/* TODO
-		if (! validateCommand (commandStr))
-			return "";
-
-		LogB.Information ("\nValidated command: " + commandStr);
-			*/
-
 		return wilightCommand;
 	}
 
@@ -497,40 +490,6 @@ public class WilightTestManage
 				expected_l.Add (Convert.ToInt32 (cThisTermFull[0]));
 		}
 		return expected_l;
-	}
-
-	/*
-	 * Note a command do not need explictely to have an expected return value, maybe we just want to animate the lights but have no user input (touch)
-	 * So to validate a command on creation we just need to check that we have pairs ints separated by : and each pair separated by ;. And also note that it ends with ;
-	 */
-
-	private bool validateCommand (string commandStr)
-	{
-		//LogB.Information ("validateCommand Start");
-		if (commandStr == "")
-			return false;
-
-		int lastSemicolon = commandStr.LastIndexOf(';');
-		if (lastSemicolon != commandStr.Length -1)
-			return false;
-
-		commandStr = commandStr.Substring (0, lastSemicolon);
-
-		string [] strFull = commandStr.Split(new char[] {';'});
-		if (strFull.Length < 0)
-			return false;
-
-		foreach (string strX in strFull)
-		{
-			string [] strXFull = strX.Split(new char[] {':'});
-			if (strXFull.Length != 2 ||
-					! Util.IsNumber (strXFull[0], false) ||
-					! Util.IsNumber (strXFull[1], false)
-					)
-				return false;
-		}
-		//LogB.Information ("validateCommand exit OK");
-		return true;
 	}
 
 	/*
@@ -644,6 +603,11 @@ public class WilightTestManage
 		get { return lastTime; }
 	}
 }
+
+/*
+ * Note a command do not need explictely to have an expected return value, maybe we just want to animate the lights but have no user input (touch)
+ * So to validate a command on creation we just need to check that we have pairs ints separated by : and each pair separated by ;. And also note that it ends with ;
+ */
 
 public class WilightCommand
 {

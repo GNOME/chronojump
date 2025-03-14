@@ -91,7 +91,7 @@ public class EncoderLikeR
 		// 4) prepare data
 		double sumDis = UtilList.Sum (dis_l);
 		LogB.Information (string.Format ("encoderLikeR.Do sumDis: {0}", sumDis));
-		if (sumDis > minHeightMm)
+		if (Math.Abs(sumDis) > minHeightMm)
 		{
 			//TODO: fix this, is the same as capture.R 93-101
 			//all decimals . (same as R)

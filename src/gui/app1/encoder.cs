@@ -3578,8 +3578,13 @@ public partial class ChronoJumpWindow
 		image_encoder_capture_inertial_con.Visible = false;
 	}
 
-	//this is called by non gtk thread. Don't do gtk stuff here
-	//I suppose reading gtk is ok, changing will be the problem
+	/*
+	 * this is called by non gtk thread. Don't do gtk stuff here
+	 * I suppose reading gtk is ok, changing will be the problem
+	 *
+	 * This method captures using Csharp (opposite to very old capture using a python script or directly R)
+	 * but the analysis of the data during capture will be done by R or by Csharp depending on captureWithoutR
+	 */
 	private void encoderDoCaptureCsharp ()
 	{
 		bool capturedOk = eCapture.Capture(

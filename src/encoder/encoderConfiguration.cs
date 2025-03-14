@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -756,6 +756,16 @@ public class EncoderConfiguration
 			default:
 				gearedDown = -2;
 				break;
+		}
+	}
+	//same as util.R readFromFile.gearedDown (to have same formulas than R on encoderLikeR methods
+	public double gearedDownLikeR
+	{
+		get {
+			if (gearedDown > 0)
+				return gearedDown;
+
+			return Math.Abs ( 1 / (1.0 * gearedDown) );
 		}
 	}
 

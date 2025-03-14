@@ -35,7 +35,7 @@ public class EncoderLikeRGetDisplacement
 	// in signals and curves, need to do conversions (invert, diameter)
 	public List<double> GetDisplacement (
 			bool capturing, EncoderConfiguration.Names econfName,
-			List<int> dis_l, double diameter, double diameterExt, int gearedDown)
+			List<int> dis_l, double diameter, double diameterExt, double gearedDown)
 	{
 		List<double> disFixed_l = new List<double> ();
 
@@ -104,14 +104,14 @@ public class EncoderLikeRGetDisplacement
 
 	/*
 	 * This function converts angular information from rotary encoder to linear information like linear encoder
-	 * TThis is NOT the displacement of the person because con-ec phases roll in the same direction
+	 * This is NOT the displacement of the person because con-ec phases roll in the same direction
 	 * This is solved by the function getDisplacementInertialBody
 	 */
 
 	public List<double> GetDisplacementInertial (
 			List<int> dis_l, EncoderConfiguration.Names econfName,
 			//List<double> diameterPerTick_l, double diameterExt, int gearedDown) //diameterPerTick_l seems is not implemented even on R
-			double diameter, double diameterExt, int gearedDown)
+			double diameter, double diameterExt, double gearedDown)
 	{
 		LogB.Information ("at getDisplacementInertial");
 		List<double> disFixed_l = new List<double> ();
@@ -128,7 +128,7 @@ public class EncoderLikeRGetDisplacement
 			// One revolution every ticksRotaryEncoder ticks
 			List<double> revolutionsPerMs_l = new List<double> ();
 			foreach (int dis in dis_l)
-				revolutionsPerMs_l.Add (dis / ticksRotaryEncoder);
+				revolutionsPerMs_l.Add (1.0 * dis / ticksRotaryEncoder);
 
 			// The person is gearedDown from the machine point of view
 			// If force multiplier is 2 (gearedDown = 0.5) the displacement of the body is
@@ -155,7 +155,7 @@ public class EncoderLikeRGetDisplacement
 			// If force multiplier is 2 (gearedDown = 0.5) the displacement of the body is
 			// half the the displacement at the perimeter of the axis
 			foreach (int dis in dis_l)
-				disFixed_l.Add (dis * gearedDown);
+				disFixed_l.Add ((1.0 * dis) * gearedDown);
 		} else
 		{
 			foreach (int dis in dis_l)

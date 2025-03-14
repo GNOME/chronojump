@@ -277,7 +277,7 @@ public class EncoderRProcCapture : EncoderRProc
 		if (elr.Do (
 					true,
 					UtilList.DoubleArrayToListInt (curve),
-					0, 0, 0, //TODO: double diameter, double diameterExt, int gearedDown
+					econf.d, econf.D, econf.gearedDownLikeR,
 					startFrame, cSharpCurvesAccepted
 			   ))
 		{

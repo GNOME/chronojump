@@ -40,7 +40,7 @@ public class EncoderLikeR
 
 	public bool Do (bool capturing,
 			List<int> curve_l,
-			double diameter, double diameterExt, int gearedDown,
+			double diameter, double diameterExt, double gearedDown,
 			int startInSet, int curvesAccepted)
 	{
 		//LogB.Information ("____________ C#: pos_l before reduce __________");

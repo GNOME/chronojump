@@ -61,6 +61,7 @@ public class EncoderLikeRReduceCurveBySpeed
 	private ReducedCurve reduceCurveByPredictStartEnd (List<double> dis_l, string eccon, int minHeight)
 	{
 		LogB.Information ("reduceCurveByPredictStartEnd start");
+		//LogB.Information ("reduceCurveByPredictStartEnd A cumsum(dis_l): " + UtilList.ListDoubleToString (UtilList.Cumsum(dis_l), 1, " "));
 	        int displacementLengthStored = dis_l.Count;
 
 	        // 1) cut by getStableConcentricStart, getStableEccentricStart
@@ -84,6 +85,7 @@ public class EncoderLikeRReduceCurveBySpeed
 		}
 
 		dis_l = UtilList.ListGetFromToIncluded (dis_l, startByStability, endByStability);
+		//LogB.Information ("reduceCurveByPredictStartEnd B cumsum(dis_l): " + UtilList.ListDoubleToString (UtilList.Cumsum(dis_l), 1, " "));
 
 		// 2) delete initial/final zeros
 		int firstInitialNonZero = getFirstNonZero (dis_l);
@@ -95,6 +97,7 @@ public class EncoderLikeRReduceCurveBySpeed
 					dis_l.Count); // TODO: take care if this has to be dis_l.Count -1
 
 		dis_l = UtilList.ListGetFromToIncluded (dis_l, firstInitialNonZero, lastFinalNonZero);
+		//LogB.Information ("reduceCurveByPredictStartEnd C cumsum(dis_l): " + UtilList.ListDoubleToString (UtilList.Cumsum(dis_l), 1, " "));
 
 		int zerosAtLeft = 0;
 		int zerosAtRight = 0;
@@ -141,6 +144,7 @@ public class EncoderLikeRReduceCurveBySpeed
 		// 4) return the reconstructed curve
         	// print (paste ("start moved to: ", startByStability + (firstInitialNonZero -1) - zerosAtLeft))
 		List<double> disReconstructed_l = new List<double> ();
+		LogB.Information ("reduceCurveByPredictStartEnd D cumsum(disReconstructed_l): " + UtilList.ListDoubleToString (UtilList.Cumsum(disReconstructed_l), 1, " "));
 		for (int i = 0; i < zerosAtLeft; i ++)
 			disReconstructed_l.Add (0);
 		foreach (double dis in dis_l)

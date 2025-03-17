@@ -25,15 +25,29 @@ using System.Collections.Generic; //List<T>
 
 public class EncoderLikeRKinematics
 {
+	// passed variables
+	List<double> dis_l;
+	double butterworthFreq;
+
+	List<double> disOrig_l; //just to debug
 	List<int> time_l;
 	List<double> speed_l;
-	List<double> disOrig_l; //just to debug
+	List<double> accel_l;
+	Butterworth bw;
 
 	public EncoderLikeRKinematics (List<double> dis_l, double butterworthFreq)
 	{
+		this.dis_l = dis_l;
+		this.butterworthFreq = butterworthFreq;
 		this.disOrig_l = dis_l;
 
-		Butterworth bw = new Butterworth (butterworthFreq);
+		calculateSpeed ();
+		calculateAccel ();
+	}
+
+	private void calculateSpeed ()
+	{
+		bw = new Butterworth (butterworthFreq);
 		bw.AddFromList (dis_l);
 		bw.Calculate (Butterworth.TimeEnum.MILIS);
 
@@ -41,23 +55,49 @@ public class EncoderLikeRKinematics
 		speed_l = bw.Y_l;
 	}
 
+	private void calculateAccel ()
+	{
+		accel_l = new List<double> ();
+		int window = 1;
+		bw = new Butterworth (butterworthFreq);
+
+		for (int i = 0 ; i < speed_l.Count; i ++)
+		{
+			int pre = i - window;
+			int post = i + window;
+
+			if(pre <= 0)
+				pre = 0;
+			else if(post >= speed_l.Count -1)
+				post = speed_l.Count -1;
+
+			accel_l.Add (UtilAll.DivideSafe (speed_l[post] - speed_l[pre],
+						time_l[post] - time_l[pre]
+						));
+
+			bw.AddSample (i, accel_l[i]);
+		}
+
+		bw.Calculate (Butterworth.TimeEnum.MILIS);
+
+		//time_l = bw.Times_l;
+		accel_l = bw.Y_l;
+	}
+
 	public void WriteToFileDebug (string filename)
 	{
                 TextWriter writer = File.CreateText (Path.Combine (Path.GetTempPath (), filename));
-	        writer.WriteLine (string.Format ("x;yFiltered;yUnfiltered"));
+	        writer.WriteLine (string.Format ("x;yUnfiltered;speed;accel"));
 		for (int i = 0; i < speed_l.Count; i ++)
-	              writer.WriteLine (string.Format ("{0};{1};{2}", time_l[i], speed_l[i], disOrig_l[i]));
+	              writer.WriteLine (string.Format ("{0};{1};{2};{3}",
+					      time_l[i], disOrig_l[i], speed_l[i], accel_l[i]));
 
                 writer.Flush();
                 writer.Close();
                 ((IDisposable)writer).Dispose();
 
-		/* check in R like this:
-		 * d=read.csv2("encoderDebug_XXXX.txt") #substitute XXXX by the startInSet value
-		 * plot (cumsum(d$yUnfiltered), type="l", main = "Eencoder pos")
-		 * lines (cumsum(d$yFiltered)+10, type="l", col="red")
-		 * legend ("bottomright", lty=1, col=c("black","red"), c("No filter", "Bw 15 (+10y)"))
-		 */
+		// check in R like with:
+		// Rscript encoderLikeRKinematics.R filename
 	}
 }
 

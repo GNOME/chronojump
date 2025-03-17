@@ -71,7 +71,8 @@ public class EncoderLikeRKinematics
 			else if(post >= speed_l.Count -1)
 				post = speed_l.Count -1;
 
-			accel_l.Add (UtilAll.DivideSafe (speed_l[post] - speed_l[pre],
+			// *1000 to convert to m/s2
+			accel_l.Add (1000 * UtilAll.DivideSafe (speed_l[post] - speed_l[pre],
 						time_l[post] - time_l[pre]
 						));
 

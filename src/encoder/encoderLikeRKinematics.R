@@ -22,8 +22,7 @@ par (new=T)
 ylimValue = max(d$accel)
 if (abs(min(d$accel)) > ylimValue)
 	ylimValue = abs(min(d$accel))
-ylimValue = ylimValue * 1000
-plot (1000*d$accel, type="l", col="red", axes=F, xlab="", ylab="", ylim=c(-ylimValue,ylimValue))
+plot (d$accel, type="l", col="red", axes=F, xlab="", ylab="", ylim=c(-ylimValue,ylimValue))
 axis (4, col="red")
 abline(h=0, col="red", lty=2)
 

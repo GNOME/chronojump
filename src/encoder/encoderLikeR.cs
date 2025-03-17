@@ -112,6 +112,9 @@ public class EncoderLikeR
 
 		kinematics.WriteToFileDebug (string.Format ("encoderDebug_{0}.txt", startInSet));
 
+		int speedMaxPos = 0;
+		double speedMax = UtilList.GetMaxValueAndPos (kinematics.Speed_l, ref speedMaxPos);
+
 		// 4) prepare data
 		//TODO: fix this, is the same as capture.R 93-101
 		//all decimals . (same as R)
@@ -120,7 +123,8 @@ public class EncoderLikeR
 				Util.ConvertToPoint (startInSet),
 				Util.ConvertToPoint (dis_l.Count),
 				Util.ConvertToPoint (sumDis),
-				"0", "0", "0", "0",
+				Util.ConvertToPoint (kinematics.SpeedAVG), Util.ConvertToPoint (speedMax), speedMaxPos.ToString (),
+				Util.ConvertToPoint (UtilAll.DivideSafe (speedMax, UtilAll.DivideSafe (1.0 * speedMaxPos, 1000))), //ms -> s
 				"0", "0", "0", "0",
 				"0", "0", "0", "0",
 				"0", "0" };

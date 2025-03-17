@@ -350,14 +350,27 @@ public class UtilList
 		return 0;
 	}
 
-	public static double GetMax (List<double> values)
+	public static double GetMax (List<double> values_l)
 	{
 		double max = 0;
 		bool firstValue = true;
-		foreach (double d in values)
+		foreach (double d in values_l)
 		{
 			if (firstValue || d > max)
 				max = d;
+
+			firstValue = false;
+		}
+		return max;
+	}
+	public static double GetMaxValueAndPos (List<double> values_l, ref int pos)
+	{
+		double max = 0;
+		bool firstValue = true;
+		for (pos = 0 ; pos < values_l.Count ; pos ++)
+		{
+			if (firstValue || values_l[pos] > max)
+				max = values_l[pos];
 
 			firstValue = false;
 		}

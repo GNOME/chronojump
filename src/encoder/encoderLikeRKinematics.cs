@@ -100,5 +100,12 @@ public class EncoderLikeRKinematics
 		// check in R like with:
 		// Rscript encoderLikeRKinematics.R filename
 	}
+
+	public List<double> Speed_l {
+		get { return speed_l; }
+	}
+	public double SpeedAVG {
+		get { return UtilList.GetAverage (speed_l); }
+	}
 }
 

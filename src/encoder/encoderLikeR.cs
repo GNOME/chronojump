@@ -80,22 +80,43 @@ public class EncoderLikeR
 		LogB.Information (string.Format ("encoderLikeR after reduce: dis_l.Count: {0}, start: {1}, end: {2}",
 					dis_l.Count, start, end));
 
+		/*
+		 * reduceCurveBySpeed, on inertial doesn't do a good right adjust on changing phase,
+		 * it adds a value at right, and this value is a descending value that can produce a high acceleration there
+		 * delete that value
+		 */
+		if (econf.has_inertia)
+                        end --;
+
 		dis_l = UtilList.ListGetFromToIncluded (dis_l, start, end);
 
 		//LogB.Information ("____________ C#: pos_l after reduce __________");
 		//LogB.Information (UtilList.ListDoubleToString (UtilList.Cumsum(dis_l), 1, " "));
 
-		//TODO: 3) calculations
-
-		// 4) prepare data
+		// 3) check if height is enough
 		double sumDis = UtilList.Sum (dis_l);
 		LogB.Information (string.Format ("encoderLikeR.Do sumDis: {0}", sumDis));
-		if (Math.Abs(sumDis) > minHeightMm)
-		{
-			//TODO: fix this, is the same as capture.R 93-101
-			//all decimals . (same as R)
-			repetitionStrArray = new string[] {
-				(curvesAccepted +1).ToString (),
+		if (Math.Abs(sumDis) < minHeightMm)
+			return false;
+
+		// 4) calculations
+		//TODO: check if this line (277) on capture.R is needed:
+		//if(abs(max(position) - min(position)) >= op$MinHeight)
+
+		EncoderLikeRKinematics kinematics = new EncoderLikeRKinematics (dis_l, 15);
+		/*
+		 * use position?
+		 * List<double> pos_l = UtilList.Cumsum (dis_l);
+		 * EncoderLikeRKinematics kinematics = new EncoderLikeRKinematics (pos_l, 15); //just trying results seem quite similar
+		 */
+
+		kinematics.WriteToFileDebug (string.Format ("encoderDebug_{0}.txt", startInSet));
+
+		// 4) prepare data
+		//TODO: fix this, is the same as capture.R 93-101
+		//all decimals . (same as R)
+		repetitionStrArray = new string[] {
+			(curvesAccepted +1).ToString (),
 				Util.ConvertToPoint (startInSet),
 				Util.ConvertToPoint (dis_l.Count),
 				Util.ConvertToPoint (sumDis),
@@ -104,9 +125,7 @@ public class EncoderLikeR
 				"0", "0", "0", "0",
 				"0", "0" };
 
-			return true;
-		}
-		return false;
+		return true;
 	}
 
 	public string [] RepetitionStrArray {

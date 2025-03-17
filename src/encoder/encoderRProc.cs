@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -147,9 +147,8 @@ public class EncoderRProcCapture : EncoderRProc
 	public Preferences.TriggerTypes CutByTriggers;
 
 	// ---- csharp capture (without R) ---->
-	private EncoderConfiguration econf;
 	private string eccon;
-	private int minHeight;
+	EncoderParams encoderParams;
 	public List<string []> CsharpMethodRepetitions_al;
 	private int cSharpCurvesAccepted;
 	// <---- csharp capture (without R) ----
@@ -260,11 +259,9 @@ public class EncoderRProcCapture : EncoderRProc
 		return true;
 	}
 
-	public void InitCsharp (EncoderConfiguration econf, string eccon, int minHeight)
+	public void InitCsharp (EncoderParams encoderParams)
 	{
-		this.econf = econf;
-		this.eccon = eccon;
-		this.minHeight = minHeight;
+		this.encoderParams = encoderParams;
 
 		CsharpMethodRepetitions_al = new List<string []> ();
 		cSharpCurvesAccepted = 0;
@@ -273,11 +270,10 @@ public class EncoderRProcCapture : EncoderRProc
 	// experimental reimplementation of R capture with C#. Uncompressed.
 	public void SendCurveCsharp (int startFrame, double [] curve)
 	{
-		EncoderLikeR elr = new EncoderLikeR (econf, eccon, minHeight);
+		EncoderLikeR elr = new EncoderLikeR (encoderParams);
 		if (elr.Do (
 					true,
 					UtilList.DoubleArrayToListInt (curve),
-					econf.d, econf.D, econf.gearedDownLikeR,
 					startFrame, cSharpCurvesAccepted
 			   ))
 		{
@@ -395,7 +391,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 		
 		//Wait until this to update encoder gui (if don't wait then treeview will be outdated)
 		//exportCSV is the only one that doesn't have graph. all the rest Analysis have graph and data
-		if(es.Ep.Analysis == "exportCSV")
+		if(es.Ep.analysis == "exportCSV")
 			outputFileCheck = es.OutputData1; 
 		else {
 			//outputFileCheck = es.OutputGraph;
@@ -434,7 +430,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 			deleteFile(outputFileCheck2);
 		
 		//delete status-6 mark used on export csv
-		if(es.Ep.Analysis == "exportCSV")
+		if(es.Ep.analysis == "exportCSV")
 			Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "6.txt");
 
 		//delete SpecialData if exists
@@ -469,7 +465,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 				while ( ! ( (Util.FileReadable(outputFileCheck) && Util.FileReadable(outputFileCheck2)) || CancelRScript ) );
 
 			//copy export from temp file to the file that user has selected
-			if(es.Ep.Analysis == "exportCSV" && ! CancelRScript)
+			if(es.Ep.analysis == "exportCSV" && ! CancelRScript)
 				copyExportedFile();
 	
 		} catch {
@@ -489,7 +485,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 		string outputFileCheck = "";
 		string outputFileCheck2 = "";
 		
-		if(es.Ep.Analysis == "exportCSV")
+		if(es.Ep.analysis == "exportCSV")
 			outputFileCheck = es.OutputData1; 
 		else {
 			//outputFileCheck = es.OutputGraph;
@@ -508,7 +504,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 			deleteFile(outputFileCheck2);
 		
 		//delete status-6 mark used on export csv
-		if(es.Ep.Analysis == "exportCSV")
+		if(es.Ep.analysis == "exportCSV")
 			Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "6.txt");
 		
 		//delete SpecialData if exists
@@ -534,7 +530,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 			while ( ! ( (Util.FileReadable(outputFileCheck) && Util.FileReadable(outputFileCheck2)) || CancelRScript ) );
 			
 		//copy export from temp file to the file that user has selected
-		if(es.Ep.Analysis == "exportCSV" && ! CancelRScript)
+		if(es.Ep.analysis == "exportCSV" && ! CancelRScript)
 			copyExportedFile();
 		
 		LogB.Debug("files written");

@@ -15,22 +15,26 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 
 public class EncoderParams
 {
+	/*
+	 * on encoderLikeR methods ToStringROptions () is not used
+	 * so this class works there like an struct taking these public variables
+	 */
 	//graph.R need both to know displacedMass depending on encoderConfiguration
 	//and plot both as entry data in the table of result data
 	private string massBody; //to pass always as "." to R.
 	private string massExtra; //to pass always as "." to R
 	
-	private int minHeight;
+	public int minHeight;
 	private int exercisePercentBodyWeight; //was private bool isJump; (if it's 0 is like "jump")
-	private string eccon;
-	private string analysis;
+	public string eccon;
+	public string analysis;
 	private string analysisVariables;
 	private string analysisOptions;		//p: propulsive
 	private bool captureCheckFullyExtended;
@@ -38,7 +42,7 @@ public class EncoderParams
 					
 	//encoderConfiguration conversions
 	//in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
-	private EncoderConfiguration encoderConfiguration;	
+	public EncoderConfiguration encoderConfiguration;
 	
 	private string smoothCon; //to pass always as "." to R
 	private int curve;
@@ -101,11 +105,6 @@ public class EncoderParams
 			"#decimalSeparator\n" + decimalSeparator
 			;
 	}
-	
-	public string Analysis {
-		get { return analysis; }
-	}
-
 
 	~EncoderParams() {}
 }

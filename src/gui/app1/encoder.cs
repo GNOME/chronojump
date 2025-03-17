@@ -3595,8 +3595,7 @@ public partial class ChronoJumpWindow
 				encoderRhythm.RestClustersForEncoderCaptureAutoEnding(),
 				configChronojump.PlaySoundsFromFile,
 				preferences.signalDirectionHorizontal,
-				captureWithoutR, encoderConfigurationCurrent, //captureWithoutR
-				preferences.EncoderCaptureMinHeight (encoderConfigurationCurrent.has_inertia) //captureWithoutR
+				captureWithoutR
 				);
 
 		//wait to ensure capture thread has ended
@@ -3641,8 +3640,7 @@ public partial class ChronoJumpWindow
 				0,  //encoderRhythm.RestClustersForEncoderCaptureAutoEnding()
 				false, //configChronojump.PlaySoundsFromFile
 				preferences.signalDirectionHorizontal,
-				false, encoderConfigurationCurrent, //captureWithoutR (not used on IM)
-				preferences.EncoderCaptureMinHeight (encoderConfigurationCurrent.has_inertia) //captureWithoutR (not used on IM)
+				false
 				);
 
 		//wait to ensure capture thread has ended
@@ -6770,7 +6768,7 @@ public partial class ChronoJumpWindow
 
 	private void runEncoderCaptureNoRDotNetInitialize() 
 	{
-		EncoderParams ep = new EncoderParams(
+		EncoderParams encoderParams = new EncoderParams(
 				preferences.EncoderCaptureMinHeight(encoderConfigurationCurrent.has_inertia), 
 				getExercisePercentBodyWeightFromComboCapture (),
 				Util.ConvertToPoint(findMass(Constants.MassType.BODY)),
@@ -6794,9 +6792,11 @@ public partial class ChronoJumpWindow
 				"none", //UtilEncoder.GetEncoderCurvesTempFileName(), 
 				UtilEncoder.GetEncoderScriptsPathWithoutLastSep(),
 				UtilEncoder.GetEncoderTempPathWithoutLastSep(),
-				ep);
+				encoderParams);
 
 		encoderRProcCapture.StartOrContinue(es);
+		if (captureWithoutR)
+			encoderRProcCapture.InitCsharp (encoderParams);
 	}
 	
 

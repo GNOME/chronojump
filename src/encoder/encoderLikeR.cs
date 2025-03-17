@@ -31,16 +31,15 @@ public class EncoderLikeR
 	private string [] repetitionStrArray;
 
 	//constructor
-	public EncoderLikeR (EncoderConfiguration econf, string eccon, int minHeightCm)
+	public EncoderLikeR (EncoderParams encoderParams)
 	{
-		this.econf = econf;
-		this.eccon = eccon;
-		this.minHeightMm = minHeightCm * 10;
+		this.eccon = encoderParams.eccon;
+		this.minHeightMm = encoderParams.minHeight * 10;
+		this.econf = encoderParams.encoderConfiguration;
 	}
 
 	public bool Do (bool capturing,
 			List<int> curve_l,
-			double diameter, double diameterExt, double gearedDown,
 			int startInSet, int curvesAccepted)
 	{
 		//LogB.Information ("____________ C#: pos_l before reduce __________");
@@ -56,12 +55,12 @@ public class EncoderLikeR
 		if (econf.has_inertia)
 			dis_l = elrgd.GetDisplacementInertial (
 					curve_l, econf.name,
-					diameter, diameterExt, gearedDown
+					econf.d, econf.D, econf.gearedDown
 					);
 		else
 			dis_l = elrgd.GetDisplacement (
 					capturing, econf.name,
-					curve_l, diameter, diameterExt, gearedDown
+					curve_l, econf.d, econf.D, econf.gearedDown
 					);
 
 		LogB.Information (string.Format ("encoderLikeR before reduce: dis_l.Count: {0}", dis_l.Count));

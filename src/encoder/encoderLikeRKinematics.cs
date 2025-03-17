@@ -27,37 +27,26 @@ public class EncoderLikeRKinematics
 {
 	List<int> time_l;
 	List<double> speed_l;
-	List<PointF> pointF_l;
-
 	List<double> disOrig_l; //just to debug
 
 	public EncoderLikeRKinematics (List<double> dis_l, double butterworthFreq)
 	{
 		this.disOrig_l = dis_l;
 
-		time_l = new List<int>();
-		speed_l = new List<double>();
-		pointF_l = new List<PointF> ();
-
 		Butterworth bw = new Butterworth (butterworthFreq);
-		
-		for (int i = 0; i < dis_l.Count ; i ++)
-			pointF_l.Add (new PointF (i, dis_l[i]));
-		bw.AddFromList (pointF_l);
-
+		bw.AddFromList (dis_l);
 		bw.Calculate (Butterworth.TimeEnum.MILIS);
+
 		time_l = bw.Times_l;
 		speed_l = bw.Y_l;
-		pointF_l = bw.PointF_l;
 	}
 
 	public void WriteToFileDebug (string filename)
 	{
                 TextWriter writer = File.CreateText (Path.Combine (Path.GetTempPath (), filename));
-		int i = 0;
 	        writer.WriteLine (string.Format ("x;yFiltered;yUnfiltered"));
-		foreach (PointF p in pointF_l)
-	                writer.WriteLine (string.Format ("{0};{1};{2}", p.X, p.Y, disOrig_l[i++]));
+		for (int i = 0; i < speed_l.Count; i ++)
+	              writer.WriteLine (string.Format ("{0};{1};{2}", time_l[i], speed_l[i], disOrig_l[i]));
 
                 writer.Flush();
                 writer.Close();

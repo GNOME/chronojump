@@ -1973,6 +1973,15 @@ public class Butterworth
 			samples_l.Add (new TimedPoint((float) p.Y, 0, (long) p.X));
 		}
 	}
+	//used in encoder where time increases 1ms starting at 0
+	public void AddFromList (List<double> d_l)
+	{
+		for (int i = 0; i < d_l.Count ; i ++)
+		{
+			pForButter_l.Add (new PointF (i, d_l[i]));
+			samples_l.Add (new TimedPoint((float) d_l[i], 0, (long) i));
+		}
+	}
 
 	public void Calculate (TimeEnum timeEnum)
 	{

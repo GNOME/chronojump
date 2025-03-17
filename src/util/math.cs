@@ -1938,6 +1938,8 @@ public class InterpolateSignal
 
 public class Butterworth
 {
+	public enum TimeEnum { MILIS, MICROS };
+
 	private double freq;
 	private List<PointF> pForButter_l;
 	private List<TimedPoint> samples_l;
@@ -1972,13 +1974,19 @@ public class Butterworth
 		}
 	}
 
-	public void Calculate ()
+	public void Calculate (TimeEnum timeEnum)
 	{
 		if (pForButter_l.Count == 0)
 			return;
 
+		int divideBy = 1;
+		if (timeEnum == TimeEnum.MILIS)
+			divideBy = 1000;
+		else if (timeEnum == TimeEnum.MICROS)
+			divideBy = 1000000;
+
 		double fps = UtilAll.DivideSafe (pForButter_l.Count,
-				PointF.Last (pForButter_l).X/1000000 - pForButter_l[0].X/1000000);
+				PointF.Last (pForButter_l).X/divideBy - pForButter_l[0].X/divideBy);
 
 		traj = new FilteredTrajectory();
 		traj.Initialize (samples_l, fps, freq);
@@ -2035,7 +2043,7 @@ public class Butterworth
 						Convert.ToDouble (Util.ChangeDecimalSeparator(strFull[1]))
 					     );
 		}
-		bw.Calculate ();
+		bw.Calculate (Butterworth.TimeEnum.MICROS);
 
 		TextWriter writer = File.CreateText (toFile);
 		writer.WriteLine ("Time (micros);Force(N)");

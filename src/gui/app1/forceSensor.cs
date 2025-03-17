@@ -1667,7 +1667,7 @@ public partial class ChronoJumpWindow
 		{
 			Butterworth bw = new Butterworth (preferences.forceSensorButterworth (current_mode));
 			bw.AddFromList (spCairoFE_Unfiltered.Force_l);
-			bw.Calculate ();
+			bw.Calculate (Butterworth.TimeEnum.MICROS);
 
 			spCairoFE.Force_l = bw.PointF_l;
 		} else
@@ -2839,7 +2839,7 @@ LogB.Information(" fs R ");
 		LogB.Information ("preferences.forceSensorButterworth: " + preferences.forceSensorButterworth (current_mode).ToString ());
 		if (preferences.forceSensorButterworth (current_mode) >= 0)
 		{
-			bw.Calculate ();
+			bw.Calculate (Butterworth.TimeEnum.MICROS);
 			times_l = bw.Times_l;
 			forces_l = bw.Y_l;
 		}
@@ -3079,7 +3079,7 @@ LogB.Information(" fs R ");
 				{
 					Butterworth bw = new Butterworth (preferences.forceSensorButterworth (current_mode));
 					bw.AddFromList (spCairoFECopyToDraw_Unfiltered.Force_l);
-					bw.Calculate ();
+					bw.Calculate (Butterworth.TimeEnum.MICROS);
 
 					//spCairoFECopyToDraw = new SignalPointsCairoForceElastic ();
 					spCairoFECopyToDraw.Force_l = bw.PointF_l;

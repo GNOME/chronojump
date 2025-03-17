@@ -1859,7 +1859,7 @@ public class ForceSensorAnalyzeInstant : AnalyzeInstant
 
 		if (butterworthFreq > 0)
 		{
-			bw.Calculate ();
+			bw.Calculate (Butterworth.TimeEnum.MICROS);
 			times = bw.Times_l;
 			forces = bw.Y_l;
 		}

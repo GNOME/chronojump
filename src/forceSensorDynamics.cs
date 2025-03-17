@@ -563,7 +563,7 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		//position_l = smoothVariable(position_not_smoothed_l);
 		if (butterworthFreq > 0)
 		{
-			bw.Calculate ();
+			bw.Calculate (Butterworth.TimeEnum.MICROS);
 			position_l = bw.Y_l;
 		}
 	}
@@ -592,7 +592,7 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		//speed_l = smoothVariable(speed_l);
 		if (butterworthFreq > 0)
 		{
-			bw.Calculate ();
+			bw.Calculate (Butterworth.TimeEnum.MICROS);
 			speed_l = bw.Y_l;
 		}
 	}
@@ -632,7 +632,7 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		//accel_l = smoothVariable(accel_l);
 		if (butterworthFreq > 0)
 		{
-			bw.Calculate ();
+			bw.Calculate (Butterworth.TimeEnum.MICROS);
 			accel_l = bw.Y_l;
 		}
 	}

@@ -741,6 +741,7 @@ public class ChronopicRegisterWindows : ChronopicRegister
 				 * DeviceID is unique (seems), here my both devices:
 				 * DeviceID, Value: USB\VID_303A&PID_1001&MI_00\7&21041641&0&0000
 				 * DeviceID, Value: USB\VID_303A&PID_1001&MI_00\7&1CE9E710&0&0000
+				 * DeviceID, Value: USB\VID_303A&PID_1001&MI_00\6&23B3EAF&0&0000
 				 *
 				 * On the other hand, note encoder (FTDI) is: "USB Serial Port (COM5)" 
 				 */
@@ -758,7 +759,7 @@ public class ChronopicRegisterWindows : ChronopicRegister
 				}
 				if (Data.Name == "DeviceID")
 				{
-					MatchCollection matches = Regex.Matches(Data.Value.ToString(), @"USB\\.*\\7&(.*)&0&...."); //the .... was 0000, but found 1 machine where 0002 was required
+					MatchCollection matches = Regex.Matches(Data.Value.ToString(), @"USB\\VID_303A&PID_1001&MI_00\\.&(.*)&0&...."); //the .... was 0000, but found 1 machine where 0002 was required
 					if (matches.Count == 1)
 					{
 						LogB.Information ("DeviceID B match: " + Data.Value);

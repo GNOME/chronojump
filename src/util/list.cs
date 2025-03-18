@@ -70,6 +70,32 @@ public class UtilList
 		return str;
 	}
 
+	public static void ListIntToFile (List<int> l, string sep, string filename)
+	{
+		try {
+			TextWriter writer = File.CreateText (filename);
+			writer.Write (ListIntToSQLString (l, sep));
+			writer.Flush();
+			writer.Close();
+			((IDisposable)writer).Dispose();
+		} catch {
+			LogB.Information ("catched at ListIntToFile to file: " + filename);
+		}
+	}
+
+	public static void ListDoubleToFile (List<double> l, int decs, string sep, string filename)
+	{
+		try {
+			TextWriter writer = File.CreateText (filename);
+			writer.Write (ListDoubleToString (l, decs, sep));
+			writer.Flush();
+			writer.Close();
+			((IDisposable)writer).Dispose();
+		} catch {
+			LogB.Information ("catched at ListDoubleToFile to file: " + filename);
+		}
+	}
+
 	public static double Sum (List<double> l)
 	{
 		double sum = 0;

@@ -447,8 +447,7 @@ public partial class ChronoJumpWindow
 	enum encoderCaptureProcess { CAPTURING, STOPPING, STOPPED } 
 	static encoderCaptureProcess capturingCsharp;	
 	private bool captureWithoutR;
-	//private bool captureWithoutR = true;
-		
+
 	EncoderRProcCapture encoderRProcCapture;
 	EncoderRProcAnalyze encoderRProcAnalyze;
 

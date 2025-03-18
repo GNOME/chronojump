@@ -7787,8 +7787,10 @@ public partial class ChronoJumpWindow
 							preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE) )
 						needToAutoSaveCurve = true;
 
-					encoder_pulsebar_capture_label.Text = encoderSaveSignalOrCurve(false, "signal", 0); //this updates encoderSignalUniqueID
-					fullscreen_label_message.Text = encoderSaveSignalOrCurve(false, "signal", 0); //this updates encoderSignalUniqueID
+
+					string encoderSaveResult = encoderSaveSignalOrCurve(false, "signal", 0); //this updates encoderSignalUniqueID
+					encoder_pulsebar_capture_label.Text = encoderSaveResult;
+					fullscreen_label_message.Text = encoderSaveResult;
 
 					if(needToAutoSaveCurve)
 					{

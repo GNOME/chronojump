@@ -366,11 +366,15 @@ public class UtilList
 	public static double GetMaxValueAndPos (List<double> values_l, ref int pos)
 	{
 		double max = 0;
+		pos = 0;
 		bool firstValue = true;
-		for (pos = 0 ; pos < values_l.Count ; pos ++)
+		for (int i = 0 ; i < values_l.Count ; i ++)
 		{
-			if (firstValue || values_l[pos] > max)
+			if (firstValue || values_l[i] > max)
+			{
+				pos = i;
 				max = values_l[pos];
+			}
 
 			firstValue = false;
 		}

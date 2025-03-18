@@ -120,7 +120,7 @@ public class EncoderLikeR
 		//all decimals . (same as R)
 		repetitionStrArray = new string[] {
 			(curvesAccepted +1).ToString (),
-				Util.ConvertToPoint (startInSet),
+				Util.ConvertToPoint (startInSet),  //the difference between this and when graph.R is called is because on saveToFile trimInitialZeros is called, it deletes 0's on signal before 1st rep allowing allowedZeroMSAtStart (1000 zeros)
 				Util.ConvertToPoint (dis_l.Count),
 				Util.ConvertToPoint (sumDis),
 				Util.ConvertToPoint (kinematics.SpeedAVG), Util.ConvertToPoint (speedMax), speedMaxPos.ToString (),

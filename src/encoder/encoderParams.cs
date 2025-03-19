@@ -30,9 +30,9 @@ public class EncoderParams
 	//and plot both as entry data in the table of result data
 	private string massBody; //to pass always as "." to R.
 	private string massExtra; //to pass always as "." to R
-	
+
 	public int minHeight;
-	private int exercisePercentBodyWeight; //was private bool isJump; (if it's 0 is like "jump")
+	public int exercisePercentBodyWeight; //was private bool isJump; (if it's 0 is like "jump")
 	public string eccon;
 	public string analysis;
 	private string analysisVariables;
@@ -104,6 +104,13 @@ public class EncoderParams
 			"#height\n" + 		height + "\n" + 
 			"#decimalSeparator\n" + decimalSeparator
 			;
+	}
+
+	public double MassBodyD {
+		get { return Convert.ToDouble (Util.CDS (massBody)); }
+	}
+	public double MassExtraD {
+		get { return Convert.ToDouble (Util.CDS (massExtra)); }
 	}
 
 	~EncoderParams() {}

@@ -27,6 +27,12 @@ public class EncoderLikeR
 	private EncoderConfiguration econf;
 	private string eccon;
 	private int minHeightMm;
+	private double massBody;
+	private double massExtra;
+	private int anglePush;
+	private int angleWeight;
+	private int exercisePercentBodyWeight;
+
 
 	private string [] repetitionStrArray;
 
@@ -36,6 +42,11 @@ public class EncoderLikeR
 		this.eccon = encoderParams.eccon;
 		this.minHeightMm = encoderParams.minHeight * 10;
 		this.econf = encoderParams.encoderConfiguration;
+		this.massBody = encoderParams.MassBodyD;
+		this.massExtra = encoderParams.MassExtraD;
+		this.anglePush = encoderParams.encoderConfiguration.anglePush;
+		this.angleWeight = encoderParams.encoderConfiguration.angleWeight;
+		this.exercisePercentBodyWeight = encoderParams.exercisePercentBodyWeight;
 	}
 
 	public bool Do (bool capturing,
@@ -103,7 +114,10 @@ public class EncoderLikeR
 		//TODO: check if this line (277) on capture.R is needed:
 		//if(abs(max(position) - min(position)) >= op$MinHeight)
 
-		EncoderLikeRKinematics kinematics = new EncoderLikeRKinematics (dis_l, 15);
+		EncoderLikeRKinematics kinematics = new EncoderLikeRKinematics (
+				dis_l, 15, eccon, econf.name,
+				massBody, massExtra,
+				anglePush, angleWeight, exercisePercentBodyWeight);
 		/*
 		 * use position?
 		 * List<double> pos_l = UtilList.Cumsum (dis_l);

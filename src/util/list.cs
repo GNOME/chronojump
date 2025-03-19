@@ -406,6 +406,20 @@ public class UtilList
 		}
 		return max;
 	}
+	//returns a list of the pos where max value is found
+	public static double GetMaxValueAndPos (List<double> values_l, ref List<int> pos)
+	{
+		// 1. found max
+		double max = GetMax (values_l);
+
+		// 2. create a list of pos where pos == max
+		pos = new List<int> ();
+		for (int i = 0 ; i < values_l.Count ; i ++)
+			if (values_l[i] == max)
+				pos.Add (i);
+
+		return max;
+	}
 
 	public static double GetMin (List<double> values)
 	{
@@ -420,7 +434,38 @@ public class UtilList
 		}
 		return min;
 	}
-	
+	public static double GetMinValueAndPos (List<double> values_l, ref int pos)
+	{
+		double min = 0;
+		pos = 0;
+		bool firstValue = true;
+		for (int i = 0 ; i < values_l.Count ; i ++)
+		{
+			if (firstValue || values_l[i] < min)
+			{
+				pos = i;
+				min = values_l[pos];
+			}
+
+			firstValue = false;
+		}
+		return min;
+	}
+	//returns a list of the pos where min value is found
+	public static double GetMinValueAndPos (List<double> values_l, ref List<int> pos)
+	{
+		// 1. found min
+		double min = GetMin (values_l);
+
+		// 2. create a list of pos where pos == min
+		pos = new List<int> ();
+		for (int i = 0 ; i < values_l.Count ; i ++)
+			if (values_l[i] == min)
+				pos.Add (i);
+
+		return main;
+	}
+
 	public static double GetAverage (List<double> values)
 	{
 		double sum = 0;

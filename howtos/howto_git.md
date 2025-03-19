@@ -33,6 +33,7 @@ download from git repo (if there are problems, check *Merge problems* below)
 Check if there are stashed things
 
     git stash list
+    git stash list --date=local
 
 Perform an stash of your current code
 

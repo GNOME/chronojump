@@ -29,6 +29,13 @@ public class EncoderLikeRKinematics
 	List<double> dis_l;
 	double butterworthFreq;
 	string eccon;
+	EncoderConfiguration.Names econfName;
+	double massBody;
+	double massExtra;
+	int anglePush;
+	int angleWeight;
+	int exercisePercentBodyWeight;
+	bool propulsive;
 
 	List<double> disOrig_l; //just to debug
 	List<int> time_l;
@@ -42,36 +49,26 @@ public class EncoderLikeRKinematics
 	public EncoderLikeRKinematics (
 			List<double> dis_l, double butterworthFreq, string eccon, EncoderConfiguration.Names econfName,
 			double massBody, double massExtra,
-			int anglePush, int angleWeight, int exercisePercentBodyWeight)
+			int anglePush, int angleWeight, int exercisePercentBodyWeight,
+			bool propulsive)
 	{
+		this.disOrig_l = dis_l;
 		this.dis_l = dis_l;
 		this.butterworthFreq = butterworthFreq;
 		this.eccon = eccon;
-		this.disOrig_l = dis_l;
+		this.econfName = econfName;
+		this.massBody = massBody;
+		this.massExtra = massExtra;
+		this.anglePush = anglePush;
+		this.angleWeight = angleWeight;
+		this.exercisePercentBodyWeight = exercisePercentBodyWeight;
+		this.propulsive = propulsive;
 
 		calculateSpeed ();
 		calculateAccel ();
 
-		List<double> disCON_l = new List<double> ();
-		int propulsiveEnd = disCON_l.Count -1;
-
-		if (eccon == "c")
-		{
-			disCON_l = dis_l; //displacement on concentric
-
-			//get the position of max speed in concentric (if there are > 1, get the first)
-			List<int> maxSpeedT_l = new List<int> ();
-			UtilList.GetMaxValueAndPos (speed_l, ref maxSpeedT_l);
-			int maxSpeedTCON = maxSpeedT_l[0];
-			LogB.Information ("EncoderLikeRKinematics maxSpeedTCON = " + maxSpeedTCON.ToString ());
-
-			propulsiveEnd = findPropulsiveEnd (accel_l, disCON_l, maxSpeedTCON,
-					econfName, anglePush, angleWeight,
-					massBody, massExtra, exercisePercentBodyWeight
-					);
-		} //TODO: continue
-
-		LogB.Information ("EncoderLikeRKinematics propulsiveEnd = " + propulsiveEnd.ToString ());
+		if (propulsive)
+			findPropulsiveEndPrepare ();
 	}
 
 	private void calculateSpeed ()
@@ -114,11 +111,29 @@ public class EncoderLikeRKinematics
 		accel_l = bw.Y_l;
 	}
 
+	private void findPropulsiveEndPrepare ()
+	{
+		List<double> disCON_l = new List<double> ();
+		int propulsiveEnd = disCON_l.Count -1;
+
+		if (eccon == "c")
+		{
+			disCON_l = dis_l; //displacement on concentric
+
+			//get the position of max speed in concentric (if there are > 1, get the first)
+			List<int> maxSpeedT_l = new List<int> ();
+			UtilList.GetMaxValueAndPos (speed_l, ref maxSpeedT_l);
+			int maxSpeedTCON = maxSpeedT_l[0];
+			LogB.Information ("EncoderLikeRKinematics maxSpeedTCON = " + maxSpeedTCON.ToString ());
+
+			propulsiveEnd = findPropulsiveEndDo (disCON_l, maxSpeedTCON);
+		} //TODO: continue
+
+		LogB.Information ("EncoderLikeRKinematics propulsiveEnd = " + propulsiveEnd.ToString ());
+	}
+
 	// adapted from encoder/util.R
-	private int findPropulsiveEnd (
-			List<double> accel_l, List<double> disCON_l, int maxSpeedTCON,
-			EncoderConfiguration.Names econfName, int anglePush, int angleWeight,
-			double massBody, double massExtra, int exercisePercentBodyWeight)
+	private int findPropulsiveEndDo (List<double> disCON_l, int maxSpeedTCON)
 	{
 		double propulsiveEndsAt = -g;
 		if (econfName == EncoderConfiguration.Names.LINEARONPLANE)

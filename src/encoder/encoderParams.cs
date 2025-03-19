@@ -112,6 +112,9 @@ public class EncoderParams
 	public double MassExtraD {
 		get { return Convert.ToDouble (Util.CDS (massExtra)); }
 	}
+	public bool Propulsive {
+		get { return analysisOptions == "p"; }
+	}
 
 	~EncoderParams() {}
 }

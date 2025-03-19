@@ -32,6 +32,7 @@ public class EncoderLikeR
 	private int anglePush;
 	private int angleWeight;
 	private int exercisePercentBodyWeight;
+	private bool propulsive;
 
 
 	private string [] repetitionStrArray;
@@ -47,6 +48,7 @@ public class EncoderLikeR
 		this.anglePush = encoderParams.encoderConfiguration.anglePush;
 		this.angleWeight = encoderParams.encoderConfiguration.angleWeight;
 		this.exercisePercentBodyWeight = encoderParams.exercisePercentBodyWeight;
+		this.propulsive = encoderParams.Propulsive;
 	}
 
 	public bool Do (bool capturing,
@@ -117,7 +119,8 @@ public class EncoderLikeR
 		EncoderLikeRKinematics kinematics = new EncoderLikeRKinematics (
 				dis_l, 15, eccon, econf.name,
 				massBody, massExtra,
-				anglePush, angleWeight, exercisePercentBodyWeight);
+				anglePush, angleWeight, exercisePercentBodyWeight,
+				propulsive);
 		/*
 		 * use position?
 		 * List<double> pos_l = UtilList.Cumsum (dis_l);

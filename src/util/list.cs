@@ -463,7 +463,7 @@ public class UtilList
 			if (values_l[i] == min)
 				pos.Add (i);
 
-		return main;
+		return min;
 	}
 
 	public static double GetAverage (List<double> values)

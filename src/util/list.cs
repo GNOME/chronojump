@@ -505,6 +505,21 @@ public class UtilList
 		return l[l.Count -1];
 	}
 
+	//if belowOrEqual is true acts like <= i false acts like <
+	public static List<int> GetPosListBelowAValue (List<double> values_l, double compareTo, bool belowOrEqual)
+	{
+		List<int> pos_l = new List<int> ();
+		for (int i = 0 ; i < values_l.Count ; i ++)
+		{
+			if (belowOrEqual && values_l[i] <= compareTo)
+				pos_l.Add (i);
+			else if (! belowOrEqual && values_l[i] < compareTo)
+				pos_l.Add (i);
+		}
+
+		return pos_l;
+	}
+
 	public static List<double> ListReverse (List<double> l)
 	{
 		List<double> rev_l = new List<double> ();

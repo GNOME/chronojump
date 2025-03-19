@@ -3816,6 +3816,11 @@ public class PreferencesWindow
 
 	private void on_button_test_bluetooth_clicked (object o, EventArgs args)
 	{
+		//TODO:
+		/*
+		Bluetooth bl = new Bluetooth ();
+		bl.TestInit ();
+		*/
 	}
 
 	private Preferences.MaximizedTypes get_maximized_from_gui()

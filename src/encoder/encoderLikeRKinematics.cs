@@ -36,12 +36,17 @@ public class EncoderLikeRKinematics
 	int angleWeight;
 	int exercisePercentBodyWeight;
 	bool propulsive;
+	int minHeightMm;
 
 	List<double> disOrig_l; //just to debug
 	List<int> time_l;
 	List<double> speed_l;
 	List<double> accel_l;
 	Butterworth bw;
+
+	EncoderLikeRRepPhase eccPhase;
+	EncoderLikeRRepPhase isoPhase;
+	EncoderLikeRRepPhase conPhase;
 
 	private const double g = 9.81;
 	private const double pi = 3.141593;
@@ -50,7 +55,7 @@ public class EncoderLikeRKinematics
 			List<double> dis_l, double butterworthFreq, string eccon, EncoderConfiguration.Names econfName,
 			double massBody, double massExtra,
 			int anglePush, int angleWeight, int exercisePercentBodyWeight,
-			bool propulsive)
+			bool propulsive, int minHeightMm)
 	{
 		this.disOrig_l = dis_l;
 		this.dis_l = dis_l;
@@ -63,6 +68,7 @@ public class EncoderLikeRKinematics
 		this.angleWeight = angleWeight;
 		this.exercisePercentBodyWeight = exercisePercentBodyWeight;
 		this.propulsive = propulsive;
+		this.minHeightMm = minHeightMm;
 
 		calculateSpeed ();
 		calculateAccel ();
@@ -127,7 +133,25 @@ public class EncoderLikeRKinematics
 			LogB.Information ("EncoderLikeRKinematics maxSpeedTCON = " + maxSpeedTCON.ToString ());
 
 			propulsiveEnd = findPropulsiveEndDo (disCON_l, maxSpeedTCON);
-		} //TODO: continue
+		}
+		else if (eccon == "ec")
+		{
+			/*
+			 * At the moment not used as we are doing only capture now (and is is never ec)
+			 *
+			findECPhases ();
+			LogB.Information (eccPhase.ToString ());
+			LogB.Information (isoPhase.ToString ());
+			LogB.Information (conPhase.ToString ());
+
+			//TODO: continue here
+			*/
+		}
+		else if (eccon == "e") {
+                        // not propulsive calculations on eccentric
+                } else { //ecS
+                        // #print("WARNING ECS\n\n\n\n\n")
+                }
 
 		LogB.Information ("EncoderLikeRKinematics propulsiveEnd = " + propulsiveEnd.ToString ());
 	}
@@ -185,6 +209,50 @@ public class EncoderLikeRKinematics
 	private double getMassBodyByExercise (double massBody, int exercisePercentBodyWeight)
 	{
 		return (massBody * exercisePercentBodyWeight / 100.0);
+	}
+
+	// At the moment not used as we are doing only capture now (and is is never ec)
+	private void findECPhases ()
+	{
+		List<double> pos_l = UtilList.Cumsum (dis_l);
+
+		// 1. get the changeEccCon
+		//changeEccCon <- mean (which (position == min (position)))
+		List<int> i_l = new List<int> ();
+		UtilList.GetMinValueAndPos (pos_l,  ref i_l);
+		int changeEccCon = Convert.ToInt32 (UtilList.GetAverage (i_l));
+
+		// 2. ecc using reduceCurveBySpeed
+		EncoderLikeRReduceCurveBySpeed rcsEcc = new EncoderLikeRReduceCurveBySpeed (
+				UtilList.ListGetFromToIncluded (dis_l, 0, changeEccCon),
+				"e", minHeightMm);
+		EncoderLikeRReduceCurveBySpeed.ReducedCurve reducedCurveEcc = rcsEcc.ReducedCurveGet;
+		eccPhase = new EncoderLikeRRepPhase (
+				EncoderLikeRRepPhase.EcconEnum.ECC,
+				reducedCurveEcc.startPos,
+				reducedCurveEcc.endPos);
+
+		// 3. con using reduceCurveBySpeed
+		EncoderLikeRReduceCurveBySpeed rcsCon = new EncoderLikeRReduceCurveBySpeed (
+				UtilList.ListGetFromToIncluded (dis_l, changeEccCon, dis_l.Count -1),
+				"c", minHeightMm);
+		EncoderLikeRReduceCurveBySpeed.ReducedCurve reducedCurveCon = rcsCon.ReducedCurveGet;
+		conPhase = new EncoderLikeRRepPhase (
+				EncoderLikeRRepPhase.EcconEnum.CON,
+				changeEccCon + reducedCurveEcc.startPos,
+				changeEccCon + reducedCurveEcc.endPos);
+
+		// 4. iso
+		// is this a bug? con_l$startPos will always be > changeEccCon
+		// should not be con_l$startPos > 0 ?
+		isoPhase = new EncoderLikeRRepPhase (
+				EncoderLikeRRepPhase.EcconEnum.ISO,
+				-1, -1);
+		if (reducedCurveEcc.endPos < changeEccCon || reducedCurveCon.startPos > changeEccCon)
+			isoPhase = new EncoderLikeRRepPhase (
+					EncoderLikeRRepPhase.EcconEnum.ISO,
+					reducedCurveEcc.endPos,
+					changeEccCon + reducedCurveCon.endPos -1);
 	}
 
 	public void WriteToFileDebug (string filename)

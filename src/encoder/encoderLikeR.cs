@@ -116,11 +116,21 @@ public class EncoderLikeR
 		//TODO: check if this line (277) on capture.R is needed:
 		//if(abs(max(position) - min(position)) >= op$MinHeight)
 
+
+		string ecconFix = eccon;
+		if (eccon == "ecS" || eccon == "ceS")
+		{
+			if (sumDis >= 0)
+				ecconFix = "c";
+			else
+				ecconFix = "e";
+		}
+
 		EncoderLikeRKinematics kinematics = new EncoderLikeRKinematics (
-				dis_l, 15, eccon, econf.name,
+				dis_l, 15, ecconFix, econf.name,
 				massBody, massExtra,
 				anglePush, angleWeight, exercisePercentBodyWeight,
-				propulsive);
+				propulsive, minHeightMm);
 		/*
 		 * use position?
 		 * List<double> pos_l = UtilList.Cumsum (dis_l);
@@ -151,6 +161,28 @@ public class EncoderLikeR
 
 	public string [] RepetitionStrArray {
 		get { return repetitionStrArray; }
+	}
+}
+
+public class EncoderLikeRRepPhase
+{
+	public enum EcconEnum { ECC, ISO, CON };
+	public EcconEnum Eccon;
+	public int Start;
+	public int End;
+
+	public EncoderLikeRRepPhase (EcconEnum Eccon, int Start, int End)
+	{
+		this.Eccon = Eccon;
+		this.Start = Start;
+		this.End = End;
+	}
+
+	// just to debug
+	public override string ToString ()
+	{
+		return string.Format ("EncoderLikeRRepPhase Eccon: {0}, Start: {1}, End: {2}",
+				Eccon, Start, End);
 	}
 }
 

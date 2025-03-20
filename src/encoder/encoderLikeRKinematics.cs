@@ -29,6 +29,7 @@ public class EncoderLikeRKinematics
 	List<double> dis_l;
 	double butterworthFreq;
 	string eccon;
+	double gearedDown;
 	EncoderConfiguration.Names econfName;
 	double massBody;
 	double massExtra;
@@ -52,7 +53,8 @@ public class EncoderLikeRKinematics
 	private const double pi = 3.141593;
 
 	public EncoderLikeRKinematics (
-			List<double> dis_l, double butterworthFreq, string eccon, EncoderConfiguration.Names econfName,
+			List<double> dis_l, double butterworthFreq, string eccon,
+			EncoderConfiguration.Names econfName, double gearedDown,
 			double massBody, double massExtra,
 			int anglePush, int angleWeight, int exercisePercentBodyWeight,
 			bool propulsive, int minHeightMm)
@@ -62,6 +64,7 @@ public class EncoderLikeRKinematics
 		this.butterworthFreq = butterworthFreq;
 		this.eccon = eccon;
 		this.econfName = econfName;
+		this.gearedDown = gearedDown;
 		this.massBody = massBody;
 		this.massExtra = massExtra;
 		this.anglePush = anglePush;
@@ -73,8 +76,11 @@ public class EncoderLikeRKinematics
 		calculateSpeed ();
 		calculateAccel ();
 
+		int propulsiveEnd; //TODO: if not, select it as the concentric end
 		if (propulsive)
-			findPropulsiveEndPrepare ();
+			propulsiveEnd = findPropulsiveEndPrepare ();
+
+		getDynamics ();
 	}
 
 	private void calculateSpeed ()
@@ -117,8 +123,9 @@ public class EncoderLikeRKinematics
 		accel_l = bw.Y_l;
 	}
 
-	private void findPropulsiveEndPrepare ()
+	private int findPropulsiveEndPrepare ()
 	{
+		LogB.Information ("findPropulsiveEndPrepare, eccon: " + eccon);
 		List<double> disCON_l = new List<double> ();
 		int propulsiveEnd = disCON_l.Count -1;
 
@@ -153,7 +160,11 @@ public class EncoderLikeRKinematics
                         // #print("WARNING ECS\n\n\n\n\n")
                 }
 
+		if (propulsiveEnd >= accel_l.Count)
+			propulsiveEnd = accel_l.Count -1;
+
 		LogB.Information ("EncoderLikeRKinematics propulsiveEnd = " + propulsiveEnd.ToString ());
+		return propulsiveEnd;
 	}
 
 	// adapted from encoder/util.R
@@ -254,6 +265,49 @@ public class EncoderLikeRKinematics
 					reducedCurveEcc.endPos,
 					changeEccCon + reducedCurveCon.endPos -1);
 	}
+
+	private void getDynamics ()
+	{
+		double massBodyUsed = getMassBodyByExercise (massBody, exercisePercentBodyWeight);
+		double massExtraUsed = 0; //TODO: think if use massExtra of the class
+
+		if (
+				econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON1 ||
+				econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON1INV ||
+				econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON2 ||
+				econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON2INV ||
+				econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYROTARYFRICTION ||
+				econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYROTARYAXIS)
+			massExtraUsed = getMass (massExtraUsed);
+
+		double massTotal = massBodyUsed + massExtraUsed;
+
+		/*
+		 * TODO:
+		if (econf.has_inertia)
+			return (getDynamicsInertial(encoderConfigurationName, displacement, diameter, massTotal, inertiaMomentum, gearedDown, smoothing))
+		else
+			return (getDynamicsNotInertial (encoderConfigurationName, speed, accel,
+						massBody, massExtra, massTotal,
+						exercisePercentBodyWeight, gearedDown, anglePush, angleWeight))
+						*/
+	}
+
+	//gearedDown is positive, normally 2
+	//this is not used on inertial machines
+	private double getMass (double mass)
+	{
+		if(mass == 0)
+			return 0;
+
+		//default value of angle is 90 degrees. If is not selected, it's -1
+		double myAngle = anglePush;
+		if (myAngle == -1)
+			myAngle = 90;
+
+		return ( (mass / gearedDown) * Math.Sin (myAngle * pi / 180) );
+	}
+
 
 	public void WriteToFileDebug (string filename)
 	{

@@ -68,12 +68,12 @@ public class EncoderLikeR
 		if (econf.has_inertia)
 			dis_l = elrgd.GetDisplacementInertial (
 					curve_l, econf.name,
-					econf.d, econf.D, econf.gearedDown
+					econf.d, econf.D, econf.gearedDownLikeR
 					);
 		else
 			dis_l = elrgd.GetDisplacement (
 					capturing, econf.name,
-					curve_l, econf.d, econf.D, econf.gearedDown
+					curve_l, econf.d, econf.D, econf.gearedDownLikeR
 					);
 
 		LogB.Information (string.Format ("encoderLikeR before reduce: dis_l.Count: {0}", dis_l.Count));
@@ -127,7 +127,7 @@ public class EncoderLikeR
 		}
 
 		EncoderLikeRKinematics kinematics = new EncoderLikeRKinematics (
-				dis_l, 15, ecconFix, econf.name,
+				dis_l, 15, ecconFix, econf.name, econf.gearedDownLikeR,
 				massBody, massExtra,
 				anglePush, angleWeight, exercisePercentBodyWeight,
 				propulsive, minHeightMm);

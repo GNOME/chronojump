@@ -164,7 +164,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.57";
+	static string lastChronojumpDatabaseVersion = "2.58";
 
 	public Sqlite()
 	{
@@ -3474,6 +3474,48 @@ class Sqlite
 
 				currentVersion = updateVersion("2.57");
 			}
+			if(currentVersion == "2.57")
+			{
+				LogB.SQL("Doing alter table fourPlatforms totalTime int to float");
+
+				/*
+				 * totalTime is in seconds. Needs decimals.
+				 * Sqlite stores all as text, so int is really saved with the decimals.
+				 * But on select on C# shows it. So need to convert this field to float.
+				 */
+				try {
+					using(SQLiteTransaction tr = dbcon.BeginTransaction())
+					{
+						using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
+						{
+							dbcmdTr.Transaction = tr;
+
+							//1. create table temp (dropping it first if exists)
+							SqliteFourPlatforms.createTable_fourPlatforms_db_2_58_migration (dbcmdTr, "fourPlatformsTemp");
+
+							//2. copy data
+							dbcmdTr.CommandText = "INSERT INTO fourPlatformsTemp SELECT * from fourPlatforms";
+							LogB.SQL(dbcmdTr.CommandText.ToString());
+							dbcmdTr.ExecuteNonQuery();
+
+							//3. drop initial table
+							dbcmdTr.CommandText = "DROP TABLE fourPlatforms";
+							LogB.SQL(dbcmdTr.CommandText.ToString());
+							dbcmdTr.ExecuteNonQuery();
+
+							//4. rename table (this works on old sqlite implementations, tested on our cerbero)
+							dbcmdTr.CommandText = "ALTER TABLE fourPlatformsTemp RENAME TO fourPlatforms";
+							LogB.SQL(dbcmdTr.CommandText.ToString());
+							dbcmdTr.ExecuteNonQuery();
+						}
+						tr.Commit();
+					}
+				} catch {
+					LogB.SQL("Catched doing alter table fourPlatforms totalTime int to float");
+				}
+
+				currentVersion = updateVersion("2.58");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3717,7 +3759,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
-
+		//2.57 - 2.58 Converted DB to 2.58 alter table fourPlatforms totalTime int to float
 		//2.56 - 2.57 Converted DB to 2.57 alter table wilight added onString
 		//2.55 - 2.56 Converted DB to 2.56 Added preferences: RscriptUserURL, PythonUserURL
 		//2.54 - 2.55 Converted DB to 2.55 Created tables: Wilight

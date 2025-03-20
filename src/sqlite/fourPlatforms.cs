@@ -70,7 +70,7 @@ class SqliteFourPlatforms : Sqlite
 			"datetime TEXT, " + 	//2019-07-11_15-01-44
 			"comments TEXT, " +
 			"videoURL TEXT, " +	//URL of video of signals. stored as relative
-			"totalTime INT)";	//needed to sync with video. If we press finish when there are no pulsees we cannot sync. If we use totalTime we can sync.
+			"totalTime FLOAT)"; 	//note on 1->2 1->3 1->4 is the time from 1st 1 off that goes to a 2,3 or 4. to the last arrival to 2,3,4. There could be more events before and after
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
@@ -127,18 +127,18 @@ class SqliteFourPlatforms : Sqlite
 					reader[2].ToString() + ":" + 	//fourPlaforms.personID
 					reader[3].ToString() + ":" + 	//fourPlaforms.sessionID
 					reader[4].ToString() + ":" + 	//fourPlaforms.type
-					reader[5].ToString() + ":" + 	//fourPlaforms.b0_1
-					reader[6].ToString() + ":" + 	//fourPlaforms.b0_0
-					reader[7].ToString() + ":" + 	//fourPlaforms.b1_1
-					reader[8].ToString() + ":" + 	//fourPlaforms.b1_0
-					reader[9].ToString() + ":" + 	//fourPlaforms.b2_1
-					reader[10].ToString() + ":" + 	//fourPlaforms.b2_0
-					reader[11].ToString() + ":" + 	//fourPlaforms.b3_1
-					reader[12].ToString() + ":" + 	//fourPlaforms.b3_0
+					Util.CDS (reader[5].ToString()) + ":" + 	//fourPlaforms.b0_1
+					Util.CDS (reader[6].ToString()) + ":" + 	//fourPlaforms.b0_0
+					Util.CDS (reader[7].ToString()) + ":" + 	//fourPlaforms.b1_1
+					Util.CDS (reader[8].ToString()) + ":" + 	//fourPlaforms.b1_0
+					Util.CDS (reader[9].ToString()) + ":" + 	//fourPlaforms.b2_1
+					Util.CDS (reader[10].ToString()) + ":" + 	//fourPlaforms.b2_0
+					Util.CDS (reader[11].ToString()) + ":" + 	//fourPlaforms.b3_1
+					Util.CDS (reader[12].ToString()) + ":" + 	//fourPlaforms.b3_0
 					reader[13].ToString() + ":" + 	//datetime
 					reader[14].ToString() + ":" + 	//comments
 					reader[15].ToString() + ":" +	//videoURL
-					reader[16].ToString()	 	//totalTime
+					Util.CDS (reader[16].ToString())	 	//totalTime
 					);
 
 			count ++;
@@ -180,6 +180,33 @@ class SqliteFourPlatforms : Sqlite
 
 		closeIfNeeded(dbconOpened);
 	}
+
+	//this method is here to have a createTable that does not change in future versions
+	protected internal static void createTable_fourPlatforms_db_2_58_migration
+		(SQLiteCommand mycmd, string migrateToTable) //needed for migration from 2_57 to 2_58
+		{
+			mycmd.CommandText =
+				"DROP TABLE IF EXISTS '" + migrateToTable +
+				"'; CREATE TABLE '" + migrateToTable + "' ( " +
+				"uniqueID INTEGER PRIMARY KEY, " +
+				"personID INT, " +
+				"sessionID INT, " +
+				"exerciseID INT, " + //right now all will be exercise 0, until we have a clear idea of what exercises could be done and how can affect measurements
+				"b0_1 TEXT, " +  //on
+				"b0_0 TEXT, " +  //off
+				"b1_1 TEXT, " +
+				"b1_0 TEXT, " +
+				"b2_1 TEXT, " +
+				"b2_0 TEXT, " +
+				"b3_1 TEXT, " +
+				"b3_0 TEXT, " +
+				"datetime TEXT, " + 	//2019-07-11_15-01-44
+				"comments TEXT, " +
+				"videoURL TEXT, " +	//URL of video of signals. stored as relative
+				"totalTime FLOAT)";	//needed to sync with video. If we press finish when there are no pulsees we cannot sync. If we use totalTime we can sync.
+		LogB.SQL(mycmd.CommandText.ToString());
+		mycmd.ExecuteNonQuery();
+		}
 }
 
 //using fourPlatforms to store simple jumps

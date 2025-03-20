@@ -36,7 +36,6 @@ public class TreeViewJumps : TreeViewEvent
 	protected string initialSpeedName = Catalog.GetString("Initial Speed");
 	protected string rsiName = "RSI" + "\n(m/s)";
 	protected string angleName = Catalog.GetString("Angle");
-	protected string datetimeName = Catalog.GetString("Date");
 	protected bool showPowerFormula;
 
 	//one of both indexes can be shown if selected on preferences

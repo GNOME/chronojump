@@ -156,29 +156,25 @@ class SqliteFourPlatforms : Sqlite
 		return rows;
 	}
 
-	public static void Update (bool dbconOpened, string updateString)
+	//TODO: do this with wilight and all other tests
+	public static FourPlatforms SelectData (int uniqueID, bool dbconOpened)
 	{
-		openIfNeeded(dbconOpened);
-
-		dbcmd.CommandText = "UPDATE " + table + " SET " + updateString;
-
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		closeIfNeeded(dbconOpened);
+		return new FourPlatforms (selectTestData (uniqueID, dbconOpened, Constants.FourPlatformsTable, 16));
 	}
 
-	public static void UpdateComments (bool dbconOpened, int uniqueID, string comments)
+	public static void Update (int uniqueID,
+			//string type,	//TODO
+			int personID)
 	{
-		openIfNeeded(dbconOpened);
-
-		dbcmd.CommandText = "UPDATE " + table + " SET comments = '" + comments + "'" +
-			" WHERE uniqueID = " + uniqueID;
+		Sqlite.Open();
+		dbcmd.CommandText = "UPDATE " + Constants.FourPlatformsTable +
+			" SET personID = " + personID +
+			//", type = '" + type + //remember to close '
+			" WHERE uniqueID = " + uniqueID ;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-
-		closeIfNeeded(dbconOpened);
+		Sqlite.Close();
 	}
 
 	//this method is here to have a createTable that does not change in future versions

@@ -4891,6 +4891,30 @@ LogB.SQL("5" + tableName);
 			limitString;
 	}
 
+	protected static string [] selectTestData (int uniqueID, bool dbconOpened, string tablename, int columns)
+	{
+		if(!dbconOpened)
+			Sqlite.Open();
+
+		dbcmd.CommandText = "SELECT * FROM " + tablename + " WHERE uniqueID = " + uniqueID;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		reader.Read();
+
+		string [] testData = DataReaderToStringArray (reader, columns);
+
+		reader.Close();
+		if(!dbconOpened)
+			Sqlite.Close();
+
+		return testData;
+	}
+
 	protected static string [] DataReaderToStringArray (SQLiteDataReader reader, int columns) {
 		string [] myReaderStr = new String[columns];
 		for (int i=0; i < columns; i ++)

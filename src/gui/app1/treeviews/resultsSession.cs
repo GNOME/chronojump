@@ -73,8 +73,7 @@ public partial class ChronoJumpWindow
 
 		if (current_mode == Constants.Modes.JUMPSSIMPLE ||
 				current_mode == Constants.Modes.RUNSSIMPLE ||
-				current_mode == Constants.Modes.WILIGHT ||
-				current_mode == Constants.Modes.OTHER) 	//FOURPLATFORMS
+				current_mode == Constants.Modes.WILIGHT)
 		{
 			on_treeview_test_simple_cursor_changed (o, args);
 		}
@@ -85,6 +84,10 @@ public partial class ChronoJumpWindow
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
 			on_treeview_runs_interval_cursor_changed (o, args);
+		}
+		else if (current_mode == Constants.Modes.OTHER) 	//FOURPLATFORMS
+		{
+			on_treeview_fourPlatforms_cursor_changed (o, args);
 		}
 	}
 
@@ -162,11 +165,9 @@ public partial class ChronoJumpWindow
 		}
 		else if (current_mode == Constants.Modes.OTHER) //FOURPLATFORMS
 		{
-			/*
 			ev = SqliteFourPlatforms.SelectData (
 					treeViewResultsSession.EventSelectedID, false);
 			treeviewResultsContextMenu (false, " (" + ev.PersonName + ")");
-			*/
 		}
 	}
 

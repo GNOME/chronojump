@@ -82,22 +82,15 @@ public partial class ChronoJumpWindow
 
 		showHideActionEventButtons(true);
 
-		/* 
-		 * TODO: but using fourPlatforms and thing if type is needed
-		 *
 		//graph the run on realtime cairo graph. Using selectedRunInterval to avoid SQL select continuously
-		if(selectedRunInterval == null || selectedRunIntervalType == null ||
-				selectedRunInterval.UniqueID != treeViewResultsSession.EventSelectedID)
+		if(selectedFourPlatforms == null || //selectedFourPlatformsType == null ||
+				selectedFourPlatforms.UniqueID != treeViewResultsSession.EventSelectedID)
 		{
-			selectedRunInterval = SqliteRunInterval.SelectRunData (Constants.RunIntervalTable, treeViewResultsSession.EventSelectedID, true, false);
-			selectedRunIntervalType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(selectedRunInterval.Type, false);
+			selectedFourPlatforms = SqliteFourPlatforms.SelectData (treeViewResultsSession.EventSelectedID, false);
+			//selectedRunIntervalType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(selectedRunInterval.Type, false); //TODO: with fourPlatforms (when there are types)
 
-			/*
-			/*
-			LogB.Information("selectedRunInterval: " + selectedRunInterval.ToString());
-			LogB.Information("selectedRunIntervalType: " + selectedRunIntervalType.ToString());
-			*/
-		//}
+			//LogB.Information("selectedFourPlatforms: " + selectedFourPlatforms.ToString());
+		}
 
 		/*
 		 * TODO:

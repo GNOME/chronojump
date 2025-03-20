@@ -36,7 +36,6 @@ public class FourPlatforms : Event
 	private List<double> b3_1_l;
 	private List<double> b3_0_l;
 	private double totalTime;
-	private string description;
 
 	private List<List<double>> bAll_l;
 
@@ -87,22 +86,28 @@ public class FourPlatforms : Event
 		bAll_l.Add (b3_0_l);
 	}
 
-	/* 
-	 * TODO:
 	//used to select a fourPlatforms SqliteFourPlatforms.SelectData
-	public FourPlatforms (string [] eventString)
+	public FourPlatforms (string [] eventStr)
 	{
-		this.uniqueID = Convert.ToInt32(eventString[0]);
-		this.personID = Convert.ToInt32(eventString[1]);
-		this.sessionID = Convert.ToInt32(eventString[2]);
-		this.exerciseID = Convert.ToInt32(eventString[3]);
-		this.dateTime = eventString[4];
-		this.videoURL = eventString[5];
-		this.totalMs = Convert.ToInt32(eventString[6]);
-		this.onString = eventString[7];
-		this.description = "";
+		this.uniqueID = Convert.ToInt32 (eventStr[0]);
+		this.personID = Convert.ToInt32 (eventStr[1]);
+		this.sessionID = Convert.ToInt32 (eventStr[2]);
+		this.exerciseID = Convert.ToInt32 (eventStr[3]);
+		this.b0_1_l = UtilList.SQLStringToListDouble (eventStr[4].ToString (), "=");
+		this.b0_0_l = UtilList.SQLStringToListDouble (eventStr[5].ToString (), "=");
+		this.b1_1_l = UtilList.SQLStringToListDouble (eventStr[6].ToString (), "=");
+		this.b1_0_l = UtilList.SQLStringToListDouble (eventStr[7].ToString (), "=");
+		this.b2_1_l = UtilList.SQLStringToListDouble (eventStr[8].ToString (), "=");
+		this.b2_0_l = UtilList.SQLStringToListDouble (eventStr[9].ToString (), "=");
+		this.b3_1_l = UtilList.SQLStringToListDouble (eventStr[10].ToString (), "=");
+		this.b3_0_l = UtilList.SQLStringToListDouble (eventStr[11].ToString (), "=");
+		this.dateTime = eventStr[12].ToString ();
+		this.description = eventStr[13].ToString ();
+		this.videoURL = eventStr[14].ToString ();
+		this.totalTime = Convert.ToDouble (eventStr[15].ToString());
 	}
 
+	/*
 	public static List<Event> WilightListToEventList (List<Wilight> ws)
 	{
 		List<Event> events = new List<Event>();

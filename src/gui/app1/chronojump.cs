@@ -438,6 +438,7 @@ public partial class ChronoJumpWindow
 	private static JumpRj selectedJumpRj;
 	private static RunInterval selectedRunInterval;
 	private static RunType selectedRunIntervalType; //we need this for variable distances
+	private static FourPlatforms selectedFourPlatforms;
 
 	private static EventExecute currentEventExecute;
 
@@ -473,7 +474,8 @@ public partial class ChronoJumpWindow
 	RepairJumpRjWindow repairJumpRjWin;
 	JumpTypeAddWindow jumpTypeAddWin;
 	EditWilightWindow editWilightWin;
-	
+	EditFourPlatformsWindow editFourPlatformsWin;
+
 	RunsMoreWindow runsMoreWin;
 	RunsIntervalMoreWindow runsIntervalMoreWin;
 	RunTypeAddWindow runTypeAddWin;
@@ -6417,6 +6419,8 @@ public partial class ChronoJumpWindow
 			on_edit_selected_run_interval_clicked (o, args);
 		else if (current_mode == Constants.Modes.WILIGHT)
 			on_edit_selected_wilight_clicked (o, args);
+		else if (current_mode == Constants.Modes.OTHER)
+			on_edit_selected_fourPlatforms_clicked (o, args);
 	}
 
 	private void on_edit_selected_jump_clicked (object o, EventArgs args)
@@ -6621,6 +6625,38 @@ public partial class ChronoJumpWindow
 		updateGraphWilightBars ();
 	}
 
+	private void on_edit_selected_fourPlatforms_clicked (object o, EventArgs args)
+	{
+		//notebooks_change(2); see "notebooks_change sqlite problem"
+		LogB.Information("Edit selected wilight");
+		//1.- check that there's a line selected
+		//2.- check that this line is a wilight and not a person (check also if it's not a individual RJ, the pass the parent RJ)
+		int selectedID = treeViewResultsSession.EventSelectedID;
+		if (selectedID <= 0)
+			return;
+
+		//3.- obtain the data of the selected test
+		FourPlatforms fp = SqliteFourPlatforms.SelectData (selectedID, false );
+		eventOldPerson = fp.PersonID;
+
+		//4.- edit this test
+		editFourPlatformsWin = EditFourPlatformsWindow.Show (app1, fp);
+		editFourPlatformsWin.Button_accept.Clicked += new EventHandler (on_edit_selected_fourPlatforms_accepted);
+	}
+	private void on_edit_selected_fourPlatforms_accepted (object o, EventArgs args)
+	{
+		LogB.Information("edit selected fourPlatforms accepted");
+		FourPlatforms fourPlatforms = SqliteFourPlatforms.SelectData (treeViewResultsSession.EventSelectedID, false);
+
+		//if person changed, fill treeview again, if not, only update it's line
+		if (eventOldPerson == fourPlatforms.PersonID)
+			treeViewResultsSession.Update (fourPlatforms);
+		else
+			pre_fillTreeView_resultsSession (false);
+
+		//updateGraphFourPlatformsBars ();
+	}
+
 	/* ---------------------------------------------------------
 	 * ----------------  EVENTS DELETE -------------------------
 	 *  --------------------------------------------------------
@@ -6646,6 +6682,8 @@ public partial class ChronoJumpWindow
 			force_sensor_delete_current_test_pre_question();
 		else if (current_mode == Constants.Modes.WILIGHT)
 			on_delete_selected_wilight_clicked (o, args);
+		//else if (current_mode == Constants.Modes.OTHER) //TODO
+		//	on_delete_selected_fourPlatforms_clicked (o, args);
 	}
 
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {
@@ -7037,6 +7075,8 @@ public partial class ChronoJumpWindow
 			on_repair_selected_jump_rj_clicked (o, args);
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			on_repair_selected_run_interval_clicked (o, args);
+		//else if (current_mode == Constants.Modes.OTHER) //TODO
+		//	on_repair_selected_fourPlatforms_clicked (o, args);
 	}
 
 	private void on_repair_selected_jump_rj_clicked (object o, EventArgs args) {

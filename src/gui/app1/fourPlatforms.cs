@@ -535,24 +535,21 @@ public partial class ChronoJumpWindow
 	}
 	private void fourPlatformsInsertToSQLOther ()
 	{
-		string insertString = "(NULL, " +
-			currentPerson.UniqueID + ", " +
-			currentSession.UniqueID + ", " +
-			"0, '" + //exerciseID
-			UtilDate.ToFile (DateTime.Now) + "', '" +
-			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOn_ll[0], 3, "="))  + "', '" +
-			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOff_ll[0], 3, "=")) + "', '" +
-			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOn_ll[1], 3, "="))  + "', '" +
-			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOff_ll[1], 3, "=")) + "', '" +
-			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOn_ll[2], 3, "="))  + "', '" +
-			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOff_ll[2], 3, "=")) + "', '" +
-			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOn_ll[3], 3, "="))  + "', '" +
-			Util.ConvertToPoint (UtilList.ListDoubleToString (fpcm.TimesOff_ll[3], 3, "=")) + "', " +
-			"'', '', " +  //comments, videoURL
-			Util.ConvertToPoint (fpcm.TimeEnd - fpcm.TimeStart) + ")";
+		FourPlatforms fp = new FourPlatforms (
+				-1,
+				currentPerson.UniqueID,
+				currentSession.UniqueID,
+				0, //exerciseID
+				UtilDate.ToFile (DateTime.Now),
+				"", //videoURL,
+				fpcm.TimesOn_ll[0], fpcm.TimesOff_ll[0],
+				fpcm.TimesOn_ll[1], fpcm.TimesOff_ll[1],
+				fpcm.TimesOn_ll[2], fpcm.TimesOff_ll[2],
+				fpcm.TimesOn_ll[3], fpcm.TimesOff_ll[3],
+				fpcm.TimeEnd - fpcm.TimeStart,
+				""); //description
 
-
-		SqliteFourPlatforms.Insert (false, insertString);
+		fp.InsertSQL (false);
 	}
 
 	private void fourPlatformsButtonsSensitive (bool sensitive)

@@ -540,14 +540,15 @@ public partial class ChronoJumpWindow
 				currentPerson.UniqueID,
 				currentSession.UniqueID,
 				0, //exerciseID
-				UtilDate.ToFile (DateTime.Now),
-				"", //videoURL,
 				fpcm.TimesOn_ll[0], fpcm.TimesOff_ll[0],
 				fpcm.TimesOn_ll[1], fpcm.TimesOff_ll[1],
 				fpcm.TimesOn_ll[2], fpcm.TimesOff_ll[2],
 				fpcm.TimesOn_ll[3], fpcm.TimesOff_ll[3],
-				fpcm.TimeEnd - fpcm.TimeStart,
-				""); //description
+				UtilDate.ToFile (DateTime.Now),
+				"", //description
+				"", //videoURL,
+				fpcm.TimeEnd - fpcm.TimeStart //totalTime
+				);
 
 		fp.InsertSQL (false);
 	}

@@ -28,7 +28,6 @@ using Mono.Unix;
 public class TreeViewRuns : TreeViewEvent
 {
 	protected bool metersSecondsPreferred;
-	protected string datetimeName = Catalog.GetString("Date");
 
 	public TreeViewRuns ()
 	{

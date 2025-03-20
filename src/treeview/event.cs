@@ -40,6 +40,7 @@ public class TreeViewEvent
 	protected string allEventsName; //Constants.AllJumpsName or Constants.AllRunsName orConstants.AllPulsesName
 	protected int eventIDColumn; //column where the uniqueID of event will be (and will be hidden)
 	protected string videoName = Catalog.GetString("Video");
+	protected string datetimeName = Catalog.GetString("Date");
 	protected string descriptionName = Catalog.GetString("Description");
 
 	//to calculate potency (on jumps)
@@ -171,7 +172,7 @@ public class TreeViewEvent
 		return nothing;
 	}
 
-	public virtual void Fill(string [] myEvents, string filter, List<string> videos_l)
+	public virtual void Fill (string [] myEvents, string filter, List<string> videos_l)
 	{
 		this.videos_l = videos_l;
 
@@ -179,7 +180,8 @@ public class TreeViewEvent
 		TreeIter iterDeep = new TreeIter(); //only used by two levels treeviews
 		string tempPerson = ":"; //one value that's not possible
 
-		foreach (string singleEvent in myEvents) {
+		foreach (string singleEvent in myEvents)
+		{
 			string [] myStringFull = singleEvent.Split(new char[] {':'});
 
 			//show always the names of persons ...
@@ -197,11 +199,12 @@ public class TreeViewEvent
 				
 				//getLineToStoreFromString is overriden in two level treeviews
 				iterDeep = store.AppendValues (iter, getLineToStore(myEvent));
-				if(treeviewHasTwoLevels) {
-					addStatisticInfo(iterDeep, myEvent);
-					for(int i = 0; i < getNumOfSubEvents(myEvent); i ++) {
-						store.AppendValues(iterDeep, getSubLineToStore(myEvent, i));
-					}
+				if (treeviewHasTwoLevels)
+				{
+					addStatisticInfo (iterDeep, myEvent);
+					int nSubEvents = getNumOfSubEvents (myEvent);
+					for(int i = 0; i < nSubEvents; i ++)
+						store.AppendValues (iterDeep, getSubLineToStore (myEvent, i));
 				}
 			}
 		}

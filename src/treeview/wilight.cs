@@ -29,7 +29,6 @@ public class TreeViewWilight : TreeViewEvent
 {
 	protected string personName = Catalog.GetString("Person");
 	protected string totalTimeName = Catalog.GetString("Total time");
-	protected string datetimeName = Catalog.GetString("Date");
 
 	public TreeViewWilight ()
 	{

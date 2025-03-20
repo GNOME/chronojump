@@ -32,6 +32,7 @@ public class Event
 	protected string type;
 	protected string description;
 	protected int simulated;
+	protected string dateTime;
 
 	public Event() {
 	}
@@ -94,8 +95,11 @@ public class Event
 		//this is very inneficient if we are processing a list of events, eg. jumps
 		get { return SqlitePerson.SelectAttribute(personID, Constants.Name); }
 	}
-	
-	
+
+	public string DateTime {
+		get { return dateTime; }
+	}
+
 	~Event() {}
 	   
 }

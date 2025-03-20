@@ -39,7 +39,7 @@ public partial class ChronoJumpWindow
 
 	private void createTreeView_resultsSession (Gtk.TreeView tv)
 	{
-		LogB.Information ("createTreeView_resultsSession");
+		LogB.Information ("createTreeView_resultsSession mode = " + current_mode.ToString ());
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
 			treeViewResultsSession = new TreeViewJumps (tv, preferences, TreeViewEvent.ExpandStates.MINIMIZED);
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
@@ -50,6 +50,8 @@ public partial class ChronoJumpWindow
 			treeViewResultsSession = new TreeViewRunsInterval (tv, preferences.digitsNumber, preferences.metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED);
 		else if (current_mode == Constants.Modes.WILIGHT)
 			treeViewResultsSession = new TreeViewWilight (tv, preferences.digitsNumber, TreeViewEvent.ExpandStates.MINIMIZED );
+		else if (current_mode == Constants.Modes.OTHER)
+			treeViewResultsSession = new TreeViewFourPlatforms (tv, preferences.digitsNumber, TreeViewEvent.ExpandStates.MINIMIZED );
 		else
 			treeViewResultsSession = new TreeViewJumps (tv, preferences, TreeViewEvent.ExpandStates.MINIMIZED); //default to fix any temporary crash at start (seems there is a personChanged but still not mode)
 
@@ -71,7 +73,8 @@ public partial class ChronoJumpWindow
 
 		if (current_mode == Constants.Modes.JUMPSSIMPLE ||
 				current_mode == Constants.Modes.RUNSSIMPLE ||
-				current_mode == Constants.Modes.WILIGHT)
+				current_mode == Constants.Modes.WILIGHT ||
+				current_mode == Constants.Modes.OTHER) 	//FOURPLATFORMS
 		{
 			on_treeview_test_simple_cursor_changed (o, args);
 		}
@@ -115,6 +118,9 @@ public partial class ChronoJumpWindow
 		else if (current_mode == Constants.Modes.WILIGHT)
 			treeViewResultsSession = new TreeViewWilight (
 					treeview_results_session, preferences.digitsNumber, treeViewResultsSession.ExpandState);
+		else if (current_mode == Constants.Modes.OTHER)
+			treeViewResultsSession = new TreeViewFourPlatforms (
+					treeview_results_session, preferences.digitsNumber, treeViewResultsSession.ExpandState);
 	}
 
 	private void on_treeview_results_session_button_release_event (object o, ButtonReleaseEventArgs args)
@@ -153,6 +159,14 @@ public partial class ChronoJumpWindow
 			ev = SqliteWilight.SelectData (
 					treeViewResultsSession.EventSelectedID, false);
 			treeviewResultsContextMenu (false, " (" + ev.PersonName + ")");
+		}
+		else if (current_mode == Constants.Modes.OTHER) //FOURPLATFORMS
+		{
+			/*
+			ev = SqliteFourPlatforms.SelectData (
+					treeViewResultsSession.EventSelectedID, false);
+			treeviewResultsContextMenu (false, " (" + ev.PersonName + ")");
+			*/
 		}
 	}
 

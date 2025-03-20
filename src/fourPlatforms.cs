@@ -26,7 +26,6 @@ using System.Diagnostics;  //Stopwatch
 public class FourPlatforms : Event
 {
 	private int exerciseID; //until fourPlatformsExercise table is not created, all will be 0
-	private string dateTime;
 	private string videoURL;
 	private List<double> b0_1_l;
 	private List<double> b0_0_l;
@@ -39,6 +38,8 @@ public class FourPlatforms : Event
 	private double totalTime;
 	private string description;
 
+	private List<List<double>> bAll_l;
+
 	/*
 	//constructor used after deleting a test
 	public Wilight ()
@@ -49,20 +50,19 @@ public class FourPlatforms : Event
 
 	//regular constructor
 	public FourPlatforms (int uniqueID, int personID, int sessionID, int exerciseID,
-			string dateTime, string videoURL,
 			List<double> b0_1_l, List<double> b0_0_l,
 			List<double> b1_1_l, List<double> b1_0_l,
 			List<double> b2_1_l, List<double> b2_0_l,
 			List<double> b3_1_l, List<double> b3_0_l,
-			double totalTime,
-			string description)
+			string dateTime,
+			string description,
+			string videoURL,
+			double totalTime)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
 		this.sessionID = sessionID;
 		this.exerciseID = exerciseID;
-		this.dateTime = dateTime;
-		this.videoURL = videoURL;
 		this.b0_1_l = b0_1_l;
 		this.b0_0_l = b0_0_l;
 		this.b1_1_l = b1_1_l;
@@ -71,8 +71,20 @@ public class FourPlatforms : Event
 		this.b2_0_l = b2_0_l;
 		this.b3_1_l = b3_1_l;
 		this.b3_0_l = b3_0_l;
-		this.totalTime = totalTime;
+		this.dateTime = dateTime;
 		this.description = description;
+		this.videoURL = videoURL;
+		this.totalTime = totalTime;
+
+		bAll_l = new List<List<double>> ();
+		bAll_l.Add (b0_1_l);
+		bAll_l.Add (b0_0_l);
+		bAll_l.Add (b1_1_l);
+		bAll_l.Add (b1_0_l);
+		bAll_l.Add (b2_1_l);
+		bAll_l.Add (b2_0_l);
+		bAll_l.Add (b3_1_l);
+		bAll_l.Add (b3_0_l);
 	}
 
 	/* 
@@ -126,12 +138,59 @@ public class FourPlatforms : Event
 			Util.ConvertToPoint (totalTime) + ")";
 	}
 
-	/*
-	public int TotalMs {
-		get { return totalMs; }
+	private List<double> getList (int channel, bool isOn)
+	{
+		if (channel == 0 && isOn)
+			return b0_1_l;
+		else if (channel == 0 && ! isOn)
+			return b0_0_l;
+		else if (channel == 1 && isOn)
+			return b1_1_l;
+		else if (channel == 1 && ! isOn)
+			return b1_0_l;
+		else if (channel == 2 && isOn)
+			return b2_1_l;
+		else if (channel == 2 && ! isOn)
+			return b2_0_l;
+		else if (channel == 3 && isOn)
+			return b3_1_l;
+		else //if (channel == 3 && ! isOn)
+			return b3_0_l;
 	}
-	public string DateTime {
-		get { return dateTime; }
+
+	/*
+	public double GetTimeAtChannel (int channel, bool isOn, int i)
+	{
+		List<double> l = getList (channel, isOn);
+		if (i < l.Count)
+			return l[i];
+		else
+			return -1;
 	}
 	*/
+	public string GetTimeAtChannelAsStr (int channel, bool isOn, int i)
+	{
+		List<double> l = getList (channel, isOn);
+		if (i < l.Count)
+			return l[i].ToString ();
+		else
+			return "";
+	}
+
+	public int GetMaxEventsOnAnyChannel
+	{
+		get {
+			int max = 0;
+			foreach (List<double> b_l in bAll_l)
+				if (b_l.Count > max)
+					max = b_l.Count;
+
+			return max;
+		}
+	}
+
+	public double TotalTime
+	{
+		get { return totalTime; }
+	}
 }

@@ -26,7 +26,6 @@ using System.Diagnostics;  //Stopwatch
 public class Wilight : Event
 {
 	private int exerciseID; //until wilightExercise table is not created, all will be 0
-	private string dateTime;
 	private string videoURL;
 	private int totalMs;
 	private string onString; //8;2035;ON=6;2120;ON=...
@@ -94,9 +93,6 @@ public class Wilight : Event
 
 	public int TotalMs {
 		get { return totalMs; }
-	}
-	public string DateTime {
-		get { return dateTime; }
 	}
 }
 

@@ -3180,7 +3180,8 @@ public partial class ChronoJumpWindow
 		//contacts test buttons: edit, delete (visible)
 		if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE ||
 				m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC ||
-				m == Constants.Modes.WILIGHT)
+				m == Constants.Modes.WILIGHT ||
+				m == Constants.Modes.OTHER) //FOURPLATFORMS
 			button_contacts_edit_selected.Visible = true;
 		else
 			button_contacts_edit_selected.Visible = false;
@@ -7075,7 +7076,8 @@ public partial class ChronoJumpWindow
 			on_repair_selected_jump_rj_clicked (o, args);
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			on_repair_selected_run_interval_clicked (o, args);
-		//else if (current_mode == Constants.Modes.OTHER) //TODO
+		//TODO, but is lot of code, try to merge 1st: RepairJumpRjWindow, RepairRunIntervalWindow
+		//else if (current_mode == Constants.Modes.OTHER)
 		//	on_repair_selected_fourPlatforms_clicked (o, args);
 	}
 

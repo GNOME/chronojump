@@ -106,7 +106,7 @@ class SqliteWilight : Sqlite
 			SqlitePersonSession.SelectCurrentSessionPersonsAsList (true, sessionID);
 
 		dbcmd.CommandText = selectResultsCreateSelection (
-				Constants.WilightTable,
+				table,
 				sessionID, personID, "", //type,
 				order, limit, false //onlyBestInSession
 				);
@@ -164,7 +164,7 @@ class SqliteWilight : Sqlite
 		openIfNeeded(dbconOpened);
 
 		dbcmd.CommandText = selectResultsCreateSelection (
-				Constants.WilightTable,
+				table,
 				sessionID, personID, "", //type,
 				order, limit, false //onlyBestInSession
 				);
@@ -210,26 +210,7 @@ class SqliteWilight : Sqlite
 
 	public static Wilight SelectData (int uniqueID, bool dbconOpened)
 	{
-		if(!dbconOpened)
-			Sqlite.Open();
-
-		dbcmd.CommandText = "SELECT * FROM " + Constants.WilightTable + " WHERE uniqueID = " + uniqueID;
-
-		LogB.SQL(dbcmd.CommandText.ToString());
-
-		dbcmd.ExecuteNonQuery();
-
-		SQLiteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-		reader.Read();
-
-		Wilight wilight = new Wilight(DataReaderToStringArray(reader, 8));
-
-		reader.Close();
-		if(!dbconOpened)
-			Sqlite.Close();
-
-		return wilight;
+		return new Wilight (selectTestData (uniqueID, dbconOpened, table, 8));
 	}
 
 	public static void Update (int uniqueID,
@@ -237,7 +218,7 @@ class SqliteWilight : Sqlite
 			int personID)
 	{
 		Sqlite.Open();
-		dbcmd.CommandText = "UPDATE " + Constants.WilightTable +
+		dbcmd.CommandText = "UPDATE " + table +
 			" SET personID = " + personID +
 			//", type = '" + type + //remember to close '
 			" WHERE uniqueID = " + uniqueID ;

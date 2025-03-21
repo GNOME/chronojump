@@ -304,6 +304,7 @@ public class SessionTestsCount
 	public int RunsInterval;
 	public int RunsEncoder;
 	public int Wilight;
+	public int FourPlatforms;
 	public int Isometric;
 	public int Elastic;
 	public int WeightsSets;

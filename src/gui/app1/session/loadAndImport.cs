@@ -149,16 +149,20 @@ public partial class ChronoJumpWindow
 				current_mode == Constants.Modes.RUNSENCODER);
 		app1s_checkbutton_show_data_reaction_time.Active =
 			current_mode == Constants.Modes.WILIGHT && configChronojump.Wilight;
+		app1s_checkbutton_show_data_fourPlatforms.Active =
+			current_mode == Constants.Modes.OTHER && configChronojump.FourPlatforms; //FOURPLATFORMS
 		app1s_checkbutton_show_data_isometric.Active = (current_mode == Constants.Modes.FORCESENSORISOMETRIC);
 		app1s_checkbutton_show_data_elastic.Active = (current_mode == Constants.Modes.FORCESENSORELASTIC);
 		app1s_checkbutton_show_data_weights.Active = (current_mode == Constants.Modes.POWERGRAVITATORY);
 		app1s_checkbutton_show_data_inertial.Active = (current_mode == Constants.Modes.POWERINERTIAL);
 
 		app1s_box_show_data_reaction_time.Visible = configChronojump.Wilight; //TODO: remove this when the mode is official
+		app1s_box_show_data_fourPlatforms.Visible = configChronojump.FourPlatforms; //TODO: remove this when the mode is official
 
 		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_jumps);
 		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_runs);
 		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_reaction_time);
+		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_fourPlatforms);
 		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_isometric);
 		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_elastic);
 		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_weights);
@@ -185,7 +189,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private TreeStore app1s_getStore (bool loadOrImport, bool showPersons,
-			bool showJumps, bool showRuns, bool showReactionTime,
+			bool showJumps, bool showRuns, bool showReactionTime, bool showFourPlatforms,
 			bool showIsometric, bool showElastic,
 			bool showWeights, bool showInertial)//, bool showRT, bool showOther)
 	{
@@ -200,6 +204,8 @@ public partial class ChronoJumpWindow
 		if(showRuns)
 			columns += 3; //includes race analyzer
 		if(showReactionTime)
+			columns ++;
+		if(showFourPlatforms)
 			columns ++;
 		if(showIsometric)
 			columns ++;
@@ -255,7 +261,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private void app1s_createTreeView (Gtk.TreeView tv, bool loadOrImport, bool showPersons,
-			bool showJumps, bool showRuns, bool showReactionTime,
+			bool showJumps, bool showRuns, bool showReactionTime, bool showFourPlatforms,
 			bool showIsometric, bool showElastic,
 			bool showWeights, bool showInertial)//, bool showRT, bool showOther)
 	{
@@ -305,6 +311,8 @@ public partial class ChronoJumpWindow
 		}
 		if (showReactionTime)
 			tv.AppendColumn (Catalog.GetString ("Reaction time"), new CellRendererText(), "text", count++);
+		if (showFourPlatforms)
+			tv.AppendColumn ("FourPlatforms", new CellRendererText(), "text", count++);
 		if (showIsometric)
 			tv.AppendColumn (Catalog.GetString ("Isometric"), new CellRendererText(), "text", count++);
 		if (showElastic)
@@ -365,6 +373,9 @@ public partial class ChronoJumpWindow
 
 		app1s_viewport_checkbutton_show_data_reaction_time.Visible =
 			(app1s_check_filter_by_sensor.Active && app1s_checkbutton_show_data_reaction_time.Active);
+
+		app1s_viewport_checkbutton_show_data_fourPlatforms.Visible =
+			(app1s_check_filter_by_sensor.Active && app1s_checkbutton_show_data_fourPlatforms.Active);
 
 		app1s_viewport_checkbutton_show_data_isometric.Visible =
 			(app1s_check_filter_by_sensor.Active && app1s_checkbutton_show_data_isometric.Active);
@@ -480,6 +491,7 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
 				app1s_checkbutton_show_data_reaction_time.Active,
+				app1s_checkbutton_show_data_fourPlatforms.Active,
 				app1s_checkbutton_show_data_force_sensor.Active,
 				app1s_checkbutton_show_data_encoder.Active,
 				app1s_checkbutton_show_data_rt.Active,
@@ -503,6 +515,7 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
 				app1s_checkbutton_show_data_reaction_time.Active,
+				app1s_checkbutton_show_data_fourPlatforms.Active,
 				app1s_checkbutton_show_data_isometric.Active,
 				app1s_checkbutton_show_data_elastic.Active,
 				app1s_checkbutton_show_data_weights.Active,
@@ -516,6 +529,7 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
 				app1s_checkbutton_show_data_reaction_time.Active,
+				app1s_checkbutton_show_data_fourPlatforms.Active,
 				app1s_checkbutton_show_data_isometric.Active,
 				app1s_checkbutton_show_data_elastic.Active,
 				app1s_checkbutton_show_data_weights.Active,
@@ -583,6 +597,7 @@ public partial class ChronoJumpWindow
 		bool showJumps = app1s_checkbutton_show_data_jumps.Active;
 		bool showRuns = app1s_checkbutton_show_data_runs.Active;
 		bool showReactionTime = app1s_checkbutton_show_data_reaction_time.Active;
+		bool showFourPlatforms = app1s_checkbutton_show_data_fourPlatforms.Active;
 		bool showIsometric = app1s_checkbutton_show_data_isometric.Active;
 		bool showElastic = app1s_checkbutton_show_data_elastic.Active;
 		bool showWeights = app1s_checkbutton_show_data_weights.Active;
@@ -597,6 +612,8 @@ public partial class ChronoJumpWindow
 		if(showRuns)
 			columns += 3; //includes race analyzer
 		if(showReactionTime)
+			columns ++;
+		if(showFourPlatforms)
 			columns ++;
 		if(showIsometric)
 			columns ++;
@@ -625,7 +642,7 @@ public partial class ChronoJumpWindow
 		{
 			LogB.Information ("sessionTestsCount_l.Count", sessionTestsCount_l.Count);
 			if (discardSessionBySensorFilter (stc,
-						showJumps, showRuns, showReactionTime,
+						showJumps, showRuns, showReactionTime, showFourPlatforms,
 						showIsometric, showElastic,
 						showWeights, showInertial))
 				continue;
@@ -691,6 +708,8 @@ public partial class ChronoJumpWindow
 			}
 			if(showReactionTime)
 				strings[i ++] = stc.Wilight.ToString ();
+			if(showFourPlatforms)
+				strings[i ++] = stc.FourPlatforms.ToString ();
 			if (showIsometric)
 				strings[i ++] = stc.Isometric.ToString ();
 			if (showElastic)
@@ -754,7 +773,7 @@ public partial class ChronoJumpWindow
 	*/
 
 	public bool discardSessionBySensorFilter (SessionTestsCount stc,
-			bool showJumps, bool showRuns, bool showReactionTime,
+			bool showJumps, bool showRuns, bool showReactionTime, bool showFourPlatforms,
 			bool showIsometric, bool showElastic,
 			bool showWeights, bool showInertial)//, bool showRT, bool showOther)
 	{
@@ -769,6 +788,8 @@ public partial class ChronoJumpWindow
 		else if (showRuns && stc.RunsSimple == 0 && stc.RunsInterval == 0 && stc.RunsEncoder == 0)
 			return true;
 		else if (showReactionTime && stc.Wilight == 0)
+			return true;
+		else if (showFourPlatforms && stc.FourPlatforms == 0)
 			return true;
 		else if (showIsometric && stc.Isometric == 0)
 			return true;

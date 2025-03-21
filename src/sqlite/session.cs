@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -433,7 +433,7 @@ class SqliteSession : Sqlite
 	*/
 
 	private static double testsProgress;
-	private static int testsAll = 16;
+	private static int testsAll = 17;
 
 	public static void TestsProgressReset ()
 	{
@@ -502,33 +502,11 @@ class SqliteSession : Sqlite
 
 	//separating selectAllSessionTestsCountDo in parts
 	//for clarity and for being able to be called from another method
-	public static ArrayList SelectAllSessionsTestsRunEncoder (string personStr)
+	public static ArrayList SelectAllSessionsTestsSpecific (string tableName, string personStr)
 	{
 		ArrayList array = new ArrayList(2);
 
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.RunEncoderTable +
-			personStr +
-			" GROUP BY sessionID ORDER BY sessionID";
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		SQLiteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-
-		while(reader.Read())
-			array.Add (reader[0].ToString() + ":" + reader[1].ToString() + ":" );
-
-		reader.Close();
-		return array;
-	}
-
-	//separating selectAllSessionTestsCountDo in parts
-	//for clarity and for being able to be called from another method
-	public static ArrayList SelectAllSessionsTestsWilight (string personStr)
-	{
-		ArrayList array = new ArrayList(2);
-
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.WilightTable +
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + tableName +
 			personStr +
 			" GROUP BY sessionID ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -861,7 +839,7 @@ class SqliteSession : Sqlite
 
 		//if we are importing from a session who was not the forceSensor table (db version < 1.70)
 		if(tableExists(true, Constants.RunEncoderTable))
-			myArray_re = SelectAllSessionsTestsRunEncoder (wherePersonStr);
+			myArray_re = SelectAllSessionsTestsSpecific (Constants.RunEncoderTable, wherePersonStr);
 
 		testsProgress = 14;
 
@@ -869,9 +847,17 @@ class SqliteSession : Sqlite
 		ArrayList myArray_wi = new ArrayList(2);
 
 		if(tableExists(true, Constants.WilightTable))
-			myArray_wi = SelectAllSessionsTestsWilight (wherePersonStr);
+			myArray_wi = SelectAllSessionsTestsSpecific (Constants.WilightTable, wherePersonStr);
 
 		testsProgress = 15;
+
+		//select fourPlatforms of each session
+		ArrayList myArray_4p = new ArrayList(2);
+
+		if(tableExists(true, Constants.FourPlatformsTable))
+			myArray_4p = SelectAllSessionsTestsSpecific (Constants.FourPlatformsTable, wherePersonStr);
+
+		testsProgress = 16;
 
 		//mix all arrayLists
 		List<SessionTestsCount> stc_l = new List<SessionTestsCount> ();
@@ -893,6 +879,7 @@ class SqliteSession : Sqlite
 			stc.RunsInterval = getTestsInTable (myArray_runs_interval, sID);
 			stc.RunsEncoder = getTestsInTable (myArray_re, sID);
 			stc.Wilight = getTestsInTable (myArray_wi, sID);
+			stc.FourPlatforms = getTestsInTable (myArray_4p, sID);
 			stc.Isometric = getTestsInTable (myArray_fs_isometric, sID);
 			stc.Elastic = getTestsInTable (myArray_fs_elastic, sID);
 			stc.WeightsSets = getTestsInTable (myArray_enc_g_s, sID);
@@ -906,7 +893,7 @@ class SqliteSession : Sqlite
 			//mySessions [count++] = lineNotReadOnly;
 			stc_l.Add (stc);
 		}
-		testsProgress = 16;
+		testsProgress = 17;
 
 		return stc_l;
 	}

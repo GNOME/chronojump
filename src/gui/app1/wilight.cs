@@ -602,50 +602,6 @@ public partial class ChronoJumpWindow
 		drawingarea_results_session.QueueDraw ();
 	}
 
-	private void on_delete_selected_wilight_clicked (object o, EventArgs args)
-	{
-		//1.- check that there's a line selected
-		//2.- check that this line is a wilight and not a person
-		if (treeViewResultsSession.EventSelectedID > 0) {
-			//3.- display confirmwindow of deletion
-			if (preferences.askDeletion) {
-				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
-							"Are you sure you want to delete this set?"), "", "");
-				confirmWin.Button_accept.Clicked += new EventHandler (wilight_delete_current_test_accepted);
-			} else {
-				wilight_delete_current_test_accepted(new object(), new EventArgs());
-			}
-		}
-	}
-
-	private void wilight_delete_current_test_accepted (object o, EventArgs args)
-	{
-		int id = treeViewResultsSession.EventSelectedID;
-
-		Sqlite.Delete (false, Constants.WilightTable, id);
-
-		treeViewResultsSession.DelEvent(id);
-
-		/* code from runI
-		selectedRunInterval = null;
-		selectedRunIntervalType = null;
-		showHideActionEventButtons(false);
-
-		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.WILIGHT, id );
-		try {
-			if(currentWilight.UniqueID == id)
-				deleted_last_test_update_widgets();
-		} catch {
-			//there's no currentWilight (no one done it now), then it crashed,
-			//but don't need to update widgets
-		}
-		*/
-
-		updateGraphWilightBars ();
-
-	}
-
-
 	private void connectWidgetsWilight (Gtk.Builder builder)
 	{
 		box_wilight = (Gtk.Box) builder.GetObject ("box_wilight");

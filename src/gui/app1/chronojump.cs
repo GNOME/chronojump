@@ -6668,6 +6668,8 @@ public partial class ChronoJumpWindow
 
 	private void on_button_contacts_delete_selected_clicked (object o, EventArgs args)
 	{
+		//TODO: implement all using on_delete_selected_test_clicked
+
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
 			on_delete_selected_jump_clicked (o, args);
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
@@ -6680,10 +6682,8 @@ public partial class ChronoJumpWindow
 			run_encoder_delete_current_test_pre_question();
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			force_sensor_delete_current_test_pre_question();
-		else if (current_mode == Constants.Modes.WILIGHT)
-			on_delete_selected_wilight_clicked (o, args);
-		//else if (current_mode == Constants.Modes.OTHER) //TODO
-		//	on_delete_selected_fourPlatforms_clicked (o, args);
+		else if (current_mode == Constants.Modes.WILIGHT || current_mode == Constants.Modes.OTHER)
+			on_delete_selected_test_clicked (o, args);
 	}
 
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {

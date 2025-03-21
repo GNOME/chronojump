@@ -1120,6 +1120,34 @@ public class Constants
 			return ""; //should never happen
 	}
 
+	public static string ModeTable (Constants.Modes mode)
+	{
+		if (mode == Modes.JUMPSSIMPLE)
+			return JumpTable;
+		else if (mode == Modes.JUMPSREACTIVE)
+			return JumpRjTable;
+		else if (mode == Modes.RUNSSIMPLE)
+			return RunTable;
+		else if (mode == Modes.RUNSINTERVALLIC)
+			return RunIntervalTable;
+		else if (mode == Modes.RUNSENCODER)
+			return RunEncoderTable;
+		//else if (mode == Modes.BEEPTEST)
+		//	return
+		else if (mode == Modes.WILIGHT)
+			return WilightTable;
+		else if (mode == Modes.POWERGRAVITATORY || mode == Modes.POWERINERTIAL)
+			return EncoderTable;
+		else if (mode == Modes.FORCESENSORISOMETRIC || mode == Modes.FORCESENSORELASTIC)
+			return ForceSensorTable;
+		else if (mode == Modes.OTHER) //OTHER can be: FourPlatforms
+			return FourPlatformsTable;
+		else {
+			LogB.Information ("ERROR at Constants.ModeTable() mode is " + mode);
+			return "";
+		}
+	}
+
 	public static string ModePrint (Constants.Modes mode)
 	{
 		if(mode == Constants.Modes.JUMPSSIMPLE)

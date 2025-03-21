@@ -90,7 +90,6 @@ public partial class ChronoJumpWindow
 
 	//Gtk.CheckButton app1s_checkbutton_show_data_rt;
 	//Gtk.CheckButton app1s_checkbutton_show_data_other;
-	Gtk.Image app1s_image_show_data_persons;
 	Gtk.Image app1s_image_show_data_jumps;
 	Gtk.Image app1s_image_show_data_runs;
 	Gtk.Image app1s_image_show_data_reaction_time;
@@ -484,7 +483,6 @@ public partial class ChronoJumpWindow
 
 		//app1s_checkbutton_show_data_rt = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_rt");
 		//app1s_checkbutton_show_data_other = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_other");
-		app1s_image_show_data_persons = (Gtk.Image) builder.GetObject ("app1s_image_show_data_persons");
 		app1s_image_show_data_jumps = (Gtk.Image) builder.GetObject ("app1s_image_show_data_jumps");
 		app1s_image_show_data_runs = (Gtk.Image) builder.GetObject ("app1s_image_show_data_runs");
 		app1s_image_show_data_reaction_time = (Gtk.Image) builder.GetObject ("app1s_image_show_data_reaction_time");

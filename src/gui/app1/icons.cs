@@ -462,7 +462,6 @@ public partial class ChronoJumpWindow
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_person.png");
 		image_person.Pixbuf = pixbuf;
 		image_person1.Pixbuf = pixbuf;
-		app1s_image_show_data_persons.Pixbuf = pixbuf;
 		image_persons_manage.Pixbuf = pixbuf;
 
 		image_person_manage_blue.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_person.png");

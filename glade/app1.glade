@@ -44661,7 +44661,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="halign">end</property>
                                                             <property name="hexpand">True</property>
-                                                            <property name="spacing">25</property>
+                                                            <property name="spacing">20</property>
                                                             <child>
                                                             <object class="GtkCheckButton" id="app1s_check_filter_by_sensor">
                                                             <property name="label" translatable="yes">Filter by sensor data</property>
@@ -44678,50 +44678,17 @@ on Cloud-view mode</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkHBox" id="hbox535">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label107">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">View</property>
-                                                            <property name="use-markup">True</property>
-                                                            <property name="xalign">0</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <object class="GtkCheckButton" id="app1s_checkbutton_show_data_persons">
+                                                            <property name="label" translatable="yes">View person columns</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
-                                                            <property name="draw-indicator">False</property>
+                                                            <property name="draw-indicator">True</property>
                                                             <signal name="toggled" handler="app1s_on_checkbutton_show_data_toggled" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="app1s_image_show_data_persons">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </object>
-                                                            </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack-type">end</property>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>

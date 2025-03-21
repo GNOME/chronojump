@@ -312,7 +312,7 @@ public partial class ChronoJumpWindow
 		if (showReactionTime)
 			tv.AppendColumn (Catalog.GetString ("Reaction time"), new CellRendererText(), "text", count++);
 		if (showFourPlatforms)
-			tv.AppendColumn ("FourPlatforms", new CellRendererText(), "text", count++);
+			tv.AppendColumn ("Four platforms", new CellRendererText(), "text", count++);
 		if (showIsometric)
 			tv.AppendColumn (Catalog.GetString ("Isometric"), new CellRendererText(), "text", count++);
 		if (showElastic)

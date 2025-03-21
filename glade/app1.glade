@@ -3828,7 +3828,7 @@
                                                             <object class="GtkLabel" id="label5">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label">FourPlatforms</property>
+                                                            <property name="label">Four platforms</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>

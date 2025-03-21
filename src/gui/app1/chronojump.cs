@@ -4226,8 +4226,8 @@ public partial class ChronoJumpWindow
 		}
 		else if (o == (object) radio_menu_2_2_2_fourPlatforms)
 		{
-			title = "Four Platforms";
-			desc = "Four Platforms mode with custom device"; //TODO: make it translatable
+			title = "Four platforms";
+			desc = "Four platforms mode with custom device"; //TODO: make it translatable
 			notebook_menu_2_2_2.CurrentPage = 3;
 		}
 		else if (o == (object) radio_menu_2_2_2_force)

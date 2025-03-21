@@ -93,6 +93,7 @@ public partial class ChronoJumpWindow
 	//Gtk.Image image_change_modes_contacts_runs_reactive;
 	Gtk.Image image_change_modes_contacts_runs_intervallic;
 	Gtk.Image image_change_modes_contacts_wilight;
+	Gtk.Image image_change_modes_contacts_fourPlatforms;
 	Gtk.Image image_change_modes_contacts_force_sensor;
 	Gtk.Image image_change_modes_contacts_force_sensor1;
 	Gtk.Image image_change_modes_contacts_runs_encoder;
@@ -8856,6 +8857,7 @@ public partial class ChronoJumpWindow
 		//image_change_modes_contacts_runs_reactive = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_runs_reactive");
 		image_change_modes_contacts_runs_intervallic = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_runs_intervallic");
 		image_change_modes_contacts_wilight = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_wilight");
+		image_change_modes_contacts_fourPlatforms = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_fourPlatforms");
 		image_change_modes_contacts_force_sensor = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_force_sensor");
 		image_change_modes_contacts_force_sensor1 = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_force_sensor1");
 		image_change_modes_contacts_runs_encoder = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_runs_encoder");

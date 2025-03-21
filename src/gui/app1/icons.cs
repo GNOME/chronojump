@@ -104,6 +104,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_selector_start_jumps1;
 	Gtk.Image image_selector_start_runs1;
 	Gtk.Image image_selector_start_wilight;
+	Gtk.Image image_selector_start_fourPlatforms;
 	Gtk.Image image_selector_start_force_tests;
 	Gtk.Image image_selector_start_isometric;
 	Gtk.Image image_selector_start_elastic;
@@ -687,6 +688,8 @@ public partial class ChronoJumpWindow
 		image_selector_start_runs1.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "reaction_time_2025_blue_48px.png");
 		image_selector_start_wilight.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "fourPlatforms_blue_48px.png");
+		image_selector_start_fourPlatforms.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "force_2x.png");
 		image_selector_start_force_tests.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "isometric.png");
@@ -723,6 +726,7 @@ public partial class ChronoJumpWindow
 		image_mode_race_encoder_small1.Pixbuf = pixbuf;
 		image_change_modes_contacts_runs_encoder.Pixbuf = pixbuf;
 		image_change_modes_contacts_wilight.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "reaction_time_2025_blue_24px.png");
+		image_change_modes_contacts_fourPlatforms.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "fourPlatforms_blue_24px.png");
 
 		image_jump_execute_air.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_jump_air.png");
 		image_jump_execute_land.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_jump_land.png");
@@ -1167,6 +1171,7 @@ public partial class ChronoJumpWindow
 		image_selector_start_jumps1 = (Gtk.Image) builder.GetObject ("image_selector_start_jumps1");
 		image_selector_start_runs1 = (Gtk.Image) builder.GetObject ("image_selector_start_runs1");
 		image_selector_start_wilight = (Gtk.Image) builder.GetObject ("image_selector_start_wilight");
+		image_selector_start_fourPlatforms = (Gtk.Image) builder.GetObject ("image_selector_start_fourPlatforms");
 		image_selector_start_force_tests= (Gtk.Image) builder.GetObject ("image_selector_start_force_tests");
 		image_selector_start_isometric = (Gtk.Image) builder.GetObject ("image_selector_start_isometric");
 		image_selector_start_elastic = (Gtk.Image) builder.GetObject ("image_selector_start_elastic");

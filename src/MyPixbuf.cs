@@ -179,6 +179,8 @@ namespace Chronojump
 			new ResourceFix ("mini/reaction_time_discriminative.png" , "mini/reaction_time_discriminative.png"),
 			new ResourceFix ("reaction_time_2025_blue_48px.png" , "reaction_time_2025_blue_48px.png"),
 			new ResourceFix ("reaction_time_2025_blue_24px.png" , "reaction_time_2025_blue_24px.png"),
+			new ResourceFix ("fourPlatforms_blue_48px.png" , "fourPlatforms_blue_48px.png"),
+			new ResourceFix ("fourPlatforms_blue_24px.png" , "fourPlatforms_blue_24px.png"),
 			new ResourceFix ("dj-from-out.png" , "dj-from-out.png"),
 			new ResourceFix ("dj-from-in.png" , "dj-from-in.png"),
 			new ResourceFix ("jumps-fv.png" , "jumps-fv.png"),

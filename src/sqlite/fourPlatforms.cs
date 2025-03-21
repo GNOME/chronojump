@@ -106,7 +106,7 @@ class SqliteFourPlatforms : Sqlite
 		openIfNeeded(dbconOpened);
 
 		dbcmd.CommandText = selectResultsCreateSelection (
-				Constants.FourPlatformsTable,
+				table,
 				sessionID, personID, "", //type,
 				order, limit, false //onlyBestInSession
 				);
@@ -159,7 +159,7 @@ class SqliteFourPlatforms : Sqlite
 	//TODO: do this with wilight and all other tests
 	public static FourPlatforms SelectData (int uniqueID, bool dbconOpened)
 	{
-		return new FourPlatforms (selectTestData (uniqueID, dbconOpened, Constants.FourPlatformsTable, 16));
+		return new FourPlatforms (selectTestData (uniqueID, dbconOpened, table, 16));
 	}
 
 	public static void Update (int uniqueID,
@@ -167,7 +167,7 @@ class SqliteFourPlatforms : Sqlite
 			int personID)
 	{
 		Sqlite.Open();
-		dbcmd.CommandText = "UPDATE " + Constants.FourPlatformsTable +
+		dbcmd.CommandText = "UPDATE " + table +
 			" SET personID = " + personID +
 			//", type = '" + type + //remember to close '
 			" WHERE uniqueID = " + uniqueID ;

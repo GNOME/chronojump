@@ -38,7 +38,7 @@ using SQLiteConnection = System.Data.SQLite.SQLiteConnection;
 #endif
 //using System.Text.RegularExpressions; //Regex
 
-class SqliteFourPlatforms : Sqlite
+class SqliteFourPlatforms : SqliteTests
 {
 	private static string table = Constants.FourPlatformsTable;
 

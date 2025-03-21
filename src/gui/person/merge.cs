@@ -593,7 +593,7 @@ public class PersonMergeWindow
 			Constants.MultiChronopicTable,
 		};
 		foreach (string table in testTables)
-			Sqlite.UpdateTestPersonID (true, table, personIDdiscarded, personIDselected);
+			SqliteTests.UpdateTestPersonID (true, table, personIDdiscarded, personIDselected);
 
 		/*
 		   - change of person weight should not affect to jump.weight because 100 (%) is 100 (%) for both

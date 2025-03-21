@@ -36,7 +36,7 @@ using SQLiteDataReader = System.Data.SQLite.SQLiteDataReader;
 using SQLiteConnection = System.Data.SQLite.SQLiteConnection;
 #endif
 
-class SqliteWilight : Sqlite
+class SqliteWilight : SqliteTests
 {
 	private static string table = Constants.WilightTable;
 

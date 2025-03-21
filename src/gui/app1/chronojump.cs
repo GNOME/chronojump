@@ -5679,7 +5679,7 @@ public partial class ChronoJumpWindow
 			chronopicDisconnectedWhileExecuting();
 		
 		//delete the temp tables if exists
-		Sqlite.DeleteTempEvents("tempJumpRj");
+		SqliteTests.DeleteTempEvents("tempJumpRj");
 
 		string savedVideoStr = "";
 		if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
@@ -6171,7 +6171,7 @@ public partial class ChronoJumpWindow
 		}
 
 		//delete the temp tables if exists
-		Sqlite.DeleteTempEvents("tempRunInterval");
+		SqliteTests.DeleteTempEvents("tempRunInterval");
 
 		drawingarea_results_realtime.QueueDraw();
 

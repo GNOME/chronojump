@@ -37,7 +37,7 @@ using SQLiteDataReader = System.Data.SQLite.SQLiteDataReader;
 using SQLiteConnection = System.Data.SQLite.SQLiteConnection;
 #endif
 
-class SqliteJump : Sqlite
+class SqliteJump : SqliteTests
 {
 	public SqliteJump() {
 	}

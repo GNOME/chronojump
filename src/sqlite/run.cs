@@ -38,7 +38,7 @@ using SQLiteConnection = System.Data.SQLite.SQLiteConnection;
 #endif
 
 
-class SqliteRun : Sqlite
+class SqliteRun : SqliteTests
 {
 	public SqliteRun() {
 	}

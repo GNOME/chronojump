@@ -39,7 +39,7 @@ using SQLiteConnection = System.Data.SQLite.SQLiteConnection;
 using System.Text.RegularExpressions; //Regex
 using Mono.Unix;
 
-class SqliteForceSensor : Sqlite
+class SqliteForceSensor : SqliteTests
 {
     private static string table = Constants.ForceSensorTable;
 

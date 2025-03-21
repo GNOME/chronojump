@@ -38,7 +38,7 @@ using SQLiteConnection = System.Data.SQLite.SQLiteConnection;
 #endif
 using System.Text.RegularExpressions; //Regex
 
-class SqliteRunEncoder : Sqlite
+class SqliteRunEncoder : SqliteTests
 {
 	private static string table = Constants.RunEncoderTable;
 

@@ -38,7 +38,7 @@ using SQLiteDataReader = System.Data.SQLite.SQLiteDataReader;
 using SQLiteConnection = System.Data.SQLite.SQLiteConnection;
 #endif
 
-class SqliteEncoder : Sqlite
+class SqliteEncoder : SqliteTests
 {
     public SqliteEncoder()
     {

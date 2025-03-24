@@ -192,6 +192,74 @@ public class FourPlatforms : Event
 		}
 	}
 
+	/*
+	public List<List<double>> BAll_l {
+		get { return bAll_l; }
+	}
+	*/
+
+	public List<List<PointF>> Points_ll
+	{
+		get {
+			List<List<PointF>> points_ll = new List<List<PointF>>();
+			points_ll.Add (new List<PointF>()); // 0: all events
+			for (int i = 0; i < 4; i ++)
+				points_ll.Add (new List<PointF>()); // each of the sensors
+
+			//1st platform
+			foreach (double d in b0_1_l)
+			{
+				(points_ll[0]).Add (new PointF (d, .1));
+				(points_ll[1]).Add (new PointF (d, 5+.2));
+			}
+			foreach (double d in b0_0_l)
+			{
+				(points_ll[0]).Add (new PointF (d, .1));
+				(points_ll[1]).Add (new PointF (d, 5-.2));
+			}
+
+			//2nd platform
+			foreach (double d in b1_1_l)
+			{
+				(points_ll[0]).Add (new PointF (d, .1));
+				(points_ll[2]).Add (new PointF (d, 4+.2));
+			}
+			foreach (double d in b1_0_l)
+			{
+				(points_ll[0]).Add (new PointF (d, .1));
+				(points_ll[2]).Add (new PointF (d, 4-.2));
+			}
+
+			//3rd platform
+			foreach (double d in b2_1_l)
+			{
+				(points_ll[0]).Add (new PointF (d, .1));
+				(points_ll[3]).Add (new PointF (d, 3+.2));
+			}
+			foreach (double d in b2_0_l)
+			{
+				(points_ll[0]).Add (new PointF (d, .1));
+				(points_ll[3]).Add (new PointF (d, 3-.2));
+			}
+
+
+			//4th platform
+			foreach (double d in b3_1_l)
+			{
+				(points_ll[0]).Add (new PointF (d, .1));
+				(points_ll[4]).Add (new PointF (d, 2+.2));
+			}
+			foreach (double d in b3_0_l)
+			{
+				(points_ll[0]).Add (new PointF (d, .1));
+				(points_ll[4]).Add (new PointF (d, 2-.2));
+			}
+
+			points_ll[0] = PointF.ReverseList (PointF.SortListXDescending (points_ll[0]));
+			return points_ll;
+		}
+	}
+
 	public double TotalTime
 	{
 		get { return totalTime; }

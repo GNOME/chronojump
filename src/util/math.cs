@@ -326,6 +326,65 @@ public class PointF
 
 		return p_l;
 	}
+
+	public static void TestSortListXDescending ()
+	{
+		List<PointF> pf_l = new List<PointF>() {
+			new PointF (2, 7),
+			new PointF (5, 8),
+			new PointF (1, 7.5),
+			new PointF (9, 6),
+			new PointF (4, 4),
+			new PointF (3, 77)
+		};
+		//List<string> numbers_l = new List<string>() { "3,5", "99,54", "135,1", "45,5", "75,5", "45,9", "88", "45,3" }; //latin
+
+		List<PointF> pfSorted_l = SortListXDescending (pf_l);
+
+		LogB.Information("Sorted: ");
+		foreach(PointF pf in pfSorted_l)
+			LogB.Information(pf.ToString ());
+	}
+	//if you want it backwards use ReverseList () below
+	public static List<PointF> SortListXDescending (List<PointF> orig_l)
+	{
+		if(orig_l.Count < 2)
+			return orig_l;
+
+		List<PointF> sorted_l = new List<PointF>();
+		for (int i = 0; i < orig_l.Count; i ++)
+		{
+			double highest = 0;
+			int highestPos = 0;
+			for(int j = 0; j < orig_l.Count; j ++)
+			{
+				double comparingToNum = orig_l[j].X;
+				if(comparingToNum > highest)
+				{
+					highest = comparingToNum;
+					highestPos = j;
+				}
+			}
+
+			//store it, but do not do like this as the orig_l[highestPos].X = 0 will make all the sorted_l.X be 0. Just add a new PointF
+			//sorted_l.Add (orig_l[highestPos]); //store highest value on sorted_l
+			sorted_l.Add (new PointF (
+						orig_l[highestPos].X,
+						orig_l[highestPos].Y
+						)); //store highest value on sorted_l
+			orig_l[highestPos].X = 0; //mark as 0 on unsorted_l to not choose it again
+		}
+		return sorted_l;
+	}
+
+	public static List<PointF> ReverseList (List<PointF> orig_l)
+	{
+		List<PointF> rev_l = new List<PointF>();
+		for (int i = orig_l.Count -1 ; i >= 0; i --)
+			rev_l.Add (orig_l[i]);
+
+		return rev_l;
+	}
 }
 
 //nice to have an X, Y and a value (Z)

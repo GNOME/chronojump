@@ -232,7 +232,6 @@ class SqliteFourPlatforms : SqliteTests
 		return rows;
 	}
 
-	//TODO: do this with wilight and all other tests
 	public static FourPlatforms SelectData (int uniqueID, bool dbconOpened)
 	{
 		return new FourPlatforms (selectTestData (uniqueID, dbconOpened, table, 16));

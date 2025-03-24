@@ -82,14 +82,23 @@ public partial class ChronoJumpWindow
 
 		showHideActionEventButtons(true);
 
-		//graph the run on realtime cairo graph. Using selectedRunInterval to avoid SQL select continuously
+		//graph the run on realtime cairo graph. Using selectedFourPlatforms to avoid SQL select continuously
 		if(selectedFourPlatforms == null || //selectedFourPlatformsType == null ||
 				selectedFourPlatforms.UniqueID != treeViewResultsSession.EventSelectedID)
 		{
 			selectedFourPlatforms = SqliteFourPlatforms.SelectData (treeViewResultsSession.EventSelectedID, false);
 			//selectedRunIntervalType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(selectedRunInterval.Type, false); //TODO: with fourPlatforms (when there are types)
 
-			//LogB.Information("selectedFourPlatforms: " + selectedFourPlatforms.ToString());
+			cairoGraphFourPlatformsPoints_ll = selectedFourPlatforms.Points_ll;
+			/*
+			 * TODO: need to
+			 * show correctly on and off
+			 * cairoGraphFourPlatformsStepsBottom_l,
+			 * cairoGraphFourPlatformsStepsTop_l,
+			 * fpcm.TimeOfLastCapture
+			 * show graph without needing to have an fpcm
+			 * (all this is applied at gui/eventExecute.cs on_drawingarea_results_realtime_draw ()
+			 */
 		}
 
 		 updateGraphFourPlatformsBars (); //to show the selected bar
@@ -104,8 +113,8 @@ public partial class ChronoJumpWindow
 		 selectedRunIntervalType.DistancesString,
 		 selectedRunInterval.Photocell_l,
 		 selectedRunInterval.Type, selectedRunInterval.Description, feedbackRunsI); //Description is personName
-		 drawingarea_results_realtime.QueueDraw ();
 		 */
+		 drawingarea_results_realtime.QueueDraw ();
 	}
 
 }

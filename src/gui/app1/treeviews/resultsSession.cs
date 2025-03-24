@@ -73,18 +73,21 @@ public partial class ChronoJumpWindow
 
 		if (current_mode == Constants.Modes.JUMPSSIMPLE ||
 				current_mode == Constants.Modes.RUNSSIMPLE ||
-				current_mode == Constants.Modes.WILIGHT ||
-				current_mode == Constants.Modes.OTHER) 	//FOURPLATFORMS
+				current_mode == Constants.Modes.WILIGHT)
 		{
-			on_treeview_test_simple_cursor_changed (o, args);
+			on_treeview_test_simple_cursor_changed (o, args); // 1 level
 		}
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
-			on_treeview_jumps_rj_cursor_changed (o, args);
+			on_treeview_jumps_rj_cursor_changed (o, args); //2 levels
 		}
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
-			on_treeview_runs_interval_cursor_changed (o, args);
+			on_treeview_runs_interval_cursor_changed (o, args); //2 levels
+		}
+		else if (current_mode == Constants.Modes.OTHER) 	//FOURPLATFORMS
+		{
+			on_treeview_fourPlatforms_cursor_changed (o, args); //2 levels
 		}
 	}
 

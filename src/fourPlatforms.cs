@@ -116,9 +116,9 @@ public class FourPlatforms : Event
 		return events;
 	}
 
-	public int InsertSQL (bool dbconOpened)
+	public void InsertSQL (bool dbconOpened)
 	{
-		return SqliteFourPlatforms.Insert (dbconOpened, toSQLInsertString());
+		this.uniqueID = SqliteFourPlatforms.Insert (dbconOpened, toSQLInsertString());
 	}
 	private string toSQLInsertString()
 	{

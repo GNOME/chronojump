@@ -104,6 +104,7 @@ public partial class ChronoJumpWindow
 
 		box_fourPlatforms_capture_buttons.Sensitive = false;
 		box_fourPlatforms_cancel_finish.Sensitive = true;
+		sensitiveLastTestButtons(false);
 
 		//tests 1_2 1_3 1_4 have no finish button as it needs to count 15 (to save correctly from the 1st to the 15th). It will finish automatically
 		button_fourPlatforms_test_finish.Visible = (b == button_four_platforms_capture_default);
@@ -231,12 +232,16 @@ public partial class ChronoJumpWindow
 				fpcm.Finish = true;
 
 				fourPlatformsInsertToSQL ();
+				treeViewResultsSession.Add (currentPerson.Name, currentFourPlatforms, "");
+				showHideActionEventButtons(true);
 			}
 			//this is finish from arrive to stepsTotal steps
 			else if (fpcm != null && fpcm.Finish)
 			{
 				event_execute_label_message.Text = "Finished.";
 				fourPlatformsInsertToSQL ();
+				treeViewResultsSession.Add (currentPerson.Name, currentFourPlatforms, "");
+				showHideActionEventButtons(true);
 
 				box_fourPlatforms_capture_buttons.Sensitive = true;
 				box_fourPlatforms_cancel_finish.Sensitive = false;
@@ -246,9 +251,7 @@ public partial class ChronoJumpWindow
 			capturingFourPlatforms = arduinoCaptureStatus.STOP;
 			showHideBlinkIcon (blinkCapture, false);
 
-			sensitiveLastTestButtons(false);
 			contactsShowCaptureDoingButtons(false);
-			button_contacts_delete_selected.Sensitive = false;
 
 			LogB.ThreadEnding();
 			LogB.Mute = preferences.muteLogs;
@@ -260,7 +263,6 @@ public partial class ChronoJumpWindow
 			hideButtons();
 
 			drawingarea_results_realtime.QueueDraw ();
-			pre_fillTreeView_resultsSession (false);
 
 			if (current_mode == Constants.Modes.JUMPSSIMPLE)
 				updateGraphJumpsSimple();
@@ -291,7 +293,7 @@ public partial class ChronoJumpWindow
 	{
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
 			fourPlatformsInsertToSQLJumpSimple ();
-		else if (current_mode == Constants.Modes.OTHER)
+		else //if (current_mode == Constants.Modes.OTHER)
 			fourPlatformsInsertToSQLOther ();
 	}
 	private void fourPlatformsInsertToSQLJumpSimple ()
@@ -313,7 +315,7 @@ public partial class ChronoJumpWindow
 	}
 	private void fourPlatformsInsertToSQLOther ()
 	{
-		FourPlatforms fp = new FourPlatforms (
+		currentFourPlatforms = new FourPlatforms (
 				-1,
 				currentPerson.UniqueID,
 				currentSession.UniqueID,
@@ -328,7 +330,7 @@ public partial class ChronoJumpWindow
 				fpcm.TimeEnd - fpcm.TimeStart //totalTime
 				);
 
-		fp.InsertSQL (false);
+		currentFourPlatforms.InsertSQL (false);
 	}
 
 	private void fourPlatformsButtonsSensitive (bool sensitive)

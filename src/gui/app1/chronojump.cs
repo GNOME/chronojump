@@ -434,6 +434,7 @@ public partial class ChronoJumpWindow
 	private static JumpRj currentJumpRj;
 	private static Run currentRun;
 	private static RunInterval currentRunInterval;
+	private static FourPlatforms currentFourPlatforms;
 
 	//to be able to resize cairo jumpRj, runI graphs without needing to check sql all the time
 	private static JumpRj selectedJumpRj;

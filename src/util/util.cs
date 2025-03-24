@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -145,14 +145,29 @@ public class Util
 
 	//shorter call
 	public static string CDS (string myString) {
-		return ChangeDecimalSeparator (myString);
+		return ChangeDecimalSeparator (myString, true);
+	}
+	public static string CDSNoZero (string myString) {
+		return ChangeDecimalSeparator (myString, false);
 	}
 	//used for load from the database all numbers with correct decimal separator (locale defined)
 	//used also for the tvString, tcString, and runIntervalTimesString
 	//also used for reading . data coming from force sensor
-	public static string ChangeDecimalSeparator(string myString) {
-		if(myString == "") {
-			return "0";
+	
+	//this is the default, for some reason during years we returned a 0
+	public static string ChangeDecimalSeparator (string myString)
+	{
+		return ChangeDecimalSeparator (myString, true);
+	}
+
+	public static string ChangeDecimalSeparator (string myString, bool returnZeroIfEmpty)
+	{
+		if (myString == "")
+		{
+			if (returnZeroIfEmpty)
+				return "0";
+			else
+				return "";
 		}
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;

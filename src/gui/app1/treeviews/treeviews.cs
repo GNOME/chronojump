@@ -66,21 +66,6 @@ public partial class ChronoJumpWindow
 		Sqlite.Close(); // ------------------------------
 	}
 
-	private void on_treeview_test_simple_cursor_changed (object o, EventArgs args)
-	{
-		sensitiveLastTestButtons(false);
-
-		// don't select if it's a person
-		// is for not confusing with the person treeviews that controls who does the test
-		if (treeViewResultsSession.EventSelectedID == 0) {
-			treeViewResultsSession.Unselect();
-			showHideActionEventButtons(false); //hide
-		} else {
-			showHideActionEventButtons(true); //show
-			updateGraphResultsSessionByMode (); //to show the selected bar
-		}
-	}
-
 	private int currentPersonOrAll ()
 	{
 		if (! radio_contacts_results_personAll.Active && currentPerson != null)

@@ -349,7 +349,8 @@ public partial class ChronoJumpWindow
 				current_mode != Constants.Modes.JUMPSREACTIVE &&
 				current_mode != Constants.Modes.RUNSSIMPLE &&
 				current_mode != Constants.Modes.RUNSINTERVALLIC &&
-				current_mode != Constants.Modes.WILIGHT)
+				current_mode != Constants.Modes.WILIGHT &&
+				current_mode != Constants.Modes.OTHER) //FOURPLATFORMS
 			return;
 
 		//if object not defined or not defined fo this mode, return
@@ -365,8 +366,9 @@ public partial class ChronoJumpWindow
 			PrepareRunSimpleGraph (cairoPaintBarsPre.eventGraphRunsStored, false);
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			PrepareRunIntervalGraph (cairoPaintBarsPre.eventGraphRunsIntervalStored, false);
-		else if (current_mode == Constants.Modes.WILIGHT)
-			PrepareWilightGraph (cairoPaintBarsPre.eventGraphWilightStored, false);
+		else if (current_mode == Constants.Modes.WILIGHT ||
+				current_mode == Constants.Modes.OTHER) //FOURPLATFORMS
+			PrepareResultsSessionGraph ();
 	}
 
 	public void on_drawingarea_run_simple_double_contacts_cairo_draw (object o, Gtk.DrawnArgs args)
@@ -393,7 +395,8 @@ public partial class ChronoJumpWindow
 				current_mode != Constants.Modes.JUMPSREACTIVE &&
 				current_mode != Constants.Modes.RUNSSIMPLE &&
 				current_mode != Constants.Modes.RUNSINTERVALLIC &&
-				current_mode != Constants.Modes.WILIGHT)
+				current_mode != Constants.Modes.WILIGHT &&
+				current_mode != Constants.Modes.OTHER) //FOURPLATFORMS
 			return;
 
 		if(cairoPaintBarsPre == null)
@@ -688,7 +691,7 @@ public partial class ChronoJumpWindow
 		cairoPaintBarsPreRealTime.Paint();
 	}
 
-	public void PrepareWilightGraph (PrepareEventGraphWilight eventGraph, bool animate)
+	public void PrepareResultsSessionGraph ()
 	{
 		// Paint cairo graph
 		cairoPaintBarsPre.ShowPersonNames = radio_contacts_results_personAll.Active;
@@ -834,6 +837,8 @@ public partial class ChronoJumpWindow
 			updateGraphRunsInterval ();
 		else if(current_mode == Constants.Modes.WILIGHT)
 			updateGraphWilightBars ();
+		else if(current_mode == Constants.Modes.OTHER)
+			updateGraphFourPlatformsBars ();
 	}
 
 	private void on_spin_contacts_graph_last_limit_value_changed (object o, EventArgs args)
@@ -1066,10 +1071,10 @@ public abstract class CairoPaintBarsPre
 
 	//run interval
 	public PrepareEventGraphRunInterval eventGraphRunsIntervalStored;
-
 	//wilight
 	public PrepareEventGraphWilight eventGraphWilightStored;
-
+	//wilight
+	public PrepareEventGraphFourPlatforms eventGraphFourPlatformsStored;
 	//encoder
 	public PrepareEventGraphBarplotEncoder eventGraphEncoderBarplotStored;
 
@@ -1126,6 +1131,9 @@ public abstract class CairoPaintBarsPre
 	{
 	}
 	public virtual void StoreEventGraphWilight (PrepareEventGraphWilight eventGraph)
+	{
+	}
+	public virtual void StoreEventGraphFourPlatforms (PrepareEventGraphFourPlatforms eventGraph)
 	{
 	}
 	public virtual void StoreEventGraphBarplotEncoder (PrepareEventGraphBarplotEncoder eventGraph)
@@ -2683,6 +2691,93 @@ public class CairoPaintBarsWilight : CairoPaintBarsPre
 
 			if (eventGraphWilightStored.selectedID == wilight.UniqueID)
 				cb.SelectedPos = eventGraphWilightStored.rowsAtSQL.Count -countToDraw -1;
+		}
+		cb.Id_l = id_l;
+
+		cb.PassData1Serie (point_l,
+				new List<Cairo.Color>(), names_l,
+				-1, fontHeightForBottomNames, bottomMargin, title,
+				new List<int> (), new List<int> ());
+
+		passDataForScreenshotIfNeeded ();
+
+		cb.GraphDo();
+	}
+}
+
+//copied from CairoPaintBarsWilight. TODO: unify them
+public class CairoPaintBarsFourPlatforms : CairoPaintBarsPre
+{
+	public CairoPaintBarsFourPlatforms (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN)
+	{
+		initialize (darea, fontStr, mode, personName, testName, pDN);
+		this.title = generateTitle();
+	}
+
+	public override void StoreEventGraphFourPlatforms (PrepareEventGraphFourPlatforms eventGraph)
+	{
+		this.eventGraphFourPlatformsStored = eventGraph;
+	}
+
+	protected override bool storeCreated ()
+	{
+		return (eventGraphFourPlatformsStored != null);
+	}
+
+	protected override bool haveDataToPlot()
+	{
+		return (eventGraphFourPlatformsStored.rowsAtSQL.Count > 0);
+	}
+
+	protected override void paintSpecific()
+	{
+		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, true, true, true);
+
+		cb.YVariable = Catalog.GetString("Time");
+		cb.YUnits = "s";
+
+		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
+		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides
+
+		List<Event> events = FourPlatforms.FourPlatformsListToEventList (eventGraphFourPlatformsStored.rowsAtSQL);
+
+		List<PointF> point_l = new List<PointF>();
+		List<string> names_l = new List<string>();
+		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
+
+		//manage bottom text font/spacing of rows
+		string longestWord = findLongestWordCairo (events,
+				true, "", "");
+		int fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);
+
+		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
+				true, false, false);
+		int bottomMargin = cb.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
+
+
+		int countToDraw = eventGraphFourPlatformsStored.rowsAtSQL.Count;
+		foreach (FourPlatforms fp in eventGraphFourPlatformsStored.rowsAtSQL)
+		{
+			// 1) Add data
+			//point_l.Add(new PointF(countToDraw --, UtilAll.DivideSafe (fp.TotalMs, 1000)));
+			point_l.Add (new PointF(countToDraw --, fp.TotalTime));
+
+			// 2) Add bottom names
+			string typeRowString = "";
+			//if (eventGraphFourPlatformsStored.type == "")
+			//	typeRowString = jump.Type;
+
+			names_l.Add (createTextBelowBar(
+						"",
+						typeRowString,
+						fp.Description, //person name
+						false, false,
+						longestWord.Length, maxRowsForText));
+
+			id_l.Add (fp.UniqueID);
+
+			if (eventGraphFourPlatformsStored.selectedID == fp.UniqueID)
+				cb.SelectedPos = eventGraphFourPlatformsStored.rowsAtSQL.Count -countToDraw -1;
 		}
 		cb.Id_l = id_l;
 

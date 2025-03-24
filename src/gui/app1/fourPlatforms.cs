@@ -260,12 +260,12 @@ public partial class ChronoJumpWindow
 			hideButtons();
 
 			drawingarea_results_realtime.QueueDraw ();
+			pre_fillTreeView_resultsSession (false);
 
 			if (current_mode == Constants.Modes.JUMPSSIMPLE)
-			{
-				pre_fillTreeView_resultsSession (false);
 				updateGraphJumpsSimple();
-			}
+			else //if (current_mode == Constants.Modes.OTHER) //FOURPLATFORMS
+				updateGraphFourPlatformsBars ();
 
 			return false;
 		} else {
@@ -347,6 +347,59 @@ public partial class ChronoJumpWindow
 		frame_persons.Sensitive = sensitive;
 		hbox_top_person.Sensitive = sensitive;
 		hbox_chronopics_and_more.Sensitive = sensitive;
+	}
+
+	private void updateGraphFourPlatformsBars ()
+	{
+		if(currentPerson == null || currentSession == null)
+			return;
+
+		//intializeVariables if not done before
+		event_execute_initializeVariables(
+			(! cp2016.StoredCanCaptureContacts && ! cp2016.StoredWireless), //is simulated
+			currentPerson.UniqueID,
+			currentPerson.Name,
+			"", //Catalog.GetString("Phases"),  	  //name of the different moments
+			Constants.FourPlatformsTable, //tableName
+			"" //type
+			);
+
+		/*
+		string typeTemp = currentEventType.Name;
+		if(radio_contacts_graph_allTests.Active)
+			typeTemp = "";
+			*/
+		string typeTemp = "";
+
+		int selectedID = -1;
+		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID > 0)
+			selectedID = treeViewResultsSession.EventSelectedID;
+
+		PrepareEventGraphFourPlatforms eventGraph = new PrepareEventGraphFourPlatforms(
+				1, //unused?
+				currentSession.UniqueID,
+				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
+				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
+				//Constants.WiightTable, typeTemp,
+				selectedID);
+
+		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.runsAtSQL.Count > 0)
+		//	PrepareRunSimpleGraph(eventGraph, false); //don't animate
+
+		string personStr = "";
+		if(! radio_contacts_results_personAll.Active)
+			personStr = currentPerson.Name;
+
+		LogB.Information("drawingarea_results_session == null: ",
+			(drawingarea_results_session == null).ToString());
+
+		cairoPaintBarsPre = new CairoPaintBarsFourPlatforms (
+				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
+				personStr, typeTemp, preferences.digitsNumber);
+
+		cairoPaintBarsPre.StoreEventGraphFourPlatforms (eventGraph);
+		//PrepareRunSimpleGraph(cairoPaintBarsPre.eventGraphRunsStored, false); //do not need, draw event will graph it:
+		drawingarea_results_session.QueueDraw ();
 	}
 
 	private void connectWidgetsFourPlatforms (Gtk.Builder builder)

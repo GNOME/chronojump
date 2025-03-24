@@ -67,11 +67,11 @@ public class Wilight : Event
 		this.description = "";
 	}
 
-	public static List<Event> WilightListToEventList (List<Wilight> ws)
+	public static List<Event> WilightListToEventList (List<Wilight> w_l)
 	{
 		List<Event> events = new List<Event>();
-		foreach(Wilight w in ws)
-			events.Add((Event) w);
+		foreach (Wilight w in w_l)
+			events.Add ((Event) w);
 
 		return events;
 	}

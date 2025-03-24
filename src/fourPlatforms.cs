@@ -107,16 +107,14 @@ public class FourPlatforms : Event
 		this.totalTime = Convert.ToDouble (eventStr[15].ToString());
 	}
 
-	/*
-	public static List<Event> WilightListToEventList (List<Wilight> ws)
+	public static List<Event> FourPlatformsListToEventList (List<FourPlatforms> fp_l)
 	{
 		List<Event> events = new List<Event>();
-		foreach(Wilight w in ws)
-			events.Add((Event) w);
+		foreach (FourPlatforms fp in fp_l)
+			events.Add ((Event) fp);
 
 		return events;
 	}
-	*/
 
 	public int InsertSQL (bool dbconOpened)
 	{

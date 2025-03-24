@@ -96,6 +96,82 @@ class SqliteFourPlatforms : SqliteTests
 		return myLast;
 	}
 
+        /*
+         * sID -1 means all sessions
+         * pID -1 means all persons
+         * type "" means all types
+	 * limit 0 means no limit (limit negative is the last results)
+         * personNameInComment is used to be able to display names in graphs
+         * because event.PersonName makes individual SQL SELECTs
+         */
+
+	public static List<FourPlatforms> Select (bool dbconOpened, int sessionID, int personID,
+			//string type,
+			Orders_by order, int limit, bool personNameInComment//, bool onlyBestInSession
+			)
+	{
+		openIfNeeded(dbconOpened);
+
+		//for personNameInComment
+		List<Person> person_l =
+			SqlitePersonSession.SelectCurrentSessionPersonsAsList (true, sessionID);
+
+		dbcmd.CommandText = selectResultsCreateSelection (
+				table,
+				sessionID, personID, "", //type,
+				order, limit, false //onlyBestInSession
+				);
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		List<FourPlatforms> fp_l = new List<FourPlatforms>();
+
+		while(reader.Read())
+		{
+			// 1. get person name in description if personNameInComment
+			int personIDThisRecord = Convert.ToInt32(reader[2].ToString());
+			string description = reader[14].ToString();
+
+			if (personNameInComment)
+				foreach (Person person in person_l)
+					if (person.UniqueID == personIDThisRecord)
+						description = person.Name;
+
+			// 2. create object
+			FourPlatforms fp = new FourPlatforms(
+					Convert.ToInt32(reader[1].ToString()),	//uniqueID
+					personIDThisRecord,		 	//personID
+					Convert.ToInt32(reader[3].ToString()), 	//sessionID
+					Convert.ToInt32(reader[4].ToString()), 	//type
+					UtilList.SQLStringToListDouble (Util.CDS (reader[5].ToString()), "="), //b0_1
+					UtilList.SQLStringToListDouble (Util.CDS (reader[6].ToString()), "="), //b0_0
+					UtilList.SQLStringToListDouble (Util.CDS (reader[7].ToString()), "="), //b1_1
+					UtilList.SQLStringToListDouble (Util.CDS (reader[8].ToString()), "="), //b1_0
+					UtilList.SQLStringToListDouble (Util.CDS (reader[9].ToString()), "="), //b2_1
+					UtilList.SQLStringToListDouble (Util.CDS (reader[10].ToString()), "="), //b2_0
+					UtilList.SQLStringToListDouble (Util.CDS (reader[11].ToString()), "="), //b3_1
+					UtilList.SQLStringToListDouble (Util.CDS (reader[12].ToString()), "="), //b3_0
+					reader[13].ToString(), 	//datetime
+					description,
+					reader[15].ToString(),	//videoURL
+					Convert.ToDouble (Util.CDS (reader[16].ToString()))	//totalTime
+					);
+
+			fp_l.Add (fp);
+		}
+
+		reader.Close();
+		closeIfNeeded(dbconOpened);
+
+		//get last values on negative limit
+		if (limit < 0 && fp_l.Count + limit >= 0)
+			fp_l = fp_l.GetRange (fp_l.Count + limit, -1 * limit);
+
+		return fp_l;
+	}
+
 	//SA for String Array, used on treeview
 	public static string [] SelectSA (bool dbconOpened, int sessionID, int personID,
 			//string type,

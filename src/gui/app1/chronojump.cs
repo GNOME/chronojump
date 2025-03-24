@@ -1664,6 +1664,8 @@ public partial class ChronoJumpWindow
 			runEncoderPersonChanged();
 		else if(current_mode == Constants.Modes.WILIGHT)
 			updateGraphWilightBars();
+		else if (current_mode == Constants.Modes.OTHER) //FOURPLATFORMS
+			updateGraphFourPlatformsBars();
 
 		finishPlayVideoIfRunning ();
 
@@ -3709,7 +3711,7 @@ public partial class ChronoJumpWindow
 			radio_change_modes_contacts_fourPlatforms.Visible = true;
 
 			box_fourPlatforms.Visible = true;
-			box_contacts_graph_exercise.Visible = false;
+			box_contacts_graph_exercise.Visible = false; //selection of exercise
 
 			align_drawingarea_realtime_capture_cairo.Visible = true;
 			//wilightApp1Init ();
@@ -3742,7 +3744,7 @@ public partial class ChronoJumpWindow
 			radio_change_modes_contacts_wilight.Visible = true;
 
 			box_wilight.Visible = true;
-			box_contacts_graph_exercise.Visible = false;
+			box_contacts_graph_exercise.Visible = false; //selection of exercise
 
 			align_drawingarea_realtime_capture_cairo.Visible = true;
 			wilightApp1Init ();
@@ -6656,7 +6658,7 @@ public partial class ChronoJumpWindow
 		else
 			pre_fillTreeView_resultsSession (false);
 
-		//updateGraphFourPlatformsBars ();
+		updateGraphFourPlatformsBars ();
 	}
 
 	/* ---------------------------------------------------------

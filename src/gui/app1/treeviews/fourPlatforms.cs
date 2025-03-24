@@ -64,46 +64,4 @@ public partial class ChronoJumpWindow
 		} else
 			expandOrMinimizeTreeView((TreeViewEvent) treeViewResultsSession, treeview_results_session);
 	}
-	
-	private void on_treeview_fourPlatforms_cursor_changed (object o, EventArgs args)
-	{
-		sensitiveLastTestButtons(false);
-
-		// don't select if it's a person, 
-		// is for not confusing with the person treeviews that controls who runs
-		if (treeViewResultsSession.EventSelectedID == 0) {
-			treeViewResultsSession.Unselect();
-			showHideActionEventButtons(false);
-			return;
-		}
-
-		if (treeViewResultsSession.EventSelectedID == -1)
-			treeViewResultsSession.SelectHeaderLine();
-
-		showHideActionEventButtons(true);
-
-		//graph the run on realtime cairo graph. Using selectedRunInterval to avoid SQL select continuously
-		if(selectedFourPlatforms == null || //selectedFourPlatformsType == null ||
-				selectedFourPlatforms.UniqueID != treeViewResultsSession.EventSelectedID)
-		{
-			selectedFourPlatforms = SqliteFourPlatforms.SelectData (treeViewResultsSession.EventSelectedID, false);
-			//selectedRunIntervalType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(selectedRunInterval.Type, false); //TODO: with fourPlatforms (when there are types)
-
-			//LogB.Information("selectedFourPlatforms: " + selectedFourPlatforms.ToString());
-		}
-
-		/*
-		 * TODO:
-		updateGraphFourPlatforms (); //to show the selected bar //TODO
-
-		blankRunIntervalRealtimeCaptureGraph ();
-		PrepareRunIntervalRealtimeCaptureGraph (
-				selectedRunInterval.IntervalTimesString,
-				selectedRunInterval.DistanceInterval,
-				selectedRunIntervalType.DistancesString,
-				selectedRunInterval.Photocell_l,
-				selectedRunInterval.Type, selectedRunInterval.Description, feedbackRunsI); //Description is personName
-		drawingarea_results_realtime.QueueDraw ();
-		*/
-	}
 }

@@ -73,7 +73,8 @@ public partial class ChronoJumpWindow
 
 		if (current_mode == Constants.Modes.JUMPSSIMPLE ||
 				current_mode == Constants.Modes.RUNSSIMPLE ||
-				current_mode == Constants.Modes.WILIGHT)
+				current_mode == Constants.Modes.WILIGHT ||
+				current_mode == Constants.Modes.OTHER) 	//FOURPLATFORMS
 		{
 			on_treeview_test_simple_cursor_changed (o, args);
 		}
@@ -85,9 +86,20 @@ public partial class ChronoJumpWindow
 		{
 			on_treeview_runs_interval_cursor_changed (o, args);
 		}
-		else if (current_mode == Constants.Modes.OTHER) 	//FOURPLATFORMS
-		{
-			on_treeview_fourPlatforms_cursor_changed (o, args);
+	}
+
+	private void on_treeview_test_simple_cursor_changed (object o, EventArgs args)
+	{
+		sensitiveLastTestButtons(false);
+
+		// don't select if it's a person
+		// is for not confusing with the person treeviews that controls who does the test
+		if (treeViewResultsSession.EventSelectedID == 0) {
+			treeViewResultsSession.Unselect();
+			showHideActionEventButtons(false); //hide
+		} else {
+			showHideActionEventButtons(true); //show
+			updateGraphResultsSessionByMode (); //to show the selected bar
 		}
 	}
 

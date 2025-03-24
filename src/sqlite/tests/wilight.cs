@@ -91,7 +91,7 @@ class SqliteWilight : SqliteTests
          * type "" means all types
 	 * limit 0 means no limit (limit negative is the last results)
          * personNameInComment is used to be able to display names in graphs
-         *   because event.PersonName makes individual SQL SELECTs
+         * because event.PersonName makes individual SQL SELECTs
          */
 
 	public static List<Wilight> Select (bool dbconOpened, int sessionID, int personID,

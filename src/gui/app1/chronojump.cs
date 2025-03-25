@@ -440,7 +440,6 @@ public partial class ChronoJumpWindow
 	private static JumpRj selectedJumpRj;
 	private static RunInterval selectedRunInterval;
 	private static RunType selectedRunIntervalType; //we need this for variable distances
-	private static FourPlatforms selectedFourPlatforms;
 
 	private static EventExecute currentEventExecute;
 

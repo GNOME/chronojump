@@ -82,34 +82,22 @@ public partial class ChronoJumpWindow
 
 		showHideActionEventButtons(true);
 
-		//graph the run on realtime cairo graph. Using selectedFourPlatforms to avoid SQL select continuously
-		if(selectedFourPlatforms == null || //selectedFourPlatformsType == null ||
-				selectedFourPlatforms.UniqueID != treeViewResultsSession.EventSelectedID)
+		//graph the run on realtime cairo graph. Using currentFourPlatforms to avoid SQL select continuously
+		if(currentFourPlatforms == null || //currentFourPlatformsType == null ||
+				currentFourPlatforms.UniqueID != treeViewResultsSession.EventSelectedID)
 		{
-			selectedFourPlatforms = SqliteFourPlatforms.SelectData (treeViewResultsSession.EventSelectedID, false);
-			//selectedRunIntervalType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(selectedRunInterval.Type, false); //TODO: with fourPlatforms (when there are types)
+			currentFourPlatforms = SqliteFourPlatforms.SelectData (treeViewResultsSession.EventSelectedID, false);
+			//currentRunIntervalType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(currentRunInterval.Type, false); //TODO: with fourPlatforms (when there are types)
 
-			cairoGraphFourPlatformsPoints_ll = selectedFourPlatforms.Points_ll;
+			cairoGraphFourPlatformsPoints_ll = currentFourPlatforms.Points_ll;
 
-			//leave this blank until find how to reconstruct them. see FourPlatformsCaptureManage.updateStepsCaptureVariables ()
+			//reconstruct the lines
 			cairoGraphFourPlatformsStepsBottom_l = new List<PointF> ();
 			cairoGraphFourPlatformsStepsTop_l = new List<PointF> ();
+			currentFourPlatforms.GetStepsBottomStepsTop (ref cairoGraphFourPlatformsStepsBottom_l, ref cairoGraphFourPlatformsStepsTop_l);
 		}
+		 drawingarea_results_realtime.QueueDraw ();
 
 		 updateGraphFourPlatformsBars (); //to show the selected bar
-
-		/* 
-		 * TODO: To update the realtime graph
-		 *
-		 blankRunIntervalRealtimeCaptureGraph ();
-		 PrepareRunIntervalRealtimeCaptureGraph (
-		 selectedRunInterval.IntervalTimesString,
-		 selectedRunInterval.DistanceInterval,
-		 selectedRunIntervalType.DistancesString,
-		 selectedRunInterval.Photocell_l,
-		 selectedRunInterval.Type, selectedRunInterval.Description, feedbackRunsI); //Description is personName
-		 */
-		 drawingarea_results_realtime.QueueDraw ();
 	}
-
 }

@@ -316,20 +316,25 @@ public partial class ChronoJumpWindow
 			if (fpcm != null)
 				idName_l = fpcm.IDName_l;
 
-			if (fourPlatformsCaptureType != null &&
-					cairoGraphFourPlatformsPoints_ll != null &&
+			if (cairoGraphFourPlatformsPoints_ll != null &&
 					cairoGraphFourPlatformsStepsBottom_l != null &&
 					cairoGraphFourPlatformsStepsTop_l != null)
 			{
+				FourPlatformsCaptureManage.CaptureEnum fpct = FourPlatformsCaptureManage.CaptureEnum.DEFAULT;
+				if (capturingFourPlatforms == arduinoCaptureStatus.CAPTURING)
+					fpct = fourPlatformsCaptureType;
+				else if (currentFourPlatforms != null)
+					fpct = currentFourPlatforms.GetCaptureEnum ();
+
 				cairoGraphFourPlatforms.DoSendingList (
 						preferences.fontTypeToGraph(),
 						current_mode,
-						fourPlatformsCaptureType.ToString (),
+						fpct.ToString (),
 						cairoGraphFourPlatformsPoints_ll,
 						cairoGraphFourPlatformsStepsBottom_l,
 						cairoGraphFourPlatformsStepsTop_l,
 						idName_l,
-						fourPlatformsCaptureType,
+						fpct,
 						capturingFourPlatforms == arduinoCaptureStatus.CAPTURING,
 						false, 0,
 						10, //but if no capturing it will be -1 (all set)

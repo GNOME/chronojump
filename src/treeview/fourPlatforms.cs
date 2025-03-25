@@ -99,7 +99,7 @@ public class TreeViewFourPlatforms : TreeViewEvent
 		
 		string [] myData = new String [getColsNum()];
 		int count = 0;
-		myData[count++] = string.Format ("{0} ({1} s)", fp.CaptureEnumStr, Util.TrimDecimals (fp.TotalTime, 3));
+		myData[count++] = string.Format ("{0} ({1} s)", fp.GetCaptureEnumStr (), Util.TrimDecimals (fp.TotalTime, 3));
 		myData[count++] = ""; //0on
 		myData[count++] = ""; //0off
 		myData[count++] = ""; //1on

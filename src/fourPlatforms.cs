@@ -198,6 +198,7 @@ public class FourPlatforms : Event
 	}
 	*/
 
+	// gets a reconstructed points_ll like the created in FourPlatformsCaptureManage.Capture ()
 	public List<List<PointF>> Points_ll
 	{
 		get {
@@ -255,30 +256,89 @@ public class FourPlatforms : Event
 				(points_ll[4]).Add (new PointF (d, 1-.2));
 			}
 
-			points_ll[0] = PointF.ReverseList (PointF.SortListXDescending (points_ll[0]));
+			for (int i = 0; i < 5; i ++)
+				points_ll[i] = PointF.ReverseList (PointF.SortListXDescending (points_ll[i]));
+
 			return points_ll;
 		}
 	}
 
-	//used on treeview
-	public string CaptureEnumStr {
-		get {
-			if (exerciseID == 0)
-				return FourPlatformsCaptureManage.CaptureEnumStr (
-						FourPlatformsCaptureManage.CaptureEnum.DEFAULT);
-			else if (exerciseID == 1)
-				return FourPlatformsCaptureManage.CaptureEnumStr (
-						FourPlatformsCaptureManage.CaptureEnum.FROM1TO2);
-			else if (exerciseID == 2)
-				return FourPlatformsCaptureManage.CaptureEnumStr (
-						FourPlatformsCaptureManage.CaptureEnum.FROM1TO3);
-			else if (exerciseID == 3)
-				return FourPlatformsCaptureManage.CaptureEnumStr (
-						FourPlatformsCaptureManage.CaptureEnum.FROM1TO4);
-			else //default
-				return FourPlatformsCaptureManage.CaptureEnumStr (
-						FourPlatformsCaptureManage.CaptureEnum.DEFAULT);
+	private enum StepsStatusEnum { NOTSTARTED, DONEBOTTOM, DONETOP };
+
+	// gets a reconstructed stepsBottom_l, stepsTop_l the created while capture in FourPlatformsCaptureManage.updateStepsCaptureVariables ()
+	public void GetStepsBottomStepsTop (ref List<PointF> stepsBottom_l, ref List<PointF> stepsTop_l)
+	{
+		// 1 exit if no data and assign dTop_l
+		if (exerciseID == 0)
+			return;
+
+		int y = exerciseID +1; //where it goes the dTop line
+		List<double> dTop_l = new List<double> ();
+		if (exerciseID == 1)
+			dTop_l = b1_1_l;
+		else if (exerciseID == 2)
+			dTop_l = b2_1_l;
+		else if (exerciseID == 3)
+			dTop_l = b3_1_l;
+
+		if ( b0_0_l.Count == 0 || dTop_l.Count == 0)
+			return;
+
+		// 2 create a PointF list with time < 0 for the bottom and time > 0 for the top
+		List<PointF> p_l = new List<PointF>();
+		foreach (double d in b0_0_l)
+			p_l.Add (new PointF (d, -1));
+		foreach (double d in dTop_l)
+			p_l.Add (new PointF (d, +1));
+
+		// 3 sort the list by time (ascending)
+		p_l = PointF.ReverseList (PointF.SortListXDescending (p_l));
+
+		// 4 iterate the list filing the values
+		StepsStatusEnum stepsStatusEnum = StepsStatusEnum.NOTSTARTED;
+
+		foreach (PointF p in p_l)
+		{
+			//mark the bottom
+			if (stepsStatusEnum != StepsStatusEnum.DONEBOTTOM && p.Y < 0)
+			{
+				stepsBottom_l.Add (new PointF (p.X, 1));
+				stepsStatusEnum = StepsStatusEnum.DONEBOTTOM;
+			}
+			//update the bottom as maybe has been repeated later
+			else if (stepsStatusEnum == StepsStatusEnum.DONEBOTTOM && p.Y < 0)
+			{
+				stepsBottom_l[stepsBottom_l.Count -1] = new PointF (p.X, 1);
+				stepsStatusEnum = StepsStatusEnum.DONEBOTTOM;
+			}
+
+			//do the top
+			if (stepsStatusEnum == StepsStatusEnum.DONEBOTTOM && p.Y > 0)
+			{
+				 stepsTop_l.Add (new PointF (p.X, y));
+				 stepsStatusEnum = StepsStatusEnum.DONETOP;
+			}
 		}
+	}
+
+	public FourPlatformsCaptureManage.CaptureEnum GetCaptureEnum ()
+	{
+		if (exerciseID == 0)
+			return FourPlatformsCaptureManage.CaptureEnum.DEFAULT;
+		else if (exerciseID == 1)
+			return FourPlatformsCaptureManage.CaptureEnum.FROM1TO2;
+		else if (exerciseID == 2)
+			return FourPlatformsCaptureManage.CaptureEnum.FROM1TO3;
+		else if (exerciseID == 3)
+			return FourPlatformsCaptureManage.CaptureEnum.FROM1TO4;
+		else //default
+			return FourPlatformsCaptureManage.CaptureEnum.DEFAULT;
+	}
+
+	//used on treeview
+	public string GetCaptureEnumStr ()
+	{
+		return FourPlatformsCaptureManage.CaptureEnumStr (GetCaptureEnum ());
 	}
 
 	public double TotalTime

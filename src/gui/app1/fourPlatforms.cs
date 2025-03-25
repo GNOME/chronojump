@@ -328,11 +328,19 @@ public partial class ChronoJumpWindow
 	}
 	private void fourPlatformsInsertToSQLOther ()
 	{
+		int exerciseID = 0;
+		if (fourPlatformsCaptureType == FourPlatformsCaptureManage.CaptureEnum.FROM1TO2)
+			exerciseID = 1;
+		else if (fourPlatformsCaptureType == FourPlatformsCaptureManage.CaptureEnum.FROM1TO3)
+			exerciseID = 2;
+		else if (fourPlatformsCaptureType == FourPlatformsCaptureManage.CaptureEnum.FROM1TO4)
+			exerciseID = 3;
+
 		currentFourPlatforms = new FourPlatforms (
 				-1,
 				currentPerson.UniqueID,
 				currentSession.UniqueID,
-				0, //exerciseID
+				exerciseID,
 				fpcm.TimesOn_ll[0], fpcm.TimesOff_ll[0],
 				fpcm.TimesOn_ll[1], fpcm.TimesOff_ll[1],
 				fpcm.TimesOn_ll[2], fpcm.TimesOff_ll[2],

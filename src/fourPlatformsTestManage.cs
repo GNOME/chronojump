@@ -97,7 +97,7 @@ public class FourPlatformsCaptureManage
 	{
 		finish = false;
 
-		List<double> timeAccu_l = new List<double> (); //double to use PointF
+		List<double> timeAccu_l = new List<double> (); //double to use PointF (in seconds)
 		for (int i = 0; i <= 3 ; i ++)
 			timeAccu_l.Add (0);
 
@@ -120,7 +120,7 @@ public class FourPlatformsCaptureManage
 				if (timeNow < 0)
 					timeNow = Math.Abs (timeNow);
 
-				timeAccu_l[fpe.Button] += timeNow;
+				timeAccu_l[fpe.Button] += UtilAll.DivideSafe (timeNow, 1000);
 
 				int y = fpe.Button + 1; //1 - 4
 				double ySign;
@@ -141,24 +141,23 @@ public class FourPlatformsCaptureManage
 					else {
 						//1st contact will update timeStart
 						if (timeStart == 0)
-							timeStart = UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000);
+							timeStart = timeAccu_l[fpe.Button];
 
 						//all contacts will update timeEnd
-						timeEnd = UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000);
+						timeEnd = timeAccu_l[fpe.Button];
 					}
 				}
 
 				if (fpe.Time < 0)
-					timesOff_ll[fpe.Button].Add (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000)); //0-3 each of the sensors
+					timesOff_ll[fpe.Button].Add (timeAccu_l[fpe.Button]); //0-3 each of the sensors
 				else
-					timesOn_ll[fpe.Button].Add (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000)); //0-3 each of the sensors
+					timesOn_ll[fpe.Button].Add (timeAccu_l[fpe.Button]); //0-3 each of the sensors
 
 				//LogB.Information ("fpe.Button: " + fpe.Button);
 				//LogB.Information ("y: " + y);
-				//points_ll[0].Add (new PointF (timeAccu_l[fpe.Button], y+ySign)); //0 has all
 				//in seconds
-				points_ll[0].Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), .1)); //0 has all //to debug
-				points_ll[y].Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), 5-y+ySign)); //1-4 each of the sensors
+				points_ll[0].Add (new PointF (timeAccu_l[fpe.Button], .1)); //0 has all //to debug
+				points_ll[y].Add (new PointF (timeAccu_l[fpe.Button], 5-y+ySign)); //1-4 each of the sensors
 
 				if (stepsCompleted >= stepsTotal)
 					finish = true;
@@ -173,18 +172,18 @@ public class FourPlatformsCaptureManage
 		//mark the bottom
 		if (stepsStatusEnum != StepsStatusEnum.DONEBOTTOM && y == 1 && fpe.Time < 0)
 		{
-			stepsBottom_l.Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), 1));
+			stepsBottom_l.Add (new PointF (timeAccu_l[fpe.Button], 1));
 			if(stepsCompleted == 0)
-				timeStart = UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000);
+				timeStart = timeAccu_l[fpe.Button];
 
 			stepsStatusEnum = StepsStatusEnum.DONEBOTTOM;
 		}
 		//update the bottom as maybe has been repeated later
 		else if (stepsStatusEnum == StepsStatusEnum.DONEBOTTOM && y == 1 && fpe.Time < 0)
 		{
-			stepsBottom_l[stepsBottom_l.Count -1] = new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), 1);
+			stepsBottom_l[stepsBottom_l.Count -1] = new PointF (timeAccu_l[fpe.Button], 1);
 			if(stepsCompleted == 0)
-				timeStart = UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000);
+				timeStart = timeAccu_l[fpe.Button];
 
 			stepsStatusEnum = StepsStatusEnum.DONEBOTTOM;
 		}
@@ -196,12 +195,12 @@ public class FourPlatformsCaptureManage
 					(captureType == CaptureEnum.FROM1TO4 && y == 4)
 					) )
 		{
-			stepsTop_l.Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), y));
+			stepsTop_l.Add (new PointF (timeAccu_l[fpe.Button], y));
 			stepsStatusEnum = StepsStatusEnum.DONETOP;
 			stepsCompleted ++;
 
 			if (stepsCompleted >= stepsTotal)
-				timeEnd = UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000);
+				timeEnd = timeAccu_l[fpe.Button];
 		}
 	}
 

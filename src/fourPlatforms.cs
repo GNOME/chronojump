@@ -175,7 +175,7 @@ public class FourPlatforms : Event
 	{
 		List<double> l = getList (channel, isOn);
 		if (i < l.Count)
-			return l[i].ToString ();
+			return Util.TrimDecimals (l[i], 3);
 		else
 			return "";
 	}

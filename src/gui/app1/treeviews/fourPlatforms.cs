@@ -90,15 +90,10 @@ public partial class ChronoJumpWindow
 			//selectedRunIntervalType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(selectedRunInterval.Type, false); //TODO: with fourPlatforms (when there are types)
 
 			cairoGraphFourPlatformsPoints_ll = selectedFourPlatforms.Points_ll;
-			/*
-			 * TODO: need to
-			 * show correctly on and off
-			 * cairoGraphFourPlatformsStepsBottom_l,
-			 * cairoGraphFourPlatformsStepsTop_l,
-			 * fpcm.TimeOfLastCapture
-			 * show graph without needing to have an fpcm
-			 * (all this is applied at gui/eventExecute.cs on_drawingarea_results_realtime_draw ()
-			 */
+
+			//leave this blank until find how to reconstruct them. see FourPlatformsCaptureManage.updateStepsCaptureVariables ()
+			cairoGraphFourPlatformsStepsBottom_l = new List<PointF> ();
+			cairoGraphFourPlatformsStepsTop_l = new List<PointF> ();
 		}
 
 		 updateGraphFourPlatformsBars (); //to show the selected bar

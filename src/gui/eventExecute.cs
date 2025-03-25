@@ -312,7 +312,15 @@ public partial class ChronoJumpWindow
 			if(cairoGraphFourPlatforms == null)// || forceRedraw)
 				cairoGraphFourPlatforms = new CairoGraphFourPlatforms (drawingarea_results_realtime);
 
+			List<IDName> idName_l = new List<IDName> ();
 			if (fpcm != null)
+				idName_l = fpcm.IDName_l;
+
+			if (fourPlatformsCaptureType != null &&
+					cairoGraphFourPlatformsPoints_ll != null &&
+					cairoGraphFourPlatformsStepsBottom_l != null &&
+					cairoGraphFourPlatformsStepsTop_l != null)
+			{
 				cairoGraphFourPlatforms.DoSendingList (
 						preferences.fontTypeToGraph(),
 						current_mode,
@@ -320,13 +328,13 @@ public partial class ChronoJumpWindow
 						cairoGraphFourPlatformsPoints_ll,
 						cairoGraphFourPlatformsStepsBottom_l,
 						cairoGraphFourPlatformsStepsTop_l,
-						fpcm.IDName_l,
+						idName_l,
 						fourPlatformsCaptureType,
 						capturingFourPlatforms == arduinoCaptureStatus.CAPTURING,
-						fpcm.TimeOfLastCapture,
 						false, 0,
 						10, //but if no capturing it will be -1 (all set)
 						true, CairoXY.PlotTypes.POINTSFILL);
+			}
 		} else if(current_mode == Constants.Modes.WILIGHT)
 		{
 			if(cairoGraphWilight == null)// || forceRedraw)

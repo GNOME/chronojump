@@ -79,7 +79,6 @@ public class CairoGraphFourPlatforms : CairoXY
 			List<IDName> idName_l,
 			FourPlatformsCaptureManage.CaptureEnum fourPlatformsCaptureType,
 			bool capturing,
-			DateTime timeOfLastCapture,
 			bool videoShow, double videoPlayTimeInSeconds,
 			int showLastSeconds,
 			bool forceRedraw, PlotTypes plotType)
@@ -92,7 +91,6 @@ public class CairoGraphFourPlatforms : CairoXY
 					idName_l,
 					fourPlatformsCaptureType,
 					capturing,
-					timeOfLastCapture,
 					videoShow, videoPlayTimeInSeconds,
 					showLastSeconds,
 					forceRedraw, plotType))
@@ -107,7 +105,6 @@ public class CairoGraphFourPlatforms : CairoXY
 			List<IDName> idName_l,
 			FourPlatformsCaptureManage.CaptureEnum fourPlatformsCaptureType,
 			bool capturing,
-			DateTime timeOfLastCapture,
 			bool videoShow, double videoPlayTimeInSeconds,
 			int showLastSeconds,
 			bool forceRedraw, PlotTypes plotType)
@@ -141,16 +138,6 @@ public class CairoGraphFourPlatforms : CairoXY
 				absoluteMaxX = showLastSeconds;
 			minY = 1 - .25;
 			absoluteMaxY = 4 + .25;
-
-			/*
-			//aplicar això quan ja estem a l'scroll
-			if (capturing)
-			{
-				LogB.Information (string.Format ("absoluteMaxX = {0}, totalMillis now: {1}",
-							absoluteMaxX, DateTime.Now.Subtract(timeOfLastCapture).TotalMilliseconds));
-				//			absoluteMaxX += DateTime.Now.Subtract(timeOfLastCapture).TotalMilliseconds;
-			}
-			*/
 		}
 
 		bool graphInited = false;

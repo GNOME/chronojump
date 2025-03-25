@@ -29,7 +29,6 @@ public class FourPlatformsCaptureManage
 	private FourPlatformsCapture fpc;
 	private bool finish;
 	private bool cancel;
-	private DateTime timeOfLastCapture; //to show correctly the scroll even with no new data
 	//private bool error;
 	private List<IDName> idName_l;
 
@@ -160,7 +159,6 @@ public class FourPlatformsCaptureManage
 				//in seconds
 				points_ll[0].Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), .1)); //0 has all //to debug
 				points_ll[y].Add (new PointF (UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000), 5-y+ySign)); //1-4 each of the sensors
-				timeOfLastCapture = DateTime.Now;
 
 				if (stepsCompleted >= stepsTotal)
 					finish = true;
@@ -205,10 +203,6 @@ public class FourPlatformsCaptureManage
 			if (stepsCompleted >= stepsTotal)
 				timeEnd = UtilAll.DivideSafe (timeAccu_l[fpe.Button], 1000);
 		}
-	}
-
-	public DateTime TimeOfLastCapture {
-		get { return timeOfLastCapture; }
 	}
 
 	public List<List<double>> TimesOn_ll {

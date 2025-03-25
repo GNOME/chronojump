@@ -260,6 +260,27 @@ public class FourPlatforms : Event
 		}
 	}
 
+	//used on treeview
+	public string CaptureEnumStr {
+		get {
+			if (exerciseID == 0)
+				return FourPlatformsCaptureManage.CaptureEnumStr (
+						FourPlatformsCaptureManage.CaptureEnum.DEFAULT);
+			else if (exerciseID == 1)
+				return FourPlatformsCaptureManage.CaptureEnumStr (
+						FourPlatformsCaptureManage.CaptureEnum.FROM1TO2);
+			else if (exerciseID == 2)
+				return FourPlatformsCaptureManage.CaptureEnumStr (
+						FourPlatformsCaptureManage.CaptureEnum.FROM1TO3);
+			else if (exerciseID == 3)
+				return FourPlatformsCaptureManage.CaptureEnumStr (
+						FourPlatformsCaptureManage.CaptureEnum.FROM1TO4);
+			else //default
+				return FourPlatformsCaptureManage.CaptureEnumStr (
+						FourPlatformsCaptureManage.CaptureEnum.DEFAULT);
+		}
+	}
+
 	public double TotalTime
 	{
 		get { return totalTime; }

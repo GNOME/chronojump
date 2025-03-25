@@ -145,14 +145,14 @@ class SqliteFourPlatforms : SqliteTests
 					personIDThisRecord,		 	//personID
 					Convert.ToInt32(reader[3].ToString()), 	//sessionID
 					Convert.ToInt32(reader[4].ToString()), 	//type
-					UtilList.SQLStringToListDouble (Util.CDS (reader[5].ToString()), "="), //b0_1
-					UtilList.SQLStringToListDouble (Util.CDS (reader[6].ToString()), "="), //b0_0
-					UtilList.SQLStringToListDouble (Util.CDS (reader[7].ToString()), "="), //b1_1
-					UtilList.SQLStringToListDouble (Util.CDS (reader[8].ToString()), "="), //b1_0
-					UtilList.SQLStringToListDouble (Util.CDS (reader[9].ToString()), "="), //b2_1
-					UtilList.SQLStringToListDouble (Util.CDS (reader[10].ToString()), "="), //b2_0
-					UtilList.SQLStringToListDouble (Util.CDS (reader[11].ToString()), "="), //b3_1
-					UtilList.SQLStringToListDouble (Util.CDS (reader[12].ToString()), "="), //b3_0
+					UtilList.SQLStringToListDouble (Util.CDSNoZero (reader[5].ToString()), "="), //b0_1
+					UtilList.SQLStringToListDouble (Util.CDSNoZero (reader[6].ToString()), "="), //b0_0
+					UtilList.SQLStringToListDouble (Util.CDSNoZero (reader[7].ToString()), "="), //b1_1
+					UtilList.SQLStringToListDouble (Util.CDSNoZero (reader[8].ToString()), "="), //b1_0
+					UtilList.SQLStringToListDouble (Util.CDSNoZero (reader[9].ToString()), "="), //b2_1
+					UtilList.SQLStringToListDouble (Util.CDSNoZero (reader[10].ToString()), "="), //b2_0
+					UtilList.SQLStringToListDouble (Util.CDSNoZero (reader[11].ToString()), "="), //b3_1
+					UtilList.SQLStringToListDouble (Util.CDSNoZero (reader[12].ToString()), "="), //b3_0
 					reader[13].ToString(), 	//datetime
 					description,
 					reader[15].ToString(),	//videoURL
@@ -203,14 +203,14 @@ class SqliteFourPlatforms : SqliteTests
 					reader[2].ToString() + ":" + 	//fourPlaforms.personID
 					reader[3].ToString() + ":" + 	//fourPlaforms.sessionID
 					reader[4].ToString() + ":" + 	//fourPlaforms.type
-					Util.CDS (reader[5].ToString()) + ":" + 	//fourPlaforms.b0_1
-					Util.CDS (reader[6].ToString()) + ":" + 	//fourPlaforms.b0_0
-					Util.CDS (reader[7].ToString()) + ":" + 	//fourPlaforms.b1_1
-					Util.CDS (reader[8].ToString()) + ":" + 	//fourPlaforms.b1_0
-					Util.CDS (reader[9].ToString()) + ":" + 	//fourPlaforms.b2_1
-					Util.CDS (reader[10].ToString()) + ":" + 	//fourPlaforms.b2_0
-					Util.CDS (reader[11].ToString()) + ":" + 	//fourPlaforms.b3_1
-					Util.CDS (reader[12].ToString()) + ":" + 	//fourPlaforms.b3_0
+					Util.CDSNoZero (reader[5].ToString()) + ":" + 	//fourPlaforms.b0_1
+					Util.CDSNoZero (reader[6].ToString()) + ":" + 	//fourPlaforms.b0_0
+					Util.CDSNoZero (reader[7].ToString()) + ":" + 	//fourPlaforms.b1_1
+					Util.CDSNoZero (reader[8].ToString()) + ":" + 	//fourPlaforms.b1_0
+					Util.CDSNoZero (reader[9].ToString()) + ":" + 	//fourPlaforms.b2_1
+					Util.CDSNoZero (reader[10].ToString()) + ":" + 	//fourPlaforms.b2_0
+					Util.CDSNoZero (reader[11].ToString()) + ":" + 	//fourPlaforms.b3_1
+					Util.CDSNoZero (reader[12].ToString()) + ":" + 	//fourPlaforms.b3_0
 					reader[13].ToString() + ":" + 	//datetime
 					reader[14].ToString() + ":" + 	//comments
 					reader[15].ToString() + ":" +	//videoURL

@@ -210,36 +210,36 @@ public class FourPlatforms : Event
 			foreach (double d in b0_1_l)
 			{
 				(points_ll[0]).Add (new PointF (d, .1));
-				(points_ll[1]).Add (new PointF (d, 5+.2));
+				(points_ll[1]).Add (new PointF (d, 4+.2));
 			}
 			foreach (double d in b0_0_l)
 			{
 				(points_ll[0]).Add (new PointF (d, .1));
-				(points_ll[1]).Add (new PointF (d, 5-.2));
+				(points_ll[1]).Add (new PointF (d, 4-.2));
 			}
 
 			//2nd platform
 			foreach (double d in b1_1_l)
 			{
 				(points_ll[0]).Add (new PointF (d, .1));
-				(points_ll[2]).Add (new PointF (d, 4+.2));
+				(points_ll[2]).Add (new PointF (d, 3+.2));
 			}
 			foreach (double d in b1_0_l)
 			{
 				(points_ll[0]).Add (new PointF (d, .1));
-				(points_ll[2]).Add (new PointF (d, 4-.2));
+				(points_ll[2]).Add (new PointF (d, 3-.2));
 			}
 
 			//3rd platform
 			foreach (double d in b2_1_l)
 			{
 				(points_ll[0]).Add (new PointF (d, .1));
-				(points_ll[3]).Add (new PointF (d, 3+.2));
+				(points_ll[3]).Add (new PointF (d, 2+.2));
 			}
 			foreach (double d in b2_0_l)
 			{
 				(points_ll[0]).Add (new PointF (d, .1));
-				(points_ll[3]).Add (new PointF (d, 3-.2));
+				(points_ll[3]).Add (new PointF (d, 2-.2));
 			}
 
 
@@ -247,12 +247,12 @@ public class FourPlatforms : Event
 			foreach (double d in b3_1_l)
 			{
 				(points_ll[0]).Add (new PointF (d, .1));
-				(points_ll[4]).Add (new PointF (d, 2+.2));
+				(points_ll[4]).Add (new PointF (d, 1+.2));
 			}
 			foreach (double d in b3_0_l)
 			{
 				(points_ll[0]).Add (new PointF (d, .1));
-				(points_ll[4]).Add (new PointF (d, 2-.2));
+				(points_ll[4]).Add (new PointF (d, 1-.2));
 			}
 
 			points_ll[0] = PointF.ReverseList (PointF.SortListXDescending (points_ll[0]));

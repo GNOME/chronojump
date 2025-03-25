@@ -19,16 +19,12 @@
 */
 
 #include <SPI.h>
-//#include <nRF24L01.h>
 #include <RF24.h>
-//#include <printf.h>
+//#include <printf.h>   // //Needed by radio.printDetails();
 #include <MsTimer2.h>
 #include <TimerOne.h>
 #include <elapsedMillis.h>
-#include  <util/parity.h>
-
-// The first number refers to the hardware version. The seccond to firmware version for this hardware
-String version = "Wifi-Controller-4.8"; //"Wifi-Controller-" is mandatori. Chronojump expects it
+#include "version.h"
 
 
 //
@@ -44,7 +40,8 @@ String version = "Wifi-Controller-4.8"; //"Wifi-Controller-" is mandatori. Chron
 //          3,3v       NRf24L01
 //          GND        NRf24L01
 
-
+String version = "Wifi-Controller-"; //"Wifi-Controller-" is mandatori. Chronojump expects it
+int firmwareVersion = 8;
 
 // Set up nRF24L01 radio on SPI bus plus pins  (CE & CS)
 RF24 radio(A3, A4);
@@ -131,10 +128,10 @@ bool read13Commands = false; //note making this true is a big problem because th
 
 void setup(void)
 {
-
-
   Serial.begin(115200);
 
+  // version = [device type]-[hardware version].[firmware version]
+  version += String(hardwareVersion) + "." + String(firmwareVersion);
 
   Serial.println(version);
 
@@ -196,7 +193,12 @@ void setup(void)
   //Activate interruption service each time the sensor changes state
 
   pinMode(2, OUTPUT);   //The LED is in output mode
+
+  // In version 3 controler can only be in output.
+  // In version 4 or later it can be either in input (default) or output
+  if (hardwareVersion <4) rcaMode = output;
   setRcaMode(rcaMode);
+
   // Config of the debounce timer
   Timer1.initialize(debounceTime);
   Timer1.attachInterrupt(debounce);
@@ -326,9 +328,6 @@ void serialEvent()
     } else {  // if terminalString is a single remote terminal, Command to a single terminal
       instruction.command = commandString.toInt();
       instruction.termNum = terminalString.toInt();
-
-      // To check that the transmission is ok a parity bit is added to the MSB
-      // instruction.command = instruction.command | (parity_even_bit(instruction.command)<<15 );
 
       sendInstruction(&instruction);
 
@@ -550,6 +549,11 @@ void printSample() {
 
 void setRcaMode(enum pinMode mode) {
   rcaMode = mode;
+  if (hardwareVersion <=3 && mode == input) {
+    Serial.println("Your hardware can only be in output");
+    return;
+  }
+
   if (rcaMode == input) {
     Serial.println("RCA in INPUT");
     pinMode(rcaPin, INPUT_PULLUP);

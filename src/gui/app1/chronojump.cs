@@ -859,8 +859,8 @@ public partial class ChronoJumpWindow
 		//done here because in Glade we cannot use the TextBuffer.Changed
 		textview_contacts_signal_comment.Buffer.Changed += new EventHandler(on_textview_contacts_signal_comment_key_press_event);
 
-		initContacts ();
-		initEncoder ();
+		initContacts1Time ();
+		initEncoder1Time ();
 
 		//done before configInitRead because that will change some Tooltips
 		addShortcutsToTooltips(operatingSystem == UtilAll.OperatingSystems.MACOSX);
@@ -1022,7 +1022,7 @@ public partial class ChronoJumpWindow
 		SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, true, false);
 	}
 
-	private void initContacts ()
+	private void initContacts1Time ()
 	{
 		followSignals = false;
 		check_contacts_capture_graph.Active = preferences.contactsCaptureDisplay.ShowGraph;
@@ -1030,6 +1030,8 @@ public partial class ChronoJumpWindow
 		followSignals = true;
 		//call here to have the gui updated and preferences.encoderCaptureShowOnlyBars correctly assigned
 		on_check_contacts_capture_show_modes_clicked (new object (), new EventArgs ());
+
+		fourPlatformsInit1Time ();
 	}
 
 	//used on this free labels that have to contrast with background

@@ -8858,7 +8858,6 @@ last capture</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_four_platforms_capture_default">
-                                                            <property name="label" translatable="yes">Default</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
@@ -8872,7 +8871,6 @@ last capture</property>
                                                             </child>
                                                             <child>
                                                             <object class="GtkButton" id="button_four_platforms_capture_1_2">
-                                                            <property name="label">1-&gt;2 (1 5reps)</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
@@ -8886,7 +8884,6 @@ last capture</property>
                                                             </child>
                                                             <child>
                                                             <object class="GtkButton" id="button_four_platforms_capture_1_3">
-                                                            <property name="label">1-&gt;3 (1 5reps)</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
@@ -8900,7 +8897,6 @@ last capture</property>
                                                             </child>
                                                             <child>
                                                             <object class="GtkButton" id="button_four_platforms_capture_1_4">
-                                                            <property name="label">1-&gt;4 (1 5reps)</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
@@ -22876,6 +22872,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

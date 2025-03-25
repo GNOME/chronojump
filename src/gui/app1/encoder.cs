@@ -477,7 +477,7 @@ public partial class ChronoJumpWindow
 	//TODO: on cross, spline and force speed and power speed should have a spar value higher, like 0.7. On the other hand, the other cross graphs, haveload(mass) in the X lot more discrete, there is good to put 0.5
 	
 
-	private void initEncoder ()
+	private void initEncoder1Time ()
 	{
 		check_encoder_capture_without_r.Visible = operatingSystem == UtilAll.OperatingSystems.LINUX;
 		encoder_pulsebar_capture.Fraction = 1;

@@ -63,6 +63,19 @@ public partial class ChronoJumpWindow
 
 	private FourPlatformsCaptureManage.CaptureEnum fourPlatformsCaptureType;
 
+
+	private void fourPlatformsInit1Time ()
+	{
+		button_four_platforms_capture_default.Label =
+			FourPlatformsCaptureManage.CaptureEnumStr (FourPlatformsCaptureManage.CaptureEnum.DEFAULT);
+		button_four_platforms_capture_1_2.Label =
+			FourPlatformsCaptureManage.CaptureEnumStr (FourPlatformsCaptureManage.CaptureEnum.FROM1TO2) + " (15 reps)";
+		button_four_platforms_capture_1_3.Label =
+			FourPlatformsCaptureManage.CaptureEnumStr (FourPlatformsCaptureManage.CaptureEnum.FROM1TO3) + " (15 reps)";
+		button_four_platforms_capture_1_4.Label =
+			FourPlatformsCaptureManage.CaptureEnumStr (FourPlatformsCaptureManage.CaptureEnum.FROM1TO4) + " (15 reps)";
+	}
+
 	//methods used on discoverWin closed, person changed, and Chronojump start (changeMode)
 	private void showHideFourPlatformsJumpsDrawingArea ()
 	{

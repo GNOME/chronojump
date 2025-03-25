@@ -205,6 +205,20 @@ public class FourPlatformsCaptureManage
 		}
 	}
 
+	public static string CaptureEnumStr (CaptureEnum cEnum)
+	{
+		if (cEnum == CaptureEnum.DEFAULT)
+			return "Default";
+		else if (cEnum == CaptureEnum.FROM1TO2)
+			return "1->2";
+		else if (cEnum == CaptureEnum.FROM1TO3)
+			return "1->3";
+		else if (cEnum == CaptureEnum.FROM1TO4)
+			return "1->4";
+
+		return "Default";
+	}
+
 	public List<List<double>> TimesOn_ll {
 		get { return timesOn_ll; }
 	}

@@ -1379,15 +1379,15 @@ public partial class ChronoJumpWindow
 		 * Debug Wilight blacklist
 		WilightTerminalLayout wilightTerminalLayout = new WilightTerminalLayout ();
 		wilightTerminalLayout.ReadFile (configChronojump.WilightLayoutURL);
-		//wilightTestManage = new WilightTestManage (wilightTerminalLayout, configChronojump.WilightCommandsURL, "", false);
-		wilightTestManage = new WilightTestManage (wilightTerminalLayout, configChronojump.WilightCommandsURL, "4,11,12", false);
-		//wilightTestManage = new WilightTestManage (wilightTerminalLayout, configChronojump.WilightCommandsURL, "39,41,42", false);
+		//wilightCaptureManage = new WilightCaptureManage (wilightTerminalLayout, configChronojump.WilightCommandsURL, "", false);
+		wilightCaptureManage = new WilightCaptureManage (wilightTerminalLayout, configChronojump.WilightCommandsURL, "4,11,12", false);
+		//wilightCaptureManage = new WilightCaptureManage (wilightTerminalLayout, configChronojump.WilightCommandsURL, "39,41,42", false);
 		while (true)
 		{
-			if (wilightTestManage.Finished)
+			if (wilightCaptureManage.Finished)
 				break;
 
-			WilightCommand wilightCommand = wilightTestManage.GetNext ();
+			WilightCommand wilightCommand = wilightCaptureManage.GetNext ();
 			if (wilightCommand.IsEmpty)
 				continue;
 		}

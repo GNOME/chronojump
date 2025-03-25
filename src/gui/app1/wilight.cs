@@ -46,7 +46,7 @@ public partial class ChronoJumpWindow
 	// <---- at glade
 
 	static Thread threadWilight;
-	static WilightTestManage wilightTestManage;
+	static WilightCaptureManage wilightCaptureManage;
 	static bool wilightProcessCancel;
 	static bool wilightProcessFinish;
 	static string wilightMessage;
@@ -229,12 +229,12 @@ public partial class ChronoJumpWindow
 		/*
 		//testing stuff
 		LogB.Information ("wilightTest");
-		WilightTestManage wtz = new WilightTestManage (commandsFile);
+		WilightCaptureManage wcm = new WilightCaptureManage (commandsFile);
 		while (true)
 		{
-			if (wtz.Finished) //finished here to have also time to answer to the last command
+			if (wcm.Finished) //finished here to have also time to answer to the last command
 				return;
-			wtz.GetNext ();
+			wcm.GetNext ();
 		}
 		*/
 
@@ -384,27 +384,27 @@ public partial class ChronoJumpWindow
 
 	private void testSequence (string commandsFile, string blacklistStr, bool isDemo)
 	{
-		wilightTestManage = new WilightTestManage (wilightTerminalLayout, commandsFile, blacklistStr, isDemo);
-		wilightMessage = wilightTestManage.GetProgressStatus ();
+		wilightCaptureManage = new WilightCaptureManage (wilightTerminalLayout, commandsFile, blacklistStr, isDemo);
+		wilightMessage = wilightCaptureManage.GetProgressStatus ();
 
 		List<int> expectedTerminals_l = new List<int> (); //expected response on this (or them)
 
 		bool firstCommand = true;
 		while (true)
 		{
-			if (wilightTestManage.Finished | wilightTestManage.Cancel) //finished here to have also time to answer to the last command
+			if (wilightCaptureManage.Finished | wilightCaptureManage.Cancel) //finished here to have also time to answer to the last command
 			{
-				if (wilightTestManage.Finished)
+				if (wilightCaptureManage.Finished)
 					updateWilightTextview (string.Format ("\nTotal time: {0} ms",
-								wilightTestManage.LastTime));
-				if (wilightTestManage.Cancel)
+								wilightCaptureManage.LastTime));
+				if (wilightCaptureManage.Cancel)
 					updateWilightTextview ("Cancelled");
 
 				break;
 			}
 
-			WilightCommand wilightCommand = wilightTestManage.GetNext ();
-			wilightMessage = wilightTestManage.GetProgressStatus ();
+			WilightCommand wilightCommand = wilightCaptureManage.GetNext ();
+			wilightMessage = wilightCaptureManage.GetProgressStatus ();
 			if (wilightCommand.IsEmpty)
 				continue;
 
@@ -431,7 +431,7 @@ public partial class ChronoJumpWindow
 			bool readedFromExpected = false;
 			while (! readedFromExpected)
 			{
-				if (wilightTestManage.Cancel)
+				if (wilightCaptureManage.Cancel)
 				{
 					updateWilightTextview ("Cancelled");
 					break;
@@ -456,10 +456,10 @@ public partial class ChronoJumpWindow
 						haveToPlaySound = wilightSoundEnum.GOOD;
 						readedFromExpected = true;
 
-						wilightTestManage.AddToOnString (we.ToString ());
-						wilightTestManage.SetLastOnTime (we.timeMs);
-						wilightTestManage.CommandsCountReceivedAdd ();
-						//wilightMessage = wilightTestManage.GetProgressStatus ();
+						wilightCaptureManage.AddToOnString (we.ToString ());
+						wilightCaptureManage.SetLastOnTime (we.timeMs);
+						wilightCaptureManage.CommandsCountReceivedAdd ();
+						//wilightMessage = wilightCaptureManage.GetProgressStatus ();
 					}
 					else if (check_wilight_very_verbose.Active)
 						updateWilightTextview ("\n< " + we.ToString ());
@@ -499,12 +499,12 @@ public partial class ChronoJumpWindow
 
 		if (! threadWilight.IsAlive || wilightProcessCancel)
 		{
-			if (wilightProcessCancel && wilightTestManage != null)
-				wilightTestManage.Cancel = true;
+			if (wilightProcessCancel && wilightCaptureManage != null)
+				wilightCaptureManage.Cancel = true;
 
-			if (wilightTestManage != null && wilightTestManage.Finished)
+			if (wilightCaptureManage != null && wilightCaptureManage.Finished)
 			{
-				if (! wilightTestManage.IsDemo) //if is not a demo, save it and update treeview and graph
+				if (! wilightCaptureManage.IsDemo) //if is not a demo, save it and update treeview and graph
 				{
 					int exerciseID = 0;
 					if (configChronojump.WilightExerciseID > 0)
@@ -513,8 +513,8 @@ public partial class ChronoJumpWindow
 					LogB.Information ("Finished! create object");
 					Wilight w = new Wilight (-1, currentPerson.UniqueID, currentSession.UniqueID, exerciseID,
 							UtilDate.ToFile (wilightTimeStartCapture), "", //videoURL
-							wilightTestManage.LastTime,
-							wilightTestManage.OnStringAsString, "");
+							wilightCaptureManage.LastTime,
+							wilightCaptureManage.OnStringAsString, "");
 					LogB.Information ("Insert to SQL!");
 					w.UniqueID = w.InsertSQL (false);
 					LogB.Information ("Inserted!");

@@ -22,7 +22,7 @@ using System;
 using System.Collections.Generic; //List<T>
 
 
-public class WilightTestManage
+public class WilightCaptureManage
 {
 	private List<List<WilightCommand>> wilightCommand_ll;
 
@@ -46,7 +46,7 @@ public class WilightTestManage
 
 
 	//constructor
-	public WilightTestManage (WilightTerminalLayout wilightTerminalLayout, string commandsFile, string blacklistStr, bool isDemo)
+	public WilightCaptureManage (WilightTerminalLayout wilightTerminalLayout, string commandsFile, string blacklistStr, bool isDemo)
 	{
 		this.wilightTerminalLayout = wilightTerminalLayout;
 		this.commandsFile = commandsFile;

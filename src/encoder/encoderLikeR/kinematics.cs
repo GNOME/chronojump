@@ -25,7 +25,7 @@ using System.Collections.Generic; //List<T>
 public abstract class EncoderLikeRKinematics
 {
 	// passed variables
-	List<double> dis_l;
+	protected List<double> dis_l;
 	double butterworthFreq;
 	string eccon;
 	protected double gearedDown;
@@ -445,5 +445,172 @@ public class EncoderLikeRKinematicsNotInertial : EncoderLikeRKinematics
 			power_l.Add (f * speed_l[i]);
 		}
 	}
+}
 
+public class EncoderLikeRKinematicsInertial : EncoderLikeRKinematics
+{
+	/*
+	diameter: diameter of the axis (where string is wrapped)
+	angle: angle (rotation of disc) in radians
+	angleSpeed: speed of angle
+	angleAccel: acceleration of angle
+	encoderConfiguration:
+		LINEARINERTIAL Linear encoder on inertial machine (rolled on axis)
+		ROTARYFRICTIONSIDEINERTIAL Rotary friction encoder connected to inertial machine on the side of the disc
+		ROTARYFRICTIONAXISINERTIAL Rotary friction encoder connected to inertial machine on the axis
+		ROTARYAXISINERTIAL Rotary axis encoder  connected to inertial machine on the axis
+		ROTARYAXISINERTIALMOVPULLEY Rotari axis encoder connected to inertial machine on the axis and the subject pulling from a moving pulley
+	ROTARYAXISINERTIALLATERALMOVPULLEY Rotari axis encoder connected to inertial machine on the axis and the subject pulling from a moving pulley and performing and horizontal movement
+	*/
+
+	//passed variables
+	private double diameter;
+	private double inertiaMomentum;
+
+	private List<double> posM_l;
+	private List<double> angle_l;
+	private List<double> angleSpeed_l;
+	private List<double> angleAccel_l;
+	private List<double> forceDisc_l;
+	private List<double> forceBody_l;
+	private List<double> powerDisc_l;
+	private List<double> powerBody_l;
+	private double diameterM;
+	private double anglePush;
+
+	//constructor
+	public EncoderLikeRKinematicsInertial (double diameter,  double inertiaMomentum)
+	{
+		this.diameter = diameter;
+		this.inertiaMomentum = inertiaMomentum;
+	}
+
+	protected override void getDynamicsSpecific ()
+	{
+		force_l = new List<double> ();
+		power_l = new List<double> ();
+
+		//avoid division by zero problems
+		if (diameter == 0)
+			return;
+
+		initVariables ();
+		calculateDynamics ();
+	}
+
+	private void initVariables ()
+	{
+		// let's work with SI now
+
+		List<double> pos_l = UtilList.Cumsum (dis_l);
+
+		posM_l = new List<double> ();
+		foreach (double d in pos_l)
+			posM_l.Add (Math.Abs (d / 1000)); // meters
+
+		diameterM = diameter / 100;	// cm -> m
+
+		angle_l = new List<double>();
+		angleSpeed_l = new List<double>();
+		angleAccel_l = new List<double>();
+		forceDisc_l = new List<double>();
+		forceBody_l = new List<double>();
+		powerDisc_l = new List<double>();
+		powerBody_l = new List<double>();
+	}
+
+	private void calculateDynamics ()
+	{
+		if (
+				econfName == EncoderConfiguration.Names.ROTARYAXISINERTIAL ||
+				econfName == EncoderConfiguration.Names.ROTARYFRICTIONSIDEINERTIAL ||
+				econfName == EncoderConfiguration.Names.ROTARYFRICTIONAXISINERTIAL ||
+				econfName == EncoderConfiguration.Names.LINEARINERTIAL)
+		{
+			calculateDynamicsDefault ();
+		}
+		else if (
+				econfName == EncoderConfiguration.Names.ROTARYAXISINERTIALMOVPULLEY ||
+				econfName == EncoderConfiguration.Names.ROTARYFRICTIONAXISINERTIALMOVPULLEY ||
+				econfName == EncoderConfiguration.Names.ROTARYFRICTIONSIDEINERTIALMOVPULLEY)
+		{
+			calculateDynamicsMovPulley ();
+		}
+		else if (
+				econfName == EncoderConfiguration.Names.ROTARYAXISINERTIALLATERAL ||
+				econfName == EncoderConfiguration.Names.ROTARYFRICTIONAXISINERTIALLATERAL ||
+				econfName == EncoderConfiguration.Names.ROTARYFRICTIONSIDEINERTIALLATERAL ||
+				econfName == EncoderConfiguration.Names.ROTARYAXISINERTIALLATERALMOVPULLEY)
+		{
+			calculateDynamicsLateral ();
+		}
+
+		for (int i = 0; i < force_l.Count; i ++)
+		{
+			force_l.Add ((forceDisc_l[i] / gearedDown) * forceBody_l[i]);
+			power_l.Add (powerDisc_l[i] + powerBody_l[i]);
+		}
+		/*
+		//TODO:
+		loopsMax = diameter.m * max(angle)
+		loopsAblines = seq(from=0, to=loopsMax, by=diameter.m*pi)
+		*/
+	}
+
+	private void calculateDynamicsDefault ()
+	{
+		anglePush = 90; // TODO: send from C#
+
+		for (int i = 0; i < posM_l.Count; i ++)
+		{
+			angle_l.Add (posM_l[i] * 2 / diameterM);
+			angleSpeed_l.Add (speed_l[i] * 2 / diameterM);
+			angleAccel_l.Add (accel_l[i] * 2 / diameterM);
+
+			forceDisc_l.Add (Math.Abs (inertiaMomentum * angleAccel_l[i]) * (2 / diameterM));
+			forceBody_l.Add (massTotal * (Math.Abs (accel_l[i]) + g * Math.Sin (anglePush * pi / 180)));
+			powerDisc_l.Add (Math.Abs ((inertiaMomentum * angleAccel_l[i]) * angleSpeed_l[i]));
+			powerBody_l.Add (Math.Abs (massTotal * (accel_l[i] + g * Math.Sin (anglePush * pi / 180)) * speed_l[i]));
+		}
+	}
+
+	private void calculateDynamicsMovPulley ()
+	{
+		anglePush = 90; // TODO: send from C#
+
+		// With a moving pulley, the displacement of the body is half of the displacement of the rope in the inertial machine side
+		// So, the multiplier is 4 instead of 2 to get the rotational kinematics.
+
+		for (int i = 0; i < posM_l.Count; i ++)
+		{
+			angle_l.Add (posM_l[i] * 2 / gearedDown / diameterM);
+			angleSpeed_l.Add (speed_l[i] * 2 / gearedDown / diameterM);
+			angleAccel_l.Add (accel_l[i] * 2 / gearedDown / diameterM);
+			// The configuration covers horizontal, vertical and inclined movements
+			// If the movement is vertical g*sin(alpha) = g
+			// If the movement is horizontal g*sin(alpha) = 0
+
+			forceDisc_l.Add (Math.Abs (inertiaMomentum * angleAccel_l[i]) * (2 / diameterM));
+			forceBody_l.Add (massTotal * (Math.Abs (accel_l[i]) + g * Math.Sin (anglePush * pi / 180)));
+			powerDisc_l.Add (Math.Abs ((inertiaMomentum * angleAccel_l[i]) * angleSpeed_l[i]));
+			powerBody_l.Add (Math.Abs (massTotal * (accel_l[i] + g * Math.Sin (anglePush * pi / 180)) * speed_l[i]));
+		}
+	}
+
+	private void calculateDynamicsLateral ()
+	{
+		anglePush = 0; // TODO: send from C#
+
+		for (int i = 0; i < posM_l.Count; i ++)
+		{
+			angle_l.Add (posM_l[i] * 2 / gearedDown / diameterM);
+			angleSpeed_l.Add (speed_l[i] * 2 / gearedDown / diameterM);
+			angleAccel_l.Add (accel_l[i] * 2 / gearedDown / diameterM);
+
+			forceDisc_l.Add (Math.Abs (inertiaMomentum * angleAccel_l[i]) * (2 / diameterM));
+			forceBody_l.Add (massTotal * Math.Abs (accel_l[i]));
+			powerDisc_l.Add (Math.Abs ((inertiaMomentum * angleAccel_l[i]) * angleSpeed_l[i]));
+			powerBody_l.Add (Math.Abs (massTotal * accel_l[i] * speed_l[i]));
+		}
+	}
 }

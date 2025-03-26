@@ -134,8 +134,9 @@ public class EncoderLikeRCapture
 		}
 
 		EncoderLikeRKinematics kinematics;
+
 		if (econf.has_inertia)
-			return false; //TODO
+			kinematics = new EncoderLikeRKinematicsInertial (econf.d, econf.inertiaTotal);
 		else
 			kinematics = new EncoderLikeRKinematicsNotInertial ();
 
@@ -146,6 +147,7 @@ public class EncoderLikeRCapture
 				massBody, massExtra,
 				anglePush, angleWeight, exercisePercentBodyWeight,
 				propulsive, minHeightMm);
+
 		kinematics.Calculate ();
 
 		kinematics.WriteToFileDebug (string.Format ("encoderDebug_{0}.txt", startInSet));

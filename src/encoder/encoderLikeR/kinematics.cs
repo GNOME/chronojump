@@ -368,11 +368,13 @@ public abstract class EncoderLikeRKinematics
 
 	public void WriteToFileDebug (string filename)
 	{
+		List<double> pos_l = UtilList.Cumsum (dis_l);
                 TextWriter writer = File.CreateText (Path.Combine (Path.GetTempPath (), filename));
-	        writer.WriteLine (string.Format ("x;disOrig;dis;speed;accel;force;power"));
+	        writer.WriteLine (string.Format ("x;disOrig;dis;pos;speed;accel;force;power"));
 		for (int i = 0; i < speed_l.Count; i ++)
-	              writer.WriteLine (string.Format ("{0};{1};{2};{3};{4};{5};{6}",
-					      time_l[i], disOrig_l[i], dis_l[i], speed_l[i], accel_l[i], force_l[i], power_l[i]));
+	              writer.WriteLine (string.Format ("{0};{1};{2};{3};{4};{5};{6};{7}",
+					      time_l[i], disOrig_l[i], dis_l[i], pos_l[i],
+					      speed_l[i], accel_l[i], force_l[i], power_l[i]));
 
                 writer.Flush();
                 writer.Close();

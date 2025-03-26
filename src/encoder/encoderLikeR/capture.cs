@@ -150,7 +150,7 @@ public class EncoderLikeRCapture
 
 		kinematics.Calculate ();
 
-		kinematics.WriteToFileDebug (string.Format ("encoderDebug_{0}.txt", startInSet));
+		kinematics.WriteToFileDebug (string.Format ("encoderCSharpDebug_{0}.csv", startInSet));
 
 		List<double> speedAbs_l = UtilList.ListDoubleToAbs (kinematics.Speed_l);
 		List<double> forceAbs_l = UtilList.ListDoubleToAbs (kinematics.Force_l);

@@ -174,9 +174,9 @@ bool unlimitedMode = true; // sensorOnce deactivate the unlimited mode
   pinMode(CH2_PIN, INPUT_PULLUP);
   pinMode(CH3_PIN, INPUT_PULLUP);
 
-    if (analogRead(CH1_PIN)<128) {    // A7 cannot be read as digital
+ if (analogRead(CH1_PIN)<128) {    // A7 cannot be read as digital
     controlSwitch = 1; //
-  }
+ }
   if (!digitalRead(CH2_PIN)) {
     controlSwitch = controlSwitch + 2;
   }

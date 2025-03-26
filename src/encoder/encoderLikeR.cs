@@ -76,7 +76,7 @@ public class EncoderLikeR
 					curve_l, econf.d, econf.D, econf.gearedDownLikeR
 					);
 
-		LogB.Information (string.Format ("encoderLikeR before reduce: dis_l.Count: {0}", dis_l.Count));
+		//LogB.Information (string.Format ("encoderLikeR before reduce: dis_l.Count: {0}", dis_l.Count));
 		// 2) reduceCurve by speed
 		EncoderLikeRReduceCurveBySpeed elrrcs = new EncoderLikeRReduceCurveBySpeed (
 				dis_l,
@@ -90,8 +90,8 @@ public class EncoderLikeR
 		//reduceCurveBySpeed reduces the curve. Then startInSet has to change:
 		startInSet = startInSet + start;
 
-		LogB.Information (string.Format ("encoderLikeR after reduce: dis_l.Count: {0}, start: {1}, end: {2}",
-					dis_l.Count, start, end));
+		//LogB.Information (string.Format ("encoderLikeR after reduce: dis_l.Count: {0}, start: {1}, end: {2}",
+		//			dis_l.Count, start, end));
 
 		/*
 		 * reduceCurveBySpeed, on inertial doesn't do a good right adjust on changing phase,
@@ -102,6 +102,9 @@ public class EncoderLikeR
                         end --;
 
 		dis_l = UtilList.ListGetFromToIncluded (dis_l, start, end);
+
+		//LogB.Information (string.Format ("encoderLikeR after reduce B: dis_l.Count: {0}",
+		//			dis_l.Count));
 
 		//LogB.Information ("____________ C#: pos_l after reduce __________");
 		//LogB.Information (UtilList.ListDoubleToString (UtilList.Cumsum(dis_l), 1, " "));
@@ -127,7 +130,9 @@ public class EncoderLikeR
 		}
 
 		EncoderLikeRKinematics kinematics = new EncoderLikeRKinematics (
-				dis_l, 15, ecconFix, econf.name, econf.gearedDownLikeR,
+				dis_l, 15, ecconFix,
+				econf.name, econf.has_inertia,
+				econf.gearedDownLikeR,
 				massBody, massExtra,
 				anglePush, angleWeight, exercisePercentBodyWeight,
 				propulsive, minHeightMm);
@@ -142,6 +147,12 @@ public class EncoderLikeR
 		int speedMaxPos = 0;
 		double speedMax = UtilList.GetMaxValueAndPos (kinematics.Speed_l, ref speedMaxPos);
 
+		int forceMaxPos = 0;
+		double forceMax = UtilList.GetMaxValueAndPos (kinematics.Force_l, ref forceMaxPos);
+
+		int powerMaxPos = 0;
+		double powerMax = UtilList.GetMaxValueAndPos (kinematics.Power_l, ref powerMaxPos);
+
 		// 4) prepare data
 		//TODO: fix this, is the same as capture.R 93-101
 		//all decimals . (same as R)
@@ -150,11 +161,19 @@ public class EncoderLikeR
 				Util.ConvertToPoint (startInSet),  //the difference between this and when graph.R is called is because on saveToFile trimInitialZeros is called, it deletes 0's on signal before 1st rep allowing allowedZeroMSAtStart (1000 zeros)
 				Util.ConvertToPoint (dis_l.Count),
 				Util.ConvertToPoint (sumDis),
-				Util.ConvertToPoint (kinematics.SpeedAVG), Util.ConvertToPoint (speedMax), speedMaxPos.ToString (),
-				Util.ConvertToPoint (UtilAll.DivideSafe (speedMax, UtilAll.DivideSafe (1.0 * speedMaxPos, 1000))), //ms -> s
-				"0", "0", "0", "0",
-				"0", "0", "0", "0",
-				"0", "0" };
+				Util.ConvertToPoint (UtilList.GetAverage (kinematics.Speed_l)),	// 4 speeds: avg, max, maxpos, rvd
+				Util.ConvertToPoint (speedMax),
+				speedMaxPos.ToString (),
+				Util.ConvertToPoint (UtilAll.DivideSafe (speedMax, UtilAll.DivideSafe (1.0 * speedMaxPos, 1000))),
+				Util.ConvertToPoint (UtilList.GetAverage (kinematics.Power_l)), 	// 4 powers: avg, max, maxpos, rpd
+				Util.ConvertToPoint (powerMax),
+				powerMaxPos.ToString (),
+				Util.ConvertToPoint (UtilAll.DivideSafe (powerMax, UtilAll.DivideSafe (1.0 * powerMaxPos, 1000))), //ms -> s
+				Util.ConvertToPoint (UtilList.GetAverage (kinematics.Force_l)),	// 4 forces: avg, max, maxpos, rpd
+				Util.ConvertToPoint (forceMax),
+				forceMaxPos.ToString (),
+				Util.ConvertToPoint (UtilAll.DivideSafe (forceMax, UtilAll.DivideSafe (1.0 * forceMaxPos, 1000))), //ms -> s
+				"0", "0" };	//TODO: work, impulse
 
 		return true;
 	}

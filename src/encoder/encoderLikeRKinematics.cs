@@ -31,8 +31,10 @@ public class EncoderLikeRKinematics
 	string eccon;
 	double gearedDown;
 	EncoderConfiguration.Names econfName;
+	bool isInertial;
 	double massBody;
 	double massExtra;
+	double massTotal;
 	int anglePush;
 	int angleWeight;
 	int exercisePercentBodyWeight;
@@ -43,6 +45,8 @@ public class EncoderLikeRKinematics
 	List<int> time_l;
 	List<double> speed_l;
 	List<double> accel_l;
+	List<double> force_l;
+	List<double> power_l;
 	Butterworth bw;
 
 	EncoderLikeRRepPhase eccPhase;
@@ -54,8 +58,8 @@ public class EncoderLikeRKinematics
 
 	public EncoderLikeRKinematics (
 			List<double> dis_l, double butterworthFreq, string eccon,
-			EncoderConfiguration.Names econfName, double gearedDown,
-			double massBody, double massExtra,
+			EncoderConfiguration.Names econfName, bool isInertial,
+			double gearedDown, double massBody, double massExtra,
 			int anglePush, int angleWeight, int exercisePercentBodyWeight,
 			bool propulsive, int minHeightMm)
 	{
@@ -64,6 +68,7 @@ public class EncoderLikeRKinematics
 		this.butterworthFreq = butterworthFreq;
 		this.eccon = eccon;
 		this.econfName = econfName;
+		this.isInertial = isInertial;
 		this.gearedDown = gearedDown;
 		this.massBody = massBody;
 		this.massExtra = massExtra;
@@ -76,11 +81,69 @@ public class EncoderLikeRKinematics
 		calculateSpeed ();
 		calculateAccel ();
 
-		int propulsiveEnd; //TODO: if not, select it as the concentric end
+		int propulsiveEnd = 0;
 		if (propulsive)
 			propulsiveEnd = findPropulsiveEndPrepare ();
 
 		getDynamics ();
+
+		/*
+		 * TODO
+		// on "e", "ec", start on ground
+		if(eccModesStartOnGround && ! isInertial(repOp$econfName) &&
+				(repOp$eccon == "e" || repOp$eccon == "ec")) {
+			//if eccentric is undefined, find it
+			if(length(eccentric) == 1 && eccentric == 0) {
+				if(repOp$eccon == "e")
+					eccentric = 1:length(displacement)
+				else {  #(repOp$eccon=="ec")
+					phases_l <- findECPhases (displacement, minHeight)
+						eccentric <- phases_l$eccentric
+				}
+			}
+
+			weight = mass * g
+				if(length(which(force[eccentric] <= 0)) > 0) {
+					landing = max(which(force[eccentric]<=0))
+						start = landing
+				}
+		}
+		*/
+
+		int end = speed_l.Count -1;
+		if (propulsive && (eccon == "c" || eccon == "ec")) 
+	                end = propulsiveEnd;
+
+		/*
+		 * TODO
+        	//as acceleration can oscillate, start at the eccentric part where there are not negative values
+	        if(repOp$inertiaM > 0 && (repOp$eccon == "e" || repOp$eccon == "ec"))
+        	{
+                	if(repOp$eccon=="e") {
+                        	eccentric=1:length(displacement)
+	                }
+
+        	        //if there is eccentric data and there are negative values
+                	if(length(eccentric) > 0 && min(accel$y[eccentric]) < 0)
+	                {
+        	                #deactivated:
+                	        #start = max(which(accel$y[eccentric] < 0)) +1
+                        	#print("------------ start -----------")
+	                        #print(start)
+        	        }
+	        }
+
+		speedyangular = 0
+	        if(isInertial(repOp$econfName))
+                	speedyangular = dynamics$angleSpeed[start:end]
+		*/
+
+		dis_l = UtilList.ListGetFromToIncluded (dis_l, 0, end);
+		speed_l = UtilList.ListGetFromToIncluded (speed_l, 0, end);
+		accel_l = UtilList.ListGetFromToIncluded (accel_l, 0, end);
+		force_l = UtilList.ListGetFromToIncluded (force_l, 0, end);
+		power_l = UtilList.ListGetFromToIncluded (power_l, 0, end);
+                //also returned massTotal & speedyangular
 	}
 
 	private void calculateSpeed ()
@@ -268,8 +331,7 @@ public class EncoderLikeRKinematics
 
 	private void getDynamics ()
 	{
-		double massBodyUsed = getMassBodyByExercise (massBody, exercisePercentBodyWeight);
-		double massExtraUsed = 0; //TODO: think if use massExtra of the class
+		massBody = getMassBodyByExercise (massBody, exercisePercentBodyWeight);
 
 		if (
 				econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON1 ||
@@ -278,19 +340,54 @@ public class EncoderLikeRKinematics
 				econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYLINEARONPERSON2INV ||
 				econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYROTARYFRICTION ||
 				econfName == EncoderConfiguration.Names.WEIGHTEDMOVPULLEYROTARYAXIS)
-			massExtraUsed = getMass (massExtraUsed);
+		{
+			massExtra = getMass (massExtra);
+		}
 
-		double massTotal = massBodyUsed + massExtraUsed;
+		massTotal = massBody + massExtra;
 
-		/*
-		 * TODO:
-		if (econf.has_inertia)
-			return (getDynamicsInertial(encoderConfigurationName, displacement, diameter, massTotal, inertiaMomentum, gearedDown, smoothing))
-		else
-			return (getDynamicsNotInertial (encoderConfigurationName, speed, accel,
-						massBody, massExtra, massTotal,
-						exercisePercentBodyWeight, gearedDown, anglePush, angleWeight))
-						*/
+		if (isInertial)
+		{
+			//TODO
+			//return (getDynamicsInertial(encoderConfigurationName, displacement, diameter, massTotal, inertiaMomentum, gearedDown, smoothing))
+		} else
+			getDynamicsNotInertial ();
+	}
+
+	// mass extra can be connected to body or connected to a pulley depending on encoderConfiguration
+	private void getDynamicsNotInertial ()
+	{
+		force_l = new List<double> ();
+		power_l = new List<double> ();
+
+		for (int i = 0; i < accel_l.Count ; i ++)
+		{
+			double a = accel_l[i];
+			double f = 0;
+
+			if (econfName == EncoderConfiguration.Names.LINEARONPLANEWEIGHTDIFFANGLE)
+			{
+				f = massBody * (a + g * Math.Sin (anglePush * pi / 180)) + massExtra * (a + g * Math.Sin (angleWeight * pi / 180));
+			}
+			else if (econfName == EncoderConfiguration.Names.LINEARONPLANEWEIGHTDIFFANGLEMOVPULLEY)
+			{
+				f = massBody * (a + g * Math.Sin (anglePush * pi / 180)) + massExtra * (g * Math.Sin (angleWeight * pi / 180) + a) / gearedDown;
+			}
+			else if (econfName == EncoderConfiguration.Names.LINEARONPLANE)
+			{
+				f = (massBody + massExtra) *  (a + g * Math.Sin (anglePush * pi / 180));
+			}
+			else if (econfName == EncoderConfiguration.Names.PNEUMATIC)
+			{
+				//The force generated by the machine is supposed to be constant
+				f = massExtra * g + massBody * (a + g * Math.Sin (anglePush * pi / 180));
+			} else {
+				//g:9.81 (used when movement is against gravity)
+				f = massTotal * (a + g);
+			}
+			force_l.Add (f);
+			power_l.Add (f * speed_l[i]);
+		}
 	}
 
 	//gearedDown is positive, normally 2
@@ -325,11 +422,25 @@ public class EncoderLikeRKinematics
 		// Rscript encoderLikeRKinematics.R filename
 	}
 
+	public List<double> Dis_l {
+		get { return dis_l; }
+	}
 	public List<double> Speed_l {
 		get { return speed_l; }
 	}
-	public double SpeedAVG {
-		get { return UtilList.GetAverage (speed_l); }
+	public List<double> Force_l {
+		get { return force_l; }
 	}
+	public List<double> Power_l {
+		get { return power_l; }
+	}
+	public double MassTotal {
+		get { return massTotal; }
+	}
+	/*
+	   public double Speedyangular {
+	   get { return speedyangular = 0; }
+	   }
+	   */
 }
 

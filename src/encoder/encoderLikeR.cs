@@ -129,18 +129,20 @@ public class EncoderLikeR
 				ecconFix = "e";
 		}
 
-		EncoderLikeRKinematics kinematics = new EncoderLikeRKinematics (
+		EncoderLikeRKinematics kinematics;
+		if (econf.has_inertia)
+			return false; //TODO
+		else
+			kinematics = new EncoderLikeRKinematicsNotInertial ();
+
+		kinematics.PassParameters (
 				dis_l, 15, ecconFix,
-				econf.name, econf.has_inertia,
+				econf.name,
 				econf.gearedDownLikeR,
 				massBody, massExtra,
 				anglePush, angleWeight, exercisePercentBodyWeight,
 				propulsive, minHeightMm);
-		/*
-		 * use position?
-		 * List<double> pos_l = UtilList.Cumsum (dis_l);
-		 * EncoderLikeRKinematics kinematics = new EncoderLikeRKinematics (pos_l, 15); //just trying results seem quite similar
-		 */
+		kinematics.Calculate ();
 
 		kinematics.WriteToFileDebug (string.Format ("encoderDebug_{0}.txt", startInSet));
 

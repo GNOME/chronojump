@@ -22,7 +22,7 @@ using System;
 using System.Collections.Generic; //List<T>
 
 // this class will do same as encoder/capture.R
-public class EncoderLikeR
+public class EncoderLikeRCapture
 {
 	private EncoderConfiguration econf;
 	private string eccon;
@@ -38,7 +38,7 @@ public class EncoderLikeR
 	private string [] repetitionStrArray;
 
 	//constructor
-	public EncoderLikeR (EncoderParams encoderParams)
+	public EncoderLikeRCapture (EncoderParams encoderParams)
 	{
 		this.eccon = encoderParams.eccon;
 		this.minHeightMm = encoderParams.minHeight * 10;
@@ -58,7 +58,8 @@ public class EncoderLikeR
 		//LogB.Information ("____________ C#: pos_l before reduce __________");
 		//LogB.Information (UtilList.ListIntToSQLString (UtilList.Cumsum(curve_l), " "));
 
-		int curveNum = 0;
+		UtilList.ListIntToFile (curve_l, " ", Path.Combine (Path.GetTempPath (), "chronojump-debug-encoderLikeR_Do0_curve_l.txt")); //es el mateix
+
 		repetitionStrArray = new string [] {};
 
 		// 1) get displacement
@@ -115,10 +116,13 @@ public class EncoderLikeR
 		if (Math.Abs(sumDis) < minHeightMm)
 			return false;
 
+
+		UtilList.ListDoubleToFile (dis_l, 2, " ", Path.Combine (Path.GetTempPath (), "chronojump-debug-encoderLikeR-after-reduce.txt"));
+
+
 		// 4) calculations
 		//TODO: check if this line (277) on capture.R is needed:
 		//if(abs(max(position) - min(position)) >= op$MinHeight)
-
 
 		string ecconFix = eccon;
 		if (eccon == "ecS" || eccon == "ceS")

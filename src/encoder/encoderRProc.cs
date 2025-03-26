@@ -269,15 +269,15 @@ public class EncoderRProcCapture : EncoderRProc
 	// experimental reimplementation of R capture with C#. Uncompressed.
 	public void SendCurveCsharp (int startFrame, double [] curve)
 	{
-		EncoderLikeR elr = new EncoderLikeR (encoderParams);
-		if (elr.Do (
+		EncoderLikeRCapture elrc = new EncoderLikeRCapture (encoderParams);
+		if (elrc.Do (
 					true,
 					UtilList.DoubleArrayToListInt (curve),
 					startFrame, cSharpCurvesAccepted
 			   ))
 		{
 			cSharpCurvesAccepted ++;
-			CsharpMethodRepetitions_al.Add (elr.RepetitionStrArray);
+			CsharpMethodRepetitions_al.Add (elrc.RepetitionStrArray);
 		}
 	}
 

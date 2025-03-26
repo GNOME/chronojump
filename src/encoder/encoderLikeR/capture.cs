@@ -136,7 +136,7 @@ public class EncoderLikeRCapture
 		EncoderLikeRKinematics kinematics;
 
 		if (econf.has_inertia)
-			kinematics = new EncoderLikeRKinematicsInertial (econf.d, econf.inertiaTotal);
+			kinematics = new EncoderLikeRKinematicsInertial (econf.d, econf.inertiaTotalLikeR);
 		else
 			kinematics = new EncoderLikeRKinematicsNotInertial ();
 
@@ -152,14 +152,18 @@ public class EncoderLikeRCapture
 
 		kinematics.WriteToFileDebug (string.Format ("encoderDebug_{0}.txt", startInSet));
 
+		List<double> speedAbs_l = UtilList.ListDoubleToAbs (kinematics.Speed_l);
+		List<double> forceAbs_l = UtilList.ListDoubleToAbs (kinematics.Force_l);
+		List<double> powerAbs_l = UtilList.ListDoubleToAbs (kinematics.Power_l);
+
 		int speedMaxPos = 0;
-		double speedMax = UtilList.GetMaxValueAndPos (kinematics.Speed_l, ref speedMaxPos);
+		double speedMax = UtilList.GetMaxValueAndPos (speedAbs_l, ref speedMaxPos);
 
 		int forceMaxPos = 0;
-		double forceMax = UtilList.GetMaxValueAndPos (kinematics.Force_l, ref forceMaxPos);
+		double forceMax = UtilList.GetMaxValueAndPos (forceAbs_l, ref forceMaxPos);
 
 		int powerMaxPos = 0;
-		double powerMax = UtilList.GetMaxValueAndPos (kinematics.Power_l, ref powerMaxPos);
+		double powerMax = UtilList.GetMaxValueAndPos (powerAbs_l, ref powerMaxPos);
 
 		// 4) prepare data
 		//TODO: fix this, is the same as capture.R 93-101
@@ -169,15 +173,16 @@ public class EncoderLikeRCapture
 				Util.CTP (startInSet),  //the difference between this and when graph.R is called is because on saveToFile trimInitialZeros is called, it deletes 0's on signal before 1st rep allowing allowedZeroMSAtStart (1000 zeros)
 				Util.CTP (dis_l.Count),
 				Util.CTP (sumDis),
-				Util.CTP (UtilList.GetAverage (kinematics.Speed_l)),	// 4 speeds: avg, max, maxpos, rvd
+				Util.CTP (UtilList.GetAverage (speedAbs_l)),	// 4 speeds: avg, max, maxpos, rvd
 				Util.CTP (speedMax),
 				speedMaxPos.ToString (),
 				Util.CTP (UtilAll.DivideSafe (speedMax, UtilAll.DivideSafe (1.0 * speedMaxPos, 1000))),
-				Util.CTP (UtilList.GetAverage (kinematics.Power_l)), 	// 4 powers: avg, max, maxpos, rpd
+				Util.CTP (UtilList.GetAverage (powerAbs_l)), 	// 4 powers: avg, max, maxpos, rpd
 				Util.CTP (powerMax),
 				powerMaxPos.ToString (),
 				Util.CTP (UtilAll.DivideSafe (powerMax, UtilAll.DivideSafe (1.0 * powerMaxPos, 1000))), //ms -> s
-				Util.CTP (UtilList.GetAverage (kinematics.Force_l)),	// 4 forces: avg, max, maxpos, rpd
+				//Util.CTP (UtilList.GetAverage (forceAbs_l)),	// 4 forces: avg, max, maxpos, rpd
+				Util.CTP (UtilList.GetAverage (kinematics.Force_l)),	// 4 forces: avg, max, maxpos, rpd //note on util.R pafGenerate the mean force is not done using absolute values
 				Util.CTP (forceMax),
 				forceMaxPos.ToString (),
 				Util.CTP (UtilAll.DivideSafe (forceMax, UtilAll.DivideSafe (1.0 * forceMaxPos, 1000))), //ms -> s

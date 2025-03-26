@@ -520,6 +520,15 @@ public class UtilList
 		return pos_l;
 	}
 
+	public static List<double> ListDoubleToAbs (List<double> dOrig_l)
+	{
+		List<double> dAbs_l = new List<double> ();
+		foreach (double dOrig in dOrig_l)
+			dAbs_l.Add (Math.Abs (dOrig));
+
+		return dAbs_l;
+	}
+
 	public static List<double> ListReverse (List<double> l)
 	{
 		List<double> rev_l = new List<double> ();

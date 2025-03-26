@@ -354,7 +354,7 @@ public abstract class EncoderLikeRKinematics
 	//this is not used on inertial machines
 	private double getMass (double mass)
 	{
-		if(mass == 0)
+		if (mass == 0)
 			return 0;
 
 		//default value of angle is 90 degrees. If is not selected, it's -1
@@ -369,10 +369,10 @@ public abstract class EncoderLikeRKinematics
 	public void WriteToFileDebug (string filename)
 	{
                 TextWriter writer = File.CreateText (Path.Combine (Path.GetTempPath (), filename));
-	        writer.WriteLine (string.Format ("x;yUnfiltered;speed;accel"));
+	        writer.WriteLine (string.Format ("x;disOrig;dis;speed;accel;force;power"));
 		for (int i = 0; i < speed_l.Count; i ++)
-	              writer.WriteLine (string.Format ("{0};{1};{2};{3}",
-					      time_l[i], disOrig_l[i], speed_l[i], accel_l[i]));
+	              writer.WriteLine (string.Format ("{0};{1};{2};{3};{4};{5};{6}",
+					      time_l[i], disOrig_l[i], dis_l[i], speed_l[i], accel_l[i], force_l[i], power_l[i]));
 
                 writer.Flush();
                 writer.Close();
@@ -545,9 +545,9 @@ public class EncoderLikeRKinematicsInertial : EncoderLikeRKinematics
 			calculateDynamicsLateral ();
 		}
 
-		for (int i = 0; i < force_l.Count; i ++)
+		for (int i = 0; i < posM_l.Count; i ++)
 		{
-			force_l.Add ((forceDisc_l[i] / gearedDown) * forceBody_l[i]);
+			force_l.Add ((forceDisc_l[i] / gearedDown) + forceBody_l[i]);
 			power_l.Add (powerDisc_l[i] + powerBody_l[i]);
 		}
 		/*

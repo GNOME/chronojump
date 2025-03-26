@@ -768,5 +768,9 @@ public class EncoderConfiguration
 			return Math.Abs ( 1 / (1.0 * gearedDown) );
 		}
 	}
+	public double inertiaTotalLikeR
+	{
+		get { return inertiaTotal / 10000.0; } //comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
+	}
 
 }

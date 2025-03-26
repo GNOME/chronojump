@@ -158,21 +158,21 @@ public class EncoderLikeR
 		//all decimals . (same as R)
 		repetitionStrArray = new string[] {
 			(curvesAccepted +1).ToString (),
-				Util.ConvertToPoint (startInSet),  //the difference between this and when graph.R is called is because on saveToFile trimInitialZeros is called, it deletes 0's on signal before 1st rep allowing allowedZeroMSAtStart (1000 zeros)
-				Util.ConvertToPoint (dis_l.Count),
-				Util.ConvertToPoint (sumDis),
-				Util.ConvertToPoint (UtilList.GetAverage (kinematics.Speed_l)),	// 4 speeds: avg, max, maxpos, rvd
-				Util.ConvertToPoint (speedMax),
+				Util.CTP (startInSet),  //the difference between this and when graph.R is called is because on saveToFile trimInitialZeros is called, it deletes 0's on signal before 1st rep allowing allowedZeroMSAtStart (1000 zeros)
+				Util.CTP (dis_l.Count),
+				Util.CTP (sumDis),
+				Util.CTP (UtilList.GetAverage (kinematics.Speed_l)),	// 4 speeds: avg, max, maxpos, rvd
+				Util.CTP (speedMax),
 				speedMaxPos.ToString (),
-				Util.ConvertToPoint (UtilAll.DivideSafe (speedMax, UtilAll.DivideSafe (1.0 * speedMaxPos, 1000))),
-				Util.ConvertToPoint (UtilList.GetAverage (kinematics.Power_l)), 	// 4 powers: avg, max, maxpos, rpd
-				Util.ConvertToPoint (powerMax),
+				Util.CTP (UtilAll.DivideSafe (speedMax, UtilAll.DivideSafe (1.0 * speedMaxPos, 1000))),
+				Util.CTP (UtilList.GetAverage (kinematics.Power_l)), 	// 4 powers: avg, max, maxpos, rpd
+				Util.CTP (powerMax),
 				powerMaxPos.ToString (),
-				Util.ConvertToPoint (UtilAll.DivideSafe (powerMax, UtilAll.DivideSafe (1.0 * powerMaxPos, 1000))), //ms -> s
-				Util.ConvertToPoint (UtilList.GetAverage (kinematics.Force_l)),	// 4 forces: avg, max, maxpos, rpd
-				Util.ConvertToPoint (forceMax),
+				Util.CTP (UtilAll.DivideSafe (powerMax, UtilAll.DivideSafe (1.0 * powerMaxPos, 1000))), //ms -> s
+				Util.CTP (UtilList.GetAverage (kinematics.Force_l)),	// 4 forces: avg, max, maxpos, rpd
+				Util.CTP (forceMax),
 				forceMaxPos.ToString (),
-				Util.ConvertToPoint (UtilAll.DivideSafe (forceMax, UtilAll.DivideSafe (1.0 * forceMaxPos, 1000))), //ms -> s
+				Util.CTP (UtilAll.DivideSafe (forceMax, UtilAll.DivideSafe (1.0 * forceMaxPos, 1000))), //ms -> s
 				"0", "0" };	//TODO: work, impulse
 
 		return true;

@@ -79,6 +79,11 @@ public class Util
 		return(true);
 	}
 
+	//shorter
+	public static string CTP (double myDouble)
+	{
+		return ConvertToPoint (myDouble.ToString ());
+	}
 	//all numbers are saved in database with '.' as decimal separator (method for numbers)
 	public static string ConvertToPoint (double myDouble)
 	{

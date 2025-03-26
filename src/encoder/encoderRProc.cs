@@ -147,7 +147,6 @@ public class EncoderRProcCapture : EncoderRProc
 	public Preferences.TriggerTypes CutByTriggers;
 
 	// ---- csharp capture (without R) ---->
-	private string eccon;
 	EncoderParams encoderParams;
 	public List<string []> CsharpMethodRepetitions_al;
 	private int cSharpCurvesAccepted;

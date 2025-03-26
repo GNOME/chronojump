@@ -791,7 +791,9 @@ public class UtilGtk
 		// font size at gui ---->
 		//default font size
 		Gtk.Viewport vTemp = new Gtk.Viewport();
-		Pango.FontDescription fd = vTemp.StyleContext.GetFont (Gtk.StateFlags.Normal);
+		Pango.FontDescription fd = vTemp.StyleContext.GetFont (Gtk.StateFlags.Normal); //this is showing warning but it works: 'StyleContext.GetFont(StateFlags)' is obsolete
+		//Pango.FontDescription fd = vTemp.Style.FontDescription;	//this could be the solution but fails on compile: error CS1061: 'Style' does not contain a definition for 'FontDescription' and no accessible extension method 'FontDescription' accepting a first argument of type 'Style' could be found (are you missing a using directive or an assembly reference?)
+
 		int defaultFontSize = Convert.ToInt32 (UtilAll.DivideSafe (fd.Size, Pango.Scale.PangoScale));
 		LogB.Information ("default font size: " + defaultFontSize.ToString ());
 

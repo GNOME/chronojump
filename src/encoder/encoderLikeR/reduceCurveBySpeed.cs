@@ -84,6 +84,16 @@ public class EncoderLikeRReduceCurveBySpeed
 			endByStability = getStableConcentricEnd (dis_l, minHeight);
 		}
 
+		// trying only to do the stability thing as the zeros checks are not needed because we are smoothing more a bigger interval
+		return new ReducedCurve (dis_l,
+				startByStability,
+				endByStability);
+
+
+		//TODO: decide if rest of the function is used or not.
+
+
+
 		dis_l = UtilList.ListGetFromToIncluded (dis_l, startByStability, endByStability);
 		//LogB.Information ("reduceCurveByPredictStartEnd B cumsum(dis_l): " + UtilList.ListDoubleToString (UtilList.Cumsum(dis_l), 1, " "));
 

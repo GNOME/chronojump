@@ -76,10 +76,21 @@ public abstract class EncoderLikeRKinematics
 		this.minHeightMm = minHeightMm;
 	}
 
-	public void Calculate ()
+	public void PassTimeSpeedAccel (List<int> time_l, List<double> speed_l, List<double> accel_l)
 	{
-		calculateSpeed ();
-		calculateAccel ();
+		this.time_l = time_l;
+		this.dis_l = speed_l;
+		this.speed_l = speed_l;
+		this.accel_l = accel_l;
+	}
+
+	public void Calculate (bool timeSpeedAccelAlreadySmoothed)
+	{
+		if (! timeSpeedAccelAlreadySmoothed)
+		{
+			CalculateSpeed ();
+			CalculateAccel ();
+		}
 
 		int propulsiveEnd = 0;
 		if (propulsive)
@@ -146,7 +157,7 @@ public abstract class EncoderLikeRKinematics
                 //also returned massTotal & speedyangular
 	}
 
-	private void calculateSpeed ()
+	public void CalculateSpeed ()
 	{
 		bw = new Butterworth (butterworthFreq);
 		bw.AddFromList (dis_l);
@@ -156,7 +167,7 @@ public abstract class EncoderLikeRKinematics
 		speed_l = bw.Y_l;
 	}
 
-	private void calculateAccel ()
+	public void CalculateAccel ()
 	{
 		accel_l = new List<double> ();
 		int window = 1;
@@ -384,11 +395,17 @@ public abstract class EncoderLikeRKinematics
 		// Rscript encoderLikeRKinematics.R filename
 	}
 
+	public List<int> Time_l {
+		get { return time_l; }
+	}
 	public List<double> Dis_l {
 		get { return dis_l; }
 	}
 	public List<double> Speed_l {
 		get { return speed_l; }
+	}
+	public List<double> Accel_l {
+		get { return accel_l; }
 	}
 	public List<double> Force_l {
 		get { return force_l; }
@@ -478,7 +495,6 @@ public class EncoderLikeRKinematicsInertial : EncoderLikeRKinematics
 	private List<double> powerDisc_l;
 	private List<double> powerBody_l;
 	private double diameterM;
-	private double anglePush;
 
 	//constructor
 	public EncoderLikeRKinematicsInertial (double diameter,  double inertiaMomentum)

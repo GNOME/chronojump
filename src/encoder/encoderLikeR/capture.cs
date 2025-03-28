@@ -36,6 +36,7 @@ public class EncoderLikeRCapture
 
 
 	private string [] repetitionStrArray;
+	private EncoderLikeRKinematics kinematics;
 
 	//constructor
 	public EncoderLikeRCapture (EncoderParams encoderParams)
@@ -51,31 +52,39 @@ public class EncoderLikeRCapture
 		this.propulsive = encoderParams.Propulsive;
 	}
 
-	public bool Do (bool capturing,
+	public bool Do (
+			bool justDebug, //to make calculations but do not send final array
+			bool capturing,
 			List<int> curve_l,
-			int startInSet, int curvesAccepted)
+			List<int> curveForSmooth_l, //has +200 samples (or more at each side to do the smoothing)
+			int extraSamplesLeft, int extraSamplesRight, //should be the same but maybe we cannot guarantee that (end of the capture)
+			int startInSet, int curvesAccepted
+			//, string debugFileName
+			)
 	{
 		//LogB.Information ("____________ C#: pos_l before reduce __________");
 		//LogB.Information (UtilList.ListIntToSQLString (UtilList.Cumsum(curve_l), " "));
 
-		UtilList.ListIntToFile (curve_l, " ", Path.Combine (Path.GetTempPath (), "chronojump-debug-encoderLikeR_Do0_curve_l.txt")); //es el mateix
+		//debug
+		//UtilList.ListIntToFile (curve_l, " ", Path.Combine (Path.GetTempPath (), "chronojump-debug-encoderLikeR_Do0_curve_l.txt")); //es el mateix
 
 		repetitionStrArray = new string [] {};
 
 		// 1) get displacement
 		EncoderLikeRGetDisplacement elrgd = new EncoderLikeRGetDisplacement ();
 		List<double> dis_l = new List<double> ();
+		List<double> disSmooth_l = new List<double> ();
 
 		if (econf.has_inertia)
-			dis_l = elrgd.GetDisplacementInertial (
-					curve_l, econf.name,
-					econf.d, econf.D, econf.gearedDownLikeR
-					);
-		else
-			dis_l = elrgd.GetDisplacement (
-					capturing, econf.name,
-					curve_l, econf.d, econf.D, econf.gearedDownLikeR
-					);
+		{
+			dis_l = elrgd.GetDisplacementInertial (curve_l, econf.name, econf.d, econf.D, econf.gearedDownLikeR);
+			disSmooth_l = elrgd.GetDisplacementInertial (curveForSmooth_l, econf.name, econf.d, econf.D, econf.gearedDownLikeR);
+		} else {
+			dis_l = elrgd.GetDisplacement (capturing, econf.name, curve_l, econf.d, econf.D, econf.gearedDownLikeR);
+			disSmooth_l = elrgd.GetDisplacement (capturing, econf.name, curveForSmooth_l, econf.d, econf.D, econf.gearedDownLikeR);
+		}
+
+		//List<double>disNotReduced_l = dis_l;
 
 		//LogB.Information (string.Format ("encoderLikeR before reduce: dis_l.Count: {0}", dis_l.Count));
 		// 2) reduceCurve by speed
@@ -103,10 +112,13 @@ public class EncoderLikeRCapture
                         end --;
 
 		dis_l = UtilList.ListGetFromToIncluded (dis_l, start, end);
+		//disSmooth_l = UtilList.ListGetFromToIncluded (dis_l, start, end);
 
 		//LogB.Information (string.Format ("encoderLikeR after reduce B: dis_l.Count: {0}",
 		//			dis_l.Count));
 
+		//LogB.Information ("____________ C#: pos_l using disNotReduced_l __________");
+		//LogB.Information (UtilList.ListDoubleToString (UtilList.Cumsum(disNotReduced_l), 1, " "));
 		//LogB.Information ("____________ C#: pos_l after reduce __________");
 		//LogB.Information (UtilList.ListDoubleToString (UtilList.Cumsum(dis_l), 1, " "));
 
@@ -116,9 +128,7 @@ public class EncoderLikeRCapture
 		if (Math.Abs(sumDis) < minHeightMm)
 			return false;
 
-
-		UtilList.ListDoubleToFile (dis_l, 2, " ", Path.Combine (Path.GetTempPath (), "chronojump-debug-encoderLikeR-after-reduce.txt"));
-
+		//UtilList.ListDoubleToFile (dis_l, 2, " ", Path.Combine (Path.GetTempPath (), "chronojump-debug-encoderLikeR-after-reduce.txt"));
 
 		// 4) calculations
 		//TODO: check if this line (277) on capture.R is needed:
@@ -133,7 +143,55 @@ public class EncoderLikeRCapture
 				ecconFix = "e";
 		}
 
-		EncoderLikeRKinematics kinematics;
+		// 4.a) disSmooth_l is bigger, calculate on it the speed & accel smoothed
+
+		EncoderLikeRKinematics kinematicsSmooth;
+		if (econf.has_inertia)
+			kinematicsSmooth = new EncoderLikeRKinematicsInertial (econf.d, econf.inertiaTotalLikeR);
+		else
+			kinematicsSmooth = new EncoderLikeRKinematicsNotInertial ();
+
+		kinematicsSmooth.PassParameters (
+				disSmooth_l,
+				//15, 	//butterworth
+				7, 	//butterworth
+				ecconFix,
+				econf.name,
+				econf.gearedDownLikeR,
+				massBody, massExtra,
+				anglePush, angleWeight, exercisePercentBodyWeight,
+				propulsive, minHeightMm);
+
+		kinematicsSmooth.Calculate (false);
+
+		// 4.b) get the smoothed variables but cut them to be appropriate for the desired interval
+
+		List<int> timeSmoothed_l = UtilList.ListGetFromToIncluded (
+				kinematicsSmooth.Time_l,
+				extraSamplesLeft + start,
+				extraSamplesLeft + start + dis_l.Count);
+
+		/*
+		LogB.Information ("Printing timeSmoothed_l to see how time has changed each sample (to see if it's 1 ms each");
+		LogB.Information ("count = " + timeSmoothed_l.Count.ToString ());
+		foreach (int time in timeSmoothed_l)
+			LogB.Information (time.ToString ());
+
+		it is not changed, all is ok. Problem was the reduceCurveBySpeed 0's reconstruction
+		now ok, because only the stable concentric start/end is used
+		*/
+
+		List<double> speedSmoothed_l = UtilList.ListGetFromToIncluded (
+				kinematicsSmooth.Speed_l,
+				extraSamplesLeft + start,
+				extraSamplesLeft + start + dis_l.Count);
+
+		List<double> accelSmoothed_l = UtilList.ListGetFromToIncluded (
+				kinematicsSmooth.Accel_l,
+				extraSamplesLeft + start,
+				extraSamplesLeft + start + dis_l.Count);
+
+		// 4.c) calculate kinematics on desired interval but using (passing to it) the smoothed variables
 
 		if (econf.has_inertia)
 			kinematics = new EncoderLikeRKinematicsInertial (econf.d, econf.inertiaTotalLikeR);
@@ -141,16 +199,30 @@ public class EncoderLikeRCapture
 			kinematics = new EncoderLikeRKinematicsNotInertial ();
 
 		kinematics.PassParameters (
-				dis_l, 15, ecconFix,
+				disSmooth_l,
+				//15, 	//butterworth
+				7, 	//butterworth
+				ecconFix,
 				econf.name,
 				econf.gearedDownLikeR,
 				massBody, massExtra,
 				anglePush, angleWeight, exercisePercentBodyWeight,
 				propulsive, minHeightMm);
 
-		kinematics.Calculate ();
+		kinematics.PassTimeSpeedAccel (timeSmoothed_l, speedSmoothed_l, accelSmoothed_l);
+		kinematics.Calculate (true);
 
-		kinematics.WriteToFileDebug (string.Format ("encoderCSharpDebug_{0}.csv", startInSet));
+		/*
+		string filename = debugFileName;
+		if (filename == "")
+			filename = string.Format ("encoderCSharpDebug_{0}.csv", startInSet);
+
+		//kinematics.WriteToFileDebug (string.Format ("encoderCSharpDebug_{0}.csv", startInSet));
+		kinematics.WriteToFileDebug (filename);
+		kinematicsBig.WriteToFileDebug (string.Format ("encoderCSharpDebugBig_{0}.csv", startInSet));
+		*/
+
+		// 4.d) get the calculated variables on thee desired interval
 
 		List<double> speedAbs_l = UtilList.ListDoubleToAbs (kinematics.Speed_l);
 		List<double> forceAbs_l = UtilList.ListDoubleToAbs (kinematics.Force_l);
@@ -165,7 +237,11 @@ public class EncoderLikeRCapture
 		int powerMaxPos = 0;
 		double powerMax = UtilList.GetMaxValueAndPos (powerAbs_l, ref powerMaxPos);
 
-		// 4) prepare data
+		if (justDebug)
+			return false;
+
+		// 4) prepare data to be shown to user
+
 		//TODO: fix this, is the same as capture.R 93-101
 		//all decimals . (same as R)
 		repetitionStrArray = new string[] {
@@ -194,6 +270,10 @@ public class EncoderLikeRCapture
 	public string [] RepetitionStrArray {
 		get { return repetitionStrArray; }
 	}
+
+	public EncoderLikeRKinematics Kinematics {
+		get { return kinematics; }
+	}
 }
 
 public class EncoderLikeRRepPhase
@@ -218,15 +298,20 @@ public class EncoderLikeRRepPhase
 	}
 }
 
-/*
- * TODO: in the future use something like this instead of the string [] repetitionStrArray
+// TODO: in the future use something like this instead of the string [] repetitionStrArray
 public class EncoderLikeRRepetition
 {
+	/*
 	public double start;
 	public double duration;
 	public double range;
-	public EncoderLikeRRepetition ()
+	*/
+	public int start;
+	public int end;
+
+	public EncoderLikeRRepetition (int start, int end)
 	{
+		this.start = start;
+		this.end = end;
 	}
 }
-*/

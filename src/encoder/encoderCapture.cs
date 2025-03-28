@@ -556,6 +556,13 @@ public abstract class EncoderCapture
 
 						//22-may-2015: This is done in R now
 
+						//for butterworth filtration, send more data:
+						//TODO: do it with just 200 at each side (if possible)
+						double [] curveBig = new double[i - ecc.startFrame];
+						for (int k = 0, j = ecc.startFrame; j < i ; j ++, k ++) {
+							curveBig[k] = encoderReaded[j];
+						}
+
 						//1) check heightCurve in a fast way first to discard curves soon
 						//   only process curves with height >= min_height
 						//2) if it's concentric, only take the concentric curves, 
@@ -603,8 +610,10 @@ public abstract class EncoderCapture
 
 							if (captureWithoutR)
 								encoderRProcCapture.SendCurveCsharp (
+										false,
 										ecc.startFrame,
-										curve
+										curve,
+										curveBig //TODO: pass the left, right smooth
 										);
 							else {
 								if (! encoderRProcCapture.SendCurve(

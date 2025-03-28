@@ -340,6 +340,15 @@ public class UtilList
 		return sorted_l;
 	}
 
+	public static List<int> IntArrayToListInt (int [] arrayInt)
+	{
+		List<int> l = new List<int> ();
+		foreach (int i in arrayInt)
+			l.Add (i);
+
+		return l;
+	}
+
 	public static List<int> DoubleArrayToListInt (double [] arrayDouble)
 	{
 		List<int> l = new List<int> ();

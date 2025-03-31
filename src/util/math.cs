@@ -2007,6 +2007,7 @@ public class Butterworth
 	private List<double> y_l;
 	FilteredTrajectory traj;
 
+	//if freq is -1 then is freq is calculated
 	public Butterworth (double freq)
 	{
 		this.freq = freq;

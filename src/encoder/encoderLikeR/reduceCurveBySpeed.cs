@@ -84,16 +84,6 @@ public class EncoderLikeRReduceCurveBySpeed
 			endByStability = getStableConcentricEnd (dis_l, minHeight);
 		}
 
-		// trying only to do the stability thing as the zeros checks are not needed because we are smoothing more a bigger interval
-		return new ReducedCurve (dis_l,
-				startByStability,
-				endByStability);
-
-
-		//TODO: decide if rest of the function is used or not.
-
-
-
 		dis_l = UtilList.ListGetFromToIncluded (dis_l, startByStability, endByStability);
 		//LogB.Information ("reduceCurveByPredictStartEnd B cumsum(dis_l): " + UtilList.ListDoubleToString (UtilList.Cumsum(dis_l), 1, " "));
 
@@ -130,8 +120,8 @@ public class EncoderLikeRReduceCurveBySpeed
 
 		LogB.Information (string.Format ("C# zerosAtLeft: {0}, zerosAtRight: {1}", zerosAtLeft, zerosAtRight));
 
-		int startPos = startByStability + firstInitialNonZero-1 - zerosAtLeft;
-		int endPos = startByStability + firstInitialNonZero-1 + lastFinalNonZero + zerosAtRight;
+		int startPos = startByStability + firstInitialNonZero -zerosAtLeft;
+		int endPos = startByStability + firstInitialNonZero + lastFinalNonZero + zerosAtRight;
 
 		/*
 		// if the displacement is all 0s then startPos is na. For this reason there are is.na checks (on R, on C# it will be -1)

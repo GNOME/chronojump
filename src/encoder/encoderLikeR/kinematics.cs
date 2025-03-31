@@ -55,7 +55,9 @@ public abstract class EncoderLikeRKinematics
 	protected const double pi = 3.141593;
 
 	public void PassParameters (
-			List<double> dis_l, double butterworthFreq, string eccon,
+			List<double> dis_l,
+			double butterworthFreq,
+			string eccon,
 			EncoderConfiguration.Names econfName,
 			double gearedDown, double massBody, double massExtra,
 			int anglePush, int angleWeight, int exercisePercentBodyWeight,
@@ -76,7 +78,13 @@ public abstract class EncoderLikeRKinematics
 		this.minHeightMm = minHeightMm;
 	}
 
-	public void PassTimeSpeedAccel (List<int> time_l, List<double> speed_l, List<double> accel_l)
+	public void CalculateSpeedAccelForSmooth ()
+	{
+		CalculateSpeed ();
+		CalculateAccel ();
+	}
+
+	public void PassTimeSpeedAccelSmoothed (List<int> time_l, List<double> speed_l, List<double> accel_l)
 	{
 		this.time_l = time_l;
 		this.dis_l = speed_l;
@@ -84,14 +92,8 @@ public abstract class EncoderLikeRKinematics
 		this.accel_l = accel_l;
 	}
 
-	public void Calculate (bool timeSpeedAccelAlreadySmoothed)
+	public void CalculatePropulsiveAndDynamics ()
 	{
-		if (! timeSpeedAccelAlreadySmoothed)
-		{
-			CalculateSpeed ();
-			CalculateAccel ();
-		}
-
 		int propulsiveEnd = 0;
 		if (propulsive)
 			propulsiveEnd = findPropulsiveEndPrepare ();
@@ -202,6 +204,8 @@ public abstract class EncoderLikeRKinematics
 		LogB.Information ("findPropulsiveEndPrepare, eccon: " + eccon);
 		List<double> disCON_l = new List<double> ();
 		int propulsiveEnd = disCON_l.Count -1;
+
+		LogB.Information ("at findPropulsiveEndPrepare, dis_l.Count: " + dis_l.Count.ToString ());
 
 		if (eccon == "c")
 		{

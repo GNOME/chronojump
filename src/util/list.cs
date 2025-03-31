@@ -400,6 +400,7 @@ public class UtilList
 	}
 	public static double GetMaxValueAndPos (List<double> values_l, ref int pos)
 	{
+		LogB.Information ("At GetMaxValueAndPos (List<double>, ref int)");
 		double max = 0;
 		pos = 0;
 		bool firstValue = true;
@@ -413,20 +414,23 @@ public class UtilList
 
 			firstValue = false;
 		}
+		LogB.Information (string.Format ("max is: {0}, at pos: {1}", max, pos));
 		return max;
 	}
 	//returns a list of the pos where max value is found
-	public static double GetMaxValueAndPos (List<double> values_l, ref List<int> pos)
+	public static double GetMaxValueAndPos (List<double> values_l, ref List<int> pos_l)
 	{
+		LogB.Information ("At GetMaxValueAndPos (List<double>, ref List<int>)");
 		// 1. found max
 		double max = GetMax (values_l);
 
 		// 2. create a list of pos where pos == max
-		pos = new List<int> ();
+		pos_l = new List<int> ();
 		for (int i = 0 ; i < values_l.Count ; i ++)
 			if (values_l[i] == max)
-				pos.Add (i);
+				pos_l.Add (i);
 
+		LogB.Information (string.Format ("pos_l.Count: {0}", pos_l.Count ()));
 		return max;
 	}
 

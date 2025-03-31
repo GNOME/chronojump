@@ -38,6 +38,9 @@ public class EncoderLikeRCapture
 	private string [] repetitionStrArray;
 	private EncoderLikeRKinematics kinematics;
 
+	private List<List<double>> smoothTestSpeed_ll;
+	private List<List<double>> smoothTestAccel_ll;
+
 	//constructor
 	public EncoderLikeRCapture (EncoderParams encoderParams)
 	{
@@ -57,7 +60,7 @@ public class EncoderLikeRCapture
 			bool capturing,
 			List<int> curve_l,
 			List<int> curveForSmooth_l, //has +200 samples (or more at each side to do the smoothing)
-			int extraSamplesLeft, int extraSamplesRight, //should be the same but maybe we cannot guarantee that (end of the capture)
+			int smoothSamplesLeft, int smoothSamplesRight, //should be the same but maybe we cannot guarantee that (end of the capture)
 			int startInSet, int curvesAccepted
 			//, string debugFileName
 			)
@@ -93,7 +96,7 @@ public class EncoderLikeRCapture
 				eccon,
 				minHeightMm);
 		EncoderLikeRReduceCurveBySpeed.ReducedCurve reducedCurve = elrrcs.ReducedCurveGet;
-		//dis_l = reducedCurve.dis_l; //this is not used
+		//dis_l = reducedCurve.dis_l; //the reconstructed with zeros is not used
 		int start = reducedCurve.startPos;
 		int end = reducedCurve.endPos;
 
@@ -117,10 +120,17 @@ public class EncoderLikeRCapture
 		//LogB.Information (string.Format ("encoderLikeR after reduce B: dis_l.Count: {0}",
 		//			dis_l.Count));
 
-		//LogB.Information ("____________ C#: pos_l using disNotReduced_l __________");
-		//LogB.Information (UtilList.ListDoubleToString (UtilList.Cumsum(disNotReduced_l), 1, " "));
-		//LogB.Information ("____________ C#: pos_l after reduce __________");
-		//LogB.Information (UtilList.ListDoubleToString (UtilList.Cumsum(dis_l), 1, " "));
+		/*
+		LogB.Information ("____________ C#: dis_l using disNotReduced_l __________");
+		LogB.Information (UtilList.ListDoubleToString (disNotReduced_l, 1, " "));
+		LogB.Information ("____________ C#: dis_l after reduce __________");
+		LogB.Information (UtilList.ListDoubleToString (dis_l, 1, " "));
+
+		LogB.Information ("____________ C#: pos_l using disNotReduced_l __________");
+		LogB.Information (UtilList.ListDoubleToString (UtilList.Cumsum(disNotReduced_l), 1, " "));
+		LogB.Information ("____________ C#: pos_l after reduce __________");
+		LogB.Information (UtilList.ListDoubleToString (UtilList.Cumsum(dis_l), 1, " "));
+		*/
 
 		// 3) check if height is enough
 		double sumDis = UtilList.Sum (dis_l);
@@ -151,76 +161,109 @@ public class EncoderLikeRCapture
 		else
 			kinematicsSmooth = new EncoderLikeRKinematicsNotInertial ();
 
-		kinematicsSmooth.PassParameters (
-				disSmooth_l,
-				//15, 	//butterworth
-				7, 	//butterworth
-				ecconFix,
-				econf.name,
-				econf.gearedDownLikeR,
-				massBody, massExtra,
-				anglePush, angleWeight, exercisePercentBodyWeight,
-				propulsive, minHeightMm);
+		smoothTestSpeed_ll = new List<List<double>> ();
+		smoothTestAccel_ll = new List<List<double>> ();
 
-		kinematicsSmooth.Calculate (false);
+		double smoothBwFreq = 5;
+		//List<int> smoothBwFreq_l = new List<int> { 3, 4, 5, 6, 7, 8, 9, -1 };
+		//foreach (double smoothBwFreq in smoothBwFreq_l)
+		//{
+			kinematicsSmooth.PassParameters (
+					disSmooth_l,
+					smoothBwFreq,
+					ecconFix,
+					econf.name,
+					econf.gearedDownLikeR,
+					massBody, massExtra,
+					anglePush, angleWeight, exercisePercentBodyWeight,
+					propulsive, minHeightMm);
 
-		// 4.b) get the smoothed variables but cut them to be appropriate for the desired interval
+			kinematicsSmooth.CalculateSpeedAccelForSmooth ();
 
-		List<int> timeSmoothed_l = UtilList.ListGetFromToIncluded (
-				kinematicsSmooth.Time_l,
-				extraSamplesLeft + start,
-				extraSamplesLeft + start + dis_l.Count);
+			// 4.b) get the smoothed variables but cut them to be appropriate for the desired interval
 
-		/*
-		LogB.Information ("Printing timeSmoothed_l to see how time has changed each sample (to see if it's 1 ms each");
-		LogB.Information ("count = " + timeSmoothed_l.Count.ToString ());
-		foreach (int time in timeSmoothed_l)
-			LogB.Information (time.ToString ());
+			LogB.Information (string.Format ("kinematicsSmooth.Time_l.Count: {0}, kinematicsSmooth.Speed_l.Count: {1}, kinematicsSmooth.Accel_l.Count: {2}, smoothSamplesLeft: {3}, start: {4}, smoothSamplesLeft + start: {5}, dis_l.Count: {6}, smoothSamplesLeft + start + dis_l.Count: {7}",
+						kinematicsSmooth.Time_l.Count,
+						kinematicsSmooth.Speed_l.Count,
+						kinematicsSmooth.Accel_l.Count,
+						smoothSamplesLeft,
+						start,
+						smoothSamplesLeft + start,
+						dis_l.Count,
+						smoothSamplesLeft + start + dis_l.Count));
 
-		it is not changed, all is ok. Problem was the reduceCurveBySpeed 0's reconstruction
-		now ok, because only the stable concentric start/end is used
-		*/
+			List<int> timeSmoothed_l = UtilList.ListGetFromToIncluded (
+					kinematicsSmooth.Time_l,
+					smoothSamplesLeft + start,
+					smoothSamplesLeft + start + dis_l.Count -1);
+			LogB.Information ("timeSmoothed_l.Count: " + timeSmoothed_l.Count.ToString ());
 
-		List<double> speedSmoothed_l = UtilList.ListGetFromToIncluded (
-				kinematicsSmooth.Speed_l,
-				extraSamplesLeft + start,
-				extraSamplesLeft + start + dis_l.Count);
+			/*
+			   LogB.Information ("Printing timeSmoothed_l to see how time has changed each sample (to see if it's 1 ms each");
+			   LogB.Information ("count = " + timeSmoothed_l.Count.ToString ());
+			   foreach (int time in timeSmoothed_l)
+			   LogB.Information (time.ToString ());
 
-		List<double> accelSmoothed_l = UtilList.ListGetFromToIncluded (
-				kinematicsSmooth.Accel_l,
-				extraSamplesLeft + start,
-				extraSamplesLeft + start + dis_l.Count);
+			   it is not changed, all is ok. Problem was the reduceCurveBySpeed 0's reconstruction
+			   now ok, because only the stable concentric start/end is used
+			   */
 
-		// 4.c) calculate kinematics on desired interval but using (passing to it) the smoothed variables
+			List<double> speedSmoothed_l = UtilList.ListGetFromToIncluded (
+					kinematicsSmooth.Speed_l,
+					smoothSamplesLeft + start,
+					smoothSamplesLeft + start + dis_l.Count -1);
+			LogB.Information ("speedSmoothed_l.Count: " + speedSmoothed_l.Count.ToString ());
 
-		if (econf.has_inertia)
-			kinematics = new EncoderLikeRKinematicsInertial (econf.d, econf.inertiaTotalLikeR);
-		else
-			kinematics = new EncoderLikeRKinematicsNotInertial ();
+			List<double> accelSmoothed_l = UtilList.ListGetFromToIncluded (
+					kinematicsSmooth.Accel_l,
+					smoothSamplesLeft + start,
+					smoothSamplesLeft + start + dis_l.Count -1);
+			LogB.Information ("accelSmoothed_l.Count: " + accelSmoothed_l.Count.ToString ());
 
-		kinematics.PassParameters (
-				disSmooth_l,
-				//15, 	//butterworth
-				7, 	//butterworth
-				ecconFix,
-				econf.name,
-				econf.gearedDownLikeR,
-				massBody, massExtra,
-				anglePush, angleWeight, exercisePercentBodyWeight,
-				propulsive, minHeightMm);
+			// 4.c) calculate kinematics on desired interval but using (passing to it) the smoothed variables
 
-		kinematics.PassTimeSpeedAccel (timeSmoothed_l, speedSmoothed_l, accelSmoothed_l);
-		kinematics.Calculate (true);
+			if (econf.has_inertia)
+				kinematics = new EncoderLikeRKinematicsInertial (econf.d, econf.inertiaTotalLikeR);
+			else
+				kinematics = new EncoderLikeRKinematicsNotInertial ();
 
-		/*
-		string filename = debugFileName;
-		if (filename == "")
-			filename = string.Format ("encoderCSharpDebug_{0}.csv", startInSet);
+			kinematics.PassParameters (
+					dis_l,
+					smoothBwFreq, 	//butterworth
+					ecconFix,
+					econf.name,
+					econf.gearedDownLikeR,
+					massBody, massExtra,
+					anglePush, angleWeight, exercisePercentBodyWeight,
+					propulsive, minHeightMm);
 
-		//kinematics.WriteToFileDebug (string.Format ("encoderCSharpDebug_{0}.csv", startInSet));
-		kinematics.WriteToFileDebug (filename);
-		kinematicsBig.WriteToFileDebug (string.Format ("encoderCSharpDebugBig_{0}.csv", startInSet));
-		*/
+			kinematics.PassTimeSpeedAccelSmoothed (timeSmoothed_l, speedSmoothed_l, accelSmoothed_l);
+
+			LogB.Information (string.Format ("kinematics passed params: disSmooth_l.Count: {0}, timeSmoothed_l.Count: {1}, speedSmoothed_l.Count: {2}",
+						disSmooth_l.Count, timeSmoothed_l.Count, speedSmoothed_l.Count));
+
+			kinematics.CalculatePropulsiveAndDynamics ();
+
+			/*
+			   string filename = debugFileName;
+			   if (filename == "")
+			   filename = string.Format ("encoderCSharpDebug_{0}.csv", startInSet);
+
+			//kinematics.WriteToFileDebug (string.Format ("encoderCSharpDebug_{0}.csv", startInSet));
+			kinematics.WriteToFileDebug (filename);
+			kinematicsBig.WriteToFileDebug (string.Format ("encoderCSharpDebugBig_{0}.csv", startInSet));
+			*/
+			kinematics.WriteToFileDebug (string.Format ("encoderCSharpDebug_{0}_smooth_{1}.csv",
+						startInSet, smoothBwFreq));
+
+/*
+			smoothTestSpeed_ll.Add (speedSmoothed_l);
+			smoothTestAccel_ll.Add (accelSmoothed_l);
+		}
+
+		writeSpeedAccelBySmoothToFileDebug (string.Format ("encoderCSharpDebug_{0}_bysmooths.csv",
+					startInSet));
+*/
 
 		// 4.d) get the calculated variables on thee desired interval
 
@@ -265,6 +308,86 @@ public class EncoderLikeRCapture
 				"0", "0" };	//TODO: work, impulse
 
 		return true;
+	}
+
+	public void writeSpeedAccelBySmoothToFileDebug (string filename)
+	{
+		LogB.Information ("At writeSpeedAccelBySmoothToFileDebug");
+		TextWriter writer = File.CreateText (Path.Combine (Path.GetTempPath (), filename));
+		writer.WriteLine ("speed 3;speed 4;speed 5;speed 6;speed 7;speed 8;speed 9;speed 10;" +
+				"accel 3;accel 4;accel 5;accel 6;accel 7;accel 8;accel 9;accel 10");
+
+		int sample = 0;
+		bool listsEnded = false;
+		List<string> rowStr_l = new List<string> ();
+		while (! listsEnded)
+		{
+			rowStr_l = new List<string> ();
+
+			for (int i = 0; i < smoothTestSpeed_ll.Count; i ++)
+			{
+				if (sample < smoothTestSpeed_ll[i].Count)
+					rowStr_l.Add (Util.TrimDecimals (smoothTestSpeed_ll[i][sample], 4));
+				else {
+					rowStr_l.Add ("");
+					listsEnded = true;
+				}
+			}
+
+			for (int i = 0; i < smoothTestAccel_ll.Count; i ++)
+			{
+				if (sample < smoothTestAccel_ll[i].Count)
+					rowStr_l.Add (Util.TrimDecimals (smoothTestAccel_ll[i][sample], 4));
+				else {
+					rowStr_l.Add ("");
+					listsEnded = true;
+				}
+			}
+			writer.WriteLine (UtilList.ListStringToString (rowStr_l, ";"));
+			sample ++;
+		}
+
+                writer.Flush();
+                writer.Close();
+                ((IDisposable)writer).Dispose();
+
+		/*
+		with R check this like this:
+
+		repStart <- 1101
+		d <- read.csv2 (paste ("encoderCSharpDebug_", repStart, "_bysmooths.csv", sep=""))
+		r <- read.csv2("encoderR_0.csv")
+
+		xlim <- c(0, 2000)
+		ylim <- c(0, max(r$speed))
+		#ylim <- c(0.6,.8)
+		plot (r$speed, col="green", type="l", lwd=3, xlim=xlim, ylim=ylim)
+		abline (h=0, lty=2, col="gray")
+		lines (d$speed.3, col="red")
+		lines (d$speed.4, col="red", lty=2)
+		lines (d$speed.5, col="green")
+		lines (d$speed.6, col="green", lty=2)
+		lines (d$speed.7, col="blue")
+		lines (d$speed.8, col="blue", lty=2)
+		lines (d$speed.9, col="brown")
+		lines (d$speed.10, col="brown", lty=2) #or automatic
+
+		par (new=T)
+		xlim <- c(0, 1500)
+		ylim <- c(min(r$accel), max(r$accel))
+		#ylim <- c(-7.5, 3.5)
+		plot (r$accel, col="red", type="l", lwd=3, xlim=xlim, ylim=ylim, axes=F)
+		abline (h=0, lty=2, col="gray")
+		axis (4, col="red")
+		lines (d$accel.3, col="red")
+		lines (d$accel.4, col="red", lty=2)
+		lines (d$accel.5, col="green")
+		lines (d$accel.6, col="green", lty=2)
+		lines (d$accel.7, col="blue")
+		lines (d$accel.8, col="blue", lty=2)
+		lines (d$accel.9, col="brown")
+		lines (d$accel.10, col="brown", lty=2) #or automatic
+		*/
 	}
 
 	public string [] RepetitionStrArray {

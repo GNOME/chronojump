@@ -29,7 +29,7 @@ English = unlist(strsplit(options[29], "\\;"))
 Translated = unlist(strsplit(options[30], "\\;"))
 
 DEBUG <- FALSE
-DebugFileName <- paste(options[5], "/chronojump-debug.txt", sep="")
+DebugFileName <- paste(options[5], "/chronojump-debug-encoder-R-graph.txt", sep="")
 
 CROSSVALIDATESMOOTH <- FALSE
 

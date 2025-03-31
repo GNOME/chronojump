@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -70,6 +70,7 @@ public abstract class EncoderCapture
 	protected int i;
 	protected int msCount;
 	protected EncoderCaptureCurve ecc;
+	protected EncoderCaptureCurve eccForSmooth;
 		
 	protected int directionChangePeriod;
 	protected int directionChangeCount;
@@ -108,7 +109,9 @@ public abstract class EncoderCapture
 	//private int [] simulatedInts;
 	//private int simulatedCount;
 
-	
+	public enum CsharpOrR { CSHARP, R, BOTH };
+	private CsharpOrR csharpOrR;
+
 	// ---- private stuff ----
 	private bool cancel;
 
@@ -118,7 +121,7 @@ public abstract class EncoderCapture
 			bool cont, string eccon, string port,
 			bool capturingInertialBG, bool encoderConfigurationIsInverted,
 			bool showOnlyBars,
-			bool simulated)
+			bool simulated, CsharpOrR csharpOrR)
 	{
 		this.cont = cont;
 		this.eccon = eccon;
@@ -126,6 +129,7 @@ public abstract class EncoderCapture
 		this.encoderConfigurationIsInverted = encoderConfigurationIsInverted;
 		this.showOnlyBars = showOnlyBars;
 		this.simulated = simulated;
+		this.csharpOrR = csharpOrR;
 
 		//---- a) open port -----
 		if(simulated)
@@ -197,9 +201,12 @@ public abstract class EncoderCapture
 		 * but we need to have an accurate distance calculation depending on encoderConfiguration (see encoder R files)
 		 * and it will be much better to have ecc and con separately to manage better weightlifting (double phase/or not) exercises
 		 */
-		directionChangePeriod = 25; //how long (ms) to recognize as change direction. (from 2 to A in ms)
-						//it's in ms and not in cm, because it's easier to calculate
+		directionChangePeriod = 25; //how long (ms) to recognize as change direction. (from 2 to A in ms). It's in ms and not in cm, because it's easier to calculate
+		if (csharpOrR == CsharpOrR.R || csharpOrR == CsharpOrR.BOTH)
+			directionChangePeriod = 200; //to send 200 samples to the right (and also to the left for the butterworth filter)
+
 		directionChangeCount = 0; //counter for this period
+
 		directionNow = 1;		// +1 or -1
 		directionLastMSecond = 1;	// +1 or -1 (direction on last millisecond)
 		directionCompleted = -1;	// +1 or -1
@@ -235,8 +242,7 @@ public abstract class EncoderCapture
 
 	public bool Capture (string outputData1, EncoderRProcCapture encoderRProcCapture,
 			bool compujump, Preferences.TriggerTypes cutByTriggers,
-			double restClustersSeconds, bool playSoundsFromFile, bool cairoHorizontal,
-			bool captureWithoutR
+			double restClustersSeconds, bool playSoundsFromFile, bool cairoHorizontal
 			)
 	{
 		/*
@@ -510,8 +516,6 @@ public abstract class EncoderCapture
 					 */
 
 					//this is better, takes a lot of time before, and then reduceCurveBySpeed will cut it
-					//but reduceCurveBySpeed is not implemented on inertial
-					//TODO: implement it
 					int startFrame = previousEnd;	//startFrame
 					LogB.Debug("startFrame",startFrame.ToString());
 					if(startFrame < 0)
@@ -558,9 +562,20 @@ public abstract class EncoderCapture
 
 						//for butterworth filtration, send more data:
 						//TODO: do it with just 200 at each side (if possible)
-						double [] curveBig = new double[i - ecc.startFrame];
-						for (int k = 0, j = ecc.startFrame; j < i ; j ++, k ++) {
-							curveBig[k] = encoderReaded[j];
+						int smoothStartFrame = ecc.startFrame -200;
+						if (smoothStartFrame < 0)
+							smoothStartFrame = 0;
+
+						int smoothEndFrame = ecc.endFrame + 200;
+						if (smoothEndFrame > i)
+							smoothEndFrame = i;
+
+						eccForSmooth = new EncoderCaptureCurve (smoothStartFrame, smoothEndFrame);
+
+						double [] curveForSmooth = new double[eccForSmooth.endFrame - eccForSmooth.startFrame];
+						LogB.Debug("curveForSmooth stuff" + eccForSmooth.startFrame + ":" + eccForSmooth.endFrame + ":" + encoderReaded.Count);
+						for (int k = 0, j = eccForSmooth.startFrame; j < eccForSmooth.endFrame ; j ++, k ++) {
+							curveForSmooth[k] = encoderReaded[j];
 						}
 
 						//1) check heightCurve in a fast way first to discard curves soon
@@ -608,14 +623,22 @@ public abstract class EncoderCapture
 							if(compujump && Ecca.curvesAccepted == 0)
 								Networks.WakeUpRaspberryIfNeeded();
 
-							if (captureWithoutR)
+							if (csharpOrR == CsharpOrR.R || csharpOrR == CsharpOrR.BOTH)
+							{
+								//CsharpOrR.R will show the data on Chronojump and use it
+								//CsharpOrR.BOTH will do the calculations useful for /tmp/*.csv comparison with the calculated on R,
 								encoderRProcCapture.SendCurveCsharp (
-										false,
+										csharpOrR == CsharpOrR.BOTH, 	//if both: just debug
 										ecc.startFrame,
 										curve,
-										curveBig //TODO: pass the left, right smooth
+										curveForSmooth,
+										ecc.startFrame -eccForSmooth.startFrame, //the actual extra margin at left (on curve compared with curveForSmooth)
+										eccForSmooth.endFrame -ecc.endFrame 	//same for right
 										);
-							else {
+							}
+
+							if (csharpOrR == CsharpOrR.CSHARP || csharpOrR == CsharpOrR.BOTH)
+							{
 								if (! encoderRProcCapture.SendCurve(
 											ecc.startFrame,
 											UtilEncoder.CompressData(curve, 25)	//compressed

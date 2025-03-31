@@ -85,7 +85,11 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_encoder_capture_inertial_angle_now;
 
 	Gtk.Button button_encoder_capture;
-	Gtk.CheckButton check_encoder_capture_without_r;
+
+	Gtk.Box box_encoder_capture_csharp_r_both;
+	Gtk.RadioButton radio_encoder_capture_csharp;
+	Gtk.RadioButton radio_encoder_capture_r;
+	Gtk.RadioButton radio_encoder_capture_both;
 
 	//encoder calibrate/recalibrate widgets
 	Gtk.Button button_encoder_inertial_calibrate;
@@ -445,8 +449,8 @@ public partial class ChronoJumpWindow
 	
 	//STOPPING is used to stop the camera. It has to be called only one time
 	enum encoderCaptureProcess { CAPTURING, STOPPING, STOPPED } 
-	static encoderCaptureProcess capturingCsharp;	
-	private bool captureWithoutR;
+	static encoderCaptureProcess capturingCsharp;
+	private EncoderCapture.CsharpOrR csharpOrR;
 
 	EncoderRProcCapture encoderRProcCapture;
 	EncoderRProcAnalyze encoderRProcAnalyze;
@@ -479,7 +483,7 @@ public partial class ChronoJumpWindow
 
 	private void initEncoder1Time ()
 	{
-		check_encoder_capture_without_r.Visible = operatingSystem == UtilAll.OperatingSystems.LINUX;
+		box_encoder_capture_csharp_r_both.Visible = operatingSystem == UtilAll.OperatingSystems.LINUX;
 		encoder_pulsebar_capture.Fraction = 1;
 		encoder_pulsebar_capture_label.Text = "";
 		encoder_pulsebar_load_signal_at_analyze.Fraction = 1;
@@ -977,7 +981,18 @@ public partial class ChronoJumpWindow
 //		if(eCaptureInertialBG != null)
 //			eCaptureInertialBG.Finish();
 
-		captureWithoutR = UtilAll.IsMacSilicon () || check_encoder_capture_without_r.Active;
+		csharpOrR = EncoderCapture.CsharpOrR.R;
+		if (UtilAll.IsMacSilicon ())
+			csharpOrR = EncoderCapture.CsharpOrR.CSHARP;
+		if (UtilAll.IsLinux ())
+		{
+			if (radio_encoder_capture_csharp.Active)
+				csharpOrR = EncoderCapture.CsharpOrR.CSHARP;
+			else if (radio_encoder_capture_both.Active)
+				csharpOrR = EncoderCapture.CsharpOrR.BOTH;
+		}
+
+
 		firstSetOfCont = firstSet;
 
 		findMaxPowerSpeedForceIntersession();
@@ -3582,7 +3597,7 @@ public partial class ChronoJumpWindow
 	 * I suppose reading gtk is ok, changing will be the problem
 	 *
 	 * This method captures using Csharp (opposite to very old capture using a python script or directly R)
-	 * but the analysis of the data during capture will be done by R or by Csharp depending on captureWithoutR
+	 * but the analysis of the data during capture will be done by R or by Csharp depending on cshapOrR
 	 */
 	private void encoderDoCaptureCsharp ()
 	{
@@ -3593,8 +3608,7 @@ public partial class ChronoJumpWindow
 				encoderRProcCapture.CutByTriggers,
 				encoderRhythm.RestClustersForEncoderCaptureAutoEnding(),
 				configChronojump.PlaySoundsFromFile,
-				preferences.signalDirectionHorizontal,
-				captureWithoutR
+				preferences.signalDirectionHorizontal
 				);
 
 		//wait to ensure capture thread has ended
@@ -3638,8 +3652,8 @@ public partial class ChronoJumpWindow
 				Preferences.TriggerTypes.NO_TRIGGERS,
 				0,  //encoderRhythm.RestClustersForEncoderCaptureAutoEnding()
 				false, //configChronojump.PlaySoundsFromFile
-				preferences.signalDirectionHorizontal,
-				false
+				preferences.signalDirectionHorizontal//,
+				//false
 				);
 
 		//wait to ensure capture thread has ended
@@ -6525,7 +6539,7 @@ public partial class ChronoJumpWindow
 				if (! Config.SimulatedCapture)
 					portName = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port;
 
-				bool success = eCapture.InitGlobal(
+				bool success = eCapture.InitGlobal (
 						preferences.encoderCaptureTime,
 						preferences.encoderCaptureInactivityEndTime,
 						preferences.encoderCaptureInfinite,
@@ -6535,7 +6549,8 @@ public partial class ChronoJumpWindow
 						encoderConfigurationCurrent.IsInverted (),
 						//configChronojump.EncoderCaptureShowOnlyBars,
 						false, //false to show all, and let user change this at any moment
-						Config.SimulatedCapture);
+						Config.SimulatedCapture,
+						csharpOrR);
 				if(! success)
 				{
 					new DialogMessage(Constants.MessageTypes.WARNING,
@@ -6625,7 +6640,8 @@ public partial class ChronoJumpWindow
 						false,
 						false,
 						false,
-						false);
+						false,
+						EncoderCapture.CsharpOrR.R);
 				if(! success)
 				{
 					new DialogMessage(Constants.MessageTypes.WARNING,
@@ -6794,7 +6810,7 @@ public partial class ChronoJumpWindow
 				encoderParams);
 
 		encoderRProcCapture.StartOrContinue(es);
-		if (captureWithoutR)
+		if (csharpOrR == EncoderCapture.CsharpOrR.R || csharpOrR == EncoderCapture.CsharpOrR.BOTH)
 			encoderRProcCapture.InitCsharp (encoderParams);
 	}
 	
@@ -7075,7 +7091,7 @@ public partial class ChronoJumpWindow
 		{
 			updatePulsebar(encoderActions.CAPTURE); //activity on pulsebar
 
-			if (captureWithoutR)
+			if (csharpOrR == EncoderCapture.CsharpOrR.R)
 			{
 				// >=  because encoderCaptureStringR has a row of titles
 				if (encoderRProcCapture.CsharpMethodRepetitions_al.Count >= encoderCaptureStringR.Count)
@@ -8312,7 +8328,11 @@ public partial class ChronoJumpWindow
 		label_encoder_capture_inertial_angle_now = (Gtk.Label) builder.GetObject ("label_encoder_capture_inertial_angle_now");
 
 		button_encoder_capture = (Gtk.Button) builder.GetObject ("button_encoder_capture");
-		check_encoder_capture_without_r = (Gtk.CheckButton) builder.GetObject ("check_encoder_capture_without_r");
+
+		box_encoder_capture_csharp_r_both = (Gtk.Box) builder.GetObject ("box_encoder_capture_csharp_r_both");
+		radio_encoder_capture_csharp = (Gtk.RadioButton) builder.GetObject ("radio_encoder_capture_csharp");
+		radio_encoder_capture_r = (Gtk.RadioButton) builder.GetObject ("radio_encoder_capture_r");
+		radio_encoder_capture_both = (Gtk.RadioButton) builder.GetObject ("radio_encoder_capture_both");
 
 		//encoder calibrate/recalibrate widgets
 		button_encoder_inertial_calibrate = (Gtk.Button) builder.GetObject ("button_encoder_inertial_calibrate");

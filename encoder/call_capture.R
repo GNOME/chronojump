@@ -25,7 +25,7 @@ filenameBegins = options[2]
 source(scriptCaptureR)
 
 DEBUG <- FALSE
-DebugFileName <- paste(options[5], "/chronojump-debug.txt", sep="")
+DebugFileName <- paste(options[5], "/chronojump-debug-encoder-R-capture.txt", sep="")
 
 CROSSVALIDATESMOOTH <- FALSE
 

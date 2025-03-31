@@ -70,6 +70,11 @@ public class UtilAll
 		return (GetOSEnum() == OperatingSystems.MACOSX && RuntimeInformation.ProcessArchitecture == Architecture.Arm64);
 	}
 
+	public static bool IsLinux ()
+	{
+		return (GetOSEnum() == OperatingSystems.LINUX);
+	}
+
 	public static string GetOS()
 	{
 		OperatingSystem os = Environment.OSVersion;

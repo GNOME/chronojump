@@ -202,7 +202,7 @@ public abstract class EncoderCapture
 		 * and it will be much better to have ecc and con separately to manage better weightlifting (double phase/or not) exercises
 		 */
 		directionChangePeriod = 25; //how long (ms) to recognize as change direction. (from 2 to A in ms). It's in ms and not in cm, because it's easier to calculate
-		if (csharpOrR == CsharpOrR.R || csharpOrR == CsharpOrR.BOTH)
+		if (csharpOrR == CsharpOrR.CSHARP || csharpOrR == CsharpOrR.BOTH)
 			directionChangePeriod = 200; //to send 200 samples to the right (and also to the left for the butterworth filter)
 
 		directionChangeCount = 0; //counter for this period
@@ -623,9 +623,9 @@ public abstract class EncoderCapture
 							if(compujump && Ecca.curvesAccepted == 0)
 								Networks.WakeUpRaspberryIfNeeded();
 
-							if (csharpOrR == CsharpOrR.R || csharpOrR == CsharpOrR.BOTH)
+							if (csharpOrR == CsharpOrR.CSHARP || csharpOrR == CsharpOrR.BOTH)
 							{
-								//CsharpOrR.R will show the data on Chronojump and use it
+								//CsharpOrR.CSHARP will show the data on Chronojump and use it
 								//CsharpOrR.BOTH will do the calculations useful for /tmp/*.csv comparison with the calculated on R,
 								encoderRProcCapture.SendCurveCsharp (
 										csharpOrR == CsharpOrR.BOTH, 	//if both: just debug
@@ -637,7 +637,7 @@ public abstract class EncoderCapture
 										);
 							}
 
-							if (csharpOrR == CsharpOrR.CSHARP || csharpOrR == CsharpOrR.BOTH)
+							if (csharpOrR == CsharpOrR.R || csharpOrR == CsharpOrR.BOTH)
 							{
 								if (! encoderRProcCapture.SendCurve(
 											ecc.startFrame,

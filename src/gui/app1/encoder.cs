@@ -6810,7 +6810,7 @@ public partial class ChronoJumpWindow
 				encoderParams);
 
 		encoderRProcCapture.StartOrContinue(es);
-		if (csharpOrR == EncoderCapture.CsharpOrR.R || csharpOrR == EncoderCapture.CsharpOrR.BOTH)
+		if (csharpOrR == EncoderCapture.CsharpOrR.CSHARP || csharpOrR == EncoderCapture.CsharpOrR.BOTH)
 			encoderRProcCapture.InitCsharp (encoderParams);
 	}
 	
@@ -7091,7 +7091,7 @@ public partial class ChronoJumpWindow
 		{
 			updatePulsebar(encoderActions.CAPTURE); //activity on pulsebar
 
-			if (csharpOrR == EncoderCapture.CsharpOrR.R)
+			if (csharpOrR == EncoderCapture.CsharpOrR.CSHARP)
 			{
 				// >=  because encoderCaptureStringR has a row of titles
 				if (encoderRProcCapture.CsharpMethodRepetitions_al.Count >= encoderCaptureStringR.Count)

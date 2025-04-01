@@ -309,11 +309,6 @@ public partial class ChronoJumpWindow
 			image_encoder_inertial_instructions.Visible = false;
 		}
 
-		if(configChronojump.FourPlatforms)
-		{
-			changeModeCheckRadios (Constants.Modes.OTHER);
-		}
-
 		if(configChronojump.GuiTest)
 		{
 			button_menu_guiTest.Visible = true;

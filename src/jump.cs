@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -23,6 +23,20 @@ using System.Data;
 using System.Text; //StringBuilder
 using System.Collections.Generic; //List
 using Mono.Unix;
+
+#if MICROSOFT_DATA_SQLITE
+using Microsoft.Data.Sqlite;
+using SQLiteTransaction = Microsoft.Data.Sqlite.SqliteTransaction;
+using SQLiteCommand = Microsoft.Data.Sqlite.SqliteCommand;
+using SQLiteDataReader = Microsoft.Data.Sqlite.SqliteDataReader;
+using SQLiteConnection = Microsoft.Data.Sqlite.SqliteConnection;
+#else
+using System.Data.SQLite;
+using SQLiteTransaction = System.Data.SQLite.SQLiteTransaction;
+using SQLiteCommand = System.Data.SQLite.SQLiteCommand;
+using SQLiteDataReader = System.Data.SQLite.SQLiteDataReader;
+using SQLiteConnection = System.Data.SQLite.SQLiteConnection;
+#endif
 
 public class Jump : Event 
 {
@@ -87,13 +101,24 @@ public class Jump : Event
 		return events;
 	}
 
-	public override int InsertAtDB (bool dbconOpened, string tableName) {
-		return SqliteJump.Insert(dbconOpened, tableName, 
+	public override int InsertAtDB (bool dbconOpened, string tableName)
+	{
+		return SqliteJump.Insert (dbconOpened, tableName,
 				uniqueID.ToString(), 
 				personID, sessionID, 
 				type, tv, tc, fall, 
 				weightPercent, description, 
 				angle, simulated, datetime);
+	}
+	//used on transaction at SqliteFourPlatformsJumpsSimple
+	public int InsertAtDB (bool dbconOpened, string tableName, SQLiteCommand myCmd)
+	{
+		return SqliteJump.Insert (dbconOpened, tableName,
+				uniqueID.ToString(),
+				personID, sessionID,
+				type, tv, tc, fall,
+				weightPercent, description,
+				angle, simulated, datetime, myCmd);
 	}
 
 	public static double GetDjPower (double tc, double tf, double mass, double fallHeight)

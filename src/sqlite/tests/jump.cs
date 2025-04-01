@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -78,9 +78,14 @@ class SqliteJump : SqliteTests
 
 	//normal Chronojump call (will pass dbcmd to the insert.
 	//on SqliteFourPlatformsJumpsSimple it sends its SQLiteCommand to perform a transaction
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tv, double tc, double fall, double weight, string description, double angle, int simulated, string datetime)
+	public static int Insert (bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tv, double tc, double fall, double weight, string description, double angle, int simulated, string datetime)
 	{
 		return InsertDo (dbconOpened, tableName, uniqueID, personID, sessionID, type, tv, tc, fall, weight, description, angle, simulated, datetime, dbcmd);
+	}
+
+	public static int Insert (bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tv, double tc, double fall, double weight, string description, double angle, int simulated, string datetime, SQLiteCommand mycmd)
+	{
+		return InsertDo (dbconOpened, tableName, uniqueID, personID, sessionID, type, tv, tc, fall, weight, description, angle, simulated, datetime, mycmd);
 	}
 
 	public static int InsertDo (bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tv, double tc, double fall, double weight, string description, double angle, int simulated, string datetime, SQLiteCommand mycmd)

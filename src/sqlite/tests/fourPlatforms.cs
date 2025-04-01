@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -292,12 +292,14 @@ class SqliteFourPlatformsJumpsSimple : Sqlite
 	}
 
 	//public int Insert (int personID, int sessionID,
-	public void Insert (List<IDName> person_l, int sessionID,
+	public List<Jump> Insert (List<IDName> person_l, int sessionID,
 			string jumpType, List<List<double>> off_ll, List<List<double>> on_ll, double firstFall,
 			double weight, string description, int angle, bool simulated,
 			string datetimeStr)
 	{
 		Sqlite.Open();
+		List<Jump> jump_l = new List<Jump> ();
+
 		using(SQLiteTransaction tr = dbcon.BeginTransaction())
 		{
 			using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
@@ -359,10 +361,11 @@ class SqliteFourPlatformsJumpsSimple : Sqlite
 
 						if (found)
 						{
-							SqliteJump.InsertDo (true, table,
-									"-1", person_l[p].UniqueID, sessionID, jumpType,
-									tf, tc, fall, weight, "", -1, 0, datetimeStr,
-									dbcmdTr);
+							Jump jump = new Jump (
+									-1, person_l[p].UniqueID, sessionID, jumpType,
+									tf, tc, fall, weight, "", -1, 0, datetimeStr);
+							jump.UniqueID = jump.InsertAtDB (true, table, dbcmdTr);
+							jump_l.Add (jump);
 
 							lastOnTime = thisOnTime;
 							tfLast = tf;
@@ -373,6 +376,7 @@ class SqliteFourPlatformsJumpsSimple : Sqlite
 			tr.Commit();
 		}
 		Sqlite.Close();
+		return jump_l;
 	}
 
 	~SqliteFourPlatformsJumpsSimple() {}

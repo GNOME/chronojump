@@ -104,6 +104,7 @@ public partial class ChronoJumpWindow
 		drawingarea_results_realtime.QueueDraw ();
 	}
 
+	//note this is used by modes: JUMPSSIMPLE and OTHER (FOURPLATFORMS)
 	private void on_four_platforms_capture_clicked (object o)
 	{
 		fourPlatformsCaptureType = FourPlatformsCaptureManage.CaptureEnum.DEFAULT;
@@ -115,12 +116,15 @@ public partial class ChronoJumpWindow
 		else if (b == button_four_platforms_capture_1_4)
 			fourPlatformsCaptureType = FourPlatformsCaptureManage.CaptureEnum.FROM1TO4;
 
-		box_fourPlatforms_capture_buttons.Sensitive = false;
-		box_fourPlatforms_cancel_finish.Sensitive = true;
-		sensitiveLastTestButtons(false);
+		if (current_mode == Constants.Modes.OTHER)
+		{
+			box_fourPlatforms_capture_buttons.Sensitive = false;
+			box_fourPlatforms_cancel_finish.Sensitive = true;
+			//tests 1_2 1_3 1_4 have no finish button as it needs to count 15 (to save correctly from the 1st to the 15th). It will finish automatically
+			button_fourPlatforms_test_finish.Visible = (b == button_four_platforms_capture_default);
+		}
 
-		//tests 1_2 1_3 1_4 have no finish button as it needs to count 15 (to save correctly from the 1st to the 15th). It will finish automatically
-		button_fourPlatforms_test_finish.Visible = (b == button_four_platforms_capture_default);
+		sensitiveLastTestButtons(false);
 
 		capturingFourPlatforms = arduinoCaptureStatus.STARTING;
 
@@ -146,13 +150,16 @@ public partial class ChronoJumpWindow
 
 		contactsShowCaptureDoingButtons(true);
 
-		/*
-		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
-		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		//FourPlatforms on other mode has special buttons for finish and cancel with their callbacks
+		//but when used on jump mode neeed to use on_finish/cancel_clicked
+		if (current_mode == Constants.Modes.JUMPSSIMPLE)
+		{
+			event_execute_ButtonFinish.Clicked -= new EventHandler (on_finish_clicked);
+			event_execute_ButtonFinish.Clicked += new EventHandler (on_finish_clicked);
 
-		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
-		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
-		*/
+			event_execute_ButtonCancel.Clicked -= new EventHandler (on_cancel_clicked);
+			event_execute_ButtonCancel.Clicked += new EventHandler (on_cancel_clicked);
+		}
 
 		blinkCapture = new BlinkImage (image_no_capturing, image_capturing);
 
@@ -244,18 +251,41 @@ public partial class ChronoJumpWindow
 				event_execute_label_message.Text = "Finished.";
 				fpcm.Finish = true;
 
-				fourPlatformsInsertToSQL ();
-				treeViewResultsSession.Add (currentPerson.Name, currentFourPlatforms, "");
+				if (current_mode == Constants.Modes.JUMPSSIMPLE)
+				{
+					//insert jumps and get the list of jumps
+					List<Jump> jump_l = fourPlatformsInsertToSQLJumpSimple ();
+
+					//get the list of 4 persons
+					List<IDName> idName_l = getSelectedPersonAndNext3 ();
+
+					// update treeview using the person names
+					foreach (Jump jump in jump_l)
+						foreach (IDName idName in idName_l)
+							if (idName.UniqueID == jump.PersonID)
+								treeViewResultsSession.Add (idName.Name, jump, "");
+				}
+				else //if (current_mode == Constants.Modes.OTHER)
+				{
+					fourPlatformsInsertToSQLOther ();
+					treeViewResultsSession.Add (currentPerson.Name, currentFourPlatforms, "");
+				}
+
 				showHideActionEventButtons(true);
 			}
 			//this is finish from arrive to stepsTotal steps
 			else if (fpcm != null && fpcm.Finish)
 			{
 				event_execute_label_message.Text = "Finished.";
-				fourPlatformsInsertToSQL ();
-				treeViewResultsSession.Add (currentPerson.Name, currentFourPlatforms, "");
-				showHideActionEventButtons(true);
 
+				if (current_mode == Constants.Modes.JUMPSSIMPLE)
+					fourPlatformsInsertToSQLJumpSimple ();
+				else //if (current_mode == Constants.Modes.OTHER)
+					fourPlatformsInsertToSQLOther ();
+
+				treeViewResultsSession.Add (currentPerson.Name, currentFourPlatforms, "");
+
+				showHideActionEventButtons(true);
 				box_fourPlatforms_capture_buttons.Sensitive = true;
 				box_fourPlatforms_cancel_finish.Sensitive = false;
 			}
@@ -302,14 +332,7 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
-	private void fourPlatformsInsertToSQL ()
-	{
-		if (current_mode == Constants.Modes.JUMPSSIMPLE)
-			fourPlatformsInsertToSQLJumpSimple ();
-		else //if (current_mode == Constants.Modes.OTHER)
-			fourPlatformsInsertToSQLOther ();
-	}
-	private void fourPlatformsInsertToSQLJumpSimple ()
+	private List<Jump> fourPlatformsInsertToSQLJumpSimple ()
 	{
 		double firstFall = 0;
 		bool hasFall = currentJumpType.HasFall (configChronojump.Compujump);
@@ -319,7 +342,7 @@ public partial class ChronoJumpWindow
 
 		SqliteFourPlatformsJumpsSimple sfpjs = new SqliteFourPlatformsJumpsSimple (hasFall);
 
-		sfpjs.Insert (
+		return sfpjs.Insert (
 				getSelectedPersonAndNext3 (), currentSession.UniqueID,
 				currentJumpType.Name,
 				fpcm.TimesOff_ll, fpcm.TimesOn_ll, firstFall,  //type, tv, tc, fall

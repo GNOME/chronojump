@@ -927,7 +927,7 @@ public partial class ChronoJumpWindow
 			preferences.lastMode = Constants.Modes.UNDEFINED;
 
 		//in networks starting mode is always the defined on chronojump_config CompujumpStationMode
-		if (! configChronojump.Compujump && ! configChronojump.FourPlatforms)
+		if (! configChronojump.Compujump)
 		{
 			if(! showSendLog && //! showSocialNetworkPoll &&
 					preferences.loadLastModeAtStart &&

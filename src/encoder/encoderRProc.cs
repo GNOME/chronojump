@@ -25,6 +25,7 @@ using System.IO; 		//for detect OS
 
 public abstract class EncoderRProc 
 {
+	public bool NeedRForCapture;
 	protected Process p;
 	protected ProcessStartInfo pinfo;
 
@@ -158,6 +159,13 @@ public class EncoderRProcCapture : EncoderRProc
 	
 	protected override bool startProcess() 
 	{
+		if (! NeedRForCapture)
+		{
+			LogB.Information ("Capture without R do not need to start it.");
+			return true;
+		}
+
+		LogB.Information ("Capture needs R and will start it.");
 		//If output file is not given, R will try to write in the running folder
 		//in which we may haven't got permissions
 		//note we are calling Rscript instead of R

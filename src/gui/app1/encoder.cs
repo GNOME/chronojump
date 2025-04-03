@@ -6809,7 +6809,9 @@ public partial class ChronoJumpWindow
 				UtilEncoder.GetEncoderTempPathWithoutLastSep(),
 				encoderParams);
 
-		encoderRProcCapture.StartOrContinue(es);
+		encoderRProcCapture.NeedRForCapture = (csharpOrR == EncoderCapture.CsharpOrR.R || csharpOrR == EncoderCapture.CsharpOrR.BOTH);
+		encoderRProcCapture.StartOrContinue (es);
+
 		if (csharpOrR == EncoderCapture.CsharpOrR.CSHARP || csharpOrR == EncoderCapture.CsharpOrR.BOTH)
 			encoderRProcCapture.InitCsharp (encoderParams);
 	}

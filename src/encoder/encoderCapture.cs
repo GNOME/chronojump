@@ -48,8 +48,8 @@ public abstract class EncoderCapture
 	protected int recordedTimeCont;	//on cont, capture time is not defined, and this value has the actual recorded time
 	protected int byteReaded;
 
-	protected static List<int> encoderReaded;	//data coming from encoder and converted
-	protected static List<int> encoderReadedInertialDisc;	//data coming from encoder and converted
+	protected static List<int> encoderReaded;	//data coming from encoder and converted (on inertial is body movent)
+	protected static List<int> encoderReadedInertialDisc;	//data coming from encoder (not converted) (on inertial is the disc)
 
 	private int TRIGGER_ON = 84; //'T' from TRIGGER_ON on encoder firmware
 	private int TRIGGER_OFF = 116; //'t' from TRIGGER_OFF on encoder firmware
@@ -100,6 +100,7 @@ public abstract class EncoderCapture
 	//signal will be saved from here
 	protected int inertialCalibratedFirstCross0Pos;
 	protected bool inertialCalibrated;
+	protected bool inertialDiscAbove0BodyBelow0;
 
 	//Only for IMCalc: go and return is a period. Here we count semiperiods
 	public int IMCalcOscillations;
@@ -203,7 +204,8 @@ public abstract class EncoderCapture
 		 */
 		directionChangePeriod = 25; //how long (ms) to recognize as change direction. (from 2 to A in ms). It's in ms and not in cm, because it's easier to calculate
 		if (csharpOrR == CsharpOrR.CSHARP || csharpOrR == CsharpOrR.BOTH)
-			directionChangePeriod = 200; //to send 200 samples to the right (and also to the left for the butterworth filter)
+			directionChangePeriod = 200; //to send this samples to the right (and also to the left for the butterworth filter)
+			//directionChangePeriod = 500; //to send this samples to the right (and also to the left for the butterworth filter)
 
 		directionChangeCount = 0; //counter for this period
 
@@ -438,6 +440,8 @@ public abstract class EncoderCapture
 				encoderReadedInertialDisc.Add(byteReaded);
 
 				//sum is the body, sumInertialDisc is the disc
+				//if position on encoderReadedInertial is > 0, invert position and assign it to encoderReaded
+				//on inertial encoderReadedInertialDisc is sent to smooth
 				if(inertialCalibrated)
 				{
 					int sumOld = sum;
@@ -561,22 +565,34 @@ public abstract class EncoderCapture
 						//22-may-2015: This is done in R now
 
 						//for butterworth filtration, send more data:
-						//TODO: do it with just 200 at each side (if possible)
-						int smoothStartFrame = ecc.startFrame -200;
+
+						// 1. define frames of start and end
+						int smoothStartFrame = ecc.startFrame -directionChangePeriod;
 						if (smoothStartFrame < 0)
 							smoothStartFrame = 0;
 
-						int smoothEndFrame = ecc.endFrame + 200;
+						int smoothEndFrame = ecc.endFrame + directionChangePeriod;
 						if (smoothEndFrame > i)
 							smoothEndFrame = i;
+
+						// 2. create eccForSmooth & curveForSmooth
 
 						eccForSmooth = new EncoderCaptureCurve (smoothStartFrame, smoothEndFrame);
 
 						double [] curveForSmooth = new double[eccForSmooth.endFrame - eccForSmooth.startFrame];
 						LogB.Debug("curveForSmooth stuff" + eccForSmooth.startFrame + ":" + eccForSmooth.endFrame + ":" + encoderReaded.Count);
+						mySum = 0;
 						for (int k = 0, j = eccForSmooth.startFrame; j < eccForSmooth.endFrame ; j ++, k ++) {
-							curveForSmooth[k] = encoderReaded[j];
+							//on inertial smooth using the inertial disc data, and later convert it to body movement
+							if (inertialCalibrated)
+							{
+								curveForSmooth[k] = encoderReadedInertialDisc[j];
+								mySum += encoderReadedInertialDisc[j];
+							} else
+								curveForSmooth[k] = encoderReaded[j];
 						}
+						eccForSmooth.up = (mySum >= 0);
+						inertialDiscAbove0BodyBelow0 = (inertialCalibrated && eccForSmooth.up != ecc.up); //used for cut repetition later
 
 						//1) check heightCurve in a fast way first to discard curves soon
 						//   only process curves with height >= min_height
@@ -633,7 +649,8 @@ public abstract class EncoderCapture
 										curve,
 										curveForSmooth,
 										ecc.startFrame -eccForSmooth.startFrame, //the actual extra margin at left (on curve compared with curveForSmooth)
-										eccForSmooth.endFrame -ecc.endFrame 	//same for right
+										eccForSmooth.endFrame -ecc.endFrame, 	//same for right
+										inertialDiscAbove0BodyBelow0
 										);
 							}
 
@@ -672,6 +689,23 @@ public abstract class EncoderCapture
 		} while ( (cont || i < (recordingTime -1)) && ! cancel && ! finish);
 		
 		LogB.Debug("EncoderCaptureCsharp main bucle end");
+
+		/*
+		//just to debug a capture of all the set
+		if (csharpOrR == CsharpOrR.CSHARP || csharpOrR == CsharpOrR.BOTH)
+		{
+			double [] curveAll = new double[encoderReaded.Count];
+			for (int j = 0; j < encoderReaded.Count ; j ++)
+				curveAll[j] = encoderReaded[j];
+
+			encoderRProcCapture.SendCurveCsharp (
+					csharpOrR == CsharpOrR.BOTH, 	//if both: just debug
+					0,
+					curveAll,
+					curveAll
+					);
+		}
+		*/
 
 		//leave some time to capture.R be able to paint data, and to create two Roptions.txt file correctly
 		if(simulated)
@@ -859,7 +893,7 @@ public abstract class EncoderCapture
 		return l; 
 	}
 	
-	//on inertial recordes encoderReadedInertialDisc	
+	//on inertial records encoderReadedInertialDisc
 	protected virtual void saveToFile(string file)
 	{
 		TextWriter writer = File.CreateText(file);

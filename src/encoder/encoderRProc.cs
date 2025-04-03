@@ -268,7 +268,10 @@ public class EncoderRProcCapture : EncoderRProc
 
 	// experimental reimplementation of R capture with C#. Uncompressed.
 	public void SendCurveCsharp (bool justDebug, int startFrame, double [] curve,
-			double [] curveForSmooth, int smoothSamplesAtLeft, int smoothSamplesAtRight)
+			double [] curveForSmooth, int smoothSamplesAtLeft, int smoothSamplesAtRight,
+			//int angleAtInertialCaptureStart
+			bool inertialBodyUnder0DiscAbove0)
+
 	{
 		EncoderLikeRCapture elrc = new EncoderLikeRCapture (encoderParams);
 		if (elrc.Do (
@@ -276,6 +279,8 @@ public class EncoderRProcCapture : EncoderRProc
 					true,
 					UtilList.DoubleArrayToListInt (curve),
 					UtilList.DoubleArrayToListInt (curveForSmooth), smoothSamplesAtLeft, smoothSamplesAtRight,
+					//angleAtInertialCaptureStart,
+					inertialBodyUnder0DiscAbove0,
 					startFrame, cSharpCurvesAccepted
 			   ))
 		{

@@ -1,3 +1,6 @@
+//TODO: need to adapt this to use the 200ms extra at left/right
+
+
 /*
  * This file is part of ChronoJump
  *
@@ -65,7 +68,10 @@ public class EncoderLikeRCaptureTest
 		LogB.Information ("EncoderLikeRCaptureTest () 1");
 		EncoderLikeRCapture elrc = new EncoderLikeRCapture (encoderParams);
 
+		/*
+		 * TODO: commented until implement a way to check body/disc separation
 		elrc.Do (true, true, dis_l, dis_l, 0, 0, 0, 0);
+		/
 
 		elrc.Kinematics.WriteToFileDebug ("debugAll.csv");
 
@@ -162,10 +168,13 @@ public class EncoderLikeRCaptureTest
 					Convert.ToInt32 ((5428+5464)/2)-200, 6252+200); //same but 200ms bigger each side
 
 			elrc = new EncoderLikeRCapture (encoderParams);
+		/*
+		 * TODO: commented until implement a way to check body/disc separation
 			elrc.Do (true, true,
 					UtilList.ListGetFromToIncluded (dis_l, repCon1.start, repCon1.end),
 					UtilList.ListGetFromToIncluded (dis_l, repCon1Smooth.start, repCon1Smooth.end), 200, 200,
 					0, 0);
+					*/
 			elrc.Kinematics.WriteToFileDebug (string.Format ("debug_{0}.csv", repCon1.start));
 
 
@@ -176,10 +185,13 @@ public class EncoderLikeRCaptureTest
 					6253-200, Convert.ToInt32 ((7278+7310)/2)+200); //same but 200ms bigger each side
 
 			elrc = new EncoderLikeRCapture (encoderParams);
+		/*
+		 * TODO: commented until implement a way to check body/disc separation
 			elrc.Do (true, true,
 					UtilList.ListGetFromToIncluded (dis_l, repEcc2.start, repEcc2.end),
 					UtilList.ListGetFromToIncluded (dis_l, repEcc2Smooth.start, repEcc2Smooth.end), 200, 200,
 					0, 0);
+					*/
 			elrc.Kinematics.WriteToFileDebug (string.Format ("debug_{0}.csv", repEcc2.start));
 	}
 }

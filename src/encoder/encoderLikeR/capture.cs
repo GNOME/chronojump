@@ -40,6 +40,7 @@ public class EncoderLikeRCapture
 
 	private List<List<double>> smoothTestSpeed_ll;
 	private List<List<double>> smoothTestAccel_ll;
+	private List<List<double>> smoothTestPower_ll;
 
 	//constructor
 	public EncoderLikeRCapture (EncoderParams encoderParams)
@@ -59,20 +60,14 @@ public class EncoderLikeRCapture
 			bool justDebug, //to make calculations but do not send final array
 			bool capturing,
 			List<int> curve_l,
-			List<int> curveForSmooth_l, //has +200 samples (or more at each side to do the smoothing)
+			List<int> curveForSmooth_l, //has directionChangePeriod: +200 samples (or more at each side to do the smoothing)
 			int smoothSamplesLeft, int smoothSamplesRight, //should be the same but maybe we cannot guarantee that (end of the capture)
+			//int angleAtInertialCaptureStart,
+			bool inertialDiscAbove0BodyBelow0,
 			int startInSet, int curvesAccepted
 			//, string debugFileName
 			)
 	{
-		//LogB.Information ("____________ C#: pos_l before reduce __________");
-		//LogB.Information (UtilList.ListIntToSQLString (UtilList.Cumsum(curve_l), " "));
-
-		//debug
-		//UtilList.ListIntToFile (curve_l, " ", Path.Combine (Path.GetTempPath (), "chronojump-debug-encoderLikeR_Do0_curve_l.txt")); //es el mateix
-
-		repetitionStrArray = new string [] {};
-
 		// 1) get displacement
 		EncoderLikeRGetDisplacement elrgd = new EncoderLikeRGetDisplacement ();
 		List<double> dis_l = new List<double> ();
@@ -87,9 +82,6 @@ public class EncoderLikeRCapture
 			disSmooth_l = elrgd.GetDisplacement (capturing, econf.name, curveForSmooth_l, econf.d, econf.D, econf.gearedDownLikeR);
 		}
 
-		//List<double>disNotReduced_l = dis_l;
-
-		//LogB.Information (string.Format ("encoderLikeR before reduce: dis_l.Count: {0}", dis_l.Count));
 		// 2) reduceCurve by speed
 		EncoderLikeRReduceCurveBySpeed elrrcs = new EncoderLikeRReduceCurveBySpeed (
 				dis_l,
@@ -103,9 +95,6 @@ public class EncoderLikeRCapture
 		//reduceCurveBySpeed reduces the curve. Then startInSet has to change:
 		startInSet = startInSet + start;
 
-		//LogB.Information (string.Format ("encoderLikeR after reduce: dis_l.Count: {0}, start: {1}, end: {2}",
-		//			dis_l.Count, start, end));
-
 		/*
 		 * reduceCurveBySpeed, on inertial doesn't do a good right adjust on changing phase,
 		 * it adds a value at right, and this value is a descending value that can produce a high acceleration there
@@ -115,30 +104,12 @@ public class EncoderLikeRCapture
                         end --;
 
 		dis_l = UtilList.ListGetFromToIncluded (dis_l, start, end);
-		//disSmooth_l = UtilList.ListGetFromToIncluded (dis_l, start, end);
-
-		//LogB.Information (string.Format ("encoderLikeR after reduce B: dis_l.Count: {0}",
-		//			dis_l.Count));
-
-		/*
-		LogB.Information ("____________ C#: dis_l using disNotReduced_l __________");
-		LogB.Information (UtilList.ListDoubleToString (disNotReduced_l, 1, " "));
-		LogB.Information ("____________ C#: dis_l after reduce __________");
-		LogB.Information (UtilList.ListDoubleToString (dis_l, 1, " "));
-
-		LogB.Information ("____________ C#: pos_l using disNotReduced_l __________");
-		LogB.Information (UtilList.ListDoubleToString (UtilList.Cumsum(disNotReduced_l), 1, " "));
-		LogB.Information ("____________ C#: pos_l after reduce __________");
-		LogB.Information (UtilList.ListDoubleToString (UtilList.Cumsum(dis_l), 1, " "));
-		*/
 
 		// 3) check if height is enough
 		double sumDis = UtilList.Sum (dis_l);
 		LogB.Information (string.Format ("encoderLikeR.Do sumDis: {0}", sumDis));
 		if (Math.Abs(sumDis) < minHeightMm)
 			return false;
-
-		//UtilList.ListDoubleToFile (dis_l, 2, " ", Path.Combine (Path.GetTempPath (), "chronojump-debug-encoderLikeR-after-reduce.txt"));
 
 		// 4) calculations
 		//TODO: check if this line (277) on capture.R is needed:
@@ -163,11 +134,13 @@ public class EncoderLikeRCapture
 
 		smoothTestSpeed_ll = new List<List<double>> ();
 		smoothTestAccel_ll = new List<List<double>> ();
+		smoothTestPower_ll = new List<List<double>> ();
 
-		double smoothBwFreq = 5;
+		//double smoothBwFreq = 5;
 		//List<int> smoothBwFreq_l = new List<int> { 3, 4, 5, 6, 7, 8, 9, -1 };
-		//foreach (double smoothBwFreq in smoothBwFreq_l)
-		//{
+		List<int> smoothBwFreq_l = new List<int> { 5 };
+		foreach (double smoothBwFreq in smoothBwFreq_l)
+		{
 			kinematicsSmooth.PassParameters (
 					disSmooth_l,
 					smoothBwFreq,
@@ -182,6 +155,7 @@ public class EncoderLikeRCapture
 
 			// 4.b) get the smoothed variables but cut them to be appropriate for the desired interval
 
+			/*
 			LogB.Information (string.Format ("kinematicsSmooth.Time_l.Count: {0}, kinematicsSmooth.Speed_l.Count: {1}, kinematicsSmooth.Accel_l.Count: {2}, smoothSamplesLeft: {3}, start: {4}, smoothSamplesLeft + start: {5}, dis_l.Count: {6}, smoothSamplesLeft + start + dis_l.Count: {7}",
 						kinematicsSmooth.Time_l.Count,
 						kinematicsSmooth.Speed_l.Count,
@@ -191,34 +165,35 @@ public class EncoderLikeRCapture
 						smoothSamplesLeft + start,
 						dis_l.Count,
 						smoothSamplesLeft + start + dis_l.Count));
+			*/
 
 			List<int> timeSmoothed_l = UtilList.ListGetFromToIncluded (
 					kinematicsSmooth.Time_l,
 					smoothSamplesLeft + start,
 					smoothSamplesLeft + start + dis_l.Count -1);
-			LogB.Information ("timeSmoothed_l.Count: " + timeSmoothed_l.Count.ToString ());
-
-			/*
-			   LogB.Information ("Printing timeSmoothed_l to see how time has changed each sample (to see if it's 1 ms each");
-			   LogB.Information ("count = " + timeSmoothed_l.Count.ToString ());
-			   foreach (int time in timeSmoothed_l)
-			   LogB.Information (time.ToString ());
-
-			   it is not changed, all is ok. Problem was the reduceCurveBySpeed 0's reconstruction
-			   now ok, because only the stable concentric start/end is used
-			   */
 
 			List<double> speedSmoothed_l = UtilList.ListGetFromToIncluded (
 					kinematicsSmooth.Speed_l,
 					smoothSamplesLeft + start,
 					smoothSamplesLeft + start + dis_l.Count -1);
-			LogB.Information ("speedSmoothed_l.Count: " + speedSmoothed_l.Count.ToString ());
 
 			List<double> accelSmoothed_l = UtilList.ListGetFromToIncluded (
 					kinematicsSmooth.Accel_l,
 					smoothSamplesLeft + start,
 					smoothSamplesLeft + start + dis_l.Count -1);
-			LogB.Information ("accelSmoothed_l.Count: " + accelSmoothed_l.Count.ToString ());
+
+			// 4.c) on inertia disSmooth_l is data of the disc in order to smooth speed and accel using disc movement.
+			// Now that is smoothed, just convert it to body movement
+
+			if (econf.has_inertia && inertialDiscAbove0BodyBelow0)
+			{
+				for (int i = 0; i < speedSmoothed_l.Count; i ++)
+				{
+					speedSmoothed_l[i] *= -1;
+					if (i < accelSmoothed_l.Count)
+						accelSmoothed_l[i] *= -1;
+				}
+			}
 
 			// 4.c) calculate kinematics on desired interval but using (passing to it) the smoothed variables
 
@@ -239,31 +214,18 @@ public class EncoderLikeRCapture
 
 			kinematics.PassTimeSpeedAccelSmoothed (timeSmoothed_l, speedSmoothed_l, accelSmoothed_l);
 
-			LogB.Information (string.Format ("kinematics passed params: disSmooth_l.Count: {0}, timeSmoothed_l.Count: {1}, speedSmoothed_l.Count: {2}",
-						disSmooth_l.Count, timeSmoothed_l.Count, speedSmoothed_l.Count));
-
 			kinematics.CalculatePropulsiveAndDynamics ();
 
-			/*
-			   string filename = debugFileName;
-			   if (filename == "")
-			   filename = string.Format ("encoderCSharpDebug_{0}.csv", startInSet);
-
-			//kinematics.WriteToFileDebug (string.Format ("encoderCSharpDebug_{0}.csv", startInSet));
-			kinematics.WriteToFileDebug (filename);
-			kinematicsBig.WriteToFileDebug (string.Format ("encoderCSharpDebugBig_{0}.csv", startInSet));
-			*/
 			kinematics.WriteToFileDebug (string.Format ("encoderCSharpDebug_{0}_smooth_{1}.csv",
 						startInSet, smoothBwFreq));
 
-/*
 			smoothTestSpeed_ll.Add (speedSmoothed_l);
 			smoothTestAccel_ll.Add (accelSmoothed_l);
+			smoothTestPower_ll.Add (kinematics.Power_l);
 		}
 
 		writeSpeedAccelBySmoothToFileDebug (string.Format ("encoderCSharpDebug_{0}_bysmooths.csv",
 					startInSet));
-*/
 
 		// 4.d) get the calculated variables on thee desired interval
 
@@ -314,8 +276,10 @@ public class EncoderLikeRCapture
 	{
 		LogB.Information ("At writeSpeedAccelBySmoothToFileDebug");
 		TextWriter writer = File.CreateText (Path.Combine (Path.GetTempPath (), filename));
-		writer.WriteLine ("speed 3;speed 4;speed 5;speed 6;speed 7;speed 8;speed 9;speed 10;" +
-				"accel 3;accel 4;accel 5;accel 6;accel 7;accel 8;accel 9;accel 10");
+		//writer.WriteLine ("speed 3;speed 4;speed 5;speed 6;speed 7;speed 8;speed 9;speed 10;" +
+		//		"accel 3;accel 4;accel 5;accel 6;accel 7;accel 8;accel 9;accel 10;" +
+		//		"power 3;power 4;power 5;power 6;power 7;power 8;power 9;power 10");
+		writer.WriteLine ("speed 5;accel 5;power 5");
 
 		int sample = 0;
 		bool listsEnded = false;
@@ -333,11 +297,19 @@ public class EncoderLikeRCapture
 					listsEnded = true;
 				}
 			}
-
 			for (int i = 0; i < smoothTestAccel_ll.Count; i ++)
 			{
 				if (sample < smoothTestAccel_ll[i].Count)
 					rowStr_l.Add (Util.TrimDecimals (smoothTestAccel_ll[i][sample], 4));
+				else {
+					rowStr_l.Add ("");
+					listsEnded = true;
+				}
+			}
+			for (int i = 0; i < smoothTestPower_ll.Count; i ++)
+			{
+				if (sample < smoothTestPower_ll[i].Count)
+					rowStr_l.Add (Util.TrimDecimals (smoothTestPower_ll[i][sample], 4));
 				else {
 					rowStr_l.Add ("");
 					listsEnded = true;
@@ -354,14 +326,15 @@ public class EncoderLikeRCapture
 		/*
 		with R check this like this:
 
-		repStart <- 1101
+		repStart <- 1368
 		d <- read.csv2 (paste ("encoderCSharpDebug_", repStart, "_bysmooths.csv", sep=""))
 		r <- read.csv2("encoderR_0.csv")
 
-		xlim <- c(0, 2000)
+#		xlim <- c(0, 600)
 		ylim <- c(0, max(r$speed))
 		#ylim <- c(0.6,.8)
-		plot (r$speed, col="green", type="l", lwd=3, xlim=xlim, ylim=ylim)
+#plot (r$speed, col="green", type="l", lwd=3, xlim=xlim, ylim=ylim)
+		plot (r$speed[1:200], col="green", type="l", lwd=3)
 		abline (h=0, lty=2, col="gray")
 		lines (d$speed.3, col="red")
 		lines (d$speed.4, col="red", lty=2)
@@ -373,7 +346,7 @@ public class EncoderLikeRCapture
 		lines (d$speed.10, col="brown", lty=2) #or automatic
 
 		par (new=T)
-		xlim <- c(0, 1500)
+		xlim <- c(0, 600)
 		ylim <- c(min(r$accel), max(r$accel))
 		#ylim <- c(-7.5, 3.5)
 		plot (r$accel, col="red", type="l", lwd=3, xlim=xlim, ylim=ylim, axes=F)

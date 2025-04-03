@@ -1,3 +1,5 @@
+#TODO: read a list of .csv and with that process all the repetitions
+
 drawLine <- function (var, varName, units, start, xmargin, ymargin, col, mtextSide, mtextLine)
 {
 	lines (start:(start+length(var)-1), var+ymargin, col=col)

@@ -441,8 +441,11 @@ public class MicroDiscover : MicroComms
 		}
 		while(! (success || cancel || sw.Elapsed.TotalMilliseconds > 1000) );
 
+		LogB.Information ("sw.Elapsed.TotalMilliseconds = " + sw.Elapsed.TotalMilliseconds.ToString ());
 		if (success)
-			LogB.Information("Discover found this Multitest device: " + micro.Response);
+			LogB.Information ("Discover found this Multitest device: " + micro.Response);
+		if (cancel)
+			LogB.Information ("Cancelled");
 
 		LogB.Information("done");
 

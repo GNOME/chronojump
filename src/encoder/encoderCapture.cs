@@ -56,6 +56,8 @@ public abstract class EncoderCapture
 
 	//private BoolMsList boolMsList;
 	private TriggerList triggerList;
+	private DateTime _encoderLastTriggeredSound;
+	private bool _firstTriggerHappened;
 
 	private int lastTriggerOn;
 	
@@ -154,6 +156,7 @@ public abstract class EncoderCapture
 			LogB.Information("sp opened");
 		}
 		
+		LogB.Information ("sp.BaudRate: " + sp.BaudRate);
 		//---- b) initialize variables ----
 	
 		Ecca = new EncoderCaptureCurveArray();
@@ -261,10 +264,10 @@ public abstract class EncoderCapture
 		int lastInertialPhase_i = 0;
 
 		//only for cutByTriggers == Preferences.TriggerTypes.START_AT_FIRST_ON
-		bool firstTriggerHappened = false;
+		_firstTriggerHappened = false;
 
 		//playSoundsFromFile
-		DateTime lastTriggeredSound = DateTime.MinValue;
+		_encoderLastTriggeredSound = DateTime.MinValue;
 
 		if(capturingInertialBG)
 		{
@@ -275,10 +278,38 @@ public abstract class EncoderCapture
 			EncoderCaptureInertialBackgroundStatic.Initialize();
 		}
 
+		//int totalBytes = 0;
+		//Stopwatch sw = new Stopwatch();
+		//sw.Start();
+		var buffer = new byte[1024];
+
 		do {
 			//1 read data
 			try {
-				byteReaded = readByte();
+				//until 2025 apr 5 we used sp.ReadByte(); on Mac silicon 2/3 of the data are lost. Using buffers now.
+				if (capturingInertialBG)
+				{
+					int byteReaded = (int) EncoderCaptureInertialBackgroundStatic.GetNext();
+
+					encoderCapturedByteDo (byteReaded,
+							encoderRProcCapture,
+							compujump, cutByTriggers,
+							restClustersSeconds, playSoundsFromFile, cairoHorizontal,
+							ref lastInertialPhase_i);
+				}
+				else
+				{
+					int bytesRead = sp.Read (buffer, 0, buffer.Length);
+					if (bytesRead == 0)
+						continue;
+
+					for (int j = 0; j < bytesRead; j ++)
+						encoderCapturedByteDo (Convert.ToInt32 (buffer[j]),
+								encoderRProcCapture,
+								compujump, cutByTriggers,
+								restClustersSeconds, playSoundsFromFile, cairoHorizontal,
+								ref lastInertialPhase_i);
+				}
 			} catch {
 				if(! simulated) {
 					LogB.Error("Maybe encoder cable is disconnected");
@@ -287,407 +318,8 @@ public abstract class EncoderCapture
 
 				break;
 			}
-
-			//2 check if readed data is a trigger
-			if(byteReaded == TRIGGER_ON)
-			{
-				if(playSoundsFromFile)
-				{
-					TimeSpan ts = DateTime.Now.Subtract(lastTriggeredSound);
-					if(ts.TotalMilliseconds > 50)
-					{
-						Util.NextSongInList();
-						lastTriggeredSound = DateTime.Now;
-					}
-
-					continue;
-				}
-
-				Trigger trigger = new Trigger(Trigger.Modes.ENCODER, i, true);
-				if(triggerList.IsSpurious(trigger, TriggerList.Type3.ON, 50))
-				{
-					triggerList.RemoveLastOff();
-					continue;
-				}
-
-				//TriggerTypes.START_AT_FIRST_ON starts capture at first trigger. So when this happens, reset capture
-				if(cutByTriggers == Preferences.TriggerTypes.START_AT_FIRST_ON && ! firstTriggerHappened)
-				{
-					LogB.Information("Cleaning on capture");
-
-					startCaptureFromHere();
-
-					firstTriggerHappened = true;
-					i = -1; //will be 0 on next loop start
-					continue;
-				}
-
-				if(cutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS)
-				{
-					ecc = new EncoderCaptureCurve(lastTriggerOn, i);
-					lastTriggerOn = i;
-
-					double [] curve = new double[ecc.endFrame - ecc.startFrame];
-					//int mySum = 0;
-					for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
-						curve[k] = encoderReaded[j];
-						k ++;
-						//mySum += encoderReaded[j];
-					}
-					//ecc.up = (mySum >= 0);
-					ecc.up = true; //make all concentric for the swimming application
-					LogB.Debug("curve stuff" + ecc.startFrame + ":" + ecc.endFrame + ":" + encoderReaded.Count);
-
-					bool success = encoderRProcCapture.SendCurve(
-							ecc.startFrame,
-							UtilEncoder.CompressData(curve, 25)	//compressed
-							);
-					if(! success)
-						cancel = true;
-
-					Ecca.curvesAccepted ++;
-					Ecca.ecc.Add(ecc);
-					LogB.Information(ecc.ToString());
-				}
-				triggerList.Add(trigger);
-				continue;
-			}
-			else if(byteReaded == TRIGGER_OFF)
-			{
-				if(! playSoundsFromFile)
-				{
-					Trigger trigger = new Trigger(Trigger.Modes.ENCODER, i, false);
-					triggerList.Add(trigger);
-				}
-
-				continue;
-			}
-
-			//3 if is not trigger: convertByte
-			byteReaded = convertByte(byteReaded);
-			//LogB.Information(" byte: " + byteReaded);
-
-			if (encoderConfigurationIsInverted)
-				byteReaded *= -1;
-
-			i = i+1;
-			if(i >= 0) 
-			{
-				if(cont)
-					recordedTimeCont ++;
-
-				if(byteReaded == 0)
-				{
-					consecutiveZeros ++;
-
-					//clean variables when we are on cont and long time elapsed
-					if(cont && Ecca.curvesAccepted == 0 && consecutiveZeros >= consecutiveZerosMax)
-					{
-						LogB.Information("Cleaning on capture");
-
-						//remove this time on existing trigger records
-						triggerList.Substract(consecutiveZeros);
-
-						startCaptureFromHere();
-
-						i = -1; //will be 0 on next loop start
-						continue;
-					}
-				}
-				else
-					consecutiveZeros = -1;
-
-				//stop if n seconds of inactivity
-				//but it has to be moved a little bit first, just to give time to the people
-				//if(consecutiveZeros >= consecutiveZerosMax && sum > 0) #Not OK because sum maybe is 0: +1,+1,-1,-1
-				//if(consecutiveZeros >= consecutiveZerosMax && ecca.ecc.Count > 0) #Not ok because when ecca is created, ecc.Count == 1
-				/*
-				 * process ends
-				 * (
-				 * -> when a curve has been found and then there are n seconds of inactivity, or
-				 * -> when not in cont and a curve has not been found and then there are 2*n seconds of inactivity
-				 * -> on inertial, if a curve has been found, and now passed double end time since last phase (to end when there is no capture but there is "activity" because cone is slowly rolling
-				 * ) and if consecutiveZeros > restClustersSeconds * 1.500
-				 *
-				 * 1500 is conversion to milliseconds and * 1.5 to have enough time to move after clusters res
-				 */
-				if(
-						automaticallyEndByTime &&
-						(
-						 (Ecca.curvesAccepted > 0 && consecutiveZeros >= consecutiveZerosMax) ||
-						 (! cont && Ecca.curvesAccepted == 0 && consecutiveZeros >= (2* consecutiveZerosMax)) ||
-						 (inertialCalibrated && Ecca.curvesAccepted > 0 && i - lastInertialPhase_i >= (2* consecutiveZerosMax))
-						) &&
-						(restClustersSeconds == 0 || consecutiveZeros > restClustersSeconds * 1500)
-				  )
-				{
-					FakeFinishByTime.Click ();
-					finish = true;
-					LogB.Information("SHOULD FINISH");
-				}
-
-
-				//on inertialCalibrated set mark where 0 is crossed for the first time
-				if(inertialCalibrated && inertialCalibratedFirstCross0Pos == 0)
-				{
-					if( ( sumInertialDisc <= 0 && sumInertialDisc + byteReaded > 0 ) ||
-							( sumInertialDisc >= 0 && sumInertialDisc + byteReaded < 0 ) )
-						inertialCalibratedFirstCross0Pos = i;
-				}
-
-				sumInertialDisc += byteReaded;
-
-				encoderReadedInertialDisc.Add(byteReaded);
-
-				//sum is the body, sumInertialDisc is the disc
-				//if position on encoderReadedInertial is > 0, invert position and assign it to encoderReaded
-				//on inertial encoderReadedInertialDisc is sent to smooth
-				if(inertialCalibrated)
-				{
-					int sumOld = sum;
-					sum = - Math.Abs(sumInertialDisc);
-					byteReaded = sum - sumOld;
-				} else
-					sum += byteReaded;
-
-				encoderReaded.Add(byteReaded);
-
-				if(! showOnlyBars)
-				{
-					assignEncoderCapturePoints (cairoHorizontal);
-					PointsCaptured = i;
-				}
-
-				// ---- prepare to send to R ----
-
-				//if string goes up or down, store the direction
-				//direction is only up or down
-				if(byteReaded != 0)
-					directionNow = (int) byteReaded / (int) Math.Abs(byteReaded); //1 (up) or -1 (down)
-
-				//if we don't have changed the direction, store the last non-zero that we can find
-				if(directionChangeCount == 0 && directionNow == directionLastMSecond) {
-					//check which is the last non-zero value
-					//this is suitable to find where starts the only-zeros previous to the change
-					if(byteReaded != 0)
-						lastNonZero = i;
-				}
-
-				bool sendCurveMaybe = false;
-
-				//if it's different than the last direction, mark the start of change
-				if(directionNow != directionLastMSecond) {
-					directionLastMSecond = directionNow;
-					directionChangeCount = 0;
-
-				} 
-				else if(directionNow != directionCompleted) {
-					//we are in a different direction than the last completed
-
-					//we cannot add byteReaded because then is difficult to come back n frames to know the max point
-					//directionChangeCount += byteReaded
-					directionChangeCount ++;
-
-					if(directionChangeCount > directionChangePeriod)	//count >= than change_period
-						sendCurveMaybe = true;
-				}
-
-				/*
-				 * on inertialCalibrated don't send curve until 0 is crossed
-				 * this ensures first stored phase will be ecc, that's what the rest of the program is expecting
-				 * TODO: maybe this can be problematic with triggers maybe can be desinchronized, just move values
-				 */
-				if(inertialCalibrated && inertialCalibratedFirstCross0Pos == 0)
-					sendCurveMaybe = false;
-
-				//if cutByTriggers, triggers send the curve at the beginning of this method
-				if(cutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS)
-					sendCurveMaybe = false;
-
-				if(sendCurveMaybe)
-				{
-					//int startFrame = previousFrameChange - directionChangeCount;	//startFrame
-					/*
-					 * at startFrame we do the "-directionChangePeriod" because
-					 * we want data a little bit earlier, because we want some zeros
-					 * that will be removed by reduceCurveBySpeed
-					 * if not done, then the data:
-					 * 0 0 0 0 0 0 0 0 0 1
-					 * will start at 10th digit (the 1)
-					 * if done, then at speed will be like this:
-					 * 0 0 0 0.01 0.04 0.06 0.07 0.08 0.09 1
-					 * and will start at fourth digit
-					 */
-
-					//this is better, takes a lot of time before, and then reduceCurveBySpeed will cut it
-					int startFrame = previousEnd;	//startFrame
-					LogB.Debug("startFrame",startFrame.ToString());
-					if(startFrame < 0)
-						startFrame = 0;
-
-					//on inertial start when crossing 0 first time
-					if(inertialCalibrated && startFrame < inertialCalibratedFirstCross0Pos)
-						startFrame = inertialCalibratedFirstCross0Pos;
-
-					LogB.Information("TTTT - i," + i.ToString() +
-						       	"; directionChangeCount: " + 
-						       	directionChangeCount.ToString() + 
-						       	"; lastNonZero: " +
-						       	lastNonZero.ToString() +
-							"; final: " + 
-							((i - directionChangeCount + lastNonZero)/2).ToString());
-
-					ecc = new EncoderCaptureCurve(
-							startFrame,
-							(i - directionChangeCount + lastNonZero)/2 	//endFrame
-							//to find endFrame, first substract directionChangePeriod from i
-							//then find the middle point between that and lastNonZero
-							//this means that the end is in central point at displacements == 0
-							);
-
-					//since 1.5.0 secundary thread is capturing and sending data to R process
-					//while main thread is reading data coming from R and updating GUI
-
-					LogB.Debug("curve stuff" + ecc.startFrame + ":" + ecc.endFrame + ":" + encoderReaded.Count);
-					if(ecc.endFrame - ecc.startFrame > 0 ) 
-					{
-						double [] curve = new double[ecc.endFrame - ecc.startFrame];
-						int mySum = 0;
-						for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
-							curve[k] = encoderReaded[j];
-							k ++;
-							mySum += encoderReaded[j];
-						}
-						ecc.up = (mySum >= 0);
-
-						previousEnd = ecc.endFrame;
-
-						//22-may-2015: This is done in R now
-
-						//for butterworth filtration, send more data:
-
-						// 1. define frames of start and end
-						int smoothStartFrame = ecc.startFrame -directionChangePeriod;
-						if (smoothStartFrame < 0)
-							smoothStartFrame = 0;
-
-						int smoothEndFrame = ecc.endFrame + directionChangePeriod;
-						if (smoothEndFrame > i)
-							smoothEndFrame = i;
-
-						// 2. create eccForSmooth & curveForSmooth
-
-						eccForSmooth = new EncoderCaptureCurve (smoothStartFrame, smoothEndFrame);
-
-						double [] curveForSmooth = new double[eccForSmooth.endFrame - eccForSmooth.startFrame];
-						LogB.Debug("curveForSmooth stuff" + eccForSmooth.startFrame + ":" + eccForSmooth.endFrame + ":" + encoderReaded.Count);
-						mySum = 0;
-						for (int k = 0, j = eccForSmooth.startFrame; j < eccForSmooth.endFrame ; j ++, k ++) {
-							//on inertial smooth using the inertial disc data, and later convert it to body movement
-							if (inertialCalibrated)
-							{
-								curveForSmooth[k] = encoderReadedInertialDisc[j];
-								mySum += encoderReadedInertialDisc[j];
-							} else
-								curveForSmooth[k] = encoderReaded[j];
-						}
-						eccForSmooth.up = (mySum >= 0);
-						inertialDiscAbove0BodyBelow0 = (inertialCalibrated && eccForSmooth.up != ecc.up); //used for cut repetition later
-
-						//1) check heightCurve in a fast way first to discard curves soon
-						//   only process curves with height >= min_height
-						//2) if it's concentric, only take the concentric curves, 
-						//   but if it's concentric and inertial: take both.
-						//   
-						//   When capturing on inertial, we have the first graph
-						//   that will be converted to the second.
-						//   we need the eccentric phase in order to detect the Ci2
-
-						/*               
-						 *             /\
-						 *            /  \
-						 *           /    \
-						 *____      C1     \      ___
-						 *    \    /        \    /
-						 *     \  /          \  C2
-						 *      \/            \/
-						 *
-						 * C1, C2: two concentric phases
-						 */
-
-						/*               
-						 *____                    ___
-						 *    \    /\      /\    /
-						 *     \ Ci1 \   Ci2 \ Ci3
-						 *      \/    \  /    \/
-						 *             \/
-						 *
-						 * Ci1, Ci2, Ci3: three concentric phases on inertial
-						 *
-						 * Since 1.6.1:
-						 * on inertial curve is sent when rope is fully extended,
-						 * this will allow to see at the moment c or e. Not wait the change of direction to see both
-						 */
-
-
-						//store in a boolean to not call shouldSendCurve() two times because it changes some variables
-						bool shouldSendCurveBool = shouldSendCurve();
-						if(shouldSendCurveBool)
-						{
-							//if compujump, wakeup screen if it's off
-							//do it on the first repetition because it will not be sleeping on the rest of repetitions
-							if(compujump && Ecca.curvesAccepted == 0)
-								Networks.WakeUpRaspberryIfNeeded();
-
-							if (csharpOrR == CsharpOrR.CSHARP || csharpOrR == CsharpOrR.BOTH)
-							{
-								//CsharpOrR.CSHARP will show the data on Chronojump and use it
-								//CsharpOrR.BOTH will do the calculations useful for /tmp/*.csv comparison with the calculated on R,
-								encoderRProcCapture.SendCurveCsharp (
-										csharpOrR == CsharpOrR.BOTH, 	//if both: just debug
-										ecc.startFrame,
-										curve,
-										curveForSmooth,
-										ecc.startFrame -eccForSmooth.startFrame, //the actual extra margin at left (on curve compared with curveForSmooth)
-										eccForSmooth.endFrame -ecc.endFrame, 	//same for right
-										inertialDiscAbove0BodyBelow0
-										);
-							}
-
-							if (csharpOrR == CsharpOrR.R || csharpOrR == CsharpOrR.BOTH)
-							{
-								if (! encoderRProcCapture.SendCurve(
-											ecc.startFrame,
-											UtilEncoder.CompressData(curve, 25)	//compressed
-											))
-									cancel = true; //problem sending data to R
-							}
-
-							Ecca.curvesAccepted ++;
-							Ecca.ecc.Add(ecc);
-							LogB.Information(ecc.ToString());
-
-							lastDirectionStoredIsUp = ecc.up;
-						}
-
-						if(inertialCalibrated)
-							lastInertialPhase_i = i;
-					}
-
-					//on inertial is different
-					markDirectionChanged();
-				}
-
-				//this is for visual feedback of remaining time	
-				msCount ++;
-				if(msCount >= 1000) {
-					Countdown --;
-					msCount = 1;
-				}
-
-			}
 		} while ( (cont || i < (recordingTime -1)) && ! cancel && ! finish);
-		
+
 		LogB.Debug("EncoderCaptureCsharp main bucle end");
 
 		/*
@@ -721,6 +353,412 @@ public abstract class EncoderCapture
 		LogB.Debug("runEncoderCaptureCsharp ended");
 
 		return true;
+	}
+
+	private void encoderCapturedByteDo (int byteReaded,
+			EncoderRProcCapture encoderRProcCapture,
+			bool compujump, Preferences.TriggerTypes cutByTriggers,
+			double restClustersSeconds, bool playSoundsFromFile, bool cairoHorizontal,
+			ref int lastInertialPhase_i)
+	{
+		//2 check if readed data is a trigger
+		if(byteReaded == TRIGGER_ON)
+		{
+			if(playSoundsFromFile)
+			{
+				TimeSpan ts = DateTime.Now.Subtract(_encoderLastTriggeredSound);
+				if(ts.TotalMilliseconds > 50)
+				{
+					Util.NextSongInList();
+					_encoderLastTriggeredSound = DateTime.Now;
+				}
+
+				return;
+			}
+
+			Trigger trigger = new Trigger(Trigger.Modes.ENCODER, i, true);
+			if(triggerList.IsSpurious(trigger, TriggerList.Type3.ON, 50))
+			{
+				triggerList.RemoveLastOff();
+				return;
+			}
+
+			//TriggerTypes.START_AT_FIRST_ON starts capture at first trigger. So when this happens, reset capture
+			if(cutByTriggers == Preferences.TriggerTypes.START_AT_FIRST_ON && ! _firstTriggerHappened)
+			{
+				LogB.Information("Cleaning on capture");
+
+				startCaptureFromHere();
+
+				_firstTriggerHappened = true;
+				i = -1; //will be 0 on next loop start
+				return;
+			}
+
+			if(cutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS)
+			{
+				ecc = new EncoderCaptureCurve(lastTriggerOn, i);
+				lastTriggerOn = i;
+
+				double [] curve = new double[ecc.endFrame - ecc.startFrame];
+				//int mySum = 0;
+				for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
+					curve[k] = encoderReaded[j];
+					k ++;
+					//mySum += encoderReaded[j];
+				}
+				//ecc.up = (mySum >= 0);
+				ecc.up = true; //make all concentric for the swimming application
+				LogB.Debug("curve stuff" + ecc.startFrame + ":" + ecc.endFrame + ":" + encoderReaded.Count);
+
+				bool success = encoderRProcCapture.SendCurve(
+						ecc.startFrame,
+						UtilEncoder.CompressData(curve, 25)	//compressed
+						);
+				if(! success)
+					cancel = true;
+
+				Ecca.curvesAccepted ++;
+				Ecca.ecc.Add(ecc);
+				LogB.Information(ecc.ToString());
+			}
+			triggerList.Add(trigger);
+			return;
+		}
+		else if(byteReaded == TRIGGER_OFF)
+		{
+			if(! playSoundsFromFile)
+			{
+				Trigger trigger = new Trigger(Trigger.Modes.ENCODER, i, false);
+				triggerList.Add(trigger);
+			}
+
+			return;
+		}
+
+		//3 if is not trigger: convertByte
+		byteReaded = convertByte(byteReaded);
+		//LogB.Information ("byte: " + byteReaded);
+
+		if (encoderConfigurationIsInverted)
+			byteReaded *= -1;
+
+		i = i+1;
+		if(i >= 0) 
+		{
+			if(cont)
+				recordedTimeCont ++;
+
+			if(byteReaded == 0)
+			{
+				consecutiveZeros ++;
+
+				//clean variables when we are on cont and long time elapsed
+				if(cont && Ecca.curvesAccepted == 0 && consecutiveZeros >= consecutiveZerosMax)
+				{
+					LogB.Information("Cleaning on capture");
+
+					//remove this time on existing trigger records
+					triggerList.Substract(consecutiveZeros);
+
+					startCaptureFromHere();
+
+					i = -1; //will be 0 on next loop start
+					return;
+				}
+			}
+			else
+				consecutiveZeros = -1;
+
+			//stop if n seconds of inactivity
+			//but it has to be moved a little bit first, just to give time to the people
+			//if(consecutiveZeros >= consecutiveZerosMax && sum > 0) #Not OK because sum maybe is 0: +1,+1,-1,-1
+			//if(consecutiveZeros >= consecutiveZerosMax && ecca.ecc.Count > 0) #Not ok because when ecca is created, ecc.Count == 1
+			/*
+			 * process ends
+			 * (
+			 * -> when a curve has been found and then there are n seconds of inactivity, or
+			 * -> when not in cont and a curve has not been found and then there are 2*n seconds of inactivity
+			 * -> on inertial, if a curve has been found, and now passed double end time since last phase (to end when there is no capture but there is "activity" because cone is slowly rolling
+			 * ) and if consecutiveZeros > restClustersSeconds * 1.500
+			 *
+			 * 1500 is conversion to milliseconds and * 1.5 to have enough time to move after clusters res
+			 */
+			if(
+					automaticallyEndByTime &&
+					(
+					 (Ecca.curvesAccepted > 0 && consecutiveZeros >= consecutiveZerosMax) ||
+					 (! cont && Ecca.curvesAccepted == 0 && consecutiveZeros >= (2* consecutiveZerosMax)) ||
+					 (inertialCalibrated && Ecca.curvesAccepted > 0 && i - lastInertialPhase_i >= (2* consecutiveZerosMax))
+					) &&
+					(restClustersSeconds == 0 || consecutiveZeros > restClustersSeconds * 1500)
+			  )
+			{
+				FakeFinishByTime.Click ();
+				finish = true;
+				LogB.Information("SHOULD FINISH");
+			}
+
+
+			//on inertialCalibrated set mark where 0 is crossed for the first time
+			if(inertialCalibrated && inertialCalibratedFirstCross0Pos == 0)
+			{
+				if( ( sumInertialDisc <= 0 && sumInertialDisc + byteReaded > 0 ) ||
+						( sumInertialDisc >= 0 && sumInertialDisc + byteReaded < 0 ) )
+					inertialCalibratedFirstCross0Pos = i;
+			}
+
+			sumInertialDisc += byteReaded;
+
+			encoderReadedInertialDisc.Add(byteReaded);
+
+			//sum is the body, sumInertialDisc is the disc
+			//if position on encoderReadedInertial is > 0, invert position and assign it to encoderReaded
+			//on inertial encoderReadedInertialDisc is sent to smooth
+			if(inertialCalibrated)
+			{
+				int sumOld = sum;
+				sum = - Math.Abs(sumInertialDisc);
+				byteReaded = sum - sumOld;
+			} else
+				sum += byteReaded;
+
+			encoderReaded.Add(byteReaded);
+
+			if(! showOnlyBars)
+			{
+				assignEncoderCapturePoints (cairoHorizontal);
+				PointsCaptured = i;
+			}
+
+			// ---- prepare to send to R ----
+
+			//if string goes up or down, store the direction
+			//direction is only up or down
+			if(byteReaded != 0)
+				directionNow = (int) byteReaded / (int) Math.Abs(byteReaded); //1 (up) or -1 (down)
+
+			//if we don't have changed the direction, store the last non-zero that we can find
+			if(directionChangeCount == 0 && directionNow == directionLastMSecond) {
+				//check which is the last non-zero value
+				//this is suitable to find where starts the only-zeros previous to the change
+				if(byteReaded != 0)
+					lastNonZero = i;
+			}
+
+			bool sendCurveMaybe = false;
+
+			//if it's different than the last direction, mark the start of change
+			if(directionNow != directionLastMSecond) {
+				directionLastMSecond = directionNow;
+				directionChangeCount = 0;
+
+			}
+			else if(directionNow != directionCompleted) {
+				//we are in a different direction than the last completed
+
+				//we cannot add byteReaded because then is difficult to come back n frames to know the max point
+				//directionChangeCount += byteReaded
+				directionChangeCount ++;
+
+				if(directionChangeCount > directionChangePeriod)	//count >= than change_period
+					sendCurveMaybe = true;
+			}
+
+			/*
+			 * on inertialCalibrated don't send curve until 0 is crossed
+			 * this ensures first stored phase will be ecc, that's what the rest of the program is expecting
+			 * TODO: maybe this can be problematic with triggers maybe can be desinchronized, just move values
+			 */
+			if(inertialCalibrated && inertialCalibratedFirstCross0Pos == 0)
+				sendCurveMaybe = false;
+
+			//if cutByTriggers, triggers send the curve at the beginning of this method
+			if(cutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS)
+				sendCurveMaybe = false;
+
+			if(sendCurveMaybe)
+			{
+				//int startFrame = previousFrameChange - directionChangeCount;	//startFrame
+				/*
+				 * at startFrame we do the "-directionChangePeriod" because
+				 * we want data a little bit earlier, because we want some zeros
+				 * that will be removed by reduceCurveBySpeed
+				 * if not done, then the data:
+				 * 0 0 0 0 0 0 0 0 0 1
+				 * will start at 10th digit (the 1)
+				 * if done, then at speed will be like this:
+				 * 0 0 0 0.01 0.04 0.06 0.07 0.08 0.09 1
+				 * and will start at fourth digit
+				 */
+
+				//this is better, takes a lot of time before, and then reduceCurveBySpeed will cut it
+				int startFrame = previousEnd;	//startFrame
+				LogB.Debug("startFrame",startFrame.ToString());
+				if(startFrame < 0)
+					startFrame = 0;
+
+				//on inertial start when crossing 0 first time
+				if(inertialCalibrated && startFrame < inertialCalibratedFirstCross0Pos)
+					startFrame = inertialCalibratedFirstCross0Pos;
+
+				LogB.Information("TTTT - i," + i.ToString() +
+						"; directionChangeCount: " +
+						directionChangeCount.ToString() +
+						"; lastNonZero: " +
+						lastNonZero.ToString() +
+						"; final: " +
+						((i - directionChangeCount + lastNonZero)/2).ToString());
+
+				ecc = new EncoderCaptureCurve(
+						startFrame,
+						(i - directionChangeCount + lastNonZero)/2 	//endFrame
+												//to find endFrame, first substract directionChangePeriod from i
+												//then find the middle point between that and lastNonZero
+												//this means that the end is in central point at displacements == 0
+						);
+
+				//since 1.5.0 secundary thread is capturing and sending data to R process
+				//while main thread is reading data coming from R and updating GUI
+
+				LogB.Debug("curve stuff" + ecc.startFrame + ":" + ecc.endFrame + ":" + encoderReaded.Count);
+				if (ecc.endFrame - ecc.startFrame > 0)
+				{
+					double [] curve = new double[ecc.endFrame - ecc.startFrame];
+					int mySum = 0;
+					for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
+						curve[k] = encoderReaded[j];
+						k ++;
+						mySum += encoderReaded[j];
+					}
+					ecc.up = (mySum >= 0);
+
+					previousEnd = ecc.endFrame;
+
+					//22-may-2015: This is done in R now
+
+					//for butterworth filtration, send more data:
+
+					// 1. define frames of start and end
+					int smoothStartFrame = ecc.startFrame -directionChangePeriod;
+					if (smoothStartFrame < 0)
+						smoothStartFrame = 0;
+
+					int smoothEndFrame = ecc.endFrame + directionChangePeriod;
+					if (smoothEndFrame > i)
+						smoothEndFrame = i;
+
+					// 2. create eccForSmooth & curveForSmooth
+
+					eccForSmooth = new EncoderCaptureCurve (smoothStartFrame, smoothEndFrame);
+
+					double [] curveForSmooth = new double[eccForSmooth.endFrame - eccForSmooth.startFrame];
+					LogB.Debug("curveForSmooth stuff" + eccForSmooth.startFrame + ":" + eccForSmooth.endFrame + ":" + encoderReaded.Count);
+					mySum = 0;
+					for (int k = 0, j = eccForSmooth.startFrame; j < eccForSmooth.endFrame ; j ++, k ++) {
+						//on inertial smooth using the inertial disc data, and later convert it to body movement
+						if (inertialCalibrated)
+						{
+							curveForSmooth[k] = encoderReadedInertialDisc[j];
+							mySum += encoderReadedInertialDisc[j];
+						} else
+							curveForSmooth[k] = encoderReaded[j];
+					}
+					eccForSmooth.up = (mySum >= 0);
+					inertialDiscAbove0BodyBelow0 = (inertialCalibrated && eccForSmooth.up != ecc.up); //used for cut repetition later
+
+					//1) check heightCurve in a fast way first to discard curves soon
+					//   only process curves with height >= min_height
+					//2) if it's concentric, only take the concentric curves, 
+					//   but if it's concentric and inertial: take both.
+					//   
+					//   When capturing on inertial, we have the first graph
+					//   that will be converted to the second.
+					//   we need the eccentric phase in order to detect the Ci2
+
+					/*               
+					 *             /\
+					 *            /  \
+					 *           /    \
+					 *____      C1     \      ___
+					 *    \    /        \    /
+					 *     \  /          \  C2
+					 *      \/            \/
+					 *
+					 * C1, C2: two concentric phases
+					 */
+
+					/*               
+					 *____                    ___
+					 *    \    /\      /\    /
+					 *     \ Ci1 \   Ci2 \ Ci3
+					 *      \/    \  /    \/
+					 *             \/
+					 *
+					 * Ci1, Ci2, Ci3: three concentric phases on inertial
+					 *
+					 * Since 1.6.1:
+					 * on inertial curve is sent when rope is fully extended,
+					 * this will allow to see at the moment c or e. Not wait the change of direction to see both
+					 */
+
+
+					//store in a boolean to not call shouldSendCurve() two times because it changes some variables
+					bool shouldSendCurveBool = shouldSendCurve();
+					if(shouldSendCurveBool)
+					{
+						//if compujump, wakeup screen if it's off
+						//do it on the first repetition because it will not be sleeping on the rest of repetitions
+						if(compujump && Ecca.curvesAccepted == 0)
+							Networks.WakeUpRaspberryIfNeeded();
+
+						if (csharpOrR == CsharpOrR.CSHARP || csharpOrR == CsharpOrR.BOTH)
+						{
+							//CsharpOrR.CSHARP will show the data on Chronojump and use it
+							//CsharpOrR.BOTH will do the calculations useful for /tmp/*.csv comparison with the calculated on R,
+							encoderRProcCapture.SendCurveCsharp (
+									csharpOrR == CsharpOrR.BOTH, 	//if both: just debug
+									ecc.startFrame,
+									curve,
+									curveForSmooth,
+									ecc.startFrame -eccForSmooth.startFrame, //the actual extra margin at left (on curve compared with curveForSmooth)
+														 //eccForSmooth.endFrame -ecc.endFrame, 	//same for right
+									inertialDiscAbove0BodyBelow0
+									);
+						}
+
+						if (csharpOrR == CsharpOrR.R || csharpOrR == CsharpOrR.BOTH)
+						{
+							if (! encoderRProcCapture.SendCurve(
+										ecc.startFrame,
+										UtilEncoder.CompressData(curve, 25)	//compressed
+										))
+								cancel = true; //problem sending data to R
+						}
+
+						Ecca.curvesAccepted ++;
+						Ecca.ecc.Add(ecc);
+						LogB.Information(ecc.ToString());
+
+						lastDirectionStoredIsUp = ecc.up;
+					}
+
+					if(inertialCalibrated)
+						lastInertialPhase_i = i;
+				}
+
+				//on inertial is different
+				markDirectionChanged();
+			}
+
+			//this is for visual feedback of remaining time	
+			msCount ++;
+			if(msCount >= 1000) {
+				Countdown --;
+				msCount = 1;
+			}
+
+		}
 	}
 
 	/*
@@ -767,49 +805,20 @@ public abstract class EncoderCapture
 		simulatedLength = 0;
 	}
 
-	private int simulateByte()
-	{
-		System.Threading.Thread.Sleep(1);
-
-		//return 0's to end if signal needs to end
-		simulatedLength ++;
-		if(simulatedLength > simulatedMaxLength)
-			return 0;
-
-		//get new value
-		int simValue;
-		if(simulatedGoingUp)
-			simValue = rand.Next(0, 4);
-		else
-			simValue = rand.Next(-4, 0);
-
-		//change direction if needed
-		if(simulatedGoingUp && sum > simulatedMaxValue)
-			simulatedGoingUp = false;
-		else if(! simulatedGoingUp && sum < -1 * simulatedMaxValue)
-			simulatedGoingUp = true;
-
-		return simValue;
-	}
-
+	/*
 	protected int readByte()
 	{
-		/*
-		 * removed at 1.7.0
-		if(simulated) {
-			return simulatedInts[simulatedCount ++];
-		} else {
-		*/
-			if(capturingInertialBG)
-				return (int) EncoderCaptureInertialBackgroundStatic.GetNext();
-			else {
-				if(simulated)
-					return simulateByte();
-				else
-					return sp.ReadByte();
-			}
-		//}
+		if(capturingInertialBG)
+			return (int) EncoderCaptureInertialBackgroundStatic.GetNext();
+		else {
+			if(simulated)
+				return simulateByte();
+			else
+				return sp.ReadByte();
+		}
 	}
+	*/
+
 	protected int convertByte(int b)
 	{
 		if(simulated) {

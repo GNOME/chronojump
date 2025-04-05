@@ -74,57 +74,30 @@ public class EncoderCaptureInertialBackground
 			flush ();
 		}
 
-		int byteReaded;
+		//int byteReaded;
+		var buffer = new byte[1024];
 		do {
 			try {
 				if(simulated)
-					byteReaded = simulateByte();
-				else
-					byteReaded = readByte();
+				{
+					int byteReaded = simulateByte();
+					captureBGByteDo (byteReaded);
+				} else {
+					//until 2025 apr 5 we used sp.ReadByte(); on Mac silicon 2/3 of the data are lost. Using buffers now.
+					//byteReaded = readByte();
+
+					int bytesRead = sp.Read (buffer, 0, buffer.Length);
+					if (bytesRead == 0)
+						continue;
+
+					for (int j = 0; j < bytesRead; j ++)
+						captureBGByteDo (Convert.ToInt32 (buffer[j]));
+				}
 			} catch {
 				LogB.Error("ERROR at InertialCaptureBackground: Maybe encoder cable is disconnected");
 				return false;
 			}
 
-			byteReaded = convertByte(byteReaded);
-			angleNow += byteReaded;
-
-			//LogB.Information(string.Format("PRE: ANGLE: {0}, MAXABS: {1}, PHASE: {2}", angleNow, angleMaxAbsoluteThisPhase, Phase));
-			if(angleNow == 0)
-				Phase = Phases.ATCALIBRATEDPOINT;
-			else if(angleNow == angleMaxAbsoluteThisPhase)
-			{
-				/*
-				 * Do not do this
-				 * Phase = Phases.NOTMOVED;
-				 * because if we are at calibration point, then move 1 mm to ecc. (but by threads maybe is not shown on gui/encoder.cs)
-				 * so then if phase is NOTMOVED, will continue showing the ATCALIBRATEDPOINT. So if speed is low maybe all the time both labels are not shown
-				 * better do not do nothing and the Phase will be the same than before, in that case will be ECC
-				 */
-			}
-			else if(angleNow > 0)
-			{
-				if(angleNow > angleMaxAbsoluteThisPhase)
-				{
-					Phase = Phases.ECC;
-					angleMaxAbsoluteThisPhase = angleNow;
-				} else //if(angleNow < angleMaxAbsoluteThisPhase)
-					Phase = Phases.CON;
-			}
-			else //if(angleNow < 0)
-			{
-				if(angleNow < angleMaxAbsoluteThisPhase)
-				{
-					Phase = Phases.ECC;
-					angleMaxAbsoluteThisPhase = angleNow;
-				} else //if(angleNow > angleMaxAbsoluteThisPhase)
-					Phase = Phases.CON;
-			}
-			//LogB.Information(string.Format("POST: ANGLE: {0}, MAXABS: {1}, PHASE: {2}", angleNow, angleMaxAbsoluteThisPhase, Phase));
-
-			if(StoreData)
-				EncoderCaptureInertialBackgroundStatic.ListCaptured.Add((short) byteReaded);
-			//LogB.Information("angleNow = " + angleNow.ToString());
 		} while (! finishBG);
 
 		if(! simulated)
@@ -133,10 +106,55 @@ public class EncoderCaptureInertialBackground
 		return true;
 	}
 
-	private int readByte()
+	private void captureBGByteDo (int byteReaded)
 	{
-		return sp.ReadByte();
+		byteReaded = convertByte(byteReaded);
+		angleNow += byteReaded;
+
+		//LogB.Information(string.Format("PRE: ANGLE: {0}, MAXABS: {1}, PHASE: {2}", angleNow, angleMaxAbsoluteThisPhase, Phase));
+		if(angleNow == 0)
+			Phase = Phases.ATCALIBRATEDPOINT;
+		else if(angleNow == angleMaxAbsoluteThisPhase)
+		{
+			/*
+			 * Do not do this
+			 * Phase = Phases.NOTMOVED;
+			 * because if we are at calibration point, then move 1 mm to ecc. (but by threads maybe is not shown on gui/encoder.cs)
+			 * so then if phase is NOTMOVED, will continue showing the ATCALIBRATEDPOINT. So if speed is low maybe all the time both labels are not shown
+			 * better do not do nothing and the Phase will be the same than before, in that case will be ECC
+			 */
+		}
+		else if(angleNow > 0)
+		{
+			if(angleNow > angleMaxAbsoluteThisPhase)
+			{
+				Phase = Phases.ECC;
+				angleMaxAbsoluteThisPhase = angleNow;
+			} else //if(angleNow < angleMaxAbsoluteThisPhase)
+				Phase = Phases.CON;
+		}
+		else //if(angleNow < 0)
+		{
+			if(angleNow < angleMaxAbsoluteThisPhase)
+			{
+				Phase = Phases.ECC;
+				angleMaxAbsoluteThisPhase = angleNow;
+			} else //if(angleNow > angleMaxAbsoluteThisPhase)
+				Phase = Phases.CON;
+		}
+		//LogB.Information(string.Format("POST: ANGLE: {0}, MAXABS: {1}, PHASE: {2}", angleNow, angleMaxAbsoluteThisPhase, Phase));
+
+		if(StoreData)
+			EncoderCaptureInertialBackgroundStatic.ListCaptured.Add((short) byteReaded);
+		//LogB.Information("angleNow = " + angleNow.ToString());
 	}
+
+	/*
+	   private int readByte()
+	   {
+	   return sp.ReadByte();
+	   }
+	*/
 
 	/*
 	 * methods copied from chronopic.cs

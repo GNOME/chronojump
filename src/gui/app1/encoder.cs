@@ -483,11 +483,7 @@ public partial class ChronoJumpWindow
 
 	private void initEncoder1Time ()
 	{
-		box_encoder_capture_csharp_r_both.Visible = (
-				operatingSystem == UtilAll.OperatingSystems.LINUX ||
-				UtilAll.IsMacSilicon ()
-				);
-		radio_encoder_capture_both.Visible = operatingSystem == UtilAll.OperatingSystems.LINUX;
+		box_encoder_capture_csharp_r_both.Visible = operatingSystem == UtilAll.OperatingSystems.LINUX;
 
 		encoder_pulsebar_capture.Fraction = 1;
 		encoder_pulsebar_capture_label.Text = "";
@@ -987,8 +983,6 @@ public partial class ChronoJumpWindow
 //			eCaptureInertialBG.Finish();
 
 		csharpOrR = EncoderCapture.CsharpOrR.R;
-		if (UtilAll.IsMacSilicon ())
-			csharpOrR = EncoderCapture.CsharpOrR.CSHARP;
 		if (UtilAll.IsLinux ())
 		{
 			if (radio_encoder_capture_csharp.Active)

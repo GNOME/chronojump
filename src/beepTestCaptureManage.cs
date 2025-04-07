@@ -257,11 +257,13 @@ public class RunnerStatus
         }
 
 	public int personID;
+	public string personName;
 	public StatusEnum statusEnum;
 
-	public RunnerStatus (int personID, StatusEnum statusEnum)
+	public RunnerStatus (int personID, string personName, StatusEnum statusEnum)
 	{
 		this.personID = personID;
+		this.personName = personName;
 		this.statusEnum = statusEnum;
 	}
 }
@@ -276,7 +278,7 @@ public class BeepTestRunners
 	{
 		runnerStatus_l = new List<RunnerStatus> ();
 		foreach (Person p in person_l)
-			runnerStatus_l.Add (new RunnerStatus (p.UniqueID, RunnerStatus.StatusEnum.Running));
+			runnerStatus_l.Add (new RunnerStatus (p.UniqueID, p.Name, RunnerStatus.StatusEnum.Running));
 	}
 
 	public bool IsRunning (int personID)
@@ -316,6 +318,25 @@ public class BeepTestRunners
 			}
 
 		return finishedNow_l;
+	}
+
+	public string GetName (int personID)
+	{
+		foreach (RunnerStatus rs in runnerStatus_l)
+			if (rs.personID == personID)
+				return rs.personName;
+
+		return "";
+	}
+
+	public bool AnyoneRunning {
+		get {
+			foreach (RunnerStatus rs in runnerStatus_l)
+				if (rs.statusEnum == RunnerStatus.StatusEnum.Running)
+					return true;
+
+			return false;
+		}
 	}
 
 }

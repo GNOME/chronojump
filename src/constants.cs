@@ -205,6 +205,7 @@ public class Constants
 	public const string RunEncoderExerciseTable = "runEncoderExercise";
 	public const string FourPlatformsTable = "fourPlatforms";
 	public const string WilightTable = "wilight";
+	public const string BeepTestTable = "beepTest";
 
 	public const string LastJumpSimpleTypeParamsTable = "lastJumpSimpleTypeParams";
 	public const string LastJumpRjTypeParamsTable = "lastJumpRjTypeParams";

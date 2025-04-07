@@ -174,12 +174,8 @@ public partial class ChronoJumpWindow
                 textview_beepTest_warn.Buffer = tbBeepTestWarn;
 	}
 
-	private void beepTestPrintResults (bool allPersons, bool hasVo2Max)
+	private void beepTestPrintResults (string personName, bool hasVo2Max)
 	{
-		string personName = currentPerson.Name;
-		if (allPersons)
-			personName = "(Rest of the runners)";
-
 		BeepTestStageManage.StageLapStatus slStatus = beepTestCM.GetCurrentStageLapStatus ();
 
 		//note 5 is "Stage" and " Lap " char lengths. Note on glade this textview is set as monospace
@@ -232,10 +228,13 @@ public partial class ChronoJumpWindow
 		button_beepTest_exempt_selected.Sensitive = false;
 		button_beepTest_finish_selected.Sensitive = false;
 
-		beepTestPrintResults (false, beepTestCM.HasVo2max);
-
+		beepTestFinishInsertPerson (currentPerson.UniqueID);
+		beepTestPrintResults (currentPerson.Name, beepTestCM.HasVo2max);
 		restTime.AddOrModify(currentPerson.UniqueID, currentPerson.Name, true);
 		updateRestTimes();
+
+		if (! beepTestRunners.AnyoneRunning)
+			beepTestCM.Finish ();
 	}
 
 	public void on_button_beepTest_finish_all_clicked (object o, EventArgs args)
@@ -245,9 +244,21 @@ public partial class ChronoJumpWindow
 
 		List<int> finishedNow_l = beepTestRunners.FinishAllRunners ();
 		foreach (int i in finishedNow_l)
+		{
+			beepTestFinishInsertPerson (i);
 			myTreeViewPersons.UpdateStatus (i, RunnerStatus.StatusEnum.Finished);
+			beepTestPrintResults (beepTestRunners.GetName (i), beepTestCM.HasVo2max);
+		}
 
 		beepTestCM.Finish ();
+	}
+
+	private void beepTestFinishInsertPerson (int personID)
+	{
+                BeepTest bt = new BeepTest (-1, personID, currentSession.UniqueID, 0,
+                                "",  0, 0, 0, 0,
+                                UtilDate.ToFile (DateTime.Now), "", "");
+                bt.InsertSQL (false);
 	}
 
 	private void beepTestDo ()
@@ -271,7 +282,6 @@ public partial class ChronoJumpWindow
 			label_beepTest_runStatus_value.Text = "";
 			image_beepTest_runStatus.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_empty.png");
 
-			beepTestPrintResults (true, beepTestCM.HasVo2max);
 			return false;
 		}
 

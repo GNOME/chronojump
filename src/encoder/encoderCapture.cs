@@ -722,7 +722,7 @@ public abstract class EncoderCapture
 									curve,
 									curveForSmooth,
 									ecc.startFrame -eccForSmooth.startFrame, //the actual extra margin at left (on curve compared with curveForSmooth)
-									eccForSmooth.endFrame -ecc.endFrame, 	//same for right
+									//eccForSmooth.endFrame -ecc.endFrame, 	//same for right
 									inertialDiscAbove0BodyBelow0
 									);
 						}

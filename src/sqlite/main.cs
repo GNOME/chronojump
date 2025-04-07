@@ -164,7 +164,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.58";
+	static string lastChronojumpDatabaseVersion = "2.59";
 
 	public Sqlite()
 	{
@@ -3516,6 +3516,15 @@ class Sqlite
 
 				currentVersion = updateVersion("2.58");
 			}
+			if(currentVersion == "2.58")
+			{
+				LogB.SQL("Created table BeepTest");
+
+				SqliteBeepTest.createTable();
+
+				currentVersion = updateVersion("2.59");
+			}
+
 
 			/*
 			if(currentVersion == "1.79")
@@ -3740,11 +3749,10 @@ class Sqlite
 		SqliteRunEncoderExercise.createTable();
 		SqliteRunEncoderExercise.insertDefault();
 
-		//fourPlatforms
+		//fourPlatforms, Wilight, BeepTest
 		SqliteFourPlatforms.createTable ();
-
-		//Wilight
 		SqliteWilight.createTable ();
+		SqliteBeepTest.createTable ();
 
 		creationRate ++;
 		SqlitePreferences.createTable();
@@ -3759,6 +3767,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//2.58 - 2.59 Converted DB to 2.59 Created table BeepTest
 		//2.57 - 2.58 Converted DB to 2.58 alter table fourPlatforms totalTime int to float
 		//2.56 - 2.57 Converted DB to 2.57 alter table wilight added onString
 		//2.55 - 2.56 Converted DB to 2.56 Added preferences: RscriptUserURL, PythonUserURL

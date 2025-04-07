@@ -322,7 +322,8 @@ public class BeepTestRunners
 
 
 //tests creation and interaction with Chronojump events
-public abstract class BeepTest
+//CM for Capture Manage
+public abstract class BeepTestCM
 {
 	protected BeepTestStageManage btsm;
 	protected DateTime dateIni;
@@ -602,7 +603,7 @@ public abstract class BeepTest
 	}
 }
 
-public class BeepTestLeger20m : BeepTest
+public class BeepTestLeger20m : BeepTestCM
 {
 	private bool startFirstAt8Kmh;
 
@@ -648,7 +649,7 @@ public class BeepTestLeger20m : BeepTest
 
 }
 
-public class BeepTestLeger15m : BeepTest
+public class BeepTestLeger15m : BeepTestCM
 {
 	private bool startFirstAt8Kmh;
 
@@ -698,7 +699,7 @@ public class BeepTestLeger15m : BeepTest
  * https://www.traileur.ch/estimation-vma-test-luc-leger-boucher
  * universitats/blanquerna/assignatures/ergonomia-assignatures/valoracio-funcional-ergonomia/docs/ergonomia/ergonomia-esportiva/calçat-cursa/curs-running-estiu-2016/Apunts/Leger, L & Boucher, R. (1980). An indirect continuous running multistage field test..pdf
  *
-public class BeepTestMontreal : BeepTest
+public class BeepTestMontreal : BeepTestCM
 {
 	public BeepTestMontreal ()
 	{
@@ -735,7 +736,7 @@ public class BeepTestMontreal : BeepTest
 }
 */
 
-public class Pacer15m : BeepTest
+public class Pacer15m : BeepTestCM
 {
 	public Pacer15m ()
 	{
@@ -777,7 +778,7 @@ public class Pacer15m : BeepTest
 	}
 }
 
-public class Pacer20m : BeepTest
+public class Pacer20m : BeepTestCM
 {
 	public Pacer20m ()
 	{
@@ -822,7 +823,7 @@ public class Pacer20m : BeepTest
 
 //YoYo Intermitent tests
 //tables at: https://en.wikipedia.org/wiki/Yo-Yo_intermittent_test
-public abstract class BeepTestYYI : BeepTest
+public abstract class BeepTestYYI : BeepTestCM
 {
 	public BeepTestYYI ()
 	{
@@ -1034,7 +1035,7 @@ public class BeepTestYYIR2 : BeepTestYYI
 	}
 }
 
-public class BeepTestConstantSpeed : BeepTest
+public class BeepTestConstantSpeed : BeepTestCM
 {
 	private double speedKmh;
 	private int laps;

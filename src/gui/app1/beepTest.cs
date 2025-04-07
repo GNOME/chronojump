@@ -53,7 +53,7 @@ public partial class ChronoJumpWindow
 	Gtk.TextView textview_beepTest_warn;
 	// <---- at glade
 
-	static BeepTest beepTest;
+	static BeepTestCM beepTestCM;
 	static Thread threadBeepTest;
 	TextBuffer tbBeepTest = new TextBuffer (new TextTagTable());
 	TextBuffer tbBeepTestWarn = new TextBuffer (new TextTagTable());
@@ -61,7 +61,7 @@ public partial class ChronoJumpWindow
 
 	private void beepTestApp1Init ()
 	{
-		UtilGtk.ComboUpdate (combo_beepTest_type, BeepTest.TypesArray (), "");
+		UtilGtk.ComboUpdate (combo_beepTest_type, BeepTestCM.TypesArray (), "");
 		combo_beepTest_type.Active = 0;
 		image_beepTest_runStatus.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_empty.png");
 	}
@@ -82,18 +82,18 @@ public partial class ChronoJumpWindow
 
 		string str = UtilGtk.ComboGetActive (combo_beepTest_type);
 
-		if (str == BeepTest.Leger20Name || str == BeepTest.Leger15Name)
+		if (str == BeepTestCM.Leger20Name || str == BeepTestCM.Leger15Name)
 		{
 			check_beepTest_start8kmh.Visible = true;
 			box_beepTest_start_at.Visible = true;
 		}
-		else if (str == BeepTest.YYIE1Name || str == BeepTest.YYIE2Name ||
-				str == BeepTest.YYIR1Name || str == BeepTest.YYIR2Name)
+		else if (str == BeepTestCM.YYIE1Name || str == BeepTestCM.YYIE2Name ||
+				str == BeepTestCM.YYIR1Name || str == BeepTestCM.YYIR2Name)
 		{
 			label_beepTest_runStatus.Visible = true;
 			label_beepTest_runStatus_value.Visible = true;
 		}
-		else if (str == BeepTest.ConstantSpeedName)
+		else if (str == BeepTestCM.ConstantSpeedName)
 			box_beepTest_constant_options.Visible = true;
 	}
 
@@ -118,25 +118,25 @@ public partial class ChronoJumpWindow
 		button_beepTest_finish_all.Sensitive = true;
 
 		string str = UtilGtk.ComboGetActive (combo_beepTest_type);
-		if (str == BeepTest.Leger20Name)
-			beepTest = new BeepTestLeger20m (Convert.ToInt32 (spin_beepTest_start_at.Value), check_beepTest_start8kmh.Active);
-		else if (str == BeepTest.Leger15Name)
-			beepTest = new BeepTestLeger15m (Convert.ToInt32 (spin_beepTest_start_at.Value), check_beepTest_start8kmh.Active);
-		else if (str == BeepTest.YYIE1Name)
-			beepTest = new BeepTestYYIE1 ();
-		else if (str == BeepTest.YYIE2Name)
-			beepTest = new BeepTestYYIE2 ();
-		else if (str == BeepTest.YYIR1Name)
-			beepTest = new BeepTestYYIR1 ();
-		else if (str == BeepTest.YYIR2Name)
-			beepTest = new BeepTestYYIR2 ();
-		else if (str == BeepTest.ConstantSpeedName)
-			beepTest = new BeepTestConstantSpeed (
+		if (str == BeepTestCM.Leger20Name)
+			beepTestCM = new BeepTestLeger20m (Convert.ToInt32 (spin_beepTest_start_at.Value), check_beepTest_start8kmh.Active);
+		else if (str == BeepTestCM.Leger15Name)
+			beepTestCM = new BeepTestLeger15m (Convert.ToInt32 (spin_beepTest_start_at.Value), check_beepTest_start8kmh.Active);
+		else if (str == BeepTestCM.YYIE1Name)
+			beepTestCM = new BeepTestYYIE1 ();
+		else if (str == BeepTestCM.YYIE2Name)
+			beepTestCM = new BeepTestYYIE2 ();
+		else if (str == BeepTestCM.YYIR1Name)
+			beepTestCM = new BeepTestYYIR1 ();
+		else if (str == BeepTestCM.YYIR2Name)
+			beepTestCM = new BeepTestYYIR2 ();
+		else if (str == BeepTestCM.ConstantSpeedName)
+			beepTestCM = new BeepTestConstantSpeed (
 					Convert.ToInt32 (spin_beepTest_constant_distM.Value),
 					Convert.ToDouble (spin_beepTest_constant_speed.Value),
 					Convert.ToInt32 (spin_beepTest_constant_totalLaps.Value));
 
-		if (beepTest.HasVo2max)
+		if (beepTestCM.HasVo2max)
 		{
 			tbBeepTest.Text =
 				" Stage |  Lap  | Speed | VO2max | Name " +
@@ -167,10 +167,10 @@ public partial class ChronoJumpWindow
 		if (currentPerson == null)
 			return;
 
-		beepTest.WarningAdd (currentPerson.UniqueID, currentPerson.Name);
+		beepTestCM.WarningAdd (currentPerson.UniqueID, currentPerson.Name);
 
 		//tbBeepTestWarn.Text += beepTest.WarningPrintPerson (currentPerson.UniqueID);
-		tbBeepTestWarn.Text = beepTest.WarningPrintAll ();
+		tbBeepTestWarn.Text = beepTestCM.WarningPrintAll ();
                 textview_beepTest_warn.Buffer = tbBeepTestWarn;
 	}
 
@@ -180,7 +180,7 @@ public partial class ChronoJumpWindow
 		if (allPersons)
 			personName = "(Rest of the runners)";
 
-		BeepTestStageManage.StageLapStatus slStatus = beepTest.GetCurrentStageLapStatus ();
+		BeepTestStageManage.StageLapStatus slStatus = beepTestCM.GetCurrentStageLapStatus ();
 
 		//note 5 is "Stage" and " Lap " char lengths. Note on glade this textview is set as monospace
 		if (hasVo2Max)
@@ -188,7 +188,7 @@ public partial class ChronoJumpWindow
 					slStatus.stageName,
 					string.Format ("{0}/{1}", slStatus.lap + 1, slStatus.lapsOfThisStage),
 					Util.TrimDecimals (slStatus.speedKmh, 1),
-					Util.TrimDecimals (beepTest.Vo2max (), 2),
+					Util.TrimDecimals (beepTestCM.Vo2max (), 2),
 					personName);
 		else
 			tbBeepTest.Text += string.Format ("\n {0,5} | {1,5} | {2,5} | {3}",
@@ -232,7 +232,7 @@ public partial class ChronoJumpWindow
 		button_beepTest_exempt_selected.Sensitive = false;
 		button_beepTest_finish_selected.Sensitive = false;
 
-		beepTestPrintResults (false, beepTest.HasVo2max);
+		beepTestPrintResults (false, beepTestCM.HasVo2max);
 
 		restTime.AddOrModify(currentPerson.UniqueID, currentPerson.Name, true);
 		updateRestTimes();
@@ -247,13 +247,13 @@ public partial class ChronoJumpWindow
 		foreach (int i in finishedNow_l)
 			myTreeViewPersons.UpdateStatus (i, RunnerStatus.StatusEnum.Finished);
 
-		beepTest.Finish ();
+		beepTestCM.Finish ();
 	}
 
 	private void beepTestDo ()
 	{
-		beepTest.Start ();
-		while (! beepTest.Finished)
+		beepTestCM.Start ();
+		while (! beepTestCM.Finished)
 		{
 		}
 	}
@@ -271,13 +271,13 @@ public partial class ChronoJumpWindow
 			label_beepTest_runStatus_value.Text = "";
 			image_beepTest_runStatus.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_empty.png");
 
-			beepTestPrintResults (true, beepTest.HasVo2max);
+			beepTestPrintResults (true, beepTestCM.HasVo2max);
 			return false;
 		}
 
-		label_beepTest_time.Text = (beepTest.GetCurrentSeconds ()).ToString ();
+		label_beepTest_time.Text = (beepTestCM.GetCurrentSeconds ()).ToString ();
 
-		BeepTestStageManage.StageLapStatus slStatus = beepTest.GetCurrentStageLapStatus ();
+		BeepTestStageManage.StageLapStatus slStatus = beepTestCM.GetCurrentStageLapStatus ();
 
 		label_beepTest_stage.Text = slStatus.stageName;
 		label_beepTest_lap.Text = string.Format ("{0} / {1}",
@@ -289,21 +289,21 @@ public partial class ChronoJumpWindow
 		else
 			label_beepTest_runStatus_value.Text = "Running";
 
-		if (beepTest.ShouldBeepNow == BeepTest.BeepNowEnum.STAGE)
-			 Util.PlaySoundGstreamerFromFile (beepTest.GetSoundFileForStage (slStatus.stage, true),
+		if (beepTestCM.ShouldBeepNow == BeepTestCM.BeepNowEnum.STAGE)
+			 Util.PlaySoundGstreamerFromFile (beepTestCM.GetSoundFileForStage (slStatus.stage, true),
 					 preferences.volumeOn, preferences.gstreamer, 2);
-		else if (beepTest.ShouldBeepNow == BeepTest.BeepNowEnum.LAP)
-			 Util.PlaySoundGstreamerFromFile (beepTest.GetSoundFileForStage (slStatus.stage, false),
+		else if (beepTestCM.ShouldBeepNow == BeepTestCM.BeepNowEnum.LAP)
+			 Util.PlaySoundGstreamerFromFile (beepTestCM.GetSoundFileForStage (slStatus.stage, false),
 					 preferences.volumeOn, preferences.gstreamer, 1);
 
-		if (beepTest.ShouldVoiceNow == BeepTest.VoiceNowEnum.STAGE)
-			 Util.PlaySoundGstreamerFromFile (beepTest.GetVoiceFile (slStatus.stage, false),
+		if (beepTestCM.ShouldVoiceNow == BeepTestCM.VoiceNowEnum.STAGE)
+			 Util.PlaySoundGstreamerFromFile (beepTestCM.GetVoiceFile (slStatus.stage, false),
 					 preferences.volumeOn, preferences.gstreamer, 1);
-		else if (beepTest.ShouldVoiceNow == BeepTest.VoiceNowEnum.MID)
-			 Util.PlaySoundGstreamerFromFile (beepTest.GetVoiceFile (slStatus.stage, true),
+		else if (beepTestCM.ShouldVoiceNow == BeepTestCM.VoiceNowEnum.MID)
+			 Util.PlaySoundGstreamerFromFile (beepTestCM.GetVoiceFile (slStatus.stage, true),
 					 preferences.volumeOn, preferences.gstreamer, 1);
 
-		image_beepTest_runStatus.Pixbuf = beepTest.ImageLapStatus;
+		image_beepTest_runStatus.Pixbuf = beepTestCM.ImageLapStatus;
 
 		Thread.Sleep (20);
 		return true;

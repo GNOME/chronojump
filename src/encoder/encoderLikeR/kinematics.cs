@@ -56,11 +56,8 @@ public abstract class EncoderLikeRKinematics
 
 	public void PassParameters (
 			List<double> dis_l,
-			double butterworthFreq,
-			string eccon,
-			EncoderConfiguration.Names econfName,
-			double gearedDown, double massBody, double massExtra,
-			int anglePush, int angleWeight, int exercisePercentBodyWeight,
+			double butterworthFreq, string eccon, EncoderConfiguration.Names econfName,
+			double gearedDown, double massBody, double massExtra, int anglePush, int angleWeight, int exercisePercentBodyWeight,
 			bool propulsive, int minHeightMm)
 	{
 		this.disOrig_l = dis_l;
@@ -161,7 +158,7 @@ public abstract class EncoderLikeRKinematics
 
 	public void CalculateSpeed ()
 	{
-		bw = new Butterworth (butterworthFreq);
+		bw = new Butterworth (butterworthFreq); //entre 7 i 8 sembla lo millor
 		bw.AddFromList (dis_l);
 		bw.Calculate (Butterworth.TimeEnum.MILIS);
 

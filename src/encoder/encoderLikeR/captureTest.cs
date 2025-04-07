@@ -169,13 +169,13 @@ public class EncoderLikeRCaptureTest
 
 			elrc = new EncoderLikeRCapture (encoderParams);
 		/*
-		 * TODO: commented until implement a way to check body/disc separation
+		 * TODO: commented until implement a way to check body/disc separation and get Kinematics when there are n kinematics for each tested smooth
 			elrc.Do (true, true,
 					UtilList.ListGetFromToIncluded (dis_l, repCon1.start, repCon1.end),
 					UtilList.ListGetFromToIncluded (dis_l, repCon1Smooth.start, repCon1Smooth.end), 200, 200,
 					0, 0);
-					*/
 			elrc.Kinematics.WriteToFileDebug (string.Format ("debug_{0}.csv", repCon1.start));
+					*/
 
 
 			//trying 2nd ecccentric repetition
@@ -186,12 +186,12 @@ public class EncoderLikeRCaptureTest
 
 			elrc = new EncoderLikeRCapture (encoderParams);
 		/*
-		 * TODO: commented until implement a way to check body/disc separation
+		 * TODO: commented until implement a way to check body/disc separation and get Kinematics when there are n kinematics for each tested smooth
 			elrc.Do (true, true,
 					UtilList.ListGetFromToIncluded (dis_l, repEcc2.start, repEcc2.end),
 					UtilList.ListGetFromToIncluded (dis_l, repEcc2Smooth.start, repEcc2Smooth.end), 200, 200,
 					0, 0);
-					*/
 			elrc.Kinematics.WriteToFileDebug (string.Format ("debug_{0}.csv", repEcc2.start));
+					*/
 	}
 }

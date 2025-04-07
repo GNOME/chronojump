@@ -199,18 +199,18 @@ class SqliteFourPlatforms : SqliteTests
 		{
 			myArray.Add (
 					reader[0].ToString() + ":" + 	//person.name
-					reader[1].ToString() + ":" +	//fourPlaforms.uniqueID
-					reader[2].ToString() + ":" + 	//fourPlaforms.personID
-					reader[3].ToString() + ":" + 	//fourPlaforms.sessionID
-					reader[4].ToString() + ":" + 	//fourPlaforms.type
-					Util.CDSNoZero (reader[5].ToString()) + ":" + 	//fourPlaforms.b0_1
-					Util.CDSNoZero (reader[6].ToString()) + ":" + 	//fourPlaforms.b0_0
-					Util.CDSNoZero (reader[7].ToString()) + ":" + 	//fourPlaforms.b1_1
-					Util.CDSNoZero (reader[8].ToString()) + ":" + 	//fourPlaforms.b1_0
-					Util.CDSNoZero (reader[9].ToString()) + ":" + 	//fourPlaforms.b2_1
-					Util.CDSNoZero (reader[10].ToString()) + ":" + 	//fourPlaforms.b2_0
-					Util.CDSNoZero (reader[11].ToString()) + ":" + 	//fourPlaforms.b3_1
-					Util.CDSNoZero (reader[12].ToString()) + ":" + 	//fourPlaforms.b3_0
+					reader[1].ToString() + ":" +	//fourPlatforms.uniqueID
+					reader[2].ToString() + ":" + 	//fourPlatforms.personID
+					reader[3].ToString() + ":" + 	//fourPlatforms.sessionID
+					reader[4].ToString() + ":" + 	//fourPlatforms.type
+					Util.CDSNoZero (reader[5].ToString()) + ":" + 	//fourPlatforms.b0_1
+					Util.CDSNoZero (reader[6].ToString()) + ":" + 	//fourPlatforms.b0_0
+					Util.CDSNoZero (reader[7].ToString()) + ":" + 	//fourPlatforms.b1_1
+					Util.CDSNoZero (reader[8].ToString()) + ":" + 	//fourPlatforms.b1_0
+					Util.CDSNoZero (reader[9].ToString()) + ":" + 	//fourPlatforms.b2_1
+					Util.CDSNoZero (reader[10].ToString()) + ":" + 	//fourPlatforms.b2_0
+					Util.CDSNoZero (reader[11].ToString()) + ":" + 	//fourPlatforms.b3_1
+					Util.CDSNoZero (reader[12].ToString()) + ":" + 	//fourPlatforms.b3_0
 					reader[13].ToString() + ":" + 	//datetime
 					reader[14].ToString() + ":" + 	//comments
 					reader[15].ToString() + ":" +	//videoURL

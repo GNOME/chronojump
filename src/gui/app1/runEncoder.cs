@@ -887,7 +887,8 @@ public partial class ChronoJumpWindow
 				continue; //to go to exit bucle in order to close writer and delete file
 			}
 
-			if (portRE.BytesToRead == 0)
+			// readBinaryRunEncoder9Bytes will read 9 bytes
+			if (portRE.BytesToRead < 9)
 			{
 				//runEncoder sends changes. If there is no movement in certain time, just show a 0 on screen and capture graph
 				if(sw.ElapsedMilliseconds > 500)
@@ -913,7 +914,7 @@ public partial class ChronoJumpWindow
 					binaryReaded = recgsdt.GetNextSample ();
 			}
 			else
-				binaryReaded = readBinaryRunEncoderValues();
+				binaryReaded = readBinaryRunEncoder9Bytes ();
 
 			reCGSD.PassCapturedRow (binaryReaded);
 			if(reCGSD.Calcule(true) && reCGSD.EncoderDisplacement != 0) //this 0s are triggers without displacement
@@ -1060,15 +1061,30 @@ public partial class ChronoJumpWindow
 	}
 
 	//time (4 bytes: long at Arduino, uint at c-sharp), force (2 bytes: uint), encoder/RCA (1 byte: uint)
-	private List<int> readBinaryRunEncoderValues()
+	private List<int> readBinaryRunEncoder9Bytes ()
         {
 		LogB.Information("start reading binary data");
 		//LogB.Debug("readed start mark Ok");
                 List<int> dataRow = new List<int>();
 
+		var buffer = new byte[1024];
+		int bytesRead = 0;
+		try {
+			bytesRead = portRE.Read (buffer, 0, 9);
+		}
+		catch (Exception ex)
+		{
+			if(ex is System.IO.IOException || ex is System.TimeoutException)
+				LogB.Information ("catched on readBinaryRunEncoder9Bytes portRE.Read ()");
+
+			return dataRow;
+		}
+
+		int count = 0;
+
 		// 1) encoderDisplacement (2 bytes)
-                int b0 = portRE.ReadByte(); //encoderDisplacement least significative
-                int b1 = portRE.ReadByte(); //encoderDisplacement most significative
+                int b0 = buffer[count ++]; //encoderDisplacement least significative
+                int b1 = buffer[count ++]; //encoderDisplacement most significative
 		LogB.Information(" 1 readed b0,b1");
 		/*
 		LogB.Information("bbbencDispl0:" + b0.ToString());
@@ -1083,10 +1099,10 @@ public partial class ChronoJumpWindow
 		dataRow.Add(readedNum);
 
 		// 2) read time, four bytes
-                b0 = portRE.ReadByte(); //least significative
-                b1 = portRE.ReadByte();
-                int b2 = portRE.ReadByte();
-                int b3 = portRE.ReadByte(); //most significative
+                b0 = buffer[count ++]; //least significative
+                b1 = buffer[count ++];
+                int b2 = buffer[count ++];
+                int b3 = buffer[count ++]; //most significative
 		LogB.Information(" 2 readed b0-b3");
 
 		/*
@@ -1109,8 +1125,8 @@ public partial class ChronoJumpWindow
                                 Math.Pow(256,0) * b0));
 
 		// 3) read force, two bytes
-		b0 = portRE.ReadByte(); //least significative
-		b1 = portRE.ReadByte(); //most significative
+		b0 = buffer[count ++]; //least significative
+		b1 = buffer[count ++]; //most significative
 		readedNum = Convert.ToInt32(256 * b1 + b0);
 		LogB.Information(" 3 readed b0,b1");
 
@@ -1137,7 +1153,7 @@ public partial class ChronoJumpWindow
 		 * 1 RCA down (button is released)
 		 * 2 RCA up (button is pressed)
 		 */
-		b0 = portRE.ReadByte();
+		b0 = buffer[count ++];
 		//LogB.Information("b0: " + b0.ToString());
 		dataRow.Add(Convert.ToInt32(b0));
 

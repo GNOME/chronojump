@@ -57,9 +57,9 @@ class SqliteBeepTest : SqliteTests
 			"personID INT, " +
 			"sessionID INT, " +
 			"exerciseID INT, " +
-			"options TEXT, " +       //additional options of the selected exercise
-			"stages INT, " +
-			"laps INT, " +
+			"options TEXT, " +	//additional options of the selected exercise
+			"stages INT, " + 	//stored stage and not stageName, it will be converted to show, export, ...
+			"laps INT, " + 		//start by 0, when show/export add 1
 			"totalMeters INT, " +
 			"maxSpeed FLOAT, " +
                         "datetime TEXT, " +     //2019-07-11_15-01-44

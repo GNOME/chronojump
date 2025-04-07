@@ -349,6 +349,7 @@ public abstract class BeepTestCM
 	protected BeepTestStageManage btsm;
 	protected DateTime dateIni;
 	protected Stopwatch stopwatch;
+	protected int exerciseID;
 	protected bool finished;
 	protected bool hasVo2max; //default false
 	protected int startedWithMs = 0;
@@ -613,6 +614,11 @@ public abstract class BeepTestCM
 		get { return (imageLapStatus); }
 	}
 
+	public int ExerciseID
+	{
+		get { return exerciseID; }
+	}
+
 	public bool Finished
 	{
 		get { return (finished); }
@@ -632,6 +638,7 @@ public class BeepTestLeger20m : BeepTestCM
 	{
 		this.startFirstAt8Kmh = startFirstAt8Kmh;
 		initialize ();
+		exerciseID = 0;
 		hasVo2max = true;
 		hasVoice = true;
 
@@ -681,6 +688,7 @@ public class BeepTestLeger15m : BeepTestCM
 		lapMeters = 15;
 
 		initialize ();
+		exerciseID = 1;
 		hasVoice = true;
 
 		if (startStage > 1)
@@ -848,7 +856,7 @@ public abstract class BeepTestYYI : BeepTestCM
 {
 	public BeepTestYYI ()
 	{
-		restSeconds = 5;
+		//restSeconds = 5;
 	}
 
 	protected override void decideIfShouldBeep ()
@@ -870,6 +878,7 @@ public class BeepTestYYIE1 : BeepTestYYI
 {
 	public BeepTestYYIE1 ()
 	{
+		exerciseID = 2;
 		restSeconds = 5;
 		initialize ();
 	}
@@ -917,6 +926,7 @@ public class BeepTestYYIE2 : BeepTestYYI
 {
 	public BeepTestYYIE2 ()
 	{
+		exerciseID = 3;
 		restSeconds = 5;
 		initialize ();
 	}
@@ -960,6 +970,7 @@ public class BeepTestYYIR1 : BeepTestYYI
 {
 	public BeepTestYYIR1 ()
 	{
+		exerciseID = 4;
 		restSeconds = 5;
 		initialize ();
 		hasVo2max = true;
@@ -1011,6 +1022,7 @@ public class BeepTestYYIR2 : BeepTestYYI
 {
 	public BeepTestYYIR2 ()
 	{
+		exerciseID = 5;
 		restSeconds = 5;
 		initialize ();
 		hasVo2max = true;
@@ -1063,6 +1075,7 @@ public class BeepTestConstantSpeed : BeepTestCM
 
 	public BeepTestConstantSpeed (int lapMeters, double speedKmh, int laps)
 	{
+		exerciseID = 6;
 		this.lapMeters = lapMeters;
 		this.speedKmh = speedKmh;
 		this.laps = laps;

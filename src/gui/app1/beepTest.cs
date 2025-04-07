@@ -174,9 +174,9 @@ public partial class ChronoJumpWindow
                 textview_beepTest_warn.Buffer = tbBeepTestWarn;
 	}
 
-	private void beepTestPrintResults (string personName, bool hasVo2Max)
+	private void beepTestPrintResults (string personName,
+			BeepTestStageManage.StageLapStatus slStatus, bool hasVo2Max)
 	{
-		BeepTestStageManage.StageLapStatus slStatus = beepTestCM.GetCurrentStageLapStatus ();
 
 		//note 5 is "Stage" and " Lap " char lengths. Note on glade this textview is set as monospace
 		if (hasVo2Max)
@@ -223,13 +223,16 @@ public partial class ChronoJumpWindow
 			return;
 
 		beepTestRunners.Finished (currentPerson.UniqueID);
-		myTreeViewPersons.UpdateStatus (currentPerson.UniqueID, RunnerStatus.StatusEnum.Finished);
 
 		button_beepTest_exempt_selected.Sensitive = false;
 		button_beepTest_finish_selected.Sensitive = false;
 
-		beepTestFinishInsertPerson (currentPerson.UniqueID);
-		beepTestPrintResults (currentPerson.Name, beepTestCM.HasVo2max);
+		BeepTestStageManage.StageLapStatus slStatus = beepTestCM.GetCurrentStageLapStatus ();
+		beepTestFinishInsertPerson (currentPerson.UniqueID, slStatus, beepTestCM.ExerciseID);
+		beepTestPrintResults (currentPerson.Name, slStatus, beepTestCM.HasVo2max);
+
+		myTreeViewPersons.UpdateStatus (currentPerson.UniqueID, RunnerStatus.StatusEnum.Finished);
+
 		restTime.AddOrModify(currentPerson.UniqueID, currentPerson.Name, true);
 		updateRestTimes();
 
@@ -242,21 +245,23 @@ public partial class ChronoJumpWindow
 		if (! threadBeepTest.IsAlive)
 			return;
 
+		BeepTestStageManage.StageLapStatus slStatus = beepTestCM.GetCurrentStageLapStatus ();
 		List<int> finishedNow_l = beepTestRunners.FinishAllRunners ();
 		foreach (int i in finishedNow_l)
 		{
-			beepTestFinishInsertPerson (i);
+			beepTestFinishInsertPerson (i, slStatus, beepTestCM.ExerciseID);
+			beepTestPrintResults (beepTestRunners.GetName (i), slStatus, beepTestCM.HasVo2max);
+
 			myTreeViewPersons.UpdateStatus (i, RunnerStatus.StatusEnum.Finished);
-			beepTestPrintResults (beepTestRunners.GetName (i), beepTestCM.HasVo2max);
 		}
 
 		beepTestCM.Finish ();
 	}
 
-	private void beepTestFinishInsertPerson (int personID)
+	private void beepTestFinishInsertPerson (int personID, BeepTestStageManage.StageLapStatus slStatus, int exerciseID)
 	{
-                BeepTest bt = new BeepTest (-1, personID, currentSession.UniqueID, 0,
-                                "",  0, 0, 0, 0,
+                BeepTest bt = new BeepTest (-1, personID, currentSession.UniqueID, exerciseID,
+                                "",  slStatus.stage, slStatus.lap, 0, slStatus.speedKmh,
                                 UtilDate.ToFile (DateTime.Now), "", "");
                 bt.InsertSQL (false);
 	}

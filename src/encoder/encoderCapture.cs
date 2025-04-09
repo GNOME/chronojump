@@ -795,14 +795,16 @@ public abstract class EncoderCapture
 		}
 	}
 
+	/*
 	private bool simulatedGoingUp = false;
 	private int simulatedMaxValue = 400;
 	private int simulatedLength;
 	private int simulatedMaxLength = 4000; //when signal stops
+	*/
 
 	public void SimulatedReset()
 	{
-		simulatedLength = 0;
+		//simulatedLength = 0;
 	}
 
 	/*

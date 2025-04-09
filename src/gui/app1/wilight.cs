@@ -48,7 +48,7 @@ public partial class ChronoJumpWindow
 	static Thread threadWilight;
 	static WilightCaptureManage wilightCaptureManage;
 	static bool wilightProcessCancel;
-	static bool wilightProcessFinish;
+	//static bool wilightProcessFinish; //not implemented at the moment
 	static string wilightMessage;
 
 	//to play sound by pulse thread
@@ -170,7 +170,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_wilight_test_finish_clicked (object o, EventArgs args)
 	{
-		wilightProcessFinish = true;
+		//wilightProcessFinish = true;
 	}
 
 	private void wilightExecute ()
@@ -183,7 +183,7 @@ public partial class ChronoJumpWindow
 		wilightProcessCancel = false;
 		button_wilight_test_cancel.Sensitive = true;
 		button_wilight_test_finish.Sensitive = true;
-		wilightProcessFinish = false;
+		//wilightProcessFinish = false;
 		wilightTimeStartCapture = DateTime.Now; //to have an active count of capture time
 
 		threadWilight = new Thread (new ThreadStart (wilightTestDo));

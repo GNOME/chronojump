@@ -28,6 +28,7 @@ public partial class ChronoJumpWindow
 	// at glade ---->
 	Gtk.Image image_mode_race_beepTest;
 	Gtk.Image image_change_modes_contacts_runs_beepTest;
+	Gtk.Box box_beepTest;
 	Gtk.Box box_beepTest_type_and_options;
 	Gtk.ComboBoxText combo_beepTest_type;
 	Gtk.Box box_beepTest_start_at;
@@ -328,6 +329,7 @@ public partial class ChronoJumpWindow
 	{
 		image_mode_race_beepTest = (Gtk.Image) builder.GetObject ("image_mode_race_beepTest");
 		image_change_modes_contacts_runs_beepTest = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_runs_beepTest");
+		box_beepTest = (Gtk.Box) builder.GetObject ("box_beepTest");
 		box_beepTest_type_and_options = (Gtk.Box) builder.GetObject ("box_beepTest_type_and_options");
 		combo_beepTest_type = (Gtk.ComboBoxText) builder.GetObject ("combo_beepTest_type");
 		check_beepTest_start8kmh = (Gtk.CheckButton) builder.GetObject ("check_beepTest_start8kmh");

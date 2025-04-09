@@ -503,7 +503,7 @@ public partial class ChronoJumpWindow
 	private string progName;
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM, SOCIALNETWORKPOLL, FULLSCREENCAPTURE }
 	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS, MICRODISCOVER, PERSON, DATABASE }
-	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR, BEEPTEST }
+	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR }
 	private enum notebook_execute_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER }
 	private enum notebook_options_top_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER }
 	private enum notebook_results_pages { RESULTSSESSION, FORCESENSOR, RUNSENCODER }
@@ -3260,13 +3260,16 @@ public partial class ChronoJumpWindow
 		box_wilight_commands.Visible = false;
 		box_fourPlatforms.Visible = false;
 		box_contacts_capture_top.Visible = true;
+		box_event_execute_label_message.Visible = true;
 		box_contacts_graph_exercise.Visible = true;
 
 		hbox_combo_select_contacts_top_with_arrows.Visible = false; //TODO: this will be unneded
 
 		event_execute_label_message.Text = "";
 
+		box_contacts_current.Visible = false;
 		align_drawingarea_realtime_capture_cairo.Visible = false;
+		box_beepTest.Visible = false;
 		vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = false;
 
 		if(chronopicRegister == null)
@@ -3344,6 +3347,7 @@ public partial class ChronoJumpWindow
 				event_graph_label_graph_test.Visible = false;
 				vbox_contacts_simple_graph_controls.Visible = true;
 
+				box_contacts_current.Visible = true;
 				align_drawingarea_realtime_capture_cairo.Visible = true;
 
 				//align_check_vbox_contacts_graph_legend.Visible = false;
@@ -3423,6 +3427,7 @@ public partial class ChronoJumpWindow
 				event_graph_label_graph_test.Visible = false;
 				vbox_contacts_simple_graph_controls.Visible = true;
 
+				box_contacts_current.Visible = true;
 				align_drawingarea_realtime_capture_cairo.Visible = true;
 				vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = true;
 
@@ -3716,6 +3721,7 @@ public partial class ChronoJumpWindow
 			box_fourPlatforms.Visible = true;
 			box_contacts_graph_exercise.Visible = false; //selection of exercise
 
+			box_contacts_current.Visible = true;
 			align_drawingarea_realtime_capture_cairo.Visible = true;
 			//wilightApp1Init ();
 		}
@@ -3726,13 +3732,17 @@ public partial class ChronoJumpWindow
 			notebooks_change(m);
 			radio_mode_contacts_analyze.Visible = false;
 
+			box_contacts_capture_top.Visible = false;
+			box_event_execute_label_message.Visible = false;
 			hbox_change_modes_runs.Visible = true; //TODO: add beep test
-			notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.BEEPTEST);
+
+			box_contacts_current.Visible = true;
+			box_beepTest.Visible = true;
 			box_contacts_capture_top.Visible = false;
 
 			beepTestApp1Init ();
 		} else {
-			notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.EXECUTE);
+			box_beepTest.Visible = false;
 		}
 
 		if (m == Constants.Modes.WILIGHT)
@@ -3749,6 +3759,7 @@ public partial class ChronoJumpWindow
 			box_wilight.Visible = true;
 			box_contacts_graph_exercise.Visible = false; //selection of exercise
 
+			box_contacts_current.Visible = true;
 			align_drawingarea_realtime_capture_cairo.Visible = true;
 			wilightApp1Init ();
 		}

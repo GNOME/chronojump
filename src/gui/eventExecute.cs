@@ -38,6 +38,7 @@ using Gdk; //for the EventMask
 
 public partial class ChronoJumpWindow 
 {
+	Gtk.Box box_event_execute_label_message;
 	Gtk.Label event_execute_label_phases_name;
 	Gtk.Label event_execute_label_message;
 	Gtk.Image image_no_capturing;
@@ -87,6 +88,7 @@ public partial class ChronoJumpWindow
 
 	Gtk.Notebook notebook_results_data;
 
+	Gtk.Box box_contacts_current;
 	Gtk.Alignment align_drawingarea_realtime_capture_cairo;
 	Gtk.DrawingArea drawingarea_results_realtime;
 	Gtk.DrawingArea drawingarea_results_session;
@@ -1001,6 +1003,7 @@ public partial class ChronoJumpWindow
 
 	private void connectWidgetsEventExecute (Gtk.Builder builder)
 	{
+		box_event_execute_label_message = (Gtk.Box) builder.GetObject ("box_event_execute_label_message");
 		event_execute_label_phases_name = (Gtk.Label) builder.GetObject ("event_execute_label_phases_name");
 		event_execute_label_message = (Gtk.Label) builder.GetObject ("event_execute_label_message");
 		image_no_capturing = (Gtk.Image) builder.GetObject ("image_no_capturing");
@@ -1049,6 +1052,7 @@ public partial class ChronoJumpWindow
 
 		notebook_results_data = (Gtk.Notebook) builder.GetObject ("notebook_results_data");
 
+		box_contacts_current = (Gtk.Box) builder.GetObject ("box_contacts_current");
 		align_drawingarea_realtime_capture_cairo = (Gtk.Alignment) builder.GetObject ("align_drawingarea_realtime_capture_cairo");
 		drawingarea_results_realtime = (Gtk.DrawingArea) builder.GetObject ("drawingarea_results_realtime");
 		drawingarea_results_session = (Gtk.DrawingArea) builder.GetObject ("drawingarea_results_session");

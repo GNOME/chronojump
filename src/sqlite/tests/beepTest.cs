@@ -38,9 +38,14 @@ using SQLiteConnection = System.Data.SQLite.SQLiteConnection;
 
 class SqliteBeepTest : SqliteTests
 {
-	private static string table = Constants.BeepTestTable;
+	private static string tableStatic = Constants.BeepTestTable;
 
-	public SqliteBeepTest () {
+	public SqliteBeepTest ()
+	{
+		tableName = Constants.BeepTestTable;
+		columnsStr = " (uniqueID, personID, sessionID, exerciseID," +
+                                " options, stages, laps, totalMeters, maxSpeed," +
+                                " dateTime, comments, videoURL)";
 	}
 
 	~SqliteBeepTest () {}
@@ -49,10 +54,10 @@ class SqliteBeepTest : SqliteTests
 	 * create and initialize tables
 	 */
 
-	protected internal static new void createTable()
+	protected override void createTable()
 	{
 		dbcmd.CommandText =
-			"CREATE TABLE " + table + " ( " +
+			"CREATE TABLE " + tableName + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
@@ -70,24 +75,22 @@ class SqliteBeepTest : SqliteTests
 		dbcmd.ExecuteNonQuery();
 	}
 
-	public static int Insert (bool dbconOpened, string insertString)
+	protected override string selectSAArray (SQLiteDataReader reader)
 	{
-		openIfNeeded(dbconOpened);
-
-		dbcmd.CommandText = "INSERT INTO " + table +
-				" (uniqueID, personID, sessionID, exerciseID," +
-                                " options, stages, laps, totalMeters, maxSpeed," + 
-                                " dateTime, comments, videoURL)" +
-				" VALUES " + insertString;
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		string myString = @"select last_insert_rowid()";
-		dbcmd.CommandText = myString;
-		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
-
-		closeIfNeeded(dbconOpened);
-
-		return myLast;
+		// TODO: need to convert stages to stageName and add +1 to laps
+		return
+			reader[0].ToString() + ":" + 	//person.name
+			reader[1].ToString() + ":" +	//beepTest.uniqueID
+			reader[2].ToString() + ":" + 	//beepTest.personID
+			reader[3].ToString() + ":" + 	//beepTest.sessionID
+			reader[4].ToString() + ":" + 	//beepTest.exerciseID
+			reader[5].ToString() + ":" + 	//beepTest.options
+			reader[6].ToString() + ":" + 	//beepTest.stages
+			reader[7].ToString() + ":" + 	//beepTest.laps
+			reader[8].ToString() + ":" + 	//beepTest.totalMeters
+			Util.CDSNoZero (reader[9].ToString()) + ":" + 	//beepTest.maxSpeed
+			reader[10].ToString() + ":" + 	//beepTest.dateTime
+			reader[11].ToString() + ":" + 	//beepTest.description
+			reader[12].ToString();	 	//beepTest.videoURL
 	}
 }

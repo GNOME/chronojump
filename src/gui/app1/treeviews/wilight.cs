@@ -50,7 +50,8 @@ public partial class ChronoJumpWindow
 			);
 		string [] wilightSA = TreeViewWilight.ListToStringArray (wilight_l);
 		*/
-		string [] wilightSA = SqliteWilight.SelectSA (dbconOpened,
+		SqliteTests sqliteTests = new SqliteWilight ();
+		string [] wilightSA = sqliteTests.SelectSA (dbconOpened,
 				currentSession.UniqueID, currentPersonOrAll (),
 				//"",
 				Sqlite.Orders_by.DEFAULT, 0);

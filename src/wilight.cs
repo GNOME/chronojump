@@ -78,7 +78,8 @@ public class Wilight : Event
 
 	public int InsertSQL (bool dbconOpened)
 	{
-		return SqliteWilight.Insert (dbconOpened, toSQLInsertString());
+		SqliteTests sqliteTests = new SqliteWilight ();
+		return sqliteTests.Insert (dbconOpened, toSQLInsertString());
 	}
 	private string toSQLInsertString()
 	{

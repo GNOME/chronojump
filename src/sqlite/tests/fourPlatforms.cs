@@ -40,9 +40,14 @@ using SQLiteConnection = System.Data.SQLite.SQLiteConnection;
 
 class SqliteFourPlatforms : SqliteTests
 {
-	private static string table = Constants.FourPlatformsTable;
+	private static string tableStatic = Constants.FourPlatformsTable;
 
-	public SqliteFourPlatforms() {
+	public SqliteFourPlatforms()
+	{
+		tableName = Constants.FourPlatformsTable;
+		columnsStr = " (uniqueID, personID, sessionID, exerciseID, dateTime, " +
+				" b0_1, b0_0, b1_1, b1_0, b2_1, b2_0, b3_1, b3_0, " +
+				" comments, videoURL, totalTime)";
 	}
 
 	~SqliteFourPlatforms() {}
@@ -51,10 +56,10 @@ class SqliteFourPlatforms : SqliteTests
 	 * create and initialize tables
 	 */
 
-	protected internal static new void createTable()
+	protected override void createTable()
 	{
 		dbcmd.CommandText =
-			"CREATE TABLE " + table + " ( " +
+			"CREATE TABLE " + tableName + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
@@ -75,26 +80,6 @@ class SqliteFourPlatforms : SqliteTests
 		dbcmd.ExecuteNonQuery();
 	}
 
-	public static int Insert (bool dbconOpened, string insertString)
-	{
-		openIfNeeded(dbconOpened);
-
-		dbcmd.CommandText = "INSERT INTO " + table +
-				" (uniqueID, personID, sessionID, exerciseID, dateTime, " + 
-				" b0_1, b0_0, b1_1, b1_0, b2_1, b2_0, b3_1, b3_0, " +
-				" comments, videoURL, totalTime)" +
-				" VALUES " + insertString;
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		string myString = @"select last_insert_rowid()";
-		dbcmd.CommandText = myString;
-		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
-
-		closeIfNeeded(dbconOpened);
-
-		return myLast;
-	}
 
         /*
          * sID -1 means all sessions
@@ -117,7 +102,7 @@ class SqliteFourPlatforms : SqliteTests
 			SqlitePersonSession.SelectCurrentSessionPersonsAsList (true, sessionID);
 
 		dbcmd.CommandText = selectResultsCreateSelection (
-				table,
+				tableStatic,
 				sessionID, personID, "", //type,
 				order, limit, false //onlyBestInSession
 				);
@@ -172,84 +157,31 @@ class SqliteFourPlatforms : SqliteTests
 		return fp_l;
 	}
 
-	//SA for String Array, used on treeview
-	public static string [] SelectSA (bool dbconOpened, int sessionID, int personID,
-			//string type,
-			Orders_by order, int limit
-			//, bool personNameInComment, bool onlyBestInSession
-			)
+	protected override string selectSAArray (SQLiteDataReader reader)
 	{
-		openIfNeeded(dbconOpened);
-
-		dbcmd.CommandText = selectResultsCreateSelection (
-				table,
-				sessionID, personID, "", //type,
-				order, limit, false //onlyBestInSession
-				);
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		SQLiteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-		ArrayList myArray = new ArrayList(2);
-		int count = new int();
-		count = 0;
-
-		while(reader.Read())
-		{
-			myArray.Add (
-					reader[0].ToString() + ":" + 	//person.name
-					reader[1].ToString() + ":" +	//fourPlatforms.uniqueID
-					reader[2].ToString() + ":" + 	//fourPlatforms.personID
-					reader[3].ToString() + ":" + 	//fourPlatforms.sessionID
-					reader[4].ToString() + ":" + 	//fourPlatforms.type
-					Util.CDSNoZero (reader[5].ToString()) + ":" + 	//fourPlatforms.b0_1
-					Util.CDSNoZero (reader[6].ToString()) + ":" + 	//fourPlatforms.b0_0
-					Util.CDSNoZero (reader[7].ToString()) + ":" + 	//fourPlatforms.b1_1
-					Util.CDSNoZero (reader[8].ToString()) + ":" + 	//fourPlatforms.b1_0
-					Util.CDSNoZero (reader[9].ToString()) + ":" + 	//fourPlatforms.b2_1
-					Util.CDSNoZero (reader[10].ToString()) + ":" + 	//fourPlatforms.b2_0
-					Util.CDSNoZero (reader[11].ToString()) + ":" + 	//fourPlatforms.b3_1
-					Util.CDSNoZero (reader[12].ToString()) + ":" + 	//fourPlatforms.b3_0
-					reader[13].ToString() + ":" + 	//datetime
-					reader[14].ToString() + ":" + 	//comments
-					reader[15].ToString() + ":" +	//videoURL
-					Util.CDS (reader[16].ToString())	 	//totalTime
-					);
-
-			count ++;
-		}
-
-		reader.Close();
-		closeIfNeeded(dbconOpened);
-
-		string [] rows = new string[count];
-		count =0;
-		foreach (string line in myArray) {
-			rows [count++] = line;
-		}
-
-		return rows;
+		return
+			reader[0].ToString() + ":" + 	//person.name
+			reader[1].ToString() + ":" +	//fourPlatforms.uniqueID
+			reader[2].ToString() + ":" + 	//fourPlatforms.personID
+			reader[3].ToString() + ":" + 	//fourPlatforms.sessionID
+			reader[4].ToString() + ":" + 	//fourPlatforms.type
+			Util.CDSNoZero (reader[5].ToString()) + ":" + 	//fourPlatforms.b0_1
+			Util.CDSNoZero (reader[6].ToString()) + ":" + 	//fourPlatforms.b0_0
+			Util.CDSNoZero (reader[7].ToString()) + ":" + 	//fourPlatforms.b1_1
+			Util.CDSNoZero (reader[8].ToString()) + ":" + 	//fourPlatforms.b1_0
+			Util.CDSNoZero (reader[9].ToString()) + ":" + 	//fourPlatforms.b2_1
+			Util.CDSNoZero (reader[10].ToString()) + ":" + 	//fourPlatforms.b2_0
+			Util.CDSNoZero (reader[11].ToString()) + ":" + 	//fourPlatforms.b3_1
+			Util.CDSNoZero (reader[12].ToString()) + ":" + 	//fourPlatforms.b3_0
+			reader[13].ToString() + ":" + 	//datetime
+			reader[14].ToString() + ":" + 	//comments
+			reader[15].ToString() + ":" +	//videoURL
+			Util.CDS (reader[16].ToString());	 	//totalTime
 	}
 
 	public static FourPlatforms SelectData (int uniqueID, bool dbconOpened)
 	{
-		return new FourPlatforms (selectTestData (uniqueID, dbconOpened, table, 16));
-	}
-
-	public static void Update (int uniqueID,
-			//string type,	//TODO
-			int personID)
-	{
-		Sqlite.Open();
-		dbcmd.CommandText = "UPDATE " + table +
-			" SET personID = " + personID +
-			//", type = '" + type + //remember to close '
-			" WHERE uniqueID = " + uniqueID ;
-
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-		Sqlite.Close();
+		return new FourPlatforms (selectTestData (uniqueID, dbconOpened, tableStatic, 16));
 	}
 
 	//this method is here to have a createTable that does not change in future versions

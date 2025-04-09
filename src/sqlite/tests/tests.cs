@@ -19,6 +19,10 @@
  */
 
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List<T>
+using System.Diagnostics; 	//for launching other process
+using System.Text.RegularExpressions; //Match
+
 #if MICROSOFT_DATA_SQLITE
 using SQLiteTransaction = Microsoft.Data.Sqlite.SqliteTransaction;
 using SQLiteCommand = Microsoft.Data.Sqlite.SqliteCommand;
@@ -31,11 +35,89 @@ using SQLiteCommand = System.Data.SQLite.SQLiteCommand;
 using SQLiteDataReader = System.Data.SQLite.SQLiteDataReader;
 using SQLiteConnection = System.Data.SQLite.SQLiteConnection;
 #endif
-using System.Diagnostics; 	//for launching other process
-using System.Text.RegularExpressions; //Match
 
 class SqliteTests : Sqlite
 {
+	protected string tableName;
+	protected string columnsStr;
+
+	public SqliteTests ()
+	{
+		tableName = "";
+		columnsStr = "";
+	}
+
+	/*
+	 * done in parent
+	protected virtual void createTable()
+	{
+		LogB.Information ("SqliteTests.createTable() nothing done");
+	}
+	*/
+
+	public int Insert (bool dbconOpened, string insertString)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "INSERT INTO " + tableName + columnsStr + " VALUES " + insertString;
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		string myString = @"select last_insert_rowid()";
+		dbcmd.CommandText = myString;
+		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
+
+		closeIfNeeded(dbconOpened);
+
+		return myLast;
+	}
+
+	//SA for String Array, used on treeview
+	public string [] SelectSA (bool dbconOpened, int sessionID, int personID,
+			//string type,
+			Orders_by order, int limit
+			//, bool personNameInComment, bool onlyBestInSession
+			)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = selectResultsCreateSelection (
+				tableName,
+				sessionID, personID, "", //type,
+				order, limit, false //onlyBestInSession
+				);
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		ArrayList myArray = new ArrayList(2);
+		int count = new int();
+		count = 0;
+
+		while(reader.Read())
+		{
+			myArray.Add (selectSAArray (reader));
+			count ++;
+		}
+
+		reader.Close();
+		closeIfNeeded(dbconOpened);
+
+		string [] rows = new string[count];
+		count =0;
+		foreach (string line in myArray) {
+			rows [count++] = line;
+		}
+
+		return rows;
+	}
+
+	protected virtual string selectSAArray (SQLiteDataReader reader)
+	{
+		return "";
+	}
+
 	//note this is selecting also the person.name
 	//used on run, runI, wilight
 	// limit 0 means no limit (limit negative is the last results) (used on SelectRuns)
@@ -110,11 +192,26 @@ class SqliteTests : Sqlite
 		return myReaderStr;
 	}
 
-	public static void UpdateTestPersonID (bool dbconOpened, string tableName, int personIDold, int personIDnew)
+	public void Update (int uniqueID,
+			//string type,	//TODO
+			int personID)
+	{
+		Sqlite.Open();
+		dbcmd.CommandText = "UPDATE " + tableName +
+			" SET personID = " + personID +
+			//", type = '" + type + //remember to close '
+			" WHERE uniqueID = " + uniqueID ;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		Sqlite.Close();
+	}
+
+	public static void UpdateTestPersonID (bool dbconOpened, string tName, int personIDold, int personIDnew)
 	{
 		openIfNeeded (dbconOpened);
 
-		dbcmd.CommandText = "UPDATE " + tableName +
+		dbcmd.CommandText = "UPDATE " + tName +
 			" SET personID = " + personIDnew +
 			" WHERE personID = " + personIDold;
 		LogB.SQL (dbcmd.CommandText.ToString());
@@ -126,12 +223,12 @@ class SqliteTests : Sqlite
 	/* 
 	 * temp data stuff
 	 */
-	public static int TempDataExists(string tableName)
+	public static int TempDataExists(string tName)
 	{
-		//tableName can be tempJumpRj or tempRunInterval
+		//tName can be tempJumpRj or tempRunInterval
 		
 		Sqlite.Open();
-		dbcmd.CommandText = "SELECT MAX(uniqueID) FROM " + tableName;
+		dbcmd.CommandText = "SELECT MAX(uniqueID) FROM " + tName;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		//SQLiteDataReader reader;
@@ -153,13 +250,13 @@ class SqliteTests : Sqlite
 		return exists;
 	}
 
-	public static void DeleteTempEvents(string tableName)
+	public static void DeleteTempEvents(string tName)
 	{
-		//tableName can be tempJumpRj or tempRunInterval
+		//tName can be tempJumpRj or tempRunInterval
 
 		Sqlite.Open();
 		//dbcmd.CommandText = "Delete FROM tempJumpRj";
-		dbcmd.CommandText = "DELETE FROM " + tableName;
+		dbcmd.CommandText = "DELETE FROM " + tName;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();

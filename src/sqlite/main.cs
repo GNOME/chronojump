@@ -161,6 +161,8 @@ class Sqlite
 	// if needed
 	private static StaticClassState initialState;
 
+	private static SqliteTests sqliteTests;
+
 	/*
 	 * Important, change this if there's any update to database
 	 */
@@ -2522,7 +2524,8 @@ class Sqlite
 			{
 				LogB.SQL("Created table: ForceSensor");
 
-				SqliteForceSensor.createTable();
+				sqliteTests = new SqliteForceSensor ();
+				sqliteTests.createTable();
 
 				currentVersion = updateVersion("1.68");
 			}
@@ -2550,7 +2553,8 @@ class Sqlite
 			{
 				LogB.SQL("Created tables: RunEncoder, RunEncoderExercise");
 
-				SqliteRunEncoder.createTable();
+				sqliteTests = new SqliteRunEncoder ();
+				sqliteTests.createTable();
 				SqliteRunEncoderExercise.createTable();
 
 				currentVersion = updateVersion("1.70");
@@ -3423,7 +3427,8 @@ class Sqlite
 			{
 				LogB.SQL("Created table fourPlatforms");
 
-				SqliteFourPlatforms.createTable ();
+				sqliteTests = new SqliteFourPlatforms ();
+				sqliteTests.createTable ();
 
 				currentVersion = updateVersion("2.52");
 			}
@@ -3447,7 +3452,8 @@ class Sqlite
 			{
 				LogB.SQL("Created tables: Wilight");
 
-				SqliteWilight.createTable();
+				sqliteTests = new SqliteWilight ();
+				sqliteTests.createTable ();
 
 				currentVersion = updateVersion("2.55");
 			}
@@ -3520,7 +3526,8 @@ class Sqlite
 			{
 				LogB.SQL("Created table BeepTest");
 
-				SqliteBeepTest.createTable();
+				sqliteTests = new SqliteBeepTest ();
+				sqliteTests.createTable ();
 
 				currentVersion = updateVersion("2.59");
 			}
@@ -3736,7 +3743,9 @@ class Sqlite
 		SqliteTrigger.createTableTrigger();
 
 		//forceSensor
-		SqliteForceSensor.createTable();
+		sqliteTests = new SqliteForceSensor ();
+		sqliteTests.createTable();
+
 		SqliteForceSensorExercise.createTable();
 		SqliteForceSensorExercise.insertDefault();
 		SqliteForceSensorRFD.createTable();
@@ -3745,14 +3754,18 @@ class Sqlite
 		//SqliteForceSensorElasticBandGlue.createTable();
 
 		//runEncoder
-		SqliteRunEncoder.createTable();
+		sqliteTests = new SqliteRunEncoder ();
+		sqliteTests.createTable();
 		SqliteRunEncoderExercise.createTable();
 		SqliteRunEncoderExercise.insertDefault();
 
 		//fourPlatforms, Wilight, BeepTest
-		SqliteFourPlatforms.createTable ();
-		SqliteWilight.createTable ();
-		SqliteBeepTest.createTable ();
+		sqliteTests = new SqliteFourPlatforms ();
+		sqliteTests.createTable ();
+		sqliteTests = new SqliteWilight ();
+		sqliteTests.createTable ();
+		sqliteTests = new SqliteBeepTest ();
+		sqliteTests.createTable ();
 
 		creationRate ++;
 		SqlitePreferences.createTable();

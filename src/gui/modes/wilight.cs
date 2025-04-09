@@ -102,7 +102,8 @@ public class EditWilightWindow : EditEventWindow
 
 	protected override void updateEvent (int eventID, int personID, string description)
 	{
-		SqliteWilight.Update (eventID,
+		SqliteTests st = new SqliteWilight ();
+		st.Update (eventID,
 				//UtilGtk.ComboGetActive(combo_eventType),
 				personID);
 	}

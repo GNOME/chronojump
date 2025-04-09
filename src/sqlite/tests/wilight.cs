@@ -38,9 +38,12 @@ using SQLiteConnection = System.Data.SQLite.SQLiteConnection;
 
 class SqliteWilight : SqliteTests
 {
-	private static string table = Constants.WilightTable;
+	private static string tableStatic = Constants.WilightTable;
 
-	public SqliteWilight() {
+	public SqliteWilight()
+	{
+		tableName = Constants.WilightTable;
+		columnsStr = " (uniqueID, personID, sessionID, exerciseID, dateTime, videoURL, totalMs, onString)";
 	}
 
 	~SqliteWilight() {}
@@ -49,10 +52,10 @@ class SqliteWilight : SqliteTests
 	 * create and initialize tables
 	 */
 
-	protected internal static new void createTable()
+	protected override void createTable()
 	{
 		dbcmd.CommandText =
-			"CREATE TABLE " + table + " ( " +
+			"CREATE TABLE " + tableName + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
@@ -64,25 +67,6 @@ class SqliteWilight : SqliteTests
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-	}
-
-	public static int Insert (bool dbconOpened, string insertString)
-	{
-		openIfNeeded(dbconOpened);
-
-		dbcmd.CommandText = "INSERT INTO " + table +
-				" (uniqueID, personID, sessionID, exerciseID, dateTime, videoURL, totalMs, onString)" +
-				" VALUES " + insertString;
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		string myString = @"select last_insert_rowid()";
-		dbcmd.CommandText = myString;
-		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
-
-		closeIfNeeded(dbconOpened);
-
-		return myLast;
 	}
 
         /*
@@ -106,7 +90,7 @@ class SqliteWilight : SqliteTests
 			SqlitePersonSession.SelectCurrentSessionPersonsAsList (true, sessionID);
 
 		dbcmd.CommandText = selectResultsCreateSelection (
-				table,
+				tableStatic,
 				sessionID, personID, "", //type,
 				order, limit, false //onlyBestInSession
 				);
@@ -154,79 +138,23 @@ class SqliteWilight : SqliteTests
 		return wilight_l;
 	}
 
-	//SA for String Array, used on treeview
-	public static string [] SelectSA (bool dbconOpened, int sessionID, int personID,
-			//string type,
-			Orders_by order, int limit
-			//, bool personNameInComment, bool onlyBestInSession
-			)
+	protected override string selectSAArray (SQLiteDataReader reader)
 	{
-		openIfNeeded(dbconOpened);
-
-		dbcmd.CommandText = selectResultsCreateSelection (
-				table,
-				sessionID, personID, "", //type,
-				order, limit, false //onlyBestInSession
-				);
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		SQLiteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-
-		ArrayList myArray = new ArrayList(2);
-
-		int count = new int();
-		count = 0;
-
-		while(reader.Read())
-		{
-			myArray.Add (
-					reader[0].ToString() + ":" + 	//person.name
-					reader[1].ToString() + ":" +	//wilight.uniqueID
-					reader[2].ToString() + ":" + 	//wilight.personID
-					reader[3].ToString() + ":" + 	//wilight.sessionID
-					reader[4].ToString() + ":" + 	//wilight.type
-					reader[5].ToString() + ":" + 	//datetime
-					reader[6].ToString() + ":" +	//videoURL
-					reader[7].ToString() + ":" + 	//totalMs
-					reader[8].ToString()		//onString
-					);
-
-			count ++;
-		}
-
-		reader.Close();
-		closeIfNeeded(dbconOpened);
-
-		string [] rows = new string[count];
-		count =0;
-		foreach (string line in myArray) {
-			rows [count++] = line;
-		}
-
-		return rows;
+		return
+			reader[0].ToString() + ":" + 	//person.name
+			reader[1].ToString() + ":" +	//wilight.uniqueID
+			reader[2].ToString() + ":" + 	//wilight.personID
+			reader[3].ToString() + ":" + 	//wilight.sessionID
+			reader[4].ToString() + ":" + 	//wilight.type
+			reader[5].ToString() + ":" + 	//datetime
+			reader[6].ToString() + ":" +	//videoURL
+			reader[7].ToString() + ":" + 	//totalMs
+			reader[8].ToString();		//onString
 	}
 
 	public static Wilight SelectData (int uniqueID, bool dbconOpened)
 	{
-		return new Wilight (selectTestData (uniqueID, dbconOpened, table, 8));
+		return new Wilight (selectTestData (uniqueID, dbconOpened, tableStatic, 8));
 	}
-
-	public static void Update (int uniqueID,
-			//string type,	//TODO
-			int personID)
-	{
-		Sqlite.Open();
-		dbcmd.CommandText = "UPDATE " + table +
-			" SET personID = " + personID +
-			//", type = '" + type + //remember to close '
-			" WHERE uniqueID = " + uniqueID ;
-
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-		Sqlite.Close();
-	}
-
 }
 

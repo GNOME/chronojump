@@ -102,7 +102,8 @@ public class EditFourPlatformsWindow : EditEventWindow
 
 	protected override void updateEvent (int eventID, int personID, string description)
 	{
-		SqliteFourPlatforms.Update (eventID,
+		SqliteTests sqliteTests = new SqliteFourPlatforms ();
+		sqliteTests.Update (eventID,
 				//UtilGtk.ComboGetActive(combo_eventType),
 				personID);
 	}

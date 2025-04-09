@@ -118,7 +118,8 @@ public class FourPlatforms : Event
 
 	public void InsertSQL (bool dbconOpened)
 	{
-		this.uniqueID = SqliteFourPlatforms.Insert (dbconOpened, toSQLInsertString());
+		SqliteTests sqliteTests = new SqliteFourPlatforms ();
+		this.uniqueID = sqliteTests.Insert (dbconOpened, toSQLInsertString());
 	}
 	private string toSQLInsertString()
 	{

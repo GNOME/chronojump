@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2022-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2022-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -40,9 +40,12 @@ using System.Text.RegularExpressions; //Regex
 
 class SqliteRunEncoder : SqliteTests
 {
-	private static string table = Constants.RunEncoderTable;
+	private static string tableStatic = Constants.RunEncoderTable;
 
-	public SqliteRunEncoder() {
+	public SqliteRunEncoder()
+	{
+		tableName = Constants.RunEncoderTable;
+		columnsStr = " (uniqueID, personID, sessionID, exerciseID, device, distance, temperature, filename, url, dateTime, comments, videoURL, angle, totalTime)";
 	}
 
 	~SqliteRunEncoder() {}
@@ -51,10 +54,10 @@ class SqliteRunEncoder : SqliteTests
 	 * create and initialize tables
 	 */
 
-	protected internal static new void createTable()
+	protected override void createTable()
 	{
 		dbcmd.CommandText =
-			"CREATE TABLE " + table + " ( " +
+			"CREATE TABLE " + tableName + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
@@ -73,30 +76,11 @@ class SqliteRunEncoder : SqliteTests
 		dbcmd.ExecuteNonQuery();
 	}
 
-	public static int Insert (bool dbconOpened, string insertString)
-	{
-		openIfNeeded(dbconOpened);
-
-		dbcmd.CommandText = "INSERT INTO " + table +
-				" (uniqueID, personID, sessionID, exerciseID, device, distance, temperature, filename, url, dateTime, comments, videoURL, angle, totalTime)" +
-				" VALUES " + insertString;
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		string myString = @"select last_insert_rowid()";
-		dbcmd.CommandText = myString;
-		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
-
-		closeIfNeeded(dbconOpened);
-
-		return myLast;
-	}
-
 	public static void Update (bool dbconOpened, string updateString)
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "UPDATE " + table + " SET " + updateString;
+		dbcmd.CommandText = "UPDATE " + tableStatic + " SET " + updateString;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -108,7 +92,7 @@ class SqliteRunEncoder : SqliteTests
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "UPDATE " + table + " SET comments = '" + comments + "'" +
+		dbcmd.CommandText = "UPDATE " + tableStatic + " SET comments = '" + comments + "'" +
 			" WHERE uniqueID = " + uniqueID;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -128,7 +112,7 @@ class SqliteRunEncoder : SqliteTests
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "DELETE FROM " + table + " WHERE uniqueID = " + re.UniqueID;
+		dbcmd.CommandText = "DELETE FROM " + tableStatic + " WHERE uniqueID = " + re.UniqueID;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -146,22 +130,22 @@ class SqliteRunEncoder : SqliteTests
 	{
 		openIfNeeded(dbconOpened);
 
-		string selectStr = "SELECT " + table + ".*, " + Constants.RunEncoderExerciseTable + ".Name FROM " + table + ", " + Constants.RunEncoderExerciseTable;
-		string whereStr = " WHERE " + table + ".exerciseID = " + Constants.RunEncoderExerciseTable + ".UniqueID ";
+		string selectStr = "SELECT " + tableStatic + ".*, " + Constants.RunEncoderExerciseTable + ".Name FROM " + tableStatic + ", " + Constants.RunEncoderExerciseTable;
+		string whereStr = " WHERE " + tableStatic + ".exerciseID = " + Constants.RunEncoderExerciseTable + ".UniqueID ";
 
 		string uniqueIDStr = "";
 		if(uniqueID != -1)
-			uniqueIDStr = " AND " + table + ".uniqueID = " + uniqueID;
+			uniqueIDStr = " AND " + tableStatic + ".uniqueID = " + uniqueID;
 
 		string personIDStr = "";
 		if(personID != -1)
-			personIDStr = " AND " + table + ".personID = " + personID;
+			personIDStr = " AND " + tableStatic + ".personID = " + personID;
 
 		string sessionIDStr = "";
 		if(sessionID != -1)
-			sessionIDStr = " AND " + table + ".sessionID = " + sessionID;
+			sessionIDStr = " AND " + tableStatic + ".sessionID = " + sessionID;
 
-		dbcmd.CommandText = selectStr + whereStr + uniqueIDStr + personIDStr + sessionIDStr + " Order BY " + table + ".uniqueID";
+		dbcmd.CommandText = selectStr + whereStr + uniqueIDStr + personIDStr + sessionIDStr + " Order BY " + tableStatic + ".uniqueID";
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -208,10 +192,10 @@ class SqliteRunEncoder : SqliteTests
 			Constants.PersonTable + ".name, " +
 			Constants.SessionTable + ".name, " +
 			Constants.SessionTable + ".date " +
-			" FROM " + table + ", " + Constants.PersonTable + ", " + Constants.SessionTable +
+			" FROM " + tableStatic + ", " + Constants.PersonTable + ", " + Constants.SessionTable +
 			" WHERE exerciseID = " + exerciseID +
-			" AND " + Constants.PersonTable + ".uniqueID = " + table + ".personID " +
-		        " AND " + Constants.SessionTable + ".uniqueID = " + table + ".sessionID " +
+			" AND " + Constants.PersonTable + ".uniqueID = " + tableStatic + ".personID " +
+		        " AND " + Constants.SessionTable + ".uniqueID = " + tableStatic + ".sessionID " +
 			" GROUP BY sessionID, personID";
 
 		LogB.SQL(dbcmd.CommandText.ToString());

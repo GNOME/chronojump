@@ -105,7 +105,8 @@ public class ForceSensor
 
 	public int InsertSQL(bool dbconOpened)
 	{
-		return SqliteForceSensor.Insert(dbconOpened, toSQLInsertString());
+		SqliteTests sqliteTests = new SqliteForceSensor ();
+		return sqliteTests.Insert (dbconOpened, toSQLInsertString());
 	}
 	private string toSQLInsertString()
 	{

@@ -45,7 +45,8 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		string [] myValues = SqliteFourPlatforms.SelectSA (dbconOpened,
+		SqliteTests sqliteTests = new SqliteFourPlatforms ();
+		string [] myValues = sqliteTests.SelectSA (dbconOpened,
 				currentSession.UniqueID, currentPersonOrAll (),
 				//"",
 				Sqlite.Orders_by.DEFAULT, 0);

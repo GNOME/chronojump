@@ -85,7 +85,8 @@ public class RunEncoder
 
 	public int InsertSQL(bool dbconOpened)
 	{
-		return SqliteRunEncoder.Insert(dbconOpened, toSQLInsertString());
+		SqliteTests sqliteTests = new SqliteRunEncoder ();
+		return sqliteTests.Insert(dbconOpened, toSQLInsertString());
 	}
 	private string toSQLInsertString()
 	{

@@ -185,20 +185,26 @@ public class TreeViewEvent
 			string [] myStringFull = singleEvent.Split(new char[] {':'});
 
 			//show always the names of persons ...
-			if(tempPerson != myStringFull[dataLineNamePosition])
+			if (tempPerson != myStringFull[dataLineNamePosition])
 			{
 				iter = store.AppendValues (myStringFull[dataLineNamePosition]);
 				tempPerson = myStringFull[dataLineNamePosition];
 			}
 
-			//... but if we selected one type of run and this it's not the type, don't show
-			if(filter == allEventsName || filter == Catalog.GetString(myStringFull[dataLineTypePosition]))
+			/*
+			LogB.Information (string.Format (
+				"At Fill, filter: {0}, allEventsName: {1}, Catalog.GetString(myStringFull[dataLineTypePosition]): {2}",
+				filter, allEventsName, Catalog.GetString(myStringFull[dataLineTypePosition]) ));
+			*/
+
+			//... but if we selected one type of test of this mode and this it's not the type, don't show
+			if (filter == allEventsName || filter == Catalog.GetString (myStringFull[dataLineTypePosition]))
 			{
 				//get the object from the string
-				System.Object myEvent = getObjectFromString(myStringFull);
+				System.Object myEvent = getObjectFromString (myStringFull);
 				
 				//getLineToStoreFromString is overriden in two level treeviews
-				iterDeep = store.AppendValues (iter, getLineToStore(myEvent));
+				iterDeep = store.AppendValues (iter, getLineToStore (myEvent));
 				if (treeviewHasTwoLevels)
 				{
 					addStatisticInfo (iterDeep, myEvent);

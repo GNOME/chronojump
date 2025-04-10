@@ -607,6 +607,10 @@ public class Constants
 	{
 		return Catalog.GetString("See all pulses");
 	}
+	public static string AllTestsNameStr()
+	{
+		return Catalog.GetString("See all tests"); //beepTest and others
+	}
 
 	//fileNames
 	//public static string FileNameLogo = "chronojump-boscosystem_white_bg.png";

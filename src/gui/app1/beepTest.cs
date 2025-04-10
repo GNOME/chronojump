@@ -96,6 +96,11 @@ public partial class ChronoJumpWindow
 		}
 		else if (str == BeepTestCM.ConstantSpeedName)
 			box_beepTest_constant_options.Visible = true;
+
+		radio_contacts_graph_currentTest.Label = str;
+
+		//update the treeview
+		pre_fillTreeView_resultsSession (false);
 	}
 
 	BeepTestRunners beepTestRunners;

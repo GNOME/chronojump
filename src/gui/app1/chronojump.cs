@@ -2102,28 +2102,16 @@ public partial class ChronoJumpWindow
 				fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_select_runs_interval), dbconOpened);
 		} else if (current_mode == Constants.Modes.BEEPTEST)
 		{
-			//		if(radio_contacts_graph_allTests.Active)
-			fillTreeView_beepTest ("", dbconOpened);
-			/*
-			   else if (combo_select_runs != null)
-			   fillTreeView_runs(UtilGtk.ComboGetActive(combo_select_runs), dbconOpened);
-			   */
+			if (radio_contacts_graph_allTests.Active)
+				fillTreeView_beepTest (Constants.AllTestsNameStr (), dbconOpened);
+			else if (combo_beepTest_type != null)
+				fillTreeView_beepTest (UtilGtk.ComboGetActive (combo_beepTest_type), dbconOpened);
 		} else if (current_mode == Constants.Modes.WILIGHT)
 		{
-			//		if(radio_contacts_graph_allTests.Active)
 			fillTreeView_wilight ("", dbconOpened);
-			/*
-			   else if (combo_select_runs != null)
-			   fillTreeView_runs(UtilGtk.ComboGetActive(combo_select_runs), dbconOpened);
-			   */
 		} else if (current_mode == Constants.Modes.OTHER)
 		{
-			//		if(radio_contacts_graph_allTests.Active)
 			fillTreeView_fourPlatforms ("", dbconOpened);
-			/*
-			   else if (combo_select_runs != null)
-			   fillTreeView_runs(UtilGtk.ComboGetActive(combo_select_runs), dbconOpened);
-			   */
 		} else
 			return;
 	}

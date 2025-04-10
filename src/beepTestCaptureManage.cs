@@ -618,6 +618,18 @@ public abstract class BeepTestCM
 		return -1;
 	}
 
+	public string GetStageNameOfStage (int stage)
+	{
+		//LogB.Information (string.Format ("GetStageNameOfStage: {0}", stage));
+		if (stage < stageName_l.Count)
+		{
+			//LogB.Information ("name  is: " + stageName_l[stage]);
+			return stageName_l[stage];
+		}
+
+		return (stage+1).ToString (); //used on Constant Speed
+	}
+
 	public BeepNowEnum ShouldBeepNow
 	{
 		get { return (shouldBeepNow); }

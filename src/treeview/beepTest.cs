@@ -41,10 +41,10 @@ public class TreeViewBeepTest : TreeViewEvent
 		
 		treeviewHasTwoLevels = false;
 		dataLineNamePosition = 0; //position of name in the data to be printed
-		dataLineTypePosition = 4; //position of type in the data to be printed
-		allEventsName = ""; //Constants.AllJumpsNameStr();
+		dataLineTypePosition = 5; //position of type in the data to be printed. Here is used as str
+		allEventsName = Constants.AllTestsNameStr();
 		eventIDColumn = 4; //column where the uniqueID of event will be (and will be hidden). //unused now
-		columnsString = new string[] { personName, "Stages", "Laps", datetimeName };
+		columnsString = new string[] { personName, "Final stage", "Final lap", datetimeName };
 
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
@@ -54,24 +54,25 @@ public class TreeViewBeepTest : TreeViewEvent
 		expandState = ExpandStates.MINIMIZED;
 	}
 
-	protected override System.Object getObjectFromString(string [] myStringOfData)
+	protected override System.Object getObjectFromString (string [] str)
 	{
-		LogB.Information ("myStringOfData:");
-		LogB.Information (Util.StringArrayToString (myStringOfData, "____"));
+		LogB.Information ("getObjectFromString str:");
+		LogB.Information (Util.StringArrayToString (str, "____"));
 
 		BeepTest beepTest = new BeepTest (
-				Convert.ToInt32(myStringOfData[1].ToString()),  //uniqueID
-				Convert.ToInt32(myStringOfData[2].ToString()),  //personID
-				Convert.ToInt32(myStringOfData[3].ToString()),  //sessionID
-				Convert.ToInt32(myStringOfData[4].ToString()),  //exerciseID
-				myStringOfData[5].ToString(),			//options
-				Convert.ToInt32(myStringOfData[6].ToString()),  //stages
-				Convert.ToInt32(myStringOfData[7].ToString()),  //laps
-				Convert.ToInt32(myStringOfData[8].ToString()),  //totalMeters
-				Convert.ToDouble (Util.CDS (myStringOfData[9].ToString())),  //maxSpeed
-				myStringOfData[10].ToString(),			//datetime
-				myStringOfData[11].ToString(),			//videoURL
-				myStringOfData[12].ToString()			//description
+				Convert.ToInt32 (str[1].ToString ()),  //uniqueID
+				Convert.ToInt32 (str[2].ToString ()),  //personID
+				Convert.ToInt32 (str[3].ToString ()),  //sessionID
+				Convert.ToInt32 (str[4].ToString ()),  //exerciseID
+				//str[5] exerciseStr is not used here
+				str[6].ToString (),			//options
+				Convert.ToInt32 (str[7].ToString ()),  //stages
+				Convert.ToInt32 (str[8].ToString ()),  //laps
+				Convert.ToInt32 (str[9].ToString ()),  //totalMeters
+				Convert.ToDouble (Util.CDS (str[10].ToString ())),  //maxSpeed
+				str[11].ToString (),			//datetime
+				str[12].ToString (),			//videoURL
+				str[13].ToString ()			//description
 				);
 
 		return beepTest;
@@ -91,10 +92,10 @@ public class TreeViewBeepTest : TreeViewEvent
 		int count = 0;
 		//myData[count++] = newJump.Type;
 		//myData[count++] = title;
-		
-		myData[count++] = "Default";
-		myData[count++] = beepTest.Stages.ToString ();
-		myData[count++] = beepTest.Laps.ToString ();
+
+		myData[count++] = beepTest.ExerciseName;
+		myData[count++] = beepTest.GetAchievedStageName;
+		myData[count++] = (beepTest.Laps +1).ToString ();
 		myData[count++] = UtilDate.GetDatetimePrint (UtilDate.FromFile (beepTest.DateTime));
 		myData[count++] = beepTest.UniqueID.ToString ();
 

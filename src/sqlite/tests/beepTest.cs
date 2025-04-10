@@ -79,6 +79,14 @@ class SqliteBeepTest : SqliteTests
 
 	protected override string selectSAArray (SQLiteDataReader reader)
 	{
+		string exerciseStr = "";
+		if (Util.IsNumber (reader[4].ToString (), false))
+		{
+			int exerciseID = Convert.ToInt32 (reader[4].ToString ());
+			if (exerciseID < (BeepTestCM.TypesArray ()).Length)
+				exerciseStr = (BeepTestCM.TypesArray ())[exerciseID];
+		}
+
 		// TODO: need to convert stages to stageName and add +1 to laps
 		return
 			reader[0].ToString() + ":" + 	//person.name
@@ -86,6 +94,7 @@ class SqliteBeepTest : SqliteTests
 			reader[2].ToString() + ":" + 	//beepTest.personID
 			reader[3].ToString() + ":" + 	//beepTest.sessionID
 			reader[4].ToString() + ":" + 	//beepTest.exerciseID
+			exerciseStr 	+ ":" + 	//beepTest.exerciseID -> as str for treeviewResults
 			reader[5].ToString() + ":" + 	//beepTest.options
 			reader[6].ToString() + ":" + 	//beepTest.stages
 			reader[7].ToString() + ":" + 	//beepTest.laps

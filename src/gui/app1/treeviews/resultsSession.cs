@@ -48,6 +48,8 @@ public partial class ChronoJumpWindow
 			treeViewResultsSession = new TreeViewRuns (tv, preferences.digitsNumber, preferences.metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED );
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			treeViewResultsSession = new TreeViewRunsInterval (tv, preferences.digitsNumber, preferences.metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED);
+		else if (current_mode == Constants.Modes.BEEPTEST)
+			treeViewResultsSession = new TreeViewBeepTest (tv, preferences.digitsNumber, TreeViewEvent.ExpandStates.MINIMIZED );
 		else if (current_mode == Constants.Modes.WILIGHT)
 			treeViewResultsSession = new TreeViewWilight (tv, preferences.digitsNumber, TreeViewEvent.ExpandStates.MINIMIZED );
 		else if (current_mode == Constants.Modes.OTHER)
@@ -73,21 +75,19 @@ public partial class ChronoJumpWindow
 
 		if (current_mode == Constants.Modes.JUMPSSIMPLE ||
 				current_mode == Constants.Modes.RUNSSIMPLE ||
+				current_mode == Constants.Modes.BEEPTEST ||
 				current_mode == Constants.Modes.WILIGHT)
 		{
 			on_treeview_test_simple_cursor_changed (o, args); // 1 level
 		}
-		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
-		{
-			on_treeview_jumps_rj_cursor_changed (o, args); //2 levels
-		}
-		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
-		{
-			on_treeview_runs_interval_cursor_changed (o, args); //2 levels
-		}
-		else if (current_mode == Constants.Modes.OTHER) 	//FOURPLATFORMS
-		{
-			on_treeview_fourPlatforms_cursor_changed (o, args); //2 levels
+		else {
+			// 2 levels
+			if (current_mode == Constants.Modes.JUMPSREACTIVE)
+				on_treeview_jumps_rj_cursor_changed (o, args);
+			if (current_mode == Constants.Modes.RUNSINTERVALLIC)
+				on_treeview_runs_interval_cursor_changed (o, args);
+			if (current_mode == Constants.Modes.OTHER) 	//FOURPLATFORMS
+				on_treeview_fourPlatforms_cursor_changed (o, args);
 		}
 	}
 
@@ -133,6 +133,9 @@ public partial class ChronoJumpWindow
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			treeViewResultsSession = new TreeViewRunsInterval (
 					treeview_results_session, preferences.digitsNumber, preferences.metersSecondsPreferred, treeViewResultsSession.ExpandState);
+		else if (current_mode == Constants.Modes.BEEPTEST)
+			treeViewResultsSession = new TreeViewBeepTest (
+					treeview_results_session, preferences.digitsNumber, treeViewResultsSession.ExpandState);
 		else if (current_mode == Constants.Modes.WILIGHT)
 			treeViewResultsSession = new TreeViewWilight (
 					treeview_results_session, preferences.digitsNumber, treeViewResultsSession.ExpandState);
@@ -171,6 +174,11 @@ public partial class ChronoJumpWindow
 			ev = SqliteRunInterval.SelectRunData (
 					Constants.RunIntervalTable, treeViewResultsSession.EventSelectedID, false, false);
 			treeviewResultsContextMenu (true, " " + ev.Type + " (" + ev.PersonName + ")");
+		}
+		else if (current_mode == Constants.Modes.BEEPTEST)
+		{
+			ev = SqliteBeepTest.SelectData (treeViewResultsSession.EventSelectedID, false);
+			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonName + ")");
 		}
 		else if (current_mode == Constants.Modes.WILIGHT)
 		{

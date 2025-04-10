@@ -229,7 +229,7 @@ public partial class ChronoJumpWindow
 		button_beepTest_finish_selected.Sensitive = false;
 
 		BeepTestStageManage.StageLapStatus slStatus = beepTestCM.GetCurrentStageLapStatus ();
-		beepTestFinishInsertPerson (currentPerson.UniqueID, slStatus, beepTestCM.ExerciseID);
+		beepTestFinishInsertPerson (currentPerson.UniqueID, currentPerson.Name, slStatus, beepTestCM.ExerciseID);
 		beepTestPrintResults (currentPerson.Name, slStatus, beepTestCM.HasVo2max);
 
 		myTreeViewPersons.UpdateStatus (currentPerson.UniqueID, RunnerStatus.StatusEnum.Finished);
@@ -250,8 +250,9 @@ public partial class ChronoJumpWindow
 		List<int> finishedNow_l = beepTestRunners.FinishAllRunners ();
 		foreach (int i in finishedNow_l)
 		{
-			beepTestFinishInsertPerson (i, slStatus, beepTestCM.ExerciseID);
-			beepTestPrintResults (beepTestRunners.GetName (i), slStatus, beepTestCM.HasVo2max);
+			string personName = beepTestRunners.GetName (i);
+			beepTestFinishInsertPerson (i, personName, slStatus, beepTestCM.ExerciseID);
+			beepTestPrintResults (personName, slStatus, beepTestCM.HasVo2max);
 
 			myTreeViewPersons.UpdateStatus (i, RunnerStatus.StatusEnum.Finished);
 		}
@@ -259,12 +260,13 @@ public partial class ChronoJumpWindow
 		beepTestCM.Finish ();
 	}
 
-	private void beepTestFinishInsertPerson (int personID, BeepTestStageManage.StageLapStatus slStatus, int exerciseID)
+	private void beepTestFinishInsertPerson (int personID, string personName, BeepTestStageManage.StageLapStatus slStatus, int exerciseID)
 	{
                 BeepTest bt = new BeepTest (-1, personID, currentSession.UniqueID, exerciseID,
                                 "",  slStatus.stage, slStatus.lap, 0, slStatus.speedKmh,
                                 UtilDate.ToFile (DateTime.Now), "", "");
                 bt.InsertSQL (false);
+		treeViewResultsSession.Add (personName, bt, "");
 	}
 
 	private void beepTestDo ()

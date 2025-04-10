@@ -95,6 +95,7 @@ public class TreeViewBeepTest : TreeViewEvent
 		myData[count++] = "Default";
 		myData[count++] = beepTest.Stages.ToString ();
 		myData[count++] = beepTest.Laps.ToString ();
+		myData[count++] = UtilDate.GetDatetimePrint (UtilDate.FromFile (beepTest.DateTime));
 		myData[count++] = beepTest.UniqueID.ToString ();
 
 		return myData;

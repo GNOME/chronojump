@@ -2100,6 +2100,14 @@ public partial class ChronoJumpWindow
 				fillTreeView_runs_interval(Constants.AllRunsNameStr(), dbconOpened);
 			else if (combo_select_runs_interval != null)
 				fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_select_runs_interval), dbconOpened);
+		} else if (current_mode == Constants.Modes.BEEPTEST)
+		{
+			//		if(radio_contacts_graph_allTests.Active)
+			fillTreeView_beepTest ("", dbconOpened);
+			/*
+			   else if (combo_select_runs != null)
+			   fillTreeView_runs(UtilGtk.ComboGetActive(combo_select_runs), dbconOpened);
+			   */
 		} else if (current_mode == Constants.Modes.WILIGHT)
 		{
 			//		if(radio_contacts_graph_allTests.Active)

@@ -1,3 +1,5 @@
+//TODO: static sutff like SelectSA could be returned as a List<System.Object> or List<Event>
+
 /*
  * This file is part of ChronoJump
  *
@@ -92,5 +94,10 @@ class SqliteBeepTest : SqliteTests
 			reader[10].ToString() + ":" + 	//beepTest.dateTime
 			reader[11].ToString() + ":" + 	//beepTest.description
 			reader[12].ToString();	 	//beepTest.videoURL
+	}
+
+	public static Wilight SelectData (int uniqueID, bool dbconOpened)
+	{
+		return new Wilight (selectTestData (uniqueID, dbconOpened, tableStatic, 12));
 	}
 }

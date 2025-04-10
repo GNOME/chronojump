@@ -407,6 +407,25 @@ public abstract class BeepTestCM
 		};
 	}
 
+	public static BeepTestCM Factory (string name, int leggerStartAt, bool leggerStart8kmh, int constantDistM, double constantSpeed, int constantTotalLaps)
+	{
+		if (name == Leger20Name)
+			return new BeepTestLeger20m (leggerStartAt, leggerStart8kmh);
+		else if (name == Leger15Name)
+			return new BeepTestLeger15m (leggerStartAt, leggerStart8kmh);
+		else if (name == YYIE1Name)
+			return new BeepTestYYIE1 ();
+		else if (name == YYIE2Name)
+			return new BeepTestYYIE2 ();
+		else if (name == YYIR1Name)
+			return new BeepTestYYIR1 ();
+		else if (name == YYIR2Name)
+			return new BeepTestYYIR2 ();
+		else //if (name == ConstantSpeedName)
+			return new BeepTestConstantSpeed (constantDistM, constantSpeed, constantTotalLaps);
+
+	}
+
 	public void Start ()
 	{
 		dateIni = DateTime.Now;

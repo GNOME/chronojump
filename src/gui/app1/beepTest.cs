@@ -118,24 +118,14 @@ public partial class ChronoJumpWindow
 		button_beepTest_finish_selected.Sensitive = true;
 		button_beepTest_finish_all.Sensitive = true;
 
-		string str = UtilGtk.ComboGetActive (combo_beepTest_type);
-		if (str == BeepTestCM.Leger20Name)
-			beepTestCM = new BeepTestLeger20m (Convert.ToInt32 (spin_beepTest_start_at.Value), check_beepTest_start8kmh.Active);
-		else if (str == BeepTestCM.Leger15Name)
-			beepTestCM = new BeepTestLeger15m (Convert.ToInt32 (spin_beepTest_start_at.Value), check_beepTest_start8kmh.Active);
-		else if (str == BeepTestCM.YYIE1Name)
-			beepTestCM = new BeepTestYYIE1 ();
-		else if (str == BeepTestCM.YYIE2Name)
-			beepTestCM = new BeepTestYYIE2 ();
-		else if (str == BeepTestCM.YYIR1Name)
-			beepTestCM = new BeepTestYYIR1 ();
-		else if (str == BeepTestCM.YYIR2Name)
-			beepTestCM = new BeepTestYYIR2 ();
-		else if (str == BeepTestCM.ConstantSpeedName)
-			beepTestCM = new BeepTestConstantSpeed (
-					Convert.ToInt32 (spin_beepTest_constant_distM.Value),
-					Convert.ToDouble (spin_beepTest_constant_speed.Value),
-					Convert.ToInt32 (spin_beepTest_constant_totalLaps.Value));
+		beepTestCM = BeepTestCM.Factory (
+				UtilGtk.ComboGetActive (combo_beepTest_type),
+				Convert.ToInt32 (spin_beepTest_start_at.Value),
+				check_beepTest_start8kmh.Active,
+				Convert.ToInt32 (spin_beepTest_constant_distM.Value),
+				Convert.ToDouble (spin_beepTest_constant_speed.Value),
+				Convert.ToInt32 (spin_beepTest_constant_totalLaps.Value)
+				);
 
 		if (beepTestCM.HasVo2max)
 		{

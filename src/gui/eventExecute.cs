@@ -53,6 +53,7 @@ public partial class ChronoJumpWindow
 	Gtk.SpinButton spin_contacts_graph_last_limit;
 	Gtk.VBox vbox_contacts_simple_graph_controls;
 	Gtk.Box box_contacts_graph_exercise;
+	Gtk.Box box_contacts_graph_show_graph_table;
 	Gtk.RadioButton radio_contacts_graph_currentTest;
 	Gtk.RadioButton radio_contacts_graph_allTests;
 	//Gtk.RadioButton radio_contacts_results_personCurrent;
@@ -1017,6 +1018,7 @@ public partial class ChronoJumpWindow
 
 		spin_contacts_graph_last_limit = (Gtk.SpinButton) builder.GetObject ("spin_contacts_graph_last_limit");
 		box_contacts_graph_exercise = (Gtk.Box) builder.GetObject ("box_contacts_graph_exercise");
+		box_contacts_graph_show_graph_table = (Gtk.Box) builder.GetObject ("box_contacts_graph_show_graph_table");
 		vbox_contacts_simple_graph_controls = (Gtk.VBox) builder.GetObject ("vbox_contacts_simple_graph_controls");
 		radio_contacts_graph_currentTest = (Gtk.RadioButton) builder.GetObject ("radio_contacts_graph_currentTest");
 		radio_contacts_graph_allTests = (Gtk.RadioButton) builder.GetObject ("radio_contacts_graph_allTests");

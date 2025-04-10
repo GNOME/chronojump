@@ -3737,8 +3737,13 @@ public partial class ChronoJumpWindow
 			box_contacts_capture_top.Visible = false;
 
 			beepTestApp1Init ();
+
+			box_contacts_graph_show_graph_table.Visible = false; //do not show the graph/table selector
+			vbox_contacts_capture_graph.Visible = false; //do not show results_session graph
+			notebook_results.Visible = true;
 		} else {
 			box_beepTest.Visible = false;
+			box_contacts_graph_show_graph_table.Visible = true;
 		}
 
 		if (m == Constants.Modes.WILIGHT)

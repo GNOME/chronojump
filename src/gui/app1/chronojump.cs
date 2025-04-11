@@ -6701,7 +6701,7 @@ public partial class ChronoJumpWindow
 			run_encoder_delete_current_test_pre_question();
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			force_sensor_delete_current_test_pre_question();
-		else if (current_mode == Constants.Modes.WILIGHT || current_mode == Constants.Modes.OTHER)
+		else if (current_mode == Constants.Modes.BEEPTEST || current_mode == Constants.Modes.WILIGHT || current_mode == Constants.Modes.OTHER)
 			on_delete_selected_test_clicked (o, args);
 	}
 

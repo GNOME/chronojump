@@ -5005,7 +5005,7 @@ LogB.SQL("5" + tableName);
 			Sqlite.Close();
 	}
 
-	public static void Delete(bool dbconOpened, string tableName, int uniqueID)
+	public static void Delete (bool dbconOpened, string tableName, int uniqueID)
 	{
 		if( ! dbconOpened)
 			Sqlite.Open();

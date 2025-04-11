@@ -1137,8 +1137,8 @@ public class Constants
 			return RunIntervalTable;
 		else if (mode == Modes.RUNSENCODER)
 			return RunEncoderTable;
-		//else if (mode == Modes.BEEPTEST)
-		//	return
+		else if (mode == Modes.BEEPTEST)
+			return BeepTestTable;
 		else if (mode == Modes.WILIGHT)
 			return WilightTable;
 		else if (mode == Modes.POWERGRAVITATORY || mode == Modes.POWERINERTIAL)

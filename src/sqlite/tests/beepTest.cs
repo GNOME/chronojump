@@ -105,8 +105,8 @@ class SqliteBeepTest : SqliteTests
 			reader[12].ToString();	 	//beepTest.videoURL
 	}
 
-	public static Wilight SelectData (int uniqueID, bool dbconOpened)
+	public static BeepTest SelectData (int uniqueID, bool dbconOpened)
 	{
-		return new Wilight (selectTestData (uniqueID, dbconOpened, tableStatic, 12));
+		return new BeepTest (selectTestData (uniqueID, dbconOpened, tableStatic, 12));
 	}
 }

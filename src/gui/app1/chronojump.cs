@@ -473,6 +473,7 @@ public partial class ChronoJumpWindow
 	EditJumpWindow editJumpWin;
 	EditJumpRjWindow editJumpRjWin;
 	RepairJumpRjWindow repairJumpRjWin;
+	EditBeepTestWindow editBeepTestWin;
 	JumpTypeAddWindow jumpTypeAddWin;
 	EditWilightWindow editWilightWin;
 	EditFourPlatformsWindow editFourPlatformsWin;
@@ -6436,6 +6437,8 @@ public partial class ChronoJumpWindow
 			on_edit_selected_run_clicked (o, args);
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			on_edit_selected_run_interval_clicked (o, args);
+		else if (current_mode == Constants.Modes.BEEPTEST)
+			on_edit_selected_beepTest_clicked (o, args);
 		else if (current_mode == Constants.Modes.WILIGHT)
 			on_edit_selected_wilight_clicked (o, args);
 		else if (current_mode == Constants.Modes.OTHER)
@@ -6610,6 +6613,38 @@ public partial class ChronoJumpWindow
 
 		if(createdStatsWin)
 			stats_win_fillTreeView_stats(false, false);
+	}
+
+	private void on_edit_selected_beepTest_clicked (object o, EventArgs args)
+	{
+		//notebooks_change(2); see "notebooks_change sqlite problem"
+		LogB.Information("Edit selected beepTest");
+		//1.- check that there's a line selected
+		//2.- check that this line is a beepTest and not a person (check also if it's not a individual RJ, the pass the parent RJ)
+		int selectedID = treeViewResultsSession.EventSelectedID;
+		if (selectedID <= 0)
+			return;
+
+		//3.- obtain the data of the selected beepTest
+		BeepTest beepTest = SqliteBeepTest.SelectData (selectedID, false );
+		eventOldPerson = beepTest.PersonID;
+
+		//4.- edit this test
+		editBeepTestWin = EditBeepTestWindow.Show (app1, beepTest);
+		editBeepTestWin.Button_accept.Clicked += new EventHandler (on_edit_selected_beepTest_accepted);
+	}
+	private void on_edit_selected_beepTest_accepted (object o, EventArgs args)
+	{
+		LogB.Information("edit selected beepTest accepted");
+		BeepTest beepTest = SqliteBeepTest.SelectData (treeViewResultsSession.EventSelectedID, false);
+
+		//if person changed, fill treeview again, if not, only update it's line
+		if (eventOldPerson == beepTest.PersonID)
+			treeViewResultsSession.Update (beepTest);
+		else
+			pre_fillTreeView_resultsSession (false);
+
+		//updateGraphBeepTestBars ();
 	}
 
 	private void on_edit_selected_wilight_clicked (object o, EventArgs args)

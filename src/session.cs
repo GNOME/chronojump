@@ -303,6 +303,7 @@ public class SessionTestsCount
 	public int RunsSimple;
 	public int RunsInterval;
 	public int RunsEncoder;
+	public int BeepTest;
 	public int Wilight;
 	public int FourPlatforms;
 	public int Isometric;

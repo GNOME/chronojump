@@ -843,6 +843,12 @@ class SqliteSession : Sqlite
 
 		testsProgress = 14;
 
+		//select beepTest of each session
+		ArrayList myArray_bt = new ArrayList(2);
+
+		if(tableExists(true, Constants.BeepTestTable))
+			myArray_bt = SelectAllSessionsTestsSpecific (Constants.BeepTestTable, wherePersonStr);
+
 		//select wilight of each session
 		ArrayList myArray_wi = new ArrayList(2);
 
@@ -878,6 +884,7 @@ class SqliteSession : Sqlite
 			stc.RunsSimple = getTestsInTable (myArray_runs, sID);
 			stc.RunsInterval = getTestsInTable (myArray_runs_interval, sID);
 			stc.RunsEncoder = getTestsInTable (myArray_re, sID);
+			stc.BeepTest = getTestsInTable (myArray_bt, sID);
 			stc.Wilight = getTestsInTable (myArray_wi, sID);
 			stc.FourPlatforms = getTestsInTable (myArray_4p, sID);
 			stc.Isometric = getTestsInTable (myArray_fs_isometric, sID);

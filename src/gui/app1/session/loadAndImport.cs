@@ -146,7 +146,8 @@ public partial class ChronoJumpWindow
 				current_mode == Constants.Modes.JUMPSREACTIVE);
 		app1s_checkbutton_show_data_runs.Active = (current_mode == Constants.Modes.RUNSSIMPLE ||
 				current_mode == Constants.Modes.RUNSINTERVALLIC ||
-				current_mode == Constants.Modes.RUNSENCODER);
+				current_mode == Constants.Modes.RUNSENCODER ||
+				current_mode == Constants.Modes.BEEPTEST);
 		app1s_checkbutton_show_data_reaction_time.Active =
 			current_mode == Constants.Modes.WILIGHT && configChronojump.Wilight;
 		app1s_checkbutton_show_data_fourPlatforms.Active =
@@ -202,7 +203,7 @@ public partial class ChronoJumpWindow
 		if(showJumps)
 			columns += 2;
 		if(showRuns)
-			columns += 3; //includes race analyzer
+			columns += 4; // run, runI, race analyzer, beepTests
 		if(showReactionTime)
 			columns ++;
 		if(showFourPlatforms)
@@ -308,6 +309,7 @@ public partial class ChronoJumpWindow
 			tv.AppendColumn (Catalog.GetString ("Races simple"), new CellRendererText(), "text", count++);
 			tv.AppendColumn (Catalog.GetString ("Races interval"), new CellRendererText(), "text", count++);
 			tv.AppendColumn (Catalog.GetString ("Race analyzer"), new CellRendererText(), "text", count++);
+			tv.AppendColumn (Catalog.GetString ("Multi-stage tests"), new CellRendererText(), "text", count++);
 		}
 		if (showReactionTime)
 			tv.AppendColumn (Catalog.GetString ("Reaction time"), new CellRendererText(), "text", count++);
@@ -610,7 +612,7 @@ public partial class ChronoJumpWindow
 		if(showJumps)
 			columns += 2;
 		if(showRuns)
-			columns += 3; //includes race analyzer
+			columns += 4; // run, runI, race analyzer, beepTests
 		if(showReactionTime)
 			columns ++;
 		if(showFourPlatforms)
@@ -705,6 +707,7 @@ public partial class ChronoJumpWindow
 				strings[i ++] = stc.RunsSimple.ToString ();
 				strings[i ++] = stc.RunsInterval.ToString ();
 				strings[i ++] = stc.RunsEncoder.ToString ();
+				strings[i ++] = stc.BeepTest.ToString ();
 			}
 			if(showReactionTime)
 				strings[i ++] = stc.Wilight.ToString ();
@@ -785,7 +788,7 @@ public partial class ChronoJumpWindow
 
 		if (showJumps && stc.JumpsSimple == 0 && stc.JumpsReactive == 0)
 			return true;
-		else if (showRuns && stc.RunsSimple == 0 && stc.RunsInterval == 0 && stc.RunsEncoder == 0)
+		else if (showRuns && stc.RunsSimple == 0 && stc.RunsInterval == 0 && stc.RunsEncoder == 0 && stc.BeepTest == 0)
 			return true;
 		else if (showReactionTime && stc.Wilight == 0)
 			return true;

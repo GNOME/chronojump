@@ -663,6 +663,11 @@ public abstract class BeepTestCM
 	{
 		get { return (hasVo2max); }
 	}
+
+	public virtual string GetOptions
+	{
+		get { return ""; }
+	}
 }
 
 public class BeepTestLeger20m : BeepTestCM
@@ -717,6 +722,16 @@ public class BeepTestLeger20m : BeepTestCM
 
 		return stageSpeedKm_l[stageLast] * 6.55 - 35.8;
 	}
+
+	public override string GetOptions
+	{
+		get {
+			if (startFirstAt8Kmh)
+				return "Speed1stStage=8";
+			else
+				return "";
+		}
+	}
 }
 
 public class BeepTestLeger15m : BeepTestCM
@@ -758,6 +773,16 @@ public class BeepTestLeger15m : BeepTestCM
 					9, 10, 11, 11, 12, 12, 13, 13, 14, 14,
 					15, 16, 16, 17, 17, 18, 18, 19, 19, 20, 21
 					} );
+		}
+	}
+
+	public override string GetOptions
+	{
+		get {
+			if (startFirstAt8Kmh)
+				return "Speed1stStage=8";
+			else
+				return "";
 		}
 	}
 }

@@ -33,8 +33,7 @@ public partial class ChronoJumpWindow
 	Gtk.VBox vbox_menu_tiny_menu; //really the menu (without the logos at the bottom)
 	//Gtk.EventBox eventbox_button_menu_database;
 	Gtk.EventBox eventbox_check_menu_session1;
-	Gtk.EventBox eventbox_button_menu_preferences1;
-	Gtk.EventBox eventbox_button_menu_help1;
+	Gtk.EventBox eventbox_button_menu_prefs_util_help1;
 	Gtk.EventBox eventbox_button_menu_news1;
 	Gtk.EventBox eventbox_button_menu_exit1;
 	Gtk.EventBox eventbox_button_contacts_person_change;
@@ -43,7 +42,6 @@ public partial class ChronoJumpWindow
 	Gtk.EventBox eventbox_button_networks_encoder_guest;
 	Gtk.CheckButton check_menu_database1;
 	Gtk.CheckButton check_menu_session1;
-	Gtk.Button button_menu_preferences1;
 	Gtk.Button button_menu_news1;
 
 	Gtk.Box app1s_box_copyToCloud1;
@@ -52,8 +50,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_cloud_copy1;
 	Gtk.Image image_cloud_view1;
 	Gtk.Image image_menu_folders1;
-	Gtk.Image image_menu_preferences1;
-	Gtk.Image image_menu_help1;
+	Gtk.Image image_menu_prefs_util_help1;
 	Gtk.Image image_menu_news1;
 	Gtk.Image image_menu_quit1;
 	Gtk.Button button_menu_guiTest1;
@@ -155,9 +152,7 @@ public partial class ChronoJumpWindow
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session1,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_preferences1,
-				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help1,
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_prefs_util_help1,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_news1,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
@@ -189,8 +184,7 @@ public partial class ChronoJumpWindow
 		vbox_menu_tiny_menu = (Gtk.VBox) builder.GetObject ("vbox_menu_tiny_menu"); //really the menu (without the logos at the bottom)
 		//eventbox_button_menu_database = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_database");
 		eventbox_check_menu_session1 = (Gtk.EventBox) builder.GetObject ("eventbox_check_menu_session1");
-		eventbox_button_menu_preferences1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_preferences1");
-		eventbox_button_menu_help1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_help1");
+		eventbox_button_menu_prefs_util_help1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_prefs_util_help1");
 		eventbox_button_menu_news1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_news1");
 		eventbox_button_menu_exit1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_exit1");
 		eventbox_button_contacts_person_change = (Gtk.EventBox) builder.GetObject ("eventbox_button_contacts_person_change");
@@ -199,7 +193,6 @@ public partial class ChronoJumpWindow
 		eventbox_button_networks_encoder_guest = (Gtk.EventBox) builder.GetObject ("eventbox_button_networks_encoder_guest");
 		check_menu_database1 = (Gtk.CheckButton) builder.GetObject ("check_menu_database1");
 		check_menu_session1 = (Gtk.CheckButton) builder.GetObject ("check_menu_session1");
-		button_menu_preferences1 = (Gtk.Button) builder.GetObject ("button_menu_preferences1");
 		button_menu_news1 = (Gtk.Button) builder.GetObject ("button_menu_news1");
 
 		app1s_box_copyToCloud1 = (Gtk.Box) builder.GetObject ("app1s_box_copyToCloud1");
@@ -208,8 +201,7 @@ public partial class ChronoJumpWindow
 		image_cloud_copy1 = (Gtk.Image) builder.GetObject ("image_cloud_copy1");
 		image_cloud_view1 = (Gtk.Image) builder.GetObject ("image_cloud_view1");
 		image_menu_folders1 = (Gtk.Image) builder.GetObject ("image_menu_folders1");
-		image_menu_preferences1 = (Gtk.Image) builder.GetObject ("image_menu_preferences1");
-		image_menu_help1 = (Gtk.Image) builder.GetObject ("image_menu_help1");
+		image_menu_prefs_util_help1 = (Gtk.Image) builder.GetObject ("image_menu_prefs_util_help1");
 		image_menu_news1 = (Gtk.Image) builder.GetObject ("image_menu_news1");
 		image_menu_quit1 = (Gtk.Image) builder.GetObject ("image_menu_quit1");
 		button_menu_guiTest1 = (Gtk.Button) builder.GetObject ("button_menu_guiTest1");

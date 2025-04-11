@@ -119,8 +119,8 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_mode_runs_intervallic_small2;
 	Gtk.Image image_mode_race_encoder_small1;
 
-	Gtk.Image image_help_blue;
-	Gtk.Image image_help_yellow;
+	Gtk.Image image_prefs_util_help_blue;
+	Gtk.Image image_prefs_util_help_yellow;
 	Gtk.Image image_button_help_close;
 
 	Gtk.Image image_contacts_edit_selected;
@@ -301,7 +301,6 @@ public partial class ChronoJumpWindow
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_settings.png");//[By Joeries]
 		image_menu_preferences.Pixbuf = pixbuf;
-		image_menu_preferences1.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_settings_down.png");
 		image_contacts_exercise_settings.Pixbuf = pixbuf;
@@ -361,13 +360,13 @@ public partial class ChronoJumpWindow
 		//pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_more_horiz.png");
 		//image_session_more.Pixbuf = pixbuf;
 
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_help_blue.png");
-		image_menu_help.Pixbuf = pixbuf;
-		image_menu_help1.Pixbuf = pixbuf;
-		image_help_blue.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_menu_blue.png");
+		image_menu_prefs_util_help.Pixbuf = pixbuf;
+		image_menu_prefs_util_help1.Pixbuf = pixbuf;
+		image_prefs_util_help_blue.Pixbuf = pixbuf;
 		image_jumps_profile_sjl_help.Pixbuf = pixbuf;
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_help_yellow.png");
-		image_help_yellow.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_menu_yellow.png");
+		image_prefs_util_help_yellow.Pixbuf = pixbuf;
 
 		image_button_radio_encoder_exercise_help.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_book.png");
@@ -520,6 +519,7 @@ public partial class ChronoJumpWindow
 		image_remote_person_refresh.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_build_24.png");
+		image_menu_utilities.Pixbuf = pixbuf;
 		image_contacts_repair_selected.Pixbuf = pixbuf;
 		//image_jump_reactive_repair.Pixbuf = pixbuf;
 		//image_run_interval_repair.Pixbuf = pixbuf;
@@ -1186,8 +1186,8 @@ public partial class ChronoJumpWindow
 		image_mode_runs_intervallic_small2 = (Gtk.Image) builder.GetObject ("image_mode_runs_intervallic_small2");
 		image_mode_race_encoder_small1 = (Gtk.Image) builder.GetObject ("image_mode_race_encoder_small1");
 
-		image_help_blue = (Gtk.Image) builder.GetObject ("image_help_blue");
-		image_help_yellow = (Gtk.Image) builder.GetObject ("image_help_yellow");
+		image_prefs_util_help_blue = (Gtk.Image) builder.GetObject ("image_prefs_util_help_blue");
+		image_prefs_util_help_yellow = (Gtk.Image) builder.GetObject ("image_prefs_util_help_yellow");
 		image_button_help_close = (Gtk.Image) builder.GetObject ("image_button_help_close");
 
 		image_contacts_edit_selected = (Gtk.Image) builder.GetObject ("image_contacts_edit_selected");

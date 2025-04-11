@@ -816,7 +816,7 @@ public partial class ChronoJumpWindow
 		check_contacts_networks_upload.Visible = ! guest;
 
 		//radio_mode_contacts_analyze_small.Visible = ! guest;
-		button_menu_preferences1.Visible = ! guest;
+		button_menu_preferences.Visible = ! guest;
 		button_contacts_capture_load.Visible = ! guest;
 		button_contacts_capture_session_overview.Visible = ! guest;
 		button_contacts_delete_selected.Visible = ! guest;
@@ -832,7 +832,7 @@ public partial class ChronoJumpWindow
 		check_encoder_networks_upload.Visible = ! guest;
 
 		radio_mode_encoder_analyze_small.Visible = ! guest;
-		button_menu_preferences1.Visible = ! guest;
+		button_menu_preferences.Visible = ! guest;
 		button_encoder_load_signal.Visible = ! guest;
 		button_encoder_capture_session_overview.Visible = ! guest;
 		button_encoder_delete_signal.Visible = ! guest;

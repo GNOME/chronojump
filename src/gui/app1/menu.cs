@@ -39,8 +39,7 @@ public partial class ChronoJumpWindow
 	Gtk.CheckButton check_menu_database;
 	Gtk.Box box_database_manage_read;
 	Gtk.EventBox eventbox_check_menu_session;
-	Gtk.EventBox eventbox_button_menu_preferences;
-	Gtk.EventBox eventbox_button_menu_help;
+	Gtk.EventBox eventbox_button_menu_prefs_util_help;
 	Gtk.EventBox eventbox_button_menu_news;
 	Gtk.EventBox eventbox_button_menu_exit;
 	Gtk.VBox vbox_person;
@@ -78,13 +77,13 @@ public partial class ChronoJumpWindow
 
 	Gtk.CheckButton check_menu_session;
 	Gtk.CheckButton check_manage_persons;
-	//Gtk.Button button_menu_help;
 	Gtk.Button button_menu_news;
 	//Gtk.Alignment alignment_menu_person_options;
 
 	Gtk.Button button_session_new;
 	Gtk.Button button_session_load;
 	Gtk.Button button_menu_exit;
+	Gtk.Button button_menu_preferences;
 	/*
 	Gtk.Button button_menu_help_documents;
 	Gtk.Button button_menu_help_shortcuts;
@@ -103,8 +102,9 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_menu_folders2;
 	Gtk.Image image_session_edit2;
 	Gtk.Image image_menu_preferences;
+	Gtk.Image image_menu_utilities;
 	Gtk.Image image_persons_manage;
-	Gtk.Image image_menu_help;
+	Gtk.Image image_menu_prefs_util_help;
 	Gtk.Image image_menu_help_documents;
 	Gtk.Image image_menu_help_shortcuts;
 	Gtk.Image image_menu_help_about;
@@ -171,7 +171,7 @@ public partial class ChronoJumpWindow
 
 		//menus
 		l.Add(check_menu_session.SizeRequest().Width);
-		l.Add(button_menu_help.SizeRequest().Width);
+		l.Add(button_menu_prefs_util_help.SizeRequest().Width);
 		l.Add(button_menu_news.SizeRequest().Width);
 		l.Add(button_menu_exit.SizeRequest().Width);
 		l.Add(button_menu_preferences.SizeRequest().Width);
@@ -242,8 +242,6 @@ public partial class ChronoJumpWindow
 
 		/*
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session,
-				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_preferences,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help,
 				UtilGtk.Colors.YELLOW, UtilGtk.Colors.YELLOW_LIGHT);
@@ -364,11 +362,11 @@ public partial class ChronoJumpWindow
 		return false;
 	}
 
-	private void on_button_menu_help_clicked (object o, EventArgs args)
+	private void on_button_menu_prefs_util_help_clicked (object o, EventArgs args)
 	{
 		menus_and_mode_sensitive(false);
 		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
-		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.HELP);
+		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.PREFSUTILHELP);
 	}
 	private void on_button_help_close_clicked (object o, EventArgs args)
 	{
@@ -466,8 +464,7 @@ public partial class ChronoJumpWindow
 		check_menu_database = (Gtk.CheckButton) builder.GetObject ("check_menu_database");
 		box_database_manage_read = (Gtk.Box) builder.GetObject ("box_database_manage_read");
 		eventbox_check_menu_session = (Gtk.EventBox) builder.GetObject ("eventbox_check_menu_session");
-		eventbox_button_menu_preferences = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_preferences");
-		eventbox_button_menu_help = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_help");
+		eventbox_button_menu_prefs_util_help = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_prefs_util_help");
 		eventbox_button_menu_news = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_news");
 		eventbox_button_menu_exit = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_exit");
 		vbox_person = (Gtk.VBox) builder.GetObject ("vbox_person");
@@ -505,13 +502,14 @@ public partial class ChronoJumpWindow
 
 		check_menu_session = (Gtk.CheckButton) builder.GetObject ("check_menu_session");
 		check_manage_persons = (Gtk.CheckButton) builder.GetObject ("check_manage_persons");
-		//button_menu_help = (Gtk.Button) builder.GetObject ("button_menu_help");
+		//button_menu_prefs_util_help = (Gtk.Button) builder.GetObject ("button_menu_prefs_util_help");
 		button_menu_news = (Gtk.Button) builder.GetObject ("button_menu_news");
 		//alignment_menu_person_options = (Gtk.Alignment) builder.GetObject ("alignment_menu_person_options");
 
 		button_session_new = (Gtk.Button) builder.GetObject ("button_session_new");
 		button_session_load = (Gtk.Button) builder.GetObject ("button_session_load");
 		button_menu_exit = (Gtk.Button) builder.GetObject ("button_menu_exit");
+		button_menu_preferences = (Gtk.Button) builder.GetObject ("button_menu_preferences");
 		/*
 		button_menu_help_documents = (Gtk.Button) builder.GetObject ("button_menu_help_documents");
 		button_menu_help_shortcuts = (Gtk.Button) builder.GetObject ("button_menu_help_shortcuts");
@@ -530,8 +528,9 @@ public partial class ChronoJumpWindow
 		image_menu_folders2 = (Gtk.Image) builder.GetObject ("image_menu_folders2");
 		image_session_edit2 = (Gtk.Image) builder.GetObject ("image_session_edit2");
 		image_menu_preferences = (Gtk.Image) builder.GetObject ("image_menu_preferences");
+		image_menu_utilities = (Gtk.Image) builder.GetObject ("image_menu_utilities");
 		image_persons_manage = (Gtk.Image) builder.GetObject ("image_persons_manage");
-		image_menu_help = (Gtk.Image) builder.GetObject ("image_menu_help");
+		image_menu_prefs_util_help = (Gtk.Image) builder.GetObject ("image_menu_prefs_util_help");
 		image_menu_help_documents = (Gtk.Image) builder.GetObject ("image_menu_help_documents");
 		image_menu_help_shortcuts = (Gtk.Image) builder.GetObject ("image_menu_help_shortcuts");
 		image_menu_help_about = (Gtk.Image) builder.GetObject ("image_menu_help_about");

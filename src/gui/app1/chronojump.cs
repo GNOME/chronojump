@@ -380,7 +380,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_forcesensor_analyze_save_rfd_auto;
 	Gtk.Image image_forcesensor_analyze_save_rfd_manual;
 
-	Gtk.Box vbox_help;
+	Gtk.Box vbox_prefs_util_help;
 
 	Gtk.RadioButton radio_menu_2_2_2_jumps;
 	Gtk.RadioButton radio_menu_2_2_2_races;
@@ -503,7 +503,7 @@ public partial class ChronoJumpWindow
 	private string progVersion;
 	private string progName;
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM, SOCIALNETWORKPOLL, FULLSCREENCAPTURE }
-	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS, MICRODISCOVER, PERSON, DATABASE }
+	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, PREFSUTILHELP, NEWS, MICRODISCOVER, PERSON, DATABASE }
 	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR }
 	private enum notebook_execute_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER }
 	private enum notebook_options_top_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER }
@@ -1105,7 +1105,7 @@ public partial class ChronoJumpWindow
 		if(! Config.UseSystemColor)
 		{
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundIsDark, app1s_notebook);
-			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, vbox_help);
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, vbox_prefs_util_help);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, vbox_micro_discover);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, vbox_person);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, box_database);
@@ -1251,7 +1251,7 @@ public partial class ChronoJumpWindow
 			image_session_import1_blue.Visible = false;
 			image_person_manage_blue.Visible = false;
 			image_news_blue.Visible = false;
-			image_help_blue.Visible = false;
+			image_prefs_util_help_blue.Visible = false;
 
 			image_database_manage_yellow.Visible = true;
 			image_session_new_yellow.Visible = true;
@@ -1260,7 +1260,7 @@ public partial class ChronoJumpWindow
 			image_session_import1_yellow.Visible = true;
 			image_person_manage_yellow.Visible = true;
 			image_news_yellow.Visible = true;
-			image_help_yellow.Visible = true;
+			image_prefs_util_help_yellow.Visible = true;
 		} else {
 			image_database_manage_blue.Visible = true;
 			image_session_new_blue.Visible = true;
@@ -1269,7 +1269,7 @@ public partial class ChronoJumpWindow
 			image_session_import1_blue.Visible = true;
 			image_person_manage_blue.Visible = true;
 			image_news_blue.Visible = true;
-			image_help_blue.Visible = true;
+			image_prefs_util_help_blue.Visible = true;
 
 			image_database_manage_yellow.Visible = false;
 			image_session_new_yellow.Visible = false;
@@ -1278,7 +1278,7 @@ public partial class ChronoJumpWindow
 			image_session_import1_yellow.Visible = false;
 			image_person_manage_yellow.Visible = false;
 			image_news_yellow.Visible = false;
-			image_help_yellow.Visible = false;
+			image_prefs_util_help_yellow.Visible = false;
 		}
 		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_news_frame);
 	}
@@ -9199,7 +9199,7 @@ public partial class ChronoJumpWindow
 		image_forcesensor_analyze_save_rfd_auto = (Gtk.Image) builder.GetObject ("image_forcesensor_analyze_save_rfd_auto");
 		image_forcesensor_analyze_save_rfd_manual = (Gtk.Image) builder.GetObject ("image_forcesensor_analyze_save_rfd_manual");
 
-		vbox_help = (Gtk.Box) builder.GetObject ("vbox_help");
+		vbox_prefs_util_help = (Gtk.Box) builder.GetObject ("vbox_prefs_util_help");
 
 		radio_menu_2_2_2_jumps = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_jumps");
 		radio_menu_2_2_2_races = (Gtk.RadioButton) builder.GetObject ("radio_menu_2_2_2_races");

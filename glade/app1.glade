@@ -1131,18 +1131,18 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkButton" id="button_menu_preferences1">
+                                      <object class="GtkButton" id="button_menu_prefs_util_help1">
                                         <property name="visible">True</property>
                                         <property name="can-focus">True</property>
                                         <property name="receives-default">True</property>
-                                        <property name="tooltip-text" translatable="yes">Preferences</property>
-                                        <signal name="clicked" handler="on_preferences_activate" swapped="no"/>
+                                        <property name="tooltip-text" translatable="yes">Options</property>
+                                        <signal name="clicked" handler="on_button_menu_prefs_util_help_clicked" swapped="no"/>
                                         <child>
-                                          <object class="GtkEventBox" id="eventbox_button_menu_preferences1">
+                                          <object class="GtkEventBox" id="eventbox_button_menu_prefs_util_help1">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
                                             <child>
-                                              <object class="GtkImage" id="image_menu_preferences1">
+                                              <object class="GtkImage" id="image_menu_prefs_util_help1">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
                                                 <property name="stock">gtk-missing-image</property>
@@ -1155,33 +1155,6 @@
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
                                         <property name="position">2</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkButton" id="button_menu_help1">
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">True</property>
-                                        <property name="receives-default">True</property>
-                                        <property name="tooltip-text" translatable="yes">Help</property>
-                                        <signal name="clicked" handler="on_button_menu_help_clicked" swapped="no"/>
-                                        <child>
-                                          <object class="GtkEventBox" id="eventbox_button_menu_help1">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">False</property>
-                                            <child>
-                                              <object class="GtkImage" id="image_menu_help1">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="stock">gtk-missing-image</property>
-                                              </object>
-                                            </child>
-                                          </object>
-                                        </child>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">3</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1302,7 +1275,7 @@
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">7</property>
+                                        <property name="position">6</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1315,7 +1288,7 @@
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">8</property>
+                                        <property name="position">7</property>
                                       </packing>
                                     </child>
                                   </object>
@@ -3101,18 +3074,18 @@
                                                 <property name="can-focus">False</property>
                                                 <property name="spacing">6</property>
                                                 <child>
-                                                  <object class="GtkButton" id="button_menu_preferences">
+                                                  <object class="GtkButton" id="button_menu_prefs_util_help">
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">True</property>
                                                     <property name="receives-default">True</property>
-                                                    <property name="tooltip-text" translatable="yes">Preferences</property>
-                                                    <signal name="clicked" handler="on_preferences_activate" swapped="no"/>
+                                                    <property name="tooltip-text" translatable="yes">Options</property>
+                                                    <signal name="clicked" handler="on_button_menu_prefs_util_help_clicked" swapped="no"/>
                                                     <child>
-                                                      <object class="GtkEventBox" id="eventbox_button_menu_preferences">
+                                                      <object class="GtkEventBox" id="eventbox_button_menu_prefs_util_help">
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">False</property>
                                                         <child>
-                                                          <object class="GtkImage" id="image_menu_preferences">
+                                                          <object class="GtkImage" id="image_menu_prefs_util_help">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
@@ -3125,32 +3098,6 @@
                                                     <property name="expand">True</property>
                                                     <property name="fill">False</property>
                                                     <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkButton" id="button_menu_help">
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">True</property>
-                                                    <property name="receives-default">True</property>
-                                                    <signal name="clicked" handler="on_button_menu_help_clicked" swapped="no"/>
-                                                    <child>
-                                                      <object class="GtkEventBox" id="eventbox_button_menu_help">
-                                                        <property name="visible">True</property>
-                                                        <property name="can-focus">False</property>
-                                                        <child>
-                                                          <object class="GtkImage" id="image_menu_help">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">1</property>
                                                   </packing>
                                                 </child>
                                                 <child>
@@ -22863,6 +22810,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -50866,7 +50816,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkBox" id="vbox_help">
+                                      <object class="GtkBox" id="vbox_prefs_util_help">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
                                         <property name="orientation">vertical</property>
@@ -50901,7 +50851,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <object class="GtkImage" id="image_help_blue">
+                                                            <object class="GtkImage" id="image_prefs_util_help_blue">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
@@ -50913,7 +50863,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkImage" id="image_help_yellow">
+                                                            <object class="GtkImage" id="image_prefs_util_help_yellow">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
@@ -50928,7 +50878,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Help</property>
+                                                            <property name="label" translatable="yes">Options</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -50961,6 +50911,94 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="border-width">20</property>
                                                             <property name="spacing">20</property>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_menu_preferences">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <signal name="clicked" handler="on_preferences_activate" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox21">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">10</property>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_menu_preferences">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_menu_preferences">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Preferences</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_menu_utilities">
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox60">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">10</property>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_menu_utilities">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_menu_utilities">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Utilities</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                             <child>
                                                             <object class="GtkButton" id="button_menu_help_documents">
                                                             <property name="visible">True</property>
@@ -51002,7 +51040,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">0</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -51046,7 +51084,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -51090,7 +51128,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                             </object>

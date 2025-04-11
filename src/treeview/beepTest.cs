@@ -43,8 +43,8 @@ public class TreeViewBeepTest : TreeViewEvent
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 5; //position of type in the data to be printed. Here is used as str
 		allEventsName = Constants.AllTestsNameStr();
-		eventIDColumn = 4; //column where the uniqueID of event will be (and will be hidden). //unused now
-		columnsString = new string[] { personName, "Final stage", "Final lap", datetimeName };
+		eventIDColumn = 5; //column where the uniqueID of event will be (and will be hidden). //unused now
+		columnsString = new string[] { personName, "Final stage", "Final lap", "Vo2 max", datetimeName };
 
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
@@ -96,6 +96,12 @@ public class TreeViewBeepTest : TreeViewEvent
 		myData[count++] = beepTest.ExerciseName;
 		myData[count++] = beepTest.GetAchievedStageName;
 		myData[count++] = (beepTest.Laps +1).ToString ();
+
+		string vo2MaxStr = "";
+		if (beepTest.GetVo2Max > 0)
+			vo2MaxStr = Util.TrimDecimals (beepTest.GetVo2Max, 4);
+		myData[count++] = vo2MaxStr;
+
 		myData[count++] = UtilDate.GetDatetimePrint (UtilDate.FromFile (beepTest.DateTime));
 		myData[count++] = beepTest.UniqueID.ToString ();
 

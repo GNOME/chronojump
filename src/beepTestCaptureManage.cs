@@ -617,6 +617,10 @@ public abstract class BeepTestCM
 	{
 		return -1;
 	}
+	public virtual double Vo2max (int stageLast, int lapLast)
+	{
+		return -1;
+	}
 
 	public string GetStageNameOfStage (int stage)
 	{
@@ -706,6 +710,13 @@ public class BeepTestLeger20m : BeepTestCM
 		return currentStageLapStatus.speedKmh * 6.55 - 35.8;
 	}
 
+	public override double Vo2max (int stageLast, int lapLast)
+	{
+		if (stageLast >= stageSpeedKm_l.Count)
+			return -1;
+
+		return stageSpeedKm_l[stageLast] * 6.55 - 35.8;
+	}
 }
 
 public class BeepTestLeger15m : BeepTestCM
@@ -1047,6 +1058,11 @@ public class BeepTestYYIR1 : BeepTestYYI
 		LogB.Information (string.Format ("Vo2max: {0}", btsm.GetTotalMetersByLapPairs (currentStageLapStatus.stage, currentStageLapStatus.lap) * 0.0084 + 36.4));
 		return btsm.GetTotalMetersByLapPairs (currentStageLapStatus.stage, currentStageLapStatus.lap) * 0.0084 + 36.4;
 	}
+
+	public override double Vo2max (int stageLast, int lapLast)
+	{
+		return btsm.GetTotalMetersByLapPairs (stageLast, lapLast) * 0.0084 + 36.4;
+	}
 }
 
 public class BeepTestYYIR2 : BeepTestYYI
@@ -1096,6 +1112,10 @@ public class BeepTestYYIR2 : BeepTestYYI
 	public override double Vo2max ()
 	{
 		return btsm.GetTotalMetersByLapPairs (currentStageLapStatus.stage, currentStageLapStatus.lap) * 0.0136 + 45.3;
+	}
+	public override double Vo2max (int stageLast, int lapLast)
+	{
+		return btsm.GetTotalMetersByLapPairs (stageLast, lapLast) * 0.0136 + 45.3;
 	}
 }
 

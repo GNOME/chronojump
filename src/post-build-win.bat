@@ -4,6 +4,7 @@ xcopy /s /e /y /d "..\win32\deps\" "%1" /exclude:post-build-exclude.txt
 REM xcopy /s /e /y /d "..\butterworth\Data\" "%1butterworth\Data\"          
 REM xcopy /s /e /y /d "..\butterworth\Sample\bin\%2\" "%1butterworth\"
 xcopy /s /e /y /d ".\angle\" "%1bin\angle\"   
+xcopy /s /e /y /d "..\arduino\binaries\" "%1share\chronojump\arduino_binaries\"   
 xcopy /s /e /y /d ".\chronojump-importer\" "%1bin\chronojump-importer\"    
 xcopy /s /e /y /d "..\encoder\" "%1share\chronojump\encoder\"
 xcopy /s /e /y /d "..\r-scripts\" "%1share\chronojump\r-scripts\"

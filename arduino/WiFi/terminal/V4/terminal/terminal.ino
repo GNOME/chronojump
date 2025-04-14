@@ -29,7 +29,7 @@
 //#include  <util/parity.h>
 
 unsigned int deviceType = 1; //Photocel and LightChro sensor
-unsigned int deviceVersion = 25;
+unsigned int deviceVersion = 26;
 
 // Set up nRF24L01 radio on SPI bus plus pins  (CE & CS)
 
@@ -189,8 +189,8 @@ bool unlimitedMode = true; // sensorOnce deactivate the unlimited mode
 
   // Pipes depending on the controlSwitch. This is useful to isolate controler+terminals in the same controler channel
   // from other controler+terminals in other channels.
-  // pipes[0] += controlSwitch;
-  // pipes[1] += controlSwitch;
+  pipes[0] += controlSwitch;
+  pipes[1] += controlSwitch;
   radio.openWritingPipe(pipes[1]);     // Terminal -> Controler Pipe
   radio.openReadingPipe(1, pipes[0]);  // Controler -> Terminal Pipe
 

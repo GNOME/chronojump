@@ -180,8 +180,8 @@ void setup(void)
 
   // Pipes depending on the controlSwitch. This is useful to isolate controler+terminals in the same controler channel
   // from other controler+terminals in other channels.
-  // pipes[0] += controlSwitch;
-  // pipes[1] += controlSwitch;
+  pipes[0] += controlSwitch;
+  pipes[1] += controlSwitch;
   radio.openWritingPipe(pipes[0]);     // Controler->Terminal Pipe
   radio.openReadingPipe(1, pipes[1]);  // Terminal->Controler Pipe
   

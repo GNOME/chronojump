@@ -13,3 +13,10 @@ By default the RCA is in INPUT mode
 V4.1
 ---------
 Multiple instructions can be sent in one line
+
+V[3-4].8
+---------
+Separated the version of hardware and firmware.
+Now it accepts the hardware V3.
+Version in format "Wifi-Controller-[HardwareVersion].[FirmwareVersion]
+The pipes are associated to the controlNumber in order to isolate multiple sets of controler-terminals

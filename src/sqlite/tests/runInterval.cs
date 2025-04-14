@@ -120,7 +120,9 @@ class SqliteRunInterval : SqliteRun
 
 		dbcmd.CommandText = selectResultsCreateSelection (
 				Constants.RunIntervalTable,
-				sessionID, personID, runType, order, limit, false
+				sessionID, personID, runType,
+				false, "",
+				order, limit, false
 				);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -197,7 +199,9 @@ class SqliteRunInterval : SqliteRun
 
 		dbcmd.CommandText = selectResultsCreateSelection (
 				Constants.RunIntervalTable,
-				sessionID, personID, runType, Orders_by.DEFAULT, 0, false
+				sessionID, personID, runType,
+				false, "",
+				Orders_by.DEFAULT, 0, false
 				);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

@@ -87,7 +87,6 @@ class SqliteBeepTest : SqliteTests
 				exerciseStr = (BeepTestCM.TypesArray ())[exerciseID];
 		}
 
-		// TODO: need to convert stages to stageName and add +1 to laps
 		return
 			reader[0].ToString() + ":" + 	//person.name
 			reader[1].ToString() + ":" +	//beepTest.uniqueID

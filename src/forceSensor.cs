@@ -103,6 +103,17 @@ public class ForceSensor
 		this.exerciseName = exerciseName;
 	}
 
+	// constructor on treeviewResults
+	public ForceSensor (string [] eventStr)
+	{
+		this.uniqueID = Convert.ToInt32 (eventStr[1]);
+		this.maxForceRaw = Convert.ToDouble (eventStr[15]);
+		this.maxAvgForce1s = Convert.ToDouble (eventStr[16]);
+		this.dateTime = eventStr[10];
+		this.exerciseName = eventStr[17];
+	}
+
+
 	public int InsertSQL(bool dbconOpened)
 	{
 		SqliteTests sqliteTests = new SqliteForceSensor ();
@@ -429,10 +440,12 @@ public class ForceSensor
 	}
 	public double MaxForceRaw
 	{
+		get { return maxForceRaw; }
 		set { maxForceRaw = value; }
 	}
 	public double MaxAvgForce1s
 	{
+		get { return maxAvgForce1s; }
 		set { maxAvgForce1s = value; }
 	}
 }

@@ -90,6 +90,7 @@ public partial class ChronoJumpWindow
 	Gtk.Notebook notebook_results_data;
 
 	Gtk.Box box_contacts_current;
+	Gtk.Box box_contacts_current_forceSensor;
 	Gtk.Alignment align_drawingarea_realtime_capture_cairo;
 	Gtk.DrawingArea drawingarea_results_realtime;
 	Gtk.DrawingArea drawingarea_results_session;
@@ -1055,6 +1056,7 @@ public partial class ChronoJumpWindow
 		notebook_results_data = (Gtk.Notebook) builder.GetObject ("notebook_results_data");
 
 		box_contacts_current = (Gtk.Box) builder.GetObject ("box_contacts_current");
+		box_contacts_current_forceSensor = (Gtk.Box) builder.GetObject ("box_contacts_current_forceSensor");
 		align_drawingarea_realtime_capture_cairo = (Gtk.Alignment) builder.GetObject ("align_drawingarea_realtime_capture_cairo");
 		drawingarea_results_realtime = (Gtk.DrawingArea) builder.GetObject ("drawingarea_results_realtime");
 		drawingarea_results_session = (Gtk.DrawingArea) builder.GetObject ("drawingarea_results_session");

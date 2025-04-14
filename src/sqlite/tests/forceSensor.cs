@@ -204,6 +204,30 @@ class SqliteForceSensor : SqliteTests
         return list;
     }
 
+    protected override string selectSAArray (SQLiteDataReader reader)
+    {
+	    return
+		    reader[0].ToString() + ":" + 	//person.name
+		    reader[1].ToString() + ":" +	//fs.uniqueID
+		    reader[2].ToString() + ":" + 	//fs.personID
+		    reader[3].ToString() + ":" + 	//fs.sessionID
+		    reader[4].ToString() + ":" + 	//fs.exerciseID
+		    reader[5].ToString() + ":" + 	//fs.captureOption
+		    reader[6].ToString() + ":" +  	//fs.angle
+		    reader[7].ToString() + ":" + 	//fs.laterality
+		    reader[8].ToString() + ":" + 	//fs.filename
+		    reader[9].ToString() + ":" + 	//fs.url
+		    reader[10].ToString() + ":" + 	//fs.datetime
+		    Util.CDSNoZero (reader[11].ToString()) + ":" + 	//fs.comments
+		    reader[12].ToString() + ":" + 	//fs.videoURL
+		    reader[13].ToString() + ":" + 	//fs.stiffness
+		    reader[14].ToString() + ":" + 	//fs.stiffnessString
+                    Util.CDSNoZero (reader[15].ToString()) + ":" + //maxForceRaw
+                    Util.CDSNoZero (reader[16].ToString()) + ":" + //maxAVgForce1s
+                    reader[17].ToString()           //exerciseName
+		    ;
+    }
+
     public static ArrayList SelectRowsOfAnExercise(bool dbconOpened, int exerciseID)
     {
         openIfNeeded(dbconOpened);

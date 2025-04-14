@@ -104,6 +104,7 @@ class SqliteFourPlatforms : SqliteTests
 		dbcmd.CommandText = selectResultsCreateSelection (
 				tableStatic,
 				sessionID, personID, "", //type,
+				false, "",
 				order, limit, false //onlyBestInSession
 				);
 		LogB.SQL(dbcmd.CommandText.ToString());

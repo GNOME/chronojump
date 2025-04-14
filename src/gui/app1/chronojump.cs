@@ -507,7 +507,7 @@ public partial class ChronoJumpWindow
 	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR }
 	private enum notebook_execute_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER }
 	private enum notebook_options_top_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER }
-	private enum notebook_results_pages { RESULTSSESSION, FORCESENSOR, RUNSENCODER }
+	private enum notebook_results_pages { RESULTSSESSION, RUNSENCODER }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE,
 		JUMPSASYMMETRY, JUMPSEVOLUTION, JUMPSRJFATIGUE,
 		RUNSEVOLUTION, SPRINT, CONTACTS_EXPORT_CSV, SIGNAL_AI, }
@@ -2110,6 +2110,12 @@ public partial class ChronoJumpWindow
 		} else if (current_mode == Constants.Modes.WILIGHT)
 		{
 			fillTreeView_wilight ("", dbconOpened);
+		} else if (Constants.ModeIsFORCESENSOR (current_mode))
+		{
+			if (radio_contacts_graph_allTests.Active)
+				fillTreeView_forceSensor (Constants.AllTestsNameStr (), dbconOpened);
+			else if (combo_force_sensor_exercise != null)
+				fillTreeView_forceSensor (UtilGtk.ComboGetActive(combo_force_sensor_exercise), dbconOpened);
 		} else if (current_mode == Constants.Modes.OTHER)
 		{
 			fillTreeView_fourPlatforms ("", dbconOpened);
@@ -3200,7 +3206,8 @@ public partial class ChronoJumpWindow
 		//show capture graph and/or table
 		if (! Constants.ModeIsENCODER (m))
 		{
-			if(Constants.ModeIsFORCESENSOR (m) || m == Constants.Modes.RUNSENCODER)
+			if (//Constants.ModeIsFORCESENSOR (m) ||
+					m == Constants.Modes.RUNSENCODER)
 			{
 				alignment_contacts_show_graph_table.Visible = false;
 				//force sensor & race analyzer do not show graph. graphs are on right notebook: notebook_results
@@ -3264,10 +3271,13 @@ public partial class ChronoJumpWindow
 
 		event_execute_label_message.Text = "";
 
+		// ---- box_contacts_current ---->
 		box_contacts_current.Visible = false;
 		align_drawingarea_realtime_capture_cairo.Visible = false;
 		box_beepTest.Visible = false;
-		vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = false;
+		vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = false; //just runEncoder
+		box_contacts_current_forceSensor.Visible = false;
+		// <---- box_contacts_current ----
 
 		if(chronopicRegister == null)
 			chronopicRegisterUpdate(false);
@@ -3576,6 +3586,8 @@ public partial class ChronoJumpWindow
 		{
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
+			box_contacts_current.Visible = true;
+			box_contacts_current_forceSensor.Visible = true;
 
 			blankForceSensorInterface();
 			if (m == Constants.Modes.FORCESENSORISOMETRIC)
@@ -7364,7 +7376,7 @@ public partial class ChronoJumpWindow
 			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.FORCESENSOR);
 			notebook_options_top.CurrentPage =
 				Convert.ToInt32 (notebook_options_top_pages.FORCESENSOR); //but at FORCESENSOR this notebook is not shown until adjust button is clicked
-			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.FORCESENSOR);
+			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.RESULTSSESSION);
 
 			event_execute_button_finish.Sensitive = false;
 			fullscreen_button_fullscreen_contacts.Sensitive = false;

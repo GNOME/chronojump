@@ -49,6 +49,7 @@ public partial class ChronoJumpWindow
 		string [] myValues = sqliteTests.SelectSA (dbconOpened,
 				currentSession.UniqueID, currentPersonOrAll (),
 				//"",
+				false, "",
 				Sqlite.Orders_by.DEFAULT, 0);
 		if (current_mode == Constants.Modes.OTHER)
 		{

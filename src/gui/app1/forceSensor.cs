@@ -2259,7 +2259,11 @@ LogB.Information(" fs R ");
 		}
 
 		genericWin.HideAndNull();
+		forceSenssorLoadSignalAcceptedDo (uniqueID, personID, sessionID, elastic, TwoSetsCD);
+	}
 
+	private void forceSenssorLoadSignalAcceptedDo (int uniqueID, int personID, int sessionID, int elastic, bool TwoSetsCD)
+	{
 		ForceSensor fs = (ForceSensor) SqliteForceSensor.Select (false, uniqueID, personID, sessionID, elastic)[0];
 		if(fs == null)
 		{
@@ -2542,6 +2546,7 @@ LogB.Information(" fs R ");
 			genericWin.SetButtonAcceptSensitive(false);
 		}
 		genericWin.Delete_row_accepted();
+		pre_fillTreeView_resultsSession (false);
 	}
 
 	private void force_sensor_delete_current_test_pre_question()
@@ -2566,6 +2571,8 @@ LogB.Information(" fs R ");
 
 		//empty forceSensor GUI (this also assigns -1 to currentForceSensor)
 		blankForceSensorInterface();
+
+		pre_fillTreeView_resultsSession (false);
 	}
 
 	private void forceSensorDeleteTestDo(ForceSensor fs)
@@ -3581,6 +3588,8 @@ LogB.Information(" fs R ");
 			//combo_force_sensor_capture_options.Sensitive = true;
 			combo_force_sensor_capture_options.Visible = true;
 		}
+
+		radio_contacts_graph_currentTest.Label = fse.Name;
 	}
 
 	private void fillForceSensorExerciseCombo (string name)

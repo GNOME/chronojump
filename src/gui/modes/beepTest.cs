@@ -28,15 +28,15 @@ using Mono.Unix;
 //---------------- EDIT WIDGET ---------------------------
 //--------------------------------------------------------
 
-public class EditForceSensorWindow : EditEventWindow
+public class EditBeepTestWindow : EditEventWindow
 {
-	static EditForceSensorWindow EditForceSensorWindowBox;
+	static EditBeepTestWindow EditBeepTestWindowBox;
 
 	//for inheritance
-	protected EditForceSensorWindow () {
+	protected EditBeepTestWindow () {
 	}
 
-	public EditForceSensorWindow (Gtk.Window parent)
+	public EditBeepTestWindow (Gtk.Window parent)
 	{
 		/*
 		Glade.XML gladeXML;
@@ -56,27 +56,27 @@ public class EditForceSensorWindow : EditEventWindow
 //		eventBigTypeString = Catalog.GetString("race");
 	}
 
-	static public EditForceSensorWindow Show (Gtk.Window parent, Event myEvent)
+	static public EditBeepTestWindow Show (Gtk.Window parent, Event myEvent)
 	{
-		if (EditForceSensorWindowBox == null) {
-			EditForceSensorWindowBox = new EditForceSensorWindow (parent);
+		if (EditBeepTestWindowBox == null) {
+			EditBeepTestWindowBox = new EditBeepTestWindow (parent);
 		}
 
-		EditForceSensorWindowBox.colorize();
-		EditForceSensorWindowBox.initializeValues();
-		EditForceSensorWindowBox.fillDialog (myEvent);
-		EditForceSensorWindowBox.edit_event.Show ();
+		EditBeepTestWindowBox.colorize();
+		EditBeepTestWindowBox.initializeValues();
+		EditBeepTestWindowBox.fillDialog (myEvent);
+		EditBeepTestWindowBox.edit_event.Show ();
 
-		return EditForceSensorWindowBox;
+		return EditBeepTestWindowBox;
 	}
 	
 	protected override void initializeValues ()
 	{
-		typeOfTest = Constants.TestTypes.FORCESENSOR;
+		typeOfTest = Constants.TestTypes.BEEPTEST;
 		showType = false; //TODO: in the future change this
 		showRunStart = false;
 		showTv = false;
-		showTc = false;
+		showTc= false;
 		showFall = false;
 		showDistance = false;
 		distanceCanBeDecimal = true;
@@ -102,7 +102,7 @@ public class EditForceSensorWindow : EditEventWindow
 
 	protected override void updateEvent (int eventID, int personID, string description)
 	{
-		SqliteTests st = new SqliteForceSensor ();
+		SqliteTests st = new SqliteBeepTest ();
 		st.Update (eventID,
 				//UtilGtk.ComboGetActive(combo_eventType),
 				personID);
@@ -110,54 +110,54 @@ public class EditForceSensorWindow : EditEventWindow
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)
 	{
-		EditForceSensorWindowBox.edit_event.Hide();
-		EditForceSensorWindowBox = null;
+		EditBeepTestWindowBox.edit_event.Hide();
+		EditBeepTestWindowBox = null;
 	}
 	
 	protected override void on_delete_event (object o, DeleteEventArgs args)
 	{
-		EditForceSensorWindowBox.edit_event.Hide();
-		EditForceSensorWindowBox = null;
+		EditBeepTestWindowBox.edit_event.Hide();
+		EditBeepTestWindowBox = null;
 	}
 	
 	protected override void hideWindow() {
-		EditForceSensorWindowBox.edit_event.Hide();
-		EditForceSensorWindowBox = null;
+		EditBeepTestWindowBox.edit_event.Hide();
+		EditBeepTestWindowBox = null;
 	}
 }
-
+	
 public partial class ChronoJumpWindow
 {
-	private void on_edit_selected_forceSensor_clicked (object o, EventArgs args)
+	private void on_edit_selected_beepTest_clicked (object o, EventArgs args)
 	{
 		//notebooks_change(2); see "notebooks_change sqlite problem"
-		LogB.Information("Edit selected forceSensor");
+		LogB.Information("Edit selected beepTest");
 		//1.- check that there's a line selected
-		//2.- check that this line is a forceSensor and not a person (check also if it's not a individual RJ, the pass the parent RJ)
+		//2.- check that this line is a beepTest and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		int selectedID = treeViewResultsSession.EventSelectedID;
 		if (selectedID <= 0)
 			return;
 
-		//3.- obtain the data of the selected forceSensor
-		ForceSensor forceSensor = SqliteForceSensor.SelectData (selectedID, false );
-		eventOldPerson = forceSensor.PersonID;
+		//3.- obtain the data of the selected beepTest
+		BeepTest beepTest = SqliteBeepTest.SelectData (selectedID, false );
+		eventOldPerson = beepTest.PersonID;
 
 		//4.- edit this test
-		editForceSensorWin = EditForceSensorWindow.Show (app1, forceSensor);
-		editForceSensorWin.Button_accept.Clicked += new EventHandler (on_edit_selected_forceSensor_accepted);
+		editBeepTestWin = EditBeepTestWindow.Show (app1, beepTest);
+		editBeepTestWin.Button_accept.Clicked += new EventHandler (on_edit_selected_beepTest_accepted);
 	}
-	private void on_edit_selected_forceSensor_accepted (object o, EventArgs args)
+	private void on_edit_selected_beepTest_accepted (object o, EventArgs args)
 	{
-		LogB.Information("edit selected forceSensor accepted");
-		ForceSensor forceSensor = SqliteForceSensor.SelectData (treeViewResultsSession.EventSelectedID, false);
+		LogB.Information("edit selected beepTest accepted");
+		BeepTest beepTest = SqliteBeepTest.SelectData (treeViewResultsSession.EventSelectedID, false);
 
 		//if person changed, fill treeview again, if not, only update it's line
-		if (eventOldPerson == forceSensor.PersonID)
-			treeViewResultsSession.Update (forceSensor);
+		if (eventOldPerson == beepTest.PersonID)
+			treeViewResultsSession.Update (beepTest);
 		else
 			pre_fillTreeView_resultsSession (false);
 
-		//updateGraphForceSensorBars ();
+		//updateGraphBeepTestBars ();
 	}
 
 }

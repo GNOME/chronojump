@@ -1542,3 +1542,197 @@ public class JumpsRjMoreWindow : EventMoreWindow
 		get { return selectedUnlimited; }
 	}
 }
+
+public partial class ChronoJumpWindow
+{
+	// --------------
+	// ---- EDIT ----
+	// --------------
+
+	private void on_edit_selected_jump_clicked (object o, EventArgs args)
+	{
+		//notebooks_change(0); see "notebooks_change sqlite problem"
+		LogB.Information("Edit selected jump (simple)");
+		//1.- check that there's a line selected
+		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
+		int selectedID = treeViewResultsSession.EventSelectedID;
+		if (selectedID <= 0)
+			return;
+
+		//3.- obtain the data of the selected jump
+		Jump myJump = SqliteJump.SelectJumpData (selectedID, false);
+		eventOldPerson = myJump.PersonID;
+
+		//4.- edit this jump
+		editJumpWin = EditJumpWindow.Show(app1, myJump, preferences.weightStatsPercent, preferences.digitsNumber);
+		editJumpWin.Button_accept.Clicked += new EventHandler (on_edit_selected_jump_accepted);
+	}
+	
+	private void on_edit_selected_jump_rj_clicked (object o, EventArgs args)
+	{
+		//notebooks_change(1); see "notebooks_change sqlite problem"
+		LogB.Information("Edit selected jump (RJ)");
+		//1.- check that there's a line selected
+		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
+		int selectedID = treeViewResultsSession.EventSelectedID;
+		if (selectedID <= 0)
+			return;
+
+		//3.- obtain the data of the selected jump
+		JumpRj myJump = SqliteJumpRj.SelectJumpData ("jumpRj", selectedID, false, false );
+		eventOldPerson = myJump.PersonID;
+
+		//4.- edit this jump
+		editJumpRjWin = EditJumpRjWindow.Show(app1, myJump, preferences.weightStatsPercent, preferences.digitsNumber);
+		editJumpRjWin.Button_accept.Clicked += new EventHandler (on_edit_selected_jump_rj_accepted);
+	}
+	
+	private void on_edit_selected_jump_accepted (object o, EventArgs args)
+	{
+		LogB.Information("edit selected jump accepted");
+	
+		Jump myJump = SqliteJump.SelectJumpData (treeViewResultsSession.EventSelectedID, false );
+
+		//if person changed, fill treeview again, if not, only update it's line
+		if (eventOldPerson == myJump.PersonID)
+		{
+			double personWeight = SqlitePersonSession.SelectAttribute (
+					false, myJump.PersonID, currentSession.UniqueID, Constants.Weight);
+			treeViewResultsSession.PersonWeight = personWeight;
+			treeViewResultsSession.Update (myJump);
+		}
+		else
+			pre_fillTreeView_resultsSession (false);
+
+		if(! configChronojump.Exhibition)
+			updateGraphJumpsSimple();
+
+		if(createdStatsWin) 
+			stats_win_fillTreeView_stats(false, false);
+	}
+	
+	private void on_edit_selected_jump_rj_accepted (object o, EventArgs args)
+	{
+		LogB.Information("edit selected jump RJ accepted");
+	
+		JumpRj myJump = SqliteJumpRj.SelectJumpData ("jumpRj", treeViewResultsSession.EventSelectedID, false, false );
+		
+		//if person changed, fill treeview again, if not, only update it's line
+		if(eventOldPerson == myJump.PersonID)
+		{
+			double personWeight = SqlitePersonSession.SelectAttribute (
+					false, myJump.PersonID, currentSession.UniqueID, Constants.Weight);
+			treeViewResultsSession.PersonWeight = personWeight;
+			treeViewResultsSession.Update(myJump);
+		} else
+			pre_fillTreeView_resultsSession (false);
+
+		updateGraphJumpsReactive();
+
+		if(createdStatsWin) 
+			stats_win_fillTreeView_stats(false, false);
+	}
+
+
+	// ----------------
+	// ---- DELETE ----
+	// ----------------
+
+	private void on_delete_selected_jump_clicked (object o, EventArgs args) {
+		//notebooks_change(0); see "notebooks_change sqlite problem"
+		LogB.Information("delete this jump (simple)");
+		//1.- check that there's a line selected
+		//2.- check that this line is a jump and not a person
+		LogB.Information(treeViewResultsSession.EventSelectedID.ToString());
+		if (treeViewResultsSession.EventSelectedID > 0) {
+			//3.- display confirmwindow of deletion 
+			if (preferences.askDeletion) {
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show(Catalog.GetString("Do you want to delete this jump?"), "");
+				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_accepted);
+			} else {
+				on_delete_selected_jump_accepted(o, args);
+			}
+		}
+	}
+	
+	private void on_delete_selected_jump_rj_clicked (object o, EventArgs args) {
+		//notebooks_change(1); see "notebooks_change sqlite problem"
+		LogB.Information("delete this reactive jump");
+		//1.- check that there's a line selected
+		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
+		if (treeViewResultsSession.EventSelectedID > 0) {
+			//3.- display confirmwindow of deletion 
+			if (preferences.askDeletion) {
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete this jump?"), "");
+				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_rj_accepted);
+			} else {
+				on_delete_selected_jump_rj_accepted(o, args);
+			}
+		}
+	}
+	
+	private void on_delete_selected_jump_accepted (object o, EventArgs args)
+	{
+		LogB.Information("accept delete this jump");
+		int id = treeViewResultsSession.EventSelectedID;
+		
+		Sqlite.Delete(false, Constants.JumpTable, id);
+		
+		treeViewResultsSession.DelEvent(id);
+		showHideActionEventButtons(false);
+		
+		if(createdStatsWin) {
+			stats_win_fillTreeView_stats(false, false);
+		}
+		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.JUMP, id );
+		//we can be here being called from jump treeview (not from execute tab)
+		//then what we are deleting is selected jump, not last jump 
+		//only if selected is last, then
+		//change executing window: drawingarea, button_delete, "deleted test" message
+		try {
+			if(currentJump.UniqueID == id)
+				deleted_last_test_update_widgets();
+		} catch {
+			//there's no currentJump (no one jumped), then it crashed,
+			//but don't need to update widgets
+		}
+		
+		if(! configChronojump.Exhibition)
+			updateGraphJumpsSimple();
+
+		//if auto mode, show last person/test again
+		if(execute_auto_doing) {
+			execute_auto_order_pos --;
+			execute_auto_select();
+		}
+	}
+
+	private void on_delete_selected_jump_rj_accepted (object o, EventArgs args)
+	{
+		LogB.Information("accept delete this jump");
+		int id = treeViewResultsSession.EventSelectedID;
+		
+		Sqlite.Delete(false, Constants.JumpRjTable, id);
+		
+		treeViewResultsSession.DelEvent(id);
+		selectedJumpRj = null;
+		showHideActionEventButtons(false);
+
+		if(createdStatsWin) {
+			stats_win_fillTreeView_stats(false, false);
+		}
+		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.JUMP_RJ, id );
+		try {
+			if(currentJumpRj.UniqueID == id)
+				deleted_last_test_update_widgets();
+		} catch {
+			//there's no currentJumpRj (no one jumped), then it crashed,
+			//but don't need to update widgets
+		}
+
+		updateGraphJumpsReactive();
+
+		//blank also realtime graph
+		blankJumpReactiveRealtimeCaptureGraph ();
+	}
+}

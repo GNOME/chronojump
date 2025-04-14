@@ -125,5 +125,38 @@ public class EditFourPlatformsWindow : EditEventWindow
 		EditFourPlatformsWindowBox = null;
 	}
 }
-	
 
+public partial class ChronoJumpWindow
+{
+	private void on_edit_selected_fourPlatforms_clicked (object o, EventArgs args)
+	{
+		//notebooks_change(2); see "notebooks_change sqlite problem"
+		LogB.Information("Edit selected wilight");
+		//1.- check that there's a line selected
+		//2.- check that this line is a wilight and not a person (check also if it's not a individual RJ, the pass the parent RJ)
+		int selectedID = treeViewResultsSession.EventSelectedID;
+		if (selectedID <= 0)
+			return;
+
+		//3.- obtain the data of the selected test
+		FourPlatforms fp = SqliteFourPlatforms.SelectData (selectedID, false );
+		eventOldPerson = fp.PersonID;
+
+		//4.- edit this test
+		editFourPlatformsWin = EditFourPlatformsWindow.Show (app1, fp);
+		editFourPlatformsWin.Button_accept.Clicked += new EventHandler (on_edit_selected_fourPlatforms_accepted);
+	}
+	private void on_edit_selected_fourPlatforms_accepted (object o, EventArgs args)
+	{
+		LogB.Information("edit selected fourPlatforms accepted");
+		FourPlatforms fourPlatforms = SqliteFourPlatforms.SelectData (treeViewResultsSession.EventSelectedID, false);
+
+		//if person changed, fill treeview again, if not, only update it's line
+		if (eventOldPerson == fourPlatforms.PersonID)
+			treeViewResultsSession.Update (fourPlatforms);
+		else
+			pre_fillTreeView_resultsSession (false);
+
+		updateGraphFourPlatformsBars ();
+	}
+}

@@ -126,3 +126,38 @@ public class EditForceSensorWindow : EditEventWindow
 	}
 }
 
+public partial class ChronoJumpWindow
+{
+	private void on_edit_selected_forceSensor_clicked (object o, EventArgs args)
+	{
+		//notebooks_change(2); see "notebooks_change sqlite problem"
+		LogB.Information("Edit selected forceSensor");
+		//1.- check that there's a line selected
+		//2.- check that this line is a forceSensor and not a person (check also if it's not a individual RJ, the pass the parent RJ)
+		int selectedID = treeViewResultsSession.EventSelectedID;
+		if (selectedID <= 0)
+			return;
+
+		//3.- obtain the data of the selected forceSensor
+		ForceSensor forceSensor = SqliteForceSensor.SelectData (selectedID, false );
+		eventOldPerson = forceSensor.PersonID;
+
+		//4.- edit this test
+		editForceSensorWin = EditForceSensorWindow.Show (app1, forceSensor);
+		editForceSensorWin.Button_accept.Clicked += new EventHandler (on_edit_selected_forceSensor_accepted);
+	}
+	private void on_edit_selected_forceSensor_accepted (object o, EventArgs args)
+	{
+		LogB.Information("edit selected forceSensor accepted");
+		ForceSensor forceSensor = SqliteForceSensor.SelectData (treeViewResultsSession.EventSelectedID, false);
+
+		//if person changed, fill treeview again, if not, only update it's line
+		if (eventOldPerson == forceSensor.PersonID)
+			treeViewResultsSession.Update (forceSensor);
+		else
+			pre_fillTreeView_resultsSession (false);
+
+		//updateGraphForceSensorBars ();
+	}
+
+}

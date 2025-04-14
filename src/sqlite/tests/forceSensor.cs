@@ -272,6 +272,7 @@ class SqliteForceSensor : SqliteTests
         return array;
     }
 
+    // do not delete yet as it is used by gridSessionPerson_personComboUpdate ()
     public static ArrayList SelectSessionOverviewSets (bool dbconOpened, int sessionID, bool byExercises, Constants.Modes chronojumpMode)
     {
         if (!dbconOpened)

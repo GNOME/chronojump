@@ -5088,8 +5088,8 @@ public partial class ChronoJumpWindow
 	{
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
-			currentForceSensor.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
-			currentForceSensor.UpdateSQLJustComments(false);
+			currentForceSensor.Description = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
+			currentForceSensor.UpdateSQLJustDescription (false);
 		}
 		else if(current_mode == Constants.Modes.RUNSENCODER)
 		{

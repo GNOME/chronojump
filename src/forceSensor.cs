@@ -58,7 +58,6 @@ public class ForceSensor : Event
 	private string laterality;
 	private string filename;
 	private string url;	//relative
-	private string comments;
 	private string videoURL;
 	private double stiffness; //on not elastic capture will be -1 (just check if it is negative because it's a double and sometimes -1.0 comparisons don't work)
 	private string stiffnessString; //id0*active0;id1*active1
@@ -75,7 +74,7 @@ public class ForceSensor : Event
 
 	// constructor (default)
 	public ForceSensor(int uniqueID, int personID, int sessionID, int exerciseID, CaptureOptions captureOption, int angle,
-			string laterality, string filename, string url, string dateTime, string comments, string videoURL,
+			string laterality, string filename, string url, string dateTime, string description, string videoURL,
 			double stiffness, string stiffnessString, double maxForceRaw, double maxAvgForce1s,
 			string exerciseName)
 	{
@@ -89,7 +88,7 @@ public class ForceSensor : Event
 		this.filename = filename;
 		this.url = url;
 		this.dateTime = dateTime;
-		this.comments = comments;
+		this.description = description;
 		this.videoURL = videoURL;
 		this.stiffness = stiffness;
 		this.stiffnessString = stiffnessString;
@@ -100,12 +99,13 @@ public class ForceSensor : Event
 	}
 
 	// constructor for TreeViewForceSensor.getObjectFromString ()
-	public ForceSensor (int uniqueID, double maxForceRaw, double maxAvgForce1s, string dateTime, string exerciseName)
+	public ForceSensor (int uniqueID, double maxForceRaw, double maxAvgForce1s, string dateTime, string description, string exerciseName)
 	{
 		this.uniqueID = uniqueID;
 		this.maxForceRaw = maxForceRaw;
 		this.maxAvgForce1s = maxAvgForce1s;
 		this.dateTime = dateTime;
+		this.description = description;
 		this.exerciseName = exerciseName;
 	}
 
@@ -123,7 +123,7 @@ public class ForceSensor : Event
 		this.filename = eventStr[7];
 		this.url = Util.MakeURLabsolute (Sqlite.FixOSpath (eventStr[8]));
 		this.dateTime = eventStr[9];
-		this.comments = eventStr[10];
+		this.description = eventStr[10];
 		this.videoURL = eventStr[11];
 		this.stiffness = Convert.ToDouble (Util.CDS (eventStr[12]));
 		this.stiffnessString = eventStr[13];
@@ -147,7 +147,7 @@ public class ForceSensor : Event
 		return
 			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID + ", '" + captureOption.ToString() + "', " +
 			angle + ", '" + laterality + "', '" + filename + "', '" + url + "', '" + dateTime + "', '" +
-			comments + "', '" + videoURL + "', " + Util.ConvertToPoint(stiffness) + ", '" + stiffnessString + "', " +
+			description + "', '" + videoURL + "', " + Util.ConvertToPoint(stiffness) + ", '" + stiffnessString + "', " +
 			Util.ConvertToPoint(maxForceRaw) + ", " + Util.ConvertToPoint(maxAvgForce1s) +
 			")";
 	}
@@ -169,7 +169,7 @@ public class ForceSensor : Event
 			"', filename = '" + filename +
 			"', url = '" + Util.MakeURLrelative(url) +
 			"', dateTime = '" + dateTime +
-			"', comments = '" + comments +
+			"', comments = '" + description + //on DB is comments
 			"', videoURL = '" + Util.MakeURLrelative(videoURL) +
 			"', stiffness = " + Util.ConvertToPoint(stiffness) +
 			", stiffnessString = '" + stiffnessString +
@@ -178,9 +178,9 @@ public class ForceSensor : Event
 			" WHERE uniqueID = " + uniqueID;
 	}
 
-	public void UpdateSQLJustComments(bool dbconOpened)
+	public void UpdateSQLJustDescription (bool dbconOpened)
 	{
-		SqliteForceSensor.UpdateComments (dbconOpened, uniqueID, comments); //SQL not opened
+		SqliteForceSensor.UpdateComments (dbconOpened, uniqueID, description); //SQL not opened
 	}
 
 	//for load window
@@ -217,7 +217,7 @@ public class ForceSensor : Event
 		else
 			str[i++] = Catalog.GetString("No");
 
-		str[i++] = comments;
+		str[i++] = description;
 
 		return str;
 	}
@@ -420,11 +420,6 @@ public class ForceSensor : Event
 	{
 		get { return laterality; }
 		set { laterality = value; }
-	}
-	public string Comments
-	{
-		get { return comments; }
-		set { comments = value; }
 	}
 	public string VideoURL
 	{

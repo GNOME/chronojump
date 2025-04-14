@@ -2332,8 +2332,8 @@ LogB.Information(" fs R ");
 		setForceSensorCaptureOptions(fs.CaptureOption);
 
 		setLaterality(fs.Laterality);
-		//textview_force_sensor_capture_comment.Buffer.Text = fs.Comments;
-		textview_contacts_signal_comment.Buffer.Text = fs.Comments;
+		//textview_force_sensor_capture_comment.Buffer.Text = fs.Description;
+		textview_contacts_signal_comment.Buffer.Text = fs.Description;
 
 		assignCurrentForceSensorExercise();
 
@@ -2444,11 +2444,11 @@ LogB.Information(" fs R ");
 
 		//2) if changed comment, update SQL, and update treeview
 		//first remove conflictive characters
-		string comment = Util.RemoveTildeAndColonAndDot(genericWin.EntryEditRow);
-		if(comment != fs.Comments)
+		string desc = Util.RemoveTildeAndColonAndDot(genericWin.EntryEditRow);
+		if (desc != fs.Description)
 		{
-			fs.Comments = comment;
-			fs.UpdateSQLJustComments(true);
+			fs.Description = desc;
+			fs.UpdateSQLJustDescription (true);
 
 			//update treeview
 			genericWin.on_edit_selected_done_update_treeview();
@@ -2623,8 +2623,8 @@ LogB.Information(" fs R ");
 		currentForceSensor.ExerciseName = currentForceSensorExercise.Name; //just in case
 		currentForceSensor.CaptureOption = getForceSensorCaptureOptions();
 		currentForceSensor.Laterality = getLaterality(false);
-		//currentForceSensor.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
-		currentForceSensor.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
+		//currentForceSensor.Description = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
+		currentForceSensor.Description = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
 
 
 		double stiffness;

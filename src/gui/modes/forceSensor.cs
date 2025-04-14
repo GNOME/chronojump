@@ -86,7 +86,7 @@ public class EditForceSensorWindow : EditEventWindow
 		showLimited = false;
 		showMistakes = false;
 		showVideo = false;
-		showDescription = false;
+		showDescription = true;
 	}
 
 	protected override string [] findTypes (Event myEvent)
@@ -106,6 +106,7 @@ public class EditForceSensorWindow : EditEventWindow
 		st.Update (eventID,
 				//UtilGtk.ComboGetActive(combo_eventType),
 				personID);
+		st.UpdateComments (eventID, description);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)
@@ -153,8 +154,10 @@ public partial class ChronoJumpWindow
 
 		//if person changed, fill treeview again, if not, only update it's line
 		if (eventOldPerson == forceSensor.PersonID)
+		{
+			forceSensor.ExerciseName = SqliteTests.SelectExerciseNameInOtherTable (false, forceSensor.ExerciseID, Constants.ForceSensorExerciseTable);
 			treeViewResultsSession.Update (forceSensor);
-		else
+		}  else
 			pre_fillTreeView_resultsSession (false);
 
 		//updateGraphForceSensorBars ();

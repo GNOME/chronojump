@@ -207,6 +207,25 @@ class SqliteTests : Sqlite
 		return testData;
 	}
 
+	public static string SelectExerciseNameInOtherTable (bool dbconOpened, int exerciseID, string exerciseTable)
+	{
+		openIfNeeded (dbconOpened);
+
+		dbcmd.CommandText = "SELECT name FROM " + exerciseTable + " WHERE uniqueID = " + exerciseID;
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		reader.Read();
+                string name = reader[0].ToString();
+		reader.Close();
+
+		closeIfNeeded (dbconOpened);
+
+		return name;
+	}
+
 	protected static string [] DataReaderToStringArray (SQLiteDataReader reader, int columns) {
 		string [] myReaderStr = new String[columns];
 		for (int i=0; i < columns; i ++)
@@ -240,6 +259,18 @@ class SqliteTests : Sqlite
 		dbcmd.ExecuteNonQuery ();
 
 		closeIfNeeded (dbconOpened);
+	}
+
+	public void UpdateComments (int uniqueID, string comments)
+	{
+		Sqlite.Open();
+		dbcmd.CommandText = "UPDATE " + tableName +
+			" SET comments = '" + comments + "'" +
+			" WHERE uniqueID = " + uniqueID ;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		Sqlite.Close();
 	}
 
 	/* 

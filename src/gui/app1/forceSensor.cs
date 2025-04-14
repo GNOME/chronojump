@@ -1892,6 +1892,7 @@ LogB.Information(" fs C ");
 						webcamRestoreGui (success);
 					}
 
+					treeViewResultsSession.Add (currentPerson.Name, currentForceSensor, "");
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 					sensitiveLastTestButtons(true);
 					contactsShowCaptureDoingButtons(false);

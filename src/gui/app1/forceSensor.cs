@@ -532,7 +532,6 @@ public partial class ChronoJumpWindow
 			button_ai_move_cd_pre_set_sensitivity ();
 
 		hbox_contacts_camera.Sensitive = sensitive;
-		box_contacts_load_recalculate.Sensitive = sensitive;
 
 		//other gui buttons
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = sensitive;

@@ -320,7 +320,7 @@ public partial class ChronoJumpWindow
 	//force sensor
 	Gtk.Box hbox_capture_phases;
 	Gtk.Box hbox_capture_time;
-	Gtk.Box box_contacts_load_recalculate;
+	Gtk.Box box_contacts_load;
 
 	//widgets for enable or disable
 	Gtk.Frame frame_persons;
@@ -2646,8 +2646,8 @@ public partial class ChronoJumpWindow
 
 		if(Constants.ModeIsENCODER (m))
 			overviewWin = EncoderOverviewWindow.Show (app1, currentEncoderGI, currentSession.UniqueID, currentPerson.UniqueID);
-		else if(Constants.ModeIsFORCESENSOR (m))
-			overviewWin = ForceSensorOverviewWindow.Show (app1, currentSession.UniqueID, currentPerson.UniqueID, m);
+		//else if(Constants.ModeIsFORCESENSOR (m))
+		//	overviewWin = ForceSensorOverviewWindow.Show (app1, currentSession.UniqueID, currentPerson.UniqueID, m);
 		else if(m == Constants.Modes.RUNSENCODER)
 			overviewWin = RunEncoderOverviewWindow.Show (app1, currentSession.UniqueID, currentPerson.UniqueID);
 
@@ -3256,7 +3256,7 @@ public partial class ChronoJumpWindow
 		button_inspect_last_test_run_intervallic.Visible = false;
 		button_force_sensor_adjust.Visible = false;
 		button_force_sensor_sync.Visible = false;
-		box_contacts_load_recalculate.Visible = false;
+		box_contacts_load.Visible = false;
 		button_contacts_exercise_close_and_recalculate.Visible = false;
 		vbox_contacts_signal_comment.Visible = false;
 		frame_jumps_automatic.Visible = false;
@@ -3610,7 +3610,6 @@ public partial class ChronoJumpWindow
 			//combos should show exercises (isometric or elastic)
 			updateForceExerciseCombo ();
 
-			box_contacts_load_recalculate.Visible = true;
 			button_contacts_exercise_close_and_recalculate.Visible = true;
 
 			vbox_contacts_signal_comment.Visible = true;
@@ -3667,7 +3666,7 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
 
-			box_contacts_load_recalculate.Visible = true;
+			box_contacts_load.Visible = true;
 			button_contacts_exercise_close_and_recalculate.Visible = true;
 
 			vbox_contacts_signal_comment.Visible = true;
@@ -8157,7 +8156,7 @@ public partial class ChronoJumpWindow
 		button_execute_test.Sensitive = false;
 		button_auto_start.Sensitive = false;
 		hbox_contacts_camera.Sensitive = false;
-		box_contacts_load_recalculate.Sensitive = false;
+		box_contacts_load.Sensitive = false;
 		
 		button_contacts_person_change.Sensitive = false;
 		button_encoder_person_change.Sensitive = false;
@@ -8209,7 +8208,7 @@ public partial class ChronoJumpWindow
 		button_execute_test.Sensitive = true;
 		button_auto_start.Sensitive = true;
 		hbox_contacts_camera.Sensitive = true;
-		box_contacts_load_recalculate.Sensitive = true;
+		box_contacts_load.Sensitive = true;
 
 		button_contacts_person_change.Sensitive = true;
 		button_encoder_person_change.Sensitive = true;
@@ -8701,7 +8700,7 @@ public partial class ChronoJumpWindow
 		//force sensor
 		hbox_capture_phases = (Gtk.Box) builder.GetObject ("hbox_capture_phases");
 		hbox_capture_time = (Gtk.Box) builder.GetObject ("hbox_capture_time");
-		box_contacts_load_recalculate = (Gtk.Box) builder.GetObject ("box_contacts_load_recalculate");
+		box_contacts_load = (Gtk.Box) builder.GetObject ("box_contacts_load");
 
 		//widgets for enable or disable
 		frame_persons = (Gtk.Frame) builder.GetObject ("frame_persons");

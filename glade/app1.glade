@@ -8007,7 +8007,7 @@ last capture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkBox" id="box_contacts_load_recalculate">
+                                                            <object class="GtkBox" id="box_contacts_load">
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
@@ -22801,6 +22801,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

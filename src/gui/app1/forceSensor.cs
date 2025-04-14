@@ -2966,10 +2966,10 @@ LogB.Information(" fs R ");
 	public void on_button_force_capture_grid_legend_info_clicked (object o, EventArgs args)
 	{
 		new DialogMessage (Constants.MessageTypes.INFO, 850, 400,
-				"Explanation of forces shown:\n" +
+				"Explanation of shown forces:\n" +
 				"\n- <b>Raw</b>: Raw data (once tared and calibrated), absolute or inverted values are also applied if necessary." +
 				"\n- <b>Unfiltered</b>: Raw data + projection of exerted force if applicable + effect of rubber band if applicable." +
-				"\n- <b>Butterworth</b>: Apply Butterworth filtering to previous value.");
+				"\n- <b>Bw</b>: Apply Butterworth low-pass filtering to previous value.");
 	}
 
 	public void on_force_capture_drawingarea_cairo_draw (object o, Gtk.DrawnArgs args)

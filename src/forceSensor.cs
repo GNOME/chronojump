@@ -24,7 +24,7 @@ using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
-public class ForceSensor
+public class ForceSensor : Event
 {
 	public enum CaptureOptions { NORMAL, ABS, INVERTED }
 	public static string CaptureOptionsStringNORMAL()
@@ -52,16 +52,12 @@ public class ForceSensor
 
 	public static int AngleUndefined = -1000;
 
-	private int uniqueID;
-	private int personID;
-	private int sessionID;
 	private int exerciseID;
 	private int angle;
 	private CaptureOptions captureOption;
 	private string laterality;
 	private string filename;
 	private string url;	//relative
-	private string dateTime;
 	private string comments;
 	private string videoURL;
 	private double stiffness; //on not elastic capture will be -1 (just check if it is negative because it's a double and sometimes -1.0 comparisons don't work)
@@ -77,7 +73,7 @@ public class ForceSensor
 		uniqueID = -1;
 	}
 
-	//constructor
+	// constructor (default)
 	public ForceSensor(int uniqueID, int personID, int sessionID, int exerciseID, CaptureOptions captureOption, int angle,
 			string laterality, string filename, string url, string dateTime, string comments, string videoURL,
 			double stiffness, string stiffnessString, double maxForceRaw, double maxAvgForce1s,
@@ -389,15 +385,6 @@ public class ForceSensor
 		get { return filename; }
 	}
 
-	public int UniqueID
-	{
-		get { return uniqueID; }
-		set { uniqueID = value; }
-	}
-	public int PersonID
-	{
-		get { return personID; }
-	}
 	public int ExerciseID
 	{
 		get { return exerciseID; }

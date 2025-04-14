@@ -182,7 +182,7 @@ class SqliteForceSensor : SqliteTests
                     Convert.ToInt32(reader[5].ToString()),  //angle
                     reader[6].ToString(),           //laterality
                     reader[7].ToString(),           //filename
-                    Util.MakeURLabsolute(fixOSpath(reader[8].ToString())),  //url
+                    Util.MakeURLabsolute (FixOSpath (reader[8].ToString())),  //url
                     reader[9].ToString(),           //datetime
                     reader[10].ToString(),          //comments
                     reader[11].ToString(),          //videoURL
@@ -226,6 +226,11 @@ class SqliteForceSensor : SqliteTests
                     Util.CDSNoZero (reader[16].ToString()) + ":" + //maxAVgForce1s
                     reader[17].ToString()           //exerciseName
 		    ;
+    }
+
+    public static ForceSensor SelectData (int uniqueID, bool dbconOpened)
+    {
+	    return new ForceSensor (selectTestData (uniqueID, dbconOpened, tableStatic, 16));
     }
 
     public static ArrayList SelectRowsOfAnExercise(bool dbconOpened, int exerciseID)

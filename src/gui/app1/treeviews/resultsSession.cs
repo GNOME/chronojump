@@ -159,45 +159,47 @@ public partial class ChronoJumpWindow
 		if (e.Button != 3 || treeViewResultsSession.EventSelectedID <= 0)
 			return;
 
+		int id = treeViewResultsSession.EventSelectedID;
+
 		Event ev;
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
 		{
-			ev = SqliteJump.SelectJumpData (
-					treeViewResultsSession.EventSelectedID, false );
+			ev = SqliteJump.SelectJumpData (id, false );
 			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonName + ")");
 		}
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
-			ev = SqliteJumpRj.SelectJumpData (
-					"jumpRj", treeViewResultsSession.EventSelectedID, false, false);
+			ev = SqliteJumpRj.SelectJumpData ( "jumpRj", id, false, false);
 			treeviewResultsContextMenu (true, " " + ev.Type + " (" + ev.PersonName + ")");
 		}
 		else if (current_mode == Constants.Modes.RUNSSIMPLE)
 		{
-			ev = SqliteRun.SelectRunData (treeViewResultsSession.EventSelectedID, false);
+			ev = SqliteRun.SelectRunData (id, false);
 			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonName + ")");
 		}
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
-			ev = SqliteRunInterval.SelectRunData (
-					Constants.RunIntervalTable, treeViewResultsSession.EventSelectedID, false, false);
+			ev = SqliteRunInterval.SelectRunData ( Constants.RunIntervalTable, id, false, false);
 			treeviewResultsContextMenu (true, " " + ev.Type + " (" + ev.PersonName + ")");
 		}
 		else if (current_mode == Constants.Modes.BEEPTEST)
 		{
-			ev = SqliteBeepTest.SelectData (treeViewResultsSession.EventSelectedID, false);
+			ev = SqliteBeepTest.SelectData (id, false);
 			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonName + ")");
+		}
+		else if (Constants.ModeIsFORCESENSOR (current_mode))
+		{
+			ev = SqliteForceSensor.SelectData (id, false);
+			treeviewResultsContextMenu (false, " (" + ev.PersonName + ")");
 		}
 		else if (current_mode == Constants.Modes.WILIGHT)
 		{
-			ev = SqliteWilight.SelectData (
-					treeViewResultsSession.EventSelectedID, false);
+			ev = SqliteWilight.SelectData (id, false);
 			treeviewResultsContextMenu (false, " (" + ev.PersonName + ")");
 		}
 		else if (current_mode == Constants.Modes.OTHER) //FOURPLATFORMS
 		{
-			ev = SqliteFourPlatforms.SelectData (
-					treeViewResultsSession.EventSelectedID, false);
+			ev = SqliteFourPlatforms.SelectData (id, false);
 			treeviewResultsContextMenu (false, " (" + ev.PersonName + ")");
 		}
 	}

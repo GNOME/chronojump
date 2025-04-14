@@ -358,7 +358,7 @@ class SqliteEncoder : SqliteTests
             //if there's video, will be with full path
             string videoURL = "";
             if (reader[14].ToString() != "")
-                videoURL = Util.MakeURLabsolute(fixOSpath(reader[14].ToString()));
+                videoURL = Util.MakeURLabsolute(FixOSpath(reader[14].ToString()));
 
             //LogB.SQL(econf.ToString(":", true));
             eSQL = new EncoderSQL(
@@ -371,7 +371,7 @@ class SqliteEncoder : SqliteTests
                     Util.ChangeDecimalSeparator(reader[6].ToString()),  //extraWeight
                     reader[7].ToString(),           //signalOrCurve
                     reader[8].ToString(),           //filename
-                    Util.MakeURLabsolute(fixOSpath(reader[9].ToString())),  //url
+                    Util.MakeURLabsolute(FixOSpath(reader[9].ToString())),  //url
                     Convert.ToInt32(reader[10].ToString()), //time
                     Convert.ToInt32(reader[11].ToString()), //minHeight
                     reader[12].ToString(),          //description

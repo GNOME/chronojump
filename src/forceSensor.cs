@@ -99,16 +99,37 @@ public class ForceSensor : Event
 		this.exerciseName = exerciseName;
 	}
 
-	// constructor on treeviewResults
-	public ForceSensor (string [] eventStr)
+	// constructor for TreeViewForceSensor.getObjectFromString ()
+	public ForceSensor (int uniqueID, double maxForceRaw, double maxAvgForce1s, string dateTime, string exerciseName)
 	{
-		this.uniqueID = Convert.ToInt32 (eventStr[1]);
-		this.maxForceRaw = Convert.ToDouble (eventStr[15]);
-		this.maxAvgForce1s = Convert.ToDouble (eventStr[16]);
-		this.dateTime = eventStr[10];
-		this.exerciseName = eventStr[17];
+		this.uniqueID = uniqueID;
+		this.maxForceRaw = maxForceRaw;
+		this.maxAvgForce1s = maxAvgForce1s;
+		this.dateTime = dateTime;
+		this.exerciseName = exerciseName;
 	}
 
+	// constructor for SqliteForceSensor.SelectData ()
+	public ForceSensor (string [] eventStr)
+	{
+		this.uniqueID = Convert.ToInt32 (eventStr[0]);
+		this.personID = Convert.ToInt32 (eventStr[1]);
+		this.sessionID = Convert.ToInt32 (eventStr[2]);
+		this.exerciseID = Convert.ToInt32 (eventStr[3]);
+		this.captureOption = (ForceSensor.CaptureOptions)Enum.Parse(
+                        typeof(ForceSensor.CaptureOptions), eventStr[4]);
+		this.angle = Convert.ToInt32 (eventStr[5]);
+		this.laterality = eventStr[6];
+		this.filename = eventStr[7];
+		this.url = Util.MakeURLabsolute (Sqlite.FixOSpath (eventStr[8]));
+		this.dateTime = eventStr[9];
+		this.comments = eventStr[10];
+		this.videoURL = eventStr[11];
+		this.stiffness = Convert.ToDouble (Util.CDS (eventStr[12]));
+		this.stiffnessString = eventStr[13];
+		this.maxForceRaw = Convert.ToDouble (Util.CDS (eventStr[14]));
+		this.maxAvgForce1s = Convert.ToDouble (Util.CDS (eventStr[15]));
+	}
 
 	public int InsertSQL(bool dbconOpened)
 	{

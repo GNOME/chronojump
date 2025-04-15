@@ -2658,6 +2658,9 @@ LogB.Information(" fs R ");
 		//notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 		//change radio and will change also notebook:
 		radio_signal_analyze_current_set.Active = true;
+
+		updateGraphResultsSessionByMode ();
+		pre_fillTreeView_resultsSession (false);
 	}
 
 	private enum forceSensorGraphsEnum { SIGNAL, RFD }

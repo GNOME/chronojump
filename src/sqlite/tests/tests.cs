@@ -40,11 +40,16 @@ class SqliteTests : Sqlite
 {
 	protected string tableName;
 	protected string columnsStr;
+	protected static string filterOtherString = "";
 
 	public SqliteTests ()
 	{
 		tableName = "";
 		columnsStr = "";
+	}
+
+	public string FilterOtherString {
+		set { filterOtherString = value; }
 	}
 
 	/*
@@ -75,6 +80,7 @@ class SqliteTests : Sqlite
 	//SA for String Array, used on treeview
 	public string [] SelectSA (bool dbconOpened, int sessionID, int personID,
 			//string type,
+			bool addExerciseNameInOtherTable, string exerciseTable,
 			Orders_by order, int limit
 			//, bool personNameInComment, bool onlyBestInSession
 			)
@@ -84,6 +90,7 @@ class SqliteTests : Sqlite
 		dbcmd.CommandText = selectResultsCreateSelection (
 				tableName,
 				sessionID, personID, "", //type,
+				addExerciseNameInOtherTable, exerciseTable,
 				order, limit, false //onlyBestInSession
 				);
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -123,6 +130,7 @@ class SqliteTests : Sqlite
 	// limit 0 means no limit (limit negative is the last results) (used on SelectRuns)
 	protected static string selectResultsCreateSelection (string t,
 			int sessionID, int personID, string filterType,
+			bool addExerciseNameInOtherTable, string exerciseTable,
 			Orders_by order, int limit, bool onlyBestInSession)
 	{
 		string tp = Constants.PersonTable;
@@ -139,6 +147,16 @@ class SqliteTests : Sqlite
 		if(filterType != "")
 			filterTypeString = " AND " + t + ".type = '" + filterType + "' " ;
 
+		string selectExerciseNameStr = "";
+		string fromExerciseStr = "";
+		string andExerciseStr = "";
+		if (addExerciseNameInOtherTable && exerciseTable != "")
+		{
+			selectExerciseNameStr = string.Format (", {0}.name ", exerciseTable);
+			fromExerciseStr = string.Format (", {0} ", exerciseTable);
+			andExerciseStr = string.Format (" AND {0}.exerciseID = {1}.uniqueID ", t, exerciseTable);
+		}
+
 		string orderByString = string.Format(" ORDER BY upper({0}.name), {1}.uniqueID ", tp, t);
 		if(order == Orders_by.ID_ASC)
 			orderByString = string.Format(" ORDER BY {0}.uniqueID ", t);
@@ -152,11 +170,15 @@ class SqliteTests : Sqlite
 			limitString = " LIMIT " + limit;
 
 		return string.Format("SELECT {0}.name, {1}.* ", tp, t) +
+			selectExerciseNameStr +
 			string.Format(" FROM {0}, {1} ", tp, t) +
+			fromExerciseStr +
 			string.Format(" WHERE {0}.uniqueID = {1}.personID", tp, t) +
+			andExerciseStr +
 			filterSessionString +
 			filterPersonString +
 			filterTypeString +
+			filterOtherString +
 			orderByString +
 			limitString;
 	}
@@ -183,6 +205,25 @@ class SqliteTests : Sqlite
 			Sqlite.Close();
 
 		return testData;
+	}
+
+	public static string SelectExerciseNameInOtherTable (bool dbconOpened, int exerciseID, string exerciseTable)
+	{
+		openIfNeeded (dbconOpened);
+
+		dbcmd.CommandText = "SELECT name FROM " + exerciseTable + " WHERE uniqueID = " + exerciseID;
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		reader.Read();
+                string name = reader[0].ToString();
+		reader.Close();
+
+		closeIfNeeded (dbconOpened);
+
+		return name;
 	}
 
 	protected static string [] DataReaderToStringArray (SQLiteDataReader reader, int columns) {
@@ -218,6 +259,18 @@ class SqliteTests : Sqlite
 		dbcmd.ExecuteNonQuery ();
 
 		closeIfNeeded (dbconOpened);
+	}
+
+	public void UpdateComments (int uniqueID, string comments)
+	{
+		Sqlite.Open();
+		dbcmd.CommandText = "UPDATE " + tableName +
+			" SET comments = '" + comments + "'" +
+			" WHERE uniqueID = " + uniqueID ;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		Sqlite.Close();
 	}
 
 	/* 

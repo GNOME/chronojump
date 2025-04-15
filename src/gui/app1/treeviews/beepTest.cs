@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -27,11 +27,12 @@ using System.Collections.Generic; //List
 
 public partial class ChronoJumpWindow 
 {
-	private void fillTreeView_wilight (string filter) {
-		fillTreeView_wilight (filter, false);
+	private void fillTreeView_beepTest (string filter) {
+		fillTreeView_beepTest (filter, false);
 	}
-	private void fillTreeView_wilight (string filter, bool dbconOpened)
+	private void fillTreeView_beepTest (string filter, bool dbconOpened)
 	{
+		LogB.Information ("At fillTreeView_beepTest");
 		if (currentSession == null) {
 			/*
 			 * This happens when the user "Imports a session": Chronojump tries to
@@ -44,24 +45,24 @@ public partial class ChronoJumpWindow
 		}
 
 		/*
-		List<Wilight> wilight_l = SqliteWilight.Select (dbconOpened,
+		List<BeepTest> beepTest_l = SqliteBeepTest.Select (dbconOpened,
 				currentSession.UniqueID, currentPersonOrAll ()//,
 				//"", Sqlite.Orders_by.DEFAULT, 0);
 			);
-		string [] wilightSA = TreeViewWilight.ListToStringArray (wilight_l);
+		string [] beepTestSA = TreeViewBeepTest.ListToStringArray (beepTest_l);
 		*/
-		SqliteTests sqliteTests = new SqliteWilight ();
-		string [] wilightSA = sqliteTests.SelectSA (dbconOpened,
+		SqliteTests sqliteTests = new SqliteBeepTest ();
+		string [] beepTestSA = sqliteTests.SelectSA (dbconOpened,
 				currentSession.UniqueID, currentPersonOrAll (),
 				//"",
 				false, "",
 				Sqlite.Orders_by.DEFAULT, 0);
 
-		if (current_mode == Constants.Modes.WILIGHT)
-			treeViewResultsSession.Fill (wilightSA,
-					//filter,
-					//Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.RUN));
-					"", new List<string> ());
+		if (current_mode == Constants.Modes.BEEPTEST)
+			treeViewResultsSession.Fill (beepTestSA,
+					filter,
+					//Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.BEEPTEST));
+					new List<string> ());
 
 		//if show just one person, have it expanded
 		if (! radio_contacts_results_personAll.Active && currentPerson != null)

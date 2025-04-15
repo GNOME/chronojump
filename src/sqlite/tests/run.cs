@@ -114,7 +114,9 @@ class SqliteRun : SqliteTests
 
 		dbcmd.CommandText = selectResultsCreateSelection (
 				Constants.RunTable,
-				sessionID, personID, filterType, order, limit, false
+				sessionID, personID, filterType,
+				false, "",
+				order, limit, false
 				);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -181,7 +183,9 @@ class SqliteRun : SqliteTests
 
 		dbcmd.CommandText = selectResultsCreateSelection (
 				Constants.RunTable,
-				sessionID, personID, runType, order, limit, onlyBestInSession
+				sessionID, personID, runType,
+				false, "",
+				order, limit, onlyBestInSession
 				);
 		LogB.SQL(dbcmd.CommandText.ToString());
 

@@ -302,7 +302,7 @@ public class ForceSensorExport : ExportFiles
 								fs.Laterality,
 								fsesm.GetCount(p.UniqueID, fsEx.UniqueID, fs.Laterality),
 								repCount ++,
-								fs.Comments,
+								fs.Description,
 								fs.CaptureOption,
 								repConcentricSampleStart, 	//start of concentric rep
 								rep.sampleEnd,			//end of eccentric rep
@@ -383,7 +383,7 @@ public class ForceSensorExport : ExportFiles
 							fs.Laterality,
 							fsesm.GetCount(p.UniqueID, fsEx.UniqueID, fs.Laterality),
 							repCount ++,
-							fs.Comments,
+							fs.Description,
 							fs.CaptureOption,
 							sampleA,
 							sampleB,

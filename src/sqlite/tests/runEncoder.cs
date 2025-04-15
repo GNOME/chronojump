@@ -167,7 +167,7 @@ class SqliteRunEncoder : SqliteTests
 					Convert.ToInt32(reader[5].ToString()),	//distance
 					Convert.ToInt32(reader[6].ToString()),	//temperature
 					reader[7].ToString(),			//filename
-					Util.MakeURLabsolute(fixOSpath(reader[8].ToString())),	//url
+					Util.MakeURLabsolute(FixOSpath(reader[8].ToString())),	//url
 					reader[9].ToString(),			//datetime
 					reader[10].ToString(),			//comments
 					reader[11].ToString(),			//videoURL

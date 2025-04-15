@@ -90,6 +90,7 @@ public partial class ChronoJumpWindow
 	Gtk.Notebook notebook_results_data;
 
 	Gtk.Box box_contacts_current;
+	Gtk.Box box_contacts_current_forceSensor;
 	Gtk.Alignment align_drawingarea_realtime_capture_cairo;
 	Gtk.DrawingArea drawingarea_results_realtime;
 	Gtk.DrawingArea drawingarea_results_session;
@@ -1055,6 +1056,7 @@ public partial class ChronoJumpWindow
 		notebook_results_data = (Gtk.Notebook) builder.GetObject ("notebook_results_data");
 
 		box_contacts_current = (Gtk.Box) builder.GetObject ("box_contacts_current");
+		box_contacts_current_forceSensor = (Gtk.Box) builder.GetObject ("box_contacts_current_forceSensor");
 		align_drawingarea_realtime_capture_cairo = (Gtk.Alignment) builder.GetObject ("align_drawingarea_realtime_capture_cairo");
 		drawingarea_results_realtime = (Gtk.DrawingArea) builder.GetObject ("drawingarea_results_realtime");
 		drawingarea_results_session = (Gtk.DrawingArea) builder.GetObject ("drawingarea_results_session");
@@ -1304,6 +1306,24 @@ public abstract class CairoPaintBarsPre
 		//LogB.Information("maxRows: " + maxRows.ToString());
 
 		return maxRows;
+	}
+
+	protected string longestWord;
+	protected int fontHeightForBottomNames;
+	protected int maxRowsForText;
+	protected int bottomMargin;
+
+	//manage bottom text font/spacing of rows
+	protected void calculateBottomParams (List<Event> events, bool allTypes, string addToType, string simulatedLabel, bool thereIsASimulated, bool runsPrintTime)
+	{
+		longestWord = findLongestWordCairo (events, allTypes, addToType, simulatedLabel);
+		fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);
+
+		maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
+				allTypes, thereIsASimulated, runsPrintTime);
+		bottomMargin = cb.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
+
+		//LogB.Information(string.Format("fontHeightForBottomNames: {0}, bottomMargin: {1}", fontHeightForBottomNames, bottomMargin));
 	}
 
 	//TODO: need to add personName here
@@ -1593,17 +1613,8 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 				eventGraphJumpsStored.jumpsAtSQL[i].Description = ""; //to avoid showing description
 		}
 
-		//manage bottom text font/spacing of rows
-		string longestWord = findLongestWordCairo (events,
-				eventGraphJumpsStored.type == "",
-				"",
-				"(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
-		int fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);
-
-		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
-				eventGraphJumpsStored.type == "", thereIsASimulated, false);
-		int bottomMargin = cb.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
-
+		calculateBottomParams (events, eventGraphJumpsStored.type == "", "",
+				"(" + Catalog.GetString("Simulated") + ")", thereIsASimulated, false);
 
 		List<PointF> pointA_l = new List<PointF>();
 		List<PointF> pointB_l = new List<PointF>();
@@ -1742,23 +1753,8 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 				eventGraphJumpsRjStored.jumpsAtSQL[i].Description = ""; //to avoid showing description
 		}
 
-		//manage bottom text font/spacing of rows
-		string longestWord = findLongestWordCairo (events,
-				//eventGraphJumpsRjStored.type == "",
-				true,
-				" - 99", //thinking on 99 jumps
-				"(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
-		int fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);
-
-		/*
-		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
-				eventGraphJumpsRjStored.type == "", thereIsASimulated, false);
-				*/
-		//TYPE A: on jumpRj show always jump type to show at the side the number of jumps. If change here, change it below (TYPEB)
-		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
-				true, thereIsASimulated, false);
-
-		int bottomMargin = cb.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
+		calculateBottomParams (events, true, " - 99", //thinking on 99 jumps
+				"(" + Catalog.GetString("Simulated") + ")", thereIsASimulated, false);
 
 
 		//List<PointF> pointA0_l = new List<PointF>();
@@ -1896,18 +1892,8 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 				eventGraphRunsStored.runsAtSQL[i].Description = ""; //to avoid showing description
 		}
 
-		//manage bottom text font/spacing of rows
-		string longestWord = findLongestWordCairo (events,
-				eventGraphRunsStored.type == "",
-				"",
-				"(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
-		int fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);
-
-		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
-				eventGraphRunsStored.type == "", thereIsASimulated, RunsShowTime);
-		int bottomMargin = cb.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
-
-		//LogB.Information(string.Format("fontHeightForBottomNames: {0}, bottomMargin: {1}", fontHeightForBottomNames, bottomMargin));
+		calculateBottomParams (events, eventGraphRunsStored.type == "", "",
+				"(" + Catalog.GetString("Simulated") + ")", thereIsASimulated, RunsShowTime);
 
 		List<PointF> point_l = new List<PointF>();
 		List<string> names_l = new List<string>();
@@ -2018,25 +2004,8 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 				eventGraphRunsIntervalStored.runsAtSQL[i].Description = ""; //to avoid showing description
 		}
 
-		//manage bottom text font/spacing of rows
-		string longestWord = findLongestWordCairo (events,
-				//eventGraphRunsIntervalStored.type == "",
-				true,
-				" - 99", //thinking on 99 tracks
-				"(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
-		int fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);
-
-		/*
-		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
-				eventGraphRunsIntervalStored.type == "", thereIsASimulated, RunsShowTime);
-				*/
-		//TYPE A: on runI show always run type to show at the side the number of tracks. If change here, change it below (TYPEB)
-		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
-				true, thereIsASimulated, RunsShowTime);
-
-		int bottomMargin = cb.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
-
-		//LogB.Information(string.Format("fontHeightForBottomNames: {0}, bottomMargin: {1}", fontHeightForBottomNames, bottomMargin));
+		calculateBottomParams (events, true, " - 99", //thinking on 99 tracks
+				"(" + Catalog.GetString("Simulated") + ")", thereIsASimulated, RunsShowTime);
 
 		List<PointF> point_l = new List<PointF>();
 		List<string> names_l = new List<string>();
@@ -2678,15 +2647,7 @@ public class CairoPaintBarsWilight : CairoPaintBarsPre
 		List<string> names_l = new List<string>();
 		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
 
-		//manage bottom text font/spacing of rows
-		string longestWord = findLongestWordCairo (events,
-				true, "", "");
-		int fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);
-
-		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
-				true, false, false);
-		int bottomMargin = cb.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
-
+		calculateBottomParams (events, true, "", "", false, false);
 
 		int countToDraw = eventGraphWilightStored.rowsAtSQL.Count;
 		foreach (Wilight wilight in eventGraphWilightStored.rowsAtSQL)
@@ -2764,15 +2725,7 @@ public class CairoPaintBarsFourPlatforms : CairoPaintBarsPre
 		List<string> names_l = new List<string>();
 		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
 
-		//manage bottom text font/spacing of rows
-		string longestWord = findLongestWordCairo (events,
-				true, "", "");
-		int fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);
-
-		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
-				true, false, false);
-		int bottomMargin = cb.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
-
+		calculateBottomParams (events, true, "", "", false, false);
 
 		int countToDraw = eventGraphFourPlatformsStored.rowsAtSQL.Count;
 		foreach (FourPlatforms fp in eventGraphFourPlatformsStored.rowsAtSQL)

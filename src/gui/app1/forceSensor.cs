@@ -532,7 +532,6 @@ public partial class ChronoJumpWindow
 			button_ai_move_cd_pre_set_sensitivity ();
 
 		hbox_contacts_camera.Sensitive = sensitive;
-		box_contacts_load_recalculate.Sensitive = sensitive;
 
 		//other gui buttons
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = sensitive;
@@ -1893,6 +1892,7 @@ LogB.Information(" fs C ");
 						webcamRestoreGui (success);
 					}
 
+					treeViewResultsSession.Add (currentPerson.Name, currentForceSensor, "");
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 					sensitiveLastTestButtons(true);
 					contactsShowCaptureDoingButtons(false);
@@ -2259,7 +2259,11 @@ LogB.Information(" fs R ");
 		}
 
 		genericWin.HideAndNull();
+		forceSenssorLoadSignalAcceptedDo (uniqueID, personID, sessionID, elastic, TwoSetsCD);
+	}
 
+	private void forceSenssorLoadSignalAcceptedDo (int uniqueID, int personID, int sessionID, int elastic, bool TwoSetsCD)
+	{
 		ForceSensor fs = (ForceSensor) SqliteForceSensor.Select (false, uniqueID, personID, sessionID, elastic)[0];
 		if(fs == null)
 		{
@@ -2328,8 +2332,8 @@ LogB.Information(" fs R ");
 		setForceSensorCaptureOptions(fs.CaptureOption);
 
 		setLaterality(fs.Laterality);
-		//textview_force_sensor_capture_comment.Buffer.Text = fs.Comments;
-		textview_contacts_signal_comment.Buffer.Text = fs.Comments;
+		//textview_force_sensor_capture_comment.Buffer.Text = fs.Description;
+		textview_contacts_signal_comment.Buffer.Text = fs.Description;
 
 		assignCurrentForceSensorExercise();
 
@@ -2440,11 +2444,11 @@ LogB.Information(" fs R ");
 
 		//2) if changed comment, update SQL, and update treeview
 		//first remove conflictive characters
-		string comment = Util.RemoveTildeAndColonAndDot(genericWin.EntryEditRow);
-		if(comment != fs.Comments)
+		string desc = Util.RemoveTildeAndColonAndDot(genericWin.EntryEditRow);
+		if (desc != fs.Description)
 		{
-			fs.Comments = comment;
-			fs.UpdateSQLJustComments(true);
+			fs.Description = desc;
+			fs.UpdateSQLJustDescription (true);
 
 			//update treeview
 			genericWin.on_edit_selected_done_update_treeview();
@@ -2542,6 +2546,7 @@ LogB.Information(" fs R ");
 			genericWin.SetButtonAcceptSensitive(false);
 		}
 		genericWin.Delete_row_accepted();
+		pre_fillTreeView_resultsSession (false);
 	}
 
 	private void force_sensor_delete_current_test_pre_question()
@@ -2566,6 +2571,8 @@ LogB.Information(" fs R ");
 
 		//empty forceSensor GUI (this also assigns -1 to currentForceSensor)
 		blankForceSensorInterface();
+
+		pre_fillTreeView_resultsSession (false);
 	}
 
 	private void forceSensorDeleteTestDo(ForceSensor fs)
@@ -2616,8 +2623,8 @@ LogB.Information(" fs R ");
 		currentForceSensor.ExerciseName = currentForceSensorExercise.Name; //just in case
 		currentForceSensor.CaptureOption = getForceSensorCaptureOptions();
 		currentForceSensor.Laterality = getLaterality(false);
-		//currentForceSensor.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
-		currentForceSensor.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
+		//currentForceSensor.Description = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
+		currentForceSensor.Description = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
 
 
 		double stiffness;
@@ -2959,10 +2966,10 @@ LogB.Information(" fs R ");
 	public void on_button_force_capture_grid_legend_info_clicked (object o, EventArgs args)
 	{
 		new DialogMessage (Constants.MessageTypes.INFO, 850, 400,
-				"Explanation of forces shown:\n" +
+				"Explanation of shown forces:\n" +
 				"\n- <b>Raw</b>: Raw data (once tared and calibrated), absolute or inverted values are also applied if necessary." +
 				"\n- <b>Unfiltered</b>: Raw data + projection of exerted force if applicable + effect of rubber band if applicable." +
-				"\n- <b>Butterworth</b>: Apply Butterworth filtering to previous value.");
+				"\n- <b>Bw</b>: Apply Butterworth low-pass filtering to previous value.");
 	}
 
 	public void on_force_capture_drawingarea_cairo_draw (object o, Gtk.DrawnArgs args)
@@ -3581,6 +3588,8 @@ LogB.Information(" fs R ");
 			//combo_force_sensor_capture_options.Sensitive = true;
 			combo_force_sensor_capture_options.Visible = true;
 		}
+
+		radio_contacts_graph_currentTest.Label = fse.Name;
 	}
 
 	private void fillForceSensorExerciseCombo (string name)

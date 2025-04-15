@@ -126,4 +126,37 @@ public class EditWilightWindow : EditEventWindow
 	}
 }
 	
+public partial class ChronoJumpWindow
+{
+	private void on_edit_selected_wilight_clicked (object o, EventArgs args)
+	{
+		//notebooks_change(2); see "notebooks_change sqlite problem"
+		LogB.Information("Edit selected wilight");
+		//1.- check that there's a line selected
+		//2.- check that this line is a wilight and not a person (check also if it's not a individual RJ, the pass the parent RJ)
+		int selectedID = treeViewResultsSession.EventSelectedID;
+		if (selectedID <= 0)
+			return;
 
+		//3.- obtain the data of the selected wilight
+		Wilight wilight = SqliteWilight.SelectData (selectedID, false );
+		eventOldPerson = wilight.PersonID;
+
+		//4.- edit this test
+		editWilightWin = EditWilightWindow.Show (app1, wilight);
+		editWilightWin.Button_accept.Clicked += new EventHandler (on_edit_selected_wilight_accepted);
+	}
+	private void on_edit_selected_wilight_accepted (object o, EventArgs args)
+	{
+		LogB.Information("edit selected wilight accepted");
+		Wilight wilight = SqliteWilight.SelectData (treeViewResultsSession.EventSelectedID, false);
+
+		//if person changed, fill treeview again, if not, only update it's line
+		if (eventOldPerson == wilight.PersonID)
+			treeViewResultsSession.Update (wilight);
+		else
+			pre_fillTreeView_resultsSession (false);
+
+		updateGraphWilightBars ();
+	}
+}

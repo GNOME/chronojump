@@ -28,15 +28,15 @@ using Mono.Unix;
 //---------------- EDIT WIDGET ---------------------------
 //--------------------------------------------------------
 
-public class EditFourPlatformsWindow : EditEventWindow
+public class EditForceSensorWindow : EditEventWindow
 {
-	static EditFourPlatformsWindow EditFourPlatformsWindowBox;
+	static EditForceSensorWindow EditForceSensorWindowBox;
 
 	//for inheritance
-	protected EditFourPlatformsWindow () {
+	protected EditForceSensorWindow () {
 	}
 
-	public EditFourPlatformsWindow (Gtk.Window parent)
+	public EditForceSensorWindow (Gtk.Window parent)
 	{
 		/*
 		Glade.XML gladeXML;
@@ -56,27 +56,27 @@ public class EditFourPlatformsWindow : EditEventWindow
 //		eventBigTypeString = Catalog.GetString("race");
 	}
 
-	static public EditFourPlatformsWindow Show (Gtk.Window parent, Event myEvent)
+	static public EditForceSensorWindow Show (Gtk.Window parent, Event myEvent)
 	{
-		if (EditFourPlatformsWindowBox == null) {
-			EditFourPlatformsWindowBox = new EditFourPlatformsWindow (parent);
+		if (EditForceSensorWindowBox == null) {
+			EditForceSensorWindowBox = new EditForceSensorWindow (parent);
 		}
 
-		EditFourPlatformsWindowBox.colorize();
-		EditFourPlatformsWindowBox.initializeValues();
-		EditFourPlatformsWindowBox.fillDialog (myEvent);
-		EditFourPlatformsWindowBox.edit_event.Show ();
+		EditForceSensorWindowBox.colorize();
+		EditForceSensorWindowBox.initializeValues();
+		EditForceSensorWindowBox.fillDialog (myEvent);
+		EditForceSensorWindowBox.edit_event.Show ();
 
-		return EditFourPlatformsWindowBox;
+		return EditForceSensorWindowBox;
 	}
 	
 	protected override void initializeValues ()
 	{
-		typeOfTest = Constants.TestTypes.FOURPLATFORMS;
+		typeOfTest = Constants.TestTypes.FORCESENSOR;
 		showType = false; //TODO: in the future change this
 		showRunStart = false;
 		showTv = false;
-		showTc= false;
+		showTc = false;
 		showFall = false;
 		showDistance = false;
 		distanceCanBeDecimal = true;
@@ -86,7 +86,7 @@ public class EditFourPlatformsWindow : EditEventWindow
 		showLimited = false;
 		showMistakes = false;
 		showVideo = false;
-		showDescription = false;
+		showDescription = true;
 	}
 
 	protected override string [] findTypes (Event myEvent)
@@ -102,61 +102,65 @@ public class EditFourPlatformsWindow : EditEventWindow
 
 	protected override void updateEvent (int eventID, int personID, string description)
 	{
-		SqliteTests sqliteTests = new SqliteFourPlatforms ();
-		sqliteTests.Update (eventID,
+		SqliteTests st = new SqliteForceSensor ();
+		st.Update (eventID,
 				//UtilGtk.ComboGetActive(combo_eventType),
 				personID);
+		st.UpdateComments (eventID, description);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)
 	{
-		EditFourPlatformsWindowBox.edit_event.Hide();
-		EditFourPlatformsWindowBox = null;
+		EditForceSensorWindowBox.edit_event.Hide();
+		EditForceSensorWindowBox = null;
 	}
 	
 	protected override void on_delete_event (object o, DeleteEventArgs args)
 	{
-		EditFourPlatformsWindowBox.edit_event.Hide();
-		EditFourPlatformsWindowBox = null;
+		EditForceSensorWindowBox.edit_event.Hide();
+		EditForceSensorWindowBox = null;
 	}
 	
 	protected override void hideWindow() {
-		EditFourPlatformsWindowBox.edit_event.Hide();
-		EditFourPlatformsWindowBox = null;
+		EditForceSensorWindowBox.edit_event.Hide();
+		EditForceSensorWindowBox = null;
 	}
 }
 
 public partial class ChronoJumpWindow
 {
-	private void on_edit_selected_fourPlatforms_clicked (object o, EventArgs args)
+	private void on_edit_selected_forceSensor_clicked (object o, EventArgs args)
 	{
 		//notebooks_change(2); see "notebooks_change sqlite problem"
-		LogB.Information("Edit selected wilight");
+		LogB.Information("Edit selected forceSensor");
 		//1.- check that there's a line selected
-		//2.- check that this line is a wilight and not a person (check also if it's not a individual RJ, the pass the parent RJ)
+		//2.- check that this line is a forceSensor and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		int selectedID = treeViewResultsSession.EventSelectedID;
 		if (selectedID <= 0)
 			return;
 
-		//3.- obtain the data of the selected test
-		FourPlatforms fp = SqliteFourPlatforms.SelectData (selectedID, false );
-		eventOldPerson = fp.PersonID;
+		//3.- obtain the data of the selected forceSensor
+		ForceSensor forceSensor = SqliteForceSensor.SelectData (selectedID, false );
+		eventOldPerson = forceSensor.PersonID;
 
 		//4.- edit this test
-		editFourPlatformsWin = EditFourPlatformsWindow.Show (app1, fp);
-		editFourPlatformsWin.Button_accept.Clicked += new EventHandler (on_edit_selected_fourPlatforms_accepted);
+		editForceSensorWin = EditForceSensorWindow.Show (app1, forceSensor);
+		editForceSensorWin.Button_accept.Clicked += new EventHandler (on_edit_selected_forceSensor_accepted);
 	}
-	private void on_edit_selected_fourPlatforms_accepted (object o, EventArgs args)
+	private void on_edit_selected_forceSensor_accepted (object o, EventArgs args)
 	{
-		LogB.Information("edit selected fourPlatforms accepted");
-		FourPlatforms fourPlatforms = SqliteFourPlatforms.SelectData (treeViewResultsSession.EventSelectedID, false);
+		LogB.Information("edit selected forceSensor accepted");
+		ForceSensor forceSensor = SqliteForceSensor.SelectData (treeViewResultsSession.EventSelectedID, false);
 
 		//if person changed, fill treeview again, if not, only update it's line
-		if (eventOldPerson == fourPlatforms.PersonID)
-			treeViewResultsSession.Update (fourPlatforms);
-		else
+		if (eventOldPerson == forceSensor.PersonID)
+		{
+			forceSensor.ExerciseName = SqliteTests.SelectExerciseNameInOtherTable (false, forceSensor.ExerciseID, Constants.ForceSensorExerciseTable);
+			treeViewResultsSession.Update (forceSensor);
+		}  else
 			pre_fillTreeView_resultsSession (false);
 
-		updateGraphFourPlatformsBars ();
+		//updateGraphForceSensorBars ();
 	}
+
 }

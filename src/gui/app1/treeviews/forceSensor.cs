@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -27,12 +27,14 @@ using System.Collections.Generic; //List
 
 public partial class ChronoJumpWindow 
 {
-	private void fillTreeView_wilight (string filter) {
-		fillTreeView_wilight (filter, false);
+	private void fillTreeView_forceSensor (string filter) {
+		fillTreeView_forceSensor (filter, false);
 	}
-	private void fillTreeView_wilight (string filter, bool dbconOpened)
+	private void fillTreeView_forceSensor (string filterExercise, bool dbconOpened)
 	{
-		if (currentSession == null) {
+		LogB.Information ("At fillTreeView_forceSensor");
+		if (currentSession == null || ! Constants.ModeIsFORCESENSOR (current_mode))
+		{
 			/*
 			 * This happens when the user "Imports a session": Chronojump tries to
 			 * update comboboxes, it reaches here because the comboboxes are updated
@@ -44,24 +46,33 @@ public partial class ChronoJumpWindow
 		}
 
 		/*
-		List<Wilight> wilight_l = SqliteWilight.Select (dbconOpened,
+		List<ForceSensor> forceSensor_l = SqliteForceSensor.Select (dbconOpened,
 				currentSession.UniqueID, currentPersonOrAll ()//,
 				//"", Sqlite.Orders_by.DEFAULT, 0);
 			);
-		string [] wilightSA = TreeViewWilight.ListToStringArray (wilight_l);
+		string [] forceSensorSA = TreeViewForceSensor.ListToStringArray (forceSensor_l);
 		*/
-		SqliteTests sqliteTests = new SqliteWilight ();
-		string [] wilightSA = sqliteTests.SelectSA (dbconOpened,
+		SqliteTests sqliteTests = new SqliteForceSensor ();
+
+		//show isometric or elastic
+		if (current_mode == Constants.Modes.FORCESENSORISOMETRIC)
+			sqliteTests.FilterOtherString = " AND " + Constants.ForceSensorTable + ".stiffness < 0";
+		else if (current_mode == Constants.Modes.FORCESENSORELASTIC)
+			sqliteTests.FilterOtherString = " AND " + Constants.ForceSensorTable + ".stiffness >= 0";
+
+		string [] forceSensorSA = sqliteTests.SelectSA (dbconOpened,
 				currentSession.UniqueID, currentPersonOrAll (),
 				//"",
-				false, "",
+				true, Constants.ForceSensorExerciseTable,
 				Sqlite.Orders_by.DEFAULT, 0);
 
-		if (current_mode == Constants.Modes.WILIGHT)
-			treeViewResultsSession.Fill (wilightSA,
-					//filter,
-					//Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.RUN));
-					"", new List<string> ());
+		sqliteTests.FilterOtherString = ""; //precaution
+
+		LogB.Information ("fillTreeView_forceSensor calling Fill");
+		treeViewResultsSession.Fill (forceSensorSA,
+				filterExercise,
+				//Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.RUN));
+			new List<string> ());
 
 		//if show just one person, have it expanded
 		if (! radio_contacts_results_personAll.Active && currentPerson != null)
@@ -69,4 +80,4 @@ public partial class ChronoJumpWindow
 		else
 			expandOrMinimizeTreeView((TreeViewEvent) treeViewResultsSession, treeview_results_session);
 	}
-}
+} 

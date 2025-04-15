@@ -4872,7 +4872,7 @@ LogB.SQL("5" + tableName);
 	
 	//when select from database, ensure path separators are ok for this platform
 	//useful if person moved database between diff OS
-	protected static string fixOSpath(string url) {
+	public static string FixOSpath (string url) {
 		if(UtilAll.IsWindows())
 			return url.Replace("/","\\");
 		else

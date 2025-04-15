@@ -1,0 +1,262 @@
+/*
+ * This file is part of ChronoJump
+ *
+ * ChronoJump is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or   
+ *    (at your option) any later version.
+ *    
+ * ChronoJump is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ *    GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Copyright (C) 2017-2025   Xavier de Blas <xaviblas@gmail.com>
+ */
+
+using System;
+//using System.Data;
+
+#if MICROSOFT_DATA_SQLITE
+using Microsoft.Data.Sqlite;
+using SQLiteTransaction = Microsoft.Data.Sqlite.SqliteTransaction;
+using SQLiteCommand = Microsoft.Data.Sqlite.SqliteCommand;
+using SQLiteDataReader = Microsoft.Data.Sqlite.SqliteDataReader;
+using SQLiteConnection = Microsoft.Data.Sqlite.SqliteConnection;
+#else
+using System.Data.SQLite;
+using SQLiteTransaction = System.Data.SQLite.SQLiteTransaction;
+using SQLiteCommand = System.Data.SQLite.SQLiteCommand;
+using SQLiteDataReader = System.Data.SQLite.SQLiteDataReader;
+using SQLiteConnection = System.Data.SQLite.SQLiteConnection;
+#endif
+
+class SqliteForceSensorRFD : Sqlite
+{
+    private static string table = Constants.ForceRFDTable;
+
+    public SqliteForceSensorRFD()
+    {
+    }
+
+    ~SqliteForceSensorRFD() { }
+
+    /*
+	 * create and initialize tables
+	 */
+
+	protected internal static new void createTable()
+	{
+		dbcmd.CommandText = 
+			"CREATE TABLE " + table + " ( " +
+			"code TEXT, " + 	//RFD1...10, I (Impulse)
+			"active INT, " + 	//bool
+			"function TEXT, " +
+			"type TEXT, " +
+			"num1 INT, " +
+			"num2 INT )";
+		dbcmd.ExecuteNonQuery();
+	}
+
+	public static void InsertDefaultValues(bool dbconOpened)
+	{
+		openIfNeeded(dbconOpened);
+
+		Insert(true, new ForceSensorRFD("RFD1", true,
+					ForceSensorRFD.Functions.FITTED, ForceSensorRFD.Types.INSTANTANEOUS, 0, -1));
+		Insert(true, new ForceSensorRFD("RFD2", true,
+					ForceSensorRFD.Functions.RAW, ForceSensorRFD.Types.AVERAGE, 0, 100));
+		Insert(true, new ForceSensorRFD("RFD3", false,
+					ForceSensorRFD.Functions.FITTED, ForceSensorRFD.Types.PERCENT_F_MAX, 50, -1));
+		Insert(true, new ForceSensorRFD("RFD4", false,
+					ForceSensorRFD.Functions.RAW, ForceSensorRFD.Types.RFD_MAX, -1, -1));
+		UpdateTo2_47 ();
+
+		InsertDefaultValueImpulse(true);
+
+		closeIfNeeded(dbconOpened);
+	}
+
+	// adds RFDs 5-10
+	protected internal static void UpdateTo2_47 ()
+	{
+		Insert(true, new ForceSensorRFD("RFD5", false,
+					ForceSensorRFD.Functions.RAW, ForceSensorRFD.Types.BEST_AVG_RFD_IN_X_MS, 50, -1));
+		Insert(true, new ForceSensorRFD("RFD6", false,
+					ForceSensorRFD.Functions.RAW, ForceSensorRFD.Types.RFD_MAX, -1, -1));
+		Insert(true, new ForceSensorRFD("RFD7", false,
+					ForceSensorRFD.Functions.RAW, ForceSensorRFD.Types.RFD_MAX, -1, -1));
+		Insert(true, new ForceSensorRFD("RFD8", false,
+					ForceSensorRFD.Functions.RAW, ForceSensorRFD.Types.RFD_MAX, -1, -1));
+		Insert(true, new ForceSensorRFD("RFD9", false,
+					ForceSensorRFD.Functions.RAW, ForceSensorRFD.Types.RFD_MAX, -1, -1));
+		Insert(true, new ForceSensorRFD("RFD10", false,
+					ForceSensorRFD.Functions.RAW, ForceSensorRFD.Types.RFD_MAX, -1, -1));
+	}
+
+	public static void InsertDefaultValueImpulse(bool dbconOpened)
+	{
+		openIfNeeded(dbconOpened);
+
+		Insert(true, new ForceSensorImpulse(true,
+					ForceSensorImpulse.Functions.RAW, ForceSensorImpulse.Types.IMP_RANGE, 0, 500));
+
+        	closeIfNeeded(dbconOpened);
+	}
+
+    public static void Insert(bool dbconOpened, ForceSensorRFD rfd)
+    {
+        openIfNeeded(dbconOpened);
+
+        dbcmd.CommandText = "INSERT INTO " + table +
+            " (code, active, function, type, num1, num2) VALUES (" + rfd.ToSQLInsertString() + ")";
+
+        LogB.SQL(dbcmd.CommandText.ToString());
+        dbcmd.ExecuteNonQuery();
+
+        closeIfNeeded(dbconOpened);
+    }
+    public static void InsertImpulse(bool dbconOpened, ForceSensorImpulse impulse)
+    {
+        openIfNeeded(dbconOpened);
+
+        dbcmd.CommandText = "INSERT INTO " + table +
+            " (code, active, function, type, num1, num2) VALUES (" + impulse.ToSQLInsertString() + ")";
+
+        LogB.SQL(dbcmd.CommandText.ToString());
+        dbcmd.ExecuteNonQuery();
+
+        closeIfNeeded(dbconOpened);
+    }
+
+
+    public static void Update(bool dbconOpened, ForceSensorRFD rfd)
+    {
+        openIfNeeded(dbconOpened);
+
+        dbcmd.CommandText = "UPDATE " + table + " SET " +
+            " active = " + Util.BoolToInt(rfd.active).ToString() + "," +
+            " function = '" + rfd.function.ToString() + "'" + "," +
+            " type = '" + rfd.type.ToString() + "'" + "," +
+            " num1 = " + rfd.num1.ToString() + "," +
+            " num2 = " + rfd.num2.ToString() +
+            " WHERE code = '" + rfd.code + "'";
+
+        LogB.SQL(dbcmd.CommandText.ToString());
+        dbcmd.ExecuteNonQuery();
+
+        closeIfNeeded(dbconOpened);
+    }
+    public static void UpdateImpulse(bool dbconOpened, ForceSensorImpulse impulse)
+    {
+        openIfNeeded(dbconOpened);
+
+        dbcmd.CommandText = "UPDATE " + table + " SET " +
+            " active = " + Util.BoolToInt(impulse.active).ToString() + "," +
+            " function = '" + impulse.function.ToString() + "'" + "," +
+            " type = '" + impulse.type.ToString() + "'" + "," +
+            " num1 = " + impulse.num1.ToString() + "," +
+            " num2 = " + impulse.num2.ToString() +
+            " WHERE code = '" + impulse.code + "'";
+
+        LogB.SQL(dbcmd.CommandText.ToString());
+        dbcmd.ExecuteNonQuery();
+
+        closeIfNeeded(dbconOpened);
+    }
+
+    //used when button_force_rfd_default is clicked
+    public static void DeleteAll(bool dbconOpened)
+    {
+        openIfNeeded(dbconOpened);
+
+        dbcmd.CommandText = "DELETE FROM " + table;
+
+        LogB.SQL(dbcmd.CommandText.ToString());
+        dbcmd.ExecuteNonQuery();
+
+        closeIfNeeded(dbconOpened);
+    }
+
+    public static List<ForceSensorRFD> SelectAll(bool dbconOpened)
+    {
+        openIfNeeded(dbconOpened);
+
+        dbcmd.CommandText = "SELECT * FROM " + table + " WHERE code != 'I'";
+        LogB.SQL(dbcmd.CommandText.ToString());
+        dbcmd.ExecuteNonQuery();
+
+        SQLiteDataReader reader = dbcmd.ExecuteReader();
+
+        List<ForceSensorRFD> l = new List<ForceSensorRFD>();
+        while (reader.Read())
+        {
+            //try/catch here because BEST_AVG_RFD_IN_X_MS is new and a user can have a db of another more updated
+            ForceSensorRFD rfd;
+            try
+            {
+                rfd = new ForceSensorRFD(
+                        reader[0].ToString(),               //code
+                        Util.IntToBool(Convert.ToInt32(reader[1])),     //active
+                        (ForceSensorRFD.Functions)Enum.Parse(
+                            typeof(ForceSensorRFD.Functions), reader[2].ToString()),    //function
+                        (ForceSensorRFD.Types)Enum.Parse(
+                            typeof(ForceSensorRFD.Types), reader[3].ToString()),    //type
+                        Convert.ToInt32(reader[4]),             //num1
+                        Convert.ToInt32(reader[5])          //num2
+                        );
+            }
+            catch
+            {
+                LogB.Information(string.Format(
+                            "Catched on SqliteForceSensorRFD.SelectAll creating a ForceSensorRFD of function: {0} and type: {1}",
+                            reader[2].ToString(), reader[3].ToString()));
+
+                //create a default rfd for that code and make it inactive
+                rfd = new ForceSensorRFD(reader[0].ToString(), false,
+                    ForceSensorRFD.Functions.FITTED, ForceSensorRFD.Types.INSTANTANEOUS, 0, -1);
+            }
+
+            l.Add(rfd);
+        }
+
+        reader.Close();
+        closeIfNeeded(dbconOpened);
+
+        return l;
+    }
+
+    public static ForceSensorImpulse SelectImpulse(bool dbconOpened)
+    {
+        openIfNeeded(dbconOpened);
+
+        dbcmd.CommandText = "SELECT * FROM " + table + " WHERE code = 'I'";
+        LogB.SQL(dbcmd.CommandText.ToString());
+        dbcmd.ExecuteNonQuery();
+
+        SQLiteDataReader reader = dbcmd.ExecuteReader();
+
+        ForceSensorImpulse impulse = null;
+        while (reader.Read())
+        {
+            impulse = new ForceSensorImpulse(
+                    Util.IntToBool(Convert.ToInt32(reader[1])),     //active
+                    (ForceSensorImpulse.Functions)Enum.Parse(
+                        typeof(ForceSensorImpulse.Functions), reader[2].ToString()),    //function
+                    (ForceSensorImpulse.Types)Enum.Parse(
+                        typeof(ForceSensorImpulse.Types), reader[3].ToString()), //type
+                    Convert.ToInt32(reader[4]),             //num1
+                    Convert.ToInt32(reader[5])          //num2
+                    );
+        }
+
+        reader.Close();
+        closeIfNeeded(dbconOpened);
+
+        return impulse;
+    }
+}

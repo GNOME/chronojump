@@ -172,14 +172,16 @@ public class TreeViewEvent
 		return nothing;
 	}
 
-	public virtual void Fill (string [] myEvents, string filter, List<string> videos_l)
+	public virtual void Fill (string [] myEvents, string filterExercise, List<string> videos_l)
 	{
+		LogB.Information ("called Fill");
 		this.videos_l = videos_l;
 
 		TreeIter iter = new TreeIter();
 		TreeIter iterDeep = new TreeIter(); //only used by two levels treeviews
 		string tempPerson = ":"; //one value that's not possible
 
+		LogB.Information ("dataLineTypePostion = " + dataLineTypePosition.ToString  ());
 		foreach (string singleEvent in myEvents)
 		{
 			string [] myStringFull = singleEvent.Split(new char[] {':'});
@@ -191,14 +193,13 @@ public class TreeViewEvent
 				tempPerson = myStringFull[dataLineNamePosition];
 			}
 
-			/*
 			LogB.Information (string.Format (
-				"At Fill, filter: {0}, allEventsName: {1}, Catalog.GetString(myStringFull[dataLineTypePosition]): {2}",
-				filter, allEventsName, Catalog.GetString(myStringFull[dataLineTypePosition]) ));
-			*/
+				"At Fill, filterExercise: {0}, allEventsName: {1}, Catalog.GetString(myStringFull[dataLineTypePosition]): {2}",
+				filterExercise, allEventsName, Catalog.GetString(myStringFull[dataLineTypePosition]) ));
 
 			//... but if we selected one type of test of this mode and this it's not the type, don't show
-			if (filter == allEventsName || filter == Catalog.GetString (myStringFull[dataLineTypePosition]))
+			if (filterExercise == allEventsName ||
+					filterExercise == Catalog.GetString (myStringFull[dataLineTypePosition]))
 			{
 				//get the object from the string
 				System.Object myEvent = getObjectFromString (myStringFull);

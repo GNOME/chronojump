@@ -40,22 +40,27 @@ public partial class ChronoJumpWindow
 	private void createTreeView_resultsSession (Gtk.TreeView tv)
 	{
 		LogB.Information ("createTreeView_resultsSession mode = " + current_mode.ToString ());
+		int pdn = preferences.digitsNumber;
+		TreeViewEvent.ExpandStates minimized = TreeViewEvent.ExpandStates.MINIMIZED;
+
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
-			treeViewResultsSession = new TreeViewJumps (tv, preferences, TreeViewEvent.ExpandStates.MINIMIZED);
+			treeViewResultsSession = new TreeViewJumps (tv, preferences, minimized);
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
-			treeViewResultsSession = new TreeViewJumpsRj (tv, preferences, TreeViewEvent.ExpandStates.MINIMIZED);
+			treeViewResultsSession = new TreeViewJumpsRj (tv, preferences, minimized);
 		else if (current_mode == Constants.Modes.RUNSSIMPLE)
-			treeViewResultsSession = new TreeViewRuns (tv, preferences.digitsNumber, preferences.metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED );
+			treeViewResultsSession = new TreeViewRuns (tv, pdn, preferences.metersSecondsPreferred, minimized );
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
-			treeViewResultsSession = new TreeViewRunsInterval (tv, preferences.digitsNumber, preferences.metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED);
+			treeViewResultsSession = new TreeViewRunsInterval (tv, pdn, preferences.metersSecondsPreferred, minimized);
 		else if (current_mode == Constants.Modes.BEEPTEST)
-			treeViewResultsSession = new TreeViewBeepTest (tv, preferences.digitsNumber, TreeViewEvent.ExpandStates.MINIMIZED );
+			treeViewResultsSession = new TreeViewBeepTest (tv, pdn, minimized );
+		else if (Constants.ModeIsFORCESENSOR (current_mode))
+			treeViewResultsSession = new TreeViewForceSensor (tv, pdn, minimized );
 		else if (current_mode == Constants.Modes.WILIGHT)
-			treeViewResultsSession = new TreeViewWilight (tv, preferences.digitsNumber, TreeViewEvent.ExpandStates.MINIMIZED );
+			treeViewResultsSession = new TreeViewWilight (tv, pdn, minimized );
 		else if (current_mode == Constants.Modes.OTHER)
-			treeViewResultsSession = new TreeViewFourPlatforms (tv, preferences.digitsNumber, TreeViewEvent.ExpandStates.MINIMIZED );
+			treeViewResultsSession = new TreeViewFourPlatforms (tv, pdn, minimized );
 		else
-			treeViewResultsSession = new TreeViewJumps (tv, preferences, TreeViewEvent.ExpandStates.MINIMIZED); //default to fix any temporary crash at start (seems there is a personChanged but still not mode)
+			treeViewResultsSession = new TreeViewJumps (tv, preferences, minimized); //default to fix any temporary crash at start (seems there is a personChanged but still not mode)
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		tv.CursorChanged -= on_treeview_results_session_cursor_changed;
@@ -77,9 +82,9 @@ public partial class ChronoJumpWindow
 				current_mode == Constants.Modes.RUNSSIMPLE ||
 				current_mode == Constants.Modes.BEEPTEST ||
 				current_mode == Constants.Modes.WILIGHT)
-		{
-			on_treeview_test_simple_cursor_changed (o, args); // 1 level
-		}
+			on_treeview_test_simple_cursor_changed (false); // 1 level, no load set
+		else if (Constants.ModeIsFORCESENSOR (current_mode))
+			on_treeview_test_simple_cursor_changed (true); // 1 level, load set
 		else {
 			// 2 levels
 			if (current_mode == Constants.Modes.JUMPSREACTIVE)
@@ -91,7 +96,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void on_treeview_test_simple_cursor_changed (object o, EventArgs args)
+	private void on_treeview_test_simple_cursor_changed (bool loadSet)
 	{
 		sensitiveLastTestButtons(false);
 
@@ -101,6 +106,9 @@ public partial class ChronoJumpWindow
 			treeViewResultsSession.Unselect();
 			showHideActionEventButtons(false); //hide
 		} else {
+			if (loadSet)
+				forceSenssorLoadSignalAcceptedDo (treeViewResultsSession.EventSelectedID, -1, currentSession.UniqueID, ForceSensor.GetElasticIntFromMode (current_mode), false);
+
 			showHideActionEventButtons(true); //show
 			updateGraphResultsSessionByMode (); //to show the selected bar
 		}
@@ -121,27 +129,27 @@ public partial class ChronoJumpWindow
 
 		treeViewResultsSession.RemoveColumns();
 
+		int pdn = preferences.digitsNumber;
+		TreeViewEvent.ExpandStates expandState = treeViewResultsSession.ExpandState;
+
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
-			treeViewResultsSession = new TreeViewJumps (
-					treeview_results_session, preferences, treeViewResultsSession.ExpandState);
+			treeViewResultsSession = new TreeViewJumps (treeview_results_session, preferences, expandState);
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
-			treeViewResultsSession = new TreeViewJumpsRj (
-					treeview_results_session, preferences, treeViewResultsSession.ExpandState);
+			treeViewResultsSession = new TreeViewJumpsRj (treeview_results_session, preferences, expandState);
 		else if (current_mode == Constants.Modes.RUNSSIMPLE)
 			treeViewResultsSession = new TreeViewRuns (
-					treeview_results_session, preferences.digitsNumber, preferences.metersSecondsPreferred, treeViewResultsSession.ExpandState);
+					treeview_results_session, pdn, preferences.metersSecondsPreferred, expandState);
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			treeViewResultsSession = new TreeViewRunsInterval (
-					treeview_results_session, preferences.digitsNumber, preferences.metersSecondsPreferred, treeViewResultsSession.ExpandState);
+					treeview_results_session, pdn, preferences.metersSecondsPreferred, expandState);
 		else if (current_mode == Constants.Modes.BEEPTEST)
-			treeViewResultsSession = new TreeViewBeepTest (
-					treeview_results_session, preferences.digitsNumber, treeViewResultsSession.ExpandState);
+			treeViewResultsSession = new TreeViewBeepTest (treeview_results_session, pdn, expandState);
+		else if (Constants.ModeIsFORCESENSOR (current_mode))
+			treeViewResultsSession = new TreeViewForceSensor (treeview_results_session, pdn, expandState);
 		else if (current_mode == Constants.Modes.WILIGHT)
-			treeViewResultsSession = new TreeViewWilight (
-					treeview_results_session, preferences.digitsNumber, treeViewResultsSession.ExpandState);
+			treeViewResultsSession = new TreeViewWilight (treeview_results_session, pdn, expandState);
 		else if (current_mode == Constants.Modes.OTHER)
-			treeViewResultsSession = new TreeViewFourPlatforms (
-					treeview_results_session, preferences.digitsNumber, treeViewResultsSession.ExpandState);
+			treeViewResultsSession = new TreeViewFourPlatforms (treeview_results_session, pdn, expandState);
 	}
 
 	private void on_treeview_results_session_button_release_event (object o, ButtonReleaseEventArgs args)
@@ -151,45 +159,47 @@ public partial class ChronoJumpWindow
 		if (e.Button != 3 || treeViewResultsSession.EventSelectedID <= 0)
 			return;
 
+		int id = treeViewResultsSession.EventSelectedID;
+
 		Event ev;
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
 		{
-			ev = SqliteJump.SelectJumpData (
-					treeViewResultsSession.EventSelectedID, false );
+			ev = SqliteJump.SelectJumpData (id, false );
 			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonName + ")");
 		}
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
-			ev = SqliteJumpRj.SelectJumpData (
-					"jumpRj", treeViewResultsSession.EventSelectedID, false, false);
+			ev = SqliteJumpRj.SelectJumpData ( "jumpRj", id, false, false);
 			treeviewResultsContextMenu (true, " " + ev.Type + " (" + ev.PersonName + ")");
 		}
 		else if (current_mode == Constants.Modes.RUNSSIMPLE)
 		{
-			ev = SqliteRun.SelectRunData (treeViewResultsSession.EventSelectedID, false);
+			ev = SqliteRun.SelectRunData (id, false);
 			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonName + ")");
 		}
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
-			ev = SqliteRunInterval.SelectRunData (
-					Constants.RunIntervalTable, treeViewResultsSession.EventSelectedID, false, false);
+			ev = SqliteRunInterval.SelectRunData ( Constants.RunIntervalTable, id, false, false);
 			treeviewResultsContextMenu (true, " " + ev.Type + " (" + ev.PersonName + ")");
 		}
 		else if (current_mode == Constants.Modes.BEEPTEST)
 		{
-			ev = SqliteBeepTest.SelectData (treeViewResultsSession.EventSelectedID, false);
+			ev = SqliteBeepTest.SelectData (id, false);
 			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonName + ")");
+		}
+		else if (Constants.ModeIsFORCESENSOR (current_mode))
+		{
+			ev = SqliteForceSensor.SelectData (id, false);
+			treeviewResultsContextMenu (false, " (" + ev.PersonName + ")");
 		}
 		else if (current_mode == Constants.Modes.WILIGHT)
 		{
-			ev = SqliteWilight.SelectData (
-					treeViewResultsSession.EventSelectedID, false);
+			ev = SqliteWilight.SelectData (id, false);
 			treeviewResultsContextMenu (false, " (" + ev.PersonName + ")");
 		}
 		else if (current_mode == Constants.Modes.OTHER) //FOURPLATFORMS
 		{
-			ev = SqliteFourPlatforms.SelectData (
-					treeViewResultsSession.EventSelectedID, false);
+			ev = SqliteFourPlatforms.SelectData (id, false);
 			treeviewResultsContextMenu (false, " (" + ev.PersonName + ")");
 		}
 	}

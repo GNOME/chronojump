@@ -50,7 +50,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_adjust_capturing;
 
 	Gtk.SpinButton spin_contacts_graph_last_limit;
-	Gtk.VBox vbox_contacts_simple_graph_controls;
+	Gtk.Box box_contacts_simple_graph_controls;
 	Gtk.Box box_contacts_graph_exercise;
 	Gtk.Box box_contacts_graph_show_graph_table;
 	Gtk.RadioButton radio_contacts_graph_currentTest;
@@ -196,7 +196,7 @@ public partial class ChronoJumpWindow
 	
 	private void showJumpSimpleLabels() 
 	{
-		vbox_contacts_simple_graph_controls.Visible = true;
+		box_contacts_simple_graph_controls.Visible = true;
 		check_run_show_time.Visible = false;
 
 //		align_check_vbox_contacts_graph_legend.Visible = true;
@@ -208,7 +208,7 @@ public partial class ChronoJumpWindow
 	
 	private void showJumpReactiveLabels() 
 	{
-		vbox_contacts_simple_graph_controls.Visible = true;
+		box_contacts_simple_graph_controls.Visible = true;
 		check_run_show_time.Visible = false;
 
 //		align_check_vbox_contacts_graph_legend.Visible = false;
@@ -219,7 +219,7 @@ public partial class ChronoJumpWindow
 	
 	private void showRunSimpleLabels() 
 	{
-		vbox_contacts_simple_graph_controls.Visible = true;
+		box_contacts_simple_graph_controls.Visible = true;
 		check_run_show_time.Visible = true;
 
 //		align_check_vbox_contacts_graph_legend.Visible = true;
@@ -230,7 +230,7 @@ public partial class ChronoJumpWindow
 		
 	private void showRunIntervalLabels() 
 	{
-		vbox_contacts_simple_graph_controls.Visible = true;
+		box_contacts_simple_graph_controls.Visible = true;
 		check_run_show_time.Visible = true;
 
 //		align_check_vbox_contacts_graph_legend.Visible = false;
@@ -1017,7 +1017,7 @@ public partial class ChronoJumpWindow
 		spin_contacts_graph_last_limit = (Gtk.SpinButton) builder.GetObject ("spin_contacts_graph_last_limit");
 		box_contacts_graph_exercise = (Gtk.Box) builder.GetObject ("box_contacts_graph_exercise");
 		box_contacts_graph_show_graph_table = (Gtk.Box) builder.GetObject ("box_contacts_graph_show_graph_table");
-		vbox_contacts_simple_graph_controls = (Gtk.VBox) builder.GetObject ("vbox_contacts_simple_graph_controls");
+		box_contacts_simple_graph_controls = (Gtk.Box) builder.GetObject ("box_contacts_simple_graph_controls");
 		radio_contacts_graph_currentTest = (Gtk.RadioButton) builder.GetObject ("radio_contacts_graph_currentTest");
 		radio_contacts_graph_allTests = (Gtk.RadioButton) builder.GetObject ("radio_contacts_graph_allTests");
 		//radio_contacts_results_personCurrent = (Gtk.RadioButton) builder.GetObject ("radio_contacts_results_personCurrent");

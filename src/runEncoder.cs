@@ -46,6 +46,8 @@ public class RunEncoder
 	private string videoURL;
 	private int angle;
 	private int totalTime; //needed to sync with video. If we press finish when there are no pulsees we cannot sync. If we use totalTime we can sync.
+	private double maxSpeed;
+	private double maxAvgSpeed1s;
 
 	private string exerciseName;
 
@@ -58,6 +60,32 @@ public class RunEncoder
 	}
 
 	//constructor
+	public RunEncoder(int uniqueID, int personID, int sessionID, int exerciseID, Devices device,
+			int distance, int temperature, string filename, string url,
+			string dateTime, string comments, string videoURL, int angle, int totalTime,
+			double maxSpeed, double maxAvgSpeed1s, string exerciseName)
+	{
+		this.uniqueID = uniqueID;
+		this.personID = personID;
+		this.sessionID = sessionID;
+		this.exerciseID = exerciseID;
+		this.device = device;
+		this.distance = distance;
+		this.temperature = temperature;
+		this.filename = filename;
+		this.url = url;
+		this.dateTime = dateTime;
+		this.comments = comments;
+		this.videoURL = videoURL;
+		this.angle = angle;
+		this.totalTime = totalTime;
+		this.maxSpeed = maxSpeed;
+		this.maxAvgSpeed1s = maxAvgSpeed1s;
+
+		this.exerciseName = exerciseName;
+	}
+
+	// OLD constructor for migrating to 1.71. DO NOT USE
 	public RunEncoder(int uniqueID, int personID, int sessionID, int exerciseID, Devices device,
 			int distance, int temperature, string filename, string url,
 			string dateTime, string comments, string videoURL, int angle, int totalTime,
@@ -97,7 +125,8 @@ public class RunEncoder
 		return
 			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID + ", '" + device.ToString() + "', " +
 			distance + ", " + temperature + ", '" + filename + "', '" + url + "', '" + dateTime + "', '" +
-			comments + "', '" + videoURL + "', " + angle + ", " + totalTime + ")";
+			comments + "', '" + videoURL + "', " + angle + ", " + totalTime + ", " +
+			Util.CTP (maxSpeed) + ", " + Util.CTP (maxAvgSpeed1s) + ")";
 	}
 
 	public void UpdateSQL(bool dbconOpened)
@@ -121,6 +150,8 @@ public class RunEncoder
 			"', videoURL = '" + Util.MakeURLrelative(videoURL) +
 			"', angle = " + angle +
 			", totalTime = " + totalTime +
+			", maxSpeed = " + maxSpeed +
+			", maxAvgSpeed1s = " + maxAvgSpeed1s +
 			" WHERE uniqueID = " + uniqueID;
 	}
 
@@ -280,6 +311,14 @@ public class RunEncoder
 	{
 		get { return totalTime; }
 		set { totalTime = value; }
+	}
+	public double MaxSpeed
+	{
+		get { return maxSpeed; }
+	}
+	public double MaxAvgSpeed1s
+	{
+		get { return maxAvgSpeed1s; }
 	}
 	public string ExerciseName
 	{

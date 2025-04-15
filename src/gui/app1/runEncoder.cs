@@ -2142,6 +2142,10 @@ public partial class ChronoJumpWindow
 					if (Config.SimulatedCapture)
 						event_execute_label_message.Text += " SIMULATED TEST!";
 
+					double maxSpeed = 0;
+					if (reCGSD != null && reCGSD.RunEncoderCaptureSpeedMax > 0)
+						maxSpeed = reCGSD.RunEncoderCaptureSpeedMax;
+
 					currentRunEncoder = new RunEncoder(-1, currentPerson.UniqueID, currentSession.UniqueID,
 							currentRunEncoderExercise.UniqueID, raceEncoderGetDevice(),
 							Convert.ToInt32(race_analyzer_spinbutton_distance.Value),
@@ -2153,6 +2157,8 @@ public partial class ChronoJumpWindow
 							"", //videoURL
 							Convert.ToInt32(race_analyzer_spinbutton_angle.Value),
 							runEncoderTotalTime,
+							maxSpeed,
+							0, //TODO: maxAvgSpeed1s
 							currentRunEncoderExercise.Name);
 
 					currentRunEncoder.UniqueID = currentRunEncoder.InsertSQL(false);

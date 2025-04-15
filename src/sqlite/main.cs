@@ -166,7 +166,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.59";
+	static string lastChronojumpDatabaseVersion = "2.60";
 
 	public Sqlite()
 	{
@@ -3531,6 +3531,19 @@ class Sqlite
 
 				currentVersion = updateVersion("2.59");
 			}
+			if(currentVersion == "2.59")
+			{
+				LogB.SQL("Doing alter table runEncoder adding maxSpeed, maxAvgSpeed1s");
+				try {
+					executeSQL("ALTER TABLE " + Constants.RunEncoderTable + " ADD COLUMN maxSpeed FLOAT;");
+					executeSQL("ALTER TABLE " + Constants.RunEncoderTable + " ADD COLUMN maxAvgSpeed1s FLOAT;");
+				} catch {
+					LogB.SQL("Catched at Doing alter table runEncoder adding maxSpeed, maxAvgSpeed1s");
+				}
+				LogB.SQL("Done!");
+
+				currentVersion = updateVersion("2.60");
+			}
 
 
 			/*
@@ -3779,7 +3792,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
-
+		//2.59 - 2.60 Converted DB to 2.60 alter table runEncoder adding maxSpeed, maxAvgSpeed1s
 		//2.58 - 2.59 Converted DB to 2.59 Created table BeepTest
 		//2.57 - 2.58 Converted DB to 2.58 alter table fourPlatforms totalTime int to float
 		//2.56 - 2.57 Converted DB to 2.57 alter table wilight added onString

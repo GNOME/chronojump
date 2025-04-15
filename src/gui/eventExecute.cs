@@ -408,7 +408,8 @@ public partial class ChronoJumpWindow
 				current_mode != Constants.Modes.RUNSSIMPLE &&
 				current_mode != Constants.Modes.RUNSINTERVALLIC &&
 				current_mode != Constants.Modes.WILIGHT &&
-				current_mode != Constants.Modes.OTHER) //FOURPLATFORMS
+				current_mode != Constants.Modes.OTHER && //FOURPLATFORMS
+				! Constants.ModeIsFORCESENSOR (current_mode) )
 			return;
 
 		if(cairoPaintBarsPre == null)

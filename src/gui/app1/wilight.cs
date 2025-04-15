@@ -580,7 +580,7 @@ public partial class ChronoJumpWindow
 				currentSession.UniqueID,
 				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
 				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
-				//Constants.WiightTable, typeTemp,
+				//Constants.WilightTable, typeTemp,
 				selectedID);
 
 		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.runsAtSQL.Count > 0)

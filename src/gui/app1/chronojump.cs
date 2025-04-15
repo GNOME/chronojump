@@ -3333,7 +3333,6 @@ public partial class ChronoJumpWindow
 				notebooks_change(m);
 				on_extra_window_jumps_test_changed(new object(), new EventArgs());
 
-				event_graph_label_graph_test.Visible = false;
 				vbox_contacts_simple_graph_controls.Visible = true;
 
 				//align_check_vbox_contacts_graph_legend.Visible = true;
@@ -3350,7 +3349,6 @@ public partial class ChronoJumpWindow
 				button_contacts_bells.Sensitive = true;
 				on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
 
-				event_graph_label_graph_test.Visible = false;
 				vbox_contacts_simple_graph_controls.Visible = true;
 
 				box_contacts_current.Visible = true;
@@ -3410,7 +3408,6 @@ public partial class ChronoJumpWindow
 				notebooks_change(m);
 				on_extra_window_runs_test_changed(new object(), new EventArgs());
 
-				event_graph_label_graph_test.Visible = false;
 				vbox_contacts_simple_graph_controls.Visible = true;
 
 				//align_check_vbox_contacts_graph_legend.Visible = true;
@@ -3430,7 +3427,6 @@ public partial class ChronoJumpWindow
 				button_inspect_last_test_run_intervallic.Visible = true;
 				button_inspect_last_test_run_intervallic.Sensitive = false;
 
-				event_graph_label_graph_test.Visible = false;
 				vbox_contacts_simple_graph_controls.Visible = true;
 
 				box_contacts_current.Visible = true;
@@ -3623,8 +3619,7 @@ public partial class ChronoJumpWindow
 			//button_force_sensor_sync.Visible = true; //TODO: show again when it fully works, now is hidden for 2.1.0 release
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
-			event_graph_label_graph_test.Visible = true;
-			vbox_contacts_simple_graph_controls.Visible = false;
+			vbox_contacts_simple_graph_controls.Visible = true;
 
 			hbox_change_modes_force_sensor.Visible = true;
 			radio_change_modes_contacts_isometric.Visible = (m == Constants.Modes.FORCESENSORISOMETRIC || m == Constants.Modes.FORCESENSORELASTIC);
@@ -3719,7 +3714,6 @@ public partial class ChronoJumpWindow
 			//similar to WILIGHT
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
-			event_graph_label_graph_test.Visible = false;
 			radio_mode_contacts_analyze.Visible = false;
 
 			box_contacts_capture_top.Visible = false;
@@ -3761,7 +3755,6 @@ public partial class ChronoJumpWindow
 		{
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
-			event_graph_label_graph_test.Visible = false;
 			radio_mode_contacts_analyze.Visible = false;
 
 			//hbox_change_modes_runs.Visible = true; //TODO: add beep test

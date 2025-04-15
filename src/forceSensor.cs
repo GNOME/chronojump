@@ -132,6 +132,15 @@ public class ForceSensor : Event
 		this.maxAvgForce1s = Convert.ToDouble (Util.CDS (eventStr[15]));
 	}
 
+	public static List<Event> ForceSensorListToEventList (List<ForceSensor> fs_l)
+	{
+		List<Event> events = new List<Event>();
+		foreach(ForceSensor fs in fs_l)
+			events.Add((Event) fs);
+
+		return events;
+	}
+
 	public int InsertSQL(bool dbconOpened)
 	{
 		SqliteTests sqliteTests = new SqliteForceSensor ();

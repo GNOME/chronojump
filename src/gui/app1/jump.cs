@@ -394,7 +394,7 @@ public partial class ChronoJumpWindow
 		if(currentPerson == null || currentSession == null)
 			return;
 
-		//we do not plot graph, but we want to update label event_graph_label_graph_test
+		//we do not plot graph
 		//intializeVariables if not done before
 		event_execute_initializeVariables(
 			! cp2016.StoredCanCaptureContacts, //is simulated
@@ -502,7 +502,7 @@ public partial class ChronoJumpWindow
 
 		if(! configChronojump.Exhibition)
 		{
-			//do not update graph, but erase it and change label event_graph_label_graph_test
+			//do not update graph, but erase it
 			updateGraphJumpsReactive();
 		}
 

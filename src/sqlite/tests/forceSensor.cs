@@ -132,10 +132,27 @@ class SqliteForceSensor : SqliteTests
             Util.FileDelete(fs.FullVideoURL);
     }
 
+    //call used in most part of the program
     //elastic (-1: both; 0: not elastic; 1: elastic)
-    public static List<ForceSensor> Select(bool dbconOpened, int uniqueID, int personID, int sessionID, int elastic)
+    public static List<ForceSensor> Select (bool dbconOpened, int uniqueID, int personID, int sessionID, int elastic)
     {
+	    return Select (dbconOpened, uniqueID, personID, sessionID, elastic,
+			    -1, Orders_by.ID_ASC, -1, false);
+    }
+
+    //call used on PrepareEventGraphForceSensor
+    // limit 0 means no limit (limit negative is the last results)
+    public static List<ForceSensor> Select (bool dbconOpened,
+		    int uniqueID, int personID, int sessionID, int elastic,
+		    int exerciseID, Orders_by order, int limit, bool personNameInComment//, bool onlyBestInSession
+		    )
+    {
+	    LogB.Information ("SqliteForceSensor.Select exerciseID: " + exerciseID.ToString ());
         openIfNeeded(dbconOpened);
+
+	//for personNameInComment
+	List<Person> person_l =
+		SqlitePersonSession.SelectCurrentSessionPersonsAsList (true, sessionID);
 
         string selectStr = "SELECT " + tableStatic + ".*, " + Constants.ForceSensorExerciseTable + ".Name FROM " + tableStatic + ", " + Constants.ForceSensorExerciseTable;
         string whereStr = " WHERE " + tableStatic + ".exerciseID = " + Constants.ForceSensorExerciseTable + ".UniqueID ";
@@ -152,14 +169,22 @@ class SqliteForceSensor : SqliteTests
         if (sessionID != -1)
             sessionIDStr = " AND " + tableStatic + ".sessionID = " + sessionID;
 
+	string andExerciseStr = "";
+        if (exerciseID != -1)
+		andExerciseStr = string.Format (" AND {0}.exerciseID = {1} ", tableStatic, exerciseID);
+
         string elasticStr = "";
         if (elastic == 0)
             elasticStr = " AND " + Constants.ForceSensorExerciseTable + ".elastic != 1"; //0 or -1 (both)
         else if (elastic == 1)
             elasticStr = " AND " + Constants.ForceSensorExerciseTable + ".elastic != 0"; //1 or -1 (both)
 
-        dbcmd.CommandText = selectStr + whereStr + uniqueIDStr + personIDStr + sessionIDStr + elasticStr +
-            " Order BY " + tableStatic + ".uniqueID";
+	string orderByString = string.Format (" ORDER BY {0}.uniqueID ", tableStatic);
+	if (order == Orders_by.ID_DESC)
+		orderByString = string.Format(" ORDER BY {0}.uniqueID DESC ", tableStatic);
+
+        dbcmd.CommandText = selectStr + whereStr + uniqueIDStr + personIDStr + sessionIDStr +
+		andExerciseStr + elasticStr + orderByString;// + limitString;
 
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
@@ -172,6 +197,15 @@ class SqliteForceSensor : SqliteTests
 
         while (reader.Read())
         {
+		// 1. get person name in description if personNameInComment
+		int personIDThisRecord = Convert.ToInt32 (reader[1].ToString());
+		string description = reader[10].ToString();
+
+		if (personNameInComment)
+			foreach (Person person in person_l)
+				if (person.UniqueID == personIDThisRecord)
+					description = person.Name;
+
             fs = new ForceSensor(
                     Convert.ToInt32(reader[0].ToString()),  //uniqueID
                     Convert.ToInt32(reader[1].ToString()),  //personID
@@ -184,7 +218,7 @@ class SqliteForceSensor : SqliteTests
                     reader[7].ToString(),           //filename
                     Util.MakeURLabsolute (FixOSpath (reader[8].ToString())),  //url
                     reader[9].ToString(),           //datetime
-                    reader[10].ToString(),          //comments
+                    description,
                     reader[11].ToString(),          //videoURL
                     Convert.ToDouble(Util.ChangeDecimalSeparator(
                             reader[12].ToString())), //stiffness
@@ -200,6 +234,10 @@ class SqliteForceSensor : SqliteTests
 
         reader.Close();
         closeIfNeeded(dbconOpened);
+
+	//get last values on negative limit
+	if (limit < 0 && list.Count + limit >= 0)
+		list = list.GetRange (list.Count + limit, -1 * limit);
 
         return list;
     }

@@ -48,7 +48,6 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_capturing_encoder;
 	Gtk.Image image_force_sensor_adjust_no_capturing;
 	Gtk.Image image_force_sensor_adjust_capturing;
-	Gtk.Label event_graph_label_graph_test;
 
 	Gtk.SpinButton spin_contacts_graph_last_limit;
 	Gtk.VBox vbox_contacts_simple_graph_controls;
@@ -139,8 +138,6 @@ public partial class ChronoJumpWindow
 		if(simulated) 
 			event_execute_label_simulated = "(" + Catalog.GetString("Simulated") + ")";
 
-		event_graph_label_graph_test.Text = "<b>" + event_execute_eventType + "</b>";
-		event_graph_label_graph_test.UseMarkup = true;
 		event_execute_label_message.Text = "";
 
 		//this.event_execute_personName.Text = event_execute_personName; 	//"Jumps" (rjInterval), "Runs" (runInterval), "Ticks" (pulses), 
@@ -199,7 +196,6 @@ public partial class ChronoJumpWindow
 	
 	private void showJumpSimpleLabels() 
 	{
-		event_graph_label_graph_test.Visible = false;
 		vbox_contacts_simple_graph_controls.Visible = true;
 		check_run_show_time.Visible = false;
 
@@ -212,7 +208,6 @@ public partial class ChronoJumpWindow
 	
 	private void showJumpReactiveLabels() 
 	{
-		event_graph_label_graph_test.Visible = false;
 		vbox_contacts_simple_graph_controls.Visible = true;
 		check_run_show_time.Visible = false;
 
@@ -224,7 +219,6 @@ public partial class ChronoJumpWindow
 	
 	private void showRunSimpleLabels() 
 	{
-		event_graph_label_graph_test.Visible = false;
 		vbox_contacts_simple_graph_controls.Visible = true;
 		check_run_show_time.Visible = true;
 
@@ -236,7 +230,6 @@ public partial class ChronoJumpWindow
 		
 	private void showRunIntervalLabels() 
 	{
-		event_graph_label_graph_test.Visible = false;
 		vbox_contacts_simple_graph_controls.Visible = true;
 		check_run_show_time.Visible = true;
 
@@ -367,7 +360,8 @@ public partial class ChronoJumpWindow
 				current_mode != Constants.Modes.RUNSSIMPLE &&
 				current_mode != Constants.Modes.RUNSINTERVALLIC &&
 				current_mode != Constants.Modes.WILIGHT &&
-				current_mode != Constants.Modes.OTHER) //FOURPLATFORMS
+				current_mode != Constants.Modes.OTHER && //FOURPLATFORMS
+				! Constants.ModeIsFORCESENSOR (current_mode))
 			return;
 
 		//if object not defined or not defined fo this mode, return
@@ -384,7 +378,8 @@ public partial class ChronoJumpWindow
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			PrepareRunIntervalGraph (cairoPaintBarsPre.eventGraphRunsIntervalStored, false);
 		else if (current_mode == Constants.Modes.WILIGHT ||
-				current_mode == Constants.Modes.OTHER) //FOURPLATFORMS
+				current_mode == Constants.Modes.OTHER || //FOURPLATFORMS
+				Constants.ModeIsFORCESENSOR (current_mode))
 			PrepareResultsSessionGraph ();
 	}
 
@@ -844,17 +839,19 @@ public partial class ChronoJumpWindow
 
 	private void updateGraphResultsSessionByMode ()
 	{
-		if(current_mode == Constants.Modes.JUMPSSIMPLE)
+		if (current_mode == Constants.Modes.JUMPSSIMPLE)
 			updateGraphJumpsSimple ();
-		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
+		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
 			updateGraphJumpsReactive ();
-		else if(current_mode == Constants.Modes.RUNSSIMPLE)
+		else if (current_mode == Constants.Modes.RUNSSIMPLE)
 			updateGraphRunsSimple ();
-		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			updateGraphRunsInterval ();
-		else if(current_mode == Constants.Modes.WILIGHT)
+		else if (Constants.ModeIsFORCESENSOR (current_mode))
+			updateGraphForceSensorBars ();
+		else if (current_mode == Constants.Modes.WILIGHT)
 			updateGraphWilightBars ();
-		else if(current_mode == Constants.Modes.OTHER)
+		else if (current_mode == Constants.Modes.OTHER)
 			updateGraphFourPlatformsBars ();
 	}
 
@@ -1015,7 +1012,6 @@ public partial class ChronoJumpWindow
 		image_capturing_encoder = (Gtk.Image) builder.GetObject ("image_capturing_encoder");
 		image_force_sensor_adjust_no_capturing = (Gtk.Image) builder.GetObject ("image_force_sensor_adjust_no_capturing");
 		image_force_sensor_adjust_capturing = (Gtk.Image) builder.GetObject ("image_force_sensor_adjust_capturing");
-		event_graph_label_graph_test = (Gtk.Label) builder.GetObject ("event_graph_label_graph_test");
 
 		spin_contacts_graph_last_limit = (Gtk.SpinButton) builder.GetObject ("spin_contacts_graph_last_limit");
 		box_contacts_graph_exercise = (Gtk.Box) builder.GetObject ("box_contacts_graph_exercise");
@@ -1096,6 +1092,8 @@ public abstract class CairoPaintBarsPre
 	public PrepareEventGraphWilight eventGraphWilightStored;
 	//wilight
 	public PrepareEventGraphFourPlatforms eventGraphFourPlatformsStored;
+	//forceSensor
+	public PrepareEventGraphForceSensor eventGraphForceSensorStored;
 	//encoder
 	public PrepareEventGraphBarplotEncoder eventGraphEncoderBarplotStored;
 
@@ -1155,6 +1153,9 @@ public abstract class CairoPaintBarsPre
 	{
 	}
 	public virtual void StoreEventGraphFourPlatforms (PrepareEventGraphFourPlatforms eventGraph)
+	{
+	}
+	public virtual void StoreEventGraphForceSensor (PrepareEventGraphForceSensor eventGraph)
 	{
 	}
 	public virtual void StoreEventGraphBarplotEncoder (PrepareEventGraphBarplotEncoder eventGraph)
@@ -2755,6 +2756,119 @@ public class CairoPaintBarsFourPlatforms : CairoPaintBarsPre
 
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,
+				-1, fontHeightForBottomNames, bottomMargin, title,
+				new List<int> (), new List<int> ());
+
+		passDataForScreenshotIfNeeded ();
+
+		cb.GraphDo();
+	}
+}
+
+public class CairoPaintBarsPreForceSensor : CairoPaintBarsPre
+{
+	public CairoPaintBarsPreForceSensor (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN)
+	{
+		LogB.Information ("CairoPaintBarsPreForceSensor constructor");
+		initialize (darea, fontStr, mode, personName, testName, pDN);
+		this.title = generateTitle();
+	}
+
+	public override void StoreEventGraphForceSensor (PrepareEventGraphForceSensor eventGraph)
+	{
+		this.eventGraphForceSensorStored = eventGraph;
+	}
+
+	protected override bool storeCreated ()
+	{
+		return (eventGraphForceSensorStored != null);
+	}
+
+	protected override bool haveDataToPlot()
+	{
+		return (eventGraphForceSensorStored.rowsAtSQL.Count > 0);
+	}
+
+	protected override void paintSpecific()
+	{
+		LogB.Information ("CairoPaintBarsPreForceSensor paintSpecific");
+		/*
+		 * check if one bar has to be shown or two
+		 * this is important when we are showing multitests
+		 */
+		cb = new CairoBarsNHSeries (darea, CairoBars.Type.NORMAL, true, true, true, true);
+
+		cb.YVariable = Catalog.GetString("Force");
+		cb.YUnits = "N";
+		cb.VariableSerieA = Catalog.GetString("Max force");
+		cb.VariableSerieB = Catalog.GetString("Best second");
+
+		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
+		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides
+
+		List<Event> events = ForceSensor.ForceSensorListToEventList (eventGraphForceSensorStored.rowsAtSQL);
+
+		for (int i=0 ; i < eventGraphForceSensorStored.rowsAtSQL.Count; i++)
+			if(! ShowPersonNames)
+				eventGraphForceSensorStored.rowsAtSQL[i].Description = ""; //to avoid showing description
+
+		calculateBottomParams (events, eventGraphForceSensorStored.exerciseAll, "",
+				"", false, false);
+
+		List<PointF> pointA_l = new List<PointF>();
+		List<PointF> pointB_l = new List<PointF>();
+		List<string> names_l = new List<string>();
+		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
+
+		int countToDraw = eventGraphForceSensorStored.rowsAtSQL.Count;
+		foreach (ForceSensor fs in eventGraphForceSensorStored.rowsAtSQL)
+		{
+			//LogB.Information("forceSensor: " + fs.ToString());
+			// 1) Add data
+			pointA_l.Add (new PointF (countToDraw, fs.MaxForceRaw));
+			pointB_l.Add (new PointF (countToDraw, fs.MaxAvgForce1s));
+			countToDraw --;
+
+			// 2) Add bottom names
+			string typeRowString = "";
+			if (eventGraphForceSensorStored.exerciseAll) //if "all tests" show type
+				typeRowString = fs.ExerciseName; //TODO: check this param is filled
+
+			names_l.Add (createTextBelowBar(
+						"",
+						typeRowString,
+						fs.Description,
+						false, false,
+						longestWord.Length, maxRowsForText));
+
+			id_l.Add (fs.UniqueID);
+			id_l.Add (fs.UniqueID);
+
+			if (eventGraphForceSensorStored.selectedID == fs.UniqueID)
+				cb.SelectedPos = eventGraphForceSensorStored.rowsAtSQL.Count -countToDraw -1;
+		}
+
+		cb.Id_l = id_l;
+
+		/*
+		cb.PassGuidesData (new CairoBarsGuideManage(
+					//! ShowPersonNames, true, //usePersonGuides, useGroupGuides
+					true, true, //usePersonGuides, useGroupGuides
+					eventGraphJumpsStored.sessionMAXAtSQL,
+					eventGraphJumpsStored.sessionAVGAtSQL,
+					eventGraphJumpsStored.sessionMINAtSQL,
+					eventGraphJumpsStored.personMAXAtSQLAllSessions,
+					eventGraphJumpsStored.personMAXAtSQL,
+					eventGraphJumpsStored.personAVGAtSQL,
+					eventGraphJumpsStored.personMINAtSQL));
+		*/
+
+		List<List<PointF>> barsSecondary_ll = new List<List<PointF>>();
+		barsSecondary_ll.Add(pointA_l);
+
+		cb.PassData2Series (pointB_l, barsSecondary_ll, false,
+				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
+				"", false,
 				-1, fontHeightForBottomNames, bottomMargin, title,
 				new List<int> (), new List<int> ());
 

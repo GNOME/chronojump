@@ -53,7 +53,7 @@ else
 fi
 
 #Get Major Version Number
-. /etc/os-release
+. /etc/os-release || exit 0
 VERSION="$(echo $VERSION_ID | sed 's/\..*//')"
 
 #Copy if existing

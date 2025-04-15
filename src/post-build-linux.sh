@@ -1,6 +1,5 @@
 #!/bin/sh
 set -x
-set -e
 
 cd $(dirname "$0")
 rm -rf ../package/linux/deps/share/chronojump/encoder/
@@ -38,6 +37,8 @@ OS=""
 echo "$UNAME_ALL" | grep "debian"
 if [ "$?" = "0" ]; then  
     OS="debian"
+else
+    exit 0
 fi
 
 #Get Arch Name

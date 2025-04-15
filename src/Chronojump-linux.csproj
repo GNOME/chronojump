@@ -339,6 +339,6 @@
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 	  <Exec Command="dos2unix post-build-linux.sh" />
 	  <Exec Command="chmod +x post-build-linux.sh" />
-	  <Exec Command="sh post-build-linux.sh $(OutDir)" />
+	  <Exec Command="sh -x post-build-linux.sh $(OutDir)" />
 	</Target>
 </Project>

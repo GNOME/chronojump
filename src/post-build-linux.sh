@@ -1,11 +1,6 @@
 #!/bin/sh
+set -x
 set -e
-
-error_exit()
-{
-    echo "$1" >&2
-    exit 1
-}
 
 cd $(dirname "$0")
 rm -rf ../package/linux/deps/share/chronojump/encoder/

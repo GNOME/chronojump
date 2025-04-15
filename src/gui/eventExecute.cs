@@ -2813,6 +2813,10 @@ public class CairoPaintBarsPreForceSensor : CairoPaintBarsPre
 			if(! ShowPersonNames)
 				eventGraphForceSensorStored.rowsAtSQL[i].Description = ""; //to avoid showing description
 
+		//findLongestWordCairo uses Type (from Event) but ForceSensor has ExerciseName
+		for (int i = 0; i < events.Count; i ++)
+			events[i].Type = ((ForceSensor) events[i]).ExerciseName;
+
 		calculateBottomParams (events, eventGraphForceSensorStored.exerciseAll, "",
 				"", false, false);
 

@@ -45,7 +45,7 @@ class SqliteRunEncoder : SqliteTests
 	public SqliteRunEncoder()
 	{
 		tableName = Constants.RunEncoderTable;
-		columnsStr = " (uniqueID, personID, sessionID, exerciseID, device, distance, temperature, filename, url, dateTime, comments, videoURL, angle, totalTime)";
+		columnsStr = " (uniqueID, personID, sessionID, exerciseID, device, distance, temperature, filename, url, dateTime, comments, videoURL, angle, totalTime, maxSpeed, maxAvgSpeed1s)";
 	}
 
 	~SqliteRunEncoder() {}
@@ -71,7 +71,9 @@ class SqliteRunEncoder : SqliteTests
 			"comments TEXT, " +
 			"videoURL TEXT, " +	//URL of video of signals. stored as relative
 			"angle INT, " +		//capture can be at angleDefault (or not), nice if you have a run inclinated exercise and you want to change the angle depending on the place you perform
-			"totalTime INT)";	//needed to sync with video. If we press finish when there are no pulsees we cannot sync. If we use totalTime we can sync.
+			"totalTime INT, " +	//needed to sync with video. If we press finish when there are no pulses we cannot sync. If we use totalTime we can sync.
+			"maxSpeed FLOAT, " +
+			"maxAvgSpeed1s FLOAT)";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
@@ -173,7 +175,9 @@ class SqliteRunEncoder : SqliteTests
 					reader[11].ToString(),			//videoURL
 					Convert.ToInt32(reader[12].ToString()),	//angle
 					Convert.ToInt32(reader[13].ToString()),	//totalTime
-					reader[14].ToString()			//exerciseName
+					Convert.ToDouble (Util.CDS (reader[14].ToString())), //maxSpeed
+					Convert.ToDouble (Util.CDS (reader[15].ToString())), //maxAvgSpeed1s
+					reader[16].ToString()			//exerciseName
 					);
 			list.Add(re);
 		}

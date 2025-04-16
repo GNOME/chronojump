@@ -46,6 +46,8 @@ public class RunEncoder
 	private string videoURL;
 	private int angle;
 	private int totalTime; //needed to sync with video. If we press finish when there are no pulsees we cannot sync. If we use totalTime we can sync.
+	private double maxSpeed;
+	private double maxAvgSpeed1s;
 
 	private string exerciseName;
 
@@ -58,6 +60,32 @@ public class RunEncoder
 	}
 
 	//constructor
+	public RunEncoder(int uniqueID, int personID, int sessionID, int exerciseID, Devices device,
+			int distance, int temperature, string filename, string url,
+			string dateTime, string comments, string videoURL, int angle, int totalTime,
+			double maxSpeed, double maxAvgSpeed1s, string exerciseName)
+	{
+		this.uniqueID = uniqueID;
+		this.personID = personID;
+		this.sessionID = sessionID;
+		this.exerciseID = exerciseID;
+		this.device = device;
+		this.distance = distance;
+		this.temperature = temperature;
+		this.filename = filename;
+		this.url = url;
+		this.dateTime = dateTime;
+		this.comments = comments;
+		this.videoURL = videoURL;
+		this.angle = angle;
+		this.totalTime = totalTime;
+		this.maxSpeed = maxSpeed;
+		this.maxAvgSpeed1s = maxAvgSpeed1s;
+
+		this.exerciseName = exerciseName;
+	}
+
+	// OLD constructor for migrating to 1.71. DO NOT USE
 	public RunEncoder(int uniqueID, int personID, int sessionID, int exerciseID, Devices device,
 			int distance, int temperature, string filename, string url,
 			string dateTime, string comments, string videoURL, int angle, int totalTime,
@@ -97,7 +125,8 @@ public class RunEncoder
 		return
 			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID + ", '" + device.ToString() + "', " +
 			distance + ", " + temperature + ", '" + filename + "', '" + url + "', '" + dateTime + "', '" +
-			comments + "', '" + videoURL + "', " + angle + ", " + totalTime + ")";
+			comments + "', '" + videoURL + "', " + angle + ", " + totalTime + ", " +
+			Util.CTP (maxSpeed) + ", " + Util.CTP (maxAvgSpeed1s) + ")";
 	}
 
 	public void UpdateSQL(bool dbconOpened)
@@ -121,6 +150,8 @@ public class RunEncoder
 			"', videoURL = '" + Util.MakeURLrelative(videoURL) +
 			"', angle = " + angle +
 			", totalTime = " + totalTime +
+			", maxSpeed = " + maxSpeed +
+			", maxAvgSpeed1s = " + maxAvgSpeed1s +
 			" WHERE uniqueID = " + uniqueID;
 	}
 
@@ -281,6 +312,14 @@ public class RunEncoder
 		get { return totalTime; }
 		set { totalTime = value; }
 	}
+	public double MaxSpeed
+	{
+		get { return maxSpeed; }
+	}
+	public double MaxAvgSpeed1s
+	{
+		get { return maxAvgSpeed1s; }
+	}
 	public string ExerciseName
 	{
 		get { return exerciseName; }
@@ -319,6 +358,8 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	private double runEncoderCaptureDistance; //m
 	private List<double> runEncoderCaptureDistance_l; //to calculate smoothing
 	private List<double> runEncoderCaptureSpeed_l; //to calculate smoothing
+	private List<PointF> speedTime_l; //to calculate miw
+	private GetMaxAvgInWindow miw;
 
 	public RunEncoderCaptureGetSpeedAndDisplacement(int segmentCm, List<int> segmentVariableCm, double massKg, int angle)
 	{
@@ -339,6 +380,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		time_l = new List<int> ();
 		runEncoderCaptureDistance_l = new List<double> ();
 		runEncoderCaptureSpeed_l = new List<double> ();
+		speedTime_l = new List<PointF> ();
 	}
 
 	public void PassCapturedRow (List<int> binaryReaded)
@@ -433,6 +475,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		//LogB.Information(string.Format("speed: {0}, runEncoderCaptureDistanceAtThisSample: {1}, tPre: {2}, t: {3}",
 		//			runEncoderCaptureSpeed, runEncoderCaptureDistanceAtThisSample, tPre, t));
 		runEncoderCaptureSpeed_l.Add (runEncoderCaptureSpeed);
+		speedTime_l.Add (new PointF (t, runEncoderCaptureSpeed));
 		//LogB.Information ("first speed is : " + runEncoderCaptureSpeed.ToString ());
 
 		segmentCalcs.SpeedAtEnoughAccelMark = runEncoderCaptureSpeed_l[0];
@@ -468,6 +511,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 							*/
 
 				runEncoderCaptureSpeed_l.Add (runEncoderCaptureSpeed);
+				speedTime_l.Add (new PointF (time, runEncoderCaptureSpeed));
 
 				if(runEncoderCaptureSpeed > runEncoderCaptureSpeedMax)
 					runEncoderCaptureSpeedMax = runEncoderCaptureSpeed;
@@ -483,12 +527,23 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 					} else if(segmentVariableCm.Count > 0)
 						updateSegmentDistTimeVariable ();
 				}
-
 				hasCalculed = true;
 			}
 			timePre = time;
 		}
 		return hasCalculed;
+	}
+
+	public void CalculeBestSecond ()
+	{
+		calculateMaxAvgSpeed1s (speedTime_l);
+		//if (miw.Error == "")
+		//	LogB.Information ("miw: " + miw.ToString ());
+	}
+
+	private void calculateMaxAvgSpeed1s (List<PointF> pf_l)
+	{
+		miw = new GetMaxAvgInWindow (pf_l, 0, pf_l.Count -1, 1); //1s
 	}
 
 	private double getFirstSegmentTimeStart ()
@@ -555,23 +610,17 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	public void SegmentsRedoWithSmoothing (int smoothSamples)
 	{
 		LogB.Information ( string.Format ("SegmentsRedoWithSmoothing smoothSamples: {0}", smoothSamples));
-		// 1) convert time_l and runEncoderCaptureSpeed_l to List<PointF>
-		List<PointF> pf_l = new List<PointF> ();
-		for (int i = 0; i < time_l.Count; i++)
-			if (i < runEncoderCaptureSpeed_l.Count)
-				pf_l.Add (new PointF (time_l[i], runEncoderCaptureSpeed_l[i]));
-
 		MovingAverage mAverageSmoothLine = null;
 		List<double> runEncoderCaptureSpeedSmoothed_l = new List<double> ();
 		if (smoothSamples >= 3)
 		{
-			// 2) calculate the moving average and get the smoothed speed
-			mAverageSmoothLine = new MovingAverage (pf_l, smoothSamples);
+			// 1) calculate the moving average and get the smoothed speed
+			mAverageSmoothLine = new MovingAverage (speedTime_l, smoothSamples);
 			mAverageSmoothLine.Calculate ();
 			runEncoderCaptureSpeedSmoothed_l = mAverageSmoothLine.MovingAverage_l_Y;
 		}
 
-		// 3) initialize objects
+		// 2) initialize objects
 		segmentVariableCmDistAccumulated = 0;
 		segmentCalcs = new RunEncoderSegmentCalcs (massKg, angle);
 		double distanceNow = 0;
@@ -586,7 +635,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 
 		segmentCalcs.SpeedAtEnoughAccelMark = speedAtEnoughAccelMarkForSmoothing;
 
-		// 4) redo the segments
+		// 3) redo the segments
 		LogB.Information (string.Format ("runEncoderCaptureDistance_l.Count: {0} time_l.Count: {1} speed_l.Count: {2}",
 					runEncoderCaptureDistance_l.Count, time_l.Count, speed_l.Count));
 
@@ -645,6 +694,9 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	}
 	public double DistanceAtEnoughAccelMark {
 		get { return distanceAtEnoughAccelMark; }
+	}
+	public GetMaxAvgInWindow Miw {
+		get { return miw; }
 	}
 }
 

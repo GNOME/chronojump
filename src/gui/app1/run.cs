@@ -241,7 +241,7 @@ public partial class ChronoJumpWindow
 		if(currentPerson == null || currentSession == null)
 			return;
 
-		//we do not plot graph, but we want to update label event_graph_label_graph_test
+		//we do not plot graph
 		//intializeVariables if not done before
 		event_execute_initializeVariables(
 			(! cp2016.StoredCanCaptureContacts && ! cp2016.StoredWireless), //is simulated

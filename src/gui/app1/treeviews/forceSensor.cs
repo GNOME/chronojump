@@ -56,9 +56,9 @@ public partial class ChronoJumpWindow
 
 		//show isometric or elastic
 		if (current_mode == Constants.Modes.FORCESENSORISOMETRIC)
-			sqliteTests.FilterOtherString = " AND " + Constants.ForceSensorTable + ".stiffness < 0";
+			sqliteTests.FilterOtherString = " AND " + Constants.ForceSensorExerciseTable + ".elastic != 1"; //0 or -1 (both) 
 		else if (current_mode == Constants.Modes.FORCESENSORELASTIC)
-			sqliteTests.FilterOtherString = " AND " + Constants.ForceSensorTable + ".stiffness >= 0";
+			sqliteTests.FilterOtherString = " AND " + Constants.ForceSensorExerciseTable + ".elastic != 0"; //1 or -1 (both)
 
 		string [] forceSensorSA = sqliteTests.SelectSA (dbconOpened,
 				currentSession.UniqueID, currentPersonOrAll (),

@@ -181,6 +181,7 @@ public partial class ChronoJumpWindow
 		setRFDValues();
 		setImpulseValue();
 		setForceSensorAnalyzeABSliderIncrements();
+		updateGraphForceSensorBars ();
 
 		aiButtonsHscaleZoomSensitiveness();
 		if (tvFS_other == null)
@@ -676,6 +677,8 @@ public partial class ChronoJumpWindow
 		box_force_sensor_capture_magnitudes.Visible = false;
 		box_force_sensor_analyze_magnitudes.Visible = false;
 		forceSensorGridLegendColors ();
+
+		updateGraphForceSensorBars();
 	}
 
 	private bool pulseGTKForceSensorOther ()
@@ -1201,6 +1204,9 @@ public partial class ChronoJumpWindow
 		fullscreen_button_fullscreen_contacts.Sensitive = true;
 		button_force_sensor_image_save_signal.Sensitive = false;
 		button_ai_model.Sensitive = false;
+		hbox_contacts_graph_table_controls.Sensitive = false;
+		frame_contacts_graph_table.Sensitive = false;
+
 		forceCaptureStartMark = false;
 		forceTooBigMark = false;
 		forceTooBigValue = 0;
@@ -1892,6 +1898,7 @@ LogB.Information(" fs C ");
 						webcamRestoreGui (success);
 					}
 
+					updateGraphForceSensorBars();
 					treeViewResultsSession.Add (currentPerson.Name, currentForceSensor, "");
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 					sensitiveLastTestButtons(true);
@@ -1913,6 +1920,8 @@ LogB.Information(" fs C ");
 					hbox_force_general_analysis.Sensitive = true;
 					button_ai_model_options_close_and_analyze.Sensitive = true;
 					button_ai_model.Sensitive = true;
+					hbox_contacts_graph_table_controls.Sensitive = true;
+					frame_contacts_graph_table.Sensitive = true;
 
 					if( configChronojump.Exhibition &&
 							( configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.FORCE_ROPE ||
@@ -1952,6 +1961,9 @@ LogB.Information(" fs C ");
 					event_execute_label_message.Text = forceSensorNotConnectedString;
 					button_detect_show_hide (true); // show the detect big button
 				}
+
+				hbox_contacts_graph_table_controls.Sensitive = true;
+				frame_contacts_graph_table.Sensitive = true;
 
 				button_force_sensor_image_save_signal.Sensitive = false;
 				button_ai_model.Sensitive = false;
@@ -2654,6 +2666,9 @@ LogB.Information(" fs R ");
 		//notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 		//change radio and will change also notebook:
 		radio_signal_analyze_current_set.Active = true;
+
+		updateGraphResultsSessionByMode ();
+		pre_fillTreeView_resultsSession (false);
 	}
 
 	private enum forceSensorGraphsEnum { SIGNAL, RFD }
@@ -3921,6 +3936,59 @@ LogB.Information(" fs R ");
 	}
 
 	// ------------------------------------------------ end of slides stuff for presentations
+
+	private void updateGraphForceSensorBars ()
+	{
+		LogB.Information (string.Format ("currentPerson == null: {0},  currentSession == null: {1}",
+					currentPerson == null, currentSession == null));
+		if(currentPerson == null || currentSession == null)
+			return;
+
+		//intializeVariables if not done before
+		event_execute_initializeVariables(
+			(! cp2016.StoredCanCaptureContacts && ! cp2016.StoredWireless), //is simulated
+			currentPerson.UniqueID,
+			currentPerson.Name,
+			"", //Catalog.GetString("Phases"),  	  //name of the different moments
+			Constants.ForceSensorTable, //tableName
+			"" //type
+			);
+
+		string typeTemp = "";
+		int exerciseID = -1;
+		if (! radio_contacts_graph_allTests.Active)
+			exerciseID = getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false);
+
+		int selectedID = -1;
+		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID > 0)
+			selectedID = treeViewResultsSession.EventSelectedID;
+
+		PrepareEventGraphForceSensor eventGraph = new PrepareEventGraphForceSensor(
+				currentSession.UniqueID,
+				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
+				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
+				//Constants.ForceSensorTable, typeTemp,
+				exerciseID, selectedID, current_mode, radio_contacts_graph_allTests.Active);
+
+		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.runsAtSQL.Count > 0)
+		//	PrepareRunSimpleGraph(eventGraph, false); //don't animate
+
+		string personStr = "";
+		if(! radio_contacts_results_personAll.Active)
+			personStr = currentPerson.Name;
+
+		//LogB.Information("drawingarea_results_session == null: ",
+		//	(drawingarea_results_session == null).ToString());
+
+		cairoPaintBarsPre = new CairoPaintBarsPreForceSensor (
+				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
+				personStr,
+				typeTemp,
+				preferences.digitsNumber);
+
+		cairoPaintBarsPre.StoreEventGraphForceSensor (eventGraph);
+		drawingarea_results_session.QueueDraw ();
+	}
 
 	private void connectWidgetsForceSensor (Gtk.Builder builder)
 	{

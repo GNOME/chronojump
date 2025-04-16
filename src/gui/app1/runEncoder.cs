@@ -917,7 +917,7 @@ public partial class ChronoJumpWindow
 				binaryReaded = readBinaryRunEncoder9Bytes ();
 
 			reCGSD.PassCapturedRow (binaryReaded);
-			if(reCGSD.Calcule(true) && reCGSD.EncoderDisplacement != 0) //this 0s are triggers without displacement
+			if(reCGSD.Calcule (true) && reCGSD.EncoderDisplacement != 0) //this 0s are triggers without displacement
 			{
 				//distance/time
 				cairoGraphRaceAnalyzerPoints_dt_l.Add(new PointF(
@@ -981,6 +981,9 @@ public partial class ChronoJumpWindow
 					triggerListRunEncoder.Add(trigger);
 			}
 		}
+		if (reCGSD != null)
+			reCGSD.CalculeBestSecond ();
+
 		sw.Stop();
 
 		LogB.Information(string.Format("FINISHED WITH conditions: {0}-{1}-{2}",
@@ -1647,6 +1650,8 @@ public partial class ChronoJumpWindow
 			rowPre = row;
 		}
 
+		my_reCGSD.CalculeBestSecond ();
+
 		if (getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs () > 0)
 			my_reCGSD.SegmentsRedoWithSmoothing (
 					getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ());
@@ -2142,6 +2147,15 @@ public partial class ChronoJumpWindow
 					if (Config.SimulatedCapture)
 						event_execute_label_message.Text += " SIMULATED TEST!";
 
+					double maxSpeed = 0;
+					double maxAvgSpeed1s = 0;
+					if (reCGSD != null && reCGSD.RunEncoderCaptureSpeedMax > 0)
+					{
+						maxSpeed = reCGSD.RunEncoderCaptureSpeedMax;
+						if (reCGSD.Miw.Error == "")
+							maxAvgSpeed1s = reCGSD.Miw.Max;
+					}
+
 					currentRunEncoder = new RunEncoder(-1, currentPerson.UniqueID, currentSession.UniqueID,
 							currentRunEncoderExercise.UniqueID, raceEncoderGetDevice(),
 							Convert.ToInt32(race_analyzer_spinbutton_distance.Value),
@@ -2153,6 +2167,7 @@ public partial class ChronoJumpWindow
 							"", //videoURL
 							Convert.ToInt32(race_analyzer_spinbutton_angle.Value),
 							runEncoderTotalTime,
+							maxSpeed, maxAvgSpeed1s,
 							currentRunEncoderExercise.Name);
 
 					currentRunEncoder.UniqueID = currentRunEncoder.InsertSQL(false);
@@ -2910,10 +2925,12 @@ public partial class ChronoJumpWindow
 
 		int timeAtEnoughAccel = 0;
 		int timeAtEnoughAccelMark = 0;
+		GetMaxAvgInWindow miw = new GetMaxAvgInWindow ();
 		if (reCGSD != null)
 		{
 			timeAtEnoughAccel = reCGSD.TimeAtEnoughAccelOrTrigger0; //to shift time at load, sent here to sync/delete triggers
 			timeAtEnoughAccelMark = reCGSD.TimeAtEnoughAccelMark; //to show mark at capture
+			miw = reCGSD.Miw;
 		}
 
 		if(cairoGraphRaceAnalyzer_dt == null || forceRedraw)
@@ -2921,7 +2938,7 @@ public partial class ChronoJumpWindow
 					false,
 					drawingarea_race_analyzer_capture_position_time, "title",
 					Catalog.GetString("Distance"), "m",
-					isSprint, false,
+					isSprint, false, false,
 					segmentCalcs,
 					false, feedbackWin.GetRunsEncoderMainVariable (),
 					true);
@@ -2931,8 +2948,8 @@ public partial class ChronoJumpWindow
 				cairoGraphRaceAnalyzerPoints_dt_l,
 				null,
 				new List<string> (),
-				forceRedraw, 0, CairoXY.PlotTypes.LINES, smoothGui == 0,
-				smoothGui,
+				forceRedraw, 0,
+				CairoXY.PlotTypes.LINES, smoothGui == 0, smoothGui, miw,
 				triggerListRunEncoder, timeAtEnoughAccel,
 				timeAtEnoughAccelMark, preferences.runEncoderMinAccel,
 				-1, -1, -1, -1);
@@ -2958,10 +2975,12 @@ public partial class ChronoJumpWindow
 
 		int timeAtEnoughAccel = 0;
 		int timeAtEnoughAccelMark = 0;
+		GetMaxAvgInWindow miw = new GetMaxAvgInWindow ();
 		if (reCGSD != null)
 		{
 			timeAtEnoughAccel = reCGSD.TimeAtEnoughAccelOrTrigger0; //to shift time at load, sent here to sync/delete triggers
 			timeAtEnoughAccelMark = reCGSD.TimeAtEnoughAccelMark; //to show mark at capture
+			miw = reCGSD.Miw;
 		}
 
 		// get distinct CD data && subtitleWithSetsInfo if needed
@@ -3007,7 +3026,7 @@ public partial class ChronoJumpWindow
 					(currentRunEncoder != null && currentRunEncoder.UniqueID >= 0 && (runEncoderCaptureThread == null || ! runEncoderCaptureThread.IsAlive)),
 					da, "title",
 					Catalog.GetString("Speed"), "m/s",
-					isSprint, true,
+					isSprint, true, true,
 					segmentCalcs,
 					true, feedbackWin.GetRunsEncoderMainVariable (),
 					false);
@@ -3055,8 +3074,8 @@ public partial class ChronoJumpWindow
 				sendPoints_l,
 				cairoGraphSend_CD,
 				subtitleWithSetsInfo_l,
-				forceRedraw, videoTime, CairoXY.PlotTypes.LINES, smoothGui == 0,
-				smoothGui,
+				forceRedraw, videoTime,
+				CairoXY.PlotTypes.LINES, smoothGui == 0, smoothGui, miw,
 				triggerListRunEncoder, timeAtEnoughAccel,
 				timeAtEnoughAccelMark, preferences.runEncoderMinAccel,
 				hscaleA, hscaleB, hscaleC, hscaleD);
@@ -3077,10 +3096,12 @@ public partial class ChronoJumpWindow
 
 		int timeAtEnoughAccel = 0;
 		int timeAtEnoughAccelMark = 0;
+		GetMaxAvgInWindow miw = new GetMaxAvgInWindow ();
 		if (reCGSD != null)
 		{
 			timeAtEnoughAccel = reCGSD.TimeAtEnoughAccelOrTrigger0; //to shift time at load, sent here to sync/delete triggers
 			timeAtEnoughAccelMark = reCGSD.TimeAtEnoughAccelMark; //to show mark at capture
+			miw = reCGSD.Miw;
 		}
 
 		if(cairoGraphRaceAnalyzer_at == null || forceRedraw)
@@ -3088,7 +3109,7 @@ public partial class ChronoJumpWindow
 					false,
 					drawingarea_race_analyzer_capture_accel_time, "title",
 					Catalog.GetString("Accel"), "m/s^2",
-					isSprint, false,
+					isSprint, false, false,
 					segmentCalcs,
 					false, feedbackWin.GetRunsEncoderMainVariable (),
 					false);
@@ -3097,8 +3118,9 @@ public partial class ChronoJumpWindow
 				cairoGraphRaceAnalyzerPoints_at_l,
 				null,
 				new List<string> (),
-				forceRedraw, 0, CairoXY.PlotTypes.LINES, false,
-				getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs (),
+				forceRedraw, 0,
+				CairoXY.PlotTypes.LINES, false,
+				getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs (), miw,
 				triggerListRunEncoder, timeAtEnoughAccel,
 				timeAtEnoughAccelMark, preferences.runEncoderMinAccel,
 				-1, -1, -1, -1);

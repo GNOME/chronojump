@@ -560,6 +560,47 @@ public class PrepareEventGraphFourPlatforms
 	~PrepareEventGraphFourPlatforms() {}
 }
 
+public class PrepareEventGraphForceSensor
+{
+	//sql data of previous tests to plot graph and show stats at bottom
+	public List<ForceSensor> rowsAtSQL;
+	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
+
+	public bool exerciseAll; //all tests
+
+	public PrepareEventGraphForceSensor() {
+	}
+
+	public PrepareEventGraphForceSensor (int sessionID, int personID, bool allPersons, int limit,
+			int exerciseID, int selectedID, Constants.Modes mode, bool exerciseAll)
+	{
+		this.selectedID = selectedID;
+		this.exerciseAll = exerciseAll;
+
+		int personIDTemp = personID;
+		if(allPersons)
+			personIDTemp = -1;
+
+		// see ForceSensor.GetElasticIntFromMode ()
+		int elastic = -1;
+		if (mode == Constants.Modes.FORCESENSORISOMETRIC)
+			elastic = 0;
+		else if (mode == Constants.Modes.FORCESENSORELASTIC)
+			elastic = 1;
+
+		rowsAtSQL = SqliteForceSensor.Select (false, -1, personIDTemp, sessionID, elastic, exerciseID,
+				Sqlite.Orders_by.ID_ASC, limit,
+				allPersons//, 	//show names on comments only if "all persons"
+				//false 	//! onlyBestInSession
+				);
+		//LogB.Information ("rowsAtSQL count: " + (rowsAtSQL.Count).ToString ());
+
+		this.selectedID = selectedID;
+	}
+
+	~PrepareEventGraphForceSensor() {}
+}
+
 public class UpdateProgressBar {
 	public bool IsEvent;
 	public bool PercentageMode;

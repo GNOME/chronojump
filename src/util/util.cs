@@ -152,6 +152,7 @@ public class Util
 	public static string CDS (string myString) {
 		return ChangeDecimalSeparator (myString, true);
 	}
+	//take care with this call, if a number is selected from DB and is empty, and should be converted to double, is better CDS call
 	public static string CDSNoZero (string myString) {
 		return ChangeDecimalSeparator (myString, false);
 	}

@@ -1230,7 +1230,7 @@ public class GetMaxAvgInWindow : GetMaxValueInWindow
 		this.countB = countB;
 		this.windowSeconds = windowSeconds;
 
-		LogB.Information ("GetMaxAvgInWindow start");
+		//LogB.Information ("GetMaxAvgInWindow start");
 
 		/* TODO: manage this
 		// 1) check if ws calculated before
@@ -1238,7 +1238,7 @@ public class GetMaxAvgInWindow : GetMaxValueInWindow
 		calculatedForceMaxAvgInWindow.InputsToString() ==
 		new CalculatedForceMaxAvgInWindow(countA, countB, windowSeconds).InputsToString())
 		{
-		LogB.Information("Was calculated before");
+		//LogB.Information("Was calculated before");
 		avgMax = calculatedForceMaxAvgInWindow.Result;
 		avgMaxSampleStart = calculatedForceMaxAvgInWindow.ResultSampleStart;
 		avgMaxSampleEnd = calculatedForceMaxAvgInWindow.ResultSampleEnd;
@@ -1247,8 +1247,8 @@ public class GetMaxAvgInWindow : GetMaxValueInWindow
 		}
 		*/
 
-		LogB.Information (string.Format ("p_l.Count: {0}, countA: {1}, countB: {2}, windowSeconds: {3}",
-					p_l.Count, countA, countB, windowSeconds));
+		//LogB.Information (string.Format ("p_l.Count: {0}, countA: {1}, countB: {2}, windowSeconds: {3}",
+		//			p_l.Count, countA, countB, windowSeconds));
 
 		if (parametersBad ())
 		{
@@ -1274,7 +1274,7 @@ public class GetMaxAvgInWindow : GetMaxValueInWindow
 		calculatedForceMaxAvgInWindow = new CalculatedForceMaxAvgInWindow (
 				countA, countB, windowSeconds, max, maxSampleStart, maxSampleEnd);
 				*/
-		LogB.Information ("GetMaxAvgInWindow done!");
+		//LogB.Information ("GetMaxAvgInWindow done!");
 	}
 
 	protected override void calculate ()
@@ -1284,42 +1284,40 @@ public class GetMaxAvgInWindow : GetMaxValueInWindow
 		maxSampleEnd = countA; 	 	//sample where avgMax ends (to draw a line)
 		error = "";
 
-		double timeA = p_l[countA].X;
 		double sum = 0;
-		int count = 0;
 
-		//note if countB - countA < 1s then can have higher values than all the set
-		//TODO: can be more accurate with public static bool PassedSampleIsCloserToCriteria (check GetBestRFDInWindow)
-		// 3) get the first second (or whatever in windowSeconds)
-		int i;
-		for(i = countA; i <= countB && p_l[i].X - timeA <= 1000000 * windowSeconds; i ++)
+		/*
+		 * this method using findSampleAtWindowSeconds is more accurate than past method
+		 * on past method we calculate the frames for 1st second and then we advance 1 frame each time
+		 * having a sum that - the past value and + the new value
+		 * this is slower becasuse it sums all the second (or X seconds)
+		 * but more accurate for raceAnalyzer where the samples needed for 1st second are very different than the samples needed for any second later
+		 */
+		for (int i = countA; i < countB; i ++)
 		{
-			sum += p_l[i].Y;
-			count ++;
-		}
-		max = sum / count;
-		maxSampleEnd = countA + count;
+			int iPlus1s = findSampleAtWindowSeconds (i);
+			if (iPlus1s < 0 || iPlus1s >= countB)
+				return;
 
-		LogB.Information(string.Format("avgMax 1st for: {0}", max));
-		//note "count" has the window size in samples
+			//LogB.Information (string.Format ("i: {0} {1}, iPlus1s-1: {2} {3}, iPlus1s: {4} {5}",
+			//				i, p_l[i], iPlus1s-1, p_l[iPlus1s-1], iPlus1s, p_l[iPlus1s]));
 
-		// 4) continue until the end (countB)
-		for(int j = i; j < countB; j ++)
-		{
-			sum -= p_l[j - count].Y;
-			sum += p_l[j].Y;
+			sum = 0;
+			for (int j = i; j < iPlus1s; j ++)
+				sum += p_l[j].Y;
 
-			double avg = sum / count;
+			double avg = sum / (iPlus1s - i);
 			if(avg > max)
 			{
+				error = ""; //not show the error mark
 				max = avg;
-				maxSampleStart = j - count;
-				maxSampleEnd = j;
+				maxSampleStart = i;
+				maxSampleEnd = iPlus1s;
 			}
 		}
 
-		LogB.Information(string.Format("Average max force in {0} seconds: {1}, started at sample range: {2}:{3}",
-					windowSeconds, max, maxSampleStart, maxSampleEnd));
+		//LogB.Information(string.Format("Average max force in {0} seconds: {1}, started at sample range: {2}:{3}",
+		//			windowSeconds, max, maxSampleStart, maxSampleEnd));
 	}
 }
 

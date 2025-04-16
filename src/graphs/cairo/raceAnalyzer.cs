@@ -37,6 +37,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	int points_l_painted;
 	private bool isSprint;
 	private bool plotMaxMark;
+	private bool useMaxAvgInWindow;
 	private RunEncoderSegmentCalcs segmentCalcs;
 
 	//plotSegmentBars will plot power, force or accel according to mainVariable
@@ -53,7 +54,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			bool setExists,
 			DrawingArea area, string title,
 			string yVariable, string yUnits,
-			bool isSprint, bool plotMaxMark,
+			bool isSprint, bool plotMaxMark, bool useMaxAvgInWindow,
 			RunEncoderSegmentCalcs segmentCalcs,
 			bool plotSegmentBars, FeedbackWindow.RunsEncoderMainVariableTypes mainVariable,
 			bool useListOfDoublesOnY) //for pos/time graph
@@ -70,6 +71,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		this.yUnits = yUnits;
 		this.isSprint = isSprint;
 		this.plotMaxMark = plotMaxMark;
+		this.useMaxAvgInWindow = useMaxAvgInWindow;
 		this.segmentCalcs = segmentCalcs;
 		this.plotSegmentBars = plotSegmentBars;
 		this.mainVariable = mainVariable;
@@ -100,7 +102,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			List<string> subtitleWithSetsInfo_l,
 			bool forceRedraw,
 			double videoPlayTimeInSeconds,
-			PlotTypes plotType, bool blackLine, int smoothLineWindow,
+			PlotTypes plotType, bool blackLine, int smoothLineWindow, GetMaxAvgInWindow miw,
 			TriggerList triggerList, int timeAtEnoughAccelOrTrigger0,
 			int timeAtEnoughAccelMark, double minAccel,
 			int hscaleSampleA, int hscaleSampleB,
@@ -108,7 +110,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 
 	{
 		if (doSendingList (font, points_l, pointsCD_l, subtitleWithSetsInfo_l,
-					forceRedraw, videoPlayTimeInSeconds, plotType, blackLine, smoothLineWindow,
+					forceRedraw, videoPlayTimeInSeconds, plotType, blackLine, smoothLineWindow, miw,
 					triggerList, timeAtEnoughAccelOrTrigger0, timeAtEnoughAccelMark, minAccel,
 					hscaleSampleA, hscaleSampleB,
 					hscaleSampleC, hscaleSampleD))
@@ -123,7 +125,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			List<string> subtitleWithSetsInfo_l,
 			bool forceRedraw,
 			double videoPlayTimeInSeconds,
-			PlotTypes plotType, bool blackLine, int smoothLineWindow,
+			PlotTypes plotType, bool blackLine, int smoothLineWindow, GetMaxAvgInWindow miw,
 			TriggerList triggerList, int timeAtEnoughAccelOrTrigger0,
 			int timeAtEnoughAccelMark, double minAccel, //timeAtEnoughAccelMark: only for capture (just to display mark), minAccel is the value at preferences
 			int hscaleSampleA, int hscaleSampleB,
@@ -408,6 +410,9 @@ public class CairoGraphRaceAnalyzer : CairoXY
 					plotMaxMarkDo (pointsCD_l, smoothLineWindow, xAtMaxYCD, yAtMaxYCD);
 				}
 			}
+
+			if (useMaxAvgInWindow && points_l.Count > 1 && miw != null && miw.Error == "")
+				paintMaxAvgInWindow (miw.MaxSampleStart, miw.MaxSampleEnd, miw.Max, points_l);
 
 			// TODO: move this to xy.cs to share between forceSensor and raceAnalyzer
 			// hscales start at 0

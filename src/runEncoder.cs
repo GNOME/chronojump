@@ -527,16 +527,18 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 					} else if(segmentVariableCm.Count > 0)
 						updateSegmentDistTimeVariable ();
 				}
-
-				calculateMaxAvgSpeed1s (speedTime_l);
-				//if (miw.Error == "")
-				//	LogB.Information ("miw: " + miw.ToString ());
-
 				hasCalculed = true;
 			}
 			timePre = time;
 		}
 		return hasCalculed;
+	}
+
+	public void CalculeBestSecond ()
+	{
+		calculateMaxAvgSpeed1s (speedTime_l);
+		//if (miw.Error == "")
+		//	LogB.Information ("miw: " + miw.ToString ());
 	}
 
 	private void calculateMaxAvgSpeed1s (List<PointF> pf_l)

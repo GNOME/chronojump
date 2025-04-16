@@ -917,7 +917,7 @@ public partial class ChronoJumpWindow
 				binaryReaded = readBinaryRunEncoder9Bytes ();
 
 			reCGSD.PassCapturedRow (binaryReaded);
-			if(reCGSD.Calcule(true) && reCGSD.EncoderDisplacement != 0) //this 0s are triggers without displacement
+			if(reCGSD.Calcule (true) && reCGSD.EncoderDisplacement != 0) //this 0s are triggers without displacement
 			{
 				//distance/time
 				cairoGraphRaceAnalyzerPoints_dt_l.Add(new PointF(
@@ -981,6 +981,9 @@ public partial class ChronoJumpWindow
 					triggerListRunEncoder.Add(trigger);
 			}
 		}
+		if (reCGSD != null)
+			reCGSD.CalculeBestSecond ();
+
 		sw.Stop();
 
 		LogB.Information(string.Format("FINISHED WITH conditions: {0}-{1}-{2}",
@@ -1646,6 +1649,8 @@ public partial class ChronoJumpWindow
 
 			rowPre = row;
 		}
+
+		my_reCGSD.CalculeBestSecond ();
 
 		if (getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs () > 0)
 			my_reCGSD.SegmentsRedoWithSmoothing (

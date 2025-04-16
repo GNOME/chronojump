@@ -335,7 +335,7 @@ public partial class ChronoJumpWindow
 
 	Gtk.Button button_contacts_exercise_close_and_capture;
 	Gtk.Notebook notebook_execute;
-	Gtk.Notebook notebook_results;
+	Gtk.HBox hbox_treeview_results_session;
 	Gtk.Notebook notebook_options_top;
 		
 	Gtk.EventBox eventbox_image_test;
@@ -509,7 +509,6 @@ public partial class ChronoJumpWindow
 	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR }
 	private enum notebook_execute_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER }
 	private enum notebook_options_top_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER }
-	private enum notebook_results_pages { RESULTSSESSION, RUNSENCODER }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE,
 		JUMPSASYMMETRY, JUMPSEVOLUTION, JUMPSRJFATIGUE,
 		RUNSEVOLUTION, SPRINT, CONTACTS_EXPORT_CSV, SIGNAL_AI, }
@@ -3206,17 +3205,8 @@ public partial class ChronoJumpWindow
 		//show capture graph and/or table
 		if (! Constants.ModeIsENCODER (m))
 		{
-			if (//Constants.ModeIsFORCESENSOR (m) ||
-					m == Constants.Modes.RUNSENCODER)
-			{
-				alignment_contacts_show_graph_table.Visible = false;
-				//force sensor & race analyzer do not show graph. graphs are on right notebook: notebook_results
-				vbox_contacts_capture_graph.Visible = false;
-				notebook_results.Visible = true;
-			} else {
-				alignment_contacts_show_graph_table.Visible = true;
-				on_check_contacts_capture_show_modes_clicked (new object(), new EventArgs());
-			}
+			alignment_contacts_show_graph_table.Visible = true;
+			on_check_contacts_capture_show_modes_clicked (new object(), new EventArgs());
 		}
 
 		//cancel force capture process if mode is changed
@@ -3277,6 +3267,7 @@ public partial class ChronoJumpWindow
 		box_beepTest.Visible = false;
 		vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = false; //just runEncoder
 		box_contacts_current_forceSensor.Visible = false;
+		hbox_contacts_current_runEncoder.Visible = false;
 		// <---- box_contacts_current ----
 
 		if(chronopicRegister == null)
@@ -3659,6 +3650,8 @@ public partial class ChronoJumpWindow
 		{
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
+			box_contacts_current.Visible = true;
+			hbox_contacts_current_runEncoder.Visible = true;
 
 			box_contacts_load.Visible = true;
 			button_contacts_exercise_close_and_recalculate.Visible = true;
@@ -3746,7 +3739,7 @@ public partial class ChronoJumpWindow
 
 			box_contacts_graph_show_graph_table.Visible = false; //do not show the graph/table selector
 			vbox_contacts_capture_graph.Visible = false; //do not show results_session graph
-			notebook_results.Visible = true;
+			hbox_treeview_results_session.Visible = true;
 		} else {
 			box_beepTest.Visible = false;
 			box_contacts_graph_show_graph_table.Visible = true;
@@ -3889,10 +3882,10 @@ public partial class ChronoJumpWindow
 			return;
 
 		vbox_contacts_capture_graph.Visible = check_contacts_capture_graph.Active;
-		notebook_results.Visible = check_contacts_capture_table.Active;
+		hbox_treeview_results_session.Visible = check_contacts_capture_table.Active;
 
 		//when showing both widgets, start at the middle
-		if(vbox_contacts_capture_graph.Visible && notebook_results.Visible)
+		if(vbox_contacts_capture_graph.Visible && hbox_treeview_results_session.Visible)
 			hpaned_contacts_graph_table.Position = Convert.ToInt32(frame_contacts_graph_table.Allocation.Width / 2.0);
 
 		if (check_contacts_capture_graph.Active || check_contacts_capture_table.Active)
@@ -6864,7 +6857,6 @@ public partial class ChronoJumpWindow
 		{
 			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.JUMPSSIMPLE);
 			notebook_options_top.CurrentPage = Convert.ToInt32 (notebook_options_top_pages.JUMPSSIMPLE);
-			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.RESULTSSESSION);
 
 			if(currentJumpType != null)
 				changeTestImage(EventType.Types.JUMP.ToString(),
@@ -6873,7 +6865,6 @@ public partial class ChronoJumpWindow
 		{
 			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.JUMPSREACTIVE);
 			notebook_options_top.CurrentPage = Convert.ToInt32 (notebook_options_top_pages.JUMPSREACTIVE);
-			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.RESULTSSESSION);
 
 			if(currentJumpRjType != null)
 				changeTestImage(EventType.Types.JUMP.ToString(),
@@ -6882,7 +6873,6 @@ public partial class ChronoJumpWindow
 		{
 			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.RUNSSIMPLE);
 			notebook_options_top.CurrentPage = Convert.ToInt32 (notebook_options_top_pages.RUNSSIMPLE);
-			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.RESULTSSESSION);
 
 			if(currentRunType != null)
 				changeTestImage(EventType.Types.RUN.ToString(),
@@ -6891,7 +6881,6 @@ public partial class ChronoJumpWindow
 		{
 			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.RUNSINTERVALLIC);
 			notebook_options_top.CurrentPage = Convert.ToInt32 (notebook_options_top_pages.RUNSINTERVALLIC);
-			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.RESULTSSESSION);
 
 			if(currentRunIntervalType != null)
 				changeTestImage(EventType.Types.RUN.ToString(),
@@ -6900,7 +6889,6 @@ public partial class ChronoJumpWindow
 		{
 			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.RUNSENCODER);
 			notebook_options_top.CurrentPage = Convert.ToInt32 (notebook_options_top_pages.RUNSENCODER);
-			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.RUNSENCODER);
 			changeTestImage("", "", "RUNSENCODER");
 			event_execute_button_finish.Sensitive = false;
 		} else if(mode == Constants.Modes.BEEPTEST)
@@ -6908,7 +6896,6 @@ public partial class ChronoJumpWindow
 			/*
 			notebook_execute.CurrentPage = 8; //not shown on beep test
 			notebook_options_top.CurrentPage = 8;//not shown on beep test
-			notebook_results.CurrentPage = 8;//not shown on beep test
 			changeTestImage("", "", "RUNSENCODER");//not shown on beep test
 			event_execute_button_finish.Sensitive = false;//not shown on beep test
 			*/
@@ -6917,7 +6904,6 @@ public partial class ChronoJumpWindow
 			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.FORCESENSOR);
 			notebook_options_top.CurrentPage =
 				Convert.ToInt32 (notebook_options_top_pages.FORCESENSOR); //but at FORCESENSOR this notebook is not shown until adjust button is clicked
-			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.RESULTSSESSION);
 
 			event_execute_button_finish.Sensitive = false;
 			fullscreen_button_fullscreen_contacts.Sensitive = false;
@@ -6925,7 +6911,6 @@ public partial class ChronoJumpWindow
 		{
 //			notebook_execute.CurrentPage = Convert.ToInt32 (notebook_execute_pages.JUMPSREACTIVE);
 //			notebook_options_top.CurrentPage = Convert.ToInt32 (notebook_options_top_pages.JUMPSREACTIVE);
-			notebook_results.CurrentPage = Convert.ToInt32 (notebook_results_pages.RESULTSSESSION);
 
 			/*
 			if(currentJumpRjType != null)
@@ -8005,7 +7990,7 @@ public partial class ChronoJumpWindow
 		
 		//notebooks
 		notebook_analyze.Sensitive = false;
-		notebook_results.Sensitive = false;
+		hbox_treeview_results_session.Sensitive = false;
 		encoder_sensitive_all_except_device(false);
 
 		vbox_stats.Sensitive = false;
@@ -8067,7 +8052,7 @@ public partial class ChronoJumpWindow
 
 		frame_contacts_exercise.Sensitive = false;
 		notebook_analyze.Sensitive = false;
-		notebook_results.Sensitive = false;
+		hbox_treeview_results_session.Sensitive = false;
 		encoder_sensitive_all_except_device(false);
 
 		treeview_persons.Sensitive = false;
@@ -8102,7 +8087,7 @@ public partial class ChronoJumpWindow
 		
 		frame_contacts_exercise.Sensitive = true;
 		notebook_analyze.Sensitive = true;
-		notebook_results.Sensitive = true;
+		hbox_treeview_results_session.Sensitive = true;
 		encoder_sensitive_all_except_device(true);
 
 		if(! configChronojump.Exhibition)
@@ -8709,7 +8694,7 @@ public partial class ChronoJumpWindow
 
 		button_contacts_exercise_close_and_capture = (Gtk.Button) builder.GetObject ("button_contacts_exercise_close_and_capture");
 		notebook_execute = (Gtk.Notebook) builder.GetObject ("notebook_execute");
-		notebook_results = (Gtk.Notebook) builder.GetObject ("notebook_results");
+		hbox_treeview_results_session = (Gtk.HBox) builder.GetObject ("hbox_treeview_results_session");
 		notebook_options_top = (Gtk.Notebook) builder.GetObject ("notebook_options_top");
 
 		eventbox_image_test = (Gtk.EventBox) builder.GetObject ("eventbox_image_test");

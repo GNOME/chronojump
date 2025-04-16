@@ -184,7 +184,7 @@ public class RunEncoderExport : ExportFiles
 					Util.ChangeSpaceAndMinusForUnderscore(reEx.Name),
 					re.DateTimePublic,
 					triggerListOfLists[element],
-					re.Comments
+					re.Description
 					);
 			rege_l.Add(rege);
 		}

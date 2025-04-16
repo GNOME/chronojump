@@ -2102,6 +2102,12 @@ public partial class ChronoJumpWindow
 				fillTreeView_runs_interval(Constants.AllRunsNameStr(), dbconOpened);
 			else if (combo_select_runs_interval != null)
 				fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_select_runs_interval), dbconOpened);
+		} else if (current_mode == Constants.Modes.RUNSENCODER)
+		{
+			if(radio_contacts_graph_allTests.Active)
+				fillTreeView_runEncoder (Constants.AllTestsNameStr(), dbconOpened);
+			else if (combo_run_encoder_exercise != null)
+				fillTreeView_runEncoder (UtilGtk.ComboGetActive (combo_run_encoder_exercise), dbconOpened);
 		} else if (current_mode == Constants.Modes.BEEPTEST)
 		{
 			if (radio_contacts_graph_allTests.Active)
@@ -3675,7 +3681,7 @@ public partial class ChronoJumpWindow
 			//vbox_contacts_graph_legend.Visible = false;
 
 			combo_race_analyzer_device.Active = 0;
-			forceSensorImageTestChange();
+			runEncoderImageTestChange();
 			setLabelContactsExerciseSelected(m);
 
 			label_contacts_exercise_selected_options_visible (false);
@@ -5077,7 +5083,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.RUNSENCODER)
 		{
-			currentRunEncoder.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
+			currentRunEncoder.Description = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
 			currentRunEncoder.UpdateSQLJustComments(false);
 		}
 

@@ -51,6 +51,8 @@ public partial class ChronoJumpWindow
 			treeViewResultsSession = new TreeViewRuns (tv, pdn, preferences.metersSecondsPreferred, minimized );
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			treeViewResultsSession = new TreeViewRunsInterval (tv, pdn, preferences.metersSecondsPreferred, minimized);
+		else if (current_mode == Constants.Modes.RUNSENCODER)
+			treeViewResultsSession = new TreeViewRunEncoder (tv, pdn, minimized);
 		else if (current_mode == Constants.Modes.BEEPTEST)
 			treeViewResultsSession = new TreeViewBeepTest (tv, pdn, minimized );
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
@@ -83,9 +85,11 @@ public partial class ChronoJumpWindow
 				current_mode == Constants.Modes.BEEPTEST ||
 				current_mode == Constants.Modes.WILIGHT)
 			on_treeview_test_simple_cursor_changed (false); // 1 level, no load set
-		else if (Constants.ModeIsFORCESENSOR (current_mode))
+		else if (Constants.ModeIsFORCESENSOR (current_mode) ||
+				current_mode == Constants.Modes.RUNSENCODER)
+		{
 			on_treeview_test_simple_cursor_changed (true); // 1 level, load set
-		else {
+		} else {
 			// 2 levels
 			if (current_mode == Constants.Modes.JUMPSREACTIVE)
 				on_treeview_jumps_rj_cursor_changed (o, args);
@@ -107,7 +111,13 @@ public partial class ChronoJumpWindow
 			showHideActionEventButtons(false); //hide
 		} else {
 			if (loadSet)
-				forceSenssorLoadSignalAcceptedDo (treeViewResultsSession.EventSelectedID, -1, currentSession.UniqueID, ForceSensor.GetElasticIntFromMode (current_mode), false);
+			{
+				if (Constants.ModeIsFORCESENSOR (current_mode))
+					forceSenssorLoadSignalAcceptedDo (treeViewResultsSession.EventSelectedID, -1, currentSession.UniqueID, ForceSensor.GetElasticIntFromMode (current_mode), false);
+//TODO
+//				else //if current_mode == Constants.Modes.RUNSENCODER)
+//					runEncoderLoadSignalAcceptedDo (treeViewResultsSession.EventSelectedID, -1, currentSession.UniqueID, false);
+			}
 
 			showHideActionEventButtons(true); //show
 			updateGraphResultsSessionByMode (); //to show the selected bar
@@ -142,6 +152,8 @@ public partial class ChronoJumpWindow
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			treeViewResultsSession = new TreeViewRunsInterval (
 					treeview_results_session, pdn, preferences.metersSecondsPreferred, expandState);
+		else if (current_mode == Constants.Modes.RUNSENCODER)
+			treeViewResultsSession = new TreeViewRunEncoder (treeview_results_session, pdn, expandState);
 		else if (current_mode == Constants.Modes.BEEPTEST)
 			treeViewResultsSession = new TreeViewBeepTest (treeview_results_session, pdn, expandState);
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
@@ -181,6 +193,11 @@ public partial class ChronoJumpWindow
 		{
 			ev = SqliteRunInterval.SelectRunData ( Constants.RunIntervalTable, id, false, false);
 			treeviewResultsContextMenu (true, " " + ev.Type + " (" + ev.PersonName + ")");
+		}
+		else if (current_mode == Constants.Modes.RUNSENCODER)
+		{
+			ev = SqliteRunEncoder.SelectData (id, false);
+			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonName + ")");
 		}
 		else if (current_mode == Constants.Modes.BEEPTEST)
 		{

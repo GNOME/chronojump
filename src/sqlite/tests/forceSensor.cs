@@ -256,7 +256,7 @@ class SqliteForceSensor : SqliteTests
 		    reader[8].ToString() + ":" + 	//fs.filename
 		    reader[9].ToString() + ":" + 	//fs.url
 		    reader[10].ToString() + ":" + 	//fs.datetime
-		    Util.CDSNoZero (reader[11].ToString()) + ":" + 	//fs.comments
+		    reader[11].ToString() + ":" + 	//fs.comments
 		    reader[12].ToString() + ":" + 	//fs.videoURL
 		    reader[13].ToString() + ":" + 	//fs.stiffness
 		    reader[14].ToString() + ":" + 	//fs.stiffnessString

@@ -529,10 +529,10 @@ public partial class ChronoJumpWindow
 
 	private void on_combo_race_analyzer_device_changed (object o, EventArgs args)
 	{
-		forceSensorImageTestChange();
+		runEncoderImageTestChange();
 	}
 
-	private void forceSensorImageTestChange()
+	private void runEncoderImageTestChange()
 	{
 		Pixbuf pixbuf; //main image
 		if(UtilGtk.ComboGetActive(combo_race_analyzer_device) == RunEncoder.DevicesStringMANUAL)
@@ -1409,7 +1409,7 @@ public partial class ChronoJumpWindow
 			raceEncoderSetDevice(re.Device);
 			raceEncoderSetDistanceAngleAndTemp(re.Distance, re.Angle, re.Temperature);
 			///		textview_race_analyzer_comment.Buffer.Text = re.Comments;
-			textview_contacts_signal_comment.Buffer.Text = re.Comments;
+			textview_contacts_signal_comment.Buffer.Text = re.Description;
 
 			raceEncoderReadWidgets(); //needed to be able to do R graph
 
@@ -1685,10 +1685,10 @@ public partial class ChronoJumpWindow
 
 		//2) if changed comment, update SQL, and update treeview
 		//first remove conflictive characters
-		string comment = Util.RemoveTildeAndColonAndDot(genericWin.EntryEditRow);
-		if(comment != re.Comments)
+		string description = Util.RemoveTildeAndColonAndDot (genericWin.EntryEditRow);
+		if(description != re.Description)
 		{
-			re.Comments = comment;
+			re.Description = description;
 			re.UpdateSQLJustComments(true);
 
 			//update treeview
@@ -1815,7 +1815,7 @@ public partial class ChronoJumpWindow
 		currentRunEncoder.Angle = Convert.ToInt32(race_analyzer_spinbutton_angle.Value);
 		currentRunEncoder.Temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
 		//currentRunEncoder.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_race_analyzer_comment);
-		currentRunEncoder.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
+		currentRunEncoder.Description = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
 
 		currentRunEncoder.UpdateSQL(false);
 
@@ -2514,6 +2514,8 @@ public partial class ChronoJumpWindow
 		button_combo_run_encoder_exercise_capture_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_run_encoder_exercise);
 		button_combo_select_contacts_top_left.Sensitive = (combo_run_encoder_exercise.Active > 0);
 		button_combo_select_contacts_top_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_run_encoder_exercise);
+
+		radio_contacts_graph_currentTest.Label = exTemp.Name;
 	}
 
 	private void fillRunEncoderExerciseCombo(string name)

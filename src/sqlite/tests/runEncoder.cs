@@ -187,6 +187,35 @@ class SqliteRunEncoder : SqliteTests
 
 		return list;
 	}
+    
+	protected override string selectSAArray (SQLiteDataReader reader)
+	{
+		return
+			reader[0].ToString() + ":" +	//person.name
+			reader[1].ToString() + ":" +	//uniqueID
+			reader[2].ToString() + ":" +	//personID
+			reader[3].ToString() + ":" +	//sessionID
+			reader[4].ToString() + ":" +	//exerciseID
+			reader[5].ToString() + ":" +	//device
+			reader[6].ToString() + ":" +	//distance
+			reader[7].ToString() + ":" +	//temperature
+			reader[8].ToString() + ":" +	//filename
+			reader[9].ToString() + ":" +	//url
+			reader[10].ToString() + ":" +	//datetime
+			reader[11].ToString() + ":" +	//comments
+			reader[12].ToString() + ":" +	//videoURL
+			reader[13].ToString() + ":" +	//angle
+			reader[14].ToString() + ":" +	//totalTime
+			Util.CDS (reader[15].ToString()) + ":" + //maxSpeed
+			Util.CDS (reader[16].ToString()) + ":" + //maxAvgSpeed1s
+			reader[17].ToString()		//exerciseName
+			;
+	}
+
+	public static RunEncoder SelectData (int uniqueID, bool dbconOpened)
+	{
+		return new RunEncoder (selectTestData (uniqueID, dbconOpened, tableStatic, 16));
+	}
 
 	public static ArrayList SelectRowsOfAnExercise(bool dbconOpened, int exerciseID)
 	{

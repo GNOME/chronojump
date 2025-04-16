@@ -25,24 +25,19 @@ using System.Collections.Generic; //List<T>
 using System.Threading;
 using Mono.Unix;
 
-public class RunEncoder
+public class RunEncoder : Event
 {
 	public enum Devices { MANUAL, RESISTED } //RESISTED will have two columns on the CSV (encoder, forecSensor)
 	public static string DevicesStringMANUAL = "Manual race analyzer";
 	public static string DevicesStringRESISTED = "Resisted race analyzer";
 
-	private int uniqueID;
-	private int personID;
-	private int sessionID;
-	private int exerciseID; //until runEncoderExercise table is not created, all will be 0
+	private int exerciseID; ////until runEncoderExercise table is not created, all will be 0
 	//private int angle; //unused
 	private Devices device;
 	private int distance;
 	private int temperature;
 	private string filename;
 	private string url;	//relative
-	private string dateTime;
-	private string comments;
 	private string videoURL;
 	private int angle;
 	private int totalTime; //needed to sync with video. If we press finish when there are no pulsees we cannot sync. If we use totalTime we can sync.
@@ -59,10 +54,10 @@ public class RunEncoder
 		uniqueID = -1;
 	}
 
-	//constructor
+	// constructor (default)
 	public RunEncoder(int uniqueID, int personID, int sessionID, int exerciseID, Devices device,
 			int distance, int temperature, string filename, string url,
-			string dateTime, string comments, string videoURL, int angle, int totalTime,
+			string dateTime, string description, string videoURL, int angle, int totalTime,
 			double maxSpeed, double maxAvgSpeed1s, string exerciseName)
 	{
 		this.uniqueID = uniqueID;
@@ -75,7 +70,7 @@ public class RunEncoder
 		this.filename = filename;
 		this.url = url;
 		this.dateTime = dateTime;
-		this.comments = comments;
+		this.description = description;
 		this.videoURL = videoURL;
 		this.angle = angle;
 		this.totalTime = totalTime;
@@ -85,10 +80,43 @@ public class RunEncoder
 		this.exerciseName = exerciseName;
 	}
 
+	// constructor for TreeViewRunEncoder.getObjectFromString ()
+	public RunEncoder (int uniqueID, double maxSpeed, double maxAvgSpeed1s, string dateTime, string description, string exerciseName)
+	{
+		this.uniqueID = uniqueID;
+		this.maxSpeed = maxSpeed;
+		this.maxAvgSpeed1s = maxAvgSpeed1s;
+		this.dateTime = dateTime;
+		this.description = description;
+		this.exerciseName = exerciseName;
+	}
+
+	// constructor for SqliteRunEncoder.SelectData ()
+	public RunEncoder (string [] eventStr)
+	{
+		this.uniqueID = Convert.ToInt32 (eventStr[0]);
+		this.personID = Convert.ToInt32 (eventStr[1]);
+		this.sessionID = Convert.ToInt32 (eventStr[2]);
+		this.exerciseID = Convert.ToInt32 (eventStr[3]);
+		this.device = (RunEncoder.Devices)Enum.Parse(
+                        typeof(RunEncoder.Devices), eventStr[4]);
+		this.distance = Convert.ToInt32 (eventStr[5]);
+		this.temperature = Convert.ToInt32 (eventStr[6]);
+		this.filename = eventStr[7];
+		this.url = Util.MakeURLabsolute (Sqlite.FixOSpath (eventStr[8]));
+		this.dateTime = eventStr[9];
+		this.description = eventStr[10];
+		this.videoURL = eventStr[11];
+		this.angle = Convert.ToInt32 (eventStr[12]);
+		this.totalTime = Convert.ToInt32 (eventStr[13]);
+		this.maxSpeed = Convert.ToDouble (Util.CDS (eventStr[14]));
+		this.maxAvgSpeed1s = Convert.ToDouble (Util.CDS (eventStr[15]));
+	}
+
 	// OLD constructor for migrating to 1.71. DO NOT USE
 	public RunEncoder(int uniqueID, int personID, int sessionID, int exerciseID, Devices device,
 			int distance, int temperature, string filename, string url,
-			string dateTime, string comments, string videoURL, int angle, int totalTime,
+			string dateTime, string description, string videoURL, int angle, int totalTime,
 			string exerciseName)
 	{
 		this.uniqueID = uniqueID;
@@ -101,7 +129,7 @@ public class RunEncoder
 		this.filename = filename;
 		this.url = url;
 		this.dateTime = dateTime;
-		this.comments = comments;
+		this.description = description;
 		this.videoURL = videoURL;
 		this.angle = angle;
 		this.totalTime = totalTime;
@@ -125,7 +153,7 @@ public class RunEncoder
 		return
 			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID + ", '" + device.ToString() + "', " +
 			distance + ", " + temperature + ", '" + filename + "', '" + url + "', '" + dateTime + "', '" +
-			comments + "', '" + videoURL + "', " + angle + ", " + totalTime + ", " +
+			description + "', '" + videoURL + "', " + angle + ", " + totalTime + ", " +
 			Util.CTP (maxSpeed) + ", " + Util.CTP (maxAvgSpeed1s) + ")";
 	}
 
@@ -146,7 +174,7 @@ public class RunEncoder
 			", filename = '" + filename +
 			"', url = '" + Util.MakeURLrelative(url) +
 			"', dateTime = '" + dateTime +
-			"', comments = '" + comments +
+			"', comments = '" + description +
 			"', videoURL = '" + Util.MakeURLrelative(videoURL) +
 			"', angle = " + angle +
 			", totalTime = " + totalTime +
@@ -157,7 +185,7 @@ public class RunEncoder
 
 	public void UpdateSQLJustComments(bool dbconOpened)
 	{
-		SqliteRunEncoder.UpdateComments (dbconOpened, uniqueID, comments); //SQL not opened
+		SqliteRunEncoder.UpdateComments (dbconOpened, uniqueID, description); //SQL not opened
 	}
 
 	public string [] ToStringArray (bool showDevice, int count)
@@ -183,7 +211,7 @@ public class RunEncoder
 		else
 			str[i++] = Catalog.GetString("No");
 
-		str[i++] = comments;
+		str[i++] = description;
 
 		return str;
 	}
@@ -255,19 +283,6 @@ public class RunEncoder
 		get { return filename; }
 	}
 
-	public int UniqueID
-	{
-		get { return uniqueID; }
-		set { uniqueID = value; }
-	}
-	public int PersonID
-	{
-		get { return personID; }
-	}
-	public int SessionID
-	{
-		get { return sessionID; }
-	}
 	public int ExerciseID
 	{
 		get { return exerciseID; }
@@ -291,11 +306,6 @@ public class RunEncoder
 	public string DateTimePublic
 	{
 		get { return dateTime; }
-	}
-	public string Comments
-	{
-		get { return comments; }
-		set { comments = value; }
 	}
 	public string VideoURL
 	{

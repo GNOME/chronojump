@@ -256,27 +256,6 @@ public abstract class CairoGraphForceSensor : CairoXY
 		plotRealPoints (plotType, p_l, startAt, false); //fast (but the difference is very low)
 	}
 
-	protected void paintMaxAvgInWindow (int start, int end, double force, List<PointF> points_l)
-	{
-		/* unused, maybe show in other way
-		if (oneSerie)
-			g.LineWidth = 2;
-		else */
-			g.LineWidth = 4;
-
-		double yPx = calculatePaintY (force);
-
-		CairoUtil.PaintSegment (g, black,
-				calculatePaintX (points_l[start].X), yPx,
-				calculatePaintX (points_l[end].X), yPx);
-		CairoUtil.PaintSegment (g, black,
-				calculatePaintX (points_l[start].X), yPx-10,
-				calculatePaintX (points_l[start].X), yPx+10);
-		CairoUtil.PaintSegment (g, black,
-				calculatePaintX (points_l[end].X), yPx-10,
-				calculatePaintX (points_l[end].X), yPx+10);
-	}
-
 	//TODO: fix this for vertical
 	protected void bsiwPlot (List<PointF> points_l, GetBestStabilityInWindow bsiw)
 	{

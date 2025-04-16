@@ -358,6 +358,8 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	private double runEncoderCaptureDistance; //m
 	private List<double> runEncoderCaptureDistance_l; //to calculate smoothing
 	private List<double> runEncoderCaptureSpeed_l; //to calculate smoothing
+	private List<PointF> speedTime_l; //to calculate miw
+	private GetMaxAvgInWindow miw;
 
 	public RunEncoderCaptureGetSpeedAndDisplacement(int segmentCm, List<int> segmentVariableCm, double massKg, int angle)
 	{
@@ -378,6 +380,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		time_l = new List<int> ();
 		runEncoderCaptureDistance_l = new List<double> ();
 		runEncoderCaptureSpeed_l = new List<double> ();
+		speedTime_l = new List<PointF> ();
 	}
 
 	public void PassCapturedRow (List<int> binaryReaded)
@@ -472,6 +475,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		//LogB.Information(string.Format("speed: {0}, runEncoderCaptureDistanceAtThisSample: {1}, tPre: {2}, t: {3}",
 		//			runEncoderCaptureSpeed, runEncoderCaptureDistanceAtThisSample, tPre, t));
 		runEncoderCaptureSpeed_l.Add (runEncoderCaptureSpeed);
+		speedTime_l.Add (new PointF (t, runEncoderCaptureSpeed));
 		//LogB.Information ("first speed is : " + runEncoderCaptureSpeed.ToString ());
 
 		segmentCalcs.SpeedAtEnoughAccelMark = runEncoderCaptureSpeed_l[0];
@@ -507,6 +511,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 							*/
 
 				runEncoderCaptureSpeed_l.Add (runEncoderCaptureSpeed);
+				speedTime_l.Add (new PointF (time, runEncoderCaptureSpeed));
 
 				if(runEncoderCaptureSpeed > runEncoderCaptureSpeedMax)
 					runEncoderCaptureSpeedMax = runEncoderCaptureSpeed;
@@ -523,11 +528,20 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 						updateSegmentDistTimeVariable ();
 				}
 
+				calculateMaxAvgSpeed1s (speedTime_l);
+				//if (miw.Error == "")
+				//	LogB.Information ("miw: " + miw.ToString ());
+
 				hasCalculed = true;
 			}
 			timePre = time;
 		}
 		return hasCalculed;
+	}
+
+	private void calculateMaxAvgSpeed1s (List<PointF> pf_l)
+	{
+		miw = new GetMaxAvgInWindow (pf_l, 0, pf_l.Count -1, 1); //1s
 	}
 
 	private double getFirstSegmentTimeStart ()
@@ -594,23 +608,17 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	public void SegmentsRedoWithSmoothing (int smoothSamples)
 	{
 		LogB.Information ( string.Format ("SegmentsRedoWithSmoothing smoothSamples: {0}", smoothSamples));
-		// 1) convert time_l and runEncoderCaptureSpeed_l to List<PointF>
-		List<PointF> pf_l = new List<PointF> ();
-		for (int i = 0; i < time_l.Count; i++)
-			if (i < runEncoderCaptureSpeed_l.Count)
-				pf_l.Add (new PointF (time_l[i], runEncoderCaptureSpeed_l[i]));
-
 		MovingAverage mAverageSmoothLine = null;
 		List<double> runEncoderCaptureSpeedSmoothed_l = new List<double> ();
 		if (smoothSamples >= 3)
 		{
-			// 2) calculate the moving average and get the smoothed speed
-			mAverageSmoothLine = new MovingAverage (pf_l, smoothSamples);
+			// 1) calculate the moving average and get the smoothed speed
+			mAverageSmoothLine = new MovingAverage (speedTime_l, smoothSamples);
 			mAverageSmoothLine.Calculate ();
 			runEncoderCaptureSpeedSmoothed_l = mAverageSmoothLine.MovingAverage_l_Y;
 		}
 
-		// 3) initialize objects
+		// 2) initialize objects
 		segmentVariableCmDistAccumulated = 0;
 		segmentCalcs = new RunEncoderSegmentCalcs (massKg, angle);
 		double distanceNow = 0;
@@ -625,7 +633,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 
 		segmentCalcs.SpeedAtEnoughAccelMark = speedAtEnoughAccelMarkForSmoothing;
 
-		// 4) redo the segments
+		// 3) redo the segments
 		LogB.Information (string.Format ("runEncoderCaptureDistance_l.Count: {0} time_l.Count: {1} speed_l.Count: {2}",
 					runEncoderCaptureDistance_l.Count, time_l.Count, speed_l.Count));
 
@@ -684,6 +692,9 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	}
 	public double DistanceAtEnoughAccelMark {
 		get { return distanceAtEnoughAccelMark; }
+	}
+	public GetMaxAvgInWindow Miw {
+		get { return miw; }
 	}
 }
 

@@ -1230,7 +1230,7 @@ public class GetMaxAvgInWindow : GetMaxValueInWindow
 		this.countB = countB;
 		this.windowSeconds = windowSeconds;
 
-		LogB.Information ("GetMaxAvgInWindow start");
+		//LogB.Information ("GetMaxAvgInWindow start");
 
 		/* TODO: manage this
 		// 1) check if ws calculated before
@@ -1238,7 +1238,7 @@ public class GetMaxAvgInWindow : GetMaxValueInWindow
 		calculatedForceMaxAvgInWindow.InputsToString() ==
 		new CalculatedForceMaxAvgInWindow(countA, countB, windowSeconds).InputsToString())
 		{
-		LogB.Information("Was calculated before");
+		//LogB.Information("Was calculated before");
 		avgMax = calculatedForceMaxAvgInWindow.Result;
 		avgMaxSampleStart = calculatedForceMaxAvgInWindow.ResultSampleStart;
 		avgMaxSampleEnd = calculatedForceMaxAvgInWindow.ResultSampleEnd;
@@ -1247,8 +1247,8 @@ public class GetMaxAvgInWindow : GetMaxValueInWindow
 		}
 		*/
 
-		LogB.Information (string.Format ("p_l.Count: {0}, countA: {1}, countB: {2}, windowSeconds: {3}",
-					p_l.Count, countA, countB, windowSeconds));
+		//LogB.Information (string.Format ("p_l.Count: {0}, countA: {1}, countB: {2}, windowSeconds: {3}",
+		//			p_l.Count, countA, countB, windowSeconds));
 
 		if (parametersBad ())
 		{
@@ -1274,7 +1274,7 @@ public class GetMaxAvgInWindow : GetMaxValueInWindow
 		calculatedForceMaxAvgInWindow = new CalculatedForceMaxAvgInWindow (
 				countA, countB, windowSeconds, max, maxSampleStart, maxSampleEnd);
 				*/
-		LogB.Information ("GetMaxAvgInWindow done!");
+		//LogB.Information ("GetMaxAvgInWindow done!");
 	}
 
 	protected override void calculate ()

@@ -175,8 +175,8 @@ class SqliteRunEncoder : SqliteTests
 					reader[11].ToString(),			//videoURL
 					Convert.ToInt32(reader[12].ToString()),	//angle
 					Convert.ToInt32(reader[13].ToString()),	//totalTime
-					Convert.ToDouble (Util.CDSNoZero (reader[14].ToString())), //maxSpeed
-					Convert.ToDouble (Util.CDSNoZero (reader[15].ToString())), //maxAvgSpeed1s
+					Convert.ToDouble (Util.CDS (reader[14].ToString())), //maxSpeed
+					Convert.ToDouble (Util.CDS (reader[15].ToString())), //maxAvgSpeed1s
 					reader[16].ToString()			//exerciseName
 					);
 			list.Add(re);

@@ -1204,6 +1204,9 @@ public partial class ChronoJumpWindow
 		fullscreen_button_fullscreen_contacts.Sensitive = true;
 		button_force_sensor_image_save_signal.Sensitive = false;
 		button_ai_model.Sensitive = false;
+		hbox_contacts_graph_table_controls.Sensitive = false;
+		frame_contacts_graph_table.Sensitive = false;
+
 		forceCaptureStartMark = false;
 		forceTooBigMark = false;
 		forceTooBigValue = 0;
@@ -1917,6 +1920,8 @@ LogB.Information(" fs C ");
 					hbox_force_general_analysis.Sensitive = true;
 					button_ai_model_options_close_and_analyze.Sensitive = true;
 					button_ai_model.Sensitive = true;
+					hbox_contacts_graph_table_controls.Sensitive = true;
+					frame_contacts_graph_table.Sensitive = true;
 
 					if( configChronojump.Exhibition &&
 							( configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.FORCE_ROPE ||
@@ -1956,6 +1961,9 @@ LogB.Information(" fs C ");
 					event_execute_label_message.Text = forceSensorNotConnectedString;
 					button_detect_show_hide (true); // show the detect big button
 				}
+
+				hbox_contacts_graph_table_controls.Sensitive = true;
+				frame_contacts_graph_table.Sensitive = true;
 
 				button_force_sensor_image_save_signal.Sensitive = false;
 				button_ai_model.Sensitive = false;

@@ -194,6 +194,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label fullscreen_label_message;
 	Gtk.DrawingArea fullscreen_capture_drawingarea_cairo;
 
+	Gtk.HBox hbox_contacts_graph_table_controls;
 	Gtk.Frame frame_contacts_graph_table;
 	Gtk.HPaned hpaned_contacts_graph_table;
 	Gtk.TreeView treeview_persons;
@@ -8166,8 +8167,9 @@ public partial class ChronoJumpWindow
 		hbox_runs_interval_all.Sensitive = false;
 		sensitiveLastTestButtons(false);
 
-		//do not allow to touch buttons on show table
-		notebook_results.Sensitive = false;
+		//do not allow to touch session graph/table buttons
+		hbox_contacts_graph_table_controls.Sensitive = false;
+		frame_contacts_graph_table.Sensitive = false;
 
 		button_contacts_devices_networks.Sensitive = false;
 		button_encoder_devices_networks.Sensitive = false;
@@ -8224,8 +8226,9 @@ public partial class ChronoJumpWindow
 		vbox_runs.Sensitive = true;
 		hbox_runs_interval_all.Sensitive = true;
 
-		//allow to touch buttons on show table
-		notebook_results.Sensitive = true;
+		//allow to touch session graph/table buttons
+		hbox_contacts_graph_table_controls.Sensitive = true;
+		frame_contacts_graph_table.Sensitive = true;
 
 		button_contacts_devices_networks.Sensitive = true;
 
@@ -8561,6 +8564,7 @@ public partial class ChronoJumpWindow
 		fullscreen_label_message = (Gtk.Label) builder.GetObject ("fullscreen_label_message");
 		fullscreen_capture_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("fullscreen_capture_drawingarea_cairo");
 
+		hbox_contacts_graph_table_controls = (Gtk.HBox) builder.GetObject ("hbox_contacts_graph_table_controls");
 		frame_contacts_graph_table = (Gtk.Frame) builder.GetObject ("frame_contacts_graph_table");
 		hpaned_contacts_graph_table = (Gtk.HPaned) builder.GetObject ("hpaned_contacts_graph_table");
 		treeview_persons = (Gtk.TreeView) builder.GetObject ("treeview_persons");

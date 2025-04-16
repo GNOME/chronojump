@@ -10630,7 +10630,7 @@ last capture</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">2</property>
                                                             <child>
-                                                            <object class="GtkHBox" id="hbox4">
+                                                            <object class="GtkHBox" id="hbox_contacts_graph_table_controls">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">24</property>
@@ -22794,6 +22794,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

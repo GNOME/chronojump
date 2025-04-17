@@ -486,6 +486,7 @@ public partial class ChronoJumpWindow
 	EditRunWindow editRunWin;
 	RepairRunIntervalWindow repairRunIntervalWin;
 	EditRunIntervalWindow editRunIntervalWin;
+	EditRunEncoderWindow editRunEncoderWin;
 
 	ConfirmWindowJumpRun confirmWinJumpRun;	//for deleting jumps and RJ jumps (and runs)
 	ReportWindow reportWin;
@@ -6440,6 +6441,8 @@ public partial class ChronoJumpWindow
 			on_edit_selected_run_clicked (o, args);
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			on_edit_selected_run_interval_clicked (o, args);
+		else if (current_mode == Constants.Modes.RUNSENCODER)
+			on_edit_selected_runEncoder_clicked (o, args);
 		else if (current_mode == Constants.Modes.BEEPTEST)
 			on_edit_selected_beepTest_clicked (o, args);
 		else if (Constants.ModeIsFORCESENSOR (current_mode))

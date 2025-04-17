@@ -1780,6 +1780,8 @@ public partial class ChronoJumpWindow
 
 		//empty GUI
 		blankRunEncoderInterface();
+
+		pre_fillTreeView_resultsSession (false);
 	}
 
 	private void runEncoderDeleteTestDo(RunEncoder re)

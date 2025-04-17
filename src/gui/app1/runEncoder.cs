@@ -1827,6 +1827,9 @@ public partial class ChronoJumpWindow
 		string str = run_encoder_load_set (currentRunEncoder.UniqueID, false);
 		if(str != "")
 			event_execute_label_message.Text = "Recalculated.";
+
+		updateGraphResultsSessionByMode ();
+		pre_fillTreeView_resultsSession (false);
 	}
 
 	private void on_radio_race_analyzer_capture_graph_starts_clicked (object o, EventArgs args)

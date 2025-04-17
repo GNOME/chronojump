@@ -43,6 +43,8 @@ public class TreeViewEvent
 	protected string datetimeName = Catalog.GetString("Date");
 	protected string descriptionName = Catalog.GetString("Description");
 
+	private string currentPersonName; //used to show it on bold
+
 	//to calculate potency (on jumps)
 	protected double personWeight; 
 	protected double weightInKg;
@@ -74,6 +76,7 @@ public class TreeViewEvent
 		dataLineTypePosition = 4;
 		allEventsName = "";
 		eventIDColumn = 4;
+		currentPersonName = "";
 
 		columnsString = new string[0];
 	
@@ -93,15 +96,46 @@ public class TreeViewEvent
 		return myStore;
 	}
 	
-	protected virtual void prepareHeaders(string [] columnsString) 
+	protected void prepareHeaders(string [] columnsString)
 	{
 		treeview.HeadersVisible=true;
 		int i=0;
-		foreach(string myCol in columnsString) {
-			treeview.AppendColumn (myCol, new CellRendererText(), "text", i++);
+		foreach (string myCol in columnsString)
+		{
+			if (i == 0) // to show person name in bold if is currentPerson
+			{
+				Gtk.TreeViewColumn personNameColumn = new Gtk.TreeViewColumn ();
+				CellRendererText personNameCell = new CellRendererText();
+				personNameColumn.Title = myCol;
+				personNameColumn.PackStart (personNameCell, true);
+				personNameColumn.SetCellDataFunc (personNameCell, new Gtk.TreeCellDataFunc (RenderPersonName));
+				treeview.AppendColumn (personNameColumn);
+				i ++;
+			} else
+				treeview.AppendColumn (myCol, new CellRendererText(), "text", i++);
 		}
 	}
-	
+
+	private void RenderPersonName (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
+	{
+		if(! (cell is CellRendererText))
+			return;
+
+		string text = (string) model.GetValue (iter, 0);
+
+		if (isTopLevel (iter) && text == currentPersonName)
+			(cell as Gtk.CellRendererText).Markup = "<span weight=\"bold\">" + text + "</span>";
+		else
+			(cell as Gtk.CellRendererText).Text = text;
+	}
+
+	//to know if is person. If has no parents it is top level
+	private bool isTopLevel (TreeIter iter)
+	{
+		TreeIter iterParent;
+		return (! treeview.Model.IterParent (out iterParent, iter));
+	}
+
 	public virtual void RemoveColumns() {
 		Gtk.TreeViewColumn [] myColumns = treeview.Columns;
 		foreach (Gtk.TreeViewColumn column in myColumns) {
@@ -553,8 +587,11 @@ public class TreeViewEvent
 
 	//used on jumps: Add
 	public double PersonWeight {
-		set {
-			personWeight = value;
-		}
+		set { personWeight = value; }
 	}
+
+	public string CurrentPersonName {
+		set { currentPersonName = value; }
+	}
+
 }

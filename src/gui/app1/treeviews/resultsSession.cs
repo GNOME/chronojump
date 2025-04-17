@@ -98,6 +98,9 @@ public partial class ChronoJumpWindow
 			if (current_mode == Constants.Modes.OTHER) 	//FOURPLATFORMS
 				on_treeview_fourPlatforms_cursor_changed (o, args);
 		}
+
+		if (currentPerson != null)
+			treeViewResultsSession.CurrentPersonName = currentPerson.Name;
 	}
 
 	private void on_treeview_test_simple_cursor_changed (bool loadSet)

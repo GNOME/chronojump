@@ -2271,10 +2271,10 @@ LogB.Information(" fs R ");
 		}
 
 		genericWin.HideAndNull();
-		forceSenssorLoadSignalAcceptedDo (uniqueID, personID, sessionID, elastic, TwoSetsCD);
+		forceSensorLoadSignalAcceptedDo (uniqueID, personID, sessionID, elastic, TwoSetsCD);
 	}
 
-	private void forceSenssorLoadSignalAcceptedDo (int uniqueID, int personID, int sessionID, int elastic, bool TwoSetsCD)
+	private void forceSensorLoadSignalAcceptedDo (int uniqueID, int personID, int sessionID, int elastic, bool TwoSetsCD)
 	{
 		ForceSensor fs = (ForceSensor) SqliteForceSensor.Select (false, uniqueID, personID, sessionID, elastic)[0];
 		if(fs == null)

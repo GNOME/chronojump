@@ -1332,6 +1332,11 @@ public partial class ChronoJumpWindow
 			genericWin.HideAndNull();
 		}
 
+		return runEncoderLoadSetDo (uniqueID, personID, sessionID, getPersonSessionFromGenericWin);
+	}
+
+	private string runEncoderLoadSetDo (int uniqueID, int personID, int sessionID, bool getPersonSessionFromGenericWin)
+	{
 		RunEncoder re = (RunEncoder) SqliteRunEncoder.Select (false, uniqueID, personID, sessionID)[0];
 
 		if(re == null)

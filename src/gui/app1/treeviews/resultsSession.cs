@@ -113,10 +113,9 @@ public partial class ChronoJumpWindow
 			if (loadSet)
 			{
 				if (Constants.ModeIsFORCESENSOR (current_mode))
-					forceSenssorLoadSignalAcceptedDo (treeViewResultsSession.EventSelectedID, -1, currentSession.UniqueID, ForceSensor.GetElasticIntFromMode (current_mode), false);
-//TODO
-//				else //if current_mode == Constants.Modes.RUNSENCODER)
-//					runEncoderLoadSignalAcceptedDo (treeViewResultsSession.EventSelectedID, -1, currentSession.UniqueID, false);
+					forceSensorLoadSignalAcceptedDo (treeViewResultsSession.EventSelectedID, -1, currentSession.UniqueID, ForceSensor.GetElasticIntFromMode (current_mode), false);
+				else //if current_mode == Constants.Modes.RUNSENCODER)
+					runEncoderLoadSetDo (treeViewResultsSession.EventSelectedID, -1, currentSession.UniqueID, false);
 			}
 
 			showHideActionEventButtons(true); //show

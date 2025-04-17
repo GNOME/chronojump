@@ -483,9 +483,6 @@ public partial class ChronoJumpWindow
 			contactsShowCaptureDoingButtons(true);
 			image_ai_model_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
 
-			//textview_force_sensor_capture_comment.Buffer.Text = "";
-			textview_contacts_signal_comment.Buffer.Text = "";
-
 			if(currentForceSensorExercise.TareBeforeCaptureAndForceResultant)
 			{
 				forceSensorOtherMode = forceSensorOtherModeEnum.TARE_AND_CAPTURE_PRE;
@@ -617,7 +614,6 @@ public partial class ChronoJumpWindow
 		lastForceSensorFullPath_2SetsCD = null;
 
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
-		textview_contacts_signal_comment.Buffer.Text = "";
 		hbox_force_general_analysis.Sensitive = false;
 		button_ai_model.Sensitive = false;
 		button_contacts_delete_selected.Sensitive = false;
@@ -1361,8 +1357,6 @@ public partial class ChronoJumpWindow
 		forceSensorTimeStart = DateTime.Now; //to have an active count of capture time
 		forceSensorTimeStartCapture = forceSensorTimeStart; //to have same DateTime on filename and on sql datetime
 		capturingForce = arduinoCaptureStatus.CAPTURING;
-		//string captureComment = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
-		//string captureComment = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
 
 		Util.CreateForceSensorSessionDirIfNeeded (currentSession.UniqueID);
 
@@ -2344,8 +2338,6 @@ LogB.Information(" fs R ");
 		setForceSensorCaptureOptions(fs.CaptureOption);
 
 		setLaterality(fs.Laterality);
-		//textview_force_sensor_capture_comment.Buffer.Text = fs.Description;
-		textview_contacts_signal_comment.Buffer.Text = fs.Description;
 
 		assignCurrentForceSensorExercise();
 
@@ -2635,8 +2627,7 @@ LogB.Information(" fs R ");
 		currentForceSensor.ExerciseName = currentForceSensorExercise.Name; //just in case
 		currentForceSensor.CaptureOption = getForceSensorCaptureOptions();
 		currentForceSensor.Laterality = getLaterality(false);
-		//currentForceSensor.Description = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
-		currentForceSensor.Description = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
+		currentForceSensor.Description = "";
 
 
 		double stiffness;

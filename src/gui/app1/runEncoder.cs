@@ -422,7 +422,6 @@ public partial class ChronoJumpWindow
 
 	private void runEncoderCapturePre3_GTK_cameraCalled()
 	{
-		textview_contacts_signal_comment.Buffer.Text = "";
 		assignCurrentRunEncoderExercise();
 		raceEncoderReadWidgets();
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
@@ -473,7 +472,6 @@ public partial class ChronoJumpWindow
 		aiButtonsHscaleZoomSensitiveness();
 
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
-		textview_contacts_signal_comment.Buffer.Text = "";
 
 		//image_ai_model_graph.Sensitive = false; //this is not useful at all
 		image_ai_model_graph.Visible = false;
@@ -1413,8 +1411,6 @@ public partial class ChronoJumpWindow
 
 			raceEncoderSetDevice(re.Device);
 			raceEncoderSetDistanceAngleAndTemp(re.Distance, re.Angle, re.Temperature);
-			///		textview_race_analyzer_comment.Buffer.Text = re.Comments;
-			textview_contacts_signal_comment.Buffer.Text = re.Description;
 
 			raceEncoderReadWidgets(); //needed to be able to do R graph
 
@@ -1821,8 +1817,6 @@ public partial class ChronoJumpWindow
 		currentRunEncoder.Distance = Convert.ToInt32(race_analyzer_spinbutton_distance.Value);
 		currentRunEncoder.Angle = Convert.ToInt32(race_analyzer_spinbutton_angle.Value);
 		currentRunEncoder.Temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
-		//currentRunEncoder.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_race_analyzer_comment);
-		currentRunEncoder.Description = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
 
 		currentRunEncoder.UpdateSQL(false);
 

@@ -7160,76 +7160,6 @@ last capture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkAlignment" id="alignment8">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="left-padding">10</property>
-                                                            <child>
-                                                            <object class="GtkBox" id="vbox_contacts_signal_comment">
-                                                            <property name="can-focus">False</property>
-                                                            <property name="orientation">vertical</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <object class="GtkFrame" id="frame4">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label-xalign">0</property>
-                                                            <property name="shadow-type">in</property>
-                                                            <child>
-                                                            <object class="GtkTextView" id="textview_contacts_signal_comment">
-                                                            <property name="width-request">125</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            </object>
-                                                            </child>
-                                                            <child type="label_item">
-                                                            <placeholder/>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox169">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <child>
-                                                            <object class="GtkButton" id="button_contacts_signal_save_comment">
-                                                            <property name="label" translatable="yes">Save comment</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="sensitive">False</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="relief">half</property>
-                                                            <signal name="clicked" handler="on_button_contacts_signal_save_comment_clicked" swapped="no"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack-type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <object class="GtkFrame" id="frame_jumps_automatic">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -7479,7 +7409,7 @@ last capture</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">3</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -12344,6 +12274,9 @@ last capture</property>
                                                             <property name="rules-hint">True</property>
                                                             <property name="enable-search">False</property>
                                                             <signal name="button-release-event" handler="on_treeview_results_session_button_release_event" swapped="no"/>
+                                                            <child internal-child="selection">
+                                                            <object class="GtkTreeSelection"/>
+                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
@@ -22761,6 +22694,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

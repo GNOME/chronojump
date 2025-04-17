@@ -264,9 +264,6 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_contacts_capture_session_overview;
 	Gtk.Button button_contacts_capture_load;
 	Gtk.Button button_contacts_exercise_close_and_recalculate;
-	Gtk.Box vbox_contacts_signal_comment;
-	Gtk.TextView textview_contacts_signal_comment;
-	Gtk.Button button_contacts_signal_save_comment;
 	Gtk.Frame frame_jumps_automatic;
 	Gtk.Notebook notebook_jumps_automatic;
 	Gtk.Box hbox_contacts_device_adjust_threshold;
@@ -857,9 +854,6 @@ public partial class ChronoJumpWindow
 
 		if(splashWin != null)
 			splashWin.UpdateLabel(Catalog.GetString(Constants.SplashMessages[9]));
-
-		//done here because in Glade we cannot use the TextBuffer.Changed
-		textview_contacts_signal_comment.Buffer.Changed += new EventHandler(on_textview_contacts_signal_comment_key_press_event);
 
 		initContacts1Time ();
 		initEncoder1Time ();
@@ -3254,7 +3248,6 @@ public partial class ChronoJumpWindow
 		button_force_sensor_sync.Visible = false;
 		box_contacts_load.Visible = false;
 		button_contacts_exercise_close_and_recalculate.Visible = false;
-		vbox_contacts_signal_comment.Visible = false;
 		frame_jumps_automatic.Visible = false;
 		check_run_show_time.Visible = false;
 		box_wilight.Visible = false;
@@ -3605,8 +3598,6 @@ public partial class ChronoJumpWindow
 
 			button_contacts_exercise_close_and_recalculate.Visible = true;
 
-			vbox_contacts_signal_comment.Visible = true;
-
 			button_contacts_capture_load.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 			button_contacts_capture_session_overview.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 
@@ -3662,8 +3653,6 @@ public partial class ChronoJumpWindow
 
 			box_contacts_load.Visible = true;
 			button_contacts_exercise_close_and_recalculate.Visible = true;
-
-			vbox_contacts_signal_comment.Visible = true;
 
 			button_contacts_capture_load.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 			button_contacts_capture_session_overview.Sensitive = myTreeViewPersons.IsThereAnyRecord();
@@ -5068,28 +5057,6 @@ public partial class ChronoJumpWindow
 			force_sensor_recalculate();
 		else if(current_mode == Constants.Modes.RUNSENCODER)
 			run_encoder_recalculate();
-	}
-
-	void on_textview_contacts_signal_comment_key_press_event (object o, EventArgs args)
-	{
-		button_contacts_signal_save_comment.Label = Catalog.GetString("Save comment");
-		button_contacts_signal_save_comment.Sensitive = true;
-	}
-	void on_button_contacts_signal_save_comment_clicked (object o, EventArgs args)
-	{
-		if (Constants.ModeIsFORCESENSOR (current_mode))
-		{
-			currentForceSensor.Description = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
-			currentForceSensor.UpdateSQLJustDescription (false);
-		}
-		else if(current_mode == Constants.Modes.RUNSENCODER)
-		{
-			currentRunEncoder.Description = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
-			currentRunEncoder.UpdateSQLJustComments(false);
-		}
-
-		button_contacts_signal_save_comment.Label = Catalog.GetString("Saved comment.");
-		button_contacts_signal_save_comment.Sensitive = false;
 	}
 
 	private Constants.BellModes getBellMode (Constants.Modes m)
@@ -8631,9 +8598,6 @@ public partial class ChronoJumpWindow
 		button_contacts_capture_session_overview = (Gtk.Button) builder.GetObject ("button_contacts_capture_session_overview");
 		button_contacts_capture_load = (Gtk.Button) builder.GetObject ("button_contacts_capture_load");
 		button_contacts_exercise_close_and_recalculate = (Gtk.Button) builder.GetObject ("button_contacts_exercise_close_and_recalculate");
-		vbox_contacts_signal_comment = (Gtk.Box) builder.GetObject ("vbox_contacts_signal_comment");
-		textview_contacts_signal_comment = (Gtk.TextView) builder.GetObject ("textview_contacts_signal_comment");
-		button_contacts_signal_save_comment = (Gtk.Button) builder.GetObject ("button_contacts_signal_save_comment");
 		frame_jumps_automatic = (Gtk.Frame) builder.GetObject ("frame_jumps_automatic");
 		notebook_jumps_automatic = (Gtk.Notebook) builder.GetObject ("notebook_jumps_automatic");
 		hbox_contacts_device_adjust_threshold = (Gtk.Box) builder.GetObject ("hbox_contacts_device_adjust_threshold");

@@ -400,6 +400,7 @@ public partial class ChronoJumpWindow
 			PrepareRunDoubleContactsGraph (false);
 	}
 
+	// Important! see: diagrams/processes/person_results_changes.dia
 	private void on_drawingarea_results_session_button_press_event (object o, ButtonPressEventArgs args)
 	{
 		LogB.Information("on_drawingarea_results_session_button_press_event");

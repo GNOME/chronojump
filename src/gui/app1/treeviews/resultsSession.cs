@@ -40,6 +40,7 @@ public partial class ChronoJumpWindow
 	private void createTreeView_resultsSession (Gtk.TreeView tv)
 	{
 		LogB.Information ("createTreeView_resultsSession mode = " + current_mode.ToString ());
+		//just to have following code shorter
 		int pdn = preferences.digitsNumber;
 		TreeViewEvent.ExpandStates minimized = TreeViewEvent.ExpandStates.MINIMIZED;
 
@@ -74,11 +75,39 @@ public partial class ChronoJumpWindow
 		treeViewResultsSession.ZoomChange (image_results_session_zoom);
 	}
 
+	// Important! see: diagrams/processes/person_results_changes.dia
 	private void on_treeview_results_session_cursor_changed (object o, EventArgs args)
 	{
 		LogB.Information ("on_treeview_results_session_cursor_changed");
 		if (treeViewResultsSession == null)
 			return;
+
+		//selected row makes change currentPerson if showing all persons
+		if (currentPerson != null && radio_contacts_results_personAll.Active &&
+				! treeviewPersonsChangesTreeViewResultsSessionSignalsNoFollow)
+		{
+			int personID = treeViewResultsSession.GetPersonIDOfSelectedRow;
+			LogB.Information (string.Format ("RRR personID: {0}, currentPerson.UniqueID: {1}",
+						personID, currentPerson.UniqueID));
+			if (personID != currentPerson.UniqueID)
+			{
+				treeviewResultsSessionChangesTreeViewPersonsSignalsNoFollow = true;
+
+				int personPrevious = currentPerson.UniqueID;
+
+				// 2nd update the treeview, then the personID will be in bold
+				selectRowTreeView_persons (treeview_persons, myTreeViewPersons.FindRow (personID));
+				// now currentPerson, currentPersionSession have been updated
+
+				//1st update the variable
+				treeViewResultsSession.CurrentPersonID = currentPerson.UniqueID;
+
+				treeViewResultsSession.PersonEmitRowChanged (personPrevious); // show normal
+				treeViewResultsSession.PersonEmitRowChanged (currentPerson.UniqueID); // show in bold
+
+				treeviewResultsSessionChangesTreeViewPersonsSignalsNoFollow = false;
+			}
+		}
 
 		if (current_mode == Constants.Modes.JUMPSSIMPLE ||
 				current_mode == Constants.Modes.RUNSSIMPLE ||
@@ -98,9 +127,6 @@ public partial class ChronoJumpWindow
 			if (current_mode == Constants.Modes.OTHER) 	//FOURPLATFORMS
 				on_treeview_fourPlatforms_cursor_changed (o, args);
 		}
-
-		if (currentPerson != null)
-			treeViewResultsSession.CurrentPersonName = currentPerson.Name;
 	}
 
 	private void on_treeview_test_simple_cursor_changed (bool loadSet)
@@ -110,7 +136,6 @@ public partial class ChronoJumpWindow
 		// don't select if it's a person
 		// is for not confusing with the person treeviews that controls who does the test
 		if (treeViewResultsSession.EventSelectedID == 0) {
-			treeViewResultsSession.Unselect();
 			showHideActionEventButtons(false); //hide
 		} else {
 			if (loadSet)
@@ -129,6 +154,8 @@ public partial class ChronoJumpWindow
 	private void selectResultsSessionId (int id)
 	{
 		treeViewResultsSession.ZoomToTestsIfNeeded ();
+
+		// here we welect the event
 		treeViewResultsSession.SelectEvent (id, true); //scroll
 
 		on_treeview_results_session_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
@@ -141,6 +168,7 @@ public partial class ChronoJumpWindow
 
 		treeViewResultsSession.RemoveColumns();
 
+		//just to have following code shorter
 		int pdn = preferences.digitsNumber;
 		TreeViewEvent.ExpandStates expandState = treeViewResultsSession.ExpandState;
 
@@ -250,6 +278,5 @@ public partial class ChronoJumpWindow
 		myMenu.ShowAll();
 		myMenu.Popup();
 	}
-
 }
 

@@ -44,7 +44,7 @@ public class TreeViewRunEncoder : TreeViewEvent
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 17; //position of type in the data to be printed.
 		allEventsName = Constants.AllTestsNameStr();
-		eventIDColumn = 5; //column where the uniqueID of event will be (and will be hidden).
+		idColumn = 5; //column where the uniqueID of event will be (and will be hidden).
 		columnsString = new string[] { 
 			personName,
 			Catalog.GetString ("Max speed"),

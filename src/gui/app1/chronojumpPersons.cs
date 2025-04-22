@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2018-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 //this file has methods of ChronoJumpWindow related to manage persons
@@ -108,6 +108,7 @@ public partial class ChronoJumpWindow
 	}
 
 	//return true if selection is done (there's any person)
+	//this updates currentPerson & currentPersonSession
 	private bool selectRowTreeView_persons(Gtk.TreeView tv, int rowNum)
 	{
 		LogB.Information("selectRowTreeView_persons");
@@ -143,22 +144,37 @@ public partial class ChronoJumpWindow
 				(current_mode != Constants.Modes.BEEPTEST),
 				get_configured_rest_time_in_seconds());
 	}
-	
-	//private void on_treeview_persons_cursor_changed (object o, EventArgs args) {
+
+	// to avoid circular calls
+	// if treeview_person changes, treeviewResultsSession changes. This boolean is to not change again treeview_persons
+	private bool treeviewPersonsChangesTreeViewResultsSessionSignalsNoFollow;
+
+	// if treeviewResultsSession changes, treeview_person changes. This boolean is to not change again treeviewResultsSession
+	private bool treeviewResultsSessionChangesTreeViewPersonsSignalsNoFollow;
+
+	// this is the cursor_changed of treeview_persons
+	// Important! see: diagrams/processes/person_results_changes.dia
 	private void onTreeviewPersonsSelectionEntry (object o, EventArgs args)
 	{
 		ITreeModel model;
 		TreeIter iter;
 
 		// you get the iter and the model if something is selected
-		if (((TreeSelection)o).GetSelected(out model, out iter)) {
+		if (((TreeSelection)o).GetSelected(out model, out iter))
+		{
 			string selectedID = (string) model.GetValue (iter, 0); //ID, Name
 		
 			currentPerson = SqlitePerson.Select(Convert.ToInt32(selectedID));
 			currentPersonSession = SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
 			label_person_change();
-	
-			personChanged();
+
+			if (! treeviewResultsSessionChangesTreeViewPersonsSignalsNoFollow)
+			{
+				treeviewPersonsChangesTreeViewResultsSessionSignalsNoFollow = true;
+				personChanged();
+				treeviewPersonsChangesTreeViewResultsSessionSignalsNoFollow = false;
+			}
+
 			button_persons_up.Sensitive = ! myTreeViewPersons.IsFirst(currentPerson.UniqueID);
 			button_persons_down.Sensitive = ! myTreeViewPersons.IsLast(currentPerson.UniqueID);
 		}

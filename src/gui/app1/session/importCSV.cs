@@ -199,9 +199,10 @@ public partial class ChronoJumpWindow
 						importedCount ++;
 					}
 				}
-				pre_fillTreeView_resultsSession (true);
 
 				Sqlite.Close (); // <----
+
+				pre_fillTreeView_resultsSession (false); //better to call it with DB closed, because it has other DB calls and opens/closes the DB
 
 				app1s_label_import_csv_result.Text = string.Format ("Imported {0} records", importedCount);
 			}

@@ -49,7 +49,7 @@ public class TreeViewFourPlatforms : TreeViewEvent
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		//dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = "";
-		eventIDColumn = 12; //column where the uniqueID of event will be (and will be hidden)
+		idColumn = 12; //column where the uniqueID of event will be (and will be hidden)
 		
 		columnsString = new string[] {
 			personName,

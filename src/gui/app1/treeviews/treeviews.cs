@@ -54,16 +54,10 @@ public partial class ChronoJumpWindow
 				fillTreeView_persons();
 		}
 
-		//Leave SQL opened in all this process
-		Sqlite.Open(); // ------------------------------
-
 		if(fillTests)
-			pre_fillTreeView_resultsSession (true);
+			pre_fillTreeView_resultsSession (false);
 		else
 			treeview_results_session_storeReset();
-
-		//close SQL opened in all this process
-		Sqlite.Close(); // ------------------------------
 	}
 
 	private int currentPersonOrAll ()

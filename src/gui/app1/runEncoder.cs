@@ -1315,6 +1315,9 @@ public partial class ChronoJumpWindow
 	//this is also called from recalculate
 	private string run_encoder_load_set (int uniqueID, bool getPersonSessionFromGenericWin)
 	{
+		if (uniqueID < 0)
+			return "";
+
 		int personID = currentPerson.UniqueID;
 		int sessionID = currentSession.UniqueID;
 
@@ -1329,6 +1332,9 @@ public partial class ChronoJumpWindow
 
 			genericWin.HideAndNull();
 		}
+
+		//LogB.Information (string.Format ("run_encoder_load_set uniqueID: {0}, personID: {1}, sessionID: {2}",
+		//			uniqueID, personID, sessionID));
 
 		return runEncoderLoadSetDo (uniqueID, personID, sessionID, getPersonSessionFromGenericWin);
 	}

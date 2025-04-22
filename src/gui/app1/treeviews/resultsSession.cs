@@ -137,6 +137,11 @@ public partial class ChronoJumpWindow
 		// is for not confusing with the person treeviews that controls who does the test
 		if (treeViewResultsSession.EventSelectedID == 0) {
 			showHideActionEventButtons(false); //hide
+
+			if (Constants.ModeIsFORCESENSOR (current_mode))
+				blankForceSensorInterface ();
+			else if (current_mode == Constants.Modes.RUNSENCODER)
+				blankRunEncoderInterface ();
 		} else {
 			if (loadSet)
 			{
@@ -158,6 +163,7 @@ public partial class ChronoJumpWindow
 		// here we welect the event
 		treeViewResultsSession.SelectEvent (id, true); //scroll
 
+		// note this can change the person
 		on_treeview_results_session_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
 	}
 

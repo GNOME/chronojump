@@ -66,8 +66,13 @@ public partial class ChronoJumpWindow
 
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who jumps
-		if (treeViewResultsSession.EventSelectedID == 0) {
+		if (treeViewResultsSession.EventSelectedID == 0)
+		{
 			showHideActionEventButtons(false);
+
+			selectedJumpRj = null;
+			blankJumpReactiveRealtimeCaptureGraph ();
+
 			return;
 		}
 

@@ -192,6 +192,7 @@ public partial class ChronoJumpWindow
 		setRunEncoderAnalyzeWidgets();
 
 		aiButtonsHscaleZoomSensitiveness();
+		updateGraphRunEncoderBars ();
 	}
 
 	private void manageRunEncoderCaptureViews()
@@ -496,6 +497,8 @@ public partial class ChronoJumpWindow
 
 		label_run_encoder_export_discarded.Text = "";
 		button_ai_export_result_open.Visible = false;
+
+		updateGraphRunEncoderBars ();
 	}
 
 	private void raceEncoderReadWidgets()
@@ -2201,6 +2204,8 @@ public partial class ChronoJumpWindow
 						webcamRestoreGui (success);
 					}
 
+					updateGraphRunEncoderBars();
+					treeViewResultsSession.Add (currentPerson.Name, currentRunEncoder, "");
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 					sensitiveLastTestButtons(true);
 					contactsShowCaptureDoingButtons(false);
@@ -3213,6 +3218,59 @@ public partial class ChronoJumpWindow
 
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
+	}
+
+	private void updateGraphRunEncoderBars ()
+	{
+		LogB.Information (string.Format ("currentPerson == null: {0},  currentSession == null: {1}",
+					currentPerson == null, currentSession == null));
+		if(currentPerson == null || currentSession == null)
+			return;
+
+		//intializeVariables if not done before
+		event_execute_initializeVariables(
+			(! cp2016.StoredCanCaptureContacts && ! cp2016.StoredWireless), //is simulated
+			currentPerson.UniqueID,
+			currentPerson.Name,
+			"", //Catalog.GetString("Phases"),  	  //name of the different moments
+			Constants.RunEncoderTable, //tableName
+			"" //type
+			);
+
+		string typeTemp = "";
+		int exerciseID = -1;
+		if (! radio_contacts_graph_allTests.Active)
+			exerciseID = getExerciseIDFromAnyCombo (combo_run_encoder_exercise, runEncoderComboExercisesString, false);
+
+		int selectedID = -1;
+		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID > 0)
+			selectedID = treeViewResultsSession.EventSelectedID;
+
+		PrepareEventGraphRunEncoder eventGraph = new PrepareEventGraphRunEncoder (
+				currentSession.UniqueID,
+				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
+				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
+				//Constants.RunEncoderTable, typeTemp,
+				exerciseID, selectedID, current_mode, radio_contacts_graph_allTests.Active);
+
+		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.runsAtSQL.Count > 0)
+		//	PrepareRunSimpleGraph(eventGraph, false); //don't animate
+
+		string personStr = "";
+		if(! radio_contacts_results_personAll.Active)
+			personStr = currentPerson.Name;
+
+		//LogB.Information("drawingarea_results_session == null: ",
+		//	(drawingarea_results_session == null).ToString());
+
+		cairoPaintBarsPre = new CairoPaintBarsPreRunEncoder (
+				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
+				personStr,
+				typeTemp,
+				preferences.digitsNumber);
+
+		cairoPaintBarsPre.StoreEventGraphRunEncoder (eventGraph);
+		drawingarea_results_session.QueueDraw ();
 	}
 
 	private void connectWidgetsRunEncoder (Gtk.Builder builder)

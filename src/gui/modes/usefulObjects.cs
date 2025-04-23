@@ -492,6 +492,40 @@ public class PrepareEventGraphBarplotEncoder
 	~PrepareEventGraphBarplotEncoder () {}
 }
 
+public class PrepareEventGraphRunEncoder
+{
+	//sql data of previous tests to plot graph and show stats at bottom
+	public List<RunEncoder> rowsAtSQL;
+	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
+
+	public bool exerciseAll; //all tests
+
+	public PrepareEventGraphRunEncoder() {
+	}
+
+	public PrepareEventGraphRunEncoder (int sessionID, int personID, bool allPersons, int limit,
+			int exerciseID, int selectedID, Constants.Modes mode, bool exerciseAll)
+	{
+		this.selectedID = selectedID;
+		this.exerciseAll = exerciseAll;
+
+		int personIDTemp = personID;
+		if(allPersons)
+			personIDTemp = -1;
+
+		rowsAtSQL = SqliteRunEncoder.Select (false, -1, personIDTemp, sessionID, exerciseID,
+				Sqlite.Orders_by.ID_ASC, limit,
+				allPersons//, 	//show names on comments only if "all persons"
+				//false 	//! onlyBestInSession
+				);
+		//LogB.Information ("rowsAtSQL count: " + (rowsAtSQL.Count).ToString ());
+
+		this.selectedID = selectedID;
+	}
+
+	~PrepareEventGraphRunEncoder() {}
+}
+
 public class PrepareEventGraphWilight
 {
 	//sql data of previous jumps to plot graph and show stats at bottom

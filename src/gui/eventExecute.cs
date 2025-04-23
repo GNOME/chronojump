@@ -360,6 +360,7 @@ public partial class ChronoJumpWindow
 				current_mode != Constants.Modes.JUMPSREACTIVE &&
 				current_mode != Constants.Modes.RUNSSIMPLE &&
 				current_mode != Constants.Modes.RUNSINTERVALLIC &&
+				current_mode != Constants.Modes.RUNSENCODER &&
 				current_mode != Constants.Modes.WILIGHT &&
 				current_mode != Constants.Modes.OTHER && //FOURPLATFORMS
 				! Constants.ModeIsFORCESENSOR (current_mode))
@@ -378,7 +379,9 @@ public partial class ChronoJumpWindow
 			PrepareRunSimpleGraph (cairoPaintBarsPre.eventGraphRunsStored, false);
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			PrepareRunIntervalGraph (cairoPaintBarsPre.eventGraphRunsIntervalStored, false);
-		else if (current_mode == Constants.Modes.WILIGHT ||
+		else if (
+				current_mode == Constants.Modes.RUNSENCODER ||
+				current_mode == Constants.Modes.WILIGHT ||
 				current_mode == Constants.Modes.OTHER || //FOURPLATFORMS
 				Constants.ModeIsFORCESENSOR (current_mode))
 			PrepareResultsSessionGraph ();
@@ -409,6 +412,7 @@ public partial class ChronoJumpWindow
 				current_mode != Constants.Modes.JUMPSREACTIVE &&
 				current_mode != Constants.Modes.RUNSSIMPLE &&
 				current_mode != Constants.Modes.RUNSINTERVALLIC &&
+				current_mode != Constants.Modes.RUNSENCODER &&
 				current_mode != Constants.Modes.WILIGHT &&
 				current_mode != Constants.Modes.OTHER && //FOURPLATFORMS
 				! Constants.ModeIsFORCESENSOR (current_mode) )
@@ -850,6 +854,8 @@ public partial class ChronoJumpWindow
 			updateGraphRunsSimple ();
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			updateGraphRunsInterval ();
+		else if (current_mode == Constants.Modes.RUNSENCODER)
+			updateGraphRunEncoderBars ();
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			updateGraphForceSensorBars ();
 		else if (current_mode == Constants.Modes.WILIGHT)
@@ -1092,6 +1098,8 @@ public abstract class CairoPaintBarsPre
 
 	//run interval
 	public PrepareEventGraphRunInterval eventGraphRunsIntervalStored;
+	//runEncoder
+	public PrepareEventGraphRunEncoder eventGraphRunEncoderStored;
 	//wilight
 	public PrepareEventGraphWilight eventGraphWilightStored;
 	//wilight
@@ -1151,6 +1159,9 @@ public abstract class CairoPaintBarsPre
 	{
 	}
 	public virtual void StoreEventGraphRunsInterval (PrepareEventGraphRunInterval eventGraph)
+	{
+	}
+	public virtual void StoreEventGraphRunEncoder (PrepareEventGraphRunEncoder eventGraph)
 	{
 	}
 	public virtual void StoreEventGraphWilight (PrepareEventGraphWilight eventGraph)
@@ -2610,6 +2621,123 @@ public class CairoManageRunDoubleContacts
 		}
 
 		return timeTotalWithExtraPTL + negativePTLTime;
+	}
+}
+
+public class CairoPaintBarsPreRunEncoder : CairoPaintBarsPre
+{
+	public CairoPaintBarsPreRunEncoder (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN)
+	{
+		LogB.Information ("CairoPaintBarsPreRunEncoder constructor");
+		initialize (darea, fontStr, mode, personName, testName, pDN);
+		this.title = generateTitle();
+	}
+
+	public override void StoreEventGraphRunEncoder (PrepareEventGraphRunEncoder eventGraph)
+	{
+		this.eventGraphRunEncoderStored = eventGraph;
+	}
+
+	protected override bool storeCreated ()
+	{
+		return (eventGraphRunEncoderStored != null);
+	}
+
+	protected override bool haveDataToPlot()
+	{
+		return (eventGraphRunEncoderStored.rowsAtSQL.Count > 0);
+	}
+
+	protected override void paintSpecific()
+	{
+		LogB.Information ("CairoPaintBarsPreRunEncoder paintSpecific");
+		/*
+		 * check if one bar has to be shown or two
+		 * this is important when we are showing multitests
+		 */
+		cb = new CairoBarsNHSeries (darea, CairoBars.Type.NORMAL, true, true, true, true);
+
+		cb.YVariable = Catalog.GetString("Speed");
+		cb.YUnits = "m/s";
+		cb.VariableSerieA = Catalog.GetString("Max speed");
+		cb.VariableSerieB = Catalog.GetString("Best second");
+
+		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
+		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides
+
+		List<Event> events = RunEncoder.RunEncoderListToEventList (eventGraphRunEncoderStored.rowsAtSQL);
+
+		for (int i=0 ; i < eventGraphRunEncoderStored.rowsAtSQL.Count; i++)
+			if(! ShowPersonNames)
+				eventGraphRunEncoderStored.rowsAtSQL[i].Description = ""; //to avoid showing description
+
+		//findLongestWordCairo uses Type (from Event) but RunEncoder has ExerciseName
+		for (int i = 0; i < events.Count; i ++)
+			events[i].Type = ((RunEncoder) events[i]).ExerciseName;
+
+		calculateBottomParams (events, eventGraphRunEncoderStored.exerciseAll, "",
+				"", false, false);
+
+		List<PointF> pointA_l = new List<PointF>();
+		List<PointF> pointB_l = new List<PointF>();
+		List<string> names_l = new List<string>();
+		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
+
+		int countToDraw = eventGraphRunEncoderStored.rowsAtSQL.Count;
+		foreach (RunEncoder re in eventGraphRunEncoderStored.rowsAtSQL)
+		{
+			//LogB.Information("forceSensor: " + re.ToString());
+			// 1) Add data
+			pointA_l.Add (new PointF (countToDraw, re.MaxSpeed));
+			pointB_l.Add (new PointF (countToDraw, re.MaxAvgSpeed1s));
+			countToDraw --;
+
+			// 2) Add bottom names
+			string typeRowString = "";
+			if (eventGraphRunEncoderStored.exerciseAll) //if "all tests" show type
+				typeRowString = re.ExerciseName; //TODO: check this param is filled
+
+			names_l.Add (createTextBelowBar(
+						"",
+						typeRowString,
+						re.Description,
+						false, false,
+						longestWord.Length, maxRowsForText));
+
+			id_l.Add (re.UniqueID);
+			id_l.Add (re.UniqueID);
+
+			if (eventGraphRunEncoderStored.selectedID == re.UniqueID)
+				cb.SelectedPos = eventGraphRunEncoderStored.rowsAtSQL.Count -countToDraw -1;
+		}
+
+		cb.Id_l = id_l;
+
+		/*
+		cb.PassGuidesData (new CairoBarsGuideManage(
+					//! ShowPersonNames, true, //usePersonGuides, useGroupGuides
+					true, true, //usePersonGuides, useGroupGuides
+					eventGraphJumpsStored.sessionMAXAtSQL,
+					eventGraphJumpsStored.sessionAVGAtSQL,
+					eventGraphJumpsStored.sessionMINAtSQL,
+					eventGraphJumpsStored.personMAXAtSQLAllSessions,
+					eventGraphJumpsStored.personMAXAtSQL,
+					eventGraphJumpsStored.personAVGAtSQL,
+					eventGraphJumpsStored.personMINAtSQL));
+		*/
+
+		List<List<PointF>> barsSecondary_ll = new List<List<PointF>>();
+		barsSecondary_ll.Add(pointA_l);
+
+		cb.PassData2Series (pointB_l, barsSecondary_ll, false,
+				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
+				"", false,
+				-1, fontHeightForBottomNames, bottomMargin, title,
+				new List<int> (), new List<int> ());
+
+		passDataForScreenshotIfNeeded ();
+
+		cb.GraphDo();
 	}
 }
 

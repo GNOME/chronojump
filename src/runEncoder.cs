@@ -139,6 +139,15 @@ public class RunEncoder : Event
 
 	/* methods */
 
+	public static List<Event> RunEncoderListToEventList (List<RunEncoder> re_l)
+	{
+		List<Event> events = new List<Event>();
+		foreach(RunEncoder re in re_l)
+			events.Add((Event) re);
+
+		return events;
+	}
+
 	public int InsertSQL(bool dbconOpened)
 	{
 		SqliteTests sqliteTests = new SqliteRunEncoder ();

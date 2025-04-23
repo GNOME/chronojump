@@ -104,6 +104,21 @@ public partial class ChronoJumpWindow
 		drawingarea_results_realtime.QueueDraw ();
 	}
 
+	private void blankFourPlatformsGraphs ()
+	{
+		currentFourPlatforms = null;
+
+		//blank Cairo scatterplot graphs
+		cairoGraphFourPlatforms = null;
+		cairoGraphFourPlatformsPoints_ll = new List<List<PointF>>();
+		cairoGraphFourPlatformsPoints_ll.Add (new List<PointF>()); //all buttons
+		for (int i = 0; i < 4; i ++)
+			cairoGraphFourPlatformsPoints_ll.Add (new List<PointF>()); //button 1
+
+		cairoGraphFourPlatformsStepsBottom_l = new List<PointF>();
+		cairoGraphFourPlatformsStepsTop_l = new List<PointF>();
+	}
+
 	//note this is used by modes: JUMPSSIMPLE and OTHER (FOURPLATFORMS)
 	private void on_four_platforms_capture_clicked (object o)
 	{
@@ -128,15 +143,7 @@ public partial class ChronoJumpWindow
 
 		capturingFourPlatforms = arduinoCaptureStatus.STARTING;
 
-		//blank Cairo scatterplot graphs
-		cairoGraphFourPlatforms = null;
-		cairoGraphFourPlatformsPoints_ll = new List<List<PointF>>();
-		cairoGraphFourPlatformsPoints_ll.Add (new List<PointF>()); //all buttons
-		for (int i = 0; i < 4; i ++)
-			cairoGraphFourPlatformsPoints_ll.Add (new List<PointF>()); //button 1
-
-		cairoGraphFourPlatformsStepsBottom_l = new List<PointF>();
-		cairoGraphFourPlatformsStepsTop_l = new List<PointF>();
+		blankFourPlatformsGraphs ();
 
 		fourPlatformsPulseMessage = "";
 		fourPlatformsButtonsSensitive (false);

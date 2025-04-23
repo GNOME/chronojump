@@ -3677,6 +3677,8 @@ public partial class ChronoJumpWindow
 			label_contacts_exercise_selected_options_visible (false);
 			image_top_laterality_contacts.Visible = false;
 
+			on_combo_run_encoder_exercise_changed (new object(), new EventArgs ());
+
 			feedbackWin.View(Constants.BellModes.RUNSENCODER, preferences, encoderRhythm, false); //not viewWindow
 			createComboSelectContactsTop ();
 			label_contacts_exercise_selected_name.Visible = false;

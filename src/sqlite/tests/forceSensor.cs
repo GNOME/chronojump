@@ -137,7 +137,7 @@ class SqliteForceSensor : SqliteTests
     public static List<ForceSensor> Select (bool dbconOpened, int uniqueID, int personID, int sessionID, int elastic)
     {
 	    return Select (dbconOpened, uniqueID, personID, sessionID, elastic,
-			    -1, Orders_by.ID_ASC, -1, false);
+			    -1, Orders_by.ID_ASC, 0, false);
     }
 
     //call used on PrepareEventGraphForceSensor

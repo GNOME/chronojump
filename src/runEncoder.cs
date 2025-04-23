@@ -187,8 +187,8 @@ public class RunEncoder : Event
 			"', videoURL = '" + Util.MakeURLrelative(videoURL) +
 			"', angle = " + angle +
 			", totalTime = " + totalTime +
-			", maxSpeed = " + maxSpeed +
-			", maxAvgSpeed1s = " + maxAvgSpeed1s +
+			", maxSpeed = " + Util.CTP (maxSpeed) +
+			", maxAvgSpeed1s = " + Util.CTP (maxAvgSpeed1s) +
 			" WHERE uniqueID = " + uniqueID;
 	}
 
@@ -334,10 +334,12 @@ public class RunEncoder : Event
 	public double MaxSpeed
 	{
 		get { return maxSpeed; }
+		set { maxSpeed = value; }
 	}
 	public double MaxAvgSpeed1s
 	{
 		get { return maxAvgSpeed1s; }
+		set { maxAvgSpeed1s = value; }
 	}
 	public string ExerciseName
 	{

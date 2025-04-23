@@ -1827,6 +1827,15 @@ public partial class ChronoJumpWindow
 		currentRunEncoder.Angle = Convert.ToInt32(race_analyzer_spinbutton_angle.Value);
 		currentRunEncoder.Temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
 
+		currentRunEncoder.MaxSpeed = 0;
+		currentRunEncoder.MaxAvgSpeed1s = 0;
+		if (reCGSD != null && reCGSD.RunEncoderCaptureSpeedMax > 0)
+		{
+			currentRunEncoder.MaxSpeed = reCGSD.RunEncoderCaptureSpeedMax;
+			if (reCGSD.Miw.Error == "")
+				currentRunEncoder.MaxAvgSpeed1s = reCGSD.Miw.Max;
+		}
+
 		currentRunEncoder.UpdateSQL(false);
 
 		string str = run_encoder_load_set (currentRunEncoder.UniqueID, false);

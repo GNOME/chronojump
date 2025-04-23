@@ -132,7 +132,7 @@ class SqliteRunEncoder : SqliteTests
 	public static List<RunEncoder> Select (bool dbconOpened, int uniqueID, int personID, int sessionID)
 	{
 		return Select (dbconOpened, uniqueID, personID, sessionID,
-				-1, Orders_by.ID_ASC, -1, false);
+				-1, Orders_by.ID_ASC, 0, false);
 	}
 
 	//call used on PrepareEventGraphRunEncoder

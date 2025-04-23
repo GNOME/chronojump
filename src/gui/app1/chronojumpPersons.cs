@@ -518,7 +518,7 @@ public partial class ChronoJumpWindow
 				sensitiveGuiYesPerson();
 			}
 
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 
 			if(createdStatsWin) {
 				stats_win_fillTreeView_stats(false, true);

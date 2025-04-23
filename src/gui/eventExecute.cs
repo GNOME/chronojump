@@ -867,14 +867,14 @@ public partial class ChronoJumpWindow
 	{
 		updateGraphResultsSessionByMode ();
 
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 	}
 
 	private void on_radio_contacts_results_person_toggled (object o, EventArgs args)
 	{
 		updateGraphResultsSessionByMode ();
 
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 	}
 
 	private void on_check_run_show_time_toggled (object o, EventArgs args)

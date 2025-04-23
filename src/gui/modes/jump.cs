@@ -1602,7 +1602,7 @@ public partial class ChronoJumpWindow
 			treeViewResultsSession.Update (myJump);
 		}
 		else
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 
 		if(! configChronojump.Exhibition)
 			updateGraphJumpsSimple();
@@ -1625,7 +1625,7 @@ public partial class ChronoJumpWindow
 			treeViewResultsSession.PersonWeight = personWeight;
 			treeViewResultsSession.Update(myJump);
 		} else
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 
 		updateGraphJumpsReactive();
 

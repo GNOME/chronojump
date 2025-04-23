@@ -1783,7 +1783,7 @@ public partial class ChronoJumpWindow
 		//empty GUI
 		blankRunEncoderInterface();
 
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 	}
 
 	private void runEncoderDeleteTestDo(RunEncoder re)
@@ -1831,7 +1831,7 @@ public partial class ChronoJumpWindow
 			event_execute_label_message.Text = "Recalculated.";
 
 		updateGraphResultsSessionByMode ();
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 	}
 
 	private void on_radio_race_analyzer_capture_graph_starts_clicked (object o, EventArgs args)

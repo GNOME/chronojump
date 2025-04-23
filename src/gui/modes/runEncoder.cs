@@ -159,7 +159,7 @@ public partial class ChronoJumpWindow
 			runEncoder.ExerciseName = SqliteTests.SelectExerciseNameInOtherTable (false, runEncoder.ExerciseID, Constants.RunEncoderExerciseTable);
 			treeViewResultsSession.Update (runEncoder);
 		}  else
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 
 		//updateGraphRunEncoderBars ();
 	}

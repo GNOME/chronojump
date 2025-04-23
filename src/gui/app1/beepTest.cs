@@ -100,7 +100,7 @@ public partial class ChronoJumpWindow
 		radio_contacts_graph_currentTest.Label = str;
 
 		//update the treeview
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 	}
 
 	BeepTestRunners beepTestRunners;

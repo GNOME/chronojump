@@ -158,7 +158,7 @@ public partial class ChronoJumpWindow
 			forceSensor.ExerciseName = SqliteTests.SelectExerciseNameInOtherTable (false, forceSensor.ExerciseID, Constants.ForceSensorExerciseTable);
 			treeViewResultsSession.Update (forceSensor);
 		}  else
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 
 		//updateGraphForceSensorBars ();
 	}

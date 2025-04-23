@@ -155,7 +155,7 @@ public partial class ChronoJumpWindow
 		if (eventOldPerson == beepTest.PersonID)
 			treeViewResultsSession.Update (beepTest);
 		else
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 
 		//updateGraphBeepTestBars ();
 	}

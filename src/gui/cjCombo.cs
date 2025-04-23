@@ -50,7 +50,7 @@ public partial class ChronoJumpWindow
 		createComboSelectRunsInterval(false);
 		combo_select_runs_interval.Active = 0;
 
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 
 		// TODO: we need this on encoder or is already done at reloadSession???
 		//createEncoderCombos();

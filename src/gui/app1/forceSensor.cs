@@ -2550,7 +2550,7 @@ LogB.Information(" fs R ");
 			genericWin.SetButtonAcceptSensitive(false);
 		}
 		genericWin.Delete_row_accepted();
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 	}
 
 	private void force_sensor_delete_current_test_pre_question()
@@ -2576,7 +2576,7 @@ LogB.Information(" fs R ");
 		//empty forceSensor GUI (this also assigns -1 to currentForceSensor)
 		blankForceSensorInterface();
 
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 	}
 
 	private void forceSensorDeleteTestDo(ForceSensor fs)
@@ -2659,7 +2659,7 @@ LogB.Information(" fs R ");
 		radio_signal_analyze_current_set.Active = true;
 
 		updateGraphResultsSessionByMode ();
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 	}
 
 	private enum forceSensorGraphsEnum { SIGNAL, RFD }

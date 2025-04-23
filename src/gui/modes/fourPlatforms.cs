@@ -155,7 +155,7 @@ public partial class ChronoJumpWindow
 		if (eventOldPerson == fourPlatforms.PersonID)
 			treeViewResultsSession.Update (fourPlatforms);
 		else
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 
 		updateGraphFourPlatformsBars ();
 	}

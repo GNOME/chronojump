@@ -1565,7 +1565,7 @@ public partial class ChronoJumpWindow
 			button_contacts_export_result_open.Visible = false;
 		}
 
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 		treeViewResultsSession.SelectPerson (currentPerson.Name);
 
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
@@ -1929,7 +1929,7 @@ public partial class ChronoJumpWindow
 		on_extra_window_jumps_test_changed(o, args);
 
 		//update the treeview
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 	}
 	
 	private void on_combo_select_jumps_rj_changed(object o, EventArgs args)
@@ -1982,7 +1982,7 @@ public partial class ChronoJumpWindow
 		on_extra_window_jumps_rj_test_changed(o, args);
 
 		//update the treeview
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 	}
 	
 	private void on_combo_select_runs_changed(object o, EventArgs args)
@@ -2023,7 +2023,7 @@ public partial class ChronoJumpWindow
 		on_extra_window_runs_test_changed(o, args);
 
 		//update the treeview
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 	}
 	
 	private void on_combo_select_runs_interval_changed(object o, EventArgs args)
@@ -2064,63 +2064,63 @@ public partial class ChronoJumpWindow
 		on_extra_window_runs_interval_test_changed(o, args);
 
 		//update the treeview
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 	}
 	
-	private void pre_fillTreeView_resultsSession (bool dbconOpened)
+	private void pre_fillTreeView_resultsSession ()
 	{
 		treeview_results_session_storeReset ();
 
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
 		{
 			if(radio_contacts_graph_allTests.Active)
-				fillTreeView_jumps (Constants.AllJumpsNameStr(), dbconOpened);
+				fillTreeView_jumps (Constants.AllJumpsNameStr(), false);
 			else if (combo_select_jumps != null)
-				fillTreeView_jumps (UtilGtk.ComboGetActive(combo_select_jumps), dbconOpened);
+				fillTreeView_jumps (UtilGtk.ComboGetActive(combo_select_jumps), false);
 		}
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
 			if(radio_contacts_graph_allTests.Active)
-				fillTreeView_jumps_rj(Constants.AllJumpsNameStr(), dbconOpened);
+				fillTreeView_jumps_rj(Constants.AllJumpsNameStr(), false);
 			else if (combo_select_jumps_rj != null)
-				fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_select_jumps_rj), dbconOpened);
+				fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_select_jumps_rj), false);
 		}
 		else if (current_mode == Constants.Modes.RUNSSIMPLE)
 		{
 			if(radio_contacts_graph_allTests.Active)
-				fillTreeView_runs(Constants.AllRunsNameStr(), dbconOpened);
+				fillTreeView_runs(Constants.AllRunsNameStr(), false);
 			else if (combo_select_runs != null)
-				fillTreeView_runs(UtilGtk.ComboGetActive(combo_select_runs), dbconOpened);
+				fillTreeView_runs(UtilGtk.ComboGetActive(combo_select_runs), false);
 		} else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
 			if(radio_contacts_graph_allTests.Active)
-				fillTreeView_runs_interval(Constants.AllRunsNameStr(), dbconOpened);
+				fillTreeView_runs_interval(Constants.AllRunsNameStr(), false);
 			else if (combo_select_runs_interval != null)
-				fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_select_runs_interval), dbconOpened);
+				fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_select_runs_interval), false);
 		} else if (current_mode == Constants.Modes.RUNSENCODER)
 		{
 			if(radio_contacts_graph_allTests.Active)
-				fillTreeView_runEncoder (Constants.AllTestsNameStr(), dbconOpened);
+				fillTreeView_runEncoder (Constants.AllTestsNameStr(), false);
 			else if (combo_run_encoder_exercise != null)
-				fillTreeView_runEncoder (UtilGtk.ComboGetActive (combo_run_encoder_exercise), dbconOpened);
+				fillTreeView_runEncoder (UtilGtk.ComboGetActive (combo_run_encoder_exercise), false);
 		} else if (current_mode == Constants.Modes.BEEPTEST)
 		{
 			if (radio_contacts_graph_allTests.Active)
-				fillTreeView_beepTest (Constants.AllTestsNameStr (), dbconOpened);
+				fillTreeView_beepTest (Constants.AllTestsNameStr (), false);
 			else if (combo_beepTest_type != null)
-				fillTreeView_beepTest (UtilGtk.ComboGetActive (combo_beepTest_type), dbconOpened);
+				fillTreeView_beepTest (UtilGtk.ComboGetActive (combo_beepTest_type), false);
 		} else if (current_mode == Constants.Modes.WILIGHT)
 		{
-			fillTreeView_wilight ("", dbconOpened);
+			fillTreeView_wilight ("", false);
 		} else if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
 			if (radio_contacts_graph_allTests.Active)
-				fillTreeView_forceSensor (Constants.AllTestsNameStr (), dbconOpened);
+				fillTreeView_forceSensor (Constants.AllTestsNameStr (), false);
 			else if (combo_force_sensor_exercise != null)
-				fillTreeView_forceSensor (UtilGtk.ComboGetActive(combo_force_sensor_exercise), dbconOpened);
+				fillTreeView_forceSensor (UtilGtk.ComboGetActive(combo_force_sensor_exercise), false);
 		} else if (current_mode == Constants.Modes.OTHER)
 		{
-			fillTreeView_fourPlatforms ("", dbconOpened);
+			fillTreeView_fourPlatforms ("", false);
 		} else
 			return;
 	}
@@ -2956,7 +2956,7 @@ public partial class ChronoJumpWindow
 			*/
 			createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 
 			if(current_mode == Constants.Modes.POWERGRAVITATORY){
 				label_gravitatory_vpf_propulsive.Visible = preferences.encoderPropulsive;
@@ -6518,7 +6518,7 @@ public partial class ChronoJumpWindow
 			createComboSelectJumpsAsymmetry(false);
 			createComboSelectJumpsEvolution(false);
 
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 			combo_select_jumps.Active = UtilGtk.ComboMakeActive(combo_select_jumps, jumpTypeAddWin.Name);
 			update_combo_select_contacts_top_using_combo (combo_select_jumps);
 
@@ -6528,7 +6528,7 @@ public partial class ChronoJumpWindow
 			createComboSelectJumpsRjFatigue(false);
 			//createComboSelectJumpsRjFatigueNum(false); do not need because will be updated by createComboSelectJumpsRjFatigue
 			
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 			combo_select_jumps_rj.Active = UtilGtk.ComboMakeActive(combo_select_jumps_rj, jumpTypeAddWin.Name);
 			update_combo_select_contacts_top_using_combo (combo_select_jumps_rj);
 
@@ -6558,7 +6558,7 @@ public partial class ChronoJumpWindow
 			createComboSelectRuns(false);
 			createComboSelectRunsEvolution(false);
 
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 			combo_select_runs.Active = UtilGtk.ComboMakeActive(combo_select_runs, runTypeAddWin.Name);
 
 			update_combo_select_contacts_top_using_combo (combo_select_runs);
@@ -6567,7 +6567,7 @@ public partial class ChronoJumpWindow
 		} else {
 			createComboSelectRunsInterval(false);
 			
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 
 			combo_select_runs_interval.Active = UtilGtk.ComboMakeActive(combo_select_runs_interval, runTypeAddWin.Name);
 			update_combo_select_contacts_top_using_combo (combo_select_runs_interval);
@@ -6608,7 +6608,7 @@ public partial class ChronoJumpWindow
 	{
 		string translatedName = comboSelectJumps.GetNameTranslated(jumpsMoreWin.SelectedEventName);
 		combo_select_jumps = comboSelectJumps.DeleteValue(translatedName);
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 
 		extra_window_jumps_initialize(new JumpType("Free"));
 	}
@@ -6617,7 +6617,7 @@ public partial class ChronoJumpWindow
 	{
 		string translatedName = comboSelectJumpsRj.GetNameTranslated(jumpsRjMoreWin.SelectedEventName);
 		combo_select_jumps_rj = comboSelectJumpsRj.DeleteValue(translatedName);
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 
 		extra_window_jumps_rj_initialize(new JumpType("RJ(j)"));
 	}
@@ -6626,7 +6626,7 @@ public partial class ChronoJumpWindow
 	{
 		string translatedName = comboSelectRuns.GetNameTranslated(runsMoreWin.SelectedEventName);
 		combo_select_runs = comboSelectRuns.DeleteValue(translatedName);
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 
 		extra_window_runs_initialize(new RunType("Custom"));
 	}
@@ -6635,7 +6635,7 @@ public partial class ChronoJumpWindow
 	{
 		string translatedName = comboSelectRunsI.GetNameTranslated(runsIntervalMoreWin.SelectedEventName);
 		combo_select_runs_interval = comboSelectRunsI.DeleteValue(translatedName);
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 
 		extra_window_runs_interval_initialize(new RunType("byLaps"));
 	}

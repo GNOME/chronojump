@@ -1580,7 +1580,7 @@ public partial class ChronoJumpWindow
 		if (eventOldPerson == myRun.PersonID)
 			treeViewResultsSession.Update (myRun);
 		else
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 
 		updateGraphRunsSimple();
 
@@ -1599,7 +1599,7 @@ public partial class ChronoJumpWindow
 		//distanceChanged is also managed with no problems because TreeViewEvent.Update has been extend to work with two level treeviews
 		if (eventOldPerson != myRun.PersonID)// ||
 				//(editRunIntervalWin != null && editRunIntervalWin.DistanceChanged) )
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 		else
 			treeViewResultsSession.Update (myRun);
 

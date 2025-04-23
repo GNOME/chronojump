@@ -55,7 +55,7 @@ public partial class ChronoJumpWindow
 		}
 
 		if(fillTests)
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 		else
 			treeview_results_session_storeReset();
 	}

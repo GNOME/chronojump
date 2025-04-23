@@ -3596,6 +3596,8 @@ LogB.Information(" fs R ");
 		}
 
 		radio_contacts_graph_currentTest.Label = fse.Name;
+                //update the treeview
+                pre_fillTreeView_resultsSession ();
 	}
 
 	private void fillForceSensorExerciseCombo (string name)

@@ -2479,6 +2479,9 @@ public partial class ChronoJumpWindow
 		combo_run_encoder_exercise.Changed += new EventHandler (on_combo_run_encoder_exercise_changed);
 		hbox_combo_run_encoder_exercise.PackStart(combo_run_encoder_exercise, true, true, 0);
 		hbox_combo_run_encoder_exercise.ShowAll();
+
+		//needed because the += EventHandler does not work on first fill of the combo
+		on_combo_run_encoder_exercise_changed (new object (), new EventArgs ());
 	}
 
 	//left-right buttons on run_encoder combo exercise selection
@@ -2526,6 +2529,8 @@ public partial class ChronoJumpWindow
 		button_combo_select_contacts_top_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_run_encoder_exercise);
 
 		radio_contacts_graph_currentTest.Label = exTemp.Name;
+                //update the treeview
+                pre_fillTreeView_resultsSession ();
 	}
 
 	private void fillRunEncoderExerciseCombo(string name)

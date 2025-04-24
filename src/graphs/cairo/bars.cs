@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -1872,7 +1872,6 @@ public class CairoBarsNHSeries : CairoBars
 				resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y, pB.Y));
 				//add for the secondary and for the main bar, no problem both will work
 				mouseLimits.AddInPos (mouseLimitsPos2ndBar, x+adjustX, y, x+adjustX+barWidth, graphHeight -bottomMargin);
-				mouseLimitsPos2ndBar += 2;
 
 				//to print line variable if needed
 				//barsXCenter_l.Add(x + adjustX + barWidth/2);
@@ -1899,7 +1898,12 @@ public class CairoBarsNHSeries : CairoBars
 					adjustX = barWidth;
 
 				timesSubtestThis += pB.Y;
+			} else {
+				//add the mouseLimits with empty width
+				mouseLimits.AddInPos (mouseLimitsPos2ndBar, x+adjustX, 0, x+adjustX, graphHeight -bottomMargin);
 			}
+
+			mouseLimitsPos2ndBar += 2;
 
 			//sort result on bars correctly (this could be useful if mainAtLeft changes)
 			for(int j = 0 ; j < resultOnBarsThisIteration_l.Count; j ++)

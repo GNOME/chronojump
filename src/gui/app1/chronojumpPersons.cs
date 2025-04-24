@@ -152,6 +152,11 @@ public partial class ChronoJumpWindow
 	// if treeviewResultsSession changes, treeview_person changes. This boolean is to not change again treeviewResultsSession
 	private bool treeviewResultsSessionChangesTreeViewPersonsSignalsNoFollow;
 
+	// on_treeview_results_session_cursor_changed on forceSensor & raceAnalyzer makes load the set.
+	// In the middle of the load process, combo_force_sensor_exercise.Active changes and this makes redo the treeview making fail the load.
+	// With this variable we deactivate treeViewResultsSession.Fill while loading the set
+	private bool pre_fillTreeView_resultsSession_NO;
+
 	// this is the cursor_changed of treeview_persons
 	// Important! see: diagrams/processes/person_results_changes.dia
 	private void onTreeviewPersonsSelectionEntry (object o, EventArgs args)

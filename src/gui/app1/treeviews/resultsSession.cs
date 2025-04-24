@@ -117,7 +117,9 @@ public partial class ChronoJumpWindow
 		else if (Constants.ModeIsFORCESENSOR (current_mode) ||
 				current_mode == Constants.Modes.RUNSENCODER)
 		{
+			pre_fillTreeView_resultsSession_NO = true; //see comment on gui/app1/chronojumpPersons.cs
 			on_treeview_test_simple_cursor_changed (true); // 1 level, load set
+			pre_fillTreeView_resultsSession_NO = false;
 		} else {
 			// 2 levels
 			if (current_mode == Constants.Modes.JUMPSREACTIVE)
@@ -135,7 +137,8 @@ public partial class ChronoJumpWindow
 
 		// don't select if it's a person
 		// is for not confusing with the person treeviews that controls who does the test
-		if (treeViewResultsSession.EventSelectedID == 0) {
+		if (treeViewResultsSession.EventSelectedID == 0)
+		{
 			showHideActionEventButtons(false); //hide
 
 			if (Constants.ModeIsFORCESENSOR (current_mode))
@@ -145,6 +148,7 @@ public partial class ChronoJumpWindow
 		} else {
 			if (loadSet)
 			{
+				LogB.Information (string.Format ("going to load id: {0}, on mode: {1}", treeViewResultsSession.EventSelectedID, current_mode));
 				if (Constants.ModeIsFORCESENSOR (current_mode))
 					forceSensorLoadSignalAcceptedDo (treeViewResultsSession.EventSelectedID, -1, currentSession.UniqueID, ForceSensor.GetElasticIntFromMode (current_mode), false);
 				else //if current_mode == Constants.Modes.RUNSENCODER)

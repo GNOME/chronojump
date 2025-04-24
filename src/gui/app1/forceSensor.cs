@@ -610,6 +610,8 @@ public partial class ChronoJumpWindow
 		 */
 		fsAI_AB = null;
 		fsAI_CD = null;
+
+		LogB.Information ("blankForceSensorInterface");
 		lastForceSensorFullPath = null;
 		lastForceSensorFullPath_2SetsCD = null;
 
@@ -2322,11 +2324,11 @@ LogB.Information(" fs R ");
 			return; // ------------------------
 		}
 
+		LogB.Information ("fs.FullURL: " + fs.FullURL);
 		currentForceSensor = fs;
 		lastForceSensorFile = Util.RemoveExtension(fs.Filename);
 		lastForceSensorFullPath = fs.FullURL;
 		LogB.Information ("lastForceSensorFullPath is: " + lastForceSensorFullPath);
-		LogB.Information("lastForceSensorFullPath: " + lastForceSensorFullPath);
 
 		if (radio_ai_2sets.Active)
 		{
@@ -2335,6 +2337,7 @@ LogB.Information(" fs R ");
 		}
 
 		combo_force_sensor_exercise.Active = UtilGtk.ComboMakeActive(combo_force_sensor_exercise, fs.ExerciseName);
+		LogB.Information("(after update combo_force_sensor_exercise) lastForceSensorFullPath is: " + lastForceSensorFullPath);
 		setForceSensorCaptureOptions(fs.CaptureOption);
 
 		setLaterality(fs.Laterality);

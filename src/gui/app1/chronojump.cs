@@ -2069,6 +2069,9 @@ public partial class ChronoJumpWindow
 	
 	private void pre_fillTreeView_resultsSession ()
 	{
+		if (pre_fillTreeView_resultsSession_NO)
+			return;
+
 		treeview_results_session_storeReset ();
 
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)

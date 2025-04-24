@@ -79,6 +79,7 @@ public partial class ChronoJumpWindow
 	Gtk.CheckButton app1s_checkbutton_show_data_elastic;
 	Gtk.CheckButton app1s_checkbutton_show_data_weights;
 	Gtk.CheckButton app1s_checkbutton_show_data_inertial;
+	Gtk.CheckButton app1s_checkbutton_show_data_all;
 	Gtk.Viewport app1s_viewport_checkbutton_show_data_jumps;
 	Gtk.Viewport app1s_viewport_checkbutton_show_data_runs;
 	Gtk.Viewport app1s_viewport_checkbutton_show_data_reaction_time;
@@ -87,6 +88,7 @@ public partial class ChronoJumpWindow
 	Gtk.Viewport app1s_viewport_checkbutton_show_data_elastic;
 	Gtk.Viewport app1s_viewport_checkbutton_show_data_weights;
 	Gtk.Viewport app1s_viewport_checkbutton_show_data_inertial;
+	Gtk.Viewport app1s_viewport_checkbutton_show_data_all;
 
 	//Gtk.CheckButton app1s_checkbutton_show_data_rt;
 	//Gtk.CheckButton app1s_checkbutton_show_data_other;
@@ -472,6 +474,7 @@ public partial class ChronoJumpWindow
 		app1s_checkbutton_show_data_elastic = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_elastic");
 		app1s_checkbutton_show_data_weights = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_weights");
 		app1s_checkbutton_show_data_inertial = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_inertial");
+		app1s_checkbutton_show_data_all = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_all");
 		app1s_viewport_checkbutton_show_data_jumps = (Gtk.Viewport) builder.GetObject ("app1s_viewport_checkbutton_show_data_jumps");
 		app1s_viewport_checkbutton_show_data_runs = (Gtk.Viewport) builder.GetObject ("app1s_viewport_checkbutton_show_data_runs");
 		app1s_viewport_checkbutton_show_data_reaction_time = (Gtk.Viewport) builder.GetObject ("app1s_viewport_checkbutton_show_data_reaction_time");
@@ -480,6 +483,7 @@ public partial class ChronoJumpWindow
 		app1s_viewport_checkbutton_show_data_elastic = (Gtk.Viewport) builder.GetObject ("app1s_viewport_checkbutton_show_data_elastic");
 		app1s_viewport_checkbutton_show_data_weights = (Gtk.Viewport) builder.GetObject ("app1s_viewport_checkbutton_show_data_weights");
 		app1s_viewport_checkbutton_show_data_inertial = (Gtk.Viewport) builder.GetObject ("app1s_viewport_checkbutton_show_data_inertial");
+		app1s_viewport_checkbutton_show_data_all = (Gtk.Viewport) builder.GetObject ("app1s_viewport_checkbutton_show_data_all");
 
 		//app1s_checkbutton_show_data_rt = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_rt");
 		//app1s_checkbutton_show_data_other = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_other");

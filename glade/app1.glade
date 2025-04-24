@@ -45049,6 +45049,60 @@ on Cloud-view mode</property>
                                                             <property name="position">7</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <object class="GtkCheckButton" id="app1s_checkbutton_show_data_all">
+                                                            <property name="label" translatable="yes">All</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="draw-indicator">False</property>
+                                                            <signal name="toggled" handler="app1s_on_checkbutton_show_data_toggled" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox4">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
+                                                            <object class="GtkViewport" id="app1s_viewport_checkbutton_show_data_all">
+                                                            <property name="height-request">2</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">8</property>
+                                                            </packing>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>

@@ -168,6 +168,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_elastic);
 		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_weights);
 		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_inertial);
+		UtilGtk.ViewportColorBg (app1s_viewport_checkbutton_show_data_all);
 
 		sessionLoadWinSignals = true;
 
@@ -192,8 +193,16 @@ public partial class ChronoJumpWindow
 	private TreeStore app1s_getStore (bool loadOrImport, bool showPersons,
 			bool showJumps, bool showRuns, bool showReactionTime, bool showFourPlatforms,
 			bool showIsometric, bool showElastic,
-			bool showWeights, bool showInertial)//, bool showRT, bool showOther)
+			bool showWeights, bool showInertial, bool showAll)
 	{
+		if (showAll)
+		{
+			showJumps = true; showRuns = true;
+			showReactionTime = true; showFourPlatforms = true;
+			showIsometric = true; showElastic = true;
+			showWeights = true; showInertial = true;
+		}
+
 		int columns = 6;
 		if(loadOrImport)
 			columns ++; //on load we have the tags column
@@ -264,8 +273,16 @@ public partial class ChronoJumpWindow
 	private void app1s_createTreeView (Gtk.TreeView tv, bool loadOrImport, bool showPersons,
 			bool showJumps, bool showRuns, bool showReactionTime, bool showFourPlatforms,
 			bool showIsometric, bool showElastic,
-			bool showWeights, bool showInertial)//, bool showRT, bool showOther)
+			bool showWeights, bool showInertial, bool showAll)
 	{
+		if (showAll)
+		{
+			showJumps = true; showRuns = true;
+			showReactionTime = true; showFourPlatforms = true;
+			showIsometric = true; showElastic = true;
+			showWeights = true; showInertial = true;
+		}
+
 		tv.HeadersVisible=true;
 		int count = 0;
 
@@ -390,6 +407,9 @@ public partial class ChronoJumpWindow
 
 		app1s_viewport_checkbutton_show_data_inertial.Visible =
 			(app1s_check_filter_by_sensor.Active && app1s_checkbutton_show_data_inertial.Active);
+
+		app1s_viewport_checkbutton_show_data_all.Visible =
+			(app1s_check_filter_by_sensor.Active && app1s_checkbutton_show_data_all.Active);
 	}
 
 	// pressed enter on entry
@@ -521,10 +541,8 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_isometric.Active,
 				app1s_checkbutton_show_data_elastic.Active,
 				app1s_checkbutton_show_data_weights.Active,
-				app1s_checkbutton_show_data_inertial.Active);/*,
-				app1s_checkbutton_show_data_rt.Active,
-				app1s_checkbutton_show_data_other.Active
-				);*/
+				app1s_checkbutton_show_data_inertial.Active,
+				app1s_checkbutton_show_data_all.Active);
 		app1s_store = app1s_getStore (
 				true,
 				app1s_checkbutton_show_data_persons.Active,
@@ -535,10 +553,8 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_isometric.Active,
 				app1s_checkbutton_show_data_elastic.Active,
 				app1s_checkbutton_show_data_weights.Active,
-				app1s_checkbutton_show_data_inertial.Active);/*,
-				app1s_checkbutton_show_data_rt.Active,
-				app1s_checkbutton_show_data_other.Active
-				);*/
+				app1s_checkbutton_show_data_inertial.Active,
+				app1s_checkbutton_show_data_all.Active);
 		app1s_treeview_session_load.Model = app1s_store;
 		app1s_fillTreeView ();
 	}
@@ -604,6 +620,15 @@ public partial class ChronoJumpWindow
 		bool showElastic = app1s_checkbutton_show_data_elastic.Active;
 		bool showWeights = app1s_checkbutton_show_data_weights.Active;
 		bool showInertial = app1s_checkbutton_show_data_inertial.Active;
+		bool showAll = app1s_checkbutton_show_data_all.Active;
+
+		if (showAll)
+		{
+			showJumps = true; showRuns = true;
+			showReactionTime = true; showFourPlatforms = true;
+			showIsometric = true; showElastic = true;
+			showWeights = true; showInertial = true;
+		}
 
 		//new 2.0 code
 		int columns = 6;
@@ -778,7 +803,7 @@ public partial class ChronoJumpWindow
 	public bool discardSessionBySensorFilter (SessionTestsCount stc,
 			bool showJumps, bool showRuns, bool showReactionTime, bool showFourPlatforms,
 			bool showIsometric, bool showElastic,
-			bool showWeights, bool showInertial)//, bool showRT, bool showOther)
+			bool showWeights, bool showInertial)
 	{
 		if (app1s_type == app1s_windowType.IMPORT_SESSION)
 			return false;

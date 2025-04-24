@@ -764,7 +764,7 @@ public class RepetitionMouseLimits
 		return list.Count;
 	}
 }
-//used on gui/cairo/forceSensor.cs
+//used on graphs/cairo/forceSensor.cs CairoGraphForceSensorAI
 public class RepetitionMouseLimitsWithSamples : RepetitionMouseLimits
 {
 	private List<int> sampleStart_l;

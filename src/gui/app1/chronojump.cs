@@ -261,8 +261,6 @@ public partial class ChronoJumpWindow
 	//tests
 	Gtk.Notebook notebook_contacts_capture_doing_wait;
 	Gtk.Button button_contacts_bells;
-	Gtk.Button button_contacts_capture_session_overview;
-	Gtk.Button button_contacts_capture_load;
 	Gtk.Button button_contacts_exercise_close_and_recalculate;
 	Gtk.Frame frame_jumps_automatic;
 	Gtk.Notebook notebook_jumps_automatic;
@@ -318,7 +316,6 @@ public partial class ChronoJumpWindow
 	//force sensor
 	Gtk.Box hbox_capture_phases;
 	Gtk.Box hbox_capture_time;
-	Gtk.Box box_contacts_load;
 
 	//widgets for enable or disable
 	Gtk.Frame frame_persons;
@@ -2640,35 +2637,33 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private OverviewWindow overviewWin;
-	private void on_session_overview_clicked (object o, EventArgs args)
-	{
-		if (currentSession == null || currentPerson == null)
-			return;
+       private OverviewWindow overviewWin;
+       private void on_session_overview_clicked (object o, EventArgs args)
+       {
+               if (currentSession == null || currentPerson == null)
+                       return;
 
-		Constants.Modes m = current_mode;
+               Constants.Modes m = current_mode;
 
-		if(Constants.ModeIsENCODER (m))
-			overviewWin = EncoderOverviewWindow.Show (app1, currentEncoderGI, currentSession.UniqueID, currentPerson.UniqueID);
-		else if(m == Constants.Modes.RUNSENCODER)
-			overviewWin = RunEncoderOverviewWindow.Show (app1, currentSession.UniqueID, currentPerson.UniqueID);
+               if(Constants.ModeIsENCODER (m))
+                       overviewWin = EncoderOverviewWindow.Show (app1, currentEncoderGI, currentSession.UniqueID, currentPerson.UniqueID);
 
-		overviewWin.Button_select_this_person.Clicked -= new EventHandler(on_overview_select_person);
-		overviewWin.Button_select_this_person.Clicked += new EventHandler(on_overview_select_person);
-	}
+               overviewWin.Button_select_this_person.Clicked -= new EventHandler(on_overview_select_person);
+               overviewWin.Button_select_this_person.Clicked += new EventHandler(on_overview_select_person);
+       }
 
-	private void on_overview_select_person (object o, EventArgs args)
-	{
-		if(overviewWin.SelectedPersonID != -1)
-		{
-			person_search.Text = "";
-			//LogB.Information("selected: " + overviewWin.SelectedPersonID.ToString());
-			selectRowTreeView_persons(treeview_persons,
-					myTreeViewPersons.FindRow(overviewWin.SelectedPersonID));
+       private void on_overview_select_person (object o, EventArgs args)
+       {
+               if(overviewWin.SelectedPersonID != -1)
+               {
+                       person_search.Text = "";
+                       //LogB.Information("selected: " + overviewWin.SelectedPersonID.ToString());
+                       selectRowTreeView_persons(treeview_persons,
+                                       myTreeViewPersons.FindRow(overviewWin.SelectedPersonID));
 
-			overviewWin.HideAndNull();
-		}
-	}
+                       overviewWin.HideAndNull();
+               }
+       }
 
 	private void on_radio_contacts_export_individual_current_session_toggled (object o, EventArgs args)
 	{
@@ -3249,7 +3244,6 @@ public partial class ChronoJumpWindow
 		button_inspect_last_test_run_intervallic.Visible = false;
 		button_force_sensor_adjust.Visible = false;
 		button_force_sensor_sync.Visible = false;
-		box_contacts_load.Visible = false;
 		button_contacts_exercise_close_and_recalculate.Visible = false;
 		frame_jumps_automatic.Visible = false;
 		check_run_show_time.Visible = false;
@@ -3601,9 +3595,6 @@ public partial class ChronoJumpWindow
 
 			button_contacts_exercise_close_and_recalculate.Visible = true;
 
-			button_contacts_capture_load.Sensitive = myTreeViewPersons.IsThereAnyRecord();
-			button_contacts_capture_session_overview.Sensitive = myTreeViewPersons.IsThereAnyRecord();
-
 			button_contacts_bells.Sensitive = true;
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
@@ -3654,11 +3645,7 @@ public partial class ChronoJumpWindow
 			box_contacts_current.Visible = true;
 			hbox_contacts_current_runEncoder.Visible = true;
 
-			box_contacts_load.Visible = true;
 			button_contacts_exercise_close_and_recalculate.Visible = true;
-
-			button_contacts_capture_load.Sensitive = myTreeViewPersons.IsThereAnyRecord();
-			button_contacts_capture_session_overview.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 
 			button_contacts_bells.Sensitive = true;
 
@@ -8021,8 +8008,6 @@ public partial class ChronoJumpWindow
 		hbox_jumps_rj.Sensitive = false;
 		button_execute_test.Sensitive = false;
 		button_auto_start.Sensitive = false;
-		button_contacts_capture_load.Sensitive = false;
-		button_contacts_capture_session_overview.Sensitive = false;
 
 		encoderButtonsSensitive(encoderSensEnum.NOPERSON);
 		//don't cal personChanged because it will make changes on analyze repetitions and currentPerson == null
@@ -8060,8 +8045,6 @@ public partial class ChronoJumpWindow
 		hbox_jumps_rj.Sensitive = true;
 		button_execute_test.Sensitive = true;
 		button_auto_start.Sensitive = true;
-		button_contacts_capture_load.Sensitive = true;
-		button_contacts_capture_session_overview.Sensitive = true;
 
 		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 		personChanged();
@@ -8114,7 +8097,6 @@ public partial class ChronoJumpWindow
 		button_execute_test.Sensitive = false;
 		button_auto_start.Sensitive = false;
 		hbox_contacts_camera.Sensitive = false;
-		box_contacts_load.Sensitive = false;
 		
 		button_contacts_person_change.Sensitive = false;
 		button_encoder_person_change.Sensitive = false;
@@ -8167,7 +8149,6 @@ public partial class ChronoJumpWindow
 		button_execute_test.Sensitive = true;
 		button_auto_start.Sensitive = true;
 		hbox_contacts_camera.Sensitive = true;
-		box_contacts_load.Sensitive = true;
 
 		button_contacts_person_change.Sensitive = true;
 		button_encoder_person_change.Sensitive = true;
@@ -8600,8 +8581,6 @@ public partial class ChronoJumpWindow
 		//tests
 		notebook_contacts_capture_doing_wait = (Gtk.Notebook) builder.GetObject ("notebook_contacts_capture_doing_wait");
 		button_contacts_bells = (Gtk.Button) builder.GetObject ("button_contacts_bells");
-		button_contacts_capture_session_overview = (Gtk.Button) builder.GetObject ("button_contacts_capture_session_overview");
-		button_contacts_capture_load = (Gtk.Button) builder.GetObject ("button_contacts_capture_load");
 		button_contacts_exercise_close_and_recalculate = (Gtk.Button) builder.GetObject ("button_contacts_exercise_close_and_recalculate");
 		frame_jumps_automatic = (Gtk.Frame) builder.GetObject ("frame_jumps_automatic");
 		notebook_jumps_automatic = (Gtk.Notebook) builder.GetObject ("notebook_jumps_automatic");
@@ -8658,7 +8637,6 @@ public partial class ChronoJumpWindow
 		//force sensor
 		hbox_capture_phases = (Gtk.Box) builder.GetObject ("hbox_capture_phases");
 		hbox_capture_time = (Gtk.Box) builder.GetObject ("hbox_capture_time");
-		box_contacts_load = (Gtk.Box) builder.GetObject ("box_contacts_load");
 
 		//widgets for enable or disable
 		frame_persons = (Gtk.Frame) builder.GetObject ("frame_persons");

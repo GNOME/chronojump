@@ -31,6 +31,8 @@ using System.Collections; //ArrayList
 
 using System.Runtime.InteropServices;
 using Chronojump;
+using System.Globalization;
+
 #if MICROSOFT_DATA_SQLITE
 using Microsoft.Data.Sqlite;
 #else
@@ -70,7 +72,11 @@ public class ChronoJump
 //#endif
 
 	public static void Main(string [] args)
-	{
+    {
+		Thread.CurrentThread.CurrentCulture.NumberFormat.NegativeSign = "-";
+		Thread.CurrentThread.CurrentUICulture.NumberFormat.NegativeSign = "-";
+		NumberFormatInfo.CurrentInfo.NegativeSign = "-";
+
 		//record GetOsEnum on variables to not call it all the time
 		operatingSystem = UtilAll.GetOSEnum();
 		Util.operatingSystem = operatingSystem;

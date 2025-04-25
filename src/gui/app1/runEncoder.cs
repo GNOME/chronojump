@@ -192,6 +192,7 @@ public partial class ChronoJumpWindow
 		setRunEncoderAnalyzeWidgets();
 
 		aiButtonsHscaleZoomSensitiveness();
+		updateGraphRunEncoderBars ();
 	}
 
 	private void manageRunEncoderCaptureViews()
@@ -422,7 +423,6 @@ public partial class ChronoJumpWindow
 
 	private void runEncoderCapturePre3_GTK_cameraCalled()
 	{
-		textview_contacts_signal_comment.Buffer.Text = "";
 		assignCurrentRunEncoderExercise();
 		raceEncoderReadWidgets();
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
@@ -473,7 +473,6 @@ public partial class ChronoJumpWindow
 		aiButtonsHscaleZoomSensitiveness();
 
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
-		textview_contacts_signal_comment.Buffer.Text = "";
 
 		//image_ai_model_graph.Sensitive = false; //this is not useful at all
 		image_ai_model_graph.Visible = false;
@@ -498,6 +497,8 @@ public partial class ChronoJumpWindow
 
 		label_run_encoder_export_discarded.Text = "";
 		button_ai_export_result_open.Visible = false;
+
+		updateGraphRunEncoderBars ();
 	}
 
 	private void raceEncoderReadWidgets()
@@ -529,10 +530,10 @@ public partial class ChronoJumpWindow
 
 	private void on_combo_race_analyzer_device_changed (object o, EventArgs args)
 	{
-		forceSensorImageTestChange();
+		runEncoderImageTestChange();
 	}
 
-	private void forceSensorImageTestChange()
+	private void runEncoderImageTestChange()
 	{
 		Pixbuf pixbuf; //main image
 		if(UtilGtk.ComboGetActive(combo_race_analyzer_device) == RunEncoder.DevicesStringMANUAL)
@@ -1317,6 +1318,9 @@ public partial class ChronoJumpWindow
 	//this is also called from recalculate
 	private string run_encoder_load_set (int uniqueID, bool getPersonSessionFromGenericWin)
 	{
+		if (uniqueID < 0)
+			return "";
+
 		int personID = currentPerson.UniqueID;
 		int sessionID = currentSession.UniqueID;
 
@@ -1332,6 +1336,14 @@ public partial class ChronoJumpWindow
 			genericWin.HideAndNull();
 		}
 
+		//LogB.Information (string.Format ("run_encoder_load_set uniqueID: {0}, personID: {1}, sessionID: {2}",
+		//			uniqueID, personID, sessionID));
+
+		return runEncoderLoadSetDo (uniqueID, personID, sessionID, getPersonSessionFromGenericWin);
+	}
+
+	private string runEncoderLoadSetDo (int uniqueID, int personID, int sessionID, bool getPersonSessionFromGenericWin)
+	{
 		RunEncoder re = (RunEncoder) SqliteRunEncoder.Select (false, uniqueID, personID, sessionID)[0];
 
 		if(re == null)
@@ -1408,8 +1420,6 @@ public partial class ChronoJumpWindow
 
 			raceEncoderSetDevice(re.Device);
 			raceEncoderSetDistanceAngleAndTemp(re.Distance, re.Angle, re.Temperature);
-			///		textview_race_analyzer_comment.Buffer.Text = re.Comments;
-			textview_contacts_signal_comment.Buffer.Text = re.Comments;
 
 			raceEncoderReadWidgets(); //needed to be able to do R graph
 
@@ -1685,10 +1695,10 @@ public partial class ChronoJumpWindow
 
 		//2) if changed comment, update SQL, and update treeview
 		//first remove conflictive characters
-		string comment = Util.RemoveTildeAndColonAndDot(genericWin.EntryEditRow);
-		if(comment != re.Comments)
+		string description = Util.RemoveTildeAndColonAndDot (genericWin.EntryEditRow);
+		if(description != re.Description)
 		{
-			re.Comments = comment;
+			re.Description = description;
 			re.UpdateSQLJustComments(true);
 
 			//update treeview
@@ -1775,6 +1785,8 @@ public partial class ChronoJumpWindow
 
 		//empty GUI
 		blankRunEncoderInterface();
+
+		pre_fillTreeView_resultsSession ();
 	}
 
 	private void runEncoderDeleteTestDo(RunEncoder re)
@@ -1814,14 +1826,24 @@ public partial class ChronoJumpWindow
 		currentRunEncoder.Distance = Convert.ToInt32(race_analyzer_spinbutton_distance.Value);
 		currentRunEncoder.Angle = Convert.ToInt32(race_analyzer_spinbutton_angle.Value);
 		currentRunEncoder.Temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
-		//currentRunEncoder.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_race_analyzer_comment);
-		currentRunEncoder.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
+
+		currentRunEncoder.MaxSpeed = 0;
+		currentRunEncoder.MaxAvgSpeed1s = 0;
+		if (reCGSD != null && reCGSD.RunEncoderCaptureSpeedMax > 0)
+		{
+			currentRunEncoder.MaxSpeed = reCGSD.RunEncoderCaptureSpeedMax;
+			if (reCGSD.Miw.Error == "")
+				currentRunEncoder.MaxAvgSpeed1s = reCGSD.Miw.Max;
+		}
 
 		currentRunEncoder.UpdateSQL(false);
 
 		string str = run_encoder_load_set (currentRunEncoder.UniqueID, false);
 		if(str != "")
 			event_execute_label_message.Text = "Recalculated.";
+
+		updateGraphResultsSessionByMode ();
+		pre_fillTreeView_resultsSession ();
 	}
 
 	private void on_radio_race_analyzer_capture_graph_starts_clicked (object o, EventArgs args)
@@ -2191,6 +2213,8 @@ public partial class ChronoJumpWindow
 						webcamRestoreGui (success);
 					}
 
+					updateGraphRunEncoderBars();
+					treeViewResultsSession.Add (currentPerson.Name, currentRunEncoder, "");
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 					sensitiveLastTestButtons(true);
 					contactsShowCaptureDoingButtons(false);
@@ -2469,6 +2493,9 @@ public partial class ChronoJumpWindow
 		combo_run_encoder_exercise.Changed += new EventHandler (on_combo_run_encoder_exercise_changed);
 		hbox_combo_run_encoder_exercise.PackStart(combo_run_encoder_exercise, true, true, 0);
 		hbox_combo_run_encoder_exercise.ShowAll();
+
+		//needed because the += EventHandler does not work on first fill of the combo
+		on_combo_run_encoder_exercise_changed (new object (), new EventArgs ());
 	}
 
 	//left-right buttons on run_encoder combo exercise selection
@@ -2514,6 +2541,10 @@ public partial class ChronoJumpWindow
 		button_combo_run_encoder_exercise_capture_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_run_encoder_exercise);
 		button_combo_select_contacts_top_left.Sensitive = (combo_run_encoder_exercise.Active > 0);
 		button_combo_select_contacts_top_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_run_encoder_exercise);
+
+		radio_contacts_graph_currentTest.Label = exTemp.Name;
+                //update the treeview
+                pre_fillTreeView_resultsSession ();
 	}
 
 	private void fillRunEncoderExerciseCombo(string name)
@@ -3196,6 +3227,59 @@ public partial class ChronoJumpWindow
 
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
+	}
+
+	private void updateGraphRunEncoderBars ()
+	{
+		LogB.Information (string.Format ("currentPerson == null: {0},  currentSession == null: {1}",
+					currentPerson == null, currentSession == null));
+		if(currentPerson == null || currentSession == null)
+			return;
+
+		//intializeVariables if not done before
+		event_execute_initializeVariables(
+			(! cp2016.StoredCanCaptureContacts && ! cp2016.StoredWireless), //is simulated
+			currentPerson.UniqueID,
+			currentPerson.Name,
+			"", //Catalog.GetString("Phases"),  	  //name of the different moments
+			Constants.RunEncoderTable, //tableName
+			"" //type
+			);
+
+		string typeTemp = "";
+		int exerciseID = -1;
+		if (! radio_contacts_graph_allTests.Active)
+			exerciseID = getExerciseIDFromAnyCombo (combo_run_encoder_exercise, runEncoderComboExercisesString, false);
+
+		int selectedID = -1;
+		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID > 0)
+			selectedID = treeViewResultsSession.EventSelectedID;
+
+		PrepareEventGraphRunEncoder eventGraph = new PrepareEventGraphRunEncoder (
+				currentSession.UniqueID,
+				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
+				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
+				//Constants.RunEncoderTable, typeTemp,
+				exerciseID, selectedID, current_mode, radio_contacts_graph_allTests.Active);
+
+		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.runsAtSQL.Count > 0)
+		//	PrepareRunSimpleGraph(eventGraph, false); //don't animate
+
+		string personStr = "";
+		if(! radio_contacts_results_personAll.Active)
+			personStr = currentPerson.Name;
+
+		//LogB.Information("drawingarea_results_session == null: ",
+		//	(drawingarea_results_session == null).ToString());
+
+		cairoPaintBarsPre = new CairoPaintBarsPreRunEncoder (
+				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
+				personStr,
+				typeTemp,
+				preferences.digitsNumber);
+
+		cairoPaintBarsPre.StoreEventGraphRunEncoder (eventGraph);
+		drawingarea_results_session.QueueDraw ();
 	}
 
 	private void connectWidgetsRunEncoder (Gtk.Builder builder)

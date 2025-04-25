@@ -40,6 +40,7 @@ public partial class ChronoJumpWindow
 	private void createTreeView_resultsSession (Gtk.TreeView tv)
 	{
 		LogB.Information ("createTreeView_resultsSession mode = " + current_mode.ToString ());
+		//just to have following code shorter
 		int pdn = preferences.digitsNumber;
 		TreeViewEvent.ExpandStates minimized = TreeViewEvent.ExpandStates.MINIMIZED;
 
@@ -51,6 +52,8 @@ public partial class ChronoJumpWindow
 			treeViewResultsSession = new TreeViewRuns (tv, pdn, preferences.metersSecondsPreferred, minimized );
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			treeViewResultsSession = new TreeViewRunsInterval (tv, pdn, preferences.metersSecondsPreferred, minimized);
+		else if (current_mode == Constants.Modes.RUNSENCODER)
+			treeViewResultsSession = new TreeViewRunEncoder (tv, pdn, minimized);
 		else if (current_mode == Constants.Modes.BEEPTEST)
 			treeViewResultsSession = new TreeViewBeepTest (tv, pdn, minimized );
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
@@ -72,20 +75,52 @@ public partial class ChronoJumpWindow
 		treeViewResultsSession.ZoomChange (image_results_session_zoom);
 	}
 
+	// Important! see: diagrams/processes/person_results_changes.dia
 	private void on_treeview_results_session_cursor_changed (object o, EventArgs args)
 	{
 		LogB.Information ("on_treeview_results_session_cursor_changed");
 		if (treeViewResultsSession == null)
 			return;
 
+		//selected row makes change currentPerson if showing all persons
+		if (currentPerson != null && radio_contacts_results_personAll.Active &&
+				! treeviewPersonsChangesTreeViewResultsSessionSignalsNoFollow)
+		{
+			int personID = treeViewResultsSession.GetPersonIDOfSelectedRow;
+			LogB.Information (string.Format ("RRR personID: {0}, currentPerson.UniqueID: {1}",
+						personID, currentPerson.UniqueID));
+			if (personID != currentPerson.UniqueID)
+			{
+				treeviewResultsSessionChangesTreeViewPersonsSignalsNoFollow = true;
+
+				int personPrevious = currentPerson.UniqueID;
+
+				// 2nd update the treeview, then the personID will be in bold
+				selectRowTreeView_persons (treeview_persons, myTreeViewPersons.FindRow (personID));
+				// now currentPerson, currentPersionSession have been updated
+
+				//1st update the variable
+				treeViewResultsSession.CurrentPersonID = currentPerson.UniqueID;
+
+				treeViewResultsSession.PersonEmitRowChanged (personPrevious); // show normal
+				treeViewResultsSession.PersonEmitRowChanged (currentPerson.UniqueID); // show in bold
+
+				treeviewResultsSessionChangesTreeViewPersonsSignalsNoFollow = false;
+			}
+		}
+
 		if (current_mode == Constants.Modes.JUMPSSIMPLE ||
 				current_mode == Constants.Modes.RUNSSIMPLE ||
 				current_mode == Constants.Modes.BEEPTEST ||
 				current_mode == Constants.Modes.WILIGHT)
 			on_treeview_test_simple_cursor_changed (false); // 1 level, no load set
-		else if (Constants.ModeIsFORCESENSOR (current_mode))
+		else if (Constants.ModeIsFORCESENSOR (current_mode) ||
+				current_mode == Constants.Modes.RUNSENCODER)
+		{
+			pre_fillTreeView_resultsSession_NO = true; //see comment on gui/app1/chronojumpPersons.cs
 			on_treeview_test_simple_cursor_changed (true); // 1 level, load set
-		else {
+			pre_fillTreeView_resultsSession_NO = false;
+		} else {
 			// 2 levels
 			if (current_mode == Constants.Modes.JUMPSREACTIVE)
 				on_treeview_jumps_rj_cursor_changed (o, args);
@@ -102,12 +137,23 @@ public partial class ChronoJumpWindow
 
 		// don't select if it's a person
 		// is for not confusing with the person treeviews that controls who does the test
-		if (treeViewResultsSession.EventSelectedID == 0) {
-			treeViewResultsSession.Unselect();
+		if (treeViewResultsSession.EventSelectedID == 0)
+		{
 			showHideActionEventButtons(false); //hide
+
+			if (Constants.ModeIsFORCESENSOR (current_mode))
+				blankForceSensorInterface ();
+			else if (current_mode == Constants.Modes.RUNSENCODER)
+				blankRunEncoderInterface ();
 		} else {
 			if (loadSet)
-				forceSenssorLoadSignalAcceptedDo (treeViewResultsSession.EventSelectedID, -1, currentSession.UniqueID, ForceSensor.GetElasticIntFromMode (current_mode), false);
+			{
+				LogB.Information (string.Format ("going to load id: {0}, on mode: {1}", treeViewResultsSession.EventSelectedID, current_mode));
+				if (Constants.ModeIsFORCESENSOR (current_mode))
+					forceSensorLoadSignalAcceptedDo (treeViewResultsSession.EventSelectedID, -1, currentSession.UniqueID, ForceSensor.GetElasticIntFromMode (current_mode), false);
+				else //if current_mode == Constants.Modes.RUNSENCODER)
+					runEncoderLoadSetDo (treeViewResultsSession.EventSelectedID, -1, currentSession.UniqueID, false);
+			}
 
 			showHideActionEventButtons(true); //show
 			updateGraphResultsSessionByMode (); //to show the selected bar
@@ -117,8 +163,11 @@ public partial class ChronoJumpWindow
 	private void selectResultsSessionId (int id)
 	{
 		treeViewResultsSession.ZoomToTestsIfNeeded ();
+
+		// here we welect the event
 		treeViewResultsSession.SelectEvent (id, true); //scroll
 
+		// note this can change the person
 		on_treeview_results_session_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
 	}
 
@@ -129,6 +178,7 @@ public partial class ChronoJumpWindow
 
 		treeViewResultsSession.RemoveColumns();
 
+		//just to have following code shorter
 		int pdn = preferences.digitsNumber;
 		TreeViewEvent.ExpandStates expandState = treeViewResultsSession.ExpandState;
 
@@ -142,6 +192,8 @@ public partial class ChronoJumpWindow
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			treeViewResultsSession = new TreeViewRunsInterval (
 					treeview_results_session, pdn, preferences.metersSecondsPreferred, expandState);
+		else if (current_mode == Constants.Modes.RUNSENCODER)
+			treeViewResultsSession = new TreeViewRunEncoder (treeview_results_session, pdn, expandState);
 		else if (current_mode == Constants.Modes.BEEPTEST)
 			treeViewResultsSession = new TreeViewBeepTest (treeview_results_session, pdn, expandState);
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
@@ -181,6 +233,11 @@ public partial class ChronoJumpWindow
 		{
 			ev = SqliteRunInterval.SelectRunData ( Constants.RunIntervalTable, id, false, false);
 			treeviewResultsContextMenu (true, " " + ev.Type + " (" + ev.PersonName + ")");
+		}
+		else if (current_mode == Constants.Modes.RUNSENCODER)
+		{
+			ev = SqliteRunEncoder.SelectData (id, false);
+			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonName + ")");
 		}
 		else if (current_mode == Constants.Modes.BEEPTEST)
 		{
@@ -231,6 +288,5 @@ public partial class ChronoJumpWindow
 		myMenu.ShowAll();
 		myMenu.Popup();
 	}
-
 }
 

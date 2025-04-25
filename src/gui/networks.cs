@@ -817,8 +817,6 @@ public partial class ChronoJumpWindow
 
 		//radio_mode_contacts_analyze_small.Visible = ! guest;
 		button_menu_preferences.Visible = ! guest;
-		button_contacts_capture_load.Visible = ! guest;
-		button_contacts_capture_session_overview.Visible = ! guest;
 		button_contacts_delete_selected.Visible = ! guest;
 
 		button_contacts_bells.Visible = ! guest;

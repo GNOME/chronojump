@@ -25,17 +25,17 @@ using System.Collections; //ArrayList
 using Mono.Unix;
 
 
-public class TreeViewForceSensor : TreeViewEvent
+public class TreeViewRunEncoder : TreeViewEvent
 {
 	protected string personName = Catalog.GetString("Person");
 
-	public TreeViewForceSensor ()
+	public TreeViewRunEncoder ()
 	{
 	}
 	
-	public TreeViewForceSensor (Gtk.TreeView treeview, int pDN, ExpandStates expandState)
+	public TreeViewRunEncoder (Gtk.TreeView treeview, int pDN, ExpandStates expandState)
 	{
-		LogB.Information ("At TreeViewForceSensor constructor");
+		LogB.Information ("At TreeViewRunEncoder constructor");
 		this.treeview = treeview;
 		this.pDN = pDN;
 		this.expandState = expandState;
@@ -44,16 +44,15 @@ public class TreeViewForceSensor : TreeViewEvent
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 17; //position of type in the data to be printed.
 		allEventsName = Constants.AllTestsNameStr();
-		idColumn = 6; //column where the uniqueID of event will be (and will be hidden).
+		idColumn = 5; //column where the uniqueID of event will be (and will be hidden).
 		columnsString = new string[] { 
 			personName,
-			Catalog.GetString ("Laterality"),
-			Catalog.GetString ("Max force"),
+			Catalog.GetString ("Max speed"),
 			Catalog.GetString ("Best second"),
 			datetimeName,
 			descriptionName };
 
-		LogB.Information ("At TreeViewForceSensor:  dataLineTypePosition = " + dataLineTypePosition.ToString  ());
+		LogB.Information ("At TreeViewRunEncoder:  dataLineTypePosition = " + dataLineTypePosition.ToString  ());
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
@@ -67,33 +66,31 @@ public class TreeViewForceSensor : TreeViewEvent
 		LogB.Information ("getObjectFromString str:");
 		LogB.Information (Util.StringArrayToString (str, "____"));
 
-		return new ForceSensor (
+		return new RunEncoder (
 				Convert.ToInt32 (str[1]), 	//uniqueID
-				str[7],				//laterality
-				Convert.ToDouble (str[15]), 	//maxForceRaw
-			 	Convert.ToDouble (str[16]),	//maxAvgForce1s
+				Convert.ToDouble (str[15]), 	//maxSpeed
+			 	Convert.ToDouble (str[16]),	//maxAvgSpeed1s (Best second)
 				str[10], //dateTime
 				str[11], //description
 				str[17] //exerciseName
 				);
 	}
-
+	
 	protected override string [] getLineToStore (System.Object myObject)
 	{
 		LogB.Information ("at getLineToStore");
-		ForceSensor fs = (ForceSensor) myObject;
-		LogB.Information ("fs uniqueID: " + fs.UniqueID.ToString  ());
+		RunEncoder re = (RunEncoder) myObject;
+		LogB.Information ("re uniqueID: " + re.UniqueID.ToString  ());
 
 		string [] myData = new String [getColsNum()];
 		int count = 0;
 
-		myData[count++] = fs.ExerciseName;
-		myData[count++] = Catalog.GetString (fs.Laterality);
-		myData[count++] = Util.TrimDecimals (fs.MaxForceRaw, 3);
-		myData[count++] = Util.TrimDecimals (fs.MaxAvgForce1s, 3);
-		myData[count++] = fs.DateTimePublic;
-		myData[count++] = fs.Description;
-		myData[count++] = fs.UniqueID.ToString ();
+		myData[count++] = re.ExerciseName;
+		myData[count++] = Util.TrimDecimals (re.MaxSpeed, 3);
+		myData[count++] = Util.TrimDecimals (re.MaxAvgSpeed1s, 3);
+		myData[count++] = re.DateTimePublic;
+		myData[count++] = re.Description;
+		myData[count++] = re.UniqueID.ToString ();
 
 		return myData;
 	}

@@ -128,9 +128,25 @@ class SqliteRunEncoder : SqliteTests
 			Util.FileDelete(re.FullVideoURL);
 	}
 
+    	//call used in most part of the program
 	public static List<RunEncoder> Select (bool dbconOpened, int uniqueID, int personID, int sessionID)
 	{
+		return Select (dbconOpened, uniqueID, personID, sessionID,
+				-1, Orders_by.ID_ASC, 0, false);
+	}
+
+	//call used on PrepareEventGraphRunEncoder
+	// limit 0 means no limit (limit negative is the last results)
+	public static List<RunEncoder> Select (bool dbconOpened,
+			int uniqueID, int personID, int sessionID,
+			int exerciseID, Orders_by order, int limit, bool personNameInComment//, bool onlyBestInSession
+			)
+	{
 		openIfNeeded(dbconOpened);
+
+		//for personNameInComment
+		List<Person> person_l =
+			SqlitePersonSession.SelectCurrentSessionPersonsAsList (true, sessionID);
 
 		string selectStr = "SELECT " + tableStatic + ".*, " + Constants.RunEncoderExerciseTable + ".Name FROM " + tableStatic + ", " + Constants.RunEncoderExerciseTable;
 		string whereStr = " WHERE " + tableStatic + ".exerciseID = " + Constants.RunEncoderExerciseTable + ".UniqueID ";
@@ -147,7 +163,16 @@ class SqliteRunEncoder : SqliteTests
 		if(sessionID != -1)
 			sessionIDStr = " AND " + tableStatic + ".sessionID = " + sessionID;
 
-		dbcmd.CommandText = selectStr + whereStr + uniqueIDStr + personIDStr + sessionIDStr + " Order BY " + tableStatic + ".uniqueID";
+		string andExerciseStr = "";
+		if (exerciseID != -1)
+			andExerciseStr = string.Format (" AND {0}.exerciseID = {1} ", tableStatic, exerciseID);
+
+		string orderByString = string.Format (" ORDER BY {0}.uniqueID ", tableStatic);
+		if (order == Orders_by.ID_DESC)
+			orderByString = string.Format(" ORDER BY {0}.uniqueID DESC ", tableStatic);
+
+		dbcmd.CommandText = selectStr + whereStr + uniqueIDStr + personIDStr + sessionIDStr +
+			andExerciseStr + orderByString;// + limitString
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -158,7 +183,17 @@ class SqliteRunEncoder : SqliteTests
 		List<RunEncoder> list = new List<RunEncoder>();
 		RunEncoder re;
 
-		while(reader.Read()) {
+		while(reader.Read())
+		{
+			// 1. get person name in description if personNameInComment
+			int personIDThisRecord = Convert.ToInt32 (reader[1].ToString());
+			string description = reader[10].ToString();
+
+			if (personNameInComment)
+				foreach (Person person in person_l)
+					if (person.UniqueID == personIDThisRecord)
+						description = person.Name;
+
 			re = new RunEncoder (
 					Convert.ToInt32(reader[0].ToString()),	//uniqueID
 					Convert.ToInt32(reader[1].ToString()),	//personID
@@ -171,7 +206,7 @@ class SqliteRunEncoder : SqliteTests
 					reader[7].ToString(),			//filename
 					Util.MakeURLabsolute(FixOSpath(reader[8].ToString())),	//url
 					reader[9].ToString(),			//datetime
-					reader[10].ToString(),			//comments
+					description,
 					reader[11].ToString(),			//videoURL
 					Convert.ToInt32(reader[12].ToString()),	//angle
 					Convert.ToInt32(reader[13].ToString()),	//totalTime
@@ -185,7 +220,40 @@ class SqliteRunEncoder : SqliteTests
 		reader.Close();
 		closeIfNeeded(dbconOpened);
 
+		//get last values on negative limit
+		if (limit < 0 && list.Count + limit >= 0)
+			list = list.GetRange (list.Count + limit, -1 * limit);
+
 		return list;
+	}
+    
+	protected override string selectSAArray (SQLiteDataReader reader)
+	{
+		return
+			reader[0].ToString() + ":" +	//person.name
+			reader[1].ToString() + ":" +	//uniqueID
+			reader[2].ToString() + ":" +	//personID
+			reader[3].ToString() + ":" +	//sessionID
+			reader[4].ToString() + ":" +	//exerciseID
+			reader[5].ToString() + ":" +	//device
+			reader[6].ToString() + ":" +	//distance
+			reader[7].ToString() + ":" +	//temperature
+			reader[8].ToString() + ":" +	//filename
+			reader[9].ToString() + ":" +	//url
+			reader[10].ToString() + ":" +	//datetime
+			reader[11].ToString() + ":" +	//comments
+			reader[12].ToString() + ":" +	//videoURL
+			reader[13].ToString() + ":" +	//angle
+			reader[14].ToString() + ":" +	//totalTime
+			Util.CDS (reader[15].ToString()) + ":" + //maxSpeed
+			Util.CDS (reader[16].ToString()) + ":" + //maxAvgSpeed1s
+			reader[17].ToString()		//exerciseName
+			;
+	}
+
+	public static RunEncoder SelectData (int uniqueID, bool dbconOpened)
+	{
+		return new RunEncoder (selectTestData (uniqueID, dbconOpened, tableStatic, 16));
 	}
 
 	public static ArrayList SelectRowsOfAnExercise(bool dbconOpened, int exerciseID)

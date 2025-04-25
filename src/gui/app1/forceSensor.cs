@@ -483,9 +483,6 @@ public partial class ChronoJumpWindow
 			contactsShowCaptureDoingButtons(true);
 			image_ai_model_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
 
-			//textview_force_sensor_capture_comment.Buffer.Text = "";
-			textview_contacts_signal_comment.Buffer.Text = "";
-
 			if(currentForceSensorExercise.TareBeforeCaptureAndForceResultant)
 			{
 				forceSensorOtherMode = forceSensorOtherModeEnum.TARE_AND_CAPTURE_PRE;
@@ -613,11 +610,12 @@ public partial class ChronoJumpWindow
 		 */
 		fsAI_AB = null;
 		fsAI_CD = null;
+
+		LogB.Information ("blankForceSensorInterface");
 		lastForceSensorFullPath = null;
 		lastForceSensorFullPath_2SetsCD = null;
 
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
-		textview_contacts_signal_comment.Buffer.Text = "";
 		hbox_force_general_analysis.Sensitive = false;
 		button_ai_model.Sensitive = false;
 		button_contacts_delete_selected.Sensitive = false;
@@ -1361,8 +1359,6 @@ public partial class ChronoJumpWindow
 		forceSensorTimeStart = DateTime.Now; //to have an active count of capture time
 		forceSensorTimeStartCapture = forceSensorTimeStart; //to have same DateTime on filename and on sql datetime
 		capturingForce = arduinoCaptureStatus.CAPTURING;
-		//string captureComment = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
-		//string captureComment = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
 
 		Util.CreateForceSensorSessionDirIfNeeded (currentSession.UniqueID);
 
@@ -2271,10 +2267,10 @@ LogB.Information(" fs R ");
 		}
 
 		genericWin.HideAndNull();
-		forceSenssorLoadSignalAcceptedDo (uniqueID, personID, sessionID, elastic, TwoSetsCD);
+		forceSensorLoadSignalAcceptedDo (uniqueID, personID, sessionID, elastic, TwoSetsCD);
 	}
 
-	private void forceSenssorLoadSignalAcceptedDo (int uniqueID, int personID, int sessionID, int elastic, bool TwoSetsCD)
+	private void forceSensorLoadSignalAcceptedDo (int uniqueID, int personID, int sessionID, int elastic, bool TwoSetsCD)
 	{
 		ForceSensor fs = (ForceSensor) SqliteForceSensor.Select (false, uniqueID, personID, sessionID, elastic)[0];
 		if(fs == null)
@@ -2328,11 +2324,11 @@ LogB.Information(" fs R ");
 			return; // ------------------------
 		}
 
+		LogB.Information ("fs.FullURL: " + fs.FullURL);
 		currentForceSensor = fs;
 		lastForceSensorFile = Util.RemoveExtension(fs.Filename);
 		lastForceSensorFullPath = fs.FullURL;
 		LogB.Information ("lastForceSensorFullPath is: " + lastForceSensorFullPath);
-		LogB.Information("lastForceSensorFullPath: " + lastForceSensorFullPath);
 
 		if (radio_ai_2sets.Active)
 		{
@@ -2341,11 +2337,10 @@ LogB.Information(" fs R ");
 		}
 
 		combo_force_sensor_exercise.Active = UtilGtk.ComboMakeActive(combo_force_sensor_exercise, fs.ExerciseName);
+		LogB.Information("(after update combo_force_sensor_exercise) lastForceSensorFullPath is: " + lastForceSensorFullPath);
 		setForceSensorCaptureOptions(fs.CaptureOption);
 
 		setLaterality(fs.Laterality);
-		//textview_force_sensor_capture_comment.Buffer.Text = fs.Description;
-		textview_contacts_signal_comment.Buffer.Text = fs.Description;
 
 		assignCurrentForceSensorExercise();
 
@@ -2558,7 +2553,7 @@ LogB.Information(" fs R ");
 			genericWin.SetButtonAcceptSensitive(false);
 		}
 		genericWin.Delete_row_accepted();
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 	}
 
 	private void force_sensor_delete_current_test_pre_question()
@@ -2584,7 +2579,7 @@ LogB.Information(" fs R ");
 		//empty forceSensor GUI (this also assigns -1 to currentForceSensor)
 		blankForceSensorInterface();
 
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 	}
 
 	private void forceSensorDeleteTestDo(ForceSensor fs)
@@ -2635,8 +2630,7 @@ LogB.Information(" fs R ");
 		currentForceSensor.ExerciseName = currentForceSensorExercise.Name; //just in case
 		currentForceSensor.CaptureOption = getForceSensorCaptureOptions();
 		currentForceSensor.Laterality = getLaterality(false);
-		//currentForceSensor.Description = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
-		currentForceSensor.Description = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
+		currentForceSensor.Description = "";
 
 
 		double stiffness;
@@ -2668,7 +2662,7 @@ LogB.Information(" fs R ");
 		radio_signal_analyze_current_set.Active = true;
 
 		updateGraphResultsSessionByMode ();
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 	}
 
 	private enum forceSensorGraphsEnum { SIGNAL, RFD }
@@ -3605,6 +3599,8 @@ LogB.Information(" fs R ");
 		}
 
 		radio_contacts_graph_currentTest.Label = fse.Name;
+                //update the treeview
+                pre_fillTreeView_resultsSession ();
 	}
 
 	private void fillForceSensorExerciseCombo (string name)

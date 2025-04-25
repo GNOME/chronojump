@@ -155,7 +155,7 @@ public partial class ChronoJumpWindow
 		if (eventOldPerson == wilight.PersonID)
 			treeViewResultsSession.Update (wilight);
 		else
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 
 		updateGraphWilightBars ();
 	}

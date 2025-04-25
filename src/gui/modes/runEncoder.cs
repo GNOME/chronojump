@@ -28,15 +28,16 @@ using Mono.Unix;
 //---------------- EDIT WIDGET ---------------------------
 //--------------------------------------------------------
 
-public class EditForceSensorWindow : EditEventWindow
+//note this file is almost the same than EditForceSensorWindow and most the other sensors, so can be refactorized
+public class EditRunEncoderWindow : EditEventWindow
 {
-	static EditForceSensorWindow EditForceSensorWindowBox;
+	static EditRunEncoderWindow EditRunEncoderWindowBox;
 
 	//for inheritance
-	protected EditForceSensorWindow () {
+	protected EditRunEncoderWindow () {
 	}
 
-	public EditForceSensorWindow (Gtk.Window parent)
+	public EditRunEncoderWindow (Gtk.Window parent)
 	{
 		/*
 		Glade.XML gladeXML;
@@ -56,18 +57,18 @@ public class EditForceSensorWindow : EditEventWindow
 //		eventBigTypeString = Catalog.GetString("race");
 	}
 
-	static public EditForceSensorWindow Show (Gtk.Window parent, Event myEvent)
+	static public EditRunEncoderWindow Show (Gtk.Window parent, Event myEvent)
 	{
-		if (EditForceSensorWindowBox == null) {
-			EditForceSensorWindowBox = new EditForceSensorWindow (parent);
+		if (EditRunEncoderWindowBox == null) {
+			EditRunEncoderWindowBox = new EditRunEncoderWindow (parent);
 		}
 
-		EditForceSensorWindowBox.colorize();
-		EditForceSensorWindowBox.initializeValues();
-		EditForceSensorWindowBox.fillDialog (myEvent);
-		EditForceSensorWindowBox.edit_event.Show ();
+		EditRunEncoderWindowBox.colorize();
+		EditRunEncoderWindowBox.initializeValues();
+		EditRunEncoderWindowBox.fillDialog (myEvent);
+		EditRunEncoderWindowBox.edit_event.Show ();
 
-		return EditForceSensorWindowBox;
+		return EditRunEncoderWindowBox;
 	}
 	
 	protected override void initializeValues ()
@@ -102,7 +103,7 @@ public class EditForceSensorWindow : EditEventWindow
 
 	protected override void updateEvent (int eventID, int personID, string description)
 	{
-		SqliteTests st = new SqliteForceSensor ();
+		SqliteTests st = new SqliteRunEncoder ();
 		st.Update (eventID,
 				//UtilGtk.ComboGetActive(combo_eventType),
 				personID);
@@ -111,56 +112,56 @@ public class EditForceSensorWindow : EditEventWindow
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)
 	{
-		EditForceSensorWindowBox.edit_event.Hide();
-		EditForceSensorWindowBox = null;
+		EditRunEncoderWindowBox.edit_event.Hide();
+		EditRunEncoderWindowBox = null;
 	}
 	
 	protected override void on_delete_event (object o, DeleteEventArgs args)
 	{
-		EditForceSensorWindowBox.edit_event.Hide();
-		EditForceSensorWindowBox = null;
+		EditRunEncoderWindowBox.edit_event.Hide();
+		EditRunEncoderWindowBox = null;
 	}
 	
 	protected override void hideWindow() {
-		EditForceSensorWindowBox.edit_event.Hide();
-		EditForceSensorWindowBox = null;
+		EditRunEncoderWindowBox.edit_event.Hide();
+		EditRunEncoderWindowBox = null;
 	}
 }
 
 public partial class ChronoJumpWindow
 {
-	private void on_edit_selected_forceSensor_clicked (object o, EventArgs args)
+	private void on_edit_selected_runEncoder_clicked (object o, EventArgs args)
 	{
 		//notebooks_change(2); see "notebooks_change sqlite problem"
-		LogB.Information("Edit selected forceSensor");
+		LogB.Information("Edit selected runEncoder");
 		//1.- check that there's a line selected
-		//2.- check that this line is a forceSensor and not a person (check also if it's not a individual RJ, the pass the parent RJ)
+		//2.- check that this line is a runEncoder and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		int selectedID = treeViewResultsSession.EventSelectedID;
 		if (selectedID <= 0)
 			return;
 
-		//3.- obtain the data of the selected forceSensor
-		ForceSensor forceSensor = SqliteForceSensor.SelectData (selectedID, false );
-		eventOldPerson = forceSensor.PersonID;
+		//3.- obtain the data of the selected runEncoder
+		RunEncoder runEncoder = SqliteRunEncoder.SelectData (selectedID, false );
+		eventOldPerson = runEncoder.PersonID;
 
 		//4.- edit this test
-		editForceSensorWin = EditForceSensorWindow.Show (app1, forceSensor);
-		editForceSensorWin.Button_accept.Clicked += new EventHandler (on_edit_selected_forceSensor_accepted);
+		editRunEncoderWin = EditRunEncoderWindow.Show (app1, runEncoder);
+		editRunEncoderWin.Button_accept.Clicked += new EventHandler (on_edit_selected_runEncoder_accepted);
 	}
-	private void on_edit_selected_forceSensor_accepted (object o, EventArgs args)
+	private void on_edit_selected_runEncoder_accepted (object o, EventArgs args)
 	{
-		LogB.Information("edit selected forceSensor accepted");
-		ForceSensor forceSensor = SqliteForceSensor.SelectData (treeViewResultsSession.EventSelectedID, false);
+		LogB.Information("edit selected runEncoder accepted");
+		RunEncoder runEncoder = SqliteRunEncoder.SelectData (treeViewResultsSession.EventSelectedID, false);
 
 		//if person changed, fill treeview again, if not, only update it's line
-		if (eventOldPerson == forceSensor.PersonID)
+		if (eventOldPerson == runEncoder.PersonID)
 		{
-			forceSensor.ExerciseName = SqliteTests.SelectExerciseNameInOtherTable (false, forceSensor.ExerciseID, Constants.ForceSensorExerciseTable);
-			treeViewResultsSession.Update (forceSensor);
+			runEncoder.ExerciseName = SqliteTests.SelectExerciseNameInOtherTable (false, runEncoder.ExerciseID, Constants.RunEncoderExerciseTable);
+			treeViewResultsSession.Update (runEncoder);
 		}  else
 			pre_fillTreeView_resultsSession ();
 
-		//updateGraphForceSensorBars ();
+		//updateGraphRunEncoderBars ();
 	}
 
 }

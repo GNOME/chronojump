@@ -261,12 +261,7 @@ public partial class ChronoJumpWindow
 	//tests
 	Gtk.Notebook notebook_contacts_capture_doing_wait;
 	Gtk.Button button_contacts_bells;
-	Gtk.Button button_contacts_capture_session_overview;
-	Gtk.Button button_contacts_capture_load;
 	Gtk.Button button_contacts_exercise_close_and_recalculate;
-	Gtk.Box vbox_contacts_signal_comment;
-	Gtk.TextView textview_contacts_signal_comment;
-	Gtk.Button button_contacts_signal_save_comment;
 	Gtk.Frame frame_jumps_automatic;
 	Gtk.Notebook notebook_jumps_automatic;
 	Gtk.Box hbox_contacts_device_adjust_threshold;
@@ -321,7 +316,6 @@ public partial class ChronoJumpWindow
 	//force sensor
 	Gtk.Box hbox_capture_phases;
 	Gtk.Box hbox_capture_time;
-	Gtk.Box box_contacts_load;
 
 	//widgets for enable or disable
 	Gtk.Frame frame_persons;
@@ -486,6 +480,7 @@ public partial class ChronoJumpWindow
 	EditRunWindow editRunWin;
 	RepairRunIntervalWindow repairRunIntervalWin;
 	EditRunIntervalWindow editRunIntervalWin;
+	EditRunEncoderWindow editRunEncoderWin;
 
 	ConfirmWindowJumpRun confirmWinJumpRun;	//for deleting jumps and RJ jumps (and runs)
 	ReportWindow reportWin;
@@ -856,9 +851,6 @@ public partial class ChronoJumpWindow
 
 		if(splashWin != null)
 			splashWin.UpdateLabel(Catalog.GetString(Constants.SplashMessages[9]));
-
-		//done here because in Glade we cannot use the TextBuffer.Changed
-		textview_contacts_signal_comment.Buffer.Changed += new EventHandler(on_textview_contacts_signal_comment_key_press_event);
 
 		initContacts1Time ();
 		initEncoder1Time ();
@@ -1570,7 +1562,7 @@ public partial class ChronoJumpWindow
 			button_contacts_export_result_open.Visible = false;
 		}
 
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 		treeViewResultsSession.SelectPerson (currentPerson.Name);
 
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
@@ -1934,7 +1926,7 @@ public partial class ChronoJumpWindow
 		on_extra_window_jumps_test_changed(o, args);
 
 		//update the treeview
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 	}
 	
 	private void on_combo_select_jumps_rj_changed(object o, EventArgs args)
@@ -1987,7 +1979,7 @@ public partial class ChronoJumpWindow
 		on_extra_window_jumps_rj_test_changed(o, args);
 
 		//update the treeview
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 	}
 	
 	private void on_combo_select_runs_changed(object o, EventArgs args)
@@ -2028,7 +2020,7 @@ public partial class ChronoJumpWindow
 		on_extra_window_runs_test_changed(o, args);
 
 		//update the treeview
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 	}
 	
 	private void on_combo_select_runs_interval_changed(object o, EventArgs args)
@@ -2069,57 +2061,66 @@ public partial class ChronoJumpWindow
 		on_extra_window_runs_interval_test_changed(o, args);
 
 		//update the treeview
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 	}
 	
-	private void pre_fillTreeView_resultsSession (bool dbconOpened)
+	private void pre_fillTreeView_resultsSession ()
 	{
+		if (pre_fillTreeView_resultsSession_NO)
+			return;
+
 		treeview_results_session_storeReset ();
 
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
 		{
 			if(radio_contacts_graph_allTests.Active)
-				fillTreeView_jumps (Constants.AllJumpsNameStr(), dbconOpened);
+				fillTreeView_jumps (Constants.AllJumpsNameStr(), false);
 			else if (combo_select_jumps != null)
-				fillTreeView_jumps (UtilGtk.ComboGetActive(combo_select_jumps), dbconOpened);
+				fillTreeView_jumps (UtilGtk.ComboGetActive(combo_select_jumps), false);
 		}
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
 			if(radio_contacts_graph_allTests.Active)
-				fillTreeView_jumps_rj(Constants.AllJumpsNameStr(), dbconOpened);
+				fillTreeView_jumps_rj(Constants.AllJumpsNameStr(), false);
 			else if (combo_select_jumps_rj != null)
-				fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_select_jumps_rj), dbconOpened);
+				fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_select_jumps_rj), false);
 		}
 		else if (current_mode == Constants.Modes.RUNSSIMPLE)
 		{
 			if(radio_contacts_graph_allTests.Active)
-				fillTreeView_runs(Constants.AllRunsNameStr(), dbconOpened);
+				fillTreeView_runs(Constants.AllRunsNameStr(), false);
 			else if (combo_select_runs != null)
-				fillTreeView_runs(UtilGtk.ComboGetActive(combo_select_runs), dbconOpened);
+				fillTreeView_runs(UtilGtk.ComboGetActive(combo_select_runs), false);
 		} else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
 			if(radio_contacts_graph_allTests.Active)
-				fillTreeView_runs_interval(Constants.AllRunsNameStr(), dbconOpened);
+				fillTreeView_runs_interval(Constants.AllRunsNameStr(), false);
 			else if (combo_select_runs_interval != null)
-				fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_select_runs_interval), dbconOpened);
+				fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_select_runs_interval), false);
+		} else if (current_mode == Constants.Modes.RUNSENCODER)
+		{
+			if(radio_contacts_graph_allTests.Active)
+				fillTreeView_runEncoder (Constants.AllTestsNameStr(), false);
+			else if (combo_run_encoder_exercise != null)
+				fillTreeView_runEncoder (UtilGtk.ComboGetActive (combo_run_encoder_exercise), false);
 		} else if (current_mode == Constants.Modes.BEEPTEST)
 		{
 			if (radio_contacts_graph_allTests.Active)
-				fillTreeView_beepTest (Constants.AllTestsNameStr (), dbconOpened);
+				fillTreeView_beepTest (Constants.AllTestsNameStr (), false);
 			else if (combo_beepTest_type != null)
-				fillTreeView_beepTest (UtilGtk.ComboGetActive (combo_beepTest_type), dbconOpened);
+				fillTreeView_beepTest (UtilGtk.ComboGetActive (combo_beepTest_type), false);
 		} else if (current_mode == Constants.Modes.WILIGHT)
 		{
-			fillTreeView_wilight ("", dbconOpened);
+			fillTreeView_wilight ("", false);
 		} else if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
 			if (radio_contacts_graph_allTests.Active)
-				fillTreeView_forceSensor (Constants.AllTestsNameStr (), dbconOpened);
+				fillTreeView_forceSensor (Constants.AllTestsNameStr (), false);
 			else if (combo_force_sensor_exercise != null)
-				fillTreeView_forceSensor (UtilGtk.ComboGetActive(combo_force_sensor_exercise), dbconOpened);
+				fillTreeView_forceSensor (UtilGtk.ComboGetActive(combo_force_sensor_exercise), false);
 		} else if (current_mode == Constants.Modes.OTHER)
 		{
-			fillTreeView_fourPlatforms ("", dbconOpened);
+			fillTreeView_fourPlatforms ("", false);
 		} else
 			return;
 	}
@@ -2636,35 +2637,33 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private OverviewWindow overviewWin;
-	private void on_session_overview_clicked (object o, EventArgs args)
-	{
-		if (currentSession == null || currentPerson == null)
-			return;
+       private OverviewWindow overviewWin;
+       private void on_session_overview_clicked (object o, EventArgs args)
+       {
+               if (currentSession == null || currentPerson == null)
+                       return;
 
-		Constants.Modes m = current_mode;
+               Constants.Modes m = current_mode;
 
-		if(Constants.ModeIsENCODER (m))
-			overviewWin = EncoderOverviewWindow.Show (app1, currentEncoderGI, currentSession.UniqueID, currentPerson.UniqueID);
-		else if(m == Constants.Modes.RUNSENCODER)
-			overviewWin = RunEncoderOverviewWindow.Show (app1, currentSession.UniqueID, currentPerson.UniqueID);
+               if(Constants.ModeIsENCODER (m))
+                       overviewWin = EncoderOverviewWindow.Show (app1, currentEncoderGI, currentSession.UniqueID, currentPerson.UniqueID);
 
-		overviewWin.Button_select_this_person.Clicked -= new EventHandler(on_overview_select_person);
-		overviewWin.Button_select_this_person.Clicked += new EventHandler(on_overview_select_person);
-	}
+               overviewWin.Button_select_this_person.Clicked -= new EventHandler(on_overview_select_person);
+               overviewWin.Button_select_this_person.Clicked += new EventHandler(on_overview_select_person);
+       }
 
-	private void on_overview_select_person (object o, EventArgs args)
-	{
-		if(overviewWin.SelectedPersonID != -1)
-		{
-			person_search.Text = "";
-			//LogB.Information("selected: " + overviewWin.SelectedPersonID.ToString());
-			selectRowTreeView_persons(treeview_persons,
-					myTreeViewPersons.FindRow(overviewWin.SelectedPersonID));
+       private void on_overview_select_person (object o, EventArgs args)
+       {
+               if(overviewWin.SelectedPersonID != -1)
+               {
+                       person_search.Text = "";
+                       //LogB.Information("selected: " + overviewWin.SelectedPersonID.ToString());
+                       selectRowTreeView_persons(treeview_persons,
+                                       myTreeViewPersons.FindRow(overviewWin.SelectedPersonID));
 
-			overviewWin.HideAndNull();
-		}
-	}
+                       overviewWin.HideAndNull();
+               }
+       }
 
 	private void on_radio_contacts_export_individual_current_session_toggled (object o, EventArgs args)
 	{
@@ -2955,7 +2954,7 @@ public partial class ChronoJumpWindow
 			*/
 			createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 
 			if(current_mode == Constants.Modes.POWERGRAVITATORY){
 				label_gravitatory_vpf_propulsive.Visible = preferences.encoderPropulsive;
@@ -3245,9 +3244,7 @@ public partial class ChronoJumpWindow
 		button_inspect_last_test_run_intervallic.Visible = false;
 		button_force_sensor_adjust.Visible = false;
 		button_force_sensor_sync.Visible = false;
-		box_contacts_load.Visible = false;
 		button_contacts_exercise_close_and_recalculate.Visible = false;
-		vbox_contacts_signal_comment.Visible = false;
 		frame_jumps_automatic.Visible = false;
 		check_run_show_time.Visible = false;
 		box_wilight.Visible = false;
@@ -3598,11 +3595,6 @@ public partial class ChronoJumpWindow
 
 			button_contacts_exercise_close_and_recalculate.Visible = true;
 
-			vbox_contacts_signal_comment.Visible = true;
-
-			button_contacts_capture_load.Sensitive = myTreeViewPersons.IsThereAnyRecord();
-			button_contacts_capture_session_overview.Sensitive = myTreeViewPersons.IsThereAnyRecord();
-
 			button_contacts_bells.Sensitive = true;
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
@@ -3653,13 +3645,7 @@ public partial class ChronoJumpWindow
 			box_contacts_current.Visible = true;
 			hbox_contacts_current_runEncoder.Visible = true;
 
-			box_contacts_load.Visible = true;
 			button_contacts_exercise_close_and_recalculate.Visible = true;
-
-			vbox_contacts_signal_comment.Visible = true;
-
-			button_contacts_capture_load.Sensitive = myTreeViewPersons.IsThereAnyRecord();
-			button_contacts_capture_session_overview.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 
 			button_contacts_bells.Sensitive = true;
 
@@ -3675,11 +3661,13 @@ public partial class ChronoJumpWindow
 			//vbox_contacts_graph_legend.Visible = false;
 
 			combo_race_analyzer_device.Active = 0;
-			forceSensorImageTestChange();
+			runEncoderImageTestChange();
 			setLabelContactsExerciseSelected(m);
 
 			label_contacts_exercise_selected_options_visible (false);
 			image_top_laterality_contacts.Visible = false;
+
+			on_combo_run_encoder_exercise_changed (new object(), new EventArgs ());
 
 			feedbackWin.View(Constants.BellModes.RUNSENCODER, preferences, encoderRhythm, false); //not viewWindow
 			createComboSelectContactsTop ();
@@ -5063,28 +5051,6 @@ public partial class ChronoJumpWindow
 			run_encoder_recalculate();
 	}
 
-	void on_textview_contacts_signal_comment_key_press_event (object o, EventArgs args)
-	{
-		button_contacts_signal_save_comment.Label = Catalog.GetString("Save comment");
-		button_contacts_signal_save_comment.Sensitive = true;
-	}
-	void on_button_contacts_signal_save_comment_clicked (object o, EventArgs args)
-	{
-		if (Constants.ModeIsFORCESENSOR (current_mode))
-		{
-			currentForceSensor.Description = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
-			currentForceSensor.UpdateSQLJustDescription (false);
-		}
-		else if(current_mode == Constants.Modes.RUNSENCODER)
-		{
-			currentRunEncoder.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
-			currentRunEncoder.UpdateSQLJustComments(false);
-		}
-
-		button_contacts_signal_save_comment.Label = Catalog.GetString("Saved comment.");
-		button_contacts_signal_save_comment.Sensitive = false;
-	}
-
 	private Constants.BellModes getBellMode (Constants.Modes m)
 	{
 		if(m == Constants.Modes.JUMPSREACTIVE)
@@ -6434,6 +6400,8 @@ public partial class ChronoJumpWindow
 			on_edit_selected_run_clicked (o, args);
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			on_edit_selected_run_interval_clicked (o, args);
+		else if (current_mode == Constants.Modes.RUNSENCODER)
+			on_edit_selected_runEncoder_clicked (o, args);
 		else if (current_mode == Constants.Modes.BEEPTEST)
 			on_edit_selected_beepTest_clicked (o, args);
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
@@ -6542,7 +6510,7 @@ public partial class ChronoJumpWindow
 			createComboSelectJumpsAsymmetry(false);
 			createComboSelectJumpsEvolution(false);
 
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 			combo_select_jumps.Active = UtilGtk.ComboMakeActive(combo_select_jumps, jumpTypeAddWin.Name);
 			update_combo_select_contacts_top_using_combo (combo_select_jumps);
 
@@ -6552,7 +6520,7 @@ public partial class ChronoJumpWindow
 			createComboSelectJumpsRjFatigue(false);
 			//createComboSelectJumpsRjFatigueNum(false); do not need because will be updated by createComboSelectJumpsRjFatigue
 			
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 			combo_select_jumps_rj.Active = UtilGtk.ComboMakeActive(combo_select_jumps_rj, jumpTypeAddWin.Name);
 			update_combo_select_contacts_top_using_combo (combo_select_jumps_rj);
 
@@ -6582,7 +6550,7 @@ public partial class ChronoJumpWindow
 			createComboSelectRuns(false);
 			createComboSelectRunsEvolution(false);
 
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 			combo_select_runs.Active = UtilGtk.ComboMakeActive(combo_select_runs, runTypeAddWin.Name);
 
 			update_combo_select_contacts_top_using_combo (combo_select_runs);
@@ -6591,7 +6559,7 @@ public partial class ChronoJumpWindow
 		} else {
 			createComboSelectRunsInterval(false);
 			
-			pre_fillTreeView_resultsSession (false);
+			pre_fillTreeView_resultsSession ();
 
 			combo_select_runs_interval.Active = UtilGtk.ComboMakeActive(combo_select_runs_interval, runTypeAddWin.Name);
 			update_combo_select_contacts_top_using_combo (combo_select_runs_interval);
@@ -6632,7 +6600,7 @@ public partial class ChronoJumpWindow
 	{
 		string translatedName = comboSelectJumps.GetNameTranslated(jumpsMoreWin.SelectedEventName);
 		combo_select_jumps = comboSelectJumps.DeleteValue(translatedName);
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 
 		extra_window_jumps_initialize(new JumpType("Free"));
 	}
@@ -6641,7 +6609,7 @@ public partial class ChronoJumpWindow
 	{
 		string translatedName = comboSelectJumpsRj.GetNameTranslated(jumpsRjMoreWin.SelectedEventName);
 		combo_select_jumps_rj = comboSelectJumpsRj.DeleteValue(translatedName);
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 
 		extra_window_jumps_rj_initialize(new JumpType("RJ(j)"));
 	}
@@ -6650,7 +6618,7 @@ public partial class ChronoJumpWindow
 	{
 		string translatedName = comboSelectRuns.GetNameTranslated(runsMoreWin.SelectedEventName);
 		combo_select_runs = comboSelectRuns.DeleteValue(translatedName);
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 
 		extra_window_runs_initialize(new RunType("Custom"));
 	}
@@ -6659,7 +6627,7 @@ public partial class ChronoJumpWindow
 	{
 		string translatedName = comboSelectRunsI.GetNameTranslated(runsIntervalMoreWin.SelectedEventName);
 		combo_select_runs_interval = comboSelectRunsI.DeleteValue(translatedName);
-		pre_fillTreeView_resultsSession (false);
+		pre_fillTreeView_resultsSession ();
 
 		extra_window_runs_interval_initialize(new RunType("byLaps"));
 	}
@@ -8040,8 +8008,6 @@ public partial class ChronoJumpWindow
 		hbox_jumps_rj.Sensitive = false;
 		button_execute_test.Sensitive = false;
 		button_auto_start.Sensitive = false;
-		button_contacts_capture_load.Sensitive = false;
-		button_contacts_capture_session_overview.Sensitive = false;
 
 		encoderButtonsSensitive(encoderSensEnum.NOPERSON);
 		//don't cal personChanged because it will make changes on analyze repetitions and currentPerson == null
@@ -8079,8 +8045,6 @@ public partial class ChronoJumpWindow
 		hbox_jumps_rj.Sensitive = true;
 		button_execute_test.Sensitive = true;
 		button_auto_start.Sensitive = true;
-		button_contacts_capture_load.Sensitive = true;
-		button_contacts_capture_session_overview.Sensitive = true;
 
 		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 		personChanged();
@@ -8133,7 +8097,6 @@ public partial class ChronoJumpWindow
 		button_execute_test.Sensitive = false;
 		button_auto_start.Sensitive = false;
 		hbox_contacts_camera.Sensitive = false;
-		box_contacts_load.Sensitive = false;
 		
 		button_contacts_person_change.Sensitive = false;
 		button_encoder_person_change.Sensitive = false;
@@ -8186,7 +8149,6 @@ public partial class ChronoJumpWindow
 		button_execute_test.Sensitive = true;
 		button_auto_start.Sensitive = true;
 		hbox_contacts_camera.Sensitive = true;
-		box_contacts_load.Sensitive = true;
 
 		button_contacts_person_change.Sensitive = true;
 		button_encoder_person_change.Sensitive = true;
@@ -8619,12 +8581,7 @@ public partial class ChronoJumpWindow
 		//tests
 		notebook_contacts_capture_doing_wait = (Gtk.Notebook) builder.GetObject ("notebook_contacts_capture_doing_wait");
 		button_contacts_bells = (Gtk.Button) builder.GetObject ("button_contacts_bells");
-		button_contacts_capture_session_overview = (Gtk.Button) builder.GetObject ("button_contacts_capture_session_overview");
-		button_contacts_capture_load = (Gtk.Button) builder.GetObject ("button_contacts_capture_load");
 		button_contacts_exercise_close_and_recalculate = (Gtk.Button) builder.GetObject ("button_contacts_exercise_close_and_recalculate");
-		vbox_contacts_signal_comment = (Gtk.Box) builder.GetObject ("vbox_contacts_signal_comment");
-		textview_contacts_signal_comment = (Gtk.TextView) builder.GetObject ("textview_contacts_signal_comment");
-		button_contacts_signal_save_comment = (Gtk.Button) builder.GetObject ("button_contacts_signal_save_comment");
 		frame_jumps_automatic = (Gtk.Frame) builder.GetObject ("frame_jumps_automatic");
 		notebook_jumps_automatic = (Gtk.Notebook) builder.GetObject ("notebook_jumps_automatic");
 		hbox_contacts_device_adjust_threshold = (Gtk.Box) builder.GetObject ("hbox_contacts_device_adjust_threshold");
@@ -8680,7 +8637,6 @@ public partial class ChronoJumpWindow
 		//force sensor
 		hbox_capture_phases = (Gtk.Box) builder.GetObject ("hbox_capture_phases");
 		hbox_capture_time = (Gtk.Box) builder.GetObject ("hbox_capture_time");
-		box_contacts_load = (Gtk.Box) builder.GetObject ("box_contacts_load");
 
 		//widgets for enable or disable
 		frame_persons = (Gtk.Frame) builder.GetObject ("frame_persons");

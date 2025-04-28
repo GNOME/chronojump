@@ -71,6 +71,8 @@ public partial class ChronoJumpWindow
 	Gtk.Box app1s_box_show_data_reaction_time;
 	Gtk.Box app1s_box_show_data_fourPlatforms;
 	Gtk.CheckButton app1s_checkbutton_show_data_persons;
+	Gtk.AspectFrame app1s_aspectframe_checkbutton_show_data;
+	Gtk.HBox app1s_hbox_checkbutton_show_data;
 	Gtk.CheckButton app1s_checkbutton_show_data_jumps;
 	Gtk.CheckButton app1s_checkbutton_show_data_runs;
 	Gtk.CheckButton app1s_checkbutton_show_data_reaction_time;
@@ -466,6 +468,8 @@ public partial class ChronoJumpWindow
 		app1s_box_show_data_reaction_time = (Gtk.Box) builder.GetObject ("app1s_box_show_data_reaction_time");
 		app1s_box_show_data_fourPlatforms = (Gtk.Box) builder.GetObject ("app1s_box_show_data_fourPlatforms");
 		app1s_checkbutton_show_data_persons = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_persons");
+		app1s_aspectframe_checkbutton_show_data = (Gtk.AspectFrame) builder.GetObject ("app1s_aspectframe_checkbutton_show_data");
+		app1s_hbox_checkbutton_show_data = (Gtk.HBox) builder.GetObject ("app1s_hbox_checkbutton_show_data");
 		app1s_checkbutton_show_data_jumps = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_jumps");
 		app1s_checkbutton_show_data_runs = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_runs");
 		app1s_checkbutton_show_data_reaction_time = (Gtk.CheckButton) builder.GetObject ("app1s_checkbutton_show_data_reaction_time");

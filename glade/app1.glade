@@ -23358,6 +23358,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -44517,7 +44520,7 @@ on Cloud-view mode</property>
                                                             <property name="spacing">20</property>
                                                             <child>
                                                             <object class="GtkCheckButton" id="app1s_check_filter_by_sensor">
-                                                            <property name="label" translatable="yes">Filter by sensor data</property>
+                                                            <property name="label" translatable="yes">Filter sessions by sensor data</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
@@ -44573,9 +44576,23 @@ on Cloud-view mode</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkHBox" id="hbox213">
+                                                            <object class="GtkAspectFrame" id="app1s_aspectframe_checkbutton_show_data">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
+                                                            <property name="valign">center</property>
+                                                            <property name="label-xalign">0.5</property>
+                                                            <property name="shadow-type">none</property>
+                                                            <child>
+                                                            <object class="GtkHBox" id="app1s_hbox_checkbutton_show_data">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
+                                                            <property name="valign">center</property>
+                                                            <property name="margin-left">1</property>
+                                                            <property name="margin-right">1</property>
+                                                            <property name="margin-top">1</property>
+                                                            <property name="margin-bottom">1</property>
                                                             <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox289">
@@ -45049,6 +45066,21 @@ on Cloud-view mode</property>
                                                             <property name="position">7</property>
                                                             </packing>
                                                             </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkAspectFrame">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label-xalign">0</property>
+                                                            <property name="shadow-type">none</property>
                                                             <child>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
@@ -45097,17 +45129,12 @@ on Cloud-view mode</property>
                                                             </packing>
                                                             </child>
                                                             </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">8</property>
-                                                            </packing>
                                                             </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </object>

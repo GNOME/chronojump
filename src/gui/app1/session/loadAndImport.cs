@@ -379,6 +379,9 @@ public partial class ChronoJumpWindow
 
 	private void on_app1s_check_filter_by_sensor_clicked (object o, EventArgs args)
 	{
+		if(! sessionLoadWinSignals)
+			return;
+
 		app1s_recreateTreeView("changed filter by sensor checkbox");
 	}
 
@@ -497,6 +500,26 @@ public partial class ChronoJumpWindow
 	{
 		if(! sessionLoadWinSignals)
 			return;
+
+		if(o == (object) app1s_checkbutton_show_data_all)
+		{
+			if (((Gtk.CheckButton) o).Active)
+			{
+				app1s_hbox_checkbutton_show_data.Sensitive = false;
+				app1s_check_filter_by_sensor.Sensitive = false;
+				app1s_aspectframe_checkbutton_show_data.ShadowType = ShadowType.In;
+
+				//disable filter by sensor (because very probably no sessions will be shown)
+				//using sessionLoadWinSignals to not call app1s_recreateTreeView 2 times
+				sessionLoadWinSignals = false;
+				app1s_check_filter_by_sensor.Active = false;
+				sessionLoadWinSignals = true;
+			} else {
+				app1s_hbox_checkbutton_show_data.Sensitive = true;
+				app1s_check_filter_by_sensor.Sensitive = true;
+				app1s_aspectframe_checkbutton_show_data.ShadowType = ShadowType.None;
+			}
+		}
 
 		//on import this call will be done t end to affect to our desired database
 		if (app1s_type == app1s_windowType.LOAD_SESSION)

@@ -328,7 +328,9 @@ public class DiscoverWindow
 				label.Text = Catalog.GetString (useThisStr);
 
 				//TODO: work for more sensors
-				if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE)
+				if (
+						(Constants.ModeIsFORCESENSOR (current_mode) && crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE) ||
+						(Constants.ModeIsENCODER (current_mode) && crp.Type == ChronopicRegisterPort.Types.ENCODER) )
 				{
 					bDebug.Sensitive = true;
 					bDebug.Label = "Test it!";
@@ -596,6 +598,8 @@ public class DiscoverWindow
 			//TODO: work for more sensors
 			if (portAlreadyDiscovered_l[i].Type == ChronopicRegisterPort.Types.ARDUINO_FORCE)
 			       debugForceSensor (portAlreadyDiscovered_l[i]);
+			else if (portAlreadyDiscovered_l[i].Type == ChronopicRegisterPort.Types.ENCODER)
+			       debugEncoder (portAlreadyDiscovered_l[i]);
 		}
 	}
 
@@ -603,7 +607,6 @@ public class DiscoverWindow
 	{
 		LogB.Information ("Starting debugForceSensor");
 		SerialPort port = new SerialPort (crp.Port, 115200);
-		LogB.Information(" FS connect 4: opening port...");
 
 		LogB.Information ("Created port");
 		try {
@@ -622,6 +625,26 @@ public class DiscoverWindow
 		LogB.Information ("Have wait 3 s");
                 //double firmwareVersion = forceSensorCheckVersionDo(); //TODO: it uses portFS
 
+		LogB.Information ("Closing port");
+		port.Close();
+		LogB.Information ("Closed! All ok.");
+
+		return true;
+	}
+
+	private bool debugEncoder (ChronopicRegisterPort crp)
+	{
+		// note on_button_detect_clicked () does stopCapturingInertialBG if needed
+		SerialPort port = new SerialPort (crp.Port, 115200);
+
+		LogB.Information ("Created port");
+		try {
+			port.Open();
+		} catch {
+			LogB.Information ("Problems opening forceSensor port");
+			return false;
+		}
+		LogB.Information ("Successfully opened port");
 
 		LogB.Information ("Closing port");
 		port.Close();

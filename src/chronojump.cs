@@ -181,6 +181,7 @@ public class ChronoJump
 				"\nOptions:" +
 				"\n- version: Version of the software and the DB" +
 				"\n- version2: Version of the software" +
+				"\n- sendLog: Send log of previous execution and exit (if has another param it will the email, eg. sendLog xxx@jotmail.com)" +
 				"\n- configAll: All possible options on chronojump_config.txt" +
 				"\n- configDefined: Correctly defined options on chronojump_config.txt" +
 				"\n- simulatedCapture (**): Capture is simulated. Working on encoder, forceSensor, and Race Analyzer (in Race Analyzer needs Arduino)" +
@@ -216,6 +217,22 @@ public class ChronoJump
 			else if (args[0] == "version2")
 			{
 				Console.WriteLine(BuildInfo.chronojumpVersion.ToString());
+			}
+			else if (args[0] == "sendLog")
+			{
+				Console.WriteLine ("Going to send log");
+				Json js = new Json();
+
+				string emailStr = "";
+				if (args.Length > 1)
+					emailStr = args[1];
+
+				bool success = js.PostCrashLog (false, emailStr, "sent from terminal");
+
+				if(success)
+					Console.WriteLine ("Sent!");
+				else
+					Console.WriteLine ("Cannot send, check your network connection.");
 			}
 			else if (args[0] == "configAll" || args[0] == "configDefined")
 			{

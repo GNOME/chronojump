@@ -73,8 +73,14 @@ public class ChronoJump
 
 	public static void Main(string [] args)
     {
-		Thread.CurrentThread.CurrentCulture.NumberFormat.NegativeSign = "-";
-		Thread.CurrentThread.CurrentUICulture.NumberFormat.NegativeSign = "-";
+		var cultureInfo = Thread.CurrentThread.CurrentCulture.Clone() as CultureInfo;
+		cultureInfo.NumberFormat.NegativeSign = "-";
+		Thread.CurrentThread.CurrentCulture = cultureInfo;
+
+        cultureInfo = Thread.CurrentThread.CurrentUICulture.Clone() as CultureInfo;
+        cultureInfo.NumberFormat.NegativeSign = "-";
+        Thread.CurrentThread.CurrentUICulture = cultureInfo;
+
 		NumberFormatInfo.CurrentInfo.NegativeSign = "-";
 
 		//record GetOsEnum on variables to not call it all the time

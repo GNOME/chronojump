@@ -24,6 +24,7 @@ using Gdk;
 using Gtk;
 using Mono.Unix;
 using System.Threading;
+using System.IO.Ports;
 
 
 public class TypePix
@@ -127,6 +128,7 @@ public class DiscoverWindow
 	List<ChronopicRegisterPort> portAlreadyDiscovered_l;
 	List<Gtk.Button> button_microAlreadyDiscovered_l;
 	List<Gtk.Label> label_microAlreadyDiscovered_l; //to be able to Visible = false after ShowAll ()
+	List<Gtk.Button> button_debug_l; //to test debug a device
 
 	static bool discoverCloseAfterCancel; //is true when select useThis while reading other devices
 	static Thread discoverThread;
@@ -247,6 +249,7 @@ public class DiscoverWindow
 		portAlreadyDiscovered_l = new List<ChronopicRegisterPort> ();
 		button_microAlreadyDiscovered_l = new List<Gtk.Button> ();
 		label_microAlreadyDiscovered_l = new List<Gtk.Label> ();
+		button_debug_l = new List<Gtk.Button> ();
 
 		// 3) create widgets, lists, attach to table and show all
 
@@ -264,7 +267,7 @@ public class DiscoverWindow
 		hbox_l1_parent.PackStart (hbox_l1, true, false, 0);
 
 		grid_micro_discover.Attach (l0, 0, 0, 1, 1);
-		grid_micro_discover.Attach (hbox_l1_parent, 1, 0, 2, 1);
+		grid_micro_discover.Attach (hbox_l1_parent, 2, 0, 2, 1);
 
 		// 3b) create a row for each device
 		for (int i = 0; i < alreadyDiscovered_l.Count; i ++)
@@ -284,6 +287,9 @@ public class DiscoverWindow
 		foreach (Gtk.Label l in label_microAlreadyDiscovered_l)
 			if (l.Text == Catalog.GetString (useThisStr))
 				l.Visible = false;
+		foreach (Button b in button_debug_l)
+			if (b.Label == "")
+				b.Visible = false;
 	}
 
 	private void setup_row_micro_discover_l (ChronopicRegisterPort crp, int i, bool alreadyDiscovered)
@@ -311,6 +317,8 @@ public class DiscoverWindow
 		Gtk.Label label = new Gtk.Label (); //used on NC and ----
 		Gtk.Button b = new Gtk.Button (); //used on Select!
 		Gtk.Box box_b_label = new Gtk.Box (Gtk.Orientation.Horizontal, 0);
+		Gtk.Button bDebug = new Gtk.Button ();
+		bDebug.Label = "";
 
 		if (alreadyDiscovered)
 		{
@@ -318,6 +326,15 @@ public class DiscoverWindow
 			{
 				b.Sensitive = true;
 				label.Text = Catalog.GetString (useThisStr);
+
+				//TODO: work for more sensors
+				if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE)
+				{
+					bDebug.Sensitive = true;
+					bDebug.Label = "Test it!";
+					bDebug.Clicked -= new EventHandler (on_discover_debug_this_clicked); //needed. if not: called multiple times
+					bDebug.Clicked += new EventHandler (on_discover_debug_this_clicked);
+				}
 			} else
 			{
 				b.Sensitive = false;
@@ -332,6 +349,8 @@ public class DiscoverWindow
 			portAlreadyDiscovered_l.Add (crp);
 			b.Clicked -= new EventHandler (on_discover_use_this_clicked); //needed. if not: called multiple times
 			b.Clicked += new EventHandler (on_discover_use_this_clicked);
+
+			button_debug_l.Add (bDebug);
 		} else {
 			b.Sensitive = false;
 
@@ -340,10 +359,12 @@ public class DiscoverWindow
 			label.Text = "----";
 			b.Label = label.Text;
 			button_microNotDiscovered_l.Add (b);
+			button_debug_l.Add (bDebug);
 		}
 
 		box_b_label.PackStart (label, false, false, 0);
 		box_b_label.PackStart (b, false, false, 0);
+		box_b_label.PackStart (bDebug, false, false, 6);
 
 		/* done after grid_micro_discover.ShowAll ();
 		if (label.Text == "NC" || label.Text == "----")
@@ -550,6 +571,63 @@ public class DiscoverWindow
 			//on_button_micro_discover_cancel_close_clicked (new object (), new EventArgs ());
 			CancelCloseFromUser ();
 		}
+	}
+
+	private void on_discover_debug_this_clicked (object o, EventArgs args)
+	{
+		/*
+		 * TODO:
+		 * - unsensitivize SELECT and CLOSE
+		 * - show feedback graphically
+		 * - work on debug mode
+		 * - hability to send a log
+		 */
+		Button bPress = (Button) o;
+		bool success = false;
+
+		// 1) test the discovered by MicroDiscover
+		//loop the list to know which button was
+		for (int i = 0 ; i < button_debug_l.Count; i ++)
+		{
+			if (button_debug_l[i] != bPress)
+				continue;
+
+			LogB.Information ("Device to debug is: " + portAlreadyDiscovered_l[i].ToString ());
+			//TODO: work for more sensors
+			if (portAlreadyDiscovered_l[i].Type == ChronopicRegisterPort.Types.ARDUINO_FORCE)
+			       debugForceSensor (portAlreadyDiscovered_l[i]);
+		}
+	}
+
+	private bool debugForceSensor (ChronopicRegisterPort crp)
+	{
+		LogB.Information ("Starting debugForceSensor");
+		SerialPort port = new SerialPort (crp.Port, 115200);
+		LogB.Information(" FS connect 4: opening port...");
+
+		LogB.Information ("Created port");
+		try {
+			port.Open();
+		}
+		catch (System.IO.IOException)
+		{
+			//forceSensorOtherMessage = forceSensorNotConnectedString;
+			LogB.Information ("Problems opening forceSensor port");
+			return false;
+		}
+		LogB.Information ("Successfully opened port");
+
+		Thread.Sleep(3000); //sleep to let arduino start reading serial event
+
+		LogB.Information ("Have wait 3 s");
+                //double firmwareVersion = forceSensorCheckVersionDo(); //TODO: it uses portFS
+
+
+		LogB.Information ("Closing port");
+		port.Close();
+		LogB.Information ("Closed! All ok.");
+
+		return true;
 	}
 
 	/*

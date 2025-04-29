@@ -596,62 +596,21 @@ public class DiscoverWindow
 
 			LogB.Information ("Device to debug is: " + portAlreadyDiscovered_l[i].ToString ());
 			//TODO: work for more sensors
-			if (portAlreadyDiscovered_l[i].Type == ChronopicRegisterPort.Types.ARDUINO_FORCE)
-			       debugForceSensor (portAlreadyDiscovered_l[i]);
-			else if (portAlreadyDiscovered_l[i].Type == ChronopicRegisterPort.Types.ENCODER)
-			       debugEncoder (portAlreadyDiscovered_l[i]);
+			ChronopicRegisterPort crp = portAlreadyDiscovered_l[i];
+			if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE ||
+					crp.Type == ChronopicRegisterPort.Types.ENCODER)
+			{
+				DebugDevices dd;
+				if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE)
+					dd = new DebugForceSensor (crp);
+				else //if (crp.Type == ChronopicRegisterPort.Types.ENCODER)
+					dd = new DebugEncoder (crp);
+
+				new DialogMessage (Constants.MessageTypes.INFO, 400, 400, dd.Str);
+			}
 		}
 	}
 
-	private bool debugForceSensor (ChronopicRegisterPort crp)
-	{
-		LogB.Information ("Starting debugForceSensor");
-		SerialPort port = new SerialPort (crp.Port, 115200);
-
-		LogB.Information ("Created port");
-		try {
-			port.Open();
-		}
-		catch (System.IO.IOException)
-		{
-			//forceSensorOtherMessage = forceSensorNotConnectedString;
-			LogB.Information ("Problems opening forceSensor port");
-			return false;
-		}
-		LogB.Information ("Successfully opened port");
-
-		Thread.Sleep(3000); //sleep to let arduino start reading serial event
-
-		LogB.Information ("Have wait 3 s");
-                //double firmwareVersion = forceSensorCheckVersionDo(); //TODO: it uses portFS
-
-		LogB.Information ("Closing port");
-		port.Close();
-		LogB.Information ("Closed! All ok.");
-
-		return true;
-	}
-
-	private bool debugEncoder (ChronopicRegisterPort crp)
-	{
-		// note on_button_detect_clicked () does stopCapturingInertialBG if needed
-		SerialPort port = new SerialPort (crp.Port, 115200);
-
-		LogB.Information ("Created port");
-		try {
-			port.Open();
-		} catch {
-			LogB.Information ("Problems opening forceSensor port");
-			return false;
-		}
-		LogB.Information ("Successfully opened port");
-
-		LogB.Information ("Closing port");
-		port.Close();
-		LogB.Information ("Closed! All ok.");
-
-		return true;
-	}
 
 	/*
 	private bool pulseDiscoverConnectGTK ()
@@ -690,6 +649,106 @@ public class DiscoverWindow
 		get { return portSelected; }
 	}
 }
+
+public abstract class DebugDevices
+{
+	protected ChronopicRegisterPort crp;
+	protected string str;
+	protected string deviceStr;
+	private SerialPort port;
+
+	protected bool portCreate ()
+	{
+		str += "\n\n- Starting to debug: " + deviceStr;
+		str += "\n\n- Creating port …";
+
+		try {
+			port = new SerialPort (crp.Port, 115200);
+		}
+		catch (System.IO.IOException)
+		{
+			str += "\n- Problems creating port";
+			return false;
+		}
+
+		str += "\n- Successfully created port";
+		return true;
+	}
+
+	protected bool portOpen ()
+	{
+		str += "\n\n- Opening port …";
+		try {
+			port.Open();
+		}
+		catch (System.IO.IOException)
+		{
+			//forceSensorOtherMessage = forceSensorNotConnectedString;
+			str += "\n- Problems opening port";
+			return false;
+		}
+		str += "\n- Successfully opened port";
+		return true;
+	}
+
+	/*
+		Thread.Sleep (3000); //sleep to let arduino start reading serial event
+
+		LogB.Information ("Have wait 3 s");
+                //double firmwareVersion = forceSensorCheckVersionDo(); //TODO: it uses portFS
+	*/
+
+	protected bool portClose ()
+	{
+		str += "\n\n- Closing port …";
+		try {
+			port.Close();
+		} 
+		catch (System.IO.IOException)
+		{
+			str += "\n- Problems closing port";
+			return false;
+		}
+		str += "\n- Closed! All ok.";
+
+		return true;
+	}
+
+	public string Str {
+		get { return str; }
+	}
+}
+
+public class DebugForceSensor : DebugDevices
+{
+	public DebugForceSensor (ChronopicRegisterPort crp)
+	{
+		this.crp = crp;
+		deviceStr = "Force Sensor";
+
+		portCreate ();
+		portOpen ();
+		
+		Thread.Sleep(3000); //sleep to let arduino start reading serial event
+		LogB.Information ("Have wait 3 s");
+
+		portClose ();
+	}
+}
+
+public class DebugEncoder : DebugDevices
+{
+	public DebugEncoder (ChronopicRegisterPort crp)
+	{
+		this.crp = crp;
+		deviceStr = "Encoder";
+
+		portCreate ();
+		portOpen ();
+		portClose ();
+	}
+}
+
 
 public class ChronopicRegisterWindow
 {

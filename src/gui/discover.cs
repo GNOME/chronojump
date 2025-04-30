@@ -515,7 +515,7 @@ public class DiscoverWindow
 				else //if (crp.Type == ChronopicRegisterPort.Types.ENCODER)
 					dd = new DebugEncoder (crp);
 
-				new DialogMessage (Constants.MessageTypes.INFO, 400, 400, dd.Str);
+				new DialogMessage (dd.Title, Constants.MessageTypes.INFO, 400, 400, dd.Str);
 			}
 		}
 	}
@@ -562,13 +562,12 @@ public class DiscoverWindow
 public abstract class DebugDevices
 {
 	protected ChronopicRegisterPort crp;
+	protected string title;
 	protected string str;
-	protected string deviceStr;
-	private SerialPort port;
+	protected SerialPort port;
 
 	protected bool portCreate ()
 	{
-		str += "\n\n- Starting to debug: " + deviceStr;
 		str += "\n\n- Creating port …";
 
 		try {
@@ -623,6 +622,9 @@ public abstract class DebugDevices
 		return true;
 	}
 
+	public string Title {
+		get { return title; }
+	}
 	public string Str {
 		get { return str; }
 	}
@@ -633,7 +635,7 @@ public class DebugForceSensor : DebugDevices
 	public DebugForceSensor (ChronopicRegisterPort crp)
 	{
 		this.crp = crp;
-		deviceStr = "Force Sensor";
+		title = "Testing Force Sensor";
 
 		portCreate ();
 		portOpen ();
@@ -641,7 +643,41 @@ public class DebugForceSensor : DebugDevices
 		Thread.Sleep(3000); //sleep to let arduino start reading serial event
 		LogB.Information ("Have wait 3 s");
 
+		getVersion ();
+
 		portClose ();
+	}
+
+	// adapted from gui/app1/forceSensor.cs forceSensorCheckVersionDo ()
+	private bool getVersion ()
+	{
+		str += "\n\n- Getting version …";
+		try {
+			port.WriteLine ("get_version:");
+		}
+		catch (Exception ex)
+		{
+			if(ex is System.IO.IOException || ex is System.TimeoutException)
+			{
+				str += "\n- Failed at sending message. Error: " + ex.ToString ();
+				return false;
+			}
+		}
+
+		string s = "";
+		do {
+			Thread.Sleep(100); //sleep to let arduino start reading
+			try {
+				s = port.ReadLine().Trim();
+			} catch (Exception ex) {
+				str += "\n- Failed at receiving message. Error: " + ex.ToString ();
+				return false;
+			}
+		}
+		while(! s.Contains("Force_Sensor-"));
+
+		str += "\n- Version found is: " + s;
+		return true;
 	}
 }
 
@@ -650,7 +686,7 @@ public class DebugEncoder : DebugDevices
 	public DebugEncoder (ChronopicRegisterPort crp)
 	{
 		this.crp = crp;
-		deviceStr = "Encoder";
+		title = "Testing Encoder";
 
 		portCreate ();
 		portOpen ();

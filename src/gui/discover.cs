@@ -515,7 +515,7 @@ public class DiscoverWindow
 				else //if (crp.Type == ChronopicRegisterPort.Types.ENCODER)
 					dd = new DebugEncoder (crp);
 
-				new DialogMessage (dd.Title, Constants.MessageTypes.INFO, 400, 400, dd.Str);
+				new DialogMessage (dd.Title, Constants.MessageTypes.INFO, 450, 400, dd.Str);
 			}
 		}
 	}
@@ -637,13 +637,17 @@ public class DebugForceSensor : DebugDevices
 		this.crp = crp;
 		title = "Testing Force Sensor";
 
-		portCreate ();
-		portOpen ();
-		
+		if (! portCreate ())
+			return;
+
+		if (! portOpen ())
+			return;
+
 		Thread.Sleep(3000); //sleep to let arduino start reading serial event
 		LogB.Information ("Have wait 3 s");
 
-		getVersion ();
+		if (! getVersion ())
+			return;
 
 		portClose ();
 	}
@@ -688,8 +692,12 @@ public class DebugEncoder : DebugDevices
 		this.crp = crp;
 		title = "Testing Encoder";
 
-		portCreate ();
-		portOpen ();
+		if (! portCreate ())
+			return;
+
+		if (! portOpen ())
+			return;
+
 		portClose ();
 	}
 }

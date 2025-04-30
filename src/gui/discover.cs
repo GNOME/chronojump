@@ -606,6 +606,11 @@ public abstract class DebugDevices
                 //double firmwareVersion = forceSensorCheckVersionDo(); //TODO: it uses portFS
 	*/
 
+	protected virtual bool readSomeData ()
+	{
+		return true;
+	}
+
 	protected bool portClose ()
 	{
 		str += "\n\n- Closing port …";
@@ -649,6 +654,9 @@ public class DebugForceSensor : DebugDevices
 		if (! getVersion ())
 			return;
 
+		if (! readSomeData ())
+			return;
+
 		portClose ();
 	}
 
@@ -656,6 +664,8 @@ public class DebugForceSensor : DebugDevices
 	private bool getVersion ()
 	{
 		str += "\n\n- Getting version …";
+
+		// send message
 		try {
 			port.WriteLine ("get_version:");
 		}
@@ -668,6 +678,7 @@ public class DebugForceSensor : DebugDevices
 			}
 		}
 
+		// get version
 		string s = "";
 		do {
 			Thread.Sleep(100); //sleep to let arduino start reading
@@ -683,6 +694,147 @@ public class DebugForceSensor : DebugDevices
 		str += "\n- Version found is: " + s;
 		return true;
 	}
+
+	// copied from gui/app1/forceSensor.cs
+	protected override bool readSomeData ()
+	{
+		int samples = 10;
+		str += string.Format ("\n\n- Capturing {0} samples …", samples);
+
+		// send message
+		try {
+			port.WriteLine ("start_capture:");
+		}
+		catch (Exception ex)
+		{
+			if(ex is System.IO.IOException || ex is System.TimeoutException)
+			{
+				str += "\n- Failed at sending message. Error: " + ex.ToString ();
+				return false;
+			}
+		}
+
+		// receive confirmation
+		string s = "";
+		do {
+			Thread.Sleep(100); //sleep to let arduino start reading
+			try {
+				s = port.ReadLine().Trim();
+			} catch (Exception ex) {
+				str += "\n- Failed at receiving message. Error: " + ex.ToString ();
+				return false;
+			}
+		}
+		while(! s.Contains("Starting capture"));
+
+		// capture some data
+		s = "";
+		int count = 0;
+		do {
+			int time = 0;
+			double force = 0;
+			string triggerCode = "";
+			s = port.ReadLine();
+			if(! forceSensorProcessCapturedLine(s, out time, out force,
+						false, out triggerCode)) //false: do not read triggers
+				continue;
+
+			count ++;
+			//str += string.Format ("\n{0,12} us, {1,12} N", time, force);
+			str += string.Format ("\n{0} us\t {1} N", time, force);
+		} while (count < samples);
+
+		// ending capture. Send message
+		try {
+			port.WriteLine ("end_capture:");
+		}
+		catch (Exception ex)
+		{
+			if(ex is System.IO.IOException || ex is System.TimeoutException)
+			{
+				str += "\n- Failed at sending message. Error: " + ex.ToString ();
+				return false;
+			}
+		}
+
+		// ending capture. Receive message
+		int notValidCommandCount = 0;
+		do {
+			Thread.Sleep(10);
+			try {
+				s = port.ReadLine();
+			} catch (Exception ex) {
+				str += "\n- Failed at receiving message. Error: " + ex.ToString ();
+			}
+
+			//2023 Aug 3: sometimes Arduino looses some chars. It seems only happens with this command because Arduino will be busy capturing
+			//instead of "end_capture:" arrived "end_cture:" (found 2 times) "end_capte:", "end_ture:", "end_caure:"
+			if (s.Contains ("Not a valid command"))
+			{
+				notValidCommandCount ++;
+
+				if (notValidCommandCount > 10)
+				{
+					str += "\n- NotValidCommandCount > 10";
+					return false;
+				}
+
+				try {
+					port.WriteLine ("end_capture:");
+				} catch (Exception ex) {
+					str += "\n- Failed at sending message. Error: " + ex.ToString ();
+					return false;
+				}
+			}
+		}
+		while(! s.Contains("Capture ended"));
+
+		return true;
+	}
+
+	// copied from gui/app1/forceSensor.cs
+	private bool forceSensorProcessCapturedLine (string str,
+			out int time, out double force,
+			bool readTriggers, out string triggerCode)
+	{
+		time = 0;
+		force = 0;
+		triggerCode = "";
+
+		//check if there is one and only one ';'
+		if( ! (str.Contains(";") && str.IndexOf(";") == str.LastIndexOf(";")) )
+			return false;
+
+		string [] strFull = str.Split(new char[] {';'});
+
+		if (! Util.IsNumber (Util.ChangeDecimalSeparator (strFull[0]), true))
+			return false;
+
+		if (Util.IsNumber (Util.ChangeDecimalSeparator (strFull[1]), true))
+		{
+		}
+		else if (readTriggers)
+		{
+			time = Convert.ToInt32 (strFull[0]);
+			triggerCode = strFull[1].Trim(); //now is coming from Arduino with an enter
+			return true;
+		} else
+			return false;
+
+		time = Convert.ToInt32 (strFull[0]);
+
+		//bad tare or bad calibration or too much force
+		if (Math.Abs (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]))) > 20000) // 20000 N (2000 Kg) Chronojump force sensors are up to 5000 but we have special version with 20000
+		{
+			str += string.Format ("\n- Error. Force too big: " + Util.ChangeDecimalSeparator  (strFull[1]));
+			return false;
+		}
+
+		force = Convert.ToDouble (Util.ChangeDecimalSeparator (strFull[1]));
+
+		return true;
+	}
+
 }
 
 public class DebugEncoder : DebugDevices

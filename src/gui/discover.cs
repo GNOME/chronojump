@@ -850,6 +850,53 @@ public class DebugEncoder : DebugDevices
 		if (! portOpen ())
 			return;
 
+		if (! readSomeData ())
+			return;
+
 		portClose ();
 	}
+
+	protected override bool readSomeData ()
+	{
+		int samples = 50;
+		str += string.Format ("\n\n- Capturing {0} samples …", samples);
+
+		var buffer = new byte[1024];
+		int countPrinted = 0;
+		do {
+			try {
+				int bytesRead = port.Read (buffer, 0, buffer.Length);
+				if (bytesRead == 0)
+					continue;
+
+				for (int j = 0; j < bytesRead && countPrinted < samples; j ++)
+				{
+					if (countPrinted % 10 == 0)
+						str += "\n";
+
+					str += string.Format ("{0,3} ", convertByte (Convert.ToInt32  (buffer[j])));
+					countPrinted ++;
+				}
+			}
+			catch (Exception ex)
+			{
+				if(ex is System.IO.IOException || ex is System.TimeoutException)
+				{
+					str += "\n- Failed at sending message. Error: " + ex.ToString ();
+					return false;
+				}
+			}
+		} while (countPrinted < samples);
+
+		return true;
+	}
+
+	private int convertByte (int b)
+	{
+		if(b > 128)
+			b = b - 256;
+
+		return b;
+	}
+
 }

@@ -914,6 +914,7 @@ public partial class ChronoJumpWindow
 
 	//Attention: no GTK here!!
 	//we do not pass the port because there are problems passing ports
+	//if this changes, check also gui/discover.cs DebugForceSensor.getVersion ()
 	private string forceSensorCheckVersionDo()
 	{
 		if (portFS.BytesToRead > 0)

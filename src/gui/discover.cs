@@ -49,6 +49,7 @@ public class DiscoverWindow
 	private ChronopicRegister chronopicRegister;
 	private Gtk.Grid grid_micro_discover;
 	private Gtk.Box box_micro_discover_nc;
+	private Gtk.Button button_micro_discover_cancel_close;
 	private Gtk.Image image_button_micro_discover_cancel_close;
 	private Gtk.Label label_button_micro_discover_cancel_close;
 	private Gtk.Image image_discover_mode;
@@ -61,6 +62,7 @@ public class DiscoverWindow
 			Gtk.Label label_micro_discover_not_found,
 			Gtk.Grid grid_micro_discover,
 			Gtk.Box box_micro_discover_nc,
+			Gtk.Button button_micro_discover_cancel_close,
 			Gtk.Image image_button_micro_discover_cancel_close,
 			Gtk.Label label_button_micro_discover_cancel_close,
 			string iconModeStr,
@@ -71,6 +73,7 @@ public class DiscoverWindow
 		this.chronopicRegister = chronopicRegister;
 		this.grid_micro_discover = grid_micro_discover;
 		this.box_micro_discover_nc = box_micro_discover_nc;
+		this.button_micro_discover_cancel_close = button_micro_discover_cancel_close;
 		this.image_button_micro_discover_cancel_close = image_button_micro_discover_cancel_close;
 		this.label_button_micro_discover_cancel_close = label_button_micro_discover_cancel_close;
 		this.label_micro_discover_connect_error = label_micro_discover_connect_error;
@@ -489,9 +492,7 @@ public class DiscoverWindow
 	{
 		/*
 		 * TODO:
-		 * - unsensitivize SELECT and CLOSE
 		 * - show feedback graphically
-		 * - work on debug mode
 		 * - hability to send a log
 		 */
 		Button bPress = (Button) o;
@@ -518,6 +519,8 @@ public class DiscoverWindow
 					dd = null;
 					stopwatch = new Stopwatch ();
 					stopwatch.Start ();
+					grid_micro_discover.Sensitive = false;
+					button_micro_discover_cancel_close.Sensitive = false;
 
 					debugThread = new Thread (new ThreadStart (debugForceSensor));
 					GLib.Idle.Add (new GLib.IdleHandler (pulseDebugGTK));
@@ -548,6 +551,10 @@ public class DiscoverWindow
 			new DialogMessage (dd.Title, Constants.MessageTypes.INFO, 450, 400, dd.Str);
 			bDebugCurrent.Label = "Test it!";
 			stopwatch.Stop ();
+
+			grid_micro_discover.Sensitive = true;
+			button_micro_discover_cancel_close.Sensitive = true;
+
 			return false;
 		}
 

@@ -307,6 +307,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_contacts_detect_small;
 	Gtk.Button button_encoder_detect_small;
 	Gtk.EventBox eventbox_button_micro_discover_cancel_close;
+	Gtk.Button button_micro_discover_cancel_close;
 	Gtk.Image image_button_micro_discover_cancel_close;
 	Gtk.Label label_button_micro_discover_cancel_close;
 	//Gtk.Image image_micro_discover_mode;
@@ -4562,6 +4563,7 @@ public partial class ChronoJumpWindow
 			label_micro_discover_not_found,
 			grid_micro_discover,
 			box_micro_discover_nc,
+			button_micro_discover_cancel_close,
 			image_button_micro_discover_cancel_close,
 			label_button_micro_discover_cancel_close,
 			Constants.ModeIcon (current_mode),
@@ -8628,6 +8630,7 @@ public partial class ChronoJumpWindow
 		button_contacts_detect_small = (Gtk.Button) builder.GetObject ("button_contacts_detect_small");
 		button_encoder_detect_small = (Gtk.Button) builder.GetObject ("button_encoder_detect_small");
 		eventbox_button_micro_discover_cancel_close = (Gtk.EventBox) builder.GetObject ("eventbox_button_micro_discover_cancel_close");
+		button_micro_discover_cancel_close = (Gtk.Button) builder.GetObject ("button_micro_discover_cancel_close");
 		image_button_micro_discover_cancel_close = (Gtk.Image) builder.GetObject ("image_button_micro_discover_cancel_close");
 		label_button_micro_discover_cancel_close = (Gtk.Label) builder.GetObject ("label_button_micro_discover_cancel_close");
 		//image_micro_discover_mode = (Gtk.Image) builder.GetObject ("image_micro_discover_mode");

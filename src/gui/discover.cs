@@ -25,6 +25,7 @@ using Gtk;
 using Mono.Unix;
 using System.Threading;
 using System.IO.Ports;
+using System.Diagnostics;  //Stopwatch
 
 
 public class DiscoverWindow
@@ -509,17 +510,56 @@ public class DiscoverWindow
 			if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE ||
 					crp.Type == ChronopicRegisterPort.Types.ENCODER)
 			{
-				DebugDevices dd;
 				if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE)
-					dd = new DebugForceSensor (crp);
-				else //if (crp.Type == ChronopicRegisterPort.Types.ENCODER)
-					dd = new DebugEncoder (crp);
+				{
+					//force sensor needs to wait 3s to start capturing
+					bDebugCurrent = button_debug_l[i];
+					crpCurrent = crp;
+					dd = null;
+					stopwatch = new Stopwatch ();
+					stopwatch.Start ();
 
-				new DialogMessage (dd.Title, Constants.MessageTypes.INFO, 450, 400, dd.Str);
+					debugThread = new Thread (new ThreadStart (debugForceSensor));
+					GLib.Idle.Add (new GLib.IdleHandler (pulseDebugGTK));
+					debugThread.Start();
+				}
+				else { //if (crp.Type == ChronopicRegisterPort.Types.ENCODER)
+					dd = new DebugEncoder (crp);
+					new DialogMessage (dd.Title, Constants.MessageTypes.INFO, 450, 400, dd.Str);
+				}
 			}
 		}
 	}
 
+	static Thread debugThread;
+	private DebugDevices dd;
+	private ChronopicRegisterPort crpCurrent;
+	private Gtk.Button bDebugCurrent;
+	private Stopwatch stopwatch;
+
+	private void debugForceSensor ()
+	{
+		dd = new DebugForceSensor (crpCurrent);
+	}
+	private bool pulseDebugGTK ()
+	{
+		if (! debugThread.IsAlive)
+		{
+			new DialogMessage (dd.Title, Constants.MessageTypes.INFO, 450, 400, dd.Str);
+			bDebugCurrent.Label = "Test it!";
+			stopwatch.Stop ();
+			return false;
+		}
+
+		int seconds = Convert.ToInt32 (5.99 -stopwatch.Elapsed.TotalSeconds);
+		if (seconds < 0)
+		       seconds = 0;
+
+		bDebugCurrent.Label = string.Format ("Please, wait {0} s.", seconds);
+
+		Thread.Sleep (100);
+		return true;
+	}
 
 	/*
 	private bool pulseDiscoverConnectGTK ()
@@ -565,6 +605,9 @@ public abstract class DebugDevices
 	protected string title;
 	protected string str;
 	protected SerialPort port;
+	protected bool done;
+
+	protected abstract void debugDo ();
 
 	protected bool portCreate ()
 	{
@@ -633,6 +676,9 @@ public abstract class DebugDevices
 	public string Str {
 		get { return str; }
 	}
+	public bool Done {
+		get { return done; }
+	}
 }
 
 public class DebugForceSensor : DebugDevices
@@ -642,6 +688,13 @@ public class DebugForceSensor : DebugDevices
 		this.crp = crp;
 		title = "Testing Force Sensor";
 
+		done = false;
+		debugDo ();
+		done = true;
+	}
+
+	protected override void debugDo ()
+	{
 		if (! portCreate ())
 			return;
 
@@ -844,6 +897,13 @@ public class DebugEncoder : DebugDevices
 		this.crp = crp;
 		title = "Testing Encoder";
 
+		done = false;
+		debugDo ();
+		done = true;
+	}
+
+	protected override void debugDo ()
+	{
 		if (! portCreate ())
 			return;
 

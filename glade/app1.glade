@@ -23364,6 +23364,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -50880,8 +50883,6 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </child>
                                                             <child>
                                                             <object class="GtkButton" id="button_menu_utilities">
-                                                            <property name="visible">True</property>
-                                                            <property name="sensitive">False</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <child>

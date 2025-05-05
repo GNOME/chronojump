@@ -187,8 +187,12 @@ public class DiscoverWindow
 		Gtk.Box hbox_l1_parent = new Gtk.Box (Gtk.Orientation.Horizontal, 0);
 		hbox_l1_parent.PackStart (hbox_l1, true, false, 0);
 
+		Gtk.Label lAdvanced = new Gtk.Label ("<b>" + Catalog.GetString ("Advanced") + "</b>");
+		lAdvanced.UseMarkup = true;
+
 		grid_micro_discover.Attach (l0, 0, 0, 1, 1);
-		grid_micro_discover.Attach (hbox_l1_parent, 2, 0, 2, 1);
+		grid_micro_discover.Attach (hbox_l1_parent, 1, 0, 2, 1);
+		grid_micro_discover.Attach (lAdvanced, 3, 0, 1, 1);
 
 		// 3b) create a row for each device
 		for (int i = 0; i < alreadyDiscovered_l.Count; i ++)
@@ -296,7 +300,6 @@ public class DiscoverWindow
 
 		box_b_label.PackStart (label, false, false, 0);
 		box_b_label.PackStart (bSelect, false, false, 0);
-		box_b_label.PackStart (bDebug, false, false, 6);
 
 		/* done after grid_micro_discover.ShowAll ();
 		if (label.Text == "NC" || label.Text == "----")
@@ -310,6 +313,7 @@ public class DiscoverWindow
 		*/
 
 		grid_micro_discover.Attach (box_b_label, 2, i, 1, 1);
+		grid_micro_discover.Attach (bDebug, 3, i, 1, 1);
 	}
 
 	private void discoverDo ()

@@ -878,6 +878,14 @@ public class UtilGtk
 			    "background-color: #cccccc;" +
 			"}" +
 
+			//PROGRESSBAR
+			"progressbar#lightCss text {" +
+				"color: " + GetRGBAs (Colors.WHITE) + ";" +
+			"}" +
+			"progressbar#darkCss text {" +
+				"color: #222222;" +
+			"}" +
+
 			//ANY WIDGET
 			//any widget bgCss
 			"*#bgCss {" +

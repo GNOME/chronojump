@@ -31,7 +31,10 @@ using System.Diagnostics;  //Stopwatch
 public class DiscoverWindow
 {
 	//TODO instead of all these lists, have List<microDiscoverGui>
-	List<Gtk.ProgressBar> progressbar_microNotDiscovered_l;
+	//... tried but complicated. note the different enumeration between discover & the gui rows
+
+	List<Gtk.ProgressBar> c1_progressbar_microNotDiscovered_l;
+
 	List<Gtk.Button> button_microNotDiscovered_l;
 	List<Gtk.Label> label_microNotDiscovered_l; //to use labels for ---- and NC instead of buttons
 
@@ -58,6 +61,7 @@ public class DiscoverWindow
 	private Gtk.Label label_button_micro_discover_cancel_close;
 	private Gtk.Image image_discover_mode;
 	private Gtk.Label label_micro_discover_connect_error;
+	private bool bgShiftedIsDark;
 	private string useThisStr = "Select!";
 
 	private ChronopicRegisterPort portSelected;
@@ -70,7 +74,8 @@ public class DiscoverWindow
 			Gtk.Image image_button_micro_discover_cancel_close,
 			Gtk.Label label_button_micro_discover_cancel_close,
 			string iconModeStr,
-			Gtk.Label label_micro_discover_connect_error
+			Gtk.Label label_micro_discover_connect_error,
+			bool bgShiftedIsDark
 			)
 	{
 		this.current_mode = current_mode;
@@ -81,6 +86,7 @@ public class DiscoverWindow
 		this.image_button_micro_discover_cancel_close = image_button_micro_discover_cancel_close;
 		this.label_button_micro_discover_cancel_close = label_button_micro_discover_cancel_close;
 		this.label_micro_discover_connect_error = label_micro_discover_connect_error;
+		this.bgShiftedIsDark = bgShiftedIsDark;
 
 		// 1) set up gui
 
@@ -160,7 +166,7 @@ public class DiscoverWindow
 		grid_micro_discover.RowSpacing = 14;
 
 		// 2) create the lists of widgets to be able to access later
-		progressbar_microNotDiscovered_l = new List<Gtk.ProgressBar> ();
+		c1_progressbar_microNotDiscovered_l = new List<Gtk.ProgressBar> ();
 		button_microNotDiscovered_l = new List<Gtk.Button> ();
 		label_microNotDiscovered_l = new List<Gtk.Label> ();
 		portAlreadyDiscovered_l = new List<ChronopicRegisterPort> ();
@@ -212,10 +218,10 @@ public class DiscoverWindow
 
 		//hide any buttons with "NC"or "----"
 		foreach (Button b in button_microAlreadyDiscovered_l)
-			if (b.Label == "NC" || b.Label == "----")
+			if (b.Label == Catalog.GetString ("NC") || b.Label == "----")
 				b.Visible = false;
 		foreach (Button b in button_microNotDiscovered_l)
-			if (b.Label == "NC" || b.Label == "----")
+			if (b.Label == Catalog.GetString ("NC") || b.Label == "----")
 				b.Visible = false;
 		foreach (Gtk.Label l in label_microAlreadyDiscovered_l)
 			if (l.Text == Catalog.GetString (useThisStr))
@@ -229,10 +235,11 @@ public class DiscoverWindow
 	}
 
 	/*
-	 * | l (port/serialNum) | l2 (TypePrint) or progressBar | box_b_label (label, bSelect, bDebug)
+	 * | l (port/serialNum) | c1_pb (progressbar) | c2_box_b_or_label (label, bSelect, bDebug)
 	 */
 	private void setup_row_micro_discover_l (ChronopicRegisterPort crp, int i, bool alreadyDiscovered)
 	{
+		// ---- column 0
 		string portNameShort = crp.Port;
 		if (portNameShort.StartsWith ("/dev/"))
 			portNameShort = portNameShort.Replace ("/dev/", "");
@@ -241,21 +248,29 @@ public class DiscoverWindow
 					portNameShort, Util.RemoveCenterCharsOnLongString (crp.SerialNumber, 12)));
 		grid_micro_discover.Attach (l, 0, i, 1, 1);
 
+		// ---- column 1
+		Gtk.ProgressBar c1_pb = new Gtk.ProgressBar ();
+		c1_pb.Text = "----"; //to have height
+		c1_pb.SetSizeRequest (125, -1);
+		c1_pb.ShowText = true;
+		if (bgShiftedIsDark)
+			c1_pb.Name = "lightCss";
+		else
+			c1_pb.Name = "darkCss";
+
 		if (alreadyDiscovered)
 		{
-			Gtk.Label l2 = new Gtk.Label (ChronopicRegisterPort.TypePrint (crp.Type));
-			grid_micro_discover.Attach (l2, 1, i, 1, 1);
-		} else {
-			Gtk.ProgressBar pb = new Gtk.ProgressBar ();
-			pb.Text = "----"; //to have height
-			pb.SetSizeRequest (125, -1);
-			progressbar_microNotDiscovered_l.Add (pb);
-			grid_micro_discover.Attach (pb, 1, i, 1, 1);
-		}
+			c1_pb.Fraction = 1;
+			c1_pb.Text = ChronopicRegisterPort.TypePrint (crp.Type);
+		} else
+			c1_progressbar_microNotDiscovered_l.Add (c1_pb);
 
+		grid_micro_discover.Attach (c1_pb, 1, i, 1, 1);
+
+		// ---- column 2, 3
 		Gtk.Label label = new Gtk.Label (); //used on NC and ----
 		Gtk.Button bSelect = new Gtk.Button (); //used on Select!
-		Gtk.Box box_b_label = new Gtk.Box (Gtk.Orientation.Horizontal, 0);
+		Gtk.Box c2_box_b_or_label = new Gtk.Box (Gtk.Orientation.Horizontal, 0);
 		Gtk.Button bDebug = new Gtk.Button ();
 		bDebug.Label = "";
 
@@ -306,8 +321,9 @@ public class DiscoverWindow
 			buttonDebug_notDiscovered_crp_l.Add (crp);
 		}
 
-		box_b_label.PackStart (label, false, false, 0);
-		box_b_label.PackStart (bSelect, false, false, 0);
+		//c2_box_b_or_label has button and label, if compatible with mode will show button, if not, label
+		c2_box_b_or_label.PackStart (label, false, false, 0);
+		c2_box_b_or_label.PackStart (bSelect, false, false, 0);
 
 		/* done after grid_micro_discover.ShowAll ();
 		if (label.Text == "NC" || label.Text == "----")
@@ -320,7 +336,7 @@ public class DiscoverWindow
 		}
 		*/
 
-		grid_micro_discover.Attach (box_b_label, 2, i, 1, 1);
+		grid_micro_discover.Attach (c2_box_b_or_label, 2, i, 1, 1);
 		grid_micro_discover.Attach (bDebug, 3, i, 1, 1);
 	}
 
@@ -337,10 +353,10 @@ public class DiscoverWindow
 		}
 
 		//gui updates while thread is alive
-		for (int i = 0; i < progressbar_microNotDiscovered_l.Count; i ++)
+		for (int i = 0; i < c1_progressbar_microNotDiscovered_l.Count; i ++)
 		{
 			//progressbars
-			Gtk.ProgressBar pb = progressbar_microNotDiscovered_l[i];
+			Gtk.ProgressBar pb = c1_progressbar_microNotDiscovered_l[i];
 			if (microDiscover.ProgressBar_l[i] == MicroDiscover.Status.NotStarted)
 			{
 				pb.Text = "----"; //to have height
@@ -349,6 +365,7 @@ public class DiscoverWindow
 			{
 				pb.Text = microDiscover.ProgressBar_l[i].ToString();
 				pb.Fraction = 1;
+				pb.Text = microDiscover.ProgressBar_l[i].ToString();
 			} else {
 				if (microDiscover.Cancel)
 					pb.Text = Catalog.GetString("Cancelling");
@@ -361,7 +378,7 @@ public class DiscoverWindow
 			{
 				if (discoverMatchCurrentMode (microDiscover.Discovered_l[i]))
 				{
-					(progressbar_microNotDiscovered_l[i]).Text = ChronopicRegisterPort.TypePrint(microDiscover.Discovered_l[i]);
+					(c1_progressbar_microNotDiscovered_l[i]).Text = ChronopicRegisterPort.TypePrint(microDiscover.Discovered_l[i]);
 					button_microNotDiscovered_l[i].Sensitive = true;
 					button_microNotDiscovered_l[i].Label = Catalog.GetString (useThisStr);
 					button_microNotDiscovered_l[i].Clicked -= new EventHandler(on_discover_use_this_clicked); //needed. if not: called multiple times
@@ -376,7 +393,6 @@ public class DiscoverWindow
 					buttonDebug_notDiscovered_l[i].Clicked -= new EventHandler (on_discover_debug_this_clicked); //needed. if not: called multiple times
 					buttonDebug_notDiscovered_l[i].Clicked += new EventHandler (on_discover_debug_this_clicked);
 				} else {
-					//button_microNotDiscovered_l[i].Label = Catalog.GetString ("NC");
 					button_microNotDiscovered_l[i].Visible = false;
 					label_microNotDiscovered_l[i].Text = Catalog.GetString ("NC");
 					label_microNotDiscovered_l[i].Visible = true;
@@ -401,17 +417,17 @@ public class DiscoverWindow
 			LogB.Information("pulseDiscoverGTK ending here");
 			LogB.ThreadEnded();
 
-			for (int i = 0; i < progressbar_microNotDiscovered_l.Count; i ++)
+			for (int i = 0; i < c1_progressbar_microNotDiscovered_l.Count; i ++)
 			{
 				if (microDiscover.Cancel &&
 						 microDiscover.ProgressBar_l[i] != MicroDiscover.Status.Done)
-					(progressbar_microNotDiscovered_l[i]).Text = Catalog.GetString("Cancelled");
+					(c1_progressbar_microNotDiscovered_l[i]).Text = Catalog.GetString("Cancelled");
 
-				(progressbar_microNotDiscovered_l[i]).Fraction = 1;
+				(c1_progressbar_microNotDiscovered_l[i]).Fraction = 1;
 
 				if ( ! (i < microDiscover.Discovered_l.Count &&
 							discoverMatchCurrentMode (microDiscover.Discovered_l[i])) )
-					(progressbar_microNotDiscovered_l[i]).Text = Catalog.GetString ("No");
+					(c1_progressbar_microNotDiscovered_l[i]).Text = "";
 			}
 
 			image_button_micro_discover_cancel_close.Pixbuf =

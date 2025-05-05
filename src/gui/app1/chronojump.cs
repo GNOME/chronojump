@@ -4567,7 +4567,9 @@ public partial class ChronoJumpWindow
 			image_button_micro_discover_cancel_close,
 			label_button_micro_discover_cancel_close,
 			Constants.ModeIcon (current_mode),
-			label_micro_discover_connect_error);
+			label_micro_discover_connect_error,
+			Config.ColorBackgroundShiftedIsDark
+			);
 			
 		if(! Config.UseSystemColor)
 			UtilGtk.ContrastLabelsGrid (Config.ColorBackgroundShiftedIsDark, grid_micro_discover);

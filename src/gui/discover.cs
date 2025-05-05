@@ -208,6 +208,9 @@ public class DiscoverWindow
 		foreach (Gtk.Label l in label_microAlreadyDiscovered_l)
 			if (l.Text == Catalog.GetString (useThisStr))
 				l.Visible = false;
+		foreach (Button b in buttonDebug_alreadyDiscovered_l)
+			if (b.Label == "")
+				b.Visible = false;
 		foreach (Button b in buttonDebug_notDiscovered_l)
 			if (b.Label == "")
 				b.Visible = false;

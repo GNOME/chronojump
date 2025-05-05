@@ -4553,7 +4553,7 @@ public partial class ChronoJumpWindow
 		chronopicRegisterUpdate (false);
 
 		label_micro_discover_title.Text = string.Format (Catalog.GetString (
-					"Compatible with: <b>{0}</b>"), Constants.ModePrint (current_mode));
+					"Detect devices compatible with: <b>{0}</b>"), Constants.ModePrint (current_mode));
 		label_micro_discover_title.UseMarkup = true;
 		box_micro_discover_nc.Visible = false;
 		label_micro_discover_nc_current_mode.Text = Constants.ModePrint (current_mode);

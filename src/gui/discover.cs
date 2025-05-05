@@ -178,6 +178,7 @@ public class DiscoverWindow
 		Gtk.Label l0 = new Gtk.Label ("<b>" + Catalog.GetString ("Device") + "</b>");
 		l0.UseMarkup = true;
 
+		/*
 		Gtk.Label l1 = new Gtk.Label ("<b>" + Catalog.GetString ("Compatibility with") + "</b>");
 		l1.UseMarkup = true;
 		Gtk.Box hbox_l1 = new Gtk.Box (Gtk.Orientation.Horizontal, 10);
@@ -186,12 +187,19 @@ public class DiscoverWindow
 		//hbox_l1.Hexpand = true; //this does not work, so create a parent and expand:
 		Gtk.Box hbox_l1_parent = new Gtk.Box (Gtk.Orientation.Horizontal, 0);
 		hbox_l1_parent.PackStart (hbox_l1, true, false, 0);
+		*/
+		Gtk.Label lType = new Gtk.Label ("<b>" + Catalog.GetString ("Type") + "</b>");
+		lType.UseMarkup = true;
+		Gtk.Label lAction = new Gtk.Label ("<b>" + Catalog.GetString ("Action") + "</b>");
+		lAction.UseMarkup = true;
 
 		Gtk.Label lAdvanced = new Gtk.Label ("<b>" + Catalog.GetString ("Advanced") + "</b>");
 		lAdvanced.UseMarkup = true;
 
 		grid_micro_discover.Attach (l0, 0, 0, 1, 1);
-		grid_micro_discover.Attach (hbox_l1_parent, 1, 0, 2, 1);
+		//grid_micro_discover.Attach (hbox_l1_parent, 1, 0, 2, 1);
+		grid_micro_discover.Attach (lType, 1, 0, 1, 1);
+		grid_micro_discover.Attach (lAction, 2, 0, 1, 1);
 		grid_micro_discover.Attach (lAdvanced, 3, 0, 1, 1);
 
 		// 3b) create a row for each device

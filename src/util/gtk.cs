@@ -1214,7 +1214,8 @@ public class UtilGtk
 				w.GetType() == typeof(Gtk.HButtonBox) ||
 				w.GetType() == typeof(Gtk.Alignment) ||
 				w.GetType() == typeof(Gtk.VPaned) ||
-				w.GetType() == typeof(Gtk.HPaned)
+				w.GetType() == typeof(Gtk.HPaned) ||
+				w.GetType() == typeof(Gtk.Expander)
 			);
 	}
 

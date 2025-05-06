@@ -59,7 +59,9 @@ public class DiscoverWindow
 	private Gtk.Button button_micro_discover_cancel_close;
 	private Gtk.Image image_button_micro_discover_cancel_close;
 	private Gtk.Label label_button_micro_discover_cancel_close;
-	private Gtk.Box box_discover_advanced;
+	private Gtk.CheckButton check_discover_advanced;
+	private Gtk.Label label_discover_advanced;
+	private Gtk.Image image_discover_advanced;
 	private Gtk.Image image_discover_mode;
 	private Gtk.Label label_micro_discover_connect_error;
 	private bool bgShiftedIsDark;
@@ -77,7 +79,8 @@ public class DiscoverWindow
 			Gtk.Button button_micro_discover_cancel_close,
 			Gtk.Image image_button_micro_discover_cancel_close,
 			Gtk.Label label_button_micro_discover_cancel_close,
-			bool showAdvanced, Gtk.Box box_discover_advanced,
+			bool showAdvanced, Gtk.CheckButton check_discover_advanced,
+			Gtk.Label label_discover_advanced, Gtk.Image image_discover_advanced,
 			string iconModeStr,
 			Gtk.Label label_micro_discover_connect_error,
 			bool bgShiftedIsDark
@@ -91,7 +94,9 @@ public class DiscoverWindow
 		this.image_button_micro_discover_cancel_close = image_button_micro_discover_cancel_close;
 		this.label_button_micro_discover_cancel_close = label_button_micro_discover_cancel_close;
 		this.showAdvanced = showAdvanced;
-		this.box_discover_advanced = box_discover_advanced;
+		this.check_discover_advanced = check_discover_advanced;
+		this.label_discover_advanced = label_discover_advanced;
+		this.image_discover_advanced = image_discover_advanced;
 		this.label_micro_discover_connect_error = label_micro_discover_connect_error;
 		this.bgShiftedIsDark = bgShiftedIsDark;
 
@@ -100,6 +105,14 @@ public class DiscoverWindow
 		FakeButtonClose = new Gtk.Button();
 		portSelected = new ChronopicRegisterPort ("");
 		image_discover_mode = new Gtk.Image (Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + iconModeStr));
+
+		if (showAdvanced) {
+			label_discover_advanced.Text = Catalog.GetString ("Hide advanced");
+			image_discover_advanced.Visible = false;
+		} else {
+			label_discover_advanced.Text = Catalog.GetString ("Show advanced");
+			image_discover_advanced.Visible = true;
+		}
 
 		//ChronoDebug cDebug = new ChronoDebug("Discover " + current_mode.ToString());
 		//cDebug.Start();
@@ -353,6 +366,14 @@ public class DiscoverWindow
 	{
 		showAdvanced = show;
 
+		if (showAdvanced) {
+			label_discover_advanced.Text = Catalog.GetString ("Hide advanced");
+			image_discover_advanced.Visible = false;
+		} else {
+			label_discover_advanced.Text = Catalog.GetString ("Show advanced");
+			image_discover_advanced.Visible = true;
+		}
+
 		//lAdvanced && buttonDebug_* is defined on setup_grid_micro_discover () if it is not called, it will be null
 		if (lAdvanced == null || buttonDebug_alreadyDiscovered_l == null || buttonDebug_notDiscovered_l == null)
 			return;
@@ -601,6 +622,7 @@ public class DiscoverWindow
 				stopwatch = new Stopwatch ();
 				stopwatch.Start ();
 				grid_micro_discover.Sensitive = false;
+				check_discover_advanced.Sensitive = false;
 				button_micro_discover_cancel_close.Sensitive = false;
 
 				debugThread = new Thread (new ThreadStart (debugForceSensor));
@@ -633,6 +655,7 @@ public class DiscoverWindow
 			stopwatch.Stop ();
 
 			grid_micro_discover.Sensitive = true;
+			check_discover_advanced.Sensitive = true;
 			button_micro_discover_cancel_close.Sensitive = true;
 
 			return false;

@@ -51944,17 +51944,11 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkBox" id="box_discover_advanced">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="halign">end</property>
-                                                            <property name="valign">center</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
                                                             <object class="GtkCheckButton" id="check_discover_advanced">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
+                                                            <property name="halign">end</property>
                                                             <property name="draw-indicator">False</property>
                                                             <signal name="toggled" handler="on_check_discover_advanced_toggled" swapped="no"/>
                                                             <child>
@@ -51963,7 +51957,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
-                                                            <object class="GtkLabel">
+                                                            <object class="GtkLabel" id="label_discover_advanced">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="label" translatable="yes">Show advanced</property>
@@ -51975,7 +51969,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkImage">
+                                                            <object class="GtkImage" id="image_discover_advanced">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="stock">gtk-go-forward</property>
@@ -51987,13 +51981,6 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </packing>
                                                             </child>
                                                             </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
                                                             </child>
                                                             </object>
                                                             <packing>

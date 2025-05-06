@@ -2790,14 +2790,14 @@ public partial class ChronoJumpWindow
 	}
 
 	//to export a file check above method
-	protected bool checkFolder (Constants.CheckFileOp checkFileOp)
+	private bool checkFolder (Constants.CheckFileOp checkFileOp)
 	{
-		// 1) create exportString: message to the user
+		string nameString = checkFolderGetName (checkFileOp);
+		return checkFolderDo (checkFileOp, nameString);
+	}
 
-		string exportString = Catalog.GetString ("Export data and graphs");
-
-		// 2) write the name of the file: nameString (will be appended to selected URL)
-
+	private string checkFolderGetName (Constants.CheckFileOp checkFileOp)
+	{
 		string nameString = currentPerson.Name + "_" + currentSession.DateShortAsSQL;
 		if(
 				checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES ||
@@ -2831,7 +2831,12 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
 			nameString += "_raceAnalyzer_export";
 
-		// 3) prepare and Run the dialog
+		return nameString;
+	}
+
+	private bool checkFolderDo (Constants.CheckFileOp checkFileOp, string nameString)
+	{
+		string exportString = Catalog.GetString ("Export data and graphs");
 
 		FileChooserAction action = FileChooserAction.SelectFolder;
 		//mac arm64 crashes on SelectFolder, use Open. The problem in Open is it cannot select a folder that has contents. Only an empty folder

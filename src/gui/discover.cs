@@ -59,10 +59,14 @@ public class DiscoverWindow
 	private Gtk.Button button_micro_discover_cancel_close;
 	private Gtk.Image image_button_micro_discover_cancel_close;
 	private Gtk.Label label_button_micro_discover_cancel_close;
+	private Gtk.Box box_discover_advanced;
 	private Gtk.Image image_discover_mode;
 	private Gtk.Label label_micro_discover_connect_error;
 	private bool bgShiftedIsDark;
+	private Gtk.Label lAdvanced;
+	private bool showAdvanced;
 	private string useThisStr = "Select!";
+	private string debugThisStr = "Test it!";
 
 	private ChronopicRegisterPort portSelected;
 
@@ -73,6 +77,7 @@ public class DiscoverWindow
 			Gtk.Button button_micro_discover_cancel_close,
 			Gtk.Image image_button_micro_discover_cancel_close,
 			Gtk.Label label_button_micro_discover_cancel_close,
+			bool showAdvanced, Gtk.Box box_discover_advanced,
 			string iconModeStr,
 			Gtk.Label label_micro_discover_connect_error,
 			bool bgShiftedIsDark
@@ -85,6 +90,8 @@ public class DiscoverWindow
 		this.button_micro_discover_cancel_close = button_micro_discover_cancel_close;
 		this.image_button_micro_discover_cancel_close = image_button_micro_discover_cancel_close;
 		this.label_button_micro_discover_cancel_close = label_button_micro_discover_cancel_close;
+		this.showAdvanced = showAdvanced;
+		this.box_discover_advanced = box_discover_advanced;
 		this.label_micro_discover_connect_error = label_micro_discover_connect_error;
 		this.bgShiftedIsDark = bgShiftedIsDark;
 
@@ -199,7 +206,7 @@ public class DiscoverWindow
 		Gtk.Label lAction = new Gtk.Label ("<b>" + Catalog.GetString ("Action") + "</b>");
 		lAction.UseMarkup = true;
 
-		Gtk.Label lAdvanced = new Gtk.Label ("<b>" + Catalog.GetString ("Advanced") + "</b>");
+		lAdvanced = new Gtk.Label ("<b>" + Catalog.GetString ("Advanced") + "</b>");
 		lAdvanced.UseMarkup = true;
 
 		grid_micro_discover.Attach (l0, 0, 0, 1, 1);
@@ -226,11 +233,13 @@ public class DiscoverWindow
 		foreach (Gtk.Label l in label_microAlreadyDiscovered_l)
 			if (l.Text == Catalog.GetString (useThisStr))
 				l.Visible = false;
+
+		lAdvanced.Visible = showAdvanced;
 		foreach (Button b in buttonDebug_alreadyDiscovered_l)
-			if (b.Label == "")
+			if (b.Label == "" || ! showAdvanced)
 				b.Visible = false;
 		foreach (Button b in buttonDebug_notDiscovered_l)
-			if (b.Label == "")
+			if (b.Label == "" || ! showAdvanced)
 				b.Visible = false;
 	}
 
@@ -287,7 +296,7 @@ public class DiscoverWindow
 						(Constants.ModeIsENCODER (current_mode) && crp.Type == ChronopicRegisterPort.Types.ENCODER) )
 				{
 					bDebug.Sensitive = true;
-					bDebug.Label = "Test it!";
+					bDebug.Label = debugThisStr;
 					bDebug.Clicked -= new EventHandler (on_discover_debug_this_clicked); //needed. if not: called multiple times
 					bDebug.Clicked += new EventHandler (on_discover_debug_this_clicked);
 				}
@@ -340,6 +349,25 @@ public class DiscoverWindow
 		grid_micro_discover.Attach (bDebug, 3, i, 1, 1);
 	}
 
+	public void ShowAdvanced (bool show)
+	{
+		showAdvanced = show;
+
+		//lAdvanced && buttonDebug_* is defined on setup_grid_micro_discover () if it is not called, it will be null
+		if (lAdvanced == null || buttonDebug_alreadyDiscovered_l == null || buttonDebug_notDiscovered_l == null)
+			return;
+
+		lAdvanced.Visible = showAdvanced;
+
+		for (int i = 0; i < buttonDebug_alreadyDiscovered_l.Count; i ++)
+			if (buttonDebug_alreadyDiscovered_l[i].Label == debugThisStr)
+				buttonDebug_alreadyDiscovered_l[i].Visible = showAdvanced;
+
+		for (int i = 0; i < buttonDebug_notDiscovered_l.Count; i ++)
+			if (buttonDebug_notDiscovered_l[i].Label == debugThisStr)
+				buttonDebug_notDiscovered_l[i].Visible = showAdvanced;
+	}
+
 	private void discoverDo ()
 	{
 		microDiscover.DiscoverOneMode (current_mode);
@@ -387,9 +415,11 @@ public class DiscoverWindow
 					label_microNotDiscovered_l[i].Visible = false;
 
 					buttonDebug_notDiscovered_crp_l[i].Type = microDiscover.Discovered_l[i];
-					buttonDebug_notDiscovered_l[i].Visible = true;
+
+					if (showAdvanced)
+						buttonDebug_notDiscovered_l[i].Visible = true;
 					buttonDebug_notDiscovered_l[i].Sensitive = true;
-					buttonDebug_notDiscovered_l[i].Label = "Test it!";
+					buttonDebug_notDiscovered_l[i].Label = debugThisStr;
 					buttonDebug_notDiscovered_l[i].Clicked -= new EventHandler (on_discover_debug_this_clicked); //needed. if not: called multiple times
 					buttonDebug_notDiscovered_l[i].Clicked += new EventHandler (on_discover_debug_this_clicked);
 				} else {

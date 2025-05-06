@@ -306,6 +306,8 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_encoder_detect;
 	Gtk.Button button_contacts_detect_small;
 	Gtk.Button button_encoder_detect_small;
+	Gtk.Box box_discover_advanced;
+	Gtk.CheckButton check_discover_advanced;
 	Gtk.EventBox eventbox_button_micro_discover_cancel_close;
 	Gtk.Button button_micro_discover_cancel_close;
 	Gtk.Image image_button_micro_discover_cancel_close;
@@ -4566,6 +4568,7 @@ public partial class ChronoJumpWindow
 			button_micro_discover_cancel_close,
 			image_button_micro_discover_cancel_close,
 			label_button_micro_discover_cancel_close,
+			check_discover_advanced.Active, box_discover_advanced,
 			Constants.ModeIcon (current_mode),
 			label_micro_discover_connect_error,
 			Config.ColorBackgroundShiftedIsDark
@@ -4575,6 +4578,12 @@ public partial class ChronoJumpWindow
 			UtilGtk.ContrastLabelsGrid (Config.ColorBackgroundShiftedIsDark, grid_micro_discover);
 
 		discoverWin.FakeButtonClose.Clicked += new EventHandler (on_discoverWindow_closed);
+	}
+
+	private void on_check_discover_advanced_toggled (object o, EventArgs args)
+	{
+		if (discoverWin != null)
+			discoverWin.ShowAdvanced (check_discover_advanced.Active);
 	}
 
 	private void on_button_micro_discover_cancel_close_clicked (object o, EventArgs args)
@@ -8632,6 +8641,8 @@ public partial class ChronoJumpWindow
 		button_contacts_detect_small = (Gtk.Button) builder.GetObject ("button_contacts_detect_small");
 		button_encoder_detect_small = (Gtk.Button) builder.GetObject ("button_encoder_detect_small");
 		eventbox_button_micro_discover_cancel_close = (Gtk.EventBox) builder.GetObject ("eventbox_button_micro_discover_cancel_close");
+		box_discover_advanced = (Gtk.Box) builder.GetObject ("box_discover_advanced");
+		check_discover_advanced = (Gtk.CheckButton) builder.GetObject ("check_discover_advanced");
 		button_micro_discover_cancel_close = (Gtk.Button) builder.GetObject ("button_micro_discover_cancel_close");
 		image_button_micro_discover_cancel_close = (Gtk.Image) builder.GetObject ("image_button_micro_discover_cancel_close");
 		label_button_micro_discover_cancel_close = (Gtk.Label) builder.GetObject ("label_button_micro_discover_cancel_close");

@@ -73,15 +73,15 @@ public partial class ChronoJumpWindow
 
 		// don't select if it's a person,
 		// is for not confusing with the person treeviews that controls who runs
-		if (treeViewResultsSession.EventSelectedID == 0)
+		if (treeViewResultsSession.EventSelectedID == TreeViewEvent.MarkRowIsPerson)
 		{
 			showHideActionEventButtons(false);
 			blankFourPlatformsGraphs ();
 			return;
 		}
 
-		if (treeViewResultsSession.EventSelectedID == -1)
-			treeViewResultsSession.SelectHeaderLine();
+		if (treeViewResultsSession.EventSelectedID == TreeViewEvent.MarkNonSelectRowSubEvent)
+			treeViewResultsSession.SelectEventHeaderLine();
 
 		showHideActionEventButtons(true);
 

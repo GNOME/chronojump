@@ -58,6 +58,7 @@ public class TreeViewFourPlatforms : TreeViewEvent
 				time2ONName, time2OFFName,
 				time3ONName, time3OFFName,
 				datetimeName, videoName, descriptionName};
+			//,"ID delete"	}; // just for debug
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
@@ -141,7 +142,7 @@ public class TreeViewFourPlatforms : TreeViewEvent
 		myData[count++] = "";	//video
 		myData[count++] = "";	//description
 		
-		myData[count++] = "-1"; //mark to non select here, select first line 
+		myData[count++] = MarkNonSelectRowSubEvent.ToString (); //mark to non select here, select first line
 
 		return myData;
 	}

@@ -40,6 +40,11 @@ public class TreeViewEvent
 	protected string allEventsName; //Constants.AllJumpsName or Constants.AllRunsName orConstants.AllPulsesName
 	protected int idColumn; //column where the uniqueID of event will be (and will be hidden). Note sice 17 apr 2025 it also contains the personID on its row
 	protected int personIdColumn = 2;
+
+	//EventSelectedID >= 0 a test; -1 a person: -2 a subtest (do not select)
+	public const int MarkRowIsPerson = -1;
+	public const int MarkNonSelectRowSubEvent = -2;
+
 	protected string videoName = Catalog.GetString("Video");
 	protected string datetimeName = Catalog.GetString("Date");
 	protected string descriptionName = Catalog.GetString("Description");
@@ -292,7 +297,7 @@ public class TreeViewEvent
 	}
 
 	//used on two level treeviews
-	public void SelectHeaderLine()
+	public void SelectEventHeaderLine()
 	{
 		TreeIter iter = new TreeIter();
 		ITreeModel myModel = treeview.Model;
@@ -305,6 +310,21 @@ public class TreeViewEvent
 			store.GetIterFromString(out iter2, pathStringZero);
 			treeview.Selection.SelectIter(iter2);
 		}
+	}
+	public int GetIDOfSelectedSubEvent ()
+	{
+		TreeIter iter = new TreeIter();
+		ITreeModel myModel = treeview.Model;
+		if (treeview.Selection.GetSelected (out myModel, out iter))
+		{
+			string pathString = store.GetPath(iter).ToString();
+			string [] myStrFull = pathString.Split(new char[] {':'});
+			string pathStringZero = myStrFull[0] + ":" + myStrFull[1]; //this will be the person name and the header line of the test
+			TreeIter iter2;
+			store.GetIterFromString(out iter2, pathStringZero);
+			return Convert.ToInt32 (treeview.Model.GetValue (iter2, idColumn));
+		}
+		return MarkNonSelectRowSubEvent;
 	}
 
 	public void Update (Event myEvent)
@@ -619,13 +639,14 @@ public class TreeViewEvent
 		get {
 			TreeIter iter = new TreeIter();
 			ITreeModel myModel = treeview.Model;
-			if (treeview.Selection.GetSelected (out myModel, out iter)) {
+			if (treeview.Selection.GetSelected (out myModel, out iter))
+			{
 				if (idIsPerson (iter))
-					return 0;
+					return -1; // it is a -1, because 0 can be an event
 				else
 					return Convert.ToInt32 ( treeview.Model.GetValue(iter, idColumn) );
 			} else {
-				return 0;
+				return -1;
 			}
 		}
 	}

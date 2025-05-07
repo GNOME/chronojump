@@ -3252,7 +3252,7 @@ public partial class ChronoJumpWindow
 			exerciseID = getExerciseIDFromAnyCombo (combo_run_encoder_exercise, runEncoderComboExercisesString, false);
 
 		int selectedID = -1;
-		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID > 0)
+		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
 			selectedID = treeViewResultsSession.EventSelectedID;
 
 		PrepareEventGraphRunEncoder eventGraph = new PrepareEventGraphRunEncoder (

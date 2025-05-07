@@ -363,7 +363,7 @@ public partial class ChronoJumpWindow
 			typeTemp = "";
 
 		int selectedID = -1;
-		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID > 0)
+		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
 			selectedID = treeViewResultsSession.EventSelectedID;
 
 		PrepareEventGraphJumpSimple eventGraph = new PrepareEventGraphJumpSimple(
@@ -410,7 +410,7 @@ public partial class ChronoJumpWindow
 			typeTemp = "";
 
 		int selectedID = -1;
-		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID > 0)
+		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
 			selectedID = treeViewResultsSession.EventSelectedID;
 
 		PrepareEventGraphJumpReactive eventGraph = new PrepareEventGraphJumpReactive(

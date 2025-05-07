@@ -3957,7 +3957,7 @@ LogB.Information(" fs R ");
 			exerciseID = getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false);
 
 		int selectedID = -1;
-		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID > 0)
+		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
 			selectedID = treeViewResultsSession.EventSelectedID;
 
 		PrepareEventGraphForceSensor eventGraph = new PrepareEventGraphForceSensor(

@@ -44,7 +44,8 @@ public class TreeViewBeepTest : TreeViewEvent
 		dataLineTypePosition = 5; //position of type in the data to be printed. Here is used as str
 		allEventsName = Constants.AllTestsNameStr();
 		idColumn = 6; //column where the uniqueID of event will be (and will be hidden).
-		columnsString = new string[] { personName, "Final stage", "Final lap", "Speed max", "Vo2 max", datetimeName };
+		columnsString = new string[] { personName, "Final stage", "Final lap", "Speed max", "Vo2 max", datetimeName};
+			//,"ID delete"	};
 
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;

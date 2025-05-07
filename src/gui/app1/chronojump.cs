@@ -1675,6 +1675,16 @@ public partial class ChronoJumpWindow
 
 		LogB.Information ("<---- personChanged end");
 
+		/*
+		 * if personChange comes caused by a click on treeviewResults (or graph that changes treeviewResults)
+		 * now that we have changed everything related to the person, select the row on treeviewResults
+		 * and it will not come back here thanks to treeviewPersonsChangesTreeViewResultsSessionSignalsNoFollow
+		 */
+		if (personChangingFromResultsId >= 0)
+		{
+			selectResultsSessionId (personChangingFromResultsId, true);
+			personChangingFromResultsId = -1;
+		}
 	}
 
 
@@ -6668,7 +6678,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("Repair selected subjump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (treeViewResultsSession.EventSelectedID > 0) {
+		if (treeViewResultsSession.EventSelectedID >= 0) {
 			//3.- obtain the data of the selected jump
 			JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", treeViewResultsSession.EventSelectedID, false, false );
 		
@@ -6683,7 +6693,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("Repair selected reactive jump accepted");
 
 		int tempSelected = -1;
-		if (treeViewResultsSession.EventSelectedID > 0)
+		if (treeViewResultsSession.EventSelectedID >= 0)
 			tempSelected = treeViewResultsSession.EventSelectedID;
 
 		selectedJumpRj = null; // after the repair need to check again jump from SQL and draw at top correctly
@@ -6695,7 +6705,7 @@ public partial class ChronoJumpWindow
 			stats_win_fillTreeView_stats(false, false);
 
 		if (tempSelected > 0)
-			selectResultsSessionId (tempSelected);
+			selectResultsSessionId (tempSelected, false);
 
 		//update both graphs
 		drawingarea_results_session.QueueDraw ();
@@ -6708,7 +6718,7 @@ public partial class ChronoJumpWindow
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person 
 		//(check also if it's not a individual run interval, then pass the parent run interval)
-		if (treeViewResultsSession.EventSelectedID > 0) {
+		if (treeViewResultsSession.EventSelectedID >= 0) {
 			//3.- obtain the data of the selected run
 			RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, treeViewResultsSession.EventSelectedID, false, false );
 		
@@ -6723,7 +6733,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("repair selected run interval accepted");
 
 		int tempSelected = -1;
-		if (treeViewResultsSession.EventSelectedID > 0)
+		if (treeViewResultsSession.EventSelectedID >= 0)
 			tempSelected = treeViewResultsSession.EventSelectedID;
 
 		selectedRunInterval = null; // after the repair need to check again run from SQL and draw at top correctly
@@ -6736,7 +6746,7 @@ public partial class ChronoJumpWindow
 			stats_win_fillTreeView_stats(false, false);
 
 		if (tempSelected > 0)
-			selectResultsSessionId (tempSelected);
+			selectResultsSessionId (tempSelected, false);
 
 		//update both graphs
 		drawingarea_results_session.QueueDraw ();

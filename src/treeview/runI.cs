@@ -53,6 +53,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		idColumn = 7; //column where the uniqueID of event will be (and will be hidden)
 		
 		columnsString = new string[]{runnerName, speedName, lapTimeName, splitTimeName, datetimeName, videoName, descriptionName};
+			//,"ID delete"	}; //just for debug
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
@@ -148,7 +149,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myData[count++] = "";	//video
 		myData[count++] = "";	//description
 		
-		myData[count++] = "-1"; //mark to non select here, select first line 
+		myData[count++] = MarkNonSelectRowSubEvent.ToString (); //mark to non select here, select first line
 
 		return myData;
 	}
@@ -186,7 +187,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myData[count++] = "";							//video
 		myData[count++] = "";							//description
 		
-		myData[count++] = "-1"; //mark to non select here, select first line 
+		myData[count++] = MarkNonSelectRowSubEvent.ToString (); //mark to non select here, select first line
 		
 		return myData;
 	}
@@ -211,7 +212,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myData[count++] = "";							//video
 		myData[count++] = "";							//description
 
-		myData[count++] = "-1"; //mark to non select here, select first line 
+		myData[count++] = MarkNonSelectRowSubEvent.ToString (); //mark to non select here, select first line
 		
 		return myData;
 	}
@@ -234,7 +235,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myData[count++] = "";							//video
 		myData[count++] = "";							//description
 		
-		myData[count++] = "-1"; //mark to non select here, select first line 
+		myData[count++] = MarkNonSelectRowSubEvent.ToString (); //mark to non select here, select first line
 		
 		return myData;
 	}

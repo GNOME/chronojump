@@ -50,7 +50,8 @@ public class TreeViewRunEncoder : TreeViewEvent
 			Catalog.GetString ("Max speed"),
 			Catalog.GetString ("Best second"),
 			datetimeName,
-			descriptionName };
+			descriptionName};
+			//,"ID delete"	}; //just for debug
 
 		LogB.Information ("At TreeViewRunEncoder:  dataLineTypePosition = " + dataLineTypePosition.ToString  ());
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col

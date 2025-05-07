@@ -146,9 +146,6 @@ public partial class ChronoJumpWindow
 	// if treeview_person changes, treeviewResultsSession changes. This boolean is to not change again treeview_persons
 	private bool treeviewPersonsChangesTreeViewResultsSessionSignalsNoFollow;
 
-	// if treeviewResultsSession changes, treeview_person changes. This boolean is to not change again treeviewResultsSession
-	private bool treeviewResultsSessionChangesTreeViewPersonsSignalsNoFollow;
-
 	// on_treeview_results_session_cursor_changed on forceSensor & raceAnalyzer makes load the set.
 	// In the middle of the load process, combo_force_sensor_exercise.Active changes and this makes redo the treeview making fail the load.
 	// With this variable we deactivate treeViewResultsSession.Fill while loading the set
@@ -170,12 +167,9 @@ public partial class ChronoJumpWindow
 			currentPersonSession = SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
 			label_person_change();
 
-			if (! treeviewResultsSessionChangesTreeViewPersonsSignalsNoFollow)
-			{
-				treeviewPersonsChangesTreeViewResultsSessionSignalsNoFollow = true;
-				personChanged();
-				treeviewPersonsChangesTreeViewResultsSessionSignalsNoFollow = false;
-			}
+			treeviewPersonsChangesTreeViewResultsSessionSignalsNoFollow = true;
+			personChanged();
+			treeviewPersonsChangesTreeViewResultsSessionSignalsNoFollow = false;
 
 			button_persons_up.Sensitive = ! myTreeViewPersons.IsFirst(currentPerson.UniqueID);
 			button_persons_down.Sensitive = ! myTreeViewPersons.IsLast(currentPerson.UniqueID);

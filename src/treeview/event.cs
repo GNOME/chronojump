@@ -296,36 +296,36 @@ public class TreeViewEvent
 		return row;
 	}
 
-	//used on two level treeviews
+	// ---- on two level treeviews ---->
 	public void SelectEventHeaderLine()
 	{
-		TreeIter iter = new TreeIter();
-		ITreeModel myModel = treeview.Model;
-		if (treeview.Selection.GetSelected (out myModel, out iter))
-		{
-			string pathString = store.GetPath(iter).ToString();
-			string [] myStrFull = pathString.Split(new char[] {':'});
-			string pathStringZero = myStrFull[0] + ":" + myStrFull[1]; //this will be the person name and the header line of the test
-			TreeIter iter2;
-			store.GetIterFromString(out iter2, pathStringZero);
+		TreeIter iter2 = new TreeIter ();
+		if (getIterParentOfSelectedSubEvent (ref iter2))
 			treeview.Selection.SelectIter(iter2);
-		}
 	}
 	public int GetIDOfSelectedSubEvent ()
 	{
+		TreeIter iter2 = new TreeIter ();
+		if (getIterParentOfSelectedSubEvent (ref iter2))
+			return Convert.ToInt32 (treeview.Model.GetValue (iter2, idColumn));
+		else
+			return MarkNonSelectRowSubEvent;
+	}
+	private bool getIterParentOfSelectedSubEvent (ref TreeIter iter2)
+	{
 		TreeIter iter = new TreeIter();
 		ITreeModel myModel = treeview.Model;
-		if (treeview.Selection.GetSelected (out myModel, out iter))
-		{
-			string pathString = store.GetPath(iter).ToString();
-			string [] myStrFull = pathString.Split(new char[] {':'});
-			string pathStringZero = myStrFull[0] + ":" + myStrFull[1]; //this will be the person name and the header line of the test
-			TreeIter iter2;
-			store.GetIterFromString(out iter2, pathStringZero);
-			return Convert.ToInt32 (treeview.Model.GetValue (iter2, idColumn));
-		}
-		return MarkNonSelectRowSubEvent;
+		if (! treeview.Selection.GetSelected (out myModel, out iter))
+			return false;
+
+		string pathString = store.GetPath(iter).ToString();
+		string [] myStrFull = pathString.Split(new char[] {':'});
+		string pathStringZero = myStrFull[0] + ":" + myStrFull[1]; //this will be the person name and the header line of the test
+
+		store.GetIterFromString (out iter2, pathStringZero);
+		return true;
 	}
+	// <---- on two level treeviews ----
 
 	public void Update (Event myEvent)
 	{

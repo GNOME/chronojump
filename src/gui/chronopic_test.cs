@@ -46,6 +46,11 @@ public class ChronopicTestWindow
 	Gtk.Button button_testLed_yes;
 	Gtk.Button button_testLed_no;
 
+	//3rd tab
+	Gtk.Image image_rca;
+	Gtk.Button button_rca_yes;
+	Gtk.Button button_rca_no;
+
 	// <---- at glade
 	
 	static ChronopicTestWindow ChronopicTestWindowBox;
@@ -104,6 +109,8 @@ public class ChronopicTestWindow
 		image_ledOn.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "chronopic_testLed_300.jpg");
 		image_testLed.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "rca_test_300.jpg");
+		image_rca.Pixbuf = pixbuf;
 	}
 
 	// yes/no butrons
@@ -122,11 +129,23 @@ public class ChronopicTestWindow
 	// 2nd tab
 	private void on_button_testLed_yes_clicked (object o, EventArgs args)
 	{
-		new DialogMessage (Constants.MessageTypes.INFO, "TODO");
+		notebook.CurrentPage = 2;
 	}
 	private void on_button_testLed_no_clicked (object o, EventArgs args)
 	{
 		label_contact_reason.Text = "Chronopic test button pressed, RCA is on.";
+		box_result.Visible = true;
+		notebook.Sensitive = false;
+	}
+
+	// 3rd tab
+	private void on_button_rca_yes_clicked (object o, EventArgs args)
+	{
+		new DialogMessage (Constants.MessageTypes.INFO, "TODO");
+	}
+	private void on_button_rca_no_clicked (object o, EventArgs args)
+	{
+		label_contact_reason.Text = "RCA cable is not working. Try to change it.";
 		box_result.Visible = true;
 		notebook.Sensitive = false;
 	}
@@ -161,11 +180,16 @@ public class ChronopicTestWindow
 		image_ledOn = (Gtk.Image) builder.GetObject ("image_ledOn");
 		button_ledOn_yes = (Gtk.Button) builder.GetObject ("button_ledOn_yes");
 		button_ledOn_no = (Gtk.Button) builder.GetObject ("button_ledOn_no");
-	
+
 		//2nd tab
 		image_testLed = (Gtk.Image) builder.GetObject ("image_testLed");
 		button_testLed_yes = (Gtk.Button) builder.GetObject ("button_testLed_yes");
 		button_testLed_no = (Gtk.Button) builder.GetObject ("button_testLed_no");
+
+		//3rd tab
+		image_rca = (Gtk.Image) builder.GetObject ("image_rca");
+		button_rca_yes = (Gtk.Button) builder.GetObject ("button_rca_yes");
+		button_rca_no = (Gtk.Button) builder.GetObject ("button_rca_no");
 	}
 }
 

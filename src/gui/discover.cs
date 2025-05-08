@@ -51,7 +51,9 @@ public class DiscoverWindow
 	static Thread discoverThread;
 	static MicroDiscover microDiscover;
 	public Gtk.Button FakeButtonClose;
+	ChronopicTestWindow chronopicTestWin;
 
+	private Gtk.Window parentWin;
 	private Constants.Modes current_mode;
 	private ChronopicRegister chronopicRegister;
 	private Gtk.Grid grid_micro_discover;
@@ -72,7 +74,8 @@ public class DiscoverWindow
 
 	private ChronopicRegisterPort portSelected;
 
-	public DiscoverWindow (Constants.Modes current_mode, ChronopicRegister chronopicRegister,
+	public DiscoverWindow (Gtk.Window parentWin,
+			Constants.Modes current_mode, ChronopicRegister chronopicRegister,
 			Gtk.Label label_micro_discover_not_found,
 			Gtk.Grid grid_micro_discover,
 			Gtk.Box box_micro_discover_nc,
@@ -86,6 +89,7 @@ public class DiscoverWindow
 			bool bgShiftedIsDark
 			)
 	{
+		this.parentWin = parentWin;
 		this.current_mode = current_mode;
 		this.chronopicRegister = chronopicRegister;
 		this.grid_micro_discover = grid_micro_discover;
@@ -305,6 +309,11 @@ public class DiscoverWindow
 
 				//TODO: work for more sensors
 				if (
+						(
+						 (current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE ||
+						  current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC) &&
+						 crp.Type == ChronopicRegisterPort.Types.CONTACTS
+						) ||
 						(Constants.ModeIsFORCESENSOR (current_mode) && crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE) ||
 						(Constants.ModeIsENCODER (current_mode) && crp.Type == ChronopicRegisterPort.Types.ENCODER) )
 				{
@@ -610,29 +619,34 @@ public class DiscoverWindow
 	//TODO: implement for more sensors
 	private void on_discover_debug_this_clicked_do (ChronopicRegisterPort crp, Gtk.Button bDebug)
 	{
-		if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE ||
-				crp.Type == ChronopicRegisterPort.Types.ENCODER)
-		{
-			if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE)
-			{
-				//force sensor needs to wait 3s to start capturing
-				bDebugCurrent = bDebug;
-				crpCurrent = crp;
-				dd = null;
-				stopwatch = new Stopwatch ();
-				stopwatch.Start ();
-				grid_micro_discover.Sensitive = false;
-				check_discover_advanced.Sensitive = false;
-				button_micro_discover_cancel_close.Sensitive = false;
+		if (crp.Type != ChronopicRegisterPort.Types.CONTACTS &&
+				crp.Type != ChronopicRegisterPort.Types.ARDUINO_FORCE &&
+				crp.Type != ChronopicRegisterPort.Types.ENCODER)
+			return;
 
-				debugThread = new Thread (new ThreadStart (debugForceSensor));
-				GLib.Idle.Add (new GLib.IdleHandler (pulseDebugGTK));
-				debugThread.Start();
-			}
-			else { //if (crp.Type == ChronopicRegisterPort.Types.ENCODER)
-				dd = new DebugEncoder (crp);
-				new DialogMessage (dd.Title, Constants.MessageTypes.INFO, 450, 400, dd.Str);
-			}
+		if (crp.Type == ChronopicRegisterPort.Types.CONTACTS)
+		{
+			chronopicTestWin = ChronopicTestWindow.Show (parentWin);
+		}
+		else if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE)
+		{
+			//force sensor needs to wait 3s to start capturing
+			bDebugCurrent = bDebug;
+			crpCurrent = crp;
+			dd = null;
+			stopwatch = new Stopwatch ();
+			stopwatch.Start ();
+			grid_micro_discover.Sensitive = false;
+			check_discover_advanced.Sensitive = false;
+			button_micro_discover_cancel_close.Sensitive = false;
+
+			debugThread = new Thread (new ThreadStart (debugForceSensor));
+			GLib.Idle.Add (new GLib.IdleHandler (pulseDebugGTK));
+			debugThread.Start();
+		}
+		else { //if (crp.Type == ChronopicRegisterPort.Types.ENCODER)
+			dd = new DebugEncoder (crp);
+			new DialogMessage (dd.Title, Constants.MessageTypes.INFO, 450, 400, dd.Str);
 		}
 	}
 

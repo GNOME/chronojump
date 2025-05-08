@@ -4572,20 +4572,21 @@ public partial class ChronoJumpWindow
 		label_micro_discover_nc_current_mode.Text = Constants.ModePrint (current_mode);
 		label_micro_discover_connect_error.Visible = false;
 
-		discoverWin = new DiscoverWindow (current_mode, chronopicRegister,
-			label_micro_discover_not_found,
-			grid_micro_discover,
-			box_micro_discover_nc,
-			button_micro_discover_cancel_close,
-			image_button_micro_discover_cancel_close,
-			label_button_micro_discover_cancel_close,
-			check_discover_advanced.Active, check_discover_advanced,
-			label_discover_advanced, image_discover_advanced,
-			Constants.ModeIcon (current_mode),
-			label_micro_discover_connect_error,
-			Config.ColorBackgroundShiftedIsDark
-			);
-			
+		discoverWin = new DiscoverWindow (app1,
+				current_mode, chronopicRegister,
+				label_micro_discover_not_found,
+				grid_micro_discover,
+				box_micro_discover_nc,
+				button_micro_discover_cancel_close,
+				image_button_micro_discover_cancel_close,
+				label_button_micro_discover_cancel_close,
+				check_discover_advanced.Active, check_discover_advanced,
+				label_discover_advanced, image_discover_advanced,
+				Constants.ModeIcon (current_mode),
+				label_micro_discover_connect_error,
+				Config.ColorBackgroundShiftedIsDark
+				);
+
 		if(! Config.UseSystemColor)
 			UtilGtk.ContrastLabelsGrid (Config.ColorBackgroundShiftedIsDark, grid_micro_discover);
 

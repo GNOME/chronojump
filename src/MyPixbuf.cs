@@ -200,6 +200,8 @@ namespace Chronojump
 			new ResourceFix ("mini/chronopic2.jpg" , "mini/chronopic2.jpg"),
 			new ResourceFix ("chronopic3.jpg" , "chronopic3.jpg"),
 			new ResourceFix ("mini/chronopic3.jpg" , "mini/chronopic3.jpg"),
+			new ResourceFix ("chronopic_ledOn_300.jpg" , "chronopic_ledOn_300.jpg"),
+			new ResourceFix ("chronopic_testLed_300.jpg" , "chronopic_testLed_300.jpg"),
 			new ResourceFix ("modular_platform_with_chronopic.jpg" , "modular_platform_with_chronopic.jpg"),
 			new ResourceFix ("mini/modular_platform_with_chronopic.jpg" , "mini/modular_platform_with_chronopic.jpg"),
 			new ResourceFix ("plataforma_contactos.jpg" , "plataforma_contactos.jpg"),

@@ -33,6 +33,8 @@ public class ChronopicTestWindow
 	Gtk.Notebook notebook;
 	Gtk.Button button_close;
 	Gtk.Box box_result;
+	Gtk.Box box_problems;
+	Gtk.Label label_all_ok;
 	Gtk.Label label_contact_reason;
 	Gtk.Image image_close;
 
@@ -123,6 +125,9 @@ public class ChronopicTestWindow
 	{
 		label_contact_reason.Text = "Chronopic RCA cable removed. Led D1 is Off.";
 		box_result.Visible = true;
+		box_problems.Visible = true;
+		label_all_ok.Visible = false;
+
 		notebook.Sensitive = false;
 	}
 
@@ -135,18 +140,26 @@ public class ChronopicTestWindow
 	{
 		label_contact_reason.Text = "Chronopic test button pressed, RCA is on.";
 		box_result.Visible = true;
+		box_problems.Visible = true;
+		label_all_ok.Visible = false;
+
 		notebook.Sensitive = false;
 	}
 
 	// 3rd tab
 	private void on_button_rca_yes_clicked (object o, EventArgs args)
 	{
-		new DialogMessage (Constants.MessageTypes.INFO, "TODO");
+		box_result.Visible = true;
+		box_problems.Visible = false;
+		label_all_ok.Visible = true;
 	}
 	private void on_button_rca_no_clicked (object o, EventArgs args)
 	{
 		label_contact_reason.Text = "RCA cable is not working. Try to change it.";
 		box_result.Visible = true;
+		box_problems.Visible = true;
+		label_all_ok.Visible = false;
+
 		notebook.Sensitive = false;
 	}
 
@@ -173,6 +186,8 @@ public class ChronopicTestWindow
 		notebook = (Gtk.Notebook) builder.GetObject ("notebook");
 		button_close = (Gtk.Button) builder.GetObject ("button_close");
 		box_result = (Gtk.Box) builder.GetObject ("box_result");
+		box_problems = (Gtk.Box) builder.GetObject ("box_problems");
+		label_all_ok = (Gtk.Label) builder.GetObject ("label_all_ok");
 		label_contact_reason = (Gtk.Label) builder.GetObject ("label_contact_reason");
 		image_close = (Gtk.Image) builder.GetObject ("image_close");
 

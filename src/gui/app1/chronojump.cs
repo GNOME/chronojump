@@ -1567,7 +1567,6 @@ public partial class ChronoJumpWindow
 		}
 
 		pre_fillTreeView_resultsSession ();
-		treeViewResultsSession.SelectPerson (currentPerson.Name);
 
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 		{
@@ -2078,10 +2077,19 @@ public partial class ChronoJumpWindow
 		pre_fillTreeView_resultsSession ();
 	}
 	
+	private int treeViewResultsSessionLastPersonID = -1;
 	private void pre_fillTreeView_resultsSession ()
 	{
 		if (pre_fillTreeView_resultsSession_NO)
 			return;
+
+		treeviewResultsSessionNoCheckPersonChange = true;
+
+		if (treeViewResultsSession != null)
+		{
+			TreeViewEvent.LastPersonID = treeViewResultsSession.GetPersonIDOfSelectedRow;
+			//LogB.Information ("TreeViewEvent.LastPersonID : " + TreeViewEvent.LastPersonID.ToString ());
+		}
 
 		treeview_results_session_storeReset ();
 
@@ -2137,6 +2145,11 @@ public partial class ChronoJumpWindow
 			fillTreeView_fourPlatforms ("", false);
 		} else
 			return;
+
+		treeViewResultsSession.CurrentPersonID = currentPerson.UniqueID; //to show in bold
+		treeViewResultsSession.SelectPerson (currentPerson.Name);
+
+		treeviewResultsSessionNoCheckPersonChange = false;
 	}
 
 	/* ---------------------------------------------------------

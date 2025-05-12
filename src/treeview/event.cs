@@ -66,6 +66,8 @@ public class TreeViewEvent
 	
 	public ExpandStates expandState;
 
+	private static int lastPersonID;
+
 	public TreeViewEvent ()
 	{
 	}
@@ -685,7 +687,12 @@ public class TreeViewEvent
 	}
 
 	public int CurrentPersonID {
+		get { return currentPersonID; }
 		set { currentPersonID = value; }
+	}
+	public static int LastPersonID {
+		set { lastPersonID = value; }
+		get { return lastPersonID; }
 	}
 
 }

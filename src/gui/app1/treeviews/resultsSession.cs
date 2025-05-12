@@ -87,7 +87,7 @@ public partial class ChronoJumpWindow
 			return;
 
 		// Check if clicked to another person
-		if (currentPerson != null && ! treeviewPersonsChangesTreeViewResultsSessionSignalsNoFollow)
+		if (currentPerson != null && ! treeviewResultsSessionNoCheckPersonChange)
 		{
 			int personID = treeViewResultsSession.GetPersonIDOfSelectedRow;
 			if (personID != currentPerson.UniqueID)
@@ -98,11 +98,21 @@ public partial class ChronoJumpWindow
 				// but if clicked on a subevent (on two level treeviews), then obtain the 1st level id
 				else if (treeViewResultsSession.EventSelectedID == TreeViewEvent.MarkNonSelectRowSubEvent)
 					personChangingFromResultsId = treeViewResultsSession.GetIDOfSelectedSubEvent ();
+				LogB.Information ("personChangingFromResultsId: " + personChangingFromResultsId.ToString ());
+
+				//1st update the variable
+				int personPrevious = currentPerson.UniqueID;
+				//treeViewResultsSession.CurrentPersonID = currentPerson.UniqueID;
+				treeViewResultsSession.CurrentPersonID = personID;
 
 				pre_fillTreeView_resultsSession_NO = true;
 
 				// select the person
 				selectRowTreeView_persons (treeview_persons, myTreeViewPersons.FindRow (personID));
+				// now currentPerson, currentPersionSession have been updated
+
+				treeViewResultsSession.PersonEmitRowChanged (personPrevious); // show normal
+				treeViewResultsSession.PersonEmitRowChanged (currentPerson.UniqueID); // show in bold
 
 				pre_fillTreeView_resultsSession_NO = false;
 

@@ -64,7 +64,17 @@ Linux stuff
 #VERSION=0.9.4
 #Then go to [1]
 
+
+#### ---- NEW ---->
+
 DEB) 2024: check: How\ to\ Make\ Linux\ Packages.txt
+
+#### <---- NEW ----
+
+
+
+#### ---- OLD ----> TODO: rename all this file as old (at least the linux & mac)
+
 DEB) create deb package (2023)
 
 sh autogen.sh

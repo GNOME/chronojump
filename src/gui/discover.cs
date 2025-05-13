@@ -314,6 +314,10 @@ public class DiscoverWindow
 						  current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC) &&
 						 crp.Type == ChronopicRegisterPort.Types.CONTACTS
 						) ||
+						(
+						 (current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC) &&
+						 crp.Type == ChronopicRegisterPort.Types.RUN_WIRELESS
+						) ||
 						(Constants.ModeIsFORCESENSOR (current_mode) && crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE) ||
 						(Constants.ModeIsENCODER (current_mode) && crp.Type == ChronopicRegisterPort.Types.ENCODER) )
 				{
@@ -620,6 +624,7 @@ public class DiscoverWindow
 	private void on_discover_debug_this_clicked_do (ChronopicRegisterPort crp, Gtk.Button bDebug)
 	{
 		if (crp.Type != ChronopicRegisterPort.Types.CONTACTS &&
+				crp.Type != ChronopicRegisterPort.Types.RUN_WIRELESS && //WICHRO
 				crp.Type != ChronopicRegisterPort.Types.ARDUINO_FORCE &&
 				crp.Type != ChronopicRegisterPort.Types.ENCODER)
 			return;
@@ -628,7 +633,8 @@ public class DiscoverWindow
 		{
 			chronopicTestWin = ChronopicTestWindow.Show (parentWin);
 		}
-		else if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE)
+		else if (crp.Type == ChronopicRegisterPort.Types.RUN_WIRELESS ||
+				crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE)
 		{
 			//force sensor needs to wait 3s to start capturing
 			bDebugCurrent = bDebug;
@@ -640,7 +646,11 @@ public class DiscoverWindow
 			check_discover_advanced.Sensitive = false;
 			button_micro_discover_cancel_close.Sensitive = false;
 
-			debugThread = new Thread (new ThreadStart (debugForceSensor));
+			if (crp.Type == ChronopicRegisterPort.Types.RUN_WIRELESS)
+				debugThread = new Thread (new ThreadStart (debugWichro));
+			else //if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE)
+				debugThread = new Thread (new ThreadStart (debugForceSensor));
+
 			GLib.Idle.Add (new GLib.IdleHandler (pulseDebugGTK));
 			debugThread.Start();
 		}
@@ -656,6 +666,11 @@ public class DiscoverWindow
 	private Gtk.Button bDebugCurrent;
 	private Stopwatch stopwatch;
 
+	// Using a thread: when a DialogMessage window is shown after some time (arduino start)
+	private void debugWichro ()
+	{
+		dd = new DebugWichro (crpCurrent);
+	}
 	private void debugForceSensor ()
 	{
 		dd = new DebugForceSensor (crpCurrent);
@@ -794,6 +809,41 @@ public abstract class DebugDevices
 		return true;
 	}
 
+	// adapted from gui/app1/forceSensor.cs forceSensorCheckVersionDo ()
+	protected bool getVersionArduino (string commandStr, string responseExpected)
+	{
+		str += "\n\n- Getting version …";
+
+		// send message
+		try {
+			port.WriteLine (commandStr);
+		}
+		catch (Exception ex)
+		{
+			if(ex is System.IO.IOException || ex is System.TimeoutException)
+			{
+				str += "\n- Failed at sending message. Error: " + ex.ToString ();
+				return false;
+			}
+		}
+
+		// get version
+		string s = "";
+		do {
+			Thread.Sleep(100); //sleep to let arduino start reading
+			try {
+				s = port.ReadLine().Trim();
+			} catch (Exception ex) {
+				str += "\n- Failed at receiving message. Error: " + ex.ToString ();
+				return false;
+			}
+		}
+		while(! s.Contains(responseExpected));
+
+		str += "\n- Version found is: " + s;
+		return true;
+	}
+
 	public string Title {
 		get { return title; }
 	}
@@ -803,6 +853,40 @@ public abstract class DebugDevices
 	public bool Done {
 		get { return done; }
 	}
+}
+
+public class DebugWichro : DebugDevices
+{
+	public DebugWichro (ChronopicRegisterPort crp)
+	{
+		this.crp = crp;
+		title = "Testing Wicrho";
+
+		done = false;
+		debugDo ();
+		done = true;
+	}
+
+	protected override void debugDo ()
+	{
+		if (! portCreate ())
+			return;
+
+		if (! portOpen ())
+			return;
+
+		Thread.Sleep(3000); //sleep to let arduino start reading serial event
+		LogB.Information ("Have wait 3 s");
+
+		if (! getVersionArduino ("local:get_version:", "Wifi-Controller"))
+			return;
+
+//		if (! readSomeData ())
+//			return;
+
+		portClose ();
+	}
+
 }
 
 public class DebugForceSensor : DebugDevices
@@ -828,48 +912,13 @@ public class DebugForceSensor : DebugDevices
 		Thread.Sleep(3000); //sleep to let arduino start reading serial event
 		LogB.Information ("Have wait 3 s");
 
-		if (! getVersion ())
+		if (! getVersionArduino ("get_version:", "Force_Sensor-"))
 			return;
 
 		if (! readSomeData ())
 			return;
 
 		portClose ();
-	}
-
-	// adapted from gui/app1/forceSensor.cs forceSensorCheckVersionDo ()
-	private bool getVersion ()
-	{
-		str += "\n\n- Getting version …";
-
-		// send message
-		try {
-			port.WriteLine ("get_version:");
-		}
-		catch (Exception ex)
-		{
-			if(ex is System.IO.IOException || ex is System.TimeoutException)
-			{
-				str += "\n- Failed at sending message. Error: " + ex.ToString ();
-				return false;
-			}
-		}
-
-		// get version
-		string s = "";
-		do {
-			Thread.Sleep(100); //sleep to let arduino start reading
-			try {
-				s = port.ReadLine().Trim();
-			} catch (Exception ex) {
-				str += "\n- Failed at receiving message. Error: " + ex.ToString ();
-				return false;
-			}
-		}
-		while(! s.Contains("Force_Sensor-"));
-
-		str += "\n- Version found is: " + s;
-		return true;
 	}
 
 	// copied from gui/app1/forceSensor.cs

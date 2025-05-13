@@ -8823,6 +8823,7 @@ last capture</property>
                                                             <object class="GtkVPaned" id="vpaned2">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
+                                                            <property name="wide-handle">True</property>
                                                             <child>
                                                             <object class="GtkBox" id="box_contacts_current">
                                                             <property name="visible">True</property>
@@ -22622,6 +22623,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

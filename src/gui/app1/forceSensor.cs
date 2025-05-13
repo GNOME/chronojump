@@ -1929,7 +1929,7 @@ LogB.Information(" fs C ");
 					}
 
 					updateGraphForceSensorBars();
-					treeViewResultsSession.Add (currentPerson.Name, currentForceSensor, "");
+					treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentForceSensor, "");
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 					sensitiveLastTestButtons(true);
 					contactsShowCaptureDoingButtons(false);

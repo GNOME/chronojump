@@ -5388,7 +5388,7 @@ public partial class ChronoJumpWindow
 
 		if ( ! currentEventExecute.Cancel ) {
 			treeViewResultsSession.PersonWeight = currentPersonSession.Weight;
-			treeViewResultsSession.Add (currentPerson.Name, currentJump, savedVideoStr);
+			treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentJump, savedVideoStr);
 		}
 
 		//2.2.1 Cairo graph is not updated if window is not resized, so force update
@@ -5710,7 +5710,7 @@ public partial class ChronoJumpWindow
 
 		if ( ! currentEventExecute.Cancel ) {
 			treeViewResultsSession.PersonWeight = currentPersonSession.Weight;
-			treeViewResultsSession.Add (currentPerson.Name, currentJumpRj, savedVideoStr);
+			treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentJumpRj, savedVideoStr);
 		}
 
 		//Cairo graph is not updated if window is not resized, so force update
@@ -5849,7 +5849,7 @@ public partial class ChronoJumpWindow
 		{
 			currentRun.MetersSecondsPreferred = preferences.metersSecondsPreferred;
 
-			treeViewResultsSession.Add (currentPerson.Name, currentRun, savedVideoStr);
+			treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentRun, savedVideoStr);
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created
@@ -5963,7 +5963,7 @@ public partial class ChronoJumpWindow
 					configChronojump.JsonUploadRunSimpleRankingScript
 					);
 
-			treeViewResultsSession.Add (currentPerson.Name, (Run) currentEventExecute.EventDone, "");
+			treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, (Run) currentEventExecute.EventDone, "");
 			updateGraphRunsSimple();
 		}
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC &&
@@ -5988,7 +5988,7 @@ public partial class ChronoJumpWindow
 			 * note there are other transformation used on_run_interval_finished that maybe there are not needed here as they are already done on currentEventExecute creation
 			 * like: MetersSecondsPreferred, Tracks, Limited
 			 */
-			treeViewResultsSession.Add (currentPerson.Name, (RunInterval) currentEventExecute.EventDone, "");
+			treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, (RunInterval) currentEventExecute.EventDone, "");
 			updateGraphRunsInterval();
 		}
 
@@ -6161,7 +6161,7 @@ public partial class ChronoJumpWindow
 				}
 			}
 
-			treeViewResultsSession.Add (currentPerson.Name, currentRunInterval, savedVideoStr);
+			treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentRunInterval, savedVideoStr);
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created

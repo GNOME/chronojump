@@ -2214,7 +2214,7 @@ public partial class ChronoJumpWindow
 					}
 
 					updateGraphRunEncoderBars();
-					treeViewResultsSession.Add (currentPerson.Name, currentRunEncoder, "");
+					treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentRunEncoder, "");
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 					sensitiveLastTestButtons(true);
 					contactsShowCaptureDoingButtons(false);

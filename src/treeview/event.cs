@@ -286,6 +286,7 @@ public class TreeViewEvent
 		}
 	}
 
+	//used on Fill
 	private string [] createPersonRow (string [] strFull)
 	{
 		string [] row = new String [idColumn +1];
@@ -295,6 +296,18 @@ public class TreeViewEvent
 			row[i] = "";
 
 		row[i] = (Convert.ToInt32 (strFull[personIdColumn])).ToString ();
+		return row;
+	}
+	//used on Add
+	private string [] createPersonRow (int id, string name)
+	{
+		string [] row = new String [idColumn +1];
+		row[0] = name;
+		int i;
+		for (i = 1; i < idColumn; i ++)
+			row[i] = "";
+
+		row[i] = id.ToString ();
 		return row;
 	}
 
@@ -441,7 +454,7 @@ public class TreeViewEvent
 	}
 
 	//TODO: with video here
-	public void Add (string personName, System.Object newEvent, string videoStr)
+	public void Add (int personID, string personName, System.Object newEvent, string videoStr)
 	{
 		TreeIter iter = new TreeIter();
 		TreeIter iterDeep = new TreeIter(); //only used by two levels treeviews
@@ -484,9 +497,9 @@ public class TreeViewEvent
 
 		//if the person has not done this kind of event in this session, it's name doesn't appear in the treeview
 		//create the name, and write the event
-		if(! found) {
-			iter = store.AppendValues (personName);
-			
+		if(! found)
+		{
+			iter = store.AppendValues (createPersonRow (personID, personName));
 			iterDeep = store.AppendValues (iter, getLineToStore(newEvent));
 			
 			//scroll treeview if needed

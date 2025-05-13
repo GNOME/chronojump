@@ -716,8 +716,7 @@ public partial class ChronoJumpWindow
 		initForceSensor ();
 		initRunEncoder ();
 
-		radio_contacts_graph_allTests.Active = true;
-		radio_contacts_results_personAll.Active = true;
+		treeviewResultsSessionAllPersonsAllTests ();
 
 		/*
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_person_close,
@@ -2486,6 +2485,7 @@ public partial class ChronoJumpWindow
 			stats_win_initializeSession();
 		}
 
+		treeviewResultsSessionAllPersonsAllTests ();
 		resetAllTreeViews(false, true, false); //fillTests, resetPersons, fillPersons
 
 		//if we are on analyze tab, switch to capture tab
@@ -2575,6 +2575,7 @@ public partial class ChronoJumpWindow
 		if(createdStatsWin && ! configChronojump.Exhibition) //slow Sqlite calls for Exhibition big data
 			stats_win_initializeSession();
 
+		treeviewResultsSessionAllPersonsAllTests ();
 		resetAllTreeViews(! configChronojump.Exhibition, true, true); //fillTests, resetPersons, fillPersons
 
 		//if we are on analyze tab, switch to capture tab

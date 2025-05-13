@@ -299,5 +299,13 @@ public partial class ChronoJumpWindow
 		myMenu.ShowAll();
 		myMenu.Popup();
 	}
+
+	// Used on open Chronojump and on load session.
+	// Because at load session if these are not active, user will think it has lost his data
+	private void treeviewResultsSessionAllPersonsAllTests ()
+	{
+		radio_contacts_graph_allTests.Active = true;
+		radio_contacts_results_personAll.Active = true;
+	}
 }
 

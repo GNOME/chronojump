@@ -989,8 +989,7 @@ public partial class ChronoJumpWindow
 			else
 				checkFileOp = Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES;
 
-			//on Silicon do not select the folder
-			if (UtilAll.IsMacSilicon ())
+			if (UtilAll.IsMacSilicon ()) 	//on Silicon do not select the folder
 			{
 				string nameString = checkFolderGetName (checkFileOp);
 				exportFileName = Util.GetTempExportDirMacSilicon (nameString);

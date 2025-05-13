@@ -308,18 +308,7 @@ public class DiscoverWindow
 				label.Text = Catalog.GetString (useThisStr);
 
 				//TODO: work for more sensors
-				if (
-						(
-						 (current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE ||
-						  current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC) &&
-						 crp.Type == ChronopicRegisterPort.Types.CONTACTS
-						) ||
-						(
-						 (current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC) &&
-						 crp.Type == ChronopicRegisterPort.Types.RUN_WIRELESS
-						) ||
-						(Constants.ModeIsFORCESENSOR (current_mode) && crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE) ||
-						(Constants.ModeIsENCODER (current_mode) && crp.Type == ChronopicRegisterPort.Types.ENCODER) )
+				if (shouldHaveDebugButton (current_mode, crp.Type))
 				{
 					bDebug.Sensitive = true;
 					bDebug.Label = debugThisStr;
@@ -373,6 +362,30 @@ public class DiscoverWindow
 
 		grid_micro_discover.Attach (c2_box_b_or_label, 2, i, 1, 1);
 		grid_micro_discover.Attach (bDebug, 3, i, 1, 1);
+	}
+
+	private bool shouldHaveDebugButton (Constants.Modes mode, ChronopicRegisterPort.Types crpType)
+	{
+		if (
+				(current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE ||
+				 current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC) &&
+				crpType == ChronopicRegisterPort.Types.CONTACTS
+		   )
+			return true;
+
+		if (
+				(current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC) &&
+				crpType == ChronopicRegisterPort.Types.RUN_WIRELESS
+		   )
+			return true;
+
+		if (Constants.ModeIsFORCESENSOR (current_mode) && crpType == ChronopicRegisterPort.Types.ARDUINO_FORCE)
+			return true;
+
+		if (Constants.ModeIsENCODER (current_mode) && crpType == ChronopicRegisterPort.Types.ENCODER)
+			return true;
+
+		return false;
 	}
 
 	public void ShowAdvanced (bool show)
@@ -448,14 +461,17 @@ public class DiscoverWindow
 					button_microNotDiscovered_l[i].Visible = true;
 					label_microNotDiscovered_l[i].Visible = false;
 
-					buttonDebug_notDiscovered_crp_l[i].Type = microDiscover.Discovered_l[i];
+					if (shouldHaveDebugButton (current_mode, microDiscover.Discovered_l[i]))
+					{
+						buttonDebug_notDiscovered_crp_l[i].Type = microDiscover.Discovered_l[i];
 
-					if (showAdvanced)
-						buttonDebug_notDiscovered_l[i].Visible = true;
-					buttonDebug_notDiscovered_l[i].Sensitive = true;
-					buttonDebug_notDiscovered_l[i].Label = debugThisStr;
-					buttonDebug_notDiscovered_l[i].Clicked -= new EventHandler (on_discover_debug_this_clicked); //needed. if not: called multiple times
-					buttonDebug_notDiscovered_l[i].Clicked += new EventHandler (on_discover_debug_this_clicked);
+						if (showAdvanced)
+							buttonDebug_notDiscovered_l[i].Visible = true;
+						buttonDebug_notDiscovered_l[i].Sensitive = true;
+						buttonDebug_notDiscovered_l[i].Label = debugThisStr;
+						buttonDebug_notDiscovered_l[i].Clicked -= new EventHandler (on_discover_debug_this_clicked); //needed. if not: called multiple times
+						buttonDebug_notDiscovered_l[i].Clicked += new EventHandler (on_discover_debug_this_clicked);
+					}
 				} else {
 					button_microNotDiscovered_l[i].Visible = false;
 					label_microNotDiscovered_l[i].Text = Catalog.GetString ("NC");

@@ -92,7 +92,10 @@ public partial class ChronoJumpWindow
 	static bool forceProcessFinish;
 	static bool forceProcessCancel;
 	static bool forceProcessKill; //when user closes program while capturing (do not call arduino and wait for its response)
+
 	static bool forceProcessError;
+	enum forceProcessErrorEnum { DISCONNECTED, NAN };
+	static forceProcessErrorEnum forceProcessErrorType;
 
 	Thread forceOtherThread; //for messages on: capture, tare, calibrate
 	static string forceSensorOtherMessage = "";
@@ -160,6 +163,8 @@ public partial class ChronoJumpWindow
 		Catalog.GetString("Force sensor is not detected!") + " " +
 		Catalog.GetString("Plug cable and click on 'device' button.");
 
+	string forceSensorNaNString = Catalog.GetString ("Incorrect captured value.") + " " +
+		Catalog.GetString ("The sensor is incorrectly calibrated."); //or does not work properly if calibrated again and fails
 
 	TreeviewFSAnalyze tvFS_AB;
 	TreeviewFSAnalyze tvFS_CD;
@@ -1091,6 +1096,13 @@ public partial class ChronoJumpWindow
 						false, out triggerCode)) //false: do not read triggers
 				continue;
 
+			if (double.IsNaN (force))
+			{
+				forceProcessError = true;
+				forceProcessErrorType = forceProcessErrorEnum.NAN;
+				return -1;
+			}
+
 			forceSensorValues.TimeLast = time;
 			forceSensorValues.ValueLast = force;
 			forceSensorValues.SetMaxMinIfNeeded(force, time);
@@ -1336,6 +1348,7 @@ public partial class ChronoJumpWindow
 		{
 			LogB.Information("fs Error 1");
 			forceProcessError = true;
+			forceProcessErrorType = forceProcessErrorEnum.DISCONNECTED;
 			return;
 		}
 
@@ -1351,6 +1364,7 @@ public partial class ChronoJumpWindow
 			} catch {
 				LogB.Information("fs Error 2");
 				forceProcessError = true;
+				forceProcessErrorType = forceProcessErrorEnum.DISCONNECTED;
 				return;
 			}
 			LogB.Information("init string: " + str);
@@ -1444,6 +1458,13 @@ public partial class ChronoJumpWindow
 					taringSum += force;
 					taringSample ++;
 				}
+
+				if (double.IsNaN (force))
+				{
+					forceProcessError = true;
+					forceProcessErrorType = forceProcessErrorEnum.NAN;
+					return;
+				}
 			}
 
 			if(taringSample > 0)
@@ -1529,6 +1550,15 @@ public partial class ChronoJumpWindow
 					if(! forceSensorProcessCapturedLine(str, out time, out force,
 								readTriggers, out triggerCode))
 						continue;
+
+					if (double.IsNaN (force))
+					{
+						forceProcessError = true;
+						forceProcessErrorType = forceProcessErrorEnum.NAN;
+						blinkCapture.End ();
+
+						return;
+					}
 				}
 			}
 
@@ -1683,6 +1713,7 @@ public partial class ChronoJumpWindow
 			if (! Config.SimulatedCapture && ! forceSensorSendCommand("end_capture:", Catalog.GetString ("Ending capture …"), "Catched ending capture"))
 			{
 				forceProcessError = true; LogB.Information("fs Error 3");
+				forceProcessErrorType = forceProcessErrorEnum.DISCONNECTED;
 				capturingForce = arduinoCaptureStatus.STOP;
 				Util.FileDelete(fileName);
 				return;
@@ -1713,6 +1744,7 @@ public partial class ChronoJumpWindow
 							(! Config.SimulatedCapture && ! forceSensorSendCommand("end_capture:", Catalog.GetString ("Ending capture …"), "Catched ending capture")))
 					{
 						forceProcessError = true; LogB.Information("fs Error 3b");
+						forceProcessErrorType = forceProcessErrorEnum.DISCONNECTED;
 						capturingForce = arduinoCaptureStatus.STOP;
 						Util.FileDelete(fileName);
 						return;
@@ -1795,6 +1827,7 @@ public partial class ChronoJumpWindow
 			forceTooBigMark = true;
 			forceTooBigValue = Convert.ToDouble (Util.ChangeDecimalSeparator(strFull[1]));
 			forceProcessError = true;
+			forceProcessErrorType = forceProcessErrorEnum.NAN;
 
 			return false;
 		}
@@ -1955,7 +1988,12 @@ LogB.Information(" fs C ");
 				else if (forceProcessCancel)
 					event_execute_label_message.Text = "Cancelled.";
 				else {
-					event_execute_label_message.Text = forceSensorNotConnectedString;
+					//forceProcessError
+					if (forceProcessErrorType ==  forceProcessErrorEnum.DISCONNECTED)
+						event_execute_label_message.Text = forceSensorNotConnectedString;
+					else //if (forceProcessErrorType ==  forceProcessErrorEnum.NAN)
+						event_execute_label_message.Text = forceSensorNaNString;
+
 					button_detect_show_hide (true); // show the detect big button
 				}
 
@@ -2069,6 +2107,7 @@ LogB.Information(" fs H2 ");
 				{
 					event_execute_label_message.Text = "Disconnected!";
 					forceProcessError = true;
+					forceProcessErrorType = forceProcessErrorEnum.DISCONNECTED;
 					LogB.Information("fs Error 4." +
 						string.Format(" captured {0} samples", spCairoFE.Force_l.Count));
 					return true;

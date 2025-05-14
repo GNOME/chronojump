@@ -379,6 +379,9 @@ public class DiscoverWindow
 		   )
 			return true;
 
+		if (current_mode == Constants.Modes.RUNSENCODER && crpType == ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER)
+			return true;
+
 		if (Constants.ModeIsFORCESENSOR (current_mode) && crpType == ChronopicRegisterPort.Types.ARDUINO_FORCE)
 			return true;
 
@@ -641,6 +644,7 @@ public class DiscoverWindow
 	{
 		if (crp.Type != ChronopicRegisterPort.Types.CONTACTS &&
 				crp.Type != ChronopicRegisterPort.Types.RUN_WIRELESS && //WICHRO
+				crp.Type != ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER && //Race Analyzer
 				crp.Type != ChronopicRegisterPort.Types.ARDUINO_FORCE &&
 				crp.Type != ChronopicRegisterPort.Types.ENCODER)
 			return;
@@ -650,20 +654,29 @@ public class DiscoverWindow
 			chronopicTestWin = ChronopicTestWindow.Show (parentWin);
 		}
 		else if (crp.Type == ChronopicRegisterPort.Types.RUN_WIRELESS ||
+				crp.Type == ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER ||
 				crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE)
 		{
 			//force sensor needs to wait 3s to start capturing
 			bDebugCurrent = bDebug;
 			crpCurrent = crp;
 			dd = null;
+
+			ddTotalSeconds = 5.99;
+			if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER)
+				ddTotalSeconds = 5.99 + 3; //capturing data
+
 			stopwatch = new Stopwatch ();
 			stopwatch.Start ();
+
 			grid_micro_discover.Sensitive = false;
 			check_discover_advanced.Sensitive = false;
 			button_micro_discover_cancel_close.Sensitive = false;
 
 			if (crp.Type == ChronopicRegisterPort.Types.RUN_WIRELESS)
 				debugThread = new Thread (new ThreadStart (debugWichro));
+			else if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER)
+				debugThread = new Thread (new ThreadStart (debugRaceAnalyzer));
 			else //if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE)
 				debugThread = new Thread (new ThreadStart (debugForceSensor));
 
@@ -678,6 +691,7 @@ public class DiscoverWindow
 
 	static Thread debugThread;
 	private DebugDevices dd;
+	private double ddTotalSeconds;
 	private ChronopicRegisterPort crpCurrent;
 	private Gtk.Button bDebugCurrent;
 	private Stopwatch stopwatch;
@@ -686,6 +700,10 @@ public class DiscoverWindow
 	private void debugWichro ()
 	{
 		dd = new DebugWichro (crpCurrent);
+	}
+	private void debugRaceAnalyzer ()
+	{
+		dd = new DebugRaceAnalyzer (crpCurrent);
 	}
 	private void debugForceSensor ()
 	{
@@ -706,7 +724,7 @@ public class DiscoverWindow
 			return false;
 		}
 
-		int seconds = Convert.ToInt32 (5.99 -stopwatch.Elapsed.TotalSeconds);
+		int seconds = Convert.ToInt32 (ddTotalSeconds -stopwatch.Elapsed.TotalSeconds);
 		if (seconds < 0)
 		       seconds = 0;
 
@@ -979,12 +997,145 @@ public class DebugWichro : DebugDevices
 		if (! getVersionArduino ("local:get_version:", "Wifi-Controller"))
 			return;
 
-//		if (! readSomeData ())
-//			return;
+		portClose ();
+	}
+}
+
+public class DebugRaceAnalyzer : DebugDevices
+{
+	public DebugRaceAnalyzer (ChronopicRegisterPort crp)
+	{
+		this.crp = crp;
+		title = "Testing Race Analyzer";
+
+		done = false;
+		debugDo ();
+		done = true;
+	}
+
+	protected override void debugDo ()
+	{
+		if (! portCreate ())
+			return;
+
+		if (! portOpen ())
+			return;
+
+		Thread.Sleep(3000); //sleep to let arduino start reading serial event
+		LogB.Information ("Have wait 3 s");
+
+		if (! getVersionArduino ("get_version:", "Race_Analyzer-"))
+			return;
+
+		if (! readSomeData ())
+			return;
 
 		portClose ();
 	}
 
+	protected override bool readSomeData ()
+	{
+		int seconds = 3;
+		str += string.Format ("\n\n- Capturing {0} seconds …", seconds);
+
+		if (! startCaptureArduino ())
+			return false;
+
+		// capture some data
+
+		Stopwatch swTotal = new Stopwatch ();
+		swTotal.Start ();
+
+		int bytesToRead = 0;
+
+		do {
+			try {
+				bytesToRead = port.BytesToRead;
+			} catch {
+				continue;
+			}
+
+			if (port.BytesToRead < 9) 	// readBinaryRunEncoder9Bytes will read 9 bytes
+				continue;
+
+			List<int> binaryReaded = readBinaryRunEncoder9Bytes ();
+
+			// using pulses and not m because for m first we need to send pps. And check if version is ok for send pps.
+			str += string.Format ("\n  {0} pulses \t {1} us",//; N\t {3} is RCA?",
+					binaryReaded[0], binaryReaded[1]);//, binaryReaded[2], binaryReaded[3]);
+					//binaryReaded[0] * 0.0030321, binaryReaded[1]);//, binaryReaded[2], binaryReaded[3]);
+
+		} while (swTotal.Elapsed.TotalSeconds < 3);
+		swTotal.Stop ();
+
+		if (! endCaptureArduino ())
+			return false;
+
+		return true;
+	}
+
+	// copied from gui/app1/runEncoder.cs
+	// time (4 bytes: long at Arduino, uint at c-sharp), force (2 bytes: uint), encoder/RCA (1 byte: uint)
+	private List<int> readBinaryRunEncoder9Bytes ()
+        {
+                List<int> dataRow = new List<int>();
+
+		var buffer = new byte[1024];
+		int bytesRead = 0;
+		try {
+			bytesRead = port.Read (buffer, 0, 9);
+		}
+		catch (Exception ex)
+		{
+			if(ex is System.IO.IOException || ex is System.TimeoutException)
+				LogB.Information ("catched on readBinaryRunEncoder9Bytes portRE.Read ()");
+
+			return dataRow;
+		}
+
+		int count = 0;
+
+		// 1) encoderDisplacement (2 bytes)
+                int b0 = buffer[count ++]; //encoderDisplacement least significative
+                int b1 = buffer[count ++]; //encoderDisplacement most significative
+		int readedNum = Convert.ToInt32(256 * b1 + b0);
+
+		//care for negative values
+		if(readedNum > 32768)
+			readedNum = -1 * (65536 - readedNum);
+
+		dataRow.Add(readedNum);
+
+		// 2) read time, four bytes
+                b0 = buffer[count ++]; //least significative
+                b1 = buffer[count ++];
+                int b2 = buffer[count ++];
+                int b3 = buffer[count ++]; //most significative
+
+                dataRow.Add(Convert.ToInt32(
+                                Math.Pow(256,3) * b3 +
+                                Math.Pow(256,2) * b2 +
+                                Math.Pow(256,1) * b1 +
+                                Math.Pow(256,0) * b0));
+
+		// 3) read force, two bytes
+		b0 = buffer[count ++]; //least significative
+		b1 = buffer[count ++]; //most significative
+		readedNum = Convert.ToInt32(256 * b1 + b0);
+
+		dataRow.Add(readedNum);
+
+		/*
+		 * 4) byte for encoder or RCA
+		 * 0 encoder data
+		 * 1 RCA down (button is released)
+		 * 2 RCA up (button is pressed)
+		 */
+		b0 = buffer[count ++];
+		dataRow.Add(Convert.ToInt32(b0));
+
+                return dataRow;
+        }
 }
 
 public class DebugForceSensor : DebugDevices

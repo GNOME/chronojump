@@ -20,196 +20,7 @@
             <property name="can-focus">False</property>
             <property name="orientation">vertical</property>
             <child>
-              <object class="GtkNotebook" id="notebook">
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="show-tabs">False</property>
-                <property name="show-border">False</property>
-                <child>
-                  <object class="GtkBox">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="border-width">12</property>
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <object class="GtkImage" id="image_ledOn">
-                        <property name="width-request">300</property>
-                        <property name="height-request">300</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="stock">gtk-missing-image</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                  </object>
-                </child>
-                <child type="tab">
-                  <object class="GtkLabel" id="label1">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label">led green on</property>
-                  </object>
-                  <packing>
-                    <property name="tab-fill">False</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="border-width">12</property>
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <object class="GtkImage" id="image_testLed">
-                        <property name="width-request">300</property>
-                        <property name="height-request">300</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="stock">gtk-missing-image</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child type="tab">
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label">test changes led</property>
-                  </object>
-                  <packing>
-                    <property name="position">1</property>
-                    <property name="tab-fill">False</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="border-width">12</property>
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <object class="GtkImage" id="image_rca">
-                        <property name="width-request">300</property>
-                        <property name="height-request">300</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="stock">gtk-missing-image</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child type="tab">
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label">rca</property>
-                  </object>
-                  <packing>
-                    <property name="position">2</property>
-                    <property name="tab-fill">False</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="border-width">12</property>
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <object class="GtkImage" id="image_platform_connect">
-                        <property name="width-request">300</property>
-                        <property name="height-request">300</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="stock">gtk-missing-image</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="position">3</property>
-                  </packing>
-                </child>
-                <child type="tab">
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label">platform connect</property>
-                  </object>
-                  <packing>
-                    <property name="position">3</property>
-                    <property name="tab-fill">False</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="orientation">vertical</property>
-                    <property name="spacing">20</property>
-                    <child>
-                      <object class="GtkImage" id="image_platform_stand">
-                        <property name="width-request">300</property>
-                        <property name="height-request">300</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="stock">gtk-missing-image</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="position">4</property>
-                  </packing>
-                </child>
-                <child type="tab">
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">platform</property>
-                  </object>
-                  <packing>
-                    <property name="position">4</property>
-                    <property name="tab-fill">False</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <!-- n-columns=2 n-rows=3 -->
+              <!-- n-columns=2 n-rows=5 -->
               <object class="GtkGrid" id="grid_iqa">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
@@ -226,7 +37,7 @@
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
-                    <property name="top-attach">0</property>
+                    <property name="top-attach">2</property>
                   </packing>
                 </child>
                 <child>
@@ -239,31 +50,29 @@
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
-                    <property name="top-attach">1</property>
+                    <property name="top-attach">3</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkLabel" id="label_instructions">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">Remove the RCA cable. Then, check LED D1.</property>
                     <property name="xalign">0</property>
                   </object>
                   <packing>
                     <property name="left-attach">1</property>
-                    <property name="top-attach">0</property>
+                    <property name="top-attach">2</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkLabel" id="label_question">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">Is the green LED D1 on?</property>
                     <property name="xalign">0</property>
                   </object>
                   <packing>
                     <property name="left-attach">1</property>
-                    <property name="top-attach">1</property>
+                    <property name="top-attach">3</property>
                   </packing>
                 </child>
                 <child>
@@ -276,7 +85,7 @@
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
-                    <property name="top-attach">2</property>
+                    <property name="top-attach">4</property>
                   </packing>
                 </child>
                 <child>
@@ -376,14 +185,122 @@
                   </object>
                   <packing>
                     <property name="left-attach">1</property>
-                    <property name="top-attach">2</property>
+                    <property name="top-attach">4</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">&lt;b&gt;Progress&lt;/b&gt;	</property>
+                    <property name="use-markup">True</property>
+                    <property name="xalign">0</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">&lt;b&gt;Image&lt;/b&gt;	</property>
+                    <property name="use-markup">True</property>
+                    <property name="xalign">0</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkImage" id="image">
+                    <property name="width-request">300</property>
+                    <property name="height-request">300</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="stock">gtk-missing-image</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">1</property>
+                    <property name="top-attach">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="spacing">30</property>
+                    <child>
+                      <object class="GtkLabel" id="label_progress">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="button_back">
+                        <property name="visible">True</property>
+                        <property name="sensitive">False</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
+                        <property name="valign">end</property>
+                        <signal name="clicked" handler="on_button_back_clicked" swapped="no"/>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="spacing">4</property>
+                            <child>
+                              <object class="GtkImage" id="image_back">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="stock">gtk-missing-image</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">Back</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left-attach">1</property>
+                    <property name="top-attach">0</property>
                   </packing>
                 </child>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="position">0</property>
               </packing>
             </child>
           </object>
@@ -522,7 +439,6 @@
                   <object class="GtkLabel" id="label_all_ok">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="margin-left">30</property>
                     <property name="label" translatable="yes">All tests ok!</property>
                   </object>
                   <packing>
@@ -538,71 +454,12 @@
                 <property name="position">0</property>
               </packing>
             </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButtonBox">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="margin-top">20</property>
-            <property name="layout-style">spread</property>
-            <child>
-              <object class="GtkButton" id="button_back">
-                <property name="visible">True</property>
-                <property name="sensitive">False</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-                <property name="valign">end</property>
-                <signal name="clicked" handler="on_button_back_clicked" swapped="no"/>
-                <child>
-                  <object class="GtkBox">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="spacing">4</property>
-                    <child>
-                      <object class="GtkImage" id="image_back">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="stock">gtk-missing-image</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">Back</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
             <child>
               <object class="GtkButton" id="button_close">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <property name="valign">end</property>
+                <property name="valign">center</property>
                 <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
                 <child>
                   <object class="GtkBox">
@@ -647,7 +504,7 @@
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">2</property>
+            <property name="position">1</property>
           </packing>
         </child>
       </object>

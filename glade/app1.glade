@@ -9376,12 +9376,13 @@ last capture</property>
                                                             <object class="GtkGrid">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="row-spacing">8</property>
+                                                            <property name="row-spacing">2</property>
                                                             <property name="column-spacing">8</property>
                                                             <child>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="label">Time (s)</property>
                                                             </object>
                                                             <packing>
@@ -9393,6 +9394,7 @@ last capture</property>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="label">Stage</property>
                                                             </object>
                                                             <packing>
@@ -9404,6 +9406,7 @@ last capture</property>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="label">Lap</property>
                                                             </object>
                                                             <packing>
@@ -9415,6 +9418,7 @@ last capture</property>
                                                             <object class="GtkLabel" id="label_beepTest_time">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">0</property>
@@ -9425,6 +9429,7 @@ last capture</property>
                                                             <object class="GtkLabel" id="label_beepTest_stage">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">1</property>
@@ -9435,6 +9440,7 @@ last capture</property>
                                                             <object class="GtkLabel" id="label_beepTest_lap">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">2</property>
@@ -9445,6 +9451,7 @@ last capture</property>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="label">Speed (Km/h)</property>
                                                             </object>
                                                             <packing>
@@ -9456,6 +9463,7 @@ last capture</property>
                                                             <object class="GtkLabel" id="label_beepTest_speed">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">3</property>
@@ -9465,6 +9473,7 @@ last capture</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label_beepTest_runStatus">
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="label" translatable="yes">Status</property>
                                                             </object>
                                                             <packing>
@@ -9475,6 +9484,7 @@ last capture</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label_beepTest_runStatus_value">
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">5</property>

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
 "POT-Creation-Date: 2025-05-14 14:53+0000\n"
-"PO-Revision-Date: 2025-05-14 19:34+0200\n"
+"PO-Revision-Date: 2025-05-14 19:39+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -412,7 +412,6 @@ msgid "Controller"
 msgstr "Krmilnik"
 
 #: ../glade/app1.glade.h:75
-#, fuzzy
 msgid "Terminals"
 msgstr "Terminali"
 
@@ -455,7 +454,6 @@ msgid "20"
 msgstr "20"
 
 #: ../glade/app1.glade.h:85
-#, fuzzy
 msgid "10,00"
 msgstr "10,00"
 
@@ -464,10 +462,8 @@ msgid "50"
 msgstr "50"
 
 #: ../glade/app1.glade.h:87
-#, fuzzy
-#| msgid "Edit selected"
 msgid "Exempt selected"
-msgstr "Izbrano je urejanje"
+msgstr "Izbrano je izvzeto"
 
 #: ../glade/app1.glade.h:88 ../src/treeview/person.cs:58
 msgid "Status"
@@ -2307,16 +2303,12 @@ msgid "Manage tags"
 msgstr "Upravljanje oznak"
 
 #: ../glade/app1.glade.h:478
-#, fuzzy
-#| msgid "Filter by sensor data"
 msgid "Filter sessions by sensor data"
-msgstr "Filtriraj po podatkih tipal"
+msgstr "Filtriraj seje po podatkih tipal"
 
 #: ../glade/app1.glade.h:479
-#, fuzzy
-#| msgid "Sensor columns"
 msgid "View person columns"
-msgstr "Stolpci tipal"
+msgstr "Pokaži osebne stolpce"
 
 #: ../glade/app1.glade.h:480
 msgid "Sensor columns"
@@ -2654,10 +2646,8 @@ msgstr "oznaka"
 
 #: ../glade/app1.glade.h:551 ../src/gui/discover.cs:117
 #: ../src/gui/discover.cs:402
-#, fuzzy
-#| msgid "Show advanced controls"
 msgid "Show advanced"
-msgstr "Pokaži napredne možnosti"
+msgstr "Pokaži napredno"
 
 #. NC means: Not Compatible
 #: ../glade/app1.glade.h:553
@@ -6998,9 +6988,9 @@ msgstr ""
 "Vaje za hitrost/moč z vrtenjem vztrajnostne naprave, izmerjene s kodirnikom"
 
 #: ../src/gui/app1/chronojump.cs:4597
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Detect devices compatible with: <b>{0}</b>"
-msgstr "Zaznavanje naprav, združljivih z: <b>{0}</b>"
+msgstr "Zaznaj naprave, združljive z: <b>{0}</b>"
 
 #: ../src/gui/app1/chronojump.cs:4902 ../src/gui/chronopicRegister.cs:366
 msgid "Device not found"
@@ -7588,7 +7578,6 @@ msgid "Plug cable and click on 'device' button."
 msgstr "Priključite kabel in kliknite gumb »naprava«."
 
 #: ../src/gui/app1/forceSensor.cs:166
-#, fuzzy
 msgid "Incorrect captured value."
 msgstr "Napačna zajeta vrednost."
 
@@ -8111,7 +8100,6 @@ msgid "Connect and reopen device window."
 msgstr "Vzpostavi povezavo in znova odpre okno naprave."
 
 #: ../src/gui/chronopic_test.cs:118
-#, fuzzy
 msgid "Remove the RCA cable. Then, check LED D1."
 msgstr "Odstranite kabel RCA. Nato preverite LED D1."
 
@@ -8132,16 +8120,15 @@ msgid "Connect RCA cable."
 msgstr "Priključite kabel RCA."
 
 #: ../src/gui/chronopic_test.cs:132
-#, fuzzy
 msgid "Touch the tip and teeth of RCA with a metallic object (like a key)."
-msgstr "Dotaknite se konice in zob RCA s kovinskim predmetom (kot je ključ)."
+msgstr ""
+"Dotaknite se konice in kronice RCA s kovinskim predmetom (kot je ključ)."
 
 #: ../src/gui/chronopic_test.cs:133 ../src/gui/chronopic_test.cs:146
 msgid "Is the green LED D1 off?"
 msgstr "Ali je zelena LED dioda D1 ugasnjena?"
 
 #: ../src/gui/chronopic_test.cs:138
-#, fuzzy
 msgid "Connect Chronopic with the platform using the RCA."
 msgstr "Povežite Chronopic s platformo z uporabo RCA."
 

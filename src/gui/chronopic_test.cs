@@ -53,6 +53,16 @@ public class ChronopicTestWindow
 	Gtk.Button button_rca_yes;
 	Gtk.Button button_rca_no;
 
+	//4th tab
+	Gtk.Image image_platform_connect;
+	Gtk.Button button_platform_connect_yes;
+	Gtk.Button button_platform_connect_no;
+
+	//5th tab
+	Gtk.Image image_platform_stand;
+	Gtk.Button button_platform_stand_yes;
+	Gtk.Button button_platform_stand_no;
+
 	// <---- at glade
 	
 	static ChronopicTestWindow ChronopicTestWindowBox;
@@ -113,6 +123,10 @@ public class ChronopicTestWindow
 		image_testLed.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "rca_test_300.jpg");
 		image_rca.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "platform_connect_300.jpg");
+		image_platform_connect.Pixbuf = pixbuf;
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "platform_stand_300.jpg");
+		image_platform_stand.Pixbuf = pixbuf;
 	}
 
 	// yes/no butrons
@@ -149,13 +163,43 @@ public class ChronopicTestWindow
 	// 3rd tab
 	private void on_button_rca_yes_clicked (object o, EventArgs args)
 	{
-		box_result.Visible = true;
-		box_problems.Visible = false;
-		label_all_ok.Visible = true;
+		notebook.CurrentPage = 3;
 	}
 	private void on_button_rca_no_clicked (object o, EventArgs args)
 	{
 		label_contact_reason.Text = "RCA cable is not working. Try to change it.";
+		box_result.Visible = true;
+		box_problems.Visible = true;
+		label_all_ok.Visible = false;
+
+		notebook.Sensitive = false;
+	}
+
+	// 4th tab
+	private void on_button_platform_connect_yes_clicked (object o, EventArgs args)
+	{
+		notebook.CurrentPage = 4;
+	}
+	private void on_button_platform_connect_no_clicked (object o, EventArgs args)
+	{
+		label_contact_reason.Text = "Platform or Chronopic is not working properly.";
+		box_result.Visible = true;
+		box_problems.Visible = true;
+		label_all_ok.Visible = false;
+
+		notebook.Sensitive = false;
+	}
+
+	// 5th tab
+	private void on_button_platform_stand_yes_clicked (object o, EventArgs args)
+	{
+		box_result.Visible = true;
+		box_problems.Visible = false;
+		label_all_ok.Visible = true;
+	}
+	private void on_button_platform_stand_no_clicked (object o, EventArgs args)
+	{
+		label_contact_reason.Text = "Plataform or Chronopic is not working properly.";
 		box_result.Visible = true;
 		box_problems.Visible = true;
 		label_all_ok.Visible = false;
@@ -205,6 +249,16 @@ public class ChronopicTestWindow
 		image_rca = (Gtk.Image) builder.GetObject ("image_rca");
 		button_rca_yes = (Gtk.Button) builder.GetObject ("button_rca_yes");
 		button_rca_no = (Gtk.Button) builder.GetObject ("button_rca_no");
+
+		//4th tab
+		image_platform_connect = (Gtk.Image) builder.GetObject ("image_platform_connect");
+		button_platform_connect_yes = (Gtk.Button) builder.GetObject ("button_platform_connect_yes");
+		button_platform_connect_no = (Gtk.Button) builder.GetObject ("button_platform_connect_no");
+
+		//5th tab
+		image_platform_stand = (Gtk.Image) builder.GetObject ("image_platform_stand");
+		button_platform_stand_yes = (Gtk.Button) builder.GetObject ("button_platform_stand_yes");
+		button_platform_stand_no = (Gtk.Button) builder.GetObject ("button_platform_stand_no");
 	}
 }
 

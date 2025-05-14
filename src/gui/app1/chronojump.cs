@@ -1098,6 +1098,14 @@ public partial class ChronoJumpWindow
 			personsPhotoShowIfNeeded ();
 		}
 
+		// "big" label names are assigned here.
+		// They will be reassigned to a composed name just later on UtilGtk.ContrastLabelsLabel ()
+		label_force_sensor_value_max.Name = "big";
+		label_force_sensor_value.Name = "big";
+		label_force_sensor_value_min.Name = "big";
+		label_force_sensor_value_best_second.Name = "big";
+		label_force_sensor_value_rfd.Name = "big";
+
 		if(! Config.UseSystemColor)
 		{
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundIsDark, app1s_notebook);

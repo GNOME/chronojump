@@ -798,10 +798,16 @@ public class UtilGtk
 		LogB.Information ("default font size: " + defaultFontSize.ToString ());
 
 		string labelFontSize = "";
-		if (fontSizeAtGui >= 0)
+		string labelFontSizeBig = ""; //used on some results like force sensor max on capture tab
+		if (fontSizeAtGui >= 0) {
 			labelFontSize = string.Format ("font-size: {0}pt;", fontSizeAtGui);
-		else
+			labelFontSizeBig = string.Format ("font-size: {0}pt;", Convert.ToInt32 (fontSizeAtGui * 1.6));
+		}
+		else {
 			labelFontSize = string.Format ("font-size: {0}pt;", defaultFontSize); //we need to restore it if user selected custom previously
+			labelFontSizeBig = string.Format ("font-size: {0}pt;", Convert.ToInt32 (defaultFontSize * 1.6)); //we need to restore it if user selected custom previously
+		}
+
 		// <---- font size at gui
 
 		var data =
@@ -813,6 +819,14 @@ public class UtilGtk
 			//labels darkCss in dark color
 			"label#darkCss {" +
 				"color: #222222;" +
+			"}" +
+			"label#big_lightCss {" +
+				"color: " + GetRGBAs (Colors.WHITE) + ";" +
+				labelFontSizeBig +
+			"}" +
+			"label#big_darkCss {" +
+				"color: #222222;" +
+				labelFontSizeBig +
 			"}" +
 			"label#labelAlertCss {" +
 				//"color: #8c0000;" + //8c0000 is ok for backfound but too dark for label
@@ -1221,10 +1235,18 @@ public class UtilGtk
 
 	public static void ContrastLabelsLabel (bool bgDark, Gtk.Label l)
 	{
-		if(bgDark)
-			l.Name = "lightCss";
-		else
-			l.Name = "darkCss";
+		if (l.Name.Contains ("big"))
+		{
+			if(bgDark)
+				l.Name = "big_lightCss";
+			else
+				l.Name = "big_darkCss";
+		} else {
+			if(bgDark)
+				l.Name = "lightCss";
+			else
+				l.Name = "darkCss";
+		}
 	}
 
 

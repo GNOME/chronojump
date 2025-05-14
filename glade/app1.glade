@@ -9747,14 +9747,15 @@ last capture</property>
                                                             <object class="GtkGrid" id="force_capture_grid">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="row-spacing">6</property>
-                                                            <property name="column-spacing">12</property>
+                                                            <property name="row-spacing">2</property>
+                                                            <property name="column-spacing">6</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label_force_sensor_value_max">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="justify">center</property>
-                                                            <property name="width-chars">10</property>
+                                                            <property name="width-chars">9</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">0</property>
@@ -9765,8 +9766,9 @@ last capture</property>
                                                             <object class="GtkLabel" id="label_force_sensor_value">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="justify">center</property>
-                                                            <property name="width-chars">10</property>
+                                                            <property name="width-chars">9</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">1</property>
@@ -9777,8 +9779,9 @@ last capture</property>
                                                             <object class="GtkLabel" id="label_force_sensor_value_min">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="justify">center</property>
-                                                            <property name="width-chars">10</property>
+                                                            <property name="width-chars">9</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">2</property>
@@ -9789,8 +9792,9 @@ last capture</property>
                                                             <object class="GtkLabel" id="label_force_sensor_value_best_second">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="justify">center</property>
-                                                            <property name="width-chars">10</property>
+                                                            <property name="width-chars">9</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">3</property>
@@ -9801,6 +9805,7 @@ last capture</property>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label264">
@@ -9872,6 +9877,7 @@ last capture</property>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label265">
@@ -9943,6 +9949,7 @@ last capture</property>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label269">
@@ -10014,6 +10021,7 @@ last capture</property>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label245">
@@ -10085,6 +10093,7 @@ last capture</property>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label538">
@@ -10203,8 +10212,9 @@ last capture</property>
                                                             <object class="GtkLabel" id="label_force_sensor_value_rfd">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="justify">center</property>
-                                                            <property name="width-chars">10</property>
+                                                            <property name="width-chars">9</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">4</property>
@@ -22623,6 +22633,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

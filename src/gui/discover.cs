@@ -804,6 +804,88 @@ public abstract class DebugDevices
                 //double firmwareVersion = forceSensorCheckVersionDo(); //TODO: it uses portFS
 	*/
 
+	protected bool startCaptureArduino ()
+	{
+		// send message
+		try {
+			port.WriteLine ("start_capture:");
+		}
+		catch (Exception ex)
+		{
+			if(ex is System.IO.IOException || ex is System.TimeoutException)
+			{
+				str += "\n- Failed at sending message. Error: " + ex.ToString ();
+				return false;
+			}
+		}
+
+		// receive confirmation
+		string s = "";
+		do {
+			Thread.Sleep(100); //sleep to let arduino start reading
+			try {
+				s = port.ReadLine().Trim();
+			} catch (Exception ex) {
+				str += "\n- Failed at receiving message. Error: " + ex.ToString ();
+				return false;
+			}
+		}
+		while(! s.Contains("Starting capture"));
+
+		return true;
+	}
+
+	protected bool endCaptureArduino ()
+	{
+		// ending capture. Send message
+		try {
+			port.WriteLine ("end_capture:");
+		}
+		catch (Exception ex)
+		{
+			if(ex is System.IO.IOException || ex is System.TimeoutException)
+			{
+				str += "\n- Failed at sending message. Error: " + ex.ToString ();
+				return false;
+			}
+		}
+
+		// ending capture. Receive message
+		string s = "";
+		int notValidCommandCount = 0;
+		do {
+			Thread.Sleep(10);
+			try {
+				s = port.ReadLine();
+			} catch (Exception ex) {
+				str += "\n- Failed at receiving message. Error: " + ex.ToString ();
+			}
+
+			//2023 Aug 3: sometimes Arduino looses some chars. It seems only happens with this command because Arduino will be busy capturing
+			//instead of "end_capture:" arrived "end_cture:" (found 2 times) "end_capte:", "end_ture:", "end_caure:"
+			if (s.Contains ("Not a valid command"))
+			{
+				notValidCommandCount ++;
+
+				if (notValidCommandCount > 10)
+				{
+					str += "\n- NotValidCommandCount > 10";
+					return false;
+				}
+
+				try {
+					port.WriteLine ("end_capture:");
+				} catch (Exception ex) {
+					str += "\n- Failed at sending message. Error: " + ex.ToString ();
+					return false;
+				}
+			}
+		}
+		while(! s.Contains("Capture ended"));
+
+		return true;
+	}
+
 	protected virtual bool readSomeData ()
 	{
 		return true;
@@ -876,7 +958,7 @@ public class DebugWichro : DebugDevices
 	public DebugWichro (ChronopicRegisterPort crp)
 	{
 		this.crp = crp;
-		title = "Testing Wicrho";
+		title = "Testing WICHRO";
 
 		done = false;
 		debugDo ();
@@ -943,34 +1025,11 @@ public class DebugForceSensor : DebugDevices
 		int samples = 10;
 		str += string.Format ("\n\n- Capturing {0} samples …", samples);
 
-		// send message
-		try {
-			port.WriteLine ("start_capture:");
-		}
-		catch (Exception ex)
-		{
-			if(ex is System.IO.IOException || ex is System.TimeoutException)
-			{
-				str += "\n- Failed at sending message. Error: " + ex.ToString ();
-				return false;
-			}
-		}
-
-		// receive confirmation
-		string s = "";
-		do {
-			Thread.Sleep(100); //sleep to let arduino start reading
-			try {
-				s = port.ReadLine().Trim();
-			} catch (Exception ex) {
-				str += "\n- Failed at receiving message. Error: " + ex.ToString ();
-				return false;
-			}
-		}
-		while(! s.Contains("Starting capture"));
+		if (! startCaptureArduino ())
+			return false;
 
 		// capture some data
-		s = "";
+		string s = "";
 		int count = 0;
 		do {
 			int time = 0;
@@ -986,50 +1045,8 @@ public class DebugForceSensor : DebugDevices
 			str += string.Format ("\n{0} us\t {1} N", time, force);
 		} while (count < samples);
 
-		// ending capture. Send message
-		try {
-			port.WriteLine ("end_capture:");
-		}
-		catch (Exception ex)
-		{
-			if(ex is System.IO.IOException || ex is System.TimeoutException)
-			{
-				str += "\n- Failed at sending message. Error: " + ex.ToString ();
-				return false;
-			}
-		}
-
-		// ending capture. Receive message
-		int notValidCommandCount = 0;
-		do {
-			Thread.Sleep(10);
-			try {
-				s = port.ReadLine();
-			} catch (Exception ex) {
-				str += "\n- Failed at receiving message. Error: " + ex.ToString ();
-			}
-
-			//2023 Aug 3: sometimes Arduino looses some chars. It seems only happens with this command because Arduino will be busy capturing
-			//instead of "end_capture:" arrived "end_cture:" (found 2 times) "end_capte:", "end_ture:", "end_caure:"
-			if (s.Contains ("Not a valid command"))
-			{
-				notValidCommandCount ++;
-
-				if (notValidCommandCount > 10)
-				{
-					str += "\n- NotValidCommandCount > 10";
-					return false;
-				}
-
-				try {
-					port.WriteLine ("end_capture:");
-				} catch (Exception ex) {
-					str += "\n- Failed at sending message. Error: " + ex.ToString ();
-					return false;
-				}
-			}
-		}
-		while(! s.Contains("Capture ended"));
+		if (! endCaptureArduino ())
+			return false;
 
 		return true;
 	}
@@ -1076,7 +1093,6 @@ public class DebugForceSensor : DebugDevices
 
 		return true;
 	}
-
 }
 
 public class DebugEncoder : DebugDevices
@@ -1147,5 +1163,4 @@ public class DebugEncoder : DebugDevices
 
 		return b;
 	}
-
 }

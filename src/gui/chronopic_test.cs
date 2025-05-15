@@ -32,7 +32,7 @@ public class ChronopicTestWindow
 	Gtk.Window chronopic_test;
 	Gtk.Box box_result;
 	Gtk.Box box_problems;
-	Gtk.Grid grid_iqa;
+	Gtk.Frame frame;
 	Gtk.Label label_progress_title;
 	Gtk.Label label_image_title;
 	Gtk.Label label_instructions_title;
@@ -76,7 +76,9 @@ public class ChronopicTestWindow
 		{
 			UtilGtk.WindowColor (chronopic_test, Config.ColorBackground);
 			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, box_result);
-			UtilGtk.ContrastLabelsGrid (Config.ColorBackgroundIsDark, grid_iqa);
+
+			UtilGtk.WidgetColor (frame, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame);
 		}
 
 		chronopic_test.Parent = parent;
@@ -251,7 +253,7 @@ public class ChronopicTestWindow
 		label_instructions_title = (Gtk.Label) builder.GetObject ("label_instructions_title");
 		label_question_title = (Gtk.Label) builder.GetObject ("label_question_title");
 		label_answer_title = (Gtk.Label) builder.GetObject ("label_answer_title");
-		grid_iqa = (Gtk.Grid) builder.GetObject ("grid_iqa");
+		frame = (Gtk.Frame) builder.GetObject ("frame");
 		label_progress = (Gtk.Label) builder.GetObject ("label_progress");
 		image = (Gtk.Image) builder.GetObject ("image");
 		label_instructions = (Gtk.Label) builder.GetObject ("label_instructions");

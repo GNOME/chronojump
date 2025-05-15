@@ -2,6 +2,7 @@
 # Please keep this file sorted alphabetically.
 [encoding: UTF-8]
 glade/app1.glade
+glade/chronopic_test.glade
 glade/confirm_window.glade
 glade/convert_weight.glade
 glade/dialog_about.glade

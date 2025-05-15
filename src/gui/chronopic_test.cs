@@ -33,12 +33,17 @@ public class ChronopicTestWindow
 	Gtk.Box box_result;
 	Gtk.Box box_problems;
 	Gtk.Grid grid_iqa;
+	Gtk.Label label_progress_title;
+	Gtk.Label label_image_title;
+	Gtk.Label label_instructions_title;
+	Gtk.Label label_question_title;
+	Gtk.Label label_answer_title;
 	Gtk.Label label_progress;
-	Gtk.Image image;
 	Gtk.Label label_instructions;
 	Gtk.Label label_question;
 	Gtk.Label label_all_ok;
 	Gtk.Label label_contact_reason;
+	Gtk.Image image;
 	Gtk.Button button_yes;
 	Gtk.Button button_no;
 	Gtk.Image image_yes;
@@ -95,6 +100,17 @@ public class ChronopicTestWindow
 	
 	private void initialize()
 	{
+		label_progress_title.Text = "<b>" + label_progress_title.Text + "</b>";
+		label_image_title.Text = "<b>" + label_image_title.Text + "</b>";
+		label_instructions_title.Text = "<b>" + label_instructions_title.Text + "</b>";
+		label_question_title.Text = "<b>" + label_question_title.Text + "</b>";
+		label_answer_title.Text = "<b>" + label_answer_title.Text + "</b>";
+		label_progress_title.UseMarkup = true;
+		label_image_title.UseMarkup = true;
+		label_instructions_title.UseMarkup = true;
+		label_question_title.UseMarkup = true;
+		label_answer_title.UseMarkup = true;
+
 		image_yes.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "thumb_up.png");
 		image_no.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "thumb_down.png");
 		image_back.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "arrow_back.png");
@@ -230,6 +246,11 @@ public class ChronopicTestWindow
 		chronopic_test = (Gtk.Window) builder.GetObject ("chronopic_test");
 		box_result = (Gtk.Box) builder.GetObject ("box_result");
 		box_problems = (Gtk.Box) builder.GetObject ("box_problems");
+		label_progress_title = (Gtk.Label) builder.GetObject ("label_progress_title");
+		label_image_title = (Gtk.Label) builder.GetObject ("label_image_title");
+		label_instructions_title = (Gtk.Label) builder.GetObject ("label_instructions_title");
+		label_question_title = (Gtk.Label) builder.GetObject ("label_question_title");
+		label_answer_title = (Gtk.Label) builder.GetObject ("label_answer_title");
 		grid_iqa = (Gtk.Grid) builder.GetObject ("grid_iqa");
 		label_progress = (Gtk.Label) builder.GetObject ("label_progress");
 		image = (Gtk.Image) builder.GetObject ("image");

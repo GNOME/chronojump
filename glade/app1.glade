@@ -6943,7 +6943,7 @@ last capture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="width-chars">7</property>
-                                                            <property name="text" translatable="yes">0,000</property>
+                                                            <property name="text">0,000</property>
                                                             <property name="adjustment">adjustment156</property>
                                                             <property name="climb-rate">0.10</property>
                                                             <property name="digits">2</property>
@@ -7012,7 +7012,7 @@ last capture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="width-chars">7</property>
-                                                            <property name="text" translatable="yes">0,000</property>
+                                                            <property name="text">0,000</property>
                                                             <property name="adjustment">adjustment157</property>
                                                             <property name="climb-rate">0.10</property>
                                                             <property name="digits">3</property>
@@ -7028,7 +7028,7 @@ last capture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="width-chars">7</property>
-                                                            <property name="text" translatable="yes">0,000</property>
+                                                            <property name="text">0,000</property>
                                                             <property name="adjustment">adjustment158</property>
                                                             <property name="climb-rate">0.10</property>
                                                             <property name="digits">3</property>
@@ -8161,7 +8161,7 @@ last capture</property>
                                                             <object class="GtkSpinButton" id="spin_wilight_portnum">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="adjustment">adjustment164</property>
                                                             </object>
                                                             <packing>
@@ -8268,7 +8268,7 @@ last capture</property>
                                                             <object class="GtkSpinButton" id="spin_wilight_test_ping">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="adjustment">adjustment163</property>
                                                             </object>
                                                             <packing>
@@ -9070,7 +9070,7 @@ last capture</property>
                                                             <object class="GtkSpinButton" id="spin_beepTest_start_at">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
-                                                            <property name="text" translatable="yes">1</property>
+                                                            <property name="text">1</property>
                                                             <property name="adjustment">adjustment162</property>
                                                             <property name="value">1</property>
                                                             </object>
@@ -9115,7 +9115,7 @@ last capture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="width-chars">6</property>
-                                                            <property name="text" translatable="yes">20</property>
+                                                            <property name="text">20</property>
                                                             <property name="adjustment">adjustment159</property>
                                                             <property name="numeric">True</property>
                                                             <property name="value">20</property>
@@ -9155,7 +9155,7 @@ last capture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="width-chars">6</property>
-                                                            <property name="text" translatable="yes">10,00</property>
+                                                            <property name="text">10,00</property>
                                                             <property name="adjustment">adjustment160</property>
                                                             <property name="digits">2</property>
                                                             <property name="numeric">True</property>
@@ -9196,7 +9196,7 @@ last capture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="width-chars">6</property>
-                                                            <property name="text" translatable="yes">50</property>
+                                                            <property name="text">50</property>
                                                             <property name="adjustment">adjustment161</property>
                                                             <property name="numeric">True</property>
                                                             <property name="value">50</property>
@@ -10634,7 +10634,7 @@ last capture</property>
                                                             </child>
                                                             <child>
                                                             <object class="GtkRadioButton" id="radio_race_analyzer_capture_graph_starts_grav">
-                                                            <property name="label" translatable="yes">&gt;= min a</property>
+                                                            <property name="label" translatable="yes">&gt;= min accel</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
@@ -12135,7 +12135,7 @@ last capture</property>
                                                             <property name="max-length">2</property>
                                                             <property name="invisible-char">•</property>
                                                             <property name="width-chars">4</property>
-                                                            <property name="text" translatable="yes">10</property>
+                                                            <property name="text">10</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment8</property>
@@ -14118,7 +14118,7 @@ last capture</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">7</property>
-                                                            <property name="text" translatable="yes">100,00</property>
+                                                            <property name="text">100,00</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment9</property>
@@ -15107,7 +15107,7 @@ last capture</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">8</property>
-                                                            <property name="text" translatable="yes">1,0</property>
+                                                            <property name="text">1,0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment12</property>
@@ -15814,7 +15814,7 @@ last capture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
-                                                            <property name="text" translatable="yes">10</property>
+                                                            <property name="text">10</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment122</property>
@@ -23403,6 +23403,15 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -29460,7 +29469,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">•</property>
                                                             <property name="width-chars">3</property>
-                                                            <property name="text" translatable="yes">2,0</property>
+                                                            <property name="text">2,0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment85</property>
@@ -29523,7 +29532,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">•</property>
                                                             <property name="width-chars">2</property>
-                                                            <property name="text" translatable="yes">5</property>
+                                                            <property name="text">5</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment86</property>
@@ -29703,7 +29712,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment87</property>
@@ -29758,7 +29767,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment88</property>
@@ -29813,7 +29822,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment89</property>
@@ -29844,7 +29853,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment90</property>
@@ -29899,7 +29908,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment91</property>
@@ -30049,7 +30058,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment92</property>
@@ -30104,7 +30113,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment93</property>
@@ -30159,7 +30168,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment94</property>
@@ -30190,7 +30199,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment95</property>
@@ -30245,7 +30254,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment96</property>
@@ -30395,7 +30404,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment97</property>
@@ -30450,7 +30459,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment98</property>
@@ -30505,7 +30514,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment99</property>
@@ -30536,7 +30545,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment100</property>
@@ -30591,7 +30600,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment101</property>
@@ -30741,7 +30750,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment102</property>
@@ -30796,7 +30805,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment103</property>
@@ -30851,7 +30860,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment104</property>
@@ -30882,7 +30891,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment105</property>
@@ -30937,7 +30946,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment106</property>
@@ -31087,7 +31096,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment125</property>
@@ -31142,7 +31151,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment131</property>
@@ -31197,7 +31206,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment137</property>
@@ -31228,7 +31237,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment143</property>
@@ -31283,7 +31292,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment149</property>
@@ -31433,7 +31442,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment126</property>
@@ -31488,7 +31497,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment132</property>
@@ -31543,7 +31552,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment138</property>
@@ -31574,7 +31583,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment144</property>
@@ -31629,7 +31638,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment150</property>
@@ -31779,7 +31788,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment127</property>
@@ -31834,7 +31843,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment133</property>
@@ -31889,7 +31898,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment139</property>
@@ -31920,7 +31929,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment145</property>
@@ -31975,7 +31984,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment151</property>
@@ -32125,7 +32134,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment128</property>
@@ -32180,7 +32189,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment134</property>
@@ -32235,7 +32244,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment140</property>
@@ -32266,7 +32275,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment146</property>
@@ -32321,7 +32330,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment152</property>
@@ -32471,7 +32480,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment129</property>
@@ -32526,7 +32535,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment135</property>
@@ -32581,7 +32590,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment141</property>
@@ -32612,7 +32621,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment147</property>
@@ -32667,7 +32676,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment153</property>
@@ -32817,7 +32826,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment130</property>
@@ -32872,7 +32881,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment136</property>
@@ -32927,7 +32936,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment142</property>
@@ -32958,7 +32967,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment148</property>
@@ -33013,7 +33022,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment154</property>
@@ -33188,7 +33197,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment107</property>
@@ -33243,7 +33252,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">1</property>
+                                                            <property name="text">1</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment108</property>
@@ -33275,7 +33284,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment109</property>

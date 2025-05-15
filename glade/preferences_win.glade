@@ -699,7 +699,7 @@
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
                                             <property name="invisible-char">●</property>
-                                            <property name="text" translatable="yes">11</property>
+                                            <property name="text">11</property>
                                             <property name="primary-icon-activatable">False</property>
                                             <property name="secondary-icon-activatable">False</property>
                                             <property name="adjustment">adjustment9_20</property>
@@ -835,7 +835,7 @@
                                               <object class="GtkLabel">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
-                                                <property name="label" translatable="yes">Noto Sans CJK SC</property>
+                                                <property name="label">Noto Sans CJK SC</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -847,7 +847,7 @@
                                               <object class="GtkLabel">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
-                                                <property name="label" translatable="yes">(Recommended for Chinese)</property>
+                                                <property name="label" translatable="yes">(Recommended for Chinese language)</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -1104,7 +1104,7 @@
                                         <property name="can-focus">True</property>
                                         <property name="max-length">2</property>
                                         <property name="invisible-char">●</property>
-                                        <property name="text" translatable="yes">2</property>
+                                        <property name="text">2</property>
                                         <property name="xalign">1</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
@@ -1150,7 +1150,7 @@
                                         <property name="can-focus">True</property>
                                         <property name="max-length">2</property>
                                         <property name="invisible-char">●</property>
-                                        <property name="text" translatable="yes">0</property>
+                                        <property name="text">0</property>
                                         <property name="xalign">1</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
@@ -2191,7 +2191,7 @@ It starts before and arrives there with some speed.</property>
                                                         <property name="can-focus">True</property>
                                                         <property name="invisible-char">●</property>
                                                         <property name="width-chars">6</property>
-                                                        <property name="text" translatable="yes">300</property>
+                                                        <property name="text">300</property>
                                                         <property name="primary-icon-activatable">False</property>
                                                         <property name="secondary-icon-activatable">False</property>
                                                         <property name="adjustment">adjustment3</property>
@@ -2355,7 +2355,7 @@ It starts before and arrives there with some speed.</property>
                                                         <property name="can-focus">True</property>
                                                         <property name="invisible-char">●</property>
                                                         <property name="width-chars">6</property>
-                                                        <property name="text" translatable="yes">300</property>
+                                                        <property name="text">300</property>
                                                         <property name="primary-icon-activatable">False</property>
                                                         <property name="secondary-icon-activatable">False</property>
                                                         <property name="adjustment">adjustment4</property>
@@ -2540,7 +2540,7 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="can-focus">True</property>
                                                 <property name="invisible-char">●</property>
                                                 <property name="width-chars">6</property>
-                                                <property name="text" translatable="yes">10,0</property>
+                                                <property name="text">10,0</property>
                                                 <property name="primary-icon-activatable">False</property>
                                                 <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment20</property>
@@ -2631,7 +2631,7 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="can-focus">True</property>
                                                 <property name="invisible-char">●</property>
                                                 <property name="width-chars">6</property>
-                                                <property name="text" translatable="yes">10</property>
+                                                <property name="text">10</property>
                                                 <property name="primary-icon-activatable">False</property>
                                                 <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment21</property>
@@ -2915,7 +2915,7 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="can-focus">True</property>
                                                 <property name="invisible-char">●</property>
                                                 <property name="width-chars">6</property>
-                                                <property name="text" translatable="yes">15,0</property>
+                                                <property name="text">15,0</property>
                                                 <property name="primary-icon-activatable">False</property>
                                                 <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment26</property>
@@ -2998,7 +2998,7 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="can-focus">True</property>
                                                 <property name="invisible-char">●</property>
                                                 <property name="width-chars">6</property>
-                                                <property name="text" translatable="yes">15,0</property>
+                                                <property name="text">15,0</property>
                                                 <property name="primary-icon-activatable">False</property>
                                                 <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment27</property>
@@ -3418,7 +3418,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="tooltip-text" translatable="yes">Minimal force</property>
                                                             <property name="invisible-char">●</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment14</property>
@@ -3477,7 +3477,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="tooltip-text" translatable="yes">Minimal force</property>
                                                             <property name="invisible-char">●</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment15</property>
@@ -3549,7 +3549,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="tooltip-text" translatable="yes">Minimal height</property>
                                                             <property name="invisible-char">●</property>
-                                                            <property name="text" translatable="yes">0,1</property>
+                                                            <property name="text">0,1</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment12</property>
@@ -3609,7 +3609,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="tooltip-text" translatable="yes">Minimal height</property>
                                                             <property name="invisible-char">●</property>
-                                                            <property name="text" translatable="yes">0,1</property>
+                                                            <property name="text">0,1</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment13</property>
@@ -4069,7 +4069,7 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="has-tooltip">True</property>
                                                     <property name="invisible-char">●</property>
                                                     <property name="width-chars">4</property>
-                                                    <property name="text" translatable="yes">1,0</property>
+                                                    <property name="text">1,0</property>
                                                     <property name="primary-icon-activatable">False</property>
                                                     <property name="secondary-icon-activatable">False</property>
                                                     <property name="adjustment">adjustment28</property>
@@ -4366,7 +4366,7 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="tooltip-text" translatable="yes">Recording time</property>
                                                 <property name="invisible-char">●</property>
                                                 <property name="width-chars">6</property>
-                                                <property name="text" translatable="yes">60</property>
+                                                <property name="text">60</property>
                                                 <property name="primary-icon-activatable">False</property>
                                                 <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment5</property>
@@ -4414,7 +4414,7 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="has-tooltip">True</property>
                                                 <property name="tooltip-text" translatable="yes">Recording time</property>
                                                 <property name="invisible-char">●</property>
-                                                <property name="text" translatable="yes">3</property>
+                                                <property name="text">3</property>
                                                 <property name="primary-icon-activatable">False</property>
                                                 <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment6</property>
@@ -4584,7 +4584,7 @@ It starts before and arrives there with some speed.</property>
                                                     <property name="has-tooltip">True</property>
                                                     <property name="tooltip-text" translatable="yes">Minimal height</property>
                                                     <property name="invisible-char">●</property>
-                                                    <property name="text" translatable="yes">3</property>
+                                                    <property name="text">3</property>
                                                     <property name="primary-icon-activatable">False</property>
                                                     <property name="secondary-icon-activatable">False</property>
                                                     <property name="adjustment">adjustment7</property>
@@ -5086,7 +5086,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="invisible-char">●</property>
-                                                            <property name="text" translatable="yes">10</property>
+                                                            <property name="text">10</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment8</property>
@@ -5147,7 +5147,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="invisible-char">●</property>
-                                                            <property name="text" translatable="yes">14</property>
+                                                            <property name="text">14</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment9</property>
@@ -5894,7 +5894,7 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="can-focus">True</property>
                                                 <property name="invisible-char">●</property>
                                                 <property name="width-chars">6</property>
-                                                <property name="text" translatable="yes">0,70</property>
+                                                <property name="text">0,70</property>
                                                 <property name="primary-icon-activatable">False</property>
                                                 <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment10</property>
@@ -6682,7 +6682,7 @@ It starts before and arrives there with some speed.</property>
                                                         <property name="has-tooltip">True</property>
                                                         <property name="tooltip-text" translatable="yes">Width</property>
                                                         <property name="invisible-char">●</property>
-                                                        <property name="text" translatable="yes">800</property>
+                                                        <property name="text">800</property>
                                                         <property name="primary-icon-activatable">False</property>
                                                         <property name="secondary-icon-activatable">False</property>
                                                         <property name="adjustment">adjustment22</property>
@@ -6716,7 +6716,7 @@ It starts before and arrives there with some speed.</property>
                                                         <property name="has-tooltip">True</property>
                                                         <property name="tooltip-text" translatable="yes">Height</property>
                                                         <property name="invisible-char">●</property>
-                                                        <property name="text" translatable="yes">599</property>
+                                                        <property name="text">599</property>
                                                         <property name="primary-icon-activatable">False</property>
                                                         <property name="secondary-icon-activatable">False</property>
                                                         <property name="adjustment">adjustment23</property>
@@ -6751,7 +6751,7 @@ It starts before and arrives there with some speed.</property>
                                                         <property name="has-tooltip">True</property>
                                                         <property name="tooltip-text" translatable="yes">Framerate</property>
                                                         <property name="invisible-char">●</property>
-                                                        <property name="text" translatable="yes">100</property>
+                                                        <property name="text">100</property>
                                                         <property name="primary-icon-activatable">False</property>
                                                         <property name="secondary-icon-activatable">False</property>
                                                         <property name="adjustment">adjustment24</property>
@@ -7234,7 +7234,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="tooltip-text" translatable="yes">Recording time</property>
                                                             <property name="invisible-char">●</property>
-                                                            <property name="text" translatable="yes">2</property>
+                                                            <property name="text">2</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment25</property>

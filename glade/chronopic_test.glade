@@ -28,10 +28,10 @@
                 <property name="row-spacing">12</property>
                 <property name="column-spacing">20</property>
                 <child>
-                  <object class="GtkLabel">
+                  <object class="GtkLabel" id="label_instructions_title">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Instructions&lt;/b&gt;	</property>
+                    <property name="label" translatable="yes">Instructions</property>
                     <property name="use-markup">True</property>
                     <property name="xalign">0</property>
                   </object>
@@ -41,10 +41,10 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel">
+                  <object class="GtkLabel" id="label_question_title">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Question&lt;/b&gt;</property>
+                    <property name="label" translatable="yes">Question</property>
                     <property name="use-markup">True</property>
                     <property name="xalign">2.2351741291171123e-10</property>
                   </object>
@@ -76,10 +76,10 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel">
+                  <object class="GtkLabel" id="label_answer_title">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Answer&lt;/b&gt;</property>
+                    <property name="label" translatable="yes">Answer</property>
                     <property name="use-markup">True</property>
                     <property name="xalign">2.2351741291171123e-10</property>
                   </object>
@@ -189,10 +189,10 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel">
+                  <object class="GtkLabel" id="label_progress_title">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Progress&lt;/b&gt;	</property>
+                    <property name="label" translatable="yes">Progress</property>
                     <property name="use-markup">True</property>
                     <property name="xalign">0</property>
                   </object>
@@ -202,11 +202,10 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel">
+                  <object class="GtkLabel" id="label_image_title">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Image&lt;/b&gt;	</property>
-                    <property name="use-markup">True</property>
+                    <property name="label" translatable="yes">Image</property>
                     <property name="xalign">0</property>
                   </object>
                   <packing>

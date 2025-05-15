@@ -7807,7 +7807,7 @@ It starts before and arrives there with some speed.</property>
                             <property name="margin-left">12</property>
                             <property name="margin-top">16</property>
                             <property name="row-spacing">20</property>
-                            <property name="column-spacing">20</property>
+                            <property name="column-spacing">30</property>
                             <child>
                               <object class="GtkBox">
                                 <property name="visible">True</property>
@@ -8011,6 +8011,8 @@ It starts before and arrives there with some speed.</property>
                                           <object class="GtkLabel" id="label_cloud_capture_path">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
+                                            <property name="ellipsize">middle</property>
+                                            <property name="max-width-chars">40</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -8157,6 +8159,8 @@ It starts before and arrives there with some speed.</property>
                                           <object class="GtkLabel" id="label_cloud_view_path">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
+                                            <property name="ellipsize">middle</property>
+                                            <property name="max-width-chars">40</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -8178,25 +8182,26 @@ It starts before and arrives there with some speed.</property>
                                             <property name="position">2</property>
                                           </packing>
                                         </child>
-                                        <child>
-                                          <object class="GtkButton" id="button_cloud_view_databases">
-                                            <property name="label" translatable="yes">View databases</property>
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">True</property>
-                                            <property name="receives-default">True</property>
-                                            <signal name="clicked" handler="on_button_cloud_view_databases_clicked" swapped="no"/>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">3</property>
-                                          </packing>
-                                        </child>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">True</property>
                                         <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkButton" id="button_cloud_view_databases">
+                                        <property name="label" translatable="yes">View databases</property>
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">True</property>
+                                        <property name="halign">start</property>
+                                        <signal name="clicked" handler="on_button_cloud_view_databases_clicked" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">2</property>
                                       </packing>
                                     </child>
                                   </object>
@@ -8216,23 +8221,13 @@ It starts before and arrives there with some speed.</property>
                               <object class="GtkBox">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="spacing">6</property>
-                                <child>
-                                  <object class="GtkSeparator">
-                                    <property name="width-request">4</property>
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
+                                <property name="orientation">vertical</property>
+                                <property name="spacing">30</property>
                                 <child>
                                   <object class="GtkBox">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
+                                    <property name="halign">start</property>
                                     <property name="valign">center</property>
                                     <property name="orientation">vertical</property>
                                     <property name="spacing">4</property>
@@ -8266,18 +8261,130 @@ It starts before and arrives there with some speed.</property>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkBox" id="box_silicon_cloud_path_choose">
+                                    <property name="can-focus">False</property>
+                                    <property name="valign">center</property>
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">6</property>
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="label" translatable="yes">In order to change a path you need to:
+1. Open Finder
+2. Select the path
+3. Press: Option Command c
+4. Paste below on the entry box
+5. Click Apply</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkBox" id="box_silicon_cloud_path_capture">
+                                        <property name="can-focus">False</property>
+                                        <property name="spacing">6</property>
+                                        <child>
+                                          <object class="GtkEntry" id="entry_silicon_cloud_capture_path">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="button_silicon_cloud_capture_path_apply">
+                                            <property name="label" translatable="yes">Apply</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">True</property>
+                                            <signal name="clicked" handler="on_button_silicon_cloud_capture_path_apply_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkBox" id="box_silicon_cloud_path_view">
+                                        <property name="can-focus">False</property>
+                                        <property name="spacing">6</property>
+                                        <child>
+                                          <object class="GtkEntry" id="entry_silicon_cloud_view_path">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="button_silicon_cloud_view_path_apply">
+                                            <property name="label" translatable="yes">Apply</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">True</property>
+                                            <signal name="clicked" handler="on_button_silicon_cloud_view_path_apply_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">2</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="label_silicon_cloud_path_does_not_exists">
+                                        <property name="can-focus">False</property>
+                                        <property name="halign">start</property>
+                                        <property name="label" translatable="yes">Error. Directory does not exists.</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">3</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="pack-type">end</property>
                                     <property name="position">1</property>
                                   </packing>
                                 </child>
                               </object>
                               <packing>
                                 <property name="left-attach">1</property>
-                                <property name="top-attach">1</property>
-                                <property name="height">2</property>
+                                <property name="top-attach">0</property>
+                                <property name="height">3</property>
                               </packing>
-                            </child>
-                            <child>
-                              <placeholder/>
                             </child>
                           </object>
                         </child>

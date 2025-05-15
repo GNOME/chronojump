@@ -957,6 +957,9 @@ public partial class ChronoJumpWindow
 			chronopicRegisterWin.Show();
 		}
 
+		//LogB.Information (string.Format ("! showSendLog: {0}, configChronojump.ReadFromCloudMainPath == '': {1}, ! configChronojump.CanOpenExternalDB: {2}",
+		//			! showSendLog, configChronojump.ReadFromCloudMainPath == "", ! configChronojump.CanOpenExternalDB));
+
 		if(! showSendLog && //! showSocialNetworkPoll)
 			configChronojump.ReadFromCloudMainPath == "" && ! configChronojump.CanOpenExternalDB)
 		{
@@ -964,7 +967,8 @@ public partial class ChronoJumpWindow
 				backupScheduledAsk ();
 			else if(notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
 				show_start_page ();
-		}
+		} else if (configChronojump.ReadFromCloudMainPath != "") //TODO rewrite these nested conditions
+			show_start_page ();
 
 		//done at the end to ensure main window is shown
 		if(splashWin != null) {

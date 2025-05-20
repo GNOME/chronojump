@@ -30,21 +30,30 @@ using System.Diagnostics;  //Stopwatch
 
 public class DiscoverWindow
 {
-	//TODO instead of 4 lists, have List<microDiscoveGui>
-	List<Gtk.ProgressBar> progressbar_microNotDiscovered_l;
+	//TODO instead of all these lists, have List<microDiscoverGui>
+	//... tried but complicated. note the different enumeration between discover & the gui rows
+
+	List<Gtk.ProgressBar> c1_progressbar_microNotDiscovered_l;
+
 	List<Gtk.Button> button_microNotDiscovered_l;
 	List<Gtk.Label> label_microNotDiscovered_l; //to use labels for ---- and NC instead of buttons
 
 	List<ChronopicRegisterPort> portAlreadyDiscovered_l;
 	List<Gtk.Button> button_microAlreadyDiscovered_l;
 	List<Gtk.Label> label_microAlreadyDiscovered_l; //to be able to Visible = false after ShowAll ()
-	List<Gtk.Button> button_debug_l; //to test debug a device
+
+	List<Gtk.Button> buttonDebug_alreadyDiscovered_l; //to test debug a device
+	List<Gtk.Button> buttonDebug_notDiscovered_l; //to test debug a device
+	List<ChronopicRegisterPort> buttonDebug_alreadyDiscovered_crp_l; //to test debug a device
+	List<ChronopicRegisterPort> buttonDebug_notDiscovered_crp_l; //to test debug a device
 
 	static bool discoverCloseAfterCancel; //is true when select useThis while reading other devices
 	static Thread discoverThread;
 	static MicroDiscover microDiscover;
 	public Gtk.Button FakeButtonClose;
+	ChronopicTestWindow chronopicTestWin;
 
+	private Gtk.Window parentWin;
 	private Constants.Modes current_mode;
 	private ChronopicRegister chronopicRegister;
 	private Gtk.Grid grid_micro_discover;
@@ -52,23 +61,35 @@ public class DiscoverWindow
 	private Gtk.Button button_micro_discover_cancel_close;
 	private Gtk.Image image_button_micro_discover_cancel_close;
 	private Gtk.Label label_button_micro_discover_cancel_close;
+	private Gtk.CheckButton check_discover_advanced;
+	private Gtk.Label label_discover_advanced;
+	private Gtk.Image image_discover_advanced;
 	private Gtk.Image image_discover_mode;
 	private Gtk.Label label_micro_discover_connect_error;
+	private bool bgShiftedIsDark;
+	private Gtk.Label lAdvanced;
+	private bool showAdvanced;
 	private string useThisStr = "Select!";
+	private string debugThisStr = "Test it!";
 
 	private ChronopicRegisterPort portSelected;
 
-	public DiscoverWindow (Constants.Modes current_mode, ChronopicRegister chronopicRegister,
+	public DiscoverWindow (Gtk.Window parentWin,
+			Constants.Modes current_mode, ChronopicRegister chronopicRegister,
 			Gtk.Label label_micro_discover_not_found,
 			Gtk.Grid grid_micro_discover,
 			Gtk.Box box_micro_discover_nc,
 			Gtk.Button button_micro_discover_cancel_close,
 			Gtk.Image image_button_micro_discover_cancel_close,
 			Gtk.Label label_button_micro_discover_cancel_close,
+			bool showAdvanced, Gtk.CheckButton check_discover_advanced,
+			Gtk.Label label_discover_advanced, Gtk.Image image_discover_advanced,
 			string iconModeStr,
-			Gtk.Label label_micro_discover_connect_error
+			Gtk.Label label_micro_discover_connect_error,
+			bool bgShiftedIsDark
 			)
 	{
+		this.parentWin = parentWin;
 		this.current_mode = current_mode;
 		this.chronopicRegister = chronopicRegister;
 		this.grid_micro_discover = grid_micro_discover;
@@ -76,13 +97,26 @@ public class DiscoverWindow
 		this.button_micro_discover_cancel_close = button_micro_discover_cancel_close;
 		this.image_button_micro_discover_cancel_close = image_button_micro_discover_cancel_close;
 		this.label_button_micro_discover_cancel_close = label_button_micro_discover_cancel_close;
+		this.showAdvanced = showAdvanced;
+		this.check_discover_advanced = check_discover_advanced;
+		this.label_discover_advanced = label_discover_advanced;
+		this.image_discover_advanced = image_discover_advanced;
 		this.label_micro_discover_connect_error = label_micro_discover_connect_error;
+		this.bgShiftedIsDark = bgShiftedIsDark;
 
 		// 1) set up gui
 
 		FakeButtonClose = new Gtk.Button();
 		portSelected = new ChronopicRegisterPort ("");
 		image_discover_mode = new Gtk.Image (Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + iconModeStr));
+
+		if (showAdvanced) {
+			label_discover_advanced.Text = Catalog.GetString ("Hide advanced");
+			image_discover_advanced.Visible = false;
+		} else {
+			label_discover_advanced.Text = Catalog.GetString ("Show advanced");
+			image_discover_advanced.Visible = true;
+		}
 
 		//ChronoDebug cDebug = new ChronoDebug("Discover " + current_mode.ToString());
 		//cDebug.Start();
@@ -156,13 +190,17 @@ public class DiscoverWindow
 		grid_micro_discover.RowSpacing = 14;
 
 		// 2) create the lists of widgets to be able to access later
-		progressbar_microNotDiscovered_l = new List<Gtk.ProgressBar> ();
+		c1_progressbar_microNotDiscovered_l = new List<Gtk.ProgressBar> ();
 		button_microNotDiscovered_l = new List<Gtk.Button> ();
 		label_microNotDiscovered_l = new List<Gtk.Label> ();
 		portAlreadyDiscovered_l = new List<ChronopicRegisterPort> ();
 		button_microAlreadyDiscovered_l = new List<Gtk.Button> ();
 		label_microAlreadyDiscovered_l = new List<Gtk.Label> ();
-		button_debug_l = new List<Gtk.Button> ();
+
+		buttonDebug_alreadyDiscovered_l = new List<Gtk.Button> ();
+		buttonDebug_notDiscovered_l = new List<Gtk.Button> ();
+		buttonDebug_alreadyDiscovered_crp_l = new List<ChronopicRegisterPort> ();
+		buttonDebug_notDiscovered_crp_l = new List<ChronopicRegisterPort> ();
 
 		// 3) create widgets, lists, attach to table and show all
 
@@ -170,6 +208,7 @@ public class DiscoverWindow
 		Gtk.Label l0 = new Gtk.Label ("<b>" + Catalog.GetString ("Device") + "</b>");
 		l0.UseMarkup = true;
 
+		/*
 		Gtk.Label l1 = new Gtk.Label ("<b>" + Catalog.GetString ("Compatibility with") + "</b>");
 		l1.UseMarkup = true;
 		Gtk.Box hbox_l1 = new Gtk.Box (Gtk.Orientation.Horizontal, 10);
@@ -178,9 +217,20 @@ public class DiscoverWindow
 		//hbox_l1.Hexpand = true; //this does not work, so create a parent and expand:
 		Gtk.Box hbox_l1_parent = new Gtk.Box (Gtk.Orientation.Horizontal, 0);
 		hbox_l1_parent.PackStart (hbox_l1, true, false, 0);
+		*/
+		Gtk.Label lType = new Gtk.Label ("<b>" + Catalog.GetString ("Type") + "</b>");
+		lType.UseMarkup = true;
+		Gtk.Label lAction = new Gtk.Label ("<b>" + Catalog.GetString ("Action") + "</b>");
+		lAction.UseMarkup = true;
+
+		lAdvanced = new Gtk.Label ("<b>" + Catalog.GetString ("Advanced") + "</b>");
+		lAdvanced.UseMarkup = true;
 
 		grid_micro_discover.Attach (l0, 0, 0, 1, 1);
-		grid_micro_discover.Attach (hbox_l1_parent, 2, 0, 2, 1);
+		//grid_micro_discover.Attach (hbox_l1_parent, 1, 0, 2, 1);
+		grid_micro_discover.Attach (lType, 1, 0, 1, 1);
+		grid_micro_discover.Attach (lAction, 2, 0, 1, 1);
+		grid_micro_discover.Attach (lAdvanced, 3, 0, 1, 1);
 
 		// 3b) create a row for each device
 		for (int i = 0; i < alreadyDiscovered_l.Count; i ++)
@@ -192,21 +242,30 @@ public class DiscoverWindow
 
 		//hide any buttons with "NC"or "----"
 		foreach (Button b in button_microAlreadyDiscovered_l)
-			if (b.Label == "NC" || b.Label == "----")
+			if (b.Label == Catalog.GetString ("NC") || b.Label == "----")
 				b.Visible = false;
 		foreach (Button b in button_microNotDiscovered_l)
-			if (b.Label == "NC" || b.Label == "----")
+			if (b.Label == Catalog.GetString ("NC") || b.Label == "----")
 				b.Visible = false;
 		foreach (Gtk.Label l in label_microAlreadyDiscovered_l)
 			if (l.Text == Catalog.GetString (useThisStr))
 				l.Visible = false;
-		foreach (Button b in button_debug_l)
-			if (b.Label == "")
+
+		lAdvanced.Visible = showAdvanced;
+		foreach (Button b in buttonDebug_alreadyDiscovered_l)
+			if (b.Label == "" || ! showAdvanced)
+				b.Visible = false;
+		foreach (Button b in buttonDebug_notDiscovered_l)
+			if (b.Label == "" || ! showAdvanced)
 				b.Visible = false;
 	}
 
+	/*
+	 * | l (port/serialNum) | c1_pb (progressbar) | c2_box_b_or_label (label, bSelect, bDebug)
+	 */
 	private void setup_row_micro_discover_l (ChronopicRegisterPort crp, int i, bool alreadyDiscovered)
 	{
+		// ---- column 0
 		string portNameShort = crp.Port;
 		if (portNameShort.StartsWith ("/dev/"))
 			portNameShort = portNameShort.Replace ("/dev/", "");
@@ -215,21 +274,29 @@ public class DiscoverWindow
 					portNameShort, Util.RemoveCenterCharsOnLongString (crp.SerialNumber, 12)));
 		grid_micro_discover.Attach (l, 0, i, 1, 1);
 
+		// ---- column 1
+		Gtk.ProgressBar c1_pb = new Gtk.ProgressBar ();
+		c1_pb.Text = "----"; //to have height
+		c1_pb.SetSizeRequest (125, -1);
+		c1_pb.ShowText = true;
+		if (bgShiftedIsDark)
+			c1_pb.Name = "lightCss";
+		else
+			c1_pb.Name = "darkCss";
+
 		if (alreadyDiscovered)
 		{
-			Gtk.Label l2 = new Gtk.Label (ChronopicRegisterPort.TypePrint (crp.Type));
-			grid_micro_discover.Attach (l2, 1, i, 1, 1);
-		} else {
-			Gtk.ProgressBar pb = new Gtk.ProgressBar ();
-			pb.Text = "----"; //to have height
-			pb.SetSizeRequest (125, -1);
-			progressbar_microNotDiscovered_l.Add (pb);
-			grid_micro_discover.Attach (pb, 1, i, 1, 1);
-		}
+			c1_pb.Fraction = 1;
+			c1_pb.Text = ChronopicRegisterPort.TypePrint (crp.Type);
+		} else
+			c1_progressbar_microNotDiscovered_l.Add (c1_pb);
 
+		grid_micro_discover.Attach (c1_pb, 1, i, 1, 1);
+
+		// ---- column 2, 3
 		Gtk.Label label = new Gtk.Label (); //used on NC and ----
-		Gtk.Button b = new Gtk.Button (); //used on Select!
-		Gtk.Box box_b_label = new Gtk.Box (Gtk.Orientation.Horizontal, 0);
+		Gtk.Button bSelect = new Gtk.Button (); //used on Select!
+		Gtk.Box c2_box_b_or_label = new Gtk.Box (Gtk.Orientation.Horizontal, 0);
 		Gtk.Button bDebug = new Gtk.Button ();
 		bDebug.Label = "";
 
@@ -237,62 +304,118 @@ public class DiscoverWindow
 		{
 			if (discoverMatchCurrentMode (crp.Type))
 			{
-				b.Sensitive = true;
+				bSelect.Sensitive = true;
 				label.Text = Catalog.GetString (useThisStr);
 
 				//TODO: work for more sensors
-				if (
-						(Constants.ModeIsFORCESENSOR (current_mode) && crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE) ||
-						(Constants.ModeIsENCODER (current_mode) && crp.Type == ChronopicRegisterPort.Types.ENCODER) )
+				if (shouldHaveDebugButton (current_mode, crp.Type))
 				{
 					bDebug.Sensitive = true;
-					bDebug.Label = "Test it!";
+					bDebug.Label = debugThisStr;
 					bDebug.Clicked -= new EventHandler (on_discover_debug_this_clicked); //needed. if not: called multiple times
 					bDebug.Clicked += new EventHandler (on_discover_debug_this_clicked);
 				}
 			} else
 			{
-				b.Sensitive = false;
+				bSelect.Sensitive = false;
 				label.Text = Catalog.GetString ("NC");
 				box_micro_discover_nc.Visible = true;
 			}
 
 			//label_microAlreadyDiscovered_l.Add (label);
-			b.Label = label.Text;
-			button_microAlreadyDiscovered_l.Add (b);
+			bSelect.Label = label.Text;
+			button_microAlreadyDiscovered_l.Add (bSelect);
 			label_microAlreadyDiscovered_l.Add (label); //just to make not visible later
 			portAlreadyDiscovered_l.Add (crp);
-			b.Clicked -= new EventHandler (on_discover_use_this_clicked); //needed. if not: called multiple times
-			b.Clicked += new EventHandler (on_discover_use_this_clicked);
+			bSelect.Clicked -= new EventHandler (on_discover_use_this_clicked); //needed. if not: called multiple times
+			bSelect.Clicked += new EventHandler (on_discover_use_this_clicked);
 
-			button_debug_l.Add (bDebug);
+			buttonDebug_alreadyDiscovered_l.Add (bDebug);
+			buttonDebug_alreadyDiscovered_crp_l.Add (crp);
 		} else {
-			b.Sensitive = false;
+			bSelect.Sensitive = false;
 
 			//b.Label = "----";
 			label_microNotDiscovered_l.Add (label);
 			label.Text = "----";
-			b.Label = label.Text;
-			button_microNotDiscovered_l.Add (b);
-			button_debug_l.Add (bDebug);
+			bSelect.Label = label.Text;
+			button_microNotDiscovered_l.Add (bSelect);
+
+			buttonDebug_notDiscovered_l.Add (bDebug);
+			buttonDebug_notDiscovered_crp_l.Add (crp);
 		}
 
-		box_b_label.PackStart (label, false, false, 0);
-		box_b_label.PackStart (b, false, false, 0);
-		box_b_label.PackStart (bDebug, false, false, 6);
+		//c2_box_b_or_label has button and label, if compatible with mode will show button, if not, label
+		c2_box_b_or_label.PackStart (label, false, false, 0);
+		c2_box_b_or_label.PackStart (bSelect, false, false, 0);
 
 		/* done after grid_micro_discover.ShowAll ();
 		if (label.Text == "NC" || label.Text == "----")
 		{
 			label.Visible = true;
-			b.Visible = false;
+			bSelect.Visible = false;
 		} else {
 			label.Visible = false;
-			b.Visible = true;
+			bSelect.Visible = true;
 		}
 		*/
 
-		grid_micro_discover.Attach (box_b_label, 2, i, 1, 1);
+		grid_micro_discover.Attach (c2_box_b_or_label, 2, i, 1, 1);
+		grid_micro_discover.Attach (bDebug, 3, i, 1, 1);
+	}
+
+	private bool shouldHaveDebugButton (Constants.Modes mode, ChronopicRegisterPort.Types crpType)
+	{
+		if (
+				(current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE ||
+				 current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC) &&
+				crpType == ChronopicRegisterPort.Types.CONTACTS
+		   )
+			return true;
+
+		if (
+				(current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC) &&
+				crpType == ChronopicRegisterPort.Types.RUN_WIRELESS
+		   )
+			return true;
+
+		if (current_mode == Constants.Modes.RUNSENCODER && crpType == ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER)
+			return true;
+
+		if (Constants.ModeIsFORCESENSOR (current_mode) && crpType == ChronopicRegisterPort.Types.ARDUINO_FORCE)
+			return true;
+
+		if (Constants.ModeIsENCODER (current_mode) && crpType == ChronopicRegisterPort.Types.ENCODER)
+			return true;
+
+		return false;
+	}
+
+	public void ShowAdvanced (bool show)
+	{
+		showAdvanced = show;
+
+		if (showAdvanced) {
+			label_discover_advanced.Text = Catalog.GetString ("Hide advanced");
+			image_discover_advanced.Visible = false;
+		} else {
+			label_discover_advanced.Text = Catalog.GetString ("Show advanced");
+			image_discover_advanced.Visible = true;
+		}
+
+		//lAdvanced && buttonDebug_* is defined on setup_grid_micro_discover () if it is not called, it will be null
+		if (lAdvanced == null || buttonDebug_alreadyDiscovered_l == null || buttonDebug_notDiscovered_l == null)
+			return;
+
+		lAdvanced.Visible = showAdvanced;
+
+		for (int i = 0; i < buttonDebug_alreadyDiscovered_l.Count; i ++)
+			if (buttonDebug_alreadyDiscovered_l[i].Label == debugThisStr)
+				buttonDebug_alreadyDiscovered_l[i].Visible = showAdvanced;
+
+		for (int i = 0; i < buttonDebug_notDiscovered_l.Count; i ++)
+			if (buttonDebug_notDiscovered_l[i].Label == debugThisStr)
+				buttonDebug_notDiscovered_l[i].Visible = showAdvanced;
 	}
 
 	private void discoverDo ()
@@ -308,10 +431,10 @@ public class DiscoverWindow
 		}
 
 		//gui updates while thread is alive
-		for (int i = 0; i < progressbar_microNotDiscovered_l.Count; i ++)
+		for (int i = 0; i < c1_progressbar_microNotDiscovered_l.Count; i ++)
 		{
 			//progressbars
-			Gtk.ProgressBar pb = progressbar_microNotDiscovered_l[i];
+			Gtk.ProgressBar pb = c1_progressbar_microNotDiscovered_l[i];
 			if (microDiscover.ProgressBar_l[i] == MicroDiscover.Status.NotStarted)
 			{
 				pb.Text = "----"; //to have height
@@ -320,6 +443,7 @@ public class DiscoverWindow
 			{
 				pb.Text = microDiscover.ProgressBar_l[i].ToString();
 				pb.Fraction = 1;
+				pb.Text = microDiscover.ProgressBar_l[i].ToString();
 			} else {
 				if (microDiscover.Cancel)
 					pb.Text = Catalog.GetString("Cancelling");
@@ -332,15 +456,26 @@ public class DiscoverWindow
 			{
 				if (discoverMatchCurrentMode (microDiscover.Discovered_l[i]))
 				{
-					(progressbar_microNotDiscovered_l[i]).Text = ChronopicRegisterPort.TypePrint(microDiscover.Discovered_l[i]);
+					(c1_progressbar_microNotDiscovered_l[i]).Text = ChronopicRegisterPort.TypePrint(microDiscover.Discovered_l[i]);
 					button_microNotDiscovered_l[i].Sensitive = true;
 					button_microNotDiscovered_l[i].Label = Catalog.GetString (useThisStr);
 					button_microNotDiscovered_l[i].Clicked -= new EventHandler(on_discover_use_this_clicked); //needed. if not: called multiple times
 					button_microNotDiscovered_l[i].Clicked += new EventHandler(on_discover_use_this_clicked);
 					button_microNotDiscovered_l[i].Visible = true;
 					label_microNotDiscovered_l[i].Visible = false;
+
+					if (shouldHaveDebugButton (current_mode, microDiscover.Discovered_l[i]))
+					{
+						buttonDebug_notDiscovered_crp_l[i].Type = microDiscover.Discovered_l[i];
+
+						if (showAdvanced)
+							buttonDebug_notDiscovered_l[i].Visible = true;
+						buttonDebug_notDiscovered_l[i].Sensitive = true;
+						buttonDebug_notDiscovered_l[i].Label = debugThisStr;
+						buttonDebug_notDiscovered_l[i].Clicked -= new EventHandler (on_discover_debug_this_clicked); //needed. if not: called multiple times
+						buttonDebug_notDiscovered_l[i].Clicked += new EventHandler (on_discover_debug_this_clicked);
+					}
 				} else {
-					//button_microNotDiscovered_l[i].Label = Catalog.GetString ("NC");
 					button_microNotDiscovered_l[i].Visible = false;
 					label_microNotDiscovered_l[i].Text = Catalog.GetString ("NC");
 					label_microNotDiscovered_l[i].Visible = true;
@@ -365,17 +500,17 @@ public class DiscoverWindow
 			LogB.Information("pulseDiscoverGTK ending here");
 			LogB.ThreadEnded();
 
-			for (int i = 0; i < progressbar_microNotDiscovered_l.Count; i ++)
+			for (int i = 0; i < c1_progressbar_microNotDiscovered_l.Count; i ++)
 			{
 				if (microDiscover.Cancel &&
 						 microDiscover.ProgressBar_l[i] != MicroDiscover.Status.Done)
-					(progressbar_microNotDiscovered_l[i]).Text = Catalog.GetString("Cancelled");
+					(c1_progressbar_microNotDiscovered_l[i]).Text = Catalog.GetString("Cancelled");
 
-				(progressbar_microNotDiscovered_l[i]).Fraction = 1;
+				(c1_progressbar_microNotDiscovered_l[i]).Fraction = 1;
 
 				if ( ! (i < microDiscover.Discovered_l.Count &&
 							discoverMatchCurrentMode (microDiscover.Discovered_l[i])) )
-					(progressbar_microNotDiscovered_l[i]).Text = Catalog.GetString ("No");
+					(c1_progressbar_microNotDiscovered_l[i]).Text = "";
 			}
 
 			image_button_micro_discover_cancel_close.Pixbuf =
@@ -490,56 +625,86 @@ public class DiscoverWindow
 
 	private void on_discover_debug_this_clicked (object o, EventArgs args)
 	{
-		/*
-		 * TODO:
-		 * - show feedback graphically
-		 * - hability to send a log
-		 */
+		// TODO: hability to send a log
 		Button bPress = (Button) o;
-		bool success = false;
 
 		// 1) test the discovered by MicroDiscover
 		//loop the list to know which button was
-		for (int i = 0 ; i < button_debug_l.Count; i ++)
+		for (int i = 0 ; i < buttonDebug_alreadyDiscovered_l.Count; i ++)
+			if (buttonDebug_alreadyDiscovered_l[i] == bPress)
+				on_discover_debug_this_clicked_do (portAlreadyDiscovered_l[i], buttonDebug_alreadyDiscovered_l[i]);
+
+		for (int i = 0 ; i < buttonDebug_notDiscovered_l.Count; i ++)
+			if (buttonDebug_notDiscovered_l[i] == bPress)
+				on_discover_debug_this_clicked_do (buttonDebug_notDiscovered_crp_l[i], buttonDebug_notDiscovered_l[i]);
+	}
+
+	//TODO: implement for more sensors
+	private void on_discover_debug_this_clicked_do (ChronopicRegisterPort crp, Gtk.Button bDebug)
+	{
+		if (crp.Type != ChronopicRegisterPort.Types.CONTACTS &&
+				crp.Type != ChronopicRegisterPort.Types.RUN_WIRELESS && //WICHRO
+				crp.Type != ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER && //Race Analyzer
+				crp.Type != ChronopicRegisterPort.Types.ARDUINO_FORCE &&
+				crp.Type != ChronopicRegisterPort.Types.ENCODER)
+			return;
+
+		if (crp.Type == ChronopicRegisterPort.Types.CONTACTS)
 		{
-			if (button_debug_l[i] != bPress)
-				continue;
+			chronopicTestWin = ChronopicTestWindow.Show (parentWin);
+		}
+		else if (crp.Type == ChronopicRegisterPort.Types.RUN_WIRELESS ||
+				crp.Type == ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER ||
+				crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE)
+		{
+			//force sensor needs to wait 3s to start capturing
+			bDebugCurrent = bDebug;
+			crpCurrent = crp;
+			dd = null;
 
-			LogB.Information ("Device to debug is: " + portAlreadyDiscovered_l[i].ToString ());
-			//TODO: work for more sensors
-			ChronopicRegisterPort crp = portAlreadyDiscovered_l[i];
-			if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE ||
-					crp.Type == ChronopicRegisterPort.Types.ENCODER)
-			{
-				if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE)
-				{
-					//force sensor needs to wait 3s to start capturing
-					bDebugCurrent = button_debug_l[i];
-					crpCurrent = crp;
-					dd = null;
-					stopwatch = new Stopwatch ();
-					stopwatch.Start ();
-					grid_micro_discover.Sensitive = false;
-					button_micro_discover_cancel_close.Sensitive = false;
+			ddTotalSeconds = 5.99;
+			if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER)
+				ddTotalSeconds = 5.99 + 3; //capturing data
 
-					debugThread = new Thread (new ThreadStart (debugForceSensor));
-					GLib.Idle.Add (new GLib.IdleHandler (pulseDebugGTK));
-					debugThread.Start();
-				}
-				else { //if (crp.Type == ChronopicRegisterPort.Types.ENCODER)
-					dd = new DebugEncoder (crp);
-					new DialogMessage (dd.Title, Constants.MessageTypes.INFO, 450, 400, dd.Str);
-				}
-			}
+			stopwatch = new Stopwatch ();
+			stopwatch.Start ();
+
+			grid_micro_discover.Sensitive = false;
+			check_discover_advanced.Sensitive = false;
+			button_micro_discover_cancel_close.Sensitive = false;
+
+			if (crp.Type == ChronopicRegisterPort.Types.RUN_WIRELESS)
+				debugThread = new Thread (new ThreadStart (debugWichro));
+			else if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER)
+				debugThread = new Thread (new ThreadStart (debugRaceAnalyzer));
+			else //if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE)
+				debugThread = new Thread (new ThreadStart (debugForceSensor));
+
+			GLib.Idle.Add (new GLib.IdleHandler (pulseDebugGTK));
+			debugThread.Start();
+		}
+		else { //if (crp.Type == ChronopicRegisterPort.Types.ENCODER)
+			dd = new DebugEncoder (crp);
+			new DialogMessage (dd.Title, Constants.MessageTypes.INFO, 450, 400, dd.Str);
 		}
 	}
 
 	static Thread debugThread;
 	private DebugDevices dd;
+	private double ddTotalSeconds;
 	private ChronopicRegisterPort crpCurrent;
 	private Gtk.Button bDebugCurrent;
 	private Stopwatch stopwatch;
 
+	// Using a thread: when a DialogMessage window is shown after some time (arduino start)
+	private void debugWichro ()
+	{
+		dd = new DebugWichro (crpCurrent);
+	}
+	private void debugRaceAnalyzer ()
+	{
+		dd = new DebugRaceAnalyzer (crpCurrent);
+	}
 	private void debugForceSensor ()
 	{
 		dd = new DebugForceSensor (crpCurrent);
@@ -553,12 +718,13 @@ public class DiscoverWindow
 			stopwatch.Stop ();
 
 			grid_micro_discover.Sensitive = true;
+			check_discover_advanced.Sensitive = true;
 			button_micro_discover_cancel_close.Sensitive = true;
 
 			return false;
 		}
 
-		int seconds = Convert.ToInt32 (5.99 -stopwatch.Elapsed.TotalSeconds);
+		int seconds = Convert.ToInt32 (ddTotalSeconds -stopwatch.Elapsed.TotalSeconds);
 		if (seconds < 0)
 		       seconds = 0;
 
@@ -656,111 +822,8 @@ public abstract class DebugDevices
                 //double firmwareVersion = forceSensorCheckVersionDo(); //TODO: it uses portFS
 	*/
 
-	protected virtual bool readSomeData ()
+	protected bool startCaptureArduino ()
 	{
-		return true;
-	}
-
-	protected bool portClose ()
-	{
-		str += "\n\n- Closing port …";
-		try {
-			port.Close();
-		} 
-		catch (System.IO.IOException)
-		{
-			str += "\n- Problems closing port";
-			return false;
-		}
-		str += "\n- Closed! All ok.";
-
-		return true;
-	}
-
-	public string Title {
-		get { return title; }
-	}
-	public string Str {
-		get { return str; }
-	}
-	public bool Done {
-		get { return done; }
-	}
-}
-
-public class DebugForceSensor : DebugDevices
-{
-	public DebugForceSensor (ChronopicRegisterPort crp)
-	{
-		this.crp = crp;
-		title = "Testing Force Sensor";
-
-		done = false;
-		debugDo ();
-		done = true;
-	}
-
-	protected override void debugDo ()
-	{
-		if (! portCreate ())
-			return;
-
-		if (! portOpen ())
-			return;
-
-		Thread.Sleep(3000); //sleep to let arduino start reading serial event
-		LogB.Information ("Have wait 3 s");
-
-		if (! getVersion ())
-			return;
-
-		if (! readSomeData ())
-			return;
-
-		portClose ();
-	}
-
-	// adapted from gui/app1/forceSensor.cs forceSensorCheckVersionDo ()
-	private bool getVersion ()
-	{
-		str += "\n\n- Getting version …";
-
-		// send message
-		try {
-			port.WriteLine ("get_version:");
-		}
-		catch (Exception ex)
-		{
-			if(ex is System.IO.IOException || ex is System.TimeoutException)
-			{
-				str += "\n- Failed at sending message. Error: " + ex.ToString ();
-				return false;
-			}
-		}
-
-		// get version
-		string s = "";
-		do {
-			Thread.Sleep(100); //sleep to let arduino start reading
-			try {
-				s = port.ReadLine().Trim();
-			} catch (Exception ex) {
-				str += "\n- Failed at receiving message. Error: " + ex.ToString ();
-				return false;
-			}
-		}
-		while(! s.Contains("Force_Sensor-"));
-
-		str += "\n- Version found is: " + s;
-		return true;
-	}
-
-	// copied from gui/app1/forceSensor.cs
-	protected override bool readSomeData ()
-	{
-		int samples = 10;
-		str += string.Format ("\n\n- Capturing {0} samples …", samples);
-
 		// send message
 		try {
 			port.WriteLine ("start_capture:");
@@ -787,23 +850,11 @@ public class DebugForceSensor : DebugDevices
 		}
 		while(! s.Contains("Starting capture"));
 
-		// capture some data
-		s = "";
-		int count = 0;
-		do {
-			int time = 0;
-			double force = 0;
-			string triggerCode = "";
-			s = port.ReadLine();
-			if(! forceSensorProcessCapturedLine(s, out time, out force,
-						false, out triggerCode)) //false: do not read triggers
-				continue;
+		return true;
+	}
 
-			count ++;
-			//str += string.Format ("\n{0,12} us, {1,12} N", time, force);
-			str += string.Format ("\n{0} us\t {1} N", time, force);
-		} while (count < samples);
-
+	protected bool endCaptureArduino ()
+	{
 		// ending capture. Send message
 		try {
 			port.WriteLine ("end_capture:");
@@ -818,6 +869,7 @@ public class DebugForceSensor : DebugDevices
 		}
 
 		// ending capture. Receive message
+		string s = "";
 		int notValidCommandCount = 0;
 		do {
 			Thread.Sleep(10);
@@ -848,6 +900,304 @@ public class DebugForceSensor : DebugDevices
 			}
 		}
 		while(! s.Contains("Capture ended"));
+
+		return true;
+	}
+
+	protected virtual bool readSomeData ()
+	{
+		return true;
+	}
+
+	protected bool portClose ()
+	{
+		str += "\n\n- Closing port …";
+		try {
+			port.Close();
+		} 
+		catch (System.IO.IOException)
+		{
+			str += "\n- Problems closing port";
+			return false;
+		}
+		str += "\n- Closed! All ok.";
+
+		return true;
+	}
+
+	// adapted from gui/app1/forceSensor.cs forceSensorCheckVersionDo ()
+	protected bool getVersionArduino (string commandStr, string responseExpected)
+	{
+		str += "\n\n- Getting version …";
+
+		// send message
+		try {
+			port.WriteLine (commandStr);
+		}
+		catch (Exception ex)
+		{
+			if(ex is System.IO.IOException || ex is System.TimeoutException)
+			{
+				str += "\n- Failed at sending message. Error: " + ex.ToString ();
+				return false;
+			}
+		}
+
+		// get version
+		string s = "";
+		do {
+			Thread.Sleep(100); //sleep to let arduino start reading
+			try {
+				s = port.ReadLine().Trim();
+			} catch (Exception ex) {
+				str += "\n- Failed at receiving message. Error: " + ex.ToString ();
+				return false;
+			}
+		}
+		while(! s.Contains(responseExpected));
+
+		str += "\n- Version found is: " + s;
+		return true;
+	}
+
+	public string Title {
+		get { return title; }
+	}
+	public string Str {
+		get { return str; }
+	}
+	public bool Done {
+		get { return done; }
+	}
+}
+
+public class DebugWichro : DebugDevices
+{
+	public DebugWichro (ChronopicRegisterPort crp)
+	{
+		this.crp = crp;
+		title = "Testing WICHRO";
+
+		done = false;
+		debugDo ();
+		done = true;
+	}
+
+	protected override void debugDo ()
+	{
+		if (! portCreate ())
+			return;
+
+		if (! portOpen ())
+			return;
+
+		Thread.Sleep(3000); //sleep to let arduino start reading serial event
+		LogB.Information ("Have wait 3 s");
+
+		if (! getVersionArduino ("local:get_version:", "Wifi-Controller"))
+			return;
+
+		portClose ();
+	}
+}
+
+public class DebugRaceAnalyzer : DebugDevices
+{
+	public DebugRaceAnalyzer (ChronopicRegisterPort crp)
+	{
+		this.crp = crp;
+		title = "Testing Race Analyzer";
+
+		done = false;
+		debugDo ();
+		done = true;
+	}
+
+	protected override void debugDo ()
+	{
+		if (! portCreate ())
+			return;
+
+		if (! portOpen ())
+			return;
+
+		Thread.Sleep(3000); //sleep to let arduino start reading serial event
+		LogB.Information ("Have wait 3 s");
+
+		if (! getVersionArduino ("get_version:", "Race_Analyzer-"))
+			return;
+
+		if (! readSomeData ())
+			return;
+
+		portClose ();
+	}
+
+	protected override bool readSomeData ()
+	{
+		int seconds = 3;
+		str += string.Format ("\n\n- Capturing {0} seconds …", seconds);
+
+		if (! startCaptureArduino ())
+			return false;
+
+		// capture some data
+
+		Stopwatch swTotal = new Stopwatch ();
+		swTotal.Start ();
+
+		int bytesToRead = 0;
+
+		do {
+			try {
+				bytesToRead = port.BytesToRead;
+			} catch {
+				continue;
+			}
+
+			if (port.BytesToRead < 9) 	// readBinaryRunEncoder9Bytes will read 9 bytes
+				continue;
+
+			List<int> binaryReaded = readBinaryRunEncoder9Bytes ();
+
+			// using pulses and not m because for m first we need to send pps. And check if version is ok for send pps.
+			str += string.Format ("\n  {0} pulses \t {1} us",//; N\t {3} is RCA?",
+					binaryReaded[0], binaryReaded[1]);//, binaryReaded[2], binaryReaded[3]);
+					//binaryReaded[0] * 0.0030321, binaryReaded[1]);//, binaryReaded[2], binaryReaded[3]);
+
+		} while (swTotal.Elapsed.TotalSeconds < 3);
+		swTotal.Stop ();
+
+		if (! endCaptureArduino ())
+			return false;
+
+		return true;
+	}
+
+	// copied from gui/app1/runEncoder.cs
+	// time (4 bytes: long at Arduino, uint at c-sharp), force (2 bytes: uint), encoder/RCA (1 byte: uint)
+	private List<int> readBinaryRunEncoder9Bytes ()
+        {
+                List<int> dataRow = new List<int>();
+
+		var buffer = new byte[1024];
+		int bytesRead = 0;
+		try {
+			bytesRead = port.Read (buffer, 0, 9);
+		}
+		catch (Exception ex)
+		{
+			if(ex is System.IO.IOException || ex is System.TimeoutException)
+				LogB.Information ("catched on readBinaryRunEncoder9Bytes portRE.Read ()");
+
+			return dataRow;
+		}
+
+		int count = 0;
+
+		// 1) encoderDisplacement (2 bytes)
+                int b0 = buffer[count ++]; //encoderDisplacement least significative
+                int b1 = buffer[count ++]; //encoderDisplacement most significative
+		int readedNum = Convert.ToInt32(256 * b1 + b0);
+
+		//care for negative values
+		if(readedNum > 32768)
+			readedNum = -1 * (65536 - readedNum);
+
+		dataRow.Add(readedNum);
+
+		// 2) read time, four bytes
+                b0 = buffer[count ++]; //least significative
+                b1 = buffer[count ++];
+                int b2 = buffer[count ++];
+                int b3 = buffer[count ++]; //most significative
+
+                dataRow.Add(Convert.ToInt32(
+                                Math.Pow(256,3) * b3 +
+                                Math.Pow(256,2) * b2 +
+                                Math.Pow(256,1) * b1 +
+                                Math.Pow(256,0) * b0));
+
+		// 3) read force, two bytes
+		b0 = buffer[count ++]; //least significative
+		b1 = buffer[count ++]; //most significative
+		readedNum = Convert.ToInt32(256 * b1 + b0);
+
+		dataRow.Add(readedNum);
+
+		/*
+		 * 4) byte for encoder or RCA
+		 * 0 encoder data
+		 * 1 RCA down (button is released)
+		 * 2 RCA up (button is pressed)
+		 */
+		b0 = buffer[count ++];
+		dataRow.Add(Convert.ToInt32(b0));
+
+                return dataRow;
+        }
+}
+
+public class DebugForceSensor : DebugDevices
+{
+	public DebugForceSensor (ChronopicRegisterPort crp)
+	{
+		this.crp = crp;
+		title = "Testing Force Sensor";
+
+		done = false;
+		debugDo ();
+		done = true;
+	}
+
+	protected override void debugDo ()
+	{
+		if (! portCreate ())
+			return;
+
+		if (! portOpen ())
+			return;
+
+		Thread.Sleep(3000); //sleep to let arduino start reading serial event
+		LogB.Information ("Have wait 3 s");
+
+		if (! getVersionArduino ("get_version:", "Force_Sensor-"))
+			return;
+
+		if (! readSomeData ())
+			return;
+
+		portClose ();
+	}
+
+	// copied from gui/app1/forceSensor.cs
+	protected override bool readSomeData ()
+	{
+		int samples = 10;
+		str += string.Format ("\n\n- Capturing {0} samples …", samples);
+
+		if (! startCaptureArduino ())
+			return false;
+
+		// capture some data
+		string s = "";
+		int count = 0;
+		do {
+			int time = 0;
+			double force = 0;
+			string triggerCode = "";
+			s = port.ReadLine();
+			if(! forceSensorProcessCapturedLine(s, out time, out force,
+						false, out triggerCode)) //false: do not read triggers
+				continue;
+
+			count ++;
+			//str += string.Format ("\n{0,12} us, {1,12} N", time, force);
+			str += string.Format ("\n{0} us\t {1} N", time, force);
+		} while (count < samples);
+
+		if (! endCaptureArduino ())
+			return false;
 
 		return true;
 	}
@@ -894,7 +1244,6 @@ public class DebugForceSensor : DebugDevices
 
 		return true;
 	}
-
 }
 
 public class DebugEncoder : DebugDevices
@@ -965,5 +1314,4 @@ public class DebugEncoder : DebugDevices
 
 		return b;
 	}
-
 }

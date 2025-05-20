@@ -414,12 +414,23 @@ public partial class ChronoJumpWindow
 		bool selectedFile = false;
 		if(check_ai_export_images.Active || check_run_encoder_export_instantaneous.Active) 	//export folder
 		{
+			Constants.CheckFileOp checkFileOp;
+
 			if(personID == -1)
-				selectedFile = checkFolder (Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES);
+				checkFileOp = Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES;
 			else if (sessionID == -1)
-				selectedFile = checkFolder (Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_ALL_SESSIONS_YES_IMAGES);
+				checkFileOp = Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_ALL_SESSIONS_YES_IMAGES;
 			else
-				selectedFile = checkFolder (Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES);
+				checkFileOp = Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES;
+
+			if (UtilAll.IsMacSilicon ()) 	//on Silicon do not select the folder
+			{
+				string nameString = checkFolderGetName (checkFileOp);
+				exportFileName = Util.GetTempExportDirMacSilicon (nameString);
+				checkFolderWrite (checkFileOp);
+						// + "_" + UtilDate.ToFile(DateTime.Now) //to do not need to care about overwrite
+			} else
+				selectedFile = checkFolder (checkFileOp);
 		} else { 											//export file
 			if(personID == -1)
 				selectedFile = checkFile (Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES);

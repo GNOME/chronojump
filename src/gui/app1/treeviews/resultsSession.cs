@@ -75,6 +75,10 @@ public partial class ChronoJumpWindow
 		treeViewResultsSession.ZoomChange (image_results_session_zoom);
 	}
 
+	// if treeviewResults changes person, then store here the value of the results id.
+	// Change person (will change treeview and lots of widgets) And then select this id on treeviewResults.
+	private int personChangingFromResultsId = -1;
+
 	// Important! see: diagrams/processes/person_results_changes.dia
 	private void on_treeview_results_session_cursor_changed (object o, EventArgs args)
 	{
@@ -82,30 +86,37 @@ public partial class ChronoJumpWindow
 		if (treeViewResultsSession == null)
 			return;
 
-		//selected row makes change currentPerson if showing all persons
-		if (currentPerson != null && radio_contacts_results_personAll.Active &&
-				! treeviewPersonsChangesTreeViewResultsSessionSignalsNoFollow)
+		// Check if clicked to another person
+		if (currentPerson != null && ! treeviewResultsSessionNoCheckPersonChange)
 		{
 			int personID = treeViewResultsSession.GetPersonIDOfSelectedRow;
-			LogB.Information (string.Format ("RRR personID: {0}, currentPerson.UniqueID: {1}",
-						personID, currentPerson.UniqueID));
 			if (personID != currentPerson.UniqueID)
 			{
-				treeviewResultsSessionChangesTreeViewPersonsSignalsNoFollow = true;
-
-				int personPrevious = currentPerson.UniqueID;
-
-				// 2nd update the treeview, then the personID will be in bold
-				selectRowTreeView_persons (treeview_persons, myTreeViewPersons.FindRow (personID));
-				// now currentPerson, currentPersionSession have been updated
+				// If clicked to another person and to a test, store the test to be selected later
+				if (treeViewResultsSession.EventSelectedID >= 0)
+					personChangingFromResultsId = treeViewResultsSession.EventSelectedID;
+				// but if clicked on a subevent (on two level treeviews), then obtain the 1st level id
+				else if (treeViewResultsSession.EventSelectedID == TreeViewEvent.MarkNonSelectRowSubEvent)
+					personChangingFromResultsId = treeViewResultsSession.GetIDOfSelectedSubEvent ();
+				LogB.Information ("personChangingFromResultsId: " + personChangingFromResultsId.ToString ());
 
 				//1st update the variable
-				treeViewResultsSession.CurrentPersonID = currentPerson.UniqueID;
+				int personPrevious = currentPerson.UniqueID;
+				//treeViewResultsSession.CurrentPersonID = currentPerson.UniqueID;
+				treeViewResultsSession.CurrentPersonID = personID;
+
+				pre_fillTreeView_resultsSession_NO = true;
+
+				// select the person
+				selectRowTreeView_persons (treeview_persons, myTreeViewPersons.FindRow (personID));
+				// now currentPerson, currentPersionSession have been updated
 
 				treeViewResultsSession.PersonEmitRowChanged (personPrevious); // show normal
 				treeViewResultsSession.PersonEmitRowChanged (currentPerson.UniqueID); // show in bold
 
-				treeviewResultsSessionChangesTreeViewPersonsSignalsNoFollow = false;
+				pre_fillTreeView_resultsSession_NO = false;
+
+				return;
 			}
 		}
 
@@ -137,7 +148,7 @@ public partial class ChronoJumpWindow
 
 		// don't select if it's a person
 		// is for not confusing with the person treeviews that controls who does the test
-		if (treeViewResultsSession.EventSelectedID == 0)
+		if (treeViewResultsSession.EventSelectedID == TreeViewEvent.MarkRowIsPerson)
 		{
 			showHideActionEventButtons(false); //hide
 
@@ -160,12 +171,12 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void selectResultsSessionId (int id)
+	private void selectResultsSessionId (int id, bool scroll)
 	{
 		treeViewResultsSession.ZoomToTestsIfNeeded ();
 
 		// here we welect the event
-		treeViewResultsSession.SelectEvent (id, true); //scroll
+		treeViewResultsSession.SelectEvent (id, scroll);
 
 		// note this can change the person
 		on_treeview_results_session_cursor_changed (new object (), new EventArgs ()); //in order to update the play video button
@@ -208,7 +219,7 @@ public partial class ChronoJumpWindow
 	{
 		Gdk.EventButton e = args.Event;
 		//Gtk.TreeView myTv = (Gtk.TreeView) o;
-		if (e.Button != 3 || treeViewResultsSession.EventSelectedID <= 0)
+		if (e.Button != 3 || treeViewResultsSession.EventSelectedID < 0)
 			return;
 
 		int id = treeViewResultsSession.EventSelectedID;
@@ -287,6 +298,14 @@ public partial class ChronoJumpWindow
 
 		myMenu.ShowAll();
 		myMenu.Popup();
+	}
+
+	// Used on open Chronojump and on load session.
+	// Because at load session if these are not active, user will think it has lost his data
+	private void treeviewResultsSessionAllPersonsAllTests ()
+	{
+		radio_contacts_graph_allTests.Active = true;
+		radio_contacts_results_personAll.Active = true;
 	}
 }
 

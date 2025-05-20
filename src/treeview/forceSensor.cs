@@ -51,7 +51,9 @@ public class TreeViewForceSensor : TreeViewEvent
 			Catalog.GetString ("Max force"),
 			Catalog.GetString ("Best second"),
 			datetimeName,
-			descriptionName };
+			descriptionName
+			//	, "UNIQUEID" //just for debug
+		};
 
 		LogB.Information ("At TreeViewForceSensor:  dataLineTypePosition = " + dataLineTypePosition.ToString  ());
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col

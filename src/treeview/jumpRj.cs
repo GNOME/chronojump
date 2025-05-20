@@ -53,8 +53,13 @@ public class TreeViewJumpsRj : TreeViewJumps
 	       	};
 		columnsString = obtainColumnsString(columnsStringPre);
 
+		//columnsString = Util.AddToArrayString (columnsString, new List<string> () {"ID remove this"}); //just for debug
+
 		idColumn = columnsString.Length ; //column where the uniqueID of event will be (and will be hidden). 
+		//idColumn = columnsString.Length -1; //column where the uniqueID of event will be (and will be hidden).  (with the ID)
+
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
+//store = getStore(columnsString.Length); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
 	}
@@ -214,7 +219,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myData[count++] = "";	//video
 		myData[count++] = ""; 	//description
 	
-		myData[count++] = "-1"; //mark to non select here, select first line 
+		myData[count++] = MarkNonSelectRowSubEvent.ToString (); //mark to non select here, select first line
 
 		return myData;
 	}
@@ -246,7 +251,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myData[count++] = "";	//video
 		myData[count++] = ""; 	//description
 
-		myData[count++] = "-1"; //mark to non select here, select first line 
+		myData[count++] = MarkNonSelectRowSubEvent.ToString (); //mark to non select here, select first line
 		
 		return myData;
 	}
@@ -357,7 +362,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myData[count++] = "";	//video
 		myData[count++] = ""; 	//description
 		
-		myData[count++] = "-1"; //mark to non select here, select first line 
+		myData[count++] = MarkNonSelectRowSubEvent.ToString (); //mark to non select here, select first line
 		
 		return myData;
 	}
@@ -411,7 +416,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myData[count++] = "";	//video
 		myData[count++] = ""; 	//description
 		
-		myData[count++] = "-1"; //mark to non select here, select first line 
+		myData[count++] = MarkNonSelectRowSubEvent.ToString (); //mark to non select here, select first line
 		
 		return myData;
 	}

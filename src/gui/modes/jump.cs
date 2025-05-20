@@ -1556,7 +1556,7 @@ public partial class ChronoJumpWindow
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		int selectedID = treeViewResultsSession.EventSelectedID;
-		if (selectedID <= 0)
+		if (selectedID < 0)
 			return;
 
 		//3.- obtain the data of the selected jump
@@ -1575,7 +1575,7 @@ public partial class ChronoJumpWindow
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		int selectedID = treeViewResultsSession.EventSelectedID;
-		if (selectedID <= 0)
+		if (selectedID < 0)
 			return;
 
 		//3.- obtain the data of the selected jump
@@ -1644,7 +1644,7 @@ public partial class ChronoJumpWindow
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
 		LogB.Information(treeViewResultsSession.EventSelectedID.ToString());
-		if (treeViewResultsSession.EventSelectedID > 0) {
+		if (treeViewResultsSession.EventSelectedID >= 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show(Catalog.GetString("Do you want to delete this jump?"), "");
@@ -1660,7 +1660,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("delete this reactive jump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (treeViewResultsSession.EventSelectedID > 0) {
+		if (treeViewResultsSession.EventSelectedID >= 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete this jump?"), "");

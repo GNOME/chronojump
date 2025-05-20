@@ -2790,14 +2790,14 @@ public partial class ChronoJumpWindow
 	}
 
 	//to export a file check above method
-	protected bool checkFolder (Constants.CheckFileOp checkFileOp)
+	private bool checkFolder (Constants.CheckFileOp checkFileOp)
 	{
-		// 1) create exportString: message to the user
+		string nameString = checkFolderGetName (checkFileOp);
+		return checkFolderSelectFolder (checkFileOp, nameString);
+	}
 
-		string exportString = Catalog.GetString ("Export data and graphs");
-
-		// 2) write the name of the file: nameString (will be appended to selected URL)
-
+	private string checkFolderGetName (Constants.CheckFileOp checkFileOp)
+	{
 		string nameString = currentPerson.Name + "_" + currentSession.DateShortAsSQL;
 		if(
 				checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES ||
@@ -2831,15 +2831,18 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
 			nameString += "_raceAnalyzer_export";
 
-		// 3) prepare and Run the dialog
+		return nameString;
+	}
 
+	private bool checkFolderSelectFolder (Constants.CheckFileOp checkFileOp, string nameString)
+	{
 		FileChooserAction action = FileChooserAction.SelectFolder;
 		//mac arm64 crashes on SelectFolder, use Open. The problem in Open is it cannot select a folder that has contents. Only an empty folder
 		if (UtilAll.IsMacSilicon ())
 			action = FileChooserAction.Open;
 
 		Gtk.FileChooserNative fc =
-			new Gtk.FileChooserNative (exportString,
+			new Gtk.FileChooserNative (Catalog.GetString ("Export data and graphs"),
 					app1,
 					action,
 					Catalog.GetString("Accept"),
@@ -2852,75 +2855,10 @@ public partial class ChronoJumpWindow
 			   it is a folder but we call it exportFileName because this is the expected name on overwrite functions
 			   maybe we can change it to exportURL on the future
 			   */
-			exportFileName = fc.Filename + Path.DirectorySeparatorChar + nameString;
-
+			exportFileName = Path.Combine (fc.Filename, nameString);
 			LogB.Information("exportFileName: " + exportFileName);
 
-			try {
-				if(Directory.Exists(exportFileName))
-				{
-					LogB.Information(string.Format(
-								"Dir {0} exists with attributes {1}, created at {2}",
-								exportFileName,
-								File.GetAttributes(exportFileName),
-								File.GetCreationTime(exportFileName)));
-					LogB.Information("Overwrite …");
-
-					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
-								"Are you sure you want to overwrite: "), "",
-							exportFileName);
-
-					if(
-							checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_ALL_SESSIONS_YES_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES )
-					{
-						confirmWin.Button_accept.Clicked +=
-							new EventHandler(on_overwrite_file_sprint_export_accepted);
-						confirmWin.Button_cancel.Clicked +=
-							new EventHandler(on_overwrite_file_sprint_export_cancelled);
-					} else if(
-							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_ALL_SESSIONS_YES_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES )
-					{
-						confirmWin.Button_accept.Clicked +=
-							new EventHandler(on_overwrite_file_forcesensor_export_accepted);
-						confirmWin.Button_cancel.Clicked +=
-							new EventHandler(on_overwrite_file_forcesensor_export_cancelled);
-					} else if(
-							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_ALL_SESSIONS_YES_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES )
-					{
-						confirmWin.Button_accept.Clicked +=
-							new EventHandler(on_overwrite_file_runencoder_export_accepted);
-						confirmWin.Button_cancel.Clicked +=
-							new EventHandler(on_overwrite_file_runencoder_export_cancelled);
-					}
-				}
-				else {
-					if(
-							checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_ALL_SESSIONS_YES_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES )
-						on_button_sprint_export_file_selected (exportFileName);
-					else if(
-							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_ALL_SESSIONS_YES_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES )
-						on_button_force_sensor_export_file_selected (exportFileName);
-					else if(
-							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_ALL_SESSIONS_YES_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES )
-						on_button_run_encoder_export_file_selected (exportFileName);
-				}
-			} catch {
-				string myString = string.Format(
-						Catalog.GetString("Cannot save file {0} "), exportFileName);
-				new DialogMessage(Constants.MessageTypes.WARNING, myString);
-			}
+			checkFolderWrite (checkFileOp);
 		}
 		else {
 			LogB.Information("cancelled");
@@ -2934,6 +2872,75 @@ public partial class ChronoJumpWindow
 		fc.Destroy();
 
 		return true;
+	}
+
+	private void checkFolderWrite (Constants.CheckFileOp checkFileOp)
+	{
+		try {
+			if(Directory.Exists(exportFileName))
+			{
+				LogB.Information(string.Format(
+							"Dir {0} exists with attributes {1}, created at {2}",
+							exportFileName,
+							File.GetAttributes(exportFileName),
+							File.GetCreationTime(exportFileName)));
+				LogB.Information("Overwrite …");
+
+				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
+							"Are you sure you want to overwrite: "), "",
+						exportFileName);
+
+				if(
+						checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
+						checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_ALL_SESSIONS_YES_IMAGES ||
+						checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES )
+				{
+					confirmWin.Button_accept.Clicked +=
+						new EventHandler(on_overwrite_file_sprint_export_accepted);
+					confirmWin.Button_cancel.Clicked +=
+						new EventHandler(on_overwrite_file_sprint_export_cancelled);
+				} else if(
+						checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
+						checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_ALL_SESSIONS_YES_IMAGES ||
+						checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES )
+				{
+					confirmWin.Button_accept.Clicked +=
+						new EventHandler(on_overwrite_file_forcesensor_export_accepted);
+					confirmWin.Button_cancel.Clicked +=
+						new EventHandler(on_overwrite_file_forcesensor_export_cancelled);
+				} else if(
+						checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
+						checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_ALL_SESSIONS_YES_IMAGES ||
+						checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES )
+				{
+					confirmWin.Button_accept.Clicked +=
+						new EventHandler(on_overwrite_file_runencoder_export_accepted);
+					confirmWin.Button_cancel.Clicked +=
+						new EventHandler(on_overwrite_file_runencoder_export_cancelled);
+				}
+			}
+			else {
+				if(
+						checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
+						checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_ALL_SESSIONS_YES_IMAGES ||
+						checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES )
+					on_button_sprint_export_file_selected (exportFileName);
+				else if(
+						checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
+						checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_ALL_SESSIONS_YES_IMAGES ||
+						checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES )
+					on_button_force_sensor_export_file_selected (exportFileName);
+				else if(
+						checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
+						checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_ALL_SESSIONS_YES_IMAGES ||
+						checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES )
+					on_button_run_encoder_export_file_selected (exportFileName);
+			}
+		} catch {
+			string myString = string.Format(
+					Catalog.GetString("Cannot save file {0} "), exportFileName);
+			new DialogMessage(Constants.MessageTypes.WARNING, myString);
+		}
 	}
 
 	private void on_overwrite_file_export_all_curves_accepted(object o, EventArgs args)

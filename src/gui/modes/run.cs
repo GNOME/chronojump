@@ -1538,7 +1538,7 @@ public partial class ChronoJumpWindow
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		int selectedID = treeViewResultsSession.EventSelectedID;
-		if (selectedID <= 0)
+		if (selectedID < 0)
 			return;
 
 		//3.- obtain the data of the selected run
@@ -1558,7 +1558,7 @@ public partial class ChronoJumpWindow
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person (check also if it's not a individual subrun, the pass the parent run)
 		int selectedID = treeViewResultsSession.EventSelectedID;
-		if (selectedID <= 0)
+		if (selectedID < 0)
 			return;
 
 		//3.- obtain the data of the selected run
@@ -1628,7 +1628,7 @@ public partial class ChronoJumpWindow
 		
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
-		if (treeViewResultsSession.EventSelectedID > 0) {
+		if (treeViewResultsSession.EventSelectedID >= 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show(Catalog.GetString("Do you want to delete this race?"), "");
@@ -1645,7 +1645,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("delete this race interval");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person (check also if it's a subrun, pass the parent run)
-		if (treeViewResultsSession.EventSelectedID > 0) {
+		if (treeViewResultsSession.EventSelectedID >= 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show(

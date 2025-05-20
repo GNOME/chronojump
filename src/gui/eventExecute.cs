@@ -435,7 +435,7 @@ public partial class ChronoJumpWindow
 		if (current_mode == Constants.Modes.RUNSSIMPLE)
 			button_inspect_last_test_run_simple.Sensitive = false;
 
-		selectResultsSessionId (id);
+		selectResultsSessionId (id, true);
 	}
 
 	// simple and DJ jump	

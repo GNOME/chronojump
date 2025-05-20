@@ -275,7 +275,7 @@ public partial class ChronoJumpWindow
 
 	private void button_video_play_selected_test (Constants.Modes m)
 	{
-		if (treeViewResultsSession.EventSelectedID <= 0)
+		if (treeViewResultsSession.EventSelectedID < 0)
 			return;
 
 		if (m == Constants.Modes.JUMPSSIMPLE)

@@ -306,6 +306,9 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_encoder_detect;
 	Gtk.Button button_contacts_detect_small;
 	Gtk.Button button_encoder_detect_small;
+	Gtk.CheckButton check_discover_advanced;
+	Gtk.Label label_discover_advanced;
+	Gtk.Image image_discover_advanced;
 	Gtk.EventBox eventbox_button_micro_discover_cancel_close;
 	Gtk.Button button_micro_discover_cancel_close;
 	Gtk.Image image_button_micro_discover_cancel_close;
@@ -713,8 +716,7 @@ public partial class ChronoJumpWindow
 		initForceSensor ();
 		initRunEncoder ();
 
-		radio_contacts_graph_allTests.Active = true;
-		radio_contacts_results_personAll.Active = true;
+		treeviewResultsSessionAllPersonsAllTests ();
 
 		/*
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_person_close,
@@ -955,6 +957,9 @@ public partial class ChronoJumpWindow
 			chronopicRegisterWin.Show();
 		}
 
+		//LogB.Information (string.Format ("! showSendLog: {0}, configChronojump.ReadFromCloudMainPath == '': {1}, ! configChronojump.CanOpenExternalDB: {2}",
+		//			! showSendLog, configChronojump.ReadFromCloudMainPath == "", ! configChronojump.CanOpenExternalDB));
+
 		if(! showSendLog && //! showSocialNetworkPoll)
 			configChronojump.ReadFromCloudMainPath == "" && ! configChronojump.CanOpenExternalDB)
 		{
@@ -962,7 +967,8 @@ public partial class ChronoJumpWindow
 				backupScheduledAsk ();
 			else if(notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
 				show_start_page ();
-		}
+		} else if (configChronojump.ReadFromCloudMainPath != "") //TODO rewrite these nested conditions
+			show_start_page ();
 
 		//done at the end to ensure main window is shown
 		if(splashWin != null) {
@@ -1095,6 +1101,20 @@ public partial class ChronoJumpWindow
 
 			personsPhotoShowIfNeeded ();
 		}
+
+		// "big" label names are assigned here.
+		// They will be reassigned to a composed name just later on UtilGtk.ContrastLabelsLabel ()
+		label_force_sensor_value_max.Name = "big";
+		label_force_sensor_value.Name = "big";
+		label_force_sensor_value_min.Name = "big";
+		label_force_sensor_value_best_second.Name = "big";
+		label_force_sensor_value_rfd.Name = "big";
+
+		label_beepTest_time.Name = "big";
+		label_beepTest_stage.Name = "big";
+		label_beepTest_lap.Name = "big";
+		label_beepTest_speed.Name = "big";
+		label_beepTest_runStatus_value.Name = "big";
 
 		if(! Config.UseSystemColor)
 		{
@@ -1564,7 +1584,6 @@ public partial class ChronoJumpWindow
 		}
 
 		pre_fillTreeView_resultsSession ();
-		treeViewResultsSession.SelectPerson (currentPerson.Name);
 
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 		{
@@ -1672,6 +1691,16 @@ public partial class ChronoJumpWindow
 
 		LogB.Information ("<---- personChanged end");
 
+		/*
+		 * if personChange comes caused by a click on treeviewResults (or graph that changes treeviewResults)
+		 * now that we have changed everything related to the person, select the row on treeviewResults
+		 * and it will not come back here thanks to treeviewPersonsChangesTreeViewResultsSessionSignalsNoFollow
+		 */
+		if (personChangingFromResultsId >= 0)
+		{
+			selectResultsSessionId (personChangingFromResultsId, true);
+			personChangingFromResultsId = -1;
+		}
 	}
 
 
@@ -2065,10 +2094,19 @@ public partial class ChronoJumpWindow
 		pre_fillTreeView_resultsSession ();
 	}
 	
+	private int treeViewResultsSessionLastPersonID = -1;
 	private void pre_fillTreeView_resultsSession ()
 	{
 		if (pre_fillTreeView_resultsSession_NO)
 			return;
+
+		treeviewResultsSessionNoCheckPersonChange = true;
+
+		if (treeViewResultsSession != null)
+		{
+			TreeViewEvent.LastPersonID = treeViewResultsSession.GetPersonIDOfSelectedRow;
+			//LogB.Information ("TreeViewEvent.LastPersonID : " + TreeViewEvent.LastPersonID.ToString ());
+		}
 
 		treeview_results_session_storeReset ();
 
@@ -2124,6 +2162,14 @@ public partial class ChronoJumpWindow
 			fillTreeView_fourPlatforms ("", false);
 		} else
 			return;
+
+		if (currentPerson != null)
+		{
+			treeViewResultsSession.CurrentPersonID = currentPerson.UniqueID; //to show in bold
+			treeViewResultsSession.SelectPerson (currentPerson.Name);
+		}
+
+		treeviewResultsSessionNoCheckPersonChange = false;
 	}
 
 	/* ---------------------------------------------------------
@@ -2460,6 +2506,7 @@ public partial class ChronoJumpWindow
 			stats_win_initializeSession();
 		}
 
+		treeviewResultsSessionAllPersonsAllTests ();
 		resetAllTreeViews(false, true, false); //fillTests, resetPersons, fillPersons
 
 		//if we are on analyze tab, switch to capture tab
@@ -2549,6 +2596,7 @@ public partial class ChronoJumpWindow
 		if(createdStatsWin && ! configChronojump.Exhibition) //slow Sqlite calls for Exhibition big data
 			stats_win_initializeSession();
 
+		treeviewResultsSessionAllPersonsAllTests ();
 		resetAllTreeViews(! configChronojump.Exhibition, true, true); //fillTests, resetPersons, fillPersons
 
 		//if we are on analyze tab, switch to capture tab
@@ -4553,26 +4601,37 @@ public partial class ChronoJumpWindow
 		chronopicRegisterUpdate (false);
 
 		label_micro_discover_title.Text = string.Format (Catalog.GetString (
-					"Compatible with: <b>{0}</b>"), Constants.ModePrint (current_mode));
+					"Detect devices compatible with: <b>{0}</b>"), Constants.ModePrint (current_mode));
 		label_micro_discover_title.UseMarkup = true;
 		box_micro_discover_nc.Visible = false;
 		label_micro_discover_nc_current_mode.Text = Constants.ModePrint (current_mode);
 		label_micro_discover_connect_error.Visible = false;
 
-		discoverWin = new DiscoverWindow (current_mode, chronopicRegister,
-			label_micro_discover_not_found,
-			grid_micro_discover,
-			box_micro_discover_nc,
-			button_micro_discover_cancel_close,
-			image_button_micro_discover_cancel_close,
-			label_button_micro_discover_cancel_close,
-			Constants.ModeIcon (current_mode),
-			label_micro_discover_connect_error);
-			
+		discoverWin = new DiscoverWindow (app1,
+				current_mode, chronopicRegister,
+				label_micro_discover_not_found,
+				grid_micro_discover,
+				box_micro_discover_nc,
+				button_micro_discover_cancel_close,
+				image_button_micro_discover_cancel_close,
+				label_button_micro_discover_cancel_close,
+				check_discover_advanced.Active, check_discover_advanced,
+				label_discover_advanced, image_discover_advanced,
+				Constants.ModeIcon (current_mode),
+				label_micro_discover_connect_error,
+				Config.ColorBackgroundShiftedIsDark
+				);
+
 		if(! Config.UseSystemColor)
 			UtilGtk.ContrastLabelsGrid (Config.ColorBackgroundShiftedIsDark, grid_micro_discover);
 
 		discoverWin.FakeButtonClose.Clicked += new EventHandler (on_discoverWindow_closed);
+	}
+
+	private void on_check_discover_advanced_toggled (object o, EventArgs args)
+	{
+		if (discoverWin != null)
+			discoverWin.ShowAdvanced (check_discover_advanced.Active);
 	}
 
 	private void on_button_micro_discover_cancel_close_clicked (object o, EventArgs args)
@@ -5350,7 +5409,7 @@ public partial class ChronoJumpWindow
 
 		if ( ! currentEventExecute.Cancel ) {
 			treeViewResultsSession.PersonWeight = currentPersonSession.Weight;
-			treeViewResultsSession.Add (currentPerson.Name, currentJump, savedVideoStr);
+			treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentJump, savedVideoStr);
 		}
 
 		//2.2.1 Cairo graph is not updated if window is not resized, so force update
@@ -5672,7 +5731,7 @@ public partial class ChronoJumpWindow
 
 		if ( ! currentEventExecute.Cancel ) {
 			treeViewResultsSession.PersonWeight = currentPersonSession.Weight;
-			treeViewResultsSession.Add (currentPerson.Name, currentJumpRj, savedVideoStr);
+			treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentJumpRj, savedVideoStr);
 		}
 
 		//Cairo graph is not updated if window is not resized, so force update
@@ -5811,7 +5870,7 @@ public partial class ChronoJumpWindow
 		{
 			currentRun.MetersSecondsPreferred = preferences.metersSecondsPreferred;
 
-			treeViewResultsSession.Add (currentPerson.Name, currentRun, savedVideoStr);
+			treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentRun, savedVideoStr);
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created
@@ -5925,7 +5984,7 @@ public partial class ChronoJumpWindow
 					configChronojump.JsonUploadRunSimpleRankingScript
 					);
 
-			treeViewResultsSession.Add (currentPerson.Name, (Run) currentEventExecute.EventDone, "");
+			treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, (Run) currentEventExecute.EventDone, "");
 			updateGraphRunsSimple();
 		}
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC &&
@@ -5950,7 +6009,7 @@ public partial class ChronoJumpWindow
 			 * note there are other transformation used on_run_interval_finished that maybe there are not needed here as they are already done on currentEventExecute creation
 			 * like: MetersSecondsPreferred, Tracks, Limited
 			 */
-			treeViewResultsSession.Add (currentPerson.Name, (RunInterval) currentEventExecute.EventDone, "");
+			treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, (RunInterval) currentEventExecute.EventDone, "");
 			updateGraphRunsInterval();
 		}
 
@@ -6123,7 +6182,7 @@ public partial class ChronoJumpWindow
 				}
 			}
 
-			treeViewResultsSession.Add (currentPerson.Name, currentRunInterval, savedVideoStr);
+			treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentRunInterval, savedVideoStr);
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created
@@ -6655,7 +6714,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("Repair selected subjump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (treeViewResultsSession.EventSelectedID > 0) {
+		if (treeViewResultsSession.EventSelectedID >= 0) {
 			//3.- obtain the data of the selected jump
 			JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", treeViewResultsSession.EventSelectedID, false, false );
 		
@@ -6670,7 +6729,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("Repair selected reactive jump accepted");
 
 		int tempSelected = -1;
-		if (treeViewResultsSession.EventSelectedID > 0)
+		if (treeViewResultsSession.EventSelectedID >= 0)
 			tempSelected = treeViewResultsSession.EventSelectedID;
 
 		selectedJumpRj = null; // after the repair need to check again jump from SQL and draw at top correctly
@@ -6682,7 +6741,7 @@ public partial class ChronoJumpWindow
 			stats_win_fillTreeView_stats(false, false);
 
 		if (tempSelected > 0)
-			selectResultsSessionId (tempSelected);
+			selectResultsSessionId (tempSelected, false);
 
 		//update both graphs
 		drawingarea_results_session.QueueDraw ();
@@ -6695,7 +6754,7 @@ public partial class ChronoJumpWindow
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person 
 		//(check also if it's not a individual run interval, then pass the parent run interval)
-		if (treeViewResultsSession.EventSelectedID > 0) {
+		if (treeViewResultsSession.EventSelectedID >= 0) {
 			//3.- obtain the data of the selected run
 			RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, treeViewResultsSession.EventSelectedID, false, false );
 		
@@ -6710,7 +6769,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("repair selected run interval accepted");
 
 		int tempSelected = -1;
-		if (treeViewResultsSession.EventSelectedID > 0)
+		if (treeViewResultsSession.EventSelectedID >= 0)
 			tempSelected = treeViewResultsSession.EventSelectedID;
 
 		selectedRunInterval = null; // after the repair need to check again run from SQL and draw at top correctly
@@ -6723,7 +6782,7 @@ public partial class ChronoJumpWindow
 			stats_win_fillTreeView_stats(false, false);
 
 		if (tempSelected > 0)
-			selectResultsSessionId (tempSelected);
+			selectResultsSessionId (tempSelected, false);
 
 		//update both graphs
 		drawingarea_results_session.QueueDraw ();
@@ -8630,6 +8689,9 @@ public partial class ChronoJumpWindow
 		button_contacts_detect_small = (Gtk.Button) builder.GetObject ("button_contacts_detect_small");
 		button_encoder_detect_small = (Gtk.Button) builder.GetObject ("button_encoder_detect_small");
 		eventbox_button_micro_discover_cancel_close = (Gtk.EventBox) builder.GetObject ("eventbox_button_micro_discover_cancel_close");
+		check_discover_advanced = (Gtk.CheckButton) builder.GetObject ("check_discover_advanced");
+		label_discover_advanced = (Gtk.Label) builder.GetObject ("label_discover_advanced");
+		image_discover_advanced = (Gtk.Image) builder.GetObject ("image_discover_advanced");
 		button_micro_discover_cancel_close = (Gtk.Button) builder.GetObject ("button_micro_discover_cancel_close");
 		image_button_micro_discover_cancel_close = (Gtk.Image) builder.GetObject ("image_button_micro_discover_cancel_close");
 		label_button_micro_discover_cancel_close = (Gtk.Label) builder.GetObject ("label_button_micro_discover_cancel_close");

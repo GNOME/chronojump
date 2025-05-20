@@ -270,12 +270,12 @@ public partial class ChronoJumpWindow
 					foreach (Jump jump in jump_l)
 						foreach (IDName idName in idName_l)
 							if (idName.UniqueID == jump.PersonID)
-								treeViewResultsSession.Add (idName.Name, jump, "");
+								treeViewResultsSession.Add (idName.UniqueID, idName.Name, jump, "");
 				}
 				else //if (current_mode == Constants.Modes.OTHER)
 				{
 					fourPlatformsInsertToSQLOther ();
-					treeViewResultsSession.Add (currentPerson.Name, currentFourPlatforms, "");
+					treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentFourPlatforms, "");
 				}
 
 				showHideActionEventButtons(true);
@@ -290,7 +290,7 @@ public partial class ChronoJumpWindow
 				else //if (current_mode == Constants.Modes.OTHER)
 					fourPlatformsInsertToSQLOther ();
 
-				treeViewResultsSession.Add (currentPerson.Name, currentFourPlatforms, "");
+				treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentFourPlatforms, "");
 
 				showHideActionEventButtons(true);
 				box_fourPlatforms_capture_buttons.Sensitive = true;
@@ -425,7 +425,7 @@ public partial class ChronoJumpWindow
 		string typeTemp = "";
 
 		int selectedID = -1;
-		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID > 0)
+		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
 			selectedID = treeViewResultsSession.EventSelectedID;
 
 		PrepareEventGraphFourPlatforms eventGraph = new PrepareEventGraphFourPlatforms(

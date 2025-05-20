@@ -35,9 +35,6 @@ public partial class ChronoJumpWindow
 	Gtk.EventBox eventbox_button_person_close;
 	Gtk.Image image_person_manage_blue;
 	Gtk.Image image_person_manage_yellow;
-	Gtk.CheckButton persons_manage_advanced_checkbutton;
-	Gtk.Label persons_manage_advanced_label;
-	Gtk.Box persons_manage_advanced_box;
 	Gtk.Button button_person_merge;
 	Gtk.SearchEntry person_search;
 
@@ -111,11 +108,12 @@ public partial class ChronoJumpWindow
 	//this updates currentPerson & currentPersonSession
 	private bool selectRowTreeView_persons(Gtk.TreeView tv, int rowNum)
 	{
-		LogB.Information("selectRowTreeView_persons");
+		LogB.Information("selectRowTreeView_persons rowNum: " + rowNum.ToString ());
 
 		if(! myTreeViewPersons.SelectRow(rowNum))
 			return false;
 		
+		LogB.Information("selectRowTreeView_persons B");
 		//the selection of row in treeViewPersons.SelectRow is not a real selection 
 		//and unfortunately doesn't raises the on_treeview_persons_cursor_changed ()
 		//for this reason we reproduce the method here
@@ -128,7 +126,8 @@ public partial class ChronoJumpWindow
 			label_person_change();
 			TreePath path = model.GetPath (iter);
 			tv.ScrollToCell (path, null, true, 0, 0);
-		
+
+			LogB.Information("selectRowTreeView_persons C");
 			return true;
 		} else {
 			return false;
@@ -147,10 +146,7 @@ public partial class ChronoJumpWindow
 
 	// to avoid circular calls
 	// if treeview_person changes, treeviewResultsSession changes. This boolean is to not change again treeview_persons
-	private bool treeviewPersonsChangesTreeViewResultsSessionSignalsNoFollow;
-
-	// if treeviewResultsSession changes, treeview_person changes. This boolean is to not change again treeviewResultsSession
-	private bool treeviewResultsSessionChangesTreeViewPersonsSignalsNoFollow;
+	private bool treeviewResultsSessionNoCheckPersonChange;
 
 	// on_treeview_results_session_cursor_changed on forceSensor & raceAnalyzer makes load the set.
 	// In the middle of the load process, combo_force_sensor_exercise.Active changes and this makes redo the treeview making fail the load.
@@ -173,12 +169,7 @@ public partial class ChronoJumpWindow
 			currentPersonSession = SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
 			label_person_change();
 
-			if (! treeviewResultsSessionChangesTreeViewPersonsSignalsNoFollow)
-			{
-				treeviewPersonsChangesTreeViewResultsSessionSignalsNoFollow = true;
-				personChanged();
-				treeviewPersonsChangesTreeViewResultsSessionSignalsNoFollow = false;
-			}
+			personChanged();
 
 			button_persons_up.Sensitive = ! myTreeViewPersons.IsFirst(currentPerson.UniqueID);
 			button_persons_down.Sensitive = ! myTreeViewPersons.IsLast(currentPerson.UniqueID);
@@ -234,12 +225,6 @@ public partial class ChronoJumpWindow
 			image_current_person.Pixbuf = pixbuf;
 		}
 	}
-
-	private void on_persons_manage_advanced_checkbutton_clicked (object o, EventArgs args)
-	{
-		persons_manage_advanced_box.Visible = persons_manage_advanced_checkbutton.Active;
-	}
-
 
 	/* ---------------------------------------------------------
 	 * ----------------  PERSON RECUPERATE, LOAD, EDIT, DELETE -
@@ -791,9 +776,6 @@ public partial class ChronoJumpWindow
 		eventbox_button_person_close = (Gtk.EventBox) builder.GetObject ("eventbox_button_person_close");
 		image_person_manage_blue = (Gtk.Image) builder.GetObject ("image_person_manage_blue");
 		image_person_manage_yellow = (Gtk.Image) builder.GetObject ("image_person_manage_yellow");
-		persons_manage_advanced_checkbutton = (Gtk.CheckButton) builder.GetObject ("persons_manage_advanced_checkbutton");
-		persons_manage_advanced_label = (Gtk.Label) builder.GetObject ("persons_manage_advanced_label");
-		persons_manage_advanced_box = (Gtk.Box) builder.GetObject ("persons_manage_advanced_box");
 		button_person_merge = (Gtk.Button) builder.GetObject ("button_person_merge");
 		person_search = (Gtk.SearchEntry) builder.GetObject ("person_search");
 	}

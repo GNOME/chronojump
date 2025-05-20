@@ -177,10 +177,10 @@ bool unlimitedMode = true; // sensorOnce deactivate the unlimited mode
   if (analogRead(CH1_PIN)<128) {    // A7 cannot be read as digital
       controlSwitch = 1; //
   }
-  if (!digitalRead(CH2_PIN)) {
+  if (analogRead(CH2_PIN)<128) {
     controlSwitch = controlSwitch + 2;
   }
-  if (!digitalRead(CH3_PIN)) {
+  if (analogRead(CH3_PIN)<128) {
     controlSwitch = controlSwitch + 4;
   }
 
@@ -212,9 +212,13 @@ bool unlimitedMode = true; // sensorOnce deactivate the unlimited mode
   buzzer_off;
   pinMode(SENSOR_PIN, INPUT_PULLUP); //Sensor
 
+/*
   red_off;
   green_off;
   blue_off;
+*/
+red_off;
+green_on;
 
 
   //  noInterrupts();   //Don't watch the sensor state

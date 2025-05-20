@@ -56,7 +56,9 @@ public class TreeViewRuns : TreeViewEvent
 		string distanceName = Catalog.GetString("Distance") + "\n(m)";
 		string timeName = Catalog.GetString("Time") + "\n(s)";
 
-		columnsString = new string[]{ runnerName, speedName, distanceName, timeName, datetimeName, videoName, descriptionName };
+		columnsString = new string[]{ runnerName, speedName, distanceName, timeName, datetimeName, videoName, descriptionName};
+			//,"ID delete"	}; // just for debug
+
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);

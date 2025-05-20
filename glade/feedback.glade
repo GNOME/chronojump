@@ -1834,7 +1834,7 @@
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
                                         <property name="width-chars">8</property>
-                                        <property name="text" translatable="yes">11,0</property>
+                                        <property name="text">11,0</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
                                         <property name="adjustment">adjustment40</property>
@@ -1971,7 +1971,7 @@
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
                                         <property name="width-chars">8</property>
-                                        <property name="text" translatable="yes">39,0</property>
+                                        <property name="text">39,0</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
                                         <property name="adjustment">adjustment41</property>
@@ -2447,7 +2447,7 @@
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">True</property>
                                                     <property name="invisible-char">●</property>
-                                                    <property name="text" translatable="yes">70</property>
+                                                    <property name="text">70</property>
                                                     <property name="primary-icon-activatable">False</property>
                                                     <property name="secondary-icon-activatable">False</property>
                                                     <property name="adjustment">adjustment11</property>
@@ -2604,7 +2604,7 @@
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">True</property>
                                                     <property name="invisible-char">●</property>
-                                                    <property name="text" translatable="yes">90</property>
+                                                    <property name="text">90</property>
                                                     <property name="primary-icon-activatable">False</property>
                                                     <property name="secondary-icon-activatable">False</property>
                                                     <property name="adjustment">adjustment12</property>
@@ -3136,7 +3136,7 @@
                                           <object class="GtkSpinButton" id="spin_encoder_height_custom_max">
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
-                                            <property name="text" translatable="yes">100</property>
+                                            <property name="text">100</property>
                                             <property name="adjustment">adjustment46</property>
                                             <property name="value">100</property>
                                           </object>
@@ -3149,7 +3149,7 @@
                                           <object class="GtkSpinButton" id="spin_encoder_height_custom_min">
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
-                                            <property name="text" translatable="yes">0</property>
+                                            <property name="text">0</property>
                                             <property name="adjustment">adjustment47</property>
                                           </object>
                                           <packing>
@@ -6286,7 +6286,7 @@
                                                 <property name="can-focus">True</property>
                                                 <property name="invisible-char">●</property>
                                                 <property name="width-chars">7</property>
-                                                <property name="text" translatable="yes">0</property>
+                                                <property name="text">0</property>
                                                 <property name="primary-icon-activatable">False</property>
                                                 <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment44</property>
@@ -6342,7 +6342,7 @@
                                                 <property name="can-focus">True</property>
                                                 <property name="invisible-char">●</property>
                                                 <property name="width-chars">7</property>
-                                                <property name="text" translatable="yes">100</property>
+                                                <property name="text">100</property>
                                                 <property name="primary-icon-activatable">False</property>
                                                 <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment45</property>
@@ -6418,7 +6418,7 @@
                                             <property name="can-focus">True</property>
                                             <property name="invisible-char">●</property>
                                             <property name="width-chars">4</property>
-                                            <property name="text" translatable="yes">2</property>
+                                            <property name="text">2</property>
                                             <property name="primary-icon-activatable">False</property>
                                             <property name="secondary-icon-activatable">False</property>
                                             <property name="adjustment">adjustment_asteroids_frequency_1_1_10</property>
@@ -6475,7 +6475,7 @@
                                             <property name="can-focus">True</property>
                                             <property name="invisible-char">●</property>
                                             <property name="width-chars">4</property>
-                                            <property name="text" translatable="yes">1</property>
+                                            <property name="text">1</property>
                                             <property name="primary-icon-activatable">False</property>
                                             <property name="secondary-icon-activatable">False</property>
                                             <property name="adjustment">adjustment_shots_frequency_1_1_20</property>
@@ -6625,7 +6625,7 @@
                                                 <property name="can-focus">True</property>
                                                 <property name="invisible-char">●</property>
                                                 <property name="width-chars">7</property>
-                                                <property name="text" translatable="yes">0</property>
+                                                <property name="text">0</property>
                                                 <property name="primary-icon-activatable">False</property>
                                                 <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment42</property>
@@ -6681,7 +6681,7 @@
                                                 <property name="can-focus">True</property>
                                                 <property name="invisible-char">●</property>
                                                 <property name="width-chars">7</property>
-                                                <property name="text" translatable="yes">100</property>
+                                                <property name="text">100</property>
                                                 <property name="primary-icon-activatable">False</property>
                                                 <property name="secondary-icon-activatable">False</property>
                                                 <property name="adjustment">adjustment43</property>
@@ -6914,7 +6914,7 @@
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
                                             <property name="width-chars">5</property>
-                                            <property name="text" translatable="yes">10</property>
+                                            <property name="text">10</property>
                                             <property name="adjustment">adjustment_questionnary_questions_10_5_20</property>
                                             <property name="numeric">True</property>
                                             <property name="value">10</property>
@@ -7153,7 +7153,7 @@
                               <object class="GtkSpinButton" id="spin_signal_encoder_displ_custom_max">
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">100</property>
+                                <property name="text">100</property>
                                 <property name="adjustment">adjustment48</property>
                                 <property name="value">100</property>
                               </object>
@@ -7166,7 +7166,7 @@
                               <object class="GtkSpinButton" id="spin_signal_encoder_displ_custom_min">
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
-                                <property name="text" translatable="yes">0</property>
+                                <property name="text">0</property>
                                 <property name="adjustment">adjustment49</property>
                               </object>
                               <packing>

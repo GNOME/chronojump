@@ -6943,7 +6943,7 @@ last capture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="width-chars">7</property>
-                                                            <property name="text" translatable="yes">0,000</property>
+                                                            <property name="text">0,000</property>
                                                             <property name="adjustment">adjustment156</property>
                                                             <property name="climb-rate">0.10</property>
                                                             <property name="digits">2</property>
@@ -7012,7 +7012,7 @@ last capture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="width-chars">7</property>
-                                                            <property name="text" translatable="yes">0,000</property>
+                                                            <property name="text">0,000</property>
                                                             <property name="adjustment">adjustment157</property>
                                                             <property name="climb-rate">0.10</property>
                                                             <property name="digits">3</property>
@@ -7028,7 +7028,7 @@ last capture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="width-chars">7</property>
-                                                            <property name="text" translatable="yes">0,000</property>
+                                                            <property name="text">0,000</property>
                                                             <property name="adjustment">adjustment158</property>
                                                             <property name="climb-rate">0.10</property>
                                                             <property name="digits">3</property>
@@ -8161,7 +8161,7 @@ last capture</property>
                                                             <object class="GtkSpinButton" id="spin_wilight_portnum">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="adjustment">adjustment164</property>
                                                             </object>
                                                             <packing>
@@ -8268,7 +8268,7 @@ last capture</property>
                                                             <object class="GtkSpinButton" id="spin_wilight_test_ping">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="adjustment">adjustment163</property>
                                                             </object>
                                                             <packing>
@@ -8823,6 +8823,7 @@ last capture</property>
                                                             <object class="GtkVPaned" id="vpaned2">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
+                                                            <property name="wide-handle">True</property>
                                                             <child>
                                                             <object class="GtkBox" id="box_contacts_current">
                                                             <property name="visible">True</property>
@@ -9069,7 +9070,7 @@ last capture</property>
                                                             <object class="GtkSpinButton" id="spin_beepTest_start_at">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
-                                                            <property name="text" translatable="yes">1</property>
+                                                            <property name="text">1</property>
                                                             <property name="adjustment">adjustment162</property>
                                                             <property name="value">1</property>
                                                             </object>
@@ -9114,7 +9115,7 @@ last capture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="width-chars">6</property>
-                                                            <property name="text" translatable="yes">20</property>
+                                                            <property name="text">20</property>
                                                             <property name="adjustment">adjustment159</property>
                                                             <property name="numeric">True</property>
                                                             <property name="value">20</property>
@@ -9154,7 +9155,7 @@ last capture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="width-chars">6</property>
-                                                            <property name="text" translatable="yes">10,00</property>
+                                                            <property name="text">10,00</property>
                                                             <property name="adjustment">adjustment160</property>
                                                             <property name="digits">2</property>
                                                             <property name="numeric">True</property>
@@ -9195,7 +9196,7 @@ last capture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="width-chars">6</property>
-                                                            <property name="text" translatable="yes">50</property>
+                                                            <property name="text">50</property>
                                                             <property name="adjustment">adjustment161</property>
                                                             <property name="numeric">True</property>
                                                             <property name="value">50</property>
@@ -9375,12 +9376,13 @@ last capture</property>
                                                             <object class="GtkGrid">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="row-spacing">8</property>
+                                                            <property name="row-spacing">2</property>
                                                             <property name="column-spacing">8</property>
                                                             <child>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="label">Time (s)</property>
                                                             </object>
                                                             <packing>
@@ -9392,6 +9394,7 @@ last capture</property>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="label">Stage</property>
                                                             </object>
                                                             <packing>
@@ -9403,6 +9406,7 @@ last capture</property>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="label">Lap</property>
                                                             </object>
                                                             <packing>
@@ -9414,6 +9418,7 @@ last capture</property>
                                                             <object class="GtkLabel" id="label_beepTest_time">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">0</property>
@@ -9424,6 +9429,7 @@ last capture</property>
                                                             <object class="GtkLabel" id="label_beepTest_stage">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">1</property>
@@ -9434,6 +9440,7 @@ last capture</property>
                                                             <object class="GtkLabel" id="label_beepTest_lap">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">2</property>
@@ -9444,6 +9451,7 @@ last capture</property>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="label">Speed (Km/h)</property>
                                                             </object>
                                                             <packing>
@@ -9455,6 +9463,7 @@ last capture</property>
                                                             <object class="GtkLabel" id="label_beepTest_speed">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">3</property>
@@ -9464,6 +9473,7 @@ last capture</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label_beepTest_runStatus">
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="label" translatable="yes">Status</property>
                                                             </object>
                                                             <packing>
@@ -9474,6 +9484,7 @@ last capture</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label_beepTest_runStatus_value">
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">5</property>
@@ -9746,14 +9757,15 @@ last capture</property>
                                                             <object class="GtkGrid" id="force_capture_grid">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="row-spacing">6</property>
-                                                            <property name="column-spacing">12</property>
+                                                            <property name="row-spacing">2</property>
+                                                            <property name="column-spacing">6</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label_force_sensor_value_max">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="justify">center</property>
-                                                            <property name="width-chars">10</property>
+                                                            <property name="width-chars">9</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">0</property>
@@ -9764,8 +9776,9 @@ last capture</property>
                                                             <object class="GtkLabel" id="label_force_sensor_value">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="justify">center</property>
-                                                            <property name="width-chars">10</property>
+                                                            <property name="width-chars">9</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">1</property>
@@ -9776,8 +9789,9 @@ last capture</property>
                                                             <object class="GtkLabel" id="label_force_sensor_value_min">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="justify">center</property>
-                                                            <property name="width-chars">10</property>
+                                                            <property name="width-chars">9</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">2</property>
@@ -9788,8 +9802,9 @@ last capture</property>
                                                             <object class="GtkLabel" id="label_force_sensor_value_best_second">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="justify">center</property>
-                                                            <property name="width-chars">10</property>
+                                                            <property name="width-chars">9</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">3</property>
@@ -9800,6 +9815,7 @@ last capture</property>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label264">
@@ -9871,6 +9887,7 @@ last capture</property>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label265">
@@ -9942,6 +9959,7 @@ last capture</property>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label269">
@@ -10013,6 +10031,7 @@ last capture</property>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label245">
@@ -10084,6 +10103,7 @@ last capture</property>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label538">
@@ -10202,8 +10222,9 @@ last capture</property>
                                                             <object class="GtkLabel" id="label_force_sensor_value_rfd">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
                                                             <property name="justify">center</property>
-                                                            <property name="width-chars">10</property>
+                                                            <property name="width-chars">9</property>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">4</property>
@@ -10613,7 +10634,7 @@ last capture</property>
                                                             </child>
                                                             <child>
                                                             <object class="GtkRadioButton" id="radio_race_analyzer_capture_graph_starts_grav">
-                                                            <property name="label" translatable="yes">&gt;= min a</property>
+                                                            <property name="label" translatable="yes">&gt;= min accel</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
@@ -12114,7 +12135,7 @@ last capture</property>
                                                             <property name="max-length">2</property>
                                                             <property name="invisible-char">•</property>
                                                             <property name="width-chars">4</property>
-                                                            <property name="text" translatable="yes">10</property>
+                                                            <property name="text">10</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment8</property>
@@ -14097,7 +14118,7 @@ last capture</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">7</property>
-                                                            <property name="text" translatable="yes">100,00</property>
+                                                            <property name="text">100,00</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment9</property>
@@ -15086,7 +15107,7 @@ last capture</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">8</property>
-                                                            <property name="text" translatable="yes">1,0</property>
+                                                            <property name="text">1,0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment12</property>
@@ -15793,7 +15814,7 @@ last capture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
-                                                            <property name="text" translatable="yes">10</property>
+                                                            <property name="text">10</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment122</property>
@@ -23367,6 +23388,30 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -29424,7 +29469,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">•</property>
                                                             <property name="width-chars">3</property>
-                                                            <property name="text" translatable="yes">2,0</property>
+                                                            <property name="text">2,0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment85</property>
@@ -29487,7 +29532,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">•</property>
                                                             <property name="width-chars">2</property>
-                                                            <property name="text" translatable="yes">5</property>
+                                                            <property name="text">5</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment86</property>
@@ -29667,7 +29712,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment87</property>
@@ -29722,7 +29767,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment88</property>
@@ -29777,7 +29822,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment89</property>
@@ -29808,7 +29853,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment90</property>
@@ -29863,7 +29908,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment91</property>
@@ -30013,7 +30058,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment92</property>
@@ -30068,7 +30113,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment93</property>
@@ -30123,7 +30168,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment94</property>
@@ -30154,7 +30199,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment95</property>
@@ -30209,7 +30254,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment96</property>
@@ -30359,7 +30404,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment97</property>
@@ -30414,7 +30459,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment98</property>
@@ -30469,7 +30514,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment99</property>
@@ -30500,7 +30545,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment100</property>
@@ -30555,7 +30600,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment101</property>
@@ -30705,7 +30750,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment102</property>
@@ -30760,7 +30805,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment103</property>
@@ -30815,7 +30860,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment104</property>
@@ -30846,7 +30891,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment105</property>
@@ -30901,7 +30946,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment106</property>
@@ -31051,7 +31096,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment125</property>
@@ -31106,7 +31151,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment131</property>
@@ -31161,7 +31206,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment137</property>
@@ -31192,7 +31237,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment143</property>
@@ -31247,7 +31292,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment149</property>
@@ -31397,7 +31442,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment126</property>
@@ -31452,7 +31497,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment132</property>
@@ -31507,7 +31552,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment138</property>
@@ -31538,7 +31583,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment144</property>
@@ -31593,7 +31638,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment150</property>
@@ -31743,7 +31788,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment127</property>
@@ -31798,7 +31843,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment133</property>
@@ -31853,7 +31898,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment139</property>
@@ -31884,7 +31929,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment145</property>
@@ -31939,7 +31984,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment151</property>
@@ -32089,7 +32134,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment128</property>
@@ -32144,7 +32189,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment134</property>
@@ -32199,7 +32244,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment140</property>
@@ -32230,7 +32275,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment146</property>
@@ -32285,7 +32330,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment152</property>
@@ -32435,7 +32480,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment129</property>
@@ -32490,7 +32535,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment135</property>
@@ -32545,7 +32590,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment141</property>
@@ -32576,7 +32621,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment147</property>
@@ -32631,7 +32676,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment153</property>
@@ -32781,7 +32826,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment130</property>
@@ -32836,7 +32881,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment136</property>
@@ -32891,7 +32936,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment142</property>
@@ -32922,7 +32967,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment148</property>
@@ -32977,7 +33022,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">100</property>
+                                                            <property name="text">100</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment154</property>
@@ -33152,7 +33197,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment107</property>
@@ -33207,7 +33252,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">1</property>
+                                                            <property name="text">1</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment108</property>
@@ -33239,7 +33284,7 @@ Concentric</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="invisible-char">●</property>
                                                             <property name="width-chars">5</property>
-                                                            <property name="text" translatable="yes">0</property>
+                                                            <property name="text">0</property>
                                                             <property name="primary-icon-activatable">False</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment109</property>
@@ -43108,22 +43153,6 @@ then click this button.</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
-                                                            <child>
-                                                            <object class="GtkCheckButton" id="sessions_manage_advanced_checkbutton">
-                                                            <property name="label" translatable="yes">Show advanced controls</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">False</property>
-                                                            <property name="draw-indicator">True</property>
-                                                            <signal name="clicked" handler="on_sessions_manage_advanced_checkbutton_clicked" swapped="no"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="pack-type">end</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -43479,59 +43508,20 @@ on Cloud-view mode</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkBox" id="sessions_manage_advanced_box">
-                                                            <property name="can-focus">False</property>
+                                                            <object class="GtkExpander">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
                                                             <property name="margin-top">20</property>
+                                                            <property name="spacing">20</property>
+                                                            <child>
+                                                            <object class="GtkBox" id="sessions_manage_advanced_box">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="margin-left">20</property>
+                                                            <property name="margin-top">24</property>
+                                                            <property name="border-width">2</property>
                                                             <property name="orientation">vertical</property>
                                                             <property name="spacing">12</property>
-                                                            <child>
-                                                            <object class="GtkBox">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">12</property>
-                                                            <child>
-                                                            <object class="GtkSeparator">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="valign">center</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Advanced</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkSeparator">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="valign">center</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
                                                             <child>
                                                             <object class="GtkFrame" id="frame_session_export">
                                                             <property name="visible">True</property>
@@ -43887,9 +43877,18 @@ on Cloud-view mode</property>
                                                             </packing>
                                                             </child>
                                                             </object>
+                                                            </child>
+                                                            <child type="label">
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Show advanced controls</property>
+                                                            </object>
+                                                            </child>
+                                                            </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">2</property>
                                                             </packing>
                                                             </child>
@@ -51865,10 +51864,9 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkLabel" id="label407">
+                                                            <object class="GtkLabel" id="label_micro_discover_title">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Detect device</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -51884,17 +51882,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkLabel" id="label_micro_discover_title">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label">Compatible with...</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack-type">end</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             </object>
                                                             <packing>
@@ -51917,10 +51905,15 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
-                                                            <object class="GtkVBox" id="vbox270">
+                                                            <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="border-width">20</property>
+                                                            <property name="spacing">20</property>
+                                                            <child>
+                                                            <object class="GtkVBox" id="vbox270">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
                                                             <property name="spacing">12</property>
                                                             <child>
                                                             <object class="GtkLabel" id="label_micro_discover_not_found">
@@ -51987,6 +51980,52 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkCheckButton" id="check_discover_advanced">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="halign">end</property>
+                                                            <property name="draw-indicator">False</property>
+                                                            <signal name="toggled" handler="on_check_discover_advanced_toggled" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_discover_advanced">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Show advanced</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_discover_advanced">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-go-forward</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <object class="GtkBox" id="box_micro_discover_nc">
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">4</property>
@@ -52029,7 +52068,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -52039,7 +52078,14 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">3</property>
+                                                            <property name="position">4</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -52259,22 +52305,6 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
-                                                            <child>
-                                                            <object class="GtkCheckButton" id="persons_manage_advanced_checkbutton">
-                                                            <property name="label" translatable="yes">Show advanced controls</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">False</property>
-                                                            <property name="draw-indicator">True</property>
-                                                            <signal name="clicked" handler="on_persons_manage_advanced_checkbutton_clicked" swapped="no"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="pack-type">end</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -52285,7 +52315,6 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <child>
                                                             <object class="GtkFrame" id="frame_persons_top">
                                                             <property name="width-request">600</property>
-                                                            <property name="height-request">350</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="label-xalign">0</property>
@@ -52707,66 +52736,19 @@ on Cloud-view mode</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkBox" id="persons_manage_advanced_box">
-                                                            <property name="can-focus">False</property>
-                                                            <property name="orientation">vertical</property>
-                                                            <property name="spacing">12</property>
-                                                            <child>
-                                                            <object class="GtkBox">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">12</property>
-                                                            <child>
-                                                            <object class="GtkSeparator">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="valign">center</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Advanced</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkSeparator">
+                                                            <object class="GtkExpander">
                                                             <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="valign">center</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="margin-top">20</property>
                                                             <child>
                                                             <object class="GtkButtonBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="margin-top">12</property>
                                                             <property name="orientation">vertical</property>
                                                             <property name="spacing">12</property>
                                                             <child>
@@ -52860,17 +52842,31 @@ on Cloud-view mode</property>
                                                             </packing>
                                                             </child>
                                                             </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
+                                                            </child>
+                                                            <child type="label">
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Show advanced controls</property>
+                                                            </object>
                                                             </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">3</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkBox" id="persons_manage_advanced_box">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">12</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                             </object>

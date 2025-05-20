@@ -1064,7 +1064,8 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	//time (4 bytes: long at Arduino, uint at c-sharp), force (2 bytes: uint), encoder/RCA (1 byte: uint)
+	// this code is also on gui/discover.cs we are not unifying on src/runEncoder.cs to not pass serial port that is (or was) a problem on Windows
+	// time (4 bytes: long at Arduino, uint at c-sharp), force (2 bytes: uint), encoder/RCA (1 byte: uint)
 	private List<int> readBinaryRunEncoder9Bytes ()
         {
 		LogB.Information("start reading binary data");
@@ -2214,7 +2215,7 @@ public partial class ChronoJumpWindow
 					}
 
 					updateGraphRunEncoderBars();
-					treeViewResultsSession.Add (currentPerson.Name, currentRunEncoder, "");
+					treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentRunEncoder, "");
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 					sensitiveLastTestButtons(true);
 					contactsShowCaptureDoingButtons(false);
@@ -3252,7 +3253,7 @@ public partial class ChronoJumpWindow
 			exerciseID = getExerciseIDFromAnyCombo (combo_run_encoder_exercise, runEncoderComboExercisesString, false);
 
 		int selectedID = -1;
-		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID > 0)
+		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
 			selectedID = treeViewResultsSession.EventSelectedID;
 
 		PrepareEventGraphRunEncoder eventGraph = new PrepareEventGraphRunEncoder (

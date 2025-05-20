@@ -63,9 +63,10 @@ public partial class ChronoJumpWindow
 	{
 		sensitiveLastTestButtons(false);
 
+		//LogB.Information ("treeViewResultsSession.EventSelectedID: " + treeViewResultsSession.EventSelectedID.ToString ());
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who runs
-		if (treeViewResultsSession.EventSelectedID == 0)
+		if (treeViewResultsSession.EventSelectedID == TreeViewEvent.MarkRowIsPerson)
 		{
 			showHideActionEventButtons(false);
 
@@ -75,8 +76,8 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		if (treeViewResultsSession.EventSelectedID == -1)
-			treeViewResultsSession.SelectHeaderLine();
+		if (treeViewResultsSession.EventSelectedID == TreeViewEvent.MarkNonSelectRowSubEvent)
+			treeViewResultsSession.SelectEventHeaderLine();
 
 		showHideActionEventButtons(true);
 		button_inspect_last_test_run_intervallic.Sensitive = false;

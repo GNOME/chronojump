@@ -137,7 +137,7 @@ public partial class ChronoJumpWindow
 		//1.- check that there's a line selected
 		//2.- check that this line is a runEncoder and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		int selectedID = treeViewResultsSession.EventSelectedID;
-		if (selectedID <= 0)
+		if (selectedID < 0)
 			return;
 
 		//3.- obtain the data of the selected runEncoder

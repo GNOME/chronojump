@@ -519,7 +519,7 @@ public partial class ChronoJumpWindow
 					w.UniqueID = w.InsertSQL (false);
 					LogB.Information ("Inserted!");
 
-					treeViewResultsSession.Add (currentPerson.Name, w, "");
+					treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, w, "");
 					updateGraphWilightBars();
 				}
 
@@ -572,7 +572,7 @@ public partial class ChronoJumpWindow
 		string typeTemp = "";
 
 		int selectedID = -1;
-		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID > 0)
+		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
 			selectedID = treeViewResultsSession.EventSelectedID;
 
 		PrepareEventGraphWilight eventGraph = new PrepareEventGraphWilight(

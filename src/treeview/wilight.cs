@@ -45,7 +45,8 @@ public class TreeViewWilight : TreeViewEvent
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = ""; //Constants.AllJumpsNameStr();
 		idColumn = 3; //column where the uniqueID of event will be (and will be hidden). //unused now
-		columnsString = new string[] { personName, totalTimeName, datetimeName };
+		columnsString = new string[] { personName, totalTimeName, datetimeName};
+			//,"ID delete"	}; //just for debug
 
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;

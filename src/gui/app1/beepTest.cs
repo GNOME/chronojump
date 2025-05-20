@@ -261,7 +261,7 @@ public partial class ChronoJumpWindow
                                 options, slStatus.stage, slStatus.lap, 0, slStatus.speedKmh,
                                 UtilDate.ToFile (DateTime.Now), "", "");
                 bt.InsertSQL (false);
-		treeViewResultsSession.Add (personName, bt, "");
+		treeViewResultsSession.Add (personID, personName, bt, "");
 	}
 
 	private void beepTestDo ()

@@ -289,6 +289,8 @@ public class PreferencesWindow
 	Gtk.Label label_progVersion;
 	Gtk.Frame frame_networks;
 	Gtk.CheckButton check_networks_devices;
+
+	// cloud
 	Gtk.RadioButton radio_cloud_no;
 	Gtk.RadioButton radio_cloud_capture;
 	Gtk.RadioButton radio_cloud_view;
@@ -304,6 +306,14 @@ public class PreferencesWindow
 	Gtk.Image image_cloud_schema;
 	Gtk.Label label_cloud_capture_path;
 	Gtk.Label label_cloud_view_path;
+	// silicon
+	Gtk.Box box_silicon_cloud_path_choose;
+	Gtk.Box	box_silicon_cloud_path_capture;
+	Gtk.Box box_silicon_cloud_path_view;
+	Gtk.Entry entry_silicon_cloud_capture_path;
+	Gtk.Entry entry_silicon_cloud_view_path;
+	Gtk.Label label_silicon_cloud_path_does_not_exists;
+
 	Gtk.Button button_debug_mode;
 
 	Gtk.Entry entry_send_log;
@@ -1005,10 +1015,12 @@ public class PreferencesWindow
 		{
 			PWBox.radio_cloud_capture.Active = true;
 			PWBox.label_cloud_capture_path.Text = PWBox.configAtPrefs.CopyToCloudFullPath;
+			PWBox.label_cloud_capture_path.TooltipText = PWBox.configAtPrefs.CopyToCloudFullPath;
 		} else if (PWBox.configAtPrefs.ReadFromCloudMainPath !=  "")
 		{
 			PWBox.radio_cloud_view.Active = true;
 			PWBox.label_cloud_view_path.Text = PWBox.configAtPrefs.ReadFromCloudMainPath;
+			PWBox.label_cloud_view_path.TooltipText = PWBox.configAtPrefs.ReadFromCloudMainPath;
 		} else
 			PWBox.radio_cloud_no.Active = true;
 		PWBox.signalsNoFollow = false;
@@ -2508,9 +2520,15 @@ public class PreferencesWindow
 	private void button_cloud_set_path (bool capture) //capture or view
 	{
 		FileChooserAction action = FileChooserAction.SelectFolder;
+
 		//mac arm64 crashes on SelectFolder, use Open. The problem in Open is it cannot select a folder that has contents. Only an empty folder
+		//so better introduce it manually
 		if (UtilAll.IsMacSilicon ())
-			action = FileChooserAction.Open;
+		{
+			// action = FileChooserAction.Open;
+			button_cloud_set_path_mac_silicon (capture);
+			return;
+		}
 
 		Gtk.FileChooserNative fc = new Gtk.FileChooserNative(Catalog.GetString("Select cloud directory"),
 				preferences_win,
@@ -2534,18 +2552,13 @@ public class PreferencesWindow
 					if (label_cloud_capture_path.Text == "")
 						shouldRestart = true;
 
-					label_cloud_capture_path.Text = fc.Filename;
-					configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
-							Config.OpEnum.CopyToCloudFullPath.ToString (), fc.Filename);
+					button_cloud_set_path_done (true, fc.Filename);
 				}
 			} else { 	//view
 				if (label_cloud_view_path.Text == "")
 					shouldRestart = true;
 
-				label_cloud_view_path.Text = fc.Filename;
-				configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
-						Config.OpEnum.ReadFromCloudMainPath.ToString (), fc.Filename);
-
+				button_cloud_set_path_done (false, fc.Filename);
 				button_cloud_view_databases.Sensitive = (fc.Filename != null);
 			}
 			buttons_cloud_sensitive ();
@@ -2559,6 +2572,79 @@ public class PreferencesWindow
 		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		fc.Destroy();
 	}
+
+	private void button_cloud_set_path_done (bool capture, string path) //capture or view
+	{
+		if (capture)
+		{
+			label_cloud_capture_path.Text = path;
+			label_cloud_capture_path.TooltipText = path;
+			configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
+					Config.OpEnum.CopyToCloudFullPath.ToString (), path);
+		} else {
+			label_cloud_view_path.Text = path;
+			label_cloud_view_path.TooltipText = path;
+			configAtPrefs.UpdateFieldEnsuringDefaultConfigFile (
+					Config.OpEnum.ReadFromCloudMainPath.ToString (), path);
+		}
+	}
+
+
+	// ---- Silicon ---->
+	private void button_cloud_set_path_mac_silicon (bool capture)
+	{
+		box_silicon_cloud_path_choose.Visible = true;
+		box_silicon_cloud_path_capture.Visible = capture;
+		box_silicon_cloud_path_view.Visible = ! capture;
+		label_silicon_cloud_path_does_not_exists.Visible = false;
+	}
+
+	private void on_button_silicon_cloud_capture_path_apply_clicked (object o, EventArgs args)
+	{
+		if (! Directory.Exists (entry_silicon_cloud_capture_path.Text))
+		{
+			label_silicon_cloud_path_does_not_exists.Visible = true;
+			return;
+		} else
+			label_silicon_cloud_path_does_not_exists.Visible = false;
+
+		bool shouldRestart = false;
+		if (label_cloud_capture_path.Text == "")
+			shouldRestart = true;
+
+		button_cloud_set_path_done (true, entry_silicon_cloud_capture_path.Text);
+		box_silicon_cloud_path_choose.Visible = false;
+
+		buttons_cloud_sensitive ();
+
+		if (shouldRestart)
+			restartLabelShow ();
+	}
+
+	private void on_button_silicon_cloud_view_path_apply_clicked (object o, EventArgs args)
+	{
+		if (! Directory.Exists (entry_silicon_cloud_view_path.Text))
+		{
+			label_silicon_cloud_path_does_not_exists.Visible = true;
+			return;
+		} else
+			label_silicon_cloud_path_does_not_exists.Visible = false;
+
+		bool shouldRestart = false;
+		if (label_cloud_view_path.Text == "")
+			shouldRestart = true;
+
+		button_cloud_set_path_done (false, entry_silicon_cloud_view_path.Text);
+		button_cloud_view_databases.Sensitive = (entry_silicon_cloud_view_path.Text != "");
+		box_silicon_cloud_path_choose.Visible = false;
+
+		buttons_cloud_sensitive ();
+
+		if (shouldRestart)
+			restartLabelShow ();
+	}
+	// <---- Silicon ----
+
 
 	private void buttons_cloud_sensitive ()
 	{
@@ -4116,6 +4202,13 @@ public class PreferencesWindow
 		image_cloud_schema = (Gtk.Image) builder.GetObject ("image_cloud_schema");
 		label_cloud_capture_path = (Gtk.Label) builder.GetObject ("label_cloud_capture_path");
 		label_cloud_view_path = (Gtk.Label) builder.GetObject ("label_cloud_view_path");
+		box_silicon_cloud_path_choose = (Gtk.Box) builder.GetObject ("box_silicon_cloud_path_choose");
+		box_silicon_cloud_path_capture = (Gtk.Box) builder.GetObject ("box_silicon_cloud_path_capture");
+		box_silicon_cloud_path_view = (Gtk.Box) builder.GetObject ("box_silicon_cloud_path_view");
+		entry_silicon_cloud_capture_path = (Gtk.Entry) builder.GetObject ("entry_silicon_cloud_capture_path");
+		entry_silicon_cloud_view_path = (Gtk.Entry) builder.GetObject ("entry_silicon_cloud_view_path");
+		label_silicon_cloud_path_does_not_exists = (Gtk.Label) builder.GetObject ("label_silicon_cloud_path_does_not_exists");
+
 		button_debug_mode = (Gtk.Button) builder.GetObject ("button_debug_mode");
 
 		entry_send_log = (Gtk.Entry) builder.GetObject ("entry_send_log");

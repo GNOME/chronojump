@@ -3,4 +3,8 @@
 glade/chronojump_copia.glade
 src/chronojump.desktop.in
 src/chronojump_mini_validate.cs
+src/gui/old/chronojumpServerOld.cs
+src/gui/old/helpPorts.cs
+src/gui/old/queryServer.cs
+src/old/server.cs
 src/platform.cs

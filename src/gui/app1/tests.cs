@@ -28,7 +28,7 @@ public partial class ChronoJumpWindow
 	{
 		//1.- check that there's a line selected
 		//2.- check that this line is a test and not a person
-		if (treeViewResultsSession.EventSelectedID > 0) {
+		if (treeViewResultsSession.EventSelectedID >= 0) {
 			//3.- display confirmwindow of deletion
 			if (preferences.askDeletion) {
 				ConfirmWindow confirmWin = ConfirmWindow.Show (Catalog.GetString(

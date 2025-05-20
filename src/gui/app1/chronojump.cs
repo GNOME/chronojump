@@ -2163,8 +2163,11 @@ public partial class ChronoJumpWindow
 		} else
 			return;
 
-		treeViewResultsSession.CurrentPersonID = currentPerson.UniqueID; //to show in bold
-		treeViewResultsSession.SelectPerson (currentPerson.Name);
+		if (currentPerson != null)
+		{
+			treeViewResultsSession.CurrentPersonID = currentPerson.UniqueID; //to show in bold
+			treeViewResultsSession.SelectPerson (currentPerson.Name);
+		}
 
 		treeviewResultsSessionNoCheckPersonChange = false;
 	}

@@ -500,7 +500,7 @@ public partial class ChronoJumpWindow
 	private string progVersion;
 	private string progName;
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM, SOCIALNETWORKPOLL, FULLSCREENCAPTURE }
-	private enum notebook_sup_pages { START, CONTACTS, SESSION, NETWORKSPROBLEMS, PREFSUTILHELP, NEWS, MICRODISCOVER, PERSON, DATABASE }
+	private enum notebook_sup_pages { START, TESTS, SESSION, NETWORKSPROBLEMS, PREFSUTILHELP, NEWS, MICRODISCOVER, PERSON, DATABASE }
 	private enum notebook_contacts_execute_or_pages { EXECUTE, OPTIONSCONTACTS, OPTIONSENCODER, FORCESENSORADJUST, RACEINSPECTOR }
 	private enum notebook_execute_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER }
 	private enum notebook_options_top_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER }
@@ -3231,7 +3231,7 @@ public partial class ChronoJumpWindow
 			runEncoderProcessCancel = true;
 		}
 
-		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
+		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.TESTS);
 		//top buttons on capture
 		if (m == Constants.Modes.OTHER || m == Constants.Modes.BEEPTEST || m == Constants.Modes.WILIGHT)
 		{
@@ -8308,7 +8308,7 @@ public partial class ChronoJumpWindow
 		label_encoder_checked_error.Visible = false;
 		chronopicRegisterUpdate(false);
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ENCODER) > 0)
-			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.TESTS);
 		else
 			label_encoder_checked_error.Visible = true;
 	}

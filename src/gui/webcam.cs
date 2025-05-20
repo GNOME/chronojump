@@ -541,7 +541,7 @@ public partial class ChronoJumpWindow
 	 */
 
 	//at what tab of notebook_sup there's the video_capture
-	private int video_capture_notebook_sup = Convert.ToInt32(notebook_sup_pages.CONTACTS);
+	private int video_capture_notebook_sup = Convert.ToInt32(notebook_sup_pages.TESTS);
 
 	//CapturerBin capturer;
 	private void videoCaptureInitialize()

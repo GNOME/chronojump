@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -1811,7 +1811,7 @@ public partial class ChronoJumpWindow
 			button_contacts_devices_networks_problems.Sensitive = preferences.networksAllowChangeDevices;
 		}
 		else {
-			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.TESTS);
 			hbox_RFID_disconnected.Visible = false;
 			hbox_encoder_disconnected.Visible = false;
 		}
@@ -1833,7 +1833,7 @@ public partial class ChronoJumpWindow
 			hbox_encoder_disconnected.Visible = false;
 		}
 		else {
-			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.TESTS);
 			hbox_RFID_disconnected.Visible = false;
 		}
 	}

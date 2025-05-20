@@ -1356,7 +1356,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkHPaned" id="hpaned_contacts_main">
+                          <object class="GtkHPaned" id="hpaned_main">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="wide-handle">True</property>
@@ -4922,7 +4922,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkAlignment" id="alignment_modes">
+                                      <object class="GtkAlignment" id="alignment_tests">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
                                         <property name="top-padding">4</property>
@@ -27896,6 +27896,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

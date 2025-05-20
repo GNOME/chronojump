@@ -759,11 +759,11 @@ public partial class ChronoJumpWindow
 
 	private void on_button_persons_raspberry_left_clicked(object o, EventArgs args)
 	{
-		hpaned_contacts_main.Position -= 10;
+		hpaned_main.Position -= 10;
 	}
 	private void on_button_persons_raspberry_right_clicked(object o, EventArgs args)
 	{
-		hpaned_contacts_main.Position += 10;
+		hpaned_main.Position += 10;
 	}
 
 	private void connectWidgetsPersons (Gtk.Builder builder)

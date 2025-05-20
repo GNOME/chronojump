@@ -59,7 +59,7 @@ public partial class ChronoJumpWindow
 		comboSelectContactsTopNoFollow = false;
 	}
 
-	private void on_button_contacts_exercise_clicked (object o, EventArgs args)
+	private void on_button_exercise_clicked (object o, EventArgs args)
 	{
 		menus_and_mode_sensitive(false);
 		notebook_contacts_capture_doing_wait.Sensitive = false;
@@ -79,9 +79,13 @@ public partial class ChronoJumpWindow
 		frame_run_encoder_exercise.Visible = false; //TODO: implement more modes in the future
 
 		button_contacts_exercise_close_and_capture.Sensitive = myTreeViewPersons.IsThereAnyRecord();
-		notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.INSTRUCTIONS);
+
+		if (Constants.ModeIsENCODER (current_mode))
+			notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.OPTIONSENCODER);
+		else
+			notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.OPTIONSCONTACTS);
 	}
-	private void on_button_contacts_exercise_close_clicked (object o, EventArgs args)
+	private void on_button_exercise_close_clicked (object o, EventArgs args)
 	{
 		menus_and_mode_sensitive(true);
 		notebook_contacts_capture_doing_wait.Sensitive = true;
@@ -93,16 +97,31 @@ public partial class ChronoJumpWindow
 		hbox_top_person.Sensitive = true;
 
 		notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.EXECUTE);
+
+		if (Constants.ModeIsENCODER (current_mode))
+			checkIfEncoderMinHeightChanged ();
 	}
-	private void on_button_contacts_exercise_close_and_capture_clicked (object o, EventArgs args)
+	private void on_button_exercise_close_and_capture_clicked (object o, EventArgs args)
 	{
-		on_button_contacts_exercise_close_clicked (o, args);
-		on_button_execute_test_clicked(o, args);
+		on_button_exercise_close_clicked (o, args);
+
+		if (Constants.ModeIsENCODER (current_mode))
+		{
+			checkIfEncoderMinHeightChanged ();
+			on_button_encoder_capture_clicked (o, args);
+		} else
+			on_button_execute_test_clicked(o, args);
 	}
-	private void on_button_contacts_exercise_close_and_recalculate_clicked (object o, EventArgs args)
+	private void on_button_exercise_close_and_recalculate_clicked (object o, EventArgs args)
 	{
-		on_button_contacts_exercise_close_clicked (o, args);
-		on_button_contacts_recalculate_clicked(o, args);
+		on_button_exercise_close_clicked (o, args);
+
+		if (Constants.ModeIsENCODER (current_mode))
+		{
+			checkIfEncoderMinHeightChanged ();
+			on_button_encoder_recalculate_clicked (o, args);
+		} else
+			on_button_contacts_recalculate_clicked(o, args);
 	}
 
 	private void on_button_image_test_zoom_clicked (object o, EventArgs args)

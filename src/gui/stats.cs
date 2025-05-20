@@ -71,7 +71,6 @@ public partial class ChronoJumpWindow
 	
 	Gtk.Image image_stats_win_graph;
 	Gtk.Image image_stats_win_graph1;
-	Gtk.Image image_stats_win_graph3;
 	Gtk.Image image_stats_win_report_open;
 		
 	Gtk.Box hbox_graph_options;
@@ -300,7 +299,6 @@ public partial class ChronoJumpWindow
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_analyze.png");
 		image_stats_win_graph.Pixbuf = pixbuf;
 		image_stats_win_graph1.Pixbuf = pixbuf;
-		image_stats_win_graph3.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "report_view.png");
 		image_stats_win_report_open.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "spreadsheet.png");
@@ -1397,7 +1395,6 @@ public partial class ChronoJumpWindow
 
 		image_stats_win_graph = (Gtk.Image) builder.GetObject ("image_stats_win_graph");
 		image_stats_win_graph1 = (Gtk.Image) builder.GetObject ("image_stats_win_graph1");
-		image_stats_win_graph3 = (Gtk.Image) builder.GetObject ("image_stats_win_graph3");
 		image_stats_win_report_open = (Gtk.Image) builder.GetObject ("image_stats_win_report_open");
 
 		hbox_graph_options = (Gtk.Box) builder.GetObject ("hbox_graph_options");

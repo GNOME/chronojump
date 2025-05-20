@@ -594,7 +594,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		on_button_contacts_exercise_close_clicked (o, args);
+		on_button_exercise_close_clicked (o, args);
 		on_buttons_force_sensor_clicked (button_stiffness_detect, new EventArgs ());
 	}
 

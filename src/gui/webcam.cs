@@ -543,29 +543,6 @@ public partial class ChronoJumpWindow
 	//at what tab of notebook_sup there's the video_capture
 	private int video_capture_notebook_sup = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 
-	//changed by user clicking on notebook tabs
-	private void on_notebook_sup_switch_page (object o, SwitchPageArgs args) {
-		if(
-				(notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.CONTACTS) &&
-				 video_capture_notebook_sup == Convert.ToInt32(notebook_sup_pages.ENCODER))
-				||
-				(notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.ENCODER) &&
-				 video_capture_notebook_sup == Convert.ToInt32(notebook_sup_pages.CONTACTS)))
-		{
-			//first stop showing video
-			bool wasActive = false;
-			if(checkbutton_video_contacts.Active) {
-				wasActive = true;
-				checkbutton_video_contacts.Active = false;
-			}
-
-			if(wasActive)
-				checkbutton_video_contacts.Active = true;
-
-			video_capture_notebook_sup = notebook_sup.CurrentPage;
-		}
-	}
-
 	//CapturerBin capturer;
 	private void videoCaptureInitialize()
 	{

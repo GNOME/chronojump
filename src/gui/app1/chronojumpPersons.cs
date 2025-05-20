@@ -179,7 +179,6 @@ public partial class ChronoJumpWindow
 	private void showPersonsOnTop (bool onTop)
 	{
 		hbox_top_person.Visible = onTop;
-		hbox_top_person_encoder.Visible = onTop;
 
 		if(onTop)
 		{
@@ -200,9 +199,6 @@ public partial class ChronoJumpWindow
 	{
 		label_top_person_name.Text = "<b>" + currentPerson.Name + "</b>";
 		label_top_person_name.UseMarkup = true;
-
-		label_top_encoder_person_name.Text = "<b>" + currentPerson.Name + "</b>";
-		label_top_encoder_person_name.UseMarkup = true;
 
 		personsPhotoShowIfNeeded ();
 	}

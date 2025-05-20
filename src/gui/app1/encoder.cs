@@ -42,6 +42,7 @@ public partial class ChronoJumpWindow
 	Gtk.HBox hbox_encoder_exercise_inertial_min_mov;
 	Gtk.SpinButton spin_encoder_capture_min_height_gravitatory;
 	Gtk.SpinButton spin_encoder_capture_min_height_inertial;
+	Gtk.VBox vbox_capture_current_encoder;
 
 	Gtk.Button button_encoder_select;
 	Gtk.SpinButton spin_encoder_extra_weight;
@@ -70,9 +71,7 @@ public partial class ChronoJumpWindow
 	//at SQL it's in Kg*cm^2 also because it's stored as int
 	//at graph.R is converted to Kg*m^2 ( /10000 )
 	//Gtk.SpinButton spin_encoder_capture_inertial; 
-	
-	Gtk.Box hbox_encoder_sup_capture_analyze;
-	Gtk.Box hbox_encoder_sup_capture_analyze_two_buttons;
+
 	Gtk.Box hbox_encoder_configuration;
 	Gtk.Frame frame_encoder_capture_options;
 	Gtk.HBox hbox_encoder_capture_actions;
@@ -132,7 +131,6 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_encoder_devices_networks;
 	//Gtk.Button button_encoder_devices_networks_problems;
 
-	Gtk.Notebook notebook_encoder_sup;
 	Gtk.Notebook notebook_encoder_capture;
 
 	//encoder capture tab view options
@@ -342,6 +340,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_encoder_load_signal_at_analyze;
 	
 	Gtk.Alignment alignment_treeview_encoder_capture_curves;
+	Gtk.HPaned hpaned_encoder_capture_tree_signal;
 	Gtk.TreeView treeview_encoder_capture_curves;
 	Gtk.TreeView treeview_encoder_analyze_curves;
 	Gtk.SpinButton spin_encoder_capture_curves_best_n;
@@ -549,9 +548,8 @@ public partial class ChronoJumpWindow
 		check_encoder_capture_bars.Active = preferences.encoderCaptureShowOnlyBars.ShowBars;
 		check_encoder_capture_table.Active = preferences.encoderCaptureShowOnlyBars.ShowTable;
 		check_encoder_capture_signal.Active = preferences.encoderCaptureShowOnlyBars.ShowSignal;
+
 		followSignals = true;
-		//call here to have the gui updated and preferences.encoderCaptureShowOnlyBars correctly assigned
-		on_check_encoder_capture_show_modes_clicked (new object (), new EventArgs ());
 	}
 
 	void on_button_encoder_select_clicked (object o, EventArgs args)
@@ -1442,7 +1440,6 @@ public partial class ChronoJumpWindow
 		alignment_encoder_capture_curves_bars_drawingarea.Visible = check_encoder_capture_bars.Active;
 		alignment_treeview_encoder_capture_curves.Visible = check_encoder_capture_table.Active;
 		alignment_encoder_capture_signal.Visible = check_encoder_capture_signal.Active;
-
 		hbox_encoder_capture_save_repetitions.Visible =
 			(check_encoder_capture_bars.Active || check_encoder_capture_table.Active);
 
@@ -1475,6 +1472,8 @@ public partial class ChronoJumpWindow
 				(preferences.signalDirectionHorizontal && ! check_encoder_capture_signal.Active) ||
 				! preferences.signalDirectionHorizontal )
 			GLib.Timeout.Add (50, new GLib.TimeoutHandler (encoder1stRowAllHeight));
+
+		GLib.Timeout.Add (100, new GLib.TimeoutHandler (encoder2ndRowPos));
 	}
 
 	private bool encoder1stRowAllHeight () //done later in order to have table and/or signal hidden
@@ -1482,6 +1481,18 @@ public partial class ChronoJumpWindow
 		vpaned_encoder_main.Position = vpaned_encoder_main.MaxPosition;
 		return false;
 	}
+
+	private bool encoder2ndRowPos ()
+	{
+		if (check_encoder_capture_signal.Active)
+			hpaned_encoder_capture_tree_signal.Position =
+				Convert.ToInt32 (UtilAll.DivideSafe (3 * hpaned_encoder_capture_tree_signal.MaxPosition, 4));
+		else
+			hpaned_encoder_capture_tree_signal.Position = hpaned_encoder_capture_tree_signal.MaxPosition;
+
+		return false;
+	}
+
 
 	private void encoderUpdateTreeViewCapture(List<string> contents)
 	{
@@ -4527,8 +4538,8 @@ public partial class ChronoJumpWindow
 		grid_encoder_analyze_options.Sensitive = s;
 		frame_persons.Sensitive = s;
 		menus_and_mode_sensitive(s);
-		hbox_encoder_sup_capture_analyze_two_buttons.Sensitive = s;
-		hbox_top_person_encoder.Sensitive = s;
+		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = s;
+		hbox_top_person.Sensitive = s;
 	}
 
 	private void on_radiobutton_encoder_analyze_instantaneous_options_toggled (object o, EventArgs args)
@@ -5571,48 +5582,6 @@ public partial class ChronoJumpWindow
 
 	// ---------end of helpful methods -----------
 
-	void on_button_encoder_exercise_clicked (object o, EventArgs args)
-	{
-		encoder_exercise_show_hide (true);
-	}
-	void on_button_encoder_exercise_close_clicked (object o, EventArgs args)
-	{
-		encoder_exercise_show_hide (false);
-		checkIfEncoderMinHeightChanged ();
-	}
-	private void encoder_exercise_show_hide (bool show)
-	{
-		if(show)
-			notebook_hpaned_encoder_or_exercise_config.Page = 1;
-		else
-			notebook_hpaned_encoder_or_exercise_config.Page = 0;
-
-		menus_and_mode_sensitive(! show);
-		hbox_encoder_sup_capture_analyze.Sensitive = ! show;
-		frame_persons.Sensitive = ! show;
-		hbox_encoder_configuration.Sensitive = ! show;
-		hbox_encoder_capture_top.Sensitive = ! show;
-		alignment_encoder_capture_signal.Sensitive = ! show;
-		button_encoder_inertial_recalibrate.Sensitive = ! show;
-		hbox_top_person.Sensitive = ! show;
-		hbox_top_person_encoder.Sensitive = ! show;
-	}
-
-	void on_button_encoder_exercise_close_and_capture_clicked (object o, EventArgs args)
-	{
-		encoder_exercise_show_hide (false);
-		checkIfEncoderMinHeightChanged ();
-
-		on_button_encoder_capture_clicked (o, args);
-	}
-	void on_button_encoder_exercise_close_and_recalculate_clicked (object o, EventArgs args)
-	{
-		encoder_exercise_show_hide (false);
-		checkIfEncoderMinHeightChanged ();
-
-		on_button_encoder_recalculate_clicked (o, args);
-	}
-
 	private void checkIfEncoderMinHeightChanged ()
 	{
 		if(current_mode == Constants.Modes.POWERGRAVITATORY) {
@@ -6027,7 +5996,7 @@ public partial class ChronoJumpWindow
 		LogB.Debug("encoderButtonsSensitive: " + option.ToString());
 
 		//columns
-		//c0 button_encoder_capture, hbox_encoder_sup_capture_analyze_two_buttons,
+		//c0 button_encoder_capture,
 		//	hbox_encoder_configuration, frame_encoder_capture_options
 		//c1 button_encoder_exercise_close_and_recalculate
 		//c2 button_encoder_capture_session_overview, button_encoder_load_signal
@@ -6084,7 +6053,7 @@ public partial class ChronoJumpWindow
 				break;
 		}
 		button_encoder_capture.Sensitive = Util.IntToBool(table[0]);
-		hbox_encoder_sup_capture_analyze_two_buttons.Sensitive = Util.IntToBool(table[0]);
+		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = Util.IntToBool(table[0]);
 		frame_encoder_capture_options.Sensitive = Util.IntToBool(table[0]);
 
 		button_encoder_exercise_close_and_recalculate.Sensitive = Util.IntToBool(table[1]);
@@ -8296,6 +8265,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_exercise_inertial_min_mov = (Gtk.HBox) builder.GetObject ("hbox_encoder_exercise_inertial_min_mov");
 		spin_encoder_capture_min_height_gravitatory = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_min_height_gravitatory");
 		spin_encoder_capture_min_height_inertial = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_min_height_inertial");
+		vbox_capture_current_encoder = (Gtk.VBox) builder.GetObject ("vbox_capture_current_encoder");
 
 		button_encoder_select = (Gtk.Button) builder.GetObject ("button_encoder_select");
 		spin_encoder_extra_weight = (Gtk.SpinButton) builder.GetObject ("spin_encoder_extra_weight");
@@ -8325,8 +8295,6 @@ public partial class ChronoJumpWindow
 		//at graph.R is converted to Kg*m^2 ( /10000 )
 		//spin_encoder_capture_inertial = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_inertial"); 
 
-		hbox_encoder_sup_capture_analyze = (Gtk.Box) builder.GetObject ("hbox_encoder_sup_capture_analyze");
-		hbox_encoder_sup_capture_analyze_two_buttons = (Gtk.Box) builder.GetObject ("hbox_encoder_sup_capture_analyze_two_buttons");
 		hbox_encoder_configuration = (Gtk.Box) builder.GetObject ("hbox_encoder_configuration");
 		frame_encoder_capture_options = (Gtk.Frame) builder.GetObject ("frame_encoder_capture_options");
 		hbox_encoder_capture_actions = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_actions");
@@ -8386,7 +8354,6 @@ public partial class ChronoJumpWindow
 		button_encoder_devices_networks = (Gtk.Button) builder.GetObject ("button_encoder_devices_networks");
 		//button_encoder_devices_networks_problems = (Gtk.Button) builder.GetObject ("button_encoder_devices_networks_problems");
 
-		notebook_encoder_sup = (Gtk.Notebook) builder.GetObject ("notebook_encoder_sup");
 		notebook_encoder_capture = (Gtk.Notebook) builder.GetObject ("notebook_encoder_capture");
 
 		//encoder capture tab view options
@@ -8598,6 +8565,7 @@ public partial class ChronoJumpWindow
 		label_encoder_load_signal_at_analyze = (Gtk.Label) builder.GetObject ("label_encoder_load_signal_at_analyze");
 
 		alignment_treeview_encoder_capture_curves = (Gtk.Alignment) builder.GetObject ("alignment_treeview_encoder_capture_curves");
+		hpaned_encoder_capture_tree_signal = (Gtk.HPaned) builder.GetObject ("hpaned_encoder_capture_tree_signal");
 		treeview_encoder_capture_curves = (Gtk.TreeView) builder.GetObject ("treeview_encoder_capture_curves");
 		treeview_encoder_analyze_curves = (Gtk.TreeView) builder.GetObject ("treeview_encoder_analyze_curves");
 		spin_encoder_capture_curves_best_n = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_curves_best_n");

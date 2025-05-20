@@ -58,7 +58,6 @@ public class Config
 	public EncoderCaptureDisplay EncoderCaptureShowOnlyBars;
 	public bool EncoderUpdateTreeViewWhileCapturing = true; //user can change the 3 show checkboxes, so have it true to be updated
 	public bool PersonWinHide;
-	public bool EncoderAnalyzeHide;
 	public string RunScriptOnExit;
 
 	//remember to change the fill method if this list grows
@@ -294,7 +293,6 @@ public class Config
 		EncoderCaptureShowOnlyBars = false;
 		EncoderUpdateTreeViewWhileCapturing = true;
 		PersonWinHide = false;
-		EncoderAnalyzeHide = false;
 		SessionMode = SessionModeEnum.STANDARD;
 		Compujump = false;
 		RunScriptOnExit = "";

@@ -920,10 +920,6 @@ public partial class ChronoJumpWindow
 		showPersonsOnTop(configChronojump.PersonWinHide);
 		showPersonPhoto(preferences.personPhoto);
 
-		if(configChronojump.EncoderAnalyzeHide) {
-			hbox_encoder_sup_capture_analyze_two_buttons.Visible = false;
-		}
-
 		if(currentSession == null && //this is going to be called one time because currentSession will change
 			       ( configChronojump.SessionMode == Config.SessionModeEnum.UNIQUE || configChronojump.SessionMode == Config.SessionModeEnum.MONTHLY) )
 		{

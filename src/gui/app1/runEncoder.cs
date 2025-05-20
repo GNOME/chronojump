@@ -1838,13 +1838,14 @@ public partial class ChronoJumpWindow
 		}
 
 		currentRunEncoder.UpdateSQL(false);
+		int id = currentRunEncoder.UniqueID; //need to assign to a variable because will change on pre_fillTreeView_resultsSession
 
 		string str = run_encoder_load_set (currentRunEncoder.UniqueID, false);
 		if(str != "")
 			event_execute_label_message.Text = "Recalculated.";
 
-		updateGraphResultsSessionByMode ();
 		pre_fillTreeView_resultsSession ();
+		selectResultsSessionId (id, true);
 	}
 
 	private void on_radio_race_analyzer_capture_graph_starts_clicked (object o, EventArgs args)

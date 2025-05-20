@@ -2696,13 +2696,14 @@ LogB.Information(" fs R ");
 		//forceSensorValues.BestRFD = getBestAvgRFD ();
 
 		currentForceSensor.UpdateSQL(false);
+		int id = currentForceSensor.UniqueID; //need to assign to a variable because will change on pre_fillTreeView_resultsSession
 
 		//notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 		//change radio and will change also notebook:
 		radio_signal_analyze_current_set.Active = true;
 
-		updateGraphResultsSessionByMode ();
 		pre_fillTreeView_resultsSession ();
+		selectResultsSessionId (id, true);
 	}
 
 	private enum forceSensorGraphsEnum { SIGNAL, RFD }

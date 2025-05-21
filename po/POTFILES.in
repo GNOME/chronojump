@@ -187,6 +187,7 @@ src/stats/sjCmjAbkPlus.cs
 src/statType.cs
 src/tagSession.cs
 src/treeview/beepTest.cs
+src/treeview/encoder.cs
 src/treeview/event.cs
 src/treeview/forceSensor.cs
 src/treeview/fourPlatforms.cs

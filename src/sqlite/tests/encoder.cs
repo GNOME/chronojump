@@ -87,20 +87,21 @@ class SqliteEncoder : SqliteTests
         if (!dbconOpened)
             Sqlite.Open();
 
-        if (es.uniqueID == "-1")
-            es.uniqueID = "NULL";
+	string uniqueIDStr = "NULL";
+	if (es.UniqueID != -1)
+		uniqueIDStr = es.UniqueID.ToString();
 
         dbcmd.CommandText = "INSERT INTO " + Constants.EncoderTable +
             " (uniqueID, personID, sessionID, exerciseID, eccon, laterality, extraWeight, " +
             "signalOrCurve, filename, url, time, minHeight, description, status, " +
             "videoURL, encoderConfiguration, future1, future2, future3, repCriteria)" +
-            " VALUES (" + es.uniqueID + ", " +
-            es.personID + ", " + es.sessionID + ", " +
+            " VALUES (" + uniqueIDStr + ", " +
+            es.PersonID + ", " + es.SessionID + ", " +
             es.exerciseID + ", '" + es.eccon + "', '" +
             es.LateralityToEnglish() + "', '" + Util.ConvertToPoint(es.extraWeight) + "', '" +
             es.signalOrCurve + "', '" + es.filename + "', '" +
             Util.MakeURLrelative(es.url) + "', " +
-            es.time + ", " + es.minHeight + ", '" + es.description +
+            es.time + ", " + es.minHeight + ", '" + es.Description +
             "', '" + es.status + "', '" +
             Util.MakeURLrelative(es.videoURL) + "', '" +
             es.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) + "', '" +
@@ -136,12 +137,13 @@ class SqliteEncoder : SqliteTests
         if (!dbconOpened)
             Sqlite.Open();
 
-        if (es.uniqueID == "-1")
-            es.uniqueID = "NULL";
+	string uniqueIDStr = "NULL";
+	if (es.UniqueID != -1)
+		uniqueIDStr = es.UniqueID.ToString();
 
         mycmd.CommandText = "UPDATE " + Constants.EncoderTable + " SET " +
-                " personID = " + es.personID +
-                ", sessionID = " + es.sessionID +
+                " personID = " + es.PersonID +
+                ", sessionID = " + es.SessionID +
                 ", exerciseID = " + es.exerciseID +
                 ", eccon = '" + es.eccon +
                 "', laterality = '" + es.LateralityToEnglish() +
@@ -151,7 +153,7 @@ class SqliteEncoder : SqliteTests
                 "', url = '" + Util.MakeURLrelative(es.url) +
                 "', time = " + es.time +
                 ", minHeight = " + es.minHeight +
-                ", description = '" + es.description +
+                ", description = '" + es.Description +
                 "', status = '" + es.status +
                 "', videoURL = '" + Util.MakeURLrelative(es.videoURL) +
                 "', encoderConfiguration = '" + es.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) +
@@ -159,7 +161,7 @@ class SqliteEncoder : SqliteTests
                 "', future2 = '" + Util.ConvertToPoint(es.future2) +
                 "', future3 = '" + Util.ConvertToPoint(es.future3) +
                 "', repCriteria = '" + es.repCriteria.ToString() +
-                "' WHERE uniqueID = " + es.uniqueID;
+                "' WHERE uniqueID = " + uniqueIDStr;
 
         LogB.SQL(mycmd.CommandText.ToString());
         mycmd.ExecuteNonQuery();
@@ -362,7 +364,7 @@ class SqliteEncoder : SqliteTests
 
             //LogB.SQL(econf.ToString(":", true));
             eSQL = new EncoderSQL(
-                    reader[0].ToString(),           //uniqueID
+                    Convert.ToInt32(reader[0].ToString()),  //uniqueID
                     Convert.ToInt32(reader[1].ToString()),  //personID	
                     Convert.ToInt32(reader[2].ToString()),  //sessionID
                     Convert.ToInt32(reader[3].ToString()),  //exerciseID

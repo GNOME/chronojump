@@ -1734,7 +1734,7 @@ class Sqlite
 							int msCentral = SqliteEncoder.FindCurveInSignal(
 									s.GetFullURL(false), c.GetFullURL(false));
 
-							signalID = Convert.ToInt32(s.uniqueID);
+							signalID = Convert.ToInt32(s.UniqueID);
 							if(msCentral == -1)
 								signalID = -1; //mark as an orphaned curve (without signal)
 
@@ -1760,11 +1760,11 @@ class Sqlite
 							if(exists) {
 								//delete this (newer will not be deleted)
 								Sqlite.Delete(true, 
-										Constants.EncoderTable, Convert.ToInt32(c.uniqueID));
+										Constants.EncoderTable, Convert.ToInt32(c.UniqueID));
 							} else {
 								curvesStored.Add(msCentral);
 								SqliteEncoder.SignalCurveInsert(true, 
-										signalID, Convert.ToInt32(c.uniqueID), msCentral);
+										signalID, Convert.ToInt32(c.UniqueID), msCentral);
 							}
 						}
 					}

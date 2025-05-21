@@ -627,7 +627,7 @@ public partial class ChronoJumpWindow
 		
 		EncoderSQL es = (EncoderSQL) data[count]; //first is 0
 
-		on_encoder_load_signal_clicked (Convert.ToInt32(es.uniqueID)); //opens load window with first selected
+		on_encoder_load_signal_clicked (Convert.ToInt32(es.UniqueID)); //opens load window with first selected
 
 		genericWin.Button_accept.Click(); //this will call accepted
 
@@ -649,7 +649,7 @@ public partial class ChronoJumpWindow
 		
 		EncoderSQL es = (EncoderSQL) data[count]; //first is 0
 
-		on_encoder_load_signal_clicked (Convert.ToInt32(es.uniqueID)); //opens load window with first selected
+		on_encoder_load_signal_clicked (Convert.ToInt32(es.UniqueID)); //opens load window with first selected
 
 		genericWin.Button_accept.Click(); //this will call accepted
 

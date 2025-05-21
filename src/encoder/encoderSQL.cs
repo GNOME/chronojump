@@ -15,17 +15,14 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using Mono.Unix;
 
-public class EncoderSQL
+public class EncoderSQL : Event
 {
-	public string uniqueID;
-	public int personID;
-	public int sessionID;
 	public int exerciseID;
 	public string eccon;
 	public string laterality;
@@ -35,7 +32,6 @@ public class EncoderSQL
 	public string url;	//URL of data of signals and curves. Stored in DB as relative. Used in software as absolute. See SqliteEncoder
 	public int time;
 	public int minHeight;
-	public string description;
 	public string status;	//active or inactive curves
 	public string videoURL;	//URL of video of signals. Stored in DB as relative. Used in software as absolute. See SqliteEncoder
 	
@@ -58,7 +54,7 @@ public class EncoderSQL
 	{
 	}
 
-	public EncoderSQL (string uniqueID, int personID, int sessionID, int exerciseID, 
+	public EncoderSQL (int uniqueID, int personID, int sessionID, int exerciseID,
 			string eccon, string laterality, string extraWeight, string signalOrCurve, 
 			string filename, string url, int time, int minHeight, 
 			string description, string status, string videoURL, 
@@ -166,7 +162,7 @@ public class EncoderSQL
 
 		string [] str = new String [all];
 		int i=0;
-		str[i++] = uniqueID;
+		str[i++] = uniqueID.ToString ();
 	
 		if(checkboxes)
 			str[i++] = "";	//checkboxes

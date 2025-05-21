@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -569,10 +569,10 @@ class SqlitePersonSession : Sqlite
 			Util.FileDelete(eSQL.GetFullURL(false));	//signal, don't convertPathToR
 			if(eSQL.future2 != "")
 				Util.FileDelete(eSQL.future2);		//video
-			Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
+			Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.UniqueID));
 
 			//delete related triggers
-			SqliteTrigger.DeleteByModeID(true, Trigger.Modes.ENCODER, Convert.ToInt32(eSQL.uniqueID));
+			SqliteTrigger.DeleteByModeID(true, Trigger.Modes.ENCODER, Convert.ToInt32(eSQL.UniqueID));
 		}
 
 		//curves
@@ -587,8 +587,8 @@ class SqlitePersonSession : Sqlite
 			if(eSQL.future2 != "")
 				Util.FileDelete(eSQL.future2);
 			*/
-			Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
-			SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.uniqueID));
+			Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.UniqueID));
+			SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.UniqueID));
 		}
 
 		// 5) delete forceSensor and related triggers

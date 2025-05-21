@@ -383,7 +383,7 @@ public partial class ChronoJumpWindow
 
 	private string ecconLast;
 	private string encoderTimeStamp;
-	private string encoderSignalUniqueID;
+	private int encoderSignalUniqueID;
 
 	private EncoderAnalyzeInstant eai;
 
@@ -1326,7 +1326,7 @@ public partial class ChronoJumpWindow
 		if(action == encoderActions.CURVES_AC) 
 		{
 			encoderTimeStamp = UtilDate.ToFile(DateTime.Now);
-			encoderSignalUniqueID = "-1"; //mark to know that there's no ID for this until it's saved on database
+			encoderSignalUniqueID = -1; //mark to know that there's no ID for this until it's saved on database
 			encoderThreadStart(action);
 		} else {
 			//calculate and recalculate saves the curve at end
@@ -1422,11 +1422,11 @@ public partial class ChronoJumpWindow
 		textview_encoder_signal_comment.Buffer.Text =
 			Util.MakeValidSQL(textview_encoder_signal_comment.Buffer.Text);
 
-		LogB.Debug(encoderSignalUniqueID);
-		if(encoderSignalUniqueID != null && Convert.ToInt32(encoderSignalUniqueID) > 0) {
+		LogB.Debug(encoderSignalUniqueID.ToString ());
+		if (encoderSignalUniqueID >= 0) {
 			Sqlite.Update(false, Constants.EncoderTable, "description", "", 
 					Util.RemoveTildeAndColonAndDot(textview_encoder_signal_comment.Buffer.Text), 
-					"uniqueID", encoderSignalUniqueID);
+					"uniqueID", encoderSignalUniqueID.ToString ());
 			button_encoder_signal_save_comment.Label = Catalog.GetString("Saved comment.");
 			button_encoder_signal_save_comment.Sensitive = false;
 		}
@@ -1567,9 +1567,9 @@ public partial class ChronoJumpWindow
 	{
 		//without this we loose the videoURL on recalculate
 		string videoURL = "";		
-		if(encoderSignalUniqueID != null && encoderSignalUniqueID != "-1") {
+		if (encoderSignalUniqueID >= 0) {
 			string file = Util.GetVideoFileName(currentSession.UniqueID, 
-				Constants.TestTypes.ENCODER, Convert.ToInt32(encoderSignalUniqueID));
+				Constants.TestTypes.ENCODER, encoderSignalUniqueID);
 
 			if(file != null && file != "" && File.Exists(file))
 				videoURL = file;
@@ -1579,7 +1579,7 @@ public partial class ChronoJumpWindow
 
 		//see explanation on the top of this file
 		lastEncoderSQLSignal = new EncoderSQL(
-				"-1",
+				-1,
 				currentPerson.UniqueID,
 				currentSession.UniqueID,
 				encoderComboExerciseCaptureStoredID,
@@ -1799,11 +1799,11 @@ public partial class ChronoJumpWindow
 				-1, -1); 			//msStart, msEnd
 		if(eSQLfound)
 			SqliteEncoder.DeleteSignalCurveWithCurveID(dbconOpened, 
-					Convert.ToInt32(eSQL.uniqueID)); //delete by curveID on SignalCurve table
+					Convert.ToInt32(eSQL.UniqueID)); //delete by curveID on SignalCurve table
 		//if deleted curve is from current signal, uncheck it in encoderCaptureCurves
 		if(escArray.Count > 0) {
 			EncoderSignalCurve esc = (EncoderSignalCurve) escArray[0];
-			if(esc.signalID == Convert.ToInt32(encoderSignalUniqueID))
+			if(esc.signalID == encoderSignalUniqueID)
 				encoderCaptureSelectBySavedCurves(esc.msCentral, false);
 		}
 
@@ -1825,7 +1825,7 @@ public partial class ChronoJumpWindow
 	}
 	//this is called when user clicks on load signal
 	void on_button_encoder_load_signal_clicked (object o, EventArgs args) {
-		on_encoder_load_signal_clicked (Convert.ToInt32(encoderSignalUniqueID));
+		on_encoder_load_signal_clicked (encoderSignalUniqueID);
 	}
 	//this can be called also by guiT
 	void on_encoder_load_signal_clicked (int myEncoderSignalUniqueID) 
@@ -1950,9 +1950,9 @@ public partial class ChronoJumpWindow
 				//TODO: show info to user in a dialog,
 				//but check if more info have to be shown on this process
 
-				textview_encoder_signal_comment.Buffer.Text = eSQL.description;
+				textview_encoder_signal_comment.Buffer.Text = eSQL.Description;
 				encoderTimeStamp = eSQL.GetDatetimeStr(false);
-				encoderSignalUniqueID = eSQL.uniqueID;
+				encoderSignalUniqueID = eSQL.UniqueID;
 
 				//has to be done here, because if done in encoderThreadStart or in finishPulsebar it crashes 
 				button_video_play_this_test_encoder.Sensitive = (eSQL.videoURL != "");
@@ -2021,7 +2021,7 @@ public partial class ChronoJumpWindow
 				triggerListEncoder = new TriggerList(
 						SqliteTrigger.Select(
 							false, Trigger.Modes.ENCODER,
-							Convert.ToInt32(encoderSignalUniqueID))
+							encoderSignalUniqueID)
 						);
 				showEncoderAnalyzeTriggersAndTab();
 			}
@@ -2074,9 +2074,9 @@ public partial class ChronoJumpWindow
 		//2) if changed comment, update SQL, and update treeview
 		//first remove conflictive characters
 		string comment = Util.RemoveTildeAndColonAndDot(genericWin.EntryEditRow);
-		if(comment != eSQL_set.description)
+		if(comment != eSQL_set.Description)
 		{
-			eSQL_set.description = comment;
+			eSQL_set.Description = comment;
 			SqliteEncoder.Update(true, eSQL_set);
 
 			//update treeview
@@ -2136,7 +2136,7 @@ public partial class ChronoJumpWindow
 		LogB.Information(signalID.ToString());
 
 		//if it's current signal use the delete signal from the gui interface that updates gui
-		if(signalID == Convert.ToInt32(encoderSignalUniqueID))
+		if(signalID == encoderSignalUniqueID)
 			on_button_encoder_delete_signal_accepted (o, args);
 		else {
 			EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
@@ -3059,11 +3059,11 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_delete_signal_accepted (object o, EventArgs args) 
 	{
 		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
-				false, Convert.ToInt32(encoderSignalUniqueID), 0, 0, Constants.EncoderGI.ALL,
+				false, encoderSignalUniqueID, 0, 0, Constants.EncoderGI.ALL,
 				-1, "signal", EncoderSQL.Eccons.ALL, "", false, true, false)[0];
 
 		//delete signal and related curves (both from SQL and files)
-		encoderSignalDelete(eSQL.GetFullURL(false), Convert.ToInt32(encoderSignalUniqueID));
+		encoderSignalDelete(eSQL.GetFullURL(false), encoderSignalUniqueID);
 	
 		removeSignalFromGuiBecauseDeletedOrCancelled();
 
@@ -3072,7 +3072,7 @@ public partial class ChronoJumpWindow
 	}
 	void removeSignalFromGuiBecauseDeletedOrCancelled() 
 	{
-		encoderSignalUniqueID = "-1";
+		encoderSignalUniqueID = -1;
 		image_encoder_capture.Sensitive = false;
 		treeviewEncoderCaptureRemoveColumns();
 		updateEncoderAnalyzeExercisesPre ();
@@ -3349,7 +3349,7 @@ public partial class ChronoJumpWindow
 
 			//save it to SQL (encoderSignalCurve table)
 			SqliteEncoder.SignalCurveInsert(dbconOpened, 
-					Convert.ToInt32(encoderSignalUniqueID), curveIDMax +1,
+					encoderSignalUniqueID, curveIDMax +1,
 					Convert.ToInt32(curveStart + (duration /2)));
 
 			path = UtilEncoder.GetEncoderSessionDataCurveDir(currentSession.UniqueID);
@@ -3366,17 +3366,17 @@ public partial class ChronoJumpWindow
 			path = UtilEncoder.GetEncoderSessionDataSignalDir(currentSession.UniqueID);
 		}
 		
-		string myID = "-1";	
+		int myID = -1;
 		if(mode == "signal")
 			myID = encoderSignalUniqueID;
 
 		//assign values from lastEncoderSQLSignal (last calculate curves or reload), and change new things
 		EncoderSQL eSQL = lastEncoderSQLSignal;
-		eSQL.uniqueID = myID;
+		eSQL.UniqueID = myID;
 		eSQL.signalOrCurve = signalOrCurve;
 		eSQL.filename = fileSaved;
 		eSQL.url = path;
-		eSQL.description = desc;
+		eSQL.Description = desc;
 		if(mode == "curve") {
 			eSQL.status = "active";
 			eSQL.future1 = meanPowerStr;
@@ -3389,8 +3389,8 @@ public partial class ChronoJumpWindow
 		//if is a signal that we just loaded, then don't insert, do an update
 		//we know it because encoderUniqueID is != than "-1" if we loaded something from database
 		//This also saves curves
-		if(myID == "-1") {
-			myID = SqliteEncoder.Insert(dbconOpened, eSQL).ToString(); //Adding on SQL
+		if(myID == -1) {
+			myID = SqliteEncoder.Insert (dbconOpened, eSQL); //Adding on SQL
 			if(mode == "signal") {
 				encoderSignalUniqueID = myID;
 				feedback = Catalog.GetString("Set saved");
@@ -3399,13 +3399,13 @@ public partial class ChronoJumpWindow
 				if(preferences.videoOn) {
 					if(Util.CopyTempVideo(currentSession.UniqueID,
 								Constants.TestTypes.ENCODER,
-								Convert.ToInt32(encoderSignalUniqueID)))
+								encoderSignalUniqueID))
 					{
 						eSQL.videoURL = Util.GetVideoFileName(currentSession.UniqueID,
 								Constants.TestTypes.ENCODER,
-								Convert.ToInt32(encoderSignalUniqueID));
+								encoderSignalUniqueID);
 						//need assign uniqueID to update and add the URL of video
-						eSQL.uniqueID = encoderSignalUniqueID;
+						eSQL.UniqueID = encoderSignalUniqueID;
 						SqliteEncoder.Update(dbconOpened, eSQL);
 
 						button_video_play_this_test_encoder.Sensitive = true;
@@ -3648,7 +3648,7 @@ public partial class ChronoJumpWindow
 			{
 				LogB.Debug("Don't need to to encoderCalculeCurves");
 				encoderTimeStamp = UtilDate.ToFile(DateTime.Now);
-				encoderSignalUniqueID = "-1"; //mark to know that there's no ID for this until it's saved on database
+				encoderSignalUniqueID = -1; //mark to know that there's no ID for this until it's saved on database
 				setLastEncoderSQLSignal();
 			} else
 			{
@@ -3933,9 +3933,9 @@ public partial class ChronoJumpWindow
 
 				LogB.Debug(" AT ANALYZE 1.1 ");
 				//massBody change if we are comparing different persons or sessions
-				if(eSQL.personID != iteratingPerson || eSQL.sessionID != iteratingSession) {
+				if(eSQL.PersonID != iteratingPerson || eSQL.SessionID != iteratingSession) {
 					iteratingMassBody = SqlitePersonSession.SelectAttribute(
-							true, eSQL.personID, eSQL.sessionID, Constants.Weight);
+							true, eSQL.PersonID, eSQL.SessionID, Constants.Weight);
 				}
 				LogB.Debug(" AT ANALYZE 1.2 ");
 
@@ -3944,7 +3944,7 @@ public partial class ChronoJumpWindow
 				if(radio_encoder_analyze_groupal_current_session.Active)
 				{
 					foreach(string str in encSelReps.EncoderCompareInter)
-						if(Util.FetchID(str) == eSQL.personID)
+						if(Util.FetchID(str) == eSQL.PersonID)
 						{
 							seriesName = Util.FetchName(str);
 							//to show correctly name of person on title if there is only one serie (one person)
@@ -3956,7 +3956,7 @@ public partial class ChronoJumpWindow
 				{
 					foreach(string str in encSelReps.EncoderCompareInter) {
 						LogB.Information(str);
-						if(Util.FetchID(str) == eSQL.sessionID)
+						if(Util.FetchID(str) == eSQL.SessionID)
 							seriesName = Util.FetchName(str);
 					}
 					if(seriesName == "")
@@ -7774,7 +7774,7 @@ public partial class ChronoJumpWindow
 				{
 					bool needToAutoSaveCurve = false;
 					if(
-							encoderSignalUniqueID == "-1" &&	//if we just captured
+							encoderSignalUniqueID == -1 &&	//if we just captured
 							(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.ALL ||
 							preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BEST ||
 							preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BESTN ||
@@ -7801,7 +7801,7 @@ public partial class ChronoJumpWindow
 						LogB.Mute = preferences.muteLogs;
 
 						//1) save the triggers now that we have an encoderSignalUniqueID
-						eCapture.SaveTriggers(Convert.ToInt32(encoderSignalUniqueID)); //dbcon is closed
+						eCapture.SaveTriggers(encoderSignalUniqueID); //dbcon is closed
 						showEncoderAnalyzeTriggersAndTab();
 
 						if(encoderRProcCapture.CutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS &&
@@ -7844,8 +7844,8 @@ public partial class ChronoJumpWindow
 				 * because with a value of -1 there will be problems in 
 				 * SqliteEncoder.Select(false, Convert.ToInt32(encoderSignalUniqueID), …)
 				 */
-				LogB.Information(" encoderSignalUniqueID:" + encoderSignalUniqueID);
-				if(encoderSignalUniqueID != "-1")
+				LogB.Information(" encoderSignalUniqueID:" + encoderSignalUniqueID.ToString ());
+				if (encoderSignalUniqueID >= 0)
 				{
 					/*
 					 * (0) open Sqlite
@@ -8122,7 +8122,7 @@ public partial class ChronoJumpWindow
 
 		// get the signal
 		ArrayList array = SqliteEncoder.Select(
-				true, Convert.ToInt32(encoderSignalUniqueID), 0, 0, getEncoderGI(),
+				true, encoderSignalUniqueID, 0, 0, getEncoderGI(),
 				-1, "signal", EncoderSQL.Eccons.ALL, "",
 				false, true, false);
 
@@ -8147,24 +8147,24 @@ public partial class ChronoJumpWindow
 						encoderConfigurationCurrent.name != eSQL.encoderConfiguration.name)
 				{
 					Util.FileDelete(eSQL.GetFullURL(false));					// (1a1)
-					Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));	// (1a2)
-					SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.uniqueID)); // (1a3)
+					Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.UniqueID));	// (1a2)
+					SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.UniqueID)); // (1a3)
 					deletedUserCurves = true;
 				} else {							// (1b)
 					if(currentSignalSQL.exerciseID != eSQL.exerciseID)
 						Sqlite.Update(true, Constants.EncoderTable, "exerciseID",
 								"", currentSignalSQL.exerciseID.ToString(),
-								"uniqueID", eSQL.uniqueID.ToString());
+								"uniqueID", eSQL.UniqueID.ToString());
 
 					if(currentSignalSQL.extraWeight != eSQL.extraWeight)
 						Sqlite.Update(true, Constants.EncoderTable, "extraWeight",
 								"", currentSignalSQL.extraWeight,
-								"uniqueID", eSQL.uniqueID.ToString());
+								"uniqueID", eSQL.UniqueID.ToString());
 
 					if(currentSignalSQL.laterality != eSQL.laterality)
 						Sqlite.Update(true, Constants.EncoderTable, "laterality",
 								"", currentSignalSQL.laterality,
-								"uniqueID", eSQL.uniqueID.ToString());
+								"uniqueID", eSQL.UniqueID.ToString());
 
 					if( currentSignalSQL.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) !=
 							eSQL.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) )
@@ -8172,7 +8172,7 @@ public partial class ChronoJumpWindow
 						Sqlite.Update(true, Constants.EncoderTable, "encoderConfiguration",
 								"", currentSignalSQL.encoderConfiguration.ToStringOutput(
 									EncoderConfiguration.Outputs.SQL),
-								"uniqueID", eSQL.uniqueID.ToString());
+								"uniqueID", eSQL.UniqueID.ToString());
 					}
 				}
 			}
@@ -8198,8 +8198,8 @@ public partial class ChronoJumpWindow
 
 		//find the saved curves
 		ArrayList linkedCurves = SqliteEncoder.SelectSignalCurve(true, 
-				Convert.ToInt32(encoderSignalUniqueID), //signal
-				-1, -1, -1);				//curve, msStart,msEnd
+				encoderSignalUniqueID, 		//signal
+				-1, -1, -1);			//curve, msStart,msEnd
 		//LogB.Information("SAVED CURVES FOUND");
 		//foreach(EncoderSignalCurve esc in linkedCurves)
 		//	LogB.Information(esc.ToString());

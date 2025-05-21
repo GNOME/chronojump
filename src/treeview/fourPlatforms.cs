@@ -108,7 +108,7 @@ public class TreeViewFourPlatforms : TreeViewEvent
 		myData[count++] = ""; //2off
 		myData[count++] = ""; //3on
 		myData[count++] = ""; //3off
-		myData[count++] = UtilDate.GetDatetimePrint (UtilDate.FromFile (fp.DateTime));
+		myData[count++] = UtilDate.GetDatetimePrint (UtilDate.FromFile (fp.DateTimePublic));
 
 		if (UtilList.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.FOURPLATFORMS, fp.UniqueID)))
 			myData[count++] = Catalog.GetString ("Yes");

@@ -312,10 +312,6 @@ public class RunEncoder : Event
 		get { return temperature; }
 		set { temperature = value; }
 	}
-	public string DateTimePublic
-	{
-		get { return dateTime; }
-	}
 	public string VideoURL
 	{
 		get { return videoURL; }

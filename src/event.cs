@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -96,7 +96,8 @@ public class Event
 		get { return SqlitePerson.SelectAttribute(personID, Constants.Name); }
 	}
 
-	public string DateTime {
+	//note this was string DateTime but this gets confused with DatTime type
+	public string DateTimePublic {
 		get { return dateTime; }
 	}
 

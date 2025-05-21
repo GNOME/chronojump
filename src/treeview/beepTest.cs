@@ -102,7 +102,7 @@ public class TreeViewBeepTest : TreeViewEvent
 			vo2MaxStr = Util.TrimDecimals (beepTest.GetVo2Max, 4);
 		myData[count++] = vo2MaxStr;
 
-		myData[count++] = UtilDate.GetDatetimePrint (UtilDate.FromFile (beepTest.DateTime));
+		myData[count++] = UtilDate.GetDatetimePrint (UtilDate.FromFile (beepTest.DateTimePublic));
 		myData[count++] = beepTest.UniqueID.ToString ();
 
 		return myData;

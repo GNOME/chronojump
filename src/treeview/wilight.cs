@@ -27,7 +27,6 @@ using Mono.Unix;
 
 public class TreeViewWilight : TreeViewEvent
 {
-	protected string personName = Catalog.GetString("Person");
 	protected string totalTimeName = Catalog.GetString("Total time");
 
 	public TreeViewWilight ()

@@ -35,7 +35,6 @@ public class TreeViewFourPlatforms : TreeViewEvent
 		this.pDN = newPrefsDigitsNumber;
 		this.expandState = expandState;
 
-		string personName = Catalog.GetString ("Person");
 		string time0ONName = Catalog.GetString ("Time") + " 1 ON" + "\n(s)";
 		string time0OFFName = Catalog.GetString ("Time") + " 1 OFF" + "\n(s)";
 		string time1ONName = Catalog.GetString ("Time") + " 2 ON" + "\n(s)";

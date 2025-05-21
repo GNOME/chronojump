@@ -27,8 +27,6 @@ using Mono.Unix;
 
 public class TreeViewRunEncoder : TreeViewEvent
 {
-	protected string personName = Catalog.GetString("Person");
-
 	public TreeViewRunEncoder ()
 	{
 	}

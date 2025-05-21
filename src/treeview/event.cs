@@ -45,6 +45,9 @@ public class TreeViewEvent
 	public const int MarkRowIsPerson = -1;
 	public const int MarkNonSelectRowSubEvent = -2;
 
+	protected string personName = Catalog.GetString ("Person");
+	protected string lateralityName = Catalog.GetString ("Laterality");
+	protected string weightExtraName = Catalog.GetString("Extra weight");
 	protected string videoName = Catalog.GetString("Video");
 	protected string datetimeName = Catalog.GetString("Date");
 	protected string descriptionName = Catalog.GetString("Description");
@@ -454,7 +457,7 @@ public class TreeViewEvent
 	}
 
 	//TODO: with video here
-	public void Add (int personID, string personName, System.Object newEvent, string videoStr)
+	public void Add (int personID, string pName, System.Object newEvent, string videoStr)
 	{
 		TreeIter iter = new TreeIter();
 		TreeIter iterDeep = new TreeIter(); //only used by two levels treeviews
@@ -470,7 +473,7 @@ public class TreeViewEvent
 		if(modelNotEmpty) {
 			do {
 				iterPersonString = ( treeview.Model.GetValue (iter, 0) ).ToString();
-				if(iterPersonString == personName) {
+				if(iterPersonString == pName) {
 					found = true;
 
 					//expand the person
@@ -499,7 +502,7 @@ public class TreeViewEvent
 		//create the name, and write the event
 		if(! found)
 		{
-			iter = store.AppendValues (createPersonRow (personID, personName));
+			iter = store.AppendValues (createPersonRow (personID, pName));
 			iterDeep = store.AppendValues (iter, getLineToStore(newEvent));
 			
 			//scroll treeview if needed

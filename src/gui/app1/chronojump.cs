@@ -2119,6 +2119,12 @@ public partial class ChronoJumpWindow
 				fillTreeView_forceSensor (Constants.AllTestsNameStr (), false);
 			else if (combo_force_sensor_exercise != null)
 				fillTreeView_forceSensor (UtilGtk.ComboGetActive(combo_force_sensor_exercise), false);
+		} else if (Constants.ModeIsENCODER (current_mode))
+		{
+			if (radio_contacts_graph_allTests.Active)
+				fillTreeView_encoder (Constants.AllTestsNameStr (), false);
+			else if (combo_encoder_exercise_capture != null)
+				fillTreeView_encoder (UtilGtk.ComboGetActive (combo_encoder_exercise_capture), false);
 		} else if (current_mode == Constants.Modes.OTHER)
 		{
 			fillTreeView_fourPlatforms ("", false);

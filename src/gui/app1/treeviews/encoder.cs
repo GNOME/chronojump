@@ -31,4 +31,44 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
+	private void fillTreeView_encoder (string filter)
+	{
+		fillTreeView_encoder (filter, false);
+	}
+	private void fillTreeView_encoder (string filter, bool dbconOpened)
+	{
+		LogB.Information ("fillTreeView_encoder start");
+		if (currentSession == null) {
+			/*
+			 * This happens when the user "Imports a session": Chronojump tries to
+			 * update comboboxes, it reaches here because the comboboxes are updated
+			 * But if the user didn't have any
+			 * open session currentSession variable (see below) is null and it crashed here
+			 * (when it did currentSession.UniqueID with currentSession==null)
+			 */
+			return;
+		}
+
+		SqliteTests sqliteTests = new SqliteEncoder ();
+		string [] myValues = sqliteTests.SelectSA (dbconOpened,
+				currentSession.UniqueID, currentPersonOrAll (),
+				//"",
+				true, Constants.EncoderExerciseTable,
+				Sqlite.Orders_by.DEFAULT, 0);
+		if (Constants.ModeIsENCODER (current_mode))
+		{
+			LogB.Information ("calling treeViewResultsSession.Fill");
+			treeViewResultsSession.Fill (myValues, filter,
+					Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.ENCODER));
+		}
+
+		//if show just one person, have it expanded (optimal)
+		if (! radio_contacts_results_personAll.Active && currentPerson != null)
+		{
+			treeview_results_session.CollapseAll ();
+			((TreeViewEvent) treeViewResultsSession).ExpandOptimal();
+		} else
+			expandOrMinimizeTreeView((TreeViewEvent) treeViewResultsSession, treeview_results_session);
+	}
+
 }

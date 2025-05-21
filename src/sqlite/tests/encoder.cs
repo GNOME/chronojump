@@ -42,6 +42,7 @@ class SqliteEncoder : SqliteTests
 {
     public SqliteEncoder()
     {
+	    tableName = Constants.EncoderTable;
     }
 
     ~SqliteEncoder() { }
@@ -395,6 +396,47 @@ class SqliteEncoder : SqliteTests
             Sqlite.Close();
 
         return array;
+    }
+
+    protected override string selectSAArray (SQLiteDataReader reader)
+    {
+            //if there's no video, will be "".
+            //if there's video, will be with full path
+            string videoURL = "";
+            if (reader[15].ToString() != "")
+                videoURL = Util.MakeURLabsolute(FixOSpath(reader[15].ToString()));
+
+            string[] strFull = reader[16].ToString().Split(new char[] { ':' });
+            EncoderConfiguration econf = new EncoderConfiguration(
+                (EncoderConfiguration.Names)
+                Enum.Parse(typeof(EncoderConfiguration.Names), strFull[0]));
+            econf.ReadParamsFromSQL(strFull);
+
+	    return
+		    reader[0].ToString() + ":" + 	//person.name
+		    reader[1].ToString() + ":" +	//uniqueID
+		    reader[2].ToString() + ":" + 	//personID
+		    reader[3].ToString() + ":" + 	//sessionID
+		    reader[4].ToString() + ":" + 	//exerciseID
+		    reader[5].ToString() + ":" +            //eccon
+		    Catalog.GetString(reader[6].ToString()) + ":" + //laterality
+		    Util.ChangeDecimalSeparator(reader[7].ToString()) + ":" +   //extraWeight
+		    reader[8].ToString() + ":" +            //signalOrCurve
+		    reader[9].ToString() + ":" +            //filename
+		    Util.MakeURLabsolute(FixOSpath(reader[10].ToString())) + ":" +   //url
+		    Convert.ToInt32(reader[11].ToString()) + ":" +  //time
+		    Convert.ToInt32(reader[12].ToString()) + ":" +  //minHeight
+		    reader[13].ToString() + ":" +           //description
+		    reader[14].ToString() + ":" +           //status
+		    videoURL + ":" +                //videoURL
+		    econf.ToStringPretty() + ":" +  //encoder configuration
+		    Util.ChangeDecimalSeparator(reader[17].ToString()) + ":" +  //future1 (meanPower on curves)
+		    Util.ChangeDecimalSeparator(reader[18].ToString()) + ":" +  //future2 (meanSpeed on curves)
+		    Util.ChangeDecimalSeparator(reader[19].ToString()) + ":" +  //future3 (meanForce on curves)
+										//(Preferences.EncoderRepetitionCriteria)Enum.Parse(
+										//    typeof(Preferences.EncoderRepetitionCriteria) + ":" +  reader[20].ToString()),
+		    reader[21].ToString()           //EncoderExercise.name
+		    ;
     }
 
 

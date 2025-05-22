@@ -89,6 +89,17 @@ public class EncoderSQL : Event
 		ecconLong = EcconLong(eccon);
 	}
 
+	// constructor for TreeViewEncoder.getObjectFromString ()
+	public EncoderSQL (int uniqueID, string laterality, string extraWeight, string eccon, string description, string exerciseName)
+	{
+		this.uniqueID = uniqueID;
+		this.laterality = laterality;
+		this.extraWeight = extraWeight;
+		this.eccon = eccon;
+		this.description = description;
+		this.exerciseName = exerciseName;
+	}
+
 	public static string EcconLong (string ecconChars)
 	{
 		if(ecconChars == "c")

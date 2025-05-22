@@ -37,16 +37,16 @@ public class TreeViewEncoder : TreeViewEvent
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllRunsNameStr();
-		idColumn = 8; //column where the uniqueID of event will be (and will be hidden)
+		idColumn = 5; //column where the uniqueID of event will be (and will be hidden)
 	
 		columnsString = new string[] { 
 			personName,
 			lateralityName,
 			weightExtraName,
-			Catalog.GetString ("Encoder configuration"),
+			//Catalog.GetString ("Encoder configuration"),
 			Catalog.GetString ("Contraction"),
-			datetimeName,
-			videoName,
+//			datetimeName,
+//			videoName,
 			descriptionName
 			//	, "UNIQUEID" //just for debug
 		};
@@ -56,11 +56,19 @@ public class TreeViewEncoder : TreeViewEvent
 		prepareHeaders(columnsString);
 	}
 
-	/*
-	protected override System.Object getObjectFromString (string [] myStringOfData)
+	protected override System.Object getObjectFromString (string [] strA)
 	{
+		return new EncoderSQL (
+				Convert.ToInt32 (strA[1]), 	//uniqueID
+				strA[6],	//laterality
+				strA[7],	//extraWeight
+				strA[5], 	//eccon
+				strA[13], 	//description
+				strA[21]  	//exerciseName
+				);
 	}
 
+	/*
 	protected override string [] getLineToStore(System.Object myObject)
 	{
 	}

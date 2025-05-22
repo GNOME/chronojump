@@ -36,7 +36,7 @@ public class TreeViewEncoder : TreeViewEvent
 		treeviewHasTwoLevels = true;
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
-		allEventsName = Constants.AllRunsNameStr();
+		allEventsName = Constants.AllTestsNameStr();
 		idColumn = 5; //column where the uniqueID of event will be (and will be hidden)
 	
 		columnsString = new string[] { 
@@ -64,15 +64,27 @@ public class TreeViewEncoder : TreeViewEvent
 				strA[7],	//extraWeight
 				strA[5], 	//eccon
 				strA[13], 	//description
-				strA[21]  	//exerciseName
+				strA[20]  	//exerciseName
 				);
 	}
 
-	/*
-	protected override string [] getLineToStore(System.Object myObject)
+	protected override string [] getLineToStore (System.Object myObject)
 	{
+		EncoderSQL eSQL = (EncoderSQL) myObject;
+
+		string [] myData = new String [getColsNum()];
+		int count = 0;
+
+		myData[count++] = eSQL.exerciseName;
+		myData[count++] = Catalog.GetString (eSQL.laterality);
+		myData[count++] = eSQL.extraWeight;
+		myData[count++] = eSQL.eccon;
+		myData[count++] = eSQL.Description;
+
+		return myData;
 	}
 	
+	/*
 	protected override string [] getSubLineToStore(System.Object myObject, int lineCount)
 	{
 	}

@@ -94,6 +94,8 @@ public class Event
 
 		//this is very inneficient if we are processing a list of events, eg. jumps
 		get { return SqlitePerson.SelectAttribute(personID, Constants.Name); }
+
+		set { personName = value; }
 	}
 
 	//note this was string DateTime but this gets confused with DatTime type

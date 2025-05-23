@@ -594,6 +594,131 @@ class SqliteEncoder : SqliteTests
         return array;
     }
 
+    /*
+     * used on encoder treeviewResultsSession
+     * use this intead of the selectSSAray in order to have all the sets & reps linked
+     * this will return a llist like this
+     *
+     * list with: { eSQL set of person 1 set 1, eSQL rep 1, eSQL rep 2, eSQL rep 3, ...}
+     * list with: { eSQL set of person 1 set 2, eSQL rep 1, eSQL rep 2, eSQL rep 3, ...}
+     * list with: { eSQL set of person 1 set 3, eSQL rep 1, eSQL rep 2, eSQL rep 3, ...}
+     * list with: { eSQL set of person 2 set 1, eSQL rep 1, eSQL rep 2, eSQL rep 3, ...}
+     * ...
+     * ORDER BY here is very important to match all
+     */
+    public List<List<EncoderSQL>> SelectSetsAndRepsLList (
+		    bool dbconOpened,
+		    int personID, int sessionID, Constants.EncoderGI encoderGI, int exerciseID)
+    {
+        openIfNeeded (dbconOpened);
+
+	List<List<EncoderSQL>> eSQL_ll = new List<List<EncoderSQL>> ();
+
+	// 1 prepare the variables
+	string tp = Constants.PersonTable;
+        string encExT = Constants.EncoderExerciseTable;
+
+	string filterPersonString = "";
+	if(personID != -1)
+		filterPersonString = string.Format(" AND {0}.uniqueID = {1}", tp, personID);
+
+	string filterSessionString = "";
+	if(sessionID != -1)
+		filterSessionString = string.Format(" AND {0}.sessionID = {1}", tableName, sessionID);
+
+        string filterExerciseString = "";
+        if (exerciseID != -1)
+            filterExerciseString = string.Format (" AND {0}.exerciseID = {1}", tableName, exerciseID);
+
+	// 1 select the sets
+        dbcmd.CommandText = string.Format ("SELECT {0}.*, {1}.name, {2}.name ", tableName, encExT, tp) +
+			string.Format(" FROM {0}, {1}, {2} ", tableName, encExT, tp) +
+			string.Format(" WHERE {0}.uniqueID = {1}.personID", tp, tableName) +
+			string.Format(" AND {0}.exerciseID = {1}.uniqueID", tableName, encExT) +
+			filterPersonString +
+			filterSessionString +
+			filterExerciseString +
+			" AND signalOrCurve = 'signal' " +
+			string.Format(" ORDER BY upper({0}.name), {1}.uniqueID ", tp, tableName);
+	LogB.SQL(dbcmd.CommandText.ToString());
+
+	dbcmd.ExecuteNonQuery();
+	SQLiteDataReader reader;
+	reader = dbcmd.ExecuteReader();
+	while (reader.Read())
+	{
+		EncoderSQL eSQL = getEncoderSQL (reader, encoderGI);
+		if (eSQL == null)
+			continue;
+
+		eSQL.PersonName = reader[21].ToString ();
+
+		List<EncoderSQL> eSQL_l = new List<EncoderSQL> (); // create eSQL_l list for this set
+		eSQL_l.Add (eSQL); 				// add the set
+		eSQL_ll.Add (eSQL_l);				// add the list to eSQL_ll
+	}
+        reader.Close();
+	if (eSQL_ll.Count == 0)
+		return eSQL_ll;
+
+	/*
+	// debug
+	LogB.Information (string.Format ("List at end of 1, count: {0}", eSQL_ll.Count));
+	foreach (List<EncoderSQL> eSQL_l in eSQL_ll)
+		LogB.Information (((EncoderSQL) eSQL_l[0]).ToString ());
+	*/
+
+	// 2 select the reps (getting also the EncoderSignalCurve.signalID to link with the sets
+        string encSCT = Constants.EncoderSignalCurveTable;
+        dbcmd.CommandText = string.Format ("SELECT {0}.*, {1}.name, {2}.name, {3}.signalID, {3}.msCentral", tableName, encExT, tp, encSCT) +
+			string.Format(" FROM {0}, {1}, {2}, {3} ", tableName, encExT, tp, encSCT) +
+			string.Format(" WHERE {0}.uniqueID = {1}.personID", tp, tableName) +
+			string.Format(" AND {0}.exerciseID = {1}.uniqueID", tableName, encExT) +
+			string.Format(" AND {0}.uniqueID = {1}.curveID", tableName, encSCT) +
+			filterPersonString +
+			filterSessionString +
+			filterExerciseString +
+			" AND signalOrCurve = 'curve' " +
+			string.Format(" ORDER BY upper({0}.name), {1}.signalID, {1}.msCentral ", tp, encSCT);
+	LogB.SQL(dbcmd.CommandText.ToString());
+
+	dbcmd.ExecuteNonQuery();
+	reader = dbcmd.ExecuteReader();
+	int eSQL_ll_count = 0;
+	//LogB.Information ("at reps while");
+	while (reader.Read())
+	{
+		EncoderSQL eSQL = getEncoderSQL (reader, encoderGI);
+		if (eSQL == null)
+			continue;
+
+		//LogB.Information (eSQL.ToString ());
+		eSQL.PersonName = reader[21].ToString ();
+		int signalIDofThisRep = Convert.ToInt32 (reader[22].ToString ());
+
+		// a) if rep signalID is lower than eSQL_ll_count, this is orphan for some reason (a bug), discard
+		if ( signalIDofThisRep < ((EncoderSQL) eSQL_ll[eSQL_ll_count][0]).UniqueID )
+			continue;
+
+		// b) if rep signalID is higher than eSQL_ll_count, just increase eSQL_ll_count
+		while (eSQL_ll_count < eSQL_ll.Count &&
+				signalIDofThisRep > ((EncoderSQL) eSQL_ll[eSQL_ll_count][0]).UniqueID)
+			eSQL_ll_count ++;
+
+		if (eSQL_ll_count >= eSQL_ll.Count)
+			break;
+
+		// c) if they match, add to this list
+		if ( ((EncoderSQL) eSQL_ll[eSQL_ll_count][0]).UniqueID == signalIDofThisRep)
+			eSQL_ll[eSQL_ll_count].Add (eSQL);
+	}
+        reader.Close();
+
+	closeIfNeeded (dbconOpened);
+
+	return eSQL_ll;
+    }
+
     public static ArrayList SelectSessionOverviewSets(bool dbconOpened, Constants.EncoderGI encoderGI, int sessionID)
     {
         if (!dbconOpened)

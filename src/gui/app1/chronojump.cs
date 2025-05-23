@@ -1393,6 +1393,11 @@ public partial class ChronoJumpWindow
 
 		//UtilList.ListRandomize1stAndThenSequentialTest ();
 		//PointF.TestSortListXDescending ();
+
+		/*
+		SqliteEncoder se = new SqliteEncoder ();
+		se.TestSelectSetsAndRepsLList (false, -1, 283, Constants.EncoderGI.GRAVITATORY, -1);
+		*/
 	}
 
 /*

@@ -719,6 +719,25 @@ class SqliteEncoder : SqliteTests
 	return eSQL_ll;
     }
 
+    public void TestSelectSetsAndRepsLList (bool dbconOpened,
+		    int personID, int sessionID, Constants.EncoderGI encoderGI, int exerciseID)
+    {
+	    List<List<EncoderSQL>> eSQL_ll = SelectSetsAndRepsLList (dbconOpened,
+			    personID, sessionID, encoderGI, exerciseID);
+
+	    int l0count = 0;
+	    foreach (List<EncoderSQL> eSQL_l in eSQL_ll)
+	    {
+		    int l1count = 0;
+		    foreach (EncoderSQL eSQL in eSQL_l)
+		    {
+			    LogB.Information (string.Format ("l0count: {0}, l1count: {1}, eSQL: {2}", l0count, l1count, eSQL));
+			    l1count ++;
+		    }
+		    l0count ++;
+	    }
+    }
+
     public static ArrayList SelectSessionOverviewSets(bool dbconOpened, Constants.EncoderGI encoderGI, int sessionID)
     {
         if (!dbconOpened)

@@ -1572,7 +1572,7 @@ public partial class ChronoJumpWindow
 			if(configChronojump.CompujumpStationMode == Constants.Modes.POWERINERTIAL)
 				type = Constants.EncoderGI.INERTIAL;
 
-			ArrayList encoderExercisesOnLocal = SqliteEncoder.SelectEncoderExercises(false, -1, false, type);
+			ArrayList encoderExercisesOnLocal = SqliteEncoderExercise.SelectEncoderExercises(false, -1, false, type);
 			List<EncoderExercise> exRemote_list = json.GetEncoderStationExercises (configChronojump.CompujumpStationID, type);
 
 			foreach(EncoderExercise exRemote in exRemote_list)
@@ -1587,7 +1587,7 @@ public partial class ChronoJumpWindow
 
 				if(! found)
 				{
-					SqliteEncoder.InsertExercise(
+					SqliteEncoderExercise.InsertExercise(
 							false, exRemote.uniqueID, exRemote.name, exRemote.percentBodyWeight,
 							"", "", Util.ConvertToPoint(exRemote.Speed1RM), type);
 					updateEncoderExercisesGui(exRemote.name);

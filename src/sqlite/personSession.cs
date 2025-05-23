@@ -588,7 +588,7 @@ class SqlitePersonSession : Sqlite
 				Util.FileDelete(eSQL.future2);
 			*/
 			Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.UniqueID));
-			SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.UniqueID));
+			SqliteEncoderSignalCurve.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.UniqueID));
 		}
 
 		// 5) delete forceSensor and related triggers

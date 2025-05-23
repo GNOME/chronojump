@@ -286,7 +286,7 @@ public partial class ChronoJumpWindow
 					Convert.ToDouble(curveNext.Duration);
 			}
 
-			ArrayList signalCurves = SqliteEncoder.SelectSignalCurve(dbconOpened,
+			ArrayList signalCurves = SqliteEncoderSignalCurve.SelectSignalCurve(dbconOpened,
 					Convert.ToInt32(encoderSignalUniqueID), -1, 
 					msStart, msEnd);
 			foreach(EncoderSignalCurve esc in signalCurves)

@@ -354,7 +354,7 @@ class SqlitePreferences : Sqlite
 				Insert (EncoderRepetitionCriteriaInertialStr, Preferences.EncoderRepetitionCriteria.CON.ToString(), dbcmdTr);
 
 				ArrayList encoderExercises =
-					SqliteEncoder.SelectEncoderExercises(true, -1, true, Constants.EncoderGI.ALL, dbcmdTr);
+					SqliteEncoderExercise.SelectEncoderExercises(true, -1, true, Constants.EncoderGI.ALL, dbcmdTr);
 
 				if(encoderExercises.Count > 0) {
 					EncoderExercise ex = (EncoderExercise) encoderExercises[0];

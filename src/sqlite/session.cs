@@ -1157,7 +1157,7 @@ class SqliteSession : Sqlite
 				   Util.FileDelete(eSQL.videoURL);
 				   */
                 Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.UniqueID));
-                SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.UniqueID));
+                SqliteEncoderSignalCurve.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.UniqueID));
 
                 //delete related triggers
                 SqliteTrigger.DeleteByModeID(true, Trigger.Modes.ENCODER, Convert.ToInt32(eSQL.UniqueID));

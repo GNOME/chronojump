@@ -340,9 +340,22 @@ class SqliteEncoder : SqliteTests
 
         ArrayList array = new ArrayList(1);
 
-        EncoderSQL eSQL = new EncoderSQL();
         while (reader.Read())
         {
+		EncoderSQL eSQL = getEncoderSQL (reader, encoderGI);
+		if (eSQL != null)
+			array.Add(eSQL);
+        }
+
+        reader.Close();
+        if (!dbconOpened)
+            Sqlite.Close();
+
+        return array;
+    }
+
+    private static EncoderSQL getEncoderSQL (SQLiteDataReader reader, Constants.EncoderGI encoderGI)
+    {
             string[] strFull = reader[15].ToString().Split(new char[] { ':' });
             EncoderConfiguration econf = new EncoderConfiguration(
                 (EncoderConfiguration.Names)
@@ -351,11 +364,9 @@ class SqliteEncoder : SqliteTests
 
             //if encoderGI != ALL discard non wanted repetitions
             if (encoderGI == Constants.EncoderGI.GRAVITATORY && econf.has_inertia)
-                continue;
+                return null;
             else if (encoderGI == Constants.EncoderGI.INERTIAL && !econf.has_inertia)
-                continue;
-
-            LogB.Debug("EncoderConfiguration = " + econf.ToStringOutput(EncoderConfiguration.Outputs.SQL));
+                return null;
 
             //if there's no video, will be "".
             //if there's video, will be with full path
@@ -364,7 +375,7 @@ class SqliteEncoder : SqliteTests
                 videoURL = Util.MakeURLabsolute(FixOSpath(reader[14].ToString()));
 
             //LogB.SQL(econf.ToString(":", true));
-            eSQL = new EncoderSQL(
+            EncoderSQL eSQL = new EncoderSQL(
                     Convert.ToInt32(reader[0].ToString()),  //uniqueID
                     Convert.ToInt32(reader[1].ToString()),  //personID	
                     Convert.ToInt32(reader[2].ToString()),  //sessionID
@@ -388,14 +399,8 @@ class SqliteEncoder : SqliteTests
                         typeof(Preferences.EncoderRepetitionCriteria), reader[19].ToString()),
                     reader[20].ToString()           //EncoderExercise.name
                     );
-            array.Add(eSQL);
-        }
 
-        reader.Close();
-        if (!dbconOpened)
-            Sqlite.Close();
-
-        return array;
+	    return eSQL;
     }
 
     //note this is returning signals and curves, so it is wrong

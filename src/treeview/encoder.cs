@@ -56,6 +56,42 @@ public class TreeViewEncoder : TreeViewEvent
 		prepareHeaders(columnsString);
 	}
 
+	public override void FillEncoder (List<List<EncoderSQL>> eSQL_ll, string filterExercise, List<string> videos_l)
+	{
+		LogB.Information ("called Fill Encoder");
+		this.videos_l = videos_l;
+
+		TreeIter iter = new TreeIter();
+		TreeIter iterDeep = new TreeIter(); //only used by two levels treeviews
+		int tempPersonID = -1; //one value that's not possible
+
+		foreach (List<EncoderSQL> eSQL_l in eSQL_ll)
+		{
+			EncoderSQL eSQL0 = (EncoderSQL) eSQL_l[0]; //to have code a bit clearer
+
+			//show always the names of persons ...
+			if (tempPersonID != eSQL0.PersonID)
+			{
+				iter = store.AppendValues (createPersonRow (eSQL0.PersonID, eSQL0.PersonName));
+				tempPersonID = eSQL0.PersonID;
+			}
+
+			//... but if we selected one type of test of this mode and this it's not the type, don't show
+			if (filterExercise == allEventsName || filterExercise == Catalog.GetString (eSQL0.exerciseName))
+			{
+				//getLineToStoreFromString is overriden in two level treeviews
+				iterDeep = store.AppendValues (iter, getLineToStore (eSQL0));
+				if (treeviewHasTwoLevels)
+				{
+					//addStatisticInfo (iterDeep, myEvent);
+					for (int i = 1; i < eSQL_l.Count; i ++)
+						store.AppendValues (iterDeep, getSubLineToStore (eSQL_l[i], i));
+				}
+			}
+		}
+	}
+
+
 	protected override System.Object getObjectFromString (string [] strA)
 	{
 		return new EncoderSQL (
@@ -83,12 +119,25 @@ public class TreeViewEncoder : TreeViewEvent
 
 		return myData;
 	}
-	
-	/*
-	protected override string [] getSubLineToStore(System.Object myObject, int lineCount)
+
+	// TODO: add meanPower, meanSpeed, meanForce
+	protected override string [] getSubLineToStore (System.Object myObject, int i)
 	{
+		EncoderSQL eSQL = (EncoderSQL) myObject;
+
+		string [] myData = new String [getColsNum()];
+		int count = 0;
+
+		myData[count++] = i.ToString ();
+		myData[count++] = Catalog.GetString (eSQL.laterality);
+		myData[count++] = eSQL.extraWeight;
+		myData[count++] = eSQL.eccon;
+		myData[count++] = eSQL.Description;
+
+		return myData;
 	}
 
+	/*
 	protected override string [] printTotal (System.Object myObject)
 	{
 	}

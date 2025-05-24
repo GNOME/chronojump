@@ -289,6 +289,11 @@ public class TreeViewEvent
 		}
 	}
 
+	//TODO: if more tests send their objects, send List<List<Event>> or List<Event>
+	public virtual void FillEncoder (List<List<EncoderSQL>> eSQL_ll, string filterExercise, List<string> videos_l)
+	{
+	}
+
 	//used on Fill
 	private string [] createPersonRow (string [] strFull)
 	{
@@ -301,8 +306,8 @@ public class TreeViewEvent
 		row[i] = (Convert.ToInt32 (strFull[personIdColumn])).ToString ();
 		return row;
 	}
-	//used on Add
-	private string [] createPersonRow (int id, string name)
+	//used on Add, and on FillEncoder
+	protected string [] createPersonRow (int id, string name)
 	{
 		string [] row = new String [idColumn +1];
 		row[0] = name;

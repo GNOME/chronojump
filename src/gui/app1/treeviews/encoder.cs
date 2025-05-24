@@ -49,7 +49,9 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		/*
 		SqliteTests sqliteTests = new SqliteEncoder ();
+
 		string [] myValues = sqliteTests.SelectSA (dbconOpened,
 				currentSession.UniqueID, currentPersonOrAll (),
 				//"",
@@ -61,6 +63,17 @@ public partial class ChronoJumpWindow
 			treeViewResultsSession.Fill (myValues, filter,
 					Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.ENCODER));
 		}
+		*/
+
+		if (! Constants.ModeIsENCODER (current_mode))
+			return;
+
+		SqliteEncoder sqliteEncoder = new SqliteEncoder ();
+		List<List<EncoderSQL>> eSQL_ll = sqliteEncoder.SelectSetsAndRepsLList (dbconOpened,
+				currentPersonOrAll (), currentSession.UniqueID, currentEncoderGI, -1);
+
+		treeViewResultsSession.FillEncoder (eSQL_ll, filter,
+				Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.ENCODER));
 
 		//if show just one person, have it expanded (optimal)
 		if (! radio_contacts_results_personAll.Active && currentPerson != null)

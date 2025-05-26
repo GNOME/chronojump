@@ -37,7 +37,7 @@ public class TreeViewEncoder : TreeViewEvent
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllTestsNameStr();
-		idColumn = 5; //column where the uniqueID of event will be (and will be hidden)
+		idColumn = 8; //column where the uniqueID of event will be (and will be hidden)
 	
 		columnsString = new string[] { 
 			personName,
@@ -45,6 +45,9 @@ public class TreeViewEncoder : TreeViewEvent
 			weightExtraName,
 			//Catalog.GetString ("Encoder configuration"),
 			Catalog.GetString ("Contraction"),
+			Catalog.GetString ("Mean power"),
+			Catalog.GetString ("Mean speed"),
+			Catalog.GetString ("Mean force"),
 //			datetimeName,
 //			videoName,
 			descriptionName
@@ -92,6 +95,8 @@ public class TreeViewEncoder : TreeViewEvent
 	}
 
 
+	/*
+	 * unused as we used FillEncoder instead of Event.Fill
 	protected override System.Object getObjectFromString (string [] strA)
 	{
 		return new EncoderSQL (
@@ -103,6 +108,7 @@ public class TreeViewEncoder : TreeViewEvent
 				strA[20]  	//exerciseName
 				);
 	}
+	*/
 
 	protected override string [] getLineToStore (System.Object myObject)
 	{
@@ -115,6 +121,9 @@ public class TreeViewEncoder : TreeViewEvent
 		myData[count++] = Catalog.GetString (eSQL.laterality);
 		myData[count++] = eSQL.extraWeight;
 		myData[count++] = eSQL.eccon;
+		myData[count++] = ""; //meanPower
+		myData[count++] = ""; //meanSpeed
+		myData[count++] = ""; //meanForce
 		myData[count++] = eSQL.Description;
 
 		return myData;
@@ -129,10 +138,13 @@ public class TreeViewEncoder : TreeViewEvent
 		int count = 0;
 
 		myData[count++] = i.ToString ();
-		myData[count++] = Catalog.GetString (eSQL.laterality);
-		myData[count++] = eSQL.extraWeight;
-		myData[count++] = eSQL.eccon;
-		myData[count++] = eSQL.Description;
+		myData[count++] = ""; //Catalog.GetString (eSQL.laterality);
+		myData[count++] = ""; //eSQL.extraWeight;
+		myData[count++] = ""; //eSQL.eccon;
+		myData[count++] = eSQL.meanPower;
+		myData[count++] = eSQL.meanSpeed;
+		myData[count++] = eSQL.meanForce;
+		myData[count++] = ""; //eSQL.Description;
 
 		return myData;
 	}
@@ -141,11 +153,9 @@ public class TreeViewEncoder : TreeViewEvent
 	protected override string [] printTotal (System.Object myObject)
 	{
 	}
-	
 	protected override string [] printAVG (System.Object myObject)
 	{
 	}
-
 	protected override string [] printSD (System.Object myObject)
 	{
 	}

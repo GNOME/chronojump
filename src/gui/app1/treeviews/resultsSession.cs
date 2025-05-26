@@ -126,28 +126,26 @@ public partial class ChronoJumpWindow
 				current_mode == Constants.Modes.RUNSSIMPLE ||
 				current_mode == Constants.Modes.BEEPTEST ||
 				current_mode == Constants.Modes.WILIGHT)
-			on_treeview_test_simple_cursor_changed (false); // 1 level, no load set
+			on_treeview_test_cursor_changed (false); // no load set
 		else if (Constants.ModeIsFORCESENSOR (current_mode) ||
-//				Constants.ModeIsENCODER (current_mode) ||
+				Constants.ModeIsENCODER (current_mode) ||
 				current_mode == Constants.Modes.RUNSENCODER)
 		{
 			pre_fillTreeView_resultsSession_NO = true; //see comment on gui/app1/chronojumpPersons.cs
-			on_treeview_test_simple_cursor_changed (true); // 1 level, load set
+			on_treeview_test_cursor_changed (true); // load set
 			pre_fillTreeView_resultsSession_NO = false;
 		} else {
-			// 2 levels
+			// other tests with specific functions (not necessarily all 2 levels, because encoder does not go here)
 			if (current_mode == Constants.Modes.JUMPSREACTIVE)
 				on_treeview_jumps_rj_cursor_changed (o, args);
 			else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 				on_treeview_runs_interval_cursor_changed (o, args);
-//			else if (Constants.ModeIsENCODER (current_mode))
-//				on_treeview_encoder_cursor_changed (o, args); //2 level & load set
 			else if (current_mode == Constants.Modes.OTHER) 	//FOURPLATFORMS
 				on_treeview_fourPlatforms_cursor_changed (o, args);
 		}
 	}
 
-	private void on_treeview_test_simple_cursor_changed (bool loadSet)
+	private void on_treeview_test_cursor_changed (bool loadSet)
 	{
 		sensitiveLastTestButtons(false);
 
@@ -159,8 +157,8 @@ public partial class ChronoJumpWindow
 
 			if (Constants.ModeIsFORCESENSOR (current_mode))
 				blankForceSensorInterface ();
-//			else if (Constants.ModeIsENCODER (current_mode))
-//				blankEncoderInterface ();
+			//else if (Constants.ModeIsENCODER (current_mode))
+			//	blankEncoderInterface ();
 			else if (current_mode == Constants.Modes.RUNSENCODER)
 				blankRunEncoderInterface ();
 		} else {
@@ -171,7 +169,10 @@ public partial class ChronoJumpWindow
 					forceSensorLoadSignalAcceptedDo (treeViewResultsSession.EventSelectedID, -1, currentSession.UniqueID, ForceSensor.GetElasticIntFromMode (current_mode), false);
 				else if (Constants.ModeIsENCODER (current_mode))
 				{
-//					forceSensorLoadSignalAcceptedDo (treeViewResultsSession.EventSelectedID, -1, currentSession.UniqueID, ForceSensor.GetElasticIntFromMode (current_mode), false);
+					if (treeViewResultsSession.EventSelectedID == TreeViewEvent.MarkNonSelectRowSubEvent)
+						treeViewResultsSession.SelectEventHeaderLine();
+
+					on_encoder_load_signal_accepted_do (treeViewResultsSession.EventSelectedID);
 				}
 				else //if current_mode == Constants.Modes.RUNSENCODER)
 					runEncoderLoadSetDo (treeViewResultsSession.EventSelectedID, -1, currentSession.UniqueID, false);

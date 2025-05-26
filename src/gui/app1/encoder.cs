@@ -1909,6 +1909,11 @@ public partial class ChronoJumpWindow
 
 		genericWin.HideAndNull();
 
+		on_encoder_load_signal_accepted_do (uniqueID);
+	}
+
+	protected void on_encoder_load_signal_accepted_do (int uniqueID)
+	{
 		sensitiveGuiEventDoing (false);
 
 		ArrayList data = SqliteEncoder.Select(

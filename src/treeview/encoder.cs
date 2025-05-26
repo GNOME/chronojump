@@ -51,7 +51,7 @@ public class TreeViewEncoder : TreeViewEvent
 //			datetimeName,
 //			videoName,
 			descriptionName
-			//	, "UNIQUEID" //just for debug
+//				, "UNIQUEID" //just for debug
 		};
 
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
@@ -201,6 +201,7 @@ public class TreeViewEncoder : TreeViewEvent
 		myData[count++] = ""; //meanSpeed
 		myData[count++] = ""; //meanForce
 		myData[count++] = eSQL.Description;
+		myData[count++] = eSQL.UniqueID.ToString ();
 
 		return myData;
 	}
@@ -221,6 +222,7 @@ public class TreeViewEncoder : TreeViewEvent
 		myData[count++] = eSQL.meanSpeed;
 		myData[count++] = eSQL.meanForce;
 		myData[count++] = ""; //eSQL.Description;
+		myData[count++] = MarkNonSelectRowSubEvent.ToString ();
 
 		return myData;
 	}

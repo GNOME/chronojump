@@ -70,7 +70,7 @@ public partial class ChronoJumpWindow
 
 		SqliteEncoder sqliteEncoder = new SqliteEncoder ();
 		List<List<EncoderSQL>> eSQL_ll = sqliteEncoder.SelectSetsAndRepsLList (dbconOpened,
-				currentPersonOrAll (), currentSession.UniqueID, currentEncoderGI, -1);
+				currentPersonOrAll (), currentSession.UniqueID, currentEncoderGI, -1, -1);
 
 		treeViewResultsSession.FillEncoder (eSQL_ll, filter,
 				Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.ENCODER));

@@ -94,6 +94,82 @@ public class TreeViewEncoder : TreeViewEvent
 		}
 	}
 
+	public override void AddEncoder (int personID, string pName, List<List<EncoderSQL>> eSQL_ll, string videoStr)
+	{
+		if (eSQL_ll.Count == 0)
+			return;
+
+		List<EncoderSQL> eSQL_l = eSQL_ll[0];
+		if (eSQL_l.Count == 0)
+			return;
+
+		EncoderSQL eSQL0 = (EncoderSQL) eSQL_l[0]; //to have code a bit clearer
+
+		TreeIter iter = new TreeIter();
+		TreeIter iterDeep = new TreeIter(); //only used by two levels treeviews
+		bool modelNotEmpty = treeview.Model.GetIterFirst ( out iter ) ;
+		string iterPersonString;
+		bool found = false;
+
+		//on Add blank videos_l and if video the just add this one
+		videos_l = new List<string> ();
+		if (videoStr != "")
+			videos_l.Add (videoStr);
+
+		if(modelNotEmpty) {
+			do {
+				iterPersonString = ( treeview.Model.GetValue (iter, 0) ).ToString();
+				if(iterPersonString == pName) {
+					found = true;
+
+					//expand the person
+					treeview.ExpandToPath( treeview.Model.GetPath(iter) );
+
+					//getLineToStore is overriden in two level treeviews
+					iterDeep = store.AppendValues (iter, getLineToStore (eSQL0));
+
+					//select the test
+					treeview.Selection.SelectIter(iterDeep);
+
+					TreePath path = store.GetPath (iterDeep);
+					treeview.ScrollToCell (path, null, true, 0, 0);
+
+					if(treeviewHasTwoLevels)
+					{
+						//addStatisticInfo (iterDeep, myEvent);
+						for (int i = 1; i < eSQL_l.Count; i ++)
+							store.AppendValues (iterDeep, getSubLineToStore (eSQL_l[i], i));
+					}
+				}
+			} while (treeview.Model.IterNext (ref iter));
+		}
+
+		//if the person has not done this kind of event in this session, it's name doesn't appear in the treeview
+		//create the name, and write the event
+		if(! found)
+		{
+			iter = store.AppendValues (createPersonRow (personID, pName));
+			iterDeep = store.AppendValues (iter, getLineToStore (eSQL0));
+
+			//scroll treeview if needed
+			TreePath path = store.GetPath (iterDeep);
+			treeview.ScrollToCell (path, null, true, 0, 0);
+
+			if(treeviewHasTwoLevels)
+			{
+				//addStatisticInfo (iterDeep, myEvent);
+				for (int i = 1; i < eSQL_l.Count; i ++)
+					store.AppendValues (iterDeep, getSubLineToStore (eSQL_l[i], i));
+			}
+
+			//expand the person
+			treeview.ExpandToPath( treeview.Model.GetPath(iter) );
+
+			//select the test
+			treeview.Selection.SelectIter(iterDeep);
+		}
+	}
+
 
 	/*
 	 * unused as we used FillEncoder instead of Event.Fill

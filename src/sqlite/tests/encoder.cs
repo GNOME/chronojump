@@ -608,7 +608,8 @@ class SqliteEncoder : SqliteTests
      */
     public List<List<EncoderSQL>> SelectSetsAndRepsLList (
 		    bool dbconOpened,
-		    int personID, int sessionID, Constants.EncoderGI encoderGI, int exerciseID)
+		    int personID, int sessionID, Constants.EncoderGI encoderGI, int exerciseID,
+		    int signalID) //used after capture on treeviewResultsSession.Add () to get just that signal and repetitions in same format that Fill. On Fill just use -1 here
     {
         openIfNeeded (dbconOpened);
 
@@ -630,6 +631,10 @@ class SqliteEncoder : SqliteTests
         if (exerciseID != -1)
             filterExerciseString = string.Format (" AND {0}.exerciseID = {1}", tableName, exerciseID);
 
+	string filterSignalString = "";
+	if (signalID >= 0)
+		filterSignalString = string.Format (" AND {0}.uniqueID = {1}", tableName, signalID);
+
 	// 1 select the sets
         dbcmd.CommandText = string.Format ("SELECT {0}.*, {1}.name, {2}.name ", tableName, encExT, tp) +
 			string.Format(" FROM {0}, {1}, {2} ", tableName, encExT, tp) +
@@ -638,6 +643,7 @@ class SqliteEncoder : SqliteTests
 			filterPersonString +
 			filterSessionString +
 			filterExerciseString +
+			filterSignalString +
 			" AND signalOrCurve = 'signal' " +
 			string.Format(" ORDER BY upper({0}.name), {1}.uniqueID ", tp, tableName);
 	LogB.SQL(dbcmd.CommandText.ToString());
@@ -670,6 +676,11 @@ class SqliteEncoder : SqliteTests
 
 	// 2 select the reps (getting also the EncoderSignalCurve.signalID to link with the sets
         string encSCT = Constants.EncoderSignalCurveTable;
+
+	filterSignalString = "";
+	if (signalID >= 0)
+		filterSignalString = string.Format (" AND {0}.signalID = {1}", encSCT, signalID);
+
         dbcmd.CommandText = string.Format ("SELECT {0}.*, {1}.name, {2}.name, {3}.signalID, {3}.msCentral", tableName, encExT, tp, encSCT) +
 			string.Format(" FROM {0}, {1}, {2}, {3} ", tableName, encExT, tp, encSCT) +
 			string.Format(" WHERE {0}.uniqueID = {1}.personID", tp, tableName) +
@@ -678,6 +689,7 @@ class SqliteEncoder : SqliteTests
 			filterPersonString +
 			filterSessionString +
 			filterExerciseString +
+			filterSignalString +
 			" AND signalOrCurve = 'curve' " +
 			string.Format(" ORDER BY upper({0}.name), {1}.signalID, {1}.msCentral ", tp, encSCT);
 	LogB.SQL(dbcmd.CommandText.ToString());
@@ -720,10 +732,10 @@ class SqliteEncoder : SqliteTests
     }
 
     public void TestSelectSetsAndRepsLList (bool dbconOpened,
-		    int personID, int sessionID, Constants.EncoderGI encoderGI, int exerciseID)
+		    int personID, int sessionID, Constants.EncoderGI encoderGI, int exerciseID, int signalID)
     {
 	    List<List<EncoderSQL>> eSQL_ll = SelectSetsAndRepsLList (dbconOpened,
-			    personID, sessionID, encoderGI, exerciseID);
+			    personID, sessionID, encoderGI, exerciseID, signalID);
 
 	    int l0count = 0;
 	    foreach (List<EncoderSQL> eSQL_l in eSQL_ll)

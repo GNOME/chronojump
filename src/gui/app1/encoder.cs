@@ -7769,7 +7769,7 @@ public partial class ChronoJumpWindow
 
 				button_encoder_signal_save_comment.Label = Catalog.GetString("Save comment");
 				button_encoder_signal_save_comment.Sensitive = false;
-		
+
 				//autosave signal (but not in load)
 				if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC)
 				{
@@ -7798,6 +7798,13 @@ public partial class ChronoJumpWindow
 
 					if(action == encoderActions.CURVES_AC)
 					{
+						SqliteEncoder se = new SqliteEncoder ();
+						treeViewResultsSession.AddEncoder (currentPerson.UniqueID, currentPerson.Name,
+								se.SelectSetsAndRepsLList (
+									false, currentPerson.UniqueID, currentSession.UniqueID,
+									currentEncoderGI, lastEncoderSQLSignal.exerciseID, encoderSignalUniqueID),
+								"");
+
 						//1) unMute logs if preferences.muteLogs == false
 						LogB.Mute = preferences.muteLogs;
 

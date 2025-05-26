@@ -528,7 +528,12 @@ public class TreeViewEvent
 			treeview.Selection.SelectIter(iterDeep);
 		}
 	}
-		
+
+	//TODO: if more tests send their objects, send List<List<Event>> or List<Event>
+	public virtual void AddEncoder (int personID, string pName, List<List<EncoderSQL>> eSQL_ll, string videoStr)
+	{
+	}
+
 	private void deleteParentIfEmpty(TreeIter iter) {
 		if( ! treeview.Model.IterHasChild(iter) ) 
 			store.Remove(ref iter);

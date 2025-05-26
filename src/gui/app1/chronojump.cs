@@ -1396,7 +1396,7 @@ public partial class ChronoJumpWindow
 
 		/*
 		SqliteEncoder se = new SqliteEncoder ();
-		se.TestSelectSetsAndRepsLList (false, -1, 283, Constants.EncoderGI.GRAVITATORY, -1);
+		se.TestSelectSetsAndRepsLList (false, -1, 283, Constants.EncoderGI.GRAVITATORY, -1, -1);
 		*/
 	}
 

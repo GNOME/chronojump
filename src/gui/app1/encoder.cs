@@ -3082,7 +3082,7 @@ public partial class ChronoJumpWindow
 		image_encoder_capture.Sensitive = false;
 		treeviewEncoderCaptureRemoveColumns();
 		updateEncoderAnalyzeExercisesPre ();
-		cairoPaintBarsPreRealTime = new CairoPaintBarplotPreEncoder (
+		cairoPaintBarsPreCurrent = new CairoPaintBarplotPreEncoder (
 				encoder_capture_curves_bars_drawingarea_cairo,
 				preferences.fontTypeToGraph());
 		prepareEventGraphBarplotEncoder = null; //to avoid is repainted again, and sound be repeated;
@@ -5978,7 +5978,7 @@ public partial class ChronoJumpWindow
 		captureCurvesBarsData_l = new List<EncoderBarsData> ();
 
 		//erase cairo barplot
-		cairoPaintBarsPreRealTime = new CairoPaintBarplotPreEncoder (
+		cairoPaintBarsPreCurrent = new CairoPaintBarplotPreEncoder (
 			encoder_capture_curves_bars_drawingarea_cairo,
 			preferences.fontTypeToGraph());
 		prepareEventGraphBarplotEncoder = null; //to avoid is repainted again, and sound be repeated;
@@ -6252,11 +6252,11 @@ public partial class ChronoJumpWindow
 	public void on_encoder_capture_curves_bars_drawingarea_cairo_button_press_event (object o, ButtonPressEventArgs args)
 	{
 		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_button_press_event 0");
-		if(cairoPaintBarsPreRealTime == null) //TODO: check also that is the encoder graph and not jumps or whatever
+		if(cairoPaintBarsPreCurrent == null) //TODO: check also that is the encoder graph and not jumps or whatever
 			return;
 
 		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_button_press_event 1");
-		int repetition = cairoPaintBarsPreRealTime.FindBarInPixel (args.Event.X, args.Event.Y);
+		int repetition = cairoPaintBarsPreCurrent.FindBarInPixel (args.Event.X, args.Event.Y);
 		//LogB.Information("Repetition: " + repetition.ToString());
 		if(repetition >= 0)
 		{
@@ -6275,7 +6275,7 @@ public partial class ChronoJumpWindow
 
 		//if object not defined or not defined fo this mode, return
 //TODO: is fist check really needed?
-//		if(cairoPaintBarsPreRealTime == null || ! cairoPaintBarsPreRealTime.ModeMatches (current_mode))
+//		if(cairoPaintBarsPreCurrent == null || ! cairoPaintBarsPreCurrent.ModeMatches (current_mode))
 //			return;
 
 		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_draw B");
@@ -6299,13 +6299,13 @@ public partial class ChronoJumpWindow
 			da = fullscreen_capture_drawingarea_cairo;
 
 
-		if(cairoPaintBarsPreRealTime == null || calculateAll)
+		if(cairoPaintBarsPreCurrent == null || calculateAll)
 		{
 			double videoTime = 0;
 			if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
 				videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 
-			cairoPaintBarsPreRealTime = new CairoPaintBarplotPreEncoder (
+			cairoPaintBarsPreCurrent = new CairoPaintBarplotPreEncoder (
 					preferences, da, preferences.fontTypeToGraph(),
 					currentPerson.Name, "", 3,
 					prepareEventGraphBarplotEncoder, videoTime);
@@ -6313,12 +6313,12 @@ public partial class ChronoJumpWindow
 
 		if (screenshotPending)
 		{
-			cairoPaintBarsPreRealTime.ScreenshotURL = screenshotURL;
+			cairoPaintBarsPreCurrent.ScreenshotURL = screenshotURL;
 			screenshotPending = false;
 			screenshotURL = "";
 		}
 
-		cairoPaintBarsPreRealTime.Paint();
+		cairoPaintBarsPreCurrent.Paint();
 	}
 
 	public void on_encoder_capture_signal_drawingarea_cairo_draw (object o, Gtk.DrawnArgs args)
@@ -6455,9 +6455,9 @@ public partial class ChronoJumpWindow
 				if(encoderGraphDoPlot != null)
 					encoderGraphDoPlot.ShowMessage("Previous set", true, false);
 
-				cairoPaintBarsPreRealTime.ShowMessage (Catalog.GetString("Previous set"), true, false);
+				cairoPaintBarsPreCurrent.ShowMessage (Catalog.GetString("Previous set"), true, false);
 			}
-			if want to show this, then need to not call the ErasePaint, encoderGraphDoPlot.ShowMessage, cairoPaintBarsPreRealTime stuff below
+			if want to show this, then need to not call the ErasePaint, encoderGraphDoPlot.ShowMessage, cairoPaintBarsPreCurrent stuff below
 			*/
 
 			//eccaCreated = false;
@@ -6474,11 +6474,11 @@ public partial class ChronoJumpWindow
 				if( ! preferences.encoderCaptureInfinite || firstSetOfCont )
 					treeviewEncoderCaptureRemoveColumns();
 
-				cairoPaintBarsPreRealTime = new CairoPaintBarplotPreEncoder (
+				cairoPaintBarsPreCurrent = new CairoPaintBarplotPreEncoder (
 						encoder_capture_curves_bars_drawingarea_cairo,
 						preferences.fontTypeToGraph());//, "--capturing--");
 
-				cairoPaintBarsPreRealTime.ShowMessage (
+				cairoPaintBarsPreCurrent.ShowMessage (
 						encoder_capture_curves_bars_drawingarea_cairo,
 						preferences.fontTypeToGraph(),
 						Catalog.GetString("Capturing") + " …");
@@ -6547,7 +6547,7 @@ public partial class ChronoJumpWindow
 					button_detect_show_hide (true);
 
 					// 3) erase cairo barplot (remove the Capturing...)
-					cairoPaintBarsPreRealTime = new CairoPaintBarplotPreEncoder (
+					cairoPaintBarsPreCurrent = new CairoPaintBarplotPreEncoder (
 							encoder_capture_curves_bars_drawingarea_cairo,
 							preferences.fontTypeToGraph());
 					prepareEventGraphBarplotEncoder = null; //to avoid is repainted again, and sound be repeated;

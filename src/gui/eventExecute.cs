@@ -119,8 +119,8 @@ public partial class ChronoJumpWindow
 	}
 	
 	//we need both working to be able to correctly expose_event (draw) on jumpRj, runI
-	CairoPaintBarsPre cairoPaintBarsPre;  //used for contacts test (no realtime), and also encoder (but treeviewResults)
-	CairoPaintBarsPre cairoPaintBarsPreRealTime; //contacts time realtime: jumpRj/runI capture, encoder
+	CairoPaintBarsPre cairoPaintBarsPre;  //used for session results: treeviewResults
+	CairoPaintBarsPre cairoPaintBarsPreCurrent; //used for current set: jumpRj/runI capture, encoder
 	CairoManageRunDoubleContacts cairoManageRunDoubleContacts;
 
 
@@ -538,7 +538,7 @@ public partial class ChronoJumpWindow
 	public void blankJumpReactiveRealtimeCaptureGraph ()
 	{
 		//constructor for showing a blank graph
-		cairoPaintBarsPreRealTime = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
+		cairoPaintBarsPreCurrent = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
 				drawingarea_results_realtime, preferences.fontTypeToGraph());
 	}
 
@@ -561,16 +561,16 @@ public partial class ChronoJumpWindow
 		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
 			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 
-		cairoPaintBarsPreRealTime = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
+		cairoPaintBarsPreCurrent = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
 				drawingarea_results_realtime, preferences.fontTypeToGraph(), current_mode,
 				personName, type, preferences.digitsNumber,// preferences.heightPreferred,
 				//lastTv, lastTc,
 				tvString, tcString, isLastCaptured, feedbackJumpsRj, videoTime);
 
-		cairoPaintBarsPreRealTime.UseHeights = useHeights;
+		cairoPaintBarsPreCurrent.UseHeights = useHeights;
 
 		// B) Paint cairo graph
-		cairoPaintBarsPreRealTime.Paint();
+		cairoPaintBarsPreCurrent.Paint();
 	}
 	
 	//identify which subjump is the best or the worst in tv/tc index	
@@ -674,7 +674,7 @@ public partial class ChronoJumpWindow
 	public void blankRunIntervalRealtimeCaptureGraph ()
 	{
 		//constructor for showing a blank graph
-		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
+		cairoPaintBarsPreCurrent = new CairoPaintBarsPreRunIntervalRealtimeCapture(
 				drawingarea_results_realtime, preferences.fontTypeToGraph());
 	}
 
@@ -696,7 +696,7 @@ public partial class ChronoJumpWindow
 		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
 			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 
-		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
+		cairoPaintBarsPreCurrent = new CairoPaintBarsPreRunIntervalRealtimeCapture(
 				drawingarea_results_realtime, preferences.fontTypeToGraph(), current_mode,
 				personName, type, preferences.digitsNumber,// preferences.heightPreferred,
 				preferences.metersSecondsPreferred,
@@ -705,9 +705,9 @@ public partial class ChronoJumpWindow
 				photocell_l, isLastCaptured, feedbackRunsI, videoTime);
 
 		// B) Paint cairo graph
-		//cairoPaintBarsPreRealTime.UseHeights = useHeights;
+		//cairoPaintBarsPreCurrent.UseHeights = useHeights;
 
-		cairoPaintBarsPreRealTime.Paint();
+		cairoPaintBarsPreCurrent.Paint();
 	}
 
 	public void PrepareResultsSessionGraph ()

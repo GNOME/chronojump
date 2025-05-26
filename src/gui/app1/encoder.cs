@@ -1088,6 +1088,7 @@ public partial class ChronoJumpWindow
 			array1RMUpdate(false);
 			encoder_change_displaced_weight_and_1RM ();
 			label_encoder_top_exercise.Text = UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
+			radio_contacts_graph_currentTest.Label =  UtilGtk.ComboGetActive (combo_encoder_exercise_capture);
 
 			//sensitivity of left/right buttons
 			button_combo_encoder_exercise_capture_left.Sensitive = (combo_encoder_exercise_capture.Active > 0);

@@ -41,9 +41,9 @@ public class EncoderSQL : Event
 //	public int inertiaMomentum; //kg*cm^2
 //	public double diameter;
 	
-	public string future1;
-	public string future2;
-	public string future3;
+	public string meanPower; // future1
+	public string meanSpeed; // future2
+	public string meanForce; // future3
 	public Preferences.EncoderRepetitionCriteria repCriteria;
 
 	public string exerciseName;
@@ -80,9 +80,9 @@ public class EncoderSQL : Event
 		this.status = status;
 		this.videoURL = videoURL;
 		this.encoderConfiguration = encoderConfiguration;
-		this.future1 = future1;	//on curves: meanPower
-		this.future2 = future2; //on curves: meanSpeed
-		this.future3 = future3; //on curves: meanForce
+		this.meanPower = future1;	//on curves: meanPower
+		this.meanSpeed = future2; //on curves: meanSpeed
+		this.meanForce = future3; //on curves: meanForce
 		this.repCriteria = repCriteria;
 		this.exerciseName = exerciseName;
 
@@ -185,18 +185,18 @@ public class EncoderSQL : Event
 		
 		if(showMeanPSF)
 		{
-			str[i++] = future1;
+			str[i++] = meanPower;
 
 			//as recording meanSpeed and meanForce is new on 2.0, show a blank cell instead of a 0
-			if(future2 == "0")
+			if(meanSpeed == "0")
 				str[i++] = "";
 			else
-				str[i++] = future2;
+				str[i++] = meanSpeed;
 
-			if(future3 == "0")
+			if(meanForce == "0")
 				str[i++] = "";
 			else
-				str[i++] = future3;
+				str[i++] = meanForce;
 		}
 
 		if(encoderConfigPretty)
@@ -227,7 +227,7 @@ public class EncoderSQL : Event
 				"status: {13},  videoURL: {14},  encoderConfiguration: {15},  future1: {16}, " +
 				"future2: {17},  future3: {18},   repCriteria: {19},  exerciseName: {20}",
 				uniqueID, personID, sessionID, exerciseID, eccon, laterality, extraWeight, signalOrCurve, filename,
-				url, time, minHeight, description, status, videoURL, encoderConfiguration, future1, future2, future3,  repCriteria, exerciseName);
+				url, time, minHeight, description, status, videoURL, encoderConfiguration, meanPower, meanSpeed, meanForce,  repCriteria, exerciseName);
 	}
 
 	//uniqueID:name

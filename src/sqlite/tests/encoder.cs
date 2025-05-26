@@ -106,7 +106,7 @@ class SqliteEncoder : SqliteTests
             "', '" + es.status + "', '" +
             Util.MakeURLrelative(es.videoURL) + "', '" +
             es.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) + "', '" +
-            Util.ConvertToPoint(es.future1) + "', '" + Util.ConvertToPoint(es.future2) + "', '" + Util.ConvertToPoint(es.future3) + "', '" +
+            Util.ConvertToPoint(es.meanPower) + "', '" + Util.ConvertToPoint(es.meanSpeed) + "', '" + Util.ConvertToPoint(es.meanForce) + "', '" +
             es.repCriteria.ToString() + "')";
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
@@ -158,9 +158,9 @@ class SqliteEncoder : SqliteTests
                 "', status = '" + es.status +
                 "', videoURL = '" + Util.MakeURLrelative(es.videoURL) +
                 "', encoderConfiguration = '" + es.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) +
-                "', future1 = '" + Util.ConvertToPoint(es.future1) +
-                "', future2 = '" + Util.ConvertToPoint(es.future2) +
-                "', future3 = '" + Util.ConvertToPoint(es.future3) +
+                "', future1 = '" + Util.ConvertToPoint(es.meanPower) +
+                "', future2 = '" + Util.ConvertToPoint(es.meanSpeed) +
+                "', future3 = '" + Util.ConvertToPoint(es.meanForce) +
                 "', repCriteria = '" + es.repCriteria.ToString() +
                 "' WHERE uniqueID = " + uniqueIDStr;
 

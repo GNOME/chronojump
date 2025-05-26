@@ -732,19 +732,19 @@ public partial class ChronoJumpWindow
 					 es.repCriteria == preferences.encoderRepetitionCriteriaInertial &&
 					 encoderConfigurationCurrent.Equals(es.encoderConfiguration) )
 			  ) {
-				if(Convert.ToDouble(es.future1) > maxPowerIntersession)
+				if(Convert.ToDouble(es.meanPower) > maxPowerIntersession)
 				{
-					maxPowerIntersession = Convert.ToDouble(es.future1);
+					maxPowerIntersession = Convert.ToDouble(es.meanPower);
 					maxPowerIntersessionDate = es.GetDateStr();
 				}
-				if(Convert.ToDouble(es.future2) > maxSpeedIntersession)
+				if(Convert.ToDouble(es.meanSpeed) > maxSpeedIntersession)
 				{
-					maxSpeedIntersession = Convert.ToDouble(es.future2);
+					maxSpeedIntersession = Convert.ToDouble(es.meanSpeed);
 					maxSpeedIntersessionDate = es.GetDateStr();
 				}
-				if(Convert.ToDouble(es.future3) > maxForceIntersession)
+				if(Convert.ToDouble(es.meanForce) > maxForceIntersession)
 				{
-					maxForceIntersession = Convert.ToDouble(es.future3);
+					maxForceIntersession = Convert.ToDouble(es.meanForce);
 					maxForceIntersessionDate = es.GetDateStr();
 				}
 			}
@@ -3379,9 +3379,9 @@ public partial class ChronoJumpWindow
 		eSQL.Description = desc;
 		if(mode == "curve") {
 			eSQL.status = "active";
-			eSQL.future1 = meanPowerStr;
-			eSQL.future2 = meanSpeedStr;
-			eSQL.future3 = meanForceStr;
+			eSQL.meanPower = meanPowerStr;
+			eSQL.meanSpeed = meanSpeedStr;
+			eSQL.meanForce = meanForceStr;
 		}
 
 		eSQL.encoderConfiguration = encoderConfigurationCurrent;
@@ -8228,7 +8228,7 @@ public partial class ChronoJumpWindow
 					encoderCaptureSelectBySavedCurves(esc.msCentral, true);
 
 					if(updateSQLRecords) {
-						//update the future1, future2, future3
+						//update the meanPower, meanSpeed, meanForce
 						Sqlite.Update(true, Constants.EncoderTable, "future1",
 								"", Util.ConvertToPoint (curve.MeanPower),
 								"uniqueID", esc.curveID.ToString());

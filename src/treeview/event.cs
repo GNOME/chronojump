@@ -670,7 +670,7 @@ public class TreeViewEvent
 			if (treeview.Selection.GetSelected (out myModel, out iter))
 			{
 				if (idIsPerson (iter))
-					return -1; // it is a -1, because 0 can be an event
+					return MarkRowIsPerson; // it is a -1, because 0 can be an event
 				else
 					return Convert.ToInt32 ( treeview.Model.GetValue(iter, idColumn) );
 			} else {

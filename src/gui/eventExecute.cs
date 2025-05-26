@@ -119,8 +119,8 @@ public partial class ChronoJumpWindow
 	}
 	
 	//we need both working to be able to correctly expose_event (draw) on jumpRj, runI
-	CairoPaintBarsPre cairoPaintBarsPre;  //used for contacts test (no realtime), and also encoder
-	CairoPaintBarsPre cairoPaintBarsPreRealTime; //contacts time realtime: jumpRj/runI capture
+	CairoPaintBarsPre cairoPaintBarsPre;  //used for contacts test (no realtime), and also encoder (but treeviewResults)
+	CairoPaintBarsPre cairoPaintBarsPreRealTime; //contacts time realtime: jumpRj/runI capture, encoder
 	CairoManageRunDoubleContacts cairoManageRunDoubleContacts;
 
 

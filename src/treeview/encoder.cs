@@ -120,7 +120,7 @@ public class TreeViewEncoder : TreeViewEvent
 		myData[count++] = eSQL.exerciseName;
 		myData[count++] = Catalog.GetString (eSQL.laterality);
 		myData[count++] = eSQL.extraWeight;
-		myData[count++] = eSQL.eccon;
+		myData[count++] = eSQL.ecconLong;
 		myData[count++] = ""; //meanPower
 		myData[count++] = ""; //meanSpeed
 		myData[count++] = ""; //meanForce
@@ -140,7 +140,7 @@ public class TreeViewEncoder : TreeViewEvent
 		myData[count++] = i.ToString ();
 		myData[count++] = ""; //Catalog.GetString (eSQL.laterality);
 		myData[count++] = ""; //eSQL.extraWeight;
-		myData[count++] = ""; //eSQL.eccon;
+		myData[count++] = ""; //eSQL.ecconLong;
 		myData[count++] = eSQL.meanPower;
 		myData[count++] = eSQL.meanSpeed;
 		myData[count++] = eSQL.meanForce;

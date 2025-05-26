@@ -214,7 +214,7 @@ public class TreeViewEncoder : TreeViewEvent
 		string [] myData = new String [getColsNum()];
 		int count = 0;
 
-		myData[count++] = i.ToString ();
+		myData[count++] = ""; // i.ToString ()  better not show a number now as it gets confused with the number of repetition on current set table.
 		myData[count++] = ""; //Catalog.GetString (eSQL.laterality);
 		myData[count++] = ""; //eSQL.extraWeight;
 		myData[count++] = ""; //eSQL.ecconLong;

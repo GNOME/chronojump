@@ -235,14 +235,74 @@ class SqliteEncoder : SqliteTests
 	   orderRepsByPosInSet fixes this problem. this is used eg. in analyze session to sort them correctly
 	   but note it Select will only work ok for curves
 	 */
-    public static ArrayList Select(
-            bool dbconOpened, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI,
-            int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect, string lateralityEnglish,
-            bool onlyActive, bool orderIDascendent,
-            bool orderRepsByPosInSet) // Attention! note this only selects curves
+    //default, returns an ArrayList
+    public static ArrayList Select (
+		    bool dbconOpened, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI,
+		    int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect, string lateralityEnglish,
+		    bool onlyActive, bool orderIDascendent,
+		    bool orderRepsByPosInSet) // Attention! note this only selects curves
     {
-        if (!dbconOpened)
-            Sqlite.Open();
+	    openIfNeeded (dbconOpened);
+
+	    selectDo (dbconOpened, uniqueID, personID, sessionID, encoderGI,
+			    exerciseID, signalOrCurve, ecconSelect, lateralityEnglish,
+			    onlyActive, orderIDascendent,
+			    orderRepsByPosInSet); // Attention! note this only selects curves
+
+	    SQLiteDataReader reader;
+	    reader = dbcmd.ExecuteReader();
+
+	    ArrayList array = new ArrayList(1);
+	    while (reader.Read())
+	    {
+		    EncoderSQL eSQL = getEncoderSQL (reader, encoderGI);
+		    if (eSQL != null)
+			    array.Add(eSQL);
+	    }
+
+	    reader.Close();
+	    closeIfNeeded (dbconOpened);
+
+	    return array;
+    }
+
+    //default, returns a List<EncoderSQL>
+    public static List<EncoderSQL> SelectList (
+		    bool dbconOpened, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI,
+		    int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect, string lateralityEnglish,
+		    bool onlyActive, bool orderIDascendent,
+		    bool orderRepsByPosInSet) // Attention! note this only selects curves
+    {
+	    openIfNeeded (dbconOpened);
+
+	    selectDo (dbconOpened, uniqueID, personID, sessionID, encoderGI,
+			    exerciseID, signalOrCurve, ecconSelect, lateralityEnglish,
+			    onlyActive, orderIDascendent,
+			    orderRepsByPosInSet); // Attention! note this only selects curves
+
+	    SQLiteDataReader reader;
+	    reader = dbcmd.ExecuteReader();
+
+	    List<EncoderSQL> eSQL_l = new List<EncoderSQL> ();
+	    while (reader.Read())
+	    {
+		    EncoderSQL eSQL = getEncoderSQL (reader, encoderGI);
+		    if (eSQL != null)
+			    eSQL_l.Add (eSQL);
+	    }
+
+	    reader.Close();
+	    closeIfNeeded (dbconOpened);
+
+	    return eSQL_l;
+    }
+
+    private static void selectDo (
+		    bool dbconOpened, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI,
+		    int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect, string lateralityEnglish,
+		    bool onlyActive, bool orderIDascendent,
+		    bool orderRepsByPosInSet) // Attention! note this only selects curves
+    {
 
         string encT = Constants.EncoderTable;
         string encSCT = Constants.EncoderSignalCurveTable;
@@ -334,24 +394,6 @@ class SqliteEncoder : SqliteTests
             "uniqueID " + orderIDstr;
 
         LogB.SQL(dbcmd.CommandText.ToString());
-
-        SQLiteDataReader reader;
-        reader = dbcmd.ExecuteReader();
-
-        ArrayList array = new ArrayList(1);
-
-        while (reader.Read())
-        {
-		EncoderSQL eSQL = getEncoderSQL (reader, encoderGI);
-		if (eSQL != null)
-			array.Add(eSQL);
-        }
-
-        reader.Close();
-        if (!dbconOpened)
-            Sqlite.Close();
-
-        return array;
     }
 
     private static EncoderSQL getEncoderSQL (SQLiteDataReader reader, Constants.EncoderGI encoderGI)

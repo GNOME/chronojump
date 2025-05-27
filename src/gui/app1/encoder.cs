@@ -465,7 +465,7 @@ public partial class ChronoJumpWindow
 	static List<PointF> cairoGraphEncoderSignalPoints_l;
 	static List<PointF> cairoGraphEncoderSignalInertialPoints_l;
 
-	PrepareEventGraphBarplotEncoder prepareEventGraphBarplotEncoder;
+	PrepareEventGraphEncoderCurrent prepareEventGraphEncoderCurrent;
 
 	enum encoderSensEnum { 
 		NOSESSION, NOPERSON, YESPERSON, PROCESSINGCAPTURE, PROCESSINGR, DONENOSIGNAL, DONEYESSIGNAL }
@@ -549,6 +549,7 @@ public partial class ChronoJumpWindow
 		check_encoder_capture_table.Active = preferences.encoderCaptureShowOnlyBars.ShowTable;
 		check_encoder_capture_signal.Active = preferences.encoderCaptureShowOnlyBars.ShowSignal;
 
+		updateGraphEncoderSessionBars ();
 		followSignals = true;
 	}
 
@@ -1044,7 +1045,7 @@ public partial class ChronoJumpWindow
 
 		needToCallPrepareEncoderGraphs = false;
 		encoderProcessFinish = false;
-		CairoPaintBarplotPreEncoder.RepetitionsPlayed_l = new List<int> ();
+		CairoPaintBarsPreEncoderCurrent.RepetitionsPlayed_l = new List<int> ();
 
 		if (preferences.encoderFeedbackAsteroidsActive)
 			asteroids = new Asteroids (
@@ -3082,10 +3083,10 @@ public partial class ChronoJumpWindow
 		image_encoder_capture.Sensitive = false;
 		treeviewEncoderCaptureRemoveColumns();
 		updateEncoderAnalyzeExercisesPre ();
-		cairoPaintBarsPreCurrent = new CairoPaintBarplotPreEncoder (
+		cairoPaintBarsPreCurrent = new CairoPaintBarsPreEncoderCurrent (
 				encoder_capture_curves_bars_drawingarea_cairo,
 				preferences.fontTypeToGraph());
-		prepareEventGraphBarplotEncoder = null; //to avoid is repainted again, and sound be repeated;
+		prepareEventGraphEncoderCurrent = null; //to avoid is repainted again, and sound be repeated;
 
 		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 		
@@ -5978,10 +5979,12 @@ public partial class ChronoJumpWindow
 		captureCurvesBarsData_l = new List<EncoderBarsData> ();
 
 		//erase cairo barplot
-		cairoPaintBarsPreCurrent = new CairoPaintBarplotPreEncoder (
+		cairoPaintBarsPreCurrent = new CairoPaintBarsPreEncoderCurrent (
 			encoder_capture_curves_bars_drawingarea_cairo,
 			preferences.fontTypeToGraph());
-		prepareEventGraphBarplotEncoder = null; //to avoid is repainted again, and sound be repeated;
+		prepareEventGraphEncoderCurrent = null; //to avoid is repainted again, and sound be repeated;
+
+		updateGraphEncoderSessionBars ();
 
 		image_encoder_capture.Sensitive = false;
 		image_encoder_analyze.Sensitive = false;
@@ -6156,6 +6159,10 @@ public partial class ChronoJumpWindow
 
 	/* end of sensitivity stuff */	
 
+	/*
+	 * ------ barplot current set ------>
+	 */
+
 	enum UpdateEncoderPaintModes { GRAVITATORY, INERTIAL, CALCULE_IM }
 	private void updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes mode)
 	{
@@ -6223,7 +6230,7 @@ public partial class ChronoJumpWindow
 			double mainVariableLower = feedbackWin.GetMainVariableLower(mainVariable);
 
 			//Cairo
-			prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
+			prepareEventGraphEncoderCurrent = new PrepareEventGraphEncoderCurrent (
 					mainVariable, mainVariableHigher, mainVariableLower,
 					secondaryVariable, preferences.encoderCaptureShowLoss,
 					false, //not capturing
@@ -6281,16 +6288,16 @@ public partial class ChronoJumpWindow
 		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_draw B");
 
 		//note this is the same than on_fullscreen_capture_drawingarea_cairo_draw ()
-		if(prepareEventGraphBarplotEncoder != null)
+		if(prepareEventGraphEncoderCurrent != null)
 		{
-			//prepareEncoderBarplotCairo (false); //just redraw the graph
-			prepareEncoderBarplotCairo (true); //TODO: check if true or false
+			//prepareEncoderSignalBarplotCairo (false); //just redraw the graph
+			prepareEncoderSignalBarplotCairo (true); //TODO: check if true or false
 		}
 	}
 
-	private void prepareEncoderBarplotCairo (bool calculateAll)
+	private void prepareEncoderSignalBarplotCairo (bool calculateAll)
 	{
-		LogB.Information("prepareEncoderBarplotCairo");
+		LogB.Information("prepareEncoderSignalBarplotCairo");
 		if(currentPerson == null)
 			return;
 
@@ -6305,10 +6312,10 @@ public partial class ChronoJumpWindow
 			if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
 				videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 
-			cairoPaintBarsPreCurrent = new CairoPaintBarplotPreEncoder (
+			cairoPaintBarsPreCurrent = new CairoPaintBarsPreEncoderCurrent (
 					preferences, da, preferences.fontTypeToGraph(),
 					currentPerson.Name, "", 3,
-					prepareEventGraphBarplotEncoder, videoTime);
+					prepareEventGraphEncoderCurrent, videoTime);
 		}
 
 		if (screenshotPending)
@@ -6382,6 +6389,60 @@ public partial class ChronoJumpWindow
 
 		return maxPowerIntersessionDate; //default if any problem
 	}
+
+	/*
+	 * <------ barplot current set ------
+	 */
+
+	//resultsSession
+	private void updateGraphEncoderSessionBars ()
+	{
+		LogB.Information (string.Format ("currentPerson == null: {0},  currentSession == null: {1}",
+					currentPerson == null, currentSession == null));
+		if(currentPerson == null || currentSession == null)
+			return;
+
+		//intializeVariables if not done before
+		event_execute_initializeVariables(
+			(! cp2016.StoredCanCaptureContacts && ! cp2016.StoredWireless), //is simulated
+			currentPerson.UniqueID,
+			currentPerson.Name,
+			"", //Catalog.GetString("Phases"),  	  //name of the different moments
+			Constants.EncoderTable, //tableName
+			"" //type
+			);
+
+		string typeTemp = "";
+		int exerciseID = -1;
+		if (! radio_contacts_graph_allTests.Active)
+			exerciseID = getExerciseIDFromAnyCombo (combo_encoder_exercise_capture, encoderExercisesTranslationAndBodyPWeight, false);
+
+		int selectedID = -1;
+		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
+			selectedID = treeViewResultsSession.EventSelectedID;
+
+		PrepareEventGraphEncoderSession eventGraph = new PrepareEventGraphEncoderSession (
+				currentSession.UniqueID,
+				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
+				currentEncoderGI,
+				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
+				//Constants.EncoderTable, typeTemp,
+				exerciseID, selectedID, current_mode, radio_contacts_graph_allTests.Active);
+
+		string personStr = "";
+		if(! radio_contacts_results_personAll.Active)
+			personStr = currentPerson.Name;
+
+		cairoPaintBarsPre = new CairoPaintBarsPreEncoderSession (
+				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
+				personStr,
+				typeTemp,
+				preferences.digitsNumber);
+
+		cairoPaintBarsPre.StoreEventGraphEncoderSession (eventGraph);
+		drawingarea_results_session.QueueDraw ();
+	}
+
 
 
 	/*
@@ -6474,7 +6535,7 @@ public partial class ChronoJumpWindow
 				if( ! preferences.encoderCaptureInfinite || firstSetOfCont )
 					treeviewEncoderCaptureRemoveColumns();
 
-				cairoPaintBarsPreCurrent = new CairoPaintBarplotPreEncoder (
+				cairoPaintBarsPreCurrent = new CairoPaintBarsPreEncoderCurrent (
 						encoder_capture_curves_bars_drawingarea_cairo,
 						preferences.fontTypeToGraph());//, "--capturing--");
 
@@ -6547,10 +6608,10 @@ public partial class ChronoJumpWindow
 					button_detect_show_hide (true);
 
 					// 3) erase cairo barplot (remove the Capturing...)
-					cairoPaintBarsPreCurrent = new CairoPaintBarplotPreEncoder (
+					cairoPaintBarsPreCurrent = new CairoPaintBarsPreEncoderCurrent (
 							encoder_capture_curves_bars_drawingarea_cairo,
 							preferences.fontTypeToGraph());
-					prepareEventGraphBarplotEncoder = null; //to avoid is repainted again, and sound be repeated;
+					prepareEventGraphEncoderCurrent = null; //to avoid is repainted again, and sound be repeated;
 
 					// 4) this notebook has capture (signal plotting), and curves (shows R graph)
 					if(notebook_encoder_capture.CurrentPage == 0 )
@@ -7133,7 +7194,7 @@ public partial class ChronoJumpWindow
 				//captureCurvesBarsData_l.Add(new EncoderBarsData(20, 39, 10, 40));
 
 				//Cairo
-				prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
+				prepareEventGraphEncoderCurrent = new PrepareEventGraphEncoderCurrent (
 						mainVariable, mainVariableHigher, mainVariableLower,
 						secondaryVariable, preferences.encoderCaptureShowLoss,
 						true, //capturing
@@ -7750,7 +7811,7 @@ public partial class ChronoJumpWindow
 				findMaxPowerSpeedForceIntersession();
 
 				//Cairo
-				prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
+				prepareEventGraphEncoderCurrent = new PrepareEventGraphEncoderCurrent (
 						mainVariable, mainVariableHigher, mainVariableLower,
 						secondaryVariable, preferences.encoderCaptureShowLoss,
 						false, //not capturing
@@ -7809,6 +7870,8 @@ public partial class ChronoJumpWindow
 									false, currentPerson.UniqueID, currentSession.UniqueID,
 									currentEncoderGI, lastEncoderSQLSignal.exerciseID, encoderSignalUniqueID),
 								"");
+
+						updateGraphEncoderSessionBars();
 
 						//1) unMute logs if preferences.muteLogs == false
 						LogB.Mute = preferences.muteLogs;

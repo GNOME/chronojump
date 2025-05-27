@@ -4748,8 +4748,8 @@ public partial class ChronoJumpWindow
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 			updateForceSensorCaptureSignalCairo (true);
 		else if (Constants.ModeIsENCODER (current_mode))
-			if (prepareEventGraphBarplotEncoder != null)
-				prepareEncoderBarplotCairo (true);
+			if (prepareEventGraphEncoderCurrent != null)
+				prepareEncoderSignalBarplotCairo (true);
 	}
 
 	/*
@@ -7536,8 +7536,8 @@ public partial class ChronoJumpWindow
 					//plotCurvesGraphDoPlot(mainVariableStr, mainVariableHigher, mainVariableLower,
 
 					//Cairo
-					LogB.Information ("Called prepareEventGraphBarplotEncoder at on_feedback_closed Plot capturing: false");
-					prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
+					LogB.Information ("Called prepareEventGraphEncoderCurrent at on_feedback_closed Plot capturing: false");
+					prepareEventGraphEncoderCurrent = new PrepareEventGraphEncoderCurrent (
 							mainVariableStr, mainVariableHigher, mainVariableLower,
 							secondaryVariableStr, preferences.encoderCaptureShowLoss,
 							false, //not capturing

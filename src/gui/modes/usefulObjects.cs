@@ -429,69 +429,6 @@ public class PrepareEventGraphRunIntervalRealtimeCapture
 	~PrepareEventGraphRunIntervalRealtimeCapture() {}
 }
 
-public class PrepareEventGraphBarplotEncoder
-{
-	public string mainVariable;
-	public double mainVariableHigher;
-	public double mainVariableLower;
-	public string secondaryVariable;
-	public bool showLoss;
-	public bool capturing;
-	public string eccon;
-	public double massDisplaced;
-	public FeedbackEncoder feedback;
-	public bool hasInertia;
-	public bool playSoundsFromFile;
-	public List<EncoderBarsData> encoderBarsData_l;
-	public Gtk.ListStore encoderCaptureListStore;
-	public bool relativeToSet;
-	public double maxPowerSpeedForceIntersession; //it will be one of these 3
-	public string maxPowerSpeedForceIntersessionDate;
-	public int discardFirstN;
-	public int showNRepetitions;
-	public bool volumeOn;
-	public Preferences.GstreamerTypes gstreamer;
-
-	public PrepareEventGraphBarplotEncoder () {
-	}
-
-	public PrepareEventGraphBarplotEncoder (
-			string mainVariable, double mainVariableHigher, double mainVariableLower,
-			string secondaryVariable, bool showLoss,
-			bool capturing, string eccon, double massDisplaced,
-			FeedbackEncoder feedback,
-			bool hasInertia, bool playSoundsFromFile,
-			List<EncoderBarsData> encoderBarsData_l, Gtk.ListStore encoderCaptureListStore,
-			bool relativeToSet,
-			double maxPowerSpeedForceIntersession, string maxPowerSpeedForceIntersessionDate,
-			int discardFirstN, int showNRepetitions, bool volumeOn, Preferences.GstreamerTypes gstreamer)
-
-	{
-		this.mainVariable = mainVariable;
-		this.mainVariableHigher = mainVariableHigher;
-		this.mainVariableLower = mainVariableLower;
-		this.secondaryVariable = secondaryVariable;
-		this.showLoss = showLoss;
-		this.capturing = capturing;
-		this.eccon = eccon;
-		this.massDisplaced = massDisplaced;
-		this.feedback = feedback;
-		this.hasInertia = hasInertia;
-		this.playSoundsFromFile = playSoundsFromFile;
-		this.encoderBarsData_l = encoderBarsData_l;
-		this.encoderCaptureListStore = encoderCaptureListStore;
-		this.relativeToSet = relativeToSet;
-		this.maxPowerSpeedForceIntersession = maxPowerSpeedForceIntersession;
-		this.maxPowerSpeedForceIntersessionDate = maxPowerSpeedForceIntersessionDate;
-		this.discardFirstN = discardFirstN;
-		this.showNRepetitions = showNRepetitions;
-		this.volumeOn = volumeOn;
-		this.gstreamer = gstreamer;
-	}
-
-	~PrepareEventGraphBarplotEncoder () {}
-}
-
 public class PrepareEventGraphRunEncoder
 {
 	//sql data of previous tests to plot graph and show stats at bottom
@@ -633,6 +570,108 @@ public class PrepareEventGraphForceSensor
 	}
 
 	~PrepareEventGraphForceSensor() {}
+}
+
+public class PrepareEventGraphEncoderCurrent
+{
+	public string mainVariable;
+	public double mainVariableHigher;
+	public double mainVariableLower;
+	public string secondaryVariable;
+	public bool showLoss;
+	public bool capturing;
+	public string eccon;
+	public double massDisplaced;
+	public FeedbackEncoder feedback;
+	public bool hasInertia;
+	public bool playSoundsFromFile;
+	public List<EncoderBarsData> encoderBarsData_l;
+	public Gtk.ListStore encoderCaptureListStore;
+	public bool relativeToSet;
+	public double maxPowerSpeedForceIntersession; //it will be one of these 3
+	public string maxPowerSpeedForceIntersessionDate;
+	public int discardFirstN;
+	public int showNRepetitions;
+	public bool volumeOn;
+	public Preferences.GstreamerTypes gstreamer;
+
+	public PrepareEventGraphEncoderCurrent () {
+	}
+
+	public PrepareEventGraphEncoderCurrent (
+			string mainVariable, double mainVariableHigher, double mainVariableLower,
+			string secondaryVariable, bool showLoss,
+			bool capturing, string eccon, double massDisplaced,
+			FeedbackEncoder feedback,
+			bool hasInertia, bool playSoundsFromFile,
+			List<EncoderBarsData> encoderBarsData_l, Gtk.ListStore encoderCaptureListStore,
+			bool relativeToSet,
+			double maxPowerSpeedForceIntersession, string maxPowerSpeedForceIntersessionDate,
+			int discardFirstN, int showNRepetitions, bool volumeOn, Preferences.GstreamerTypes gstreamer)
+
+	{
+		this.mainVariable = mainVariable;
+		this.mainVariableHigher = mainVariableHigher;
+		this.mainVariableLower = mainVariableLower;
+		this.secondaryVariable = secondaryVariable;
+		this.showLoss = showLoss;
+		this.capturing = capturing;
+		this.eccon = eccon;
+		this.massDisplaced = massDisplaced;
+		this.feedback = feedback;
+		this.hasInertia = hasInertia;
+		this.playSoundsFromFile = playSoundsFromFile;
+		this.encoderBarsData_l = encoderBarsData_l;
+		this.encoderCaptureListStore = encoderCaptureListStore;
+		this.relativeToSet = relativeToSet;
+		this.maxPowerSpeedForceIntersession = maxPowerSpeedForceIntersession;
+		this.maxPowerSpeedForceIntersessionDate = maxPowerSpeedForceIntersessionDate;
+		this.discardFirstN = discardFirstN;
+		this.showNRepetitions = showNRepetitions;
+		this.volumeOn = volumeOn;
+		this.gstreamer = gstreamer;
+	}
+
+	~PrepareEventGraphEncoderCurrent () {}
+}
+
+public class PrepareEventGraphEncoderSession
+{
+	//sql data of previous tests to plot graph and show stats at bottom
+	public List<EncoderSQL> rowsAtSQL;
+	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
+
+	public bool exerciseAll; //all tests
+
+	public PrepareEventGraphEncoderSession () {
+	}
+
+	public PrepareEventGraphEncoderSession (int sessionID, int personID, bool allPersons,
+			Constants.EncoderGI encoderGI, int limit,
+			int exerciseID, int selectedID, Constants.Modes mode, bool exerciseAll)
+	{
+		this.selectedID = selectedID;
+		this.exerciseAll = exerciseAll;
+
+		int personIDTemp = personID;
+		if(allPersons)
+			personIDTemp = -1;
+
+		rowsAtSQL = SqliteEncoder.SelectList (false, -1, personIDTemp, sessionID, encoderGI,
+				exerciseID, "curve", EncoderSQL.Eccons.ALL,
+				"", 	//lateralityEnglish
+				false, true, 	// onlyActive, orderIDascendent
+				true, 	//orderRespsByPosInSet
+				limit
+				//allPersons//, 	//show names on comments only if "all persons"
+				//false 	//! onlyBestInSession
+				);
+		//LogB.Information ("rowsAtSQL count: " + (rowsAtSQL.Count).ToString ());
+
+		this.selectedID = selectedID;
+	}
+
+	~PrepareEventGraphEncoderSession() {}
 }
 
 public class UpdateProgressBar {

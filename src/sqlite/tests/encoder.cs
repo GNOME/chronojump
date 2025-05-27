@@ -267,11 +267,13 @@ class SqliteEncoder : SqliteTests
     }
 
     //default, returns a List<EncoderSQL>
+    // limit 0 means no limit (limit negative is the last results)
     public static List<EncoderSQL> SelectList (
 		    bool dbconOpened, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI,
 		    int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect, string lateralityEnglish,
 		    bool onlyActive, bool orderIDascendent,
-		    bool orderRepsByPosInSet) // Attention! note this only selects curves
+		    bool orderRepsByPosInSet, 	// Attention! note this only selects curves
+		    int limit)
     {
 	    openIfNeeded (dbconOpened);
 
@@ -293,6 +295,10 @@ class SqliteEncoder : SqliteTests
 
 	    reader.Close();
 	    closeIfNeeded (dbconOpened);
+
+	    //get last values on negative limit
+	    if (limit < 0 && eSQL_l.Count + limit >= 0)
+		    eSQL_l = eSQL_l.GetRange (eSQL_l.Count + limit, -1 * limit);
 
 	    return eSQL_l;
     }

@@ -100,6 +100,15 @@ public class EncoderSQL : Event
 		this.exerciseName = exerciseName;
 	}
 
+	public static List<Event> EncoderSQLListToEventList (List<EncoderSQL> list)
+	{
+		List<Event> events = new List<Event>();
+		foreach (EncoderSQL eSQL in list)
+			events.Add ((Event) eSQL);
+
+		return events;
+	}
+
 	public static string EcconLong (string ecconChars)
 	{
 		if(ecconChars == "c")
@@ -304,6 +313,33 @@ public class EncoderSQL : Event
 	public string Filename
 	{
 		set { filename = value; }
+	}
+
+	public double meanPowerD
+	{
+		get {
+			if (meanPower == "")
+				return 0;
+			return Convert.ToDouble (meanPower);
+		}
+	}
+
+	public double meanSpeedD
+	{
+		get {
+			if (meanSpeed == "")
+				return 0;
+			return Convert.ToDouble (meanSpeed);
+		}
+	}
+
+	public double meanForceD
+	{
+		get {
+			if (meanForce == "")
+				return 0;
+			return Convert.ToDouble (meanForce);
+		}
 	}
 
 }

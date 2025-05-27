@@ -190,6 +190,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label fullscreen_label_message;
 	Gtk.DrawingArea fullscreen_capture_drawingarea_cairo;
 
+	Gtk.VPaned vpaned_tests;
 	Gtk.HBox hbox_contacts_graph_table_controls;
 	Gtk.Frame frame_contacts_graph_table;
 	Gtk.HPaned hpaned_contacts_graph_table;
@@ -3860,6 +3861,11 @@ public partial class ChronoJumpWindow
 
 		chronojumpWindowTestsNext();
 
+		if (current_mode != Constants.Modes.JUMPSSIMPLE && current_mode != Constants.Modes.RUNSSIMPLE)
+			vpaned_tests_center ();
+
+		hpaned_contacts_graph_table_center_if_needed ();
+
 		setLabelContactsExerciseSelectedOptions();
 
 		//beepTest changes treeview persons, redo it
@@ -3902,9 +3908,7 @@ public partial class ChronoJumpWindow
 		vbox_contacts_capture_graph.Visible = check_contacts_capture_graph.Active;
 		hbox_treeview_results_session.Visible = check_contacts_capture_table.Active;
 
-		//when showing both widgets, start at the middle
-		if(vbox_contacts_capture_graph.Visible && hbox_treeview_results_session.Visible)
-			hpaned_contacts_graph_table.Position = Convert.ToInt32(frame_contacts_graph_table.Allocation.Width / 2.0);
+		hpaned_contacts_graph_table_center_if_needed ();
 
 		if (check_contacts_capture_graph.Active || check_contacts_capture_table.Active)
 			box_contacts_capture_show_need_one.Visible = false;
@@ -3923,6 +3927,17 @@ public partial class ChronoJumpWindow
 		preferences.contactsCaptureDisplay = new ContactsCaptureDisplay(
 				check_contacts_capture_table.Active,
 				check_contacts_capture_graph.Active);
+	}
+
+	private void vpaned_tests_center ()
+	{
+		vpaned_tests.Position = Convert.ToInt32 (vpaned_tests.Allocation.Height / 2.0);
+	}
+	//when showing both widgets, start at the middle
+	private void hpaned_contacts_graph_table_center_if_needed ()
+	{
+		if(vbox_contacts_capture_graph.Visible && hbox_treeview_results_session.Visible)
+			hpaned_contacts_graph_table.Position = Convert.ToInt32(frame_contacts_graph_table.Allocation.Width / 2.0);
 	}
 
 	private void radio_mode_contacts_analyze_buttons_visible (Constants.Modes m)
@@ -8531,6 +8546,7 @@ public partial class ChronoJumpWindow
 		fullscreen_capture_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("fullscreen_capture_drawingarea_cairo");
 
 		hbox_contacts_graph_table_controls = (Gtk.HBox) builder.GetObject ("hbox_contacts_graph_table_controls");
+		vpaned_tests = (Gtk.VPaned) builder.GetObject ("vpaned_tests");
 		frame_contacts_graph_table = (Gtk.Frame) builder.GetObject ("frame_contacts_graph_table");
 		hpaned_contacts_graph_table = (Gtk.HPaned) builder.GetObject ("hpaned_contacts_graph_table");
 		treeview_persons = (Gtk.TreeView) builder.GetObject ("treeview_persons");

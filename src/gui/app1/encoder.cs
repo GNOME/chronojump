@@ -133,12 +133,10 @@ public partial class ChronoJumpWindow
 	Gtk.Notebook notebook_encoder_capture;
 
 	//encoder capture tab view options
-	Gtk.CheckButton check_encoder_capture_bars;
 	Gtk.CheckButton check_encoder_capture_table;
 	Gtk.CheckButton check_encoder_capture_signal;
 	Gtk.VBox vbox_encoder_bars_table_and_save_reps;
 	Gtk.HBox hbox_encoder_capture_save_repetitions;
-	Gtk.HBox hbox_encoder_capture_show_need_one;
 	Gtk.Alignment alignment_encoder_capture_curves_bars_drawingarea;
 
 	Gtk.Box hbox_combo_encoder_exercise_capture;
@@ -541,7 +539,6 @@ public partial class ChronoJumpWindow
 		LogB.Information("after play 6");
 
 		followSignals = false;
-		check_encoder_capture_bars.Active = preferences.encoderCaptureShowOnlyBars.ShowBars;
 		check_encoder_capture_table.Active = preferences.encoderCaptureShowOnlyBars.ShowTable;
 		check_encoder_capture_signal.Active = preferences.encoderCaptureShowOnlyBars.ShowSignal;
 
@@ -1435,18 +1432,10 @@ public partial class ChronoJumpWindow
 		if(! followSignals)
 			return;
 
-		alignment_encoder_capture_curves_bars_drawingarea.Visible = check_encoder_capture_bars.Active;
 		alignment_treeview_encoder_capture_curves.Visible = check_encoder_capture_table.Active;
 		alignment_encoder_capture_signal.Visible = check_encoder_capture_signal.Active;
-		hbox_encoder_capture_save_repetitions.Visible =
-			(check_encoder_capture_bars.Active || check_encoder_capture_table.Active);
-
-		vbox_encoder_bars_table_and_save_reps.Visible =
-			(check_encoder_capture_bars.Active || check_encoder_capture_table.Active ||
-			 check_encoder_capture_signal.Active);
-
-		hbox_encoder_capture_show_need_one.Visible =
-			! (check_encoder_capture_bars.Active || check_encoder_capture_table.Active || check_encoder_capture_signal.Active);
+		hbox_encoder_capture_save_repetitions.Visible = true;
+		vbox_encoder_bars_table_and_save_reps.Visible = true;
 
 		fixEncoderCaptureWidgetsGeometry ();
 
@@ -1455,17 +1444,14 @@ public partial class ChronoJumpWindow
 		   note as can be changed while capturing, it will be saved to SQL on exit
 		   to not have problems with SQL while capturing
 		   */
-		preferences.encoderCaptureShowOnlyBars = new EncoderCaptureDisplay(
+		preferences.encoderCaptureShowOnlyBars = new EncoderCaptureDisplay (
 				check_encoder_capture_signal.Active,
 				check_encoder_capture_table.Active,
-				check_encoder_capture_bars.Active);
+				true); //bars
 	}
 
 	private void fixEncoderCaptureWidgetsGeometry ()
 	{
-		//if(check_encoder_capture_bars.Active && ! check_encoder_capture_table.Active &&
-		//		! check_encoder_capture_signal.Active)
-
 		/* TODO: do something similar for hpaned_encoder_capture_current
 		if (! check_encoder_capture_table.Active &&
 				(preferences.signalDirectionHorizontal && ! check_encoder_capture_signal.Active) ||
@@ -1486,7 +1472,7 @@ public partial class ChronoJumpWindow
 
 	private bool encoder2ndRowPos ()
 	{
-		if (check_encoder_capture_signal.Active)
+		if (check_encoder_capture_signal.Active || check_encoder_capture_table.Active)
 			hpaned_encoder_capture_current.Position =
 				Convert.ToInt32 (UtilAll.DivideSafe (3 * hpaned_encoder_capture_current.MaxPosition, 4));
 		else
@@ -8434,12 +8420,10 @@ public partial class ChronoJumpWindow
 		notebook_encoder_capture = (Gtk.Notebook) builder.GetObject ("notebook_encoder_capture");
 
 		//encoder capture tab view options
-		check_encoder_capture_bars = (Gtk.CheckButton) builder.GetObject ("check_encoder_capture_bars");
 		check_encoder_capture_table = (Gtk.CheckButton) builder.GetObject ("check_encoder_capture_table");
 		check_encoder_capture_signal = (Gtk.CheckButton) builder.GetObject ("check_encoder_capture_signal");
 		vbox_encoder_bars_table_and_save_reps = (Gtk.VBox) builder.GetObject ("vbox_encoder_bars_table_and_save_reps");
 		hbox_encoder_capture_save_repetitions = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_save_repetitions");
-		hbox_encoder_capture_show_need_one = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_show_need_one");
 		alignment_encoder_capture_curves_bars_drawingarea = (Gtk.Alignment) builder.GetObject ("alignment_encoder_capture_curves_bars_drawingarea");
 
 		hbox_combo_encoder_exercise_capture = (Gtk.Box) builder.GetObject ("hbox_combo_encoder_exercise_capture");

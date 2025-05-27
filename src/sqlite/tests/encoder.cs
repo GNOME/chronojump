@@ -705,7 +705,7 @@ class SqliteEncoder : SqliteTests
 		if (eSQL == null)
 			continue;
 
-		eSQL.PersonName = reader[21].ToString ();
+		eSQL.PersonNameSet = reader[21].ToString ();
 
 		List<EncoderSQL> eSQL_l = new List<EncoderSQL> (); // create eSQL_l list for this set
 		eSQL_l.Add (eSQL); 				// add the set
@@ -753,7 +753,7 @@ class SqliteEncoder : SqliteTests
 			continue;
 
 		//LogB.Information (eSQL.ToString ());
-		eSQL.PersonName = reader[21].ToString ();
+		eSQL.PersonNameSet = reader[21].ToString ();
 		int signalIDofThisRep = Convert.ToInt32 (reader[22].ToString ());
 
 		// a) if rep signalID is lower than eSQL_ll_count, this is orphan for some reason (a bug), discard

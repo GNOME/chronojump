@@ -75,7 +75,7 @@ public class TreeViewEncoder : TreeViewEvent
 			//show always the names of persons ...
 			if (tempPersonID != eSQL0.PersonID)
 			{
-				iter = store.AppendValues (createPersonRow (eSQL0.PersonID, eSQL0.PersonName));
+				iter = store.AppendValues (createPersonRow (eSQL0.PersonID, eSQL0.PersonNameGet));
 				tempPersonID = eSQL0.PersonID;
 			}
 

@@ -242,52 +242,52 @@ public partial class ChronoJumpWindow
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
 		{
 			ev = SqliteJump.SelectJumpData (id, false );
-			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonName + ")");
+			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonNameGetSQLChecking + ")");
 		}
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
 			ev = SqliteJumpRj.SelectJumpData ( "jumpRj", id, false, false);
-			treeviewResultsContextMenu (true, " " + ev.Type + " (" + ev.PersonName + ")");
+			treeviewResultsContextMenu (true, " " + ev.Type + " (" + ev.PersonNameGetSQLChecking + ")");
 		}
 		else if (current_mode == Constants.Modes.RUNSSIMPLE)
 		{
 			ev = SqliteRun.SelectRunData (id, false);
-			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonName + ")");
+			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonNameGetSQLChecking + ")");
 		}
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
 			ev = SqliteRunInterval.SelectRunData ( Constants.RunIntervalTable, id, false, false);
-			treeviewResultsContextMenu (true, " " + ev.Type + " (" + ev.PersonName + ")");
+			treeviewResultsContextMenu (true, " " + ev.Type + " (" + ev.PersonNameGetSQLChecking + ")");
 		}
 		else if (current_mode == Constants.Modes.RUNSENCODER)
 		{
 			ev = SqliteRunEncoder.SelectData (id, false);
-			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonName + ")");
+			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonNameGetSQLChecking + ")");
 		}
 		else if (current_mode == Constants.Modes.BEEPTEST)
 		{
 			ev = SqliteBeepTest.SelectData (id, false);
-			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonName + ")");
+			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonNameGetSQLChecking + ")");
 		}
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
 			ev = SqliteForceSensor.SelectData (id, false);
-			treeviewResultsContextMenu (false, " (" + ev.PersonName + ")");
+			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
 		}
 //		else if (Constants.ModeIsENCODER (current_mode))
 //		{
 //			ev = SqliteForceSensor.SelectData (id, false);
-//			treeviewResultsContextMenu (false, " (" + ev.PersonName + ")");
+//			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
 //		}
 		else if (current_mode == Constants.Modes.WILIGHT)
 		{
 			ev = SqliteWilight.SelectData (id, false);
-			treeviewResultsContextMenu (false, " (" + ev.PersonName + ")");
+			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
 		}
 		else if (current_mode == Constants.Modes.OTHER) //FOURPLATFORMS
 		{
 			ev = SqliteFourPlatforms.SelectData (id, false);
-			treeviewResultsContextMenu (false, " (" + ev.PersonName + ")");
+			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
 		}
 	}
 

@@ -319,7 +319,7 @@ public class EditEventWindow
 
 		combo_persons = new ComboBoxText();
 		UtilGtk.ComboUpdate(combo_persons, personsStrings, "");
-		combo_persons.Active = UtilGtk.ComboMakeActive(personsStrings, myEvent.PersonID + ":" + myEvent.PersonName);
+		combo_persons.Active = UtilGtk.ComboMakeActive(personsStrings, myEvent.PersonID + ":" + myEvent.PersonNameGetSQLChecking);
 		
 		oldPersonID = myEvent.PersonID;
 			

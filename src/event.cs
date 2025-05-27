@@ -88,13 +88,18 @@ public class Event
 		set { simulated = value; }
 	}
 
-	public string PersonName
+	//this is very inneficient if we are processing a list of events, eg. jumps
+	//and is dangerous when done and the DB is already opened
+	public string PersonNameGetSQLChecking
 	{
-		//get { return personName; }
-
-		//this is very inneficient if we are processing a list of events, eg. jumps
-		get { return SqlitePerson.SelectAttribute(personID, Constants.Name); }
-
+		get { return SqlitePerson.SelectAttribute (personID, Constants.Name); }
+	}
+	public string PersonNameGet
+	{
+		get { return personName; }
+	}
+	public string PersonNameSet
+	{
 		set { personName = value; }
 	}
 

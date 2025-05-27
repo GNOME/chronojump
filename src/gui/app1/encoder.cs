@@ -104,7 +104,6 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_encoder_capture_finish_cont;
 	Gtk.Button button_encoder_exercise_close_and_recalculate;
 	Gtk.Button button_encoder_bells;
-	Gtk.Button button_encoder_load_signal;
 	Gtk.Button button_encoder_load_signal_at_analyze;
 	Gtk.Viewport viewport_image_encoder_capture;
 	Gtk.Image image_encoder_capture;
@@ -1810,7 +1809,7 @@ public partial class ChronoJumpWindow
 				-1, "signal", EncoderSQL.Eccons.ALL, "",
 				false, true, false);
 	}
-	//this is called when user clicks on load signal
+	//this is called when user clicks on load signal (currently only on analyze)
 	void on_button_encoder_load_signal_clicked (object o, EventArgs args) {
 		on_encoder_load_signal_clicked (encoderSignalUniqueID);
 	}
@@ -5993,7 +5992,7 @@ public partial class ChronoJumpWindow
 		//c0 button_encoder_capture,
 		//	hbox_encoder_configuration, frame_encoder_capture_options
 		//c1 button_encoder_exercise_close_and_recalculate
-		//c2 button_encoder_load_signal
+		//c2 (before it has overview and load) button_encoder_load_signal_at_analyze
 		//c3 hbox_encoder_capture_curves_save_all_none, button_export_encoder_signal,
 		//	button_contacts_delete_selected, vbox_encoder_signal_comment,
 		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive. Update: both NOT managed here
@@ -6052,9 +6051,8 @@ public partial class ChronoJumpWindow
 
 		button_encoder_exercise_close_and_recalculate.Sensitive = Util.IntToBool(table[1]);
 
-		button_encoder_load_signal.Sensitive = Util.IntToBool(table[2]);
 		button_encoder_load_signal_at_analyze.Sensitive = Util.IntToBool(table[2]);
-		
+
 		hbox_encoder_capture_curves_save_all_none.Sensitive = Util.IntToBool(table[3]);
 		button_export_encoder_signal.Sensitive = Util.IntToBool(table[3]);
 		button_contacts_delete_selected.Sensitive = Util.IntToBool(table[3]);
@@ -6740,7 +6738,6 @@ public partial class ChronoJumpWindow
 				else // action == encoderActions.LOAD
 				{
 					//capture tab
-					button_encoder_load_signal.Visible =  false;
 					encoder_spinner_load_signal.Visible = true;
 					encoder_spinner_load_signal.Start ();
 
@@ -7306,7 +7303,6 @@ public partial class ChronoJumpWindow
 			}
 
 			//capture tab
-			button_encoder_load_signal.Visible =  true;
 			encoder_spinner_load_signal.Stop ();
 			encoder_spinner_load_signal.Visible = false;
 
@@ -8389,7 +8385,6 @@ public partial class ChronoJumpWindow
 		button_encoder_capture_finish_cont = (Gtk.Button) builder.GetObject ("button_encoder_capture_finish_cont");
 		button_encoder_exercise_close_and_recalculate = (Gtk.Button) builder.GetObject ("button_encoder_exercise_close_and_recalculate");
 		button_encoder_bells = (Gtk.Button) builder.GetObject ("button_encoder_bells");
-		button_encoder_load_signal = (Gtk.Button) builder.GetObject ("button_encoder_load_signal");
 		button_encoder_load_signal_at_analyze = (Gtk.Button) builder.GetObject ("button_encoder_load_signal_at_analyze");
 		viewport_image_encoder_capture = (Gtk.Viewport) builder.GetObject ("viewport_image_encoder_capture");
 		image_encoder_capture = (Gtk.Image) builder.GetObject ("image_encoder_capture");

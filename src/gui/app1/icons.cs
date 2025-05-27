@@ -165,7 +165,6 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_button_radio_encoder_exercise_help;
 	Gtk.Image image_encoder_exercise_settings;
 	Gtk.Image image_encoder_exercise_close;
-	Gtk.Image image_encoder_capture_open;
 	Gtk.Image image_encoder_capture_open1;
 	Gtk.Image image_encoder_capture_execute;
 	Gtk.Image image_encoder_exercise_edit;
@@ -547,7 +546,6 @@ public partial class ChronoJumpWindow
 		image_session_load3_yellow.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "folder_open_set.png");
-		image_encoder_capture_open.Pixbuf = pixbuf;
 		image_encoder_capture_open1.Pixbuf = pixbuf;
 		image_force_sensor_analyze_load_abcd.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "folder_open_set_ab.png");
@@ -773,7 +771,6 @@ public partial class ChronoJumpWindow
 		//open buttons (this is shown better in windows than the default open icon)
 		//pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameOpen);
 		//not changed because it's small. TODO: do bigger
-		//image_encoder_capture_open.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_none.png");
 		image_contacts_bell.Pixbuf = pixbuf;
@@ -1217,7 +1214,6 @@ public partial class ChronoJumpWindow
 		image_button_radio_encoder_exercise_help = (Gtk.Image) builder.GetObject ("image_button_radio_encoder_exercise_help");
 		image_encoder_exercise_settings = (Gtk.Image) builder.GetObject ("image_encoder_exercise_settings");
 		image_encoder_exercise_close = (Gtk.Image) builder.GetObject ("image_encoder_exercise_close");
-		image_encoder_capture_open = (Gtk.Image) builder.GetObject ("image_encoder_capture_open");
 		image_encoder_capture_open1 = (Gtk.Image) builder.GetObject ("image_encoder_capture_open1");
 		image_encoder_capture_execute = (Gtk.Image) builder.GetObject ("image_encoder_capture_execute");
 		image_encoder_exercise_edit = (Gtk.Image) builder.GetObject ("image_encoder_exercise_edit");

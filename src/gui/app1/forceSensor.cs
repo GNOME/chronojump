@@ -1860,7 +1860,7 @@ LogB.Information(" fs C ");
 			showHideBlinkIcon (blinkCapture, false);
 			//blinkCapture.End ();
 
-			button_video_play_this_test_contacts.Sensitive = false;
+			button_video_play_this_test.Sensitive = false;
 
 			if(forceProcessFinish)
 			{
@@ -2432,7 +2432,7 @@ LogB.Information(" fs R ");
 		//image_ai_model_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
 		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 
-		button_video_play_this_test_contacts.Sensitive = (fs.VideoURL != "");
+		button_video_play_this_test.Sensitive = (fs.VideoURL != "");
 		sensitiveLastTestButtons(true);
 
 		forceSensorZoomDefaultValues();

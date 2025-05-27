@@ -12965,51 +12965,6 @@ on Cloud-view mode</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkBox">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <child>
-                                                            <object class="GtkButton" id="button_video_play_this_test_encoder">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">True</property>
-                                                            <property name="has-tooltip">True</property>
-                                                            <property name="tooltip-text" translatable="yes">Play Video</property>
-                                                            <signal name="clicked" handler="on_button_video_play_this_test_encoder_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkImage" id="image_video_play_this_test_encoder">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            <property name="icon_size">1</property>
-                                                            </object>
-                                                            </child>
-                                                            <accelerator key="v" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkSpinner" id="spinner_video_play_this_test_encoder">
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <object class="GtkButton" id="button_encoder_delete_signal">
                                                             <property name="visible">True</property>
                                                             <property name="sensitive">False</property>
@@ -13031,7 +12986,7 @@ on Cloud-view mode</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -14260,16 +14215,16 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
-                                                            <object class="GtkButton" id="button_video_play_this_test_contacts">
+                                                            <object class="GtkButton" id="button_video_play_this_test">
                                                             <property name="visible">True</property>
                                                             <property name="sensitive">False</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="tooltip-text" translatable="yes">Play Video</property>
-                                                            <signal name="clicked" handler="on_button_video_play_this_test_contacts_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_video_play_this_test_clicked" swapped="no"/>
                                                             <child>
-                                                            <object class="GtkImage" id="image_video_play_this_test_contacts">
+                                                            <object class="GtkImage" id="image_video_play_this_test">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
@@ -14285,7 +14240,7 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkSpinner" id="spinner_video_play_this_test_contacts">
+                                                            <object class="GtkSpinner" id="spinner_video_play_this_test">
                                                             <property name="can-focus">False</property>
                                                             </object>
                                                             <packing>

@@ -3717,7 +3717,7 @@ public partial class ChronoJumpWindow
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
 
 			signalAnalyzeButtonsVisibility ();
-			button_video_play_this_test_contacts.Sensitive = (currentRunEncoder != null && currentRunEncoder.VideoURL != "");
+			button_video_play_this_test.Sensitive = (currentRunEncoder != null && currentRunEncoder.VideoURL != "");
 
 			//forceSensor and runEncoder
 			check_run_encoder_export_instantaneous.Visible = true;
@@ -4971,7 +4971,7 @@ public partial class ChronoJumpWindow
 	private void on_button_execute_test_acceptedPre_start_camera(WebcamStartedTestStart wsts)
 	{
 		LogB.Information("on_button_execute_test_acceptedPre_start_camera " + wsts.ToString());
-		button_video_play_this_test_contacts_sensitive (WebcamManage.GuiContactsEncoder.CONTACTS, false);
+		button_video_play_this_test.Sensitive = false;
 
 		webcamManage = new WebcamManage();
 		if(! webcamStart (WebcamManage.GuiContactsEncoder.CONTACTS, 1))

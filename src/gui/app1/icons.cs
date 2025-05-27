@@ -251,8 +251,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_run_encoder_exercise_angle_default_help;
 
 	//video play icons
-	Gtk.Image image_video_play_this_test_contacts;
-	Gtk.Image image_video_play_this_test_encoder;
+	Gtk.Image image_video_play_this_test;
 	Gtk.Image image_video_contacts_preview;
 	Gtk.Image image_video_encoder_preview;
 
@@ -839,8 +838,7 @@ public partial class ChronoJumpWindow
 
 		//video play icons
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "video_play.png");
-		image_video_play_this_test_contacts.Pixbuf = pixbuf;
-		image_video_play_this_test_encoder.Pixbuf = pixbuf;
+		image_video_play_this_test.Pixbuf = pixbuf;
 
 		//white background in chronopic viewports
 		UtilGtk.DeviceColors(viewport_chronopics, true);
@@ -1307,8 +1305,7 @@ public partial class ChronoJumpWindow
 		image_run_encoder_exercise_angle_default_help = (Gtk.Image) builder.GetObject ("image_run_encoder_exercise_angle_default_help");
 
 		//video play icons
-		image_video_play_this_test_contacts = (Gtk.Image) builder.GetObject ("image_video_play_this_test_contacts");
-		image_video_play_this_test_encoder = (Gtk.Image) builder.GetObject ("image_video_play_this_test_encoder");
+		image_video_play_this_test = (Gtk.Image) builder.GetObject ("image_video_play_this_test");
 		image_video_contacts_preview = (Gtk.Image) builder.GetObject ("image_video_contacts_preview");
 		image_video_encoder_preview = (Gtk.Image) builder.GetObject ("image_video_encoder_preview");
 

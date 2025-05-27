@@ -1963,7 +1963,7 @@ public partial class ChronoJumpWindow
 				encoderSignalUniqueID = eSQL.UniqueID;
 
 				//has to be done here, because if done in encoderThreadStart or in finishPulsebar it crashes 
-				button_video_play_this_test_encoder.Sensitive = (eSQL.videoURL != "");
+				button_video_play_this_test.Sensitive = (eSQL.videoURL != "");
 
 				encoderConfigurationCurrent = eSQL.encoderConfiguration;
 				setEncoderTypePixbuf();
@@ -3416,7 +3416,7 @@ public partial class ChronoJumpWindow
 						eSQL.UniqueID = encoderSignalUniqueID;
 						SqliteEncoder.Update(dbconOpened, eSQL);
 
-						button_video_play_this_test_encoder.Sensitive = true;
+						button_video_play_this_test.Sensitive = true;
 					} else {
 						new DialogMessage(Constants.MessageTypes.WARNING,
 								Catalog.GetString("Sorry, video cannot be stored."));
@@ -5998,7 +5998,7 @@ public partial class ChronoJumpWindow
 		button_encoder_analyze_table_save.Sensitive = false;
 		button_encoder_analyze_1RM_save.Visible = false;
 
-		button_video_play_this_test_encoder.Sensitive = false;
+		button_video_play_this_test.Sensitive = false;
 	}
 
 	private void encoderButtonsSensitive(encoderSensEnum option) 
@@ -6670,7 +6670,7 @@ public partial class ChronoJumpWindow
 				if (fullscreenLastCapture)
 					fullscreen_button_fullscreen_encoder.Click ();
 
-				button_video_play_this_test_encoder.Sensitive = false;
+				button_video_play_this_test.Sensitive = false;
 				blinkCapture = new BlinkImage (image_no_capturing_encoder, image_capturing_encoder);
 
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));

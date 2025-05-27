@@ -811,7 +811,7 @@ public partial class ChronoJumpWindow
 		button_contacts_delete_selected.Visible = ! guest;
 
 		button_contacts_bells.Visible = ! guest;
-		button_video_play_this_test_contacts.Visible = ! guest;
+		button_video_play_this_test.Visible = ! guest;
 		button_contacts_repair_selected.Visible = ! guest;
 	}
 	private void configNetworksEncoderAsGuest(bool guest)
@@ -825,9 +825,7 @@ public partial class ChronoJumpWindow
 		button_encoder_load_signal.Visible = ! guest;
 		button_encoder_capture_session_overview.Visible = ! guest;
 		button_encoder_delete_signal.Visible = ! guest;
-
 		button_encoder_bells.Visible = ! guest;
-		button_video_play_this_test_encoder.Visible = ! guest;
 
 		if(guest)
 		{

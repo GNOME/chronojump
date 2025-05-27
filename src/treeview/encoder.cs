@@ -37,7 +37,7 @@ public class TreeViewEncoder : TreeViewEvent
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllTestsNameStr();
-		idColumn = 8; //column where the uniqueID of event will be (and will be hidden)
+		idColumn = 9; //column where the uniqueID of event will be (and will be hidden)
 	
 		columnsString = new string[] { 
 			personName,
@@ -49,7 +49,7 @@ public class TreeViewEncoder : TreeViewEvent
 			Catalog.GetString ("Mean speed"),
 			Catalog.GetString ("Mean force"),
 //			datetimeName,
-//			videoName,
+			videoName,
 			descriptionName
 //				, "UNIQUEID" //just for debug
 		};
@@ -200,6 +200,12 @@ public class TreeViewEncoder : TreeViewEvent
 		myData[count++] = ""; //meanPower
 		myData[count++] = ""; //meanSpeed
 		myData[count++] = ""; //meanForce
+
+		if (UtilList.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.ENCODER, eSQL.UniqueID)))
+			myData[count++] = Catalog.GetString ("Yes");
+		else
+			myData[count++] = Catalog.GetString ("No");
+
 		myData[count++] = eSQL.Description;
 		myData[count++] = eSQL.UniqueID.ToString ();
 
@@ -221,6 +227,7 @@ public class TreeViewEncoder : TreeViewEvent
 		myData[count++] = eSQL.meanPower;
 		myData[count++] = eSQL.meanSpeed;
 		myData[count++] = eSQL.meanForce;
+		myData[count++] = ""; //eSQL.videoURL;
 		myData[count++] = ""; //eSQL.Description;
 		myData[count++] = MarkNonSelectRowSubEvent.ToString ();
 

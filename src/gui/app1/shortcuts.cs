@@ -63,7 +63,7 @@ public partial class ChronoJumpWindow
 		button_contacts_delete_selected.TooltipText += string.Format(" ({0}+d)", kCtrl);
 		//button_signal_analyze_load_ab.TooltipText += string.Format(" ({0}+l)", kCtrl);
 		//button_signal_analyze_load_cd.TooltipText += string.Format(" ({0}+l)", kCtrl);
-		button_video_play_this_test_contacts.TooltipText += string.Format(" ({0}+v)", kCtrl);
+		button_video_play_this_test.TooltipText += string.Format(" ({0}+v)", kCtrl);
 
 		//encoder
 		button_encoder_exercise.TooltipText += string.Format( "({0}+t)", kCtrl);
@@ -75,7 +75,6 @@ public partial class ChronoJumpWindow
 		button_encoder_capture_session_overview.TooltipText += string.Format(" ({0}+o)", kCtrl);
 		button_encoder_load_signal.TooltipText += string.Format(" ({0}+l)", kCtrl);
 		button_encoder_load_signal_at_analyze.TooltipText += string.Format(" ({0}+l)", kCtrl);
-		button_video_play_this_test_encoder.TooltipText += string.Format(" ({0}+v)", kCtrl);
 	}
 
 	private void connectWidgetsShortcuts (Gtk.Builder builder)

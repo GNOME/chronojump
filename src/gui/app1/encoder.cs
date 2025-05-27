@@ -131,6 +131,7 @@ public partial class ChronoJumpWindow
 	Gtk.Notebook notebook_encoder_capture;
 
 	//encoder capture tab view options
+	Gtk.HBox hbox_encoder_show_signal_table;
 	Gtk.CheckButton check_encoder_capture_table;
 	Gtk.CheckButton check_encoder_capture_signal;
 	Gtk.VBox vbox_encoder_bars_table_and_save_reps;
@@ -8412,6 +8413,7 @@ public partial class ChronoJumpWindow
 		notebook_encoder_capture = (Gtk.Notebook) builder.GetObject ("notebook_encoder_capture");
 
 		//encoder capture tab view options
+		hbox_encoder_show_signal_table = (Gtk.HBox) builder.GetObject ("hbox_encoder_show_signal_table");
 		check_encoder_capture_table = (Gtk.CheckButton) builder.GetObject ("check_encoder_capture_table");
 		check_encoder_capture_signal = (Gtk.CheckButton) builder.GetObject ("check_encoder_capture_signal");
 		vbox_encoder_bars_table_and_save_reps = (Gtk.VBox) builder.GetObject ("vbox_encoder_bars_table_and_save_reps");

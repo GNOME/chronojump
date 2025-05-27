@@ -9943,9 +9943,6 @@ on Cloud-view mode</property>
                                                             <property name="position">2</property>
                                                             </packing>
                                                             </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
                                                           </object>
                                                           <packing>
                                                             <property name="expand">False</property>
@@ -10637,6 +10634,11 @@ on Cloud-view mode</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">12</property>
+                                                            <child>
                                                             <object class="GtkHBox" id="box_event_execute_label_message">
                                                             <property name="height-request">24</property>
                                                             <property name="visible">True</property>
@@ -10690,6 +10692,68 @@ on Cloud-view mode</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox_encoder_show_signal_table">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label652">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="margin-left">16</property>
+                                                            <property name="label" translatable="yes">Show</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkCheckButton" id="check_encoder_capture_signal">
+                                                            <property name="label" translatable="yes">Signal</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="draw-indicator">False</property>
+                                                            <signal name="clicked" handler="on_check_encoder_capture_show_modes_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkCheckButton" id="check_encoder_capture_table">
+                                                            <property name="label" translatable="yes">Table</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="draw-indicator">False</property>
+                                                            <signal name="clicked" handler="on_check_encoder_capture_show_modes_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack-type">end</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -12714,94 +12778,6 @@ on Cloud-view mode</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
-                                                            <object class="GtkAlignment" id="alignment84">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="xalign">0</property>
-                                                            <property name="bottom-padding">8</property>
-                                                            <child>
-                                                            <object class="GtkBox">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox50">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">20</property>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox74">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label652">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="margin-left">16</property>
-                                                            <property name="margin-start">16</property>
-                                                            <property name="label" translatable="yes">Show</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkCheckButton" id="check_encoder_capture_table">
-                                                            <property name="label" translatable="yes">Table</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">False</property>
-                                                            <property name="draw-indicator">False</property>
-                                                            <signal name="clicked" handler="on_check_encoder_capture_show_modes_clicked" swapped="no"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkCheckButton" id="check_encoder_capture_signal">
-                                                            <property name="label" translatable="yes">Signal</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="receives-default">False</property>
-                                                            <property name="draw-indicator">False</property>
-                                                            <signal name="clicked" handler="on_check_encoder_capture_show_modes_clicked" swapped="no"/>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">3</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="pack-type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <object class="GtkHBox" id="hbox58">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -13576,7 +13552,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             </object>

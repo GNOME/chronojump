@@ -3187,7 +3187,7 @@ public partial class ChronoJumpWindow
 		if(currentSession != null)
 			tempSessionName = currentSession.Name;
 
-		setApp1Title(tempSessionName, current_mode);
+		setApp1Title(tempSessionName, m);
 
 		treeview_results_session_storeReset ();
 
@@ -3290,6 +3290,7 @@ public partial class ChronoJumpWindow
 		box_wilight_commands.Visible = false;
 		box_fourPlatforms.Visible = false;
 		box_event_execute_label_message.Visible = true;
+		hbox_encoder_show_signal_table.Visible = Constants.ModeIsENCODER (m);
 		box_contacts_graph_exercise.Visible = true;
 
 		hbox_combo_select_contacts_top_with_arrows.Visible = false; //TODO: this will be unneded
@@ -3411,9 +3412,9 @@ public partial class ChronoJumpWindow
 			on_radio_contacts_graph_test_toggled (new object (), new EventArgs ()); //to ensure data is updated
 
 			box_contacts_export_data_jumps.Visible = true;
-			check_contacts_export_jumps_simple.Active = (current_mode == Constants.Modes.JUMPSSIMPLE);
-			check_contacts_export_jumps_simple_mean_max_tables.Active = (current_mode == Constants.Modes.JUMPSSIMPLE);
-			check_contacts_export_jumps_reactive.Active = (current_mode == Constants.Modes.JUMPSREACTIVE);
+			check_contacts_export_jumps_simple.Active = (m == Constants.Modes.JUMPSSIMPLE);
+			check_contacts_export_jumps_simple_mean_max_tables.Active = (m == Constants.Modes.JUMPSSIMPLE);
+			check_contacts_export_jumps_reactive.Active = (m == Constants.Modes.JUMPSREACTIVE);
 			box_contacts_export_data_runs.Visible = false;
 			radio_contacts_export_individual_current_session.Active = true;
 			on_radio_contacts_export_individual_current_session_toggled (new object (), new EventArgs ());
@@ -3487,8 +3488,8 @@ public partial class ChronoJumpWindow
 
 			box_contacts_export_data_jumps.Visible = false;
 			box_contacts_export_data_runs.Visible = true;
-			check_contacts_export_runs_simple.Active = (current_mode == Constants.Modes.RUNSSIMPLE);
-			check_contacts_export_runs_intervallic.Active = (current_mode == Constants.Modes.RUNSINTERVALLIC);
+			check_contacts_export_runs_simple.Active = (m == Constants.Modes.RUNSSIMPLE);
+			check_contacts_export_runs_intervallic.Active = (m == Constants.Modes.RUNSINTERVALLIC);
 			radio_contacts_export_individual_current_session.Active = true;
 			on_radio_contacts_export_individual_current_session_toggled (new object (), new EventArgs ());
 
@@ -3836,16 +3837,16 @@ public partial class ChronoJumpWindow
 
 		//json upload
 		button_contacts_json_upload.Visible = configChronojump.JsonUploadNeedsButton &&
-			(current_mode == Constants.Modes.JUMPSSIMPLE ||
-			current_mode == Constants.Modes.RUNSSIMPLE ||
-			 current_mode == Constants.Modes.RUNSINTERVALLIC);
+			(m == Constants.Modes.JUMPSSIMPLE ||
+			 m == Constants.Modes.RUNSSIMPLE ||
+			 m == Constants.Modes.RUNSINTERVALLIC);
 
 		//grid insert
-		if (current_mode == Constants.Modes.RUNSSIMPLE && configChronojump.CanInsertTests) {
+		if (m == Constants.Modes.RUNSSIMPLE && configChronojump.CanInsertTests) {
 			box_contacts_insert_test.Visible = true;
 			notebook_contacts_insert_test.CurrentPage = 0;
 		}
-		else if (current_mode == Constants.Modes.RUNSINTERVALLIC && configChronojump.CanInsertTests) {
+		else if (m == Constants.Modes.RUNSINTERVALLIC && configChronojump.CanInsertTests) {
 			box_contacts_insert_test.Visible = true;
 			notebook_contacts_insert_test.CurrentPage = 1;
 		} else
@@ -3863,7 +3864,7 @@ public partial class ChronoJumpWindow
 
 		chronojumpWindowTestsNext();
 
-		if (current_mode != Constants.Modes.JUMPSSIMPLE && current_mode != Constants.Modes.RUNSSIMPLE)
+		if (m != Constants.Modes.JUMPSSIMPLE && m != Constants.Modes.RUNSSIMPLE)
 			vpaned_tests_center ();
 
 		hpaned_contacts_graph_table_center_if_needed ();
@@ -3877,10 +3878,10 @@ public partial class ChronoJumpWindow
 			myTreeViewPersons.RestSecondsMark = get_configured_rest_time_in_seconds();
 			fillTreeView_persons();
 		}
-		updatingRestTimes = (current_mode != Constants.Modes.BEEPTEST);
+		updatingRestTimes = (m != Constants.Modes.BEEPTEST);
 
 		if (remoteTest != null)
-			remoteTest.Current_mode = current_mode;
+			remoteTest.Current_mode = m;
 	}
 
 	private void showMacRInstallMessage ()

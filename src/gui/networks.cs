@@ -823,7 +823,6 @@ public partial class ChronoJumpWindow
 		radio_mode_contacts_analyze.Visible = ! guest;
 		button_menu_preferences.Visible = ! guest;
 		button_encoder_load_signal.Visible = ! guest;
-		button_encoder_capture_session_overview.Visible = ! guest;
 		button_encoder_bells.Visible = ! guest;
 
 		if(guest)

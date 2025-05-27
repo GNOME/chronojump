@@ -49,7 +49,6 @@ public partial class ChronoJumpWindow
 	//Gtk.Image image_persons_down;
 	Gtk.Image image_contacts_exercise_settings;
 	Gtk.Image image_contacts_exercise_close;
-	Gtk.Image image_encoder_session_overview;
 	Gtk.Image image_contacts_recalculate;
 	Gtk.Image image_all_persons_events_h;
 	Gtk.Image image_person_delete_h;
@@ -845,7 +844,6 @@ public partial class ChronoJumpWindow
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_grid_on.png");
 		image_sprint_analyze_table_save.Pixbuf = pixbuf;
-		image_encoder_session_overview.Pixbuf = pixbuf;
 		image_encoder_analyze_table_save.Pixbuf = pixbuf;
 		image_sprint_table_save_grid.Pixbuf = pixbuf;
 		image_raceAnalyzer_table_save_grid.Pixbuf = pixbuf;
@@ -1102,7 +1100,6 @@ public partial class ChronoJumpWindow
 		//image_persons_down = (Gtk.Image) builder.GetObject ("image_persons_down");
 		image_contacts_exercise_settings = (Gtk.Image) builder.GetObject ("image_contacts_exercise_settings");
 		image_contacts_exercise_close = (Gtk.Image) builder.GetObject ("image_contacts_exercise_close");
-		image_encoder_session_overview = (Gtk.Image) builder.GetObject ("image_encoder_session_overview");
 		image_contacts_recalculate = (Gtk.Image) builder.GetObject ("image_contacts_recalculate");
 		image_all_persons_events_h = (Gtk.Image) builder.GetObject ("image_all_persons_events_h");
 		image_person_delete_h = (Gtk.Image) builder.GetObject ("image_person_delete_h");

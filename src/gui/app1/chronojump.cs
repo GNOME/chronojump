@@ -2656,6 +2656,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	/* TODO: remove this when we are sure that treeViewResultsEncoder works flawlessly
        private OverviewWindow overviewWin;
        private void on_session_overview_clicked (object o, EventArgs args)
        {
@@ -2683,6 +2684,7 @@ public partial class ChronoJumpWindow
                        overviewWin.HideAndNull();
                }
        }
+       */
 
 	private void on_radio_contacts_export_individual_current_session_toggled (object o, EventArgs args)
 	{

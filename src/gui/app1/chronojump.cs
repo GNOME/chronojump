@@ -366,7 +366,6 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_encoder_analyze_image_save;
 	Gtk.Image image_encoder_analyze_1RM_save;
 	Gtk.Image image_encoder_analyze_table_save;
-	Gtk.Image image_encoder_signal_delete;
 	Gtk.Image image_encoder_inertial_instructions;
 	Gtk.Label label_gravitatory_vpf_propulsive;
 
@@ -6475,6 +6474,8 @@ public partial class ChronoJumpWindow
 			run_encoder_delete_current_test_pre_question();
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			force_sensor_delete_current_test_pre_question();
+		else if (Constants.ModeIsENCODER (current_mode))
+			on_button_encoder_delete_signal_clicked (o, args);
 		else if (current_mode == Constants.Modes.BEEPTEST || current_mode == Constants.Modes.WILIGHT || current_mode == Constants.Modes.OTHER)
 			on_delete_selected_test_clicked (o, args);
 	}
@@ -8709,7 +8710,6 @@ public partial class ChronoJumpWindow
 		image_encoder_analyze_image_save = (Gtk.Image) builder.GetObject ("image_encoder_analyze_image_save");
 		image_encoder_analyze_1RM_save = (Gtk.Image) builder.GetObject ("image_encoder_analyze_1RM_save");
 		image_encoder_analyze_table_save = (Gtk.Image) builder.GetObject ("image_encoder_analyze_table_save");
-		image_encoder_signal_delete = (Gtk.Image) builder.GetObject ("image_encoder_signal_delete");
 		image_encoder_inertial_instructions = (Gtk.Image) builder.GetObject ("image_encoder_inertial_instructions");
 		label_gravitatory_vpf_propulsive = (Gtk.Label) builder.GetObject ("label_gravitatory_vpf_propulsive");
 

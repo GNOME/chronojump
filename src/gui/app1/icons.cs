@@ -794,7 +794,6 @@ public partial class ChronoJumpWindow
 		image_button_cancel.Pixbuf = pixbuf;
 		image_button_cancel1.Pixbuf = pixbuf;
 		image_button_cancel2.Pixbuf = pixbuf;
-		image_encoder_signal_delete.Pixbuf = pixbuf;
 		app1s_image_delete.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");

@@ -3696,10 +3696,14 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 
 public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 {
-	public CairoPaintBarsPreEncoderSession (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN)
+	private bool showPersonName;
+
+	public CairoPaintBarsPreEncoderSession (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN, bool showPersonName)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
+
 		this.title = generateTitle();
+		this.showPersonName = showPersonName;
 	}
 
 	public override void StoreEventGraphEncoderSession (PrepareEventGraphEncoderSession eventGraph)
@@ -3744,6 +3748,8 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 
 			// 2) Add bottom names
 			string typeRowString = "";
+			if (eventGraphEncoderSessionStored.exerciseAll) //if "all tests" show type
+				typeRowString = eSQL.exerciseName;
 			//if (eventGraphEncoderSessionStored.type == "")
 			//	typeRowString = jump.Type;
 

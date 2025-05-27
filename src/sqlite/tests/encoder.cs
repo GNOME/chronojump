@@ -235,7 +235,7 @@ class SqliteEncoder : SqliteTests
 	   orderRepsByPosInSet fixes this problem. this is used eg. in analyze session to sort them correctly
 	   but note it Select will only work ok for curves
 	 */
-    //default, returns an ArrayList
+    // default, returns an ArrayList
     public static ArrayList Select (
 		    bool dbconOpened, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI,
 		    int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect, string lateralityEnglish,
@@ -266,16 +266,22 @@ class SqliteEncoder : SqliteTests
 	    return array;
     }
 
-    //default, returns a List<EncoderSQL>
+    // returns a List<EncoderSQL>
+    // includes also:
     // limit 0 means no limit (limit negative is the last results)
+    // personNameInComment
     public static List<EncoderSQL> SelectList (
 		    bool dbconOpened, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI,
 		    int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect, string lateralityEnglish,
 		    bool onlyActive, bool orderIDascendent,
 		    bool orderRepsByPosInSet, 	// Attention! note this only selects curves
-		    int limit)
+		    int limit, bool personNameInComment)
     {
 	    openIfNeeded (dbconOpened);
+
+	    //for personNameInComment
+	    List<Person> person_l =
+		    SqlitePersonSession.SelectCurrentSessionPersonsAsList (true, sessionID);
 
 	    selectDo (dbconOpened, uniqueID, personID, sessionID, encoderGI,
 			    exerciseID, signalOrCurve, ecconSelect, lateralityEnglish,
@@ -289,8 +295,16 @@ class SqliteEncoder : SqliteTests
 	    while (reader.Read())
 	    {
 		    EncoderSQL eSQL = getEncoderSQL (reader, encoderGI);
+
 		    if (eSQL != null)
+		    {
+			    if (personNameInComment)
+				    foreach (Person person in person_l)
+					    if (person.UniqueID == eSQL.PersonID)
+						    eSQL.Description = person.Name;
+
 			    eSQL_l.Add (eSQL);
+		    }
 	    }
 
 	    reader.Close();

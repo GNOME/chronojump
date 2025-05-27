@@ -662,8 +662,8 @@ public class PrepareEventGraphEncoderSession
 				"", 	//lateralityEnglish
 				false, true, 	// onlyActive, orderIDascendent
 				true, 	//orderRespsByPosInSet
-				limit
-				//allPersons//, 	//show names on comments only if "all persons"
+				limit,
+				allPersons//, 	//show names on comments only if "all persons"
 				//false 	//! onlyBestInSession
 				);
 		//LogB.Information ("rowsAtSQL count: " + (rowsAtSQL.Count).ToString ());

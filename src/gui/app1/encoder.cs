@@ -140,7 +140,6 @@ public partial class ChronoJumpWindow
 	Gtk.VBox vbox_encoder_bars_table_and_save_reps;
 	Gtk.HBox hbox_encoder_capture_save_repetitions;
 	Gtk.HBox hbox_encoder_capture_show_need_one;
-	Gtk.VPaned vpaned_encoder_main;
 	Gtk.Alignment alignment_encoder_capture_curves_bars_drawingarea;
 
 	Gtk.Box hbox_combo_encoder_exercise_capture;
@@ -340,13 +339,11 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_encoder_load_signal_at_analyze;
 	
 	Gtk.Alignment alignment_treeview_encoder_capture_curves;
-	Gtk.HPaned hpaned_encoder_capture_tree_signal;
+	Gtk.Paned hpaned_encoder_capture_current;
 	Gtk.TreeView treeview_encoder_capture_curves;
 	Gtk.TreeView treeview_encoder_analyze_curves;
 	Gtk.SpinButton spin_encoder_capture_curves_best_n;
 
-	Gtk.Box box_encoder_capture_signal_horizontal;
-	Gtk.Box box_encoder_capture_signal_vertical;
 	Gtk.DrawingArea encoder_capture_signal_drawingarea_cairo;
 	Gtk.DrawingArea encoder_capture_curves_bars_drawingarea_cairo;
 	Gtk.DrawingArea drawingarea_encoder_analyze_instant;
@@ -1470,27 +1467,31 @@ public partial class ChronoJumpWindow
 		//if(check_encoder_capture_bars.Active && ! check_encoder_capture_table.Active &&
 		//		! check_encoder_capture_signal.Active)
 
+		/* TODO: do something similar for hpaned_encoder_capture_current
 		if (! check_encoder_capture_table.Active &&
 				(preferences.signalDirectionHorizontal && ! check_encoder_capture_signal.Active) ||
 				! preferences.signalDirectionHorizontal )
 			GLib.Timeout.Add (50, new GLib.TimeoutHandler (encoder1stRowAllHeight));
+			*/
 
 		GLib.Timeout.Add (100, new GLib.TimeoutHandler (encoder2ndRowPos));
 	}
 
+	/*
 	private bool encoder1stRowAllHeight () //done later in order to have table and/or signal hidden
 	{
 		vpaned_encoder_main.Position = vpaned_encoder_main.MaxPosition;
 		return false;
 	}
+	*/
 
 	private bool encoder2ndRowPos ()
 	{
 		if (check_encoder_capture_signal.Active)
-			hpaned_encoder_capture_tree_signal.Position =
-				Convert.ToInt32 (UtilAll.DivideSafe (3 * hpaned_encoder_capture_tree_signal.MaxPosition, 4));
+			hpaned_encoder_capture_current.Position =
+				Convert.ToInt32 (UtilAll.DivideSafe (3 * hpaned_encoder_capture_current.MaxPosition, 4));
 		else
-			hpaned_encoder_capture_tree_signal.Position = hpaned_encoder_capture_tree_signal.MaxPosition;
+			hpaned_encoder_capture_current.Position = hpaned_encoder_capture_current.MaxPosition;
 
 		return false;
 	}
@@ -8441,7 +8442,6 @@ public partial class ChronoJumpWindow
 		vbox_encoder_bars_table_and_save_reps = (Gtk.VBox) builder.GetObject ("vbox_encoder_bars_table_and_save_reps");
 		hbox_encoder_capture_save_repetitions = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_save_repetitions");
 		hbox_encoder_capture_show_need_one = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_show_need_one");
-		vpaned_encoder_main = (Gtk.VPaned) builder.GetObject ("vpaned_encoder_main");
 		alignment_encoder_capture_curves_bars_drawingarea = (Gtk.Alignment) builder.GetObject ("alignment_encoder_capture_curves_bars_drawingarea");
 
 		hbox_combo_encoder_exercise_capture = (Gtk.Box) builder.GetObject ("hbox_combo_encoder_exercise_capture");
@@ -8643,13 +8643,11 @@ public partial class ChronoJumpWindow
 		label_encoder_load_signal_at_analyze = (Gtk.Label) builder.GetObject ("label_encoder_load_signal_at_analyze");
 
 		alignment_treeview_encoder_capture_curves = (Gtk.Alignment) builder.GetObject ("alignment_treeview_encoder_capture_curves");
-		hpaned_encoder_capture_tree_signal = (Gtk.HPaned) builder.GetObject ("hpaned_encoder_capture_tree_signal");
+		hpaned_encoder_capture_current = (Gtk.Paned) builder.GetObject ("hpaned_encoder_capture_current");
 		treeview_encoder_capture_curves = (Gtk.TreeView) builder.GetObject ("treeview_encoder_capture_curves");
 		treeview_encoder_analyze_curves = (Gtk.TreeView) builder.GetObject ("treeview_encoder_analyze_curves");
 		spin_encoder_capture_curves_best_n = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_curves_best_n");
 
-		box_encoder_capture_signal_horizontal = (Gtk.Box) builder.GetObject ("box_encoder_capture_signal_horizontal");
-		box_encoder_capture_signal_vertical = (Gtk.Box) builder.GetObject ("box_encoder_capture_signal_vertical");
 		encoder_capture_signal_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("encoder_capture_signal_drawingarea_cairo");
 		encoder_capture_curves_bars_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("encoder_capture_curves_bars_drawingarea_cairo");
 		drawingarea_encoder_analyze_instant = (Gtk.DrawingArea) builder.GetObject ("drawingarea_encoder_analyze_instant");

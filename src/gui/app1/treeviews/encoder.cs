@@ -49,22 +49,6 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		/*
-		SqliteTests sqliteTests = new SqliteEncoder ();
-
-		string [] myValues = sqliteTests.SelectSA (dbconOpened,
-				currentSession.UniqueID, currentPersonOrAll (),
-				//"",
-				true, Constants.EncoderExerciseTable,
-				Sqlite.Orders_by.DEFAULT, 0);
-		if (Constants.ModeIsENCODER (current_mode))
-		{
-			LogB.Information ("calling treeViewResultsSession.Fill");
-			treeViewResultsSession.Fill (myValues, filter,
-					Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.ENCODER));
-		}
-		*/
-
 		if (! Constants.ModeIsENCODER (current_mode))
 			return;
 

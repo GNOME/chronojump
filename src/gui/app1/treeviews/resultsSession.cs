@@ -81,12 +81,21 @@ public partial class ChronoJumpWindow
 	// Change person (will change treeview and lots of widgets) And then select this id on treeviewResults.
 	private int personChangingFromResultsId = -1;
 
+	// encoder finishPulsebar updates treeview and store.Remove calls cursor_changed. Block this.
+	private bool treeview_results_session_cursor_changed_block = false;
+
 	// Important! see: diagrams/processes/person_results_changes.dia
 	private void on_treeview_results_session_cursor_changed (object o, EventArgs args)
 	{
 		LogB.Information ("on_treeview_results_session_cursor_changed");
 		if (treeViewResultsSession == null)
 			return;
+
+		if (treeview_results_session_cursor_changed_block)
+		{
+			LogB.Information ("blocked: cursor_changed");
+			return;
+		}
 
 		// Check if clicked to another person
 		if (currentPerson != null && ! treeviewResultsSessionNoCheckPersonChange)

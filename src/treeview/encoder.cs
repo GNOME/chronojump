@@ -94,6 +94,44 @@ public class TreeViewEncoder : TreeViewEvent
 		}
 	}
 
+	// no need to be of selected set can be of any set
+	public override void UpdateReps (List<List<EncoderSQL>> eSQL_ll)
+	{
+		if (eSQL_ll.Count == 0 || eSQL_ll[0].Count <= 1) //it need to have reps
+			return;
+
+		// get the treeiter of the set
+		int setID = eSQL_ll[0][0].UniqueID;
+
+		TreeIter iter = new TreeIter ();
+		if (! getEvent (setID, out iter))
+			return;
+
+		// delete the repetitions (children: level2)
+		TreeIter iterDeep = new TreeIter ();
+		if (treeview.Model.IterHasChild (iter))
+		{
+			treeview.Model.IterChildren (out iterDeep, iter);
+			do {
+				//this will activate: on_treeview_results_session_cursor_changed (but we have blocked it with treeview_results_session_cursor_changed_block
+				store.Remove (ref iterDeep); 	//delete iter (repetition)
+			} while (store.IterIsValid (iterDeep));
+		}
+
+		// to not select next set. Return the selection to the desired set.
+		SelectEvent (setID, false);
+
+		// add the reps
+		if (! getEvent (setID, out iter))
+			return;
+
+		for (int i = 1; i < eSQL_ll[0].Count; i ++)
+			store.AppendValues (iter, getSubLineToStore (eSQL_ll[0][i], i));
+
+		// unfold the reps again
+		treeview.ExpandToPath (treeview.Model.GetPath(iter));
+	}
+
 	public override void AddEncoder (int personID, string pName, List<List<EncoderSQL>> eSQL_ll, string videoStr)
 	{
 		if (eSQL_ll.Count == 0)
@@ -212,7 +250,6 @@ public class TreeViewEncoder : TreeViewEvent
 		return myData;
 	}
 
-	// TODO: add meanPower, meanSpeed, meanForce
 	protected override string [] getSubLineToStore (System.Object myObject, int i)
 	{
 		EncoderSQL eSQL = (EncoderSQL) myObject;
@@ -233,16 +270,4 @@ public class TreeViewEncoder : TreeViewEvent
 
 		return myData;
 	}
-
-	/*
-	protected override string [] printTotal (System.Object myObject)
-	{
-	}
-	protected override string [] printAVG (System.Object myObject)
-	{
-	}
-	protected override string [] printSD (System.Object myObject)
-	{
-	}
-	 */
 }

@@ -348,6 +348,7 @@ public class TreeViewEvent
 		store.GetIterFromString (out iter2, pathStringZero);
 		return true;
 	}
+
 	// <---- on two level treeviews ----
 
 	public void Update (Event myEvent)
@@ -403,6 +404,10 @@ public class TreeViewEvent
 				}
 			}
 		}
+	}
+
+	public virtual void UpdateReps (List<List<EncoderSQL>> eSQL_ll)
+	{
 	}
 
 	public void ZoomChange (Gtk.Image icon_zoom)
@@ -645,6 +650,39 @@ public class TreeViewEvent
 			}
 		} while (treeview.Model.IterNext (ref iter) && ! found);
 	}	
+
+	// 1st level (maybe use this into SelectEvent)
+	protected bool getEvent (int uniqueID, out TreeIter iter)
+	{
+		treeview.Model.GetIterFirst (out iter) ;
+
+		/*
+		  new GTK# makes IterNext point to an invalid iter if there's no next
+		  then we cannot find parent of iter
+		  with the iterValid, we have the last valid children iter
+		  and we use it to find parent
+		  */
+		TreeIter iterValid = new TreeIter();
+
+		do {
+			if( treeview.Model.IterHasChild(iter) )
+			{
+				treeview.Model.IterChildren (out iter, iter);
+				do {
+					int iterEventID = Convert.ToInt32 (treeview.Model.GetValue (iter, idColumn));
+					if(iterEventID == uniqueID && ! idIsPerson (iter))
+						return true; //no se si aquí cal el iterValid
+
+					iterValid = iter;
+				} while (treeview.Model.IterNext (ref iter));
+
+				iter = iterValid;
+				treeview.Model.IterParent (out iter, iter);
+			}
+		} while (treeview.Model.IterNext (ref iter));
+
+		return false;
+	}
 	
 	public void Unselect () {
 		treeview.Selection.UnselectAll();

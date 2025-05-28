@@ -7922,6 +7922,18 @@ public partial class ChronoJumpWindow
 					
 					Sqlite.Close();
 
+					if (action == encoderActions.LOAD)
+					{
+						SqliteEncoder se = new SqliteEncoder ();
+						treeview_results_session_cursor_changed_block = true; //to block cursor_change on store.Remove ()
+						treeViewResultsSession.UpdateReps (
+								se.SelectSetsAndRepsLList (
+									false, currentPerson.UniqueID, currentSession.UniqueID,
+									currentEncoderGI, lastEncoderSQLSignal.exerciseID, encoderSignalUniqueID)
+								);
+						//TODO: need to also update the bar graph
+						treeview_results_session_cursor_changed_block = false;
+					}
 				}
 			}
 

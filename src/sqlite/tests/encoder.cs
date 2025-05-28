@@ -670,6 +670,9 @@ class SqliteEncoder : SqliteTests
 	dbcmd.ExecuteNonQuery();
 	SQLiteDataReader reader;
 	reader = dbcmd.ExecuteReader();
+
+	List<int> signalID_l = new List<int> ();  //just to have operations faster on assign repetitions
+
 	while (reader.Read())
 	{
 		EncoderSQL eSQL = getEncoderSQL (reader, encoderGI);
@@ -681,6 +684,7 @@ class SqliteEncoder : SqliteTests
 		List<EncoderSQL> eSQL_l = new List<EncoderSQL> (); // create eSQL_l list for this set
 		eSQL_l.Add (eSQL); 				// add the set
 		eSQL_ll.Add (eSQL_l);				// add the list to eSQL_ll
+		signalID_l.Add (eSQL.UniqueID);
 	}
         reader.Close();
 	if (eSQL_ll.Count == 0)
@@ -691,6 +695,8 @@ class SqliteEncoder : SqliteTests
 	LogB.Information (string.Format ("List at end of 1, count: {0}", eSQL_ll.Count));
 	foreach (List<EncoderSQL> eSQL_l in eSQL_ll)
 		LogB.Information (((EncoderSQL) eSQL_l[0]).ToString ());
+	foreach (int id in signalID_l)
+		LogB.Information (id.ToString ());
 	*/
 
 	// 2 select the reps (getting also the EncoderSignalCurve.signalID to link with the sets
@@ -710,13 +716,13 @@ class SqliteEncoder : SqliteTests
 			filterExerciseString +
 			filterSignalString +
 			" AND signalOrCurve = 'curve' " +
-			string.Format(" ORDER BY upper({0}.name), {1}.signalID, {1}.msCentral ", tp, encSCT);
+			string.Format(" ORDER BY {0}.signalID, {0}.msCentral ", encSCT);
 	LogB.SQL(dbcmd.CommandText.ToString());
 
 	dbcmd.ExecuteNonQuery();
 	reader = dbcmd.ExecuteReader();
-	int eSQL_ll_count = 0;
-	//LogB.Information ("at reps while");
+
+	EncoderSignalCurve escOld = new EncoderSignalCurve (-1, -1, -1, -1);
 	while (reader.Read())
 	{
 		EncoderSQL eSQL = getEncoderSQL (reader, encoderGI);
@@ -727,21 +733,18 @@ class SqliteEncoder : SqliteTests
 		eSQL.PersonNameSet = reader[21].ToString ();
 		int signalIDofThisRep = Convert.ToInt32 (reader[22].ToString ());
 
-		// a) if rep signalID is lower than eSQL_ll_count, this is orphan for some reason (a bug), discard
-		if ( signalIDofThisRep < ((EncoderSQL) eSQL_ll[eSQL_ll_count][0]).UniqueID )
+		// for some reason, some EncoderSignalCurve records are repeated on DB. Find why and fix. Meanwhile discard them here.
+		EncoderSignalCurve esc = new EncoderSignalCurve (-1, signalIDofThisRep, eSQL.UniqueID,
+				Convert.ToInt32 (reader[23].ToString ()));
+		if (esc.Equals (escOld))
 			continue;
 
-		// b) if rep signalID is higher than eSQL_ll_count, just increase eSQL_ll_count
-		while (eSQL_ll_count < eSQL_ll.Count &&
-				signalIDofThisRep > ((EncoderSQL) eSQL_ll[eSQL_ll_count][0]).UniqueID)
-			eSQL_ll_count ++;
-
-		if (eSQL_ll_count >= eSQL_ll.Count)
-			break;
-
-		// c) if they match, add to this list
-		if ( ((EncoderSQL) eSQL_ll[eSQL_ll_count][0]).UniqueID == signalIDofThisRep)
-			eSQL_ll[eSQL_ll_count].Add (eSQL);
+		for (int i = 0 ; i < signalID_l.Count ; i ++)
+			if (signalIDofThisRep == signalID_l[i])
+			{
+				(eSQL_ll[i]).Add (eSQL);
+				escOld = new EncoderSignalCurve (-1, esc.signalID, esc.curveID, esc.msCentral);
+			}
 	}
         reader.Close();
 

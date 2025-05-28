@@ -353,6 +353,12 @@ public class EncoderSignalCurve
 		return uniqueID.ToString() + ":" + signalID.ToString() + ":" + 
 			curveID.ToString() + ":" + msCentral.ToString();
 	}
-	
+
+	// for some reason, some EncoderSignalCurve recoreds are repeated on DB
+	public override bool Equals (object evalString)
+	{
+		return this.ToString() == evalString.ToString();
+	}
+
 	~EncoderSignalCurve() {}
 }

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -359,20 +359,6 @@ public partial class ChronoJumpWindow
 			//maybe changed repetition updates the max, so check it:
 			findMaxPowerSpeedForceIntersession();
 			
-			/* temporarily removed message
-			 *
-			string message = "";
-			if(! val)
-				message = Catalog.GetString("Saved");
-			else
-				message = Catalog.GetString("Removed");
-			if(ecconLast ==	"c")
-				label_encoder_curve_action.Text = message + " " + (rowNum +1).ToString();
-			else
-				label_encoder_curve_action.Text = message + " " + (decimal.Truncate((rowNum +1) /2) +1).ToString();
-				*/
-
-
 			//on ec, ecS need to [un]select second row
 			if (ecconLast=="ec" || ecconLast =="ecS") {
 				path.Next();
@@ -397,7 +383,7 @@ public partial class ChronoJumpWindow
 		int bestRow = 0;
 		int numRows = 0;
 		List<int> list_bestN = new List<int>();
-		int bestN = Convert.ToInt32(spin_encoder_capture_curves_best_n.Value);
+		int bestN = preferences.encoderAutoSaveCurveBestNValue;
 
 		int inertialStart = 0;
 		if( current_mode == Constants.Modes.POWERINERTIAL)

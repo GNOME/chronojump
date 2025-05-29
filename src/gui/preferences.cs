@@ -143,6 +143,8 @@ public class PreferencesWindow
 	Gtk.CheckButton check_encoder_capture_inactivity_end_time;
 	Gtk.HBox hbox_encoder_capture_inactivity_time;
 	Gtk.SpinButton spin_encoder_capture_inactivity_end_time;
+	Gtk.HBox hbox_encoder_capture_curves_save;
+	Gtk.SpinButton spin_encoder_capture_curves_best_n;
 	Gtk.Image image_encoder_gravitatory;
 	Gtk.Image image_encoder_inertial;
 	Gtk.Image image_encoder_inertial2;
@@ -355,6 +357,7 @@ public class PreferencesWindow
 	// <---- at glade
 
 
+	Gtk.ComboBoxText combo_encoder_capture_curves_save;
 	Gtk.ComboBoxText combo_camera;
 	Gtk.ComboBoxText combo_camera_pixel_format;
 	Gtk.ComboBoxText combo_camera_resolution;
@@ -373,6 +376,7 @@ public class PreferencesWindow
 
 	private RGBA colorBackground;
 	private bool signalsNoFollow;
+	string [] encoderCaptureCurvesSaveOptionsTranslation;
 
 	private UtilAll.OperatingSystems operatingSystem;
 	private Preferences preferences; //stored to update SQL if anything changed
@@ -698,6 +702,7 @@ public class PreferencesWindow
 			PWBox.spin_encoder_capture_inactivity_end_time.Value = preferences.encoderCaptureInactivityEndTime;
 		}
 
+		PWBox.createComboEncoderCaptureCurvesSave ();
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_weight.png");
 		PWBox.image_encoder_gravitatory.Pixbuf = pixbuf;
@@ -1604,6 +1609,35 @@ public class PreferencesWindow
 		}
 	}
 
+	private void createComboEncoderCaptureCurvesSave ()
+	{
+		// combo_encoder_capture_curves_save ---->
+		PWBox.combo_encoder_capture_curves_save = new ComboBoxText ();
+
+		string [] comboEncoderCaptureCurvesSaveOptionsTranslated = {
+			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[0]),
+			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[1]),
+			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[2]),
+			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[3]),
+			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[4]),
+			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[5]) };
+		encoderCaptureCurvesSaveOptionsTranslation = new String [comboEncoderCaptureCurvesSaveOptionsTranslated.Length];
+		for(int j=0; j < comboEncoderCaptureCurvesSaveOptionsTranslated.Length ; j++)
+			encoderCaptureCurvesSaveOptionsTranslation[j] =
+				Constants.EncoderAutoSaveCurvesStrings[j] + ":" + comboEncoderCaptureCurvesSaveOptionsTranslated[j];
+		UtilGtk.ComboUpdate (combo_encoder_capture_curves_save, comboEncoderCaptureCurvesSaveOptionsTranslated, "");
+		combo_encoder_capture_curves_save.Active = UtilGtk.ComboMakeActive (combo_encoder_capture_curves_save,
+				Catalog.GetString (Constants.GetEncoderAutoSaveCurvesStrings (preferences.encoderAutoSaveCurve)));
+		combo_encoder_capture_curves_save.Changed += new EventHandler (on_combo_encoder_capture_curves_save_changed);
+
+		hbox_encoder_capture_curves_save.PackStart (combo_encoder_capture_curves_save, true, true, 0);
+		hbox_encoder_capture_curves_save.ShowAll ();
+
+		spin_encoder_capture_curves_best_n.Value = preferences.encoderAutoSaveCurveBestNValue;
+		manageVisibilityOf_spin_encoder_capture_curves_best_n ();
+		// <---- combo_encoder_capture_curves_save
+	}
+
 	/* callbacks SQL change at any change for tab: encoder - capture */
 
 	private void on_spin_encoder_capture_time_value_changed (object o, EventArgs args)
@@ -1666,6 +1700,46 @@ public class PreferencesWindow
 			SqlitePreferences.Update("encoderCaptureInertialDiscardFirstN", spinEncoderCaptureDiscardFirstN.ToString(), false);
 			preferences.encoderCaptureInertialDiscardFirstN = spinEncoderCaptureDiscardFirstN;
 		}
+	}
+
+	private void on_combo_encoder_capture_curves_save_changed (object o, EventArgs args)
+	{
+		manageVisibilityOf_spin_encoder_capture_curves_best_n ();
+	}
+	private void manageVisibilityOf_spin_encoder_capture_curves_best_n ()
+	{
+		string englishStr = Util.FindOnArray(
+				':',1,0,UtilGtk.ComboGetActive(combo_encoder_capture_curves_save),
+					encoderCaptureCurvesSaveOptionsTranslation);
+		spin_encoder_capture_curves_best_n.Visible = (englishStr == "Best n" || englishStr == "Best n consecutive");
+
+		// changes on preferences and DB
+		changeEncoderCaptureCurvesSaveOnPreferencesAndDB ();
+	}
+	private void on_spin_encoder_capture_curves_best_n_value_changed (object o, EventArgs args)
+	{
+		// changes on preferences and DB
+		changeEncoderCaptureCurvesSaveOnPreferencesAndDB ();
+	}
+	private void changeEncoderCaptureCurvesSaveOnPreferencesAndDB ()
+	{
+		//1) gest Constants.EncoderAutoSaveCurve
+		string englishOption = Util.FindOnArray (':',1,0,
+				UtilGtk.ComboGetActive (combo_encoder_capture_curves_save),
+				encoderCaptureCurvesSaveOptionsTranslation);
+
+		Constants.EncoderAutoSaveCurve easc = Constants.GetEncoderAutoSaveCurvesEnum (englishOption);
+
+		//2) update preferences
+		preferences.encoderAutoSaveCurve = easc;
+
+		//3) update Sqlite
+		SqlitePreferences.Update ("encoderAutoSaveCurve", easc.ToString(), false);
+
+		if(easc == Constants.EncoderAutoSaveCurve.BESTN || easc == Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE)
+			SqlitePreferences.Update (
+					SqlitePreferences.EncoderAutoSaveCurveBestNValue,
+					spin_encoder_capture_curves_best_n.Value.ToString(), false);
 	}
 
 	private void on_radio_encoder_rep_criteria_gravitatory_toggled (object o, EventArgs args)
@@ -4041,6 +4115,8 @@ public class PreferencesWindow
 		check_encoder_capture_inactivity_end_time = (Gtk.CheckButton) builder.GetObject ("check_encoder_capture_inactivity_end_time");
 		hbox_encoder_capture_inactivity_time = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_inactivity_time");
 		spin_encoder_capture_inactivity_end_time = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_inactivity_end_time");
+		hbox_encoder_capture_curves_save = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_curves_save");
+		spin_encoder_capture_curves_best_n = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_curves_best_n");
 		image_encoder_gravitatory = (Gtk.Image) builder.GetObject ("image_encoder_gravitatory");
 		image_encoder_inertial = (Gtk.Image) builder.GetObject ("image_encoder_inertial");
 		image_encoder_inertial2 = (Gtk.Image) builder.GetObject ("image_encoder_inertial2");

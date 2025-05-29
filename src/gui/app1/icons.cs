@@ -255,7 +255,6 @@ public partial class ChronoJumpWindow
 
 	Gtk.Image image_encoder_capture_image_save;
 	Gtk.Image image_encoder_capture_image_save_1;
-	Gtk.Image image_encoder_capture_curves_save;
 	Gtk.Image image_encoder_analyze_table_save_1;
 	Gtk.Image image_encoder_analyze_image_save_1;
 	Gtk.Image image_encoder_analyze_1RM_save_1;
@@ -876,7 +875,6 @@ public partial class ChronoJumpWindow
 		image_button_contacts_exercise_actions_add_do.Pixbuf = pixbuf;
 		image_button_encoder_exercise_actions_edit_do.Pixbuf = pixbuf;
 		image_button_encoder_exercise_actions_add_do.Pixbuf = pixbuf;
-		image_encoder_capture_curves_save.Pixbuf = pixbuf;
 		image_encoder_analyze_table_save_1.Pixbuf = pixbuf;
 		image_encoder_capture_image_save_1.Pixbuf = pixbuf;
 		image_encoder_analyze_image_save_1.Pixbuf = pixbuf;
@@ -1303,7 +1301,6 @@ public partial class ChronoJumpWindow
 
 		image_encoder_capture_image_save = (Gtk.Image) builder.GetObject ("image_encoder_capture_image_save");
 		image_encoder_capture_image_save_1 = (Gtk.Image) builder.GetObject ("image_encoder_capture_image_save_1");
-		image_encoder_capture_curves_save = (Gtk.Image) builder.GetObject ("image_encoder_capture_curves_save");
 		image_encoder_analyze_table_save_1 = (Gtk.Image) builder.GetObject ("image_encoder_analyze_table_save_1");
 		image_encoder_analyze_image_save_1 = (Gtk.Image) builder.GetObject ("image_encoder_analyze_image_save_1");
 		image_encoder_analyze_1RM_save_1 = (Gtk.Image) builder.GetObject ("image_encoder_analyze_1RM_save_1");

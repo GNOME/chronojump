@@ -135,7 +135,6 @@ public partial class ChronoJumpWindow
 	Gtk.CheckButton check_encoder_capture_table;
 	Gtk.CheckButton check_encoder_capture_signal;
 	Gtk.VBox vbox_encoder_bars_table_and_save_reps;
-	Gtk.HBox hbox_encoder_capture_save_repetitions;
 	Gtk.Alignment alignment_encoder_capture_curves_bars_drawingarea;
 
 	Gtk.Box hbox_combo_encoder_exercise_capture;
@@ -144,7 +143,6 @@ public partial class ChronoJumpWindow
 	Gtk.RadioButton radio_encoder_laterality_both;
 	Gtk.RadioButton radio_encoder_laterality_r;
 	Gtk.RadioButton radio_encoder_laterality_l;
-	Gtk.Box hbox_encoder_capture_curves_save_all_none;
 
 	//exercise edit/add
 	Gtk.HBox hbox_encoder_exercise_close_and;
@@ -171,9 +169,6 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_encoder_capture_curves_none;
 	Gtk.Button button_encoder_capture_curves_4top;
 	*/
-	Gtk.HBox hbox_encoder_capture_curves_save;
-	Gtk.Label label_encoder_capture_curves_save;
-	Gtk.Button button_encoder_capture_curves_save;
 	Gtk.Button button_encoder_capture_image_save;
 
 	Gtk.Notebook notebook_analyze_results;
@@ -338,7 +333,6 @@ public partial class ChronoJumpWindow
 	Gtk.Paned hpaned_encoder_capture_current;
 	Gtk.TreeView treeview_encoder_capture_curves;
 	Gtk.TreeView treeview_encoder_analyze_curves;
-	Gtk.SpinButton spin_encoder_capture_curves_best_n;
 
 	Gtk.DrawingArea encoder_capture_signal_drawingarea_cairo;
 	Gtk.DrawingArea encoder_capture_curves_bars_drawingarea_cairo;
@@ -356,7 +350,6 @@ public partial class ChronoJumpWindow
 
 	Gtk.ComboBoxText combo_encoder_anchorage;
 	Gtk.ComboBoxText combo_encoder_exercise_capture;
-	Gtk.ComboBoxText combo_encoder_capture_curves_save;
 	Gtk.ComboBoxText combo_encoder_exercise_analyze;
 	Gtk.ComboBoxText combo_encoder_laterality_analyze;
 	Gtk.ComboBoxText combo_encoder_analyze_cross;
@@ -1433,7 +1426,6 @@ public partial class ChronoJumpWindow
 
 		alignment_treeview_encoder_capture_curves.Visible = check_encoder_capture_table.Active;
 		alignment_encoder_capture_signal.Visible = check_encoder_capture_signal.Active;
-		hbox_encoder_capture_save_repetitions.Visible = true;
 		vbox_encoder_bars_table_and_save_reps.Visible = true;
 
 		fixEncoderCaptureWidgetsGeometry ();
@@ -4774,24 +4766,6 @@ public partial class ChronoJumpWindow
 		combo_encoder_exercise_capture.Changed += new EventHandler (on_combo_encoder_exercise_capture_changed);
 		combo_encoder_exercise_analyze.Changed += new EventHandler (on_combo_encoder_exercise_analyze_changed);
 
-		//combo_encoder_capture_curves_save;
-		combo_encoder_capture_curves_save = new ComboBoxText();
-		string [] comboEncoderCaptureCurvesSaveOptionsTranslated = {
-			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[0]),
-			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[1]),
-			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[2]),
-			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[3]),
-			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[4]),
-			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[5]) };
-		encoderCaptureCurvesSaveOptionsTranslation = new String [comboEncoderCaptureCurvesSaveOptionsTranslated.Length];
-		for(int j=0; j < comboEncoderCaptureCurvesSaveOptionsTranslated.Length ; j++)
-			encoderCaptureCurvesSaveOptionsTranslation[j] =
-				Constants.EncoderAutoSaveCurvesStrings[j] + ":" + comboEncoderCaptureCurvesSaveOptionsTranslated[j];
-		UtilGtk.ComboUpdate(combo_encoder_capture_curves_save, comboEncoderCaptureCurvesSaveOptionsTranslated, "");
-		combo_encoder_capture_curves_save.Active = UtilGtk.ComboMakeActive(combo_encoder_capture_curves_save,
-				Catalog.GetString(Constants.GetEncoderAutoSaveCurvesStrings(preferences.encoderAutoSaveCurve)));
-		combo_encoder_capture_curves_save.Changed += new EventHandler (on_combo_encoder_capture_curves_save_changed);
-
 		/* ConcentricEccentric
 		 * unavailable until find while concentric data on concentric is the same than in ecc-con,
 		 * but is very different than in con-ecc
@@ -4836,12 +4810,6 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_exercise_capture.PackStart(button_combo_encoder_exercise_capture_left, true, true, 0);
 
 		hbox_combo_encoder_exercise_capture.PackStart(combo_encoder_exercise_capture, true, true, 10);
-
-		hbox_encoder_capture_curves_save.PackStart(combo_encoder_capture_curves_save, true, true, 0);
-		hbox_encoder_capture_curves_save.ShowAll();
-
-		spin_encoder_capture_curves_best_n.Value = preferences.encoderAutoSaveCurveBestNValue;
-		manageVisibilityOf_spin_encoder_capture_curves_best_n ();
 
 		button_combo_encoder_exercise_capture_right = UtilGtk.CreateArrowButton (40, 40, UtilGtk.ArrowEnum.RIGHT);
 		button_combo_encoder_exercise_capture_right.Sensitive = true;
@@ -5129,7 +5097,6 @@ public partial class ChronoJumpWindow
 	{
 		//those will be true again when loading a new encoder test or capturing
 		treeview_encoder_capture_curves.Sensitive = false;
-		hbox_encoder_capture_curves_save_all_none.Sensitive = false;
 
 		check_encoder_analyze_eccon_together.Sensitive = true;
 		block_check_encoder_analyze_eccon_together_if_needed();
@@ -5179,65 +5146,6 @@ public partial class ChronoJumpWindow
 		LogB.Information("Laterality: " + laterality);
 		return laterality;
 	}
-
-	// ---- start of combo_encoder_capture_curves_save stuff ----
-
-	void on_combo_encoder_capture_curves_save_changed (object o, EventArgs args)
-	{
-		manageVisibilityOf_spin_encoder_capture_curves_best_n ();
-		manageButton_button_encoder_capture_curves_save (false);
-	}
-
-	void on_spin_encoder_capture_curves_best_n_value_changed (object o, EventArgs args)
-	{
-		manageButton_button_encoder_capture_curves_save (false);
-	}
-
-	void manageButton_button_encoder_capture_curves_save (bool saved)
-	{
-		if(saved) {
-			label_encoder_capture_curves_save.Text = Catalog.GetString("Done");
-			button_encoder_capture_curves_save.Sensitive = false;
-		} else {
-			label_encoder_capture_curves_save.Text = Catalog.GetString("Save repetitions");
-			button_encoder_capture_curves_save.Sensitive = true;
-		}
-	}
-
-	void manageVisibilityOf_spin_encoder_capture_curves_best_n ()
-	{
-		string englishStr = Util.FindOnArray(
-				':',1,0,UtilGtk.ComboGetActive(combo_encoder_capture_curves_save),
-					encoderCaptureCurvesSaveOptionsTranslation);
-		spin_encoder_capture_curves_best_n.Visible = (englishStr == "Best n" || englishStr == "Best n consecutive");
-	}
-
-	void on_button_encoder_capture_curves_save_clicked (object o, EventArgs args)
-	{
-		//1) gest Constants.EncoderAutoSaveCurve
-		string englishOption = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_capture_curves_save),
-					encoderCaptureCurvesSaveOptionsTranslation);
-
-		Constants.EncoderAutoSaveCurve easc = Constants.GetEncoderAutoSaveCurvesEnum (englishOption);
-
-		//2) update preferences
-		preferences.encoderAutoSaveCurve = easc;
-
-		//3) update Sqlite
-		SqlitePreferences.Update("encoderAutoSaveCurve", easc.ToString(), false);
-
-		if(easc == Constants.EncoderAutoSaveCurve.BESTN || easc == Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE)
-			SqlitePreferences.Update(SqlitePreferences.EncoderAutoSaveCurveBestNValue, spin_encoder_capture_curves_best_n.Value.ToString(), false);
-
-		//4) save or unsave curves
-		encoderCaptureSaveCurvesAllNoneBest(easc, Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
-
-		//5) change save buttons
-		manageButton_button_encoder_capture_curves_save (true);
-	}
-
-	// ---- end of combo_encoder_capture_curves_save stuff ----
-
 
 	void on_combo_encoder_analyze_cross_changed (object o, EventArgs args)
 	{
@@ -5994,7 +5902,7 @@ public partial class ChronoJumpWindow
 		//	hbox_encoder_configuration, frame_encoder_capture_options
 		//c1 button_encoder_exercise_close_and_recalculate
 		//c2 (before it has overview and load) button_encoder_load_signal_at_analyze
-		//c3 hbox_encoder_capture_curves_save_all_none, button_export_encoder_signal,
+		//c3 button_export_encoder_signal,
 		//	button_contacts_delete_selected, vbox_encoder_signal_comment,
 		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive. Update: both NOT managed here
 		//	button_encoder_capture_image_save
@@ -6054,7 +5962,6 @@ public partial class ChronoJumpWindow
 
 		button_encoder_load_signal_at_analyze.Sensitive = Util.IntToBool(table[2]);
 
-		hbox_encoder_capture_curves_save_all_none.Sensitive = Util.IntToBool(table[3]);
 		button_export_encoder_signal.Sensitive = Util.IntToBool(table[3]);
 		button_contacts_delete_selected.Sensitive = Util.IntToBool(table[3]);
 		vbox_encoder_signal_comment.Sensitive = Util.IntToBool(table[3]);
@@ -7838,12 +7745,8 @@ public partial class ChronoJumpWindow
 					fullscreen_label_message.Text = encoderSaveResult;
 
 					if(needToAutoSaveCurve)
-					{
 						encoderCaptureSaveCurvesAllNoneBest(preferences.encoderAutoSaveCurve,
 								Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
-
-						manageButton_button_encoder_capture_curves_save (true);
-					}
 
 					if(action == encoderActions.CURVES_AC)
 					{
@@ -7892,7 +7795,6 @@ public partial class ChronoJumpWindow
 
 				} else { //action == encoderActions.LOAD
 					encoder_pulsebar_capture_label.Text = "";
-					manageButton_button_encoder_capture_curves_save (false);
 				}
 		
 
@@ -8429,7 +8331,6 @@ public partial class ChronoJumpWindow
 		check_encoder_capture_table = (Gtk.CheckButton) builder.GetObject ("check_encoder_capture_table");
 		check_encoder_capture_signal = (Gtk.CheckButton) builder.GetObject ("check_encoder_capture_signal");
 		vbox_encoder_bars_table_and_save_reps = (Gtk.VBox) builder.GetObject ("vbox_encoder_bars_table_and_save_reps");
-		hbox_encoder_capture_save_repetitions = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_save_repetitions");
 		alignment_encoder_capture_curves_bars_drawingarea = (Gtk.Alignment) builder.GetObject ("alignment_encoder_capture_curves_bars_drawingarea");
 
 		hbox_combo_encoder_exercise_capture = (Gtk.Box) builder.GetObject ("hbox_combo_encoder_exercise_capture");
@@ -8438,7 +8339,6 @@ public partial class ChronoJumpWindow
 		radio_encoder_laterality_both = (Gtk.RadioButton) builder.GetObject ("radio_encoder_laterality_both");
 		radio_encoder_laterality_r = (Gtk.RadioButton) builder.GetObject ("radio_encoder_laterality_r");
 		radio_encoder_laterality_l = (Gtk.RadioButton) builder.GetObject ("radio_encoder_laterality_l");
-		hbox_encoder_capture_curves_save_all_none = (Gtk.Box) builder.GetObject ("hbox_encoder_capture_curves_save_all_none");
 
 		//exercise edit/add
 		hbox_encoder_exercise_close_and = (Gtk.HBox) builder.GetObject ("hbox_encoder_exercise_close_and");
@@ -8465,9 +8365,6 @@ public partial class ChronoJumpWindow
 		button_encoder_capture_curves_none = (Gtk.Button) builder.GetObject ("button_encoder_capture_curves_none");
 		button_encoder_capture_curves_4top = (Gtk.Button) builder.GetObject ("button_encoder_capture_curves_4top");
 		*/
-		hbox_encoder_capture_curves_save = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_curves_save");
-		label_encoder_capture_curves_save = (Gtk.Label) builder.GetObject ("label_encoder_capture_curves_save");
-		button_encoder_capture_curves_save = (Gtk.Button) builder.GetObject ("button_encoder_capture_curves_save");
 		button_encoder_capture_image_save = (Gtk.Button) builder.GetObject ("button_encoder_capture_image_save");
 
 		notebook_analyze_results = (Gtk.Notebook) builder.GetObject ("notebook_analyze_results");
@@ -8634,7 +8531,6 @@ public partial class ChronoJumpWindow
 		hpaned_encoder_capture_current = (Gtk.Paned) builder.GetObject ("hpaned_encoder_capture_current");
 		treeview_encoder_capture_curves = (Gtk.TreeView) builder.GetObject ("treeview_encoder_capture_curves");
 		treeview_encoder_analyze_curves = (Gtk.TreeView) builder.GetObject ("treeview_encoder_analyze_curves");
-		spin_encoder_capture_curves_best_n = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_curves_best_n");
 
 		encoder_capture_signal_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("encoder_capture_signal_drawingarea_cairo");
 		encoder_capture_curves_bars_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("encoder_capture_curves_bars_drawingarea_cairo");

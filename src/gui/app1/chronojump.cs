@@ -1132,6 +1132,7 @@ public partial class ChronoJumpWindow
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_jumps_profile);
 			UtilGtk.WidgetColor (notebook_stats, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_stats);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_gravitatory_vpf_propulsive);
 
 			//notebook_force_sensor_rfd_options
 			UtilGtk.WidgetColor (notebook_force_sensor_rfd_options, Config.ColorBackgroundShifted);

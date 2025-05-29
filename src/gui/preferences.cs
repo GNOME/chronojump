@@ -145,6 +145,7 @@ public class PreferencesWindow
 	Gtk.SpinButton spin_encoder_capture_inactivity_end_time;
 	Gtk.HBox hbox_encoder_capture_curves_save;
 	Gtk.SpinButton spin_encoder_capture_curves_best_n;
+	Gtk.Label label_encoder_capture_save_repetitions_explanation;
 	Gtk.Image image_encoder_gravitatory;
 	Gtk.Image image_encoder_inertial;
 	Gtk.Image image_encoder_inertial2;
@@ -1702,10 +1703,13 @@ public class PreferencesWindow
 		}
 	}
 
+	// ---- combo_encoder_capture_curves_save ---->
+
 	private void on_combo_encoder_capture_curves_save_changed (object o, EventArgs args)
 	{
 		manageVisibilityOf_spin_encoder_capture_curves_best_n ();
 	}
+
 	private void manageVisibilityOf_spin_encoder_capture_curves_best_n ()
 	{
 		string englishStr = Util.FindOnArray(
@@ -1713,14 +1717,48 @@ public class PreferencesWindow
 					encoderCaptureCurvesSaveOptionsTranslation);
 		spin_encoder_capture_curves_best_n.Visible = (englishStr == "Best n" || englishStr == "Best n consecutive");
 
+		write_label_encoder_capture_save_repetitions_explanation (englishStr);
+
 		// changes on preferences and DB
 		changeEncoderCaptureCurvesSaveOnPreferencesAndDB ();
 	}
+
+	private void write_label_encoder_capture_save_repetitions_explanation (string englishStr)
+	{
+		string explanationStr = "";
+		Constants.EncoderAutoSaveCurve easc = Constants.GetEncoderAutoSaveCurvesEnum (englishStr);
+
+		switch (easc)
+		{
+			case Constants.EncoderAutoSaveCurve.BEST :
+				explanationStr = Catalog.GetString ("At the end of the capture, save the best repetition.");
+				break;
+			case Constants.EncoderAutoSaveCurve.BESTN :
+				explanationStr = Catalog.GetString ("At the end of the capture, save the best n repetitions.");
+				break;
+			case Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE :
+				explanationStr = Catalog.GetString ("At the end of the capture, save the best n consecutive repetitions.");
+				break;
+			case Constants.EncoderAutoSaveCurve.ALL :
+				explanationStr = Catalog.GetString ("At the end of the capture, save all repetitions.");
+				break;
+			case Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE :
+				explanationStr = Catalog.GetString ("At the end of the capture, save all repetitions except the last one.");
+				break;
+			case Constants.EncoderAutoSaveCurve.NONE :
+				explanationStr = Catalog.GetString ("At the end of the capture, do not automatically save any repetition.");
+				break;
+		}
+
+		label_encoder_capture_save_repetitions_explanation.Text = explanationStr;
+	}
+
 	private void on_spin_encoder_capture_curves_best_n_value_changed (object o, EventArgs args)
 	{
 		// changes on preferences and DB
 		changeEncoderCaptureCurvesSaveOnPreferencesAndDB ();
 	}
+
 	private void changeEncoderCaptureCurvesSaveOnPreferencesAndDB ()
 	{
 		//1) gest Constants.EncoderAutoSaveCurve
@@ -1741,6 +1779,8 @@ public class PreferencesWindow
 					SqlitePreferences.EncoderAutoSaveCurveBestNValue,
 					spin_encoder_capture_curves_best_n.Value.ToString(), false);
 	}
+
+	// <---- combo_encoder_capture_curves_save ----
 
 	private void on_radio_encoder_rep_criteria_gravitatory_toggled (object o, EventArgs args)
 	{
@@ -4117,6 +4157,7 @@ public class PreferencesWindow
 		spin_encoder_capture_inactivity_end_time = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_inactivity_end_time");
 		hbox_encoder_capture_curves_save = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_curves_save");
 		spin_encoder_capture_curves_best_n = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_curves_best_n");
+		label_encoder_capture_save_repetitions_explanation = (Gtk.Label) builder.GetObject ("label_encoder_capture_save_repetitions_explanation");
 		image_encoder_gravitatory = (Gtk.Image) builder.GetObject ("image_encoder_gravitatory");
 		image_encoder_inertial = (Gtk.Image) builder.GetObject ("image_encoder_inertial");
 		image_encoder_inertial2 = (Gtk.Image) builder.GetObject ("image_encoder_inertial2");

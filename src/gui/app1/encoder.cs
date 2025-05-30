@@ -2135,7 +2135,34 @@ public partial class ChronoJumpWindow
 		}
 		genericWin.Delete_row_accepted();
 	}
-				
+
+	private void encoderLoadToPaintData ()
+	{
+		if(encoderConfigurationCurrent.has_inertia)
+			eCapture = new EncoderCaptureInertial();
+		else
+			eCapture = new EncoderCaptureGravitatory();
+
+		cairoGraphEncoderSignal = null;
+		cairoGraphEncoderSignalPoints_l = new List<PointF>();
+		cairoGraphEncoderSignalInertialPoints_l = new List<PointF>();
+
+		eCapture.LoadFromFile (encoderConfigurationCurrent.has_inertia, preferences.signalDirectionHorizontal);
+		eCapture.PointsPainted = -1;
+		if(encoderConfigurationCurrent.has_inertia) {
+			updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.INERTIAL);
+			//updateEncoderCaptureSignalCairo (true, false); //inertial, forceRedraw
+		} else {
+			updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.GRAVITATORY);
+			//updateEncoderCaptureSignalCairo (false, false);
+		}
+		//eCapture.PointsPainted = 0;
+		//encoder_capture_signal_drawingarea_cairo.QueueDraw (); //aixo no hauria de caldre aqui pq ja es deu fer al thread de sota
+
+		// show the signal realtime cairo graph (not the R generated)
+//		notebook_encoder_capture.CurrentPage = 0; //TODO: return to show the Page 1 at end
+	}
+
 	void encoderConfigurationGUIUpdate()
 	{
 		if(current_mode == Constants.Modes.POWERINERTIAL)
@@ -7795,6 +7822,7 @@ public partial class ChronoJumpWindow
 
 				} else { //action == encoderActions.LOAD
 					encoder_pulsebar_capture_label.Text = "";
+					encoderLoadToPaintData ();
 				}
 		
 

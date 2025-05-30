@@ -6272,6 +6272,19 @@ public partial class ChronoJumpWindow
 
 		if (preferences.encoderFeedbackAsteroidsActive)
 			cairoGraphEncoderSignal.PassAsteroids = asteroids;
+		else {
+		       if (captureCurvesBarsData_l != null && captureCurvesBarsData_l.Count > 0)
+		       {
+			       List<int> repStartMS_l = new List<int> ();
+			       List<int> repEndMS_l = new List<int> ();
+			       foreach (EncoderBarsData ebd in captureCurvesBarsData_l)
+			       {
+				       repStartMS_l.Add (Convert.ToInt32 (ebd.Start));
+				       repEndMS_l.Add (Convert.ToInt32 (ebd.Start + ebd.Duration));
+			       }
+			       cairoGraphEncoderSignal.PassRepetitions (repStartMS_l, repEndMS_l);
+		       }
+		}
 
 		double videoTime = 0;
 		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
@@ -6279,7 +6292,9 @@ public partial class ChronoJumpWindow
 			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 		}
 
-		cairoGraphEncoderSignal.DoSendingList (preferences.fontTypeToGraph(), inertial,
+		cairoGraphEncoderSignal.DoSendingList (preferences.fontTypeToGraph(),
+				capturingCsharp == encoderCaptureProcess.CAPTURING,
+				inertial,
 				cairoGraphEncoderSignalPoints_l, cairoGraphEncoderSignalInertialPoints_l, videoTime,
 				forceRedraw, CairoXY.PlotTypes.LINES);
 	}

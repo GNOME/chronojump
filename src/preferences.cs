@@ -259,25 +259,26 @@ public class Preferences
 	 * so we need the executable: python, python2, python3
 	 * chronojump_importer.py works on python2 and python3
 	 */
-	public static string GetPythonExecutable (pythonVersionEnum pv)
+	public static string GetPythonExecutable(pythonVersionEnum pv)
 	{
-		if (Config.PythonUserURLStatic != "")
+		if (!string.IsNullOrWhiteSpace(Config.PythonUserURLStatic))
+		{
 			return Config.PythonUserURLStatic;
+		}
 
 		if (pv == pythonVersionEnum.Python2)
 		{
 			return "python2";
 		}
-		else if (pv == pythonVersionEnum.Python3)
+
+		if (Util.operatingSystem == UtilAll.OperatingSystems.LINUX)
 		{
-			if (Util.operatingSystem == UtilAll.OperatingSystems.LINUX)
-			{
-				return "python3";
-			}
-			else
-			{
+			return "python3";
+		}
+		else if (Util.operatingSystem == UtilAll.OperatingSystems.MACOSX)
+		{
 #if DEBUG
-				return "python3";
+			return "python3";
 #else
 				var pythonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"../Resources/Python-{RuntimeInformation.ProcessArchitecture.ToString().ToLower()}/Versions/Current/bin/python3");
 				if (!Directory.Exists(Path.GetDirectoryName(pythonPath)))
@@ -286,10 +287,16 @@ public class Preferences
 				}
 				return pythonPath;
 #endif
-			}
 		}
-
-		return "python";
+		else
+		{
+#if DEBUG
+			return "python";
+#else
+            var pythonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"bin/x64/Python/python.exe");
+            return pythonPath;
+#endif
+		}
 	}
 
 	/*

@@ -143,7 +143,6 @@ public static class BluetoothLE
                     };
                     pythonProcess.OutputDataReceived += (sender, e) =>
                     {
-                        File.AppendAllText("D:\\ble.txt", e.Data + "\n");
                         if (!string.IsNullOrEmpty(e.Data))
                         {
                             if (!e.Data.StartsWith("Device Scanned: ") &&

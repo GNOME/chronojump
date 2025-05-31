@@ -1,0 +1,19 @@
+
+BluetoothLE.OnDataChanged += BluetoothLE_OnDataChanged; //Subscribe BluetoothLE data changed event anywhere else that needs to read BluetoothLE data.
+BluetoothLE.Start();//Start BluetoothLE before the main window is created (Before "Application.Run();"), python path has been changed or anywhere else that needs BluetoothLE.
+
+//Application.Run();
+//...
+
+BluetoothLE.OnDataChanged -= BluetoothLE_OnDataChanged; //Unsubscribe BluetoothLE data changed event anywhere else that doesn't need to read BluetoothLE data any more.
+BluetoothLE.Stop();//Stop BluetoothLE after the main window is destroyed (After "Application.Run();") or anywhere else that doesn't need BluetoothLE any more.
+
+/// <summary>
+/// BluetoothLE data changed event handler.
+/// </summary>
+/// <param name="sender">Always null</param>
+/// <param name="e">DataChangedEventArgs</param>
+private void BluetoothLE_OnDataChanged(object sender, BluetoothLE.DataChangedEventArgs e)
+{
+	Console.WriteLine(e.Value);
+}

@@ -1140,7 +1140,7 @@ class SqliteSession : Sqlite
                 Util.FileDelete(eSQL.GetFullURL(false));    //signal, don't convertPathToR
                 if (eSQL.videoURL != "")
                     Util.FileDelete(eSQL.videoURL);     //video
-                Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
+                Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.UniqueID));
             }
 
             //curves
@@ -1156,11 +1156,11 @@ class SqliteSession : Sqlite
 				   if(eSQL.videoURL != "")
 				   Util.FileDelete(eSQL.videoURL);
 				   */
-                Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
-                SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.uniqueID));
+                Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.UniqueID));
+                SqliteEncoderSignalCurve.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.UniqueID));
 
                 //delete related triggers
-                SqliteTrigger.DeleteByModeID(true, Trigger.Modes.ENCODER, Convert.ToInt32(eSQL.uniqueID));
+                SqliteTrigger.DeleteByModeID(true, Trigger.Modes.ENCODER, Convert.ToInt32(eSQL.UniqueID));
             }
         }
 

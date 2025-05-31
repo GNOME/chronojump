@@ -15,17 +15,14 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using Mono.Unix;
 
-public class EncoderSQL
+public class EncoderSQL : Event
 {
-	public string uniqueID;
-	public int personID;
-	public int sessionID;
 	public int exerciseID;
 	public string eccon;
 	public string laterality;
@@ -35,7 +32,6 @@ public class EncoderSQL
 	public string url;	//URL of data of signals and curves. Stored in DB as relative. Used in software as absolute. See SqliteEncoder
 	public int time;
 	public int minHeight;
-	public string description;
 	public string status;	//active or inactive curves
 	public string videoURL;	//URL of video of signals. Stored in DB as relative. Used in software as absolute. See SqliteEncoder
 	
@@ -45,9 +41,9 @@ public class EncoderSQL
 //	public int inertiaMomentum; //kg*cm^2
 //	public double diameter;
 	
-	public string future1;
-	public string future2;
-	public string future3;
+	public string meanPower; // future1
+	public string meanSpeed; // future2
+	public string meanForce; // future3
 	public Preferences.EncoderRepetitionCriteria repCriteria;
 
 	public string exerciseName;
@@ -58,7 +54,7 @@ public class EncoderSQL
 	{
 	}
 
-	public EncoderSQL (string uniqueID, int personID, int sessionID, int exerciseID, 
+	public EncoderSQL (int uniqueID, int personID, int sessionID, int exerciseID,
 			string eccon, string laterality, string extraWeight, string signalOrCurve, 
 			string filename, string url, int time, int minHeight, 
 			string description, string status, string videoURL, 
@@ -84,13 +80,33 @@ public class EncoderSQL
 		this.status = status;
 		this.videoURL = videoURL;
 		this.encoderConfiguration = encoderConfiguration;
-		this.future1 = future1;	//on curves: meanPower
-		this.future2 = future2; //on curves: meanSpeed
-		this.future3 = future3; //on curves: meanForce
+		this.meanPower = future1;	//on curves: meanPower
+		this.meanSpeed = future2; //on curves: meanSpeed
+		this.meanForce = future3; //on curves: meanForce
 		this.repCriteria = repCriteria;
 		this.exerciseName = exerciseName;
 
 		ecconLong = EcconLong(eccon);
+	}
+
+	// constructor for TreeViewEncoder.getObjectFromString ()
+	public EncoderSQL (int uniqueID, string laterality, string extraWeight, string eccon, string description, string exerciseName)
+	{
+		this.uniqueID = uniqueID;
+		this.laterality = laterality;
+		this.extraWeight = extraWeight;
+		this.eccon = eccon;
+		this.description = description;
+		this.exerciseName = exerciseName;
+	}
+
+	public static List<Event> EncoderSQLListToEventList (List<EncoderSQL> list)
+	{
+		List<Event> events = new List<Event>();
+		foreach (EncoderSQL eSQL in list)
+			events.Add ((Event) eSQL);
+
+		return events;
 	}
 
 	public static string EcconLong (string ecconChars)
@@ -166,7 +182,7 @@ public class EncoderSQL
 
 		string [] str = new String [all];
 		int i=0;
-		str[i++] = uniqueID;
+		str[i++] = uniqueID.ToString ();
 	
 		if(checkboxes)
 			str[i++] = "";	//checkboxes
@@ -178,18 +194,18 @@ public class EncoderSQL
 		
 		if(showMeanPSF)
 		{
-			str[i++] = future1;
+			str[i++] = meanPower;
 
 			//as recording meanSpeed and meanForce is new on 2.0, show a blank cell instead of a 0
-			if(future2 == "0")
+			if(meanSpeed == "0")
 				str[i++] = "";
 			else
-				str[i++] = future2;
+				str[i++] = meanSpeed;
 
-			if(future3 == "0")
+			if(meanForce == "0")
 				str[i++] = "";
 			else
-				str[i++] = future3;
+				str[i++] = meanForce;
 		}
 
 		if(encoderConfigPretty)
@@ -220,7 +236,7 @@ public class EncoderSQL
 				"status: {13},  videoURL: {14},  encoderConfiguration: {15},  future1: {16}, " +
 				"future2: {17},  future3: {18},   repCriteria: {19},  exerciseName: {20}",
 				uniqueID, personID, sessionID, exerciseID, eccon, laterality, extraWeight, signalOrCurve, filename,
-				url, time, minHeight, description, status, videoURL, encoderConfiguration, future1, future2, future3,  repCriteria, exerciseName);
+				url, time, minHeight, description, status, videoURL, encoderConfiguration, meanPower, meanSpeed, meanForce,  repCriteria, exerciseName);
 	}
 
 	//uniqueID:name
@@ -297,6 +313,33 @@ public class EncoderSQL
 	public string Filename
 	{
 		set { filename = value; }
+	}
+
+	public double meanPowerD
+	{
+		get {
+			if (meanPower == "")
+				return 0;
+			return Convert.ToDouble (meanPower);
+		}
+	}
+
+	public double meanSpeedD
+	{
+		get {
+			if (meanSpeed == "")
+				return 0;
+			return Convert.ToDouble (meanSpeed);
+		}
+	}
+
+	public double meanForceD
+	{
+		get {
+			if (meanForce == "")
+				return 0;
+			return Convert.ToDouble (meanForce);
+		}
 	}
 
 }

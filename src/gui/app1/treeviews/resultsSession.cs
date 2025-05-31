@@ -58,6 +58,8 @@ public partial class ChronoJumpWindow
 			treeViewResultsSession = new TreeViewBeepTest (tv, pdn, minimized );
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			treeViewResultsSession = new TreeViewForceSensor (tv, pdn, minimized );
+		else if (Constants.ModeIsENCODER (current_mode))
+			treeViewResultsSession = new TreeViewEncoder (tv, pdn, minimized );
 		else if (current_mode == Constants.Modes.WILIGHT)
 			treeViewResultsSession = new TreeViewWilight (tv, pdn, minimized );
 		else if (current_mode == Constants.Modes.OTHER)
@@ -79,12 +81,21 @@ public partial class ChronoJumpWindow
 	// Change person (will change treeview and lots of widgets) And then select this id on treeviewResults.
 	private int personChangingFromResultsId = -1;
 
+	// encoder finishPulsebar updates treeview and store.Remove calls cursor_changed. Block this.
+	private bool treeview_results_session_cursor_changed_block = false;
+
 	// Important! see: diagrams/processes/person_results_changes.dia
 	private void on_treeview_results_session_cursor_changed (object o, EventArgs args)
 	{
 		LogB.Information ("on_treeview_results_session_cursor_changed");
 		if (treeViewResultsSession == null)
 			return;
+
+		if (treeview_results_session_cursor_changed_block)
+		{
+			LogB.Information ("blocked: cursor_changed");
+			return;
+		}
 
 		// Check if clicked to another person
 		if (currentPerson != null && ! treeviewResultsSessionNoCheckPersonChange)
@@ -124,25 +135,26 @@ public partial class ChronoJumpWindow
 				current_mode == Constants.Modes.RUNSSIMPLE ||
 				current_mode == Constants.Modes.BEEPTEST ||
 				current_mode == Constants.Modes.WILIGHT)
-			on_treeview_test_simple_cursor_changed (false); // 1 level, no load set
+			on_treeview_test_cursor_changed (false); // no load set
 		else if (Constants.ModeIsFORCESENSOR (current_mode) ||
+				Constants.ModeIsENCODER (current_mode) ||
 				current_mode == Constants.Modes.RUNSENCODER)
 		{
 			pre_fillTreeView_resultsSession_NO = true; //see comment on gui/app1/chronojumpPersons.cs
-			on_treeview_test_simple_cursor_changed (true); // 1 level, load set
+			on_treeview_test_cursor_changed (true); // load set
 			pre_fillTreeView_resultsSession_NO = false;
 		} else {
-			// 2 levels
+			// other tests with specific functions (not necessarily all 2 levels, because encoder does not go here)
 			if (current_mode == Constants.Modes.JUMPSREACTIVE)
 				on_treeview_jumps_rj_cursor_changed (o, args);
-			if (current_mode == Constants.Modes.RUNSINTERVALLIC)
+			else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 				on_treeview_runs_interval_cursor_changed (o, args);
-			if (current_mode == Constants.Modes.OTHER) 	//FOURPLATFORMS
+			else if (current_mode == Constants.Modes.OTHER) 	//FOURPLATFORMS
 				on_treeview_fourPlatforms_cursor_changed (o, args);
 		}
 	}
 
-	private void on_treeview_test_simple_cursor_changed (bool loadSet)
+	private void on_treeview_test_cursor_changed (bool loadSet)
 	{
 		sensitiveLastTestButtons(false);
 
@@ -154,6 +166,8 @@ public partial class ChronoJumpWindow
 
 			if (Constants.ModeIsFORCESENSOR (current_mode))
 				blankForceSensorInterface ();
+			//else if (Constants.ModeIsENCODER (current_mode))
+			//	blankEncoderInterface ();
 			else if (current_mode == Constants.Modes.RUNSENCODER)
 				blankRunEncoderInterface ();
 		} else {
@@ -162,6 +176,13 @@ public partial class ChronoJumpWindow
 				LogB.Information (string.Format ("going to load id: {0}, on mode: {1}", treeViewResultsSession.EventSelectedID, current_mode));
 				if (Constants.ModeIsFORCESENSOR (current_mode))
 					forceSensorLoadSignalAcceptedDo (treeViewResultsSession.EventSelectedID, -1, currentSession.UniqueID, ForceSensor.GetElasticIntFromMode (current_mode), false);
+				else if (Constants.ModeIsENCODER (current_mode))
+				{
+					if (treeViewResultsSession.EventSelectedID == TreeViewEvent.MarkNonSelectRowSubEvent)
+						treeViewResultsSession.SelectEventHeaderLine();
+
+					on_encoder_load_signal_accepted_do (treeViewResultsSession.EventSelectedID);
+				}
 				else //if current_mode == Constants.Modes.RUNSENCODER)
 					runEncoderLoadSetDo (treeViewResultsSession.EventSelectedID, -1, currentSession.UniqueID, false);
 			}
@@ -209,6 +230,8 @@ public partial class ChronoJumpWindow
 			treeViewResultsSession = new TreeViewBeepTest (treeview_results_session, pdn, expandState);
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			treeViewResultsSession = new TreeViewForceSensor (treeview_results_session, pdn, expandState);
+		else if (Constants.ModeIsENCODER (current_mode))
+			treeViewResultsSession = new TreeViewEncoder (treeview_results_session, pdn, expandState);
 		else if (current_mode == Constants.Modes.WILIGHT)
 			treeViewResultsSession = new TreeViewWilight (treeview_results_session, pdn, expandState);
 		else if (current_mode == Constants.Modes.OTHER)
@@ -228,47 +251,52 @@ public partial class ChronoJumpWindow
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
 		{
 			ev = SqliteJump.SelectJumpData (id, false );
-			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonName + ")");
+			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonNameGetSQLChecking + ")");
 		}
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
 			ev = SqliteJumpRj.SelectJumpData ( "jumpRj", id, false, false);
-			treeviewResultsContextMenu (true, " " + ev.Type + " (" + ev.PersonName + ")");
+			treeviewResultsContextMenu (true, " " + ev.Type + " (" + ev.PersonNameGetSQLChecking + ")");
 		}
 		else if (current_mode == Constants.Modes.RUNSSIMPLE)
 		{
 			ev = SqliteRun.SelectRunData (id, false);
-			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonName + ")");
+			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonNameGetSQLChecking + ")");
 		}
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
 			ev = SqliteRunInterval.SelectRunData ( Constants.RunIntervalTable, id, false, false);
-			treeviewResultsContextMenu (true, " " + ev.Type + " (" + ev.PersonName + ")");
+			treeviewResultsContextMenu (true, " " + ev.Type + " (" + ev.PersonNameGetSQLChecking + ")");
 		}
 		else if (current_mode == Constants.Modes.RUNSENCODER)
 		{
 			ev = SqliteRunEncoder.SelectData (id, false);
-			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonName + ")");
+			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonNameGetSQLChecking + ")");
 		}
 		else if (current_mode == Constants.Modes.BEEPTEST)
 		{
 			ev = SqliteBeepTest.SelectData (id, false);
-			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonName + ")");
+			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonNameGetSQLChecking + ")");
 		}
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
 			ev = SqliteForceSensor.SelectData (id, false);
-			treeviewResultsContextMenu (false, " (" + ev.PersonName + ")");
+			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
 		}
+//		else if (Constants.ModeIsENCODER (current_mode))
+//		{
+//			ev = SqliteForceSensor.SelectData (id, false);
+//			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
+//		}
 		else if (current_mode == Constants.Modes.WILIGHT)
 		{
 			ev = SqliteWilight.SelectData (id, false);
-			treeviewResultsContextMenu (false, " (" + ev.PersonName + ")");
+			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
 		}
 		else if (current_mode == Constants.Modes.OTHER) //FOURPLATFORMS
 		{
 			ev = SqliteFourPlatforms.SelectData (id, false);
-			treeviewResultsContextMenu (false, " (" + ev.PersonName + ")");
+			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
 		}
 	}
 

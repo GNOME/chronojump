@@ -485,7 +485,7 @@ public partial class ChronoJumpWindow
 		button_ai_model.Sensitive = false;
 		button_contacts_delete_selected.Sensitive = false;
 		button_ai_model_save_image.Sensitive = false;
-		button_video_play_this_test_contacts.Sensitive = false;
+		button_video_play_this_test.Sensitive = false;
 
 		if (radio_ai_export_individual_current_session.Active)
 		{
@@ -1486,7 +1486,7 @@ public partial class ChronoJumpWindow
 
 			button_contacts_exercise_close_and_recalculate.Sensitive = true;
 
-			button_video_play_this_test_contacts.Sensitive = (re.VideoURL != "");
+			button_video_play_this_test.Sensitive = (re.VideoURL != "");
 			sensitiveLastTestButtons(true);
 
 			image_ai_model_graph.Visible = false;
@@ -1838,13 +1838,14 @@ public partial class ChronoJumpWindow
 		}
 
 		currentRunEncoder.UpdateSQL(false);
+		int id = currentRunEncoder.UniqueID; //need to assign to a variable because will change on pre_fillTreeView_resultsSession
 
 		string str = run_encoder_load_set (currentRunEncoder.UniqueID, false);
 		if(str != "")
 			event_execute_label_message.Text = "Recalculated.";
 
-		updateGraphResultsSessionByMode ();
 		pre_fillTreeView_resultsSession ();
+		selectResultsSessionId (id, true);
 	}
 
 	private void on_radio_race_analyzer_capture_graph_starts_clicked (object o, EventArgs args)
@@ -2135,7 +2136,7 @@ public partial class ChronoJumpWindow
 			blinkCapture.End ();
 			showHideBlinkIcon (blinkCapture, false);
 
-			button_video_play_this_test_contacts.Sensitive = false;
+			button_video_play_this_test.Sensitive = false;
 
 			if(runEncoderProcessFinish)
 			{

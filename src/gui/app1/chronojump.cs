@@ -58,10 +58,12 @@ public partial class ChronoJumpWindow
 
 	Gtk.Notebook notebook_start; 		//start window or program
 	Gtk.Notebook notebook_sup;
+
 	Gtk.Box box_contacts_capture_top;
+
 	Gtk.Notebook notebook_capture_analyze; //not encoder
 	Gtk.Notebook notebook_contacts_execute_or;
-	Gtk.Notebook notebook_analyze; //not encoder
+	Gtk.Notebook notebook_analyze;
 	Gtk.Box vbox_contacts_capture_graph;
 	Gtk.Box hbox_message_permissions_at_boot;
 	Gtk.Label label_message_permissions_at_boot;
@@ -117,11 +119,8 @@ public partial class ChronoJumpWindow
 	Gtk.EventBox eventbox_change_modes_contacts_elastic;
 	Gtk.EventBox eventbox_change_modes_encoder_gravitatory;
 	Gtk.EventBox eventbox_change_modes_encoder_inertial;
-	Gtk.EventBox eventbox_button_show_modes_encoder;
 	Gtk.EventBox eventbox_radio_mode_contacts_capture;
 	Gtk.EventBox eventbox_radio_mode_contacts_analyze;
-	Gtk.EventBox eventbox_radio_mode_encoder_capture_small;
-	Gtk.EventBox eventbox_radio_mode_encoder_analyze_small;
 	Gtk.EventBox eventbox_button_open_chronojump;
 	Gtk.EventBox eventbox_button_help_close;
 	Gtk.EventBox eventbox_button_news_close;
@@ -161,9 +160,6 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_version;
 	//Gtk.Image image_selector_start_encoder_inertial;
 
-	Gtk.RadioButton radio_mode_encoder_capture_small;
-	Gtk.RadioButton radio_mode_encoder_analyze_small;
-
 	Gtk.Image image_persons_new_1;
 	Gtk.Image image_persons_new_plus;
 	Gtk.Image image_persons_open_1;
@@ -194,6 +190,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label fullscreen_label_message;
 	Gtk.DrawingArea fullscreen_capture_drawingarea_cairo;
 
+	Gtk.VPaned vpaned_tests;
 	Gtk.HBox hbox_contacts_graph_table_controls;
 	Gtk.Frame frame_contacts_graph_table;
 	Gtk.HPaned hpaned_contacts_graph_table;
@@ -370,7 +367,6 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_encoder_analyze_image_save;
 	Gtk.Image image_encoder_analyze_1RM_save;
 	Gtk.Image image_encoder_analyze_table_save;
-	Gtk.Image image_encoder_signal_delete;
 	Gtk.Image image_encoder_inertial_instructions;
 	Gtk.Label label_gravitatory_vpf_propulsive;
 
@@ -504,13 +500,13 @@ public partial class ChronoJumpWindow
 	private string progVersion;
 	private string progName;
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM, SOCIALNETWORKPOLL, FULLSCREENCAPTURE }
-	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, PREFSUTILHELP, NEWS, MICRODISCOVER, PERSON, DATABASE }
-	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR }
+	private enum notebook_sup_pages { START, TESTS, SESSION, NETWORKSPROBLEMS, PREFSUTILHELP, NEWS, MICRODISCOVER, PERSON, DATABASE }
+	private enum notebook_contacts_execute_or_pages { EXECUTE, OPTIONSCONTACTS, OPTIONSENCODER, FORCESENSORADJUST, RACEINSPECTOR }
 	private enum notebook_execute_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER }
 	private enum notebook_options_top_pages { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, FORCESENSOR, RUNSENCODER }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE,
 		JUMPSASYMMETRY, JUMPSEVOLUTION, JUMPSRJFATIGUE,
-		RUNSEVOLUTION, SPRINT, CONTACTS_EXPORT_CSV, SIGNAL_AI, }
+		RUNSEVOLUTION, SPRINT, CONTACTS_EXPORT_CSV, SIGNAL_AI, ENCODER}
 
 	private string runningFileName; //useful for knowing if there are two chronojump instances
 
@@ -1044,8 +1040,6 @@ public partial class ChronoJumpWindow
 
 			image_logo_contacts.Pixbuf = Chronojump.MyPixbuf.Get(
 					null, Util.GetImagePath(false) + Constants.FileNameLogoHorizontalBlue);
-			image_logo_encoder.Pixbuf = Chronojump.MyPixbuf.Get(
-					null, Util.GetImagePath(false) + Constants.FileNameLogoHorizontalBlue);
 
 			fullscreen_image_logo_horizontal_blue.Visible = true;
 			fullscreen_image_logo_horizontal_white.Visible = false;
@@ -1054,8 +1048,6 @@ public partial class ChronoJumpWindow
 					null, Util.GetImagePath(false) + Constants.FileNameLogoWhiteTransp);
 
 			image_logo_contacts.Pixbuf = Chronojump.MyPixbuf.Get(
-					null, Util.GetImagePath(false) + Constants.FileNameLogoHorizontalWhite);
-			image_logo_encoder.Pixbuf = Chronojump.MyPixbuf.Get(
 					null, Util.GetImagePath(false) + Constants.FileNameLogoHorizontalWhite);
 
 			fullscreen_image_logo_horizontal_blue.Visible = false;
@@ -1067,9 +1059,7 @@ public partial class ChronoJumpWindow
 			if(! Config.UseSystemColor)
 			{
 				UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, hbox_top_person);
-				UtilGtk.ContrastLabelsBox (Config.ColorBackgroundIsDark, hbox_top_person_encoder);
 				UtilGtk.ContrastLabelsGrid (Config.ColorBackgroundIsDark, grid_rest_time_contacts);
-				UtilGtk.ContrastLabelsGrid (Config.ColorBackgroundIsDark, grid_rest_time_encoder);
 				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, app1s_label_copyToCloud1);
 			}
 
@@ -1077,13 +1067,9 @@ public partial class ChronoJumpWindow
 			{
 				image_contacts_rest_time_dark_blue.Visible = false;
 				image_contacts_rest_time_clear_yellow.Visible = true;
-				image_encoder_rest_time_dark_blue.Visible = false;
-				image_encoder_rest_time_clear_yellow.Visible = true;
 			} else {
 				image_contacts_rest_time_dark_blue.Visible = true;
 				image_contacts_rest_time_clear_yellow.Visible = false;
-				image_encoder_rest_time_dark_blue.Visible = true;
-				image_encoder_rest_time_clear_yellow.Visible = false;
 			}
 		} else {
 			if(! Config.UseSystemColor)
@@ -1146,6 +1132,7 @@ public partial class ChronoJumpWindow
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_jumps_profile);
 			UtilGtk.WidgetColor (notebook_stats, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_stats);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_gravitatory_vpf_propulsive);
 
 			//notebook_force_sensor_rfd_options
 			UtilGtk.WidgetColor (notebook_force_sensor_rfd_options, Config.ColorBackgroundShifted);
@@ -1153,10 +1140,7 @@ public partial class ChronoJumpWindow
 			UtilGtk.WidgetColor (notebook_ai_model_graph_table_triggers, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_ai_model_graph_table_triggers);
 
-			//notebook_encoder_sup
-			UtilGtk.WidgetColor (notebook_encoder_sup, Config.ColorBackgroundShifted);
-			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_encoder_sup);
-			//but all the labels inside the grid grid_encoder_analyze_instant have a white bg, so should call
+			//all the labels inside the grid grid_encoder_analyze_instant have a white bg, so should call
 			UtilGtk.ContrastLabelsGrid (false, grid_encoder_analyze_instant);
 
 			//persons (main)
@@ -1410,6 +1394,11 @@ public partial class ChronoJumpWindow
 
 		//UtilList.ListRandomize1stAndThenSequentialTest ();
 		//PointF.TestSortListXDescending ();
+
+		/*
+		SqliteEncoder se = new SqliteEncoder ();
+		se.TestSelectSetsAndRepsLList (false, -1, 283, Constants.EncoderGI.GRAVITATORY, -1, -1);
+		*/
 	}
 
 /*
@@ -1534,27 +1523,6 @@ public partial class ChronoJumpWindow
 	 * ----------------  test modes (small GUI) ----------------
 	 *  --------------------------------------------------------
 	 */
-
-	public void on_radio_mode_encoder_capture_small_toggled (object obj, EventArgs args) {
-		if(radio_mode_encoder_capture_small.Active) 
-			notebook_encoder_sup.CurrentPage = 0;
-	}
-
-	public void on_radio_mode_encoder_analyze_small_toggled (object o, EventArgs args) {
-		if(radio_mode_encoder_analyze_small.Active)
-		{
-			notebook_encoder_sup.CurrentPage = 1;
-
-			if(radio_encoder_analyze_individual_current_set.Active)
-				on_radio_encoder_analyze_individual_current_set (o, args);
-			else if(radio_encoder_analyze_individual_current_session.Active)
-				on_radio_encoder_analyze_individual_current_session (o, args);
-			else if(radio_encoder_analyze_individual_all_sessions.Active)
-				on_radio_encoder_analyze_individual_all_sessions (o, args);
-			else if(radio_encoder_analyze_groupal_current_session.Active)
-				on_radio_encoder_analyze_groupal_current_session (o, args);
-		}
-	}
 
 	private void personChanged()
 	{
@@ -2157,6 +2125,12 @@ public partial class ChronoJumpWindow
 				fillTreeView_forceSensor (Constants.AllTestsNameStr (), false);
 			else if (combo_force_sensor_exercise != null)
 				fillTreeView_forceSensor (UtilGtk.ComboGetActive(combo_force_sensor_exercise), false);
+		} else if (Constants.ModeIsENCODER (current_mode))
+		{
+			if (radio_contacts_graph_allTests.Active)
+				fillTreeView_encoder (Constants.AllTestsNameStr (), false);
+			else if (combo_encoder_exercise_capture != null)
+				fillTreeView_encoder (UtilGtk.ComboGetActive (combo_encoder_exercise_capture), false);
 		} else if (current_mode == Constants.Modes.OTHER)
 		{
 			fillTreeView_fourPlatforms ("", false);
@@ -2511,7 +2485,6 @@ public partial class ChronoJumpWindow
 
 		//if we are on analyze tab, switch to capture tab
 		radio_mode_contacts_capture.Active = true;
-		radio_mode_encoder_capture_small.Active = true;
 
 		//show hidden widgets
 		sensitiveGuiNoSession();
@@ -2525,7 +2498,6 @@ public partial class ChronoJumpWindow
 		hbox_persons_bottom_photo.Sensitive = false;
 		label_current_person.Text = "";
 		label_top_person_name.Text = "";
-		label_top_encoder_person_name.Text = "";
 		button_person_merge.Sensitive = false;
 
 		//update report
@@ -2601,7 +2573,6 @@ public partial class ChronoJumpWindow
 
 		//if we are on analyze tab, switch to capture tab
 		radio_mode_contacts_capture.Active = true;
-		radio_mode_encoder_capture_small.Active = true;
 
 		bool foundPersons = false;
 
@@ -2622,8 +2593,8 @@ public partial class ChronoJumpWindow
 			sensitiveGuiYesPerson();
 			label_top_person_name.Text = "<b>" + currentPerson.Name + "</b>";
 			label_top_person_name.UseMarkup = true;
-			label_top_encoder_person_name.Text = "<b>" + currentPerson.Name + "</b>";
-			label_top_encoder_person_name.UseMarkup = true;
+			//label_top_encoder_person_name.Text = "<b>" + currentPerson.Name + "</b>";
+			//label_top_encoder_person_name.UseMarkup = true;
 		} else {
 			currentPerson = null;
 			sensitiveGuiNoPerson ();
@@ -2686,6 +2657,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	/* TODO: remove this when we are sure that treeViewResultsEncoder works flawlessly
        private OverviewWindow overviewWin;
        private void on_session_overview_clicked (object o, EventArgs args)
        {
@@ -2713,6 +2685,7 @@ public partial class ChronoJumpWindow
                        overviewWin.HideAndNull();
                }
        }
+       */
 
 	private void on_radio_contacts_export_individual_current_session_toggled (object o, EventArgs args)
 	{
@@ -3215,7 +3188,7 @@ public partial class ChronoJumpWindow
 		if(currentSession != null)
 			tempSessionName = currentSession.Name;
 
-		setApp1Title(tempSessionName, current_mode);
+		setApp1Title(tempSessionName, m);
 
 		treeview_results_session_storeReset ();
 
@@ -3251,11 +3224,13 @@ public partial class ChronoJumpWindow
 		button_contacts_repair_selected.Sensitive = false;
 
 		//show capture graph and/or table
-		if (! Constants.ModeIsENCODER (m))
+		alignment_contacts_show_graph_table.Visible = true;
+		if (Constants.ModeIsENCODER (m))
 		{
-			alignment_contacts_show_graph_table.Visible = true;
+			vbox_angle_now.Visible = m == Constants.Modes.POWERINERTIAL;
+			on_check_encoder_capture_show_modes_clicked (new object(), new EventArgs());
+		} else
 			on_check_contacts_capture_show_modes_clicked (new object(), new EventArgs());
-		}
 
 		//cancel force capture process if mode is changed
 		if(capturingForce == arduinoCaptureStatus.STARTING || capturingForce == arduinoCaptureStatus.CAPTURING)
@@ -3270,9 +3245,26 @@ public partial class ChronoJumpWindow
 			runEncoderProcessCancel = true;
 		}
 
+		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.TESTS);
+		//top buttons on capture
+		if (m == Constants.Modes.OTHER || m == Constants.Modes.BEEPTEST || m == Constants.Modes.WILIGHT)
+		{
+			box_contacts_capture_top.Visible = false;
+			hbox_encoder_capture_top.Visible = false;
+		}
+		else if (Constants.ModeIsENCODER (m))
+		{
+			box_contacts_capture_top.Visible = false;
+			hbox_encoder_capture_top.Visible = true;
+		} else {
+			box_contacts_capture_top.Visible = true;
+			hbox_encoder_capture_top.Visible = false;
+		}
+
 		hbox_change_modes_jumps.Visible = false;
 		hbox_change_modes_runs.Visible = false;
 		hbox_change_modes_force_sensor.Visible = false;
+		hbox_change_modes_encoder.Visible = false;
 		radio_mode_contacts_analyze.Visible = true;
 		radio_change_modes_contacts_wilight.Visible = false;
 		radio_change_modes_contacts_fourPlatforms.Visible = false;
@@ -3280,7 +3272,6 @@ public partial class ChronoJumpWindow
 		button_contacts_bells.Sensitive = false;
 
 		radio_mode_contacts_capture.Active = true; //it is safe to change to capture, because analyze has different graphs depending on mode
-		radio_mode_encoder_capture_small.Active = true; //it is safe to change to capture, to ensure all widgets are ok on analyze (everything seems ok, but just to have same behaviour than in contacts)
 
 		button_contacts_capture_save_image.Visible = false;
 		radio_mode_contacts_jumps_profile.Active = true;
@@ -3299,22 +3290,45 @@ public partial class ChronoJumpWindow
 		box_wilight.Visible = false;
 		box_wilight_commands.Visible = false;
 		box_fourPlatforms.Visible = false;
-		box_contacts_capture_top.Visible = true;
 		box_event_execute_label_message.Visible = true;
+		hbox_encoder_show_signal_table.Visible = Constants.ModeIsENCODER (m);
 		box_contacts_graph_exercise.Visible = true;
 
 		hbox_combo_select_contacts_top_with_arrows.Visible = false; //TODO: this will be unneded
 
 		event_execute_label_message.Text = "";
 
-		// ---- box_contacts_current ---->
-		box_contacts_current.Visible = false;
-		align_drawingarea_realtime_capture_cairo.Visible = false;
-		box_beepTest.Visible = false;
+		// ---- box_capture_current ---->
+		if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.RUNSSIMPLE)
+		{
+			box_capture_current.Visible = false;
+		} else {
+			box_capture_current.Visible = true;
+
+			align_drawingarea_realtime_capture_cairo.Visible = (
+					m == Constants.Modes.JUMPSREACTIVE ||
+					m == Constants.Modes.RUNSINTERVALLIC ||
+					m == Constants.Modes.OTHER ||
+					m == Constants.Modes.WILIGHT);
+
+			box_capture_current_forceSensor.Visible = false;
+			hbox_capture_current_runEncoder.Visible = false;
+			box_beepTest.Visible = false;
+			vbox_capture_current_encoder.Visible = false;
+
+			if (Constants.ModeIsFORCESENSOR (m))
+				box_capture_current_forceSensor.Visible = true;
+			else if(m == Constants.Modes.RUNSENCODER)
+				hbox_capture_current_runEncoder.Visible = true;
+			else if (m == Constants.Modes.BEEPTEST)
+				box_beepTest.Visible = true;
+			else if (Constants.ModeIsENCODER (m))
+				vbox_capture_current_encoder.Visible = true;
+		}
+
 		vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = false; //just runEncoder
-		box_contacts_current_forceSensor.Visible = false;
-		hbox_contacts_current_runEncoder.Visible = false;
-		// <---- box_contacts_current ----
+
+		// <---- box_capture_current ----
 
 		if(chronopicRegister == null)
 			chronopicRegisterUpdate(false);
@@ -3355,9 +3369,7 @@ public partial class ChronoJumpWindow
 
 		if(m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE)
 		{
-			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			//notebook_capture_analyze.ShowTabs = true;
-			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = true;
 
 			label_contacts_exercise_selected_options_visible (true);
@@ -3389,8 +3401,7 @@ public partial class ChronoJumpWindow
 
 				box_contacts_simple_graph_controls.Visible = true;
 
-				box_contacts_current.Visible = true;
-				align_drawingarea_realtime_capture_cairo.Visible = true;
+				box_capture_current.Visible = true;
 
 				//align_check_vbox_contacts_graph_legend.Visible = false;
 				//vbox_contacts_graph_legend.Visible = false;
@@ -3402,9 +3413,9 @@ public partial class ChronoJumpWindow
 			on_radio_contacts_graph_test_toggled (new object (), new EventArgs ()); //to ensure data is updated
 
 			box_contacts_export_data_jumps.Visible = true;
-			check_contacts_export_jumps_simple.Active = (current_mode == Constants.Modes.JUMPSSIMPLE);
-			check_contacts_export_jumps_simple_mean_max_tables.Active = (current_mode == Constants.Modes.JUMPSSIMPLE);
-			check_contacts_export_jumps_reactive.Active = (current_mode == Constants.Modes.JUMPSREACTIVE);
+			check_contacts_export_jumps_simple.Active = (m == Constants.Modes.JUMPSSIMPLE);
+			check_contacts_export_jumps_simple_mean_max_tables.Active = (m == Constants.Modes.JUMPSSIMPLE);
+			check_contacts_export_jumps_reactive.Active = (m == Constants.Modes.JUMPSREACTIVE);
 			box_contacts_export_data_runs.Visible = false;
 			radio_contacts_export_individual_current_session.Active = true;
 			on_radio_contacts_export_individual_current_session_toggled (new object (), new EventArgs ());
@@ -3428,10 +3439,7 @@ public partial class ChronoJumpWindow
 			LogB.Information(string.Format("wireless conditions B: {0}, {1}",
 				cp2016.StoredWireless, chronopicRegister != null));
 
-			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			//notebook_capture_analyze.ShowTabs = true;
-			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
-
 			button_threshold.Visible = ! (chronopicRegister != null && chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.RUN_WIRELESS) == 1);
 
 			label_contacts_exercise_selected_options_visible (true);
@@ -3467,8 +3475,7 @@ public partial class ChronoJumpWindow
 
 				box_contacts_simple_graph_controls.Visible = true;
 
-				box_contacts_current.Visible = true;
-				align_drawingarea_realtime_capture_cairo.Visible = true;
+				box_capture_current.Visible = true;
 				vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = true;
 
 				//align_check_vbox_contacts_graph_legend.Visible = false;
@@ -3482,8 +3489,8 @@ public partial class ChronoJumpWindow
 
 			box_contacts_export_data_jumps.Visible = false;
 			box_contacts_export_data_runs.Visible = true;
-			check_contacts_export_runs_simple.Active = (current_mode == Constants.Modes.RUNSSIMPLE);
-			check_contacts_export_runs_intervallic.Active = (current_mode == Constants.Modes.RUNSINTERVALLIC);
+			check_contacts_export_runs_simple.Active = (m == Constants.Modes.RUNSSIMPLE);
+			check_contacts_export_runs_intervallic.Active = (m == Constants.Modes.RUNSINTERVALLIC);
 			radio_contacts_export_individual_current_session.Active = true;
 			on_radio_contacts_export_individual_current_session_toggled (new object (), new EventArgs ());
 
@@ -3495,9 +3502,6 @@ public partial class ChronoJumpWindow
 		}
 		else if (Constants.ModeIsENCODER (m))
 		{
-			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.ENCODER);
-
-
 			/*
 			 * If there's a signal on gravitatory and we move to inertial, 
 			 * interface has to change to YESPERSON (meaning no_signal).
@@ -3508,6 +3512,7 @@ public partial class ChronoJumpWindow
 				encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 			
 			blankEncoderInterface();
+			hbox_change_modes_encoder.Visible = true;
 			radio_change_modes_encoder_gravitatory.Visible = (m == Constants.Modes.POWERGRAVITATORY);
 			radio_change_modes_encoder_inertial.Visible = (m == Constants.Modes.POWERINERTIAL);
 
@@ -3560,7 +3565,6 @@ public partial class ChronoJumpWindow
 					radiobutton_encoder_analyze_neuromuscular_profile.Visible = true;
 
 				//hbox_encoder_capture_1_or_cont.Visible = true;
-				vbox_angle_now.Visible = false;
 				label_gravitatory_vpf_propulsive.Visible = preferences.encoderPropulsive;
 
 				notebook_encoder_top.Page = 0;
@@ -3595,7 +3599,6 @@ public partial class ChronoJumpWindow
 				hbox_combo_encoder_analyze_1RM.Visible=false;
 				radiobutton_encoder_analyze_neuromuscular_profile.Visible = false;
 				
-				vbox_angle_now.Visible = true;
 				label_gravitatory_vpf_propulsive.Visible = false;
 
 				notebook_encoder_top.Page = 1;
@@ -3617,10 +3620,8 @@ public partial class ChronoJumpWindow
 		} 
 		else if(Constants.ModeIsFORCESENSOR (m))
 		{
-			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
-			box_contacts_current.Visible = true;
-			box_contacts_current_forceSensor.Visible = true;
+			box_capture_current.Visible = true;
 
 			blankForceSensorInterface();
 			if (m == Constants.Modes.FORCESENSORISOMETRIC)
@@ -3646,7 +3647,6 @@ public partial class ChronoJumpWindow
 
 			button_contacts_bells.Sensitive = true;
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
-			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = false;
 			button_force_sensor_adjust.Visible = true;
 			//button_force_sensor_sync.Visible = true; //TODO: show again when it fully works, now is hidden for 2.1.0 release
@@ -3689,17 +3689,14 @@ public partial class ChronoJumpWindow
 		}
 		else if(m == Constants.Modes.RUNSENCODER)
 		{
-			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
-			box_contacts_current.Visible = true;
-			hbox_contacts_current_runEncoder.Visible = true;
+			box_capture_current.Visible = true;
 
 			button_contacts_exercise_close_and_recalculate.Visible = true;
 
 			button_contacts_bells.Sensitive = true;
 
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
-			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = false;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
@@ -3724,7 +3721,7 @@ public partial class ChronoJumpWindow
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
 
 			signalAnalyzeButtonsVisibility ();
-			button_video_play_this_test_contacts.Sensitive = (currentRunEncoder != null && currentRunEncoder.VideoURL != "");
+			button_video_play_this_test.Sensitive = (currentRunEncoder != null && currentRunEncoder.VideoURL != "");
 
 			//forceSensor and runEncoder
 			check_run_encoder_export_instantaneous.Visible = true;
@@ -3743,34 +3740,27 @@ public partial class ChronoJumpWindow
 		else if (m == Constants.Modes.OTHER) //(contacts / other)
 		{
 			//similar to WILIGHT
-			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
 			radio_mode_contacts_analyze.Visible = false;
 
-			box_contacts_capture_top.Visible = false;
 			radio_change_modes_contacts_fourPlatforms.Visible = true;
 
 			box_fourPlatforms.Visible = true;
 			box_contacts_graph_exercise.Visible = false; //selection of exercise
 
-			box_contacts_current.Visible = true;
-			align_drawingarea_realtime_capture_cairo.Visible = true;
+			box_capture_current.Visible = true;
 			//wilightApp1Init ();
 		}
 
 		if (m == Constants.Modes.BEEPTEST)
 		{
-			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
 			radio_mode_contacts_analyze.Visible = false;
 
-			box_contacts_capture_top.Visible = false;
 			box_event_execute_label_message.Visible = false;
 			hbox_change_modes_runs.Visible = true; //TODO: add beep test
 
-			box_contacts_current.Visible = true;
-			box_beepTest.Visible = true;
-			box_contacts_capture_top.Visible = false;
+			box_capture_current.Visible = true;
 
 			beepTestApp1Init ();
 
@@ -3778,25 +3768,21 @@ public partial class ChronoJumpWindow
 			vbox_contacts_capture_graph.Visible = false; //do not show results_session graph
 			hbox_treeview_results_session.Visible = true;
 		} else {
-			box_beepTest.Visible = false;
 			box_contacts_graph_show_graph_table.Visible = true;
 		}
 
 		if (m == Constants.Modes.WILIGHT)
 		{
-			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
 			radio_mode_contacts_analyze.Visible = false;
 
 			//hbox_change_modes_runs.Visible = true; //TODO: add beep test
-			box_contacts_capture_top.Visible = false;
 			radio_change_modes_contacts_wilight.Visible = true;
 
 			box_wilight.Visible = true;
 			box_contacts_graph_exercise.Visible = false; //selection of exercise
 
-			box_contacts_current.Visible = true;
-			align_drawingarea_realtime_capture_cairo.Visible = true;
+			box_capture_current.Visible = true;
 			wilightApp1Init ();
 		}
 
@@ -3852,16 +3838,16 @@ public partial class ChronoJumpWindow
 
 		//json upload
 		button_contacts_json_upload.Visible = configChronojump.JsonUploadNeedsButton &&
-			(current_mode == Constants.Modes.JUMPSSIMPLE ||
-			current_mode == Constants.Modes.RUNSSIMPLE ||
-			 current_mode == Constants.Modes.RUNSINTERVALLIC);
+			(m == Constants.Modes.JUMPSSIMPLE ||
+			 m == Constants.Modes.RUNSSIMPLE ||
+			 m == Constants.Modes.RUNSINTERVALLIC);
 
 		//grid insert
-		if (current_mode == Constants.Modes.RUNSSIMPLE && configChronojump.CanInsertTests) {
+		if (m == Constants.Modes.RUNSSIMPLE && configChronojump.CanInsertTests) {
 			box_contacts_insert_test.Visible = true;
 			notebook_contacts_insert_test.CurrentPage = 0;
 		}
-		else if (current_mode == Constants.Modes.RUNSINTERVALLIC && configChronojump.CanInsertTests) {
+		else if (m == Constants.Modes.RUNSINTERVALLIC && configChronojump.CanInsertTests) {
 			box_contacts_insert_test.Visible = true;
 			notebook_contacts_insert_test.CurrentPage = 1;
 		} else
@@ -3879,6 +3865,11 @@ public partial class ChronoJumpWindow
 
 		chronojumpWindowTestsNext();
 
+		if (m != Constants.Modes.JUMPSSIMPLE && m != Constants.Modes.RUNSSIMPLE)
+			vpaned_tests_center ();
+
+		hpaned_contacts_graph_table_center_if_needed ();
+
 		setLabelContactsExerciseSelectedOptions();
 
 		//beepTest changes treeview persons, redo it
@@ -3888,10 +3879,10 @@ public partial class ChronoJumpWindow
 			myTreeViewPersons.RestSecondsMark = get_configured_rest_time_in_seconds();
 			fillTreeView_persons();
 		}
-		updatingRestTimes = (current_mode != Constants.Modes.BEEPTEST);
+		updatingRestTimes = (m != Constants.Modes.BEEPTEST);
 
 		if (remoteTest != null)
-			remoteTest.Current_mode = current_mode;
+			remoteTest.Current_mode = m;
 	}
 
 	private void showMacRInstallMessage ()
@@ -3921,9 +3912,7 @@ public partial class ChronoJumpWindow
 		vbox_contacts_capture_graph.Visible = check_contacts_capture_graph.Active;
 		hbox_treeview_results_session.Visible = check_contacts_capture_table.Active;
 
-		//when showing both widgets, start at the middle
-		if(vbox_contacts_capture_graph.Visible && hbox_treeview_results_session.Visible)
-			hpaned_contacts_graph_table.Position = Convert.ToInt32(frame_contacts_graph_table.Allocation.Width / 2.0);
+		hpaned_contacts_graph_table_center_if_needed ();
 
 		if (check_contacts_capture_graph.Active || check_contacts_capture_table.Active)
 			box_contacts_capture_show_need_one.Visible = false;
@@ -3942,6 +3931,17 @@ public partial class ChronoJumpWindow
 		preferences.contactsCaptureDisplay = new ContactsCaptureDisplay(
 				check_contacts_capture_table.Active,
 				check_contacts_capture_graph.Active);
+	}
+
+	private void vpaned_tests_center ()
+	{
+		vpaned_tests.Position = Convert.ToInt32 (vpaned_tests.Allocation.Height / 2.0);
+	}
+	//when showing both widgets, start at the middle
+	private void hpaned_contacts_graph_table_center_if_needed ()
+	{
+		if(vbox_contacts_capture_graph.Visible && hbox_treeview_results_session.Visible)
+			hpaned_contacts_graph_table.Position = Convert.ToInt32(frame_contacts_graph_table.Allocation.Width / 2.0);
 	}
 
 	private void radio_mode_contacts_analyze_buttons_visible (Constants.Modes m)
@@ -4580,7 +4580,7 @@ public partial class ChronoJumpWindow
 	DiscoverWindow discoverWin;
 	private void on_button_detect_clicked (object o, EventArgs args)
 	{
-		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage; //CONTACTS or ENCODER
+		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
 		notebook_sup.CurrentPage = Convert.ToInt32 (notebook_sup_pages.MICRODISCOVER);
 		event_execute_label_message.Text = "";
 		menus_and_mode_sensitive (false);
@@ -4675,7 +4675,7 @@ public partial class ChronoJumpWindow
 				showHideFourPlatformsJumpsDrawingArea ();
 		}
 
-		notebook_sup.CurrentPage = app1s_notebook_sup_entered_from; //CONTACTS or ENCODER
+		notebook_sup.CurrentPage = app1s_notebook_sup_entered_from;
 		menus_and_mode_sensitive (true);
 	}
 
@@ -4766,8 +4766,8 @@ public partial class ChronoJumpWindow
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 			updateForceSensorCaptureSignalCairo (true);
 		else if (Constants.ModeIsENCODER (current_mode))
-			if (prepareEventGraphBarplotEncoder != null)
-				prepareEncoderBarplotCairo (true);
+			if (prepareEventGraphEncoderCurrent != null)
+				prepareEncoderSignalBarplotCairo (true);
 	}
 
 	/*
@@ -4989,7 +4989,7 @@ public partial class ChronoJumpWindow
 	private void on_button_execute_test_acceptedPre_start_camera(WebcamStartedTestStart wsts)
 	{
 		LogB.Information("on_button_execute_test_acceptedPre_start_camera " + wsts.ToString());
-		button_video_play_this_test_contacts_sensitive (WebcamManage.GuiContactsEncoder.CONTACTS, false);
+		button_video_play_this_test.Sensitive = false;
 
 		webcamManage = new WebcamManage();
 		if(! webcamStart (WebcamManage.GuiContactsEncoder.CONTACTS, 1))
@@ -5517,9 +5517,7 @@ public partial class ChronoJumpWindow
 					//restTime.CompujumpPersonNeedLogout(currentPerson.UniqueID), 		     //3' since last executed test
 			{
 				compujumpPersonLogoutDo();
-
 				label_logout_seconds.Text = "";
-				label_logout_seconds_encoder.Text = "";
 			} else {
 				/*
 				 * TODO: implement when it's nicer and only is displayed when 10 seconds remain
@@ -5535,7 +5533,6 @@ public partial class ChronoJumpWindow
 				}
 
 				label_logout_seconds.Text = logoutSecondsStr;
-				label_logout_seconds_encoder.Text = logoutSecondsStr;
 			}
 		}
 
@@ -5545,12 +5542,7 @@ public partial class ChronoJumpWindow
 			return true;
 		}
 
-		if (Constants.ModeIsENCODER (current_mode))
-		{
-			updateTopRestTimesEncoder();
-		} else {
-			updateTopRestTimesContacts();
-		}
+		updateTopRestTimes ();
 
 		return true;
 	}
@@ -6501,6 +6493,8 @@ public partial class ChronoJumpWindow
 			run_encoder_delete_current_test_pre_question();
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			force_sensor_delete_current_test_pre_question();
+		else if (Constants.ModeIsENCODER (current_mode))
+			on_button_encoder_delete_signal_clicked (o, args);
 		else if (current_mode == Constants.Modes.BEEPTEST || current_mode == Constants.Modes.WILIGHT || current_mode == Constants.Modes.OTHER)
 			on_delete_selected_test_clicked (o, args);
 	}
@@ -7562,8 +7556,8 @@ public partial class ChronoJumpWindow
 					//plotCurvesGraphDoPlot(mainVariableStr, mainVariableHigher, mainVariableLower,
 
 					//Cairo
-					LogB.Information ("Called prepareEventGraphBarplotEncoder at on_feedback_closed Plot capturing: false");
-					prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
+					LogB.Information ("Called prepareEventGraphEncoderCurrent at on_feedback_closed Plot capturing: false");
+					prepareEventGraphEncoderCurrent = new PrepareEventGraphEncoderCurrent (
 							mainVariableStr, mainVariableHigher, mainVariableLower,
 							secondaryVariableStr, preferences.encoderCaptureShowLoss,
 							false, //not capturing
@@ -7761,24 +7755,6 @@ public partial class ChronoJumpWindow
 			{
 				//SqlitePreferences.Update(SqlitePreferences.SignalDirectionHorizontal, signalDirectionHorizontal.ToString(), false); //TODO
 				preferences.signalDirectionHorizontal = signalDirectionHorizontal;
-
-				if (! signalDirectionHorizontal)
-				{
-					box_encoder_capture_signal_horizontal.Visible = false;
-					box_encoder_capture_signal_vertical.Visible = true;
-
-					//alignment_encoder_capture_signal.Reparent (box_encoder_capture_signal_vertical); //deprecated on gtk3
-					box_encoder_capture_signal_horizontal.Remove (alignment_encoder_capture_signal);
-					box_encoder_capture_signal_vertical.Add (alignment_encoder_capture_signal);
-				} else {
-					box_encoder_capture_signal_horizontal.Visible = true;
-					box_encoder_capture_signal_vertical.Visible = false;
-
-					//alignment_encoder_capture_signal.Reparent (box_encoder_capture_signal_horizontal); //deprecated on gtk3
-					box_encoder_capture_signal_vertical.Remove (alignment_encoder_capture_signal);
-					box_encoder_capture_signal_horizontal.Add (alignment_encoder_capture_signal);
-				}
-
 				fixEncoderCaptureWidgetsGeometry ();
 			}
 		}
@@ -7885,6 +7861,19 @@ public partial class ChronoJumpWindow
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.SIGNAL_AI);
 		else if(current_mode == Constants.Modes.RUNSENCODER)
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.SIGNAL_AI);
+		else if (Constants.ModeIsENCODER (current_mode))
+		{
+			notebook_analyze.CurrentPage = Convert.ToInt32 (notebook_analyze_pages.ENCODER);
+
+			if(radio_encoder_analyze_individual_current_set.Active)
+				on_radio_encoder_analyze_individual_current_set (o, args);
+			else if(radio_encoder_analyze_individual_current_session.Active)
+				on_radio_encoder_analyze_individual_current_session (o, args);
+			else if(radio_encoder_analyze_individual_all_sessions.Active)
+				on_radio_encoder_analyze_individual_all_sessions (o, args);
+			else if(radio_encoder_analyze_groupal_current_session.Active)
+				on_radio_encoder_analyze_groupal_current_session (o, args);
+		}
 		else
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
 
@@ -8014,7 +8003,6 @@ public partial class ChronoJumpWindow
 		hbox_persons_bottom_photo.Sensitive = false;
 	
 		button_contacts_person_change.Sensitive = false;
-		button_encoder_person_change.Sensitive = false;
 		frame_contacts_exercise.Sensitive = false;
 		
 		//notebooks
@@ -8048,7 +8036,6 @@ public partial class ChronoJumpWindow
 		button_person_add_multiple.Sensitive = true;
 		
 		button_contacts_person_change.Sensitive = true;
-		button_encoder_person_change.Sensitive = true;
 		button_force_sensor_adjust.Sensitive = true;
 		button_force_sensor_sync.Sensitive = true;
 		
@@ -8074,9 +8061,6 @@ public partial class ChronoJumpWindow
 		//don't cal personChanged because it will make changes on analyze repetitions and currentPerson == null
 		//personChanged();
 
-		if(notebook_encoder_sup.CurrentPage == 1)
-			notebook_encoder_sup.CurrentPage = 0;
-
 		frame_contacts_exercise.Sensitive = false;
 		notebook_analyze.Sensitive = false;
 		hbox_treeview_results_session.Sensitive = false;
@@ -8089,7 +8073,6 @@ public partial class ChronoJumpWindow
 
 		label_current_person.Text = "";
 		label_top_person_name.Text = "";
-		label_top_encoder_person_name.Text = "";
 		button_person_merge.Sensitive = false;
 
 		if(createdStatsWin)
@@ -8160,7 +8143,6 @@ public partial class ChronoJumpWindow
 		hbox_contacts_camera.Sensitive = false;
 		
 		button_contacts_person_change.Sensitive = false;
-		button_encoder_person_change.Sensitive = false;
 
 		image_inertial_extended.Visible = true;
 		button_encoder_inertial_recalibrate.Visible = false;
@@ -8212,7 +8194,6 @@ public partial class ChronoJumpWindow
 		hbox_contacts_camera.Sensitive = true;
 
 		button_contacts_person_change.Sensitive = true;
-		button_encoder_person_change.Sensitive = true;
 
 		//allow show the recalibrate button
 		if(encoderInertialCalibratedFirstTime)
@@ -8340,7 +8321,7 @@ public partial class ChronoJumpWindow
 		label_encoder_checked_error.Visible = false;
 		chronopicRegisterUpdate(false);
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ENCODER) > 0)
-			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.ENCODER);
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.TESTS);
 		else
 			label_encoder_checked_error.Visible = true;
 	}
@@ -8437,7 +8418,9 @@ public partial class ChronoJumpWindow
 
 		notebook_start = (Gtk.Notebook) builder.GetObject ("notebook_start"); 		//start window or program
 		notebook_sup = (Gtk.Notebook) builder.GetObject ("notebook_sup");
+
 		box_contacts_capture_top = (Gtk.Box) builder.GetObject ("box_contacts_capture_top");
+
 		notebook_capture_analyze = (Gtk.Notebook) builder.GetObject ("notebook_capture_analyze"); //not encoder
 		notebook_contacts_execute_or = (Gtk.Notebook) builder.GetObject ("notebook_contacts_execute_or");
 		notebook_analyze = (Gtk.Notebook) builder.GetObject ("notebook_analyze"); //not encoder
@@ -8496,11 +8479,8 @@ public partial class ChronoJumpWindow
 		eventbox_change_modes_contacts_elastic = (Gtk.EventBox) builder.GetObject ("eventbox_change_modes_contacts_elastic");
 		eventbox_change_modes_encoder_gravitatory = (Gtk.EventBox) builder.GetObject ("eventbox_change_modes_encoder_gravitatory");
 		eventbox_change_modes_encoder_inertial = (Gtk.EventBox) builder.GetObject ("eventbox_change_modes_encoder_inertial");
-		eventbox_button_show_modes_encoder = (Gtk.EventBox) builder.GetObject ("eventbox_button_show_modes_encoder");
 		eventbox_radio_mode_contacts_capture = (Gtk.EventBox) builder.GetObject ("eventbox_radio_mode_contacts_capture");
 		eventbox_radio_mode_contacts_analyze = (Gtk.EventBox) builder.GetObject ("eventbox_radio_mode_contacts_analyze");
-		eventbox_radio_mode_encoder_capture_small = (Gtk.EventBox) builder.GetObject ("eventbox_radio_mode_encoder_capture_small");
-		eventbox_radio_mode_encoder_analyze_small = (Gtk.EventBox) builder.GetObject ("eventbox_radio_mode_encoder_analyze_small");
 		eventbox_button_open_chronojump = (Gtk.EventBox) builder.GetObject ("eventbox_button_open_chronojump");
 		eventbox_button_help_close = (Gtk.EventBox) builder.GetObject ("eventbox_button_help_close");
 		eventbox_button_news_close = (Gtk.EventBox) builder.GetObject ("eventbox_button_news_close");
@@ -8540,9 +8520,6 @@ public partial class ChronoJumpWindow
 		label_version = (Gtk.Label) builder.GetObject ("label_version");
 		//image_selector_start_encoder_inertial = (Gtk.Image) builder.GetObject ("image_selector_start_encoder_inertial");
 
-		radio_mode_encoder_capture_small = (Gtk.RadioButton) builder.GetObject ("radio_mode_encoder_capture_small");
-		radio_mode_encoder_analyze_small = (Gtk.RadioButton) builder.GetObject ("radio_mode_encoder_analyze_small");
-
 		image_persons_new_1 = (Gtk.Image) builder.GetObject ("image_persons_new_1");
 		image_persons_new_plus = (Gtk.Image) builder.GetObject ("image_persons_new_plus");
 		image_persons_open_1 = (Gtk.Image) builder.GetObject ("image_persons_open_1");
@@ -8573,6 +8550,7 @@ public partial class ChronoJumpWindow
 		fullscreen_capture_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("fullscreen_capture_drawingarea_cairo");
 
 		hbox_contacts_graph_table_controls = (Gtk.HBox) builder.GetObject ("hbox_contacts_graph_table_controls");
+		vpaned_tests = (Gtk.VPaned) builder.GetObject ("vpaned_tests");
 		frame_contacts_graph_table = (Gtk.Frame) builder.GetObject ("frame_contacts_graph_table");
 		hpaned_contacts_graph_table = (Gtk.HPaned) builder.GetObject ("hpaned_contacts_graph_table");
 		treeview_persons = (Gtk.TreeView) builder.GetObject ("treeview_persons");
@@ -8752,7 +8730,6 @@ public partial class ChronoJumpWindow
 		image_encoder_analyze_image_save = (Gtk.Image) builder.GetObject ("image_encoder_analyze_image_save");
 		image_encoder_analyze_1RM_save = (Gtk.Image) builder.GetObject ("image_encoder_analyze_1RM_save");
 		image_encoder_analyze_table_save = (Gtk.Image) builder.GetObject ("image_encoder_analyze_table_save");
-		image_encoder_signal_delete = (Gtk.Image) builder.GetObject ("image_encoder_signal_delete");
 		image_encoder_inertial_instructions = (Gtk.Image) builder.GetObject ("image_encoder_inertial_instructions");
 		label_gravitatory_vpf_propulsive = (Gtk.Label) builder.GetObject ("label_gravitatory_vpf_propulsive");
 

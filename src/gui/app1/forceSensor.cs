@@ -594,7 +594,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		on_button_contacts_exercise_close_clicked (o, args);
+		on_button_exercise_close_clicked (o, args);
 		on_buttons_force_sensor_clicked (button_stiffness_detect, new EventArgs ());
 	}
 
@@ -1860,7 +1860,7 @@ LogB.Information(" fs C ");
 			showHideBlinkIcon (blinkCapture, false);
 			//blinkCapture.End ();
 
-			button_video_play_this_test_contacts.Sensitive = false;
+			button_video_play_this_test.Sensitive = false;
 
 			if(forceProcessFinish)
 			{
@@ -2432,7 +2432,7 @@ LogB.Information(" fs R ");
 		//image_ai_model_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
 		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 
-		button_video_play_this_test_contacts.Sensitive = (fs.VideoURL != "");
+		button_video_play_this_test.Sensitive = (fs.VideoURL != "");
 		sensitiveLastTestButtons(true);
 
 		forceSensorZoomDefaultValues();
@@ -2696,13 +2696,14 @@ LogB.Information(" fs R ");
 		//forceSensorValues.BestRFD = getBestAvgRFD ();
 
 		currentForceSensor.UpdateSQL(false);
+		int id = currentForceSensor.UniqueID; //need to assign to a variable because will change on pre_fillTreeView_resultsSession
 
 		//notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 		//change radio and will change also notebook:
 		radio_signal_analyze_current_set.Active = true;
 
-		updateGraphResultsSessionByMode ();
 		pre_fillTreeView_resultsSession ();
+		selectResultsSessionId (id, true);
 	}
 
 	private enum forceSensorGraphsEnum { SIGNAL, RFD }

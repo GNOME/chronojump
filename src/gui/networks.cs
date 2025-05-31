@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -44,10 +44,8 @@ public partial class ChronoJumpWindow
 
 	//RFID
 	Gtk.Label label_rfid_wait;
-	Gtk.Label label_rfid_encoder_wait;
 
 	Gtk.Label label_logout_seconds;
-	Gtk.Label label_logout_seconds_encoder;
 
 	//better raspberry controls
 	Gtk.HBox hbox_sessions_raspberry;
@@ -57,14 +55,10 @@ public partial class ChronoJumpWindow
 	
 	//config.EncoderNameAndCapture
 	Gtk.HBox hbox_top_person;
-	Gtk.HBox hbox_top_person_encoder;
 	Gtk.Label label_top_person_name;
-	Gtk.Label label_top_encoder_person_name;
 	Gtk.Image image_current_person;
 	Gtk.Button button_contacts_person_change;
-	Gtk.Button button_encoder_person_change;
 	Gtk.Button button_networks_contacts_guest;
-	Gtk.Button button_networks_encoder_guest;
 
 	//encoder exercise stuff
 	Gtk.Label label_encoder_exercise_encoder;
@@ -218,9 +212,7 @@ public partial class ChronoJumpWindow
 			showPersonsOnTop(true);
 
 			button_networks_contacts_guest.Visible = true;
-			button_networks_encoder_guest.Visible = true;
 			button_contacts_person_change.Visible = false;
-			button_encoder_person_change.Visible = false;
 
 			if(configChronojump.CompujumpStationMode != Constants.Modes.UNDEFINED)
 			{
@@ -774,7 +766,6 @@ public partial class ChronoJumpWindow
 	{
 		// 1) do not allow to click again the button
 		button_networks_contacts_guest.Visible = false;
-		button_networks_encoder_guest.Visible = false;
 
 		// 2) reset logout counter
 		compujumpAutologout = new CompujumpAutologout();
@@ -820,7 +811,7 @@ public partial class ChronoJumpWindow
 		button_contacts_delete_selected.Visible = ! guest;
 
 		button_contacts_bells.Visible = ! guest;
-		button_video_play_this_test_contacts.Visible = ! guest;
+		button_video_play_this_test.Visible = ! guest;
 		button_contacts_repair_selected.Visible = ! guest;
 	}
 	private void configNetworksEncoderAsGuest(bool guest)
@@ -829,14 +820,9 @@ public partial class ChronoJumpWindow
 		check_encoder_networks_upload.Active = ! guest;
 		check_encoder_networks_upload.Visible = ! guest;
 
-		radio_mode_encoder_analyze_small.Visible = ! guest;
+		radio_mode_contacts_analyze.Visible = ! guest;
 		button_menu_preferences.Visible = ! guest;
-		button_encoder_load_signal.Visible = ! guest;
-		button_encoder_capture_session_overview.Visible = ! guest;
-		button_encoder_delete_signal.Visible = ! guest;
-
 		button_encoder_bells.Visible = ! guest;
-		button_video_play_this_test_encoder.Visible = ! guest;
 
 		if(guest)
 		{
@@ -920,10 +906,6 @@ public partial class ChronoJumpWindow
 		showPersonsOnTop(configChronojump.PersonWinHide);
 		showPersonPhoto(preferences.personPhoto);
 
-		if(configChronojump.EncoderAnalyzeHide) {
-			hbox_encoder_sup_capture_analyze_two_buttons.Visible = false;
-		}
-
 		if(currentSession == null && //this is going to be called one time because currentSession will change
 			       ( configChronojump.SessionMode == Config.SessionModeEnum.UNIQUE || configChronojump.SessionMode == Config.SessionModeEnum.MONTHLY) )
 		{
@@ -987,7 +969,6 @@ public partial class ChronoJumpWindow
 		*/
 
 		label_rfid_wait.Visible = false;
-		label_rfid_encoder_wait.Visible = false;
 	}
 
 	private void maximizeOrNot (bool fromConfig)
@@ -1072,7 +1053,6 @@ public partial class ChronoJumpWindow
 		if(! threadRFID.IsAlive || rfidProcessCancel)
 		{
 			label_rfid_wait.Visible = false;
-			label_rfid_encoder_wait.Visible = false;
 
 			LogB.ThreadEnding();
 			LogB.ThreadEnded();
@@ -1086,11 +1066,9 @@ public partial class ChronoJumpWindow
 		TimeSpan span = DateTime.Now - startedRFIDWait;
 		if(span.TotalSeconds < 2) {
 			label_rfid_wait.Visible = true;
-			label_rfid_encoder_wait.Text = Catalog.GetString("Please, wait!");
-			label_rfid_encoder_wait.Visible = true;
+			label_rfid_wait.Text = Catalog.GetString("Please, wait!");
 		} else {
 			label_rfid_wait.Visible = false;
-			label_rfid_encoder_wait.Visible = false;
 		}
 
 		if(isCompujumpCapturing ()) {
@@ -1124,15 +1102,16 @@ public partial class ChronoJumpWindow
 			if(rfidWaitingAdminGuiObjects.Waiting)
 			{
 				LogB.Information("rest seconds: " + rfidWaitingAdminGuiObjects.RestSeconds().ToString());
-				if(rfidWaitingAdminGuiObjects.RestSeconds() != -1) {
-					label_rfid_encoder_wait.Text =
+				if(rfidWaitingAdminGuiObjects.RestSeconds() != -1)
+				{
+					label_rfid_wait.Text =
 						string.Format(Catalog.GetString("Identify with admin ID wristband before {0} s."),
 								rfidWaitingAdminGuiObjects.RestSeconds());
-					label_rfid_encoder_wait.Visible = true;
+					label_rfid_wait.Visible = true;
 				} else {
 					rfidWaitingAdminGuiObjects = new RFIDWaitingAdminGuiObjects();
-					label_rfid_encoder_wait.Text = "";
-					label_rfid_encoder_wait.Visible = false;
+					label_rfid_wait.Text = "";
+					label_rfid_wait.Visible = false;
 					rfid.WaitingAdminStop(); //maybe rfid has to be static or ensure this is done in the other thread
 				}
 				Thread.Sleep (100);
@@ -1150,15 +1129,13 @@ public partial class ChronoJumpWindow
 		string str = Catalog.GetString ("The wristband has been read.") + "\n" +
 			Catalog.GetString ("Connecting to server …");
 		label_rfid_wait.Text = str;
-		label_rfid_encoder_wait.Text = str;
 		label_rfid_wait.Visible = true;
-		label_rfid_encoder_wait.Visible = true;
 
 		shouldUpdateRFIDGui = false;
 
 		//is we are on analyze, switch to capture
-		if(! radio_mode_encoder_capture_small.Active)
-			radio_mode_encoder_capture_small.Active = true;
+		if(! radio_mode_contacts_capture.Active)
+			radio_mode_contacts_capture.Active = true;
 
 		/*
 		   don't allow sendJsonRFID to be called again until ended
@@ -1174,7 +1151,6 @@ public partial class ChronoJumpWindow
 		} else {
 			//don't allow to press guest button while connection is being done
 			button_networks_contacts_guest.Visible = false;
-			button_networks_encoder_guest.Visible = false;
 
 			sendingJsonRFID = true;
 			GLib.Timeout.Add (50, new GLib.TimeoutHandler (sendJsonRFID));
@@ -1376,9 +1352,7 @@ public partial class ChronoJumpWindow
 			compujumpAutologout = new CompujumpAutologout();
 
 			button_networks_contacts_guest.Visible = false;
-			button_networks_encoder_guest.Visible = false;
 			button_contacts_person_change.Visible = true;
-			button_encoder_person_change.Visible = true;
 
 			/*TODO:
 			int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
@@ -1593,7 +1567,7 @@ public partial class ChronoJumpWindow
 			if(configChronojump.CompujumpStationMode == Constants.Modes.POWERINERTIAL)
 				type = Constants.EncoderGI.INERTIAL;
 
-			ArrayList encoderExercisesOnLocal = SqliteEncoder.SelectEncoderExercises(false, -1, false, type);
+			ArrayList encoderExercisesOnLocal = SqliteEncoderExercise.SelectEncoderExercises(false, -1, false, type);
 			List<EncoderExercise> exRemote_list = json.GetEncoderStationExercises (configChronojump.CompujumpStationID, type);
 
 			foreach(EncoderExercise exRemote in exRemote_list)
@@ -1608,7 +1582,7 @@ public partial class ChronoJumpWindow
 
 				if(! found)
 				{
-					SqliteEncoder.InsertExercise(
+					SqliteEncoderExercise.InsertExercise(
 							false, exRemote.uniqueID, exRemote.name, exRemote.percentBodyWeight,
 							"", "", Util.ConvertToPoint(exRemote.Speed1RM), type);
 					updateEncoderExercisesGui(exRemote.name);
@@ -1763,23 +1737,11 @@ public partial class ChronoJumpWindow
 			dialogPersonPopup.DestroyDialog();
 		}
 
-		//close the encoder exercise config win if it was opened
-		if(notebook_hpaned_encoder_or_exercise_config.CurrentPage == 1) //frame_encoder_exercise_config
-		{
-			/*
-			   not only this:
-			notebook_hpaned_encoder_or_exercise_config.CurrentPage = 0;
-			we need also to make menus_sensitive, ..., so do:*/
-			encoder_exercise_show_hide (false);
-		}
-
 		currentPerson = null;
 		currentPersonSession = null;
 		sensitiveGuiNoPerson ();
 		button_networks_contacts_guest.Visible = true;
-		button_networks_encoder_guest.Visible = true;
 		button_contacts_person_change.Visible = false;
-		button_encoder_person_change.Visible = false;
 
 		//not allow to change devices if person changed. If you want to change again, go to preferences/advanced networksAllowChangeDevices
 		preferences.networksAllowChangeDevices = false;
@@ -1844,7 +1806,7 @@ public partial class ChronoJumpWindow
 			button_contacts_devices_networks_problems.Sensitive = preferences.networksAllowChangeDevices;
 		}
 		else {
-			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.ENCODER);
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.TESTS);
 			hbox_RFID_disconnected.Visible = false;
 			hbox_encoder_disconnected.Visible = false;
 		}
@@ -1866,13 +1828,7 @@ public partial class ChronoJumpWindow
 			hbox_encoder_disconnected.Visible = false;
 		}
 		else {
-			//notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.PROGRAM);
-			if(configChronojump.CompujumpStationMode == Constants.Modes.POWERGRAVITATORY ||
-					configChronojump.CompujumpStationMode == Constants.Modes.POWERINERTIAL)
-				notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.ENCODER);
-			else
-				notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
-
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.TESTS);
 			hbox_RFID_disconnected.Visible = false;
 		}
 	}
@@ -2011,10 +1967,8 @@ public partial class ChronoJumpWindow
 
 		//RFID
 		label_rfid_wait = (Gtk.Label) builder.GetObject ("label_rfid_wait");
-		label_rfid_encoder_wait = (Gtk.Label) builder.GetObject ("label_rfid_encoder_wait");
 
 		label_logout_seconds = (Gtk.Label) builder.GetObject ("label_logout_seconds");
-		label_logout_seconds_encoder = (Gtk.Label) builder.GetObject ("label_logout_seconds_encoder");
 
 		//better raspberry controls
 		hbox_sessions_raspberry = (Gtk.HBox) builder.GetObject ("hbox_sessions_raspberry");
@@ -2024,14 +1978,10 @@ public partial class ChronoJumpWindow
 
 		//config.EncoderNameAndCapture
 		hbox_top_person = (Gtk.HBox) builder.GetObject ("hbox_top_person");
-		hbox_top_person_encoder = (Gtk.HBox) builder.GetObject ("hbox_top_person_encoder");
 		label_top_person_name = (Gtk.Label) builder.GetObject ("label_top_person_name");
-		label_top_encoder_person_name = (Gtk.Label) builder.GetObject ("label_top_encoder_person_name");
 		image_current_person = (Gtk.Image) builder.GetObject ("image_current_person");
 		button_contacts_person_change = (Gtk.Button) builder.GetObject ("button_contacts_person_change");
-		button_encoder_person_change = (Gtk.Button) builder.GetObject ("button_encoder_person_change");
 		button_networks_contacts_guest = (Gtk.Button) builder.GetObject ("button_networks_contacts_guest");
-		button_networks_encoder_guest = (Gtk.Button) builder.GetObject ("button_networks_encoder_guest");
 
 		//encoder exercise stuff
 		label_encoder_exercise_encoder = (Gtk.Label) builder.GetObject ("label_encoder_exercise_encoder");

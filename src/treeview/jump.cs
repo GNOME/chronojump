@@ -27,7 +27,6 @@ using Mono.Unix;
 public class TreeViewJumps : TreeViewEvent
 {
 	protected string jumperName = Catalog.GetString("Jumper");
-	protected string weightName = Catalog.GetString("Extra weight");
 	protected string fallName = Catalog.GetString("Fall") + "\n(cm)";
 	protected string heightName = Catalog.GetString("Height") + "\n(cm)";
 	protected string powerName = Catalog.GetString("Power") + "\n(W)";
@@ -61,14 +60,14 @@ public class TreeViewJumps : TreeViewEvent
 		showPowerFormula = true;
 		
 		if(preferences.weightStatsPercent)
-			weightName += "\n(%)";
+			weightExtraName += "\n(%)";
 		else
-			weightName += "\n(Kg)";
+			weightExtraName += "\n(Kg)";
 
 		string [] columnsStringPre = { jumperName, 
 			Catalog.GetString("TC") + "\n(s)", 
 			Catalog.GetString("TF") + "\n(s)", 
-			weightName, fallName,
+			weightExtraName, fallName,
 			heightName
 	       	};
 

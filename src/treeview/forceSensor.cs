@@ -27,8 +27,6 @@ using Mono.Unix;
 
 public class TreeViewForceSensor : TreeViewEvent
 {
-	protected string personName = Catalog.GetString("Person");
-
 	public TreeViewForceSensor ()
 	{
 	}
@@ -47,7 +45,7 @@ public class TreeViewForceSensor : TreeViewEvent
 		idColumn = 6; //column where the uniqueID of event will be (and will be hidden).
 		columnsString = new string[] { 
 			personName,
-			Catalog.GetString ("Laterality"),
+			lateralityName,
 			Catalog.GetString ("Max force"),
 			Catalog.GetString ("Best second"),
 			datetimeName,

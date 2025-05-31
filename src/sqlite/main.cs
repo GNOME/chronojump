@@ -1338,8 +1338,8 @@ class Sqlite
 				
 				conversionRate = 1;
 				SqliteEncoder.createTableEncoder();
-				SqliteEncoder.createTableEncoderExercise();
-				SqliteEncoder.initializeTableEncoderExercise();
+				SqliteEncoderExercise.createTableEncoderExercise();
+				SqliteEncoderExercise.initializeTableEncoderExercise();
 				conversionRate = 2;
 				LogB.SQL("Created encoder tables.");
 
@@ -1422,7 +1422,7 @@ class Sqlite
 			if(currentVersion == "0.88") {
 				Sqlite.Open();
 	
-				SqliteEncoder.addEncoderFreeExercise();
+				SqliteEncoderExercise.addEncoderFreeExercise();
 				
 				LogB.SQL("Added encoder exercise: Free");
 				
@@ -1447,7 +1447,7 @@ class Sqlite
 			if(currentVersion == "0.90") {
 				Sqlite.Open();
 				
-				SqliteEncoder.UpdateExerciseByName_old_do_not_use(true, "Squat", "Squat", 100, "weight bar", "", "",
+				SqliteEncoderExercise.UpdateExerciseByName_old_do_not_use(true, "Squat", "Squat", 100, "weight bar", "", "",
 						Constants.EncoderGI.ALL);
 				LogB.SQL("Encoder Squat 75% -> 100%");
 				
@@ -1470,9 +1470,9 @@ class Sqlite
 			if(currentVersion == "0.92") {
 				Sqlite.Open();
 				
-				SqliteEncoder.UpdateExerciseByName_old_do_not_use(true, "Bench press", "Bench press", 0, "weight bar", "","0.185",
+				SqliteEncoderExercise.UpdateExerciseByName_old_do_not_use(true, "Bench press", "Bench press", 0, "weight bar", "","0.185",
 						Constants.EncoderGI.ALL);
-				SqliteEncoder.UpdateExerciseByName_old_do_not_use(true, "Squat", "Squat", 100, "weight bar", "","0.31",
+				SqliteEncoderExercise.UpdateExerciseByName_old_do_not_use(true, "Squat", "Squat", 100, "weight bar", "","0.31",
 						Constants.EncoderGI.ALL);
 				LogB.SQL("Added speed1RM on encoder exercise");
 				
@@ -1484,7 +1484,7 @@ class Sqlite
 			if(currentVersion == "0.93") {
 				Sqlite.Open();
 				
-				SqliteEncoder.createTable1RM();
+				SqliteEncoder1RM.createTable1RM();
 				LogB.SQL("Added encoder1RM table");
 				
 				SqlitePreferences.Update ("databaseVersion", "0.94", true); 
@@ -1598,9 +1598,9 @@ class Sqlite
 			if(currentVersion == "0.99") {
 				Sqlite.Open();
 
-				SqliteEncoder.putEncoderExerciseAnglesAt90();
-				SqliteEncoder.addEncoderJumpExercise();
-				SqliteEncoder.addEncoderInclinedExercises();
+				SqliteEncoderExercise.putEncoderExerciseAnglesAt90();
+				SqliteEncoderExercise.addEncoderJumpExercise();
+				SqliteEncoderExercise.addEncoderInclinedExercises();
 
 				LogB.SQL("Added Free and inclinedExercises");
 				SqlitePreferences.Update ("databaseVersion", "1.00", true); 
@@ -1637,7 +1637,7 @@ class Sqlite
 				Sqlite.Open();
 		
 				DeleteFromName(true, Constants.EncoderExerciseTable, "Inclinated plane Custom");
-				SqliteEncoder.removeEncoderExerciseAngles();
+				SqliteEncoderExercise.removeEncoderExerciseAngles();
 
 				LogB.SQL("Updated encoder exercise, angle is now on encoder configuration");
 				SqlitePreferences.Update ("databaseVersion", "1.03", true); 
@@ -1710,7 +1710,7 @@ class Sqlite
 			if(currentVersion == "1.05") {
 				Sqlite.Open();
 		
-				SqliteEncoder.createTableEncoderSignalCurve();
+				SqliteEncoderSignalCurve.createTableEncoderSignalCurve();
 
 				ArrayList signals = SqliteEncoder.Select(true, -1, -1, -1, Constants.EncoderGI.ALL,
 						-1, "signal", EncoderSQL.Eccons.ALL, "", false, false, false); //last false is because EncoderSignalCurve is already not created
@@ -1734,7 +1734,7 @@ class Sqlite
 							int msCentral = SqliteEncoder.FindCurveInSignal(
 									s.GetFullURL(false), c.GetFullURL(false));
 
-							signalID = Convert.ToInt32(s.uniqueID);
+							signalID = Convert.ToInt32(s.UniqueID);
 							if(msCentral == -1)
 								signalID = -1; //mark as an orphaned curve (without signal)
 
@@ -1760,11 +1760,11 @@ class Sqlite
 							if(exists) {
 								//delete this (newer will not be deleted)
 								Sqlite.Delete(true, 
-										Constants.EncoderTable, Convert.ToInt32(c.uniqueID));
+										Constants.EncoderTable, Convert.ToInt32(c.UniqueID));
 							} else {
 								curvesStored.Add(msCentral);
-								SqliteEncoder.SignalCurveInsert(true, 
-										signalID, Convert.ToInt32(c.uniqueID), msCentral);
+								SqliteEncoderSignalCurve.SignalCurveInsert(true, 
+										signalID, Convert.ToInt32(c.UniqueID), msCentral);
 							}
 						}
 					}
@@ -2261,7 +2261,7 @@ class Sqlite
 
 				//1 exercise
 				ArrayList encoderExercises =
-					SqliteEncoder.SelectEncoderExercises(true, -1, true, Constants.EncoderGI.ALL);
+					SqliteEncoderExercise.SelectEncoderExercises(true, -1, true, Constants.EncoderGI.ALL);
 
 				if(encoderExercises.Count > 0) {
 					EncoderExercise ex = (EncoderExercise) encoderExercises[0];
@@ -3723,10 +3723,10 @@ class Sqlite
 		//encoder	
 		creationRate ++;
 		SqliteEncoder.createTableEncoder();
-		SqliteEncoder.createTableEncoderSignalCurve();
-		SqliteEncoder.createTableEncoderExercise();
-		SqliteEncoder.initializeTableEncoderExercise();
-		SqliteEncoder.createTable1RM();
+		SqliteEncoderSignalCurve.createTableEncoderSignalCurve();
+		SqliteEncoderExercise.createTableEncoderExercise();
+		SqliteEncoderExercise.initializeTableEncoderExercise();
+		SqliteEncoder1RM.createTable1RM();
 
 		//encoderConfiguration
 		SqliteEncoderConfiguration.createTableEncoderConfiguration();

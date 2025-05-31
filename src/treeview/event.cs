@@ -45,6 +45,9 @@ public class TreeViewEvent
 	public const int MarkRowIsPerson = -1;
 	public const int MarkNonSelectRowSubEvent = -2;
 
+	protected string personName = Catalog.GetString ("Person");
+	protected string lateralityName = Catalog.GetString ("Laterality");
+	protected string weightExtraName = Catalog.GetString("Extra weight");
 	protected string videoName = Catalog.GetString("Video");
 	protected string datetimeName = Catalog.GetString("Date");
 	protected string descriptionName = Catalog.GetString("Description");
@@ -286,6 +289,11 @@ public class TreeViewEvent
 		}
 	}
 
+	//TODO: if more tests send their objects, send List<List<Event>> or List<Event>
+	public virtual void FillEncoder (List<List<EncoderSQL>> eSQL_ll, string filterExercise, List<string> videos_l)
+	{
+	}
+
 	//used on Fill
 	private string [] createPersonRow (string [] strFull)
 	{
@@ -298,8 +306,8 @@ public class TreeViewEvent
 		row[i] = (Convert.ToInt32 (strFull[personIdColumn])).ToString ();
 		return row;
 	}
-	//used on Add
-	private string [] createPersonRow (int id, string name)
+	//used on Add, and on FillEncoder
+	protected string [] createPersonRow (int id, string name)
 	{
 		string [] row = new String [idColumn +1];
 		row[0] = name;
@@ -340,6 +348,7 @@ public class TreeViewEvent
 		store.GetIterFromString (out iter2, pathStringZero);
 		return true;
 	}
+
 	// <---- on two level treeviews ----
 
 	public void Update (Event myEvent)
@@ -395,6 +404,10 @@ public class TreeViewEvent
 				}
 			}
 		}
+	}
+
+	public virtual void UpdateReps (List<List<EncoderSQL>> eSQL_ll)
+	{
 	}
 
 	public void ZoomChange (Gtk.Image icon_zoom)
@@ -454,7 +467,7 @@ public class TreeViewEvent
 	}
 
 	//TODO: with video here
-	public void Add (int personID, string personName, System.Object newEvent, string videoStr)
+	public void Add (int personID, string pName, System.Object newEvent, string videoStr)
 	{
 		TreeIter iter = new TreeIter();
 		TreeIter iterDeep = new TreeIter(); //only used by two levels treeviews
@@ -470,7 +483,7 @@ public class TreeViewEvent
 		if(modelNotEmpty) {
 			do {
 				iterPersonString = ( treeview.Model.GetValue (iter, 0) ).ToString();
-				if(iterPersonString == personName) {
+				if(iterPersonString == pName) {
 					found = true;
 
 					//expand the person
@@ -499,7 +512,7 @@ public class TreeViewEvent
 		//create the name, and write the event
 		if(! found)
 		{
-			iter = store.AppendValues (createPersonRow (personID, personName));
+			iter = store.AppendValues (createPersonRow (personID, pName));
 			iterDeep = store.AppendValues (iter, getLineToStore(newEvent));
 			
 			//scroll treeview if needed
@@ -520,7 +533,12 @@ public class TreeViewEvent
 			treeview.Selection.SelectIter(iterDeep);
 		}
 	}
-		
+
+	//TODO: if more tests send their objects, send List<List<Event>> or List<Event>
+	public virtual void AddEncoder (int personID, string pName, List<List<EncoderSQL>> eSQL_ll, string videoStr)
+	{
+	}
+
 	private void deleteParentIfEmpty(TreeIter iter) {
 		if( ! treeview.Model.IterHasChild(iter) ) 
 			store.Remove(ref iter);
@@ -632,6 +650,39 @@ public class TreeViewEvent
 			}
 		} while (treeview.Model.IterNext (ref iter) && ! found);
 	}	
+
+	// 1st level (maybe use this into SelectEvent)
+	protected bool getEvent (int uniqueID, out TreeIter iter)
+	{
+		treeview.Model.GetIterFirst (out iter) ;
+
+		/*
+		  new GTK# makes IterNext point to an invalid iter if there's no next
+		  then we cannot find parent of iter
+		  with the iterValid, we have the last valid children iter
+		  and we use it to find parent
+		  */
+		TreeIter iterValid = new TreeIter();
+
+		do {
+			if( treeview.Model.IterHasChild(iter) )
+			{
+				treeview.Model.IterChildren (out iter, iter);
+				do {
+					int iterEventID = Convert.ToInt32 (treeview.Model.GetValue (iter, idColumn));
+					if(iterEventID == uniqueID && ! idIsPerson (iter))
+						return true; //no se si aquí cal el iterValid
+
+					iterValid = iter;
+				} while (treeview.Model.IterNext (ref iter));
+
+				iter = iterValid;
+				treeview.Model.IterParent (out iter, iter);
+			}
+		} while (treeview.Model.IterNext (ref iter));
+
+		return false;
+	}
 	
 	public void Unselect () {
 		treeview.Selection.UnselectAll();
@@ -657,7 +708,7 @@ public class TreeViewEvent
 			if (treeview.Selection.GetSelected (out myModel, out iter))
 			{
 				if (idIsPerson (iter))
-					return -1; // it is a -1, because 0 can be an event
+					return MarkRowIsPerson; // it is a -1, because 0 can be an event
 				else
 					return Convert.ToInt32 ( treeview.Model.GetValue(iter, idColumn) );
 			} else {

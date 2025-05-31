@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2018-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 //this file has methods of ChronoJumpWindow related to manage menu
@@ -32,7 +32,7 @@ public partial class ChronoJumpWindow
 	Gtk.Arrow arrow_menu_show_database_right;
 	Gtk.Arrow arrow_menu_show_session_left;
 	Gtk.Arrow arrow_menu_show_session_right;
-	Gtk.HPaned hpaned_contacts_main;
+	Gtk.HPaned hpaned_main;
 	Gtk.Frame frame_exit_confirm;
 	Gtk.HBox hbox_social_network_poll;
 	//Gtk.Viewport viewport_start_modes;
@@ -152,15 +152,15 @@ public partial class ChronoJumpWindow
 	{
 		menuSetColors();
 
-		//LogB.Information("hpaned MinPosition: " + hpaned_contacts_main.MinPosition.ToString());
+		//LogB.Information("hpaned MinPosition: " + hpaned_main.MinPosition.ToString());
 
 		/*
 		//do 1 and then 2 to ensure menu is shrinked after changing to icons
 		//1
-		hpaned_contacts_main = new Gtk.HPaned();
-		hpaned_contacts_main.Pack1(alignment_viewport_menu_top, false, false);
-		hpaned_contacts_main.Pack2(notebook_sup, true, false);
-		hpaned_contacts_main.Show();
+		hpaned_main = new Gtk.HPaned();
+		hpaned_main.Pack1(alignment_viewport_menu_top, false, false);
+		hpaned_main.Pack2(notebook_sup, true, false);
+		hpaned_main.Show();
 		*/
 
 		//2 (1 seems not needed)
@@ -457,7 +457,7 @@ public partial class ChronoJumpWindow
 		arrow_menu_show_database_right = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_database_right");
 		arrow_menu_show_session_left = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_left");
 		arrow_menu_show_session_right = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_right");
-		hpaned_contacts_main = (Gtk.HPaned) builder.GetObject ("hpaned_contacts_main");
+		hpaned_main = (Gtk.HPaned) builder.GetObject ("hpaned_main");
 		frame_exit_confirm = (Gtk.Frame) builder.GetObject ("frame_exit_confirm");
 		hbox_social_network_poll = (Gtk.HBox) builder.GetObject ("hbox_social_network_poll");
 		//viewport_start_modes = (Gtk.Viewport) builder.GetObject ("viewport_start_modes");

@@ -41,14 +41,14 @@ public class TreeViewJumpsRj : TreeViewJumps
 		showPowerFormula = false; //it seems it is always used Chronojump formula (TC + TF)
 			
 		if(preferences.weightStatsPercent)
-			weightName += "\n(%)";
+			weightExtraName += "\n(%)";
 		else
-			weightName += "\n(Kg)";
+			weightExtraName += "\n(Kg)";
 
 		string [] columnsStringPre = { jumperName, 
 			Catalog.GetString("TC") + "\n(s)", 
 			Catalog.GetString("TF") + "\n(s)", 
-			weightName, fallName,
+			weightExtraName, fallName,
 			heightName
 	       	};
 		columnsString = obtainColumnsString(columnsStringPre);

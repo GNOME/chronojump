@@ -58,10 +58,8 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_video_encoder_no;
 	Gtk.Label label_video_contacts_tests_will_be_filmed;
 	Gtk.Label label_video_encoder_tests_will_be_filmed;
-	Gtk.Button button_video_play_this_test_contacts;
-	Gtk.Button button_video_play_this_test_encoder;
-	Gtk.Spinner spinner_video_play_this_test_contacts;
-	Gtk.Spinner spinner_video_play_this_test_encoder;
+	Gtk.Button button_video_play_this_test;
+	Gtk.Spinner spinner_video_play_this_test;
 	Gtk.Spinner spinner_video_preview_this_test_contacts;
 	Gtk.Spinner spinner_video_preview_this_test_encoder;
 	Gtk.ProgressBar pulsebar_webcam;
@@ -81,7 +79,7 @@ public partial class ChronoJumpWindow
 	public void showWebcamCaptureContactsControls (bool show)
 	{
 		hbox_contacts_camera.Visible = show;
-		button_video_play_this_test_contacts.Visible = show;
+		button_video_play_this_test.Visible = show;
 	}
 
 	/* ---------------------------------------------------------
@@ -263,15 +261,6 @@ public partial class ChronoJumpWindow
 		else
 			label_video_encoder_feedback.Text = text;
 	}
-	private void button_video_play_this_test_contacts_sensitive (WebcamManage.GuiContactsEncoder guiContactsEncoder, bool s)
-	{
-		LogB.Information("button_video_play_this_test_contacts_sensitive: " + s.ToString());
-		if(guiContactsEncoder == WebcamManage.GuiContactsEncoder.CONTACTS)
-			button_video_play_this_test_contacts.Sensitive = s;
-		else
-			//button_video_encoder_play_this_test_contacts.Sensitive = s;
-			button_video_play_this_test_encoder.Sensitive = s; //TODO:jugar amb la sensitivitat de aixo quan hi ha o no signalUniqueID 
-	}
 
 	private void button_video_play_selected_test (Constants.Modes m)
 	{
@@ -279,28 +268,28 @@ public partial class ChronoJumpWindow
 			return;
 
 		if (m == Constants.Modes.JUMPSSIMPLE)
-			button_video_play_this_test_contacts.Sensitive =
+			button_video_play_this_test.Sensitive =
 				File.Exists(Util.GetVideoFileName (
 							currentSession.UniqueID,
 							Constants.TestTypes.JUMP,
 							treeViewResultsSession.EventSelectedID));
 
 		else if (m == Constants.Modes.JUMPSREACTIVE)
-			button_video_play_this_test_contacts.Sensitive =
+			button_video_play_this_test.Sensitive =
 				File.Exists(Util.GetVideoFileName (
 							currentSession.UniqueID,
 							Constants.TestTypes.JUMP_RJ,
 							treeViewResultsSession.EventSelectedID));
 
 		else if (m == Constants.Modes.RUNSSIMPLE)
-			button_video_play_this_test_contacts.Sensitive =
+			button_video_play_this_test.Sensitive =
 				File.Exists(Util.GetVideoFileName (
 							currentSession.UniqueID,
 							Constants.TestTypes.RUN,
 							treeViewResultsSession.EventSelectedID));
 
 		else if (m == Constants.Modes.RUNSINTERVALLIC)
-			button_video_play_this_test_contacts.Sensitive =
+			button_video_play_this_test.Sensitive =
 				File.Exists(Util.GetVideoFileName (
 							currentSession.UniqueID,
 							Constants.TestTypes.RUN_I,
@@ -428,8 +417,8 @@ public partial class ChronoJumpWindow
 			new DialogMessage(Constants.MessageTypes.WARNING, resultExit.error);
 
 		button_video_contacts_preview_visible (webcamEndParams.guiContactsEncoder, true);
-		LogB.Information(string.Format("calling button_video_play_this_test_contacts_sensitive {0}-{1}-{2}",
-					webcamEndParams.guiContactsEncoder, webcamManage.ReallyStarted, resultExit.success));
+		//LogB.Information(string.Format("calling button_video_play_this_test_sensitive {0}-{1}-{2}",
+		//			webcamEndParams.guiContactsEncoder, webcamManage.ReallyStarted, resultExit.success));
 		webcamStatusEnum = WebcamStatusEnum.SAVED;
 
 		return resultExit.success;
@@ -445,8 +434,7 @@ public partial class ChronoJumpWindow
 			hbox_video_encoder_capturing.Visible = false;
 		} else {
 			label_video_feedback.Text = "";
-			button_video_play_this_test_contacts_sensitive (
-					webcamEndParams.guiContactsEncoder, webcamManage.ReallyStarted && saved);
+			button_video_play_this_test.Sensitive = webcamManage.ReallyStarted && saved;
 
 			button_video_play_selected_test (current_mode);
 
@@ -493,8 +481,8 @@ public partial class ChronoJumpWindow
 			label_video_encoder_feedback.Text = "";
 		}
 
-		//button_video_play_this_test_contacts.Sensitive = false;
-		//button_video_play_this_test_contacts_sensitive (guiContactsEncoder, false);
+		//button_video_play_this_test.Sensitive = false;
+		//button_video_play_this_test_sensitive (guiContactsEncoder, false);
 
 		if(! preferences.videoOn || webcamManage == null)
 			return;
@@ -524,8 +512,8 @@ public partial class ChronoJumpWindow
 		if(errorMessage != "")
 			new DialogMessage(Constants.MessageTypes.WARNING, errorMessage);
 
-		//button_video_play_this_test_contacts.Sensitive = (uniqueID != -1 && errorMessage == "");
-		button_video_play_this_test_contacts_sensitive (guiContactsEncoder, (uniqueID != -1 && errorMessage == ""));
+		//button_video_play_this_test.Sensitive = (uniqueID != -1 && errorMessage == "");
+		button_video_play_this_test_sensitive (guiContactsEncoder, (uniqueID != -1 && errorMessage == ""));
 		button_video_play_selected_test(current_mode);
 	}
 	*/
@@ -541,30 +529,7 @@ public partial class ChronoJumpWindow
 	 */
 
 	//at what tab of notebook_sup there's the video_capture
-	private int video_capture_notebook_sup = Convert.ToInt32(notebook_sup_pages.CONTACTS);
-
-	//changed by user clicking on notebook tabs
-	private void on_notebook_sup_switch_page (object o, SwitchPageArgs args) {
-		if(
-				(notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.CONTACTS) &&
-				 video_capture_notebook_sup == Convert.ToInt32(notebook_sup_pages.ENCODER))
-				||
-				(notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.ENCODER) &&
-				 video_capture_notebook_sup == Convert.ToInt32(notebook_sup_pages.CONTACTS)))
-		{
-			//first stop showing video
-			bool wasActive = false;
-			if(checkbutton_video_contacts.Active) {
-				wasActive = true;
-				checkbutton_video_contacts.Active = false;
-			}
-
-			if(wasActive)
-				checkbutton_video_contacts.Active = true;
-
-			video_capture_notebook_sup = notebook_sup.CurrentPage;
-		}
-	}
+	private int video_capture_notebook_sup = Convert.ToInt32(notebook_sup_pages.TESTS);
 
 	//CapturerBin capturer;
 	private void videoCaptureInitialize()
@@ -828,7 +793,7 @@ public partial class ChronoJumpWindow
 	private double diffVideoVsSignal;
 	//private double videoFrames;
 
-	private void on_button_video_play_this_test_contacts_clicked (object o, EventArgs args)
+	private void on_button_video_play_this_test_clicked (object o, EventArgs args)
 	{
 		if (webcamPlay != null && webcamPlayThread != null && webcamPlayThread.IsAlive)
 			return;
@@ -845,52 +810,16 @@ public partial class ChronoJumpWindow
 			new DialogMessage(Constants.MessageTypes.WARNING, "Sorry, file not found");
 			return;
 		}
+		else if (Constants.ModeIsENCODER (current_mode))
+		{
+			encoderLoadToPaintData ();
+		}
 
 		// widgets changes
 		checkbutton_video_contacts.Visible = false;
-		button_video_play_this_test_contacts.Visible = false;
-		spinner_video_play_this_test_contacts.Visible = true;
-		spinner_video_play_this_test_contacts.Start ();
-
-		webcamPlayThread = new Thread (new ThreadStart (webcamPlayThreadDo));
-		GLib.Idle.Add (new GLib.IdleHandler (pulseWebcamPlayGTK));
-		webcamPlayThread.Start();
-	}
-
-	private void on_button_video_play_this_test_encoder_clicked (object o, EventArgs args)
-	{
-		if (webcamPlay != null && webcamPlayThread != null && webcamPlayThread.IsAlive)
-			return;
-
-		// widgets changes
-		checkbutton_video_encoder.Visible = false;
-		button_video_play_this_test_encoder.Visible = false;
-		spinner_video_play_this_test_encoder.Visible = true;
-		spinner_video_play_this_test_encoder.Start ();
-
-		if(encoderConfigurationCurrent.has_inertia)
-			eCapture = new EncoderCaptureInertial();
-		else
-			eCapture = new EncoderCaptureGravitatory();
-
-		cairoGraphEncoderSignal = null;
-		cairoGraphEncoderSignalPoints_l = new List<PointF>();
-		cairoGraphEncoderSignalInertialPoints_l = new List<PointF>();
-
-		eCapture.LoadFromFile (encoderConfigurationCurrent.has_inertia, preferences.signalDirectionHorizontal);
-		eCapture.PointsPainted = -1;
-		if(encoderConfigurationCurrent.has_inertia) {
-			updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.INERTIAL);
-			//updateEncoderCaptureSignalCairo (true, false); //inertial, forceRedraw
-		} else {
-			updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.GRAVITATORY);
-			//updateEncoderCaptureSignalCairo (false, false);
-		}
-		//eCapture.PointsPainted = 0;
-		//encoder_capture_signal_drawingarea_cairo.QueueDraw (); //aixo no hauria de caldre aqui pq ja es deu fer al thread de sota
-
-		// show the signal realtime cairo graph (not the R generated)
-		notebook_encoder_capture.CurrentPage = 0; //TODO: return to show the Page 1 at end
+		button_video_play_this_test.Visible = false;
+		spinner_video_play_this_test.Visible = true;
+		spinner_video_play_this_test.Start ();
 
 		webcamPlayThread = new Thread (new ThreadStart (webcamPlayThreadDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseWebcamPlayGTK));
@@ -1049,36 +978,22 @@ public partial class ChronoJumpWindow
 	{
 		if (! webcamPlayThread.IsAlive)
 		{
-			if (Constants.ModeIsENCODER (current_mode)) {
+			if (Constants.ModeIsENCODER (current_mode))
 				checkbutton_video_encoder.Visible = true;
-				button_video_play_this_test_encoder.Visible = true;
-				spinner_video_play_this_test_encoder.Stop ();
-				spinner_video_play_this_test_encoder.Visible = false;
-			} else {
+			else
 				checkbutton_video_contacts.Visible = true;
-				button_video_play_this_test_contacts.Visible = true;
-				spinner_video_play_this_test_contacts.Stop ();
-				spinner_video_play_this_test_contacts.Visible = false;
-			}
+
+			button_video_play_this_test.Visible = true;
+			spinner_video_play_this_test.Stop ();
+			spinner_video_play_this_test.Visible = false;
 
 			return false;
 		}
 
 		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
 		{
-			if (Constants.ModeIsENCODER (current_mode)) {
-				spinner_video_play_this_test_encoder.Stop ();
-				spinner_video_play_this_test_encoder.Visible = false;
-			} else {
-				spinner_video_play_this_test_contacts.Stop ();
-				spinner_video_play_this_test_contacts.Visible = false;
-			}
-
-			/*
-			event_execute_label_message.Text = string.Format ("video s: {0} force s: {1}",
-					webcamPlay.PlayVideoGetSecond,
-					webcamPlay.PlayVideoGetSecond - diffVideoVsSignal);
-			*/
+			spinner_video_play_this_test.Stop ();
+			spinner_video_play_this_test.Visible = false;
 
 			if (Constants.ModeIsFORCESENSOR (current_mode))
 				force_capture_drawingarea_cairo.QueueDraw ();
@@ -1093,7 +1008,7 @@ public partial class ChronoJumpWindow
 					current_mode == Constants.Modes.RUNSINTERVALLIC)
 				drawingarea_results_realtime.QueueDraw ();
 
-			spinner_video_play_this_test_contacts.Visible = true;
+			spinner_video_play_this_test.Visible = true;
 		}
 
 		Thread.Sleep (10);
@@ -1131,10 +1046,8 @@ public partial class ChronoJumpWindow
 		image_video_encoder_no = (Gtk.Image) builder.GetObject ("image_video_encoder_no");
 		label_video_contacts_tests_will_be_filmed = (Gtk.Label) builder.GetObject ("label_video_contacts_tests_will_be_filmed");
 		label_video_encoder_tests_will_be_filmed = (Gtk.Label) builder.GetObject ("label_video_encoder_tests_will_be_filmed");
-		button_video_play_this_test_contacts = (Gtk.Button) builder.GetObject ("button_video_play_this_test_contacts");
-		button_video_play_this_test_encoder = (Gtk.Button) builder.GetObject ("button_video_play_this_test_encoder");
-		spinner_video_play_this_test_contacts = (Gtk.Spinner) builder.GetObject ("spinner_video_play_this_test_contacts");
-		spinner_video_play_this_test_encoder = (Gtk.Spinner) builder.GetObject ("spinner_video_play_this_test_encoder");
+		button_video_play_this_test = (Gtk.Button) builder.GetObject ("button_video_play_this_test");
+		spinner_video_play_this_test = (Gtk.Spinner) builder.GetObject ("spinner_video_play_this_test");
 		spinner_video_preview_this_test_contacts = (Gtk.Spinner) builder.GetObject ("spinner_video_preview_this_test_contacts");
 		spinner_video_preview_this_test_encoder = (Gtk.Spinner) builder.GetObject ("spinner_video_preview_this_test_encoder");
 		pulsebar_webcam = (Gtk.ProgressBar) builder.GetObject ("pulsebar_webcam");

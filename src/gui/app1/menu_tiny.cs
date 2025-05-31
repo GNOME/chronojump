@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2024   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2018-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 //this file has methods of ChronoJumpWindow related to manage menu_tiny
@@ -37,9 +37,7 @@ public partial class ChronoJumpWindow
 	Gtk.EventBox eventbox_button_menu_news1;
 	Gtk.EventBox eventbox_button_menu_exit1;
 	Gtk.EventBox eventbox_button_contacts_person_change;
-	Gtk.EventBox eventbox_button_encoder_person_change;
 	Gtk.EventBox eventbox_button_networks_contacts_guest;
-	Gtk.EventBox eventbox_button_networks_encoder_guest;
 	Gtk.CheckButton check_menu_database1;
 	Gtk.CheckButton check_menu_session1;
 	Gtk.Button button_menu_news1;
@@ -64,7 +62,7 @@ public partial class ChronoJumpWindow
 
 		/*
 		 * have it aligned with start of the notebook_sup
-		 * +4 is alignment_contacts TopPadding
+		 * +4 is alignment_modes TopPadding
 		 * +4 is vbox_contacts spacing
 		 * (same for encoder)
 		 */
@@ -134,7 +132,6 @@ public partial class ChronoJumpWindow
 			UtilGtk.WidgetColor (frame_exit_confirm, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame_exit_confirm);
 			UtilGtk.ViewportColor (viewport_rest_time_contacts, color);
-			UtilGtk.ViewportColor (viewport_rest_time_encoder, color);
 
 			UtilGtk.WidgetColor (vbox_send_log, Config.ColorBackground);
 
@@ -188,9 +185,7 @@ public partial class ChronoJumpWindow
 		eventbox_button_menu_news1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_news1");
 		eventbox_button_menu_exit1 = (Gtk.EventBox) builder.GetObject ("eventbox_button_menu_exit1");
 		eventbox_button_contacts_person_change = (Gtk.EventBox) builder.GetObject ("eventbox_button_contacts_person_change");
-		eventbox_button_encoder_person_change = (Gtk.EventBox) builder.GetObject ("eventbox_button_encoder_person_change");
 		eventbox_button_networks_contacts_guest = (Gtk.EventBox) builder.GetObject ("eventbox_button_networks_contacts_guest");
-		eventbox_button_networks_encoder_guest = (Gtk.EventBox) builder.GetObject ("eventbox_button_networks_encoder_guest");
 		check_menu_database1 = (Gtk.CheckButton) builder.GetObject ("check_menu_database1");
 		check_menu_session1 = (Gtk.CheckButton) builder.GetObject ("check_menu_session1");
 		button_menu_news1 = (Gtk.Button) builder.GetObject ("button_menu_news1");

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -88,15 +88,23 @@ public class Event
 		set { simulated = value; }
 	}
 
-	public string PersonName
+	//this is very inneficient if we are processing a list of events, eg. jumps
+	//and is dangerous when done and the DB is already opened
+	public string PersonNameGetSQLChecking
 	{
-		//get { return personName; }
-
-		//this is very inneficient if we are processing a list of events, eg. jumps
-		get { return SqlitePerson.SelectAttribute(personID, Constants.Name); }
+		get { return SqlitePerson.SelectAttribute (personID, Constants.Name); }
+	}
+	public string PersonNameGet
+	{
+		get { return personName; }
+	}
+	public string PersonNameSet
+	{
+		set { personName = value; }
 	}
 
-	public string DateTime {
+	//note this was string DateTime but this gets confused with DatTime type
+	public string DateTimePublic {
 		get { return dateTime; }
 	}
 

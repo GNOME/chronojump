@@ -33,12 +33,15 @@ public class CairoGraphEncoderSignal : CairoXY
 	protected bool horizontal;
 
 	//TODO: check if this two are doing anything
+	private bool capturing;
 	private int points_l_painted;
 	private int points_l_inertial_painted;
 	//private bool doing;
 	private bool customAxisDispl;
 	private int customAxisDisplMax;
 	private int customAxisDisplMin;
+	private List<int> repStartMS_l;
+	private List<int> repEndMS_l;
 
 	// to inherit
 	public CairoGraphEncoderSignal ()
@@ -52,16 +55,20 @@ public class CairoGraphEncoderSignal : CairoXY
 		this.customAxisDispl = customAxisDispl;
 		this.customAxisDisplMax = customAxisDisplMax;
 		this.customAxisDisplMin = customAxisDisplMin;
+		this.repStartMS_l = new List<int> ();
+		this.repEndMS_l = new List<int> ();
 
 		initEncoder (area, title, horizontal);
 	}
 
 	// separated in two methods to ensure endGraphDisposing on any return of the other method
-	public void DoSendingList (string font, bool isInertial,
+	public void DoSendingList (string font, bool capturing, bool isInertial,
 			List<PointF> points_l, List<PointF> points_l_inertial,
 			double videoPlayTimeInSeconds,
 			bool forceRedraw, PlotTypes plotType)
 	{
+		LogB.Information ("CairoGraphEncoderSignal DoSendingList");
+		this.capturing = capturing;
 		this.points_l = points_l;
 		this.points_l_inertial = points_l_inertial;
 
@@ -195,6 +202,9 @@ public class CairoGraphEncoderSignal : CairoXY
 
 		//display this milliseconds on screen, when is higher, scroll
 		int sWidth = 10;
+		if (! capturing && points_l != null && points_l.Count > 0)
+			sWidth = Convert.ToInt32 (Math.Ceiling (UtilAll.DivideSafe (points_l.Count, 1000)));
+
 		int msWidth = sWidth * 1000;
 		if (horizontal && absoluteMaxX < msWidth)
 			absoluteMaxX = msWidth;
@@ -261,7 +271,7 @@ public class CairoGraphEncoderSignal : CairoXY
 		if (videoPlayTimeInSeconds > 0)
 		{
 			//LogB.Information ("signal videoPlayTimeInSeconds", videoPlayTimeInSeconds);
-			LogB.Information ("last points_l.X", PointF.Last (points_l).X);
+			//LogB.Information ("last points_l.X", PointF.Last (points_l).X);
 			if (horizontal)
 			{
 				g.MoveTo (calculatePaintX (videoPlayTimeInSeconds * 1000), topMargin);
@@ -271,6 +281,33 @@ public class CairoGraphEncoderSignal : CairoXY
 				g.LineTo (graphWidth - rightMargin, calculatePaintY (videoPlayTimeInSeconds * 1000));
 			}
 			g.Stroke ();
+		}
+
+		if (repStartMS_l != null && repStartMS_l.Count > 0)
+		{
+			g.Save ();
+			g.SetDash (new double[]{4, 2}, 0);
+			g.SetSourceColor (grayDark);
+			for (int i = 0; i < repStartMS_l.Count && i < repEndMS_l.Count; i ++)
+			{
+				LogB.Information ("ZZZZZ");
+				g.MoveTo (calculatePaintX (repStartMS_l[i]), topMargin);
+				g.LineTo (calculatePaintX (repStartMS_l[i]), graphHeight - bottomMargin);
+				g.Stroke ();
+
+				g.MoveTo (calculatePaintX (repEndMS_l[i]), topMargin);
+				g.LineTo (calculatePaintX (repEndMS_l[i]), graphHeight - bottomMargin);
+				g.Stroke ();
+			}
+			g.Restore (); //to have solid lines
+			g.SetSourceColor (bluePlots);
+			for (int i = 0; i < repStartMS_l.Count && i < repEndMS_l.Count; i ++)
+			{
+				g.MoveTo (calculatePaintX (repStartMS_l[i]), calculatePaintY (0));
+				g.LineTo (calculatePaintX (repEndMS_l[i]), calculatePaintY (0));
+				g.Stroke ();
+			}
+			g.SetSourceColor (black);
 		}
 
 		//doing = false;
@@ -284,6 +321,12 @@ public class CairoGraphEncoderSignal : CairoXY
 
 	protected override void writeTitle()
 	{
+	}
+
+	public void PassRepetitions (List<int> repStartMS_l, List<int> repEndMS_l)
+	{
+		this.repStartMS_l = repStartMS_l;
+		this.repEndMS_l = repEndMS_l;
 	}
 
 	public Asteroids PassAsteroids {

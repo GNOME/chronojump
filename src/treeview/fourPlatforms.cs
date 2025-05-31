@@ -35,7 +35,6 @@ public class TreeViewFourPlatforms : TreeViewEvent
 		this.pDN = newPrefsDigitsNumber;
 		this.expandState = expandState;
 
-		string personName = Catalog.GetString ("Person");
 		string time0ONName = Catalog.GetString ("Time") + " 1 ON" + "\n(s)";
 		string time0OFFName = Catalog.GetString ("Time") + " 1 OFF" + "\n(s)";
 		string time1ONName = Catalog.GetString ("Time") + " 2 ON" + "\n(s)";
@@ -109,7 +108,7 @@ public class TreeViewFourPlatforms : TreeViewEvent
 		myData[count++] = ""; //2off
 		myData[count++] = ""; //3on
 		myData[count++] = ""; //3off
-		myData[count++] = UtilDate.GetDatetimePrint (UtilDate.FromFile (fp.DateTime));
+		myData[count++] = UtilDate.GetDatetimePrint (UtilDate.FromFile (fp.DateTimePublic));
 
 		if (UtilList.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.FOURPLATFORMS, fp.UniqueID)))
 			myData[count++] = Catalog.GetString ("Yes");

@@ -179,7 +179,6 @@ public partial class ChronoJumpWindow
 	private void showPersonsOnTop (bool onTop)
 	{
 		hbox_top_person.Visible = onTop;
-		hbox_top_person_encoder.Visible = onTop;
 
 		if(onTop)
 		{
@@ -200,9 +199,6 @@ public partial class ChronoJumpWindow
 	{
 		label_top_person_name.Text = "<b>" + currentPerson.Name + "</b>";
 		label_top_person_name.UseMarkup = true;
-
-		label_top_encoder_person_name.Text = "<b>" + currentPerson.Name + "</b>";
-		label_top_encoder_person_name.UseMarkup = true;
 
 		personsPhotoShowIfNeeded ();
 	}
@@ -763,11 +759,11 @@ public partial class ChronoJumpWindow
 
 	private void on_button_persons_raspberry_left_clicked(object o, EventArgs args)
 	{
-		hpaned_contacts_main.Position -= 10;
+		hpaned_main.Position -= 10;
 	}
 	private void on_button_persons_raspberry_right_clicked(object o, EventArgs args)
 	{
-		hpaned_contacts_main.Position += 10;
+		hpaned_main.Position += 10;
 	}
 
 	private void connectWidgetsPersons (Gtk.Builder builder)

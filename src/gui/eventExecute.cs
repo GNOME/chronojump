@@ -88,9 +88,9 @@ public partial class ChronoJumpWindow
 
 	Gtk.Notebook notebook_results_data;
 
-	Gtk.Box box_contacts_current;
-	Gtk.Box box_contacts_current_forceSensor;
-	Gtk.HBox hbox_contacts_current_runEncoder;
+	Gtk.Box box_capture_current;
+	Gtk.Box box_capture_current_forceSensor;
+	Gtk.HBox hbox_capture_current_runEncoder;
 	Gtk.Alignment align_drawingarea_realtime_capture_cairo;
 	Gtk.DrawingArea drawingarea_results_realtime;
 	Gtk.DrawingArea drawingarea_results_session;
@@ -119,8 +119,8 @@ public partial class ChronoJumpWindow
 	}
 	
 	//we need both working to be able to correctly expose_event (draw) on jumpRj, runI
-	CairoPaintBarsPre cairoPaintBarsPre;  //used for contacts test (no realtime), and also encoder
-	CairoPaintBarsPre cairoPaintBarsPreRealTime; //contacts time realtime: jumpRj/runI capture
+	CairoPaintBarsPre cairoPaintBarsPre;  //used for session results: treeviewResults
+	CairoPaintBarsPre cairoPaintBarsPreCurrent; //used for current set: jumpRj/runI capture, encoder
 	CairoManageRunDoubleContacts cairoManageRunDoubleContacts;
 
 
@@ -356,14 +356,15 @@ public partial class ChronoJumpWindow
 		drawingarea_results_session.AddEvents((int) Gdk.EventMask.ButtonPressMask);
 
 		//right now only for jumps/runs simple
-		if(current_mode != Constants.Modes.JUMPSSIMPLE &&
+		if (current_mode != Constants.Modes.JUMPSSIMPLE &&
 				current_mode != Constants.Modes.JUMPSREACTIVE &&
 				current_mode != Constants.Modes.RUNSSIMPLE &&
 				current_mode != Constants.Modes.RUNSINTERVALLIC &&
 				current_mode != Constants.Modes.RUNSENCODER &&
 				current_mode != Constants.Modes.WILIGHT &&
 				current_mode != Constants.Modes.OTHER && //FOURPLATFORMS
-				! Constants.ModeIsFORCESENSOR (current_mode))
+				! Constants.ModeIsFORCESENSOR (current_mode) &&
+				! Constants.ModeIsENCODER (current_mode))
 			return;
 
 		//if object not defined or not defined fo this mode, return
@@ -383,7 +384,8 @@ public partial class ChronoJumpWindow
 				current_mode == Constants.Modes.RUNSENCODER ||
 				current_mode == Constants.Modes.WILIGHT ||
 				current_mode == Constants.Modes.OTHER || //FOURPLATFORMS
-				Constants.ModeIsFORCESENSOR (current_mode))
+				Constants.ModeIsFORCESENSOR (current_mode) ||
+				Constants.ModeIsENCODER (current_mode))
 			PrepareResultsSessionGraph ();
 	}
 
@@ -538,7 +540,7 @@ public partial class ChronoJumpWindow
 	public void blankJumpReactiveRealtimeCaptureGraph ()
 	{
 		//constructor for showing a blank graph
-		cairoPaintBarsPreRealTime = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
+		cairoPaintBarsPreCurrent = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
 				drawingarea_results_realtime, preferences.fontTypeToGraph());
 	}
 
@@ -561,16 +563,16 @@ public partial class ChronoJumpWindow
 		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
 			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 
-		cairoPaintBarsPreRealTime = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
+		cairoPaintBarsPreCurrent = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
 				drawingarea_results_realtime, preferences.fontTypeToGraph(), current_mode,
 				personName, type, preferences.digitsNumber,// preferences.heightPreferred,
 				//lastTv, lastTc,
 				tvString, tcString, isLastCaptured, feedbackJumpsRj, videoTime);
 
-		cairoPaintBarsPreRealTime.UseHeights = useHeights;
+		cairoPaintBarsPreCurrent.UseHeights = useHeights;
 
 		// B) Paint cairo graph
-		cairoPaintBarsPreRealTime.Paint();
+		cairoPaintBarsPreCurrent.Paint();
 	}
 	
 	//identify which subjump is the best or the worst in tv/tc index	
@@ -674,7 +676,7 @@ public partial class ChronoJumpWindow
 	public void blankRunIntervalRealtimeCaptureGraph ()
 	{
 		//constructor for showing a blank graph
-		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
+		cairoPaintBarsPreCurrent = new CairoPaintBarsPreRunIntervalRealtimeCapture(
 				drawingarea_results_realtime, preferences.fontTypeToGraph());
 	}
 
@@ -696,7 +698,7 @@ public partial class ChronoJumpWindow
 		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
 			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 
-		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
+		cairoPaintBarsPreCurrent = new CairoPaintBarsPreRunIntervalRealtimeCapture(
 				drawingarea_results_realtime, preferences.fontTypeToGraph(), current_mode,
 				personName, type, preferences.digitsNumber,// preferences.heightPreferred,
 				preferences.metersSecondsPreferred,
@@ -705,9 +707,9 @@ public partial class ChronoJumpWindow
 				photocell_l, isLastCaptured, feedbackRunsI, videoTime);
 
 		// B) Paint cairo graph
-		//cairoPaintBarsPreRealTime.UseHeights = useHeights;
+		//cairoPaintBarsPreCurrent.UseHeights = useHeights;
 
-		cairoPaintBarsPreRealTime.Paint();
+		cairoPaintBarsPreCurrent.Paint();
 	}
 
 	public void PrepareResultsSessionGraph ()
@@ -858,6 +860,8 @@ public partial class ChronoJumpWindow
 			updateGraphRunEncoderBars ();
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			updateGraphForceSensorBars ();
+		else if (Constants.ModeIsENCODER (current_mode))
+			updateGraphEncoderSessionBars ();
 		else if (current_mode == Constants.Modes.WILIGHT)
 			updateGraphWilightBars ();
 		else if (current_mode == Constants.Modes.OTHER)
@@ -1060,9 +1064,9 @@ public partial class ChronoJumpWindow
 
 		notebook_results_data = (Gtk.Notebook) builder.GetObject ("notebook_results_data");
 
-		box_contacts_current = (Gtk.Box) builder.GetObject ("box_contacts_current");
-		box_contacts_current_forceSensor = (Gtk.Box) builder.GetObject ("box_contacts_current_forceSensor");
-		hbox_contacts_current_runEncoder = (Gtk.HBox) builder.GetObject ("hbox_contacts_current_runEncoder");
+		box_capture_current = (Gtk.Box) builder.GetObject ("box_capture_current");
+		box_capture_current_forceSensor = (Gtk.Box) builder.GetObject ("box_capture_current_forceSensor");
+		hbox_capture_current_runEncoder = (Gtk.HBox) builder.GetObject ("hbox_capture_current_runEncoder");
 		align_drawingarea_realtime_capture_cairo = (Gtk.Alignment) builder.GetObject ("align_drawingarea_realtime_capture_cairo");
 		drawingarea_results_realtime = (Gtk.DrawingArea) builder.GetObject ("drawingarea_results_realtime");
 		drawingarea_results_session = (Gtk.DrawingArea) builder.GetObject ("drawingarea_results_session");
@@ -1107,7 +1111,8 @@ public abstract class CairoPaintBarsPre
 	//forceSensor
 	public PrepareEventGraphForceSensor eventGraphForceSensorStored;
 	//encoder
-	public PrepareEventGraphBarplotEncoder eventGraphEncoderBarplotStored;
+	public PrepareEventGraphEncoderCurrent eventGraphEncoderCurrentStored;
+	public PrepareEventGraphEncoderSession eventGraphEncoderSessionStored;
 
 	protected CairoBars cb;
 	protected DrawingArea darea;
@@ -1173,7 +1178,10 @@ public abstract class CairoPaintBarsPre
 	public virtual void StoreEventGraphForceSensor (PrepareEventGraphForceSensor eventGraph)
 	{
 	}
-	public virtual void StoreEventGraphBarplotEncoder (PrepareEventGraphBarplotEncoder eventGraph)
+	public virtual void StoreEventGraphEncoderCurrent (PrepareEventGraphEncoderCurrent eventGraph)
+	{
+	}
+	public virtual void StoreEventGraphEncoderSession (PrepareEventGraphEncoderSession eventGraph)
 	{
 	}
 
@@ -3014,13 +3022,13 @@ public class CairoPaintBarsPreForceSensor : CairoPaintBarsPre
 	}
 }
 
-public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
+public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 {
 	// without this, while capturing, if screen is minimized/maximized, or any redraw sounds are played again!
 	// This is emptied at capture start
 	public static List<int> RepetitionsPlayed_l = new List<int> ();
 
-	private PrepareEventGraphBarplotEncoder pegbe;
+	private PrepareEventGraphEncoderCurrent pegbe;
 	private Preferences preferences;
 
 	//copied from gui/encoderGraphObjects (using ArrayList)
@@ -3067,16 +3075,16 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	private bool noMassAndNeeded;
 
 	//just blank the screen
-	public CairoPaintBarplotPreEncoder (DrawingArea darea, string fontStr)
+	public CairoPaintBarsPreEncoderCurrent (DrawingArea darea, string fontStr)
 	{
 		blankScreen(darea, fontStr);
 	}
 
 	//isLastCaptured: if what we are showing is currentJumpRj then true, if is a selection from treeview and id != currentJumpRj then is false (meaning selected)
 
-	public CairoPaintBarplotPreEncoder (Preferences preferences, DrawingArea darea, string fontStr,
+	public CairoPaintBarsPreEncoderCurrent (Preferences preferences, DrawingArea darea, string fontStr,
 			string personName, string testName, int pDN,
-			PrepareEventGraphBarplotEncoder pegbe, double videoTime)
+			PrepareEventGraphEncoderCurrent pegbe, double videoTime)
 	{
 		this.pegbe = pegbe;
 		this.videoTime = videoTime;
@@ -3686,3 +3694,86 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	}
 }
 
+public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
+{
+	private bool showPersonName;
+
+	public CairoPaintBarsPreEncoderSession (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN, bool showPersonName)
+	{
+		initialize (darea, fontStr, mode, personName, testName, pDN);
+
+		this.title = generateTitle();
+		this.showPersonName = showPersonName;
+	}
+
+	public override void StoreEventGraphEncoderSession (PrepareEventGraphEncoderSession eventGraph)
+	{
+		this.eventGraphEncoderSessionStored = eventGraph;
+	}
+
+	protected override bool storeCreated ()
+	{
+		return (eventGraphEncoderSessionStored != null);
+	}
+
+	protected override bool haveDataToPlot()
+	{
+		return (eventGraphEncoderSessionStored.rowsAtSQL.Count > 0);
+	}
+
+	protected override void paintSpecific()
+	{
+		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, true, true, true);
+
+		cb.YVariable = Catalog.GetString("Mean Power");
+		cb.YUnits = "W";
+
+		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
+		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides
+
+		List<Event> events = EncoderSQL.EncoderSQLListToEventList (eventGraphEncoderSessionStored.rowsAtSQL);
+
+		List<PointF> point_l = new List<PointF>();
+		List<string> names_l = new List<string>();
+		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
+
+		calculateBottomParams (events, true, "", "", false, false);
+
+		int countToDraw = eventGraphEncoderSessionStored.rowsAtSQL.Count;
+		foreach (EncoderSQL eSQL in eventGraphEncoderSessionStored.rowsAtSQL)
+		{
+			// 1) Add data
+			//point_l.Add(new PointF(countToDraw --, UtilAll.DivideSafe (fp.TotalMs, 1000)));
+			point_l.Add (new PointF(countToDraw --, eSQL.meanPowerD)); //TODO: or meanSpeed
+
+			// 2) Add bottom names
+			string typeRowString = "";
+			if (eventGraphEncoderSessionStored.exerciseAll) //if "all tests" show type
+				typeRowString = eSQL.exerciseName;
+			//if (eventGraphEncoderSessionStored.type == "")
+			//	typeRowString = jump.Type;
+
+			names_l.Add (createTextBelowBar(
+						"",
+						typeRowString,
+						eSQL.Description, //person name
+						false, false,
+						longestWord.Length, maxRowsForText));
+
+			id_l.Add (eSQL.UniqueID);
+
+			if (eventGraphEncoderSessionStored.selectedID == eSQL.UniqueID)
+				cb.SelectedPos = eventGraphEncoderSessionStored.rowsAtSQL.Count -countToDraw -1;
+		}
+		cb.Id_l = id_l;
+
+		cb.PassData1Serie (point_l,
+				new List<Cairo.Color>(), names_l,
+				-1, fontHeightForBottomNames, bottomMargin, title,
+				new List<int> (), new List<int> ());
+
+		passDataForScreenshotIfNeeded ();
+
+		cb.GraphDo();
+	}
+}

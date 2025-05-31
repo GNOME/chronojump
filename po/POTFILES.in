@@ -43,6 +43,7 @@ src/chronopic2016.cs
 src/chronopic.cs
 src/chronopicRegister.cs
 src/constants.cs
+src/encoder/encoderAnalyzeInstant.cs
 src/encoder/encoderConfiguration.cs
 src/encoder/encoderRhythm.cs
 src/encoder/encoderSQL.cs
@@ -81,6 +82,8 @@ src/gui/app1/session/loadAndImport.cs
 src/gui/app1/session/main.cs
 src/gui/app1/session/tagSessionSelect.cs
 src/gui/app1/shortcuts.cs
+src/gui/app1/treeviews/encoderAnalyze.cs
+src/gui/app1/treeviews/encoderCaptureCurrentSet.cs
 src/gui/app1/treeviews/encoder.cs
 src/gui/app1/treeviews/persons.cs
 src/gui/app1/treeviews/resultsSession.cs
@@ -184,6 +187,7 @@ src/stats/sjCmjAbkPlus.cs
 src/statType.cs
 src/tagSession.cs
 src/treeview/beepTest.cs
+src/treeview/encoder.cs
 src/treeview/event.cs
 src/treeview/forceSensor.cs
 src/treeview/fourPlatforms.cs

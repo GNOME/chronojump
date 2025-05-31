@@ -42,6 +42,7 @@ public partial class ChronoJumpWindow
 	Gtk.HBox hbox_encoder_exercise_inertial_min_mov;
 	Gtk.SpinButton spin_encoder_capture_min_height_gravitatory;
 	Gtk.SpinButton spin_encoder_capture_min_height_inertial;
+	Gtk.VBox vbox_capture_current_encoder;
 
 	Gtk.Button button_encoder_select;
 	Gtk.SpinButton spin_encoder_extra_weight;
@@ -70,9 +71,7 @@ public partial class ChronoJumpWindow
 	//at SQL it's in Kg*cm^2 also because it's stored as int
 	//at graph.R is converted to Kg*m^2 ( /10000 )
 	//Gtk.SpinButton spin_encoder_capture_inertial; 
-	
-	Gtk.Box hbox_encoder_sup_capture_analyze;
-	Gtk.Box hbox_encoder_sup_capture_analyze_two_buttons;
+
 	Gtk.Box hbox_encoder_configuration;
 	Gtk.Frame frame_encoder_capture_options;
 	Gtk.HBox hbox_encoder_capture_actions;
@@ -104,9 +103,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_encoder_capture_finish;
 	Gtk.Button button_encoder_capture_finish_cont;
 	Gtk.Button button_encoder_exercise_close_and_recalculate;
-	Gtk.Button button_encoder_capture_session_overview;
 	Gtk.Button button_encoder_bells;
-	Gtk.Button button_encoder_load_signal;
 	Gtk.Button button_encoder_load_signal_at_analyze;
 	Gtk.Viewport viewport_image_encoder_capture;
 	Gtk.Image image_encoder_capture;
@@ -126,23 +123,18 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_encoder_signal_save_comment;
 	Gtk.Button button_export_encoder_signal;
 //	Gtk.Button button_menu_encoder_export_set;
-	Gtk.Button button_encoder_delete_signal;
-	
+
 	Gtk.Alignment alignment_encoder_capture_signal;
 	Gtk.Button button_encoder_devices_networks;
 	//Gtk.Button button_encoder_devices_networks_problems;
 
-	Gtk.Notebook notebook_encoder_sup;
 	Gtk.Notebook notebook_encoder_capture;
 
 	//encoder capture tab view options
-	Gtk.CheckButton check_encoder_capture_bars;
+	Gtk.HBox hbox_encoder_show_signal_table;
 	Gtk.CheckButton check_encoder_capture_table;
 	Gtk.CheckButton check_encoder_capture_signal;
 	Gtk.VBox vbox_encoder_bars_table_and_save_reps;
-	Gtk.HBox hbox_encoder_capture_save_repetitions;
-	Gtk.HBox hbox_encoder_capture_show_need_one;
-	Gtk.VPaned vpaned_encoder_main;
 	Gtk.Alignment alignment_encoder_capture_curves_bars_drawingarea;
 
 	Gtk.Box hbox_combo_encoder_exercise_capture;
@@ -151,7 +143,6 @@ public partial class ChronoJumpWindow
 	Gtk.RadioButton radio_encoder_laterality_both;
 	Gtk.RadioButton radio_encoder_laterality_r;
 	Gtk.RadioButton radio_encoder_laterality_l;
-	Gtk.Box hbox_encoder_capture_curves_save_all_none;
 
 	//exercise edit/add
 	Gtk.HBox hbox_encoder_exercise_close_and;
@@ -178,9 +169,6 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_encoder_capture_curves_none;
 	Gtk.Button button_encoder_capture_curves_4top;
 	*/
-	Gtk.HBox hbox_encoder_capture_curves_save;
-	Gtk.Label label_encoder_capture_curves_save;
-	Gtk.Button button_encoder_capture_curves_save;
 	Gtk.Button button_encoder_capture_image_save;
 
 	Gtk.Notebook notebook_analyze_results;
@@ -342,12 +330,10 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_encoder_load_signal_at_analyze;
 	
 	Gtk.Alignment alignment_treeview_encoder_capture_curves;
+	Gtk.Paned hpaned_encoder_capture_current;
 	Gtk.TreeView treeview_encoder_capture_curves;
 	Gtk.TreeView treeview_encoder_analyze_curves;
-	Gtk.SpinButton spin_encoder_capture_curves_best_n;
 
-	Gtk.Box box_encoder_capture_signal_horizontal;
-	Gtk.Box box_encoder_capture_signal_vertical;
 	Gtk.DrawingArea encoder_capture_signal_drawingarea_cairo;
 	Gtk.DrawingArea encoder_capture_curves_bars_drawingarea_cairo;
 	Gtk.DrawingArea drawingarea_encoder_analyze_instant;
@@ -364,7 +350,6 @@ public partial class ChronoJumpWindow
 
 	Gtk.ComboBoxText combo_encoder_anchorage;
 	Gtk.ComboBoxText combo_encoder_exercise_capture;
-	Gtk.ComboBoxText combo_encoder_capture_curves_save;
 	Gtk.ComboBoxText combo_encoder_exercise_analyze;
 	Gtk.ComboBoxText combo_encoder_laterality_analyze;
 	Gtk.ComboBoxText combo_encoder_analyze_cross;
@@ -384,7 +369,7 @@ public partial class ChronoJumpWindow
 
 	private string ecconLast;
 	private string encoderTimeStamp;
-	private string encoderSignalUniqueID;
+	private int encoderSignalUniqueID;
 
 	private EncoderAnalyzeInstant eai;
 
@@ -466,7 +451,7 @@ public partial class ChronoJumpWindow
 	static List<PointF> cairoGraphEncoderSignalPoints_l;
 	static List<PointF> cairoGraphEncoderSignalInertialPoints_l;
 
-	PrepareEventGraphBarplotEncoder prepareEventGraphBarplotEncoder;
+	PrepareEventGraphEncoderCurrent prepareEventGraphEncoderCurrent;
 
 	enum encoderSensEnum { 
 		NOSESSION, NOPERSON, YESPERSON, PROCESSINGCAPTURE, PROCESSINGR, DONENOSIGNAL, DONEYESSIGNAL }
@@ -546,12 +531,11 @@ public partial class ChronoJumpWindow
 		LogB.Information("after play 6");
 
 		followSignals = false;
-		check_encoder_capture_bars.Active = preferences.encoderCaptureShowOnlyBars.ShowBars;
 		check_encoder_capture_table.Active = preferences.encoderCaptureShowOnlyBars.ShowTable;
 		check_encoder_capture_signal.Active = preferences.encoderCaptureShowOnlyBars.ShowSignal;
+
+		updateGraphEncoderSessionBars ();
 		followSignals = true;
-		//call here to have the gui updated and preferences.encoderCaptureShowOnlyBars correctly assigned
-		on_check_encoder_capture_show_modes_clicked (new object (), new EventArgs ());
 	}
 
 	void on_button_encoder_select_clicked (object o, EventArgs args)
@@ -734,19 +718,19 @@ public partial class ChronoJumpWindow
 					 es.repCriteria == preferences.encoderRepetitionCriteriaInertial &&
 					 encoderConfigurationCurrent.Equals(es.encoderConfiguration) )
 			  ) {
-				if(Convert.ToDouble(es.future1) > maxPowerIntersession)
+				if(Convert.ToDouble(es.meanPower) > maxPowerIntersession)
 				{
-					maxPowerIntersession = Convert.ToDouble(es.future1);
+					maxPowerIntersession = Convert.ToDouble(es.meanPower);
 					maxPowerIntersessionDate = es.GetDateStr();
 				}
-				if(Convert.ToDouble(es.future2) > maxSpeedIntersession)
+				if(Convert.ToDouble(es.meanSpeed) > maxSpeedIntersession)
 				{
-					maxSpeedIntersession = Convert.ToDouble(es.future2);
+					maxSpeedIntersession = Convert.ToDouble(es.meanSpeed);
 					maxSpeedIntersessionDate = es.GetDateStr();
 				}
-				if(Convert.ToDouble(es.future3) > maxForceIntersession)
+				if(Convert.ToDouble(es.meanForce) > maxForceIntersession)
 				{
-					maxForceIntersession = Convert.ToDouble(es.future3);
+					maxForceIntersession = Convert.ToDouble(es.meanForce);
 					maxForceIntersessionDate = es.GetDateStr();
 				}
 			}
@@ -1046,7 +1030,7 @@ public partial class ChronoJumpWindow
 
 		needToCallPrepareEncoderGraphs = false;
 		encoderProcessFinish = false;
-		CairoPaintBarplotPreEncoder.RepetitionsPlayed_l = new List<int> ();
+		CairoPaintBarsPreEncoderCurrent.RepetitionsPlayed_l = new List<int> ();
 
 		if (preferences.encoderFeedbackAsteroidsActive)
 			asteroids = new Asteroids (
@@ -1090,6 +1074,7 @@ public partial class ChronoJumpWindow
 			array1RMUpdate(false);
 			encoder_change_displaced_weight_and_1RM ();
 			label_encoder_top_exercise.Text = UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
+			radio_contacts_graph_currentTest.Label =  UtilGtk.ComboGetActive (combo_encoder_exercise_capture);
 
 			//sensitivity of left/right buttons
 			button_combo_encoder_exercise_capture_left.Sensitive = (combo_encoder_exercise_capture.Active > 0);
@@ -1207,7 +1192,7 @@ public partial class ChronoJumpWindow
 	void array1RMUpdate (bool returnPersonNameAndExerciseName) 
 	{
 		if(currentPerson != null)
-			array1RM = SqliteEncoder.Select1RM(
+			array1RM = SqliteEncoder1RM.Select1RM(
 					false, currentPerson.UniqueID, -1, //-1: currentSession = all sessions
 					getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE), returnPersonNameAndExerciseName);
 	}
@@ -1292,7 +1277,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("row adding at encoder 1RM");
 		
 		double d = genericWin.SpinDouble2Selected;
-		int uniqueID = SqliteEncoder.Insert1RM(false, currentPerson.UniqueID, currentSession.UniqueID, 
+		int uniqueID = SqliteEncoder1RM.Insert1RM(false, currentPerson.UniqueID, currentSession.UniqueID, 
 				getExerciseIDFromEncoderCombo (exerciseCombos.CAPTURE), genericWin.SpinDouble2Selected);
 
 		genericWin.Row_add_beginning_or_end (new string[] {
@@ -1328,7 +1313,7 @@ public partial class ChronoJumpWindow
 		if(action == encoderActions.CURVES_AC) 
 		{
 			encoderTimeStamp = UtilDate.ToFile(DateTime.Now);
-			encoderSignalUniqueID = "-1"; //mark to know that there's no ID for this until it's saved on database
+			encoderSignalUniqueID = -1; //mark to know that there's no ID for this until it's saved on database
 			encoderThreadStart(action);
 		} else {
 			//calculate and recalculate saves the curve at end
@@ -1424,11 +1409,11 @@ public partial class ChronoJumpWindow
 		textview_encoder_signal_comment.Buffer.Text =
 			Util.MakeValidSQL(textview_encoder_signal_comment.Buffer.Text);
 
-		LogB.Debug(encoderSignalUniqueID);
-		if(encoderSignalUniqueID != null && Convert.ToInt32(encoderSignalUniqueID) > 0) {
+		LogB.Debug(encoderSignalUniqueID.ToString ());
+		if (encoderSignalUniqueID >= 0) {
 			Sqlite.Update(false, Constants.EncoderTable, "description", "", 
 					Util.RemoveTildeAndColonAndDot(textview_encoder_signal_comment.Buffer.Text), 
-					"uniqueID", encoderSignalUniqueID);
+					"uniqueID", encoderSignalUniqueID.ToString ());
 			button_encoder_signal_save_comment.Label = Catalog.GetString("Saved comment.");
 			button_encoder_signal_save_comment.Sensitive = false;
 		}
@@ -1439,19 +1424,9 @@ public partial class ChronoJumpWindow
 		if(! followSignals)
 			return;
 
-		alignment_encoder_capture_curves_bars_drawingarea.Visible = check_encoder_capture_bars.Active;
 		alignment_treeview_encoder_capture_curves.Visible = check_encoder_capture_table.Active;
 		alignment_encoder_capture_signal.Visible = check_encoder_capture_signal.Active;
-
-		hbox_encoder_capture_save_repetitions.Visible =
-			(check_encoder_capture_bars.Active || check_encoder_capture_table.Active);
-
-		vbox_encoder_bars_table_and_save_reps.Visible =
-			(check_encoder_capture_bars.Active || check_encoder_capture_table.Active ||
-			 check_encoder_capture_signal.Active);
-
-		hbox_encoder_capture_show_need_one.Visible =
-			! (check_encoder_capture_bars.Active || check_encoder_capture_table.Active || check_encoder_capture_signal.Active);
+		vbox_encoder_bars_table_and_save_reps.Visible = true;
 
 		fixEncoderCaptureWidgetsGeometry ();
 
@@ -1460,28 +1435,43 @@ public partial class ChronoJumpWindow
 		   note as can be changed while capturing, it will be saved to SQL on exit
 		   to not have problems with SQL while capturing
 		   */
-		preferences.encoderCaptureShowOnlyBars = new EncoderCaptureDisplay(
+		preferences.encoderCaptureShowOnlyBars = new EncoderCaptureDisplay (
 				check_encoder_capture_signal.Active,
 				check_encoder_capture_table.Active,
-				check_encoder_capture_bars.Active);
+				true); //bars
 	}
 
 	private void fixEncoderCaptureWidgetsGeometry ()
 	{
-		//if(check_encoder_capture_bars.Active && ! check_encoder_capture_table.Active &&
-		//		! check_encoder_capture_signal.Active)
-
+		/* TODO: do something similar for hpaned_encoder_capture_current
 		if (! check_encoder_capture_table.Active &&
 				(preferences.signalDirectionHorizontal && ! check_encoder_capture_signal.Active) ||
 				! preferences.signalDirectionHorizontal )
 			GLib.Timeout.Add (50, new GLib.TimeoutHandler (encoder1stRowAllHeight));
+			*/
+
+		GLib.Timeout.Add (100, new GLib.TimeoutHandler (encoder2ndRowPos));
 	}
 
+	/*
 	private bool encoder1stRowAllHeight () //done later in order to have table and/or signal hidden
 	{
 		vpaned_encoder_main.Position = vpaned_encoder_main.MaxPosition;
 		return false;
 	}
+	*/
+
+	private bool encoder2ndRowPos ()
+	{
+		if (check_encoder_capture_signal.Active || check_encoder_capture_table.Active)
+			hpaned_encoder_capture_current.Position =
+				Convert.ToInt32 (UtilAll.DivideSafe (3 * hpaned_encoder_capture_current.MaxPosition, 4));
+		else
+			hpaned_encoder_capture_current.Position = hpaned_encoder_capture_current.MaxPosition;
+
+		return false;
+	}
+
 
 	private void encoderUpdateTreeViewCapture(List<string> contents)
 	{
@@ -1556,9 +1546,9 @@ public partial class ChronoJumpWindow
 	{
 		//without this we loose the videoURL on recalculate
 		string videoURL = "";		
-		if(encoderSignalUniqueID != null && encoderSignalUniqueID != "-1") {
+		if (encoderSignalUniqueID >= 0) {
 			string file = Util.GetVideoFileName(currentSession.UniqueID, 
-				Constants.TestTypes.ENCODER, Convert.ToInt32(encoderSignalUniqueID));
+				Constants.TestTypes.ENCODER, encoderSignalUniqueID);
 
 			if(file != null && file != "" && File.Exists(file))
 				videoURL = file;
@@ -1568,7 +1558,7 @@ public partial class ChronoJumpWindow
 
 		//see explanation on the top of this file
 		lastEncoderSQLSignal = new EncoderSQL(
-				"-1",
+				-1,
 				currentPerson.UniqueID,
 				currentSession.UniqueID,
 				encoderComboExerciseCaptureStoredID,
@@ -1783,16 +1773,16 @@ public partial class ChronoJumpWindow
 
 		Sqlite.Delete(dbconOpened, Constants.EncoderTable, Convert.ToInt32(uniqueID));
 
-		ArrayList escArray = SqliteEncoder.SelectSignalCurve(dbconOpened, 
+		ArrayList escArray = SqliteEncoderSignalCurve.SelectSignalCurve(dbconOpened, 
 				-1, Convert.ToInt32(uniqueID),	//signal, curve
 				-1, -1); 			//msStart, msEnd
 		if(eSQLfound)
-			SqliteEncoder.DeleteSignalCurveWithCurveID(dbconOpened, 
-					Convert.ToInt32(eSQL.uniqueID)); //delete by curveID on SignalCurve table
+			SqliteEncoderSignalCurve.DeleteSignalCurveWithCurveID(dbconOpened, 
+					Convert.ToInt32(eSQL.UniqueID)); //delete by curveID on SignalCurve table
 		//if deleted curve is from current signal, uncheck it in encoderCaptureCurves
 		if(escArray.Count > 0) {
 			EncoderSignalCurve esc = (EncoderSignalCurve) escArray[0];
-			if(esc.signalID == Convert.ToInt32(encoderSignalUniqueID))
+			if(esc.signalID == encoderSignalUniqueID)
 				encoderCaptureSelectBySavedCurves(esc.msCentral, false);
 		}
 
@@ -1812,9 +1802,9 @@ public partial class ChronoJumpWindow
 				-1, "signal", EncoderSQL.Eccons.ALL, "",
 				false, true, false);
 	}
-	//this is called when user clicks on load signal
+	//this is called when user clicks on load signal (currently only on analyze)
 	void on_button_encoder_load_signal_clicked (object o, EventArgs args) {
-		on_encoder_load_signal_clicked (Convert.ToInt32(encoderSignalUniqueID));
+		on_encoder_load_signal_clicked (encoderSignalUniqueID);
 	}
 	//this can be called also by guiT
 	void on_encoder_load_signal_clicked (int myEncoderSignalUniqueID) 
@@ -1897,6 +1887,11 @@ public partial class ChronoJumpWindow
 
 		genericWin.HideAndNull();
 
+		on_encoder_load_signal_accepted_do (uniqueID);
+	}
+
+	protected void on_encoder_load_signal_accepted_do (int uniqueID)
+	{
 		sensitiveGuiEventDoing (false);
 
 		ArrayList data = SqliteEncoder.Select(
@@ -1939,12 +1934,12 @@ public partial class ChronoJumpWindow
 				//TODO: show info to user in a dialog,
 				//but check if more info have to be shown on this process
 
-				textview_encoder_signal_comment.Buffer.Text = eSQL.description;
+				textview_encoder_signal_comment.Buffer.Text = eSQL.Description;
 				encoderTimeStamp = eSQL.GetDatetimeStr(false);
-				encoderSignalUniqueID = eSQL.uniqueID;
+				encoderSignalUniqueID = eSQL.UniqueID;
 
 				//has to be done here, because if done in encoderThreadStart or in finishPulsebar it crashes 
-				button_video_play_this_test_encoder.Sensitive = (eSQL.videoURL != "");
+				button_video_play_this_test.Sensitive = (eSQL.videoURL != "");
 
 				encoderConfigurationCurrent = eSQL.encoderConfiguration;
 				setEncoderTypePixbuf();
@@ -2010,7 +2005,7 @@ public partial class ChronoJumpWindow
 				triggerListEncoder = new TriggerList(
 						SqliteTrigger.Select(
 							false, Trigger.Modes.ENCODER,
-							Convert.ToInt32(encoderSignalUniqueID))
+							encoderSignalUniqueID)
 						);
 				showEncoderAnalyzeTriggersAndTab();
 			}
@@ -2063,9 +2058,9 @@ public partial class ChronoJumpWindow
 		//2) if changed comment, update SQL, and update treeview
 		//first remove conflictive characters
 		string comment = Util.RemoveTildeAndColonAndDot(genericWin.EntryEditRow);
-		if(comment != eSQL_set.description)
+		if(comment != eSQL_set.Description)
 		{
-			eSQL_set.description = comment;
+			eSQL_set.Description = comment;
 			SqliteEncoder.Update(true, eSQL_set);
 
 			//update treeview
@@ -2085,7 +2080,7 @@ public partial class ChronoJumpWindow
 			genericWin.SetButtonAcceptSensitive(false);
 
 			//select linkedReps (if any)
-			ArrayList linkedReps = SqliteEncoder.SelectSignalCurve(
+			ArrayList linkedReps = SqliteEncoderSignalCurve.SelectSignalCurve(
 					true, setID, -1, -1, -1);	//DBopened, signal, curve, msStart, msEnd
 
 			//change stuff on repetitions (if any)
@@ -2125,7 +2120,7 @@ public partial class ChronoJumpWindow
 		LogB.Information(signalID.ToString());
 
 		//if it's current signal use the delete signal from the gui interface that updates gui
-		if(signalID == Convert.ToInt32(encoderSignalUniqueID))
+		if(signalID == encoderSignalUniqueID)
 			on_button_encoder_delete_signal_accepted (o, args);
 		else {
 			EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
@@ -2140,7 +2135,34 @@ public partial class ChronoJumpWindow
 		}
 		genericWin.Delete_row_accepted();
 	}
-				
+
+	private void encoderLoadToPaintData ()
+	{
+		if(encoderConfigurationCurrent.has_inertia)
+			eCapture = new EncoderCaptureInertial();
+		else
+			eCapture = new EncoderCaptureGravitatory();
+
+		cairoGraphEncoderSignal = null;
+		cairoGraphEncoderSignalPoints_l = new List<PointF>();
+		cairoGraphEncoderSignalInertialPoints_l = new List<PointF>();
+
+		eCapture.LoadFromFile (encoderConfigurationCurrent.has_inertia, preferences.signalDirectionHorizontal);
+		eCapture.PointsPainted = -1;
+		if(encoderConfigurationCurrent.has_inertia) {
+			updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.INERTIAL);
+			//updateEncoderCaptureSignalCairo (true, false); //inertial, forceRedraw
+		} else {
+			updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.GRAVITATORY);
+			//updateEncoderCaptureSignalCairo (false, false);
+		}
+		//eCapture.PointsPainted = 0;
+		//encoder_capture_signal_drawingarea_cairo.QueueDraw (); //aixo no hauria de caldre aqui pq ja es deu fer al thread de sota
+
+		// show the signal realtime cairo graph (not the R generated)
+//		notebook_encoder_capture.CurrentPage = 0; //TODO: return to show the Page 1 at end
+	}
+
 	void encoderConfigurationGUIUpdate()
 	{
 		if(current_mode == Constants.Modes.POWERINERTIAL)
@@ -2198,7 +2220,7 @@ public partial class ChronoJumpWindow
 		Sqlite.Delete(false, Constants.EncoderTable, signalID);
 
 		//find related curves using encoderSignalCurve table
-		ArrayList linkedCurves = SqliteEncoder.SelectSignalCurve(
+		ArrayList linkedCurves = SqliteEncoderSignalCurve.SelectSignalCurve(
 				false, signalID, -1, -1, -1);	//DBopened, signal, curve, msStart, msEnd
 
 		//delete related curves: files and records from encoder table
@@ -3048,11 +3070,11 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_delete_signal_accepted (object o, EventArgs args) 
 	{
 		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
-				false, Convert.ToInt32(encoderSignalUniqueID), 0, 0, Constants.EncoderGI.ALL,
+				false, encoderSignalUniqueID, 0, 0, Constants.EncoderGI.ALL,
 				-1, "signal", EncoderSQL.Eccons.ALL, "", false, true, false)[0];
 
 		//delete signal and related curves (both from SQL and files)
-		encoderSignalDelete(eSQL.GetFullURL(false), Convert.ToInt32(encoderSignalUniqueID));
+		encoderSignalDelete(eSQL.GetFullURL(false), encoderSignalUniqueID);
 	
 		removeSignalFromGuiBecauseDeletedOrCancelled();
 
@@ -3061,14 +3083,14 @@ public partial class ChronoJumpWindow
 	}
 	void removeSignalFromGuiBecauseDeletedOrCancelled() 
 	{
-		encoderSignalUniqueID = "-1";
+		encoderSignalUniqueID = -1;
 		image_encoder_capture.Sensitive = false;
 		treeviewEncoderCaptureRemoveColumns();
 		updateEncoderAnalyzeExercisesPre ();
-		cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
+		cairoPaintBarsPreCurrent = new CairoPaintBarsPreEncoderCurrent (
 				encoder_capture_curves_bars_drawingarea_cairo,
 				preferences.fontTypeToGraph());
-		prepareEventGraphBarplotEncoder = null; //to avoid is repainted again, and sound be repeated;
+		prepareEventGraphEncoderCurrent = null; //to avoid is repainted again, and sound be repeated;
 
 		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 		
@@ -3105,7 +3127,7 @@ public partial class ChronoJumpWindow
 	}
 	private void updateEncoderAnalyzeExercises (bool dbconOpened, int personID, int sessionID, string selectedPreviously)
 	{
-		List<int> listFound = SqliteEncoder.SelectAnalyzeExercisesInCurves (dbconOpened, personID, sessionID, getEncoderGIByMenuitemMode());
+		List<int> listFound = SqliteEncoderExercise.SelectAnalyzeExercisesInCurves (dbconOpened, personID, sessionID, getEncoderGIByMenuitemMode());
 		foreach(int i in listFound)
 			LogB.Information(i.ToString());
 
@@ -3337,8 +3359,8 @@ public partial class ChronoJumpWindow
 				return "";
 
 			//save it to SQL (encoderSignalCurve table)
-			SqliteEncoder.SignalCurveInsert(dbconOpened, 
-					Convert.ToInt32(encoderSignalUniqueID), curveIDMax +1,
+			SqliteEncoderSignalCurve.SignalCurveInsert(dbconOpened, 
+					encoderSignalUniqueID, curveIDMax +1,
 					Convert.ToInt32(curveStart + (duration /2)));
 
 			path = UtilEncoder.GetEncoderSessionDataCurveDir(currentSession.UniqueID);
@@ -3355,22 +3377,22 @@ public partial class ChronoJumpWindow
 			path = UtilEncoder.GetEncoderSessionDataSignalDir(currentSession.UniqueID);
 		}
 		
-		string myID = "-1";	
+		int myID = -1;
 		if(mode == "signal")
 			myID = encoderSignalUniqueID;
 
 		//assign values from lastEncoderSQLSignal (last calculate curves or reload), and change new things
 		EncoderSQL eSQL = lastEncoderSQLSignal;
-		eSQL.uniqueID = myID;
+		eSQL.UniqueID = myID;
 		eSQL.signalOrCurve = signalOrCurve;
 		eSQL.filename = fileSaved;
 		eSQL.url = path;
-		eSQL.description = desc;
+		eSQL.Description = desc;
 		if(mode == "curve") {
 			eSQL.status = "active";
-			eSQL.future1 = meanPowerStr;
-			eSQL.future2 = meanSpeedStr;
-			eSQL.future3 = meanForceStr;
+			eSQL.meanPower = meanPowerStr;
+			eSQL.meanSpeed = meanSpeedStr;
+			eSQL.meanForce = meanForceStr;
 		}
 
 		eSQL.encoderConfiguration = encoderConfigurationCurrent;
@@ -3378,8 +3400,8 @@ public partial class ChronoJumpWindow
 		//if is a signal that we just loaded, then don't insert, do an update
 		//we know it because encoderUniqueID is != than "-1" if we loaded something from database
 		//This also saves curves
-		if(myID == "-1") {
-			myID = SqliteEncoder.Insert(dbconOpened, eSQL).ToString(); //Adding on SQL
+		if(myID == -1) {
+			myID = SqliteEncoder.Insert (dbconOpened, eSQL); //Adding on SQL
 			if(mode == "signal") {
 				encoderSignalUniqueID = myID;
 				feedback = Catalog.GetString("Set saved");
@@ -3388,16 +3410,16 @@ public partial class ChronoJumpWindow
 				if(preferences.videoOn) {
 					if(Util.CopyTempVideo(currentSession.UniqueID,
 								Constants.TestTypes.ENCODER,
-								Convert.ToInt32(encoderSignalUniqueID)))
+								encoderSignalUniqueID))
 					{
 						eSQL.videoURL = Util.GetVideoFileName(currentSession.UniqueID,
 								Constants.TestTypes.ENCODER,
-								Convert.ToInt32(encoderSignalUniqueID));
+								encoderSignalUniqueID);
 						//need assign uniqueID to update and add the URL of video
-						eSQL.uniqueID = encoderSignalUniqueID;
+						eSQL.UniqueID = encoderSignalUniqueID;
 						SqliteEncoder.Update(dbconOpened, eSQL);
 
-						button_video_play_this_test_encoder.Sensitive = true;
+						button_video_play_this_test.Sensitive = true;
 					} else {
 						new DialogMessage(Constants.MessageTypes.WARNING,
 								Catalog.GetString("Sorry, video cannot be stored."));
@@ -3476,7 +3498,7 @@ public partial class ChronoJumpWindow
 				if(nameTemp == "1RM Any exercise" || nameTemp == Catalog.GetString("1RM Any exercise"))
 				{
 					EncoderSQL eSQL = (EncoderSQL) data[0];
-					EncoderExercise exTemp = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
+					EncoderExercise exTemp = (EncoderExercise) SqliteEncoderExercise.SelectEncoderExercises(
 						false , eSQL.exerciseID, false, Constants.EncoderGI.GRAVITATORY)[0];
 
 					if(exTemp.speed1RM == 0) {
@@ -3637,7 +3659,7 @@ public partial class ChronoJumpWindow
 			{
 				LogB.Debug("Don't need to to encoderCalculeCurves");
 				encoderTimeStamp = UtilDate.ToFile(DateTime.Now);
-				encoderSignalUniqueID = "-1"; //mark to know that there's no ID for this until it's saved on database
+				encoderSignalUniqueID = -1; //mark to know that there's no ID for this until it's saved on database
 				setLastEncoderSQLSignal();
 			} else
 			{
@@ -3868,7 +3890,7 @@ public partial class ChronoJumpWindow
 
 				if(my1RMName == "1RM Any exercise") {
 					//get speed1RM (from exercise of curve on SQL, not from combo)
-					EncoderExercise exTemp = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
+					EncoderExercise exTemp = (EncoderExercise) SqliteEncoderExercise.SelectEncoderExercises(
 						false , exID, false, Constants.EncoderGI.GRAVITATORY)[0];
 				
 					sendAnalysis = "1RMAnyExercise";
@@ -3904,7 +3926,7 @@ public partial class ChronoJumpWindow
 			writer.WriteLine("status,seriesName,exerciseName,massBody,massExtra,dateTime,fullURL,eccon,percentBodyWeight," + 
 					"econfName, econfd, econfD, econfAnglePush, econfAngleWeight, econfInertia, econfGearedDown, laterality");
 
-			ArrayList eeArray = SqliteEncoder.SelectEncoderExercises(false, -1, false, getEncoderGIByMenuitemMode());
+			ArrayList eeArray = SqliteEncoderExercise.SelectEncoderExercises(false, -1, false, getEncoderGIByMenuitemMode());
 			EncoderExercise ex = new EncoderExercise();
 						
 			LogB.Information("AT ANALYZE");
@@ -3922,9 +3944,9 @@ public partial class ChronoJumpWindow
 
 				LogB.Debug(" AT ANALYZE 1.1 ");
 				//massBody change if we are comparing different persons or sessions
-				if(eSQL.personID != iteratingPerson || eSQL.sessionID != iteratingSession) {
+				if(eSQL.PersonID != iteratingPerson || eSQL.SessionID != iteratingSession) {
 					iteratingMassBody = SqlitePersonSession.SelectAttribute(
-							true, eSQL.personID, eSQL.sessionID, Constants.Weight);
+							true, eSQL.PersonID, eSQL.SessionID, Constants.Weight);
 				}
 				LogB.Debug(" AT ANALYZE 1.2 ");
 
@@ -3933,7 +3955,7 @@ public partial class ChronoJumpWindow
 				if(radio_encoder_analyze_groupal_current_session.Active)
 				{
 					foreach(string str in encSelReps.EncoderCompareInter)
-						if(Util.FetchID(str) == eSQL.personID)
+						if(Util.FetchID(str) == eSQL.PersonID)
 						{
 							seriesName = Util.FetchName(str);
 							//to show correctly name of person on title if there is only one serie (one person)
@@ -3945,7 +3967,7 @@ public partial class ChronoJumpWindow
 				{
 					foreach(string str in encSelReps.EncoderCompareInter) {
 						LogB.Information(str);
-						if(Util.FetchID(str) == eSQL.sessionID)
+						if(Util.FetchID(str) == eSQL.SessionID)
 							seriesName = Util.FetchName(str);
 					}
 					if(seriesName == "")
@@ -3998,7 +4020,7 @@ public partial class ChronoJumpWindow
 			if(encoderSelectedAnalysis == "1RM") {
 				if(my1RMName == "1RM Any exercise") {
 					//get speed1RM (from combo)
-					EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
+					EncoderExercise ex = (EncoderExercise) SqliteEncoderExercise.SelectEncoderExercises(
 							false, getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE),
 							false, Constants.EncoderGI.GRAVITATORY)[0];
 
@@ -4527,8 +4549,8 @@ public partial class ChronoJumpWindow
 		grid_encoder_analyze_options.Sensitive = s;
 		frame_persons.Sensitive = s;
 		menus_and_mode_sensitive(s);
-		hbox_encoder_sup_capture_analyze_two_buttons.Sensitive = s;
-		hbox_top_person_encoder.Sensitive = s;
+		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = s;
+		hbox_top_person.Sensitive = s;
 	}
 
 	private void on_radiobutton_encoder_analyze_instantaneous_options_toggled (object o, EventArgs args)
@@ -4771,24 +4793,6 @@ public partial class ChronoJumpWindow
 		combo_encoder_exercise_capture.Changed += new EventHandler (on_combo_encoder_exercise_capture_changed);
 		combo_encoder_exercise_analyze.Changed += new EventHandler (on_combo_encoder_exercise_analyze_changed);
 
-		//combo_encoder_capture_curves_save;
-		combo_encoder_capture_curves_save = new ComboBoxText();
-		string [] comboEncoderCaptureCurvesSaveOptionsTranslated = {
-			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[0]),
-			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[1]),
-			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[2]),
-			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[3]),
-			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[4]),
-			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[5]) };
-		encoderCaptureCurvesSaveOptionsTranslation = new String [comboEncoderCaptureCurvesSaveOptionsTranslated.Length];
-		for(int j=0; j < comboEncoderCaptureCurvesSaveOptionsTranslated.Length ; j++)
-			encoderCaptureCurvesSaveOptionsTranslation[j] =
-				Constants.EncoderAutoSaveCurvesStrings[j] + ":" + comboEncoderCaptureCurvesSaveOptionsTranslated[j];
-		UtilGtk.ComboUpdate(combo_encoder_capture_curves_save, comboEncoderCaptureCurvesSaveOptionsTranslated, "");
-		combo_encoder_capture_curves_save.Active = UtilGtk.ComboMakeActive(combo_encoder_capture_curves_save,
-				Catalog.GetString(Constants.GetEncoderAutoSaveCurvesStrings(preferences.encoderAutoSaveCurve)));
-		combo_encoder_capture_curves_save.Changed += new EventHandler (on_combo_encoder_capture_curves_save_changed);
-
 		/* ConcentricEccentric
 		 * unavailable until find while concentric data on concentric is the same than in ecc-con,
 		 * but is very different than in con-ecc
@@ -4833,12 +4837,6 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_exercise_capture.PackStart(button_combo_encoder_exercise_capture_left, true, true, 0);
 
 		hbox_combo_encoder_exercise_capture.PackStart(combo_encoder_exercise_capture, true, true, 10);
-
-		hbox_encoder_capture_curves_save.PackStart(combo_encoder_capture_curves_save, true, true, 0);
-		hbox_encoder_capture_curves_save.ShowAll();
-
-		spin_encoder_capture_curves_best_n.Value = preferences.encoderAutoSaveCurveBestNValue;
-		manageVisibilityOf_spin_encoder_capture_curves_best_n ();
 
 		button_combo_encoder_exercise_capture_right = UtilGtk.CreateArrowButton (40, 40, UtilGtk.ArrowEnum.RIGHT);
 		button_combo_encoder_exercise_capture_right.Sensitive = true;
@@ -4936,7 +4934,7 @@ public partial class ChronoJumpWindow
 	private void createEncoderComboExerciseAndAnalyze()
 	{
 		// 1) selecte encoderExercises on SQL
-		ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(false, -1, false, getEncoderGIByMenuitemMode());
+		ArrayList encoderExercises = SqliteEncoderExercise.SelectEncoderExercises(false, -1, false, getEncoderGIByMenuitemMode());
 		// 2) if ! encoderExcises, delete both combos and return
 		if(encoderExercises.Count == 0)
 		{
@@ -5126,7 +5124,6 @@ public partial class ChronoJumpWindow
 	{
 		//those will be true again when loading a new encoder test or capturing
 		treeview_encoder_capture_curves.Sensitive = false;
-		hbox_encoder_capture_curves_save_all_none.Sensitive = false;
 
 		check_encoder_analyze_eccon_together.Sensitive = true;
 		block_check_encoder_analyze_eccon_together_if_needed();
@@ -5176,65 +5173,6 @@ public partial class ChronoJumpWindow
 		LogB.Information("Laterality: " + laterality);
 		return laterality;
 	}
-
-	// ---- start of combo_encoder_capture_curves_save stuff ----
-
-	void on_combo_encoder_capture_curves_save_changed (object o, EventArgs args)
-	{
-		manageVisibilityOf_spin_encoder_capture_curves_best_n ();
-		manageButton_button_encoder_capture_curves_save (false);
-	}
-
-	void on_spin_encoder_capture_curves_best_n_value_changed (object o, EventArgs args)
-	{
-		manageButton_button_encoder_capture_curves_save (false);
-	}
-
-	void manageButton_button_encoder_capture_curves_save (bool saved)
-	{
-		if(saved) {
-			label_encoder_capture_curves_save.Text = Catalog.GetString("Done");
-			button_encoder_capture_curves_save.Sensitive = false;
-		} else {
-			label_encoder_capture_curves_save.Text = Catalog.GetString("Save repetitions");
-			button_encoder_capture_curves_save.Sensitive = true;
-		}
-	}
-
-	void manageVisibilityOf_spin_encoder_capture_curves_best_n ()
-	{
-		string englishStr = Util.FindOnArray(
-				':',1,0,UtilGtk.ComboGetActive(combo_encoder_capture_curves_save),
-					encoderCaptureCurvesSaveOptionsTranslation);
-		spin_encoder_capture_curves_best_n.Visible = (englishStr == "Best n" || englishStr == "Best n consecutive");
-	}
-
-	void on_button_encoder_capture_curves_save_clicked (object o, EventArgs args)
-	{
-		//1) gest Constants.EncoderAutoSaveCurve
-		string englishOption = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_capture_curves_save),
-					encoderCaptureCurvesSaveOptionsTranslation);
-
-		Constants.EncoderAutoSaveCurve easc = Constants.GetEncoderAutoSaveCurvesEnum (englishOption);
-
-		//2) update preferences
-		preferences.encoderAutoSaveCurve = easc;
-
-		//3) update Sqlite
-		SqlitePreferences.Update("encoderAutoSaveCurve", easc.ToString(), false);
-
-		if(easc == Constants.EncoderAutoSaveCurve.BESTN || easc == Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE)
-			SqlitePreferences.Update(SqlitePreferences.EncoderAutoSaveCurveBestNValue, spin_encoder_capture_curves_best_n.Value.ToString(), false);
-
-		//4) save or unsave curves
-		encoderCaptureSaveCurvesAllNoneBest(easc, Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
-
-		//5) change save buttons
-		manageButton_button_encoder_capture_curves_save (true);
-	}
-
-	// ---- end of combo_encoder_capture_curves_save stuff ----
-
 
 	void on_combo_encoder_analyze_cross_changed (object o, EventArgs args)
 	{
@@ -5505,7 +5443,7 @@ public partial class ChronoJumpWindow
 		else {
 			exerciseID = getExerciseIDFromEncoderTable();
 
-			SqliteEncoder.Insert1RM(false, currentPerson.UniqueID, currentSession.UniqueID,
+			SqliteEncoder1RM.Insert1RM(false, currentPerson.UniqueID, currentSession.UniqueID,
 					exerciseID, load1RM);
 
 			myString = string.Format(Catalog.GetString("Saved 1RM: {0} Kg."), load1RM);
@@ -5571,48 +5509,6 @@ public partial class ChronoJumpWindow
 
 	// ---------end of helpful methods -----------
 
-	void on_button_encoder_exercise_clicked (object o, EventArgs args)
-	{
-		encoder_exercise_show_hide (true);
-	}
-	void on_button_encoder_exercise_close_clicked (object o, EventArgs args)
-	{
-		encoder_exercise_show_hide (false);
-		checkIfEncoderMinHeightChanged ();
-	}
-	private void encoder_exercise_show_hide (bool show)
-	{
-		if(show)
-			notebook_hpaned_encoder_or_exercise_config.Page = 1;
-		else
-			notebook_hpaned_encoder_or_exercise_config.Page = 0;
-
-		menus_and_mode_sensitive(! show);
-		hbox_encoder_sup_capture_analyze.Sensitive = ! show;
-		frame_persons.Sensitive = ! show;
-		hbox_encoder_configuration.Sensitive = ! show;
-		hbox_encoder_capture_top.Sensitive = ! show;
-		alignment_encoder_capture_signal.Sensitive = ! show;
-		button_encoder_inertial_recalibrate.Sensitive = ! show;
-		hbox_top_person.Sensitive = ! show;
-		hbox_top_person_encoder.Sensitive = ! show;
-	}
-
-	void on_button_encoder_exercise_close_and_capture_clicked (object o, EventArgs args)
-	{
-		encoder_exercise_show_hide (false);
-		checkIfEncoderMinHeightChanged ();
-
-		on_button_encoder_capture_clicked (o, args);
-	}
-	void on_button_encoder_exercise_close_and_recalculate_clicked (object o, EventArgs args)
-	{
-		encoder_exercise_show_hide (false);
-		checkIfEncoderMinHeightChanged ();
-
-		on_button_encoder_recalculate_clicked (o, args);
-	}
-
 	private void checkIfEncoderMinHeightChanged ()
 	{
 		if(current_mode == Constants.Modes.POWERGRAVITATORY) {
@@ -5651,7 +5547,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
+		EncoderExercise ex = (EncoderExercise) SqliteEncoderExercise.SelectEncoderExercises(
 				false, getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE),
 				false, getEncoderGIByMenuitemMode())[0];
 		//LogB.Information("exercise: " + ex.ToString());
@@ -5851,7 +5747,7 @@ public partial class ChronoJumpWindow
 			type = Constants.EncoderGI.INERTIAL;
 
 		if(adding)
-			SqliteEncoder.InsertExercise(false, -1,
+			SqliteEncoderExercise.InsertExercise(false, -1,
 					name,
 					Convert.ToInt32(spin_encoder_exercise_displaced_body_weight.Value),
 					entry_encoder_exercise_resistance.Text,
@@ -5867,7 +5763,7 @@ public partial class ChronoJumpWindow
 					entry_encoder_exercise_description.Text,
 					spin_encoder_exercise_speed_1rm.Value,
 					type);
-			SqliteEncoder.UpdateExercise(false, ex);
+			SqliteEncoderExercise.UpdateExercise(false, ex);
 		}
 
 		updateEncoderExercisesGui(name);
@@ -5877,7 +5773,7 @@ public partial class ChronoJumpWindow
 
 	private void updateEncoderExercisesGui(string name)
 	{
-		ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(false,-1, false, getEncoderGIByMenuitemMode());
+		ArrayList encoderExercises = SqliteEncoderExercise.SelectEncoderExercises(false,-1, false, getEncoderGIByMenuitemMode());
 		encoderExercisesTranslationAndBodyPWeight = new String [encoderExercises.Count];
 		string [] exerciseNamesToCombo = new String [encoderExercises.Count];
 		int i =0;
@@ -5909,10 +5805,10 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
+		EncoderExercise ex = (EncoderExercise) SqliteEncoderExercise.SelectEncoderExercises(
 				false, getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE), false, getEncoderGIByMenuitemMode())[0];
 
-		ArrayList array = SqliteEncoder.SelectEncoderSetsOfAnExercise(false, ex.UniqueID); //dbconOpened, exerciseID
+		ArrayList array = SqliteEncoderExercise.SelectEncoderSetsOfAnExercise(false, ex.UniqueID); //dbconOpened, exerciseID
 
 		if(array.Count > 0)
 		{
@@ -6003,10 +5899,12 @@ public partial class ChronoJumpWindow
 		captureCurvesBarsData_l = new List<EncoderBarsData> ();
 
 		//erase cairo barplot
-		cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
+		cairoPaintBarsPreCurrent = new CairoPaintBarsPreEncoderCurrent (
 			encoder_capture_curves_bars_drawingarea_cairo,
 			preferences.fontTypeToGraph());
-		prepareEventGraphBarplotEncoder = null; //to avoid is repainted again, and sound be repeated;
+		prepareEventGraphEncoderCurrent = null; //to avoid is repainted again, and sound be repeated;
+
+		updateGraphEncoderSessionBars ();
 
 		image_encoder_capture.Sensitive = false;
 		image_encoder_analyze.Sensitive = false;
@@ -6019,7 +5917,7 @@ public partial class ChronoJumpWindow
 		button_encoder_analyze_table_save.Sensitive = false;
 		button_encoder_analyze_1RM_save.Visible = false;
 
-		button_video_play_this_test_encoder.Sensitive = false;
+		button_video_play_this_test.Sensitive = false;
 	}
 
 	private void encoderButtonsSensitive(encoderSensEnum option) 
@@ -6027,12 +5925,12 @@ public partial class ChronoJumpWindow
 		LogB.Debug("encoderButtonsSensitive: " + option.ToString());
 
 		//columns
-		//c0 button_encoder_capture, hbox_encoder_sup_capture_analyze_two_buttons,
+		//c0 button_encoder_capture,
 		//	hbox_encoder_configuration, frame_encoder_capture_options
 		//c1 button_encoder_exercise_close_and_recalculate
-		//c2 button_encoder_capture_session_overview, button_encoder_load_signal
-		//c3 hbox_encoder_capture_curves_save_all_none, button_export_encoder_signal,
-		//	button_encoder_delete_signal, vbox_encoder_signal_comment,
+		//c2 (before it has overview and load) button_encoder_load_signal_at_analyze
+		//c3 button_export_encoder_signal,
+		//	button_contacts_delete_selected, vbox_encoder_signal_comment,
 		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive. Update: both NOT managed here
 		//	button_encoder_capture_image_save
 		//UNUSED c4 button_encoder_save_curve, entry_encoder_curve_comment
@@ -6084,18 +5982,15 @@ public partial class ChronoJumpWindow
 				break;
 		}
 		button_encoder_capture.Sensitive = Util.IntToBool(table[0]);
-		hbox_encoder_sup_capture_analyze_two_buttons.Sensitive = Util.IntToBool(table[0]);
+		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = Util.IntToBool(table[0]);
 		frame_encoder_capture_options.Sensitive = Util.IntToBool(table[0]);
 
 		button_encoder_exercise_close_and_recalculate.Sensitive = Util.IntToBool(table[1]);
 
-		button_encoder_capture_session_overview.Sensitive = Util.IntToBool(table[2]);
-		button_encoder_load_signal.Sensitive = Util.IntToBool(table[2]);
 		button_encoder_load_signal_at_analyze.Sensitive = Util.IntToBool(table[2]);
-		
-		hbox_encoder_capture_curves_save_all_none.Sensitive = Util.IntToBool(table[3]);
+
 		button_export_encoder_signal.Sensitive = Util.IntToBool(table[3]);
-		button_encoder_delete_signal.Sensitive = Util.IntToBool(table[3]);
+		button_contacts_delete_selected.Sensitive = Util.IntToBool(table[3]);
 		vbox_encoder_signal_comment.Sensitive = Util.IntToBool(table[3]);
 		button_encoder_capture_image_save.Sensitive = Util.IntToBool(table[3]);
 		//image_encoder_capture.Sensitive = Util.IntToBool(table[3]);
@@ -6181,6 +6076,10 @@ public partial class ChronoJumpWindow
 
 	/* end of sensitivity stuff */	
 
+	/*
+	 * ------ barplot current set ------>
+	 */
+
 	enum UpdateEncoderPaintModes { GRAVITATORY, INERTIAL, CALCULE_IM }
 	private void updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes mode)
 	{
@@ -6248,7 +6147,7 @@ public partial class ChronoJumpWindow
 			double mainVariableLower = feedbackWin.GetMainVariableLower(mainVariable);
 
 			//Cairo
-			prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
+			prepareEventGraphEncoderCurrent = new PrepareEventGraphEncoderCurrent (
 					mainVariable, mainVariableHigher, mainVariableLower,
 					secondaryVariable, preferences.encoderCaptureShowLoss,
 					false, //not capturing
@@ -6277,11 +6176,11 @@ public partial class ChronoJumpWindow
 	public void on_encoder_capture_curves_bars_drawingarea_cairo_button_press_event (object o, ButtonPressEventArgs args)
 	{
 		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_button_press_event 0");
-		if(cairoPaintBarsPre == null) //TODO: check also that is the encoder graph and not jumps or whatever
+		if(cairoPaintBarsPreCurrent == null) //TODO: check also that is the encoder graph and not jumps or whatever
 			return;
 
 		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_button_press_event 1");
-		int repetition = cairoPaintBarsPre.FindBarInPixel (args.Event.X, args.Event.Y);
+		int repetition = cairoPaintBarsPreCurrent.FindBarInPixel (args.Event.X, args.Event.Y);
 		//LogB.Information("Repetition: " + repetition.ToString());
 		if(repetition >= 0)
 		{
@@ -6300,22 +6199,22 @@ public partial class ChronoJumpWindow
 
 		//if object not defined or not defined fo this mode, return
 //TODO: is fist check really needed?
-//		if(cairoPaintBarsPre == null || ! cairoPaintBarsPre.ModeMatches (current_mode))
+//		if(cairoPaintBarsPreCurrent == null || ! cairoPaintBarsPreCurrent.ModeMatches (current_mode))
 //			return;
 
 		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_draw B");
 
 		//note this is the same than on_fullscreen_capture_drawingarea_cairo_draw ()
-		if(prepareEventGraphBarplotEncoder != null)
+		if(prepareEventGraphEncoderCurrent != null)
 		{
-			//prepareEncoderBarplotCairo (false); //just redraw the graph
-			prepareEncoderBarplotCairo (true); //TODO: check if true or false
+			//prepareEncoderSignalBarplotCairo (false); //just redraw the graph
+			prepareEncoderSignalBarplotCairo (true); //TODO: check if true or false
 		}
 	}
 
-	private void prepareEncoderBarplotCairo (bool calculateAll)
+	private void prepareEncoderSignalBarplotCairo (bool calculateAll)
 	{
-		LogB.Information("prepareEncoderBarplotCairo");
+		LogB.Information("prepareEncoderSignalBarplotCairo");
 		if(currentPerson == null)
 			return;
 
@@ -6324,26 +6223,26 @@ public partial class ChronoJumpWindow
 			da = fullscreen_capture_drawingarea_cairo;
 
 
-		if(cairoPaintBarsPre == null || calculateAll)
+		if(cairoPaintBarsPreCurrent == null || calculateAll)
 		{
 			double videoTime = 0;
 			if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
 				videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 
-			cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
+			cairoPaintBarsPreCurrent = new CairoPaintBarsPreEncoderCurrent (
 					preferences, da, preferences.fontTypeToGraph(),
 					currentPerson.Name, "", 3,
-					prepareEventGraphBarplotEncoder, videoTime);
+					prepareEventGraphEncoderCurrent, videoTime);
 		}
 
 		if (screenshotPending)
 		{
-			cairoPaintBarsPre.ScreenshotURL = screenshotURL;
+			cairoPaintBarsPreCurrent.ScreenshotURL = screenshotURL;
 			screenshotPending = false;
 			screenshotURL = "";
 		}
 
-		cairoPaintBarsPre.Paint();
+		cairoPaintBarsPreCurrent.Paint();
 	}
 
 	public void on_encoder_capture_signal_drawingarea_cairo_draw (object o, Gtk.DrawnArgs args)
@@ -6373,6 +6272,19 @@ public partial class ChronoJumpWindow
 
 		if (preferences.encoderFeedbackAsteroidsActive)
 			cairoGraphEncoderSignal.PassAsteroids = asteroids;
+		else {
+		       if (captureCurvesBarsData_l != null && captureCurvesBarsData_l.Count > 0)
+		       {
+			       List<int> repStartMS_l = new List<int> ();
+			       List<int> repEndMS_l = new List<int> ();
+			       foreach (EncoderBarsData ebd in captureCurvesBarsData_l)
+			       {
+				       repStartMS_l.Add (Convert.ToInt32 (ebd.Start));
+				       repEndMS_l.Add (Convert.ToInt32 (ebd.Start + ebd.Duration));
+			       }
+			       cairoGraphEncoderSignal.PassRepetitions (repStartMS_l, repEndMS_l);
+		       }
+		}
 
 		double videoTime = 0;
 		if (webcamPlay != null && webcamPlay.PlayVideoGetSecond > 0)
@@ -6380,7 +6292,9 @@ public partial class ChronoJumpWindow
 			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 		}
 
-		cairoGraphEncoderSignal.DoSendingList (preferences.fontTypeToGraph(), inertial,
+		cairoGraphEncoderSignal.DoSendingList (preferences.fontTypeToGraph(),
+				capturingCsharp == encoderCaptureProcess.CAPTURING,
+				inertial,
 				cairoGraphEncoderSignalPoints_l, cairoGraphEncoderSignalInertialPoints_l, videoTime,
 				forceRedraw, CairoXY.PlotTypes.LINES);
 	}
@@ -6407,6 +6321,62 @@ public partial class ChronoJumpWindow
 
 		return maxPowerIntersessionDate; //default if any problem
 	}
+
+	/*
+	 * <------ barplot current set ------
+	 */
+
+	//resultsSession
+	private void updateGraphEncoderSessionBars ()
+	{
+		LogB.Information (string.Format ("currentPerson == null: {0},  currentSession == null: {1}",
+					currentPerson == null, currentSession == null));
+		if(currentPerson == null || currentSession == null)
+			return;
+
+		//intializeVariables if not done before
+		event_execute_initializeVariables(
+			(! cp2016.StoredCanCaptureContacts && ! cp2016.StoredWireless), //is simulated
+			currentPerson.UniqueID,
+			currentPerson.Name,
+			"", //Catalog.GetString("Phases"),  	  //name of the different moments
+			Constants.EncoderTable, //tableName
+			"" //type
+			);
+
+		string typeTemp = "";
+		int exerciseID = -1;
+		if (! radio_contacts_graph_allTests.Active)
+			exerciseID = getExerciseIDFromAnyCombo (combo_encoder_exercise_capture, encoderExercisesTranslationAndBodyPWeight, false);
+
+		int selectedID = -1;
+		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
+			selectedID = treeViewResultsSession.EventSelectedID;
+
+		PrepareEventGraphEncoderSession eventGraph = new PrepareEventGraphEncoderSession (
+				currentSession.UniqueID,
+				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
+				currentEncoderGI,
+				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
+				//Constants.EncoderTable, typeTemp,
+				exerciseID, selectedID, current_mode, radio_contacts_graph_allTests.Active);
+
+		string personStr = "";
+		if(! radio_contacts_results_personAll.Active)
+			personStr = currentPerson.Name;
+
+		cairoPaintBarsPre = new CairoPaintBarsPreEncoderSession (
+				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
+				personStr,
+				typeTemp,
+				preferences.digitsNumber,
+				radio_contacts_results_personAll.Active //showPersonName
+				);
+
+		cairoPaintBarsPre.StoreEventGraphEncoderSession (eventGraph);
+		drawingarea_results_session.QueueDraw ();
+	}
+
 
 
 	/*
@@ -6480,9 +6450,9 @@ public partial class ChronoJumpWindow
 				if(encoderGraphDoPlot != null)
 					encoderGraphDoPlot.ShowMessage("Previous set", true, false);
 
-				cairoPaintBarsPre.ShowMessage (Catalog.GetString("Previous set"), true, false);
+				cairoPaintBarsPreCurrent.ShowMessage (Catalog.GetString("Previous set"), true, false);
 			}
-			if want to show this, then need to not call the ErasePaint, encoderGraphDoPlot.ShowMessage, cairoPaintBarsPre stuff below
+			if want to show this, then need to not call the ErasePaint, encoderGraphDoPlot.ShowMessage, cairoPaintBarsPreCurrent stuff below
 			*/
 
 			//eccaCreated = false;
@@ -6499,11 +6469,11 @@ public partial class ChronoJumpWindow
 				if( ! preferences.encoderCaptureInfinite || firstSetOfCont )
 					treeviewEncoderCaptureRemoveColumns();
 
-				cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
+				cairoPaintBarsPreCurrent = new CairoPaintBarsPreEncoderCurrent (
 						encoder_capture_curves_bars_drawingarea_cairo,
 						preferences.fontTypeToGraph());//, "--capturing--");
 
-				cairoPaintBarsPre.ShowMessage (
+				cairoPaintBarsPreCurrent.ShowMessage (
 						encoder_capture_curves_bars_drawingarea_cairo,
 						preferences.fontTypeToGraph(),
 						Catalog.GetString("Capturing") + " …");
@@ -6572,10 +6542,10 @@ public partial class ChronoJumpWindow
 					button_detect_show_hide (true);
 
 					// 3) erase cairo barplot (remove the Capturing...)
-					cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
+					cairoPaintBarsPreCurrent = new CairoPaintBarsPreEncoderCurrent (
 							encoder_capture_curves_bars_drawingarea_cairo,
 							preferences.fontTypeToGraph());
-					prepareEventGraphBarplotEncoder = null; //to avoid is repainted again, and sound be repeated;
+					prepareEventGraphEncoderCurrent = null; //to avoid is repainted again, and sound be repeated;
 
 					// 4) this notebook has capture (signal plotting), and curves (shows R graph)
 					if(notebook_encoder_capture.CurrentPage == 0 )
@@ -6631,7 +6601,7 @@ public partial class ChronoJumpWindow
 				if (fullscreenLastCapture)
 					fullscreen_button_fullscreen_encoder.Click ();
 
-				button_video_play_this_test_encoder.Sensitive = false;
+				button_video_play_this_test.Sensitive = false;
 				blinkCapture = new BlinkImage (image_no_capturing_encoder, image_capturing_encoder);
 
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
@@ -6718,7 +6688,6 @@ public partial class ChronoJumpWindow
 				else // action == encoderActions.LOAD
 				{
 					//capture tab
-					button_encoder_load_signal.Visible =  false;
 					encoder_spinner_load_signal.Visible = true;
 					encoder_spinner_load_signal.Start ();
 
@@ -7158,7 +7127,7 @@ public partial class ChronoJumpWindow
 				//captureCurvesBarsData_l.Add(new EncoderBarsData(20, 39, 10, 40));
 
 				//Cairo
-				prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
+				prepareEventGraphEncoderCurrent = new PrepareEventGraphEncoderCurrent (
 						mainVariable, mainVariableHigher, mainVariableLower,
 						secondaryVariable, preferences.encoderCaptureShowLoss,
 						true, //capturing
@@ -7284,7 +7253,6 @@ public partial class ChronoJumpWindow
 			}
 
 			//capture tab
-			button_encoder_load_signal.Visible =  true;
 			encoder_spinner_load_signal.Stop ();
 			encoder_spinner_load_signal.Visible = false;
 
@@ -7775,7 +7743,7 @@ public partial class ChronoJumpWindow
 				findMaxPowerSpeedForceIntersession();
 
 				//Cairo
-				prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
+				prepareEventGraphEncoderCurrent = new PrepareEventGraphEncoderCurrent (
 						mainVariable, mainVariableHigher, mainVariableLower,
 						secondaryVariable, preferences.encoderCaptureShowLoss,
 						false, //not capturing
@@ -7799,13 +7767,13 @@ public partial class ChronoJumpWindow
 
 				button_encoder_signal_save_comment.Label = Catalog.GetString("Save comment");
 				button_encoder_signal_save_comment.Sensitive = false;
-		
+
 				//autosave signal (but not in load)
 				if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC)
 				{
 					bool needToAutoSaveCurve = false;
 					if(
-							encoderSignalUniqueID == "-1" &&	//if we just captured
+							encoderSignalUniqueID == -1 &&	//if we just captured
 							(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.ALL ||
 							preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BEST ||
 							preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BESTN ||
@@ -7819,20 +7787,25 @@ public partial class ChronoJumpWindow
 					fullscreen_label_message.Text = encoderSaveResult;
 
 					if(needToAutoSaveCurve)
-					{
 						encoderCaptureSaveCurvesAllNoneBest(preferences.encoderAutoSaveCurve,
 								Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
 
-						manageButton_button_encoder_capture_curves_save (true);
-					}
-
 					if(action == encoderActions.CURVES_AC)
 					{
+						SqliteEncoder se = new SqliteEncoder ();
+						treeViewResultsSession.AddEncoder (currentPerson.UniqueID, currentPerson.Name,
+								se.SelectSetsAndRepsLList (
+									false, currentPerson.UniqueID, currentSession.UniqueID,
+									currentEncoderGI, lastEncoderSQLSignal.exerciseID, encoderSignalUniqueID),
+								"");
+
+						updateGraphEncoderSessionBars();
+
 						//1) unMute logs if preferences.muteLogs == false
 						LogB.Mute = preferences.muteLogs;
 
 						//1) save the triggers now that we have an encoderSignalUniqueID
-						eCapture.SaveTriggers(Convert.ToInt32(encoderSignalUniqueID)); //dbcon is closed
+						eCapture.SaveTriggers(encoderSignalUniqueID); //dbcon is closed
 						showEncoderAnalyzeTriggersAndTab();
 
 						if(encoderRProcCapture.CutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS &&
@@ -7864,7 +7837,7 @@ public partial class ChronoJumpWindow
 
 				} else { //action == encoderActions.LOAD
 					encoder_pulsebar_capture_label.Text = "";
-					manageButton_button_encoder_capture_curves_save (false);
+					encoderLoadToPaintData ();
 				}
 		
 
@@ -7875,8 +7848,8 @@ public partial class ChronoJumpWindow
 				 * because with a value of -1 there will be problems in 
 				 * SqliteEncoder.Select(false, Convert.ToInt32(encoderSignalUniqueID), …)
 				 */
-				LogB.Information(" encoderSignalUniqueID:" + encoderSignalUniqueID);
-				if(encoderSignalUniqueID != "-1")
+				LogB.Information(" encoderSignalUniqueID:" + encoderSignalUniqueID.ToString ());
+				if (encoderSignalUniqueID >= 0)
 				{
 					/*
 					 * (0) open Sqlite
@@ -7894,6 +7867,18 @@ public partial class ChronoJumpWindow
 					
 					Sqlite.Close();
 
+					if (action == encoderActions.LOAD)
+					{
+						SqliteEncoder se = new SqliteEncoder ();
+						treeview_results_session_cursor_changed_block = true; //to block cursor_change on store.Remove ()
+						treeViewResultsSession.UpdateReps (
+								se.SelectSetsAndRepsLList (
+									false, currentPerson.UniqueID, currentSession.UniqueID,
+									currentEncoderGI, lastEncoderSQLSignal.exerciseID, encoderSignalUniqueID)
+								);
+						//TODO: need to also update the bar graph
+						treeview_results_session_cursor_changed_block = false;
+					}
 				}
 			}
 
@@ -8153,7 +8138,7 @@ public partial class ChronoJumpWindow
 
 		// get the signal
 		ArrayList array = SqliteEncoder.Select(
-				true, Convert.ToInt32(encoderSignalUniqueID), 0, 0, getEncoderGI(),
+				true, encoderSignalUniqueID, 0, 0, getEncoderGI(),
 				-1, "signal", EncoderSQL.Eccons.ALL, "",
 				false, true, false);
 
@@ -8178,24 +8163,24 @@ public partial class ChronoJumpWindow
 						encoderConfigurationCurrent.name != eSQL.encoderConfiguration.name)
 				{
 					Util.FileDelete(eSQL.GetFullURL(false));					// (1a1)
-					Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));	// (1a2)
-					SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.uniqueID)); // (1a3)
+					Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.UniqueID));	// (1a2)
+					SqliteEncoderSignalCurve.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.UniqueID)); // (1a3)
 					deletedUserCurves = true;
 				} else {							// (1b)
 					if(currentSignalSQL.exerciseID != eSQL.exerciseID)
 						Sqlite.Update(true, Constants.EncoderTable, "exerciseID",
 								"", currentSignalSQL.exerciseID.ToString(),
-								"uniqueID", eSQL.uniqueID.ToString());
+								"uniqueID", eSQL.UniqueID.ToString());
 
 					if(currentSignalSQL.extraWeight != eSQL.extraWeight)
 						Sqlite.Update(true, Constants.EncoderTable, "extraWeight",
 								"", currentSignalSQL.extraWeight,
-								"uniqueID", eSQL.uniqueID.ToString());
+								"uniqueID", eSQL.UniqueID.ToString());
 
 					if(currentSignalSQL.laterality != eSQL.laterality)
 						Sqlite.Update(true, Constants.EncoderTable, "laterality",
 								"", currentSignalSQL.laterality,
-								"uniqueID", eSQL.uniqueID.ToString());
+								"uniqueID", eSQL.UniqueID.ToString());
 
 					if( currentSignalSQL.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) !=
 							eSQL.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) )
@@ -8203,7 +8188,7 @@ public partial class ChronoJumpWindow
 						Sqlite.Update(true, Constants.EncoderTable, "encoderConfiguration",
 								"", currentSignalSQL.encoderConfiguration.ToStringOutput(
 									EncoderConfiguration.Outputs.SQL),
-								"uniqueID", eSQL.uniqueID.ToString());
+								"uniqueID", eSQL.UniqueID.ToString());
 					}
 				}
 			}
@@ -8228,9 +8213,9 @@ public partial class ChronoJumpWindow
 			Sqlite.Open();
 
 		//find the saved curves
-		ArrayList linkedCurves = SqliteEncoder.SelectSignalCurve(true, 
-				Convert.ToInt32(encoderSignalUniqueID), //signal
-				-1, -1, -1);				//curve, msStart,msEnd
+		ArrayList linkedCurves = SqliteEncoderSignalCurve.SelectSignalCurve(true, 
+				encoderSignalUniqueID, 		//signal
+				-1, -1, -1);			//curve, msStart,msEnd
 		//LogB.Information("SAVED CURVES FOUND");
 		//foreach(EncoderSignalCurve esc in linkedCurves)
 		//	LogB.Information(esc.ToString());
@@ -8259,7 +8244,7 @@ public partial class ChronoJumpWindow
 					encoderCaptureSelectBySavedCurves(esc.msCentral, true);
 
 					if(updateSQLRecords) {
-						//update the future1, future2, future3
+						//update the meanPower, meanSpeed, meanForce
 						Sqlite.Update(true, Constants.EncoderTable, "future1",
 								"", Util.ConvertToPoint (curve.MeanPower),
 								"uniqueID", esc.curveID.ToString());
@@ -8296,6 +8281,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_exercise_inertial_min_mov = (Gtk.HBox) builder.GetObject ("hbox_encoder_exercise_inertial_min_mov");
 		spin_encoder_capture_min_height_gravitatory = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_min_height_gravitatory");
 		spin_encoder_capture_min_height_inertial = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_min_height_inertial");
+		vbox_capture_current_encoder = (Gtk.VBox) builder.GetObject ("vbox_capture_current_encoder");
 
 		button_encoder_select = (Gtk.Button) builder.GetObject ("button_encoder_select");
 		spin_encoder_extra_weight = (Gtk.SpinButton) builder.GetObject ("spin_encoder_extra_weight");
@@ -8325,8 +8311,6 @@ public partial class ChronoJumpWindow
 		//at graph.R is converted to Kg*m^2 ( /10000 )
 		//spin_encoder_capture_inertial = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_inertial"); 
 
-		hbox_encoder_sup_capture_analyze = (Gtk.Box) builder.GetObject ("hbox_encoder_sup_capture_analyze");
-		hbox_encoder_sup_capture_analyze_two_buttons = (Gtk.Box) builder.GetObject ("hbox_encoder_sup_capture_analyze_two_buttons");
 		hbox_encoder_configuration = (Gtk.Box) builder.GetObject ("hbox_encoder_configuration");
 		frame_encoder_capture_options = (Gtk.Frame) builder.GetObject ("frame_encoder_capture_options");
 		hbox_encoder_capture_actions = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_actions");
@@ -8358,9 +8342,7 @@ public partial class ChronoJumpWindow
 		button_encoder_capture_finish = (Gtk.Button) builder.GetObject ("button_encoder_capture_finish");
 		button_encoder_capture_finish_cont = (Gtk.Button) builder.GetObject ("button_encoder_capture_finish_cont");
 		button_encoder_exercise_close_and_recalculate = (Gtk.Button) builder.GetObject ("button_encoder_exercise_close_and_recalculate");
-		button_encoder_capture_session_overview = (Gtk.Button) builder.GetObject ("button_encoder_capture_session_overview");
 		button_encoder_bells = (Gtk.Button) builder.GetObject ("button_encoder_bells");
-		button_encoder_load_signal = (Gtk.Button) builder.GetObject ("button_encoder_load_signal");
 		button_encoder_load_signal_at_analyze = (Gtk.Button) builder.GetObject ("button_encoder_load_signal_at_analyze");
 		viewport_image_encoder_capture = (Gtk.Viewport) builder.GetObject ("viewport_image_encoder_capture");
 		image_encoder_capture = (Gtk.Image) builder.GetObject ("image_encoder_capture");
@@ -8380,23 +8362,18 @@ public partial class ChronoJumpWindow
 		button_encoder_signal_save_comment = (Gtk.Button) builder.GetObject ("button_encoder_signal_save_comment");
 		button_export_encoder_signal = (Gtk.Button) builder.GetObject ("button_export_encoder_signal");
 		//	button_menu_encoder_export_set = (Gtk.Button) builder.GetObject ("button_menu_encoder_export_set");
-		button_encoder_delete_signal = (Gtk.Button) builder.GetObject ("button_encoder_delete_signal");
 
 		alignment_encoder_capture_signal = (Gtk.Alignment) builder.GetObject ("alignment_encoder_capture_signal");
 		button_encoder_devices_networks = (Gtk.Button) builder.GetObject ("button_encoder_devices_networks");
 		//button_encoder_devices_networks_problems = (Gtk.Button) builder.GetObject ("button_encoder_devices_networks_problems");
 
-		notebook_encoder_sup = (Gtk.Notebook) builder.GetObject ("notebook_encoder_sup");
 		notebook_encoder_capture = (Gtk.Notebook) builder.GetObject ("notebook_encoder_capture");
 
 		//encoder capture tab view options
-		check_encoder_capture_bars = (Gtk.CheckButton) builder.GetObject ("check_encoder_capture_bars");
+		hbox_encoder_show_signal_table = (Gtk.HBox) builder.GetObject ("hbox_encoder_show_signal_table");
 		check_encoder_capture_table = (Gtk.CheckButton) builder.GetObject ("check_encoder_capture_table");
 		check_encoder_capture_signal = (Gtk.CheckButton) builder.GetObject ("check_encoder_capture_signal");
 		vbox_encoder_bars_table_and_save_reps = (Gtk.VBox) builder.GetObject ("vbox_encoder_bars_table_and_save_reps");
-		hbox_encoder_capture_save_repetitions = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_save_repetitions");
-		hbox_encoder_capture_show_need_one = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_show_need_one");
-		vpaned_encoder_main = (Gtk.VPaned) builder.GetObject ("vpaned_encoder_main");
 		alignment_encoder_capture_curves_bars_drawingarea = (Gtk.Alignment) builder.GetObject ("alignment_encoder_capture_curves_bars_drawingarea");
 
 		hbox_combo_encoder_exercise_capture = (Gtk.Box) builder.GetObject ("hbox_combo_encoder_exercise_capture");
@@ -8405,7 +8382,6 @@ public partial class ChronoJumpWindow
 		radio_encoder_laterality_both = (Gtk.RadioButton) builder.GetObject ("radio_encoder_laterality_both");
 		radio_encoder_laterality_r = (Gtk.RadioButton) builder.GetObject ("radio_encoder_laterality_r");
 		radio_encoder_laterality_l = (Gtk.RadioButton) builder.GetObject ("radio_encoder_laterality_l");
-		hbox_encoder_capture_curves_save_all_none = (Gtk.Box) builder.GetObject ("hbox_encoder_capture_curves_save_all_none");
 
 		//exercise edit/add
 		hbox_encoder_exercise_close_and = (Gtk.HBox) builder.GetObject ("hbox_encoder_exercise_close_and");
@@ -8432,9 +8408,6 @@ public partial class ChronoJumpWindow
 		button_encoder_capture_curves_none = (Gtk.Button) builder.GetObject ("button_encoder_capture_curves_none");
 		button_encoder_capture_curves_4top = (Gtk.Button) builder.GetObject ("button_encoder_capture_curves_4top");
 		*/
-		hbox_encoder_capture_curves_save = (Gtk.HBox) builder.GetObject ("hbox_encoder_capture_curves_save");
-		label_encoder_capture_curves_save = (Gtk.Label) builder.GetObject ("label_encoder_capture_curves_save");
-		button_encoder_capture_curves_save = (Gtk.Button) builder.GetObject ("button_encoder_capture_curves_save");
 		button_encoder_capture_image_save = (Gtk.Button) builder.GetObject ("button_encoder_capture_image_save");
 
 		notebook_analyze_results = (Gtk.Notebook) builder.GetObject ("notebook_analyze_results");
@@ -8598,12 +8571,10 @@ public partial class ChronoJumpWindow
 		label_encoder_load_signal_at_analyze = (Gtk.Label) builder.GetObject ("label_encoder_load_signal_at_analyze");
 
 		alignment_treeview_encoder_capture_curves = (Gtk.Alignment) builder.GetObject ("alignment_treeview_encoder_capture_curves");
+		hpaned_encoder_capture_current = (Gtk.Paned) builder.GetObject ("hpaned_encoder_capture_current");
 		treeview_encoder_capture_curves = (Gtk.TreeView) builder.GetObject ("treeview_encoder_capture_curves");
 		treeview_encoder_analyze_curves = (Gtk.TreeView) builder.GetObject ("treeview_encoder_analyze_curves");
-		spin_encoder_capture_curves_best_n = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_curves_best_n");
 
-		box_encoder_capture_signal_horizontal = (Gtk.Box) builder.GetObject ("box_encoder_capture_signal_horizontal");
-		box_encoder_capture_signal_vertical = (Gtk.Box) builder.GetObject ("box_encoder_capture_signal_vertical");
 		encoder_capture_signal_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("encoder_capture_signal_drawingarea_cairo");
 		encoder_capture_curves_bars_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("encoder_capture_curves_bars_drawingarea_cairo");
 		drawingarea_encoder_analyze_instant = (Gtk.DrawingArea) builder.GetObject ("drawingarea_encoder_analyze_instant");

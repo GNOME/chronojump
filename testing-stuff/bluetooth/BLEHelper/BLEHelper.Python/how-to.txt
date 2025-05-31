@@ -6,9 +6,13 @@
 
 * Run on Linux: ./runner-linux.bat
 
-* Execute the following command before running on macOS: chmod +x runner-mac.sh
+* Execute the following command before running on macOS: 
+dos2unix runner-mac.sh
+chmod +x runner-mac.sh
 
-* Execute the following command before running on Linux: chmod +x runner-linux.sh
+* Execute the following command before running on Linux: 
+dos2unix runner-linux.sh
+chmod +x runner-linux.sh
 
 
 # Troubleshooting

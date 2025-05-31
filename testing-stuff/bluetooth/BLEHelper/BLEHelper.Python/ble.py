@@ -7,7 +7,6 @@ scanned_devices_dict = dict()
 connected_devices_dict = dict()
 watching_devices = dict()
 watching_devices['ESP32'] = ['85bc9e6c-9501-4bf4-819e-4f40b5e56372']
-#watching_devices['70:87:9E:72:31:E2'] = ['00002a9d-0000-1000-8000-00805f9b34fb']
 changed_characteristics_dict = dict()
 deserialization_ways = dict()
 deserialization_ways['85bc9e6c-9501-4bf4-819e-4f40b5e56372'] = 'utf8'

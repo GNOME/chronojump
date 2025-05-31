@@ -5,8 +5,12 @@ import threading
 
 scanned_devices_dict = dict()
 connected_devices_dict = dict()
-watching_characteristics_uuid = ['85bc9e6c-9501-4bf4-819e-4f40b5e56372']
+watching_devices = dict()
+watching_devices['ESP32'] = ['85bc9e6c-9501-4bf4-819e-4f40b5e56372']
+#watching_devices['70:87:9E:72:31:E2'] = ['00002a9d-0000-1000-8000-00805f9b34fb']
 changed_characteristics_dict = dict()
+deserialization_ways = dict()
+deserialization_ways['85bc9e6c-9501-4bf4-819e-4f40b5e56372'] = 'utf8'
 
 
 async def scan(stop_event: asyncio.Event):
@@ -15,11 +19,20 @@ async def scan(stop_event: asyncio.Event):
         
         if client.address in connected_devices_dict:
             try:
-                for service in client.services:
-                        for watching_characteristic_uuid in watching_characteristics_uuid:
-                            if service.get_characteristic(watching_characteristic_uuid) != None:
-                                client.stop_notify(char_specifier = watching_characteristic_uuid)      
-                                continue
+                device = connected_devices_dict[client.address]
+                if device.name in watching_devices and len(watching_devices[device.name]) > 0:
+                    for service in client.services:
+                            for watching_characteristic_uuid in watching_devices[device.name]:
+                                if service.get_characteristic(watching_characteristic_uuid) != None:
+                                    client.stop_notify(char_specifier = watching_characteristic_uuid)      
+                                    continue
+                
+                if device.address in watching_devices and len(watching_devices[device.address]) > 0:
+                    for service in client.services:
+                            for watching_characteristic_uuid in watching_devices[device.address]:
+                                if service.get_characteristic(watching_characteristic_uuid) != None:
+                                    client.stop_notify(char_specifier = watching_characteristic_uuid)      
+                                    continue
             except:
                 pass
 
@@ -28,17 +41,20 @@ async def scan(stop_event: asyncio.Event):
 
     async def changed_callbak(sender: BleakGATTCharacteristic, data: bytearray):
         if sender.uuid not in changed_characteristics_dict:
-            changed_characteristics_dict[sender.uuid] = ''
+            changed_characteristics_dict[sender.uuid] = bytearray()
         if changed_characteristics_dict[sender.uuid] != data: 
-            changed_characteristics_dict[sender.uuid] = data           
-            print(f"Data Changed: {sender.uuid} = {data.decode('utf-8')}")
+            changed_characteristics_dict[sender.uuid] = data       
+            if sender.uuid in deserialization_ways and deserialization_ways[sender.uuid] == 'utf8':
+                print(f"Data Changed: {sender.uuid} = {data.decode('utf-8')}", flush = True)
+            else:  
+                print(f"Data Changed: {sender.uuid} = {data.hex(' ').upper()}", flush = True)
 
     async def scanned_callback(device, advertising_data):
         if device.address not in scanned_devices_dict:
             scanned_devices_dict[device.address] = device
-            print(f"Device Scanned: {device}    {advertising_data}") 
+            print(f"Device Scanned: {device}    {advertising_data}", flush = True) 
 
-            if device.name != 'ESP32':
+            if device.name not in watching_devices and device.address not in watching_devices:
                 return
             
             try:
@@ -46,20 +62,28 @@ async def scan(stop_event: asyncio.Event):
                 await client.connect()
                                 
                 watching_characteristics_count = 0
-                for service in client.services:
-                    for watching_characteristic_uuid in watching_characteristics_uuid:
-                        if service.get_characteristic(watching_characteristic_uuid) != None:
-                            await client.start_notify(char_specifier = watching_characteristic_uuid, callback = changed_callbak)      
-                            watching_characteristics_count += 1
-                            continue
+                if device.name in watching_devices and len(watching_devices[device.name]) > 0:
+                    for service in client.services:
+                        for watching_characteristic_uuid in watching_devices[device.name]:
+                            if service.get_characteristic(watching_characteristic_uuid) != None:
+                                await client.start_notify(char_specifier = watching_characteristic_uuid, callback = changed_callbak)      
+                                watching_characteristics_count += 1
+                                continue
+                if device.address in watching_devices and len(watching_devices[device.address]) > 0:
+                    for service in client.services:
+                        for watching_characteristic_uuid in watching_devices[device.address]:
+                            if service.get_characteristic(watching_characteristic_uuid) != None:
+                                await client.start_notify(char_specifier = watching_characteristic_uuid, callback = changed_callbak)      
+                                watching_characteristics_count += 1
+                                continue
                 if watching_characteristics_count == 0:
-                    client.disconnect()
+                    await client.disconnect()
                     return
 
                 connected_devices_dict[device.address] = client
-                print(f"Device Connected: {device}")
+                print(f"Device Connected: {device}", flush = True)
             except Exception as ex:
-                print(ex)
+                print(f"Error Occurred: {ex}", flush = True)
 
     async with BleakScanner(scanned_callback) as scanner:
         ...
@@ -99,7 +123,7 @@ async def main():
     except (KeyboardInterrupt, asyncio.CancelledError, RuntimeError):
         stop_event.set()
     except Exception as ex:
-        print(ex)
+        print(f"Error Occurred: {ex}", flush = True)
         await asyncio.sleep(3)
         await scan(stop_event)
     except:

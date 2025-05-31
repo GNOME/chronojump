@@ -298,6 +298,20 @@
 	  </Content>
 	  <Content Include="chronojump_icon.ico" />
 	</ItemGroup>
+	<ItemGroup>
+	  <None Update="ble-runner-linux.sh">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ble-runner-mac.sh">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ble-runner-win.bat">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ble.py">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 	  <Exec Command="call post-build-win.bat $(OutDir) $(Configuration)" />
 	</Target>

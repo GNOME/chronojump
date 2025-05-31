@@ -336,6 +336,20 @@
 	  </Content>
 	  <Content Include="chronojump_icon.ico" />
 	</ItemGroup>
+	<ItemGroup>
+	  <None Update="ble-runner-linux.sh">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ble-runner-mac.sh">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ble-runner-win.bat">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="ble.py">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 	  <Exec Command="dos2unix post-build-linux.sh" />
 	  <Exec Command="chmod +x post-build-linux.sh" />

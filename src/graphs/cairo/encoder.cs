@@ -301,10 +301,10 @@ public class CairoGraphEncoderSignal : CairoXY
 			int i = 1;
 			foreach (EncoderBarsData ebd in captureCurvesBarsData_l)
 			{
-				g.MoveTo (calculatePaintX (ebd.Start), calculatePaintY (0));
-				g.LineTo (calculatePaintX (ebd.End), calculatePaintY (0));
+				g.MoveTo (calculatePaintX (ebd.Start), calculatePaintY (minY));
+				g.LineTo (calculatePaintX (ebd.End), calculatePaintY (minY));
 				g.Stroke ();
-				printText (calculatePaintX (ebd.Center), calculatePaintY (0)-10,
+				printText (calculatePaintX (ebd.Center), calculatePaintY (minY)-10,
 						0, textHeight, (i ++).ToString (), g, alignTypes.CENTER);
 			}
 			g.SetSourceColor (black);

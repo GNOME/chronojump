@@ -6274,16 +6274,7 @@ public partial class ChronoJumpWindow
 			cairoGraphEncoderSignal.PassAsteroids = asteroids;
 		else {
 		       if (captureCurvesBarsData_l != null && captureCurvesBarsData_l.Count > 0)
-		       {
-			       List<int> repStartMS_l = new List<int> ();
-			       List<int> repEndMS_l = new List<int> ();
-			       foreach (EncoderBarsData ebd in captureCurvesBarsData_l)
-			       {
-				       repStartMS_l.Add (Convert.ToInt32 (ebd.Start));
-				       repEndMS_l.Add (Convert.ToInt32 (ebd.Start + ebd.Duration));
-			       }
-			       cairoGraphEncoderSignal.PassRepetitions (repStartMS_l, repEndMS_l);
-		       }
+			       cairoGraphEncoderSignal.PassRepetitions (captureCurvesBarsData_l);
 		}
 
 		double videoTime = 0;

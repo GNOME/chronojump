@@ -40,8 +40,7 @@ public class CairoGraphEncoderSignal : CairoXY
 	private bool customAxisDispl;
 	private int customAxisDisplMax;
 	private int customAxisDisplMin;
-	private List<int> repStartMS_l;
-	private List<int> repEndMS_l;
+	private List<EncoderBarsData> captureCurvesBarsData_l;
 
 	// to inherit
 	public CairoGraphEncoderSignal ()
@@ -55,8 +54,7 @@ public class CairoGraphEncoderSignal : CairoXY
 		this.customAxisDispl = customAxisDispl;
 		this.customAxisDisplMax = customAxisDisplMax;
 		this.customAxisDisplMin = customAxisDisplMin;
-		this.repStartMS_l = new List<int> ();
-		this.repEndMS_l = new List<int> ();
+		captureCurvesBarsData_l = new List<EncoderBarsData> ();
 
 		initEncoder (area, title, horizontal);
 	}
@@ -283,29 +281,31 @@ public class CairoGraphEncoderSignal : CairoXY
 			g.Stroke ();
 		}
 
-		if (repStartMS_l != null && repStartMS_l.Count > 0)
+		if (captureCurvesBarsData_l.Count > 0)
 		{
 			g.Save ();
 			g.SetDash (new double[]{4, 2}, 0);
 			g.SetSourceColor (grayDark);
-			for (int i = 0; i < repStartMS_l.Count && i < repEndMS_l.Count; i ++)
+			foreach (EncoderBarsData ebd in captureCurvesBarsData_l)
 			{
-				LogB.Information ("ZZZZZ");
-				g.MoveTo (calculatePaintX (repStartMS_l[i]), topMargin);
-				g.LineTo (calculatePaintX (repStartMS_l[i]), graphHeight - bottomMargin);
+				g.MoveTo (calculatePaintX (ebd.Start), topMargin);
+				g.LineTo (calculatePaintX (ebd.Start), graphHeight - bottomMargin);
 				g.Stroke ();
 
-				g.MoveTo (calculatePaintX (repEndMS_l[i]), topMargin);
-				g.LineTo (calculatePaintX (repEndMS_l[i]), graphHeight - bottomMargin);
+				g.MoveTo (calculatePaintX (ebd.End), topMargin);
+				g.LineTo (calculatePaintX (ebd.End), graphHeight - bottomMargin);
 				g.Stroke ();
 			}
 			g.Restore (); //to have solid lines
 			g.SetSourceColor (bluePlots);
-			for (int i = 0; i < repStartMS_l.Count && i < repEndMS_l.Count; i ++)
+			int i = 1;
+			foreach (EncoderBarsData ebd in captureCurvesBarsData_l)
 			{
-				g.MoveTo (calculatePaintX (repStartMS_l[i]), calculatePaintY (0));
-				g.LineTo (calculatePaintX (repEndMS_l[i]), calculatePaintY (0));
+				g.MoveTo (calculatePaintX (ebd.Start), calculatePaintY (0));
+				g.LineTo (calculatePaintX (ebd.End), calculatePaintY (0));
 				g.Stroke ();
+				printText (calculatePaintX (ebd.Center), calculatePaintY (0)-10,
+						0, textHeight, (i ++).ToString (), g, alignTypes.CENTER);
 			}
 			g.SetSourceColor (black);
 		}
@@ -323,10 +323,9 @@ public class CairoGraphEncoderSignal : CairoXY
 	{
 	}
 
-	public void PassRepetitions (List<int> repStartMS_l, List<int> repEndMS_l)
+	public void PassRepetitions (List<EncoderBarsData> captureCurvesBarsData_l)
 	{
-		this.repStartMS_l = repStartMS_l;
-		this.repEndMS_l = repEndMS_l;
+		this.captureCurvesBarsData_l = captureCurvesBarsData_l;
 	}
 
 	public Asteroids PassAsteroids {

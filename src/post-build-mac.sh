@@ -37,3 +37,5 @@ cp ../images/start.wav $1/share/chronojump/images/start.wav
 mkdir -p "$1/share/chronojump/images/sounds/beepTests"
 cp ../images/sounds/beepTests/*.mp3 "$1/share/chronojump/images/sounds/beepTests/"
 cp ../glade/app1.glade $1/glade/app1.glade
+dos2unix ble-runner-mac.sh
+chmod +x ble-runner-mac.sh

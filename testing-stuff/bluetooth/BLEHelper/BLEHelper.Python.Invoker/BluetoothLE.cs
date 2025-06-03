@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 /// <summary>
 /// Read data from BLE (Bluetooth Low Energy) devices using Python scripts.
@@ -84,17 +85,17 @@ public static class BluetoothLE
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             pythonPath = "python";
-            pythonScriptPath = "..\\..\\..\\..\\BLEHelper.Python\\runner-win.bat";
+            pythonScriptPath = "../../../../BLEHelper.Python/runner-win.bat";
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
             pythonPath = "python3";
-            pythonScriptPath = "..\\..\\..\\..\\BLEHelper.Python\\runner-linux.sh";
+            pythonScriptPath = "../../../../BLEHelper.Python/runner-linux.sh";
         }
         else
         {
             pythonPath = "python3";
-            pythonScriptPath = "..\\..\\..\\..\\BLEHelper.Python\\runner-mac.sh";
+            pythonScriptPath = "../../../../BLEHelper.Python/runner-mac.sh";
         }
 
         processStartInfo = new ProcessStartInfo
@@ -105,7 +106,7 @@ public static class BluetoothLE
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             UseShellExecute = false,
-            CreateNoWindow = true,
+            CreateNoWindow = false,
             StandardInputEncoding = System.Text.Encoding.UTF8,
             StandardOutputEncoding = System.Text.Encoding.UTF8,
             StandardErrorEncoding = System.Text.Encoding.UTF8

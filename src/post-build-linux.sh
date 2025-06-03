@@ -30,6 +30,8 @@ cp "../images/ok.wav" "$1/share/chronojump/images/ok.wav"
 cp "../images/start.wav" "$1/share/chronojump/images/start.wav"
 mkdir -p "$1/share/chronojump/images/sounds/beepTests"
 cp ../images/sounds/beepTests/*.mp3 "$1/share/chronojump/images/sounds/beepTests/"
+dos2unix ble-runner-linux.sh
+chmod +x ble-runner-linux.sh
 
 #Get OS Name
 UNAME_ALL=$(echo $(uname -a) | tr [:upper:] [:lower:])
@@ -65,4 +67,3 @@ if [ -e "../package/linux/refs/runtimes/$OS.$VERSION-$ARCH/native/SQLite.Interop
     mkdir -p "$1/runtimes/linux-$ARCH/native"
     cp "../package/linux/refs/runtimes/$OS.$VERSION-$ARCH/native/SQLite.Interop.dll" "$1/runtimes/linux-$ARCH/native/SQLite.Interop.dll"
 fi
-

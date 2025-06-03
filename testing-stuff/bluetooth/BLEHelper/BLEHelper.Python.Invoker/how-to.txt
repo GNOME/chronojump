@@ -1,3 +1,10 @@
+* Execute the following command before running on macOS: 
+dos2unix runner-mac.sh
+chmod +x runner-mac.sh
+
+* Execute the following command before running on Linux: 
+dos2unix runner-linux.sh
+chmod +x runner-linux.sh
 
 BluetoothLE.OnDataChanged += BluetoothLE_OnDataChanged; //Subscribe BluetoothLE data changed event anywhere else that needs to read BluetoothLE data.
 BluetoothLE.Start();//Start BluetoothLE before the main window is created (Before "Application.Run();"), python path has been changed or anywhere else that needs BluetoothLE.

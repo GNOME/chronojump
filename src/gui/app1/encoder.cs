@@ -7777,6 +7777,7 @@ public partial class ChronoJumpWindow
 							SqliteJson.UploadExhibitionTest(getExhibitionTestFromGui(ExhibitionTest.testTypes.INERTIAL, Convert.ToDouble(uo.pmeanByPowerAsDouble)));
 
 						}
+						encoderLoadToPaintData ();
 					}
 
 				} else { //action == encoderActions.LOAD

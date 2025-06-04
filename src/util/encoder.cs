@@ -860,6 +860,25 @@ public class UtilEncoder
 		return list;
 	}
 
+	// 1 ec repetition has 2 curves ("e", "c")
+	public static List<string> GetEcconListString (string eccon, int curves)
+	{
+		List<string> str_l = new List<string> ();
+		for (int i = 1; i <= curves; i ++)
+		{
+			if (eccon == "c")
+				str_l.Add (i.ToString ());
+			else {
+				int j = Convert.ToInt32 (Math.Ceiling (i/2.0));
+				if (! Util.IsEven (i))
+					str_l.Add (string.Format ("{0}e", j));
+				else
+					str_l.Add (string.Format ("{0}c", j));
+			}
+		}
+		return str_l;
+	}
+
 	public static int CalculeInertiaTotal (EncoderConfiguration econf)
 	{
 		//LogB.Debug(econf.ToString(":",false,false));

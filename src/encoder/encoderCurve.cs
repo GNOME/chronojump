@@ -278,6 +278,13 @@ public class EncoderCurve
 			return Util.ChangeChars(str, ":::", ",");
 	}
 
+	public double End {
+		get { return Convert.ToDouble (Start) + Convert.ToDouble (Duration); }
+	}
+	public double Center {
+		get { return UtilAll.DivideSafe (Convert.ToDouble (Start) + End, 2); }
+	}
+
 	public double MeanSpeedD { get { return Convert.ToDouble(MeanSpeed); } }
 	public double MaxSpeedD  { get { return Convert.ToDouble(MaxSpeed);  } }
 	/*

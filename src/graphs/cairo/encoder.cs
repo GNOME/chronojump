@@ -36,6 +36,7 @@ public class CairoGraphEncoderSignal : CairoXY
 	private bool capturing;
 	private int points_l_painted;
 	private int points_l_inertial_painted;
+	private Gtk.ListStore encoderCaptureListStore;
 	//private bool doing;
 	private bool customAxisDispl;
 	private int customAxisDisplMax;
@@ -62,6 +63,7 @@ public class CairoGraphEncoderSignal : CairoXY
 	// separated in two methods to ensure endGraphDisposing on any return of the other method
 	public void DoSendingList (string font, bool capturing, bool isInertial,
 			List<PointF> points_l, List<PointF> points_l_inertial,
+			Gtk.ListStore encoderCaptureListStore, // to know saved (Record) repetitions
 			double videoPlayTimeInSeconds,
 			bool forceRedraw, PlotTypes plotType)
 	{
@@ -69,6 +71,7 @@ public class CairoGraphEncoderSignal : CairoXY
 		this.capturing = capturing;
 		this.points_l = points_l;
 		this.points_l_inertial = points_l_inertial;
+		this.encoderCaptureListStore = encoderCaptureListStore;
 
 		if(doSendingList (font, isInertial, videoPlayTimeInSeconds, forceRedraw, plotType))
 			endGraphDisposing(g, surface, area.Window);
@@ -281,37 +284,66 @@ public class CairoGraphEncoderSignal : CairoXY
 			g.Stroke ();
 		}
 
-		if (captureCurvesBarsData_l.Count > 0)
-		{
-			g.Save ();
-			g.SetDash (new double[]{4, 2}, 0);
-			g.SetSourceColor (grayDark);
-			foreach (EncoderBarsData ebd in captureCurvesBarsData_l)
-			{
-				g.MoveTo (calculatePaintX (ebd.Start), topMargin);
-				g.LineTo (calculatePaintX (ebd.Start), graphHeight - bottomMargin);
-				g.Stroke ();
-
-				g.MoveTo (calculatePaintX (ebd.End), topMargin);
-				g.LineTo (calculatePaintX (ebd.End), graphHeight - bottomMargin);
-				g.Stroke ();
-			}
-			g.Restore (); //to have solid lines
-			g.SetSourceColor (bluePlots);
-			int i = 1;
-			foreach (EncoderBarsData ebd in captureCurvesBarsData_l)
-			{
-				g.MoveTo (calculatePaintX (ebd.Start), calculatePaintY (minY));
-				g.LineTo (calculatePaintX (ebd.End), calculatePaintY (minY));
-				g.Stroke ();
-				printText (calculatePaintX (ebd.Center), calculatePaintY (minY)-10,
-						0, textHeight, (i ++).ToString (), g, alignTypes.CENTER);
-			}
-			g.SetSourceColor (black);
-		}
+		drawRepetitionsInfoIfNeeded ();
 
 		//doing = false;
 		return true;
+	}
+
+	private void drawRepetitionsInfoIfNeeded ()
+	{
+		if (captureCurvesBarsData_l.Count == 0)
+			return;
+
+		// 1 vertical dotted lines
+		g.Save ();
+		g.SetDash (new double[]{4, 2}, 0);
+		g.SetSourceColor (grayDark);
+		foreach (EncoderBarsData ebd in captureCurvesBarsData_l)
+		{
+			g.MoveTo (calculatePaintX (ebd.Start), topMargin);
+			g.LineTo (calculatePaintX (ebd.Start), graphHeight - bottomMargin);
+			g.Stroke ();
+
+			g.MoveTo (calculatePaintX (ebd.End), topMargin);
+			g.LineTo (calculatePaintX (ebd.End), graphHeight - bottomMargin);
+			g.Stroke ();
+		}
+		g.Restore (); //to have solid lines
+
+		// 2 yellow rectangle on saved repetitions
+		int i;
+		if (encoderCaptureListStore != null && UtilGtk.CountRows (encoderCaptureListStore) == captureCurvesBarsData_l.Count)
+		{
+			g.SetSourceColor (yellow);
+			//LogB.Information ("rows: " + UtilGtk.CountRows (encoderCaptureListStore).ToString ());
+			TreeIter iter;
+			bool iterOk = encoderCaptureListStore.GetIterFirst (out iter);
+			if (iterOk)
+			{
+				i = 1;
+				do {
+					EncoderCurve curve = (EncoderCurve) encoderCaptureListStore.GetValue (iter, 0);
+					LogB.Information ("at graph record: " + curve.Record.ToString ());
+					if (curve.Record)
+						drawRectangleAroundText (calculatePaintX (curve.Center), calculatePaintY (minY)-10, textHeight, i.ToString (), g, yellow);
+					i ++;
+				} while (encoderCaptureListStore.IterNext (ref iter));
+			}
+		}
+
+		// 3 num of each repetition (saved or not)
+		g.SetSourceColor (bluePlots);
+		i = 1;
+		foreach (EncoderBarsData ebd in captureCurvesBarsData_l)
+		{
+			g.MoveTo (calculatePaintX (ebd.Start), calculatePaintY (minY));
+			g.LineTo (calculatePaintX (ebd.End), calculatePaintY (minY));
+			g.Stroke ();
+			printText (calculatePaintX (ebd.Center), calculatePaintY (minY)-10,
+					0, textHeight, (i ++).ToString (), g, alignTypes.CENTER);
+		}
+		g.SetSourceColor (black);
 	}
 
 	protected virtual void plotSpecific ()

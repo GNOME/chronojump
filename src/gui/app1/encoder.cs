@@ -6178,6 +6178,9 @@ public partial class ChronoJumpWindow
 			encoderCaptureItemToggledArgsPath = repetition.ToString();
 			EncoderCaptureItemToggled(new object (), new ToggledArgs());
 			encoderCaptureItemToggledArgsPath = "";
+
+			// update the signal graph
+			encoder_capture_signal_drawingarea_cairo.QueueDraw ();
 		}
 	}
 
@@ -6275,7 +6278,9 @@ public partial class ChronoJumpWindow
 		cairoGraphEncoderSignal.DoSendingList (preferences.fontTypeToGraph(),
 				capturingCsharp == encoderCaptureProcess.CAPTURING,
 				inertial,
-				cairoGraphEncoderSignalPoints_l, cairoGraphEncoderSignalInertialPoints_l, videoTime,
+				cairoGraphEncoderSignalPoints_l, cairoGraphEncoderSignalInertialPoints_l,
+				encoderCaptureListStore, // to know saved (Record) repetitions
+				videoTime,
 				forceRedraw, CairoXY.PlotTypes.LINES);
 	}
 
@@ -7782,7 +7787,6 @@ public partial class ChronoJumpWindow
 
 				} else { //action == encoderActions.LOAD
 					encoder_pulsebar_capture_label.Text = "";
-					encoderLoadToPaintData ();
 				}
 		
 
@@ -7823,6 +7827,8 @@ public partial class ChronoJumpWindow
 								);
 						//TODO: need to also update the bar graph
 						treeview_results_session_cursor_changed_block = false;
+
+						encoderLoadToPaintData (); // done now (after findAndMarkSavedCurves)
 					}
 				}
 			}

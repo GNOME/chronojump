@@ -6275,11 +6275,16 @@ public partial class ChronoJumpWindow
 			videoTime = webcamPlay.PlayVideoGetSecond -diffVideoVsSignal;
 		}
 
+		string eccon = "c";
+		if (lastEncoderSQLSignal != null)
+			eccon = lastEncoderSQLSignal.eccon;
+
 		cairoGraphEncoderSignal.DoSendingList (preferences.fontTypeToGraph(),
 				capturingCsharp == encoderCaptureProcess.CAPTURING,
 				inertial,
 				cairoGraphEncoderSignalPoints_l, cairoGraphEncoderSignalInertialPoints_l,
 				encoderCaptureListStore, // to know saved (Record) repetitions
+				eccon,
 				videoTime,
 				forceRedraw, CairoXY.PlotTypes.LINES);
 	}

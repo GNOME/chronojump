@@ -159,7 +159,7 @@ public static class BluetoothLE
             }
             catch (Exception ex)
             {
-                LogB.Error($"Failed to Start BluetoothLE.", ex.ToString());
+                LogB.Error($"[BluetoothLE] Failed to Start.", ex.ToString());
                 throw;
             }
         }, cts.Token);

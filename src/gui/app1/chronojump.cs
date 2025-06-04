@@ -1371,9 +1371,9 @@ public partial class ChronoJumpWindow
 		if (configChronojump.FourPlatforms)
 			box_start_fourPlatforms.Visible = true;
 
-		//plotSequenceWithoutSending ();
+        //plotSequenceWithoutSending ();
 
-		/*
+        /*
 		 * Debug Wilight blacklist
 		WilightTerminalLayout wilightTerminalLayout = new WilightTerminalLayout ();
 		wilightTerminalLayout.ReadFile (configChronojump.WilightLayoutURL);
@@ -1392,52 +1392,68 @@ public partial class ChronoJumpWindow
 		on_quit2_activate ();
 		*/
 
-		//UtilList.ListRandomize1stAndThenSequentialTest ();
-		//PointF.TestSortListXDescending ();
+        //UtilList.ListRandomize1stAndThenSequentialTest ();
+        //PointF.TestSortListXDescending ();
 
-		/*
+        /*
 		SqliteEncoder se = new SqliteEncoder ();
 		se.TestSelectSetsAndRepsLList (false, -1, 283, Constants.EncoderGI.GRAVITATORY, -1, -1);
 		*/
-	}
 
-/*
-	private void chronopicAtStart(object o, EventArgs args) {
-		//make active menuitem chronopic, and this
-		//will raise other things
-	}
-*/
+        //Subscribe to BluetoothLE data changed event
+        BluetoothLE.OnDataChanged += BluetoothLE_OnDataChanged;
+        //Start BluetoothLE service
+        BluetoothLE.Start();
+    }
 
-/*
-	private bool normalGUIOld = true; //to know if we changed state. Start as true
-	private void on_app1_size_allocate(object obj, SizeAllocatedArgs args) {
-		int width;
-		int height;
-		app1.GetSize(out width, out height);
-		if(width >= 1000)
-			normalGUI = true;
-		else 
-			normalGUI = false;
-		if(normalGUI != normalGUIOld) {
-			Log.WriteLine("Change Size. New is normal? -> " + normalGUI.ToString());
-			normalGUIOld = normalGUI;
-			changeGUIAspect();
-		}
-	}
-	
-	private void changeGUIAspect() {
-		//QueryChildPacking(frame_test_options,
-		if(normalGUI) {
-			//if change these values, change also in glade
-			//frame_test_options.BoxChild.Expand(true);
-		} else {
-			//frame_test_options.BoxChild.Expand(false);
-		}
-	}
-*/
+    /// <summary>
+    /// Handles the event triggered when the Bluetooth LE data changes.
+    /// </summary>
+    /// <remarks>This method processes the updated data received from a Bluetooth LE device.  Use the <see cref="BluetoothLE.DataChangedEventArgs.Value"/> property of <paramref name="e"/>  to access the new data.</remarks>
+    /// <param name="sender">The source of the event, typically the Bluetooth LE device.</param>
+    /// <param name="e">The event data containing the updated value.</param>
+    private void BluetoothLE_OnDataChanged(object sender, BluetoothLE.DataChangedEventArgs e)
+    {
+        LogB.Information($"[BluetoothLE] {e.Value}");
+    }
 
-	//different than on_preferences_activate (opening preferences window)
-	private void loadPreferencesAtStartOrCloudViewChangeDB ()
+    /*
+        private void chronopicAtStart(object o, EventArgs args) {
+            //make active menuitem chronopic, and this
+            //will raise other things
+        }
+    */
+
+    /*
+        private bool normalGUIOld = true; //to know if we changed state. Start as true
+        private void on_app1_size_allocate(object obj, SizeAllocatedArgs args) {
+            int width;
+            int height;
+            app1.GetSize(out width, out height);
+            if(width >= 1000)
+                normalGUI = true;
+            else 
+                normalGUI = false;
+            if(normalGUI != normalGUIOld) {
+                Log.WriteLine("Change Size. New is normal? -> " + normalGUI.ToString());
+                normalGUIOld = normalGUI;
+                changeGUIAspect();
+            }
+        }
+
+        private void changeGUIAspect() {
+            //QueryChildPacking(frame_test_options,
+            if(normalGUI) {
+                //if change these values, change also in glade
+                //frame_test_options.BoxChild.Expand(true);
+            } else {
+                //frame_test_options.BoxChild.Expand(false);
+            }
+        }
+    */
+
+    //different than on_preferences_activate (opening preferences window)
+    private void loadPreferencesAtStartOrCloudViewChangeDB ()
 	{
 		preferences = Preferences.LoadAllFromSqlite();
 
@@ -2213,7 +2229,10 @@ public partial class ChronoJumpWindow
 	{
 		LogB.Information("Bye!");
 
-		updatingRestTimes = false;
+        //Stop the BluetoothLE service if it was started
+        BluetoothLE.Stop();
+
+        updatingRestTimes = false;
 
 		//close contacts capture
 		if(currentEventExecute != null && currentEventExecute.IsThreadRunning())

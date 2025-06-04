@@ -106,7 +106,7 @@ async def scan(stop_event: asyncio.Event):
 
 def quit(stop_event: asyncio.Event):
     try:
-        input('Press any key to quit...\n')
+        input()
         # TODO: add something that calls stop_event.set()
         stop_event.set()
     except:

@@ -29,8 +29,7 @@ install:
 	cp -r ../../win32/deps/FTD2XX_NET_v1.2.0/ deps/FTD2XX_NET_v1.2.0/
 	cp -r ../../win32/deps/library/ deps/library/
 	cp -r ../../win32/deps/modules/ deps/modules/
-	mkdir -p deb/usr/share/Chronojump/
-	cp ../../images/svg/chronojump_icon.svg deb/usr/share/Chronojump/chronojump_icon.svg
+	cp ../../images/svg/chronojump_icon.svg deps/chronojump_icon.svg
 
 totar:
 	dos2unix ../../src/post-build-linux.sh

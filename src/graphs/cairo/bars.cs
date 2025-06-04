@@ -559,44 +559,6 @@ public abstract class CairoBars : CairoGeneric
 		}
 	}
 
-	private void drawRectangleAroundText (double x, double y, int textH, string text, Cairo.Context g, Cairo.Color colorRectangle)
-	{
-		//for inRectangle (now only working on centered text (encoder))
-		double rectLeft = 100000;
-		double rectRight = 0;
-		double rectTop = 100000;
-		double rectBottom = 0;
-
-		string [] strFull = text.Split(new char[] {'\n'});
-
-		//reversed to ensure last line is in the bottom
-		for (int i = strFull.Length -1; i >= 0; i --)
-		{
-			g.SetFontSize(textH);
-			Cairo.TextExtents te = g.TextExtents(text);
-			double left = x -te.Width/2;
-			double right = x +te.Width/2;
-			double top = y +te.YBearing + textH/2; //+textH/2 because printText will do this move
-			double bottom = y +te.YAdvance + textH/2; //+textH/2 (same as above)
-
-			if(left < rectLeft)
-				rectLeft = left;
-			if(right > rectRight)
-				rectRight = right;
-			if(top < rectTop)
-				rectTop = top;
-			if(bottom > rectBottom)
-				rectBottom = bottom;
-		}
-
-		if (rectLeft < 100000 && rectTop < 100000)
-		{
-			g.SetSourceColor(colorRectangle);
-			g.Rectangle(rectLeft -1, rectTop -1, rectRight-rectLeft +2, rectBottom-rectTop +2);
-			g.Fill();
-		}
-	}
-
 	protected abstract void plotBars ();
 
 	protected void plotArrow ()

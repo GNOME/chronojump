@@ -2376,8 +2376,11 @@ LogB.Information(" fs R ");
 			radio_ai_cd.Sensitive = true;
 		}
 
+		pre_fillTreeView_resultsSession_NO = true; //to not have lastForceSensorFullPath = ""
 		combo_force_sensor_exercise.Active = UtilGtk.ComboMakeActive(combo_force_sensor_exercise, fs.ExerciseName);
+		pre_fillTreeView_resultsSession_NO = false;
 		LogB.Information("(after update combo_force_sensor_exercise) lastForceSensorFullPath is: " + lastForceSensorFullPath);
+
 		setForceSensorCaptureOptions(fs.CaptureOption);
 
 		setLaterality(fs.Laterality);

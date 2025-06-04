@@ -105,8 +105,6 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_encoder_exercise_close_and_recalculate;
 	Gtk.Button button_encoder_bells;
 	Gtk.Button button_encoder_load_signal_at_analyze;
-	Gtk.Viewport viewport_image_encoder_capture;
-	Gtk.Image image_encoder_capture;
 	Gtk.ProgressBar encoder_pulsebar_capture;
 	Gtk.Label encoder_pulsebar_capture_label;
 	Gtk.Box box_encoder_capture_rhythm;
@@ -124,11 +122,8 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_export_encoder_signal;
 //	Gtk.Button button_menu_encoder_export_set;
 
-	Gtk.Alignment alignment_encoder_capture_signal;
 	Gtk.Button button_encoder_devices_networks;
 	//Gtk.Button button_encoder_devices_networks_problems;
-
-	Gtk.Notebook notebook_encoder_capture;
 
 	//encoder capture tab view options
 	Gtk.HBox hbox_encoder_show_signal_table;
@@ -1013,10 +1008,6 @@ public partial class ChronoJumpWindow
 			}
 		}
 
-		//This notebook has capture (signal plotting), and curves (shows R graph)
-		if(notebook_encoder_capture.CurrentPage == 1)
-			notebook_encoder_capture.PrevPage();
-
 		sensitiveGuiEventDoing(preferences.encoderCaptureInfinite);
 
 		cairoGraphEncoderSignal = null;
@@ -1028,7 +1019,6 @@ public partial class ChronoJumpWindow
 		//record this encoderConfiguration to SQL for next Chronojump open
 		SqliteEncoderConfiguration.UpdateActive(false, currentEncoderGI, encoderConfigurationCurrent);
 
-		needToCallPrepareEncoderGraphs = false;
 		encoderProcessFinish = false;
 		CairoPaintBarsPreEncoderCurrent.RepetitionsPlayed_l = new List<int> ();
 
@@ -1058,11 +1048,7 @@ public partial class ChronoJumpWindow
 		encoder_configuration_win.Label_capture_time(
 				preferences.encoderCaptureTimeIM,
 				EncoderCaptureIMCalc.InactivityEndTime);
-		
-		//tis notebook has capture (signal plotting), and curves (shows R graph)
-		if(notebook_encoder_capture.CurrentPage == 1)
-			notebook_encoder_capture.PrevPage();
-		
+
 		encoderProcessFinish = false;
 		encoderThreadStart(encoderActions.CAPTURE_IM);
 	}
@@ -1425,7 +1411,7 @@ public partial class ChronoJumpWindow
 			return;
 
 		alignment_treeview_encoder_capture_curves.Visible = check_encoder_capture_table.Active;
-		alignment_encoder_capture_signal.Visible = check_encoder_capture_signal.Active;
+		encoder_capture_signal_drawingarea_cairo.Visible = check_encoder_capture_signal.Active;
 		vbox_encoder_bars_table_and_save_reps.Visible = true;
 
 		fixEncoderCaptureWidgetsGeometry ();
@@ -1591,6 +1577,11 @@ public partial class ChronoJumpWindow
 
 		string analysis = analysisSent;
 		string analysisOptions = getEncoderAnalysisOptions();
+
+		if (image_encoder_width < 100)
+			image_encoder_width = 100; //Not crash R with a png height of -1 or "figure margins too large"
+		if (image_encoder_height < 100)
+			image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
 
 		EncoderParams ep = new EncoderParams(
 				preferences.EncoderCaptureMinHeight(encoderConfigurationCurrent.has_inertia), 
@@ -3084,7 +3075,6 @@ public partial class ChronoJumpWindow
 	void removeSignalFromGuiBecauseDeletedOrCancelled() 
 	{
 		encoderSignalUniqueID = -1;
-		image_encoder_capture.Sensitive = false;
 		treeviewEncoderCaptureRemoveColumns();
 		updateEncoderAnalyzeExercisesPre ();
 		cairoPaintBarsPreCurrent = new CairoPaintBarsPreEncoderCurrent (
@@ -5906,7 +5896,6 @@ public partial class ChronoJumpWindow
 
 		updateGraphEncoderSessionBars ();
 
-		image_encoder_capture.Sensitive = false;
 		image_encoder_analyze.Sensitive = false;
 		vbox_encoder_analyze_instant.Visible = false; //play with Visible instead of Sensitive because with Sensitive the pixmap is fully shown
 		treeview_encoder_analyze_curves.Sensitive = false;
@@ -6274,16 +6263,7 @@ public partial class ChronoJumpWindow
 			cairoGraphEncoderSignal.PassAsteroids = asteroids;
 		else {
 		       if (captureCurvesBarsData_l != null && captureCurvesBarsData_l.Count > 0)
-		       {
-			       List<int> repStartMS_l = new List<int> ();
-			       List<int> repEndMS_l = new List<int> ();
-			       foreach (EncoderBarsData ebd in captureCurvesBarsData_l)
-			       {
-				       repStartMS_l.Add (Convert.ToInt32 (ebd.Start));
-				       repEndMS_l.Add (Convert.ToInt32 (ebd.Start + ebd.Duration));
-			       }
-			       cairoGraphEncoderSignal.PassRepetitions (repStartMS_l, repEndMS_l);
-		       }
+			       cairoGraphEncoderSignal.PassRepetitions (captureCurvesBarsData_l);
 		}
 
 		double videoTime = 0;
@@ -6433,14 +6413,6 @@ public partial class ChronoJumpWindow
 				runEncoderCaptureNoRDotNetInitialize();
 			}
 
-			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
-			if(image_encoder_width < 100)
-				image_encoder_width = 100; //Not crash R with a png height of -1 or "figure margins too large"
-
-			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
-			if(image_encoder_height < 100)
-				image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
-
 			//don't need to be false because ItemToggled is deactivated during capture
 			treeview_encoder_capture_curves.Sensitive = true;
 
@@ -6547,9 +6519,7 @@ public partial class ChronoJumpWindow
 							preferences.fontTypeToGraph());
 					prepareEventGraphEncoderCurrent = null; //to avoid is repainted again, and sound be repeated;
 
-					// 4) this notebook has capture (signal plotting), and curves (shows R graph)
-					if(notebook_encoder_capture.CurrentPage == 0 )
-						notebook_encoder_capture.NextPage();
+					// 4)
 					encoder_pulsebar_capture.Fraction = 1;
 					fullscreen_capture_progressbar.Fraction = 1;
 
@@ -6670,7 +6640,7 @@ public partial class ChronoJumpWindow
 					image_encoder_width = 100; //Not crash R with a png height of -1 or "figure margins too large"
 				
 				//-2 to accomadate the width slider without needing a height slider
-				image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture) -2;
+				image_encoder_height = Convert.ToInt32(UtilGtk.WidgetHeight(app1));
 				if(image_encoder_height < 100)
 					image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
 
@@ -6707,7 +6677,6 @@ public partial class ChronoJumpWindow
 			} else { //CURVES_AC
 				//______ 1) prepareEncoderGraphs
 				//don't call directly to prepareEncoderGraphs() here because it's called from a Non-GTK thread
-				needToCallPrepareEncoderGraphs = true; //needToCallPrepareEncoderGraphs will not erase them
 
 				//_______ 2) run stuff
 				//this does not run a pulseGTK
@@ -7013,22 +6982,8 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
-	static bool needToCallPrepareEncoderGraphs; //this will not erase them
 	private bool pulseGTKEncoderCaptureAndCurves ()
 	{
-		if(needToCallPrepareEncoderGraphs) 
-		{
-			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
-			if(image_encoder_width < 100)
-				image_encoder_width = 100; //Not crash R with a png height of -1 or "figure margins too large"
-
-			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
-			if(image_encoder_height < 100)
-				image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
-
-			needToCallPrepareEncoderGraphs = false;
-		}
-
 		//TODO: test this if this is needed:
 		//if on inertia and already showing instructions, hide them
 		if(vbox_encoder_bars_table_and_save_reps.Visible == false)
@@ -7663,10 +7618,8 @@ public partial class ChronoJumpWindow
 			if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC || action == encoderActions.LOAD)
 				sensitiveGuiEventDone();
 			
-			if(encoderProcessCancel || encoderProcessProblems) {
-				//this notebook has capture (signal plotting), and curves (shows R graph)
-				if(notebook_encoder_capture.CurrentPage == 0 )
-					notebook_encoder_capture.NextPage();
+			if(encoderProcessCancel || encoderProcessProblems)
+			{
 				encoder_pulsebar_capture.Fraction = 1;
 				fullscreen_capture_progressbar.Fraction = 1;
 			
@@ -7694,10 +7647,6 @@ public partial class ChronoJumpWindow
 			} 
 			else if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC || action == encoderActions.LOAD) 
 			{
-				//this notebook has capture (signal plotting), and curves (shows R graph)
-				if(notebook_encoder_capture.CurrentPage == 0)
-					notebook_encoder_capture.NextPage();
-
 				//variables for plotting curves bars graph
 				string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
 				double mainVariableHigher = feedbackWin.GetMainVariableHigher(mainVariable);
@@ -7714,12 +7663,7 @@ public partial class ChronoJumpWindow
 				} else {
 					List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetEncoderCurvesTempFileName(), "");
 
-					image_encoder_capture = UtilGtk.OpenImageSafe(
-							UtilEncoder.GetEncoderGraphTempFileName(),
-							image_encoder_capture);
-
 					encoderUpdateTreeViewCapture(contents); //this updates encoderCaptureCurves
-					image_encoder_capture.Sensitive = true;
 
 					captureCurvesBarsData_l = new List<EncoderBarsData> ();
 					foreach (EncoderCurve curve in encoderCaptureCurves)
@@ -7833,6 +7777,7 @@ public partial class ChronoJumpWindow
 							SqliteJson.UploadExhibitionTest(getExhibitionTestFromGui(ExhibitionTest.testTypes.INERTIAL, Convert.ToDouble(uo.pmeanByPowerAsDouble)));
 
 						}
+						encoderLoadToPaintData ();
 					}
 
 				} else { //action == encoderActions.LOAD
@@ -8344,8 +8289,6 @@ public partial class ChronoJumpWindow
 		button_encoder_exercise_close_and_recalculate = (Gtk.Button) builder.GetObject ("button_encoder_exercise_close_and_recalculate");
 		button_encoder_bells = (Gtk.Button) builder.GetObject ("button_encoder_bells");
 		button_encoder_load_signal_at_analyze = (Gtk.Button) builder.GetObject ("button_encoder_load_signal_at_analyze");
-		viewport_image_encoder_capture = (Gtk.Viewport) builder.GetObject ("viewport_image_encoder_capture");
-		image_encoder_capture = (Gtk.Image) builder.GetObject ("image_encoder_capture");
 		encoder_pulsebar_capture = (Gtk.ProgressBar) builder.GetObject ("encoder_pulsebar_capture");
 		encoder_pulsebar_capture_label = (Gtk.Label) builder.GetObject ("encoder_pulsebar_capture_label");
 		box_encoder_capture_rhythm = (Gtk.Box) builder.GetObject ("box_encoder_capture_rhythm");
@@ -8363,11 +8306,8 @@ public partial class ChronoJumpWindow
 		button_export_encoder_signal = (Gtk.Button) builder.GetObject ("button_export_encoder_signal");
 		//	button_menu_encoder_export_set = (Gtk.Button) builder.GetObject ("button_menu_encoder_export_set");
 
-		alignment_encoder_capture_signal = (Gtk.Alignment) builder.GetObject ("alignment_encoder_capture_signal");
 		button_encoder_devices_networks = (Gtk.Button) builder.GetObject ("button_encoder_devices_networks");
 		//button_encoder_devices_networks_problems = (Gtk.Button) builder.GetObject ("button_encoder_devices_networks_problems");
-
-		notebook_encoder_capture = (Gtk.Notebook) builder.GetObject ("notebook_encoder_capture");
 
 		//encoder capture tab view options
 		hbox_encoder_show_signal_table = (Gtk.HBox) builder.GetObject ("hbox_encoder_show_signal_table");

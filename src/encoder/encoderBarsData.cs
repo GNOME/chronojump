@@ -80,6 +80,13 @@ public class EncoderBarsData
 
 		return MeanPower;
 	}
-	
+
+	public double End {
+		get { return Start + Duration; }
+	}
+	public double Center {
+		get { return UtilAll.DivideSafe (Start + End, 2); }
+	}
+
 	~EncoderBarsData() {}
 }

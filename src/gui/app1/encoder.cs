@@ -5894,6 +5894,11 @@ public partial class ChronoJumpWindow
 			preferences.fontTypeToGraph());
 		prepareEventGraphEncoderCurrent = null; //to avoid is repainted again, and sound be repeated;
 
+		//erase cairoGraphEncoderSignal
+		cairoGraphEncoderSignal = null;
+		cairoGraphEncoderSignalPoints_l = new List<PointF>();
+		cairoGraphEncoderSignalInertialPoints_l = new List<PointF>();
+
 		updateGraphEncoderSessionBars ();
 
 		image_encoder_analyze.Sensitive = false;

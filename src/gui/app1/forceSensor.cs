@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -2636,11 +2636,14 @@ LogB.Information(" fs R ");
 
 	private void force_sensor_recalculate ()
 	{
+		LogB.Information ("\n\nforce_sensor_recalculate start\n\n");
 		if(! Util.FileExists(lastForceSensorFullPath))
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
 			return;
 		}
+
+		//LogB.Information ("recalculate captureOption 0: " + getForceSensorCaptureOptions().ToString ());
 
 		//getForceSensorCaptureOptions is called on doing the graphs
 		//recalculate graphs will be different if exercise changed, so need to know the exercise
@@ -2672,6 +2675,7 @@ LogB.Information(" fs R ");
 		currentForceSensor.ExerciseID = currentForceSensorExercise.UniqueID;
 		currentForceSensor.ExerciseName = currentForceSensorExercise.Name; //just in case
 		currentForceSensor.CaptureOption = getForceSensorCaptureOptions();
+		LogB.Information ("currentForceSensor.CaptureOption: " + currentForceSensor.CaptureOption.ToString ());
 		currentForceSensor.Laterality = getLaterality(false);
 		currentForceSensor.Description = "";
 
@@ -2707,6 +2711,7 @@ LogB.Information(" fs R ");
 
 		pre_fillTreeView_resultsSession ();
 		selectResultsSessionId (id, true);
+		LogB.Information ("\n\nforce_sensor_recalculate end\n\n");
 	}
 
 	private enum forceSensorGraphsEnum { SIGNAL, RFD }

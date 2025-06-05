@@ -328,7 +328,12 @@ public class CairoGraphEncoderSignal : CairoXY
 				do {
 					EncoderCurve curve = (EncoderCurve) encoderCaptureListStore.GetValue (iter, 0);
 					if (curve.Record)
-						drawRectangleAroundText (calculatePaintX (curve.Center), calculatePaintY (minY)-10, textHeight, repStr_l[i], g, yellow);
+					{
+						double y = minY;
+						if (eccon != "c")
+							y = points_l[PointF.FindSampleCloseToTime (points_l, curve.StartD)].Y;
+						drawRectangleAroundText (calculatePaintX (curve.CenterD), calculatePaintY (y)-10, textHeight, repStr_l[i], g, yellow);
+					}
 					i ++;
 				} while (encoderCaptureListStore.IterNext (ref iter));
 			}
@@ -339,10 +344,14 @@ public class CairoGraphEncoderSignal : CairoXY
 		i = 0;
 		foreach (EncoderBarsData ebd in captureCurvesBarsData_l)
 		{
-			g.MoveTo (calculatePaintX (ebd.Start), calculatePaintY (minY));
-			g.LineTo (calculatePaintX (ebd.End), calculatePaintY (minY));
+			double y = minY;
+			if (eccon != "c")
+				y = points_l[PointF.FindSampleCloseToTime (points_l, ebd.Start)].Y;
+
+			g.MoveTo (calculatePaintX (ebd.Start), calculatePaintY (y));
+			g.LineTo (calculatePaintX (ebd.End), calculatePaintY (y));
 			g.Stroke ();
-			printText (calculatePaintX (ebd.Center), calculatePaintY (minY)-10,
+			printText (calculatePaintX (ebd.Center), calculatePaintY (y)-10,
 					0, textHeight, repStr_l[i++], g, alignTypes.CENTER);
 		}
 		g.SetSourceColor (black);

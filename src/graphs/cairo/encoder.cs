@@ -295,7 +295,8 @@ public class CairoGraphEncoderSignal : CairoXY
 
 	private void drawRepetitionsInfoIfNeeded ()
 	{
-		if (captureCurvesBarsData_l.Count == 0)
+		if (captureCurvesBarsData_l.Count == 0 || encoderCaptureListStore == null ||
+				UtilGtk.CountRows (encoderCaptureListStore) == 0)
 			return;
 
 		// 1 vertical dotted lines

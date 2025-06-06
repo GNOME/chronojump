@@ -104,7 +104,11 @@ public class EncoderSQL : Event
 	{
 		List<Event> events = new List<Event>();
 		foreach (EncoderSQL eSQL in list)
-			events.Add ((Event) eSQL);
+		{
+			Event ev = (Event) eSQL;
+			ev.Type = eSQL.exerciseName; //exerciseName name it Type to be used on findLongestWordCairo
+			events.Add (ev);
+		}
 
 		return events;
 	}

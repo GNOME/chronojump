@@ -55,13 +55,17 @@ async def scan(stop_event: asyncio.Event):
             print(f"Device Scanned: {device}    {advertising_data}", flush = True) 
 
             if device.name not in watching_devices and device.address not in watching_devices:
-                print(f"Device Ignored: {device}    {advertising_data}", flush = True)
+                #print(f"Device Ignored: {device}    {advertising_data}", flush = True)
                 return
             
             try:
                 client = BleakClient(address_or_ble_device = device, disconnected_callback = disconnected_callback)
+                #print(f"Device Matched: {device}    {advertising_data}", flush = True)
+                try:
+                    await client.pair()
+                except:
+                    pass
                 await client.connect()
-                print(f"Device Matched: {device}    {advertising_data}", flush = True)
                                 
                 watching_characteristics_count = 0
                 if device.name in watching_devices and len(watching_devices[device.name]) > 0:
@@ -79,14 +83,17 @@ async def scan(stop_event: asyncio.Event):
                                 watching_characteristics_count += 1
                                 continue
                 if watching_characteristics_count == 0:
-                    await client.disconnect()
+                    try:
+                        await client.unpair()
+                    except:
+                        await client.disconnect()
                     print(f"Device Mismatched: {device}    {advertising_data}", flush = True)
                     return
 
                 connected_devices_dict[device.address] = client
                 print(f"Device Connected: {device}", flush = True)
             except BaseException as ex:
-                print(f"Error Occurred: {repr(ex)}", flush = True)
+                print(f"Error Occurred: {device}    {advertising_data}   {repr(ex)}", flush = True)
 
     async with BleakScanner(scanned_callback) as scanner:
         ...

@@ -6,10 +6,11 @@ import threading
 scanned_devices_dict = dict()
 connected_devices_dict = dict()
 watching_devices = dict()
-watching_devices['ESP32'] = ['85bc9e6c-9501-4bf4-819e-4f40b5e56372']
+watching_devices['ESP32'] = ['85bc9e6c-9501-4bf4-819e-4f40b5e56372', '1a2ae85a-8118-4644-9e3b-387122d8cd9e']
 changed_characteristics_dict = dict()
 deserialization_ways = dict()
 deserialization_ways['85bc9e6c-9501-4bf4-819e-4f40b5e56372'] = 'utf8'
+deserialization_ways['1a2ae85a-8118-4644-9e3b-387122d8cd9e'] = 'utf8'
 
 
 async def scan(stop_event: asyncio.Event):
@@ -54,12 +55,13 @@ async def scan(stop_event: asyncio.Event):
             print(f"Device Scanned: {device}    {advertising_data}", flush = True) 
 
             if device.name not in watching_devices and device.address not in watching_devices:
-                print(f"Device Ignored: {device}    {advertising_data}", flush = True) 
+                print(f"Device Ignored: {device}    {advertising_data}", flush = True)
                 return
             
             try:
                 client = BleakClient(address_or_ble_device = device, disconnected_callback = disconnected_callback)
                 await client.connect()
+                print(f"Device Matched: {device}    {advertising_data}", flush = True)
                                 
                 watching_characteristics_count = 0
                 if device.name in watching_devices and len(watching_devices[device.name]) > 0:
@@ -78,11 +80,12 @@ async def scan(stop_event: asyncio.Event):
                                 continue
                 if watching_characteristics_count == 0:
                     await client.disconnect()
+                    print(f"Device Mismatched: {device}    {advertising_data}", flush = True)
                     return
 
                 connected_devices_dict[device.address] = client
                 print(f"Device Connected: {device}", flush = True)
-            except Exception as ex:
+            except BaseException as ex:
                 print(f"Error Occurred: {repr(ex)}", flush = True)
 
     async with BleakScanner(scanned_callback) as scanner:
@@ -122,12 +125,10 @@ async def main():
         await scan(stop_event)
     except (KeyboardInterrupt, asyncio.CancelledError, RuntimeError):
         stop_event.set()
-    except Exception as ex:
+    except BaseException as ex:
         print(f"Error Occurred: {repr(ex)}", flush = True)
         await asyncio.sleep(3)
         await scan(stop_event)
-    except:
-        pass
 
 
 asyncio.run(main())

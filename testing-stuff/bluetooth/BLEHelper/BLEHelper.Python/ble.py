@@ -54,6 +54,7 @@ async def scan(stop_event: asyncio.Event):
             print(f"Device Scanned: {device}    {advertising_data}", flush = True) 
 
             if device.name not in watching_devices and device.address not in watching_devices:
+                print(f"Device Ignored: {device}    {advertising_data}", flush = True) 
                 return
             
             try:
@@ -82,7 +83,7 @@ async def scan(stop_event: asyncio.Event):
                 connected_devices_dict[device.address] = client
                 print(f"Device Connected: {device}", flush = True)
             except Exception as ex:
-                print(f"Error Occurred: {ex}", flush = True)
+                print(f"Error Occurred: {repr(ex)}", flush = True)
 
     async with BleakScanner(scanned_callback) as scanner:
         ...
@@ -122,7 +123,7 @@ async def main():
     except (KeyboardInterrupt, asyncio.CancelledError, RuntimeError):
         stop_event.set()
     except Exception as ex:
-        print(f"Error Occurred: {ex}", flush = True)
+        print(f"Error Occurred: {repr(ex)}", flush = True)
         await asyncio.sleep(3)
         await scan(stop_event)
     except:

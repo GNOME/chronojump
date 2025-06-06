@@ -3737,7 +3737,7 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 		List<string> names_l = new List<string>();
 		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
 
-		calculateBottomParams (events, true, "", "", false, false);
+		calculateBottomParams (events, true, "", "", false, eventGraphEncoderSessionStored.exerciseAll);
 
 		int countToDraw = eventGraphEncoderSessionStored.rowsAtSQL.Count;
 		foreach (EncoderSQL eSQL in eventGraphEncoderSessionStored.rowsAtSQL)
@@ -3749,12 +3749,12 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 			// 2) Add bottom names
 			string typeRowString = "";
 			if (eventGraphEncoderSessionStored.exerciseAll) //if "all tests" show type
-				typeRowString = eSQL.exerciseName;
+				typeRowString = eSQL.exerciseName;// + "\n" + string.Format ("{0} Kg", eSQL.extraWeight);
 			//if (eventGraphEncoderSessionStored.type == "")
 			//	typeRowString = jump.Type;
 
 			names_l.Add (createTextBelowBar(
-						"",
+						string.Format ("{0} Kg", eSQL.extraWeight),
 						typeRowString,
 						eSQL.Description, //person name
 						false, false,

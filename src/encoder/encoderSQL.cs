@@ -319,6 +319,15 @@ public class EncoderSQL : Event
 		set { filename = value; }
 	}
 
+	public double extraWeightD
+	{
+		get {
+			if (extraWeight == "")
+				return 0;
+			return Convert.ToDouble (extraWeight);
+		}
+	}
+
 	public double meanPowerD
 	{
 		get {

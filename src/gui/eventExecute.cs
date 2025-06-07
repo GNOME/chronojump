@@ -719,7 +719,7 @@ public partial class ChronoJumpWindow
 		cairoPaintBarsPre.Paint();
 	}
 
-	private int calculateMaxRowsForText (List<Event> events, int longestWordSize, bool allJumps, bool runsPrintTime)
+	private int calculateMaxRowsForText (List<Event> events, int longestWordSize, bool allJumps, bool secondDataRow)
 	{
 		int maxRows = 0;
 
@@ -750,7 +750,7 @@ public partial class ChronoJumpWindow
 			if(ev.Simulated == -1) //to write simulated at bottom
 				rows ++;
 
-			if(runsPrintTime)
+			if(secondDataRow)
 				rows ++;
 
 			if(rows > maxRows)
@@ -1287,7 +1287,7 @@ public abstract class CairoPaintBarsPre
 
 	//TODO: this is repeated on this file, think also if move it to gui/cairo/bars.cs
 	protected int calculateMaxRowsForTextCairo (List<Event> events, int longestWordSize,
-			bool allJumps, bool thereIsASimulated, bool runsPrintTime)
+			bool allJumps, bool thereIsASimulated, bool secondDataRow)
 	{
 		int maxRows = 0;
 
@@ -1321,7 +1321,7 @@ public abstract class CairoPaintBarsPre
 			if(thereIsASimulated) //if a event has two lines but not simulated, it has to reserve a line for other events (maybe of 1 line with simulated)
 				rows ++;
 
-			if(runsPrintTime)
+			if(secondDataRow)
 				rows ++;
 
 			if(rows > maxRows)
@@ -1338,13 +1338,13 @@ public abstract class CairoPaintBarsPre
 	protected int bottomMargin;
 
 	//manage bottom text font/spacing of rows
-	protected void calculateBottomParams (List<Event> events, bool allTypes, string addToType, string simulatedLabel, bool thereIsASimulated, bool runsPrintTime)
+	protected void calculateBottomParams (List<Event> events, bool allTypes, string addToType, string simulatedLabel, bool thereIsASimulated, bool secondDataRow)
 	{
 		longestWord = findLongestWordCairo (events, allTypes, addToType, simulatedLabel);
 		fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);
 
 		maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
-				allTypes, thereIsASimulated, runsPrintTime);
+				allTypes, thereIsASimulated, secondDataRow);
 		bottomMargin = cb.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
 
 		//LogB.Information(string.Format("fontHeightForBottomNames: {0}, bottomMargin: {1}", fontHeightForBottomNames, bottomMargin));
@@ -3737,7 +3737,7 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 		List<string> names_l = new List<string>();
 		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
 
-		calculateBottomParams (events, true, "", "", false, false);
+		calculateBottomParams (events, true, "", "", false, eventGraphEncoderSessionStored.exerciseAll);
 
 		int countToDraw = eventGraphEncoderSessionStored.rowsAtSQL.Count;
 		foreach (EncoderSQL eSQL in eventGraphEncoderSessionStored.rowsAtSQL)
@@ -3749,12 +3749,12 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 			// 2) Add bottom names
 			string typeRowString = "";
 			if (eventGraphEncoderSessionStored.exerciseAll) //if "all tests" show type
-				typeRowString = eSQL.exerciseName;
+				typeRowString = eSQL.exerciseName;// + "\n" + string.Format ("{0} Kg", eSQL.extraWeight);
 			//if (eventGraphEncoderSessionStored.type == "")
 			//	typeRowString = jump.Type;
 
 			names_l.Add (createTextBelowBar(
-						"",
+						string.Format ("{0} Kg", eSQL.extraWeight),
 						typeRowString,
 						eSQL.Description, //person name
 						false, false,

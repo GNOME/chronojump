@@ -104,7 +104,11 @@ public class EncoderSQL : Event
 	{
 		List<Event> events = new List<Event>();
 		foreach (EncoderSQL eSQL in list)
-			events.Add ((Event) eSQL);
+		{
+			Event ev = (Event) eSQL;
+			ev.Type = eSQL.exerciseName; //exerciseName name it Type to be used on findLongestWordCairo
+			events.Add (ev);
+		}
 
 		return events;
 	}
@@ -313,6 +317,15 @@ public class EncoderSQL : Event
 	public string Filename
 	{
 		set { filename = value; }
+	}
+
+	public double extraWeightD
+	{
+		get {
+			if (extraWeight == "")
+				return 0;
+			return Convert.ToDouble (extraWeight);
+		}
 	}
 
 	public double meanPowerD

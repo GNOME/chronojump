@@ -3754,7 +3754,7 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 			//	typeRowString = jump.Type;
 
 			names_l.Add (createTextBelowBar(
-						string.Format ("{0} Kg", eSQL.extraWeight),
+						string.Format ("{0} Kg", Util.TrimDecimals (eSQL.extraWeightD, 2)),
 						typeRowString,
 						eSQL.Description, //person name
 						false, false,

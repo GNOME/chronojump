@@ -7836,6 +7836,8 @@ public partial class ChronoJumpWindow
 					{
 						SqliteEncoder se = new SqliteEncoder ();
 						treeview_results_session_cursor_changed_block = true; //to block cursor_change on store.Remove ()
+
+						// note this is needed on load because graph.R code maybe decides that there are more or less reps depending on smoothing or other factors
 						treeViewResultsSession.UpdateReps (
 								se.SelectSetsAndRepsLList (
 									false, currentPerson.UniqueID, currentSession.UniqueID,

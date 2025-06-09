@@ -5888,17 +5888,7 @@ public partial class ChronoJumpWindow
 		//initialize new captureCurvesBarsData_l to not having the barplot updated on CONFIGURE or EXPOSE after being painted white
 		captureCurvesBarsData_l = new List<EncoderBarsData> ();
 
-		//erase cairo barplot
-		cairoPaintBarsPreCurrent = new CairoPaintBarsPreEncoderCurrent (
-			encoder_capture_curves_bars_drawingarea_cairo,
-			preferences.fontTypeToGraph());
-		prepareEventGraphEncoderCurrent = null; //to avoid is repainted again, and sound be repeated;
-
-		//erase cairoGraphEncoderSignal
-		cairoGraphEncoderSignal = null;
-		cairoGraphEncoderSignalPoints_l = new List<PointF>();
-		cairoGraphEncoderSignalInertialPoints_l = new List<PointF>();
-
+		blankEncoderCurrentSetGraphs ();
 		updateGraphEncoderSessionBars ();
 
 		image_encoder_analyze.Sensitive = false;
@@ -5912,6 +5902,20 @@ public partial class ChronoJumpWindow
 		button_encoder_analyze_1RM_save.Visible = false;
 
 		button_video_play_this_test.Sensitive = false;
+	}
+
+	private void blankEncoderCurrentSetGraphs ()
+	{
+		//erase cairo barplot
+		cairoPaintBarsPreCurrent = new CairoPaintBarsPreEncoderCurrent (
+			encoder_capture_curves_bars_drawingarea_cairo,
+			preferences.fontTypeToGraph());
+		prepareEventGraphEncoderCurrent = null; //to avoid is repainted again, and sound be repeated;
+
+		//erase cairoGraphEncoderSignal
+		cairoGraphEncoderSignal = null;
+		cairoGraphEncoderSignalPoints_l = new List<PointF>();
+		cairoGraphEncoderSignalInertialPoints_l = new List<PointF>();
 	}
 
 	private void encoderButtonsSensitive(encoderSensEnum option) 

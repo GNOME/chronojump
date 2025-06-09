@@ -385,6 +385,9 @@ public partial class ChronoJumpWindow
 						currentEncoderGI, lastEncoderSQLSignal.exerciseID, encoderSignalUniqueID)
 					);
 			treeview_results_session_cursor_changed_block = false;
+
+			//and the session barplot
+			updateGraphResultsSessionByMode ();
 		}
 	}
 

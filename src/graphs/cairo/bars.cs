@@ -1727,6 +1727,7 @@ public class CairoBarsNHSeries : CairoBars
 		int mouseLimitsPos1stBar = 0;
 		int mouseLimitsPos2ndBar = 1;
 
+		/*
 		//debug
 		LogB.Information("barMain_l:");
 		for(int j = 0; j < barMain_l.Count; j ++)
@@ -1741,6 +1742,7 @@ public class CairoBarsNHSeries : CairoBars
 		LogB.Information("saved_l:");
 		for(int j=0; j < saved_l.Count; j ++)
 			LogB.Information(saved_l[j].ToString());
+		*/
 
 		//for video
 		double timesSubtestPrevious = 0;

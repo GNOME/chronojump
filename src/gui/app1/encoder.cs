@@ -1064,6 +1064,12 @@ public partial class ChronoJumpWindow
 			label_encoder_top_exercise.Text = UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
 			radio_contacts_graph_currentTest.Label =  UtilGtk.ComboGetActive (combo_encoder_exercise_capture);
 
+			//update session treeview, session barplot, blank current set graphs, current set treeview
+	                pre_fillTreeView_resultsSession ();
+			updateGraphResultsSessionByMode ();
+			blankEncoderCurrentSetGraphs ();
+			treeviewEncoderCaptureRemoveColumns ();
+
 			//sensitivity of left/right buttons
 			button_combo_encoder_exercise_capture_left.Sensitive = (combo_encoder_exercise_capture.Active > 0);
 			button_combo_encoder_exercise_capture_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_encoder_exercise_capture);
@@ -5886,10 +5892,6 @@ public partial class ChronoJumpWindow
 		button_encoder_analyze_sensitiveness();
 		
 		treeviewEncoderCaptureRemoveColumns();
-
-		//initialize new captureCurvesBarsData_l to not having the barplot updated on CONFIGURE or EXPOSE after being painted white
-		captureCurvesBarsData_l = new List<EncoderBarsData> ();
-
 		blankEncoderCurrentSetGraphs ();
 		updateGraphEncoderSessionBars ();
 
@@ -5908,6 +5910,9 @@ public partial class ChronoJumpWindow
 
 	private void blankEncoderCurrentSetGraphs ()
 	{
+		//initialize new captureCurvesBarsData_l to not having the barplot updated on CONFIGURE or EXPOSE after being painted white
+		captureCurvesBarsData_l = new List<EncoderBarsData> ();
+
 		//erase cairo barplot
 		cairoPaintBarsPreCurrent = new CairoPaintBarsPreEncoderCurrent (
 			encoder_capture_curves_bars_drawingarea_cairo,

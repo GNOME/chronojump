@@ -7843,7 +7843,6 @@ public partial class ChronoJumpWindow
 									false, currentPerson.UniqueID, currentSession.UniqueID,
 									currentEncoderGI, lastEncoderSQLSignal.exerciseID, encoderSignalUniqueID)
 								);
-						//TODO: need to also update the bar graph
 						treeview_results_session_cursor_changed_block = false;
 
 						encoderLoadToPaintData (); // done now (after findAndMarkSavedCurves)

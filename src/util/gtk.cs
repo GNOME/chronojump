@@ -900,6 +900,11 @@ public class UtilGtk
 				"color: #222222;" +
 			"}" +
 
+			//SPINNER
+			"spinner#shiftedCss {" +
+				"color: " + colLabelNotebookShiftedCss + ";" +
+			"}" +
+
 			//ANY WIDGET
 			//any widget bgCss
 			"*#bgCss {" +

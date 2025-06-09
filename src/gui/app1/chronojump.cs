@@ -1140,6 +1140,8 @@ public partial class ChronoJumpWindow
 			UtilGtk.WidgetColor (notebook_ai_model_graph_table_triggers, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_ai_model_graph_table_triggers);
 
+			//encoder
+			UtilGtk.WidgetColor (spinner_set_loading, Config.ColorBackgroundShifted);
 			//all the labels inside the grid grid_encoder_analyze_instant have a white bg, so should call
 			UtilGtk.ContrastLabelsGrid (false, grid_encoder_analyze_instant);
 

@@ -178,6 +178,9 @@ public partial class ChronoJumpWindow
 					forceSensorLoadSignalAcceptedDo (treeViewResultsSession.EventSelectedID, -1, currentSession.UniqueID, ForceSensor.GetElasticIntFromMode (current_mode), false);
 				else if (Constants.ModeIsENCODER (current_mode))
 				{
+					blankEncoderCurrentSetGraphs ();
+					treeviewEncoderCaptureRemoveColumns ();
+
 					if (treeViewResultsSession.EventSelectedID == TreeViewEvent.MarkNonSelectRowSubEvent)
 						treeViewResultsSession.SelectEventHeaderLine();
 

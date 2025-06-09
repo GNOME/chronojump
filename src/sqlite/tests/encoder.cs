@@ -659,12 +659,10 @@ class SqliteEncoder : SqliteTests
 			string.Format(" FROM {0}, {1}, {2} ", tableName, encExT, tp) +
 			string.Format(" WHERE {0}.uniqueID = {1}.personID", tp, tableName) +
 			string.Format(" AND {0}.exerciseID = {1}.uniqueID", tableName, encExT) +
-			filterPersonString +
-			filterSessionString +
-			filterExerciseString +
-			filterSignalString +
+			filterPersonString + filterSessionString +
+			filterExerciseString + filterSignalString +
 			" AND signalOrCurve = 'signal' " +
-			string.Format(" ORDER BY upper({0}.name), {1}.uniqueID ", tp, tableName);
+			string.Format(" ORDER BY upper({0}.name), {1}.uniqueID ASC", tp, tableName);
 	LogB.SQL(dbcmd.CommandText.ToString());
 
 	dbcmd.ExecuteNonQuery();
@@ -711,12 +709,10 @@ class SqliteEncoder : SqliteTests
 			string.Format(" WHERE {0}.uniqueID = {1}.personID", tp, tableName) +
 			string.Format(" AND {0}.exerciseID = {1}.uniqueID", tableName, encExT) +
 			string.Format(" AND {0}.uniqueID = {1}.curveID", tableName, encSCT) +
-			filterPersonString +
-			filterSessionString +
-			filterExerciseString +
-			filterSignalString +
+			filterPersonString + filterSessionString +
+			filterExerciseString + filterSignalString +
 			" AND signalOrCurve = 'curve' " +
-			string.Format(" ORDER BY {0}.signalID, {0}.msCentral ", encSCT);
+			string.Format(" ORDER BY {0}.signalID ASC, {0}.msCentral ", encSCT);
 	LogB.SQL(dbcmd.CommandText.ToString());
 
 	dbcmd.ExecuteNonQuery();

@@ -3762,8 +3762,10 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 
 			id_l.Add (eSQL.UniqueID);
 
-			if (eventGraphEncoderSessionStored.selectedID == eSQL.UniqueID)
-				cb.SelectedPos = eventGraphEncoderSessionStored.rowsAtSQL.Count -countToDraw -1;
+			//if (eventGraphEncoderSessionStored.selectedID == eSQL.UniqueID)
+			//	cb.SelectedPos = eventGraphEncoderSessionStored.rowsAtSQL.Count -countToDraw -1;
+			if (UtilList.FoundInListInt (eventGraphEncoderSessionStored.selectedRepID_l, eSQL.UniqueID))
+				cb.SelectedPos_l.Add (eventGraphEncoderSessionStored.rowsAtSQL.Count -countToDraw -1);
 		}
 		cb.Id_l = id_l;
 

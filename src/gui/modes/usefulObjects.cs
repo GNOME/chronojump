@@ -639,7 +639,8 @@ public class PrepareEventGraphEncoderSession
 {
 	//sql data of previous tests to plot graph and show stats at bottom
 	public List<EncoderSQL> rowsAtSQL;
-	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
+	public int selectedSetID; //-1 if none selected. If >= 0 then is the selected on treeview.
+	public List<int> selectedRepID_l; //need to match with the bars, as the bars are going to be repetitions
 
 	public bool exerciseAll; //all tests
 
@@ -648,9 +649,9 @@ public class PrepareEventGraphEncoderSession
 
 	public PrepareEventGraphEncoderSession (int sessionID, int personID, bool allPersons,
 			Constants.EncoderGI encoderGI, int limit,
-			int exerciseID, int selectedID, Constants.Modes mode, bool exerciseAll)
+			int exerciseID, int selectedSetID, Constants.Modes mode, bool exerciseAll)
 	{
-		this.selectedID = selectedID;
+		this.selectedSetID = selectedSetID;
 		this.exerciseAll = exerciseAll;
 
 		int personIDTemp = personID;
@@ -668,7 +669,16 @@ public class PrepareEventGraphEncoderSession
 				);
 		//LogB.Information ("rowsAtSQL count: " + (rowsAtSQL.Count).ToString ());
 
-		this.selectedID = selectedID;
+		//select linkedReps (if any)
+		selectedRepID_l = new List<int> ();
+		if (selectedSetID >= 0)
+		{
+			ArrayList linkedReps = SqliteEncoderSignalCurve.SelectSignalCurve (
+					false, selectedSetID, -1, -1, -1);	//DBopened, signal, curve, msStart, msEnd
+
+			foreach (EncoderSignalCurve esc in linkedReps)
+				selectedRepID_l.Add (esc.curveID);
+		}
 	}
 
 	~PrepareEventGraphEncoderSession() {}

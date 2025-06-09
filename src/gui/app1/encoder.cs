@@ -7832,7 +7832,7 @@ public partial class ChronoJumpWindow
 					
 					Sqlite.Close();
 
-					if (action == encoderActions.LOAD)
+					if (action == encoderActions.LOAD) // see: diagrams/processes/person_results_changes.dia
 					{
 						SqliteEncoder se = new SqliteEncoder ();
 						treeview_results_session_cursor_changed_block = true; //to block cursor_change on store.Remove ()

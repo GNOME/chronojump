@@ -376,6 +376,7 @@ public partial class ChronoJumpWindow
 			callPlotCurvesGraphDoPlot();
 
 			// update the treeviewResultsSession without changing again current set widgets
+			// see: diagrams/processes/person_results_changes.dia
 			SqliteEncoder se = new SqliteEncoder ();
 			treeview_results_session_cursor_changed_block = true; //to block cursor_change on store.Remove ()
 

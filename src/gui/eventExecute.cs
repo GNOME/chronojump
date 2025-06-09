@@ -417,7 +417,8 @@ public partial class ChronoJumpWindow
 				current_mode != Constants.Modes.RUNSENCODER &&
 				current_mode != Constants.Modes.WILIGHT &&
 				current_mode != Constants.Modes.OTHER && //FOURPLATFORMS
-				! Constants.ModeIsFORCESENSOR (current_mode) )
+				! Constants.ModeIsFORCESENSOR (current_mode) &&
+				! Constants.ModeIsENCODER (current_mode))
 			return;
 
 		if(cairoPaintBarsPre == null)
@@ -436,6 +437,14 @@ public partial class ChronoJumpWindow
 
 		if (current_mode == Constants.Modes.RUNSSIMPLE)
 			button_inspect_last_test_run_simple.Sensitive = false;
+
+		// on encoder the bars are reps, but the treeview selection is going to be a set
+		if (Constants.ModeIsENCODER (current_mode))
+		{
+			ArrayList array = SqliteEncoderSignalCurve.SelectSignalCurve (false, -1, id, -1, -1);
+			if (array.Count > 0)
+				id = ((EncoderSignalCurve) array[0]).signalID;
+		}
 
 		selectResultsSessionId (id, true);
 	}

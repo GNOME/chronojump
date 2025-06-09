@@ -12930,6 +12930,9 @@ on Cloud-view mode</property>
                                                             <property name="rules-hint">True</property>
                                                             <property name="enable-search">False</property>
                                                             <property name="show-expanders">False</property>
+                                                            <child internal-child="selection">
+                                                            <object class="GtkTreeSelection"/>
+                                                            </child>
                                                             </object>
                                                             </child>
                                                             </object>
@@ -13382,7 +13385,7 @@ then click this button.</property>
                                                             <object class="GtkHBox" id="hbox_contacts_graph_table_controls">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="spacing">24</property>
+                                                            <property name="spacing">12</property>
                                                             <child>
                                                             <object class="GtkAlignment" id="alignment_contacts_show_graph_table">
                                                             <property name="visible">True</property>
@@ -13738,6 +13741,40 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkBox" id="box_set_loading">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <object class="GtkSpinner" id="spinner_set_loading">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_set_loading">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Loading …</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -13761,14 +13798,7 @@ then click this button.</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <object class="GtkSpinner" id="encoder_spinner_load_signal">
-                                                            <property name="can-focus">False</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <object class="GtkBox">
@@ -27285,6 +27315,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -320,7 +320,9 @@ public partial class ChronoJumpWindow
 	Gtk.Notebook notebook_encoder_analyze;
 	Gtk.Image image_encoder_analyze;
 	Gtk.ProgressBar encoder_pulsebar_analyze;
-	Gtk.Spinner encoder_spinner_load_signal;
+	Gtk.Box box_set_loading;
+	Gtk.Spinner spinner_set_loading;
+	Gtk.Label label_set_loading;
 	Gtk.ProgressBar encoder_pulsebar_load_signal_at_analyze;
 	Gtk.Label label_encoder_load_signal_at_analyze;
 	
@@ -6677,8 +6679,8 @@ public partial class ChronoJumpWindow
 				else // action == encoderActions.LOAD
 				{
 					//capture tab
-					encoder_spinner_load_signal.Visible = true;
-					encoder_spinner_load_signal.Start ();
+					box_set_loading.Visible = true;
+					spinner_set_loading.Start ();
 
 					//analyze tab
 					label_encoder_load_signal_at_analyze.Visible = false;
@@ -7227,8 +7229,8 @@ public partial class ChronoJumpWindow
 			}
 
 			//capture tab
-			encoder_spinner_load_signal.Stop ();
-			encoder_spinner_load_signal.Visible = false;
+			spinner_set_loading.Stop ();
+			box_set_loading.Visible = false;
 
 			//analyze tab
 			label_encoder_load_signal_at_analyze.Visible = true;
@@ -8526,7 +8528,9 @@ public partial class ChronoJumpWindow
 		notebook_encoder_analyze = (Gtk.Notebook) builder.GetObject ("notebook_encoder_analyze");
 		image_encoder_analyze = (Gtk.Image) builder.GetObject ("image_encoder_analyze");
 		encoder_pulsebar_analyze = (Gtk.ProgressBar) builder.GetObject ("encoder_pulsebar_analyze");
-		encoder_spinner_load_signal = (Gtk.Spinner) builder.GetObject ("encoder_spinner_load_signal");
+		box_set_loading = (Gtk.Box) builder.GetObject ("box_set_loading");
+		spinner_set_loading = (Gtk.Spinner) builder.GetObject ("spinner_set_loading");
+		label_set_loading = (Gtk.Label) builder.GetObject ("label_set_loading");
 		encoder_pulsebar_load_signal_at_analyze = (Gtk.ProgressBar) builder.GetObject ("encoder_pulsebar_load_signal_at_analyze");
 		label_encoder_load_signal_at_analyze = (Gtk.Label) builder.GetObject ("label_encoder_load_signal_at_analyze");
 

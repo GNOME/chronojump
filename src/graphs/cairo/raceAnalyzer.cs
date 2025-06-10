@@ -16,7 +16,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2022-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -204,6 +204,13 @@ public class CairoGraphRaceAnalyzer : CairoXY
 						g, alignTypes.CENTER);
 			}
 
+			return graphInited;
+		}
+
+		if (calculatePaintY (10) > calculatePaintY (0))
+		{
+			printText (graphWidth/2, graphHeight/2, 0, textHeight,
+					Constants.GraphNeedMoreHeight (), g, alignTypes.CENTER);
 			return graphInited;
 		}
 

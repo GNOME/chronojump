@@ -1439,6 +1439,14 @@ public class CairoBars1Series : CairoBars
 
 		g.SetFontSize(textHeight);
 
+		if (calculatePaintY (10) > calculatePaintY (0))
+		{
+			printText (graphWidth/2, graphHeight/2, 0, textHeight,
+					Constants.GraphNeedMoreHeight (), g, alignTypes.CENTER);
+			endGraphDisposing(g, surface, area.Window);
+			return;
+		}
+
 		if(paintAxis)
 			paintAxisDo (2);
 
@@ -1962,6 +1970,14 @@ public class CairoBarsNHSeries : CairoBars
                 findMaximums();
 
 		g.SetFontSize(textHeight);
+
+		if (calculatePaintY (10) > calculatePaintY (0))
+		{
+			printText (graphWidth/2, graphHeight/2, 0, textHeight,
+					Constants.GraphNeedMoreHeight (), g, alignTypes.CENTER);
+			endGraphDisposing(g, surface, area.Window);
+			return;
+		}
 
 		if(paintAxis)
 			paintAxisDo (2);

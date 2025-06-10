@@ -951,6 +951,10 @@ public class Constants
 	{
 		return string.Format(Catalog.GetString("Sorry, this graph cannot be done with test {0}."), test);
 	}
+	public static string GraphNeedMoreHeight ()
+	{
+		return Catalog.GetString ("This graphic needs more height.");
+	}
 	public static string FileCannotOpenedMaybeSpreadsheetOpened  ()
 	{
 		return Catalog.GetString ("Maybe this file is opened by an SpreadSheet software like Excel. Please, close that program.");

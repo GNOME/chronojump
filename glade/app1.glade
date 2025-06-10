@@ -13852,7 +13852,7 @@ then click this button.</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="tooltip-text" translatable="yes">Edit</property>
-                                                            <signal name="clicked" handler="on_button_contacts_edit_selected_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_tests_edit_selected_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_contacts_edit_selected">
                                                             <property name="visible">True</property>
@@ -13875,7 +13875,7 @@ then click this button.</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="tooltip-text" translatable="yes">Repair selected</property>
-                                                            <signal name="clicked" handler="on_button_contacts_repair_selected_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_tests_repair_selected_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_contacts_repair_selected">
                                                             <property name="visible">True</property>
@@ -13896,7 +13896,7 @@ then click this button.</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="tooltip-text" translatable="yes">Delete</property>
-                                                            <signal name="clicked" handler="on_button_contacts_delete_selected_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_tests_delete_selected_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_contacts_delete_selected">
                                                             <property name="visible">True</property>
@@ -27315,6 +27315,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

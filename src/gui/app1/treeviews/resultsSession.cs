@@ -310,13 +310,13 @@ public partial class ChronoJumpWindow
 		uint y = 0;
 
 		myItem = new MenuItem (Catalog.GetString("Edit selected") + label);
-		myItem.Activated += on_button_contacts_edit_selected_clicked;
+		myItem.Activated += on_button_tests_edit_selected_clicked;
 		myMenu.Attach( myItem, 0, 1, y, (y++)+1 );
 
 		if (hasRepair)
 		{
 			myItem = new MenuItem (Catalog.GetString("Repair selected") + label);
-			myItem.Activated += on_button_contacts_repair_selected_clicked;
+			myItem.Activated += on_button_tests_repair_selected_clicked;
 			myMenu.Attach( myItem, 0, 1, y, (y++)+1 );
 
 			Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
@@ -324,7 +324,7 @@ public partial class ChronoJumpWindow
 		}
 
 		myItem = new MenuItem (Catalog.GetString("Delete selected") + label);
-		myItem.Activated += on_button_contacts_delete_selected_clicked;
+		myItem.Activated += on_button_tests_delete_selected_clicked;
 		myMenu.Attach( myItem, 0, 1, y, (y++)+1 );
 
 		myMenu.ShowAll();

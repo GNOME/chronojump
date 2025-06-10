@@ -6464,7 +6464,7 @@ public partial class ChronoJumpWindow
 
 	int eventOldPerson;
 
-	private void on_button_contacts_edit_selected_clicked (object o, EventArgs args)
+	private void on_button_tests_edit_selected_clicked (object o, EventArgs args)
 	{
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
 			on_edit_selected_jump_clicked (o, args);
@@ -6498,7 +6498,7 @@ public partial class ChronoJumpWindow
 		sensitiveLastTestButtons(false);
 	}
 
-	private void on_button_contacts_delete_selected_clicked (object o, EventArgs args)
+	private void on_button_tests_delete_selected_clicked (object o, EventArgs args)
 	{
 		//TODO: implement all using on_delete_selected_test_clicked
 
@@ -6713,7 +6713,7 @@ public partial class ChronoJumpWindow
 	 *  --------------------------------------------------------
 	 */
 	
-	private void on_button_contacts_repair_selected_clicked (object o, EventArgs args)
+	private void on_button_tests_repair_selected_clicked (object o, EventArgs args)
 	{
 		if (current_mode == Constants.Modes.JUMPSREACTIVE)
 			on_repair_selected_jump_rj_clicked (o, args);

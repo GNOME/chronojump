@@ -100,6 +100,38 @@ public class EncoderSQL : Event
 		this.exerciseName = exerciseName;
 	}
 
+	// constructor for SqliteEncoder.SelectData ()
+	public EncoderSQL (string [] eventStr)
+	{
+		this.uniqueID = Convert.ToInt32 (eventStr[0]);
+		this.personID = Convert.ToInt32 (eventStr[1]);
+		this.sessionID = Convert.ToInt32 (eventStr[2]);
+		this.exerciseID = Convert.ToInt32 (eventStr[3]);
+		this.eccon = eventStr[4];
+		this.laterality = eventStr[5];
+		this.extraWeight = eventStr[6];
+		this.signalOrCurve = eventStr[7];
+		this.filename = eventStr[8];
+		this.url = eventStr[9];
+		//this.url = Util.MakeURLabsolute (Sqlite.FixOSpath (eventStr[9])); //TODO: check if it is needed
+		this.time = Convert.ToInt32 (eventStr[10]);
+		this.minHeight = Convert.ToInt32 (eventStr[11]);
+		this.description = eventStr[12];
+		this.status = eventStr[13];
+		this.videoURL = eventStr[14];
+
+		string[] strFull = eventStr[15].ToString().Split(new char[] { ':' });
+		this.encoderConfiguration = new EncoderConfiguration(
+				(EncoderConfiguration.Names)
+				Enum.Parse(typeof(EncoderConfiguration.Names), strFull[0]));
+
+		this.meanPower = eventStr[16];
+		this.meanSpeed = eventStr[17];
+		this.meanForce = eventStr[18];
+		this.repCriteria = (Preferences.EncoderRepetitionCriteria)Enum.Parse(
+				typeof(Preferences.EncoderRepetitionCriteria), eventStr[19].ToString());
+	}
+
 	public static List<Event> EncoderSQLListToEventList (List<EncoderSQL> list)
 	{
 		List<Event> events = new List<Event>();

@@ -40,6 +40,8 @@ using SQLiteConnection = System.Data.SQLite.SQLiteConnection;
 
 class SqliteEncoder : SqliteTests
 {
+    private static string tableStatic = Constants.EncoderTable;
+
     public SqliteEncoder()
     {
 	    tableName = Constants.EncoderTable;
@@ -766,6 +768,11 @@ class SqliteEncoder : SqliteTests
 		    }
 		    l0count ++;
 	    }
+    }
+
+    public static EncoderSQL SelectData (int uniqueID, bool dbconOpened)
+    {
+	    return new EncoderSQL (selectTestData (uniqueID, dbconOpened, tableStatic, 20));
     }
 
     public static ArrayList SelectSessionOverviewSets(bool dbconOpened, Constants.EncoderGI encoderGI, int sessionID)

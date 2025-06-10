@@ -85,9 +85,11 @@ public partial class ChronoJumpWindow
 	private bool treeview_results_session_cursor_changed_block = false;
 
 	// Important! see: diagrams/processes/person_results_changes.dia
+	// note on right click, this event is always managed first
 	private void on_treeview_results_session_cursor_changed (object o, EventArgs args)
 	{
 		LogB.Information ("on_treeview_results_session_cursor_changed");
+
 		if (treeViewResultsSession == null)
 			return;
 
@@ -243,7 +245,10 @@ public partial class ChronoJumpWindow
 
 	private void on_treeview_results_session_button_release_event (object o, ButtonReleaseEventArgs args)
 	{
+		//LogB.Information ("on_treeview_results_session_button_release_event");
 		Gdk.EventButton e = args.Event;
+		//LogB.Information ("e.Button" + e.Button.ToString ());
+		//LogB.Information ("EventSelectedID: " + treeViewResultsSession.EventSelectedID.ToString ());
 		//Gtk.TreeView myTv = (Gtk.TreeView) o;
 		if (e.Button != 3 || treeViewResultsSession.EventSelectedID < 0)
 			return;
@@ -286,11 +291,20 @@ public partial class ChronoJumpWindow
 			ev = SqliteForceSensor.SelectData (id, false);
 			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
 		}
-//		else if (Constants.ModeIsENCODER (current_mode))
-//		{
-//			ev = SqliteForceSensor.SelectData (id, false);
-//			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
-//		}
+		/*
+		 * disabled on encoder because when right click is done, first cursor_changed is raised
+		 * and then it loads set
+		 * then the button_release should be raised, but it is lost while loading the set
+		 * A solution could be to not load the set if the user clicks to same row, but this can be inconsistent for the user
+		 * note on cursor_changed with the EventArgs we do not know which button has been pressed
+		 * so at the moment this is disabled
+		 * and easiest solutions will be just to put an edit button for encoder, and use also the delete button for encoder
+		else if (Constants.ModeIsENCODER (current_mode))
+		{
+			ev = SqliteEncoder.SelectData (id, false);
+			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
+		}
+		*/
 		else if (current_mode == Constants.Modes.WILIGHT)
 		{
 			ev = SqliteWilight.SelectData (id, false);

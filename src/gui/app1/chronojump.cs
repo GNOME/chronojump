@@ -6480,6 +6480,8 @@ public partial class ChronoJumpWindow
 			on_edit_selected_beepTest_clicked (o, args);
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			on_edit_selected_forceSensor_clicked (o, args);
+//		else if (Constants.ModeIsENCODER (current_mode))
+//			on_edit_selected_encoder_clicked (o, args); //TODO
 		else if (current_mode == Constants.Modes.WILIGHT)
 			on_edit_selected_wilight_clicked (o, args);
 		else if (current_mode == Constants.Modes.OTHER)

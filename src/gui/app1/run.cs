@@ -212,7 +212,7 @@ public partial class ChronoJumpWindow
 				1, 1, //both unused
 				currentSession.UniqueID,
 				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
-				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
+				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
 				Constants.RunTable, typeTemp, selectedID);
 		
 		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.runsAtSQL.Count > 0)
@@ -263,7 +263,7 @@ public partial class ChronoJumpWindow
 		PrepareEventGraphRunInterval eventGraph = new PrepareEventGraphRunInterval(
 				currentSession.UniqueID, currentPerson.UniqueID,
 				radio_contacts_results_personAll.Active,
-				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
+				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
 				typeTemp, selectedID);
 
 		string personStr = "";

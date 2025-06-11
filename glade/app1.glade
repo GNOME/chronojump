@@ -14681,7 +14681,7 @@ then click this button.</property>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Show last n tests</property>
+                                                            <property name="label" translatable="yes">Show</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -14690,7 +14690,50 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkSpinButton" id="spin_contacts_graph_last_limit">
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <object class="GtkRadioButton" id="radio_resultsSession_best">
+                                                            <property name="label" translatable="yes">best</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkRadioButton" id="radio_resultsSession_last">
+                                                            <property name="label" translatable="yes">last</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            <property name="group">radio_resultsSession_best</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkSpinButton" id="spin_resultsSession_limit">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="max-length">2</property>
@@ -14702,12 +14745,12 @@ then click this button.</property>
                                                             <property name="adjustment">adjustment8</property>
                                                             <property name="numeric">True</property>
                                                             <property name="value">10</property>
-                                                            <signal name="value-changed" handler="on_spin_contacts_graph_last_limit_value_changed" swapped="no"/>
+                                                            <signal name="value-changed" handler="on_spin_resultsSession_limit_value_changed" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -14727,7 +14770,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -27315,6 +27358,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

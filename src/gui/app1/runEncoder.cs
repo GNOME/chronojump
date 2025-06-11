@@ -3260,7 +3260,7 @@ public partial class ChronoJumpWindow
 		PrepareEventGraphRunEncoder eventGraph = new PrepareEventGraphRunEncoder (
 				currentSession.UniqueID,
 				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
-				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
+				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
 				//Constants.RunEncoderTable, typeTemp,
 				exerciseID, selectedID, current_mode, radio_contacts_graph_allTests.Active);
 

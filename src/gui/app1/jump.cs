@@ -369,7 +369,7 @@ public partial class ChronoJumpWindow
 		PrepareEventGraphJumpSimple eventGraph = new PrepareEventGraphJumpSimple(
 				tv, tc, currentSession.UniqueID,
 				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
-				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
+				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
 				Constants.JumpTable, typeTemp, preferences.heightPreferred, selectedID);
 		
 		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.jumpsAtSQL.Count > 0)
@@ -416,7 +416,7 @@ public partial class ChronoJumpWindow
 		PrepareEventGraphJumpReactive eventGraph = new PrepareEventGraphJumpReactive(
 				currentSession.UniqueID, currentPerson.UniqueID,
 				radio_contacts_results_personAll.Active,
-				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
+				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
 				typeTemp, preferences.heightPreferred, selectedID);
 
 		string personStr = "";

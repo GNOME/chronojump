@@ -63,6 +63,7 @@ src/gui/app1/chronojump.cs
 src/gui/app1/chronojumpPersons.cs
 src/gui/app1/contactsExercise.cs
 src/gui/app1/encoder.cs
+src/gui/app1/encoderThreads.cs
 src/gui/app1/forceSensorAnalyze.cs
 src/gui/app1/forceSensor.cs
 src/gui/app1/graphs/jumpsAsymmetry.cs

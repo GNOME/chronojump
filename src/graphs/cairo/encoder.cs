@@ -38,6 +38,7 @@ public class CairoGraphEncoderSignal : CairoXY
 	private int points_l_inertial_painted;
 	private Gtk.ListStore encoderCaptureListStore;
 	private string eccon;
+	private int discardNReps;
 	//private bool doing;
 	private bool customAxisDispl;
 	private int customAxisDisplMax;
@@ -66,6 +67,7 @@ public class CairoGraphEncoderSignal : CairoXY
 			List<PointF> points_l, List<PointF> points_l_inertial,
 			Gtk.ListStore encoderCaptureListStore, // to know saved (Record) repetitions
 			string eccon,
+			int discardNReps, // on inertial discard n reps. On gravitatory will be 0
 			double videoPlayTimeInSeconds,
 			bool forceRedraw, PlotTypes plotType)
 	{
@@ -75,6 +77,7 @@ public class CairoGraphEncoderSignal : CairoXY
 		this.points_l_inertial = points_l_inertial;
 		this.encoderCaptureListStore = encoderCaptureListStore;
 		this.eccon = eccon;
+		this.discardNReps = discardNReps;
 
 		if(doSendingList (font, isInertial, videoPlayTimeInSeconds, forceRedraw, plotType))
 			endGraphDisposing(g, surface, area.Window);
@@ -341,10 +344,14 @@ public class CairoGraphEncoderSignal : CairoXY
 		}
 
 		// 3 num of each repetition (saved or not)
-		g.SetSourceColor (bluePlots);
 		i = 0;
 		foreach (EncoderBarsData ebd in captureCurvesBarsData_l)
 		{
+			if ( (eccon == "c" && i < discardNReps) || (eccon != "c" && i < 2*discardNReps) )
+				g.SetSourceColor (grayDark);
+			else
+				g.SetSourceColor (bluePlots);
+
 			double y = minY;
 			if (eccon != "c")
 				y = points_l[PointF.FindSampleCloseToTime (points_l, ebd.Start)].Y;
@@ -355,7 +362,8 @@ public class CairoGraphEncoderSignal : CairoXY
 
 			if (i < repStr_l.Count) //needed check when eccon != c
 				printText (calculatePaintX (ebd.Center), calculatePaintY (y)-10,
-						0, textHeight, repStr_l[i++], g, alignTypes.CENTER);
+						0, textHeight, repStr_l[i], g, alignTypes.CENTER);
+			i ++;
 		}
 		g.SetSourceColor (black);
 	}

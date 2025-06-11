@@ -6291,12 +6291,17 @@ public partial class ChronoJumpWindow
 		if (lastEncoderSQLSignal != null)
 			eccon = lastEncoderSQLSignal.eccon;
 
+		int discardNReps = 0;
+		if (current_mode == Constants.Modes.POWERINERTIAL)
+			discardNReps = preferences.encoderCaptureInertialDiscardFirstN;
+
 		cairoGraphEncoderSignal.DoSendingList (preferences.fontTypeToGraph(),
 				capturingCsharp == encoderCaptureProcess.CAPTURING,
 				inertial,
 				cairoGraphEncoderSignalPoints_l, cairoGraphEncoderSignalInertialPoints_l,
 				encoderCaptureListStore, // to know saved (Record) repetitions
 				eccon,
+				discardNReps,
 				videoTime,
 				forceRedraw, CairoXY.PlotTypes.LINES);
 	}

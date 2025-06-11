@@ -14744,7 +14744,7 @@ then click this button.</property>
                                                             <property name="secondary-icon-activatable">False</property>
                                                             <property name="adjustment">adjustment8</property>
                                                             <property name="numeric">True</property>
-                                                            <property name="value">10</property>
+                                                            <property name="value">5</property>
                                                             <signal name="value-changed" handler="on_spin_resultsSession_limit_value_changed" swapped="no"/>
                                                             </object>
                                                             <packing>

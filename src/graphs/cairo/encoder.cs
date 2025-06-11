@@ -352,8 +352,10 @@ public class CairoGraphEncoderSignal : CairoXY
 			g.MoveTo (calculatePaintX (ebd.Start), calculatePaintY (y));
 			g.LineTo (calculatePaintX (ebd.End), calculatePaintY (y));
 			g.Stroke ();
-			printText (calculatePaintX (ebd.Center), calculatePaintY (y)-10,
-					0, textHeight, repStr_l[i++], g, alignTypes.CENTER);
+
+			if (i < repStr_l.Count) //needed check when eccon != c
+				printText (calculatePaintX (ebd.Center), calculatePaintY (y)-10,
+						0, textHeight, repStr_l[i++], g, alignTypes.CENTER);
 		}
 		g.SetSourceColor (black);
 	}

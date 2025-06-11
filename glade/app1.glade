@@ -14702,6 +14702,7 @@ then click this button.</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw-indicator">True</property>
+                                                            <signal name="toggled" handler="on_radio_resultsSession_bestLast_toggled" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -14718,6 +14719,7 @@ then click this button.</property>
                                                             <property name="active">True</property>
                                                             <property name="draw-indicator">True</property>
                                                             <property name="group">radio_resultsSession_best</property>
+                                                            <signal name="toggled" handler="on_radio_resultsSession_bestLast_toggled" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>

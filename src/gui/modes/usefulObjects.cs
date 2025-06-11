@@ -86,16 +86,20 @@ public class PrepareEventGraphJumpSimple
 	//allPersons is for searching the jumps of current of allpersons
 	//personID we need to the personsMAX/AVG sql calls
 	//type can be "" for all jumps, then write it under bar
-	public PrepareEventGraphJumpSimple(double tv, double tc, int sessionID,
-			int personID, bool allPersons, int limit,
+	public PrepareEventGraphJumpSimple (double tv, double tc, int sessionID,
+			int personID, bool allPersons, bool showBest, int limit,
 			string table, string type, bool djShowHeights, int selectedID)
 	{
 		int personIDTemp = personID;
 		if(allPersons)
 			personIDTemp = -1;
 
+		Sqlite.Orders_by orderBy = Sqlite.Orders_by.BEST;
+		if (! showBest)
+			orderBy = Sqlite.Orders_by.ID_ASC;
+
 		jumpsAtSQL = SqliteJump.SelectJumps (sessionID, personIDTemp, type,
-				Sqlite.Orders_by.ID_ASC, limit,
+				orderBy, limit,
 				allPersons, 	//show names on comments only if "all persons"
 				false); 	//! onlyBestInSession
 

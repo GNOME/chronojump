@@ -49,6 +49,8 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_adjust_no_capturing;
 	Gtk.Image image_force_sensor_adjust_capturing;
 
+	Gtk.RadioButton radio_resultsSession_best;
+	Gtk.RadioButton radio_resultsSession_last;
 	Gtk.SpinButton spin_resultsSession_limit;
 	Gtk.Box box_contacts_simple_graph_controls;
 	Gtk.Box box_contacts_graph_exercise;
@@ -877,6 +879,11 @@ public partial class ChronoJumpWindow
 			updateGraphFourPlatformsBars ();
 	}
 
+	private void on_radio_resultsSession_bestLast_toggled (object o, EventArgs args)
+	{
+		updateGraphResultsSessionByMode ();
+	}
+
 	private void on_spin_resultsSession_limit_value_changed (object o, EventArgs args)
 	{
 		updateGraphResultsSessionByMode ();
@@ -1035,6 +1042,8 @@ public partial class ChronoJumpWindow
 		image_force_sensor_adjust_no_capturing = (Gtk.Image) builder.GetObject ("image_force_sensor_adjust_no_capturing");
 		image_force_sensor_adjust_capturing = (Gtk.Image) builder.GetObject ("image_force_sensor_adjust_capturing");
 
+		radio_resultsSession_best = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_best");
+		radio_resultsSession_last = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_last");
 		spin_resultsSession_limit = (Gtk.SpinButton) builder.GetObject ("spin_resultsSession_limit");
 		box_contacts_graph_exercise = (Gtk.Box) builder.GetObject ("box_contacts_graph_exercise");
 		box_contacts_graph_show_graph_table = (Gtk.Box) builder.GetObject ("box_contacts_graph_show_graph_table");

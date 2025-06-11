@@ -369,6 +369,7 @@ public partial class ChronoJumpWindow
 		PrepareEventGraphJumpSimple eventGraph = new PrepareEventGraphJumpSimple(
 				tv, tc, currentSession.UniqueID,
 				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
+				radio_resultsSession_best.Active,
 				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
 				Constants.JumpTable, typeTemp, preferences.heightPreferred, selectedID);
 		

@@ -6392,7 +6392,7 @@ public partial class ChronoJumpWindow
 	
 	/* thread stuff */
 
-	private void encoderThreadStart(encoderActions action)
+	private void encoderThreadStart (encoderActions action)
 	{
 		encoderProcessCancel = false;
 
@@ -6409,25 +6409,8 @@ public partial class ChronoJumpWindow
 
 		if(action == encoderActions.CAPTURE_BG)
 		{
-			shownWaitAtInertialCapture = false;
-			calledCaptureInertial = false;
-			timeCalibrated = DateTime.Now;
-
-			if (Config.SimulatedCapture)
-				eCaptureInertialBG = new EncoderCaptureInertialBackground("");
-			else
-				eCaptureInertialBG = new EncoderCaptureInertialBackground(
-						chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port);
-
-			encoderThreadBG = new Thread(new ThreadStart(encoderDoCaptureBG));
-			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureBG));
-
-			LogB.ThreadStart();
-
-			//mute logs to improve stability (encoder inertial test only works with muted log)
-			LogB.Mute = ! encoderRProcCapture.Debug;
-
-			encoderThreadBG.Start();
+			encoderThreadStart_CAPTUREBG ();
+			return;
 		}
 
 		else if(action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_IM)
@@ -6457,180 +6440,10 @@ public partial class ChronoJumpWindow
 
 			if(action == encoderActions.CAPTURE)
 			{
-				webcamManage = new WebcamManage();
-				if(webcamStart (WebcamManage.GuiContactsEncoder.ENCODER, 1))
-					webcamEncoderFileStarted = WebcamEncoderFileStarted.NEEDTOCHECK;
-				else
-					webcamEncoderFileStarted = WebcamEncoderFileStarted.NOCAMERA;
-
-				//remove treeview columns
-				if( ! preferences.encoderCaptureInfinite || firstSetOfCont )
-					treeviewEncoderCaptureRemoveColumns();
-
-				cairoPaintBarsPreCurrent = new CairoPaintBarsPreEncoderCurrent (
-						encoder_capture_curves_bars_drawingarea_cairo,
-						preferences.fontTypeToGraph());//, "--capturing--");
-
-				cairoPaintBarsPreCurrent.ShowMessage (
-						encoder_capture_curves_bars_drawingarea_cairo,
-						preferences.fontTypeToGraph(),
-						Catalog.GetString("Capturing") + " …");
-
-				encoderCaptureStringR = new List<string>();
-				encoderCaptureStringR.Add(
-						",series,exercise,mass,start,width,height," + 
-						"meanSpeed,maxSpeed,maxSpeedT,rvd," +
-						"meanPower,peakPower,peakPowerT,pp_ppt," +
-						"meanForce, maxForce, maxForceT, maxForce_maxForceT," +
-						"workJ, impulse");
-
-				string filename = UtilEncoder.GetEncoderCaptureTempFileName();
-				if(File.Exists(filename))
-					File.Delete(filename);
-
-				encoderCaptureReadedLines = 0;
-				deleteAllCapturedCurveFiles();
-
-				capturingCsharp = encoderCaptureProcess.CAPTURING;
-				if(compujumpAutologout != null)
-					compujumpAutologout.StartCapturingEncoder();
-
-
-				captureCurvesBarsData_l = new List<EncoderBarsData> ();
-
-				needToRefreshTreeviewCapture = false;
-
-				if(encoderConfigurationCurrent.has_inertia)
-				{
-					eCapture = new EncoderCaptureInertial();
-				} else
-					eCapture = new EncoderCaptureGravitatory();
-
-				eCapture.FakeFinishByTime.Clicked -= new EventHandler (on_encoder_capture_finish_by_time);
-				eCapture.FakeFinishByTime.Clicked += new EventHandler (on_encoder_capture_finish_by_time);
-
-				if(preferences.encoderCaptureInfinite)
-					encoderProcessFinishContMode = false; //will be true when finish button is pressed
-
-				string portName = "";
-				if (! Config.SimulatedCapture)
-					portName = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port;
-
-				bool success = eCapture.InitGlobal (
-						preferences.encoderCaptureTime,
-						preferences.encoderCaptureInactivityEndTime,
-						preferences.encoderCaptureInfinite,
-						findEccon(true),
-						portName,
-						(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null),
-						encoderConfigurationCurrent.IsInverted (),
-						//configChronojump.EncoderCaptureShowOnlyBars,
-						false, //false to show all, and let user change this at any moment
-						Config.SimulatedCapture,
-						csharpOrR);
-				if(! success)
-				{
-					new DialogMessage(Constants.MessageTypes.WARNING,
-							Catalog.GetString("Sorry, cannot start capture."));
-
-					// 1) sensitivize again
-					sensitiveGuiEventDone(); //senstivize again
-
-					// 2) show the detect big button
-					button_detect_show_hide (true);
-
-					// 3) erase cairo barplot (remove the Capturing...)
-					cairoPaintBarsPreCurrent = new CairoPaintBarsPreEncoderCurrent (
-							encoder_capture_curves_bars_drawingarea_cairo,
-							preferences.fontTypeToGraph());
-					prepareEventGraphEncoderCurrent = null; //to avoid is repainted again, and sound be repeated;
-
-					// 4)
-					encoder_pulsebar_capture.Fraction = 1;
-					fullscreen_capture_progressbar.Fraction = 1;
-
-					return;
-				}
-
-				if(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null)
-				{
-					eCaptureInertialBG.StoreData = true;
-					eCapture.InitCalibrated(eCaptureInertialBG.AngleNow);
-
-					if (Config.SimulatedCapture)
-						eCaptureInertialBG.SimulatedReset();
-				}
-
-				/*
-				 * initialize DateTime for rhythm
-				 * also variable eccon_ec gravitatory mode is e -> c, inertial is c -> e
-				 */
-				if(encoderRhythm.ActiveRhythm) {
-					encoderRhythmExecute = new EncoderRhythmExecuteHasRhythm (encoderRhythm, ! encoderConfigurationCurrent.has_inertia);
-					label_rhythm.Text = Catalog.GetString("Rhythm");
-					encoder_pulsebar_rhythm_eccon.Visible = true;
-				} else if(encoderRhythm.UseClusters()) {
-					encoderRhythmExecute = new EncoderRhythmExecuteJustClusters (encoderRhythm, ! encoderConfigurationCurrent.has_inertia);
-					label_rhythm.Text = Catalog.GetString("Clusters");
-					encoder_pulsebar_rhythm_eccon.Visible = false;
-				}
-
-				//triggers only work on gravitatory, concentric
-				Preferences.TriggerTypes reallyCutByTriggers = Preferences.TriggerTypes.NO_TRIGGERS;
-
-				if(preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS &&
-						currentEncoderGI == Constants.EncoderGI.GRAVITATORY && eCapture.Eccon == "c")
-				{
-					reallyCutByTriggers = preferences.encoderCaptureCutByTriggers;
-					notebook_encoder_signal_comment_and_triggers.Page = 1;
-				}
-
-				box_encoder_capture_rhythm.Visible = (encoderRhythm.ActiveRhythm || encoderRhythm.UseClusters());
-				encoderRProcCapture.CutByTriggers = reallyCutByTriggers;
-				encoderClusterRestActive = false;
-				encoderClusterLastRestSoundWasOnRep = -1; //to know which rep we are resting, to not repeat a rest in the same rep
-
-				//to know if there are connection problems between chronopic and encoder
-				encoderCaptureStopwatch = new Stopwatch();
-				encoderCaptureStopwatch.Start();
-
-				if (fullscreenLastCapture)
-					fullscreen_button_fullscreen_encoder.Click ();
-
-				button_video_play_this_test.Sensitive = false;
-				blinkCapture = new BlinkImage (image_no_capturing_encoder, image_capturing_encoder);
-
-				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
-				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
+				encoderThreadStart_CAPTURE ();
 			}
 			else { //action == encoderActions.CAPTURE_IM)
-
-				eCapture = new EncoderCaptureIMCalc();
-				bool success = eCapture.InitGlobal(
-						preferences.encoderCaptureTimeIM, //two minutes max capture
-						EncoderCaptureIMCalc.InactivityEndTime, //3 seconds
-						false,
-						findEccon(true),
-						chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port,
-						false,
-						false,
-						false,
-						false,
-						EncoderCapture.CsharpOrR.R);
-				if(! success)
-				{
-					new DialogMessage(Constants.MessageTypes.WARNING,
-							Catalog.GetString("Sorry, cannot start capture."));
-					return;
-				}
-
-				encoderRProcCapture.CutByTriggers = Preferences.TriggerTypes.NO_TRIGGERS; //do not cutByTriggers on inertial, yet.
-
-				encoderCaptureStopwatch = new Stopwatch();
-				encoderCaptureStopwatch.Start();
-
-				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharpIM));
-				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureIM));
+				encoderThreadStart_CAPTUREIM ();
 			}
 
 			encoderShowCaptureDoingButtons(true);
@@ -6644,105 +6457,322 @@ public partial class ChronoJumpWindow
 			LogB.Mute = ! encoderRProcCapture.Debug;
 
 			encoderThread.Start();
-		} else if(
-				action == encoderActions.CURVES || 
+		}
+		else if(
+				action == encoderActions.CURVES ||
 				action == encoderActions.LOAD ||
 				action == encoderActions.CURVES_AC)	//this does not run a pulseGTK
 		{
-				
-			if(action == encoderActions.CURVES || action == encoderActions.LOAD) 
-			{
-				//______ 1) prepareEncoderGraphs
-				
-				//image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
-				//make graph half width of Chronojump window
-				//but if video is disabled, then make it wider because thegraph will be much taller
-				//if(configChronojump.UseVideo)
-				//	image_encoder_width = Convert.ToInt32(UtilGtk.WidgetWidth(app1) / 2);
-				//else
-					image_encoder_width = Convert.ToInt32(UtilGtk.WidgetWidth(app1));
+			encoderThreadStartCapture_CURVES_LOAD_CURVESAC (action);
+		}
+		else { //encoderActions.ANALYZE
+			encoderThreadStart_ANALYZE ();
+		}
+	}
 
-				if(image_encoder_width < 100)
-					image_encoder_width = 100; //Not crash R with a png height of -1 or "figure margins too large"
-				
-				//-2 to accomadate the width slider without needing a height slider
-				image_encoder_height = Convert.ToInt32(UtilGtk.WidgetHeight(app1));
-				if(image_encoder_height < 100)
-					image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
+	private void encoderThreadStart_CAPTUREBG ()
+	{
+		shownWaitAtInertialCapture = false;
+		calledCaptureInertial = false;
+		timeCalibrated = DateTime.Now;
 
-				LogB.Information("at load");
+		if (Config.SimulatedCapture)
+			eCaptureInertialBG = new EncoderCaptureInertialBackground("");
+		else
+			eCaptureInertialBG = new EncoderCaptureInertialBackground(
+					chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port);
 
-				//_______ 2) run stuff
-				
-				//don't need because ItemToggled is deactivated during capture
-				//treeview_encoder_capture_curves.Sensitive = false;
-				
-				encoderThread = new Thread(new ThreadStart(encoderDoCurvesGraphR_curves));
+		encoderThreadBG = new Thread(new ThreadStart(encoderDoCaptureBG));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureBG));
 
-				if(action == encoderActions.CURVES)
-					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCurves));
-				else // action == encoderActions.LOAD
-				{
-					//capture tab
-					box_set_loading.Visible = true;
-					spinner_set_loading.Start ();
+		LogB.ThreadStart();
 
-					//analyze tab
-					label_encoder_load_signal_at_analyze.Visible = false;
-					//encoder_pulsebar_load_signal_at_analyze.SetSizeRequest (
-					//	label_encoder_load_signal_at_analyze.SizeRequest().Width, -1);
-					encoder_pulsebar_load_signal_at_analyze.Fraction = 0;
-					encoder_pulsebar_load_signal_at_analyze.Visible = true;
+		//mute logs to improve stability (encoder inertial test only works with muted log)
+		LogB.Mute = ! encoderRProcCapture.Debug;
 
-					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderLoad));
-				}
-				encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
-				
-				LogB.ThreadStart();
-				encoderThread.Start(); 
-			} else { //CURVES_AC
-				//______ 1) prepareEncoderGraphs
-				//don't call directly to prepareEncoderGraphs() here because it's called from a Non-GTK thread
+		encoderThreadBG.Start();
+	}
 
-				//_______ 2) run stuff
-				//this does not run a pulseGTK
-				encoderDoCurvesGraphR_curvesAC();
-				encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
-			}
-		} else { //encoderActions.ANALYZE
-			//the -5 is because image is inside (is smaller than) viewport
-			image_encoder_width = UtilGtk.WidgetWidth(scrolledwindow_image_encoder_analyze)-5;
+	private void encoderThreadStart_CAPTURE ()
+	{
+		webcamManage = new WebcamManage();
+		if(webcamStart (WebcamManage.GuiContactsEncoder.ENCODER, 1))
+			webcamEncoderFileStarted = WebcamEncoderFileStarted.NEEDTOCHECK;
+		else
+			webcamEncoderFileStarted = WebcamEncoderFileStarted.NOCAMERA;
+
+		//remove treeview columns
+		if( ! preferences.encoderCaptureInfinite || firstSetOfCont )
+			treeviewEncoderCaptureRemoveColumns();
+
+		cairoPaintBarsPreCurrent = new CairoPaintBarsPreEncoderCurrent (
+				encoder_capture_curves_bars_drawingarea_cairo,
+				preferences.fontTypeToGraph());//, "--capturing--");
+
+		cairoPaintBarsPreCurrent.ShowMessage (
+				encoder_capture_curves_bars_drawingarea_cairo,
+				preferences.fontTypeToGraph(),
+				Catalog.GetString("Capturing") + " …");
+
+		encoderCaptureStringR = new List<string>();
+		encoderCaptureStringR.Add(
+				",series,exercise,mass,start,width,height," +
+				"meanSpeed,maxSpeed,maxSpeedT,rvd," +
+				"meanPower,peakPower,peakPowerT,pp_ppt," +
+				"meanForce, maxForce, maxForceT, maxForce_maxForceT," +
+				"workJ, impulse");
+
+		string filename = UtilEncoder.GetEncoderCaptureTempFileName();
+		if(File.Exists(filename))
+			File.Delete(filename);
+
+		encoderCaptureReadedLines = 0;
+		deleteAllCapturedCurveFiles();
+
+		capturingCsharp = encoderCaptureProcess.CAPTURING;
+		if(compujumpAutologout != null)
+			compujumpAutologout.StartCapturingEncoder();
+
+
+		captureCurvesBarsData_l = new List<EncoderBarsData> ();
+
+		needToRefreshTreeviewCapture = false;
+
+		if(encoderConfigurationCurrent.has_inertia)
+		{
+			eCapture = new EncoderCaptureInertial();
+		} else
+			eCapture = new EncoderCaptureGravitatory();
+
+		eCapture.FakeFinishByTime.Clicked -= new EventHandler (on_encoder_capture_finish_by_time);
+		eCapture.FakeFinishByTime.Clicked += new EventHandler (on_encoder_capture_finish_by_time);
+
+		if(preferences.encoderCaptureInfinite)
+			encoderProcessFinishContMode = false; //will be true when finish button is pressed
+
+		string portName = "";
+		if (! Config.SimulatedCapture)
+			portName = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port;
+
+		bool success = eCapture.InitGlobal (
+				preferences.encoderCaptureTime,
+				preferences.encoderCaptureInactivityEndTime,
+				preferences.encoderCaptureInfinite,
+				findEccon(true),
+				portName,
+				(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null),
+				encoderConfigurationCurrent.IsInverted (),
+				//configChronojump.EncoderCaptureShowOnlyBars,
+				false, //false to show all, and let user change this at any moment
+				Config.SimulatedCapture,
+				csharpOrR);
+		if(! success)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Catalog.GetString("Sorry, cannot start capture."));
+
+			// 1) sensitivize again
+			sensitiveGuiEventDone(); //senstivize again
+
+			// 2) show the detect big button
+			button_detect_show_hide (true);
+
+			// 3) erase cairo barplot (remove the Capturing...)
+			cairoPaintBarsPreCurrent = new CairoPaintBarsPreEncoderCurrent (
+					encoder_capture_curves_bars_drawingarea_cairo,
+					preferences.fontTypeToGraph());
+			prepareEventGraphEncoderCurrent = null; //to avoid is repainted again, and sound be repeated;
+
+			// 4)
+			encoder_pulsebar_capture.Fraction = 1;
+			fullscreen_capture_progressbar.Fraction = 1;
+
+			return;
+		}
+
+		if(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null)
+		{
+			eCaptureInertialBG.StoreData = true;
+			eCapture.InitCalibrated(eCaptureInertialBG.AngleNow);
+
+			if (Config.SimulatedCapture)
+				eCaptureInertialBG.SimulatedReset();
+		}
+
+		/*
+		 * initialize DateTime for rhythm
+		 * also variable eccon_ec gravitatory mode is e -> c, inertial is c -> e
+		 */
+		if(encoderRhythm.ActiveRhythm) {
+			encoderRhythmExecute = new EncoderRhythmExecuteHasRhythm (encoderRhythm, ! encoderConfigurationCurrent.has_inertia);
+			label_rhythm.Text = Catalog.GetString("Rhythm");
+			encoder_pulsebar_rhythm_eccon.Visible = true;
+		} else if(encoderRhythm.UseClusters()) {
+			encoderRhythmExecute = new EncoderRhythmExecuteJustClusters (encoderRhythm, ! encoderConfigurationCurrent.has_inertia);
+			label_rhythm.Text = Catalog.GetString("Clusters");
+			encoder_pulsebar_rhythm_eccon.Visible = false;
+		}
+
+		//triggers only work on gravitatory, concentric
+		Preferences.TriggerTypes reallyCutByTriggers = Preferences.TriggerTypes.NO_TRIGGERS;
+
+		if(preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS &&
+				currentEncoderGI == Constants.EncoderGI.GRAVITATORY && eCapture.Eccon == "c")
+		{
+			reallyCutByTriggers = preferences.encoderCaptureCutByTriggers;
+			notebook_encoder_signal_comment_and_triggers.Page = 1;
+		}
+
+		box_encoder_capture_rhythm.Visible = (encoderRhythm.ActiveRhythm || encoderRhythm.UseClusters());
+		encoderRProcCapture.CutByTriggers = reallyCutByTriggers;
+		encoderClusterRestActive = false;
+		encoderClusterLastRestSoundWasOnRep = -1; //to know which rep we are resting, to not repeat a rest in the same rep
+
+		//to know if there are connection problems between chronopic and encoder
+		encoderCaptureStopwatch = new Stopwatch();
+		encoderCaptureStopwatch.Start();
+
+		if (fullscreenLastCapture)
+			fullscreen_button_fullscreen_encoder.Click ();
+
+		button_video_play_this_test.Sensitive = false;
+		blinkCapture = new BlinkImage (image_no_capturing_encoder, image_capturing_encoder);
+
+		encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
+	}
+
+	private void encoderThreadStart_CAPTUREIM ()
+	{
+		eCapture = new EncoderCaptureIMCalc();
+		bool success = eCapture.InitGlobal(
+				preferences.encoderCaptureTimeIM, //two minutes max capture
+				EncoderCaptureIMCalc.InactivityEndTime, //3 seconds
+				false,
+				findEccon(true),
+				chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port,
+				false,
+				false,
+				false,
+				false,
+				EncoderCapture.CsharpOrR.R);
+		if(! success)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Catalog.GetString("Sorry, cannot start capture."));
+			return;
+		}
+
+		encoderRProcCapture.CutByTriggers = Preferences.TriggerTypes.NO_TRIGGERS; //do not cutByTriggers on inertial, yet.
+
+		encoderCaptureStopwatch = new Stopwatch();
+		encoderCaptureStopwatch.Start();
+
+		encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharpIM));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureIM));
+	}
+
+	private void encoderThreadStartCapture_CURVES_LOAD_CURVESAC (encoderActions action)
+	{
+		if(action == encoderActions.CURVES || action == encoderActions.LOAD)
+		{
+			//______ 1) prepareEncoderGraphs
+
+			//image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5;
+			//make graph half width of Chronojump window
+			//but if video is disabled, then make it wider because thegraph will be much taller
+			//if(configChronojump.UseVideo)
+			//	image_encoder_width = Convert.ToInt32(UtilGtk.WidgetWidth(app1) / 2);
+			//else
+			image_encoder_width = Convert.ToInt32(UtilGtk.WidgetWidth(app1));
+
 			if(image_encoder_width < 100)
 				image_encoder_width = 100; //Not crash R with a png height of -1 or "figure margins too large"
 
-			image_encoder_height = UtilGtk.WidgetHeight(scrolledwindow_image_encoder_analyze)-5;
+			//-2 to accomadate the width slider without needing a height slider
+			image_encoder_height = Convert.ToInt32(UtilGtk.WidgetHeight(app1));
 			if(image_encoder_height < 100)
 				image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
 
-			if(encoderSelectedAnalysis == "single" || encoderSelectedAnalysis == "singleAllSet")
-				image_encoder_height -= UtilGtk.WidgetHeight(grid_encoder_analyze_instant); //to allow hslides and table
+			LogB.Information("at load");
 
-			encoder_pulsebar_analyze.Text = Catalog.GetString("Please, wait.");
-			encoderRProcAnalyze.status = EncoderRProc.Status.WAITING;
+			//_______ 2) run stuff
 
-			encoderRProcAnalyze.CrossValidate = checkbutton_crossvalidate.Active;
-			encoderRProcAnalyze.SeparateSessionInDays = check_encoder_separate_session_in_days.Active;
+			//don't need because ItemToggled is deactivated during capture
+			//treeview_encoder_capture_curves.Sensitive = false;
 
-			encoderThread = new Thread(new ThreadStart(encoderDoAnalyze));
-			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderAnalyze));
+			encoderThread = new Thread(new ThreadStart(encoderDoCurvesGraphR_curves));
 
+			if(action == encoderActions.CURVES)
+				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCurves));
+			else // action == encoderActions.LOAD
+			{
+				//capture tab
+				box_set_loading.Visible = true;
+				spinner_set_loading.Start ();
+
+				//analyze tab
+				label_encoder_load_signal_at_analyze.Visible = false;
+				//encoder_pulsebar_load_signal_at_analyze.SetSizeRequest (
+				//	label_encoder_load_signal_at_analyze.SizeRequest().Width, -1);
+				encoder_pulsebar_load_signal_at_analyze.Fraction = 0;
+				encoder_pulsebar_load_signal_at_analyze.Visible = true;
+
+				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderLoad));
+			}
 			encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
-			treeview_encoder_analyze_curves.Sensitive = false;
-			button_encoder_analyze_image_save.Sensitive = false;
-			button_encoder_analyze_image_compujump_send_email.Sensitive = false;
-			button_encoder_analyze_AB_save.Sensitive = false;
-			button_encoder_analyze_table_save.Sensitive = false;
-			button_encoder_analyze_1RM_save.Visible = false;
 
 			LogB.ThreadStart();
 			encoderThread.Start(); 
+		} else { //CURVES_AC
+			 //______ 1) prepareEncoderGraphs
+			 //don't call directly to prepareEncoderGraphs() here because it's called from a Non-GTK thread
+
+			 //_______ 2) run stuff
+			 //this does not run a pulseGTK
+			encoderDoCurvesGraphR_curvesAC();
+			encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
 		}
 	}
+
+	private void encoderThreadStart_ANALYZE ()
+	{
+		//the -5 is because image is inside (is smaller than) viewport
+		image_encoder_width = UtilGtk.WidgetWidth(scrolledwindow_image_encoder_analyze)-5;
+		if(image_encoder_width < 100)
+			image_encoder_width = 100; //Not crash R with a png height of -1 or "figure margins too large"
+
+		image_encoder_height = UtilGtk.WidgetHeight(scrolledwindow_image_encoder_analyze)-5;
+		if(image_encoder_height < 100)
+			image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
+
+		if(encoderSelectedAnalysis == "single" || encoderSelectedAnalysis == "singleAllSet")
+			image_encoder_height -= UtilGtk.WidgetHeight(grid_encoder_analyze_instant); //to allow hslides and table
+
+		encoder_pulsebar_analyze.Text = Catalog.GetString("Please, wait.");
+		encoderRProcAnalyze.status = EncoderRProc.Status.WAITING;
+
+		encoderRProcAnalyze.CrossValidate = checkbutton_crossvalidate.Active;
+		encoderRProcAnalyze.SeparateSessionInDays = check_encoder_separate_session_in_days.Active;
+
+		encoderThread = new Thread(new ThreadStart(encoderDoAnalyze));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderAnalyze));
+
+		encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
+		treeview_encoder_analyze_curves.Sensitive = false;
+		button_encoder_analyze_image_save.Sensitive = false;
+		button_encoder_analyze_image_compujump_send_email.Sensitive = false;
+		button_encoder_analyze_AB_save.Sensitive = false;
+		button_encoder_analyze_table_save.Sensitive = false;
+		button_encoder_analyze_1RM_save.Visible = false;
+
+		LogB.ThreadStart();
+		encoderThread.Start();
+	}
+
+	/* end of thread stuff */
+
+
 
 	//while capturing, some buttons are hidden, others are shown
 	void encoderShowCaptureDoingButtons(bool show) {

@@ -387,6 +387,9 @@ public partial class ChronoJumpWindow
 					);
 			treeview_results_session_cursor_changed_block = false;
 
+			// update the signal graph
+			encoder_capture_signal_drawingarea_cairo.QueueDraw ();
+
 			//and the session barplot
 			updateGraphResultsSessionByMode ();
 		}

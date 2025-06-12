@@ -1402,10 +1402,14 @@ public partial class ChronoJumpWindow
 		se.TestSelectSetsAndRepsLList (false, -1, 283, Constants.EncoderGI.GRAVITATORY, -1, -1);
 		*/
 
+	/*
+	 * If comment this again, remember to uncomment the BluetoothLE.Stop at: on_quit2_activate ()
+	 *
         //Subscribe to BluetoothLE data changed event
         BluetoothLE.OnDataChanged += BluetoothLE_OnDataChanged;
         //Start BluetoothLE service
         BluetoothLE.Start();
+	*/
     }
 
     /// <summary>
@@ -2232,7 +2236,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("Bye!");
 
         //Stop the BluetoothLE service if it was started
-        BluetoothLE.Stop();
+        //BluetoothLE.Stop();
 
         updatingRestTimes = false;
 

@@ -3347,6 +3347,9 @@ public partial class ChronoJumpWindow
 				vbox_capture_current_encoder.Visible = true;
 		}
 
+		box_radio_resultsSession_bestLast.Visible = (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.RUNSSIMPLE);
+		label_resultsSession_last.Visible = ! (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.RUNSSIMPLE);
+
 		vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = false; //just runEncoder
 
 		// <---- box_capture_current ----

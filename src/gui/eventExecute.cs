@@ -49,6 +49,8 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_adjust_no_capturing;
 	Gtk.Image image_force_sensor_adjust_capturing;
 
+	Gtk.Box box_radio_resultsSession_bestLast;
+	Gtk.Label label_resultsSession_last;
 	Gtk.RadioButton radio_resultsSession_best;
 	Gtk.RadioButton radio_resultsSession_last;
 	Gtk.SpinButton spin_resultsSession_limit;
@@ -1042,6 +1044,8 @@ public partial class ChronoJumpWindow
 		image_force_sensor_adjust_no_capturing = (Gtk.Image) builder.GetObject ("image_force_sensor_adjust_no_capturing");
 		image_force_sensor_adjust_capturing = (Gtk.Image) builder.GetObject ("image_force_sensor_adjust_capturing");
 
+		box_radio_resultsSession_bestLast = (Gtk.Box) builder.GetObject ("box_radio_resultsSession_bestLast");
+		label_resultsSession_last = (Gtk.Label) builder.GetObject ("label_resultsSession_last");
 		radio_resultsSession_best = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_best");
 		radio_resultsSession_last = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_last");
 		spin_resultsSession_limit = (Gtk.SpinButton) builder.GetObject ("spin_resultsSession_limit");

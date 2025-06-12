@@ -296,7 +296,7 @@ public class PrepareEventGraphRunSimple
 	}
 
 	public PrepareEventGraphRunSimple(double time, double speed, int sessionID,
-			int personID, bool allPersons, int limit,
+			int personID, bool allPersons, bool showBest, int limit,
 			string table, string type, int selectedID)
 	{
 		Sqlite.Open();
@@ -305,9 +305,13 @@ public class PrepareEventGraphRunSimple
 		if(allPersons)
 			personIDTemp = -1;
 
+		Sqlite.Orders_by orderBy = Sqlite.Orders_by.BEST;
+		if (! showBest)
+			orderBy = Sqlite.Orders_by.ID_ASC;
+
 		//obtain data
 		runsAtSQL = SqliteRun.SelectRuns (true, sessionID, personIDTemp, type,
-				Sqlite.Orders_by.ID_ASC, limit,
+				orderBy, limit,
 				allPersons, false); //show names on comments only if "all persons"
 
 		

@@ -164,6 +164,8 @@ class SqliteTests : Sqlite
 			orderByString = string.Format(" ORDER BY {0}.uniqueID DESC ", t);
 		if(onlyBestInSession)
 			orderByString = string.Format(" ORDER BY {0}.sessionID, {0}.distance/{0}.time DESC ", t);
+		if(order == Orders_by.BEST)
+			orderByString = string.Format(" ORDER BY {0}.distance/{0}.time ", t);
 
 		string limitString = "";
 		if(limit > 0)

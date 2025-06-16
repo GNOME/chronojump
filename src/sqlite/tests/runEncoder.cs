@@ -170,6 +170,10 @@ class SqliteRunEncoder : SqliteTests
 		string orderByString = string.Format (" ORDER BY {0}.uniqueID ", tableStatic);
 		if (order == Orders_by.ID_DESC)
 			orderByString = string.Format(" ORDER BY {0}.uniqueID DESC ", tableStatic);
+		else if (order == Orders_by.BEST)
+			orderByString = string.Format ( " ORDER BY {0}.maxSpeed ", tableStatic);
+		else if (order == Orders_by.BEST2)
+			orderByString = string.Format ( " ORDER BY {0}.maxAvgSpeed1s ", tableStatic);
 
 		dbcmd.CommandText = selectStr + whereStr + uniqueIDStr + personIDStr + sessionIDStr +
 			andExerciseStr + orderByString;// + limitString

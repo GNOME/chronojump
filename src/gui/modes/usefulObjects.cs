@@ -448,7 +448,8 @@ public class PrepareEventGraphRunEncoder
 	public PrepareEventGraphRunEncoder() {
 	}
 
-	public PrepareEventGraphRunEncoder (int sessionID, int personID, bool allPersons, int limit,
+	public PrepareEventGraphRunEncoder (int sessionID, int personID, bool allPersons,
+			Constants.ResultsSessionCriteria resultsSessionCriteria, int limit,
 			int exerciseID, int selectedID, Constants.Modes mode, bool exerciseAll)
 	{
 		this.selectedID = selectedID;
@@ -458,8 +459,14 @@ public class PrepareEventGraphRunEncoder
 		if(allPersons)
 			personIDTemp = -1;
 
+		Sqlite.Orders_by orderBy = Sqlite.Orders_by.ID_ASC;
+		if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST)
+			orderBy = Sqlite.Orders_by.BEST;
+		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
+			orderBy = Sqlite.Orders_by.BEST2;
+
 		rowsAtSQL = SqliteRunEncoder.Select (false, -1, personIDTemp, sessionID, exerciseID,
-				Sqlite.Orders_by.ID_ASC, limit,
+				orderBy, limit,
 				allPersons//, 	//show names on comments only if "all persons"
 				//false 	//! onlyBestInSession
 				);

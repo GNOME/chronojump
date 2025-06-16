@@ -3351,7 +3351,8 @@ public partial class ChronoJumpWindow
 				vbox_capture_current_encoder.Visible = true;
 		}
 
-		if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.RUNSSIMPLE || Constants.ModeIsFORCESENSOR (m))
+		if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.RUNSSIMPLE ||
+				m == Constants.Modes.RUNSENCODER || Constants.ModeIsFORCESENSOR (m))
 		{
 			box_radio_resultsSession_bestLast.Visible = true;
 			label_resultsSession_last.Visible = false;
@@ -3362,9 +3363,12 @@ public partial class ChronoJumpWindow
 				radio_resultsSession_best.Label = Catalog.GetString ("Best");
 				// best2
 				radio_resultsSession_best2.Visible = false;
-			} else { 	// Constants.ModeIsFORCESENSOR (m))
+			} else { 	// m == Constants.Modes.RUNSENCODER || Constants.ModeIsFORCESENSOR (m)
 				// best
-				radio_resultsSession_best.Label = Catalog.GetString ("Max force");
+				if (m == Constants.Modes.RUNSENCODER)
+					radio_resultsSession_best.Label = Catalog.GetString ("Max speed");
+				else // Constants.ModeIsFORCESENSOR (m)
+					radio_resultsSession_best.Label = Catalog.GetString ("Max force");
 				// best2
 				radio_resultsSession_best2.Label = Catalog.GetString ("Best second");
 				radio_resultsSession_best2.Visible = true;

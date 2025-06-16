@@ -85,17 +85,17 @@ public static class BluetoothLE
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             pythonPath = "python";
-            pythonScriptPath = "../../../../BLEHelper.Python/runner-win.bat";
+            pythonScriptPath = "../../../../BLEHelper.Python/ble-runner-win.bat";
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
             pythonPath = "python3";
-            pythonScriptPath = "../../../../BLEHelper.Python/runner-linux.sh";
+            pythonScriptPath = "../../../../BLEHelper.Python/ble-runner-linux.sh";
         }
         else
         {
             pythonPath = "python3";
-            pythonScriptPath = "../../../../BLEHelper.Python/runner-mac.sh";
+            pythonScriptPath = "../../../../BLEHelper.Python/ble-runner-mac.sh";
         }
 
         processStartInfo = new ProcessStartInfo

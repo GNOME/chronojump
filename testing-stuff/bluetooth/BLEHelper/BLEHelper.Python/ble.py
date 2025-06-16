@@ -52,15 +52,15 @@ async def scan(stop_event: asyncio.Event):
     async def scanned_callback(device, advertising_data):
         if device.address not in scanned_devices_dict:
             scanned_devices_dict[device.address] = device
-            print(f"Device Scanned: {device}    {advertising_data}", flush = True) 
+            print(f"Device Scanned: {device} {advertising_data}", flush = True) 
 
             if device.name not in watching_devices and device.address not in watching_devices:
-                #print(f"Device Ignored: {device}    {advertising_data}", flush = True)
+                #print(f"Device Ignored: {device} {advertising_data}", flush = True)
                 return
             
             try:
                 client = BleakClient(address_or_ble_device = device, disconnected_callback = disconnected_callback)
-                #print(f"Device Matched: {device}    {advertising_data}", flush = True)
+                #print(f"Device Matched: {device} {advertising_data}", flush = True)
                 try:
                     await client.pair()
                 except:
@@ -87,13 +87,13 @@ async def scan(stop_event: asyncio.Event):
                         await client.unpair()
                     except:
                         await client.disconnect()
-                    print(f"Device Mismatched: {device}    {advertising_data}", flush = True)
+                    print(f"Device Mismatched: {device} {advertising_data}", flush = True)
                     return
 
                 connected_devices_dict[device.address] = client
                 print(f"Device Connected: {device}", flush = True)
             except BaseException as ex:
-                print(f"Error Occurred: {device}    {advertising_data}   {repr(ex)}", flush = True)
+                print(f"Error Occurred: {device} {advertising_data} {repr(ex)}", flush = True)
 
     async with BleakScanner(scanned_callback) as scanner:
         ...
@@ -138,4 +138,5 @@ async def main():
         await scan(stop_event)
 
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())

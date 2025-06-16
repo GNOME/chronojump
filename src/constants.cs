@@ -1498,9 +1498,10 @@ public class Constants
 	public enum MassType {
 		BODY, EXTRA, DISPLACED
 	}	
-	
+
 	public enum Status { ERROR, UNSTARTED, OK}	
-	
+	public enum ResultsSessionCriteria { BEST, BEST2, LAST };
+
 	/*
 	 * Attention: this will be separated by ';', then no ';' sign can be here
 	 * No "\n" can be here also

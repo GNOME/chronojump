@@ -52,6 +52,7 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_radio_resultsSession_bestLast;
 	Gtk.Label label_resultsSession_last;
 	Gtk.RadioButton radio_resultsSession_best;
+	Gtk.RadioButton radio_resultsSession_best2;
 	Gtk.RadioButton radio_resultsSession_last;
 	Gtk.SpinButton spin_resultsSession_limit;
 	Gtk.Box box_contacts_simple_graph_controls;
@@ -886,6 +887,17 @@ public partial class ChronoJumpWindow
 		updateGraphResultsSessionByMode ();
 	}
 
+	// used on forceSensor
+	private Constants.ResultsSessionCriteria get_radio_resultsSession_criteria ()
+	{
+		if (radio_resultsSession_best.Active)
+			return Constants.ResultsSessionCriteria.BEST;
+		else if (radio_resultsSession_best2.Active)
+			return Constants.ResultsSessionCriteria.BEST2;
+		else // if (radio_resultsSession_last.Active)
+			return Constants.ResultsSessionCriteria.LAST;
+	}
+
 	private void on_spin_resultsSession_limit_value_changed (object o, EventArgs args)
 	{
 		updateGraphResultsSessionByMode ();
@@ -1047,6 +1059,7 @@ public partial class ChronoJumpWindow
 		box_radio_resultsSession_bestLast = (Gtk.Box) builder.GetObject ("box_radio_resultsSession_bestLast");
 		label_resultsSession_last = (Gtk.Label) builder.GetObject ("label_resultsSession_last");
 		radio_resultsSession_best = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_best");
+		radio_resultsSession_best2 = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_best2");
 		radio_resultsSession_last = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_last");
 		spin_resultsSession_limit = (Gtk.SpinButton) builder.GetObject ("spin_resultsSession_limit");
 		box_contacts_graph_exercise = (Gtk.Box) builder.GetObject ("box_contacts_graph_exercise");

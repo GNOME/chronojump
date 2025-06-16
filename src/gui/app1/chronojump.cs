@@ -3351,8 +3351,29 @@ public partial class ChronoJumpWindow
 				vbox_capture_current_encoder.Visible = true;
 		}
 
-		box_radio_resultsSession_bestLast.Visible = (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.RUNSSIMPLE);
-		label_resultsSession_last.Visible = ! (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.RUNSSIMPLE);
+		if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.RUNSSIMPLE || Constants.ModeIsFORCESENSOR (m))
+		{
+			box_radio_resultsSession_bestLast.Visible = true;
+			label_resultsSession_last.Visible = false;
+
+			if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.RUNSSIMPLE)
+			{
+				// best
+				radio_resultsSession_best.Label = Catalog.GetString ("Best");
+				// best2
+				radio_resultsSession_best2.Visible = false;
+			} else { 	// Constants.ModeIsFORCESENSOR (m))
+				// best
+				radio_resultsSession_best.Label = Catalog.GetString ("Max force");
+				// best2
+				radio_resultsSession_best2.Label = Catalog.GetString ("Best second");
+				radio_resultsSession_best2.Visible = true;
+			}
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_radio_resultsSession_bestLast);
+		} else {
+			box_radio_resultsSession_bestLast.Visible = false;
+			label_resultsSession_last.Visible = true;
+		}
 
 		vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = false; //just runEncoder
 

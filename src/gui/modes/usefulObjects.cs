@@ -550,7 +550,8 @@ public class PrepareEventGraphForceSensor
 	public PrepareEventGraphForceSensor() {
 	}
 
-	public PrepareEventGraphForceSensor (int sessionID, int personID, bool allPersons, int limit,
+	public PrepareEventGraphForceSensor (int sessionID, int personID, bool allPersons,
+			Constants.ResultsSessionCriteria resultsSessionCriteria, int limit,
 			int exerciseID, int selectedID, Constants.Modes mode, bool exerciseAll)
 	{
 		this.selectedID = selectedID;
@@ -567,8 +568,14 @@ public class PrepareEventGraphForceSensor
 		else if (mode == Constants.Modes.FORCESENSORELASTIC)
 			elastic = 1;
 
+		Sqlite.Orders_by orderBy = Sqlite.Orders_by.ID_ASC;
+		if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST)
+			orderBy = Sqlite.Orders_by.BEST;
+		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
+			orderBy = Sqlite.Orders_by.BEST2;
+
 		rowsAtSQL = SqliteForceSensor.Select (false, -1, personIDTemp, sessionID, elastic, exerciseID,
-				Sqlite.Orders_by.ID_ASC, limit,
+				orderBy, limit,
 				allPersons//, 	//show names on comments only if "all persons"
 				//false 	//! onlyBestInSession
 				);

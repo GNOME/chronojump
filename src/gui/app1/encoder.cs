@@ -1022,8 +1022,8 @@ public partial class ChronoJumpWindow
 
 		if (preferences.encoderFeedbackAsteroidsActive)
 			asteroids = new Asteroids (
-					preferences.forceSensorFeedbackAsteroidsMax * 10, //cm to mm
-					preferences.forceSensorFeedbackAsteroidsMin * 10, //cm to mm
+					preferences.forceSensorFeedbackAsteroidsMax,
+					preferences.forceSensorFeedbackAsteroidsMin,
 					preferences.forceSensorFeedbackAsteroidsDark,
 					preferences.forceSensorFeedbackAsteroidsFrequency,
 					preferences.forceSensorFeedbackShotsFrequency,

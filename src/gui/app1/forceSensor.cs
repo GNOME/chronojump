@@ -2312,6 +2312,33 @@ LogB.Information(" fs R ");
 
 	private void forceSensorLoadSignalAcceptedDo (int uniqueID, int personID, int sessionID, int elastic, bool TwoSetsCD)
 	{
+		GLib.Timeout.Add (0, new GLib.TimeoutHandler (loadingShowStart));
+
+		//Lambda expression (passing parameters in a GLib.Timeout)
+		GLib.Timeout.Add (100, () => forceSensorLoadSignalAcceptedDo2 (uniqueID, personID, sessionID, elastic, TwoSetsCD));
+	}
+
+	private bool loadingShowStart ()  //GLib.Timeout
+	{
+		box_set_loading.Visible = true;
+		spinner_set_loading.Start ();
+
+		return false;
+	}
+
+	private bool forceSensorLoadSignalAcceptedDo2 (int uniqueID, int personID, int sessionID, int elastic, bool TwoSetsCD) //GLib.Timeout using Lambda expression
+	{
+		forceSensorLoadSignalAcceptedDo3 (uniqueID, personID, sessionID, elastic, TwoSetsCD);
+
+		// loadingShowEnd:
+		box_set_loading.Visible = false;
+		spinner_set_loading.Stop ();
+
+		return false;
+	}
+
+	private void forceSensorLoadSignalAcceptedDo3 (int uniqueID, int personID, int sessionID, int elastic, bool TwoSetsCD)
+	{
 		ForceSensor fs = (ForceSensor) SqliteForceSensor.Select (false, uniqueID, personID, sessionID, elastic)[0];
 		if(fs == null)
 		{

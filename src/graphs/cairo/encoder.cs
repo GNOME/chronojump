@@ -296,7 +296,8 @@ public class CairoGraphEncoderSignal : CairoXY
 		return true;
 	}
 
-	private void drawRepetitionsInfoIfNeeded ()
+	// on asteroids this will not be done
+	protected virtual void drawRepetitionsInfoIfNeeded ()
 	{
 		if (captureCurvesBarsData_l.Count == 0 || encoderCaptureListStore == null ||
 				UtilGtk.CountRows (encoderCaptureListStore) == 0)
@@ -413,5 +414,9 @@ public class CairoGraphEncoderSignalAsteroids : CairoGraphEncoderSignal
 		asteroidsPlot (points_l[points_l.Count -1], startAt, multiplier,
 				marginAfterInSeconds, points_l, horizontal,
 				ref lastShot, ref lastPointUp);
+	}
+
+	protected override void drawRepetitionsInfoIfNeeded ()
+	{
 	}
 }

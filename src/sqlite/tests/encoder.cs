@@ -246,9 +246,13 @@ class SqliteEncoder : SqliteTests
     {
 	    openIfNeeded (dbconOpened);
 
+	    Sqlite.Orders_by orderBy = Sqlite.Orders_by.ID_DESC;
+	    if (orderIDascendent)
+		    orderBy = Sqlite.Orders_by.ID_ASC;
+
 	    selectDo (dbconOpened, uniqueID, personID, sessionID, encoderGI,
 			    exerciseID, signalOrCurve, ecconSelect, lateralityEnglish,
-			    onlyActive, orderIDascendent,
+			    onlyActive, orderBy,
 			    orderRepsByPosInSet); // Attention! note this only selects curves
 
 	    SQLiteDataReader reader;
@@ -275,7 +279,8 @@ class SqliteEncoder : SqliteTests
     public static List<EncoderSQL> SelectList (
 		    bool dbconOpened, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI,
 		    int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect, string lateralityEnglish,
-		    bool onlyActive, bool orderIDascendent,
+		    bool onlyActive,
+		    Orders_by order,
 		    bool orderRepsByPosInSet, 	// Attention! note this only selects curves
 		    int limit, bool personNameInComment)
     {
@@ -287,7 +292,7 @@ class SqliteEncoder : SqliteTests
 
 	    selectDo (dbconOpened, uniqueID, personID, sessionID, encoderGI,
 			    exerciseID, signalOrCurve, ecconSelect, lateralityEnglish,
-			    onlyActive, orderIDascendent,
+			    onlyActive, order,
 			    orderRepsByPosInSet); // Attention! note this only selects curves
 
 	    SQLiteDataReader reader;
@@ -322,13 +327,17 @@ class SqliteEncoder : SqliteTests
     private static void selectDo (
 		    bool dbconOpened, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI,
 		    int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect, string lateralityEnglish,
-		    bool onlyActive, bool orderIDascendent,
+		    bool onlyActive, Orders_by order,
 		    bool orderRepsByPosInSet) // Attention! note this only selects curves
     {
 
         string encT = Constants.EncoderTable;
         string encSCT = Constants.EncoderSignalCurveTable;
         string encExT = Constants.EncoderExerciseTable;
+
+	// on best is best repetitition, do not need to group them by sets and all the related complexity
+	if (order == Orders_by.BEST)
+		orderRepsByPosInSet = false;
 
         string andString = "";
         string personIDStr = "";
@@ -400,20 +409,26 @@ class SqliteEncoder : SqliteTests
         if (orderRepsByPosInSet)
             orderRepsByPosInSetOrderStr = encSCT + ".mscentral, ";
 
-        string orderIDstr = "";
-        if (!orderIDascendent)
-            orderIDstr = " DESC";
+	string orderByStr = "";
+	if (order == Orders_by.BEST)
+		orderByStr = string.Format ( " ORDER BY {0}.future1 ", tableStatic); // meanPower
+	else {
+		orderByStr =
+			" ORDER BY substr(filename,-23,19), " + //'filename,-23,19' has the date of capture signal
+			orderRepsByPosInSetOrderStr +
+			"uniqueID ";
+		if (order == Orders_by.ID_DESC)
+			orderByStr += " DESC";
+	}
 
         dbcmd.CommandText = "SELECT " +
             encT + ".*, " + encExT + ".name " +
             fromString +
             " WHERE " + selectStr +
-            andString + encT + ".exerciseID = " +
-                encExT + ".uniqueID " +
-                onlyActiveString + orderRepsByPosInSetAndStr +
-            " ORDER BY substr(filename,-23,19), " + //'filename,-23,19' has the date of capture signal
-            orderRepsByPosInSetOrderStr +
-            "uniqueID " + orderIDstr;
+	    andString + encT + ".exerciseID = " +
+	    encExT + ".uniqueID " +
+	    onlyActiveString + orderRepsByPosInSetAndStr +
+	    orderByStr;
 
         LogB.SQL(dbcmd.CommandText.ToString());
     }

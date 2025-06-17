@@ -670,7 +670,9 @@ public class PrepareEventGraphEncoderSession
 	}
 
 	public PrepareEventGraphEncoderSession (int sessionID, int personID, bool allPersons,
-			Constants.EncoderGI encoderGI, int limit,
+			Constants.EncoderGI encoderGI,
+			bool showBest,
+			int limit,
 			int exerciseID, int selectedSetID, Constants.Modes mode, bool exerciseAll)
 	{
 		this.selectedSetID = selectedSetID;
@@ -680,11 +682,15 @@ public class PrepareEventGraphEncoderSession
 		if(allPersons)
 			personIDTemp = -1;
 
+		Sqlite.Orders_by orderBy = Sqlite.Orders_by.BEST;
+		if (! showBest)
+			orderBy = Sqlite.Orders_by.ID_ASC;
+
 		rowsAtSQL = SqliteEncoder.SelectList (false, -1, personIDTemp, sessionID, encoderGI,
 				exerciseID, "curve", EncoderSQL.Eccons.ALL,
 				"", 	//lateralityEnglish
-				false, true, 	// onlyActive, orderIDascendent
-				true, 	//orderRespsByPosInSet
+				false, orderBy, 	// onlyActive, orderIDascendent
+				true, 	//orderRepsByPosInSet
 				limit,
 				allPersons//, 	//show names on comments only if "all persons"
 				//false 	//! onlyBestInSession

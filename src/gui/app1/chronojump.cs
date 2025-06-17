@@ -3351,13 +3351,15 @@ public partial class ChronoJumpWindow
 				vbox_capture_current_encoder.Visible = true;
 		}
 
+		// to select/order barplot by last or best, best2
 		if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.RUNSSIMPLE ||
-				m == Constants.Modes.RUNSENCODER || Constants.ModeIsFORCESENSOR (m))
+				m == Constants.Modes.RUNSENCODER || Constants.ModeIsFORCESENSOR (m) ||
+				Constants.ModeIsENCODER (m))
 		{
 			box_radio_resultsSession_bestLast.Visible = true;
 			label_resultsSession_last.Visible = false;
 
-			if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.RUNSSIMPLE)
+			if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.RUNSSIMPLE || Constants.ModeIsENCODER (m))
 			{
 				// best
 				radio_resultsSession_best.Label = Catalog.GetString ("Best");

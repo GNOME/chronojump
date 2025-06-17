@@ -493,6 +493,7 @@ class ImportSession:
         self._import_jumps()
         self._import_runs()
         self._import_pulse()
+        self._import_wilight()
         trigger = self._import_encoder()
         triggerForceSensor = self._import_forceSensor()
         triggerRunEncoder = self._import_runEncoder()
@@ -663,6 +664,16 @@ class ImportSession:
         pulse.update_session_ids(self.new_session_id)
         pulse.update_ids("type", pulse_types, "old_name", "new_name")
         self.destination_db.write(pulse, self.destination_db.column_names("Pulse", skip_columns=["uniqueID", "personID"]))
+
+    def _import_wilight(self):
+        #self._print_status(self, "wilight")
+
+        # Imports Wilight table
+        wilight = self.source_db.read(table_name="Wilight",
+                                    where_condition="Wilight.sessionID={}".format(self.source_session))
+        wilight.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
+        wilight.update_session_ids(self.new_session_id)
+        self.destination_db.write(wilight, self.destination_db.column_names("Wilight", skip_columns=["uniqueID", "personID"]))
 
     def _import_person_session77(self):
         # Imports PersonSession77

@@ -1343,6 +1343,8 @@ public partial class ChronoJumpWindow
 		return runEncoderLoadSetDo (uniqueID, personID, sessionID, getPersonSessionFromGenericWin);
 	}
 
+	// at the moment we are not using Lambda like on forceSensorLoadSignalAcceptedDo ()
+	// because we return an string here. Also loading Race Analyzer set is fast
 	private string runEncoderLoadSetDo (int uniqueID, int personID, int sessionID, bool getPersonSessionFromGenericWin)
 	{
 		RunEncoder re = (RunEncoder) SqliteRunEncoder.Select (false, uniqueID, personID, sessionID)[0];

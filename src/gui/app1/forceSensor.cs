@@ -2325,14 +2325,16 @@ LogB.Information(" fs R ");
 
 		return false;
 	}
+	private void loadingShowEnd ()
+	{
+		box_set_loading.Visible = false;
+		spinner_set_loading.Stop ();
+	}
 
 	private bool forceSensorLoadSignalAcceptedDo2 (int uniqueID, int personID, int sessionID, int elastic, bool TwoSetsCD) //GLib.Timeout using Lambda expression
 	{
 		forceSensorLoadSignalAcceptedDo3 (uniqueID, personID, sessionID, elastic, TwoSetsCD);
-
-		// loadingShowEnd:
-		box_set_loading.Visible = false;
-		spinner_set_loading.Stop ();
+		loadingShowEnd ();
 
 		return false;
 	}

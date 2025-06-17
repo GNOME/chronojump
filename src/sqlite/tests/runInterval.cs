@@ -122,7 +122,10 @@ class SqliteRunInterval : SqliteRun
 				Constants.RunIntervalTable,
 				sessionID, personID, runType,
 				false, "",
-				order, limit, false
+				order,
+				string.Format(" ORDER BY {0}.distanceTotal/{0}.timeTotal ",
+					Constants.RunIntervalTable),
+				limit, false
 				);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -201,7 +204,8 @@ class SqliteRunInterval : SqliteRun
 				Constants.RunIntervalTable,
 				sessionID, personID, runType,
 				false, "",
-				Orders_by.DEFAULT, 0, false
+				Orders_by.DEFAULT, "",
+				0, false
 				);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

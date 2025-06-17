@@ -91,7 +91,7 @@ class SqliteTests : Sqlite
 				tableName,
 				sessionID, personID, "", //type,
 				addExerciseNameInOtherTable, exerciseTable,
-				order, limit, false //onlyBestInSession
+				order, "", limit, false //onlyBestInSession
 				);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -128,10 +128,11 @@ class SqliteTests : Sqlite
 	//note this is selecting also the person.name
 	//used on run, runI, wilight
 	// limit 0 means no limit (limit negative is the last results) (used on SelectRuns)
-	protected static string selectResultsCreateSelection (string t,
+	protected static string selectResultsCreateSelection (
+			string t,
 			int sessionID, int personID, string filterType,
 			bool addExerciseNameInOtherTable, string exerciseTable,
-			Orders_by order, int limit, bool onlyBestInSession)
+			Orders_by order, string orderByBestStr, int limit, bool onlyBestInSession)
 	{
 		string tp = Constants.PersonTable;
 
@@ -165,7 +166,7 @@ class SqliteTests : Sqlite
 		if(onlyBestInSession)
 			orderByString = string.Format(" ORDER BY {0}.sessionID, {0}.distance/{0}.time DESC ", t);
 		if(order == Orders_by.BEST)
-			orderByString = string.Format(" ORDER BY {0}.distance/{0}.time ", t);
+			orderByString = orderByBestStr;
 
 		string limitString = "";
 		if(limit > 0)

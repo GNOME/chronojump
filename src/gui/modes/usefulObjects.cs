@@ -370,7 +370,8 @@ public class PrepareEventGraphRunInterval
 	//personID we need to the personsMAX/AVG sql calls
 	//type can be "" for all jumps, then write it under bar
 	public PrepareEventGraphRunInterval (
-			int sessionID, int personID, bool allPersons, int limit, string type, int selectedID)
+			int sessionID, int personID, bool allPersons, bool showBest, int limit,
+			string type, int selectedID)
 	{
 		// 1) assign variables
 		this.type = type;
@@ -382,8 +383,12 @@ public class PrepareEventGraphRunInterval
 		if(allPersons)
 			personIDTemp = -1;
 
+		Sqlite.Orders_by orderBy = Sqlite.Orders_by.BEST;
+		if (! showBest)
+			orderBy = Sqlite.Orders_by.ID_ASC;
+
 		runsAtSQL = SqliteRunInterval.SelectRuns (true, sessionID, personIDTemp, type,
-				Sqlite.Orders_by.ID_ASC, limit, allPersons); 	//show names on comments only if "all persons"
+				orderBy, limit, allPersons); 	//show names on comments only if "all persons"
 
 		string sqlSelect = "distanceTotal/timeTotal";
 		string table = Constants.RunIntervalTable;

@@ -116,7 +116,8 @@ class SqliteRun : SqliteTests
 				Constants.RunTable,
 				sessionID, personID, filterType,
 				false, "",
-				order, limit, false
+				order, "",
+				limit, false
 				);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -185,7 +186,10 @@ class SqliteRun : SqliteTests
 				Constants.RunTable,
 				sessionID, personID, runType,
 				false, "",
-				order, limit, onlyBestInSession
+				order,
+				string.Format(" ORDER BY {0}.distance/{0}.time ",
+					Constants.RunTable),
+				limit, onlyBestInSession
 				);
 		LogB.SQL(dbcmd.CommandText.ToString());
 

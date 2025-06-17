@@ -264,6 +264,7 @@ public partial class ChronoJumpWindow
 		PrepareEventGraphRunInterval eventGraph = new PrepareEventGraphRunInterval(
 				currentSession.UniqueID, currentPerson.UniqueID,
 				radio_contacts_results_personAll.Active,
+				radio_resultsSession_best.Active,
 				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
 				typeTemp, selectedID);
 

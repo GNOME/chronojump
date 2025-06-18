@@ -3441,7 +3441,7 @@ public partial class ChronoJumpWindow
 				notebooks_change(m);
 				on_extra_window_jumps_test_changed(new object(), new EventArgs());
 
-				box_contacts_simple_graph_controls.Visible = true;
+				box_resultsSession_bestLast.Visible = true;
 
 				//align_check_vbox_contacts_graph_legend.Visible = true;
 				//vbox_contacts_graph_legend.Visible = false;
@@ -3457,7 +3457,7 @@ public partial class ChronoJumpWindow
 				button_contacts_bells.Sensitive = true;
 				on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
 
-				box_contacts_simple_graph_controls.Visible = true;
+				box_resultsSession_bestLast.Visible = true;
 
 				box_capture_current.Visible = true;
 
@@ -3512,7 +3512,7 @@ public partial class ChronoJumpWindow
 				notebooks_change(m);
 				on_extra_window_runs_test_changed(new object(), new EventArgs());
 
-				box_contacts_simple_graph_controls.Visible = true;
+				box_resultsSession_bestLast.Visible = true;
 
 				//align_check_vbox_contacts_graph_legend.Visible = true;
 				//vbox_contacts_graph_legend.Visible = false;
@@ -3531,7 +3531,7 @@ public partial class ChronoJumpWindow
 				button_inspect_last_test_run_intervallic.Visible = true;
 				button_inspect_last_test_run_intervallic.Sensitive = false;
 
-				box_contacts_simple_graph_controls.Visible = true;
+				box_resultsSession_bestLast.Visible = true;
 
 				box_capture_current.Visible = true;
 				vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = true;
@@ -3710,7 +3710,7 @@ public partial class ChronoJumpWindow
 			//button_force_sensor_sync.Visible = true; //TODO: show again when it fully works, now is hidden for 2.1.0 release
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
-			box_contacts_simple_graph_controls.Visible = true;
+			box_resultsSession_bestLast.Visible = true;
 
 			hbox_change_modes_force_sensor.Visible = true;
 			radio_change_modes_contacts_isometric.Visible = (m == Constants.Modes.FORCESENSORISOMETRIC || m == Constants.Modes.FORCESENSORELASTIC);

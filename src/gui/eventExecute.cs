@@ -55,7 +55,7 @@ public partial class ChronoJumpWindow
 	Gtk.RadioButton radio_resultsSession_best2;
 	Gtk.RadioButton radio_resultsSession_last;
 	Gtk.SpinButton spin_resultsSession_limit;
-	Gtk.Box box_contacts_simple_graph_controls;
+	Gtk.Box box_resultsSession_bestLast;
 	Gtk.Box box_contacts_graph_exercise;
 	Gtk.Box box_contacts_graph_show_graph_table;
 	Gtk.RadioButton radio_contacts_graph_currentTest;
@@ -202,7 +202,7 @@ public partial class ChronoJumpWindow
 	
 	private void showJumpSimpleLabels() 
 	{
-		box_contacts_simple_graph_controls.Visible = true;
+		box_resultsSession_bestLast.Visible = true;
 		check_run_show_time.Visible = false;
 
 //		align_check_vbox_contacts_graph_legend.Visible = true;
@@ -214,7 +214,7 @@ public partial class ChronoJumpWindow
 	
 	private void showJumpReactiveLabels() 
 	{
-		box_contacts_simple_graph_controls.Visible = true;
+		box_resultsSession_bestLast.Visible = true;
 		check_run_show_time.Visible = false;
 
 //		align_check_vbox_contacts_graph_legend.Visible = false;
@@ -225,7 +225,7 @@ public partial class ChronoJumpWindow
 	
 	private void showRunSimpleLabels() 
 	{
-		box_contacts_simple_graph_controls.Visible = true;
+		box_resultsSession_bestLast.Visible = true;
 		check_run_show_time.Visible = true;
 
 //		align_check_vbox_contacts_graph_legend.Visible = true;
@@ -236,7 +236,7 @@ public partial class ChronoJumpWindow
 		
 	private void showRunIntervalLabels() 
 	{
-		box_contacts_simple_graph_controls.Visible = true;
+		box_resultsSession_bestLast.Visible = true;
 		check_run_show_time.Visible = true;
 
 //		align_check_vbox_contacts_graph_legend.Visible = false;
@@ -1064,7 +1064,7 @@ public partial class ChronoJumpWindow
 		spin_resultsSession_limit = (Gtk.SpinButton) builder.GetObject ("spin_resultsSession_limit");
 		box_contacts_graph_exercise = (Gtk.Box) builder.GetObject ("box_contacts_graph_exercise");
 		box_contacts_graph_show_graph_table = (Gtk.Box) builder.GetObject ("box_contacts_graph_show_graph_table");
-		box_contacts_simple_graph_controls = (Gtk.Box) builder.GetObject ("box_contacts_simple_graph_controls");
+		box_resultsSession_bestLast = (Gtk.Box) builder.GetObject ("box_resultsSession_bestLast");
 		radio_contacts_graph_currentTest = (Gtk.RadioButton) builder.GetObject ("radio_contacts_graph_currentTest");
 		radio_contacts_graph_allTests = (Gtk.RadioButton) builder.GetObject ("radio_contacts_graph_allTests");
 		//radio_contacts_results_personCurrent = (Gtk.RadioButton) builder.GetObject ("radio_contacts_results_personCurrent");

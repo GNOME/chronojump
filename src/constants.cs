@@ -1500,7 +1500,7 @@ public class Constants
 	}	
 
 	public enum Status { ERROR, UNSTARTED, OK}	
-	public enum ResultsSessionCriteria { BEST, BEST2, LAST };
+	public enum ResultsSessionCriteria { BEST, BEST2, BEST3, LAST };
 
 	/*
 	 * Attention: this will be separated by ';', then no ';' sign can be here

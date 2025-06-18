@@ -417,8 +417,10 @@ public partial class ChronoJumpWindow
 		PrepareEventGraphJumpReactive eventGraph = new PrepareEventGraphJumpReactive(
 				currentSession.UniqueID, currentPerson.UniqueID,
 				radio_contacts_results_personAll.Active,
+				radio_resultsSession_heights.Active,
+				get_radio_resultsSession_criteria (),
 				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
-				typeTemp, preferences.heightPreferred, selectedID);
+				typeTemp, selectedID);
 
 		string personStr = "";
 		if(! radio_contacts_results_personAll.Active)

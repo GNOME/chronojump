@@ -3351,38 +3351,10 @@ public partial class ChronoJumpWindow
 				vbox_capture_current_encoder.Visible = true;
 		}
 
-		// to select/order barplot by LAST, BEST, BEST2, ...
-		if (m == Constants.Modes.JUMPSSIMPLE ||
-				m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC ||
-				m == Constants.Modes.RUNSENCODER || Constants.ModeIsFORCESENSOR (m) ||
-				Constants.ModeIsENCODER (m))
-		{
-			box_radio_resultsSession_bestLast.Visible = true;
-			label_resultsSession_last.Visible = false;
+		// to select heights/times on barplot (jumpsReactive)
+		box_resultsSession_heightsTimes.Visible = (m == Constants.Modes.JUMPSREACTIVE);
 
-			if (m == Constants.Modes.JUMPSSIMPLE ||
-					m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC ||
-					Constants.ModeIsENCODER (m))
-			{
-				// best
-				radio_resultsSession_best.Label = Catalog.GetString ("Best");
-				// best2
-				radio_resultsSession_best2.Visible = false;
-			} else { 	// m == Constants.Modes.RUNSENCODER || Constants.ModeIsFORCESENSOR (m)
-				// best
-				if (m == Constants.Modes.RUNSENCODER)
-					radio_resultsSession_best.Label = Catalog.GetString ("Max speed");
-				else // Constants.ModeIsFORCESENSOR (m)
-					radio_resultsSession_best.Label = Catalog.GetString ("Max force");
-				// best2
-				radio_resultsSession_best2.Label = Catalog.GetString ("Best second");
-				radio_resultsSession_best2.Visible = true;
-			}
-			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_radio_resultsSession_bestLast);
-		} else {
-			box_radio_resultsSession_bestLast.Visible = false;
-			label_resultsSession_last.Visible = true;
-		}
+		resultsSession_bestLast_controls ();
 
 		vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = false; //just runEncoder
 

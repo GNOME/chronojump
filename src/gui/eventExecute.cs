@@ -49,6 +49,9 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_adjust_no_capturing;
 	Gtk.Image image_force_sensor_adjust_capturing;
 
+	Gtk.Box box_resultsSession_heightsTimes;
+	Gtk.RadioButton radio_resultsSession_heights;
+	Gtk.RadioButton radio_resultsSession_times;
 	Gtk.Box box_radio_resultsSession_bestLast;
 	Gtk.Label label_resultsSession_last;
 	Gtk.RadioButton radio_resultsSession_best;
@@ -882,20 +885,95 @@ public partial class ChronoJumpWindow
 			updateGraphFourPlatformsBars ();
 	}
 
+	// only jumpRj
+	private void on_radio_resultsSession_heightsTimes_toggled (object o, EventArgs args)
+	{
+		// TODO: this should change: preferences.heightPreferred
+		// and remove it from gui/preferences.cs
+
+		// if jumps reactive and times tv/tc and then change to heights, select best (best height)
+		if (current_mode == Constants.Modes.JUMPSREACTIVE &&
+				radio_resultsSession_heights.Active &&
+				radio_resultsSession_best2.Active)
+		{
+			radio_resultsSession_best.Active = true;
+			return;
+		}
+
+		resultsSession_bestLast_controls ();
+		updateGraphResultsSessionByMode ();
+	}
 	private void on_radio_resultsSession_bestLast_toggled (object o, EventArgs args)
 	{
 		updateGraphResultsSessionByMode ();
 	}
 
+	private void resultsSession_bestLast_controls ()
+	{
+		Constants.Modes m = current_mode;
+
+		// to select/order barplot by LAST, BEST, BEST2, ...
+		if (
+				m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE ||
+				m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC ||
+				m == Constants.Modes.RUNSENCODER || Constants.ModeIsFORCESENSOR (m) ||
+				Constants.ModeIsENCODER (m))
+		{
+			box_radio_resultsSession_bestLast.Visible = true;
+			label_resultsSession_last.Visible = false;
+
+			if (
+					m == Constants.Modes.JUMPSSIMPLE ||
+					m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC ||
+					Constants.ModeIsENCODER (m) ||
+					(m == Constants.Modes.JUMPSREACTIVE && radio_resultsSession_heights.Active))
+			{
+				// best
+				radio_resultsSession_best.Label = Catalog.GetString ("Best");
+				// best2
+				radio_resultsSession_best2.Visible = false;
+			} else { 	// m == Constants.Modes.RUNSENCODER || Constants.ModeIsFORCESENSOR (m) ||
+					// (m == Constants.Modes.JUMPSREACTIVE && radio_resultsSession_times.Active))
+				// best
+				if (m == Constants.Modes.RUNSENCODER)
+				{
+					radio_resultsSession_best.Label = Catalog.GetString ("Max speed");
+					radio_resultsSession_best2.Label = Catalog.GetString ("Best second");
+				} else if (Constants.ModeIsFORCESENSOR (m))
+				{
+					radio_resultsSession_best.Label = Catalog.GetString ("Max force");
+					radio_resultsSession_best2.Label = Catalog.GetString ("Best second");
+				} else // (m == Constants.Modes.JUMPSREACTIVE && radio_resultsSession_times.Active))
+				{
+					radio_resultsSession_best.Label = Catalog.GetString ("Best flight time");
+					radio_resultsSession_best2.Label = string.Format ("{0} {1}/{2}",
+							Catalog.GetString ("Best"), "FT", "CT");
+				}
+
+				radio_resultsSession_best2.Visible = true;
+			}
+			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_radio_resultsSession_bestLast);
+		} else {
+			box_radio_resultsSession_bestLast.Visible = false;
+			label_resultsSession_last.Visible = true;
+		}
+	}
+
+
 	// used on forceSensor
 	private Constants.ResultsSessionCriteria get_radio_resultsSession_criteria ()
 	{
+		if (radio_resultsSession_last.Active)
+			return Constants.ResultsSessionCriteria.LAST;
+
+		if (current_mode == Constants.Modes.JUMPSREACTIVE && radio_resultsSession_heights.Active)
+			return Constants.ResultsSessionCriteria.BEST3;
+
 		if (radio_resultsSession_best.Active)
 			return Constants.ResultsSessionCriteria.BEST;
-		else if (radio_resultsSession_best2.Active)
-			return Constants.ResultsSessionCriteria.BEST2;
-		else // if (radio_resultsSession_last.Active)
-			return Constants.ResultsSessionCriteria.LAST;
+
+		// if (radio_resultsSession_best2.Active)
+		return Constants.ResultsSessionCriteria.BEST2;
 	}
 
 	private void on_spin_resultsSession_limit_value_changed (object o, EventArgs args)
@@ -1056,6 +1134,9 @@ public partial class ChronoJumpWindow
 		image_force_sensor_adjust_no_capturing = (Gtk.Image) builder.GetObject ("image_force_sensor_adjust_no_capturing");
 		image_force_sensor_adjust_capturing = (Gtk.Image) builder.GetObject ("image_force_sensor_adjust_capturing");
 
+		box_resultsSession_heightsTimes = (Gtk.Box) builder.GetObject ("box_resultsSession_heightsTimes");
+		radio_resultsSession_heights = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_heights");
+		radio_resultsSession_times = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_times");
 		box_radio_resultsSession_bestLast = (Gtk.Box) builder.GetObject ("box_radio_resultsSession_bestLast");
 		label_resultsSession_last = (Gtk.Label) builder.GetObject ("label_resultsSession_last");
 		radio_resultsSession_best = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_best");

@@ -150,10 +150,14 @@ class SqliteJumpRj : SqliteJump
 		}
 
 		string orderByString = " ORDER BY jumpRj.uniqueID "; //ID_ASC
-		if(order == Orders_by.ID_DESC)
+		if (order == Orders_by.ID_DESC)
 			orderByString = " ORDER BY jumpRj.uniqueID DESC ";
-		if(order == Orders_by.BEST)
-			orderByString = " ORDER BY jumpRj.tvAvg * jumpRj.tvAvg * 1.22625 "; //height avg
+		else if (order == Orders_by.BEST)
+			orderByString = " ORDER BY jumpRj.tvAvg ";
+		else if (order == Orders_by.BEST2)
+			orderByString = " ORDER BY jumpRj.tvAvg/jumpRj.tcAvg ";
+		else if (order == Orders_by.BEST3)
+			orderByString = " ORDER BY jumpRj.heightAvg ";
 
 		string limitString = "";
 		if(limit > 0)

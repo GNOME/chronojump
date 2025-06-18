@@ -78,7 +78,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		
 		myJumpRj.WeightPercent = Convert.ToDouble (myStringOfData[8].ToString());
 
-		personWeight = Convert.ToDouble(myStringOfData[20]);
+		personWeight = Convert.ToDouble(myStringOfData[21]);
 		weightInKg = Util.WeightFromPercentToKg (myJumpRj.WeightPercent, personWeight);
 
 		return myJumpRj;

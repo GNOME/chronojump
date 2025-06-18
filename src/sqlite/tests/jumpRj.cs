@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -68,11 +68,12 @@ class SqliteJumpRj : SqliteJump
 			"limited TEXT, " + //for RJ, "11J" or "11S" (11 Jumps, 11 seconds)
 			"angleString TEXT, " + //"-1" if undef
 			"simulated INT, " +
-			"datetime TEXT )";
+			"datetime TEXT, " +
+			"heightAvg FLOAT )";
 		dbcmd.ExecuteNonQuery();
 	}
 
-	public static int Insert (bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tvMax, double tcMax, double fall, double weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited, string angleString, int simulated, string datetime )
+	public static int Insert (bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tvMax, double tcMax, double fall, double weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited, string angleString, int simulated, string datetime, double heightAvg)
 	{
 		Console.WriteLine("At SQL insert RJ");
 
@@ -84,14 +85,15 @@ class SqliteJumpRj : SqliteJump
 
 		dbcmd.CommandText = "INSERT INTO " + tableName + 
 				" (uniqueID, personID, sessionID, type, tvMax, tcMax, fall, weight, description, " +
-				"tvAvg, tcAvg, tvString, tcString, jumps, time, limited, angleString, simulated, datetime )" +
+				"tvAvg, tcAvg, tvString, tcString, jumps, time, limited, angleString, simulated, datetime, heightAvg)" +
 				"VALUES (" + uniqueID + ", " +
 				personID + ", " + sessionID + ", '" + type + "', " +
 				Util.ConvertToPoint(tvMax) + ", " + Util.ConvertToPoint(tcMax) + ", '" + 
 				Util.ConvertToPoint(fall) + "', '" + Util.ConvertToPoint(weight) + "', '" + description + "', " +
 				Util.ConvertToPoint(tvAvg) + ", " + Util.ConvertToPoint(tcAvg) + ", '" + 
 				Util.ConvertToPoint(tvString) + "', '" + Util.ConvertToPoint(tcString) + "', " +
-				jumps + ", " + Util.ConvertToPoint(time) + ", '" + limited + "', '" + angleString + "', " + simulated + ", '" + datetime + "')" ;
+				jumps + ", " + Util.ConvertToPoint(time) + ", '" + limited + "', '" + angleString + "', " +
+				simulated + ", '" + datetime + "', " + Util.ConvertToPoint (heightAvg) + ")" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -150,6 +152,8 @@ class SqliteJumpRj : SqliteJump
 		string orderByString = " ORDER BY jumpRj.uniqueID "; //ID_ASC
 		if(order == Orders_by.ID_DESC)
 			orderByString = " ORDER BY jumpRj.uniqueID DESC ";
+		if(order == Orders_by.BEST)
+			orderByString = " ORDER BY jumpRj.tvAvg * jumpRj.tvAvg * 1.22625 "; //height avg
 
 		string limitString = "";
 		if(limit > 0)
@@ -249,7 +253,8 @@ class SqliteJumpRj : SqliteJump
 					reader[17].ToString() + ":" +	//angleString
 					reader[18].ToString() + ":" +	//simulated
 					reader[19].ToString() + ":" +	//datetime
-					reader[20].ToString() 	 	//person.weight
+					Util.ChangeDecimalSeparator(reader[20].ToString()) + ":" + 	//heightAvg,
+					reader[21].ToString() 	 	//person.weight
 					);
 			count ++;
 		}
@@ -291,7 +296,7 @@ class SqliteJumpRj : SqliteJump
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 
-		JumpRj myJump = new JumpRj(DataReaderToStringArray(reader, 19));
+		JumpRj myJump = new JumpRj(DataReaderToStringArray(reader, 20));
 		if(personNameInComment)
 			myJump.Description = reader[19].ToString(); //person.Name
 
@@ -329,7 +334,8 @@ class SqliteJumpRj : SqliteJump
 				  reader[15].ToString(), 	//limited
 				  reader[16].ToString(),	//angleString
 				  Convert.ToInt32(reader[17].ToString()),	//simulated
-				  reader[18].ToString()	//datetime
+				  reader[18].ToString(),	//datetime
+				  Convert.ToDouble(Util.ChangeDecimalSeparator(reader[19].ToString())) 	//heightAvg
 				  );
 
 		  //jumps previous to DB 1.82 have no datetime on jump

@@ -1260,7 +1260,8 @@ public class JumpRjExecute : JumpExecute
 					Util.GetAverage(tvString), Util.GetAverage(tcString),
 					tvString, tcString,
 					jumps, Util.GetTotalTime(tcString, tvString), limitString, angleString, Util.BoolToNegativeInt(simulated),
-					datetime);
+					datetime,
+					UtilList.GetAverage (JumpRj.HeightListFromTvString (tvString)));
 		else {
 			if(simulated)
 				feedbackMessage = Catalog.GetString(Constants.SimulatedMessage());
@@ -1273,7 +1274,8 @@ public class JumpRjExecute : JumpExecute
 					Util.GetAverage(tvString), Util.GetAverage(tcString),
 					tvString, tcString,
 					jumps, Util.GetTotalTime(tcString, tvString), limitString, angleString, Util.BoolToNegativeInt(simulated),
-					datetime);
+					datetime,
+					UtilList.GetAverage (JumpRj.HeightListFromTvString (tvString)));
 
 			//define the created object
 			eventDone = new JumpRj(uniqueID, personID, sessionID, type, tvString, tcString, fall, weight, description, jumps, Util.GetTotalTime(tcString, tvString), limitString, angleString, Util.BoolToNegativeInt(simulated), datetime);

@@ -169,7 +169,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.60";
+	static string lastChronojumpDatabaseVersion = "2.61";
 
 	public Sqlite()
 	{
@@ -3547,6 +3547,40 @@ class Sqlite
 
 				currentVersion = updateVersion("2.60");
 			}
+			if(currentVersion == "2.60")
+			{
+				LogB.SQL("Doing alter table jumpRj adding heightAvg");
+				try {
+					executeSQL("ALTER TABLE " + Constants.JumpRjTable + " ADD COLUMN heightAvg FLOAT;");
+					LogB.Information ("alter table done!");
+
+					LogB.Information ("doing migration of heightAvg ...");
+					List<JumpRj> jumpRj_l = SqliteJumpRj.SelectJumps (true, -1, -1, "", Orders_by.ID_ASC, 0, false);
+					using (SQLiteTransaction tr = dbcon.BeginTransaction())
+					{
+						using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
+						{
+							dbcmdTr.Transaction = tr;
+
+							foreach (JumpRj jr in jumpRj_l)
+							{
+								dbcmdTr.CommandText = string.Format ("UPDATE {0} SET heightAvg = {1} WHERE uniqueID = {2}",
+										Constants.JumpRjTable,
+										Util.ConvertToPoint (UtilList.GetAverage (JumpRj.HeightListFromTvString (jr.TvString))),
+										jr.UniqueID);
+								LogB.SQL(dbcmdTr.CommandText.ToString());
+								dbcmdTr.ExecuteNonQuery();
+							}
+						}
+						tr.Commit();
+					}
+				} catch {
+					LogB.SQL("Catched at Doing alter table jumpRj adding heightAvg");
+				}
+				LogB.SQL("Done!");
+
+				currentVersion = updateVersion("2.61");
+			}
 
 
 			/*
@@ -3795,6 +3829,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.60 - 2.61 Converted DB to 2.61 alter table jumpRj adding heightAvg
 		//2.59 - 2.60 Converted DB to 2.60 alter table runEncoder adding maxSpeed, maxAvgSpeed1s
 		//2.58 - 2.59 Converted DB to 2.59 Created table BeepTest
 		//2.57 - 2.58 Converted DB to 2.58 alter table fourPlatforms totalTime int to float

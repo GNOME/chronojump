@@ -1,0 +1,116 @@
+/*
+ * This file is part of ChronoJump
+ *
+ * ChronoJump is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or   
+ *    (at your option) any later version.
+ *    
+ * ChronoJump is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ *    GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ */
+
+using System;
+using Gtk;
+using System.Collections.Generic; //List
+using Mono.Unix;
+
+
+public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
+{
+	private bool showPersonName;
+
+	public CairoPaintBarsPreEncoderSession (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN, bool showPersonName)
+	{
+		initialize (darea, fontStr, mode, personName, testName, pDN);
+
+		this.title = generateTitle();
+		this.showPersonName = showPersonName;
+	}
+
+	public override void StoreEventGraphEncoderSession (PrepareEventGraphEncoderSession eventGraph)
+	{
+		this.eventGraphEncoderSessionStored = eventGraph;
+	}
+
+	protected override bool storeCreated ()
+	{
+		return (eventGraphEncoderSessionStored != null);
+	}
+
+	protected override bool haveDataToPlot()
+	{
+		return (eventGraphEncoderSessionStored.rowsAtSQL.Count > 0);
+	}
+
+	protected override void paintSpecific()
+	{
+		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, true, true, true);
+
+		cb.YVariable = Catalog.GetString("Mean Power");
+		cb.YUnits = "W";
+
+		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
+		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides
+
+		List<Event> events = EncoderSQL.EncoderSQLListToEventList (eventGraphEncoderSessionStored.rowsAtSQL);
+
+		List<PointF> point_l = new List<PointF>();
+		List<string> names_l = new List<string>();
+		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
+
+		calculateBottomParams (events, true, "", "", false, eventGraphEncoderSessionStored.exerciseAll);
+
+		int countToDraw = eventGraphEncoderSessionStored.rowsAtSQL.Count;
+		foreach (EncoderSQL eSQL in eventGraphEncoderSessionStored.rowsAtSQL)
+		{
+			// 1) Add data
+			//point_l.Add(new PointF(countToDraw --, UtilAll.DivideSafe (fp.TotalMs, 1000)));
+			point_l.Add (new PointF(countToDraw --, eSQL.meanPowerD)); //TODO: or meanSpeed
+
+			// 2) Add bottom names
+			string typeRowString = "";
+			if (eventGraphEncoderSessionStored.exerciseAll) //if "all tests" show type
+				typeRowString = eSQL.exerciseName;// + "\n" + string.Format ("{0} Kg", eSQL.extraWeight);
+			//if (eventGraphEncoderSessionStored.type == "")
+			//	typeRowString = jump.Type;
+
+			// show extraWeight, but not on inertial
+			string extraWeightStr = "";
+			if (mode == Constants.Modes.POWERGRAVITATORY)
+				extraWeightStr = string.Format ("{0} Kg", Util.TrimDecimals (eSQL.extraWeightD, 2));
+
+			names_l.Add (createTextBelowBar(
+						extraWeightStr,
+						typeRowString,
+						eSQL.Description, //person name
+						false, false,
+						longestWord.Length, maxRowsForText));
+
+			id_l.Add (eSQL.UniqueID);
+
+			//if (eventGraphEncoderSessionStored.selectedID == eSQL.UniqueID)
+			//	cb.SelectedPos = eventGraphEncoderSessionStored.rowsAtSQL.Count -countToDraw -1;
+			if (UtilList.FoundInListInt (eventGraphEncoderSessionStored.selectedRepID_l, eSQL.UniqueID))
+				cb.SelectedPos_l.Add (eventGraphEncoderSessionStored.rowsAtSQL.Count -countToDraw -1);
+		}
+		cb.Id_l = id_l;
+
+		cb.PassData1Serie (point_l,
+				new List<Cairo.Color>(), names_l,
+				-1, fontHeightForBottomNames, bottomMargin, title,
+				new List<int> (), new List<int> ());
+
+		passDataForScreenshotIfNeeded ();
+
+		cb.GraphDo();
+	}
+}

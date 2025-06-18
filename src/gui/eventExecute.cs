@@ -468,18 +468,9 @@ public partial class ChronoJumpWindow
 		if (eventGraph == null)
 			return;
 
-		bool useHeights = true;
-		if(! eventGraph.djShowHeights &&
-				eventGraph.type != "" && //it is a concrete type, not all jumps
-				eventGraph.jumpsAtSQL.Count > 0 &&
-				eventGraph.jumpsAtSQL[0].Tc > 0 &&
-				eventGraph.jumpsAtSQL[0].Tv > 0
-				)
-			useHeights = false;
-
 		// B) Paint cairo graph
 		cairoPaintBarsPre.ShowPersonNames = radio_contacts_results_personAll.Active;
-		cairoPaintBarsPre.UseHeights = useHeights;
+		cairoPaintBarsPre.UseHeights = eventGraph.showHeights;
 
 		cairoPaintBarsPre.Paint();
 	}

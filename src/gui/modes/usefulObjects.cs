@@ -77,7 +77,7 @@ public class PrepareEventGraphJumpSimple
 	public double tv;
 	public double tc;
 	public string type; //jumpType (useful to know if "all jumps" (type == "")
-	public bool djShowHeights; //if djShowHeights and is a dj, graph falling height and jump height
+	public bool showHeights;
 	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
 
 	public PrepareEventGraphJumpSimple() {
@@ -87,8 +87,10 @@ public class PrepareEventGraphJumpSimple
 	//personID we need to the personsMAX/AVG sql calls
 	//type can be "" for all jumps, then write it under bar
 	public PrepareEventGraphJumpSimple (double tv, double tc, int sessionID,
-			int personID, bool allPersons, bool showBest, int limit,
-			string table, string type, bool djShowHeights, int selectedID)
+			int personID, bool allPersons,
+			bool showHeights,
+			bool showBest, int limit,
+			string table, string type, int selectedID)
 	{
 		int personIDTemp = personID;
 		if(allPersons)
@@ -106,24 +108,9 @@ public class PrepareEventGraphJumpSimple
 		Sqlite.Open();
 
 
-		string sqlSelect = "";
-		//if it is a concrete jump type, then check if showHeights or times
-		if(type != "") {
-			if(tv > 0) {
-				if(tc <= 0)
-					sqlSelect = "100*4.9*(TV/2)*(TV/2)";
-				else {
-					if(djShowHeights)
-						sqlSelect = "100*4.9*(TV/2)*(TV/2)";
-					else
-						sqlSelect = "TV"; //if tc is higher than tv it will be fixed on PrepareJumpSimpleGraph
-				}
-			} else
-				sqlSelect = "TC";
-		} else {
-			//if there are different types, always use heights to be able to do comparisons between different jump types
+		string sqlSelect = "TV"; //if tc is higher than tv it will be fixed on PrepareJumpSimpleGraph
+		if (showHeights)
 			sqlSelect = "100*4.9*(TV/2)*(TV/2)";
-		}
 
 		personMAXAtSQLAllSessions = SqliteSession.SelectMAXEventsOfAType(true, -1, personID, table, type, sqlSelect);
 
@@ -144,7 +131,7 @@ public class PrepareEventGraphJumpSimple
 		this.tv = tv;
 		this.tc = tc;
 		this.type = type;
-		this.djShowHeights = djShowHeights;
+		this.showHeights = showHeights;
 		this.selectedID = selectedID;
 		
 		Sqlite.Close();
@@ -222,7 +209,7 @@ public class PrepareEventGraphJumpReactive
 				orderBy, limit, allPersons); 	//show names on comments only if "all persons"
 
 		List<double> personStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
-				true, sessionID, personID, Constant.JumpRjTable, type, sqlRangeSelect);
+				true, sessionID, personID, Constants.JumpRjTable, type, sqlRangeSelect);
 		personMAXAtSQL = personStats[0];
 		personAVGAtSQL = personStats[1];
 		personMINAtSQL = personStats[2];

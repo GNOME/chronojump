@@ -366,12 +366,13 @@ public partial class ChronoJumpWindow
 		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
 			selectedID = treeViewResultsSession.EventSelectedID;
 
-		PrepareEventGraphJumpSimple eventGraph = new PrepareEventGraphJumpSimple(
+		PrepareEventGraphJumpSimple eventGraph = new PrepareEventGraphJumpSimple (
 				tv, tc, currentSession.UniqueID,
 				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
+				radio_resultsSession_heights.Active,
 				radio_resultsSession_best.Active,
 				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
-				Constants.JumpTable, typeTemp, preferences.heightPreferred, selectedID);
+				Constants.JumpTable, typeTemp, selectedID);
 		
 		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.jumpsAtSQL.Count > 0)
 		//	PrepareJumpSimpleGraph(eventGraph, false); //don't animate
@@ -414,7 +415,7 @@ public partial class ChronoJumpWindow
 		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
 			selectedID = treeViewResultsSession.EventSelectedID;
 
-		PrepareEventGraphJumpReactive eventGraph = new PrepareEventGraphJumpReactive(
+		PrepareEventGraphJumpReactive eventGraph = new PrepareEventGraphJumpReactive (
 				currentSession.UniqueID, currentPerson.UniqueID,
 				radio_contacts_results_personAll.Active,
 				radio_resultsSession_heights.Active,

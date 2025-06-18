@@ -3352,7 +3352,7 @@ public partial class ChronoJumpWindow
 		}
 
 		// to select heights/times on barplot (jumpsReactive)
-		box_resultsSession_heightsTimes.Visible = (m == Constants.Modes.JUMPSREACTIVE);
+		box_resultsSession_heightsTimes.Visible = (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE);
 
 		resultsSession_bestLast_controls ();
 

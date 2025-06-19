@@ -895,7 +895,7 @@
   </object>
   <object class="GtkAdjustment" id="adjustment8">
     <property name="lower">2</property>
-    <property name="upper">30</property>
+    <property name="upper">99</property>
     <property name="value">10</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
@@ -27443,6 +27443,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

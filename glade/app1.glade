@@ -14681,18 +14681,6 @@ then click this button.</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">2</property>
                                                             <child>
-                                                            <object class="GtkLabel">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Show</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <object class="GtkRadioButton" id="radio_resultsSession_heights">
                                                             <property name="label" translatable="yes">heights</property>
                                                             <property name="visible">True</property>
@@ -14742,7 +14730,7 @@ then click this button.</property>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Show</property>
+                                                            <property name="label" translatable="yes">Sort</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -27455,6 +27443,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

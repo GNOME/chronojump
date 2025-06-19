@@ -2888,7 +2888,9 @@ LogB.Information(" fs R ");
 
 		//initialize
 		forceSensorValues = new ForceSensorValues();
-		spCairoFE_Raw = new SignalPointsCairoForceElastic ();
+
+		if (ab)
+			spCairoFE_Raw = new SignalPointsCairoForceElastic ();
 
 		//to display on capture tab, or use it if no filter is being used
 		List<int> timesUnfiltered_l = new List<int>();
@@ -2919,12 +2921,14 @@ LogB.Information(" fs R ");
 
 					forces_l.Add (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
 					forcesUnfiltered_l.Add (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
-					spCairoFE_Raw.Force_l.Add (new PointF (
-								Convert.ToInt32 (strFull[0]),
-								ForceSensor.CalculeForceWithCaptureOptions(
-									Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])),
-									fsco)
-								));
+
+					if (ab)
+						spCairoFE_Raw.Force_l.Add (new PointF (
+									Convert.ToInt32 (strFull[0]),
+									ForceSensor.CalculeForceWithCaptureOptions(
+										Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])),
+										fsco)
+									));
 
 					if (preferences.forceSensorButterworth (current_mode) >= 0)
 						bw.AddSample (

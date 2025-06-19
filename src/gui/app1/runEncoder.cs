@@ -1193,6 +1193,7 @@ public partial class ChronoJumpWindow
 		return dataPrint;
 	}
 
+	// canChoosePersonAndSession is also CD
 	private void run_encoder_load (bool canChoosePersonAndSession)
 	{
 		finishPlayVideoIfRunning ();
@@ -1310,17 +1311,14 @@ public partial class ChronoJumpWindow
 	{
 		int uniqueID = genericWin.TreeviewSelectedRowID();
 		radio_signal_analyze_current_set.Active = true;
-
-		string str = run_encoder_load_set (uniqueID, getPersonSessionFromGenericWin);
-		if(str != "")
-			event_execute_label_message.Text = Catalog.GetString("Loaded:") + " " + str;
+		run_encoder_load_set (uniqueID, getPersonSessionFromGenericWin);
 	}
 
 	//this is also called from recalculate
-	private string run_encoder_load_set (int uniqueID, bool getPersonSessionFromGenericWin)
+	private void run_encoder_load_set (int uniqueID, bool getPersonSessionFromGenericWin)
 	{
 		if (uniqueID < 0)
-			return "";
+			return;
 
 		int personID = currentPerson.UniqueID;
 		int sessionID = currentSession.UniqueID;
@@ -1340,25 +1338,28 @@ public partial class ChronoJumpWindow
 		//LogB.Information (string.Format ("run_encoder_load_set uniqueID: {0}, personID: {1}, sessionID: {2}",
 		//			uniqueID, personID, sessionID));
 
-		return runEncoderLoadSetDo (uniqueID, personID, sessionID, getPersonSessionFromGenericWin);
+		if (! getPersonSessionFromGenericWin) //is ab, need to update capture tab
+			selectResultsSessionId (uniqueID, true);
+		else //is cd
+			runEncoderLoadSetDo (uniqueID, personID, sessionID, getPersonSessionFromGenericWin);
 	}
 
 	// at the moment we are not using Lambda like on forceSensorLoadSignalAcceptedDo ()
 	// because we return an string here. Also loading Race Analyzer set is fast
-	private string runEncoderLoadSetDo (int uniqueID, int personID, int sessionID, bool getPersonSessionFromGenericWin)
+	private void runEncoderLoadSetDo (int uniqueID, int personID, int sessionID, bool getPersonSessionFromGenericWin)
 	{
 		RunEncoder re = (RunEncoder) SqliteRunEncoder.Select (false, uniqueID, personID, sessionID)[0];
 
 		if(re == null)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
-			return "";
+			return;
 		}
 
 		if(! Util.FileExists(re.FullURL))
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
-			return "";
+			return;
 		}
 
 		List<string> contents_l = Util.ReadFileAsStringList(re.FullURL, "");
@@ -1373,7 +1374,7 @@ public partial class ChronoJumpWindow
 		if(contents_l.Count < 3)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileEmptyStr());
-			return "";
+			return;
 		}
 
 		//if start at 0 add a time 0 row (if it really does not start at 0)
@@ -1412,7 +1413,7 @@ public partial class ChronoJumpWindow
 
 			button_ai_move_cd_pre_set_sensitivity ();
 
-			return "";
+			return;
 		} else {
 			currentRunEncoder = re;
 			lastRunEncoderFile = Util.RemoveExtension(re.Filename);
@@ -1498,8 +1499,6 @@ public partial class ChronoJumpWindow
 
 			if (radio_ai_2sets.Active)
 				radio_ai_cd.Sensitive = true;
-
-			return (Util.GetLastPartOfPath(re.Filename));
 		}
 	}
 
@@ -1842,9 +1841,7 @@ public partial class ChronoJumpWindow
 		currentRunEncoder.UpdateSQL(false);
 		int id = currentRunEncoder.UniqueID; //need to assign to a variable because will change on pre_fillTreeView_resultsSession
 
-		string str = run_encoder_load_set (currentRunEncoder.UniqueID, false);
-		if(str != "")
-			event_execute_label_message.Text = "Recalculated.";
+		run_encoder_load_set (currentRunEncoder.UniqueID, false);
 
 		pre_fillTreeView_resultsSession ();
 		selectResultsSessionId (id, true);

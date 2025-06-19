@@ -879,8 +879,11 @@ public partial class ChronoJumpWindow
 	// only jumpRj
 	private void on_radio_resultsSession_heightsTimes_toggled (object o, EventArgs args)
 	{
-		// TODO: this should change: preferences.heightPreferred
-		// and remove it from gui/preferences.cs
+		// change on preferences object and DB
+		preferences.heightPreferred = Preferences.PreferencesChange (
+				false, "heightPreferred",
+				preferences.heightPreferred,
+				radio_resultsSession_heights.Active);
 
 		// if jumps reactive and times tv/tc and then change to heights, select best (best height)
 		if (current_mode == Constants.Modes.JUMPSREACTIVE &&

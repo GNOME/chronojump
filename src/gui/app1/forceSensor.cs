@@ -2307,7 +2307,11 @@ LogB.Information(" fs R ");
 		}
 
 		genericWin.HideAndNull();
-		forceSensorLoadSignalAcceptedDo (uniqueID, personID, sessionID, elastic, TwoSetsCD);
+
+		if (! TwoSetsCD) //this will select on treeview resultsSession changing also barplot and capture graph
+			selectResultsSessionId (uniqueID, true);
+		else
+			forceSensorLoadSignalAcceptedDo (uniqueID, personID, sessionID, elastic, TwoSetsCD);
 	}
 
 	private void forceSensorLoadSignalAcceptedDo (int uniqueID, int personID, int sessionID, int elastic, bool TwoSetsCD)

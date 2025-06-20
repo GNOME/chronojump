@@ -210,6 +210,33 @@ class SqliteTests : Sqlite
 		return testData;
 	}
 
+	// used on treeview person (n), shows tests of each person
+	// on encoder will be different as needs to select only signals
+	public static List<IntInt> SessionTestsByPerson (bool dbconOpened, int sessionID, Constants.Modes mode)
+	{
+		List<IntInt> ii_l = new List<IntInt> ();
+		openIfNeeded (dbconOpened); // ---->
+
+		dbcmd.CommandText = "SELECT personID, COUNT(*) FROM " + Constants.ModeTable (mode) +
+			" WHERE sessionID = " + sessionID + " GROUP BY personID";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader; // -->
+		reader = dbcmd.ExecuteReader();
+
+		while (reader.Read())
+			ii_l.Add (new IntInt (
+						Convert.ToInt32 (reader[0].ToString()),
+						Convert.ToInt32 (reader[1].ToString ())
+					     ));
+
+		reader.Close(); // <--
+
+		closeIfNeeded (dbconOpened); // <----
+		return ii_l;
+	}
+
 	public static string SelectExerciseNameInOtherTable (bool dbconOpened, int exerciseID, string exerciseTable)
 	{
 		openIfNeeded (dbconOpened);

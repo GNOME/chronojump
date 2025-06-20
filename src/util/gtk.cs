@@ -372,19 +372,23 @@ public class UtilGtk
 	//default
 	public static int IdColumnCompare (ITreeModel model, TreeIter iter1, TreeIter iter2)
 	{
-		return IdColumnCompareByCol (model, iter1, iter2, 0);
+		return idColumnCompareByCol (model, iter1, iter2, 0);
 	}
 	//Note is better to set & get set_sort_func() see: https://python-gtk-3-tutorial.readthedocs.io/en/latest/treeview.html
 	public static int IdColumnCompareCol1 (ITreeModel model, TreeIter iter1, TreeIter iter2)
 	{
-		return IdColumnCompareByCol (model, iter1, iter2, 1);
+		return idColumnCompareByCol (model, iter1, iter2, 1);
 	}
 	public static int IdColumnCompareCol2 (ITreeModel model, TreeIter iter1, TreeIter iter2)
 	{
-		return IdColumnCompareByCol (model, iter1, iter2, 2);
+		return idColumnCompareByCol (model, iter1, iter2, 2);
+	}
+	public static int IdColumnCompareCol3 (ITreeModel model, TreeIter iter1, TreeIter iter2)
+	{
+		return idColumnCompareByCol (model, iter1, iter2, 3);
 	}
 	//can select the col
-	public static int IdColumnCompareByCol (ITreeModel model, TreeIter iter1, TreeIter iter2, int col)
+	private static int idColumnCompareByCol (ITreeModel model, TreeIter iter1, TreeIter iter2, int col)
 	{
 		int val1 = 0;
 		int val2 = 0;

@@ -34,7 +34,8 @@ public class TreeViewPersons
 	private const int colID = 0;
 	private const int colClubID = 1;
 	private const int colName = 2;
-	private const int colRestOrStatus = 3; //status is used on beepTest
+	private const int colN = 3;
+	private const int colRestOrStatus = 4; //status is used on beepTest
 
 	//if 0 don't use it
 	//if > 0 then show in red when >= to this value
@@ -51,11 +52,11 @@ public class TreeViewPersons
 
 		RestSecondsMark = restSeconds;
 
-		store = getStore (4);
-
-		string [] columnsString = { "ID", Catalog.GetString ("Club ID"), Catalog.GetString("Person"), Catalog.GetString("Rest")};
+		string [] columnsString = { "ID", Catalog.GetString ("Club ID"), Catalog.GetString("Person"), "n", Catalog.GetString("Rest")};
 		if (! showRestOrStatus)
-			columnsString = new string [] { "ID", Catalog.GetString ("Club ID"), Catalog.GetString("Person"), Catalog.GetString("Status")};
+			columnsString = new string [] { "ID", Catalog.GetString ("Club ID"), Catalog.GetString("Person"), "n", Catalog.GetString("Status")};
+
+		store = getStore (columnsString.Length);
 
 		treeview.Model = store;
 		prepareHeaders (columnsString, showClubID);
@@ -72,13 +73,13 @@ public class TreeViewPersons
 		return myStore;
 	}
 	
-	private void prepareHeaders(string [] columnsString, bool showClubID)
+	private void prepareHeaders (string [] columnsString, bool showClubID)
 	{
-		treeview.HeadersVisible=true;
+		treeview.HeadersVisible = true;
 		int i=0;
 		bool visible = false;
-		foreach(string myCol in columnsString) {
-			if(i < 3)
+		foreach (string myCol in columnsString) {
+			if (i < colRestOrStatus)
 			{
 				if (i == colClubID)
 					UtilGtk.CreateCols(treeview, store, Catalog.GetString(myCol), i++, showClubID);
@@ -103,8 +104,10 @@ public class TreeViewPersons
 				treeview.AppendColumn ( aColumn );
 			}
 
-			if(i == colClubID)
+			if (i == colClubID)
 				store.SetSortFunc (i, UtilGtk.IdColumnCompareCol1);
+			else if (i == colN)
+				store.SetSortFunc (i, UtilGtk.IdColumnCompareCol3);
 
 			visible = true;
 		}
@@ -191,7 +194,7 @@ public class TreeViewPersons
 		}
 	}
 
-	public void Fill(ArrayList myPersons, RestTime rt)
+	public void Fill (ArrayList myPersons, RestTime rt)
 	{
 		foreach (Person person in myPersons)
 		{
@@ -204,6 +207,7 @@ public class TreeViewPersons
 					person.UniqueID.ToString(),
 					person.Future2,			//ClubID
 					person.Name.ToString(),
+					"0",
 					restedTime }
 					);
 		}
@@ -345,15 +349,50 @@ public class TreeViewPersons
 			store.SetValue (iter2, colID, p.UniqueID);
 			store.SetValue (iter2, colClubID, p.Future2);
 			store.SetValue (iter2, colName, p.Name);
+			store.SetValue (iter2, colN, "0");
 			store.SetValue (iter2, colRestOrStatus, "");
 		} else {
 			//first ID, then Name
-			iter2 = store.AppendValues (p.UniqueID, p.Future2, p.Name, "");
+			iter2 = store.AppendValues (p.UniqueID, p.Future2, p.Name, "0", "");
 		}
 			
 		//scroll treeview if needed
 		TreePath path = store.GetPath (iter2);
 		treeview.ScrollToCell (path, null, true, 0, 0);
+	}
+
+	public void UpdateTestsN (List<IntInt> ii_l)
+	{
+		TreeIter iter;
+		bool iterOk = store.GetIterFirst(out iter);
+		if(! iterOk)
+			return;
+
+		do {
+			// get personID of each row on treeview persons
+			string pIDStr = (string) store.GetValue (iter, colID);
+			if (! Util.IsNumber (pIDStr, false))
+				continue;
+			int pID = Convert.ToInt32 (pIDStr);
+
+			// get n of each row on treeview persons
+			string nStr = (string) store.GetValue(iter, colN);
+			if (! Util.IsNumber (nStr, false))
+				continue;
+			int n = Convert.ToInt32 (nStr);
+
+			// assign n to the person
+			bool found = false;
+			foreach (IntInt ii in ii_l)
+				if (ii.a == pID)
+				{
+					store.SetValue (iter, colN, ii.b.ToString ());
+					found = true;
+					break;
+				}
+			if (! found)
+				store.SetValue (iter, colN, "0");
+		} while (store.IterNext (ref iter));
 	}
 
 	public void UpdateRestTimes(RestTime restTime)

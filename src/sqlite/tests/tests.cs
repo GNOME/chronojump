@@ -216,18 +216,22 @@ class SqliteTests : Sqlite
 		List<IntInt> ii_l = new List<IntInt> ();
 		openIfNeeded (dbconOpened); // ---->
 
-		// encoder specific ->
-		string encoderStr = "";
+		// mode specific ->
+		string modeSpecificStr = "";
 		if (mode == Constants.Modes.POWERGRAVITATORY)
-			encoderStr = " AND signalOrCurve = 'signal' AND hasInertia = 0 "; // hasInertia field since DB 2.63
+			modeSpecificStr = " AND signalOrCurve = 'signal' AND hasInertia = 0 "; // hasInertia field since DB 2.63
 		else if (mode == Constants.Modes.POWERINERTIAL)
-			encoderStr = " AND signalOrCurve = 'signal' AND hasInertia = 1 ";
-		// <- encoder specific
+			modeSpecificStr = " AND signalOrCurve = 'signal' AND hasInertia = 1 ";
+		else if (mode == Constants.Modes.FORCESENSORISOMETRIC)
+			modeSpecificStr = " AND stiffness < 0 "; // isometric has stiffness < 0
+		else if (mode == Constants.Modes.FORCESENSORELASTIC)
+			modeSpecificStr = " AND stiffness > 0 "; // elastic has stiffness > 0
+		// <- mode specific
 
 		dbcmd.CommandText =
 			"SELECT personID, COUNT(*) FROM " + Constants.ModeTable (mode) +
 			" WHERE sessionID = " + sessionID +
-			encoderStr +
+			modeSpecificStr +
 			" GROUP BY personID";
 
 		LogB.SQL(dbcmd.CommandText.ToString());

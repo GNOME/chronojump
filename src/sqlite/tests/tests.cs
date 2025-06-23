@@ -211,14 +211,25 @@ class SqliteTests : Sqlite
 	}
 
 	// used on treeview person (n), shows tests of each person
-	// on encoder will be different as needs to select only signals
 	public static List<IntInt> SessionTestsByPerson (bool dbconOpened, int sessionID, Constants.Modes mode)
 	{
 		List<IntInt> ii_l = new List<IntInt> ();
 		openIfNeeded (dbconOpened); // ---->
 
-		dbcmd.CommandText = "SELECT personID, COUNT(*) FROM " + Constants.ModeTable (mode) +
-			" WHERE sessionID = " + sessionID + " GROUP BY personID";
+		// encoder specific ->
+		string encoderStr = "";
+		if (mode == Constants.Modes.POWERGRAVITATORY)
+			encoderStr = " AND signalOrCurve = 'signal' AND hasInertia = 0 "; // hasInertia field since DB 2.63
+		else if (mode == Constants.Modes.POWERINERTIAL)
+			encoderStr = " AND signalOrCurve = 'signal' AND hasInertia = 1 ";
+		// <- encoder specific
+
+		dbcmd.CommandText =
+			"SELECT personID, COUNT(*) FROM " + Constants.ModeTable (mode) +
+			" WHERE sessionID = " + sessionID +
+			encoderStr +
+			" GROUP BY personID";
+
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 

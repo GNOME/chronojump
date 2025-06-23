@@ -3107,6 +3107,8 @@ public partial class ChronoJumpWindow
 			button_menu_2_2_2_manage (radio_menu_2_2_2_inertial, false);
 		}
 
+		myTreeViewPersons.UpdateTestsNBlank ();
+
 		//show title
 		string tempSessionName = "";
 		if(currentSession != null)

@@ -361,6 +361,18 @@ public class TreeViewPersons
 		treeview.ScrollToCell (path, null, true, 0, 0);
 	}
 
+	public void UpdateTestsNBlank () //used when mode is UNDEFINED (user at select modes screen
+	{
+		TreeIter iter;
+		bool iterOk = store.GetIterFirst(out iter);
+		if(! iterOk)
+			return;
+
+		do {
+			store.SetValue (iter, colN, "");
+		} while (store.IterNext (ref iter));
+	}
+
 	public void UpdateTestsN (List<IntInt> ii_l)
 	{
 		TreeIter iter;

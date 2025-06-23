@@ -288,6 +288,7 @@ public class EncoderCurve
 		get { return UtilAll.DivideSafe (StartD + EndD, 2); }
 	}
 
+	public double RangeAbs { get { return Math.Abs (Convert.ToDouble (Height)); } }
 	public double MeanSpeedD { get { return Convert.ToDouble(MeanSpeed); } }
 	public double MaxSpeedD  { get { return Convert.ToDouble(MaxSpeed);  } }
 	/*

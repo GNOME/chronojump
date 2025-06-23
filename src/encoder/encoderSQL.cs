@@ -45,6 +45,11 @@ public class EncoderSQL : Event
 	public string meanSpeed; // future2
 	public string meanForce; // future3
 	public Preferences.EncoderRepetitionCriteria repCriteria;
+	public bool hasInertia;
+	public double maxPower;
+	public double maxSpeed;
+	public double maxForce;
+	public double rangeAbs;
 
 	public string exerciseName;
 	
@@ -61,6 +66,8 @@ public class EncoderSQL : Event
 			EncoderConfiguration encoderConfiguration,
 			string future1, string future2, string future3, 
 			Preferences.EncoderRepetitionCriteria repCriteria,
+			bool hasInertia,
+			double maxPower, double maxSpeed, double maxForce, double rangeAbs,
 			string exerciseName
 			)
 	{
@@ -84,6 +91,11 @@ public class EncoderSQL : Event
 		this.meanSpeed = future2; //on curves: meanSpeed
 		this.meanForce = future3; //on curves: meanForce
 		this.repCriteria = repCriteria;
+		this.hasInertia = hasInertia;
+		this.maxPower = maxPower;
+		this.maxSpeed = maxSpeed;
+		this.maxForce = maxForce;
+		this.rangeAbs = rangeAbs;
 		this.exerciseName = exerciseName;
 
 		ecconLong = EcconLong(eccon);
@@ -125,11 +137,16 @@ public class EncoderSQL : Event
 				(EncoderConfiguration.Names)
 				Enum.Parse(typeof(EncoderConfiguration.Names), strFull[0]));
 
-		this.meanPower = eventStr[16];
+		this.meanPower = eventStr[16]; //why this is not converted to comma? (maybe because it is only used on treeview)
 		this.meanSpeed = eventStr[17];
 		this.meanForce = eventStr[18];
 		this.repCriteria = (Preferences.EncoderRepetitionCriteria)Enum.Parse(
 				typeof(Preferences.EncoderRepetitionCriteria), eventStr[19].ToString());
+		this.hasInertia = Util.IntToBool (Convert.ToInt32 (eventStr[20]));
+		this.maxPower = Convert.ToDouble (Util.CDS (eventStr[21]));
+		this.maxSpeed = Convert.ToDouble (Util.CDS (eventStr[22]));
+		this.maxForce = Convert.ToDouble (Util.CDS (eventStr[23]));
+		this.rangeAbs = Convert.ToDouble (Util.CDS (eventStr[24]));
 	}
 
 	public static List<Event> EncoderSQLListToEventList (List<EncoderSQL> list)

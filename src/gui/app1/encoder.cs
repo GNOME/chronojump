@@ -1565,6 +1565,8 @@ public partial class ChronoJumpWindow
 				encoderConfigurationCurrent,
 				"","","",	//future1, 2, 3
 				preferences.GetEncoderRepetitionCriteria (current_mode),
+				encoderConfigurationCurrent.has_inertia,
+				0,0,0,0,
 				encoderComboExerciseCaptureStoredEnglishName
 				);
 	}
@@ -3260,6 +3262,10 @@ public partial class ChronoJumpWindow
 		string meanPowerStr = "";
 		string meanSpeedStr = "";
 		string meanForceStr = "";
+		double maxPower = 0;
+		double maxSpeed = 0;
+		double maxForce = 0;
+		double rangeAbs = 0;
 		string desc = "";
 		if(mode == "curve") {
 			EncoderCurve curve = treeviewEncoderCaptureCurvesGetCurve(selectedID,true);
@@ -3272,6 +3278,10 @@ public partial class ChronoJumpWindow
 			meanPowerStr = curve.MeanPower;
 			meanSpeedStr = curve.MeanSpeed;
 			meanForceStr = curve.MeanForce;
+			maxPower = curve.PeakPowerD;
+			maxSpeed = curve.MaxSpeedD;
+			maxForce = curve.MaxForceD;
+			rangeAbs = curve.RangeAbs;
 
 			if(ecconLast != "c") {
 				EncoderCurve curveNext = treeviewEncoderCaptureCurvesGetCurve(selectedID+1,false);
@@ -3293,19 +3303,33 @@ public partial class ChronoJumpWindow
 
 				if(repCriteria == Preferences.EncoderRepetitionCriteria.ECC_CON)
 				{
-					meanPowerStr = UtilAll.DivideSafe(curve.MeanPowerD + curveNext.MeanPowerD, 2).ToString();
-					meanSpeedStr = UtilAll.DivideSafe(curve.MeanSpeedD + curveNext.MeanSpeedD, 2).ToString();
-					meanForceStr = UtilAll.DivideSafe(curve.MeanForceD + curveNext.MeanForceD, 2).ToString();
-				} else if(repCriteria == Preferences.EncoderRepetitionCriteria.ECC)
+					meanPowerStr = UtilAll.DivideSafe (curve.MeanPowerD + curveNext.MeanPowerD, 2).ToString();
+					meanSpeedStr = UtilAll.DivideSafe (curve.MeanSpeedD + curveNext.MeanSpeedD, 2).ToString();
+					meanForceStr = UtilAll.DivideSafe (curve.MeanForceD + curveNext.MeanForceD, 2).ToString();
+					maxPower = UtilAll.DivideSafe (curve.PeakPowerD + curveNext.PeakPowerD, 2);
+					maxSpeed = UtilAll.DivideSafe (curve.MaxSpeedD + curveNext.MaxSpeedD, 2);
+					maxForce = UtilAll.DivideSafe (curve.MaxForceD + curveNext.MaxForceD, 2);
+					rangeAbs = UtilAll.DivideSafe (curve.RangeAbs + curveNext.RangeAbs, 2);
+				}
+				else if(repCriteria == Preferences.EncoderRepetitionCriteria.ECC)
 				{
 					meanPowerStr = curve.MeanPower;
 					meanSpeedStr = curve.MeanSpeed;
 					meanForceStr = curve.MeanForce;
-				} else //if(repCriteria == Preferences.EncoderRepetitionCriteria.CON)
+					maxPower = curve.PeakPowerD;
+					maxSpeed = curve.MaxSpeedD;
+					maxForce = curve.MaxForceD;
+					rangeAbs = curve.RangeAbs;
+				}
+				else //if(repCriteria == Preferences.EncoderRepetitionCriteria.CON)
 				{
 					meanPowerStr = curveNext.MeanPower;
 					meanSpeedStr = curveNext.MeanSpeed;
 					meanForceStr = curveNext.MeanForce;
+					maxPower = curveNext.PeakPowerD;
+					maxSpeed = curveNext.MaxSpeedD;
+					maxForce = curveNext.MaxForceD;
+					rangeAbs = curveNext.RangeAbs;
 				}
 			}
 			
@@ -3382,11 +3406,17 @@ public partial class ChronoJumpWindow
 		eSQL.filename = fileSaved;
 		eSQL.url = path;
 		eSQL.Description = desc;
+		eSQL.hasInertia = encoderConfigurationCurrent.has_inertia;
+
 		if(mode == "curve") {
 			eSQL.status = "active";
 			eSQL.meanPower = meanPowerStr;
 			eSQL.meanSpeed = meanSpeedStr;
 			eSQL.meanForce = meanForceStr;
+			eSQL.maxPower = maxPower;
+			eSQL.maxSpeed = maxSpeed;
+			eSQL.maxForce = maxForce;
+			eSQL.rangeAbs = rangeAbs;
 		}
 
 		eSQL.encoderConfiguration = encoderConfigurationCurrent;

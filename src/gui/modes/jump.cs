@@ -123,6 +123,7 @@ public class EditJumpWindow : EditEventWindow
 		showLimited = false;
 		//showAngle = true; //kneeAngle
 		showMistakes = false;
+		showDescription = true;
 		
 		if(weightPercentPreferred)
 			label_weight_units.Text = "%";
@@ -536,6 +537,7 @@ public class EditJumpRjWindow : EditJumpWindow
 		showWeight = true;
 		showLimited = true;
 		showMistakes = false;
+		showDescription = true;
 		
 		if(weightPercentPreferred)
 			label_weight_units.Text = "%";

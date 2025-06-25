@@ -103,6 +103,7 @@ public class EditRunWindow : EditEventWindow
 		showWeight = false;
 		showLimited = false;
 		showMistakes = false;
+		showDescription = true;
 		
 		if(metersSecondsPreferred)
 			label_speed_units.Text = "m/s";
@@ -331,6 +332,7 @@ public class EditRunIntervalWindow : EditRunWindow
 		showWeight = false;
 		showLimited = true;
 		showMistakes = false;
+		showDescription = true;
 		
 		if(metersSecondsPreferred)
 			label_speed_units.Text = "m/s";

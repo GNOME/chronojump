@@ -290,7 +290,13 @@ class SqliteTests : Sqlite
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
+
+		updateSpecific (uniqueID, personID); 	// used on encoder to update related curves
+
 		Sqlite.Close();
+	}
+	protected virtual void updateSpecific (int uniqueID, int personID)
+	{
 	}
 
 	public static void UpdateTestPersonID (bool dbconOpened, string tName, int personIDold, int personIDnew)

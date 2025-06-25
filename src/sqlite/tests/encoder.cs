@@ -189,6 +189,21 @@ class SqliteEncoder : SqliteTests
             Sqlite.Close();
     }
 
+    // used on encoder to update related curves
+    protected override void updateSpecific (int signalID, int personID)
+    {
+	    ArrayList array = SqliteEncoderSignalCurve.SelectSignalCurve (true, signalID, -1, -1, -1);
+	    foreach (EncoderSignalCurve esc in array)
+	    {
+		    dbcmd.CommandText = "UPDATE " + tableName +
+			    " SET personID = " + personID +
+			    " WHERE uniqueID = " + esc.curveID;
+
+		    LogB.SQL(dbcmd.CommandText.ToString());
+		    dbcmd.ExecuteNonQuery();
+	    }
+    }
+
     // on encoder comments is named: description
     public override void UpdateComments (int uniqueID, string comments)
     {

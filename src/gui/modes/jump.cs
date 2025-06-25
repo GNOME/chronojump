@@ -1681,6 +1681,7 @@ public partial class ChronoJumpWindow
 		Sqlite.Delete(false, Constants.JumpTable, id);
 		
 		treeViewResultsSession.DelEvent(id);
+		updatePersonTestsN (false);
 		showHideActionEventButtons(false);
 		
 		if(createdStatsWin) {
@@ -1717,6 +1718,7 @@ public partial class ChronoJumpWindow
 		Sqlite.Delete(false, Constants.JumpRjTable, id);
 		
 		treeViewResultsSession.DelEvent(id);
+		updatePersonTestsN (false);
 		selectedJumpRj = null;
 		showHideActionEventButtons(false);
 

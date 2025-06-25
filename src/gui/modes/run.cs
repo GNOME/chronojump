@@ -1667,6 +1667,7 @@ public partial class ChronoJumpWindow
 		Sqlite.Delete(false, Constants.RunTable, id);
 		
 		treeViewResultsSession.DelEvent(id);
+		updatePersonTestsN (false);
 		selectedRunInterval = null;
 		selectedRunIntervalType = null;
 		showHideActionEventButtons(false);
@@ -1695,6 +1696,7 @@ public partial class ChronoJumpWindow
 		Sqlite.Delete(false, Constants.RunIntervalTable, id);
 		
 		treeViewResultsSession.DelEvent(id);
+		updatePersonTestsN (false);
 		selectedRunInterval = null;
 		showHideActionEventButtons(false);
 		button_inspect_last_test_run_intervallic.Sensitive = false;

@@ -43,7 +43,7 @@ public class TreeViewEncoder : TreeViewEvent
 
 		if (gravitatory)
 		{
-			idColumn = 10; //column where the uniqueID of event will be (and will be hidden)
+			idColumn = 14; //column where the uniqueID of event will be (and will be hidden)
 
 			columnsString = new string[] {
 				personName,
@@ -51,25 +51,27 @@ public class TreeViewEncoder : TreeViewEvent
 					weightExtraName,
 					//Catalog.GetString ("Encoder configuration"),
 					Catalog.GetString ("Contraction"),
-					Catalog.GetString ("Mean power"),
-					Catalog.GetString ("Mean speed"),
-					Catalog.GetString ("Mean force"),
+					Constants.RangeAbsolute,
+					Catalog.GetString ("Mean speed"), Catalog.GetString ("Max speed"),
+					Catalog.GetString ("Mean power"), Catalog.GetString ("Peak power"),
+					Catalog.GetString ("Mean force"), Catalog.GetString ("Max force"),
 					datetimeName,
 					videoName,
 					descriptionName
 						// "UNIQUEID" //just for debug
 			};
 		} else {
-			idColumn = 9; //column where the uniqueID of event will be (and will be hidden)
+			idColumn = 13; //column where the uniqueID of event will be (and will be hidden)
 
 			columnsString = new string[] {
 				personName,
 					lateralityName,
 					//Catalog.GetString ("Encoder configuration"),
 					Catalog.GetString ("Contraction"),
-					Catalog.GetString ("Mean power"),
-					Catalog.GetString ("Mean speed"),
-					Catalog.GetString ("Mean force"),
+					Constants.RangeAbsolute,
+					Catalog.GetString ("Mean speed"), Catalog.GetString ("Max speed"),
+					Catalog.GetString ("Mean power"), Catalog.GetString ("Peak power"),
+					Catalog.GetString ("Mean force"), Catalog.GetString ("Max force"),
 					datetimeName,
 					videoName,
 					descriptionName
@@ -77,7 +79,7 @@ public class TreeViewEncoder : TreeViewEvent
 			};
 		}
 
-		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
+		store = getStore (columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
 	}
@@ -259,9 +261,13 @@ public class TreeViewEncoder : TreeViewEvent
 		if (gravitatory)
 			myData[count++] = Util.TrimDecimals (eSQL.extraWeight, 2);
 		myData[count++] = eSQL.ecconLong;
-		myData[count++] = ""; //meanPower
+		myData[count++] = ""; //rangeAbsolute
 		myData[count++] = ""; //meanSpeed
+		myData[count++] = ""; //maxSpeed
+		myData[count++] = ""; //meanPower
+		myData[count++] = ""; //peakPower
 		myData[count++] = ""; //meanForce
+		myData[count++] = ""; //maxForce
 		myData[count++] = eSQL.GetDatetimeStr (true);
 
 		if (UtilList.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.ENCODER, eSQL.UniqueID)))
@@ -287,9 +293,13 @@ public class TreeViewEncoder : TreeViewEvent
 		if (gravitatory)
 			myData[count++] = ""; //eSQL.extraWeight;
 		myData[count++] = ""; //eSQL.ecconLong;
-		myData[count++] = eSQL.meanPower;
-		myData[count++] = eSQL.meanSpeed;
-		myData[count++] = eSQL.meanForce;
+		myData[count++] = Util.TrimDecimals (eSQL.rangeAbs, 2);
+		myData[count++] = Util.TrimDecimals (eSQL.meanSpeed, 2);
+		myData[count++] = Util.TrimDecimals (eSQL.maxSpeed, 2);
+		myData[count++] = Util.TrimDecimals (eSQL.meanPower, 2);
+		myData[count++] = Util.TrimDecimals (eSQL.maxPower, 2);
+		myData[count++] = Util.TrimDecimals (eSQL.meanForce, 2);
+		myData[count++] = Util.TrimDecimals (eSQL.maxForce, 2);
 		myData[count++] = ""; //datetime
 		myData[count++] = ""; //eSQL.videoURL;
 		myData[count++] = ""; //eSQL.Description;

@@ -176,10 +176,10 @@ class SqliteEncoder : SqliteTests
                 "', future3 = '" + Util.ConvertToPoint(es.meanForce) +
                 "', repCriteria = '" + es.repCriteria.ToString() +
 		"', hasInertia = " + Util.BoolToInt (es.hasInertia) +
-		"', maxPower = " + Util.ConvertToPoint (es.maxPower) +
-		"', maxSpeed = " + Util.ConvertToPoint (es.maxSpeed) +
-		"', maxForce = " + Util.ConvertToPoint (es.maxForce) +
-		"', rangeAbs = " + Util.ConvertToPoint (es.rangeAbs) +
+		", maxPower = " + Util.ConvertToPoint (es.maxPower) +
+		", maxSpeed = " + Util.ConvertToPoint (es.maxSpeed) +
+		", maxForce = " + Util.ConvertToPoint (es.maxForce) +
+		", rangeAbs = " + Util.ConvertToPoint (es.rangeAbs) +
                 " WHERE uniqueID = " + uniqueIDStr;
 
         LogB.SQL(mycmd.CommandText.ToString());

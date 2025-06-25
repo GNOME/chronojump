@@ -470,6 +470,7 @@ public partial class ChronoJumpWindow
 	RepairJumpRjWindow repairJumpRjWin;
 	EditBeepTestWindow editBeepTestWin;
 	EditForceSensorWindow editForceSensorWin;
+	EditEncoderWindow editEncoderWin;
 	JumpTypeAddWindow jumpTypeAddWin;
 	EditWilightWindow editWilightWin;
 	EditFourPlatformsWindow editFourPlatformsWin;
@@ -3233,14 +3234,8 @@ public partial class ChronoJumpWindow
 
 		sensitiveLastTestButtons(false);
 
-		//contacts test buttons: edit, delete (visible)
-		if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE ||
-				m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC ||
-				m == Constants.Modes.WILIGHT ||
-				m == Constants.Modes.OTHER) //FOURPLATFORMS
-			button_contacts_edit_selected.Visible = true;
-		else
-			button_contacts_edit_selected.Visible = false;
+		//contacts delete test buttons: edit, delete (visible)
+		button_contacts_edit_selected.Visible = true;
 		button_contacts_delete_selected.Visible = true;
 
 		//contacts test buttons: edit, delete (sensitive)
@@ -6499,8 +6494,8 @@ public partial class ChronoJumpWindow
 			on_edit_selected_beepTest_clicked (o, args);
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			on_edit_selected_forceSensor_clicked (o, args);
-//		else if (Constants.ModeIsENCODER (current_mode))
-//			on_edit_selected_encoder_clicked (o, args); //TODO
+		else if (Constants.ModeIsENCODER (current_mode))
+			on_edit_selected_encoder_clicked (o, args);
 		else if (current_mode == Constants.Modes.WILIGHT)
 			on_edit_selected_wilight_clicked (o, args);
 		else if (current_mode == Constants.Modes.OTHER)

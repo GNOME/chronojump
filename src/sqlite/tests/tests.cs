@@ -306,7 +306,8 @@ class SqliteTests : Sqlite
 		closeIfNeeded (dbconOpened);
 	}
 
-	public void UpdateComments (int uniqueID, string comments)
+	// on encoder description will be updated
+	public virtual void UpdateComments (int uniqueID, string comments)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + tableName +

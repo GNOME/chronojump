@@ -189,6 +189,19 @@ class SqliteEncoder : SqliteTests
             Sqlite.Close();
     }
 
+    // on encoder comments is named: description
+    public override void UpdateComments (int uniqueID, string comments)
+    {
+	    Sqlite.Open();
+	    dbcmd.CommandText = "UPDATE " + tableName +
+		    " SET description = '" + comments + "'" +
+		    " WHERE uniqueID = " + uniqueID ;
+
+	    LogB.SQL(dbcmd.CommandText.ToString());
+	    dbcmd.ExecuteNonQuery();
+	    Sqlite.Close();
+    }
+
     public static int UpdateTransaction(ArrayList data, string[] checkboxes)
     {
         int count = 0;

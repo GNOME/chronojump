@@ -45,6 +45,7 @@ public partial class ChronoJumpWindow
 		int id = treeViewResultsSession.EventSelectedID;
 		Sqlite.Delete (false, Constants.ModeTable (current_mode), id);
 		treeViewResultsSession.DelEvent (id);
+		updatePersonTestsN (false);
 
 		/*
 		 * TODO:

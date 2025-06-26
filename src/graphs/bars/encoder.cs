@@ -27,13 +27,17 @@ using Mono.Unix;
 public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 {
 	private bool showPersonName;
+	private Constants.EncoderVariablesCapture encoderCaptureMainVariable;
 
-	public CairoPaintBarsPreEncoderSession (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN, bool showPersonName)
+	public CairoPaintBarsPreEncoderSession (DrawingArea darea, string fontStr, Constants.Modes mode,
+			string personName, string testName, int pDN, bool showPersonName,
+			Constants.EncoderVariablesCapture encoderCaptureMainVariable)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 
 		this.title = generateTitle();
 		this.showPersonName = showPersonName;
+		this.encoderCaptureMainVariable = encoderCaptureMainVariable;
 	}
 
 	public override void StoreEventGraphEncoderSession (PrepareEventGraphEncoderSession eventGraph)
@@ -55,8 +59,8 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 	{
 		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, true, true, true);
 
-		cb.YVariable = Catalog.GetString("Mean Power");
-		cb.YUnits = "W";
+		cb.YVariable = Catalog.GetString (Constants.GetEncoderVariablesCapture (encoderCaptureMainVariable));
+		cb.YUnits = Constants.GetEncoderVariablesCaptureUnits (encoderCaptureMainVariable);
 
 		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
 		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides
@@ -74,7 +78,7 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 		{
 			// 1) Add data
 			//point_l.Add(new PointF(countToDraw --, UtilAll.DivideSafe (fp.TotalMs, 1000)));
-			point_l.Add (new PointF(countToDraw --, eSQL.meanPowerD)); //TODO: or meanSpeed
+			point_l.Add (new PointF (countToDraw --, eSQL.GetVariable (encoderCaptureMainVariable)));
 
 			// 2) Add bottom names
 			string typeRowString = "";

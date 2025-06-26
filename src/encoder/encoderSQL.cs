@@ -368,6 +368,29 @@ public class EncoderSQL : Event
 		set { filename = value; }
 	}
 
+	// TODO: check if (WorkJ, Impulse) can be a problem
+	public double GetVariable (Constants.EncoderVariablesCapture evc)
+	{
+		switch (evc)
+		{
+			case Constants.EncoderVariablesCapture.RangeAbsolute:
+				return rangeAbs;
+			case Constants.EncoderVariablesCapture.MeanSpeed:
+				return meanSpeedD;
+			case Constants.EncoderVariablesCapture.MaxSpeed:
+				return maxSpeed;
+			case Constants.EncoderVariablesCapture.MeanPower:
+				return meanPowerD;
+			case Constants.EncoderVariablesCapture.PeakPower:
+				return maxPower;
+			case Constants.EncoderVariablesCapture.MeanForce:
+				return meanForceD;
+			case Constants.EncoderVariablesCapture.MaxForce:
+				return maxForce;
+			default: return meanPowerD;
+		}
+	}
+
 	public double extraWeightD
 	{
 		get {

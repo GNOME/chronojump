@@ -6408,7 +6408,8 @@ public partial class ChronoJumpWindow
 				personStr,
 				typeTemp,
 				preferences.digitsNumber,
-				radio_contacts_results_personAll.Active //showPersonName
+				radio_contacts_results_personAll.Active, //showPersonName
+				preferences.encoderCaptureMainVariable
 				);
 
 		cairoPaintBarsPre.StoreEventGraphEncoderSession (eventGraph);

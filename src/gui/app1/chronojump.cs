@@ -7795,6 +7795,8 @@ public partial class ChronoJumpWindow
 				fixEncoderCaptureWidgetsGeometry ();
 			}
 		}
+
+		updateGraphResultsSessionByMode (); //for example on encoder to update graph if changed main variable
 	}
 
 	private void on_feedback_questionnaire_load (object o, EventArgs args)

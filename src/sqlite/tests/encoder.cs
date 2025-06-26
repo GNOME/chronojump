@@ -40,6 +40,9 @@ using SQLiteConnection = System.Data.SQLite.SQLiteConnection;
 
 class SqliteEncoder : SqliteTests
 {
+    private static string tableStatic = Constants.EncoderTable;
+    private static int columns = 25;
+
     public SqliteEncoder()
     {
 	    tableName = Constants.EncoderTable;
@@ -75,7 +78,12 @@ class SqliteEncoder : SqliteTests
                                     //(as string with '.' because future1 was created as TEXT)
             "future2 TEXT, " +  //same as future1 but for meanSpeed
             "future3 TEXT, " +  //same as future1 but for meanForce
-            "repCriteria TEXT )";   //criteria of meanPower, meanSpeed, meanForce: ecc_con, ecc, con
+            "repCriteria TEXT, " +   //criteria of meanPower, meanSpeed, meanForce: ecc_con, ecc, con
+	    "hasInertia INT NOT NULL DEFAULT 0, " +
+	    "maxPower FLOAT, " +
+	    "maxSpeed FLOAT, " +
+	    "maxForce FLOAT, " +
+	    "rangeAbs )";
         dbcmd.ExecuteNonQuery();
     }
 
@@ -95,7 +103,8 @@ class SqliteEncoder : SqliteTests
         dbcmd.CommandText = "INSERT INTO " + Constants.EncoderTable +
             " (uniqueID, personID, sessionID, exerciseID, eccon, laterality, extraWeight, " +
             "signalOrCurve, filename, url, time, minHeight, description, status, " +
-            "videoURL, encoderConfiguration, future1, future2, future3, repCriteria)" +
+            "videoURL, encoderConfiguration, future1, future2, future3, repCriteria, " +
+	    "hasInertia, maxPower, maxSpeed, maxForce, rangeAbs)" +
             " VALUES (" + uniqueIDStr + ", " +
             es.PersonID + ", " + es.SessionID + ", " +
             es.exerciseID + ", '" + es.eccon + "', '" +
@@ -107,7 +116,11 @@ class SqliteEncoder : SqliteTests
             Util.MakeURLrelative(es.videoURL) + "', '" +
             es.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) + "', '" +
             Util.ConvertToPoint(es.meanPower) + "', '" + Util.ConvertToPoint(es.meanSpeed) + "', '" + Util.ConvertToPoint(es.meanForce) + "', '" +
-            es.repCriteria.ToString() + "')";
+            es.repCriteria.ToString() + "', " +
+	    Util.BoolToInt (es.hasInertia) + ", " +
+            Util.ConvertToPoint(es.maxPower) + ", " + Util.ConvertToPoint(es.maxSpeed) + ", " + Util.ConvertToPoint(es.maxForce) + ", " +
+            Util.ConvertToPoint(es.rangeAbs) + ")";
+
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
 
@@ -162,13 +175,46 @@ class SqliteEncoder : SqliteTests
                 "', future2 = '" + Util.ConvertToPoint(es.meanSpeed) +
                 "', future3 = '" + Util.ConvertToPoint(es.meanForce) +
                 "', repCriteria = '" + es.repCriteria.ToString() +
-                "' WHERE uniqueID = " + uniqueIDStr;
+		"', hasInertia = " + Util.BoolToInt (es.hasInertia) +
+		", maxPower = " + Util.ConvertToPoint (es.maxPower) +
+		", maxSpeed = " + Util.ConvertToPoint (es.maxSpeed) +
+		", maxForce = " + Util.ConvertToPoint (es.maxForce) +
+		", rangeAbs = " + Util.ConvertToPoint (es.rangeAbs) +
+                " WHERE uniqueID = " + uniqueIDStr;
 
         LogB.SQL(mycmd.CommandText.ToString());
         mycmd.ExecuteNonQuery();
 
         if (!dbconOpened)
             Sqlite.Close();
+    }
+
+    // used on encoder to update related curves
+    protected override void updateSpecific (int signalID, int personID)
+    {
+	    ArrayList array = SqliteEncoderSignalCurve.SelectSignalCurve (true, signalID, -1, -1, -1);
+	    foreach (EncoderSignalCurve esc in array)
+	    {
+		    dbcmd.CommandText = "UPDATE " + tableName +
+			    " SET personID = " + personID +
+			    " WHERE uniqueID = " + esc.curveID;
+
+		    LogB.SQL(dbcmd.CommandText.ToString());
+		    dbcmd.ExecuteNonQuery();
+	    }
+    }
+
+    // on encoder comments is named: description
+    public override void UpdateComments (int uniqueID, string comments)
+    {
+	    Sqlite.Open();
+	    dbcmd.CommandText = "UPDATE " + tableName +
+		    " SET description = '" + comments + "'" +
+		    " WHERE uniqueID = " + uniqueID ;
+
+	    LogB.SQL(dbcmd.CommandText.ToString());
+	    dbcmd.ExecuteNonQuery();
+	    Sqlite.Close();
     }
 
     public static int UpdateTransaction(ArrayList data, string[] checkboxes)
@@ -244,9 +290,13 @@ class SqliteEncoder : SqliteTests
     {
 	    openIfNeeded (dbconOpened);
 
+	    Sqlite.Orders_by orderBy = Sqlite.Orders_by.ID_DESC;
+	    if (orderIDascendent)
+		    orderBy = Sqlite.Orders_by.ID_ASC;
+
 	    selectDo (dbconOpened, uniqueID, personID, sessionID, encoderGI,
 			    exerciseID, signalOrCurve, ecconSelect, lateralityEnglish,
-			    onlyActive, orderIDascendent,
+			    onlyActive, orderBy,
 			    orderRepsByPosInSet); // Attention! note this only selects curves
 
 	    SQLiteDataReader reader;
@@ -273,7 +323,8 @@ class SqliteEncoder : SqliteTests
     public static List<EncoderSQL> SelectList (
 		    bool dbconOpened, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI,
 		    int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect, string lateralityEnglish,
-		    bool onlyActive, bool orderIDascendent,
+		    bool onlyActive,
+		    Orders_by order,
 		    bool orderRepsByPosInSet, 	// Attention! note this only selects curves
 		    int limit, bool personNameInComment)
     {
@@ -285,7 +336,7 @@ class SqliteEncoder : SqliteTests
 
 	    selectDo (dbconOpened, uniqueID, personID, sessionID, encoderGI,
 			    exerciseID, signalOrCurve, ecconSelect, lateralityEnglish,
-			    onlyActive, orderIDascendent,
+			    onlyActive, order,
 			    orderRepsByPosInSet); // Attention! note this only selects curves
 
 	    SQLiteDataReader reader;
@@ -320,13 +371,17 @@ class SqliteEncoder : SqliteTests
     private static void selectDo (
 		    bool dbconOpened, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI,
 		    int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect, string lateralityEnglish,
-		    bool onlyActive, bool orderIDascendent,
+		    bool onlyActive, Orders_by order,
 		    bool orderRepsByPosInSet) // Attention! note this only selects curves
     {
 
         string encT = Constants.EncoderTable;
         string encSCT = Constants.EncoderSignalCurveTable;
         string encExT = Constants.EncoderExerciseTable;
+
+	// on best is best repetitition, do not need to group them by sets and all the related complexity
+	if (order == Orders_by.BEST)
+		orderRepsByPosInSet = false;
 
         string andString = "";
         string personIDStr = "";
@@ -398,26 +453,33 @@ class SqliteEncoder : SqliteTests
         if (orderRepsByPosInSet)
             orderRepsByPosInSetOrderStr = encSCT + ".mscentral, ";
 
-        string orderIDstr = "";
-        if (!orderIDascendent)
-            orderIDstr = " DESC";
+	string orderByStr = "";
+	if (order == Orders_by.BEST)
+		orderByStr = string.Format ( " ORDER BY {0}.future1 ", tableStatic); // meanPower
+	else {
+		orderByStr =
+			" ORDER BY substr(filename,-23,19), " + //'filename,-23,19' has the date of capture signal
+			orderRepsByPosInSetOrderStr +
+			"uniqueID ";
+		if (order == Orders_by.ID_DESC)
+			orderByStr += " DESC";
+	}
 
         dbcmd.CommandText = "SELECT " +
             encT + ".*, " + encExT + ".name " +
             fromString +
             " WHERE " + selectStr +
-            andString + encT + ".exerciseID = " +
-                encExT + ".uniqueID " +
-                onlyActiveString + orderRepsByPosInSetAndStr +
-            " ORDER BY substr(filename,-23,19), " + //'filename,-23,19' has the date of capture signal
-            orderRepsByPosInSetOrderStr +
-            "uniqueID " + orderIDstr;
+	    andString + encT + ".exerciseID = " +
+	    encExT + ".uniqueID " +
+	    onlyActiveString + orderRepsByPosInSetAndStr +
+	    orderByStr;
 
         LogB.SQL(dbcmd.CommandText.ToString());
     }
 
     private static EncoderSQL getEncoderSQL (SQLiteDataReader reader, Constants.EncoderGI encoderGI)
     {
+	    // TODO: in the future use hasInertia (see SessionTestsByPerson) ---->
             string[] strFull = reader[15].ToString().Split(new char[] { ':' });
             EncoderConfiguration econf = new EncoderConfiguration(
                 (EncoderConfiguration.Names)
@@ -429,6 +491,7 @@ class SqliteEncoder : SqliteTests
                 return null;
             else if (encoderGI == Constants.EncoderGI.INERTIAL && !econf.has_inertia)
                 return null;
+	    // <----
 
             //if there's no video, will be "".
             //if there's video, will be with full path
@@ -436,31 +499,36 @@ class SqliteEncoder : SqliteTests
             if (reader[14].ToString() != "")
                 videoURL = Util.MakeURLabsolute(FixOSpath(reader[14].ToString()));
 
-            //LogB.SQL(econf.ToString(":", true));
-            EncoderSQL eSQL = new EncoderSQL(
-                    Convert.ToInt32(reader[0].ToString()),  //uniqueID
-                    Convert.ToInt32(reader[1].ToString()),  //personID	
-                    Convert.ToInt32(reader[2].ToString()),  //sessionID
-                    Convert.ToInt32(reader[3].ToString()),  //exerciseID
-                    reader[4].ToString(),           //eccon
-                    Catalog.GetString(reader[5].ToString()),//laterality
-                    Util.ChangeDecimalSeparator(reader[6].ToString()),  //extraWeight
-                    reader[7].ToString(),           //signalOrCurve
-                    reader[8].ToString(),           //filename
-                    Util.MakeURLabsolute(FixOSpath(reader[9].ToString())),  //url
-                    Convert.ToInt32(reader[10].ToString()), //time
-                    Convert.ToInt32(reader[11].ToString()), //minHeight
-                    reader[12].ToString(),          //description
-                    reader[13].ToString(),          //status
-                    videoURL,               //videoURL
-                    econf,                  //encoderConfiguration
-                    Util.ChangeDecimalSeparator(reader[16].ToString()), //future1 (meanPower on curves)
-                    Util.ChangeDecimalSeparator(reader[17].ToString()), //future2 (meanSpeed on curves)
-                    Util.ChangeDecimalSeparator(reader[18].ToString()), //future3 (meanForce on curves)
-                    (Preferences.EncoderRepetitionCriteria)Enum.Parse(
-                        typeof(Preferences.EncoderRepetitionCriteria), reader[19].ToString()),
-                    reader[20].ToString()           //EncoderExercise.name
-                    );
+	    //LogB.SQL(econf.ToString(":", true));
+	    EncoderSQL eSQL = new EncoderSQL (
+			    Convert.ToInt32(reader[0].ToString()),  //uniqueID
+			    Convert.ToInt32(reader[1].ToString()),  //personID
+			    Convert.ToInt32(reader[2].ToString()),  //sessionID
+			    Convert.ToInt32(reader[3].ToString()),  //exerciseID
+			    reader[4].ToString(),           //eccon
+			    Catalog.GetString(reader[5].ToString()),//laterality
+			    Util.ChangeDecimalSeparator(reader[6].ToString()),  //extraWeight
+			    reader[7].ToString(),           //signalOrCurve
+			    reader[8].ToString(),           //filename
+			    Util.MakeURLabsolute(FixOSpath(reader[9].ToString())),  //url
+			    Convert.ToInt32(reader[10].ToString()), //time
+			    Convert.ToInt32(reader[11].ToString()), //minHeight
+			    reader[12].ToString(),          //description
+			    reader[13].ToString(),          //status
+			    videoURL,               //videoURL
+			    econf,                  //encoderConfiguration
+			    Util.ChangeDecimalSeparator(reader[16].ToString()), //future1 (meanPower on curves)
+			    Util.ChangeDecimalSeparator(reader[17].ToString()), //future2 (meanSpeed on curves)
+			    Util.ChangeDecimalSeparator(reader[18].ToString()), //future3 (meanForce on curves)
+			    (Preferences.EncoderRepetitionCriteria)Enum.Parse(
+				    typeof(Preferences.EncoderRepetitionCriteria), reader[19].ToString()),
+			    Util.IntToBool (Convert.ToInt32 (reader[20].ToString())),  //hasInertia
+			    Convert.ToDouble (Util.CDS (reader[21].ToString())), //maxPower
+			    Convert.ToDouble (Util.CDS (reader[22].ToString())), //maxSpeed
+			    Convert.ToDouble (Util.CDS (reader[23].ToString())), //maxForce
+			    Convert.ToDouble (Util.CDS (reader[24].ToString())), //rangeAbs
+			    reader[25].ToString()           //EncoderExercise.name
+				    );
 
 	    return eSQL;
     }
@@ -530,6 +598,7 @@ class SqliteEncoder : SqliteTests
 
         while (reader.Read())
         {
+	    // TODO: in the future use hasInertia (see SessionTestsByPerson) ---->
             //discard if != encoderGI
             string[] strFull = reader[6].ToString().Split(new char[] { ':' });
             EncoderConfiguration econf = new EncoderConfiguration(
@@ -541,6 +610,7 @@ class SqliteEncoder : SqliteTests
                 continue;
             else if (encoderGI == Constants.EncoderGI.INERTIAL && !econf.has_inertia)
                 continue;
+	    // <----
 
             //1 get sessionID of this row
             sessIDThisRow = Convert.ToInt32(reader[0].ToString());
@@ -659,12 +729,10 @@ class SqliteEncoder : SqliteTests
 			string.Format(" FROM {0}, {1}, {2} ", tableName, encExT, tp) +
 			string.Format(" WHERE {0}.uniqueID = {1}.personID", tp, tableName) +
 			string.Format(" AND {0}.exerciseID = {1}.uniqueID", tableName, encExT) +
-			filterPersonString +
-			filterSessionString +
-			filterExerciseString +
-			filterSignalString +
+			filterPersonString + filterSessionString +
+			filterExerciseString + filterSignalString +
 			" AND signalOrCurve = 'signal' " +
-			string.Format(" ORDER BY upper({0}.name), {1}.uniqueID ", tp, tableName);
+			string.Format(" ORDER BY upper({0}.name), {1}.uniqueID ASC", tp, tableName);
 	LogB.SQL(dbcmd.CommandText.ToString());
 
 	dbcmd.ExecuteNonQuery();
@@ -679,7 +747,7 @@ class SqliteEncoder : SqliteTests
 		if (eSQL == null)
 			continue;
 
-		eSQL.PersonNameSet = reader[21].ToString ();
+		eSQL.PersonNameSet = reader[(columns +1)].ToString ();
 
 		List<EncoderSQL> eSQL_l = new List<EncoderSQL> (); // create eSQL_l list for this set
 		eSQL_l.Add (eSQL); 				// add the set
@@ -711,12 +779,10 @@ class SqliteEncoder : SqliteTests
 			string.Format(" WHERE {0}.uniqueID = {1}.personID", tp, tableName) +
 			string.Format(" AND {0}.exerciseID = {1}.uniqueID", tableName, encExT) +
 			string.Format(" AND {0}.uniqueID = {1}.curveID", tableName, encSCT) +
-			filterPersonString +
-			filterSessionString +
-			filterExerciseString +
-			filterSignalString +
+			filterPersonString + filterSessionString +
+			filterExerciseString + filterSignalString +
 			" AND signalOrCurve = 'curve' " +
-			string.Format(" ORDER BY {0}.signalID, {0}.msCentral ", encSCT);
+			string.Format(" ORDER BY {0}.signalID ASC, {0}.msCentral ", encSCT);
 	LogB.SQL(dbcmd.CommandText.ToString());
 
 	dbcmd.ExecuteNonQuery();
@@ -730,12 +796,12 @@ class SqliteEncoder : SqliteTests
 			continue;
 
 		//LogB.Information (eSQL.ToString ());
-		eSQL.PersonNameSet = reader[21].ToString ();
-		int signalIDofThisRep = Convert.ToInt32 (reader[22].ToString ());
+		eSQL.PersonNameSet = reader[(columns +1)].ToString ();
+		int signalIDofThisRep = Convert.ToInt32 (reader[(columns +2)].ToString ());
 
 		// for some reason, some EncoderSignalCurve records are repeated on DB. Find why and fix. Meanwhile discard them here.
 		EncoderSignalCurve esc = new EncoderSignalCurve (-1, signalIDofThisRep, eSQL.UniqueID,
-				Convert.ToInt32 (reader[23].ToString ()));
+				Convert.ToInt32 (reader[(columns +3)].ToString ()));
 		if (esc.Equals (escOld))
 			continue;
 
@@ -772,6 +838,11 @@ class SqliteEncoder : SqliteTests
 	    }
     }
 
+    public static EncoderSQL SelectData (int uniqueID, bool dbconOpened)
+    {
+	    return new EncoderSQL (selectTestData (uniqueID, dbconOpened, tableStatic, columns));
+    }
+
     public static ArrayList SelectSessionOverviewSets(bool dbconOpened, Constants.EncoderGI encoderGI, int sessionID)
     {
         if (!dbconOpened)
@@ -792,6 +863,7 @@ class SqliteEncoder : SqliteTests
         ArrayList array = new ArrayList();
         while (reader.Read())
         {
+	    // TODO: in the future use hasInertia (see SessionTestsByPerson) ---->
             //discard if != encoderGI
             string[] strFull = reader[3].ToString().Split(new char[] { ':' });
             EncoderConfiguration econf = new EncoderConfiguration(
@@ -803,6 +875,7 @@ class SqliteEncoder : SqliteTests
                 continue;
             else if (encoderGI == Constants.EncoderGI.INERTIAL && !econf.has_inertia)
                 continue;
+	    // <----
 
             if (encoderGI == Constants.EncoderGI.GRAVITATORY)
             {
@@ -861,6 +934,7 @@ class SqliteEncoder : SqliteTests
         ArrayList array = new ArrayList();
         while (reader.Read())
         {
+	    // TODO: in the future use hasInertia (see SessionTestsByPerson) ---->
             //discard if != encoderGI
             string[] strFull = reader[3].ToString().Split(new char[] { ':' });
             EncoderConfiguration econf = new EncoderConfiguration(
@@ -872,6 +946,7 @@ class SqliteEncoder : SqliteTests
                 continue;
             else if (encoderGI == Constants.EncoderGI.INERTIAL && !econf.has_inertia)
                 continue;
+	    // <----
 
             string repCriteria = "";
             if (reader[6].ToString() != "c")

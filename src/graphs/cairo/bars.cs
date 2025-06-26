@@ -82,6 +82,7 @@ public abstract class CairoBars : CairoGeneric
 	protected RepetitionMouseLimits mouseLimits;
 	protected List<int> id_l; //to pass the uniqueID of some test, eg: RunInterval executions and then find it using mouseLimits
 	protected int selectedPos;
+	protected List<int> selectedPos_l; //used on encder curves
 
 	protected CairoBarsSecondaryLineData cbsld; //related to secondary variable (by default range)
 
@@ -125,6 +126,7 @@ public abstract class CairoBars : CairoGeneric
 		edgeBarNums_l = new List<int>();
 		encoderTitle = false;
 		selectedPos = -1;
+		selectedPos_l = new List<int> ();
 		screenshotURL = "";
 	}
 
@@ -1180,6 +1182,11 @@ public abstract class CairoBars : CairoGeneric
 		set { selectedPos = value; }
 	}
 
+	public List<int> SelectedPos_l {
+		get { return selectedPos_l; }
+		set { selectedPos_l = value; }
+	}
+
 	public CairoBarsSecondaryLineData Cbsld {
 		set { cbsld = value; }
 	}
@@ -1351,7 +1358,12 @@ public class CairoBars1Series : CairoBars
 			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
 					UtilList.FoundInListInt (best_l, i),
 					UtilList.FoundInListInt (worst_l, i));
-			barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), i == selectedPos));
+
+			if (selectedPos_l.Count > 0) // used on encoder reps
+				barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), UtilList.FoundInListInt (selectedPos_l, i)));
+			else
+				barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), i == selectedPos));
+
 			mouseLimits.AddInPos (i, x, y, x+barWidth, graphHeight -bottomMargin);
 
 			//videoPlayTimeInSeconds
@@ -1426,6 +1438,14 @@ public class CairoBars1Series : CairoBars
                 findMaximums();
 
 		g.SetFontSize(textHeight);
+
+		if (calculatePaintY (10) > calculatePaintY (0))
+		{
+			printText (graphWidth/2, graphHeight/2, 0, textHeight,
+					Constants.GraphNeedMoreHeight (), g, alignTypes.CENTER);
+			endGraphDisposing(g, surface, area.Window);
+			return;
+		}
 
 		if(paintAxis)
 			paintAxisDo (2);
@@ -1715,6 +1735,7 @@ public class CairoBarsNHSeries : CairoBars
 		int mouseLimitsPos1stBar = 0;
 		int mouseLimitsPos2ndBar = 1;
 
+		/*
 		//debug
 		LogB.Information("barMain_l:");
 		for(int j = 0; j < barMain_l.Count; j ++)
@@ -1729,6 +1750,7 @@ public class CairoBarsNHSeries : CairoBars
 		LogB.Information("saved_l:");
 		for(int j=0; j < saved_l.Count; j ++)
 			LogB.Information(saved_l[j].ToString());
+		*/
 
 		//for video
 		double timesSubtestPrevious = 0;
@@ -1870,7 +1892,11 @@ public class CairoBarsNHSeries : CairoBars
 			//sort result on bars correctly (this could be useful if mainAtLeft changes)
 			for(int j = 0 ; j < resultOnBarsThisIteration_l.Count; j ++)
 			{
-				barResult_l.Add (new BarResult (resultOnBarsThisIteration_l[j], i == selectedPos));
+				if (selectedPos_l.Count > 0) // used on encoder reps
+					barResult_l.Add (new BarResult (resultOnBarsThisIteration_l[j], UtilList.FoundInListInt (selectedPos_l, i)));
+				else
+					barResult_l.Add (new BarResult (resultOnBarsThisIteration_l[j], i == selectedPos));
+
 				barsXCenter_l.Add(resultOnBarsThisIteration_l[j].X);
 			}
 
@@ -1944,6 +1970,14 @@ public class CairoBarsNHSeries : CairoBars
                 findMaximums();
 
 		g.SetFontSize(textHeight);
+
+		if (calculatePaintY (10) > calculatePaintY (0))
+		{
+			printText (graphWidth/2, graphHeight/2, 0, textHeight,
+					Constants.GraphNeedMoreHeight (), g, alignTypes.CENTER);
+			endGraphDisposing(g, surface, area.Window);
+			return;
+		}
 
 		if(paintAxis)
 			paintAxisDo (2);

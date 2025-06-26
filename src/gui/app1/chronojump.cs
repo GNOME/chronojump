@@ -470,6 +470,7 @@ public partial class ChronoJumpWindow
 	RepairJumpRjWindow repairJumpRjWin;
 	EditBeepTestWindow editBeepTestWin;
 	EditForceSensorWindow editForceSensorWin;
+	EditEncoderWindow editEncoderWin;
 	JumpTypeAddWindow jumpTypeAddWin;
 	EditWilightWindow editWilightWin;
 	EditFourPlatformsWindow editFourPlatformsWin;
@@ -1140,6 +1141,8 @@ public partial class ChronoJumpWindow
 			UtilGtk.WidgetColor (notebook_ai_model_graph_table_triggers, Config.ColorBackgroundShifted);
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_ai_model_graph_table_triggers);
 
+			//encoder
+			UtilGtk.WidgetColor (spinner_set_loading, Config.ColorBackgroundShifted);
 			//all the labels inside the grid grid_encoder_analyze_instant have a white bg, so should call
 			UtilGtk.ContrastLabelsGrid (false, grid_encoder_analyze_instant);
 
@@ -1400,10 +1403,14 @@ public partial class ChronoJumpWindow
 		se.TestSelectSetsAndRepsLList (false, -1, 283, Constants.EncoderGI.GRAVITATORY, -1, -1);
 		*/
 
+	/*
+	 * If comment this again, remember to uncomment the BluetoothLE.Stop at: on_quit2_activate ()
+	 *
         //Subscribe to BluetoothLE data changed event
         BluetoothLE.OnDataChanged += BluetoothLE_OnDataChanged;
         //Start BluetoothLE service
         BluetoothLE.Start();
+	*/
     }
 
     /// <summary>
@@ -2230,7 +2237,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("Bye!");
 
         //Stop the BluetoothLE service if it was started
-        BluetoothLE.Stop();
+        //BluetoothLE.Stop();
 
         updatingRestTimes = false;
 
@@ -3101,6 +3108,8 @@ public partial class ChronoJumpWindow
 			button_menu_2_2_2_manage (radio_menu_2_2_2_inertial, false);
 		}
 
+		myTreeViewPersons.UpdateTestsNBlank ();
+
 		//show title
 		string tempSessionName = "";
 		if(currentSession != null)
@@ -3225,14 +3234,8 @@ public partial class ChronoJumpWindow
 
 		sensitiveLastTestButtons(false);
 
-		//contacts test buttons: edit, delete (visible)
-		if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE ||
-				m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC ||
-				m == Constants.Modes.WILIGHT ||
-				m == Constants.Modes.OTHER) //FOURPLATFORMS
-			button_contacts_edit_selected.Visible = true;
-		else
-			button_contacts_edit_selected.Visible = false;
+		//contacts delete test buttons: edit, delete (visible)
+		button_contacts_edit_selected.Visible = true;
 		button_contacts_delete_selected.Visible = true;
 
 		//contacts test buttons: edit, delete (sensitive)
@@ -3345,6 +3348,19 @@ public partial class ChronoJumpWindow
 				vbox_capture_current_encoder.Visible = true;
 		}
 
+		// to select heights/times on barplot (jumpsReactive)
+		if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE)
+		{
+			box_resultsSession_heightsTimes.Visible = true;
+			if (preferences.heightPreferred)
+				radio_resultsSession_heights.Active = true;
+			else
+				radio_resultsSession_times.Active = true;
+		} else
+			box_resultsSession_heightsTimes.Visible = false;
+
+		resultsSession_bestLast_controls ();
+
 		vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = false; //just runEncoder
 
 		// <---- box_capture_current ----
@@ -3402,7 +3418,7 @@ public partial class ChronoJumpWindow
 				notebooks_change(m);
 				on_extra_window_jumps_test_changed(new object(), new EventArgs());
 
-				box_contacts_simple_graph_controls.Visible = true;
+				box_resultsSession_bestLast.Visible = true;
 
 				//align_check_vbox_contacts_graph_legend.Visible = true;
 				//vbox_contacts_graph_legend.Visible = false;
@@ -3418,7 +3434,7 @@ public partial class ChronoJumpWindow
 				button_contacts_bells.Sensitive = true;
 				on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
 
-				box_contacts_simple_graph_controls.Visible = true;
+				box_resultsSession_bestLast.Visible = true;
 
 				box_capture_current.Visible = true;
 
@@ -3473,7 +3489,7 @@ public partial class ChronoJumpWindow
 				notebooks_change(m);
 				on_extra_window_runs_test_changed(new object(), new EventArgs());
 
-				box_contacts_simple_graph_controls.Visible = true;
+				box_resultsSession_bestLast.Visible = true;
 
 				//align_check_vbox_contacts_graph_legend.Visible = true;
 				//vbox_contacts_graph_legend.Visible = false;
@@ -3492,7 +3508,7 @@ public partial class ChronoJumpWindow
 				button_inspect_last_test_run_intervallic.Visible = true;
 				button_inspect_last_test_run_intervallic.Sensitive = false;
 
-				box_contacts_simple_graph_controls.Visible = true;
+				box_resultsSession_bestLast.Visible = true;
 
 				box_capture_current.Visible = true;
 				vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = true;
@@ -3671,7 +3687,7 @@ public partial class ChronoJumpWindow
 			//button_force_sensor_sync.Visible = true; //TODO: show again when it fully works, now is hidden for 2.1.0 release
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
-			box_contacts_simple_graph_controls.Visible = true;
+			box_resultsSession_bestLast.Visible = true;
 
 			hbox_change_modes_force_sensor.Visible = true;
 			radio_change_modes_contacts_isometric.Visible = (m == Constants.Modes.FORCESENSORISOMETRIC || m == Constants.Modes.FORCESENSORELASTIC);
@@ -5332,7 +5348,7 @@ public partial class ChronoJumpWindow
 				//configChronojump.Exhibition,
 				//preferences.heightPreferred,
 				preferences.metersSecondsPreferred,
-				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
+				Convert.ToInt32(spin_resultsSession_limit.Value),
 				radio_contacts_graph_allTests.Active, radio_contacts_results_personAll.Active,
 				image_jump_execute_air, image_jump_execute_land,
 				(configChronojump.Compujump && check_contacts_networks_upload.Active),
@@ -5827,7 +5843,7 @@ public partial class ChronoJumpWindow
 				image_run_execute_running,
 				image_run_execute_photocell_icon,
 				label_run_execute_photocell_code,
-				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
+				Convert.ToInt32(spin_resultsSession_limit.Value),
 				radio_contacts_graph_allTests.Active, radio_contacts_results_personAll.Active,
 				webcamStatusEnumSetStart (),
 				configChronojump.WichroSensorOnceA, configChronojump.WichroSensorOnceB,
@@ -6462,7 +6478,7 @@ public partial class ChronoJumpWindow
 
 	int eventOldPerson;
 
-	private void on_button_contacts_edit_selected_clicked (object o, EventArgs args)
+	private void on_button_tests_edit_selected_clicked (object o, EventArgs args)
 	{
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
 			on_edit_selected_jump_clicked (o, args);
@@ -6478,6 +6494,8 @@ public partial class ChronoJumpWindow
 			on_edit_selected_beepTest_clicked (o, args);
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			on_edit_selected_forceSensor_clicked (o, args);
+		else if (Constants.ModeIsENCODER (current_mode))
+			on_edit_selected_encoder_clicked (o, args);
 		else if (current_mode == Constants.Modes.WILIGHT)
 			on_edit_selected_wilight_clicked (o, args);
 		else if (current_mode == Constants.Modes.OTHER)
@@ -6496,7 +6514,7 @@ public partial class ChronoJumpWindow
 		sensitiveLastTestButtons(false);
 	}
 
-	private void on_button_contacts_delete_selected_clicked (object o, EventArgs args)
+	private void on_button_tests_delete_selected_clicked (object o, EventArgs args)
 	{
 		//TODO: implement all using on_delete_selected_test_clicked
 
@@ -6711,7 +6729,7 @@ public partial class ChronoJumpWindow
 	 *  --------------------------------------------------------
 	 */
 	
-	private void on_button_contacts_repair_selected_clicked (object o, EventArgs args)
+	private void on_button_tests_repair_selected_clicked (object o, EventArgs args)
 	{
 		if (current_mode == Constants.Modes.JUMPSREACTIVE)
 			on_repair_selected_jump_rj_clicked (o, args);
@@ -7777,6 +7795,8 @@ public partial class ChronoJumpWindow
 				fixEncoderCaptureWidgetsGeometry ();
 			}
 		}
+
+		updateGraphResultsSessionByMode (); //for example on encoder to update graph if changed main variable
 	}
 
 	private void on_feedback_questionnaire_load (object o, EventArgs args)

@@ -59,7 +59,8 @@ public partial class ChronoJumpWindow
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			treeViewResultsSession = new TreeViewForceSensor (tv, pdn, minimized );
 		else if (Constants.ModeIsENCODER (current_mode))
-			treeViewResultsSession = new TreeViewEncoder (tv, pdn, minimized );
+			treeViewResultsSession = new TreeViewEncoder (tv, pdn,
+					current_mode == Constants.Modes.POWERGRAVITATORY, minimized);
 		else if (current_mode == Constants.Modes.WILIGHT)
 			treeViewResultsSession = new TreeViewWilight (tv, pdn, minimized );
 		else if (current_mode == Constants.Modes.OTHER)
@@ -85,15 +86,27 @@ public partial class ChronoJumpWindow
 	private bool treeview_results_session_cursor_changed_block = false;
 
 	// Important! see: diagrams/processes/person_results_changes.dia
+	// note on right click, this event is always managed first
+	int treeViewResultsSessionEventSelectedIDLast = -1; //to not load same set again (on encoder)
 	private void on_treeview_results_session_cursor_changed (object o, EventArgs args)
 	{
 		LogB.Information ("on_treeview_results_session_cursor_changed");
+
 		if (treeViewResultsSession == null)
 			return;
 
 		if (treeview_results_session_cursor_changed_block)
 		{
 			LogB.Information ("blocked: cursor_changed");
+			return;
+		}
+
+		// on encoder to not loading set each time the set or the reps are clicked
+		if (Constants.ModeIsENCODER (current_mode) && (
+					treeViewResultsSession.EventSelectedID == treeViewResultsSessionEventSelectedIDLast ||
+					treeViewResultsSession.GetIDOfSelectedSubEvent () == treeViewResultsSessionEventSelectedIDLast))
+		{
+			LogB.Information ("blocked: tried to select same row, avoid load.");
 			return;
 		}
 
@@ -152,6 +165,8 @@ public partial class ChronoJumpWindow
 			else if (current_mode == Constants.Modes.OTHER) 	//FOURPLATFORMS
 				on_treeview_fourPlatforms_cursor_changed (o, args);
 		}
+
+		treeViewResultsSessionEventSelectedIDLast = treeViewResultsSession.EventSelectedID;
 	}
 
 	private void on_treeview_test_cursor_changed (bool loadSet)
@@ -178,6 +193,9 @@ public partial class ChronoJumpWindow
 					forceSensorLoadSignalAcceptedDo (treeViewResultsSession.EventSelectedID, -1, currentSession.UniqueID, ForceSensor.GetElasticIntFromMode (current_mode), false);
 				else if (Constants.ModeIsENCODER (current_mode))
 				{
+					blankEncoderCurrentSetGraphs ();
+					treeviewEncoderCaptureRemoveColumns ();
+
 					if (treeViewResultsSession.EventSelectedID == TreeViewEvent.MarkNonSelectRowSubEvent)
 						treeViewResultsSession.SelectEventHeaderLine();
 
@@ -231,7 +249,8 @@ public partial class ChronoJumpWindow
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			treeViewResultsSession = new TreeViewForceSensor (treeview_results_session, pdn, expandState);
 		else if (Constants.ModeIsENCODER (current_mode))
-			treeViewResultsSession = new TreeViewEncoder (treeview_results_session, pdn, expandState);
+			treeViewResultsSession = new TreeViewEncoder (treeview_results_session, pdn,
+					current_mode == Constants.Modes.POWERGRAVITATORY, expandState);
 		else if (current_mode == Constants.Modes.WILIGHT)
 			treeViewResultsSession = new TreeViewWilight (treeview_results_session, pdn, expandState);
 		else if (current_mode == Constants.Modes.OTHER)
@@ -240,7 +259,10 @@ public partial class ChronoJumpWindow
 
 	private void on_treeview_results_session_button_release_event (object o, ButtonReleaseEventArgs args)
 	{
+		//LogB.Information ("on_treeview_results_session_button_release_event");
 		Gdk.EventButton e = args.Event;
+		//LogB.Information ("e.Button" + e.Button.ToString ());
+		//LogB.Information ("EventSelectedID: " + treeViewResultsSession.EventSelectedID.ToString ());
 		//Gtk.TreeView myTv = (Gtk.TreeView) o;
 		if (e.Button != 3 || treeViewResultsSession.EventSelectedID < 0)
 			return;
@@ -283,11 +305,23 @@ public partial class ChronoJumpWindow
 			ev = SqliteForceSensor.SelectData (id, false);
 			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
 		}
-//		else if (Constants.ModeIsENCODER (current_mode))
-//		{
-//			ev = SqliteForceSensor.SelectData (id, false);
-//			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
-//		}
+		/*
+		 * It was disabled on encoder because when right click is done, first cursor_changed is raised
+		 * and then it loads set
+		 * then the button_release should be raised, but it is lost while loading the set
+		 * A solution could be to not load the set if the user clicks to same row, but this can be inconsistent for the user
+		 * note on cursor_changed with the EventArgs we do not know which button has been pressed
+		 * easiest solution is to put an edit button for encoder, and use also the delete button for encoder
+		 * (also great for tactile screens)
+		 *
+		 * finally on_treeview_results_session_cursor_changed checks if row is the same
+		 * so user can left click on set or rep and the right click on set and edit/delete will shown
+		 */
+		else if (Constants.ModeIsENCODER (current_mode))
+		{
+			ev = SqliteEncoder.SelectData (id, false);
+			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
+		}
 		else if (current_mode == Constants.Modes.WILIGHT)
 		{
 			ev = SqliteWilight.SelectData (id, false);
@@ -307,13 +341,13 @@ public partial class ChronoJumpWindow
 		uint y = 0;
 
 		myItem = new MenuItem (Catalog.GetString("Edit selected") + label);
-		myItem.Activated += on_button_contacts_edit_selected_clicked;
+		myItem.Activated += on_button_tests_edit_selected_clicked;
 		myMenu.Attach( myItem, 0, 1, y, (y++)+1 );
 
 		if (hasRepair)
 		{
 			myItem = new MenuItem (Catalog.GetString("Repair selected") + label);
-			myItem.Activated += on_button_contacts_repair_selected_clicked;
+			myItem.Activated += on_button_tests_repair_selected_clicked;
 			myMenu.Attach( myItem, 0, 1, y, (y++)+1 );
 
 			Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
@@ -321,7 +355,7 @@ public partial class ChronoJumpWindow
 		}
 
 		myItem = new MenuItem (Catalog.GetString("Delete selected") + label);
-		myItem.Activated += on_button_contacts_delete_selected_clicked;
+		myItem.Activated += on_button_tests_delete_selected_clicked;
 		myMenu.Attach( myItem, 0, 1, y, (y++)+1 );
 
 		myMenu.ShowAll();

@@ -91,7 +91,7 @@ class SqliteTests : Sqlite
 				tableName,
 				sessionID, personID, "", //type,
 				addExerciseNameInOtherTable, exerciseTable,
-				order, limit, false //onlyBestInSession
+				order, "", limit, false //onlyBestInSession
 				);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -128,10 +128,11 @@ class SqliteTests : Sqlite
 	//note this is selecting also the person.name
 	//used on run, runI, wilight
 	// limit 0 means no limit (limit negative is the last results) (used on SelectRuns)
-	protected static string selectResultsCreateSelection (string t,
+	protected static string selectResultsCreateSelection (
+			string t,
 			int sessionID, int personID, string filterType,
 			bool addExerciseNameInOtherTable, string exerciseTable,
-			Orders_by order, int limit, bool onlyBestInSession)
+			Orders_by order, string orderByBestStr, int limit, bool onlyBestInSession)
 	{
 		string tp = Constants.PersonTable;
 
@@ -164,6 +165,8 @@ class SqliteTests : Sqlite
 			orderByString = string.Format(" ORDER BY {0}.uniqueID DESC ", t);
 		if(onlyBestInSession)
 			orderByString = string.Format(" ORDER BY {0}.sessionID, {0}.distance/{0}.time DESC ", t);
+		if(order == Orders_by.BEST)
+			orderByString = orderByBestStr;
 
 		string limitString = "";
 		if(limit > 0)
@@ -207,6 +210,48 @@ class SqliteTests : Sqlite
 		return testData;
 	}
 
+	// used on treeview person (n), shows tests of each person
+	public static List<IntInt> SessionTestsByPerson (bool dbconOpened, int sessionID, Constants.Modes mode)
+	{
+		List<IntInt> ii_l = new List<IntInt> ();
+		openIfNeeded (dbconOpened); // ---->
+
+		// mode specific ->
+		string modeSpecificStr = "";
+		if (mode == Constants.Modes.POWERGRAVITATORY)
+			modeSpecificStr = " AND signalOrCurve = 'signal' AND hasInertia = 0 "; // hasInertia field since DB 2.63
+		else if (mode == Constants.Modes.POWERINERTIAL)
+			modeSpecificStr = " AND signalOrCurve = 'signal' AND hasInertia = 1 ";
+		else if (mode == Constants.Modes.FORCESENSORISOMETRIC)
+			modeSpecificStr = " AND stiffness < 0 "; // isometric has stiffness < 0
+		else if (mode == Constants.Modes.FORCESENSORELASTIC)
+			modeSpecificStr = " AND stiffness > 0 "; // elastic has stiffness > 0
+		// <- mode specific
+
+		dbcmd.CommandText =
+			"SELECT personID, COUNT(*) FROM " + Constants.ModeTable (mode) +
+			" WHERE sessionID = " + sessionID +
+			modeSpecificStr +
+			" GROUP BY personID";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader; // -->
+		reader = dbcmd.ExecuteReader();
+
+		while (reader.Read())
+			ii_l.Add (new IntInt (
+						Convert.ToInt32 (reader[0].ToString()),
+						Convert.ToInt32 (reader[1].ToString ())
+					     ));
+
+		reader.Close(); // <--
+
+		closeIfNeeded (dbconOpened); // <----
+		return ii_l;
+	}
+
 	public static string SelectExerciseNameInOtherTable (bool dbconOpened, int exerciseID, string exerciseTable)
 	{
 		openIfNeeded (dbconOpened);
@@ -245,7 +290,13 @@ class SqliteTests : Sqlite
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
+
+		updateSpecific (uniqueID, personID); 	// used on encoder to update related curves
+
 		Sqlite.Close();
+	}
+	protected virtual void updateSpecific (int uniqueID, int personID)
+	{
 	}
 
 	public static void UpdateTestPersonID (bool dbconOpened, string tName, int personIDold, int personIDnew)
@@ -261,7 +312,8 @@ class SqliteTests : Sqlite
 		closeIfNeeded (dbconOpened);
 	}
 
-	public void UpdateComments (int uniqueID, string comments)
+	// on encoder description will be updated
+	public virtual void UpdateComments (int uniqueID, string comments)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + tableName +

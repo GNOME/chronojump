@@ -55,5 +55,8 @@ public partial class ChronoJumpWindow
 			treeview_results_session.ExpandAll();
 		else
 			expandOrMinimizeTreeView((TreeViewEvent) treeViewResultsSession, treeview_results_session);
+
+		// every time fillTreeView is done, update this
+		updatePersonTestsN (dbconOpened);
 	}
 }

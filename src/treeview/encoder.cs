@@ -27,34 +27,59 @@ using Mono.Unix;
 
 public class TreeViewEncoder : TreeViewEvent
 {
-	public TreeViewEncoder (Gtk.TreeView treeview, int newPrefsDigitsNumber, ExpandStates expandState)
+	bool gravitatory; //on gravitatory show extraWeight, on inertial hide it
+
+	public TreeViewEncoder (Gtk.TreeView treeview, int newPrefsDigitsNumber, bool gravitatory, ExpandStates expandState)
 	{
 		this.treeview = treeview;
 		this.pDN = newPrefsDigitsNumber;
+		this.gravitatory = gravitatory;
 		this.expandState = expandState;
 
 		treeviewHasTwoLevels = true;
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllTestsNameStr();
-		idColumn = 9; //column where the uniqueID of event will be (and will be hidden)
-	
-		columnsString = new string[] { 
-			personName,
-			lateralityName,
-			weightExtraName,
-			//Catalog.GetString ("Encoder configuration"),
-			Catalog.GetString ("Contraction"),
-			Catalog.GetString ("Mean power"),
-			Catalog.GetString ("Mean speed"),
-			Catalog.GetString ("Mean force"),
-//			datetimeName,
-			videoName,
-			descriptionName
-//				, "UNIQUEID" //just for debug
-		};
 
-		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
+		if (gravitatory)
+		{
+			idColumn = 14; //column where the uniqueID of event will be (and will be hidden)
+
+			columnsString = new string[] {
+				personName,
+					lateralityName,
+					weightExtraName,
+					//Catalog.GetString ("Encoder configuration"),
+					Catalog.GetString ("Contraction"),
+					Constants.RangeAbsolute,
+					Catalog.GetString ("Mean speed"), Catalog.GetString ("Max speed"),
+					Catalog.GetString ("Mean power"), Catalog.GetString ("Peak power"),
+					Catalog.GetString ("Mean force"), Catalog.GetString ("Max force"),
+					datetimeName,
+					videoName,
+					descriptionName
+						// "UNIQUEID" //just for debug
+			};
+		} else {
+			idColumn = 13; //column where the uniqueID of event will be (and will be hidden)
+
+			columnsString = new string[] {
+				personName,
+					lateralityName,
+					//Catalog.GetString ("Encoder configuration"),
+					Catalog.GetString ("Contraction"),
+					Constants.RangeAbsolute,
+					Catalog.GetString ("Mean speed"), Catalog.GetString ("Max speed"),
+					Catalog.GetString ("Mean power"), Catalog.GetString ("Peak power"),
+					Catalog.GetString ("Mean force"), Catalog.GetString ("Max force"),
+					datetimeName,
+					videoName,
+					descriptionName
+						// "UNIQUEID" //just for debug
+			};
+		}
+
+		store = getStore (columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
 	}
@@ -233,11 +258,17 @@ public class TreeViewEncoder : TreeViewEvent
 
 		myData[count++] = eSQL.exerciseName;
 		myData[count++] = Catalog.GetString (eSQL.laterality);
-		myData[count++] = eSQL.extraWeight;
+		if (gravitatory)
+			myData[count++] = Util.TrimDecimals (eSQL.extraWeight, 2);
 		myData[count++] = eSQL.ecconLong;
-		myData[count++] = ""; //meanPower
+		myData[count++] = ""; //rangeAbsolute
 		myData[count++] = ""; //meanSpeed
+		myData[count++] = ""; //maxSpeed
+		myData[count++] = ""; //meanPower
+		myData[count++] = ""; //peakPower
 		myData[count++] = ""; //meanForce
+		myData[count++] = ""; //maxForce
+		myData[count++] = eSQL.GetDatetimeStr (true);
 
 		if (UtilList.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.ENCODER, eSQL.UniqueID)))
 			myData[count++] = Catalog.GetString ("Yes");
@@ -259,11 +290,17 @@ public class TreeViewEncoder : TreeViewEvent
 
 		myData[count++] = ""; // i.ToString ()  better not show a number now as it gets confused with the number of repetition on current set table.
 		myData[count++] = ""; //Catalog.GetString (eSQL.laterality);
-		myData[count++] = ""; //eSQL.extraWeight;
+		if (gravitatory)
+			myData[count++] = ""; //eSQL.extraWeight;
 		myData[count++] = ""; //eSQL.ecconLong;
-		myData[count++] = eSQL.meanPower;
-		myData[count++] = eSQL.meanSpeed;
-		myData[count++] = eSQL.meanForce;
+		myData[count++] = Util.TrimDecimals (eSQL.rangeAbs, 2);
+		myData[count++] = Util.TrimDecimals (eSQL.meanSpeed, 2);
+		myData[count++] = Util.TrimDecimals (eSQL.maxSpeed, 2);
+		myData[count++] = Util.TrimDecimals (eSQL.meanPower, 2);
+		myData[count++] = Util.TrimDecimals (eSQL.maxPower, 2);
+		myData[count++] = Util.TrimDecimals (eSQL.meanForce, 2);
+		myData[count++] = Util.TrimDecimals (eSQL.maxForce, 2);
+		myData[count++] = ""; //datetime
 		myData[count++] = ""; //eSQL.videoURL;
 		myData[count++] = ""; //eSQL.Description;
 		myData[count++] = MarkNonSelectRowSubEvent.ToString ();

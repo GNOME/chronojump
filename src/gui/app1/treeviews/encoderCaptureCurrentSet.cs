@@ -374,6 +374,24 @@ public partial class ChronoJumpWindow
 			updateUserCurvesLabelsAndCombo(false);
 
 			callPlotCurvesGraphDoPlot();
+
+			// update the treeviewResultsSession without changing again current set widgets
+			// see: diagrams/processes/person_results_changes.dia
+			SqliteEncoder se = new SqliteEncoder ();
+			treeview_results_session_cursor_changed_block = true; //to block cursor_change on store.Remove ()
+
+			treeViewResultsSession.UpdateReps (
+					se.SelectSetsAndRepsLList (
+						false, currentPerson.UniqueID, currentSession.UniqueID,
+						currentEncoderGI, lastEncoderSQLSignal.exerciseID, encoderSignalUniqueID)
+					);
+			treeview_results_session_cursor_changed_block = false;
+
+			// update the signal graph
+			encoder_capture_signal_drawingarea_cairo.QueueDraw ();
+
+			//and the session barplot
+			updateGraphResultsSessionByMode ();
 		}
 	}
 

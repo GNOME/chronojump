@@ -56,9 +56,27 @@ public partial class ChronoJumpWindow
 		return assignColor(found, higherActive, lowerActive, 
 				Convert.ToDouble(higherValue), Convert.ToDouble(lowerValue));
 	}
-	
+
 	private void RenderRecord (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter) {
 		(cell as Gtk.CellRendererToggle).Active = ((EncoderCurve) model.GetValue (iter, 0)).Record;
+
+		if (current_mode == Constants.Modes.POWERGRAVITATORY)
+		{
+			cell.Visible = true;
+			return;
+		}
+
+		// current_mode == Constants.Modes.POWERINERTIAL
+		// on inertial show only crt if has not to be discarded
+
+		string pathString = encoderCaptureListStore.GetPath(iter).ToString ();
+                string [] myStrFull = pathString.Split(new char[] {':'});
+
+		int inertialStart = preferences.encoderCaptureInertialDiscardFirstN;
+		if (ecconLast != "c")
+			inertialStart *= 2;
+
+		cell.Visible = (myStrFull.Length > 0 && Util.IsNumber (myStrFull[0], false) && Convert.ToInt32 (myStrFull[0]) >= inertialStart);
 	}
 
 	private void RenderN (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)

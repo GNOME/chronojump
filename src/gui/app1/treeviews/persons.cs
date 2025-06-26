@@ -59,5 +59,14 @@ public partial class ChronoJumpWindow
 		myMenu.ShowAll();
 		myMenu.Popup();
 	}
+
+	private void updatePersonTestsN (bool dbconOpened)
+	{
+		if (currentSession == null)
+			return;
+
+		List<IntInt> ii_l = SqliteTests.SessionTestsByPerson (dbconOpened, currentSession.UniqueID, current_mode);
+		myTreeViewPersons.UpdateTestsN (ii_l);
+	}
 }
 

@@ -123,6 +123,7 @@ public class EditJumpWindow : EditEventWindow
 		showLimited = false;
 		//showAngle = true; //kneeAngle
 		showMistakes = false;
+		showDescription = true;
 		
 		if(weightPercentPreferred)
 			label_weight_units.Text = "%";
@@ -536,6 +537,7 @@ public class EditJumpRjWindow : EditJumpWindow
 		showWeight = true;
 		showLimited = true;
 		showMistakes = false;
+		showDescription = true;
 		
 		if(weightPercentPreferred)
 			label_weight_units.Text = "%";
@@ -1679,6 +1681,7 @@ public partial class ChronoJumpWindow
 		Sqlite.Delete(false, Constants.JumpTable, id);
 		
 		treeViewResultsSession.DelEvent(id);
+		updatePersonTestsN (false);
 		showHideActionEventButtons(false);
 		
 		if(createdStatsWin) {
@@ -1715,6 +1718,7 @@ public partial class ChronoJumpWindow
 		Sqlite.Delete(false, Constants.JumpRjTable, id);
 		
 		treeViewResultsSession.DelEvent(id);
+		updatePersonTestsN (false);
 		selectedJumpRj = null;
 		showHideActionEventButtons(false);
 

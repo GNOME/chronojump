@@ -77,7 +77,7 @@ public class PrepareEventGraphJumpSimple
 	public double tv;
 	public double tc;
 	public string type; //jumpType (useful to know if "all jumps" (type == "")
-	public bool djShowHeights; //if djShowHeights and is a dj, graph falling height and jump height
+	public bool showHeights;
 	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
 
 	public PrepareEventGraphJumpSimple() {
@@ -86,40 +86,31 @@ public class PrepareEventGraphJumpSimple
 	//allPersons is for searching the jumps of current of allpersons
 	//personID we need to the personsMAX/AVG sql calls
 	//type can be "" for all jumps, then write it under bar
-	public PrepareEventGraphJumpSimple(double tv, double tc, int sessionID,
-			int personID, bool allPersons, int limit,
-			string table, string type, bool djShowHeights, int selectedID)
+	public PrepareEventGraphJumpSimple (double tv, double tc, int sessionID,
+			int personID, bool allPersons,
+			bool showHeights,
+			bool showBest, int limit,
+			string table, string type, int selectedID)
 	{
 		int personIDTemp = personID;
 		if(allPersons)
 			personIDTemp = -1;
 
+		Sqlite.Orders_by orderBy = Sqlite.Orders_by.BEST;
+		if (! showBest)
+			orderBy = Sqlite.Orders_by.ID_ASC;
+
 		jumpsAtSQL = SqliteJump.SelectJumps (sessionID, personIDTemp, type,
-				Sqlite.Orders_by.ID_ASC, limit,
+				orderBy, limit,
 				allPersons, 	//show names on comments only if "all persons"
 				false); 	//! onlyBestInSession
 
 		Sqlite.Open();
 
 
-		string sqlSelect = "";
-		//if it is a concrete jump type, then check if showHeights or times
-		if(type != "") {
-			if(tv > 0) {
-				if(tc <= 0)
-					sqlSelect = "100*4.9*(TV/2)*(TV/2)";
-				else {
-					if(djShowHeights)
-						sqlSelect = "100*4.9*(TV/2)*(TV/2)";
-					else
-						sqlSelect = "TV"; //if tc is higher than tv it will be fixed on PrepareJumpSimpleGraph
-				}
-			} else
-				sqlSelect = "TC";
-		} else {
-			//if there are different types, always use heights to be able to do comparisons between different jump types
+		string sqlSelect = "TV"; //if tc is higher than tv it will be fixed on PrepareJumpSimpleGraph
+		if (showHeights)
 			sqlSelect = "100*4.9*(TV/2)*(TV/2)";
-		}
 
 		personMAXAtSQLAllSessions = SqliteSession.SelectMAXEventsOfAType(true, -1, personID, table, type, sqlSelect);
 
@@ -140,7 +131,7 @@ public class PrepareEventGraphJumpSimple
 		this.tv = tv;
 		this.tc = tc;
 		this.type = type;
-		this.djShowHeights = djShowHeights;
+		this.showHeights = showHeights;
 		this.selectedID = selectedID;
 		
 		Sqlite.Close();
@@ -173,7 +164,10 @@ public class PrepareEventGraphJumpReactive
 	//personID we need to the personsMAX/AVG sql calls
 	//type can be "" for all jumps, then write it under bar
 	public PrepareEventGraphJumpReactive (
-			int sessionID, int personID, bool allPersons, int limit, string type, bool showHeights, int selectedID)
+			int sessionID, int personID, bool allPersons,
+			bool showHeights,
+			Constants.ResultsSessionCriteria resultsSessionCriteria, int limit,
+			string type, int selectedID)
 	{
 		// 1) assign variables
 		this.type = type;
@@ -186,59 +180,45 @@ public class PrepareEventGraphJumpReactive
 		if(allPersons)
 			personIDTemp = -1;
 
+		Sqlite.Orders_by orderBy = Sqlite.Orders_by.ID_ASC;
+		string sqlRangeSelect = "";
+		if (resultsSessionCriteria == Constants.ResultsSessionCriteria.LAST)
+		{
+			orderBy = Sqlite.Orders_by.ID_ASC;
+			if (showHeights)
+				sqlRangeSelect = "heightAvg";
+			else
+				sqlRangeSelect = "tvAvg";
+		}
+		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST)
+		{
+			orderBy = Sqlite.Orders_by.BEST;
+			sqlRangeSelect = "tvAvg";
+		} else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
+		{
+			orderBy = Sqlite.Orders_by.BEST2;
+			sqlRangeSelect = "tvAvg/tcAvg";
+		} else // if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST3)
+		{
+			orderBy = Sqlite.Orders_by.BEST3;
+			sqlRangeSelect = "heightAvg";
+		}
+
+		LogB.Information (string.Format ("LIMIT: " + limit));
 		jumpsAtSQL = SqliteJumpRj.SelectJumps (true, sessionID, personIDTemp, type,
-				Sqlite.Orders_by.ID_ASC, limit, allPersons); 	//show names on comments only if "all persons"
+				orderBy, limit, allPersons); 	//show names on comments only if "all persons"
 
+		List<double> personStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
+				true, sessionID, personID, Constants.JumpRjTable, type, sqlRangeSelect);
+		personMAXAtSQL = personStats[0];
+		personAVGAtSQL = personStats[1];
+		personMINAtSQL = personStats[2];
 
-		//as height is quadratic vs tv, we need to calculate height of each of the subjumps, cannot do it directly from sql (as its an string)
-		if (showHeights)
-		{
-			List<JumpRj> jumpsAtSQLWithoutLimit = SqliteJumpRj.SelectJumps (true, sessionID, personIDTemp, type,
-					Sqlite.Orders_by.ID_ASC, 0, allPersons); 	//show names on comments only if "all persons"
-
-			//note falls should be also counted, but all falls are just heights except the last one.
-			//TODO: and we need to add first fall (selected from the software) (if is > 0)
-			List<double> personHeights_l = new List<double> ();
-			List<double> sessionHeights_l = new List<double> ();
-
-			foreach (JumpRj jumpRj in jumpsAtSQLWithoutLimit)
-			{
-				double heightAvg = UtilList.GetAverage (jumpRj.HeightList);
-				if (jumpRj.PersonID == personIDTemp)
-					personHeights_l.Add (heightAvg);
-
-				sessionHeights_l.Add (heightAvg);
-			}
-
-			personMAXAtSQL = UtilList.GetMax (personHeights_l);
-			personAVGAtSQL = UtilList.GetAverage (personHeights_l);
-			personMINAtSQL = UtilList.GetMin (personHeights_l);
-
-			sessionMAXAtSQL = UtilList.GetMax (sessionHeights_l);
-			sessionAVGAtSQL = UtilList.GetAverage (sessionHeights_l);
-			sessionMINAtSQL = UtilList.GetMin (sessionHeights_l);
-		}
-		else
-		{
-			// sum of each subjump
-			//string sqlSelect = "tvAvg*jumps";
-			// avg of each subjump
-			string sqlSelect = "tvAvg";
-
-			string table = Constants.JumpRjTable;
-
-			List<double> personStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
-					true, sessionID, personID, table, type, sqlSelect);
-			personMAXAtSQL = personStats[0];
-			personAVGAtSQL = personStats[1];
-			personMINAtSQL = personStats[2];
-
-			List<double> sessionStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
-					true, sessionID, -1, table, type, sqlSelect);
-			sessionMAXAtSQL = sessionStats[0];
-			sessionAVGAtSQL = sessionStats[1];
-			sessionMINAtSQL = sessionStats[2];
-		}
+		List<double> sessionStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
+				true, sessionID, -1, Constants.JumpRjTable, type, sqlRangeSelect);
+		sessionMAXAtSQL = sessionStats[0];
+		sessionAVGAtSQL = sessionStats[1];
+		sessionMINAtSQL = sessionStats[2];
 
 		Sqlite.Close(); // < -----------------
 	}
@@ -292,7 +272,7 @@ public class PrepareEventGraphRunSimple
 	}
 
 	public PrepareEventGraphRunSimple(double time, double speed, int sessionID,
-			int personID, bool allPersons, int limit,
+			int personID, bool allPersons, bool showBest, int limit,
 			string table, string type, int selectedID)
 	{
 		Sqlite.Open();
@@ -301,9 +281,13 @@ public class PrepareEventGraphRunSimple
 		if(allPersons)
 			personIDTemp = -1;
 
+		Sqlite.Orders_by orderBy = Sqlite.Orders_by.BEST;
+		if (! showBest)
+			orderBy = Sqlite.Orders_by.ID_ASC;
+
 		//obtain data
 		runsAtSQL = SqliteRun.SelectRuns (true, sessionID, personIDTemp, type,
-				Sqlite.Orders_by.ID_ASC, limit,
+				orderBy, limit,
 				allPersons, false); //show names on comments only if "all persons"
 
 		
@@ -362,7 +346,8 @@ public class PrepareEventGraphRunInterval
 	//personID we need to the personsMAX/AVG sql calls
 	//type can be "" for all jumps, then write it under bar
 	public PrepareEventGraphRunInterval (
-			int sessionID, int personID, bool allPersons, int limit, string type, int selectedID)
+			int sessionID, int personID, bool allPersons, bool showBest, int limit,
+			string type, int selectedID)
 	{
 		// 1) assign variables
 		this.type = type;
@@ -374,8 +359,12 @@ public class PrepareEventGraphRunInterval
 		if(allPersons)
 			personIDTemp = -1;
 
+		Sqlite.Orders_by orderBy = Sqlite.Orders_by.BEST;
+		if (! showBest)
+			orderBy = Sqlite.Orders_by.ID_ASC;
+
 		runsAtSQL = SqliteRunInterval.SelectRuns (true, sessionID, personIDTemp, type,
-				Sqlite.Orders_by.ID_ASC, limit, allPersons); 	//show names on comments only if "all persons"
+				orderBy, limit, allPersons); 	//show names on comments only if "all persons"
 
 		string sqlSelect = "distanceTotal/timeTotal";
 		string table = Constants.RunIntervalTable;
@@ -440,7 +429,8 @@ public class PrepareEventGraphRunEncoder
 	public PrepareEventGraphRunEncoder() {
 	}
 
-	public PrepareEventGraphRunEncoder (int sessionID, int personID, bool allPersons, int limit,
+	public PrepareEventGraphRunEncoder (int sessionID, int personID, bool allPersons,
+			Constants.ResultsSessionCriteria resultsSessionCriteria, int limit,
 			int exerciseID, int selectedID, Constants.Modes mode, bool exerciseAll)
 	{
 		this.selectedID = selectedID;
@@ -450,8 +440,14 @@ public class PrepareEventGraphRunEncoder
 		if(allPersons)
 			personIDTemp = -1;
 
+		Sqlite.Orders_by orderBy = Sqlite.Orders_by.ID_ASC;
+		if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST)
+			orderBy = Sqlite.Orders_by.BEST;
+		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
+			orderBy = Sqlite.Orders_by.BEST2;
+
 		rowsAtSQL = SqliteRunEncoder.Select (false, -1, personIDTemp, sessionID, exerciseID,
-				Sqlite.Orders_by.ID_ASC, limit,
+				orderBy, limit,
 				allPersons//, 	//show names on comments only if "all persons"
 				//false 	//! onlyBestInSession
 				);
@@ -542,7 +538,8 @@ public class PrepareEventGraphForceSensor
 	public PrepareEventGraphForceSensor() {
 	}
 
-	public PrepareEventGraphForceSensor (int sessionID, int personID, bool allPersons, int limit,
+	public PrepareEventGraphForceSensor (int sessionID, int personID, bool allPersons,
+			Constants.ResultsSessionCriteria resultsSessionCriteria, int limit,
 			int exerciseID, int selectedID, Constants.Modes mode, bool exerciseAll)
 	{
 		this.selectedID = selectedID;
@@ -559,8 +556,14 @@ public class PrepareEventGraphForceSensor
 		else if (mode == Constants.Modes.FORCESENSORELASTIC)
 			elastic = 1;
 
+		Sqlite.Orders_by orderBy = Sqlite.Orders_by.ID_ASC;
+		if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST)
+			orderBy = Sqlite.Orders_by.BEST;
+		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
+			orderBy = Sqlite.Orders_by.BEST2;
+
 		rowsAtSQL = SqliteForceSensor.Select (false, -1, personIDTemp, sessionID, elastic, exerciseID,
-				Sqlite.Orders_by.ID_ASC, limit,
+				orderBy, limit,
 				allPersons//, 	//show names on comments only if "all persons"
 				//false 	//! onlyBestInSession
 				);
@@ -639,7 +642,8 @@ public class PrepareEventGraphEncoderSession
 {
 	//sql data of previous tests to plot graph and show stats at bottom
 	public List<EncoderSQL> rowsAtSQL;
-	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
+	public int selectedSetID; //-1 if none selected. If >= 0 then is the selected on treeview.
+	public List<int> selectedRepID_l; //need to match with the bars, as the bars are going to be repetitions
 
 	public bool exerciseAll; //all tests
 
@@ -647,28 +651,43 @@ public class PrepareEventGraphEncoderSession
 	}
 
 	public PrepareEventGraphEncoderSession (int sessionID, int personID, bool allPersons,
-			Constants.EncoderGI encoderGI, int limit,
-			int exerciseID, int selectedID, Constants.Modes mode, bool exerciseAll)
+			Constants.EncoderGI encoderGI,
+			bool showBest,
+			int limit,
+			int exerciseID, int selectedSetID, Constants.Modes mode, bool exerciseAll)
 	{
-		this.selectedID = selectedID;
+		this.selectedSetID = selectedSetID;
 		this.exerciseAll = exerciseAll;
 
 		int personIDTemp = personID;
 		if(allPersons)
 			personIDTemp = -1;
 
+		Sqlite.Orders_by orderBy = Sqlite.Orders_by.BEST;
+		if (! showBest)
+			orderBy = Sqlite.Orders_by.ID_ASC;
+
 		rowsAtSQL = SqliteEncoder.SelectList (false, -1, personIDTemp, sessionID, encoderGI,
 				exerciseID, "curve", EncoderSQL.Eccons.ALL,
 				"", 	//lateralityEnglish
-				false, true, 	// onlyActive, orderIDascendent
-				true, 	//orderRespsByPosInSet
+				false, orderBy, 	// onlyActive, orderIDascendent
+				true, 	//orderRepsByPosInSet
 				limit,
 				allPersons//, 	//show names on comments only if "all persons"
 				//false 	//! onlyBestInSession
 				);
 		//LogB.Information ("rowsAtSQL count: " + (rowsAtSQL.Count).ToString ());
 
-		this.selectedID = selectedID;
+		//select linkedReps (if any)
+		selectedRepID_l = new List<int> ();
+		if (selectedSetID >= 0)
+		{
+			ArrayList linkedReps = SqliteEncoderSignalCurve.SelectSignalCurve (
+					false, selectedSetID, -1, -1, -1);	//DBopened, signal, curve, msStart, msEnd
+
+			foreach (EncoderSignalCurve esc in linkedReps)
+				selectedRepID_l.Add (esc.curveID);
+		}
 	}
 
 	~PrepareEventGraphEncoderSession() {}

@@ -282,6 +282,8 @@ class SqliteJump : SqliteTests
 		  orderByString = " ORDER BY jump.uniqueID DESC ";
 	  if(onlyBestInSession)
 		  orderByString = " ORDER BY jump.sessionID, jump.Tv DESC ";
+	  if(order == Orders_by.BEST)
+		  orderByString = " ORDER BY jump.Tv ";
 
 	  string limitString = "";
 	  if(limit > 0)

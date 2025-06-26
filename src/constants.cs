@@ -951,6 +951,10 @@ public class Constants
 	{
 		return string.Format(Catalog.GetString("Sorry, this graph cannot be done with test {0}."), test);
 	}
+	public static string GraphNeedMoreHeight ()
+	{
+		return Catalog.GetString ("This graphic needs more height.");
+	}
 	public static string FileCannotOpenedMaybeSpreadsheetOpened  ()
 	{
 		return Catalog.GetString ("Maybe this file is opened by an SpreadSheet software like Excel. Please, close that program.");
@@ -1386,7 +1390,8 @@ public class Constants
 	public enum EncoderVariablesCapture {
 		RangeAbsolute, MeanSpeed, MaxSpeed, MeanForce, MaxForce, MeanPower, PeakPower, WorkJ, Impulse
 	}
-	public static string GetEncoderVariablesCapture(EncoderVariablesCapture enumVariable) {
+	public static string GetEncoderVariablesCapture(EncoderVariablesCapture enumVariable)
+	{
 		switch(enumVariable) {
 			case EncoderVariablesCapture.RangeAbsolute:
 				return RangeAbsolute;
@@ -1409,7 +1414,8 @@ public class Constants
 		}
 		return MeanPower;
 	}
-	public static EncoderVariablesCapture SetEncoderVariablesCapture(string v) {
+	public static EncoderVariablesCapture SetEncoderVariablesCapture(string v)
+	{
 		switch(v) {
 			case RangeAbsolute:
 				return EncoderVariablesCapture.RangeAbsolute;
@@ -1432,7 +1438,32 @@ public class Constants
 		}
 		return EncoderVariablesCapture.MeanPower;
 	}
-		
+
+	public static string GetEncoderVariablesCaptureUnits (EncoderVariablesCapture enumVariable)
+	{
+		switch (enumVariable) {
+			case EncoderVariablesCapture.RangeAbsolute:
+				return "cm";
+			case EncoderVariablesCapture.MeanSpeed:
+				return "m/s";
+			case EncoderVariablesCapture.MaxSpeed:
+				return "m/s";
+			case EncoderVariablesCapture.MeanForce:
+				return "N";
+			case EncoderVariablesCapture.MaxForce:
+				return "N";
+			case EncoderVariablesCapture.MeanPower:
+				return "W";
+			case EncoderVariablesCapture.PeakPower:
+				return "W";
+			case EncoderVariablesCapture.WorkJ:
+				return "";
+			case EncoderVariablesCapture.Impulse:
+				return "";
+		}
+		return "";
+	}
+
 	public enum Encoder1RMMethod { NONWEIGHTED, WEIGHTED, WEIGHTED2, WEIGHTED3 }
 	//public enum ContextMenu { NONE, EDITDELETE, DELETE }
 
@@ -1494,9 +1525,10 @@ public class Constants
 	public enum MassType {
 		BODY, EXTRA, DISPLACED
 	}	
-	
+
 	public enum Status { ERROR, UNSTARTED, OK}	
-	
+	public enum ResultsSessionCriteria { BEST, BEST2, BEST3, LAST };
+
 	/*
 	 * Attention: this will be separated by ';', then no ';' sign can be here
 	 * No "\n" can be here also

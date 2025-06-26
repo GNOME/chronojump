@@ -103,6 +103,7 @@ public class EditRunWindow : EditEventWindow
 		showWeight = false;
 		showLimited = false;
 		showMistakes = false;
+		showDescription = true;
 		
 		if(metersSecondsPreferred)
 			label_speed_units.Text = "m/s";
@@ -331,6 +332,7 @@ public class EditRunIntervalWindow : EditRunWindow
 		showWeight = false;
 		showLimited = true;
 		showMistakes = false;
+		showDescription = true;
 		
 		if(metersSecondsPreferred)
 			label_speed_units.Text = "m/s";
@@ -1665,6 +1667,7 @@ public partial class ChronoJumpWindow
 		Sqlite.Delete(false, Constants.RunTable, id);
 		
 		treeViewResultsSession.DelEvent(id);
+		updatePersonTestsN (false);
 		selectedRunInterval = null;
 		selectedRunIntervalType = null;
 		showHideActionEventButtons(false);
@@ -1693,6 +1696,7 @@ public partial class ChronoJumpWindow
 		Sqlite.Delete(false, Constants.RunIntervalTable, id);
 		
 		treeViewResultsSession.DelEvent(id);
+		updatePersonTestsN (false);
 		selectedRunInterval = null;
 		showHideActionEventButtons(false);
 		button_inspect_last_test_run_intervallic.Sensitive = false;

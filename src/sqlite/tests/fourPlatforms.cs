@@ -105,7 +105,8 @@ class SqliteFourPlatforms : SqliteTests
 				tableStatic,
 				sessionID, personID, "", //type,
 				false, "",
-				order, limit, false //onlyBestInSession
+				order, "",
+				limit, false //onlyBestInSession
 				);
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

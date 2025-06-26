@@ -708,7 +708,7 @@ public abstract class ExportSession
 					Util.TrimDecimals(maxRSI, dec) + ":" +
 					Util.TrimDecimals(myStr[11], dec) + ":" +  		//jumpRj.tcAvg
 					Util.TrimDecimals(myStr[10], dec) + ":" + 		//jumpRj.tvAvg
-					Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[10]), dec) + ":" +  //Avg height
+					Util.TrimDecimals(myStr[20], dec) + ":" +  //Avg height (this is much better calculation than previous calculation of height of the avg(tv))
 					Util.TrimDecimals(Jump.GetInitialSpeed(
 							myStr[10], preferences.metersSecondsPreferred), dec) + ":" +  	//Avg Initial speed (true:m/s)
 					Util.TrimDecimals(avgRSI, dec) + ":" +

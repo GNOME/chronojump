@@ -41,7 +41,7 @@ g_destinationBaseDirectory = ""
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Copyright (C) 2016-2017 Carles Pina i Estany <carles@pina.cat>
- * Copyright (C) 2019-2023 Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2019-2025 Xavier de Blas <xaviblas@gmail.com>
  */
 """
 
@@ -493,6 +493,8 @@ class ImportSession:
         self._import_jumps()
         self._import_runs()
         self._import_pulse()
+        self._import_wilight()
+        self._import_fourPlatforms()
         trigger = self._import_encoder()
         triggerForceSensor = self._import_forceSensor()
         triggerRunEncoder = self._import_runEncoder()
@@ -663,6 +665,26 @@ class ImportSession:
         pulse.update_session_ids(self.new_session_id)
         pulse.update_ids("type", pulse_types, "old_name", "new_name")
         self.destination_db.write(pulse, self.destination_db.column_names("Pulse", skip_columns=["uniqueID", "personID"]))
+
+    def _import_wilight(self):
+        #self._print_status(self, "wilight")
+
+        # Imports Wilight table
+        wilight = self.source_db.read(table_name="Wilight",
+                                    where_condition="Wilight.sessionID={}".format(self.source_session))
+        wilight.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
+        wilight.update_session_ids(self.new_session_id)
+        self.destination_db.write(wilight, self.destination_db.column_names("Wilight", skip_columns=["uniqueID", "personID"]))
+
+    def _import_fourPlatforms(self):
+        #self._print_status(self, "fourPlatforms")
+
+        # Imports FourPlatforms table
+        fourPlatforms = self.source_db.read(table_name="FourPlatforms",
+                                    where_condition="FourPlatforms.sessionID={}".format(self.source_session))
+        fourPlatforms.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
+        fourPlatforms.update_session_ids(self.new_session_id)
+        self.destination_db.write(fourPlatforms, self.destination_db.column_names("FourPlatforms", skip_columns=["uniqueID", "personID"]))
 
     def _import_person_session77(self):
         # Imports PersonSession77

@@ -509,6 +509,14 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			LogB.Information("Catched on CairoGraphForceSensorSignal soSendingList() g.LineWidth");
 			return graphInited;
 		}
+
+		if (calculatePaintY (10) > calculatePaintY (0))
+		{
+			printText (graphWidth/2, graphHeight/2, 0, textHeight,
+					Constants.GraphNeedMoreHeight (), g, alignTypes.CENTER);
+			return true;
+		}
+
 		pointsRadius = 1;
 
 		startAt = 0;

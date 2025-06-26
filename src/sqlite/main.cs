@@ -138,7 +138,10 @@ class Sqlite
 	public static UpdatingDBFromEnum UpdatingDBFrom;
 	
 	public enum StatType { MAX, AVG }
-	public enum Orders_by { DEFAULT, ID_ASC, ID_DESC }
+
+	// BEST can be different criteria depeding on class
+	// and also it can be BEST1, BEST2, ... being on encoder: meanPower, meanSpeed
+	public enum Orders_by { DEFAULT, ID_ASC, ID_DESC, BEST, BEST2, BEST3 }
 
 	//for db creation
 	static int creationRate;
@@ -166,7 +169,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.60";
+	static string lastChronojumpDatabaseVersion = "2.63";
 
 	public Sqlite()
 	{
@@ -3544,6 +3547,94 @@ class Sqlite
 
 				currentVersion = updateVersion("2.60");
 			}
+			if(currentVersion == "2.60")
+			{
+				LogB.SQL("Doing alter table jumpRj adding heightAvg");
+				try {
+					executeSQL("ALTER TABLE " + Constants.JumpRjTable + " ADD COLUMN heightAvg FLOAT;");
+					LogB.Information ("alter table done!");
+
+					LogB.Information ("doing migration of heightAvg ...");
+					List<JumpRj> jumpRj_l = SqliteJumpRj.SelectJumps (true, -1, -1, "", Orders_by.ID_ASC, 0, false);
+					using (SQLiteTransaction tr = dbcon.BeginTransaction())
+					{
+						using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
+						{
+							dbcmdTr.Transaction = tr;
+
+							foreach (JumpRj jr in jumpRj_l)
+							{
+								dbcmdTr.CommandText = string.Format ("UPDATE {0} SET heightAvg = {1} WHERE uniqueID = {2}",
+										Constants.JumpRjTable,
+										Util.ConvertToPoint (UtilList.GetAverage (JumpRj.HeightListFromTvString (jr.TvString))),
+										jr.UniqueID);
+								LogB.SQL(dbcmdTr.CommandText.ToString());
+								dbcmdTr.ExecuteNonQuery();
+							}
+						}
+						tr.Commit();
+					}
+				} catch {
+					LogB.SQL("Catched at Doing alter table jumpRj adding heightAvg");
+				}
+				LogB.SQL("Done!");
+
+				currentVersion = updateVersion("2.61");
+			}
+			if(currentVersion == "2.61")
+			{
+				LogB.SQL("Doing alter table encoder add hasInertia and Update this column");
+				try {
+					executeSQL("ALTER TABLE " + Constants.EncoderTable + " ADD COLUMN hasInertia INT NOT NULL DEFAULT 0;");
+					executeSQL (string.Format ("UPDATE {0} SET hasInertia = 1 WHERE ( " +
+								" encoderConfiguration LIKE '{1}:%' OR " +
+								" encoderConfiguration LIKE '{2}:%' OR " +
+								" encoderConfiguration LIKE '{3}:%' OR " +
+								" encoderConfiguration LIKE '{4}:%' OR " +
+								" encoderConfiguration LIKE '{5}:%' OR " +
+								" encoderConfiguration LIKE '{6}:%' OR " +
+								" encoderConfiguration LIKE '{7}:%' OR " +
+								" encoderConfiguration LIKE '{8}:%' OR " +
+								" encoderConfiguration LIKE '{9}:%' OR " +
+								" encoderConfiguration LIKE '{10}:%' OR " +
+								" encoderConfiguration LIKE '{11}:%' " +
+
+								" )",
+								Constants.EncoderTable,
+								EncoderConfiguration.Names.LINEARINERTIAL,
+								EncoderConfiguration.Names.ROTARYFRICTIONSIDEINERTIAL,
+								EncoderConfiguration.Names.ROTARYFRICTIONSIDEINERTIALLATERAL,
+								EncoderConfiguration.Names.ROTARYFRICTIONSIDEINERTIALMOVPULLEY,
+								EncoderConfiguration.Names.ROTARYFRICTIONAXISINERTIAL,
+								EncoderConfiguration.Names.ROTARYFRICTIONAXISINERTIALLATERAL,
+								EncoderConfiguration.Names.ROTARYFRICTIONAXISINERTIALMOVPULLEY,
+								EncoderConfiguration.Names.ROTARYAXISINERTIAL,
+								EncoderConfiguration.Names.ROTARYAXISINERTIALLATERAL,
+								EncoderConfiguration.Names.ROTARYAXISINERTIALMOVPULLEY,
+								EncoderConfiguration.Names.ROTARYAXISINERTIALLATERALMOVPULLEY
+									));
+				} catch {
+					LogB.SQL("Catched at Doing alter table encoder add hasInertia and Update this column");
+				}
+				LogB.SQL("Done!");
+
+				currentVersion = updateVersion("2.62");
+			}
+			if(currentVersion == "2.62")
+			{
+				LogB.SQL("Doing alter table encoder add maxPower, maxSpeed, maxForce, rangeAbs");
+				try {
+					executeSQL("ALTER TABLE " + Constants.EncoderTable + " ADD COLUMN maxPower FLOAT;");
+					executeSQL("ALTER TABLE " + Constants.EncoderTable + " ADD COLUMN maxSpeed FLOAT;");
+					executeSQL("ALTER TABLE " + Constants.EncoderTable + " ADD COLUMN maxForce FLOAT;");
+					executeSQL("ALTER TABLE " + Constants.EncoderTable + " ADD COLUMN rangeAbs FLOAT;");
+				} catch {
+					LogB.SQL("Catched at doing alter table encoder add maxPower, maxSpeed, maxForce, rangeAbs");
+				}
+				LogB.SQL("Done!");
+
+				currentVersion = updateVersion("2.63");
+			}
 
 
 			/*
@@ -3792,6 +3883,10 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.61 - 2.62 Converted DB to 2.62 alter table encoder add hasInertia and Update this column
+		//2.62 - 2.63 Converted DB to 2.63 alter table encoder add maxPower, maxSpeed, maxForce, rangeAbs
+		//2.61 - 2.62 Converted DB to 2.62 alter table encoder add hasInertia and Update this column
+		//2.60 - 2.61 Converted DB to 2.61 alter table jumpRj adding heightAvg
 		//2.59 - 2.60 Converted DB to 2.60 alter table runEncoder adding maxSpeed, maxAvgSpeed1s
 		//2.58 - 2.59 Converted DB to 2.59 Created table BeepTest
 		//2.57 - 2.58 Converted DB to 2.58 alter table fourPlatforms totalTime int to float

@@ -2307,10 +2307,43 @@ LogB.Information(" fs R ");
 		}
 
 		genericWin.HideAndNull();
-		forceSensorLoadSignalAcceptedDo (uniqueID, personID, sessionID, elastic, TwoSetsCD);
+
+		if (! TwoSetsCD) //this will select on treeview resultsSession changing also barplot and capture graph
+			selectResultsSessionId (uniqueID, true);
+		else
+			forceSensorLoadSignalAcceptedDo (uniqueID, personID, sessionID, elastic, TwoSetsCD);
 	}
 
 	private void forceSensorLoadSignalAcceptedDo (int uniqueID, int personID, int sessionID, int elastic, bool TwoSetsCD)
+	{
+		GLib.Timeout.Add (0, new GLib.TimeoutHandler (loadingShowStart));
+
+		//Lambda expression (passing parameters in a GLib.Timeout)
+		GLib.Timeout.Add (100, () => forceSensorLoadSignalAcceptedDo2 (uniqueID, personID, sessionID, elastic, TwoSetsCD));
+	}
+
+	private bool loadingShowStart ()  //GLib.Timeout
+	{
+		box_set_loading.Visible = true;
+		spinner_set_loading.Start ();
+
+		return false;
+	}
+	private void loadingShowEnd ()
+	{
+		box_set_loading.Visible = false;
+		spinner_set_loading.Stop ();
+	}
+
+	private bool forceSensorLoadSignalAcceptedDo2 (int uniqueID, int personID, int sessionID, int elastic, bool TwoSetsCD) //GLib.Timeout using Lambda expression
+	{
+		forceSensorLoadSignalAcceptedDo3 (uniqueID, personID, sessionID, elastic, TwoSetsCD);
+		loadingShowEnd ();
+
+		return false;
+	}
+
+	private void forceSensorLoadSignalAcceptedDo3 (int uniqueID, int personID, int sessionID, int elastic, bool TwoSetsCD)
 	{
 		ForceSensor fs = (ForceSensor) SqliteForceSensor.Select (false, uniqueID, personID, sessionID, elastic)[0];
 		if(fs == null)
@@ -2855,7 +2888,9 @@ LogB.Information(" fs R ");
 
 		//initialize
 		forceSensorValues = new ForceSensorValues();
-		spCairoFE_Raw = new SignalPointsCairoForceElastic ();
+
+		if (ab)
+			spCairoFE_Raw = new SignalPointsCairoForceElastic ();
 
 		//to display on capture tab, or use it if no filter is being used
 		List<int> timesUnfiltered_l = new List<int>();
@@ -2886,12 +2921,14 @@ LogB.Information(" fs R ");
 
 					forces_l.Add (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
 					forcesUnfiltered_l.Add (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
-					spCairoFE_Raw.Force_l.Add (new PointF (
-								Convert.ToInt32 (strFull[0]),
-								ForceSensor.CalculeForceWithCaptureOptions(
-									Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])),
-									fsco)
-								));
+
+					if (ab)
+						spCairoFE_Raw.Force_l.Add (new PointF (
+									Convert.ToInt32 (strFull[0]),
+									ForceSensor.CalculeForceWithCaptureOptions(
+										Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])),
+										fsco)
+									));
 
 					if (preferences.forceSensorButterworth (current_mode) >= 0)
 						bw.AddSample (
@@ -4008,10 +4045,11 @@ LogB.Information(" fs R ");
 		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
 			selectedID = treeViewResultsSession.EventSelectedID;
 
-		PrepareEventGraphForceSensor eventGraph = new PrepareEventGraphForceSensor(
+		PrepareEventGraphForceSensor eventGraph = new PrepareEventGraphForceSensor (
 				currentSession.UniqueID,
 				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
-				-1 * Convert.ToInt32 (spin_contacts_graph_last_limit.Value), //negative: end limit
+				get_radio_resultsSession_criteria (),
+				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
 				//Constants.ForceSensorTable, typeTemp,
 				exerciseID, selectedID, current_mode, radio_contacts_graph_allTests.Active);
 

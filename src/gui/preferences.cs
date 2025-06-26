@@ -104,7 +104,6 @@ public class PreferencesWindow
 	Gtk.CheckButton checkbutton_stiffness;
 	Gtk.Image image_jumps_power_help;
 	Gtk.Image image_jumps_stiffness_help;
-	Gtk.Image image_button_jumps_dj_heights_times_help;
 	Gtk.CheckButton checkbutton_initial_speed;
 	Gtk.CheckButton checkbutton_jump_rsi;
 //	Gtk.CheckButton checkbutton_angle;
@@ -112,8 +111,6 @@ public class PreferencesWindow
 	Gtk.Box hbox_indexes;
 	Gtk.RadioButton radiobutton_show_q_index;
 	Gtk.RadioButton radiobutton_show_dj_index;
-	Gtk.RadioButton radio_jumps_dj_heights;
-	Gtk.RadioButton radio_jumps_dj_times;
 	Gtk.RadioButton radio_weight_percent;
 	Gtk.RadioButton radio_weight_kg;
 	Gtk.RadioButton radio_use_heights_on_jump_indexes;
@@ -621,11 +618,6 @@ public class PreferencesWindow
 			PWBox.hbox_indexes.Hide();
 		}
 
-		if(preferences.heightPreferred)
-			PWBox.radio_jumps_dj_heights.Active = true;
-		else
-			PWBox.radio_jumps_dj_times.Active = true;
-
 		if(preferences.weightStatsPercent)  
 			PWBox.radio_weight_percent.Active = true; 
 		else 
@@ -653,7 +645,6 @@ public class PreferencesWindow
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_info.png");
 		PWBox.image_jumps_power_help.Pixbuf = pixbuf;
 		PWBox.image_jumps_stiffness_help.Pixbuf = pixbuf;
-		PWBox.image_button_jumps_dj_heights_times_help.Pixbuf = pixbuf;
 		PWBox.image_run_speed_start_help.Pixbuf = pixbuf;
 		PWBox.image_encoder_inactivity_help.Pixbuf = pixbuf;
 		PWBox.image_encoder_capture_cut_by_triggers_help.Pixbuf = pixbuf;
@@ -1479,17 +1470,6 @@ public class PreferencesWindow
 			preferences.showDjIndex = Preferences.PreferencesChange(
 					false, "showDjIndex", preferences.showDjIndex, false);
 		}
-	}
-
-
-	private void on_radio_jumps_dj_heights_times_toggled (object o, EventArgs args)
-	{
-		// B) changes on preferences object and SqlitePreferences
-		if ( ((Gtk.RadioButton) o).Active)
-			preferences.heightPreferred = Preferences.PreferencesChange(
-					false, "heightPreferred",
-					preferences.heightPreferred,
-					radio_jumps_dj_heights.Active);
 	}
 
 	private void on_radio_weight_percent_kg_toggled (object o, EventArgs args)
@@ -3223,15 +3203,6 @@ public class PreferencesWindow
 	private void on_button_jumps_stiffness_help_clicked (object o, EventArgs args) {
 		showHelp(Catalog.GetString("Stiffness"), helpTypes.STIFFNESS, Constants.HelpStiffnessStr());
 	}
-	private void on_button_jumps_dj_heights_times_help_clicked (object o, EventArgs args) {
-		showHelp (Catalog.GetString("Variables to show at jumps with contact time:"), helpTypes.NORMAL,
-				Catalog.GetString ("You can select to show the heights of the jumps or the times:") + "\n\n" +
-				Catalog.GetString ("- In simple jumps with contact time like Dj, Dja you can select between these variables, but keep in mind that if you display reactive jumps with other jumps (like CMJ, ABK), then heights will be shown.") + "\n\n" +
-				Catalog.GetString ("- In multiple jumps."));
-	}
-
-
-
 
 	private void on_button_encoder_capture_cut_by_triggers_help_clicked (object o, EventArgs args)
 	{
@@ -4116,7 +4087,6 @@ public class PreferencesWindow
 		checkbutton_stiffness = (Gtk.CheckButton) builder.GetObject ("checkbutton_stiffness");
 		image_jumps_power_help = (Gtk.Image) builder.GetObject ("image_jumps_power_help");
 		image_jumps_stiffness_help = (Gtk.Image) builder.GetObject ("image_jumps_stiffness_help");
-		image_button_jumps_dj_heights_times_help = (Gtk.Image) builder.GetObject ("image_button_jumps_dj_heights_times_help");
 		checkbutton_initial_speed = (Gtk.CheckButton) builder.GetObject ("checkbutton_initial_speed");
 		checkbutton_jump_rsi = (Gtk.CheckButton) builder.GetObject ("checkbutton_jump_rsi");
 		//	checkbutton_angle = (Gtk.CheckButton) builder.GetObject ("checkbutton_angle");
@@ -4124,8 +4094,6 @@ public class PreferencesWindow
 		hbox_indexes = (Gtk.Box) builder.GetObject ("hbox_indexes");
 		radiobutton_show_q_index = (Gtk.RadioButton) builder.GetObject ("radiobutton_show_q_index");
 		radiobutton_show_dj_index = (Gtk.RadioButton) builder.GetObject ("radiobutton_show_dj_index");
-		radio_jumps_dj_heights = (Gtk.RadioButton) builder.GetObject ("radio_jumps_dj_heights");
-		radio_jumps_dj_times = (Gtk.RadioButton) builder.GetObject ("radio_jumps_dj_times");
 		radio_weight_percent = (Gtk.RadioButton) builder.GetObject ("radio_weight_percent");
 		radio_weight_kg = (Gtk.RadioButton) builder.GetObject ("radio_weight_kg");
 		radio_use_heights_on_jump_indexes = (Gtk.RadioButton) builder.GetObject ("radio_use_heights_on_jump_indexes");

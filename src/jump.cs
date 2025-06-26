@@ -260,6 +260,7 @@ public class JumpRj : Jump
 	private double tcMax;
 	private double tvAvg;
 	private double tcAvg;
+	private double heightAvg;
 
 
 	public JumpRj() {
@@ -272,7 +273,8 @@ public class JumpRj : Jump
 			double tvAvg, double tcAvg,
 			string tvString, string tcString,
 			int jumps, double time, string limited,
-			string angleString, int simulated, string datetime)
+			string angleString, int simulated, string datetime,
+			double heightAvg)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -293,6 +295,7 @@ public class JumpRj : Jump
 		this.angleString = angleString;
 		this.simulated = simulated;
 		this.datetime = datetime;
+		this.heightAvg = heightAvg;
 
 		calculatedStats = true;
 	}
@@ -362,7 +365,7 @@ public class JumpRj : Jump
 				type, TvMax, TcMax, fall, weightPercent,
 				description, TvAvg, TcAvg, tvString, tcString,
 				jumps, time, limited, 
-				angleString, simulated, datetime);
+				angleString, simulated, datetime, heightAvg);
 	}
 
 	// based on treeviewJump printAVG
@@ -481,8 +484,7 @@ public class JumpRj : Jump
 			return tcAvg;
 		}
 	}
-	
-		
+
 	public string TvString
 	{
 		get { return tvString; }

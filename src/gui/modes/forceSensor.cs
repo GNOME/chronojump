@@ -160,7 +160,7 @@ public partial class ChronoJumpWindow
 		}  else
 			pre_fillTreeView_resultsSession ();
 
-		//updateGraphForceSensorBars ();
+		updateGraphForceSensorBars ();
 	}
 
 }

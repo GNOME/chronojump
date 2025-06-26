@@ -306,19 +306,22 @@ public partial class ChronoJumpWindow
 			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
 		}
 		/*
-		 * disabled on encoder because when right click is done, first cursor_changed is raised
+		 * It was disabled on encoder because when right click is done, first cursor_changed is raised
 		 * and then it loads set
 		 * then the button_release should be raised, but it is lost while loading the set
 		 * A solution could be to not load the set if the user clicks to same row, but this can be inconsistent for the user
 		 * note on cursor_changed with the EventArgs we do not know which button has been pressed
-		 * so at the moment this is disabled
-		 * and easiest solutions will be just to put an edit button for encoder, and use also the delete button for encoder
+		 * easiest solution is to put an edit button for encoder, and use also the delete button for encoder
+		 * (also great for tactile screens)
+		 *
+		 * finally on_treeview_results_session_cursor_changed checks if row is the same
+		 * so user can left click on set or rep and the right click on set and edit/delete will shown
+		 */
 		else if (Constants.ModeIsENCODER (current_mode))
 		{
 			ev = SqliteEncoder.SelectData (id, false);
 			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
 		}
-		*/
 		else if (current_mode == Constants.Modes.WILIGHT)
 		{
 			ev = SqliteWilight.SelectData (id, false);

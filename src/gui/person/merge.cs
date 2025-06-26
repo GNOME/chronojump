@@ -591,6 +591,9 @@ public class PersonMergeWindow
 			Constants.PulseTable,
 			Constants.ReactionTimeTable,
 			Constants.MultiChronopicTable,
+			Constants.FourPlatformsTable,
+			Constants.WilightTable,
+			Constants.BeepTestTable,
 		};
 		foreach (string table in testTables)
 			SqliteTests.UpdateTestPersonID (true, table, personIDdiscarded, personIDselected);

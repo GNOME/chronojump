@@ -450,9 +450,9 @@ public partial class ChronoJumpWindow
 			//progressbar_video_generating.Visible = false;
 			//hbox_video_contacts_no_capturing.Visible = true;
 			notebook_video_contacts.CurrentPage = 0;
-		}
 
-		sensitiveGuiEventDone();
+			sensitiveGuiEventDone(); //on encoder do it when R process has ended
+		}
 	}
 
 	//to be able to pass data to webcamEndDo

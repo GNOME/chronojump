@@ -1004,12 +1004,9 @@ public partial class ChronoJumpWindow
 				action == encoderActions.CURVES_AC || 
 				action == encoderActions.LOAD )
 		{
-			LogB.Information("ffffffinishPulsebarrrrr");
+			LogB.Information ("ffffffinishPulsebarrrrr action: " + action.ToString ());
 		
 			//save video will be later at encoderSaveSignalOrCurve, because there encoderSignalUniqueID will be known
-			
-			if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC || action == encoderActions.LOAD)
-				sensitiveGuiEventDone();
 			
 			if(encoderProcessCancel || encoderProcessProblems)
 			{
@@ -1286,6 +1283,9 @@ public partial class ChronoJumpWindow
 					! encoderRhythm.ActiveRhythm && encoderRhythm.UseClusters() &&
 					encoderRhythmExecute != null && encoderRhythmExecute.ClusterRestDoing() )
 				encoderRhythmExecute.ClusterRestStop ();
+
+			if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC || action == encoderActions.LOAD)
+				sensitiveGuiEventDone();
 
 		} else { //ANALYZE
 			if(encoderProcessCancel) {

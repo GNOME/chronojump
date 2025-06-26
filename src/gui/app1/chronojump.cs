@@ -8209,10 +8209,15 @@ public partial class ChronoJumpWindow
 		button_auto_start.Sensitive = false;
 		frame_contacts_exercise.Sensitive = false;
 	}
-   
+  
 	private void sensitiveGuiEventDone ()
 	{
 		LogB.Information(" sensitiveGuiEventDone start ");
+
+		// get the caller method
+		// 1 == skip frames, false = no file info
+		// var callingMethod = new System.Diagnostics.StackTrace(1, false).GetFrame(0).GetMethod();
+		// LogB.Information ("callingMethod: " + callingMethod.ToString ());
 
 		menus_and_mode_sensitive(true);
 

@@ -114,11 +114,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_encoder_rhythm_rest;
 	Gtk.Label label_rhythm;
 	Gtk.Label label_rhythm_rep;
-	Gtk.VBox vbox_encoder_signal_comment;
-	Gtk.Notebook notebook_encoder_signal_comment_and_triggers;
-	Gtk.TextView textview_encoder_signal_comment;
-	//Gtk.Frame frame_encoder_signal_comment;
-	Gtk.Button button_encoder_signal_save_comment;
+	Gtk.VBox vbox_capturing_with_triggers;
 	Gtk.Button button_export_encoder_signal;
 //	Gtk.Button button_menu_encoder_export_set;
 
@@ -510,9 +506,6 @@ public partial class ChronoJumpWindow
 		LogB.Information("after play 2");
 		encoderInertialCalibratedFirstTime = false; //allow show the recalibrate button
 		LogB.Information("after play 3");
-
-		//done here because in Glade we cannot use the TextBuffer.Changed
-		textview_encoder_signal_comment.Buffer.Changed += new EventHandler(on_textview_encoder_signal_comment_key_press_event);
 		LogB.Information("after play 4");
 
 		//configInit();
@@ -612,17 +605,11 @@ public partial class ChronoJumpWindow
 	//add-remove weights on encoder inertial using '+', '-'
 	private void on_fake_button_encoder_exercise_im_weights_n_plus_clicked(object o, EventArgs args)
 	{
-		if(textview_encoder_signal_comment.IsFocus)
-			textview_encoder_signal_comment.Buffer.Text += '+';
-		else
-			spin_encoder_im_weights_n.Value += 1;
+		spin_encoder_im_weights_n.Value += 1;
 	}
 	private void on_fake_button_encoder_exercise_im_weights_n_minus_clicked(object o, EventArgs args)
 	{
-		if(textview_encoder_signal_comment.IsFocus)
-			textview_encoder_signal_comment.Buffer.Text += '-';
-		else
-			spin_encoder_im_weights_n.Value -= 1;
+		spin_encoder_im_weights_n.Value -= 1;
 	}
 
 	void on_spin_encoder_im_weights_n_value_changed (object o, EventArgs args)
@@ -1031,8 +1018,6 @@ public partial class ChronoJumpWindow
 
 		encoderThreadStart(encoderActions.CAPTURE);
 
-		textview_encoder_signal_comment.Buffer.Text = "";
-
 		LogB.Debug("end of Calling encoderThreadStart for capture");
 	}
 
@@ -1102,17 +1087,11 @@ public partial class ChronoJumpWindow
 	//add-remove weights on encoder gravitatory using '+', '-'
 	private void on_fake_button_encoder_exercise_weight_plus_clicked(object o, EventArgs args)
 	{
-		if(textview_encoder_signal_comment.IsFocus)
-			textview_encoder_signal_comment.Buffer.Text += '+';
-		else
-			on_button_encoder_raspberry_extra_weight_plus_1_clicked (new object (), new EventArgs ());
+		on_button_encoder_raspberry_extra_weight_plus_1_clicked (new object (), new EventArgs ());
 	}
 	private void on_fake_button_encoder_exercise_weight_minus_clicked(object o, EventArgs args)
 	{
-		if(textview_encoder_signal_comment.IsFocus)
-			textview_encoder_signal_comment.Buffer.Text += '-';
-		else
-			on_button_encoder_raspberry_extra_weight_minus_1_clicked (new object (), new EventArgs ());
+		on_button_encoder_raspberry_extra_weight_minus_1_clicked (new object (), new EventArgs ());
 	}
 	
 	void on_button_encoder_raspberry_extra_weight_minus_10_clicked (object o, EventArgs args) {
@@ -1389,26 +1368,6 @@ public partial class ChronoJumpWindow
 		encoderCalculeCurves(encoderActions.CURVES);
 	}
 
-	void on_textview_encoder_signal_comment_key_press_event (object o, EventArgs args)
-	{
-		button_encoder_signal_save_comment.Label = Catalog.GetString("Save comment");
-		button_encoder_signal_save_comment.Sensitive = true;
-	}
-	void on_button_encoder_signal_save_comment_clicked (object o, EventArgs args)
-	{
-		textview_encoder_signal_comment.Buffer.Text =
-			Util.MakeValidSQL(textview_encoder_signal_comment.Buffer.Text);
-
-		LogB.Debug(encoderSignalUniqueID.ToString ());
-		if (encoderSignalUniqueID >= 0) {
-			Sqlite.Update(false, Constants.EncoderTable, "description", "", 
-					Util.RemoveTildeAndColonAndDot(textview_encoder_signal_comment.Buffer.Text), 
-					"uniqueID", encoderSignalUniqueID.ToString ());
-			button_encoder_signal_save_comment.Label = Catalog.GetString("Saved comment.");
-			button_encoder_signal_save_comment.Sensitive = false;
-		}
-	}
-
 	private void on_check_encoder_capture_show_modes_clicked (object o, EventArgs args)
 	{
 		if(! followSignals)
@@ -1560,7 +1519,7 @@ public partial class ChronoJumpWindow
 				"",	//path,			//url
 				preferences.encoderCaptureTime, 
 				preferences.EncoderCaptureMinHeight(encoderConfigurationCurrent.has_inertia), 
-				Util.RemoveTildeAndColonAndDot(textview_encoder_signal_comment.Buffer.Text), //desc,
+				"", //desc,
 				"", videoURL,		//status, videoURL
 				encoderConfigurationCurrent,
 				"","","",	//future1, 2, 3
@@ -1931,7 +1890,6 @@ public partial class ChronoJumpWindow
 				//TODO: show info to user in a dialog,
 				//but check if more info have to be shown on this process
 
-				textview_encoder_signal_comment.Buffer.Text = eSQL.Description;
 				encoderTimeStamp = eSQL.GetDatetimeStr(false);
 				encoderSignalUniqueID = eSQL.UniqueID;
 
@@ -3076,7 +3034,6 @@ public partial class ChronoJumpWindow
 		removeSignalFromGuiBecauseDeletedOrCancelled();
 
 		encoder_pulsebar_capture_label.Text = Catalog.GetString("Set deleted");
-		textview_encoder_signal_comment.Buffer.Text = "";
 	}
 	void removeSignalFromGuiBecauseDeletedOrCancelled() 
 	{
@@ -3266,7 +3223,6 @@ public partial class ChronoJumpWindow
 		double maxSpeed = 0;
 		double maxForce = 0;
 		double rangeAbs = 0;
-		string desc = "";
 		if(mode == "curve") {
 			EncoderCurve curve = treeviewEncoderCaptureCurvesGetCurve(selectedID,true);
 
@@ -3354,8 +3310,6 @@ public partial class ChronoJumpWindow
 				}
 			}
 		
-			desc = Util.RemoveTildeAndColonAndDot(textview_encoder_signal_comment.Buffer.Text);
-
 			LogB.Information(curveStart + "->" + duration);
 		
 			int curveIDMax;
@@ -3383,7 +3337,6 @@ public partial class ChronoJumpWindow
 
 			path = UtilEncoder.GetEncoderSessionDataCurveDir(currentSession.UniqueID);
 		} else { //signal
-			desc = Util.RemoveTildeAndColonAndDot(textview_encoder_signal_comment.Buffer.Text);
 
 			fileSaved = UtilEncoder.CopyTempToEncoderData (currentSession.UniqueID, currentPerson.UniqueID, 
 					currentPerson.Name, encoderTimeStamp);
@@ -3405,7 +3358,7 @@ public partial class ChronoJumpWindow
 		eSQL.signalOrCurve = signalOrCurve;
 		eSQL.filename = fileSaved;
 		eSQL.url = path;
-		eSQL.Description = desc;
+		eSQL.Description = "";
 		eSQL.hasInertia = encoderConfigurationCurrent.has_inertia;
 
 		if(mode == "curve") {
@@ -5961,7 +5914,7 @@ public partial class ChronoJumpWindow
 		//c1 button_encoder_exercise_close_and_recalculate
 		//c2 (before it has overview and load) button_encoder_load_signal_at_analyze
 		//c3 button_export_encoder_signal,
-		//	button_contacts_delete_selected, vbox_encoder_signal_comment,
+		//	button_contacts_delete_selected,
 		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive. Update: both NOT managed here
 		//	button_encoder_capture_image_save
 		//UNUSED c4 button_encoder_save_curve, entry_encoder_curve_comment
@@ -6022,7 +5975,6 @@ public partial class ChronoJumpWindow
 
 		button_export_encoder_signal.Sensitive = Util.IntToBool(table[3]);
 		button_contacts_delete_selected.Sensitive = Util.IntToBool(table[3]);
-		vbox_encoder_signal_comment.Sensitive = Util.IntToBool(table[3]);
 		button_encoder_capture_image_save.Sensitive = Util.IntToBool(table[3]);
 		//image_encoder_capture.Sensitive = Util.IntToBool(table[3]);
 		//image_encoder_analyze.Sensitive = Util.IntToBool(table[3]);
@@ -7022,11 +6974,7 @@ public partial class ChronoJumpWindow
 		label_encoder_rhythm_rest = (Gtk.Label) builder.GetObject ("label_encoder_rhythm_rest");
 		label_rhythm = (Gtk.Label) builder.GetObject ("label_rhythm");
 		label_rhythm_rep = (Gtk.Label) builder.GetObject ("label_rhythm_rep");
-		vbox_encoder_signal_comment = (Gtk.VBox) builder.GetObject ("vbox_encoder_signal_comment");
-		notebook_encoder_signal_comment_and_triggers = (Gtk.Notebook) builder.GetObject ("notebook_encoder_signal_comment_and_triggers");
-		textview_encoder_signal_comment = (Gtk.TextView) builder.GetObject ("textview_encoder_signal_comment");
-		//frame_encoder_signal_comment = (Gtk.Frame) builder.GetObject ("frame_encoder_signal_comment");
-		button_encoder_signal_save_comment = (Gtk.Button) builder.GetObject ("button_encoder_signal_save_comment");
+		vbox_capturing_with_triggers = (Gtk.VBox) builder.GetObject ("vbox_capturing_with_triggers");
 		button_export_encoder_signal = (Gtk.Button) builder.GetObject ("button_export_encoder_signal");
 		//	button_menu_encoder_export_set = (Gtk.Button) builder.GetObject ("button_menu_encoder_export_set");
 

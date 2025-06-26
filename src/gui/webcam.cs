@@ -362,8 +362,10 @@ public partial class ChronoJumpWindow
 	//this bool means: has stopped. Do not call me again
 	private bool webcamEndingRecordingStopDo ()
 	{
-		//stop camera
-		if(swWebcamStart != null || swWebcamStop != null)
+		bool doStop = false;
+
+		//stop camera when videoStopAfter is > 0
+		if (swWebcamStop != null)
 		{
 			if(swWebcamStop.Elapsed.TotalSeconds < preferences.videoStopAfter)
 			{
@@ -375,6 +377,12 @@ public partial class ChronoJumpWindow
 			}
 
 			swWebcamStop.Stop();
+			doStop = true;
+		}
+
+		if (swWebcamStart != null || 	//stop camera when videoStopAfter == 0
+				doStop)
+		{
 			progressbar_video_generating.Fraction = 1;
 
 			//LogB.Information("Called webcamEndingRecordingStopDo () ending the pulse");

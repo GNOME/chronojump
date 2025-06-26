@@ -87,6 +87,7 @@ public partial class ChronoJumpWindow
 
 	// Important! see: diagrams/processes/person_results_changes.dia
 	// note on right click, this event is always managed first
+	int treeViewResultsSessionEventSelectedIDLast = -1; //to not load same set again (on encoder)
 	private void on_treeview_results_session_cursor_changed (object o, EventArgs args)
 	{
 		LogB.Information ("on_treeview_results_session_cursor_changed");
@@ -97,6 +98,15 @@ public partial class ChronoJumpWindow
 		if (treeview_results_session_cursor_changed_block)
 		{
 			LogB.Information ("blocked: cursor_changed");
+			return;
+		}
+
+		// on encoder to not loading set each time the set or the reps are clicked
+		if (Constants.ModeIsENCODER (current_mode) && (
+					treeViewResultsSession.EventSelectedID == treeViewResultsSessionEventSelectedIDLast ||
+					treeViewResultsSession.GetIDOfSelectedSubEvent () == treeViewResultsSessionEventSelectedIDLast))
+		{
+			LogB.Information ("blocked: tried to select same row, avoid load.");
 			return;
 		}
 
@@ -155,6 +165,8 @@ public partial class ChronoJumpWindow
 			else if (current_mode == Constants.Modes.OTHER) 	//FOURPLATFORMS
 				on_treeview_fourPlatforms_cursor_changed (o, args);
 		}
+
+		treeViewResultsSessionEventSelectedIDLast = treeViewResultsSession.EventSelectedID;
 	}
 
 	private void on_treeview_test_cursor_changed (bool loadSet)

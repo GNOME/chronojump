@@ -840,7 +840,15 @@ class SqliteEncoder : SqliteTests
 
     public static EncoderSQL SelectData (int uniqueID, bool dbconOpened)
     {
-	    return new EncoderSQL (selectTestData (uniqueID, dbconOpened, tableStatic, columns));
+	    EncoderSQL eSQL = new EncoderSQL (selectTestData (uniqueID, dbconOpened, tableStatic, columns));
+
+	    //get also the exerciseName
+	    ArrayList ex_array = SqliteEncoderExercise.SelectEncoderExercises (
+			    dbconOpened, eSQL.exerciseID, true, Constants.EncoderGI.ALL);
+	    if (ex_array.Count > 0)
+		    eSQL.exerciseName = ((EncoderExercise) ex_array[0]).Name;
+
+	    return eSQL;
     }
 
     public static ArrayList SelectSessionOverviewSets(bool dbconOpened, Constants.EncoderGI encoderGI, int sessionID)

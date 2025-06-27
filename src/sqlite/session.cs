@@ -477,7 +477,7 @@ class SqliteSession : Sqlite
 	//for clarity and for being able to be called from another method
 	public static ArrayList SelectAllSessionsTestsForceSensor (Constants.Modes mode, string personStr)
 	{
-		string stiffStr = ".stiffness < 0"; //isometric has stiffness > 0
+		string stiffStr = ".stiffness < 0"; //isometric has stiffness < 0
 		if (mode != Constants.Modes.FORCESENSORISOMETRIC)
 			stiffStr = ".stiffness > 0"; //elastic has stiffness > 0
 

@@ -173,11 +173,11 @@ class SqliteForceSensor : SqliteTests
         if (exerciseID != -1)
 		andExerciseStr = string.Format (" AND {0}.exerciseID = {1} ", tableStatic, exerciseID);
 
-        string elasticStr = "";
+        string stiffnessStr = "";
         if (elastic == 0)
-            elasticStr = " AND " + Constants.ForceSensorExerciseTable + ".elastic != 1"; //0 or -1 (both)
+            stiffnessStr = " AND " + Constants.ForceSensorTable + ".stiffness < 0";
         else if (elastic == 1)
-            elasticStr = " AND " + Constants.ForceSensorExerciseTable + ".elastic != 0"; //1 or -1 (both)
+            stiffnessStr = " AND " + Constants.ForceSensorTable + ".stiffness > 0";
 
 	string orderByString = string.Format (" ORDER BY {0}.uniqueID ", tableStatic);
 	if (order == Orders_by.ID_DESC)
@@ -188,7 +188,7 @@ class SqliteForceSensor : SqliteTests
 		  orderByString = string.Format ( " ORDER BY {0}.maxAvgForce1s ", tableStatic);
 
         dbcmd.CommandText = selectStr + whereStr + uniqueIDStr + personIDStr + sessionIDStr +
-		andExerciseStr + elasticStr + orderByString;// + limitString;
+		andExerciseStr + stiffnessStr + orderByString;// + limitString;
 
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();

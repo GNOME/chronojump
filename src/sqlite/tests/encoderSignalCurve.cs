@@ -132,7 +132,7 @@ class SqliteEncoderSignalCurve : Sqlite
         if (!dbconOpened)
             Sqlite.Open();
 
-        dbcmd.CommandText = "Delete FROM " + Constants.EncoderSignalCurveTable +
+        dbcmd.CommandText = "DELETE FROM " + Constants.EncoderSignalCurveTable +
             " WHERE curveID = " + curveID.ToString();
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();

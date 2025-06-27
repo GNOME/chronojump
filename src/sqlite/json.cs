@@ -154,7 +154,7 @@ class SqliteJson : Sqlite
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "Delete FROM " + tableEncoder + " WHERE uniqueID = " + uniqueID;
+		dbcmd.CommandText = "DELETE FROM " + tableEncoder + " WHERE uniqueID = " + uniqueID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -235,7 +235,7 @@ class SqliteJson : Sqlite
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "Delete FROM " + tableSprint + " WHERE uniqueID = " + uniqueID;
+		dbcmd.CommandText = "DELETE FROM " + tableSprint + " WHERE uniqueID = " + uniqueID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -356,7 +356,7 @@ class SqliteJson : Sqlite
 	{
 		openIfNeeded(dbconOpened);
 
-		mycmd.CommandText = "Delete FROM " + tableExhibitionTest + " WHERE " +
+		mycmd.CommandText = "DELETE FROM " + tableExhibitionTest + " WHERE " +
 			"schoolID = " + et.schoolID + " AND " +
 			"groupID = " + et.groupID + " AND " +
 			"personID = " + et.personID + " AND " +

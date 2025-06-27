@@ -118,7 +118,7 @@ class SqliteTrigger : Sqlite
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "Delete FROM " + table +
+		dbcmd.CommandText = "DELETE FROM " + table +
 			" WHERE mode = '" + mode.ToString() +
 			"' AND modeID = " + modeID;
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -132,7 +132,7 @@ class SqliteTrigger : Sqlite
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "Delete FROM " + table + " WHERE uniqueID = " + trigger.UniqueID;
+		dbcmd.CommandText = "DELETE FROM " + table + " WHERE uniqueID = " + trigger.UniqueID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		

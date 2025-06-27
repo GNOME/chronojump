@@ -141,7 +141,7 @@ class SqliteChronopicRegister : Sqlite
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "Delete FROM " + table +
+		dbcmd.CommandText = "DELETE FROM " + table +
 			" WHERE serialNumber = " + crp.SerialNumber;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -153,7 +153,7 @@ class SqliteChronopicRegister : Sqlite
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "Delete FROM " + table;
+		dbcmd.CommandText = "DELETE FROM " + table;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 

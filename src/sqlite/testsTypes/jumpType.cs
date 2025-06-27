@@ -676,7 +676,7 @@ class SqliteJumpType : Sqlite
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
-		dbcmd.CommandText = "Delete FROM " + tableName + 
+		dbcmd.CommandText = "DELETE FROM " + tableName + 
 			" WHERE name = '" + name + "'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

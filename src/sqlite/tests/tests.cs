@@ -360,7 +360,7 @@ class SqliteTests : Sqlite
 		//tName can be tempJumpRj or tempRunInterval
 
 		Sqlite.Open();
-		//dbcmd.CommandText = "Delete FROM tempJumpRj";
+		//dbcmd.CommandText = "DELETE FROM tempJumpRj";
 		dbcmd.CommandText = "DELETE FROM " + tName;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

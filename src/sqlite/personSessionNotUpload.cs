@@ -91,7 +91,7 @@ class SqlitePersonSessionNotUpload : Sqlite
 	public static void Delete(int personID, int sessionID)
 	 {
 		 Sqlite.Open();
-		 dbcmd.CommandText = "Delete FROM " + Constants.PersonNotUploadTable +
+		 dbcmd.CommandText = "DELETE FROM " + Constants.PersonNotUploadTable +
 			 " WHERE personID = " + personID + " AND sessionID = " + sessionID;
 		 LogB.SQL(dbcmd.CommandText.ToString());
 		 dbcmd.ExecuteNonQuery();

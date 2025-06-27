@@ -359,7 +359,7 @@ class SqliteRunType : Sqlite
 	public static void Delete(string name)
 	{
 		Sqlite.Open();
-		dbcmd.CommandText = "Delete FROM " + Constants.RunTypeTable +
+		dbcmd.CommandText = "DELETE FROM " + Constants.RunTypeTable +
 			" WHERE name = '" + name + "'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -688,7 +688,7 @@ class SqliteRunIntervalType : SqliteRunType
 	public static new void Delete(string name)
 	{
 		Sqlite.Open();
-		dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTypeTable +
+		dbcmd.CommandText = "DELETE FROM " + Constants.RunIntervalTypeTable +
 			" WHERE name = '" + name + "'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

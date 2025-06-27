@@ -1091,17 +1091,17 @@ public partial class ChronoJumpWindow
 
 		// "big" label names are assigned here.
 		// They will be reassigned to a composed name just later on UtilGtk.ContrastLabelsLabel ()
-		label_force_sensor_value_max.Name = "big";
-		label_force_sensor_value.Name = "big";
-		label_force_sensor_value_min.Name = "big";
-		label_force_sensor_value_best_second.Name = "big";
-		label_force_sensor_value_rfd.Name = "big";
+		label_force_sensor_value_max.Name = "big_monospace";
+		label_force_sensor_value.Name = "big_monospace";
+		label_force_sensor_value_min.Name = "big_monospace";
+		label_force_sensor_value_best_second.Name = "big_monospace";
+		label_force_sensor_value_rfd.Name = "big_monospace";
 
-		label_beepTest_time.Name = "big";
-		label_beepTest_stage.Name = "big";
-		label_beepTest_lap.Name = "big";
-		label_beepTest_speed.Name = "big";
-		label_beepTest_runStatus_value.Name = "big";
+		label_beepTest_time.Name = "big_monospace";
+		label_beepTest_stage.Name = "big_monospace";
+		label_beepTest_lap.Name = "big_monospace";
+		label_beepTest_speed.Name = "big_monospace";
+		label_beepTest_runStatus_value.Name = "big_monospace";
 
 		if(! Config.UseSystemColor)
 		{

@@ -824,6 +824,7 @@ public class UtilGtk
 			"label#darkCss {" +
 				"color: #222222;" +
 			"}" +
+			//labels big
 			"label#big_lightCss {" +
 				"color: " + GetRGBAs (Colors.WHITE) + ";" +
 				labelFontSizeBig +
@@ -831,6 +832,26 @@ public class UtilGtk
 			"label#big_darkCss {" +
 				"color: #222222;" +
 				labelFontSizeBig +
+			"}" +
+			//labels monospace
+			"label#monospace_lightCss {" +
+				"color: " + GetRGBAs (Colors.WHITE) + ";" +
+				"font-family: monospace;" +
+			"}" +
+			"label#monospace_darkCss {" +
+				"color: #222222;" +
+				"font-family: monospace;" +
+			"}" +
+			//labels big monospace
+			"label#big_monospace_lightCss {" +
+				"color: " + GetRGBAs (Colors.WHITE) + ";" +
+				labelFontSizeBig +
+				"font-family: monospace;" +
+			"}" +
+			"label#big_monospace_darkCss {" +
+				"color: #222222;" +
+				labelFontSizeBig +
+				"font-family: monospace;" +
 			"}" +
 			"label#labelAlertCss {" +
 				//"color: #8c0000;" + //8c0000 is ok for backfound but too dark for label
@@ -1244,18 +1265,19 @@ public class UtilGtk
 
 	public static void ContrastLabelsLabel (bool bgDark, Gtk.Label l)
 	{
+		string str = "";
+
 		if (l.Name.Contains ("big"))
-		{
-			if(bgDark)
-				l.Name = "big_lightCss";
-			else
-				l.Name = "big_darkCss";
-		} else {
-			if(bgDark)
-				l.Name = "lightCss";
-			else
-				l.Name = "darkCss";
-		}
+			str += "big_";
+		if (l.Name.Contains ("monospace"))
+			str += "monospace_";
+
+		if(bgDark)
+			str += "lightCss";
+		else
+			str += "darkCss";
+
+		l.Name = str;
 	}
 
 

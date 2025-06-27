@@ -579,23 +579,7 @@ public class PersonMergeWindow
 		}
 
 		// 5) Change the test tables
-		string [] testTables = {
-			Constants.JumpTable,
-			Constants.JumpRjTable,
-			Constants.RunTable,
-			Constants.RunIntervalTable,
-			Constants.RunEncoderTable,
-			Constants.EncoderTable,
-			Constants.Encoder1RMTable,
-			Constants.ForceSensorTable,
-			Constants.PulseTable,
-			Constants.ReactionTimeTable,
-			Constants.MultiChronopicTable,
-			Constants.FourPlatformsTable,
-			Constants.WilightTable,
-			Constants.BeepTestTable,
-		};
-		foreach (string table in testTables)
+		foreach (string table in Constants.GetAllSqliteTestTableNames ())
 			SqliteTests.UpdateTestPersonID (true, table, personIDdiscarded, personIDselected);
 
 		/*

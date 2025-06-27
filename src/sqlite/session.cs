@@ -1013,6 +1013,7 @@ class SqliteSession : Sqlite
         return return_l;
     }
 
+
     // It's used by export and receives a specific database
     // we want to delete all stuff of unwanted sessions
     public static void DeleteAllStuff(string sessionID, SQLiteConnection dbcon)
@@ -1053,35 +1054,17 @@ class SqliteSession : Sqlite
             Sqlite.deleteOrphanedPersons();
         LogB.Information("DeleteAllStuffDo 2");
 
-        // 3) delete tests without files
-
-        //delete simple jumps
-        dbcmd.CommandText = "Delete FROM " + Constants.JumpTable + " WHERE sessionID = " + sessionID;
-        dbcmd.ExecuteNonQuery();
-
-        //delete repetitive jumps
-        dbcmd.CommandText = "Delete FROM " + Constants.JumpRjTable + " WHERE sessionID = " + sessionID;
-        dbcmd.ExecuteNonQuery();
-
-        //delete simple runs
-        dbcmd.CommandText = "Delete FROM " + Constants.RunTable + " WHERE sessionID = " + sessionID;
-        dbcmd.ExecuteNonQuery();
-
-        //delete intervallic runs
-        dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTable + " WHERE sessionID = " + sessionID;
-        dbcmd.ExecuteNonQuery();
-
-        //delete reaction times
-        dbcmd.CommandText = "Delete FROM " + Constants.ReactionTimeTable + " WHERE sessionID = " + sessionID;
-        dbcmd.ExecuteNonQuery();
-
-        //delete pulses
-        dbcmd.CommandText = "Delete FROM " + Constants.PulseTable + " WHERE sessionID = " + sessionID;
-        dbcmd.ExecuteNonQuery();
-
-        //delete multiChronopic
-        dbcmd.CommandText = "Delete FROM " + Constants.MultiChronopicTable + " WHERE sessionID = " + sessionID;
-        dbcmd.ExecuteNonQuery();
+	// 3) Delete tests without files (and without triggers and without related EncoderSignalCurve)
+	foreach (string table in Constants.GetAllSqliteTestTableNames ())
+		if (
+				table != Constants.EncoderTable &&
+				table != Constants.ForceSensorTable &&
+				table != Constants.RunEncoderTable)
+		{
+			dbcmd.CommandText = "DELETE FROM " + table + " WHERE sessionID = " + sessionID;
+			LogB.SQL (dbcmd.CommandText.ToString());
+			dbcmd.ExecuteNonQuery();
+		}
 
         // 4) delete from encoder start ------>
 

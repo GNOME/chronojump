@@ -477,7 +477,7 @@ class SqliteSession : Sqlite
 	//for clarity and for being able to be called from another method
 	public static ArrayList SelectAllSessionsTestsForceSensor (Constants.Modes mode, string personStr)
 	{
-		string stiffStr = ".stiffness < 0"; //isometric has stiffness > 0
+		string stiffStr = ".stiffness < 0"; //isometric has stiffness < 0
 		if (mode != Constants.Modes.FORCESENSORISOMETRIC)
 			stiffStr = ".stiffness > 0"; //elastic has stiffness > 0
 
@@ -1013,6 +1013,7 @@ class SqliteSession : Sqlite
         return return_l;
     }
 
+
     // It's used by export and receives a specific database
     // we want to delete all stuff of unwanted sessions
     public static void DeleteAllStuff(string sessionID, SQLiteConnection dbcon)
@@ -1040,11 +1041,11 @@ class SqliteSession : Sqlite
         dbcmd = dbcon.CreateCommand();
 
         // 1) delete the session
-        dbcmd.CommandText = "Delete FROM " + Constants.SessionTable + " WHERE uniqueID = " + sessionID;
+        dbcmd.CommandText = "DELETE FROM " + Constants.SessionTable + " WHERE uniqueID = " + sessionID;
         dbcmd.ExecuteNonQuery();
 
         // 2) delete relations (existance) within persons and sessions in this session
-        dbcmd.CommandText = "Delete FROM " + Constants.PersonSessionTable + " WHERE sessionID = " + sessionID;
+        dbcmd.CommandText = "DELETE FROM " + Constants.PersonSessionTable + " WHERE sessionID = " + sessionID;
         dbcmd.ExecuteNonQuery();
 
         LogB.Information("DeleteAllStuffDo 1");
@@ -1053,35 +1054,17 @@ class SqliteSession : Sqlite
             Sqlite.deleteOrphanedPersons();
         LogB.Information("DeleteAllStuffDo 2");
 
-        // 3) delete tests without files
-
-        //delete simple jumps
-        dbcmd.CommandText = "Delete FROM " + Constants.JumpTable + " WHERE sessionID = " + sessionID;
-        dbcmd.ExecuteNonQuery();
-
-        //delete repetitive jumps
-        dbcmd.CommandText = "Delete FROM " + Constants.JumpRjTable + " WHERE sessionID = " + sessionID;
-        dbcmd.ExecuteNonQuery();
-
-        //delete simple runs
-        dbcmd.CommandText = "Delete FROM " + Constants.RunTable + " WHERE sessionID = " + sessionID;
-        dbcmd.ExecuteNonQuery();
-
-        //delete intervallic runs
-        dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTable + " WHERE sessionID = " + sessionID;
-        dbcmd.ExecuteNonQuery();
-
-        //delete reaction times
-        dbcmd.CommandText = "Delete FROM " + Constants.ReactionTimeTable + " WHERE sessionID = " + sessionID;
-        dbcmd.ExecuteNonQuery();
-
-        //delete pulses
-        dbcmd.CommandText = "Delete FROM " + Constants.PulseTable + " WHERE sessionID = " + sessionID;
-        dbcmd.ExecuteNonQuery();
-
-        //delete multiChronopic
-        dbcmd.CommandText = "Delete FROM " + Constants.MultiChronopicTable + " WHERE sessionID = " + sessionID;
-        dbcmd.ExecuteNonQuery();
+	// 3) Delete tests without files (and without triggers and without related EncoderSignalCurve)
+	foreach (string table in Constants.GetAllSqliteTestTableNames ())
+		if (
+				table != Constants.EncoderTable &&
+				table != Constants.ForceSensorTable &&
+				table != Constants.RunEncoderTable)
+		{
+			dbcmd.CommandText = "DELETE FROM " + table + " WHERE sessionID = " + sessionID;
+			LogB.SQL (dbcmd.CommandText.ToString());
+			dbcmd.ExecuteNonQuery();
+		}
 
         // 4) delete from encoder start ------>
 
@@ -1109,14 +1092,14 @@ class SqliteSession : Sqlite
 
             foreach (string signal in signal_l)
             {
-                dbcmd.CommandText = "Delete FROM " + Constants.EncoderSignalCurveTable +
+                dbcmd.CommandText = "DELETE FROM " + Constants.EncoderSignalCurveTable +
                     " WHERE signalID = " + signal;
                 dbcmd.ExecuteNonQuery();
 
                 // delete related triggers
                 //SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(signal));
                 //to export we have to do it with the dbcmd:
-                dbcmd.CommandText = "Delete FROM " + Constants.TriggerTable +
+                dbcmd.CommandText = "DELETE FROM " + Constants.TriggerTable +
                     " WHERE mode = '" + Trigger.Modes.ENCODER.ToString() +
                     "' AND modeID = " + Convert.ToInt32(signal);
                 LogB.SQL(dbcmd.CommandText.ToString());
@@ -1124,7 +1107,7 @@ class SqliteSession : Sqlite
             }
 
             // 3 delete all encoder table stuff (signals and curves)
-            dbcmd.CommandText = "Delete FROM " + Constants.EncoderTable + " WHERE sessionID = " + sessionID;
+            dbcmd.CommandText = "DELETE FROM " + Constants.EncoderTable + " WHERE sessionID = " + sessionID;
             dbcmd.ExecuteNonQuery();
         }
         else
@@ -1185,7 +1168,7 @@ class SqliteSession : Sqlite
             //delete related triggers
             //SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(fs.UniqueID));
             //to export we have to do it with the dbcmd:
-            dbcmd.CommandText = "Delete FROM " + Constants.TriggerTable +
+            dbcmd.CommandText = "DELETE FROM " + Constants.TriggerTable +
                 " WHERE mode = '" + Trigger.Modes.FORCESENSOR.ToString() +
                 "' AND modeID = " + id;
             LogB.SQL(dbcmd.CommandText.ToString());
@@ -1193,7 +1176,7 @@ class SqliteSession : Sqlite
         }
 
         // delete forceSensor sets
-        dbcmd.CommandText = "Delete FROM " + Constants.ForceSensorTable + " WHERE sessionID = " + sessionID;
+        dbcmd.CommandText = "DELETE FROM " + Constants.ForceSensorTable + " WHERE sessionID = " + sessionID;
         dbcmd.ExecuteNonQuery();
 
         System.IO.DirectoryInfo folderSession;
@@ -1229,7 +1212,7 @@ class SqliteSession : Sqlite
             //delete related triggers
             //SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(re.UniqueID));
             //to export we have to do it with the dbcmd:
-            dbcmd.CommandText = "Delete FROM " + Constants.TriggerTable +
+            dbcmd.CommandText = "DELETE FROM " + Constants.TriggerTable +
                 " WHERE mode = '" + Trigger.Modes.RACEANALYZER.ToString() +
                 "' AND modeID = " + id;
             LogB.SQL(dbcmd.CommandText.ToString());
@@ -1237,7 +1220,7 @@ class SqliteSession : Sqlite
         }
 
         // delete runEncoder sets
-        dbcmd.CommandText = "Delete FROM " + Constants.RunEncoderTable + " WHERE sessionID = " + sessionID;
+        dbcmd.CommandText = "DELETE FROM " + Constants.RunEncoderTable + " WHERE sessionID = " + sessionID;
         dbcmd.ExecuteNonQuery();
 
         //on export we only want to delete SQL stuff, because files of other sessions will not be copied

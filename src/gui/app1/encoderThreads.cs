@@ -263,7 +263,7 @@ public partial class ChronoJumpWindow
 				currentEncoderGI == Constants.EncoderGI.GRAVITATORY && eCapture.Eccon == "c")
 		{
 			reallyCutByTriggers = preferences.encoderCaptureCutByTriggers;
-			notebook_encoder_signal_comment_and_triggers.Page = 1;
+			vbox_capturing_with_triggers.Visible = true;
 		}
 
 		box_encoder_capture_rhythm.Visible = (encoderRhythm.ActiveRhythm || encoderRhythm.UseClusters());
@@ -526,7 +526,7 @@ public partial class ChronoJumpWindow
 
 			finishPulsebar(encoderActions.CURVES_AC);
 
-			notebook_encoder_signal_comment_and_triggers.Page = 0;
+			vbox_capturing_with_triggers.Visible = false;
 
 			if(encoderProcessCancel) {
 				//stop video and will NOT be stored
@@ -1004,12 +1004,9 @@ public partial class ChronoJumpWindow
 				action == encoderActions.CURVES_AC || 
 				action == encoderActions.LOAD )
 		{
-			LogB.Information("ffffffinishPulsebarrrrr");
+			LogB.Information ("ffffffinishPulsebarrrrr action: " + action.ToString ());
 		
 			//save video will be later at encoderSaveSignalOrCurve, because there encoderSignalUniqueID will be known
-			
-			if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC || action == encoderActions.LOAD)
-				sensitiveGuiEventDone();
 			
 			if(encoderProcessCancel || encoderProcessProblems)
 			{
@@ -1101,9 +1098,6 @@ public partial class ChronoJumpWindow
 
 				//no need in fullscreen because it will be closed
 				encoder_capture_curves_bars_drawingarea_cairo.QueueDraw ();
-
-				button_encoder_signal_save_comment.Label = Catalog.GetString("Save comment");
-				button_encoder_signal_save_comment.Sensitive = false;
 
 				//autosave signal (but not in load)
 				if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC)
@@ -1289,6 +1283,9 @@ public partial class ChronoJumpWindow
 					! encoderRhythm.ActiveRhythm && encoderRhythm.UseClusters() &&
 					encoderRhythmExecute != null && encoderRhythmExecute.ClusterRestDoing() )
 				encoderRhythmExecute.ClusterRestStop ();
+
+			if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC || action == encoderActions.LOAD)
+				sensitiveGuiEventDone();
 
 		} else { //ANALYZE
 			if(encoderProcessCancel) {

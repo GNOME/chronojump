@@ -503,9 +503,10 @@ class SqlitePersonSession : Sqlite
 		//1.- first delete in personSession77 at this session
 
 		//delete relations (existance) within persons and sessions in this session
-		dbcmd.CommandText = "Delete FROM " + Constants.PersonSessionTable + 
+		dbcmd.CommandText = "DELETE FROM " + Constants.PersonSessionTable + 
 			" WHERE sessionID = " + sessionID +
 			" AND personID = " + personID;
+		LogB.SQL (dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		//2.- Now, it's not in this personSession77 in other sessions, delete if from DB
@@ -514,49 +515,20 @@ class SqlitePersonSession : Sqlite
 		if (! PersonExistsInAnyPS (true, Convert.ToInt32 (personID)))
 			SqlitePerson.DeletePersonAndImages (true, Convert.ToInt32 (personID));
 
-		//3.- Delete tests without files
-				
-		//delete simple jumps
-		dbcmd.CommandText = "Delete FROM jump WHERE sessionID = " + sessionID +
-			" AND personID = " + personID;
-			
-		dbcmd.ExecuteNonQuery();
-		
-		//delete repetitive jumps
-		dbcmd.CommandText = "Delete FROM jumpRj WHERE sessionID = " + sessionID +
-			" AND personID = " + personID;
-		dbcmd.ExecuteNonQuery();
-		
-		//delete simple runs
-		dbcmd.CommandText = "Delete FROM run WHERE sessionID = " + sessionID +
-			" AND personID = " + personID;
-		
-		dbcmd.ExecuteNonQuery();
-		
-		//delete intervallic runs
-		dbcmd.CommandText = "Delete FROM runInterval WHERE sessionID = " + sessionID +
-			" AND personID = " + personID;
-			
-		dbcmd.ExecuteNonQuery();
-		
-		//delete reaction times
-		dbcmd.CommandText = "Delete FROM reactionTime WHERE sessionID = " + sessionID +
-			" AND personID = " + personID;
-			
-		dbcmd.ExecuteNonQuery();
-		
-		//delete pulses
-		dbcmd.CommandText = "Delete FROM pulse WHERE sessionID = " + sessionID +
-			" AND personID = " + personID;
-			
-		dbcmd.ExecuteNonQuery();
-		
-		//delete multiChronopic
-		dbcmd.CommandText = "Delete FROM multiChronopic WHERE sessionID = " + sessionID +
-			" AND personID = " + personID;
-			
-		dbcmd.ExecuteNonQuery();
-	
+		//3.- Delete tests without files (and without triggers and without related EncoderSignalCurve)
+		foreach (string table in Constants.GetAllSqliteTestTableNames ())
+			if (
+					table != Constants.EncoderTable &&
+					table != Constants.ForceSensorTable &&
+					table != Constants.RunEncoderTable)
+			{
+				dbcmd.CommandText = "DELETE FROM " + table +
+					" WHERE sessionID = " + sessionID +
+					" AND personID = " + personID;
+				LogB.SQL (dbcmd.CommandText.ToString());
+				dbcmd.ExecuteNonQuery();
+			}
+
 		// 4) delete from encoder
 		//delete encoder signal and curves (and it's videos)
 		ArrayList encoderArray = SqliteEncoder.Select(

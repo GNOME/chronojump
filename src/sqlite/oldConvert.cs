@@ -382,7 +382,7 @@ class SqliteOldConvert : Sqlite
     //DB 1.17 -> 1.18	
     protected internal static void deleteNegativeRuns()
     {
-        dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTable +
+        dbcmd.CommandText = "DELETE FROM " + Constants.RunIntervalTable +
             " WHERE timeTotal < 0";
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();

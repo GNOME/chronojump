@@ -495,6 +495,7 @@ class ImportSession:
         self._import_pulse()
         self._import_wilight()
         self._import_fourPlatforms()
+        self._import_beepTest()
         trigger = self._import_encoder()
         triggerForceSensor = self._import_forceSensor()
         triggerRunEncoder = self._import_runEncoder()
@@ -685,6 +686,18 @@ class ImportSession:
         fourPlatforms.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
         fourPlatforms.update_session_ids(self.new_session_id)
         self.destination_db.write(fourPlatforms, self.destination_db.column_names("FourPlatforms", skip_columns=["uniqueID", "personID"]))
+
+    def _import_beepTest(self):
+        #self._print_status(self, "beepTest")
+
+        # Imports BeepTest table
+        beepTest = self.source_db.read(table_name="BeepTest",
+                                    where_condition="BeepTest.sessionID={}".format(self.source_session))
+        beepTest.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
+        beepTest.update_session_ids(self.new_session_id)
+        #self.destination_db.write(beepTest, self.destination_db.column_names("BeepTest", skip_columns=["uniqueID", "personID"]))
+        #on BeepTest results are very similar so no avoid_duplicates
+        self.destination_db.write(beepTest, matches_columns=None)
 
     def _import_person_session77(self):
         # Imports PersonSession77

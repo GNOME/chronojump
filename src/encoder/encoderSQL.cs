@@ -147,6 +147,8 @@ public class EncoderSQL : Event
 		this.maxSpeed = Convert.ToDouble (Util.CDS (eventStr[22]));
 		this.maxForce = Convert.ToDouble (Util.CDS (eventStr[23]));
 		this.rangeAbs = Convert.ToDouble (Util.CDS (eventStr[24]));
+
+		ecconLong = EcconLong(eccon);
 	}
 
 	public static List<Event> EncoderSQLListToEventList (List<EncoderSQL> list)

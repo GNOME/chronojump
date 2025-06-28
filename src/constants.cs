@@ -206,6 +206,21 @@ public class Constants
 	public const string FourPlatformsTable = "fourPlatforms";
 	public const string WilightTable = "wilight";
 	public const string BeepTestTable = "beepTest";
+	// if new tables are created that involve personID include them in: GetAllSqliteTestTableNames ()
+
+	// used on delete person related methods, and personMerge
+	// note for delete, on encoder, forceSensor and raceAnalyzer have to manage triggers, linked curves, ...
+	public static string [] GetAllSqliteTestTableNames ()
+	{
+		return new string [] {
+			JumpTable, JumpRjTable,
+			RunTable, RunIntervalTable, RunEncoderTable,
+			EncoderTable, Encoder1RMTable,
+			ForceSensorTable,
+			PulseTable, ReactionTimeTable, MultiChronopicTable, //currently unused
+			FourPlatformsTable, WilightTable, BeepTestTable,
+		};
+	}
 
 	public const string LastJumpSimpleTypeParamsTable = "lastJumpSimpleTypeParams";
 	public const string LastJumpRjTypeParamsTable = "lastJumpRjTypeParams";

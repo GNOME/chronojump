@@ -128,14 +128,16 @@ async def main():
     stop_event = asyncio.Event()
     threading.Thread(target = quit, args = (stop_event,), daemon = False).start()
 
-    try:
-        await scan(stop_event)
-    except (KeyboardInterrupt, asyncio.CancelledError, RuntimeError):
-        stop_event.set()
-    except BaseException as ex:
-        print(f"Error Occurred: {repr(ex)}", flush = True)
-        await asyncio.sleep(3)
-        await scan(stop_event)
+    while True:
+        if stop_event.is_set():
+            break
+        try:
+            await scan(stop_event)
+        except (KeyboardInterrupt, asyncio.CancelledError, RuntimeError):
+            stop_event.set()
+        except BaseException as ex:
+            print(f"Error Occurred: {repr(ex)}", flush = True)
+            await asyncio.sleep(1)
 
 
 if __name__ == "__main__":

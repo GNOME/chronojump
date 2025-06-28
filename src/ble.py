@@ -93,7 +93,7 @@ async def scan(stop_event: asyncio.Event):
                 connected_devices_dict[device.address] = client
                 print(f"Device Connected: {device}", flush = True)
             except BaseException as ex:
-                print(f"Error Occurred: {device} {advertising_data}   {repr(ex)}", flush = True)
+                print(f"Error Occurred: {device} {advertising_data} {repr(ex)}", flush = True)
 
     async with BleakScanner(scanned_callback) as scanner:
         ...
@@ -128,14 +128,17 @@ async def main():
     stop_event = asyncio.Event()
     threading.Thread(target = quit, args = (stop_event,), daemon = False).start()
 
-    try:
-        await scan(stop_event)
-    except (KeyboardInterrupt, asyncio.CancelledError, RuntimeError):
-        stop_event.set()
-    except BaseException as ex:
-        print(f"Error Occurred: {repr(ex)}", flush = True)
-        await asyncio.sleep(3)
-        await scan(stop_event)
+    while True:
+        if stop_event.is_set():
+            break
+        try:
+            await scan(stop_event)
+        except (KeyboardInterrupt, asyncio.CancelledError, RuntimeError):
+            stop_event.set()
+        except BaseException as ex:
+            print(f"Error Occurred: {repr(ex)}", flush = True)
+            await asyncio.sleep(1)
 
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())

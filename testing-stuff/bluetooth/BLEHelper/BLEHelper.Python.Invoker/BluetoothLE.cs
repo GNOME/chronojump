@@ -90,7 +90,7 @@ public static class BluetoothLE
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
             pythonPath = "python3";
-            pythonScriptPath = "../../../../BLEHelper.Python/ble-runner-linux.sh";
+            pythonScriptPath = "../../../../BLEHelper.Python/bluepy-ble-runner-linux.sh";
         }
         else
         {

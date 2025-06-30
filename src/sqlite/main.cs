@@ -169,7 +169,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.63";
+	static string lastChronojumpDatabaseVersion = "2.64";
 
 	public Sqlite()
 	{
@@ -3635,6 +3635,19 @@ class Sqlite
 
 				currentVersion = updateVersion("2.63");
 			}
+			if(currentVersion == "2.63")
+			{
+				LogB.SQL("Doing alter table tempJumpRj adding heightAvg");
+				try {
+					executeSQL("ALTER TABLE " + Constants.TempJumpRjTable + " ADD COLUMN heightAvg FLOAT;");
+					LogB.Information ("alter table done!");
+				} catch {
+					LogB.SQL("Catched at Doing alter table tempJumpRj adding heightAvg");
+				}
+				LogB.SQL("Done!");
+
+				currentVersion = updateVersion("2.64");
+			}
 
 
 			/*
@@ -3883,7 +3896,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
-		//2.61 - 2.62 Converted DB to 2.62 alter table encoder add hasInertia and Update this column
+		//2.63 - 2.64 Converted DB to 2.64 alter table tempJumpRj adding heightAvg
 		//2.62 - 2.63 Converted DB to 2.63 alter table encoder add maxPower, maxSpeed, maxForce, rangeAbs
 		//2.61 - 2.62 Converted DB to 2.62 alter table encoder add hasInertia and Update this column
 		//2.60 - 2.61 Converted DB to 2.61 alter table jumpRj adding heightAvg

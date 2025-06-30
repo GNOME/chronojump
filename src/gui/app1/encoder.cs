@@ -106,7 +106,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_encoder_bells;
 	Gtk.Button button_encoder_load_signal_at_analyze;
 	Gtk.ProgressBar encoder_pulsebar_capture;
-	Gtk.Label encoder_pulsebar_capture_label;
+	Gtk.Label encoder_countdown_label;
 	Gtk.Box box_encoder_capture_rhythm;
 	Gtk.Box box_encoder_capture_rhythm_doing;
 	Gtk.Box box_encoder_capture_rhythm_rest;
@@ -460,7 +460,7 @@ public partial class ChronoJumpWindow
 		box_encoder_capture_csharp_r_both.Visible = false; //operatingSystem == UtilAll.OperatingSystems.LINUX;
 
 		encoder_pulsebar_capture.Fraction = 1;
-		encoder_pulsebar_capture_label.Text = "";
+		encoder_countdown_label.Text = "";
 		encoder_pulsebar_load_signal_at_analyze.Fraction = 1;
 		encoder_pulsebar_load_signal_at_analyze.Text = "";
 		encoder_pulsebar_analyze.Fraction = 1;
@@ -1290,7 +1290,7 @@ public partial class ChronoJumpWindow
 		       if(File.Exists(UtilEncoder.GetEncoderDataTempFileName()))
 			       encoderThreadStart(action);
 		       else {
-			       encoder_pulsebar_capture_label.Text = Catalog.GetString("Missing data.");
+			       event_execute_label_message.Text = Catalog.GetString("Missing data.");
 			       fullscreen_label_message.Text = Catalog.GetString("Missing data.");
 		       }
 		}
@@ -2265,7 +2265,7 @@ public partial class ChronoJumpWindow
 				);
 		encoderRProcAnalyze.StartOrContinue(encoderStruct);
 
-		//encoder_pulsebar_capture_label.Text = string.Format(Catalog.GetString(
+		//event_execute_label_message.Text = string.Format(Catalog.GetString(
 		//			"Exported to {0}."), UtilEncoder.GetEncoderExportTempFileName());
 	}
 
@@ -3033,7 +3033,7 @@ public partial class ChronoJumpWindow
 	
 		removeSignalFromGuiBecauseDeletedOrCancelled();
 
-		encoder_pulsebar_capture_label.Text = Catalog.GetString("Set deleted");
+		event_execute_label_message.Text = Catalog.GetString("Set deleted");
 	}
 	void removeSignalFromGuiBecauseDeletedOrCancelled() 
 	{
@@ -6966,7 +6966,7 @@ public partial class ChronoJumpWindow
 		button_encoder_bells = (Gtk.Button) builder.GetObject ("button_encoder_bells");
 		button_encoder_load_signal_at_analyze = (Gtk.Button) builder.GetObject ("button_encoder_load_signal_at_analyze");
 		encoder_pulsebar_capture = (Gtk.ProgressBar) builder.GetObject ("encoder_pulsebar_capture");
-		encoder_pulsebar_capture_label = (Gtk.Label) builder.GetObject ("encoder_pulsebar_capture_label");
+		encoder_countdown_label = (Gtk.Label) builder.GetObject ("encoder_countdown_label");
 		box_encoder_capture_rhythm = (Gtk.Box) builder.GetObject ("box_encoder_capture_rhythm");
 		box_encoder_capture_rhythm_doing = (Gtk.Box) builder.GetObject ("box_encoder_capture_rhythm_doing");
 		box_encoder_capture_rhythm_rest = (Gtk.Box) builder.GetObject ("box_encoder_capture_rhythm_rest");

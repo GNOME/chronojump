@@ -1103,6 +1103,8 @@ public partial class ChronoJumpWindow
 		label_beepTest_speed.Name = "big_monospace";
 		label_beepTest_runStatus_value.Name = "big_monospace";
 
+		encoder_countdown_label.Name = "monospace";
+
 		if(! Config.UseSystemColor)
 		{
 			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundIsDark, app1s_notebook);

@@ -58,7 +58,7 @@ public partial class ChronoJumpWindow
 
 		else if(action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_IM)
 		{
-			//encoder_pulsebar_capture_label.Text = Catalog.GetString("Please, wait.");
+			//event_execute_label_message.Text = Catalog.GetString("Please, wait.");
 			LogB.Information("encoderThreadStart begins");
 				
 			if(action == encoderActions.CAPTURE) {
@@ -770,7 +770,7 @@ public partial class ChronoJumpWindow
 	private void updatePulsebar (encoderActions action) 
 	{
 		if(action == encoderActions.CAPTURE && preferences.encoderCaptureInfinite) {
-			encoder_pulsebar_capture_label.Text = "";
+			encoder_countdown_label.Text = "";
 			encoder_pulsebar_capture.Pulse();
 			fullscreen_label_message.Text = "";
 			fullscreen_capture_progressbar.Pulse();
@@ -785,15 +785,15 @@ public partial class ChronoJumpWindow
 
 			encoder_pulsebar_capture.Fraction = UtilAll.DivideSafeFraction(
 					(selectedTime - eCapture.Countdown), selectedTime);
-			encoder_pulsebar_capture_label.Text = eCapture.Countdown + " s";
+			encoder_countdown_label.Text = eCapture.Countdown + " s";
 			fullscreen_capture_progressbar.Fraction = UtilAll.DivideSafeFraction(
 					(selectedTime - eCapture.Countdown), selectedTime);
 			fullscreen_label_message.Text = eCapture.Countdown + " s";
 
 			if(encoderCaptureStopwatch.Elapsed.TotalSeconds >= 3 && eCapture.Countdown == preferences.encoderCaptureTime)
 			{
-				//encoder_pulsebar_capture_label.Text = "Chronopic seems not properly connected to encoder");
-				encoder_pulsebar_capture_label.Text = "Plug encoder into Chronopic"; //TODO: improve this and finish capture with problems
+				//event_execute_label_message.Text = "Chronopic seems not properly connected to encoder");
+				event_execute_label_message.Text = "Plug encoder into Chronopic"; //TODO: improve this and finish capture with problems
 				fullscreen_label_message.Text = "Plug encoder into Chronopic"; //TODO: improve this and finish capture with problems
 			}
 
@@ -801,6 +801,7 @@ public partial class ChronoJumpWindow
 		}
 
 		try {
+			encoder_countdown_label.Text = "";
 			string contents = Catalog.GetString("Please, wait.");
 			double fraction = -1;
 			/*
@@ -857,7 +858,7 @@ public partial class ChronoJumpWindow
 				else
 					encoder_pulsebar_capture.Fraction = UtilAll.DivideSafeFraction(fraction, 6);
 
-				encoder_pulsebar_capture_label.Text = contents;
+				event_execute_label_message.Text = contents;
 			}
 			else if(action == encoderActions.LOAD)
 			{
@@ -1024,14 +1025,14 @@ public partial class ChronoJumpWindow
 					if(action == encoderActions.CAPTURE_IM)
 						encoder_configuration_win.Button_encoder_capture_inertial_do_ended(0,"Cancelled");
 					else {
-						encoder_pulsebar_capture_label.Text = Catalog.GetString("Cancelled");
+						event_execute_label_message.Text = Catalog.GetString("Cancelled");
 						fullscreen_label_message.Text = Catalog.GetString("Cancelled");
 					}
 				}
 			}
 			else if(action == encoderActions.CAPTURE && encoderProcessFinish)
 			{
-				encoder_pulsebar_capture_label.Text = Catalog.GetString("Finished");
+				event_execute_label_message.Text = Catalog.GetString("Finished");
 				fullscreen_label_message.Text = Catalog.GetString("Finished");
 				updateEncoderAnalyzeExercisesPre ();
 			} 
@@ -1114,7 +1115,7 @@ public partial class ChronoJumpWindow
 
 
 					string encoderSaveResult = encoderSaveSignalOrCurve(false, "signal", 0); //this updates encoderSignalUniqueID
-					encoder_pulsebar_capture_label.Text = encoderSaveResult;
+					event_execute_label_message.Text = encoderSaveResult;
 					fullscreen_label_message.Text = encoderSaveResult;
 
 					if(needToAutoSaveCurve)
@@ -1168,7 +1169,7 @@ public partial class ChronoJumpWindow
 					}
 
 				} else { //action == encoderActions.LOAD
-					encoder_pulsebar_capture_label.Text = "";
+					event_execute_label_message.Text = "";
 				}
 		
 

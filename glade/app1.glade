@@ -9379,7 +9379,7 @@ on Cloud-view mode</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkLabel" id="encoder_pulsebar_capture_label">
+                                                            <object class="GtkLabel" id="encoder_countdown_label">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             </object>

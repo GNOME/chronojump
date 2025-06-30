@@ -142,6 +142,7 @@ class SqliteForceSensor : SqliteTests
 
     //call used on PrepareEventGraphForceSensor
     // limit 0 means no limit (limit negative is the last results)
+    // elastic see: ForceSensor.GetElasticIntFromMode ()
     public static List<ForceSensor> Select (bool dbconOpened,
 		    int uniqueID, int personID, int sessionID, int elastic,
 		    int exerciseID, Orders_by order, int limit, bool personNameInComment//, bool onlyBestInSession

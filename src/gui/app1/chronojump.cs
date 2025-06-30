@@ -270,6 +270,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image extra_windows_jumps_image_dj_fall_calculate;
 	Gtk.Image extra_windows_jumps_image_dj_fall_predefined;
 	Gtk.Box hbox_extra_window_jumps_fall_height;
+	Gtk.Label label_contacts_exercise_info;
 
 	Gtk.Box vbox_execute_test;
 	Gtk.Button button_execute_test;
@@ -8679,6 +8680,7 @@ public partial class ChronoJumpWindow
 		extra_windows_jumps_image_dj_fall_calculate = (Gtk.Image) builder.GetObject ("extra_windows_jumps_image_dj_fall_calculate");
 		extra_windows_jumps_image_dj_fall_predefined = (Gtk.Image) builder.GetObject ("extra_windows_jumps_image_dj_fall_predefined");
 		hbox_extra_window_jumps_fall_height = (Gtk.Box) builder.GetObject ("hbox_extra_window_jumps_fall_height");
+		label_contacts_exercise_info = (Gtk.Label) builder.GetObject ("label_contacts_exercise_info");
 
 		vbox_execute_test = (Gtk.Box) builder.GetObject ("vbox_execute_test");
 		button_execute_test = (Gtk.Button) builder.GetObject ("button_execute_test");

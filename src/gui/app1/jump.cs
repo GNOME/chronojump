@@ -190,6 +190,11 @@ public partial class ChronoJumpWindow
 		extra_window_jumps_label_dj_start_outside.Visible = ! calculate;
 		hbox_extra_window_jumps_fall_height.Visible = ! calculate;
 
+		if (calculate)
+			label_contacts_exercise_info.Text = "[" + Catalog.GetString ("Start inside") + "]";
+		else
+			label_contacts_exercise_info.Text = "[" + Catalog.GetString ("Start outside") + "]";
+
 		if(calculate) {
 			if(extra_window_jumps_check_dj_arms.Active) 
 				changeTestImage("","", "jump_dj_a_inside.png");
@@ -268,13 +273,21 @@ public partial class ChronoJumpWindow
 		else
 			extra_window_showWeightData(myJumpType, false);	
 
-		if(myJumpType.HasFall (configChronojump.Compujump)) {
+		if(myJumpType.HasFall (configChronojump.Compujump))
+		{
 			extra_window_showFallData(myJumpType, true);
 			if(ljstp.uniqueID != -1)
 				extra_window_jumps_check_dj_fall_calculate.Active = (ljstp.fallmm == -1);
-		} else
+
+			if (extra_window_jumps_check_dj_fall_calculate.Active)
+				label_contacts_exercise_info.Text = "[" + Catalog.GetString ("Start inside") + "]";
+			else
+				label_contacts_exercise_info.Text = "[" + Catalog.GetString ("Start outside") + "]";
+		} else {
 			extra_window_showFallData(myJumpType, false);	
-		
+			label_contacts_exercise_info.Text = "";
+		}
+
 		if(myJumpType.Name == "DJa" || myJumpType.Name == "DJna") { 
 			//on DJa and DJna (coming from More jumps) need to show technique data but not change
 			if(myJumpType.Name == "DJa")

@@ -1014,11 +1014,11 @@ public class ChronoJump
 	{
 		string returnString = "";
 		
-		string tableName = "tempJumpRj";
-		int existsTempData = SqliteTests.TempDataExists(tableName);
+		string tableName = Constants.TempJumpRjTable;
+		int existsTempData = SqliteTests.TempDataExists (tableName);
 		if(existsTempData > 0)
 		{
-			JumpRj myJumpRj = SqliteJumpRj.SelectJumpData("tempJumpRj", existsTempData, false, false);
+			JumpRj myJumpRj = SqliteJumpRj.SelectJumpData(Constants.TempJumpRjTable, existsTempData, false, false);
 			try {
 				myJumpRj.InsertAtDB (true, Constants.JumpRjTable);
 			} catch {} //pitty, cannot insert
@@ -1027,11 +1027,11 @@ public class ChronoJump
 			returnString = "Recuperated last Reactive Jump";
 		}
 
-		tableName = "tempRunInterval";
+		tableName = Constants.TempRunIntervalTable;
 		existsTempData = SqliteTests.TempDataExists(tableName);
 		if(existsTempData > 0)
 		{
-			RunInterval myRun = SqliteRunInterval.SelectRunData("tempRunInterval", existsTempData, false, false);
+			RunInterval myRun = SqliteRunInterval.SelectRunData (Constants.TempRunIntervalTable, existsTempData, false, false);
 			try {
 				myRun.InsertAtDB (true, Constants.RunIntervalTable);
 			} catch {} //pitty, cannot insert

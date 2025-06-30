@@ -46,7 +46,7 @@ class SqliteJumpRj : SqliteJump
 	
 	protected override void createTable(string tableName)
 	{
-		//values: 'jumpRj' and 'tempJumpRj'
+		//values: Constants.JumpTable or Constants.TempJumpRjTable
 
 		dbcmd.CommandText = 
 			"CREATE TABLE " + tableName + " ( " +
@@ -277,7 +277,7 @@ class SqliteJumpRj : SqliteJump
 		return myJumps;
 	}
 
-	//table is jumpRj or tempJumpRj
+	//table is Constants.JumpTable or Constants.TempJumpRjTable
 	public static JumpRj SelectJumpData(string table, int uniqueID, bool personNameInComment, bool dbconOpened)
 	{
 		if(!dbconOpened)

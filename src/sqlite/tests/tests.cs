@@ -328,9 +328,9 @@ class SqliteTests : Sqlite
 	/* 
 	 * temp data stuff
 	 */
-	public static int TempDataExists(string tName)
+	public static int TempDataExists (string tName)
 	{
-		//tName can be tempJumpRj or tempRunInterval
+		//tName can be Constants.TempJumpRjTable or Constants.TempJumpRunIntervalTable
 		
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT MAX(uniqueID) FROM " + tName;
@@ -355,12 +355,11 @@ class SqliteTests : Sqlite
 		return exists;
 	}
 
-	public static void DeleteTempEvents(string tName)
+	public static void DeleteTempEvents (string tName)
 	{
-		//tName can be tempJumpRj or tempRunInterval
+		//tName can be Constants.TempJumpRjTable or Constants.TempJumpRunIntervalTable
 
 		Sqlite.Open();
-		//dbcmd.CommandText = "DELETE FROM tempJumpRj";
 		dbcmd.CommandText = "DELETE FROM " + tName;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

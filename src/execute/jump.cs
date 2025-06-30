@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -44,7 +44,9 @@ public class JumpExecute : EventExecute
 	//used by the updateTimeProgressBar for display its time information
 	//copied from execute/run.cs 
 	protected enum jumpPhases {
-		PRE_OR_DOING, PLATFORM_END
+		PERSON_OUT_BUT_NEED_TO_START_IN, // when should start in and person is out
+		PRE_OR_DOING,
+		PLATFORM_END
 	}
 	protected static jumpPhases jumpPhase;
 	protected static JumpChangeImage jumpChangeImage;
@@ -170,57 +172,51 @@ public class JumpExecute : EventExecute
 			platformState = chronopicInitialValue(cp);
 		
 		
-		if (platformState==Chronopic.Plataforma.ON)
+		//UNKNOW (Chronopic disconnected, port changed, ...)
+		if (platformState != Chronopic.Plataforma.ON &&
+					platformState != Chronopic.Plataforma.OFF)
 		{
-			jumpChangeImageDo (platformState); //done here before thread starts
+			jumpChangeImageDo (platformState);
+			chronopicHasBeenDisconnected();
 
+			return false;
+		}
+
+		jumpChangeImageDo (platformState); //done here before thread starts
+
+		if (platformState == Chronopic.Plataforma.ON)
+		{
 			feedbackMessage = Catalog.GetString("You are IN, JUMP when prepared!");
 			needShowFeedbackMessage = true; 
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
 
 			loggedState = States.ON;
 
-			//prepare jump for being cancelled if desired
-			cancel = false;
-			
 			jumpPhase = jumpPhases.PRE_OR_DOING;
 	
 			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
 			//mark now that we have leaved platform:
 			if (simulated)
 				platformState = Chronopic.Plataforma.OFF;
-
-			//start thread
-			thread = new Thread(new ThreadStart(waitEvent));
-			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
-			
-			LogB.ThreadStart(); 
-			thread.Start(); 
 		} 
-		else if (platformState==Chronopic.Plataforma.OFF)
+		else if (platformState == Chronopic.Plataforma.OFF)
 		{
-			jumpChangeImageDo (platformState);
+			feedbackMessage = Catalog.GetString("You are OUT, please enter the platform, and then jump when prepared!");
+			needShowFeedbackMessage = true;
+			loggedState = States.OFF;
 
-			ConfirmWindow confirmWin;		
-			confirmWin = ConfirmWindow.Show(Catalog.GetString(
-						"You are OUT, please enter the platform, prepare for jump and press the 'accept' button"),
-					"", "");
-
-			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
-
-			//we call again this function
-			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);
-			
-			//if confirmWin.Button_cancel is pressed return
-			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event_before_start);
+			jumpPhase = jumpPhases.PERSON_OUT_BUT_NEED_TO_START_IN; // when should start in and person is out
 		}
-		else { //UNKNOW (Chronopic disconnected, port changed, ...)
-			jumpChangeImageDo (platformState);
 
-			chronopicHasBeenDisconnected();
+		//prepare jump for being cancelled if desired
+		cancel = false;
 
-			return false;
-		}
+		//start thread
+		thread = new Thread(new ThreadStart(waitEvent));
+		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
+
+		LogB.ThreadStart();
+		thread.Start();
 
 		return true;
 	}
@@ -294,8 +290,8 @@ public class JumpExecute : EventExecute
 			thread = new Thread(new ThreadStart(waitEvent));
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 			
-			LogB.ThreadStart(); 
-			thread.Start(); 
+			LogB.ThreadStart();
+			thread.Start();
 		} 
 		else  
 		{
@@ -409,7 +405,25 @@ public class JumpExecute : EventExecute
 			 */
 			
 			//if (ok) 
-			if (ok && !cancel) {
+			if (ok && ! cancel)
+			{
+				if (jumpPhase == jumpPhases.PERSON_OUT_BUT_NEED_TO_START_IN)
+				{
+					if (platformState == Chronopic.Plataforma.OFF)
+						continue;
+
+					else if (platformState == Chronopic.Plataforma.ON)
+					{
+						jumpChangeImageDo (platformState);
+						feedbackMessage = Catalog.GetString("You are IN, JUMP when prepared!");
+						needShowFeedbackMessage = true;
+						Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
+						loggedState = States.ON;
+
+						jumpPhase = jumpPhases.PRE_OR_DOING;
+					}
+				}
+
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) 
 				{
 					//has landed
@@ -441,7 +455,7 @@ public class JumpExecute : EventExecute
 						needUpdateEventProgressBar = true;
 		
 						feedbackMessage = "";
-						needShowFeedbackMessage = true; 
+						needShowFeedbackMessage = true;
 
 					} else {
 						//**** graphE **** jump with fall: second landed; or without fall first landing
@@ -884,8 +898,8 @@ public class JumpRjExecute : JumpExecute
 			thread = new Thread(new ThreadStart(waitEvent));
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 			
-			LogB.ThreadStart(); 
-			thread.Start(); 
+			LogB.ThreadStart();
+			thread.Start();
 		}
 		return true;
 	}

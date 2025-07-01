@@ -841,30 +841,34 @@ public class JumpRjExecute : JumpExecute
 
 		bool success = false;
 
-		if (platformState==Chronopic.Plataforma.OFF && hasFall ) {
+		if (platformState==Chronopic.Plataforma.OFF && hasFall )
+		{
 			feedbackMessage = Catalog.GetString("You are OUT, JUMP when prepared!");
-			needShowFeedbackMessage = true; 
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
+			jumpPhase = jumpPhases.PRE_OR_DOING;
 			success = true;
-		} else if (platformState==Chronopic.Plataforma.ON && ! hasFall ) {
+		} else if (platformState==Chronopic.Plataforma.ON && ! hasFall )
+		{
 			feedbackMessage = Catalog.GetString("You are IN, JUMP when prepared!");
-			needShowFeedbackMessage = true; 
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
+			jumpPhase = jumpPhases.PRE_OR_DOING;
 			success = true;
 		} else {
-			string myMessage = Catalog.GetString("You are IN, please leave the platform, and press the 'accept' button");
-			if (platformState==Chronopic.Plataforma.OFF ) {
-				myMessage = Catalog.GetString("You are OUT, please enter the platform, prepare for jump and press the 'accept' button");
+			if (platformState == Chronopic.Plataforma.OFF)
+			{
+				feedbackMessage = Catalog.GetString ("You are OUT, please enter the platform, and then jump when prepared!");
+				loggedState = States.OFF;
+				jumpPhase = jumpPhases.PERSON_OUT_BUT_NEED_TO_START_IN;
 			}
-			ConfirmWindow confirmWin;		
-			confirmWin = ConfirmWindow.Show(myMessage, "","");
-			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
-
-			//we call again this function
-			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);
-			//if confirmWin.Button_cancel is pressed return
-			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event_before_start);
+			else // (platformState == Chronopic.Plataforma.ON)
+			{
+				feedbackMessage = Catalog.GetString ("You are IN, please leave the platform, and then jump when prepared!");
+				loggedState = States.ON;
+				jumpPhase = jumpPhases.PERSON_IN_BUT_NEED_TO_START_OUT;
+			}
+			success = true;
 		}
+		needShowFeedbackMessage = true;
 
 		if(success) {
 			//initialize strings of TCs and TFs
@@ -887,7 +891,6 @@ public class JumpRjExecute : JumpExecute
 			//prepare jump for being finished earlier if desired
 			finish = false;
 			
-			jumpPhase = jumpPhases.PRE_OR_DOING;
 			
 			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
 			//mark now that the opposite as before:
@@ -928,143 +931,171 @@ public class JumpRjExecute : JumpExecute
 				ok = true;
 			else
 				ok = cp.Read_event(out timestamp, out platformState);
-			
+
 			if (platformState == Chronopic.Plataforma.OFF)
 				jumpChangeImage.Current = JumpChangeImage.Types.AIR;
 			else if (platformState == Chronopic.Plataforma.ON)
 				jumpChangeImage.Current = JumpChangeImage.Types.LAND;
-			
+
 			//if chronopic signal is Ok and state has changed
-			if (ok && (
-					(platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) ||
-					(platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) ) 
-						&& !cancel && !finish) {
-				
-			
-				if(simulated)
-					timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
+			if (ok && ! cancel && ! finish)
+			{
+				if (jumpPhase == jumpPhases.PERSON_OUT_BUT_NEED_TO_START_IN)
+				{
+					if (platformState == Chronopic.Plataforma.OFF)
+						continue;
 
-				LogB.Information(Util.GetTotalTime(tcString, tvString).ToString());
+					else if (platformState == Chronopic.Plataforma.ON)
+					{
+						jumpChangeImageDo (platformState);
+						feedbackMessage = Catalog.GetString ("You are IN, JUMP when prepared!");
+						needShowFeedbackMessage = true;
+						Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
+						loggedState = States.ON;
 
-
-					
-				
-				string equal = "";
-				
-				//while no finished time or jumps, continue recording events
-				if ( ! success) {
-					//don't record the time until the first event
-					if (firstRjValue) {
-						firstRjValue = false;
-
-						//but start timer
-						initializeTimer();
-						
-						feedbackMessage = "";
-						needShowFeedbackMessage = true; 
-					} else {
-						//reactive jump has not finished... record the next jump
-						LogB.Information(string.Format("tcCount: {0}, tvCount: {1}", tcCount, tvCount));
-						if ( tcCount == tvCount )
-						{
-							lastTc = timestamp/1000.0;
-							
-							if (feedbackJumpsRj.TcGreen (lastTc))
-								Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn, gstreamer);
-							else if (feedbackJumpsRj.TcRed (lastTc))
-								Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
-
-							if(tcCount > 0) { equal = "="; }
-							tcString = tcString + equal + lastTc.ToString();
-
-							updateTimerCountWithChronopicData(tcString, tvString);
-							
-							tcCount = tcCount + 1;
-						} else {
-							//tcCount > tvCount 
-							lastTv = timestamp/1000.0;
-
-							if (feedbackJumpsRj.TvGreen (lastTv))
-								Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn, gstreamer);
-							else if (feedbackJumpsRj.TvRed (lastTv))
-								Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
-
-							if(tvCount > 0) { equal = "="; }
-							tvString = tvString + equal + lastTv.ToString();
-							
-							updateTimerCountWithChronopicData(tcString, tvString);							
-							tvCount = tvCount + 1;
-							
-							//update event progressbar
-							//app1.ProgressBarEventOrTimePreExecution(
-							updateProgressBar= new UpdateProgressBar (
-									true, //isEvent
-									jumpsLimited, //if jumpsLimited: do fraction; if time limited: do pulse
-									tvCount
-									);  
-							needUpdateEventProgressBar = true;
-							
-							//update graph
-							PrepareEventGraphJumpReactiveRealtimeCaptureObject = new PrepareEventGraphJumpReactiveRealtimeCapture(lastTv, lastTc, tvString, tcString, type);
-							needUpdateGraphType = eventType.JUMPREACTIVE;
-							needUpdateGraph = true;
-
-							//put button_finish as sensitive when first jump is done (there's something recordable)
-							if(tvCount == 1)
-								needSensitiveButtonFinish = true;
-
-							//save temp table if needed
-							countForSavingTempTable ++;
-							if(countForSavingTempTable == timesForSavingRepetitive) {
-								writeRj(true); //tempTable
-								countForSavingTempTable = 0;
-							}
-
-						}
+						jumpPhase = jumpPhases.PRE_OR_DOING;
 					}
 				}
-			
-				//if we finish by time, and allowFinishAfterTime == true, when time passed, if the jumper is jumping
-				//if flags the shouldFinishAtNextFall that will finish when he arrives to the platform
-				if(shouldFinishAtNextFall && platformState == Chronopic.Plataforma.ON && loggedState == States.OFF)
-					finish = true;
+				else if (jumpPhase == jumpPhases.PERSON_IN_BUT_NEED_TO_START_OUT)
+				{
+					if (platformState == Chronopic.Plataforma.ON)
+						continue;
 
-				
-				//check if reactive jump should finish
-				if (jumpsLimited) {
-					if(limitAsDouble != -1) {
-						if(Util.GetNumberOfJumps(tvString, false) >= limitAsDouble)
-						{
-							jumpPhase = jumpPhases.PLATFORM_END;
+					else if (platformState == Chronopic.Plataforma.OFF)
+					{
+						jumpChangeImageDo (platformState);
+						feedbackMessage = Catalog.GetString ("You are OUT, JUMP when prepared!");
+						needShowFeedbackMessage = true;
+						Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
+						loggedState = States.OFF;
 
-							writeRj(false); //tempTable
-							success = true;
-						
-							//update event progressbar
-							//app1.ProgressBarEventOrTimePreExecution(
-							updateProgressBar= new UpdateProgressBar (
-									true, //isEvent
-									true, //percentageMode
-									tvCount
-									);  
-							needUpdateEventProgressBar = true;
-							
-							//update graph
-							PrepareEventGraphJumpReactiveRealtimeCaptureObject = new PrepareEventGraphJumpReactiveRealtimeCapture(lastTv, lastTc, tvString, tcString, type);
-							needUpdateGraphType = eventType.JUMPREACTIVE;
-							needUpdateGraph = true;
+						jumpPhase = jumpPhases.PRE_OR_DOING;
+					}
+				}
+
+				if ( (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) ||
+						(platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) ) 
+				{
+					if(simulated)
+						timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
+
+					LogB.Information(Util.GetTotalTime(tcString, tvString).ToString());
+
+					string equal = "";
+
+					//while no finished time or jumps, continue recording events
+					if ( ! success) {
+						//don't record the time until the first event
+						if (firstRjValue) {
+							firstRjValue = false;
+
+							//but start timer
+							initializeTimer();
+
+							feedbackMessage = "";
+							needShowFeedbackMessage = true; 
+						} else {
+							//reactive jump has not finished... record the next jump
+							LogB.Information(string.Format("tcCount: {0}, tvCount: {1}", tcCount, tvCount));
+							if ( tcCount == tvCount )
+							{
+								lastTc = timestamp/1000.0;
+
+								if (feedbackJumpsRj.TcGreen (lastTc))
+									Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn, gstreamer);
+								else if (feedbackJumpsRj.TcRed (lastTc))
+									Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
+
+								if(tcCount > 0) { equal = "="; }
+								tcString = tcString + equal + lastTc.ToString();
+
+								updateTimerCountWithChronopicData(tcString, tvString);
+
+								tcCount = tcCount + 1;
+							} else {
+								//tcCount > tvCount 
+								lastTv = timestamp/1000.0;
+
+								if (feedbackJumpsRj.TvGreen (lastTv))
+									Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn, gstreamer);
+								else if (feedbackJumpsRj.TvRed (lastTv))
+									Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
+
+								if(tvCount > 0) { equal = "="; }
+								tvString = tvString + equal + lastTv.ToString();
+
+								updateTimerCountWithChronopicData(tcString, tvString);							
+								tvCount = tvCount + 1;
+
+								//update event progressbar
+								//app1.ProgressBarEventOrTimePreExecution(
+								updateProgressBar= new UpdateProgressBar (
+										true, //isEvent
+										jumpsLimited, //if jumpsLimited: do fraction; if time limited: do pulse
+										tvCount
+										);  
+								needUpdateEventProgressBar = true;
+
+								//update graph
+								PrepareEventGraphJumpReactiveRealtimeCaptureObject = new PrepareEventGraphJumpReactiveRealtimeCapture(lastTv, lastTc, tvString, tcString, type);
+								needUpdateGraphType = eventType.JUMPREACTIVE;
+								needUpdateGraph = true;
+
+								//put button_finish as sensitive when first jump is done (there's something recordable)
+								if(tvCount == 1)
+									needSensitiveButtonFinish = true;
+
+								//save temp table if needed
+								countForSavingTempTable ++;
+								if(countForSavingTempTable == timesForSavingRepetitive) {
+									writeRj(true); //tempTable
+									countForSavingTempTable = 0;
+								}
+
+							}
 						}
 					}
-				} 
 
-				if(platformState == Chronopic.Plataforma.OFF)
-					loggedState = States.OFF;
-				else
-					loggedState = States.ON;
+					//if we finish by time, and allowFinishAfterTime == true, when time passed, if the jumper is jumping
+					//if flags the shouldFinishAtNextFall that will finish when he arrives to the platform
+					if(shouldFinishAtNextFall && platformState == Chronopic.Plataforma.ON && loggedState == States.OFF)
+						finish = true;
 
+
+					//check if reactive jump should finish
+					if (jumpsLimited) {
+						if(limitAsDouble != -1) {
+							if(Util.GetNumberOfJumps(tvString, false) >= limitAsDouble)
+							{
+								jumpPhase = jumpPhases.PLATFORM_END;
+
+								writeRj(false); //tempTable
+								success = true;
+
+								//update event progressbar
+								//app1.ProgressBarEventOrTimePreExecution(
+								updateProgressBar= new UpdateProgressBar (
+										true, //isEvent
+										true, //percentageMode
+										tvCount
+										);  
+								needUpdateEventProgressBar = true;
+
+								//update graph
+								PrepareEventGraphJumpReactiveRealtimeCaptureObject = new PrepareEventGraphJumpReactiveRealtimeCapture(lastTv, lastTc, tvString, tcString, type);
+								needUpdateGraphType = eventType.JUMPREACTIVE;
+								needUpdateGraph = true;
+							}
+						}
+					} 
+
+					if (platformState == Chronopic.Plataforma.OFF)
+						loggedState = States.OFF;
+					else
+						loggedState = States.ON;
+				}
 			}
 		} while ( ! success && ! cancel && ! finish );
-	
 		
 		if (finish) {
 			//write only if there's a jump at minimum

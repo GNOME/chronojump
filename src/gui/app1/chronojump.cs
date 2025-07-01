@@ -7629,6 +7629,9 @@ public partial class ChronoJumpWindow
 				}
 			}
 
+			radio_resultsSession_best.Label = Catalog.GetString (preferences.encoderCaptureMainVariable.ToString ());
+			UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundIsDark, radio_resultsSession_best);
+
 			//rhythm
 			encoderRhythm = feedbackWin.Encoder_rhythm_get_values();
 			//updates preferences object and Sqlite preferences

@@ -920,11 +920,18 @@ public partial class ChronoJumpWindow
 			if (
 					m == Constants.Modes.JUMPSSIMPLE ||
 					m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC ||
-					Constants.ModeIsENCODER (m) ||
 					(m == Constants.Modes.JUMPSREACTIVE && radio_resultsSession_heights.Active))
 			{
 				// best
-				radio_resultsSession_best.Label = Catalog.GetString ("Best");
+				if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE)
+				{
+					if (radio_resultsSession_heights.Active)
+						radio_resultsSession_best.Label = Catalog.GetString ("Jump height");
+					else
+						radio_resultsSession_best.Label = Catalog.GetString ("Flight time");
+				}
+				else //if (m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC)
+					radio_resultsSession_best.Label = Catalog.GetString ("Speed");
 				// best2
 				radio_resultsSession_best2.Visible = false;
 			} else { 	// m == Constants.Modes.RUNSENCODER || Constants.ModeIsFORCESENSOR (m) ||
@@ -938,11 +945,14 @@ public partial class ChronoJumpWindow
 				{
 					radio_resultsSession_best.Label = Catalog.GetString ("Max force");
 					radio_resultsSession_best2.Label = Catalog.GetString ("Best second");
+				} else if (Constants.ModeIsENCODER (m))
+				{
+					radio_resultsSession_best.Label = Catalog.GetString (preferences.encoderCaptureMainVariable.ToString ());
+					radio_resultsSession_best2.Label = Catalog.GetString ("Extra weight");
 				} else // (m == Constants.Modes.JUMPSREACTIVE && radio_resultsSession_times.Active))
 				{
-					radio_resultsSession_best.Label = Catalog.GetString ("Best flight time");
-					radio_resultsSession_best2.Label = string.Format ("{0} {1}/{2}",
-							Catalog.GetString ("Best"), "FT", "CT");
+					radio_resultsSession_best.Label = Catalog.GetString ("Flight time");
+					radio_resultsSession_best2.Label = "FT/CT";
 				}
 
 				radio_resultsSession_best2.Visible = true;

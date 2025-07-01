@@ -3385,6 +3385,8 @@ public partial class ChronoJumpWindow
 		//blank exercise options: useful for changing from jumps or runs to forceSensor, runEncoder, reaction time, other
 		label_contacts_exercise_selected_name.Visible = true; //will not be visible when all the contacts_top combo is implemented
 		label_contacts_exercise_selected_options_blank ();
+		label_contacts_exercise_info.Text = "";
+
 
 		//on OSX R is not installed by default. Check if it's installed. Needed for encoder and force sensor
 		if (Constants.ModeIsENCODER (m) || Constants.ModeIsFORCESENSOR (m))

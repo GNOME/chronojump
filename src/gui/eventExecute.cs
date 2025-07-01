@@ -50,6 +50,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_adjust_capturing;
 
 	Gtk.Box box_resultsSession_heightsTimes;
+	Gtk.Label label_resultsSession_encoder_saved_repetitions;
 	Gtk.RadioButton radio_resultsSession_heights;
 	Gtk.RadioButton radio_resultsSession_times;
 	Gtk.Box box_radio_resultsSession_bestLast;
@@ -1129,6 +1130,7 @@ public partial class ChronoJumpWindow
 		image_force_sensor_adjust_capturing = (Gtk.Image) builder.GetObject ("image_force_sensor_adjust_capturing");
 
 		box_resultsSession_heightsTimes = (Gtk.Box) builder.GetObject ("box_resultsSession_heightsTimes");
+		label_resultsSession_encoder_saved_repetitions = (Gtk.Label) builder.GetObject ("label_resultsSession_encoder_saved_repetitions");
 		radio_resultsSession_heights = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_heights");
 		radio_resultsSession_times = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_times");
 		box_radio_resultsSession_bestLast = (Gtk.Box) builder.GetObject ("box_radio_resultsSession_bestLast");

@@ -3318,6 +3318,7 @@ public partial class ChronoJumpWindow
 		box_event_execute_label_message.Visible = true;
 		hbox_encoder_show_signal_table.Visible = Constants.ModeIsENCODER (m);
 		box_contacts_graph_exercise.Visible = true;
+		label_resultsSession_encoder_saved_repetitions.Visible = false;
 
 		hbox_combo_select_contacts_top_with_arrows.Visible = false; //TODO: this will be unneded
 
@@ -3646,6 +3647,7 @@ public partial class ChronoJumpWindow
 			}
 
 			feedbackWin.View(Constants.BellModes.ENCODERGRAVITATORY, preferences, encoderRhythm, false); //not viewWindow
+			label_resultsSession_encoder_saved_repetitions.Visible = true;
 			encoderConfigurationGUIUpdate();
 			encoderGuiChangesAfterEncoderConfigurationWin(true);
 			if(changed) {
@@ -3656,9 +3658,8 @@ public partial class ChronoJumpWindow
 			{
 				setEncoderExerciseOptionsFromPreferences();
 				encoderPreferencesSet = true;
-
-				GLib.Timeout.Add (50, new GLib.TimeoutHandler (encoder2ndRowPos));
 			}
+			GLib.Timeout.Add (50, new GLib.TimeoutHandler (encoder2ndRowPos));
 		} 
 		else if(Constants.ModeIsFORCESENSOR (m))
 		{

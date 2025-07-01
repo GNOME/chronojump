@@ -14591,7 +14591,6 @@ then click this button.</property>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="spacing">30</property>
                                                             <child>
                                                             <object class="GtkBox" id="box_resultsSession_heightsTimes">
                                                             <property name="can-focus">False</property>
@@ -14637,16 +14636,28 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkLabel" id="label_resultsSession_encoder_saved_repetitions">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Saved repetitions</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <object class="GtkBox" id="box_resultsSession_bestLast">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="halign">end</property>
+                                                            <property name="margin-left">30</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Sort</property>
+                                                            <property name="label" translatable="yes">Sort by</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -14771,7 +14782,7 @@ then click this button.</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="pack-type">end</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </object>

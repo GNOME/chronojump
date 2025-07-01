@@ -49,8 +49,10 @@ src/encoder/encoderRhythm.cs
 src/encoder/encoderSQL.cs
 src/execute/event.cs
 src/execute/jump.cs
+src/execute/jumpRj.cs
 src/executeProcess.cs
 src/execute/run.cs
+src/execute/runI.cs
 src/exportFiles/exportFiles.cs
 src/exportFiles/fs.cs
 src/exportSession.cs

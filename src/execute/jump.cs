@@ -45,6 +45,7 @@ public class JumpExecute : EventExecute
 	//copied from execute/run.cs 
 	protected enum jumpPhases {
 		PERSON_OUT_BUT_NEED_TO_START_IN, // when should start in and person is out
+		PERSON_IN_BUT_NEED_TO_START_OUT, // when should start out and person is in
 		PRE_OR_DOING,
 		PLATFORM_END
 	}
@@ -186,12 +187,11 @@ public class JumpExecute : EventExecute
 
 		if (platformState == Chronopic.Plataforma.ON)
 		{
-			feedbackMessage = Catalog.GetString("You are IN, JUMP when prepared!");
+			feedbackMessage = Catalog.GetString ("You are IN, JUMP when prepared!");
 			needShowFeedbackMessage = true; 
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
 
 			loggedState = States.ON;
-
 			jumpPhase = jumpPhases.PRE_OR_DOING;
 	
 			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
@@ -201,18 +201,15 @@ public class JumpExecute : EventExecute
 		} 
 		else if (platformState == Chronopic.Plataforma.OFF)
 		{
-			feedbackMessage = Catalog.GetString("You are OUT, please enter the platform, and then jump when prepared!");
+			feedbackMessage = Catalog.GetString ("You are OUT, please enter the platform, and then jump when prepared!");
 			needShowFeedbackMessage = true;
 			loggedState = States.OFF;
-
-			jumpPhase = jumpPhases.PERSON_OUT_BUT_NEED_TO_START_IN; // when should start in and person is out
+			jumpPhase = jumpPhases.PERSON_OUT_BUT_NEED_TO_START_IN;
 		}
 
-		//prepare jump for being cancelled if desired
-		cancel = false;
+		cancel = false; 	//prepare jump for being cancelled if desired
 
-		//start thread
-		thread = new Thread(new ThreadStart(waitEvent));
+		thread = new Thread(new ThreadStart(waitEvent)); 	//start thread
 		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 
 		LogB.ThreadStart();
@@ -224,7 +221,6 @@ public class JumpExecute : EventExecute
 	public override bool ManageFall()
 	{
 		LogB.Information ("Jumps ManageFall!, fall: ", fall.ToString ());
-
 		//boolean to know if chronopic has been disconnected	
 		chronopicDisconnected = false;
 		jumpChangeImage = new JumpChangeImage();
@@ -250,6 +246,11 @@ public class JumpExecute : EventExecute
 			return false;
 		}
 		
+		jumpChangeImageDo (platformState);
+
+		//useful also for tracking the jump phases
+		tc = 0;
+
 		//if we are outside
 		//or we are inside, but with fall == -1 (calculate fall using a previous jump (start inside))
 		if (
@@ -258,23 +259,14 @@ public class JumpExecute : EventExecute
 				) 
 		{
 			if(fall != -1) {
-				feedbackMessage = Catalog.GetString("You are OUT, JUMP when prepared!");
+				feedbackMessage = Catalog.GetString ("You are OUT, JUMP when prepared!");
 				loggedState = States.OFF;
 			} else {
-				feedbackMessage = Catalog.GetString("You are IN, JUMP when prepared!");
+				feedbackMessage = Catalog.GetString ("You are IN, JUMP when prepared!");
 				loggedState = States.ON;
 			}
 
-			needShowFeedbackMessage = true; 
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
-
-
-			//useful also for tracking the jump phases
-			tc = 0;
-
-			//prepare jump for being cancelled if desired
-			cancel = false;
-
 			jumpPhase = jumpPhases.PRE_OR_DOING;
 
 			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
@@ -284,35 +276,31 @@ public class JumpExecute : EventExecute
 				else
 					platformState = Chronopic.Plataforma.OFF; //mark now that we have jumped
 			}
-			jumpChangeImageDo (platformState);
-
-			//start thread
-			thread = new Thread(new ThreadStart(waitEvent));
-			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
-			
-			LogB.ThreadStart();
-			thread.Start();
 		} 
-		else  
-		{
-			jumpChangeImageDo (platformState);
-
-			ConfirmWindow confirmWin;
-
-			string message = Catalog.GetString("You are IN, please leave the platform, and press the 'accept' button");
-			if(fall == -1)
-				message = Catalog.GetString("You are OUT, please enter the platform, prepare for jump and press the 'accept' button");
-
-			confirmWin = ConfirmWindow.Show(message, "", "");
-
-			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
-
-			//we call again this function
-			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManageFall);
-			
-			//if confirmWin.Button_cancel is pressed return
-			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event_before_start);
+		else  {
+			if (platformState == Chronopic.Plataforma.OFF)
+			{
+				feedbackMessage = Catalog.GetString ("You are OUT, please enter the platform, and then jump when prepared!");
+				loggedState = States.OFF;
+				jumpPhase = jumpPhases.PERSON_OUT_BUT_NEED_TO_START_IN;
+			}
+			else // (platformState == Chronopic.Plataforma.ON)
+			{
+				feedbackMessage = Catalog.GetString ("You are IN, please leave the platform, and then jump when prepared!");
+				loggedState = States.ON;
+				jumpPhase = jumpPhases.PERSON_IN_BUT_NEED_TO_START_OUT;
+			}
 		}
+
+		needShowFeedbackMessage = true;
+
+		cancel = false; 	//prepare jump for being cancelled if desired
+
+		thread = new Thread(new ThreadStart(waitEvent)); 	//start thread
+		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
+
+		LogB.ThreadStart();
+		thread.Start();
 
 		return true;
 	}
@@ -415,10 +403,26 @@ public class JumpExecute : EventExecute
 					else if (platformState == Chronopic.Plataforma.ON)
 					{
 						jumpChangeImageDo (platformState);
-						feedbackMessage = Catalog.GetString("You are IN, JUMP when prepared!");
+						feedbackMessage = Catalog.GetString ("You are IN, JUMP when prepared!");
 						needShowFeedbackMessage = true;
 						Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
 						loggedState = States.ON;
+
+						jumpPhase = jumpPhases.PRE_OR_DOING;
+					}
+				}
+				else if (jumpPhase == jumpPhases.PERSON_IN_BUT_NEED_TO_START_OUT)
+				{
+					if (platformState == Chronopic.Plataforma.ON)
+						continue;
+
+					else if (platformState == Chronopic.Plataforma.OFF)
+					{
+						jumpChangeImageDo (platformState);
+						feedbackMessage = Catalog.GetString ("You are OUT, JUMP when prepared!");
+						needShowFeedbackMessage = true;
+						Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
+						loggedState = States.OFF;
 
 						jumpPhase = jumpPhases.PRE_OR_DOING;
 					}

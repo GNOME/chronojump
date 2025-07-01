@@ -652,8 +652,7 @@ public class PrepareEventGraphEncoderSession
 
 	public PrepareEventGraphEncoderSession (int sessionID, int personID, bool allPersons,
 			Constants.EncoderGI encoderGI,
-			bool showBest,
-			int limit,
+			Constants.ResultsSessionCriteria resultsSessionCriteria, int limit,
 			int exerciseID, int selectedSetID, Constants.Modes mode, bool exerciseAll)
 	{
 		this.selectedSetID = selectedSetID;
@@ -663,9 +662,11 @@ public class PrepareEventGraphEncoderSession
 		if(allPersons)
 			personIDTemp = -1;
 
-		Sqlite.Orders_by orderBy = Sqlite.Orders_by.BEST;
-		if (! showBest)
-			orderBy = Sqlite.Orders_by.ID_ASC;
+		Sqlite.Orders_by orderBy = Sqlite.Orders_by.ID_ASC;
+		if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST)
+			orderBy = Sqlite.Orders_by.BEST;
+		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
+			orderBy = Sqlite.Orders_by.BEST2;
 
 		rowsAtSQL = SqliteEncoder.SelectList (false, -1, personIDTemp, sessionID, encoderGI,
 				exerciseID, "curve", EncoderSQL.Eccons.ALL,

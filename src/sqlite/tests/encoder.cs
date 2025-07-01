@@ -382,6 +382,7 @@ class SqliteEncoder : SqliteTests
 	// on best is best repetitition, do not need to group them by sets and all the related complexity
 	if (order == Orders_by.BEST)
 		orderRepsByPosInSet = false;
+	//order == Orders_by.BEST2 is weight and then orderRepsByPosInSet is true
 
         string andString = "";
         string personIDStr = "";
@@ -456,6 +457,11 @@ class SqliteEncoder : SqliteTests
 	string orderByStr = "";
 	if (order == Orders_by.BEST)
 		orderByStr = string.Format ( " ORDER BY {0}.future1 ", tableStatic); // meanPower
+	else if (order == Orders_by.BEST2) //weight (and on the same weight, order by each set
+		orderByStr = string.Format ( " ORDER BY {0}.extraWeight, " +
+				"substr(filename,-23,19), " + //'filename,-23,19' has the date of capture signal
+				orderRepsByPosInSetOrderStr +
+				"uniqueID ", tableStatic);
 	else {
 		orderByStr =
 			" ORDER BY substr(filename,-23,19), " + //'filename,-23,19' has the date of capture signal

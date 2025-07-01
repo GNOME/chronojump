@@ -1392,14 +1392,7 @@ public partial class ChronoJumpWindow
 
 	private void fixEncoderCaptureWidgetsGeometry ()
 	{
-		/* TODO: do something similar for hpaned_encoder_capture_current
-		if (! check_encoder_capture_table.Active &&
-				(preferences.signalDirectionHorizontal && ! check_encoder_capture_signal.Active) ||
-				! preferences.signalDirectionHorizontal )
-			GLib.Timeout.Add (50, new GLib.TimeoutHandler (encoder1stRowAllHeight));
-			*/
-
-		GLib.Timeout.Add (100, new GLib.TimeoutHandler (encoder2ndRowPos));
+		GLib.Timeout.Add (50, new GLib.TimeoutHandler (encoder2ndRowPos));
 	}
 
 	/*
@@ -1412,11 +1405,20 @@ public partial class ChronoJumpWindow
 
 	private bool encoder2ndRowPos ()
 	{
-		if (check_encoder_capture_signal.Active || check_encoder_capture_table.Active)
-			hpaned_encoder_capture_current.Position =
-				Convert.ToInt32 (UtilAll.DivideSafe (3 * hpaned_encoder_capture_current.MaxPosition, 4));
-		else
+		if (! check_encoder_capture_signal.Active && ! check_encoder_capture_table.Active)
+		{
 			hpaned_encoder_capture_current.Position = hpaned_encoder_capture_current.MaxPosition;
+			return false;
+		}
+
+		if (current_mode == Constants.Modes.POWERGRAVITATORY)
+			hpaned_encoder_capture_current.Position = Convert.ToInt32 (
+					hpaned_encoder_capture_current.Allocation.Width / 2.0);
+		else //if (current_mode == Constants.Modes.POWERINERTIAL)
+			hpaned_encoder_capture_current.Position = Convert.ToInt32 (
+					(hpaned_encoder_capture_current.Allocation.Width +
+					 vbox_angle_now.Allocation.Width +20 	//+20: angle_now has an horiz sep of 10 at each side
+					) / 2.0);
 
 		return false;
 	}

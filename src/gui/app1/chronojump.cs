@@ -3656,6 +3656,8 @@ public partial class ChronoJumpWindow
 			{
 				setEncoderExerciseOptionsFromPreferences();
 				encoderPreferencesSet = true;
+
+				GLib.Timeout.Add (50, new GLib.TimeoutHandler (encoder2ndRowPos));
 			}
 		} 
 		else if(Constants.ModeIsFORCESENSOR (m))
@@ -3906,7 +3908,7 @@ public partial class ChronoJumpWindow
 		chronojumpWindowTestsNext();
 
 		if (m != Constants.Modes.JUMPSSIMPLE && m != Constants.Modes.RUNSSIMPLE)
-			vpaned_tests_center ();
+			GLib.Timeout.Add (50, new GLib.TimeoutHandler (vpaned_tests_center));
 
 		hpaned_contacts_graph_table_center_if_needed ();
 
@@ -3973,10 +3975,12 @@ public partial class ChronoJumpWindow
 				check_contacts_capture_graph.Active);
 	}
 
-	private void vpaned_tests_center ()
+	private bool vpaned_tests_center ()
 	{
 		vpaned_tests.Position = Convert.ToInt32 (vpaned_tests.Allocation.Height / 2.0);
+		return false;
 	}
+
 	//when showing both widgets, start at the middle
 	private void hpaned_contacts_graph_table_center_if_needed ()
 	{

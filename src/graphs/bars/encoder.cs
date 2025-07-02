@@ -69,6 +69,7 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 
 		List<PointF> point_l = new List<PointF>();
 		List<string> names_l = new List<string>();
+		List<double> color_l = new List<double>();
 		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
 
 		calculateBottomParams (events, true, "", "", false, eventGraphEncoderSessionStored.exerciseAll);
@@ -100,6 +101,7 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 						longestWord.Length, maxRowsForText));
 
 			id_l.Add (eSQL.UniqueID);
+			color_l.Add (eSQL.extraWeightD);
 
 			//if (eventGraphEncoderSessionStored.selectedID == eSQL.UniqueID)
 			//	cb.SelectedPos = eventGraphEncoderSessionStored.rowsAtSQL.Count -countToDraw -1;
@@ -107,6 +109,7 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 				cb.SelectedPos_l.Add (eventGraphEncoderSessionStored.rowsAtSQL.Count -countToDraw -1);
 		}
 		cb.Id_l = id_l;
+		cb.Color_l = color_l;
 
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,

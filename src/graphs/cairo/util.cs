@@ -260,3 +260,41 @@ public static class CairoUtil
 		g.ShowText(text);
 	}
 }
+
+// CairoColorGradient
+public class CCGradient
+{
+	Cairo.Color colorBar; //it will make a gradient from here to black
+
+	double min;
+	double max;
+
+	public CCGradient (List<double> data_l, Cairo.Color colorBar)
+	{
+		this.colorBar = colorBar;
+
+		//LogB.Information ("data_l: " + UtilList.ListDoubleToString (data_l, 2, ", "));
+		min = MathUtil.GetMin (data_l);
+		max = MathUtil.GetMax (data_l);
+	}
+
+	public CCGradient (List<PointF> data_l, Cairo.Color colorBar)
+	{
+		this.colorBar = colorBar;
+
+		//LogB.Information (PointF.PrintList ("data_l", data_l, ", "));
+		min = PointF.GetMinY (data_l);
+		max = PointF.GetMaxY (data_l);
+	}
+
+	public Cairo.Color GetColor (double data)
+	{
+		//return new Cairo.Color (1, 1, 1, MathUtil.GetProportion (data, min, max)); //playing with alpha
+
+		double p = MathUtil.GetProportion (data, min, max); // p will go from 0 to 1
+		p = 1 -p; // p from 1 to 0 (0 will be black: max weight)
+		//return new Cairo.Color (colorBar.R * p, colorBar.G * p, colorBar.B * p);
+		//return new Cairo.Color (p, p, 1); //bluish
+		return new Cairo.Color (p, p, p); //seems ok
+	}
+}

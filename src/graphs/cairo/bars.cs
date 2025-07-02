@@ -83,6 +83,7 @@ public abstract class CairoBars : CairoGeneric
 	protected List<int> id_l; //to pass the uniqueID of some test, eg: RunInterval executions and then find it using mouseLimits
 	protected int selectedPos;
 	protected List<int> selectedPos_l; //used on encder curves
+	protected List<double> color_l;
 
 	protected CairoBarsSecondaryLineData cbsld; //related to secondary variable (by default range)
 
@@ -375,6 +376,7 @@ public abstract class CairoBars : CairoGeneric
 
 		mouseLimits = new RepetitionMouseLimits();
 		id_l = new List<int>();
+		color_l = new List<double>();
 
 		cbsld = new CairoBarsSecondaryLineData ();
 
@@ -1187,6 +1189,10 @@ public abstract class CairoBars : CairoGeneric
 		set { selectedPos_l = value; }
 	}
 
+	public List<double> Color_l {
+		set { color_l = value; }
+	}
+
 	public CairoBarsSecondaryLineData Cbsld {
 		set { cbsld = value; }
 	}
@@ -1336,6 +1342,10 @@ public class CairoBars1Series : CairoBars
 			LogB.Information(edgeBarNums_l[j].ToString());
 			*/
 
+		CCGradient ccGradient = null;
+		if (color_l.Count > 0)
+			ccGradient = new CCGradient (color_l, colorSerieA);
+
 		//for video
 		double timesSubtestPrevious = 0;
 		double timesSubtestThis = 0;
@@ -1354,6 +1364,10 @@ public class CairoBars1Series : CairoBars
 			Cairo.Color barColor = colorSerieA;
 			if(colorMain_l != null && colorMain_l.Count == barMain_l.Count)
 				barColor = colorMain_l[i];
+
+			// used on encoder POWERGRAVITATORY extraWeight
+			if (ccGradient != null && color_l.Count == barMain_l.Count)
+				barColor = ccGradient.GetColor (color_l[i]);
 
 			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
 					UtilList.FoundInListInt (best_l, i),

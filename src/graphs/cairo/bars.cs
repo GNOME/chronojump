@@ -753,7 +753,7 @@ public abstract class CairoBars : CairoGeneric
 		}
 
 		g.ClosePath ();
-		
+
 		g.SetSourceRGB(color.R, color.G, color.B);
 		g.FillPreserve ();
 
@@ -1352,6 +1352,8 @@ public class CairoBars1Series : CairoBars
 		if (color_l.Count > 0)
 			ccGradient = new CCGradient (color_l, colorSerieA);
 
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_person_outline.png");
+
 		//for video
 		double timesSubtestPrevious = 0;
 		double timesSubtestThis = 0;
@@ -1418,6 +1420,7 @@ public class CairoBars1Series : CairoBars
 
 			//print the type at bottom
 			//printTextMultiline (x + barWidth/2, graphHeight -bottomMargin + fontHeightForBottomNames/2, 0, fontHeightForBottomNames,
+			g.SetSourceColor (black);
 			printTextMultiline (x + barWidth/2,
 					graphHeight - fontHeightForBottomNames * 2/3,
 					0, fontHeightForBottomNames,
@@ -1426,28 +1429,14 @@ public class CairoBars1Series : CairoBars
 			//LogB.Information("names_l[i]: " + names_l[i]);
 
 			barsXCenter_l.Add(x + barWidth/2);
-		}
 
-		// plot person icon if needed. Done here to not interfere with printTextMultiline
-		Pixbuf pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_person_outline.png");
-		for (int i = 0; i < barMain_l.Count && personIcon_l.Count == barMain_l.Count; i ++)
-		{
-			if (! personIcon_l[i])
-				continue;
-
-			PointF p = barMain_l[i];
-
-			double spacesBetweenBars = 0;
-			if(i >= 1)
-				spacesBetweenBars = i*distanceBetweenCols;
-
-			double x = leftMargin + sideWidthRatio*barWidth + i*barWidth + spacesBetweenBars;
-			double y = calculatePaintY(p.Y);
-
-			Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf,
-					x-12 + (barWidth/2.0),  // -12 because pixbuf is 24 px
-					y -1.5*resultFontHeight -24);	// above text, and 24px is pixbuf height
-			g.Paint();
+			if (personIcon_l.Count == barMain_l.Count && personIcon_l[i])
+			{
+				Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf,
+						x-12 + (barWidth/2.0),  // -12 because pixbuf is 24 px
+						y -1.5*resultFontHeight -24);	// above text, and 24px is pixbuf height
+				g.Paint();
+			}
 		}
 	}
 
@@ -1973,8 +1962,6 @@ public class CairoBarsNHSeries : CairoBars
 					names_l[i] + videoPlayingStr, g, alignTypes.CENTER,
 					UtilList.FoundInListInt(saved_l, i));
 		}
-
-
 	}
 
 	//done here and not in the constructor because most of this variables are known after construction

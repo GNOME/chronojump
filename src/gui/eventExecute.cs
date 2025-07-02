@@ -886,15 +886,6 @@ public partial class ChronoJumpWindow
 				preferences.heightPreferred,
 				radio_resultsSession_heights.Active);
 
-		// if jumps reactive and times tv/tc and then change to heights, select best (best height)
-		if (current_mode == Constants.Modes.JUMPSREACTIVE &&
-				radio_resultsSession_heights.Active &&
-				radio_resultsSession_best2.Active)
-		{
-			radio_resultsSession_best.Active = true;
-			return;
-		}
-
 		resultsSession_bestLast_controls ();
 		updateGraphResultsSessionByMode ();
 	}
@@ -926,6 +917,9 @@ public partial class ChronoJumpWindow
 			resultsSession_bestLast_controls_forceSensor (m);
 		else if (Constants.ModeIsENCODER (m))
 			resultsSession_bestLast_controls_encoder (m);
+
+		if (radio_resultsSession_best2.Active && ! radio_resultsSession_best2.Visible)
+			radio_resultsSession_best.Active = true;
 
 		UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_radio_resultsSession_bestLast);
 	}

@@ -906,61 +906,69 @@ public partial class ChronoJumpWindow
 	private void resultsSession_bestLast_controls ()
 	{
 		Constants.Modes m = current_mode;
-
-		// to select/order barplot by LAST, BEST, BEST2, ...
-		if (
-				m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE ||
-				m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC ||
-				m == Constants.Modes.RUNSENCODER || Constants.ModeIsFORCESENSOR (m) ||
-				Constants.ModeIsENCODER (m))
-		{
-			box_radio_resultsSession_bestLast.Visible = true;
-			label_resultsSession_last.Visible = false;
-
-			if (
-					m == Constants.Modes.JUMPSSIMPLE ||
-					m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC ||
-					(m == Constants.Modes.JUMPSREACTIVE && radio_resultsSession_heights.Active))
-			{
-				// best
-				if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE)
-				{
-					if (radio_resultsSession_heights.Active)
-						radio_resultsSession_best.Label = Catalog.GetString ("Jump height");
-					else
-						radio_resultsSession_best.Label = Catalog.GetString ("Flight time");
-				}
-				else //if (m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC)
-					radio_resultsSession_best.Label = Catalog.GetString ("Speed");
-				// best2
-				radio_resultsSession_best2.Visible = false;
-			} else { 	// m == Constants.Modes.RUNSENCODER || Constants.ModeIsFORCESENSOR (m) ||
-					// (m == Constants.Modes.JUMPSREACTIVE && radio_resultsSession_times.Active))
-				// best
-				if (m == Constants.Modes.RUNSENCODER)
-				{
-					radio_resultsSession_best.Label = Catalog.GetString ("Max speed");
-					radio_resultsSession_best2.Label = Catalog.GetString ("Best second");
-				} else if (Constants.ModeIsFORCESENSOR (m))
-				{
-					radio_resultsSession_best.Label = Catalog.GetString ("Max force");
-					radio_resultsSession_best2.Label = Catalog.GetString ("Best second");
-				} else if (Constants.ModeIsENCODER (m))
-				{
-					radio_resultsSession_best.Label = Catalog.GetString (preferences.encoderCaptureMainVariable.ToString ());
-					radio_resultsSession_best2.Label = Catalog.GetString ("Extra weight");
-				} else // (m == Constants.Modes.JUMPSREACTIVE && radio_resultsSession_times.Active))
-				{
-					radio_resultsSession_best.Label = Catalog.GetString ("Flight time");
-					radio_resultsSession_best2.Label = "FT/CT";
-				}
-
-				radio_resultsSession_best2.Visible = true;
-			}
-			UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_radio_resultsSession_bestLast);
-		} else {
+		
+		if (m == Constants.Modes.BEEPTEST || m == Constants.Modes.WILIGHT ||
+				m == Constants.Modes.OTHER) // OTHER is FOURPLATFORMS
+		{	
 			box_radio_resultsSession_bestLast.Visible = false;
 			label_resultsSession_last.Visible = true;
+			return;
+		}
+
+		box_radio_resultsSession_bestLast.Visible = true;
+		label_resultsSession_last.Visible = false;
+
+		if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE)
+			resultsSession_bestLast_controls_jumps (m);
+		else if (m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC || m == Constants.Modes.RUNSENCODER)
+			resultsSession_bestLast_controls_races (m);
+		else if (Constants.ModeIsFORCESENSOR (m))
+			resultsSession_bestLast_controls_forceSensor (m);
+		else if (Constants.ModeIsENCODER (m))
+			resultsSession_bestLast_controls_encoder (m);
+
+		UtilGtk.ContrastLabelsBox (Config.ColorBackgroundShiftedIsDark, box_radio_resultsSession_bestLast);
+	}
+
+	private void resultsSession_bestLast_controls_jumps (Constants.Modes m)
+	{
+		if (radio_resultsSession_heights.Active)
+			radio_resultsSession_best.Label = Catalog.GetString ("Jump height");
+		else
+			radio_resultsSession_best.Label = Catalog.GetString ("Flight time");
+
+		radio_resultsSession_best2.Visible = false;
+	}
+
+	private void resultsSession_bestLast_controls_races (Constants.Modes m)
+	{
+		if (m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC)
+		{
+			radio_resultsSession_best.Label = Catalog.GetString ("Speed");
+			radio_resultsSession_best2.Visible = false;
+		} else { 	// m == Constants.Modes.RUNSENCODER
+			radio_resultsSession_best.Label = Catalog.GetString ("Max speed");
+			radio_resultsSession_best2.Label = Catalog.GetString ("Best second");
+			radio_resultsSession_best2.Visible = true;
+		}
+	}
+
+	private void resultsSession_bestLast_controls_forceSensor (Constants.Modes m)
+	{
+		radio_resultsSession_best.Label = Catalog.GetString ("Max force");
+		radio_resultsSession_best2.Label = Catalog.GetString ("Best second");
+		radio_resultsSession_best2.Visible = true;
+	}
+
+	private void resultsSession_bestLast_controls_encoder (Constants.Modes m)
+	{
+		radio_resultsSession_best.Label = Catalog.GetString (preferences.encoderCaptureMainVariable.ToString ());
+		if (m == Constants.Modes.POWERGRAVITATORY)
+		{
+			radio_resultsSession_best2.Label = Catalog.GetString ("Extra weight");
+			radio_resultsSession_best2.Visible = true;
+		} else { // (m == Constants.Modes.POWERINERTIAL)
+			radio_resultsSession_best2.Visible = false;
 		}
 	}
 

@@ -27,16 +27,19 @@ using Mono.Unix;
 public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 {
 	private bool showPersonName;
+	private int currentPersonID;
 	private Constants.EncoderVariablesCapture encoderCaptureMainVariable;
 
 	public CairoPaintBarsPreEncoderSession (DrawingArea darea, string fontStr, Constants.Modes mode,
-			string personName, string testName, int pDN, bool showPersonName,
+			string personName, string testName, int pDN, bool showPersonName, //if personName == "" then is all persons
+			int currentPersonID,
 			Constants.EncoderVariablesCapture encoderCaptureMainVariable)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 
 		this.title = generateTitle();
 		this.showPersonName = showPersonName;
+		this.currentPersonID = currentPersonID;
 		this.encoderCaptureMainVariable = encoderCaptureMainVariable;
 	}
 
@@ -70,6 +73,7 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 		List<PointF> point_l = new List<PointF>();
 		List<string> names_l = new List<string>();
 		List<double> color_l = new List<double>();
+		List<bool> personIcon_l = new List<bool>();
 		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
 
 		calculateBottomParams (events, true, "", "", false, eventGraphEncoderSessionStored.exerciseAll);
@@ -103,6 +107,9 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 			id_l.Add (eSQL.UniqueID);
 			color_l.Add (eSQL.extraWeightD);
 
+			//TODO: on all test types
+			personIcon_l.Add (personName == "" && currentPersonID >= 0 && eSQL.PersonID == currentPersonID);
+
 			//if (eventGraphEncoderSessionStored.selectedID == eSQL.UniqueID)
 			//	cb.SelectedPos = eventGraphEncoderSessionStored.rowsAtSQL.Count -countToDraw -1;
 			if (UtilList.FoundInListInt (eventGraphEncoderSessionStored.selectedRepID_l, eSQL.UniqueID))
@@ -110,6 +117,7 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 		}
 		cb.Id_l = id_l;
 		cb.Color_l = color_l;
+		cb.PersonIcon_l = personIcon_l;
 
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,

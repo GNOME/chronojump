@@ -84,6 +84,7 @@ public abstract class CairoBars : CairoGeneric
 	protected int selectedPos;
 	protected List<int> selectedPos_l; //used on encder curves
 	protected List<double> color_l;
+	protected List<bool> personIcon_l;
 
 	protected CairoBarsSecondaryLineData cbsld; //related to secondary variable (by default range)
 
@@ -377,6 +378,7 @@ public abstract class CairoBars : CairoGeneric
 		mouseLimits = new RepetitionMouseLimits();
 		id_l = new List<int>();
 		color_l = new List<double>();
+		personIcon_l = new List<bool>();
 
 		cbsld = new CairoBarsSecondaryLineData ();
 
@@ -1193,6 +1195,10 @@ public abstract class CairoBars : CairoGeneric
 		set { color_l = value; }
 	}
 
+	public List<bool> PersonIcon_l {
+		set { personIcon_l = value; }
+	}
+
 	public CairoBarsSecondaryLineData Cbsld {
 		set { cbsld = value; }
 	}
@@ -1420,6 +1426,28 @@ public class CairoBars1Series : CairoBars
 			//LogB.Information("names_l[i]: " + names_l[i]);
 
 			barsXCenter_l.Add(x + barWidth/2);
+		}
+
+		// plot person icon if needed. Done here to not interfere with printTextMultiline
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_person_outline.png");
+		for (int i = 0; i < barMain_l.Count && personIcon_l.Count == barMain_l.Count; i ++)
+		{
+			if (! personIcon_l[i])
+				continue;
+
+			PointF p = barMain_l[i];
+
+			double spacesBetweenBars = 0;
+			if(i >= 1)
+				spacesBetweenBars = i*distanceBetweenCols;
+
+			double x = leftMargin + sideWidthRatio*barWidth + i*barWidth + spacesBetweenBars;
+			double y = calculatePaintY(p.Y);
+
+			Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf,
+					x-12 + (barWidth/2.0),  // -12 because pixbuf is 24 px
+					y -1.5*resultFontHeight -24);	// above text, and 24px is pixbuf height
+			g.Paint();
 		}
 	}
 

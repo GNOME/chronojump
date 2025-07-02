@@ -6363,6 +6363,7 @@ public partial class ChronoJumpWindow
 				typeTemp,
 				preferences.digitsNumber,
 				radio_contacts_results_personAll.Active, //showPersonName
+				currentPerson.UniqueID,
 				preferences.encoderCaptureMainVariable
 				);
 

@@ -343,6 +343,9 @@ public class TreeViewEvent
 
 		string pathString = store.GetPath(iter).ToString();
 		string [] myStrFull = pathString.Split(new char[] {':'});
+		if (myStrFull.Length < 2)
+			return false;
+
 		string pathStringZero = myStrFull[0] + ":" + myStrFull[1]; //this will be the person name and the header line of the test
 
 		store.GetIterFromString (out iter2, pathStringZero);

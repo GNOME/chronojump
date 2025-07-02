@@ -695,8 +695,8 @@ public class UtilGtk
 	//darker or clearer
 	public static RGBA GetColorShifted (RGBA color, bool darker)
 	{
-		LogB.Information(string.Format("colshifted start: red {0}, green {1}, blue {2}",
-					color.Red, color.Green, color.Blue));
+		//LogB.Information(string.Format("colshifted start: red {0}, green {1}, blue {2}",
+		//			color.Red, color.Green, color.Blue));
 		RGBA colShifted = new RGBA ();
 		if(darker)
 		{
@@ -708,8 +708,8 @@ public class UtilGtk
 			colShifted.Green = color.Green +.25;
 			colShifted.Blue = color.Blue +.25;
 		}
-		LogB.Information(string.Format("colshifted end: red {0}, green {1}, blue {2}",
-					colShifted.Red, colShifted.Green, colShifted.Blue));
+		//LogB.Information(string.Format("colshifted end: red {0}, green {1}, blue {2}",
+		//			colShifted.Red, colShifted.Green, colShifted.Blue));
 		colShifted.Alpha = 1; //required
 
 		return colShifted;

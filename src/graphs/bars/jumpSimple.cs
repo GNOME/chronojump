@@ -124,7 +124,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 		int countToDraw = eventGraphJumpsStored.jumpsAtSQL.Count;
 		foreach(Jump jump in eventGraphJumpsStored.jumpsAtSQL)
 		{
-			LogB.Information("jump: " + jump.ToString());
+			//LogB.Information("jump: " + jump.ToString());
 			// 1) Add data
 			double valueA = jump.Fall;
 			double valueB = Util.GetHeightInCentimeters(jump.Tv); //jump height

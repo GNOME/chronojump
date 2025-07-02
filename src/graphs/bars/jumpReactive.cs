@@ -95,7 +95,7 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 		int countToDraw = eventGraphJumpsRjStored.jumpsAtSQL.Count;
 		foreach(JumpRj jump in eventGraphJumpsRjStored.jumpsAtSQL)
 		{
-			LogB.Information("jump: " + jump.ToString());
+			//LogB.Information("jump: " + jump.ToString());
 			// 1) Add data
 			//sum of the subjumps
 			//double valueA = jump.TcSumCaringForStartIn;

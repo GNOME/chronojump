@@ -1366,7 +1366,7 @@ public class CairoBars1Series : CairoBars
 				barColor = colorMain_l[i];
 
 			// used on encoder POWERGRAVITATORY extraWeight
-			if (ccGradient != null && color_l.Count == barMain_l.Count)
+			if (ccGradient != null && color_l.Count == barMain_l.Count && ccGradient.ValuesAreDifferent ())
 				barColor = ccGradient.GetColor (color_l[i]);
 
 			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,

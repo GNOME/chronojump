@@ -278,6 +278,8 @@ public class CCGradient
 		max = MathUtil.GetMax (data_l);
 	}
 
+	/*
+	 * unused
 	public CCGradient (List<PointF> data_l, Cairo.Color colorBar)
 	{
 		this.colorBar = colorBar;
@@ -285,6 +287,13 @@ public class CCGradient
 		//LogB.Information (PointF.PrintList ("data_l", data_l, ", "));
 		min = PointF.GetMinY (data_l);
 		max = PointF.GetMaxY (data_l);
+	}
+	*/
+
+	// if false: all values ara the same, do not need to show color scale (that will show all bars on white)
+	public bool ValuesAreDifferent ()
+	{
+		return min < max;
 	}
 
 	public Cairo.Color GetColor (double data)

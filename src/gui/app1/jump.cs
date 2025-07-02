@@ -396,7 +396,7 @@ public partial class ChronoJumpWindow
 
 		cairoPaintBarsPre = new CairoPaintBarsPreJumpSimple (
 				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
-				personStr, typeTemp, preferences.digitsNumber);
+				personStr, typeTemp, preferences.digitsNumber, currentPerson.UniqueID);
 
 		cairoPaintBarsPre.StoreEventGraphJumps (eventGraph);
 

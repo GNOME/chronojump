@@ -1430,6 +1430,7 @@ public class CairoBars1Series : CairoBars
 
 			barsXCenter_l.Add(x + barWidth/2);
 
+			//draw personIcon if needed
 			if (personIcon_l.Count == barMain_l.Count && personIcon_l[i])
 			{
 				Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf,
@@ -1783,6 +1784,8 @@ public class CairoBarsNHSeries : CairoBars
 			LogB.Information(saved_l[j].ToString());
 		*/
 
+		Pixbuf pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_person_outline.png");
+
 		//for video
 		double timesSubtestPrevious = 0;
 		double timesSubtestThis = 0;
@@ -1955,12 +1958,23 @@ public class CairoBarsNHSeries : CairoBars
 			}
 
 			//print text at bottom
+			g.SetSourceColor (black);
 			printTextMultiline(
 					x+adjustX,
 					graphHeight -fontHeightForBottomNames * 2/3,
 					0, fontHeightForBottomNames,
 					names_l[i] + videoPlayingStr, g, alignTypes.CENTER,
 					UtilList.FoundInListInt(saved_l, i));
+
+			//draw personIcon if needed
+			if (personIcon_l.Count == barMain_l.Count && personIcon_l[i] && pB.Y > 0)
+			{
+				double y = calculatePaintY(pB.Y);
+				Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf,
+						x+adjustX-12,  // -12 because pixbuf is 24 px
+						y -1.5*resultFontHeight -24);	// above text, and 24px is pixbuf height
+				g.Paint();
+			}
 		}
 	}
 

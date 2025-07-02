@@ -26,10 +26,11 @@ using Mono.Unix;
 
 public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 {
-	public CairoPaintBarsPreJumpReactive (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN)
+	public CairoPaintBarsPreJumpReactive (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN, int currentPersonID)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		this.title = generateTitle();
+		this.currentPersonID = currentPersonID;
 	}
 
 	public override void StoreEventGraphJumpsRj (PrepareEventGraphJumpReactive eventGraph)
@@ -88,6 +89,7 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 
 		List<PointF> pointB_l = new List<PointF>();
 		List<string> names_l = new List<string>();
+		List<bool> personIcon_l = new List<bool>();
 		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
 
 		int countToDraw = eventGraphJumpsRjStored.jumpsAtSQL.Count;
@@ -129,6 +131,8 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 						thereIsASimulated, (jump.Simulated == -1),
 						longestWord.Length, maxRowsForText));
 
+			personIcon_l.Add (personName == "" && currentPersonID >= 0 && jump.PersonID == currentPersonID);
+
 			//add uniqueID two times, one for the each serie
 			id_l.Add(jump.UniqueID);
 			id_l.Add(jump.UniqueID);
@@ -138,6 +142,7 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 		}
 
 		cb.Id_l = id_l;
+		cb.PersonIcon_l = personIcon_l;
 
 		cb.PassGuidesData (new CairoBarsGuideManage(
 					//! ShowPersonNames, true, //usePersonGuides, useGroupGuides

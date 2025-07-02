@@ -442,7 +442,7 @@ public partial class ChronoJumpWindow
 
 		cairoPaintBarsPre = new CairoPaintBarsPreJumpReactive (
 				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
-				personStr, typeTemp, preferences.digitsNumber);
+				personStr, typeTemp, preferences.digitsNumber, currentPerson.UniqueID);
 
 		cairoPaintBarsPre.StoreEventGraphJumpsRj (eventGraph);
 		//PrepareJumpReactiveGraph (cairoPaintBarsPre.eventGraphJumpsRjStored, false); //do not need, draw event will graph it:

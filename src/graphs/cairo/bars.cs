@@ -1967,9 +1967,18 @@ public class CairoBarsNHSeries : CairoBars
 					UtilList.FoundInListInt(saved_l, i));
 
 			//draw personIcon if needed
-			if (personIcon_l.Count == barMain_l.Count && personIcon_l[i] && pB.Y > 0)
+			if (personIcon_l.Count == barMain_l.Count && personIcon_l[i])
 			{
-				double y = calculatePaintY(pB.Y);
+				//show on top of the highest bar (main or secondary)
+				double ymax = pB.Y;
+				for (int j = 0; j < barSecondary_ll.Count; j ++)
+				{
+					PointF pS = barSecondary_ll[j][i];
+					if (pS.Y > ymax)
+						ymax = pS.Y;
+				}
+
+				double y = calculatePaintY (ymax);
 				Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf,
 						x+adjustX-12,  // -12 because pixbuf is 24 px
 						y -1.5*resultFontHeight -24);	// above text, and 24px is pixbuf height

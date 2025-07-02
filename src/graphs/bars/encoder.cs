@@ -27,7 +27,6 @@ using Mono.Unix;
 public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 {
 	private bool showPersonName;
-	private int currentPersonID;
 	private Constants.EncoderVariablesCapture encoderCaptureMainVariable;
 
 	public CairoPaintBarsPreEncoderSession (DrawingArea darea, string fontStr, Constants.Modes mode,
@@ -107,7 +106,6 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 			id_l.Add (eSQL.UniqueID);
 			color_l.Add (eSQL.extraWeightD);
 
-			//TODO: on all test types
 			personIcon_l.Add (personName == "" && currentPersonID >= 0 && eSQL.PersonID == currentPersonID);
 
 			//if (eventGraphEncoderSessionStored.selectedID == eSQL.UniqueID)

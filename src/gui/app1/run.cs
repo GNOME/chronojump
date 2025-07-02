@@ -228,7 +228,8 @@ public partial class ChronoJumpWindow
 
 		cairoPaintBarsPre = new CairoPaintBarsPreRunSimple (
 				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
-				personStr, typeTemp, preferences.digitsNumber, preferences.metersSecondsPreferred);
+				personStr, typeTemp, preferences.digitsNumber, preferences.metersSecondsPreferred,
+				currentPerson.UniqueID);
 
 		cairoPaintBarsPre.StoreEventGraphRuns (eventGraph);
 		//PrepareRunSimpleGraph(cairoPaintBarsPre.eventGraphRunsStored, false); //do not need, draw event will graph it:
@@ -274,7 +275,8 @@ public partial class ChronoJumpWindow
 
 		cairoPaintBarsPre = new CairoPaintBarsPreRunInterval (
 				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
-				personStr, typeTemp, preferences.digitsNumber, preferences.metersSecondsPreferred);
+				personStr, typeTemp, preferences.digitsNumber, preferences.metersSecondsPreferred,
+				currentPerson.UniqueID);
 
 		cairoPaintBarsPre.StoreEventGraphRunsInterval (eventGraph);
 		//PrepareRunIntervalGraph (cairoPaintBarsPre.eventGraphRunsIntervalStored, false); //do not need, draw event will graph it:

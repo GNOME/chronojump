@@ -59,6 +59,7 @@ public abstract class CairoPaintBarsPre
 	protected string fontStr;
 	protected Constants.Modes mode;
 	protected string personName;
+	protected int currentPersonID;
 	protected string testName;
 	protected string title;
 	protected int pDN; //preferences.digitsNumber

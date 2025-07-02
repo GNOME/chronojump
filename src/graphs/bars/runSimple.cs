@@ -28,11 +28,12 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 {
 	private bool metersSecondsPreferred;
 
-	public CairoPaintBarsPreRunSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN, bool metersSecondsPreferred)
+	public CairoPaintBarsPreRunSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN, bool metersSecondsPreferred, int currentPersonID)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		this.title = generateTitle();
 		this.metersSecondsPreferred = metersSecondsPreferred;
+		this.currentPersonID = currentPersonID;
 	}
 
 	public override void StoreEventGraphRuns (PrepareEventGraphRunSimple eventGraph)
@@ -81,6 +82,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 
 		List<PointF> point_l = new List<PointF>();
 		List<string> names_l = new List<string>();
+		List<bool> personIcon_l = new List<bool>();
 		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
 
 		int countToDraw = eventGraphRunsStored.runsAtSQL.Count;
@@ -106,6 +108,8 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 						thereIsASimulated, (run.Simulated == -1),
 						longestWord.Length, maxRowsForText));
 
+			personIcon_l.Add (personName == "" && currentPersonID >= 0 && run.PersonID == currentPersonID);
+
 			id_l.Add(run.UniqueID);
 
 			if (eventGraphRunsStored.selectedID == run.UniqueID)
@@ -113,6 +117,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 		}
 
 		cb.Id_l = id_l;
+		cb.PersonIcon_l = personIcon_l;
 
 		cb.PassGuidesData (new CairoBarsGuideManage(
 					//! ShowPersonNames, true, //usePersonGuides, useGroupGuides

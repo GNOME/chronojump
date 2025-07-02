@@ -926,12 +926,22 @@ public partial class ChronoJumpWindow
 
 	private void resultsSession_bestLast_controls_jumps (Constants.Modes m)
 	{
-		if (radio_resultsSession_heights.Active)
-			radio_resultsSession_best.Label = Catalog.GetString ("Jump height");
-		else
-			radio_resultsSession_best.Label = Catalog.GetString ("Flight time");
+		if ( m == Constants.Modes.JUMPSSIMPLE ||
+				(m == Constants.Modes.JUMPSREACTIVE && radio_resultsSession_heights.Active))
+		{
+			if (radio_resultsSession_heights.Active)
+				radio_resultsSession_best.Label = Catalog.GetString ("Jump height");
+			else
+				radio_resultsSession_best.Label = Catalog.GetString ("Flight time");
 
-		radio_resultsSession_best2.Visible = false;
+			radio_resultsSession_best2.Visible = false;
+		}
+		else // (m == Constants.Modes.JUMPSREACTIVE && radio_resultsSession_times.Active)
+		{
+			radio_resultsSession_best.Label = Catalog.GetString ("Flight time");
+			radio_resultsSession_best2.Label = "FT/CT";
+			radio_resultsSession_best2.Visible = true;
+		}
 	}
 
 	private void resultsSession_bestLast_controls_races (Constants.Modes m)

@@ -45,16 +45,20 @@ public class TreeViewPersons
 	{
 	}
 	
-	public TreeViewPersons (Gtk.TreeView treeview, bool showClubID, bool showRestOrStatus, int restSeconds)
+	public TreeViewPersons (Gtk.TreeView treeview, bool showClubID, Constants.Modes current_mode, int restSeconds)
 	{
 		this.treeview = treeview;
-		this.showRestOrStatus = showRestOrStatus;
+		this.showRestOrStatus = current_mode != Constants.Modes.BEEPTEST;
 
 		RestSecondsMark = restSeconds;
 
-		string [] columnsString = { "ID", Catalog.GetString ("Club ID"), Catalog.GetString("Person"), "n", Catalog.GetString("Rest")};
+		string nColumn = "n";
+		if (Constants.ModeIsENCODER (current_mode))
+			nColumn = Catalog.GetString ("Sets");
+
+		string [] columnsString = { "ID", Catalog.GetString ("Club ID"), Catalog.GetString("Person"), nColumn, Catalog.GetString("Rest")};
 		if (! showRestOrStatus)
-			columnsString = new string [] { "ID", Catalog.GetString ("Club ID"), Catalog.GetString("Person"), "n", Catalog.GetString("Status")};
+			columnsString = new string [] { "ID", Catalog.GetString ("Club ID"), Catalog.GetString("Person"), nColumn, Catalog.GetString("Status")};
 
 		store = getStore (columnsString.Length);
 

@@ -47,7 +47,7 @@ public partial class ChronoJumpWindow
 		myTreeViewPersons = new TreeViewPersons(
 				tv,
 				preferences.personClubID,
-				(current_mode != Constants.Modes.BEEPTEST),
+				current_mode,
 				get_configured_rest_time_in_seconds());
 		tv.Selection.Changed += onTreeviewPersonsSelectionEntry;
 	}
@@ -140,7 +140,7 @@ public partial class ChronoJumpWindow
 		myTreeViewPersons = new TreeViewPersons (
 				treeview_persons,
 				preferences.personClubID,
-				(current_mode != Constants.Modes.BEEPTEST),
+				current_mode,
 				get_configured_rest_time_in_seconds());
 	}
 

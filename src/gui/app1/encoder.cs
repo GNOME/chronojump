@@ -1376,6 +1376,8 @@ public partial class ChronoJumpWindow
 		alignment_treeview_encoder_capture_curves.Visible = check_encoder_capture_table.Active;
 		encoder_capture_signal_drawingarea_cairo.Visible = check_encoder_capture_signal.Active;
 		vbox_encoder_bars_table_and_save_reps.Visible = true;
+		vbox_contacts_capture_graph.Visible = check_contacts_capture_graph.Active;
+		hbox_treeview_results_session.Visible = check_contacts_capture_table.Active;
 
 		fixEncoderCaptureWidgetsGeometry ();
 

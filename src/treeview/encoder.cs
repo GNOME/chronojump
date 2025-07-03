@@ -122,7 +122,8 @@ public class TreeViewEncoder : TreeViewEvent
 	// no need to be of selected set can be of any set
 	public override void UpdateReps (List<List<EncoderSQL>> eSQL_ll)
 	{
-		if (eSQL_ll.Count == 0 || eSQL_ll[0].Count <= 1) //it need to have reps
+		LogB.Information ("treeview_encoder UpdateReps start");
+		if (eSQL_ll.Count == 0)
 			return;
 
 		// get the treeiter of the set
@@ -146,7 +147,10 @@ public class TreeViewEncoder : TreeViewEvent
 		// to not select next set. Return the selection to the desired set.
 		SelectEvent (setID, false);
 
-		// add the reps
+		// add the reps (if the exist)
+		if (eSQL_ll[0].Count <= 1) // note 1st is a set. do this to check if it has reps
+			return;
+
 		if (! getEvent (setID, out iter))
 			return;
 
@@ -155,6 +159,7 @@ public class TreeViewEncoder : TreeViewEvent
 
 		// unfold the reps again
 		treeview.ExpandToPath (treeview.Model.GetPath(iter));
+		LogB.Information ("treeview_encoder UpdateReps end");
 	}
 
 	public override void AddEncoder (int personID, string pName, List<List<EncoderSQL>> eSQL_ll, string videoStr)

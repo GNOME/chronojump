@@ -294,6 +294,26 @@ public class EncoderSQL : Event
 				url, time, minHeight, description, status, videoURL, encoderConfiguration, meanPower, meanSpeed, meanForce,  repCriteria, exerciseName);
 	}
 
+	// just to debug
+	public static string ListListToString (List<List<EncoderSQL>> eSQL_ll)
+	{
+		string s = "";
+		int countMain = 0;
+		int countSub = 0;
+
+		foreach (List<EncoderSQL> eSQL_l in eSQL_ll)
+		{
+			s += string.Format ("\n\nmain item {0}", countMain ++);
+			foreach (EncoderSQL eSQL in eSQL_l)
+			{
+				s += string.Format ("\nsub item {0}", countSub ++);
+				s += eSQL.ToString ();
+			}
+		}
+
+		return s;
+	}
+
 	//uniqueID:name
 	public EncoderSQL ChangePerson(string newIDAndName) {
 		int newPersonID = Util.FetchID(newIDAndName);

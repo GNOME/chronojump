@@ -60,6 +60,8 @@ public partial class ChronoJumpWindow
 		myMenu.Popup();
 	}
 
+	// caution with threads: here we have SQL and GTK
+	// maybe next method can be used when GTK cannot be called: updatePersonTestsN_select
 	private void updatePersonTestsN (bool dbconOpened)
 	{
 		if (currentSession == null)
@@ -68,5 +70,12 @@ public partial class ChronoJumpWindow
 		List<IntInt> ii_l = SqliteTests.SessionTestsByPerson (dbconOpened, currentSession.UniqueID, current_mode);
 		myTreeViewPersons.UpdateTestsN (ii_l);
 	}
+
+	/*
+	private List<IntInt> updatePersonTestsN_select (bool dbconOpened)
+	{
+		return SqliteTests.SessionTestsByPerson (dbconOpened, currentSession.UniqueID, current_mode);
+	}
+	*/
 }
 

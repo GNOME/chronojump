@@ -5388,7 +5388,7 @@ public partial class ChronoJumpWindow
 			{
 				chronopicDisconnectedWhileExecuting ();
 				contactsShowCaptureDoingButtons (false);
-				on_test_finished_can_touch_gtk (new object (), new EventArgs ());
+				on_test_jumpSM_runSI_finished_can_touch_gtk (new object (), new EventArgs ());
 			}
 			return;
 		}
@@ -5400,7 +5400,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked -= new EventHandler (on_test_finished_stop_camera_if_needed);
 		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked += new EventHandler (on_test_finished_stop_camera_if_needed);
 
-		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
+		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_jumpSM_runSI_finished_can_touch_gtk);
 	}	
 	
 
@@ -5501,9 +5501,10 @@ public partial class ChronoJumpWindow
 		 }
 	}
 
-	private void on_test_finished_can_touch_gtk (object o, EventArgs args)
+	// this is called at end of jump simple/multiple and run simple/intervallic
+	private void on_test_jumpSM_runSI_finished_can_touch_gtk (object o, EventArgs args)
 	{
-		currentEventExecute.FakeButtonThreadDyed.Clicked -= new EventHandler(on_test_finished_can_touch_gtk);
+		currentEventExecute.FakeButtonThreadDyed.Clicked -= new EventHandler(on_test_jumpSM_runSI_finished_can_touch_gtk);
 		contactsShowCaptureDoingButtons(false);
 
 		on_event_execute_EventEnded();
@@ -5532,6 +5533,8 @@ public partial class ChronoJumpWindow
 			sensitiveGuiEventDone();
 
 		LogB.Information(" cantouch3 ");
+
+		updatePersonTestsN (false);
 
 		if (currentEventExecute.Cancel)
 		{
@@ -5705,7 +5708,7 @@ public partial class ChronoJumpWindow
 			{
 				chronopicDisconnectedWhileExecuting ();
 				contactsShowCaptureDoingButtons (false);
-				on_test_finished_can_touch_gtk (new object (), new EventArgs ());
+				on_test_jumpSM_runSI_finished_can_touch_gtk (new object (), new EventArgs ());
 			}
 			return;
 		}
@@ -5717,7 +5720,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked -= new EventHandler (on_test_finished_stop_camera_if_needed);
 		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked += new EventHandler (on_test_finished_stop_camera_if_needed);
 
-		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
+		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_jumpSM_runSI_finished_can_touch_gtk);
 	}
 		
 	private void on_jump_rj_finished ()
@@ -5872,7 +5875,7 @@ public partial class ChronoJumpWindow
 			{
 				chronopicDisconnectedWhileExecuting ();
 				contactsShowCaptureDoingButtons (false);
-				on_test_finished_can_touch_gtk (new object (), new EventArgs ());
+				on_test_jumpSM_runSI_finished_can_touch_gtk (new object (), new EventArgs ());
 			}
 			return;
 		}
@@ -5887,7 +5890,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked -= new EventHandler (on_test_finished_stop_camera_if_needed);
 		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked += new EventHandler (on_test_finished_stop_camera_if_needed);
 
-		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
+		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_jumpSM_runSI_finished_can_touch_gtk);
 	}
 	
 	private void on_run_finished ()
@@ -6165,7 +6168,7 @@ public partial class ChronoJumpWindow
 			{
 				chronopicDisconnectedWhileExecuting ();
 				contactsShowCaptureDoingButtons (false);
-				on_test_finished_can_touch_gtk (new object (), new EventArgs ());
+				on_test_jumpSM_runSI_finished_can_touch_gtk (new object (), new EventArgs ());
 			}
 			return;
 		}
@@ -6180,7 +6183,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked -= new EventHandler (on_test_finished_stop_camera_if_needed);
 		currentEventExecute.FakeButtonCameraStopIfNeeded.Clicked += new EventHandler (on_test_finished_stop_camera_if_needed);
 
-		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
+		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_jumpSM_runSI_finished_can_touch_gtk);
 	}
 
 

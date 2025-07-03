@@ -26,11 +26,12 @@ using Mono.Unix;
 
 public class CairoPaintBarsPreRunEncoder : CairoPaintBarsPre
 {
-	public CairoPaintBarsPreRunEncoder (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN)
+	public CairoPaintBarsPreRunEncoder (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN, int currentPersonID)
 	{
 		LogB.Information ("CairoPaintBarsPreRunEncoder constructor");
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		this.title = generateTitle();
+		this.currentPersonID = currentPersonID;
 	}
 
 	public override void StoreEventGraphRunEncoder (PrepareEventGraphRunEncoder eventGraph)
@@ -81,6 +82,7 @@ public class CairoPaintBarsPreRunEncoder : CairoPaintBarsPre
 		List<PointF> pointA_l = new List<PointF>();
 		List<PointF> pointB_l = new List<PointF>();
 		List<string> names_l = new List<string>();
+		List<bool> personIcon_l = new List<bool>();
 		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
 
 		int countToDraw = eventGraphRunEncoderStored.rowsAtSQL.Count;
@@ -104,6 +106,8 @@ public class CairoPaintBarsPreRunEncoder : CairoPaintBarsPre
 						false, false,
 						longestWord.Length, maxRowsForText));
 
+			personIcon_l.Add (personName == "" && currentPersonID >= 0 && re.PersonID == currentPersonID);
+
 			id_l.Add (re.UniqueID);
 			id_l.Add (re.UniqueID);
 
@@ -112,6 +116,7 @@ public class CairoPaintBarsPreRunEncoder : CairoPaintBarsPre
 		}
 
 		cb.Id_l = id_l;
+		cb.PersonIcon_l = personIcon_l;
 
 		/*
 		cb.PassGuidesData (new CairoBarsGuideManage(

@@ -26,10 +26,11 @@ using Mono.Unix;
 
 public class CairoPaintBarsWilight : CairoPaintBarsPre
 {
-	public CairoPaintBarsWilight (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN)
+	public CairoPaintBarsWilight (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN, int currentPersonID)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		this.title = generateTitle();
+		this.currentPersonID = currentPersonID;
 	}
 
 	public override void StoreEventGraphWilight (PrepareEventGraphWilight eventGraph)
@@ -61,6 +62,7 @@ public class CairoPaintBarsWilight : CairoPaintBarsPre
 
 		List<PointF> point_l = new List<PointF>();
 		List<string> names_l = new List<string>();
+		List<bool> personIcon_l = new List<bool>();
 		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
 
 		calculateBottomParams (events, true, "", "", false, false);
@@ -83,12 +85,15 @@ public class CairoPaintBarsWilight : CairoPaintBarsPre
 						false, false,
 						longestWord.Length, maxRowsForText));
 
+			personIcon_l.Add (personName == "" && currentPersonID >= 0 && wilight.PersonID == currentPersonID);
+
 			id_l.Add (wilight.UniqueID);
 
 			if (eventGraphWilightStored.selectedID == wilight.UniqueID)
 				cb.SelectedPos = eventGraphWilightStored.rowsAtSQL.Count -countToDraw -1;
 		}
 		cb.Id_l = id_l;
+		cb.PersonIcon_l = personIcon_l;
 
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,

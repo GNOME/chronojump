@@ -3278,7 +3278,8 @@ public partial class ChronoJumpWindow
 				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
 				personStr,
 				typeTemp,
-				preferences.digitsNumber);
+				preferences.digitsNumber,
+				currentPerson.UniqueID);
 
 		cairoPaintBarsPre.StoreEventGraphRunEncoder (eventGraph);
 		drawingarea_results_session.QueueDraw ();

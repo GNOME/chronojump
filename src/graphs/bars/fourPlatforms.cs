@@ -27,10 +27,11 @@ using Mono.Unix;
 //copied from CairoPaintBarsWilight. TODO: unify them
 public class CairoPaintBarsFourPlatforms : CairoPaintBarsPre
 {
-	public CairoPaintBarsFourPlatforms (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN)
+	public CairoPaintBarsFourPlatforms (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN, int currentPersonID)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		this.title = generateTitle();
+		this.currentPersonID = currentPersonID;
 	}
 
 	public override void StoreEventGraphFourPlatforms (PrepareEventGraphFourPlatforms eventGraph)
@@ -62,6 +63,7 @@ public class CairoPaintBarsFourPlatforms : CairoPaintBarsPre
 
 		List<PointF> point_l = new List<PointF>();
 		List<string> names_l = new List<string>();
+		List<bool> personIcon_l = new List<bool>();
 		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
 
 		calculateBottomParams (events, true, "", "", false, false);
@@ -85,12 +87,16 @@ public class CairoPaintBarsFourPlatforms : CairoPaintBarsPre
 						false, false,
 						longestWord.Length, maxRowsForText));
 
+			personIcon_l.Add (personName == "" && currentPersonID >= 0 && fp.PersonID == currentPersonID);
+
 			id_l.Add (fp.UniqueID);
 
 			if (eventGraphFourPlatformsStored.selectedID == fp.UniqueID)
 				cb.SelectedPos = eventGraphFourPlatformsStored.rowsAtSQL.Count -countToDraw -1;
 		}
+
 		cb.Id_l = id_l;
+		cb.PersonIcon_l = personIcon_l;
 
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,

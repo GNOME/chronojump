@@ -4067,7 +4067,8 @@ LogB.Information(" fs R ");
 				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
 				personStr,
 				typeTemp,
-				preferences.digitsNumber);
+				preferences.digitsNumber,
+				currentPerson.UniqueID);
 
 		cairoPaintBarsPre.StoreEventGraphForceSensor (eventGraph);
 		drawingarea_results_session.QueueDraw ();

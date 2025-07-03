@@ -3386,7 +3386,8 @@ public partial class ChronoJumpWindow
 			if(mode == "signal") {
 				encoderSignalUniqueID = myID;
 				feedback = Catalog.GetString("Set saved");
-			
+				updatePersonTestsN (false);
+
 				//copy video	
 				if(preferences.videoOn) {
 					if(Util.CopyTempVideo(currentSession.UniqueID,

@@ -2196,6 +2196,7 @@ public partial class ChronoJumpWindow
 					currentRunEncoder.UniqueID = currentRunEncoder.InsertSQL(false);
 					triggerListRunEncoder.SQLInsert(currentRunEncoder.UniqueID);
 					showRaceAnalyzerTriggers ();
+					updatePersonTestsN (false);
 
 					if (radio_ai_2sets.Active)
 						radio_ai_cd.Sensitive = true;

@@ -1910,6 +1910,7 @@ LogB.Information(" fs C ");
 					currentForceSensor.UniqueID = currentForceSensor.InsertSQL(false);
 					triggerListForceSensor.SQLInsert(currentForceSensor.UniqueID);
 					//showForceSensorTriggers (); TODO until know where to put it
+					updatePersonTestsN (false);
 
 					if (radio_ai_2sets.Active)
 						radio_ai_cd.Sensitive = true;

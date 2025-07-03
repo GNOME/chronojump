@@ -382,6 +382,7 @@ public partial class ChronoJumpWindow
 				);
 
 		currentFourPlatforms.InsertSQL (false);
+		updatePersonTestsN (false);
 	}
 
 	private void fourPlatformsButtonsSensitive (bool sensitive)

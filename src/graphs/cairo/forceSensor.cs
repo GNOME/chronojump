@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2023-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2023-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -259,6 +259,10 @@ public abstract class CairoGraphForceSensor : CairoXY
 	//TODO: fix this for vertical
 	protected void bsiwPlot (List<PointF> points_l, GetBestStabilityInWindow bsiw)
 	{
+		//to not show "S" on capture tab. TODO: check better GetBestStabilityInWindow.dataTooShort()
+		if (bsiw.MaxSampleStart == 0 && bsiw.MaxSampleEnd == 0)
+			return;
+
 		double x1 = calculatePaintX (points_l[bsiw.MaxSampleStart].X);
 		double y1 = calculatePaintY (points_l[bsiw.MaxSampleStart].Y);
 		double x2 = calculatePaintX (points_l[bsiw.MaxSampleEnd].X);

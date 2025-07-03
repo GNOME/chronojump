@@ -1265,15 +1265,17 @@ plotABGraph <- function(pngFile, dataFile, decimalChar, title, exercise, datetim
 
 	if(bestStabilityInWindow > 0)
 	{
-		segments(x[bestStabilityInWindowSampleStart], bestStabilityInWindow,
-			 x[bestStabilityInWindowSampleEnd], bestStabilityInWindow, lwd=2, col="green4")
-		topTick = bestStabilityInWindow/100
-		segments(x[bestStabilityInWindowSampleStart], bestStabilityInWindow - topTick,
-			 x[bestStabilityInWindowSampleStart], bestStabilityInWindow + topTick,
-			 lwd=2, col="green4")
-		segments(x[bestStabilityInWindowSampleEnd], bestStabilityInWindow - topTick,
-			 x[bestStabilityInWindowSampleEnd], bestStabilityInWindow + topTick,
-			 lwd=2, col="green4")
+		bsiwYMin = min (y[bestStabilityInWindowSampleStart:bestStabilityInWindowSampleEnd])
+		segments(x[bestStabilityInWindowSampleStart], bsiwYMin,
+			 x[bestStabilityInWindowSampleEnd], bsiwYMin, lwd=2, col="blue4")
+		segments(x[bestStabilityInWindowSampleStart], y[bestStabilityInWindowSampleStart],
+			 x[bestStabilityInWindowSampleStart], bsiwYMin,
+			 lwd=2, col="blue4")
+		segments(x[bestStabilityInWindowSampleEnd], y[bestStabilityInWindowSampleEnd],
+			 x[bestStabilityInWindowSampleEnd], bsiwYMin,
+			 lwd=2, col="blue4")
+		text ( (x[bestStabilityInWindowSampleStart] + x[bestStabilityInWindowSampleEnd]) /2,
+		      bsiwYMin, "s", adj=c(.5,1))
 	}
 
 	endGraph()

@@ -16,7 +16,7 @@
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 #   Copyright (C) 2017-2020   	Xavier Padullés <x.padulles@gmail.com>
-#   Copyright (C) 2017-2024     Xavier de Blas <xaviblas@gmail.com>
+#   Copyright (C) 2017-2025     Xavier de Blas <xaviblas@gmail.com>
 
 #call from Chronojump or:
 
@@ -261,6 +261,8 @@ drawDynamicsFromLoadCell <- function(title, exercise, ex_percentBodyWeight, pers
     #Detecting if the duration of the sustained force is enough
     # print("f.raw")
     # print(dynamics$f.raw)
+    print(paste("dynamics$startSample: ", dynamics$startSample, "dynamics$endSample: ", dynamics$endSample))
+
     meanForce = mean(dynamics$f.raw[dynamics$startSample:dynamics$endSample])
     print(paste("meanForce: ", meanForce, "fmax.raw: ", dynamics$fmax.raw))
     #TODO: Is this necessary?. Is this value acceptable?
@@ -719,6 +721,8 @@ drawDynamicsFromLoadCell <- function(title, exercise, ex_percentBodyWeight, pers
     }
 
     exportValues = c(exportValues, impulse)
+    exportValues = c(exportValues, dynamics$k.fitted)
+    exportValues = c(exportValues, dynamics$tau.fitted)
 
     #adding also model error
     exportValues = c(exportValues, dynamics$meanError)
@@ -1195,7 +1199,7 @@ doProcess <- function(pngFile, dataFile, decimalChar, title, exercise, ex_percen
 	title = fixTitleAndOtherStrings(title)
 	exercise = fixTitleAndOtherStrings(exercise)
 
-	print("Going to enter prepareGraph")
+	print("Going to enter prepareGraph on doProcess")
 	prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
 
 	print("Going to enter getDynamicsFromLoadCellFille")
@@ -1222,7 +1226,7 @@ plotABGraph <- function(pngFile, dataFile, decimalChar, title, exercise, datetim
 	title = fixTitleAndOtherStrings(title)
 	exercise = fixTitleAndOtherStrings(exercise)
 
-	print("Going to enter prepareGraph")
+	print("Going to enter prepareGraph on plotABGraph")
 	prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
 
 	originalTest = read.csv(dataFile, header = F, dec = decimalChar, sep = ";", skip = 2)
@@ -1301,7 +1305,7 @@ start <- function(op)
 		if(impulseOptions$impulseFunction != "-1")
 			exportModelVectorOnFail = c(exportModelVectorOnFail, NA) 		#impulse
 
-		exportModelVectorOnFail = c(exportModelVectorOnFail, NA) 		#model error
+		exportModelVectorOnFail = c(exportModelVectorOnFail, rep (NA,3)) 	#K, Tau, model error
 
 		#preparing header row (each set will have this in the result dataframe to be able to combine them)
 		maxAvgWindowSecondsHeader = op$maxAvgWindowSeconds
@@ -1324,8 +1328,7 @@ start <- function(op)
 			exportNames = c(exportNames, paste("Impulse", impulseOptions$impulseFunction, impulseOptions$type,
 					impulseOptions$start, impulseOptions$end, sep ="_"))
 
-		exportNames = c(exportNames, "Model mean error (%)")
-		exportNames = c(exportNames, "Comments (set)")
+		exportNames = c(exportNames, c("Model K", "Model Tau", "Model mean error (%)", "Comments (set)"))
 
 		if(op$includeImagesOnExport)
 			exportNames = c(exportNames, "Image")
@@ -1362,6 +1365,7 @@ start <- function(op)
 			})
 
 			pngFile <- paste(tempGraphsABFolder, i, ".png", sep="")  #but remember to graph also when model fails
+			print ("calling plotABGraph")
 			plotABGraph(pngFile, as.vector(dataFiles$fullURL[i]),
 					dataFiles$decimalChar[i], dataFiles$title[i], dataFiles$exercise[i], paste(dataFiles$date[i], dataFiles$time[i], sep=" "),
 					dataFiles$captureOptions[i], dataFiles$ex_percentBodyWeight[i], dataFiles$ex_angle[i], dataFiles$personMass[i],
@@ -1373,6 +1377,7 @@ start <- function(op)
 					(dataFiles$bestStabilityInWindowSampleStart[i] +1), # +1 because the C# count starts at 0 and R at 1
 					(dataFiles$bestStabilityInWindowSampleEnd[i] +1)
 			)
+			print ("plotABGraph ended")
 
 			if(! modelOk)
 				exportModelVector = exportModelVectorOnFail #done here and not on the catch, because it didn't worked there
@@ -1380,6 +1385,7 @@ start <- function(op)
 			#mix strings and numbers directly in a data frame to not have numbers as text (and then cannot export with decimal , or .)
 			exportSetDF = data.frame(dataFiles$title[i], dataFiles$date[i], dataFiles$time[i],
 					dataFiles$exercise[i], dataFiles$laterality[i], dataFiles$set[i], dataFiles$rep[i])
+
 			exportSetDF = cbind (exportSetDF, dataFiles$maxForceRaw[i])
 			exportSetDF = cbind (exportSetDF, dataFiles$maxAvgForceInWindow[i])
 			exportSetDF = cbind (exportSetDF, dataFiles$bestStabilityInWindow[i])

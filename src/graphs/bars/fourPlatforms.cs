@@ -27,11 +27,14 @@ using Mono.Unix;
 //copied from CairoPaintBarsWilight. TODO: unify them
 public class CairoPaintBarsFourPlatforms : CairoPaintBarsPre
 {
-	public CairoPaintBarsFourPlatforms (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN, int currentPersonID)
+	public CairoPaintBarsFourPlatforms (DrawingArea darea, string fontStr,
+			Constants.Modes mode, string personName, string testName, int pDN,
+			int currentPersonID, bool drawBars)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		this.title = generateTitle();
 		this.currentPersonID = currentPersonID;
+		this.drawBars = drawBars;
 	}
 
 	public override void StoreEventGraphFourPlatforms (PrepareEventGraphFourPlatforms eventGraph)
@@ -101,7 +104,7 @@ public class CairoPaintBarsFourPlatforms : CairoPaintBarsPre
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,
 				-1, fontHeightForBottomNames, bottomMargin, title,
-				new List<int> (), new List<int> ());
+				new List<int> (), new List<int> (), barsOrPoints);
 
 		passDataForScreenshotIfNeeded ();
 

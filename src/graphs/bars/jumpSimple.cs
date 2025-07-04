@@ -26,11 +26,14 @@ using Mono.Unix;
 
 public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 {
-	public CairoPaintBarsPreJumpSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN, int currentPersonID)
+	public CairoPaintBarsPreJumpSimple (DrawingArea darea, string fontStr,
+			Constants.Modes mode, string personName, string testName, int pDN,
+			int currentPersonID, bool drawBars)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		this.title = generateTitle();
 		this.currentPersonID = currentPersonID;
+		this.drawBars = drawBars;
 	}
 
 	public override void StoreEventGraphJumps (PrepareEventGraphJumpSimple eventGraph)
@@ -184,17 +187,17 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 					new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
 					"", false,
 					-1, fontHeightForBottomNames, bottomMargin, title,
-					new List<int> (), new List<int> ());
+					 new List<int> (), new List<int> (), barsOrPoints);
 		} else if (showBarA) //takeOff, takeOffWeight
 			cb.PassData1Serie (pointA_l,
 					new List<Cairo.Color>(), names_l,
 					-1, fontHeightForBottomNames, bottomMargin, title,
-					new List<int> (), new List<int> ());
+					new List<int> (), new List<int> (), barsOrPoints);
 		else //rest of the jumps: sj, cmj, ..
 			cb.PassData1Serie (pointB_l,
 					new List<Cairo.Color>(), names_l,
 					-1, fontHeightForBottomNames, bottomMargin, title,
-					new List<int> (), new List<int> ());
+					new List<int> (), new List<int> (), barsOrPoints);
 
 		passDataForScreenshotIfNeeded ();
 

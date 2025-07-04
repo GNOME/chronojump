@@ -60,6 +60,7 @@ public abstract class CairoPaintBarsPre
 	protected Constants.Modes mode;
 	protected string personName;
 	protected int currentPersonID;
+	protected bool drawBars; //false is plot points (Y > 0)
 	protected string testName;
 	protected string title;
 	protected int pDN; //preferences.digitsNumber
@@ -489,5 +490,14 @@ public abstract class CairoPaintBarsPre
 	{
 		set { screenshotURL = value; }
 	}
-}
 
+	protected CairoBars.BarsOrPoints barsOrPoints
+	{
+		get {
+			if (drawBars)
+				return	CairoBars.BarsOrPoints.BARS;
+			else
+				return	CairoBars.BarsOrPoints.POINTS;
+		}
+	}
+}

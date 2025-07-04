@@ -26,11 +26,14 @@ using Mono.Unix;
 
 public class CairoPaintBarsWilight : CairoPaintBarsPre
 {
-	public CairoPaintBarsWilight (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN, int currentPersonID)
+	public CairoPaintBarsWilight (DrawingArea darea, string fontStr,
+			Constants.Modes mode, string personName, string testName, int pDN,
+			int currentPersonID, bool drawBars)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		this.title = generateTitle();
 		this.currentPersonID = currentPersonID;
+		this.drawBars = drawBars;
 	}
 
 	public override void StoreEventGraphWilight (PrepareEventGraphWilight eventGraph)
@@ -98,7 +101,7 @@ public class CairoPaintBarsWilight : CairoPaintBarsPre
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,
 				-1, fontHeightForBottomNames, bottomMargin, title,
-				new List<int> (), new List<int> ());
+				new List<int> (), new List<int> (), barsOrPoints);
 
 		passDataForScreenshotIfNeeded ();
 

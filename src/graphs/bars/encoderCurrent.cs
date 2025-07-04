@@ -671,7 +671,7 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 			cb.PassData1Serie (barA_l,
 					colorMain_l, names_l,
 					preferences.encoderCaptureBarplotFontSize, 14, 8, "",
-					new List<int> (), new List<int> ());
+					new List<int> (), new List<int> (), CairoBars.BarsOrPoints.BARS);
 		else {
 			List<List<PointF>> barsSecondary_ll = new List<List<PointF>>();
 			barsSecondary_ll.Add(barA_l);
@@ -681,7 +681,7 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 					"Ecc",// "Con",
 					false,
 					preferences.encoderCaptureBarplotFontSize, 14, 8, "",
-					new List<int> (), new List<int> ());
+					new List<int> (), new List<int> (), CairoBars.BarsOrPoints.BARS);
 		}
 
 		if (videoTime > 0)

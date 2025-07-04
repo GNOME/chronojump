@@ -26,12 +26,15 @@ using Mono.Unix;
 
 public class CairoPaintBarsPreForceSensor : CairoPaintBarsPre
 {
-	public CairoPaintBarsPreForceSensor (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN, int currentPersonID)
+	public CairoPaintBarsPreForceSensor (DrawingArea darea, string fontStr, Constants.Modes mode,
+			string personName, string testName, int pDN,
+			int currentPersonID, bool drawBars)
 	{
 		LogB.Information ("CairoPaintBarsPreForceSensor constructor");
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		this.title = generateTitle();
 		this.currentPersonID = currentPersonID;
+		this.drawBars = drawBars;
 	}
 
 	public override void StoreEventGraphForceSensor (PrepareEventGraphForceSensor eventGraph)
@@ -138,7 +141,7 @@ public class CairoPaintBarsPreForceSensor : CairoPaintBarsPre
 				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
 				"", false,
 				-1, fontHeightForBottomNames, bottomMargin, title,
-				new List<int> (), new List<int> ());
+				new List<int> (), new List<int> (), barsOrPoints);
 
 		passDataForScreenshotIfNeeded ();
 

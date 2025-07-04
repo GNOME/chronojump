@@ -226,14 +226,14 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 			cb.PassData1Serie (pointB_l,
 					colorMain_l, names_l,
 					-1, 14, 8,
-					title, best_l, worst_l);
+					title, best_l, worst_l, CairoBars.BarsOrPoints.BARS);
 		else {
 			List<List<PointF>> barsSecondary_ll = new List<List<PointF>>();
 			barsSecondary_ll.Add(pointA_l);
 			cb.PassData2Series (pointB_l, barsSecondary_ll, false,
 					colorMain_l, colorSecondary_l, names_l,
 					"", false,
-					-1, 14, 8, title, best_l, worst_l);
+					-1, 14, 8, title, best_l, worst_l, CairoBars.BarsOrPoints.BARS);
 		}
 
 		if (videoTime > 0)

@@ -28,6 +28,8 @@ public abstract class CairoBars : CairoGeneric
 {
 	public enum Type { NORMAL, ENCODER };
 	protected Type type;
+	public enum BarsOrPoints { BARS, POINTS };
+	public BarsOrPoints barsOrPoints;
 
 	protected DrawingArea area;
 	protected ImageSurface surface;
@@ -310,7 +312,8 @@ public abstract class CairoBars : CairoGeneric
 	public virtual void PassData1Serie (List<PointF> barMain_l,
 			List<Cairo.Color> colorMain_l, List<string> names_l,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
-			string titleStr, List<int> best_l, List<int> worst_l)
+			string titleStr, List<int> best_l, List<int> worst_l,
+			BarsOrPoints barsOrPoints)
 	{
 		//defined in CairoBars1Series
 	}
@@ -320,7 +323,8 @@ public abstract class CairoBars : CairoGeneric
 			string labelBarMain,// string labelBarSecondary,
 			bool labelRotateInFirstBar,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
-			string titleStr, List<int> best_l, List<int> worst_l)
+			string titleStr, List<int> best_l, List<int> worst_l,
+			BarsOrPoints barsOrPoints)
 	{
 		//defined in CairoBarsNHSeries
 	}
@@ -462,7 +466,9 @@ public abstract class CairoBars : CairoGeneric
 				(realY - minY) * (graphHeight - (topMargin+bottomMargin)),
 				//maxY - minY)
 				//have 20% extra margin on the top (highest values will be this % far from max of the graph, needed also because text is above)
-				1.2*maxY - minY)
+				//1.2*maxY - minY)
+				//1.1*maxY - minY)
+				maxY - minY)
 			+ topMargin;
         }
 
@@ -890,6 +896,8 @@ public abstract class CairoBars : CairoGeneric
 		{
 			//print the result at top of the bar (better because there is the X grid and in the middle of the bar is confusing)
 			yStart = y - 1.5*te.Height;
+			if (barsOrPoints == BarsOrPoints.POINTS)
+				yStart -= 10; //move up to not be on point
 		}
 
 		/*
@@ -1283,8 +1291,12 @@ public class CairoBars1Series : CairoBars
 	protected override void findMaximums()
 	{
 		foreach(PointF p in barMain_l)
+		{
 			if(p.Y > maxY)
 				maxY = p.Y;
+			if(p.Y < minY)
+				minY = p.Y;
+		}
 
 		if(cairoBarsGuideManage != null  && cairoBarsGuideManage.GetMax() > maxY)
 			maxY = cairoBarsGuideManage.GetMax();
@@ -1296,8 +1308,15 @@ public class CairoBars1Series : CairoBars
 		minX = 0;
 		maxX = barMain_l.Count + 1;
 
-		//bars Y have 0 at bottom
-		minY = 0;
+		if (barsOrPoints == BarsOrPoints.BARS)
+		{
+			maxY += .1*maxY; //to accomodate texts above
+			minY = 0;
+		} else {
+			double yrange = maxY - minY;
+			maxY += .1*yrange; //to accomodate texts above
+			minY -= .1*yrange;
+		}
 	}
 
 	protected override void plotBars ()
@@ -1377,9 +1396,12 @@ public class CairoBars1Series : CairoBars
 			if (ccGradient != null && color_l.Count == barMain_l.Count && ccGradient.ValuesAreDifferent ())
 				barColor = ccGradient.GetColor (color_l[i]);
 
-			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
-					UtilList.FoundInListInt (best_l, i),
-					UtilList.FoundInListInt (worst_l, i));
+			if (barsOrPoints == BarsOrPoints.BARS)
+				drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
+						UtilList.FoundInListInt (best_l, i),
+						UtilList.FoundInListInt (worst_l, i));
+			else
+				drawCircle (g, x + UtilAll.DivideSafe (barWidth, 2.0), y, 10, black, barColor);
 
 			if (selectedPos_l.Count > 0) // used on encoder reps
 				barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), UtilList.FoundInListInt (selectedPos_l, i)));
@@ -1433,9 +1455,13 @@ public class CairoBars1Series : CairoBars
 			//draw personIcon if needed
 			if (personIcon_l.Count == barMain_l.Count && personIcon_l[i])
 			{
+				double personIconY = y -1.5*resultFontHeight -24;	// above text, and 24px is pixbuf height
+				if (barsOrPoints == BarsOrPoints.POINTS)
+					personIconY -= 10;
+
 				Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf,
 						x-12 + (barWidth/2.0),  // -12 because pixbuf is 24 px
-						y -1.5*resultFontHeight -24);	// above text, and 24px is pixbuf height
+						personIconY);
 				g.Paint();
 			}
 		}
@@ -1445,7 +1471,8 @@ public class CairoBars1Series : CairoBars
 	public override void PassData1Serie (List<PointF> barMain_l,
 			List<Cairo.Color> colorMain_l, List<string> names_l,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
-			string titleStr, List<int> best_l, List<int> worst_l)
+			string titleStr, List<int> best_l, List<int> worst_l,
+			BarsOrPoints barsOrPoints)
 	{
 		this.barMain_l = barMain_l;
 		this.colorMain_l = colorMain_l;
@@ -1459,6 +1486,7 @@ public class CairoBars1Series : CairoBars
 
 		this.best_l = best_l;
 		this.worst_l = worst_l;
+		this.barsOrPoints = barsOrPoints;
 	}
 
 	public override void GraphDo ()
@@ -1692,12 +1720,22 @@ public class CairoBarsNHSeries : CairoBars
 	{
 		foreach(List<PointF> p_l in barSecondary_ll)
 			foreach(PointF p in p_l)
+			{
 				if(p.Y > maxY)
 					maxY = p.Y;
 
+				// minY on secondary only if p.Y is > 0 because if this bar does not exists (eg tc on a cmj, then will not be plotted
+				if(p.Y > 0 && p.Y < minY)
+					minY = p.Y;
+			}
+
 		foreach(PointF p in barMain_l)
+		{
 			if(p != null && p.Y > maxY) //on ec at capturing if last is ecc, a con is send as null
 				maxY = p.Y;
+			if(p != null && p.Y < minY) //on ec at capturing if last is ecc, a con is send as null
+				minY = p.Y;
+		}
 
 		if(cairoBarsGuideManage != null  && cairoBarsGuideManage.GetMax() > maxY)
 			maxY = cairoBarsGuideManage.GetMax();
@@ -1715,7 +1753,15 @@ public class CairoBarsNHSeries : CairoBars
 			maxX ++;
 
 		//bars Y have 0 at bottom
-		minY = 0;
+		if (barsOrPoints == BarsOrPoints.BARS)
+		{
+			maxY += .1*maxY; //to accomodate texts above
+			minY = 0;
+		} else {
+			double yrange = maxY - minY;
+			maxY += .1*yrange;
+			minY -= .1*yrange;
+		}
 	}
 
 	//note pointA_l and pointB_l have same length
@@ -1831,9 +1877,13 @@ public class CairoBarsNHSeries : CairoBars
 					if(colorSecondary_l != null && colorSecondary_l.Count == barSecondary_ll[j].Count)
 						barColor = colorSecondary_l[i];
 
-					drawRoundedRectangle (true, x + adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
-							UtilList.FoundInListInt (best_l, i),
-							UtilList.FoundInListInt (worst_l, i));
+					if (barsOrPoints == BarsOrPoints.BARS)
+						drawRoundedRectangle (true, x + adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
+								UtilList.FoundInListInt (best_l, i),
+								UtilList.FoundInListInt (worst_l, i));
+					else
+						drawCircle (g, x + UtilAll.DivideSafe (barWidth, 2.0) + adjustX, y, 10, black, barColor);
+
 					resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y-4, pS.Y));
 					//to print line variable if needed
 					//barsXCenter_l.Add(x + adjustX + barWidth/2);
@@ -1884,9 +1934,13 @@ public class CairoBarsNHSeries : CairoBars
 				if(colorMain_l != null && colorMain_l.Count == barMain_l.Count)
 					barColor = colorMain_l[i];
 
-				drawRoundedRectangle (true, x+adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
-						UtilList.FoundInListInt (best_l, i),
-						UtilList.FoundInListInt (worst_l, i));
+				if (barsOrPoints == BarsOrPoints.BARS)
+					drawRoundedRectangle (true, x+adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
+							UtilList.FoundInListInt (best_l, i),
+							UtilList.FoundInListInt (worst_l, i));
+				else
+					drawCircle (g, x + UtilAll.DivideSafe (barWidth, 2.0) + adjustX, y, 10, black, barColor);
+
 				resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y, pB.Y));
 				//add for the secondary and for the main bar, no problem both will work
 				mouseLimits.AddInPos (mouseLimitsPos2ndBar, x+adjustX, y, x+adjustX+barWidth, graphHeight -bottomMargin);
@@ -1979,9 +2033,13 @@ public class CairoBarsNHSeries : CairoBars
 				}
 
 				double y = calculatePaintY (ymax);
+				double personIconY = y -1.5*resultFontHeight -24;	// above text, and 24px is pixbuf height
+				if (barsOrPoints == BarsOrPoints.POINTS)
+					personIconY -= 10;
+
 				Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf,
 						x+adjustX-12,  // -12 because pixbuf is 24 px
-						y -1.5*resultFontHeight -24);	// above text, and 24px is pixbuf height
+						personIconY);
 				g.Paint();
 			}
 		}
@@ -1993,7 +2051,8 @@ public class CairoBarsNHSeries : CairoBars
 			string labelBarMain,// string labelBarSecondary,
 			bool labelRotateInFirstBar,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
-			string titleStr, List<int> best_l, List<int> worst_l)
+			string titleStr, List<int> best_l, List<int> worst_l,
+			BarsOrPoints barsOrPoints)
 	{
 		this.barSecondary_ll = barSecondary_ll;
 		this.barMain_l = barMain_l;
@@ -2012,6 +2071,7 @@ public class CairoBarsNHSeries : CairoBars
 
 		this.best_l = best_l;
 		this.worst_l = worst_l;
+		this.barsOrPoints = barsOrPoints;
 	}
 
 	public override void GraphDo ()

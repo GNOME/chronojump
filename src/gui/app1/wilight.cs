@@ -596,7 +596,7 @@ public partial class ChronoJumpWindow
 
 		cairoPaintBarsPre = new CairoPaintBarsWilight (
 				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
-				personStr, typeTemp, preferences.digitsNumber, currentPerson.UniqueID);
+				personStr, typeTemp, preferences.digitsNumber, currentPerson.UniqueID, radio_resultsSession_bars.Active);
 
 		cairoPaintBarsPre.StoreEventGraphWilight (eventGraph);
 		//PrepareRunSimpleGraph(cairoPaintBarsPre.eventGraphRunsStored, false); //do not need, draw event will graph it:

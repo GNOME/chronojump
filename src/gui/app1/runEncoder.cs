@@ -3280,7 +3280,7 @@ public partial class ChronoJumpWindow
 				personStr,
 				typeTemp,
 				preferences.digitsNumber,
-				currentPerson.UniqueID);
+				currentPerson.UniqueID, radio_resultsSession_bars.Active);
 
 		cairoPaintBarsPre.StoreEventGraphRunEncoder (eventGraph);
 		drawingarea_results_session.QueueDraw ();

@@ -28,12 +28,15 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 {
 	private bool metersSecondsPreferred;
 
-	public CairoPaintBarsPreRunSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN, bool metersSecondsPreferred, int currentPersonID)
+	public CairoPaintBarsPreRunSimple (DrawingArea darea, string fontStr,
+			Constants.Modes mode, string personName, string testName, int pDN, bool metersSecondsPreferred,
+			int currentPersonID, bool drawBars)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		this.title = generateTitle();
 		this.metersSecondsPreferred = metersSecondsPreferred;
 		this.currentPersonID = currentPersonID;
+		this.drawBars = drawBars;
 	}
 
 	public override void StoreEventGraphRuns (PrepareEventGraphRunSimple eventGraph)
@@ -133,7 +136,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,
 				-1, fontHeightForBottomNames, bottomMargin, title,
-				new List<int> (), new List<int> ());
+				new List<int> (), new List<int> (), barsOrPoints);
 
 		passDataForScreenshotIfNeeded ();
 

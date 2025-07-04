@@ -254,7 +254,7 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 		cb.PassData1Serie (point_l,
 				colorMain_l, names_l,
 				-1, 14, 22, title, //22 because there are two rows
-				best_l, worst_l);
+				best_l, worst_l, CairoBars.BarsOrPoints.BARS);
 
 		if (videoTime > 0)
 		{

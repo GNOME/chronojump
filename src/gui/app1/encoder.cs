@@ -6370,7 +6370,7 @@ public partial class ChronoJumpWindow
 				preferences.digitsNumber,
 				radio_contacts_results_personAll.Active, //showPersonName
 				currentPerson.UniqueID,
-				preferences.encoderCaptureMainVariable
+				preferences.encoderCaptureMainVariable, radio_resultsSession_bars.Active
 				);
 
 		cairoPaintBarsPre.StoreEventGraphEncoderSession (eventGraph);

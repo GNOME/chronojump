@@ -4069,7 +4069,7 @@ LogB.Information(" fs R ");
 				personStr,
 				typeTemp,
 				preferences.digitsNumber,
-				currentPerson.UniqueID);
+				currentPerson.UniqueID, radio_resultsSession_bars.Active);
 
 		cairoPaintBarsPre.StoreEventGraphForceSensor (eventGraph);
 		drawingarea_results_session.QueueDraw ();

@@ -32,7 +32,8 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 	public CairoPaintBarsPreEncoderSession (DrawingArea darea, string fontStr, Constants.Modes mode,
 			string personName, string testName, int pDN, bool showPersonName, //if personName == "" then is all persons
 			int currentPersonID,
-			Constants.EncoderVariablesCapture encoderCaptureMainVariable)
+			Constants.EncoderVariablesCapture encoderCaptureMainVariable,
+			bool drawBars)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 
@@ -40,6 +41,7 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 		this.showPersonName = showPersonName;
 		this.currentPersonID = currentPersonID;
 		this.encoderCaptureMainVariable = encoderCaptureMainVariable;
+		this.drawBars = drawBars;
 	}
 
 	public override void StoreEventGraphEncoderSession (PrepareEventGraphEncoderSession eventGraph)
@@ -120,7 +122,7 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,
 				-1, fontHeightForBottomNames, bottomMargin, title,
-				new List<int> (), new List<int> ());
+				new List<int> (), new List<int> (), barsOrPoints);
 
 		passDataForScreenshotIfNeeded ();
 

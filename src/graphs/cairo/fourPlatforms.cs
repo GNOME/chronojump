@@ -271,7 +271,7 @@ public class CairoGraphFourPlatforms : CairoXY
 	{
 		if (points_ll[i].Count == 1)
 		{
-			drawCircle (calculatePaintX (points_ll[i][0].X),
+			drawCircle (g, calculatePaintX (points_ll[i][0].X),
 					calculatePaintY (points_ll[i][0].Y),
 					3, black, true);
 			return;
@@ -303,7 +303,7 @@ public class CairoGraphFourPlatforms : CairoXY
 
 			if (points_ll[i][j].Y > 5-i) 	//ON: filled
 			{
-				drawCircle (calculatePaintX (points_ll[i][j].X),
+				drawCircle (g, calculatePaintX (points_ll[i][j].X),
 						calculatePaintY (i),
 						pointsRadius, black, true);
 
@@ -312,7 +312,7 @@ public class CairoGraphFourPlatforms : CairoXY
 
 			if (points_ll[i][j].Y < 5-i) //if OFF, should be empty and draw the line to ON at left
 			{
-				drawCircle (calculatePaintX (points_ll[i][j].X),
+				drawCircle (g, calculatePaintX (points_ll[i][j].X),
 						calculatePaintY (i),
 						pointsRadius, black, white);
 
@@ -321,7 +321,7 @@ public class CairoGraphFourPlatforms : CairoXY
 				if (j -1 >= 0 && points_ll[i][j-1].Y > 5-i && //ON: filled
 						points_ll[i][j-1].X >= points_ll[0][startAt].X)
 				{
-					drawCircle (calculatePaintX (points_ll[i][j-1].X),
+					drawCircle (g, calculatePaintX (points_ll[i][j-1].X),
 							calculatePaintY (i),
 							pointsRadius, black, true);
 					drawLineToX = calculatePaintX (points_ll[i][j-1].X) + pointsRadius;

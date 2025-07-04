@@ -656,10 +656,10 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 					bsiwPlot (points_l, bsiw);
 
 				if(calculatePaintX (xAtMaxY) > leftMargin)
-					drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
+					drawCircle (g, calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, red, false);
 
 				if(calculatePaintX (xAtMinY) > leftMargin)
-					drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
+					drawCircle (g, calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, red, false);
 			}
 
 			g.LineWidth = 2;
@@ -724,8 +724,8 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 	private void briwPlot (List<PointF> points_l)
 	{
 		g.LineWidth = 2;
-		drawCircle (calculatePaintX (points_l[briw.MaxSampleStart].X), calculatePaintY (points_l[briw.MaxSampleStart].Y), 8, black, false);
-		drawCircle (calculatePaintX (points_l[briw.MaxSampleEnd].X), calculatePaintY (points_l[briw.MaxSampleEnd].Y), 8, black, false);
+		drawCircle (g, calculatePaintX (points_l[briw.MaxSampleStart].X), calculatePaintY (points_l[briw.MaxSampleStart].Y), 8, black, false);
+		drawCircle (g, calculatePaintX (points_l[briw.MaxSampleEnd].X), calculatePaintY (points_l[briw.MaxSampleEnd].Y), 8, black, false);
 
 		List<PointF> briwP_l = new List<PointF> ();
 		briwP_l.Add (new PointF (points_l[briw.MaxSampleStart].X, points_l[briw.MaxSampleStart].Y));
@@ -760,12 +760,12 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 		plotRealPoints(plotType, points_l_interpolated_path, startAt_theLine, false); //fast (but the difference is very low)
 
 		//circle at left
-		drawCircle (calculatePaintX (points_l_interpolated_path[startAt].X),
+		drawCircle (g, calculatePaintX (points_l_interpolated_path[startAt].X),
 				calculatePaintY (points_l_interpolated_path[startAt].Y),
 				g.LineWidth/2, colorPathBlue, true);
 
 		//circle at right
-		drawCircle (calculatePaintX (points_l_interpolated_path[points_l_interpolated_path.Count -1].X),
+		drawCircle (g, calculatePaintX (points_l_interpolated_path[points_l_interpolated_path.Count -1].X),
 				calculatePaintY (points_l_interpolated_path[points_l_interpolated_path.Count -1].Y),
 				g.LineWidth/2, colorHead, true);
 
@@ -1222,10 +1222,10 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 
 			// paint max, min circles
 			if (points_l.Count > 0 && calculatePaintX (xAtMaxY) > leftMargin)
-				drawCircle (calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, yellow, false);
+				drawCircle (g, calculatePaintX (xAtMaxY), calculatePaintY (yAtMaxY), 8, yellow, false);
 
 			if (points_l.Count > 0 && calculatePaintX (xAtMinY) > leftMargin)
-				drawCircle (calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, yellow, false);
+				drawCircle (g, calculatePaintX (xAtMinY), calculatePaintY (yAtMinY), 8, yellow, false);
 
 			if (twoSets && pointsCD_l.Count > 0)
 			{
@@ -1233,9 +1233,9 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 				PointF minCD = PointF.GetMinYAndItsX (pointsCD_l);
 
 				if (calculatePaintX (maxCD.X) > leftMargin)
-					drawCircle (calculatePaintX (maxCD.X), calculatePaintY (maxCD.Y), 8, green, false);
+					drawCircle (g, calculatePaintX (maxCD.X), calculatePaintY (maxCD.Y), 8, green, false);
 				if (calculatePaintX (minCD.X) > leftMargin)
-					drawCircle (calculatePaintX (minCD.X), calculatePaintY (minCD.Y), 8, green, false);
+					drawCircle (g, calculatePaintX (minCD.X), calculatePaintY (minCD.Y), 8, green, false);
 			}
 
 			points_l_painted = points_l.Count;
@@ -1260,8 +1260,8 @@ public class CairoGraphForceSensorAI : CairoGraphForceSensor
 			return;
 
 		g.LineWidth = 2;
-		drawCircle (calculatePaintX (p_l[briw.MaxSampleStart].X), calculatePaintY (p_l[briw.MaxSampleStart].Y), 8, black, false);
-		drawCircle (calculatePaintX (p_l[briw.MaxSampleEnd].X), calculatePaintY (p_l[briw.MaxSampleEnd].Y), 8, black, false);
+		drawCircle (g, calculatePaintX (p_l[briw.MaxSampleStart].X), calculatePaintY (p_l[briw.MaxSampleStart].Y), 8, black, false);
+		drawCircle (g, calculatePaintX (p_l[briw.MaxSampleEnd].X), calculatePaintY (p_l[briw.MaxSampleEnd].Y), 8, black, false);
 
 		List<PointF> briwP_l = new List<PointF> ();
 		briwP_l.Add (new PointF (p_l[briw.MaxSampleStart].X, p_l[briw.MaxSampleStart].Y));

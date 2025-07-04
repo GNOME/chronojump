@@ -34,7 +34,7 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 	{
 		questionnairePlot (points_l[points_l.Count -1]);
 
-		drawCircle (calculatePaintX (points_l[points_l.Count -1].X),
+		drawCircle (g, calculatePaintX (points_l[points_l.Count -1].X),
 				calculatePaintY (points_l[points_l.Count -1].Y), 6, bluePlots, true);
 	}
 

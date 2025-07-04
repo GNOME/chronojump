@@ -901,29 +901,6 @@ public abstract class CairoXY : CairoGeneric
 	}
 	*/
 
-	//circle has same color for border and fill (if filled)
-	protected void drawCircle (double x, double y, double radio, Cairo.Color color, bool filled)
-	{
-		g.MoveTo(x +radio, y);
-		g.Arc(x, y, radio, 0.0, 2.0 * Math.PI); //full circle
-		g.SetSourceColor(color);
-
-		if (filled)
-			g.Fill();
-
-		g.Stroke();
-	}
-	//circle is filled and has different color for border than fill
-	protected void drawCircle (double x, double y, double radio, Cairo.Color colorBorder, Cairo.Color colorInside)
-	{
-		g.SetSourceColor (colorInside);
-		g.MoveTo(x +radio, y);
-		g.Arc(x, y, radio, 0.0, 2.0 * Math.PI); //full circle
-		g.FillPreserve();
-		g.SetSourceColor (colorBorder);
-		g.Stroke();
-	}
-
 	protected void drawLine (double x1, double y1, double x2, double y2)
 	{
 		g.MoveTo (x1, y1);
@@ -1025,7 +1002,7 @@ public abstract class CairoXY : CairoGeneric
 						(graphHeight -getMargins (Directions.BT)) + getMargins (Directions.T);
 			}
 
-			//drawCircle (stX, stY, st.Size, st.Color, true);
+			//drawCircle (g, stX, stY, st.Size, st.Color, true);
 
 			if (asteroids.Dark)
 				g.SetSourceColor (white);
@@ -1059,15 +1036,15 @@ public abstract class CairoXY : CairoGeneric
 						(graphHeight -getMargins (Directions.BT)) + getMargins (Directions.T);
 			}
 
-			drawCircle (ax, ay, a.Size, a.Color, true);
+			drawCircle (g, ax, ay, a.Size, a.Color, true);
 			if (a.Shield > 0)
 			{
-				drawCircle (ax, ay, a.Size + 2, colorShield, false);
+				drawCircle (g, ax, ay, a.Size + 2, colorShield, false);
 				if (a.Shield > 1)
 				{
-					drawCircle (ax, ay, a.Size + 4, colorShield, false);
+					drawCircle (g, ax, ay, a.Size + 4, colorShield, false);
 					if (a.Shield > 2)
-						drawCircle (ax, ay, a.Size + 6, colorShield, false);
+						drawCircle (g, ax, ay, a.Size + 6, colorShield, false);
 				}
 			}
 

@@ -366,6 +366,31 @@ public abstract class CairoGeneric
 		}
 	}
 
+
+	//circle has same color for border and fill (if filled)
+	protected void drawCircle (Cairo.Context g, double x, double y, double radio, Cairo.Color color, bool filled)
+	{
+		g.MoveTo(x +radio, y);
+		g.Arc(x, y, radio, 0.0, 2.0 * Math.PI); //full circle
+		g.SetSourceColor(color);
+
+		if (filled)
+			g.Fill();
+
+		g.Stroke();
+	}
+	//circle is filled and has different color for border than fill
+	protected void drawCircle (Cairo.Context g, double x, double y, double radio, Cairo.Color colorBorder, Cairo.Color colorInside)
+	{
+		g.SetSourceColor (colorInside);
+		g.MoveTo(x +radio, y);
+		g.Arc(x, y, radio, 0.0, 2.0 * Math.PI); //full circle
+		g.FillPreserve();
+		g.SetSourceColor (colorBorder);
+		g.Stroke();
+	}
+
+
 	//raceAnalyzer label is "". This method will write the time in seconds
 	//forceSensor label is the force in N
 	protected void paintVerticalTriggerLine (Cairo.Context g, Trigger trigger, timeUnits tUnits, string label, int fontH)

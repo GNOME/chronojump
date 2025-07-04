@@ -213,7 +213,7 @@ public class CairoGraphWilight : CairoXY
 
 		int radius = 25;
 		g.LineWidth = 1;
-		drawCircle (calculatePaintX (wt.x),
+		drawCircle (g, calculatePaintX (wt.x),
 				calculatePaintY (wt.y),
 				radius, colorBorder, wt.ToColor);
 

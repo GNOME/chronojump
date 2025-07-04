@@ -562,7 +562,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			}
 			graphX = calculatePaintX (graphX);
 			graphY = calculatePaintY (graphY);
-			drawCircle (graphX, graphY, 8, red, false);
+			drawCircle (g, graphX, graphY, 8, red, false);
 		}
 	}
 

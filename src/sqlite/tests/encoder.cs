@@ -74,8 +74,9 @@ class SqliteEncoder : SqliteTests
             "status TEXT, " +   //"active", "inactive"
             "videoURL TEXT, " + //URL of video of signals. stored as relative
             "encoderConfiguration TEXT, " + //text separated by ':'
-                "future1 TEXT, " +  //Since 1.4.4 (DB 1.06) this stores last meanPower detected on a curve 
+                "future1 TEXT, " +  //Since 1.4.4 (DB 1.06) this stores last meanPower detected on a curve
                                     //(as string with '.' because future1 was created as TEXT)
+				    //note as this is text, for ORDER we need to do CAST(future1 AS FLOAT)
             "future2 TEXT, " +  //same as future1 but for meanSpeed
             "future3 TEXT, " +  //same as future1 but for meanForce
             "repCriteria TEXT, " +   //criteria of meanPower, meanSpeed, meanForce: ecc_con, ecc, con
@@ -456,7 +457,7 @@ class SqliteEncoder : SqliteTests
 
 	string orderByStr = "";
 	if (order == Orders_by.BEST)
-		orderByStr = string.Format ( " ORDER BY {0}.future1 ", tableStatic); // meanPower
+		orderByStr = string.Format ( " ORDER BY CAST({0}.future1 AS FLOAT) ", tableStatic); // meanPower
 	else if (order == Orders_by.BEST2) //weight (and on the same weight, order by each set
 		orderByStr = string.Format ( " ORDER BY {0}.extraWeight, " +
 				"substr(filename,-23,19), " + //'filename,-23,19' has the date of capture signal

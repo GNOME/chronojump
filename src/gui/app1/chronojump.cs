@@ -331,7 +331,6 @@ public partial class ChronoJumpWindow
 
 	Gtk.Button button_contacts_exercise_close_and_capture;
 	Gtk.Notebook notebook_execute;
-	Gtk.HBox hbox_treeview_results_session;
 	Gtk.Notebook notebook_options_top;
 		
 	Gtk.EventBox eventbox_image_test;
@@ -3809,7 +3808,8 @@ public partial class ChronoJumpWindow
 
 			box_contacts_graph_show_graph_table.Visible = false; //do not show the graph/table selector
 			vbox_contacts_capture_graph.Visible = false; //do not show results_session graph
-			hbox_treeview_results_session.Visible = true;
+			scrolledwindow_treeview_results_session.Visible = true;
+			box_results_session_zoom.Visible = true;
 		} else {
 			box_contacts_graph_show_graph_table.Visible = true;
 		}
@@ -3953,7 +3953,9 @@ public partial class ChronoJumpWindow
 			return;
 
 		vbox_contacts_capture_graph.Visible = check_contacts_capture_graph.Active;
-		hbox_treeview_results_session.Visible = check_contacts_capture_table.Active;
+
+		scrolledwindow_treeview_results_session.Visible = check_contacts_capture_table.Active;
+		box_results_session_zoom.Visible = check_contacts_capture_table.Active;
 
 		hpaned_contacts_graph_table_center_if_needed ();
 
@@ -3985,7 +3987,7 @@ public partial class ChronoJumpWindow
 	//when showing both widgets, start at the middle
 	private void hpaned_contacts_graph_table_center_if_needed ()
 	{
-		if(vbox_contacts_capture_graph.Visible && hbox_treeview_results_session.Visible)
+		if(vbox_contacts_capture_graph.Visible && scrolledwindow_treeview_results_session.Visible)
 			hpaned_contacts_graph_table.Position = Convert.ToInt32(frame_contacts_graph_table.Allocation.Width / 2.0);
 	}
 
@@ -8062,7 +8064,8 @@ public partial class ChronoJumpWindow
 		
 		//notebooks
 		notebook_analyze.Sensitive = false;
-		hbox_treeview_results_session.Sensitive = false;
+		scrolledwindow_treeview_results_session.Sensitive = false;
+		box_results_session_zoom.Sensitive = false;
 		encoder_sensitive_all_except_device(false);
 
 		vbox_stats.Sensitive = false;
@@ -8118,7 +8121,8 @@ public partial class ChronoJumpWindow
 
 		frame_contacts_exercise.Sensitive = false;
 		notebook_analyze.Sensitive = false;
-		hbox_treeview_results_session.Sensitive = false;
+		scrolledwindow_treeview_results_session.Sensitive = false;
+		box_results_session_zoom.Sensitive = false;
 		encoder_sensitive_all_except_device(false);
 
 		treeview_persons.Sensitive = false;
@@ -8150,7 +8154,8 @@ public partial class ChronoJumpWindow
 		
 		frame_contacts_exercise.Sensitive = true;
 		notebook_analyze.Sensitive = true;
-		hbox_treeview_results_session.Sensitive = true;
+		scrolledwindow_treeview_results_session.Sensitive = true;
+		box_results_session_zoom.Sensitive = true;
 		encoder_sensitive_all_except_device(true);
 
 		if(! configChronojump.Exhibition)
@@ -8615,6 +8620,7 @@ public partial class ChronoJumpWindow
 		hpaned_contacts_graph_table = (Gtk.HPaned) builder.GetObject ("hpaned_contacts_graph_table");
 		treeview_persons = (Gtk.TreeView) builder.GetObject ("treeview_persons");
 		scrolledwindow_treeview_results_session = (Gtk.ScrolledWindow) builder.GetObject ("scrolledwindow_treeview_results_session");
+		box_results_session_zoom = (Gtk.Box) builder.GetObject ("box_results_session_zoom");
 		treeview_results_session = (Gtk.TreeView) builder.GetObject ("treeview_results_session");
 		treeview_runs_interval_sprint = (Gtk.TreeView) builder.GetObject ("treeview_runs_interval_sprint");
 
@@ -8754,7 +8760,6 @@ public partial class ChronoJumpWindow
 
 		button_contacts_exercise_close_and_capture = (Gtk.Button) builder.GetObject ("button_contacts_exercise_close_and_capture");
 		notebook_execute = (Gtk.Notebook) builder.GetObject ("notebook_execute");
-		hbox_treeview_results_session = (Gtk.HBox) builder.GetObject ("hbox_treeview_results_session");
 		notebook_options_top = (Gtk.Notebook) builder.GetObject ("notebook_options_top");
 
 		eventbox_image_test = (Gtk.EventBox) builder.GetObject ("eventbox_image_test");

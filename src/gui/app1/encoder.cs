@@ -1377,7 +1377,9 @@ public partial class ChronoJumpWindow
 		encoder_capture_signal_drawingarea_cairo.Visible = check_encoder_capture_signal.Active;
 		vbox_encoder_bars_table_and_save_reps.Visible = true;
 		vbox_contacts_capture_graph.Visible = check_contacts_capture_graph.Active;
-		hbox_treeview_results_session.Visible = check_contacts_capture_table.Active;
+
+		scrolledwindow_treeview_results_session.Visible = check_contacts_capture_table.Active;
+		box_results_session_zoom.Visible = check_contacts_capture_table.Active;
 
 		fixEncoderCaptureWidgetsGeometry ();
 

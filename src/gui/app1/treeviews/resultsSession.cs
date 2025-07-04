@@ -32,6 +32,7 @@ public partial class ChronoJumpWindow
 {
 	// at glade ---->
 	Gtk.ScrolledWindow scrolledwindow_treeview_results_session;
+	Gtk.Box box_results_session_zoom;
 	Gtk.TreeView treeview_results_session;
 	// <---- at glade
 

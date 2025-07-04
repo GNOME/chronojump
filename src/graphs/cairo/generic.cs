@@ -44,6 +44,8 @@ public abstract class CairoGeneric
 	protected Cairo.Color red = colorFromRGB(200, 0, 0);
 	Cairo.Color black = colorFromRGB(0, 0, 0);
 	protected Cairo.Color yellow = new Cairo.Color (0.906, 0.745, 0.098, 1);
+	protected Cairo.Color yellowLight = new Cairo.Color (0.953, 0.871, 0.549, 1);
+	protected Cairo.Color yellowMid = new Cairo.Color (0.930, 0.808, 0.323, 1); //between yellowLight and yellow
 	protected Cairo.Color yellowDark = new Cairo.Color (0.804, 0.804, 0, 1);
 	protected Cairo.Color yellowTransp = new Cairo.Color (0.9, 0.9, 0.01, .25);
 	protected Cairo.Color greenTransp = new Cairo.Color (0.01, 0.9, 0.01, .25);

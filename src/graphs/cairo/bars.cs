@@ -368,6 +368,7 @@ public abstract class CairoBars : CairoGeneric
 		//blueChronojump = colorFromRGB(14, 30, 70);
 		//bluePlots = colorFromRGB(0, 0, 200);
 		yellow = colorFromRGB(255,204,1);
+		//yellowLight = colorFromRGB(243,222,140); //f3de8c
 		yellowDark = colorFromRGB(205,205,0);
 
 		//margins
@@ -551,7 +552,7 @@ public abstract class CairoBars : CairoGeneric
 		//draw rectangle first as it will be in the back
 		if(inRectangle)
 		{
-			drawRectangleAroundText (x, y, textH, text, g, yellow);
+			drawRectangleAroundText (x, y, textH, text, g, yellowMid);
 			g.SetSourceColor (black);
 		}
 
@@ -917,16 +918,15 @@ public abstract class CairoBars : CairoGeneric
 			g.Fill();
 		}
 
-		g.SetSourceColor(black);
 		if (isSelected)
 		{
-			g.Save ();
-			g.LineWidth = 2;
-			g.SetDash (new double[]{2, 2}, 0);
-			g.Rectangle (x - te.Width/2 -2, yStart -2, te.Width +4, te.Height +6); //+6 (from -2 to +4) to accomodate the comma
-			g.Stroke ();
-			g.Restore ();
+			// 2.5.2 yellow rectangle (like on encoder set barplot and signal graph)
+			g.SetSourceColor (yellowMid);
+			g.Rectangle (x - te.Width/2 -1, yStart -1, te.Width +2, te.Height +4); //+4 (from -1 to +2) to accomodate the comma
+			g.Fill();
 		}
+
+		g.SetSourceColor(black);
 
 		//write text
 		printText(x, yStart+te.Height/2, 0, resultFontHeight,

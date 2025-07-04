@@ -325,7 +325,7 @@ public class CairoGraphEncoderSignal : CairoXY
 		int i = 0;
 		if (encoderCaptureListStore != null && UtilGtk.CountRows (encoderCaptureListStore) == captureCurvesBarsData_l.Count)
 		{
-			g.SetSourceColor (yellow);
+			g.SetSourceColor (yellowMid);
 			TreeIter iter;
 			bool iterOk = encoderCaptureListStore.GetIterFirst (out iter);
 			if (iterOk)
@@ -337,7 +337,7 @@ public class CairoGraphEncoderSignal : CairoXY
 						double y = minY;
 						if (eccon != "c")
 							y = points_l[PointF.FindSampleCloseToTime (points_l, curve.StartD)].Y;
-						drawRectangleAroundText (calculatePaintX (curve.CenterD), calculatePaintY (y)-10, textHeight, repStr_l[i], g, yellow);
+						drawRectangleAroundText (calculatePaintX (curve.CenterD), calculatePaintY (y)-10, textHeight, repStr_l[i], g, yellowMid);
 					}
 					i ++;
 				} while (encoderCaptureListStore.IterNext (ref iter));

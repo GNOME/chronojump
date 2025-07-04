@@ -1454,6 +1454,28 @@ public class Constants
 		return EncoderVariablesCapture.MeanPower;
 	}
 
+	// note if EncoderVariablesCapture change in the future, need to have same names on SqliteEncoder
+	public static string GetEncoderVariablesCaptureAsSQLField (EncoderVariablesCapture enumVariable)
+	{
+		switch(enumVariable) {
+			case EncoderVariablesCapture.RangeAbsolute:
+				return "rangeAbs";
+			case EncoderVariablesCapture.MeanSpeed:
+				return "future2";
+			case EncoderVariablesCapture.MaxSpeed:
+				return "maxSpeed";
+			case EncoderVariablesCapture.MeanForce:
+				return "future3";
+			case EncoderVariablesCapture.MaxForce:
+				return "maxForce";
+			case EncoderVariablesCapture.MeanPower:
+				return "future1";
+			case EncoderVariablesCapture.PeakPower:
+				return "maxPower";
+		}
+		return MeanPower;
+	}
+
 	public static string GetEncoderVariablesCaptureUnits (EncoderVariablesCapture enumVariable)
 	{
 		switch (enumVariable) {

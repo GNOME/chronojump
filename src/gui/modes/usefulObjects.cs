@@ -652,7 +652,9 @@ public class PrepareEventGraphEncoderSession
 
 	public PrepareEventGraphEncoderSession (int sessionID, int personID, bool allPersons,
 			Constants.EncoderGI encoderGI,
-			Constants.ResultsSessionCriteria resultsSessionCriteria, int limit,
+			Constants.ResultsSessionCriteria resultsSessionCriteria,
+			Constants.EncoderVariablesCapture encoderVariablesCapture, //used if resultsSessionCriteria == BEST
+			int limit,
 			int exerciseID, int selectedSetID, Constants.Modes mode, bool exerciseAll)
 	{
 		this.selectedSetID = selectedSetID;
@@ -671,7 +673,7 @@ public class PrepareEventGraphEncoderSession
 		rowsAtSQL = SqliteEncoder.SelectList (false, -1, personIDTemp, sessionID, encoderGI,
 				exerciseID, "curve", EncoderSQL.Eccons.ALL,
 				"", 	//lateralityEnglish
-				false, orderBy, 	// onlyActive, orderIDascendent
+				false, orderBy, encoderVariablesCapture, 	// onlyActive
 				true, 	//orderRepsByPosInSet
 				limit,
 				allPersons//, 	//show names on comments only if "all persons"

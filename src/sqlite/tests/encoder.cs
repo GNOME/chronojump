@@ -54,6 +54,7 @@ class SqliteEncoder : SqliteTests
 	 * create and initialize tables
 	 */
 
+    // note if fields change, have to be the same name as Constants.GetEncoderVariablesCaptureAsSQLField()
     protected internal static void createTableEncoder()
     {
         dbcmd.CommandText =
@@ -298,6 +299,7 @@ class SqliteEncoder : SqliteTests
 	    selectDo (dbconOpened, uniqueID, personID, sessionID, encoderGI,
 			    exerciseID, signalOrCurve, ecconSelect, lateralityEnglish,
 			    onlyActive, orderBy,
+			    Constants.EncoderVariablesCapture.MeanPower, 	// note this is not used right now (it is used just on SelectList call)
 			    orderRepsByPosInSet); // Attention! note this only selects curves
 
 	    SQLiteDataReader reader;
@@ -325,7 +327,7 @@ class SqliteEncoder : SqliteTests
 		    bool dbconOpened, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI,
 		    int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect, string lateralityEnglish,
 		    bool onlyActive,
-		    Orders_by order,
+		    Orders_by order, Constants.EncoderVariablesCapture encoderVariablesCapture,
 		    bool orderRepsByPosInSet, 	// Attention! note this only selects curves
 		    int limit, bool personNameInComment)
     {
@@ -337,7 +339,7 @@ class SqliteEncoder : SqliteTests
 
 	    selectDo (dbconOpened, uniqueID, personID, sessionID, encoderGI,
 			    exerciseID, signalOrCurve, ecconSelect, lateralityEnglish,
-			    onlyActive, order,
+			    onlyActive, order, encoderVariablesCapture,
 			    orderRepsByPosInSet); // Attention! note this only selects curves
 
 	    SQLiteDataReader reader;
@@ -372,7 +374,7 @@ class SqliteEncoder : SqliteTests
     private static void selectDo (
 		    bool dbconOpened, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI,
 		    int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect, string lateralityEnglish,
-		    bool onlyActive, Orders_by order,
+		    bool onlyActive, Orders_by order, Constants.EncoderVariablesCapture encoderVariablesCapture,
 		    bool orderRepsByPosInSet) // Attention! note this only selects curves
     {
 
@@ -457,7 +459,13 @@ class SqliteEncoder : SqliteTests
 
 	string orderByStr = "";
 	if (order == Orders_by.BEST)
-		orderByStr = string.Format ( " ORDER BY CAST({0}.future1 AS FLOAT) ", tableStatic); // meanPower
+	{
+		string orderVariable = Constants.GetEncoderVariablesCaptureAsSQLField (encoderVariablesCapture);
+		if (orderVariable == "future1" || orderVariable == "future2" || orderVariable == "future3") //these are text, need to CAST AS FLOAT to correctly order
+			orderByStr = string.Format ( " ORDER BY CAST({0}.{1} AS FLOAT) ", tableStatic, orderVariable);
+		else
+			orderByStr = string.Format ( " ORDER BY {0}.{1} ", tableStatic, orderVariable);
+	}
 	else if (order == Orders_by.BEST2) //weight (and on the same weight, order by each set
 		orderByStr = string.Format ( " ORDER BY {0}.extraWeight, " +
 				"substr(filename,-23,19), " + //'filename,-23,19' has the date of capture signal

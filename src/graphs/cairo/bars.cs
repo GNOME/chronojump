@@ -1837,7 +1837,7 @@ public class CairoBarsNHSeries : CairoBars
 					else
 						drawCircle (g, x + adjustXonPOINTS, y, POINTS_SIZE, black, barColor);
 
-					resultOnBarsThisIteration_l.Add(new Point3F(x + adjustXonBARS + barWidth/2, y-4, pS.Y));
+					resultOnBarsThisIteration_l.Add(new Point3F(x + adjustXonBARS + barWidth/2, y, pS.Y));
 					//to print line variable if needed
 					//barsXCenter_l.Add(x + adjustXonBARS + barWidth/2);
 

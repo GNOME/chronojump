@@ -1000,6 +1000,11 @@ public partial class ChronoJumpWindow
 		updateGraphResultsSessionByMode ();
 	}
 
+	private void on_radio_resultsSession_bars_points_toggled (object o, EventArgs args)
+	{
+		updateGraphResultsSessionByMode ();
+	}
+
 	private void on_radio_contacts_graph_test_toggled (object o, EventArgs args)
 	{
 		updateGraphResultsSessionByMode ();

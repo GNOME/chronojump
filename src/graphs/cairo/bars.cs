@@ -1479,12 +1479,7 @@ public class CairoBars1Series : CairoBars
 			writePersonsBest (); //encoder !relativeToSet
 
 		if(clickable)
-		{
-			if(type == Type.ENCODER)
-				addClickableMark (g, 0);
-			else
-				addClickableMark (g, 1); //default
-		}
+			addClickableMark (g);
 
 		if (screenshotURL != "")
 			CairoUtil.GetScreenshotFromDrawingArea (area, g, screenshotURL);
@@ -2089,12 +2084,7 @@ public class CairoBarsNHSeries : CairoBars
 			writeLegend ();
 
 		if(clickable)
-		{
-			if(type == Type.ENCODER)
-				addClickableMark (g, 0);
-			else
-				addClickableMark (g, 1); //default
-		}
+			addClickableMark (g);
 
 		if (screenshotURL != "")
 			CairoUtil.GetScreenshotFromDrawingArea (area, g, screenshotURL);

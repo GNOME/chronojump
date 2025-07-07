@@ -486,6 +486,14 @@ public abstract class CairoBars : CairoGeneric
 			+ topMargin;
 	}
 
+	protected double calculateRealY (double graphY)
+	{
+		return minY - UtilAll.DivideSafe (
+				(graphY - graphHeight + topMargin) * (maxY - minY),
+				graphHeight - (bottomMargin + topMargin)
+				);
+	}
+
 	protected override void printText (double x, double y, double heightUnused, int textH,
 			string text, Cairo.Context g, alignTypes align)
 	{
@@ -897,7 +905,7 @@ public abstract class CairoBars : CairoGeneric
 			//print the result at top of the bar (better because there is the X grid and in the middle of the bar is confusing)
 			yStart = y - 1.5*te.Height;
 			if (barsOrPoints == BarsOrPoints.POINTS)
-				yStart -= 10; //move up to not be on point
+				yStart -= 8; //move up to not be on point
 		}
 
 		/*
@@ -1312,10 +1320,10 @@ public class CairoBars1Series : CairoBars
 		{
 			maxY += .1*maxY; //to accomodate texts above
 			minY = 0;
-		} else {
-			double yrange = maxY - minY;
-			maxY += .1*yrange; //to accomodate texts above
-			minY -= .1*yrange;
+		} else { // (barsOrPoints == BarsOrPoints.POINTS)
+			double personIconReal = Math.Abs (calculateRealY (0) - calculateRealY (24));
+			maxY += 2 * personIconReal;	// *2 to ensure enough spacing
+			minY -= 2 * personIconReal;	// *2 to ensure enough spacing
 		}
 	}
 
@@ -1353,6 +1361,11 @@ public class CairoBars1Series : CairoBars
 		double distanceBetweenCols = barWidth * spaceBetweenBarsRatio;
 
 		resultFontHeight = getBarsResultFontHeight (barWidth*1.20); //*1.2 because there is space at left and right
+
+		double adjustXonPOINTS = UtilAll.DivideSafe (barWidth, 2.0); // as all this class is thought for BARS, when use POINTS, just plot the point half bar to the right to be the same X
+		if (barsOrPoints == BarsOrPoints.BARS)
+			adjustXonPOINTS = 0;
+
 		//LogB.Information("resultFontHeight: " + resultFontHeight.ToString());
 
 		//debug
@@ -1401,7 +1414,7 @@ public class CairoBars1Series : CairoBars
 						UtilList.FoundInListInt (best_l, i),
 						UtilList.FoundInListInt (worst_l, i));
 			else
-				drawCircle (g, x + UtilAll.DivideSafe (barWidth, 2.0), y, 10, black, barColor);
+				drawCircle (g, x + adjustXonPOINTS, y, 10, black, barColor);
 
 			if (selectedPos_l.Count > 0) // used on encoder reps
 				barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), UtilList.FoundInListInt (selectedPos_l, i)));
@@ -1457,7 +1470,7 @@ public class CairoBars1Series : CairoBars
 			{
 				double personIconY = y -1.5*resultFontHeight -24;	// above text, and 24px is pixbuf height
 				if (barsOrPoints == BarsOrPoints.POINTS)
-					personIconY -= 10;
+					personIconY = y +10;
 
 				Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf,
 						x-12 + (barWidth/2.0),  // -12 because pixbuf is 24 px
@@ -1757,10 +1770,10 @@ public class CairoBarsNHSeries : CairoBars
 		{
 			maxY += .1*maxY; //to accomodate texts above
 			minY = 0;
-		} else {
-			double yrange = maxY - minY;
-			maxY += .1*yrange;
-			minY -= .1*yrange;
+		} else { // (barsOrPoints == BarsOrPoints.POINTS)
+			double personIconReal = Math.Abs (calculateRealY (0) - calculateRealY (24));
+			maxY += 2 * personIconReal;	// *2 to ensure enough spacing
+			minY -= 2 * personIconReal;	// *2 to ensure enough spacing
 		}
 	}
 
@@ -1793,11 +1806,15 @@ public class CairoBarsNHSeries : CairoBars
 		if(type == Type.ENCODER && barMain_l.Count > 1) //on encoder margins are shown to draw the mice, and just a bit more
 			sideWidthRatio = 0.25;
 		double spaceBetweenBarsRatio = .5;
+
 		/*
-		   divide graphWidhtUsable by total objects (bars, leftrightspace, spacesbetweenbars)
+		 * on BARS divide graphWidhtUsable by total objects (bars, leftrightspace, spacesbetweenbars)
 		   for 3 (double) bars on ratios 1, .5, .5, this will be 8
 		   */
-		int series = 2;
+		int series = 2; 	// (barsOrPoints == BarsOrPoints.BARS)
+		if (barsOrPoints == BarsOrPoints.POINTS)
+			series = 1;
+
 		barWidth = UtilAll.DivideSafe(graphWidthUsable,
 			series * barMain_l.Count * barWidthRatio +
 			2*sideWidthRatio + (barMain_l.Count-1) * spaceBetweenBarsRatio);
@@ -1859,8 +1876,13 @@ public class CairoBarsNHSeries : CairoBars
 			if(i >= 1)
 				spacesBetweenBarGroups = i*distanceBetweenCols;
 
-			double x = leftMargin + sideWidthRatio*barWidth + i*2*barWidth + spacesBetweenBarGroups;
-			double adjustX = 0; //this is used on second bar (at right), can be used on first if mainAtLeft
+			double x = leftMargin + sideWidthRatio*barWidth + i*series*barWidth + spacesBetweenBarGroups;
+			double adjustXonBARS = 0; //this is used on second bar (at right), can be used on first if mainAtLeft
+
+			// as all this class is thought for BARS, when use POINTS, just plot the point half bar to the right to be the same X
+			double adjustXonPOINTS = UtilAll.DivideSafe (barWidth, 2.0);
+			if (barsOrPoints == BarsOrPoints.BARS)
+				adjustXonPOINTS = 0;
 
 			//secondary bar: eg tc on jumps
 			for(int j = 0; j < barSecondary_ll.Count; j ++)
@@ -1878,15 +1900,15 @@ public class CairoBarsNHSeries : CairoBars
 						barColor = colorSecondary_l[i];
 
 					if (barsOrPoints == BarsOrPoints.BARS)
-						drawRoundedRectangle (true, x + adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
+						drawRoundedRectangle (true, x + adjustXonBARS, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
 								UtilList.FoundInListInt (best_l, i),
 								UtilList.FoundInListInt (worst_l, i));
 					else
-						drawCircle (g, x + UtilAll.DivideSafe (barWidth, 2.0) + adjustX, y, 10, black, barColor);
+						drawCircle (g, x + adjustXonPOINTS, y, 10, black, barColor);
 
-					resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y-4, pS.Y));
+					resultOnBarsThisIteration_l.Add(new Point3F(x + adjustXonBARS + barWidth/2, y-4, pS.Y));
 					//to print line variable if needed
-					//barsXCenter_l.Add(x + adjustX + barWidth/2);
+					//barsXCenter_l.Add(x + adjustXonBARS + barWidth/2);
 
 					if(labelBarMain != "")
 					{
@@ -1896,12 +1918,12 @@ public class CairoBarsNHSeries : CairoBars
 							{
 								g.SetSourceColor(white);
 								int sep = 4;
-								printTextRotated (x +adjustX +barWidth -sep, graphHeight -bottomMargin -sep, 0, textHeight+4, "Ecc", g, true);
+								printTextRotated (x +adjustXonBARS +barWidth -sep, graphHeight -bottomMargin -sep, 0, textHeight+4, "Ecc", g, true);
 								g.SetSourceColor(black);
 							}
 						}
 						else
-							printTextInBar(x +adjustX +barWidth/2, graphHeight -bottomMargin -10,
+							printTextInBar(x +adjustXonBARS +barWidth/2, graphHeight -bottomMargin -10,
 									0, textHeight+2, "e", g, true, false);
 					}
 
@@ -1911,22 +1933,24 @@ public class CairoBarsNHSeries : CairoBars
 
 				//mouse limits stuff
 				if(pS.Y > 0)
-					mouseLimits.AddInPos (mouseLimitsPos1stBar, x+adjustX, y, x+adjustX+barWidth, graphHeight -bottomMargin);
+					mouseLimits.AddInPos (mouseLimitsPos1stBar, x+adjustXonBARS, y, x+adjustXonBARS+barWidth, graphHeight -bottomMargin);
 				else {
 					//add it 0 width, to respect order when DJs are mixed with CMJs, but not be able to be selected
-					mouseLimits.AddInPos (mouseLimitsPos1stBar, x+adjustX, y, x+adjustX, graphHeight -bottomMargin);
+					mouseLimits.AddInPos (mouseLimitsPos1stBar, x+adjustXonBARS, y, x+adjustXonBARS, graphHeight -bottomMargin);
 				}
 				mouseLimitsPos1stBar += 2;
 
-				adjustX += barWidth;
+				// on BARS need to manage side space for secondary bars. On POINTS this does not happen.
+				if (barsOrPoints == BarsOrPoints.BARS)
+					adjustXonBARS += barWidth;
 			}
 
 			//main bar: eg tv on jumps
 			if(pB.Y > 0)
 			{
 				//if there is no data on previous variables, just put pB in the middle
-				if(! secondaryHasData)
-					adjustX = barWidth/2;
+				if (barsOrPoints == BarsOrPoints.BARS && ! secondaryHasData)
+					adjustXonBARS = barWidth/2;
 
 				double y = calculatePaintY(pB.Y);
 
@@ -1935,18 +1959,18 @@ public class CairoBarsNHSeries : CairoBars
 					barColor = colorMain_l[i];
 
 				if (barsOrPoints == BarsOrPoints.BARS)
-					drawRoundedRectangle (true, x+adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
+					drawRoundedRectangle (true, x+adjustXonBARS, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
 							UtilList.FoundInListInt (best_l, i),
 							UtilList.FoundInListInt (worst_l, i));
 				else
-					drawCircle (g, x + UtilAll.DivideSafe (barWidth, 2.0) + adjustX, y, 10, black, barColor);
+					drawCircle (g, x + adjustXonPOINTS, y, 10, black, barColor);
 
-				resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y, pB.Y));
+				resultOnBarsThisIteration_l.Add(new Point3F(x + adjustXonBARS + barWidth/2, y, pB.Y));
 				//add for the secondary and for the main bar, no problem both will work
-				mouseLimits.AddInPos (mouseLimitsPos2ndBar, x+adjustX, y, x+adjustX+barWidth, graphHeight -bottomMargin);
+				mouseLimits.AddInPos (mouseLimitsPos2ndBar, x+adjustXonBARS, y, x+adjustXonBARS+barWidth, graphHeight -bottomMargin);
 
 				//to print line variable if needed
-				//barsXCenter_l.Add(x + adjustX + barWidth/2);
+				//barsXCenter_l.Add(x + adjustXonBARS + barWidth/2);
 
 				if(labelBarMain != "")
 				{
@@ -1956,23 +1980,23 @@ public class CairoBarsNHSeries : CairoBars
 						{
 							g.SetSourceColor(white);
 							int sep = 4;
-							printTextRotated (x +adjustX +barWidth -sep, graphHeight -bottomMargin -sep, 4, textHeight, "Con", g, true);
+							printTextRotated (x +adjustXonBARS +barWidth -sep, graphHeight -bottomMargin -sep, 4, textHeight, "Con", g, true);
 							g.SetSourceColor(black);
 						}
 					}
 					else
-						printTextInBar(x +adjustX +barWidth/2, graphHeight -bottomMargin -10,
+						printTextInBar(x +adjustXonBARS +barWidth/2, graphHeight -bottomMargin -10,
 								0, textHeight+2, "c", g, true, false);
 				}
 
 				//to show text centered at bottom correctly
-				if(! secondaryHasData)
-					adjustX = barWidth;
+				if (barsOrPoints == BarsOrPoints.BARS && ! secondaryHasData)
+					adjustXonBARS = barWidth;
 
 				timesSubtestThis += pB.Y;
 			} else {
 				//add the mouseLimits with empty width
-				mouseLimits.AddInPos (mouseLimitsPos2ndBar, x+adjustX, 0, x+adjustX, graphHeight -bottomMargin);
+				mouseLimits.AddInPos (mouseLimitsPos2ndBar, x+adjustXonBARS, 0, x+adjustXonBARS, graphHeight -bottomMargin);
 			}
 
 			mouseLimitsPos2ndBar += 2;
@@ -2014,7 +2038,7 @@ public class CairoBarsNHSeries : CairoBars
 			//print text at bottom
 			g.SetSourceColor (black);
 			printTextMultiline(
-					x+adjustX,
+					x +adjustXonBARS +adjustXonPOINTS,
 					graphHeight -fontHeightForBottomNames * 2/3,
 					0, fontHeightForBottomNames,
 					names_l[i] + videoPlayingStr, g, alignTypes.CENTER,
@@ -2035,10 +2059,10 @@ public class CairoBarsNHSeries : CairoBars
 				double y = calculatePaintY (ymax);
 				double personIconY = y -1.5*resultFontHeight -24;	// above text, and 24px is pixbuf height
 				if (barsOrPoints == BarsOrPoints.POINTS)
-					personIconY -= 10;
+					personIconY = y +10;
 
 				Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf,
-						x+adjustX-12,  // -12 because pixbuf is 24 px
+						x +adjustXonBARS +adjustXonPOINTS -12,  // -12 because pixbuf is 24 px
 						personIconY);
 				g.Paint();
 			}

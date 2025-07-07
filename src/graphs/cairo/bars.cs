@@ -29,6 +29,7 @@ public abstract class CairoBars : CairoGeneric
 	public enum Type { NORMAL, ENCODER };
 	protected Type type;
 	public enum BarsOrPoints { BARS, POINTS };
+	protected const int POINTS_SIZE = 10;
 	public BarsOrPoints barsOrPoints;
 
 	protected DrawingArea area;
@@ -1414,14 +1415,17 @@ public class CairoBars1Series : CairoBars
 						UtilList.FoundInListInt (best_l, i),
 						UtilList.FoundInListInt (worst_l, i));
 			else
-				drawCircle (g, x + adjustXonPOINTS, y, 10, black, barColor);
+				drawCircle (g, x + adjustXonPOINTS, y, POINTS_SIZE, black, barColor);
 
 			if (selectedPos_l.Count > 0) // used on encoder reps
 				barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), UtilList.FoundInListInt (selectedPos_l, i)));
 			else
 				barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), i == selectedPos));
 
-			mouseLimits.AddInPos (i, x, y, x+barWidth, graphHeight -bottomMargin);
+			if (barsOrPoints == BarsOrPoints.BARS)
+				mouseLimits.AddInPos (i, x, y, x+barWidth, graphHeight -bottomMargin);
+			else // (barsOrPoints == BarsOrPoints.POINTS)
+				mouseLimits.AddInPos (i, x, y-POINTS_SIZE, x+barWidth, y+POINTS_SIZE);
 
 			//videoPlayTimeInSeconds
 			if (videoPlayTimes_l != null && videoPlayTimes_l.Count > i)
@@ -1471,7 +1475,7 @@ public class CairoBars1Series : CairoBars
 				double personIconY = y -1.5*resultFontHeight -24;	// above text, and 24px is pixbuf height
 				if (barsOrPoints == BarsOrPoints.POINTS)
 				{
-					//personIconY = y +10; // above the point
+					//personIconY = y +POINTS_SIZE; // above the point
 					personIconY = calculatePaintY (minY) -24; // draw at bottom (like on NH)
 				}
 
@@ -1907,7 +1911,7 @@ public class CairoBarsNHSeries : CairoBars
 								UtilList.FoundInListInt (best_l, i),
 								UtilList.FoundInListInt (worst_l, i));
 					else
-						drawCircle (g, x + adjustXonPOINTS, y, 10, black, barColor);
+						drawCircle (g, x + adjustXonPOINTS, y, POINTS_SIZE, black, barColor);
 
 					resultOnBarsThisIteration_l.Add(new Point3F(x + adjustXonBARS + barWidth/2, y-4, pS.Y));
 					//to print line variable if needed
@@ -1935,10 +1939,13 @@ public class CairoBarsNHSeries : CairoBars
 				}
 
 				//mouse limits stuff
-				if(pS.Y > 0)
-					mouseLimits.AddInPos (mouseLimitsPos1stBar, x+adjustXonBARS, y, x+adjustXonBARS+barWidth, graphHeight -bottomMargin);
-				else {
-					//add it 0 width, to respect order when DJs are mixed with CMJs, but not be able to be selected
+				if(pS.Y > 0) {
+					if (barsOrPoints == BarsOrPoints.BARS)
+						mouseLimits.AddInPos (mouseLimitsPos1stBar, x+adjustXonBARS, y, x+adjustXonBARS+barWidth, graphHeight -bottomMargin);
+					else // (barsOrPoints == BarsOrPoints.POINTS)
+						mouseLimits.AddInPos (mouseLimitsPos1stBar, x+adjustXonBARS, y-POINTS_SIZE, x+adjustXonBARS+barWidth, y+POINTS_SIZE);
+				} else {
+					//add it 0 width, to respect order when DJs are mixed with CMJs, but not be able to be selected (so same for BARS & POINTS)
 					mouseLimits.AddInPos (mouseLimitsPos1stBar, x+adjustXonBARS, y, x+adjustXonBARS, graphHeight -bottomMargin);
 				}
 				mouseLimitsPos1stBar += 2;
@@ -1966,11 +1973,15 @@ public class CairoBarsNHSeries : CairoBars
 							UtilList.FoundInListInt (best_l, i),
 							UtilList.FoundInListInt (worst_l, i));
 				else
-					drawCircle (g, x + adjustXonPOINTS, y, 10, black, barColor);
+					drawCircle (g, x + adjustXonPOINTS, y, POINTS_SIZE, black, barColor);
 
 				resultOnBarsThisIteration_l.Add(new Point3F(x + adjustXonBARS + barWidth/2, y, pB.Y));
 				//add for the secondary and for the main bar, no problem both will work
-				mouseLimits.AddInPos (mouseLimitsPos2ndBar, x+adjustXonBARS, y, x+adjustXonBARS+barWidth, graphHeight -bottomMargin);
+				if (barsOrPoints == BarsOrPoints.BARS)
+					mouseLimits.AddInPos (mouseLimitsPos2ndBar, x+adjustXonBARS, y, x+adjustXonBARS+barWidth, graphHeight -bottomMargin);
+				else // (barsOrPoints == BarsOrPoints.POINTS)
+					mouseLimits.AddInPos (mouseLimitsPos2ndBar, x+adjustXonBARS, y-POINTS_SIZE, x+adjustXonBARS+barWidth, y+POINTS_SIZE);
+
 
 				//to print line variable if needed
 				//barsXCenter_l.Add(x + adjustXonBARS + barWidth/2);
@@ -1998,7 +2009,7 @@ public class CairoBarsNHSeries : CairoBars
 
 				timesSubtestThis += pB.Y;
 			} else {
-				//add the mouseLimits with empty width
+				//add the mouseLimits with empty width (so same for BARS & POINTS)
 				mouseLimits.AddInPos (mouseLimitsPos2ndBar, x+adjustXonBARS, 0, x+adjustXonBARS, graphHeight -bottomMargin);
 			}
 
@@ -2063,7 +2074,7 @@ public class CairoBarsNHSeries : CairoBars
 				double personIconY = y -1.5*resultFontHeight -24;	// above text, and 24px is pixbuf height
 				if (barsOrPoints == BarsOrPoints.POINTS)
 				{
-					//personIconY = y +10; // above the point
+					//personIconY = y +POINTS_SIZE; // above the point
 					personIconY = calculatePaintY (minY) -24; // draw at bottom (to not interfere between main & secondary)
 				}
 

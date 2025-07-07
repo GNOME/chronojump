@@ -801,7 +801,7 @@ public class RepetitionMouseLimits
 			{
 				if (pir.StartY < 0 && pir.EndY < 0) //forceSensor does not have Y, so both are -1, only check X
 					return pir.Id;
-				else if (py >= pir.StartY && py <= pir.EndY) //encoder has Y, need to check it
+				else if (py >= pir.StartY && py <= pir.EndY) //encoder has Y, need to check it. Note also on BarPoints.POINTS the y is relevant
 					return pir.Id;
 			}
 

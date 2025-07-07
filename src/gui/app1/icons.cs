@@ -419,6 +419,8 @@ public partial class ChronoJumpWindow
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_jump.png");
 		app1s_image_show_data_jumps.Pixbuf = pixbuf;
+		image_resultsSession_heights.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "jump_height.png");
+		image_resultsSession_times.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "jump_time.png");
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_run.png");
 		app1s_image_show_data_runs.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "race_encoder_icon.png");

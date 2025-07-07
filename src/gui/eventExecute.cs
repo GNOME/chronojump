@@ -53,6 +53,8 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_resultsSession_encoder_saved_repetitions;
 	Gtk.RadioButton radio_resultsSession_heights;
 	Gtk.RadioButton radio_resultsSession_times;
+	Gtk.Image image_resultsSession_heights;
+	Gtk.Image image_resultsSession_times;
 	Gtk.RadioButton radio_resultsSession_bars;
 	Gtk.RadioButton radio_resultsSession_points;
 	Gtk.Image image_resultsSession_bars;
@@ -1164,6 +1166,8 @@ public partial class ChronoJumpWindow
 		label_resultsSession_encoder_saved_repetitions = (Gtk.Label) builder.GetObject ("label_resultsSession_encoder_saved_repetitions");
 		radio_resultsSession_heights = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_heights");
 		radio_resultsSession_times = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_times");
+		image_resultsSession_heights = (Gtk.Image) builder.GetObject ("image_resultsSession_heights");
+		image_resultsSession_times = (Gtk.Image) builder.GetObject ("image_resultsSession_times");
 		radio_resultsSession_bars = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_bars");
 		radio_resultsSession_points = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_points");
 		image_resultsSession_bars = (Gtk.Image) builder.GetObject ("image_resultsSession_bars");

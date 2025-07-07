@@ -319,6 +319,8 @@ namespace Chronojump
 			new ResourceFix ("jump_blue_2x.png" , "image_jump_2x.png"),
 			new ResourceFix ("jump_simple_blue_1x.png" , "image_jump_simple.png"),
 			new ResourceFix ("jump_reactive_blue_1x.png" , "image_jump_reactive.png"),
+			new ResourceFix ("jump_height.png" , "jump_height.png"),
+			new ResourceFix ("jump_time.png" , "jump_time.png"),
 			new ResourceFix ("fall.png" , "image_fall.png"),
 			new ResourceFix ("jump_air.png" , "image_jump_air.png"),
 			new ResourceFix ("jump_land.png" , "image_jump_land.png"),

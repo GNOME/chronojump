@@ -1470,7 +1470,10 @@ public class CairoBars1Series : CairoBars
 			{
 				double personIconY = y -1.5*resultFontHeight -24;	// above text, and 24px is pixbuf height
 				if (barsOrPoints == BarsOrPoints.POINTS)
-					personIconY = y +10;
+				{
+					//personIconY = y +10; // above the point
+					personIconY = calculatePaintY (minY) -24; // draw at bottom (like on NH)
+				}
 
 				Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf,
 						x-12 + (barWidth/2.0),  // -12 because pixbuf is 24 px
@@ -2059,7 +2062,10 @@ public class CairoBarsNHSeries : CairoBars
 				double y = calculatePaintY (ymax);
 				double personIconY = y -1.5*resultFontHeight -24;	// above text, and 24px is pixbuf height
 				if (barsOrPoints == BarsOrPoints.POINTS)
-					personIconY = y +10;
+				{
+					//personIconY = y +10; // above the point
+					personIconY = calculatePaintY (minY) -24; // draw at bottom (to not interfere between main & secondary)
+				}
 
 				Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf,
 						x +adjustXonBARS +adjustXonPOINTS -12,  // -12 because pixbuf is 24 px

@@ -158,13 +158,9 @@ public abstract class CairoBars : CairoGeneric
 		double groupAvgG = calculatePaintY(groupAvg);
 		double groupMinG = calculatePaintY(groupMin);
 
-		textTickPos ttp = drawGuidesFindYAvg(
-			personMax, personAvg, personMin, personMaxG, personAvgG, personMinG,
-			groupMax, groupAvg, groupMin, groupMaxG, groupAvgG, groupMinG);
-
 		int xStart = 6;
 		if(usePersonGuides)
-			drawGuidesDo (xStart, "image_person_outline.png", ttp, color,
+			drawGuidesDo (xStart, "image_person_outline.png", color,
 					personMax, personAvg, personMin,
 					personMaxG, personAvgG, personMinG);
 
@@ -172,24 +168,9 @@ public abstract class CairoBars : CairoGeneric
 			xStart += (24 + 8);
 
 		if(useGroupGuides)
-			drawGuidesDo (xStart, "image_group_outline.png", ttp, color,
+			drawGuidesDo (xStart, "image_group_outline.png", color,
 					groupMax, groupAvg, groupMin,
 					groupMaxG, groupAvgG, groupMinG);
-
-		//write the X text
-		if(ttp == textTickPos.ABSOLUTEBOTTOM)
-		{
-			xStart = 6;
-			if(usePersonGuides && useGroupGuides)
-				xStart += (24 + 8)/2;
-
-			printText(graphWidth - rightMargin +xStart +12, graphHeight -2*textHeight, 0, textHeight -3,
-					"X", g, alignTypes.CENTER);
-
-			g.MoveTo(graphWidth - rightMargin +xStart +12 -3, graphHeight -2*textHeight -5);
-			g.LineTo(graphWidth - rightMargin +xStart +12 +3, graphHeight -2*textHeight -5);
-			g.Stroke ();
-		}
 	}
 
 	public void PassArrowData (CairoBarsArrow cairoBarsArrow)
@@ -197,48 +178,8 @@ public abstract class CairoBars : CairoGeneric
 		this.cairoBarsArrow = cairoBarsArrow;
 	}
 
-	protected enum textTickPos { ABOVETICK, BELOWTICK, ABSOLUTEBOTTOM }
 
-	protected textTickPos drawGuidesFindYAvg (
-			double personMax, double personAvg, double personMin,
-			double personMaxG, double personAvgG, double personMinG,
-			double groupMax, double groupAvg, double groupMin,
-			double groupMaxG, double groupAvgG, double groupMinG)
-	{
-		if(usePersonGuides && ! useGroupGuides)
-		{
-			//print avg above avg tick
-			if(personAvgG - personMaxG > 2*textHeight)
-				return textTickPos.ABOVETICK;
-			 //print avg below avg tick
-			else if(personMinG - personAvgG > 2*textHeight)
-				return textTickPos.BELOWTICK;
-			else
-				return textTickPos.ABSOLUTEBOTTOM;
-		}
-		else if(! usePersonGuides && useGroupGuides)
-		{
-			if(groupAvgG - groupMaxG > 2*textHeight)
-				return textTickPos.ABOVETICK;
-			else if(groupMinG - groupAvgG > 2*textHeight)
-				return textTickPos.BELOWTICK;
-			else
-				return textTickPos.ABSOLUTEBOTTOM;
-		}
-		else //if(usePersonGuides && useGroupGuides)
-		{
-			//print avg above avg tick
-			if(groupAvgG - groupMaxG > 2*textHeight && personAvgG - personMaxG > 2*textHeight)
-				return textTickPos.ABOVETICK;
-			 //print avg below avg tick
-			else if(groupMinG - groupAvgG > 2*textHeight && personMinG - personAvgG > 2*textHeight)
-				return textTickPos.BELOWTICK;
-			else
-				return textTickPos.ABSOLUTEBOTTOM;
-		}
-	}
-
-	protected void drawGuidesDo (int xStart, string imageStr, textTickPos ttp, Cairo.Color color,
+	protected void drawGuidesDo (int xStart, string imageStr, Cairo.Color color,
 			double top, double avg, double bottom, double topG, double avgG, double bottomG)
 	{
 		Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + imageStr);
@@ -269,45 +210,24 @@ public abstract class CairoBars : CairoGeneric
 		Cairo.TextExtents te;
 		te = g.TextExtents(Util.TrimDecimals(avg,2));
 
-		if(ttp == textTickPos.ABOVETICK)
-		{
-			g.SetSourceColor(white);
-			g.Rectangle(graphWidth - rightMargin +xStart +12 -te.Width/2 -1,
-					avgG -textHeight -1,
-					te.Width +2, te.Height+2);
-			g.Fill();
+		g.SetSourceColor(white);
+		g.Rectangle(graphWidth - rightMargin +xStart +12 -te.Width/2 -1,
+				avgG -6,
+				te.Width +2, 12);
+		g.Fill();
+		g.SetSourceColor(red);
+		printText(graphWidth - rightMargin +xStart +12, avgG -1, 0, textHeight -3,
+				Util.TrimDecimals(avg, 2),
+				g, alignTypes.CENTER);
 
-			g.SetSourceColor(red);
-			printText(graphWidth - rightMargin +xStart +12, avgG -textHeight/2, 0, textHeight -3,
-					Util.TrimDecimals(avg, 2),
-					g, alignTypes.CENTER);
-		}
-		else if(ttp == textTickPos.BELOWTICK)
-		{
-			g.SetSourceColor(white);
-			g.Rectangle(graphWidth - rightMargin +xStart +12 -te.Width/2 -1,
-					avgG -1,
-					te.Width +2, te.Height+2);
-			g.Fill();
-
-			g.SetSourceColor(red);
-			printText(graphWidth - rightMargin +xStart +12, avgG +textHeight/2, 0, textHeight -3,
-					Util.TrimDecimals(avg, 2),
-					g, alignTypes.CENTER);
-		}
-		else //(textTickPos.ABSOLUTEBOTTOM)
-		{
-			printText(graphWidth - rightMargin +xStart +12, graphHeight -textHeight, 0, textHeight -3,
-					Util.TrimDecimals(avg, 2),
-					g, alignTypes.CENTER);
-		}
-
+		/*
 		//draw the avg red tick
 		g.LineWidth = 2;
 		g.MoveTo(graphWidth - rightMargin +xStart +6, avgG);
 		g.LineTo(graphWidth - rightMargin +xStart +18, avgG);
 		g.Stroke ();
 		g.LineWidth = 1;
+		*/
 	}
 
 	public virtual void PassData1Serie (List<PointF> barMain_l,

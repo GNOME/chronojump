@@ -226,7 +226,7 @@ public abstract class CairoXY : CairoGeneric
 
 	//true if changed
 	//called from fourPlatforms and wilight (sending it own list of points)
-	protected bool findPointMaximums (bool showFullGraph, List<PointF> points_list, bool separateMinMaxIfNeeded)
+	protected bool findPointMaximums (bool showFullGraph, List<PointF> points_list, bool sepMinMaxIfNeeded)
 	{
 		minX = 0;
 		minY = 0;
@@ -278,11 +278,11 @@ public abstract class CairoXY : CairoGeneric
 			maxY += .025 * maxY;
 		}
 
-		if (separateMinMaxIfNeeded)
+		if (sepMinMaxIfNeeded)
 		{
 			//if there is only one point, or by any reason mins == maxs, have mins and maxs separated
-			separateMinXMaxXIfNeeded();
-			separateMinYMaxYIfNeeded();
+			separateMinXMaxXIfNeeded (ref minX, ref maxX);
+			separateMinYMaxYIfNeeded (ref minY, ref maxY);
 		}
 
 		bool changed = false;
@@ -313,23 +313,6 @@ public abstract class CairoXY : CairoGeneric
 		else
 			plotPredictedLine(predictedLineTypes.STRAIGHT, predictedLineCrossMargins.DONOTTOUCH, lsl.Slope, lsl.Intercept);
 		g.SetSourceRGB(0,0,0);
-	}
-
-	protected virtual void separateMinXMaxXIfNeeded()
-	{
-		if(minX == maxX)
-		{
-			minX -= .5 * minX;
-			maxX += .5 * maxX;
-		}
-	}
-	protected virtual void separateMinYMaxYIfNeeded()
-	{
-		if(minY == maxY)
-		{
-			minY -= .5 * minY;
-			maxY += .5 * maxY;
-		}
 	}
 
 	//includes point  and model

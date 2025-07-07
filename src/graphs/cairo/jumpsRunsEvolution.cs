@@ -51,9 +51,9 @@ public abstract class EvolutionGraph : CairoXY
 	}
 
 	//here X is year, add/subtract third of a year
-	protected override void separateMinXMaxXIfNeeded()
+	protected override void separateMinXMaxXIfNeeded (ref double minX, ref double maxX)
 	{
-		if(minX == maxX || maxX - minX < .1) //<.1 means that maybe we will not see any vertical bar on grid, enlarge it
+		if (minX == maxX || maxX - minX < .1) //<.1 means that maybe we will not see any vertical bar on grid, enlarge it
 		{
 			minX -= .1;
 			maxX += .1;

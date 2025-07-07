@@ -150,6 +150,24 @@ public abstract class CairoGeneric
 		return 0;
 	}
 
+	// separated in two methods because the X method gets overloaded on EvolutionGraph, JumpsRjFatigueGraph  
+	protected virtual void separateMinXMaxXIfNeeded (ref double minX, ref double maxX)
+	{
+		if (minX == maxX)
+		{
+			minX -= .5 * minX;
+			maxX += .5 * maxX;
+		}
+	}
+	protected virtual void separateMinYMaxYIfNeeded (ref double minY, ref double maxY)
+	{
+		if (minY == maxY)
+		{
+			minY -= .5 * minY;
+			maxY += .5 * maxY;
+		}
+	}
+
 	protected enum alignTypes { LEFT, CENTER, RIGHT }
 	protected virtual void printText (double x, double y, double height, int textHeight, string text, Cairo.Context g, alignTypes align)
 	{

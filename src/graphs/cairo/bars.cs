@@ -1242,6 +1242,8 @@ public class CairoBars1Series : CairoBars
 			maxY += .1*maxY; //to accomodate texts above
 			minY = 0;
 		} else { // (barsOrPoints == BarsOrPoints.POINTS)
+			separateMinYMaxYIfNeeded (ref minY, ref maxY);
+
 			double personIconReal = Math.Abs (calculateRealY (0) - calculateRealY (24));
 			maxY += 2 * personIconReal;	// *2 to ensure enough spacing
 			minY -= 2 * personIconReal;	// *2 to ensure enough spacing
@@ -1698,6 +1700,8 @@ public class CairoBarsNHSeries : CairoBars
 			maxY += .1*maxY; //to accomodate texts above
 			minY = 0;
 		} else { // (barsOrPoints == BarsOrPoints.POINTS)
+			separateMinYMaxYIfNeeded (ref minY, ref maxY);
+
 			double personIconReal = Math.Abs (calculateRealY (0) - calculateRealY (24));
 			maxY += 2 * personIconReal;	// *2 to ensure enough spacing
 			minY -= 2 * personIconReal;	// *2 to ensure enough spacing

@@ -950,8 +950,11 @@ public partial class ChronoJumpWindow
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzePowerbarsIcon);
 		image_encoder_analyze_powerbars.Pixbuf = pixbuf;
+		image_resultsSession_bars.Pixbuf = pixbuf;
+
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeCrossIcon);
 		image_encoder_analyze_cross.Pixbuf = pixbuf;
+		image_resultsSession_points.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyze1RMIcon);
 		image_encoder_analyze_1RM.Pixbuf = pixbuf;
 		image_encoder_analyze_1RM_save.Pixbuf = pixbuf;

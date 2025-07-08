@@ -665,6 +665,8 @@ public class DiscoverWindow
 			ddTotalSeconds = 5.99;
 			if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER)
 				ddTotalSeconds = 5.99 + 3; //capturing data
+			if (crp.Type == ChronopicRegisterPort.Types.RUN_WIRELESS)
+				ddTotalSeconds = 5.99 + 30; //30 s for discovering the terminals
 
 			stopwatch = new Stopwatch ();
 			stopwatch.Start ();
@@ -779,6 +781,7 @@ public abstract class DebugDevices
 	protected string str;
 	protected SerialPort port;
 	protected bool done;
+	protected string gettingVersionStr = "\n\n- Getting version …";
 
 	protected abstract void debugDo ();
 
@@ -928,7 +931,7 @@ public abstract class DebugDevices
 	// adapted from gui/app1/forceSensor.cs forceSensorCheckVersionDo ()
 	protected bool getVersionArduino (string commandStr, string responseExpected)
 	{
-		str += "\n\n- Getting version …";
+		str += gettingVersionStr;
 
 		// send message
 		try {
@@ -977,6 +980,7 @@ public class DebugWichro : DebugDevices
 	{
 		this.crp = crp;
 		title = "Testing WICHRO";
+		gettingVersionStr = "\n\n- Getting version of the controller …";
 
 		done = false;
 		debugDo ();
@@ -997,7 +1001,77 @@ public class DebugWichro : DebugDevices
 		if (! getVersionArduino ("local:get_version:", "Wifi-Controller"))
 			return;
 
+		if (! discoverTerminals ()) // TODO: maybe in the future this will be shown on another button
+			return;
+
 		portClose ();
+	}
+
+	private bool discoverTerminals ()
+	{
+		str += "\n\n- Checking terminals …";
+
+		// send message
+		try {
+			port.WriteLine ("local:discover;");
+		}
+		catch (Exception ex)
+		{
+			if(ex is System.IO.IOException || ex is System.TimeoutException)
+			{
+				str += "\n- Failed at sending message. Error: " + ex.ToString ();
+				return false;
+			}
+		}
+
+		// get discover message
+		Stopwatch swTotal = new Stopwatch ();
+		swTotal.Start ();
+		List<IntInt> terminalVersion_l = new List<IntInt> ();
+
+		string responseExpected = "terminals:";
+		string s = "";
+		do {
+			Thread.Sleep(100); //sleep to let arduino start reading
+			try {
+				string line = port.ReadLine();
+
+				/* example of returned data
+				20;7578;1;1000025
+				25;8640;1;1000013
+				last column is the version: 1000025, we need to convert it to 25
+				*/
+				string [] sFull = line.Split(new char[] {';'});
+				if (sFull.Length == 4 &&
+						Util.IsNumber (sFull[0], false) &&
+						sFull[3].StartsWith ("1") && sFull[3].Length > 1 &&
+						Util.IsNumber (sFull[3].Substring (1, sFull[3].Length -1), false)) //note version is 1
+					terminalVersion_l.Add (new IntInt (
+								Convert.ToInt32 (sFull[0]),
+								Convert.ToInt32 (sFull[3].Substring (1, sFull[3].Length -1))
+								));
+
+				s += line;
+			} catch (Exception ex) {
+				str += "\n- Failed at receiving message. Error: " + ex.ToString ();
+				return false;
+			}
+		}
+		while (! (s.Contains(responseExpected) || swTotal.Elapsed.TotalSeconds >= 30));
+
+		if (! s.Contains(responseExpected))
+		{
+			str += "\n- Too much time (+30s) for receiving message.";
+			return false;
+		}
+
+		if (terminalVersion_l.Count == 0)
+			str += "\n- No terminals found.";
+		else
+			foreach (IntInt terminalVersion in terminalVersion_l)
+				str += string.Format ("\n- Terminal: {0}, Version: {1}", terminalVersion.a, terminalVersion.b);
+
+		return true;
 	}
 }
 

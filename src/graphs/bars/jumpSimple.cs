@@ -82,7 +82,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, true, true, true);
 
 		if(UseHeights) {
-			cb.YVariable = Catalog.GetString("Height");
+			cb.YVariable = Catalog.GetString("Jump height");
 			cb.YUnits = "cm";
 			if(showBarA && showBarB) //Dja, Djna
 			{

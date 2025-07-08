@@ -53,13 +53,15 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 
 	protected override void paintSpecific()
 	{
-		cb = new CairoBarsNHSeries (darea, CairoBars.Type.NORMAL, true, true, true, true);
+		// on rj use heights we only show jump height (and not fall data) because both values are shown (usually at same place)
+		if (UseHeights)
+			cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, true, true, true);
+		else
+			cb = new CairoBarsNHSeries (darea, CairoBars.Type.NORMAL, true, true, true, true);
 
 		if(UseHeights) {
-			cb.YVariable = Catalog.GetString("Height");
+			cb.YVariable = Catalog.GetString("Jump height");
 			cb.YUnits = "cm";
-			cb.VariableSerieA = Catalog.GetString("Falling height") + " (" + Catalog.GetString("AVG") + ") ";
-			cb.VariableSerieB = Catalog.GetString("Jump height") + " (" + Catalog.GetString("AVG") + ") ";
 		} else {
 			cb.YVariable = Catalog.GetString("Time");
 			cb.YUnits = "s";
@@ -137,8 +139,9 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 			personIcon_l.Add (personName == "" && currentPersonID >= 0 && jump.PersonID == currentPersonID);
 
 			//add uniqueID two times, one for the each serie
-			id_l.Add(jump.UniqueID);
-			id_l.Add(jump.UniqueID);
+			id_l.Add(jump.UniqueID); //UseHeights only shows height
+			if (! UseHeights)
+				id_l.Add(jump.UniqueID); //times show tc i tv
 
 			if (eventGraphJumpsRjStored.selectedID == jump.UniqueID)
 				cb.SelectedPos = eventGraphJumpsRjStored.jumpsAtSQL.Count -countToDraw -1;
@@ -159,17 +162,24 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 					eventGraphJumpsRjStored.personMINAtSQL
 					));
 
-		List<List<PointF>> barsSecondary_ll = new List<List<PointF>>();
-		barsSecondary_ll.Add(pointA1_l);
+		if (UseHeights)
+		{
+			cb.PassData1Serie (pointB_l,
+					new List<Cairo.Color>(), names_l,
+					-1, fontHeightForBottomNames, bottomMargin, title,
+					new List<int> (), new List<int> (), barsOrPoints);
+		} else {
+			List<List<PointF>> barsSecondary_ll = new List<List<PointF>>();
+			barsSecondary_ll.Add(pointA1_l);
 
-		cb.PassData2Series (pointB_l, barsSecondary_ll, false,
-				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
-				"", false,
-				-1, fontHeightForBottomNames, bottomMargin, title,
-				new List<int> (), new List<int> (), barsOrPoints);
+			cb.PassData2Series (pointB_l, barsSecondary_ll, false,
+					new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
+					"", false,
+					-1, fontHeightForBottomNames, bottomMargin, title,
+					new List<int> (), new List<int> (), barsOrPoints);
+		}
 
 		passDataForScreenshotIfNeeded ();
-
 		cb.GraphDo();
 	}
 }

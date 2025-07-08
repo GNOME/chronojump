@@ -3829,6 +3829,10 @@ public partial class ChronoJumpWindow
 			wilightApp1Init ();
 		}
 
+		// on change mode, always select all tests
+		if (radio_contacts_graph_currentTest.Active)
+			radio_contacts_graph_allTests.Active = true;
+
 		on_treeview_results_session_cursor_changed (new object (), new EventArgs ());
 
 		//show feedback icon

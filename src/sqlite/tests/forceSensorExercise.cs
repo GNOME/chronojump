@@ -161,7 +161,7 @@ class SqliteForceSensorExercise : Sqlite
 
     //elastic (-1: both; 0: not elastic; 1: elastic)
     //nameLike apply a LIKE %name%
-    public static ArrayList Select(bool dbconOpened, int uniqueID, int elastic, bool onlyNames, string nameLike)
+    public static List<ForceSensorExercise> Select (bool dbconOpened, int uniqueID, int elastic, bool onlyNames, string nameLike)
     {
         if (!dbconOpened)
             Sqlite.Open();
@@ -209,15 +209,15 @@ class SqliteForceSensorExercise : Sqlite
         SQLiteDataReader reader;
         reader = dbcmd.ExecuteReader();
 
-        ArrayList array = new ArrayList(1);
-        ForceSensorExercise ex = new ForceSensorExercise();
+        List<ForceSensorExercise> fsex_l = new List<ForceSensorExercise> ();
+        ForceSensorExercise fsex = new ForceSensorExercise();
 
         if (onlyNames)
         {
             while (reader.Read())
             {
-                ex = new ForceSensorExercise(reader[0].ToString());
-                array.Add(ex);
+                fsex = new ForceSensorExercise(reader[0].ToString());
+                fsex_l.Add (fsex); //note this add a ForceSensorExercise with all fields, not just the name
             }
         }
         else
@@ -225,7 +225,7 @@ class SqliteForceSensorExercise : Sqlite
             while (reader.Read())
             {
                 if (reader.FieldCount == 9) //DB 1.73
-                    ex = new ForceSensorExercise(
+                    fsex = new ForceSensorExercise(
                             Convert.ToInt32(reader[0].ToString()),  //uniqueID
                             reader[1].ToString(),           //name
                             Convert.ToInt32(reader[2].ToString()),  //percentBodyWeight
@@ -237,7 +237,7 @@ class SqliteForceSensorExercise : Sqlite
                             ForceSensorExercise.IntToType(Convert.ToInt32(reader[8].ToString()))    //elastic (on this DB conversation cannot be both: "-1")
                             );
                 else //if(reader.FieldCount == 12) DB: 1.87
-                    ex = new ForceSensorExercise(
+                    fsex = new ForceSensorExercise(
                             Convert.ToInt32(reader[0].ToString()),  //uniqueID
                             reader[1].ToString(),           //name
                             Convert.ToInt32(reader[2].ToString()),  //percentBodyWeight
@@ -251,7 +251,7 @@ class SqliteForceSensorExercise : Sqlite
                             Convert.ToDouble(Util.ChangeDecimalSeparator(reader[10].ToString())),   //eccMin
                             Convert.ToDouble(Util.ChangeDecimalSeparator(reader[11].ToString()))    //conMin
                             );
-                array.Add(ex);
+                fsex_l.Add (fsex);
             }
         }
 
@@ -259,7 +259,7 @@ class SqliteForceSensorExercise : Sqlite
         if (!dbconOpened)
             Sqlite.Close();
 
-        return array;
+        return fsex_l;
     }
 
     /*

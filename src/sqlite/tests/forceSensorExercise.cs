@@ -158,9 +158,13 @@ class SqliteForceSensorExercise : Sqlite
         closeIfNeeded(dbconOpened);
     }
 
-
-    //elastic (-1: both; 0: not elastic; 1: elastic)
-    //nameLike apply a LIKE %name%
+    // elastic (-1: both; 0: not elastic; 1: elastic)
+    // nameLike apply a LIKE %name%
+    // Note nameLike gets approximated names to be used on filter exercises.
+    // If you want to get a ForceSensorExercise by name, do:
+    //	Sqlite.ExistsAndGetUniqueID ()
+    //	with the ID do SqliteForceSensor.SelectData ()
+    //
     public static List<ForceSensorExercise> Select (bool dbconOpened, int uniqueID, int elastic, bool onlyNames, string nameLike)
     {
         if (!dbconOpened)

@@ -104,19 +104,22 @@ public class EditForceSensorWindow : EditEventWindow
 		// get the exercise names and convert to string []
 		return ForceSensorExercise.ListToString (fsex_l);
 	}
-	
+
 	private void on_combo_eventType_changed (object o, EventArgs args)
 	{
-		//TODO:
+		//do nothing on combo changed, do it on updateEvent (click on accept)
 	}
 
 	protected override void updateEvent (int eventID, int personID, string description)
 	{
-		SqliteTests st = new SqliteForceSensor ();
-		st.Update (eventID,
-				//UtilGtk.ComboGetActive(combo_eventType),
-				personID);
-		st.UpdateComments (eventID, description);
+		int fsExIdNew = Sqlite.ExistsAndGetUniqueID (false,
+				Constants.ForceSensorExerciseTable,
+				UtilGtk.ComboGetActive(combo_eventType));
+
+		ForceSensor fs = SqliteForceSensor.SelectData (eventID, false, false);
+		fs.ExerciseID = fsExIdNew;
+		fs.Description = description;
+		fs.UpdateSQL (false);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)

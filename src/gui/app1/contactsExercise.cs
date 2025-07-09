@@ -147,8 +147,8 @@ public partial class ChronoJumpWindow
 		if(UtilGtk.ComboGetActive (combo_force_sensor_exercise) == "")
 			return;
 
-		ForceSensorExercise ex = (ForceSensorExercise) SqliteForceSensorExercise.Select (
-                                false, getExerciseIDFromAnyCombo (combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false, "")[0];
+		ForceSensorExercise ex = SqliteForceSensorExercise.Select (
+				false, getExerciseIDFromAnyCombo (combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false, "")[0];
 
 		ExerciseImage ei = new ExerciseImage (current_mode, ex.UniqueID);
 		if (ei.GetUrlIfExists (false) != "")
@@ -201,7 +201,7 @@ public partial class ChronoJumpWindow
 		if (fc.Run() == (int)ResponseType.Accept)
 		{
 			LogB.Warning ("Copying image ...");
-			ForceSensorExercise ex = (ForceSensorExercise) SqliteForceSensorExercise.Select (
+			ForceSensorExercise ex = SqliteForceSensorExercise.Select (
 					false, getExerciseIDFromAnyCombo (combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false, "")[0];
 
 			ExerciseImage ei = new ExerciseImage (current_mode, ex.UniqueID);

@@ -324,8 +324,8 @@ class SqliteForceSensorExerciseImport : SqliteForceSensorExercise
     //database is opened
     protected internal static void import_partially_from_1_73_to_1_74_unify_resistance_and_description()
     {
-        ArrayList exercises = Select(true, -1, -1, false, "");
-        foreach (ForceSensorExercise ex in exercises)
+        List<ForceSensorExercise> fsex_l = Select(true, -1, -1, false, "");
+        foreach (ForceSensorExercise ex in fsex_l)
         {
             LogB.Information(ex.ToString());
             if (ex.Resistance == "")

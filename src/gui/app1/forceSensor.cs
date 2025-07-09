@@ -1329,8 +1329,8 @@ public partial class ChronoJumpWindow
 
 	private void assignCurrentForceSensorExercise()
 	{
-		currentForceSensorExercise = (ForceSensorExercise) SqliteForceSensorExercise.Select (
-                                false, getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false, "")[0];
+		currentForceSensorExercise = SqliteForceSensorExercise.Select (
+				false, getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false, "")[0];
 	}
 
 	private Questionnaire questionnaire;
@@ -2381,8 +2381,8 @@ LogB.Information(" fs R ");
 				signalSuperpose_2SetsCDPersonName = SqlitePerson.SelectAttribute (personID, "name");
 
 			currentForceSensor_CD = fs;
-			currentForceSensorExercise_2SetsCD = (ForceSensorExercise) SqliteForceSensorExercise.Select (
-                                false, fs.ExerciseID, -1, false, "")[0];
+			currentForceSensorExercise_2SetsCD = SqliteForceSensorExercise.Select (
+					false, fs.ExerciseID, -1, false, "")[0];
 
 			//TODO: maybe need to wait to ensure is copied
 			File.Copy (lastForceSensorFullPath_2SetsCD, UtilEncoder.GetmifCSVFileName_CD (), true); //can be overwritten
@@ -3632,9 +3632,9 @@ LogB.Information(" fs R ");
 		//<---- two combobox are linked
 
 		int exID = getExerciseIDFromAnyCombo (combo_force_sensor_exercise, forceSensorComboExercisesString, false);
-		ArrayList array = SqliteForceSensorExercise.Select (false, exID, -1, false, "");
+		List<ForceSensorExercise> fsex_l = SqliteForceSensorExercise.Select (false, exID, -1, false, "");
 
-		if(array.Count == 0 || exID < 0)
+		if (fsex_l.Count == 0 || exID < 0)
 		{
 			label_button_force_sensor_stiffness.Text = "0";
 			image_button_force_sensor_stiffness_problem.Visible = true;
@@ -3646,7 +3646,7 @@ LogB.Information(" fs R ");
 			return;
 		}
 
-		ForceSensorExercise fse = (ForceSensorExercise) array[0];
+		ForceSensorExercise fse = fsex_l[0];
 		if(fse.ComputeAsElastic)
 		{
 			List<ForceSensorElasticBand> list_fseb = SqliteForceSensorElasticBand.SelectAll(false, true); //not opened, onlyActive
@@ -3694,9 +3694,9 @@ LogB.Information(" fs R ");
 	{
 		int elastic = ForceSensor.GetElasticIntFromMode (current_mode);
 
-		ArrayList forceSensorExercises = SqliteForceSensorExercise.Select (false, -1, elastic, false,
+		List<ForceSensorExercise> fsex_l = SqliteForceSensorExercise.Select (false, -1, elastic, false,
 				force_sensor_exercise_filter.Text.ToString ());
-		if(forceSensorExercises.Count == 0)
+		if(fsex_l.Count == 0)
 		{
 			forceSensorComboExercisesString = new String [0];
 			UtilGtk.ComboUpdate(combo_force_sensor_exercise, new String[0], "");
@@ -3704,10 +3704,10 @@ LogB.Information(" fs R ");
 			return;
 		}
 
-		forceSensorComboExercisesString = new String [forceSensorExercises.Count];
-		string [] exerciseNamesToCombo = new String [forceSensorExercises.Count];
+		forceSensorComboExercisesString = new String [fsex_l.Count];
+		string [] exerciseNamesToCombo = new String [fsex_l.Count];
 		int i =0;
-		foreach(ForceSensorExercise ex in forceSensorExercises)
+		foreach (ForceSensorExercise ex in fsex_l)
 		{
 			exerciseNamesToCombo[i] = ex.Name;
 			forceSensorComboExercisesString[i] = ex.UniqueID + ":" + ex.Name;

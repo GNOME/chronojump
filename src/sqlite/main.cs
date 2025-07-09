@@ -3151,8 +3151,8 @@ class Sqlite
 			{
 				LogB.SQL("Inserted default exercises of forceSensor and raceAnalyzer if empty");
 
-				ArrayList exercises = SqliteForceSensorExercise.Select(true, -1, -1, true, "");
-				if(exercises == null || exercises.Count == 0)
+				List<ForceSensorExercise> fsex_l = SqliteForceSensorExercise.Select (true, -1, -1, true, "");
+				if (fsex_l == null || fsex_l.Count == 0)
 					SqliteForceSensorExercise.insertDefault();
 
 				/* moved to 2.31 to do it after RunEncoderExercise added segmentVariableCm

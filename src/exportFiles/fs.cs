@@ -45,7 +45,7 @@ public class ForceSensorExport : ExportFiles
 	private double butterworthFreq;
 
 	private List<ForceSensor> fs_l;
-	private ArrayList fsEx_l;
+	private List<ForceSensorExercise> fsEx_l;
 	private static int totalRepsToExport;
 
 	public ForceSensorExport (

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2021-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System.IO; 		//for detect OS //TextWriter
@@ -42,6 +42,7 @@ public abstract class ExportFiles
 	protected int personID; // -1: all
 	protected int sessionID;
 	protected char exportDecimalSeparator;
+	protected string discardedReasonMessage = "";
 
 	protected ArrayList personSession_l;
 
@@ -163,10 +164,10 @@ public abstract class ExportFiles
 			notebook.CurrentPage = 0;
 
 			if(discarded > 0)
-				labelDiscarded.Text = string.Format(Catalog.GetPluralString(
-							"Discarded 1 set for being too short.",
-							"Discarded {0} sets for being too short.",
-							discarded), discarded);
+				labelDiscarded.Text = string.Format (Catalog.GetPluralString (
+							"Discarded 1 set.",
+							"Discarded {0} sets.",
+							discarded), discarded) + " " + discardedReasonMessage;
 
 			if(cancel)
 				labelResult.Text = Catalog.GetString("Cancelled.");

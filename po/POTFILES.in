@@ -55,6 +55,8 @@ src/execute/run.cs
 src/execute/runI.cs
 src/exportFiles/exportFiles.cs
 src/exportFiles/fs.cs
+src/exportFiles/re.cs
+src/exportFiles/sprint.cs
 src/exportSession.cs
 src/forceSensor.cs
 src/graphs/bars/bars.cs

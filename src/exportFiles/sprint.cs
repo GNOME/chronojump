@@ -23,6 +23,7 @@ using System.IO; 			//Directory, ...
 using System.Collections; 		//ArrayList
 using System.Collections.Generic; 	//List<T>
 using System.Threading;
+using Mono.Unix;
 
 public class SprintExport : ExportFiles
 {
@@ -53,6 +54,8 @@ public class SprintExport : ExportFiles
 				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator);
 
 		this.digitsNumber = digitsNumber;
+
+		discardedReasonMessage = Catalog.GetString ("Reason: having less than three tracks needed for model.");
 	}
 
 	private string getTempGraphsDir() {

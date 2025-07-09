@@ -23,6 +23,7 @@ using System.IO; 			//Directory, ...
 using System.Collections; 		//ArrayList
 using System.Collections.Generic; 	//List<T>
 using System.Threading;
+using Mono.Unix;
 
 public class RunEncoderExport : ExportFiles
 {
@@ -72,6 +73,8 @@ public class RunEncoderExport : ExportFiles
 		this.plotFittedForce = plotFittedForce;
 		this.plotRawPower = plotRawPower;
 		this.plotFittedPower = plotFittedPower;
+
+		discardedReasonMessage = Catalog.GetString ("Reason: test being too short.");
 	}
 
 	private string getTempGraphsDir() {

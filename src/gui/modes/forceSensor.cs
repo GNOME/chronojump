@@ -140,7 +140,7 @@ public partial class ChronoJumpWindow
 			return;
 
 		//3.- obtain the data of the selected forceSensor
-		ForceSensor forceSensor = SqliteForceSensor.SelectData (selectedID, false );
+		ForceSensor forceSensor = SqliteForceSensor.SelectData (selectedID, true, false);
 		eventOldPerson = forceSensor.PersonID;
 
 		//4.- edit this test
@@ -150,7 +150,7 @@ public partial class ChronoJumpWindow
 	private void on_edit_selected_forceSensor_accepted (object o, EventArgs args)
 	{
 		LogB.Information("edit selected forceSensor accepted");
-		ForceSensor forceSensor = SqliteForceSensor.SelectData (treeViewResultsSession.EventSelectedID, false);
+		ForceSensor forceSensor = SqliteForceSensor.SelectData (treeViewResultsSession.EventSelectedID, true, false);
 
 		//if person changed, fill treeview again, if not, only update it's line
 		if (eventOldPerson == forceSensor.PersonID)

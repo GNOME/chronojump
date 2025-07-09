@@ -271,9 +271,18 @@ class SqliteForceSensor : SqliteTests
 		    ;
     }
 
-    public static ForceSensor SelectData (int uniqueID, bool dbconOpened)
+    public static ForceSensor SelectData (int uniqueID, bool getExerciseName, bool dbconOpened)
     {
-	    return new ForceSensor (selectTestData (uniqueID, dbconOpened, tableStatic, 16));
+	    ForceSensor fs = new ForceSensor (selectTestData (uniqueID, dbconOpened, tableStatic, 16));
+
+	    if (getExerciseName)
+	    {
+		   List<ForceSensorExercise> fsex_l = SqliteForceSensorExercise.Select (dbconOpened, fs.ExerciseID, -1, true, "");
+		   if (fsex_l.Count > 0)
+			   fs.ExerciseName = fsex_l[0].Name;
+	    }
+
+	    return fs;
     }
 
     public static ArrayList SelectRowsOfAnExercise(bool dbconOpened, int exerciseID)

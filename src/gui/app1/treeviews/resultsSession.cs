@@ -303,7 +303,7 @@ public partial class ChronoJumpWindow
 		}
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
-			ev = SqliteForceSensor.SelectData (id, false);
+			ev = SqliteForceSensor.SelectData (id, false, false);
 			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
 		}
 		/*

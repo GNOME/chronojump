@@ -85,7 +85,7 @@ public class EditEventWindow
 	protected Gtk.Button button_video_watch;
 	protected Gtk.Image image_video_watch;
 	protected Gtk.Button button_video_url;
-	private Gtk.Box hbox_description;
+	private Gtk.Label label_description;
 	protected Gtk.Entry entry_description;
 	//protected Gtk.TextView textview_description;
 	// <---- at glade
@@ -290,9 +290,11 @@ public class EditEventWindow
 			//also remove new line for old descriptions that used a textview
 			string temp = Util.RemoveTildeAndColonAndDot(myEvent.Description);
 			entry_description.Text = Util.RemoveNewLine(temp, true);
-			hbox_description.Show();
+			label_description.Show();
+			entry_description.Show();
 		} else {
-			hbox_description.Hide();
+			label_description.Hide();
+			entry_description.Hide();
 		}
 
 		createComboEventType(myEvent);
@@ -687,7 +689,7 @@ public class EditEventWindow
 		button_video_watch = (Gtk.Button) builder.GetObject ("button_video_watch");
 		image_video_watch = (Gtk.Image) builder.GetObject ("image_video_watch");
 		button_video_url = (Gtk.Button) builder.GetObject ("button_video_url");
-		hbox_description = (Gtk.Box) builder.GetObject ("hbox_description");
+		label_description = (Gtk.Label) builder.GetObject ("label_description");
 		entry_description = (Gtk.Entry) builder.GetObject ("entry_description");
 		// textview_description = (Gtk.TextView) builder.GetObject ("textview_description");
 	}

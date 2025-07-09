@@ -365,7 +365,7 @@ public class EditJumpWindow : EditEventWindow
 
 	
 	protected override void createSignal() {
-		//only for jumps & runs
+		//only for jumps, runs, forceSensor
 		combo_eventType.Changed += new EventHandler (on_combo_eventType_changed);
 	}
 

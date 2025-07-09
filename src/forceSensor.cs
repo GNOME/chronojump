@@ -620,6 +620,16 @@ public class ForceSensorExercise
 			Util.ConvertToPoint(eccMin) + ", " + Util.ConvertToPoint(conMin);
 	}
 
+	public static string [] ListToString (List<ForceSensorExercise> fsex_l)
+	{
+		string [] myString = new String[fsex_l.Count];
+		int i = 0;
+		foreach (ForceSensorExercise fsex in fsex_l)
+			myString[i++] = fsex.Name;
+
+		return myString;
+	}
+
 	// to be able to import
 	public string ToSQLInsertString_DB_1_68()
 	{

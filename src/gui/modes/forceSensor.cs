@@ -31,6 +31,7 @@ using Mono.Unix;
 public class EditForceSensorWindow : EditEventWindow
 {
 	static EditForceSensorWindow EditForceSensorWindowBox;
+	Constants.Modes mode;
 
 	//for inheritance
 	protected EditForceSensorWindow () {
@@ -56,12 +57,13 @@ public class EditForceSensorWindow : EditEventWindow
 //		eventBigTypeString = Catalog.GetString("race");
 	}
 
-	static public EditForceSensorWindow Show (Gtk.Window parent, Event myEvent)
+	static public EditForceSensorWindow Show (Gtk.Window parent, Event myEvent, Constants.Modes mode)
 	{
 		if (EditForceSensorWindowBox == null) {
 			EditForceSensorWindowBox = new EditForceSensorWindow (parent);
 		}
 
+		EditForceSensorWindowBox.mode = mode;
 		EditForceSensorWindowBox.colorize();
 		EditForceSensorWindowBox.initializeValues();
 		EditForceSensorWindowBox.fillDialog (myEvent);
@@ -73,7 +75,7 @@ public class EditForceSensorWindow : EditEventWindow
 	protected override void initializeValues ()
 	{
 		typeOfTest = Constants.TestTypes.FORCESENSOR;
-		showType = false; //TODO: in the future change this
+		showType = true;
 		showRunStart = false;
 		showTv = false;
 		showTc = false;
@@ -91,8 +93,16 @@ public class EditForceSensorWindow : EditEventWindow
 
 	protected override string [] findTypes (Event myEvent)
 	{
-		//TODO
-		return new string []{};
+		List<ForceSensorExercise> fsex_l;
+
+		LogB.Information ("current_mode: " + mode.ToString ());
+		if (mode == Constants.Modes.FORCESENSORISOMETRIC)
+			fsex_l = SqliteForceSensorExercise.Select (false, -1, 0, true, ""); // onlyNames (but returns a full ForceSensorExercise)
+		else // (mode == Constants.Modes.FORCESENSORELASTIC)
+			fsex_l = SqliteForceSensorExercise.Select (false, -1, 1, true, ""); // onlyNames (but returns a full ForceSensorExercise)
+
+		// get the exercise names and convert to string []
+		return ForceSensorExercise.ListToString (fsex_l);
 	}
 	
 	private void on_combo_eventType_changed (object o, EventArgs args)
@@ -144,7 +154,7 @@ public partial class ChronoJumpWindow
 		eventOldPerson = forceSensor.PersonID;
 
 		//4.- edit this test
-		editForceSensorWin = EditForceSensorWindow.Show (app1, forceSensor);
+		editForceSensorWin = EditForceSensorWindow.Show (app1, forceSensor, current_mode);
 		editForceSensorWin.Button_accept.Clicked += new EventHandler (on_edit_selected_forceSensor_accepted);
 	}
 	private void on_edit_selected_forceSensor_accepted (object o, EventArgs args)

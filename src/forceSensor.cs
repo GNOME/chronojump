@@ -96,6 +96,7 @@ public class ForceSensor : Event
 		this.maxAvgForce1s = maxAvgForce1s;
 
 		this.exerciseName = exerciseName;
+		this.type = exerciseName;
 	}
 
 	// constructor for TreeViewForceSensor.getObjectFromString ()
@@ -108,6 +109,7 @@ public class ForceSensor : Event
 		this.dateTime = dateTime;
 		this.description = description;
 		this.exerciseName = exerciseName;
+		this.type = exerciseName;
 	}
 
 	// constructor for SqliteForceSensor.SelectData ()
@@ -449,7 +451,10 @@ public class ForceSensor : Event
 	public string ExerciseName
 	{
 		get { return exerciseName; }
-		set { exerciseName = value; }
+		set {
+			exerciseName = value;
+			type = value;
+		}
 	}
 	public double MaxForceRaw
 	{

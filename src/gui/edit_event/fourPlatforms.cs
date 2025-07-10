@@ -79,6 +79,7 @@ public class EditFourPlatformsWindow : EditEventWindow
 		showWeight = false;
 		showLimited = false;
 		showMistakes = false;
+		showForceSensor = true;
 		showVideo = false;
 		showDescription = false;
 	}

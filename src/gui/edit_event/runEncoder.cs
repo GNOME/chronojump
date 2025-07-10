@@ -79,6 +79,7 @@ public class EditRunEncoderWindow : EditEventWindow
 		showSpeed = false;
 		showWeight = false;
 		showLimited = false;
+		showForceSensor = false;
 		showMistakes = false;
 		showVideo = false;
 		showDescription = true;

@@ -121,6 +121,7 @@ public class EditJumpWindow : EditEventWindow
 		showWeight = true;
 		showLimited = false;
 		//showAngle = true; //kneeAngle
+		showForceSensor = false;
 		showMistakes = false;
 		showDescription = true;
 		
@@ -535,6 +536,7 @@ public class EditJumpRjWindow : EditJumpWindow
 		showSpeed = false;
 		showWeight = true;
 		showLimited = true;
+		showForceSensor = false;
 		showMistakes = false;
 		showDescription = true;
 		

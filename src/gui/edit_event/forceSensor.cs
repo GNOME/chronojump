@@ -80,6 +80,7 @@ public class EditForceSensorWindow : EditEventWindow
 		showWeight = false;
 		showLimited = false;
 		showMistakes = false;
+		showForceSensor = true;
 		showVideo = false;
 		showDescription = true;
 	}
@@ -110,8 +111,25 @@ public class EditForceSensorWindow : EditEventWindow
 				UtilGtk.ComboGetActive(combo_eventType));
 
 		ForceSensor fs = SqliteForceSensor.SelectData (eventID, false, false);
+
 		fs.ExerciseID = fsExIdNew;
+
+		if (radio_forceSensor_capture_standard.Active)
+			fs.CaptureOption = ForceSensor.CaptureOptions.NORMAL;
+		else if (radio_forceSensor_capture_absolute.Active)
+			fs.CaptureOption = ForceSensor.CaptureOptions.ABS;
+		else if (radio_forceSensor_capture_inverted.Active)
+			fs.CaptureOption = ForceSensor.CaptureOptions.INVERTED;
+
+		if (radio_forceSensor_laterality_both.Active)
+			fs.Laterality = "Both";
+		else if (radio_forceSensor_laterality_left.Active)
+			fs.Laterality = "Left";
+		else if (radio_forceSensor_laterality_right.Active)
+			fs.Laterality = "Right";
+
 		fs.Description = description;
+
 		fs.UpdateSQL (false);
 	}
 

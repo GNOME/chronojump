@@ -78,6 +78,7 @@ public class EditWilightWindow : EditEventWindow
 		showSpeed = false;
 		showWeight = false;
 		showLimited = false;
+		showForceSensor = false;
 		showMistakes = false;
 		showVideo = false;
 		showDescription = false;

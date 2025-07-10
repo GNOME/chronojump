@@ -102,6 +102,7 @@ public class EditRunWindow : EditEventWindow
 		showSpeed = true;
 		showWeight = false;
 		showLimited = false;
+		showForceSensor = false;
 		showMistakes = false;
 		showDescription = true;
 		
@@ -332,6 +333,7 @@ public class EditRunIntervalWindow : EditRunWindow
 		showSpeed = true;
 		showWeight = false;
 		showLimited = true;
+		showForceSensor = false;
 		showMistakes = false;
 		showDescription = true;
 		

@@ -78,6 +78,7 @@ public class EditBeepTestWindow : EditEventWindow
 		showWeight = false;
 		showLimited = false;
 		showMistakes = false;
+		showForceSensor = false;
 		showVideo = false;
 		showDescription = false;
 	}

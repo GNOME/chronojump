@@ -36,6 +36,8 @@ public class EditEventWindow
 	protected Gtk.Window edit_event;
 	protected Gtk.Button button_accept;
 	protected Gtk.Label label_header;
+	protected Gtk.Frame frame;
+	//protected Gtk.Grid grid;
 	protected Gtk.Label label_type_title;
 	protected Gtk.Label label_type_value;
 	protected Gtk.Label label_run_start_title;
@@ -74,6 +76,21 @@ public class EditEventWindow
 	
 	protected Gtk.Label label_mistakes;
 	protected Gtk.SpinButton spin_mistakes;
+
+	// force sensor
+	private Gtk.Label label_forceSensor_capture;
+	private Gtk.Box box_forceSensor_capture;
+	private Gtk.Label label_forceSensor_laterality;
+	private Gtk.Box box_forceSensor_laterality;
+	protected Gtk.RadioButton radio_forceSensor_capture_standard;
+	protected Gtk.RadioButton radio_forceSensor_capture_absolute;
+	protected Gtk.RadioButton radio_forceSensor_capture_inverted;
+	protected Gtk.RadioButton radio_forceSensor_laterality_both;
+	protected Gtk.RadioButton radio_forceSensor_laterality_left;
+	protected Gtk.RadioButton radio_forceSensor_laterality_right;
+	private Gtk.Image image_forceSensor_laterality_both;
+	private Gtk.Image image_forceSensor_laterality_left;
+	private Gtk.Image image_forceSensor_laterality_right;
 
 	private Gtk.Box hbox_video;
 	private Gtk.Label label_video;
@@ -119,6 +136,7 @@ public class EditEventWindow
 	protected bool showWeight;
 	protected bool showLimited;
 	//protected bool showAngle; //kneeAngle
+	protected bool showForceSensor;
 	protected bool showVideo;
 	protected bool showMistakes;
 	protected bool showDescription;
@@ -166,6 +184,9 @@ public class EditEventWindow
 		{
 			UtilGtk.WindowColor (edit_event, Config.ColorBackground);
 			UtilGtk.ContrastLabelsWidget (Config.ColorBackgroundIsDark, edit_event);
+
+			UtilGtk.WidgetColor (frame, Config.ColorBackgroundShifted);
+			UtilGtk.ContrastLabelsFrame (Config.ColorBackgroundShiftedIsDark, frame);
 		}
 	}
 
@@ -187,6 +208,7 @@ public class EditEventWindow
 		showWeight = true;
 		showLimited = true;
 		//showAngle = true; //kneeAngle
+		showForceSensor = false;
 		showVideo = true;
 		showMistakes = false;
 		showDescription = true;
@@ -328,6 +350,9 @@ public class EditEventWindow
 		hbox_combo_person.PackStart(combo_persons, true, true, 0);
 		hbox_combo_person.ShowAll();
 
+		if (showForceSensor)
+			fillDialogForceSensor ((ForceSensor) myEvent);
+
 		if (showVideo)
 		{
 			//show video if available	
@@ -348,6 +373,44 @@ public class EditEventWindow
 			label_video.Hide ();
 			hbox_video.Hide ();
 		}
+	}
+
+	private void fillDialogForceSensor (ForceSensor fs)
+	{
+		image_forceSensor_laterality_both.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-both.png");
+		image_forceSensor_laterality_left.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-left.png");
+		image_forceSensor_laterality_right.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-right.png");
+
+		switch (fs.CaptureOption)
+		{
+			case ForceSensor.CaptureOptions.NORMAL:
+				radio_forceSensor_capture_standard.Active = true;
+				break;
+			case ForceSensor.CaptureOptions.ABS:
+				radio_forceSensor_capture_absolute.Active = true;
+				break;
+			case ForceSensor.CaptureOptions.INVERTED:
+				radio_forceSensor_capture_inverted.Active = true;
+				break;
+		}
+
+		switch (fs.Laterality)
+		{
+			case "Both":
+				radio_forceSensor_laterality_both.Active = true;
+				break;
+			case "Left":
+				radio_forceSensor_laterality_left.Active = true;
+				break;
+			case "Right":
+				radio_forceSensor_laterality_right.Active = true;
+				break;
+		}
+
+		label_forceSensor_capture.Visible = true;
+		box_forceSensor_capture.Visible = true;
+		label_forceSensor_laterality.Visible = true;
+		box_forceSensor_laterality.Visible = true;
 	}
 
 	private void on_button_video_watch_clicked (object o, EventArgs args)
@@ -646,6 +709,8 @@ public class EditEventWindow
 		edit_event = (Gtk.Window) builder.GetObject ("edit_event");
 		button_accept = (Gtk.Button) builder.GetObject ("button_accept");
 		label_header = (Gtk.Label) builder.GetObject ("label_header");
+		frame = (Gtk.Frame) builder.GetObject ("frame");
+		//grid = (Gtk.Grid) builder.GetObject ("grid");
 		label_type_title = (Gtk.Label) builder.GetObject ("label_type_title");
 		label_type_value = (Gtk.Label) builder.GetObject ("label_type_value");
 		label_run_start_title = (Gtk.Label) builder.GetObject ("label_run_start_title");
@@ -684,6 +749,20 @@ public class EditEventWindow
 
 		label_mistakes = (Gtk.Label) builder.GetObject ("label_mistakes");
 		spin_mistakes = (Gtk.SpinButton) builder.GetObject ("spin_mistakes");
+
+		label_forceSensor_capture = (Gtk.Label) builder.GetObject ("label_forceSensor_capture");
+		box_forceSensor_capture = (Gtk.Box) builder.GetObject ("box_forceSensor_capture");
+		label_forceSensor_laterality = (Gtk.Label) builder.GetObject ("label_forceSensor_laterality");
+		box_forceSensor_laterality = (Gtk.Box) builder.GetObject ("box_forceSensor_laterality");
+		radio_forceSensor_capture_standard = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_capture_standard");
+		radio_forceSensor_capture_absolute = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_capture_absolute");
+		radio_forceSensor_capture_inverted = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_capture_inverted");
+		radio_forceSensor_laterality_both = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_laterality_both");
+		radio_forceSensor_laterality_left = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_laterality_left");
+		radio_forceSensor_laterality_right = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_laterality_right");
+		image_forceSensor_laterality_both = (Gtk.Image) builder.GetObject ("image_forceSensor_laterality_both");
+		image_forceSensor_laterality_left = (Gtk.Image) builder.GetObject ("image_forceSensor_laterality_left");
+		image_forceSensor_laterality_right = (Gtk.Image) builder.GetObject ("image_forceSensor_laterality_right");
 
 		hbox_video = (Gtk.Box) builder.GetObject ("hbox_video");
 		label_video = (Gtk.Label) builder.GetObject ("label_video");

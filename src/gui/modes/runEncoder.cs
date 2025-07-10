@@ -76,9 +76,12 @@ public class EditRunEncoderWindow : EditEventWindow
 		typeOfTest = Constants.TestTypes.FORCESENSOR;
 		showType = false; //TODO: in the future change this
 		showRunStart = false;
-		showTv = false;
-		showTc = false;
-		showFall = false;
+
+		//jump
+		showJumpTv = false;
+		showJumpTc = false;
+		showJumpFall = false;
+
 		showDistance = false;
 		distanceCanBeDecimal = true;
 		showTime = false;

@@ -77,9 +77,12 @@ public class EditForceSensorWindow : EditEventWindow
 		typeOfTest = Constants.TestTypes.FORCESENSOR;
 		showType = true;
 		showRunStart = false;
-		showTv = false;
-		showTc = false;
-		showFall = false;
+
+		//jump
+		showJumpTv = false;
+		showJumpTc = false;
+		showJumpFall = false;
+
 		showDistance = false;
 		distanceCanBeDecimal = true;
 		showTime = false;

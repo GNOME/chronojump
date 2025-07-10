@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -109,13 +109,17 @@ public class EditJumpWindow : EditEventWindow
 		return EditJumpWindowBox;
 	}
 	
-	protected override void initializeValues () {
+	protected override void initializeValues ()
+	{
 		typeOfTest = Constants.TestTypes.JUMP;
 		showType = true;
 		showRunStart = false;
-		showTv = true;
-		showTc= true;
-		showFall = true;
+
+		// jumps
+		showJumpTv = true;
+		showJumpTc= true;
+		showJumpFall = true;
+
 		showDistance = false;
 		showTime = false;
 		showSpeed = false;
@@ -146,16 +150,16 @@ public class EditJumpWindow : EditEventWindow
 
 	protected override void fillTv(Event myEvent) {
 		Jump myJump = (Jump) myEvent;
-		entryTv = myJump.Tv.ToString();
+		entryJumpTv = myJump.Tv.ToString();
 
 		//show all the decimals for not triming there in edit window using
 		//(and having different values in formulae like GetHeightInCm ...)
-		//entry_tv_value.Text = Util.TrimDecimals(entryTv, pDN);
-		entry_tv_value.Text = entryTv;
+		//entry_jump_tv_value.Text = Util.TrimDecimals(entryJumpTv, pDN);
+		entry_jump_tv_value.Text = entryJumpTv;
 	
 		//hide tv if it's only a takeoff	
 		if(myEvent.Type == Constants.TakeOffName || myEvent.Type == Constants.TakeOffWeightName) 
-			entry_tv_value.Sensitive = false;
+			entry_jump_tv_value.Sensitive = false;
 	}
 
 	protected override void fillTc (Event myEvent) {
@@ -163,20 +167,20 @@ public class EditJumpWindow : EditEventWindow
 		Jump myJump = (Jump) myEvent;
 
 		if (myJump.TypeHasFall) {
-			entryTc = myJump.Tc.ToString();
+			entryJumpTc = myJump.Tc.ToString();
 			
 			//show all the decimals for not triming there in edit window using
 			//(and having different values in formulae like GetHeightInCm ...)
-			//entry_tc_value.Text = Util.TrimDecimals(entryTc, pDN);
-			entry_tc_value.Text = entryTc;
+			//entry_jump_tc_value.Text = Util.TrimDecimals(entryJumpTc, pDN);
+			entry_jump_tc_value.Text = entryJumpTc;
 			
-			entryFall = myJump.Fall.ToString();
-			entry_fall_value.Text = entryFall;
-			entry_tc_value.Sensitive = true;
-			entry_fall_value.Sensitive = true;
+			entryJumpFall = myJump.Fall.ToString();
+			entry_jump_fall_value.Text = entryJumpFall;
+			entry_jump_tc_value.Sensitive = true;
+			entry_jump_fall_value.Sensitive = true;
 		} else {
-			entry_tc_value.Sensitive = false;
-			entry_fall_value.Sensitive = false;
+			entry_jump_tc_value.Sensitive = false;
+			entry_jump_fall_value.Sensitive = false;
 		}
 	}
 
@@ -353,7 +357,7 @@ public class EditJumpWindow : EditEventWindow
 			d[3] = distance.ToString();
 			
 			d[4] = Util.CalculateJumpAngle(
-					Convert.ToDouble(Util.GetHeightInCentimeters(entryTv)), 
+					Convert.ToDouble(Util.GetHeightInCentimeters(entryJumpTv)), 
 					distance ).ToString();
 
 			entry_description.Text = 
@@ -376,10 +380,10 @@ public class EditJumpWindow : EditEventWindow
 		JumpType myJumpType = new JumpType (UtilGtk.ComboGetActive(combo_eventType));
 
 		if(myJumpType.Name == Constants.TakeOffName || myJumpType.Name == Constants.TakeOffWeightName) {
-			entry_tv_value.Text = "0";
-			entry_tv_value.Sensitive = false;
+			entry_jump_tv_value.Text = "0";
+			entry_jump_tv_value.Sensitive = false;
 		} else 
-			entry_tv_value.Sensitive = true;
+			entry_jump_tv_value.Sensitive = true;
 
 
 		if(myJumpType.HasWeight) {
@@ -425,8 +429,8 @@ public class EditJumpWindow : EditEventWindow
 		//only for jump
 		double jumpPercentWeightForNewPerson = updateWeight(personID, sessionID);
 		
-		//SqliteJump.Update(eventID, UtilGtk.ComboGetActive(combo_eventType), entryTv, entryTc, entryFall, personID, jumpPercentWeightForNewPerson, description, Convert.ToDouble(entryAngle));
-		SqliteJump.Update(eventID, UtilGtk.ComboGetActive(combo_eventType), entryTv, entryTc, entryFall, personID, jumpPercentWeightForNewPerson, description, -1.0);
+		//SqliteJump.Update(eventID, UtilGtk.ComboGetActive(combo_eventType), entryJumpTv, entryJumpTc, entryJumpFall, personID, jumpPercentWeightForNewPerson, description, Convert.ToDouble(entryAngle));
+		SqliteJump.Update(eventID, UtilGtk.ComboGetActive(combo_eventType), entryJumpTv, entryJumpTc, entryJumpFall, personID, jumpPercentWeightForNewPerson, description, -1.0);
 	}
 
 	
@@ -528,9 +532,12 @@ public class EditJumpRjWindow : EditJumpWindow
 		typeOfTest = Constants.TestTypes.JUMP_RJ;
 		showType = true;
 		showRunStart = false;
-		showTv = false;
-		showTc = false;
-		showFall = true;
+
+		//jump
+		showJumpTv = false;
+		showJumpTc = false;
+		showJumpFall = true;
+
 		showDistance = false;
 		showTime = false;
 		showSpeed = false;
@@ -571,8 +578,8 @@ public class EditJumpRjWindow : EditJumpWindow
 
 	protected override void fillFall(Event myEvent) {
 		JumpRj myJump = (JumpRj) myEvent;
-		entryFall = myJump.Fall.ToString();
-		entry_fall_value.Text = entryFall;
+		entryJumpFall = myJump.Fall.ToString();
+		entry_jump_fall_value.Text = entryJumpFall;
 	}
 
 	protected override void fillLimited(Event myEvent) {
@@ -602,7 +609,7 @@ public class EditJumpRjWindow : EditJumpWindow
 		//only for jumps
 		double jumpPercentWeightForNewPerson = updateWeight(personID, sessionID);
 		
-		SqliteJumpRj.Update(eventID, personID, entryFall, jumpPercentWeightForNewPerson, description);
+		SqliteJumpRj.Update(eventID, personID, entryJumpFall, jumpPercentWeightForNewPerson, description);
 	}
 }
 

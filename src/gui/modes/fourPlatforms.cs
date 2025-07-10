@@ -75,9 +75,12 @@ public class EditFourPlatformsWindow : EditEventWindow
 		typeOfTest = Constants.TestTypes.FOURPLATFORMS;
 		showType = false; //TODO: in the future change this
 		showRunStart = false;
-		showTv = false;
-		showTc= false;
-		showFall = false;
+
+		//jumps
+		showJumpTv = false;
+		showJumpTc= false;
+		showJumpFall = false;
+
 		showDistance = false;
 		distanceCanBeDecimal = true;
 		showTime = false;

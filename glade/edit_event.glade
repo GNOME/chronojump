@@ -164,40 +164,152 @@ comments</property>
               </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkLabel" id="label_jump_tv_title">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Flight time</property>
+                <property name="xalign">0</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">3</property>
+              </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkEntry" id="entry_jump_tv_value">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="primary-icon-activatable">False</property>
+                <property name="secondary-icon-activatable">False</property>
+                <signal name="changed" handler="on_entry_jump_tv_value_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">3</property>
+              </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkLabel" id="label_jump_tv_units">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">seconds</property>
+                <property name="xalign">0</property>
+              </object>
+              <packing>
+                <property name="left-attach">2</property>
+                <property name="top-attach">3</property>
+              </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkLabel" id="label_jump_tc_title">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Contact time</property>
+                <property name="xalign">0</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">4</property>
+              </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkEntry" id="entry_jump_tc_value">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="primary-icon-activatable">False</property>
+                <property name="secondary-icon-activatable">False</property>
+                <signal name="changed" handler="on_entry_jump_tc_value_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">4</property>
+              </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkLabel" id="label_jump_tc_units">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">seconds</property>
+                <property name="xalign">0</property>
+              </object>
+              <packing>
+                <property name="left-attach">2</property>
+                <property name="top-attach">4</property>
+              </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkLabel" id="label_jump_fall_title">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Falling height</property>
+                <property name="xalign">0</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">5</property>
+              </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkEntry" id="entry_jump_fall_value">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="primary-icon-activatable">False</property>
+                <property name="secondary-icon-activatable">False</property>
+                <signal name="changed" handler="on_entry_jump_fall_value_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">5</property>
+              </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkLabel" id="label_jump_fall_units">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">cm</property>
+                <property name="xalign">0</property>
+              </object>
+              <packing>
+                <property name="left-attach">2</property>
+                <property name="top-attach">5</property>
+              </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkLabel" id="label_weight_title">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Extra weight</property>
+                <property name="xalign">0</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">6</property>
+              </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkEntry" id="entry_weight_value">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="primary-icon-activatable">False</property>
+                <property name="secondary-icon-activatable">False</property>
+                <signal name="changed" handler="on_entry_weight_value_changed" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">6</property>
+              </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkLabel" id="label_weight_units">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Kg</property>
+                <property name="xalign">0</property>
+              </object>
+              <packing>
+                <property name="left-attach">2</property>
+                <property name="top-attach">6</property>
+              </packing>
             </child>
             <child>
               <placeholder/>
@@ -290,60 +402,6 @@ comments</property>
               <placeholder/>
             </child>
             <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_tv_title">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Flight time</property>
-                <property name="xalign">0</property>
-              </object>
-              <packing>
-                <property name="top-attach">3</property>
-                <property name="bottom-attach">4</property>
-                <property name="x-options">GTK_FILL</property>
-                <property name="y-options"/>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_fall_title">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Falling height</property>
-                <property name="xalign">0</property>
-              </object>
-              <packing>
-                <property name="top-attach">5</property>
-                <property name="bottom-attach">6</property>
-                <property name="x-options">GTK_FILL</property>
-                <property name="y-options"/>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_weight_title">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Extra weight</property>
-                <property name="xalign">0</property>
-              </object>
-              <packing>
-                <property name="top-attach">9</property>
-                <property name="bottom-attach">10</property>
-                <property name="x-options">GTK_FILL</property>
-                <property name="y-options"/>
-              </packing>
-            </child>
-            <child>
               <object class="GtkLabel" id="label_limited_title">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
@@ -369,84 +427,6 @@ comments</property>
                 <property name="top-attach">10</property>
                 <property name="bottom-attach">11</property>
                 <property name="x-options">GTK_FILL</property>
-                <property name="y-options"/>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_tc_title">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Contact time</property>
-                <property name="xalign">0</property>
-              </object>
-              <packing>
-                <property name="top-attach">4</property>
-                <property name="bottom-attach">5</property>
-                <property name="x-options">GTK_FILL</property>
-                <property name="y-options"/>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="entry_tv_value">
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="primary-icon-activatable">False</property>
-                <property name="secondary-icon-activatable">False</property>
-                <signal name="changed" handler="on_entry_tv_value_changed" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="right-attach">2</property>
-                <property name="top-attach">3</property>
-                <property name="bottom-attach">4</property>
-                <property name="y-options"/>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="entry_tc_value">
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="primary-icon-activatable">False</property>
-                <property name="secondary-icon-activatable">False</property>
-                <signal name="changed" handler="on_entry_tc_value_changed" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="right-attach">2</property>
-                <property name="top-attach">4</property>
-                <property name="bottom-attach">5</property>
-                <property name="y-options"/>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="entry_fall_value">
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="primary-icon-activatable">False</property>
-                <property name="secondary-icon-activatable">False</property>
-                <signal name="changed" handler="on_entry_fall_value_changed" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="right-attach">2</property>
-                <property name="top-attach">5</property>
-                <property name="bottom-attach">6</property>
-                <property name="y-options"/>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="entry_weight_value">
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="primary-icon-activatable">False</property>
-                <property name="secondary-icon-activatable">False</property>
-                <signal name="changed" handler="on_entry_weight_value_changed" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="right-attach">2</property>
-                <property name="top-attach">9</property>
-                <property name="bottom-attach">10</property>
                 <property name="y-options"/>
               </packing>
             </child>
@@ -537,25 +517,6 @@ comments</property>
                 <property name="bottom-attach">9</property>
                 <property name="x-options">GTK_FILL</property>
                 <property name="y-options"/>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkHBox" id="hbox_identifier">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="homogeneous">True</property>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="right-attach">2</property>
-                <property name="x-options">GTK_FILL</property>
-                <property name="y-options">GTK_FILL</property>
               </packing>
             </child>
             <child>
@@ -709,38 +670,6 @@ comments</property>
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label_tv_units">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">seconds</property>
-                <property name="xalign">0</property>
-              </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="right-attach">3</property>
-                <property name="top-attach">3</property>
-                <property name="bottom-attach">4</property>
-                <property name="x-options">GTK_FILL</property>
-                <property name="y-options"/>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_tc_units">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">seconds</property>
-                <property name="xalign">0</property>
-              </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="right-attach">3</property>
-                <property name="top-attach">4</property>
-                <property name="bottom-attach">5</property>
-                <property name="x-options">GTK_FILL</property>
-                <property name="y-options"/>
-              </packing>
-            </child>
-            <child>
               <object class="GtkLabel" id="label_time_units">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
@@ -752,22 +681,6 @@ comments</property>
                 <property name="right-attach">3</property>
                 <property name="top-attach">7</property>
                 <property name="bottom-attach">8</property>
-                <property name="x-options">GTK_FILL</property>
-                <property name="y-options"/>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_fall_units">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">cm</property>
-                <property name="xalign">0</property>
-              </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="right-attach">3</property>
-                <property name="top-attach">5</property>
-                <property name="bottom-attach">6</property>
                 <property name="x-options">GTK_FILL</property>
                 <property name="y-options"/>
               </packing>
@@ -805,22 +718,6 @@ comments</property>
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label_weight_units">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Kg</property>
-                <property name="xalign">0</property>
-              </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="right-attach">3</property>
-                <property name="top-attach">9</property>
-                <property name="bottom-attach">10</property>
-                <property name="x-options">GTK_FILL</property>
-                <property name="y-options"/>
-              </packing>
-            </child>
-            <child>
               <placeholder/>
             </child>
             <child>
@@ -851,6 +748,57 @@ comments</property>
                 <property name="x-options">GTK_FILL</property>
                 <property name="y-options"/>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>

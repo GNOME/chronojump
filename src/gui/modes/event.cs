@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -45,15 +45,15 @@ public class EditEventWindow
 	protected Gtk.Label label_run_start_title;
 	protected Gtk.Label label_run_start_value;
 	protected Gtk.Label label_event_id_value;
-	protected Gtk.Label label_tv_title;
-	protected Gtk.Entry entry_tv_value;
-	protected Gtk.Label label_tv_units;
-	protected Gtk.Label label_tc_title;
-	protected Gtk.Entry entry_tc_value;
-	protected Gtk.Label label_tc_units;
-	protected Gtk.Label label_fall_title;
-	protected Gtk.Entry entry_fall_value;
-	protected Gtk.Label label_fall_units;
+	protected Gtk.Label label_jump_tv_title;
+	protected Gtk.Entry entry_jump_tv_value;
+	protected Gtk.Label label_jump_tv_units;
+	protected Gtk.Label label_jump_tc_title;
+	protected Gtk.Entry entry_jump_tc_value;
+	protected Gtk.Label label_jump_tc_units;
+	protected Gtk.Label label_jump_fall_title;
+	protected Gtk.Entry entry_jump_fall_value;
+	protected Gtk.Label label_jump_fall_units;
 	protected Gtk.Label label_distance_title;
 	protected Gtk.Entry entry_distance_value;
 	protected Gtk.Label label_distance_units;
@@ -101,9 +101,9 @@ public class EditEventWindow
 	protected int pDN;
 	protected bool metersSecondsPreferred;
 	protected string type;
-	protected string entryTv; //contains a entry that is a Number. If changed the entry as is not a number, recuperate this
-	protected string entryTc = "0";
-	protected string entryFall = "0"; 
+	protected string entryJumpTv; //contains a entry that is a Number. If changed the entry as is not a number, recuperate this
+	protected string entryJumpTc = "0";
+	protected string entryJumpFall = "0"; 
 	protected string entryDistance = "0";
 	protected string entryTime = "0";
 	protected string entrySpeed = "0";
@@ -113,9 +113,9 @@ public class EditEventWindow
 	protected Constants.TestTypes typeOfTest;
 	protected bool showType;
 	protected bool showRunStart;
-	protected bool showTv;
-	protected bool showTc;
-	protected bool showFall;
+	protected bool showJumpTv;
+	protected bool showJumpTc;
+	protected bool showJumpFall;
 	protected bool showDistance;
 	protected bool distanceCanBeDecimal;
 	protected bool showTime;
@@ -173,13 +173,17 @@ public class EditEventWindow
 		}
 	}
 
-	protected virtual void initializeValues () {
+	protected virtual void initializeValues ()
+	{
 		typeOfTest = Constants.TestTypes.JUMP;
 		showType = true;
 		showRunStart = false;
-		showTv = true;
-		showTc = true;
-		showFall = true;
+
+		//jumps
+		showJumpTv = true;
+		showJumpTc = true;
+		showJumpFall = true;
+
 		showDistance = true;
 		distanceCanBeDecimal = true;
 		showTime = true;
@@ -208,28 +212,28 @@ public class EditEventWindow
 		label_event_id_value.Text = id;
 		label_event_id_value.UseMarkup = true;
 
-		if(showTv)
+		if(showJumpTv)
 			fillTv(myEvent);
 		else { 
-			label_tv_title.Hide();
-			entry_tv_value.Hide();
-			label_tv_units.Hide();
+			label_jump_tv_title.Hide();
+			entry_jump_tv_value.Hide();
+			label_jump_tv_units.Hide();
 		}
 
-		if(showTc)
+		if(showJumpTc)
 			fillTc(myEvent);
 		else { 
-			label_tc_title.Hide();
-			entry_tc_value.Hide();
-			label_tc_units.Hide();
+			label_jump_tc_title.Hide();
+			entry_jump_tc_value.Hide();
+			label_jump_tc_units.Hide();
 		}
 
-		if(showFall)
+		if(showJumpFall)
 			fillFall(myEvent);
 		else { 
-			label_fall_title.Hide();
-			entry_fall_value.Hide();
-			label_fall_units.Hide();
+			label_jump_fall_title.Hide();
+			entry_jump_fall_value.Hide();
+			label_jump_fall_units.Hide();
 		}
 
 		if(showDistance)
@@ -392,6 +396,8 @@ public class EditEventWindow
 		combo_eventType = new ComboBoxText ();
 		string [] myTypes = findTypes(myEvent);
 		UtilGtk.ComboUpdate(combo_eventType, myTypes, "");
+		LogB.Information ("createComboEventType myTypes: " + Util.StringArrayToString (myTypes, ", "));
+		LogB.Information ("myEvent.Type: " + myEvent.Type.ToString ());
 		combo_eventType.Active = UtilGtk.ComboMakeActive(myTypes, myEvent.Type);
 		hbox_combo_eventType.PackStart(combo_eventType, true, true, 0);
 		hbox_combo_eventType.ShowAll();
@@ -413,12 +419,12 @@ public class EditEventWindow
 
 	protected virtual void fillTv(Event myEvent) {
 		Jump myJump = (Jump) myEvent;
-		entryTv = myJump.Tv.ToString();
+		entryJumpTv = myJump.Tv.ToString();
 
 		//show all the decimals for not triming there in edit window using
 		//(and having different values in formulae like GetHeightInCm ...)
-		//entry_tv_value.Text = Util.TrimDecimals(entryTv, pDN);
-		entry_tv_value.Text = entryTv;
+		//entry_jump_tv_value.Text = Util.TrimDecimals(entryJumpTv, pDN);
+		entry_jump_tv_value.Text = entryJumpTv;
 	}
 
 	protected virtual void fillTc (Event myEvent) {
@@ -488,34 +494,34 @@ public class EditEventWindow
 	}
 
 
-	private void on_entry_tv_value_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_tv_value.Text.ToString(), true)){
-			entryTv = entry_tv_value.Text.ToString();
+	private void on_entry_jump_tv_value_changed (object o, EventArgs args) {
+		if(Util.IsNumber(entry_jump_tv_value.Text.ToString(), true)){
+			entryJumpTv = entry_jump_tv_value.Text.ToString();
 			button_accept.Sensitive = true;
 		} else {
 			button_accept.Sensitive = false;
 		}
 	}
 		
-	private void on_entry_tc_value_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_tc_value.Text.ToString(), true)){
-			entryTc = entry_tc_value.Text.ToString();
+	private void on_entry_jump_tc_value_changed (object o, EventArgs args) {
+		if(Util.IsNumber(entry_jump_tc_value.Text.ToString(), true)){
+			entryJumpTc = entry_jump_tc_value.Text.ToString();
 			button_accept.Sensitive = true;
 		} else {
 			button_accept.Sensitive = false;
-			//entry_tc_value.Text = "";
-			//entry_tc_value.Text = entryTc;
+			//entry_jump_tc_value.Text = "";
+			//entry_jump_tc_value.Text = entryJumpTc;
 		}
 	}
 		
-	private void on_entry_fall_value_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_fall_value.Text.ToString(), true)){
-			entryFall = entry_fall_value.Text.ToString();
+	private void on_entry_jump_fall_value_changed (object o, EventArgs args) {
+		if(Util.IsNumber(entry_jump_fall_value.Text.ToString(), true)){
+			entryJumpFall = entry_jump_fall_value.Text.ToString();
 			button_accept.Sensitive = true;
 		} else {
 			button_accept.Sensitive = false;
-			//entry_fall_value.Text = "";
-			//entry_fall_value.Text = entryFall;
+			//entry_jump_fall_value.Text = "";
+			//entry_jump_fall_value.Text = entryJumpFall;
 		}
 	}
 		
@@ -649,15 +655,15 @@ public class EditEventWindow
 		label_run_start_title = (Gtk.Label) builder.GetObject ("label_run_start_title");
 		label_run_start_value = (Gtk.Label) builder.GetObject ("label_run_start_value");
 		label_event_id_value = (Gtk.Label) builder.GetObject ("label_event_id_value");
-		label_tv_title = (Gtk.Label) builder.GetObject ("label_tv_title");
-		entry_tv_value = (Gtk.Entry) builder.GetObject ("entry_tv_value");
-		label_tv_units = (Gtk.Label) builder.GetObject ("label_tv_units");
-		label_tc_title = (Gtk.Label) builder.GetObject ("label_tc_title");
-		entry_tc_value = (Gtk.Entry) builder.GetObject ("entry_tc_value");
-		label_tc_units = (Gtk.Label) builder.GetObject ("label_tc_units");
-		label_fall_title = (Gtk.Label) builder.GetObject ("label_fall_title");
-		entry_fall_value = (Gtk.Entry) builder.GetObject ("entry_fall_value");
-		label_fall_units = (Gtk.Label) builder.GetObject ("label_fall_units");
+		label_jump_tv_title = (Gtk.Label) builder.GetObject ("label_jump_tv_title");
+		entry_jump_tv_value = (Gtk.Entry) builder.GetObject ("entry_jump_tv_value");
+		label_jump_tv_units = (Gtk.Label) builder.GetObject ("label_jump_tv_units");
+		label_jump_tc_title = (Gtk.Label) builder.GetObject ("label_jump_tc_title");
+		entry_jump_tc_value = (Gtk.Entry) builder.GetObject ("entry_jump_tc_value");
+		label_jump_tc_units = (Gtk.Label) builder.GetObject ("label_jump_tc_units");
+		label_jump_fall_title = (Gtk.Label) builder.GetObject ("label_jump_fall_title");
+		entry_jump_fall_value = (Gtk.Entry) builder.GetObject ("entry_jump_fall_value");
+		label_jump_fall_units = (Gtk.Label) builder.GetObject ("label_jump_fall_units");
 		label_distance_title = (Gtk.Label) builder.GetObject ("label_distance_title");
 		entry_distance_value = (Gtk.Entry) builder.GetObject ("entry_distance_value");
 		label_distance_units = (Gtk.Label) builder.GetObject ("label_distance_units");

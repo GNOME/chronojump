@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -89,13 +89,17 @@ public class EditRunWindow : EditEventWindow
 		return EditRunWindowBox;
 	}
 	
-	protected override void initializeValues () {
+	protected override void initializeValues ()
+	{
 		typeOfTest = Constants.TestTypes.RUN;
 		showType = true;
 		showRunStart = true;
-		showTv = false;
-		showTc= false;
-		showFall = false;
+
+		//jumps
+		showJumpTv = false;
+		showJumpTc= false;
+		showJumpFall = false;
+
 		showDistance = true;
 		distanceCanBeDecimal = true;
 		showTime = true;
@@ -318,13 +322,17 @@ public class EditRunIntervalWindow : EditRunWindow
 		return EditRunIntervalWindowBox;
 	}
 	
-	protected override void initializeValues () {
+	protected override void initializeValues ()
+	{
 		typeOfTest = Constants.TestTypes.RUN_I;
 		showType = true;
 		showRunStart = true;
-		showTv = false;
-		showTc= false;
-		showFall = false;
+
+		//jump
+		showJumpTv = false;
+		showJumpTc= false;
+		showJumpFall = false;
+
 		showDistance = true;
 		distanceCanBeDecimal = true;
 		showTime = true;

@@ -396,8 +396,8 @@ public class EditEventWindow
 		combo_eventType = new ComboBoxText ();
 		string [] myTypes = findTypes(myEvent);
 		UtilGtk.ComboUpdate(combo_eventType, myTypes, "");
-		LogB.Information ("createComboEventType myTypes: " + Util.StringArrayToString (myTypes, ", "));
-		LogB.Information ("myEvent.Type: " + myEvent.Type.ToString ());
+		//LogB.Information ("createComboEventType myTypes: " + Util.StringArrayToString (myTypes, ", "));
+		//LogB.Information ("myEvent.Type: " + myEvent.Type.ToString ());
 		combo_eventType.Active = UtilGtk.ComboMakeActive(myTypes, myEvent.Type);
 		hbox_combo_eventType.PackStart(combo_eventType, true, true, 0);
 		hbox_combo_eventType.ShowAll();

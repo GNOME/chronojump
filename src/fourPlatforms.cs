@@ -75,15 +75,7 @@ public class FourPlatforms : Event
 		this.videoURL = videoURL;
 		this.totalTime = totalTime;
 
-		bAll_l = new List<List<double>> ();
-		bAll_l.Add (b0_1_l);
-		bAll_l.Add (b0_0_l);
-		bAll_l.Add (b1_1_l);
-		bAll_l.Add (b1_0_l);
-		bAll_l.Add (b2_1_l);
-		bAll_l.Add (b2_0_l);
-		bAll_l.Add (b3_1_l);
-		bAll_l.Add (b3_0_l);
+		generate_bAll_l ();
 	}
 
 	//used to select a fourPlatforms SqliteFourPlatforms.SelectData
@@ -105,6 +97,8 @@ public class FourPlatforms : Event
 		this.description = eventStr[13].ToString ();
 		this.videoURL = eventStr[14].ToString ();
 		this.totalTime = Convert.ToDouble (eventStr[15].ToString());
+
+		generate_bAll_l ();
 	}
 
 	public static List<Event> FourPlatformsListToEventList (List<FourPlatforms> fp_l)
@@ -140,6 +134,19 @@ public class FourPlatforms : Event
 			Util.ConvertToPoint (UtilList.ListDoubleToString (b3_0_l, 3, "=")) + "', '" +
 			description + "', '" + videoURL + "', " +
 			Util.ConvertToPoint (totalTime) + ")";
+	}
+
+	private void generate_bAll_l ()
+	{
+		bAll_l = new List<List<double>> ();
+		bAll_l.Add (b0_1_l);
+		bAll_l.Add (b0_0_l);
+		bAll_l.Add (b1_1_l);
+		bAll_l.Add (b1_0_l);
+		bAll_l.Add (b2_1_l);
+		bAll_l.Add (b2_0_l);
+		bAll_l.Add (b3_1_l);
+		bAll_l.Add (b3_0_l);
 	}
 
 	private List<double> getList (int channel, bool isOn)

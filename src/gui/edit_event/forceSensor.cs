@@ -20,13 +20,6 @@
 
 using System;
 using Gtk;
-//using Glade;
-//using System.Text; //StringBuilder
-using Mono.Unix;
-
-//--------------------------------------------------------
-//---------------- EDIT WIDGET ---------------------------
-//--------------------------------------------------------
 
 public class EditForceSensorWindow : EditEventWindow
 {
@@ -52,9 +45,6 @@ public class EditForceSensorWindow : EditEventWindow
 		
 		//put an icon to window
 		UtilGtk.IconWindow(edit_event);
-	
-//TODO:
-//		eventBigTypeString = Catalog.GetString("race");
 	}
 
 	static public EditForceSensorWindow Show (Gtk.Window parent, Event myEvent, Constants.Modes mode)

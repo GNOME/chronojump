@@ -20,23 +20,18 @@
 
 using System;
 using Gtk;
-//using Glade;
-//using System.Text; //StringBuilder
-using Mono.Unix;
 
-//--------------------------------------------------------
-//---------------- EDIT WIDGET ---------------------------
-//--------------------------------------------------------
 
-public class EditFourPlatformsWindow : EditEventWindow
+//note this file is almost the same than EditForceSensorWindow and most the other sensors, so can be refactorized
+public class EditRunEncoderWindow : EditEventWindow
 {
-	static EditFourPlatformsWindow EditFourPlatformsWindowBox;
+	static EditRunEncoderWindow EditRunEncoderWindowBox;
 
 	//for inheritance
-	protected EditFourPlatformsWindow () {
+	protected EditRunEncoderWindow () {
 	}
 
-	public EditFourPlatformsWindow (Gtk.Window parent)
+	public EditRunEncoderWindow (Gtk.Window parent)
 	{
 		/*
 		Glade.XML gladeXML;
@@ -51,34 +46,31 @@ public class EditFourPlatformsWindow : EditEventWindow
 		
 		//put an icon to window
 		UtilGtk.IconWindow(edit_event);
-	
-//TODO:
-//		eventBigTypeString = Catalog.GetString("race");
 	}
 
-	static public EditFourPlatformsWindow Show (Gtk.Window parent, Event myEvent)
+	static public EditRunEncoderWindow Show (Gtk.Window parent, Event myEvent)
 	{
-		if (EditFourPlatformsWindowBox == null) {
-			EditFourPlatformsWindowBox = new EditFourPlatformsWindow (parent);
+		if (EditRunEncoderWindowBox == null) {
+			EditRunEncoderWindowBox = new EditRunEncoderWindow (parent);
 		}
 
-		EditFourPlatformsWindowBox.colorize();
-		EditFourPlatformsWindowBox.initializeValues();
-		EditFourPlatformsWindowBox.fillDialog (myEvent);
-		EditFourPlatformsWindowBox.edit_event.Show ();
+		EditRunEncoderWindowBox.colorize();
+		EditRunEncoderWindowBox.initializeValues();
+		EditRunEncoderWindowBox.fillDialog (myEvent);
+		EditRunEncoderWindowBox.edit_event.Show ();
 
-		return EditFourPlatformsWindowBox;
+		return EditRunEncoderWindowBox;
 	}
 	
 	protected override void initializeValues ()
 	{
-		typeOfTest = Constants.TestTypes.FOURPLATFORMS;
+		typeOfTest = Constants.TestTypes.FORCESENSOR;
 		showType = false; //TODO: in the future change this
 		showRunStart = false;
 
-		//jumps
+		//jump
 		showJumpTv = false;
-		showJumpTc= false;
+		showJumpTc = false;
 		showJumpFall = false;
 
 		showDistance = false;
@@ -89,7 +81,7 @@ public class EditFourPlatformsWindow : EditEventWindow
 		showLimited = false;
 		showMistakes = false;
 		showVideo = false;
-		showDescription = false;
+		showDescription = true;
 	}
 
 	protected override string [] findTypes (Event myEvent)
@@ -105,61 +97,65 @@ public class EditFourPlatformsWindow : EditEventWindow
 
 	protected override void updateEvent (int eventID, int personID, string description)
 	{
-		SqliteTests sqliteTests = new SqliteFourPlatforms ();
-		sqliteTests.Update (eventID,
+		SqliteTests st = new SqliteRunEncoder ();
+		st.Update (eventID,
 				//UtilGtk.ComboGetActive(combo_eventType),
 				personID);
+		st.UpdateComments (eventID, description);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)
 	{
-		EditFourPlatformsWindowBox.edit_event.Hide();
-		EditFourPlatformsWindowBox = null;
+		EditRunEncoderWindowBox.edit_event.Hide();
+		EditRunEncoderWindowBox = null;
 	}
 	
 	protected override void on_delete_event (object o, DeleteEventArgs args)
 	{
-		EditFourPlatformsWindowBox.edit_event.Hide();
-		EditFourPlatformsWindowBox = null;
+		EditRunEncoderWindowBox.edit_event.Hide();
+		EditRunEncoderWindowBox = null;
 	}
 	
 	protected override void hideWindow() {
-		EditFourPlatformsWindowBox.edit_event.Hide();
-		EditFourPlatformsWindowBox = null;
+		EditRunEncoderWindowBox.edit_event.Hide();
+		EditRunEncoderWindowBox = null;
 	}
 }
 
 public partial class ChronoJumpWindow
 {
-	private void on_edit_selected_fourPlatforms_clicked (object o, EventArgs args)
+	private void on_edit_selected_runEncoder_clicked (object o, EventArgs args)
 	{
 		//notebooks_change(2); see "notebooks_change sqlite problem"
-		LogB.Information("Edit selected wilight");
+		LogB.Information("Edit selected runEncoder");
 		//1.- check that there's a line selected
-		//2.- check that this line is a wilight and not a person (check also if it's not a individual RJ, the pass the parent RJ)
+		//2.- check that this line is a runEncoder and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		int selectedID = treeViewResultsSession.EventSelectedID;
 		if (selectedID < 0)
 			return;
 
-		//3.- obtain the data of the selected test
-		FourPlatforms fp = SqliteFourPlatforms.SelectData (selectedID, false );
-		eventOldPerson = fp.PersonID;
+		//3.- obtain the data of the selected runEncoder
+		RunEncoder runEncoder = SqliteRunEncoder.SelectData (selectedID, false );
+		eventOldPerson = runEncoder.PersonID;
 
 		//4.- edit this test
-		editFourPlatformsWin = EditFourPlatformsWindow.Show (app1, fp);
-		editFourPlatformsWin.Button_accept.Clicked += new EventHandler (on_edit_selected_fourPlatforms_accepted);
+		editRunEncoderWin = EditRunEncoderWindow.Show (app1, runEncoder);
+		editRunEncoderWin.Button_accept.Clicked += new EventHandler (on_edit_selected_runEncoder_accepted);
 	}
-	private void on_edit_selected_fourPlatforms_accepted (object o, EventArgs args)
+	private void on_edit_selected_runEncoder_accepted (object o, EventArgs args)
 	{
-		LogB.Information("edit selected fourPlatforms accepted");
-		FourPlatforms fourPlatforms = SqliteFourPlatforms.SelectData (treeViewResultsSession.EventSelectedID, false);
+		LogB.Information("edit selected runEncoder accepted");
+		RunEncoder runEncoder = SqliteRunEncoder.SelectData (treeViewResultsSession.EventSelectedID, false);
 
 		//if person changed, fill treeview again, if not, only update it's line
-		if (eventOldPerson == fourPlatforms.PersonID)
-			treeViewResultsSession.Update (fourPlatforms);
-		else
+		if (eventOldPerson == runEncoder.PersonID)
+		{
+			runEncoder.ExerciseName = SqliteTests.SelectExerciseNameInOtherTable (false, runEncoder.ExerciseID, Constants.RunEncoderExerciseTable);
+			treeViewResultsSession.Update (runEncoder);
+		}  else
 			pre_fillTreeView_resultsSession ();
 
-		updateGraphFourPlatformsBars ();
+		//updateGraphRunEncoderBars ();
 	}
+
 }

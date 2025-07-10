@@ -21,10 +21,6 @@
 using System;
 using Gtk;
 
-//--------------------------------------------------------
-//---------------- EDIT WIDGET ---------------------------
-//--------------------------------------------------------
-
 public class EditEncoderWindow : EditEventWindow
 {
 	static EditEncoderWindow EditEncoderWindowBox;

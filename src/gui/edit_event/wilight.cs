@@ -20,23 +20,17 @@
 
 using System;
 using Gtk;
-//using Glade;
-//using System.Text; //StringBuilder
-using Mono.Unix;
 
-//--------------------------------------------------------
-//---------------- EDIT WIDGET ---------------------------
-//--------------------------------------------------------
 
-public class EditBeepTestWindow : EditEventWindow
+public class EditWilightWindow : EditEventWindow
 {
-	static EditBeepTestWindow EditBeepTestWindowBox;
+	static EditWilightWindow EditWilightWindowBox;
 
 	//for inheritance
-	protected EditBeepTestWindow () {
+	protected EditWilightWindow () {
 	}
 
-	public EditBeepTestWindow (Gtk.Window parent)
+	public EditWilightWindow (Gtk.Window parent)
 	{
 		/*
 		Glade.XML gladeXML;
@@ -51,32 +45,29 @@ public class EditBeepTestWindow : EditEventWindow
 		
 		//put an icon to window
 		UtilGtk.IconWindow(edit_event);
-	
-//TODO:
-//		eventBigTypeString = Catalog.GetString("race");
 	}
 
-	static public EditBeepTestWindow Show (Gtk.Window parent, Event myEvent)
+	static public EditWilightWindow Show (Gtk.Window parent, Event myEvent)
 	{
-		if (EditBeepTestWindowBox == null) {
-			EditBeepTestWindowBox = new EditBeepTestWindow (parent);
+		if (EditWilightWindowBox == null) {
+			EditWilightWindowBox = new EditWilightWindow (parent);
 		}
 
-		EditBeepTestWindowBox.colorize();
-		EditBeepTestWindowBox.initializeValues();
-		EditBeepTestWindowBox.fillDialog (myEvent);
-		EditBeepTestWindowBox.edit_event.Show ();
+		EditWilightWindowBox.colorize();
+		EditWilightWindowBox.initializeValues();
+		EditWilightWindowBox.fillDialog (myEvent);
+		EditWilightWindowBox.edit_event.Show ();
 
-		return EditBeepTestWindowBox;
+		return EditWilightWindowBox;
 	}
 	
 	protected override void initializeValues ()
 	{
-		typeOfTest = Constants.TestTypes.BEEPTEST;
+		typeOfTest = Constants.TestTypes.WILIGHT;
 		showType = false; //TODO: in the future change this
 		showRunStart = false;
 
-		//jumps
+		//jump
 		showJumpTv = false;
 		showJumpTc= false;
 		showJumpFall = false;
@@ -105,7 +96,7 @@ public class EditBeepTestWindow : EditEventWindow
 
 	protected override void updateEvent (int eventID, int personID, string description)
 	{
-		SqliteTests st = new SqliteBeepTest ();
+		SqliteTests st = new SqliteWilight ();
 		st.Update (eventID,
 				//UtilGtk.ComboGetActive(combo_eventType),
 				personID);
@@ -113,54 +104,53 @@ public class EditBeepTestWindow : EditEventWindow
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)
 	{
-		EditBeepTestWindowBox.edit_event.Hide();
-		EditBeepTestWindowBox = null;
+		EditWilightWindowBox.edit_event.Hide();
+		EditWilightWindowBox = null;
 	}
 	
 	protected override void on_delete_event (object o, DeleteEventArgs args)
 	{
-		EditBeepTestWindowBox.edit_event.Hide();
-		EditBeepTestWindowBox = null;
+		EditWilightWindowBox.edit_event.Hide();
+		EditWilightWindowBox = null;
 	}
 	
 	protected override void hideWindow() {
-		EditBeepTestWindowBox.edit_event.Hide();
-		EditBeepTestWindowBox = null;
+		EditWilightWindowBox.edit_event.Hide();
+		EditWilightWindowBox = null;
 	}
 }
 	
 public partial class ChronoJumpWindow
 {
-	private void on_edit_selected_beepTest_clicked (object o, EventArgs args)
+	private void on_edit_selected_wilight_clicked (object o, EventArgs args)
 	{
 		//notebooks_change(2); see "notebooks_change sqlite problem"
-		LogB.Information("Edit selected beepTest");
+		LogB.Information("Edit selected wilight");
 		//1.- check that there's a line selected
-		//2.- check that this line is a beepTest and not a person (check also if it's not a individual RJ, the pass the parent RJ)
+		//2.- check that this line is a wilight and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		int selectedID = treeViewResultsSession.EventSelectedID;
 		if (selectedID < 0)
 			return;
 
-		//3.- obtain the data of the selected beepTest
-		BeepTest beepTest = SqliteBeepTest.SelectData (selectedID, false );
-		eventOldPerson = beepTest.PersonID;
+		//3.- obtain the data of the selected wilight
+		Wilight wilight = SqliteWilight.SelectData (selectedID, false );
+		eventOldPerson = wilight.PersonID;
 
 		//4.- edit this test
-		editBeepTestWin = EditBeepTestWindow.Show (app1, beepTest);
-		editBeepTestWin.Button_accept.Clicked += new EventHandler (on_edit_selected_beepTest_accepted);
+		editWilightWin = EditWilightWindow.Show (app1, wilight);
+		editWilightWin.Button_accept.Clicked += new EventHandler (on_edit_selected_wilight_accepted);
 	}
-	private void on_edit_selected_beepTest_accepted (object o, EventArgs args)
+	private void on_edit_selected_wilight_accepted (object o, EventArgs args)
 	{
-		LogB.Information("edit selected beepTest accepted");
-		BeepTest beepTest = SqliteBeepTest.SelectData (treeViewResultsSession.EventSelectedID, false);
+		LogB.Information("edit selected wilight accepted");
+		Wilight wilight = SqliteWilight.SelectData (treeViewResultsSession.EventSelectedID, false);
 
 		//if person changed, fill treeview again, if not, only update it's line
-		if (eventOldPerson == beepTest.PersonID)
-			treeViewResultsSession.Update (beepTest);
+		if (eventOldPerson == wilight.PersonID)
+			treeViewResultsSession.Update (wilight);
 		else
 			pre_fillTreeView_resultsSession ();
 
-		//updateGraphBeepTestBars ();
+		updateGraphWilightBars ();
 	}
-
 }

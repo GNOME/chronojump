@@ -85,25 +85,17 @@ public class EditRunWindow : EditEventWindow
 		return EditRunWindowBox;
 	}
 	
-	protected override void initializeValues ()
+	protected override void initializeSpecific ()
 	{
 		typeOfTest = Constants.TestTypes.RUN;
 		showType = true;
 		showRunStart = true;
-
-		//jumps
-		showJumpTv = false;
-		showJumpTc= false;
-		showJumpFall = false;
 
 		showDistance = true;
 		distanceCanBeDecimal = true;
 		showTime = true;
 		showSpeed = true;
 		showWeight = false;
-		showLimited = false;
-		showForceSensor = false;
-		showMistakes = false;
 		showDescription = true;
 		
 		if(metersSecondsPreferred)
@@ -316,25 +308,17 @@ public class EditRunIntervalWindow : EditRunWindow
 		return EditRunIntervalWindowBox;
 	}
 	
-	protected override void initializeValues ()
+	protected override void initializeSpecific ()
 	{
 		typeOfTest = Constants.TestTypes.RUN_I;
 		showType = true;
 		showRunStart = true;
 
-		//jump
-		showJumpTv = false;
-		showJumpTc= false;
-		showJumpFall = false;
-
 		showDistance = true;
 		distanceCanBeDecimal = true;
 		showTime = true;
 		showSpeed = true;
-		showWeight = false;
 		showLimited = true;
-		showForceSensor = false;
-		showMistakes = false;
 		showDescription = true;
 		
 		if(metersSecondsPreferred)

@@ -35,6 +35,7 @@ public class EditEventWindow
 	// at glade ---->
 	protected Gtk.Window edit_event;
 	protected Gtk.Button button_accept;
+	protected Gtk.Button fake_button_finished; // gui/app1/chronojump.cs will process AFTER button_accept
 	protected Gtk.Label label_header;
 	protected Gtk.Frame frame;
 	//protected Gtk.Grid grid;
@@ -190,31 +191,33 @@ public class EditEventWindow
 		}
 	}
 
-	protected virtual void initializeValues ()
+	protected void initializeValues ()
 	{
-		typeOfTest = Constants.TestTypes.JUMP;
-		showType = true;
-		showRunStart = false;
+		//create fake_button_finished
+	 	fake_button_finished = new Gtk.Button ();
 
-		//jumps
-		showJumpTv = true;
-		showJumpTc = true;
-		showJumpFall = true;
+		// default options false for all modes
+		typeOfTest = Constants.TestTypes.JUMP; //whatever
+		showJumpTv = false;
+		showJumpTc = false;
+		showJumpFall = false;
 
-		showDistance = true;
+		showDistance = false;
 		distanceCanBeDecimal = true;
-		showTime = true;
-		showSpeed = true;
-		showWeight = true;
-		showLimited = true;
-		//showAngle = true; //kneeAngle
-		showForceSensor = false;
-		showVideo = true;
+		showTime = false;
+		showSpeed = false;
+		showWeight = false;
+		showLimited = false;
 		showMistakes = false;
-		showDescription = true;
-		//distanceAtInit = 0;
+		showForceSensor = false;
+		showVideo = false;
+		showDescription = false;
 
-		label_simulated.Hide();
+		// specific options (true) for each mode
+		initializeSpecific (); //assign the true values of each mode
+	}
+	protected virtual void initializeSpecific ()
+	{
 	}
 
 	protected void fillDialog (Event myEvent)

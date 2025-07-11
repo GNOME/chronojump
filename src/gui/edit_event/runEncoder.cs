@@ -62,26 +62,9 @@ public class EditRunEncoderWindow : EditEventWindow
 		return EditRunEncoderWindowBox;
 	}
 	
-	protected override void initializeValues ()
+	protected override void initializeSpecific ()
 	{
-		typeOfTest = Constants.TestTypes.FORCESENSOR;
-		showType = false; //TODO: in the future change this
-		showRunStart = false;
-
-		//jump
-		showJumpTv = false;
-		showJumpTc = false;
-		showJumpFall = false;
-
-		showDistance = false;
-		distanceCanBeDecimal = true;
-		showTime = false;
-		showSpeed = false;
-		showWeight = false;
-		showLimited = false;
-		showForceSensor = false;
-		showMistakes = false;
-		showVideo = false;
+		typeOfTest = Constants.TestTypes.RACEANALYZER;
 		showDescription = true;
 	}
 

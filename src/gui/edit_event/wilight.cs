@@ -61,26 +61,9 @@ public class EditWilightWindow : EditEventWindow
 		return EditWilightWindowBox;
 	}
 	
-	protected override void initializeValues ()
+	protected override void initializeSpecific ()
 	{
 		typeOfTest = Constants.TestTypes.WILIGHT;
-		showType = false; //TODO: in the future change this
-		showRunStart = false;
-
-		//jump
-		showJumpTv = false;
-		showJumpTc= false;
-		showJumpFall = false;
-
-		showDistance = false;
-		distanceCanBeDecimal = true;
-		showTime = false;
-		showSpeed = false;
-		showWeight = false;
-		showLimited = false;
-		showForceSensor = false;
-		showMistakes = false;
-		showVideo = false;
 		showDescription = false;
 	}
 

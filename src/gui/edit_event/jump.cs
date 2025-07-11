@@ -104,26 +104,15 @@ public class EditJumpWindow : EditEventWindow
 		return EditJumpWindowBox;
 	}
 	
-	protected override void initializeValues ()
+	protected override void initializeSpecific ()
 	{
 		typeOfTest = Constants.TestTypes.JUMP;
 		showType = true;
-		showRunStart = false;
 
 		// jumps
 		showJumpTv = true;
-		showJumpTc= true;
+		showJumpTc = true;
 		showJumpFall = true;
-
-		showDistance = false;
-		showTime = false;
-		showSpeed = false;
-		showWeight = true;
-		showLimited = false;
-		//showAngle = true; //kneeAngle
-		showForceSensor = false;
-		showMistakes = false;
-		showDescription = true;
 		
 		if(weightPercentPreferred)
 			label_weight_units.Text = "%";
@@ -521,23 +510,18 @@ public class EditJumpRjWindow : EditJumpWindow
 		return EditJumpRjWindowBox;
 	}
 	
-	protected override void initializeValues () {
+	protected override void initializeSpecific ()
+	{
 		typeOfTest = Constants.TestTypes.JUMP_RJ;
 		showType = true;
-		showRunStart = false;
 
 		//jump
 		showJumpTv = false;
 		showJumpTc = false;
 		showJumpFall = true;
 
-		showDistance = false;
-		showTime = false;
-		showSpeed = false;
 		showWeight = true;
 		showLimited = true;
-		showForceSensor = false;
-		showMistakes = false;
 		showDescription = true;
 		
 		if(weightPercentPreferred)

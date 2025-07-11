@@ -60,27 +60,9 @@ public class EditBeepTestWindow : EditEventWindow
 		return EditBeepTestWindowBox;
 	}
 	
-	protected override void initializeValues ()
+	protected override void initializeSpecific ()
 	{
 		typeOfTest = Constants.TestTypes.BEEPTEST;
-		showType = false; //TODO: in the future change this
-		showRunStart = false;
-
-		//jumps
-		showJumpTv = false;
-		showJumpTc= false;
-		showJumpFall = false;
-
-		showDistance = false;
-		distanceCanBeDecimal = true;
-		showTime = false;
-		showSpeed = false;
-		showWeight = false;
-		showLimited = false;
-		showMistakes = false;
-		showForceSensor = false;
-		showVideo = false;
-		showDescription = false;
 	}
 
 	protected override string [] findTypes (Event myEvent)

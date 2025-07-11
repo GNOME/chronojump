@@ -62,26 +62,11 @@ public class EditForceSensorWindow : EditEventWindow
 		return EditForceSensorWindowBox;
 	}
 	
-	protected override void initializeValues ()
+	protected override void initializeSpecific ()
 	{
 		typeOfTest = Constants.TestTypes.FORCESENSOR;
 		showType = true;
-		showRunStart = false;
-
-		//jump
-		showJumpTv = false;
-		showJumpTc = false;
-		showJumpFall = false;
-
-		showDistance = false;
-		distanceCanBeDecimal = true;
-		showTime = false;
-		showSpeed = false;
-		showWeight = false;
-		showLimited = false;
-		showMistakes = false;
 		showForceSensor = true;
-		showVideo = false;
 		showDescription = true;
 	}
 

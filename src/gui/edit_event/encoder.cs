@@ -77,7 +77,7 @@ public class EditEncoderWindow : EditEventWindow
 		//TODO:
 	}
 
-	protected override void updateEvent (int eventID, int personID, string description)
+	protected override void updateSQL (int eventID, int personID, string description)
 	{
 		SqliteTests st = new SqliteEncoder ();
 		st.Update (eventID,

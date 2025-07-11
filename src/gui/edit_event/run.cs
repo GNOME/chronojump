@@ -185,7 +185,7 @@ public class EditRunWindow : EditEventWindow
 	}
 		
 
-	protected override void updateEvent(int eventID, int personID, string description)
+	protected override void updateSQL(int eventID, int personID, string description)
 	{
 		SqliteRun.Update (eventID, UtilGtk.ComboGetActive(combo_eventType),
 				Convert.ToDouble (entry_distance_value.Text),
@@ -602,10 +602,10 @@ public class EditRunIntervalWindow : EditRunWindow
 	}
 
 
-	protected override void updateEvent (int eventID, int personID, string description)
+	protected override void updateSQL (int eventID, int personID, string description)
 	{
 		LogB.Information (string.Format (
-			"updateEvent eventID: {0}, entry_distance_value.Text: {1}, tracks: {2}, personID: {3}, description: {4}",
+			"updateSQL eventID: {0}, entry_distance_value.Text: {1}, tracks: {2}, personID: {3}, description: {4}",
 			eventID, entry_distance_value.Text, tracks, personID, description));
 
 		double distanceInterval = 0;

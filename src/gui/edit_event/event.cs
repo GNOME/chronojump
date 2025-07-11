@@ -678,20 +678,25 @@ public class EditEventWindow
 		string [] myPersonFull = myPerson.Split(new char[] {':'});
 		
 		string myDesc = entry_description.Text;
-		
 
-		updateEvent(eventID, Convert.ToInt32(myPersonFull[0]), myDesc);
+		updateSQL(eventID, Convert.ToInt32(myPersonFull[0]), myDesc);
+
+		fake_button_finished.Click ();
 
 		hideWindow();
 	}
 
-	protected virtual void updateEvent(int eventID, int personID, string description) {
+	protected virtual void updateSQL(int eventID, int personID, string description) {
 	}
 
 	public Button Button_accept 
 	{
 		set { button_accept = value;	}
 		get { return button_accept;	}
+	}
+	public Button Fake_button_finished
+	{
+		get { return fake_button_finished;	}
 	}
 
 	/*

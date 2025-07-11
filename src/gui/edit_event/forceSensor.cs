@@ -86,10 +86,10 @@ public class EditForceSensorWindow : EditEventWindow
 
 	private void on_combo_eventType_changed (object o, EventArgs args)
 	{
-		//do nothing on combo changed, do it on updateEvent (click on accept)
+		//do nothing on combo changed, do it on updateSQL (click on accept)
 	}
 
-	protected override void updateEvent (int eventID, int personID, string description)
+	protected override void updateSQL (int eventID, int personID, string description)
 	{
 		int fsExIdNew = Sqlite.ExistsAndGetUniqueID (false,
 				Constants.ForceSensorExerciseTable,

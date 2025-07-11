@@ -410,7 +410,7 @@ public class EditJumpWindow : EditEventWindow
 		EditJumpWindowBox = null;
 	}
 	
-	protected override void updateEvent(int eventID, int personID, string description) {
+	protected override void updateSQL(int eventID, int personID, string description) {
 		//only for jump
 		double jumpPercentWeightForNewPerson = updateWeight(personID, sessionID);
 		
@@ -583,7 +583,7 @@ public class EditJumpRjWindow : EditJumpWindow
 		EditJumpRjWindowBox = null;
 	}
 	
-	protected override void updateEvent(int eventID, int personID, string description) {
+	protected override void updateSQL(int eventID, int personID, string description) {
 		//only for jumps
 		double jumpPercentWeightForNewPerson = updateWeight(personID, sessionID);
 		

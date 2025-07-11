@@ -57,7 +57,6 @@ public partial class ChronoJumpWindow
 		button_contacts_exercise.TooltipText += string.Format( "({0}+t)", kCtrl);
 		button_execute_test.TooltipText += string.Format(" ({0}+{1})", kCtrl, space);
 		button_contacts_exercise_close_and_capture.TooltipText += string.Format("({0}+{1})", kCtrl, space);
-		button_contacts_exercise_close_and_recalculate.TooltipText += string.Format(" ({0}+r)", kCtrl);
 		event_execute_button_finish.TooltipText += string.Format(" ({0})", kEnter);
 		event_execute_button_cancel.TooltipText += " (Escape)";
 		button_contacts_delete_selected.TooltipText += string.Format(" ({0}+d)", kCtrl);

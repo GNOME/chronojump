@@ -620,7 +620,6 @@ public partial class ChronoJumpWindow
 		lastForceSensorFullPath = null;
 		lastForceSensorFullPath_2SetsCD = null;
 
-		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 		hbox_force_general_analysis.Sensitive = false;
 		button_ai_model.Sensitive = false;
 		button_contacts_delete_selected.Sensitive = false;
@@ -1945,7 +1944,6 @@ LogB.Information(" fs C ");
 
 					hbox_force_sensor_analyze_ai_sliders_and_buttons.Sensitive = true;
 
-					button_contacts_exercise_close_and_recalculate.Sensitive = true;
 					button_contacts_delete_selected.Sensitive = true;
 					button_force_sensor_image_save_signal.Sensitive = true;
 					hbox_force_general_analysis.Sensitive = true;
@@ -2005,7 +2003,6 @@ LogB.Information(" fs C ");
 				button_ai_model.Sensitive = false;
 				button_ai_model_save_image.Sensitive = false;
 				button_force_sensor_image_save_rfd_manual.Sensitive = false;
-				button_contacts_exercise_close_and_recalculate.Sensitive = false;
 				button_contacts_delete_selected.Sensitive = false;
 			}
 			else
@@ -2481,7 +2478,6 @@ LogB.Information(" fs R ");
 
 		hbox_force_sensor_analyze_ai_sliders_and_buttons.Sensitive = true;
 
-		button_contacts_exercise_close_and_recalculate.Sensitive = true;
 		hbox_force_general_analysis.Sensitive = true;
 		button_ai_model_options_close_and_analyze.Sensitive = true;
 

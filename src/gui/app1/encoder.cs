@@ -102,7 +102,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_encoder_capture_cancel;
 	Gtk.Button button_encoder_capture_finish;
 	Gtk.Button button_encoder_capture_finish_cont;
-	Gtk.Button button_encoder_exercise_close_and_recalculate;
+	Gtk.Button button_encoder_exercise_close_and_recalculate; //TODO: remove this button
 	Gtk.Button button_encoder_bells;
 	Gtk.Button button_encoder_load_signal_at_analyze;
 	Gtk.ProgressBar encoder_pulsebar_capture;

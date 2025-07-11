@@ -425,7 +425,6 @@ public partial class ChronoJumpWindow
 	{
 		assignCurrentRunEncoderExercise();
 		raceEncoderReadWidgets();
-		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 
 		//remove stuff on analyze tab
 		image_ai_model_graph.Visible = false;
@@ -471,8 +470,6 @@ public partial class ChronoJumpWindow
 
 		radiosAiSensitivity (true); //because maybe zoom was in
 		aiButtonsHscaleZoomSensitiveness();
-
-		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 
 		//image_ai_model_graph.Sensitive = false; //this is not useful at all
 		image_ai_model_graph.Visible = false;
@@ -1487,8 +1484,6 @@ public partial class ChronoJumpWindow
 			//no do not do it automatically, just make user click on analyze button
 			//also showing that graph while analyze tab has not shown first time is buggy
 
-			button_contacts_exercise_close_and_recalculate.Sensitive = true;
-
 			button_video_play_this_test.Sensitive = (re.VideoURL != "");
 			sensitiveLastTestButtons(true);
 
@@ -1818,8 +1813,6 @@ public partial class ChronoJumpWindow
 		if(lastRunEncoderFullPath != null && lastRunEncoderFullPath != "")
 			raceEncoderCopyToTempAndDoRGraph();
 			*/
-
-		button_contacts_exercise_close_and_recalculate.Sensitive = true;
 
 		//update SQL with exercise, device, distance, temperature, comments
 		currentRunEncoder.ExerciseID = currentRunEncoderExercise.UniqueID;
@@ -2230,7 +2223,6 @@ public partial class ChronoJumpWindow
 					radio_mode_contacts_analyze.Active = true;
 					*/
 
-					button_contacts_exercise_close_and_recalculate.Sensitive = true;
 					button_ai_model_options_close_and_analyze.Sensitive = true;
 					button_ai_model.Sensitive = true;
 					button_ai_model_save_image.Sensitive = true;

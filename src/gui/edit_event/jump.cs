@@ -610,7 +610,7 @@ public partial class ChronoJumpWindow
 
 		//4.- edit this jump
 		editJumpWin = EditJumpWindow.Show(app1, myJump, preferences.weightStatsPercent, preferences.digitsNumber);
-		editJumpWin.Button_accept.Clicked += new EventHandler (on_edit_selected_jump_accepted);
+		editJumpWin.Fake_button_finished.Clicked += new EventHandler (on_edit_selected_jump_finished);
 	}
 	
 	private void on_edit_selected_jump_rj_clicked (object o, EventArgs args)
@@ -629,12 +629,12 @@ public partial class ChronoJumpWindow
 
 		//4.- edit this jump
 		editJumpRjWin = EditJumpRjWindow.Show(app1, myJump, preferences.weightStatsPercent, preferences.digitsNumber);
-		editJumpRjWin.Button_accept.Clicked += new EventHandler (on_edit_selected_jump_rj_accepted);
+		editJumpRjWin.Fake_button_finished.Clicked += new EventHandler (on_edit_selected_jump_rj_finished);
 	}
 	
-	private void on_edit_selected_jump_accepted (object o, EventArgs args)
+	private void on_edit_selected_jump_finished (object o, EventArgs args)
 	{
-		LogB.Information("edit selected jump accepted");
+		LogB.Information("edit selected jump finished");
 	
 		Jump myJump = SqliteJump.SelectJumpData (treeViewResultsSession.EventSelectedID, false );
 
@@ -656,9 +656,9 @@ public partial class ChronoJumpWindow
 			stats_win_fillTreeView_stats(false, false);
 	}
 	
-	private void on_edit_selected_jump_rj_accepted (object o, EventArgs args)
+	private void on_edit_selected_jump_rj_finished (object o, EventArgs args)
 	{
-		LogB.Information("edit selected jump RJ accepted");
+		LogB.Information("edit selected jump RJ finished");
 	
 		JumpRj myJump = SqliteJumpRj.SelectJumpData ("jumpRj", treeViewResultsSession.EventSelectedID, false, false );
 		

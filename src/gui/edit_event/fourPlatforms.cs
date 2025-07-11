@@ -121,11 +121,12 @@ public partial class ChronoJumpWindow
 
 		//4.- edit this test
 		editFourPlatformsWin = EditFourPlatformsWindow.Show (app1, fp);
-		editFourPlatformsWin.Button_accept.Clicked += new EventHandler (on_edit_selected_fourPlatforms_accepted);
+		editFourPlatformsWin.Fake_button_finished.Clicked += new EventHandler (on_edit_selected_fourPlatforms_finished);
 	}
-	private void on_edit_selected_fourPlatforms_accepted (object o, EventArgs args)
+
+	private void on_edit_selected_fourPlatforms_finished (object o, EventArgs args)
 	{
-		LogB.Information("edit selected fourPlatforms accepted");
+		LogB.Information("edit selected fourPlatforms finished");
 		FourPlatforms fourPlatforms = SqliteFourPlatforms.SelectData (treeViewResultsSession.EventSelectedID, false);
 
 		//if person changed, fill treeview again, if not, only update it's line

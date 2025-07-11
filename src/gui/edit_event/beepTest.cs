@@ -120,11 +120,12 @@ public partial class ChronoJumpWindow
 
 		//4.- edit this test
 		editBeepTestWin = EditBeepTestWindow.Show (app1, beepTest);
-		editBeepTestWin.Button_accept.Clicked += new EventHandler (on_edit_selected_beepTest_accepted);
+		editBeepTestWin.Fake_button_finished.Clicked += new EventHandler (on_edit_selected_beepTest_finished);
 	}
-	private void on_edit_selected_beepTest_accepted (object o, EventArgs args)
+
+	private void on_edit_selected_beepTest_finished (object o, EventArgs args)
 	{
-		LogB.Information("edit selected beepTest accepted");
+		LogB.Information("edit selected beepTest finished");
 		BeepTest beepTest = SqliteBeepTest.SelectData (treeViewResultsSession.EventSelectedID, false);
 
 		//if person changed, fill treeview again, if not, only update it's line

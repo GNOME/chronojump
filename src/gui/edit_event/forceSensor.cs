@@ -154,13 +154,16 @@ public partial class ChronoJumpWindow
 
 		//4.- edit this test
 		editForceSensorWin = EditForceSensorWindow.Show (app1, forceSensor, current_mode);
-		editForceSensorWin.Button_accept.Clicked += new EventHandler (on_edit_selected_forceSensor_accepted);
+		editForceSensorWin.Fake_button_finished.Clicked += new EventHandler (on_edit_selected_forceSensor_finished);
 	}
-	private void on_edit_selected_forceSensor_accepted (object o, EventArgs args)
-	{
-		LogB.Information("edit selected forceSensor accepted");
-		ForceSensor forceSensor = SqliteForceSensor.SelectData (treeViewResultsSession.EventSelectedID, true, false);
 
+	private void on_edit_selected_forceSensor_finished (object o, EventArgs args)
+	{
+		LogB.Information("edit selected forceSensor finished");
+
+		//ForceSensor forceSensor = SqliteForceSensor.SelectData (treeViewResultsSession.EventSelectedID, true, false);
+
+		/*
 		//if person changed, fill treeview again, if not, only update it's line
 		if (eventOldPerson == forceSensor.PersonID)
 		{

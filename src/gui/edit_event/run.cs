@@ -690,7 +690,7 @@ public partial class ChronoJumpWindow
 
 		//4.- edit this run
 		editRunWin = EditRunWindow.Show(app1, myRun, preferences.digitsNumber, preferences.metersSecondsPreferred);
-		editRunWin.Button_accept.Clicked += new EventHandler (on_edit_selected_run_accepted);
+		editRunWin.Fake_button_finished.Clicked += new EventHandler (on_edit_selected_run_finished);
 	}
 	
 	private void on_edit_selected_run_interval_clicked (object o, EventArgs args)
@@ -709,12 +709,12 @@ public partial class ChronoJumpWindow
 
 		//4.- edit this run
 		editRunIntervalWin = EditRunIntervalWindow.Show (app1, myRun, preferences.digitsNumber, preferences.metersSecondsPreferred);
-		editRunIntervalWin.Button_accept.Clicked += new EventHandler (on_edit_selected_run_interval_accepted);
+		editRunIntervalWin.Fake_button_finished.Clicked += new EventHandler (on_edit_selected_run_interval_finished);
 	}
 	
-	private void on_edit_selected_run_accepted (object o, EventArgs args)
+	private void on_edit_selected_run_finished (object o, EventArgs args)
 	{
-		LogB.Information("edit selected run accepted");
+		LogB.Information("edit selected run finished");
 
 		Run myRun = SqliteRun.SelectRunData (treeViewResultsSession.EventSelectedID, false );
 		
@@ -730,9 +730,9 @@ public partial class ChronoJumpWindow
 			stats_win_fillTreeView_stats(false, false);
 	}
 	
-	private void on_edit_selected_run_interval_accepted (object o, EventArgs args)
+	private void on_edit_selected_run_interval_finished (object o, EventArgs args)
 	{
-		LogB.Information("edit selected run interval accepted");
+		LogB.Information("edit selected run interval finished");
 
 		int selectedID = treeViewResultsSession.EventSelectedID;
 		RunInterval myRun = SqliteRunInterval.SelectRunData (Constants.RunIntervalTable, selectedID, false, false);

@@ -124,11 +124,11 @@ public partial class ChronoJumpWindow
 
 		//4.- edit this test
 		editRunEncoderWin = EditRunEncoderWindow.Show (app1, runEncoder);
-		editRunEncoderWin.Button_accept.Clicked += new EventHandler (on_edit_selected_runEncoder_accepted);
+		editRunEncoderWin.Fake_button_finished.Clicked += new EventHandler (on_edit_selected_runEncoder_finished);
 	}
-	private void on_edit_selected_runEncoder_accepted (object o, EventArgs args)
+	private void on_edit_selected_runEncoder_finished (object o, EventArgs args)
 	{
-		LogB.Information("edit selected runEncoder accepted");
+		LogB.Information("edit selected runEncoder finished");
 		RunEncoder runEncoder = SqliteRunEncoder.SelectData (treeViewResultsSession.EventSelectedID, false);
 
 		//if person changed, fill treeview again, if not, only update it's line

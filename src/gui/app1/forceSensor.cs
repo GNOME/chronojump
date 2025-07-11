@@ -432,7 +432,7 @@ public partial class ChronoJumpWindow
 				return;
 			}
 
-			assignCurrentForceSensorExercise();
+			assignCurrentForceSensorExerciseFromCombo ();
 
 			if(currentForceSensorExercise.ComputeAsElastic)
 			{
@@ -1326,10 +1326,15 @@ public partial class ChronoJumpWindow
 		//printDataRow(dataRow);
 	}
 
-	private void assignCurrentForceSensorExercise()
+	private void assignCurrentForceSensorExerciseFromCombo ()
 	{
 		currentForceSensorExercise = SqliteForceSensorExercise.Select (
 				false, getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false, "")[0];
+	}
+	private void assignCurrentForceSensorExerciseFromSQL ()
+	{
+		currentForceSensorExercise = SqliteForceSensorExercise.Select (
+				false, currentForceSensor.ExerciseID, -1, false, "")[0];
 	}
 
 	private Questionnaire questionnaire;
@@ -1377,7 +1382,7 @@ public partial class ChronoJumpWindow
 		Util.CreateForceSensorSessionDirIfNeeded (currentSession.UniqueID);
 
 		//done at on_buttons_force_sensor_clicked()
-		//assignCurrentForceSensorExercise();
+		//assignCurrentForceSensorExerciseFromCombo ();
 
 		string fileNamePre = currentPerson.UniqueID + "_" + currentPerson.Name + "_" + UtilDate.ToFile(forceSensorTimeStartCapture);
 
@@ -2407,16 +2412,9 @@ LogB.Information(" fs R ");
 			radio_ai_cd.Sensitive = true;
 		}
 
-		pre_fillTreeView_resultsSession_NO = true; //to not have lastForceSensorFullPath = ""
-		combo_force_sensor_exercise.Active = UtilGtk.ComboMakeActive(combo_force_sensor_exercise, fs.ExerciseName);
-		pre_fillTreeView_resultsSession_NO = false;
-		LogB.Information("(after update combo_force_sensor_exercise) lastForceSensorFullPath is: " + lastForceSensorFullPath);
-
 		setForceSensorCaptureOptions(fs.CaptureOption);
-
 		setLaterality(fs.Laterality);
-
-		assignCurrentForceSensorExercise();
+		assignCurrentForceSensorExerciseFromSQL ();
 
 		// stiffness 1: change button_force_sensor_stiffness
 		image_button_force_sensor_stiffness_problem.Visible = false;
@@ -2677,7 +2675,7 @@ LogB.Information(" fs R ");
 
 		//getForceSensorCaptureOptions is called on doing the graphs
 		//recalculate graphs will be different if exercise changed, so need to know the exercise
-		assignCurrentForceSensorExercise();
+		assignCurrentForceSensorExerciseFromSQL ();
 
 		if(currentForceSensorExercise.ComputeAsElastic)
 		{

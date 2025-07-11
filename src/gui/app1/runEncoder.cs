@@ -423,7 +423,7 @@ public partial class ChronoJumpWindow
 
 	private void runEncoderCapturePre3_GTK_cameraCalled()
 	{
-		assignCurrentRunEncoderExercise();
+		assignCurrentRunEncoderExerciseFromCombo ();
 		raceEncoderReadWidgets();
 
 		//remove stuff on analyze tab
@@ -548,10 +548,17 @@ public partial class ChronoJumpWindow
 		race_analyzer_spinbutton_temperature.Value = temp;
 	}
 
-	private void assignCurrentRunEncoderExercise()
+	// used on capture
+	private void assignCurrentRunEncoderExerciseFromCombo ()
 	{
 		currentRunEncoderExercise = SqliteRunEncoderExercise.Select (
                                 false, getExerciseIDFromAnyCombo(combo_run_encoder_exercise, runEncoderComboExercisesString, false))[0];
+	}
+	// used on load, edit
+	private void assignCurrentRunEncoderExerciseFromSQL ()
+	{
+		currentRunEncoderExercise = SqliteRunEncoderExercise.Select (
+				false, currentRunEncoder.ExerciseID)[0];
 	}
 
 	//TODO: do all this with an "other" thread like in force sensor to allow connecting messages to be displayed
@@ -1416,8 +1423,7 @@ public partial class ChronoJumpWindow
 			lastRunEncoderFile = Util.RemoveExtension(re.Filename);
 			lastRunEncoderFullPath = re.FullURL;
 
-			combo_run_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_run_encoder_exercise, Catalog.GetString(re.ExerciseName));
-			assignCurrentRunEncoderExercise();
+			assignCurrentRunEncoderExerciseFromSQL ();
 
 			raceEncoderSetDevice(re.Device);
 			raceEncoderSetDistanceAngleAndTemp(re.Distance, re.Angle, re.Temperature);
@@ -1803,8 +1809,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		assignCurrentRunEncoderExercise();
-
+		assignCurrentRunEncoderExerciseFromSQL ();
 		raceEncoderReadWidgets();
 
 		//recalculate should not analyze (calling to R) specially if segmentCm is variable.

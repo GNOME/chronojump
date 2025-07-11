@@ -646,7 +646,7 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			//points_l
 			if (! (points_l_interpolated_path != null && capturing)) //while worm capture do not show this stats
 			{
-				if (miw.Error == "")
+				if (miw.Error == "" && miw.Max > 0) // > 0 to not show miw at 0ms on negative signal
 					paintMaxAvgInWindow (miw.MaxSampleStart, miw.MaxSampleEnd, miw.Max, points_l);
 
 				if (briw.Error == "")

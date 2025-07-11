@@ -7838,6 +7838,10 @@ public partial class ChronoJumpWindow
 		if(! radio_mode_contacts_capture.Active)
 			return;
 
+		//if on raceAnalyzer analyze and go to capture (but analyze zoom is active), exit zoom
+		if (current_mode == Constants.Modes.RUNSENCODER && check_ai_zoom.Active)
+			check_ai_zoom.Active = false;
+
 		notebook_capture_analyze.CurrentPage = 0;
 	}
 	private void on_radio_mode_contacts_analyze_toggled (object o, EventArgs args)

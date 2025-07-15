@@ -28240,6 +28240,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -32387,6 +32390,7 @@ Concentric</property>
                                                             <child>
                                                             <object class="GtkCheckButton" id="check_ai_chained_hscales">
                                                             <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="draw-indicator">False</property>

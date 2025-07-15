@@ -479,6 +479,7 @@ public partial class ChronoJumpWindow
 		triggerListRunEncoder = new TriggerList();
 		clearRaceAnalyzerTriggersFromTextView();
 
+		check_ai_chained_hscales.Sensitive = false;
 		button_ai_model.Sensitive = false;
 		button_contacts_delete_selected.Sensitive = false;
 		button_ai_model_save_image.Sensitive = false;
@@ -722,6 +723,7 @@ public partial class ChronoJumpWindow
 			sensitiveLastTestButtons(false);
 			contactsShowCaptureDoingButtons(false);
 			button_ai_model_options_close_and_analyze.Sensitive = false;
+			check_ai_chained_hscales.Sensitive = false;
 			button_ai_model.Sensitive = false;
 			button_ai_model_save_image.Sensitive = false;
 			button_contacts_delete_selected.Sensitive = false;
@@ -1494,6 +1496,7 @@ public partial class ChronoJumpWindow
 			sensitiveLastTestButtons(true);
 
 			image_ai_model_graph.Visible = false;
+			check_ai_chained_hscales.Sensitive = true;
 			button_ai_model.Sensitive = true;
 			button_ai_model_options_close_and_analyze.Sensitive = true;
 			button_ai_model_save_image.Sensitive = true;
@@ -1867,6 +1870,7 @@ public partial class ChronoJumpWindow
 		runEncoderAnalyzeOpenImage();
 		//notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
 		//radio_mode_contacts_analyze.Active = true;
+		check_ai_chained_hscales.Sensitive = true;
 		button_ai_model.Sensitive = true;
 
 		// 3) display table
@@ -2229,6 +2233,7 @@ public partial class ChronoJumpWindow
 					*/
 
 					button_ai_model_options_close_and_analyze.Sensitive = true;
+					check_ai_chained_hscales.Sensitive = true;
 					button_ai_model.Sensitive = true;
 					button_ai_model_save_image.Sensitive = true;
 					button_contacts_delete_selected.Sensitive = true;
@@ -2257,6 +2262,7 @@ public partial class ChronoJumpWindow
 				sensitiveLastTestButtons(false);
 				contactsShowCaptureDoingButtons(false);
 				button_ai_model_options_close_and_analyze.Sensitive = false;
+				check_ai_chained_hscales.Sensitive = false;
 				button_ai_model.Sensitive = false;
 				button_ai_model_save_image.Sensitive = false;
 				button_contacts_delete_selected.Sensitive = false;

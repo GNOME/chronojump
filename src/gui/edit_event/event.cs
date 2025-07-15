@@ -86,6 +86,9 @@ public class EditEventWindow
 	protected Gtk.RadioButton radio_forceSensor_capture_standard;
 	protected Gtk.RadioButton radio_forceSensor_capture_absolute;
 	protected Gtk.RadioButton radio_forceSensor_capture_inverted;
+	protected Gtk.Image image_forceSensor_capture_standard;
+	protected Gtk.Image image_forceSensor_capture_absolute;
+	protected Gtk.Image image_forceSensor_capture_inverted;
 	protected Gtk.RadioButton radio_forceSensor_laterality_both;
 	protected Gtk.RadioButton radio_forceSensor_laterality_left;
 	protected Gtk.RadioButton radio_forceSensor_laterality_right;
@@ -381,6 +384,9 @@ public class EditEventWindow
 
 	private void fillDialogForceSensor (ForceSensor fs)
 	{
+		image_forceSensor_capture_standard.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "signal_standard.png");
+		image_forceSensor_capture_absolute.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "signal_absolute.png");
+		image_forceSensor_capture_inverted.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "signal_inverted.png");
 		image_forceSensor_laterality_both.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-both.png");
 		image_forceSensor_laterality_left.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-left.png");
 		image_forceSensor_laterality_right.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-right.png");
@@ -769,6 +775,9 @@ public class EditEventWindow
 		radio_forceSensor_capture_standard = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_capture_standard");
 		radio_forceSensor_capture_absolute = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_capture_absolute");
 		radio_forceSensor_capture_inverted = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_capture_inverted");
+		image_forceSensor_capture_standard = (Gtk.Image) builder.GetObject ("image_forceSensor_capture_standard");
+		image_forceSensor_capture_absolute = (Gtk.Image) builder.GetObject ("image_forceSensor_capture_absolute");
+		image_forceSensor_capture_inverted = (Gtk.Image) builder.GetObject ("image_forceSensor_capture_inverted");
 		radio_forceSensor_laterality_both = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_laterality_both");
 		radio_forceSensor_laterality_left = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_laterality_left");
 		radio_forceSensor_laterality_right = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_laterality_right");

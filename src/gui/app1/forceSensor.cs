@@ -78,10 +78,13 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_force_sensor_exercise_edit;
 	Gtk.Button button_force_sensor_exercise_delete;
 	Gtk.Label force_sensor_adjust_label_message;
-	Gtk.Box box_combo_force_sensor_capture_options;
+	Gtk.RadioButton radio_forceSensor_capture_standard;
+	Gtk.RadioButton radio_forceSensor_capture_absolute;
+	Gtk.RadioButton radio_forceSensor_capture_inverted;
+	Gtk.Image image_forceSensor_capture_standard;
+	Gtk.Image image_forceSensor_capture_absolute;
+	Gtk.Image image_forceSensor_capture_inverted;
 	// <---- at glade
-
-	Gtk.ComboBoxText combo_force_sensor_capture_options;
 
 	ForceSensorExerciseWindow forceSensorExerciseWin;
 	ForceSensorElasticBandsWindow forceSensorElasticBandsWin;
@@ -176,7 +179,6 @@ public partial class ChronoJumpWindow
 		//change radio and will change also notebook:
 		radio_signal_analyze_current_set.Active = true;
 
-		createComboForceSensorCaptureOptions();
 		createForceExerciseCombo();
 		UtilGtk.ViewportColorYellowLight (viewport_radio_ai_ab);
 		UtilGtk.ViewportColorGreenLight (viewport_radio_ai_cd);
@@ -3518,14 +3520,6 @@ LogB.Information(" fs R ");
 		new DialogMessage(Constants.MessageTypes.WARNING, "Success! Both dispositives with >= 0.6");
 	}
 
-	private void createComboForceSensorCaptureOptions()
-	{
-		combo_force_sensor_capture_options = UtilGtk.CreateComboBoxText (
-				box_combo_force_sensor_capture_options,
-				ForceSensor.CaptureOptionsList (),
-				"");
-	}
-
 	// -------------------------------- exercise stuff --------------------
 
 
@@ -3663,20 +3657,6 @@ LogB.Information(" fs R ");
 		changeTestImage (fse.UniqueID);
 
 		combo_force_sensor_button_sensitive_exercise(true);
-
-		if(fse.ForceResultant) {
-			/*
-			   setForceSensorCaptureOptions(ForceSensor.CaptureOptions.ABS);
-			   combo_force_sensor_capture_options.Sensitive = false;
-			   better to hide it instead of making it unsensitive to not force it to ABS and then have ABS by default in raw exercises
-			   */
-			//combo_force_sensor_capture_options.Visible = false;
-			//2.2.0:
-			combo_force_sensor_capture_options.Visible = true;
-		} else {
-			//combo_force_sensor_capture_options.Sensitive = true;
-			combo_force_sensor_capture_options.Visible = true;
-		}
 
 		radio_contacts_graph_currentTest.Label = fse.Name;
                 //update the treeview
@@ -3903,27 +3883,17 @@ LogB.Information(" fs R ");
 	// -------------------------------- options, laterality and comment stuff -------------
 
 	//note: Standard capture, Absolute values, Inverted values are:
-	//- on glade: app1 combo_force_sensor_capture_options
+	//- on glade: app1 3 radios
 	//- on ForceSensorCaptureOptionsString...
 	private ForceSensor.CaptureOptions getForceSensorCaptureOptionsFromMainGui()
 	{
-		string option = UtilGtk.ComboGetActive(combo_force_sensor_capture_options);
-		if(option == ForceSensor.CaptureOptionsStringABS())
+		if (radio_forceSensor_capture_absolute.Active)
 			return ForceSensor.CaptureOptions.ABS;
-		else if(option == ForceSensor.CaptureOptionsStringINVERTED())
+		else if (radio_forceSensor_capture_inverted.Active)
 			return ForceSensor.CaptureOptions.INVERTED;
-		else //ForceSensor.CaptureOptionsStringNORMAL()
+		else //radio_forceSensor_capture_standard.Active
 			return ForceSensor.CaptureOptions.NORMAL;
 	}
-	/*
-	private void setForceSensorCaptureOptions(ForceSensor.CaptureOptions co)
-	{
-		LogB.Information("setForceSensorCaptureOptions " + co.ToString());
-		combo_force_sensor_capture_options.Active = UtilGtk.ComboMakeActive(
-				combo_force_sensor_capture_options,
-				Catalog.GetString(ForceSensor.GetCaptureOptionsString(co)));
-	}
-	*/
 
 	private void on_radio_force_sensor_laterality_toggled (object o, EventArgs args)
 	{
@@ -4115,6 +4085,11 @@ LogB.Information(" fs R ");
 		button_force_sensor_exercise_edit = (Gtk.Button) builder.GetObject ("button_force_sensor_exercise_edit");
 		button_force_sensor_exercise_delete = (Gtk.Button) builder.GetObject ("button_force_sensor_exercise_delete");
 		force_sensor_adjust_label_message = (Gtk.Label) builder.GetObject ("force_sensor_adjust_label_message");
-		box_combo_force_sensor_capture_options = (Gtk.Box) builder.GetObject ("box_combo_force_sensor_capture_options");
+		radio_forceSensor_capture_standard = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_capture_standard");
+		radio_forceSensor_capture_absolute = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_capture_absolute");
+		radio_forceSensor_capture_inverted = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_capture_inverted");
+                image_forceSensor_capture_standard = (Gtk.Image) builder.GetObject ("image_forceSensor_capture_standard");
+                image_forceSensor_capture_absolute = (Gtk.Image) builder.GetObject ("image_forceSensor_capture_absolute");
+                image_forceSensor_capture_inverted = (Gtk.Image) builder.GetObject ("image_forceSensor_capture_inverted");
 	}
 }

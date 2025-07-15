@@ -516,6 +516,9 @@ namespace Chronojump
 			new ResourceFix ("language-python.png" , "language-python.png"),
 			new ResourceFix ("thumb_up.png" , "thumb_up.png"),
 			new ResourceFix ("thumb_down.png" , "thumb_down.png"),
+			new ResourceFix ("signal_standard.png" , "signal_standard.png"),
+			new ResourceFix ("signal_absolute.png" , "signal_absolute.png"),
+			new ResourceFix ("signal_inverted.png" , "signal_inverted.png"),
 			new ResourceFix ("start.wav" , "sound_can_start.wav"),
 			new ResourceFix ("ok.wav" , "ok.wav"),
 			new ResourceFix ("bad.wav" , "sound_bad.wav")

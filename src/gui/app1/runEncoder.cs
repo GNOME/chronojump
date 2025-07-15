@@ -2233,16 +2233,6 @@ public partial class ChronoJumpWindow
 					button_ai_model_save_image.Sensitive = true;
 					button_contacts_delete_selected.Sensitive = true;
 
-					/*
-					fscPoints.InitRealWidthHeight();
-					forceSensorDoSignalGraphPlot();
-					forceSensorDoRFDGraph();
-
-					//if drawingarea has still not shown, don't paint graph because GC screen is not defined
-					if(force_sensor_ai_drawingareaShown)
-						forceSensorDoGraphAI();
-					 */
-
 					drawingarea_race_analyzer_capture_position_time.QueueDraw ();
 					drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
 					drawingarea_race_analyzer_capture_accel_time.QueueDraw ();

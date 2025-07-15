@@ -146,6 +146,7 @@ public class EditEventWindow
 	protected bool headerShowDecimal = true;
 
 	protected int oldPersonID; //used to record the % for old person if we change it
+	private List<Person> person_l;
 
 	//to know if changed or not in order to redo the treeview
 	//public double distanceAtInit;
@@ -336,18 +337,18 @@ public class EditEventWindow
 			label_run_start_value.Hide();
 		}
 
-		ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(
-				myEvent.SessionID,
-				false); //means: do not returnPersonAndPSlist
-		string [] personsStrings = new String[persons.Count];
+		person_l = SqlitePersonSession.SelectCurrentSessionPersonsAsList (false, myEvent.SessionID);
+		string [] personsStrings = new String[person_l.Count];
 		int i=0;
-		foreach (Person person in persons) 
-			personsStrings[i++] = person.IDAndName(":");
+		foreach (Person person in person_l)
+			personsStrings[i++] = person.Name;
 
 		combo_persons = new ComboBoxText();
 		UtilGtk.ComboUpdate(combo_persons, personsStrings, "");
-		combo_persons.Active = UtilGtk.ComboMakeActive(personsStrings, myEvent.PersonID + ":" + myEvent.PersonNameGetSQLChecking);
-		
+		foreach (Person person in person_l)
+			if (person.UniqueID == myEvent.PersonID)
+				combo_persons.Active = UtilGtk.ComboMakeActive (personsStrings, person.Name);
+
 		oldPersonID = myEvent.PersonID;
 			
 		hbox_combo_person.PackStart(combo_persons, true, true, 0);
@@ -673,13 +674,16 @@ public class EditEventWindow
 
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		int eventID = Convert.ToInt32 ( label_event_id_value.Text );
-		string myPerson = UtilGtk.ComboGetActive(combo_persons);
-		string [] myPersonFull = myPerson.Split(new char[] {':'});
-		
-		string myDesc = entry_description.Text;
+		// get personID
+		string personName = UtilGtk.ComboGetActive (combo_persons);
+		int personID = -1;
+		foreach (Person person in person_l)
+			if (person.Name == personName)
+				personID = person.UniqueID;
 
-		updateSQL(eventID, Convert.ToInt32(myPersonFull[0]), myDesc);
+		if (personID >= 0)
+			updateSQL (Convert.ToInt32 (label_event_id_value.Text),
+					personID, entry_description.Text);
 
 		fake_button_finished.Click ();
 

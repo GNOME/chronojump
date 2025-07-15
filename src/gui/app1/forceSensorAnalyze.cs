@@ -350,7 +350,7 @@ public partial class ChronoJumpWindow
 		}
 
 		if(lastForceSensorFullPath != null && lastForceSensorFullPath != "")
-			forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.RFD);
+			forceSensorCopyTempAndDoGraphs (forceSensorGraphsEnum.RFD, currentForceSensor.CaptureOption);
 	}
 
 	private void on_button_ai_model_back_to_signal_clicked (object o, EventArgs args)
@@ -1087,7 +1087,7 @@ public partial class ChronoJumpWindow
 				preferences.forceSensorButterworth (current_mode),
 				zoomFrameA, zoomFrameB,
 				currentForceSensorExercise, currentPersonSession.Weight,
-				getForceSensorCaptureOptions(), currentForceSensor.Stiffness,
+				getForceSensorCaptureOptionsFromMainGui(), currentForceSensor.Stiffness,
 				eccMinDispl, conMinDispl
 				);
 
@@ -1110,7 +1110,7 @@ public partial class ChronoJumpWindow
 					preferences.forceSensorButterworth (current_mode),
 					zoomFrameA, zoomFrameB,
 					currentForceSensorExercise, currentPersonSession.Weight,
-					getForceSensorCaptureOptions (), currentForceSensor.Stiffness,
+					getForceSensorCaptureOptionsFromMainGui (), currentForceSensor.Stiffness,
 					eccMinDispl, conMinDispl
 					);
 

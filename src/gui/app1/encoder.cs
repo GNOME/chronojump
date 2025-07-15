@@ -2394,7 +2394,7 @@ public partial class ChronoJumpWindow
 			else
 				nameString += "_" + exName;
 
-			nameString += "_" + getLaterality(true);
+			nameString += "_" + Catalog.GetString (currentForceSensor.Laterality);
 		}
 
 		//when we send an image we just want to define the name

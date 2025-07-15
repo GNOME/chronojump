@@ -91,14 +91,19 @@ public class EditForceSensorWindow : EditEventWindow
 
 	protected override void updateSQL (int eventID, int personID, string description)
 	{
+		// get object before update
+		ForceSensor fs = SqliteForceSensor.SelectData (eventID, false, false);
+		// set person
+		fs.PersonID = personID;
+
+		// set exercise
 		int fsExIdNew = Sqlite.ExistsAndGetUniqueID (false,
 				Constants.ForceSensorExerciseTable,
 				UtilGtk.ComboGetActive(combo_eventType));
 
-		ForceSensor fs = SqliteForceSensor.SelectData (eventID, false, false);
-
 		fs.ExerciseID = fsExIdNew;
 
+		// set captureOption
 		if (radio_forceSensor_capture_standard.Active)
 			fs.CaptureOption = ForceSensor.CaptureOptions.NORMAL;
 		else if (radio_forceSensor_capture_absolute.Active)
@@ -106,6 +111,7 @@ public class EditForceSensorWindow : EditEventWindow
 		else if (radio_forceSensor_capture_inverted.Active)
 			fs.CaptureOption = ForceSensor.CaptureOptions.INVERTED;
 
+		// set laterality
 		if (radio_forceSensor_laterality_both.Active)
 			fs.Laterality = "Both";
 		else if (radio_forceSensor_laterality_left.Active)
@@ -113,8 +119,10 @@ public class EditForceSensorWindow : EditEventWindow
 		else if (radio_forceSensor_laterality_right.Active)
 			fs.Laterality = "Right";
 
+		// set description
 		fs.Description = description;
 
+		// update
 		fs.UpdateSQL (false);
 	}
 
@@ -161,18 +169,31 @@ public partial class ChronoJumpWindow
 	{
 		LogB.Information("edit selected forceSensor finished");
 
-		//ForceSensor forceSensor = SqliteForceSensor.SelectData (treeViewResultsSession.EventSelectedID, true, false);
+		ForceSensor forceSensor = SqliteForceSensor.SelectData (treeViewResultsSession.EventSelectedID, true, false);
 
-		/*
+		LogB.Information ("currentForceSensor:\n" + currentForceSensor.ToString ());
+		LogB.Information ("forceSensor:\n" + forceSensor.ToString ());
+		// check if capture option has changed. If changed, need to recalculate:
+		if (forceSensor.CaptureOption != currentForceSensor.CaptureOption)
+		{
+			currentForceSensor = forceSensor;
+
+			// this will also: pre_fillTreeView_resultsSession & selectResultsSessionId
+			force_sensor_recalculate (
+					forceSensor.CaptureOption,
+					forceSensor.Laterality);
+			return;
+		}
+
 		//if person changed, fill treeview again, if not, only update it's line
 		if (eventOldPerson == forceSensor.PersonID)
 		{
+			LogB.Information ("same persons");
 			forceSensor.ExerciseName = SqliteTests.SelectExerciseNameInOtherTable (false, forceSensor.ExerciseID, Constants.ForceSensorExerciseTable);
 			treeViewResultsSession.Update (forceSensor);
-		}  else
+		} else {
+			LogB.Information ("another person");
 			pre_fillTreeView_resultsSession ();
-
-		updateGraphForceSensorBars ();
+		}
 	}
-
 }

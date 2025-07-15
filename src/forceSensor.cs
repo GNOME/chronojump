@@ -190,6 +190,12 @@ public class ForceSensor : Event
 			" WHERE uniqueID = " + uniqueID;
 	}
 
+	// just to debug
+	public override string ToString ()
+	{
+		return toSQLUpdateString ();
+	}
+
 	public void UpdateSQLJustDescription (bool dbconOpened)
 	{
 		SqliteForceSensor.UpdateComments (dbconOpened, uniqueID, description); //SQL not opened
@@ -963,6 +969,10 @@ public class TriggerXForce
 	}
 }
 
+/*
+ * This is for store the calculated object in UtilMath.GetMaxAvgInWindow
+ * Right now is not used.
+ *
 public class CalculatedForceMaxAvgInWindow
 {
 	private int countA;
@@ -1007,6 +1017,7 @@ public class CalculatedForceMaxAvgInWindow
 		get { return resultSampleEnd; }
 	}
 }
+*/
 
 public class ForceSensorRFD
 {

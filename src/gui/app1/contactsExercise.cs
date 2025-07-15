@@ -97,13 +97,10 @@ public partial class ChronoJumpWindow
 		hbox_top_person.Sensitive = true;
 
 		// ---->
-		//LogB.Information ("recalculate captureOption -3: " + getForceSensorCaptureOptions().ToString ());
 		// needed to not raise: on_treeview_results_session_cursor_changed that will SELECT again current set and change capture options combo to the present on the selected file at SQL, do not allowing to effectively recalculate
 		treeview_results_session_cursor_changed_block = true;
 		notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.EXECUTE);
 		treeview_results_session_cursor_changed_block = false;
-
-		//LogB.Information ("recalculate captureOption -2: " + getForceSensorCaptureOptions().ToString ());
 		// <----
 
 		if (Constants.ModeIsENCODER (current_mode))
@@ -122,16 +119,14 @@ public partial class ChronoJumpWindow
 	}
 	private void on_button_exercise_close_and_recalculate_clicked (object o, EventArgs args)
 	{
-		//LogB.Information ("recalculate captureOption -4: " + getForceSensorCaptureOptions().ToString ());
 		on_button_exercise_close_clicked (o, args);
-		//LogB.Information ("recalculate captureOption -1: " + getForceSensorCaptureOptions().ToString ());
 
 		if (Constants.ModeIsENCODER (current_mode))
 		{
 			checkIfEncoderMinHeightChanged ();
 			on_button_encoder_recalculate_clicked (o, args);
-		} //else
-		//	on_button_contacts_recalculate_clicked(o, args);
+		} else
+			on_button_contacts_recalculate_clicked(o, args);
 	}
 
 	private void on_button_image_test_zoom_clicked (object o, EventArgs args)

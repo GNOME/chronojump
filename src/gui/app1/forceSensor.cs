@@ -1386,7 +1386,7 @@ public partial class ChronoJumpWindow
 
 		string fileNamePre = currentPerson.UniqueID + "_" + currentPerson.Name + "_" + UtilDate.ToFile(forceSensorTimeStartCapture);
 
-		ForceSensor.CaptureOptions forceSensorCaptureOption = getForceSensorCaptureOptions();
+		ForceSensor.CaptureOptions forceSensorCaptureOption = getForceSensorCaptureOptionsFromMainGui();
 
 
 		//fileName to save the csv
@@ -1899,8 +1899,8 @@ LogB.Information(" fs C ");
 					getStiffnessAndStiffnessStringFromSQL(out stiffness, out stiffnessString);
 
 					currentForceSensor = new ForceSensor(-1, currentPerson.UniqueID, currentSession.UniqueID,
-							currentForceSensorExercise.UniqueID, getForceSensorCaptureOptions(),
-							ForceSensor.AngleUndefined, getLaterality(false),
+							currentForceSensorExercise.UniqueID, getForceSensorCaptureOptionsFromMainGui(),
+							ForceSensor.AngleUndefined, getLateralityFromCombo (false),
 							Util.GetLastPartOfPath(lastForceSensorFile + ".csv"), //filename
 							Util.MakeURLrelative(Util.GetForceSensorSessionDir(currentSession.UniqueID)), //url
 							UtilDate.ToFile(forceSensorTimeStartCapture),
@@ -1965,7 +1965,7 @@ LogB.Information(" fs C ");
 					//on resultant (projected) recalculate at end (to manage correctly speed and accel smoothed that affects body mass
 					if(currentForceSensorExercise.ComputeAsElastic)
 					{
-						force_sensor_recalculate();
+						force_sensor_recalculate (getForceSensorCaptureOptionsFromMainGui (), getLateralityFromCombo (false));
 						event_execute_label_message.Text = "Converted to exerted force.";
 					}
 				}
@@ -2412,7 +2412,6 @@ LogB.Information(" fs R ");
 			radio_ai_cd.Sensitive = true;
 		}
 
-		setForceSensorCaptureOptions(fs.CaptureOption);
 		setLaterality(fs.Laterality);
 		assignCurrentForceSensorExerciseFromSQL ();
 
@@ -2460,7 +2459,7 @@ LogB.Information(" fs R ");
 			interpolate_l = null;
 
 		cairoGraphForceSensorSignalPointsShowAccuracy = false;
-		forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.SIGNAL);
+		forceSensorCopyTempAndDoGraphs (forceSensorGraphsEnum.SIGNAL, fs.CaptureOption);
 		//image_ai_model_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
 		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 
@@ -2662,7 +2661,8 @@ LogB.Information(" fs R ");
 	// ---- end of forceSensorDeleteTest stuff -------
 
 
-	private void force_sensor_recalculate ()
+	// used on edit_event and at preferences close
+	private void force_sensor_recalculate (ForceSensor.CaptureOptions fsco, string laterality)
 	{
 		LogB.Information ("\n\nforce_sensor_recalculate start\n\n");
 		if(! Util.FileExists(lastForceSensorFullPath))
@@ -2671,9 +2671,6 @@ LogB.Information(" fs R ");
 			return;
 		}
 
-		//LogB.Information ("recalculate captureOption 0: " + getForceSensorCaptureOptions().ToString ());
-
-		//getForceSensorCaptureOptions is called on doing the graphs
 		//recalculate graphs will be different if exercise changed, so need to know the exercise
 		assignCurrentForceSensorExerciseFromSQL ();
 
@@ -2688,7 +2685,6 @@ LogB.Information(" fs R ");
 
 				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to configure fixture to know stiffness of this elastic exercise."));
 
-
 				/*
 				 * before 2024 Apr 16 we returned here, now we continue to be able to show correctly graphs after preferences butterworth change
 				 * check this does not produces any crash
@@ -2702,11 +2698,8 @@ LogB.Information(" fs R ");
 		//update SQL with exercise, captureOptions, laterality, comments
 		currentForceSensor.ExerciseID = currentForceSensorExercise.UniqueID;
 		currentForceSensor.ExerciseName = currentForceSensorExercise.Name; //just in case
-		currentForceSensor.CaptureOption = getForceSensorCaptureOptions();
-		LogB.Information ("currentForceSensor.CaptureOption: " + currentForceSensor.CaptureOption.ToString ());
-		currentForceSensor.Laterality = getLaterality(false);
-		currentForceSensor.Description = "";
-
+		currentForceSensor.CaptureOption = fsco;
+		currentForceSensor.Laterality = laterality;
 
 		double stiffness;
 		string stiffnessString;
@@ -2716,7 +2709,7 @@ LogB.Information(" fs R ");
 
 		if(lastForceSensorFullPath != null && lastForceSensorFullPath != "")
 		{
-			forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.SIGNAL);
+			forceSensorCopyTempAndDoGraphs (forceSensorGraphsEnum.SIGNAL, fsco);
 			image_ai_model_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
 		}
 
@@ -2743,7 +2736,7 @@ LogB.Information(" fs R ");
 	}
 
 	private enum forceSensorGraphsEnum { SIGNAL, RFD }
-	private void forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum fsge)
+	private void forceSensorCopyTempAndDoGraphs (forceSensorGraphsEnum fsge, ForceSensor.CaptureOptions fsco)
 	{
 		LogB.Information(string.Format("at forceSensorCopyTempAndDoGraphs(), lastForceSensorFullPath: {0}, UtilEncoder.GetmifCSVFileName(): {1}",
 				lastForceSensorFullPath, UtilEncoder.GetmifCSVFileName()));
@@ -2751,7 +2744,7 @@ LogB.Information(" fs R ");
 		File.Copy(lastForceSensorFullPath, UtilEncoder.GetmifCSVFileName(), true); //can be overwritten
 
 		if(fsge == forceSensorGraphsEnum.SIGNAL)
-			forceSensorDoSignalGraph ();
+			forceSensorDoSignalGraph (fsco);
 		else //(fsge == forceSensorGraphsEnum.RFD)
 			forceSensorDoRFDGraph();
 	}
@@ -2821,7 +2814,7 @@ LogB.Information(" fs R ");
 				Util.CSVDecimalColumnIsPoint(UtilEncoder.GetmifCSVFileName(), 1), 	//decimalIsPointAtFile (read)
 				preferences.CSVExportDecimalSeparatorChar, 				//decimalIsPointAtExport (write)
 				new ForceSensorGraphAB (
-					getForceSensorCaptureOptions(),
+					getForceSensorCaptureOptionsFromMainGui(),
 					sampleA, sampleB,
 					title, exercise,
 					currentForceSensorExercise.PercentBodyWeight,
@@ -2865,9 +2858,9 @@ LogB.Information(" fs R ");
 		button_ai_model_save_image.Sensitive = true;
 	}
 
-	void forceSensorDoSignalGraph ()
+	void forceSensorDoSignalGraph (ForceSensor.CaptureOptions fsco)
 	{
-		forceSensorDoSignalGraphReadFile (true, getForceSensorCaptureOptions(), currentPersonSession.Weight, currentForceSensor.Stiffness);
+		forceSensorDoSignalGraphReadFile (true, fsco, currentPersonSession.Weight, currentForceSensor.Stiffness);
 		forceSensorDoSignalGraphPlot ();
 	}
 	void forceSensorDoSignalGraphReadFile (bool ab, ForceSensor.CaptureOptions fsco, double personWeight, double stiffness)
@@ -3906,7 +3899,7 @@ LogB.Information(" fs R ");
 	//note: Standard capture, Absolute values, Inverted values are:
 	//- on glade: app1 combo_force_sensor_capture_options
 	//- on ForceSensorCaptureOptionsString...
-	private ForceSensor.CaptureOptions getForceSensorCaptureOptions()
+	private ForceSensor.CaptureOptions getForceSensorCaptureOptionsFromMainGui()
 	{
 		string option = UtilGtk.ComboGetActive(combo_force_sensor_capture_options);
 		if(option == ForceSensor.CaptureOptionsStringABS())
@@ -3916,6 +3909,7 @@ LogB.Information(" fs R ");
 		else //ForceSensor.CaptureOptionsStringNORMAL()
 			return ForceSensor.CaptureOptions.NORMAL;
 	}
+	/*
 	private void setForceSensorCaptureOptions(ForceSensor.CaptureOptions co)
 	{
 		LogB.Information("setForceSensorCaptureOptions " + co.ToString());
@@ -3923,6 +3917,7 @@ LogB.Information(" fs R ");
 				combo_force_sensor_capture_options,
 				Catalog.GetString(ForceSensor.GetCaptureOptionsString(co)));
 	}
+	*/
 
 	private void on_radio_force_sensor_laterality_toggled (object o, EventArgs args)
 	{
@@ -3930,7 +3925,7 @@ LogB.Information(" fs R ");
 		setForceSensorLateralityPixbuf();
 	}
 
-	private string getLaterality(bool translated)
+	private string getLateralityFromCombo (bool translated)
 	{
 		string lat = "";
 		if(radio_force_sensor_laterality_both.Active)

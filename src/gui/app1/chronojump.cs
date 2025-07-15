@@ -3048,8 +3048,8 @@ public partial class ChronoJumpWindow
 		// update force_capture_drawingarea
 		if (Constants.ModeIsFORCESENSOR (current_mode))// && radiobutton_force_sensor_analyze_manual.Active)
 		{
-			if (Util.FileExists(lastForceSensorFullPath))
-				force_sensor_recalculate ();
+			if (Util.FileExists(lastForceSensorFullPath) && currentForceSensor != null)
+				force_sensor_recalculate (currentForceSensor.CaptureOption, currentForceSensor.Laterality);
 
 			forceSensorPrepareGraphAI ();
 		}
@@ -5151,9 +5151,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_contacts_recalculate_clicked (object o, EventArgs args)
 	{
-		if (Constants.ModeIsFORCESENSOR (current_mode))
-			force_sensor_recalculate();
-		else if(current_mode == Constants.Modes.RUNSENCODER)
+		if (current_mode == Constants.Modes.RUNSENCODER)
 			run_encoder_recalculate();
 	}
 

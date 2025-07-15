@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="484.55518mm"
+   height="200.61633mm"
+   viewBox="0 0 484.55518 200.61633"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="signal_standard_absolute_inverted.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.41880765"
+     inkscape:cx="915.69482"
+     inkscape:cy="379.64922"
+     inkscape:window-width="1366"
+     inkscape:window-height="699"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showguides="true">
+    <sodipodi:guide
+       position="325.88396,110.43383"
+       orientation="0,-1"
+       id="guide1244"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(217.9167,-48.283405)">
+    <g
+       id="g1908"
+       inkscape:export-filename="../md/signal_inverted.png"
+       inkscape:export-xdpi="4.6892309"
+       inkscape:export-ydpi="4.6892309">
+      <rect
+         style="fill:#ffffff;stroke-width:3.62058;stroke-linecap:square;paint-order:stroke markers fill;fill-opacity:0"
+         id="rect358-6"
+         width="130"
+         height="130"
+         x="121.78096"
+         y="73.26339"
+         ry="0.0035755706"
+         inkscape:export-filename="../md/signal_inverted.png"
+         inkscape:export-xdpi="4.6892309"
+         inkscape:export-ydpi="4.6892309" />
+      <g
+         id="g1719"
+         transform="translate(-3.7526117,-0.2320236)">
+        <path
+           style="fill:none;stroke:#0e1e46;stroke-width:12;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="m 133.83829,138.49464 c 22.07623,-0.23125 14.19114,-55.435814 47.95873,-54.454527 39.88681,2.673572 31.65688,99.384147 65.20231,97.747587"
+           id="path413-6"
+           sodipodi:nodetypes="ccc" />
+        <path
+           style="fill:none;stroke:#0e1e46;stroke-width:12;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:12, 12;stroke-dashoffset:0;stroke-opacity:1"
+           d="m 133.83829,138.49464 c 19.24815,-0.0287 14.19114,55.43582 47.95873,54.45454 39.88681,-2.67358 34.70605,-98.631734 64.91653,-98.91251"
+           id="path413-6-7"
+           sodipodi:nodetypes="ccc" />
+      </g>
+    </g>
+    <g
+       id="g1902"
+       inkscape:export-filename="../md/signal_standard.png"
+       inkscape:export-xdpi="4.6892309"
+       inkscape:export-ydpi="4.6892309">
+      <rect
+         style="fill:#ffffff;stroke-width:3.62058;stroke-linecap:square;paint-order:stroke markers fill;fill-opacity:0"
+         id="rect358-6-1-7"
+         width="130"
+         height="130"
+         x="-191.74559"
+         y="67.685303"
+         ry="0.0035755706" />
+      <path
+         style="fill:none;stroke:#0e1e46;stroke-width:12;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+         d="m -183.44086,138.26262 c 22.07623,-0.23125 14.19114,-55.435811 47.95873,-54.454531 39.886809,2.67357 31.65688,99.384151 65.202309,97.747591"
+         id="path413-6-2"
+         sodipodi:nodetypes="ccc" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="-177.11151"
+       y="219.23586"
+       id="text1083"><tspan
+         sodipodi:role="line"
+         style="stroke-width:0.264583"
+         x="-177.11151"
+         y="219.23586"
+         id="tspan1135">signal_standard.png</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="-19.596821"
+       y="219.23586"
+       id="text1083-7"><tspan
+         sodipodi:role="line"
+         style="stroke-width:0.264583"
+         x="-19.596821"
+         y="219.23586"
+         id="tspan1189">signal_absolute.png</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="138.01312"
+       y="219.23586"
+       id="text1083-3"><tspan
+         sodipodi:role="line"
+         style="stroke-width:0.264583"
+         x="138.01312"
+         y="219.23586"
+         id="tspan1135-56">signal_inverted.png</tspan></text>
+    <g
+       id="g1898"
+       inkscape:export-filename="../md/signal_absolute.png"
+       inkscape:export-xdpi="4.6892309"
+       inkscape:export-ydpi="4.6892309">
+      <rect
+         style="fill:#ffffff;stroke-width:3.62058;stroke-linecap:square;paint-order:stroke markers fill;fill-opacity:0"
+         id="rect358-6-1"
+         width="130"
+         height="130"
+         x="-34.982319"
+         y="73.26339"
+         ry="0.0035755706" />
+      <path
+         style="fill:none;stroke:#0e1e46;stroke-width:12;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:12, 12;stroke-dashoffset:0;stroke-opacity:1"
+         d="M 56.12178,138.26339 C 74.454774,118.72458 57.882438,93.675767 86.197657,93.80464"
+         id="path413-6-7-2"
+         sodipodi:nodetypes="cc" />
+      <path
+         style="fill:none;stroke:#0e1e46;stroke-width:12;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+         d="m -26.677605,138.26261 c 22.07623,-0.23125 14.19114,-55.43581 47.958732,-54.45453 39.88681,2.67358 31.65688,99.38415 65.20231,97.74759"
+         id="path413-6-9"
+         sodipodi:nodetypes="ccc" />
+    </g>
+  </g>
+</svg>

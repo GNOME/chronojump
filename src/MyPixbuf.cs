@@ -519,6 +519,11 @@ namespace Chronojump
 			new ResourceFix ("signal_standard.png" , "signal_standard.png"),
 			new ResourceFix ("signal_absolute.png" , "signal_absolute.png"),
 			new ResourceFix ("signal_inverted.png" , "signal_inverted.png"),
+			new ResourceFix ("modes_jumps.png" , "modes_jumps.png"),
+			new ResourceFix ("modes_races.png" , "modes_races.png"),
+			new ResourceFix ("modes_force.png" , "modes_force.png"),
+			new ResourceFix ("modes_weights.png" , "modes_weights.png"),
+			new ResourceFix ("modes_inertial.png" , "modes_inertial.png"),
 			new ResourceFix ("start.wav" , "sound_can_start.wav"),
 			new ResourceFix ("ok.wav" , "ok.wav"),
 			new ResourceFix ("bad.wav" , "sound_bad.wav")

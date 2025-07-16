@@ -29,6 +29,7 @@ public partial class ChronoJumpWindow
 	Gtk.Frame frame_image_logo_icon;
 	Gtk.Image image_logo_icon;
 	Gtk.Image image_logo_icon_transp;
+	Gtk.Image image_modes;
 	//Gtk.Image image_home;
 	//Gtk.Image image_home1;
 	//Gtk.Image image_minimize;
@@ -1075,12 +1076,44 @@ public partial class ChronoJumpWindow
 		UtilGtk.ApplyCSS (preferences.fontSizeAtGui);
 	}
 
+	private void changeModeIcon (Constants.Modes m)
+	{
+		switch (m)
+		{
+			case Constants.Modes.JUMPSSIMPLE :
+			case Constants.Modes.JUMPSREACTIVE :
+				image_modes.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "modes_jumps.png");
+				break;
+			case Constants.Modes.RUNSSIMPLE :
+			case Constants.Modes.RUNSINTERVALLIC :
+			case Constants.Modes.RUNSENCODER :
+			case Constants.Modes.BEEPTEST :
+				image_modes.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "modes_races.png");
+				break;
+			case Constants.Modes.FORCESENSORISOMETRIC :
+			case Constants.Modes.FORCESENSORELASTIC :
+				image_modes.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "modes_force.png");
+				break;
+			case Constants.Modes.POWERGRAVITATORY :
+				image_modes.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "modes_weights.png");
+				break;
+			case Constants.Modes.POWERINERTIAL :
+				image_modes.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "modes_inertial.png");
+				break;
+			default:
+				image_modes.Visible = false;
+				return;
+				//break;
+		}
+		image_modes.Visible = true;
+	}
 
 	private void connectWidgetsIcons (Gtk.Builder builder)
 	{
 		frame_image_logo_icon = (Gtk.Frame) builder.GetObject ("frame_image_logo_icon");
 		image_logo_icon = (Gtk.Image) builder.GetObject ("image_logo_icon");
 		image_logo_icon_transp = (Gtk.Image) builder.GetObject ("image_logo_icon_transp");
+		image_modes = (Gtk.Image) builder.GetObject ("image_modes");
 		//image_home = (Gtk.Image) builder.GetObject ("image_home");
 		//image_home1 = (Gtk.Image) builder.GetObject ("image_home1");
 		//image_minimize = (Gtk.Image) builder.GetObject ("image_minimize");

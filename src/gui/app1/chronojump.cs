@@ -3926,6 +3926,8 @@ public partial class ChronoJumpWindow
 
 		if (remoteTest != null)
 			remoteTest.Current_mode = m;
+
+		changeModeIcon (m);
 	}
 
 	private void showMacRInstallMessage ()

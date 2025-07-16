@@ -268,46 +268,8 @@ public partial class ChronoJumpWindow
 		if (e.Button != 3 || treeViewResultsSession.EventSelectedID < 0)
 			return;
 
-		int id = treeViewResultsSession.EventSelectedID;
-
-		Event ev;
-		if (current_mode == Constants.Modes.JUMPSSIMPLE)
-		{
-			ev = SqliteJump.SelectJumpData (id, false );
-			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonNameGetSQLChecking + ")");
-		}
-		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
-		{
-			ev = SqliteJumpRj.SelectJumpData ( "jumpRj", id, false, false);
-			treeviewResultsContextMenu (true, " " + ev.Type + " (" + ev.PersonNameGetSQLChecking + ")");
-		}
-		else if (current_mode == Constants.Modes.RUNSSIMPLE)
-		{
-			ev = SqliteRun.SelectRunData (id, false);
-			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonNameGetSQLChecking + ")");
-		}
-		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
-		{
-			ev = SqliteRunInterval.SelectRunData ( Constants.RunIntervalTable, id, false, false);
-			treeviewResultsContextMenu (true, " " + ev.Type + " (" + ev.PersonNameGetSQLChecking + ")");
-		}
-		else if (current_mode == Constants.Modes.RUNSENCODER)
-		{
-			ev = SqliteRunEncoder.SelectData (id, false);
-			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonNameGetSQLChecking + ")");
-		}
-		else if (current_mode == Constants.Modes.BEEPTEST)
-		{
-			ev = SqliteBeepTest.SelectData (id, false);
-			treeviewResultsContextMenu (false, " " + ev.Type + " (" + ev.PersonNameGetSQLChecking + ")");
-		}
-		else if (Constants.ModeIsFORCESENSOR (current_mode))
-		{
-			ev = SqliteForceSensor.SelectData (id, false, false);
-			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
-		}
 		/*
-		 * It was disabled on encoder because when right click is done, first cursor_changed is raised
+		 * On encoder right click it was disabled on encoder because when right click is done, first cursor_changed is raised
 		 * and then it loads set
 		 * then the button_release should be raised, but it is lost while loading the set
 		 * A solution could be to not load the set if the user clicks to same row, but this can be inconsistent for the user
@@ -318,21 +280,10 @@ public partial class ChronoJumpWindow
 		 * finally on_treeview_results_session_cursor_changed checks if row is the same
 		 * so user can left click on set or rep and the right click on set and edit/delete will shown
 		 */
-		else if (Constants.ModeIsENCODER (current_mode))
-		{
-			ev = SqliteEncoder.SelectData (id, false);
-			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
-		}
-		else if (current_mode == Constants.Modes.WILIGHT)
-		{
-			ev = SqliteWilight.SelectData (id, false);
-			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
-		}
-		else if (current_mode == Constants.Modes.OTHER) //FOURPLATFORMS
-		{
-			ev = SqliteFourPlatforms.SelectData (id, false);
-			treeviewResultsContextMenu (false, " (" + ev.PersonNameGetSQLChecking + ")");
-		}
+
+		treeviewResultsContextMenu (
+				(current_mode == Constants.Modes.JUMPSREACTIVE || current_mode == Constants.Modes.RUNSINTERVALLIC), //hasRepair
+				"");
 	}
 
 	private void treeviewResultsContextMenu (bool hasRepair, string label)

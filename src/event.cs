@@ -88,12 +88,16 @@ public class Event
 		set { simulated = value; }
 	}
 
-	//this is very inneficient if we are processing a list of events, eg. jumps
-	//and is dangerous when done and the DB is already opened
+	/*
+	 * This is very inneficient if we are processing a list of events, eg. jumps
+	 * and is dangerous when done and the DB is already opened
+	 * it was used at: on_treeview_results_session_button_release_event (called 1 time at button release)
+	 * right now is not used
 	public string PersonNameGetSQLChecking
 	{
 		get { return SqlitePerson.SelectAttribute (personID, Constants.Name); }
 	}
+	 */
 	public string PersonNameGet
 	{
 		get { return personName; }

@@ -65,26 +65,28 @@ public class EditRunEncoderWindow : EditEventWindow
 	protected override void initializeSpecific ()
 	{
 		typeOfTest = Constants.TestTypes.RACEANALYZER;
+		showType = true;
 		showDescription = true;
 	}
 
 	protected override string [] findTypes (Event myEvent)
 	{
-		//TODO
-		return new string []{};
+		return RunEncoderExercise.ListToString (SqliteRunEncoderExercise.Select (false, -1));
 	}
 	
 	private void on_combo_eventType_changed (object o, EventArgs args)
 	{
-		//TODO:
+		//do nothing on combo changed, do it on updateSQL (click on accept)
 	}
 
 	protected override void updateSQL (int eventID, int personID, string description)
 	{
 		SqliteTests st = new SqliteRunEncoder ();
-		st.UpdateFromEdit (eventID,
-				"", //UtilGtk.ComboGetActive(combo_eventType),
-				personID);
+		st.UpdateFromEdit (eventID, personID,
+				Sqlite.ExistsAndGetUniqueID (false,
+					Constants.RunEncoderExerciseTable,
+					UtilGtk.ComboGetActive (combo_eventType)) //exerciseID
+				);
 		st.UpdateComments (eventID, description);
 	}
 

@@ -278,14 +278,17 @@ class SqliteTests : Sqlite
 		return myReaderStr;
 	}
 
-	public void Update (int uniqueID,
-			//string type,	//TODO
-			int personID)
+	// if do not update type (depending on mode) then leave it blank
+	public void UpdateFromEdit (int uniqueID, string type, int personID)
 	{
+		string typeStr = "";
+		if (type != "")
+			typeStr = ", type = '" + type + "'";
+
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + tableName +
 			" SET personID = " + personID +
-			//", type = '" + type + //remember to close '
+			typeStr +
 			" WHERE uniqueID = " + uniqueID ;
 
 		LogB.SQL(dbcmd.CommandText.ToString());

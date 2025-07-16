@@ -144,6 +144,19 @@ public partial class ChronoJumpWindow
 				get_configured_rest_time_in_seconds());
 	}
 
+	// note on start page we also care about current_mode to show correctly the selected mode radios.
+	// so in start page mode is UNDEFINED only at start
+	// here send UNDEFINED as mode in order to not show n column
+	private void treeview_persons_storeReset_start_page ()
+	{
+		myTreeViewPersons.RemoveColumns();
+		myTreeViewPersons = new TreeViewPersons (
+				treeview_persons,
+				preferences.personClubID,
+				Constants.Modes.UNDEFINED,
+				get_configured_rest_time_in_seconds());
+	}
+
 	// to avoid circular calls
 	// if treeview_person changes, treeviewResultsSession changes. This boolean is to not change again treeview_persons
 	private bool treeviewResultsSessionNoCheckPersonChange;

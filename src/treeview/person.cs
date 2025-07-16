@@ -52,6 +52,7 @@ public class TreeViewPersons
 
 		RestSecondsMark = restSeconds;
 
+		//LogB.Information ("TreeViewPersons current_mode: " + current_mode.ToString ());
 		string nColumn = "n";
 		if (Constants.ModeIsENCODER (current_mode))
 			nColumn = Catalog.GetString ("Sets");
@@ -63,7 +64,7 @@ public class TreeViewPersons
 		store = getStore (columnsString.Length);
 
 		treeview.Model = store;
-		prepareHeaders (columnsString, showClubID);
+		prepareHeaders (columnsString, showClubID, current_mode != Constants.Modes.UNDEFINED);
 	}
 	
 	private TreeStore getStore (int columns)
@@ -77,7 +78,7 @@ public class TreeViewPersons
 		return myStore;
 	}
 	
-	private void prepareHeaders (string [] columnsString, bool showClubID)
+	private void prepareHeaders (string [] columnsString, bool showClubID, bool showN)
 	{
 		treeview.HeadersVisible = true;
 		int i=0;
@@ -87,6 +88,8 @@ public class TreeViewPersons
 			{
 				if (i == colClubID)
 					UtilGtk.CreateCols(treeview, store, Catalog.GetString(myCol), i++, showClubID);
+				else if (i == colN)
+					UtilGtk.CreateCols(treeview, store, Catalog.GetString(myCol), i++, showN);
 				else
 					UtilGtk.CreateCols(treeview, store, Catalog.GetString(myCol), i++, visible);
 			}
@@ -365,6 +368,8 @@ public class TreeViewPersons
 		treeview.ScrollToCell (path, null, true, 0, 0);
 	}
 
+	/*
+	 * unused now, just do not shown the column
 	public void UpdateTestsNBlank () //used when mode is UNDEFINED (user at select modes screen
 	{
 		TreeIter iter;
@@ -376,6 +381,7 @@ public class TreeViewPersons
 			store.SetValue (iter, colN, "");
 		} while (store.IterNext (ref iter));
 	}
+	*/
 
 	public void UpdateTestsN (List<IntInt> ii_l)
 	{

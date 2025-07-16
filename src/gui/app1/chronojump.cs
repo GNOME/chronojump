@@ -3109,7 +3109,9 @@ public partial class ChronoJumpWindow
 			button_menu_2_2_2_manage (radio_menu_2_2_2_inertial, false);
 		}
 
-		myTreeViewPersons.UpdateTestsNBlank ();
+		//myTreeViewPersons.UpdateTestsNBlank ();
+		treeview_persons_storeReset_start_page (); //send UNDEFINED
+		fillTreeView_persons();
 
 		//show title
 		string tempSessionName = "";

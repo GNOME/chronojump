@@ -85,9 +85,9 @@ public class EditRunEncoderWindow : EditEventWindow
 		st.UpdateFromEdit (eventID, personID,
 				Sqlite.ExistsAndGetUniqueID (false,
 					Constants.RunEncoderExerciseTable,
-					UtilGtk.ComboGetActive (combo_eventType)) //exerciseID
+					UtilGtk.ComboGetActive (combo_eventType)), //exerciseID
+				description
 				);
-		st.UpdateComments (eventID, description);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)

@@ -280,16 +280,27 @@ class SqliteTests : Sqlite
 
 	// tests with exerciseID as an int
 	// if do not update exerciseID (depending on mode) pass -1
-	public void UpdateFromEdit (int uniqueID, int personID, int exerciseID)
+	// comments are always updated even if "" because user can supress them from edit
+	public void UpdateFromEdit (int uniqueID, int personID, int exerciseID, string comments)
 	{
 		string exerciseStr = "";
 		if (exerciseID >= 0)
 			exerciseStr = ", exerciseID = " + exerciseID + "";
 
+		// use field "comments" or "description"
+		// description is used on encoder, jump, jumpRj, run, runInterval
+		// but only encoder uses this method. In the future have a commentsFieldName that can be comments or description and use that
+		string commentsStr = " , comments = '" + comments + "'";
+		if (tableName == Constants.EncoderTable)
+			commentsStr = " , description = '" + comments + "'";
+		if (tableName == Constants.WilightTable) // wilight has no comments
+			commentsStr = "";
+
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + tableName +
 			" SET personID = " + personID +
 			exerciseStr +
+			commentsStr +
 			" WHERE uniqueID = " + uniqueID ;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -321,19 +332,6 @@ class SqliteTests : Sqlite
 		dbcmd.ExecuteNonQuery ();
 
 		closeIfNeeded (dbconOpened);
-	}
-
-	// on encoder description will be updated
-	public virtual void UpdateComments (int uniqueID, string comments)
-	{
-		Sqlite.Open();
-		dbcmd.CommandText = "UPDATE " + tableName +
-			" SET comments = '" + comments + "'" +
-			" WHERE uniqueID = " + uniqueID ;
-
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-		Sqlite.Close();
 	}
 
 	/* 

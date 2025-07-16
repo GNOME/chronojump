@@ -80,8 +80,7 @@ public class EditEncoderWindow : EditEventWindow
 	protected override void updateSQL (int eventID, int personID, string description)
 	{
 		SqliteTests st = new SqliteEncoder ();
-		st.UpdateFromEdit (eventID, personID, -1);
-		st.UpdateComments (eventID, description);
+		st.UpdateFromEdit (eventID, personID, -1, description);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)

@@ -81,7 +81,7 @@ public class EditWilightWindow : EditEventWindow
 	protected override void updateSQL (int eventID, int personID, string description)
 	{
 		SqliteTests st = new SqliteWilight ();
-		st.UpdateFromEdit (eventID, personID, -1);
+		st.UpdateFromEdit (eventID, personID, -1, description);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)

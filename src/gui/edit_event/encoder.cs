@@ -80,9 +80,7 @@ public class EditEncoderWindow : EditEventWindow
 	protected override void updateSQL (int eventID, int personID, string description)
 	{
 		SqliteTests st = new SqliteEncoder ();
-		st.UpdateFromEdit (eventID,
-				"", //UtilGtk.ComboGetActive(combo_eventType),
-				personID);
+		st.UpdateFromEdit (eventID, personID, -1);
 		st.UpdateComments (eventID, description);
 	}
 

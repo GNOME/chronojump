@@ -80,9 +80,7 @@ public class EditFourPlatformsWindow : EditEventWindow
 	protected override void updateSQL (int eventID, int personID, string description)
 	{
 		SqliteTests st = new SqliteFourPlatforms ();
-		st.UpdateFromEdit (eventID,
-				"", //UtilGtk.ComboGetActive(combo_eventType),
-				personID);
+		st.UpdateFromEdit (eventID, personID, -1);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)

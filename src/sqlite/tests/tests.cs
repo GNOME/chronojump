@@ -278,17 +278,18 @@ class SqliteTests : Sqlite
 		return myReaderStr;
 	}
 
-	// if do not update type (depending on mode) then leave it blank
-	public void UpdateFromEdit (int uniqueID, string type, int personID)
+	// tests with exerciseID as an int
+	// if do not update exerciseID (depending on mode) pass -1
+	public void UpdateFromEdit (int uniqueID, int personID, int exerciseID)
 	{
-		string typeStr = "";
-		if (type != "")
-			typeStr = ", type = '" + type + "'";
+		string exerciseStr = "";
+		if (exerciseID >= 0)
+			exerciseStr = ", exerciseID = " + exerciseID + "";
 
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + tableName +
 			" SET personID = " + personID +
-			typeStr +
+			exerciseStr +
 			" WHERE uniqueID = " + uniqueID ;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -298,6 +299,13 @@ class SqliteTests : Sqlite
 
 		Sqlite.Close();
 	}
+	/*
+	 * implement this if needed for modes that do not use exerciseID and use exerciseName (or type), take care with translations
+	public void UpdateFromEdit (int uniqueID, int personID, string exerciseName)
+	{
+	}
+	*/
+
 	protected virtual void updateSpecific (int uniqueID, int personID)
 	{
 	}

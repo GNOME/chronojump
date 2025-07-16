@@ -119,7 +119,7 @@ public partial class ChronoJumpWindow
 			return;
 
 		//3.- obtain the data of the selected runEncoder
-		RunEncoder runEncoder = SqliteRunEncoder.SelectData (selectedID, false );
+		RunEncoder runEncoder = SqliteRunEncoder.SelectData (selectedID, true, false);
 		eventOldPerson = runEncoder.PersonID;
 
 		//4.- edit this test
@@ -129,7 +129,7 @@ public partial class ChronoJumpWindow
 	private void on_edit_selected_runEncoder_finished (object o, EventArgs args)
 	{
 		LogB.Information("edit selected runEncoder finished");
-		RunEncoder runEncoder = SqliteRunEncoder.SelectData (treeViewResultsSession.EventSelectedID, false);
+		RunEncoder runEncoder = SqliteRunEncoder.SelectData (treeViewResultsSession.EventSelectedID, true, false);
 
 		//if person changed, fill treeview again, if not, only update it's line
 		if (eventOldPerson == runEncoder.PersonID)

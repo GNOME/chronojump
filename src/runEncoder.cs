@@ -78,6 +78,7 @@ public class RunEncoder : Event
 		this.maxAvgSpeed1s = maxAvgSpeed1s;
 
 		this.exerciseName = exerciseName;
+		this.type = exerciseName;
 	}
 
 	// constructor for TreeViewRunEncoder.getObjectFromString ()
@@ -89,6 +90,7 @@ public class RunEncoder : Event
 		this.dateTime = dateTime;
 		this.description = description;
 		this.exerciseName = exerciseName;
+		this.type = exerciseName;
 	}
 
 	// constructor for SqliteRunEncoder.SelectData ()
@@ -135,6 +137,7 @@ public class RunEncoder : Event
 		this.totalTime = totalTime;
 
 		this.exerciseName = exerciseName;
+		this.type = exerciseName;
 	}
 
 	/* methods */
@@ -190,6 +193,12 @@ public class RunEncoder : Event
 			", maxSpeed = " + Util.CTP (maxSpeed) +
 			", maxAvgSpeed1s = " + Util.CTP (maxAvgSpeed1s) +
 			" WHERE uniqueID = " + uniqueID;
+	}
+
+	// just to debug
+	public override string ToString ()
+	{
+		return toSQLUpdateString ();
 	}
 
 	public void UpdateSQLJustComments(bool dbconOpened)
@@ -340,7 +349,10 @@ public class RunEncoder : Event
 	public string ExerciseName
 	{
 		get { return exerciseName; }
-		set { exerciseName = value; }
+		set {
+			exerciseName = value;
+			type = value;
+		}
 	}
 }
 
@@ -1008,6 +1020,16 @@ public class RunEncoderExercise
 			"(" + uniqueIDStr + ", '" + name + "', '" + description + "', " +
 			segmentCm + ", '" + SegmentVariableCmToSQL + "', " +
 			Util.BoolToInt(isSprint) + ", " + angleDefault + ")";
+	}
+
+	public static string [] ListToString (List<RunEncoderExercise> reex_l)
+	{
+		string [] myString = new String[reex_l.Count];
+		int i = 0;
+		foreach (RunEncoderExercise reex in reex_l)
+			myString[i++] = reex.Name;
+
+		return myString;
 	}
 
 	public int UniqueID

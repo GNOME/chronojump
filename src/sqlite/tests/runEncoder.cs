@@ -255,9 +255,18 @@ class SqliteRunEncoder : SqliteTests
 			;
 	}
 
-	public static RunEncoder SelectData (int uniqueID, bool dbconOpened)
+	public static RunEncoder SelectData (int uniqueID, bool getExerciseName, bool dbconOpened)
 	{
-		return new RunEncoder (selectTestData (uniqueID, dbconOpened, tableStatic, 16));
+		RunEncoder re = new RunEncoder (selectTestData (uniqueID, dbconOpened, tableStatic, 16));
+
+		if (getExerciseName)
+		{
+			List<RunEncoderExercise> reex_l = SqliteRunEncoderExercise.Select (dbconOpened, re.ExerciseID);
+			if (reex_l.Count > 0)
+				re.ExerciseName = reex_l[0].Name;
+		}
+
+		return re;
 	}
 
 	public static ArrayList SelectRowsOfAnExercise(bool dbconOpened, int exerciseID)

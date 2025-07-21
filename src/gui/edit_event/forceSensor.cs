@@ -70,6 +70,49 @@ public class EditForceSensorWindow : EditEventWindow
 		showDescription = true;
 	}
 
+	protected override void fillDialogSpecific (Event myEvent)
+	{
+		ForceSensor fs = (ForceSensor) myEvent;
+
+		image_forceSensor_capture_standard.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "signal_standard.png");
+		image_forceSensor_capture_absolute.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "signal_absolute.png");
+		image_forceSensor_capture_inverted.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "signal_inverted.png");
+		image_forceSensor_laterality_both.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-both.png");
+		image_forceSensor_laterality_left.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-left.png");
+		image_forceSensor_laterality_right.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-right.png");
+
+		switch (fs.CaptureOption)
+		{
+			case ForceSensor.CaptureOptions.NORMAL:
+				radio_forceSensor_capture_standard.Active = true;
+				break;
+			case ForceSensor.CaptureOptions.ABS:
+				radio_forceSensor_capture_absolute.Active = true;
+				break;
+			case ForceSensor.CaptureOptions.INVERTED:
+				radio_forceSensor_capture_inverted.Active = true;
+				break;
+		}
+
+		switch (fs.Laterality)
+		{
+			case "Both":
+				radio_forceSensor_laterality_both.Active = true;
+				break;
+			case "Left":
+				radio_forceSensor_laterality_left.Active = true;
+				break;
+			case "Right":
+				radio_forceSensor_laterality_right.Active = true;
+				break;
+		}
+
+		label_forceSensor_capture.Visible = true;
+		box_forceSensor_capture.Visible = true;
+		label_forceSensor_laterality.Visible = true;
+		box_forceSensor_laterality.Visible = true;
+	}
+
 	protected override string [] findTypes (Event myEvent)
 	{
 		List<ForceSensorExercise> fsex_l;

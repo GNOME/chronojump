@@ -79,10 +79,10 @@ public class EditEventWindow
 	protected Gtk.SpinButton spin_mistakes;
 
 	// force sensor
-	private Gtk.Label label_forceSensor_capture;
-	private Gtk.Box box_forceSensor_capture;
-	private Gtk.Label label_forceSensor_laterality;
-	private Gtk.Box box_forceSensor_laterality;
+	protected Gtk.Label label_forceSensor_capture;
+	protected Gtk.Box box_forceSensor_capture;
+	protected Gtk.Label label_forceSensor_laterality;
+	protected Gtk.Box box_forceSensor_laterality;
 	protected Gtk.RadioButton radio_forceSensor_capture_standard;
 	protected Gtk.RadioButton radio_forceSensor_capture_absolute;
 	protected Gtk.RadioButton radio_forceSensor_capture_inverted;
@@ -92,9 +92,9 @@ public class EditEventWindow
 	protected Gtk.RadioButton radio_forceSensor_laterality_both;
 	protected Gtk.RadioButton radio_forceSensor_laterality_left;
 	protected Gtk.RadioButton radio_forceSensor_laterality_right;
-	private Gtk.Image image_forceSensor_laterality_both;
-	private Gtk.Image image_forceSensor_laterality_left;
-	private Gtk.Image image_forceSensor_laterality_right;
+	protected Gtk.Image image_forceSensor_laterality_both;
+	protected Gtk.Image image_forceSensor_laterality_left;
+	protected Gtk.Image image_forceSensor_laterality_right;
 
 	private Gtk.Box hbox_video;
 	private Gtk.Label label_video;
@@ -358,7 +358,7 @@ public class EditEventWindow
 		hbox_combo_person.ShowAll();
 
 		if (showForceSensor)
-			fillDialogForceSensor ((ForceSensor) myEvent);
+			fillDialogSpecific (myEvent);
 
 		if (showVideo)
 		{
@@ -382,45 +382,8 @@ public class EditEventWindow
 		}
 	}
 
-	private void fillDialogForceSensor (ForceSensor fs)
+	protected virtual void fillDialogSpecific (Event myEvent)
 	{
-		image_forceSensor_capture_standard.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "signal_standard.png");
-		image_forceSensor_capture_absolute.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "signal_absolute.png");
-		image_forceSensor_capture_inverted.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "signal_inverted.png");
-		image_forceSensor_laterality_both.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-both.png");
-		image_forceSensor_laterality_left.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-left.png");
-		image_forceSensor_laterality_right.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-right.png");
-
-		switch (fs.CaptureOption)
-		{
-			case ForceSensor.CaptureOptions.NORMAL:
-				radio_forceSensor_capture_standard.Active = true;
-				break;
-			case ForceSensor.CaptureOptions.ABS:
-				radio_forceSensor_capture_absolute.Active = true;
-				break;
-			case ForceSensor.CaptureOptions.INVERTED:
-				radio_forceSensor_capture_inverted.Active = true;
-				break;
-		}
-
-		switch (fs.Laterality)
-		{
-			case "Both":
-				radio_forceSensor_laterality_both.Active = true;
-				break;
-			case "Left":
-				radio_forceSensor_laterality_left.Active = true;
-				break;
-			case "Right":
-				radio_forceSensor_laterality_right.Active = true;
-				break;
-		}
-
-		label_forceSensor_capture.Visible = true;
-		box_forceSensor_capture.Visible = true;
-		label_forceSensor_laterality.Visible = true;
-		box_forceSensor_laterality.Visible = true;
 	}
 
 	private void on_button_video_watch_clicked (object o, EventArgs args)

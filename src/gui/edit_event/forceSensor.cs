@@ -215,8 +215,9 @@ public partial class ChronoJumpWindow
 
 		LogB.Information ("currentForceSensor:\n" + currentForceSensor.ToString ());
 		LogB.Information ("forceSensor:\n" + forceSensor.ToString ());
-		// check if capture option has changed. If changed, need to recalculate:
-		if (forceSensor.CaptureOption != currentForceSensor.CaptureOption)
+		// need to recalculate if changed any variable related to maxForceRaw, maxAvgForce1s
+		if (forceSensor.ExerciseID != currentForceSensor.ExerciseID ||
+				forceSensor.CaptureOption != currentForceSensor.CaptureOption)
 		{
 			currentForceSensor = forceSensor;
 

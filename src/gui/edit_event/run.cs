@@ -91,7 +91,7 @@ public class EditRunWindow : EditEventWindow
 		showType = true;
 		showRunStart = true;
 
-		showDistance = true;
+		showRunDistance = true;
 		distanceCanBeDecimal = true;
 		showTime = true;
 		showSpeed = true;
@@ -116,8 +116,9 @@ public class EditRunWindow : EditEventWindow
 		else
 			label_run_start_value.Text = Constants.RunStartInitialSpeedNoStr();
 	}
-	
-	protected override void fillDistance(Event myEvent) {
+
+	protected override void fillRunDistance (Event myEvent)
+	{
 		Run myRun = (Run) myEvent;
 		entryDistance = myRun.Distance.ToString();
 		entry_distance_value.Text = Util.TrimDecimals(entryDistance, pDN);
@@ -314,7 +315,7 @@ public class EditRunIntervalWindow : EditRunWindow
 		showType = true;
 		showRunStart = true;
 
-		showDistance = true;
+		showRunDistance = true;
 		distanceCanBeDecimal = true;
 		showTime = true;
 		showSpeed = true;
@@ -514,9 +515,8 @@ public class EditRunIntervalWindow : EditRunWindow
 		else
 			label_run_start_value.Text = Constants.RunStartInitialSpeedNoStr();
 	}
-	
-	
-	protected override void fillDistance(Event myEvent)
+
+	protected override void fillRunDistance (Event myEvent)
 	{
 		RunInterval myRun = (RunInterval) myEvent;
 

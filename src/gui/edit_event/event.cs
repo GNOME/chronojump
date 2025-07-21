@@ -133,7 +133,7 @@ public class EditEventWindow
 	protected bool showJumpTv;
 	protected bool showJumpTc;
 	protected bool showJumpFall;
-	protected bool showDistance;
+	protected bool showRunDistance;
 	protected bool distanceCanBeDecimal;
 	protected bool showTime;
 	protected bool showSpeed;
@@ -206,7 +206,7 @@ public class EditEventWindow
 		showJumpTc = false;
 		showJumpFall = false;
 
-		showDistance = false;
+		showRunDistance = false;
 		distanceCanBeDecimal = true;
 		showTime = false;
 		showSpeed = false;
@@ -261,8 +261,8 @@ public class EditEventWindow
 			label_jump_fall_units.Hide();
 		}
 
-		if(showDistance)
-			fillDistance(myEvent);
+		if (showRunDistance)
+			fillRunDistance (myEvent);
 		else { 
 			label_distance_title.Hide();
 			entry_distance_value.Hide();
@@ -468,7 +468,7 @@ public class EditEventWindow
 	protected virtual void fillRunStart(Event myEvent) {
 	}
 
-	protected virtual void fillDistance(Event myEvent) {
+	protected virtual void fillRunDistance(Event myEvent) {
 		/*
 		Run myRun = (Run) myEvent;
 		entryDistance = myRun.Distance.ToString();

@@ -69,6 +69,22 @@ public class EditRunEncoderWindow : EditEventWindow
 		showDescription = true;
 	}
 
+	protected override void fillDialogSpecific (Event myEvent)
+	{
+		RunEncoder re = (RunEncoder) myEvent;
+
+		label_distance_title.Visible = true;
+		entry_distance_value.Visible = true;
+		label_distance_units.Visible = true;
+
+		label_race_analyzer_angle.Visible = true;
+		spin_race_analyzer_angle.Visible = true;
+		label_race_analyzer_angle_units.Visible = true;
+		label_race_analyzer_temperature.Visible = true;
+		spin_race_analyzer_temperature.Visible = true;
+		label_race_analyzer_temperature_units.Visible = true;
+	}
+
 	protected override string [] findTypes (Event myEvent)
 	{
 		return RunEncoderExercise.ListToString (SqliteRunEncoderExercise.Select (false, -1));

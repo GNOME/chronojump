@@ -66,7 +66,6 @@ public class EditForceSensorWindow : EditEventWindow
 	{
 		typeOfTest = Constants.TestTypes.FORCESENSOR;
 		showType = true;
-		showForceSensor = true;
 		showDescription = true;
 	}
 

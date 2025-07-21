@@ -96,6 +96,15 @@ public class EditEventWindow
 	protected Gtk.Image image_forceSensor_laterality_left;
 	protected Gtk.Image image_forceSensor_laterality_right;
 
+	// raceAnalyzer
+	// entry_distance_value (and title, units) (3 already declared above)
+	protected Gtk.Label label_race_analyzer_angle;
+	protected Gtk.SpinButton spin_race_analyzer_angle;
+	protected Gtk.Label label_race_analyzer_angle_units;
+	protected Gtk.Label label_race_analyzer_temperature;
+	protected Gtk.SpinButton spin_race_analyzer_temperature;
+	protected Gtk.Label label_race_analyzer_temperature_units;
+
 	private Gtk.Box hbox_video;
 	private Gtk.Label label_video;
 	protected Gtk.Label label_video_yes_no;
@@ -140,7 +149,6 @@ public class EditEventWindow
 	protected bool showWeight;
 	protected bool showLimited;
 	//protected bool showAngle; //kneeAngle
-	protected bool showForceSensor;
 	protected bool showVideo;
 	protected bool showMistakes;
 	protected bool showDescription;
@@ -213,7 +221,6 @@ public class EditEventWindow
 		showWeight = false;
 		showLimited = false;
 		showMistakes = false;
-		showForceSensor = false;
 		showVideo = false;
 		showDescription = false;
 
@@ -262,11 +269,12 @@ public class EditEventWindow
 		}
 
 		if (showRunDistance)
+		{
 			fillRunDistance (myEvent);
-		else { 
-			label_distance_title.Hide();
-			entry_distance_value.Hide();
-			label_distance_units.Hide();
+
+			label_distance_title.Visible = true;
+			entry_distance_value.Visible = true;
+			label_distance_units.Visible = true;
 		}
 
 		if(showTime)
@@ -357,8 +365,7 @@ public class EditEventWindow
 		hbox_combo_person.PackStart(combo_persons, true, true, 0);
 		hbox_combo_person.ShowAll();
 
-		if (showForceSensor)
-			fillDialogSpecific (myEvent);
+		fillDialogSpecific (myEvent); //forceSensor, raceAnalyzer and encoder (TODO)
 
 		if (showVideo)
 		{
@@ -747,6 +754,14 @@ public class EditEventWindow
 		image_forceSensor_laterality_both = (Gtk.Image) builder.GetObject ("image_forceSensor_laterality_both");
 		image_forceSensor_laterality_left = (Gtk.Image) builder.GetObject ("image_forceSensor_laterality_left");
 		image_forceSensor_laterality_right = (Gtk.Image) builder.GetObject ("image_forceSensor_laterality_right");
+
+		// raceAnalyzer
+		label_race_analyzer_angle = (Gtk.Label) builder.GetObject ("label_race_analyzer_angle");
+		spin_race_analyzer_angle = (Gtk.SpinButton) builder.GetObject ("spin_race_analyzer_angle");
+		label_race_analyzer_angle_units = (Gtk.Label) builder.GetObject ("label_race_analyzer_angle_units");
+		label_race_analyzer_temperature = (Gtk.Label) builder.GetObject ("label_race_analyzer_temperature");
+		spin_race_analyzer_temperature = (Gtk.SpinButton) builder.GetObject ("spin_race_analyzer_temperature");
+		label_race_analyzer_temperature_units = (Gtk.Label) builder.GetObject ("label_race_analyzer_temperature_units");
 
 		hbox_video = (Gtk.Box) builder.GetObject ("hbox_video");
 		label_video = (Gtk.Label) builder.GetObject ("label_video");

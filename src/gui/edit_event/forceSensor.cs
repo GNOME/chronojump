@@ -118,9 +118,9 @@ public class EditForceSensorWindow : EditEventWindow
 
 		LogB.Information ("current_mode: " + mode.ToString ());
 		if (mode == Constants.Modes.FORCESENSORISOMETRIC)
-			fsex_l = SqliteForceSensorExercise.Select (false, -1, 0, true, ""); // onlyNames (but returns a full ForceSensorExercise)
+			fsex_l = SqliteForceSensorExercise.Select (false, -1, 0, true, "", Sqlite.Orders_by.NAME_ASC); // onlyNames (but returns a full ForceSensorExercise)
 		else // (mode == Constants.Modes.FORCESENSORELASTIC)
-			fsex_l = SqliteForceSensorExercise.Select (false, -1, 1, true, ""); // onlyNames (but returns a full ForceSensorExercise)
+			fsex_l = SqliteForceSensorExercise.Select (false, -1, 1, true, "", Sqlite.Orders_by.NAME_ASC); // onlyNames (but returns a full ForceSensorExercise)
 
 		// get the exercise names and convert to string []
 		return ForceSensorExercise.ListToString (fsex_l);

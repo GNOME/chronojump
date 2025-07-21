@@ -165,7 +165,7 @@ class SqliteForceSensorExercise : Sqlite
     //	Sqlite.ExistsAndGetUniqueID ()
     //	with the ID do SqliteForceSensor.SelectData ()
     //
-    public static List<ForceSensorExercise> Select (bool dbconOpened, int uniqueID, int elastic, bool onlyNames, string nameLike)
+    public static List<ForceSensorExercise> Select (bool dbconOpened, int uniqueID, int elastic, bool onlyNames, string nameLike, Orders_by order)
     {
         if (!dbconOpened)
             Sqlite.Open();
@@ -202,10 +202,14 @@ class SqliteForceSensorExercise : Sqlite
         if (nameLike != "")
             filterNameStr = whereOrAndStr + table + ".name LIKE '%" + nameLike + "%'";
 
+	string orderByStr = " ORDER BY uniqueID"; //ID_ASC
+	if (order == Orders_by.NAME_ASC)
+		orderByStr = " ORDER BY LOWER(name) ASC";
+
         if (onlyNames)
-            dbcmd.CommandText = "SELECT name FROM " + table + uniqueIDStr + elasticStr + filterNameStr;
+            dbcmd.CommandText = "SELECT name FROM " + table + uniqueIDStr + elasticStr + filterNameStr + orderByStr;
         else
-            dbcmd.CommandText = "SELECT * FROM " + table + uniqueIDStr + elasticStr + filterNameStr;
+            dbcmd.CommandText = "SELECT * FROM " + table + uniqueIDStr + elasticStr + filterNameStr + orderByStr;
 
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
@@ -328,7 +332,7 @@ class SqliteForceSensorExerciseImport : SqliteForceSensorExercise
     //database is opened
     protected internal static void import_partially_from_1_73_to_1_74_unify_resistance_and_description()
     {
-        List<ForceSensorExercise> fsex_l = Select(true, -1, -1, false, "");
+        List<ForceSensorExercise> fsex_l = Select (true, -1, -1, false, "", Orders_by.ID_ASC);
         foreach (ForceSensorExercise ex in fsex_l)
         {
             LogB.Information(ex.ToString());

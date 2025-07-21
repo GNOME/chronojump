@@ -277,7 +277,7 @@ class SqliteForceSensor : SqliteTests
 
 	    if (getExerciseName)
 	    {
-		   List<ForceSensorExercise> fsex_l = SqliteForceSensorExercise.Select (dbconOpened, fs.ExerciseID, -1, true, "");
+		   List<ForceSensorExercise> fsex_l = SqliteForceSensorExercise.Select (dbconOpened, fs.ExerciseID, -1, true, "", Orders_by.ID_ASC);
 		   if (fsex_l.Count > 0)
 			   fs.ExerciseName = fsex_l[0].Name;
 	    }

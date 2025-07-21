@@ -143,7 +143,9 @@ public partial class ChronoJumpWindow
 			return;
 
 		ForceSensorExercise ex = SqliteForceSensorExercise.Select (
-				false, getExerciseIDFromAnyCombo (combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false, "")[0];
+				false,
+				getExerciseIDFromAnyCombo (combo_force_sensor_exercise, forceSensorComboExercisesString, false),
+				-1, false, "", Sqlite.Orders_by.ID_ASC)[0];
 
 		ExerciseImage ei = new ExerciseImage (current_mode, ex.UniqueID);
 		if (ei.GetUrlIfExists (false) != "")
@@ -197,7 +199,9 @@ public partial class ChronoJumpWindow
 		{
 			LogB.Warning ("Copying image ...");
 			ForceSensorExercise ex = SqliteForceSensorExercise.Select (
-					false, getExerciseIDFromAnyCombo (combo_force_sensor_exercise, forceSensorComboExercisesString, false), -1, false, "")[0];
+					false,
+					getExerciseIDFromAnyCombo (combo_force_sensor_exercise, forceSensorComboExercisesString, false),
+					-1, false, "", Sqlite.Orders_by.ID_ASC)[0];
 
 			ExerciseImage ei = new ExerciseImage (current_mode, ex.UniqueID);
 			ei.CopyImageToLocal (fc.Filename);

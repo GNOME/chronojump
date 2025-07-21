@@ -141,7 +141,7 @@ class Sqlite
 
 	// BEST can be different criteria depeding on class
 	// and also it can be BEST1, BEST2, ... being on encoder: meanPower, meanSpeed
-	public enum Orders_by { DEFAULT, ID_ASC, ID_DESC, BEST, BEST2, BEST3 }
+	public enum Orders_by { DEFAULT, ID_ASC, ID_DESC, NAME_ASC, BEST, BEST2, BEST3 }
 
 	//for db creation
 	static int creationRate;
@@ -3151,7 +3151,7 @@ class Sqlite
 			{
 				LogB.SQL("Inserted default exercises of forceSensor and raceAnalyzer if empty");
 
-				List<ForceSensorExercise> fsex_l = SqliteForceSensorExercise.Select (true, -1, -1, true, "");
+				List<ForceSensorExercise> fsex_l = SqliteForceSensorExercise.Select (true, -1, -1, true, "", Orders_by.ID_ASC);
 				if (fsex_l == null || fsex_l.Count == 0)
 					SqliteForceSensorExercise.insertDefault();
 

@@ -71,18 +71,24 @@ public class EditRunEncoderWindow : EditEventWindow
 
 	protected override void fillDialogSpecific (Event myEvent)
 	{
+		// 1. get the object
 		RunEncoder re = (RunEncoder) myEvent;
 
-		label_distance_title.Visible = true;
-		entry_distance_value.Visible = true;
-		label_distance_units.Visible = true;
-
+		// 2. set widgets visibility
+		label_race_analyzer_distance.Visible = true;
+		spin_race_analyzer_distance.Visible = true;
+		label_race_analyzer_distance_units.Visible = true;
 		label_race_analyzer_angle.Visible = true;
 		spin_race_analyzer_angle.Visible = true;
 		label_race_analyzer_angle_units.Visible = true;
 		label_race_analyzer_temperature.Visible = true;
 		spin_race_analyzer_temperature.Visible = true;
 		label_race_analyzer_temperature_units.Visible = true;
+
+		// 2. set widgets value
+		spin_race_analyzer_distance.Value = Convert.ToInt32 (re.Distance);
+		spin_race_analyzer_angle.Value = Convert.ToInt32 (re.Angle);
+		spin_race_analyzer_temperature.Value = Convert.ToInt32 (re.Temperature);
 	}
 
 	protected override string [] findTypes (Event myEvent)
@@ -97,13 +103,28 @@ public class EditRunEncoderWindow : EditEventWindow
 
 	protected override void updateSQL (int eventID, int personID, string description)
 	{
-		SqliteTests st = new SqliteRunEncoder ();
-		st.UpdateFromEdit (eventID, personID,
-				Sqlite.ExistsAndGetUniqueID (false,
-					Constants.RunEncoderExerciseTable,
-					UtilGtk.ComboGetActive (combo_eventType)), //exerciseID
-				description
-				);
+		// get object before update
+		RunEncoder re = SqliteRunEncoder.SelectData (eventID, false, false);
+		// set person
+		re.PersonID = personID;
+
+		// set exercise
+		int reExIdNew = Sqlite.ExistsAndGetUniqueID (false,
+				Constants.RunEncoderExerciseTable,
+				UtilGtk.ComboGetActive (combo_eventType));
+
+		re.ExerciseID = reExIdNew;
+
+		// set distance, angle, temperature
+		re.Distance = Convert.ToInt32 (spin_race_analyzer_distance.Value);
+		re.Angle = Convert.ToInt32 (spin_race_analyzer_angle.Value);
+		re.Temperature = Convert.ToInt32 (spin_race_analyzer_temperature.Value);
+
+		// set description
+		re.Description = description;
+
+		// update
+		re.UpdateSQL (false);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)

@@ -98,6 +98,9 @@ public class EditEventWindow
 
 	// raceAnalyzer
 	// entry_distance_value (and title, units) (3 already declared above)
+	protected Gtk.Label label_race_analyzer_distance;
+	protected Gtk.SpinButton spin_race_analyzer_distance;
+	protected Gtk.Label label_race_analyzer_distance_units;
 	protected Gtk.Label label_race_analyzer_angle;
 	protected Gtk.SpinButton spin_race_analyzer_angle;
 	protected Gtk.Label label_race_analyzer_angle_units;
@@ -756,6 +759,9 @@ public class EditEventWindow
 		image_forceSensor_laterality_right = (Gtk.Image) builder.GetObject ("image_forceSensor_laterality_right");
 
 		// raceAnalyzer
+		label_race_analyzer_distance = (Gtk.Label) builder.GetObject ("label_race_analyzer_distance");
+		spin_race_analyzer_distance = (Gtk.SpinButton) builder.GetObject ("spin_race_analyzer_distance");
+		label_race_analyzer_distance_units = (Gtk.Label) builder.GetObject ("label_race_analyzer_distance_units");
 		label_race_analyzer_angle = (Gtk.Label) builder.GetObject ("label_race_analyzer_angle");
 		spin_race_analyzer_angle = (Gtk.SpinButton) builder.GetObject ("spin_race_analyzer_angle");
 		label_race_analyzer_angle_units = (Gtk.Label) builder.GetObject ("label_race_analyzer_angle_units");

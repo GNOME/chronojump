@@ -262,7 +262,7 @@ public class TreeViewEncoder : TreeViewEvent
 		int count = 0;
 
 		myData[count++] = eSQL.ExerciseName;
-		myData[count++] = Catalog.GetString (eSQL.laterality);
+		myData[count++] = Catalog.GetString (eSQL.Laterality);
 		if (gravitatory)
 			myData[count++] = Util.TrimDecimals (eSQL.extraWeight, 2);
 		myData[count++] = eSQL.ecconLong;

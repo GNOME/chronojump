@@ -81,20 +81,20 @@ public class EditEventWindow
 	// force sensor
 	protected Gtk.Label label_forceSensor_capture;
 	protected Gtk.Box box_forceSensor_capture;
-	protected Gtk.Label label_forceSensor_laterality;
-	protected Gtk.Box box_forceSensor_laterality;
+	protected Gtk.Label label_laterality;
+	protected Gtk.Box box_laterality;
 	protected Gtk.RadioButton radio_forceSensor_capture_standard;
 	protected Gtk.RadioButton radio_forceSensor_capture_absolute;
 	protected Gtk.RadioButton radio_forceSensor_capture_inverted;
 	protected Gtk.Image image_forceSensor_capture_standard;
 	protected Gtk.Image image_forceSensor_capture_absolute;
 	protected Gtk.Image image_forceSensor_capture_inverted;
-	protected Gtk.RadioButton radio_forceSensor_laterality_both;
-	protected Gtk.RadioButton radio_forceSensor_laterality_left;
-	protected Gtk.RadioButton radio_forceSensor_laterality_right;
-	protected Gtk.Image image_forceSensor_laterality_both;
-	protected Gtk.Image image_forceSensor_laterality_left;
-	protected Gtk.Image image_forceSensor_laterality_right;
+	protected Gtk.RadioButton radio_laterality_both;
+	protected Gtk.RadioButton radio_laterality_left;
+	protected Gtk.RadioButton radio_laterality_right;
+	protected Gtk.Image image_laterality_both;
+	protected Gtk.Image image_laterality_left;
+	protected Gtk.Image image_laterality_right;
 
 	// raceAnalyzer
 	// entry_distance_value (and title, units) (3 already declared above)
@@ -107,6 +107,15 @@ public class EditEventWindow
 	protected Gtk.Label label_race_analyzer_temperature;
 	protected Gtk.SpinButton spin_race_analyzer_temperature;
 	protected Gtk.Label label_race_analyzer_temperature_units;
+
+	// encoder 
+	// laterality widgets (already declared on forceSensor)
+	protected Gtk.Label label_encoder_eccon_title;
+	protected Gtk.Box box_encoder_eccon;
+	protected Gtk.RadioButton radio_encoder_eccon_concentric;
+	protected Gtk.RadioButton radio_encoder_eccon_eccentric_concentric;
+	protected Gtk.Image image_encoder_eccon_concentric;
+	protected Gtk.Image image_encoder_eccon_eccentric_concentric;
 
 	private Gtk.Box hbox_video;
 	private Gtk.Label label_video;
@@ -396,6 +405,13 @@ public class EditEventWindow
 	{
 	}
 
+	protected void createLateralityIcons ()
+	{
+		image_laterality_both.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-both.png");
+		image_laterality_left.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-left.png");
+		image_laterality_right.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-right.png");
+	}
+
 	private void on_button_video_watch_clicked (object o, EventArgs args)
 	{
 		if(File.Exists(videoFileName))
@@ -438,8 +454,9 @@ public class EditEventWindow
 		combo_eventType = new ComboBoxText ();
 		string [] myTypes = findTypes(myEvent);
 		UtilGtk.ComboUpdate(combo_eventType, myTypes, "");
-		//LogB.Information ("createComboEventType myTypes: " + Util.StringArrayToString (myTypes, ", "));
-		//LogB.Information ("myEvent.Type: " + myEvent.Type.ToString ());
+		// LogB.Information ("createComboEventType myTypes: " + Util.StringArrayToString (myTypes, ", "));
+		// LogB.Information ("myEvent: " + myEvent.ToString ());
+		// LogB.Information ("myEvent.Type: " + myEvent.Type.ToString ());
 		combo_eventType.Active = UtilGtk.ComboMakeActive(myTypes, myEvent.Type);
 		hbox_combo_eventType.PackStart(combo_eventType, true, true, 0);
 		hbox_combo_eventType.ShowAll();
@@ -743,20 +760,20 @@ public class EditEventWindow
 
 		label_forceSensor_capture = (Gtk.Label) builder.GetObject ("label_forceSensor_capture");
 		box_forceSensor_capture = (Gtk.Box) builder.GetObject ("box_forceSensor_capture");
-		label_forceSensor_laterality = (Gtk.Label) builder.GetObject ("label_forceSensor_laterality");
-		box_forceSensor_laterality = (Gtk.Box) builder.GetObject ("box_forceSensor_laterality");
+		label_laterality = (Gtk.Label) builder.GetObject ("label_laterality");
+		box_laterality = (Gtk.Box) builder.GetObject ("box_laterality");
 		radio_forceSensor_capture_standard = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_capture_standard");
 		radio_forceSensor_capture_absolute = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_capture_absolute");
 		radio_forceSensor_capture_inverted = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_capture_inverted");
 		image_forceSensor_capture_standard = (Gtk.Image) builder.GetObject ("image_forceSensor_capture_standard");
 		image_forceSensor_capture_absolute = (Gtk.Image) builder.GetObject ("image_forceSensor_capture_absolute");
 		image_forceSensor_capture_inverted = (Gtk.Image) builder.GetObject ("image_forceSensor_capture_inverted");
-		radio_forceSensor_laterality_both = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_laterality_both");
-		radio_forceSensor_laterality_left = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_laterality_left");
-		radio_forceSensor_laterality_right = (Gtk.RadioButton) builder.GetObject ("radio_forceSensor_laterality_right");
-		image_forceSensor_laterality_both = (Gtk.Image) builder.GetObject ("image_forceSensor_laterality_both");
-		image_forceSensor_laterality_left = (Gtk.Image) builder.GetObject ("image_forceSensor_laterality_left");
-		image_forceSensor_laterality_right = (Gtk.Image) builder.GetObject ("image_forceSensor_laterality_right");
+		radio_laterality_both = (Gtk.RadioButton) builder.GetObject ("radio_laterality_both");
+		radio_laterality_left = (Gtk.RadioButton) builder.GetObject ("radio_laterality_left");
+		radio_laterality_right = (Gtk.RadioButton) builder.GetObject ("radio_laterality_right");
+		image_laterality_both = (Gtk.Image) builder.GetObject ("image_laterality_both");
+		image_laterality_left = (Gtk.Image) builder.GetObject ("image_laterality_left");
+		image_laterality_right = (Gtk.Image) builder.GetObject ("image_laterality_right");
 
 		// raceAnalyzer
 		label_race_analyzer_distance = (Gtk.Label) builder.GetObject ("label_race_analyzer_distance");
@@ -768,6 +785,14 @@ public class EditEventWindow
 		label_race_analyzer_temperature = (Gtk.Label) builder.GetObject ("label_race_analyzer_temperature");
 		spin_race_analyzer_temperature = (Gtk.SpinButton) builder.GetObject ("spin_race_analyzer_temperature");
 		label_race_analyzer_temperature_units = (Gtk.Label) builder.GetObject ("label_race_analyzer_temperature_units");
+
+		// encoder 
+		label_encoder_eccon_title = (Gtk.Label) builder.GetObject ("label_encoder_eccon_title");
+		box_encoder_eccon = (Gtk.Box) builder.GetObject ("box_encoder_eccon");
+		radio_encoder_eccon_concentric = (Gtk.RadioButton) builder.GetObject ("radio_encoder_eccon_concentric");
+		radio_encoder_eccon_eccentric_concentric = (Gtk.RadioButton) builder.GetObject ("radio_encoder_eccon_eccentric_concentric");
+		image_encoder_eccon_concentric = (Gtk.Image) builder.GetObject ("image_encoder_eccon_concentric");
+		image_encoder_eccon_eccentric_concentric = (Gtk.Image) builder.GetObject ("image_encoder_eccon_eccentric_concentric");
 
 		hbox_video = (Gtk.Box) builder.GetObject ("hbox_video");
 		label_video = (Gtk.Label) builder.GetObject ("label_video");

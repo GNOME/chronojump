@@ -1875,11 +1875,11 @@ public partial class ChronoJumpWindow
 					radio_encoder_eccon_eccentric_concentric.Active = true;
 
 				//laterality is stored on English but translated on encoder sqlite select
-				if(eSQL.laterality == Catalog.GetString("RL"))
+				if(eSQL.Laterality == Catalog.GetString("RL"))
 					radio_encoder_laterality_both.Active = true;
-				else if(eSQL.laterality == Catalog.GetString("R"))
+				else if(eSQL.Laterality == Catalog.GetString("R"))
 					radio_encoder_laterality_r.Active = true;
-				else //if(eSQL.laterality == Catalog.GetString("L"))
+				else //if(eSQL.Laterality == Catalog.GetString("L"))
 					radio_encoder_laterality_l.Active = true;
 
 				/*
@@ -6805,9 +6805,9 @@ public partial class ChronoJumpWindow
 								"", currentSignalSQL.extraWeight,
 								"uniqueID", eSQL.UniqueID.ToString());
 
-					if(currentSignalSQL.laterality != eSQL.laterality)
+					if(currentSignalSQL.Laterality != eSQL.Laterality)
 						Sqlite.Update(true, Constants.EncoderTable, "laterality",
-								"", currentSignalSQL.laterality,
+								"", currentSignalSQL.Laterality,
 								"uniqueID", eSQL.UniqueID.ToString());
 
 					if( currentSignalSQL.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) !=

@@ -25,7 +25,7 @@ public class EncoderSQL : Event
 {
 	public int exerciseID;
 	public string eccon;
-	public string laterality;
+	private string laterality;
 	public string extraWeight;
 	public string signalOrCurve;
 	public string filename;
@@ -399,6 +399,12 @@ public class EncoderSQL : Event
 			exerciseName = value;
 			type = value;
 		}
+	}
+
+	public string Laterality
+	{
+		get { return laterality; }
+		set { laterality = value; }
 	}
 
 	// TODO: check if (WorkJ, Impulse) can be a problem

@@ -68,7 +68,7 @@
             <property name="label-yalign">1</property>
             <property name="shadow-type">in</property>
             <child>
-              <!-- n-columns=3 n-rows=20 -->
+              <!-- n-columns=3 n-rows=21 -->
               <object class="GtkGrid" id="grid">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
@@ -144,7 +144,7 @@ comments</property>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
-                    <property name="top-attach">19</property>
+                    <property name="top-attach">20</property>
                   </packing>
                 </child>
                 <child>
@@ -160,7 +160,7 @@ comments</property>
                   </object>
                   <packing>
                     <property name="left-attach">1</property>
-                    <property name="top-attach">19</property>
+                    <property name="top-attach">20</property>
                     <property name="width">2</property>
                   </packing>
                 </child>
@@ -499,7 +499,7 @@ comments</property>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
-                    <property name="top-attach">17</property>
+                    <property name="top-attach">18</property>
                   </packing>
                 </child>
                 <child>
@@ -587,7 +587,7 @@ comments</property>
                   </object>
                   <packing>
                     <property name="left-attach">1</property>
-                    <property name="top-attach">17</property>
+                    <property name="top-attach">18</property>
                   </packing>
                 </child>
                 <child>
@@ -599,7 +599,7 @@ comments</property>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
-                    <property name="top-attach">18</property>
+                    <property name="top-attach">19</property>
                   </packing>
                 </child>
                 <child>
@@ -629,7 +629,7 @@ comments</property>
                   </object>
                   <packing>
                     <property name="left-attach">1</property>
-                    <property name="top-attach">18</property>
+                    <property name="top-attach">19</property>
                   </packing>
                 </child>
                 <child>
@@ -640,7 +640,7 @@ comments</property>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
-                    <property name="top-attach">12</property>
+                    <property name="top-attach">13</property>
                   </packing>
                 </child>
                 <child>
@@ -787,27 +787,27 @@ comments</property>
                   </object>
                   <packing>
                     <property name="left-attach">1</property>
-                    <property name="top-attach">12</property>
+                    <property name="top-attach">13</property>
                     <property name="width">2</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label_forceSensor_laterality">
+                  <object class="GtkLabel" id="label_laterality">
                     <property name="can-focus">False</property>
                     <property name="halign">start</property>
                     <property name="label">Laterality</property>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
-                    <property name="top-attach">13</property>
+                    <property name="top-attach">14</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="box_forceSensor_laterality">
+                  <object class="GtkBox" id="box_laterality">
                     <property name="can-focus">False</property>
                     <property name="spacing">12</property>
                     <child>
-                      <object class="GtkRadioButton" id="radio_forceSensor_laterality_both">
+                      <object class="GtkRadioButton" id="radio_laterality_both">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="receives-default">False</property>
@@ -819,7 +819,7 @@ comments</property>
                             <property name="can-focus">False</property>
                             <property name="spacing">4</property>
                             <child>
-                              <object class="GtkImage" id="image_forceSensor_laterality_both">
+                              <object class="GtkImage" id="image_laterality_both">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <property name="stock">gtk-missing-image</property>
@@ -852,20 +852,20 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radio_forceSensor_laterality_left">
+                      <object class="GtkRadioButton" id="radio_laterality_left">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="receives-default">False</property>
                         <property name="active">True</property>
                         <property name="draw-indicator">False</property>
-                        <property name="group">radio_forceSensor_laterality_both</property>
+                        <property name="group">radio_laterality_both</property>
                         <child>
                           <object class="GtkBox">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <property name="spacing">4</property>
                             <child>
-                              <object class="GtkImage" id="image_forceSensor_laterality_left">
+                              <object class="GtkImage" id="image_laterality_left">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <property name="stock">gtk-missing-image</property>
@@ -898,20 +898,20 @@ comments</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="radio_forceSensor_laterality_right">
+                      <object class="GtkRadioButton" id="radio_laterality_right">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="receives-default">False</property>
                         <property name="active">True</property>
                         <property name="draw-indicator">False</property>
-                        <property name="group">radio_forceSensor_laterality_both</property>
+                        <property name="group">radio_laterality_both</property>
                         <child>
                           <object class="GtkBox">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <property name="spacing">4</property>
                             <child>
-                              <object class="GtkImage" id="image_forceSensor_laterality_right">
+                              <object class="GtkImage" id="image_laterality_right">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <property name="stock">gtk-missing-image</property>
@@ -946,7 +946,7 @@ comments</property>
                   </object>
                   <packing>
                     <property name="left-attach">1</property>
-                    <property name="top-attach">13</property>
+                    <property name="top-attach">14</property>
                     <property name="width">2</property>
                   </packing>
                 </child>
@@ -958,7 +958,7 @@ comments</property>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
-                    <property name="top-attach">15</property>
+                    <property name="top-attach">16</property>
                   </packing>
                 </child>
                 <child>
@@ -969,7 +969,7 @@ comments</property>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
-                    <property name="top-attach">16</property>
+                    <property name="top-attach">17</property>
                   </packing>
                 </child>
                 <child>
@@ -980,7 +980,7 @@ comments</property>
                   </object>
                   <packing>
                     <property name="left-attach">2</property>
-                    <property name="top-attach">15</property>
+                    <property name="top-attach">16</property>
                   </packing>
                 </child>
                 <child>
@@ -997,7 +997,7 @@ comments</property>
                   </object>
                   <packing>
                     <property name="left-attach">1</property>
-                    <property name="top-attach">16</property>
+                    <property name="top-attach">17</property>
                   </packing>
                 </child>
                 <child>
@@ -1008,7 +1008,7 @@ comments</property>
                   </object>
                   <packing>
                     <property name="left-attach">2</property>
-                    <property name="top-attach">16</property>
+                    <property name="top-attach">17</property>
                   </packing>
                 </child>
                 <child>
@@ -1024,7 +1024,7 @@ comments</property>
                   </object>
                   <packing>
                     <property name="left-attach">1</property>
-                    <property name="top-attach">15</property>
+                    <property name="top-attach">16</property>
                   </packing>
                 </child>
                 <child>
@@ -1035,7 +1035,7 @@ comments</property>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
-                    <property name="top-attach">14</property>
+                    <property name="top-attach">15</property>
                   </packing>
                 </child>
                 <child>
@@ -1052,7 +1052,7 @@ comments</property>
                   </object>
                   <packing>
                     <property name="left-attach">1</property>
-                    <property name="top-attach">14</property>
+                    <property name="top-attach">15</property>
                   </packing>
                 </child>
                 <child>
@@ -1063,8 +1063,122 @@ comments</property>
                   </object>
                   <packing>
                     <property name="left-attach">2</property>
-                    <property name="top-attach">14</property>
+                    <property name="top-attach">15</property>
                   </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label_encoder_eccon_title">
+                    <property name="can-focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="label" translatable="yes">Phase</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">12</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="box_encoder_eccon">
+                    <property name="can-focus">False</property>
+                    <property name="spacing">12</property>
+                    <child>
+                      <object class="GtkRadioButton" id="radio_encoder_eccon_concentric">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="active">True</property>
+                        <property name="draw-indicator">False</property>
+                        <child>
+                          <object class="GtkHBox" id="hbox127">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="spacing">4</property>
+                            <child>
+                              <object class="GtkImage" id="image_encoder_eccon_concentric">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="stock">gtk-missing-image</property>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label66">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">Concentric</property>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkRadioButton" id="radio_encoder_eccon_eccentric_concentric">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="draw-indicator">False</property>
+                        <property name="group">radio_encoder_eccon_concentric</property>
+                        <child>
+                          <object class="GtkHBox" id="hbox130">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="spacing">4</property>
+                            <child>
+                              <object class="GtkImage" id="image_encoder_eccon_eccentric_concentric">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="stock">gtk-missing-image</property>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label78">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">Eccentric-Concentric</property>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left-attach">1</property>
+                    <property name="top-attach">12</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
                 <child>
                   <placeholder/>

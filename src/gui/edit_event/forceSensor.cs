@@ -76,9 +76,7 @@ public class EditForceSensorWindow : EditEventWindow
 		image_forceSensor_capture_standard.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "signal_standard.png");
 		image_forceSensor_capture_absolute.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "signal_absolute.png");
 		image_forceSensor_capture_inverted.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "signal_inverted.png");
-		image_forceSensor_laterality_both.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-both.png");
-		image_forceSensor_laterality_left.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-left.png");
-		image_forceSensor_laterality_right.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "laterality-right.png");
+		createLateralityIcons ();
 
 		switch (fs.CaptureOption)
 		{
@@ -96,20 +94,20 @@ public class EditForceSensorWindow : EditEventWindow
 		switch (fs.Laterality)
 		{
 			case "Both":
-				radio_forceSensor_laterality_both.Active = true;
+				radio_laterality_both.Active = true;
 				break;
 			case "Left":
-				radio_forceSensor_laterality_left.Active = true;
+				radio_laterality_left.Active = true;
 				break;
 			case "Right":
-				radio_forceSensor_laterality_right.Active = true;
+				radio_laterality_right.Active = true;
 				break;
 		}
 
 		label_forceSensor_capture.Visible = true;
 		box_forceSensor_capture.Visible = true;
-		label_forceSensor_laterality.Visible = true;
-		box_forceSensor_laterality.Visible = true;
+		label_laterality.Visible = true;
+		box_laterality.Visible = true;
 	}
 
 	protected override string [] findTypes (Event myEvent)
@@ -154,11 +152,11 @@ public class EditForceSensorWindow : EditEventWindow
 			fs.CaptureOption = ForceSensor.CaptureOptions.INVERTED;
 
 		// set laterality
-		if (radio_forceSensor_laterality_both.Active)
+		if (radio_laterality_both.Active)
 			fs.Laterality = "Both";
-		else if (radio_forceSensor_laterality_left.Active)
+		else if (radio_laterality_left.Active)
 			fs.Laterality = "Left";
-		else if (radio_forceSensor_laterality_right.Active)
+		else if (radio_laterality_right.Active)
 			fs.Laterality = "Right";
 
 		// set description

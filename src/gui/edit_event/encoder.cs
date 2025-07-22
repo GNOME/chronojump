@@ -24,6 +24,7 @@ using Gtk;
 public class EditEncoderWindow : EditEventWindow
 {
 	static EditEncoderWindow EditEncoderWindowBox;
+	Constants.Modes mode;
 
 	//for inheritance
 	protected EditEncoderWindow () {
@@ -46,12 +47,13 @@ public class EditEncoderWindow : EditEventWindow
 		UtilGtk.IconWindow(edit_event);
 	}
 
-	static public EditEncoderWindow Show (Gtk.Window parent, Event myEvent)
+	static public EditEncoderWindow Show (Gtk.Window parent, Event myEvent, Constants.Modes mode)
 	{
 		if (EditEncoderWindowBox == null) {
 			EditEncoderWindowBox = new EditEncoderWindow (parent);
 		}
 
+		EditEncoderWindowBox.mode = mode;
 		EditEncoderWindowBox.colorize();
 		EditEncoderWindowBox.initializeValues();
 		EditEncoderWindowBox.fillDialog (myEvent);
@@ -63,15 +65,57 @@ public class EditEncoderWindow : EditEventWindow
 	protected override void initializeSpecific ()
 	{
 		typeOfTest = Constants.TestTypes.ENCODER;
+		showType = true;
 		showDescription = true;
+	}
+
+	protected override void fillDialogSpecific (Event myEvent)
+	{
+		EncoderSQL eSQL = (EncoderSQL) myEvent;
+
+		image_encoder_eccon_concentric.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "muscle-concentric.png");
+		image_encoder_eccon_eccentric_concentric.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "muscle-excentric-concentric.png");
+
+		switch (eSQL.eccon)
+		{
+			case "c":
+				radio_encoder_eccon_concentric.Active = true;
+				break;
+			default:
+				radio_encoder_eccon_eccentric_concentric.Active = true;
+				break;
+		}
+
+		createLateralityIcons ();
+
+		switch (eSQL.Laterality)
+		{
+			case "RL":
+				radio_laterality_both.Active = true;
+				break;
+			case "L":
+				radio_laterality_left.Active = true;
+				break;
+			case "R":
+				radio_laterality_right.Active = true;
+				break;
+		}
+
+		label_encoder_eccon_title.Visible = true;
+		box_encoder_eccon.Visible = true;
+		label_laterality.Visible = true;
+		box_laterality.Visible = true;
 	}
 
 	protected override string [] findTypes (Event myEvent)
 	{
-		//TODO
-		return new string []{};
+		List<EncoderExercise> ex_l = SqliteEncoderExercise.SelectEncoderExercises (
+				false, -1, false, Constants.GetEncoderGIByMode (mode));
+
+		// get the exercise names and convert to string []
+		return EncoderExercise.ListToString (ex_l);
 	}
-	
+
 	private void on_combo_eventType_changed (object o, EventArgs args)
 	{
 		//TODO:
@@ -118,7 +162,7 @@ public partial class ChronoJumpWindow
 		eventOldPerson = encoder.PersonID;
 
 		//4.- edit this test
-		editEncoderWin = EditEncoderWindow.Show (app1, encoder);
+		editEncoderWin = EditEncoderWindow.Show (app1, encoder, current_mode);
 		editEncoderWin.Fake_button_finished.Clicked += new EventHandler (on_edit_selected_encoder_finished);
 	}
 

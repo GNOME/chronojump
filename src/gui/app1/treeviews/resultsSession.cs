@@ -102,13 +102,19 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		// on encoder to not loading set each time the set or the reps are clicked
-		if (Constants.ModeIsENCODER (current_mode) && (
-					treeViewResultsSession.EventSelectedID == treeViewResultsSessionEventSelectedIDLast ||
-					treeViewResultsSession.GetIDOfSelectedSubEvent () == treeViewResultsSessionEventSelectedIDLast))
+		if (Constants.ModeIsENCODER (current_mode))
 		{
-			LogB.Information ("blocked: tried to select same row, avoid load.");
-			return;
+			if (treeViewResultsSession.EventSelectedID == treeViewResultsSessionEventSelectedIDLast)
+			{
+				LogB.Information ("blocked: encoder tried to select same row, avoid load.");
+				return;
+			}
+			else if (treeViewResultsSession.GetIDOfSelectedSubEvent () == treeViewResultsSessionEventSelectedIDLast)
+			{
+				LogB.Information ("blocked: encoder tried to select a rep of same set. Selecting header line.");
+				treeViewResultsSession.SelectEventHeaderLine();
+				return;
+			}
 		}
 
 		// Check if clicked to another person

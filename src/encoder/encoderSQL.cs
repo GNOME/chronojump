@@ -51,8 +51,8 @@ public class EncoderSQL : Event
 	public double maxForce;
 	public double rangeAbs;
 
-	public string exerciseName;
-	
+	private string exerciseName;
+
 	public string ecconLong;
 	
 	public EncoderSQL ()
@@ -97,6 +97,7 @@ public class EncoderSQL : Event
 		this.maxForce = maxForce;
 		this.rangeAbs = rangeAbs;
 		this.exerciseName = exerciseName;
+		this.type = exerciseName;
 
 		ecconLong = EcconLong(eccon);
 	}
@@ -110,6 +111,7 @@ public class EncoderSQL : Event
 		this.eccon = eccon;
 		this.description = description;
 		this.exerciseName = exerciseName;
+		this.type = exerciseName;
 	}
 
 	// constructor for SqliteEncoder.SelectData ()
@@ -157,7 +159,7 @@ public class EncoderSQL : Event
 		foreach (EncoderSQL eSQL in list)
 		{
 			Event ev = (Event) eSQL;
-			ev.Type = eSQL.exerciseName; //exerciseName name it Type to be used on findLongestWordCairo
+			ev.Type = eSQL.ExerciseName; //exerciseName name it Type to be used on findLongestWordCairo
 			events.Add (ev);
 		}
 
@@ -388,6 +390,15 @@ public class EncoderSQL : Event
 	public string Filename
 	{
 		set { filename = value; }
+	}
+
+	public string ExerciseName
+	{
+		get { return exerciseName; }
+		set {
+			exerciseName = value;
+			type = value;
+		}
 	}
 
 	// TODO: check if (WorkJ, Impulse) can be a problem

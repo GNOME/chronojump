@@ -1298,6 +1298,17 @@ public class Constants
 	//public static string ConcentricEccentric = "Concentric-eccentric";
 
 	public enum EncoderGI {ALL, GRAVITATORY, INERTIAL}
+
+	public static EncoderGI GetEncoderGIByMode (Modes mode)
+	{
+		EncoderGI encoderGI = EncoderGI.GRAVITATORY;
+		if (mode == Modes.POWERINERTIAL)
+			encoderGI = EncoderGI.INERTIAL;
+
+		return encoderGI;
+	}
+
+
 	public enum CheckFileOp
 	{
 		JUMPS_SIMPLE_CAPTURE_SAVE_IMAGE, JUMPS_REACTIVE_CAPTURE_SAVE_IMAGE,

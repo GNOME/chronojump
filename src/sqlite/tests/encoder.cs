@@ -848,7 +848,7 @@ class SqliteEncoder : SqliteTests
 	    List<EncoderExercise> ex_l = SqliteEncoderExercise.SelectEncoderExercises (
 			    dbconOpened, eSQL.exerciseID, true, Constants.EncoderGI.ALL);
 	    if (ex_l.Count > 0)
-		    eSQL.exerciseName = ex_l[0].Name;
+		    eSQL.ExerciseName = ex_l[0].Name;
 
 	    return eSQL;
     }

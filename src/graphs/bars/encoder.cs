@@ -89,7 +89,7 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 			// 2) Add bottom names
 			string typeRowString = "";
 			if (eventGraphEncoderSessionStored.exerciseAll) //if "all tests" show type
-				typeRowString = eSQL.exerciseName;// + "\n" + string.Format ("{0} Kg", eSQL.extraWeight);
+				typeRowString = eSQL.ExerciseName;// + "\n" + string.Format ("{0} Kg", eSQL.extraWeight);
 			//if (eventGraphEncoderSessionStored.type == "")
 			//	typeRowString = jump.Type;
 

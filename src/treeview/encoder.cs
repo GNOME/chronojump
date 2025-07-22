@@ -105,7 +105,7 @@ public class TreeViewEncoder : TreeViewEvent
 			}
 
 			//... but if we selected one type of test of this mode and this it's not the type, don't show
-			if (filterExercise == allEventsName || filterExercise == Catalog.GetString (eSQL0.exerciseName))
+			if (filterExercise == allEventsName || filterExercise == Catalog.GetString (eSQL0.ExerciseName))
 			{
 				//getLineToStoreFromString is overriden in two level treeviews
 				iterDeep = store.AppendValues (iter, getLineToStore (eSQL0));
@@ -261,7 +261,7 @@ public class TreeViewEncoder : TreeViewEvent
 		string [] myData = new String [getColsNum()];
 		int count = 0;
 
-		myData[count++] = eSQL.exerciseName;
+		myData[count++] = eSQL.ExerciseName;
 		myData[count++] = Catalog.GetString (eSQL.laterality);
 		if (gravitatory)
 			myData[count++] = Util.TrimDecimals (eSQL.extraWeight, 2);

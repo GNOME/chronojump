@@ -71,6 +71,16 @@ public class EncoderExercise
 			ressistance + "," + description + "," + speed1RM.ToString() + "," + type.ToString();
 	}
 
+	public static string [] ListToString (List<EncoderExercise> ex_l)
+	{
+		string [] myString = new String[ex_l.Count];
+		int i = 0;
+		foreach (EncoderExercise ex in ex_l)
+			myString[i++] = ex.Name;
+
+		return myString;
+	}
+
 	public int UniqueID
 	{
 		get { return uniqueID; }

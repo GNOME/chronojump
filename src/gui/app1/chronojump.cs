@@ -5153,12 +5153,6 @@ public partial class ChronoJumpWindow
 			run_encoder_load (b == button_signal_analyze_load_cd); //allows to choose person and session
 	}
 
-	private void on_button_contacts_recalculate_clicked (object o, EventArgs args)
-	{
-		if (current_mode == Constants.Modes.RUNSENCODER)
-			run_encoder_recalculate();
-	}
-
 	private Constants.BellModes getBellMode (Constants.Modes m)
 	{
 		if(m == Constants.Modes.JUMPSREACTIVE)

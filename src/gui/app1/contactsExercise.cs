@@ -125,8 +125,7 @@ public partial class ChronoJumpWindow
 		{
 			checkIfEncoderMinHeightChanged ();
 			on_button_encoder_recalculate_clicked (o, args);
-		} else
-			on_button_contacts_recalculate_clicked(o, args);
+		}
 	}
 
 	private void on_button_image_test_zoom_clicked (object o, EventArgs args)

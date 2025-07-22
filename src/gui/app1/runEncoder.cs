@@ -511,19 +511,12 @@ public partial class ChronoJumpWindow
 			race_analyzer_device = RunEncoder.Devices.RESISTED;
 	}
 
-	private RunEncoder.Devices raceEncoderGetDevice()
+	private RunEncoder.Devices raceEncoderGetDeviceFromGui ()
 	{
 		if(UtilGtk.ComboGetActive(combo_race_analyzer_device) == RunEncoder.DevicesStringMANUAL)
 			return RunEncoder.Devices.MANUAL;
 		else
 			return RunEncoder.Devices.RESISTED;
-	}
-	private void raceEncoderSetDevice(RunEncoder.Devices d)
-	{
-		if(d == RunEncoder.Devices.RESISTED)
-			combo_race_analyzer_device.Active = UtilGtk.ComboMakeActive(combo_race_analyzer_device, RunEncoder.DevicesStringRESISTED);
-		else
-			combo_race_analyzer_device.Active = UtilGtk.ComboMakeActive(combo_race_analyzer_device, RunEncoder.DevicesStringMANUAL);
 	}
 
 	private void on_combo_race_analyzer_device_changed (object o, EventArgs args)
@@ -540,13 +533,6 @@ public partial class ChronoJumpWindow
 			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(true) + "run-encoder-resisted.png");
 
 		image_test.Pixbuf = pixbuf;
-	}
-
-	private void raceEncoderSetDistanceAngleAndTemp (int distance, int angle, int temp)
-	{
-		race_analyzer_spinbutton_distance.Value = distance;
-		race_analyzer_spinbutton_angle.Value = angle;
-		race_analyzer_spinbutton_temperature.Value = temp;
 	}
 
 	// used on capture
@@ -1426,10 +1412,6 @@ public partial class ChronoJumpWindow
 			lastRunEncoderFullPath = re.FullURL;
 
 			assignCurrentRunEncoderExerciseFromSQL ();
-
-			raceEncoderSetDevice(re.Device);
-			raceEncoderSetDistanceAngleAndTemp(re.Distance, re.Angle, re.Temperature);
-
 			raceEncoderReadWidgets(); //needed to be able to do R graph
 
 			//triggers
@@ -1803,42 +1785,36 @@ public partial class ChronoJumpWindow
 
 	// --- end of runEncoderDeleteTest stuff -------
 
-
 	private void run_encoder_recalculate ()
 	{
-		if(! Util.FileExists(lastRunEncoderFullPath))
+		// 1) check file is ok
+		if (! Util.FileExists (lastRunEncoderFullPath)) //maybe in the future use currentRunEncoder.FullURL
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
 			return;
 		}
 
+		// 2) assign currentRunEncoderExercise & other variables
 		assignCurrentRunEncoderExerciseFromSQL ();
-		raceEncoderReadWidgets();
-
-		//recalculate should not analyze (calling to R) specially if segmentCm is variable.
-		//also recalculate what? current set? all sets on analyze current session
-		/*
-		if(lastRunEncoderFullPath != null && lastRunEncoderFullPath != "")
-			raceEncoderCopyToTempAndDoRGraph();
-			*/
-
-		//update SQL with exercise, device, distance, temperature, comments
-		currentRunEncoder.ExerciseID = currentRunEncoderExercise.UniqueID;
 		currentRunEncoder.ExerciseName = currentRunEncoderExercise.Name; //just in case
-		currentRunEncoder.Device = raceEncoderGetDevice();
-		currentRunEncoder.Distance = Convert.ToInt32(race_analyzer_spinbutton_distance.Value);
-		currentRunEncoder.Angle = Convert.ToInt32(race_analyzer_spinbutton_angle.Value);
-		currentRunEncoder.Temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
 
+		// 3) update MaxSpeed, MaxAvgSpeed1s
 		currentRunEncoder.MaxSpeed = 0;
 		currentRunEncoder.MaxAvgSpeed1s = 0;
-		if (reCGSD != null && reCGSD.RunEncoderCaptureSpeedMax > 0)
+
+		List<string> contents_l = Util.ReadFileAsStringList (currentRunEncoder.FullURL, "");
+		reCGSD = run_encoder_load_set_reCGSD (contents_l, false,
+				currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm,
+				currentPersonSession.Weight, currentRunEncoder.Angle);
+
+		if (reCGSD.RunEncoderCaptureSpeedMax > 0)
 		{
 			currentRunEncoder.MaxSpeed = reCGSD.RunEncoderCaptureSpeedMax;
 			if (reCGSD.Miw.Error == "")
 				currentRunEncoder.MaxAvgSpeed1s = reCGSD.Miw.Max;
 		}
 
+		// 4) update graphs and treeview
 		currentRunEncoder.UpdateSQL(false);
 		int id = currentRunEncoder.UniqueID; //need to assign to a variable because will change on pre_fillTreeView_resultsSession
 
@@ -2182,7 +2158,7 @@ public partial class ChronoJumpWindow
 					}
 
 					currentRunEncoder = new RunEncoder(-1, currentPerson.UniqueID, currentSession.UniqueID,
-							currentRunEncoderExercise.UniqueID, raceEncoderGetDevice(),
+							currentRunEncoderExercise.UniqueID, raceEncoderGetDeviceFromGui (),
 							Convert.ToInt32(race_analyzer_spinbutton_distance.Value),
 							Convert.ToInt32(race_analyzer_spinbutton_temperature.Value),
 							Util.GetLastPartOfPath(lastRunEncoderFile + ".csv"), //filename

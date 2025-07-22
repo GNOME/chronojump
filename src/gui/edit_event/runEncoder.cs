@@ -170,6 +170,21 @@ public partial class ChronoJumpWindow
 		LogB.Information("edit selected runEncoder finished");
 		RunEncoder runEncoder = SqliteRunEncoder.SelectData (treeViewResultsSession.EventSelectedID, true, false);
 
+		if (
+				runEncoder.PersonID != currentRunEncoder.PersonID ||
+				runEncoder.ExerciseID != currentRunEncoder.ExerciseID ||
+				runEncoder.Distance != currentRunEncoder.Distance ||
+				runEncoder.Angle != currentRunEncoder.Angle ||
+				runEncoder.Temperature != currentRunEncoder.Temperature)
+		{
+			currentRunEncoder = runEncoder;
+
+			// this will also: pre_fillTreeView_resultsSession & selectResultsSessionId
+			run_encoder_recalculate ();
+			return;
+		}
+
+		/*
 		//if person changed, fill treeview again, if not, only update it's line
 		if (eventOldPerson == runEncoder.PersonID)
 		{
@@ -177,6 +192,8 @@ public partial class ChronoJumpWindow
 			treeViewResultsSession.Update (runEncoder);
 		}  else
 			pre_fillTreeView_resultsSession ();
+		*/
+		treeViewResultsSession.Update (runEncoder);
 
 		//updateGraphRunEncoderBars ();
 	}

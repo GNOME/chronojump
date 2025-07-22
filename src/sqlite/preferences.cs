@@ -353,11 +353,11 @@ class SqlitePreferences : Sqlite
 				Insert (EncoderRepetitionCriteriaGravitatoryStr, Preferences.EncoderRepetitionCriteria.CON.ToString(), dbcmdTr);
 				Insert (EncoderRepetitionCriteriaInertialStr, Preferences.EncoderRepetitionCriteria.CON.ToString(), dbcmdTr);
 
-				ArrayList encoderExercises =
+				List<EncoderExercise> encoderExercise_l =
 					SqliteEncoderExercise.SelectEncoderExercises(true, -1, true, Constants.EncoderGI.ALL, dbcmdTr);
 
-				if(encoderExercises.Count > 0) {
-					EncoderExercise ex = (EncoderExercise) encoderExercises[0];
+				if (encoderExercise_l.Count > 0) {
+					EncoderExercise ex = encoderExercise_l[0];
 					Insert (EncoderExerciseIDGravitatory, ex.uniqueID.ToString(), dbcmdTr);
 					Insert (EncoderExerciseIDInertial, ex.uniqueID.ToString(), dbcmdTr);
 				}

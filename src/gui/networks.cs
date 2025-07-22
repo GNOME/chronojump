@@ -1567,13 +1567,13 @@ public partial class ChronoJumpWindow
 			if(configChronojump.CompujumpStationMode == Constants.Modes.POWERINERTIAL)
 				type = Constants.EncoderGI.INERTIAL;
 
-			ArrayList encoderExercisesOnLocal = SqliteEncoderExercise.SelectEncoderExercises(false, -1, false, type);
+			List<EncoderExercise> encoderExercisesOnLocal_l = SqliteEncoderExercise.SelectEncoderExercises(false, -1, false, type);
 			List<EncoderExercise> exRemote_list = json.GetEncoderStationExercises (configChronojump.CompujumpStationID, type);
 
-			foreach(EncoderExercise exRemote in exRemote_list)
+			foreach (EncoderExercise exRemote in exRemote_list)
 			{
 				bool found = false;
-				foreach(EncoderExercise exLocal in encoderExercisesOnLocal)
+				foreach (EncoderExercise exLocal in encoderExercisesOnLocal_l)
 					if(exLocal.uniqueID == exRemote.uniqueID)
 					{
 						found = true;

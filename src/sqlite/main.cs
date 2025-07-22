@@ -2263,11 +2263,11 @@ class Sqlite
 				LogB.SQL("Added exercise params of last capture for next Chronojump start");
 
 				//1 exercise
-				ArrayList encoderExercises =
+				List<EncoderExercise> encoderExercises_l =
 					SqliteEncoderExercise.SelectEncoderExercises(true, -1, true, Constants.EncoderGI.ALL);
 
-				if(encoderExercises.Count > 0) {
-					EncoderExercise ex = (EncoderExercise) encoderExercises[0];
+				if (encoderExercises_l.Count > 0) {
+					EncoderExercise ex = encoderExercises_l[0];
 					SqlitePreferences.Insert(SqlitePreferences.EncoderExerciseIDGravitatory, ex.uniqueID.ToString());
 					SqlitePreferences.Insert(SqlitePreferences.EncoderExerciseIDInertial, ex.uniqueID.ToString());
 				}

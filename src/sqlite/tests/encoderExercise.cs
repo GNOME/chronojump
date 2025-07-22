@@ -180,18 +180,18 @@ class SqliteEncoderExercise : Sqlite
     //if encoderGI == ALL, return everything
 
     //this is the regular call
-    public static ArrayList SelectEncoderExercises (bool dbconOpened, int uniqueID, bool onlyNames, Constants.EncoderGI encoderGI)
+    public static List<EncoderExercise> SelectEncoderExercises (bool dbconOpened, int uniqueID, bool onlyNames, Constants.EncoderGI encoderGI)
     {
 	    return selectEncoderExercises (dbconOpened, uniqueID, onlyNames, encoderGI, dbcmd);
     }
 
     //called from SqlitePreferences.initializeTable passing the SQLiteCommand of a transaction
-    public static ArrayList SelectEncoderExercises (bool dbconOpened, int uniqueID, bool onlyNames, Constants.EncoderGI encoderGI, SQLiteCommand mycmd)
+    public static List<EncoderExercise> SelectEncoderExercises (bool dbconOpened, int uniqueID, bool onlyNames, Constants.EncoderGI encoderGI, SQLiteCommand mycmd)
     {
 	    return selectEncoderExercises (dbconOpened, uniqueID, onlyNames, encoderGI, mycmd);
     }
 
-    private static ArrayList selectEncoderExercises (bool dbconOpened, int uniqueID, bool onlyNames, Constants.EncoderGI encoderGI, SQLiteCommand mycmd)
+    private static List<EncoderExercise> selectEncoderExercises (bool dbconOpened, int uniqueID, bool onlyNames, Constants.EncoderGI encoderGI, SQLiteCommand mycmd)
     {
         if (!dbconOpened)
             Sqlite.Open();
@@ -222,16 +222,13 @@ class SqliteEncoderExercise : Sqlite
         SQLiteDataReader reader;
         reader = mycmd.ExecuteReader();
 
-        ArrayList array = new ArrayList(1);
+	List<EncoderExercise> ex_l = new List<EncoderExercise> ();
         EncoderExercise ex = new EncoderExercise();
 
         if (onlyNames)
         {
             while (reader.Read())
-            {
-                ex = new EncoderExercise(reader[0].ToString());
-                array.Add(ex);
-            }
+                ex_l.Add (new EncoderExercise (reader[0].ToString()));
         }
         else
         {
@@ -250,7 +247,7 @@ class SqliteEncoderExercise : Sqlite
                         speed1RM,
                         (Constants.EncoderGI)Enum.Parse(typeof(Constants.EncoderGI), reader[8].ToString())
                         );
-                array.Add(ex);
+                ex_l.Add (ex);
             }
         }
 
@@ -258,7 +255,7 @@ class SqliteEncoderExercise : Sqlite
         if (!dbconOpened)
             Sqlite.Close();
 
-        return array;
+        return ex_l;
     }
 
     //gets a list of the exercises in curves to show them on encoder analyze tab

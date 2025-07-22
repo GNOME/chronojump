@@ -845,10 +845,10 @@ class SqliteEncoder : SqliteTests
 	    EncoderSQL eSQL = new EncoderSQL (selectTestData (uniqueID, dbconOpened, tableStatic, columns));
 
 	    //get also the exerciseName
-	    ArrayList ex_array = SqliteEncoderExercise.SelectEncoderExercises (
+	    List<EncoderExercise> ex_l = SqliteEncoderExercise.SelectEncoderExercises (
 			    dbconOpened, eSQL.exerciseID, true, Constants.EncoderGI.ALL);
-	    if (ex_array.Count > 0)
-		    eSQL.exerciseName = ((EncoderExercise) ex_array[0]).Name;
+	    if (ex_l.Count > 0)
+		    eSQL.exerciseName = ex_l[0].Name;
 
 	    return eSQL;
     }

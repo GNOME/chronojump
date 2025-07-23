@@ -1,0 +1,19 @@
+on Vim, this:
+
+:'<,'>s/Gtk.\(.*\) \(.*\);/\2 = (Gtk.\1) builder.GetObject ("\2");
+
+converts this:
+                Gtk.VBox vbox_encoder_mass_inertia_title;
+                Gtk.Label label_encoder_exercise_mass;                                                                 
+                Gtk.VBox vbox_encoder_mass_inertia;
+                Gtk.HBox hbox_encoder_exercise_mass;
+                Gtk.Box box_encoder_exercise_inertia;
+                Gtk.Image image_extra_mass;
+
+into:
+                vbox_encoder_mass_inertia_title = (Gtk.VBox) builder.GetObject ("vbox_encoder_mass_inertia_title");
+                label_encoder_exercise_mass = (Gtk.Label) builder.GetObject ("label_encoder_exercise_mass");                                                                 
+                vbox_encoder_mass_inertia = (Gtk.VBox) builder.GetObject ("vbox_encoder_mass_inertia");
+                hbox_encoder_exercise_mass = (Gtk.HBox) builder.GetObject ("hbox_encoder_exercise_mass");
+                box_encoder_exercise_inertia = (Gtk.Box) builder.GetObject ("box_encoder_exercise_inertia");
+                image_extra_mass = (Gtk.Image) builder.GetObject ("image_extra_mass");

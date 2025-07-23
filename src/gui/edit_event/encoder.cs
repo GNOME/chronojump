@@ -24,7 +24,9 @@ using Gtk;
 public class EditEncoderWindow : EditEventWindow
 {
 	static EditEncoderWindow EditEncoderWindowBox;
-	Constants.Modes mode;
+	private Constants.Modes mode;
+	private EncoderSQL eSQL;
+	private EncoderConfigurationWindow encoder_configuration_win;
 
 	//for inheritance
 	protected EditEncoderWindow () {
@@ -84,26 +86,27 @@ public class EditEncoderWindow : EditEventWindow
 
 	protected override void fillDialogSpecific (Event myEvent)
 	{
-		EncoderSQL eSQL = (EncoderSQL) myEvent;
+		eSQL = (EncoderSQL) myEvent;
 
-		fillDialogSpecificEncoder (eSQL);
-		fillDialogSpecificEccon (eSQL);
-		fillDialogSpecificLaterality (eSQL);
+		image_encoder_configuration.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_build_24.png");
+		image_encoder_eccon_concentric.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "muscle-concentric.png");
+		image_encoder_eccon_eccentric_concentric.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "muscle-excentric-concentric.png");
+		createLateralityIcons ();
+
+		fillDialogSpecificEncoder ();
+		fillDialogSpecificEccon ();
+		fillDialogSpecificLaterality ();
 	}
 
-	private void fillDialogSpecificEncoder (EncoderSQL eSQL)
+	// called at start and when encoder_configuration_win is closed
+	private void fillDialogSpecificEncoder ()
 	{
-		image_encoder_configuration.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_build_24.png");
-
 		image_encoder_selected_type.Pixbuf = eSQL.encoderConfiguration.GetPixbuf;
 		label_encoder_selected.Text = string.Format ("{0} ({1})", eSQL.encoderConfiguration.name, eSQL.encoderConfiguration.code);
 	}
 
-	private void fillDialogSpecificEccon (EncoderSQL eSQL)
+	private void fillDialogSpecificEccon ()
 	{
-		image_encoder_eccon_concentric.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "muscle-concentric.png");
-		image_encoder_eccon_eccentric_concentric.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "muscle-excentric-concentric.png");
-
 		switch (eSQL.eccon)
 		{
 			case "c":
@@ -115,10 +118,8 @@ public class EditEncoderWindow : EditEventWindow
 		}
 	}
 
-	private void fillDialogSpecificLaterality (EncoderSQL eSQL)
+	private void fillDialogSpecificLaterality ()
 	{
-		createLateralityIcons ();
-
 		switch (eSQL.Laterality)
 		{
 			case "RL":
@@ -135,6 +136,20 @@ public class EditEncoderWindow : EditEventWindow
 
 	private void on_button_encoder_select_clicked (object o, EventArgs args)
 	{
+		encoder_configuration_win = EncoderConfigurationWindow.View (
+				Constants.GetEncoderGIByMode (mode),
+				SqliteEncoderConfiguration.SelectActive (Constants.GetEncoderGIByMode (mode)),
+				eSQL.encoderConfiguration.d.ToString (),
+				eSQL.encoderConfiguration.extraWeightN, //used on inertial
+				false); 	// allow to calcule IM on inertial
+
+		encoder_configuration_win.Button_close.Clicked -= new EventHandler (on_encoder_configuration_win_closed);
+		encoder_configuration_win.Button_close.Clicked += new EventHandler (on_encoder_configuration_win_closed);
+	}
+	private void on_encoder_configuration_win_closed (object o, EventArgs args)
+	{
+		eSQL.encoderConfiguration = encoder_configuration_win.GetAcceptedValues();
+		fillDialogSpecificEncoder ();
 	}
 
 	protected override string [] findTypes (Event myEvent)

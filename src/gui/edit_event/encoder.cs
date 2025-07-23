@@ -20,6 +20,7 @@
 
 using System;
 using Gtk;
+using Mono.Unix;
 
 public class EditEncoderWindow : EditEventWindow
 {
@@ -82,6 +83,11 @@ public class EditEncoderWindow : EditEventWindow
 		// laterality
 		label_laterality.Visible = true;
 		box_laterality.Visible = true;
+
+		// repetition
+		label_encoder_rep_length.Visible = true;
+		vbox_encoder_rep_length.Visible = true;
+		label_encoder_rep_length_units.Visible = true;
 	}
 
 	protected override void fillDialogSpecific (Event myEvent)
@@ -96,6 +102,7 @@ public class EditEncoderWindow : EditEventWindow
 		fillDialogSpecificEncoder ();
 		fillDialogSpecificEccon ();
 		fillDialogSpecificLaterality ();
+		fillDialogSpecificReps ();
 	}
 
 	// called at start and when encoder_configuration_win is closed
@@ -134,7 +141,28 @@ public class EditEncoderWindow : EditEventWindow
 		}
 	}
 
-	private void on_button_encoder_select_clicked (object o, EventArgs args)
+	private void fillDialogSpecificReps ()
+	{
+		if (mode == Constants.Modes.POWERGRAVITATORY)
+		{
+			label_encoder_rep_length.Text = Catalog.GetString ("Repetition\nminimal ROM");
+			label_encoder_rep_length.TooltipText = Catalog.GetString ("Minimal Range of Movement");
+			spin_encoder_rep_min_height_gravitatory.Visible = true;
+			spin_encoder_rep_min_height_inertial.Visible = false;
+
+			spin_encoder_rep_min_height_gravitatory.Value = eSQL.minHeight;
+		} else //if (mode == Constants.Modes.POWERINERTIAL)
+		{
+			label_encoder_rep_length.Text = Catalog.GetString ("Repetition\nminimal length");
+			label_encoder_rep_length.TooltipText = "";
+			spin_encoder_rep_min_height_gravitatory.Visible = false;
+			spin_encoder_rep_min_height_inertial.Visible = true;
+
+			spin_encoder_rep_min_height_inertial.Value = eSQL.minHeight;
+		}
+	}
+
+	protected override void on_button_encoder_select_clicked (object o, EventArgs args)
 	{
 		encoder_configuration_win = EncoderConfigurationWindow.View (
 				Constants.GetEncoderGIByMode (mode),
@@ -146,7 +174,7 @@ public class EditEncoderWindow : EditEventWindow
 		encoder_configuration_win.Button_close.Clicked -= new EventHandler (on_encoder_configuration_win_closed);
 		encoder_configuration_win.Button_close.Clicked += new EventHandler (on_encoder_configuration_win_closed);
 	}
-	private void on_encoder_configuration_win_closed (object o, EventArgs args)
+	protected override void on_encoder_configuration_win_closed (object o, EventArgs args)
 	{
 		eSQL.encoderConfiguration = encoder_configuration_win.GetAcceptedValues();
 		fillDialogSpecificEncoder ();

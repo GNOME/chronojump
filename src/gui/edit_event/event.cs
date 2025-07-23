@@ -122,6 +122,11 @@ public class EditEventWindow
 	protected Gtk.RadioButton radio_encoder_eccon_eccentric_concentric;
 	protected Gtk.Image image_encoder_eccon_concentric;
 	protected Gtk.Image image_encoder_eccon_eccentric_concentric;
+	protected Gtk.Label label_encoder_rep_length;
+	protected Gtk.VBox vbox_encoder_rep_length;
+	protected Gtk.SpinButton spin_encoder_rep_min_height_gravitatory;
+	protected Gtk.SpinButton spin_encoder_rep_min_height_inertial;
+	protected Gtk.Label label_encoder_rep_length_units;
 
 	private Gtk.Box hbox_video;
 	private Gtk.Label label_video;
@@ -645,6 +650,15 @@ public class EditEventWindow
 	protected virtual void on_spin_mistakes_changed (object o, EventArgs args) {
 	}
 		
+	protected virtual void on_button_encoder_select_clicked (object o, EventArgs args)
+	{
+		// defined on encoder
+	}
+	protected virtual void on_encoder_configuration_win_closed (object o, EventArgs args)
+	{
+		// defined on encoder
+	}
+
 		
 	private void on_entry_description_changed (object o, EventArgs args) {
 		entry_description.Text = Util.RemoveTildeAndColonAndDot(entry_description.Text.ToString());
@@ -807,6 +821,11 @@ public class EditEventWindow
 		radio_encoder_eccon_eccentric_concentric = (Gtk.RadioButton) builder.GetObject ("radio_encoder_eccon_eccentric_concentric");
 		image_encoder_eccon_concentric = (Gtk.Image) builder.GetObject ("image_encoder_eccon_concentric");
 		image_encoder_eccon_eccentric_concentric = (Gtk.Image) builder.GetObject ("image_encoder_eccon_eccentric_concentric");
+		label_encoder_rep_length = (Gtk.Label) builder.GetObject ("label_encoder_rep_length");
+		vbox_encoder_rep_length = (Gtk.VBox) builder.GetObject ("vbox_encoder_rep_length");
+		spin_encoder_rep_min_height_gravitatory = (Gtk.SpinButton) builder.GetObject ("spin_encoder_rep_min_height_gravitatory");
+		spin_encoder_rep_min_height_inertial = (Gtk.SpinButton) builder.GetObject ("spin_encoder_rep_min_height_inertial");
+		label_encoder_rep_length_units = (Gtk.Label) builder.GetObject ("label_encoder_rep_length_units");
 
 		hbox_video = (Gtk.Box) builder.GetObject ("hbox_video");
 		label_video = (Gtk.Label) builder.GetObject ("label_video");

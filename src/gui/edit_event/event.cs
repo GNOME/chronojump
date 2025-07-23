@@ -122,6 +122,20 @@ public class EditEventWindow
 	protected Gtk.RadioButton radio_encoder_eccon_eccentric_concentric;
 	protected Gtk.Image image_encoder_eccon_concentric;
 	protected Gtk.Image image_encoder_eccon_eccentric_concentric;
+	// encoder mass-inertia
+	protected Gtk.Label label_encoder_exercise_mass;
+	protected Gtk.Label label_encoder_exercise_inertia;
+	protected Gtk.HBox hbox_encoder_exercise_mass;
+	protected Gtk.Box box_encoder_exercise_inertia;
+	protected Gtk.Image image_extra_mass;
+	protected Gtk.SpinButton spin_encoder_extra_weight;
+	protected Gtk.Label label_encoder_displaced_weight;
+	protected Gtk.HBox hbox_combo_encoder_anchorage;
+	protected Gtk.Image image_encoder_inertial_weights;
+	protected Gtk.SpinButton spin_encoder_im_weights_n;
+	protected Gtk.Label label_encoder_im_total;
+	protected Gtk.Label label_encoder_equivalent_mass;
+
 	protected Gtk.Label label_encoder_rep_length;
 	protected Gtk.VBox vbox_encoder_rep_length;
 	protected Gtk.SpinButton spin_encoder_rep_min_height_gravitatory;
@@ -181,6 +195,7 @@ public class EditEventWindow
 
 	protected int oldPersonID; //used to record the % for old person if we change it
 	private List<Person> person_l;
+	private List<PersonSession> personSession_l;
 
 	//to know if changed or not in order to redo the treeview
 	//public double distanceAtInit;
@@ -372,6 +387,7 @@ public class EditEventWindow
 		}
 
 		person_l = SqlitePersonSession.SelectCurrentSessionPersonsAsList (false, myEvent.SessionID);
+
 		string [] personsStrings = new String[person_l.Count];
 		int i=0;
 		foreach (Person person in person_l)
@@ -387,6 +403,9 @@ public class EditEventWindow
 			
 		hbox_combo_person.PackStart(combo_persons, true, true, 0);
 		hbox_combo_person.ShowAll();
+		
+		// used on encoder to know total weight when body mass is displaced
+		personSession_l = SqlitePersonSession.SelectPersonSessionList (false, -1, myEvent.SessionID);
 
 		fillDialogSpecific (myEvent); //forceSensor, raceAnalyzer and encoder (TODO)
 
@@ -690,12 +709,7 @@ public class EditEventWindow
 
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		// get personID
-		string personName = UtilGtk.ComboGetActive (combo_persons);
-		int personID = -1;
-		foreach (Person person in person_l)
-			if (person.Name == personName)
-				personID = person.UniqueID;
+		int personID = getPersonIDFromCombo ();
 
 		if (personID >= 0)
 			updateSQL (Convert.ToInt32 (label_event_id_value.Text),
@@ -704,6 +718,25 @@ public class EditEventWindow
 		fake_button_finished.Click ();
 
 		hideWindow();
+	}
+
+	protected int getPersonIDFromCombo ()
+	{
+		string personName = UtilGtk.ComboGetActive (combo_persons);
+		foreach (Person person in person_l)
+			if (person.Name == personName)
+				return person.UniqueID;
+
+		return -1;
+	}
+
+	protected double getPersonWeight (int personID)
+	{
+		foreach (PersonSession ps in personSession_l)
+			if (ps.PersonID == personID)
+				return ps.Weight;
+
+		return 0;
 	}
 
 	protected virtual void updateSQL(int eventID, int personID, string description) {
@@ -826,6 +859,19 @@ public class EditEventWindow
 		spin_encoder_rep_min_height_gravitatory = (Gtk.SpinButton) builder.GetObject ("spin_encoder_rep_min_height_gravitatory");
 		spin_encoder_rep_min_height_inertial = (Gtk.SpinButton) builder.GetObject ("spin_encoder_rep_min_height_inertial");
 		label_encoder_rep_length_units = (Gtk.Label) builder.GetObject ("label_encoder_rep_length_units");
+		// encoder mass-inertia
+		label_encoder_exercise_mass = (Gtk.Label) builder.GetObject ("label_encoder_exercise_mass");
+		label_encoder_exercise_inertia = (Gtk.Label) builder.GetObject ("label_encoder_exercise_inertia");
+		hbox_encoder_exercise_mass = (Gtk.HBox) builder.GetObject ("hbox_encoder_exercise_mass");
+		box_encoder_exercise_inertia = (Gtk.Box) builder.GetObject ("box_encoder_exercise_inertia");
+		image_extra_mass = (Gtk.Image) builder.GetObject ("image_extra_mass");
+		spin_encoder_extra_weight = (Gtk.SpinButton) builder.GetObject ("spin_encoder_extra_weight");
+		label_encoder_displaced_weight = (Gtk.Label) builder.GetObject ("label_encoder_displaced_weight");
+		hbox_combo_encoder_anchorage = (Gtk.HBox) builder.GetObject ("hbox_combo_encoder_anchorage");
+		image_encoder_inertial_weights = (Gtk.Image) builder.GetObject ("image_encoder_inertial_weights");
+		spin_encoder_im_weights_n = (Gtk.SpinButton) builder.GetObject ("spin_encoder_im_weights_n");
+		label_encoder_im_total = (Gtk.Label) builder.GetObject ("label_encoder_im_total");
+		label_encoder_equivalent_mass = (Gtk.Label) builder.GetObject ("label_encoder_equivalent_mass");
 
 		hbox_video = (Gtk.Box) builder.GetObject ("hbox_video");
 		label_video = (Gtk.Label) builder.GetObject ("label_video");

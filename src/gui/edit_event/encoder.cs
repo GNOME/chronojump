@@ -27,6 +27,7 @@ public class EditEncoderWindow : EditEventWindow
 	static EditEncoderWindow EditEncoderWindowBox;
 	private Constants.Modes mode;
 	private EncoderSQL eSQL;
+	private List<EncoderExercise> encoderExercise_l;
 	private EncoderConfigurationWindow encoder_configuration_win;
 
 	//for inheritance
@@ -84,6 +85,12 @@ public class EditEncoderWindow : EditEventWindow
 		label_laterality.Visible = true;
 		box_laterality.Visible = true;
 
+		// mass-inertia
+		label_encoder_exercise_mass.Visible = (mode == Constants.Modes.POWERGRAVITATORY);
+		hbox_encoder_exercise_mass.Visible = (mode == Constants.Modes.POWERGRAVITATORY);
+		label_encoder_exercise_inertia.Visible = (mode == Constants.Modes.POWERINERTIAL);
+		box_encoder_exercise_inertia.Visible = (mode == Constants.Modes.POWERINERTIAL);
+
 		// repetition
 		label_encoder_rep_length.Visible = true;
 		vbox_encoder_rep_length.Visible = true;
@@ -99,9 +106,13 @@ public class EditEncoderWindow : EditEventWindow
 		image_encoder_eccon_eccentric_concentric.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "muscle-excentric-concentric.png");
 		createLateralityIcons ();
 
+		image_extra_mass.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "extra-mass.png");
+		image_encoder_inertial_weights.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "extra-mass.png");
+
 		fillDialogSpecificEncoder ();
 		fillDialogSpecificEccon ();
 		fillDialogSpecificLaterality ();
+		fillDialogSpecificMassInertia ();
 		fillDialogSpecificReps ();
 	}
 
@@ -139,6 +150,54 @@ public class EditEncoderWindow : EditEventWindow
 				radio_laterality_right.Active = true;
 				break;
 		}
+	}
+
+	private void fillDialogSpecificMassInertia ()
+	{
+		if (mode == Constants.Modes.POWERGRAVITATORY)
+		{
+			spin_encoder_extra_weight.Value = eSQL.extraWeightD;
+
+			// TODO: this has to be updated if changed: combo_person, exercise, mass
+			label_encoder_displaced_weight.Text = Util.TrimDecimals (calculeDisplacedWeight (eSQL.extraWeightD), pDN);
+
+			// TODO ...
+		}
+		else //if (mode == Constants.Modes.POWERINERTIAL)
+		{
+			// TODO ...
+		}
+	}
+
+	private int getExerciseDisplacedWeight ()
+	{
+		if (encoderExercise_l == null || encoderExercise_l.Count == 0)
+			return -1;
+
+		string exerciseName = UtilGtk.ComboGetActive (combo_eventType);
+		foreach (EncoderExercise ex in encoderExercise_l)
+			if (ex.Name == exerciseName)
+				return ex.PercentBodyWeight;
+
+		return -1;
+	}
+
+	private double calculeDisplacedWeight (double extraWeight)
+	{
+		int personID = getPersonIDFromCombo ();
+		if (personID < 0)
+			return 0;
+
+		double personWeight = getPersonWeight (personID);
+		if (personWeight == 0)
+			return 0;
+
+		int exerciseDisplacedWeight = getExerciseDisplacedWeight ();
+		if (exerciseDisplacedWeight < 0)
+			return 0;
+
+		//from gui/app1/encoder.cs finMass (DISPLACED)
+		return extraWeight + UtilAll.DivideSafe (personWeight * exerciseDisplacedWeight, 100.0);
 	}
 
 	private void fillDialogSpecificReps ()
@@ -182,11 +241,11 @@ public class EditEncoderWindow : EditEventWindow
 
 	protected override string [] findTypes (Event myEvent)
 	{
-		List<EncoderExercise> ex_l = SqliteEncoderExercise.SelectEncoderExercises (
+		encoderExercise_l = SqliteEncoderExercise.SelectEncoderExercises (
 				false, -1, false, Constants.GetEncoderGIByMode (mode));
 
 		// get the exercise names and convert to string []
-		return EncoderExercise.ListToString (ex_l);
+		return EncoderExercise.ListToString (encoderExercise_l);
 	}
 
 	private void on_combo_eventType_changed (object o, EventArgs args)

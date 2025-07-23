@@ -190,6 +190,9 @@ public class EditEventWindow
 	protected bool showMistakes;
 	protected bool showDescription;
 
+	protected bool combo_person_has_signal;
+	protected bool combo_exercise_has_signal;
+
 	protected string eventBigTypeString = "a test";
 	protected bool headerShowDecimal = true;
 
@@ -261,6 +264,9 @@ public class EditEventWindow
 		showMistakes = false;
 		showVideo = false;
 		showDescription = false;
+
+		combo_person_has_signal = false;
+		combo_exercise_has_signal = false;
 
 		// specific options (true) for each mode
 		initializeSpecific (); //assign the true values of each mode
@@ -403,6 +409,7 @@ public class EditEventWindow
 			
 		hbox_combo_person.PackStart(combo_persons, true, true, 0);
 		hbox_combo_person.ShowAll();
+		combo_person_createSignalIfNeeded ();
 		
 		// used on encoder to know total weight when body mass is displaced
 		personSession_l = SqlitePersonSession.SelectPersonSessionList (false, -1, myEvent.SessionID);
@@ -491,7 +498,38 @@ public class EditEventWindow
 		hbox_combo_eventType.PackStart(combo_eventType, true, true, 0);
 		hbox_combo_eventType.ShowAll();
 
-		createSignal();
+		combo_EventType_createSignalIfNeeded ();
+	}
+
+	private void combo_person_createSignalIfNeeded ()
+	{
+		if (! combo_person_has_signal)
+			return;
+
+		combo_persons.Changed -= new EventHandler (on_combo_persons_changed);
+		combo_persons.Changed += new EventHandler (on_combo_persons_changed);
+	}
+	protected virtual void on_combo_persons_changed (object o, EventArgs args)
+	{
+		// only implemented in Modes: POWERGRAVITATORY
+	}
+
+	private void combo_EventType_createSignalIfNeeded ()
+	{
+		if (! combo_exercise_has_signal)
+			return;
+
+		combo_eventType.Changed -= new EventHandler (on_combo_eventType_changed);
+		combo_eventType.Changed += new EventHandler (on_combo_eventType_changed);
+	}
+	protected virtual void on_combo_eventType_changed (object o, EventArgs args)
+	{
+		// only implemented in Modes: JUMPSSIMPLE, RUNSSIMPLE, POWERGRAVITATORY
+	}
+
+	protected virtual void on_spin_encoder_extra_weight_value_changed (object o, EventArgs args)
+	{
+		// only implemented in Modes: POWERGRAVITATORY
 	}
 
 	protected virtual string [] findTypes(Event myEvent) {

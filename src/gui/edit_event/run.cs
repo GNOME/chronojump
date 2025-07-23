@@ -102,6 +102,8 @@ public class EditRunWindow : EditEventWindow
 			label_speed_units.Text = "m/s";
 		else
 			label_speed_units.Text = "km/h";
+
+		combo_exercise_has_signal = true;
 	}
 
 	protected override string [] findTypes(Event myEvent) {
@@ -151,12 +153,8 @@ public class EditRunWindow : EditEventWindow
 			label_speed_units.Text = "km/h";
 	}
 
-	protected override void createSignal() {
-		//only for jumps & runs
-		combo_eventType.Changed += new EventHandler (on_combo_eventType_changed);
-	}
-	
-	private void on_combo_eventType_changed (object o, EventArgs args) {
+	protected override void on_combo_eventType_changed (object o, EventArgs args)
+	{
 		//if the distance of the new runType is fixed, put this distance
 		//if not conserve the old
 		RunType myRunType = new RunType (UtilGtk.ComboGetActive(combo_eventType));

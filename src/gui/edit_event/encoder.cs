@@ -72,6 +72,9 @@ public class EditEncoderWindow : EditEventWindow
 		showType = true;
 		showDescription = true;
 
+		combo_person_has_signal = true;
+		combo_exercise_has_signal = true;
+
 		// encoder
 		label_encoder_exercise.Visible = true;
 		button_encoder_select.Visible = true;
@@ -157,9 +160,7 @@ public class EditEncoderWindow : EditEventWindow
 		if (mode == Constants.Modes.POWERGRAVITATORY)
 		{
 			spin_encoder_extra_weight.Value = eSQL.extraWeightD;
-
-			// TODO: this has to be updated if changed: combo_person, exercise, mass
-			label_encoder_displaced_weight.Text = Util.TrimDecimals (calculeDisplacedWeight (eSQL.extraWeightD), pDN);
+			setDisplacedWeight (eSQL.extraWeightD);
 
 			// TODO ...
 		}
@@ -167,6 +168,11 @@ public class EditEncoderWindow : EditEventWindow
 		{
 			// TODO ...
 		}
+	}
+
+	private void setDisplacedWeight (double extraWeight)
+	{
+		label_encoder_displaced_weight.Text = Util.TrimDecimals (calculeDisplacedWeight (extraWeight), pDN);
 	}
 
 	private int getExerciseDisplacedWeight ()
@@ -248,10 +254,19 @@ public class EditEncoderWindow : EditEventWindow
 		return EncoderExercise.ListToString (encoderExercise_l);
 	}
 
-	private void on_combo_eventType_changed (object o, EventArgs args)
+	protected override void on_combo_persons_changed (object o, EventArgs args)
 	{
-		//TODO:
+		setDisplacedWeight (spin_encoder_extra_weight.Value);
 	}
+	protected override void on_combo_eventType_changed (object o, EventArgs args)
+	{
+		setDisplacedWeight (spin_encoder_extra_weight.Value);
+	}
+	protected override void on_spin_encoder_extra_weight_value_changed (object o, EventArgs args)
+	{
+		setDisplacedWeight (spin_encoder_extra_weight.Value);
+	}
+
 
 	protected override void updateSQL (int eventID, int personID, string description)
 	{

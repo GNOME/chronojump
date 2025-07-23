@@ -96,11 +96,6 @@ public class EditRunEncoderWindow : EditEventWindow
 		return RunEncoderExercise.ListToString (SqliteRunEncoderExercise.Select (false, -1));
 	}
 	
-	private void on_combo_eventType_changed (object o, EventArgs args)
-	{
-		//do nothing on combo changed, do it on updateSQL (click on accept)
-	}
-
 	protected override void updateSQL (int eventID, int personID, string description)
 	{
 		// get object before update

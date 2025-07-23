@@ -72,11 +72,6 @@ public class EditFourPlatformsWindow : EditEventWindow
 		return new string []{};
 	}
 	
-	private void on_combo_eventType_changed (object o, EventArgs args)
-	{
-		//TODO:
-	}
-
 	protected override void updateSQL (int eventID, int personID, string description)
 	{
 		SqliteTests st = new SqliteFourPlatforms ();

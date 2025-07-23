@@ -122,6 +122,8 @@ public class EditJumpWindow : EditEventWindow
 			label_weight_units.Text = "Kg";
 
 		LogB.Information(string.Format("-------------{0}", personWeight));
+
+		combo_exercise_has_signal = true;
 	}
 
 	protected override string [] findTypes(Event myEvent) {
@@ -353,15 +355,9 @@ public class EditJumpWindow : EditEventWindow
 		}
 	}
 
-
-	
-	protected override void createSignal() {
-		//only for jumps, runs, forceSensor
-		combo_eventType.Changed += new EventHandler (on_combo_eventType_changed);
-	}
-
 	string weightOldStore = "0";
-	private void on_combo_eventType_changed (object o, EventArgs args) {
+	protected override void on_combo_eventType_changed (object o, EventArgs args)
+	{
 		//if the distance of the new runType is fixed, put this distance
 		//if not conserve the old
 		JumpType myJumpType = new JumpType (UtilGtk.ComboGetActive(combo_eventType));

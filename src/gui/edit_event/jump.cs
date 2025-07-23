@@ -113,6 +113,8 @@ public class EditJumpWindow : EditEventWindow
 		showJumpTv = true;
 		showJumpTc = true;
 		showJumpFall = true;
+
+		showWeight = true;
 		
 		if(weightPercentPreferred)
 			label_weight_units.Text = "%";

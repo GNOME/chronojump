@@ -19,6 +19,7 @@
  */
 
 using System;
+using Gdk;
 using Mono.Unix;
 
 public class EncoderConfigurationSQLObject
@@ -771,6 +772,21 @@ public class EncoderConfiguration
 	public double inertiaTotalLikeR
 	{
 		get { return inertiaTotal / 10000.0; } //comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
+	}
+
+	public Pixbuf GetPixbuf
+	{
+		get {
+			string imageFile = "";
+			if(type == Constants.EncoderType.LINEAR)
+				imageFile = "encoder-l-blue.png";
+			else if(type == Constants.EncoderType.ROTARYFRICTION)
+				imageFile = "encoder-rf-blue.png";
+			else // if(type == Constants.EncoderType.ROTARYAXIS)
+				imageFile = "encoder-ra-blue.png";
+
+			return Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + imageFile);
+		}
 	}
 
 }

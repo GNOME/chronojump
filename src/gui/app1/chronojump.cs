@@ -4046,14 +4046,7 @@ public partial class ChronoJumpWindow
 
 	void setEncoderTypePixbuf()
 	{
-		Pixbuf pixbuf;
-		if(encoderConfigurationCurrent.type == Constants.EncoderType.LINEAR)
-			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "encoder-l-blue.png");
-		else if(encoderConfigurationCurrent.type == Constants.EncoderType.ROTARYFRICTION)
-			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "encoder-rf-blue.png");
-		else // if(encoderConfigurationCurrent.type == Constants.EncoderType.ROTARYAXIS)
-			pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "encoder-ra-blue.png");
-
+		Pixbuf pixbuf = encoderConfigurationCurrent.GetPixbuf;
 		image_encoder_top_selected_type.Pixbuf = pixbuf;
 		image_encoder_selected_type.Pixbuf = pixbuf;
 	}

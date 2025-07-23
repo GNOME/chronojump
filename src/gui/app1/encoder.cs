@@ -528,7 +528,9 @@ public partial class ChronoJumpWindow
 	{
 		encoder_configuration_win = EncoderConfigurationWindow.View(
 				currentEncoderGI, SqliteEncoderConfiguration.SelectActive(currentEncoderGI),
-				UtilGtk.ComboGetActive(combo_encoder_anchorage), (int) spin_encoder_im_weights_n.Value); //used on inertial
+				UtilGtk.ComboGetActive(combo_encoder_anchorage),
+				(int) spin_encoder_im_weights_n.Value, //used on inertial
+				true); 		//allow to calcule IM on inertial
 
 		encoder_configuration_win.Button_close.Clicked += new EventHandler(on_encoder_configuration_win_closed);
 

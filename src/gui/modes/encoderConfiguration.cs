@@ -153,6 +153,7 @@ public class EncoderConfigurationWindow
 	Pixbuf pixbuf;
 
 	Constants.EncoderGI encoderGI;
+	bool allowToCalculateImOnInertial;
 
 	private enum notebookPages { BUTTONS, EDIT_ADD_DUPLICATE, DELETE  };
 
@@ -215,7 +216,8 @@ public class EncoderConfigurationWindow
 
 	static public EncoderConfigurationWindow View (
 			Constants.EncoderGI encoderGI, EncoderConfigurationSQLObject econfSO,
-			string anchorage_str, int extraWeightN)
+			string anchorage_str, int extraWeightN,
+			bool allowToCalculateImOnInertial)
 	{
 		if (EncoderConfigurationWindowBox == null) {
 			EncoderConfigurationWindowBox = new EncoderConfigurationWindow ();
@@ -232,6 +234,7 @@ public class EncoderConfigurationWindow
 		EncoderConfigurationWindowBox.createCombos ();
 
 		EncoderConfigurationWindowBox.encoderGI = encoderGI;
+		EncoderConfigurationWindowBox.allowToCalculateImOnInertial = allowToCalculateImOnInertial;
 		EncoderConfigurationWindowBox.updateGUIFromEncoderConfiguration(econfSO.encoderConfiguration);
 		EncoderConfigurationWindowBox.main_gui_anchorage_str = anchorage_str;
 		EncoderConfigurationWindowBox.main_gui_extraWeightN = extraWeightN;
@@ -377,7 +380,7 @@ public class EncoderConfigurationWindow
 		hbox_inertia.Visible = ec.has_inertia;
 		hbox_inertia_mass.Visible = ec.has_inertia;
 		hbox_inertia_length.Visible = ec.has_inertia;
-		vbox_inertia_calcule.Visible = ec.has_inertia;
+		vbox_inertia_calcule.Visible = ec.has_inertia && allowToCalculateImOnInertial;
 		
 		hbox_gearedUp.Visible = ec.has_gearedDown;
 		if(ec.has_gearedDown)

@@ -67,12 +67,40 @@ public class EditEncoderWindow : EditEventWindow
 		typeOfTest = Constants.TestTypes.ENCODER;
 		showType = true;
 		showDescription = true;
+
+		// encoder
+		label_encoder_exercise.Visible = true;
+		button_encoder_select.Visible = true;
+		box_encoder_selected.Visible = true;
+
+		// eccon
+		label_encoder_eccon_title.Visible = true;
+		box_encoder_eccon.Visible = true;
+
+		// laterality
+		label_laterality.Visible = true;
+		box_laterality.Visible = true;
 	}
 
 	protected override void fillDialogSpecific (Event myEvent)
 	{
 		EncoderSQL eSQL = (EncoderSQL) myEvent;
 
+		fillDialogSpecificEncoder (eSQL);
+		fillDialogSpecificEccon (eSQL);
+		fillDialogSpecificLaterality (eSQL);
+	}
+
+	private void fillDialogSpecificEncoder (EncoderSQL eSQL)
+	{
+		image_encoder_configuration.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_build_24.png");
+
+		image_encoder_selected_type.Pixbuf = eSQL.encoderConfiguration.GetPixbuf;
+		label_encoder_selected.Text = string.Format ("{0} ({1})", eSQL.encoderConfiguration.name, eSQL.encoderConfiguration.code);
+	}
+
+	private void fillDialogSpecificEccon (EncoderSQL eSQL)
+	{
 		image_encoder_eccon_concentric.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "muscle-concentric.png");
 		image_encoder_eccon_eccentric_concentric.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "muscle-excentric-concentric.png");
 
@@ -85,7 +113,10 @@ public class EditEncoderWindow : EditEventWindow
 				radio_encoder_eccon_eccentric_concentric.Active = true;
 				break;
 		}
+	}
 
+	private void fillDialogSpecificLaterality (EncoderSQL eSQL)
+	{
 		createLateralityIcons ();
 
 		switch (eSQL.Laterality)
@@ -100,11 +131,10 @@ public class EditEncoderWindow : EditEventWindow
 				radio_laterality_right.Active = true;
 				break;
 		}
+	}
 
-		label_encoder_eccon_title.Visible = true;
-		box_encoder_eccon.Visible = true;
-		label_laterality.Visible = true;
-		box_laterality.Visible = true;
+	private void on_button_encoder_select_clicked (object o, EventArgs args)
+	{
 	}
 
 	protected override string [] findTypes (Event myEvent)

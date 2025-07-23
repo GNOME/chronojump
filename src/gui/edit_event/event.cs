@@ -110,6 +110,12 @@ public class EditEventWindow
 
 	// encoder 
 	// laterality widgets (already declared on forceSensor)
+	protected Gtk.Label label_encoder_exercise;
+	protected Gtk.Button button_encoder_select;
+	protected Gtk.Image image_encoder_configuration;
+	protected Gtk.Box box_encoder_selected;
+	protected Gtk.Image image_encoder_selected_type;
+	protected Gtk.Label label_encoder_selected;
 	protected Gtk.Label label_encoder_eccon_title;
 	protected Gtk.Box box_encoder_eccon;
 	protected Gtk.RadioButton radio_encoder_eccon_concentric;
@@ -787,6 +793,14 @@ public class EditEventWindow
 		label_race_analyzer_temperature_units = (Gtk.Label) builder.GetObject ("label_race_analyzer_temperature_units");
 
 		// encoder 
+		// exercise
+		label_encoder_exercise = (Gtk.Label) builder.GetObject ("label_encoder_exercise");
+		button_encoder_select = (Gtk.Button) builder.GetObject ("button_encoder_select");
+		image_encoder_configuration = (Gtk.Image) builder.GetObject ("image_encoder_configuration");
+		box_encoder_selected = (Gtk.Box) builder.GetObject ("box_encoder_selected");
+		image_encoder_selected_type = (Gtk.Image) builder.GetObject ("image_encoder_selected_type");
+		label_encoder_selected = (Gtk.Label) builder.GetObject ("label_encoder_selected");
+		// eccon
 		label_encoder_eccon_title = (Gtk.Label) builder.GetObject ("label_encoder_eccon_title");
 		box_encoder_eccon = (Gtk.Box) builder.GetObject ("box_encoder_eccon");
 		radio_encoder_eccon_concentric = (Gtk.RadioButton) builder.GetObject ("radio_encoder_eccon_concentric");

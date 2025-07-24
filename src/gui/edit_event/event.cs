@@ -378,7 +378,7 @@ public class EditEventWindow
 			entry_description.Hide();
 		}
 
-		createComboEventType(myEvent);
+		createComboEventType (myEvent);
 		
 		if(! showType) {
 			label_type_title.Hide();
@@ -393,24 +393,9 @@ public class EditEventWindow
 		}
 
 		person_l = SqlitePersonSession.SelectCurrentSessionPersonsAsList (false, myEvent.SessionID);
-
-		string [] personsStrings = new String[person_l.Count];
-		int i=0;
-		foreach (Person person in person_l)
-			personsStrings[i++] = person.Name;
-
-		combo_persons = new ComboBoxText();
-		UtilGtk.ComboUpdate(combo_persons, personsStrings, "");
-		foreach (Person person in person_l)
-			if (person.UniqueID == myEvent.PersonID)
-				combo_persons.Active = UtilGtk.ComboMakeActive (personsStrings, person.Name);
-
+		createComboPersons (myEvent);
 		oldPersonID = myEvent.PersonID;
-			
-		hbox_combo_person.PackStart(combo_persons, true, true, 0);
-		hbox_combo_person.ShowAll();
-		combo_person_createSignalIfNeeded ();
-		
+
 		// used on encoder to know total weight when body mass is displaced
 		personSession_l = SqlitePersonSession.SelectPersonSessionList (false, -1, myEvent.SessionID);
 
@@ -485,18 +470,35 @@ public class EditEventWindow
 			label_header.Text += string.Format(Catalog.GetString("\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	}
 
-		
-	protected void createComboEventType(Event myEvent) 
+	protected void createComboPersons (Event myEvent)
+	{
+		string [] personsStrings = new String[person_l.Count];
+		int i=0;
+		foreach (Person person in person_l)
+			personsStrings[i++] = person.Name;
+
+		combo_persons = new ComboBoxText();
+		UtilGtk.ComboUpdate (combo_persons, personsStrings, "");
+		foreach (Person person in person_l)
+			if (person.UniqueID == myEvent.PersonID)
+				combo_persons.Active = UtilGtk.ComboMakeActive (personsStrings, person.Name);
+
+		hbox_combo_person.PackStart(combo_persons, true, true, 0);
+		hbox_combo_person.ShowAll();
+		combo_person_createSignalIfNeeded ();
+	}
+
+	protected void createComboEventType (Event myEvent)
 	{
 		combo_eventType = new ComboBoxText ();
-		string [] myTypes = findTypes(myEvent);
-		UtilGtk.ComboUpdate(combo_eventType, myTypes, "");
+		string [] myTypes = findTypes (myEvent);
+		UtilGtk.ComboUpdate (combo_eventType, myTypes, "");
 		// LogB.Information ("createComboEventType myTypes: " + Util.StringArrayToString (myTypes, ", "));
 		// LogB.Information ("myEvent: " + myEvent.ToString ());
 		// LogB.Information ("myEvent.Type: " + myEvent.Type.ToString ());
-		combo_eventType.Active = UtilGtk.ComboMakeActive(myTypes, myEvent.Type);
-		hbox_combo_eventType.PackStart(combo_eventType, true, true, 0);
-		hbox_combo_eventType.ShowAll();
+		combo_eventType.Active = UtilGtk.ComboMakeActive (myTypes, myEvent.Type);
+		hbox_combo_eventType.PackStart (combo_eventType, true, true, 0);
+		hbox_combo_eventType.ShowAll ();
 
 		combo_EventType_createSignalIfNeeded ();
 	}
@@ -530,6 +532,10 @@ public class EditEventWindow
 	protected virtual void on_spin_encoder_extra_weight_value_changed (object o, EventArgs args)
 	{
 		// only implemented in Modes: POWERGRAVITATORY
+	}
+	protected virtual void on_spin_encoder_im_weights_n_value_changed (object o, EventArgs args)
+	{
+		// only implemented in Modes: POWERINERTIAL
 	}
 
 	protected virtual string [] findTypes(Event myEvent) {

@@ -29,6 +29,7 @@ public class EditEncoderWindow : EditEventWindow
 	private EncoderSQL eSQL;
 	private List<EncoderExercise> encoderExercise_l;
 	private EncoderConfigurationWindow encoder_configuration_win;
+	protected Gtk.ComboBoxText combo_encoder_anchorage;
 
 	//for inheritance
 	protected EditEncoderWindow () {
@@ -161,13 +162,43 @@ public class EditEncoderWindow : EditEventWindow
 		{
 			spin_encoder_extra_weight.Value = eSQL.extraWeightD;
 			setDisplacedWeight (eSQL.extraWeightD);
-
-			// TODO ...
 		}
 		else //if (mode == Constants.Modes.POWERINERTIAL)
 		{
-			// TODO ...
+			createComboEncoderAnchorage ();
+
+			// here we use the eSQL params.
+			// Note this methods will read widgets when there are changes on related widgets
+			spin_encoder_im_weights_n.Value = eSQL.encoderConfiguration.extraWeightN;
+
+			label_encoder_im_total.Text = eSQL.encoderConfiguration.inertiaTotal.ToString();
+			label_encoder_equivalent_mass.Text = Util.TrimDecimals (calculateEquivalentMass (eSQL.encoderConfiguration), 1);
 		}
+	}
+
+	private int calculateInertiaTotalFromGui ()
+	{
+		EncoderConfiguration econf = eSQL.encoderConfiguration;
+		econf.extraWeightN = Convert.ToInt32 (spin_encoder_im_weights_n.Value);
+
+		return UtilEncoder.CalculeInertiaTotal (econf);
+	}
+
+	private double calculateEquivalentMass (EncoderConfiguration econf)
+	{
+		return UtilEncoder.CalculateEquivalentMass (econf);
+	}
+	private double calculateEquivalentMassFromGui ()
+	{
+		string anchorageStr = UtilGtk.ComboGetActive (combo_encoder_anchorage);
+		if (! Util.IsNumber (anchorageStr, true))
+			return 0;
+
+		EncoderConfiguration econf = eSQL.encoderConfiguration;
+		econf.d = Convert.ToDouble (anchorageStr);
+		econf.inertiaTotal = calculateInertiaTotalFromGui ();
+
+		return UtilEncoder.CalculateEquivalentMass (econf);
 	}
 
 	private void setDisplacedWeight (double extraWeight)
@@ -266,7 +297,36 @@ public class EditEncoderWindow : EditEventWindow
 	{
 		setDisplacedWeight (spin_encoder_extra_weight.Value);
 	}
+	protected override void on_spin_encoder_im_weights_n_value_changed (object o, EventArgs args)
+	{
+		label_encoder_im_total.Text = calculateInertiaTotalFromGui ().ToString ();
+		label_encoder_equivalent_mass.Text = Util.TrimDecimals (calculateEquivalentMassFromGui (), 1);
+	}
 
+	private void createComboEncoderAnchorage ()
+	{
+		combo_encoder_anchorage = new ComboBoxText();
+
+		if (! eSQL.encoderConfiguration.list_d.IsEmpty())
+		{
+			UtilGtk.ComboUpdate (combo_encoder_anchorage, eSQL.encoderConfiguration.list_d.L);
+			combo_encoder_anchorage.Active = UtilGtk.ComboMakeActive (
+					combo_encoder_anchorage,
+					eSQL.encoderConfiguration.d.ToString ()
+					);
+		}
+
+		hbox_combo_encoder_anchorage.PackStart (combo_encoder_anchorage, false, true, 0);
+		hbox_combo_encoder_anchorage.ShowAll ();
+
+		combo_encoder_anchorage.Changed -= new EventHandler(on_combo_encoder_anchorage_changed );
+		combo_encoder_anchorage.Changed += new EventHandler(on_combo_encoder_anchorage_changed );
+	}
+
+	private void on_combo_encoder_anchorage_changed (object o, EventArgs args)
+	{
+		label_encoder_equivalent_mass.Text = Util.TrimDecimals (calculateEquivalentMassFromGui (), 1);
+	}
 
 	protected override void updateSQL (int eventID, int personID, string description)
 	{

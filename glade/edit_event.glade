@@ -1523,6 +1523,7 @@ minimal ROM</property>
                                 <property name="numeric">True</property>
                                 <property name="update-policy">if-valid</property>
                                 <property name="value">2</property>
+                                <signal name="value-changed" handler="on_spin_encoder_im_weights_n_value_changed" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">True</property>

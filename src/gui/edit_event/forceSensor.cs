@@ -209,7 +209,8 @@ public partial class ChronoJumpWindow
 		LogB.Information ("currentForceSensor:\n" + currentForceSensor.ToString ());
 		LogB.Information ("forceSensor:\n" + forceSensor.ToString ());
 		// need to recalculate if changed any variable related to maxForceRaw, maxAvgForce1s
-		if (forceSensor.ExerciseID != currentForceSensor.ExerciseID ||
+		if (eventOldPerson != forceSensor.PersonID || 	// useful if exercise has projected mass
+				forceSensor.ExerciseID != currentForceSensor.ExerciseID ||
 				forceSensor.CaptureOption != currentForceSensor.CaptureOption)
 		{
 			currentForceSensor = forceSensor;
@@ -221,15 +222,6 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		//if person changed, fill treeview again, if not, only update it's line
-		if (eventOldPerson == forceSensor.PersonID)
-		{
-			LogB.Information ("same persons");
-			forceSensor.ExerciseName = SqliteTests.SelectExerciseNameInOtherTable (false, forceSensor.ExerciseID, Constants.ForceSensorExerciseTable);
-			treeViewResultsSession.Update (forceSensor);
-		} else {
-			LogB.Information ("another person");
-			pre_fillTreeView_resultsSession ();
-		}
+		treeViewResultsSession.Update (forceSensor);
 	}
 }

@@ -29,7 +29,7 @@ public class EditEncoderWindow : EditEventWindow
 	private EncoderSQL eSQL;
 	private List<EncoderExercise> encoderExercise_l;
 	private EncoderConfigurationWindow encoder_configuration_win;
-	protected Gtk.ComboBoxText combo_encoder_anchorage;
+	private Gtk.ComboBoxText combo_encoder_anchorage;
 
 	//for inheritance
 	protected EditEncoderWindow () {
@@ -134,7 +134,7 @@ public class EditEncoderWindow : EditEventWindow
 			case "c":
 				radio_encoder_eccon_concentric.Active = true;
 				break;
-			default:
+			default: // ecS
 				radio_encoder_eccon_eccentric_concentric.Active = true;
 				break;
 		}
@@ -276,6 +276,7 @@ public class EditEncoderWindow : EditEventWindow
 		fillDialogSpecificEncoder ();
 	}
 
+	// untranslated exercises
 	protected override string [] findTypes (Event myEvent)
 	{
 		encoderExercise_l = SqliteEncoderExercise.SelectEncoderExercises (
@@ -330,8 +331,59 @@ public class EditEncoderWindow : EditEventWindow
 
 	protected override void updateSQL (int eventID, int personID, string description)
 	{
-		SqliteTests st = new SqliteEncoder ();
-		st.UpdateFromEdit (eventID, personID, -1, description);
+		LogB.Information ("EditEncoderWindow updateSQL start");
+
+		// set person
+		eSQL.PersonID = personID;
+
+		// set encoder
+		// note eSQL.encoderConfiguration is already updated at: on_encoder_configuration_win_closed
+
+		// set exercise
+		int exIdNew = Sqlite.ExistsAndGetUniqueID (false,
+				Constants.EncoderExerciseTable,
+				UtilGtk.ComboGetActive (combo_eventType));
+
+		eSQL.exerciseID = exIdNew;
+
+		// set phase
+		// note all the encoder sets are c or ecS. findEccon on capture is true (forceEcconSeparated)
+		if (radio_encoder_eccon_concentric.Active)
+			eSQL.eccon = "c";
+		else
+			eSQL.eccon = "ecS";
+
+		// set laterality
+		if (radio_laterality_both.Active)
+			eSQL.Laterality = "RL";
+		else if (radio_laterality_left.Active)
+			eSQL.Laterality = "L";
+		else if (radio_laterality_right.Active)
+			eSQL.Laterality = "R";
+
+		// set MASS & minHeight
+		if (mode == Constants.Modes.POWERGRAVITATORY)
+		{
+			eSQL.extraWeight = spin_encoder_extra_weight.Value.ToString ();
+
+			eSQL.minHeight = Convert.ToInt32 (spin_encoder_rep_min_height_gravitatory.Value);
+		}
+		else //if (mode == Constants.Modes.POWERINERTIAL)
+		{
+			eSQL.encoderConfiguration.d = Convert.ToDouble (UtilGtk.ComboGetActive (combo_encoder_anchorage));
+			eSQL.encoderConfiguration.extraWeightN = Convert.ToInt32 (spin_encoder_im_weights_n.Value);
+			eSQL.encoderConfiguration.inertiaTotal = Convert.ToInt32 (label_encoder_im_total.Text);
+
+			eSQL.minHeight = Convert.ToInt32 (spin_encoder_rep_min_height_inertial.Value);
+		}
+
+		// set description
+		eSQL.Description = description;
+
+		// update
+		SqliteEncoder.Update (false, eSQL);
+
+		LogB.Information ("EditEncoderWindow updateSQL end");
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)

@@ -201,7 +201,7 @@ public partial class ChronoJumpWindow
 				preferences.encoderCaptureTime,
 				preferences.encoderCaptureInactivityEndTime,
 				preferences.encoderCaptureInfinite,
-				findEccon(true),
+				findEccon(true), //so ecc-con will always be ecS
 				portName,
 				(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null),
 				encoderConfigurationCurrent.IsInverted (),

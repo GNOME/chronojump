@@ -2420,7 +2420,6 @@ LogB.Information(" fs R ");
 			radio_ai_cd.Sensitive = true;
 		}
 
-		setLaterality(fs.Laterality);
 		assignCurrentForceSensorExerciseFromSQL ();
 
 		// stiffness 1: change button_force_sensor_stiffness

@@ -791,11 +791,11 @@ public abstract class CairoBars : CairoGeneric
 		double pAyStart = -1;
 		foreach(BarResult barResult in barResult_l)
 			pAyStart = plotResultOnBarDo (barResult.p.X, barResult.p.Y, graphHeight -bottomMargin,
-					barResult.p.Z, pAyStart, barResult.selected);
+					barResult.p.Z, pAyStart, barResult.color, barResult.selected);
 	}
 
 	protected double plotResultOnBarDo (double x, double y, double alto,
-			double result, double yStartPointA, bool isSelected)
+			double result, double yStartPointA, Cairo.Color color, bool isSelected)
 	{
 		g.SetFontSize(resultFontHeight);
 
@@ -863,7 +863,7 @@ public abstract class CairoBars : CairoGeneric
 			g.Fill();
 		}
 
-		g.SetSourceColor(black);
+		g.SetSourceColor (color);
 
 		//write text
 		printText(x, yStart+te.Height/2, 0, resultFontHeight,
@@ -1340,9 +1340,9 @@ public class CairoBars1Series : CairoBars
 				drawCircle (g, x + adjustXonPOINTS, y, POINTS_SIZE, black, barColor);
 
 			if (selectedPos_l.Count > 0) // used on encoder reps
-				barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), UtilList.FoundInListInt (selectedPos_l, i)));
+				barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), UtilList.FoundInListInt (selectedPos_l, i), barColor));
 			else
-				barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), i == selectedPos));
+				barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), i == selectedPos, barColor));
 
 			if (barsOrPoints == BarsOrPoints.BARS)
 				mouseLimits.AddInPos (i, x, y, x+barWidth, graphHeight -bottomMargin);
@@ -1786,6 +1786,7 @@ public class CairoBarsNHSeries : CairoBars
 			   so pB.Y result should have to be written first
 			   */
 			List<Point3F> resultOnBarsThisIteration_l = new List<Point3F>();
+			List<Cairo.Color> colorOnBarsThisIteration_l = new List<Cairo.Color>();
 
 			bool secondaryHasData = false;
 
@@ -1833,6 +1834,7 @@ public class CairoBarsNHSeries : CairoBars
 						drawCircle (g, x + adjustXonPOINTS, y, POINTS_SIZE, black, barColor);
 
 					resultOnBarsThisIteration_l.Add(new Point3F(x + adjustXonBARS + barWidth/2, y, pS.Y));
+					colorOnBarsThisIteration_l.Add (barColor);
 					//to print line variable if needed
 					//barsXCenter_l.Add(x + adjustXonBARS + barWidth/2);
 
@@ -1895,6 +1897,8 @@ public class CairoBarsNHSeries : CairoBars
 					drawCircle (g, x + adjustXonPOINTS, y, POINTS_SIZE, black, barColor);
 
 				resultOnBarsThisIteration_l.Add(new Point3F(x + adjustXonBARS + barWidth/2, y, pB.Y));
+				colorOnBarsThisIteration_l.Add (barColor);
+
 				//add for the secondary and for the main bar, no problem both will work
 				if (barsOrPoints == BarsOrPoints.BARS)
 					mouseLimits.AddInPos (mouseLimitsPos2ndBar, x+adjustXonBARS, y, x+adjustXonBARS+barWidth, graphHeight -bottomMargin);
@@ -1938,9 +1942,10 @@ public class CairoBarsNHSeries : CairoBars
 			for(int j = 0 ; j < resultOnBarsThisIteration_l.Count; j ++)
 			{
 				if (selectedPos_l.Count > 0) // used on encoder reps
-					barResult_l.Add (new BarResult (resultOnBarsThisIteration_l[j], UtilList.FoundInListInt (selectedPos_l, i)));
-				else
-					barResult_l.Add (new BarResult (resultOnBarsThisIteration_l[j], i == selectedPos));
+					barResult_l.Add (new BarResult (resultOnBarsThisIteration_l[j], UtilList.FoundInListInt (selectedPos_l, i), colorOnBarsThisIteration_l[j]));
+				else {
+					barResult_l.Add (new BarResult (resultOnBarsThisIteration_l[j], i == selectedPos, colorOnBarsThisIteration_l[j]));
+				}
 
 				barsXCenter_l.Add(resultOnBarsThisIteration_l[j].X);
 			}
@@ -2099,10 +2104,14 @@ public class BarResult
 {
 	public Point3F p;
 	public bool selected;
-	public BarResult (Point3F p, bool selected)
+	// above / below
+	public Cairo.Color color;
+
+	public BarResult (Point3F p, bool selected, Cairo.Color color)
 	{
 		this.p = p;
 		this.selected = selected;
+		this.color = color;
 	}
 }
 

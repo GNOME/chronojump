@@ -134,10 +134,13 @@ public class EncoderSQL : Event
 		this.status = eventStr[13];
 		this.videoURL = eventStr[14];
 
+		// encoderConfiguration create object (just the name)
 		string[] strFull = eventStr[15].ToString().Split(new char[] { ':' });
 		this.encoderConfiguration = new EncoderConfiguration(
 				(EncoderConfiguration.Names)
 				Enum.Parse(typeof(EncoderConfiguration.Names), strFull[0]));
+		// encoderConfiguration rest of the params
+		this.encoderConfiguration.ReadParamsFromSQL (strFull);
 
 		this.meanPower = eventStr[16]; //why this is not converted to comma? (maybe because it is only used on treeview)
 		this.meanSpeed = eventStr[17];

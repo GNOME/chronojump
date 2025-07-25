@@ -1287,7 +1287,7 @@ public partial class ChronoJumpWindow
 			encoderSignalUniqueID = -1; //mark to know that there's no ID for this until it's saved on database
 			encoderThreadStart(action);
 		} else {
-			//calculate and recalculate saves the curve at end
+			//curves_ac & recalculate saves the curve at end
 			//load does not save the curve 
 		       if(File.Exists(UtilEncoder.GetEncoderDataTempFileName()))
 			       encoderThreadStart(action);
@@ -1492,8 +1492,8 @@ public partial class ChronoJumpWindow
 	}
 
 
-	private void encoderDoCurvesGraphR_curves() {
-		encoderDoCurvesGraphR("curves");
+	private void encoderDoCurvesGraphR_recalculate_or_load () {
+		encoderDoCurvesGraphR("curves"); //send curves as this is the analysis will be sent to EncoderParams
 	}
 	private void encoderDoCurvesGraphR_curvesAC() {
 		encoderDoCurvesGraphR("curvesAC");
@@ -1542,7 +1542,7 @@ public partial class ChronoJumpWindow
 	//I suppose reading gtk is ok, changing will be the problem
 	//called on calculatecurves, recalculate and load
 	//analysisSent can be "curves" or "curvesAC"
-	private void encoderDoCurvesGraphR(string analysisSent)
+	private void encoderDoCurvesGraphR (string analysisSent)
 	{
 		LogB.Debug("encoderDoCurvesGraphR() start");
 

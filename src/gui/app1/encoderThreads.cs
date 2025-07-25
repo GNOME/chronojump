@@ -42,7 +42,7 @@ public partial class ChronoJumpWindow
 		/*
 		   stored here in order to not read the combo on non-gtk thread
 		   used on CAPTURE -> encoderDoCaptureCsharp () -> setLastEncoderSQLSignal()
-		   used on RECALCULATE, LOAD - encoderDoCurvesGraphR_curves () -> setLastEncoderSQLSignal()
+		   used on RECALCULATE, LOAD - encoderDoCurvesGraphR_recalculate_or_load () -> setLastEncoderSQLSignal()
 		*/
 		encoderComboExerciseCaptureStoredID = getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE);
 		encoderComboExerciseCaptureStoredEnglishName =
@@ -344,7 +344,7 @@ public partial class ChronoJumpWindow
 			//don't need because ItemToggled is deactivated during capture
 			//treeview_encoder_capture_curves.Sensitive = false;
 
-			encoderThread = new Thread(new ThreadStart(encoderDoCurvesGraphR_curves));
+			encoderThread = new Thread(new ThreadStart(encoderDoCurvesGraphR_recalculate_or_load));
 
 			if(action == encoderActions.RECALCULATE)
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderRecalculate));

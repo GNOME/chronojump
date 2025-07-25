@@ -791,11 +791,11 @@ public abstract class CairoBars : CairoGeneric
 		double pAyStart = -1;
 		foreach(BarResult barResult in barResult_l)
 			pAyStart = plotResultOnBarDo (barResult.p.X, barResult.p.Y, graphHeight -bottomMargin,
-					barResult.p.Z, pAyStart, barResult.color, barResult.selected);
+					barResult.p.Z, pAyStart, barResult.above, barResult.color, barResult.selected);
 	}
 
 	protected double plotResultOnBarDo (double x, double y, double alto,
-			double result, double yStartPointA, Cairo.Color color, bool isSelected)
+			double result, double yStartPointA, bool above, Cairo.Color color, bool isSelected)
 	{
 		g.SetFontSize(resultFontHeight);
 
@@ -1340,9 +1340,9 @@ public class CairoBars1Series : CairoBars
 				drawCircle (g, x + adjustXonPOINTS, y, POINTS_SIZE, black, barColor);
 
 			if (selectedPos_l.Count > 0) // used on encoder reps
-				barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), UtilList.FoundInListInt (selectedPos_l, i), barColor));
+				barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), UtilList.FoundInListInt (selectedPos_l, i), true, black));
 			else
-				barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), i == selectedPos, barColor));
+				barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), i == selectedPos, true, black));
 
 			if (barsOrPoints == BarsOrPoints.BARS)
 				mouseLimits.AddInPos (i, x, y, x+barWidth, graphHeight -bottomMargin);
@@ -1699,7 +1699,7 @@ public class CairoBarsNHSeries : CairoBars
 
 			double personIconReal = Math.Abs (calculateRealY (0) - calculateRealY (24));
 			maxY += 2 * personIconReal;	// *2 to ensure enough spacing
-			minY -= 2 * personIconReal;	// *2 to ensure enough spacing
+			minY -= 3.2 * personIconReal;	// *3 to ensure enough spacing & text below point
 		}
 	}
 
@@ -1938,16 +1938,25 @@ public class CairoBarsNHSeries : CairoBars
 
 			mouseLimitsPos2ndBar += 2;
 
+			// this only works for sets of 2 values, but all the sets on POINTS are 2 values
+			bool above = true;
+			if (barsOrPoints == BarsOrPoints.POINTS &&
+					resultOnBarsThisIteration_l.Count > 1 &&
+					resultOnBarsThisIteration_l[0].Y > resultOnBarsThisIteration_l[1].Y)
+				above = false;
+
 			//sort result on bars correctly (this could be useful if mainAtLeft changes)
 			for(int j = 0 ; j < resultOnBarsThisIteration_l.Count; j ++)
 			{
 				if (selectedPos_l.Count > 0) // used on encoder reps
-					barResult_l.Add (new BarResult (resultOnBarsThisIteration_l[j], UtilList.FoundInListInt (selectedPos_l, i), colorOnBarsThisIteration_l[j]));
+					barResult_l.Add (new BarResult (resultOnBarsThisIteration_l[j], UtilList.FoundInListInt (selectedPos_l, i), above, colorOnBarsThisIteration_l[j]));
 				else {
-					barResult_l.Add (new BarResult (resultOnBarsThisIteration_l[j], i == selectedPos, colorOnBarsThisIteration_l[j]));
+					barResult_l.Add (new BarResult (resultOnBarsThisIteration_l[j], i == selectedPos, above, colorOnBarsThisIteration_l[j]));
 				}
 
 				barsXCenter_l.Add(resultOnBarsThisIteration_l[j].X);
+
+				above = ! above;
 			}
 
 			//videoPlayTimeInSeconds
@@ -2104,13 +2113,14 @@ public class BarResult
 {
 	public Point3F p;
 	public bool selected;
-	// above / below
+	public bool above;
 	public Cairo.Color color;
 
-	public BarResult (Point3F p, bool selected, Cairo.Color color)
+	public BarResult (Point3F p, bool selected, bool above, Cairo.Color color)
 	{
 		this.p = p;
 		this.selected = selected;
+		this.above = above;
 		this.color = color;
 	}
 }

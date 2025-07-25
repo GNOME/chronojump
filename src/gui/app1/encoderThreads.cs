@@ -42,7 +42,7 @@ public partial class ChronoJumpWindow
 		/*
 		   stored here in order to not read the combo on non-gtk thread
 		   used on CAPTURE -> encoderDoCaptureCsharp () -> setLastEncoderSQLSignal()
-		   used on CURVES, LOAD - encoderDoCurvesGraphR_curves () -> setLastEncoderSQLSignal()
+		   used on RECALCULATE, LOAD - encoderDoCurvesGraphR_curves () -> setLastEncoderSQLSignal()
 		*/
 		encoderComboExerciseCaptureStoredID = getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE);
 		encoderComboExerciseCaptureStoredEnglishName =
@@ -102,11 +102,11 @@ public partial class ChronoJumpWindow
 			encoderThread.Start();
 		}
 		else if(
-				action == encoderActions.CURVES ||
+				action == encoderActions.RECALCULATE ||
 				action == encoderActions.LOAD ||
 				action == encoderActions.CURVES_AC)	//this does not run a pulseGTK
 		{
-			encoderThreadStartCapture_CURVES_LOAD_CURVESAC (action);
+			encoderThreadStartCapture_RECALCULATE_LOAD_CURVESAC (action);
 		}
 		else { //encoderActions.ANALYZE
 			encoderThreadStart_ANALYZE ();
@@ -282,7 +282,7 @@ public partial class ChronoJumpWindow
 		blinkCapture = new BlinkImage (image_no_capturing_encoder, image_capturing_encoder);
 
 		encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
-		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurvesAC));
 	}
 
 	private void encoderThreadStart_CAPTUREIM ()
@@ -315,9 +315,9 @@ public partial class ChronoJumpWindow
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureIM));
 	}
 
-	private void encoderThreadStartCapture_CURVES_LOAD_CURVESAC (encoderActions action)
+	private void encoderThreadStartCapture_RECALCULATE_LOAD_CURVESAC (encoderActions action)
 	{
-		if(action == encoderActions.CURVES || action == encoderActions.LOAD)
+		if(action == encoderActions.RECALCULATE || action == encoderActions.LOAD)
 		{
 			//______ 1) prepareEncoderGraphs
 
@@ -346,8 +346,8 @@ public partial class ChronoJumpWindow
 
 			encoderThread = new Thread(new ThreadStart(encoderDoCurvesGraphR_curves));
 
-			if(action == encoderActions.CURVES)
-				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCurves));
+			if(action == encoderActions.RECALCULATE)
+				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderRecalculate));
 			else // action == encoderActions.LOAD
 			{
 				//capture tab
@@ -501,7 +501,7 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
-	private bool pulseGTKEncoderCaptureAndCurves ()
+	private bool pulseGTKEncoderCaptureAndCurvesAC ()
 	{
 		//TODO: test this if this is needed:
 		//if on inertia and already showing instructions, hide them
@@ -662,9 +662,9 @@ public partial class ChronoJumpWindow
 			if(compujumpAutologout != null)
 				compujumpAutologout.EndCapturingEncoder();
 		} else {	//STOPPED	
-			LogB.Debug("at pulseGTKEncoderCaptureAndCurves stopped");		
+			LogB.Debug("at pulseGTKEncoderCaptureAndCurvesAC stopped");
 			//do curves, capturingCsharp has ended
-			updatePulsebar(encoderActions.CURVES); //activity on pulsebar
+			updatePulsebar (encoderActions.CURVES_AC); //activity on pulsebar
 			//LogB.Debug(" Cur:", encoderThread.ThreadState.ToString());
 			LogB.Information(" Cur:" + encoderThread.ThreadState.ToString());
 
@@ -696,28 +696,28 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 	
-	
-	private bool pulseGTKEncoderCurves ()
-	{
-		if(! encoderThread.IsAlive || encoderProcessCancel) {
-			LogB.Information("End from curves"); 
-			LogB.ThreadEnding(); 
-			if(encoderProcessCancel){
-				encoderRProcAnalyze.CancelRScript = true;
-			}
 
-			finishPulsebar(encoderActions.CURVES);
+	private bool pulseGTKEncoderRecalculate ()
+	{
+		if(! encoderThread.IsAlive || encoderProcessCancel)
+		{
+			LogB.Information("End from recalculate");
+			LogB.ThreadEnding(); 
+			if(encoderProcessCancel)
+				encoderRProcAnalyze.CancelRScript = true;
+
+			finishPulsebar (encoderActions.RECALCULATE);
 			
 			LogB.ThreadEnded(); 
 			return false;
 		}
-		updatePulsebar(encoderActions.CURVES); //activity on pulsebar
+		updatePulsebar (encoderActions.RECALCULATE); //activity on pulsebar
 		Thread.Sleep (50);
-		//LogB.Debug(" Cur:", encoderThread.ThreadState.ToString());
-		LogB.Information(" Cur:" + encoderThread.ThreadState.ToString());
+		//LogB.Debug(" Recalculate:", encoderThread.ThreadState.ToString());
+		LogB.Information(" Recalculate:" + encoderThread.ThreadState.ToString());
 		return true;
 	}
-	
+
 	private bool pulseGTKEncoderLoad ()
 	{
 		if(! encoderThread.IsAlive || encoderProcessCancel) {
@@ -851,7 +851,7 @@ public partial class ChronoJumpWindow
 				contents = Catalog.GetString("Starting R");
 			}
 
-			if(action == encoderActions.CURVES)
+			if(action == encoderActions.CURVES_AC)
 			{
 				if(fraction == -1)
 					encoder_pulsebar_capture.Pulse();
@@ -996,12 +996,12 @@ public partial class ChronoJumpWindow
 	 */
 
 	bool captureContWithCurves = true;
-	private void finishPulsebar(encoderActions action)
+	private void finishPulsebar (encoderActions action)
 	{
 		if(
 				action == encoderActions.CAPTURE || 
 				action == encoderActions.CAPTURE_IM || 
-				action == encoderActions.CURVES || 
+				action == encoderActions.RECALCULATE ||
 				action == encoderActions.CURVES_AC || 
 				action == encoderActions.LOAD )
 		{
@@ -1036,7 +1036,7 @@ public partial class ChronoJumpWindow
 				fullscreen_label_message.Text = Catalog.GetString("Finished");
 				updateEncoderAnalyzeExercisesPre ();
 			} 
-			else if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC || action == encoderActions.LOAD) 
+			else if(action == encoderActions.RECALCULATE || action == encoderActions.CURVES_AC || action == encoderActions.LOAD)
 			{
 				//variables for plotting curves bars graph
 				string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
@@ -1101,7 +1101,7 @@ public partial class ChronoJumpWindow
 				encoder_capture_curves_bars_drawingarea_cairo.QueueDraw ();
 
 				//autosave signal (but not in load)
-				if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC)
+				if(action == encoderActions.RECALCULATE || action == encoderActions.CURVES_AC)
 				{
 					bool needToAutoSaveCurve = false;
 					if(
@@ -1285,7 +1285,7 @@ public partial class ChronoJumpWindow
 					encoderRhythmExecute != null && encoderRhythmExecute.ClusterRestDoing() )
 				encoderRhythmExecute.ClusterRestStop ();
 
-			if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC || action == encoderActions.LOAD)
+			if(action == encoderActions.RECALCULATE || action == encoderActions.CURVES_AC || action == encoderActions.LOAD)
 				sensitiveGuiEventDone();
 
 		} else { //ANALYZE
@@ -1405,7 +1405,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("finishPulseBar DONE: " + action.ToString());
 		if(
 				action == encoderActions.LOAD ||	//load 
-				action == encoderActions.CURVES ||	//recalculate
+				action == encoderActions.RECALCULATE ||	//recalculate
 				action == encoderActions.CURVES_AC) 	//curves after capture
 			chronojumpWindowTestsNext();
 	}

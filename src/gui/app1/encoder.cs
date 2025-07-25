@@ -413,13 +413,13 @@ public partial class ChronoJumpWindow
 	 * CAPTURE is the capture from csharp (not from external python)
 	 *
 	 * difference between:
-	 * CURVES: calcule and recalculate, autosaves the signal at end
+	 * RECALCULATE: recalculate, autosaves the signal at end
 	 * LOAD curves does not save at the end?
 	 *
 	 * CAPTURE_IM records to get the inertia moment but does not calculate curves in R and not updates the treeview
 	 * CURVES_AC (After Capture) is like curves but does not start a new thread (uses same pulse as capture)
 	 */
-	enum encoderActions { CAPTURE_BG, CAPTURE, CURVES, CURVES_AC, LOAD, ANALYZE, CAPTURE_IM, CURVES_IM }
+	enum encoderActions { CAPTURE_BG, CAPTURE, RECALCULATE, CURVES_AC, LOAD, ANALYZE, CAPTURE_IM, CURVES_IM }
 	
 	//STOPPING is used to stop the camera. It has to be called only one time
 	enum encoderCaptureProcess { CAPTURING, STOPPING, STOPPED } 
@@ -1278,8 +1278,8 @@ public partial class ChronoJumpWindow
 	}
 	
 	//action can be CURVES_AC (After Capture) (where signal does not exists, need to define it)
-	//CURVES, LOAD (signal is defined)
-	void encoderCalculeCurves(encoderActions action)
+	//RECALCULATE, LOAD (signal is defined)
+	void encoderCalculeCurves (encoderActions action)
 	{
 		if(action == encoderActions.CURVES_AC) 
 		{
@@ -1366,8 +1366,8 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_recalculate_clicked_do (object o, EventArgs args)
 	{
 		//record this encoderConfiguration to SQL for next Chronojump open
-		SqliteEncoderConfiguration.UpdateActive(false, currentEncoderGI, encoderConfigurationCurrent);
-		encoderCalculeCurves(encoderActions.CURVES);
+		SqliteEncoderConfiguration.UpdateActive (false, currentEncoderGI, encoderConfigurationCurrent);
+		encoderCalculeCurves (encoderActions.RECALCULATE);
 	}
 
 	private void on_check_encoder_capture_show_modes_clicked (object o, EventArgs args)

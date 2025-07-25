@@ -826,7 +826,12 @@ public abstract class CairoBars : CairoGeneric
 			//print the result at top of the bar (better because there is the X grid and in the middle of the bar is confusing)
 			yStart = y - 1.5*te.Height;
 			if (barsOrPoints == BarsOrPoints.POINTS)
-				yStart -= 8; //move up to not be on point
+			{
+				if (above)
+					yStart -= 8; //move up to not be on point
+				else
+					yStart += 3 * POINTS_SIZE +2; //move up to not be on point
+			}
 		}
 
 		/*

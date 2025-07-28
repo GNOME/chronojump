@@ -400,10 +400,10 @@ public partial class ChronoJumpWindow
 	 * but this combo values can be changed by the user, and the he could click on save curve,
 	 * then power values (results of curves on graph.R) can be saved with bad weight, exerciseID, …
 	 *
-	 * Now, with lastEncoderSQLSignal, saved curves and export curves will take the weight, exerciseID, …
+	 * Now, with currentEncoderSQLSet, saved curves and export curves will take the weight, exerciseID, …
 	 * last capture, recalculate and load. Better usability
 	 */
-	EncoderSQL lastEncoderSQLSignal;
+	EncoderSQL currentEncoderSQLSet;
 
 	//combo_encoder_exercise_capture
 	private static int encoderComboExerciseCaptureStoredID;
@@ -1452,7 +1452,7 @@ public partial class ChronoJumpWindow
 							Catalog.GetString("Sorry, no repetitions matched your criteria."));
 			}
 			else {
-				if (lastEncoderSQLSignal.eccon != "c")
+				if (currentEncoderSQLSet.eccon != "c")
 					curvesNum = curvesNum / 2;
 
 				string [] activeCurvesList = new String[curvesNum];
@@ -1504,11 +1504,11 @@ public partial class ChronoJumpWindow
 	}
 	private void encoderDoCurvesGraphR_curvesAC()
 	{
-		setLastEncoderSQLSignalAtCapture ();
+		setCurrentEncoderSQLSetAtCapture ();
 		encoderDoCurvesGraphR (encoderActions.CURVES_AC, "curvesAC");
 	}
 
-	private void setLastEncoderSQLSignalAtCapture ()
+	private void setCurrentEncoderSQLSetAtCapture ()
 	{
 		//without this we loose the videoURL on recalculate
 		string videoURL = "";		
@@ -1523,7 +1523,7 @@ public partial class ChronoJumpWindow
 		string laterality = getLateralityFromGui(false);
 
 		//see explanation on the top of this file
-		lastEncoderSQLSignal = new EncoderSQL(
+		currentEncoderSQLSet = new EncoderSQL(
 				-1,
 				currentPerson.UniqueID,
 				currentSession.UniqueID,
@@ -1574,11 +1574,11 @@ public partial class ChronoJumpWindow
 		EncoderConfiguration encoderConfiguration = new EncoderConfiguration ();
 		if (encoderAction == encoderActions.LOAD || encoderAction == encoderActions.RECALCULATE)
 		{
-			minHeight = lastEncoderSQLSignal.minHeight;
-			percentWeight = getExercisePercentBodyWeightFromName (lastEncoderSQLSignal.ExerciseName);
-			extraWeight = lastEncoderSQLSignal.extraWeightD;
+			minHeight = currentEncoderSQLSet.minHeight;
+			percentWeight = getExercisePercentBodyWeightFromName (currentEncoderSQLSet.ExerciseName);
+			extraWeight = currentEncoderSQLSet.extraWeightD;
 			eccon = findEcconFromSQL (true);
-			encoderConfiguration = lastEncoderSQLSignal.encoderConfiguration;
+			encoderConfiguration = currentEncoderSQLSet.encoderConfiguration;
 		}
 		else if (encoderAction == encoderActions.CURVES_AC)
 		{
@@ -1620,7 +1620,7 @@ public partial class ChronoJumpWindow
 		double displacedMass = 0;
 		if (encoderAction == encoderActions.LOAD || encoderAction == encoderActions.RECALCULATE)
 		{
-			exerciseName = lastEncoderSQLSignal.ExerciseName;
+			exerciseName = currentEncoderSQLSet.ExerciseName;
 			displacedMass = extraWeight + (bodyWeight + percentWeight) / 100.0;
 		}
 		else if (encoderAction == encoderActions.CURVES_AC)
@@ -1921,7 +1921,7 @@ public partial class ChronoJumpWindow
 			success = UtilEncoder.CopyEncoderDataToTemp(eSQL.url, eSQL.filename);
 			if(success)
 			{
-				lastEncoderSQLSignal = eSQL;
+				currentEncoderSQLSet = eSQL;
 
 				/*
 				 * maxPowerIntersession it's defined (Sqlite select) on capture and after capture
@@ -2257,10 +2257,10 @@ public partial class ChronoJumpWindow
 		string displacedMass = Util.ConvertToPoint (findDisplacedMassFromSQL ());
 
 		EncoderParams ep = new EncoderParams(
-				lastEncoderSQLSignal.minHeight, 
-				getExercisePercentBodyWeightFromName (lastEncoderSQLSignal.ExerciseName),
+				currentEncoderSQLSet.minHeight, 
+				getExercisePercentBodyWeightFromName (currentEncoderSQLSet.ExerciseName),
 				Util.ConvertToPoint (findMassFromGui (Constants.MassType.BODY)), //from gui is ok, as it just take person weight
-				Util.ConvertToPoint (lastEncoderSQLSignal.extraWeightD),
+				Util.ConvertToPoint (currentEncoderSQLSet.extraWeightD),
 				findEcconFromSQL (false),
 				"exportCSV",
 				"none",						//analysisVariables (not needed in create curves). Cannot be blank
@@ -2288,7 +2288,7 @@ public partial class ChronoJumpWindow
 
 		encoderRProcAnalyze.SendData(
 				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 
-				Util.ChangeSpaceAndMinusForUnderscore(lastEncoderSQLSignal.ExerciseName) + 
+				Util.ChangeSpaceAndMinusForUnderscore(currentEncoderSQLSet.ExerciseName) + 
 					"-(" + displacedMass + "Kg)",
 				currentPerson.Name,
 				false, 			//do not use neuromuscularProfile script
@@ -3388,8 +3388,8 @@ public partial class ChronoJumpWindow
 		if(mode == "signal")
 			myID = encoderSignalUniqueID;
 
-		//assign values from lastEncoderSQLSignal (last calculate curves or reload), and change new things
-		EncoderSQL eSQL = lastEncoderSQLSignal;
+		//assign values from currentEncoderSQLSet (last calculate curves or reload), and change new things
+		EncoderSQL eSQL = currentEncoderSQLSet;
 		eSQL.UniqueID = myID;
 		eSQL.signalOrCurve = signalOrCurve;
 		eSQL.filename = fileSaved;
@@ -3674,7 +3674,7 @@ public partial class ChronoJumpWindow
 				LogB.Debug("Don't need to to encoderCalculeCurves");
 				encoderTimeStamp = UtilDate.ToFile(DateTime.Now);
 				encoderSignalUniqueID = -1; //mark to know that there's no ID for this until it's saved on database
-				setLastEncoderSQLSignalAtCapture ();
+				setCurrentEncoderSQLSetAtCapture ();
 			} else
 			{
 				LogB.Debug("Going to encoderCalculeCurves");
@@ -3916,7 +3916,7 @@ public partial class ChronoJumpWindow
 
 			//-1 because data will be different on any curve
 			ep = new EncoderParams (
-					preferences.EncoderCaptureMinHeight(encoderConfigurationCurrent.has_inertia), /// note lastEncoderSQLSignal may not exists. And is not relevant.
+					preferences.EncoderCaptureMinHeight(encoderConfigurationCurrent.has_inertia), /// note currentEncoderSQLSet may not exists. And is not relevant.
 					-1, 		//exercisePercentBodyWeight
 					"-1",		//massBody
 					"-1",		//massExtra
@@ -4060,10 +4060,10 @@ public partial class ChronoJumpWindow
 			}
 
 			ep = new EncoderParams(
-					lastEncoderSQLSignal.minHeight,
+					currentEncoderSQLSet.minHeight,
 					getExercisePercentBodyWeightFromComboCapture (),
 					Util.ConvertToPoint (findMassFromGui (Constants.MassType.BODY)),
-					Util.ConvertToPoint (lastEncoderSQLSignal.extraWeightD),
+					Util.ConvertToPoint (currentEncoderSQLSet.extraWeightD),
 					findEcconFromGui (false),	//do not force ecS (ecc-conc separated)
 					sendAnalysis,
 					analysisVariables, 
@@ -4071,7 +4071,7 @@ public partial class ChronoJumpWindow
 					preferences.encoderCaptureCheckFullyExtended,
 					preferences.encoderCaptureCheckFullyExtendedValue,
 					//encoderConfigurationCurrent,  //TODO check this!
-					lastEncoderSQLSignal.encoderConfiguration,
+					currentEncoderSQLSet.encoderConfiguration,
 					Util.ConvertToPoint(preferences.encoderSmoothCon),	//R decimal: '.'
 					curveNum,
 					image_encoder_width,
@@ -4106,7 +4106,7 @@ public partial class ChronoJumpWindow
 			if(radio_encoder_analyze_individual_current_set.Active) //current set
 			{
 			//	titleStr += "-" + Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise_capture)); //TODO
-				titleStr += "-" + Util.ChangeSpaceAndMinusForUnderscore (lastEncoderSQLSignal.ExerciseName); // check this
+				titleStr += "-" + Util.ChangeSpaceAndMinusForUnderscore (currentEncoderSQLSet.ExerciseName); // check this
 			}
 		}
 
@@ -4756,8 +4756,8 @@ public partial class ChronoJumpWindow
 
 	private double findDisplacedMassFromSQL ()
 	{
-		return lastEncoderSQLSignal.extraWeightD + (
-					getExercisePercentBodyWeightFromName (lastEncoderSQLSignal.ExerciseName) *
+		return currentEncoderSQLSet.extraWeightD + (
+					getExercisePercentBodyWeightFromName (currentEncoderSQLSet.ExerciseName) *
 					currentPersonSession.Weight
 					);
 	}
@@ -4810,10 +4810,10 @@ public partial class ChronoJumpWindow
 
 	private string findEcconFromSQL (bool forceEcconSeparated)
 	{
-		if (forceEcconSeparated && lastEncoderSQLSignal.eccon == "ec")
+		if (forceEcconSeparated && currentEncoderSQLSet.eccon == "ec")
 			return "ecS";
 
-		return lastEncoderSQLSignal.eccon;
+		return currentEncoderSQLSet.eccon;
 	}
 
 	private int getEncoderMinHeightOnGuiCapture ()
@@ -6210,7 +6210,7 @@ public partial class ChronoJumpWindow
 					findEcconFromSQL (true),
 					findDisplacedMassFromSQL (),
 					feedbackEncoder,
-					lastEncoderSQLSignal.encoderConfiguration.has_inertia,
+					currentEncoderSQLSet.encoderConfiguration.has_inertia,
 					configChronojump.PlaySoundsFromFile,
 					captureCurvesBarsData_l,
 					encoderCaptureListStore,
@@ -6345,7 +6345,7 @@ public partial class ChronoJumpWindow
 		string eccon = "c";
 		if (capturingCsharp == encoderCaptureProcess.CAPTURING)
 			eccon = findEcconFromGui (true);
-		else if (lastEncoderSQLSignal != null)
+		else if (currentEncoderSQLSet != null)
 			eccon = findEcconFromSQL (true);
 
 		int discardNReps = 0;
@@ -6774,7 +6774,7 @@ public partial class ChronoJumpWindow
 
 	private void uploadEncoderDataObjectIfPossible()
 	{
-		UploadEncoderDataObject uo = new UploadEncoderDataObject(encoderCaptureCurves, lastEncoderSQLSignal.eccon);
+		UploadEncoderDataObject uo = new UploadEncoderDataObject(encoderCaptureCurves, currentEncoderSQLSet.eccon);
 
 		if(current_mode == Constants.Modes.POWERINERTIAL)
 		{
@@ -6797,8 +6797,8 @@ public partial class ChronoJumpWindow
 				-1, //uniqueID
 				currentPerson.UniqueID,
 				configChronojump.CompujumpStationID,
-				lastEncoderSQLSignal.exerciseID,
-				lastEncoderSQLSignal.LateralityToEnglish(),
+				currentEncoderSQLSet.exerciseID,
+				currentEncoderSQLSet.LateralityToEnglish(),
 				Util.ConvertToPoint (findMassFromGui (Constants.MassType.EXTRA)), //this is only for gravitatory
 				uo);
 		bool success = js.UploadEncoderData(uedfo);
@@ -6925,7 +6925,7 @@ public partial class ChronoJumpWindow
 		double curveEnd = 0;
 		foreach (EncoderCurve curve in encoderCaptureCurves) 
 		{
-			if (lastEncoderSQLSignal.eccon == "c") {
+			if (currentEncoderSQLSet.eccon == "c") {
 				curveStart = Convert.ToDouble(curve.Start);
 				curveEnd = Convert.ToDouble(curve.Start) + Convert.ToDouble(curve.Duration);
 			} else { //eccon == "ecS"

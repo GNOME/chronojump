@@ -41,8 +41,8 @@ public partial class ChronoJumpWindow
 
 		/*
 		   stored here in order to not read the combo on non-gtk thread
-		   used on CAPTURE -> encoderDoCaptureCsharp () -> setLastEncoderSQLSignal()
-		   used on RECALCULATE, LOAD - encoderDoCurvesGraphR_recalculate_or_load () -> setLastEncoderSQLSignal()
+		   used on CAPTURE -> encoderDoCaptureCsharp () -> setCurrentEncoderSQLSet()
+		   used on RECALCULATE, LOAD - encoderDoCurvesGraphR_recalculate_or_load () -> setCurrentEncoderSQLSet()
 		*/
 
 		// this is not used on RECALCULATE & on LOAD
@@ -1088,7 +1088,7 @@ public partial class ChronoJumpWindow
 				{
 					eccon = findEcconFromSQL (true);
 					displacedMass = findDisplacedMassFromSQL ();
-					encoderConfiguration = lastEncoderSQLSignal.encoderConfiguration;
+					encoderConfiguration = currentEncoderSQLSet.encoderConfiguration;
 				}
 				else if (action == encoderActions.CURVES_AC)
 				{
@@ -1148,7 +1148,7 @@ public partial class ChronoJumpWindow
 						treeViewResultsSession.AddEncoder (currentPerson.UniqueID, currentPerson.Name,
 								se.SelectSetsAndRepsLList (
 									false, currentPerson.UniqueID, currentSession.UniqueID,
-									currentEncoderGI, lastEncoderSQLSignal.exerciseID, encoderSignalUniqueID),
+									currentEncoderGI, currentEncoderSQLSet.exerciseID, encoderSignalUniqueID),
 								"");
 
 						updateGraphEncoderSessionBars();
@@ -1181,7 +1181,7 @@ public partial class ChronoJumpWindow
 								encoderCaptureCurves.Count > 0)
 						{
 							UploadEncoderDataObject uo = new UploadEncoderDataObject(
-									encoderCaptureCurves, lastEncoderSQLSignal.eccon);
+									encoderCaptureCurves, currentEncoderSQLSet.eccon);
 							SqliteJson.UploadExhibitionTest(getExhibitionTestFromGui(ExhibitionTest.testTypes.INERTIAL, Convert.ToDouble(uo.pmeanByPowerAsDouble)));
 
 						}
@@ -1228,7 +1228,7 @@ public partial class ChronoJumpWindow
 						treeViewResultsSession.UpdateReps (
 								se.SelectSetsAndRepsLList (
 									false, currentPerson.UniqueID, currentSession.UniqueID,
-									currentEncoderGI, lastEncoderSQLSignal.exerciseID, encoderSignalUniqueID)
+									currentEncoderGI, currentEncoderSQLSet.exerciseID, encoderSignalUniqueID)
 								);
 						treeview_results_session_cursor_changed_block = false;
 

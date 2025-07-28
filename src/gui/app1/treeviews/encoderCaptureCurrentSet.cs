@@ -383,7 +383,7 @@ public partial class ChronoJumpWindow
 			treeViewResultsSession.UpdateReps (
 					se.SelectSetsAndRepsLList (
 						false, currentPerson.UniqueID, currentSession.UniqueID,
-						currentEncoderGI, lastEncoderSQLSignal.exerciseID, encoderSignalUniqueID)
+						currentEncoderGI, currentEncoderSQLSet.exerciseID, encoderSignalUniqueID)
 					);
 			treeview_results_session_cursor_changed_block = false;
 

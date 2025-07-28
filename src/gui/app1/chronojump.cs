@@ -7603,7 +7603,7 @@ public partial class ChronoJumpWindow
 							findEcconFromSQL (true),
 							findDisplacedMassFromSQL (),
 							feedbackEncoder,
-							lastEncoderSQLSignal.encoderConfiguration.has_inertia,
+							currentEncoderSQLSet.encoderConfiguration.has_inertia,
 							configChronojump.PlaySoundsFromFile,
 							captureCurvesBarsData_l,
 							encoderCaptureListStore,

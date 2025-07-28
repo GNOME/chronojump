@@ -7600,10 +7600,10 @@ public partial class ChronoJumpWindow
 							mainVariableStr, mainVariableHigher, mainVariableLower,
 							secondaryVariableStr, preferences.encoderCaptureShowLoss,
 							false, //not capturing
-							findEccon(true),
-							findMass(Constants.MassType.DISPLACED),
+							findEcconFromSQL (true),
+							findDisplacedMassFromSQL (),
 							feedbackEncoder,
-							encoderConfigurationCurrent.has_inertia,
+							lastEncoderSQLSignal.encoderConfiguration.has_inertia,
 							configChronojump.PlaySoundsFromFile,
 							captureCurvesBarsData_l,
 							encoderCaptureListStore,

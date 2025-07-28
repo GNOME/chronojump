@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -83,7 +83,7 @@ public partial class ChronoJumpWindow
 	{
 		//do this in order to have ecconLast useful for RenderN when capturing
 		if(capturingCsharp == encoderCaptureProcess.CAPTURING)
-			ecconLast = findEccon(false);
+			ecconLast = findEcconFromGui (false);
 
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 	
@@ -98,7 +98,7 @@ public partial class ChronoJumpWindow
 		if(ecconLast == "c")
 			(cell as Gtk.CellRendererText).Text = 
 				String.Format(UtilGtk.TVNumPrint(curve.N,1,0),Convert.ToInt32(curve.N));
-		else if (ecconLast=="ec" || ecconLast =="ecS") 
+		else if (ecconLast == "ec" || ecconLast == "ecS")
 		{
 			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));
 			
@@ -109,7 +109,7 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Text = 
 				decimal.Truncate((Convert.ToInt32(curve.N) +1) /2).ToString() + phase;
 		} else 
-		{	//(ecconLast=="ce" || ecconLast =="ceS")
+		{	//(ecconLast == "ce" || ecconLast == "ceS")
 			string phase = "c";
 			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));
 			if(isEven)
@@ -140,7 +140,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 		
-		if(radio_encoder_analyze_individual_current_set.Active && findEccon(false) == "ecS") 
+		if(radio_encoder_analyze_individual_current_set.Active && findEcconFromGui (false) == "ecS")
 		{
 			string phase = "e";
 			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));
@@ -150,7 +150,7 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Text = 
 				decimal.Truncate((Convert.ToInt32(curve.N) +1) /2).ToString() + phase;
 		}
-		else if(radio_encoder_analyze_individual_current_set.Active && findEccon(false) == "ceS") 
+		else if(radio_encoder_analyze_individual_current_set.Active && findEcconFromGui (false) == "ceS")
 		{
 			string phase = "c";
 			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));

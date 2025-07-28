@@ -360,7 +360,7 @@ public partial class ChronoJumpWindow
 			findMaxPowerSpeedForceIntersession();
 			
 			//on ec, ecS need to [un]select second row
-			if (ecconLast=="ec" || ecconLast =="ecS") {
+			if (ecconLast == "ec" || ecconLast == "ecS") {
 				path.Next();
 				encoderCaptureListStore.IterNext (ref iter);
 
@@ -549,15 +549,17 @@ public partial class ChronoJumpWindow
 	
 	//saved curves (when load), or recently deleted curves should modify the encoderCapture treeview
 	//used also on bells close
-	void encoderCaptureSelectBySavedCurves(int msCentral, bool selectIt) {
+	void encoderCaptureSelectBySavedCurves (int msCentral, bool selectIt)
+	{
 		TreeIter iter;
 		TreeIter iterPre;
 		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
-		while(iterOk) {
+		while (iterOk)
+		{
 			TreePath path = encoderCaptureListStore.GetPath(iter);
 			EncoderCurve curve = (EncoderCurve) encoderCaptureListStore.GetValue (iter, 0);
-			
-			string eccon = findEccon(true);
+			string eccon = findEcconFromSQL (true);
+
 			if(eccon == "c") {
 				if(Convert.ToDouble(curve.Start) <= msCentral && 
 						Convert.ToDouble(curve.Start) + Convert.ToDouble(curve.Duration) >= msCentral) 

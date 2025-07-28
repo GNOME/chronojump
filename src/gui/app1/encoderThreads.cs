@@ -44,6 +44,8 @@ public partial class ChronoJumpWindow
 		   used on CAPTURE -> encoderDoCaptureCsharp () -> setLastEncoderSQLSignal()
 		   used on RECALCULATE, LOAD - encoderDoCurvesGraphR_recalculate_or_load () -> setLastEncoderSQLSignal()
 		*/
+
+		// this is not used on RECALCULATE & on LOAD
 		encoderComboExerciseCaptureStoredID = getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE);
 		encoderComboExerciseCaptureStoredEnglishName =
 			Util.FindOnArray(':', 2, 1, UtilGtk.ComboGetActive(combo_encoder_exercise_capture),
@@ -106,7 +108,7 @@ public partial class ChronoJumpWindow
 				action == encoderActions.LOAD ||
 				action == encoderActions.CURVES_AC)	//this does not run a pulseGTK
 		{
-			encoderThreadStartCapture_RECALCULATE_LOAD_CURVESAC (action);
+			encoderThreadStart_RECALCULATE_LOAD_CURVESAC (action);
 		}
 		else { //encoderActions.ANALYZE
 			encoderThreadStart_ANALYZE ();
@@ -201,7 +203,7 @@ public partial class ChronoJumpWindow
 				preferences.encoderCaptureTime,
 				preferences.encoderCaptureInactivityEndTime,
 				preferences.encoderCaptureInfinite,
-				findEccon(true), //so ecc-con will always be ecS
+				findEcconFromGui (true), //so ecc-con will always be ecS
 				portName,
 				(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null),
 				encoderConfigurationCurrent.IsInverted (),
@@ -292,7 +294,7 @@ public partial class ChronoJumpWindow
 				preferences.encoderCaptureTimeIM, //two minutes max capture
 				EncoderCaptureIMCalc.InactivityEndTime, //3 seconds
 				false,
-				findEccon(true),
+				findEcconFromGui (true),
 				chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port,
 				false,
 				false,
@@ -315,7 +317,7 @@ public partial class ChronoJumpWindow
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureIM));
 	}
 
-	private void encoderThreadStartCapture_RECALCULATE_LOAD_CURVESAC (encoderActions action)
+	private void encoderThreadStart_RECALCULATE_LOAD_CURVESAC (encoderActions action)
 	{
 		if(action == encoderActions.RECALCULATE || action == encoderActions.LOAD)
 		{
@@ -344,11 +346,12 @@ public partial class ChronoJumpWindow
 			//don't need because ItemToggled is deactivated during capture
 			//treeview_encoder_capture_curves.Sensitive = false;
 
-			encoderThread = new Thread(new ThreadStart(encoderDoCurvesGraphR_recalculate_or_load));
 
 			if(action == encoderActions.RECALCULATE)
+			{
+				encoderThread = new Thread(new ThreadStart(encoderDoCurvesGraphR_recalculate));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderRecalculate));
-			else // action == encoderActions.LOAD
+			} else // action == encoderActions.LOAD
 			{
 				//capture tab
 				box_set_loading.Visible = true;
@@ -361,6 +364,7 @@ public partial class ChronoJumpWindow
 				encoder_pulsebar_load_signal_at_analyze.Fraction = 0;
 				encoder_pulsebar_load_signal_at_analyze.Visible = true;
 
+				encoderThread = new Thread(new ThreadStart(encoderDoCurvesGraphR_load));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderLoad));
 			}
 			encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
@@ -571,7 +575,7 @@ public partial class ChronoJumpWindow
 				if(encoderRhythmExecute != null && ! encoderRhythmExecute.FirstPhaseDone)
 				{
 					bool upOrDown = true;
-					string myEccon = findEccon(false);
+					string myEccon = findEcconFromGui (false);
 					if (myEccon == "c")
 						upOrDown = true;
 					else if (myEccon == "ec" || myEccon == "ecS")
@@ -605,8 +609,8 @@ public partial class ChronoJumpWindow
 						mainVariable, mainVariableHigher, mainVariableLower,
 						secondaryVariable, preferences.encoderCaptureShowLoss,
 						true, //capturing
-						findEccon(true),
-						findMass(Constants.MassType.DISPLACED),
+						findEcconFromGui (true),
+						findMassFromGui (Constants.MassType.DISPLACED),
 						feedbackEncoder,
 						encoderConfigurationCurrent.has_inertia,
 						configChronojump.PlaySoundsFromFile,
@@ -1036,7 +1040,7 @@ public partial class ChronoJumpWindow
 				fullscreen_label_message.Text = Catalog.GetString("Finished");
 				updateEncoderAnalyzeExercisesPre ();
 			} 
-			else if(action == encoderActions.RECALCULATE || action == encoderActions.CURVES_AC || action == encoderActions.LOAD)
+			else if (action == encoderActions.CURVES_AC || action == encoderActions.LOAD || action == encoderActions.RECALCULATE)
 			{
 				//variables for plotting curves bars graph
 				string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
@@ -1077,15 +1081,31 @@ public partial class ChronoJumpWindow
 
 				findMaxPowerSpeedForceIntersession();
 
+				string eccon = "";
+				double displacedMass = 0;
+				EncoderConfiguration encoderConfiguration = new EncoderConfiguration ();
+				if (action == encoderActions.LOAD || action == encoderActions.RECALCULATE)
+				{
+					eccon = findEcconFromSQL (true);
+					displacedMass = findDisplacedMassFromSQL ();
+					encoderConfiguration = lastEncoderSQLSignal.encoderConfiguration;
+				}
+				else if (action == encoderActions.CURVES_AC)
+				{
+					eccon = findEcconFromGui (true);	//force ecS (ecc-conc separated)
+					displacedMass = findMassFromGui (Constants.MassType.DISPLACED);
+					encoderConfiguration = encoderConfigurationCurrent;
+				}
+
 				//Cairo
 				prepareEventGraphEncoderCurrent = new PrepareEventGraphEncoderCurrent (
 						mainVariable, mainVariableHigher, mainVariableLower,
 						secondaryVariable, preferences.encoderCaptureShowLoss,
 						false, //not capturing
-						findEccon(true),
-						findMass(Constants.MassType.DISPLACED),
+						eccon,
+						displacedMass,
 						feedbackEncoder,
-						encoderConfigurationCurrent.has_inertia,
+						encoderConfiguration.has_inertia,
 						configChronojump.PlaySoundsFromFile,
 						captureCurvesBarsData_l,
 						encoderCaptureListStore,

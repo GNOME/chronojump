@@ -186,7 +186,15 @@ public abstract class CairoPaintBarsPre
 			cb.ScreenshotURL = screenshotURL;
 	}
 
-	protected virtual string testsNotFound ()
+	private string testsNotFound ()
+	{
+		if (Constants.ModeIsENCODER (mode))
+			return testsNotFoundEncoder (); // saved repetitions
+		else
+			return testsNotFoundGeneric ();
+	}
+
+	private string testsNotFoundGeneric ()
 	{
 		if(personName != "")
 		{
@@ -202,6 +210,25 @@ public abstract class CairoPaintBarsPre
 						testName);
 			else
 				return Catalog.GetString("No tests in this session.");
+		}
+	}
+
+	private string testsNotFoundEncoder ()
+	{
+		if(personName != "")
+		{
+			if(testName != "")
+				return string.Format(Catalog.GetString("{0} has not saved any repetitions in the {1} test of this session."),
+						personName, testName);
+			else
+				return string.Format(Catalog.GetString("{0} has not saved any repetitions in this session."),
+						personName);
+		} else {
+			if(testName != "")
+				return string.Format(Catalog.GetString("No {0} test repetitions have been saved in this session."),
+						testName);
+			else
+				return Catalog.GetString("No repetitions have been saved in this session.");
 		}
 	}
 

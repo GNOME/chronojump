@@ -102,7 +102,6 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_encoder_capture_cancel;
 	Gtk.Button button_encoder_capture_finish;
 	Gtk.Button button_encoder_capture_finish_cont;
-	Gtk.Button button_encoder_exercise_close_and_recalculate; //TODO: remove this button
 	Gtk.Button button_encoder_bells;
 	Gtk.Button button_encoder_load_signal_at_analyze;
 	Gtk.ProgressBar encoder_pulsebar_capture;
@@ -3081,10 +3080,6 @@ public partial class ChronoJumpWindow
 		prepareEventGraphEncoderCurrent = null; //to avoid is repainted again, and sound be repeated;
 
 		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
-		
-		//need this because DONENOSIGNAL allows to recalculate with different parameters, 
-		//but when deleted or cancelled, then don't allow
-		button_encoder_exercise_close_and_recalculate.Sensitive = false;
 	}
 
 	/*
@@ -5984,7 +5979,7 @@ public partial class ChronoJumpWindow
 		//columns
 		//c0 button_encoder_capture,
 		//	hbox_encoder_configuration, frame_encoder_capture_options
-		//c1 button_encoder_exercise_close_and_recalculate
+		//c1 // button_encoder_exercise_close_and_recalculate
 		//c2 (before it has overview and load) button_encoder_load_signal_at_analyze
 		//c3 button_export_encoder_signal,
 		//	button_contacts_delete_selected,
@@ -6042,7 +6037,7 @@ public partial class ChronoJumpWindow
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = Util.IntToBool(table[0]);
 		frame_encoder_capture_options.Sensitive = Util.IntToBool(table[0]);
 
-		button_encoder_exercise_close_and_recalculate.Sensitive = Util.IntToBool(table[1]);
+		//button_encoder_exercise_close_and_recalculate.Sensitive = Util.IntToBool(table[1]);
 
 		button_encoder_load_signal_at_analyze.Sensitive = Util.IntToBool(table[2]);
 
@@ -7039,7 +7034,6 @@ public partial class ChronoJumpWindow
 		button_encoder_capture_cancel = (Gtk.Button) builder.GetObject ("button_encoder_capture_cancel");
 		button_encoder_capture_finish = (Gtk.Button) builder.GetObject ("button_encoder_capture_finish");
 		button_encoder_capture_finish_cont = (Gtk.Button) builder.GetObject ("button_encoder_capture_finish_cont");
-		button_encoder_exercise_close_and_recalculate = (Gtk.Button) builder.GetObject ("button_encoder_exercise_close_and_recalculate");
 		button_encoder_bells = (Gtk.Button) builder.GetObject ("button_encoder_bells");
 		button_encoder_load_signal_at_analyze = (Gtk.Button) builder.GetObject ("button_encoder_load_signal_at_analyze");
 		encoder_pulsebar_capture = (Gtk.ProgressBar) builder.GetObject ("encoder_pulsebar_capture");

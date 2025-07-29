@@ -68,7 +68,6 @@ public partial class ChronoJumpWindow
 		button_encoder_exercise.TooltipText += string.Format( "({0}+t)", kCtrl);
 		button_encoder_capture.TooltipText += string.Format(" ({0}+{1})", kCtrl, space);
 		button_encoder_exercise_close_and_capture.TooltipText += string.Format("({0}+{1})", kCtrl, space);
-		button_encoder_exercise_close_and_recalculate.TooltipText += string.Format(" ({0}+r)", kCtrl);
 		button_encoder_capture_finish.TooltipText += string.Format(" ({0})", kEnter);
 		button_encoder_capture_cancel.TooltipText += " (Escape)";
 		button_encoder_load_signal_at_analyze.TooltipText += string.Format(" ({0}+l)", kCtrl);

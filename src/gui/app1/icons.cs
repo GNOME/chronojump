@@ -156,7 +156,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_extra_mass;
 	Gtk.Image image_encoder_inertial_top_weights;
 	Gtk.Image image_encoder_inertial_weights;
-	Gtk.Image image_recalculate;
+	//Gtk.Image image_recalculate;
 	Gtk.Image image_encoder_configuration;
 	Gtk.Image image_encoder_exercise;
 	Gtk.Image image_button_encoder_exercise_actions_cancel;
@@ -504,8 +504,8 @@ public partial class ChronoJumpWindow
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_chronopic_connect_yellow.png");
 		image_micro_discover_device.Pixbuf = pixbuf;
 
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_recalculate.png");
-		image_recalculate.Pixbuf = pixbuf;
+		//pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_recalculate.png");
+		//image_recalculate.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_reload.png"); //same as above but blue
 		image_database_reload.Pixbuf = pixbuf;
@@ -1241,7 +1241,7 @@ public partial class ChronoJumpWindow
 		image_extra_mass = (Gtk.Image) builder.GetObject ("image_extra_mass");
 		image_encoder_inertial_top_weights = (Gtk.Image) builder.GetObject ("image_encoder_inertial_top_weights");
 		image_encoder_inertial_weights = (Gtk.Image) builder.GetObject ("image_encoder_inertial_weights");
-		image_recalculate = (Gtk.Image) builder.GetObject ("image_recalculate");
+		//image_recalculate = (Gtk.Image) builder.GetObject ("image_recalculate");
 		image_encoder_configuration = (Gtk.Image) builder.GetObject ("image_encoder_configuration");
 		image_encoder_exercise = (Gtk.Image) builder.GetObject ("image_encoder_exercise");
 		image_button_encoder_exercise_actions_cancel = (Gtk.Image) builder.GetObject ("image_button_encoder_exercise_actions_cancel");

@@ -30,24 +30,16 @@ public class DialogShortcuts
 	Gtk.Notebook notebook;
 
 	//images
-	Gtk.Image image_enc_grav_1;
-	Gtk.Image image_enc_grav_2;
 	Gtk.Image image_enc_grav_4;
 	Gtk.Image image_enc_grav_5;
 	Gtk.Image image_enc_grav_6;
 
-	Gtk.Image image_enc_inert_1;
-	Gtk.Image image_enc_inert_2;
 	Gtk.Image image_enc_inert_4;
 	Gtk.Image image_enc_inert_5;
 	Gtk.Image image_enc_inert_6;
 
-	Gtk.Image image_fs_1;
-	Gtk.Image image_fs_2;
 	Gtk.Image image_fs_4;
 
-	Gtk.Image image_ra_1;
-	Gtk.Image image_ra_2;
 	Gtk.Image image_ra_4;
 	Gtk.Image image_jump_1;
 
@@ -101,27 +93,19 @@ public class DialogShortcuts
 		image_button_close.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_weight.png"); //encoder gravitatory
-		image_enc_grav_1.Pixbuf = pixbuf;
-		image_enc_grav_2.Pixbuf = pixbuf;
 		image_enc_grav_4.Pixbuf = pixbuf;
 		image_enc_grav_5.Pixbuf = pixbuf;
 		image_enc_grav_6.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_inertia.png");
-		image_enc_inert_1.Pixbuf = pixbuf;
-		image_enc_inert_2.Pixbuf = pixbuf;
 		image_enc_inert_4.Pixbuf = pixbuf;
 		image_enc_inert_5.Pixbuf = pixbuf;
 		image_enc_inert_6.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "force_sensor_icon.png");
-		image_fs_1.Pixbuf = pixbuf;
-		image_fs_2.Pixbuf = pixbuf;
 		image_fs_4.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "race_encoder_icon.png");
-		image_ra_1.Pixbuf = pixbuf;
-		image_ra_2.Pixbuf = pixbuf;
 		image_ra_4.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_jump.png");
@@ -144,21 +128,13 @@ public class DialogShortcuts
 		dialog_shortcuts = (Gtk.Dialog) builder.GetObject ("dialog_shortcuts");
 		image_button_close = (Gtk.Image) builder.GetObject ("image_button_close");
 		notebook = (Gtk.Notebook) builder.GetObject ("notebook");
-		image_enc_grav_1 = (Gtk.Image) builder.GetObject ("image_enc_grav_1");
-		image_enc_grav_2 = (Gtk.Image) builder.GetObject ("image_enc_grav_2");
 		image_enc_grav_4 = (Gtk.Image) builder.GetObject ("image_enc_grav_4");
 		image_enc_grav_5 = (Gtk.Image) builder.GetObject ("image_enc_grav_5");
 		image_enc_grav_6 = (Gtk.Image) builder.GetObject ("image_enc_grav_6");
-		image_enc_inert_1 = (Gtk.Image) builder.GetObject ("image_enc_inert_1");
-		image_enc_inert_2 = (Gtk.Image) builder.GetObject ("image_enc_inert_2");
 		image_enc_inert_4 = (Gtk.Image) builder.GetObject ("image_enc_inert_4");
 		image_enc_inert_5 = (Gtk.Image) builder.GetObject ("image_enc_inert_5");
 		image_enc_inert_6 = (Gtk.Image) builder.GetObject ("image_enc_inert_6");
-		image_fs_1 = (Gtk.Image) builder.GetObject ("image_fs_1");
-		image_fs_2 = (Gtk.Image) builder.GetObject ("image_fs_2");
 		image_fs_4 = (Gtk.Image) builder.GetObject ("image_fs_4");
-		image_ra_1 = (Gtk.Image) builder.GetObject ("image_ra_1");
-		image_ra_2 = (Gtk.Image) builder.GetObject ("image_ra_2");
 		image_ra_4 = (Gtk.Image) builder.GetObject ("image_ra_4");
 		image_jump_1 = (Gtk.Image) builder.GetObject ("image_jump_1");
 		image_run_1 = (Gtk.Image) builder.GetObject ("image_run_1");

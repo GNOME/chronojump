@@ -165,7 +165,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_persons_open_1;
 	Gtk.Image image_persons_open_plus;
 
-	Gtk.Image image_export_encoder_signal;
+	Gtk.Image image_encoder_export_signal;
 
 	//contact tests execute buttons
 	Gtk.Image image_button_finish;
@@ -435,7 +435,7 @@ public partial class ChronoJumpWindow
 	private static RunInterval selectedRunInterval;
 	private static RunType selectedRunIntervalType; //we need this for variable distances
 
-	private static EventExecute currentEventExecute;
+	private static EventExecute currentEventExecute; //this aplies to jumps and races (simple or interval)
 
 	//Used by Cancel and Finish
 	private static EventType currentEventType;
@@ -3568,12 +3568,12 @@ public partial class ChronoJumpWindow
 			bool changed = false;
 			if(m == Constants.Modes.POWERGRAVITATORY)
 			{
-				//change encoderConfigurationCurrent if needed
-				if(encoderConfigurationCurrent.has_inertia)
+				// change encoderConfigurationNewCapture if needed
+				if (encoderConfigurationNewCapture.has_inertia)
 				{
 					EncoderConfigurationSQLObject econfSO = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.GRAVITATORY);
-					encoderConfigurationCurrent = econfSO.encoderConfiguration;
-					setEncoderConfigurationLabels (econfSO.name.ToString (), encoderConfigurationCurrent.code);
+					encoderConfigurationNewCapture = econfSO.encoderConfiguration;
+					setEncoderConfigurationLabels (econfSO.name.ToString (), encoderConfigurationNewCapture.code);
 					setEncoderTypePixbuf();
 
 					changed = true;
@@ -3612,12 +3612,12 @@ public partial class ChronoJumpWindow
 			}
 			else //(m == Constants.Modes.POWERINERTIAL)
 			{
-				//change encoderConfigurationCurrent if needed
-				if(! encoderConfigurationCurrent.has_inertia)
+				//change encoderConfigurationNewCapture if needed
+				if(! encoderConfigurationNewCapture.has_inertia)
 				{
 					EncoderConfigurationSQLObject econfSO = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.INERTIAL);
-					encoderConfigurationCurrent = econfSO.encoderConfiguration;
-					setEncoderConfigurationLabels (econfSO.name.ToString (), encoderConfigurationCurrent.code);
+					encoderConfigurationNewCapture = econfSO.encoderConfiguration;
+					setEncoderConfigurationLabels (econfSO.name.ToString (), encoderConfigurationNewCapture.code);
 					setEncoderTypePixbuf();
 
 					changed = true;
@@ -4046,7 +4046,7 @@ public partial class ChronoJumpWindow
 
 	void setEncoderTypePixbuf()
 	{
-		Pixbuf pixbuf = encoderConfigurationCurrent.GetPixbuf;
+		Pixbuf pixbuf = encoderConfigurationNewCapture.GetPixbuf;
 		image_encoder_top_selected_type.Pixbuf = pixbuf;
 		image_encoder_selected_type.Pixbuf = pixbuf;
 	}
@@ -8301,13 +8301,17 @@ public partial class ChronoJumpWindow
 
 		sensitiveLastTestButtons(true);
 
+		// encoder has not currentEventExecute
+		if (Constants.ModeIsENCODER (current_mode))
+			return;
+
 		//allow repeat last jump or run (check also if it wasn't cancelled)
 		if(currentEventExecute != null && ! currentEventExecute.Cancel)
 			button_contacts_delete_selected.Sensitive = true;
 		else
 			sensitiveLastTestButtons(false);
 
-		LogB.Information(" sensitiveGuiEventDone end (not forceSensor)");
+		LogB.Information (string.Format (" sensitiveGuiEventDone end mode: {0}", current_mode));
 	}
 
 	//to sensitive on and off the play_this_test and delete_this_test
@@ -8581,7 +8585,7 @@ public partial class ChronoJumpWindow
 		image_persons_open_1 = (Gtk.Image) builder.GetObject ("image_persons_open_1");
 		image_persons_open_plus = (Gtk.Image) builder.GetObject ("image_persons_open_plus");
 
-		image_export_encoder_signal = (Gtk.Image) builder.GetObject ("image_export_encoder_signal");
+		image_encoder_export_signal = (Gtk.Image) builder.GetObject ("image_encoder_export_signal");
 
 		//contact tests execute buttons
 		image_button_finish = (Gtk.Image) builder.GetObject ("image_button_finish");

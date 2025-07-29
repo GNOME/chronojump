@@ -357,7 +357,7 @@ public partial class ChronoJumpWindow
 			saveOrDeleteCurveFromCaptureTreeView(false, rowNum, curve, ! val);
 
 			//maybe changed repetition updates the max, so check it:
-			findMaxPowerSpeedForceIntersession();
+			findMaxPowerSpeedForceIntersession (currentEncoderSQLSet.encoderConfiguration);
 			
 			//on ec, ecS need to [un]select second row
 			if (ecconLast == "ec" || ecconLast == "ecS") {

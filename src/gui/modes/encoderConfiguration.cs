@@ -515,7 +515,7 @@ public class EncoderConfigurationWindow
 	 * Use this to retrieve values after accept
 	 * do not use to know current encoder configuration
 	 * because that is stored in gui/encoder as
-	 * encoderConfigurationCurrent
+	 * encoderConfigurationNewCapture
 	 */
 	public EncoderConfiguration GetAcceptedValues()
 	{

@@ -183,7 +183,7 @@ public partial class ChronoJumpWindow
 
 		needToRefreshTreeviewCapture = false;
 
-		if(encoderConfigurationCurrent.has_inertia)
+		if(current_mode == Constants.Modes.POWERINERTIAL)
 		{
 			eCapture = new EncoderCaptureInertial();
 		} else
@@ -205,8 +205,8 @@ public partial class ChronoJumpWindow
 				preferences.encoderCaptureInfinite,
 				findEcconFromGui (true), //so ecc-con will always be ecS
 				portName,
-				(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null),
-				encoderConfigurationCurrent.IsInverted (),
+				(current_mode == Constants.Modes.POWERINERTIAL && eCaptureInertialBG != null),
+				encoderConfigurationNewCapture.IsInverted (),
 				//configChronojump.EncoderCaptureShowOnlyBars,
 				false, //false to show all, and let user change this at any moment
 				Config.SimulatedCapture,
@@ -235,7 +235,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		if(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null)
+		if(current_mode == Constants.Modes.POWERINERTIAL && eCaptureInertialBG != null)
 		{
 			eCaptureInertialBG.StoreData = true;
 			eCapture.InitCalibrated(eCaptureInertialBG.AngleNow);
@@ -249,11 +249,11 @@ public partial class ChronoJumpWindow
 		 * also variable eccon_ec gravitatory mode is e -> c, inertial is c -> e
 		 */
 		if(encoderRhythm.ActiveRhythm) {
-			encoderRhythmExecute = new EncoderRhythmExecuteHasRhythm (encoderRhythm, ! encoderConfigurationCurrent.has_inertia);
+			encoderRhythmExecute = new EncoderRhythmExecuteHasRhythm (encoderRhythm, current_mode == Constants.Modes.POWERGRAVITATORY);
 			label_rhythm.Text = Catalog.GetString("Rhythm");
 			encoder_pulsebar_rhythm_eccon.Visible = true;
 		} else if(encoderRhythm.UseClusters()) {
-			encoderRhythmExecute = new EncoderRhythmExecuteJustClusters (encoderRhythm, ! encoderConfigurationCurrent.has_inertia);
+			encoderRhythmExecute = new EncoderRhythmExecuteJustClusters (encoderRhythm, current_mode == Constants.Modes.POWERGRAVITATORY);
 			label_rhythm.Text = Catalog.GetString("Clusters");
 			encoder_pulsebar_rhythm_eccon.Visible = false;
 		}
@@ -557,7 +557,7 @@ public partial class ChronoJumpWindow
 			} else
 				readingCurveFromR();
 
-			if(encoderConfigurationCurrent.has_inertia) {
+			if(current_mode == Constants.Modes.POWERINERTIAL) {
 				updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.INERTIAL);
 				//updateEncoderCaptureSignalCairo (true, false); //inertial, forceRedraw
 			} else {
@@ -612,7 +612,7 @@ public partial class ChronoJumpWindow
 						findEcconFromGui (true),
 						findMassFromGui (Constants.MassType.DISPLACED),
 						feedbackEncoder,
-						encoderConfigurationCurrent.has_inertia,
+						current_mode == Constants.Modes.POWERINERTIAL,
 						configChronojump.PlaySoundsFromFile,
 						captureCurvesBarsData_l,
 						encoderCaptureListStore,
@@ -1079,8 +1079,6 @@ public partial class ChronoJumpWindow
 				}
 
 
-				findMaxPowerSpeedForceIntersession();
-
 				string eccon = "";
 				double displacedMass = 0;
 				EncoderConfiguration encoderConfiguration = new EncoderConfiguration ();
@@ -1094,8 +1092,10 @@ public partial class ChronoJumpWindow
 				{
 					eccon = findEcconFromGui (true);	//force ecS (ecc-conc separated)
 					displacedMass = findMassFromGui (Constants.MassType.DISPLACED);
-					encoderConfiguration = encoderConfigurationCurrent;
+					encoderConfiguration = encoderConfigurationNewCapture;
 				}
+
+				findMaxPowerSpeedForceIntersession (encoderConfiguration);
 
 				//Cairo
 				prepareEventGraphEncoderCurrent = new PrepareEventGraphEncoderCurrent (

@@ -763,13 +763,12 @@ public partial class ChronoJumpWindow
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameImportYellow);
 		image_session_import1_yellow.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameExport);
-		image_export_encoder_signal.Pixbuf = pixbuf;
 		image_session_export.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "csv.png");
 		image_mode_contacts_export_csv.Pixbuf = pixbuf;
 		image_force_sensor_analyze_export.Pixbuf = pixbuf;
-		image_export_encoder_signal.Pixbuf = pixbuf;
+		image_encoder_export_signal.Pixbuf = pixbuf;
 
 		//open buttons (this is shown better in windows than the default open icon)
 		//pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameOpen);

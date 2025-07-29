@@ -28351,6 +28351,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -39048,21 +39051,21 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkButton" id="button_export_encoder_signal">
+                                                            <object class="GtkButton" id="button_encoder_export_signal">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="can-default">True</property>
                                                             <property name="receives-default">True</property>
                                                             <property name="has-tooltip">True</property>
                                                             <property name="use-underline">True</property>
-                                                            <signal name="clicked" handler="on_button_encoder_export_all_curves_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_encoder_export_signal_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox396">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <object class="GtkImage" id="image_export_encoder_signal">
+                                                            <object class="GtkImage" id="image_encoder_export_signal">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>

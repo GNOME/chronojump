@@ -71,6 +71,10 @@ public class EncoderPTCaptureManage
 				continue;
 
 			//LogB.Information ("YESREAD");
+			// TODO: this will need to be changed to a buffer read like:
+			// readBinaryRunEncoder9Bytes ()
+			// encoderCapture.Capture
+			// EncoderCaptureInertialBackground.CaptureBG
 			if(! encoderPTCapture.CaptureSample ())
 				cancel = true; //problem reading line (capturing)
 
@@ -86,7 +90,7 @@ public class EncoderPTCaptureManage
 					continue;
 				}
 
-				double distanceAtThisSample = UtilAll.DivideSafe (epte.Distance, 6.9);
+				double distanceAtThisSample = UtilAll.DivideSafe (epte.Distance, 6.9); //TODO: why 6.9?
 				distance += distanceAtThisSample;
 
 				double speed = UtilAll.DivideSafe (

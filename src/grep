@@ -56,9 +56,9 @@ fi
 printf "Searching ($recursive, $caseInsensitive) '$str' $excludingDirs\n\n"
 #echo $OPTIONS
 if [ "$r" == "y" ] && [ "$i" == "y" ]; then
-	grep -ri "$str" --exclude-dir bin --exclude-dir obj
+	grep -ri "$str" --exclude-dir bin --exclude-dir obj --exclude-dir ble --exclude-dir angle
 elif [ "$r" == "y" ]; then
-	grep -r "$str" --exclude-dir bin --exclude-dir obj
+	grep -r "$str" --exclude-dir bin --exclude-dir obj --exclude-dir ble --exclude-dir angle
 elif [ "$i" == "y" ]; then
 	grep -si "$str" * .*
 else

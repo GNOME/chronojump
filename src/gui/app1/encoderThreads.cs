@@ -39,19 +39,6 @@ public partial class ChronoJumpWindow
 	{
 		encoderProcessCancel = false;
 
-		/*
-		   stored here in order to not read the combo on non-gtk thread
-		   used on CAPTURE -> encoderDoCaptureCsharp () -> setCurrentEncoderSQLSet()
-		   used on RECALCULATE, LOAD - encoderDoCurvesGraphR_recalculate_or_load () -> setCurrentEncoderSQLSet()
-		*/
-
-		// this is not used on RECALCULATE & on LOAD
-		encoderComboExerciseCaptureStoredID = getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE);
-		encoderComboExerciseCaptureStoredEnglishName =
-			Util.FindOnArray(':', 2, 1, UtilGtk.ComboGetActive(combo_encoder_exercise_capture),
-					encoderExercisesTranslationAndBodyPWeight);	//exerciseName (english)
-
-
 		if(action == encoderActions.CAPTURE_BG)
 		{
 			encoderThreadStart_CAPTUREBG ();
@@ -1081,21 +1068,30 @@ public partial class ChronoJumpWindow
 
 				string eccon = "";
 				double displacedMass = 0;
+				int exerciseID = 0;
 				EncoderConfiguration encoderConfiguration = new EncoderConfiguration ();
+				string laterality = "RL";
+				double extraWeight = 0;
 				if (action == encoderActions.LOAD || action == encoderActions.RECALCULATE)
 				{
+					exerciseID = currentEncoderSQLSet.exerciseID;
 					eccon = findEcconFromSQL (true);
 					displacedMass = findDisplacedMassFromSQL ();
 					encoderConfiguration = currentEncoderSQLSet.encoderConfiguration;
+					laterality = currentEncoderSQLSet.Laterality;
+					extraWeight = currentEncoderSQLSet.extraWeightD;
 				}
 				else if (action == encoderActions.CURVES_AC)
 				{
+					exerciseID = getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE);
 					eccon = findEcconFromGui (true);	//force ecS (ecc-conc separated)
 					displacedMass = findMassFromGui (Constants.MassType.DISPLACED);
 					encoderConfiguration = encoderConfigurationNewCapture;
+					laterality = getLateralityFromGui (true);
+					extraWeight = Convert.ToDouble (spin_encoder_extra_weight.Value);
 				}
 
-				findMaxPowerSpeedForceIntersession (encoderConfiguration);
+				findMaxPowerSpeedForceIntersession (exerciseID, encoderConfiguration, laterality, extraWeight);
 
 				//Cairo
 				prepareEventGraphEncoderCurrent = new PrepareEventGraphEncoderCurrent (

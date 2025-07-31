@@ -410,10 +410,6 @@ public partial class ChronoJumpWindow
 	// TODO: this should be removed and just use Constants.GetEncoderGIByMode (current_mode) 
 	Constants.EncoderGI currentEncoderGI; //store here to not have to check the GUI and have thread problems
 
-	//combo_encoder_exercise_capture
-	private static int encoderComboExerciseCaptureStoredID;
-	private static string encoderComboExerciseCaptureStoredEnglishName;
-
 	/*
 	 * CAPTURE is the capture from csharp (not from external python)
 	 *
@@ -678,13 +674,13 @@ public partial class ChronoJumpWindow
 	// find best historical values for feedback on meanPower, meanSpeed, meanForce
 	// called on encoderActions.CAPTURE,  encoderActions.CURVES_AC encoderConfiguration will be encoderConfigurationNewCapture 
 	// called on encoderActions.LOAD,  encoderActions.RECALCULATE encoderConfiguration will be currentEncoderSQLSet.encoderConfiguration
-	private void findMaxPowerSpeedForceIntersession (EncoderConfiguration encoderConfiguration)
+	private void findMaxPowerSpeedForceIntersession (int exerciseID, EncoderConfiguration encoderConfiguration, string laterality, double extraWeight)
 	{
 		//finding historical maxPower of a person in an exercise
 		Constants.EncoderGI encGI = getEncoderGI();
 		ArrayList arrayTemp = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, -1, encGI,
-					getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE), "curve",
-					EncoderSQL.Eccons.ALL, getLateralityFromGui(true),
+					exerciseID, "curve",
+					EncoderSQL.Eccons.ALL, laterality,
 					false, false, false);
 
 		maxPowerIntersession = 0;
@@ -694,10 +690,9 @@ public partial class ChronoJumpWindow
 		maxSpeedIntersessionDate = "";
 		maxForceIntersessionDate = "";
 
-		double extraWeight = 0; //used on gravitatory
 		//TODO: do a regression to find maxPower with a value of extraWeight unused
-		if(encGI == Constants.EncoderGI.GRAVITATORY)
-			extraWeight = Convert.ToDouble(spin_encoder_extra_weight.Value);
+		if(encGI == Constants.EncoderGI.INERTIAL)
+			extraWeight = 0;
 
 		foreach(EncoderSQL es in arrayTemp)
 		{
@@ -971,7 +966,11 @@ public partial class ChronoJumpWindow
 
 		firstSetOfCont = firstSet;
 
-		findMaxPowerSpeedForceIntersession (encoderConfigurationNewCapture);
+		findMaxPowerSpeedForceIntersession (
+				getExerciseIDFromEncoderCombo (exerciseCombos.CAPTURE),
+				encoderConfigurationNewCapture,
+				getLateralityFromGui (true),
+				Convert.ToDouble (spin_encoder_extra_weight.Value));
 		//LogB.Information("maxPower: " + maxPowerIntersession);
 
 		if(encoderThreadBG != null && encoderThreadBG.IsAlive) //if we are capturing on the background …
@@ -1532,11 +1531,11 @@ public partial class ChronoJumpWindow
 		string laterality = getLateralityFromGui(false);
 
 		//see explanation on the top of this file
-		currentEncoderSQLSet = new EncoderSQL(
+		currentEncoderSQLSet = new EncoderSQL (
 				-1,
 				currentPerson.UniqueID,
 				currentSession.UniqueID,
-				encoderComboExerciseCaptureStoredID,
+				getExerciseIDFromEncoderCombo (exerciseCombos.CAPTURE),
 				findEcconFromGui (true), 	//force ecS (ecc-conc separated)
 				laterality,
 				Util.ConvertToPoint (findMassFromGui (Constants.MassType.EXTRA)), //when save on sql, do not include person weight
@@ -1552,8 +1551,9 @@ public partial class ChronoJumpWindow
 				preferences.GetEncoderRepetitionCriteria (current_mode),
 				encoderConfigurationNewCapture.has_inertia,
 				0,0,0,0,
-				encoderComboExerciseCaptureStoredEnglishName
-				);
+				Util.FindOnArray (':', 2, 1, UtilGtk.ComboGetActive(combo_encoder_exercise_capture),
+					encoderExercisesTranslationAndBodyPWeight)	//exerciseName (english)
+		);
 	}
 
 	/*
@@ -1578,7 +1578,7 @@ public partial class ChronoJumpWindow
 		if (image_encoder_height < 100)
 			image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
 
-		int percentWeight = getExercisePercentBodyWeightFromName (currentEncoderSQLSet.ExerciseName);
+		int percentWeight = getExercisePercentBodyWeightFromID (currentEncoderSQLSet.exerciseID);
 		double bodyWeight = findMassFromGui (Constants.MassType.BODY); //from gui is ok for all encoderActions, as it just take person weight
 		double extraWeight = currentEncoderSQLSet.extraWeightD;
 		string eccon = findEcconFromSQL (true);
@@ -1908,7 +1908,11 @@ public partial class ChronoJumpWindow
 				 * if we have not captured yet, just Sqlite select now
 				 */
 				if(! feedbackWin.EncoderRelativeToSet)
-					findMaxPowerSpeedForceIntersession (currentEncoderSQLSet.encoderConfiguration);
+					findMaxPowerSpeedForceIntersession (
+							currentEncoderSQLSet.exerciseID,
+							currentEncoderSQLSet.encoderConfiguration,
+							currentEncoderSQLSet.Laterality,
+							currentEncoderSQLSet.extraWeightD);
 
 				//TODO: show info to user in a dialog,
 				//but check if more info have to be shown on this process
@@ -2235,7 +2239,7 @@ public partial class ChronoJumpWindow
 
 		EncoderParams ep = new EncoderParams(
 				currentEncoderSQLSet.minHeight, 
-				getExercisePercentBodyWeightFromName (currentEncoderSQLSet.ExerciseName),
+				getExercisePercentBodyWeightFromID (currentEncoderSQLSet.exerciseID),
 				Util.ConvertToPoint (findMassFromGui (Constants.MassType.BODY)), //from gui is ok, as it just take person weight
 				Util.ConvertToPoint (currentEncoderSQLSet.extraWeightD),
 				findEcconFromSQL (false),
@@ -4013,7 +4017,7 @@ public partial class ChronoJumpWindow
 				if(my1RMName == "1RM Any exercise") {
 					//get speed1RM (from combo)
 					EncoderExercise ex = SqliteEncoderExercise.SelectEncoderExercises(
-							false, getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE),
+							false, currentEncoderSQLSet.exerciseID,
 							false, Constants.EncoderGI.GRAVITATORY)[0];
 
 					sendAnalysis = "1RMAnyExercise";
@@ -4038,8 +4042,8 @@ public partial class ChronoJumpWindow
 
 			ep = new EncoderParams(
 					currentEncoderSQLSet.minHeight,
-					getExercisePercentBodyWeightFromComboCapture (),
-					Util.ConvertToPoint (findMassFromGui (Constants.MassType.BODY)),
+					getExercisePercentBodyWeightFromID (currentEncoderSQLSet.exerciseID),
+					Util.ConvertToPoint (findMassFromGui (Constants.MassType.BODY)), //no problem, set is of current person
 					Util.ConvertToPoint (currentEncoderSQLSet.extraWeightD),
 					findEcconFromGui (false),	//do not force ecS (ecc-conc separated)
 					sendAnalysis,
@@ -4733,11 +4737,12 @@ public partial class ChronoJumpWindow
 	private double findDisplacedMassFromSQL ()
 	{
 		return currentEncoderSQLSet.extraWeightD + (
-					getExercisePercentBodyWeightFromName (currentEncoderSQLSet.ExerciseName) *
+					getExercisePercentBodyWeightFromID (currentEncoderSQLSet.exerciseID) *
 					currentPersonSession.Weight
 					);
 	}
 
+	/* unused right now
 	//this is used in 1RM return to substract the weight of the body (if used on exercise)
 	private double massWithoutPerson(double massTotal, string exerciseName) {
 		int percentBodyWeight = getExercisePercentBodyWeightFromName(exerciseName);
@@ -4746,6 +4751,7 @@ public partial class ChronoJumpWindow
 		else
 			return massTotal - (currentPersonSession.Weight * percentBodyWeight / 100.0);
 	}
+	*/
 
 	// from Gui
 	private string findEcconFromGui (bool forceEcconSeparated)
@@ -5504,6 +5510,16 @@ public partial class ChronoJumpWindow
 	string getExerciseNameFromEncoderTable () { //from first data row
 		ArrayList array = getTreeViewCurves(encoderAnalyzeListStore);
 		return ( (EncoderCurve) array[0] ).Exercise;
+	}
+
+	int getExercisePercentBodyWeightFromID (int exerciseID)
+	{
+		string found = Util.FindOnArray(':', 0, 3, exerciseID.ToString (),
+				encoderExercisesTranslationAndBodyPWeight);
+		if (Util.IsNumber(found, false))
+			return Convert.ToInt32(found);
+
+		return -1;
 	}
 
 	int getExercisePercentBodyWeightFromName (string name) {

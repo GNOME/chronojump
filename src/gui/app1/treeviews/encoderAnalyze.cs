@@ -113,7 +113,7 @@ public partial class ChronoJumpWindow
 		string exerciseName = "";
 		double totalMass = 0; 
 		if(radio_encoder_analyze_individual_current_set.Active) {	//current set
-			exerciseName = UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
+			exerciseName = currentEncoderSQLSet.ExerciseName;
 			totalMass = findDisplacedMassFromSQL ();
 
 		} else {						//not current set

@@ -211,7 +211,7 @@ public class FeedbackWindow
 	Gtk.Box box_forceSensor_feedback;
 	Gtk.Notebook notebook_capture_feedback;
 	Gtk.Box box_force_sensor_capture_feedback_show;
-	Gtk.CheckButton check_force_sensor_capture_feedback_no;
+	Gtk.CheckButton check_force_sensor_capture_feedback_yes;
 	Gtk.RadioButton radio_force_sensor_capture_feedback_show_rectangle;
 	Gtk.RadioButton radio_force_sensor_capture_feedback_show_path;
 	Gtk.RadioButton radio_force_sensor_capture_feedback_show_asteroids;
@@ -643,7 +643,7 @@ public class FeedbackWindow
 		{
 			if(forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.NO)
 			{
-				check_force_sensor_capture_feedback_no.Active = true;
+				check_force_sensor_capture_feedback_yes.Active = false;
 				box_force_sensor_capture_feedback_show.Visible = false;
 				notebook_capture_feedback.Visible = false;
 				box_radio_signal_direction.Visible = true;
@@ -960,7 +960,7 @@ public class FeedbackWindow
 				return true;
 		}
 		else if(bellMode == Constants.BellModes.FORCESENSOR)
-			return ! check_force_sensor_capture_feedback_no.Active;
+			return check_force_sensor_capture_feedback_yes.Active;
 
 		return false;
 	}
@@ -1356,15 +1356,10 @@ public class FeedbackWindow
 
 	/* FORCESENSOR */
 
-	private void on_check_force_sensor_capture_feedback_no_toggled (object o, EventArgs args)
+	private void on_check_force_sensor_capture_feedback_yes_toggled (object o, EventArgs args)
 	{
-		if (check_force_sensor_capture_feedback_no.Active)
+		if (check_force_sensor_capture_feedback_yes.Active)
 		{
-			box_force_sensor_capture_feedback_show.Visible = false;
-			notebook_capture_feedback.Visible = false;
-			box_radio_signal_direction.Visible = true;
-			label_signal_direction_horizontal.Visible = false;
-		} else {
 			box_force_sensor_capture_feedback_show.Visible = true;
 			notebook_capture_feedback.Visible = true;
 
@@ -1376,6 +1371,11 @@ public class FeedbackWindow
 				notebook_capture_feedback.Page = 2;
 			else //if (radio_force_sensor_capture_feedback_show_questionnaire.Active)
 				notebook_capture_feedback.Page = 3;
+		} else {
+			box_force_sensor_capture_feedback_show.Visible = false;
+			notebook_capture_feedback.Visible = false;
+			box_radio_signal_direction.Visible = true;
+			label_signal_direction_horizontal.Visible = false;
 		}
 	}
 
@@ -1406,7 +1406,7 @@ public class FeedbackWindow
 
 	public Preferences.ForceSensorCaptureFeedbackActiveEnum GetForceSensorFeedback {
 		get {
-			if(check_force_sensor_capture_feedback_no.Active)
+			if(! check_force_sensor_capture_feedback_yes.Active)
 				return Preferences.ForceSensorCaptureFeedbackActiveEnum.NO;
 			else if (radio_force_sensor_capture_feedback_show_rectangle.Active)
 				return Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE;
@@ -2114,7 +2114,7 @@ public class FeedbackWindow
 		box_forceSensor_feedback = (Gtk.Box) builder.GetObject ("box_forceSensor_feedback");
 		notebook_capture_feedback = (Gtk.Notebook) builder.GetObject ("notebook_capture_feedback");
 		box_force_sensor_capture_feedback_show = (Gtk.Box) builder.GetObject ("box_force_sensor_capture_feedback_show");
-		check_force_sensor_capture_feedback_no = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_capture_feedback_no");
+		check_force_sensor_capture_feedback_yes = (Gtk.CheckButton) builder.GetObject ("check_force_sensor_capture_feedback_yes");
 		radio_force_sensor_capture_feedback_show_rectangle = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_show_rectangle");
 		radio_force_sensor_capture_feedback_show_path = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_show_path");
 		radio_force_sensor_capture_feedback_show_asteroids = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_show_asteroids");

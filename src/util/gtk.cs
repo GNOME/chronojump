@@ -857,6 +857,11 @@ public class UtilGtk
 				//"color: #8c0000;" + //8c0000 is ok for backfound but too dark for label
 				"color: #ee0000;" +
 			"}" +
+			"label#labelAlertBigCss {" +
+				//"color: #8c0000;" + //8c0000 is ok for backfound but too dark for label
+				"color: #ee0000;" +
+				labelFontSizeBig +
+			"}" +
 			//label used on version hidden
 			/*
 			"label#blueChronojumpHideCss {" +

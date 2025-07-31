@@ -409,6 +409,8 @@ public class Preferences
 	public int forceSensorFeedbackQuestionnaireN = 10;
 	public int forceSensorFeedbackQuestionnaireQDuration = 10; //seconds
 	public string forceSensorFeedbackQuestionnaireFile = ""; //if default will be blank
+	public bool forceSensorFeedbackQuestionnaireArithmetical = false; //TODO use an enum for the 3 types of questionnaire
+	public int forceSensorFeedbackQuestionnaireArithmeticalDifficulty = 0;
 	//signal direction
 	public bool signalDirectionHorizontal = true;
 

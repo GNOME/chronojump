@@ -241,9 +241,16 @@ public class FeedbackWindow
 	Gtk.SpinButton spin_force_sensor_capture_feedback_questionnaire_qDuration;
 	Gtk.RadioButton radio_force_sensor_capture_feedback_questionnaire_default;
 	Gtk.RadioButton radio_force_sensor_capture_feedback_questionnaire_load;
+	Gtk.RadioButton radio_force_sensor_capture_feedback_questionnaire_arithmetical;
 	Gtk.Image image_force_sensor_capture_feedback_questionnaire_load_info;
 	Gtk.Box buttons_force_sensor_capture_feedback_questionnaire_load;
 	Gtk.Label label_force_sensor_capture_feedback_questionnaire_load_success;
+	Gtk.Box box_force_sensor_capture_feedback_questionnaire_arithmetical;
+	Gtk.RadioButton radio_force_sensor_capture_feedback_questionnaire_arithmetical_easy;
+	Gtk.RadioButton radio_force_sensor_capture_feedback_questionnaire_arithmetical_mid;
+	Gtk.RadioButton radio_force_sensor_capture_feedback_questionnaire_arithmetical_hard;
+	Gtk.RadioButton radio_force_sensor_capture_feedback_questionnaire_arithmetical_godLevel;
+	Gtk.Label label_force_sensor_capture_feedback_questionnaire_arithmetical_godLevel_confirm;
 	//direction
 	Gtk.RadioButton radio_signal_direction_horizontal;
 	Gtk.RadioButton radio_signal_direction_vertical;
@@ -391,6 +398,7 @@ public class FeedbackWindow
 				preferences.forceSensorFeedbackQuestionnaireMin,
 				preferences.forceSensorFeedbackQuestionnaireN,
 				preferences.forceSensorFeedbackQuestionnaireQDuration,
+				preferences.forceSensorFeedbackQuestionnaireArithmetical,
 				preferences.signalDirectionHorizontal
 				);
 
@@ -407,6 +415,8 @@ public class FeedbackWindow
 				UtilGtk.WidgetColor (notebook_encoder_conditions, Config.ColorBackgroundShifted);
 				UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundShiftedIsDark, notebook_encoder_conditions);
 			}
+
+			label_force_sensor_capture_feedback_questionnaire_arithmetical_godLevel_confirm.Name = "labelAlertBigCss";
 
 			FeedbackWindowBox.feedback.Show ();
 		}
@@ -474,6 +484,7 @@ public class FeedbackWindow
 			int forceSensorFeedbackQuestionnaireMin,
 			int forceSensorFeedbackQuestionnaireN,
 			int forceSensorFeedbackQuestionnaireQDuration,
+			bool forceSensorFeedbackQuestionnaireArithmetical,
 			bool signalDirectionHorizontal
 				)
 	{
@@ -698,14 +709,19 @@ public class FeedbackWindow
 			spin_force_sensor_capture_feedback_questionnaire_min.Value = forceSensorFeedbackQuestionnaireMin;
 			spin_force_sensor_capture_feedback_questionnaire_n.Value = forceSensorFeedbackQuestionnaireN;
 			spin_force_sensor_capture_feedback_questionnaire_qDuration.Value = forceSensorFeedbackQuestionnaireQDuration;
-			if (forceSensorFeedbackQuestionnaireFile == null || forceSensorFeedbackQuestionnaireFile == "")
-			{
+
+			if (forceSensorFeedbackQuestionnaireArithmetical)
+				radio_force_sensor_capture_feedback_questionnaire_arithmetical.Active = true;
+			else if (forceSensorFeedbackQuestionnaireFile == null || forceSensorFeedbackQuestionnaireFile == "")
 				radio_force_sensor_capture_feedback_questionnaire_default.Active = true;
-				buttons_force_sensor_capture_feedback_questionnaire_load.Sensitive = false;
-			} else {
+			else
 				radio_force_sensor_capture_feedback_questionnaire_load.Active = true;
-				buttons_force_sensor_capture_feedback_questionnaire_load.Sensitive = true;
-			}
+
+			buttons_force_sensor_capture_feedback_questionnaire_load.Visible =
+				radio_force_sensor_capture_feedback_questionnaire_load.Active;
+			box_force_sensor_capture_feedback_questionnaire_arithmetical.Visible =
+				radio_force_sensor_capture_feedback_questionnaire_arithmetical.Active;
+
 			label_force_sensor_capture_feedback_questionnaire_load_success.Text = "";
 
 			//direction
@@ -1454,9 +1470,10 @@ public class FeedbackWindow
 
 	// force sensor feedback questionnaire
 
-	public void on_radio_force_sensor_capture_feedback_questionnaire_default_load_toggled (object o, EventArgs args)
+	public void on_radio_force_sensor_capture_feedback_questionnaire_toggled (object o, EventArgs args)
 	{
-		buttons_force_sensor_capture_feedback_questionnaire_load.Sensitive = ! radio_force_sensor_capture_feedback_questionnaire_default.Active;
+		buttons_force_sensor_capture_feedback_questionnaire_load.Visible = radio_force_sensor_capture_feedback_questionnaire_load.Active;
+		box_force_sensor_capture_feedback_questionnaire_arithmetical.Visible = radio_force_sensor_capture_feedback_questionnaire_arithmetical.Active;
 	}
 
 	public void on_button_force_sensor_capture_feedback_questionnaire_load_info_clicked (object o, EventArgs args)
@@ -1507,6 +1524,12 @@ public class FeedbackWindow
 		}
 	}
 
+	public void on_questionnaire_godLevel_toggled (object o, EventArgs args)
+	{
+		label_force_sensor_capture_feedback_questionnaire_arithmetical_godLevel_confirm.Visible =
+			radio_force_sensor_capture_feedback_questionnaire_arithmetical_godLevel.Active;
+	}
+
 	public int GetForceSensorFeedbackAsteroidsMax {
 		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_asteroids_max.Value); }
 	}
@@ -1535,11 +1558,26 @@ public class FeedbackWindow
 	public int GetForceSensorFeedbackQuestionnaireQDuration {
 		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_questionnaire_qDuration.Value); }
 	}
-	public bool GetForceSensorFeedbackQuestionnaireDefaultOrFile {
-		get { return radio_force_sensor_capture_feedback_questionnaire_default.Active; }
+	public bool GetForceSensorFeedbackQuestionnaireRadioFileIsActive {
+		get { return radio_force_sensor_capture_feedback_questionnaire_load.Active; }
 	}
 	public string GetForceSensorFeedbackQuestionnaireFile {
 		get { return forceSensorFeedbackQuestionnaireFile; }
+	}
+	public bool GetForceSensorFeedbackQuestionnaireRadioArithmeticalIsActive {
+		get { return radio_force_sensor_capture_feedback_questionnaire_arithmetical.Active; }
+	}
+	public int GetForceSensorFeedbackQuestionnaireRadioArithmeticalDifficulty {
+		get {
+			if (radio_force_sensor_capture_feedback_questionnaire_arithmetical_easy.Active)
+				return 0;
+			else if (radio_force_sensor_capture_feedback_questionnaire_arithmetical_mid.Active)
+				return 1;
+			else if (radio_force_sensor_capture_feedback_questionnaire_arithmetical_hard.Active)
+				return 2;
+			else //if (radio_force_sensor_capture_feedback_questionnaire_arithmetical_godLevel.Active)
+				return 3;
+		}
 	}
 
 	public bool GetSignalDirectionHorizontal {
@@ -2099,9 +2137,16 @@ public class FeedbackWindow
 		spin_force_sensor_capture_feedback_questionnaire_qDuration = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_capture_feedback_questionnaire_qDuration");
 		radio_force_sensor_capture_feedback_questionnaire_default = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_questionnaire_default");
 		radio_force_sensor_capture_feedback_questionnaire_load = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_questionnaire_load");
+		radio_force_sensor_capture_feedback_questionnaire_arithmetical = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_questionnaire_arithmetical");
 		image_force_sensor_capture_feedback_questionnaire_load_info = (Gtk.Image) builder.GetObject ("image_force_sensor_capture_feedback_questionnaire_load_info");
 		buttons_force_sensor_capture_feedback_questionnaire_load = (Gtk.Box) builder.GetObject ("buttons_force_sensor_capture_feedback_questionnaire_load");
 		label_force_sensor_capture_feedback_questionnaire_load_success = (Gtk.Label) builder.GetObject ("label_force_sensor_capture_feedback_questionnaire_load_success");
+		box_force_sensor_capture_feedback_questionnaire_arithmetical = (Gtk.Box) builder.GetObject ("box_force_sensor_capture_feedback_questionnaire_arithmetical");
+		radio_force_sensor_capture_feedback_questionnaire_arithmetical_easy = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_questionnaire_arithmetical_easy");
+		radio_force_sensor_capture_feedback_questionnaire_arithmetical_mid = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_questionnaire_arithmetical_mid");
+		radio_force_sensor_capture_feedback_questionnaire_arithmetical_hard = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_questionnaire_arithmetical_hard");
+		radio_force_sensor_capture_feedback_questionnaire_arithmetical_godLevel = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_questionnaire_arithmetical_godLevel");
+		label_force_sensor_capture_feedback_questionnaire_arithmetical_godLevel_confirm = (Gtk.Label) builder.GetObject ("label_force_sensor_capture_feedback_questionnaire_arithmetical_godLevel_confirm");
 		//direction
 		radio_signal_direction_horizontal = (Gtk.RadioButton) builder.GetObject ("radio_signal_direction_horizontal");
 		radio_signal_direction_vertical = (Gtk.RadioButton) builder.GetObject ("radio_signal_direction_vertical");

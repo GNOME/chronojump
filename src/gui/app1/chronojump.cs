@@ -7733,13 +7733,18 @@ public partial class ChronoJumpWindow
 				}
 
 				string feedbackQuestionnaireFile = "";
-				if (! feedbackWin.GetForceSensorFeedbackQuestionnaireDefaultOrFile)
+				if (feedbackWin.GetForceSensorFeedbackQuestionnaireRadioFileIsActive)
 					feedbackQuestionnaireFile = feedbackWin.GetForceSensorFeedbackQuestionnaireFile;
 				if(preferences.forceSensorFeedbackQuestionnaireFile != feedbackQuestionnaireFile)
 				{
 					//SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackQuestionnaireFile, feedbackQuestionnaireFile.ToString(), false); //TODO
 					preferences.forceSensorFeedbackQuestionnaireFile = feedbackQuestionnaireFile;
 				}
+
+				preferences.forceSensorFeedbackQuestionnaireArithmetical =
+					feedbackWin.GetForceSensorFeedbackQuestionnaireRadioArithmeticalIsActive;
+				if (preferences.forceSensorFeedbackQuestionnaireArithmetical)
+					preferences.forceSensorFeedbackQuestionnaireArithmeticalDifficulty = feedbackWin.GetForceSensorFeedbackQuestionnaireRadioArithmeticalDifficulty;
 			}
 		}
 		else if(m == Constants.Modes.RUNSENCODER)

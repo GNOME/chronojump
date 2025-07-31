@@ -287,11 +287,12 @@ public class QuestionAnswerArithmeticGodLevel : QuestionAnswerArithmetic
 	enum godLevelOperands {
 		COS0, COS90, COS180, COS270,
 		SIN0, SIN90, SIN180, SIN270,
-		TAN0, TAN45, TAN90,
+		TAN0, TAN45,
 		FIVECUBE, SEVENCUBE,
 		SQRT64, SQRT144, SQRT169,
-		EEXP0, ROUND7PI,
-		LINEARENCLENGTHM, XAVIPADUCURRENTYEARS,
+		DIV0BY3, DIV0BY7,
+		EEXP0, EEXPMINUSPITIMESI, ROUND7PI,
+		LINEARENCLENGTHM,
 		CURRENTYEAR, CURRENTMONTH, CURRENTDAYOFMONTH
 	};
 
@@ -319,8 +320,6 @@ public class QuestionAnswerArithmeticGodLevel : QuestionAnswerArithmetic
 				return ("tan (0º)");
 			case godLevelOperands.TAN45 :
 				return ("tan (45º)");
-			case godLevelOperands.TAN90 :
-				return ("tan (90º)");
 			case godLevelOperands.FIVECUBE :
 				return ("5^3");
 			case godLevelOperands.SEVENCUBE :
@@ -331,14 +330,18 @@ public class QuestionAnswerArithmeticGodLevel : QuestionAnswerArithmetic
 				return ("sqrt (144)");
 			case godLevelOperands.SQRT169 :
 				return ("sqrt (169)");
+			case godLevelOperands.DIV0BY3 :
+				return ("0/3");
+			case godLevelOperands.DIV0BY7 :
+				return ("0/7");
 			case godLevelOperands.EEXP0 :
 				return ("e^0");
+			case godLevelOperands.EEXPMINUSPITIMESI :
+				return ("e^(pi*i)");
 			case godLevelOperands.ROUND7PI :
 				return ("round (7 * pi)");
 			case godLevelOperands.LINEARENCLENGTHM :
 				return ("Linear encoder maximum length (in m)");
-			case godLevelOperands.XAVIPADUCURRENTYEARS :
-				return ("Anys des de que va néixer el Xavi Padu");
 			case godLevelOperands.CURRENTYEAR :
 				return ("year");
 			case godLevelOperands.CURRENTMONTH :
@@ -373,8 +376,6 @@ public class QuestionAnswerArithmeticGodLevel : QuestionAnswerArithmetic
 				return (0);
 			case godLevelOperands.TAN45 :
 				return (1);
-			case godLevelOperands.TAN90 :
-				return (0);
 			case godLevelOperands.FIVECUBE :
 				return (125);
 			case godLevelOperands.SEVENCUBE :
@@ -385,14 +386,18 @@ public class QuestionAnswerArithmeticGodLevel : QuestionAnswerArithmetic
 				return (12);
 			case godLevelOperands.SQRT169 :
 				return (13);
+			case godLevelOperands.DIV0BY3 :
+				return (0);
+			case godLevelOperands.DIV0BY7 :
+				return (0);
 			case godLevelOperands.EEXP0 :
 				return (1);
+			case godLevelOperands.EEXPMINUSPITIMESI :
+				return (-1);
 			case godLevelOperands.ROUND7PI :
 				return (22);
 			case godLevelOperands.LINEARENCLENGTHM :
 				return (3);
-			case godLevelOperands.XAVIPADUCURRENTYEARS :
-				return (48);
 			case godLevelOperands.CURRENTYEAR :
 				return DateTime.Today.Year;
 			case godLevelOperands.CURRENTMONTH :

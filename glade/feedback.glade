@@ -6737,14 +6737,45 @@
                                     <property name="spacing">10</property>
                                     <child>
                                       <object class="GtkRadioButton" id="radio_force_sensor_capture_feedback_questionnaire_default">
-                                        <property name="label" translatable="yes">Use Chronojump questionnaire</property>
                                         <property name="visible">True</property>
                                         <property name="can-focus">True</property>
                                         <property name="receives-default">False</property>
+                                        <property name="halign">start</property>
                                         <property name="xalign">0</property>
                                         <property name="active">True</property>
-                                        <property name="draw-indicator">True</property>
+                                        <property name="draw-indicator">False</property>
                                         <signal name="toggled" handler="on_radio_force_sensor_capture_feedback_questionnaire_toggled" swapped="no"/>
+                                        <child>
+                                          <object class="GtkBox">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="spacing">4</property>
+                                            <child>
+                                              <object class="GtkImage" id="image_force_sensor_capture_feedback_questionnaire_default">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="stock">gtk-missing-image</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkLabel">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="label" translatable="yes">Use Chronojump questionnaire</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                          </object>
+                                        </child>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -6759,15 +6790,45 @@
                                         <property name="spacing">10</property>
                                         <child>
                                           <object class="GtkRadioButton" id="radio_force_sensor_capture_feedback_questionnaire_load">
-                                            <property name="label" translatable="yes">Load own questionnaire</property>
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
                                             <property name="receives-default">False</property>
                                             <property name="xalign">0</property>
                                             <property name="active">True</property>
-                                            <property name="draw-indicator">True</property>
+                                            <property name="draw-indicator">False</property>
                                             <property name="group">radio_force_sensor_capture_feedback_questionnaire_default</property>
                                             <signal name="toggled" handler="on_radio_force_sensor_capture_feedback_questionnaire_toggled" swapped="no"/>
+                                            <child>
+                                              <object class="GtkBox">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="spacing">4</property>
+                                                <child>
+                                                  <object class="GtkImage" id="image_force_sensor_capture_feedback_questionnaire_load">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="stock">gtk-missing-image</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkLabel">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="label" translatable="yes">Load own questionnaire</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                              </object>
+                                            </child>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -6846,14 +6907,44 @@
                                         <property name="spacing">10</property>
                                         <child>
                                           <object class="GtkRadioButton" id="radio_force_sensor_capture_feedback_questionnaire_arithmetical">
-                                            <property name="label">Xavi fes clic aquí!</property>
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
                                             <property name="receives-default">False</property>
                                             <property name="xalign">0</property>
-                                            <property name="draw-indicator">True</property>
+                                            <property name="draw-indicator">False</property>
                                             <property name="group">radio_force_sensor_capture_feedback_questionnaire_default</property>
                                             <signal name="toggled" handler="on_radio_force_sensor_capture_feedback_questionnaire_toggled" swapped="no"/>
+                                            <child>
+                                              <object class="GtkBox">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="spacing">4</property>
+                                                <child>
+                                                  <object class="GtkImage" id="image_force_sensor_capture_feedback_questionnaire_arithmetical">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="stock">gtk-missing-image</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkLabel">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="label" translatable="yes">Arithmetic questionnaire</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                              </object>
+                                            </child>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>

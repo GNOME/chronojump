@@ -242,6 +242,9 @@ public class FeedbackWindow
 	Gtk.RadioButton radio_force_sensor_capture_feedback_questionnaire_default;
 	Gtk.RadioButton radio_force_sensor_capture_feedback_questionnaire_load;
 	Gtk.RadioButton radio_force_sensor_capture_feedback_questionnaire_arithmetical;
+	Gtk.Image image_force_sensor_capture_feedback_questionnaire_default;
+	Gtk.Image image_force_sensor_capture_feedback_questionnaire_load;
+	Gtk.Image image_force_sensor_capture_feedback_questionnaire_arithmetical;
 	Gtk.Image image_force_sensor_capture_feedback_questionnaire_load_info;
 	Gtk.Box buttons_force_sensor_capture_feedback_questionnaire_load;
 	Gtk.Label label_force_sensor_capture_feedback_questionnaire_load_success;
@@ -874,6 +877,10 @@ public class FeedbackWindow
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_info.png");//[By Joeries]
 		image_clusters_info.Pixbuf = pixbuf;
 		image_force_sensor_capture_feedback_questionnaire_load_info.Pixbuf = pixbuf;
+
+		image_force_sensor_capture_feedback_questionnaire_default.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "questionnaire_blue.png");
+		image_force_sensor_capture_feedback_questionnaire_load.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "questionnaire_blue.png");
+		image_force_sensor_capture_feedback_questionnaire_arithmetical.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "calculate_blue.png");
 	}
 
 	void on_button_test_clicked (object o, EventArgs args)
@@ -2138,6 +2145,9 @@ public class FeedbackWindow
 		radio_force_sensor_capture_feedback_questionnaire_default = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_questionnaire_default");
 		radio_force_sensor_capture_feedback_questionnaire_load = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_questionnaire_load");
 		radio_force_sensor_capture_feedback_questionnaire_arithmetical = (Gtk.RadioButton) builder.GetObject ("radio_force_sensor_capture_feedback_questionnaire_arithmetical");
+		image_force_sensor_capture_feedback_questionnaire_default = (Gtk.Image) builder.GetObject ("image_force_sensor_capture_feedback_questionnaire_default");
+		image_force_sensor_capture_feedback_questionnaire_load = (Gtk.Image) builder.GetObject ("image_force_sensor_capture_feedback_questionnaire_load");
+		image_force_sensor_capture_feedback_questionnaire_arithmetical = (Gtk.Image) builder.GetObject ("image_force_sensor_capture_feedback_questionnaire_arithmetical");
 		image_force_sensor_capture_feedback_questionnaire_load_info = (Gtk.Image) builder.GetObject ("image_force_sensor_capture_feedback_questionnaire_load_info");
 		buttons_force_sensor_capture_feedback_questionnaire_load = (Gtk.Box) builder.GetObject ("buttons_force_sensor_capture_feedback_questionnaire_load");
 		label_force_sensor_capture_feedback_questionnaire_load_success = (Gtk.Label) builder.GetObject ("label_force_sensor_capture_feedback_questionnaire_load_success");

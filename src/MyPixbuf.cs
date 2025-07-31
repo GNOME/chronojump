@@ -524,6 +524,8 @@ namespace Chronojump
 			new ResourceFix ("modes_force.png" , "modes_force.png"),
 			new ResourceFix ("modes_weights.png" , "modes_weights.png"),
 			new ResourceFix ("modes_inertial.png" , "modes_inertial.png"),
+			new ResourceFix ("calculate_blue.png" , "calculate_blue.png"),
+			new ResourceFix ("questionnaire_blue.png" , "questionnaire_blue.png"),
 			new ResourceFix ("start.wav" , "sound_can_start.wav"),
 			new ResourceFix ("ok.wav" , "ok.wav"),
 			new ResourceFix ("bad.wav" , "sound_bad.wav")

@@ -65,7 +65,7 @@ class SqliteEncoder : SqliteTests
             "exerciseID INT, " +
             "eccon TEXT, " +    //"c" or "ec"
             "laterality TEXT, " +   //"RL" "R" "L". stored in english
-            "extraWeight TEXT, " +  //string
+            "extraWeight TEXT, " +  //string  	//note as this is text, for ORDER we need to do CAST(extraWeight AS FLOAT)
             "signalOrCurve TEXT, " + //"signal" or "curve"
             "filename TEXT, " +
             "url TEXT, " +      //URL of data of signals and curves. stored as relative
@@ -454,7 +454,7 @@ class SqliteEncoder : SqliteTests
 			orderByStr = string.Format ( " ORDER BY {0}.{1} ", tableStatic, orderVariable);
 	}
 	else if (order == Orders_by.BEST2) //weight (and on the same weight, order by each set
-		orderByStr = string.Format ( " ORDER BY {0}.extraWeight, " +
+		orderByStr = string.Format ( " ORDER BY CAST({0}.extraWeight AS FLOAT), " +
 				"substr(filename,-23,19), " + //'filename,-23,19' has the date of capture signal
 				orderRepsByPosInSetOrderStr +
 				"uniqueID ", tableStatic);

@@ -6855,7 +6855,7 @@ public partial class ChronoJumpWindow
 				// (1a)
 				if (encoderSQLSet.eccon != eSQL.eccon ||
 						encoderSQLSet.encoderConfiguration.name != eSQL.encoderConfiguration.name ||
-						eSQL.minHeight < encoderSQLSet.minHeight)
+						UtilAll.DivideSafe (eSQL.rangeAbs, 10) < encoderSQLSet.minHeight)
 
 				{
 					Util.FileDelete(eSQL.GetFullURL(false));					// (1a1)

@@ -298,7 +298,7 @@ public class TreeViewEncoder : TreeViewEvent
 		if (gravitatory)
 			myData[count++] = ""; //eSQL.extraWeight;
 		myData[count++] = ""; //eSQL.ecconLong;
-		myData[count++] = Util.TrimDecimals (eSQL.rangeAbs, 2);
+		myData[count++] = Util.TrimDecimals (UtilAll.DivideSafe (eSQL.rangeAbs, 10), 2); // mm -> cm
 		myData[count++] = Util.TrimDecimals (eSQL.meanSpeed, 2);
 		myData[count++] = Util.TrimDecimals (eSQL.maxSpeed, 2);
 		myData[count++] = Util.TrimDecimals (eSQL.meanPower, 2);

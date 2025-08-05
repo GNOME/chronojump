@@ -6817,9 +6817,10 @@ public partial class ChronoJumpWindow
 	//sqlite is opened on this method
 	private void manageCurvesOfThisSignal()
 	{
+		LogB.Information ("manageCurvesOfThisSignal()");
 		/*
 		 * (1) if found curves of this signal
-		 * 	(1a) this curves are with different eccon, or with different encoderConfiguration.name
+		 * 	(1a) this curves are with different eccon, or with different encoderConfiguration.name, or curves are shorter than minHeight because this values just changed on edit encoder
 		 * 		(1a1) delete the curves (files)
 		 * 		(1a2) delete the curves (encoder table)
 		 * 		(1a3) and also delete from (encoderSignalCurves table)
@@ -6853,7 +6854,9 @@ public partial class ChronoJumpWindow
 			{
 				// (1a)
 				if (encoderSQLSet.eccon != eSQL.eccon ||
-						encoderSQLSet.encoderConfiguration.name != eSQL.encoderConfiguration.name)
+						encoderSQLSet.encoderConfiguration.name != eSQL.encoderConfiguration.name ||
+						eSQL.minHeight < encoderSQLSet.minHeight)
+
 				{
 					Util.FileDelete(eSQL.GetFullURL(false));					// (1a1)
 					Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.UniqueID));	// (1a2)

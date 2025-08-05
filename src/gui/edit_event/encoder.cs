@@ -417,8 +417,8 @@ public partial class ChronoJumpWindow
 			return;
 
 		//3.- obtain the data of the selected encoder
-		EncoderSQL encoder = SqliteEncoder.SelectData (selectedID, false );
-		eventOldPerson = encoder.PersonID;
+		EncoderSQL eSQL = SqliteEncoder.SelectData (selectedID, false );
+		eventOldPerson = eSQL.PersonID;
 
 		//4.- edit this test
 		editEncoderWin = EditEncoderWindow.Show (app1, encoder, current_mode);
@@ -442,19 +442,23 @@ public partial class ChronoJumpWindow
 				! eSQL.encoderConfiguration.Equals (currentEncoderSQLSet.encoderConfiguration) ||
 				eSQL.exerciseID != currentEncoderSQLSet.exerciseID ||
 				eSQL.eccon != currentEncoderSQLSet.eccon ||
+				eSQL.Laterality != currentEncoderSQLSet.Laterality || //recalculte to have same lat on signal & curves
 				(current_mode == Constants.Modes.POWERGRAVITATORY &&
 				 eSQL.extraWeight != currentEncoderSQLSet.extraWeight) ||
 				eSQL.minHeight != currentEncoderSQLSet.minHeight)
 		{
 			currentEncoderSQLSet = eSQL;
 		
-			//LogB.Information("calling recalculate");
+			LogB.Information("calling recalculate");
 			encoderCalculeCurves (encoderActions.RECALCULATE);
-			return;
+
+			// updateGraphEncoderSessionBars (); //Done at finishPulsebar. If run just here encoderCalculeCurves thread has not finished yet
+		} else {
+			LogB.Information("DO NOT call recalculate");
+			currentEncoderSQLSet = eSQL;
 		}
 
-		//LogB.Information("DO NOT call recalculate");
 		pre_fillTreeView_resultsSession ();
-		updateGraphEncoderSessionBars ();
+		selectResultsSessionId (eSQL.UniqueID, true);
 	}
 }

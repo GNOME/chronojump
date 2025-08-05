@@ -1147,8 +1147,6 @@ public partial class ChronoJumpWindow
 									currentEncoderGI, currentEncoderSQLSet.exerciseID, encoderSignalUniqueID),
 								"");
 
-						updateGraphEncoderSessionBars();
-
 						//1) unMute logs if preferences.muteLogs == false
 						LogB.Mute = preferences.muteLogs;
 
@@ -1187,7 +1185,9 @@ public partial class ChronoJumpWindow
 				} else { //action == encoderActions.LOAD
 					event_execute_label_message.Text = "";
 				}
-		
+
+				if (action == encoderActions.CURVES_AC || action == encoderActions.RECALCULATE)
+					updateGraphEncoderSessionBars();
 
 				/*
 				 * if we captured, but encoderSignalUniqueID has not been changed on encoderSaveSignalOrCurve

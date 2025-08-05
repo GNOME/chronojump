@@ -3375,7 +3375,7 @@ public partial class ChronoJumpWindow
 		eSQL.signalOrCurve = signalOrCurve;
 		eSQL.filename = fileSaved;
 		eSQL.url = path;
-		eSQL.Description = "";
+		//eSQL.Description = "";
 		eSQL.hasInertia = (current_mode == Constants.Modes.POWERINERTIAL);
 
 		if(mode == "curve") {
@@ -6386,6 +6386,7 @@ public partial class ChronoJumpWindow
 	//resultsSession
 	private void updateGraphEncoderSessionBars ()
 	{
+		LogB.Information ("updateGraphEncoderSessionBars");
 		LogB.Information (string.Format ("currentPerson == null: {0},  currentSession == null: {1}",
 					currentPerson == null, currentSession == null));
 		if(currentPerson == null || currentSession == null)
@@ -6419,6 +6420,11 @@ public partial class ChronoJumpWindow
 				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
 				//Constants.EncoderTable, typeTemp,
 				exerciseID, selectedID, current_mode, radio_contacts_graph_allTests.Active);
+
+		// debug
+		//LogB.Information ("debugging");
+		//foreach (EncoderSQL eSQL in eventGraph.rowsAtSQL)
+		//	LogB.Information (eSQL.ToString ());
 
 		string personStr = "";
 		if(! radio_contacts_results_personAll.Active)
@@ -6848,8 +6854,9 @@ public partial class ChronoJumpWindow
 				false, true, true);
 
 		bool deletedUserCurves = false;
-		foreach(EncoderSQL eSQL in data)
+		for (int i = 0; i < data.Count; i ++) // not foreach as we want to be able to change each eSQL
 		{
+			EncoderSQL eSQL = (EncoderSQL) data[i];
 			if (encoderSQLSet.GetDatetimeStr(false) == eSQL.GetDatetimeStr(false)) 		// (1)
 			{
 				// (1a)
@@ -6863,28 +6870,21 @@ public partial class ChronoJumpWindow
 					SqliteEncoderSignalCurve.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.UniqueID)); // (1a3)
 					deletedUserCurves = true;
 				} else {							// (1b)
-					if (encoderSQLSet.exerciseID != eSQL.exerciseID)
-						Sqlite.Update(true, Constants.EncoderTable, "exerciseID",
-								"", encoderSQLSet.exerciseID.ToString(),
-								"uniqueID", eSQL.UniqueID.ToString());
-
-					if (encoderSQLSet.extraWeight != eSQL.extraWeight)
-						Sqlite.Update(true, Constants.EncoderTable, "extraWeight",
-								"", encoderSQLSet.extraWeight,
-								"uniqueID", eSQL.UniqueID.ToString());
-
-					if (encoderSQLSet.Laterality != eSQL.Laterality)
-						Sqlite.Update(true, Constants.EncoderTable, "laterality",
-								"", encoderSQLSet.Laterality,
-								"uniqueID", eSQL.UniqueID.ToString());
-
-					if ( encoderSQLSet.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) !=
-							eSQL.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) )
+					if (eSQL.exerciseID != encoderSQLSet.exerciseID ||
+							eSQL.extraWeight != encoderSQLSet.extraWeight ||
+							eSQL.Laterality != encoderSQLSet.Laterality ||
+							eSQL.encoderConfiguration.ToStringOutput (EncoderConfiguration.Outputs.SQL) !=
+							encoderSQLSet.encoderConfiguration.ToStringOutput (EncoderConfiguration.Outputs.SQL) ||
+							eSQL.minHeight != encoderSQLSet.minHeight)
 					{
-						Sqlite.Update(true, Constants.EncoderTable, "encoderConfiguration",
-								"", encoderSQLSet.encoderConfiguration.ToStringOutput(
-									EncoderConfiguration.Outputs.SQL),
-								"uniqueID", eSQL.UniqueID.ToString());
+						eSQL.exerciseID = encoderSQLSet.exerciseID;
+						eSQL.extraWeight = encoderSQLSet.extraWeight;
+						eSQL.Laterality = encoderSQLSet.Laterality;
+						eSQL.encoderConfiguration = encoderSQLSet.encoderConfiguration;
+						eSQL.minHeight = encoderSQLSet.minHeight;
+
+						//update on SQL
+						SqliteEncoder.Update (true, eSQL);
 					}
 				}
 			}

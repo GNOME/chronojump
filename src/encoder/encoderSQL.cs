@@ -295,8 +295,11 @@ public class EncoderSQL : Event
 				"url: {9},  time: {10},  minHeight: {11},  description: {12}, " +
 				"status: {13},  videoURL: {14},  encoderConfiguration: {15},  future1: {16}, " +
 				"future2: {17},  future3: {18},   repCriteria: {19},  exerciseName: {20}",
-				uniqueID, personID, sessionID, exerciseID, eccon, laterality, extraWeight, signalOrCurve, filename,
-				url, time, minHeight, description, status, videoURL, encoderConfiguration, meanPower, meanSpeed, meanForce,  repCriteria, exerciseName);
+				uniqueID, personID, sessionID, exerciseID, eccon,
+				laterality, extraWeight, signalOrCurve, filename,
+				url, time, minHeight, description,
+				status, videoURL, encoderConfiguration.ToStringOutput (EncoderConfiguration.Outputs.SQL), meanPower,
+				meanSpeed, meanForce,  repCriteria, exerciseName);
 	}
 
 	// just to debug

@@ -428,17 +428,33 @@ public partial class ChronoJumpWindow
 	private void on_edit_selected_encoder_finished (object o, EventArgs args)
 	{
 		LogB.Information("edit selected encoder finished");
-		EncoderSQL encoder = SqliteEncoder.SelectData (treeViewResultsSession.EventSelectedID, false);
+		LogB.Information("currentEncoderSQLSet:");
+		LogB.Information(currentEncoderSQLSet.ToString ());
+
+		EncoderSQL eSQL = SqliteEncoder.SelectData (treeViewResultsSession.EventSelectedID, false);
+		LogB.Information("eSQL (new data):");
+		LogB.Information(eSQL.ToString ());
+
 
 		//if person changed, fill treeview again, if not, only update it's line
-		if (eventOldPerson == encoder.PersonID)
+		//note encoderConfiguration includes (encoder, diameter, weights (on inertial))
+		if (eSQL.PersonID != currentEncoderSQLSet.PersonID ||
+				! eSQL.encoderConfiguration.Equals (currentEncoderSQLSet.encoderConfiguration) ||
+				eSQL.exerciseID != currentEncoderSQLSet.exerciseID ||
+				eSQL.eccon != currentEncoderSQLSet.eccon ||
+				(current_mode == Constants.Modes.POWERGRAVITATORY &&
+				 eSQL.extraWeight != currentEncoderSQLSet.extraWeight) ||
+				eSQL.minHeight != currentEncoderSQLSet.minHeight)
 		{
-			//encoder.ExerciseName = SqliteTests.SelectExerciseNameInOtherTable (false, encoder.ExerciseID, Constants.EncoderExerciseTable);
-			treeViewResultsSession.Update (encoder);
-		}  else
-			pre_fillTreeView_resultsSession ();
+			currentEncoderSQLSet = eSQL;
+		
+			//LogB.Information("calling recalculate");
+			encoderCalculeCurves (encoderActions.RECALCULATE);
+			return;
+		}
 
+		//LogB.Information("DO NOT call recalculate");
+		pre_fillTreeView_resultsSession ();
 		updateGraphEncoderSessionBars ();
 	}
-
 }

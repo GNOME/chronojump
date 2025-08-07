@@ -34,6 +34,7 @@ public class DiscoverWindow
 	//... tried but complicated. note the different enumeration between discover & the gui rows
 
 	List<Gtk.ProgressBar> c1_progressbar_microNotDiscovered_l;
+	List<Gtk.ProgressBar> c1_progressbar_microAlreadyDiscovered_l; // to be used on forget
 
 	List<Gtk.Button> button_microNotDiscovered_l;
 	List<Gtk.Label> label_microNotDiscovered_l; //to use labels for ---- and NC instead of buttons
@@ -42,10 +43,17 @@ public class DiscoverWindow
 	List<Gtk.Button> button_microAlreadyDiscovered_l;
 	List<Gtk.Label> label_microAlreadyDiscovered_l; //to be able to Visible = false after ShowAll ()
 
-	List<Gtk.Button> buttonDebug_alreadyDiscovered_l; //to test debug a device
-	List<Gtk.Button> buttonDebug_notDiscovered_l; //to test debug a device
-	List<ChronopicRegisterPort> buttonDebug_alreadyDiscovered_crp_l; //to test debug a device
-	List<ChronopicRegisterPort> buttonDebug_notDiscovered_crp_l; //to test debug a device
+	//to test debug a device
+	List<Gtk.Button> buttonDebug_alreadyDiscovered_l;
+	List<Gtk.Button> buttonDebug_notDiscovered_l;
+	List<ChronopicRegisterPort> buttonDebug_alreadyDiscovered_crp_l;
+	List<ChronopicRegisterPort> buttonDebug_notDiscovered_crp_l;
+
+	//to forget a device
+	List<Gtk.Button> buttonForget_alreadyDiscovered_l;
+	List<Gtk.Button> buttonForget_notDiscovered_l;
+	List<ChronopicRegisterPort> buttonForget_alreadyDiscovered_crp_l;
+	List<ChronopicRegisterPort> buttonForget_notDiscovered_crp_l;
 
 	static bool discoverCloseAfterCancel; //is true when select useThis while reading other devices
 	static Thread discoverThread;
@@ -69,8 +77,10 @@ public class DiscoverWindow
 	private bool bgShiftedIsDark;
 	private Gtk.Label lAdvanced;
 	private bool showAdvanced;
-	private string useThisStr = "Select!";
-	private string debugThisStr = "Test it!";
+	private string useThisStr = Catalog.GetString ("Select!");
+	private string debugThisStr = Catalog.GetString ("Test it!");
+	private string forgetThisStr = Catalog.GetString ("Forget it!");
+	private string forgottenStr = Catalog.GetString ("Forgotten");
 
 	private ChronopicRegisterPort portSelected;
 
@@ -191,6 +201,7 @@ public class DiscoverWindow
 
 		// 2) create the lists of widgets to be able to access later
 		c1_progressbar_microNotDiscovered_l = new List<Gtk.ProgressBar> ();
+		c1_progressbar_microAlreadyDiscovered_l = new List<Gtk.ProgressBar> ();
 		button_microNotDiscovered_l = new List<Gtk.Button> ();
 		label_microNotDiscovered_l = new List<Gtk.Label> ();
 		portAlreadyDiscovered_l = new List<ChronopicRegisterPort> ();
@@ -201,6 +212,11 @@ public class DiscoverWindow
 		buttonDebug_notDiscovered_l = new List<Gtk.Button> ();
 		buttonDebug_alreadyDiscovered_crp_l = new List<ChronopicRegisterPort> ();
 		buttonDebug_notDiscovered_crp_l = new List<ChronopicRegisterPort> ();
+
+		buttonForget_alreadyDiscovered_l = new List<Gtk.Button> ();
+		buttonForget_notDiscovered_l = new List<Gtk.Button> ();
+		buttonForget_alreadyDiscovered_crp_l = new List<ChronopicRegisterPort> ();
+		buttonForget_notDiscovered_crp_l = new List<ChronopicRegisterPort> ();
 
 		// 3) create widgets, lists, attach to table and show all
 
@@ -230,7 +246,7 @@ public class DiscoverWindow
 		//grid_micro_discover.Attach (hbox_l1_parent, 1, 0, 2, 1);
 		grid_micro_discover.Attach (lType, 1, 0, 1, 1);
 		grid_micro_discover.Attach (lAction, 2, 0, 1, 1);
-		grid_micro_discover.Attach (lAdvanced, 3, 0, 1, 1);
+		grid_micro_discover.Attach (lAdvanced, 3, 0, 2, 1);
 
 		// 3b) create a row for each device
 		for (int i = 0; i < alreadyDiscovered_l.Count; i ++)
@@ -248,20 +264,28 @@ public class DiscoverWindow
 			if (b.Label == Catalog.GetString ("NC") || b.Label == "----")
 				b.Visible = false;
 		foreach (Gtk.Label l in label_microAlreadyDiscovered_l)
-			if (l.Text == Catalog.GetString (useThisStr))
+			if (l.Text == useThisStr)
 				l.Visible = false;
 
 		lAdvanced.Visible = showAdvanced;
+
 		foreach (Button b in buttonDebug_alreadyDiscovered_l)
 			if (b.Label == "" || ! showAdvanced)
 				b.Visible = false;
 		foreach (Button b in buttonDebug_notDiscovered_l)
 			if (b.Label == "" || ! showAdvanced)
 				b.Visible = false;
+
+		foreach (Button b in buttonForget_alreadyDiscovered_l)
+			if (b.Label == "" || ! showAdvanced)
+				b.Visible = false;
+		foreach (Button b in buttonForget_notDiscovered_l)
+			if (b.Label == "" || ! showAdvanced)
+				b.Visible = false;
 	}
 
 	/*
-	 * | l (port/serialNum) | c1_pb (progressbar) | c2_box_b_or_label (label, bSelect, bDebug)
+	 * | l (port/serialNum) | c1_pb (progressbar) | c2_box_b_or_label (label, bSelect, bDebug, bForget)
 	 */
 	private void setup_row_micro_discover_l (ChronopicRegisterPort crp, int i, bool alreadyDiscovered)
 	{
@@ -288,6 +312,7 @@ public class DiscoverWindow
 		{
 			c1_pb.Fraction = 1;
 			c1_pb.Text = ChronopicRegisterPort.TypePrint (crp.Type);
+			c1_progressbar_microAlreadyDiscovered_l.Add (c1_pb);
 		} else
 			c1_progressbar_microNotDiscovered_l.Add (c1_pb);
 
@@ -299,21 +324,27 @@ public class DiscoverWindow
 		Gtk.Box c2_box_b_or_label = new Gtk.Box (Gtk.Orientation.Horizontal, 0);
 		Gtk.Button bDebug = new Gtk.Button ();
 		bDebug.Label = "";
+		Gtk.Button bForget = new Gtk.Button ();
+		bForget.Label = "";
 
 		if (alreadyDiscovered)
 		{
 			if (discoverMatchCurrentMode (crp.Type))
 			{
 				bSelect.Sensitive = true;
-				label.Text = Catalog.GetString (useThisStr);
+				label.Text = useThisStr;
 
-				//TODO: work for more sensors
-				if (shouldHaveDebugButton (current_mode, crp.Type))
+				if (shouldHaveDebugAndForgetButtons (current_mode, crp.Type))
 				{
 					bDebug.Sensitive = true;
 					bDebug.Label = debugThisStr;
 					bDebug.Clicked -= new EventHandler (on_discover_debug_this_clicked); //needed. if not: called multiple times
 					bDebug.Clicked += new EventHandler (on_discover_debug_this_clicked);
+
+					bForget.Sensitive = true;
+					bForget.Label = forgetThisStr;
+					bForget.Clicked -= new EventHandler (on_discover_forget_this_clicked); //needed. if not: called multiple times
+					bForget.Clicked += new EventHandler (on_discover_forget_this_clicked);
 				}
 			} else
 			{
@@ -332,6 +363,9 @@ public class DiscoverWindow
 
 			buttonDebug_alreadyDiscovered_l.Add (bDebug);
 			buttonDebug_alreadyDiscovered_crp_l.Add (crp);
+
+			buttonForget_alreadyDiscovered_l.Add (bForget);
+			buttonForget_alreadyDiscovered_crp_l.Add (crp);
 		} else {
 			bSelect.Sensitive = false;
 
@@ -343,6 +377,9 @@ public class DiscoverWindow
 
 			buttonDebug_notDiscovered_l.Add (bDebug);
 			buttonDebug_notDiscovered_crp_l.Add (crp);
+
+			buttonForget_notDiscovered_l.Add (bForget);
+			buttonForget_notDiscovered_crp_l.Add (crp);
 		}
 
 		//c2_box_b_or_label has button and label, if compatible with mode will show button, if not, label
@@ -362,9 +399,10 @@ public class DiscoverWindow
 
 		grid_micro_discover.Attach (c2_box_b_or_label, 2, i, 1, 1);
 		grid_micro_discover.Attach (bDebug, 3, i, 1, 1);
+		grid_micro_discover.Attach (bForget, 4, i, 1, 1);
 	}
 
-	private bool shouldHaveDebugButton (Constants.Modes mode, ChronopicRegisterPort.Types crpType)
+	private bool shouldHaveDebugAndForgetButtons (Constants.Modes mode, ChronopicRegisterPort.Types crpType)
 	{
 		if (
 				(current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE ||
@@ -404,7 +442,7 @@ public class DiscoverWindow
 		}
 
 		//lAdvanced && buttonDebug_* is defined on setup_grid_micro_discover () if it is not called, it will be null
-		if (lAdvanced == null || buttonDebug_alreadyDiscovered_l == null || buttonDebug_notDiscovered_l == null)
+		if (lAdvanced == null || buttonDebug_alreadyDiscovered_l == null || buttonDebug_notDiscovered_l == null) // no need to change also for Forget lists
 			return;
 
 		lAdvanced.Visible = showAdvanced;
@@ -412,10 +450,17 @@ public class DiscoverWindow
 		for (int i = 0; i < buttonDebug_alreadyDiscovered_l.Count; i ++)
 			if (buttonDebug_alreadyDiscovered_l[i].Label == debugThisStr)
 				buttonDebug_alreadyDiscovered_l[i].Visible = showAdvanced;
-
 		for (int i = 0; i < buttonDebug_notDiscovered_l.Count; i ++)
 			if (buttonDebug_notDiscovered_l[i].Label == debugThisStr)
 				buttonDebug_notDiscovered_l[i].Visible = showAdvanced;
+
+		for (int i = 0; i < buttonForget_alreadyDiscovered_l.Count; i ++)
+			if (buttonForget_alreadyDiscovered_l[i].Label == forgetThisStr)
+				buttonForget_alreadyDiscovered_l[i].Visible = showAdvanced;
+		for (int i = 0; i < buttonForget_notDiscovered_l.Count; i ++)
+			if (buttonForget_notDiscovered_l[i].Label == forgetThisStr)
+				buttonForget_notDiscovered_l[i].Visible = showAdvanced;
+
 	}
 
 	private void discoverDo ()
@@ -439,6 +484,9 @@ public class DiscoverWindow
 			{
 				pb.Text = "----"; //to have height
 				pb.Fraction = 0;
+			} else if (pb.Text == forgottenStr)
+			{
+				// do not assign text if text is already "Forgotten" because while detection will show e.g. Encoder again when we have hit Forgot
 			} else if (microDiscover.ProgressBar_l[i] == MicroDiscover.Status.Done)
 			{
 				pb.Text = microDiscover.ProgressBar_l[i].ToString();
@@ -454,18 +502,23 @@ public class DiscoverWindow
 
 			if (i < microDiscover.Discovered_l.Count)
 			{
-				if (discoverMatchCurrentMode (microDiscover.Discovered_l[i]))
+				if ((c1_progressbar_microNotDiscovered_l[i]).Text == forgottenStr)
+				{
+					// do not assign text if text is already "Forgotten" because while detection will show e.g. Encoder again when we have hit Forgot
+				} else if (discoverMatchCurrentMode (microDiscover.Discovered_l[i]))
 				{
 					(c1_progressbar_microNotDiscovered_l[i]).Text = ChronopicRegisterPort.TypePrint(microDiscover.Discovered_l[i]);
+
 					button_microNotDiscovered_l[i].Sensitive = true;
-					button_microNotDiscovered_l[i].Label = Catalog.GetString (useThisStr);
+					button_microNotDiscovered_l[i].Label = useThisStr;
 					button_microNotDiscovered_l[i].Clicked -= new EventHandler(on_discover_use_this_clicked); //needed. if not: called multiple times
 					button_microNotDiscovered_l[i].Clicked += new EventHandler(on_discover_use_this_clicked);
 					button_microNotDiscovered_l[i].Visible = true;
 					label_microNotDiscovered_l[i].Visible = false;
 
-					if (shouldHaveDebugButton (current_mode, microDiscover.Discovered_l[i]))
+					if (shouldHaveDebugAndForgetButtons (current_mode, microDiscover.Discovered_l[i]))
 					{
+						// debug
 						buttonDebug_notDiscovered_crp_l[i].Type = microDiscover.Discovered_l[i];
 
 						if (showAdvanced)
@@ -474,6 +527,16 @@ public class DiscoverWindow
 						buttonDebug_notDiscovered_l[i].Label = debugThisStr;
 						buttonDebug_notDiscovered_l[i].Clicked -= new EventHandler (on_discover_debug_this_clicked); //needed. if not: called multiple times
 						buttonDebug_notDiscovered_l[i].Clicked += new EventHandler (on_discover_debug_this_clicked);
+
+						// forget
+						buttonForget_notDiscovered_crp_l[i].Type = microDiscover.Discovered_l[i];
+
+						if (showAdvanced)
+							buttonForget_notDiscovered_l[i].Visible = true;
+						buttonForget_notDiscovered_l[i].Sensitive = true;
+						buttonForget_notDiscovered_l[i].Label = forgetThisStr;
+						buttonForget_notDiscovered_l[i].Clicked -= new EventHandler (on_discover_forget_this_clicked); //needed. if not: called multiple times
+						buttonForget_notDiscovered_l[i].Clicked += new EventHandler (on_discover_forget_this_clicked);
 					}
 				} else {
 					button_microNotDiscovered_l[i].Visible = false;
@@ -639,6 +702,22 @@ public class DiscoverWindow
 				on_discover_debug_this_clicked_do (buttonDebug_notDiscovered_crp_l[i], buttonDebug_notDiscovered_l[i]);
 	}
 
+	private void on_discover_forget_this_clicked (object o, EventArgs args)
+	{
+		Button bPress = (Button) o;
+
+		// 1) test the discovered by MicroDiscover
+		//loop the list to know which button was
+		for (int i = 0 ; i < buttonForget_alreadyDiscovered_l.Count; i ++)
+			if (buttonForget_alreadyDiscovered_l[i] == bPress)
+				on_discover_forget_this_clicked_do (portAlreadyDiscovered_l[i], true); // alreadyDiscovered
+
+		for (int i = 0 ; i < buttonForget_notDiscovered_l.Count; i ++)
+			if (buttonForget_notDiscovered_l[i] == bPress)
+				on_discover_forget_this_clicked_do (buttonForget_notDiscovered_crp_l[i], false); // not alreadyDiscovered
+	}
+
+
 	//TODO: implement for more sensors
 	private void on_discover_debug_this_clicked_do (ChronopicRegisterPort crp, Gtk.Button bDebug)
 	{
@@ -689,6 +768,47 @@ public class DiscoverWindow
 			dd = new DebugEncoder (crp);
 			new DialogMessage (dd.Title, Constants.MessageTypes.INFO, 450, 400, dd.Str);
 		}
+	}
+
+	private void on_discover_forget_this_clicked_do (ChronopicRegisterPort crp, bool alreadyDiscovered)
+	{
+		// 1. forget the device on SQL
+		if (SqliteChronopicRegister.Exists (false, crp.SerialNumber))
+			SqliteChronopicRegister.Delete (false, crp);
+
+		// 2. changes on gui
+		if (alreadyDiscovered)
+		{
+			for (int i = 0; i < buttonForget_alreadyDiscovered_crp_l.Count; i ++)
+				if (buttonForget_alreadyDiscovered_crp_l[i] == crp)
+				{
+					guiMarkAlreadyDiscoveredCrpAsForgotten (i);
+					return;
+				}
+		}
+		else {
+			for (int i = 0; i < buttonForget_notDiscovered_crp_l.Count; i ++)
+				if (buttonForget_notDiscovered_crp_l[i] == crp)
+				{
+					guiMarkNotDiscoveredCrpAsForgotten (i);
+					return;
+				}
+		}
+	}
+
+	private void guiMarkAlreadyDiscoveredCrpAsForgotten (int i)
+	{
+		c1_progressbar_microAlreadyDiscovered_l[i].Text = forgottenStr;
+		button_microAlreadyDiscovered_l[i].Sensitive = false;
+		buttonDebug_alreadyDiscovered_l[i].Sensitive = false;
+		buttonForget_alreadyDiscovered_l[i].Sensitive = false;
+	}
+	private void guiMarkNotDiscoveredCrpAsForgotten (int i)
+	{
+		c1_progressbar_microNotDiscovered_l[i].Text = forgottenStr;
+		button_microNotDiscovered_l[i].Sensitive = false;
+		buttonDebug_notDiscovered_l[i].Sensitive = false;
+		buttonForget_notDiscovered_l[i].Sensitive = false;
 	}
 
 	static Thread debugThread;

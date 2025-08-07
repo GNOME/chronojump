@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -111,7 +111,7 @@ class SqliteChronopicRegister : Sqlite
 		return found;
 	}
 
-	public static void Insert(bool dbconOpened, ChronopicRegisterPort crp)
+	public static void Insert (bool dbconOpened, ChronopicRegisterPort crp)
 	{
 		openIfNeeded(dbconOpened);
 		
@@ -124,7 +124,7 @@ class SqliteChronopicRegister : Sqlite
 		closeIfNeeded(dbconOpened);
 	}
 	
-	public static void Update(bool dbconOpened, ChronopicRegisterPort crp, ChronopicRegisterPort.Types newType)
+	public static void Update (bool dbconOpened, ChronopicRegisterPort crp, ChronopicRegisterPort.Types newType)
 	{
 		openIfNeeded(dbconOpened);
 
@@ -137,12 +137,12 @@ class SqliteChronopicRegister : Sqlite
 		closeIfNeeded(dbconOpened);
 	}
 	
-	public static void Delete(bool dbconOpened, ChronopicRegisterPort crp)
+	public static void Delete (bool dbconOpened, ChronopicRegisterPort crp)
 	{
 		openIfNeeded(dbconOpened);
 
 		dbcmd.CommandText = "DELETE FROM " + table +
-			" WHERE serialNumber = " + crp.SerialNumber;
+			" WHERE serialNumber = '" + crp.SerialNumber + "'" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		

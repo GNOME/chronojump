@@ -1290,7 +1290,7 @@ public class GetMaxAvgInWindow : GetMaxValueInWindow
 		 * this method using findSampleAtWindowSeconds is more accurate than past method
 		 * on past method we calculate the frames for 1st second and then we advance 1 frame each time
 		 * having a sum that - the past value and + the new value
-		 * this is slower becasuse it sums all the second (or X seconds)
+		 * this is slower because it sums all the second (or X seconds)
 		 * but more accurate for raceAnalyzer where the samples needed for 1st second are very different than the samples needed for any second later
 		 */
 		for (int i = countA; i < countB; i ++)

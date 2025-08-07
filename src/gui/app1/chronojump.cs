@@ -8319,6 +8319,7 @@ public partial class ChronoJumpWindow
 		LogB.Information (string.Format (" sensitiveGuiEventDone end mode: {0}", current_mode));
 	}
 
+	//TODO: remove this and use showHideActionEventButtons, and rename it
 	//to sensitive on and off the play_this_test and delete_this_test
 	private void sensitiveLastTestButtons(bool sensitive)
 	{

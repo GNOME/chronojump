@@ -354,7 +354,7 @@ public class EncoderSignalCurve
 			curveID.ToString() + ":" + msCentral.ToString();
 	}
 
-	// for some reason, some EncoderSignalCurve recoreds are repeated on DB
+	// for some reason, some EncoderSignalCurve records are repeated on DB
 	public override bool Equals (object evalString)
 	{
 		return this.ToString() == evalString.ToString();

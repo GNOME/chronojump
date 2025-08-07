@@ -246,7 +246,7 @@ public class DiscoverWindow
 		//grid_micro_discover.Attach (hbox_l1_parent, 1, 0, 2, 1);
 		grid_micro_discover.Attach (lType, 1, 0, 1, 1);
 		grid_micro_discover.Attach (lAction, 2, 0, 1, 1);
-		grid_micro_discover.Attach (lAdvanced, 3, 0, 2, 1);
+		grid_micro_discover.Attach (lAdvanced, 3, 0, 1, 1);
 
 		// 3b) create a row for each device
 		for (int i = 0; i < alreadyDiscovered_l.Count; i ++)
@@ -318,14 +318,17 @@ public class DiscoverWindow
 
 		grid_micro_discover.Attach (c1_pb, 1, i, 1, 1);
 
-		// ---- column 2, 3
+		// ---- column 2
 		Gtk.Label label = new Gtk.Label (); //used on NC and ----
 		Gtk.Button bSelect = new Gtk.Button (); //used on Select!
 		Gtk.Box c2_box_b_or_label = new Gtk.Box (Gtk.Orientation.Horizontal, 0);
+
+		// ---- column 3
 		Gtk.Button bDebug = new Gtk.Button ();
 		bDebug.Label = "";
 		Gtk.Button bForget = new Gtk.Button ();
 		bForget.Label = "";
+		Gtk.Box c3_advancedButtons = new Gtk.Box (Gtk.Orientation.Horizontal, 6);
 
 		if (alreadyDiscovered)
 		{
@@ -398,8 +401,11 @@ public class DiscoverWindow
 		*/
 
 		grid_micro_discover.Attach (c2_box_b_or_label, 2, i, 1, 1);
-		grid_micro_discover.Attach (bDebug, 3, i, 1, 1);
-		grid_micro_discover.Attach (bForget, 4, i, 1, 1);
+
+		// c3 advanced
+		c3_advancedButtons.PackStart (bDebug, false, false, 0);
+		c3_advancedButtons.PackStart (bForget, false, false, 0);
+		grid_micro_discover.Attach (c3_advancedButtons, 3, i, 1, 1);
 	}
 
 	private bool shouldHaveDebugAndForgetButtons (Constants.Modes mode, ChronopicRegisterPort.Types crpType)

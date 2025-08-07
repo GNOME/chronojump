@@ -638,8 +638,9 @@ public class DiscoverWindow
 
 				(c1_progressbar_microNotDiscovered_l[i]).Fraction = 1;
 
-				if ( ! (i < microDiscover.Discovered_l.Count &&
-							discoverMatchCurrentMode (microDiscover.Discovered_l[i])) )
+				if ( ! (i < microDiscover.Discovered_l.Count && discoverMatchCurrentMode (microDiscover.Discovered_l[i])) &&
+						! c1_progressbar_microNotDiscovered_l[i].Text.StartsWith (manuallyAssignedStr)
+				   )
 					(c1_progressbar_microNotDiscovered_l[i]).Text = "";
 			}
 
@@ -929,12 +930,26 @@ public class DiscoverWindow
 		c1_progressbar_microAlreadyDiscovered_l[i].Text =
 			manuallyAssignedStr + ChronopicRegisterPort.TypePrint (crp.Type);
 		buttonManuallyAssign_alreadyDiscovered_l[i].Sensitive = false;
+
+		button_microAlreadyDiscovered_l[i].Clicked -= new EventHandler (on_discover_use_this_clicked); //needed. if not: called multiple times
+		button_microAlreadyDiscovered_l[i].Clicked += new EventHandler (on_discover_use_this_clicked);
+		button_microAlreadyDiscovered_l[i].Label = useThisStr;
+		button_microAlreadyDiscovered_l[i].Sensitive = true;
+		button_microAlreadyDiscovered_l[i].Visible = true;
 	}
 	private void guiMarkNotDiscoveredCrpAsManuallyAssigned (int i, ChronopicRegisterPort crp)
 	{
 		c1_progressbar_microNotDiscovered_l[i].Text =
 			manuallyAssignedStr + ChronopicRegisterPort.TypePrint (crp.Type);
 		buttonManuallyAssign_notDiscovered_l[i].Sensitive = false;
+
+		button_microNotDiscovered_l[i].Clicked -= new EventHandler (on_discover_use_this_clicked); //needed. if not: called multiple times
+		button_microNotDiscovered_l[i].Clicked += new EventHandler (on_discover_use_this_clicked);
+		button_microNotDiscovered_l[i].Label = useThisStr;
+		button_microNotDiscovered_l[i].Sensitive = true;
+		button_microNotDiscovered_l[i].Visible = true;
+
+		label_microNotDiscovered_l[i].Visible = false;
 	}
 
 	static Thread debugThread;

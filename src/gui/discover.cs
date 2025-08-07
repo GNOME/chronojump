@@ -535,14 +535,17 @@ public class DiscoverWindow
 						buttonDebug_notDiscovered_l[i].Clicked += new EventHandler (on_discover_debug_this_clicked);
 
 						// forget
-						buttonForget_notDiscovered_crp_l[i].Type = microDiscover.Discovered_l[i];
+						if (! chronopicRegister.SerialNumberIsNotUnique (buttonForget_notDiscovered_crp_l[i].SerialNumber)) //A50285BI shoud have not a forget it as it is always forgotten
+						{
+							buttonForget_notDiscovered_crp_l[i].Type = microDiscover.Discovered_l[i];
 
-						if (showAdvanced)
-							buttonForget_notDiscovered_l[i].Visible = true;
-						buttonForget_notDiscovered_l[i].Sensitive = true;
-						buttonForget_notDiscovered_l[i].Label = forgetThisStr;
-						buttonForget_notDiscovered_l[i].Clicked -= new EventHandler (on_discover_forget_this_clicked); //needed. if not: called multiple times
-						buttonForget_notDiscovered_l[i].Clicked += new EventHandler (on_discover_forget_this_clicked);
+							if (showAdvanced)
+								buttonForget_notDiscovered_l[i].Visible = true;
+							buttonForget_notDiscovered_l[i].Sensitive = true;
+							buttonForget_notDiscovered_l[i].Label = forgetThisStr;
+							buttonForget_notDiscovered_l[i].Clicked -= new EventHandler (on_discover_forget_this_clicked); //needed. if not: called multiple times
+							buttonForget_notDiscovered_l[i].Clicked += new EventHandler (on_discover_forget_this_clicked);
+						}
 					}
 				} else {
 					button_microNotDiscovered_l[i].Visible = false;

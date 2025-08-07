@@ -55,6 +55,12 @@ public class DiscoverWindow
 	List<ChronopicRegisterPort> buttonForget_alreadyDiscovered_crp_l;
 	List<ChronopicRegisterPort> buttonForget_notDiscovered_crp_l;
 
+	//to manuallyAssign a device
+	List<Gtk.Button> buttonManuallyAssign_alreadyDiscovered_l;
+	List<Gtk.Button> buttonManuallyAssign_notDiscovered_l;
+	List<ChronopicRegisterPort> buttonManuallyAssign_alreadyDiscovered_crp_l;
+	List<ChronopicRegisterPort> buttonManuallyAssign_notDiscovered_crp_l;
+
 	static bool discoverCloseAfterCancel; //is true when select useThis while reading other devices
 	static Thread discoverThread;
 	static MicroDiscover microDiscover;
@@ -81,6 +87,8 @@ public class DiscoverWindow
 	private string debugThisStr = Catalog.GetString ("Test it!");
 	private string forgetThisStr = Catalog.GetString ("Forget it!");
 	private string forgottenStr = Catalog.GetString ("Forgotten");
+	private string manuallyAssignThisStr = Catalog.GetString ("Manually assign");
+	private string manuallyAssignedStr = Catalog.GetString ("Manually assigned: ");
 
 	private ChronopicRegisterPort portSelected;
 
@@ -218,6 +226,11 @@ public class DiscoverWindow
 		buttonForget_alreadyDiscovered_crp_l = new List<ChronopicRegisterPort> ();
 		buttonForget_notDiscovered_crp_l = new List<ChronopicRegisterPort> ();
 
+		buttonManuallyAssign_alreadyDiscovered_l = new List<Gtk.Button> ();
+		buttonManuallyAssign_notDiscovered_l = new List<Gtk.Button> ();
+		buttonManuallyAssign_alreadyDiscovered_crp_l = new List<ChronopicRegisterPort> ();
+		buttonManuallyAssign_notDiscovered_crp_l = new List<ChronopicRegisterPort> ();
+
 		// 3) create widgets, lists, attach to table and show all
 
 		// 3a) create table header row
@@ -282,10 +295,17 @@ public class DiscoverWindow
 		foreach (Button b in buttonForget_notDiscovered_l)
 			if (b.Label == "" || ! showAdvanced)
 				b.Visible = false;
+
+		foreach (Button b in buttonManuallyAssign_alreadyDiscovered_l)
+			if (b.Label == "" || ! showAdvanced)
+				b.Visible = false;
+		foreach (Button b in buttonManuallyAssign_notDiscovered_l)
+			if (b.Label == "" || ! showAdvanced)
+				b.Visible = false;
 	}
 
 	/*
-	 * | l (port/serialNum) | c1_pb (progressbar) | c2_box_b_or_label (label, bSelect, bDebug, bForget)
+	 * | l (port/serialNum) | c1_pb (progressbar) | c2_box_b_or_label (label, bSelect) | c3i_advancedButtons (bDebug, bForget (if !magicNumber)) or manually assign
 	 */
 	private void setup_row_micro_discover_l (ChronopicRegisterPort crp, int i, bool alreadyDiscovered)
 	{
@@ -328,6 +348,8 @@ public class DiscoverWindow
 		bDebug.Label = "";
 		Gtk.Button bForget = new Gtk.Button ();
 		bForget.Label = "";
+		Gtk.Button bManuallyAssign = new Gtk.Button ();
+		bManuallyAssign.Label = "";
 		Gtk.Box c3_advancedButtons = new Gtk.Box (Gtk.Orientation.Horizontal, 6);
 
 		if (alreadyDiscovered)
@@ -353,7 +375,17 @@ public class DiscoverWindow
 			{
 				bSelect.Sensitive = false;
 				label.Text = Catalog.GetString ("NC");
-				box_micro_discover_nc.Visible = true;
+
+				// A50285BI cannot be manually assigned
+				if (! chronopicRegister.SerialNumberIsNotUnique (crp.SerialNumber))
+				{
+					bManuallyAssign.Sensitive = true;
+					bManuallyAssign.Label = manuallyAssignThisStr;
+					bManuallyAssign.Clicked -= new EventHandler (on_discover_manuallyAssign_this_clicked); //needed. if not: called multiple times
+					bManuallyAssign.Clicked += new EventHandler (on_discover_manuallyAssign_this_clicked);
+
+					box_micro_discover_nc.Visible = true;
+				}
 			}
 
 			//label_microAlreadyDiscovered_l.Add (label);
@@ -369,6 +401,9 @@ public class DiscoverWindow
 
 			buttonForget_alreadyDiscovered_l.Add (bForget);
 			buttonForget_alreadyDiscovered_crp_l.Add (crp);
+
+			buttonManuallyAssign_alreadyDiscovered_l.Add (bManuallyAssign);
+			buttonManuallyAssign_alreadyDiscovered_crp_l.Add (crp);
 		} else {
 			bSelect.Sensitive = false;
 
@@ -383,6 +418,9 @@ public class DiscoverWindow
 
 			buttonForget_notDiscovered_l.Add (bForget);
 			buttonForget_notDiscovered_crp_l.Add (crp);
+
+			buttonManuallyAssign_notDiscovered_l.Add (bManuallyAssign);
+			buttonManuallyAssign_notDiscovered_crp_l.Add (crp);
 		}
 
 		//c2_box_b_or_label has button and label, if compatible with mode will show button, if not, label
@@ -405,6 +443,7 @@ public class DiscoverWindow
 		// c3 advanced
 		c3_advancedButtons.PackStart (bDebug, false, false, 0);
 		c3_advancedButtons.PackStart (bForget, false, false, 0);
+		c3_advancedButtons.PackStart (bManuallyAssign, false, false, 0);
 		grid_micro_discover.Attach (c3_advancedButtons, 3, i, 1, 1);
 	}
 
@@ -467,6 +506,12 @@ public class DiscoverWindow
 			if (buttonForget_notDiscovered_l[i].Label == forgetThisStr)
 				buttonForget_notDiscovered_l[i].Visible = showAdvanced;
 
+		for (int i = 0; i < buttonManuallyAssign_alreadyDiscovered_l.Count; i ++)
+			if (buttonManuallyAssign_alreadyDiscovered_l[i].Label == manuallyAssignThisStr)
+				buttonManuallyAssign_alreadyDiscovered_l[i].Visible = showAdvanced;
+		for (int i = 0; i < buttonManuallyAssign_notDiscovered_l.Count; i ++)
+			if (buttonManuallyAssign_notDiscovered_l[i].Label == manuallyAssignThisStr)
+				buttonManuallyAssign_notDiscovered_l[i].Visible = showAdvanced;
 	}
 
 	private void discoverDo ()
@@ -490,7 +535,7 @@ public class DiscoverWindow
 			{
 				pb.Text = "----"; //to have height
 				pb.Fraction = 0;
-			} else if (pb.Text == forgottenStr)
+			} else if (pb.Text == forgottenStr || pb.Text.StartsWith (manuallyAssignedStr))
 			{
 				// do not assign text if text is already "Forgotten" because while detection will show e.g. Encoder again when we have hit Forgot
 			} else if (microDiscover.ProgressBar_l[i] == MicroDiscover.Status.Done)
@@ -508,7 +553,8 @@ public class DiscoverWindow
 
 			if (i < microDiscover.Discovered_l.Count)
 			{
-				if ((c1_progressbar_microNotDiscovered_l[i]).Text == forgottenStr)
+				if ((c1_progressbar_microNotDiscovered_l[i]).Text == forgottenStr ||
+						(c1_progressbar_microNotDiscovered_l[i]).Text.StartsWith (manuallyAssignedStr))
 				{
 					// do not assign text if text is already "Forgotten" because while detection will show e.g. Encoder again when we have hit Forgot
 				} else if (discoverMatchCurrentMode (microDiscover.Discovered_l[i]))
@@ -535,7 +581,7 @@ public class DiscoverWindow
 						buttonDebug_notDiscovered_l[i].Clicked += new EventHandler (on_discover_debug_this_clicked);
 
 						// forget
-						if (! chronopicRegister.SerialNumberIsNotUnique (buttonForget_notDiscovered_crp_l[i].SerialNumber)) //A50285BI shoud have not a forget it as it is always forgotten
+						if (! chronopicRegister.SerialNumberIsNotUnique (buttonForget_notDiscovered_crp_l[i].SerialNumber)) // A50285BI shoud have not a forget it as it is always forgotten
 						{
 							buttonForget_notDiscovered_crp_l[i].Type = microDiscover.Discovered_l[i];
 
@@ -552,7 +598,20 @@ public class DiscoverWindow
 					label_microNotDiscovered_l[i].Text = Catalog.GetString ("NC");
 					label_microNotDiscovered_l[i].Visible = true;
 
-					box_micro_discover_nc.Visible = true;
+					buttonManuallyAssign_notDiscovered_crp_l[i].Type = microDiscover.Discovered_l[i];
+
+					// A50285BI cannot be manually assigned
+					if (! chronopicRegister.SerialNumberIsNotUnique (buttonManuallyAssign_notDiscovered_crp_l[i].SerialNumber))
+					{
+						if (showAdvanced)
+							buttonManuallyAssign_notDiscovered_l[i].Visible = true;
+						buttonManuallyAssign_notDiscovered_l[i].Sensitive = true;
+						buttonManuallyAssign_notDiscovered_l[i].Label = manuallyAssignThisStr;
+						buttonManuallyAssign_notDiscovered_l[i].Clicked -= new EventHandler (on_discover_manuallyAssign_this_clicked); //needed. if not: called multiple times
+						buttonManuallyAssign_notDiscovered_l[i].Clicked += new EventHandler (on_discover_manuallyAssign_this_clicked);
+
+						box_micro_discover_nc.Visible = true;
+					}
 				}
 			}
 
@@ -726,8 +785,21 @@ public class DiscoverWindow
 				on_discover_forget_this_clicked_do (buttonForget_notDiscovered_crp_l[i], false); // not alreadyDiscovered
 	}
 
+	private void on_discover_manuallyAssign_this_clicked (object o, EventArgs args)
+	{
+		Button bPress = (Button) o;
 
-	//TODO: implement for more sensors
+		// 1) test the discovered by MicroDiscover
+		//loop the list to know which button was
+		for (int i = 0 ; i < buttonManuallyAssign_alreadyDiscovered_l.Count; i ++)
+			if (buttonManuallyAssign_alreadyDiscovered_l[i] == bPress)
+				on_discover_manuallyAssign_this_clicked_do (portAlreadyDiscovered_l[i], true); // alreadyDiscovered
+
+		for (int i = 0 ; i < buttonManuallyAssign_notDiscovered_l.Count; i ++)
+			if (buttonManuallyAssign_notDiscovered_l[i] == bPress)
+				on_discover_manuallyAssign_this_clicked_do (buttonManuallyAssign_notDiscovered_crp_l[i], false); // not alreadyDiscovered
+	}
+
 	private void on_discover_debug_this_clicked_do (ChronopicRegisterPort crp, Gtk.Button bDebug)
 	{
 		if (crp.Type != ChronopicRegisterPort.Types.CONTACTS &&
@@ -804,7 +876,6 @@ public class DiscoverWindow
 				}
 		}
 	}
-
 	private void guiMarkAlreadyDiscoveredCrpAsForgotten (int i)
 	{
 		c1_progressbar_microAlreadyDiscovered_l[i].Text = forgottenStr;
@@ -818,6 +889,53 @@ public class DiscoverWindow
 		button_microNotDiscovered_l[i].Sensitive = false;
 		buttonDebug_notDiscovered_l[i].Sensitive = false;
 		buttonForget_notDiscovered_l[i].Sensitive = false;
+	}
+
+	private void on_discover_manuallyAssign_this_clicked_do (ChronopicRegisterPort crp, bool alreadyDiscovered)
+	{
+		// 0. assign to which mode
+		if (Constants.ModeIsENCODER (current_mode))
+			crp.Type = ChronopicRegisterPort.Types.ENCODER;
+		else {
+			//TODO add the rest of modes
+			new DialogMessage ("TODO", Constants.MessageTypes.INFO, 450, 400, " TODO ");
+			return;
+		}
+
+		// 1. manuallyAssign the device on SQL
+//		if (SqliteChronopicRegister.Exists (false, crp.SerialNumber))
+			SqliteChronopicRegister.Insert (false, crp);
+
+		// 2. changes on gui
+		if (alreadyDiscovered)
+		{
+			for (int i = 0; i < buttonManuallyAssign_alreadyDiscovered_crp_l.Count; i ++)
+				if (buttonManuallyAssign_alreadyDiscovered_crp_l[i] == crp)
+				{
+					guiMarkAlreadyDiscoveredCrpAsManuallyAssigned (i, crp);
+					return;
+				}
+		}
+		else {
+			for (int i = 0; i < buttonManuallyAssign_notDiscovered_crp_l.Count; i ++)
+				if (buttonManuallyAssign_notDiscovered_crp_l[i] == crp)
+				{
+					guiMarkNotDiscoveredCrpAsManuallyAssigned (i, crp);
+					return;
+				}
+		}
+	}
+	private void guiMarkAlreadyDiscoveredCrpAsManuallyAssigned (int i, ChronopicRegisterPort crp)
+	{
+		c1_progressbar_microAlreadyDiscovered_l[i].Text =
+			manuallyAssignedStr + ChronopicRegisterPort.TypePrint (crp.Type);
+		buttonManuallyAssign_alreadyDiscovered_l[i].Sensitive = false;
+	}
+	private void guiMarkNotDiscoveredCrpAsManuallyAssigned (int i, ChronopicRegisterPort crp)
+	{
+		c1_progressbar_microNotDiscovered_l[i].Text =
+			manuallyAssignedStr + ChronopicRegisterPort.TypePrint (crp.Type);
+		buttonManuallyAssign_notDiscovered_l[i].Sensitive = false;
 	}
 
 	static Thread debugThread;

@@ -924,8 +924,12 @@ public class DiscoverWindow
 
 	private void on_discover_manuallyAssign_this_clicked (object o, EventArgs args)
 	{
-		// 0. Exit if not implemented yet for this mode 	//TODO add the rest of modes
+		// 0. Exit if not implemented yet for this mode
 		if (
+				current_mode != Constants.Modes.JUMPSSIMPLE &&
+				current_mode != Constants.Modes.JUMPSREACTIVE &&
+				current_mode != Constants.Modes.RUNSSIMPLE &&
+				current_mode != Constants.Modes.RUNSINTERVALLIC &&
 				current_mode != Constants.Modes.RUNSENCODER &&
 				! Constants.ModeIsFORCESENSOR (current_mode) &&
 				! Constants.ModeIsENCODER (current_mode)
@@ -952,16 +956,27 @@ public class DiscoverWindow
 
 		button_manually_assign1.Visible = true;
 		button_manually_assign2.Visible = false;
+		string assignAsStr = Catalog.GetString ("Assign as:") + " ";
 
-		if (current_mode == Constants.Modes.RUNSENCODER)
-			button_manually_assign1.Label = Catalog.GetString ("Assign as:") + " " +
-				Catalog.GetString ("Race Analyzer");
+		//TODO: fourPlatforms
+		if (current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE)
+			button_manually_assign1.Label = assignAsStr + Catalog.GetString ("Chronopic");
+		else if (current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC) {
+			button_manually_assign1.Label = assignAsStr +
+				ChronopicRegisterPort.TypePrint (ChronopicRegisterPort.Types.RUN_WIRELESS); //WICHRO
+			button_manually_assign2.Label = assignAsStr +
+				Catalog.GetString ("Old cabled photocells");
+			button_manually_assign2.Visible = true;
+		}
+		else if (current_mode == Constants.Modes.RUNSENCODER)
+			button_manually_assign1.Label = assignAsStr +
+				ChronopicRegisterPort.TypePrint (ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER);
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
-			button_manually_assign1.Label = Catalog.GetString ("Assign as:") + " " +
-				Catalog.GetString ("Isometric") + " / " + Catalog.GetString ("Elastic");
+			button_manually_assign1.Label = assignAsStr +
+				ChronopicRegisterPort.TypePrint (ChronopicRegisterPort.Types.ARDUINO_FORCE);
 		else if (Constants.ModeIsENCODER (current_mode))
-			button_manually_assign1.Label = Catalog.GetString ("Assign as:") + " " +
-				Catalog.GetString ("Encoder");
+			button_manually_assign1.Label = assignAsStr +
+				ChronopicRegisterPort.TypePrint (ChronopicRegisterPort.Types.ENCODER);
 
 		ShowAssignManuallyBox (true);
 	}
@@ -976,7 +991,11 @@ public class DiscoverWindow
 
 	private void on_button_manually_assign1_clicked (object o, EventArgs args)
 	{
-		if (current_mode == Constants.Modes.RUNSENCODER)
+		if (current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE)
+			crpManuallyAssign.Type = ChronopicRegisterPort.Types.CONTACTS;
+		else if (current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC)
+			crpManuallyAssign.Type = ChronopicRegisterPort.Types.RUN_WIRELESS;
+		else if (current_mode == Constants.Modes.RUNSENCODER)
 			crpManuallyAssign.Type = ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER;
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
 			crpManuallyAssign.Type = ChronopicRegisterPort.Types.ARDUINO_FORCE;
@@ -988,7 +1007,8 @@ public class DiscoverWindow
 
 	private void on_button_manually_assign2_clicked (object o, EventArgs args)
 	{
-		//TODO
+		//if (current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC)
+			crpManuallyAssign.Type = ChronopicRegisterPort.Types.CONTACTS;
 
 		manually_assign_finish ();
 	}

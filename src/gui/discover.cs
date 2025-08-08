@@ -399,28 +399,20 @@ public class DiscoverWindow
 					bDebug.Label = debugThisStr;
 					bDebug.Clicked -= new EventHandler (on_discover_debug_this_clicked); //needed. if not: called multiple times
 					bDebug.Clicked += new EventHandler (on_discover_debug_this_clicked);
-
-					bForget.Sensitive = true;
-					bForget.Label = forgetThisStr;
-					bForget.Clicked -= new EventHandler (on_discover_forget_this_clicked); //needed. if not: called multiple times
-					bForget.Clicked += new EventHandler (on_discover_forget_this_clicked);
 				}
-			} else
+			} else // crp.Type does not match current_mode
 			{
 				bSelect.Sensitive = false;
 				label.Text = Catalog.GetString ("NC");
 
-				// A50285BI cannot be manually assigned
-				if (! chronopicRegister.SerialNumberIsNotUnique (crp.SerialNumber))
-				{
-					bManuallyAssign.Sensitive = true;
-					bManuallyAssign.Label = manuallyAssignThisStr;
-					bManuallyAssign.Clicked -= new EventHandler (on_discover_manuallyAssign_this_clicked); //needed. if not: called multiple times
-					bManuallyAssign.Clicked += new EventHandler (on_discover_manuallyAssign_this_clicked);
-
-					box_micro_discover_nc.Visible = true;
-				}
+				box_micro_discover_nc.Visible = true;
 			}
+
+			// we can forget a device that has been assigned to current_mode or others
+			bForget.Sensitive = true;
+			bForget.Label = forgetThisStr;
+			bForget.Clicked -= new EventHandler (on_discover_forget_this_clicked); //needed. if not: called multiple times
+			bForget.Clicked += new EventHandler (on_discover_forget_this_clicked);
 
 			//label_microAlreadyDiscovered_l.Add (label);
 			bSelect.Label = label.Text;
@@ -933,7 +925,11 @@ public class DiscoverWindow
 	private void on_discover_manuallyAssign_this_clicked (object o, EventArgs args)
 	{
 		// 0. Exit if not implemented yet for this mode 	//TODO add the rest of modes
-		if (! Constants.ModeIsENCODER (current_mode))
+		if (
+				current_mode != Constants.Modes.RUNSENCODER &&
+				! Constants.ModeIsFORCESENSOR (current_mode) &&
+				! Constants.ModeIsENCODER (current_mode)
+		      )
 		{
 			new DialogMessage ("TODO", Constants.MessageTypes.INFO, 450, 400, " TODO ");
 			return;
@@ -954,18 +950,24 @@ public class DiscoverWindow
 		if (! found)
 			return;
 
-		ShowAssignManually (true);
-		if (Constants.ModeIsENCODER (current_mode))
-		{
-			button_manually_assign1.Label = Catalog.GetString ("Assign as encoder");
-			button_manually_assign1.Visible = true;
+		button_manually_assign1.Visible = true;
+		button_manually_assign2.Visible = false;
 
-			button_manually_assign2.Visible = false;
-		}
+		if (current_mode == Constants.Modes.RUNSENCODER)
+			button_manually_assign1.Label = Catalog.GetString ("Assign as:") + " " +
+				Catalog.GetString ("Race Analyzer");
+		else if (Constants.ModeIsFORCESENSOR (current_mode))
+			button_manually_assign1.Label = Catalog.GetString ("Assign as:") + " " +
+				Catalog.GetString ("Isometric") + " / " + Catalog.GetString ("Elastic");
+		else if (Constants.ModeIsENCODER (current_mode))
+			button_manually_assign1.Label = Catalog.GetString ("Assign as:") + " " +
+				Catalog.GetString ("Encoder");
+
+		ShowAssignManuallyBox (true);
 	}
 
 	//private void on_button_micro_discover_assign_manually_cancel_clicked (object o, EventArgs args)
-	public void ShowAssignManually (bool show)
+	public void ShowAssignManuallyBox (bool show)
 	{
 		vbox_micro_discover_main.Visible = ! show;
 		box_micro_discover_assign_manually.Visible = show;
@@ -974,7 +976,11 @@ public class DiscoverWindow
 
 	private void on_button_manually_assign1_clicked (object o, EventArgs args)
 	{
-		if (Constants.ModeIsENCODER (current_mode))
+		if (current_mode == Constants.Modes.RUNSENCODER)
+			crpManuallyAssign.Type = ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER;
+		else if (Constants.ModeIsFORCESENSOR (current_mode))
+			crpManuallyAssign.Type = ChronopicRegisterPort.Types.ARDUINO_FORCE;
+		else if (Constants.ModeIsENCODER (current_mode))
 			crpManuallyAssign.Type = ChronopicRegisterPort.Types.ENCODER;
 
 		manually_assign_finish ();
@@ -999,7 +1005,7 @@ public class DiscoverWindow
 			if (buttonManuallyAssign_notDiscovered_crp_l[i] == crpManuallyAssign)
 				guiMarkNotDiscoveredCrpAsManuallyAssigned (i, crpManuallyAssign);
 
-		ShowAssignManually (false);
+		ShowAssignManuallyBox (false);
 	}
 
 	private void guiMarkNotDiscoveredCrpAsManuallyAssigned (int i, ChronopicRegisterPort crp)

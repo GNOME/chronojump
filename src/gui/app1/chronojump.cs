@@ -4687,7 +4687,7 @@ public partial class ChronoJumpWindow
 	private void on_button_micro_discover_assign_manually_cancel_clicked (object o, EventArgs args)
 	{
 		if (discoverWin != null)
-			discoverWin.ShowAssignManually (false);
+			discoverWin.ShowAssignManuallyBox (false);
 	}
 
 	private void on_button_micro_discover_cancel_close_clicked (object o, EventArgs args)

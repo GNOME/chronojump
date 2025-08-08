@@ -86,8 +86,8 @@ public class DiscoverWindow
 	private string debugThisStr = Catalog.GetString ("Test it!");
 	private string forgetThisStr = Catalog.GetString ("Forget it!");
 	private string forgottenStr = Catalog.GetString ("Forgotten");
-	private string manuallyAssignThisStr = Catalog.GetString ("Manually assign");
-	private string manuallyAssignedStr = Catalog.GetString ("Manually assigned: ");
+	private string manuallyAssignThisStr = Catalog.GetString ("Assign manually");
+	private string manuallyAssignedStr = Catalog.GetString ("Assigned manually: ");
 
 	private ChronopicRegisterPort portSelected;
 

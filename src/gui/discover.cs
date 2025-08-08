@@ -69,11 +69,15 @@ public class DiscoverWindow
 	private Gtk.Window parentWin;
 	private Constants.Modes current_mode;
 	private ChronopicRegister chronopicRegister;
+	private Gtk.VBox vbox_micro_discover_main;
+	private Gtk.Box box_micro_discover_assign_manually;
+	private Gtk.ButtonBox buttonbox_micro_discover_assign_manually;
 	private Gtk.Grid grid_micro_discover;
 	private Gtk.Box box_micro_discover_nc;
 	private Gtk.Button button_micro_discover_cancel_close;
 	private Gtk.Image image_button_micro_discover_cancel_close;
 	private Gtk.Label label_button_micro_discover_cancel_close;
+	private Gtk.Image image_button_micro_discover_assign_manually_cancel;
 	private Gtk.CheckButton check_discover_advanced;
 	private Gtk.Label label_discover_advanced;
 	private Gtk.Image image_discover_advanced;
@@ -89,16 +93,24 @@ public class DiscoverWindow
 	private string manuallyAssignThisStr = Catalog.GetString ("Assign manually");
 	private string manuallyAssignedStr = Catalog.GetString ("Assigned manually: ");
 
+	private Gtk.Button button_manually_assign1;
+	private Gtk.Button button_manually_assign2;
+	ChronopicRegisterPort crpManuallyAssign;
+
 	private ChronopicRegisterPort portSelected;
 
 	public DiscoverWindow (Gtk.Window parentWin,
 			Constants.Modes current_mode, ChronopicRegister chronopicRegister,
+			Gtk.VBox vbox_micro_discover_main,
+			Gtk.Box box_micro_discover_assign_manually,
+			Gtk.ButtonBox buttonbox_micro_discover_assign_manually,
 			Gtk.Label label_micro_discover_not_found,
 			Gtk.Grid grid_micro_discover,
 			Gtk.Box box_micro_discover_nc,
 			Gtk.Button button_micro_discover_cancel_close,
 			Gtk.Image image_button_micro_discover_cancel_close,
 			Gtk.Label label_button_micro_discover_cancel_close,
+			Gtk.Image image_button_micro_discover_assign_manually_cancel,
 			bool showAdvanced, Gtk.CheckButton check_discover_advanced,
 			Gtk.Label label_discover_advanced, Gtk.Image image_discover_advanced,
 			string iconModeStr,
@@ -109,11 +121,15 @@ public class DiscoverWindow
 		this.parentWin = parentWin;
 		this.current_mode = current_mode;
 		this.chronopicRegister = chronopicRegister;
+		this.vbox_micro_discover_main = vbox_micro_discover_main;
+		this.box_micro_discover_assign_manually = box_micro_discover_assign_manually;
+		this.buttonbox_micro_discover_assign_manually = buttonbox_micro_discover_assign_manually;
 		this.grid_micro_discover = grid_micro_discover;
 		this.box_micro_discover_nc = box_micro_discover_nc;
 		this.button_micro_discover_cancel_close = button_micro_discover_cancel_close;
 		this.image_button_micro_discover_cancel_close = image_button_micro_discover_cancel_close;
 		this.label_button_micro_discover_cancel_close = label_button_micro_discover_cancel_close;
+		this.image_button_micro_discover_assign_manually_cancel = image_button_micro_discover_assign_manually_cancel;
 		this.showAdvanced = showAdvanced;
 		this.check_discover_advanced = check_discover_advanced;
 		this.label_discover_advanced = label_discover_advanced;
@@ -122,6 +138,23 @@ public class DiscoverWindow
 		this.bgShiftedIsDark = bgShiftedIsDark;
 
 		// 1) set up gui
+
+		vbox_micro_discover_main.Visible = true;
+		box_micro_discover_assign_manually.Visible = false;
+
+		// create manually assign buttons
+		crpManuallyAssign = new ChronopicRegisterPort ("");
+		button_manually_assign1 = new Gtk.Button ();
+		button_manually_assign2 = new Gtk.Button ();
+		button_manually_assign1.Visible = false;
+		button_manually_assign2.Visible = false;
+		button_manually_assign1.Clicked -= new EventHandler (on_button_manually_assign1_clicked);
+		button_manually_assign1.Clicked += new EventHandler (on_button_manually_assign1_clicked);
+		button_manually_assign2.Clicked -= new EventHandler (on_button_manually_assign2_clicked);
+		button_manually_assign2.Clicked += new EventHandler (on_button_manually_assign2_clicked);
+		UtilGtk.RemoveChildren (buttonbox_micro_discover_assign_manually);
+		buttonbox_micro_discover_assign_manually.PackStart (button_manually_assign1, false, false, 0);
+		buttonbox_micro_discover_assign_manually.PackStart (button_manually_assign2, false, false, 0);
 
 		FakeButtonClose = new Gtk.Button();
 		portSelected = new ChronopicRegisterPort ("");
@@ -154,7 +187,9 @@ public class DiscoverWindow
 			}
 
 		image_button_micro_discover_cancel_close.Pixbuf =
-				Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
+			Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
+		image_button_micro_discover_assign_manually_cancel.Pixbuf =
+			Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
 		label_button_micro_discover_cancel_close.Text = Catalog.GetString("Cancel");
 
 		if (alreadyDiscovered_l.Count > 0 || notDiscovered_l.Count > 0)
@@ -785,19 +820,77 @@ public class DiscoverWindow
 				on_discover_forget_this_clicked_do (buttonForget_notDiscovered_crp_l[i], false); // not alreadyDiscovered
 	}
 
+
 	private void on_discover_manuallyAssign_this_clicked (object o, EventArgs args)
 	{
+		// 0. Exit if not implemented yet for this mode 	//TODO add the rest of modes
+		if (! Constants.ModeIsENCODER (current_mode))
+		{
+			new DialogMessage ("TODO", Constants.MessageTypes.INFO, 450, 400, " TODO ");
+			return;
+		}
+
 		Button bPress = (Button) o;
 
 		// 1) test the discovered by MicroDiscover
 		//loop the list to know which button was
-		for (int i = 0 ; i < buttonManuallyAssign_alreadyDiscovered_l.Count; i ++)
-			if (buttonManuallyAssign_alreadyDiscovered_l[i] == bPress)
-				on_discover_manuallyAssign_this_clicked_do (portAlreadyDiscovered_l[i], true); // alreadyDiscovered
-
+		bool found = false;
 		for (int i = 0 ; i < buttonManuallyAssign_notDiscovered_l.Count; i ++)
 			if (buttonManuallyAssign_notDiscovered_l[i] == bPress)
-				on_discover_manuallyAssign_this_clicked_do (buttonManuallyAssign_notDiscovered_crp_l[i], false); // not alreadyDiscovered
+			{
+				crpManuallyAssign = buttonManuallyAssign_notDiscovered_crp_l[i];
+				found = true;
+			}
+
+		if (! found)
+			return;
+
+		ShowAssignManually (true);
+		if (Constants.ModeIsENCODER (current_mode))
+		{
+			button_manually_assign1.Label = Catalog.GetString ("Assign as encoder");
+			button_manually_assign1.Visible = true;
+
+			button_manually_assign2.Visible = false;
+		}
+	}
+
+	//private void on_button_micro_discover_assign_manually_cancel_clicked (object o, EventArgs args)
+	public void ShowAssignManually (bool show)
+	{
+		vbox_micro_discover_main.Visible = ! show;
+		box_micro_discover_assign_manually.Visible = show;
+		button_micro_discover_cancel_close.Sensitive = ! show;
+	}
+
+	private void on_button_manually_assign1_clicked (object o, EventArgs args)
+	{
+		if (Constants.ModeIsENCODER (current_mode))
+			crpManuallyAssign.Type = ChronopicRegisterPort.Types.ENCODER;
+
+		manually_assign_finish ();
+	}
+	private void on_button_manually_assign2_clicked (object o, EventArgs args)
+	{
+		//TODO
+
+		manually_assign_finish ();
+	}
+
+
+	private void manually_assign_finish ()
+	{
+		//1.  manuallyAssign the device on SQL
+		if (SqliteChronopicRegister.Exists (false, crpManuallyAssign.SerialNumber))
+			SqliteChronopicRegister.Update (false, crpManuallyAssign, crpManuallyAssign.Type);
+		else
+			SqliteChronopicRegister.Insert (false, crpManuallyAssign);
+
+		for (int i = 0; i < buttonManuallyAssign_notDiscovered_crp_l.Count; i ++)
+			if (buttonManuallyAssign_notDiscovered_crp_l[i] == crpManuallyAssign)
+				guiMarkNotDiscoveredCrpAsManuallyAssigned (i, crpManuallyAssign);
+
+		ShowAssignManually (false);
 	}
 
 	private void on_discover_debug_this_clicked_do (ChronopicRegisterPort crp, Gtk.Button bDebug)
@@ -891,65 +984,23 @@ public class DiscoverWindow
 		buttonForget_notDiscovered_l[i].Sensitive = false;
 	}
 
-	private void on_discover_manuallyAssign_this_clicked_do (ChronopicRegisterPort crp, bool alreadyDiscovered)
-	{
-		// 0. assign to which mode
-		if (Constants.ModeIsENCODER (current_mode))
-			crp.Type = ChronopicRegisterPort.Types.ENCODER;
-		else {
-			//TODO add the rest of modes
-			new DialogMessage ("TODO", Constants.MessageTypes.INFO, 450, 400, " TODO ");
-			return;
-		}
-
-		// 1. manuallyAssign the device on SQL
-//		if (SqliteChronopicRegister.Exists (false, crp.SerialNumber))
-			SqliteChronopicRegister.Insert (false, crp);
-
-		// 2. changes on gui
-		if (alreadyDiscovered)
-		{
-			for (int i = 0; i < buttonManuallyAssign_alreadyDiscovered_crp_l.Count; i ++)
-				if (buttonManuallyAssign_alreadyDiscovered_crp_l[i] == crp)
-				{
-					guiMarkAlreadyDiscoveredCrpAsManuallyAssigned (i, crp);
-					return;
-				}
-		}
-		else {
-			for (int i = 0; i < buttonManuallyAssign_notDiscovered_crp_l.Count; i ++)
-				if (buttonManuallyAssign_notDiscovered_crp_l[i] == crp)
-				{
-					guiMarkNotDiscoveredCrpAsManuallyAssigned (i, crp);
-					return;
-				}
-		}
-	}
-	private void guiMarkAlreadyDiscoveredCrpAsManuallyAssigned (int i, ChronopicRegisterPort crp)
-	{
-		c1_progressbar_microAlreadyDiscovered_l[i].Text =
-			manuallyAssignedStr + ChronopicRegisterPort.TypePrint (crp.Type);
-		buttonManuallyAssign_alreadyDiscovered_l[i].Sensitive = false;
-
-		button_microAlreadyDiscovered_l[i].Clicked -= new EventHandler (on_discover_use_this_clicked); //needed. if not: called multiple times
-		button_microAlreadyDiscovered_l[i].Clicked += new EventHandler (on_discover_use_this_clicked);
-		button_microAlreadyDiscovered_l[i].Label = useThisStr;
-		button_microAlreadyDiscovered_l[i].Sensitive = true;
-		button_microAlreadyDiscovered_l[i].Visible = true;
-	}
 	private void guiMarkNotDiscoveredCrpAsManuallyAssigned (int i, ChronopicRegisterPort crp)
 	{
 		c1_progressbar_microNotDiscovered_l[i].Text =
 			manuallyAssignedStr + ChronopicRegisterPort.TypePrint (crp.Type);
 		buttonManuallyAssign_notDiscovered_l[i].Sensitive = false;
 
-		button_microNotDiscovered_l[i].Clicked -= new EventHandler (on_discover_use_this_clicked); //needed. if not: called multiple times
-		button_microNotDiscovered_l[i].Clicked += new EventHandler (on_discover_use_this_clicked);
 		button_microNotDiscovered_l[i].Label = useThisStr;
 		button_microNotDiscovered_l[i].Sensitive = true;
 		button_microNotDiscovered_l[i].Visible = true;
 
 		label_microNotDiscovered_l[i].Visible = false;
+
+		// update Discovered_l to be used at: on_discover_use_this_clicked
+		microDiscover.ToDiscover_l[i].Type = crp.Type;
+		microDiscover.Discovered_l[i] = crp.Type;
+		button_microNotDiscovered_l[i].Clicked -= new EventHandler (on_discover_use_this_clicked); //needed. if not: called multiple times
+		button_microNotDiscovered_l[i].Clicked += new EventHandler (on_discover_use_this_clicked);
 	}
 
 	static Thread debugThread;

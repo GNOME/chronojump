@@ -293,6 +293,9 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_micro_discover_title;
 	Gtk.Label label_micro_discover_not_found;
 	Gtk.Frame frame_micro_discover;
+	Gtk.VBox vbox_micro_discover_main;
+	Gtk.Box	box_micro_discover_assign_manually;
+	Gtk.ButtonBox buttonbox_micro_discover_assign_manually;
 	Gtk.Grid grid_micro_discover;
 	Gtk.Box box_micro_discover_nc;
 	Gtk.Label label_micro_discover_nc_current_mode;
@@ -310,6 +313,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_micro_discover_cancel_close;
 	Gtk.Image image_button_micro_discover_cancel_close;
 	Gtk.Label label_button_micro_discover_cancel_close;
+	Gtk.Image image_button_micro_discover_assign_manually_cancel;
 	//Gtk.Image image_micro_discover_mode;
 
 	Gtk.Label label_threshold;
@@ -4651,12 +4655,16 @@ public partial class ChronoJumpWindow
 
 		discoverWin = new DiscoverWindow (app1,
 				current_mode, chronopicRegister,
+				vbox_micro_discover_main,
+				box_micro_discover_assign_manually,
+				buttonbox_micro_discover_assign_manually,
 				label_micro_discover_not_found,
 				grid_micro_discover,
 				box_micro_discover_nc,
 				button_micro_discover_cancel_close,
 				image_button_micro_discover_cancel_close,
 				label_button_micro_discover_cancel_close,
+				image_button_micro_discover_assign_manually_cancel,
 				check_discover_advanced.Active, check_discover_advanced,
 				label_discover_advanced, image_discover_advanced,
 				Constants.ModeIcon (current_mode),
@@ -4674,6 +4682,12 @@ public partial class ChronoJumpWindow
 	{
 		if (discoverWin != null)
 			discoverWin.ShowAdvanced (check_discover_advanced.Active);
+	}
+
+	private void on_button_micro_discover_assign_manually_cancel_clicked (object o, EventArgs args)
+	{
+		if (discoverWin != null)
+			discoverWin.ShowAssignManually (false);
 	}
 
 	private void on_button_micro_discover_cancel_close_clicked (object o, EventArgs args)
@@ -8723,6 +8737,9 @@ public partial class ChronoJumpWindow
 		label_micro_discover_title = (Gtk.Label) builder.GetObject ("label_micro_discover_title");
 		label_micro_discover_not_found = (Gtk.Label) builder.GetObject ("label_micro_discover_not_found");
 		frame_micro_discover = (Gtk.Frame) builder.GetObject ("frame_micro_discover");
+		vbox_micro_discover_main = (Gtk.VBox) builder.GetObject ("vbox_micro_discover_main");
+		box_micro_discover_assign_manually = (Gtk.Box) builder.GetObject ("box_micro_discover_assign_manually");
+		buttonbox_micro_discover_assign_manually = (Gtk.ButtonBox) builder.GetObject ("buttonbox_micro_discover_assign_manually");
 		grid_micro_discover = (Gtk.Grid) builder.GetObject ("grid_micro_discover");
 		box_micro_discover_nc = (Gtk.Box) builder.GetObject ("box_micro_discover_nc");
 		label_micro_discover_nc_current_mode = (Gtk.Label) builder.GetObject ("label_micro_discover_nc_current_mode");
@@ -8740,6 +8757,7 @@ public partial class ChronoJumpWindow
 		button_micro_discover_cancel_close = (Gtk.Button) builder.GetObject ("button_micro_discover_cancel_close");
 		image_button_micro_discover_cancel_close = (Gtk.Image) builder.GetObject ("image_button_micro_discover_cancel_close");
 		label_button_micro_discover_cancel_close = (Gtk.Label) builder.GetObject ("label_button_micro_discover_cancel_close");
+		image_button_micro_discover_assign_manually_cancel = (Gtk.Image) builder.GetObject ("image_button_micro_discover_assign_manually_cancel");
 		//image_micro_discover_mode = (Gtk.Image) builder.GetObject ("image_micro_discover_mode");
 
 		label_threshold = (Gtk.Label) builder.GetObject ("label_threshold");

@@ -421,7 +421,7 @@ public partial class ChronoJumpWindow
 		eventOldPerson = eSQL.PersonID;
 
 		//4.- edit this test
-		editEncoderWin = EditEncoderWindow.Show (app1, encoder, current_mode);
+		editEncoderWin = EditEncoderWindow.Show (app1, eSQL, current_mode);
 		editEncoderWin.Fake_button_finished.Clicked += new EventHandler (on_edit_selected_encoder_finished);
 	}
 

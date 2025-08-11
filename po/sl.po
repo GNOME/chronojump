@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2025-07-23 11:07+0000\n"
-"PO-Revision-Date: 2025-07-23 13:16+0200\n"
+"POT-Creation-Date: 2025-08-08 11:38+0000\n"
+"PO-Revision-Date: 2025-08-09 00:01+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -32,8 +32,8 @@ msgid "Chronojump"
 msgstr "Chronojump"
 
 #: ../glade/app1.glade.h:2 ../glade/report_window.glade.h:9
-#: ../src/exportSession.cs:302 ../src/gui/app1/encoder.cs:5818
-#: ../src/gui/app1/forceSensor.cs:3820 ../src/gui/app1/runEncoder.cs:2838
+#: ../src/exportSession.cs:302 ../src/gui/app1/encoder.cs:5878
+#: ../src/gui/app1/forceSensor.cs:3826 ../src/gui/app1/runEncoder.cs:2838
 #: ../src/gui/app1/session/backup.cs:171 ../src/report.cs:168
 msgid "Session"
 msgstr "Seja"
@@ -92,7 +92,7 @@ msgstr "Zaustavi"
 
 #: ../glade/app1.glade.h:15 ../glade/dialog_threshold.glade.h:3
 #: ../glade/preferences_win.glade.h:40 ../glade/report_window.glade.h:10
-#: ../src/exportSession.cs:639 ../src/gui/app1/chronojump.cs:5661
+#: ../src/exportSession.cs:639 ../src/gui/app1/chronojump.cs:5675
 #: ../src/gui/modes/jump.cs:775 ../src/gui/modes/jump.cs:830
 #: ../src/gui/modes/jump.cs:880 ../src/sqlite/speciallity.cs:186
 #: ../src/stats/rjAVGSD.cs:36 ../src/stats/rjPotencyBosco.cs:35
@@ -113,7 +113,8 @@ msgstr "Odzivni čas"
 msgid "Force tests"
 msgstr "Preskusi sile"
 
-#: ../glade/app1.glade.h:19 ../glade/preferences_win.glade.h:125
+#: ../glade/app1.glade.h:19 ../glade/edit_event.glade.h:45
+#: ../glade/preferences_win.glade.h:125
 #: ../src/gui/app1/session/loadAndImport.cs:340
 #: ../src/gui/person/showAllEvents.cs:246
 msgid "Weights"
@@ -172,7 +173,7 @@ msgstr "Preskusi izometrične sile"
 
 #: ../glade/app1.glade.h:31 ../glade/force_sensor_exercise.glade.h:12
 #: ../glade/preferences_win.glade.h:76 ../src/constants.cs:1196
-#: ../src/gui/app1/forceSensor.cs:2176
+#: ../src/gui/app1/forceSensor.cs:2183
 #: ../src/gui/app1/session/loadAndImport.cs:338
 #: ../src/gui/modes/forceSensorExercise.cs:506
 #: ../src/gui/person/showAllEvents.cs:245
@@ -193,10 +194,10 @@ msgid "Analyze"
 msgstr "Preuči"
 
 #: ../glade/app1.glade.h:35 ../glade/edit_event.glade.h:4
-#: ../glade/generic_window.glade.h:7 ../src/gui/app1/encoder.cs:1182
-#: ../src/gui/app1/encoder.cs:5817 ../src/gui/app1/forceSensor.cs:3819
+#: ../glade/generic_window.glade.h:7 ../src/gui/app1/encoder.cs:1189
+#: ../src/gui/app1/encoder.cs:5877 ../src/gui/app1/forceSensor.cs:3825
 #: ../src/gui/app1/runEncoder.cs:2837
-#: ../src/gui/app1/treeviews/encoderAnalyze.cs:325
+#: ../src/gui/app1/treeviews/encoderAnalyze.cs:326
 #: ../src/gui/executeAuto.cs:522 ../src/gui/overview.cs:98
 #: ../src/gui/overview.cs:294 ../src/gui/overview.cs:303
 #: ../src/stats/runIntervallic.cs:64 ../src/treeview/event.cs:48
@@ -218,9 +219,9 @@ msgid "Configure exercise"
 msgstr "Nastavi vajo"
 
 #: ../glade/app1.glade.h:39 ../glade/edit_event.glade.h:7
-#: ../src/gui/app1/encoder.cs:1183 ../src/gui/app1/encoder.cs:1786
-#: ../src/gui/app1/encoder.cs:5797 ../src/gui/app1/forceSensor.cs:2174
-#: ../src/gui/app1/forceSensor.cs:3737 ../src/gui/app1/forceSensor.cs:3752
+#: ../src/gui/app1/encoder.cs:1190 ../src/gui/app1/encoder.cs:1818
+#: ../src/gui/app1/encoder.cs:5857 ../src/gui/app1/forceSensor.cs:2181
+#: ../src/gui/app1/forceSensor.cs:3743 ../src/gui/app1/forceSensor.cs:3758
 #: ../src/gui/app1/runEncoder.cs:1167 ../src/gui/app1/runEncoder.cs:2817
 #: ../src/gui/app1/treeviews/encoderAnalyze.cs:54
 #: ../src/gui/modes/encoderSelectRepetitions.cs:222 ../src/gui/overview.cs:100
@@ -255,7 +256,7 @@ msgstr "Zaznaj napravo"
 #. 3) create widgets, lists, attach to table and show all
 #. 3a) create table header row
 #: ../glade/app1.glade.h:45 ../glade/evaluator_window.glade.h:29
-#: ../src/gui/chronopicRegister.cs:224 ../src/gui/discover.cs:208
+#: ../src/gui/chronopicRegister.cs:224 ../src/gui/discover.cs:271
 msgid "Device"
 msgstr "Naprava"
 
@@ -332,7 +333,7 @@ msgstr "Končaj test (test bo shranjen do tega trenutka)"
 msgid "Finish"
 msgstr "Končaj"
 
-#: ../glade/app1.glade.h:63 ../glade/dialog_shortcuts.glade.h:20
+#: ../glade/app1.glade.h:63 ../glade/dialog_shortcuts.glade.h:18
 msgid "Cancel test"
 msgstr "Prekliči test"
 
@@ -340,12 +341,12 @@ msgstr "Prekliči test"
 #: ../glade/force_sensor_elastic_bands.glade.h:15
 #: ../glade/force_sensor_exercise.glade.h:37 ../glade/generic_window.glade.h:9
 #: ../glade/person_merge.glade.h:9 ../glade/person_select_window.glade.h:13
-#: ../src/exportSession.cs:127 ../src/gui/app1/contactsExercise.cs:186
-#: ../src/gui/app1/encoder.cs:2512 ../src/gui/app1/encoder.cs:2834
+#: ../src/exportSession.cs:127 ../src/gui/app1/contactsExercise.cs:176
+#: ../src/gui/app1/encoder.cs:2520 ../src/gui/app1/encoder.cs:2842
 #: ../src/gui/app1/session/backup.cs:80 ../src/gui/app1/session/backup.cs:240
 #: ../src/gui/app1/session/backup.cs:465 ../src/gui/app1/session/export.cs:83
-#: ../src/gui/app1/session/loadAndImport.cs:433 ../src/gui/discover.cs:141
-#: ../src/gui/feedback.cs:1480 ../src/gui/modes/encoderConfiguration.cs:784
+#: ../src/gui/app1/session/loadAndImport.cs:433 ../src/gui/discover.cs:193
+#: ../src/gui/feedback.cs:1504 ../src/gui/modes/encoderConfiguration.cs:784
 #: ../src/gui/modes/encoderConfiguration.cs:840
 #: ../src/gui/person/addModify.cs:381 ../src/gui/person/addMultiple.cs:221
 #: ../src/gui/person/addMultiple.cs:238 ../src/gui/person/addMultiple.cs:434
@@ -358,8 +359,8 @@ msgstr "Prekliči"
 msgid "Fullscreen"
 msgstr "Celozaslonski način"
 
-#: ../glade/app1.glade.h:66 ../src/gui/app1/chronojump.cs:5330
-#: ../src/gui/app1/chronojump.cs:5819 ../src/gui/app1/jump.cs:369
+#: ../glade/app1.glade.h:66 ../src/gui/app1/chronojump.cs:5344
+#: ../src/gui/app1/chronojump.cs:5833 ../src/gui/app1/jump.cs:369
 #: ../src/gui/app1/jump.cs:418 ../src/gui/app1/run.cs:198
 #: ../src/gui/app1/run.cs:252
 msgid "Phases"
@@ -386,17 +387,17 @@ msgstr "Čas"
 msgid "Jump distance"
 msgstr "Dolžina skoka"
 
-#: ../glade/app1.glade.h:69 ../glade/edit_event.glade.h:79
+#: ../glade/app1.glade.h:69 ../glade/edit_event.glade.h:90
 #: ../src/gui/person/addMultiple.cs:705 ../src/gui/person/addMultiple.cs:706
 #: ../src/gui/person/addMultiple.cs:707
 msgid "cm"
 msgstr "cm"
 
-#: ../glade/app1.glade.h:70 ../glade/edit_event.glade.h:80
+#: ../glade/app1.glade.h:70 ../glade/edit_event.glade.h:91
 msgid "Jump angle"
 msgstr "Kot skoka"
 
-#: ../glade/app1.glade.h:71 ../glade/edit_event.glade.h:81
+#: ../glade/app1.glade.h:71 ../glade/edit_event.glade.h:92
 msgid "degrees"
 msgstr "stopinje"
 
@@ -414,7 +415,7 @@ msgid "Extra mass"
 msgstr "Dodatna masa"
 
 #: ../glade/app1.glade.h:75 ../glade/edit_event.glade.h:26
-#: ../src/gui/app1/encoder.cs:1692 ../src/gui/app1/encoder.cs:4879
+#: ../src/gui/app1/encoder.cs:1724 ../src/gui/app1/encoder.cs:4929
 #: ../src/sqlite/main.cs:1543
 msgid "Both"
 msgstr "Oboje"
@@ -427,8 +428,8 @@ msgstr "Končaj nadaljujoči način"
 msgid "Adaptive rhythm"
 msgstr "Prilagodljiv ritem"
 
-#: ../glade/app1.glade.h:78 ../src/gui/app1/encoderThreads.cs:251
-#: ../src/gui/feedback.cs:316
+#: ../glade/app1.glade.h:78 ../src/gui/app1/encoderThreads.cs:240
+#: ../src/gui/feedback.cs:326
 msgid "Rhythm"
 msgstr "Ritem"
 
@@ -461,7 +462,7 @@ msgstr "Uveljavi"
 msgid "Show"
 msgstr "Pokaži"
 
-#: ../glade/app1.glade.h:86 ../glade/feedback.glade.h:95
+#: ../glade/app1.glade.h:86 ../glade/feedback.glade.h:105
 msgid "Signal"
 msgstr "Signal"
 
@@ -501,14 +502,14 @@ msgstr "Stanje"
 msgid "Warnings"
 msgstr "Opozorila"
 
-#: ../glade/app1.glade.h:96 ../src/gui/app1/encoder.cs:2332
+#: ../glade/app1.glade.h:96 ../src/gui/app1/encoder.cs:2340
 msgid "Save image"
 msgstr "Shrani sliko"
 
 #: ../glade/app1.glade.h:97 ../glade/feedback.glade.h:80
 #: ../src/encoder/encoderAnalyzeInstant.cs:246 ../src/forceSensor.cs:2242
 #: ../src/gui/app1/forceSensorAnalyze.cs:1970
-#: ../src/gui/app1/runEncoderAnalyze.cs:590 ../src/gui/feedback.cs:1415
+#: ../src/gui/app1/runEncoderAnalyze.cs:590 ../src/gui/feedback.cs:1438
 msgid "Maximum"
 msgstr "Najvišji"
 
@@ -517,7 +518,7 @@ msgid "Current"
 msgstr "Trenutno"
 
 #: ../glade/app1.glade.h:99 ../glade/feedback.glade.h:79
-#: ../src/gui/feedback.cs:1415
+#: ../src/gui/feedback.cs:1438
 msgid "Minimum"
 msgstr "Najnižji"
 
@@ -596,13 +597,13 @@ msgstr "Umeri"
 #: ../glade/dialog_about.glade.h:2 ../glade/dialog_shortcuts.glade.h:2
 #: ../glade/force_sensor_elastic_bands.glade.h:13
 #: ../glade/person_select_window.glade.h:24
-#: ../glade/preferences_win.glade.h:218 ../src/gui/app1/encoder.cs:1228
-#: ../src/gui/app1/encoder.cs:1834 ../src/gui/app1/encoder.cs:5804
-#: ../src/gui/app1/forceSensor.cs:2274 ../src/gui/app1/forceSensor.cs:3806
+#: ../glade/preferences_win.glade.h:218 ../src/gui/app1/encoder.cs:1235
+#: ../src/gui/app1/encoder.cs:1866 ../src/gui/app1/encoder.cs:5864
+#: ../src/gui/app1/forceSensor.cs:2281 ../src/gui/app1/forceSensor.cs:3812
 #: ../src/gui/app1/runEncoder.cs:1259 ../src/gui/app1/runEncoder.cs:2824
 #: ../src/gui/app1/session/backup.cs:195 ../src/gui/app1/session/backup.cs:424
 #: ../src/gui/app1/session/backup.cs:477 ../src/gui/chronopicRegister.cs:402
-#: ../src/gui/discover.cs:162 ../src/gui/discover.cs:518
+#: ../src/gui/discover.cs:214 ../src/gui/discover.cs:676
 #: ../src/gui/executeAuto.cs:323 ../src/gui/genericWindow.cs:1173
 #: ../src/gui/modes/encoderSelectRepetitions.cs:289
 msgid "Close"
@@ -616,8 +617,8 @@ msgstr "Ponovno umeri"
 msgid "Session results"
 msgstr "Rezultati seje"
 
-#: ../glade/app1.glade.h:119 ../src/gui/app1/chronojump.cs:2740
-#: ../src/gui/app1/chronojump.cs:2748 ../src/gui/app1/forceSensorAnalyze.cs:878
+#: ../glade/app1.glade.h:119 ../src/gui/app1/chronojump.cs:2744
+#: ../src/gui/app1/chronojump.cs:2752 ../src/gui/app1/forceSensorAnalyze.cs:878
 #: ../src/gui/app1/forceSensorAnalyze.cs:885 ../src/gui/genericWindow.cs:527
 #: ../src/gui/genericWindow.cs:580 ../src/gui/person/recuperate.cs:365
 #: ../src/gui/person/recuperate.cs:512 ../src/gui/stats.cs:218
@@ -840,7 +841,7 @@ msgstr "Začni zunaj"
 msgid "Falling height"
 msgstr "Višina sestopa"
 
-#: ../glade/app1.glade.h:163 ../glade/edit_event.glade.h:74
+#: ../glade/app1.glade.h:163 ../glade/edit_event.glade.h:85
 msgid "Dominance"
 msgstr "Prevladujoč"
 
@@ -854,16 +855,16 @@ msgstr "Prevladujoč"
 #. Gtk.Box hbox_l1_parent = new Gtk.Box (Gtk.Orientation.Horizontal, 0);
 #. hbox_l1_parent.PackStart (hbox_l1, true, false, 0);
 #.
-#: ../glade/app1.glade.h:164 ../glade/edit_event.glade.h:70
+#: ../glade/app1.glade.h:164 ../glade/edit_event.glade.h:81
 #: ../glade/jump_type_add.glade.h:15 ../glade/run_type_add.glade.h:16
 #: ../src/exportSession.cs:516 ../src/exportSession.cs:805
 #: ../src/exportSession.cs:863 ../src/gui/app1/treeviews/sprint.cs:45
 #: ../src/gui/chronopicRegister.cs:225 ../src/gui/convertWeight.cs:118
-#: ../src/gui/discover.cs:221 ../src/gui/report.cs:177
+#: ../src/gui/discover.cs:284 ../src/gui/report.cs:177
 msgid "Type"
 msgstr "Vrsta"
 
-#: ../glade/app1.glade.h:165 ../glade/edit_event.glade.h:78
+#: ../glade/app1.glade.h:165 ../glade/edit_event.glade.h:89
 #: ../src/exportSession.cs:519 ../src/exportSession.cs:637
 #: ../src/graphs/cairo/xy.cs:104 ../src/stats/djIndex.cs:36
 #: ../src/stats/djPower.cs:36 ../src/stats/djQ.cs:36
@@ -872,7 +873,7 @@ msgstr "Vrsta"
 msgid "Fall"
 msgstr "Padec"
 
-#: ../glade/app1.glade.h:166 ../glade/edit_event.glade.h:75
+#: ../glade/app1.glade.h:166 ../glade/edit_event.glade.h:86
 #: ../src/chronopicRegister.cs:94 ../src/sqlite/tests/forceSensor.cs:416
 #: ../src/sqlite/tests/forceSensor.cs:418
 #: ../src/sqlite/tests/forceSensor.cs:451
@@ -886,25 +887,25 @@ msgstr "Neznano"
 msgid "This"
 msgstr "Ta"
 
-#: ../glade/app1.glade.h:168 ../glade/edit_event.glade.h:76
+#: ../glade/app1.glade.h:168 ../glade/edit_event.glade.h:87
 msgid "This limb"
 msgstr "Ta ud"
 
-#: ../glade/app1.glade.h:169 ../glade/edit_event.glade.h:77
+#: ../glade/app1.glade.h:169 ../glade/edit_event.glade.h:88
 msgid "Opposite"
 msgstr "Nasprotno"
 
-#: ../glade/app1.glade.h:170 ../glade/edit_event.glade.h:71
-#: ../glade/feedback.glade.h:91
+#: ../glade/app1.glade.h:170 ../glade/edit_event.glade.h:82
+#: ../glade/feedback.glade.h:101
 msgid "Vertical"
 msgstr "Navpično"
 
-#: ../glade/app1.glade.h:171 ../glade/edit_event.glade.h:72
-#: ../glade/feedback.glade.h:90
+#: ../glade/app1.glade.h:171 ../glade/edit_event.glade.h:83
+#: ../glade/feedback.glade.h:100
 msgid "Horizontal"
 msgstr "Vodoravno"
 
-#: ../glade/app1.glade.h:172 ../glade/edit_event.glade.h:73
+#: ../glade/app1.glade.h:172 ../glade/edit_event.glade.h:84
 msgid "Lateral"
 msgstr "Bočno"
 
@@ -931,7 +932,7 @@ msgid "Measure reaction time"
 msgstr "Izmeri odzivni čas"
 
 #: ../glade/app1.glade.h:177 ../glade/run_type_add.glade.h:21
-#: ../src/gui/app1/contactsExercise.cs:427
+#: ../src/gui/app1/contactsExercise.cs:417
 msgid "laps"
 msgstr "krogov"
 
@@ -962,13 +963,13 @@ msgid "Inverted values"
 msgstr "Obrnjene vrednosti"
 
 #: ../glade/app1.glade.h:182 ../glade/edit_event.glade.h:27
-#: ../src/gui/app1/encoder.cs:1694 ../src/gui/app1/encoder.cs:4880
+#: ../src/gui/app1/encoder.cs:1726 ../src/gui/app1/encoder.cs:4930
 #: ../src/json/compujumpOther.cs:118 ../src/sqlite/main.cs:1549
 msgid "Left"
 msgstr "Levo"
 
 #: ../glade/app1.glade.h:183 ../glade/edit_event.glade.h:28
-#: ../src/gui/app1/encoder.cs:1696 ../src/gui/app1/encoder.cs:4880
+#: ../src/gui/app1/encoder.cs:1728 ../src/gui/app1/encoder.cs:4930
 #: ../src/json/compujumpOther.cs:116 ../src/sqlite/main.cs:1546
 msgid "Right"
 msgstr "Desno"
@@ -1094,7 +1095,7 @@ msgstr "Dodaj novo vajo"
 
 #: ../glade/app1.glade.h:204 ../glade/edit_event.glade.h:34
 #: ../glade/force_sensor_exercise.glade.h:23
-#: ../glade/preferences_win.glade.h:73 ../src/encoder/encoderSQL.cs:172
+#: ../glade/preferences_win.glade.h:73 ../src/encoder/encoderSQL.cs:175
 #: ../src/sqlite/tests/encoder.cs:969
 msgid "Concentric"
 msgstr "Koncentrično"
@@ -1108,39 +1109,42 @@ msgid "Phase"
 msgstr "Faza"
 
 #: ../glade/app1.glade.h:207 ../src/constants.cs:1672
-#: ../src/gui/app1/encoder.cs:1787 ../src/gui/app1/forceSensor.cs:2178
+#: ../src/gui/app1/encoder.cs:1819 ../src/gui/app1/forceSensor.cs:2185
 #: ../src/gui/app1/treeviews/encoderAnalyze.cs:55 ../src/treeview/event.cs:49
 msgid "Laterality"
 msgstr "Lateralno"
 
-#: ../glade/app1.glade.h:208 ../src/constants.cs:1052 ../src/constants.cs:1654
+#: ../glade/app1.glade.h:208 ../glade/edit_event.glade.h:43
+#: ../src/constants.cs:1052 ../src/constants.cs:1654
 msgid "Mass"
 msgstr "Masa"
 
-#: ../glade/app1.glade.h:209 ../glade/encoder_configuration.glade.h:12
-#: ../src/constants.cs:1673 ../src/gui/app1/encoder.cs:589
-#: ../src/gui/app1/encoder.cs:622 ../src/gui/app1/encoder.cs:1589
-#: ../src/gui/app1/encoder.cs:2153 ../src/gui/app1/encoder.cs:4873
+#: ../glade/app1.glade.h:209 ../glade/edit_event.glade.h:42
+#: ../glade/encoder_configuration.glade.h:12 ../src/constants.cs:1673
+#: ../src/gui/app1/encoder.cs:592 ../src/gui/app1/encoder.cs:625
+#: ../src/gui/app1/encoder.cs:1618 ../src/gui/app1/encoder.cs:2166
+#: ../src/gui/app1/encoder.cs:4923
 #: ../src/gui/app1/treeviews/encoderAnalyze.cs:61
 msgid "Inertia M."
 msgstr "Vztrajnost"
 
-#: ../glade/app1.glade.h:210
+#: ../glade/app1.glade.h:210 ../glade/edit_event.glade.h:49
 msgid "Extra"
 msgstr "Dodatno"
 
-#: ../glade/app1.glade.h:211
+#: ../glade/app1.glade.h:211 ../glade/edit_event.glade.h:50
 msgid "70,00"
 msgstr "70,00"
 
 #. print Total, AVG, SD
-#: ../glade/app1.glade.h:212 ../src/exportSession.cs:740
-#: ../src/exportSession.cs:913 ../src/treeview/event.cs:376
-#: ../src/treeview/jumpRj.cs:233 ../src/treeview/runI.cs:182
+#: ../glade/app1.glade.h:212 ../glade/edit_event.glade.h:51
+#: ../src/exportSession.cs:740 ../src/exportSession.cs:913
+#: ../src/treeview/event.cs:376 ../src/treeview/jumpRj.cs:233
+#: ../src/treeview/runI.cs:182
 msgid "Total"
 msgstr "Skupaj"
 
-#: ../glade/app1.glade.h:213
+#: ../glade/app1.glade.h:213 ../glade/edit_event.glade.h:52
 msgid "Total mass"
 msgstr "Skupna masa"
 
@@ -1149,21 +1153,24 @@ msgid "1RM window"
 msgstr "Okno izračunov mejnih obtežitev"
 
 #. inertial
-#: ../glade/app1.glade.h:215 ../glade/preferences_win.glade.h:117
+#: ../glade/app1.glade.h:215 ../glade/edit_event.glade.h:44
+#: ../glade/preferences_win.glade.h:117
 #: ../src/gui/app1/treeviews/encoderAnalyze.cs:62
 msgid "Diameter"
 msgstr "Premer"
 
-#: ../glade/app1.glade.h:216
+#: ../glade/app1.glade.h:216 ../glade/edit_event.glade.h:46
 msgid "2"
 msgstr "2"
 
-#: ../glade/app1.glade.h:217 ../glade/preferences_win.glade.h:116
+#: ../glade/app1.glade.h:217 ../glade/edit_event.glade.h:47
+#: ../glade/preferences_win.glade.h:116
 msgid "Inertia moment"
 msgstr "Vztrajnostni moment"
 
 #. inertial
-#: ../glade/app1.glade.h:218 ../glade/preferences_win.glade.h:114
+#: ../glade/app1.glade.h:218 ../glade/edit_event.glade.h:48
+#: ../glade/preferences_win.glade.h:114
 #: ../src/gui/app1/treeviews/encoderAnalyze.cs:63
 #: ../src/gui/preferences.cs:3829
 msgid "Equivalent mass"
@@ -1229,14 +1236,6 @@ msgid "Resistance"
 msgstr "Odpor"
 
 #: ../glade/app1.glade.h:232
-msgid "Recalculate set with changed parameters"
-msgstr "Preračunaj niz s spremenjenimi parametri"
-
-#: ../glade/app1.glade.h:233
-msgid "Close and recalculate"
-msgstr "Zapri in preračunaj"
-
-#: ../glade/app1.glade.h:234
 msgid ""
 "Place the sensor in the same orientation in which you are going to capture "
 "(horizontal or vertical)."
@@ -1244,81 +1243,81 @@ msgstr ""
 "Tipalo postavite v položaj, v katerem boste zajemali podatke (vodoravno ali "
 "navpično)."
 
-#: ../glade/app1.glade.h:235
+#: ../glade/app1.glade.h:233
 msgid "Tare"
 msgstr "Tara"
 
-#: ../glade/app1.glade.h:236
+#: ../glade/app1.glade.h:234
 msgid "Place a weight in the sensor to calibrate"
 msgstr "Postavite višino v tipalu za uravnavanje"
 
-#: ../glade/app1.glade.h:237
+#: ../glade/app1.glade.h:235
 msgid "Jumps profile"
 msgstr "Profil skokov"
 
-#: ../glade/app1.glade.h:238
+#: ../glade/app1.glade.h:236
 msgid "Dj optimal fall"
 msgstr "Optimalen padec Dj"
 
-#: ../glade/app1.glade.h:239
+#: ../glade/app1.glade.h:237
 msgid "FV Profile"
 msgstr "Profil FV"
 
-#: ../glade/app1.glade.h:240 ../src/gui/app1/graphs/jumpsAsymmetry.cs:184
+#: ../glade/app1.glade.h:238 ../src/gui/app1/graphs/jumpsAsymmetry.cs:184
 msgid "Asymmetry"
 msgstr "Asimetričnost"
 
-#: ../glade/app1.glade.h:241
+#: ../glade/app1.glade.h:239
 msgid "Fatigue"
 msgstr "Utrujenost"
 
-#: ../glade/app1.glade.h:242
+#: ../glade/app1.glade.h:240
 msgid "Races / time"
 msgstr "Teki / čas"
 
-#: ../glade/app1.glade.h:243
+#: ../glade/app1.glade.h:241
 msgid "Sprint"
 msgstr "Šprint"
 
-#: ../glade/app1.glade.h:244 ../glade/preferences_win.glade.h:215
-#: ../src/gui/discover.cs:226
+#: ../glade/app1.glade.h:242 ../glade/preferences_win.glade.h:215
+#: ../src/gui/discover.cs:289
 msgid "Advanced"
 msgstr "Napredno"
 
-#: ../glade/app1.glade.h:245 ../glade/encoder_configuration.glade.h:24
+#: ../glade/app1.glade.h:243 ../glade/encoder_configuration.glade.h:24
 #: ../src/exportSession.cs:126 ../src/gui/app1/session/export.cs:82
 msgid "Export"
 msgstr "Izvozi"
 
-#: ../glade/app1.glade.h:246 ../src/gui/report.cs:178
+#: ../glade/app1.glade.h:244 ../src/gui/report.cs:178
 msgid "Subtype"
 msgstr "Podvrsta"
 
-#: ../glade/app1.glade.h:247 ../src/gui/report.cs:179
+#: ../glade/app1.glade.h:245 ../src/gui/report.cs:179
 msgid "Apply to"
 msgstr "Uporabi za"
 
-#: ../glade/app1.glade.h:248
+#: ../glade/app1.glade.h:246
 msgid "Subtraction between"
 msgstr "Odštevanje med"
 
-#: ../glade/app1.glade.h:249
+#: ../glade/app1.glade.h:247
 msgid "and"
 msgstr "in"
 
-#: ../glade/app1.glade.h:250
+#: ../glade/app1.glade.h:248
 msgid "subtraction"
 msgstr "odštevanje"
 
-#: ../glade/app1.glade.h:251
+#: ../glade/app1.glade.h:249
 msgid "mark consecutives"
 msgstr "označi zaporedne"
 
-#: ../glade/app1.glade.h:252
+#: ../glade/app1.glade.h:250
 msgid "mark best 'n' consecutives"
 msgstr "označi najboljših 'n' zaporednih"
 
-#: ../glade/app1.glade.h:253 ../src/graphs/cairo/xy.cs:737
+#: ../glade/app1.glade.h:251 ../src/graphs/cairo/xy.cs:737
 #: ../src/gui/genericWindow.cs:530 ../src/gui/genericWindow.cs:560
 #: ../src/gui/genericWindow.cs:566 ../src/gui/genericWindow.cs:1086
 #: ../src/gui/person/recuperate.cs:367 ../src/gui/person/recuperate.cs:499
@@ -1327,88 +1326,88 @@ msgstr "označi najboljših 'n' zaporednih"
 msgid "Selected"
 msgstr "Izbrano"
 
-#: ../glade/app1.glade.h:254
+#: ../glade/app1.glade.h:252
 msgid "select"
 msgstr "izberi"
 
-#: ../glade/app1.glade.h:255 ../src/gui/stats.cs:1324 ../src/report.cs:306
+#: ../glade/app1.glade.h:253 ../src/gui/stats.cs:1324 ../src/report.cs:306
 msgid "Limit"
 msgstr "Omeji"
 
-#: ../glade/app1.glade.h:256
+#: ../glade/app1.glade.h:254
 msgid "Person's average"
 msgstr "Povprečje rezultatov"
 
-#: ../glade/app1.glade.h:257
+#: ../glade/app1.glade.h:255
 msgid "Person's bests"
 msgstr "Najboljši rezultat"
 
-#: ../glade/app1.glade.h:258 ../glade/person_select_window.glade.h:19
+#: ../glade/app1.glade.h:256 ../glade/person_select_window.glade.h:19
 msgid "Show tests"
 msgstr "Pokaži teste"
 
-#: ../glade/app1.glade.h:259 ../src/gui/report.cs:182
+#: ../glade/app1.glade.h:257 ../src/gui/report.cs:182
 msgid "Show sex"
 msgstr "Pokaži spol"
 
-#: ../glade/app1.glade.h:260
+#: ../glade/app1.glade.h:258
 msgid "Show description"
 msgstr "Pokaži opis"
 
-#: ../glade/app1.glade.h:261 ../glade/force_sensor_exercise.glade.h:32
+#: ../glade/app1.glade.h:259 ../glade/force_sensor_exercise.glade.h:32
 #: ../src/constants.cs:349 ../src/constants.cs:1200
 msgid "Other"
 msgstr "Drugo"
 
-#: ../glade/app1.glade.h:262
+#: ../glade/app1.glade.h:260
 msgid "After a test, use it to update statistics"
 msgstr "Po testu ga uporabite za posodobitev statistike"
 
-#: ../glade/app1.glade.h:263
+#: ../glade/app1.glade.h:261
 msgid "Update stats"
 msgstr "Posodobi statistiko"
 
-#: ../glade/app1.glade.h:264 ../glade/generic_window.glade.h:4
+#: ../glade/app1.glade.h:262 ../glade/generic_window.glade.h:4
 msgid "Mark"
 msgstr "Oznaka"
 
-#: ../glade/app1.glade.h:265 ../glade/person_multiple_infinite.glade.h:2
+#: ../glade/app1.glade.h:263 ../glade/person_multiple_infinite.glade.h:2
 msgid "Variables"
 msgstr "Spremenljivke"
 
-#: ../glade/app1.glade.h:266
+#: ../glade/app1.glade.h:264
 msgid "Transpose graph"
 msgstr "Transponiraj graf"
 
-#: ../glade/app1.glade.h:267
+#: ../glade/app1.glade.h:265
 msgid "Transpose"
 msgstr "Transponiraj"
 
-#: ../glade/app1.glade.h:268 ../glade/report_window.glade.h:17
+#: ../glade/app1.glade.h:266 ../glade/report_window.glade.h:17
 msgid "Graph this statistic"
 msgstr "Izris statistke"
 
-#: ../glade/app1.glade.h:269
+#: ../glade/app1.glade.h:267
 msgid "Create graph"
 msgstr "Ustvari  grafa"
 
-#: ../glade/app1.glade.h:270
+#: ../glade/app1.glade.h:268
 msgid "Report"
 msgstr "Poročilo"
 
-#: ../glade/app1.glade.h:271
+#: ../glade/app1.glade.h:269
 msgid "Add this statistic and its graph to report window"
 msgstr "Dodajanje statistike in grafa v okno poročila"
 
-#: ../glade/app1.glade.h:272
+#: ../glade/app1.glade.h:270
 msgid "View report window"
 msgstr "Pogled okna poročila"
 
-#: ../glade/app1.glade.h:273 ../glade/preferences_win.glade.h:136
+#: ../glade/app1.glade.h:271 ../glade/preferences_win.glade.h:136
 msgid "Width"
 msgstr "Širina"
 
-#: ../glade/app1.glade.h:274 ../glade/feedback.glade.h:12
+#: ../glade/app1.glade.h:272 ../glade/feedback.glade.h:12
 #: ../glade/person_multiple_infinite.glade.h:21
 #: ../glade/preferences_win.glade.h:137 ../src/exportSession.cs:396
 #: ../src/exportSession.cs:521 ../src/exportSession.cs:733
@@ -1420,47 +1419,47 @@ msgstr "Širina"
 msgid "Height"
 msgstr "Višina"
 
-#: ../glade/app1.glade.h:275
+#: ../glade/app1.glade.h:273
 msgid "Width of the line"
 msgstr "Širina črte"
 
-#: ../glade/app1.glade.h:276 ../glade/feedback.glade.h:81
+#: ../glade/app1.glade.h:274 ../glade/feedback.glade.h:81
 msgid "Line width"
 msgstr "Širina črte"
 
-#: ../glade/app1.glade.h:277
+#: ../glade/app1.glade.h:275
 msgid "Legend"
 msgstr "Legenda"
 
-#: ../glade/app1.glade.h:278
+#: ../glade/app1.glade.h:276
 msgid "Palette"
 msgstr "Paleta"
 
-#: ../glade/app1.glade.h:279
+#: ../glade/app1.glade.h:277
 msgid "Bottom"
 msgstr "Spodaj"
 
-#: ../glade/app1.glade.h:280
+#: ../glade/app1.glade.h:278
 msgid "Top"
 msgstr "Zgoraj"
 
-#: ../glade/app1.glade.h:281
+#: ../glade/app1.glade.h:279
 msgid "Adjust this and bottom margin if athlete's names are long."
 msgstr "Prilagodi robove, če je ime testiranca predolgo."
 
-#: ../glade/app1.glade.h:282
+#: ../glade/app1.glade.h:280
 msgid "X axis font size"
 msgstr "Velikost pisave osi X"
 
-#: ../glade/app1.glade.h:283
+#: ../glade/app1.glade.h:281
 msgid "Graph and report"
 msgstr "Graf in poročilo"
 
-#: ../glade/app1.glade.h:284
+#: ../glade/app1.glade.h:282
 msgid "stats"
 msgstr "statistika"
 
-#: ../glade/app1.glade.h:285
+#: ../glade/app1.glade.h:283
 msgid ""
 "Sorry, no statistics for this test type\n"
 "on current Chronojump version."
@@ -1468,44 +1467,44 @@ msgstr ""
 "Za to vrsto testa statistika še ni na voljo\n"
 "s trenutno različico programa Chronojump."
 
-#: ../glade/app1.glade.h:287
+#: ../glade/app1.glade.h:285
 msgid "error"
 msgstr "napaka"
 
-#: ../glade/app1.glade.h:288
+#: ../glade/app1.glade.h:286
 msgid "Show graph"
 msgstr "Pokaži graf"
 
-#: ../glade/app1.glade.h:289
+#: ../glade/app1.glade.h:287
 msgid "<b>Maximum Force</b>"
 msgstr "<b>Največja sila</b>"
 
-#: ../glade/app1.glade.h:290
+#: ../glade/app1.glade.h:288
 msgid "<b>Explosive Force</b>"
 msgstr "<b>Eksplozivna sila</b>"
 
-#: ../glade/app1.glade.h:291
+#: ../glade/app1.glade.h:289
 msgid "<b>Elastic</b>"
 msgstr "<b>Elastična</b>"
 
-#: ../glade/app1.glade.h:292
+#: ../glade/app1.glade.h:290
 msgid "<b>Arms using</b>"
 msgstr "<b>S pomočjo rok</b>"
 
-#: ../glade/app1.glade.h:293
+#: ../glade/app1.glade.h:291
 msgid "<b>Reactive-reflex</b>"
 msgstr "<b>Reakcijski refleks</b>"
 
-#: ../glade/app1.glade.h:294
+#: ../glade/app1.glade.h:292
 msgid ""
 "Related to the part of the absolute force that can be activated voluntarily."
 msgstr "Nanašajoč se na del absolutne sile, ki jo lahko zavestno aktiviramo."
 
-#: ../glade/app1.glade.h:295
+#: ../glade/app1.glade.h:293
 msgid "Ability to mobilise a submaximal load at a maximum speed."
 msgstr "Zmožnost mobilizacije podpražne obremenitve z največjo hitrostjo."
 
-#: ../glade/app1.glade.h:296
+#: ../glade/app1.glade.h:294
 msgid ""
 "Increasing of strength due to the elastic energy accumulated during the "
 "stretch-shortening cycle."
@@ -1513,11 +1512,11 @@ msgstr ""
 "Povečanje moči zaradi elastične energije, ki se je nabrala v ciklu "
 "raztezanja-nategovanja."
 
-#: ../glade/app1.glade.h:297
+#: ../glade/app1.glade.h:295
 msgid "Increasing of strength due to arm movement."
 msgstr "Povečanje moči zaradi gibanja roke."
 
-#: ../glade/app1.glade.h:298
+#: ../glade/app1.glade.h:296
 msgid ""
 "Increasing of strength by previous falling from height (reflex mechanisms "
 "activation)."
@@ -1525,53 +1524,53 @@ msgstr ""
 "Povišanje moči s predhodnim sestopom z višine (aktivacija refleksnih "
 "mehanizmov)."
 
-#: ../glade/app1.glade.h:299
+#: ../glade/app1.glade.h:297
 msgid "All the definitions are related to jumps."
 msgstr "Vse definicije so povezane s skoki."
 
-#: ../glade/app1.glade.h:300
+#: ../glade/app1.glade.h:298
 msgid "Drop jump goal in this profile is maximum height."
 msgstr "Cilj skoka s padcem v tem profilu je največja višina."
 
-#: ../glade/app1.glade.h:301
+#: ../glade/app1.glade.h:299
 msgid "Help on indexes"
 msgstr "Pomoč za kazalnike"
 
-#: ../glade/app1.glade.h:302
+#: ../glade/app1.glade.h:300
 msgid "<b>Type of training</b>"
 msgstr "<b>Vrsta treninga</b>"
 
-#: ../glade/app1.glade.h:303
+#: ../glade/app1.glade.h:301
 msgid "<b>Contraction</b>"
 msgstr "<b>Kontrakcija</b>"
 
-#: ../glade/app1.glade.h:305
+#: ../glade/app1.glade.h:303
 #, no-c-format
 msgid "<b>% max load</b>"
 msgstr "<b>% največje obremenitve</b>"
 
-#: ../glade/app1.glade.h:307
+#: ../glade/app1.glade.h:305
 #, no-c-format
 msgid "<b>% max power</b>"
 msgstr "<b>% največje moči</b>"
 
-#: ../glade/app1.glade.h:308
+#: ../glade/app1.glade.h:306
 msgid "<b>Repetitions</b>"
 msgstr "<b>Ponovitve</b>"
 
-#: ../glade/app1.glade.h:309
+#: ../glade/app1.glade.h:307
 msgid "<b>Series</b>"
 msgstr "<b>Nizi</b>"
 
-#: ../glade/app1.glade.h:310
+#: ../glade/app1.glade.h:308
 msgid "<b>Recuperation (min)</b>"
 msgstr "<b>Rekuperacija (min) </b>"
 
-#: ../glade/app1.glade.h:311
+#: ../glade/app1.glade.h:309
 msgid "<b>Maximum force</b>"
 msgstr "<b>Največja moč</b>"
 
-#: ../glade/app1.glade.h:312
+#: ../glade/app1.glade.h:310
 msgid ""
 "Weight lifting,\n"
 "gym machines"
@@ -1579,7 +1578,7 @@ msgstr ""
 "Dvigovanje uteži,\n"
 "trenažerji"
 
-#: ../glade/app1.glade.h:314
+#: ../glade/app1.glade.h:312
 msgid ""
 "Jumps,\n"
 "inertial machines"
@@ -1587,7 +1586,7 @@ msgstr ""
 "Skoki,\n"
 "vztrajnostnin trenažerji"
 
-#: ../glade/app1.glade.h:316
+#: ../glade/app1.glade.h:314
 msgid ""
 "Jumps,\n"
 "elastic bands"
@@ -1595,7 +1594,7 @@ msgstr ""
 "Skoki,\n"
 "elastični trakovi"
 
-#: ../glade/app1.glade.h:318
+#: ../glade/app1.glade.h:316
 msgid ""
 "Concentric,\n"
 "isometric"
@@ -1603,7 +1602,7 @@ msgstr ""
 "Koncentrično,\n"
 "izometrično"
 
-#: ../glade/app1.glade.h:320
+#: ../glade/app1.glade.h:318
 msgid ""
 "Eccentric-\n"
 "Concentric"
@@ -1611,7 +1610,7 @@ msgstr ""
 "Ekscentrično-\n"
 "koncentrično"
 
-#: ../glade/app1.glade.h:322
+#: ../glade/app1.glade.h:320
 msgid ""
 "Body weight,\n"
 "low resistance"
@@ -1619,49 +1618,49 @@ msgstr ""
 "Telesna teža,\n"
 "nizka intenzivnost"
 
-#: ../glade/app1.glade.h:324
+#: ../glade/app1.glade.h:322
 msgid "General recommendations on improving indexes"
 msgstr "Splošna priporočila za izboljševanje kazalnikov"
 
-#: ../glade/app1.glade.h:325
+#: ../glade/app1.glade.h:323
 msgid "Jump type"
 msgstr "Vrsta skoka"
 
-#: ../glade/app1.glade.h:326
+#: ../glade/app1.glade.h:324
 msgid "Only the best jump on each weight"
 msgstr "Le najboljši skok pri vsaki masi"
 
-#: ../glade/app1.glade.h:327
+#: ../glade/app1.glade.h:325
 msgid "Show full graph"
 msgstr "Pokaži celoten graf"
 
-#: ../glade/app1.glade.h:328
+#: ../glade/app1.glade.h:326
 msgid "Zoom to points"
 msgstr "Približaj točkam"
 
-#: ../glade/app1.glade.h:329 ../src/gui/app1/graphs/jumpsAsymmetry.cs:176
+#: ../glade/app1.glade.h:327 ../src/gui/app1/graphs/jumpsAsymmetry.cs:176
 msgid "Bilateral deficit"
 msgstr "Dvostranski primanjkljaj"
 
-#: ../glade/app1.glade.h:330
+#: ../glade/app1.glade.h:328
 msgid "Bilateral"
 msgstr "Dvostransko"
 
-#: ../glade/app1.glade.h:331
+#: ../glade/app1.glade.h:329
 msgid "Daily mean values"
 msgstr "Povprečne dnevne vrednosti"
 
-#: ../glade/app1.glade.h:332
+#: ../glade/app1.glade.h:330
 msgid "Daily max values"
 msgstr "Največje dnevne vrednosti"
 
-#: ../glade/app1.glade.h:333
+#: ../glade/app1.glade.h:331
 msgid "Only the best jump on each session"
 msgstr "Le najboljši skok vsake seje"
 
 #. cols: 4, 6, 8, ...
 #. cols: 3, 5, 7, ...
-#: ../glade/app1.glade.h:334 ../glade/feedback.glade.h:10
+#: ../glade/app1.glade.h:332 ../glade/feedback.glade.h:10
 #: ../src/exportSession.cs:518 ../src/exportSession.cs:732
 #: ../src/graphs/cairo/xy.cs:112 ../src/gui/convertWeight.cs:120
 #: ../src/gui/modes/jump.cs:171 ../src/stats/djIndex.cs:34
@@ -1674,14 +1673,14 @@ msgstr "Le najboljši skok vsake seje"
 msgid "TF"
 msgstr "čL"
 
-#: ../glade/app1.glade.h:335 ../glade/edit_event.glade.h:10
+#: ../glade/app1.glade.h:333 ../glade/edit_event.glade.h:10
 #: ../src/graphs/bars/jumpReactive.cs:68
 #: ../src/graphs/bars/jumpReactiveCurrent.cs:165
 #: ../src/graphs/bars/jumpSimple.cs:97
 msgid "Contact time"
 msgstr "Čas stika"
 
-#: ../glade/app1.glade.h:336 ../glade/feedback.glade.h:11
+#: ../glade/app1.glade.h:334 ../glade/feedback.glade.h:11
 #: ../src/exportSession.cs:517 ../src/exportSession.cs:731
 #: ../src/graphs/cairo/xy.cs:113 ../src/gui/convertWeight.cs:128
 #: ../src/gui/modes/jump.cs:162 ../src/stats/djIndex.cs:35
@@ -1693,200 +1692,199 @@ msgstr "Čas stika"
 msgid "TC"
 msgstr "čS"
 
-#: ../glade/app1.glade.h:337
+#: ../glade/app1.glade.h:335
 msgid "Divide into"
 msgstr "Razdeli v"
 
-#: ../glade/app1.glade.h:338
+#: ../glade/app1.glade.h:336
 msgid "Run type"
 msgstr "Vrsta teka"
 
-#: ../glade/app1.glade.h:339
+#: ../glade/app1.glade.h:337
 msgid "Only the best run on each session"
 msgstr "Le najboljši tek vsake seje"
 
-#: ../glade/app1.glade.h:340
+#: ../glade/app1.glade.h:338
 msgid "Show time"
 msgstr "Pokaži čas"
 
-#: ../glade/app1.glade.h:341
+#: ../glade/app1.glade.h:339
 msgid "Current session"
 msgstr "Trenutna seja"
 
-#: ../glade/app1.glade.h:342 ../glade/person_merge.glade.h:6
+#: ../glade/app1.glade.h:340 ../glade/person_merge.glade.h:6
 msgid "All sessions"
 msgstr "Vse seje"
 
-#: ../glade/app1.glade.h:343
+#: ../glade/app1.glade.h:341
 msgid "Individual"
 msgstr "Posamično"
 
-#: ../glade/app1.glade.h:344
+#: ../glade/app1.glade.h:342
 msgid "Groupwise"
 msgstr "Skupinsko"
 
-#: ../glade/app1.glade.h:345 ../src/gui/app1/encoder.cs:2349
+#: ../glade/app1.glade.h:343 ../src/gui/app1/encoder.cs:2357
 msgid "Save table"
 msgstr "Shrani razpredelnico"
 
-#: ../glade/app1.glade.h:346
+#: ../glade/app1.glade.h:344
 msgid "Show table"
 msgstr "Pokaži tabelo"
 
-#: ../glade/app1.glade.h:347
+#: ../glade/app1.glade.h:345
 msgid "Export to CSV"
 msgstr "Izvoziti v datoteko CSV"
 
-#: ../glade/app1.glade.h:348
+#: ../glade/app1.glade.h:346
 msgid "Data:"
 msgstr "Podatki:"
 
-#: ../glade/app1.glade.h:349
+#: ../glade/app1.glade.h:347
 msgid "Include images"
 msgstr "Vključi slike"
 
-#: ../glade/app1.glade.h:350 ../src/gui/app1/session/loadAndImport.cs:433
+#: ../glade/app1.glade.h:348 ../src/gui/app1/session/loadAndImport.cs:433
 msgid "Open"
 msgstr "Odpri"
 
-#: ../glade/app1.glade.h:351 ../glade/report_window.glade.h:12
+#: ../glade/app1.glade.h:349 ../glade/report_window.glade.h:12
 msgid "Data"
 msgstr "Podatki"
 
-#: ../glade/app1.glade.h:352 ../src/exportSession.cs:309 ../src/report.cs:178
+#: ../glade/app1.glade.h:350 ../src/exportSession.cs:309 ../src/report.cs:178
 msgid "Simple jumps"
 msgstr "Enostavni skoki"
 
-#: ../glade/app1.glade.h:353
+#: ../glade/app1.glade.h:351
 msgid "Include avg and max tables"
 msgstr "Vključi tabele povp in najv"
 
-#: ../glade/app1.glade.h:354 ../src/exportSession.cs:312 ../src/report.cs:183
+#: ../glade/app1.glade.h:352 ../src/exportSession.cs:312 ../src/report.cs:183
 #: ../src/report.cs:186
 msgid "Reactive jumps"
 msgstr "Repetitivno-eksplozivni skoki"
 
-#: ../glade/app1.glade.h:355
+#: ../glade/app1.glade.h:353
 msgid "Simple runs"
 msgstr "Enostavni teki"
 
-#: ../glade/app1.glade.h:356
+#: ../glade/app1.glade.h:354
 msgid "Intervallic runs"
 msgstr "Intervalni teki"
 
-#: ../glade/app1.glade.h:357
+#: ../glade/app1.glade.h:355
 msgid "Analyze current set"
 msgstr "Analiziraj trenutni niz"
 
-#: ../glade/app1.glade.h:358
+#: ../glade/app1.glade.h:356
 msgid "Model options"
 msgstr "Možnosti modela"
 
-#: ../glade/app1.glade.h:359 ../glade/dialog_shortcuts.glade.h:15
-#: ../src/gui/app1/encoder.cs:1806
+#: ../glade/app1.glade.h:357 ../src/gui/app1/encoder.cs:1838
 msgid "Load set"
 msgstr "Naloži niz"
 
-#: ../glade/app1.glade.h:360
+#: ../glade/app1.glade.h:358
 msgid "Load another set"
 msgstr "Naloži dodaten niz"
 
-#: ../glade/app1.glade.h:361
+#: ../glade/app1.glade.h:359
 msgid "Model"
 msgstr "Model"
 
-#: ../glade/app1.glade.h:362
+#: ../glade/app1.glade.h:360
 msgid "Move"
 msgstr "Premakni povlečeno"
 
-#: ../glade/app1.glade.h:363
+#: ../glade/app1.glade.h:361
 msgid "Export data from A to B"
 msgstr "Izvozi podatke od A do B"
 
-#: ../glade/app1.glade.h:364
+#: ../glade/app1.glade.h:362
 msgid "Export data from C to D"
 msgstr "Izvozi podatke od C do D"
 
-#: ../glade/app1.glade.h:365 ../glade/chronopic_test.glade.h:9
+#: ../glade/app1.glade.h:363 ../glade/chronopic_test.glade.h:9
 #: ../glade/force_sensor_exercise.glade.h:38 ../glade/person_merge.glade.h:11
 #: ../src/gui/person/addMultiple.cs:424 ../src/gui/person/addMultiple.cs:657
 msgid "Back"
 msgstr "Nazaj"
 
-#: ../glade/app1.glade.h:366
+#: ../glade/app1.glade.h:364
 msgid "Show triggers"
 msgstr "Pokaži sprožilnike"
 
-#: ../glade/app1.glade.h:367
+#: ../glade/app1.glade.h:365
 msgid "Include instantaneous data"
 msgstr "Vključi hipne podatke"
 
-#: ../glade/app1.glade.h:368
+#: ../glade/app1.glade.h:366
 msgid "Search best start/end inside AB range"
 msgstr "Iskanje najboljšega začetka/konca znotraj območja AB"
 
-#: ../glade/app1.glade.h:369
+#: ../glade/app1.glade.h:367
 msgid "Strictly use A for start and B for end"
 msgstr "Strogo uporabljaj A za začetek in B za konec"
 
-#: ../glade/app1.glade.h:370
+#: ../glade/app1.glade.h:368
 msgid "Length of analysis:"
 msgstr "Dolžina analize:"
 
-#: ../glade/app1.glade.h:371
+#: ../glade/app1.glade.h:369
 msgid "Duration:"
 msgstr "Trajanje:"
 
 # plural
-#: ../glade/app1.glade.h:372
+#: ../glade/app1.glade.h:370
 msgid "Until this seconds:"
 msgstr "Omeji na največ sekund:"
 
-#: ../glade/app1.glade.h:373
+#: ../glade/app1.glade.h:371
 msgid "Until this decrease in max force:"
 msgstr "Do zmanjšanja največje sile:"
 
-#: ../glade/app1.glade.h:374
+#: ../glade/app1.glade.h:372
 msgid "Start and duration"
 msgstr "Začetek in trajanje"
 
-#: ../glade/app1.glade.h:375 ../src/forceSensor.cs:2170
+#: ../glade/app1.glade.h:373 ../src/forceSensor.cs:2170
 msgid "RFD"
 msgstr "Eksplozivna moč RFD"
 
-#: ../glade/app1.glade.h:376
+#: ../glade/app1.glade.h:374
 msgid "At"
 msgstr "Pri"
 
-#: ../glade/app1.glade.h:378
+#: ../glade/app1.glade.h:376
 #, no-c-format
 msgid "% maximum force"
 msgstr "% največje sile"
 
-#: ../glade/app1.glade.h:379
+#: ../glade/app1.glade.h:377
 msgid "From"
 msgstr "Od"
 
-#: ../glade/app1.glade.h:380
+#: ../glade/app1.glade.h:378
 msgid "to"
 msgstr "do"
 
 #. This "In" means: "average force in x milliseconds"
-#: ../glade/app1.glade.h:382 ../src/constants.cs:1010
+#: ../glade/app1.glade.h:380 ../src/constants.cs:1010
 msgid "In"
 msgstr "NA PODLOGI"
 
-#: ../glade/app1.glade.h:383
+#: ../glade/app1.glade.h:381
 msgid "Add RFD"
 msgstr "Dodaj RFD"
 
-#: ../glade/app1.glade.h:384
+#: ../glade/app1.glade.h:382
 msgid "Remove RFD"
 msgstr "Odstrani RFD"
 
 #. impulse
 #. if (showColumnCD)
-#: ../glade/app1.glade.h:385 ../src/constants.cs:1678
+#: ../glade/app1.glade.h:383 ../src/constants.cs:1678
 #: ../src/graphs/bars/encoderCurrent.cs:588
 #: ../src/gui/app1/forceSensorAnalyze.cs:2245
 #: ../src/gui/app1/forceSensorAnalyze.cs:2247
@@ -1896,25 +1894,25 @@ msgstr "Odstrani RFD"
 msgid "Impulse"
 msgstr "Impulz"
 
-#: ../glade/app1.glade.h:386
+#: ../glade/app1.glade.h:384
 msgid "Until"
 msgstr "Dokler"
 
-#: ../glade/app1.glade.h:387 ../glade/feedback.glade.h:67
+#: ../glade/app1.glade.h:385 ../glade/feedback.glade.h:67
 msgid "Back to default values"
 msgstr "Nazaj na privzete vrednosti"
 
-#: ../glade/app1.glade.h:388
+#: ../glade/app1.glade.h:386
 msgid "RFD calculation"
 msgstr "Izračun eksplozivne moči RFD"
 
-#: ../glade/app1.glade.h:389 ../glade/feedback.glade.h:100
+#: ../glade/app1.glade.h:387 ../glade/feedback.glade.h:110
 #: ../src/encoder/encoderAnalyzeInstant.cs:215 ../src/forceSensor.cs:2175
 #: ../src/graphs/cairo/xy.cs:106 ../src/gui/app1/forceSensorAnalyze.cs:2071
 msgid "Acceleration"
 msgstr "Pospešek"
 
-#: ../glade/app1.glade.h:390 ../glade/feedback.glade.h:44
+#: ../glade/app1.glade.h:388 ../glade/feedback.glade.h:44
 #: ../src/constants.cs:1644 ../src/encoder/encoderAnalyzeInstant.cs:216
 #: ../src/forceSensor.cs:2169 ../src/graphs/bars/forceSensor.cs:64
 #: ../src/graphs/cairo/xy.cs:107 ../src/gui/app1/forceSensorAnalyze.cs:1910
@@ -1922,7 +1920,7 @@ msgstr "Pospešek"
 msgid "Force"
 msgstr "Sila"
 
-#: ../glade/app1.glade.h:391 ../glade/feedback.glade.h:47
+#: ../glade/app1.glade.h:389 ../glade/feedback.glade.h:47
 #: ../glade/preferences_win.glade.h:30 ../src/constants.cs:1645
 #: ../src/encoder/encoderAnalyzeInstant.cs:217 ../src/exportSession.cs:522
 #: ../src/exportSession.cs:735 ../src/forceSensor.cs:2176
@@ -1932,158 +1930,158 @@ msgstr "Sila"
 msgid "Power"
 msgstr "Moč"
 
-#: ../glade/app1.glade.h:392 ../glade/preferences_win.glade.h:39
+#: ../glade/app1.glade.h:390 ../glade/preferences_win.glade.h:39
 msgid "Calculations"
 msgstr "Izračuni"
 
-#: ../glade/app1.glade.h:393
+#: ../glade/app1.glade.h:391
 msgid "Close and analyze"
 msgstr "Zapri in preuči"
 
-#: ../glade/app1.glade.h:394
+#: ../glade/app1.glade.h:392
 msgid "Export (to raw data)"
 msgstr "Izvozi (goli podatki)"
 
-#: ../glade/app1.glade.h:395
+#: ../glade/app1.glade.h:393
 msgid "Select repetitions"
 msgstr "Izbor ponovitev"
 
-#: ../glade/app1.glade.h:396 ../src/gui/app1/session/tagSessionSelect.cs:117
+#: ../glade/app1.glade.h:394 ../src/gui/app1/session/tagSessionSelect.cs:117
 #: ../src/gui/modes/encoderSelectRepetitions.cs:220
 msgid "Active"
 msgstr "Dejavno"
 
-#: ../glade/app1.glade.h:397
+#: ../glade/app1.glade.h:395
 msgid "Mode:"
 msgstr "Način:"
 
-#: ../glade/app1.glade.h:398
+#: ../glade/app1.glade.h:396
 msgid "Powerbars"
 msgstr "Stolpci moči"
 
-#: ../glade/app1.glade.h:399
+#: ../glade/app1.glade.h:397
 msgid "Cross variables"
 msgstr "Križne spremenljivke"
 
-#: ../glade/app1.glade.h:400
+#: ../glade/app1.glade.h:398
 msgid "Instantaneous analysis"
 msgstr "Hipna analiza"
 
-#: ../glade/app1.glade.h:401 ../src/gui/app1/encoder.cs:4672
+#: ../glade/app1.glade.h:399 ../src/gui/app1/encoder.cs:4683
 msgid "Neuromuscular profile"
 msgstr "Nevro-mišični profil"
 
-#: ../glade/app1.glade.h:402
+#: ../glade/app1.glade.h:400
 msgid "Change current session"
 msgstr "Zamenjaj trenutno sejo"
 
-#: ../glade/app1.glade.h:403
+#: ../glade/app1.glade.h:401
 msgid "Eccentric-concentric together"
 msgstr "Ekscentrično-koncentrično skupaj"
 
-#: ../glade/app1.glade.h:404
+#: ../glade/app1.glade.h:402
 msgid "Eccentric-concentric separated"
 msgstr "Ločeno ekscentrično-koncentrično"
 
-#: ../glade/app1.glade.h:405
+#: ../glade/app1.glade.h:403
 msgid "Analyze mean values"
 msgstr "Analiza srednjih vrednosti"
 
-#: ../glade/app1.glade.h:406
+#: ../glade/app1.glade.h:404
 msgid "Mean values"
 msgstr "Srednje vrednosti"
 
-#: ../glade/app1.glade.h:407
+#: ../glade/app1.glade.h:405
 msgid "Analyze max values"
 msgstr "Analiza najboljših vrednosti"
 
-#: ../glade/app1.glade.h:408
+#: ../glade/app1.glade.h:406
 msgid "Max values"
 msgstr "Največje vrednosti"
 
-#: ../glade/app1.glade.h:409
+#: ../glade/app1.glade.h:407
 msgid "Date on X"
 msgstr "Datum na osi X"
 
-#: ../glade/app1.glade.h:410
+#: ../glade/app1.glade.h:408
 msgid "Profile:"
 msgstr "Profil:"
 
-#: ../glade/app1.glade.h:411
+#: ../glade/app1.glade.h:409
 msgid "By days"
 msgstr "Po dnevih"
 
-#: ../glade/app1.glade.h:412
+#: ../glade/app1.glade.h:410
 msgid "Separate session by days"
 msgstr "Razdeli sejo po dneh"
 
-#: ../glade/app1.glade.h:413
+#: ../glade/app1.glade.h:411
 msgid "Show:"
 msgstr "Pokaži:"
 
-#: ../glade/app1.glade.h:414
+#: ../glade/app1.glade.h:412
 msgid "Show impulse"
 msgstr "Pokaži impulz"
 
-#: ../glade/app1.glade.h:415 ../glade/feedback.glade.h:77
+#: ../glade/app1.glade.h:413 ../glade/feedback.glade.h:77
 #: ../src/constants.cs:1651
 msgid "Range"
 msgstr "Območje"
 
-#: ../glade/app1.glade.h:416 ../src/constants.cs:1649
+#: ../glade/app1.glade.h:414 ../src/constants.cs:1649
 msgid "Time to Peak Power"
 msgstr "Čas do končne moči"
 
-#: ../glade/app1.glade.h:417 ../src/gui/app1/encoder.cs:4568
+#: ../glade/app1.glade.h:415 ../src/gui/app1/encoder.cs:4579
 msgid "Single repetition"
 msgstr "Ena ponovitev"
 
-#: ../glade/app1.glade.h:418
+#: ../glade/app1.glade.h:416
 msgid "Show position"
 msgstr "Pokaži položaj"
 
-#: ../glade/app1.glade.h:419
+#: ../glade/app1.glade.h:417
 msgid "Show speed"
 msgstr "Pokaži hitrost"
 
-#: ../glade/app1.glade.h:420
+#: ../glade/app1.glade.h:418
 msgid "Show acceleration"
 msgstr "Pokaži pospešek"
 
-#: ../glade/app1.glade.h:421
+#: ../glade/app1.glade.h:419
 msgid "Show force"
 msgstr "Pokaži silo"
 
-#: ../glade/app1.glade.h:422
+#: ../glade/app1.glade.h:420
 msgid "Show power"
 msgstr "Pokaži moč"
 
-#: ../glade/app1.glade.h:423
+#: ../glade/app1.glade.h:421
 msgid "Repetition number"
 msgstr "Število ponovitev"
 
-#: ../glade/app1.glade.h:424
+#: ../glade/app1.glade.h:422
 msgid "Side compare allows a maximum of 12 graphs."
 msgstr "Primerjava ob strani dovoljuje največ dvanajst grafov."
 
-#: ../glade/app1.glade.h:425
+#: ../glade/app1.glade.h:423
 msgid "Max. 12 graphs"
 msgstr "Največ 12 diagramov"
 
-#: ../glade/app1.glade.h:426
+#: ../glade/app1.glade.h:424
 msgid "Cancel process"
 msgstr "Prekini opravilo"
 
-#: ../glade/app1.glade.h:427
+#: ../glade/app1.glade.h:425
 msgid "Option:"
 msgstr "Možnost:"
 
-#: ../glade/app1.glade.h:428 ../src/forceSensor.cs:2173
+#: ../glade/app1.glade.h:426 ../src/forceSensor.cs:2173
 #: ../src/gui/app1/forceSensorAnalyze.cs:2069
 msgid "Position"
 msgstr "Položaj"
 
-#: ../glade/app1.glade.h:429 ../glade/edit_event.glade.h:15
+#: ../glade/app1.glade.h:427 ../glade/edit_event.glade.h:15
 #: ../glade/feedback.glade.h:41 ../src/constants.cs:1642
 #: ../src/encoder/encoderAnalyzeInstant.cs:214 ../src/exportSession.cs:808
 #: ../src/forceSensor.cs:2174 ../src/graphs/bars/runEncoder.cs:64
@@ -2099,62 +2097,62 @@ msgstr "Položaj"
 msgid "Speed"
 msgstr "Hitrost"
 
-#: ../glade/app1.glade.h:430 ../src/gui/app1/encoder.cs:4583
+#: ../glade/app1.glade.h:428 ../src/gui/app1/encoder.cs:4594
 msgid "Side compare"
 msgstr "Primerjava ob strani"
 
-#: ../glade/app1.glade.h:431 ../src/gui/app1/encoder.cs:4595
+#: ../glade/app1.glade.h:429 ../src/gui/app1/encoder.cs:4606
 msgid "Superpose"
 msgstr "Namen"
 
-#: ../glade/app1.glade.h:432 ../src/gui/app1/encoder.cs:4605
+#: ../glade/app1.glade.h:430 ../src/gui/app1/encoder.cs:4616
 msgid "All set"
 msgstr "Vse je pripravljeno"
 
-#: ../glade/app1.glade.h:433
+#: ../glade/app1.glade.h:431
 msgid "Same X scale"
 msgstr "Enaka os X"
 
-#: ../glade/app1.glade.h:434 ../src/encoder/encoderAnalyzeInstant.cs:213
+#: ../glade/app1.glade.h:432 ../src/encoder/encoderAnalyzeInstant.cs:213
 msgid "Displacement"
 msgstr "Razmestitev"
 
 #. double rfdDiff = rfdB - rfdA;
-#: ../glade/app1.glade.h:435 ../src/encoder/encoderAnalyzeInstant.cs:224
+#: ../glade/app1.glade.h:433 ../src/encoder/encoderAnalyzeInstant.cs:224
 #: ../src/forceSensor.cs:2199 ../src/gui/app1/forceSensorAnalyze.cs:1952
 #: ../src/gui/app1/runEncoderAnalyze.cs:574
 msgid "Difference"
 msgstr "Razlika"
 
-#: ../glade/app1.glade.h:436
+#: ../glade/app1.glade.h:434
 msgid "Send by email"
 msgstr "Pošlji z elektronsko pošto"
 
-#: ../glade/app1.glade.h:437
+#: ../glade/app1.glade.h:435
 msgid "Save 1RM value"
 msgstr "Shrani vrednost mejne teže"
 
-#: ../glade/app1.glade.h:438
+#: ../glade/app1.glade.h:436
 msgid "Export repetition from A to B"
 msgstr "Izvozi ponovitve od A do B"
 
-#: ../glade/app1.glade.h:439
+#: ../glade/app1.glade.h:437
 msgid "Triggers found on this set"
 msgstr "Zaznani sprožilniki v naboru"
 
-#: ../glade/app1.glade.h:440
+#: ../glade/app1.glade.h:438
 msgid "Manage sessions"
 msgstr "Upravljaj s sejami"
 
-#: ../glade/app1.glade.h:441
+#: ../glade/app1.glade.h:439
 msgid "New session"
 msgstr "Nova seja"
 
-#: ../glade/app1.glade.h:442
+#: ../glade/app1.glade.h:440
 msgid "Create new session"
 msgstr "Ustvari novo sejo"
 
-#: ../glade/app1.glade.h:443
+#: ../glade/app1.glade.h:441
 msgid ""
 "Create session disabled\n"
 "on Cloud-view mode"
@@ -2164,184 +2162,184 @@ msgstr ""
 
 #. app1s_label_load.Text = "<b>" + Catalog.GetString ("Load session") + "</b>";
 #. app1s_label_load.UseMarkup = true;
-#: ../glade/app1.glade.h:445 ../src/gui/app1/session/loadAndImport.cs:112
+#: ../glade/app1.glade.h:443 ../src/gui/app1/session/loadAndImport.cs:112
 msgid "Load session"
 msgstr "Naloži sejo"
 
-#: ../glade/app1.glade.h:446
+#: ../glade/app1.glade.h:444
 msgid "This session:"
 msgstr "Trenutna seja:"
 
-#: ../glade/app1.glade.h:447
+#: ../glade/app1.glade.h:445
 msgid "Edit session"
 msgstr "Uredi sejo"
 
-#: ../glade/app1.glade.h:448
+#: ../glade/app1.glade.h:446
 msgid "Delete session"
 msgstr "Izbriši sejo"
 
-#: ../glade/app1.glade.h:449
+#: ../glade/app1.glade.h:447
 msgid "Export to another Chronojump"
 msgstr "Izvozi v drug Chronojump"
 
-#: ../glade/app1.glade.h:450
+#: ../glade/app1.glade.h:448
 msgid "Import from another Chronojump"
 msgstr "Uvoz iz drugega Chronojumpa"
 
-#: ../glade/app1.glade.h:451
+#: ../glade/app1.glade.h:449
 msgid "Import jumps or runs from CSV"
 msgstr "Uvozi skoke ali teke iz datoteke CSV"
 
-#: ../glade/app1.glade.h:452
+#: ../glade/app1.glade.h:450
 msgid "Export/Import session"
 msgstr "Izvozi/uvozi sejo"
 
-#: ../glade/app1.glade.h:453
+#: ../glade/app1.glade.h:451
 msgid "Make a copy of all the data"
 msgstr "Ustvari kopijo vseh podatkov"
 
-#: ../glade/app1.glade.h:454
+#: ../glade/app1.glade.h:452
 msgid "Backup all data"
 msgstr "Ustvari varnostno kopijo podatkov"
 
-#: ../glade/app1.glade.h:455
+#: ../glade/app1.glade.h:453
 msgid "View data folder"
 msgstr "Poglej mapo podatkov"
 
-#: ../glade/app1.glade.h:456 ../glade/preferences_win.glade.h:145
+#: ../glade/app1.glade.h:454 ../glade/preferences_win.glade.h:145
 msgid "Show advanced controls"
 msgstr "Pokaži napredne možnosti"
 
-#: ../glade/app1.glade.h:457
+#: ../glade/app1.glade.h:455
 msgid "Import a session from another database"
 msgstr "Uvozi sejo iz druge podatkovne zbirke"
 
-#: ../glade/app1.glade.h:458
+#: ../glade/app1.glade.h:456
 msgid "Where do you want to import?"
 msgstr "Kam želite podatke uvoziti?"
 
-#: ../glade/app1.glade.h:459
+#: ../glade/app1.glade.h:457
 msgid "Import into a new session"
 msgstr "Uvozi v novo sejo"
 
-#: ../glade/app1.glade.h:460
+#: ../glade/app1.glade.h:458
 msgid "Import into the current session"
 msgstr "Uvozi v trenutno sejo"
 
-#: ../glade/app1.glade.h:461
+#: ../glade/app1.glade.h:459
 msgid "Import from already opened database"
 msgstr "Uvozi iz že odprte podatkovne zbirke"
 
-#: ../glade/app1.glade.h:462
+#: ../glade/app1.glade.h:460
 msgid "Use same database"
 msgstr "Uporabi isto podatkovno zbirko"
 
-#: ../glade/app1.glade.h:463
+#: ../glade/app1.glade.h:461
 msgid "Open database file"
 msgstr "Odpri datoteko podatkovne zbirke"
 
-#: ../glade/app1.glade.h:464 ../glade/preferences_win.glade.h:214
+#: ../glade/app1.glade.h:462 ../glade/preferences_win.glade.h:214
 #: ../src/gui/app1/session/backup.cs:171
 msgid "More"
 msgstr "Več"
 
-#: ../glade/app1.glade.h:465 ../glade/encoder_configuration.glade.h:23
+#: ../glade/app1.glade.h:463 ../glade/encoder_configuration.glade.h:23
 #: ../src/gui/preferences.cs:3782
 msgid "Import"
 msgstr "Uvozi"
 
-#: ../glade/app1.glade.h:466
+#: ../glade/app1.glade.h:464
 msgid "Filter by name"
 msgstr "Filtriraj po imenu"
 
-#: ../glade/app1.glade.h:467
+#: ../glade/app1.glade.h:465
 msgid "Filter by tag"
 msgstr "Filtriraj po oznaki"
 
 #. don't show now
-#: ../glade/app1.glade.h:468 ../src/gui/app1/session/tagSessionSelect.cs:146
+#: ../glade/app1.glade.h:466 ../src/gui/app1/session/tagSessionSelect.cs:146
 msgid "Manage tags"
 msgstr "Upravljanje oznak"
 
-#: ../glade/app1.glade.h:469
+#: ../glade/app1.glade.h:467
 msgid "Filter sessions by sensor data"
 msgstr "Filtriraj seje po podatkih tipal"
 
-#: ../glade/app1.glade.h:470
+#: ../glade/app1.glade.h:468
 msgid "View person columns"
 msgstr "Pokaži osebne stolpce"
 
-#: ../glade/app1.glade.h:471
+#: ../glade/app1.glade.h:469
 msgid "Sensor columns"
 msgstr "Stolpci tipal"
 
-#: ../glade/app1.glade.h:472 ../glade/feedback.glade.h:86
-#: ../glade/person_recuperate.glade.h:8 ../src/gui/app1/encoder.cs:1833
-#: ../src/gui/app1/forceSensor.cs:2236 ../src/gui/app1/forceSensor.cs:2273
+#: ../glade/app1.glade.h:470 ../glade/feedback.glade.h:87
+#: ../glade/person_recuperate.glade.h:8 ../src/gui/app1/encoder.cs:1865
+#: ../src/gui/app1/forceSensor.cs:2243 ../src/gui/app1/forceSensor.cs:2280
 #: ../src/gui/app1/runEncoder.cs:1221 ../src/gui/app1/runEncoder.cs:1258
-#: ../src/gui/feedback.cs:1480 ../src/gui/person/addMultiple.cs:434
+#: ../src/gui/feedback.cs:1504 ../src/gui/person/addMultiple.cs:434
 msgid "Load"
 msgstr "Naloži"
 
-#: ../glade/app1.glade.h:473
+#: ../glade/app1.glade.h:471
 msgid "The current session will be modified."
 msgstr "Trenutna seja bo spremenjena."
 
-#: ../glade/app1.glade.h:474
+#: ../glade/app1.glade.h:472
 msgid "The data from session:"
 msgstr "Podatki iz seje:"
 
-#: ../glade/app1.glade.h:475
+#: ../glade/app1.glade.h:473
 msgid "From file:"
 msgstr "Iz datoteke:"
 
-#: ../glade/app1.glade.h:476
+#: ../glade/app1.glade.h:474
 msgid "Will be imported into the current session."
 msgstr "Uvoženi bodo v trenutno sejo."
 
-#: ../glade/app1.glade.h:477 ../glade/encoder_configuration.glade.h:33
-#: ../glade/generic_window.glade.h:13 ../src/gui/app1/encoder.cs:2511
-#: ../src/gui/app1/encoder.cs:2833 ../src/gui/executeAuto.cs:562
+#: ../glade/app1.glade.h:475 ../glade/encoder_configuration.glade.h:33
+#: ../glade/generic_window.glade.h:13 ../src/gui/app1/encoder.cs:2519
+#: ../src/gui/app1/encoder.cs:2841 ../src/gui/executeAuto.cs:562
 #: ../src/gui/modes/encoderConfiguration.cs:784
 #: ../src/gui/modes/encoderConfiguration.cs:840
 #: ../src/gui/person/addModify.cs:381
 msgid "Accept"
 msgstr "Sprejmi"
 
-#: ../glade/app1.glade.h:478
+#: ../glade/app1.glade.h:476
 msgid "Imported to a new session."
 msgstr "Uvoženo v  novo sejo."
 
-#: ../glade/app1.glade.h:479
+#: ../glade/app1.glade.h:477
 msgid "Data merged into the open session."
 msgstr "Podatki so združeni s trenutno sejo."
 
-#: ../glade/app1.glade.h:480 ../src/stats/jumpSimpleSubtraction.cs:60
+#: ../glade/app1.glade.h:478 ../src/stats/jumpSimpleSubtraction.cs:60
 #: ../src/stats/jumpSimpleSubtraction.cs:61
 msgid "Result"
 msgstr "Rezultat"
 
-#: ../glade/app1.glade.h:481
+#: ../glade/app1.glade.h:479
 msgid "Import another session"
 msgstr "Uvozi novo sejo"
 
-#: ../glade/app1.glade.h:482
+#: ../glade/app1.glade.h:480
 msgid "Are you sure you want to delete the current session"
 msgstr "Ali ste prepričani, da želite izbrisati trenutno sejo"
 
-#: ../glade/app1.glade.h:483
+#: ../glade/app1.glade.h:481
 msgid "and all the session tests?"
 msgstr "in vsi testi seje?"
 
-#: ../glade/app1.glade.h:484 ../src/constants.cs:283
+#: ../glade/app1.glade.h:482 ../src/constants.cs:283
 msgid "Sorry, this session cannot be modified."
 msgstr "Tte seje ni mogoče spremeniti."
 
-#: ../glade/app1.glade.h:485
+#: ../glade/app1.glade.h:483
 msgid "Deleted session and all its tests."
 msgstr "Seja in vsi testi seje so izbrisani."
 
-#: ../glade/app1.glade.h:486 ../src/exportSession.cs:346
+#: ../glade/app1.glade.h:484 ../src/exportSession.cs:346
 #: ../src/gui/app1/session/loadAndImport.cs:314
 #: ../src/gui/person/showAllEvents.cs:238 ../src/gui/session/selectStats.cs:85
 #: ../src/report.cs:259
@@ -2349,10 +2347,10 @@ msgid "Place"
 msgstr "Mesto"
 
 #. tv.AppendColumn ( Catalog.GetString ("Date"), new CellRendererText(), "text", count++);
-#: ../glade/app1.glade.h:487 ../src/exportSession.cs:347
-#: ../src/graphs/cairo/xy.cs:109 ../src/gui/app1/encoder.cs:1791
-#: ../src/gui/app1/encoder.cs:5818 ../src/gui/app1/forceSensor.cs:2181
-#: ../src/gui/app1/forceSensor.cs:3820 ../src/gui/app1/runEncoder.cs:1170
+#: ../glade/app1.glade.h:485 ../src/exportSession.cs:347
+#: ../src/graphs/cairo/xy.cs:109 ../src/gui/app1/encoder.cs:1823
+#: ../src/gui/app1/encoder.cs:5878 ../src/gui/app1/forceSensor.cs:2188
+#: ../src/gui/app1/forceSensor.cs:3826 ../src/gui/app1/runEncoder.cs:1170
 #: ../src/gui/app1/runEncoder.cs:2838
 #: ../src/gui/app1/session/loadAndImport.cs:296
 #: ../src/gui/modes/encoderSelectRepetitions.cs:230
@@ -2361,16 +2359,16 @@ msgstr "Mesto"
 msgid "Date"
 msgstr "Datum"
 
-#: ../glade/app1.glade.h:488 ../glade/preferences_win.glade.h:171
+#: ../glade/app1.glade.h:486 ../glade/preferences_win.glade.h:171
 msgid "Change"
 msgstr "Spremeni"
 
-#: ../glade/app1.glade.h:489 ../src/gui/app1/session/loadAndImport.cs:308
+#: ../glade/app1.glade.h:487 ../src/gui/app1/session/loadAndImport.cs:308
 #: ../src/gui/app1/session/tagSessionSelect.cs:145
 msgid "Tags"
 msgstr "Oznake"
 
-#: ../glade/app1.glade.h:490 ../glade/encoder_configuration.glade.h:5
+#: ../glade/app1.glade.h:488 ../glade/encoder_configuration.glade.h:5
 msgid "Manage"
 msgstr "Upravljanje"
 
@@ -2383,7 +2381,7 @@ msgstr "Upravljanje"
 #. tv.AppendColumn ( Catalog.GetString ("MultiChronopic"), new CellRendererText(), "text", count++);
 #. }
 #.
-#: ../glade/app1.glade.h:491 ../glade/evaluator_window.glade.h:11
+#: ../glade/app1.glade.h:489 ../glade/evaluator_window.glade.h:11
 #: ../glade/person_win.glade.h:37 ../src/exportSession.cs:348
 #: ../src/exportSession.cs:399 ../src/gui/app1/session/loadAndImport.cs:356
 #: ../src/gui/modes/forceSensorElasticBands.cs:223
@@ -2393,53 +2391,53 @@ msgstr "Upravljanje"
 msgid "Comments"
 msgstr "Razlage"
 
-#: ../glade/app1.glade.h:492
+#: ../glade/app1.glade.h:490
 msgid "Session data"
 msgstr "Podatki seje"
 
-#: ../glade/app1.glade.h:493 ../glade/person_win.glade.h:34
+#: ../glade/app1.glade.h:491 ../glade/person_win.glade.h:34
 #: ../src/exportSession.cs:398 ../src/gui/app1/session/loadAndImport.cs:317
 #: ../src/gui/person/addMultiple.cs:897
 msgid "Sport"
 msgstr "Šport"
 
-#: ../glade/app1.glade.h:494
+#: ../glade/app1.glade.h:492
 msgid "Different sports"
 msgstr "Različni športi"
 
-#: ../glade/app1.glade.h:495
+#: ../glade/app1.glade.h:493
 msgid "All the same"
 msgstr "Vse enako"
 
-#: ../glade/app1.glade.h:496 ../glade/person_win.glade.h:38
+#: ../glade/app1.glade.h:494 ../glade/person_win.glade.h:38
 msgid "Add new sport"
 msgstr "Dodaj nov šport"
 
-#: ../glade/app1.glade.h:497 ../glade/person_win.glade.h:35
+#: ../glade/app1.glade.h:495 ../glade/person_win.glade.h:35
 #: ../src/exportSession.cs:398 ../src/gui/app1/session/loadAndImport.cs:318
 #: ../src/gui/person/addMultiple.cs:899
 msgid "Specialty"
 msgstr "Posebnost"
 
-#: ../glade/app1.glade.h:498
+#: ../glade/app1.glade.h:496
 msgid "Different specialties"
 msgstr "Različne posebnosti"
 
-#: ../glade/app1.glade.h:499 ../glade/person_win.glade.h:36
+#: ../glade/app1.glade.h:497 ../glade/person_win.glade.h:36
 #: ../src/exportSession.cs:399 ../src/gui/app1/session/loadAndImport.cs:319
 #: ../src/gui/person/addMultiple.cs:901
 msgid "Level"
 msgstr "Raven"
 
-#: ../glade/app1.glade.h:500
+#: ../glade/app1.glade.h:498
 msgid "Different levels"
 msgstr "Različne ravni"
 
-#: ../glade/app1.glade.h:501
+#: ../glade/app1.glade.h:499
 msgid "Person's data"
 msgstr "Podatki testiranca"
 
-#: ../glade/app1.glade.h:502
+#: ../glade/app1.glade.h:500
 msgid ""
 "Backing up your data regularly will keep your important files safe and "
 "secure from data loss."
@@ -2447,55 +2445,55 @@ msgstr ""
 "Z rednim varnostnim kopiranjem podatkov bodo pomembne datoteke vedno varne "
 "in zaščitene pred izgubo."
 
-#: ../glade/app1.glade.h:503
+#: ../glade/app1.glade.h:501
 msgid "Include logs"
 msgstr "Vključi dnevnike"
 
-#: ../glade/app1.glade.h:504
+#: ../glade/app1.glade.h:502
 msgid "Include config files"
 msgstr "Vključi prilagoditvene datoteke"
 
-#: ../glade/app1.glade.h:505
+#: ../glade/app1.glade.h:503
 msgid "Select destination"
 msgstr "Izbor cilja"
 
-#: ../glade/app1.glade.h:506
+#: ../glade/app1.glade.h:504
 msgid "Start backup"
 msgstr "Začni varnostno kopiranje"
 
-#: ../glade/app1.glade.h:507
+#: ../glade/app1.glade.h:505
 msgid "Directory"
 msgstr "Mapa"
 
-#: ../glade/app1.glade.h:508
+#: ../glade/app1.glade.h:506
 msgid "Subdirectory"
 msgstr "Podmapa"
 
-#: ../glade/app1.glade.h:509
+#: ../glade/app1.glade.h:507
 msgid "Delete old incomplete backups"
 msgstr "Izbriši stare nepopolne varnostne kopije"
 
-#: ../glade/app1.glade.h:510
+#: ../glade/app1.glade.h:508
 msgid "Do you want to do a full Chronojump data backup?"
 msgstr "Ali želite pripraviti polno varnostno kopijo vseh podatkov Chronojump?"
 
-#: ../glade/app1.glade.h:511
+#: ../glade/app1.glade.h:509
 msgid "Make the backup now!"
 msgstr "Ustvari varnostno kopijo!"
 
-#: ../glade/app1.glade.h:512
+#: ../glade/app1.glade.h:510
 msgid "Remind me next time"
 msgstr "Opomni me čez čas"
 
-#: ../glade/app1.glade.h:513
+#: ../glade/app1.glade.h:511
 msgid "Remind me in … days"
 msgstr "Opomni me čez … dni"
 
-#: ../glade/app1.glade.h:514
+#: ../glade/app1.glade.h:512
 msgid "Don't ask me again"
 msgstr "Ne vprašaj več"
 
-#: ../glade/app1.glade.h:515
+#: ../glade/app1.glade.h:513
 msgid ""
 "Versions prior to Chronojump 2.1.3 performed automatic backups at each "
 "Chronojump boot but did not include the raw data.\n"
@@ -2507,154 +2505,174 @@ msgstr ""
 "Z različico Chronojump 2.1.3 se v varnostne kopije kopirajo popolni nabori "
 "podatkov."
 
-#: ../glade/app1.glade.h:517
+#: ../glade/app1.glade.h:515
 msgid "Do you want to delete old incomplete backups?"
 msgstr "Ali želite izbrisati stare nepopolne varnostne kopije?"
 
-#: ../glade/app1.glade.h:518
+#: ../glade/app1.glade.h:516
 msgid "Delete them"
 msgstr "Izbriši jih"
 
-#: ../glade/app1.glade.h:519
+#: ../glade/app1.glade.h:517
 msgid "Deleted."
 msgstr "Kopije so izbrisane."
 
-#: ../glade/app1.glade.h:520
+#: ../glade/app1.glade.h:518
 msgid "Backup"
 msgstr "Varnostna kopija"
 
-#: ../glade/app1.glade.h:521
+#: ../glade/app1.glade.h:519
 msgid "Start export"
 msgstr "Začni izvoz"
 
-#: ../glade/app1.glade.h:522
+#: ../glade/app1.glade.h:520
 msgid "Select whether you want to view the Chronojump generic data folder …"
 msgstr ""
 "Izberite, ali si želite ogledati mapo s splošnimi podatki Chronojump ..."
 
-#: ../glade/app1.glade.h:523
+#: ../glade/app1.glade.h:521
 msgid "View generic data folder"
 msgstr "Pokaži mapo s splošnimi podatki"
 
-#: ../glade/app1.glade.h:524
+#: ../glade/app1.glade.h:522
 msgid "… or the data folder of the current mode and session:"
 msgstr "… ali podatkovno mapo trenutnega načina in seje:"
 
-#: ../glade/app1.glade.h:525
+#: ../glade/app1.glade.h:523
 msgid "View specific data folder"
 msgstr "Pokaži določeno podatkovno mapo"
 
-#: ../glade/app1.glade.h:526
+#: ../glade/app1.glade.h:524
 msgid "Import from CSV"
 msgstr "Uvozi iz CSV"
 
-#: ../glade/app1.glade.h:527
+#: ../glade/app1.glade.h:525
 msgid "Encoder disconnected."
 msgstr "Kodirnik ni povezan."
 
-#: ../glade/app1.glade.h:528
+#: ../glade/app1.glade.h:526
 msgid "Please, connect it and click here:"
 msgstr "Kodirnik je treba povezati in nato klikniti na:"
 
-#: ../glade/app1.glade.h:529
+#: ../glade/app1.glade.h:527
 msgid "Check connection"
 msgstr "Preveri povezavo"
 
-#: ../glade/app1.glade.h:530 ../src/constants.cs:294
+#: ../glade/app1.glade.h:528 ../src/constants.cs:294
 msgid "RFID has been disconnected!"
 msgstr "RFID je bil prekinjen!"
 
-#: ../glade/app1.glade.h:531 ../src/constants.cs:295
+#: ../glade/app1.glade.h:529 ../src/constants.cs:295
 msgid "Please, connect it and restart Chronojump."
 msgstr "Napravo povežite in ponovno zaženite program."
 
-#: ../glade/app1.glade.h:532 ../src/gui/preferences.cs:420
+#: ../glade/app1.glade.h:530 ../src/gui/preferences.cs:420
 #: ../src/gui/preferences.cs:3093 ../src/gui/preferences.cs:3104
 msgid "Preferences"
 msgstr "Možnosti"
 
-#: ../glade/app1.glade.h:533
+#: ../glade/app1.glade.h:531
 msgid "Utilities"
 msgstr "Pripomočki"
 
-#: ../glade/app1.glade.h:534
+#: ../glade/app1.glade.h:532
 msgid "Documents"
 msgstr "Dokumenti"
 
-#: ../glade/app1.glade.h:535 ../glade/dialog_shortcuts.glade.h:1
+#: ../glade/app1.glade.h:533 ../glade/dialog_shortcuts.glade.h:1
 msgid "Shortcuts"
 msgstr "Tipkovne bližnjice"
 
-#: ../glade/app1.glade.h:536 ../glade/dialog_about.glade.h:1
+#: ../glade/app1.glade.h:534 ../glade/dialog_about.glade.h:1
 msgid "About"
 msgstr "O programu"
 
-#: ../glade/app1.glade.h:537
+#: ../glade/app1.glade.h:535
 msgid "English"
 msgstr "Angleščina"
 
-#: ../glade/app1.glade.h:538
+#: ../glade/app1.glade.h:536
 msgid "Spanish"
 msgstr "Španščina"
 
-#: ../glade/app1.glade.h:539
+#: ../glade/app1.glade.h:537
 msgid "Open in browser"
 msgstr "Odpri v brskalniku"
 
-#: ../glade/app1.glade.h:540 ../src/constants.cs:943
+#: ../glade/app1.glade.h:538 ../src/constants.cs:943
 msgid "Sorry, cannot open website."
 msgstr "Spletišča ni mogoče odpreti."
 
-#: ../glade/app1.glade.h:541 ../glade/dialog_person_popup.glade.h:3
+#: ../glade/app1.glade.h:539 ../glade/dialog_person_popup.glade.h:3
 msgid "label"
 msgstr "oznaka"
 
-#: ../glade/app1.glade.h:542 ../src/gui/discover.cs:117
-#: ../src/gui/discover.cs:402
+#: ../glade/app1.glade.h:540 ../src/gui/discover.cs:167
+#: ../src/gui/discover.cs:511
 msgid "Show advanced"
 msgstr "Pokaži napredno"
 
 #. NC means: Not Compatible
-#: ../glade/app1.glade.h:544
+#: ../glade/app1.glade.h:542
 msgid "NC:"
 msgstr "Ni združljivo:"
 
-#: ../glade/app1.glade.h:545
+#: ../glade/app1.glade.h:543
 msgid "Not compatible with"
 msgstr "Ni združljivo z"
 
-#: ../glade/app1.glade.h:546 ../glade/person_select_window.glade.h:2
+#: ../glade/app1.glade.h:544 ../src/gui/discover.cs:93
+msgid "Assign manually"
+msgstr "Ročna dodelitev"
+
+#: ../glade/app1.glade.h:545
+msgid ""
+"Chronojump detects devices automatically. However, if for some reason your "
+"device isn't detected correctly, you can assign it manually."
+msgstr ""
+"Chronojump samodejno zazna naprave. Če pa naprava iz kakršnega koli razloga "
+"ni pravilno zaznana, jo lahko dodelite ročno."
+
+#: ../glade/app1.glade.h:546
+msgid ""
+"Please note that if you manually assigned an incorrect device, you can "
+"always forget it using the Forget button."
+msgstr ""
+"Upoštevajte, da če ročno dodelite napačno napravo, jo lahko vedno pozabite z "
+"gumbom Pozabi."
+
+#: ../glade/app1.glade.h:547 ../glade/person_select_window.glade.h:2
 msgid "Manage persons"
 msgstr "Upravljaj testirance"
 
-#: ../glade/app1.glade.h:547 ../glade/person_select_window.glade.h:4
+#: ../glade/app1.glade.h:548 ../glade/person_select_window.glade.h:4
 #: ../glade/person_win.glade.h:1 ../src/gui/person/addModify.cs:272
 msgid "New person"
 msgstr "Nov testiranec"
 
-#: ../glade/app1.glade.h:548
+#: ../glade/app1.glade.h:549
 msgid "Create new person"
 msgstr "Ustvari novega testiranca"
 
-#: ../glade/app1.glade.h:549 ../glade/person_select_window.glade.h:6
+#: ../glade/app1.glade.h:550 ../glade/person_select_window.glade.h:6
 msgid "New persons (multiple)"
 msgstr "Novi testiranci"
 
-#: ../glade/app1.glade.h:550 ../glade/person_select_window.glade.h:11
+#: ../glade/app1.glade.h:551 ../glade/person_select_window.glade.h:11
 #: ../glade/person_win.glade.h:45
 msgid "Load person"
 msgstr "Naloži testiranca"
 
-#: ../glade/app1.glade.h:551 ../glade/person_select_window.glade.h:10
+#: ../glade/app1.glade.h:552 ../glade/person_select_window.glade.h:10
 msgid "Load into session"
 msgstr "Naloži v sejo"
 
-#: ../glade/app1.glade.h:552 ../glade/person_select_window.glade.h:12
+#: ../glade/app1.glade.h:553 ../glade/person_select_window.glade.h:12
 #: ../src/gui/person/recuperate.cs:400
 msgid "Load persons from other session"
 msgstr "Naloži testirance iz druge seje"
 
-#: ../glade/app1.glade.h:553 ../glade/person_select_window.glade.h:8
+#: ../glade/app1.glade.h:554 ../glade/person_select_window.glade.h:8
 msgid ""
 "Create person disabled\n"
 "on Cloud-view mode"
@@ -2662,97 +2680,97 @@ msgstr ""
 "Ustvarjanje osebe je onemogočeno\n"
 "v načinu pogleda v oblaku"
 
-#: ../glade/app1.glade.h:555
+#: ../glade/app1.glade.h:556
 msgid "This person:"
 msgstr "Ta oseba:"
 
-#: ../glade/app1.glade.h:556 ../glade/person_select_window.glade.h:16
+#: ../glade/app1.glade.h:557 ../glade/person_select_window.glade.h:16
 msgid "Edit selected person"
 msgstr "Uredi izbranega testiranca"
 
-#: ../glade/app1.glade.h:557
+#: ../glade/app1.glade.h:558
 msgid "Delete person from this session."
 msgstr "Izbriši testiranca iz te seje."
 
-#: ../glade/app1.glade.h:558
+#: ../glade/app1.glade.h:559
 msgid "Show all tests of any person"
 msgstr "Pokaži vse teste osebe"
 
 #. this strings will be used on merge persons code. Now are here just to be translated in the meantime.
-#: ../glade/app1.glade.h:559 ../glade/person_merge.glade.h:1
+#: ../glade/app1.glade.h:560 ../glade/person_merge.glade.h:1
 #: ../glade/person_select_window.glade.h:20 ../src/gui/person/addModify.cs:164
 msgid "Merge with another person"
 msgstr "Združi z drugo osebo"
 
-#: ../glade/app1.glade.h:560
+#: ../glade/app1.glade.h:561
 msgid "Database:"
 msgstr "Zbirka podatkov:"
 
-#: ../glade/app1.glade.h:561
+#: ../glade/app1.glade.h:562
 msgid "Select another database"
 msgstr "Izberite drugo zbirko podatkov"
 
-#: ../glade/app1.glade.h:562
+#: ../glade/app1.glade.h:563
 msgid "View selected database"
 msgstr "Pokaži izbrano zbirko podatkov"
 
-#: ../glade/app1.glade.h:563 ../glade/preferences_win.glade.h:187
+#: ../glade/app1.glade.h:564 ../glade/preferences_win.glade.h:187
 msgid "Your email"
 msgstr "Elektronski naslov"
 
-#: ../glade/app1.glade.h:564
+#: ../glade/app1.glade.h:565
 msgid "Preferred response language "
 msgstr "Prednostni jezik ozdiva "
 
-#: ../glade/app1.glade.h:565
+#: ../glade/app1.glade.h:566
 msgid "Portuguese"
 msgstr "Portugalščina"
 
-#: ../glade/app1.glade.h:566
+#: ../glade/app1.glade.h:567
 msgid "Catalan"
 msgstr "Katalonščina\t"
 
-#: ../glade/app1.glade.h:567 ../glade/preferences_win.glade.h:188
+#: ../glade/app1.glade.h:568 ../glade/preferences_win.glade.h:188
 msgid "Add comments"
 msgstr "Dodaj opombe"
 
-#: ../glade/app1.glade.h:568 ../src/chronojump.cs:995
+#: ../glade/app1.glade.h:569 ../src/chronojump.cs:995
 msgid "Send error log"
 msgstr "Pošlji dnevnik napak"
 
-#: ../glade/app1.glade.h:569
+#: ../glade/app1.glade.h:570
 msgid "Check last version"
 msgstr "Preveri zadnjo različico"
 
-#: ../glade/app1.glade.h:570
+#: ../glade/app1.glade.h:571
 msgid "Open Chronojump"
 msgstr "Odpri ChronoJump"
 
-#: ../glade/app1.glade.h:571
+#: ../glade/app1.glade.h:572
 msgid "Are you sure you want to exit Chronojump?"
 msgstr "Ali ste prepričani, da želite končati program Chronojump?"
 
-#: ../glade/app1.glade.h:572
+#: ../glade/app1.glade.h:573
 msgid "Please, help us to provide videos on the most suitable platforms."
 msgstr "Pomagajte nam pripraviti videoposnetke na najprimernejših platformah."
 
-#: ../glade/app1.glade.h:573
+#: ../glade/app1.glade.h:574
 msgid "What social network do you use to watch videos?"
 msgstr "Katero družbeno omrežje uporabljate za gledanje videoposnetkov?"
 
-#: ../glade/app1.glade.h:574
+#: ../glade/app1.glade.h:575
 msgid "I don't use social networks or don't want to respond"
 msgstr "Ne uporabljam družbenih omrežij oziroma ne želim povedati"
 
-#: ../glade/app1.glade.h:575
+#: ../glade/app1.glade.h:576
 msgid "Other (which)"
 msgstr "Drugo (katero)"
 
-#: ../glade/app1.glade.h:576
+#: ../glade/app1.glade.h:577
 msgid "Send poll"
 msgstr "Pošlji anketo"
 
-#: ../glade/app1.glade.h:577
+#: ../glade/app1.glade.h:578
 msgid "Exit fullscreen"
 msgstr "Izhod iz celozaslonskega načina"
 
@@ -2773,8 +2791,8 @@ msgid "Answer"
 msgstr "Odgovor"
 
 #: ../glade/chronopic_test.glade.h:5 ../glade/edit_event.glade.h:19
-#: ../src/constants.cs:1006 ../src/encoder/encoderSQL.cs:278
-#: ../src/forceSensor.cs:234 ../src/gui/edit_event/event.cs:398
+#: ../src/constants.cs:1006 ../src/encoder/encoderSQL.cs:281
+#: ../src/forceSensor.cs:234 ../src/gui/edit_event/event.cs:409
 #: ../src/gui/genericWindow.cs:957 ../src/gui/modes/jump.cs:531
 #: ../src/gui/modes/jump.cs:536 ../src/gui/modes/jump.cs:573
 #: ../src/gui/modes/jump.cs:576 ../src/gui/modes/jump.cs:605
@@ -2790,8 +2808,8 @@ msgstr "Da"
 
 #. aka == -1.0
 #: ../glade/chronopic_test.glade.h:6 ../src/constants.cs:1002
-#: ../src/encoder/encoderSQL.cs:280 ../src/forceSensor.cs:236
-#: ../src/forceSensor.cs:246 ../src/gui/edit_event/event.cs:402
+#: ../src/encoder/encoderSQL.cs:283 ../src/forceSensor.cs:236
+#: ../src/forceSensor.cs:246 ../src/gui/edit_event/event.cs:413
 #: ../src/gui/modes/jump.cs:533 ../src/gui/modes/jump.cs:538
 #: ../src/gui/modes/jump.cs:759 ../src/gui/modes/jump.cs:764
 #: ../src/runEncoder.cs:230 ../src/treeview/encoder.cs:281
@@ -2947,35 +2965,31 @@ msgstr "Predvajaj posnetek"
 msgid "Space"
 msgstr "Prostor"
 
-#: ../glade/dialog_shortcuts.glade.h:14 ../glade/overview.glade.h:1
-msgid "Overview"
-msgstr "Pregled"
-
-#: ../glade/dialog_shortcuts.glade.h:16
+#: ../glade/dialog_shortcuts.glade.h:14
 msgid "Configure test"
 msgstr "Nastavi test"
 
-#: ../glade/dialog_shortcuts.glade.h:17
+#: ../glade/dialog_shortcuts.glade.h:15
 msgid "Add weight"
 msgstr "Dodaj težo"
 
-#: ../glade/dialog_shortcuts.glade.h:18
+#: ../glade/dialog_shortcuts.glade.h:16
 msgid "Remove weight"
 msgstr "Odstrani težo"
 
-#: ../glade/dialog_shortcuts.glade.h:19 ../glade/jumps_runs_more.glade.h:1
+#: ../glade/dialog_shortcuts.glade.h:17 ../glade/jumps_runs_more.glade.h:1
 msgid "All tests"
 msgstr "Vsi testi"
 
-#: ../glade/dialog_shortcuts.glade.h:21
+#: ../glade/dialog_shortcuts.glade.h:19
 msgid "Zoom change"
 msgstr "Spremeni približanje"
 
-#: ../glade/dialog_shortcuts.glade.h:22
+#: ../glade/dialog_shortcuts.glade.h:20
 msgid "Fullscreen capture"
 msgstr "Zajem celotnega zaslona"
 
-#: ../glade/dialog_shortcuts.glade.h:23
+#: ../glade/dialog_shortcuts.glade.h:21
 msgid "Tests"
 msgstr "Testi"
 
@@ -3015,9 +3029,9 @@ msgid "Flight time"
 msgstr "Čas leta"
 
 #: ../glade/edit_event.glade.h:12 ../glade/jump_type_add.glade.h:5
-#: ../src/graphs/cairo/xy.cs:103 ../src/gui/app1/encoder.cs:1788
+#: ../src/graphs/cairo/xy.cs:103 ../src/gui/app1/encoder.cs:1820
 #: ../src/gui/app1/treeviews/encoderAnalyze.cs:56
-#: ../src/gui/app1/treeviews/encoderAnalyze.cs:327
+#: ../src/gui/app1/treeviews/encoderAnalyze.cs:328
 #: ../src/gui/eventExecute.cs:978
 #: ../src/gui/modes/encoderSelectRepetitions.cs:224
 #: ../src/gui/modes/jump.cs:515 ../src/gui/modes/jump.cs:741
@@ -3034,96 +3048,94 @@ msgid "Mistakes"
 msgstr "Napake"
 
 #: ../glade/edit_event.glade.h:31
-#| msgid "2"
 msgid "25"
 msgstr "25"
 
 #: ../glade/edit_event.glade.h:32
-#| msgid "0"
 msgid "30"
 msgstr "30"
 
 #. notebook_encoder_capture_extra_mass.CurrentPage = 0;
 #. notebook_encoder_capture_extra_mass.CurrentPage = 1;
 #: ../glade/edit_event.glade.h:37 ../glade/preferences_win.glade.h:141
-#: ../src/gui/app1/chronojump.cs:3587 ../src/gui/app1/chronojump.cs:3630
+#: ../src/gui/app1/chronojump.cs:3591 ../src/gui/app1/chronojump.cs:3634
 msgid "Configure"
 msgstr "Nastavi"
 
-#: ../glade/edit_event.glade.h:42
+#: ../glade/edit_event.glade.h:53
 msgid "Sit to stand"
 msgstr "Iz sedečega v stoječi"
 
-#: ../glade/edit_event.glade.h:43
+#: ../glade/edit_event.glade.h:54
 msgid "Able to stand up without using hands in a steady and controlled action."
 msgstr ""
 "Je sposoben vstati iz sedečega položaja brez uporabe rok mirno in "
 "nadzorovano."
 
-#: ../glade/edit_event.glade.h:44
+#: ../glade/edit_event.glade.h:55
 msgid "Able to stand up using hands in a steady and controlled action."
 msgstr ""
 "Je sposoben vstati iz sedečega položaja z uporabo rok mirno in nadzorovano."
 
-#: ../glade/edit_event.glade.h:45
+#: ../glade/edit_event.glade.h:56
 msgid "Able to stand up using hands after multiple attempts."
 msgstr "Je sposoben vstati iz sedečega položaja z uporabo rok po več poskusih."
 
-#: ../glade/edit_event.glade.h:46
+#: ../glade/edit_event.glade.h:57
 msgid "Needs or asks for help."
 msgstr "Potrebuje ali prosi za pomoč."
 
-#: ../glade/edit_event.glade.h:47
+#: ../glade/edit_event.glade.h:58
 msgid "Undefined."
 msgstr "Nedoločeno."
 
-#: ../glade/edit_event.glade.h:48
+#: ../glade/edit_event.glade.h:59
 msgid "MTGUG Questionnaire 1"
 msgstr "MTGUG vprašalnik 1"
 
-#: ../glade/edit_event.glade.h:49
+#: ../glade/edit_event.glade.h:60
 msgid "Kick ball"
 msgstr "Brcanje žoge"
 
-#: ../glade/edit_event.glade.h:50
+#: ../glade/edit_event.glade.h:61
 msgid "Able to kick ball without losing balance."
 msgstr "Je sposoben brcniti žogo brez težav z ravnotežjem."
 
-#: ../glade/edit_event.glade.h:51
+#: ../glade/edit_event.glade.h:62
 msgid "Able to kick ball but needs to take a step to get back on balance."
 msgstr "Je sposoben brcniti žogo, vendar mora ulovi ravnotežje."
 
-#: ../glade/edit_event.glade.h:52
+#: ../glade/edit_event.glade.h:63
 msgid "Able to kick ball with difficulty finding balance."
 msgstr "Je sposoben brcniti žogo, vendar očitno težko ulovi ravnotežje."
 
-#: ../glade/edit_event.glade.h:53
+#: ../glade/edit_event.glade.h:64
 msgid "Walk whilst counting backwards from 15 to 0"
 msgstr "Hoja z odštevanjem od 15 do 0"
 
-#: ../glade/edit_event.glade.h:54
+#: ../glade/edit_event.glade.h:65
 msgid "Able to coordinate walking with counting without making a mistake."
 msgstr "Je sposoben usklajeno hoditi in šteti brez napak."
 
-#: ../glade/edit_event.glade.h:55
+#: ../glade/edit_event.glade.h:66
 msgid "Able to coordinate walking with counting with one mistake."
 msgstr ""
 "Je sposoben usklajeno hoditi in šteti ter pri štetju narediti le eno napako."
 
-#: ../glade/edit_event.glade.h:56
+#: ../glade/edit_event.glade.h:67
 msgid ""
 "Poor coordination between walking and counting with more than one mistake."
 msgstr "Slabo sta usklajena hoja in štetja z več kot eno napako."
 
-#: ../glade/edit_event.glade.h:57
+#: ../glade/edit_event.glade.h:68
 msgid "Needs help or cannot perform the counting task."
 msgstr "Potrebuje pomoč ali ni sposoben šteti."
 
-#: ../glade/edit_event.glade.h:58
+#: ../glade/edit_event.glade.h:69
 msgid "Go around back of cone"
 msgstr "Obhod stožca"
 
-#: ../glade/edit_event.glade.h:59
+#: ../glade/edit_event.glade.h:70
 msgid ""
 "Able to go around the cone without touching it, without going outside the "
 "marked area, but slowing down the pace."
@@ -3131,13 +3143,13 @@ msgstr ""
 "Je sposoben hoditi znotraj označenega območja z zmanjšano hitrostjo in obiti "
 "postavljen stožec brez dotika."
 
-#: ../glade/edit_event.glade.h:60
+#: ../glade/edit_event.glade.h:71
 msgid "Able to go around with obvious signs of insecurity."
 msgstr ""
 "Je sposoben hoditi znotraj označenega območja in obiti stožec z očitnimi "
 "znaki negotovosti."
 
-#: ../glade/edit_event.glade.h:61
+#: ../glade/edit_event.glade.h:72
 msgid ""
 "Able to go around the cone without touching it, without going outside the "
 "marked area, and keeping up the pace."
@@ -3145,11 +3157,11 @@ msgstr ""
 "Je sposoben hoditi znotraj označenega območja z nespremenjeno hitrostjo in "
 "obiti postavljen stožec brez dotika."
 
-#: ../glade/edit_event.glade.h:62
+#: ../glade/edit_event.glade.h:73
 msgid "Step into circles"
 msgstr "Stopanje v obroče"
 
-#: ../glade/edit_event.glade.h:63
+#: ../glade/edit_event.glade.h:74
 msgid ""
 "Able to walk, stepping one foot into each circle without touching them and "
 "without losing balance."
@@ -3157,7 +3169,7 @@ msgstr ""
 "Je sposoben stopati z eno nogo v vsak na tleh položen obroč, brez dotika "
 "obroča in brez težav z ravnotežjem."
 
-#: ../glade/edit_event.glade.h:64
+#: ../glade/edit_event.glade.h:75
 msgid ""
 "Able to walk, stepping one foot into each circle, touching one or needing to "
 "take an extra step outside the rings to regain balance."
@@ -3165,7 +3177,7 @@ msgstr ""
 "Je sposoben stopati z eno nogo v vsak na tleh položen obroč, z enim dotikom "
 "obroča ali pa mora s korakom izven kroga ulovi ravnotežje."
 
-#: ../glade/edit_event.glade.h:65
+#: ../glade/edit_event.glade.h:76
 msgid ""
 "Able to walk stepping one foot in each circle, touching more than one, or "
 "needing more than one extra step to regain balance."
@@ -3173,23 +3185,23 @@ msgstr ""
 "Je sposoben stopati z eno nogo v vsak na tleh položen obroč, z več dotiki "
 "obroča ali pa mora s korakom ulovi ravnotežje."
 
-#: ../glade/edit_event.glade.h:66
+#: ../glade/edit_event.glade.h:77
 msgid "Sit back down"
 msgstr "Usedite se"
 
-#: ../glade/edit_event.glade.h:67
+#: ../glade/edit_event.glade.h:78
 msgid "Able to sit down smoothly without using hands."
 msgstr "Je sposoben usesti se brez težav in brez uporabe rok."
 
-#: ../glade/edit_event.glade.h:68
+#: ../glade/edit_event.glade.h:79
 msgid "Able to sit down sharply without using hands."
 msgstr "Je sposoben usesti se hitro brez uporabe rok."
 
-#: ../glade/edit_event.glade.h:69
+#: ../glade/edit_event.glade.h:80
 msgid "Able to sit down using hands."
 msgstr "Je sposoben usesti se z uporabo rok."
 
-#: ../glade/edit_event.glade.h:82
+#: ../glade/edit_event.glade.h:93
 msgid "slCMJ"
 msgstr "psSNG"
 
@@ -3650,7 +3662,7 @@ msgstr "Odziv – ročni"
 msgid "Show rhythm while capturing"
 msgstr "Prikaži ritem med zajemanjem"
 
-#: ../glade/feedback.glade.h:50 ../src/gui/feedback.cs:1243
+#: ../glade/feedback.glade.h:50 ../src/gui/feedback.cs:1266
 msgid "Use clusters"
 msgstr "Uporabi zbire"
 
@@ -3707,8 +3719,8 @@ msgid "after concentric"
 msgstr "po koncentrični fazi"
 
 #: ../glade/feedback.glade.h:68
-msgid "Do not show feedback"
-msgstr "Ne pokaži odziva"
+msgid "Show feedback"
+msgstr "Pokaži odziv"
 
 #: ../glade/feedback.glade.h:70
 msgid "Rectangle"
@@ -3751,50 +3763,84 @@ msgid "Dark background"
 msgstr "Temno ozadje"
 
 #: ../glade/feedback.glade.h:84
+msgid "Force range"
+msgstr "Vsili obseg"
+
+#: ../glade/feedback.glade.h:85
 msgid "Use Chronojump questionnaire"
 msgstr "Uporabi vprašalnik Chronojump"
 
-#: ../glade/feedback.glade.h:85
+#: ../glade/feedback.glade.h:86
 msgid "Load own questionnaire"
 msgstr "Naloži lasten vprašalnik"
 
-#: ../glade/feedback.glade.h:87
+#: ../glade/feedback.glade.h:88
+msgid "Arithmetic questionnaire"
+msgstr "Aritmetični vprašalnik"
+
+#: ../glade/feedback.glade.h:89
+msgid "Difficulty"
+msgstr "Zahtevnost"
+
+#: ../glade/feedback.glade.h:90
+msgid "Easy"
+msgstr "Enostavno"
+
+#. Related to difficulty (mid difficult)
+#: ../glade/feedback.glade.h:92
+msgid "Mid"
+msgstr "Srednje"
+
+#. Related to difficulty (hard difficult)
+#: ../glade/feedback.glade.h:94
+msgid "Hard"
+msgstr "Težko"
+
+#: ../glade/feedback.glade.h:95
+msgid "God level"
+msgstr "Božja raven"
+
+#: ../glade/feedback.glade.h:96 ../glade/person_select_window.glade.h:14
+msgid "Are you sure?"
+msgstr "Ali ste prepričani?"
+
+#: ../glade/feedback.glade.h:97
 msgid "Number of questions"
 msgstr "Število vprašanj"
 
-#: ../glade/feedback.glade.h:88
+#: ../glade/feedback.glade.h:98
 msgid "Time for each question"
 msgstr "Čas za vsako vprašanje"
 
-#: ../glade/feedback.glade.h:89
+#: ../glade/feedback.glade.h:99
 msgid "Direction"
 msgstr "Smer"
 
-#: ../glade/feedback.glade.h:92
+#: ../glade/feedback.glade.h:102
 msgid "Set displacement axis values"
 msgstr "Nastavit vrednosti premika osi"
 
-#: ../glade/feedback.glade.h:93
+#: ../glade/feedback.glade.h:103
 msgid "Max"
 msgstr "Najv"
 
-#: ../glade/feedback.glade.h:94
+#: ../glade/feedback.glade.h:104
 msgid "Min"
 msgstr "Najm"
 
-#: ../glade/feedback.glade.h:96 ../glade/preferences_win.glade.h:129
+#: ../glade/feedback.glade.h:106 ../glade/preferences_win.glade.h:129
 msgid "Test \"Good\" bell"
 msgstr "Preizkus zvonca »potrditve«"
 
-#: ../glade/feedback.glade.h:97
+#: ../glade/feedback.glade.h:107
 msgid "Test \"Bad\" bell"
 msgstr "Preizkus zvonca »napake«"
 
-#: ../glade/feedback.glade.h:98
+#: ../glade/feedback.glade.h:108
 msgid "Test bells"
 msgstr "Preizkusi zvonce"
 
-#: ../glade/feedback.glade.h:99
+#: ../glade/feedback.glade.h:109
 msgid "Main variable on speed/time graph"
 msgstr "Glavna spremenljivka na grafu hitrosti/časa"
 
@@ -3883,7 +3929,7 @@ msgstr "Samo za elastični način"
 msgid "What force do you want to show?"
 msgstr "Kakšno silo želite pokazati?"
 
-#: ../glade/force_sensor_exercise.glade.h:9 ../src/gui/app1/forceSensor.cs:2179
+#: ../glade/force_sensor_exercise.glade.h:9 ../src/gui/app1/forceSensor.cs:2186
 #: ../src/gui/modes/forceSensorExercise.cs:502
 msgid "Raw data"
 msgstr "Surove podatke"
@@ -3984,8 +4030,8 @@ msgstr "gumb"
 msgid "session"
 msgstr " seja "
 
-#: ../glade/generic_window.glade.h:8 ../src/gui/app1/encoder.cs:1793
-#: ../src/gui/app1/forceSensor.cs:2183 ../src/gui/app1/runEncoder.cs:1172
+#: ../glade/generic_window.glade.h:8 ../src/gui/app1/encoder.cs:1825
+#: ../src/gui/app1/forceSensor.cs:2190 ../src/gui/app1/runEncoder.cs:1172
 #: ../src/gui/modes/encoderSelectRepetitions.cs:231 ../src/gui/report.cs:185
 msgid "Comment"
 msgstr "Razlaga"
@@ -4020,7 +4066,7 @@ msgstr ""
 
 #. this.heightPreferred = heightPreferred;
 #: ../glade/jump_type_add.glade.h:10
-#: ../src/gui/app1/treeviews/encoderAnalyze.cs:326 ../src/stats/global.cs:52
+#: ../src/gui/app1/treeviews/encoderAnalyze.cs:327 ../src/stats/global.cs:52
 #: ../src/stats/sjCmjAbk.cs:52
 msgid "Jump"
 msgstr "Skok"
@@ -4052,7 +4098,7 @@ msgid "repetitive"
 msgstr "repetitivni"
 
 #: ../glade/jump_type_add.glade.h:22 ../src/constants.cs:605
-#: ../src/gui/app1/contactsExercise.cs:346 ../src/gui/app1/jump.cs:462
+#: ../src/gui/app1/contactsExercise.cs:336 ../src/gui/app1/jump.cs:462
 msgid "jumps"
 msgstr "skoki"
 
@@ -4068,9 +4114,13 @@ msgstr "neomejeno"
 msgid "fixed: "
 msgstr "nespremenljivo: "
 
+#: ../glade/overview.glade.h:1
+msgid "Overview"
+msgstr "Pregled"
+
 #. not shown, unused
-#: ../glade/overview.glade.h:2 ../src/gui/app1/encoder.cs:5817
-#: ../src/gui/app1/forceSensor.cs:3819 ../src/gui/app1/runEncoder.cs:2837
+#: ../glade/overview.glade.h:2 ../src/gui/app1/encoder.cs:5877
+#: ../src/gui/app1/forceSensor.cs:3825 ../src/gui/app1/runEncoder.cs:2837
 #: ../src/gui/app1/session/loadAndImport.cs:341
 #: ../src/gui/app1/session/loadAndImport.cs:345 ../src/gui/overview.cs:101
 #: ../src/gui/overview.cs:301 ../src/gui/person/showAllEvents.cs:247
@@ -4250,10 +4300,6 @@ msgstr "Ustvari novo"
 #: ../glade/person_select_window.glade.h:5
 msgid "One"
 msgstr "En"
-
-#: ../glade/person_select_window.glade.h:14
-msgid "Are you sure?"
-msgstr "Ali ste prepričani?"
 
 #: ../glade/person_select_window.glade.h:18
 msgid "Show all tests of this person"
@@ -4873,8 +4919,8 @@ msgstr "Za zagotovitev celosti posnetka testa je priporočljiv čas 2 sekundi."
 msgid "<b>Advanced</b>"
 msgstr "<b>Napredne možnosti</b>"
 
-#: ../glade/preferences_win.glade.h:152 ../src/gui/app1/encoder.cs:1792
-#: ../src/gui/app1/forceSensor.cs:2182 ../src/gui/app1/runEncoder.cs:1171
+#: ../glade/preferences_win.glade.h:152 ../src/gui/app1/encoder.cs:1824
+#: ../src/gui/app1/forceSensor.cs:2189 ../src/gui/app1/runEncoder.cs:1171
 #: ../src/treeview/event.cs:51
 msgid "Video"
 msgstr "Video"
@@ -5264,7 +5310,7 @@ msgstr "izberi ->"
 msgid "<- unselect"
 msgstr "<- prekliči izbor"
 
-#: ../glade/stats_select_sessions.glade.h:6 ../src/gui/app1/encoder.cs:2435
+#: ../glade/stats_select_sessions.glade.h:6 ../src/gui/app1/encoder.cs:2443
 msgid "all"
 msgstr "vse"
 
@@ -5884,7 +5930,7 @@ msgstr "Testi so <b>simulirani</b>, dokler je naprava kronopik povezana."
 #. thinking on 99 tracks
 #: ../src/constants.cs:881 ../src/exportSession.cs:530
 #: ../src/exportSession.cs:645 ../src/exportSession.cs:811
-#: ../src/exportSession.cs:872 ../src/graphs/bars/bars.cs:460
+#: ../src/exportSession.cs:872 ../src/graphs/bars/bars.cs:487
 #: ../src/graphs/bars/jumpReactive.cs:89 ../src/graphs/bars/jumpSimple.cs:119
 #: ../src/graphs/bars/runInterval.cs:84 ../src/graphs/bars/runSimple.cs:84
 #: ../src/gui/eventExecute.cs:155
@@ -5916,8 +5962,8 @@ msgid "Elite"
 msgstr "Izbrana vrsta"
 
 #: ../src/constants.cs:935 ../src/constants.cs:1661
-#: ../src/gui/app1/chronojump.cs:2843 ../src/gui/app1/encoder.cs:5364
-#: ../src/gui/app1/encoder.cs:5382 ../src/gui/report.cs:542
+#: ../src/gui/app1/chronojump.cs:2847 ../src/gui/app1/encoder.cs:5414
+#: ../src/gui/app1/encoder.cs:5432 ../src/gui/report.cs:542
 msgid "Not enough data."
 msgstr "Premalo podatkov."
 
@@ -6071,21 +6117,21 @@ msgstr "Stoječi start. Začetek teka brez začetne hitrosti."
 msgid "Sorry, no cameras found."
 msgstr "Ni najdenih fotoaparatov."
 
-#: ../src/constants.cs:1178 ../src/gui/app1/encoder.cs:2425
+#: ../src/constants.cs:1178 ../src/gui/app1/encoder.cs:2433
 #: ../src/gui/app1/session/loadAndImport.cs:322
 msgid "Jumps simple"
 msgstr "Enostavni skoki"
 
-#: ../src/constants.cs:1180 ../src/gui/app1/encoder.cs:2427
+#: ../src/constants.cs:1180 ../src/gui/app1/encoder.cs:2435
 msgid "Jumps multiple"
 msgstr "Zaporedni skoki"
 
-#: ../src/constants.cs:1182 ../src/gui/app1/encoder.cs:2429
+#: ../src/constants.cs:1182 ../src/gui/app1/encoder.cs:2437
 #: ../src/gui/app1/session/loadAndImport.cs:326
 msgid "Races simple"
 msgstr "Enostavni teki"
 
-#: ../src/constants.cs:1184 ../src/gui/app1/encoder.cs:2431
+#: ../src/constants.cs:1184 ../src/gui/app1/encoder.cs:2439
 msgid "Races intervallic"
 msgstr "Intervalni teki"
 
@@ -6169,7 +6215,7 @@ msgstr "Povzeto po"
 msgid "Mean speed in concentric propulsive phase"
 msgstr "Povprečna hitrost v koncentrični odrivni fazi"
 
-#: ../src/constants.cs:1669 ../src/gui/app1/encoder.cs:1452
+#: ../src/constants.cs:1669 ../src/gui/app1/encoder.cs:1457
 msgid "Sorry, no repetitions matched your criteria."
 msgstr "Ni ponovitev, ki ustrezajo kriterijem."
 
@@ -6181,14 +6227,13 @@ msgstr "Izvesti je treba najmanj tri skoke"
 msgid "Need at least three eccentric-concentric jumps"
 msgstr "Izvesti je treba najmanj tri ekscentično-koncentrične skoke"
 
-#. laterality is stored on English but translated on encoder sqlite select
-#: ../src/constants.cs:1672 ../src/gui/app1/encoder.cs:1880
-#: ../src/sqlite/main.cs:1976 ../src/sqlite/main.cs:1977
+#: ../src/constants.cs:1672 ../src/sqlite/main.cs:1976
+#: ../src/sqlite/main.cs:1977
 msgid "RL"
 msgstr "RL"
 
-#: ../src/constants.cs:1672 ../src/gui/app1/encoder.cs:1882
-#: ../src/sqlite/main.cs:1979 ../src/sqlite/main.cs:1980
+#: ../src/constants.cs:1672 ../src/sqlite/main.cs:1979
+#: ../src/sqlite/main.cs:1980
 msgid "R"
 msgstr "R"
 
@@ -6391,11 +6436,11 @@ msgstr ""
 msgid "Resting {0} s"
 msgstr "Počitek {0} s"
 
-#: ../src/encoder/encoderSQL.cs:174 ../src/sqlite/tests/encoder.cs:965
+#: ../src/encoder/encoderSQL.cs:177 ../src/sqlite/tests/encoder.cs:965
 msgid "Eccentric-concentric"
 msgstr "Ekscentrično-koncentrično"
 
-#: ../src/encoder/encoderSQL.cs:176
+#: ../src/encoder/encoderSQL.cs:179
 msgid "Concentric-eccentric"
 msgstr "Koncentrično-ekscentrično"
 
@@ -6515,18 +6560,18 @@ msgstr[1] "Zavržen {0} niz."
 msgstr[2] "Zavržena {0} niza."
 msgstr[3] "Zavrženi {0} nizi."
 
-#: ../src/exportFiles/exportFiles.cs:173 ../src/gui/app1/chronojump.cs:2841
+#: ../src/exportFiles/exportFiles.cs:173 ../src/gui/app1/chronojump.cs:2845
 #: ../src/gui/app1/session/export.cs:190
 #: ../src/gui/modes/encoderConfiguration.cs:878 ../src/gui/report.cs:540
 msgid "Cancelled."
 msgstr "Preklicano."
 
-#: ../src/exportFiles/exportFiles.cs:175 ../src/gui/app1/encoder.cs:1295
-#: ../src/gui/app1/encoder.cs:1296
+#: ../src/exportFiles/exportFiles.cs:175 ../src/gui/app1/encoder.cs:1302
+#: ../src/gui/app1/encoder.cs:1303
 msgid "Missing data."
 msgstr "Manjkajo podatki."
 
-#: ../src/exportFiles/exportFiles.cs:177 ../src/gui/app1/encoder.cs:5374
+#: ../src/exportFiles/exportFiles.cs:177 ../src/gui/app1/encoder.cs:5424
 msgid "Error doing operation."
 msgstr "Napaka pri delovanju."
 
@@ -6598,8 +6643,8 @@ msgstr "s krogi"
 msgid "SessionID"
 msgstr "ID Seje"
 
-#: ../src/exportSession.cs:393 ../src/gui/app1/encoder.cs:1784
-#: ../src/gui/app1/forceSensor.cs:2172 ../src/gui/app1/runEncoder.cs:1165
+#: ../src/exportSession.cs:393 ../src/gui/app1/encoder.cs:1816
+#: ../src/gui/app1/forceSensor.cs:2179 ../src/gui/app1/runEncoder.cs:1165
 #: ../src/gui/convertWeight.cs:112
 #: ../src/gui/modes/encoderSelectRepetitions.cs:219
 #: ../src/gui/modes/encoderSelectRepetitions.cs:438
@@ -6735,7 +6780,7 @@ msgstr "Povprečna hitrost"
 msgid "Distance interval"
 msgstr "Interval razdalje"
 
-#: ../src/exportSession.cs:868 ../src/gui/app1/chronojump.cs:6112
+#: ../src/exportSession.cs:868 ../src/gui/app1/chronojump.cs:6126
 #: ../src/gui/modes/run.cs:679 ../src/gui/modes/run.cs:747
 #: ../src/gui/modes/run.cs:799
 msgid "Laps"
@@ -6757,24 +6802,43 @@ msgstr "Statistični podatki"
 msgid "Sample"
 msgstr "Vzorec"
 
-#: ../src/graphs/bars/bars.cs:194
+#: ../src/graphs/bars/bars.cs:202
 #, csharp-format
 msgid "{0} has not made any {1} test in this session."
 msgstr "{0} v tej seji ni opravil nobenega testa {1}."
 
-#: ../src/graphs/bars/bars.cs:197
+#: ../src/graphs/bars/bars.cs:205
 #, csharp-format
 msgid "{0} has not made any test in this session."
 msgstr "{0} v tej seji ni opravil nobenega testa."
 
-#: ../src/graphs/bars/bars.cs:201
+#: ../src/graphs/bars/bars.cs:209
 #, csharp-format
 msgid "There are no {0} tests in this session."
 msgstr "V tej seji ni testov {0}."
 
-#: ../src/graphs/bars/bars.cs:204
+#: ../src/graphs/bars/bars.cs:212
 msgid "No tests in this session."
 msgstr "V tej seji ni testov."
+
+#: ../src/graphs/bars/bars.cs:221
+#, csharp-format
+msgid "{0} has not saved any repetitions in the {1} test of this session."
+msgstr "{0} v tej seji ni shranil nobenih ponovitev testa {1}."
+
+#: ../src/graphs/bars/bars.cs:224
+#, csharp-format
+msgid "{0} has not saved any repetitions in this session."
+msgstr "{0} v tej seji ni shranil nobenih ponovitev."
+
+#: ../src/graphs/bars/bars.cs:228
+#, csharp-format
+msgid "No {0} test repetitions have been saved in this session."
+msgstr "V tej seji niso bile shranjene nobene ponovitve testa {0}."
+
+#: ../src/graphs/bars/bars.cs:231
+msgid "No repetitions have been saved in this session."
+msgstr "V tej seji niso bile shranjene nobene ponovitve."
 
 #: ../src/graphs/bars/encoderCurrent.cs:147
 msgid "Main variable:"
@@ -6788,7 +6852,7 @@ msgstr "Stolpci niso prikazani, ker je premaknjena masa 0."
 msgid "saved"
 msgstr "shranjeno"
 
-#: ../src/graphs/bars/forceSensor.cs:66 ../src/gui/app1/forceSensor.cs:2179
+#: ../src/graphs/bars/forceSensor.cs:66 ../src/gui/app1/forceSensor.cs:2186
 #: ../src/gui/eventExecute.cs:968 ../src/treeview/encoder.cs:57
 #: ../src/treeview/encoder.cs:74 ../src/treeview/forceSensor.cs:49
 msgid "Max force"
@@ -6916,21 +6980,21 @@ msgstr ""
 msgid "Problems calculating SJl at 100% body weight."
 msgstr "Težave pri izračunu SJl pri 100 % telesni teži."
 
-#: ../src/gui/app1/chronojump.cs:1470
+#: ../src/gui/app1/chronojump.cs:1474
 #, csharp-format
 msgid "Chronojump database version file: {0}"
 msgstr "Datoteka različice podatkovne zbirke ChronoJump: {0}"
 
-#: ../src/gui/app1/chronojump.cs:1522
+#: ../src/gui/app1/chronojump.cs:1526
 msgid "Preferences loaded"
 msgstr "Možnosti so naložene"
 
-#: ../src/gui/app1/chronojump.cs:1654
+#: ../src/gui/app1/chronojump.cs:1658
 #, csharp-format
 msgid "Sprints of {0}"
 msgstr "Sprinti {0}"
 
-#: ../src/gui/app1/chronojump.cs:2371
+#: ../src/gui/app1/chronojump.cs:2375
 #, csharp-format
 msgid ""
 "Could not delete file:\n"
@@ -6940,16 +7004,16 @@ msgstr ""
 "{0}"
 
 #. feedback (more in 1st session created)
-#: ../src/gui/app1/chronojump.cs:2548
+#: ../src/gui/app1/chronojump.cs:2552
 msgid "Session created, now add or load persons."
 msgstr "Seja je ustvarjena, sedaj je mogoče dodati ali naložiti testirance."
 
-#: ../src/gui/app1/chronojump.cs:2835 ../src/gui/app1/encoder.cs:2740
-#: ../src/gui/app1/encoder.cs:2938 ../src/gui/app1/encoder.cs:2946
-#: ../src/gui/app1/encoder.cs:2953 ../src/gui/app1/encoder.cs:2960
-#: ../src/gui/app1/encoder.cs:2968 ../src/gui/app1/encoder.cs:2975
-#: ../src/gui/app1/encoder.cs:2983 ../src/gui/app1/forceSensor.cs:3397
-#: ../src/gui/app1/forceSensor.cs:3409 ../src/gui/app1/forceSensor.cs:3431
+#: ../src/gui/app1/chronojump.cs:2839 ../src/gui/app1/encoder.cs:2748
+#: ../src/gui/app1/encoder.cs:2946 ../src/gui/app1/encoder.cs:2954
+#: ../src/gui/app1/encoder.cs:2961 ../src/gui/app1/encoder.cs:2968
+#: ../src/gui/app1/encoder.cs:2976 ../src/gui/app1/encoder.cs:2983
+#: ../src/gui/app1/encoder.cs:2991 ../src/gui/app1/forceSensor.cs:3403
+#: ../src/gui/app1/forceSensor.cs:3415 ../src/gui/app1/forceSensor.cs:3437
 #: ../src/gui/app1/graphs/jumpsAsymmetry.cs:298
 #: ../src/gui/app1/graphs/jumpsDjOptimalFall.cs:159
 #: ../src/gui/app1/graphs/jumpsProfile.cs:123
@@ -6967,90 +7031,90 @@ msgstr "Seja je ustvarjena, sedaj je mogoče dodati ali naložiti testirance."
 msgid "Saved to {0}"
 msgstr "Shranjeno v {0}"
 
-#: ../src/gui/app1/chronojump.cs:2845 ../src/gui/report.cs:544
+#: ../src/gui/app1/chronojump.cs:2849 ../src/gui/report.cs:544
 #, csharp-format
 msgid "Cannot export to file {0} "
 msgstr "Ni mogoče izvoziti v datoteko {0}"
 
-#: ../src/gui/app1/chronojump.cs:2944
+#: ../src/gui/app1/chronojump.cs:2948
 msgid "Changes on cloud options force to restart Chronojump to apply changes"
 msgstr ""
 "Spremembe v možnostih v oblaku zahtevajo nov zagon Chronojumpa, da "
 "uveljavite spremembe."
 
-#: ../src/gui/app1/chronojump.cs:3936 ../src/gui/app1/chronojump.cs:3944
+#: ../src/gui/app1/chronojump.cs:3940 ../src/gui/app1/chronojump.cs:3948
 msgid "Sorry, R software is not installed."
 msgstr "Žal programska oprema R ni nameščena."
 
-#: ../src/gui/app1/chronojump.cs:3937 ../src/gui/app1/encoderThreads.cs:1021
+#: ../src/gui/app1/chronojump.cs:3941 ../src/gui/app1/encoderThreads.cs:1012
 #: ../src/stats/main.cs:1515
 msgid "Please, install it from here:"
 msgstr "Prosimo, namestite ga od tukaj:"
 
-#: ../src/gui/app1/chronojump.cs:3949
+#: ../src/gui/app1/chronojump.cs:3953
 #, csharp-format
 msgid "Sorry, {0} software is not installed."
 msgstr "Žal programska oprema {0} ni nameščena."
 
-#: ../src/gui/app1/chronojump.cs:3968
+#: ../src/gui/app1/chronojump.cs:3972
 msgid "Select at least one"
 msgstr "Izbrati je treba najmanj eno"
 
-#: ../src/gui/app1/chronojump.cs:4303
+#: ../src/gui/app1/chronojump.cs:4307
 msgid "Measured by a contact platform"
 msgstr "Izmerjeno s kontaktno podlogo"
 
-#: ../src/gui/app1/chronojump.cs:4330
+#: ../src/gui/app1/chronojump.cs:4334
 msgid "Force exercises measured by a force sensor"
 msgstr "Vaje moči/sile, merjene s tipalom sile"
 
-#: ../src/gui/app1/chronojump.cs:4336
+#: ../src/gui/app1/chronojump.cs:4340
 msgid "Speed/power exercises displacing weights measured by an encoder"
 msgstr "Vaje za hitrost/moč z izpodrivanjem uteži, izmerjene s kodirnikom"
 
-#: ../src/gui/app1/chronojump.cs:4342
+#: ../src/gui/app1/chronojump.cs:4346
 msgid ""
 "Speed/power exercises rotating an inertial machine and measured by an encoder"
 msgstr ""
 "Vaje za hitrost/moč z vrtenjem vztrajnostne naprave, izmerjene s kodirnikom"
 
-#: ../src/gui/app1/chronojump.cs:4646
+#: ../src/gui/app1/chronojump.cs:4650
 #, csharp-format
 msgid "Detect devices compatible with: <b>{0}</b>"
 msgstr "Zaznaj naprave, združljive z: <b>{0}</b>"
 
-#: ../src/gui/app1/chronojump.cs:4951 ../src/gui/chronopicRegister.cs:366
+#: ../src/gui/app1/chronojump.cs:4965 ../src/gui/chronopicRegister.cs:366
 msgid "Device not found"
 msgstr "Naprave ni mogoče najti"
 
-#: ../src/gui/app1/chronojump.cs:5101
+#: ../src/gui/app1/chronojump.cs:5115
 msgid "Sorry, RSA tests cannot be simulated."
 msgstr "Žal testov RSA ni mogoče simulirati."
 
-#: ../src/gui/app1/chronojump.cs:6611
+#: ../src/gui/app1/chronojump.cs:6625
 msgid "Added simple jump type."
 msgstr "Dodan je enostavni skok."
 
-#: ../src/gui/app1/chronojump.cs:6621
+#: ../src/gui/app1/chronojump.cs:6635
 msgid "Added reactive jump type."
 msgstr "Dodan je repetitivno-eksplozivni skok."
 
-#: ../src/gui/app1/chronojump.cs:6652
+#: ../src/gui/app1/chronojump.cs:6666
 msgid "Added simple race type."
 msgstr "Dodan je enostavni tek."
 
-#: ../src/gui/app1/chronojump.cs:6661
+#: ../src/gui/app1/chronojump.cs:6675
 msgid "Added intervallic race type."
 msgstr "Dodan je intervalni tek."
 
-#: ../src/gui/app1/chronojump.cs:7261
+#: ../src/gui/app1/chronojump.cs:7275
 msgid "translator-credits"
 msgstr ""
 "Matej Urbančič <mateju@svn.gnome.org>\n"
 "Matej Dremelj\n"
 "Andrej Žnidaršič"
 
-#: ../src/gui/app1/chronojump.cs:8442
+#: ../src/gui/app1/chronojump.cs:8466
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr "Končano za testiranje. Program ChronoJump bo končan z napako."
 
@@ -7072,92 +7136,92 @@ msgstr "Trenutni testiranec: "
 msgid "Deleted person and all his/her tests on this session."
 msgstr "Izbrisani podatki testov testiranca te seje"
 
-#: ../src/gui/app1/contactsExercise.cs:182
+#: ../src/gui/app1/contactsExercise.cs:172
 msgid "Select an image"
 msgstr "Izberite sliko"
 
-#: ../src/gui/app1/contactsExercise.cs:185
+#: ../src/gui/app1/contactsExercise.cs:175
 #: ../src/gui/app1/session/backup.cs:239 ../src/gui/preferences.cs:2630
 #: ../src/gui/preferences.cs:3021
 msgid "Select"
 msgstr "Izberi"
 
-#: ../src/gui/app1/contactsExercise.cs:241
+#: ../src/gui/app1/contactsExercise.cs:231
 msgid "Need to create an exercise."
 msgstr "Ustvariti je treba vajo."
 
-#: ../src/gui/app1/encoder.cs:759
+#: ../src/gui/app1/encoder.cs:763
 msgid "More than 1 encoders are connected"
 msgstr "Zaznan je več kot 1 kodirnik"
 
-#: ../src/gui/app1/encoder.cs:783
+#: ../src/gui/app1/encoder.cs:787
 msgid "Calibrated"
 msgstr "Umerjeno"
 
-#: ../src/gui/app1/encoder.cs:934 ../src/gui/app1/encoder.cs:5526
-#: ../src/gui/app1/encoder.cs:5785 ../src/gui/app1/forceSensor.cs:433
-#: ../src/gui/app1/forceSensor.cs:3721 ../src/gui/app1/forceSensor.cs:3785
+#: ../src/gui/app1/encoder.cs:938 ../src/gui/app1/encoder.cs:5586
+#: ../src/gui/app1/encoder.cs:5845 ../src/gui/app1/forceSensor.cs:433
+#: ../src/gui/app1/forceSensor.cs:3727 ../src/gui/app1/forceSensor.cs:3791
 #: ../src/gui/app1/runEncoder.cs:357 ../src/gui/app1/runEncoder.cs:2564
 #: ../src/gui/app1/runEncoder.cs:2803
 msgid "Need to create/select an exercise."
 msgstr "Ustvariti oziroma izbrati je treba vajo."
 
-#: ../src/gui/app1/encoder.cs:1184
+#: ../src/gui/app1/encoder.cs:1191
 msgid "Load 1RM"
 msgstr "Naloži mejno težo"
 
-#: ../src/gui/app1/encoder.cs:1185
+#: ../src/gui/app1/encoder.cs:1192
 #: ../src/gui/modes/encoderSelectRepetitions.cs:441
 msgid "Session date"
 msgstr "Datum seje"
 
 #. don't show now
-#: ../src/gui/app1/encoder.cs:1204
+#: ../src/gui/app1/encoder.cs:1211
 #, csharp-format
 msgid "Saved 1RM values of athlete {0} in {1} exercise."
 msgstr "Vrednost mejne teže za testiranca {0} pri vaji {1} je shranjena."
 
-#: ../src/gui/app1/encoder.cs:1206
+#: ../src/gui/app1/encoder.cs:1213
 #: ../src/gui/modes/encoderSelectRepetitions.cs:266
 msgid "If you want to delete a row, right click on it."
 msgstr "Z desnim klikom lahko izbrišete vrstico."
 
-#: ../src/gui/app1/encoder.cs:1207
+#: ../src/gui/app1/encoder.cs:1214
 msgid "If there is more than one value, top one will be used."
 msgstr "Če je vrednosti več, bo uporabljena zgornja."
 
-#: ../src/gui/app1/encoder.cs:1211
+#: ../src/gui/app1/encoder.cs:1218
 msgid "Manually add"
 msgstr "Dodaj vnose ročno"
 
-#: ../src/gui/app1/encoder.cs:1214
+#: ../src/gui/app1/encoder.cs:1221
 msgid "Add 1RM value"
 msgstr "Dodaj 1 vrednost mejne teže"
 
-#: ../src/gui/app1/encoder.cs:1359
+#: ../src/gui/app1/encoder.cs:1366
 msgid "Recalculate this set will remove existing triggers."
 msgstr "Preračunavanje tega niza bo odstranilo obstoječe sprožilce."
 
-#: ../src/gui/app1/encoder.cs:1360
+#: ../src/gui/app1/encoder.cs:1367
 msgid "Are you sure!"
 msgstr "Ali ste prepričani?"
 
-#: ../src/gui/app1/encoder.cs:1690 ../src/gui/app1/encoder.cs:4879
+#: ../src/gui/app1/encoder.cs:1722 ../src/gui/app1/encoder.cs:4929
 msgid "Any laterality"
 msgstr "Vsakršna lateralnost/bočnost"
 
-#: ../src/gui/app1/encoder.cs:1785 ../src/gui/app1/forceSensor.cs:2173
+#: ../src/gui/app1/encoder.cs:1817 ../src/gui/app1/forceSensor.cs:2180
 #: ../src/gui/app1/runEncoder.cs:1166
 msgid "Set"
 msgstr "Niz"
 
-#: ../src/gui/app1/encoder.cs:1789 ../src/gui/overview.cs:296
+#: ../src/gui/app1/encoder.cs:1821 ../src/gui/overview.cs:296
 #: ../src/gui/overview.cs:305
 msgid "Encoder configuration"
 msgstr "Nastavitev kodirnika"
 
 #. Catalog.GetString ("Encoder configuration"),
-#: ../src/gui/app1/encoder.cs:1790
+#: ../src/gui/app1/encoder.cs:1822
 #: ../src/gui/modes/encoderSelectRepetitions.cs:229 ../src/gui/overview.cs:310
 #: ../src/treeview/encoder.cs:53 ../src/treeview/encoder.cs:70
 msgid "Contraction"
@@ -7179,7 +7243,7 @@ msgstr "Krčenje"
 #. a2.Add(Constants.GenericWindowShow.COMBO); a2.Add(true); a2.Add("");
 #. bigArray.Add(a2);
 #.
-#: ../src/gui/app1/encoder.cs:1807 ../src/gui/app1/forceSensor.cs:2225
+#: ../src/gui/app1/encoder.cs:1839 ../src/gui/app1/forceSensor.cs:2232
 #: ../src/gui/app1/runEncoder.cs:1210
 #, csharp-format
 msgid "Select set of athlete {0} on this session."
@@ -7187,7 +7251,7 @@ msgstr "Izberite niz atleta {0} za to sejo."
 
 #. genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected set") +
 #. " (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
-#: ../src/gui/app1/encoder.cs:1823 ../src/gui/app1/forceSensor.cs:2261
+#: ../src/gui/app1/encoder.cs:1855 ../src/gui/app1/forceSensor.cs:2268
 #: ../src/gui/app1/runEncoder.cs:1246
 msgid "Change person"
 msgstr "Zamenjaj testiranca"
@@ -7217,55 +7281,55 @@ msgstr "Zamenjaj testiranca"
 #. If user renames it, then an Unnamed will be created next time that a set with new different config is loaded
 #. See: https://gitlab.gnome.org/GNOME/chronojump/-/issues/96
 #.
-#: ../src/gui/app1/encoder.cs:1942
+#: ../src/gui/app1/encoder.cs:1960
 msgid "Unnamed"
 msgstr "Neimenovano"
 
-#: ../src/gui/app1/encoder.cs:2073 ../src/gui/app1/encoder.cs:3027
-#: ../src/gui/app1/forceSensor.cs:2610 ../src/gui/app1/forceSensor.cs:2648
+#: ../src/gui/app1/encoder.cs:2084 ../src/gui/app1/encoder.cs:3035
+#: ../src/gui/app1/forceSensor.cs:2616 ../src/gui/app1/forceSensor.cs:2654
 #: ../src/gui/app1/runEncoder.cs:1725 ../src/gui/app1/runEncoder.cs:1762
 msgid "Are you sure you want to delete this set?"
 msgstr "Ali ste prepričani, da želite izbrisati ta niz?"
 
-#: ../src/gui/app1/encoder.cs:2073 ../src/gui/app1/encoder.cs:3027
+#: ../src/gui/app1/encoder.cs:2084 ../src/gui/app1/encoder.cs:3035
 msgid "Saved repetitions related to this set will also be deleted."
 msgstr ""
 "Shranjena ponavljanja, kis o povezana s tem nizom, bodo prav tako izbrisana."
 
-#: ../src/gui/app1/encoder.cs:2310
+#: ../src/gui/app1/encoder.cs:2318
 msgid "Export set in CSV format"
 msgstr "Izvozi niz v zapis CSV"
 
-#: ../src/gui/app1/encoder.cs:2344
+#: ../src/gui/app1/encoder.cs:2352
 msgid "Export repetition in CSV format"
 msgstr "Izvozi ponovitve v zapis CSV"
 
-#: ../src/gui/app1/encoder.cs:2558 ../src/gui/app1/encoder.cs:2875
+#: ../src/gui/app1/encoder.cs:2566 ../src/gui/app1/encoder.cs:2883
 #: ../src/gui/app1/session/backup.cs:284 ../src/gui/app1/session/export.cs:118
 msgid "Are you sure you want to overwrite: "
 msgstr "Ali ste prepričani, da želite prepisati datoteko:"
 
-#: ../src/gui/app1/encoder.cs:2753
+#: ../src/gui/app1/encoder.cs:2761
 #, csharp-format
 msgid "Cannot save file {0}"
 msgstr "Ni mogoče shraniti datoteke {0}"
 
-#: ../src/gui/app1/encoder.cs:2754
+#: ../src/gui/app1/encoder.cs:2762
 msgid "Possible causes:"
 msgstr "Možni vzroki:"
 
-#: ../src/gui/app1/encoder.cs:2755
+#: ../src/gui/app1/encoder.cs:2763
 msgid "The disk may be full."
 msgstr "Disk je morda poln."
 
-#: ../src/gui/app1/encoder.cs:2756
+#: ../src/gui/app1/encoder.cs:2764
 msgid "The file may already be open in another application."
 msgstr "Datoteka je morda že odprta v drugem programu."
 
-#: ../src/gui/app1/encoder.cs:2759 ../src/gui/app1/encoder.cs:2926
-#: ../src/gui/app1/encoder.cs:5236 ../src/gui/app1/encoder.cs:5260
-#: ../src/gui/app1/encoder.cs:5348 ../src/gui/app1/forceSensor.cs:3389
-#: ../src/gui/app1/forceSensor.cs:3423 ../src/gui/app1/runEncoderAnalyze.cs:263
+#: ../src/gui/app1/encoder.cs:2767 ../src/gui/app1/encoder.cs:2934
+#: ../src/gui/app1/encoder.cs:5286 ../src/gui/app1/encoder.cs:5310
+#: ../src/gui/app1/encoder.cs:5398 ../src/gui/app1/forceSensor.cs:3395
+#: ../src/gui/app1/forceSensor.cs:3429 ../src/gui/app1/runEncoderAnalyze.cs:263
 #: ../src/gui/app1/runEncoderAnalyze.cs:313 ../src/gui/app1/runEncoder.cs:3191
 #: ../src/gui/modes/encoderConfiguration.cs:872 ../src/gui/modes/sprint.cs:171
 #: ../src/gui/modes/sprint.cs:211 ../src/gui/person/addModify.cs:411
@@ -7273,62 +7337,62 @@ msgstr "Datoteka je morda že odprta v drugem programu."
 msgid "Cannot save file {0} "
 msgstr "Ni mogoče shraniti datoteke {0}"
 
-#: ../src/gui/app1/encoder.cs:2830
+#: ../src/gui/app1/encoder.cs:2838
 msgid "Export data and graphs"
 msgstr "Izvozi podatke in diagrame"
 
-#: ../src/gui/app1/encoder.cs:3044
+#: ../src/gui/app1/encoder.cs:3052
 msgid "Set deleted"
 msgstr "Niz je izbrisan"
 
-#: ../src/gui/app1/encoder.cs:3218
+#: ../src/gui/app1/encoder.cs:3222
 #: ../src/gui/app1/treeviews/encoderCaptureCurrentSet.cs:191
 #: ../src/gui/executeAuto.cs:470
 msgid "Saved"
 msgstr "Shranjeno"
 
-#: ../src/gui/app1/encoder.cs:3393
+#: ../src/gui/app1/encoder.cs:3401
 msgid "Set saved"
 msgstr "Niz je shranjen"
 
-#: ../src/gui/app1/encoder.cs:3412
+#: ../src/gui/app1/encoder.cs:3420
 msgid "Sorry, video cannot be stored."
 msgstr "Žal videa ni mogoče shraniti."
 
-#: ../src/gui/app1/encoder.cs:3424
+#: ../src/gui/app1/encoder.cs:3432
 msgid "Set updated"
 msgstr "Niz je posodobljen"
 
-#: ../src/gui/app1/encoder.cs:3444
+#: ../src/gui/app1/encoder.cs:3452
 msgid "Sorry, no repetitions selected."
 msgstr "Ni izbranih ponovitev"
 
 #. cannot do 1RM Any exercise without the "speed at 1RM" exercise parameter
-#: ../src/gui/app1/encoder.cs:3457 ../src/gui/app1/encoder.cs:3485
-#: ../src/gui/app1/encoder.cs:3510 ../src/gui/app1/encoder.cs:3553
-#: ../src/gui/app1/encoder.cs:4801
+#: ../src/gui/app1/encoder.cs:3465 ../src/gui/app1/encoder.cs:3493
+#: ../src/gui/app1/encoder.cs:3518 ../src/gui/app1/encoder.cs:3561
+#: ../src/gui/app1/encoder.cs:4851
 msgid "1RM Any exercise"
 msgstr "Mejna teža katerekoli vaje"
 
-#: ../src/gui/app1/encoder.cs:3459 ../src/gui/app1/encoder.cs:3555
-#: ../src/gui/app1/encoder.cs:4801
+#: ../src/gui/app1/encoder.cs:3467 ../src/gui/app1/encoder.cs:3563
+#: ../src/gui/app1/encoder.cs:4851
 msgid "1RM Bench Press"
 msgstr "Mejna teža potiska s prsmi"
 
-#: ../src/gui/app1/encoder.cs:3461 ../src/gui/app1/encoder.cs:3557
-#: ../src/gui/app1/encoder.cs:4802
+#: ../src/gui/app1/encoder.cs:3469 ../src/gui/app1/encoder.cs:3565
+#: ../src/gui/app1/encoder.cs:4852
 msgid "1RM Squat"
 msgstr "Počep z mejno težo"
 
-#: ../src/gui/app1/encoder.cs:3478
+#: ../src/gui/app1/encoder.cs:3486
 msgid "Sorry, cannot calculate 1RM of different exercises."
 msgstr "Ni mogoče izračunati mejne teže za različne vaje."
 
-#: ../src/gui/app1/encoder.cs:3479
+#: ../src/gui/app1/encoder.cs:3487
 msgid "Please select repetitions of only one exercise type."
 msgstr "Izberite ponovitve samo ene vrste vadbe."
 
-#: ../src/gui/app1/encoder.cs:3494
+#: ../src/gui/app1/encoder.cs:3502
 #, csharp-format
 msgid ""
 "Sorry, parameter: 'speed at 1RM' on exercise: '{0}' cannot be 0 for this "
@@ -7337,46 +7401,46 @@ msgstr ""
 "Žal parameter: »hitrost pri 1RM« pri vadbi »{0}« za to analizo ne more biti "
 "0."
 
-#: ../src/gui/app1/encoder.cs:3496
+#: ../src/gui/app1/encoder.cs:3504
 msgid "Please edit exercise parameters on capture tab."
 msgstr "Prosimo, uredite parametre vadbe na zavihku zajema."
 
-#: ../src/gui/app1/encoder.cs:3513
+#: ../src/gui/app1/encoder.cs:3521
 msgid "Sorry, cannot calculate this 1RM test on one set."
 msgstr "Ni mogoče izračunati mejne teže za eno izvedbo vaje."
 
 #. will not be translated
-#: ../src/gui/app1/encoder.cs:3531 ../src/gui/app1/encoder.cs:5006
+#: ../src/gui/app1/encoder.cs:3539 ../src/gui/app1/encoder.cs:5056
 msgid "(Speed,Power) - Load"
 msgstr "(Hitrost,moč) - obremenitev"
 
-#: ../src/gui/app1/encoder.cs:3534 ../src/gui/app1/encoder.cs:3561
-#: ../src/gui/app1/encoder.cs:3582
+#: ../src/gui/app1/encoder.cs:3542 ../src/gui/app1/encoder.cs:3569
+#: ../src/gui/app1/encoder.cs:3590
 msgid "Sorry, this graph is not supported yet."
 msgstr "Žal ta graf še ni podprt."
 
-#: ../src/gui/app1/encoder.cs:3849
+#: ../src/gui/app1/encoder.cs:3857
 #: ../src/gui/modes/encoderSelectRepetitions.cs:177
 msgid "All weights"
 msgstr "Vse uteži"
 
-#: ../src/gui/app1/encoder.cs:4651
+#: ../src/gui/app1/encoder.cs:4662
 msgid "About Neuromuscular Profile"
 msgstr "O nevromuskularnem profilu"
 
-#: ../src/gui/app1/encoder.cs:4652
+#: ../src/gui/app1/encoder.cs:4663
 msgid "Load = Average eccentric RFD (Ratio of Force Development)"
 msgstr "Obremenitev = povprečni ekscentrični RFD (razmerje razvoja sile)"
 
-#: ../src/gui/app1/encoder.cs:4653
+#: ../src/gui/app1/encoder.cs:4664
 msgid "Explode = Average relative concentric RFD"
 msgstr "Eksplozivnost = povprečna relativna koncentrična RFD"
 
-#: ../src/gui/app1/encoder.cs:4654
+#: ../src/gui/app1/encoder.cs:4665
 msgid "Drive = Average relative concentric Impulse"
 msgstr "Zagon = povprečni relativni koncentrični impulz"
 
-#: ../src/gui/app1/encoder.cs:4655
+#: ../src/gui/app1/encoder.cs:4666
 msgid ""
 "General trends to try to develop an 'equilibrated' neuromuscular profile "
 "(always add individual considerations as previous or actual injuries, sport "
@@ -7386,7 +7450,7 @@ msgstr ""
 "(vedno upoštevajte individualne posebnosti, kot so prejšnje ali dejanske "
 "poškodbe, športno specifičnost, sklope mišic itn.)."
 
-#: ../src/gui/app1/encoder.cs:4656
+#: ../src/gui/app1/encoder.cs:4667
 msgid ""
 "If one of the metrics is under developed (weak) compared with the other two, "
 "prescribe exercises that emphasize its development."
@@ -7394,7 +7458,7 @@ msgstr ""
 "Če so v primerjavi z drugima dvema meritve podrazvite (šibke), predpišite "
 "vaje, ki poudarjajo njegov razvoj."
 
-#: ../src/gui/app1/encoder.cs:4657
+#: ../src/gui/app1/encoder.cs:4668
 msgid ""
 "If one of the metrics is over developed (extreme) compared with the other "
 "two, prescribe exercises to emphasize those, but paying attention to "
@@ -7404,11 +7468,11 @@ msgstr ""
 "(ekstremna), predpišite vaje za poudarjanje teh, vendar bodite pozorni na "
 "prilagodljivost in sprostitev preveč delovnih mišic."
 
-#: ../src/gui/app1/encoder.cs:4659
+#: ../src/gui/app1/encoder.cs:4670
 msgid "General guidelines to improve the neuromuscular profile:"
 msgstr "Splošne smernice za izboljšanje živčno-mišičnega profila:"
 
-#: ../src/gui/app1/encoder.cs:4661
+#: ../src/gui/app1/encoder.cs:4672
 msgid ""
 "Load: Perform exercises that develop maximum force (eccentric, isometric or "
 "concentric)."
@@ -7416,12 +7480,12 @@ msgstr ""
 "Obremenitev: izvajajte vaje, ki razvijajo največjo silo (ekscentrično, "
 "izometrično ali koncentrično)."
 
-#: ../src/gui/app1/encoder.cs:4662
+#: ../src/gui/app1/encoder.cs:4673
 msgid "Then switch to exercises that develop eccentric force in short time."
 msgstr ""
 "Nato preklopite na vaje, ki v kratkem času razvijejo ekscentrično silo."
 
-#: ../src/gui/app1/encoder.cs:4664
+#: ../src/gui/app1/encoder.cs:4675
 msgid ""
 "Explode: Perform exercises that develop force in short time, and maximum "
 "force."
@@ -7429,87 +7493,87 @@ msgstr ""
 "Eksplozivnost: izvajajte vaje, ki razvijejo silo v kratkem času ter kar "
 "največjo silo."
 
-#: ../src/gui/app1/encoder.cs:4665
+#: ../src/gui/app1/encoder.cs:4676
 msgid "Drive: Perform exercises where force is developed during more time."
 msgstr "Zagon: izvajajte vaje, pri katerih se sila razvije skozi daljši čas."
 
 #. TODO: translate
-#: ../src/gui/app1/encoder.cs:4668
+#: ../src/gui/app1/encoder.cs:4679
 msgid "Analysis uses the best three jumps using 'jump height' criterion."
 msgstr "Analiza upošteva najboljše tri skoke po kriteriju 'višina skoka'"
 
-#: ../src/gui/app1/encoder.cs:4802
+#: ../src/gui/app1/encoder.cs:4852
 msgid "1RM Indirect"
 msgstr "Neposredna mejna teža"
 
-#: ../src/gui/app1/encoder.cs:4974 ../src/gui/app1/encoder.cs:4977
+#: ../src/gui/app1/encoder.cs:5024 ../src/gui/app1/encoder.cs:5027
 msgid "All exercises"
 msgstr "Vse vaje"
 
-#: ../src/gui/app1/encoder.cs:5002
+#: ../src/gui/app1/encoder.cs:5052
 msgid "Power - Load"
 msgstr "Moč / obremenitev"
 
-#: ../src/gui/app1/encoder.cs:5003
+#: ../src/gui/app1/encoder.cs:5053
 msgid "Speed - Load"
 msgstr "Hitrost / obremenitev"
 
-#: ../src/gui/app1/encoder.cs:5004
+#: ../src/gui/app1/encoder.cs:5054
 msgid "Force - Load"
 msgstr "Sila / obremenitev"
 
-#: ../src/gui/app1/encoder.cs:5007
+#: ../src/gui/app1/encoder.cs:5057
 msgid "(Force,Power) - Speed"
 msgstr "(Sila, moč) / hitrost"
 
-#: ../src/gui/app1/encoder.cs:5008
+#: ../src/gui/app1/encoder.cs:5058
 msgid "Load - Speed"
 msgstr "Obremenitev / hitrost"
 
-#: ../src/gui/app1/encoder.cs:5009
+#: ../src/gui/app1/encoder.cs:5059
 msgid "Power - Speed"
 msgstr "Moč / hitrost"
 
-#: ../src/gui/app1/encoder.cs:5019
+#: ../src/gui/app1/encoder.cs:5069
 msgid "Power - Date"
 msgstr "Moč / datum"
 
-#: ../src/gui/app1/encoder.cs:5020
+#: ../src/gui/app1/encoder.cs:5070
 msgid "Speed - Date"
 msgstr "Hitrost / datum"
 
-#: ../src/gui/app1/encoder.cs:5021
+#: ../src/gui/app1/encoder.cs:5071
 msgid "Force - Date"
 msgstr "Sila / datum"
 
-#: ../src/gui/app1/encoder.cs:5375
+#: ../src/gui/app1/encoder.cs:5425
 msgid "Operation cancelled."
 msgstr "Opravilo je preklicano."
 
-#: ../src/gui/app1/encoder.cs:5429
+#: ../src/gui/app1/encoder.cs:5479
 #, csharp-format
 msgid "Saved 1RM: {0} Kg."
 msgstr "Shranjena mejna teža: {0} Kg."
 
-#: ../src/gui/app1/encoder.cs:5566
+#: ../src/gui/app1/encoder.cs:5626
 msgid "This exercise has been used on gravitatory and inertial sets."
 msgstr "Ta vaja je bila uporabljena na gravitacijskih in inertnih nizih."
 
-#: ../src/gui/app1/encoder.cs:5578
+#: ../src/gui/app1/encoder.cs:5638
 msgid "This exercise has been used on inertial sets."
 msgstr "Ta vaja je bila uporabljena na inertnih nizih."
 
-#: ../src/gui/app1/encoder.cs:5590
+#: ../src/gui/app1/encoder.cs:5650
 msgid "This exercise has been used on gravitatory sets."
 msgstr "Ta vaja je bila uporabljena na gravitacijskih nizih."
 
-#: ../src/gui/app1/encoder.cs:5696 ../src/gui/app1/runEncoder.cs:2736
+#: ../src/gui/app1/encoder.cs:5756 ../src/gui/app1/runEncoder.cs:2736
 #: ../src/gui/modes/forceSensorExercise.cs:792
 msgid "Error: Missing name of exercise."
 msgstr "Napaka: manjka ime vaje."
 
 #. if we add, check that this name does not exists
-#: ../src/gui/app1/encoder.cs:5702 ../src/gui/app1/encoder.cs:5717
+#: ../src/gui/app1/encoder.cs:5762 ../src/gui/app1/encoder.cs:5777
 #: ../src/gui/app1/runEncoder.cs:2742 ../src/gui/app1/runEncoder.cs:2752
 #: ../src/gui/modes/forceSensorExercise.cs:799
 #: ../src/gui/modes/forceSensorExercise.cs:809
@@ -7517,84 +7581,84 @@ msgstr "Napaka: manjka ime vaje."
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Napaka: vaja z imenom {0} že obstaja."
 
-#: ../src/gui/app1/encoder.cs:5798 ../src/gui/app1/forceSensor.cs:3800
+#: ../src/gui/app1/encoder.cs:5858 ../src/gui/app1/forceSensor.cs:3806
 #: ../src/gui/app1/runEncoder.cs:2818
 msgid "Exercise name:"
 msgstr "Ime vaje:"
 
-#: ../src/gui/app1/encoder.cs:5808 ../src/gui/app1/forceSensor.cs:3810
+#: ../src/gui/app1/encoder.cs:5868 ../src/gui/app1/forceSensor.cs:3816
 #: ../src/gui/app1/runEncoder.cs:2828
 msgid "Sorry, this exercise cannot be deleted until these tests are deleted:"
 msgstr "Vaje ni mogoče izbrisati, dokler niso izbrisani navedeni testi:"
 
-#: ../src/gui/app1/encoder.cs:5834 ../src/gui/app1/forceSensor.cs:3835
+#: ../src/gui/app1/encoder.cs:5894 ../src/gui/app1/forceSensor.cs:3841
 #: ../src/gui/app1/runEncoder.cs:2850
 msgid "Exercise deleted."
 msgstr "Vaja je izbrisana."
 
 #. forceSensorOtherMessage = string.Format("Please pull the band/tube to {0} cm from its length without tension. You have 10 seconds.", distanceCm);
-#: ../src/gui/app1/encoderThreads.cs:158 ../src/gui/app1/forceSensor.cs:1076
+#: ../src/gui/app1/encoderThreads.cs:147 ../src/gui/app1/forceSensor.cs:1076
 #: ../src/gui/modes/encoderConfiguration.cs:1102
 msgid "Capturing"
 msgstr "Zajemanje"
 
-#: ../src/gui/app1/encoderThreads.cs:215 ../src/gui/app1/encoderThreads.cs:305
+#: ../src/gui/app1/encoderThreads.cs:204 ../src/gui/app1/encoderThreads.cs:294
 msgid "Sorry, cannot start capture."
 msgstr "Zajema ni mogoče začeti."
 
-#: ../src/gui/app1/encoderThreads.cs:255
+#: ../src/gui/app1/encoderThreads.cs:244
 msgid "Clusters"
 msgstr "Kopice"
 
 #. to allow hslides and table
-#: ../src/gui/app1/encoderThreads.cs:395 ../src/gui/app1/encoderThreads.cs:805
+#: ../src/gui/app1/encoderThreads.cs:386 ../src/gui/app1/encoderThreads.cs:796
 #: ../src/gui/app1/session/backup.cs:407
 msgid "Please, wait."
 msgstr "Počakajte."
 
-#: ../src/gui/app1/encoderThreads.cs:824
+#: ../src/gui/app1/encoderThreads.cs:815
 msgid "R tasks done"
 msgstr "R opravljenih nalog"
 
-#: ../src/gui/app1/encoderThreads.cs:836
+#: ../src/gui/app1/encoderThreads.cs:827
 msgid "Repetitions processed"
 msgstr "Obdelane ponovitve"
 
-#: ../src/gui/app1/encoderThreads.cs:843
+#: ../src/gui/app1/encoderThreads.cs:834
 msgid "Starting process"
 msgstr "Začetek obdelave"
 
-#: ../src/gui/app1/encoderThreads.cs:847
+#: ../src/gui/app1/encoderThreads.cs:838
 msgid "Loading libraries"
 msgstr "Dodatne knjižnice"
 
-#: ../src/gui/app1/encoderThreads.cs:851
+#: ../src/gui/app1/encoderThreads.cs:842
 msgid "Starting R"
 msgstr "Poteka zaganjanje R ..."
 
-#: ../src/gui/app1/encoderThreads.cs:1019 ../src/stats/main.cs:1513
+#: ../src/gui/app1/encoderThreads.cs:1010 ../src/stats/main.cs:1513
 msgid "Sorry. Error doing graph."
 msgstr "Oprostite, napaka pri izdelavi grafa."
 
-#: ../src/gui/app1/encoderThreads.cs:1020 ../src/stats/main.cs:1514
+#: ../src/gui/app1/encoderThreads.cs:1011 ../src/stats/main.cs:1514
 msgid "Maybe R is not installed."
 msgstr "Morda R ni nameščen."
 
 #. signal is raised and managed in gui/encoder.cs
-#: ../src/gui/app1/encoderThreads.cs:1028
-#: ../src/gui/app1/encoderThreads.cs:1029
-#: ../src/gui/app1/encoderThreads.cs:1293 ../src/gui/discover.cs:507
+#: ../src/gui/app1/encoderThreads.cs:1019
+#: ../src/gui/app1/encoderThreads.cs:1020
+#: ../src/gui/app1/encoderThreads.cs:1309 ../src/gui/discover.cs:664
 #: ../src/gui/modes/encoderConfiguration.cs:1160
 msgid "Cancelled"
 msgstr "Preklicano"
 
-#: ../src/gui/app1/encoderThreads.cs:1035
-#: ../src/gui/app1/encoderThreads.cs:1036
-#: ../src/gui/app1/encoderThreads.cs:1231
+#: ../src/gui/app1/encoderThreads.cs:1026
+#: ../src/gui/app1/encoderThreads.cs:1027
+#: ../src/gui/app1/encoderThreads.cs:1247
 msgid "Finished"
 msgstr "Dokončano"
 
-#: ../src/gui/app1/encoderThreads.cs:1280
+#: ../src/gui/app1/encoderThreads.cs:1296
 msgid "Set corrected. string was not fully extended at the beginning."
 msgstr "Nastavitev popravljena. Vrv na začetku ni bila popolnoma iztegnjena."
 
@@ -7621,7 +7685,7 @@ msgstr "Čiščenje naprave …"
 #. if preferences butterworth changed, the graph will be updated
 #. need to also update the grid before the return
 #. forceSensorGridLegendColors ();
-#: ../src/gui/app1/forceSensor.cs:444 ../src/gui/app1/forceSensor.cs:2694
+#: ../src/gui/app1/forceSensor.cs:444 ../src/gui/app1/forceSensor.cs:2700
 msgid "Need to configure fixture to know stiffness of this elastic exercise."
 msgstr ""
 "Morate prilagoditi vpenjalo, da boste poznali togost te elastične vaje."
@@ -7680,7 +7744,7 @@ msgid "Please, wait …"
 msgstr "Prosimo, počakajte …"
 
 #: ../src/gui/app1/forceSensor.cs:1121 ../src/gui/app1/forceSensor.cs:1141
-#: ../src/gui/app1/forceSensor.cs:1723 ../src/gui/app1/forceSensor.cs:1754
+#: ../src/gui/app1/forceSensor.cs:1730 ../src/gui/app1/forceSensor.cs:1761
 msgid "Ending capture …"
 msgstr "Zaključevanje zajema …"
 
@@ -7700,40 +7764,40 @@ msgstr "Priprava zajema ..."
 msgid "Taring; …"
 msgstr "Poteka tehtanje; …"
 
-#: ../src/gui/app1/forceSensor.cs:1996
+#: ../src/gui/app1/forceSensor.cs:2003
 #, csharp-format
 msgid "Error. Force too big: {0} N"
 msgstr "Napaka. Sila je prevelika: {0} N"
 
-#: ../src/gui/app1/forceSensor.cs:1997
+#: ../src/gui/app1/forceSensor.cs:2004
 msgid "Bad calibration or too much force for this sensor."
 msgstr "Slaba kalibracija ali prevelika sila za to tipalo."
 
-#: ../src/gui/app1/forceSensor.cs:1998
+#: ../src/gui/app1/forceSensor.cs:2005
 msgid "Stopped."
 msgstr "Ustavljeno."
 
-#: ../src/gui/app1/forceSensor.cs:2177
+#: ../src/gui/app1/forceSensor.cs:2184
 msgid "Capture option"
 msgstr "Možnosti zajemanja"
 
-#: ../src/gui/app1/forceSensor.cs:2180
+#: ../src/gui/app1/forceSensor.cs:2187
 #, csharp-format
 msgid "Max AVG Force in {0} s"
 msgstr "Največja POVP sila v {0} s"
 
-#: ../src/gui/app1/forceSensor.cs:2233 ../src/gui/app1/runEncoder.cs:1218
+#: ../src/gui/app1/forceSensor.cs:2240 ../src/gui/app1/runEncoder.cs:1218
 msgid "Select set to compare"
 msgstr "Izberite niz za primerjavo"
 
-#: ../src/gui/app1/forceSensor.cs:2440
+#: ../src/gui/app1/forceSensor.cs:2446
 msgid ""
 "Loaded set used elastic bands removed from database or with changed values."
 msgstr ""
 "Naloženi niz je uporabljal elastične trakove, odstranjene iz zbirke podatkov "
 "ali s spremenjenimi vrednostmi."
 
-#: ../src/gui/app1/forceSensor.cs:2441
+#: ../src/gui/app1/forceSensor.cs:2447
 msgid ""
 "Stiffness calculation is correct but stiffness configuration window will not "
 "be able to match elastic bands and total stiffness."
@@ -7742,47 +7806,47 @@ msgstr ""
 "ustrezati elastičnim trakom in skupni togosti."
 
 #. event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
-#: ../src/gui/app1/forceSensor.cs:2482
+#: ../src/gui/app1/forceSensor.cs:2488
 msgid "Loaded:"
 msgstr "Naloženo:"
 
-#: ../src/gui/app1/forceSensor.cs:2847
+#: ../src/gui/app1/forceSensor.cs:2853
 msgid "Error doing graph."
 msgstr "Prišlo je do napake pri izrisovanju diagrama."
 
-#: ../src/gui/app1/forceSensor.cs:2848
+#: ../src/gui/app1/forceSensor.cs:2854
 msgid "Probably not sustained force."
 msgstr "Verjetno ne trajna sila."
 
-#: ../src/gui/app1/forceSensor.cs:3447
+#: ../src/gui/app1/forceSensor.cs:3453
 msgid "If you want to calibrate, please tare first."
 msgstr "Če želite umerjati, najprej stehtajte."
 
-#: ../src/gui/app1/forceSensor.cs:3732 ../src/gui/app1/forceSensor.cs:3747
+#: ../src/gui/app1/forceSensor.cs:3738 ../src/gui/app1/forceSensor.cs:3753
 msgid "Isometric exercise"
 msgstr "Izometrična vaja"
 
-#: ../src/gui/app1/forceSensor.cs:3734 ../src/gui/app1/forceSensor.cs:3749
+#: ../src/gui/app1/forceSensor.cs:3740 ../src/gui/app1/forceSensor.cs:3755
 msgid "Elastic exercise"
 msgstr "Elastična vaja"
 
-#: ../src/gui/app1/forceSensor.cs:3799
+#: ../src/gui/app1/forceSensor.cs:3805
 msgid "Delete exercise"
 msgstr "Izbriši vajo"
 
-#: ../src/gui/app1/forceSensor.cs:3864
+#: ../src/gui/app1/forceSensor.cs:3870
 msgid "Stiffness configuration"
 msgstr "Nastavitev togosti"
 
-#: ../src/gui/app1/forceSensor.cs:3864
+#: ../src/gui/app1/forceSensor.cs:3870
 msgid "Configure attached elastic bands/tubes"
 msgstr "Prilagodi pritrjene elastične trakove/cevi"
 
-#: ../src/gui/app1/forceSensor.cs:3876
+#: ../src/gui/app1/forceSensor.cs:3882
 msgid "Configure bands/tubes"
 msgstr "Prilagodi trakove/cevi"
 
-#: ../src/gui/app1/forceSensor.cs:3879
+#: ../src/gui/app1/forceSensor.cs:3885
 msgid "Stiffness:"
 msgstr "Togost:"
 
@@ -8288,32 +8352,64 @@ msgstr ""
 msgid "Depending on the test, user could change values."
 msgstr "Odvisno od testa lahko uporabnik spremeni vrednosti."
 
-#: ../src/gui/discover.cs:114 ../src/gui/discover.cs:399
+#: ../src/gui/discover.cs:89
+msgid "Select!"
+msgstr "Izberite!"
+
+#: ../src/gui/discover.cs:90
+msgid "Test it!"
+msgstr "Preizkusite!"
+
+#: ../src/gui/discover.cs:91
+msgid "Forget it!"
+msgstr "Pozabite!"
+
+#: ../src/gui/discover.cs:92
+msgid "Forgotten"
+msgstr "Pozabljeno"
+
+#: ../src/gui/discover.cs:94
+msgid "Assigned manually: "
+msgstr "Dodeljeno ročno: "
+
+#: ../src/gui/discover.cs:164 ../src/gui/discover.cs:508
 msgid "Hide advanced"
 msgstr "Skrij napredno"
 
-#: ../src/gui/discover.cs:157
+#: ../src/gui/discover.cs:209
 msgid "Device not found."
 msgstr "Naprave ni mogoče najti."
 
-#: ../src/gui/discover.cs:223
+#: ../src/gui/discover.cs:286
 msgid "Action"
 msgstr "Dejanje"
 
-#: ../src/gui/discover.cs:245 ../src/gui/discover.cs:248
-#: ../src/gui/discover.cs:321 ../src/gui/discover.cs:480
+#: ../src/gui/discover.cs:308 ../src/gui/discover.cs:311
+#: ../src/gui/discover.cs:406 ../src/gui/discover.cs:624
 msgid "NC"
 msgstr "ni združljivo"
 
-#: ../src/gui/discover.cs:449
+#: ../src/gui/discover.cs:574
 msgid "Cancelling"
 msgstr "Poteka preklic …"
 
-#: ../src/gui/discover.cs:490
+#: ../src/gui/discover.cs:647
 msgid "Cannot connect to ports:"
 msgstr "Povezava z vrati ni mogoča:"
 
-#: ../src/gui/edit_event/encoder.cs:148
+#: ../src/gui/discover.cs:959
+msgid "Assign as:"
+msgstr "Dodeli kot:"
+
+#: ../src/gui/discover.cs:963
+msgid "Chronopic"
+msgstr "Kronopik"
+
+#: ../src/gui/discover.cs:968
+msgid "Old cabled photocells"
+msgstr "Stare kabelske fotocelice"
+
+#: ../src/gui/edit_event/encoder.cs:244
 msgid ""
 "Repetition\n"
 "minimal ROM"
@@ -8321,11 +8417,11 @@ msgstr ""
 "Ponavljanje\n"
 "najmanjši ROM (NOG)"
 
-#: ../src/gui/edit_event/encoder.cs:149
+#: ../src/gui/edit_event/encoder.cs:245
 msgid "Minimal Range of Movement"
 msgstr "Najmanjši obseg gibanja"
 
-#: ../src/gui/edit_event/encoder.cs:156
+#: ../src/gui/edit_event/encoder.cs:252
 msgid ""
 "Repetition\n"
 "minimal length"
@@ -8333,21 +8429,21 @@ msgstr ""
 "Ponovitev\n"
 "najmanjša dolžina"
 
-#: ../src/gui/edit_event/event.cs:448
+#: ../src/gui/edit_event/event.cs:459
 msgid "Video available here:"
 msgstr "Video je na voljo na:"
 
-#: ../src/gui/edit_event/event.cs:453
+#: ../src/gui/edit_event/event.cs:464
 #, csharp-format
 msgid "Edit {0}"
 msgstr "Uredi {0}"
 
-#: ../src/gui/edit_event/event.cs:457
+#: ../src/gui/edit_event/event.cs:468
 #, csharp-format
 msgid "Use this window to edit a {0}."
 msgstr "Uporabite to okno za urejanje {0}."
 
-#: ../src/gui/edit_event/event.cs:459
+#: ../src/gui/edit_event/event.cs:470
 #, csharp-format
 msgid ""
 "\n"
@@ -8356,7 +8452,7 @@ msgstr ""
 "\n"
 "(ločilnik decimalnih mest: '{0}')"
 
-#: ../src/gui/edit_event/jump.cs:485
+#: ../src/gui/edit_event/jump.cs:483
 msgid "reactive jump"
 msgstr "repetitivno-eksplozivni skok"
 
@@ -8364,11 +8460,11 @@ msgstr "repetitivno-eksplozivni skok"
 msgid "race"
 msgstr "tek"
 
-#: ../src/gui/edit_event/run.cs:277
+#: ../src/gui/edit_event/run.cs:275
 msgid "intervallic race"
 msgstr "intervalni tek"
 
-#: ../src/gui/edit_event/run.cs:562
+#: ../src/gui/edit_event/run.cs:560
 msgid "Total Time"
 msgstr "Skupni čas"
 
@@ -8389,23 +8485,23 @@ msgstr "Žal ta niz »{0}« že obstaja v zbirki podatkov."
 msgid "Serie"
 msgstr "Niz"
 
-#: ../src/gui/feedback.cs:316 ../src/runType.cs:162
+#: ../src/gui/feedback.cs:326 ../src/runType.cs:162
 msgid "Protocol"
 msgstr "Protokol"
 
-#: ../src/gui/feedback.cs:878 ../src/gui/preferences.cs:3419
+#: ../src/gui/feedback.cs:901 ../src/gui/preferences.cs:3419
 msgid "Sound working"
 msgstr "Zvok deluje"
 
-#: ../src/gui/feedback.cs:880 ../src/gui/preferences.cs:3421
+#: ../src/gui/feedback.cs:903 ../src/gui/preferences.cs:3421
 msgid "Sound not working"
 msgstr "Zvok ne deluje"
 
-#: ../src/gui/feedback.cs:885
+#: ../src/gui/feedback.cs:908
 msgid "You need to activate sounds in preferences / multimedia."
 msgstr "Zvoke morate aktivirati v nastavitvah / večpredstavnosti."
 
-#: ../src/gui/feedback.cs:1245
+#: ../src/gui/feedback.cs:1268
 msgid ""
 "Use clusters in order to group repetitions inside a set separated by rest "
 "time."
@@ -8413,7 +8509,7 @@ msgstr ""
 "Uporabite zbire, da združite ponovitve znotraj niza, ki so časovno ločeni s "
 "počitkom."
 
-#: ../src/gui/feedback.cs:1247
+#: ../src/gui/feedback.cs:1270
 msgid ""
 "Set will end when user press Finish or Cancel or when there's no change in "
 "the encoder during this time:\n"
@@ -8423,16 +8519,16 @@ msgstr ""
 "tudi, če ni sprememb na kodirniku v tem času:\n"
 "1.5 * Počitek med zbiri"
 
-#: ../src/gui/feedback.cs:1477
+#: ../src/gui/feedback.cs:1501
 msgid "Load file"
 msgstr "Naloži datoteko"
 
-#: ../src/gui/feedback.cs:1503 ../src/gui/person/recuperate.cs:303
+#: ../src/gui/feedback.cs:1527 ../src/gui/person/recuperate.cs:303
 #: ../src/gui/person/recuperate.cs:694
 msgid "Loaded"
 msgstr "Naloženo"
 
-#: ../src/gui/feedback.cs:1505
+#: ../src/gui/feedback.cs:1529
 msgid "Error. File not compatible."
 msgstr "Napaka. Datoteka ni združljiva."
 

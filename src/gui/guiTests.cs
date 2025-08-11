@@ -691,7 +691,7 @@ public partial class ChronoJumpWindow
 	{
 		LogB.TestStart("chronojumpWindowTestsEncoderRecalculate");
 
-		on_button_encoder_recalculate_clicked (new Object (), new EventArgs ());
+		encoderCalculeCurves (encoderActions.RECALCULATE);
 
 		LogB.TestEnd("chronojumpWindowTestsEncoderRecalculate");
 	}

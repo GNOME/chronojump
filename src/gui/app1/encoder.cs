@@ -1358,23 +1358,6 @@ public partial class ChronoJumpWindow
 		on_button_encoder_capture_finish_clicked (o, args); 
 	}
 
-	void on_button_encoder_recalculate_clicked (object o, EventArgs args)
-	{
-		if(triggerListEncoder != null && triggerListEncoder.Count() > 0 && findEcconFromGui (false) != "c")
-		{
-			ConfirmWindow confirmWin = ConfirmWindow.Show(
-					Catalog.GetString("Recalculate this set will remove existing triggers."),
-					Catalog.GetString("Are you sure!"), "");
-			confirmWin.Button_accept.Clicked += new EventHandler(on_button_encoder_recalculate_clicked_do);
-		}
-		else
-			on_button_encoder_recalculate_clicked_do (o, args);
-	}
-	void on_button_encoder_recalculate_clicked_do (object o, EventArgs args)
-	{
-		encoderCalculeCurves (encoderActions.RECALCULATE);
-	}
-
 	private void on_check_encoder_capture_show_modes_clicked (object o, EventArgs args)
 	{
 		if(! followSignals)

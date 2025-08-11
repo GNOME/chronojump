@@ -40,6 +40,7 @@ public class TreeViewEvent
 	protected string allEventsName; //Constants.AllJumpsName or Constants.AllRunsName orConstants.AllPulsesName
 	protected int idColumn; //column where the uniqueID of event will be (and will be hidden). Note sice 17 apr 2025 it also contains the personID on its row
 	protected int personIdColumn = 2;
+	protected int descriptionColumn = -1; //used only on encoder
 
 	//EventSelectedID >= 0 a test; -1 a person: -2 a subtest (do not select)
 	public const int MarkRowIsPerson = -1;
@@ -411,6 +412,19 @@ public class TreeViewEvent
 
 	public virtual void UpdateReps (List<List<EncoderSQL>> eSQL_ll)
 	{
+	}
+
+	// right now only on encoder
+	public void UpdateDescription (int setID, string desc)
+	{
+		if (descriptionColumn < 0)
+			return;
+
+		TreeIter iter = new TreeIter ();
+		if (! getEvent (setID, out iter))
+			return;
+
+		store.SetValue (iter, descriptionColumn, desc);
 	}
 
 	public void ZoomChange (Gtk.Image icon_zoom)

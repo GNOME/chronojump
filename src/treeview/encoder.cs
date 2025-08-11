@@ -44,6 +44,7 @@ public class TreeViewEncoder : TreeViewEvent
 		if (gravitatory)
 		{
 			idColumn = 14; //column where the uniqueID of event will be (and will be hidden)
+			descriptionColumn = 13;
 
 			columnsString = new string[] {
 				personName,
@@ -62,6 +63,7 @@ public class TreeViewEncoder : TreeViewEvent
 			};
 		} else {
 			idColumn = 13; //column where the uniqueID of event will be (and will be hidden)
+			descriptionColumn = 12;
 
 			columnsString = new string[] {
 				personName,

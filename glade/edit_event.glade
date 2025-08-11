@@ -1109,8 +1109,10 @@ comments</property>
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="receives-default">False</property>
+                        <property name="valign">start</property>
                         <property name="active">True</property>
                         <property name="draw-indicator">False</property>
+                        <signal name="toggled" handler="on_radio_encoder_eccon_concentric_toggled" swapped="no"/>
                         <child>
                           <object class="GtkHBox" id="hbox127">
                             <property name="visible">True</property>
@@ -1154,8 +1156,10 @@ comments</property>
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="receives-default">False</property>
+                        <property name="valign">start</property>
                         <property name="draw-indicator">False</property>
                         <property name="group">radio_encoder_eccon_concentric</property>
+                        <signal name="toggled" handler="on_radio_encoder_eccon_eccentric_concentric_toggled" swapped="no"/>
                         <child>
                           <object class="GtkHBox" id="hbox130">
                             <property name="visible">True</property>
@@ -1841,7 +1845,17 @@ minimal ROM</property>
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <object class="GtkLabel" id="label_encoder_ecc_con_alert">
+                    <property name="can-focus">False</property>
+                    <property name="wrap">True</property>
+                    <property name="width-chars">25</property>
+                    <property name="max-width-chars">25</property>
+                    <property name="xalign">0</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">2</property>
+                    <property name="top-attach">13</property>
+                  </packing>
                 </child>
                 <child>
                   <placeholder/>

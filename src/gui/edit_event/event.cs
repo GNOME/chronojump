@@ -122,6 +122,7 @@ public class EditEventWindow
 	protected Gtk.RadioButton radio_encoder_eccon_eccentric_concentric;
 	protected Gtk.Image image_encoder_eccon_concentric;
 	protected Gtk.Image image_encoder_eccon_eccentric_concentric;
+	protected Gtk.Label label_encoder_ecc_con_alert;
 	// encoder mass-inertia
 	protected Gtk.Label label_encoder_exercise_mass;
 	protected Gtk.Label label_encoder_exercise_inertia;
@@ -721,6 +722,14 @@ public class EditEventWindow
 	{
 		// defined on encoder
 	}
+	protected virtual void on_radio_encoder_eccon_concentric_toggled (object o, EventArgs args)
+	{
+		// defined on encoder
+	}
+	protected virtual void on_radio_encoder_eccon_eccentric_concentric_toggled (object o, EventArgs args)
+	{
+		// defined on encoder
+	}
 
 		
 	private void on_entry_description_changed (object o, EventArgs args) {
@@ -898,6 +907,7 @@ public class EditEventWindow
 		radio_encoder_eccon_eccentric_concentric = (Gtk.RadioButton) builder.GetObject ("radio_encoder_eccon_eccentric_concentric");
 		image_encoder_eccon_concentric = (Gtk.Image) builder.GetObject ("image_encoder_eccon_concentric");
 		image_encoder_eccon_eccentric_concentric = (Gtk.Image) builder.GetObject ("image_encoder_eccon_eccentric_concentric");
+		label_encoder_ecc_con_alert = (Gtk.Label) builder.GetObject ("label_encoder_ecc_con_alert");
 		label_encoder_rep_length = (Gtk.Label) builder.GetObject ("label_encoder_rep_length");
 		vbox_encoder_rep_length = (Gtk.VBox) builder.GetObject ("vbox_encoder_rep_length");
 		spin_encoder_rep_min_height_gravitatory = (Gtk.SpinButton) builder.GetObject ("spin_encoder_rep_min_height_gravitatory");

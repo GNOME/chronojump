@@ -26,6 +26,7 @@ public class EditEncoderWindow : EditEventWindow
 {
 	static EditEncoderWindow EditEncoderWindowBox;
 	private Constants.Modes mode;
+	private bool hasTriggers;
 	private EncoderSQL eSQL;
 	private List<EncoderExercise> encoderExercise_l;
 	private EncoderConfigurationWindow encoder_configuration_win;
@@ -52,13 +53,14 @@ public class EditEncoderWindow : EditEventWindow
 		UtilGtk.IconWindow(edit_event);
 	}
 
-	static public EditEncoderWindow Show (Gtk.Window parent, Event myEvent, Constants.Modes mode)
+	static public EditEncoderWindow Show (Gtk.Window parent, Event myEvent, Constants.Modes mode, bool hasTriggers)
 	{
 		if (EditEncoderWindowBox == null) {
 			EditEncoderWindowBox = new EditEncoderWindow (parent);
 		}
 
 		EditEncoderWindowBox.mode = mode;
+		EditEncoderWindowBox.hasTriggers = hasTriggers; //TODO: change to ecc should show the triggers will be missed message
 		EditEncoderWindowBox.colorize();
 		EditEncoderWindowBox.initializeValues();
 		EditEncoderWindowBox.fillDialog (myEvent);
@@ -276,6 +278,20 @@ public class EditEncoderWindow : EditEventWindow
 		fillDialogSpecificEncoder ();
 	}
 
+	protected override void on_radio_encoder_eccon_concentric_toggled (object o, EventArgs args)
+	{
+		label_encoder_ecc_con_alert.Text = "";
+		label_encoder_ecc_con_alert.Visible = false;
+	}
+	protected override void on_radio_encoder_eccon_eccentric_concentric_toggled (object o, EventArgs args)
+	{
+		if (hasTriggers)
+		{
+			label_encoder_ecc_con_alert.Text = Catalog.GetString ("Changing to Ecc-con will remove the triggers of this set.");
+			label_encoder_ecc_con_alert.Visible = true;
+		}
+	}
+
 	// untranslated exercises
 	protected override string [] findTypes (Event myEvent)
 	{
@@ -421,7 +437,10 @@ public partial class ChronoJumpWindow
 		eventOldPerson = eSQL.PersonID;
 
 		//4.- edit this test
-		editEncoderWin = EditEncoderWindow.Show (app1, eSQL, current_mode);
+		editEncoderWin = EditEncoderWindow.Show (app1, eSQL, current_mode,
+				triggerListEncoder != null && triggerListEncoder.Count() > 0 && eSQL.eccon == "c" //hasTriggers
+				);
+
 		editEncoderWin.Fake_button_finished.Clicked += new EventHandler (on_edit_selected_encoder_finished);
 	}
 

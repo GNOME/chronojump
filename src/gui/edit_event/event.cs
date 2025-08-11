@@ -71,7 +71,10 @@ public class EditEventWindow
 	//protected Gtk.Entry entry_angle_value; //kneeAngle
 	//protected Gtk.Label label_angle_units; //kneeAngle
 	protected Gtk.Label label_simulated;
-	
+
+	protected Gtk.Box box_exercise_filter;
+	protected Gtk.Entry entry_exercise_filter;
+	protected Gtk.Image image_exercise_filter;
 	protected Gtk.Box hbox_combo_eventType;
 	protected Gtk.Box hbox_combo_person;
 	
@@ -380,7 +383,8 @@ public class EditEventWindow
 		}
 
 		createComboEventType (myEvent);
-		
+
+		box_exercise_filter.Visible = false;
 		if(! showType) {
 			label_type_title.Hide();
 			combo_eventType.Hide();
@@ -515,6 +519,12 @@ public class EditEventWindow
 	protected virtual void on_combo_persons_changed (object o, EventArgs args)
 	{
 		// only implemented in Modes: POWERGRAVITATORY
+	}
+
+
+	protected virtual void on_exercise_filter_changed (object o, EventArgs args)
+	{
+		// only implemented in Force Sensor modes: ISOMETRIC, ELASTIC
 	}
 
 	private void combo_EventType_createSignalIfNeeded ()
@@ -858,6 +868,9 @@ public class EditEventWindow
 		// label_angle_units = (Gtk.Label) builder.GetObject ("label_angle_units"); //kneeAngle
 		label_simulated = (Gtk.Label) builder.GetObject ("label_simulated");
 
+		box_exercise_filter = (Gtk.Box) builder.GetObject ("box_exercise_filter");
+		entry_exercise_filter = (Gtk.Entry) builder.GetObject ("entry_exercise_filter");
+		image_exercise_filter = (Gtk.Image) builder.GetObject ("image_exercise_filter");
 		hbox_combo_eventType = (Gtk.Box) builder.GetObject ("hbox_combo_eventType");
 		hbox_combo_person = (Gtk.Box) builder.GetObject ("hbox_combo_person");
 

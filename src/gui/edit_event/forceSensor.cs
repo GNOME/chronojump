@@ -65,6 +65,7 @@ public class EditForceSensorWindow : EditEventWindow
 	protected override void initializeSpecific ()
 	{
 		typeOfTest = Constants.TestTypes.FORCESENSOR;
+
 		showType = true;
 		showDescription = true;
 	}
@@ -76,6 +77,9 @@ public class EditForceSensorWindow : EditEventWindow
 		image_forceSensor_capture_standard.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "signal_standard.png");
 		image_forceSensor_capture_absolute.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "signal_absolute.png");
 		image_forceSensor_capture_inverted.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "signal_inverted.png");
+		image_exercise_filter.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "filter_off.png");
+
+		box_exercise_filter.Visible = true;
 		createLateralityIcons ();
 
 		switch (fs.CaptureOption)
@@ -110,15 +114,45 @@ public class EditForceSensorWindow : EditEventWindow
 		box_laterality.Visible = true;
 	}
 
+	protected override void on_exercise_filter_changed (object o, EventArgs args)
+	{
+		// note if this is used on more modes, then we need to take care about: combo_exercise_has_signal
+		// in order to deactivate this signal first, and reactivate later
+
+		string exName = UtilGtk.ComboGetActive (combo_eventType);
+		UtilGtk.ComboDelAll (combo_eventType);
+		UtilGtk.ComboUpdate (combo_eventType, findTypesDo (), "");
+		combo_eventType.Active = UtilGtk.ComboMakeActive (combo_eventType, exName);
+		showExerciseFilterIfNeeded ();
+	}
+
+	private void showExerciseFilterIfNeeded ()
+	{
+		if (entry_exercise_filter.Text.ToString () == "")
+			image_exercise_filter.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "filter_off.png");
+		else
+			image_exercise_filter.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "filter_on.png");
+	}
+
 	protected override string [] findTypes (Event myEvent)
+	{
+		return findTypesDo (); // no need myEvent
+	}
+	private string [] findTypesDo ()
 	{
 		List<ForceSensorExercise> fsex_l;
 
 		LogB.Information ("current_mode: " + mode.ToString ());
 		if (mode == Constants.Modes.FORCESENSORISOMETRIC)
-			fsex_l = SqliteForceSensorExercise.Select (false, -1, 0, true, "", Sqlite.Orders_by.NAME_ASC); // onlyNames (but returns a full ForceSensorExercise)
+			fsex_l = SqliteForceSensorExercise.Select (false, -1, 0,
+					true, 		// onlyNames (but returns a full ForceSensorExercise)
+					entry_exercise_filter.Text.ToString (),
+					Sqlite.Orders_by.NAME_ASC);
 		else // (mode == Constants.Modes.FORCESENSORELASTIC)
-			fsex_l = SqliteForceSensorExercise.Select (false, -1, 1, true, "", Sqlite.Orders_by.NAME_ASC); // onlyNames (but returns a full ForceSensorExercise)
+			fsex_l = SqliteForceSensorExercise.Select (false, -1, 1,
+					true, 		// onlyNames (but returns a full ForceSensorExercise)
+					entry_exercise_filter.Text.ToString (),
+					Sqlite.Orders_by.NAME_ASC);
 
 		// get the exercise names and convert to string []
 		return ForceSensorExercise.ListToString (fsex_l);

@@ -486,7 +486,7 @@ public partial class ChronoJumpWindow
 			radio_signal_analyze_current_set.Active = true;
 
 			forceSensorButtonsSensitive(false);
-			sensitiveLastTestButtons(false);
+			showHideActionEventButtons (false);
 			contactsShowCaptureDoingButtons(true);
 			image_ai_model_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
 
@@ -1949,7 +1949,8 @@ LogB.Information(" fs C ");
 					updateGraphForceSensorBars();
 					treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentForceSensor, "");
 					Thread.Sleep (250); //Wait a bit to ensure is copied
-					sensitiveLastTestButtons(true);
+
+					showHideActionEventButtons (true);
 					contactsShowCaptureDoingButtons(false);
 
 					forceSensorDoSignalGraphPlot ();
@@ -1995,7 +1996,7 @@ LogB.Information(" fs C ");
 					webcamRestoreGui (false);
 				}
 
-				sensitiveLastTestButtons(false);
+				showHideActionEventButtons (false);
 				contactsShowCaptureDoingButtons(false);
 
 				if (forceTooBigMark)
@@ -2478,7 +2479,7 @@ LogB.Information(" fs R ");
 		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 
 		button_video_play_this_test.Sensitive = (fs.VideoURL != "");
-		sensitiveLastTestButtons(true);
+		showHideActionEventButtons (true);
 
 		forceSensorZoomDefaultValues();
 		forceSensorPrepareGraphAI ();

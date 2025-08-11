@@ -453,12 +453,16 @@ public partial class ChronoJumpWindow
 			encoderCalculeCurves (encoderActions.RECALCULATE);
 
 			// updateGraphEncoderSessionBars (); //Done at finishPulsebar. If run just here encoderCalculeCurves thread has not finished yet
-		} else {
+
+			pre_fillTreeView_resultsSession ();
+			selectResultsSessionId (eSQL.UniqueID, true);
+		}
+		else if (currentEncoderSQLSet.Description != eSQL.Description)
+		{
 			LogB.Information("DO NOT call recalculate");
 			currentEncoderSQLSet = eSQL;
-		}
 
-		pre_fillTreeView_resultsSession ();
-		selectResultsSessionId (eSQL.UniqueID, true);
+			treeViewResultsSession.UpdateDescription (eSQL.UniqueID, eSQL.Description);
+		}
 	}
 }

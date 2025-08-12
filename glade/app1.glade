@@ -12494,7 +12494,7 @@ on Cloud-view mode</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkRadioButton" id="radio_race_analyzer_capture_graph_starts_0">
-                                                            <property name="label" translatable="yes">0s</property>
+                                                            <property name="label">0s</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>

@@ -155,12 +155,10 @@ getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex
     print(paste("startSample: ", startSample))
     print(paste("endSample: ", endSample))
     
+    # The onset of the test is calculated with the SD method
     sdStartSample = getStartSampleBySDMethod(originalTest, rfd, threashold = 5)
     sdEndTime = originalTest$time[sdStartSample] + testLength
     sdEndSample = which.min(abs(originalTest$time - sdEndTime) )
-
-    # Testing. If True the optimized method is not used.
-    # The onset of the test is calculated with the SD method
     model2 = getForceModel(  time = originalTest$time[sdStartSample:sdEndSample]
                              , force = originalTest$force[sdStartSample:sdEndSample]
                              , startTime = originalTest$time[sdStartSample]
@@ -870,32 +868,46 @@ getStartSampleBySDMethod <- function(test, rfd, threashold = 5)
     print("On getStartSampleBySDMethod")
     # The onset is always before the maximum force
     maxSample = which.max(test$force)
-    #finding how many samples are needed for having a second of signal
+    #finding how many samples are needed for having a second of signal. TODO: Study if 1 second is a good parameter
     previousSamples = which.min(abs(test$time - 1))
     print( paste( "previousSamples:", previousSamples) )
     currentSample = previousSamples +1
+    # Steady force previous to the increase. We are searching for the force that is greater that previous force + increase.
     previousMeanForce = mean(test$force[(currentSample - previousSamples):currentSample])
+    # Increment of the force that marks the onset. Tthreshold times the SD
     increment = threashold * sd(test$force[currentSample:(currentSample - previousSamples)] )
+    # The threashold that the force must pass to consider the onset of the increment
     limit =  previousMeanForce + increment
     while( (currentSample < maxSample))
     {
         # print( paste( "sample:", currentSample, "increment:", increment, "limit:", limit, "preiousMeanForce:", previousMeanForce, "force", test$force[currentSample] ) )
         currentSample = currentSample + 1
-        # Finding the limit that impose the threashold times SDpreviousMeanForce = mean(test$force[(currentSample - 20):currentSample])
         previousMeanForce = mean(test$force[(currentSample - previousSamples):currentSample])
         increment = threashold * sd(test$force[currentSample:(currentSample - previousSamples)] )
         limit =  previousMeanForce + increment
+        # Check if the force is beyond the limit
         if ( test$force[currentSample] > limit ) 
         {
             startSample = currentSample
             print(startSample)
         }
     }
+    
+    # As it can be that in multiple occasions the force are higher than the limit, we are searching the first in the last cluster of samples
+    # In tihs graph the first positive slope would be a candidate for the onset, but samples of the second positive slope would be also. We keep the most left sample of the second slope, 
+    #               ___________Raw force
+    #              /
+    #             /
+    #...../\...../.............Limit
+    #____/  \___/
+    #
+    
+    #Going back to find the desired sample
     currentSample = startSample - 1
     previousMeanForce = mean(test$force[(currentSample - previousSamples):currentSample])
     increment = threashold * sd(test$force[currentSample:(currentSample - previousSamples)] )
     limit =  previousMeanForce + increment
-    #Searching for the first sample that is beyond the limit within the cluster of samples beyond the limit
+    #Searching for the first sample that is most at left in the last cluster of samples that are beyond the limit
     while (test$force[currentSample] > limit)
     {
         currentSample = currentSample - 1

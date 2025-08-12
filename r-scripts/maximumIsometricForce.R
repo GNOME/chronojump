@@ -138,6 +138,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex
 					inputFile, decimalChar, averageLength = 0.1, percentChange = 5, testLength = -1, startSample, endSample)
 {
     print("Entered getDynamicsFromLoadCellFile")
+    sdMethod = FALSE
     
     originalTest = read.csv(inputFile, header = F, dec = decimalChar, sep = ";", skip = 2)
     colnames(originalTest) <- c("time", "force")
@@ -150,15 +151,31 @@ getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex
 
     originalTest$force = convertForceToResultant (originalTest$force, ex_percentBodyWeight, ex_angle, personMass)
 
+    rfd = getRFD(originalTest)  #Instantaneous RFD
     print(paste("startSample: ", startSample))
     print(paste("endSample: ", endSample))
     
+    sdStartSample = getStartSampleBySDMethod(originalTest, rfd, threashold = 5)
+    sdEndTime = originalTest$time[sdStartSample] + testLength
+    sdEndSample = which.min(abs(originalTest$time - sdEndTime) )
+
+    # Testing. If True the optimized method is not used.
+    # The onset of the test is calculated with the SD method
+    model2 = getForceModel(  time = originalTest$time[sdStartSample:sdEndSample]
+                             , force = originalTest$force[sdStartSample:sdEndSample]
+                             , startTime = originalTest$time[sdStartSample]
+                             , fmaxi = max(originalTest$force[sdStartSample:sdEndSample])
+                             , previousForce = originalTest$force[2]
+                             , timeShift = FALSE)
+
     #If Roptions.txt does have endSample values greater than 1 it means that the user has selected a range
     if( startSample != endSample  & (endSample > 1) & startSample <= length(originalTest$time) & endSample <= length(originalTest$time))
     {
         print("Range selected by user. Analyzed the specified range")
         
         originalTest = originalTest[(startSample:endSample),]
+        rfd = rfd[startSample:endSample]
+        print(paste( "Test length:", length(originalTest$time), "RFD length:", length(rfd) ) )
         originalTest$time = originalTest$time - originalTest$time[1]
         # print("originalTest$time:")
         # print(originalTest$time)
@@ -171,7 +188,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex
     {
         
             
-            bestFit = getBestFit(originalTest
+        bestFit = getBestFit(originalTest
                                  , averageLength = averageLength
                                  , percentChange = percentChange
                                  , testLength = testLength)
@@ -182,11 +199,35 @@ getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex
         endTime = bestFit$endTime
         model = bestFit$model
         previousForce = originalTest$force[startSample]
+
+        # Comparing both methods
+        print("---Optimized method:")
+        # print(paste("startSample:", startSample, "startTime:", startTime) )
+        # print( paste("endSample:", endSample, "endTime:", endTime) )
+        print( paste("fmax:", model$fmax, " K:", model$K, "error:",  mean(abs(model$error[!is.nan(model$error)]))) )
+        print("---SD method:")
+        # print( paste("startSample:", sdStartSample) )
+        # print(paste("startTime:", originalTest$time[sdStartSample]) )
+        # print(paste("endSample:", sdEndSample))
+        # print(paste( "End time:", sdEndTime))
+        print( paste("fmax:",model2$fmax, " K:", model2$K, "error:",  mean(abs(model2$error[!is.nan(model2$error)]))) )
+
+        #For tesing the SD method. Analysis is made with the parematers found in the SD method
+        if (sdMethod)
+        {
+            startSample = sdStartSample
+            startTime = originalTest$time[sdStartSample]
+            endSample = sdEndSample
+            endTime = sdEndTime
+            model = model2
+            previousForce = originalTest$force[startSample]
+        }
+
   
     } else if(op$startEndOptimized == "FALSE")
     {
         print("startEndOptimized == FALSE")
-        # #Extrapolating the test to cross the horizontal axe.
+        # #Extrapolating the test to cross the horizontal axis.
         # originalTest = extrapolateToZero(originalTest$time, originalTest$force)
         # names(originalTest) <- c("time", "force")
         originalTest$time = originalTest$time - originalTest$time[1]
@@ -200,10 +241,6 @@ getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex
         previousForce = originalTest$force[2]
     }
     
-    
-    
-    #Instantaneous RFD
-    rfd = getRFD(originalTest)
     
     fmax.raw = max(originalTest$force[startSample:endSample])
     
@@ -828,72 +865,47 @@ getAvgRfdXSeconds <-function(dynamics, window)
 # - RFD method: When the RFD is at least 20% of the maximum RFD
 #
 
-# #### DEPRECATED ########
-# #This function also finds the sample at which there is a decrease of a given percentage of the maximum force.
-# #The maximum force is calculed from the moving average of averageLength seconds
-# getAnalysisRange <- function(test, rfd, movingAverageForce, averageLength = 0.1, percentChange = 5, testLength = -1, startDetectingMethod = "SD")
-# {
-#     print("Entered in getAnalysisRange")
-#     print("test:")
-#     print(test)
-#     movingAverageForce = getMovingAverageForce(test, averageLength = 0.1)
-#     maxRFD = max(rfd[2:(length(rfd) - 1)])
-#     maxRFDSample = which.max(rfd[2:(length(rfd) - 1)])
-#     print(maxRFDSample)
-#     
-#     #Detecting when the force is greater than (mean of 20 samples) + 3*SD
-#     #If in various sample the force are greater, the last one before the maxRFD are taken
-#     #See Rate of force development: physiological and methodological considerations. Nicola A. Maffiuletti1 et al.
-#     
-#     startSample = NULL
-#     if (startDetectingMethod == "SD"){
-#         
-#         for(currentSample in 21:maxRFDSample)
-#         {
-#             print(paste(currentSample, test$time[currentSample], test$force[currentSample]))
-#             
-#             if(test$force[currentSample] < mean(test$force[currentSample:(currentSample - 20)]) + 3*sd(test$force[currentSample:(currentSample - 20)]))
-#                 startSample = currentSample
-#         }
-#         
-#         while(test$force[startSample] - test$force[startSample -1] >= 0){ #Going back to the last sample that decreased
-#             startSample = startSample - 1
-#         }
-#         #Detecting when accurs a great growth of the force (great RFD)
-#     } else if (startDetectingMethod == "RFD"){
-#         for(currentSample in 2:maxRFDSample)
-#         {
-#             if(rfd[currentSample] <= maxRFD*0.2)
-#                 startSample = currentSample
-#         }
-#     }
-#     #Using the decrease of the force to detect endingSample
-#     if (testLength <= -1){
-#         endSample = startSample + 1
-#         maxMovingAverageForce = movingAverageForce[endSample]
-#         while(movingAverageForce[endSample] >= maxMovingAverageForce*(100 - percentChange) / 100 &
-#               endSample < length(test$time))
-#         {
-#             if(movingAverageForce[endSample] > maxMovingAverageForce)
-#             {
-#                 print("New max")
-#                 maxMovingAverageForce = movingAverageForce[endSample]
-#             }
-#             endSample = endSample + 1
-#             print(paste("Current endSample: ", endSample))
-#             print(paste("Current movingAverageForce: ", movingAverageForce[endSample]))
-#         }
-#     } else if(testLength >= 0 && testLength < 0.1){
-#         print("Test interval too short")
-#         
-#         #Using the fixed time to detect endSample
-#     } else {
-#         endSample = which.min(abs(test$time[startSample] + testLength - test$time))
-#     }
-#     print(paste("startSample:", startSample, "endSample:", endSample))
-#     
-#     return(list(startSample = startSample, endSample = endSample))
-# }
+getStartSampleBySDMethod <- function(test, rfd, threashold = 5)
+{
+    print("On getStartSampleBySDMethod")
+    # The onset is always before the maximum force
+    maxSample = which.max(test$force)
+    #finding how many samples are needed for having a second of signal
+    previousSamples = which.min(abs(test$time - 1))
+    print( paste( "previousSamples:", previousSamples) )
+    currentSample = previousSamples +1
+    previousMeanForce = mean(test$force[(currentSample - previousSamples):currentSample])
+    increment = threashold * sd(test$force[currentSample:(currentSample - previousSamples)] )
+    limit =  previousMeanForce + increment
+    while( (currentSample < maxSample))
+    {
+        # print( paste( "sample:", currentSample, "increment:", increment, "limit:", limit, "preiousMeanForce:", previousMeanForce, "force", test$force[currentSample] ) )
+        currentSample = currentSample + 1
+        # Finding the limit that impose the threashold times SDpreviousMeanForce = mean(test$force[(currentSample - 20):currentSample])
+        previousMeanForce = mean(test$force[(currentSample - previousSamples):currentSample])
+        increment = threashold * sd(test$force[currentSample:(currentSample - previousSamples)] )
+        limit =  previousMeanForce + increment
+        if ( test$force[currentSample] > limit ) 
+        {
+            startSample = currentSample
+            print(startSample)
+        }
+    }
+    currentSample = startSample - 1
+    previousMeanForce = mean(test$force[(currentSample - previousSamples):currentSample])
+    increment = threashold * sd(test$force[currentSample:(currentSample - previousSamples)] )
+    limit =  previousMeanForce + increment
+    #Searching for the first sample that is beyond the limit within the cluster of samples beyond the limit
+    while (test$force[currentSample] > limit)
+    {
+        currentSample = currentSample - 1
+        previousMeanForce = mean(test$force[(currentSample - previousSamples):currentSample])
+        increment = threashold * sd(test$force[currentSample:(currentSample - previousSamples)] )
+        limit =  previousMeanForce + increment
+    }
+    startSample = currentSample +1
+    return(startSample)
+}
 
 getRFD <- function(test)
 {
@@ -937,7 +949,7 @@ getMovingAverageForce <- function(test, averageLength = 0.1)
     
 }
 
-#estrapolate a function to extend the line joining the two first samples until it cross the horizontal axe
+#extrapolate a function to extend the line joining the two first samples until it cross the horizontal axis
 extrapolateToZero <- function(x, y)
 {
     # #t0 is the x at which an extrapolation of the two first samples would cross the horizontal axis

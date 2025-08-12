@@ -1,7 +1,7 @@
 - On Linux check:
 
 howto_run_chronojump_linux.txt
-packages/linux/how_to_make_linux_packages.txt
+package/linux/how_to_make_linux_packages.txt
 
 - On Windows check:
 
@@ -9,6 +9,6 @@ win32/docs/How to Make Windows Packages Using WSL2.txt
 
 - On Mac check:
 
-packages/linux/how_to_make_macos_packages.txt
+package/linux/how_to_make_macos_packages.txt
 
 

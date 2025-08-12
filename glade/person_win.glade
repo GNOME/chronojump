@@ -2025,12 +2025,4 @@
       </object>
     </child>
   </object>
-  <object class="GtkRadioButton" id="radiobutton1">
-    <property name="label" translatable="yes">radiobutton</property>
-    <property name="visible">True</property>
-    <property name="can-focus">True</property>
-    <property name="receives-default">False</property>
-    <property name="active">True</property>
-    <property name="draw-indicator">True</property>
-  </object>
 </interface>

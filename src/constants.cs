@@ -1041,7 +1041,7 @@ public class Constants
 			//P = mass * g * ( fallHeight + 1.22625 * Math.Pow(tf,2) ) / (Double)tt;
 			"    " + "P = " + Catalog.GetString("mass") + " * g * ( " +
 			Catalog.GetString("falling height") + " + 1.22625 * " + Catalog.GetString("flight time") + " ^ 2 ) / " + Catalog.GetString("contact time") + "\n\n" +
-			"- " + Catalog.GetString ("Lewis 1974") + " (" + Catalog.GetString("Used on jumps without TC: Lewis Peak Power 1974 (W)") + ")\n\n" +
+			"- " + "Lewis 1974" + " (" + Catalog.GetString("Used on jumps without TC: Lewis Peak Power 1974 (W)") + ")\n\n" +
 			"    " + Catalog.GetString("P = SQRT(4.9) * 9.8 * (body weight+extra weight) * SQRT(jump height in meters)") +
 			"\n\n" +
 			Catalog.GetString("If you want to use other formulas, go to Analyze.");

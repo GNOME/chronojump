@@ -997,7 +997,7 @@ comments</property>
                   <object class="GtkSpinButton" id="spin_race_analyzer_temperature">
                     <property name="can-focus">True</property>
                     <property name="invisible-char">●</property>
-                    <property name="text" translatable="yes">25</property>
+                    <property name="text">25</property>
                     <property name="primary-icon-activatable">False</property>
                     <property name="secondary-icon-activatable">False</property>
                     <property name="adjustment">adjustment25</property>
@@ -1052,7 +1052,7 @@ comments</property>
                   <object class="GtkSpinButton" id="spin_race_analyzer_distance">
                     <property name="can-focus">True</property>
                     <property name="invisible-char">●</property>
-                    <property name="text" translatable="yes">30</property>
+                    <property name="text">30</property>
                     <property name="primary-icon-activatable">False</property>
                     <property name="secondary-icon-activatable">False</property>
                     <property name="adjustment">adjustment23</property>
@@ -1324,7 +1324,7 @@ minimal ROM</property>
                         <property name="tooltip-text" translatable="yes">Minimal height</property>
                         <property name="invisible-char">●</property>
                         <property name="width-chars">5</property>
-                        <property name="text" translatable="yes">20</property>
+                        <property name="text">20</property>
                         <property name="primary-icon-activatable">False</property>
                         <property name="secondary-icon-activatable">False</property>
                         <property name="adjustment">adjustment116</property>
@@ -1707,7 +1707,7 @@ minimal ROM</property>
                                 <property name="can-focus">True</property>
                                 <property name="invisible-char">●</property>
                                 <property name="width-chars">8</property>
-                                <property name="text" translatable="yes">70,00</property>
+                                <property name="text">70,00</property>
                                 <property name="primary-icon-activatable">False</property>
                                 <property name="secondary-icon-activatable">False</property>
                                 <property name="adjustment">adjustment114</property>

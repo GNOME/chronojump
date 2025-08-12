@@ -2159,6 +2159,16 @@ LogB.Information(" fs J ");
 				else
 					force_capture_drawingarea_cairo.QueueDraw ();
 			}
+
+			if (questionnaire != null && questionnaire.SoundPlayNow != Questionnaire.SoundPlayEnum.NONE);
+			{
+				if (questionnaire.SoundPlayNow == Questionnaire.SoundPlayEnum.GOOD)
+					Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
+				else if (questionnaire.SoundPlayNow == Questionnaire.SoundPlayEnum.BAD)
+					Util.PlaySound (Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
+
+				questionnaire.SoundPlayNow = Questionnaire.SoundPlayEnum.NONE;
+			}
 LogB.Information(" fs Q ");
 		}
 LogB.Information(" fs R ");

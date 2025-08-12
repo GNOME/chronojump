@@ -25,6 +25,8 @@ using Cairo;
 
 public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSignal
 {
+	private int radius = 6;
+
 	public CairoGraphForceSensorSignalQuestionnaire (DrawingArea area, string title)
 	{
 		initForceSensor (area, title, true);
@@ -35,7 +37,7 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 		questionnairePlot (points_l[points_l.Count -1]);
 
 		drawCircle (g, calculatePaintX (points_l[points_l.Count -1].X),
-				calculatePaintY (points_l[points_l.Count -1].Y), 6, bluePlots, true);
+				calculatePaintY (points_l[points_l.Count -1].Y), radius, bluePlots, true);
 	}
 
 	private void questionnairePlot (PointF lastPoint)
@@ -66,11 +68,10 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 		for (int i = 0; i < 6; i ++)
 			y_l.Add (topMargin + (i * ((graphHeight -topMargin - bottomMargin)/5)));
 
+		int qNum = questionnaire.GetQNumByMicros (lastPoint.X);
 		// 3) write the question (ensure it horizontally fits)
-		string questionText =
-			questionnaire.QuestionType +
-			string.Format ("({0}/{1}) {2}",
-					questionnaire.GetQNumByMicros (lastPoint.X), questionnaire.N, qa.question);
+		string questionText = questionnaire.QuestionType + string.Format (
+				"({0}/{1}) {2}", qNum, questionnaire.N, qa.question);
 	
 
 		int textHeightReduced = textHeightHere;
@@ -122,8 +123,10 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 				rectangleM.Add (new QRectangle (false, lineLeftX, y_l[i] - barRange/2, answerX - lineLeftX, barRange));
 			}
 
-			// 6) plot vertical bars
+			// 6) plot vertical bars and sound
 			List<Cairo.Color> answerColor_l = questionnaire.GetAnswerColor (lastPoint.X, qa);
+
+			bool ifSound_playGood = false;
 			for (int i = 1; i < 5; i ++)
 			{
 				g.SetSourceColor (answerColor_l[i]);
@@ -134,8 +137,37 @@ public class CairoGraphForceSensorSignalQuestionnaire : CairoGraphForceSensorSig
 						answerColor_l[i].G == Questionnaire.red.G &&
 						answerColor_l[i].B == Questionnaire.red.B)
 					rectangleM.Add (new QRectangle (false, answerX -barRange, y_l[i] + barRange/2, barRange, y_l[i+1] - y_l[i] - barRange));
-				else
+				else {
 					rectangleM.Add (new QRectangle (true, answerX -barRange, y_l[i] + barRange/2, barRange, y_l[i+1] - y_l[i] - barRange));
+					// prepare GOOD sound
+					if (calculatePaintY (lastPoint.Y) - radius > y_l[i] &&
+							calculatePaintY (lastPoint.Y) + radius < y_l[i+1])
+						ifSound_playGood = true;
+				}
+			}
+
+			// when bars are ! transp the sound has to be played
+			if (questionnaire.ShouldShowVerticalBars (lastPoint.X))
+			{
+				/* unsure what is faster
+				 * A)
+				if (questionnaire.SoundPlayedOnQuestion < qNum)
+				{
+					Util.PlaySound (Constants.SoundTypes.CAN_START, true, Preferences.GstreamerTypes.FFPLAY); //TODO use GOOD or BAD
+					questionnaire.SoundPlayedOnQuestion = qNum;
+				}
+				*/
+				// B)
+				if (questionnaire.SoundPlayedOnQuestion < qNum &&
+						questionnaire.SoundPlayNow == Questionnaire.SoundPlayEnum.NONE)
+				{
+					if (ifSound_playGood)
+						questionnaire.SoundPlayNow = Questionnaire.SoundPlayEnum.GOOD;
+					else
+						questionnaire.SoundPlayNow = Questionnaire.SoundPlayEnum.BAD;
+
+					questionnaire.SoundPlayedOnQuestion = qNum;
+				}
 			}
 
 			g.SetSourceRGB(0, 0, 0); //black
@@ -174,6 +206,9 @@ public class Questionnaire
 	public int Points;
 	public DateTime LastGreenDt;
 	public string questionType = "";
+	public int SoundPlayedOnQuestion = 0; // 1st question will be 1
+	public enum SoundPlayEnum { NONE, GOOD, BAD };
+	public SoundPlayEnum SoundPlayNow;
 
 	public static Cairo.Color red = new Cairo.Color (1, 0, 0, 1);
 	private Cairo.Color green = new Cairo.Color (0, 1, 0, 1);
@@ -337,14 +372,19 @@ public class Questionnaire
 			return 1 - (seconds % qDuration)/qDuration;
 	}
 
-	public List<Cairo.Color> GetAnswerColor (double micros, QuestionAnswers qa)
+	public bool ShouldShowVerticalBars (double micros)
 	{
 		double xrel = GetAnswerXrel (micros) -.3;
 		if (xrel < 0)
 			xrel = 0;
 
 		//Have answer color when arrive at 20% left of image (where blue ball is)
-		if (xrel > .2)
+		return (xrel <= .2);
+	}
+
+	public List<Cairo.Color> GetAnswerColor (double micros, QuestionAnswers qa)
+	{
+		if (! ShouldShowVerticalBars (micros))
 			return new List<Cairo.Color> { transp, transp, transp, transp, transp };
 
 		List<Cairo.Color> color_l = new List<Cairo.Color> ();

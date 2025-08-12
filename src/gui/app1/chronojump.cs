@@ -296,6 +296,8 @@ public partial class ChronoJumpWindow
 	Gtk.VBox vbox_micro_discover_main;
 	Gtk.Box	box_micro_discover_assign_manually;
 	Gtk.ButtonBox buttonbox_micro_discover_assign_manually;
+	Gtk.Button button_micro_discover_refresh;
+	Gtk.Image image_micro_discover_refresh;
 	Gtk.Grid grid_micro_discover;
 	Gtk.Box box_micro_discover_nc;
 	Gtk.Label label_micro_discover_nc_current_mode;
@@ -4627,6 +4629,11 @@ public partial class ChronoJumpWindow
 	private void on_button_detect_clicked (object o, EventArgs args)
 	{
 		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
+		detect_devices_do ();
+	}
+
+	private void detect_devices_do ()
+	{
 		notebook_sup.CurrentPage = Convert.ToInt32 (notebook_sup_pages.MICRODISCOVER);
 		event_execute_label_message.Text = "";
 		menus_and_mode_sensitive (false);
@@ -4656,6 +4663,8 @@ public partial class ChronoJumpWindow
 		discoverWin = new DiscoverWindow (app1,
 				current_mode, chronopicRegister,
 				vbox_micro_discover_main,
+				button_micro_discover_refresh,
+				image_micro_discover_refresh,
 				box_micro_discover_assign_manually,
 				buttonbox_micro_discover_assign_manually,
 				label_micro_discover_not_found,
@@ -4675,7 +4684,13 @@ public partial class ChronoJumpWindow
 		if(! Config.UseSystemColor)
 			UtilGtk.ContrastLabelsGrid (Config.ColorBackgroundShiftedIsDark, grid_micro_discover);
 
+		discoverWin.FakeButtonClose.Clicked -= new EventHandler (on_discoverWindow_closed);
 		discoverWin.FakeButtonClose.Clicked += new EventHandler (on_discoverWindow_closed);
+	}
+
+	private void on_button_micro_discover_refresh_clicked (object o, EventArgs args)
+	{
+		detect_devices_do ();
 	}
 
 	private void on_check_discover_advanced_toggled (object o, EventArgs args)
@@ -4701,8 +4716,6 @@ public partial class ChronoJumpWindow
 
 	private void on_discoverWindow_closed (object o, EventArgs args)
 	{
-		discoverWin.FakeButtonClose.Clicked -= new EventHandler(on_discoverWindow_closed);
-
 		chronopicRegister = discoverWin.ChronopicRegisterGet;
 
 		//if(discoverWin.PortSelected != "")
@@ -8738,6 +8751,8 @@ public partial class ChronoJumpWindow
 		label_micro_discover_not_found = (Gtk.Label) builder.GetObject ("label_micro_discover_not_found");
 		frame_micro_discover = (Gtk.Frame) builder.GetObject ("frame_micro_discover");
 		vbox_micro_discover_main = (Gtk.VBox) builder.GetObject ("vbox_micro_discover_main");
+		button_micro_discover_refresh = (Gtk.Button) builder.GetObject ("button_micro_discover_refresh");
+		image_micro_discover_refresh = (Gtk.Image) builder.GetObject ("image_micro_discover_refresh");
 		box_micro_discover_assign_manually = (Gtk.Box) builder.GetObject ("box_micro_discover_assign_manually");
 		buttonbox_micro_discover_assign_manually = (Gtk.ButtonBox) builder.GetObject ("buttonbox_micro_discover_assign_manually");
 		grid_micro_discover = (Gtk.Grid) builder.GetObject ("grid_micro_discover");

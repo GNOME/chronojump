@@ -70,6 +70,8 @@ public class DiscoverWindow
 	private Constants.Modes current_mode;
 	private ChronopicRegister chronopicRegister;
 	private Gtk.VBox vbox_micro_discover_main;
+	private Gtk.Button button_micro_discover_refresh;
+	private Gtk.Image image_micro_discover_refresh;
 	private Gtk.Box box_micro_discover_assign_manually;
 	private Gtk.ButtonBox buttonbox_micro_discover_assign_manually;
 	private Gtk.Grid grid_micro_discover;
@@ -102,6 +104,8 @@ public class DiscoverWindow
 	public DiscoverWindow (Gtk.Window parentWin,
 			Constants.Modes current_mode, ChronopicRegister chronopicRegister,
 			Gtk.VBox vbox_micro_discover_main,
+			Gtk.Button button_micro_discover_refresh,
+			Gtk.Image image_micro_discover_refresh,
 			Gtk.Box box_micro_discover_assign_manually,
 			Gtk.ButtonBox buttonbox_micro_discover_assign_manually,
 			Gtk.Label label_micro_discover_not_found,
@@ -122,6 +126,8 @@ public class DiscoverWindow
 		this.current_mode = current_mode;
 		this.chronopicRegister = chronopicRegister;
 		this.vbox_micro_discover_main = vbox_micro_discover_main;
+		this.button_micro_discover_refresh = button_micro_discover_refresh;
+		this.image_micro_discover_refresh = image_micro_discover_refresh;
 		this.box_micro_discover_assign_manually = box_micro_discover_assign_manually;
 		this.buttonbox_micro_discover_assign_manually = buttonbox_micro_discover_assign_manually;
 		this.grid_micro_discover = grid_micro_discover;
@@ -160,6 +166,7 @@ public class DiscoverWindow
 		portSelected = new ChronopicRegisterPort ("");
 		image_discover_mode = new Gtk.Image (Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + iconModeStr));
 
+		image_micro_discover_refresh.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "refresh_blue.png");
 		if (showAdvanced) {
 			label_discover_advanced.Text = Catalog.GetString ("Hide advanced");
 			image_discover_advanced.Visible = false;
@@ -199,6 +206,7 @@ public class DiscoverWindow
 			label_micro_discover_not_found.Visible = false;
 			setup_grid_micro_discover_l (alreadyDiscovered_l, notDiscovered_l);
 			discoverCloseAfterCancel = false;
+			button_micro_discover_refresh.Sensitive = false;
 
 			discoverThread = new Thread (new ThreadStart (discoverDo));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseDiscoverGTK));
@@ -680,6 +688,8 @@ public class DiscoverWindow
 				//on_button_micro_discover_cancel_close_clicked (new object (), new EventArgs ());
 				CancelCloseFromUser ();
 			}
+
+			button_micro_discover_refresh.Sensitive = true;
 
 			return false;
 		}

@@ -49,7 +49,7 @@ public class EncoderSQL : Event
 	public double maxPower;
 	public double maxSpeed;
 	public double maxForce;
-	public double rangeAbs;
+	public double rangeAbs; //take care because this is "" on sets captured before 2.5.2
 
 	private string exerciseName;
 

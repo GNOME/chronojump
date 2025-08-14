@@ -6845,7 +6845,8 @@ public partial class ChronoJumpWindow
 				// (1a)
 				if (encoderSQLSet.eccon != eSQL.eccon ||
 						encoderSQLSet.encoderConfiguration.name != eSQL.encoderConfiguration.name ||
-						UtilAll.DivideSafe (eSQL.rangeAbs, 10) < encoderSQLSet.minHeight)
+						(eSQL.rangeAbs > 0 && UtilAll.DivideSafe (eSQL.rangeAbs, 10) < encoderSQLSet.minHeight) // greater than 0 because sets before 2.5.2 have absRange 0. Without these check, any selected set (previous to 2.5.2 will loose it's repetitions)
+				   )
 
 				{
 					Util.FileDelete(eSQL.GetFullURL(false));					// (1a1)

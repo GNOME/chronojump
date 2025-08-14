@@ -1418,6 +1418,7 @@ public partial class ChronoJumpWindow
         //Start BluetoothLE service
         BluetoothLE.Start();
 	*/
+	SqliteEncoder.FindOrphanedEncoderSets (false);
     }
 
     /// <summary>

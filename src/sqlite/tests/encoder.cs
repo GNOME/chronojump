@@ -853,6 +853,75 @@ class SqliteEncoder : SqliteTests
 	    return eSQL;
     }
 
+    // see: https://gitlab.gnome.org/GNOME/chronojump/-/issues/1128
+    public static void FindOrphanedEncoderSets (bool dbconOpened)
+    {
+	LogB.Information ("FindOrphanedEncoderSets start");
+	openIfNeeded (dbconOpened);
+
+	dbcmd.CommandText = "SELECT MAX (sessionID) FROM personSession77";
+        LogB.SQL(dbcmd.CommandText.ToString());
+	dbcmd.ExecuteNonQuery();
+	SQLiteDataReader reader;
+	reader = dbcmd.ExecuteReader();
+	int sessionIDmax = 0;
+	if(reader.Read()) 
+		sessionIDmax = Convert.ToInt32 (reader[0].ToString());
+	reader.Close();
+
+	if (sessionIDmax == 0)
+	{
+		closeIfNeeded (dbconOpened);
+		LogB.Information ("FindOrphanedEncoderSets end 1");
+		return;
+	}
+
+	List<int> sessionID_l = new List<int> ();
+	for (int i = 0; i < sessionIDmax; i ++)
+	{
+		dbcmd.CommandText =
+			string.Format ("SELECT * FROM encoder " +
+					"WHERE NOT EXISTS ( " +
+					"    SELECT 1 FROM personSession77 " +
+					"    WHERE encoder.personID = personSession77.personID AND personSession77.sessionID = {0} " +
+					") AND encoder.sessionID = {0}", i);
+
+		//LogB.SQL(dbcmd.CommandText.ToString());
+		reader = dbcmd.ExecuteReader();
+		int count = 0;
+		while (reader.Read())
+		{
+			/*
+			LogB.Information ("SessionID: " + i.ToString ());
+			LogB.Information (string.Format ("count: {0}, encoder.id: {1}, encoder.personID: {2}, encoder.sessionID: {3}",
+						count, reader[0], reader[1], reader[2]
+						));
+						*/
+			count ++;
+		}
+		reader.Close();
+
+		if (count > 0)
+		{
+			sessionID_l.Add (i);
+			LogB.Information (string.Format ("session.uniqueID: {0}, count reps {1}",
+						i, count));
+		}
+	}
+
+	dbcmd.CommandText = string.Format ("SELECT uniqueID, name FROM session WHERE uniqueID IN ({0})",
+			UtilList.ListIntToSQLString (sessionID_l, ", "));
+	reader = dbcmd.ExecuteReader();
+	while (reader.Read())
+		LogB.Information (string.Format ("session.uniqueID: {0}, session.name: {1}",
+					reader[0], reader[1]
+					));
+	reader.Close();
+
+	closeIfNeeded (dbconOpened);
+	LogB.Information ("FindOrphanedEncoderSets end 2");
+    }
+
     public static ArrayList SelectSessionOverviewSets(bool dbconOpened, Constants.EncoderGI encoderGI, int sessionID)
     {
         if (!dbconOpened)

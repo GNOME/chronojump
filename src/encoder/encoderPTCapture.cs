@@ -90,7 +90,7 @@ public class EncoderPTCaptureManage
 					continue;
 				}
 
-				double distanceAtThisSample = UtilAll.DivideSafe (epte.Distance, 6.9); //TODO: why 6.9?
+				double distanceAtThisSample = UtilAll.DivideSafe (epte.Distance, 6.9); //TODO: why 6.9? this maybe was just to fit distance on race analyzer graph that we were reusing for this testing implmentation
 				distance += distanceAtThisSample;
 
 				double speed = UtilAll.DivideSafe (

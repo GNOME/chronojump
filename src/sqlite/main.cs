@@ -169,7 +169,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.64";
+	static string lastChronojumpDatabaseVersion = "2.65";
 
 	public Sqlite()
 	{
@@ -3648,6 +3648,18 @@ class Sqlite
 
 				currentVersion = updateVersion("2.64");
 			}
+			if(currentVersion == "2.64")
+			{
+				LogB.SQL("Deleting orphaned encoder");
+				try {
+					SqliteEncoder.fixOrphaned_db264_to265 ();
+				} catch {
+					LogB.SQL("Catched at Deleting orphaned encoder");
+				}
+				LogB.SQL("Done!");
+
+				currentVersion = updateVersion("2.65");
+			}
 
 
 			/*
@@ -3896,6 +3908,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.64 - 2.65 Converted DB to 2.65 Deleted orphaned encoder
 		//2.63 - 2.64 Converted DB to 2.64 alter table tempJumpRj adding heightAvg
 		//2.62 - 2.63 Converted DB to 2.63 alter table encoder add maxPower, maxSpeed, maxForce, rangeAbs
 		//2.61 - 2.62 Converted DB to 2.62 alter table encoder add hasInertia and Update this column

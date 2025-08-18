@@ -854,10 +854,9 @@ class SqliteEncoder : SqliteTests
     }
 
     // see: https://gitlab.gnome.org/GNOME/chronojump/-/issues/1128
-    public static void FindOrphanedEncoderSets (bool dbconOpened)
+    protected internal static void fixOrphaned_db264_to265 ()
     {
-	LogB.Information ("FindOrphanedEncoderSets start");
-	openIfNeeded (dbconOpened);
+	LogB.Information ("fixOrphaned_db264_to265 start");
 
 	dbcmd.CommandText = "SELECT MAX (sessionID) FROM personSession77";
         LogB.SQL(dbcmd.CommandText.ToString());
@@ -871,55 +870,90 @@ class SqliteEncoder : SqliteTests
 
 	if (sessionIDmax == 0)
 	{
-		closeIfNeeded (dbconOpened);
-		LogB.Information ("FindOrphanedEncoderSets end 1");
+		LogB.Information ("fixOrphaned_db264_to265 end 1 (no sessions)");
 		return;
 	}
 
-	List<int> sessionID_l = new List<int> ();
-	for (int i = 0; i < sessionIDmax; i ++)
+	conversionRateTotal = sessionIDmax;
+	conversionRate = 0;
+
+	for (int sessionID = 0; sessionID < sessionIDmax; sessionID ++)
 	{
+		LogB.Information ("SessionID: " + sessionID.ToString ());
+		//we directly do not do a DELETE here because we want to delete also the encoderSgnalCurve records (if any)
 		dbcmd.CommandText =
-			string.Format ("SELECT * FROM encoder " +
+			string.Format ("SELECT uniqueID, signalOrCurve, url, filename, videoURL FROM encoder " +
 					"WHERE NOT EXISTS ( " +
 					"    SELECT 1 FROM personSession77 " +
 					"    WHERE encoder.personID = personSession77.personID AND personSession77.sessionID = {0} " +
-					") AND encoder.sessionID = {0}", i);
+					") AND encoder.sessionID = {0}", sessionID);
 
 		//LogB.SQL(dbcmd.CommandText.ToString());
 		reader = dbcmd.ExecuteReader();
-		int count = 0;
+		// 1. delete the signals
+		int countAllThisSession = 0;
+		List<int> signalID_l = new List<int> ();
+		List<int> curveID_l = new List<int> ();
+		List<string> fullURL_l = new List<string> ();
+		List<string> fullVideo_l = new List<string> ();
+
 		while (reader.Read())
 		{
-			/*
-			LogB.Information ("SessionID: " + i.ToString ());
-			LogB.Information (string.Format ("count: {0}, encoder.id: {1}, encoder.personID: {2}, encoder.sessionID: {3}",
-						count, reader[0], reader[1], reader[2]
-						));
-						*/
-			count ++;
+			countAllThisSession ++;
+			int uniqueID = Convert.ToInt32 (reader[0].ToString ());
+			if (reader[1].ToString () == "signal")
+			{
+				signalID_l.Add (uniqueID);
+				fullURL_l.Add (Util.MakeURLabsolute (
+							reader[2].ToString () + Path.DirectorySeparatorChar + reader[3].ToString ()));
+				if (reader[4].ToString () != "")
+					fullVideo_l.Add (Util.MakeURLabsolute (reader[4].ToString ()));
+			}
+			else
+				curveID_l.Add (uniqueID);
 		}
 		reader.Close();
 
-		if (count > 0)
+		conversionSubRateTotal = countAllThisSession;
+		conversionSubRate = 0;
+
+		// 1. delete the signals
+		foreach (int signalID in signalID_l)
 		{
-			sessionID_l.Add (i);
-			LogB.Information (string.Format ("session.uniqueID: {0}, count reps {1}",
-						i, count));
+			dbcmd.CommandText = "DELETE FROM encoder WHERE uniqueID = " + signalID;
+			LogB.SQL (dbcmd.CommandText.ToString());
+			dbcmd.ExecuteNonQuery();
+
+			// 1.b delete related triggers
+			SqliteTrigger.DeleteByModeID (true, Trigger.Modes.ENCODER, signalID);
+
+			conversionSubRate ++;
 		}
+
+		// 1.c. delete the csv file if exists
+		foreach (string fullURL in fullURL_l)
+			Util.FileDelete (fullURL);
+
+		// 1.d. delete the video file if exists
+		foreach (string fullVideo in fullVideo_l)
+			Util.FileDelete (fullVideo);
+
+		// 2. delete the curve and encoderSignalCurve
+		foreach (int curveID in curveID_l)
+		{
+			dbcmd.CommandText = "DELETE FROM encoder WHERE uniqueID = " + curveID;
+			LogB.SQL (dbcmd.CommandText.ToString());
+			dbcmd.ExecuteNonQuery();
+
+			dbcmd.CommandText = "DELETE FROM encoderSignalCurve WHERE curveID = " + curveID;
+			LogB.SQL (dbcmd.CommandText.ToString());
+			dbcmd.ExecuteNonQuery();
+			conversionSubRate ++;
+		}
+
+		conversionRate ++;
 	}
-
-	dbcmd.CommandText = string.Format ("SELECT uniqueID, name FROM session WHERE uniqueID IN ({0})",
-			UtilList.ListIntToSQLString (sessionID_l, ", "));
-	reader = dbcmd.ExecuteReader();
-	while (reader.Read())
-		LogB.Information (string.Format ("session.uniqueID: {0}, session.name: {1}",
-					reader[0], reader[1]
-					));
-	reader.Close();
-
-	closeIfNeeded (dbconOpened);
-	LogB.Information ("FindOrphanedEncoderSets end 2");
+	LogB.Information ("fixOrphaned_db264_to265 end 2");
     }
 
     public static ArrayList SelectSessionOverviewSets(bool dbconOpened, Constants.EncoderGI encoderGI, int sessionID)

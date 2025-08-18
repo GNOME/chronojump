@@ -1,33 +1,33 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.40.0 -->
 <interface>
-  <!-- interface-requires gtk+ 3.0 -->
-  <!-- interface-naming-policy toplevel-contextual -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkWindow" id="splash_window">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <property name="type">popup</property>
     <property name="title">Chronojump</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
-    <property name="window_position">center-always</property>
-    <property name="type_hint">splashscreen</property>
+    <property name="window-position">center-always</property>
+    <property name="type-hint">splashscreen</property>
     <child>
       <object class="GtkAlignment" id="alignment1">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="top_padding">6</property>
-        <property name="bottom_padding">6</property>
-        <property name="left_padding">6</property>
-        <property name="right_padding">6</property>
+        <property name="can-focus">False</property>
+        <property name="top-padding">6</property>
+        <property name="bottom-padding">6</property>
+        <property name="left-padding">6</property>
+        <property name="right-padding">6</property>
         <child>
           <object class="GtkVBox" id="vbox120">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkImage" id="image_logo">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -38,13 +38,13 @@
             <child>
               <object class="GtkVBox" id="vbox1">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="spacing">4</property>
                 <child>
                   <object class="GtkLabel" id="myLabel">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
+                    <property name="can-focus">False</property>
+                    <property name="halign">start</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -53,27 +53,39 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox1">
+                  <object class="GtkLabel" id="myLabelProgress">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
+                    <property name="halign">start</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="pack_type">end</property>
                     <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox1">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="pack-type">end</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkHButtonBox" id="hbuttonbox1">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkButton" id="button_open_database_folder">
                         <property name="label">Open database folder</property>
-                        <property name="can_focus">True</property>
-                        <property name="can_default">True</property>
-                        <property name="receives_default">False</property>
+                        <property name="can-focus">True</property>
+                        <property name="can-default">True</property>
+                        <property name="receives-default">False</property>
                         <signal name="clicked" handler="on_button_open_database_folder_clicked" swapped="no"/>
                       </object>
                       <packing>
@@ -85,9 +97,9 @@
                     <child>
                       <object class="GtkButton" id="button_open_docs_folder">
                         <property name="label">Open docs folder</property>
-                        <property name="can_focus">True</property>
-                        <property name="can_default">True</property>
-                        <property name="receives_default">False</property>
+                        <property name="can-focus">True</property>
+                        <property name="can-default">True</property>
+                        <property name="receives-default">False</property>
                         <signal name="clicked" handler="on_button_open_docs_folder_clicked" swapped="no"/>
                       </object>
                       <packing>
@@ -99,17 +111,17 @@
                     <child>
                       <object class="GtkButton" id="button_close">
                         <property name="label">gtk-close</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="has_tooltip">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
+                        <property name="has-tooltip">True</property>
+                        <property name="use-stock">True</property>
                         <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
                         <accelerator key="Escape" signal="clicked"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
-                        <property name="pack_type">end</property>
+                        <property name="pack-type">end</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
@@ -117,7 +129,7 @@
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="position">2</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
               </object>
@@ -130,8 +142,8 @@
             <child>
               <object class="GtkProgressBar" id="progressbarVersion">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="pulse_step">0.10000000149</property>
+                <property name="can-focus">False</property>
+                <property name="pulse-step">0.10000000149</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -142,8 +154,8 @@
             <child>
               <object class="GtkProgressBar" id="progressbarRate">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="pulse_step">0.10000000149</property>
+                <property name="can-focus">False</property>
+                <property name="pulse-step">0.10000000149</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -154,8 +166,8 @@
             <child>
               <object class="GtkProgressBar" id="progressbarSubRate">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="pulse_step">0.10000000149</property>
+                <property name="can-focus">False</property>
+                <property name="pulse-step">0.10000000149</property>
               </object>
               <packing>
                 <property name="expand">False</property>

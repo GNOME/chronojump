@@ -926,8 +926,9 @@ public class ChronoJump
 	
 		if(updatingDB) {
 			splashWin.ShowProgressbar("updating");
-			splashWin.UpdateLabel(splashMessage + " " + Sqlite.PrintConversionText());
-		
+			splashWin.UpdateLabel (splashMessage);
+		        splashWin.UpdateLabelProgress ("    " + Sqlite.PrintConversionText());
+
 			splashWin.UpdateProgressbar("version", Sqlite.PrintConversionVersion());
 			splashWin.UpdateProgressbar("rate", Sqlite.PrintConversionRate());
 			splashWin.UpdateProgressbar("subrate", Sqlite.PrintConversionSubRate());

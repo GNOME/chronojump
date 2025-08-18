@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -33,6 +33,7 @@ public class SplashWindow
     Gtk.ProgressBar progressbarRate;
     Gtk.ProgressBar progressbarSubRate;
     Gtk.Label myLabel;
+    Gtk.Label myLabelProgress;
     Gtk.Button button_close;
 
     Gtk.Button button_open_database_folder;
@@ -79,6 +80,11 @@ public class SplashWindow
         {
             SplashWindowBox = new SplashWindow();
         }
+
+	SplashWindowBox.myLabelProgress.Name = "monospace";
+	UtilGtk.ContrastLabelsLabel (false, SplashWindowBox.myLabelProgress);
+	UtilGtk.ApplyCSS (-1);
+
         SplashWindowBox.splash_window.Show();
 
         return SplashWindowBox;
@@ -121,10 +127,15 @@ public class SplashWindow
             progressbarSubRate.Fraction = fraction;
     }
 
-    public void UpdateLabel(string text)
+    public void UpdateLabel (string text)
     {
         myLabel.Text = text;
         myLabel.UseMarkup = true;
+    }
+    public void UpdateLabelProgress (string text)
+    {
+        myLabelProgress.Text = text;
+        myLabelProgress.UseMarkup = true;
     }
 
     public void Show_button_open_database_folder()
@@ -245,6 +256,7 @@ public class SplashWindow
         progressbarRate = (Gtk.ProgressBar)builder.GetObject("progressbarRate");
         progressbarSubRate = (Gtk.ProgressBar)builder.GetObject("progressbarSubRate");
         myLabel = (Gtk.Label)builder.GetObject("myLabel");
+        myLabelProgress = (Gtk.Label)builder.GetObject("myLabelProgress");
         button_close = (Gtk.Button)builder.GetObject("button_close");
 
         button_open_database_folder = (Gtk.Button)builder.GetObject("button_open_database_folder");

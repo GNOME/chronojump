@@ -3664,7 +3664,6 @@ public partial class ChronoJumpWindow
 				setEncoderExerciseOptionsFromPreferences();
 				encoderPreferencesSet = true;
 			}
-			GLib.Timeout.Add (50, new GLib.TimeoutHandler (encoder2ndRowPos));
 		} 
 		else if(Constants.ModeIsFORCESENSOR (m))
 		{
@@ -3929,6 +3928,9 @@ public partial class ChronoJumpWindow
 			fillTreeView_persons();
 		}
 		updatingRestTimes = (m != Constants.Modes.BEEPTEST);
+
+		if (Constants.ModeIsENCODER (m))
+			GLib.Timeout.Add (50, new GLib.TimeoutHandler (encoder2ndRowPos)); // here it works correctly (at least on my computer). Just before treeview_persons stuff, it doesn't.
 
 		if (remoteTest != null)
 			remoteTest.Current_mode = m;

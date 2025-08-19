@@ -2085,7 +2085,7 @@ public partial class ChronoJumpWindow
 					-1, "signal", EncoderSQL.Eccons.ALL, "", false, true, false)[0];
 		
 			//delete signal and related curves (both from SQL and files)
-			encoderSignalDelete(eSQL.GetFullURL(false), signalID);	//don't convertPathToR
+			encoderSignalDelete (eSQL.GetFullURL(false), eSQL.videoURL, signalID);	//don't convertPathToR
 
 			//genericWin selected row is deleted, unsensitive the "load" button
 			genericWin.SetButtonAcceptSensitive(false);
@@ -2170,7 +2170,7 @@ public partial class ChronoJumpWindow
 		label_encoder_top_selected.Text = savedName;
 	}
 
-	void encoderSignalDelete (string signalURL, int signalID) 
+	void encoderSignalDelete (string signalURL, string videoRel, int signalID)
 	{
 		//remove signal file
 		Util.FileDelete(signalURL);
@@ -2208,6 +2208,10 @@ public partial class ChronoJumpWindow
 
 		//delete related triggers
 		SqliteTrigger.DeleteByModeID(false, Trigger.Modes.ENCODER, signalID);
+
+		//delete video
+		if (videoRel != "")
+			Util.FileDelete (Util.MakeURLabsolute (videoRel)); //note having it relative will also work
 	}
 
 	void on_button_encoder_export_signal_clicked (object o, EventArgs args) 
@@ -3023,12 +3027,14 @@ public partial class ChronoJumpWindow
 
 	void on_button_encoder_delete_signal_accepted (object o, EventArgs args) 
 	{
+		LogB.Information ("on_button_encoder_delete_signal_accepted");
+		LogB.Information ("encoderSignalUniqueID: " + encoderSignalUniqueID.ToString ());
 		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
 				false, encoderSignalUniqueID, 0, 0, Constants.EncoderGI.ALL,
 				-1, "signal", EncoderSQL.Eccons.ALL, "", false, true, false)[0];
 
 		//delete signal and related curves (both from SQL and files)
-		encoderSignalDelete(eSQL.GetFullURL(false), encoderSignalUniqueID);
+		encoderSignalDelete (eSQL.GetFullURL(false), eSQL.videoURL, encoderSignalUniqueID);
 	
 		removeSignalFromGuiBecauseDeletedOrCancelled();
 

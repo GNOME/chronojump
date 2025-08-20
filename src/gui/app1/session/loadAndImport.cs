@@ -198,9 +198,14 @@ public partial class ChronoJumpWindow
 		if (showAll)
 		{
 			showJumps = true; showRuns = true;
-			showReactionTime = true; showFourPlatforms = true;
 			showIsometric = true; showElastic = true;
 			showWeights = true; showInertial = true;
+
+			// showAll, but these modes only if active on config
+			if (configChronojump.Wilight)
+				showReactionTime = true;
+			if (configChronojump.FourPlatforms)
+				showFourPlatforms = true;
 		}
 
 		int columns = 6;
@@ -278,9 +283,14 @@ public partial class ChronoJumpWindow
 		if (showAll)
 		{
 			showJumps = true; showRuns = true;
-			showReactionTime = true; showFourPlatforms = true;
 			showIsometric = true; showElastic = true;
 			showWeights = true; showInertial = true;
+
+			// showAll, but these modes only if active on config
+			if (configChronojump.Wilight)
+				showReactionTime = true;
+			if (configChronojump.FourPlatforms)
+				showFourPlatforms = true;
 		}
 
 		tv.HeadersVisible=true;
@@ -648,9 +658,14 @@ public partial class ChronoJumpWindow
 		if (showAll)
 		{
 			showJumps = true; showRuns = true;
-			showReactionTime = true; showFourPlatforms = true;
 			showIsometric = true; showElastic = true;
 			showWeights = true; showInertial = true;
+
+			// showAll, but these modes only if active on config
+			if (configChronojump.Wilight)
+				showReactionTime = true;
+			if (configChronojump.FourPlatforms)
+				showFourPlatforms = true;
 		}
 
 		//new 2.0 code

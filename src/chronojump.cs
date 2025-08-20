@@ -701,7 +701,6 @@ public class ChronoJump
 	{
 		LogB.SQL ("\n\nCheck if update DB");
 		splashMessageChange(4);  //updating DB
-		updatingDB = true;
 
 		if(Sqlite.ChangeDjToDJna())
 			messageToShowOnBoot += Catalog.GetString("All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms).") + "\n\n"+ 
@@ -709,11 +708,16 @@ public class ChronoJump
 
 		Sqlite.UpdatingDBFrom = Sqlite.UpdatingDBFromEnum.LOCAL;
 
-		bool softwareIsNew = Sqlite.ConvertToLastChronojumpDBVersion();
+		Sqlite.DBIsOldEnum dbIsOldEnum = Sqlite.NeedToConvertToLastChronojumpDBVersion ();
+		if (dbIsOldEnum == Sqlite.DBIsOldEnum.OLDDB)
+		{
+			updatingDB = true;
+			Sqlite.ConvertToLastChronojumpDBVersion();
+		}
 		updatingDB = false;
 
-
-		if(! softwareIsNew) {
+		if(dbIsOldEnum == Sqlite.DBIsOldEnum.OLDSOFTWARE)
+		{
 			//Console.Clear();
 			string errorMessage = string.Format(Catalog.GetString ("Sorry, this Chronojump version ({0}) is too old for your database."), progVersion) + "\n" +  
 				Catalog.GetString("Please update Chronojump") + ":\n"; 
@@ -927,7 +931,6 @@ public class ChronoJump
 		if(updatingDB) {
 			splashWin.ShowProgressbar("updating");
 			splashWin.UpdateLabel (splashMessage);
-		        splashWin.UpdateLabelProgress ("    " + Sqlite.PrintConversionText());
 
 			splashWin.UpdateProgressbar("version", Sqlite.PrintConversionVersion());
 			splashWin.UpdateProgressbar("rate", Sqlite.PrintConversionRate());
@@ -940,6 +943,11 @@ public class ChronoJump
 			//splashWin.UpdateProgressbar("rate", Sqlite.PrintConversionRate());
 			splashWin.UpdateProgressbar("subrate", Sqlite.PrintConversionSubRate());
 		}
+
+		if (updatingDB)
+			splashWin.UpdateLabelProgress ("    " + Sqlite.PrintConversionText());
+		else
+			splashWin.UpdateLabelProgress ("");
 
 		if(needUpdateSplashMessage) {
 			splashWin.UpdateLabel(splashMessage);

@@ -6796,8 +6796,7 @@ public partial class ChronoJumpWindow
 
 		selectedJumpRj = null; // after the repair need to check again jump from SQL and draw at top correctly
 
-		treeview_results_session_storeReset ();
-		fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_select_jumps_rj));
+		pre_fillTreeView_resultsSession ();
 		
 		if(createdStatsWin)
 			stats_win_fillTreeView_stats(false, false);
@@ -6836,8 +6835,7 @@ public partial class ChronoJumpWindow
 
 		selectedRunInterval = null; // after the repair need to check again run from SQL and draw at top correctly
 
-		treeview_results_session_storeReset ();
-		fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_select_runs_interval));
+		pre_fillTreeView_resultsSession ();
 		createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 		
 		if(createdStatsWin)

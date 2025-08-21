@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2019-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2019-2025   Xavier de Blas <xaviblas@gmail.com>
  * Copyright (C) 2019  	Xavier Padullés <x.padulles@gmail.com>
  */
 
@@ -829,7 +829,7 @@ public class ForceSensorExerciseWindow
 
 		//only store percentBodyWeight at SQL if radio_mass_add is active
 		int percentBodyWeight = 0;
-		if(radio_mass_add.Active && Convert.ToInt32(spin_body_mass_add.Value) > 0)
+		if (radio_force_resultant.Active && radio_mass_add.Active && Convert.ToInt32(spin_body_mass_add.Value) > 0)
 			percentBodyWeight = Convert.ToInt32(spin_body_mass_add.Value);
 
 		int myID = -1;

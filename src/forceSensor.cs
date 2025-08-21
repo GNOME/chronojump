@@ -680,6 +680,16 @@ public class ForceSensorExercise
 	{
 		get { return percentBodyWeight; }
 	}
+	// on R instead of passing ForceResultant or not, we just need to pass percentBodyWeight = 0 if !ForceResultant
+	public int PercentBodyWeightForR
+	{
+		get {
+			if (! forceResultant)
+				return 0;
+			else
+				return percentBodyWeight;
+		}
+	}
 	public string Resistance
 	{
 		get { return resistance; }

@@ -2843,7 +2843,7 @@ LogB.Information(" fs R ");
 					getForceSensorCaptureOptionsFromMainGui(),
 					sampleA, sampleB,
 					title, exercise,
-					currentForceSensorExercise.PercentBodyWeight,
+					currentForceSensorExercise.PercentBodyWeightForR,
 					currentForceSensorExercise.AngleDefault,
 					currentPersonSession.Weight,
 					currentForceSensor.DatePublic,

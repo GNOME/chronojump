@@ -307,7 +307,7 @@ public class ForceSensorExport : ExportFiles
 								repConcentricSampleStart, 	//start of concentric rep
 								rep.sampleEnd,			//end of eccentric rep
 								title, exerciseStr,
-								fsEx.PercentBodyWeight, fsEx.AngleDefault, ps.Weight,
+								fsEx.PercentBodyWeightForR, fsEx.AngleDefault, ps.Weight,
 								fs.DatePublic, fs.TimePublic, new TriggerList()
 								));
 
@@ -388,7 +388,7 @@ public class ForceSensorExport : ExportFiles
 							sampleA,
 							sampleB,
 							title, exerciseStr,
-							fsEx.PercentBodyWeight, fsEx.AngleDefault, ps.Weight,
+							fsEx.PercentBodyWeightForR, fsEx.AngleDefault, ps.Weight,
 							fs.DatePublic, fs.TimePublic, new TriggerList()
 							));
 			}

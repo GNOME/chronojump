@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -26,15 +26,21 @@ using System.Collections.Generic; //List<T>
 public class EncoderPTCaptureManage
 {
 	private EncoderPTCapture encoderPTCapture;
-	private bool finish;
-	private bool cancel;
-	private bool error;
+	protected bool finish;
+	protected bool cancel;
+	protected bool error;
 
 	private double distance; //units?
 	private List<PointF> points_dt_l;
 	private List<PointF> points_st_l;
 	private List<PointF> points_at_l;
 
+	// to inherit
+	public EncoderPTCaptureManage ()
+	{
+	}
+
+	// regular constructor
 	public EncoderPTCaptureManage (
 			EncoderPTCapture encoderPTCapture,
 			ref List<PointF> points_dt_l, ref List<PointF> points_st_l, ref List<PointF> points_at_l)
@@ -45,7 +51,7 @@ public class EncoderPTCaptureManage
 		this.points_at_l = points_at_l;
 	}
 
-	public bool Init ()
+	public virtual bool Init ()
 	{
 		finish = false;
 		cancel = false;
@@ -58,7 +64,7 @@ public class EncoderPTCaptureManage
 		return true;
 	}
 
-	public void Capture ()
+	public virtual void Capture ()
 	{
 		double timePre = -1;
 		double speedPre = -1;

@@ -86,6 +86,20 @@ public class Micro
 		return (port.ReadByte ());
 	}
 
+	byte[] buffer; // var ?
+	public void BufferInit ()
+	{
+		buffer = new byte[1024];
+	}
+	public int ReadWithBuffer (int start, int end)
+	{
+		return port.Read (buffer, 0, 12);
+	}
+	public int GetBufferAtPos (int pos)
+	{
+		return buffer[pos];
+	}
+
 	public string ReadLine ()
 	{
 		return (port.ReadLine ());

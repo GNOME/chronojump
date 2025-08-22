@@ -319,71 +319,66 @@ public class EncoderPTForceCapture: ArduinoCapture
 	{
 		row_l = new List<int> ();
 
-		return true;
-	}
+		micro.BufferInit ();
+		int bytesRead = 0;
+		try {
+			bytesRead = micro.ReadWithBuffer (0, 12);
+		}
+		catch (Exception ex)
+		{
+			if(ex is System.IO.IOException || ex is System.TimeoutException)
+				LogB.Information ("catched on readBinarySampleTesting port.Read ()");
 
-	/*
+			return false;
+		}
 
-                LogB.Information (string.Format ("\n\n- sensorType: {0} {1} {2} {3}", b0, b1, b2, b3));
+		int b0, b1, b2, b3;
+		int count = 0;
 
-                //iid.ia = Convert.ToInt32 (
+		// sensor type (4 bytes)
+
+		b0 = micro.GetBufferAtPos (count ++);
+                b1 = micro.GetBufferAtPos (count ++);
+                b2 = micro.GetBufferAtPos (count ++);
+                b3 = micro.GetBufferAtPos (count ++);
 		row_l.Add (Convert.ToInt32 (
 					Math.Pow(256,3) * b3 +
 					Math.Pow(256,2) * b2 +
 					Math.Pow(256,1) * b1 +
 					Math.Pow(256,0) * b0));
 
-		// 2) read time, four bytes
-		//b0: least significative
-                //b3: most significative
-		//b0/b3  least/most significative
-                if (! readByte(out b0))
-			return false;
-                if (! readByte(out b1))
-			return false;
-                if (! readByte(out b2))
-			return false;
-                if (! readByte(out b3))
-			return false;
+		// time (4 bytes)
 
-                LogB.Information (string.Format ("- time: {0} {1} {2} {3}", b0, b1, b2, b3));
-
-                //iid.ib = Convert.ToInt32 (
+		b0 = micro.GetBufferAtPos (count ++);
+                b1 = micro.GetBufferAtPos (count ++);
+                b2 = micro.GetBufferAtPos (count ++);
+                b3 = micro.GetBufferAtPos (count ++);
 		row_l.Add (Convert.ToInt32 (
 					Math.Pow(256,3) * b3 +
 					Math.Pow(256,2) * b2 +
 					Math.Pow(256,1) * b1 +
 					Math.Pow(256,0) * b0));
-		
-		// 3) read force or encoder
-                if (! readByte(out b0))
-			return false;
-                if (! readByte(out b1))
-			return false;
-                if (! readByte(out b2))
-			return false;
-                if (! readByte(out b3))
-			return false;
 
-                LogB.Information (string.Format ("- sensorData: {0} {1} {2} {3}", b0, b1, b2, b3));
+		// force or encoder data (4 bytes)
 
-		//iid.d = 
+		b0 = micro.GetBufferAtPos (count ++);
+                b1 = micro.GetBufferAtPos (count ++);
+                b2 = micro.GetBufferAtPos (count ++);
+                b3 = micro.GetBufferAtPos (count ++);
 		uint sensorData = Convert.ToUInt32 (
 					Math.Pow(256,3) * b3 +
 					Math.Pow(256,2) * b2 +
 					Math.Pow(256,1) * b1 +
 					Math.Pow(256,0) * b0);
-		LogB.Information ("sensorData: " + sensorData.ToString ());
 
-		// TODO:
-		//care for negative values (4 bytes)
+		// care for negative values (4 bytes)
 		if (sensorData > 2147483648) // 256^4 / 2
 		{
-			LogB.Information ("will be str: " + (-1 * (4294967296 - sensorData)).ToString ());
-			LogB.Information (string.Format ("will be uint: {0}", Convert.ToInt32 ((4294967296 - sensorData))
-						));
-			LogB.Information (string.Format ("will be int: {0}", Convert.ToInt32 (-1 * (4294967296 - sensorData))
-						));
+			//LogB.Information ("will be str: " + (-1 * (4294967296 - sensorData)).ToString ());
+			//LogB.Information (string.Format ("will be uint: {0}", Convert.ToInt32 ((4294967296 - sensorData))
+			//			));
+			//LogB.Information (string.Format ("will be int: {0}", Convert.ToInt32 (-1 * (4294967296 - sensorData))
+			//			));
 			row_l.Add (Convert.ToInt32 (-1 * (4294967296 - sensorData)));
 		} else
 			row_l.Add (Convert.ToInt32 (sensorData));
@@ -395,10 +390,8 @@ public class EncoderPTForceCapture: ArduinoCapture
 			LogB.Information ("arrggggg");
 			return false;
 		}
-
-                return true;
+		return true;
 	}
-*/
 
 	public string PortName {
 		get { return portName; }

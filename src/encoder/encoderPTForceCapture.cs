@@ -28,15 +28,14 @@ public partial class ChronoJumpWindow
 	EncoderPTForceCaptureManage eptfcm;
 	EncoderPTForceCapture eptfc;
 
-	private void encoderPTForceCatpureTest ()
+	private void encoderPTForceCaptureDo (string portName, string csvURL, bool testing, int seconds)
 	{
 		runEncoderPulseMessage = "Capture eptfc... please wait";
 		LogB.Information("eptfcm start");
 
 		if (eptfc == null) //|| eptfc.PortName != chronopicRegister.GetSelectedForMode (current_mode).Port)
 			eptfc = new EncoderPTForceCapture (
-					"/dev/ttyACM4",
-					true); //testing
+					portName, testing);
 					//chronopicRegister.GetSelectedForMode (current_mode).Port,
 					//preferences.runEncoderPPS);
 		//else if (eptc.RunEncoderPPS != preferences.runEncoderPPS)
@@ -45,8 +44,7 @@ public partial class ChronoJumpWindow
 		//need to pass the ref every capture because every capture we do:
 		//cairo...Points_xx_l = new List<PointF> ()
 		eptfcm = new EncoderPTForceCaptureManage (
-				eptfc);/*,
-				//eptfc, true);/*,
+				eptfc, csvURL, seconds);/*,
 				ref cairoGraphRaceAnalyzerPoints_dt_l,
 				ref cairoGraphRaceAnalyzerPoints_st_l,
 				ref cairoGraphRaceAnalyzerPoints_at_l
@@ -75,6 +73,8 @@ public partial class ChronoJumpWindow
 public class EncoderPTForceCaptureManage : EncoderPTCaptureManage
 {
 	private EncoderPTForceCapture encoderPTForceCapture;
+	private string csvURL;
+	private int seconds;
 
 	/*
 	private double distance; //units?
@@ -84,10 +84,12 @@ public class EncoderPTForceCaptureManage : EncoderPTCaptureManage
 	*/
 
 	public EncoderPTForceCaptureManage (
-			EncoderPTForceCapture encoderPTForceCapture)//,
+			EncoderPTForceCapture encoderPTForceCapture, string csvURL, int seconds)//,
 			//ref List<PointF> points_dt_l, ref List<PointF> points_st_l, ref List<PointF> points_at_l)
 	{
 		this.encoderPTForceCapture = encoderPTForceCapture;
+		this.csvURL = csvURL;
+		this.seconds = seconds;
 		/*
 		this.points_dt_l = points_dt_l;
 		this.points_st_l = points_st_l;
@@ -115,9 +117,11 @@ public class EncoderPTForceCaptureManage : EncoderPTCaptureManage
 		bool timePreSet = false;
 		bool speedPreSet = false;
 
+		TextWriter writer = File.CreateText (csvURL);
+
 		Stopwatch stopwatch = new Stopwatch ();
 		stopwatch.Start ();
-		while (! finish && ! cancel && ! error && stopwatch.Elapsed.TotalSeconds < 60)
+		while (! finish && ! cancel && ! error && stopwatch.Elapsed.TotalSeconds < seconds)
 		{
 			if(! encoderPTForceCapture.BytesToReadEnoughForASample ())
 				continue;
@@ -136,13 +140,14 @@ public class EncoderPTForceCaptureManage : EncoderPTCaptureManage
 			if (! encoderPTForceCapture.CaptureSample ())
 				cancel = true; //problem reading line (capturing)
 		
-			LogB.Information ("Seconds: " + stopwatch.Elapsed.TotalSeconds.ToString ());
+			//LogB.Information ("Seconds: " + stopwatch.Elapsed.TotalSeconds.ToString ());
 
 			if (encoderPTForceCapture.CanReadFromList ())
 			{
 				EncoderPTForceEvent eptfe = encoderPTForceCapture.ReadNext();
 				LogB.Information("eptfe: " + eptfe.ToString());
 
+				writer.Write (eptfe + "\n");
 				//count ++;
 
 				/*
@@ -186,6 +191,10 @@ public class EncoderPTForceCaptureManage : EncoderPTCaptureManage
 
 		}
 		encoderPTForceCapture.Stop ();
+
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
 
 		if (finish)
 			LogB.Information("finished");

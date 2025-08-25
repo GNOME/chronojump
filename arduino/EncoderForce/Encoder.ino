@@ -2,12 +2,11 @@ void changedZ() {
   flagZ = HIGH;
   //Serial.println("#"); maybe habilite again to have absolute position
 
-  /*
   sample.sensorType = incEncoderZ;
-  sample.time = totalTime;
+  sample.time = encoderTime;
   sample.data = 1;
   if (transmissionFormat == text) {
-        Serial.print(totalTime);
+        Serial.print(encoderTime);
         Serial.print(";");
         Serial.print(1);
         Serial.print(";");
@@ -16,7 +15,6 @@ void changedZ() {
   else { // (transmissionFormat == binary)
     Serial.write((byte*)&sample,12);
   }
-  */
 }
 
 void changedA() {

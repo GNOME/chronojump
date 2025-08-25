@@ -937,6 +937,19 @@ public class Util
 		return false;
 	}
 
+	public static bool IsUint (string str)
+	{
+		//false if it's blank
+		if(str.Length == 0)
+			return false;
+
+		uint numI;
+		if (uint.TryParse(str, out numI))
+			return true;
+
+		return false;
+	}
+
 	public static bool IsEven(string myString) {
 		return IsEven(Convert.ToInt32(myString));
 	}

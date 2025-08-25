@@ -317,6 +317,7 @@ public class EncoderPTForceCapture: ArduinoCapture
 	
 	private bool readBinarySample (out List<int> row_l)
 	{
+		//LogB.Information("readBinarySample start");
 		row_l = new List<int> ();
 
 		micro.BufferInit ();
@@ -336,23 +337,46 @@ public class EncoderPTForceCapture: ArduinoCapture
 		int count = 0;
 
 		// sensor type (4 bytes)
-
 		b0 = micro.GetBufferAtPos (count ++);
                 b1 = micro.GetBufferAtPos (count ++);
                 b2 = micro.GetBufferAtPos (count ++);
                 b3 = micro.GetBufferAtPos (count ++);
+		if (! Util.IsNumber ((Math.Pow(256,3) * b3 +
+					Math.Pow(256,2) * b2 +
+					Math.Pow(256,1) * b1 +
+					Math.Pow(256,0) * b0).ToString (), false))
+		{
+			LogB.Information (string.Format ("arrggggg sensor is not int: {0}",
+						Math.Pow(256,3) * b3 + Math.Pow(256,2) * b2 +
+						Math.Pow(256,1) * b1 + Math.Pow(256,0) * b0));
+			return false;
+		}
 		row_l.Add (Convert.ToInt32 (
 					Math.Pow(256,3) * b3 +
 					Math.Pow(256,2) * b2 +
 					Math.Pow(256,1) * b1 +
 					Math.Pow(256,0) * b0));
+		if (row_l[0] > 4)
+		{
+			LogB.Information (string.Format ("arrggggg row_l[0] > 4: {0}", row_l[0]));
+			return false;
+		}
 
 		// time (4 bytes)
-
 		b0 = micro.GetBufferAtPos (count ++);
                 b1 = micro.GetBufferAtPos (count ++);
                 b2 = micro.GetBufferAtPos (count ++);
                 b3 = micro.GetBufferAtPos (count ++);
+		if (! Util.IsNumber ((Math.Pow(256,3) * b3 +
+					Math.Pow(256,2) * b2 +
+					Math.Pow(256,1) * b1 +
+					Math.Pow(256,0) * b0).ToString (), false))
+		{
+			LogB.Information (string.Format ("arrggggg time is not int: {0}",
+						Math.Pow(256,3) * b3 + Math.Pow(256,2) * b2 +
+						Math.Pow(256,1) * b1 + Math.Pow(256,0) * b0));
+			return false;
+		}
 		row_l.Add (Convert.ToInt32 (
 					Math.Pow(256,3) * b3 +
 					Math.Pow(256,2) * b2 +
@@ -360,11 +384,20 @@ public class EncoderPTForceCapture: ArduinoCapture
 					Math.Pow(256,0) * b0));
 
 		// force or encoder data (4 bytes)
-
 		b0 = micro.GetBufferAtPos (count ++);
                 b1 = micro.GetBufferAtPos (count ++);
                 b2 = micro.GetBufferAtPos (count ++);
                 b3 = micro.GetBufferAtPos (count ++);
+		if (! Util.IsUint ((Math.Pow(256,3) * b3 +
+					Math.Pow(256,2) * b2 +
+					Math.Pow(256,1) * b1 +
+					Math.Pow(256,0) * b0).ToString ()))
+		{
+			LogB.Information (string.Format ("arrggggg data is not an uint: {0}",
+						Math.Pow(256,3) * b3 + Math.Pow(256,2) * b2 +
+						Math.Pow(256,1) * b1 + Math.Pow(256,0) * b0));
+			return false;
+		}
 		uint sensorData = Convert.ToUInt32 (
 					Math.Pow(256,3) * b3 +
 					Math.Pow(256,2) * b2 +
@@ -383,13 +416,7 @@ public class EncoderPTForceCapture: ArduinoCapture
 		} else
 			row_l.Add (Convert.ToInt32 (sensorData));
 
-		//LogB.Information("encoderPTCapture readed all binary data");
-		//
-		if (row_l[0] > 4)
-		{
-			LogB.Information ("arrggggg");
-			return false;
-		}
+		//LogB.Information("readBinarySample ending");
 		return true;
 	}
 

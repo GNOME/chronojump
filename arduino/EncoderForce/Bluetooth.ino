@@ -155,6 +155,8 @@ void initializeBLE(void) {
 
 void sendToBLE(sensor_t sensor) {
 
+  /*
+  TODO: as we are not using sample now, we commented this
   if (sensor == loadCell){
     //Text formated for DumbDisplay [Name of Var]:[optional space][value]
     // pForceValue->setValue((String(force)).c_str());
@@ -163,7 +165,10 @@ void sendToBLE(sensor_t sensor) {
     pForceValue->notify();
     pForceTime->notify();
   }
+  */
 
+  /*
+  TODO: as we are not using sample now, we commented this
   if (sensor == incEncoder){
     //Text formated for DumbDisplay [Name of Var]:[optional space][value]
     // pForceValue->setValue((String(force)).c_str());
@@ -172,6 +177,7 @@ void sendToBLE(sensor_t sensor) {
     pPositionValue->notify();
     pPositionTime->notify();
   }
+  */
 
   // TODO: Check that this is mandatory
   if (deviceConnected) {

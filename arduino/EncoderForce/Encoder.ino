@@ -2,6 +2,7 @@ void changedZ() {
   flagZ = HIGH;
   //Serial.println("#"); maybe habilite again to have absolute position
 
+/*
   sample.sensorType = incEncoderZ;
   sample.time = encoderTime;
   sample.data = 1;
@@ -15,6 +16,7 @@ void changedZ() {
   else { // (transmissionFormat == binary)
     Serial.write((byte*)&sample,12);
   }
+  */
 }
 
 void changedA() {
@@ -24,9 +26,11 @@ void changedA() {
     currentPosition--;
   }
   if (abs(currentPosition) >= pps) {
+    //encoderFlag = false; // see if this helps to not have problems sending data
     encoderTime = totalTime;
     lastPosition = currentPosition;
     currentPosition = 0;
     encoderFlag = true;
+    debugCount ++;
   }
 }

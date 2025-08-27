@@ -93,7 +93,7 @@ public class Micro
 	}
 	public int ReadWithBuffer (int start, int end)
 	{
-		return port.Read (buffer, 0, 12);
+		return port.Read (buffer, 0, end);
 	}
 	public int GetBufferAtPos (int pos)
 	{

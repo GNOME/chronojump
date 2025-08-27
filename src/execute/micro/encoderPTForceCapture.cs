@@ -36,14 +36,24 @@ pps is always -10 or 10
 //EncoderPulseTimeForceCapture
 public class EncoderPTForceCapture: ArduinoCapture
 {
+	protected int bauds = 115200;
+	protected int receivedN;
+	protected string startCaptureStr;
+	protected int bufferBinaryBytesToReadAtLeast;
+
 	private List<EncoderPTForceEvent> list = new List<EncoderPTForceEvent>();
 	//private double runEncoderPPS; //TODO: name it pps
-	private int bauds = 115200;
+	//private int bauds = 460800;
 	private string firmwareVersion;
 	private string portName;
 	private bool testing;
 
-	//constructor
+	// constructor for inheritance
+	public EncoderPTForceCapture ()
+	{
+	}
+
+	// constructor
 	public EncoderPTForceCapture (string portName, bool testing)//, double runEncoderPPS)
 	{
 		this.portName = portName;
@@ -51,6 +61,8 @@ public class EncoderPTForceCapture: ArduinoCapture
 		//this.runEncoderPPS = runEncoderPPS;
 
 		cancel = false;
+		startCaptureStr = "start_capture:";
+		bufferBinaryBytesToReadAtLeast = 12;
 
 		if (micro == null || micro.PortName != portName || micro.Bauds != bauds)
 			micro = new Micro (portName, bauds);
@@ -66,6 +78,8 @@ public class EncoderPTForceCapture: ArduinoCapture
 
 	public override bool CaptureStart()
 	{
+		receivedN = 0;
+
 		LogB.Information("CaptureStart, micro.Opened: " + micro.Opened);
 		// 0 connect if needed
 		List<string> responseExpected_l = new List<string>();
@@ -127,18 +141,12 @@ public class EncoderPTForceCapture: ArduinoCapture
 			return false;
 		}
 
-		if (testing && ! sendCommand ("start_capture_testing:", "Catched ForceEncoder capture_testing"))
+		if (! sendCommand (startCaptureStr, "Catched ForceEncoder capture"))
 		//if(! sendCommand ("start_simulation:", "Catched run encoder capturing"))
 		{
 			return false;
 		}
 		
-		if (! testing && ! sendCommand ("start_capture:", "Catched ForceEncoder capturing"))
-		//if(! sendCommand ("start_simulation:", "Catched run encoder capturing"))
-		{
-			return false;
-		}
-
 		responseExpected_l = new List<string>();
 		responseExpected_l.Add ("Starting capture");
 	
@@ -149,34 +157,19 @@ public class EncoderPTForceCapture: ArduinoCapture
 
 	public bool BytesToReadEnoughForASample ()
 	{
-		return micro.BytesToReadAtLeast (12);
+		return micro.BytesToReadAtLeast (bufferBinaryBytesToReadAtLeast);
 	}
 
 	public override bool CaptureSample ()
 	{
+		/*
 		if (testing)
 			return captureSampleTesting ();
 		else
 			return captureSampleNormal ();
-	}
-
-	//if true: continue capturing; if false: error, end
-	private bool captureSampleTesting ()
-	{
-		/*
-		 * if at CaptureStart device is disconnected,
-		 * micro gets closed there and here it shoud not readLine
-		 */
-		if (! micro.Opened)
-			return false;
-
-		if(! readBinarySampleTesting ())
-		{
-			micro.ClosePort ();
-			return false;
-		}
-
-		return true;
+			*/
+		//return captureSampleTestingText ();
+		return false;
 	}
 
 	private bool captureSampleNormal ()
@@ -188,16 +181,18 @@ public class EncoderPTForceCapture: ArduinoCapture
 		if (! micro.Opened)
 			return false;
 
+		/*
 		List<int> row_l;
-		if(! readBinarySample (out row_l))
+		//if(! readBinarySample (out row_l))
+		if(! readBinaryEncoderSample (out row_l))
 		{
 			micro.ClosePort ();
 			return false;
 		}
 
-		EncoderPTForceEvent eptfe = new EncoderPTForceEvent (row_l);
-		list.Add (eptfe);
-
+//		EncoderPTForceEvent eptfe = new EncoderPTForceEvent (row_l);
+//		list.Add (eptfe);
+		*/
 		return true;
 	}
 
@@ -256,65 +251,9 @@ public class EncoderPTForceCapture: ArduinoCapture
 		float data: 4 bytes encoder o galga
 		*/
 
-	private bool readBinarySampleTesting ()
-	{
-		micro.BufferInit ();
-		int bytesRead = 0;
-		try {
-			bytesRead = micro.ReadWithBuffer (0, 12);
-		}
-		catch (Exception ex)
-		{
-			if(ex is System.IO.IOException || ex is System.TimeoutException)
-				LogB.Information ("catched on readBinarySampleTesting port.Read ()");
-
-			return false;
-		}
-
-		LogB.Information("encoderPTCapture start reading binary data");
-		int b0, b1, b2, b3;
-		int count = 0;
-
-                b0 = micro.GetBufferAtPos (count ++);
-                b1 = micro.GetBufferAtPos (count ++);
-                b2 = micro.GetBufferAtPos (count ++);
-                b3 = micro.GetBufferAtPos (count ++);
-
-                LogB.Information (string.Format ("\n\n- readed: {0} {1} {2} {3}", b0, b1, b2, b3));
-		if (string.Format ("{0}{1}{2}{3}", b0, b1, b2, b3) != "1211109")
-		{
-			LogB.Information ("FAIL 1211109");
-			return false;
-		}
-
-                b0 = micro.GetBufferAtPos (count ++);
-                b1 = micro.GetBufferAtPos (count ++);
-                b2 = micro.GetBufferAtPos (count ++);
-                b3 = micro.GetBufferAtPos (count ++);
-
-                LogB.Information (string.Format ("\n\n- readed: {0} {1} {2} {3}", b0, b1, b2, b3));
-		if (string.Format ("{0}{1}{2}{3}", b0, b1, b2, b3) != "8765")
-		{
-			LogB.Information ("FAIL 8765");
-			return false;
-		}
-
-                b0 = micro.GetBufferAtPos (count ++);
-                b1 = micro.GetBufferAtPos (count ++);
-                b2 = micro.GetBufferAtPos (count ++);
-                b3 = micro.GetBufferAtPos (count ++);
-
-                LogB.Information (string.Format ("\n\n- readed: {0} {1} {2} {3}", b0, b1, b2, b3));
-		if (string.Format ("{0}{1}{2}{3}", b0, b1, b2, b3) != "4321")
-		{
-			LogB.Information ("FAIL 1234");
-			return false;
-		}
 
 
-		return true;
-	}
-	
+	/* TODO: Attention! time must be an uint	
 	private bool readBinarySample (out List<int> row_l)
 	{
 		//LogB.Information("readBinarySample start");
@@ -346,7 +285,7 @@ public class EncoderPTForceCapture: ArduinoCapture
 					Math.Pow(256,1) * b1 +
 					Math.Pow(256,0) * b0).ToString (), false))
 		{
-			LogB.Information (string.Format ("arrggggg sensor is not int: {0}",
+			LogB.Information (string.Format ("FAIL sensor is not int: {0}",
 						Math.Pow(256,3) * b3 + Math.Pow(256,2) * b2 +
 						Math.Pow(256,1) * b1 + Math.Pow(256,0) * b0));
 			return false;
@@ -358,7 +297,7 @@ public class EncoderPTForceCapture: ArduinoCapture
 					Math.Pow(256,0) * b0));
 		if (row_l[0] > 4)
 		{
-			LogB.Information (string.Format ("arrggggg row_l[0] > 4: {0}", row_l[0]));
+			LogB.Information (string.Format ("FAIL row_l[0] > 4: {0}", row_l[0]));
 			return false;
 		}
 
@@ -372,7 +311,7 @@ public class EncoderPTForceCapture: ArduinoCapture
 					Math.Pow(256,1) * b1 +
 					Math.Pow(256,0) * b0).ToString (), false))
 		{
-			LogB.Information (string.Format ("arrggggg time is not int: {0}",
+			LogB.Information (string.Format ("FAIL time is not int: {0}",
 						Math.Pow(256,3) * b3 + Math.Pow(256,2) * b2 +
 						Math.Pow(256,1) * b1 + Math.Pow(256,0) * b0));
 			return false;
@@ -393,7 +332,7 @@ public class EncoderPTForceCapture: ArduinoCapture
 					Math.Pow(256,1) * b1 +
 					Math.Pow(256,0) * b0).ToString ()))
 		{
-			LogB.Information (string.Format ("arrggggg data is not an uint: {0}",
+			LogB.Information (string.Format ("FAIL data is not an uint: {0}",
 						Math.Pow(256,3) * b3 + Math.Pow(256,2) * b2 +
 						Math.Pow(256,1) * b1 + Math.Pow(256,0) * b0));
 			return false;
@@ -419,6 +358,7 @@ public class EncoderPTForceCapture: ArduinoCapture
 		//LogB.Information("readBinarySample ending");
 		return true;
 	}
+	*/
 
 	public string PortName {
 		get { return portName; }

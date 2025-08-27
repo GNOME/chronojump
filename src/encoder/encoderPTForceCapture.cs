@@ -28,14 +28,21 @@ public partial class ChronoJumpWindow
 	EncoderPTForceCaptureManage eptfcm;
 	EncoderPTForceCapture eptfc;
 
+	private bool binaryBuffer = false;
+
 	private void encoderPTForceCaptureDo (string portName, string csvURL, bool testing, int seconds)
 	{
 		runEncoderPulseMessage = "Capture eptfc... please wait";
 		LogB.Information("eptfcm start");
 
+		binaryBuffer = true; //true on Binary methods below
 		if (eptfc == null) //|| eptfc.PortName != chronopicRegister.GetSelectedForMode (current_mode).Port)
-			eptfc = new EncoderPTForceCapture (
-					portName, testing);
+			//eptfc = new EncoderPTForceCapture (
+			eptfc = new EncoderPTForceCaptureTestsBinary12Num ( 		// works!
+//			eptfc = new EncoderPTForceCaptureTestsTextEncCountUp ( 		// works!
+//			eptfc = new EncoderPTForceCaptureTestsBinaryEncoder5Bytes ( 	// works!
+//			eptfc = new EncoderPTForceCaptureTestsBinaryEncoder8Bytes ( 	// works!
+					portName);//, testing);
 					//chronopicRegister.GetSelectedForMode (current_mode).Port,
 					//preferences.runEncoderPPS);
 		//else if (eptc.RunEncoderPPS != preferences.runEncoderPPS)
@@ -43,8 +50,9 @@ public partial class ChronoJumpWindow
 
 		//need to pass the ref every capture because every capture we do:
 		//cairo...Points_xx_l = new List<PointF> ()
+
 		eptfcm = new EncoderPTForceCaptureManage (
-				eptfc, csvURL, seconds);/*,
+				eptfc, csvURL, seconds, binaryBuffer);/*,
 				ref cairoGraphRaceAnalyzerPoints_dt_l,
 				ref cairoGraphRaceAnalyzerPoints_st_l,
 				ref cairoGraphRaceAnalyzerPoints_at_l
@@ -75,6 +83,7 @@ public class EncoderPTForceCaptureManage : EncoderPTCaptureManage
 	private EncoderPTForceCapture encoderPTForceCapture;
 	private string csvURL;
 	private int seconds;
+	private bool binaryBuffer;
 
 	/*
 	private double distance; //units?
@@ -84,12 +93,13 @@ public class EncoderPTForceCaptureManage : EncoderPTCaptureManage
 	*/
 
 	public EncoderPTForceCaptureManage (
-			EncoderPTForceCapture encoderPTForceCapture, string csvURL, int seconds)//,
+			EncoderPTForceCapture encoderPTForceCapture, string csvURL, int seconds, bool binaryBuffer)//,
 			//ref List<PointF> points_dt_l, ref List<PointF> points_st_l, ref List<PointF> points_at_l)
 	{
 		this.encoderPTForceCapture = encoderPTForceCapture;
 		this.csvURL = csvURL;
 		this.seconds = seconds;
+		this.binaryBuffer = binaryBuffer;
 		/*
 		this.points_dt_l = points_dt_l;
 		this.points_st_l = points_st_l;
@@ -118,12 +128,13 @@ public class EncoderPTForceCaptureManage : EncoderPTCaptureManage
 		bool speedPreSet = false;
 
 		TextWriter writer = File.CreateText (csvURL);
+		writer.WriteLine ("sensor;time;value");
 
 		Stopwatch stopwatch = new Stopwatch ();
 		stopwatch.Start ();
 		while (! finish && ! cancel && ! error && stopwatch.Elapsed.TotalSeconds < seconds)
 		{
-			if(! encoderPTForceCapture.BytesToReadEnoughForASample ())
+			if (binaryBuffer && ! encoderPTForceCapture.BytesToReadEnoughForASample ())
 				continue;
 
 			//LogB.Information ("YESREAD");

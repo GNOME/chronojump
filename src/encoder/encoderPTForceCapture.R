@@ -1,4 +1,5 @@
-d <- read.csv2("/tmp/forceEncoder.csv")
+#d <- read.csv2("/tmp/forceEncoder.csv")
+d <- read.csv2("/tmp/forceEncoderPPS1.csv")
 
 #force sensor
 dForce <- d[which(d$sensor==2),]
@@ -56,7 +57,22 @@ for (i in seq(1, length(d), by = chunk_size))
 
 # Print the chunks
 #print(chunks)
-head(unlist(chunks4Values))
+head(unlist(chunks4Values), n=1000)
+
+#convert to a matrix of 12 columns to see better:
+ length(d)
+[1] 82544
+
+length(d)/12
+[1] 6878.667
+
+# create dFixed as cutted d to be able to convert to a matrix
+dFixed <- d[1:(12 * floor(length(d)/12))]
+
+m <- matrix (dFixed, ncol=12, byrow=T)
+
+head(m, n=500)
+
 
 #for (i in 1:length(chunks))
 #for (i in 1:200)

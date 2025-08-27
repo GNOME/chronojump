@@ -572,6 +572,8 @@ void writeCaptureHeaders()
   //binary mode
   // take care with this buffer implementation that at end of capture we may have not have 50 samples to be printed.
   // at the end we will need to print all binFileBuffer (even sampleNum is < 50)
+  // also at each capture binFileBuffer is not emptied and sampleNum is not 0. So first data of 2nd capture will be related to first capture
+
   void saveEncoderSpeed()
   {
     // Serial.println("<saveEncoderSpeed");

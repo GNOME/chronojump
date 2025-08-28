@@ -169,7 +169,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.65";
+	static string lastChronojumpDatabaseVersion = "2.66";
 
 	public Sqlite()
 	{
@@ -3674,6 +3674,20 @@ class Sqlite
 
 			currentVersion = updateVersion("2.65");
 		}
+		if(currentVersion == "2.65")
+		{
+			// maybe because there are some related migrations, an user had crash with 2.5.2 because 2.5.2 want to select these variables as double and they are blank on some rows that user
+			LogB.SQL("Ensure maxForceRaw, maxAvgForce1s are -1 instead of blank");
+			try {
+				executeSQL ("UPDATE forceSensor SET maxForceRaw = -1 WHERE maxForceRaw IS NULL OR maxForceRaw = ''");
+				executeSQL ("UPDATE forceSensor SET maxAvgForce1s = -1 WHERE maxAvgForce1s IS NULL OR maxAvgForce1s = ''");
+			} catch {
+				LogB.SQL("Catched at Ensure maxForceRaw, maxAvgForce1s are -1 instead of blank");
+			}
+			LogB.SQL("Done!");
+
+			currentVersion = updateVersion("2.66");
+		}
 
 
 		/*
@@ -3919,6 +3933,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.65 - 2.66 Converted DB to 2.66 Ensure maxForceRaw, maxAvgForce1s are -1 instead of blank
 		//2.64 - 2.65 Converted DB to 2.65 Deleted orphaned encoder
 		//2.63 - 2.64 Converted DB to 2.64 alter table tempJumpRj adding heightAvg
 		//2.62 - 2.63 Converted DB to 2.63 alter table encoder add maxPower, maxSpeed, maxForce, rangeAbs

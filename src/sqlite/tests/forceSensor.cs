@@ -76,8 +76,8 @@ class SqliteForceSensor : SqliteTests
             "videoURL TEXT, " + //URL of video of signals. stored as relative
             "stiffness FLOAT DEFAULT -1, " +    //this is the important, next one is needed for recalculate, but note that some bands can have changed or being deleted
             "stiffnessString TEXT, " + //uniqueID*active of ElasticBand separated by ';' or empty if exerciseID ! elastic
-            "maxForceRaw FLOAT, " +
-            "maxAvgForce1s FLOAT)";
+            "maxForceRaw FLOAT DEFAULT -1, " +
+            "maxAvgForce1s FLOAT DEFAULT -1)";
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
     }
@@ -393,8 +393,8 @@ class SqliteForceSensor : SqliteTests
             "videoURL TEXT, " + //URL of video of signals. stored as relative
             "stiffness FLOAT DEFAULT -1, " +    //this is the important, next one is needed for recalculate, but note that some bands can have changed or being deleted
             "stiffnessString TEXT, " + //uniqueID*active of ElasticBand separated by ';' or empty if exerciseID ! elastic
-            "maxForceRaw FLOAT, " +
-            "maxAvgForce1s FLOAT)";
+            "maxForceRaw FLOAT DEFAULT -1, " +
+            "maxAvgForce1s FLOAT DEFAULT -1)";
         LogB.SQL(mycmd.CommandText.ToString());
         mycmd.ExecuteNonQuery();
     }

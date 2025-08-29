@@ -31,8 +31,6 @@ public abstract class EncoderPTForceCaptureTests: EncoderPTForceCapture
 		if (! micro.Opened)
 			return false;
 
-		captureTestInit ();
-
 		if(! readSample ())
 		{
 			micro.ClosePort ();
@@ -40,10 +38,6 @@ public abstract class EncoderPTForceCaptureTests: EncoderPTForceCapture
 		}
 
 		return true;
-	}
-
-	protected virtual void captureTestInit ()
-	{
 	}
 
 	protected abstract bool readSample ();
@@ -70,8 +64,7 @@ public class EncoderPTForceCaptureTestsBinary12Num: EncoderPTForceCaptureTests
 		micro.BufferInit ();
 		int bytesRead = 0;
 		try {
-			//bytesRead = micro.ReadWithBuffer (0, 12);
-			bytesRead = micro.ReadWithBuffer (0, 12);
+			bytesRead = micro.ReadWithBuffer (0, 12); //is this 12 bytes buffer read useful at all?
 		}
 		catch (Exception ex)
 		{
@@ -142,29 +135,46 @@ public class EncoderPTForceCaptureTestsTextEncCountUp: EncoderPTForceCaptureTest
 			micro = new Micro (portName, bauds);
 
 		Reset ();
-	}
-	
-	protected override void captureTestInit ()
-	{
+
+		micro.BufferInit ();
+		bufferRemainingStr = "";
 		debugTextCount = -1; //count it does not start at 0, as maybe we will start receiving when Arduino has sended lot of info
 	}
 
 	protected override bool readSample ()
 	{
-		micro.BufferInit ();
-		int bytesRead = 0;
-		string s = "";
-		try {
-			s = micro.ReadLine();
-		}
-		catch (Exception ex)
+		int bytesRead = micro.ReadWithBuffer (0, -1);
+
+		//string s = "";
+		string s = bufferRemainingStr;
+		LogB.Information (string.Format ("s before for:|{0}|", s));
+		for (int i = 0; i < bytesRead; i ++)
 		{
-			if(ex is System.IO.IOException || ex is System.TimeoutException)
-				LogB.Information ("catched on readBinarySampleTesting port.Read ()");
-
-			return false;
+			int c = micro.GetBufferAtPos (i);
+			if (c == 59)
+				s += ";";
+			else if (c == 10 || c == 13) // 10: line feed; 13: carriage return
+			{
+				if (s != "") //to not show empty sample when linefeed & carriage return
+				{
+					//LogB.Information ("sample: " + s);
+					if (! processSample (s))
+						return false;
+				}
+				s = "";
+			} else
+				s += micro.GetBufferAtPos (i) - '0';
 		}
+		bufferRemainingStr = s;
 
+		LogB.Information (string.Format ("bufferRemainingStr:|{0}|", bufferRemainingStr));
+		return true;
+	}
+
+	string bufferRemainingStr; //to store chars not processed, part of the next sample that will be readed on next ReadWithBuffer
+
+	private bool processSample (string s)
+	{
 		string [] sFull = s.Split(new char[] {';'});
 		if (sFull.Length != 2)
 		{
@@ -216,7 +226,7 @@ public class EncoderPTForceCaptureTestsBinaryEncoder5Bytes: EncoderPTForceCaptur
 		micro.BufferInit ();
 		int bytesRead = 0;
 		try {
-			bytesRead = micro.ReadWithBuffer (0, 5);
+			bytesRead = micro.ReadWithBuffer (0, 5); //is this 5 bytes buffer read useful at all?
 		}
 		catch (Exception ex)
 		{
@@ -300,7 +310,7 @@ public class EncoderPTForceCaptureTestsBinaryEncoder8Bytes: EncoderPTForceCaptur
 		micro.BufferInit ();
 		int bytesRead = 0;
 		try {
-			bytesRead = micro.ReadWithBuffer (0, 8);
+			bytesRead = micro.ReadWithBuffer (0, 8); //is this 8 bytes buffer read useful at all?
 		}
 		catch (Exception ex)
 		{

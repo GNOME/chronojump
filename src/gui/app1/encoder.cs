@@ -174,6 +174,7 @@ public partial class ChronoJumpWindow
 	Gtk.CheckButton check_encoder_analyze_show_time_to_peak_power;
 	Gtk.CheckButton check_encoder_analyze_show_range;
 
+	Gtk.HBox hbox_encoder_analyze_individual_groupwise;
 	Gtk.HBox hbox_encoder_analyze_instantaneous;
 	Gtk.CheckButton check_encoder_analyze_show_position;
 	Gtk.CheckButton check_encoder_analyze_show_speed;
@@ -4534,6 +4535,7 @@ public partial class ChronoJumpWindow
 	{
 		frame_encoder_analyze_options.Visible = ! s;
 
+		hbox_encoder_analyze_individual_groupwise.Sensitive = s;
 		grid_encoder_analyze_options.Sensitive = s;
 		frame_persons.Sensitive = s;
 		menus_and_mode_sensitive(s);
@@ -7097,6 +7099,7 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_show_time_to_peak_power = (Gtk.CheckButton) builder.GetObject ("check_encoder_analyze_show_time_to_peak_power");
 		check_encoder_analyze_show_range = (Gtk.CheckButton) builder.GetObject ("check_encoder_analyze_show_range");
 
+		hbox_encoder_analyze_individual_groupwise = (Gtk.HBox) builder.GetObject ("hbox_encoder_analyze_individual_groupwise");
 		hbox_encoder_analyze_instantaneous = (Gtk.HBox) builder.GetObject ("hbox_encoder_analyze_instantaneous");
 		check_encoder_analyze_show_position = (Gtk.CheckButton) builder.GetObject ("check_encoder_analyze_show_position");
 		check_encoder_analyze_show_speed = (Gtk.CheckButton) builder.GetObject ("check_encoder_analyze_show_speed");

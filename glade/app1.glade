@@ -28363,6 +28363,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -38646,7 +38649,7 @@ Concentric</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">8</property>
                                                             <child>
-                                                            <object class="GtkHBox" id="hbox56">
+                                                            <object class="GtkHBox" id="hbox_encoder_analyze_individual_groupwise">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">12</property>

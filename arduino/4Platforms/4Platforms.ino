@@ -80,8 +80,8 @@ void debounce(int i)
 void setup() {
   Serial.begin(115200);
 
-  pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, HIGH);
+  // pinMode(LED_BUILTIN, OUTPUT);
+  // digitalWrite(LED_BUILTIN, HIGH);
   delay(100);
   Serial.println(version);
 
@@ -106,7 +106,7 @@ void setup() {
     lastSensorState[i] = sensorState[i];
   }
 
-  digitalWrite(LED_BUILTIN, lastSensorState[1]);
+  // digitalWrite(LED_BUILTIN, lastSensorState[1]);
 
   //Configuring the timer for debouncing
   configDebounceTimers(debounceTime);
@@ -122,7 +122,7 @@ void loop() {
     if (sensorChange[i]) {
       Serial.print(i);
       Serial.print(":");
-      digitalWrite(LED_BUILTIN, sensorState[i]);
+      // digitalWrite(LED_BUILTIN, sensorState[i]);
 
       //save the stable state as the true one as it has survived the debounce process
       lastSensorState[i] = sensorState[i];
@@ -220,15 +220,15 @@ void configDebounceTimers() { configDebounceTimers(debounceTime); }
 void configDebounceTimers(unsigned int value) {
   for(int i= 0; i<=3; i++)
   {
-    debounceTimer[i] = timerBegin(i, 80, true); // Timer0, clock divider 80
+    debounceTimer[i] = timerBegin(1000000); // Timer0, clock divider 80
   }
 
   setDebounceTime(value);
 
-  timerAttachInterrupt(debounceTimer[0], &FLdebounce, true);
-  timerAttachInterrupt(debounceTimer[1], &FRdebounce, true);
-  timerAttachInterrupt(debounceTimer[2], &BLdebounce, true);
-  timerAttachInterrupt(debounceTimer[3], &BRdebounce, true);
+  timerAttachInterrupt(debounceTimer[0], &FLdebounce);
+  timerAttachInterrupt(debounceTimer[1], &FRdebounce);
+  timerAttachInterrupt(debounceTimer[2], &BLdebounce);
+  timerAttachInterrupt(debounceTimer[3], &BRdebounce);
 
 }
 
@@ -236,8 +236,7 @@ void setDebounceTime(unsigned int value) {
 
   for(int i= 0; i<=3; i++)
   {
-    timerAlarmWrite(debounceTimer[i], value, true);
-    timerAlarmEnable(debounceTimer[i]); // Habilitar la alarma
+    timerAlarm(debounceTimer[i], value, true,0);
     timerStop(debounceTimer[i]);
   }
   Serial.print("Debounce set to: ");

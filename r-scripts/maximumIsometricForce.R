@@ -138,7 +138,10 @@ getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex
 					inputFile, decimalChar, averageLength = 0.1, percentChange = 5, testLength = -1, startSample, endSample)
 {
     print("Entered getDynamicsFromLoadCellFile")
-    sdMethod = FALSE
+
+
+    sdMethod = FALSE # Caution: if this is TRUE please fix startSample on getStartSampleBySDMethod () see TODO there
+
     
     originalTest = read.csv(inputFile, header = F, dec = decimalChar, sep = ";", skip = 2)
     colnames(originalTest) <- c("time", "force")
@@ -156,15 +159,18 @@ getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex
     print(paste("endSample: ", endSample))
     
     # The onset of the test is calculated with the SD method
-    sdStartSample = getStartSampleBySDMethod(originalTest, rfd, threashold = 5)
-    sdEndTime = originalTest$time[sdStartSample] + testLength
-    sdEndSample = which.min(abs(originalTest$time - sdEndTime) )
-    model2 = getForceModel(  time = originalTest$time[sdStartSample:sdEndSample]
-                             , force = originalTest$force[sdStartSample:sdEndSample]
-                             , startTime = originalTest$time[sdStartSample]
-                             , fmaxi = max(originalTest$force[sdStartSample:sdEndSample])
-                             , previousForce = originalTest$force[2]
-                             , timeShift = FALSE)
+    if (sdMethod)
+    {
+	    sdStartSample = getStartSampleBySDMethod(originalTest, rfd, threashold = 5)
+	    sdEndTime = originalTest$time[sdStartSample] + testLength
+	    sdEndSample = which.min(abs(originalTest$time - sdEndTime) )
+	    model2 = getForceModel(  time = originalTest$time[sdStartSample:sdEndSample]
+				   , force = originalTest$force[sdStartSample:sdEndSample]
+				   , startTime = originalTest$time[sdStartSample]
+				   , fmaxi = max(originalTest$force[sdStartSample:sdEndSample])
+				   , previousForce = originalTest$force[2]
+				   , timeShift = FALSE)
+    }
 
     #If Roptions.txt does have endSample values greater than 1 it means that the user has selected a range
     if( startSample != endSample  & (endSample > 1) & startSample <= length(originalTest$time) & endSample <= length(originalTest$time))
@@ -203,12 +209,15 @@ getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex
         # print(paste("startSample:", startSample, "startTime:", startTime) )
         # print( paste("endSample:", endSample, "endTime:", endTime) )
         print( paste("fmax:", model$fmax, " K:", model$K, "error:",  mean(abs(model$error[!is.nan(model$error)]))) )
-        print("---SD method:")
-        # print( paste("startSample:", sdStartSample) )
-        # print(paste("startTime:", originalTest$time[sdStartSample]) )
-        # print(paste("endSample:", sdEndSample))
-        # print(paste( "End time:", sdEndTime))
-        print( paste("fmax:",model2$fmax, " K:", model2$K, "error:",  mean(abs(model2$error[!is.nan(model2$error)]))) )
+	if (sdMethod)
+	{
+		print("---SD method:")
+		# print( paste("startSample:", sdStartSample) )
+		# print(paste("startTime:", originalTest$time[sdStartSample]) )
+		# print(paste("endSample:", sdEndSample))
+		# print(paste( "End time:", sdEndTime))
+		print( paste("fmax:",model2$fmax, " K:", model2$K, "error:",  mean(abs(model2$error[!is.nan(model2$error)]))) )
+	}
 
         #For tesing the SD method. Analysis is made with the parematers found in the SD method
         if (sdMethod)
@@ -865,6 +874,13 @@ getAvgRfdXSeconds <-function(dynamics, window)
 
 getStartSampleBySDMethod <- function(test, rfd, threashold = 5)
 {
+ 
+    # ----------
+    # TODO:
+    # fix startSample. Is not defined if do not enter to the while and the if. So will fail on
+    # currentSample = startSample - 1
+    # ----------
+
     print("On getStartSampleBySDMethod")
     # The onset is always before the maximum force
     maxSample = which.max(test$force)

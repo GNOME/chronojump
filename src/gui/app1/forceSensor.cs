@@ -2840,7 +2840,7 @@ LogB.Information(" fs R ");
 				Util.CSVDecimalColumnIsPoint(UtilEncoder.GetmifCSVFileName(), 1), 	//decimalIsPointAtFile (read)
 				preferences.CSVExportDecimalSeparatorChar, 				//decimalIsPointAtExport (write)
 				new ForceSensorGraphAB (
-					getForceSensorCaptureOptionsFromMainGui(),
+					currentForceSensor.CaptureOption,
 					sampleA, sampleB,
 					title, exercise,
 					currentForceSensorExercise.PercentBodyWeightForR,

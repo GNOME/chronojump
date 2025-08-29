@@ -777,9 +777,13 @@ drawDynamicsFromLoadCell <- function(title, exercise, ex_percentBodyWeight, pers
     }
     
     legendText = c(legendText, paste("MeanError = ", round(dynamics$meanError, digits = 2), "%", sep =""))
-    if (dynamics$meanError >= 5){
+    if (dynamics$meanError >= 5)
+    {
         legendColor = c(legendColor, "red")
-        text(x = xmax, y = dynamics$fmax.fitted*0.01, labels = "The mean error is larger than 5%. Possible bad execution", col = "red", pos = 2)
+    	meanErrorStr = "The mean error is larger than 5%. Possible bad execution"
+	if (op$startEndOptimized == "FALSE")
+		meanErrorStr = paste (meanErrorStr, ". We recommend the option: 'Search best start/end inside AB range'.", sep = "")
+        mtext (meanErrorStr, side=1, at=(xmin+xmax)/2, col="red", line=.5)
     } else {
         legendColor = c(legendColor, "grey40")
     }

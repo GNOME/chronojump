@@ -168,27 +168,27 @@ float scaled_data = 0;
 float weight = 0.0;
 
 //The value of the readed force
-float force = 0.0;
+volatile float force = 0.0;
 int forceInt = 0;  //send to Chronojump
 
-unsigned long forceTime = 0;
+volatile unsigned long forceTime = 0;
 
-bool adcFlag = false;
+volatile bool adcFlag = false;
 
 // Encoder stuff
 #define EncoderAPin 9
 #define EncoderBPin 8
 #define EncoderZPin 7
-bool encoderFlag = false;
-bool flagZ = false;
-int currentPosition = 0;
-int lastPosition = 0;
-unsigned long encoderTime = 0;
+volatile bool encoderFlag = false;
+volatile bool flagZ = false;
+volatile int currentPosition = 0;
+volatile int lastPosition = 0;
+volatile unsigned long encoderTime = 0;
 //unsigned int pps = 1; // movent lentament funciona. Movent ràpid falla, encara que no s'envii la Z
 //unsigned int pps = 2; // també falla
 //unsigned int pps = 5; // funciona perfecte movent rapid la rodeta d'encoder (tant moserial com a chronojump)
 unsigned int pps = 1;
-int debugCount = 0;
+volatile int debugCount = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -209,10 +209,9 @@ void setup() {
 
   // attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
   initializeBLE();
-  adcTimer = timerBegin(1, 80, true);
-  timerAlarmWrite(adcTimer, adcPeriod, true);
-  timerAlarmEnable(adcTimer);
-  timerAttachInterrupt(adcTimer, &readADC, true);
+  adcTimer = timerBegin(1000000); // Number of increments of the counter per second. 1E6 -> microseconds
+  timerAlarm(adcTimer, adcPeriod, true,0);
+  timerAttachInterrupt(adcTimer, &readADC);
 }
 
 void loop() {

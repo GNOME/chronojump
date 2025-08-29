@@ -26,16 +26,22 @@ using System.Diagnostics; //Stopwatch
 public partial class ChronoJumpWindow
 {
 	EncoderPTForceCaptureManage eptfcm;
+
+	//passed variables
 	EncoderPTForceCapture eptfc;
+	private bool binaryBuffer;
 
-	private bool binaryBuffer = false;
-
-	private void encoderPTForceCaptureDo (string portName, string csvURL, bool testing, int seconds)
+	private void encoderPTForceCaptureDo (
+			EncoderPTForceCapture eptfc, bool binary,
+			string csvURL, bool testing, int seconds)
 	{
-		runEncoderPulseMessage = "Capture eptfc... please wait";
+		this.eptfc = eptfc;
+		this.binaryBuffer = binaryBuffer;
+
+		//runEncoderPulseMessage = "Capture eptfc... please wait";
 		LogB.Information("eptfcm start");
 
-		binaryBuffer = true; //true on Binary methods below
+		/*
 		if (eptfc == null) //|| eptfc.PortName != chronopicRegister.GetSelectedForMode (current_mode).Port)
 			//eptfc = new EncoderPTForceCapture (
 //			eptfc = new EncoderPTForceCaptureTestsBinary12Num ( 		// works!
@@ -45,6 +51,7 @@ public partial class ChronoJumpWindow
 					portName);//, testing);
 					//chronopicRegister.GetSelectedForMode (current_mode).Port,
 					//preferences.runEncoderPPS);
+		*/
 		//else if (eptc.RunEncoderPPS != preferences.runEncoderPPS)
 		//	eptc.RunEncoderPPS = preferences.runEncoderPPS;
 

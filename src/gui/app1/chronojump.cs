@@ -1402,22 +1402,28 @@ public partial class ChronoJumpWindow
 		on_quit2_activate ();
 		*/
 
-        //UtilList.ListRandomize1stAndThenSequentialTest ();
-        //PointF.TestSortListXDescending ();
+		//UtilList.ListRandomize1stAndThenSequentialTest ();
+		//PointF.TestSortListXDescending ();
 
-        /*
-		SqliteEncoder se = new SqliteEncoder ();
-		se.TestSelectSetsAndRepsLList (false, -1, 283, Constants.EncoderGI.GRAVITATORY, -1, -1);
+		/*
+		   SqliteEncoder se = new SqliteEncoder ();
+		   se.TestSelectSetsAndRepsLList (false, -1, 283, Constants.EncoderGI.GRAVITATORY, -1, -1);
+		   */
+
+		/*
+		 * If comment this again, remember to uncomment the BluetoothLE.Stop at: on_quit2_activate ()
+		 *
+		//Subscribe to BluetoothLE data changed event
+		BluetoothLE.OnDataChanged += BluetoothLE_OnDataChanged;
+		//Start BluetoothLE service
+		BluetoothLE.Start();
 		*/
 
-	/*
-	 * If comment this again, remember to uncomment the BluetoothLE.Stop at: on_quit2_activate ()
-	 *
-        //Subscribe to BluetoothLE data changed event
-        BluetoothLE.OnDataChanged += BluetoothLE_OnDataChanged;
-        //Start BluetoothLE service
-        BluetoothLE.Start();
-	*/
+		/*
+		encoderPTForceCaptureDo (
+				new EncoderPTForceCaptureTestsTextEncCountUp ("/dev/ttyACM4"), false, //eptfc (port), binaryBuffer
+				"/tmp/forceEncoderPPS1.csv", false, 10); // csvFile, testing, seconds
+				*/
     }
 
     /// <summary>

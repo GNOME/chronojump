@@ -75,9 +75,20 @@ public class Micro
 		return (port.BytesToRead > 0);
 	}
 
+	// just to debug
+	public int NumBytesToRead ()
+	{
+		return (port.BytesToRead);
+	}
+
 	public bool BytesToReadAtLeast (int n)
 	{
 		return (port.BytesToRead >= n);
+		/*
+		int toRead = port.BytesToRead;
+		LogB.Information ("port.BytesToRead: " + toRead.ToString ());
+		return (toRead >= n);
+		*/
 	}
 
 	//used on Chronopic
@@ -90,6 +101,9 @@ public class Micro
 	public void BufferInit ()
 	{
 		buffer = new byte[1024];
+		//buffer = new byte[8192];
+		//buffer = new byte[32768];
+		//buffer = new byte[12];
 	}
 	public int ReadWithBuffer (int start, int end)
 	{

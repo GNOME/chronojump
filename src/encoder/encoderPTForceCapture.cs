@@ -38,8 +38,8 @@ public partial class ChronoJumpWindow
 		binaryBuffer = true; //true on Binary methods below
 		if (eptfc == null) //|| eptfc.PortName != chronopicRegister.GetSelectedForMode (current_mode).Port)
 			//eptfc = new EncoderPTForceCapture (
-			eptfc = new EncoderPTForceCaptureTestsBinary12Num ( 		// works!
-//			eptfc = new EncoderPTForceCaptureTestsTextEncCountUp ( 		// works!
+//			eptfc = new EncoderPTForceCaptureTestsBinary12Num ( 		// works!
+			eptfc = new EncoderPTForceCaptureTestsTextEncCountUp ( 		// works!
 //			eptfc = new EncoderPTForceCaptureTestsBinaryEncoder5Bytes ( 	// works!
 //			eptfc = new EncoderPTForceCaptureTestsBinaryEncoder8Bytes ( 	// works!
 					portName);//, testing);

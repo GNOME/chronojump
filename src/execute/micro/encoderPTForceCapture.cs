@@ -122,9 +122,9 @@ public class EncoderPTForceCapture: ArduinoCapture
 			LogB.Information ("Error at receive pps set to");
 			return false;
 		}
+		//LogB.Information ("pps set to |" + micro.Response + "|");
 		*/
 
-		LogB.Information ("pps set to |" + micro.Response + "|");
 
 		//LogB.Information(string.Format("arduinoCapture portName: {0}, bauds: {1}", portName, bauds));
 
@@ -158,6 +158,11 @@ public class EncoderPTForceCapture: ArduinoCapture
 	public bool BytesToReadEnoughForASample ()
 	{
 		return micro.BytesToReadAtLeast (bufferBinaryBytesToReadAtLeast);
+	}
+	// just to debug
+	public int NumBytesToRead ()
+	{
+		return micro.NumBytesToRead ();
 	}
 
 	public override bool CaptureSample ()

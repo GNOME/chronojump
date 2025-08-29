@@ -24,10 +24,9 @@ void setup()
   Serial.flush();
   delay(100);
   //Serial.println("Inici");
-  timerA = timerBegin(1, 80, true);
-  timerAlarmWrite(timerA, 1E6 / (freq), true);     // Each cycle the pin must change twice: Period [microseconds] = 2 * 1E6 [us / s] / freq [Khz]
-  timerAlarmEnable(timerA);
-  timerAttachInterrupt(timerA, &changedA, true);
+  timerA = timerBegin(1000000); // Number of increments of the counter per second. 1E6 -> microseconds
+  timerAlarm(timerA, 1E6 / (freq), true, 0);     // Each cycle the pin must change twice: Period [microseconds] = 2 * 1E6 [us / s] / freq [Khz]
+  timerAttachInterrupt(timerA, &changedA);
   timerStop(timerA);
 }
 

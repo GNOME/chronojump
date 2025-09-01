@@ -178,7 +178,7 @@ public partial class ChronoJumpWindow
 			// 1) Sqlite changes
 			Sqlite.Open(); // ---->
 
-			SqlitePreferences.Update(SqlitePreferences.BackupScheduledCreatedDateStr, UtilDate.ToSql(DateTime.Now), true);
+			SqlitePreferences.Update(SqlitePreferences.BackupScheduledCreatedDateStr, UtilDate.ToDateSQL(DateTime.Now), true);
 			SqlitePreferences.Update(SqlitePreferences.BackupScheduledNextDaysStr, days.ToString(), true);
 
 			Sqlite.Close(); // <----
@@ -329,8 +329,8 @@ public partial class ChronoJumpWindow
 
 			DateTime nowDT = DateTime.Now;
 			SqlitePreferences.Update(SqlitePreferences.LastBackupDirStr, app1s_parentCopy, true);
-			SqlitePreferences.Update(SqlitePreferences.LastBackupDatetimeStr, UtilDate.ToSql(nowDT), true);
-			SqlitePreferences.Update(SqlitePreferences.BackupScheduledCreatedDateStr, UtilDate.ToSql(nowDT), true);
+			SqlitePreferences.Update(SqlitePreferences.LastBackupDatetimeStr, UtilDate.ToDateSQL(nowDT), true);
+			SqlitePreferences.Update(SqlitePreferences.BackupScheduledCreatedDateStr, UtilDate.ToDateSQL(nowDT), true);
 
 			Sqlite.Close(); // <----
 

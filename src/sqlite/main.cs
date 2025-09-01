@@ -3133,8 +3133,8 @@ class Sqlite
 			LogB.SQL("Inserted lastBackupDir, lastBackupDatetime, backupScheduledCreatedDate, backupScheduledNextDays");
 
 			SqlitePreferences.Insert (SqlitePreferences.LastBackupDirStr, "");
-			SqlitePreferences.Insert (SqlitePreferences.LastBackupDatetimeStr, UtilDate.ToSql(DateTime.MinValue));
-			SqlitePreferences.Insert (SqlitePreferences.BackupScheduledCreatedDateStr, UtilDate.ToSql(DateTime.MinValue));
+			SqlitePreferences.Insert (SqlitePreferences.LastBackupDatetimeStr, UtilDate.ToDateSQL(DateTime.MinValue));
+			SqlitePreferences.Insert (SqlitePreferences.BackupScheduledCreatedDateStr, UtilDate.ToDateSQL(DateTime.MinValue));
 			SqlitePreferences.Insert (SqlitePreferences.BackupScheduledNextDaysStr, "30");
 
 			currentVersion = updateVersion("2.27");
@@ -4532,8 +4532,8 @@ class Sqlite
 		conversionSubRate = 1;
 		foreach(string str in myArray) {
 			string [] id_date = str.Split(new char[] {':'});
-			DateTime dt = UtilDate.FromSql(id_date[1]);
-			dbcmd.CommandText = "UPDATE person set dateBorn = '" + UtilDate.ToSql(dt) +
+			DateTime dt = UtilDate.FromSQL(id_date[1]);
+			dbcmd.CommandText = "UPDATE person set dateBorn = '" + UtilDate.ToDateSQL(dt) +
 				"' WHERE uniqueID = " + id_date[0];
 			LogB.SQL(dbcmd.CommandText.ToString());
 			dbcmd.ExecuteNonQuery();
@@ -4560,8 +4560,8 @@ class Sqlite
 		conversionSubRate = 1;
 		foreach(string str in myArray) {
 			string [] id_date = str.Split(new char[] {':'});
-			DateTime dt = UtilDate.FromSql(id_date[1]);
-			dbcmd.CommandText = "UPDATE session set date = '" + UtilDate.ToSql(dt) +
+			DateTime dt = UtilDate.FromSQL(id_date[1]);
+			dbcmd.CommandText = "UPDATE session set date = '" + UtilDate.ToDateSQL(dt) +
 				"' WHERE uniqueID = " + id_date[0];
 			LogB.SQL(dbcmd.CommandText.ToString());
 			dbcmd.ExecuteNonQuery();
@@ -4588,8 +4588,8 @@ class Sqlite
 		conversionSubRate = 1;
 		foreach(string str in myArray) {
 			string [] id_date = str.Split(new char[] {':'});
-			DateTime dt = UtilDate.FromSql(id_date[1]);
-			dbcmd.CommandText = "UPDATE SEvaluator set dateBorn = '" + UtilDate.ToSql(dt) +
+			DateTime dt = UtilDate.FromSQL(id_date[1]);
+			dbcmd.CommandText = "UPDATE SEvaluator set dateBorn = '" + UtilDate.ToDateSQL(dt) +
 				"' WHERE uniqueID = " + id_date[0];
 			LogB.SQL(dbcmd.CommandText.ToString());
 			dbcmd.ExecuteNonQuery();

@@ -70,7 +70,7 @@ class SqliteSessionOld : Sqlite
         while (reader.Read())
         {
             Session mySession = new Session(reader[0].ToString(), reader[1].ToString(),
-                    reader[2].ToString(), UtilDate.FromSql(reader[3].ToString()),
+                    reader[2].ToString(), UtilDate.FromSQL(reader[3].ToString()),
                     1, //sport undefined
                     -1, //speciallity undefined
                     -1, //practice level undefined
@@ -83,7 +83,7 @@ class SqliteSessionOld : Sqlite
 
         foreach (Session mySession in myArray)
             InsertOld(true, Constants.ConvertTempTable,
-                mySession.Name, mySession.Place, UtilDate.ToSql(mySession.Date),
+                mySession.Name, mySession.Place, UtilDate.ToDateSQL (mySession.Date),
                 mySession.PersonsSportID, mySession.PersonsSpeciallityID, mySession.PersonsPractice, mySession.Comments);
 
         //3rd drop table sessions
@@ -96,7 +96,7 @@ class SqliteSessionOld : Sqlite
         //5th insert data in sessions (with sport related stuff)
         foreach (Session mySession in myArray)
             InsertOld(true, Constants.SessionTable,
-                mySession.Name, mySession.Place, UtilDate.ToSql(mySession.Date),
+                mySession.Name, mySession.Place, UtilDate.ToDateSQL (mySession.Date),
                 mySession.PersonsSportID, mySession.PersonsSpeciallityID, mySession.PersonsPractice, mySession.Comments);
 
 

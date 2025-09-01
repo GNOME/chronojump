@@ -29,7 +29,7 @@ public class UtilDate
 	//comes datetime
 	//insert in sql like YYYY-MM-DD (with always all digits)
 	//we use Year, Month and Day for not having any problem with locale
-	public static string ToSql (DateTime dt)
+	public static string ToDateSQL (DateTime dt)
 	{
 		return UtilAll.DigitsCreate(dt.Year,4) + "-" + 
 			UtilAll.DigitsCreate(dt.Month,2) + "-" + 
@@ -90,9 +90,9 @@ public class UtilDate
 
 	//comes from sql like YYYY-MM-DD (with always all digits)
 	//return datetime
-	public static DateTime FromSql (string date)
+	public static DateTime FromSQL (string date)
 	{
-		//LogB.Information("UtilDate.FromSql date: " + date);
+		//LogB.Information("UtilDate.FromSQL date: " + date);
 		/*
 		   on report we do a session select with uniqueID = -1
 		   it returns nothing, date has nothing

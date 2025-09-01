@@ -87,7 +87,7 @@ class SqliteServer : Sqlite
 			" (uniqueID, evaluatorID, cjVersion, osVersion, IP, date) VALUES (" + 
 			uniqueID + ", " + evaluatorID + ", '" + 
 			cjVersion + "', '" + osVersion + "', '" +
-			ip + "', '" + UtilDate.ToSql(date) + "')" ;
+			ip + "', '" + UtilDate.ToDateSQL(date) + "')" ;
 		
 		dbcmd.CommandText = myString;
 		
@@ -119,7 +119,7 @@ class SqliteServer : Sqlite
 			" (uniqueID, code, name, email, dateBorn, countryID, chronometer, device, comments, confiable) VALUES (" + 
 			uniqueID + ", '" + 
 			code + "', '" + name + "', '" + 
-			email + "', '" + UtilDate.ToSql(dateBorn) + "', " +
+			email + "', '" + UtilDate.ToDateSQL(dateBorn) + "', " +
 			countryID + ", '" + chronometer + "', '" + 
 			device + "', '" + comments + "', " +
 			//Util.BoolToInt(confiable) + 
@@ -154,7 +154,7 @@ class SqliteServer : Sqlite
 			" SET code = '" + code +
 			"' , name = '" + name +
 			"' , email = '" + email +
-			"' , dateBorn = '" + UtilDate.ToSql(dateBorn) +
+			"' , dateBorn = '" + UtilDate.ToDateSQL(dateBorn) +
 			"' , countryID = " + countryID +
 			", chronometer = '" + chronometer +
 			"', device = '" + device +
@@ -190,7 +190,7 @@ class SqliteServer : Sqlite
 			myEval.Code = reader[1].ToString(); 
 			myEval.Name = reader[2].ToString(); 
 			myEval.Email = reader[3].ToString(); 
-			myEval.DateBorn = UtilDate.FromSql(reader[4].ToString());
+			myEval.DateBorn = UtilDate.FromSQL(reader[4].ToString());
 			myEval.CountryID = Convert.ToInt32(reader[5].ToString());
 			myEval.Chronometer = reader[6].ToString();
 			myEval.Device = reader[7].ToString();

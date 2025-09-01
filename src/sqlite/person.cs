@@ -80,7 +80,7 @@ class SqlitePerson : Sqlite
 		// -----------------------
 		string myString = "INSERT INTO " + Constants.PersonTable + 
 			" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID, linkServerImage) VALUES (" + uniqueID + ", '" +
-			name + "', '" + sex + "', '" + UtilDate.ToSql(dateBorn) + "', " + 
+			name + "', '" + sex + "', '" + UtilDate.ToDateSQL(dateBorn) + "', " + 
 			race + ", " + countryID + ", '" + description + "', '" +
 			future1 + "', '" + future2 + "', " + serverUniqueID + ", '" + linkServerImage + "')";
 		
@@ -133,7 +133,7 @@ class SqlitePerson : Sqlite
 					Convert.ToInt32(reader[0].ToString()), //uniqueID
 					reader[1].ToString(), 			//name
 					reader[2].ToString(), 			//sex
-					UtilDate.FromSql(reader[3].ToString()),//dateBorn
+					UtilDate.FromSQL(reader[3].ToString()),//dateBorn
 					Convert.ToInt32(reader[4].ToString()), //race
 					Convert.ToInt32(reader[5].ToString()), //countryID
 					reader[6].ToString(), 			//description
@@ -279,7 +279,7 @@ finishForeach:
 						Convert.ToInt32(reader2[0].ToString()), //uniqueID
 						reader2[1].ToString(), 			//name
 						reader2[2].ToString(), 			//sex
-						UtilDate.FromSql(reader2[3].ToString()),//dateBorn
+						UtilDate.FromSQL(reader2[3].ToString()),//dateBorn
 						Convert.ToInt32(reader2[4].ToString()), //race
 						Convert.ToInt32(reader2[5].ToString()), //countryID
 						reader2[6].ToString(), 			//description
@@ -333,7 +333,7 @@ finishForeach:
 		while(reader.Read()) {
 			arraySessions.Add ( reader[0].ToString() + ":" + reader[1].ToString() + ":" +
 					reader[2].ToString() + ":" + 
-					UtilDate.FromSql(reader[3].ToString()).ToShortDateString()
+					UtilDate.FromSQL(reader[3].ToString()).ToShortDateString()
 					);
 		}
 		reader.Close();
@@ -676,7 +676,7 @@ finishForeach:
 		dbcmd.CommandText = "UPDATE " + Constants.PersonTable + 
 			" SET name = '" + myPerson.Name + 
 			"', sex = '" + myPerson.Sex +
-			"', dateborn = '" + UtilDate.ToSql(myPerson.DateBorn) +
+			"', dateborn = '" + UtilDate.ToDateSQL(myPerson.DateBorn) +
 			"', race = " + myPerson.Race +
 			", countryID = " + myPerson.CountryID +
 			", description = '" + myPerson.Description +

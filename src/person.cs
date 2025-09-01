@@ -154,7 +154,7 @@ public class Person
 	public string ToSQLInsertString()
 	{
 		return uniqueID.ToString() + ", '"  + name + "', '" + sex + "', '" + 
-			UtilDate.ToSql(dateBorn) + "', " + race + ", " + countryID + ", '" +
+			UtilDate.ToDateSQL(dateBorn) + "', " + race + ", " + countryID + ", '" +
 			description + "', '" + future1 + "', '" + future2 + "', " +
 			serverUniqueID + ", '" + linkServerImage + "'";
 	}

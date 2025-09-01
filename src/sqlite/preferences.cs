@@ -257,8 +257,8 @@ class SqlitePreferences : Sqlite
 
 				//backup
 				Insert (LastBackupDirStr, "", dbcmdTr);
-				Insert (LastBackupDatetimeStr, UtilDate.ToSql(DateTime.MinValue), dbcmdTr);
-				Insert (BackupScheduledCreatedDateStr, UtilDate.ToSql(DateTime.MinValue), dbcmdTr);
+				Insert (LastBackupDatetimeStr, UtilDate.ToDateSQL(DateTime.MinValue), dbcmdTr);
+				Insert (BackupScheduledCreatedDateStr, UtilDate.ToDateSQL(DateTime.MinValue), dbcmdTr);
 				Insert (BackupScheduledNextDaysStr, "30", dbcmdTr);
 
 				Insert(ContactsCaptureDisplayStr, new ContactsCaptureDisplay(false, true).GetInt.ToString(), dbcmdTr);
@@ -700,9 +700,9 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == LastBackupDirStr)
 				preferences.lastBackupDir = reader[1].ToString();
 			else if(reader[0].ToString() == LastBackupDatetimeStr)
-				preferences.lastBackupDatetime = UtilDate.FromSql(reader[1].ToString());
+				preferences.lastBackupDatetime = UtilDate.FromSQL(reader[1].ToString());
 			else if(reader[0].ToString() == BackupScheduledCreatedDateStr)
-				preferences.backupScheduledCreatedDate = UtilDate.FromSql(reader[1].ToString());
+				preferences.backupScheduledCreatedDate = UtilDate.FromSQL(reader[1].ToString());
 			else if(reader[0].ToString() == BackupScheduledNextDaysStr)
 				preferences.backupScheduledNextDays = Convert.ToInt32(reader[1].ToString());
 

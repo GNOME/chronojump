@@ -99,7 +99,7 @@ public class Session {
 		this.uniqueID = Convert.ToInt32(myString[0]);
 		this.name = myString[1];
 		this.place = myString[2];
-		this.date = UtilDate.FromSql(myString[3]);
+		this.date = UtilDate.FromSQL(myString[3]);
 		this.personsSportID = Convert.ToInt32(myString[4]);
 		this.personsSpeciallityID = Convert.ToInt32(myString[5]);
 		this.personsPractice = Convert.ToInt32(myString[6]);

@@ -976,7 +976,7 @@ public class VariabilityAndAccuracy
 		}
 
 		double rmssd = Math.Sqrt (UtilAll.DivideSafe (sum, numSamples -lag));
-		LogB.Information("RMSSD: " + rmssd.ToString());
+		//LogB.Information("RMSSD: " + rmssd.ToString());
 
 		if(method == Preferences.VariabilityMethodEnum.RMSSD)
 			return rmssd;

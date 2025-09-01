@@ -576,7 +576,9 @@ public partial class ChronoJumpWindow
 		Sqlite.Connect ();
 
 		//this updated if needed:
-		Sqlite.ConvertToLastChronojumpDBVersion ();
+		Sqlite.DBIsOldEnum dbIsOldEnum = Sqlite.NeedToConvertToLastChronojumpDBVersion (); // //needed to update string currentVersion
+		if (dbIsOldEnum == Sqlite.DBIsOldEnum.OLDDB)
+			Sqlite.ConvertToLastChronojumpDBVersion();
 
 		string databaseDirName = configChronojump.LastDBFullPath;
 		if (storedCloudDir != "")

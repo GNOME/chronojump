@@ -649,7 +649,9 @@ class Sqlite
 	public enum DBIsOldEnum { OLDDB, CURRENTDB, OLDSOFTWARE }
 	public static DBIsOldEnum NeedToConvertToLastChronojumpDBVersion()
 	{
+		LogB.Information ("NeedToConvertToLastChronojumpDBVersion");
 		currentVersion = SqlitePreferences.Select("databaseVersion");
+		LogB.Information ("currentVersion: " + currentVersion);
 
 		if(
 				Convert.ToDouble(Util.ChangeDecimalSeparator(lastChronojumpDatabaseVersion)) == 
@@ -674,8 +676,10 @@ class Sqlite
 		}
 	}
 
+	// Attention: need to always call 1st: NeedToConvertToLastChronojumpDBVersion() in order to have currentVersion string updated. Needed.
 	public static void ConvertToLastChronojumpDBVersion ()
 	{
+		LogB.Information ("ConvertToLastChronojumpDBVersion start");
 		LogB.SQL("SelectChronojumpProfile ()");
 
 		//if(checkIfIsSqlite2())
@@ -3720,6 +3724,7 @@ class Sqlite
 
 		//if changes are made here, remember to change also in CreateTables()
 		//remember to change also the databaseVersion below
+		LogB.Information ("ConvertToLastChronojumpDBVersion end");
 	}
 	
 	private static void executeSQL(string command)

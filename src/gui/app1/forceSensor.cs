@@ -2808,17 +2808,19 @@ LogB.Information(" fs R ");
 			sampleA = Convert.ToInt32(hscale_ai_c.Value);
 			sampleB = Convert.ToInt32(hscale_ai_d.Value);
 		}
+		//LogB.Information (string.Format ("before zoomApplied, sampleA: {0}, sampleB: {1}", sampleA, sampleB));
 		if (AiVars.zoomApplied)
 		{
 			if (radio_ai_ab.Active)
 			{
 				sampleA += AiVars.a_beforeZoom;
-				sampleB += AiVars.b_beforeZoom;
+				sampleB += AiVars.a_beforeZoom;
 			} else {
 				sampleA += AiVars.c_beforeZoom;
-				sampleB += AiVars.d_beforeZoom;
+				sampleB += AiVars.c_beforeZoom;
 			}
 		}
+		//LogB.Information (string.Format ("after zoomApplied, sampleA: {0}, sampleB: {1}", sampleA, sampleB));
 
 		if (preferences.forceSensorButterworth (current_mode) >= 0)
 		{

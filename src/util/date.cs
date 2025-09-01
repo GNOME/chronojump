@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -34,6 +34,13 @@ public class UtilDate
 		return UtilAll.DigitsCreate(dt.Year,4) + "-" + 
 			UtilAll.DigitsCreate(dt.Month,2) + "-" + 
 			UtilAll.DigitsCreate(dt.Day,2);
+	}
+
+	public static string ToTimeColons (DateTime dt)
+	{
+		return UtilAll.DigitsCreate(dt.Hour,2) + ":" + 
+			UtilAll.DigitsCreate(dt.Minute,2) + ":" + 
+			UtilAll.DigitsCreate(dt.Second,2);
 	}
 	
 	//records date & time, useful to backup database without having strange chars on filename

@@ -341,15 +341,15 @@ public abstract class ExportSession
 	{
 		ArrayList myData = new ArrayList(2);
 		myData.Add( "\n" + 
-				Catalog.GetString ("SessionID") + ":" +
-				Catalog.GetString ("Name") + ":" +
-				Catalog.GetString ("Place") + ":" + 
-				Catalog.GetString ("Date") + ":" + 
+				Catalog.GetString ("SessionID") + ":::" +
+				Catalog.GetString ("Name") + ":::" +
+				Catalog.GetString ("Place") + ":::" + 
+				Catalog.GetString ("Date") + ":::" + 
 				Catalog.GetString ("Comments") );
 
 		if (sessionID >= 0)
-			myData.Add ( mySession.UniqueID + ":" + mySession.Name + ":" +
-					mySession.Place + ":" + mySession.DateShort + ":" + 
+			myData.Add ( mySession.UniqueID + ":::" + mySession.Name + ":::" +
+					mySession.Place + ":::" + mySession.DateShort + ":::" + 
 					Util.RemoveNewLine(mySession.Comments, true) );
 		else {
 			List<int> sWithData_l = new List<int> ();
@@ -366,8 +366,8 @@ public abstract class ExportSession
 			List<Session> s_l = SqliteSession.SelectAll (false, Sqlite.Orders_by.ID_ASC);
 			foreach (Session s in s_l)
 				if (UtilList.FoundInListInt (sWithData_l, s.UniqueID))
-					myData.Add ( s.UniqueID + ":" + s.Name + ":" +
-							s.Place + ":" + s.DateShort + ":" +
+					myData.Add ( s.UniqueID + ":::" + s.Name + ":::" +
+							s.Place + ":::" + s.DateShort + ":::" +
 							Util.RemoveNewLine(s.Comments, true) );
 		}
 		writeData(myData);
@@ -390,13 +390,13 @@ public abstract class ExportSession
 	{
 		//PERSON STUFF
 		ArrayList myData = new ArrayList(1);
-		myData.Add ( "\n" + Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name") + ":" +
-				Catalog.GetString ("Sex") + ":" + Catalog.GetString ("Date of Birth") + ":" +
-				Catalog.GetString ("Description") + ":" + 
-				Catalog.GetString ("Height") + ":" + Catalog.GetString("Weight") + ":" +
-				Catalog.GetString ("Leg length") + ":" + Catalog.GetString ("Hips height on SJ flexion") + ":" +
-				Catalog.GetString ("Sport") + ":" + Catalog.GetString("Specialty") + ":" +
-				Catalog.GetString ("Level") + ":" + Catalog.GetString ("Comments")
+		myData.Add ( "\n" + Catalog.GetString ("ID") + ":::" + Catalog.GetString ("Name") + ":::" +
+				Catalog.GetString ("Sex") + ":::" + Catalog.GetString ("Date of Birth") + ":::" +
+				Catalog.GetString ("Description") + ":::" + 
+				Catalog.GetString ("Height") + ":::" + Catalog.GetString("Weight") + ":::" +
+				Catalog.GetString ("Leg length") + ":::" + Catalog.GetString ("Hips height on SJ flexion") + ":::" +
+				Catalog.GetString ("Sport") + ":::" + Catalog.GetString("Specialty") + ":::" +
+				Catalog.GetString ("Level") + ":::" + Catalog.GetString ("Comments")
 			   );
 
 		Sqlite.Open();	
@@ -409,13 +409,13 @@ public abstract class ExportSession
 			string speciallityName = SqliteSpeciallity.Select(true, paps.ps.SpeciallityID);
 			
 			myData.Add(
-					paps.p.UniqueID.ToString() + ":" + paps.p.Name + ":" +
-					paps.p.Sex + ":" + paps.p.DateBorn.ToShortDateString() + ":" +
-					Util.RemoveNewLine(paps.p.Description, true) + ":" +
-					paps.ps.Height + ":" + paps.ps.Weight + ":" + 
-					paps.ps.TrochanterToe + ":" + paps.ps.TrochanterFloorOnFlexion + ":" +
-					sportName + ":" + speciallityName + ":" +
-					Util.FindLevelName(paps.ps.Practice) + ":" +
+					paps.p.UniqueID.ToString() + ":::" + paps.p.Name + ":::" +
+					paps.p.Sex + ":::" + paps.p.DateBorn.ToShortDateString() + ":::" +
+					Util.RemoveNewLine(paps.p.Description, true) + ":::" +
+					paps.ps.Height + ":::" + paps.ps.Weight + ":::" + 
+					paps.ps.TrochanterToe + ":::" + paps.ps.TrochanterFloorOnFlexion + ":::" +
+					sportName + ":::" + speciallityName + ":::" +
+					Util.FindLevelName(paps.ps.Practice) + ":::" +
 					Util.RemoveNewLine(paps.ps.Comments, true)
 				  );
 		}
@@ -469,9 +469,9 @@ public abstract class ExportSession
 
 		ArrayList myData = new ArrayList(1);
 		myData.Add (
-				Catalog.GetString ("Person ID") + ":" +
-				Catalog.GetString ("Person name") + ":" +
-				UtilList.ListStringToString (jumpTypes_l, ":")
+				Catalog.GetString ("Person ID") + ":::" +
+				Catalog.GetString ("Person name") + ":::" +
+				UtilList.ListStringToString (jumpTypes_l, ":::")
 			  );
 
 		foreach (PersonAndPS paps in myPersonsAndPS)
@@ -480,7 +480,7 @@ public abstract class ExportSession
 			if (personID >= 0 && personID != paps.p.UniqueID)
 				continue;
 
-			string str = paps.p.UniqueID + ":" + paps.p.Name + ":";
+			string str = paps.p.UniqueID + ":::" + paps.p.Name + ":::";
 
 			foreach (List<SqliteStruct.IntTypeDoubleDouble> jumps_l in jumps_ll)
 			{
@@ -489,13 +489,13 @@ public abstract class ExportSession
 							jumps_l, paps.p.UniqueID);
 
 				if (idd.personID < 0)
-					str += " :";
+					str += " :::";
 				else {
 					//idd.avg, idd.max are heights in m
 					if (avgOrMax)
-						str += string.Format ("{0}:", Util.TrimDecimals (100 * idd.avg, dec));
+						str += string.Format ("{0}:::", Util.TrimDecimals (100 * idd.avg, dec));
 					else
-						str += string.Format ("{0}:", Util.TrimDecimals (100 * idd.max, dec));
+						str += string.Format ("{0}:::", Util.TrimDecimals (100 * idd.max, dec));
 				}
 			}
 			myData.Add (str);
@@ -509,24 +509,25 @@ public abstract class ExportSession
 	{
 		ArrayList myData = new ArrayList(1);
 		myData.Add( "\n" + 
-				Catalog.GetString("Person ID") + ":" +
-				Catalog.GetString("Person name") + ":" +
-				Catalog.GetString("Session ID") + ":" +
-				Catalog.GetString("Jump ID") + ":" +
-				Catalog.GetString("Type") + ":" + 
-				Catalog.GetString("TC") + ":" + 
-				Catalog.GetString("TF") + ":" + 
-				Catalog.GetString("Fall") + ":" + 
-				weightName + ":" + 
-				Catalog.GetString("Height") + ":" +
-				Catalog.GetString("Power") + ":" +
-				Catalog.GetString("Power formula") + ":" +
-				Catalog.GetString("Stiffness") + ":" +
-				Catalog.GetString("Initial Speed") + ":" +
-				"RSI" + ":" +
-				Catalog.GetString("Datetime") + ":" +
-				Catalog.GetString("Description") + ":" +
-				//Catalog.GetString("Angle") + ":" +
+				Catalog.GetString("Person ID") + ":::" +
+				Catalog.GetString("Person name") + ":::" +
+				Catalog.GetString("Session ID") + ":::" +
+				Catalog.GetString("Jump ID") + ":::" +
+				Catalog.GetString("Type") + ":::" + 
+				Catalog.GetString("TC") + ":::" + 
+				Catalog.GetString("TF") + ":::" + 
+				Catalog.GetString("Fall") + ":::" + 
+				weightName + ":::" + 
+				Catalog.GetString("Height") + ":::" +
+				Catalog.GetString("Power") + ":::" +
+				Catalog.GetString("Power formula") + ":::" +
+				Catalog.GetString("Stiffness") + ":::" +
+				Catalog.GetString("Initial Speed") + ":::" +
+				"RSI" + ":::" +
+				Catalog.GetString("Date") + ":::" +
+				Catalog.GetString("Time") + ":::" +
+				Catalog.GetString("Description") + ":::" +
+				//Catalog.GetString("Angle") + ":::" +
 				Catalog.GetString("Simulated") 
 			  );
 
@@ -568,21 +569,22 @@ public abstract class ExportSession
 				powerFormula = "Lewis 1974";
 
 			myData.Add (	
-					myStr[2] + ":" +  myStr[0] + ":" +  	//person.UniqueID, person.Name
-					myStr[3] + ":" + 			//session.UniqueID
-					myStr[1] + ":" +  			//jump.uniqueID
-					myStr[4] + ":" +  Util.TrimDecimals(myStr[6], dec) + ":" + 	//jump.type, jump.tc
-					Util.TrimDecimals(myStr[5], dec) + ":" +  Util.TrimDecimals(myStr[7], dec) + ":" + 	//jump.tv, jump.fall
-					Util.TrimDecimals(extraWeightPrint, dec) + ":" +
-					Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  
-					Util.TrimDecimals(getPower(tc, tf, personWeight, extraWeightInKg, fall), dec) + ":" +
-					powerFormula + ":" +
-					Util.TrimDecimals(Util.GetStiffness(personWeight, extraWeightInKg, tf, tc), dec) + ":" +
-					Util.TrimDecimals(Jump.GetInitialSpeed(myStr[5], preferences.metersSecondsPreferred), dec) + ":" +  //true: m/s
-					Util.TrimDecimals(UtilAll.DivideSafe(Util.GetHeightInMeters(tf), tc), dec) + ":" +
-					myStr[12] + ":" +	//jump.datetime
-					Util.RemoveNewLine(myStr[9], true) + ":" +	//jump.description
-					//Util.TrimDecimals(myStr[10],dec) + ":" +	//jump.angle
+					myStr[2] + ":::" +  myStr[0] + ":::" +  	//person.UniqueID, person.Name
+					myStr[3] + ":::" + 			//session.UniqueID
+					myStr[1] + ":::" +  			//jump.uniqueID
+					myStr[4] + ":::" +  Util.TrimDecimals(myStr[6], dec) + ":::" + 	//jump.type, jump.tc
+					Util.TrimDecimals(myStr[5], dec) + ":::" +  Util.TrimDecimals(myStr[7], dec) + ":::" + 	//jump.tv, jump.fall
+					Util.TrimDecimals(extraWeightPrint, dec) + ":::" +
+					Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":::" +  
+					Util.TrimDecimals(getPower(tc, tf, personWeight, extraWeightInKg, fall), dec) + ":::" +
+					powerFormula + ":::" +
+					Util.TrimDecimals(Util.GetStiffness(personWeight, extraWeightInKg, tf, tc), dec) + ":::" +
+					Util.TrimDecimals(Jump.GetInitialSpeed(myStr[5], preferences.metersSecondsPreferred), dec) + ":::" +  //true: m/s
+					Util.TrimDecimals(UtilAll.DivideSafe(Util.GetHeightInMeters(tf), tc), dec) + ":::" +
+					UtilDate.ToDateSQL (UtilDate.FromFile (myStr[12])) + ":::" +
+					UtilDate.ToTimeColons (UtilDate.FromFile (myStr[12])) + ":::" +  // Note time has colons
+					Util.RemoveNewLine(myStr[9], true) + ":::" +	//jump.description
+					//Util.TrimDecimals(myStr[10],dec) + ":::" +	//jump.angle
 					Util.SimulatedTestNoYes(Convert.ToInt32(myStr[11]))		//jump.simulated
 
 				   );
@@ -619,29 +621,30 @@ public abstract class ExportSession
 			//if show subjumps show this every time, else show only one
 			if(isFirstHeader || showSubjumps) {
 				myData.Add( "\n" + 
-						Catalog.GetString("Person ID") + ":" +
-						Catalog.GetString("Person name") + ":" + 
-						Catalog.GetString("Session ID") + ":" +
-						Catalog.GetString("Jump ID") + ":" +
-						Catalog.GetString("jump Type") + ":" + 
-						Catalog.GetString("TC Max") + ":" + 
-						Catalog.GetString("TF Max") + ":" + 
-						Catalog.GetString("Max Height") + ":" +
-						Catalog.GetString("Max Initial Speed") + ":" +
-						"Max RSI" + ":" +
-						Catalog.GetString("TC AVG") + ":" + 
-						Catalog.GetString("TF AVG") + ":" + 
-						Catalog.GetString("AVG Height") + ":" +
-						Catalog.GetString("AVG Initial Speed") + ":" +
-						"AVG RSI" + ":" +
-						Catalog.GetString("Fall") + ":" + 
-						weightName + ":" + 
-						Catalog.GetString("Jumps") + ":" + 
-						Catalog.GetString("Time") + ":" + 
-						Catalog.GetString("Limited") + ":" + 
-						Catalog.GetString("Datetime") + ":" +
-						Catalog.GetString("Description") + ":" +
-						//Catalog.GetString("Angles") + ":" +
+						Catalog.GetString("Person ID") + ":::" +
+						Catalog.GetString("Person name") + ":::" + 
+						Catalog.GetString("Session ID") + ":::" +
+						Catalog.GetString("Jump ID") + ":::" +
+						Catalog.GetString("jump Type") + ":::" + 
+						Catalog.GetString("TC Max") + ":::" + 
+						Catalog.GetString("TF Max") + ":::" + 
+						Catalog.GetString("Max Height") + ":::" +
+						Catalog.GetString("Max Initial Speed") + ":::" +
+						"Max RSI" + ":::" +
+						Catalog.GetString("TC AVG") + ":::" + 
+						Catalog.GetString("TF AVG") + ":::" + 
+						Catalog.GetString("AVG Height") + ":::" +
+						Catalog.GetString("AVG Initial Speed") + ":::" +
+						"AVG RSI" + ":::" +
+						Catalog.GetString("Fall") + ":::" + 
+						weightName + ":::" + 
+						Catalog.GetString("Jumps") + ":::" + 
+						Catalog.GetString("Total time") + ":::" + 
+						Catalog.GetString("Limited") + ":::" + 
+						Catalog.GetString("Date") + ":::" +
+						Catalog.GetString("Time") + ":::" +
+						Catalog.GetString("Description") + ":::" +
+						//Catalog.GetString("Angles") + ":::" +
 						Catalog.GetString("Simulated") 
 					  );
 				isFirstHeader = false;
@@ -695,30 +698,31 @@ public abstract class ExportSession
 
 			
 			myData.Add ( 
-					myStr[2] + ":" +    			//jumpRj.personID
-					myStr[0] + ":" +  			//person.name
-					myStr[3] + ":" +  			//jumpRj.sessionID
-					myStr[1] + ":" +  			//jumpRj.uniqueID
-					myStr[4] + ":" +  		//jumpRj.type 
-					Util.TrimDecimals(myStr[6], dec) + ":" +  		//jumpRj.tcMax 
-					Util.TrimDecimals(myStr[5], dec) + ":" + 		//jumpRj.tvMax
-					Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  	//Max height
+					myStr[2] + ":::" +    			//jumpRj.personID
+					myStr[0] + ":::" +  			//person.name
+					myStr[3] + ":::" +  			//jumpRj.sessionID
+					myStr[1] + ":::" +  			//jumpRj.uniqueID
+					myStr[4] + ":::" +  		//jumpRj.type 
+					Util.TrimDecimals(myStr[6], dec) + ":::" +  		//jumpRj.tcMax 
+					Util.TrimDecimals(myStr[5], dec) + ":::" + 		//jumpRj.tvMax
+					Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":::" +  	//Max height
 					Util.TrimDecimals(Jump.GetInitialSpeed(
-							myStr[5], preferences.metersSecondsPreferred), dec) + ":" +  	//Max initial speed (true:m/s)
-					Util.TrimDecimals(maxRSI, dec) + ":" +
-					Util.TrimDecimals(myStr[11], dec) + ":" +  		//jumpRj.tcAvg
-					Util.TrimDecimals(myStr[10], dec) + ":" + 		//jumpRj.tvAvg
-					Util.TrimDecimals(myStr[20], dec) + ":" +  //Avg height (this is much better calculation than previous calculation of height of the avg(tv))
+							myStr[5], preferences.metersSecondsPreferred), dec) + ":::" +  	//Max initial speed (true:m/s)
+					Util.TrimDecimals(maxRSI, dec) + ":::" +
+					Util.TrimDecimals(myStr[11], dec) + ":::" +  		//jumpRj.tcAvg
+					Util.TrimDecimals(myStr[10], dec) + ":::" + 		//jumpRj.tvAvg
+					Util.TrimDecimals(myStr[20], dec) + ":::" +  //Avg height (this is much better calculation than previous calculation of height of the avg(tv))
 					Util.TrimDecimals(Jump.GetInitialSpeed(
-							myStr[10], preferences.metersSecondsPreferred), dec) + ":" +  	//Avg Initial speed (true:m/s)
-					Util.TrimDecimals(avgRSI, dec) + ":" +
-					myStr[7] + ":" + 	 	//jumpRj.Fall
-					//myStr[8] + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
-					Util.TrimDecimals(extraWeightPrint,dec) + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
-					Util.TrimDecimals(myStr[15], dec) + ":" +  Util.GetLimitedRounded(myStr[16],dec) + ":" + 	//jumpRj.Time, jumpRj.Limited
-					myStr[19] + ":" +	//jumpRj.datetime
-					Util.RemoveNewLine(myStr[9], true) + ":" + 	//jumpRj.Description
-					//myStr[17] + ":" + 	//jumpRj.Angle
+							myStr[10], preferences.metersSecondsPreferred), dec) + ":::" +  	//Avg Initial speed (true:m/s)
+					Util.TrimDecimals(avgRSI, dec) + ":::" +
+					myStr[7] + ":::" + 	 	//jumpRj.Fall
+					//myStr[8] + ":::" +  myStr[14] + ":::" + 	//jumpRj.Weight, jumpRj.Jumps
+					Util.TrimDecimals(extraWeightPrint,dec) + ":::" +  myStr[14] + ":::" + 	//jumpRj.Weight, jumpRj.Jumps
+					Util.TrimDecimals(myStr[15], dec) + ":::" +  Util.GetLimitedRounded(myStr[16],dec) + ":::" + 	//jumpRj.Time, jumpRj.Limited
+					UtilDate.ToDateSQL (UtilDate.FromFile (myStr[19])) + ":::" +
+					UtilDate.ToTimeColons (UtilDate.FromFile (myStr[19])) + ":::" +  // Note time has colons
+					Util.RemoveNewLine(myStr[9], true) + ":::" + 	//jumpRj.Description
+					//myStr[17] + ":::" + 	//jumpRj.Angle
 					Util.SimulatedTestNoYes(Convert.ToInt32(myStr[18]))		//simulated
 					);
 			
@@ -728,27 +732,27 @@ public abstract class ExportSession
 			
 				myData = new ArrayList(1);
 				int count = 0;
-				myData.Add( " " + ":" + Catalog.GetString("TC") + 
-						":" + Catalog.GetString("TF") + 
-						":" + Catalog.GetString("Height") + 
-						":" + "RSI" +
-						":" + Catalog.GetString("Power") + 
-						":" + Catalog.GetString("Stiffness") 
+				myData.Add( " " + ":::" + Catalog.GetString("TC") + 
+						":::" + Catalog.GetString("TF") + 
+						":::" + Catalog.GetString("Height") + 
+						":::" + "RSI" +
+						":::" + Catalog.GetString("Power") + 
+						":::" + Catalog.GetString("Stiffness") 
 						);
 
 				//print Total, AVG, SD
-				myData.Add(Catalog.GetString("Total") + ":" +
-						Util.TrimDecimals(Util.GetTotalTime(myStr[13]).ToString(), dec) + ":" +
+				myData.Add(Catalog.GetString("Total") + ":::" +
+						Util.TrimDecimals(Util.GetTotalTime(myStr[13]).ToString(), dec) + ":::" +
 						Util.TrimDecimals(Util.GetTotalTime(myStr[12]).ToString(), dec));
-				myData.Add(Catalog.GetString("AVG") + ":" +
-						Util.TrimDecimals(Util.GetAverage(myStr[13]).ToString(), dec) + ":" +
+				myData.Add(Catalog.GetString("AVG") + ":::" +
+						Util.TrimDecimals(Util.GetAverage(myStr[13]).ToString(), dec) + ":::" +
 						Util.TrimDecimals(Util.GetAverage(myStr[12]).ToString(), dec));
-				myData.Add(Catalog.GetString("SD") + ":" + 
+				myData.Add(Catalog.GetString("SD") + ":::" + 
 						Util.TrimDecimals(Util.CalculateSD(
 								Util.ChangeEqualForColon(myStr[13]),
 								Util.GetTotalTime(myStr[13]),
 								Util.GetNumberOfJumps(myStr[13], false)).ToString(),
-							dec) + ":" + 
+							dec) + ":::" + 
 						Util.TrimDecimals(Util.CalculateSD(
 								Util.ChangeEqualForColon(myStr[12]),
 								Util.GetTotalTime(myStr[12]),
@@ -768,12 +772,12 @@ public abstract class ExportSession
 					else
 						fall = Convert.ToDouble(Util.GetHeightInCentimeters(tvString[count -1].ToString()));
 
-					myData.Add((count+1).ToString() + ":" + 
-							Util.TrimDecimals(tc, dec) + ":" + 
-							Util.TrimDecimals(tv, dec) + ":" +
-							Util.TrimDecimals(Util.GetHeightInCentimeters(tv.ToString()), dec) + ":" +
-							Util.TrimDecimals(Jump.CalculateRSI(tv, tc), dec) + ":" +
-							Util.TrimDecimals(getPower(tc, tv, personWeight, extraWeightInKg, fall), dec) + ":" +
+					myData.Add((count+1).ToString() + ":::" + 
+							Util.TrimDecimals(tc, dec) + ":::" + 
+							Util.TrimDecimals(tv, dec) + ":::" +
+							Util.TrimDecimals(Util.GetHeightInCentimeters(tv.ToString()), dec) + ":::" +
+							Util.TrimDecimals(Jump.CalculateRSI(tv, tc), dec) + ":::" +
+							Util.TrimDecimals(getPower(tc, tv, personWeight, extraWeightInKg, fall), dec) + ":::" +
 							Util.TrimDecimals(Util.GetStiffness(personWeight, extraWeightInKg, tv, tc), dec)
 						  );
 					count ++;
@@ -798,17 +802,18 @@ public abstract class ExportSession
 
 			ArrayList myData = new ArrayList(1);
 			myData.Add( "\n" + 
-					Catalog.GetString("Person ID") + ":" +
-					Catalog.GetString("Person name") + ":" +
-					Catalog.GetString("Session ID") + ":" +
-					Catalog.GetString("Race ID") + ":" +
-					Catalog.GetString("Type") + ":" + 
-					Catalog.GetString("Distance") + ":" + 
-					Catalog.GetString("Time") + ":" + 
-					Catalog.GetString("Speed") + ":" + 
-					Catalog.GetString("Datetime") + ":" +
-					Catalog.GetString("Description") + ":" +
-					Catalog.GetString("Simulated") + ":" +
+					Catalog.GetString("Person ID") + ":::" +
+					Catalog.GetString("Person name") + ":::" +
+					Catalog.GetString("Session ID") + ":::" +
+					Catalog.GetString("Race ID") + ":::" +
+					Catalog.GetString("Type") + ":::" + 
+					Catalog.GetString("Distance") + ":::" + 
+					Catalog.GetString("Total time") + ":::" + 
+					Catalog.GetString("Speed") + ":::" + 
+					Catalog.GetString("Date") + ":::" +
+					Catalog.GetString("Time") + ":::" +
+					Catalog.GetString("Description") + ":::" +
+					Catalog.GetString("Simulated") + ":::" +
 					Catalog.GetString("Initial Speed") );
 
 			foreach (string runString in myRuns) {
@@ -818,16 +823,17 @@ public abstract class ExportSession
 					speed = Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6], true), dec);//speed in m/s (true)
 
 				myData.Add (
-						myStr[2] + ":" +    			//personID
-						myStr[0] + ":" + 			//person.name
-						myStr[3] + ":" +    			//sessionID
-						myStr[1] + ":" +  			//run.uniqueID
-						myStr[4] + ":" +  myStr[5] + ":" + 	//run.type, run.distance
-						Util.TrimDecimals(myStr[6], dec) + ":" +  	//run.time
-						speed + ":" + 				//speed in m/s (true)
-						myStr[10] + ":" +			//datetime
-						Util.RemoveNewLine(myStr[7], true) + ":" + 	//description
-						Util.SimulatedTestNoYes(Convert.ToInt32(myStr[8])) + ":" + //simulated
+						myStr[2] + ":::" +    			//personID
+						myStr[0] + ":::" + 			//person.name
+						myStr[3] + ":::" +    			//sessionID
+						myStr[1] + ":::" +  			//run.uniqueID
+						myStr[4] + ":::" +  myStr[5] + ":::" + 	//run.type, run.distance
+						Util.TrimDecimals(myStr[6], dec) + ":::" +  	//run.time
+						speed + ":::" + 				//speed in m/s (true)
+						UtilDate.ToDateSQL (UtilDate.FromFile (myStr[10])) + ":::" +
+						UtilDate.ToTimeColons (UtilDate.FromFile (myStr[10])) + ":::" +  // Note time has colons
+						Util.RemoveNewLine(myStr[7], true) + ":::" + 	//description
+						Util.SimulatedTestNoYes(Convert.ToInt32(myStr[8])) + ":::" + //simulated
 						Util.NoYes(Util.StringToBool(myStr[9]))	//initialSpeed
 					   );
 			}
@@ -856,20 +862,21 @@ public abstract class ExportSession
 			//if show subruns show this every time, else show only one
 			if(isFirstHeader || showSubruns) {
 				myData.Add( "\n" + 
-						Catalog.GetString("Person ID") + ":" +
-						Catalog.GetString("Person name") + ":" +
-						Catalog.GetString("Session ID") + ":" +
-						Catalog.GetString("run ID") + ":" + 
-						Catalog.GetString("Type") + ":" + 
-						Catalog.GetString("Distance total") + ":" + 
-						Catalog.GetString("Time total") + ":" +
-						Catalog.GetString("Average speed") + ":" +
-						Catalog.GetString("Distance interval") + ":" + 
-						Catalog.GetString("Laps") + ":" +
-						Catalog.GetString("Limited") + ":" +
-						Catalog.GetString("Datetime") + ":" +
-						Catalog.GetString("Description") + ":" +
-						Catalog.GetString("Simulated") + ":" +
+						Catalog.GetString("Person ID") + ":::" +
+						Catalog.GetString("Person name") + ":::" +
+						Catalog.GetString("Session ID") + ":::" +
+						Catalog.GetString("run ID") + ":::" + 
+						Catalog.GetString("Type") + ":::" + 
+						Catalog.GetString("Distance total") + ":::" + 
+						Catalog.GetString("Time total") + ":::" +
+						Catalog.GetString("Average speed") + ":::" +
+						Catalog.GetString("Distance interval") + ":::" + 
+						Catalog.GetString("Laps") + ":::" +
+						Catalog.GetString("Limited") + ":::" +
+						Catalog.GetString("Date") + ":::" +
+						Catalog.GetString("Time") + ":::" +
+						Catalog.GetString("Description") + ":::" +
+						Catalog.GetString("Simulated") + ":::" +
 						Catalog.GetString("Initial Speed") );
 				isFirstHeader = false;
 			}
@@ -884,18 +891,19 @@ public abstract class ExportSession
 						myRunTypeString, true);
 			}
 			myData.Add (
-					myStr[2] + ":" +    	//personID
-					myStr[0] + ":" +	//person.name
-					myStr[3] + ":" +    	//sessionID
-					myStr[1] + ":" +  	//run.uniqueID
-					myRunTypeString + ":" +  Util.TrimDecimals(myStr[5], dec) + ":" + 	//run.type, run.distancetotal
-					Util.TrimDecimals(myStr[6], dec) + ":" +  		//run.timetotal
-					Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6], true), dec) + ":" + 	//speed AVG in m/s(true)
-					myStr[7] + ":" + 	 	//run.distanceInterval
-					myStr[9] + ":" +  Util.GetLimitedRounded(myStr[11], dec) + ":" + 	//tracks, limited
-					myStr[14] + ":" +				//datetime
-					Util.RemoveNewLine(myStr[10], true) + ":" + 	//description
-					Util.SimulatedTestNoYes(Convert.ToInt32(myStr[12])) + ":" +	//simulated
+					myStr[2] + ":::" +    	//personID
+					myStr[0] + ":::" +	//person.name
+					myStr[3] + ":::" +    	//sessionID
+					myStr[1] + ":::" +  	//run.uniqueID
+					myRunTypeString + ":::" +  Util.TrimDecimals(myStr[5], dec) + ":::" + 	//run.type, run.distancetotal
+					Util.TrimDecimals(myStr[6], dec) + ":::" +  		//run.timetotal
+					Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6], true), dec) + ":::" + 	//speed AVG in m/s(true)
+					myStr[7] + ":::" + 	 	//run.distanceInterval
+					myStr[9] + ":::" +  Util.GetLimitedRounded(myStr[11], dec) + ":::" + 	//tracks, limited
+					UtilDate.ToDateSQL (UtilDate.FromFile (myStr[14])) + ":::" +
+					UtilDate.ToTimeColons (UtilDate.FromFile (myStr[14])) + ":::" +  // Note time has colons
+					Util.RemoveNewLine(myStr[10], true) + ":::" + 	//description
+					Util.SimulatedTestNoYes(Convert.ToInt32(myStr[12])) + ":::" +	//simulated
 					Util.NoYes(Util.StringToBool(myStr[13]))	//initialSpeed
 				   );
 			
@@ -905,20 +913,20 @@ public abstract class ExportSession
 				myData = new ArrayList(1);
 				//print intervalTimesString
 				string [] timeString = myStr[8].Split(new char[] {'='});
-				myData.Add( " " + ":" + 
-						Catalog.GetString ("Interval speed") + ":" + 
+				myData.Add( " " + ":::" + 
+						Catalog.GetString ("Interval speed") + ":::" + 
 						Catalog.GetString("interval times") );
 				
 				//print Total, AVG, SD
-				myData.Add(Catalog.GetString("Total") + ":" +
-						" " + ":" +
+				myData.Add(Catalog.GetString("Total") + ":::" +
+						" " + ":::" +
 						Util.TrimDecimals(Util.GetTotalTime(myStr[8]).ToString(), dec));
-				myData.Add(Catalog.GetString("AVG") + ":" +
+				myData.Add(Catalog.GetString("AVG") + ":::" +
 						Util.TrimDecimals(Util.GetSpeed(
-								myStr[5], myStr[6], true), dec) + ":" +
+								myStr[5], myStr[6], true), dec) + ":::" +
 						Util.TrimDecimals(Util.GetAverage(myStr[8]).ToString(), dec));
-				myData.Add(Catalog.GetString("SD") + ":" + 
-						" " + ":" +
+				myData.Add(Catalog.GetString("SD") + ":::" + 
+						" " + ":::" +
 						Util.TrimDecimals(Util.CalculateSD(
 								Util.ChangeEqualForColon(myStr[8]),
 								Util.GetTotalTime(myStr[8]),
@@ -935,8 +943,8 @@ public abstract class ExportSession
 						myShowDistance = " (" + myDistance.ToString() + "m)";
 					}
 
-					myData.Add((count++).ToString() + myShowDistance + ":" + 
-							Util.TrimDecimals(Util.GetSpeed(myDistance, myTime, true), dec) + ":" + //true for: m/s
+					myData.Add((count++).ToString() + myShowDistance + ":::" + 
+							Util.TrimDecimals(Util.GetSpeed(myDistance, myTime, true), dec) + ":::" + //true for: m/s
 							Util.TrimDecimals(myTime, dec)
 						  );
 				}
@@ -962,24 +970,24 @@ public abstract class ExportSession
 
 			ArrayList myData = new ArrayList(1);
 			myData.Add(  
-					Catalog.GetString("Person ID") + ":" +
-					Catalog.GetString("Person name") + ":" +
-					Catalog.GetString("Reaction time ID") + ":" + 
-					Catalog.GetString("Type") + ":" + 
-					Catalog.GetString("Time") + ":" + 
-					Catalog.GetString("Description") + ":" +
+					Catalog.GetString("Person ID") + ":::" +
+					Catalog.GetString("Person name") + ":::" +
+					Catalog.GetString("Reaction time ID") + ":::" + 
+					Catalog.GetString("Type") + ":::" + 
+					Catalog.GetString("Time") + ":::" + 
+					Catalog.GetString("Description") + ":::" +
 					Catalog.GetString("Simulated") );
 
 			foreach (string rtString in myReactionTimes) {
 				string [] myStr = rtString.Split(new char[] {':'});
 
 				myData.Add (	
-						myStr[2] + ":" +    			//personID
-						myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, event.uniqueID
-						//myStr[2] + ":" +  myStr[3] + ":" +  	//jump.personID, jump.sessionID
-						myStr[4] + ":" +  //type
-						Util.TrimDecimals(myStr[5], dec) + ":" + 	//time
-						Util.RemoveNewLine(myStr[6], true) + ":" + 
+						myStr[2] + ":::" +    			//personID
+						myStr[0] + ":::" +  myStr[1] + ":::" +  	//person.name, event.uniqueID
+						//myStr[2] + ":::" +  myStr[3] + ":::" +  	//jump.personID, jump.sessionID
+						myStr[4] + ":::" +  //type
+						Util.TrimDecimals(myStr[5], dec) + ":::" + 	//time
+						Util.RemoveNewLine(myStr[6], true) + ":::" + 
 						Util.SimulatedTestNoYes(Convert.ToInt32(myStr[7]))	//description, simulated
 					   );
 			}
@@ -1004,20 +1012,20 @@ public abstract class ExportSession
 			myData = new ArrayList(1);
 
 			myData.Add( "\n" + 
-					Catalog.GetString("Person ID") + ":" +
-					Catalog.GetString("Person name") + ":" +
-					Catalog.GetString("Pulse ID") + ":" + 
-					Catalog.GetString("Type") + ":" + 
-					//Catalog.GetString("Time") + ":" +
-					Catalog.GetString("Description") + ":" +
+					Catalog.GetString("Person ID") + ":::" +
+					Catalog.GetString("Person name") + ":::" +
+					Catalog.GetString("Pulse ID") + ":::" + 
+					Catalog.GetString("Type") + ":::" + 
+					//Catalog.GetString("Time") + ":::" +
+					Catalog.GetString("Description") + ":::" +
 					Catalog.GetString("Simulated") );
 
 			string [] myStr = pulseString.Split(new char[] {':'});
 			myData.Add (
-					myStr[2] + ":" +    			//personID
-					myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, pulse.uniqueID
-					myStr[4] + ":" +  		 	//type
-					Util.RemoveNewLine(myStr[8], true) + ":" + 
+					myStr[2] + ":::" +    			//personID
+					myStr[0] + ":::" +  myStr[1] + ":::" +  	//person.name, pulse.uniqueID
+					myStr[4] + ":::" +  		 	//type
+					Util.RemoveNewLine(myStr[8], true) + ":::" + 
 					Util.SimulatedTestNoYes(Convert.ToInt32(myStr[9]))		//description, simulated
 				   );
 			
@@ -1026,15 +1034,15 @@ public abstract class ExportSession
 			myData = new ArrayList(1);
 			//print intervalTimesString
 			string [] timeString = myStr[7].Split(new char[] {'='});
-			myData.Add( " " + ":" + 
+			myData.Add( " " + ":::" + 
 					Catalog.GetString ("Time") );
 
 			//print Total, AVG, SD
-			myData.Add(Catalog.GetString("Total") + ":" +
+			myData.Add(Catalog.GetString("Total") + ":::" +
 					Util.TrimDecimals(Util.GetTotalTime(myStr[7]).ToString(), dec));
-			myData.Add(Catalog.GetString("AVG") + ":" +
+			myData.Add(Catalog.GetString("AVG") + ":::" +
 					Util.TrimDecimals(Util.GetAverage(myStr[7]).ToString(), dec));
-			myData.Add(Catalog.GetString("SD") + ":" + 
+			myData.Add(Catalog.GetString("SD") + ":::" + 
 					Util.TrimDecimals(Util.CalculateSD(
 							Util.ChangeEqualForColon(myStr[7]),
 							Util.GetTotalTime(myStr[7]),
@@ -1043,7 +1051,7 @@ public abstract class ExportSession
 				
 			int count = 1;
 			foreach(string myTime in timeString) {
-				myData.Add((count++).ToString() + ":" + 
+				myData.Add((count++).ToString() + ":::" + 
 						Util.TrimDecimals(myTime, dec)
 					  );
 			}
@@ -1065,11 +1073,11 @@ public abstract class ExportSession
 			myData = new ArrayList(1);
 
 			myData.Add( "\n" + 
-					Catalog.GetString("Person ID") + ":" +
-					Catalog.GetString("Person name") + ":" +
-					Catalog.GetString("MC ID") + ":" + 
-					Catalog.GetString("Type") + ":" + 
-					Catalog.GetString("Description") + ":" +
+					Catalog.GetString("Person ID") + ":::" +
+					Catalog.GetString("Person name") + ":::" +
+					Catalog.GetString("MC ID") + ":::" + 
+					Catalog.GetString("Type") + ":::" + 
+					Catalog.GetString("Description") + ":::" +
 					Catalog.GetString("Simulated") );
 
 			string [] myStr = testString.Split(new char[] {':'});
@@ -1098,10 +1106,10 @@ public abstract class ExportSession
 				typeExtra = mc.Vars + " cm.";
 
 			myData.Add (
-					mc.PersonID + ":" +    			
-					myStr[0] + ":" +  mc.UniqueID + ":" +  	//person.name, mc.uniqueID
-					mc.Type + " " + typeExtra  + ":" +  		 	
-					Util.RemoveNewLine(mc.Description, true) + ":" + 
+					mc.PersonID + ":::" +    			
+					myStr[0] + ":::" +  mc.UniqueID + ":::" +  	//person.name, mc.uniqueID
+					mc.Type + " " + typeExtra  + ":::" +  		 	
+					Util.RemoveNewLine(mc.Description, true) + ":::" + 
 					Util.SimulatedTestNoYes(Convert.ToInt32(mc.Simulated.ToString()))
 				   );
 			
@@ -1111,8 +1119,8 @@ public abstract class ExportSession
 		
 			string cols4 = ": : : :";
 			myData.Add( mc.DeleteCols(
-						" " + ":" + 
-						Catalog.GetString ("Time") + ":" +
+						" " + ":::" + 
+						Catalog.GetString ("Time") + ":::" +
 						Catalog.GetString ("State") + cols4 +
 						Catalog.GetString ("Change") + cols4 +
 						Catalog.GetString ("IN-IN") + cols4 + 
@@ -1122,8 +1130,8 @@ public abstract class ExportSession
 
 			string titleStr = "CP1:CP2:CP3:CP4:";
 			myData.Add( mc.DeleteCols(
-						" " + ":" + 
-						" " + ":" +
+						" " + ":::" + 
+						" " + ":::" +
 						titleStr + 
 						titleStr + 
 						titleStr + 
@@ -1135,13 +1143,13 @@ public abstract class ExportSession
 			int count = 0;
 			myData.Add( mc.DeleteCols(
 						Catalog.GetString("AVG") + ": : " + cols4 + " " + cols4 + 
-						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":" +
-						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":" +
-						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":" +
-						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":" +
-						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":" +
-						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":" +
-						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":::" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":::" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":::" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":::" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":::" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":::" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":::" +
 						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec ))
 						, mc.CPs(), false)
 				  );
@@ -1150,13 +1158,13 @@ public abstract class ExportSession
 			count = 0;
 			myData.Add( mc.DeleteCols(
 						Catalog.GetString("SD") + ": : " + cols4 + " " + cols4 + 
-						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":" +
-						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":" +
-						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":" +
-						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":" +
-						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":" +
-						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":" +
-						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":::" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":::" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":::" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":::" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":::" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":::" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":::" +
 						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec ))
 						, mc.CPs(), false)
 				  
@@ -1244,12 +1252,12 @@ public class ExportSessionCSV : ExportSession
 
 			if(latin) {
 				//put ';' as separator
-				exportData[i] = exportData[i].ToString().Replace(":", ";");
+				exportData[i] = exportData[i].ToString().Replace(":::", ";");
 			} else {
 				//decimal as "."
 				exportData[i] = exportData[i].ToString().Replace(",", ".");
 				//put ',' as separator
-				exportData[i] = exportData[i].ToString().Replace(":", ",");
+				exportData[i] = exportData[i].ToString().Replace(":::", ",");
 			}
 
 			writer.WriteLine( exportData[i] );

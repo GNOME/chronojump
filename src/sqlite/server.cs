@@ -190,7 +190,7 @@ class SqliteServer : Sqlite
 			myEval.Code = reader[1].ToString(); 
 			myEval.Name = reader[2].ToString(); 
 			myEval.Email = reader[3].ToString(); 
-			myEval.DateBorn = UtilDate.FromSQL(reader[4].ToString());
+			myEval.DateBorn = UtilDate.DateFromSQL(reader[4].ToString());
 			myEval.CountryID = Convert.ToInt32(reader[5].ToString());
 			myEval.Chronometer = reader[6].ToString();
 			myEval.Device = reader[7].ToString();

@@ -70,7 +70,7 @@ class SqliteSessionOld : Sqlite
         while (reader.Read())
         {
             Session mySession = new Session(reader[0].ToString(), reader[1].ToString(),
-                    reader[2].ToString(), UtilDate.FromSQL(reader[3].ToString()),
+                    reader[2].ToString(), UtilDate.DateFromSQL(reader[3].ToString()),
                     1, //sport undefined
                     -1, //speciallity undefined
                     -1, //practice level undefined

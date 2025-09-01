@@ -113,7 +113,7 @@ class SqlitePersonOld : Sqlite
                     Convert.ToInt32(reader[0].ToString()), //uniqueID
                     reader[1].ToString(),           //name
                     reader[2].ToString(),           //sex
-                    UtilDate.FromSQL(reader[3].ToString()),//dateBorn
+                    UtilDate.DateFromSQL(reader[3].ToString()),//dateBorn
                     Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())), //height
                     Convert.ToDouble(Util.ChangeDecimalSeparator(reader[5].ToString())), //weight
 

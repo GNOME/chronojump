@@ -109,7 +109,7 @@ public class PersonOld {
 		this.uniqueID = Convert.ToInt32(myString[0]);
 		this.name = myString[1];
 		this.sex = myString[2];
-		this.dateBorn = UtilDate.FromSQL(myString[3]);
+		this.dateBorn = UtilDate.DateFromSQL(myString[3]);
 		this.height = Convert.ToDouble(Util.ChangeDecimalSeparator(myString[4]));
 		this.weight = Convert.ToDouble(Util.ChangeDecimalSeparator(myString[5]));
 		this.sportID = Convert.ToInt32(myString[6]);

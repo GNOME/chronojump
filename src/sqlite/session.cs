@@ -164,7 +164,7 @@ public class SqliteSessionSwitcher
             reader.Close();
 
             Session mySession = new Session(values[0],
-                                            values[1], values[2], UtilDate.FromSQL(values[3]),
+                                            values[1], values[2], UtilDate.DateFromSQL(values[3]),
                                             Convert.ToInt32(values[4]), Convert.ToInt32(values[5]), Convert.ToInt32(values[6]),
                                             values[7], Convert.ToInt32(values[8]));
 
@@ -348,7 +348,7 @@ class SqliteSession : Sqlite
 					reader[0].ToString(),
 					reader[1].ToString(),
 					reader[2].ToString(),
-					UtilDate.FromSQL(reader[3].ToString()),
+					UtilDate.DateFromSQL(reader[3].ToString()),
 					Convert.ToInt32(reader[4].ToString()),
 					Convert.ToInt32(reader[5].ToString()),
 					Convert.ToInt32(reader[6].ToString()),
@@ -395,10 +395,10 @@ class SqliteSession : Sqlite
 		while(reader.Read()) {
 			if(commentsDisable) {
 				myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() + ":" +
-						reader[2].ToString() + ":" + UtilDate.FromSQL(reader[3].ToString()).ToShortDateString() );
+						reader[2].ToString() + ":" + UtilDate.DateFromSQL(reader[3].ToString()).ToShortDateString() );
 			} else {
 				myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() + ":" +
-						reader[2].ToString() + ":" + UtilDate.FromSQL(reader[3].ToString()).ToShortDateString() + ":" +
+						reader[2].ToString() + ":" + UtilDate.DateFromSQL(reader[3].ToString()).ToShortDateString() + ":" +
 						reader[4].ToString() );
 			}
 			count ++;
@@ -574,7 +574,7 @@ class SqliteSession : Sqlite
 						Convert.ToInt32 (reader[0].ToString()),
 						reader[1].ToString(),
 						reader[2].ToString(),
-						UtilDate.FromSQL(reader[3].ToString()).ToShortDateString(),
+						UtilDate.DateFromSQL(reader[3].ToString()).ToShortDateString(),
 						sportName,
 						speciallityName,
 						levelName,

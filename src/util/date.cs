@@ -97,7 +97,7 @@ public class UtilDate
 
 	//comes from sql like YYYY-MM-DD (with always all digits)
 	//return datetime
-	public static DateTime FromSQL (string date)
+	public static DateTime DateFromSQL (string date)
 	{
 		//LogB.Information("UtilDate.FromSQL date: " + date);
 		/*

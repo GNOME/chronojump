@@ -700,9 +700,9 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == LastBackupDirStr)
 				preferences.lastBackupDir = reader[1].ToString();
 			else if(reader[0].ToString() == LastBackupDatetimeStr)
-				preferences.lastBackupDatetime = UtilDate.FromSQL(reader[1].ToString());
+				preferences.lastBackupDatetime = UtilDate.DateFromSQL(reader[1].ToString());
 			else if(reader[0].ToString() == BackupScheduledCreatedDateStr)
-				preferences.backupScheduledCreatedDate = UtilDate.FromSQL(reader[1].ToString());
+				preferences.backupScheduledCreatedDate = UtilDate.DateFromSQL(reader[1].ToString());
 			else if(reader[0].ToString() == BackupScheduledNextDaysStr)
 				preferences.backupScheduledNextDays = Convert.ToInt32(reader[1].ToString());
 

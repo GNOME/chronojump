@@ -4532,7 +4532,7 @@ class Sqlite
 		conversionSubRate = 1;
 		foreach(string str in myArray) {
 			string [] id_date = str.Split(new char[] {':'});
-			DateTime dt = UtilDate.FromSQL(id_date[1]);
+			DateTime dt = UtilDate.DateFromSQL(id_date[1]);
 			dbcmd.CommandText = "UPDATE person set dateBorn = '" + UtilDate.ToDateSQL(dt) +
 				"' WHERE uniqueID = " + id_date[0];
 			LogB.SQL(dbcmd.CommandText.ToString());
@@ -4560,7 +4560,7 @@ class Sqlite
 		conversionSubRate = 1;
 		foreach(string str in myArray) {
 			string [] id_date = str.Split(new char[] {':'});
-			DateTime dt = UtilDate.FromSQL(id_date[1]);
+			DateTime dt = UtilDate.DateFromSQL(id_date[1]);
 			dbcmd.CommandText = "UPDATE session set date = '" + UtilDate.ToDateSQL(dt) +
 				"' WHERE uniqueID = " + id_date[0];
 			LogB.SQL(dbcmd.CommandText.ToString());
@@ -4588,7 +4588,7 @@ class Sqlite
 		conversionSubRate = 1;
 		foreach(string str in myArray) {
 			string [] id_date = str.Split(new char[] {':'});
-			DateTime dt = UtilDate.FromSQL(id_date[1]);
+			DateTime dt = UtilDate.DateFromSQL(id_date[1]);
 			dbcmd.CommandText = "UPDATE SEvaluator set dateBorn = '" + UtilDate.ToDateSQL(dt) +
 				"' WHERE uniqueID = " + id_date[0];
 			LogB.SQL(dbcmd.CommandText.ToString());

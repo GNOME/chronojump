@@ -139,7 +139,7 @@ class SqliteEncoder1RM : Sqlite
                         Convert.ToInt32(reader[0].ToString()),  //uniqueID
                         Convert.ToInt32(reader[1].ToString()),  //personID	
                         Convert.ToInt32(reader[2].ToString()),  //sessionID
-                        UtilDate.FromSQL(reader[10].ToString()),//date
+                        UtilDate.DateFromSQL(reader[10].ToString()),//date
                         Convert.ToInt32(reader[3].ToString()),  //exerciseID
                         Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())),  //load1RM
                         reader[8].ToString(),   //personName
@@ -150,7 +150,7 @@ class SqliteEncoder1RM : Sqlite
                         Convert.ToInt32(reader[0].ToString()),  //uniqueID
                         Convert.ToInt32(reader[1].ToString()),  //personID	
                         Convert.ToInt32(reader[2].ToString()),  //sessionID
-                        UtilDate.FromSQL(reader[5].ToString()),     //date
+                        UtilDate.DateFromSQL(reader[5].ToString()),     //date
                         Convert.ToInt32(reader[3].ToString()),  //exerciseID
                         Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString()))  //load1RM
                         );

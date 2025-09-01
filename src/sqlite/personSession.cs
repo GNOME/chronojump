@@ -302,7 +302,7 @@ class SqlitePersonSession : Sqlite
 					Convert.ToInt32(reader[0].ToString()),	//uniqueID
 					reader[1].ToString(),			//name
 					reader[2].ToString(),			//sex
-					UtilDate.FromSQL(reader[3].ToString()),	//dateBorn
+					UtilDate.DateFromSQL(reader[3].ToString()),	//dateBorn
 					Convert.ToInt32(reader[4].ToString()),	//race
 					Convert.ToInt32(reader[5].ToString()),	//countryID
 					reader[6].ToString(),			//description
@@ -383,7 +383,7 @@ class SqlitePersonSession : Sqlite
 					Convert.ToInt32(reader[0].ToString()),	//uniqueID
 					reader[1].ToString(),			//name
 					reader[2].ToString(),			//sex
-					UtilDate.FromSQL(reader[3].ToString()),	//dateBorn
+					UtilDate.DateFromSQL(reader[3].ToString()),	//dateBorn
 					Convert.ToInt32(reader[4].ToString()),	//race
 					Convert.ToInt32(reader[5].ToString()),	//countryID
 					reader[6].ToString(),			//description

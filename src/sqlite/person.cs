@@ -133,7 +133,7 @@ class SqlitePerson : Sqlite
 					Convert.ToInt32(reader[0].ToString()), //uniqueID
 					reader[1].ToString(), 			//name
 					reader[2].ToString(), 			//sex
-					UtilDate.FromSQL(reader[3].ToString()),//dateBorn
+					UtilDate.DateFromSQL(reader[3].ToString()),//dateBorn
 					Convert.ToInt32(reader[4].ToString()), //race
 					Convert.ToInt32(reader[5].ToString()), //countryID
 					reader[6].ToString(), 			//description
@@ -279,7 +279,7 @@ finishForeach:
 						Convert.ToInt32(reader2[0].ToString()), //uniqueID
 						reader2[1].ToString(), 			//name
 						reader2[2].ToString(), 			//sex
-						UtilDate.FromSQL(reader2[3].ToString()),//dateBorn
+						UtilDate.DateFromSQL(reader2[3].ToString()),//dateBorn
 						Convert.ToInt32(reader2[4].ToString()), //race
 						Convert.ToInt32(reader2[5].ToString()), //countryID
 						reader2[6].ToString(), 			//description
@@ -333,7 +333,7 @@ finishForeach:
 		while(reader.Read()) {
 			arraySessions.Add ( reader[0].ToString() + ":" + reader[1].ToString() + ":" +
 					reader[2].ToString() + ":" + 
-					UtilDate.FromSQL(reader[3].ToString()).ToShortDateString()
+					UtilDate.DateFromSQL(reader[3].ToString()).ToShortDateString()
 					);
 		}
 		reader.Close();

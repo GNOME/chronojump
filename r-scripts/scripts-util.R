@@ -51,6 +51,25 @@ fixDatetime <- function(str)
 	str=gsub('-',':', str)
 }
 
+#2024-02-18_14-06-04 -> 2024-02-18
+printDateFromDatetime <- function(str)
+{
+	if (length(unlist(strsplit(str, "_"))) != 2)
+		return (str)
+
+	return (unlist(strsplit(str, "_"))[1])
+}
+
+#2024-02-18_14-06-04 -> 14:06:04
+printTimeFromDatetime <- function(str)
+{
+	if (length(unlist(strsplit(str, "_"))) != 2)
+		return (str)
+
+	time <- unlist(strsplit(str, "_"))[2]
+	return (gsub('-',':', time))
+}
+
 #Function to get the interpolated x at a given y
 interpolateXAtY <- function(X, Y, desiredY, debug = FALSE)
 {

@@ -16,7 +16,7 @@
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 #   Copyright (C) 2018-2020   	Xavier Padullés <x.padulles@gmail.com>
-#   Copyright (C) 2020-2022   	Xavier de Blas <xaviblas@gmail.com>
+#   Copyright (C) 2020-2025   	Xavier de Blas <xaviblas@gmail.com>
 
 
 #-------------- get params -------------
@@ -1303,7 +1303,8 @@ start <- function(op)
 				dataFiles$device[i],
 				dataFiles$personName[i],
 				dataFiles$testName[i],
-				dataFiles$datetime[i],	op$startAccel,
+				dataFiles$datetime[i],
+				op$startAccel,
 				as.numeric(unlist(strsplit(as.character(dataFiles$triggersOn[i]), "\\,"))), #as.character() because -1 (no triggers) is readed as a number and then the strsplit fails
 				as.numeric(unlist(strsplit(as.character(dataFiles$triggersOff[i]), "\\,")))
 		)
@@ -1319,7 +1320,11 @@ start <- function(op)
 			print ("exportRow: ")
 			print (exportRow)
 
-			exportRowDF = data.frame(dataFiles$personName[i], dataFiles$testName[i], dataFiles$datetime[i]) #create dataframe for this row with some columns
+			exportRowDF = data.frame(dataFiles$personName[i], dataFiles$testName[i],
+						 printDateFromDatetime (dataFiles$datetime[i]),
+						 printTimeFromDatetime (dataFiles$datetime[i])
+			) #create dataframe for this row with some columns
+
 			#add exportRow data (this way we solve problems of adding strings with numbers without converting the numbers to strings
 			#(to control if we print them as , or .)
 			for(j in 1:length(exportRow))
@@ -1331,7 +1336,8 @@ start <- function(op)
 				exportRowDF = cbind(exportRowDF, paste(i, "_", dataFiles$personName[i], "_", dataFiles$testName[i], ".csv", sep=""))
 
 			#write the correct names of the row dataframe
-			namesDF = c("Person","Test","Datetime",names,"comments")
+			#namesDF = c("Person","Test","Datetime",names,"comments")
+			namesDF = c("Person","Test","Date","Time",names,"comments")
 			if(op$includeImagesOnExport)
 				namesDF = c(namesDF, "Image")
 			if(op$includeInstantaneousOnExport)

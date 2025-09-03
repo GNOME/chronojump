@@ -199,7 +199,9 @@ void setup() {
 
   attachInterrupt(EncoderZPin, changedZ, FALLING);
   attachInterrupt(EncoderAPin, changedA, RISING);  //TODO: implement the possibility of detect every change in both signals. It makes the precission 4 times better
-  pinMode(EncoderBPin, INPUT);
+  pinMode(EncoderAPin, INPUT_PULLDOWN);
+  pinMode(EncoderBPin, INPUT_PULLDOWN);
+  pinMode(EncoderZPin, INPUT_PULLDOWN);
 
   // pinMode(LED_BUILTIN, OUTPUT);
 

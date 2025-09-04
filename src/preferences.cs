@@ -380,6 +380,7 @@ public class Preferences
 	public double forceSensorCalibrationWeight;
 	public double forceSensorCalibrationFactor;
 	public bool forceSensorStartEndOptimized;
+	public double forceSensorStartEndOptimizedModelSD;  // double: -1: Model; 1-9: SD
 	public enum ForceSensorMIFDurationModes { SECONDS, PERCENT };
 	public ForceSensorMIFDurationModes forceSensorMIFDurationMode;
 	public double forceSensorMIFDurationSeconds;

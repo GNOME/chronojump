@@ -161,6 +161,7 @@ class SqlitePreferences : Sqlite
 	public const string ForceSensorCalibrationWeightStr = "forceSensorCalibrationWeight";
 	public const string ForceSensorCalibrationFactorStr = "forceSensorCalibrationFactor";
 	public const string ForceSensorStartEndOptimized = "forceSensorStartEndOptimized";
+	public const string ForceSensorStartEndOptimizedModelSD = "forceSensorStartEndOptimizedModelSD"; // double: -1: Model; 1-9: SD
 	public const string ForceSensorMIFDurationMode = "forceSensorMIFDurationMode";
 	public const string ForceSensorMIFDurationSeconds = "forceSensorMIFDurationSeconds";
 	public const string ForceSensorMIFDurationPercent = "forceSensorMIFDurationPercent";
@@ -412,6 +413,7 @@ class SqlitePreferences : Sqlite
 				Insert (ForceSensorCalibrationWeightStr, "-1", dbcmdTr);
 				Insert (ForceSensorCalibrationFactorStr, "-1", dbcmdTr); //result value from sensor. Decimal is point!!
 				Insert (ForceSensorStartEndOptimized, "True", dbcmdTr);
+				Insert (ForceSensorStartEndOptimizedModelSD, "-1", dbcmdTr); //model
 				Insert (ForceSensorMIFDurationMode, Preferences.ForceSensorMIFDurationModes.SECONDS.ToString(), dbcmdTr);
 				Insert (ForceSensorMIFDurationSeconds, "2", dbcmdTr);
 				Insert (ForceSensorMIFDurationPercent, "5", dbcmdTr);
@@ -1086,6 +1088,9 @@ class SqlitePreferences : Sqlite
 			//force sensor MIF
 			else if(reader[0].ToString() == ForceSensorStartEndOptimized)
 				preferences.forceSensorStartEndOptimized = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == ForceSensorStartEndOptimizedModelSD)
+				preferences.forceSensorStartEndOptimizedModelSD = Convert.ToDouble (
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
 			else if(reader[0].ToString() == ForceSensorMIFDurationMode)
 				preferences.forceSensorMIFDurationMode = (Preferences.ForceSensorMIFDurationModes)
 					Enum.Parse(typeof(Preferences.ForceSensorMIFDurationModes), reader[1].ToString());

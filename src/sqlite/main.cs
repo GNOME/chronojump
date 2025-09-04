@@ -169,7 +169,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.66";
+	static string lastChronojumpDatabaseVersion = "2.67";
 
 	public Sqlite()
 	{
@@ -3692,6 +3692,14 @@ class Sqlite
 
 			currentVersion = updateVersion("2.66");
 		}
+		if(currentVersion == "2.66")
+		{
+			LogB.SQL("Added preferences: forceSensorStartEndOptimizedModelSD");
+
+			SqlitePreferences.Insert (SqlitePreferences.ForceSensorStartEndOptimizedModelSD, "-1");
+
+			currentVersion = updateVersion("2.67");
+		}
 
 
 		/*
@@ -3938,6 +3946,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.66 - 2.67 Converted DB to 2.67 Added preferences: forceSensorStartEndOptimizedModelSD
 		//2.65 - 2.66 Converted DB to 2.66 Ensure maxForceRaw, maxAvgForce1s are -1 instead of blank
 		//2.64 - 2.65 Converted DB to 2.65 Deleted orphaned encoder
 		//2.63 - 2.64 Converted DB to 2.64 alter table tempJumpRj adding heightAvg

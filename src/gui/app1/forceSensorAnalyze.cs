@@ -536,6 +536,16 @@ public partial class ChronoJumpWindow
 			grid_force_rfd_search_optimized_ab.Sensitive = false;
 		}
 
+		if (preferences.forceSensorStartEndOptimizedModelSD < 0)
+		{
+			radio_force_rfd_search_optimized_ab_model.Active = true;
+			spin_force_rfd_search_optimized_ab_sd.Sensitive = false;
+		} else {
+			radio_force_rfd_search_optimized_ab_sd.Active = true;
+			spin_force_rfd_search_optimized_ab_sd.Sensitive = true;
+			spin_force_rfd_search_optimized_ab_sd.Value = preferences.forceSensorStartEndOptimizedModelSD;
+		}
+
 		if(preferences.forceSensorMIFDurationMode == Preferences.ForceSensorMIFDurationModes.SECONDS)
 			radio_force_duration_seconds.Active = true;
 		else //(preferences.forceSensorMIFDurationMode == Preferences.ForceSensorMIFDurationModes.PERCENT)

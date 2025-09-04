@@ -40,13 +40,16 @@ public class EncoderPTForceCapture: ArduinoCapture
 	protected int receivedN;
 	protected string startCaptureStr;
 	protected int bufferBinaryBytesToReadAtLeast;
+	private string bufferRemainingStr; //to store chars not processed, part of the next sample that will be readed on next ReadWithBuffer
 
 	private List<EncoderPTForceEvent> list = new List<EncoderPTForceEvent>();
 	//private double runEncoderPPS; //TODO: name it pps
 	//private int bauds = 460800;
 	private string firmwareVersion;
 	private string portName;
-	private bool testing;
+
+	private int firstValue;
+	private int currentValue;
 
 	// constructor for inheritance
 	public EncoderPTForceCapture ()
@@ -54,20 +57,26 @@ public class EncoderPTForceCapture: ArduinoCapture
 	}
 
 	// constructor
-	public EncoderPTForceCapture (string portName, bool testing)//, double runEncoderPPS)
+	public EncoderPTForceCapture (string portName)//, double runEncoderPPS)
 	{
 		this.portName = portName;
-		this.testing = testing;
 		//this.runEncoderPPS = runEncoderPPS;
 
 		cancel = false;
 		startCaptureStr = "start_capture:";
-		bufferBinaryBytesToReadAtLeast = 12;
+		//bufferBinaryBytesToReadAtLeast = 6; //now only encoder, when add forceSensor need to increase this
 
 		if (micro == null || micro.PortName != portName || micro.Bauds != bauds)
 			micro = new Micro (portName, bauds);
 
 		Reset ();
+
+		// for buffer on text transmission
+		micro.BufferInit ();
+		bufferRemainingStr = "";
+
+		firstValue = -1;
+		currentValue = -1;
 	}
 
 	//after a first capture, put variales to zero
@@ -76,7 +85,7 @@ public class EncoderPTForceCapture: ArduinoCapture
 		initialize ();
 	}
 
-	public override bool CaptureStart()
+	public override bool CaptureStart ()
 	{
 		receivedN = 0;
 
@@ -168,36 +177,26 @@ public class EncoderPTForceCapture: ArduinoCapture
 	public override bool CaptureSample ()
 	{
 		/*
-		if (testing)
-			return captureSampleTesting ();
-		else
-			return captureSampleNormal ();
-			*/
-		//return captureSampleTestingText ();
-		return false;
-	}
-
-	private bool captureSampleNormal ()
-	{
-		/*
 		 * if at CaptureStart device is disconnected,
 		 * micro gets closed there and here it shoud not readLine
 		 */
 		if (! micro.Opened)
 			return false;
 
-		/*
-		List<int> row_l;
+		//List<int> row_l;
 		//if(! readBinarySample (out row_l))
-		if(! readBinaryEncoderSample (out row_l))
+		//if(! readBinaryEncoderSample (out row_l))
+		if(! readSample ())
 		{
 			micro.ClosePort ();
 			return false;
 		}
 
+		/*
 //		EncoderPTForceEvent eptfe = new EncoderPTForceEvent (row_l);
 //		list.Add (eptfe);
 		*/
+
 		return true;
 	}
 
@@ -248,6 +247,79 @@ public class EncoderPTForceCapture: ArduinoCapture
 
 	// private stuff ---->
 
+	// Note right now this is very similar to readSample on: EncoderPTForceCaptureTestsTextEncCountUp
+	// but we will need to add the force reading
+	protected virtual bool readSample ()
+	{
+		int bytesRead = 0;
+		try {
+			//bytesRead = micro.ReadWithBuffer (0, 5); //is this 5 bytes buffer read useful at all?
+			bytesRead = micro.ReadWithBuffer (0, -1);
+		}
+		catch (Exception ex)
+		{
+			if(ex is System.IO.IOException || ex is System.TimeoutException)
+				LogB.Information ("catched on readBinarySampleTesting port.Read ()");
+
+			return false;
+		}
+
+		string s = bufferRemainingStr;
+		LogB.Information (string.Format ("s before for:|{0}|", s));
+		for (int i = 0; i < bytesRead; i ++)
+		{
+			int c = micro.GetBufferAtPos (i);
+			if (c == 59)
+				s += ";";
+			else if (c == 10 || c == 13) // 10: line feed; 13: carriage return
+			{
+				if (s != "") //to not show empty sample when linefeed & carriage return
+				{
+					//LogB.Information ("sample: " + s);
+					if (! processSample (s))
+						return false;
+				}
+				s = "";
+			} else
+				s += micro.GetBufferAtPos (i) - '0';
+		}
+		bufferRemainingStr = s;
+
+		LogB.Information (string.Format ("bufferRemainingStr:|{0}|", bufferRemainingStr));
+		return true;
+	}
+
+	// Note right now this is very similar to processSample on: EncoderPTForceCaptureTestsTextEncCountUp
+	// but we will need to add the force reading
+	private bool processSample (string s)
+	{
+		string [] sFull = s.Split(new char[] {';'});
+		if (sFull.Length != 2)
+		{
+			LogB.Information ("error 1 - received: " + s);
+			return false;
+		}
+
+		if (! Util.IsNumber (sFull[0], false))
+		{
+			LogB.Information ("error 2 - before ; is not a number: " + s);
+			return false;
+		}
+
+		if (! Util.IsNumber (sFull[1], false))
+		{
+			LogB.Information ("error 3 - after ; is not a number: " + s);
+			return false;
+		}
+
+		if (firstValue < 0)
+			firstValue = Convert.ToInt32 (sFull[1]);
+
+		currentValue = Convert.ToInt32 (sFull[1]);
+		LogB.Information (string.Format ("received: {0} (count: {1})", s, receivedN ++));
+
+		return true;
+	}
 
 	/*
 		12 bytes
@@ -375,6 +447,13 @@ public class EncoderPTForceCapture: ArduinoCapture
 		set { runEncoderPPS = value; }
 	}
 	*/
+
+	public int FirstValue {
+		get { return firstValue; }
+	}
+	public int CurrentValue {
+		get { return currentValue; }
+	}
 }
 
 public class EncoderPTForceEvent

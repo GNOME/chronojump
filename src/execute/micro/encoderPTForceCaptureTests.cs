@@ -136,8 +136,10 @@ public class EncoderPTForceCaptureTestsTextEncCountUp: EncoderPTForceCaptureTest
 
 		Reset ();
 
+		// for buffer on text transmission
 		micro.BufferInit ();
 		bufferRemainingStr = "";
+
 		debugTextCount = -1; //count it does not start at 0, as maybe we will start receiving when Arduino has sended lot of info
 	}
 

@@ -21,7 +21,7 @@
 using System;
 using System.Collections.Generic; //List<T>
 
-using System.Diagnostics; //Stopwatch
+//using System.Diagnostics; //Stopwatch
 
 public partial class ChronoJumpWindow
 {
@@ -29,14 +29,14 @@ public partial class ChronoJumpWindow
 
 	//passed variables
 	EncoderPTForceCapture eptfc;
-	private bool binaryBuffer;
 
 	private void encoderPTForceCaptureDo (
-			EncoderPTForceCapture eptfc, bool binary,
-			string csvURL, bool testing, int seconds)
+			EncoderPTForceCapture eptfc,
+			bool binaryBuffer,
+			string csvURL,
+			int seconds)
 	{
 		this.eptfc = eptfc;
-		this.binaryBuffer = binaryBuffer;
 
 		//runEncoderPulseMessage = "Capture eptfc... please wait";
 		LogB.Information("eptfcm start");
@@ -48,7 +48,7 @@ public partial class ChronoJumpWindow
 			eptfc = new EncoderPTForceCaptureTestsTextEncCountUp ( 		// works!
 //			eptfc = new EncoderPTForceCaptureTestsBinaryEncoder5Bytes ( 	// works!
 //			eptfc = new EncoderPTForceCaptureTestsBinaryEncoder8Bytes ( 	// works!
-					portName);//, testing);
+					portName);
 					//chronopicRegister.GetSelectedForMode (current_mode).Port,
 					//preferences.runEncoderPPS);
 		*/
@@ -134,14 +134,26 @@ public class EncoderPTForceCaptureManage : EncoderPTCaptureManage
 		bool timePreSet = false;
 		bool speedPreSet = false;
 
-		TextWriter writer = File.CreateText (csvURL);
-		writer.WriteLine ("sensor;time;value");
-
-		Stopwatch stopwatch = new Stopwatch ();
-		stopwatch.Start ();
-		while (! finish && ! cancel && ! error && stopwatch.Elapsed.TotalSeconds < seconds)
+		TextWriter writer = null;
+		if (csvURL != "")
 		{
+			writer = File.CreateText (csvURL);
+			writer.WriteLine ("sensor;time;value");
+		}
+
+		//Stopwatch stopwatch = new Stopwatch ();
+		//stopwatch.Start ();
+		//while (! finish && ! cancel && ! error && stopwatch.Elapsed.TotalSeconds < seconds)
+		while (! finish && ! cancel && ! error && encoderPTForceCapture.CurrentValue - encoderPTForceCapture.FirstValue < 10000000)
+		{
+			/*
 			if (binaryBuffer && ! encoderPTForceCapture.BytesToReadEnoughForASample ())
+				continue;
+				*/
+			LogB.Information ("NumBytesToRead:");
+			LogB.Information (encoderPTForceCapture.NumBytesToRead ().ToString ());
+			//if (encoderPTForceCapture.NumBytesToRead () < encoderPTForceCapture.BytesToReadEnoughForASample ()) //not sure because these are bytes, just use 20 now
+			if (encoderPTForceCapture.NumBytesToRead () < 20)
 				continue;
 
 			//LogB.Information ("YESREAD");
@@ -165,7 +177,8 @@ public class EncoderPTForceCaptureManage : EncoderPTCaptureManage
 				EncoderPTForceEvent eptfe = encoderPTForceCapture.ReadNext();
 				LogB.Information("eptfe: " + eptfe.ToString());
 
-				writer.Write (eptfe + "\n");
+				if (csvURL != "")
+					writer.Write (eptfe + "\n");
 				//count ++;
 
 				/*
@@ -210,9 +223,12 @@ public class EncoderPTForceCaptureManage : EncoderPTCaptureManage
 		}
 		encoderPTForceCapture.Stop ();
 
-		writer.Flush();
-		writer.Close();
-		((IDisposable)writer).Dispose();
+		if (csvURL != "")
+		{
+			writer.Flush();
+			writer.Close();
+			((IDisposable)writer).Dispose();
+		}
 
 		if (finish)
 			LogB.Information("finished");

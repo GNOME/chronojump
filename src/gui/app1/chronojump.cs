@@ -1421,9 +1421,12 @@ public partial class ChronoJumpWindow
 
 		/*
 		encoderPTForceCaptureDo (
-				new EncoderPTForceCaptureTestsTextEncCountUp ("/dev/ttyACM4"), false, //eptfc (port), binaryBuffer
-				"/tmp/forceEncoderPPS1.csv", false, 10); // csvFile, testing, seconds
-				*/
+				//new EncoderPTForceCaptureTestsTextEncCountUp ("/dev/ttyACM4"), //eptfc (port), binaryBuffer
+				new EncoderPTForceCapture ("/dev/ttyACM3"),
+				false,  //binaryBuffer
+				"", //"/tmp/forceEncoderPPS1.csv", // csvFile
+				10); // seconds
+		*/
     }
 
     /// <summary>

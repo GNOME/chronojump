@@ -48,6 +48,10 @@ public partial class ChronoJumpWindow
 
 	Gtk.RadioButton radio_force_rfd_search_optimized_ab;
 	Gtk.RadioButton radio_force_rfd_use_ab_range;
+	Gtk.Grid grid_force_rfd_search_optimized_ab;
+	Gtk.SpinButton spin_force_rfd_search_optimized_ab_sd;
+	Gtk.RadioButton radio_force_rfd_search_optimized_ab_model;
+	Gtk.RadioButton radio_force_rfd_search_optimized_ab_sd;
 	Gtk.SpinButton spin_force_duration_seconds;
 	Gtk.RadioButton radio_force_duration_seconds;
 	Gtk.HBox hbox_force_rfd_duration_percent;
@@ -71,7 +75,6 @@ public partial class ChronoJumpWindow
 	Gtk.HBox hbox_force_show_9;
 	Gtk.HBox hbox_force_show_10;
 	*/
-	Gtk.VBox vbox_force_rfd_duration_end;
 	Gtk.HBox hbox_force_1;
 	Gtk.HBox hbox_force_2;
 	Gtk.HBox hbox_force_3;
@@ -310,6 +313,16 @@ public partial class ChronoJumpWindow
 					radio_force_rfd_search_optimized_ab.Active.ToString(), true);
 		}
 
+		//if(preferences.forceSensorStartEndOptimizedModelSD > 0 && radio_force_rfd_search_optimized_ab_model.Active)
+		if (radio_force_rfd_search_optimized_ab_sd.Active)
+			preferences.forceSensorStartEndOptimizedModelSD = Preferences.PreferencesChange(
+					true, SqlitePreferences.ForceSensorStartEndOptimizedModelSD,
+					preferences.forceSensorStartEndOptimizedModelSD, spin_force_rfd_search_optimized_ab_sd.Value);
+		else if (radio_force_rfd_search_optimized_ab_model.Active && preferences.forceSensorStartEndOptimizedModelSD > 0)
+			preferences.forceSensorStartEndOptimizedModelSD = Preferences.PreferencesChange(
+					true, SqlitePreferences.ForceSensorStartEndOptimizedModelSD,
+					preferences.forceSensorStartEndOptimizedModelSD, -1);
+
 		if(preferences.forceSensorMIFDurationMode == Preferences.ForceSensorMIFDurationModes.SECONDS &&
 				radio_force_rfd_duration_percent.Active)
 		{
@@ -360,11 +373,20 @@ public partial class ChronoJumpWindow
 
 	private void on_radio_force_rfd_search_optimized_ab_toggled (object o, EventArgs args)
 	{
-		vbox_force_rfd_duration_end.Sensitive = true;
+		grid_force_rfd_search_optimized_ab.Sensitive = true;
 	}
 	private void on_radio_force_rfd_use_ab_range_toggled (object o, EventArgs args)
 	{
-		vbox_force_rfd_duration_end.Sensitive = false;
+		grid_force_rfd_search_optimized_ab.Sensitive = false;
+	}
+
+	private void on_radio_force_rfd_search_optimized_ab_model_toggled (object o, EventArgs args)
+	{
+		spin_force_rfd_search_optimized_ab_sd.Sensitive = false;
+	}
+	private void on_radio_force_rfd_search_optimized_ab_sd_toggled (object o, EventArgs args)
+	{
+		spin_force_rfd_search_optimized_ab_sd.Sensitive = true;
 	}
 
 	private void check_force_visibilities()
@@ -508,10 +530,10 @@ public partial class ChronoJumpWindow
 		if(preferences.forceSensorStartEndOptimized)
 		{
 			radio_force_rfd_search_optimized_ab.Active = true;
-			vbox_force_rfd_duration_end.Sensitive = true;
+			grid_force_rfd_search_optimized_ab.Sensitive = true;
 		} else {
 			radio_force_rfd_use_ab_range.Active = true;
-			vbox_force_rfd_duration_end.Sensitive = false;
+			grid_force_rfd_search_optimized_ab.Sensitive = false;
 		}
 
 		if(preferences.forceSensorMIFDurationMode == Preferences.ForceSensorMIFDurationModes.SECONDS)
@@ -1676,6 +1698,10 @@ public partial class ChronoJumpWindow
 
 		radio_force_rfd_search_optimized_ab = (Gtk.RadioButton) builder.GetObject ("radio_force_rfd_search_optimized_ab");
 		radio_force_rfd_use_ab_range = (Gtk.RadioButton) builder.GetObject ("radio_force_rfd_use_ab_range");
+		grid_force_rfd_search_optimized_ab = (Gtk.Grid) builder.GetObject ("grid_force_rfd_search_optimized_ab");
+		spin_force_rfd_search_optimized_ab_sd = (Gtk.SpinButton) builder.GetObject ("spin_force_rfd_search_optimized_ab_sd");
+		radio_force_rfd_search_optimized_ab_model = (Gtk.RadioButton) builder.GetObject ("radio_force_rfd_search_optimized_ab_model");
+		radio_force_rfd_search_optimized_ab_sd = (Gtk.RadioButton) builder.GetObject ("radio_force_rfd_search_optimized_ab_sd");
 		spin_force_duration_seconds = (Gtk.SpinButton) builder.GetObject ("spin_force_duration_seconds");
 		radio_force_duration_seconds = (Gtk.RadioButton) builder.GetObject ("radio_force_duration_seconds");
 		hbox_force_rfd_duration_percent = (Gtk.HBox) builder.GetObject ("hbox_force_rfd_duration_percent");
@@ -1699,7 +1725,6 @@ public partial class ChronoJumpWindow
 		hbox_force_show_9 = (Gtk.HBox) builder.GetObject ("hbox_force_show_9");
 		hbox_force_show_10 = (Gtk.HBox) builder.GetObject ("hbox_force_show_10");
 		*/
-		vbox_force_rfd_duration_end = (Gtk.VBox) builder.GetObject ("vbox_force_rfd_duration_end");
 		hbox_force_1 = (Gtk.HBox) builder.GetObject ("hbox_force_1");
 		hbox_force_2 = (Gtk.HBox) builder.GetObject ("hbox_force_2");
 		hbox_force_3 = (Gtk.HBox) builder.GetObject ("hbox_force_3");

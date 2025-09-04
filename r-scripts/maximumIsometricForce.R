@@ -139,9 +139,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex
 {
     print("Entered getDynamicsFromLoadCellFile")
 
-
-    sdMethod = FALSE # Caution: if this is TRUE please fix startSample on getStartSampleBySDMethod () see TODO there
-
+    sdMethod = FALSE # TODO: hardcoded! please pass this from Chronojump
     
     originalTest = read.csv(inputFile, header = F, dec = decimalChar, sep = ";", skip = 2)
     colnames(originalTest) <- c("time", "force")
@@ -161,15 +159,20 @@ getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex
     # The onset of the test is calculated with the SD method
     if (sdMethod)
     {
-	    sdStartSample = getStartSampleBySDMethod(originalTest, rfd, threashold = 5)
-	    sdEndTime = originalTest$time[sdStartSample] + testLength
-	    sdEndSample = which.min(abs(originalTest$time - sdEndTime) )
-	    model2 = getForceModel(  time = originalTest$time[sdStartSample:sdEndSample]
-				   , force = originalTest$force[sdStartSample:sdEndSample]
-				   , startTime = originalTest$time[sdStartSample]
-				   , fmaxi = max(originalTest$force[sdStartSample:sdEndSample])
-				   , previousForce = originalTest$force[2]
-				   , timeShift = FALSE)
+	    sdStartSample = getStartSampleBySDMethod (originalTest, rfd, threashold = 5)
+	    if (sdStartSample < 0)
+	    {
+		    sdMethod = FALSE
+	    } else {
+		    sdEndTime = originalTest$time[sdStartSample] + testLength
+		    sdEndSample = which.min(abs(originalTest$time - sdEndTime) )
+		    model2 = getForceModel(  time = originalTest$time[sdStartSample:sdEndSample]
+					   , force = originalTest$force[sdStartSample:sdEndSample]
+					   , startTime = originalTest$time[sdStartSample]
+					   , fmaxi = max(originalTest$force[sdStartSample:sdEndSample])
+					   , previousForce = originalTest$force[2]
+					   , timeShift = FALSE)
+	    }
     }
 
     #If Roptions.txt does have endSample values greater than 1 it means that the user has selected a range
@@ -190,8 +193,6 @@ getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex
     
     if(op$startEndOptimized == "TRUE")
     {
-        
-            
         bestFit = getBestFit(originalTest
                                  , averageLength = averageLength
                                  , percentChange = percentChange
@@ -876,15 +877,9 @@ getAvgRfdXSeconds <-function(dynamics, window)
 # - RFD method: When the RFD is at least 20% of the maximum RFD
 #
 
+# Returns -1 if not worked
 getStartSampleBySDMethod <- function(test, rfd, threashold = 5)
 {
- 
-    # ----------
-    # TODO:
-    # fix startSample. Is not defined if do not enter to the while and the if. So will fail on
-    # currentSample = startSample - 1
-    # ----------
-
     print("On getStartSampleBySDMethod")
     # The onset is always before the maximum force
     maxSample = which.max(test$force)
@@ -897,7 +892,9 @@ getStartSampleBySDMethod <- function(test, rfd, threashold = 5)
     # Increment of the force that marks the onset. Tthreshold times the SD
     increment = threashold * sd(test$force[currentSample:(currentSample - previousSamples)] )
     # The threashold that the force must pass to consider the onset of the increment
-    limit =  previousMeanForce + increment
+    limit = previousMeanForce + increment
+
+    startSampleDefined = FALSE
     while( (currentSample < maxSample))
     {
         # print( paste( "sample:", currentSample, "increment:", increment, "limit:", limit, "preiousMeanForce:", previousMeanForce, "force", test$force[currentSample] ) )
@@ -908,8 +905,9 @@ getStartSampleBySDMethod <- function(test, rfd, threashold = 5)
         # Check if the force is beyond the limit
         if ( test$force[currentSample] > limit ) 
         {
-            startSample = currentSample
-            print(startSample)
+		startSample = currentSample
+		startSampleDefined = TRUE
+		print(startSample)
         }
     }
     
@@ -923,6 +921,12 @@ getStartSampleBySDMethod <- function(test, rfd, threashold = 5)
     #
     
     #Going back to find the desired sample
+    if (startSampleDefined == FALSE)
+    {
+	    # we cannot do this method. Just exit
+	    return (-1)
+    }
+
     currentSample = startSample - 1
     previousMeanForce = mean(test$force[(currentSample - previousSamples):currentSample])
     increment = threashold * sd(test$force[currentSample:(currentSample - previousSamples)] )

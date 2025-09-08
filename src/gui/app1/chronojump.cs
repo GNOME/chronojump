@@ -5392,7 +5392,7 @@ public partial class ChronoJumpWindow
 				configChronojump.CompujumpStationID, configChronojump.CompujumpDjango,
 				webcamStatusEnumSetStart (),
 				configChronojump.JsonUploadNeedsButton,
-				configChronojump.JsonUploadRunSimpleTestScript
+				configChronojump.JsonUploadJumpSimpleTestScript
 				);
 
 

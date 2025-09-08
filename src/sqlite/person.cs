@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -52,7 +52,7 @@ class SqlitePerson : Sqlite
 		dbcmd.CommandText = 
 			"CREATE TABLE " + tableName + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
-			"name TEXT, " +
+			"name TEXT, " + // name (full name)
 			"sex TEXT, " + //since May 2023 can be -,F,M (first one is Unspecified)
 			"dateborn TEXT, " + //YYYY-MM-DD since db 0.72
 			"race INT, " + 
@@ -61,12 +61,16 @@ class SqlitePerson : Sqlite
 			"future1 TEXT, " + //rfid
 			"future2 TEXT, " + //clubID
 			"serverUniqueID INT, " +
-			"linkServerImage TEXT ) "; //for networks
+			"linkServerImage TEXT, " + //for networks
+			"nameFirst TEXT, " +
+			"nameLast TEXT ) ";
 		dbcmd.ExecuteNonQuery();
 	 }
 
-	public static int Insert(bool dbconOpened, string uniqueID, string name, string sex, DateTime dateBorn, 
-			int race, int countryID, string description, string future1, string future2, int serverUniqueID, string linkServerImage)
+	public static int Insert(bool dbconOpened, string uniqueID, string name,
+			string sex, DateTime dateBorn, int race, int countryID, string description,
+			string future1, string future2, int serverUniqueID, string linkServerImage,
+			string nameFirst, string nameLast)
 	{
 		LogB.SQL("going to insert");
 		if(! dbconOpened)
@@ -79,10 +83,11 @@ class SqlitePerson : Sqlite
 		//ATTENTION: if this changes, change the Person.ToSQLInsertString()
 		// -----------------------
 		string myString = "INSERT INTO " + Constants.PersonTable + 
-			" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID, linkServerImage) VALUES (" + uniqueID + ", '" +
+			" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID, linkServerImage, nameFirst, nameLast) VALUES (" + uniqueID + ", '" +
 			name + "', '" + sex + "', '" + UtilDate.ToDateSQL(dateBorn) + "', " + 
 			race + ", " + countryID + ", '" + description + "', '" +
-			future1 + "', '" + future2 + "', " + serverUniqueID + ", '" + linkServerImage + "')";
+			future1 + "', '" + future2 + "', " + serverUniqueID + ", '" +
+			linkServerImage + "', '" + nameFirst + "', '" + nameLast + "')";
 		
 		dbcmd.CommandText = myString;
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -131,7 +136,7 @@ class SqlitePerson : Sqlite
 		if(reader.Read()) {
 			p = new Person(
 					Convert.ToInt32(reader[0].ToString()), //uniqueID
-					reader[1].ToString(), 			//name
+					reader[1].ToString(), 			//name (fullname)
 					reader[2].ToString(), 			//sex
 					UtilDate.DateFromSQL(reader[3].ToString()),//dateBorn
 					Convert.ToInt32(reader[4].ToString()), //race
@@ -140,7 +145,9 @@ class SqlitePerson : Sqlite
 					reader[7].ToString(), 			//future1: rfid
 					reader[8].ToString(), 			//future2: clubID
 					Convert.ToInt32(reader[9].ToString()), //serverUniqueID
-					reader[10].ToString() 			//linkServerImage
+					reader[10].ToString(), 			//linkServerImage
+					reader[11].ToString(),			//nameFirst
+					reader[12].ToString()			//nameLast
 					);
 		}
 		reader.Close();
@@ -230,7 +237,7 @@ class SqlitePerson : Sqlite
 		//2
 		//sort no case sensitive when we sort by name
 		if(sortedBy == "name") { 
-			sortedBy = "lower(" + tp + ".name)" ; 
+			sortedBy = "LOWER(" + tp + ".name)" ; 
 		} else { 
 			sortedBy = tp + ".uniqueID" ; 
 		}
@@ -286,7 +293,9 @@ finishForeach:
 						reader2[7].ToString(), 			//future1: rfid
 						reader2[8].ToString(), 			//future2: clubID
 						Convert.ToInt32(reader2[9].ToString()), //serverUniqueID
-						reader2[10].ToString() 			//linkServerImage
+						reader2[10].ToString(), 		//linkServerImage
+						reader2[11].ToString(), 		//nameFirst
+						reader2[12].ToString() 			//nameLast
 						);
 				arrayReturn.Add(p);
 			}
@@ -684,6 +693,8 @@ finishForeach:
 			"', future2 = '" + myPerson.Future2 + 		//clubID
 			"', serverUniqueID = " + myPerson.ServerUniqueID +
 			", linkServerImage = '" + myPerson.LinkServerImage + //linkServerImage
+			"', nameFirst = '" + myPerson.NameFirst +
+			"', nameLast = '" + myPerson.NameLast +
 			"' WHERE uniqueID = " + myPerson.UniqueID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

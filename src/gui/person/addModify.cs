@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -31,7 +31,9 @@ public class PersonAddModifyWindow
 	Gtk.Window person_win;
 	Gtk.RadioButton radio_metric;
 	Gtk.RadioButton radio_imperial;
-	Gtk.Entry entry1;
+	Gtk.Entry entryFirstName;
+	Gtk.Entry entryLastName;
+	Gtk.Label fullName;
 	Gtk.RadioButton radiobutton_sex_u;
 	Gtk.RadioButton radiobutton_sex_m;
 	Gtk.RadioButton radiobutton_sex_f;
@@ -94,7 +96,7 @@ public class PersonAddModifyWindow
 	Gtk.Box hbox_combo_continents;
 	Gtk.Box hbox_combo_countries;
 	
-	Gtk.Image image_name;
+	Gtk.Image image_fullname;
 	Gtk.Image image_weight;
 	
 	Gtk.Button button_zoom;
@@ -265,8 +267,8 @@ public class PersonAddModifyWindow
 		fakeButtonAccept = new Gtk.Button();
 		fakeButtonCancel = new Gtk.Button();
 
-		entry1.CanFocus = true;
-		entry1.IsFocus = true;
+		entryFirstName.CanFocus = true;
+		entryFirstName.IsFocus = true;
 
 		if(adding) {
 			person_win.Title = Catalog.GetString ("New person");
@@ -496,12 +498,14 @@ public class PersonAddModifyWindow
 
 	void on_entries_required_changed (object o, EventArgs args)
 	{
-		entry1.Text = Util.MakeValidSQL(entry1.Text);
+		entryFirstName.Text = Util.MakeValidSQL(entryFirstName.Text);
+		entryLastName.Text = Util.MakeValidSQL(entryLastName.Text);
+		fullName.Text = entryFirstName.Text + " " + entryLastName.Text;
 
-		if(entry1.Text.ToString().Length > 0)
-			image_name.Hide();
+		if(entryFirstName.Text.ToString().Length > 0 || entryLastName.Text.ToString().Length > 0)
+			image_fullname.Hide();
 		else {
-			image_name.Show();
+			image_fullname.Show();
 		}
 
 		if(radio_metric.Active && (double) spinbutton_weight_metric.Value > 0)
@@ -740,7 +744,10 @@ public class PersonAddModifyWindow
 			}
 
 			//PERSON STUFF
-			entry1.Text = currentPerson.Name;
+			entryFirstName.Text = currentPerson.NameFirst;
+			entryLastName.Text = currentPerson.NameLast;
+			fullName.Text = currentPerson.Name;
+
 			entry_club_id.Text = currentPerson.Future2;
 			if (currentPerson.Sex == Constants.SexU)
 				radiobutton_sex_u.Active = true;
@@ -1056,7 +1063,9 @@ public class PersonAddModifyWindow
 		string errorMessage = "";
 
 		//Check if person name exists and weight is > 0
-		string personName = Util.MakeValidSQLAndFileName(entry1.Text);
+		string personNameFirst = Util.MakeValidSQLAndFileName (entryFirstName.Text);
+		string personNameLast = Util.MakeValidSQLAndFileName (entryLastName.Text);
+		string personName = Person.GetNameFromFirstAndLast (personNameFirst, personNameLast);
 
 		if(personName == "")
 			errorMessage += "\n" + Catalog.GetString("Please, write the name of the person.");
@@ -1223,18 +1232,23 @@ public class PersonAddModifyWindow
 			SqliteRun.Update(mRun.UniqueID, mRun.Type, mRun.Distance, mRun.Time.ToString(), mRun.PersonID, mRun.Description);
 		}
 
-		string personName = Util.MakeValidSQLAndFileName(entry1.Text);
+		string personNameFirst = Util.MakeValidSQLAndFileName (entryFirstName.Text);
+		string personNameLast = Util.MakeValidSQLAndFileName (entryLastName.Text);
 		string clubID = Util.MakeValidSQL(entry_club_id.Text);
 
 		if(adding) {
 			//here we add rows in the database
 			LogB.Information("Going to insert person");
-			currentPerson = new Person (personName, sex, dateTime,
+			currentPerson = new Person (
+					Person.GetNameFromFirstAndLast (personNameFirst, personNameLast),
+					sex, dateTime,
 					Constants.RaceUndefinedID,
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
 					textview_description.Buffer.Text,
 					"", clubID, //future1: rfid; future2: clubID
-					Constants.ServerUndefinedID, "", false); //dbconOpened
+					Constants.ServerUndefinedID, "",
+					personNameFirst, personNameLast,
+					false); //dbconOpened
 					
 			LogB.Information("Going to insert personSession");
 			currentPersonSession = new PersonSession (
@@ -1268,13 +1282,14 @@ public class PersonAddModifyWindow
 			}
 
 		} else {
+			string personName = Person.GetNameFromFirstAndLast (personNameFirst, personNameLast);
 			//here we update rows in the database
 			currentPerson = new Person (currentPerson.UniqueID, personName, sex, dateTime,
 					Constants.RaceUndefinedID,
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
 					textview_description.Buffer.Text,
 					"", clubID, //future1: rfid; future2: clubID
-					serverUniqueID, currentPerson.LinkServerImage);
+					serverUniqueID, currentPerson.LinkServerImage, personNameFirst, personNameLast);
 			SqlitePerson.Update (currentPerson); 
 		
 			//we only need to update personSession
@@ -1366,7 +1381,9 @@ public class PersonAddModifyWindow
 		person_win = (Gtk.Window) builder.GetObject ("person_win");
 		radio_metric = (Gtk.RadioButton) builder.GetObject ("radio_metric");
 		radio_imperial = (Gtk.RadioButton) builder.GetObject ("radio_imperial");
-		entry1 = (Gtk.Entry) builder.GetObject ("entry1");
+		entryFirstName = (Gtk.Entry) builder.GetObject ("entryFirstName");
+		entryLastName = (Gtk.Entry) builder.GetObject ("entryLastName");
+		fullName = (Gtk.Label) builder.GetObject ("fullName");
 		radiobutton_sex_u = (Gtk.RadioButton) builder.GetObject ("radiobutton_sex_u");
 		radiobutton_sex_m = (Gtk.RadioButton) builder.GetObject ("radiobutton_sex_m");
 		radiobutton_sex_f = (Gtk.RadioButton) builder.GetObject ("radiobutton_sex_f");
@@ -1429,7 +1446,7 @@ public class PersonAddModifyWindow
 		hbox_combo_continents = (Gtk.Box) builder.GetObject ("hbox_combo_continents");
 		hbox_combo_countries = (Gtk.Box) builder.GetObject ("hbox_combo_countries");
 
-		image_name = (Gtk.Image) builder.GetObject ("image_name");
+		image_fullname = (Gtk.Image) builder.GetObject ("image_fullname");
 		image_weight = (Gtk.Image) builder.GetObject ("image_weight");
 
 		button_zoom = (Gtk.Button) builder.GetObject ("button_zoom");

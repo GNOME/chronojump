@@ -33,9 +33,10 @@ public class TreeViewPersons
 
 	private const int colID = 0;
 	private const int colClubID = 1;
-	private const int colName = 2;
-	private const int colN = 3;
-	private const int colRestOrStatus = 4; //status is used on beepTest
+	private const int colNameFirst = 2;
+	private const int colNameLast = 3;
+	private const int colN = 4;
+	private const int colRestOrStatus = 5; //status is used on beepTest
 
 	//if 0 don't use it
 	//if > 0 then show in red when >= to this value
@@ -57,9 +58,9 @@ public class TreeViewPersons
 		if (Constants.ModeIsENCODER (current_mode))
 			nColumn = Catalog.GetString ("Sets");
 
-		string [] columnsString = { "ID", Catalog.GetString ("Club ID"), Catalog.GetString("Person"), nColumn, Catalog.GetString("Rest")};
+		string [] columnsString = { "ID", Catalog.GetString ("Club ID"), Catalog.GetString("First name"), Catalog.GetString ("Last name"), nColumn, Catalog.GetString("Rest")};
 		if (! showRestOrStatus)
-			columnsString = new string [] { "ID", Catalog.GetString ("Club ID"), Catalog.GetString("Person"), nColumn, Catalog.GetString("Status")};
+			columnsString = new string [] { "ID", Catalog.GetString ("Club ID"), Catalog.GetString("First name"), Catalog.GetString ("Last name"), nColumn, Catalog.GetString("Status")};
 
 		store = getStore (columnsString.Length);
 
@@ -213,14 +214,16 @@ public class TreeViewPersons
 			store.AppendValues ( new String [] {
 					person.UniqueID.ToString(),
 					person.Future2,			//ClubID
-					person.Name.ToString(),
+					person.NameFirst,
+					person.NameLast,
 					"0",
 					restedTime }
 					);
 		}
 
-		//show sorted by column name	
-		store.SetSortColumnId(colName, Gtk.SortType.Ascending);
+		//show sorted by column nameFirst
+		store.SetSortColumnId (colNameFirst, Gtk.SortType.Ascending);
+		store.SetSortColumnId (colNameLast, Gtk.SortType.Ascending);
 
 		store.ChangeSortColumn();
 	}
@@ -304,7 +307,10 @@ public class TreeViewPersons
 				if (rowNumber == count ++)
 					return (new IDName (
 								Convert.ToInt32 ((string) treeview.Model.GetValue (iter, colID)),
-								(string) treeview.Model.GetValue (iter, colName)
+								Person.GetNameFromFirstAndLast (
+									(string) treeview.Model.GetValue (iter, colNameFirst),
+									(string) treeview.Model.GetValue (iter, colNameLast)
+									)
 							   ));
 			} while (store.IterNext (ref iter));
 		}
@@ -339,7 +345,14 @@ public class TreeViewPersons
 			do {
 				//search until find when jumperName is lexicographically > than current row
 				if(String.Compare(p.Name.ToUpper(),
-							((string) treeview.Model.GetValue (iter, colName)).ToUpper()) < 0 ) {
+							(
+							 Person.GetNameFromFirstAndLast (
+								 (string) treeview.Model.GetValue (iter, colNameFirst),
+								 (string) treeview.Model.GetValue (iter, colNameLast)
+								 )
+							).ToUpper()
+						 ) < 0 )
+				{
 					found = count;
 					break;
 				}
@@ -355,12 +368,13 @@ public class TreeViewPersons
 			//first ID, then Name
 			store.SetValue (iter2, colID, p.UniqueID);
 			store.SetValue (iter2, colClubID, p.Future2);
-			store.SetValue (iter2, colName, p.Name);
+			store.SetValue (iter2, colNameFirst, p.NameFirst);
+			store.SetValue (iter2, colNameLast, p.NameLast);
 			store.SetValue (iter2, colN, "0");
 			store.SetValue (iter2, colRestOrStatus, "");
 		} else {
 			//first ID, then Name
-			iter2 = store.AppendValues (p.UniqueID, p.Future2, p.Name, "0", "");
+			iter2 = store.AppendValues (p.UniqueID, p.Future2, p.NameFirst, p.NameLast, "0", "");
 		}
 			
 		//scroll treeview if needed

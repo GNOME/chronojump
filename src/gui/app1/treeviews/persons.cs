@@ -52,7 +52,7 @@ public partial class ChronoJumpWindow
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
 		myMenu.Attach( mySep, 0, 1, 2, 3 );
 
-		myItem = new MenuItem ( string.Format(Catalog.GetString("Delete {0} from this session"),myPerson.Name));
+		myItem = new MenuItem ( string.Format(Catalog.GetString("Delete {0} from this session"), myPerson.Name));
 		myItem.Activated += on_delete_current_person_from_session_clicked;
 		myMenu.Attach( myItem, 0, 1, 3, 4 );
 

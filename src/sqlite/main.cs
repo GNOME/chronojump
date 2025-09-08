@@ -169,7 +169,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.67";
+	static string lastChronojumpDatabaseVersion = "2.68";
 
 	public Sqlite()
 	{
@@ -3700,6 +3700,21 @@ class Sqlite
 
 			currentVersion = updateVersion("2.67");
 		}
+		if(currentVersion == "2.67")
+		{
+			LogB.SQL("Doing alter table person77 adding nameFirst, nameLast");
+			try {
+				executeSQL("ALTER TABLE " + Constants.PersonTable + " ADD COLUMN nameFirst TEXT;");
+				executeSQL("ALTER TABLE " + Constants.PersonTable + " ADD COLUMN nameLast TEXT;");
+				// have nameFirst be equal to name on this migration. TODO: maybe separate this in 2 version changes
+				executeSQL("UPDATE " + Constants.PersonTable + " SET nameFirst = name;");
+				LogB.Information ("alter table done!");
+			} catch {
+				LogB.SQL("Catched at Doing alter table person77 adding nameFirst (=name), nameLast");
+			}
+			LogB.SQL("Done!");
+			currentVersion = updateVersion("2.68");
+		}
 
 
 		/*
@@ -3946,6 +3961,9 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.67 - 2.68 Converted DB to 2.68 Doing alter table person77 adding nameFirst (=name), nameLast
+		//
+		//
 		//2.66 - 2.67 Converted DB to 2.67 Added preferences: forceSensorStartEndOptimizedModelSD
 		//2.65 - 2.66 Converted DB to 2.66 Ensure maxForceRaw, maxAvgForce1s are -1 instead of blank
 		//2.64 - 2.65 Converted DB to 2.65 Deleted orphaned encoder
@@ -4483,7 +4501,7 @@ class Sqlite
 				       pOld.Description,
 				       "", "", 	//future1: rfid; future2: clubID
 				       pOld.ServerUniqueID,
-				       "" //linkServerImage
+				       "", "", "" //linkServerImage, nameFirst, nameLast
 				       );
 			p.InsertAtDB(true, Constants.PersonTable);
 		

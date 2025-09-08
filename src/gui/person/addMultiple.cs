@@ -1197,7 +1197,8 @@ public class PersonAddMultipleWindow
 						Constants.CountryUndefinedID,
 						description, "", clubID, 		//description, future1: rfid, future2: clubID
 						Constants.ServerUndefinedID,
-						""			//linkServerImage
+						"",			//linkServerImage
+						"", ""			// TODO: nameFirst, nameLast
 						);
 
 				persons.Add (currentPerson);

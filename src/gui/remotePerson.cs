@@ -64,7 +64,9 @@ public partial class ChronoJumpWindow
 		currentPerson = new Person (
 				remotePersonNext.ImportPerson, Constants.SexU, DateTime.MinValue,
 				Constants.RaceUndefinedID, Constants.CountryUndefinedID, "",
-				"", "", Constants.ServerUndefinedID, "", false);
+				"", "", Constants.ServerUndefinedID,
+				"", "", "", //linkServerImage, nameFirst, nameLast
+				false);
 
 		currentPersonSession = new PersonSession (
 				currentPerson.UniqueID, currentSession.UniqueID,

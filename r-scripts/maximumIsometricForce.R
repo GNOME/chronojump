@@ -142,6 +142,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex
 
     sdMethod = (op$startEndOptimizedModelSD > 0)
     sdMethodThreshold = op$startEndOptimizedModelSD
+    sdMethodErrorStr = ""
     
     originalTest = read.csv(inputFile, header = F, dec = decimalChar, sep = ";", skip = 2)
     colnames(originalTest) <- c("time", "force")
@@ -164,6 +165,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex
 	    sdStartSample = getStartSampleBySDMethod (originalTest, rfd, threshold = sdMethodThreshold)
 	    if (sdStartSample < 0)
 	    {
+		    sdMethodErrorStr = paste ("Selected SD threshold:", sdMethodThreshold, "is too high for this data. Using model method.")
 		    sdMethod = FALSE
 	    } else {
 		    sdEndTime = originalTest$time[sdStartSample] + testLength
@@ -278,7 +280,8 @@ getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex
                 rfd = rfd,
                 f.raw = originalTest$force, f.smoothed = f.smoothed, f.fitted = f.fitted,
                 endTime = endTime,
-                meanError = mean(abs(model$error[!is.nan(model$error)]))
+                meanError = mean(abs(model$error[!is.nan(model$error)])),
+		sdMethodErrorStr = sdMethodErrorStr
     ))
 }
 
@@ -786,10 +789,13 @@ drawDynamicsFromLoadCell <- function(title, exercise, ex_percentBodyWeight, pers
     	meanErrorStr = "The mean error is larger than 5%. Possible bad execution"
 	if (op$startEndOptimized == "FALSE")
 		meanErrorStr = paste (meanErrorStr, ". We recommend the option: 'Search best start/end inside AB range'.", sep = "")
-        mtext (meanErrorStr, side=1, at=(xmin+xmax)/2, col="red", line=.5)
+        mtext (meanErrorStr, side=1, at=(xmin+xmax)/2, col="red", line=-2)
     } else {
         legendColor = c(legendColor, "grey40")
     }
+
+    if (dynamics$sdMethodErrorStr != "")
+        mtext (dynamics$sdMethodErrorStr, side=1, at=(xmin+xmax)/2, col="black", line=-1)
 
     #experimental avg error on RFD calculation from 0 to 50 ms
     #window = RFDoptions$start / 1000
@@ -1252,7 +1258,7 @@ doProcess <- function(pngFile, dataFile, decimalChar, title, exercise, ex_percen
 	print("Going to enter prepareGraph on doProcess")
 	prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
 
-	print("Going to enter getDynamicsFromLoadCellFille")
+	print("Going to enter getDynamicsFromLoadCellFile")
 	dynamics = getDynamicsFromLoadCellFile(captureOptions, ex_percentBodyWeight, ex_angle, personMass, dataFile, decimalChar,
 			op$averageLength, op$percentChange, testLength = op$testLength, startSample, endSample)
 

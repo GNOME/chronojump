@@ -34379,7 +34379,7 @@ Concentric</property>
                                                             <property name="column-spacing">30</property>
                                                             <child>
                                                             <object class="GtkRadioButton" id="radio_force_rfd_search_optimized_ab_model">
-                                                            <property name="label" translatable="yes">Based on the model</property>
+                                                            <property name="label" translatable="yes">Using the model</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
@@ -34557,7 +34557,7 @@ Concentric</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkRadioButton" id="radio_force_rfd_search_optimized_ab_sd">
-                                                            <property name="label" translatable="yes">Based on Standard Deviation</property>
+                                                            <property name="label" translatable="yes">Using the threshold of n Standard Deviations</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>

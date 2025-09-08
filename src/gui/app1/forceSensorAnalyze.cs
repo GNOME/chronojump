@@ -997,6 +997,7 @@ public partial class ChronoJumpWindow
 				preferences.forceSensorElasticConMinDispl,
 				preferences.forceSensorNotElasticConMinForce,
 				preferences.forceSensorStartEndOptimized,
+				preferences.forceSensorStartEndOptimizedModelSD,
 				preferences.CSVExportDecimalSeparatorChar, 	//decimalIsPointAtExport (write)
 				preferences.forceSensorAnalyzeMaxAVGInWindow,
 				preferences.forceSensorCaptureFeedbackAt,

@@ -37,6 +37,7 @@ public class ForceSensorExport : ExportFiles
 	private double forceSensorElasticConMinDispl;
 	private int forceSensorNotElasticConMinForce;
 	private bool forceSensorStartEndOptimized;
+	private double forceSensorStartEndOptimizedModelSD;
 	private double forceSensorAnalyzeMaxAVGInWindowSeconds;
 	private int forceSensorFeedbackF;
 	private Preferences.VariabilityMethodEnum variabilityMethod;
@@ -63,6 +64,7 @@ public class ForceSensorExport : ExportFiles
 			double forceSensorElasticConMinDispl,
 			int forceSensorNotElasticConMinForce,
 			bool forceSensorStartEndOptimized,
+			double forceSensorStartEndOptimizedModelSD,
 			char exportDecimalSeparator,
 			double forceSensorAnalyzeMaxAVGInWindowSeconds,
 			int forceSensorFeedbackF,
@@ -86,6 +88,7 @@ public class ForceSensorExport : ExportFiles
 		this.forceSensorElasticConMinDispl = forceSensorElasticConMinDispl;
 		this.forceSensorNotElasticConMinForce = forceSensorNotElasticConMinForce;
 		this.forceSensorStartEndOptimized = forceSensorStartEndOptimized;
+		this.forceSensorStartEndOptimizedModelSD = forceSensorStartEndOptimizedModelSD;
 		this.forceSensorAnalyzeMaxAVGInWindowSeconds = forceSensorAnalyzeMaxAVGInWindowSeconds;
 		this.forceSensorFeedbackF = forceSensorFeedbackF;
 		this.variabilityMethod = variabilityMethod;
@@ -401,6 +404,7 @@ public class ForceSensorExport : ExportFiles
 					rfdList, impulse,
 					duration, durationPercent,
 					forceSensorStartEndOptimized,
+					forceSensorStartEndOptimizedModelSD,
 					true, //not used to read data, but used to print data
 					exportDecimalSeparator, // at write file
 					fsgABe_l,

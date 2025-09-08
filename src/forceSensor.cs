@@ -1464,6 +1464,7 @@ public class ForceSensorGraphR
 	private int startSample;
 	private int endSample;
 	private bool startEndOptimized;
+	private double startEndOptimizedModelSD;
 	private bool decimalIsPointAtReadFile; //but on export this will be related to each set
 	private char exportDecimalSeparator;
 	private double forceSensorAnalyzeMaxAVGInWindowSeconds; //on export
@@ -1475,6 +1476,7 @@ public class ForceSensorGraphR
 			List<ForceSensorRFD> rfdList,
 			ForceSensorImpulse impulse, double testLength, int percentChange,
 			bool startEndOptimized,
+			double startEndOptimizedModelSD,
 			bool decimalIsPointAtReadFile, 	//at read
 			char exportDecimalSeparator 	//at write
 			)
@@ -1485,6 +1487,7 @@ public class ForceSensorGraphR
 		this.testLength = testLength;
 		this.percentChange = percentChange;
 		this.startEndOptimized = startEndOptimized;
+		this.startEndOptimizedModelSD = startEndOptimizedModelSD;
 		this.decimalIsPointAtReadFile = decimalIsPointAtReadFile;
 		this.exportDecimalSeparator = exportDecimalSeparator;
 
@@ -1502,12 +1505,14 @@ public class ForceSensorGraphR
 			List<ForceSensorRFD> rfdList,
 			ForceSensorImpulse impulse, double testLength, int percentChange,
 			bool startEndOptimized,
+			double startEndOptimizedModelSD,
 			bool decimalIsPointAtReadFile,
 			char exportDecimalSeparator,
 			ForceSensorGraphAB fsgAB
 			)
 	{
-		assignGenericParams(rfdList, impulse, testLength, percentChange, startEndOptimized,
+		assignGenericParams (rfdList, impulse, testLength, percentChange,
+				startEndOptimized, startEndOptimizedModelSD,
 				decimalIsPointAtReadFile, exportDecimalSeparator);
 
 		//this A-B data
@@ -1529,6 +1534,7 @@ public class ForceSensorGraphR
 			List<ForceSensorRFD> rfdList,
 			ForceSensorImpulse impulse, double testLength, int percentChange,
 			bool startEndOptimized,
+			double startEndOptimizedModelSD,
 			bool decimalIsPointAtReadFile, //this param is used here to print results. but to read data what id is used is in fsgAB_l
 			char exportDecimalSeparator,
 			List<ForceSensorGraphABExport> fsgABe_l,
@@ -1537,7 +1543,8 @@ public class ForceSensorGraphR
 			bool includeImagesOnExport
 			)
 	{
-		assignGenericParams(rfdList, impulse, testLength, percentChange, startEndOptimized,
+		assignGenericParams(rfdList, impulse, testLength, percentChange,
+				startEndOptimized, startEndOptimizedModelSD,
 				decimalIsPointAtReadFile, exportDecimalSeparator);
 			
 		this.forceSensorAnalyzeMaxAVGInWindowSeconds = forceSensorAnalyzeMaxAVGInWindowSeconds;
@@ -1645,6 +1652,7 @@ public class ForceSensorGraphR
 			"#startSample\n" + 		startSample.ToString() + "\n" +	//unused on multiple
 			"#endSample\n" + 		endSample.ToString() + "\n" +	//unused on multiple
 			"#startEndOptimized\n" +	Util.BoolToRBool(startEndOptimized) + "\n" +
+			"#startEndOptimizedModelSD\n" +	Util.ConvertToPoint (startEndOptimizedModelSD) + "\n" +
 			"#singleOrMultiple\n" +		Util.BoolToRBool(singleOrMultiple) + "\n" +
 			"#decimalCharAtExport\n" +	exportDecimalSeparator + "\n" +
 			"#maxAvgInWindowSeconds\n" + 	forceSensorAnalyzeMaxAVGInWindowSecondsStr + "\n" +

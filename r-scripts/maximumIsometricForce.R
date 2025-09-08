@@ -66,11 +66,12 @@ assignOptions <- function(options)
         startSample 	= as.numeric(options[35]),
         endSample 	= as.numeric(options[36]),
         startEndOptimized 	= options[37], 	#bool
-	singleOrMultiple 	= options[38], 	#bool (true is single)
-	decimalCharAtExport	= options[39],
-        maxAvgWindowSeconds 	= as.numeric(options[40]),
-        bestStabilityWindowSeconds = as.numeric(options[41]),
-	includeImagesOnExport 	= options[42]  #bool (true is single)
+        startEndOptimizedModelSD 	= as.numeric(options[38]), 	#double
+	singleOrMultiple 	= options[39], 	#bool (true is single)
+	decimalCharAtExport	= options[40],
+        maxAvgWindowSeconds 	= as.numeric(options[41]),
+        bestStabilityWindowSeconds = as.numeric(options[42]),
+	includeImagesOnExport 	= options[43]  #bool (true is single)
     ))
 }
 
@@ -139,7 +140,8 @@ getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex
 {
     print("Entered getDynamicsFromLoadCellFile")
 
-    sdMethod = FALSE # TODO: hardcoded! please pass this from Chronojump
+    sdMethod = (op$startEndOptimizedModelSD > 0)
+    sdMethodThreshold = op$startEndOptimizedModelSD
     
     originalTest = read.csv(inputFile, header = F, dec = decimalChar, sep = ";", skip = 2)
     colnames(originalTest) <- c("time", "force")
@@ -159,7 +161,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex
     # The onset of the test is calculated with the SD method
     if (sdMethod)
     {
-	    sdStartSample = getStartSampleBySDMethod (originalTest, rfd, threashold = 5)
+	    sdStartSample = getStartSampleBySDMethod (originalTest, rfd, threshold = sdMethodThreshold)
 	    if (sdStartSample < 0)
 	    {
 		    sdMethod = FALSE
@@ -878,7 +880,7 @@ getAvgRfdXSeconds <-function(dynamics, window)
 #
 
 # Returns -1 if not worked
-getStartSampleBySDMethod <- function(test, rfd, threashold = 5)
+getStartSampleBySDMethod <- function(test, rfd, threshold = 5)
 {
     print("On getStartSampleBySDMethod")
     # The onset is always before the maximum force
@@ -890,8 +892,8 @@ getStartSampleBySDMethod <- function(test, rfd, threashold = 5)
     # Steady force previous to the increase. We are searching for the force that is greater that previous force + increase.
     previousMeanForce = mean(test$force[(currentSample - previousSamples):currentSample])
     # Increment of the force that marks the onset. Tthreshold times the SD
-    increment = threashold * sd(test$force[currentSample:(currentSample - previousSamples)] )
-    # The threashold that the force must pass to consider the onset of the increment
+    increment = threshold * sd(test$force[currentSample:(currentSample - previousSamples)] )
+    # The threshold that the force must pass to consider the onset of the increment
     limit = previousMeanForce + increment
 
     startSampleDefined = FALSE
@@ -900,7 +902,7 @@ getStartSampleBySDMethod <- function(test, rfd, threashold = 5)
         # print( paste( "sample:", currentSample, "increment:", increment, "limit:", limit, "preiousMeanForce:", previousMeanForce, "force", test$force[currentSample] ) )
         currentSample = currentSample + 1
         previousMeanForce = mean(test$force[(currentSample - previousSamples):currentSample])
-        increment = threashold * sd(test$force[currentSample:(currentSample - previousSamples)] )
+        increment = threshold * sd(test$force[currentSample:(currentSample - previousSamples)] )
         limit =  previousMeanForce + increment
         # Check if the force is beyond the limit
         if ( test$force[currentSample] > limit ) 
@@ -929,14 +931,14 @@ getStartSampleBySDMethod <- function(test, rfd, threashold = 5)
 
     currentSample = startSample - 1
     previousMeanForce = mean(test$force[(currentSample - previousSamples):currentSample])
-    increment = threashold * sd(test$force[currentSample:(currentSample - previousSamples)] )
+    increment = threshold * sd(test$force[currentSample:(currentSample - previousSamples)] )
     limit =  previousMeanForce + increment
     #Searching for the first sample that is most at left in the last cluster of samples that are beyond the limit
     while (test$force[currentSample] > limit)
     {
         currentSample = currentSample - 1
         previousMeanForce = mean(test$force[(currentSample - previousSamples):currentSample])
-        increment = threashold * sd(test$force[currentSample:(currentSample - previousSamples)] )
+        increment = threshold * sd(test$force[currentSample:(currentSample - previousSamples)] )
         limit =  previousMeanForce + increment
     }
     startSample = currentSample +1

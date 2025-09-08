@@ -2839,6 +2839,7 @@ LogB.Information(" fs R ");
 				rfdList, impulse,
 				duration, Convert.ToInt32(spin_force_rfd_duration_percent.Value),
 				preferences.forceSensorStartEndOptimized,
+				preferences.forceSensorStartEndOptimizedModelSD,
 				Util.CSVDecimalColumnIsPoint(UtilEncoder.GetmifCSVFileName(), 1), 	//decimalIsPointAtFile (read)
 				preferences.CSVExportDecimalSeparatorChar, 				//decimalIsPointAtExport (write)
 				new ForceSensorGraphAB (

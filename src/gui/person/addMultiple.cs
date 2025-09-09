@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -28,7 +28,8 @@ using Mono.Unix;
 
 public class PersonAddMultipleTable
 {
-	public string name;
+	public string nameFirst;
+	public string nameLast;
 	public string sex;
 	public int clubID;
 	public double weight;
@@ -37,10 +38,11 @@ public class PersonAddMultipleTable
 	public double hipsHeight;
 	public string description;
 
-	public PersonAddMultipleTable (string name, string sex, int clubID, double weight,
+	public PersonAddMultipleTable (string nameFirst, string nameLast, string sex, int clubID, double weight,
 			double height, double legsLength, double hipsHeight, string description)
 	{
-		this.name = name;
+		this.nameFirst = nameFirst;
+		this.nameLast = nameLast;
 		this.sex = sex;
 		this.clubID = clubID;
 		this.weight = weight;
@@ -57,7 +59,7 @@ public class PersonAddMultipleTable
 // on current implementation PersonAddMultipleWindow, an id will have just 1 ErrorType
 public class PersonAddMultipleError
 {
-	public enum ErrorType { INSESSION, INDB, REPEATEDNAME, NOWEIGHT }
+	public enum ErrorType { INSESSION, INDB, REPEATEDFULLNAME, NOWEIGHT }
 
 	public int id; //starts at 0
 	public string nameOptional; //needed at repeated
@@ -152,7 +154,8 @@ public class PersonAddMultipleWindow
 	private enum notebookPages { MAINOPTIONS, TABLEMANUALLY, LOADCSV };
 
 	//use this to read/write table
-	ArrayList entryNames;
+	ArrayList entryFirstNames;
+	ArrayList entryLastNames;
 	ArrayList radiosU;
 	ArrayList radiosM;
 	ArrayList radiosF;
@@ -456,7 +459,7 @@ public class PersonAddMultipleWindow
 			}
 
 			bool headersActive = check_headers.Active;
-			bool name1Col = check_fullname_1_col.Active;
+			bool fullnameIn1Col = check_fullname_1_col.Active;
 			bool useClubIDCol = check_clubID.Active;
 			bool useHeightCol = check_person_height.Active;
 			bool useLegsLengthCol = check_legsLength.Active;
@@ -475,7 +478,7 @@ public class PersonAddMultipleWindow
 				int hipsHeightCol = 6;
 				int descCol = 7;
 
-				if (! name1Col)
+				if (! fullnameIn1Col)
 				{
 					genreCol ++;
 					clubIDCol ++;
@@ -516,8 +519,8 @@ public class PersonAddMultipleWindow
 				int row = 0;
 				while (reader.ReadRow(columns))
 				{
-					string fullname = "";
-					string onlyname = "";
+					string nameFirst = "";
+					string nameLast = "";
 					string sex = Constants.SexU;
 					int clubID = -1;
 					double weight = 0;
@@ -537,14 +540,10 @@ public class PersonAddMultipleWindow
 						
 						LogB.Debug(":" + str);
 
-						if(col == 0) {
-							if(name1Col)
-								fullname = str;
-							else
-								onlyname = str;
-						}
-						else if(col == 1 && ! name1Col)
-							fullname = onlyname + " " + str;
+						if(col == 0)
+							nameFirst = str;
+						else if(col == 1 && ! fullnameIn1Col)
+							nameLast = str;
 						else if (col == genreCol && (str == "-" || str == Constants.SexU.ToLower() || str == Constants.SexU))
 							sex = Constants.SexU;
 						else if (col == genreCol && (str == "1" || str == Constants.SexM.ToLower() || str == Constants.SexM))
@@ -627,7 +626,9 @@ public class PersonAddMultipleWindow
 					//if headers are active do not add first row
 					if( ! (headersActive && row == 0) ) {
 						PersonAddMultipleTable pamt = new PersonAddMultipleTable (
-								Util.MakeValidSQL(fullname), sex, clubID, weight,
+								Util.MakeValidSQL (nameFirst),
+								Util.MakeValidSQL (nameLast),
+								sex, clubID, weight,
 								height, legsLength, hipsHeight, description);
 
 						array.Add(pamt);
@@ -684,7 +685,8 @@ public class PersonAddMultipleWindow
 		error_label_repeated_name_l = new List<Gtk.Label>();
 		error_label_no_weight_l = new List<Gtk.Label>();
 
-		entryNames = new ArrayList();
+		entryFirstNames = new ArrayList();
+		entryLastNames = new ArrayList();
 		radiosU = new ArrayList();
 		radiosM = new ArrayList();
 		radiosF = new ArrayList();
@@ -696,7 +698,8 @@ public class PersonAddMultipleWindow
 		entryDescriptions = new ArrayList();
 
 		errorColumnLabel = new Gtk.Label("<b>" + Catalog.GetString("Error") + "</b>");
-		Gtk.Label nameLabel = new Gtk.Label("<b>" + Catalog.GetString("Full name") + "</b>");
+		Gtk.Label nameFirstLabel = new Gtk.Label("<b>" + Catalog.GetString("First name") + "</b>");
+		Gtk.Label nameLastLabel = new Gtk.Label("<b>" + Catalog.GetString("Last name") + "</b>");
 		Gtk.Label sexLabel = new Gtk.Label("<b>" + Catalog.GetString("Sex") + "</b>");
 		Gtk.Label clubIDLabel = new Gtk.Label("<b>" + Catalog.GetString("Club ID") + "</b>");
 		Gtk.Label weightLabel = new Gtk.Label("<b>" + Catalog.GetString("Weight") +
@@ -708,7 +711,8 @@ public class PersonAddMultipleWindow
 		Gtk.Label descriptionLabel = new Gtk.Label("<b>" + Catalog.GetString("Description") + "</b>");
 		
 		errorColumnLabel.UseMarkup = true;
-		nameLabel.UseMarkup = true;
+		nameFirstLabel.UseMarkup = true;
+		nameLastLabel.UseMarkup = true;
 		sexLabel.UseMarkup = true;
 		weightLabel.UseMarkup = true;
 		if (useClubIDCol)
@@ -722,7 +726,8 @@ public class PersonAddMultipleWindow
 		if (useDescriptionCol)
 			descriptionLabel.UseMarkup = true;
 
-		nameLabel.Xalign = 0;
+		nameFirstLabel.Xalign = 0;
+		nameLastLabel.Xalign = 0;
 		sexLabel.Xalign = 0;
 		clubIDLabel.Xalign = 0;
 		weightLabel.Xalign = 0;
@@ -732,7 +737,8 @@ public class PersonAddMultipleWindow
 		descriptionLabel.Xalign = 0;
 		
 		errorColumnLabel.Hide();
-		nameLabel.Show();
+		nameFirstLabel.Show();
+		nameLastLabel.Show();
 		sexLabel.Show();
 		if (useClubIDCol)
 			clubIDLabel.Show();
@@ -751,7 +757,8 @@ public class PersonAddMultipleWindow
 
 		int x = 1; //id col 0, errors col1, fullname col (2)
 		grid_main.Attach (errorColumnLabel, x++, 0, 1, 1);
-		grid_main.Attach (nameLabel, x++, 0, 1, 1);
+		grid_main.Attach (nameFirstLabel, x++, 0, 1, 1);
+		grid_main.Attach (nameLastLabel, x++, 0, 1, 1);
 		grid_main.Attach (sexLabel, x++, 0, 1, 1);
 		if (useClubIDCol)
 			grid_main.Attach (clubIDLabel, x++, 0, 1, 1);
@@ -821,11 +828,17 @@ public class PersonAddMultipleWindow
 
 			grid_main.Attach (idError, x++, count, 1, 1);
 
-			Gtk.Entry entryName = new Gtk.Entry();
-			grid_main.Attach (entryName, x++, count, 1, 1);
-			entryName.Changed += on_entry_name_changed;
-			entryName.Show();
-			entryNames.Add(entryName);
+			Gtk.Entry entryFirstName = new Gtk.Entry();
+			grid_main.Attach (entryFirstName, x++, count, 1, 1);
+			entryFirstName.Changed += on_entry_name_changed;
+			entryFirstName.Show();
+			entryFirstNames.Add (entryFirstName);
+
+			Gtk.Entry entryLastName = new Gtk.Entry();
+			grid_main.Attach (entryLastName, x++, count, 1, 1);
+			entryLastName.Changed += on_entry_name_changed;
+			entryLastName.Show();
+			entryLastNames.Add (entryLastName);
 
 			Gtk.RadioButton myRadioU = new Gtk.RadioButton (Catalog.GetString (Constants.SexU));
 			myRadioU.Show ();
@@ -936,7 +949,7 @@ public class PersonAddMultipleWindow
 		if (o == null)
 			return;
 
-		entry.Text = Util.MakeValidSQL(entry.Text);
+		entry.Text = Util.MakeValidSQL (entry.Text);
 	}
 
 	void fillGridFromCSV (ArrayList array, bool useClubIDCol, bool useHeightCol, bool useLegsLengthCol, bool useHipsHeightCol, bool useDescriptionCol)
@@ -944,7 +957,8 @@ public class PersonAddMultipleWindow
 		int i = 0;
 		foreach (PersonAddMultipleTable pamt in array)
 		{
-			((Gtk.Entry) entryNames[i]).Text = pamt.name;
+			((Gtk.Entry) entryFirstNames[i]).Text = pamt.nameFirst;
+			((Gtk.Entry) entryLastNames[i]).Text = pamt.nameLast;
 			((Gtk.RadioButton) radiosU[i]).Active = (pamt.sex == Constants.SexU);
 			((Gtk.RadioButton) radiosM[i]).Active = (pamt.sex == Constants.SexM);
 			((Gtk.RadioButton) radiosF[i]).Active = (pamt.sex == Constants.SexF);
@@ -1004,7 +1018,10 @@ public class PersonAddMultipleWindow
 
 		Sqlite.Open();
 		for (int i = 0; i < rows; i ++) 
-			checkEntries(i, ((Gtk.Entry)entryNames[i]).Text.ToString(), (int) ((Gtk.SpinButton) spinsWeight[i]).Value);
+			checkEntries (i,
+					((Gtk.Entry)entryFirstNames[i]).Text.ToString(),
+					((Gtk.Entry)entryLastNames[i]).Text.ToString(),
+					(int) ((Gtk.SpinButton) spinsWeight[i]).Value);
 		Sqlite.Close();
 
 		bool errors = false;
@@ -1012,7 +1029,7 @@ public class PersonAddMultipleWindow
 
 		foreach (PersonAddMultipleError pame in pame_l)
 		{
-			if (pame.errorType == PersonAddMultipleError.ErrorType.REPEATEDNAME)
+			if (pame.errorType == PersonAddMultipleError.ErrorType.REPEATEDFULLNAME)
 			{
 				error_label_repeated_name_l[pame.id].Visible = true;
 				errors = true;
@@ -1056,45 +1073,53 @@ public class PersonAddMultipleWindow
 	}
 
 	//do not need to check height, legsLength, hipsHeight, can be 0
-	private void checkEntries (int count, string name, double weight)
+	private void checkEntries (int count, string nameFirst, string nameLast, double weight)
 	{
-		if(name.Length > 0)
+		string fullname = Util.RemoveTilde (Person.GetNameFromFirstAndLast (
+					nameFirst, nameLast));
+
+		if(fullname.Length == 0)
+			return;
+
+		//1st check that firstname + lastname is not repeated. If repeated, 1st solve this
+		if (PersonAddMultipleError.ExistErrorLike (pame_l, fullname,
+					PersonAddMultipleError.ErrorType.REPEATEDFULLNAME))
+			return;
+
+		// Sqlite.Exists will check name column (that in person it is fullname)
+		bool personExists = Sqlite.Exists (true, Constants.PersonTable, fullname);
+
+		if (personExists)
 		{
-			//1st check that name is not repeated. If repeated, 1st solve this
-			if (PersonAddMultipleError.ExistErrorLike (pame_l,
-						Util.RemoveTilde (name), PersonAddMultipleError.ErrorType.REPEATEDNAME))
-				return;
+			bool inThisSession = false;
+			List<Person> p_l = SqlitePersonSession.SelectCurrentSessionPersonsAsList (
+					true, currentSession.UniqueID);
+			foreach (Person p in p_l)
+				if (fullname == p.Name) //p.Name is the fullname
+				{
+					inThisSession = true;
+					break;
+				}
 
-			bool personExists = Sqlite.Exists (true, Constants.PersonTable, Util.RemoveTilde(name));
-
-			if (personExists)
-			{
-				bool inThisSession = false;
-				List<Person> p_l = SqlitePersonSession.SelectCurrentSessionPersonsAsList (
-						true, currentSession.UniqueID);
-				foreach (Person p in p_l)
-					if (name == p.Name)
-					{
-						inThisSession = true;
-						break;
-					}
-
-				if (inThisSession)
-					pame_l.Add (new PersonAddMultipleError (count, "", PersonAddMultipleError.ErrorType.INSESSION));
-				else
-					pame_l.Add (new PersonAddMultipleError (count, "", PersonAddMultipleError.ErrorType.INDB));
-			}
-			else if (Convert.ToInt32(weight) == 0) // "else if" to only complain on no weight when person is new
-				pame_l.Add (new PersonAddMultipleError (count, "", PersonAddMultipleError.ErrorType.NOWEIGHT));
+			if (inThisSession)
+				pame_l.Add (new PersonAddMultipleError (count, "", PersonAddMultipleError.ErrorType.INSESSION));
+			else
+				pame_l.Add (new PersonAddMultipleError (count, "", PersonAddMultipleError.ErrorType.INDB));
 		}
+		else if (Convert.ToInt32(weight) == 0) // "else if" to only complain on no weight when person is new
+			pame_l.Add (new PersonAddMultipleError (count, "", PersonAddMultipleError.ErrorType.NOWEIGHT));
 	}
 
 	//note no check different ClubID as we can be using persons of different clubs
 	void checkAllEntriesAreDifferent()
 	{
-		ArrayList newNames= new ArrayList();
+		ArrayList newNames = new ArrayList();
 		for (int i = 0; i < rows; i ++) 
-			newNames.Add(((Gtk.Entry)entryNames[i]).Text.ToString());
+			newNames.Add (
+					Person.GetNameFromFirstAndLast (
+						((Gtk.Entry)entryFirstNames[i]).Text.ToString(),
+						((Gtk.Entry)entryLastNames[i]).Text.ToString()
+						));
 
 		for(int i=0; i < rows; i++)
 		{
@@ -1112,13 +1137,13 @@ public class PersonAddMultipleWindow
 					// a) if the first time it appeared is not on pame_l yet, include it now
 					if ( ! PersonAddMultipleError.ExistErrorLike (pame_l,
 								Util.RemoveTilde (newNames[i].ToString ()),
-								PersonAddMultipleError.ErrorType.REPEATEDNAME))
+								PersonAddMultipleError.ErrorType.REPEATEDFULLNAME))
 						pame_l.Add (new PersonAddMultipleError (
-									j-1, Util.RemoveTilde (newNames[i].ToString()), PersonAddMultipleError.ErrorType.REPEATEDNAME));
+									j-1, Util.RemoveTilde (newNames[i].ToString()), PersonAddMultipleError.ErrorType.REPEATEDFULLNAME));
 
 					// b) then add current row
 					pame_l.Add (new PersonAddMultipleError (
-								i, Util.RemoveTilde (newNames[i].ToString()), PersonAddMultipleError.ErrorType.REPEATEDNAME));
+								i, Util.RemoveTilde (newNames[i].ToString()), PersonAddMultipleError.ErrorType.REPEATEDFULLNAME));
 				}
 			}
 		}
@@ -1165,7 +1190,8 @@ public class PersonAddMultipleWindow
 		{
 			string clubID = ""; //if it is -1 it will be ""
 
-			if(((Gtk.Entry)entryNames[i]).Text.ToString().Length <= 0)
+			if ( ((Gtk.Entry) entryFirstNames[i]).Text.ToString().Length <= 0 &&
+					((Gtk.Entry) entryFirstNames[i]).Text.ToString().Length <= 0)
 				continue;
 
 			sex = Constants.SexU;
@@ -1184,13 +1210,19 @@ public class PersonAddMultipleWindow
 			{
 				//do not create person, just load it (create personSession below)
 				currentPerson = SqlitePerson.SelectByName (false,
-						Util.RemoveTilde (((Gtk.Entry)entryNames[i]).Text.ToString()));
+						Util.RemoveTilde (
+							Person.GetNameFromFirstAndLast (
+								((Gtk.Entry)entryFirstNames[i]).Text.ToString(),
+								((Gtk.Entry)entryLastNames[i]).Text.ToString())
+							));
 				psExisting = SqlitePersonSession.Select (currentPerson.UniqueID, -1); //if sessionID == -1 we search data in last sessionID
 				createPerson = false;
 			} else {
-				currentPerson = new Person(
+				currentPerson = new Person (
 						pID ++,
-						((Gtk.Entry)entryNames[i]).Text.ToString(), //name
+						Person.GetNameFromFirstAndLast (
+							((Gtk.Entry)entryFirstNames[i]).Text.ToString(),
+							((Gtk.Entry)entryLastNames[i]).Text.ToString()),
 						sex,
 						dateTime,
 						Constants.RaceUndefinedID,
@@ -1198,7 +1230,8 @@ public class PersonAddMultipleWindow
 						description, "", clubID, 		//description, future1: rfid, future2: clubID
 						Constants.ServerUndefinedID,
 						"",			//linkServerImage
-						"", ""			// TODO: nameFirst, nameLast
+						((Gtk.Entry)entryFirstNames[i]).Text.ToString(),
+						((Gtk.Entry)entryLastNames[i]).Text.ToString()
 						);
 
 				persons.Add (currentPerson);

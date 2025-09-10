@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2023   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2025   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -48,35 +48,37 @@ public partial class ChronoJumpWindow
 		str += "\nYou can change both in preferences/language.";
 
 		str += "\n\n1st ROW: headers (will be discarded).";
-		str += "\nCOLUMNS:";// person names like in Chronojump. All should exist in session.";
-		str += "\n- 1st: person names like in Chronojump. All should exist in session.";
+		str += "\nCOLUMNS:";
+		str += "\n- 1st: person first name like in Chronojump.";
+		str += "\n- 2nd: person last name like in Chronojump.";
+		str += "\n\tIn Chronojump session it should exists with same first name & last name.";
 
 		if (app1s_import_jumps_simple.Active)
 		{
-			str += "\n- 2nd: jump simple type in English (should exist in Chronojump).";
-			str += "\n- 3rd: jump flight time in seconds.";
-			str += "\n- 4th (optional): jump contact time in seconds."; //TODO: test if 5 or 6th exists and not 4th, to see if we need a 0 or whatever
-			str += "\n- 5th (optional): jump falling height in cm.";
-			str += "\n- 6th (optional): jump weight in percentage (without the '%' sign).";
+			str += "\n- 3rd: jump simple type in English (should exist in Chronojump).";
+			str += "\n- 4th: jump flight time in seconds.";
+			str += "\n- 5th (optional): jump contact time in seconds."; //TODO: test if 5 or 6th exists and not 4th, to see if we need a 0 or whatever
+			str += "\n- 6th (optional): jump falling height in cm.";
+			str += "\n- 7th (optional): jump weight in percentage (without the '%' sign).";
 		} else if (app1s_import_jumps_multiple.Active) {
-			str += "\n- 2nd: jump multiple type in English (should exist in Chronojump).";
-			str += "\n- 3th: jump falling height in cm.";
-			str += "\n- 4th: jump weight in percentage (without the '%' sign).";
+			str += "\n- 3th: jump multiple type in English (should exist in Chronojump).";
+			str += "\n- 4th: jump falling height in cm.";
+			str += "\n- 5th: jump weight in percentage (without the '%' sign).";
 			//limited will be the number of jumps
-			str += "\n- 5th, 7th, 9th, ...: each of the contact times (in seconds).";
+			str += "\n- 6th, 8th, 10th, ...: each of the contact times (in seconds).";
 			str += "\n  Note: If the jump type starts inside then first contact time must be -1";
-			str += "\n- 6th, 8th, 10th, ...: each of the flight times (in seconds).";
+			str += "\n- 7th, 9th, 11th, ...: each of the flight times (in seconds).";
 		} else if (app1s_import_runs_simple.Active) {
-			str += "\n- 2nd: run simple type in English (should exist in Chronojump).";
-			str += "\n- 3rd: starts in contact with the photocell? T/F or t/f.";
-			str += "\n- 4th: distance in meters.";
-			str += "\n- 5th: time in seconds.";
+			str += "\n- 3rd: run simple type in English (should exist in Chronojump).";
+			str += "\n- 4th: starts in contact with the photocell? T/F or t/f.";
+			str += "\n- 5th: distance in meters.";
+			str += "\n- 6th: time in seconds.";
 		} else if (app1s_import_runs_intervallic.Active) {
-			str += "\n- 2nd: run interval type in English (should exist in Chronojump).";
-			str += "\n- 3rd: starts in contact with the photocell? T/F or t/f.";
-			str += "\n- 4th: total distance in meters.";
-			str += "\n- 5th: number of tracks (all the tracks need to have same distance).";
-			str += "\n- 6th, 7th, ...: time in seconds of each of the tracks.";
+			str += "\n- 3rd: run interval type in English (should exist in Chronojump).";
+			str += "\n- 4th: starts in contact with the photocell? T/F or t/f.";
+			str += "\n- 5th: total distance in meters.";
+			str += "\n- 6th: number of tracks (all the tracks need to have same distance).";
+			str += "\n- 7th, 8th, ...: time in seconds of each of the tracks.";
 		}
 
                 tb1.Text = str;
@@ -135,8 +137,7 @@ public partial class ChronoJumpWindow
 				importCSV = new ImportCSVJumpsSimple (fc.Filename, person_l, testType_l, currentSession.UniqueID, preferences);
 				eventToImport_l = importCSV.ToImport_l;
 				error_l = importCSV.Error_l;
-			}
-			else if (app1s_import_jumps_multiple.Active)
+			} else if (app1s_import_jumps_multiple.Active)
 			{
 				importCSV = new ImportCSVJumpsMultiple (fc.Filename, person_l, testType_l, currentSession.UniqueID, preferences);
 				eventToImport_l = importCSV.ToImport_l;
@@ -252,19 +253,19 @@ public abstract class ImportCSV
 		error_l = new List<string> ();
 	}
 
-	protected bool importCSVPersonExistsInSession (List<Person> person_l, string personName)
+	protected bool importCSVPersonExistsInSession (List<Person> person_l, string firstName, string lastName)
 	{
 		foreach (Person p in person_l)
-			if (p.Name == personName)
+			if (p.NameFirst == firstName && p.NameLast == lastName)
 				return true;
 
 		return false;
 	}
 
-	protected int importCSVPersonFindID (List<Person> person_l, string personName)
+	protected int importCSVPersonFindID (List<Person> person_l, string firstName, string lastName)
 	{
 		foreach (Person p in person_l)
-			if (p.Name == personName)
+			if (p.NameFirst == firstName && p.NameLast == lastName)
 				return p.UniqueID;
 
 		return -1;
@@ -302,7 +303,8 @@ public class ImportCSVJumpsSimple : ImportCSV
 			{
 				int col = 0;
 				bool rowErrors = false;
-				string personName = "";
+				string firstName = "";
+				string lastName = "";
 				string jType = "";
 				double jTv = 0;
 				double jTc = 0;
@@ -317,14 +319,16 @@ public class ImportCSVJumpsSimple : ImportCSV
 					//LogB.Information (string.Format ("row: {0}, col: {1}, content: {2}", row, col, str));
 
 					if (col == 0)
-					{
-						if (! importCSVPersonExistsInSession (person_l, str)) {
-							error_l.Add (string.Format ("Row {0}: person '{1}' does not exists in session.", row, str));
-							rowErrors = true;
-						} else
-							personName = str;
-					}
+						firstName = str;
 					else if (col == 1)
+					{
+						lastName = str;
+						if (! importCSVPersonExistsInSession (person_l, firstName, lastName)) {
+							error_l.Add (string.Format ("Row {0}: person with firstname: '{1}', lastName: '{2}'\n\tdoes not exists in session.", row, firstName, lastName));
+							rowErrors = true;
+						}
+					}
+					else if (col == 2)
 					{
 						if (! importCSVTestExists (str)) {
 							error_l.Add (string.Format ("Row {0}: jump simple '{1}' does not exists.", row, str));
@@ -332,7 +336,7 @@ public class ImportCSVJumpsSimple : ImportCSV
 						} else
 							jType = str;
 					}
-					else if (col == 2)
+					else if (col == 3)
 					{
 						if (str == "") {
 							error_l.Add (string.Format ("Row {0}: there is no flight time.", row));
@@ -343,7 +347,7 @@ public class ImportCSVJumpsSimple : ImportCSV
 						} else
 							jTv = Convert.ToDouble (str);
 					}
-					else if (col == 3 && str != "")
+					else if (col == 4 && str != "")
 					{
 						if (! Util.IsNumber (str, true)) {
 							error_l.Add (string.Format ("Row {0}: contact time '{1}' is not a number or decimal character is not correct.", row, str));
@@ -351,7 +355,7 @@ public class ImportCSVJumpsSimple : ImportCSV
 						} else
 							jTc = Convert.ToDouble (str);
 					}
-					else if (col == 4 && str != "")
+					else if (col == 5 && str != "")
 					{
 						if (! Util.IsNumber (str, true)) {
 							error_l.Add (string.Format ("Row {0}: fall '{1}' is not a number or decimal character is not correct.", row, str));
@@ -359,7 +363,7 @@ public class ImportCSVJumpsSimple : ImportCSV
 						} else
 							jFall = Convert.ToDouble (str);
 					}
-					else if (col == 5 && str != "")
+					else if (col == 6 && str != "")
 					{
 						if (! Util.IsNumber (str, true)) {
 							error_l.Add (string.Format ("Row {0}: weight '{1}' is not a number or decimal character is not correct.", row, str));
@@ -373,7 +377,7 @@ public class ImportCSVJumpsSimple : ImportCSV
 
 				if (! rowErrors)
 				{
-					int personID = importCSVPersonFindID (person_l, personName);
+					int personID = importCSVPersonFindID (person_l, firstName, lastName);
 					if (personID >= 0)
 						toImport_l.Add (new Jump (-1, personID, currentSessionID, jType,
 									jTv, jTc, jFall, jWeightPercent, "", -1,
@@ -415,7 +419,8 @@ public class ImportCSVJumpsMultiple : ImportCSV
 			{
 				int col = 0;
 				bool rowErrors = false;
-				string personName = "";
+				string firstName = "";
+				string lastName = "";
 				string jType = "";
 				double jFall = 0;
 				double jWeightPercent = 0;
@@ -430,14 +435,16 @@ public class ImportCSVJumpsMultiple : ImportCSV
 					//LogB.Information (string.Format ("row: {0}, col: {1}, content: {2}", row, col, str));
 
 					if (col == 0)
-					{
-						if (! importCSVPersonExistsInSession (person_l, str)) {
-							error_l.Add (string.Format ("Row {0}: person '{1}' does not exists in session.", row, str));
-							rowErrors = true;
-						} else
-							personName = str;
-					}
+						firstName = str;
 					else if (col == 1)
+					{
+						lastName = str;
+						if (! importCSVPersonExistsInSession (person_l, firstName, lastName)) {
+							error_l.Add (string.Format ("Row {0}: person with firstname: '{1}', lastName: '{2}'\n\tdoes not exists in session.", row, firstName, lastName));
+							rowErrors = true;
+						}
+					}
+					else if (col == 2)
 					{
 						if (! importCSVTestExists (str)) {
 							error_l.Add (string.Format ("Row {0}: Jump multiple '{1}' does not exists.", row, str));
@@ -445,7 +452,7 @@ public class ImportCSVJumpsMultiple : ImportCSV
 						} else
 							jType = str;
 					}
-					else if (col == 2 && str != "")
+					else if (col == 3 && str != "")
 					{
 						if (! Util.IsNumber (str, true)) {
 							error_l.Add (string.Format ("Row {0}: fall '{1}' is not a number or decimal character is not correct.", row, str));
@@ -453,7 +460,7 @@ public class ImportCSVJumpsMultiple : ImportCSV
 						} else
 							jFall = Convert.ToDouble (str);
 					}
-					else if (col == 3 && str != "")
+					else if (col == 4 && str != "")
 					{
 						if (! Util.IsNumber (str, true)) {
 							error_l.Add (string.Format ("Row {0}: weight '{1}' is not a number or decimal character is not correct.", row, str));
@@ -461,7 +468,7 @@ public class ImportCSVJumpsMultiple : ImportCSV
 						} else
 							jWeightPercent = Convert.ToDouble (str);
 					}
-					else if (col > 3 && str != "")
+					else if (col > 4 && str != "")
 					{
 						if (! Util.IsNumber (str, true)) {
 							error_l.Add (string.Format ("Row {0} col {1}: Time '{2}' is not a number or decimal character is not correct.", row, col, str));
@@ -509,7 +516,7 @@ public class ImportCSVJumpsMultiple : ImportCSV
 
 				if (! rowErrors)
 				{
-					int personID = importCSVPersonFindID (person_l, personName);
+					int personID = importCSVPersonFindID (person_l, firstName, lastName);
 					if (personID >= 0)
 					{
 						string tcString = UtilList.ListDoubleToString (tf_l, 5, "=");
@@ -578,7 +585,8 @@ public class ImportCSVRunsSimple : ImportCSV
 			{
 				int col = 0;
 				bool rowErrors = false;
-				string personName = "";
+				string firstName = "";
+				string lastName = "";
 				string rType = "";
 				bool rStartIn = false;
 				double rDistance = 0;
@@ -592,14 +600,16 @@ public class ImportCSVRunsSimple : ImportCSV
 					//LogB.Information (string.Format ("row: {0}, col: {1}, content: {2}", row, col, str));
 
 					if (col == 0)
-					{
-						if (! importCSVPersonExistsInSession (person_l, str)) {
-							error_l.Add (string.Format ("Row {0}: person '{1}' does not exists in session.", row, str));
-							rowErrors = true;
-						} else
-							personName = str;
-					}
+						firstName = str;
 					else if (col == 1)
+					{
+						lastName = str;
+						if (! importCSVPersonExistsInSession (person_l, firstName, lastName)) {
+							error_l.Add (string.Format ("Row {0}: person with firstname: '{1}', lastName: '{2}'\n\tdoes not exists in session.", row, firstName, lastName));
+							rowErrors = true;
+						}
+					}
+					else if (col == 2)
 					{
 						if (! importCSVTestExists (str)) {
 							error_l.Add (string.Format ("Row {0}: run intervallic '{1}' does not exists.", row, str));
@@ -607,7 +617,7 @@ public class ImportCSVRunsSimple : ImportCSV
 						} else
 							rType = str;
 					}
-					else if (col == 2)
+					else if (col == 3)
 					{
 						if (str.ToUpper () != "T" && str.ToUpper () != "F") {
 							error_l.Add (string.Format ("Row {0}: startIn found is '{1}' must be 'T', 't', 'F' or 'f'.", row, str));
@@ -615,7 +625,7 @@ public class ImportCSVRunsSimple : ImportCSV
 						} else
 							rStartIn = (str.ToUpper () == "T");
 					}
-					else if (col == 3)
+					else if (col == 4)
 					{
 						if (str == "") {
 							error_l.Add (string.Format ("Row {0}: there is no distance.", row));
@@ -626,7 +636,7 @@ public class ImportCSVRunsSimple : ImportCSV
 						} else
 							rDistance = Convert.ToDouble (str);
 					}
-					else if (col == 4)
+					else if (col == 5)
 					{
 						if (str == "") {
 							error_l.Add (string.Format ("Row {0}: there is no time.", row));
@@ -643,7 +653,7 @@ public class ImportCSVRunsSimple : ImportCSV
 
 				if (! rowErrors)
 				{
-					int personID = importCSVPersonFindID (person_l, personName);
+					int personID = importCSVPersonFindID (person_l, firstName, lastName);
 					if (personID >= 0)
 						toImport_l.Add (new Run (-1, personID, currentSessionID, rType,
 									rDistance, rTime,
@@ -688,7 +698,8 @@ public class ImportCSVRunsInterval : ImportCSV
 			{
 				int col = 0;
 				bool rowErrors = false;
-				string personName = "";
+				string firstName = "";
+				string lastName = "";
 				string riType = "";
 				bool riStartIn = false;
 				double riDistanceTotal = 0;
@@ -704,14 +715,16 @@ public class ImportCSVRunsInterval : ImportCSV
 					//LogB.Information (string.Format ("row: {0}, col: {1}, content: {2}", row, col, str));
 
 					if (col == 0)
-					{
-						if (! importCSVPersonExistsInSession (person_l, str)) {
-							error_l.Add (string.Format ("Row {0}: person '{1}' does not exists in session.", row, str));
-							rowErrors = true;
-						} else
-							personName = str;
-					}
+						firstName = str;
 					else if (col == 1)
+					{
+						lastName = str;
+						if (! importCSVPersonExistsInSession (person_l, firstName, lastName)) {
+							error_l.Add (string.Format ("Row {0}: person with firstname: '{1}', lastName: '{2}'\n\tdoes not exists in session.", row, firstName, lastName));
+							rowErrors = true;
+						}
+					}
+					else if (col == 2)
 					{
 						if (! importCSVTestExists (str)) {
 							error_l.Add (string.Format ("Row {0}: run intervallic '{1}' does not exists.", row, str));
@@ -719,7 +732,7 @@ public class ImportCSVRunsInterval : ImportCSV
 						} else
 							riType = str;
 					}
-					else if (col == 2)
+					else if (col == 3)
 					{
 						if (str.ToUpper () != "T" && str.ToUpper () != "F") {
 							error_l.Add (string.Format ("Row {0}: startIn found is '{1}' must be 'T', 't', 'F' or 'f'.", row, str));
@@ -727,7 +740,7 @@ public class ImportCSVRunsInterval : ImportCSV
 						} else
 							riStartIn = (str.ToUpper () == "T");
 					}
-					else if (col == 3)
+					else if (col == 4)
 					{
 						if (str == "") {
 							error_l.Add (string.Format ("Row {0}: there is no total distance.", row));
@@ -738,7 +751,7 @@ public class ImportCSVRunsInterval : ImportCSV
 						} else
 							riDistanceTotal = Convert.ToDouble (str);
 					}
-					else if (col == 4)
+					else if (col == 5)
 					{
 						if (str == "" || ! Util.IsNumber (str, false)) {
 							error_l.Add (string.Format ("Row {0}: Tracks '{1}' is not a number an integer number.", row, str));
@@ -746,7 +759,7 @@ public class ImportCSVRunsInterval : ImportCSV
 						} else
 							riTracks = Convert.ToInt32 (str);
 					}
-					else if (col > 4 && str != "")
+					else if (col > 5 && str != "")
 					{
 						if (! Util.IsNumber (str, true)) {
 							error_l.Add (string.Format ("Row {0} col {1}: Time '{2}' is not a number or decimal character is not correct.", row, col, str));
@@ -762,7 +775,7 @@ public class ImportCSVRunsInterval : ImportCSV
 
 				if (! rowErrors)
 				{
-					int personID = importCSVPersonFindID (person_l, personName);
+					int personID = importCSVPersonFindID (person_l, firstName, lastName);
 					if (personID >= 0)
 						toImport_l.Add (new RunInterval (-1, personID, currentSessionID, riType,
 									riDistanceTotal, timeTotal,

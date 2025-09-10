@@ -108,8 +108,9 @@ public class PersonRecuperateWindow
 		hbox_from_session_hide.Hide(); //used in person recuperate multiple (hided in current class)
 		hbox_combo_select_checkboxes_hide.Hide(); //used in person recuperate multiple (hided in current class)
 		
-		store = new TreeStore( 
-				typeof (string), typeof (string), typeof (string), typeof (string), typeof (string) );
+		store = new TreeStore ( 
+				typeof (string), typeof (string), //nameFirst, nameLast
+				typeof (string), typeof (string), typeof (string), typeof (string) );
 		createTreeView(treeview_person_recuperate, 0);
 		treeview_person_recuperate.Model = store;
 		fillTreeView(treeview_person_recuperate, store, "");
@@ -135,16 +136,17 @@ public class PersonRecuperateWindow
 		tv.HeadersVisible=true;
 		
 		UtilGtk.CreateCols(tv, store, Catalog.GetString("ID"), count++, true);
-		UtilGtk.CreateCols(tv, store, Catalog.GetString("Name"), count++, true);
+		UtilGtk.CreateCols(tv, store, Catalog.GetString("First name"), count++, true);
+		UtilGtk.CreateCols(tv, store, Catalog.GetString("Last name"), count++, true);
 		UtilGtk.CreateCols(tv, store, Catalog.GetString("Sex"), count++, true);
 		UtilGtk.CreateCols(tv, store, Catalog.GetString("Date of Birth"), count++, true);
 		UtilGtk.CreateCols(tv, store, Catalog.GetString("Description"), count++, true);
 
 		//sort non textual cols	
 		store.SetSortFunc (firstColumn + 0, UtilGtk.IdColumnCompare);
-		//store.SetSortFunc (firstColumn + 3, heightColumnCompare);
-		//store.SetSortFunc (firstColumn + 4, weightColumnCompare);
-		//store.SetSortFunc (firstColumn + 5, birthColumnCompare);
+		//store.SetSortFunc (firstColumn + 4, heightColumnCompare);
+		//store.SetSortFunc (firstColumn + 5, weightColumnCompare);
+		//store.SetSortFunc (firstColumn + 6, birthColumnCompare);
 	}
 
 /*	
@@ -152,8 +154,8 @@ public class PersonRecuperateWindow
 	public int heightColumnCompare (ITreeModel model, TreeIter iter1, TreeIter iter2)     {
 		double val1 = 0;
 		double val2 = 0;
-		val1 = Convert.ToDouble(model.GetValue(iter1, firstColumn + 3));
-		val2 = Convert.ToDouble(model.GetValue(iter2, firstColumn + 3));
+		val1 = Convert.ToDouble(model.GetValue(iter1, firstColumn + 4));
+		val2 = Convert.ToDouble(model.GetValue(iter2, firstColumn + 4));
 		
 		return (int) (10*val1-10*val2);
 	}
@@ -162,18 +164,19 @@ public class PersonRecuperateWindow
 	public int weightColumnCompare (ITreeModel model, TreeIter iter1, TreeIter iter2)     {
 		double val1 = 0;
 		double val2 = 0;
-		val1 = Convert.ToDouble(model.GetValue(iter1, firstColumn + 4));
-		val2 = Convert.ToDouble(model.GetValue(iter2, firstColumn + 4));
+		val1 = Convert.ToDouble(model.GetValue(iter1, firstColumn + 5));
+		val2 = Convert.ToDouble(model.GetValue(iter2, firstColumn + 5));
 		
 		return (int) (10*val1-10*val2);
 	}
 */
 
-	private void fillTreeView (Gtk.TreeView tv, TreeStore store, string searchFilterName) 
+	private void fillTreeView (Gtk.TreeView tv, TreeStore store, string searchFilterFullName) 
 	{
 		int exceptSession = currentSession.UniqueID;
 		int inSession = -1;	//search persons for recuperating in all sessions
-		ArrayList myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", exceptSession, inSession, searchFilterName);
+		ArrayList myPersons = SqlitePerson.SelectAllPersonsRecuperable ("name", //will be fullname
+				exceptSession, inSession, searchFilterFullName);
 
 		// Limit at 1000. Seems at 1300 aprox it fails.
 		// And no way to know the error looking at the created iter on doing store.AppendValue
@@ -187,7 +190,8 @@ public class PersonRecuperateWindow
 		foreach (Person person in myPersons)
 			store.AppendValues (
 					person.UniqueID.ToString(), 
-					person.Name, 
+					person.NameFirst,
+					person.NameLast, 
 					getCorrectSex(person.Sex), 
 					person.DateBorn.ToShortDateString(), 
 					person.Description);
@@ -210,7 +214,9 @@ public class PersonRecuperateWindow
 	}
 	
 	protected void on_entry_search_filter_changed (object o, EventArgs args) {
-		store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), typeof (string) );
+		store = new TreeStore (
+				typeof (string), typeof (string), //nameFirst, nameLast
+				typeof (string), typeof (string), typeof (string), typeof (string) );
 		treeview_person_recuperate.Model = store;
 
 		string myFilter = "";
@@ -295,12 +301,14 @@ public class PersonRecuperateWindow
 					myPS.TrochanterFloorOnFlexion,
 					false); //dbconOpened
 						
-			store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), typeof (string) );
+			store = new TreeStore (
+					typeof (string), typeof (string), //nameFirst, nameLast
+					typeof (string), typeof (string), typeof (string), typeof (string) );
 			treeview_person_recuperate.Model = store;
 
 			fillTreeView(treeview_person_recuperate,store, entry_search_filter.Text.ToString());
 
-			label_feedback.Text = Catalog.GetString("Loaded") + " " + currentPerson.Name;
+			label_feedback.Text = Catalog.GetString("Loaded") + " " + currentPerson.Name; //FullName
 
 			//no posible to recuperate until one person is selected
 			button_recuperate.Sensitive = false;
@@ -415,7 +423,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		combo_select_checkboxes.Active = 0; //ALL
 		createCheckboxes(treeview_person_recuperate);
 		
-		store = new TreeStore( typeof (bool), 
+		store = new TreeStore ( typeof (bool), 
 				typeof (string), typeof (string), typeof (string), typeof (string), typeof (string) );
 		createTreeView(treeview_person_recuperate, 1);
 		treeview_person_recuperate.Model = store;
@@ -464,8 +472,9 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	private void on_combo_sessions_changed(object o, EventArgs args) {
 		string myText = UtilGtk.ComboGetActive(combo_sessions);
 		if(myText != "") {
-			store = new TreeStore( typeof (bool), 
-					typeof (string), typeof (string), typeof (string), typeof (string), typeof (string) );
+			store = new TreeStore ( typeof (bool), 
+					typeof (string), typeof (string), //nameFirst, nameLast
+					typeof (string), typeof (string), typeof (string), typeof (string) );
 			treeview_person_recuperate.Model = store;
 			
 			string [] myStringFull = myText.Split(new char[] {':'});
@@ -560,19 +569,20 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	
 	private void fillTreeView (Gtk.TreeView tv, TreeStore store, int exceptSession, int inSession)
 	{
-		ArrayList myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", exceptSession, inSession, ""); //"" is searchFilterName (not implemented on recuperate multiple)
+		ArrayList myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", exceptSession, inSession, ""); //"" is searchFilterFullName (not implemented on recuperate multiple)
 
 		foreach (Person person in myPersons) {
 			store.AppendValues (
 					true,
 					person.UniqueID.ToString(), 
-					person.Name, 
+					person.NameFirst, 
+					person.NameLast, 
 					getCorrectSex(person.Sex), 
 					person.DateBorn.ToShortDateString(), 
 					person.Description);
 		}
 
-		//show sorted by column Name	
+		//show sorted by column NameFirst
 		store.SetSortColumnId(2, Gtk.SortType.Ascending);
 	}
 
@@ -677,8 +687,9 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		//update the treeview (only one time)
 		string myText = UtilGtk.ComboGetActive(combo_sessions);
 		if(myText != "") {
-			store = new TreeStore( typeof (bool), 
-					typeof (string), typeof (string), typeof (string), typeof (string), typeof (string) );
+			store = new TreeStore ( typeof (bool), 
+					typeof (string), typeof (string), //nameFirst, nameLast
+					typeof (string), typeof (string), typeof (string), typeof (string) );
 			treeview_person_recuperate.Model = store;
 
 			string [] myStringFull = myText.Split(new char[] {':'});
@@ -691,7 +702,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 
 			if(inserted >= 1) {
 				if(inserted == 1)
-					label_feedback.Text = Catalog.GetString("Loaded") + " " + currentPerson.Name;
+					label_feedback.Text = Catalog.GetString("Loaded") + " " + currentPerson.Name; //fullname
 				else 
 					label_feedback.Text = string.Format(Catalog.GetPluralString(
 									"Successfully added one person.",
@@ -783,8 +794,9 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 		createComboSelectCheckboxes();
 		createCheckboxes(treeview_person_recuperate);
 		
-		store = new TreeStore( typeof (bool), 
-				typeof (string), typeof (string), typeof (string), typeof (string), typeof (string) );
+		store = new TreeStore ( typeof (bool), 
+				typeof (string), typeof (string), //nameFirst, nameLast
+				typeof (string), typeof (string), typeof (string), typeof (string) );
 		createTreeView(treeview_person_recuperate, 1);
 		treeview_person_recuperate.Model = store;
 		
@@ -822,13 +834,14 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 		   we continue using method SelectAllPersonsRecuperable because we want same output columns
 		   */
 
-		ArrayList myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", -1, sessionID, ""); //"" is searchFilterName (not implemented on recuperate multiple)
+		ArrayList myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", -1, sessionID, ""); //"" is searchFilterFullName (not implemented on recuperate multiple)
 
 		foreach (Person person in myPersons) {
 			store.AppendValues (
 					! Util.FoundInArrayList(initiallyUnchecked, person.UniqueID.ToString()), 
 					person.UniqueID.ToString(), 
-					person.Name, 
+					person.NameFirst,
+					person.NameLast,
 					getCorrectSex(person.Sex), 
 					person.DateBorn.ToShortDateString(), 
 					person.Description);

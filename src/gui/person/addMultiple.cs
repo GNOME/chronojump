@@ -177,10 +177,11 @@ public class PersonAddMultipleWindow
 	private Person currentPerson;
 	Session currentSession;
 	char columnDelimiter;
+	string machineID;
 	//int personsCreatedCount;
 
 
-	PersonAddMultipleWindow (Gtk.Window parent, Session currentSession, char columnDelimiter)
+	PersonAddMultipleWindow (Gtk.Window parent, Session currentSession, char columnDelimiter, string machineID)
 	{
 		/*
 		Glade.XML gladeXML;
@@ -209,12 +210,13 @@ public class PersonAddMultipleWindow
 		person_multiple_infinite.Parent = parent;
 		this.currentSession = currentSession;
 		this.columnDelimiter = columnDelimiter;
+		this.machineID = machineID;
 	}
 	
-	static public PersonAddMultipleWindow Show (Gtk.Window parent, Session currentSession, char columnDelimiter)
+	static public PersonAddMultipleWindow Show (Gtk.Window parent, Session currentSession, char columnDelimiter, string machineID)
 	{
 		if (PersonAddMultipleWindowBox == null) {
-			PersonAddMultipleWindowBox = new PersonAddMultipleWindow (parent, currentSession, columnDelimiter);
+			PersonAddMultipleWindowBox = new PersonAddMultipleWindow (parent, currentSession, columnDelimiter, machineID);
 		}
 		
 		PersonAddMultipleWindowBox.putNonStandardIcons ();
@@ -1231,7 +1233,8 @@ public class PersonAddMultipleWindow
 						Constants.ServerUndefinedID,
 						"",			//linkServerImage
 						((Gtk.Entry)entryFirstNames[i]).Text.ToString(),
-						((Gtk.Entry)entryLastNames[i]).Text.ToString()
+						((Gtk.Entry)entryLastNames[i]).Text.ToString(),
+						Person.CreateMuuidFromMachineID (machineID)
 						);
 
 				persons.Add (currentPerson);

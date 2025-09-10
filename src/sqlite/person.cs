@@ -63,14 +63,15 @@ class SqlitePerson : Sqlite
 			"serverUniqueID INT, " +
 			"linkServerImage TEXT, " + //for networks
 			"nameFirst TEXT, " +
-			"nameLast TEXT ) ";
+			"nameLast TEXT, " +
+			"muuid TEXT ) ";
 		dbcmd.ExecuteNonQuery();
 	 }
 
-	public static int Insert(bool dbconOpened, string uniqueID, string name,
+	public static int Insert (bool dbconOpened, string uniqueID, string name,
 			string sex, DateTime dateBorn, int race, int countryID, string description,
 			string future1, string future2, int serverUniqueID, string linkServerImage,
-			string nameFirst, string nameLast)
+			string nameFirst, string nameLast, string muuid)
 	{
 		LogB.SQL("going to insert");
 		if(! dbconOpened)
@@ -83,11 +84,11 @@ class SqlitePerson : Sqlite
 		//ATTENTION: if this changes, change the Person.ToSQLInsertString()
 		// -----------------------
 		string myString = "INSERT INTO " + Constants.PersonTable + 
-			" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID, linkServerImage, nameFirst, nameLast) VALUES (" + uniqueID + ", '" +
+			" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID, linkServerImage, nameFirst, nameLast, muuid) VALUES (" + uniqueID + ", '" +
 			name + "', '" + sex + "', '" + UtilDate.ToDateSQL(dateBorn) + "', " + 
 			race + ", " + countryID + ", '" + description + "', '" +
 			future1 + "', '" + future2 + "', " + serverUniqueID + ", '" +
-			linkServerImage + "', '" + nameFirst + "', '" + nameLast + "')";
+			linkServerImage + "', '" + nameFirst + "', '" + nameLast + "', '" + muuid + "')";
 		
 		dbcmd.CommandText = myString;
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -147,7 +148,8 @@ class SqlitePerson : Sqlite
 					Convert.ToInt32(reader[9].ToString()), //serverUniqueID
 					reader[10].ToString(), 			//linkServerImage
 					reader[11].ToString(),			//nameFirst
-					reader[12].ToString()			//nameLast
+					reader[12].ToString(),			//nameLast
+					reader[13].ToString()			//muuid
 					);
 		}
 		reader.Close();
@@ -295,7 +297,8 @@ finishForeach:
 						Convert.ToInt32(reader2[9].ToString()), //serverUniqueID
 						reader2[10].ToString(), 		//linkServerImage
 						reader2[11].ToString(), 		//nameFirst
-						reader2[12].ToString() 			//nameLast
+						reader2[12].ToString(), 		//nameLast
+						reader2[13].ToString() 			//muuid
 						);
 				arrayReturn.Add(p);
 			}
@@ -695,6 +698,7 @@ finishForeach:
 			", linkServerImage = '" + myPerson.LinkServerImage + //linkServerImage
 			"', nameFirst = '" + myPerson.NameFirst +
 			"', nameLast = '" + myPerson.NameLast +
+			"', muuid = '" + myPerson.Muuid +
 			"' WHERE uniqueID = " + myPerson.UniqueID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

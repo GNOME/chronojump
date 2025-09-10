@@ -336,7 +336,7 @@ public partial class ChronoJumpWindow
 				//preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
 				preferences.digitsNumber,// checkbutton_video_contacts,
 				preferences.videoDevice, preferences.videoDevicePixelFormat, preferences.videoDeviceResolution, preferences.videoDeviceFramerate,
-				configChronojump.Compujump, preferences.units == Preferences.UnitsEnum.METRIC
+				configChronojump.Compujump, preferences.units == Preferences.UnitsEnum.METRIC, preferences.machineID
 				);
 		//-1 means we are adding a new person
 		//if we were modifying it will be it's uniqueID
@@ -428,7 +428,7 @@ public partial class ChronoJumpWindow
 
 	private void person_add_multiple ()
 	{
-		personAddMultipleWin = PersonAddMultipleWindow.Show(app1, currentSession, preferences.CSVColumnDelimiter);
+		personAddMultipleWin = PersonAddMultipleWindow.Show(app1, currentSession, preferences.CSVColumnDelimiter, preferences.machineID);
 		personAddMultipleWin.FakeButtonDone.Clicked -= new EventHandler(on_person_add_multiple_accepted);
 		personAddMultipleWin.FakeButtonDone.Clicked += new EventHandler(on_person_add_multiple_accepted);
 
@@ -485,7 +485,7 @@ public partial class ChronoJumpWindow
 				//preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
 				preferences.digitsNumber,// checkbutton_video_contacts,
 				preferences.videoDevice, preferences.videoDevicePixelFormat, preferences.videoDeviceResolution, preferences.videoDeviceFramerate,
-				configChronojump.Compujump, preferences.units == Preferences.UnitsEnum.METRIC
+				configChronojump.Compujump, preferences.units == Preferences.UnitsEnum.METRIC, preferences.machineID
 				); 
 		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
 

@@ -311,7 +311,8 @@ class SqlitePersonSession : Sqlite
 					Convert.ToInt32(reader[9].ToString()),	//serverUniqueID
 					reader[10].ToString(),			//linkServerImage
 					reader[11].ToString(),			//nameFirst
-					reader[12].ToString()			//nameLast
+					reader[12].ToString(),			//nameLast
+					reader[13].ToString()			//muuid
 					);
 			person_l.Add(person);
 		}
@@ -394,22 +395,23 @@ class SqlitePersonSession : Sqlite
 					Convert.ToInt32(reader[9].ToString()),	//serverUniqueID
 					reader[10].ToString(),			//linkServerImage
 					reader[11].ToString(),			//nameFirst
-					reader[12].ToString()			//nameLast
+					reader[12].ToString(),			//nameLast
+					reader[13].ToString()			//muuid
 					);
 
 			if(returnPersonAndPSlist) {
 				PersonSession ps = new PersonSession(
-						Convert.ToInt32(reader[13].ToString()), 	//uniqueID
-						Convert.ToInt32(reader[14].ToString()), 	//personID
-						Convert.ToInt32(reader[15].ToString()), 	//sessionID
-						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[16].ToString())), //height
-						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[17].ToString())), //weight
-						Convert.ToInt32(reader[18].ToString()), 	//sportID
-						Convert.ToInt32(reader[19].ToString()), 	//speciallityID
-						Convert.ToInt32(reader[20].ToString()),	//practice
-						reader[21].ToString(), 			//comments
-						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[22].ToString())), //trochanterToe
-						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[23].ToString())) //trochanterFloorOnFlexion
+						Convert.ToInt32(reader[14].ToString()), 	//uniqueID
+						Convert.ToInt32(reader[15].ToString()), 	//personID
+						Convert.ToInt32(reader[16].ToString()), 	//sessionID
+						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[17].ToString())), //height
+						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[18].ToString())), //weight
+						Convert.ToInt32(reader[19].ToString()), 	//sportID
+						Convert.ToInt32(reader[20].ToString()), 	//speciallityID
+						Convert.ToInt32(reader[21].ToString()),	//practice
+						reader[22].ToString(), 			//comments
+						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[23].ToString())), //trochanterToe
+						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[24].ToString())) //trochanterFloorOnFlexion
 						);
 				myArray.Add(new PersonAndPS(person, ps));
 			} else
@@ -695,7 +697,7 @@ class SqlitePersonSessionTransaction : Sqlite
 					foreach(Person p in persons) {
 						dbcmdTr.CommandText = 
 							"INSERT INTO " + Constants.PersonTable +
-							" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID, linkServerImage, nameFirst, nameLast) " +
+							" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID, linkServerImage, nameFirst, nameLast, muuid) " +
 							" VALUES (" + p.ToSQLInsertString() + ")";
 						LogB.SQL(dbcmdTr.CommandText.ToString());
 						dbcmdTr.ExecuteNonQuery();

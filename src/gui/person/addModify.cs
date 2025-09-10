@@ -143,6 +143,7 @@ public class PersonAddModifyWindow
 
 	private Person currentPerson;
 	private Session currentSession;
+	private string machineID;
 	private string videoDevice;
 	private string videoDevicePixelFormat;
 	private string videoDeviceResolution;
@@ -160,7 +161,7 @@ public class PersonAddModifyWindow
 	//if we are modifying a person, currentPerson.UniqueID is obviously it's ID
 	//showCapturePhoto is false on raspberry to not use camera
 	//PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson, bool showCapturePhoto)
-	PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson)
+	PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson, string machineID)
 	{
 		//this strings will be used on merge persons code. Now are here just to be translated in the meantime.
 		LogB.Information (Catalog.GetString ("Merge with another person"));
@@ -198,6 +199,7 @@ public class PersonAddModifyWindow
 		person_win.Parent = parent;
 		this.currentSession = currentSession;
 		this.currentPerson = currentPerson;
+		this.machineID = machineID;
 
 		if(currentPerson.UniqueID == -1)
 			adding = true;
@@ -563,11 +565,11 @@ public class PersonAddModifyWindow
 			//Gtk.CheckButton app1_checkbutton_video, bool showCapturePhoto,
 			//Gtk.CheckButton app1_checkbutton_video_contacts,
 			string videoDevice, string videoDevicePixelFormat, string videoDeviceResolution, string videoDeviceFramerate,
-			bool compujump, bool metric)
+			bool compujump, bool metric, string machineID)
 	{
 		if (PersonAddModifyWindowBox == null) {
 			//PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson, showCapturePhoto);
-			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson);
+			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson, machineID);
 		}
 
 		PersonAddModifyWindowBox.pDN = pDN;
@@ -1248,6 +1250,7 @@ public class PersonAddModifyWindow
 					"", clubID, //future1: rfid; future2: clubID
 					Constants.ServerUndefinedID, "",
 					personNameFirst, personNameLast,
+					Person.CreateMuuidFromMachineID (machineID),
 					false); //dbconOpened
 					
 			LogB.Information("Going to insert personSession");
@@ -1289,7 +1292,9 @@ public class PersonAddModifyWindow
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
 					textview_description.Buffer.Text,
 					"", clubID, //future1: rfid; future2: clubID
-					serverUniqueID, currentPerson.LinkServerImage, personNameFirst, personNameLast);
+					serverUniqueID, currentPerson.LinkServerImage, personNameFirst, personNameLast,
+					Person.CreateMuuidFromMachineID (machineID)
+					);
 			SqlitePerson.Update (currentPerson); 
 		
 			//we only need to update personSession

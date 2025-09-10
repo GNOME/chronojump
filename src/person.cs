@@ -42,6 +42,10 @@ public class Person
 	private string nameFirst;
 	private string nameLast;
 
+	private string muuid; //machineID at the DB where is created (32 bits) ; uuid (32 bits).
+	//It helps to know where a person was created.
+	//This has been created when mobile app is being created and persons be moved between different mobiles and computers
+
 	public Person() {
 	}
 	
@@ -66,6 +70,7 @@ public class Person
 		this.linkServerImage = image;
 		this.nameFirst = "";
 		this.nameLast = "";
+		this.muuid = "";
 
 		/*
 		 * Before insertion check that uniqueID exists locally
@@ -75,7 +80,7 @@ public class Person
 			SqlitePerson.Insert(false,
 					uniqueID.ToString(), name, sex, dateBorn, race, countryID,
 					description, future1, future2, serverUniqueID, linkServerImage,
-					nameFirst, nameLast);
+					nameFirst, nameLast, muuid);
 	}
 
 	//suitable when we load a person from the database for being the current Person
@@ -84,7 +89,7 @@ public class Person
 	public Person(int uniqueID, string name, string sex, DateTime dateBorn, 
 			int race, int countryID, string description,
 			string future1, string future2, int serverUniqueID, string linkServerImage,
-			string nameFirst, string nameLast)
+			string nameFirst, string nameLast, string muuid)
 	{
 		//needed by the return of gui/personAddModifyWindow
 		name = Util.RemoveTildeAndColon(name);
@@ -103,6 +108,7 @@ public class Person
 		this.linkServerImage = linkServerImage;
 		this.nameFirst = nameFirst;
 		this.nameLast = nameLast;
+		this.muuid = muuid;
 	}
 
 	//typical constructor
@@ -110,7 +116,7 @@ public class Person
 	//we don't know uniqueID
 	public Person (string name, string sex, DateTime dateBorn, int race, int countryID, string description,
 			string future1, string future2, int serverUniqueID, string linkServerImage,
-			string nameFirst, string nameLast, bool dbconOpened)
+			string nameFirst, string nameLast, string muuid, bool dbconOpened)
 	{
 		name = Util.RemoveTildeAndColon(name);
 		description = Util.RemoveTildeAndColon(description);
@@ -127,6 +133,7 @@ public class Person
 		this.linkServerImage = linkServerImage;
 		this.nameFirst = nameFirst;
 		this.nameLast = nameLast;
+		this.muuid = muuid;
 
 		//insert in the person table
 		//when insert as person we don't know uniqueID
@@ -142,7 +149,7 @@ public class Person
 	public int InsertAtDB (bool dbconOpened, string tableName) {
 		int myID = SqlitePerson.Insert(dbconOpened,  
 				uniqueID.ToString(), name, sex, dateBorn, race, countryID,
-				description, future1, future2, serverUniqueID, linkServerImage, nameFirst, nameLast);
+				description, future1, future2, serverUniqueID, linkServerImage, nameFirst, nameLast, muuid);
 		return myID;
 	}
 
@@ -161,7 +168,7 @@ public class Person
 			UtilDate.ToDateSQL(dateBorn) + "', " + race + ", " + countryID + ", '" +
 			description + "', '" + future1 + "', '" + future2 + "', " +
 			serverUniqueID + ", '" + linkServerImage + "', '" +
-			nameFirst + "', '" + nameLast + "'";
+			nameFirst + "', '" + nameLast + "', '" + muuid + "'";
 	}
 	
 	
@@ -282,6 +289,12 @@ public class Person
 			return nameLast;
 	}
 
+	public static string CreateMuuidFromMachineID (string machineID)
+	{
+		Random rnd = new Random();
+		return string.Format ("{0};{1}", machineID, rnd.NextInt64()); //this will generate a machineID between 0 and 9223372036854775807 (Int64.MaxValue)
+	}
+
 	public string NameFirst {
 		get { return nameFirst; }
 		set { nameFirst = value; }
@@ -298,6 +311,11 @@ public class Person
 		get { return name + " " + nameLast; }
 	}
 	*/
+
+	public string Muuid {
+		get { return muuid; }
+		set { muuid = value; }
+	}
 
 	public int UniqueID {
 		get { return uniqueID; }

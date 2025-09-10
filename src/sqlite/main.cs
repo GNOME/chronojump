@@ -169,7 +169,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.68";
+	static string lastChronojumpDatabaseVersion = "2.70";
 
 	public Sqlite()
 	{
@@ -3715,6 +3715,55 @@ class Sqlite
 			LogB.SQL("Done!");
 			currentVersion = updateVersion("2.68");
 		}
+		if(currentVersion == "2.68")
+		{
+			LogB.SQL("Doing alter table person77 adding muuid");
+			try {
+				executeSQL("ALTER TABLE " + Constants.PersonTable + " ADD COLUMN muuid TEXT;");
+				LogB.Information ("alter table done!");
+			} catch {
+				LogB.SQL("Catched at Doing alter table person77 adding muuid");
+			}
+			LogB.SQL("Done!");
+			currentVersion = updateVersion("2.69");
+		}
+		if(currentVersion == "2.69")
+		{
+			LogB.SQL("Doing person77 generating muuids");
+			LogB.Information ("generating muuids...");
+
+			string machineID = SqlitePreferences.Select ("machineID", true);
+			Random rnd = new Random();
+
+			List<Person> person_l = SqlitePersonSession.SelectCurrentSessionPersonsAsList (true, -1); //all sessions
+			conversionRateTotal = person_l.Count;
+			conversionRate = 1;
+			try {
+				using (SQLiteTransaction tr = dbcon.BeginTransaction())
+				{
+					using (SQLiteCommand dbcmdTr = dbcon.CreateCommand())
+					{
+						dbcmdTr.Transaction = tr;
+						foreach (Person person in person_l)
+						{
+							dbcmdTr.CommandText = string.Format ("UPDATE {0} SET muuid = '{1}' WHERE uniqueID = {2}",
+									Constants.PersonTable,
+									string.Format ("{0};{1}", machineID, rnd.NextInt64()), //this will generate a machineID between 0 and 9223372036854775807 (Int64.MaxValue)
+									person.UniqueID);
+							LogB.SQL(dbcmdTr.CommandText.ToString());
+							dbcmdTr.ExecuteNonQuery();
+							conversionRate ++;
+						}
+					}
+					tr.Commit();
+				}
+			} catch {
+				LogB.SQL("Catched at person77 generating muuids");
+			}
+			conversionRate = conversionRateTotal;
+			LogB.SQL("Done!");
+			currentVersion = updateVersion("2.70");
+		}
 
 
 		/*
@@ -3960,10 +4009,12 @@ class Sqlite
 
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
+		//
+		//
 
+		//2.69 - 2.70 Converted DB to 2.70 Doing person77 generating muuids
+		//2.68 - 2.69 Converted DB to 2.69 Doing alter table person77 adding muuid
 		//2.67 - 2.68 Converted DB to 2.68 Doing alter table person77 adding nameFirst (=name), nameLast
-		//
-		//
 		//2.66 - 2.67 Converted DB to 2.67 Added preferences: forceSensorStartEndOptimizedModelSD
 		//2.65 - 2.66 Converted DB to 2.66 Ensure maxForceRaw, maxAvgForce1s are -1 instead of blank
 		//2.64 - 2.65 Converted DB to 2.65 Deleted orphaned encoder
@@ -4501,7 +4552,7 @@ class Sqlite
 				       pOld.Description,
 				       "", "", 	//future1: rfid; future2: clubID
 				       pOld.ServerUniqueID,
-				       "", "", "" //linkServerImage, nameFirst, nameLast
+				       "", "", "", "" //linkServerImage, nameFirst, nameLast
 				       );
 			p.InsertAtDB(true, Constants.PersonTable);
 		

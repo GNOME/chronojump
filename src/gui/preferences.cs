@@ -3705,6 +3705,13 @@ public class PreferencesWindow
 		}
 		*/
 
+		if (bluetoothReading)
+		{
+			//Stop the BluetoothLE service if it was started
+			BluetoothLE.Stop();
+			bluetoothReading = false;
+		}
+
 		PWBox.preferences_win.Hide();
 		PWBox = null;
 	}
@@ -3993,6 +4000,7 @@ public class PreferencesWindow
 		FakeButtonDeleteDevices.Click ();
 	}
 
+	private bool bluetoothReading = false;
 	private void on_button_test_bluetooth_clicked (object o, EventArgs args)
 	{
 		//TODO:
@@ -4000,6 +4008,22 @@ public class PreferencesWindow
 		Bluetooth bl = new Bluetooth ();
 		bl.TestInit ();
 		*/
+
+		//Subscribe to BluetoothLE data changed event
+		BluetoothLE.OnDataChanged += BluetoothLE_OnDataChanged;
+		//Start BluetoothLE service
+		BluetoothLE.Start();
+		bluetoothReading = true;
+	}
+	/// <summary>
+	/// Handles the event triggered when the Bluetooth LE data changes.
+	/// </summary>
+	/// <remarks>This method processes the updated data received from a Bluetooth LE device.  Use the <see cref="BluetoothLE.DataChangedEventArgs.Value"/> property of <paramref name="e"/>  to access the new data.</remarks>
+	/// <param name="sender">The source of the event, typically the Bluetooth LE device.</param>
+	/// <param name="e">The event data containing the updated value.</param>
+	private void BluetoothLE_OnDataChanged(object sender, BluetoothLE.DataChangedEventArgs e)
+	{
+		LogB.Information($"[BluetoothLE] {e.Value}");
 	}
 
 	private void on_entry_database_name_changed (object o, EventArgs args)

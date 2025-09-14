@@ -9461,6 +9461,7 @@ version:</property>
                                 <child>
                                   <object class="GtkButton" id="button_test_bluetooth">
                                     <property name="label">Bluetooth test</property>
+                                    <property name="visible">True</property>
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">True</property>
                                     <signal name="clicked" handler="on_button_test_bluetooth_clicked" swapped="no"/>

@@ -276,6 +276,9 @@ public class PreferencesWindow
 	Gtk.Image image_advanced_cloud;
 	Gtk.Image image_advanced_logs;
 	Gtk.Image image_advanced_more;
+	Gtk.Grid grid_database;
+	Gtk.Label label_database_id;
+	Gtk.Entry entry_database_name;
 	Gtk.CheckButton checkbutton_ask_deletion;
 	Gtk.Box box_combo_decimals;
 	Gtk.CheckButton checkbutton_mute_logs;
@@ -1096,6 +1099,9 @@ public class PreferencesWindow
 			PWBox.entry_python_user_location.Text = Config.PythonUserURLStatic;
 		}
 		PWBox.signalsNoFollow = false;
+
+		PWBox.label_database_id.Text = preferences.machineID;
+		PWBox.entry_database_name.Text = preferences.machineName;
 
 		if(preferences.askDeletion)
 			PWBox.checkbutton_ask_deletion.Active = true;
@@ -3994,6 +4000,15 @@ public class PreferencesWindow
 		*/
 	}
 
+	private void on_entry_database_name_changed (object o, EventArgs args)
+	{
+		entry_database_name.Text = Util.MakeValidSQL (entry_database_name.Text);
+		preferences.machineName = Preferences.PreferencesChange (
+				false, "machineName",
+				preferences.machineName,
+				entry_database_name.Text);
+	}
+
 	private Preferences.MaximizedTypes get_maximized_from_gui()
 	{
 		if( ! PWBox.check_appearance_maximized.Active )
@@ -4259,6 +4274,9 @@ public class PreferencesWindow
 		image_advanced_cloud = (Gtk.Image) builder.GetObject ("image_advanced_cloud");
 		image_advanced_logs = (Gtk.Image) builder.GetObject ("image_advanced_logs");
 		image_advanced_more = (Gtk.Image) builder.GetObject ("image_advanced_more");
+		grid_database = (Gtk.Grid) builder.GetObject ("grid_database");
+		label_database_id = (Gtk.Label) builder.GetObject ("label_database_id");
+		entry_database_name = (Gtk.Entry) builder.GetObject ("entry_database_name");
 		checkbutton_ask_deletion = (Gtk.CheckButton) builder.GetObject ("checkbutton_ask_deletion");
 		box_combo_decimals = (Gtk.Box) builder.GetObject ("box_combo_decimals");
 		checkbutton_mute_logs = (Gtk.CheckButton) builder.GetObject ("checkbutton_mute_logs");

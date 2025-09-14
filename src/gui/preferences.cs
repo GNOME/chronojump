@@ -1102,6 +1102,8 @@ public class PreferencesWindow
 
 		PWBox.label_database_id.Text = preferences.machineID;
 		PWBox.entry_database_name.Text = preferences.machineName;
+		if (PWBox.configAtPrefs.ReadFromCloudMainPath != "") // disable database_name change on cloud_view
+			PWBox.entry_database_name.Sensitive = false;
 
 		if(preferences.askDeletion)
 			PWBox.checkbutton_ask_deletion.Active = true;

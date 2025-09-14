@@ -169,7 +169,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.70";
+	static string lastChronojumpDatabaseVersion = "2.71";
 
 	public Sqlite()
 	{
@@ -3764,6 +3764,14 @@ class Sqlite
 			LogB.SQL("Done!");
 			currentVersion = updateVersion("2.70");
 		}
+		if(currentVersion == "2.70")
+		{
+			LogB.SQL("Added preferences: machineName");
+
+			SqlitePreferences.Insert ("machineName", "");
+
+			currentVersion = updateVersion("2.71");
+		}
 
 
 		/*
@@ -4012,6 +4020,7 @@ class Sqlite
 		//
 		//
 
+		//2.70 - 2.71 Converted DB to 2.71 Added preferences: machineName
 		//2.69 - 2.70 Converted DB to 2.70 Doing person77 generating muuids
 		//2.68 - 2.69 Converted DB to 2.69 Doing alter table person77 adding muuid
 		//2.67 - 2.68 Converted DB to 2.68 Doing alter table person77 adding nameFirst (=name), nameLast

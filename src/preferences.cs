@@ -310,6 +310,7 @@ public class Preferences
 	public int evaluatorServerID;
 	public string versionAvailable;
 	public string machineID;
+	public string machineName;
 	public Constants.MultimediaStorage multimediaStorage;
 	public string databaseVersion;
 

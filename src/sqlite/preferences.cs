@@ -311,6 +311,7 @@ class SqlitePreferences : Sqlite
 				Random rnd = new Random();
 				string machineID = rnd.Next().ToString(); //this will generate a machineID between 0 and 2147483647 (Int32.MaxValue) even on 64 bits
 				Insert ("machineID", machineID, dbcmdTr);
+				Insert ("machineName", "", dbcmdTr);
 
 				Insert ("multimediaStorage", Constants.MultimediaStorage.BYSESSION.ToString(), dbcmdTr);
 
@@ -1144,6 +1145,8 @@ class SqlitePreferences : Sqlite
 			}
 			else if(reader[0].ToString() == "machineID")
 				preferences.machineID = reader[1].ToString();
+			else if(reader[0].ToString() == "machineName")
+				preferences.machineName = reader[1].ToString();
 			else if(reader[0].ToString() == "multimediaStorage")
 				preferences.multimediaStorage = (Constants.MultimediaStorage) 
 					Enum.Parse(typeof(Constants.MultimediaStorage), reader[1].ToString()); 

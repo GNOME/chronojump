@@ -298,7 +298,19 @@ class SqlitePersonSession : Sqlite
 		List<Person> person_l = new List<Person>();
 		while(reader.Read())
 		{
-			Person person = new Person(
+			string nameFirst = "";
+			string nameLast = "";
+			string muuid = "";
+
+			if (reader.FieldCount >= 13)
+			{
+				nameFirst = reader[11].ToString ();
+				nameLast = reader[12].ToString();
+			}
+			if (reader.FieldCount >= 14)
+				muuid = reader[13].ToString();
+
+			Person person = new Person (
 					Convert.ToInt32(reader[0].ToString()),	//uniqueID
 					reader[1].ToString(),			//name
 					reader[2].ToString(),			//sex
@@ -310,10 +322,11 @@ class SqlitePersonSession : Sqlite
 					reader[8].ToString(),			//future2: clubID
 					Convert.ToInt32(reader[9].ToString()),	//serverUniqueID
 					reader[10].ToString(),			//linkServerImage
-					reader[11].ToString(),			//nameFirst
-					reader[12].ToString(),			//nameLast
-					reader[13].ToString()			//muuid
+					nameFirst,
+					nameLast,
+					muuid
 					);
+
 			person_l.Add(person);
 		}
 

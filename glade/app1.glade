@@ -28382,6 +28382,12 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -51700,13 +51706,15 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">2</property>
                                                             <child>
-                                                            <object class="GtkAlignment" id="alignment86">
+                                                            <object class="GtkNotebook">
                                                             <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="top-padding">2</property>
-                                                            <property name="bottom-padding">2</property>
-                                                            <property name="left-padding">8</property>
-                                                            <property name="right-padding">8</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="margin-left">8</property>
+                                                            <property name="margin-right">8</property>
+                                                            <property name="margin-top">2</property>
+                                                            <property name="margin-bottom">2</property>
+                                                            <property name="show-tabs">False</property>
+                                                            <property name="show-border">False</property>
                                                             <child>
                                                             <object class="GtkVBox" id="vbox_manage_persons">
                                                             <property name="visible">True</property>
@@ -52115,10 +52123,16 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="margin-top">20</property>
                                                             <child>
-                                                            <object class="GtkButtonBox">
+                                                            <object class="GtkBox" id="persons_manage_advanced_box">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="margin-top">12</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">12</property>
+                                                            <child>
+                                                            <object class="GtkButtonBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
                                                             <property name="orientation">vertical</property>
                                                             <property name="spacing">12</property>
                                                             <child>
@@ -52141,8 +52155,8 @@ on Cloud-view mode</property>
                                                             <property name="icon_size">2</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -52153,8 +52167,8 @@ on Cloud-view mode</property>
                                                             <property name="label" translatable="yes">Show all tests of any person</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
@@ -52211,6 +52225,56 @@ on Cloud-view mode</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_person_export">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <child>
+                                                            <object class="GtkHBox" id="hbox50">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_export_persons">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label7">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Export persons</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
                                                             </object>
                                                             </child>
                                                             <child type="label">
@@ -52227,23 +52291,35 @@ on Cloud-view mode</property>
                                                             <property name="position">2</property>
                                                             </packing>
                                                             </child>
-                                                            <child>
-                                                            <object class="GtkBox" id="persons_manage_advanced_box">
+                                                            </object>
+                                                            </child>
+                                                            <child type="tab">
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="orientation">vertical</property>
-                                                            <property name="spacing">12</property>
+                                                            <property name="label" translatable="yes">page 1</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">4</property>
+                                                            <property name="tab-fill">False</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child type="tab">
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">page 2</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="position">1</property>
+                                                            <property name="tab-fill">False</property>
                                                             </packing>
                                                             </child>
                                                             </object>
-                                                            </child>
-                                                            </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
+                                                            <property name="expand">True</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>

@@ -53,6 +53,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_all_persons_events_h;
 	Gtk.Image image_person_delete_h;
 	Gtk.Image image_merge_persons;
+	Gtk.Image image_export_persons;
 	Gtk.Image image_chronopic_connect_contacts;
 	Gtk.Image image_chronopic_connect_contacts1;
 	Gtk.Image image_chronopic_connect_contacts2;
@@ -764,6 +765,7 @@ public partial class ChronoJumpWindow
 		image_session_import1_yellow.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameExport);
 		image_session_export.Pixbuf = pixbuf;
+		image_export_persons.Pixbuf = pixbuf;
 
 		pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "csv.png");
 		image_mode_contacts_export_csv.Pixbuf = pixbuf;
@@ -1136,6 +1138,7 @@ public partial class ChronoJumpWindow
 		image_all_persons_events_h = (Gtk.Image) builder.GetObject ("image_all_persons_events_h");
 		image_person_delete_h = (Gtk.Image) builder.GetObject ("image_person_delete_h");
 		image_merge_persons = (Gtk.Image) builder.GetObject ("image_merge_persons");
+		image_export_persons = (Gtk.Image) builder.GetObject ("image_export_persons");
 		image_chronopic_connect_contacts = (Gtk.Image) builder.GetObject ("image_chronopic_connect_contacts");
 		image_chronopic_connect_contacts1 = (Gtk.Image) builder.GetObject ("image_chronopic_connect_contacts1");
 		image_chronopic_connect_contacts2 = (Gtk.Image) builder.GetObject ("image_chronopic_connect_contacts2");

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2025-09-16 16:59+0000\n"
-"PO-Revision-Date: 2025-09-16 21:53+0200\n"
+"POT-Creation-Date: 2025-09-18 13:52+0000\n"
+"PO-Revision-Date: 2025-09-18 21:36+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -2693,74 +2693,78 @@ msgid "Merge with another person"
 msgstr "Združi z drugo osebo"
 
 #: ../glade/app1.glade.h:558
+msgid "Export persons"
+msgstr "Izvozi testirance"
+
+#: ../glade/app1.glade.h:559
 msgid "Database:"
 msgstr "Zbirka podatkov:"
 
-#: ../glade/app1.glade.h:559
+#: ../glade/app1.glade.h:560
 msgid "Select another database"
 msgstr "Izberite drugo zbirko podatkov"
 
-#: ../glade/app1.glade.h:560
+#: ../glade/app1.glade.h:561
 msgid "View selected database"
 msgstr "Pokaži izbrano zbirko podatkov"
 
-#: ../glade/app1.glade.h:561 ../glade/preferences_win.glade.h:187
+#: ../glade/app1.glade.h:562 ../glade/preferences_win.glade.h:187
 msgid "Your email"
 msgstr "Elektronski naslov"
 
-#: ../glade/app1.glade.h:562
+#: ../glade/app1.glade.h:563
 msgid "Preferred response language "
 msgstr "Prednostni jezik ozdiva "
 
-#: ../glade/app1.glade.h:563
+#: ../glade/app1.glade.h:564
 msgid "Portuguese"
 msgstr "Portugalščina"
 
-#: ../glade/app1.glade.h:564
+#: ../glade/app1.glade.h:565
 msgid "Catalan"
 msgstr "Katalonščina\t"
 
-#: ../glade/app1.glade.h:565 ../glade/preferences_win.glade.h:188
+#: ../glade/app1.glade.h:566 ../glade/preferences_win.glade.h:188
 msgid "Add comments"
 msgstr "Dodaj opombe"
 
-#: ../glade/app1.glade.h:566 ../src/chronojump.cs:1004
+#: ../glade/app1.glade.h:567 ../src/chronojump.cs:1004
 msgid "Send error log"
 msgstr "Pošlji dnevnik napak"
 
-#: ../glade/app1.glade.h:567
+#: ../glade/app1.glade.h:568
 msgid "Check last version"
 msgstr "Preveri zadnjo različico"
 
-#: ../glade/app1.glade.h:568
+#: ../glade/app1.glade.h:569
 msgid "Open Chronojump"
 msgstr "Odpri ChronoJump"
 
-#: ../glade/app1.glade.h:569
+#: ../glade/app1.glade.h:570
 msgid "Are you sure you want to exit Chronojump?"
 msgstr "Ali ste prepričani, da želite končati program Chronojump?"
 
-#: ../glade/app1.glade.h:570
+#: ../glade/app1.glade.h:571
 msgid "Please, help us to provide videos on the most suitable platforms."
 msgstr "Pomagajte nam pripraviti videoposnetke na najprimernejših platformah."
 
-#: ../glade/app1.glade.h:571
+#: ../glade/app1.glade.h:572
 msgid "What social network do you use to watch videos?"
 msgstr "Katero družbeno omrežje uporabljate za gledanje videoposnetkov?"
 
-#: ../glade/app1.glade.h:572
+#: ../glade/app1.glade.h:573
 msgid "I don't use social networks or don't want to respond"
 msgstr "Ne uporabljam družbenih omrežij oziroma ne želim povedati"
 
-#: ../glade/app1.glade.h:573
+#: ../glade/app1.glade.h:574
 msgid "Other (which)"
 msgstr "Drugo (katero)"
 
-#: ../glade/app1.glade.h:574
+#: ../glade/app1.glade.h:575
 msgid "Send poll"
 msgstr "Pošlji anketo"
 
-#: ../glade/app1.glade.h:575
+#: ../glade/app1.glade.h:576
 msgid "Exit fullscreen"
 msgstr "Izhod iz celozaslonskega načina"
 

@@ -28,7 +28,9 @@ public partial class ChronoJumpWindow
         // at glade ---->                       
 	Gtk.RadioButton radio_export_persons_current_session;
 	Gtk.Label label_persons_export_destination;
-	Gtk.Label persons_export_feedback;
+	Gtk.Box box_persons_export_feedback;
+	Gtk.Label persons_export_feedback_message;
+	Gtk.Label persons_export_feedback_ok_url;
         // <---- at glade
 
 	private enum notebook_persons_export_pages { MAIN, EXPORT }
@@ -57,31 +59,39 @@ public partial class ChronoJumpWindow
 
 	private  void persons_export_do (int sessionID, string destination)
 	{
+		persons_export_feedback_ok_url.Text = "";
+		persons_export_feedback_ok_url.TooltipText = "";
+
 		PersonsExport pe = new PersonsExport (sessionID, destination, preferences.CSVColumnDelimiter);
 		bool success = pe.Do ();
 
-		persons_export_feedback.Text = pe.DoneMessage ();
+		// labels
+		persons_export_feedback_message.Text = pe.DoneMessage ();
+		string url = "";
+		if (success)
+			url = pe.DoneOkURL ();
+
+		persons_export_feedback_ok_url.Text = url;
+		persons_export_feedback_ok_url.TooltipText = url;
+
+		// TODO: if success show open file & open folder
 	}
 
 	private void on_overwrite_file_persons_export_this_session_accepted (object o, EventArgs args)
 	{
 		on_persons_export_this_session_selected (exportFileName);
-
-		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
-		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 	private void on_overwrite_file_persons_export_all_sessions_accepted (object o, EventArgs args)
 	{
 		on_persons_export_all_sessions_selected (exportFileName);
-
-		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
-		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 
 	private void connectWidgetsPersonsExport (Gtk.Builder builder)
 	{
 		radio_export_persons_current_session = (Gtk.RadioButton) builder.GetObject ("radio_export_persons_current_session");
 		label_persons_export_destination = (Gtk.Label) builder.GetObject ("label_persons_export_destination");
-		persons_export_feedback = (Gtk.Label) builder.GetObject ("persons_export_feedback");
+		box_persons_export_feedback = (Gtk.Box) builder.GetObject ("box_persons_export_feedback");
+		persons_export_feedback_message = (Gtk.Label) builder.GetObject ("persons_export_feedback_message");
+		persons_export_feedback_ok_url = (Gtk.Label) builder.GetObject ("persons_export_feedback_ok_url");
 	}
 }

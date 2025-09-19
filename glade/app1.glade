@@ -28391,6 +28391,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -52328,8 +52331,8 @@ on Cloud-view mode</property>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">start</property>
                                                             <property name="label" translatable="yes">Export persons</property>
-                                                            <property name="xalign">0</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -52391,10 +52394,41 @@ on Cloud-view mode</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkLabel" id="persons_export_feedback">
+                                                            <object class="GtkBox" id="box_persons_export_feedback">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="margin-left">30</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">16</property>
+                                                            <child>
+                                                            <object class="GtkLabel" id="persons_export_feedback_message">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="halign">start</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="persons_export_feedback_ok_url">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="halign">start</property>
+                                                            <property name="ellipsize">middle</property>
+                                                            <property name="max-width-chars">40</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>

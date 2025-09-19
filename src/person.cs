@@ -375,7 +375,7 @@ public class PersonsExport
 	private string destination;
 	private char colDelim;
 	private List<Person> person_l;
-	private enum doneEnumType { NOTSTARTED, CANCEL, NOPERSONS, CANNOTCOPY, SUCCESS };
+	private enum doneEnumType { NOPERSONS, CANNOTCOPY, SUCCESS };
 	private doneEnumType doneEnum;
 
 	// constructor
@@ -417,13 +417,18 @@ public class PersonsExport
 	public string DoneMessage ()
 	{
 		if (doneEnum == doneEnumType.NOPERSONS)
-			return string.Format (Catalog.GetString ("Cannot export to file {0} "), destination);
-		else if (doneEnum == doneEnumType.CANNOTCOPY)
 			return Catalog.GetString ("No persons to export.");
+		else if (doneEnum == doneEnumType.CANNOTCOPY)
+			return string.Format (Catalog.GetString ("Cannot export to file {0} "), destination);
 		else if (doneEnum == doneEnumType.SUCCESS)
-			return string.Format (Catalog.GetString ("Exported to {0}"), destination);
+			return Catalog.GetString ("Exported to:");
 
 		return "";
+	}
+
+	public string DoneOkURL ()
+	{
+		return destination;
 	}
 }
 

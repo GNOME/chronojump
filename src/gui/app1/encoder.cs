@@ -2350,7 +2350,7 @@ public partial class ChronoJumpWindow
 
 		// persons
 		if (checkFileOp == Constants.CheckFileOp.PERSONS_EXPORT_THIS_SESSION)
-			nameString = "ChronojumpPersons_" + currentSession.Name + "_" + UtilDate.ToFile(DateTime.Now) + ".csv";
+			nameString = "ChronojumpPersons_" + currentSession.Name + "_" + currentSession.DateShortAsSQL + ".csv";
 		else if (checkFileOp == Constants.CheckFileOp.PERSONS_EXPORT_ANY_SESSION)
 			nameString = "ChronojumpPersons_" + UtilDate.ToFile(DateTime.Now) + ".csv";
 
@@ -2743,6 +2743,8 @@ public partial class ChronoJumpWindow
 					//show message, but not in long processes managed by a thread
 					if(
 							! Config.ErrorInExport &&
+							checkFileOp != Constants.CheckFileOp.PERSONS_EXPORT_THIS_SESSION &&
+							checkFileOp != Constants.CheckFileOp.PERSONS_EXPORT_ANY_SESSION &&
 							checkFileOp != Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES &&
 							checkFileOp != Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_ALL_SESSIONS_NO_IMAGES &&
 							checkFileOp != Constants.CheckFileOp.RUNS_SPRINT_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES &&

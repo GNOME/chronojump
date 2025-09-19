@@ -31,13 +31,20 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_persons_export_feedback;
 	Gtk.Label persons_export_feedback_message;
 	Gtk.Label persons_export_feedback_ok_url;
+	Gtk.ButtonBox buttonbox_person_export_feedback;
         // <---- at glade
 
 	private enum notebook_persons_export_pages { MAIN, EXPORT }
+	private PersonsExport personsExport;
 
 	private void on_button_person_export_clicked (object o, EventArgs args)
 	{
 		notebook_persons_export.CurrentPage = Convert.ToInt32 (notebook_persons_export_pages.EXPORT);
+
+		persons_export_feedback_message.Text = "";
+		persons_export_feedback_ok_url.Text = "";
+		persons_export_feedback_ok_url.TooltipText = "";
+		buttonbox_person_export_feedback.Visible = false;
 	}
 
 	private void on_button_persons_export_clicked (object o, EventArgs args)
@@ -46,35 +53,6 @@ public partial class ChronoJumpWindow
 			checkFile (Constants.CheckFileOp.PERSONS_EXPORT_THIS_SESSION);
 		else
 			checkFile (Constants.CheckFileOp.PERSONS_EXPORT_ANY_SESSION);
-	}
-
-	private void on_persons_export_this_session_selected (string destination)
-	{
-		persons_export_do (currentSession.UniqueID, destination);
-	}
-	private void on_persons_export_all_sessions_selected (string destination)
-	{
-		persons_export_do (-1, destination);
-	}
-
-	private  void persons_export_do (int sessionID, string destination)
-	{
-		persons_export_feedback_ok_url.Text = "";
-		persons_export_feedback_ok_url.TooltipText = "";
-
-		PersonsExport pe = new PersonsExport (sessionID, destination, preferences.CSVColumnDelimiter);
-		bool success = pe.Do ();
-
-		// labels
-		persons_export_feedback_message.Text = pe.DoneMessage ();
-		string url = "";
-		if (success)
-			url = pe.DoneOkURL ();
-
-		persons_export_feedback_ok_url.Text = url;
-		persons_export_feedback_ok_url.TooltipText = url;
-
-		// TODO: if success show open file & open folder
 	}
 
 	private void on_overwrite_file_persons_export_this_session_accepted (object o, EventArgs args)
@@ -86,6 +64,57 @@ public partial class ChronoJumpWindow
 		on_persons_export_all_sessions_selected (exportFileName);
 	}
 
+	private void on_persons_export_this_session_selected (string destination)
+	{
+		persons_export_do (currentSession.UniqueID, destination);
+	}
+	private void on_persons_export_all_sessions_selected (string destination)
+	{
+		persons_export_do (-1, destination);
+	}
+
+	private void persons_export_do (int sessionID, string destination)
+	{
+		persons_export_feedback_message.Text = "";
+		persons_export_feedback_ok_url.Text = "";
+		persons_export_feedback_ok_url.TooltipText = "";
+		buttonbox_person_export_feedback.Visible = false;
+
+		personsExport = new PersonsExport (sessionID, destination, preferences.CSVColumnDelimiter);
+		bool success = personsExport.Do ();
+
+		// labels
+		persons_export_feedback_message.Text = personsExport.DoneMessage ();
+		string url = "";
+		if (success)
+			url = personsExport.DoneOkURL;
+
+		persons_export_feedback_ok_url.Text = url;
+		persons_export_feedback_ok_url.TooltipText = url;
+		buttonbox_person_export_feedback.Visible = success;
+	}
+
+	private void on_button_persons_export_feedback_open_file_clicked (object o, EventArgs args)
+	{
+		if (personsExport == null || personsExport.DoneOkURL == "")
+			return;
+
+		if (! Util.OpenURL (personsExport.DoneOkURL))
+			new DialogMessage (Constants.MessageTypes.WARNING,
+					Constants.DirectoryCannotOpenStr() + "\n\n" + personsExport.DoneOkURL);
+	}
+
+	private void on_button_persons_export_feedback_open_folder_clicked (object o, EventArgs args)
+	{
+		if (personsExport == null || personsExport.DoneOkURL == "" || Path.GetDirectoryName (personsExport.DoneOkURL) == "")
+			return;
+
+		string path = Path.GetDirectoryName (personsExport.DoneOkURL);
+		if (! Util.OpenURL (path))
+			new DialogMessage (Constants.MessageTypes.WARNING,
+					Constants.DirectoryCannotOpenStr() + "\n\n" + path);
+	}
+
 	private void connectWidgetsPersonsExport (Gtk.Builder builder)
 	{
 		radio_export_persons_current_session = (Gtk.RadioButton) builder.GetObject ("radio_export_persons_current_session");
@@ -93,5 +122,6 @@ public partial class ChronoJumpWindow
 		box_persons_export_feedback = (Gtk.Box) builder.GetObject ("box_persons_export_feedback");
 		persons_export_feedback_message = (Gtk.Label) builder.GetObject ("persons_export_feedback_message");
 		persons_export_feedback_ok_url = (Gtk.Label) builder.GetObject ("persons_export_feedback_ok_url");
+		buttonbox_person_export_feedback = (Gtk.ButtonBox) builder.GetObject ("buttonbox_person_export_feedback");
 	}
 }

@@ -426,9 +426,8 @@ public class PersonsExport
 		return "";
 	}
 
-	public string DoneOkURL ()
-	{
-		return destination;
+	public string DoneOkURL {
+		get { return destination; }
 	}
 }
 

@@ -170,8 +170,24 @@ public class Person
 			serverUniqueID + ", '" + linkServerImage + "', '" +
 			nameFirst + "', '" + nameLast + "', '" + muuid + "'";
 	}
+
+	public static string ExportHeader (char sep)
+	{
+		return string.Format ("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}",
+				"ID", sep, "MUUID_m", sep, "MUUID_id", sep,
+				"NameFirst", sep, "NameLast", sep, "Sex");
+	}
+	public string Export (char sep)
+	{
+		string muuidFix = muuid;
+		if (sep == ';')
+			muuidFix = muuid;
+		return string.Format ("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}",
+				uniqueID, sep, getMuuidMachine (), sep, getMuuidId (), sep,
+				nameFirst, sep, nameLast, sep, sex);
+	}
 	
-	
+
 	public override bool Equals(object evalString)
 	{
 		return this.ToString() == evalString.ToString();
@@ -295,6 +311,25 @@ public class Person
 		return string.Format ("{0};{1}", machineID, rnd.NextInt64()); //this will generate a machineID between 0 and 9223372036854775807 (Int64.MaxValue)
 	}
 
+	// gets the first part of muuid
+	private string getMuuidMachine ()
+	{
+		string [] sFull = muuid.Split(new char[] {';'});
+		if (sFull.Length != 2)
+			return muuid;
+
+		return sFull[0];
+	}
+	// gets the second part of muuid
+	private string getMuuidId ()
+	{
+		string [] sFull = muuid.Split(new char[] {';'});
+		if (sFull.Length != 2)
+			return muuid;
+
+		return sFull[1];
+	}
+
 	public string NameFirst {
 		get { return nameFirst; }
 		set { nameFirst = value; }
@@ -333,6 +368,63 @@ public class Person
 	
 	~Person() {}
 	   
+}
+
+public class PersonsExport
+{
+	private string destination;
+	private char colDelim;
+	private List<Person> person_l;
+	private enum doneEnumType { NOTSTARTED, CANCEL, NOPERSONS, CANNOTCOPY, SUCCESS };
+	private doneEnumType doneEnum;
+
+	// constructor
+	public PersonsExport (int sessionID, string destination, char colDelim)
+	{
+		this.destination = destination;
+		this.colDelim = colDelim;
+
+		person_l = SqlitePersonSession.SelectCurrentSessionPersonsAsList (false, sessionID);
+	}
+
+	public bool Do ()
+	{
+		if (person_l.Count == 0)
+		{
+			doneEnum = doneEnumType.NOPERSONS;
+			return false;
+		}
+
+		TextWriter writer;
+		try {
+			writer = File.CreateText(destination);
+		} catch {
+			LogB.Information("Couldn't create file: " + destination);
+			doneEnum = doneEnumType.CANNOTCOPY;
+			return false;
+		}
+
+		writer.WriteLine (Person.ExportHeader (colDelim));
+		foreach (Person p in person_l)
+			writer.WriteLine (p.Export (colDelim));
+
+		writer.Close ();
+
+		doneEnum = doneEnumType.SUCCESS;
+		return true;
+	}
+
+	public string DoneMessage ()
+	{
+		if (doneEnum == doneEnumType.NOPERSONS)
+			return string.Format (Catalog.GetString ("Cannot export to file {0} "), destination);
+		else if (doneEnum == doneEnumType.CANNOTCOPY)
+			return Catalog.GetString ("No persons to export.");
+		else if (doneEnum == doneEnumType.SUCCESS)
+			return string.Format (Catalog.GetString ("Exported to {0}"), destination);
+
+		return "";
+	}
 }
 
 //useful when you just want to know all of the data of a person in this session

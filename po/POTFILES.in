@@ -157,6 +157,7 @@ src/json/json.cs
 src/jumpType.cs
 src/Mini/chronojump_mini.cs
 src/networks.cs
+src/person.cs
 src/report.cs
 src/runEncoder.cs
 src/runType.cs

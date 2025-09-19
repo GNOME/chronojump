@@ -284,6 +284,7 @@ public partial class ChronoJumpWindow
 
 			app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.PERSON);
+			notebook_persons_export.CurrentPage = Convert.ToInt32 (notebook_persons_export_pages.MAIN);
 
 			//do not allow to use bottomLeft to not confuse the button_close actions
 			box_prefs_help_news_exit.Sensitive = false;

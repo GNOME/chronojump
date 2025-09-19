@@ -2348,6 +2348,12 @@ public partial class ChronoJumpWindow
 
 		string nameString = currentPerson.Name + "_" + currentSession.DateShortAsSQL;
 
+		// persons
+		if (checkFileOp == Constants.CheckFileOp.PERSONS_EXPORT_THIS_SESSION)
+			nameString = "ChronojumpPersons_" + currentSession.Name + "_" + UtilDate.ToFile(DateTime.Now) + ".csv";
+		else if (checkFileOp == Constants.CheckFileOp.PERSONS_EXPORT_ANY_SESSION)
+			nameString = "ChronojumpPersons_" + UtilDate.ToFile(DateTime.Now) + ".csv";
+
 		if(
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE_CURRENT_SESSION ||
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE_CURRENT_SESSION ||
@@ -2512,8 +2518,11 @@ public partial class ChronoJumpWindow
 		if (fc.Run() == (int)ResponseType.Accept) 
 		{
 			exportFileName = fc.Filename;
-			//add ".csv" if needed
-			if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_SIGNAL ||
+			//add ".csv" if needed (because maybe user has removed it)
+			if(
+					checkFileOp == Constants.CheckFileOp.PERSONS_EXPORT_THIS_SESSION ||
+					checkFileOp == Constants.CheckFileOp.PERSONS_EXPORT_ANY_SESSION ||
+					checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_SIGNAL ||
 					checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB ||
 					checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB ||
 					checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_CD ||
@@ -2554,7 +2563,14 @@ public partial class ChronoJumpWindow
 								"Are you sure you want to overwrite: "), "",
 							exportFileName);
 
-					if(checkFileOp == Constants.CheckFileOp.JUMPS_SIMPLE_CAPTURE_SAVE_IMAGE ||
+					// TODO: add switch
+					if (checkFileOp == Constants.CheckFileOp.PERSONS_EXPORT_THIS_SESSION)
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_persons_export_this_session_accepted);
+					else if (checkFileOp == Constants.CheckFileOp.PERSONS_EXPORT_ANY_SESSION)
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_persons_export_all_sessions_accepted);
+					else if(checkFileOp == Constants.CheckFileOp.JUMPS_SIMPLE_CAPTURE_SAVE_IMAGE ||
 							checkFileOp == Constants.CheckFileOp.JUMPS_REACTIVE_CAPTURE_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_jumps_capture_save_image_accepted);
@@ -2651,7 +2667,11 @@ public partial class ChronoJumpWindow
 							new EventHandler(on_overwrite_file_raceAnalyzer_save_table_accepted);
 
 				} else {
-					if(checkFileOp == Constants.CheckFileOp.JUMPS_SIMPLE_CAPTURE_SAVE_IMAGE ||
+					if (checkFileOp == Constants.CheckFileOp.PERSONS_EXPORT_THIS_SESSION)
+						on_persons_export_this_session_selected (exportFileName);
+					else if (checkFileOp == Constants.CheckFileOp.PERSONS_EXPORT_ANY_SESSION)
+						on_persons_export_all_sessions_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.JUMPS_SIMPLE_CAPTURE_SAVE_IMAGE ||
 							checkFileOp == Constants.CheckFileOp.JUMPS_REACTIVE_CAPTURE_SAVE_IMAGE)
 						on_button_jumps_capture_save_image_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)

@@ -35,6 +35,7 @@ public partial class ChronoJumpWindow
 	Gtk.EventBox eventbox_button_person_close;
 	Gtk.Image image_person_manage_blue;
 	Gtk.Image image_person_manage_yellow;
+	Gtk.Notebook notebook_persons_export;
 	Gtk.Button button_person_merge;
 	Gtk.SearchEntry person_search;
 
@@ -785,7 +786,10 @@ public partial class ChronoJumpWindow
 		eventbox_button_person_close = (Gtk.EventBox) builder.GetObject ("eventbox_button_person_close");
 		image_person_manage_blue = (Gtk.Image) builder.GetObject ("image_person_manage_blue");
 		image_person_manage_yellow = (Gtk.Image) builder.GetObject ("image_person_manage_yellow");
+		notebook_persons_export = (Gtk.Notebook) builder.GetObject ("notebook_persons_export");
 		button_person_merge = (Gtk.Button) builder.GetObject ("button_person_merge");
 		person_search = (Gtk.SearchEntry) builder.GetObject ("person_search");
+
+		connectWidgetsPersonsExport (builder);
 	}
 }

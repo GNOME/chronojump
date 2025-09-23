@@ -52,6 +52,10 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_resultsSession_jumpVar;
 	Gtk.Box box_resultsSession_runVar;
 	Gtk.Label label_resultsSession_encoder_saved_repetitions;
+	Gtk.RadioButton radio_runI_realtime_speeds;
+	Gtk.RadioButton radio_runI_realtime_times;
+	Gtk.Image image_runI_realtime_speeds;
+	Gtk.Image image_runI_realtime_times;
 	Gtk.RadioButton radio_resultsSession_jump_heights;
 	Gtk.RadioButton radio_resultsSession_jump_times;
 	Gtk.Image image_resultsSession_jump_heights;
@@ -544,6 +548,12 @@ public partial class ChronoJumpWindow
 		cairoPaintBarsPre.Paint();
 	}
 
+	private void on_radio_runI_realtime_speeds_times_toggled (object o, EventArgs args)
+	{
+		// 2) redo graph
+		drawingarea_results_realtime.QueueDraw ();
+	}
+
 	private void on_check_runI_realtime_rel_abs_toggled (object o, EventArgs args)
 	{
 		// 1) change icon
@@ -723,7 +733,7 @@ public partial class ChronoJumpWindow
 		cairoPaintBarsPreCurrent = new CairoPaintBarsPreRunIntervalRealtimeCapture(
 				drawingarea_results_realtime, preferences.fontTypeToGraph(), current_mode,
 				personName, type, preferences.digitsNumber,// preferences.heightPreferred,
-				preferences.metersSecondsPreferred,
+				radio_runI_realtime_times.Active, preferences.metersSecondsPreferred,
 				check_runI_realtime_rel_abs.Active,
 				timesString, distanceInterval, distancesString,
 				photocell_l, isLastCaptured, feedbackRunsI, videoTime);
@@ -1183,6 +1193,10 @@ public partial class ChronoJumpWindow
 		box_resultsSession_jumpVar = (Gtk.Box) builder.GetObject ("box_resultsSession_jumpVar");
 		box_resultsSession_runVar = (Gtk.Box) builder.GetObject ("box_resultsSession_runVar");
 		label_resultsSession_encoder_saved_repetitions = (Gtk.Label) builder.GetObject ("label_resultsSession_encoder_saved_repetitions");
+		radio_runI_realtime_speeds = (Gtk.RadioButton) builder.GetObject ("radio_runI_realtime_speeds");
+		radio_runI_realtime_times = (Gtk.RadioButton) builder.GetObject ("radio_runI_realtime_times");
+		image_runI_realtime_speeds = (Gtk.Image) builder.GetObject ("image_runI_realtime_speeds");
+		image_runI_realtime_times = (Gtk.Image) builder.GetObject ("image_runI_realtime_times");
 		radio_resultsSession_jump_heights = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_jump_heights");
 		radio_resultsSession_jump_times = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_jump_times");
 		image_resultsSession_jump_heights = (Gtk.Image) builder.GetObject ("image_resultsSession_jump_heights");

@@ -26,6 +26,7 @@ using Mono.Unix;
 
 public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 {
+	private bool runTimes;
 	private bool metersSecondsPreferred;
 	private bool isRelative; //related to names: distance and time
 	//private bool ifRSAstartRest; //on RSA if rest starts, this is true and graph do not need to be updated.
@@ -52,7 +53,7 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 
 	public CairoPaintBarsPreRunIntervalRealtimeCapture (DrawingArea darea, string fontStr,
 			Constants.Modes mode, string personName, string testName, int pDN,
-			bool metersSecondsPreferred,
+			bool runTimes, bool metersSecondsPreferred,
 			bool isRelative,
 			string timesString,
 			double distanceInterval, //know each track distance according to this or distancesString
@@ -60,6 +61,8 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 			List<int> photocell_l, bool isLastCaptured, FeedbackRunsInterval feedbackRunsI, double videoTime)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
+
+		this.runTimes = runTimes;
 		this.metersSecondsPreferred = metersSecondsPreferred;
 		this.feedbackRunsI = feedbackRunsI;
 		this.videoTime = videoTime;
@@ -185,10 +188,17 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, false, true, true);
 
 		cb.YVariable = Catalog.GetString("Speed");
-		if (metersSecondsPreferred)
-			cb.YUnits = "m/s";
-		else
-			cb.YUnits = "Km/h";
+		if (runTimes)
+			cb.YVariable = Catalog.GetString("Time");
+
+		if (runTimes)
+			cb.YUnits = "s";
+		else {
+			if (metersSecondsPreferred)
+				cb.YUnits = "m/s";
+			else
+				cb.YUnits = "Km/h";
+		}
 
 		cb.GraphInit(fontStr, true, false); //usePersonGuides, useGroupGuides
 
@@ -215,7 +225,11 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 			double time = Convert.ToDouble(time_l[i]);
 			double speed = Convert.ToDouble(speed_l[i]);
 
-			point_l.Add(new PointF(i+1, speed));
+			double param = speed;
+			if (runTimes)
+				param = time;
+
+			point_l.Add(new PointF(i+1, param));
 
 			if(isRelative)
 				names_l.Add(string.Format("{0} m\n{1} s",
@@ -227,20 +241,23 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 							Util.TrimDecimals (distanceAccumulated, 2), Util.TrimDecimals(timeAccumulated,2)));
 			}
 
-			if(speed > max) 	//get max
-				max = speed;
-
-			if(speed < min)		//get min
-				min = speed;
+			if (param > max) 	//get max
+				max = param;
+			if (param < min)	//get min
+				min = param;
 
 			colorMain_l.Add (feedbackRunsI.AssignColorMain (speed, time));
 		}
+
+		double guidesValue = UtilAll.DivideSafe (distanceTotal, timeTotal);
+		if (runTimes)
+			guidesValue = UtilAll.DivideSafe (timeTotal, time_l.Count);
 
 		cb.PassGuidesData (new CairoBarsGuideManage(
 					true, false, //usePersonGuides, useGroupGuides
 					0, 0, 0, 0,
 					max,
-					UtilAll.DivideSafe(distanceTotal, timeTotal),
+					guidesValue,
 					min));
 		/*
 		   if(photocell_l.Count > 0)

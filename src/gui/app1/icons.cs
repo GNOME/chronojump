@@ -129,7 +129,6 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_jump_execute_land;
 
 	//run
-	Gtk.Image image_run_simple_show_time;
 	Gtk.Image image_run_execute_running;
 	Gtk.Image image_run_execute_photocell_icon;
 	Gtk.Label label_run_execute_photocell_code;
@@ -437,7 +436,6 @@ public partial class ChronoJumpWindow
 		app1s_image_show_data_isometric.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "isometric.png");
 		app1s_image_show_data_elastic.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "elastic.png");
 
-		image_run_simple_show_time.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_run_time.png");
 		image_mode_race_beepTest.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "audio.png");
 		image_change_modes_contacts_runs_beepTest.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "audio.png");
 
@@ -1219,7 +1217,6 @@ public partial class ChronoJumpWindow
 		image_jump_execute_land = (Gtk.Image) builder.GetObject ("image_jump_execute_land");
 
 		//run
-		image_run_simple_show_time = (Gtk.Image) builder.GetObject ("image_run_simple_show_time");
 		image_run_execute_running = (Gtk.Image) builder.GetObject ("image_run_execute_running");
 		image_run_execute_photocell_icon = (Gtk.Image) builder.GetObject ("image_run_execute_photocell_icon");
 		label_run_execute_photocell_code = (Gtk.Label) builder.GetObject ("label_run_execute_photocell_code");

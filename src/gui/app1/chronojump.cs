@@ -3325,7 +3325,6 @@ public partial class ChronoJumpWindow
 		button_force_sensor_adjust.Visible = false;
 		button_force_sensor_sync.Visible = false;
 		frame_jumps_automatic.Visible = false;
-		check_run_show_time.Visible = false;
 		box_wilight.Visible = false;
 		box_wilight_commands.Visible = false;
 		box_fourPlatforms.Visible = false;
@@ -3508,7 +3507,6 @@ public partial class ChronoJumpWindow
 
 			hbox_change_modes_runs.Visible = true;
 			button_contacts_capture_save_image.Visible = true;
-			check_run_show_time.Visible = true;
 
 			if(m == Constants.Modes.RUNSSIMPLE) 
 			{

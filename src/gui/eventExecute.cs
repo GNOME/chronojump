@@ -83,7 +83,6 @@ public partial class ChronoJumpWindow
 	Gtk.RadioButton radio_contacts_results_personAll;
 	Gtk.Image image_radio_contacts_results_personCurrent;
 	Gtk.Image image_radio_contacts_results_personAll;
-	Gtk.CheckButton check_run_show_time;
 	
 	Gtk.ProgressBar event_execute_progressbar_event;
 	Gtk.ProgressBar event_execute_progressbar_time;
@@ -222,7 +221,6 @@ public partial class ChronoJumpWindow
 	private void showJumpSimpleLabels() 
 	{
 		box_resultsSession_bestLast.Visible = true;
-		check_run_show_time.Visible = false;
 
 //		align_check_vbox_contacts_graph_legend.Visible = true;
 		//vbox_contacts_graph_legend.Visible = false;
@@ -234,7 +232,6 @@ public partial class ChronoJumpWindow
 	private void showJumpReactiveLabels() 
 	{
 		box_resultsSession_bestLast.Visible = true;
-		check_run_show_time.Visible = false;
 
 //		align_check_vbox_contacts_graph_legend.Visible = false;
 //		vbox_contacts_graph_legend.Visible = false;
@@ -245,7 +242,6 @@ public partial class ChronoJumpWindow
 	private void showRunSimpleLabels() 
 	{
 		box_resultsSession_bestLast.Visible = true;
-		check_run_show_time.Visible = true;
 
 //		align_check_vbox_contacts_graph_legend.Visible = true;
 		//vbox_contacts_graph_legend.Visible = false;
@@ -256,7 +252,6 @@ public partial class ChronoJumpWindow
 	private void showRunIntervalLabels() 
 	{
 		box_resultsSession_bestLast.Visible = true;
-		check_run_show_time.Visible = true;
 
 //		align_check_vbox_contacts_graph_legend.Visible = false;
 //		vbox_contacts_graph_legend.Visible = false;
@@ -657,7 +652,6 @@ public partial class ChronoJumpWindow
 
 		// Paint cairo graph
 		cairoPaintBarsPre.ShowPersonNames = radio_contacts_results_personAll.Active;
-		//cairoPaintBarsPre.RunsShowTime = check_run_show_time.Active;
 		cairoPaintBarsPre.RunsTimes = radio_resultsSession_run_times.Active;
 		cairoPaintBarsPre.Paint();
 	}
@@ -700,7 +694,6 @@ public partial class ChronoJumpWindow
 	{
 		// Paint cairo graph
 		cairoPaintBarsPre.ShowPersonNames = radio_contacts_results_personAll.Active;
-		//cairoPaintBarsPre.RunsShowTime = check_run_show_time.Active;
 		cairoPaintBarsPre.RunsTimes = radio_resultsSession_run_times.Active;
 		cairoPaintBarsPre.Paint();
 	}
@@ -1051,14 +1044,6 @@ public partial class ChronoJumpWindow
 		pre_fillTreeView_resultsSession ();
 	}
 
-	private void on_check_run_show_time_toggled (object o, EventArgs args)
-	{
-		if(current_mode == Constants.Modes.RUNSSIMPLE)
-			updateGraphRunsSimple ();
-		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
-			updateGraphRunsInterval ();
-	}
-
 	// <---- end of test simple controls -----
 
 	private void on_event_execute_update_graph_in_progress_clicked(object o, EventArgs args)
@@ -1224,7 +1209,6 @@ public partial class ChronoJumpWindow
 		radio_contacts_results_personAll = (Gtk.RadioButton) builder.GetObject ("radio_contacts_results_personAll");
 		image_radio_contacts_results_personCurrent = (Gtk.Image) builder.GetObject ("image_radio_contacts_results_personCurrent");
 		image_radio_contacts_results_personAll = (Gtk.Image) builder.GetObject ("image_radio_contacts_results_personAll");
-		check_run_show_time = (Gtk.CheckButton) builder.GetObject ("check_run_show_time");
 
 		event_execute_progressbar_event = (Gtk.ProgressBar) builder.GetObject ("event_execute_progressbar_event");
 		event_execute_progressbar_time = (Gtk.ProgressBar) builder.GetObject ("event_execute_progressbar_time");

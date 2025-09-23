@@ -548,7 +548,7 @@ public partial class ChronoJumpWindow
 			image_check_runI_realtime_rel_abs.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "bar_absolute.png");
 
 		// 2) redo graph
-		on_drawingarea_results_realtime_draw (new object(), new Gtk.DrawnArgs());
+		drawingarea_results_realtime.QueueDraw ();
 	}
 
 	// Reactive jump 

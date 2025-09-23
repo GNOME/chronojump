@@ -751,7 +751,7 @@ public partial class ChronoJumpWindow
 		on_treeview_runs_interval_cursor_changed (new object (), new EventArgs ());
 
 		//update top graph:
-		on_drawingarea_results_realtime_draw (new object (), new Gtk.DrawnArgs ());
+		drawingarea_results_realtime.QueueDraw ();
 
 		if(createdStatsWin)
 			stats_win_fillTreeView_stats(false, false);

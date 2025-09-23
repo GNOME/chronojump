@@ -49,12 +49,17 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_adjust_no_capturing;
 	Gtk.Image image_force_sensor_adjust_capturing;
 
-	Gtk.Box box_resultsSession_heightsTimes;
+	Gtk.Box box_resultsSession_jumpVar;
+	Gtk.Box box_resultsSession_runVar;
 	Gtk.Label label_resultsSession_encoder_saved_repetitions;
-	Gtk.RadioButton radio_resultsSession_heights;
-	Gtk.RadioButton radio_resultsSession_times;
-	Gtk.Image image_resultsSession_heights;
-	Gtk.Image image_resultsSession_times;
+	Gtk.RadioButton radio_resultsSession_jump_heights;
+	Gtk.RadioButton radio_resultsSession_jump_times;
+	Gtk.Image image_resultsSession_jump_heights;
+	Gtk.Image image_resultsSession_jump_times;
+	Gtk.RadioButton radio_resultsSession_run_speeds;
+	Gtk.RadioButton radio_resultsSession_run_times;
+	Gtk.Image image_resultsSession_run_speeds;
+	Gtk.Image image_resultsSession_run_times;
 	Gtk.RadioButton radio_resultsSession_bars;
 	Gtk.RadioButton radio_resultsSession_points;
 	Gtk.Image image_resultsSession_bars;
@@ -642,7 +647,8 @@ public partial class ChronoJumpWindow
 
 		// Paint cairo graph
 		cairoPaintBarsPre.ShowPersonNames = radio_contacts_results_personAll.Active;
-		cairoPaintBarsPre.RunsShowTime = check_run_show_time.Active;
+		//cairoPaintBarsPre.RunsShowTime = check_run_show_time.Active;
+		cairoPaintBarsPre.RunsTimes = radio_resultsSession_run_times.Active;
 		cairoPaintBarsPre.Paint();
 	}
 	public void PrepareRunDoubleContactsGraph(bool simple)
@@ -684,7 +690,8 @@ public partial class ChronoJumpWindow
 	{
 		// Paint cairo graph
 		cairoPaintBarsPre.ShowPersonNames = radio_contacts_results_personAll.Active;
-		cairoPaintBarsPre.RunsShowTime = check_run_show_time.Active;
+		//cairoPaintBarsPre.RunsShowTime = check_run_show_time.Active;
+		cairoPaintBarsPre.RunsTimes = radio_resultsSession_run_times.Active;
 		cairoPaintBarsPre.Paint();
 	}
 
@@ -884,17 +891,24 @@ public partial class ChronoJumpWindow
 	}
 
 	// only jumpRj
-	private void on_radio_resultsSession_heightsTimes_toggled (object o, EventArgs args)
+	private void on_radio_resultsSession_jumpVar_toggled (object o, EventArgs args)
 	{
 		// change on preferences object and DB
 		preferences.heightPreferred = Preferences.PreferencesChange (
 				false, "heightPreferred",
 				preferences.heightPreferred,
-				radio_resultsSession_heights.Active);
+				radio_resultsSession_jump_heights.Active);
 
 		resultsSession_bestLast_controls ();
 		updateGraphResultsSessionByMode ();
 	}
+
+	private void on_radio_resultsSession_runVar_toggled (object o, EventArgs args)
+	{
+		resultsSession_bestLast_controls ();
+		updateGraphResultsSessionByMode ();
+	}
+
 	private void on_radio_resultsSession_bestLast_toggled (object o, EventArgs args)
 	{
 		updateGraphResultsSessionByMode ();
@@ -933,9 +947,9 @@ public partial class ChronoJumpWindow
 	private void resultsSession_bestLast_controls_jumps (Constants.Modes m)
 	{
 		if ( m == Constants.Modes.JUMPSSIMPLE ||
-				(m == Constants.Modes.JUMPSREACTIVE && radio_resultsSession_heights.Active))
+				(m == Constants.Modes.JUMPSREACTIVE && radio_resultsSession_jump_heights.Active))
 		{
-			if (radio_resultsSession_heights.Active)
+			if (radio_resultsSession_jump_heights.Active)
 				radio_resultsSession_best.Label = Catalog.GetString ("Jump height");
 			else
 				radio_resultsSession_best.Label = Catalog.GetString ("Flight time");
@@ -954,7 +968,11 @@ public partial class ChronoJumpWindow
 	{
 		if (m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC)
 		{
-			radio_resultsSession_best.Label = Catalog.GetString ("Speed");
+			if (radio_resultsSession_run_speeds.Active)
+				radio_resultsSession_best.Label = Catalog.GetString ("Speed");
+			else
+				radio_resultsSession_best.Label = Catalog.GetString ("Time");
+
 			radio_resultsSession_best2.Visible = false;
 		} else { 	// m == Constants.Modes.RUNSENCODER
 			radio_resultsSession_best.Label = Catalog.GetString ("Max speed");
@@ -989,7 +1007,7 @@ public partial class ChronoJumpWindow
 		if (radio_resultsSession_last.Active)
 			return Constants.ResultsSessionCriteria.LAST;
 
-		if (current_mode == Constants.Modes.JUMPSREACTIVE && radio_resultsSession_heights.Active)
+		if (current_mode == Constants.Modes.JUMPSREACTIVE && radio_resultsSession_jump_heights.Active)
 			return Constants.ResultsSessionCriteria.BEST3;
 
 		if (radio_resultsSession_best.Active)
@@ -1162,12 +1180,17 @@ public partial class ChronoJumpWindow
 		image_force_sensor_adjust_no_capturing = (Gtk.Image) builder.GetObject ("image_force_sensor_adjust_no_capturing");
 		image_force_sensor_adjust_capturing = (Gtk.Image) builder.GetObject ("image_force_sensor_adjust_capturing");
 
-		box_resultsSession_heightsTimes = (Gtk.Box) builder.GetObject ("box_resultsSession_heightsTimes");
+		box_resultsSession_jumpVar = (Gtk.Box) builder.GetObject ("box_resultsSession_jumpVar");
+		box_resultsSession_runVar = (Gtk.Box) builder.GetObject ("box_resultsSession_runVar");
 		label_resultsSession_encoder_saved_repetitions = (Gtk.Label) builder.GetObject ("label_resultsSession_encoder_saved_repetitions");
-		radio_resultsSession_heights = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_heights");
-		radio_resultsSession_times = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_times");
-		image_resultsSession_heights = (Gtk.Image) builder.GetObject ("image_resultsSession_heights");
-		image_resultsSession_times = (Gtk.Image) builder.GetObject ("image_resultsSession_times");
+		radio_resultsSession_jump_heights = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_jump_heights");
+		radio_resultsSession_jump_times = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_jump_times");
+		image_resultsSession_jump_heights = (Gtk.Image) builder.GetObject ("image_resultsSession_jump_heights");
+		image_resultsSession_jump_times = (Gtk.Image) builder.GetObject ("image_resultsSession_jump_times");
+		radio_resultsSession_run_speeds = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_run_speeds");
+		radio_resultsSession_run_times = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_run_times");
+		image_resultsSession_run_speeds = (Gtk.Image) builder.GetObject ("image_resultsSession_run_speeds");
+		image_resultsSession_run_times = (Gtk.Image) builder.GetObject ("image_resultsSession_run_times");
 		radio_resultsSession_bars = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_bars");
 		radio_resultsSession_points = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_points");
 		image_resultsSession_bars = (Gtk.Image) builder.GetObject ("image_resultsSession_bars");

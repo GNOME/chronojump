@@ -38,7 +38,7 @@ public abstract class CairoPaintBarsPre
 
 	//run simple
 	public PrepareEventGraphRunSimple eventGraphRunsStored;
-	public bool RunsShowTime;
+	public bool RunsTimes; //default: speeds
 
 	//run interval
 	public PrepareEventGraphRunInterval eventGraphRunsIntervalStored;

@@ -118,13 +118,20 @@ class SqliteRunInterval : SqliteRun
 		//find session datetime for that runs
 		List<Session> session_l = SqliteSession.SelectAll(true, Sqlite.Orders_by.DEFAULT);
 
+		string orderBestStr = "";
+		if (order == Orders_by.BEST) //speed
+				orderBestStr = string.Format(" ORDER BY {0}.distanceTotal/{0}.timeTotal ",
+					Constants.RunIntervalTable);
+		else if (order == Orders_by.BEST2) //time
+				orderBestStr = string.Format(" ORDER BY {0}.timeTotal DESC ",
+					Constants.RunIntervalTable);
+
 		dbcmd.CommandText = selectResultsCreateSelection (
 				Constants.RunIntervalTable,
 				sessionID, personID, runType,
 				false, "",
 				order,
-				string.Format(" ORDER BY {0}.distanceTotal/{0}.timeTotal ",
-					Constants.RunIntervalTable),
+				orderBestStr,
 				limit, false
 				);
 		LogB.SQL(dbcmd.CommandText.ToString());

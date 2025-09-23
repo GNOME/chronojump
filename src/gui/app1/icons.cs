@@ -423,8 +423,10 @@ public partial class ChronoJumpWindow
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_jump.png");
 		app1s_image_show_data_jumps.Pixbuf = pixbuf;
-		image_resultsSession_heights.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "jump_height.png");
-		image_resultsSession_times.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "jump_time.png");
+		image_resultsSession_jump_heights.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "jump_height.png");
+		image_resultsSession_jump_times.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "jump_time.png");
+		image_resultsSession_run_speeds.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "speed_blue.png");
+		image_resultsSession_run_times.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "time_blue.png");
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_run.png");
 		app1s_image_show_data_runs.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "race_encoder_icon.png");
@@ -991,7 +993,7 @@ public partial class ChronoJumpWindow
 		image_encoder_analyze_show_SAFE_position.Pixbuf = pixbuf;
 		image_force_sensor_capture_show_distance.Pixbuf = pixbuf;
 		image_force_sensor_analyze_show_distance.Pixbuf = pixbuf;
-		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeSpeedIcon);
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeSpeedIcon); //TODO: note there is a new speed_blue.png, run_speed.png icons
 		image_encoder_analyze_speed.Pixbuf = pixbuf;
 		image_force_sensor_capture_show_speed.Pixbuf = pixbuf;
 		image_force_sensor_analyze_show_speed.Pixbuf = pixbuf;

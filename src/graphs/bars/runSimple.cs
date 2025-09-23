@@ -26,14 +26,18 @@ using Mono.Unix;
 
 public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 {
+	private bool runTimes;
 	private bool metersSecondsPreferred;
 
 	public CairoPaintBarsPreRunSimple (DrawingArea darea, string fontStr,
-			Constants.Modes mode, string personName, string testName, int pDN, bool metersSecondsPreferred,
+			Constants.Modes mode, string personName, string testName, int pDN,
+			bool runTimes, bool metersSecondsPreferred,
 			int currentPersonID, bool drawBars)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
+
 		this.title = generateTitle();
+		this.runTimes = runTimes;
 		this.metersSecondsPreferred = metersSecondsPreferred;
 		this.currentPersonID = currentPersonID;
 		this.drawBars = drawBars;
@@ -59,10 +63,17 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, true, true, true);
 
 		cb.YVariable = Catalog.GetString("Speed");
-		if (metersSecondsPreferred)
-			cb.YUnits = "m/s";
-		else
-			cb.YUnits = "Km/h";
+		if (runTimes)
+			cb.YVariable = Catalog.GetString("Time");
+
+		if (runTimes)
+			cb.YUnits = "s";
+		else {
+			if (metersSecondsPreferred)
+				cb.YUnits = "m/s";
+			else
+				cb.YUnits = "Km/h";
+		}
 
 		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
 		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides
@@ -81,7 +92,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 		}
 
 		calculateBottomParams (events, eventGraphRunsStored.type == "", "",
-				"(" + Catalog.GetString("Simulated") + ")", thereIsASimulated, RunsShowTime);
+				"(" + Catalog.GetString("Simulated") + ")", thereIsASimulated, false);
 
 		List<PointF> point_l = new List<PointF>();
 		List<string> names_l = new List<string>();
@@ -93,19 +104,18 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 		{
 			// 1) Add data
 			run.MetersSecondsPreferred = metersSecondsPreferred;
-			point_l.Add(new PointF(countToDraw --, run.Speed));
+			if (runTimes)
+				point_l.Add(new PointF(countToDraw --, run.Time));
+			else
+				point_l.Add(new PointF(countToDraw --, run.Speed));
 
 			// 2) Add bottom names
 			string typeRowString = "";
 			if (eventGraphRunsStored.type == "") //if "all runs" show run.Type
 				typeRowString = run.Type;
 
-			string timeString = "";
-			if(RunsShowTime)
-				timeString = string.Format("{0} s", Util.TrimDecimals(run.Time, pDN));
-
 			names_l.Add(createTextBelowBar(
-						timeString,
+						"",
 						typeRowString,
 						run.Description,
 						thereIsASimulated, (run.Simulated == -1),

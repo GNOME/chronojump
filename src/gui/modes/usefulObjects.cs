@@ -272,7 +272,9 @@ public class PrepareEventGraphRunSimple
 	}
 
 	public PrepareEventGraphRunSimple(double time, double speed, int sessionID,
-			int personID, bool allPersons, bool showBest, int limit,
+			int personID, bool allPersons,
+			Constants.ResultsSessionCriteria resultsSessionCriteria, bool times,
+			int limit,
 			string table, string type, int selectedID)
 	{
 		Sqlite.Open();
@@ -281,9 +283,13 @@ public class PrepareEventGraphRunSimple
 		if(allPersons)
 			personIDTemp = -1;
 
-		Sqlite.Orders_by orderBy = Sqlite.Orders_by.BEST;
-		if (! showBest)
-			orderBy = Sqlite.Orders_by.ID_ASC;
+		Sqlite.Orders_by orderBy = Sqlite.Orders_by.ID_ASC;
+		if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST)
+			orderBy = Sqlite.Orders_by.BEST;
+		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
+			orderBy = Sqlite.Orders_by.BEST2;
+
+		LogB.Information ("resultsSessionCriteria = " + resultsSessionCriteria.ToString ());
 
 		//obtain data
 		runsAtSQL = SqliteRun.SelectRuns (true, sessionID, personIDTemp, type,
@@ -292,6 +298,8 @@ public class PrepareEventGraphRunSimple
 
 		
 		string sqlSelect = "distance/time";
+		if (times)
+			sqlSelect = "time";
 		//better to know speed like:
 		//SELECT AVG(distance/time) from run; than 
 		//SELECT AVG(distance) / SELECT AVG(time) 
@@ -346,7 +354,9 @@ public class PrepareEventGraphRunInterval
 	//personID we need to the personsMAX/AVG sql calls
 	//type can be "" for all jumps, then write it under bar
 	public PrepareEventGraphRunInterval (
-			int sessionID, int personID, bool allPersons, bool showBest, int limit,
+			int sessionID, int personID, bool allPersons,
+			Constants.ResultsSessionCriteria resultsSessionCriteria, bool times,
+			int limit,
 			string type, int selectedID)
 	{
 		// 1) assign variables
@@ -359,14 +369,18 @@ public class PrepareEventGraphRunInterval
 		if(allPersons)
 			personIDTemp = -1;
 
-		Sqlite.Orders_by orderBy = Sqlite.Orders_by.BEST;
-		if (! showBest)
-			orderBy = Sqlite.Orders_by.ID_ASC;
+		Sqlite.Orders_by orderBy = Sqlite.Orders_by.ID_ASC;
+		if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST)
+			orderBy = Sqlite.Orders_by.BEST;
+		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
+			orderBy = Sqlite.Orders_by.BEST2;
 
 		runsAtSQL = SqliteRunInterval.SelectRuns (true, sessionID, personIDTemp, type,
 				orderBy, limit, allPersons); 	//show names on comments only if "all persons"
 
 		string sqlSelect = "distanceTotal/timeTotal";
+		if (times)
+			sqlSelect = "timeTotal";
 		string table = Constants.RunIntervalTable;
 
 		List<double> personStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(

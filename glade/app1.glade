@@ -14673,21 +14673,45 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
-                                                            <object class="GtkBox" id="box_resultsSession_heightsTimes">
+                                                            <object class="GtkBox" id="box_resultsSession_jumpVar">
                                                             <property name="can-focus">False</property>
                                                             <property name="margin-right">30</property>
                                                             <property name="spacing">4</property>
                                                             <child>
-                                                            <object class="GtkRadioButton" id="radio_resultsSession_heights">
+                                                            <object class="GtkRadioButton" id="radio_resultsSession_jump_heights">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="tooltip-text" translatable="yes">Jump height</property>
                                                             <property name="active">True</property>
                                                             <property name="draw-indicator">False</property>
-                                                            <signal name="toggled" handler="on_radio_resultsSession_heightsTimes_toggled" swapped="no"/>
+                                                            <signal name="toggled" handler="on_radio_resultsSession_jumpVar_toggled" swapped="no"/>
                                                             <child>
-                                                            <object class="GtkImage" id="image_resultsSession_heights">
+                                                            <object class="GtkImage" id="image_resultsSession_jump_heights">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkRadioButton" id="radio_resultsSession_jump_times">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="tooltip-text" translatable="yes">Jump time</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw-indicator">False</property>
+                                                            <property name="group">radio_resultsSession_jump_heights</property>
+                                                            <signal name="toggled" handler="on_radio_resultsSession_jumpVar_toggled" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_resultsSession_jump_times">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
@@ -14700,18 +14724,28 @@ then click this button.</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
                                                             <child>
-                                                            <object class="GtkRadioButton" id="radio_resultsSession_times">
+                                                            <object class="GtkBox" id="box_resultsSession_runVar">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="margin-right">30</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <object class="GtkRadioButton" id="radio_resultsSession_run_speeds">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
-                                                            <property name="tooltip-text" translatable="yes">Jump time</property>
-                                                            <property name="active">True</property>
+                                                            <property name="tooltip-text" translatable="yes">Speed</property>
                                                             <property name="draw-indicator">False</property>
-                                                            <property name="group">radio_resultsSession_heights</property>
-                                                            <signal name="toggled" handler="on_radio_resultsSession_heightsTimes_toggled" swapped="no"/>
+                                                            <signal name="toggled" handler="on_radio_resultsSession_runVar_toggled" swapped="no"/>
                                                             <child>
-                                                            <object class="GtkImage" id="image_resultsSession_times">
+                                                            <object class="GtkImage" id="image_resultsSession_run_speeds">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
@@ -14721,21 +14755,32 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">0</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkRadioButton" id="radio_resultsSession_run_times">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="tooltip-text" translatable="yes">Time</property>
+                                                            <property name="draw-indicator">False</property>
+                                                            <property name="group">radio_resultsSession_run_speeds</property>
+                                                            <signal name="toggled" handler="on_radio_resultsSession_runVar_toggled" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_resultsSession_run_times">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </object>
                                                             </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">0</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label_resultsSession_encoder_saved_repetitions">
-                                                            <property name="can-focus">False</property>
-                                                            <property name="margin-right">30</property>
-                                                            <property name="label" translatable="yes">Saved repetitions</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -14878,6 +14923,18 @@ then click this button.</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="pack-type">end</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_resultsSession_encoder_saved_repetitions">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="margin-right">30</property>
+                                                            <property name="label" translatable="yes">Saved repetitions</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">2</property>
                                                             </packing>
                                                             </child>
@@ -27505,6 +27562,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -26,14 +26,18 @@ using Mono.Unix;
 
 public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 {
+	private bool runTimes;
 	private bool metersSecondsPreferred;
 
 	public CairoPaintBarsPreRunInterval (DrawingArea darea, string fontStr,
-			Constants.Modes mode, string personName, string testName, int pDN, bool metersSecondsPreferred,
+			Constants.Modes mode, string personName, string testName, int pDN,
+			bool runTimes, bool metersSecondsPreferred,
 			int currentPersonID, bool drawBars)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
+
 		this.title = generateTitle();
+		this.runTimes = runTimes;
 		this.metersSecondsPreferred = metersSecondsPreferred;
 		this.currentPersonID = currentPersonID;
 		this.drawBars = drawBars;
@@ -59,10 +63,17 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, true, true, true);
 
 		cb.YVariable = Catalog.GetString("Speed");
-		if (metersSecondsPreferred)
-			cb.YUnits = "m/s";
-		else
-			cb.YUnits = "Km/h";
+		if (runTimes)
+			cb.YVariable = Catalog.GetString("Time");
+
+		if (runTimes)
+			cb.YUnits = "s";
+		else {
+			if (metersSecondsPreferred)
+				cb.YUnits = "m/s";
+			else
+				cb.YUnits = "Km/h";
+		}
 
 		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
 		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides
@@ -81,7 +92,7 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 		}
 
 		calculateBottomParams (events, true, " - 99", //thinking on 99 tracks
-				"(" + Catalog.GetString("Simulated") + ")", thereIsASimulated, RunsShowTime);
+				"(" + Catalog.GetString("Simulated") + ")", thereIsASimulated, false);
 
 		List<PointF> point_l = new List<PointF>();
 		List<string> names_l = new List<string>();
@@ -93,7 +104,10 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 		{
 			// 1) Add data
 			runI.MetersSecondsPreferred = metersSecondsPreferred;
-			point_l.Add(new PointF(countToDraw --, runI.Speed));
+			if (runTimes)
+				point_l.Add(new PointF(countToDraw --, runI.TimeTotal));
+			else
+				point_l.Add(new PointF(countToDraw --, runI.Speed));
 
 			// 2) Add bottom names
 			/*
@@ -104,12 +118,8 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 			//TYPE B: on runI show always run type to show at the side the number of tracks. If change here, change it above (TYPEA)
 			string typeRowString = string.Format("{0} - {1}", runI.Type, runI.Tracks);
 
-			string timeString = "";
-			if(RunsShowTime)
-				timeString = string.Format("{0} s", Util.TrimDecimals(runI.TimeTotal, pDN));
-
 			names_l.Add(createTextBelowBar(
-						timeString,
+						"",
 						typeRowString,
 						runI.Description,
 						thereIsASimulated, (runI.Simulated == -1),

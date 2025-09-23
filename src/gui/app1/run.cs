@@ -208,11 +208,21 @@ public partial class ChronoJumpWindow
 		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
 			selectedID = treeViewResultsSession.EventSelectedID;
 
+		Constants.ResultsSessionCriteria resultsSessionCriteria;
+		if (radio_resultsSession_last.Active)
+			resultsSessionCriteria = Constants.ResultsSessionCriteria.LAST;
+		else {
+			if (radio_resultsSession_run_speeds.Active)
+				resultsSessionCriteria = Constants.ResultsSessionCriteria.BEST;
+			else
+				resultsSessionCriteria = Constants.ResultsSessionCriteria.BEST2;
+		}
+
 		PrepareEventGraphRunSimple eventGraph = new PrepareEventGraphRunSimple(
 				1, 1, //both unused
 				currentSession.UniqueID,
 				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
-				radio_resultsSession_best.Active,
+				resultsSessionCriteria, radio_resultsSession_run_times.Active,
 				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
 				Constants.RunTable, typeTemp, selectedID);
 		
@@ -228,7 +238,8 @@ public partial class ChronoJumpWindow
 
 		cairoPaintBarsPre = new CairoPaintBarsPreRunSimple (
 				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
-				personStr, typeTemp, preferences.digitsNumber, preferences.metersSecondsPreferred,
+				personStr, typeTemp, preferences.digitsNumber,
+				radio_resultsSession_run_times.Active, preferences.metersSecondsPreferred,
 				currentPerson.UniqueID, radio_resultsSession_bars.Active);
 
 		cairoPaintBarsPre.StoreEventGraphRuns (eventGraph);
@@ -262,10 +273,21 @@ public partial class ChronoJumpWindow
 		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
 			selectedID = treeViewResultsSession.EventSelectedID;
 
+		Constants.ResultsSessionCriteria resultsSessionCriteria;
+		if (radio_resultsSession_last.Active)
+			resultsSessionCriteria = Constants.ResultsSessionCriteria.LAST;
+		else {
+			if (radio_resultsSession_run_speeds.Active)
+				resultsSessionCriteria = Constants.ResultsSessionCriteria.BEST;
+			else
+				resultsSessionCriteria = Constants.ResultsSessionCriteria.BEST2;
+		}
+
 		PrepareEventGraphRunInterval eventGraph = new PrepareEventGraphRunInterval(
 				currentSession.UniqueID, currentPerson.UniqueID,
 				radio_contacts_results_personAll.Active,
-				radio_resultsSession_best.Active,
+				//radio_resultsSession_run_times.Active, radio_resultsSession_best.Active,
+				resultsSessionCriteria, radio_resultsSession_run_times.Active,
 				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
 				typeTemp, selectedID);
 
@@ -275,7 +297,8 @@ public partial class ChronoJumpWindow
 
 		cairoPaintBarsPre = new CairoPaintBarsPreRunInterval (
 				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
-				personStr, typeTemp, preferences.digitsNumber, preferences.metersSecondsPreferred,
+				personStr, typeTemp, preferences.digitsNumber,
+				radio_resultsSession_run_times.Active, preferences.metersSecondsPreferred,
 				currentPerson.UniqueID, radio_resultsSession_bars.Active);
 
 		cairoPaintBarsPre.StoreEventGraphRunsInterval (eventGraph);

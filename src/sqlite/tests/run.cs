@@ -181,14 +181,23 @@ class SqliteRun : SqliteTests
 		//find session datetime for that runs
 		List<Session> session_l = SqliteSession.SelectAll(true, Sqlite.Orders_by.DEFAULT);
 
+		string orderBestStr = "";
+		if (order == Orders_by.BEST) //speed
+			orderBestStr = string.Format(" ORDER BY {0}.distance/{0}.time ",
+					Constants.RunTable);
+		else if (order == Orders_by.BEST2) //time
+		{
+			orderBestStr = string.Format(" ORDER BY {0}.time DESC ",
+					Constants.RunTable);
+			order = Orders_by.BEST; // to actually use orderBestStr
+		}
 
 		dbcmd.CommandText = selectResultsCreateSelection (
 				Constants.RunTable,
 				sessionID, personID, runType,
 				false, "",
 				order,
-				string.Format(" ORDER BY {0}.distance/{0}.time ",
-					Constants.RunTable),
+				orderBestStr,
 				limit, onlyBestInSession
 				);
 		LogB.SQL(dbcmd.CommandText.ToString());

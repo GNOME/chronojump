@@ -1847,6 +1847,14 @@ public static class MathUtil
 		dSorted_l = new List<double> {65.5, 65.5, 70.5, 75.2, 80.1, 84, 90.7, 90.9, 100.4};
 		qs = Quartiles (dSorted_l);
 		LogB.Information (string.Format ("Quartile test for {0} is {1}", UtilList.ListDoubleToString (dSorted_l, 1, " "), qs));
+
+		dSorted_l = new List<double> {17, 17, 17, 17};
+		qs = Quartiles (dSorted_l);
+		LogB.Information (string.Format ("Quartile test for {0} is {1}", UtilList.ListDoubleToString (dSorted_l, 1, " "), qs)); // returns 17, 17, 17
+
+		dSorted_l = new List<double> {.9};
+		qs = Quartiles (dSorted_l);
+		LogB.Information (string.Format ("Quartile test for {0} is {1}", UtilList.ListDoubleToString (dSorted_l, 1, " "), qs)); // returns .9, .9, .9
 	}
 }
 
@@ -2201,3 +2209,85 @@ public class Butterworth
 	}
 }
 
+public class Boxplot
+{
+	private List<double> dSorted_l;
+	private Tuple<double, double, double> quartiles;
+	private double iqr;
+	private double fenceLow;
+	private double fenceHigh;
+	private double minAccepted;
+	private double maxAccepted;
+
+	public Boxplot (List<double> dSorted_l)
+	{
+		this.dSorted_l = dSorted_l;
+		iqr = 0;
+		fenceLow = 0;
+		fenceHigh = 0;
+		minAccepted = 0;
+		maxAccepted = 0;
+	}
+
+	public bool Do ()
+	{
+		quartiles = MathUtil.Quartiles (dSorted_l);
+		LogB.Information ("quartiles: " + quartiles.ToString ());
+
+		iqr = quartiles.Item3 - quartiles.Item1;
+		fenceLow = quartiles.Item1 -1.5*iqr;
+		fenceHigh = quartiles.Item3 + 1.5*iqr;
+		LogB.Information (string.Format ("fences: {0}, {1}", fenceLow, fenceHigh));
+
+		for (int i = dSorted_l.Count -1; i >= 0 ; i --)
+		{
+			if (dSorted_l[i] >= fenceLow)
+				minAccepted = dSorted_l[i];
+			else
+				break;
+		}
+
+		for (int i = 0; i < dSorted_l.Count ; i ++)
+		{
+			if (dSorted_l[i] <= fenceHigh)
+				maxAccepted = dSorted_l[i];
+			else
+				break;
+		}
+		LogB.Information (string.Format ("minAccepted: {0}, maxAccepted: {1}", minAccepted, maxAccepted));
+
+		// note on Tukey when fences are found, quartiles are not re-done
+
+		return true;
+	}
+
+	public static void Test ()
+	{
+		List<double> dSorted_l = new List<double> {21, 65, 65, 70, 75, 80, 80, 85, 90, 95, 132.5};
+		LogB.Information ("Doing Boxplot for " + UtilList.ListDoubleToString (dSorted_l, 1, " "));
+
+		Boxplot bp = new Boxplot (dSorted_l);
+		bp.Do ();
+
+		// outliers
+		foreach (double d in dSorted_l)
+			LogB.Information (string.Format ("{0}, is outlier? {1}", d, bp.IsOutlier (d)));
+	}
+
+	public bool IsOutlier (double d)
+	{
+		return (d < fenceLow || d > fenceHigh);
+	}
+
+	public Tuple<double, double, double> Quartiles {
+		get { return quartiles; }
+	}
+
+	public double MinAccepted {
+		get { return minAccepted; }
+	}
+
+	public double MaxAccepted {
+		get { return maxAccepted; }
+	}
+}

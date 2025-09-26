@@ -1772,6 +1772,82 @@ public static class MathUtil
 
 		return true;
 	}
+
+	// adapted from
+	// mike CC BY-SA 4.0
+	// https://stackoverflow.com/a/21009506
+	// this is R type 8, note R default is 7, see above page for comments
+	public static Tuple<double, double, double> Quartiles (List<double> sorted_l)
+	{
+		int iSize = sorted_l.Count;
+		int iMid = iSize / 2; //this is the mid from a zero based index, eg mid of 7 = 3;
+
+		double fQ1 = 0;
+		double fQ2 = 0;
+		double fQ3 = 0;
+
+		if (iSize % 2 == 0)
+		{
+			//================ EVEN NUMBER OF POINTS: =====================
+			//even between low and high point
+			fQ2 = (sorted_l[iMid - 1] + sorted_l[iMid]) / 2;
+
+			int iMidMid = iMid / 2;
+
+			//easy split
+			if (iMid % 2 == 0)
+			{
+				fQ1 = (sorted_l[iMidMid - 1] + sorted_l[iMidMid]) / 2;
+				fQ3 = (sorted_l[iMid + iMidMid - 1] + sorted_l[iMid + iMidMid]) / 2;
+			}
+			else
+			{
+				fQ1 = sorted_l[iMidMid];
+				fQ3 = sorted_l[iMidMid + iMid];
+			}
+		}
+		else if (iSize == 1)
+		{
+			//================= special case, sorry ================
+			fQ1 = sorted_l[0];
+			fQ2 = sorted_l[0];
+			fQ3 = sorted_l[0];
+		}
+		else
+		{
+			//odd number so the median is just the midpoint in the array.
+			fQ2 = sorted_l[iMid];
+
+			if ((iSize - 1) % 4 == 0)
+			{
+				//======================(4n-1) POINTS =========================
+				int n = (iSize - 1) / 4;
+				fQ1 = (sorted_l[n - 1] * .25) + (sorted_l[n] * .75);
+				fQ3 = (sorted_l[3 * n] * .75) + (sorted_l[3 * n + 1] * .25);
+			}
+			else if ((iSize - 3) % 4 == 0)
+			{
+				//======================(4n-3) POINTS =========================
+				int n = (iSize - 3) / 4;
+
+				fQ1 = (sorted_l[n] * .75) + (sorted_l[n + 1] * .25);
+				fQ3 = (sorted_l[3 * n + 1] * .25) + (sorted_l[3 * n + 2] * .75);
+			}
+		}
+
+		return new Tuple<double, double, double>(fQ1, fQ2, fQ3);
+	}
+
+	public static void QuartilesTest ()
+	{
+		List<double> dSorted_l = new List<double> {65, 65, 70, 75, 80, 80, 85, 90, 95, 100};
+		Tuple<double, double, double> qs = Quartiles (dSorted_l);
+		LogB.Information (string.Format ("Quartile test for {0} is {1}", UtilList.ListDoubleToString (dSorted_l, 0, " "), qs));
+
+		dSorted_l = new List<double> {65.5, 65.5, 70.5, 75.2, 80.1, 84, 90.7, 90.9, 100.4};
+		qs = Quartiles (dSorted_l);
+		LogB.Information (string.Format ("Quartile test for {0} is {1}", UtilList.ListDoubleToString (dSorted_l, 1, " "), qs));
+	}
 }
 
 public class InterpolateSignal

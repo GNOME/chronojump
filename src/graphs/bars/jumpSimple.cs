@@ -178,7 +178,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 					eventGraphJumpsStored.personAVGAtSQL,
 					eventGraphJumpsStored.personMINAtSQL));
 
-		cb.PassBoxplot (eventGraphJumpsStored.boxplot);
+		cb.PassBoxplots (eventGraphJumpsStored.boxplotPerson, eventGraphJumpsStored.boxplotSession);
 
 		if(showBarA && showBarB) //Dja, Djna
 		{

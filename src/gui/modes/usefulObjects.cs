@@ -62,7 +62,8 @@ public class PrepareEventGraphJumpSimple
 {
 	//sql data of previous jumps to plot graph and show stats at bottom
 	public List<Jump> jumpsAtSQL;
-	public Boxplot boxplot;
+	public Boxplot boxplotPerson;
+	public Boxplot boxplotSession;
 	
 	public double personMAXAtSQLAllSessions;
 	public double personMAXAtSQL;
@@ -106,23 +107,7 @@ public class PrepareEventGraphJumpSimple
 				allPersons, 	//show names on comments only if "all persons"
 				false); 	//! onlyBestInSession
 
-		// ---- boxplot ---->
-		List<Jump> jumpTemp_l = SqliteJump.SelectJumps (sessionID, personIDTemp, type,
-				Sqlite.Orders_by.BEST, 0, // no limit
-				allPersons, 	//show names on comments only if "all persons"
-				false); 	//! onlyBestInSession
-
-		List<double> dSorted_l = new List<double> ();
-		foreach (Jump jump in jumpTemp_l)
-		{
-			if (showHeights)
-				dSorted_l.Add (jump.Height);
-			else
-				dSorted_l.Add (jump.Tv);
-		}
-		boxplot = new Boxplot (dSorted_l);
-		boxplot.Do ();
-		// <---- boxplot ----
+		boxplotsDo (sessionID, personID, allPersons, type);
 
 		//TODO: all this maybe will disappear with the boxplot --->
 
@@ -154,6 +139,43 @@ public class PrepareEventGraphJumpSimple
 		this.type = type;
 		this.showHeights = showHeights;
 		this.selectedID = selectedID;
+	}
+
+	private void boxplotsDo (int sessionID, int personID, bool allPersons, string type)
+	{
+		// person
+		List<Jump> jumpTemp_l = SqliteJump.SelectJumps (sessionID, personID, type,
+				Sqlite.Orders_by.BEST, 0, // no limit
+				allPersons, 	//show names on comments only if "all persons"
+				false); 	//! onlyBestInSession
+
+		List<double> dSorted_l = new List<double> ();
+		foreach (Jump jump in jumpTemp_l)
+		{
+			if (showHeights)
+				dSorted_l.Add (jump.Height);
+			else
+				dSorted_l.Add (jump.Tv);
+		}
+		boxplotPerson = new Boxplot (dSorted_l);
+		boxplotPerson.Do ();
+
+		// session
+		jumpTemp_l = SqliteJump.SelectJumps (sessionID, -1, type,
+				Sqlite.Orders_by.BEST, 0, // no limit
+				allPersons, 	//show names on comments only if "all persons"
+				false); 	//! onlyBestInSession
+
+		dSorted_l = new List<double> ();
+		foreach (Jump jump in jumpTemp_l)
+		{
+			if (showHeights)
+				dSorted_l.Add (jump.Height);
+			else
+				dSorted_l.Add (jump.Tv);
+		}
+		boxplotSession = new Boxplot (dSorted_l);
+		boxplotSession.Do ();
 	}
 
 	~PrepareEventGraphJumpSimple() {}

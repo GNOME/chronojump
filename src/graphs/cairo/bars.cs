@@ -59,7 +59,8 @@ public abstract class CairoBars : CairoGeneric
 	protected bool usePersonGuides;
 	protected bool useGroupGuides;
 	protected CairoBarsArrow cairoBarsArrow;
-	protected Boxplot boxplot;
+	protected Boxplot boxplotPerson;
+	protected Boxplot boxplotSession;
 
 	protected Cairo.Context g;
 	protected int lineWidthDefault = 1; //was 2;
@@ -231,24 +232,43 @@ public abstract class CairoBars : CairoGeneric
 		*/
 	}
 
-	public void PassBoxplot (Boxplot boxplot)
+	public void PassBoxplots (Boxplot boxplotPerson, Boxplot boxplotSession)
 	{
-		this.boxplot = boxplot;
+		this.boxplotPerson = boxplotPerson;
+		this.boxplotSession = boxplotSession;
 	}
 
-	protected void drawBoxplot ()
+	protected void drawBoxplots ()
 	{
-		if (boxplot == null || ! boxplot.Calculated)
+		//int xStart = 6;
+		int xStart = -6; //to see diff with guides
+		if(usePersonGuides)
+			drawBoxplot (boxplotPerson, xStart);
+
+		if(usePersonGuides && useGroupGuides)
+			xStart += (24 + 8);
+
+		if(useGroupGuides)
+			drawBoxplot (boxplotSession, xStart);
+	}
+
+	protected void drawBoxplot (Boxplot bp, int xStart)
+	{
+		if (bp == null || ! bp.Calculated)
 			return;
 
-		LogB.Information ("boxplot: " + boxplot.ToString ());
-		g.SetSourceColor (green);
-		printText(graphWidth - rightMargin +0, calculatePaintY (boxplot.MinAccepted), 0, textHeight -3,
-				Util.TrimDecimals (boxplot.MinAccepted, 2),
-				g, alignTypes.CENTER);
+		LogB.Information ("bp: " + bp.ToString ());
 		g.SetSourceColor (caramel);
-		printText(graphWidth - rightMargin +0, calculatePaintY (boxplot.MaxAccepted), 0, textHeight -3,
-				Util.TrimDecimals (boxplot.MaxAccepted, 2),
+		printText (graphWidth - rightMargin +xStart + 12,
+				calculatePaintY (bp.MaxAccepted) -textHeight/2,
+				0, textHeight -3,
+				Util.TrimDecimals (bp.MaxAccepted, 2),
+				g, alignTypes.CENTER);
+		g.SetSourceColor (green);
+		printText (graphWidth - rightMargin +xStart +12,
+				calculatePaintY (bp.MinAccepted) +textHeight/2, 0,
+				textHeight -3,
+				Util.TrimDecimals (bp.MinAccepted, 2),
 				g, alignTypes.CENTER);
 	}
 

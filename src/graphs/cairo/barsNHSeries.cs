@@ -611,7 +611,7 @@ public class CairoBarsNHSeries : CairoBars
 		if(cairoBarsGuideManage != null)
 			drawGuides(colorSerieB);
 
-		drawBoxplot ();
+		drawBoxplots ();
 
 		g.SetSourceColor(black);
 		plotBars();

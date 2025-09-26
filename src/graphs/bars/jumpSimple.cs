@@ -178,6 +178,8 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 					eventGraphJumpsStored.personAVGAtSQL,
 					eventGraphJumpsStored.personMINAtSQL));
 
+		cb.PassBoxplot (eventGraphJumpsStored.boxplot);
+
 		if(showBarA && showBarB) //Dja, Djna
 		{
 			List<List<PointF>> barsSecondary_ll = new List<List<PointF>>();

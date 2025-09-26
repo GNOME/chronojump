@@ -203,7 +203,11 @@ public class Jump : Event
 		get { return tv; }
 		set { tv = value; }
 	}
-	
+
+	public double Height {
+		get { return (100 * 4.9 * Math.Pow (UtilAll.DivideSafe (tv, 2.0), 2)); }
+	}
+
 	public double Tc {
 		get { return tc; }
 		set { tc = value; }

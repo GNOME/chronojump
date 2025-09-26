@@ -59,6 +59,7 @@ public abstract class CairoBars : CairoGeneric
 	protected bool usePersonGuides;
 	protected bool useGroupGuides;
 	protected CairoBarsArrow cairoBarsArrow;
+	protected Boxplot boxplot;
 
 	protected Cairo.Context g;
 	protected int lineWidthDefault = 1; //was 2;
@@ -229,6 +230,28 @@ public abstract class CairoBars : CairoGeneric
 		g.LineWidth = 1;
 		*/
 	}
+
+	public void PassBoxplot (Boxplot boxplot)
+	{
+		this.boxplot = boxplot;
+	}
+
+	protected void drawBoxplot ()
+	{
+		if (boxplot == null || ! boxplot.Calculated)
+			return;
+
+		LogB.Information ("boxplot: " + boxplot.ToString ());
+		g.SetSourceColor (green);
+		printText(graphWidth - rightMargin +0, calculatePaintY (boxplot.MinAccepted), 0, textHeight -3,
+				Util.TrimDecimals (boxplot.MinAccepted, 2),
+				g, alignTypes.CENTER);
+		g.SetSourceColor (caramel);
+		printText(graphWidth - rightMargin +0, calculatePaintY (boxplot.MaxAccepted), 0, textHeight -3,
+				Util.TrimDecimals (boxplot.MaxAccepted, 2),
+				g, alignTypes.CENTER);
+	}
+
 
 	public virtual void PassData1Serie (List<PointF> barMain_l,
 			List<Cairo.Color> colorMain_l, List<string> names_l,

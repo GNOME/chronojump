@@ -1779,6 +1779,8 @@ public static class MathUtil
 	// this is R type 8, note R default is 7, see above page for comments
 	public static Tuple<double, double, double> Quartiles (List<double> sorted_l)
 	{
+		// TODO: note list cannot be empty
+
 		int iSize = sorted_l.Count;
 		int iMid = iSize / 2; //this is the mid from a zero based index, eg mid of 7 = 3;
 
@@ -2218,7 +2220,9 @@ public class Boxplot
 	private double fenceHigh;
 	private double minAccepted;
 	private double maxAccepted;
+	private bool calculated; //false if list empty
 
+	// TODO: note list cannot be empty
 	public Boxplot (List<double> dSorted_l)
 	{
 		this.dSorted_l = dSorted_l;
@@ -2227,10 +2231,17 @@ public class Boxplot
 		fenceHigh = 0;
 		minAccepted = 0;
 		maxAccepted = 0;
+		calculated = false;
 	}
 
 	public bool Do ()
 	{
+		if (dSorted_l == null || dSorted_l.Count == 0)
+		{
+			calculated = false;
+			return false;
+		}
+
 		quartiles = MathUtil.Quartiles (dSorted_l);
 		LogB.Information ("quartiles: " + quartiles.ToString ());
 
@@ -2258,6 +2269,7 @@ public class Boxplot
 
 		// note on Tukey when fences are found, quartiles are not re-done
 
+		calculated = true;
 		return true;
 	}
 
@@ -2272,6 +2284,14 @@ public class Boxplot
 		// outliers
 		foreach (double d in dSorted_l)
 			LogB.Information (string.Format ("{0}, is outlier? {1}", d, bp.IsOutlier (d)));
+	}
+
+	public override string ToString () //just to debug
+	{
+		return string.Format ("dSorted_l: {0}\nquartiles: {1}\nminAccepted: {2}\nmaxAccepted:{3}",
+				UtilList.ListDoubleToString (dSorted_l, 1, " "),
+				quartiles, minAccepted, maxAccepted);
+
 	}
 
 	public bool IsOutlier (double d)
@@ -2289,5 +2309,9 @@ public class Boxplot
 
 	public double MaxAccepted {
 		get { return maxAccepted; }
+	}
+
+	public bool Calculated {
+		get { return calculated; }
 	}
 }

@@ -62,6 +62,7 @@ public class PrepareEventGraphJumpSimple
 {
 	//sql data of previous jumps to plot graph and show stats at bottom
 	public List<Jump> jumpsAtSQL;
+	public Boxplot boxplot;
 	
 	public double personMAXAtSQLAllSessions;
 	public double personMAXAtSQL;
@@ -105,13 +106,31 @@ public class PrepareEventGraphJumpSimple
 				allPersons, 	//show names on comments only if "all persons"
 				false); 	//! onlyBestInSession
 
-		Sqlite.Open();
+		// ---- boxplot ---->
+		List<Jump> jumpTemp_l = SqliteJump.SelectJumps (sessionID, personIDTemp, type,
+				Sqlite.Orders_by.BEST, 0, // no limit
+				allPersons, 	//show names on comments only if "all persons"
+				false); 	//! onlyBestInSession
 
+		List<double> dSorted_l = new List<double> ();
+		foreach (Jump jump in jumpTemp_l)
+		{
+			if (showHeights)
+				dSorted_l.Add (jump.Height);
+			else
+				dSorted_l.Add (jump.Tv);
+		}
+		boxplot = new Boxplot (dSorted_l);
+		boxplot.Do ();
+		// <---- boxplot ----
+
+		//TODO: all this maybe will disappear with the boxplot --->
 
 		string sqlSelect = "TV"; //if tc is higher than tv it will be fixed on PrepareJumpSimpleGraph
 		if (showHeights)
 			sqlSelect = "100*4.9*(TV/2)*(TV/2)";
 
+		Sqlite.Open();
 		personMAXAtSQLAllSessions = SqliteSession.SelectMAXEventsOfAType(true, -1, personID, table, type, sqlSelect);
 
 		List<double> personStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
@@ -126,6 +145,8 @@ public class PrepareEventGraphJumpSimple
 		sessionAVGAtSQL = sessionStats[1];
 		sessionMINAtSQL = sessionStats[2];
 	
+		Sqlite.Close();
+		//< --- all this maybe will disappear with the boxplot ----
 		//end of select data from SQL to update graph	
 			
 		this.tv = tv;
@@ -133,8 +154,6 @@ public class PrepareEventGraphJumpSimple
 		this.type = type;
 		this.showHeights = showHeights;
 		this.selectedID = selectedID;
-		
-		Sqlite.Close();
 	}
 
 	~PrepareEventGraphJumpSimple() {}

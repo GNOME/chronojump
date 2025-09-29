@@ -240,6 +240,8 @@ public abstract class CairoBars : CairoGeneric
 
 	protected void drawBoxplots ()
 	{
+		g.SetSourceColor (black);
+
 		//int xStart = 6;
 		int xStart = -6; //to see diff with guides
 		if(usePersonGuides)
@@ -258,18 +260,38 @@ public abstract class CairoBars : CairoGeneric
 			return;
 
 		LogB.Information ("bp: " + bp.ToString ());
-		g.SetSourceColor (caramel);
-		printText (graphWidth - rightMargin +xStart + 12,
-				calculatePaintY (bp.MaxAccepted) -textHeight/2,
-				0, textHeight -3,
-				Util.TrimDecimals (bp.MaxAccepted, 2),
-				g, alignTypes.CENTER);
-		g.SetSourceColor (green);
-		printText (graphWidth - rightMargin +xStart +12,
-				calculatePaintY (bp.MinAccepted) +textHeight/2, 0,
-				textHeight -3,
-				Util.TrimDecimals (bp.MinAccepted, 2),
-				g, alignTypes.CENTER);
+
+		g.LineWidth = 1;
+		int x = graphWidth - rightMargin +xStart +6;
+
+		// iqr rectangle
+		g.Rectangle (x-6, calculatePaintY (bp.Quartiles.Item3),
+				12, calculatePaintY (bp.Quartiles.Item1) -calculatePaintY (bp.Quartiles.Item3));
+		// median
+		g.MoveTo (x-6, calculatePaintY (bp.Quartiles.Item2));
+		g.LineTo (x+6, calculatePaintY (bp.Quartiles.Item2));
+		g.Stroke ();
+
+		// top quartile
+		g.MoveTo (x-6, calculatePaintY (bp.MaxAccepted));
+		g.LineTo (x+6, calculatePaintY (bp.MaxAccepted));
+		g.MoveTo (x, calculatePaintY (bp.MaxAccepted));
+		g.LineTo (x, calculatePaintY (bp.Quartiles.Item3));
+		g.Stroke ();
+
+		// bottom quartile
+		g.MoveTo (x-6, calculatePaintY (bp.MinAccepted));
+		g.LineTo (x+6, calculatePaintY (bp.MinAccepted));
+		g.MoveTo (x, calculatePaintY (bp.Quartiles.Item1));
+		g.LineTo (x, calculatePaintY (bp.MinAccepted));
+		g.Stroke ();
+		// outliers
+		foreach (double d in bp.Outlier_l)
+		{
+			g.MoveTo (x +4, calculatePaintY (d));
+			g.Arc(x, calculatePaintY (d), 4, 0.0, 2.0 * Math.PI); //full circle
+			g.Stroke();
+		}
 	}
 
 

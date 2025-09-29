@@ -2220,6 +2220,7 @@ public class Boxplot
 	private double fenceHigh;
 	private double minAccepted;
 	private double maxAccepted;
+	private List<double> outlier_l;
 	private bool calculated; //false if list empty
 
 	// TODO: note list cannot be empty
@@ -2231,6 +2232,7 @@ public class Boxplot
 		fenceHigh = 0;
 		minAccepted = 0;
 		maxAccepted = 0;
+		outlier_l = new List<double> ();
 		calculated = false;
 	}
 
@@ -2254,16 +2256,20 @@ public class Boxplot
 		{
 			if (dSorted_l[i] >= fenceLow)
 				minAccepted = dSorted_l[i];
-			else
-				break;
+			else {
+				//break;
+				outlier_l.Add (dSorted_l[i]);
+			}
 		}
 
 		for (int i = 0; i < dSorted_l.Count ; i ++)
 		{
 			if (dSorted_l[i] <= fenceHigh)
 				maxAccepted = dSorted_l[i];
-			else
-				break;
+			else {
+				//break;
+				outlier_l.Add (dSorted_l[i]);
+			}
 		}
 		LogB.Information (string.Format ("minAccepted: {0}, maxAccepted: {1}", minAccepted, maxAccepted));
 
@@ -2309,6 +2315,10 @@ public class Boxplot
 
 	public double MaxAccepted {
 		get { return maxAccepted; }
+	}
+
+	public List<double> Outlier_l {
+		get { return outlier_l; }
 	}
 
 	public bool Calculated {

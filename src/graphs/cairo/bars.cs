@@ -194,7 +194,7 @@ public abstract class CairoBars : CairoGeneric
 		if (bp == null || ! bp.Calculated)
 			return;
 
-		LogB.Information ("bp: " + bp.ToString ());
+		//LogB.Information ("bp: " + bp.ToString ());
 
 		g.LineWidth = 1;
 		int x = graphWidth - rightMargin +xStart +6;

@@ -94,6 +94,13 @@ public class PrepareEventGraphJumpSimple
 			bool showBest, int limit,
 			string table, string type, int selectedID)
 	{
+			
+		this.tv = tv;
+		this.tc = tc;
+		this.type = type;
+		this.showHeights = showHeights;
+		this.selectedID = selectedID;
+
 		int personIDTemp = personID;
 		if(allPersons)
 			personIDTemp = -1;
@@ -133,47 +140,25 @@ public class PrepareEventGraphJumpSimple
 		Sqlite.Close();
 		//< --- all this maybe will disappear with the boxplot ----
 		//end of select data from SQL to update graph	
-			
-		this.tv = tv;
-		this.tc = tc;
-		this.type = type;
-		this.showHeights = showHeights;
-		this.selectedID = selectedID;
 	}
 
 	private void boxplotsDo (int sessionID, int personID, bool allPersons, string type)
 	{
-		// person
-		List<Jump> jumpTemp_l = SqliteJump.SelectJumps (sessionID, personID, type,
-				Sqlite.Orders_by.BEST, 0, // no limit
-				allPersons, 	//show names on comments only if "all persons"
-				false); 	//! onlyBestInSession
+		string param = "tv";
+		if (showHeights)
+			param = "100*4.9*(tv/2)*(tv/2)";
 
-		List<double> dSorted_l = new List<double> ();
-		foreach (Jump jump in jumpTemp_l)
-		{
-			if (showHeights)
-				dSorted_l.Add (jump.Height);
-			else
-				dSorted_l.Add (jump.Tv);
-		}
+		// person
+		List<double> dSorted_l = SqliteJump.SelectJumps (param, sessionID, personID, type,
+				Sqlite.Orders_by.BEST, 0, // no limit
+				false); 	//! onlyBestInSession
 		boxplotPerson = new Boxplot (dSorted_l);
 		boxplotPerson.Do ();
 
 		// session
-		jumpTemp_l = SqliteJump.SelectJumps (sessionID, -1, type,
+		dSorted_l = SqliteJump.SelectJumps (param, sessionID, -1, type,
 				Sqlite.Orders_by.BEST, 0, // no limit
-				allPersons, 	//show names on comments only if "all persons"
 				false); 	//! onlyBestInSession
-
-		dSorted_l = new List<double> ();
-		foreach (Jump jump in jumpTemp_l)
-		{
-			if (showHeights)
-				dSorted_l.Add (jump.Height);
-			else
-				dSorted_l.Add (jump.Tv);
-		}
 		boxplotSession = new Boxplot (dSorted_l);
 		boxplotSession.Do ();
 	}

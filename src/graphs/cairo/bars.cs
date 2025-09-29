@@ -142,94 +142,22 @@ public abstract class CairoBars : CairoGeneric
 		this.cairoBarsGuideManage = cairoBarsGuideManage;
 	}
 
-	protected void drawGuides (Cairo.Color color)
-	{
-		g.SetSourceColor(color);
-
-		double personMax = cairoBarsGuideManage.GetTipPersonMax();
-		double personAvg = cairoBarsGuideManage.GetTipPersonAvg();
-		double personMin = cairoBarsGuideManage.GetTipPersonMin();
-		double personMaxG = calculatePaintY(personMax);
-		double personAvgG = calculatePaintY(personAvg);
-		double personMinG = calculatePaintY(personMin);
-
-		double groupMax = cairoBarsGuideManage.GetTipGroupMax();
-		double groupAvg = cairoBarsGuideManage.GetTipGroupAvg();
-		double groupMin = cairoBarsGuideManage.GetTipGroupMin();
-		double groupMaxG = calculatePaintY(groupMax);
-		double groupAvgG = calculatePaintY(groupAvg);
-		double groupMinG = calculatePaintY(groupMin);
-
-		int xStart = 6;
-		if(usePersonGuides)
-			drawGuidesDo (xStart, "image_person_outline.png", color,
-					personMax, personAvg, personMin,
-					personMaxG, personAvgG, personMinG);
-
-		if(usePersonGuides && useGroupGuides)
-			xStart += (24 + 8);
-
-		if(useGroupGuides)
-			drawGuidesDo (xStart, "image_group_outline.png", color,
-					groupMax, groupAvg, groupMin,
-					groupMaxG, groupAvgG, groupMinG);
-	}
-
 	public void PassArrowData (CairoBarsArrow cairoBarsArrow)
 	{
 		this.cairoBarsArrow = cairoBarsArrow;
 	}
 
-
-	protected void drawGuidesDo (int xStart, string imageStr, Cairo.Color color,
-			double top, double avg, double bottom, double topG, double avgG, double bottomG)
+	protected void drawPersonIcon (int xStart)
 	{
-		Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + imageStr);
+		Gdk.Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_person_outline.png");
 		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf, graphWidth -rightMargin +xStart, topMargin -24);
 		g.Paint();
-
-		if(top != bottom) // if only 1 value (top == bottom), do not draw the arrow
-		{
-			//draw arrow
-			plotArrowPassingGraphPoints (g, color, true,
-					graphWidth -rightMargin +xStart +12,
-					bottomG,
-					graphWidth -rightMargin +xStart +12,
-					topG,
-					false, true, 0);
-
-			//print max/min
-			printText(graphWidth - rightMargin +xStart +12, topG -textHeight/2, 0, textHeight -3,
-					Util.TrimDecimals(top, 2),
-					g, alignTypes.CENTER);
-			printText(graphWidth - rightMargin +xStart +12, bottomG +textHeight/2, 0, textHeight -3,
-					Util.TrimDecimals(bottom, 2),
-					g, alignTypes.CENTER);
-		}
-
-		//print avg
-		g.SetSourceColor(red);
-		Cairo.TextExtents te;
-		te = g.TextExtents(Util.TrimDecimals(avg,2));
-
-		g.SetSourceColor(white);
-		g.Rectangle(graphWidth - rightMargin +xStart +12 -te.Width/2 -1,
-				avgG -6,
-				te.Width +2, 12);
-		g.Fill();
-		g.SetSourceColor(red);
-		printText(graphWidth - rightMargin +xStart +12, avgG -1, 0, textHeight -3,
-				Util.TrimDecimals(avg, 2),
-				g, alignTypes.CENTER);
-
-		/*
-		//draw the avg red tick
-		g.LineWidth = 2;
-		g.MoveTo(graphWidth - rightMargin +xStart +6, avgG);
-		g.LineTo(graphWidth - rightMargin +xStart +18, avgG);
-		g.Stroke ();
-		g.LineWidth = 1;
-		*/
+	}
+	protected void drawGroupIcon (int xStart)
+	{
+		Gdk.Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_group_outline.png");
+		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf, graphWidth -rightMargin +xStart, topMargin -24);
+		g.Paint();
 	}
 
 	public void PassBoxplots (Boxplot boxplotPerson, Boxplot boxplotSession)
@@ -238,20 +166,27 @@ public abstract class CairoBars : CairoGeneric
 		this.boxplotSession = boxplotSession;
 	}
 
-	protected void drawBoxplots ()
+	protected void drawBoxplots (Cairo.Color color)
 	{
-		g.SetSourceColor (black);
+		g.SetSourceColor (color);
 
-		//int xStart = 6;
-		int xStart = -6; //to see diff with guides
+		int xStart = 6;
+
 		if(usePersonGuides)
-			drawBoxplot (boxplotPerson, xStart);
+			drawBoxplot (boxplotPerson, xStart+6);
 
 		if(usePersonGuides && useGroupGuides)
 			xStart += (24 + 8);
 
 		if(useGroupGuides)
-			drawBoxplot (boxplotSession, xStart);
+			drawBoxplot (boxplotSession, xStart+6);
+
+		// drawn here because if done above then boxplots are not drawn
+		if (boxplotPerson != null && boxplotPerson.Calculated)
+			drawPersonIcon (6);
+
+		if (boxplotSession != null && boxplotSession.Calculated)
+			drawGroupIcon (xStart);
 	}
 
 	protected void drawBoxplot (Boxplot bp, int xStart)

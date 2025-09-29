@@ -307,10 +307,12 @@ public class CairoBars1Series : CairoBars
 			paintGridDo (gridTypes.HORIZONTALLINES, true);
 		//g.SetFontSize(textHeight);
 
+		/*
 		if(cairoBarsGuideManage != null)
 			drawGuides(colorSerieA);
+			*/
 
-		drawBoxplots ();
+		drawBoxplots (colorSerieA);
 
 		g.SetSourceColor(black);
 		plotBars ();

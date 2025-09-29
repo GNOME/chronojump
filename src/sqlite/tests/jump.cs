@@ -238,79 +238,112 @@ class SqliteJump : SqliteTests
 	 * limit 0 means no limit (limit negative is the last results)
 	 * personNameInComment is used to be able to display names in graphs
 	 *   because event.PersonName makes individual SQL SELECTs
+	 * this returns a List<Jump>
 	 */
 	public static List<Jump> SelectJumps (int sID, int pID, string jumpType, Orders_by order, int limit, bool personNameInComment, bool onlyBestInSession)
 	{
-	  Sqlite.Open(); //  -------------------->
+		Sqlite.Open(); //  -------------------->
 
-	  //jumps previous to DB 1.82 have no datetime on jump
-	  //find session datetime for that jumps
-	  List<Session> session_l = SqliteSession.SelectAll(true, Sqlite.Orders_by.DEFAULT);
+		//jumps previous to DB 1.82 have no datetime on jump
+		//find session datetime for that jumps
+		List<Session> session_l = SqliteSession.SelectAll(true, Sqlite.Orders_by.DEFAULT);
 
-	  //for personNameInComment
-	  List<Person> person_l =
+		//for personNameInComment
+		List<Person> person_l =
 			SqlitePersonSession.SelectCurrentSessionPersonsAsList(true, sID);
 
-	  string andString = "";
-	  string sessionString = "";
-	  if(sID != -1)
-	  {
-		  sessionString = " sessionID = " + sID.ToString();
-		  andString = " AND ";
-	  }
+		dbcmd.CommandText = "SELECT * FROM jump " +
+			selectDo (sID, pID, jumpType, order, limit, onlyBestInSession);
 
-	  string personString = "";
-	  if(pID != -1)
-	  {
-		  personString = andString + " personID = " + pID.ToString();
-		  andString = " AND ";
-	  }
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
 
-	  string jumpTypeString = "";
-	  if(jumpType != "")
-	  {
-		  jumpTypeString = andString + " jump.type = '" + jumpType + "' ";
-		  andString = " AND ";
-	  }
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
 
-	  string whereString = "";
-	  if(sessionString != "" || personString != "" || jumpTypeString != "")
-		  whereString = " WHERE ";
+		List<Jump> jmp_l = DataReaderToJump (reader, session_l, person_l, personNameInComment);
 
-	  string orderByString = " ORDER BY jump.uniqueID "; //ID_ASC
-	  if(order == Orders_by.ID_DESC)
-		  orderByString = " ORDER BY jump.uniqueID DESC ";
-	  if(onlyBestInSession)
-		  orderByString = " ORDER BY jump.sessionID, jump.Tv DESC ";
-	  if(order == Orders_by.BEST)
-		  orderByString = " ORDER BY jump.Tv ";
+		reader.Close();
+		Sqlite.Close(); // <--------------------
 
-	  string limitString = "";
-	  if(limit > 0)
-		  limitString = " LIMIT " + limit;
+		//get last values on negative limit
+		if (limit < 0 && jmp_l.Count + limit >= 0)
+			jmp_l = jmp_l.GetRange (jmp_l.Count + limit, -1 * limit);
 
+		return jmp_l;
+	}
 
-	  // Selecciona les dades de tots els salts
-	  dbcmd.CommandText = "SELECT * FROM jump " +
-		  whereString + sessionString + personString + jumpTypeString +
-		  orderByString + limitString;
+	// same as above but this returns a List<double>, and without the personNameInComment
+	public static List<double> SelectJumps (string selectParam, int sID, int pID, string jumpType, Orders_by order, int limit, bool onlyBestInSession)
+	{
+		Sqlite.Open(); //  -------------------->
 
-	  LogB.SQL(dbcmd.CommandText.ToString());
-	  dbcmd.ExecuteNonQuery();
+		dbcmd.CommandText = "SELECT " + selectParam + " FROM jump " +
+			selectDo (sID, pID, jumpType, order, limit, onlyBestInSession);
 
-	  SQLiteDataReader reader;
-	  reader = dbcmd.ExecuteReader();
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
 
-	  List<Jump> jmp_l = DataReaderToJump (reader, session_l, person_l, personNameInComment);
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
 
-	  reader.Close();
-	  Sqlite.Close(); // <--------------------
+		//List<Jump> jmp_l = DataReaderToJump (reader, session_l);
+		List<double> d_l = new List<double> ();
+		while (reader.Read())
+			d_l.Add (Convert.ToDouble (Util.ChangeDecimalSeparator (reader [0].ToString ())));
 
-	  //get last values on negative limit
-	  if (limit < 0 && jmp_l.Count + limit >= 0)
-		  jmp_l = jmp_l.GetRange (jmp_l.Count + limit, -1 * limit);
+		reader.Close();
+		Sqlite.Close(); // <--------------------
 
-	  return jmp_l;
+		//get last values on negative limit
+		if (limit < 0 && d_l.Count + limit >= 0)
+			d_l = d_l.GetRange (d_l.Count + limit, -1 * limit);
+
+		return d_l;
+	}
+
+	private static string selectDo (int sID, int pID, string jumpType, Orders_by order, int limit, bool onlyBestInSession)
+	{
+		string andString = "";
+		string sessionString = "";
+		if(sID != -1)
+		{
+			sessionString = " sessionID = " + sID.ToString();
+			andString = " AND ";
+		}
+
+		string personString = "";
+		if(pID != -1)
+		{
+			personString = andString + " personID = " + pID.ToString();
+			andString = " AND ";
+		}
+
+		string jumpTypeString = "";
+		if(jumpType != "")
+		{
+			jumpTypeString = andString + " jump.type = '" + jumpType + "' ";
+			andString = " AND ";
+		}
+
+		string whereString = "";
+		if(sessionString != "" || personString != "" || jumpTypeString != "")
+			whereString = " WHERE ";
+
+		string orderByString = " ORDER BY jump.uniqueID "; //ID_ASC
+		if(order == Orders_by.ID_DESC)
+			orderByString = " ORDER BY jump.uniqueID DESC ";
+		if(onlyBestInSession)
+			orderByString = " ORDER BY jump.sessionID, jump.Tv DESC ";
+		if(order == Orders_by.BEST)
+			orderByString = " ORDER BY jump.Tv ";
+
+		string limitString = "";
+		if(limit > 0)
+			limitString = " LIMIT " + limit;
+
+		return whereString + sessionString + personString + jumpTypeString +
+			orderByString + limitString;
 	}
 
 	//pID can be -1 for all

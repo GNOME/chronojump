@@ -1427,6 +1427,9 @@ public partial class ChronoJumpWindow
 				"", //"/tmp/forceEncoderPPS1.csv", // csvFile
 				10); // seconds
 		*/
+
+		//MathUtil.QuartilesTest ();
+		Boxplot.Test ();
     }
 
     /// <summary>

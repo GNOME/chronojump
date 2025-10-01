@@ -127,6 +127,8 @@ public class EncoderPTForceCaptureManage : EncoderPTCaptureManage
 		return true;
 	}
 
+	//TODO: implement: sendEndCaptureForceSensorFirstCapture
+
 	public override void Capture ()
 	{
 		double timePre = -1;

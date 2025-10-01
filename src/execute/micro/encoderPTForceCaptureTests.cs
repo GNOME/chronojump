@@ -206,6 +206,45 @@ public class EncoderPTForceCaptureTestsTextEncCountUp: EncoderPTForceCaptureTest
 	}
 }
 
+
+/*
+// this sends 20 relative times and then the diff of this 20
+public class EncoderPTForceCaptureTestsTextRelAndSum: EncoderPTForceCaptureTests
+{
+	private int debugTextCount;
+
+	public EncoderPTForceCaptureTestsTextRelAndSum (string portName)
+	{
+		this.portName = portName;
+
+		cancel = false;
+		startCaptureStr = "start_capture_textEncRelAndSum:";
+		bufferBinaryBytesToReadAtLeast = -1; // unused
+
+		if (micro == null || micro.PortName != portName || micro.Bauds != bauds)
+			micro = new Micro (portName, bauds);
+
+		Reset ();
+	}
+
+	protected override bool readSample ()
+	{
+		micro.BufferInit ();
+		int bytesRead = 0;
+		try {
+			bytesRead = micro.ReadWithBuffer (0, 5); //is this 5 bytes buffer read useful at all?
+		}
+		catch (Exception ex)
+		{
+			if(ex is System.IO.IOException || ex is System.TimeoutException)
+				LogB.Information ("catched on readBinarySampleTesting port.Read ()");
+
+			return false;
+		}
+	}
+}
+*/
+	
 // this use to FAIL at 1500 receivedN aprox
 public class EncoderPTForceCaptureTestsBinaryEncoder5Bytes: EncoderPTForceCaptureTests
 {

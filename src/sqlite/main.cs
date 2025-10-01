@@ -1,4 +1,13 @@
 /*
+all the persons will have an uuid (string)
+it will be "machineID;64 bits like machineID"
+it will help to know at which machineID it has been created that person
+
+Need a DB name. That will be complimentary to machineID to solve problems
+for example on a merge, we will know from which computers are the persons created
+*/
+
+/*
  * This file is part of ChronoJump
  *
  * ChronoJump is free software; you can redistribute it and/or modify

@@ -2252,23 +2252,22 @@ public class Boxplot
 		fenceHigh = quartiles.Item3 + 1.5*iqr;
 		LogB.Information (string.Format ("fences: {0}, {1}", fenceLow, fenceHigh));
 
-		for (int i = dSorted_l.Count -1; i >= 0 ; i --)
-		{
-			if (dSorted_l[i] >= fenceLow)
-				minAccepted = dSorted_l[i];
-			else {
-				//break;
-				outlier_l.Add (dSorted_l[i]);
-			}
-		}
-
 		for (int i = 0; i < dSorted_l.Count ; i ++)
 		{
-			if (dSorted_l[i] <= fenceHigh)
-				maxAccepted = dSorted_l[i];
-			else {
-				//break;
+			if (dSorted_l[i] < fenceLow)
 				outlier_l.Add (dSorted_l[i]);
+			else {
+				minAccepted = dSorted_l[i];
+				break;
+			}
+		}
+		for (int i = dSorted_l.Count -1; i >= 0 ; i --)
+		{
+			if (dSorted_l[i] > fenceHigh)
+				outlier_l.Add (dSorted_l[i]);
+			else {
+				maxAccepted = dSorted_l[i];
+				break;
 			}
 		}
 		LogB.Information (string.Format ("minAccepted: {0}, maxAccepted: {1}", minAccepted, maxAccepted));

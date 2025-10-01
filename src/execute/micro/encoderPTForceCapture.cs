@@ -115,7 +115,27 @@ public class EncoderPTForceCapture: ArduinoCapture
 
 		LogB.Information ("version: |" + firmwareVersion + "|");
 		double versionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(firmwareVersion));
-		
+	
+		/*
+// set_freq, only for: SimuladoComunicacio_28_ago.ino	
+		//if(! sendCommand(string.Format("set_freq:{0};", 20000), "Catched at set_freq"))
+		if(! sendCommand(string.Format("set_freq:{0};", 1000), "Catched at set_freq"))
+		{
+			//runEncoderProcessError = true;
+			LogB.Information ("Error at set_freq");
+			return false;
+		}
+
+		//read confirmation data
+		if(! waitResponse ("freq set to", false, 2000, false))
+		{
+			//runEncoderProcessError = true;
+			LogB.Information ("Error at receive freq set to");
+			return false;
+		}
+// <--- set_freq
+ */
+
 		/* not implemented yet
 		if(! sendCommand(string.Format("set_pps:{0};", runEncoderPPS), "Catched at set_pps"))
 		{

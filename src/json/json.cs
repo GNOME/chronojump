@@ -1,3 +1,5 @@
+//fix eduroam problems on blanquerna
+
 /*
  * This file is part of ChronoJump
  *
@@ -27,6 +29,7 @@ using System.Json;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic; //Dictionary
+using System.Diagnostics; //Stopwatch
 using Mono.Unix;
 
 
@@ -233,6 +236,8 @@ public class Json
 		using (var sr = new StreamReader(response.GetResponseStream()))
 		{
 			responseFromServer = sr.ReadToEnd();
+
+			//potser el problema era aquí i no a authenticate
 		}
 
 		LogB.Information("getNewsServerDatetime:" + responseFromServer);
@@ -600,7 +605,52 @@ public class Json
 		// Read the response stream and save the content in authToken
 		using (var sr = new StreamReader(response.GetResponseStream()))
 		{
-			authToken = sr.ReadToEnd();
+			//authToken = sr.ReadToEnd();
+
+			/* I had a crash here on blanquerna eduroam:
+			 * Unhandled exception. System.IO.IOException: Unable to read data from the transport connection: Expiró el tiempo de conexión.
+ ---> System.Net.Sockets.SocketException (110): Expiró el tiempo de conexión
+   at System.Net.Sockets.NetworkStream.Read(Span`1 buffer)
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.NetworkStream.Read(Span`1 buffer)
+   at System.Net.Http.HttpConnection.Read(Span`1 destination)
+   at System.Net.Http.HttpConnection.ContentLengthReadStream.Read(Span`1 buffer)
+   at System.IO.StreamReader.ReadBuffer()
+   at System.IO.StreamReader.ReadToEnd()
+   at Json.GetNewsDatetime() in /home/xavier/informatica/progs_meus/chronojump/src/json/json.cs:line 235
+   at ChronoJumpWindow.getNewsDatetime() in /home/xavier/informatica/progs_meus/chronojump/src/gui/app1/chronojump.cs:line 7164
+   at ChronoJumpWindow.pingAndNewsAtStart() in /home/xavier/informatica/progs_meus/chronojump/src/gui/app1/chronojump.cs:line 7129
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+*/
+			/*maybe good to do:
+			 * https://stackoverflow.com/questions/45756279/how-to-set-a-timeout-for-a-streamreader-operation-that-reads-a-file
+			 * ReadToEndAsync()
+			 *
+			 * this:
+			 */
+
+			string holder;
+			Stopwatch sw = new Stopwatch();
+			sw.Start();
+			while ((holder = sr.ReadLine()) != null)
+			{
+				//if (holder.Contains("some piece of text that I'm looking for"))
+				if (holder != "")
+				{
+					//do something
+					authToken = holder;
+					LogB.Information ("authenticate ok");
+					break;
+				}
+				//if (sw.ElapsedMilliseconds > 3000) { break; }
+				if (sw.ElapsedMilliseconds > 5000) {
+					LogB.Error ("authenticate tiemout 5s");
+					break; }
+			}
+			sw.Stop();
+			sr.Close();
 		}
 		if (string.IsNullOrEmpty(authToken)) {
 			LogB.Error("authToken retrieved, but is empty or null");

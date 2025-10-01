@@ -116,7 +116,10 @@ public class PrepareEventGraphJumpSimple
 
 		boxplotsDo (sessionID, personID, allPersons, type);
 
-		//TODO: all this maybe will disappear with the boxplot --->
+
+
+// check this...
+		//TODO: all this maybe will disappear with the boxplot NOTE sessionMAXAtSQL is needed to display correctly the top Y (to be able to see a group boxplot if showing person (and person jumped low))--->
 
 		string sqlSelect = "TV"; //if tc is higher than tv it will be fixed on PrepareJumpSimpleGraph
 		if (showHeights)

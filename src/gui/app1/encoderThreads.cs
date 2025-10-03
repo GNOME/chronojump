@@ -72,7 +72,8 @@ public partial class ChronoJumpWindow
 
 			if(action == encoderActions.CAPTURE)
 			{
-				encoderThreadStart_CAPTURE ();
+				if (! encoderThreadStart_CAPTURE ())
+					return; //to avoid encoderThread.Start() without encoderThread instantiated
 			}
 			else { //action == encoderActions.CAPTURE_IM)
 				encoderThreadStart_CAPTUREIM ();
@@ -125,7 +126,7 @@ public partial class ChronoJumpWindow
 		encoderThreadBG.Start();
 	}
 
-	private void encoderThreadStart_CAPTURE ()
+	private bool encoderThreadStart_CAPTURE ()
 	{
 		webcamManage = new WebcamManage();
 		if(webcamStart (WebcamManage.GuiContactsEncoder.ENCODER, 1))
@@ -219,7 +220,7 @@ public partial class ChronoJumpWindow
 			encoder_pulsebar_capture.Fraction = 1;
 			fullscreen_capture_progressbar.Fraction = 1;
 
-			return;
+			return false;
 		}
 
 		if(current_mode == Constants.Modes.POWERINERTIAL && eCaptureInertialBG != null)
@@ -272,6 +273,8 @@ public partial class ChronoJumpWindow
 
 		encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurvesAC));
+
+		return true;
 	}
 
 	private void encoderThreadStart_CAPTUREIM ()

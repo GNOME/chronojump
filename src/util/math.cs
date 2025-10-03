@@ -2220,6 +2220,7 @@ public class Boxplot
 	private double fenceHigh;
 	private double minAccepted;
 	private double maxAccepted;
+	private double maxAbsolute; // can be an outlier
 	private List<double> outlier_l;
 	private bool calculated; //false if list empty
 
@@ -2232,6 +2233,7 @@ public class Boxplot
 		fenceHigh = 0;
 		minAccepted = 0;
 		maxAccepted = 0;
+		maxAbsolute = 0;
 		outlier_l = new List<double> ();
 		calculated = false;
 	}
@@ -2270,6 +2272,10 @@ public class Boxplot
 				break;
 			}
 		}
+
+		if (dSorted_l.Count > 1)
+			maxAbsolute = dSorted_l[dSorted_l.Count -1];
+
 		LogB.Information (string.Format ("minAccepted: {0}, maxAccepted: {1}", minAccepted, maxAccepted));
 
 		// note on Tukey when fences are found, quartiles are not re-done
@@ -2314,6 +2320,10 @@ public class Boxplot
 
 	public double MaxAccepted {
 		get { return maxAccepted; }
+	}
+
+	public double MaxAbsolute {
+		get { return maxAbsolute; }
 	}
 
 	public List<double> Outlier_l {

@@ -162,6 +162,8 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 					eventGraphJumpsRjStored.personMINAtSQL
 					));
 
+		cb.PassBoxplots (eventGraphJumpsRjStored.boxplotPerson, eventGraphJumpsRjStored.boxplotSession);
+
 		if (UseHeights)
 		{
 			cb.PassData1Serie (pointB_l,

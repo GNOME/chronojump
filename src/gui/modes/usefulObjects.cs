@@ -173,6 +173,9 @@ public class PrepareEventGraphJumpReactive
 {
 	//sql data of previous jumps to plot graph and show stats at bottom
 	public List<JumpRj> jumpsAtSQL;
+	public Boxplot boxplotPerson;
+	public Boxplot boxplotSession;
+
 	public string type; //jumpType (useful to know if "all jumps" (type == "")
 
 	public double personMAXAtSQL;
@@ -226,7 +229,8 @@ public class PrepareEventGraphJumpReactive
 		} else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
 		{
 			orderBy = Sqlite.Orders_by.BEST2;
-			sqlRangeSelect = "tvAvg/tcAvg";
+			//sqlRangeSelect = "tvAvg/tcAvg";
+			sqlRangeSelect = "tvAvg"; //bars show tvAvg (not Q), so use this on Y
 		} else // if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST3)
 		{
 			orderBy = Sqlite.Orders_by.BEST3;
@@ -236,6 +240,8 @@ public class PrepareEventGraphJumpReactive
 		LogB.Information (string.Format ("LIMIT: " + limit));
 		jumpsAtSQL = SqliteJumpRj.SelectJumps (true, sessionID, personIDTemp, type,
 				orderBy, limit, allPersons); 	//show names on comments only if "all persons"
+
+		boxplotsDo (sqlRangeSelect, sessionID, personID, allPersons, type);
 
 		List<double> personStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
 				true, sessionID, personID, Constants.JumpRjTable, type, sqlRangeSelect);
@@ -250,6 +256,21 @@ public class PrepareEventGraphJumpReactive
 		sessionMINAtSQL = sessionStats[2];
 
 		Sqlite.Close(); // < -----------------
+	}
+
+	private void boxplotsDo (string param, int sessionID, int personID, bool allPersons, string type)
+	{
+		// person
+		List<double> dSorted_l = SqliteJumpRj.SelectJumps (true, param, sessionID, personID, type,
+				Sqlite.Orders_by.BEST, 0); // no limit
+		boxplotPerson = new Boxplot (dSorted_l);
+		boxplotPerson.Do ();
+
+		// session
+		dSorted_l = SqliteJumpRj.SelectJumps (true, param, sessionID, -1, type,
+				Sqlite.Orders_by.BEST, 0); // no limit
+		boxplotSession = new Boxplot (dSorted_l);
+		boxplotSession.Do ();
 	}
 
 	~PrepareEventGraphJumpReactive () {}

@@ -80,6 +80,8 @@ public class EditEventWindow
 	
 	protected Gtk.Label label_mistakes;
 	protected Gtk.SpinButton spin_mistakes;
+	protected Gtk.Label label_date;
+	protected Gtk.Label label_date_value;
 
 	// force sensor
 	protected Gtk.Label label_forceSensor_capture;
@@ -370,6 +372,9 @@ public class EditEventWindow
 			label_mistakes.Hide();
 			spin_mistakes.Hide();
 		}
+
+		label_date.Hide();
+		label_date_value.Hide();
 
 		if (showDescription) {
 			//also remove new line for old descriptions that used a textview
@@ -876,6 +881,8 @@ public class EditEventWindow
 
 		label_mistakes = (Gtk.Label) builder.GetObject ("label_mistakes");
 		spin_mistakes = (Gtk.SpinButton) builder.GetObject ("spin_mistakes");
+		label_date = (Gtk.Label) builder.GetObject ("label_date");
+		label_date_value = (Gtk.Label) builder.GetObject ("label_date_value");
 
 		label_forceSensor_capture = (Gtk.Label) builder.GetObject ("label_forceSensor_capture");
 		box_forceSensor_capture = (Gtk.Box) builder.GetObject ("box_forceSensor_capture");

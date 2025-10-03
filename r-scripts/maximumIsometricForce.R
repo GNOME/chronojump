@@ -177,6 +177,8 @@ getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex
 					   , previousForce = originalTest$force[2]
 					   , timeShift = FALSE)
 	    }
+	    
+	    print(paste( "sdStartSample:", sdStartSample, "sdStartTime:", originalTest$time[sdStartSample] ) )
     }
 
     #If Roptions.txt does have endSample values greater than 1 it means that the user has selected a range
@@ -891,17 +893,32 @@ getStartSampleBySDMethod <- function(test, rfd, threshold = 5)
     print("On getStartSampleBySDMethod")
     # The onset is always before the maximum force
     maxSample = which.max(test$force)
-    #finding how many samples are needed for having a second of signal. TODO: Study if 1 second is a good parameter
-    previousSamples = which.min(abs(test$time - 1))
+    #finding how many samples are needed for having a second of signal.
+    #previousSamples is the sample with a time value closest to (1 + value of first sample)
+    #TODO: Study if 1 second is a good parameter
+    previousSamples = which.min(abs(test$time - test$time[1] - 1) )
     print( paste( "previousSamples:", previousSamples) )
+    minSD = sd(1:previousSamples)
+    minSDSample = previousSamples
+    for(currentSample in previousSamples:maxSample) {
+        currentSD = sd( test$force[ (currentSample-previousSamples +1):currentSample ])
+        if (currentSD < minSD) {
+            minSD = currentSD
+            minSDSample = currentSample      
+        }
+    }
+    print(paste("minSDSample: ", minSDSample, "SD:", minSD))
+    print(paste( "Most stable range: ", test$time[minSDSample - previousSamples +1], ":", test$time[minSDSample], "SD:", minSD ) )
+
     currentSample = previousSamples +1
-    # Steady force previous to the increase. We are searching for the force that is greater that previous force + increase.
-    previousMeanForce = mean(test$force[(currentSample - previousSamples):currentSample])
+    # Steady force previous to the increase. We are searching for the force that is greater than previous force + increase.
+    #previousMeanForce = mean(test$force[(currentSample - previousSamples):currentSample])
+    previousMeanForce = mean(test$force[(minSDSample - previousSamples +1):minSDSample])
     # Increment of the force that marks the onset. Tthreshold times the SD
-    increment = threshold * sd(test$force[currentSample:(currentSample - previousSamples)] )
+    #increment = threshold * sd(test$force[currentSample:(currentSample - previousSamples)] )
+    increment = threshold * minSD
     # The threshold that the force must pass to consider the onset of the increment
     limit = previousMeanForce + increment
-
     startSampleDefined = FALSE
     while( (currentSample < maxSample))
     {
@@ -913,9 +930,9 @@ getStartSampleBySDMethod <- function(test, rfd, threshold = 5)
         # Check if the force is beyond the limit
         if ( test$force[currentSample] > limit ) 
         {
-		startSample = currentSample
-		startSampleDefined = TRUE
-		print(startSample)
+    		startSample = currentSample
+    		startSampleDefined = TRUE
+    		print(startSample)
         }
     }
     

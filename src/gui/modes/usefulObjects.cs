@@ -115,34 +115,6 @@ public class PrepareEventGraphJumpSimple
 				false); 	//! onlyBestInSession
 
 		boxplotsDo (sessionID, personID, allPersons, type);
-
-
-
-// check this...
-		//TODO: all this maybe will disappear with the boxplot NOTE sessionMAXAtSQL is needed to display correctly the top Y (to be able to see a group boxplot if showing person (and person jumped low))--->
-
-		string sqlSelect = "TV"; //if tc is higher than tv it will be fixed on PrepareJumpSimpleGraph
-		if (showHeights)
-			sqlSelect = "100*4.9*(TV/2)*(TV/2)";
-
-		Sqlite.Open();
-		personMAXAtSQLAllSessions = SqliteSession.SelectMAXEventsOfAType(true, -1, personID, table, type, sqlSelect);
-
-		List<double> personStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
-				true, sessionID, personID, table, type, sqlSelect);
-		personMAXAtSQL = personStats[0];
-		personAVGAtSQL = personStats[1];
-		personMINAtSQL = personStats[2];
-
-		List<double> sessionStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
-				true, sessionID, -1, table, type, sqlSelect);
-		sessionMAXAtSQL = sessionStats[0];
-		sessionAVGAtSQL = sessionStats[1];
-		sessionMINAtSQL = sessionStats[2];
-	
-		Sqlite.Close();
-		//< --- all this maybe will disappear with the boxplot ----
-		//end of select data from SQL to update graph	
 	}
 
 	private void boxplotsDo (int sessionID, int personID, bool allPersons, string type)
@@ -242,18 +214,6 @@ public class PrepareEventGraphJumpReactive
 				orderBy, limit, allPersons); 	//show names on comments only if "all persons"
 
 		boxplotsDo (sqlRangeSelect, sessionID, personID, allPersons, type);
-
-		List<double> personStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
-				true, sessionID, personID, Constants.JumpRjTable, type, sqlRangeSelect);
-		personMAXAtSQL = personStats[0];
-		personAVGAtSQL = personStats[1];
-		personMINAtSQL = personStats[2];
-
-		List<double> sessionStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
-				true, sessionID, -1, Constants.JumpRjTable, type, sqlRangeSelect);
-		sessionMAXAtSQL = sessionStats[0];
-		sessionAVGAtSQL = sessionStats[1];
-		sessionMINAtSQL = sessionStats[2];
 
 		Sqlite.Close(); // < -----------------
 	}

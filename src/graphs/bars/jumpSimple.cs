@@ -167,17 +167,6 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 		cb.Id_l = id_l;
 		cb.PersonIcon_l = personIcon_l;
 
-		cb.PassGuidesData (new CairoBarsGuideManage(
-					//! ShowPersonNames, true, //usePersonGuides, useGroupGuides
-					true, true, //usePersonGuides, useGroupGuides
-					eventGraphJumpsStored.sessionMAXAtSQL,
-					eventGraphJumpsStored.sessionAVGAtSQL,
-					eventGraphJumpsStored.sessionMINAtSQL,
-					eventGraphJumpsStored.personMAXAtSQLAllSessions,
-					eventGraphJumpsStored.personMAXAtSQL,
-					eventGraphJumpsStored.personAVGAtSQL,
-					eventGraphJumpsStored.personMINAtSQL));
-
 		cb.PassBoxplots (eventGraphJumpsStored.boxplotPerson, eventGraphJumpsStored.boxplotSession);
 
 		if(showBarA && showBarB) //Dja, Djna

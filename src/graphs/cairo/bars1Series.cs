@@ -81,6 +81,9 @@ public class CairoBars1Series : CairoBars
 		if(cairoBarsGuideManage != null  && cairoBarsGuideManage.GetMax() > maxY)
 			maxY = cairoBarsGuideManage.GetMax();
 
+		if (boxplotSession != null && boxplotSession.MaxAbsolute > maxY)
+			maxY = boxplotSession.MaxAbsolute;
+
 		if(maxIntersession >= maxY)
 			maxY = maxIntersession;
 

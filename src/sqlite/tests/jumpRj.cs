@@ -123,6 +123,62 @@ class SqliteJumpRj : SqliteJump
 		List<Person> person_l =
 			SqlitePersonSession.SelectCurrentSessionPersonsAsList(true, sessionID);
 
+		dbcmd.CommandText = "SELECT * FROM jumpRj " +
+			selectDo (sessionID, personID, filterType, order, limit);
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		List<JumpRj> jmpRj_l = DataReaderToJumpRj(reader, session_l, person_l, personNameInComment);
+
+		reader.Close();
+
+		if(!dbconOpened)
+			Sqlite.Close();
+
+		//get last values on negative limit
+		if (limit < 0 && jmpRj_l.Count + limit >= 0)
+			jmpRj_l = jmpRj_l.GetRange (jmpRj_l.Count + limit, -1 * limit);
+
+		return jmpRj_l;
+	}
+
+	// limit 0 means no limit (limit negative is the last results)
+	public static List<double> SelectJumps (bool dbconOpened, string selectParam, int sessionID, int personID, string filterType, Orders_by order, int limit)
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+
+		dbcmd.CommandText = "SELECT " + selectParam + " FROM jumpRj " +
+			selectDo (sessionID, personID, filterType, order, limit);
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		List<double> d_l = new List<double> ();
+		while (reader.Read())
+			d_l.Add (Convert.ToDouble (Util.ChangeDecimalSeparator (reader [0].ToString ())));
+
+		reader.Close();
+
+		if(!dbconOpened)
+			Sqlite.Close();
+
+		//get last values on negative limit
+		if (limit < 0 && d_l.Count + limit >= 0)
+			d_l = d_l.GetRange (d_l.Count + limit, -1 * limit);
+
+		return d_l;
+	}
+
+	private static string selectDo (int sessionID, int personID, string filterType, Orders_by order, int limit)
+	{
 		string sep = " WHERE ";
 
 		string filterSessionString = "";
@@ -163,31 +219,12 @@ class SqliteJumpRj : SqliteJump
 		if(limit > 0)
 			limitString = " LIMIT " + limit;
 
-		dbcmd.CommandText = "SELECT * FROM jumpRj" +
+		return
 			filterSessionString +
 			filterPersonString +
 			filterTypeString +
 			orderByString +
 			limitString;
-
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		SQLiteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-
-		List<JumpRj> jmpRj_l = DataReaderToJumpRj(reader, session_l, person_l, personNameInComment);
-
-		reader.Close();
-
-		if(!dbconOpened)
-			Sqlite.Close();
-
-		//get last values on negative limit
-		if (limit < 0 && jmpRj_l.Count + limit >= 0)
-			jmpRj_l = jmpRj_l.GetRange (jmpRj_l.Count + limit, -1 * limit);
-
-		return jmpRj_l;
 	}
 
 	public static string[] SelectJumpsSA(bool dbconOpened, int sessionID, int personID, string filterWeight, string filterType) 

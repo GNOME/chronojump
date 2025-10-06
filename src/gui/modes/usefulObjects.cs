@@ -68,6 +68,9 @@ public abstract class PrepareEventGraphTest
 	protected Boxplot boxplotPerson;
 	protected Boxplot boxplotSession;
 
+	//need to be private of each class, if public orprotected says: Inconsistent accessibility)
+	//protected Sqlite.Orders_by orderBy;
+
 	protected void boxplotsDo (string param)
 	{
 		boxplotPerson = new Boxplot (boxplotSelectPerson (param));
@@ -110,6 +113,7 @@ public class PrepareEventGraphJumpSimple : PrepareEventGraphTest
 	public string type; //jumpType (useful to know if "all jumps" (type == "")
 	public bool showHeights;
 	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
+	private Sqlite.Orders_by orderBy;
 
 	public PrepareEventGraphJumpSimple() {
 	}
@@ -117,7 +121,8 @@ public class PrepareEventGraphJumpSimple : PrepareEventGraphTest
 	//allPersons is for searching the jumps of current of allpersons
 	//personID we need to the personsMAX/AVG sql calls
 	//type can be "" for all jumps, then write it under bar
-	public PrepareEventGraphJumpSimple (double tv, double tc, int sessionID,
+	public PrepareEventGraphJumpSimple (
+			double tv, double tc, int sessionID,
 			int personID, bool allPersons,
 			bool showHeights,
 			bool showBest, int limit,
@@ -136,7 +141,7 @@ public class PrepareEventGraphJumpSimple : PrepareEventGraphTest
 		if(allPersons)
 			personIDTemp = -1;
 
-		Sqlite.Orders_by orderBy = Sqlite.Orders_by.BEST;
+		orderBy = Sqlite.Orders_by.BEST;
 		if (! showBest)
 			orderBy = Sqlite.Orders_by.ID_ASC;
 
@@ -185,6 +190,7 @@ public class PrepareEventGraphJumpReactive : PrepareEventGraphTest
 	public double sessionMINAtSQL;
 	public bool showHeights; //if showHeights graph falling height and jump height
 	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
+	private Sqlite.Orders_by orderBy;
 
 	public PrepareEventGraphJumpReactive () {
 	}
@@ -212,7 +218,7 @@ public class PrepareEventGraphJumpReactive : PrepareEventGraphTest
 		if(allPersons)
 			personIDTemp = -1;
 
-		Sqlite.Orders_by orderBy = Sqlite.Orders_by.ID_ASC;
+		orderBy = Sqlite.Orders_by.ID_ASC;
 		string sqlRangeSelect = "";
 		if (resultsSessionCriteria == Constants.ResultsSessionCriteria.LAST)
 		{
@@ -300,13 +306,14 @@ public class PrepareEventGraphRunSimple : PrepareEventGraphTest
 	public double time;
 	public double speed;
 	public string type; //jumpType (useful to know if "all jumps" (type == "")
-	private Sqlite.Orders_by orderBy;
 	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
+	private Sqlite.Orders_by orderBy;
 
 	public PrepareEventGraphRunSimple() {
 	}
 
-	public PrepareEventGraphRunSimple(double time, double speed, int sessionID,
+	public PrepareEventGraphRunSimple (
+			double time, double speed, int sessionID,
 			int personID, bool allPersons,
 			Constants.ResultsSessionCriteria resultsSessionCriteria, bool times,
 			int limit,
@@ -366,7 +373,7 @@ public class PrepareEventGraphRunSimple : PrepareEventGraphTest
 	~PrepareEventGraphRunSimple() {}
 }
 
-public class PrepareEventGraphRunInterval
+public class PrepareEventGraphRunInterval : PrepareEventGraphTest
 {
 	//sql data of previous jumps to plot graph and show stats at bottom
 	public List<RunInterval> runsAtSQL;
@@ -381,6 +388,7 @@ public class PrepareEventGraphRunInterval
 	public double personMINAtSQL;
 	public double sessionMINAtSQL;
 	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
+	private Sqlite.Orders_by orderBy;
 
 	public PrepareEventGraphRunInterval () {
 	}
@@ -395,6 +403,9 @@ public class PrepareEventGraphRunInterval
 			string type, int selectedID)
 	{
 		// 1) assign variables
+		this.sessionID = sessionID;
+		this.personID = personID;
+		this.allPersons = allPersons;
 		this.type = type;
 		this.selectedID = selectedID;
 
@@ -404,7 +415,7 @@ public class PrepareEventGraphRunInterval
 		if(allPersons)
 			personIDTemp = -1;
 
-		Sqlite.Orders_by orderBy = Sqlite.Orders_by.ID_ASC;
+		orderBy = Sqlite.Orders_by.ID_ASC;
 		if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST)
 			orderBy = Sqlite.Orders_by.BEST;
 		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
@@ -416,21 +427,25 @@ public class PrepareEventGraphRunInterval
 		string sqlSelect = "distanceTotal/timeTotal";
 		if (times)
 			sqlSelect = "timeTotal";
-		string table = Constants.RunIntervalTable;
 
-		List<double> personStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
-				true, sessionID, personID, table, type, sqlSelect);
-		personMAXAtSQL = personStats[0];
-		personAVGAtSQL = personStats[1];
-		personMINAtSQL = personStats[2];
+		if (orderBy == Sqlite.Orders_by.BEST2)
+			orderBy = Sqlite.Orders_by.BEST2REV; //boxplot have to be selected asc
 
-		List<double> sessionStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
-				true, sessionID, -1, table, type, sqlSelect);
-		sessionMAXAtSQL = sessionStats[0];
-		sessionAVGAtSQL = sessionStats[1];
-		sessionMINAtSQL = sessionStats[2];
+		boxplotsDo (sqlSelect);
 
 		Sqlite.Close(); // < -----------------
+	}
+
+	// need to use orderBy to correctly order time for boxplot
+	protected override List<double> boxplotSelectPerson (string param)
+	{
+		return SqliteRunInterval.SelectRuns (true, param, sessionID, personID, type,
+				orderBy, 0); // no limit
+	}
+	protected override List<double> boxplotSelectSession (string param)
+	{
+		return SqliteRunInterval.SelectRuns (true, param, sessionID, -1, type,
+				orderBy, 0); // no limit
 	}
 
 	~PrepareEventGraphRunInterval () {}

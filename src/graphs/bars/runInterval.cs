@@ -136,16 +136,7 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 		cb.Id_l = id_l;
 		cb.PersonIcon_l = personIcon_l;
 
-		cb.PassGuidesData (new CairoBarsGuideManage(
-					//! ShowPersonNames, true, //usePersonGuides, useGroupGuides
-					true, true, //usePersonGuides, useGroupGuides
-					eventGraphRunsIntervalStored.sessionMAXAtSQL,
-					eventGraphRunsIntervalStored.sessionAVGAtSQL,
-					eventGraphRunsIntervalStored.sessionMINAtSQL,
-					0,
-					eventGraphRunsIntervalStored.personMAXAtSQL,
-					eventGraphRunsIntervalStored.personAVGAtSQL,
-					eventGraphRunsIntervalStored.personMINAtSQL));
+		cb.PassBoxplots (eventGraphRunsIntervalStored.BoxplotPerson, eventGraphRunsIntervalStored.BoxplotSession);
 
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,

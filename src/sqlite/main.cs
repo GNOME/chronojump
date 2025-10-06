@@ -150,7 +150,7 @@ class Sqlite
 
 	// BEST can be different criteria depeding on class
 	// and also it can be BEST1, BEST2, ... being on encoder: meanPower, meanSpeed
-	public enum Orders_by { DEFAULT, ID_ASC, ID_DESC, NAME_ASC, BEST, BEST2, BEST3 }
+	public enum Orders_by { DEFAULT, ID_ASC, ID_DESC, NAME_ASC, BEST, BEST2, BEST2REV, BEST3 }
 
 	//for db creation
 	static int creationRate;

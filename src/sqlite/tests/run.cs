@@ -264,6 +264,61 @@ class SqliteRun : SqliteTests
 		return run_l;
 	}
 
+	public static List<double> SelectRuns (bool dbconOpened, string selectParam, int sessionID, int personID, string runType,
+			Orders_by order, int limit)
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+
+		string orderBestStr = "";
+		if (order == Orders_by.BEST) //speed
+			orderBestStr = string.Format(" ORDER BY {0}.distance/{0}.time ",
+					Constants.RunTable);
+		else if (order == Orders_by.BEST2) //time desc
+		{
+			orderBestStr = string.Format(" ORDER BY {0}.time DESC ",
+					Constants.RunTable);
+			order = Orders_by.BEST; // to actually use orderBestStr
+		}
+		else if (order == Orders_by.BEST2REV) //time asc (for boxplots)
+		{
+			orderBestStr = string.Format(" ORDER BY {0}.time ",
+					Constants.RunTable);
+			order = Orders_by.BEST; // to actually use orderBestStr
+		}
+
+		dbcmd.CommandText = selectResultsCreateSelection (
+				selectParam,
+				Constants.RunTable,
+				sessionID, personID, runType,
+				false, "",
+				order,
+				orderBestStr,
+				limit, false
+				);
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		List<double> d_l = new List<double> ();
+		while (reader.Read())
+			d_l.Add (Convert.ToDouble (Util.ChangeDecimalSeparator (reader [0].ToString ())));
+
+		reader.Close();
+
+		if(!dbconOpened)
+			Sqlite.Close();
+
+		//get last values on negative limit
+		if (limit < 0 && d_l.Count + limit >= 0)
+			d_l = d_l.GetRange (d_l.Count + limit, -1 * limit);
+
+		return d_l;
+	}
+
+
 	public static Run SelectRunData(int uniqueID, bool dbconOpened)
 	{
 		if(!dbconOpened)

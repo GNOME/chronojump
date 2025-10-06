@@ -121,18 +121,7 @@ public class CairoPaintBarsPreRunEncoder : CairoPaintBarsPre
 		cb.Id_l = id_l;
 		cb.PersonIcon_l = personIcon_l;
 
-		/*
-		cb.PassGuidesData (new CairoBarsGuideManage(
-					//! ShowPersonNames, true, //usePersonGuides, useGroupGuides
-					true, true, //usePersonGuides, useGroupGuides
-					eventGraphJumpsStored.sessionMAXAtSQL,
-					eventGraphJumpsStored.sessionAVGAtSQL,
-					eventGraphJumpsStored.sessionMINAtSQL,
-					eventGraphJumpsStored.personMAXAtSQLAllSessions,
-					eventGraphJumpsStored.personMAXAtSQL,
-					eventGraphJumpsStored.personAVGAtSQL,
-					eventGraphJumpsStored.personMINAtSQL));
-		*/
+		cb.PassBoxplots (eventGraphRunEncoderStored.BoxplotPerson, eventGraphRunEncoderStored.BoxplotSession);
 
 		List<List<PointF>> barsSecondary_ll = new List<List<PointF>>();
 		barsSecondary_ll.Add(pointA_l);

@@ -482,11 +482,13 @@ public class PrepareEventGraphRunIntervalRealtimeCapture
 	~PrepareEventGraphRunIntervalRealtimeCapture() {}
 }
 
-public class PrepareEventGraphRunEncoder
+public class PrepareEventGraphRunEncoder : PrepareEventGraphTest
 {
 	//sql data of previous tests to plot graph and show stats at bottom
 	public List<RunEncoder> rowsAtSQL;
 	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
+	private Sqlite.Orders_by orderBy;
+	private int exerciseID;
 
 	public bool exerciseAll; //all tests
 
@@ -497,6 +499,9 @@ public class PrepareEventGraphRunEncoder
 			Constants.ResultsSessionCriteria resultsSessionCriteria, int limit,
 			int exerciseID, int selectedID, Constants.Modes mode, bool exerciseAll)
 	{
+		this.sessionID = sessionID;
+		this.personID = personID;
+		this.exerciseID = exerciseID;
 		this.selectedID = selectedID;
 		this.exerciseAll = exerciseAll;
 
@@ -504,7 +509,7 @@ public class PrepareEventGraphRunEncoder
 		if(allPersons)
 			personIDTemp = -1;
 
-		Sqlite.Orders_by orderBy = Sqlite.Orders_by.ID_ASC;
+		orderBy = Sqlite.Orders_by.ID_ASC;
 		if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST)
 			orderBy = Sqlite.Orders_by.BEST;
 		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
@@ -517,7 +522,18 @@ public class PrepareEventGraphRunEncoder
 				);
 		//LogB.Information ("rowsAtSQL count: " + (rowsAtSQL.Count).ToString ());
 
-		this.selectedID = selectedID;
+		boxplotsDo ("maxSpeed"); // maxSpeed (margins ok for best second)
+	}
+
+	protected override List<double> boxplotSelectPerson (string param)
+	{
+		return SqliteRunEncoder.Select (false, param, -1, personID, sessionID, exerciseID,
+				Sqlite.Orders_by.BEST, 0); // BEST: maxSpeed (margins ok for best second), no limit
+	}
+	protected override List<double> boxplotSelectSession (string param)
+	{
+		return SqliteRunEncoder.Select (false, param, -1, -1, sessionID, exerciseID,
+				Sqlite.Orders_by.BEST, 0); // BEST: maxSpeed (margins ok for best second), no limit
 	}
 
 	~PrepareEventGraphRunEncoder() {}

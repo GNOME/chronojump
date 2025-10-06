@@ -102,6 +102,7 @@ class SqliteFourPlatforms : SqliteTests
 			SqlitePersonSession.SelectCurrentSessionPersonsAsList (true, sessionID);
 
 		dbcmd.CommandText = selectResultsCreateSelection (
+				"", //selectRow1 default
 				tableStatic,
 				sessionID, personID, "", //type,
 				false, "",

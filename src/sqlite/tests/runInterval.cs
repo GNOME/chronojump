@@ -127,6 +127,7 @@ class SqliteRunInterval : SqliteRun
 					Constants.RunIntervalTable);
 
 		dbcmd.CommandText = selectResultsCreateSelection (
+				"", //selectRow1 default
 				Constants.RunIntervalTable,
 				sessionID, personID, runType,
 				false, "",
@@ -208,6 +209,7 @@ class SqliteRunInterval : SqliteRun
 			Sqlite.Open();
 
 		dbcmd.CommandText = selectResultsCreateSelection (
+				"", //selectRow1 default
 				Constants.RunIntervalTable,
 				sessionID, personID, runType,
 				false, "",

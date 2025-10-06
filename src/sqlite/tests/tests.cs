@@ -88,6 +88,7 @@ class SqliteTests : Sqlite
 		openIfNeeded(dbconOpened);
 
 		dbcmd.CommandText = selectResultsCreateSelection (
+				"", //selectRow1 default
 				tableName,
 				sessionID, personID, "", //type,
 				addExerciseNameInOtherTable, exerciseTable,
@@ -129,12 +130,17 @@ class SqliteTests : Sqlite
 	//used on run, runI, wilight
 	// limit 0 means no limit (limit negative is the last results) (used on SelectRuns)
 	protected static string selectResultsCreateSelection (
+			string selectVar, // if selectVar it just selects this variable. If not, it will select tp.name, t.*
 			string t,
 			int sessionID, int personID, string filterType,
 			bool addExerciseNameInOtherTable, string exerciseTable,
 			Orders_by order, string orderByBestStr, int limit, bool onlyBestInSession)
 	{
 		string tp = Constants.PersonTable;
+
+		string selectRow1 = string.Format ("SELECT {0}.name, {1}.* ", tp, t);
+		if (selectVar != "")
+			selectRow1 = string.Format ("SELECT {0}.{1} ", t, selectVar);
 
 		string filterSessionString = "";
 		if(sessionID != -1)
@@ -172,7 +178,7 @@ class SqliteTests : Sqlite
 		if(limit > 0)
 			limitString = " LIMIT " + limit;
 
-		return string.Format("SELECT {0}.name, {1}.* ", tp, t) +
+		return selectRow1 +
 			selectExerciseNameStr +
 			string.Format(" FROM {0}, {1} ", tp, t) +
 			fromExerciseStr +

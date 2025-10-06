@@ -113,6 +113,7 @@ class SqliteRun : SqliteTests
 			Sqlite.Open();
 
 		dbcmd.CommandText = selectResultsCreateSelection (
+				"", //selectRow1 default
 				Constants.RunTable,
 				sessionID, personID, filterType,
 				false, "",
@@ -193,6 +194,7 @@ class SqliteRun : SqliteTests
 		}
 
 		dbcmd.CommandText = selectResultsCreateSelection (
+				"", //selectRow1 default
 				Constants.RunTable,
 				sessionID, personID, runType,
 				false, "",

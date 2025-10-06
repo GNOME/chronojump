@@ -262,7 +262,9 @@ public class PrepareEventGraphRunSimple
 {
 	//sql data of previous runs to plot graph and show stats at bottom
 	public List<Run> runsAtSQL;
-	
+	public Boxplot boxplotPerson;
+	public Boxplot boxplotSession;
+
 	public double personMAXAtSQLAllSessions;
 	public double personMAXAtSQL;
 	public double sessionMAXAtSQL;
@@ -287,6 +289,11 @@ public class PrepareEventGraphRunSimple
 			int limit,
 			string table, string type, int selectedID)
 	{
+		this.time = time;
+		this.speed = speed;
+		this.type = type;
+		this.selectedID = selectedID;
+
 		Sqlite.Open();
 		
 		int personIDTemp = personID;
@@ -305,37 +312,33 @@ public class PrepareEventGraphRunSimple
 		runsAtSQL = SqliteRun.SelectRuns (true, sessionID, personIDTemp, type,
 				orderBy, limit,
 				allPersons, false); //show names on comments only if "all persons"
-
 		
 		string sqlSelect = "distance/time";
 		if (times)
 			sqlSelect = "time";
-		//better to know speed like:
-		//SELECT AVG(distance/time) from run; than 
-		//SELECT AVG(distance) / SELECT AVG(time) 
-		//first is ok, because is the speed AVG
-		//2nd is not good because it tries to do an AVG of all distances and times
-		
-		personMAXAtSQLAllSessions = SqliteSession.SelectMAXEventsOfAType(true, -1, personID, table, type, sqlSelect); //right now, used only on the not-cairo solution
 
-		List<double> personStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
-				true, sessionID, personID, table, type, sqlSelect);
-		personMAXAtSQL = personStats[0];
-		personAVGAtSQL = personStats[1];
-		personMINAtSQL = personStats[2];
+		if (orderBy == Sqlite.Orders_by.BEST2)
+			orderBy = Sqlite.Orders_by.BEST2REV; //boxplot have to be selected asc
 
-		List<double> sessionStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
-				true, sessionID, -1, table, type, sqlSelect);
-		sessionMAXAtSQL = sessionStats[0];
-		sessionAVGAtSQL = sessionStats[1];
-		sessionMINAtSQL = sessionStats[2];
+		boxplotsDo (sqlSelect, sessionID, personID, allPersons, type, orderBy);
 
-		this.time = time;
-		this.speed = speed;
-		this.type = type;
-		this.selectedID = selectedID;
-		
 		Sqlite.Close();
+	}
+
+	// need to pass orderBy to correctly order time for boxplot
+	private void boxplotsDo (string param, int sessionID, int personID, bool allPersons, string type, Sqlite.Orders_by orderBy)
+	{
+		// person
+		List<double> dSorted_l = SqliteRun.SelectRuns (true, param, sessionID, personID, type,
+				orderBy, 0); // no limit
+		boxplotPerson = new Boxplot (dSorted_l);
+		boxplotPerson.Do ();
+
+		// session
+		dSorted_l = SqliteRun.SelectRuns (true, param, sessionID, -1, type,
+				orderBy, 0); // no limit
+		boxplotSession = new Boxplot (dSorted_l);
+		boxplotSession.Do ();
 	}
 
 	~PrepareEventGraphRunSimple() {}

@@ -202,6 +202,51 @@ class SqliteRunInterval : SqliteRun
 		return ri_l;
 	}
 
+	public static List<double> SelectRuns (bool dbconOpened, string param, int sessionID, int personID, string runType,
+			Orders_by order, int limit)
+	{
+		if(!dbconOpened)
+			Sqlite.Open();
+
+		string orderBestStr = "";
+		if (order == Orders_by.BEST) //speed
+				orderBestStr = string.Format(" ORDER BY {0}.distanceTotal/{0}.timeTotal ",
+					Constants.RunIntervalTable);
+		else if (order == Orders_by.BEST2) //time
+				orderBestStr = string.Format(" ORDER BY {0}.timeTotal DESC ",
+					Constants.RunIntervalTable);
+
+		dbcmd.CommandText = selectResultsCreateSelection (
+				param,
+				Constants.RunIntervalTable,
+				sessionID, personID, runType,
+				false, "",
+				order,
+				orderBestStr,
+				limit, false
+				);
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		List<double> d_l = new List<double> ();
+		while (reader.Read())
+			d_l.Add (Convert.ToDouble (Util.ChangeDecimalSeparator (reader [0].ToString ())));
+
+		reader.Close();
+
+		if(!dbconOpened)
+			Sqlite.Close();
+
+		//get last values on negative limit
+		if (limit < 0 && d_l.Count + limit >= 0)
+			d_l = d_l.GetRange (d_l.Count + limit, -1 * limit);
+
+		return d_l;
+	}
+
 	//method that retruns an string array
 	public static string[] SelectRunsSA (bool dbconOpened, int sessionID, int personID, string runType)
 	{

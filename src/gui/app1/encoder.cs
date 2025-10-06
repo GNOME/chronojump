@@ -6955,14 +6955,23 @@ public partial class ChronoJumpWindow
 
 					if(updateSQLRecords) {
 						//update the meanPower, meanSpeed, meanForce
-						Sqlite.Update(true, Constants.EncoderTable, "future1",
+						Sqlite.Update (true, Constants.EncoderTable, "future1",
 								"", Util.ConvertToPoint (curve.MeanPower),
 								"uniqueID", esc.curveID.ToString());
-						Sqlite.Update(true, Constants.EncoderTable, "future2",
+						Sqlite.Update (true, Constants.EncoderTable, "future2",
 								"", Util.ConvertToPoint (curve.MeanSpeed),
 								"uniqueID", esc.curveID.ToString());
-						Sqlite.Update(true, Constants.EncoderTable, "future3",
+						Sqlite.Update (true, Constants.EncoderTable, "future3",
 								"", Util.ConvertToPoint (curve.MeanForce),
+								"uniqueID", esc.curveID.ToString());
+						Sqlite.Update (true, Constants.EncoderTable, "maxPower",
+								"", Util.ConvertToPoint (curve.PeakPower),
+								"uniqueID", esc.curveID.ToString());
+						Sqlite.Update (true, Constants.EncoderTable, "maxSpeed",
+								"", Util.ConvertToPoint (curve.MaxSpeed),
+								"uniqueID", esc.curveID.ToString());
+						Sqlite.Update (true, Constants.EncoderTable, "maxForce",
+								"", Util.ConvertToPoint (curve.MaxForce),
 								"uniqueID", esc.curveID.ToString());
 					}
 					

@@ -60,14 +60,13 @@ public class ExecutingGraphData
 
 public abstract class PrepareEventGraphTest
 {
-	//TODO: protected
-	public Boxplot boxplotPerson;
-	public Boxplot boxplotSession;
-
 	protected int sessionID;
 	protected int personID;
 	protected bool allPersons;
 	protected string type;
+
+	protected Boxplot boxplotPerson;
+	protected Boxplot boxplotSession;
 
 	protected void boxplotsDo (string param)
 	{
@@ -80,6 +79,14 @@ public abstract class PrepareEventGraphTest
 
 	protected abstract List<double> boxplotSelectPerson (string param);
 	protected abstract List<double> boxplotSelectSession (string param);
+
+	public Boxplot BoxplotPerson {
+		get { return boxplotPerson; }
+	}
+
+	public Boxplot BoxplotSession {
+		get { return boxplotSession; }
+	}
 }
 
 public class PrepareEventGraphJumpSimple : PrepareEventGraphTest

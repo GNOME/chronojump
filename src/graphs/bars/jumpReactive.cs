@@ -150,7 +150,7 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 		cb.Id_l = id_l;
 		cb.PersonIcon_l = personIcon_l;
 
-		cb.PassBoxplots (eventGraphJumpsRjStored.boxplotPerson, eventGraphJumpsRjStored.boxplotSession);
+		cb.PassBoxplots (eventGraphJumpsRjStored.BoxplotPerson, eventGraphJumpsRjStored.BoxplotSession);
 
 		if (UseHeights)
 		{

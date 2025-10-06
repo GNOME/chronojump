@@ -167,7 +167,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 		cb.Id_l = id_l;
 		cb.PersonIcon_l = personIcon_l;
 
-		cb.PassBoxplots (eventGraphJumpsStored.boxplotPerson, eventGraphJumpsStored.boxplotSession);
+		cb.PassBoxplots (eventGraphJumpsStored.BoxplotPerson, eventGraphJumpsStored.BoxplotSession);
 
 		if(showBarA && showBarB) //Dja, Djna
 		{

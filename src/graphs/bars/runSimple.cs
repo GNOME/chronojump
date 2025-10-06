@@ -132,7 +132,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 		cb.Id_l = id_l;
 		cb.PersonIcon_l = personIcon_l;
 
-		cb.PassBoxplots (eventGraphRunsStored.boxplotPerson, eventGraphRunsStored.boxplotSession);
+		cb.PassBoxplots (eventGraphRunsStored.BoxplotPerson, eventGraphRunsStored.BoxplotSession);
 
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,

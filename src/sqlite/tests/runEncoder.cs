@@ -148,35 +148,9 @@ class SqliteRunEncoder : SqliteTests
 		List<Person> person_l =
 			SqlitePersonSession.SelectCurrentSessionPersonsAsList (true, sessionID);
 
-		string selectStr = "SELECT " + tableStatic + ".*, " + Constants.RunEncoderExerciseTable + ".Name FROM " + tableStatic + ", " + Constants.RunEncoderExerciseTable;
-		string whereStr = " WHERE " + tableStatic + ".exerciseID = " + Constants.RunEncoderExerciseTable + ".UniqueID ";
-
-		string uniqueIDStr = "";
-		if(uniqueID != -1)
-			uniqueIDStr = " AND " + tableStatic + ".uniqueID = " + uniqueID;
-
-		string personIDStr = "";
-		if(personID != -1)
-			personIDStr = " AND " + tableStatic + ".personID = " + personID;
-
-		string sessionIDStr = "";
-		if(sessionID != -1)
-			sessionIDStr = " AND " + tableStatic + ".sessionID = " + sessionID;
-
-		string andExerciseStr = "";
-		if (exerciseID != -1)
-			andExerciseStr = string.Format (" AND {0}.exerciseID = {1} ", tableStatic, exerciseID);
-
-		string orderByString = string.Format (" ORDER BY {0}.uniqueID ", tableStatic);
-		if (order == Orders_by.ID_DESC)
-			orderByString = string.Format(" ORDER BY {0}.uniqueID DESC ", tableStatic);
-		else if (order == Orders_by.BEST)
-			orderByString = string.Format ( " ORDER BY {0}.maxSpeed ", tableStatic);
-		else if (order == Orders_by.BEST2)
-			orderByString = string.Format ( " ORDER BY {0}.maxAvgSpeed1s ", tableStatic);
-
-		dbcmd.CommandText = selectStr + whereStr + uniqueIDStr + personIDStr + sessionIDStr +
-			andExerciseStr + orderByString;// + limitString
+		dbcmd.CommandText =
+			"SELECT " + tableStatic + ".*, " + Constants.RunEncoderExerciseTable + ".Name FROM " + tableStatic + ", " + Constants.RunEncoderExerciseTable +
+			selectDo (uniqueID, sessionID, personID, exerciseID, order);
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -230,7 +204,69 @@ class SqliteRunEncoder : SqliteTests
 
 		return list;
 	}
-    
+
+	public static List<double> Select (bool dbconOpened, string selectParam,
+			int uniqueID, int personID, int sessionID,
+			int exerciseID, Orders_by order, int limit)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText =
+			"SELECT " + selectParam + " FROM " + tableStatic + ", " + Constants.RunEncoderExerciseTable +
+			selectDo (uniqueID, sessionID, personID, exerciseID, order);
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		List<double> d_l = new List<double> ();
+		while (reader.Read())
+			d_l.Add (Convert.ToDouble (Util.ChangeDecimalSeparator (reader [0].ToString ())));
+
+		reader.Close();
+		closeIfNeeded(dbconOpened);
+
+		//get last values on negative limit
+		if (limit < 0 && d_l.Count + limit >= 0)
+			d_l = d_l.GetRange (d_l.Count + limit, -1 * limit);
+
+		return d_l;
+	}
+
+	private static string selectDo (int uniqueID, int sessionID, int personID, int exerciseID, Orders_by order)
+	{
+		string whereStr = " WHERE " + tableStatic + ".exerciseID = " + Constants.RunEncoderExerciseTable + ".UniqueID ";
+
+		string uniqueIDStr = "";
+		if(uniqueID != -1)
+			uniqueIDStr = " AND " + tableStatic + ".uniqueID = " + uniqueID;
+
+		string personIDStr = "";
+		if(personID != -1)
+			personIDStr = " AND " + tableStatic + ".personID = " + personID;
+
+		string sessionIDStr = "";
+		if(sessionID != -1)
+			sessionIDStr = " AND " + tableStatic + ".sessionID = " + sessionID;
+
+		string andExerciseStr = "";
+		if (exerciseID != -1)
+			andExerciseStr = string.Format (" AND {0}.exerciseID = {1} ", tableStatic, exerciseID);
+
+		string orderByString = string.Format (" ORDER BY {0}.uniqueID ", tableStatic);
+		if (order == Orders_by.ID_DESC)
+			orderByString = string.Format(" ORDER BY {0}.uniqueID DESC ", tableStatic);
+		else if (order == Orders_by.BEST)
+			orderByString = string.Format ( " ORDER BY {0}.maxSpeed ", tableStatic);
+		else if (order == Orders_by.BEST2)
+			orderByString = string.Format ( " ORDER BY {0}.maxAvgSpeed1s ", tableStatic);
+
+		return whereStr + uniqueIDStr + personIDStr + sessionIDStr +
+			andExerciseStr + orderByString;// + limitString
+	}
+
 	protected override string selectSAArray (SQLiteDataReader reader)
 	{
 		return

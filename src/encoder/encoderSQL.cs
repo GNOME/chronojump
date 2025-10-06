@@ -26,7 +26,7 @@ public class EncoderSQL : Event
 	public int exerciseID;
 	public string eccon;
 	private string laterality;
-	public string extraWeight;
+	public string extraWeight; //if decimal it has to be . ? Note now on extraWeightD we take care of that
 	public string signalOrCurve;
 	public string filename;
 	public string url;	//URL of data of signals and curves. Stored in DB as relative. Used in software as absolute. See SqliteEncoder
@@ -441,7 +441,8 @@ public class EncoderSQL : Event
 		get {
 			if (extraWeight == "")
 				return 0;
-			return Convert.ToDouble (extraWeight);
+
+			return Convert.ToDouble (Util.CDS (extraWeight)); //CDS just in case extraWeight has a . on a latin environment
 		}
 	}
 

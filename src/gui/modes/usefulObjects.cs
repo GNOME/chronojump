@@ -350,7 +350,14 @@ public class PrepareEventGraphRunSimple : PrepareEventGraphTest
 		if (times)
 			sqlSelect = "time";
 
-		if (orderBy == Sqlite.Orders_by.BEST2)
+		// if ID_ASC, order correctly the boxplot
+		if (orderBy == Sqlite.Orders_by.ID_ASC)
+		{
+			orderBy = Sqlite.Orders_by.BEST;
+			if (times)
+				orderBy = Sqlite.Orders_by.BEST2REV;
+		}
+		else if (orderBy == Sqlite.Orders_by.BEST2)
 			orderBy = Sqlite.Orders_by.BEST2REV; //boxplot have to be selected asc
 
 		boxplotsDo (sqlSelect);
@@ -428,6 +435,13 @@ public class PrepareEventGraphRunInterval : PrepareEventGraphTest
 		if (times)
 			sqlSelect = "timeTotal";
 
+		// if ID_ASC, order correctly the boxplot
+		if (orderBy == Sqlite.Orders_by.ID_ASC)
+		{
+			orderBy = Sqlite.Orders_by.BEST;
+			if (times)
+				orderBy = Sqlite.Orders_by.BEST2REV;
+		}
 		if (orderBy == Sqlite.Orders_by.BEST2)
 			orderBy = Sqlite.Orders_by.BEST2REV; //boxplot have to be selected asc
 

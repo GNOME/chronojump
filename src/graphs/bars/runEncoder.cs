@@ -26,14 +26,17 @@ using Mono.Unix;
 
 public class CairoPaintBarsPreRunEncoder : CairoPaintBarsPre
 {
+	private bool bestSecond;
+
 	public CairoPaintBarsPreRunEncoder (DrawingArea darea, string fontStr,
 			Constants.Modes mode, string personName, string testName, int pDN,
-			int currentPersonID, bool drawBars)
+			int currentPersonID, bool bestSecond, bool drawBars)
 	{
 		LogB.Information ("CairoPaintBarsPreRunEncoder constructor");
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		this.title = generateTitle();
 		this.currentPersonID = currentPersonID;
+		this.bestSecond = bestSecond;
 		this.drawBars = drawBars;
 	}
 
@@ -59,12 +62,13 @@ public class CairoPaintBarsPreRunEncoder : CairoPaintBarsPre
 		 * check if one bar has to be shown or two
 		 * this is important when we are showing multitests
 		 */
-		cb = new CairoBarsNHSeries (darea, CairoBars.Type.NORMAL, true, true, true, true);
+		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, true, true, true);
 
-		cb.YVariable = Catalog.GetString("Speed");
+		cb.YVariable = Catalog.GetString("Max Speed");
+		if (bestSecond)
+			cb.YVariable = Catalog.GetString("Best second");
+
 		cb.YUnits = "m/s";
-		cb.VariableSerieA = Catalog.GetString("Max speed");
-		cb.VariableSerieB = Catalog.GetString("Best second");
 
 		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
 		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides
@@ -82,8 +86,7 @@ public class CairoPaintBarsPreRunEncoder : CairoPaintBarsPre
 		calculateBottomParams (events, eventGraphRunEncoderStored.exerciseAll, "",
 				"", false, false);
 
-		List<PointF> pointA_l = new List<PointF>();
-		List<PointF> pointB_l = new List<PointF>();
+		List<PointF> point_l = new List<PointF>();
 		List<string> names_l = new List<string>();
 		List<bool> personIcon_l = new List<bool>();
 		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
@@ -93,8 +96,10 @@ public class CairoPaintBarsPreRunEncoder : CairoPaintBarsPre
 		{
 			//LogB.Information("forceSensor: " + re.ToString());
 			// 1) Add data
-			pointA_l.Add (new PointF (countToDraw, re.MaxSpeed));
-			pointB_l.Add (new PointF (countToDraw, re.MaxAvgSpeed1s));
+			if (bestSecond)
+				point_l.Add (new PointF (countToDraw, re.MaxAvgSpeed1s));
+			else
+				point_l.Add (new PointF (countToDraw, re.MaxSpeed));
 			countToDraw --;
 
 			// 2) Add bottom names
@@ -112,7 +117,6 @@ public class CairoPaintBarsPreRunEncoder : CairoPaintBarsPre
 			personIcon_l.Add (personName == "" && currentPersonID >= 0 && re.PersonID == currentPersonID);
 
 			id_l.Add (re.UniqueID);
-			id_l.Add (re.UniqueID);
 
 			if (eventGraphRunEncoderStored.selectedID == re.UniqueID)
 				cb.SelectedPos = eventGraphRunEncoderStored.rowsAtSQL.Count -countToDraw -1;
@@ -123,12 +127,8 @@ public class CairoPaintBarsPreRunEncoder : CairoPaintBarsPre
 
 		cb.PassBoxplots (eventGraphRunEncoderStored.BoxplotPerson, eventGraphRunEncoderStored.BoxplotSession);
 
-		List<List<PointF>> barsSecondary_ll = new List<List<PointF>>();
-		barsSecondary_ll.Add(pointA_l);
-
-		cb.PassData2Series (pointB_l, barsSecondary_ll, false,
-				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
-				"", false,
+		cb.PassData1Serie (point_l,
+				new List<Cairo.Color>(), names_l,
 				-1, fontHeightForBottomNames, bottomMargin, title,
 				new List<int> (), new List<int> (), barsOrPoints);
 

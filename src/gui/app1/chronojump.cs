@@ -3380,10 +3380,14 @@ public partial class ChronoJumpWindow
 			box_resultsSession_jumpVar.Visible = false;
 
 		if (m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC)
-		{
 			box_resultsSession_runVar.Visible = true;
-		} else
+		else
 			box_resultsSession_runVar.Visible = false;
+
+		if (m == Constants.Modes.RUNSENCODER)
+			box_resultsSession_raVar.Visible = true;
+		else
+			box_resultsSession_raVar.Visible = false;
 
 		resultsSession_bestLast_controls ();
 

@@ -3389,6 +3389,11 @@ public partial class ChronoJumpWindow
 		else
 			box_resultsSession_raVar.Visible = false;
 
+		if (Constants.ModeIsFORCESENSOR (m))
+			box_resultsSession_forceVar.Visible = true;
+		else
+			box_resultsSession_forceVar.Visible = false;
+
 		resultsSession_bestLast_controls ();
 
 		vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = false; //just runEncoder

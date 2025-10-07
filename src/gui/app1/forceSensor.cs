@@ -4056,12 +4056,16 @@ LogB.Information(" fs R ");
 		//LogB.Information("drawingarea_results_session == null: ",
 		//	(drawingarea_results_session == null).ToString());
 
+		// TODO: resultsSessionCriteria
+
 		cairoPaintBarsPre = new CairoPaintBarsPreForceSensor (
 				drawingarea_results_session, preferences.fontTypeToGraph(), current_mode,
 				personStr,
 				typeTemp,
 				preferences.digitsNumber,
-				currentPerson.UniqueID, radio_resultsSession_bars.Active);
+				currentPerson.UniqueID,
+				radio_resultsSession_force_best_second.Active,
+				radio_resultsSession_bars.Active);
 
 		cairoPaintBarsPre.StoreEventGraphForceSensor (eventGraph);
 		drawingarea_results_session.QueueDraw ();

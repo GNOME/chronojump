@@ -52,6 +52,7 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_resultsSession_jumpVar;
 	Gtk.Box box_resultsSession_runVar;
 	Gtk.Box box_resultsSession_raVar;
+	Gtk.Box box_resultsSession_forceVar;
 	Gtk.Label label_resultsSession_encoder_saved_repetitions;
 	Gtk.RadioButton radio_runI_realtime_speeds;
 	Gtk.RadioButton radio_runI_realtime_times;
@@ -69,6 +70,10 @@ public partial class ChronoJumpWindow
 	Gtk.RadioButton radio_resultsSession_ra_best_second;
 	Gtk.Image image_resultsSession_ra_speeds;
 	Gtk.Image image_resultsSession_ra_best_second;
+	Gtk.RadioButton radio_resultsSession_force_max;
+	Gtk.RadioButton radio_resultsSession_force_best_second;
+	Gtk.Image image_resultsSession_force_max;
+	Gtk.Image image_resultsSession_force_best_second;
 	Gtk.RadioButton radio_resultsSession_bars;
 	Gtk.RadioButton radio_resultsSession_points;
 	Gtk.Image image_resultsSession_bars;
@@ -910,14 +915,17 @@ public partial class ChronoJumpWindow
 		resultsSession_bestLast_controls ();
 		updateGraphResultsSessionByMode ();
 	}
-
 	private void on_radio_resultsSession_runVar_toggled (object o, EventArgs args)
 	{
 		resultsSession_bestLast_controls ();
 		updateGraphResultsSessionByMode ();
 	}
-
 	private void on_radio_resultsSession_raVar_toggled (object o, EventArgs args)
+	{
+		resultsSession_bestLast_controls ();
+		updateGraphResultsSessionByMode ();
+	}
+	private void on_radio_resultsSession_forceVar_toggled (object o, EventArgs args)
 	{
 		resultsSession_bestLast_controls ();
 		updateGraphResultsSessionByMode ();
@@ -1000,9 +1008,12 @@ public partial class ChronoJumpWindow
 
 	private void resultsSession_bestLast_controls_forceSensor (Constants.Modes m)
 	{
-		radio_resultsSession_best.Label = Catalog.GetString ("Max force");
-		radio_resultsSession_best2.Label = Catalog.GetString ("Best second");
-		radio_resultsSession_best2.Visible = true;
+		if (radio_resultsSession_force_max.Active)
+			radio_resultsSession_best.Label = Catalog.GetString ("Max force");
+		else
+			radio_resultsSession_best.Label = Catalog.GetString ("Best second");
+
+		radio_resultsSession_best2.Visible = false;
 	}
 
 	private void resultsSession_bestLast_controls_encoder (Constants.Modes m)
@@ -1192,6 +1203,7 @@ public partial class ChronoJumpWindow
 		box_resultsSession_jumpVar = (Gtk.Box) builder.GetObject ("box_resultsSession_jumpVar");
 		box_resultsSession_runVar = (Gtk.Box) builder.GetObject ("box_resultsSession_runVar");
 		box_resultsSession_raVar = (Gtk.Box) builder.GetObject ("box_resultsSession_raVar");
+		box_resultsSession_forceVar = (Gtk.Box) builder.GetObject ("box_resultsSession_forceVar");
 		label_resultsSession_encoder_saved_repetitions = (Gtk.Label) builder.GetObject ("label_resultsSession_encoder_saved_repetitions");
 		radio_runI_realtime_speeds = (Gtk.RadioButton) builder.GetObject ("radio_runI_realtime_speeds");
 		radio_runI_realtime_times = (Gtk.RadioButton) builder.GetObject ("radio_runI_realtime_times");
@@ -1209,6 +1221,10 @@ public partial class ChronoJumpWindow
 		radio_resultsSession_ra_best_second = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_ra_best_second");
 		image_resultsSession_ra_speeds = (Gtk.Image) builder.GetObject ("image_resultsSession_ra_speeds");
 		image_resultsSession_ra_best_second = (Gtk.Image) builder.GetObject ("image_resultsSession_ra_best_second");
+		radio_resultsSession_force_max = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_force_max");
+		radio_resultsSession_force_best_second = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_force_best_second");
+		image_resultsSession_force_max = (Gtk.Image) builder.GetObject ("image_resultsSession_force_max");
+		image_resultsSession_force_best_second = (Gtk.Image) builder.GetObject ("image_resultsSession_force_best_second");
 		radio_resultsSession_bars = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_bars");
 		radio_resultsSession_points = (Gtk.RadioButton) builder.GetObject ("radio_resultsSession_points");
 		image_resultsSession_bars = (Gtk.Image) builder.GetObject ("image_resultsSession_bars");

@@ -26,14 +26,17 @@ using Mono.Unix;
 
 public class CairoPaintBarsPreForceSensor : CairoPaintBarsPre
 {
+	private bool bestSecond;
+
 	public CairoPaintBarsPreForceSensor (DrawingArea darea, string fontStr, Constants.Modes mode,
 			string personName, string testName, int pDN,
-			int currentPersonID, bool drawBars)
+			int currentPersonID, bool bestSecond, bool drawBars)
 	{
 		LogB.Information ("CairoPaintBarsPreForceSensor constructor");
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		this.title = generateTitle();
 		this.currentPersonID = currentPersonID;
+		this.bestSecond = bestSecond;
 		this.drawBars = drawBars;
 	}
 
@@ -59,12 +62,13 @@ public class CairoPaintBarsPreForceSensor : CairoPaintBarsPre
 		 * check if one bar has to be shown or two
 		 * this is important when we are showing multitests
 		 */
-		cb = new CairoBarsNHSeries (darea, CairoBars.Type.NORMAL, true, true, true, true);
+		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, true, true, true);
 
-		cb.YVariable = Catalog.GetString("Force");
+		cb.YVariable = Catalog.GetString("Max force");
+		if (bestSecond)
+			cb.YVariable = Catalog.GetString("Best second");
+
 		cb.YUnits = "N";
-		cb.VariableSerieA = Catalog.GetString("Max force");
-		cb.VariableSerieB = Catalog.GetString("Best second");
 
 		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
 		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides
@@ -82,8 +86,7 @@ public class CairoPaintBarsPreForceSensor : CairoPaintBarsPre
 		calculateBottomParams (events, eventGraphForceSensorStored.exerciseAll, "",
 				"", false, false);
 
-		List<PointF> pointA_l = new List<PointF>();
-		List<PointF> pointB_l = new List<PointF>();
+		List<PointF> point_l = new List<PointF>();
 		List<string> names_l = new List<string>();
 		List<bool> personIcon_l = new List<bool>();
 		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
@@ -93,8 +96,10 @@ public class CairoPaintBarsPreForceSensor : CairoPaintBarsPre
 		{
 			//LogB.Information("forceSensor: " + fs.ToString());
 			// 1) Add data
-			pointA_l.Add (new PointF (countToDraw, fs.MaxForceRaw));
-			pointB_l.Add (new PointF (countToDraw, fs.MaxAvgForce1s));
+			if (bestSecond)
+				point_l.Add (new PointF (countToDraw, fs.MaxAvgForce1s));
+			else
+				point_l.Add (new PointF (countToDraw, fs.MaxForceRaw));
 			countToDraw --;
 
 			// 2) Add bottom names
@@ -112,7 +117,6 @@ public class CairoPaintBarsPreForceSensor : CairoPaintBarsPre
 			personIcon_l.Add (personName == "" && currentPersonID >= 0 && fs.PersonID == currentPersonID);
 
 			id_l.Add (fs.UniqueID);
-			id_l.Add (fs.UniqueID);
 
 			if (eventGraphForceSensorStored.selectedID == fs.UniqueID)
 				cb.SelectedPos = eventGraphForceSensorStored.rowsAtSQL.Count -countToDraw -1;
@@ -121,25 +125,8 @@ public class CairoPaintBarsPreForceSensor : CairoPaintBarsPre
 		cb.Id_l = id_l;
 		cb.PersonIcon_l = personIcon_l;
 
-		/*
-		cb.PassGuidesData (new CairoBarsGuideManage(
-					//! ShowPersonNames, true, //usePersonGuides, useGroupGuides
-					true, true, //usePersonGuides, useGroupGuides
-					eventGraphJumpsStored.sessionMAXAtSQL,
-					eventGraphJumpsStored.sessionAVGAtSQL,
-					eventGraphJumpsStored.sessionMINAtSQL,
-					eventGraphJumpsStored.personMAXAtSQLAllSessions,
-					eventGraphJumpsStored.personMAXAtSQL,
-					eventGraphJumpsStored.personAVGAtSQL,
-					eventGraphJumpsStored.personMINAtSQL));
-		*/
-
-		List<List<PointF>> barsSecondary_ll = new List<List<PointF>>();
-		barsSecondary_ll.Add(pointA_l);
-
-		cb.PassData2Series (pointB_l, barsSecondary_ll, false,
-				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
-				"", false,
+		cb.PassData1Serie (point_l,
+				new List<Cairo.Color>(), names_l,
 				-1, fontHeightForBottomNames, bottomMargin, title,
 				new List<int> (), new List<int> (), barsOrPoints);
 

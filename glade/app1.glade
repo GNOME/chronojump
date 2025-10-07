@@ -14857,7 +14857,7 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
-                                                            <property name="tooltip-text" translatable="yes">Speed</property>
+                                                            <property name="tooltip-text" translatable="yes">Max speed</property>
                                                             <property name="active">True</property>
                                                             <property name="draw-indicator">False</property>
                                                             <signal name="toggled" handler="on_radio_resultsSession_raVar_toggled" swapped="no"/>
@@ -14915,7 +14915,7 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
-                                                            <property name="tooltip-text" translatable="yes">Speed</property>
+                                                            <property name="tooltip-text" translatable="yes">Max force</property>
                                                             <property name="active">True</property>
                                                             <property name="draw-indicator">False</property>
                                                             <signal name="toggled" handler="on_radio_resultsSession_forceVar_toggled" swapped="no"/>

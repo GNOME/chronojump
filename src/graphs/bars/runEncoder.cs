@@ -64,7 +64,7 @@ public class CairoPaintBarsPreRunEncoder : CairoPaintBarsPre
 		 */
 		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, true, true, true);
 
-		cb.YVariable = Catalog.GetString("Max Speed");
+		cb.YVariable = Catalog.GetString("Max speed");
 		if (bestSecond)
 			cb.YVariable = Catalog.GetString("Best second");
 

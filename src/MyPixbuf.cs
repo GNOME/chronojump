@@ -476,6 +476,7 @@ namespace Chronojump
 			new ResourceFix ("ea-time-to-pp.png" , "encoder-analyze-time-to-pp.png"),
 			new ResourceFix ("time_blue.png" , "time_blue.png"),
 			new ResourceFix ("speed_blue.png" , "speed_blue.png"),
+			new ResourceFix ("best-second.png" , "best-second.png"),
 			new ResourceFix ("run_speed.png" , "run_speed.png"),
 			new ResourceFix ("encoder-image-pending.png" , "encoder-image-pending.png"),
 			new ResourceFix ("encoder-linear.png" , "encoder-linear.png"),

@@ -503,6 +503,7 @@ public class PrepareEventGraphRunEncoder : PrepareEventGraphTest
 	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
 	private Sqlite.Orders_by orderBy;
 	private int exerciseID;
+	private bool bestSecond;
 
 	public bool exerciseAll; //all tests
 
@@ -510,12 +511,13 @@ public class PrepareEventGraphRunEncoder : PrepareEventGraphTest
 	}
 
 	public PrepareEventGraphRunEncoder (int sessionID, int personID, bool allPersons,
-			Constants.ResultsSessionCriteria resultsSessionCriteria, int limit,
+			Constants.ResultsSessionCriteria resultsSessionCriteria, bool bestSecond, int limit,
 			int exerciseID, int selectedID, Constants.Modes mode, bool exerciseAll)
 	{
 		this.sessionID = sessionID;
 		this.personID = personID;
 		this.exerciseID = exerciseID;
+		this.bestSecond = bestSecond;
 		this.selectedID = selectedID;
 		this.exerciseAll = exerciseAll;
 
@@ -536,18 +538,22 @@ public class PrepareEventGraphRunEncoder : PrepareEventGraphTest
 				);
 		//LogB.Information ("rowsAtSQL count: " + (rowsAtSQL.Count).ToString ());
 
-		boxplotsDo ("maxSpeed"); // maxSpeed (margins ok for best second)
+		string sqlSelect = "maxSpeed";
+		if (bestSecond)
+			sqlSelect = "maxAvgSpeed1s";
+
+		boxplotsDo (sqlSelect);
 	}
 
 	protected override List<double> boxplotSelectPerson (string param)
 	{
 		return SqliteRunEncoder.Select (false, param, -1, personID, sessionID, exerciseID,
-				Sqlite.Orders_by.BEST, 0); // BEST: maxSpeed (margins ok for best second), no limit
+				orderBy, 0);
 	}
 	protected override List<double> boxplotSelectSession (string param)
 	{
 		return SqliteRunEncoder.Select (false, param, -1, -1, sessionID, exerciseID,
-				Sqlite.Orders_by.BEST, 0); // BEST: maxSpeed (margins ok for best second), no limit
+				orderBy, 0);
 	}
 
 	~PrepareEventGraphRunEncoder() {}

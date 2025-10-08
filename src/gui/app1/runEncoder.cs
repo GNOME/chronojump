@@ -3240,7 +3240,7 @@ public partial class ChronoJumpWindow
 				currentSession.UniqueID,
 				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
 				//get_radio_resultsSession_criteria (),
-				resultsSessionCriteria,
+				resultsSessionCriteria, radio_resultsSession_ra_best_second.Active,
 				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
 				//Constants.RunEncoderTable, typeTemp,
 				exerciseID, selectedID, current_mode, radio_contacts_graph_allTests.Active);

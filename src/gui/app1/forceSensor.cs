@@ -4038,10 +4038,22 @@ LogB.Information(" fs R ");
 		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
 			selectedID = treeViewResultsSession.EventSelectedID;
 
+		// TODO: have a method to do this
+		Constants.ResultsSessionCriteria resultsSessionCriteria;
+		if (radio_resultsSession_last.Active)
+			resultsSessionCriteria = Constants.ResultsSessionCriteria.LAST;
+		else {
+			if (radio_resultsSession_force_max.Active)
+				resultsSessionCriteria = Constants.ResultsSessionCriteria.BEST;
+			else
+				resultsSessionCriteria = Constants.ResultsSessionCriteria.BEST2;
+		}
+
 		PrepareEventGraphForceSensor eventGraph = new PrepareEventGraphForceSensor (
 				currentSession.UniqueID,
 				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
-				get_radio_resultsSession_criteria (), radio_resultsSession_force_best_second.Active,
+				//get_radio_resultsSession_criteria (), radio_resultsSession_force_best_second.Active,
+				resultsSessionCriteria, radio_resultsSession_force_best_second.Active,
 				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
 				//Constants.ForceSensorTable, typeTemp,
 				exerciseID, selectedID, current_mode, radio_contacts_graph_allTests.Active);

@@ -148,48 +148,15 @@ class SqliteForceSensor : SqliteTests
 		    int exerciseID, Orders_by order, int limit, bool personNameInComment//, bool onlyBestInSession
 		    )
     {
-	    LogB.Information ("SqliteForceSensor.Select exerciseID: " + exerciseID.ToString ());
+	    LogB.Information ("SqliteForceSensor.Select (ForceSensor) exerciseID: " + exerciseID.ToString ());
         openIfNeeded(dbconOpened);
 
 	//for personNameInComment
 	List<Person> person_l =
 		SqlitePersonSession.SelectCurrentSessionPersonsAsList (true, sessionID);
 
-        string selectStr = "SELECT " + tableStatic + ".*, " + Constants.ForceSensorExerciseTable + ".Name FROM " + tableStatic + ", " + Constants.ForceSensorExerciseTable;
-        string whereStr = " WHERE " + tableStatic + ".exerciseID = " + Constants.ForceSensorExerciseTable + ".UniqueID ";
-
-        string uniqueIDStr = "";
-        if (uniqueID != -1)
-            uniqueIDStr = " AND " + tableStatic + ".uniqueID = " + uniqueID;
-
-        string personIDStr = "";
-        if (personID != -1)
-            personIDStr = " AND " + tableStatic + ".personID = " + personID;
-
-        string sessionIDStr = "";
-        if (sessionID != -1)
-            sessionIDStr = " AND " + tableStatic + ".sessionID = " + sessionID;
-
-	string andExerciseStr = "";
-        if (exerciseID != -1)
-		andExerciseStr = string.Format (" AND {0}.exerciseID = {1} ", tableStatic, exerciseID);
-
-        string stiffnessStr = "";
-        if (elastic == 0)
-            stiffnessStr = " AND " + Constants.ForceSensorTable + ".stiffness < 0";
-        else if (elastic == 1)
-            stiffnessStr = " AND " + Constants.ForceSensorTable + ".stiffness > 0";
-
-	string orderByString = string.Format (" ORDER BY {0}.uniqueID ", tableStatic);
-	if (order == Orders_by.ID_DESC)
-		orderByString = string.Format(" ORDER BY {0}.uniqueID DESC ", tableStatic);
-	else if (order == Orders_by.BEST)
-		  orderByString = string.Format ( " ORDER BY {0}.maxForceRaw ", tableStatic);
-	else if (order == Orders_by.BEST2)
-		  orderByString = string.Format ( " ORDER BY {0}.maxAvgForce1s ", tableStatic);
-
-        dbcmd.CommandText = selectStr + whereStr + uniqueIDStr + personIDStr + sessionIDStr +
-		andExerciseStr + stiffnessStr + orderByString;// + limitString;
+	dbcmd.CommandText = "SELECT " + tableStatic + ".*, " + Constants.ForceSensorExerciseTable + ".Name FROM " + tableStatic + ", " + Constants.ForceSensorExerciseTable +
+		selectDo (uniqueID, personID, sessionID, elastic, exerciseID, order);
 
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
@@ -245,6 +212,75 @@ class SqliteForceSensor : SqliteTests
 		list = list.GetRange (list.Count + limit, -1 * limit);
 
         return list;
+    }
+
+    public static List<double> Select (bool dbconOpened, string selectParam,
+		    int uniqueID, int personID, int sessionID, int elastic,
+		    int exerciseID, Orders_by order, int limit
+		    )
+    {
+	LogB.Information ("SqliteForceSensor.Select (double) exerciseID: " + exerciseID.ToString ());
+        openIfNeeded(dbconOpened);
+
+	dbcmd.CommandText = "SELECT " + tableStatic + "." + selectParam + " FROM " + tableStatic + ", " + Constants.ForceSensorExerciseTable +
+		selectDo (uniqueID, personID, sessionID, elastic, exerciseID, order);
+
+        LogB.SQL(dbcmd.CommandText.ToString());
+        dbcmd.ExecuteNonQuery();
+
+        SQLiteDataReader reader;
+        reader = dbcmd.ExecuteReader();
+
+	List<double> d_l = new List<double> ();
+	while (reader.Read())
+		d_l.Add (Convert.ToDouble (Util.ChangeDecimalSeparator (reader [0].ToString ())));
+
+        reader.Close();
+        closeIfNeeded(dbconOpened);
+
+	//get last values on negative limit
+	if (limit < 0 && d_l.Count + limit >= 0)
+		d_l = d_l.GetRange (d_l.Count + limit, -1 * limit);
+
+        return d_l;
+    }
+
+    private static string selectDo (int uniqueID, int personID, int sessionID, int elastic, int exerciseID, Orders_by order)
+    {
+        string whereStr = " WHERE " + tableStatic + ".exerciseID = " + Constants.ForceSensorExerciseTable + ".UniqueID ";
+
+        string uniqueIDStr = "";
+        if (uniqueID != -1)
+            uniqueIDStr = " AND " + tableStatic + ".uniqueID = " + uniqueID;
+
+        string personIDStr = "";
+        if (personID != -1)
+            personIDStr = " AND " + tableStatic + ".personID = " + personID;
+
+        string sessionIDStr = "";
+        if (sessionID != -1)
+            sessionIDStr = " AND " + tableStatic + ".sessionID = " + sessionID;
+
+	string andExerciseStr = "";
+        if (exerciseID != -1)
+		andExerciseStr = string.Format (" AND {0}.exerciseID = {1} ", tableStatic, exerciseID);
+
+        string stiffnessStr = "";
+        if (elastic == 0)
+            stiffnessStr = " AND " + Constants.ForceSensorTable + ".stiffness < 0";
+        else if (elastic == 1)
+            stiffnessStr = " AND " + Constants.ForceSensorTable + ".stiffness > 0";
+
+	string orderByString = string.Format (" ORDER BY {0}.uniqueID ", tableStatic);
+	if (order == Orders_by.ID_DESC)
+		orderByString = string.Format(" ORDER BY {0}.uniqueID DESC ", tableStatic);
+	else if (order == Orders_by.BEST)
+		  orderByString = string.Format ( " ORDER BY {0}.maxForceRaw ", tableStatic);
+	else if (order == Orders_by.BEST2)
+		  orderByString = string.Format ( " ORDER BY {0}.maxAvgForce1s ", tableStatic);
+
+	return whereStr + uniqueIDStr + personIDStr + sessionIDStr +
+		andExerciseStr + stiffnessStr + orderByString;// + limitString;
     }
 
     protected override string selectSAArray (SQLiteDataReader reader)

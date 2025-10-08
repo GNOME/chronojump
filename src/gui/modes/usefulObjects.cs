@@ -627,11 +627,15 @@ public class PrepareEventGraphFourPlatforms
 	~PrepareEventGraphFourPlatforms() {}
 }
 
-public class PrepareEventGraphForceSensor
+public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 {
 	//sql data of previous tests to plot graph and show stats at bottom
 	public List<ForceSensor> rowsAtSQL;
 	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
+	private Sqlite.Orders_by orderBy;
+	private	int elastic;
+	private int exerciseID;
+	private bool bestSecond;
 
 	public bool exerciseAll; //all tests
 
@@ -639,10 +643,14 @@ public class PrepareEventGraphForceSensor
 	}
 
 	public PrepareEventGraphForceSensor (int sessionID, int personID, bool allPersons,
-			Constants.ResultsSessionCriteria resultsSessionCriteria, int limit,
+			Constants.ResultsSessionCriteria resultsSessionCriteria, bool bestSecond, int limit,
 			int exerciseID, int selectedID, Constants.Modes mode, bool exerciseAll)
 	{
+		this.sessionID = sessionID;
+		this.personID = personID;
+		this.exerciseID = exerciseID;
 		this.selectedID = selectedID;
+		this.bestSecond = bestSecond;
 		this.exerciseAll = exerciseAll;
 
 		int personIDTemp = personID;
@@ -650,13 +658,13 @@ public class PrepareEventGraphForceSensor
 			personIDTemp = -1;
 
 		// see ForceSensor.GetElasticIntFromMode ()
-		int elastic = -1;
+		elastic = -1;
 		if (mode == Constants.Modes.FORCESENSORISOMETRIC)
 			elastic = 0;
 		else if (mode == Constants.Modes.FORCESENSORELASTIC)
 			elastic = 1;
 
-		Sqlite.Orders_by orderBy = Sqlite.Orders_by.ID_ASC;
+		orderBy = Sqlite.Orders_by.ID_ASC;
 		if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST)
 			orderBy = Sqlite.Orders_by.BEST;
 		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
@@ -669,7 +677,31 @@ public class PrepareEventGraphForceSensor
 				);
 		//LogB.Information ("rowsAtSQL count: " + (rowsAtSQL.Count).ToString ());
 
+		string sqlSelect = "maxForceRaw";
+		if (bestSecond)
+			sqlSelect = "maxAvgForce1s";
+
+		// if ID_ASC, order correctly the boxplot
+		if (orderBy == Sqlite.Orders_by.ID_ASC)
+		{
+			orderBy = Sqlite.Orders_by.BEST;
+			if (bestSecond)
+				orderBy = Sqlite.Orders_by.BEST2;
+		}
+		boxplotsDo (sqlSelect);
+
 		this.selectedID = selectedID;
+	}
+
+	protected override List<double> boxplotSelectPerson (string param)
+	{
+		return SqliteForceSensor.Select (false, param, -1, personID, sessionID, elastic, exerciseID,
+				orderBy, 0);
+	}
+	protected override List<double> boxplotSelectSession (string param)
+	{
+		return SqliteForceSensor.Select (false, param, -1, -1, sessionID, elastic, exerciseID,
+				orderBy, 0);
 	}
 
 	~PrepareEventGraphForceSensor() {}

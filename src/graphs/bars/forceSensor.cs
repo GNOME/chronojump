@@ -125,6 +125,8 @@ public class CairoPaintBarsPreForceSensor : CairoPaintBarsPre
 		cb.Id_l = id_l;
 		cb.PersonIcon_l = personIcon_l;
 
+		cb.PassBoxplots (eventGraphForceSensorStored.BoxplotPerson, eventGraphForceSensorStored.BoxplotSession);
+
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,
 				-1, fontHeightForBottomNames, bottomMargin, title,

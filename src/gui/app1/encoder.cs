@@ -6954,7 +6954,6 @@ public partial class ChronoJumpWindow
 					encoderCaptureSelectBySavedCurves(esc.msCentral, true);
 
 					if(updateSQLRecords) {
-						//update the meanPower, meanSpeed, meanForce
 						Sqlite.Update (true, Constants.EncoderTable, "future1",
 								"", Util.ConvertToPoint (curve.MeanPower),
 								"uniqueID", esc.curveID.ToString());
@@ -6972,6 +6971,9 @@ public partial class ChronoJumpWindow
 								"uniqueID", esc.curveID.ToString());
 						Sqlite.Update (true, Constants.EncoderTable, "maxForce",
 								"", Util.ConvertToPoint (curve.MaxForce),
+								"uniqueID", esc.curveID.ToString());
+						Sqlite.Update (true, Constants.EncoderTable, "rangeAbs",
+								"", Util.ConvertToPoint (curve.RangeAbs),
 								"uniqueID", esc.curveID.ToString());
 					}
 					

@@ -770,14 +770,18 @@ public class PrepareEventGraphEncoderCurrent
 	~PrepareEventGraphEncoderCurrent () {}
 }
 
-public class PrepareEventGraphEncoderSession
+public class PrepareEventGraphEncoderSession : PrepareEventGraphTest
 {
 	//sql data of previous tests to plot graph and show stats at bottom
 	public List<EncoderSQL> rowsAtSQL;
 	public int selectedSetID; //-1 if none selected. If >= 0 then is the selected on treeview.
 	public List<int> selectedRepID_l; //need to match with the bars, as the bars are going to be repetitions
+	private Sqlite.Orders_by orderBy;
 
 	public bool exerciseAll; //all tests
+	private Constants.EncoderGI encoderGI;
+	private Constants.EncoderVariablesCapture encoderVariablesCapture;
+	private int exerciseID;
 
 	public PrepareEventGraphEncoderSession () {
 	}
@@ -789,14 +793,19 @@ public class PrepareEventGraphEncoderSession
 			int limit,
 			int exerciseID, int selectedSetID, Constants.Modes mode, bool exerciseAll)
 	{
+		this.sessionID = sessionID;
+		this.personID = personID;
+		this.exerciseID = exerciseID;
 		this.selectedSetID = selectedSetID;
 		this.exerciseAll = exerciseAll;
+		this.encoderGI = encoderGI;
+		this.encoderVariablesCapture = encoderVariablesCapture;
 
 		int personIDTemp = personID;
 		if(allPersons)
 			personIDTemp = -1;
 
-		Sqlite.Orders_by orderBy = Sqlite.Orders_by.ID_ASC;
+		orderBy = Sqlite.Orders_by.ID_ASC;
 		if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST)
 			orderBy = Sqlite.Orders_by.BEST;
 		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
@@ -823,6 +832,30 @@ public class PrepareEventGraphEncoderSession
 			foreach (EncoderSignalCurve esc in linkedReps)
 				selectedRepID_l.Add (esc.curveID);
 		}
+
+		orderBy = Sqlite.Orders_by.BEST; 	//for boxplots use order_by.BEST
+		boxplotsDo (Constants.GetEncoderVariablesCaptureAsSQLField (encoderVariablesCapture));
+	}
+
+	protected override List<double> boxplotSelectPerson (string param)
+	{
+		return SqliteEncoder.SelectList (false, param, -1, personID, sessionID, encoderGI,
+				exerciseID, "curve", EncoderSQL.Eccons.ALL,
+				"", 	//lateralityEnglish
+				false, orderBy, encoderVariablesCapture, 	// onlyActive
+				false, 	//orderRepsByPosInSet
+				0
+				);
+	}
+	protected override List<double> boxplotSelectSession (string param)
+	{
+		return SqliteEncoder.SelectList (false, param, -1, -1, sessionID, encoderGI,
+				exerciseID, "curve", EncoderSQL.Eccons.ALL,
+				"", 	//lateralityEnglish
+				false, orderBy, encoderVariablesCapture, 	// onlyActive
+				false, 	//orderRepsByPosInSet
+				0
+				);
 	}
 
 	~PrepareEventGraphEncoderSession() {}

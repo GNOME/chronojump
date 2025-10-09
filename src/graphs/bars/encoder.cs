@@ -119,6 +119,8 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 		cb.Color_l = color_l;
 		cb.PersonIcon_l = personIcon_l;
 
+		cb.PassBoxplots (eventGraphEncoderSessionStored.BoxplotPerson, eventGraphEncoderSessionStored.BoxplotSession);
+
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,
 				-1, fontHeightForBottomNames, bottomMargin, title,

@@ -283,11 +283,12 @@ class SqliteEncoder : SqliteTests
 	    if (orderIDascendent)
 		    orderBy = Sqlite.Orders_by.ID_ASC;
 
-	    selectDo (dbconOpened, uniqueID, personID, sessionID, encoderGI,
+	    selectDo (dbconOpened, "", uniqueID, personID, sessionID, encoderGI,
 			    exerciseID, signalOrCurve, ecconSelect, lateralityEnglish,
 			    onlyActive, orderBy,
 			    Constants.EncoderVariablesCapture.MeanPower, 	// note this is not used right now (it is used just on SelectList call)
 			    orderRepsByPosInSet); // Attention! note this only selects curves
+	    LogB.SQL(dbcmd.CommandText.ToString());
 
 	    SQLiteDataReader reader;
 	    reader = dbcmd.ExecuteReader();
@@ -324,10 +325,11 @@ class SqliteEncoder : SqliteTests
 	    List<Person> person_l =
 		    SqlitePersonSession.SelectCurrentSessionPersonsAsList (true, sessionID);
 
-	    selectDo (dbconOpened, uniqueID, personID, sessionID, encoderGI,
+	    selectDo (dbconOpened, "", uniqueID, personID, sessionID, encoderGI,
 			    exerciseID, signalOrCurve, ecconSelect, lateralityEnglish,
 			    onlyActive, order, encoderVariablesCapture,
 			    orderRepsByPosInSet); // Attention! note this only selects curves
+	    LogB.SQL(dbcmd.CommandText.ToString());
 
 	    SQLiteDataReader reader;
 	    reader = dbcmd.ExecuteReader();
@@ -358,8 +360,41 @@ class SqliteEncoder : SqliteTests
 	    return eSQL_l;
     }
 
+    public static List<double> SelectList (
+		    bool dbconOpened, string selectParam, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI,
+		    int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect, string lateralityEnglish,
+		    bool onlyActive,
+		    Orders_by order, Constants.EncoderVariablesCapture encoderVariablesCapture,
+		    bool orderRepsByPosInSet, 	// Attention! note this only selects curves
+		    int limit)
+    {
+	    openIfNeeded (dbconOpened);
+
+	    selectDo (dbconOpened, selectParam, uniqueID, personID, sessionID, encoderGI,
+			    exerciseID, signalOrCurve, ecconSelect, lateralityEnglish,
+			    onlyActive, order, encoderVariablesCapture,
+			    orderRepsByPosInSet);
+	    LogB.SQL(dbcmd.CommandText.ToString());
+
+	    SQLiteDataReader reader;
+	    reader = dbcmd.ExecuteReader();
+
+	    List<double> d_l = new List<double> ();
+	    while (reader.Read())
+		    d_l.Add (Convert.ToDouble (Util.ChangeDecimalSeparator (reader [0].ToString ())));
+
+	    reader.Close();
+	    closeIfNeeded (dbconOpened);
+
+	    //get last values on negative limit
+	    if (limit < 0 && d_l.Count + limit >= 0)
+		    d_l = d_l.GetRange (d_l.Count + limit, -1 * limit);
+
+	    return d_l;
+    }
+
     private static void selectDo (
-		    bool dbconOpened, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI,
+		    bool dbconOpened, string selectParam, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI,
 		    int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect, string lateralityEnglish,
 		    bool onlyActive, Orders_by order, Constants.EncoderVariablesCapture encoderVariablesCapture,
 		    bool orderRepsByPosInSet) // Attention! note this only selects curves
@@ -467,16 +502,17 @@ class SqliteEncoder : SqliteTests
 			orderByStr += " DESC";
 	}
 
-        dbcmd.CommandText = "SELECT " +
-            encT + ".*, " + encExT + ".name " +
+	string selectRow1 = "SELECT " + encT + ".*, " + encExT + ".name ";
+	if (selectParam != "")
+		selectRow1 = "SELECT " + encT + "." + selectParam + " ";
+
+        dbcmd.CommandText = selectRow1 +
             fromString +
             " WHERE " + selectStr +
 	    andString + encT + ".exerciseID = " +
 	    encExT + ".uniqueID " +
 	    onlyActiveString + orderRepsByPosInSetAndStr +
 	    orderByStr;
-
-        LogB.SQL(dbcmd.CommandText.ToString());
     }
 
     private static EncoderSQL getEncoderSQL (SQLiteDataReader reader, Constants.EncoderGI encoderGI)

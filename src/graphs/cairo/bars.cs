@@ -61,6 +61,7 @@ public abstract class CairoBars : CairoGeneric
 	protected CairoBarsArrow cairoBarsArrow;
 	protected Boxplot boxplotPerson;
 	protected Boxplot boxplotSession;
+	protected List<double> selectedForBoxplot_l; // on graph units
 
 	protected Cairo.Context g;
 	protected int lineWidthDefault = 1; //was 2;
@@ -194,29 +195,30 @@ public abstract class CairoBars : CairoGeneric
 		if (bp == null || ! bp.Calculated)
 			return;
 
+		int width = 8;
 		//LogB.Information ("bp: " + bp.ToString ());
 
 		g.LineWidth = 1;
 		int x = graphWidth - rightMargin +xStart +6;
 
 		// iqr rectangle
-		g.Rectangle (x-6, calculatePaintY (bp.Quartiles.Item3),
-				12, calculatePaintY (bp.Quartiles.Item1) -calculatePaintY (bp.Quartiles.Item3));
+		g.Rectangle (x-width, calculatePaintY (bp.Quartiles.Item3),
+				2*width, calculatePaintY (bp.Quartiles.Item1) -calculatePaintY (bp.Quartiles.Item3));
 		// median
-		g.MoveTo (x-6, calculatePaintY (bp.Quartiles.Item2));
-		g.LineTo (x+6, calculatePaintY (bp.Quartiles.Item2));
+		g.MoveTo (x-width, calculatePaintY (bp.Quartiles.Item2));
+		g.LineTo (x+width, calculatePaintY (bp.Quartiles.Item2));
 		g.Stroke ();
 
 		// top quartile
-		g.MoveTo (x-6, calculatePaintY (bp.MaxAccepted));
-		g.LineTo (x+6, calculatePaintY (bp.MaxAccepted));
+		g.MoveTo (x-width, calculatePaintY (bp.MaxAccepted));
+		g.LineTo (x+width, calculatePaintY (bp.MaxAccepted));
 		g.MoveTo (x, calculatePaintY (bp.MaxAccepted));
 		g.LineTo (x, calculatePaintY (bp.Quartiles.Item3));
 		g.Stroke ();
 
 		// bottom quartile
-		g.MoveTo (x-6, calculatePaintY (bp.MinAccepted));
-		g.LineTo (x+6, calculatePaintY (bp.MinAccepted));
+		g.MoveTo (x-width, calculatePaintY (bp.MinAccepted));
+		g.LineTo (x+width, calculatePaintY (bp.MinAccepted));
 		g.MoveTo (x, calculatePaintY (bp.Quartiles.Item1));
 		g.LineTo (x, calculatePaintY (bp.MinAccepted));
 		g.Stroke ();
@@ -226,6 +228,19 @@ public abstract class CairoBars : CairoGeneric
 			g.MoveTo (x +4, calculatePaintY (d));
 			g.Arc(x, calculatePaintY (d), 4, 0.0, 2.0 * Math.PI); //full circle
 			g.Stroke();
+		}
+
+		foreach (double d in selectedForBoxplot_l)
+		{
+			g.SetSourceColor(yellow); //to have contrast with the bar
+			g.MoveTo (x, d-4);
+			g.RelLineTo (4, 4);
+			g.RelLineTo (-4, 4);
+			g.RelLineTo (-4, -4);
+			g.ClosePath ();
+			g.FillPreserve ();
+			g.SetSourceColor(black);
+			g.Stroke ();
 		}
 	}
 

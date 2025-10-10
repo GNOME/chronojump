@@ -198,10 +198,15 @@ public class CairoBars1Series : CairoBars
 			else
 				drawCircle (g, x + adjustXonPOINTS, y, POINTS_SIZE, black, barColor);
 
+			bool isSelected = false;
 			if (selectedPos_l.Count > 0) // used on encoder reps
-				barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), UtilList.FoundInListInt (selectedPos_l, i), true, black));
+				isSelected = UtilList.FoundInListInt (selectedPos_l, i);
 			else
-				barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), i == selectedPos, true, black));
+				isSelected = i == selectedPos;
+
+			barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), isSelected, true, black));
+			if (isSelected)
+				selectedForBoxplot_l.Add (y);
 
 			if (barsOrPoints == BarsOrPoints.BARS)
 				mouseLimits.AddInPos (i, x, y, x+barWidth, graphHeight -bottomMargin);
@@ -320,10 +325,12 @@ public class CairoBars1Series : CairoBars
 			drawGuides(colorSerieA);
 			*/
 
-		drawBoxplots (colorSerieA);
-
 		g.SetSourceColor(black);
+
+		selectedForBoxplot_l = new List <double> ();
 		plotBars ();
+
+		drawBoxplots (colorSerieA);
 
 		if(cairoBarsArrow != null)
 			plotArrow();

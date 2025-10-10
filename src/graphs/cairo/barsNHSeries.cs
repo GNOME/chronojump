@@ -492,15 +492,20 @@ public class CairoBarsNHSeries : CairoBars
 			//sort result on bars correctly (this could be useful if mainAtLeft changes)
 			for(int j = 0 ; j < resultOnBarsThisIteration_l.Count; j ++)
 			{
+				bool isSelected = false;
 				if (selectedPos_l.Count > 0) // used on encoder reps
-					barResult_l.Add (new BarResult (resultOnBarsThisIteration_l[j], UtilList.FoundInListInt (selectedPos_l, i), above, colorOnBarsThisIteration_l[j]));
-				else {
-					barResult_l.Add (new BarResult (resultOnBarsThisIteration_l[j], i == selectedPos, above, colorOnBarsThisIteration_l[j]));
-				}
+					isSelected = UtilList.FoundInListInt (selectedPos_l, i);
+				else
+					isSelected = i == selectedPos;
+
+				barResult_l.Add (new BarResult (resultOnBarsThisIteration_l[j], isSelected, above, colorOnBarsThisIteration_l[j]));
 
 				barsXCenter_l.Add(resultOnBarsThisIteration_l[j].X);
 
 				above = ! above;
+
+				if (isSelected)
+					selectedForBoxplot_l.Add (resultOnBarsThisIteration_l[j].Y);
 			}
 
 			//videoPlayTimeInSeconds
@@ -621,10 +626,12 @@ public class CairoBarsNHSeries : CairoBars
 			drawGuides(colorSerieB);
 		*/
 
-		drawBoxplots (colorSerieB);
-
 		g.SetSourceColor(black);
+
+		selectedForBoxplot_l = new List <double> ();
 		plotBars();
+
+		drawBoxplots (colorSerieB);
 
 		if(cairoBarsArrow != null)
 			plotArrow();

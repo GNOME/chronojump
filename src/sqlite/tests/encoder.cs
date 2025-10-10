@@ -894,14 +894,17 @@ class SqliteEncoder : SqliteTests
     {
 	LogB.Information ("fixOrphaned_db264_to265 start");
 
-	dbcmd.CommandText = "SELECT MAX (sessionID) FROM personSession77";
+	dbcmd.CommandText = "SELECT COALESCE(MAX(sessionID),0) FROM personSession77"; // COALESCE to have a 0 if no rows
         LogB.SQL(dbcmd.CommandText.ToString());
 	dbcmd.ExecuteNonQuery();
 	SQLiteDataReader reader;
 	reader = dbcmd.ExecuteReader();
 	int sessionIDmax = 0;
-	if(reader.Read()) 
+	if(reader.Read())
+	{
+		// note here there was a crash if no rows. Solved with coalesce but we could have done: Util.IsNumber (reader[0], false)
 		sessionIDmax = Convert.ToInt32 (reader[0].ToString());
+	}
 	reader.Close();
 
 	if (sessionIDmax == 0)

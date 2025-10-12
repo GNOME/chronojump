@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
 "POT-Creation-Date: 2023-04-11 16:13+0000\n"
-"PO-Revision-Date: 2023-04-11 23:51+0200\n"
+"PO-Revision-Date: 2023-04-12 22:49+0200\n"
 "Last-Translator: Nathan Follens <nfollens@gnome.org>\n"
 "Language-Team: GNOME-NL https://matrix.to/#/#nl:gnome.org\n"
 "Language: nl\n"
@@ -529,11 +529,11 @@ msgstr ""
 
 #: ../glade/app1.glade.h:98
 msgid "Change zoom (z)"
-msgstr ""
+msgstr "Zoomniveau wijzigen (z)"
 
 #: ../glade/app1.glade.h:99
 msgid "Edit selected (e)"
-msgstr ""
+msgstr "Geselecteerde bewerken (e)"
 
 #: ../glade/app1.glade.h:100 ../src/gui/app1/chronojump.cs:1872
 #: ../src/gui/app1/chronojump.cs:1991 ../src/gui/app1/chronojump.cs:2090
@@ -541,7 +541,7 @@ msgstr ""
 #: ../src/gui/app1/chronojump.cs:2411 ../src/gui/app1/chronojump.cs:2523
 #: ../src/gui/executeAuto.cs:255
 msgid "Delete selected"
-msgstr ""
+msgstr "Geselecteerde verwijderen"
 
 #. this.heightPreferred = heightPreferred;
 #: ../glade/app1.glade.h:101 ../glade/jump_type_add.glade.h:19
@@ -551,15 +551,15 @@ msgstr "Sprong"
 
 #: ../glade/app1.glade.h:102
 msgid "Repair selected (r)"
-msgstr ""
+msgstr "Geselecteerde herstellen (r)"
 
 #: ../glade/app1.glade.h:103
 msgid "Play Video (v)"
-msgstr ""
+msgstr "Video afspelen (v)"
 
 #: ../glade/app1.glade.h:104
 msgid "Delete selected (d)"
-msgstr ""
+msgstr "Geselecteerde verwijderen (d)"
 
 #: ../glade/app1.glade.h:105
 msgid "Jump multiple"
@@ -701,11 +701,11 @@ msgstr ""
 #: ../glade/app1.glade.h:138
 #, no-c-format
 msgid "% body weight"
-msgstr ""
+msgstr "% lichaamsgewicht"
 
 #: ../glade/app1.glade.h:139
 msgid "Additional weight"
-msgstr ""
+msgstr "Extra gewicht"
 
 #: ../glade/app1.glade.h:140 ../glade/jump_type_add.glade.h:24
 #: ../src/gui/jump.cs:1091 ../src/gui/jump.cs:1317
@@ -1757,7 +1757,7 @@ msgstr ""
 
 #: ../glade/app1.glade.h:368
 msgid "Cancel process."
-msgstr ""
+msgstr "Proces annuleren."
 
 #: ../glade/app1.glade.h:369
 msgid "Finish continuous mode"
@@ -2127,7 +2127,7 @@ msgstr ""
 
 #: ../glade/app1.glade.h:451
 msgid "Send by email"
-msgstr ""
+msgstr "Verzenden via e-mail"
 
 #: ../glade/app1.glade.h:452
 msgid "Save 1RM value"
@@ -2497,23 +2497,23 @@ msgstr ""
 
 #: ../glade/app1.glade.h:532
 msgid "Encoder disconnected."
-msgstr ""
+msgstr "Verbinding met encoder verbroken."
 
 #: ../glade/app1.glade.h:533
 msgid "Please, connect it and click here:"
-msgstr ""
+msgstr "Verbind hem en klik hier:"
 
 #: ../glade/app1.glade.h:534
 msgid "Check connection"
-msgstr ""
+msgstr "Verbinding controleren"
 
 #: ../glade/app1.glade.h:535 ../src/constants.cs:253
 msgid "RFID has been disconnected!"
-msgstr ""
+msgstr "Verbinding met RFID is verbroken!"
 
 #: ../glade/app1.glade.h:536 ../src/constants.cs:254
 msgid "Please, connect it and restart Chronojump."
-msgstr ""
+msgstr "Verbind hem en herstart Chronojump."
 
 #: ../glade/app1.glade.h:537
 msgid "Documents"
@@ -2625,9 +2625,10 @@ msgstr "Opmerkingen toevoegen"
 msgid "Send error log"
 msgstr "Foutenlog verzenden"
 
+# "Laatste versie controleren"? - Nathan
 #: ../glade/app1.glade.h:563
 msgid "Check last version"
-msgstr ""
+msgstr "Controleren op nieuwe versie"
 
 #: ../glade/app1.glade.h:564
 msgid "Open Chronojump"
@@ -3077,7 +3078,7 @@ msgstr ""
 
 #: ../glade/encoder_configuration.glade.h:20
 msgid "Accuracy"
-msgstr ""
+msgstr "Nauwkeurigheid"
 
 #: ../glade/encoder_configuration.glade.h:21
 msgid "Calculate inertial momentum"
@@ -3090,7 +3091,7 @@ msgstr ""
 #: ../glade/encoder_configuration.glade.h:27
 #: ../glade/force_sensor_elastic_bands.glade.h:5
 msgid "Add new"
-msgstr ""
+msgstr "Nieuwe toevoegen"
 
 #: ../glade/encoder_configuration.glade.h:28
 #: ../src/gui/encoderConfiguration.cs:1003
@@ -3107,7 +3108,7 @@ msgstr ""
 
 #: ../glade/encoder_configuration.glade.h:38
 msgid "Number of weights"
-msgstr ""
+msgstr "Aantal gewichten"
 
 #: ../glade/evaluator_window.glade.h:1
 msgid "Evaluator server data"
@@ -3151,7 +3152,7 @@ msgstr ""
 
 #: ../glade/evaluator_window.glade.h:13
 msgid "Select your Chronometer"
-msgstr ""
+msgstr "Selecteer uw chronometer"
 
 #: ../glade/evaluator_window.glade.h:14 ../src/constants.cs:196
 #: ../src/constants.cs:197 ../src/gui/person/addModify.cs:704
@@ -3177,19 +3178,19 @@ msgstr ""
 
 #: ../glade/evaluator_window.glade.h:19
 msgid "Expand image and show description"
-msgstr ""
+msgstr "Afbeelding vergroten en beschrijving tonen"
 
 #: ../glade/evaluator_window.glade.h:20
 msgid "To buy or build Chronopic see website:"
-msgstr ""
+msgstr "Bekijk deze website om Chronopic te kopen of samen te stellen:"
 
 #: ../glade/evaluator_window.glade.h:21
 msgid "Chronometer"
-msgstr ""
+msgstr "Chronometer"
 
 #: ../glade/evaluator_window.glade.h:22
 msgid "Select the device you currently use"
-msgstr ""
+msgstr "Selecteer het apparaat dat u gebruikt"
 
 #: ../glade/evaluator_window.glade.h:23
 msgid ""
@@ -3565,7 +3566,7 @@ msgstr ""
 
 #: ../glade/force_sensor_elastic_bands.glade.h:21
 msgid "Confirm deletion"
-msgstr ""
+msgstr "Bevestig de verwijdering"
 
 #: ../glade/force_sensor_exercise.glade.h:2
 msgid ""
@@ -3601,7 +3602,7 @@ msgstr ""
 
 #: ../glade/force_sensor_exercise.glade.h:13
 msgid "Not elastic"
-msgstr ""
+msgstr "Niet elastisch"
 
 #: ../glade/force_sensor_exercise.glade.h:14
 msgid "Total mass management"
@@ -3677,11 +3678,11 @@ msgstr "Voorbeelden"
 
 #: ../glade/generic_window.glade.h:2 ../glade/person_win.glade.h:18
 msgid "Feet"
-msgstr ""
+msgstr "Voet"
 
 #: ../glade/generic_window.glade.h:3 ../glade/person_win.glade.h:19
 msgid "Inches"
-msgstr ""
+msgstr "Inch"
 
 #: ../glade/generic_window.glade.h:5
 msgid "button"
@@ -4079,7 +4080,7 @@ msgstr ""
 
 #: ../glade/preferences_win.glade.h:15
 msgid "Show persons photo"
-msgstr ""
+msgstr "Foto van persoon tonen"
 
 #: ../glade/preferences_win.glade.h:16
 msgid "Persons on top  (manage them by clicking a button)"
@@ -4104,7 +4105,7 @@ msgstr ""
 
 #: ../glade/preferences_win.glade.h:21
 msgid "Recommended"
-msgstr ""
+msgstr "Aanbevolen"
 
 #: ../glade/preferences_win.glade.h:22
 msgid "Screen"
@@ -4140,7 +4141,7 @@ msgstr "Tijden: contacttijd, vluchttijd"
 
 #: ../glade/preferences_win.glade.h:32
 msgid "Weight units:"
-msgstr ""
+msgstr "Eenheden voor gewicht:"
 
 #: ../glade/preferences_win.glade.h:34
 msgid "Arms Use Index"
@@ -4156,11 +4157,11 @@ msgstr "standaard"
 
 #: ../glade/preferences_win.glade.h:37
 msgid "Use flight time"
-msgstr ""
+msgstr "Vluchttijd gebruiken"
 
 #: ../glade/preferences_win.glade.h:40
 msgid "Speed units:"
-msgstr ""
+msgstr "Eenheden voor snelheid:"
 
 #: ../glade/preferences_win.glade.h:41 ../src/gui/preferences.cs:2696
 msgid ""
@@ -4249,7 +4250,7 @@ msgstr "3"
 
 #: ../glade/preferences_win.glade.h:65
 msgid "End at n inactivity seconds"
-msgstr ""
+msgstr "Beëindigen na n seconden van inactiviteit"
 
 #: ../glade/preferences_win.glade.h:67
 msgid "Discard first repetitions"
@@ -4261,7 +4262,7 @@ msgstr "Aanbevolen: 3"
 
 #: ../glade/preferences_win.glade.h:71
 msgid "Average of both phases"
-msgstr ""
+msgstr "Gemiddelde van beide fasen"
 
 #: ../glade/preferences_win.glade.h:74
 msgid "recommended"
@@ -4344,11 +4345,11 @@ msgstr ""
 
 #: ../glade/preferences_win.glade.h:94
 msgid "Joules"
-msgstr ""
+msgstr "Joule"
 
 #: ../glade/preferences_win.glade.h:95
 msgid "Units"
-msgstr ""
+msgstr "Eenheden"
 
 #: ../glade/preferences_win.glade.h:96
 msgid "X variable to show on inertial analyze graphs"
@@ -4370,23 +4371,23 @@ msgstr "0,70"
 
 #: ../glade/preferences_win.glade.h:103
 msgid "Non weighted"
-msgstr ""
+msgstr "Niet gewogen"
 
 #: ../glade/preferences_win.glade.h:104
 msgid "Weighted"
-msgstr ""
+msgstr "Gewogen"
 
 #: ../glade/preferences_win.glade.h:105
 msgid "Weighted^2"
-msgstr ""
+msgstr "Gewogen^2"
 
 #: ../glade/preferences_win.glade.h:106
 msgid "Weighted^3"
-msgstr ""
+msgstr "Gewogen^3"
 
 #: ../glade/preferences_win.glade.h:107
 msgid "Recommended: Weighted^2"
-msgstr ""
+msgstr "Aanbevolen: gewogen^2"
 
 #: ../glade/preferences_win.glade.h:108
 msgid "1RM prediction"
@@ -4450,7 +4451,7 @@ msgstr ""
 
 #: ../glade/preferences_win.glade.h:130
 msgid "Play sound (on / off)"
-msgstr ""
+msgstr "Geluid afspelen (aan / uit)"
 
 #: ../glade/preferences_win.glade.h:131
 msgid "System sounds"
@@ -4482,32 +4483,32 @@ msgstr "Framesnelheid"
 
 #: ../glade/preferences_win.glade.h:140
 msgid "800"
-msgstr ""
+msgstr "800"
 
 #: ../glade/preferences_win.glade.h:142
 msgid "599"
-msgstr ""
+msgstr "599"
 
 #: ../glade/preferences_win.glade.h:143
 msgid "Pixel format"
-msgstr ""
+msgstr "Pixelformaat"
 
 #. Substantive
 #: ../glade/preferences_win.glade.h:145
 msgid "Format"
-msgstr ""
+msgstr "Formaat"
 
 #: ../glade/preferences_win.glade.h:146
 msgid "Configure"
-msgstr ""
+msgstr "Configureren"
 
 #: ../glade/preferences_win.glade.h:149
 msgid "On Windows at least Windows 7 is required."
-msgstr ""
+msgstr "Op Windows is minstens Windows 7 vereist."
 
 #: ../glade/preferences_win.glade.h:150
 msgid "Show advanced controls"
-msgstr ""
+msgstr "Geavanceerde besturing tonen"
 
 #: ../glade/preferences_win.glade.h:151
 msgid "Check if camera is running"
@@ -4564,7 +4565,7 @@ msgstr "Om dit te wijzigen moet u Chronojump herstarten"
 
 #: ../glade/preferences_win.glade.h:164
 msgid "Spreadsheet import and export format"
-msgstr ""
+msgstr "Formaat voor importeren en exporteren van spreadsheets"
 
 #: ../glade/preferences_win.glade.h:165
 msgid "Latin"

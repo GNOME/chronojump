@@ -123,8 +123,11 @@ class SqliteRunInterval : SqliteRun
 				orderBestStr = string.Format(" ORDER BY {0}.distanceTotal/{0}.timeTotal ",
 					Constants.RunIntervalTable);
 		else if (order == Orders_by.BEST2) //time
-				orderBestStr = string.Format(" ORDER BY {0}.timeTotal DESC ",
+		{
+			orderBestStr = string.Format(" ORDER BY {0}.timeTotal ",
 					Constants.RunIntervalTable);
+			order = Orders_by.BEST; // to actually use orderBestStr
+		}
 
 		dbcmd.CommandText = selectResultsCreateSelection (
 				"", //selectRow1 default

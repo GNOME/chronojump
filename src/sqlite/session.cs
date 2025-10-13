@@ -969,6 +969,7 @@ class SqliteSession : Sqlite
         }
 
         string typeString = "";
+	string tableExercise = "";
         if (type != "")
         {
             typeString = connector + "type = '" + type + "'";
@@ -977,6 +978,7 @@ class SqliteSession : Sqlite
 	{
             typeString = connector + "exerciseID = " + exerciseID +
 		    " AND " + table + ".exerciseID = " + exerciseTable + ".uniqueID";
+	    tableExercise = ", " + exerciseTable;
             connector = " AND ";
 	}
 
@@ -987,7 +989,7 @@ class SqliteSession : Sqlite
                 "MIN (" + valueToSelect + ")";
 
         dbcmd.CommandText = "SELECT " + selectString +
-            " FROM " + table +
+            " FROM " + table + tableExercise +
             sessionIDString +
             personIDString +
             typeString;

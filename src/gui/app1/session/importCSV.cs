@@ -201,6 +201,8 @@ public partial class ChronoJumpWindow
 					}
 				}
 
+				updatePersonTestsN (true);
+
 				Sqlite.Close (); // <----
 
 				pre_fillTreeView_resultsSession ();

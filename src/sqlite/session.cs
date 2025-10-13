@@ -918,37 +918,38 @@ class SqliteSession : Sqlite
     //called from gui/event.cs for doing the graph
     //we need to know the avg of events of a type (SJ, CMJ, free (pulse).. of a person, or of all persons on the session
     //from 2.0 type can be "" so all types
-    public static double SelectMAXEventsOfAType(bool dbconOpened, int sessionID, int personID,
-            string table, string type, string valueToSelect)
+    public static double SelectMAXEventsOfAType (bool dbconOpened, int sessionID, int personID,
+            string table, string type, int exerciseID, string exerciseTable, string valueToSelect)
     {
-        return selectEventsOfAType(dbconOpened, sessionID, personID,
-                table, type, valueToSelect, "MAX_AVG_MIN")[0];
+        return selectEventsOfAType (dbconOpened, sessionID, personID,
+                table, type, exerciseID, exerciseTable, valueToSelect, "MAX_AVG_MIN")[0];
     }
-    public static double SelectAVGEventsOfAType(bool dbconOpened, int sessionID, int personID,
-            string table, string type, string valueToSelect)
+    public static double SelectAVGEventsOfAType (bool dbconOpened, int sessionID, int personID,
+            string table, string type, int exerciseID, string exerciseTable, string valueToSelect)
     {
-        return selectEventsOfAType(dbconOpened, sessionID, personID,
-                table, type, valueToSelect, "MAX_AVG_MIN")[1];
+        return selectEventsOfAType (dbconOpened, sessionID, personID,
+                table, type, exerciseID, exerciseTable,  valueToSelect, "MAX_AVG_MIN")[1];
     }
-    public static double SelectMINEventsOfAType(bool dbconOpened, int sessionID, int personID,
-            string table, string type, string valueToSelect)
+    public static double SelectMINEventsOfAType (bool dbconOpened, int sessionID, int personID,
+            string table, string type, int exerciseID, string exerciseTable, string valueToSelect)
     {
-        return selectEventsOfAType(dbconOpened, sessionID, personID,
-                table, type, valueToSelect, "MAX_AVG_MIN")[2];
+        return selectEventsOfAType (dbconOpened, sessionID, personID,
+                table, type, exerciseID, exerciseTable,  valueToSelect, "MAX_AVG_MIN")[2];
     }
 
     //to have the three in one call, much better, use this in new code
-    public static List<double> Select_MAX_AVG_MIN_EventsOfAType(bool dbconOpened, int sessionID, int personID,
-            string table, string type, string valueToSelect)
+    public static List<double> Select_MAX_AVG_MIN_EventsOfAType (bool dbconOpened, int sessionID, int personID,
+            string table, string type, int exerciseID, string exerciseTable, string valueToSelect)
     {
-        return selectEventsOfAType(dbconOpened, sessionID, personID,
-                table, type, valueToSelect, "MAX_AVG_MIN");
+        return selectEventsOfAType (dbconOpened, sessionID, personID,
+                table, type, exerciseID, exerciseTable, valueToSelect, "MAX_AVG_MIN");
     }
 
-    private static List<double> selectEventsOfAType(bool dbconOpened, int sessionID, int personID,
-            string table, string type, string valueToSelect, string statistic)
+    private static List<double> selectEventsOfAType (bool dbconOpened, int sessionID, int personID,
+		    string table, string type, int exerciseID, string exerciseTable,
+		    string valueToSelect, string statistic)
     {
-        if (!dbconOpened)
+        if (! dbconOpened)
             Sqlite.Open();
 
         string connector = " WHERE "; //WHERE or AND
@@ -972,7 +973,12 @@ class SqliteSession : Sqlite
         {
             typeString = connector + "type = '" + type + "'";
             connector = " AND ";
-        }
+        } else if (exerciseID >= 0 && exerciseTable != "")
+	{
+            typeString = connector + "exerciseID = " + exerciseID +
+		    " AND " + table + ".exerciseID = " + exerciseTable + ".uniqueID";
+            connector = " AND ";
+	}
 
         string selectString = statistic + "(" + valueToSelect + ")";
         if (statistic == "MAX_AVG_MIN")

@@ -918,36 +918,45 @@ class SqliteSession : Sqlite
     //called from gui/event.cs for doing the graph
     //we need to know the avg of events of a type (SJ, CMJ, free (pulse).. of a person, or of all persons on the session
     //from 2.0 type can be "" so all types
-    public static double SelectMAXEventsOfAType (bool dbconOpened, int sessionID, int personID,
-            string table, string type, int exerciseID, string exerciseTable, string valueToSelect)
+    public static bool SelectMAXEventsOfAType (bool dbconOpened, int sessionID, int personID,
+            string table, string type, int exerciseID, string exerciseTable, string valueToSelect, out double result)
     {
-        return selectEventsOfAType (dbconOpened, sessionID, personID,
-                table, type, exerciseID, exerciseTable, valueToSelect, "MAX_AVG_MIN")[0];
+	    return selectOneEventsOfAType (dbconOpened, sessionID, personID,
+			    table, type, exerciseID, exerciseTable, valueToSelect, out result, 0);
     }
-    public static double SelectAVGEventsOfAType (bool dbconOpened, int sessionID, int personID,
-            string table, string type, int exerciseID, string exerciseTable, string valueToSelect)
+    public static bool SelectAVGEventsOfAType (bool dbconOpened, int sessionID, int personID,
+            string table, string type, int exerciseID, string exerciseTable, string valueToSelect, out double result)
     {
-        return selectEventsOfAType (dbconOpened, sessionID, personID,
-                table, type, exerciseID, exerciseTable,  valueToSelect, "MAX_AVG_MIN")[1];
+	    return selectOneEventsOfAType (dbconOpened, sessionID, personID,
+			    table, type, exerciseID, exerciseTable, valueToSelect, out result, 1);
     }
-    public static double SelectMINEventsOfAType (bool dbconOpened, int sessionID, int personID,
-            string table, string type, int exerciseID, string exerciseTable, string valueToSelect)
+    public static bool SelectMINEventsOfAType (bool dbconOpened, int sessionID, int personID,
+            string table, string type, int exerciseID, string exerciseTable, string valueToSelect, out double result)
     {
-        return selectEventsOfAType (dbconOpened, sessionID, personID,
-                table, type, exerciseID, exerciseTable,  valueToSelect, "MAX_AVG_MIN")[2];
+	    return selectOneEventsOfAType (dbconOpened, sessionID, personID,
+			    table, type, exerciseID, exerciseTable, valueToSelect, out result, 2);
+    }
+    private static bool selectOneEventsOfAType (bool dbconOpened, int sessionID, int personID,
+            string table, string type, int exerciseID, string exerciseTable, string valueToSelect, out double result, int maxAvgMin)
+    {
+	    List<double> result_l = new List<double> ();
+	    bool success = selectEventsOfAType (dbconOpened, sessionID, personID,
+			    table, type, exerciseID, exerciseTable, valueToSelect, "MAX_AVG_MIN", out result_l);
+	    result = result_l[maxAvgMin];
+	    return success;
     }
 
     //to have the three in one call, much better, use this in new code
-    public static List<double> Select_MAX_AVG_MIN_EventsOfAType (bool dbconOpened, int sessionID, int personID,
-            string table, string type, int exerciseID, string exerciseTable, string valueToSelect)
+    public static bool Select_MAX_AVG_MIN_EventsOfAType (bool dbconOpened, int sessionID, int personID,
+            string table, string type, int exerciseID, string exerciseTable, string valueToSelect, out List<double> result_l)
     {
-        return selectEventsOfAType (dbconOpened, sessionID, personID,
-                table, type, exerciseID, exerciseTable, valueToSelect, "MAX_AVG_MIN");
+	    return selectEventsOfAType (dbconOpened, sessionID, personID,
+			    table, type, exerciseID, exerciseTable, valueToSelect, "MAX_AVG_MIN", out result_l);
     }
 
-    private static List<double> selectEventsOfAType (bool dbconOpened, int sessionID, int personID,
+    private static bool selectEventsOfAType (bool dbconOpened, int sessionID, int personID,
 		    string table, string type, int exerciseID, string exerciseTable,
-		    string valueToSelect, string statistic)
+		    string valueToSelect, string statistic, out List<double> result_l)
     {
         if (! dbconOpened)
             Sqlite.Open();
@@ -988,11 +997,8 @@ class SqliteSession : Sqlite
                 "AVG (" + valueToSelect + "), " +
                 "MIN (" + valueToSelect + ")";
 
-        dbcmd.CommandText = "SELECT " + selectString +
-            " FROM " + table + tableExercise +
-            sessionIDString +
-            personIDString +
-            typeString;
+	dbcmd.CommandText = "SELECT " + selectString + " FROM " + table + tableExercise +
+		sessionIDString + personIDString + typeString;
 
         LogB.SQL(dbcmd.CommandText.ToString());
         dbcmd.ExecuteNonQuery();
@@ -1000,25 +1006,33 @@ class SqliteSession : Sqlite
         SQLiteDataReader reader;
         reader = dbcmd.ExecuteReader();
 
-        List<double> return_l = new List<double>();
+        result_l = new List<double>();
+	bool success = true;
         while (reader.Read())
         {
-            return_l.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString())));
-            return_l.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(reader[1].ToString())));
-            return_l.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(reader[2].ToString())));
+		if (! Util.IsNumber (reader[0].ToString (), true))
+		{
+			success = false;
+			break;
+		}
+
+		result_l.Add (Convert.ToDouble (Util.CDSNoZero (reader[0].ToString ())));
+		result_l.Add (Convert.ToDouble (Util.CDSNoZero (reader[1].ToString ())));
+		result_l.Add (Convert.ToDouble (Util.CDSNoZero (reader[2].ToString ())));
         }
         reader.Close();
 
-        if (!dbconOpened)
+        if (! dbconOpened)
             Sqlite.Close();
 
-        if (return_l.Count == 0)
+        if (result_l.Count == 0)
         {
-            return_l.Add(0);
-            return_l.Add(0);
-            return_l.Add(0);
+            result_l.Add (0);
+            result_l.Add (0);
+            result_l.Add (0);
         }
-        return return_l;
+
+        return success;
     }
 
 

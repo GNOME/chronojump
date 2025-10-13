@@ -89,8 +89,14 @@ public class CairoBars1Series : CairoBars
 				minY = boxplotSession.MinAbsolute;
 		}
 
+		// this is only encoder
 		if(maxIntersession >= maxY)
 			maxY = maxIntersession;
+
+		if (bestExAll > maxY)
+			maxY = bestExAll;
+		if (bestExThis > maxY)
+			maxY = bestExThis;
 
 		//points X start at 1
 		minX = 0;
@@ -347,6 +353,11 @@ public class CairoBars1Series : CairoBars
 
 		if(maxIntersession > 0)
 			writePersonsBest (); //encoder !relativeToSet
+
+		if (bestExAll > 0)
+			drawBestEx (bestExAll);
+		if (bestExThis > 0)
+			drawBestEx (bestExThis);
 
 		if(clickable)
 			addClickableMark (g);

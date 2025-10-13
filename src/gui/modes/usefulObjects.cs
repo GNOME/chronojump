@@ -65,16 +65,20 @@ public abstract class PrepareEventGraphTest
 	protected bool allPersons;
 	protected string type;
 
-	protected double historicalBest;
-	protected bool historicalDefined; // TOOD: add also session & date
+	protected double historicalExThisBest;
+	protected bool historicalExThisDefined; // TOOD: add also session & date
+	protected double historicalExAllBest;
+	protected bool historicalExAllDefined; // TOOD: add also session & date
 
 	protected Boxplot boxplotPerson;
 	protected Boxplot boxplotSession;
 
 	protected void initVariables () //add also sessionID, personID, ...
 	{
-		historicalBest = 0;
-		historicalDefined = true;
+		historicalExThisBest = 0;
+		historicalExThisDefined = true;
+		historicalExAllBest = 0;
+		historicalExAllDefined = true;
 	}
 
 	//need to be private of each class, if public orprotected says: Inconsistent accessibility)
@@ -91,6 +95,19 @@ public abstract class PrepareEventGraphTest
 
 	protected abstract List<double> boxplotSelectPerson (string param);
 	protected abstract List<double> boxplotSelectSession (string param);
+
+	public double HistoricalExThisBest {
+		get { return historicalExThisBest; }
+	}
+	public bool HistoricalExThisDefined { // TOOD: add also session & date
+		get { return historicalExThisDefined; }
+	}
+	public double HistoricalExAllBest {
+		get { return historicalExAllBest; }
+	}
+	public bool HistoricalExAllDefined { // TOOD: add also session & date
+		get { return historicalExAllDefined; }
+	}
 
 	public Boxplot BoxplotPerson {
 		get { return boxplotPerson; }
@@ -701,9 +718,16 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 		}
 		boxplotsDo (sqlSelect);
 
-		// need a call where instead of type, have exerciseID (and pass the related table)
-		SqliteSession.SelectMAXEventsOfAType (false, -1, personID,
-				Constants.ForceSensorTable, "", exerciseID, Constants.ForceSensorExerciseTable, sqlSelect);
+		/*
+		 * TODO: fix this. If we have an exercise selected on Exercise, then use it. if not, use -1
+		 *
+		// person exercise (si està algun seleccionat, i revisar més condicions)
+		historicalExThisDefined = SqliteSession.SelectMAXEventsOfAType (false, -1, personID,
+				Constants.ForceSensorTable, "", exerciseID, Constants.ForceSensorExerciseTable, sqlSelect, out historicalExThisBest);
+		// person all exercises
+		historicalExAllDefined = SqliteSession.SelectMAXEventsOfAType (false, -1, personID,
+				Constants.ForceSensorTable, "", -1, Constants.ForceSensorExerciseTable, sqlSelect, out historicalExAllBest);
+		*/
 
 		this.selectedID = selectedID;
 	}

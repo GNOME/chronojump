@@ -125,6 +125,11 @@ public class CairoPaintBarsPreForceSensor : CairoPaintBarsPre
 		cb.Id_l = id_l;
 		cb.PersonIcon_l = personIcon_l;
 
+		if (eventGraphForceSensorStored.HistoricalExThisDefined)
+			cb.BestExThis = eventGraphForceSensorStored.HistoricalExThisBest;
+		if (eventGraphForceSensorStored.HistoricalExAllDefined)
+			cb.BestExAll = eventGraphForceSensorStored.HistoricalExAllBest;
+
 		cb.PassBoxplots (eventGraphForceSensorStored.BoxplotPerson, eventGraphForceSensorStored.BoxplotSession);
 
 		cb.PassData1Serie (point_l,

@@ -101,6 +101,8 @@ public abstract class CairoBars : CairoGeneric
 	protected Preferences.EncoderRepetitionCriteria maxIntersessionEcconCriteria;
 	protected string maxIntersessionValueStr; //with correct decimals and units
 	protected string maxIntersessionDate;
+	protected double bestExThis;
+	protected double bestExAll;
 
 	// ---- values can be passed from outside via accessors ---->
 	protected string xVariable = "";
@@ -329,6 +331,8 @@ public abstract class CairoBars : CairoGeneric
 		maxIntersession = 0;
 		maxIntersessionValueStr = "";
 		maxIntersessionDate = "";
+		bestExThis = 0;
+		bestExAll = 0;
 	}
 
 	private void leftRightMarginsSet ()
@@ -965,6 +969,22 @@ public abstract class CairoBars : CairoGeneric
 		g.Restore();
 	}
 
+	protected void drawBestEx (double best)
+	{
+		double y = calculatePaintY (best);
+
+		// 1) line
+		g.Save();
+		g.LineWidth = 2;
+		g.SetDash(new double[]{2, 2}, 0);
+
+		g.MoveTo(0, y);
+		g.LineTo(graphWidth, y);
+		g.Stroke ();
+
+		g.Restore();
+	}
+
 	//encoder !relativeToSet
 	protected void writePersonsBest ()
 	{
@@ -1182,6 +1202,13 @@ public abstract class CairoBars : CairoGeneric
 	}
 	public string MaxIntersessionDate {
 		set { maxIntersessionDate = value; }
+	}
+
+	public double BestExThis {
+		set { bestExThis = value; }
+	}
+	public double BestExAll {
+		set { bestExAll = value; }
 	}
 
 	public int Decs {

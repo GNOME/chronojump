@@ -65,8 +65,17 @@ public abstract class PrepareEventGraphTest
 	protected bool allPersons;
 	protected string type;
 
+	protected double historicalBest;
+	protected bool historicalDefined; // TOOD: add also session & date
+
 	protected Boxplot boxplotPerson;
 	protected Boxplot boxplotSession;
+
+	protected void initVariables () //add also sessionID, personID, ...
+	{
+		historicalBest = 0;
+		historicalDefined = true;
+	}
 
 	//need to be private of each class, if public orprotected says: Inconsistent accessibility)
 	//protected Sqlite.Orders_by orderBy;
@@ -653,6 +662,8 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 		this.bestSecond = bestSecond;
 		this.exerciseAll = exerciseAll;
 
+		initVariables ();
+
 		int personIDTemp = personID;
 		if(allPersons)
 			personIDTemp = -1;
@@ -689,6 +700,10 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 				orderBy = Sqlite.Orders_by.BEST2;
 		}
 		boxplotsDo (sqlSelect);
+
+		// need a call where instead of type, have exerciseID (and pass the related table)
+		SqliteSession.SelectMAXEventsOfAType (false, -1, personID,
+				Constants.ForceSensorTable, "", exerciseID, Constants.ForceSensorExerciseTable, sqlSelect);
 
 		this.selectedID = selectedID;
 	}

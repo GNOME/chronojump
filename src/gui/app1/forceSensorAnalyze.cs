@@ -2278,14 +2278,16 @@ public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 	private string [] fillImpulse ()
 	{
 		if (showColumnAB && showColumnCD)
+		{
+			double ab = Convert.ToDouble (Util.CDSNoZero (impulseAB));
+			double cd = Convert.ToDouble (Util.CDSNoZero (impulseCD));
+
 			return new String [] { Catalog.GetString ("Impulse"),
 				impulseAB + " N*s",
 				impulseCD + " N*s",
-				Math.Round (
-						Convert.ToDouble (Util.CDSNoZero (impulseCD))
-						- Convert.ToDouble (Util.CDSNoZero (impulseAB))
-						, 1).ToString () + " N*s"
+				Math.Round (cd - ab, 1).ToString () + " N*s"
 			};
+		}
 		else if (showColumnAB)
 			return new String [] { Catalog.GetString ("Impulse"), impulseAB + " N*s" };
 		else //if (showColumnCD)
@@ -2295,15 +2297,17 @@ public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 	private string [] fillVariability ()
 	{
 		if (showColumnAB && showColumnCD)
+		{
+			double ab = Convert.ToDouble (Util.CDSNoZero (variabilityAB));
+			double cd = Convert.ToDouble (Util.CDSNoZero (variabilityCD));
+
 			return new String [] {
 				Catalog.GetString ("Variability") + " (" + variabilityMethod + ")",
 					variabilityAB + " " + variabilityUnits,
 					variabilityCD + " " + variabilityUnits,
-					Math.Round (
-							Convert.ToDouble (Util.CDSNoZero (variabilityCD))
-							- Convert.ToDouble (Util.CDSNoZero (variabilityAB))
-							, 3).ToString () + " " + variabilityUnits
+					Math.Round (cd - ab, 3).ToString () + " " + variabilityUnits
 			};
+		}
 		else if (showColumnAB)
 			return new String [] {
 				Catalog.GetString ("Variability") + " (" + variabilityMethod + ")",
@@ -2320,16 +2324,18 @@ public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 	private string [] fillVariabilityBestInWindow ()
 	{
 		if (showColumnAB && showColumnCD)
+		{
+			double ab = Convert.ToDouble (Util.CDSNoZero (variabilityBestInWindowAB));
+			double cd = Convert.ToDouble (Util.CDSNoZero (variabilityBestInWindowCD));
+
 			return new String [] {
 				string.Format("  Lowest in {0} s",
 						Util.TrimDecimals (variabilityBestInWindowWindowSize, 3)),
 					variabilityBestInWindowAB + " " + variabilityUnits,
 					variabilityBestInWindowCD + " " + variabilityUnits,
-					Math.Round (
-							Convert.ToDouble (Util.CDSNoZero (variabilityBestInWindowCD))
-							- Convert.ToDouble (Util.CDSNoZero (variabilityBestInWindowAB))
-							, 3).ToString () + " " + variabilityUnits
+					Math.Round (cd - ab, 3).ToString () + " " + variabilityUnits
 			};
+		}
 		else if (showColumnAB)
 			return new String [] {
 				string.Format("  Lowest in {0} s",
@@ -2347,14 +2353,16 @@ public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 	private string [] fillFeedback ()
 	{
 		if (showColumnAB && showColumnCD)
+		{
+			double ab = Convert.ToDouble (Util.CDSNoZero (feedbackAB));
+			double cd = Convert.ToDouble (Util.CDSNoZero (feedbackCD));
+
 			return new String [] { Catalog.GetString ("Feedback"),
 				feedbackAB + " N",
 				feedbackCD + " N",
-				Math.Round (
-						Convert.ToDouble (Util.CDSNoZero (feedbackCD))
-						- Convert.ToDouble (Util.CDSNoZero (feedbackAB))
-						, 3).ToString () + " N"
+				Math.Round (cd - ab, 3).ToString () + " N"
 			};
+		}
 		else if (showColumnAB)
 			return new String [] { Catalog.GetString ("Feedback"), feedbackAB + " N"};
 		else //if (showColumnCD)
@@ -2364,14 +2372,16 @@ public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 	private string [] fillMaxAvgInWindow ()
 	{
 		if (showColumnAB && showColumnCD)
+		{
+			double ab = Convert.ToDouble (Util.CDSNoZero (maxAvgInWindowAB));
+			double cd = Convert.ToDouble (Util.CDSNoZero (maxAvgInWindowCD));
+
 			return new String [] { maxAvgInWindowName,
 				maxAvgInWindowAB + " N",
 				maxAvgInWindowCD + " N",
-				Math.Round (
-						Convert.ToDouble (Util.CDSNoZero (maxAvgInWindowCD))
-						- Convert.ToDouble (Util.CDSNoZero (maxAvgInWindowAB))
-						,1 ).ToString () + " N"
+				Math.Round (cd - ab, 1).ToString () + " N"
 			};
+		}
 		else if (showColumnAB)
 			return new String [] { maxAvgInWindowName, maxAvgInWindowAB + " N" };
 		else //if (showColumnCD)
@@ -2381,14 +2391,16 @@ public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 	private string [] fillBestRFDInWindow ()
 	{
 		if (showColumnAB && showColumnCD)
+		{
+			double ab = Convert.ToDouble (Util.CDSNoZero (bestRFDInWindowAB));
+			double cd = Convert.ToDouble (Util.CDSNoZero (bestRFDInWindowCD));
+
 			return new String [] { Catalog.GetString ("Best RFD") + " (50 ms avg)",
 				bestRFDInWindowAB + " N/s",
 				bestRFDInWindowCD + " N/s",
-				Math.Round (
-						Convert.ToDouble (Util.CDSNoZero (bestRFDInWindowCD))
-						- Convert.ToDouble (Util.CDSNoZero (bestRFDInWindowAB))
-						, 1).ToString () + " N/s"
+				Math.Round (cd - ab, 1).ToString () + " N"
 			};
+		}
 		else if (showColumnAB)
 			return new String [] { Catalog.GetString ("Best RFD") + " (50 ms avg)",
 				bestRFDInWindowAB + " N/s"

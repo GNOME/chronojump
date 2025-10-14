@@ -1842,6 +1842,40 @@ public class Util
 		return "Rscript";
 	}
 
+	public static bool CanRunRscript ()
+	{
+		string executable = GetRscriptBin ();
+
+		if (UtilAll.IsWindows ()) 		// on Windows is correctly installed
+			return true;
+
+		if (UtilAll.IsLinux ()) 		// on Linux it uses which
+		{
+			if (! ExecuteProcess.InstalledOnLinux (executable))
+				return false;
+			else
+				return true;
+		}
+
+		if (UtilAll.IsMac ())
+		{
+			LogB.Information ("CanRunRscript () mac 0");
+			if (Util.FileExists (executable))
+				return true;
+
+			LogB.Information ("CanRunRscript () mac 1");
+			string path = ExecuteProcess.WhereInstalled (executable);
+			LogB.Information (string.Format ("CanRunRscript () mac 1 path: |{0}|", path));
+			if (path == "")
+				return false;
+
+			LogB.Information (string.Format ("CanRunRscript () mac 2 FileExists: |{0}|", Util.FileExists (path)));
+			return Util.FileExists (path);
+		}
+
+		return false;
+	}
+
 	public static void RunR (string rScript)
 	{
 		//CancelRScript = false;

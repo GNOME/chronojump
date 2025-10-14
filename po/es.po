@@ -5846,7 +5846,7 @@ msgstr ""
 
 #: ../src/constants.cs:815
 msgid "Check Chronojump software website."
-msgstr "Comprobar el software de la página web de Chronopic."
+msgstr "Comprobar la página web software del sitio web de Chronojump."
 
 #: ../src/constants.cs:819
 msgid "Error. Nothing has been captured."

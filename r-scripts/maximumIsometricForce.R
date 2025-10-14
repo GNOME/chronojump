@@ -140,7 +140,11 @@ getDynamicsFromLoadCellFile <- function(captureOptions, ex_percentBodyWeight, ex
 {
     print("Entered getDynamicsFromLoadCellFile")
 
-    sdMethod = (op$startEndOptimizedModelSD > 0)
+    if (op$startEndOptimized == FALSE)
+	    sdMethod = FALSE
+    else
+	    sdMethod = (op$startEndOptimizedModelSD > 0)
+
     sdMethodThreshold = op$startEndOptimizedModelSD
     sdMethodErrorStr = ""
     

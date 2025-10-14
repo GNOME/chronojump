@@ -187,22 +187,32 @@ public partial class ChronoJumpWindow
 		if (! Config.SimulatedCapture)
 			portName = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port;
 
-		bool success = eCapture.InitGlobal (
-				preferences.encoderCaptureTime,
-				preferences.encoderCaptureInactivityEndTime,
-				preferences.encoderCaptureInfinite,
-				findEcconFromGui (true), //so ecc-con will always be ecS
-				portName,
-				(current_mode == Constants.Modes.POWERINERTIAL && eCaptureInertialBG != null),
-				encoderConfigurationNewCapture.IsInverted (),
-				//configChronojump.EncoderCaptureShowOnlyBars,
-				false, //false to show all, and let user change this at any moment
-				Config.SimulatedCapture,
-				csharpOrR);
+
+		//TODO: provar bé i implementar a més parts del software
+
+		bool success = false;
+		string errorStr = Catalog.GetString ("Sorry, cannot start capture.");
+		if ( (csharpOrR == EncoderCapture.CsharpOrR.R || csharpOrR == EncoderCapture.CsharpOrR.BOTH) &&
+				! Util.CanRunRscript ())
+			errorStr = string.Format (Catalog.GetString ("Sorry, {0} software is not installed."),
+					Util.GetRscriptBin ()) + "\n" + Constants.CheckChronojumpSoftwareWebsiteStr ();
+		else
+			success = eCapture.InitGlobal (
+					preferences.encoderCaptureTime,
+					preferences.encoderCaptureInactivityEndTime,
+					preferences.encoderCaptureInfinite,
+					findEcconFromGui (true), //so ecc-con will always be ecS
+					portName,
+					(current_mode == Constants.Modes.POWERINERTIAL && eCaptureInertialBG != null),
+					encoderConfigurationNewCapture.IsInverted (),
+					//configChronojump.EncoderCaptureShowOnlyBars,
+					false, //false to show all, and let user change this at any moment
+					Config.SimulatedCapture,
+					csharpOrR);
+
 		if(! success)
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING,
-					Catalog.GetString("Sorry, cannot start capture."));
+			new DialogMessage (Constants.MessageTypes.WARNING, 450, 300, errorStr);
 
 			// 1) sensitivize again
 			sensitiveGuiEventDone(); //senstivize again

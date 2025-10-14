@@ -2861,12 +2861,14 @@ LogB.Information(" fs R ");
 		if(imageHeight < 300)
 			imageHeight = 300; //Not crash R with a png height of -1 or "figure margins too large"
 
-		bool success = fsg.CallR(imageWidth -5, imageHeight -5, true);
+		bool success = fsg.CallR (imageWidth -5, imageHeight -5, true, out string errorStr);
 
 		if(! success)
 		{
 			label_model_analyze.Text = Catalog.GetString("Error doing graph.") + " " +
-				Catalog.GetString("Probably not sustained force.");
+				Catalog.GetString("Probably not sustained force.") +
+				" " + errorStr;
+
 			label_model_analyze.Visible = true;
 
 			image_ai_model_graph.Visible = false;

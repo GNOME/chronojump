@@ -116,12 +116,12 @@ public partial class ChronoJumpWindow
 		bool success = sprintRGraph.CallR(
 				viewport_sprint.Allocation.Width -5,
 				viewport_sprint.Allocation.Height -5,
-				true
+				true, out string errorStr
 				);
 
 		if(! success)
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("This data does not seem a sprint."));
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("This data does not seem a sprint.") + "\n" + errorStr);
 			return false;
 		}
 

@@ -814,6 +814,10 @@ public class Constants
 	{
 		return Catalog.GetString("Check Chronojump software website.");
 	}
+	public static string CheckChronojumpSoftwareWebsiteStr ()
+	{
+		return Catalog.GetString("Check Chronojump software website.");
+	}
 	public static string VideoNothingCapturedStr()
 	{
 		return Catalog.GetString("Error. Nothing has been captured.");

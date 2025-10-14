@@ -65,6 +65,11 @@ public class UtilAll
 			return false;
 	}
 
+	public static bool IsMac ()
+	{
+		return (GetOSEnum() == OperatingSystems.MACOSX);
+	}
+
 	public static bool IsMacSilicon ()
 	{
 		return (GetOSEnum() == OperatingSystems.MACOSX && RuntimeInformation.ProcessArchitecture == Architecture.Arm64);

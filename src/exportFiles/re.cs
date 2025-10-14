@@ -212,9 +212,10 @@ public class RunEncoderExport : ExportFiles
 				includeImages, includeInstantaneous
 				);
 
-		if(! reg.CallR(imageWidth, imageHeight, false))
+		if (! reg.CallR (imageWidth, imageHeight, false, out string errorStr))
 		{
 			failedRprocess = true;
+			labelResult.Text = errorStr;
 			return false;
 		}
 

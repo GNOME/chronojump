@@ -186,9 +186,10 @@ public class SprintExport : ExportFiles
 				includeImages
 				);
 
-		if(! s.CallR (imageWidth, imageHeight, false))
+		if (! s.CallR (imageWidth, imageHeight, false, out string errorStr))
 		{
 			failedRprocess = true;
+			labelResult.Text = errorStr;
 			return false;
 		}
 

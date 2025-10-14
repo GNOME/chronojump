@@ -413,9 +413,10 @@ public class ForceSensorExport : ExportFiles
 					includeImages
 					);
 
-			if(! fsg.CallR(imageWidth, imageHeight, false))
+			if(! fsg.CallR(imageWidth, imageHeight, false, out string errorStr))
 			{
 				failedRprocess = true;
+				labelResult.Text = errorStr;
 				return false;
 			}
 		}

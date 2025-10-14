@@ -16,7 +16,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Copyright (C) 2016-2017   Carles Pina i Estany <carles@pina.cat>
- * Copyright (C) 2017-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System.Collections.Generic;
@@ -527,10 +527,17 @@ class ExecuteProcess
 	}
 
 	//TODO: this should be renamed CallRscript
-	public static bool CallR (string script)
+	public static bool CallR (string script, out string errorStr)
 	{
 		string executable = Util.GetRscriptBin ();
 		List<string> parameters = new List<string>();
+
+		if (! Util.CanRunRscript ())
+		{
+			errorStr = string.Format (Catalog.GetString ("Sorry, {0} software is not installed."),
+						Util.GetRscriptBin ()) + "\n" + Constants.CheckChronojumpSoftwareWebsiteStr ();
+			return false;
+		}
 
 		//A) fix script name
 		if(UtilAll.IsWindows())
@@ -552,11 +559,11 @@ class ExecuteProcess
 		LogB.Information("\nCalling R file ----->");
 
 		//C) call process
-		//ExecuteProcess.run (executable, parameters);
 		Result execute_result = run (executable, parameters, true, true);
 		LogB.Information("Result = " + execute_result.stdout);
 
 		LogB.Information("\n<------ Done calling R file.");
+		errorStr = execute_result.stdout + "\n\n" + execute_result.stderr;
 		return execute_result.success;
 	}
 

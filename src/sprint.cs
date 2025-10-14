@@ -76,11 +76,11 @@ public class SprintRGraph
 		writeMultipleFilesCSV(sprge_l);
 	}
 
-	public bool CallR (int graphWidth, int graphHeight, bool singleOrMultiple)
+	public bool CallR (int graphWidth, int graphHeight, bool singleOrMultiple, out string errorStr)
 	{
 		LogB.Information("\nsprint CallR ----->");
 		writeOptionsFile(graphWidth, graphHeight,singleOrMultiple);
-		return ExecuteProcess.CallR(UtilEncoder.GetSprintPhotocellsScript());
+		return ExecuteProcess.CallR (UtilEncoder.GetSprintPhotocellsScript(), out errorStr);
 	}
 
 	private void writeOptionsFile(int graphWidth, int graphHeight, bool singleOrMultiple)

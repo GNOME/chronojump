@@ -563,7 +563,8 @@ class ExecuteProcess
 		LogB.Information("Result = " + execute_result.stdout);
 
 		LogB.Information("\n<------ Done calling R file.");
-		errorStr = execute_result.stdout + "\n\n" + execute_result.stderr;
+		//errorStr = execute_result.stdout + "\n\n" + execute_result.stderr;
+		errorStr = ""; // now it is hidden becausen too much info is shown on force sensor model labelResult
 		return execute_result.success;
 	}
 

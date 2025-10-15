@@ -205,7 +205,8 @@ public class Jump : Event
 	}
 
 	public double Height {
-		get { return (100 * 4.9 * Math.Pow (UtilAll.DivideSafe (tv, 2.0), 2)); }
+		// get { return (100 * 4.905 * Math.Pow (UtilAll.DivideSafe (tv, 2.0), 2)); }
+		get { return 100.0 * 1.22625 * Math.Pow (tv,2); }
 	}
 
 	public double Tc {

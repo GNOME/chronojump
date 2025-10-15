@@ -1098,6 +1098,8 @@ public partial class ChronoJumpWindow
 		// They will be reassigned to a composed name just later on UtilGtk.ContrastLabelsLabel ()
 		label_jump_simple_height.Name = "big_monospace";
 		label_jump_simple_height_value.Name = "big_monospace";
+		label_run_simple_time.Name = "big_monospace";
+		label_run_simple_time_value.Name = "big_monospace";
 
 		label_force_sensor_value_max.Name = "big_monospace";
 		label_force_sensor_value.Name = "big_monospace";
@@ -3343,6 +3345,7 @@ public partial class ChronoJumpWindow
 
 		event_execute_label_message.Text = "";
 		box_jump_simple_height.Visible = false;
+		box_run_simple_time.Visible = false;
 
 		// ---- box_capture_current ---->
 		if (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.RUNSSIMPLE)

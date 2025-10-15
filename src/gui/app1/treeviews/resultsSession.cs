@@ -216,7 +216,6 @@ public partial class ChronoJumpWindow
 			updateGraphResultsSessionByMode (); //to show the selected bar
 		}
 
-		// TODO: run simple
 		// done here and on updateGraphJumpsSimple ()
 		if (current_mode == Constants.Modes.JUMPSSIMPLE && treeViewResultsSession.EventSelectedID >= 0)
 		{
@@ -225,6 +224,15 @@ public partial class ChronoJumpWindow
 			label_jump_simple_height_value.Text = Util.TrimDecimals (myJump.Height, 2) + " cm";
 		} else
 			box_jump_simple_height.Visible = false;
+
+		// done here and on updateGraphRunsSimple ()
+		if (current_mode == Constants.Modes.RUNSSIMPLE && treeViewResultsSession.EventSelectedID >= 0)
+		{
+			box_run_simple_time.Visible = true;
+			Run myRun = SqliteRun.SelectRunData  (treeViewResultsSession.EventSelectedID, false);
+			label_run_simple_time_value.Text = Util.TrimDecimals (myRun.Time, 2) + " s";
+		} else
+			box_run_simple_time.Visible = false;
 	}
 
 	private void selectResultsSessionId (int id, bool scroll)

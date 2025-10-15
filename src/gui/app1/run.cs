@@ -41,7 +41,10 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_runs_simple_track_distance;
 	Gtk.Label label_runs_simple_track_distance_value;
 	Gtk.Label label_runs_simple_track_distance_units;
-			
+	Gtk.Box box_run_simple_time;
+	Gtk.Label label_run_simple_time;
+	Gtk.Label label_run_simple_time_value;
+
 	//options runs interval
 	Gtk.Button button_combo_runs_interval_exercise_capture_left;
 	Gtk.Button button_combo_runs_interval_exercise_capture_right;
@@ -206,7 +209,14 @@ public partial class ChronoJumpWindow
 
 		int selectedID = -1;
 		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
+		{
 			selectedID = treeViewResultsSession.EventSelectedID;
+
+			box_run_simple_time.Visible = true;
+			Run myRun = SqliteRun.SelectRunData (selectedID, false);
+			label_run_simple_time_value.Text = Util.TrimDecimals (myRun.Time, 2) + " s";
+		} else
+			box_run_simple_time.Visible = false;
 
 		Constants.ResultsSessionCriteria resultsSessionCriteria;
 		if (radio_resultsSession_last.Active)
@@ -583,6 +593,9 @@ public partial class ChronoJumpWindow
 		button_runs_simple_track_distance = (Gtk.Button) builder.GetObject ("button_runs_simple_track_distance");
 		label_runs_simple_track_distance_value = (Gtk.Label) builder.GetObject ("label_runs_simple_track_distance_value");
 		label_runs_simple_track_distance_units = (Gtk.Label) builder.GetObject ("label_runs_simple_track_distance_units");
+		box_run_simple_time = (Gtk.Box) builder.GetObject ("box_run_simple_time");
+		label_run_simple_time = (Gtk.Label) builder.GetObject ("label_run_simple_time");
+		label_run_simple_time_value = (Gtk.Label) builder.GetObject ("label_run_simple_time_value");
 
 		//options runs interval
 		button_combo_runs_interval_exercise_capture_left = (Gtk.Button) builder.GetObject ("button_combo_runs_interval_exercise_capture_left");

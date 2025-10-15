@@ -7142,7 +7142,7 @@ public partial class ChronoJumpWindow
 		jsPing = new Json();
 		if(pingDo())
 		{
-			getNewsDatetime();
+			// getNewsDatetime(); cancelled until definitely fixed problem with Eduroam
 
 			/*
 			//also manage pending poll

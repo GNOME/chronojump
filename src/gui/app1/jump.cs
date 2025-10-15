@@ -52,6 +52,10 @@ public partial class ChronoJumpWindow
 	//Gtk.Label extra_window_jumps_label_weight;
 	Gtk.CheckButton extra_window_jumps_check_dj_arms;
 
+	Gtk.Box box_jump_simple_height;
+	Gtk.Label label_jump_simple_height;
+	Gtk.Label label_jump_simple_height_value;
+
 	//show weight on kg when percent is selected (SJl, CMJl, ABKl)
 	Gtk.Label label_extra_window_jumps_radiobutton_weight_percent_as_kg;
 	Gtk.Label label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg;
@@ -377,7 +381,14 @@ public partial class ChronoJumpWindow
 
 		int selectedID = -1;
 		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
+		{
 			selectedID = treeViewResultsSession.EventSelectedID;
+
+			box_jump_simple_height.Visible = true;
+			Jump myJump = SqliteJump.SelectJumpData (selectedID, false);
+			label_jump_simple_height_value.Text = Util.TrimDecimals (myJump.Height, 2) + " cm";
+		} else
+			box_jump_simple_height.Visible = false;
 
 		PrepareEventGraphJumpSimple eventGraph = new PrepareEventGraphJumpSimple (
 				tv, tc, currentSession.UniqueID,
@@ -871,6 +882,9 @@ public partial class ChronoJumpWindow
 		extra_window_jumps_radiobutton_weight = (Gtk.RadioButton) builder.GetObject ("extra_window_jumps_radiobutton_weight");
 		//extra_window_jumps_label_weight = (Gtk.Label) builder.GetObject ("extra_window_jumps_label_weight");
 		extra_window_jumps_check_dj_arms = (Gtk.CheckButton) builder.GetObject ("extra_window_jumps_check_dj_arms");
+		box_jump_simple_height = (Gtk.Box) builder.GetObject ("box_jump_simple_height");
+		label_jump_simple_height = (Gtk.Label) builder.GetObject ("label_jump_simple_height");
+		label_jump_simple_height_value = (Gtk.Label) builder.GetObject ("label_jump_simple_height_value");
 
 		//show weight on kg when percent is selected (SJl, CMJl, ABKl)
 		label_extra_window_jumps_radiobutton_weight_percent_as_kg = (Gtk.Label) builder.GetObject ("label_extra_window_jumps_radiobutton_weight_percent_as_kg");

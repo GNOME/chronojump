@@ -215,6 +215,16 @@ public partial class ChronoJumpWindow
 			showHideActionEventButtons(true); //show
 			updateGraphResultsSessionByMode (); //to show the selected bar
 		}
+
+		// TODO: run simple
+		// done here and on updateGraphJumpsSimple ()
+		if (current_mode == Constants.Modes.JUMPSSIMPLE && treeViewResultsSession.EventSelectedID >= 0)
+		{
+			box_jump_simple_height.Visible = true;
+			Jump myJump = SqliteJump.SelectJumpData (treeViewResultsSession.EventSelectedID, false);
+			label_jump_simple_height_value.Text = Util.TrimDecimals (myJump.Height, 2) + " cm";
+		} else
+			box_jump_simple_height.Visible = false;
 	}
 
 	private void selectResultsSessionId (int id, bool scroll)

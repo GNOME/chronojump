@@ -216,6 +216,7 @@ public class Json
 	 * ---- news stuff start ---->
 	 */
 
+	//maybe the call to this method should be in a try/catch (Blanquerna Eduroam)
 	public bool GetNewsDatetime ()
 	{
 		// Create a request using a URL that can receive a post.

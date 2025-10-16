@@ -18,6 +18,7 @@
 */
 
 #include <elapsedMillis.h>
+#include <Adafruit_NeoPixel.h>
 
 
 //1 Front Left
@@ -25,9 +26,17 @@
 //3 Back Left
 //4 Back Right
 
-String version = "4Platforms-0.1";
+#define LEDS_PIN        D4
+#define NUMPIXELS 4
 
-int sensorPin[4] = {1, 2, 9, 8}; //Front Left, Front Right, Back Left, Back Right
+Adafruit_NeoPixel rgbLeds(NUMPIXELS, LEDS_PIN, NEO_GRB + NEO_KHZ800);
+
+String version = "4Platforms-0.2";
+// Front Left, Front Right, Back Left, Back Right 
+int sensorPin[4] = {2, 1, 8, 9}; //Xiao ESP32S3. Hardware V1
+
+// ATENTION: ESP32C3 has only 2 timers. Only pin 2 and 3 works
+// int sensorPin[4] = {2, 3, 10, 9}; //Xiao ESP32C3
 
 volatile bool sensorState[4] = {LOW, LOW, LOW, LOW};
 volatile bool lastSensorState[4] = {LOW, LOW, LOW, LOW};
@@ -79,6 +88,7 @@ void debounce(int i)
 
 void setup() {
   Serial.begin(115200);
+  rgbLeds.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
 
   // pinMode(LED_BUILTIN, OUTPUT);
   // digitalWrite(LED_BUILTIN, HIGH);
@@ -88,8 +98,7 @@ void setup() {
   for(int i=0; i<=3; i++)
   {
     pinMode(sensorPin[i], INPUT_PULLDOWN);
-    // pinMode(sensorPin[i], INPUT_PULLUP);
-
+    rgbLeds.setPixelColor(i, rgbLeds.Color(0,150,0));
   }
 
   //When the input pin changes the function changedPin() is called
@@ -110,7 +119,7 @@ void setup() {
 
   //Configuring the timer for debouncing
   configDebounceTimers(debounceTime);
-
+  initializeBLE();
   Serial.flush();
 }
 
@@ -130,11 +139,16 @@ void loop() {
       //Change the sign of the time value to know in which sense the change has accurred
       if (sensorState[i] == LOW) {
         lastPhaseDuration[i] = - lastPhaseDuration[i];
+        rgbLeds.setPixelColor(i, rgbLeds.Color(150,0,0));
+      } else {
+        rgbLeds.setPixelColor(i, rgbLeds.Color(0,150,0));
       }
       sensorChange[i] = false;
       Serial.println(lastPhaseDuration[i]);
+      sendToBLE(i, lastPhaseDuration[i]);
     }
   }
+  rgbLeds.show();
   //check if there's incoming data in the serial port
   if (Serial.available()) {
     processSerial();

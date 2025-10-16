@@ -4873,6 +4873,12 @@ public partial class ChronoJumpWindow
 				prepareEncoderSignalBarplotCairo (true);
 	}
 
+	private void on_button_external_window_contacts_clicked (object o, EventArgs args)
+	{
+		new DialogResult ("Results for mode: " + Constants.ModePrint (current_mode),
+				800, 600, "25,7");
+	}
+
 	/*
 	 * If the window is maximized or fullscreen does not get stored, so we need to catch this event
 	 * With this and the GetSize we have everything. GetSize returns the size of the unmaximized win.

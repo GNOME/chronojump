@@ -803,13 +803,16 @@ public class UtilGtk
 
 		string labelFontSize = "";
 		string labelFontSizeBig = ""; //used on some results like force sensor max on capture tab
+		string labelFontSizeHuge = "";
 		if (fontSizeAtGui >= 0) {
 			labelFontSize = string.Format ("font-size: {0}pt;", fontSizeAtGui);
 			labelFontSizeBig = string.Format ("font-size: {0}pt;", Convert.ToInt32 (fontSizeAtGui * 1.6));
+			labelFontSizeHuge = string.Format ("font-size: {0}pt;", Convert.ToInt32 (fontSizeAtGui * 30));
 		}
 		else {
 			labelFontSize = string.Format ("font-size: {0}pt;", defaultFontSize); //we need to restore it if user selected custom previously
 			labelFontSizeBig = string.Format ("font-size: {0}pt;", Convert.ToInt32 (defaultFontSize * 1.6)); //we need to restore it if user selected custom previously
+			labelFontSizeHuge = string.Format ("font-size: {0}pt;", Convert.ToInt32 (defaultFontSize * 30)); //we need to restore it if user selected custom previously
 		}
 
 		// <---- font size at gui
@@ -851,6 +854,16 @@ public class UtilGtk
 			"label#big_monospace_darkCss {" +
 				"color: #222222;" +
 				labelFontSizeBig +
+				"font-family: monospace;" +
+			"}" +
+			"label#huge_monospace_lightCss {" +
+				"color: " + GetRGBAs (Colors.WHITE) + ";" +
+				labelFontSizeHuge +
+				"font-family: monospace;" +
+			"}" +
+			"label#huge_monospace_darkCss {" +
+				"color: #222222;" +
+				labelFontSizeHuge +
 				"font-family: monospace;" +
 			"}" +
 			"label#labelAlertCss {" +
@@ -1274,6 +1287,8 @@ public class UtilGtk
 
 		if (l.Name.Contains ("big"))
 			str += "big_";
+		if (l.Name.Contains ("huge"))
+			str += "huge_";
 		if (l.Name.Contains ("monospace"))
 			str += "monospace_";
 

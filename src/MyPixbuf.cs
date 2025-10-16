@@ -293,6 +293,7 @@ namespace Chronojump
 			new ResourceFix ("create_new_folder_yellow_1x.png" , "folder_new_yellow.png"),
 			new ResourceFix ("fullscreen_blue_1x.png" , "image_fullscreen.png"),
 			new ResourceFix ("fullscreen_exit_blue_1x.png" , "image_fullscreen_exit.png"),
+			new ResourceFix ("display_external_input_blue.png", "display_external_input_blue.png"),
 			//new ResourceFix ("fullscreen_exit_blue_1x.png" , "image_minimize.png"),
 			new ResourceFix ("folder_open_blue_2x.png" , "folder_open_big.png"),
 			new ResourceFix ("folder_open_blue_1x.png" , "folder_open.png"),

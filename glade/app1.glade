@@ -7946,37 +7946,14 @@ last capture</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="can-default">True</property>
                                                             <property name="receives-default">True</property>
+                                                            <property name="tooltip-text" translatable="yes">External window</property>
                                                             <signal name="clicked" handler="on_button_external_window_contacts_clicked" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkHBox" id="hbox56">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <object class="GtkImage" id="image_external_window">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             <property name="icon_size">2</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel" id="label9">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">External window</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
                                                             </object>
                                                             </child>
                                                             <accelerator key="f" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
@@ -27830,6 +27807,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

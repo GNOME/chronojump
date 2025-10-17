@@ -27,10 +27,15 @@ public class DialogResult
 	// at glade ---->
 	Gtk.Dialog dialog_result;
 	Gtk.Label label_result;
+	Gtk.SpinButton spin_font_size;
 	// <---- at glade
 
-	public DialogResult (string title, int width, int height, string resultStr)
+	int fontSizeAtGui;
+
+	public DialogResult (string title, int width, int height, string resultStr, int fontSizeAtGui)
 	{
+		this.fontSizeAtGui = fontSizeAtGui;
+
 		initialize (title, width, height, resultStr);
 	}
 
@@ -43,7 +48,7 @@ public class DialogResult
 		//put an icon to window
 		UtilGtk.IconWindow (dialog_result);
 
-		label_result.Name = "huge_monospace";
+		label_result.Name = "externalWindow_monospace";
 
 		//manage window color
 		if(! Config.UseSystemColor)
@@ -65,9 +70,17 @@ public class DialogResult
 			dialog_result.HeightRequest = height;
 		}
 
+		spin_font_size.Value = Constants.FontSizeExternalWindow;
+		on_spin_font_size_value_changed (new object (), new EventArgs ());
 		label_result.Text = resultStr;
 
 		dialog_result.Show();
+	}
+
+	public void on_spin_font_size_value_changed (object o, EventArgs args)
+	{
+		Constants.FontSizeExternalWindow = (int) spin_font_size.Value;
+		UtilGtk.ApplyCSS (fontSizeAtGui);
 	}
 
 	public void on_close_button_clicked (object obj, EventArgs args)
@@ -86,5 +99,6 @@ public class DialogResult
 	{
 		dialog_result = (Gtk.Dialog) builder.GetObject ("dialog_result");
 		label_result = (Gtk.Label) builder.GetObject ("label_result");
+		spin_font_size = (Gtk.SpinButton) builder.GetObject ("spin_font_size");
 	}
 }

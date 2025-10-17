@@ -1581,6 +1581,7 @@ public class Constants
 
 	public enum Status { ERROR, UNSTARTED, OK}	
 	public enum ResultsSessionCriteria { BEST, BEST2, BEST3, LAST };
+	public static int FontSizeExternalWindow = 24;
 
 	/*
 	 * Attention: this will be separated by ';', then no ';' sign can be here

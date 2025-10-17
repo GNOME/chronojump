@@ -26,6 +26,10 @@ public class DialogResult
 {
 	// at glade ---->
 	Gtk.Dialog dialog_result;
+	Gtk.Label label_exercise;
+	Gtk.Label label_person_code;
+	Gtk.Label label_person_name;
+	Gtk.Label label_font_size;
 	Gtk.Label label_result;
 	Gtk.SpinButton spin_font_size;
 	// <---- at glade
@@ -54,6 +58,10 @@ public class DialogResult
 		if(! Config.UseSystemColor)
 		{
 			UtilGtk.DialogColor(dialog_result, Config.ColorBackground);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundShiftedIsDark, label_exercise);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundShiftedIsDark, label_person_code);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundShiftedIsDark, label_person_name);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundShiftedIsDark, label_font_size);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundShiftedIsDark, label_result);
 		}
 	
@@ -98,6 +106,10 @@ public class DialogResult
 	private void connectWidgets (Gtk.Builder builder)
 	{
 		dialog_result = (Gtk.Dialog) builder.GetObject ("dialog_result");
+		label_exercise = (Gtk.Label) builder.GetObject ("label_exercise");
+		label_person_code = (Gtk.Label) builder.GetObject ("label_person_code");
+		label_person_name = (Gtk.Label) builder.GetObject ("label_person_name");
+		label_font_size = (Gtk.Label) builder.GetObject ("label_font_size");
 		label_result = (Gtk.Label) builder.GetObject ("label_result");
 		spin_font_size = (Gtk.SpinButton) builder.GetObject ("spin_font_size");
 	}

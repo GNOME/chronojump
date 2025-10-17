@@ -496,6 +496,29 @@ public partial class ChronoJumpWindow
 		cairoPaintBarsPre.Paint();
 	}
 
+	private string getCurrentTestTypeForThisMode ()
+	{
+		if (current_mode == Constants.Modes.UNDEFINED)
+			return "";
+
+		// TODO: at the moment just runs interval and 4platforms
+		switch (current_mode)
+		{
+			case Constants.Modes.JUMPSSIMPLE :
+				if (currentJumpType != null)
+					return currentJumpType.Name;
+				else
+					return "";
+			case Constants.Modes.RUNSINTERVALLIC :
+				if (currentJumpType != null)
+					return currentRunIntervalType.Name;
+				else
+					return "";
+		}
+
+		return "";
+	}
+
 	private void on_button_person_max_all_sessions_info_clicked(object o, EventArgs args) 
 	{
 		/*

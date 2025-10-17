@@ -36,14 +36,15 @@ public class DialogResult
 
 	int fontSizeAtGui;
 
-	public DialogResult (string title, int width, int height, string resultStr, int fontSizeAtGui)
+	public DialogResult (string title, int width, int height, string resultStr, int fontSizeAtGui,
+			Person person, string testName)
 	{
 		this.fontSizeAtGui = fontSizeAtGui;
 
-		initialize (title, width, height, resultStr);
+		initialize (title, width, height, resultStr, person, testName);
 	}
 
-	private void initialize (string title, int width, int height, string resultStr)
+	private void initialize (string title, int width, int height, string resultStr, Person person, string testName)
 	{
 		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "dialog_result.glade", null);
 		connectWidgets (builder);
@@ -78,6 +79,9 @@ public class DialogResult
 			dialog_result.HeightRequest = height;
 		}
 
+		label_exercise.Text = testName;
+		label_person_code.Text = person.Future2; //ClubID
+		label_person_name.Text = person.Name;
 		spin_font_size.Value = Constants.FontSizeExternalWindow;
 		on_spin_font_size_value_changed (new object (), new EventArgs ());
 		label_result.Text = resultStr;

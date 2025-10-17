@@ -102,7 +102,6 @@
                     <property name="valign">center</property>
                     <property name="hexpand">False</property>
                     <property name="vexpand">False</property>
-                    <property name="label">result</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>

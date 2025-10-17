@@ -95,6 +95,11 @@ public class DialogResult
 		UtilGtk.ApplyCSS (fontSizeAtGui);
 	}
 
+	public void UpdateLabelResult (string resultStr)
+	{
+		label_result.Text = resultStr;
+	}
+
 	public void on_close_button_clicked (object obj, EventArgs args)
 	{
 		//Visible = false;

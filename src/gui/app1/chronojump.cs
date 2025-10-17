@@ -497,6 +497,7 @@ public partial class ChronoJumpWindow
 	GenericWindow genericWin;
 		
 	ExecuteAutoWindow executeAutoWin;
+	DialogResult dialogResult;
 
 	static Thread pingThread;
 
@@ -4875,8 +4876,8 @@ public partial class ChronoJumpWindow
 
 	private void on_button_external_window_contacts_clicked (object o, EventArgs args)
 	{
-		new DialogResult ("Results for mode: " + Constants.ModePrint (current_mode),
-				800, 600, "25,7", preferences.fontSizeAtGui,
+		dialogResult = new DialogResult ("Results for mode: " + Constants.ModePrint (current_mode),
+				800, 600, "----", preferences.fontSizeAtGui,
 				currentPerson, getCurrentTestTypeForThisMode ()
 				);
 	}
@@ -5510,9 +5511,13 @@ public partial class ChronoJumpWindow
 		if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
 			savedVideoStr = EventEndedSaveVideoFile (Constants.TestTypes.JUMP, currentJump.UniqueID);
 
-		if ( ! currentEventExecute.Cancel ) {
+		if ( ! currentEventExecute.Cancel )
+		{
 			treeViewResultsSession.PersonWeight = currentPersonSession.Weight;
 			treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentJump, savedVideoStr);
+
+			if (dialogResult != null)
+				dialogResult.UpdateLabelResult (Util.TrimDecimals (currentJump.Height, 2));
 		}
 
 		//2.2.1 Cairo graph is not updated if window is not resized, so force update

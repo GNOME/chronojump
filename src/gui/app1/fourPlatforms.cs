@@ -35,6 +35,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_four_platforms_capture_1_2;
 	Gtk.Button button_four_platforms_capture_1_3;
 	Gtk.Button button_four_platforms_capture_1_4;
+	Gtk.Button button_four_platforms_capture_low_high;
 	Gtk.Box box_fourPlatforms_capture_buttons;
 	Gtk.Box box_fourPlatforms_cancel_finish;
 	Gtk.Button button_fourPlatforms_test_finish;
@@ -74,6 +75,8 @@ public partial class ChronoJumpWindow
 			FourPlatformsCaptureManage.CaptureEnumStr (FourPlatformsCaptureManage.CaptureEnum.FROM1TO3) + " (15 reps)";
 		button_four_platforms_capture_1_4.Label =
 			FourPlatformsCaptureManage.CaptureEnumStr (FourPlatformsCaptureManage.CaptureEnum.FROM1TO4) + " (15 reps)";
+		button_four_platforms_capture_low_high.Label =
+			FourPlatformsCaptureManage.CaptureEnumStr (FourPlatformsCaptureManage.CaptureEnum.FROMLOWTOHIGH) + " (15 reps)";
 	}
 
 	//methods used on discoverWin closed, person changed, and Chronojump start (changeMode)
@@ -130,6 +133,8 @@ public partial class ChronoJumpWindow
 			fourPlatformsCaptureType = FourPlatformsCaptureManage.CaptureEnum.FROM1TO3;
 		else if (b == button_four_platforms_capture_1_4)
 			fourPlatformsCaptureType = FourPlatformsCaptureManage.CaptureEnum.FROM1TO4;
+		else if (b == button_four_platforms_capture_low_high)
+			fourPlatformsCaptureType = FourPlatformsCaptureManage.CaptureEnum.FROMLOWTOHIGH;
 
 		if (current_mode == Constants.Modes.OTHER)
 		{
@@ -469,6 +474,7 @@ public partial class ChronoJumpWindow
 		button_four_platforms_capture_1_2 = (Gtk.Button) builder.GetObject ("button_four_platforms_capture_1_2");
 		button_four_platforms_capture_1_3 = (Gtk.Button) builder.GetObject ("button_four_platforms_capture_1_3");
 		button_four_platforms_capture_1_4 = (Gtk.Button) builder.GetObject ("button_four_platforms_capture_1_4");
+		button_four_platforms_capture_low_high = (Gtk.Button) builder.GetObject ("button_four_platforms_capture_low_high");
 		box_fourPlatforms_capture_buttons = (Gtk.Box) builder.GetObject ("box_fourPlatforms_capture_buttons");
 		box_fourPlatforms_cancel_finish = (Gtk.Box) builder.GetObject ("box_fourPlatforms_cancel_finish");
 		button_fourPlatforms_test_finish = (Gtk.Button) builder.GetObject ("button_fourPlatforms_test_finish");

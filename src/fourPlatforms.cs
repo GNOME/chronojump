@@ -271,9 +271,11 @@ public class FourPlatforms : Event
 		}
 	}
 
+	//TODO move this to FourPlatformsCaptureManageSteps or inherited class, call statically if no other option
 	private enum StepsStatusEnum { NOTSTARTED, DONEBOTTOM, DONETOP };
 
 	// gets a reconstructed stepsBottom_l, stepsTop_l the created while capture in FourPlatformsCaptureManage.updateStepsCaptureVariables ()
+	// TODO: implement this with FROMLOWTOHIGH
 	public void GetStepsBottomStepsTop (ref List<PointF> stepsBottom_l, ref List<PointF> stepsTop_l)
 	{
 		// 1 exit if no data and assign dTop_l
@@ -339,6 +341,8 @@ public class FourPlatforms : Event
 			return FourPlatformsCaptureManage.CaptureEnum.FROM1TO3;
 		else if (exerciseID == 3)
 			return FourPlatformsCaptureManage.CaptureEnum.FROM1TO4;
+		else if (exerciseID == 4)
+			return FourPlatformsCaptureManage.CaptureEnum.FROMLOWTOHIGH;
 		else //default
 			return FourPlatformsCaptureManage.CaptureEnum.DEFAULT;
 	}

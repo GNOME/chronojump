@@ -509,6 +509,16 @@ public partial class ChronoJumpWindow
 					return currentJumpType.Name;
 				else
 					return "";
+			case Constants.Modes.JUMPSREACTIVE :
+				if (currentJumpRjType != null)
+					return currentJumpRjType.Name;
+				else
+					return "";
+			case Constants.Modes.RUNSSIMPLE :
+				if (currentRunType != null)
+					return currentRunType.Name;
+				else
+					return "";
 			case Constants.Modes.RUNSINTERVALLIC :
 				if (currentJumpType != null)
 					return currentRunIntervalType.Name;
@@ -1116,6 +1126,12 @@ public partial class ChronoJumpWindow
 							preferences.heightPreferred);
 
 					drawingarea_results_realtime.QueueDraw ();
+
+					if (dialogResult != null && dialogResult.Visible)
+					{
+						if (currentJumpRjType.JumpsLimited)
+							dialogResult.UpdateLabelResult (currentEventExecute.GetDialogResultString ());
+					}
 				}
 				break;
 			case EventType.Types.RUN:

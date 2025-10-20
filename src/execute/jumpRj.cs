@@ -679,6 +679,10 @@ public class JumpRjExecute : JumpExecute
 		get { return SqliteJumpType.HasFall("jumpRjType", type); } //jumpRjType is the table name
 	}
 
+	public override string GetDialogResultString ()
+	{
+		return string.Format ("{0} / {1}", tvCount, limitAsDouble);
+	}
 
 	~JumpRjExecute() {}
 }

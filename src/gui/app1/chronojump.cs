@@ -5985,6 +5985,9 @@ public partial class ChronoJumpWindow
 			//put correct time value in eventWindow (put the time from chronopic and not onTimer soft chronometer)
 			event_execute_LabelTimeValue = currentRun.Time;
 
+			if (dialogResult != null)
+				dialogResult.UpdateLabelResult (Util.TrimDecimals (currentRun.Speed, 2));
+
 			if(configChronojump.Exhibition && configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.RUN)
 				SqliteJson.UploadExhibitionTest(getExhibitionTestFromGui(ExhibitionTest.testTypes.RUN, currentRun.Time));
 		}

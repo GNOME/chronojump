@@ -16,8 +16,12 @@
     <child internal-child="vbox">
       <object class="GtkBox">
         <property name="can-focus">False</property>
+        <property name="margin-start">8</property>
+        <property name="margin-end">8</property>
+        <property name="margin-top">8</property>
+        <property name="margin-bottom">8</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
+        <property name="spacing">12</property>
         <signal name="delete-event" handler="on_delete_event" swapped="no"/>
         <child internal-child="action_area">
           <object class="GtkButtonBox">
@@ -51,6 +55,7 @@
                   <object class="GtkLabel" id="label_exercise">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="halign">start</property>
                     <property name="label">exercise</property>
                   </object>
                   <packing>
@@ -75,6 +80,7 @@
                   <object class="GtkLabel" id="label_person_name">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="halign">end</property>
                     <property name="label">person name</property>
                   </object>
                   <packing>
@@ -91,24 +97,39 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox">
+              <object class="GtkFrame" id="frame">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="orientation">vertical</property>
+                <property name="label-xalign">0</property>
+                <property name="label-yalign">1</property>
+                <property name="shadow-type">in</property>
                 <child>
-                  <object class="GtkLabel" id="label_result">
+                  <object class="GtkBox">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="halign">center</property>
-                    <property name="valign">center</property>
-                    <property name="hexpand">False</property>
-                    <property name="vexpand">False</property>
+                    <property name="border-width">10</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkLabel" id="label_result">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="hexpand">False</property>
+                        <property name="vexpand">False</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
                   </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
+                </child>
+                <child type="label">
+                  <object class="GtkLabel">
+                    <property name="can-focus">False</property>
+                  </object>
                 </child>
               </object>
               <packing>

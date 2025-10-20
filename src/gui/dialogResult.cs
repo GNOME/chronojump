@@ -27,9 +27,9 @@ public class DialogResult
 	// at glade ---->
 	Gtk.Dialog dialog_result;
 	Gtk.Frame frame;
+	Gtk.Label label_mode;
 	Gtk.Label label_exercise;
-	Gtk.Label label_person_code;
-	Gtk.Label label_person_name;
+	Gtk.Label label_person;
 	Gtk.Label label_font_size;
 	Gtk.Label label_result;
 	Gtk.SpinButton spin_font_size;
@@ -63,9 +63,9 @@ public class DialogResult
 		{
 			UtilGtk.DialogColor(dialog_result, Config.ColorBackground);
 
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_mode);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_exercise);
-			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_person_code);
-			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_person_name);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_person);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_font_size);
 
 			UtilGtk.WidgetColor (frame, Config.ColorBackgroundShifted);
@@ -91,15 +91,19 @@ public class DialogResult
 		dialog_result.Show();
 	}
 
-	public void SetLabels (string title, string resultStr, Person person, string testName)
+	public void SetLabels (string title, string modeName, string testName, Person person, string resultStr)
 	{
 		if(title != "")
 			dialog_result.Title = title;
 
-		label_result.Text = resultStr;
+		label_mode.Text = modeName;
 		label_exercise.Text = testName;
-		label_person_code.Text = person.Future2; //ClubID
-		label_person_name.Text = person.Name;
+		if (person.Future2 != "")
+			label_person.Text = string.Format ("{0}:{1}", person.Future2, person.Name);
+		else
+			label_person.Text = string.Format ("{0}", person.Name);
+
+		label_result.Text = resultStr;
 	}
 
 	public void on_spin_font_size_value_changed (object o, EventArgs args)
@@ -137,9 +141,9 @@ public class DialogResult
 	{
 		dialog_result = (Gtk.Dialog) builder.GetObject ("dialog_result");
 		frame = (Gtk.Frame) builder.GetObject ("frame");
+		label_mode = (Gtk.Label) builder.GetObject ("label_mode");
 		label_exercise = (Gtk.Label) builder.GetObject ("label_exercise");
-		label_person_code = (Gtk.Label) builder.GetObject ("label_person_code");
-		label_person_name = (Gtk.Label) builder.GetObject ("label_person_name");
+		label_person = (Gtk.Label) builder.GetObject ("label_person");
 		label_font_size = (Gtk.Label) builder.GetObject ("label_font_size");
 		label_result = (Gtk.Label) builder.GetObject ("label_result");
 		spin_font_size = (Gtk.SpinButton) builder.GetObject ("spin_font_size");
@@ -161,12 +165,12 @@ public partial class ChronoJumpWindow
 
 	private void dialog_result_set_labels ()
 	{
-		string str = "";
+		string resultStr = "";
 		if (currentEventExecute != null)
-			str = currentEventExecute.GetDialogResultString ();
+			resultStr = currentEventExecute.GetDialogResultString ();
 
-		dialogResult.SetLabels ("Results for mode: " + Constants.ModePrint (current_mode),
-				str, currentPerson, getCurrentTestTypeForThisMode ());
+		dialogResult.SetLabels ("Chronojump external results", Constants.ModePrint (current_mode),
+				getCurrentTestTypeForThisMode (), currentPerson, resultStr);
 	}
 
 	private void on_button_dialog_result_contacts_closed (object o, EventArgs args)

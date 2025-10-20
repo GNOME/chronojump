@@ -21,7 +21,6 @@
         <property name="margin-top">8</property>
         <property name="margin-bottom">8</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">12</property>
         <signal name="delete-event" handler="on_delete_event" swapped="no"/>
         <child internal-child="action_area">
           <object class="GtkButtonBox">
@@ -45,18 +44,18 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="orientation">vertical</property>
-            <property name="spacing">12</property>
             <child>
               <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="spacing">6</property>
+                <property name="homogeneous">True</property>
                 <child>
-                  <object class="GtkLabel" id="label_exercise">
+                  <object class="GtkLabel" id="label_mode">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="halign">start</property>
-                    <property name="label">exercise</property>
+                    <property name="label">mode</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -65,10 +64,10 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label_person_code">
+                  <object class="GtkLabel" id="label_exercise">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label">person code</property>
+                    <property name="label">exercise</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -77,11 +76,11 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label_person_name">
+                  <object class="GtkLabel" id="label_person">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="halign">end</property>
-                    <property name="label">person name</property>
+                    <property name="label">exercise</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -100,6 +99,8 @@
               <object class="GtkFrame" id="frame">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="margin-top">12</property>
+                <property name="margin-bottom">12</property>
                 <property name="label-xalign">0</property>
                 <property name="label-yalign">1</property>
                 <property name="shadow-type">in</property>

@@ -112,9 +112,9 @@ public class DialogResult
 		UtilGtk.ApplyCSS (fontSizeAtGui);
 	}
 
-	public void UpdateLabelResult (string resultStr)
+	public void UpdateLabelResult (string str)
 	{
-		label_result.Text = resultStr;
+		label_result.Text = str;
 	}
 
 	public void on_close_button_clicked (object obj, EventArgs args)
@@ -165,12 +165,19 @@ public partial class ChronoJumpWindow
 
 	private void dialog_result_set_labels ()
 	{
+		// main label
 		string resultStr = "";
 		if (currentEventExecute != null)
 			resultStr = currentEventExecute.GetDialogResultString ();
 
+		string exAndUnits = getCurrentTestTypeForThisMode ();
+		if (current_mode == Constants.Modes.JUMPSSIMPLE)
+			exAndUnits += " (cm)";
+		else if (current_mode == Constants.Modes.RUNSSIMPLE)
+			exAndUnits += " (m/s)";
+
 		dialogResult.SetLabels ("Chronojump external results", Constants.ModePrint (current_mode),
-				getCurrentTestTypeForThisMode (), currentPerson, resultStr);
+				exAndUnits, currentPerson, resultStr);
 	}
 
 	private void on_button_dialog_result_contacts_closed (object o, EventArgs args)

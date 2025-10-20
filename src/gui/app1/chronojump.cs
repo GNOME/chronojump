@@ -4875,23 +4875,6 @@ public partial class ChronoJumpWindow
 				prepareEncoderSignalBarplotCairo (true);
 	}
 
-	private void on_button_external_window_contacts_clicked (object o, EventArgs args)
-	{
-		button_external_window_contacts.Sensitive = false;
-
-		dialogResult = new DialogResult ("Results for mode: " + Constants.ModePrint (current_mode),
-				800, 600, "----", preferences.fontSizeAtGui,
-				currentPerson, getCurrentTestTypeForThisMode ()
-				);
-
-		dialogResult.FakeButtonClose.Clicked -= new EventHandler (on_button_external_window_contacts_closed);
-		dialogResult.FakeButtonClose.Clicked += new EventHandler (on_button_external_window_contacts_closed);
-	}
-	private void on_button_external_window_contacts_closed (object o, EventArgs args)
-	{
-		button_external_window_contacts.Sensitive = true;
-	}
-
 	/*
 	 * If the window is maximized or fullscreen does not get stored, so we need to catch this event
 	 * With this and the GetSize we have everything. GetSize returns the size of the unmaximized win.
@@ -5150,6 +5133,9 @@ public partial class ChronoJumpWindow
 					"Problems connecting with Chronopic." + "\n\n" + "Please, restart Chronojump");
 			return;
 		}
+
+		if (dialogResult != null && dialogResult.Visible)
+			external_window_set_labels ();
 
 		/*
 		 * We need to do this to ensure no cancel_clicked calls accumulate

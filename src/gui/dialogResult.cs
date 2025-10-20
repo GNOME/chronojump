@@ -34,20 +34,19 @@ public class DialogResult
 	Gtk.SpinButton spin_font_size;
 	// <---- at glade
 
-	//public bool Visible;
+	public bool Visible;
 	public Gtk.Button FakeButtonClose;
 
 	private int fontSizeAtGui;
 
-	public DialogResult (string title, int width, int height, string resultStr, int fontSizeAtGui,
-			Person person, string testName)
+	public DialogResult (int fontSizeAtGui, int width, int height)
 	{
 		this.fontSizeAtGui = fontSizeAtGui;
 
-		initialize (title, width, height, resultStr, person, testName);
+		initialize (width, height);
 	}
 
-	private void initialize (string title, int width, int height, string resultStr, Person person, string testName)
+	private void initialize (int width, int height)
 	{
 		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "dialog_result.glade", null);
 		connectWidgets (builder);
@@ -73,25 +72,29 @@ public class DialogResult
 		//if uncommented, then does weird bug in windows not showing dialog as its correct size until window is moves
 		//dialog_result.Hide();	
 
-		if(title != "")
-			dialog_result.Title = title;
-
 		if (width > 0 && height > 0)
 		{
 			dialog_result.WidthRequest = width;
 			dialog_result.HeightRequest = height;
 		}
 
-		label_exercise.Text = testName;
-		label_person_code.Text = person.Future2; //ClubID
-		label_person_name.Text = person.Name;
 		spin_font_size.Value = Constants.FontSizeExternalWindow;
 		on_spin_font_size_value_changed (new object (), new EventArgs ());
-		label_result.Text = resultStr;
-		//Visible = true;
+		Visible = true;
 		FakeButtonClose = new Gtk.Button();
 
 		dialog_result.Show();
+	}
+
+	public void SetLabels (string title, string resultStr, Person person, string testName)
+	{
+		if(title != "")
+			dialog_result.Title = title;
+
+		label_result.Text = resultStr;
+		label_exercise.Text = testName;
+		label_person_code.Text = person.Future2; //ClubID
+		label_person_name.Text = person.Name;
 	}
 
 	public void on_spin_font_size_value_changed (object o, EventArgs args)
@@ -107,22 +110,22 @@ public class DialogResult
 
 	public void on_close_button_clicked (object obj, EventArgs args)
 	{
-		//Visible = false;
-		//dialog_result.Visible = false;
+		Visible = false;
+		dialog_result.Visible = false;
 
 		FakeButtonClose.Click ();
-		dialog_result.Destroy ();
+		//dialog_result.Destroy ();
 	}
 
 	private void on_delete_event (object o, DeleteEventArgs args)
 	{
-		//Visible = false;
-		//dialog_result.Visible = false;
+		Visible = false;
+		dialog_result.Visible = false;
 
 		FakeButtonClose.Click ();
-		dialog_result.Destroy ();
+		//dialog_result.Destroy ();
 
-		//args.RetVal = true;
+		args.RetVal = true;
 	}
 
 	private void connectWidgets (Gtk.Builder builder)
@@ -135,4 +138,30 @@ public class DialogResult
 		label_result = (Gtk.Label) builder.GetObject ("label_result");
 		spin_font_size = (Gtk.SpinButton) builder.GetObject ("spin_font_size");
 	}
+}
+
+public partial class ChronoJumpWindow
+{
+	private void on_button_external_window_contacts_clicked (object o, EventArgs args)
+	{
+		button_external_window_contacts.Sensitive = false;
+
+		dialogResult = new DialogResult (preferences.fontSizeAtGui, 800, 600);
+		external_window_set_labels ();
+
+		dialogResult.FakeButtonClose.Clicked -= new EventHandler (on_button_external_window_contacts_closed);
+		dialogResult.FakeButtonClose.Clicked += new EventHandler (on_button_external_window_contacts_closed);
+	}
+
+	private void external_window_set_labels ()
+	{
+		dialogResult.SetLabels ("Results for mode: " + Constants.ModePrint (current_mode),
+				"----", currentPerson, getCurrentTestTypeForThisMode ());
+	}
+
+	private void on_button_external_window_contacts_closed (object o, EventArgs args)
+	{
+		button_external_window_contacts.Sensitive = true;
+	}
+
 }

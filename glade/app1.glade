@@ -10614,6 +10614,30 @@ on Cloud-view mode</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkButton" id="button_dialog_result_contacts_4p">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="can-default">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <property name="tooltip-text" translatable="yes">External window</property>
+                                                            <signal name="clicked" handler="on_button_dialog_result_contacts_clicked" swapped="no"/>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_dialog_result_4p">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon_size">2</property>
+                                                            </object>
+                                                            </child>
+                                                            <accelerator key="f" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <object class="GtkBox" id="box_fourPlatforms_cancel_finish">
                                                             <property name="visible">True</property>
                                                             <property name="sensitive">False</property>
@@ -10651,7 +10675,7 @@ on Cloud-view mode</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             </object>

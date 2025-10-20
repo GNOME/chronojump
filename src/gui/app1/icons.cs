@@ -38,6 +38,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_fullscreen_encoder;
 	Gtk.Image image_fullscreen_exit;
 	Gtk.Image image_dialog_result;
+	Gtk.Image image_dialog_result_4p;
 	Gtk.Image image_session_delete;
 	Gtk.Image app1s_image_button_close;
 	Gtk.Image app1s_image_search;
@@ -315,6 +316,7 @@ public partial class ChronoJumpWindow
 		image_fullscreen_encoder.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_fullscreen.png");
 		image_fullscreen_exit.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_fullscreen_exit.png");
 		image_dialog_result.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "display_external_input_blue.png");
+		image_dialog_result_4p.Pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "display_external_input_blue.png");
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_quit.png");//[By Joeries]
         image_menu_quit.Pixbuf = pixbuf;
@@ -1189,6 +1191,7 @@ public partial class ChronoJumpWindow
 		fullscreen_image_logo_horizontal_blue = (Gtk.Image) builder.GetObject ("fullscreen_image_logo_horizontal_blue");
 		fullscreen_image_logo_horizontal_white = (Gtk.Image) builder.GetObject ("fullscreen_image_logo_horizontal_white");
 		image_dialog_result = (Gtk.Image) builder.GetObject ("image_dialog_result");
+		image_dialog_result_4p = (Gtk.Image) builder.GetObject ("image_dialog_result_4p");
 
 		image_selector_start_jumps1 = (Gtk.Image) builder.GetObject ("image_selector_start_jumps1");
 		image_selector_start_runs1 = (Gtk.Image) builder.GetObject ("image_selector_start_runs1");

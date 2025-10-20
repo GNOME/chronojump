@@ -155,6 +155,7 @@ public partial class ChronoJumpWindow
 	private void on_button_dialog_result_contacts_clicked (object o, EventArgs args)
 	{
 		button_dialog_result_contacts.Sensitive = false;
+		button_dialog_result_contacts_4p.Sensitive = false;
 
 		dialogResult = new DialogResult (preferences.fontSizeAtGui, 800, 600);
 		dialog_result_set_labels ();
@@ -167,7 +168,7 @@ public partial class ChronoJumpWindow
 	{
 		// main label
 		string resultStr = "";
-		if (currentEventExecute != null)
+		if (currentEventExecute != null && current_mode != Constants.Modes.OTHER) // currentEventExecute not for fourPlatforms
 			resultStr = currentEventExecute.GetDialogResultString ();
 
 		string exAndUnits = getCurrentTestTypeForThisMode ();
@@ -183,6 +184,7 @@ public partial class ChronoJumpWindow
 	private void on_button_dialog_result_contacts_closed (object o, EventArgs args)
 	{
 		button_dialog_result_contacts.Sensitive = true;
+		button_dialog_result_contacts_4p.Sensitive = true;
 	}
 
 }

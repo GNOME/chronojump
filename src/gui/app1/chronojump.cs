@@ -190,6 +190,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label fullscreen_label_message;
 	Gtk.DrawingArea fullscreen_capture_drawingarea_cairo;
 	Gtk.Button button_dialog_result_contacts;
+	Gtk.Button button_dialog_result_contacts_4p;
 
 	Gtk.VPaned vpaned_tests;
 	Gtk.HBox hbox_contacts_graph_table_controls;
@@ -3427,8 +3428,8 @@ public partial class ChronoJumpWindow
 				m == Constants.Modes.JUMPSSIMPLE ||
 				m == Constants.Modes.JUMPSREACTIVE ||
 				m == Constants.Modes.RUNSSIMPLE ||
-				m == Constants.Modes.RUNSINTERVALLIC ||
-				m == Constants.Modes.OTHER); //FourPlatforms
+				m == Constants.Modes.RUNSINTERVALLIC); // ||
+				//m == Constants.Modes.OTHER); //FourPlatforms no need, it is a different button always shown on that mode
 
 
 		//blank exercise options: useful for changing from jumps or runs to forceSensor, runEncoder, reaction time, other
@@ -8694,6 +8695,7 @@ public partial class ChronoJumpWindow
 		fullscreen_label_message = (Gtk.Label) builder.GetObject ("fullscreen_label_message");
 		fullscreen_capture_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("fullscreen_capture_drawingarea_cairo");
 		button_dialog_result_contacts = (Gtk.Button) builder.GetObject ("button_dialog_result_contacts");
+		button_dialog_result_contacts_4p = (Gtk.Button) builder.GetObject ("button_dialog_result_contacts_4p");
 
 		hbox_contacts_graph_table_controls = (Gtk.HBox) builder.GetObject ("hbox_contacts_graph_table_controls");
 		vpaned_tests = (Gtk.VPaned) builder.GetObject ("vpaned_tests");

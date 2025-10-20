@@ -230,6 +230,9 @@ public class FourPlatformsCaptureManage
 	public int StepsCompleted {
 		get { return stepsCompleted; }
 	}
+	public int StepsTotal {
+		get { return stepsTotal; }
+	}
 	public double TimeStart {
 		get { return timeStart; }
 	}

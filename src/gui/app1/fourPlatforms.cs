@@ -240,7 +240,11 @@ public partial class ChronoJumpWindow
 
 		event_execute_label_message.Text = fourPlatformsPulseMessage;
 		if (fpcm != null)
+		{
 			event_execute_label_message.Text += string.Format (" ({0})", fpcm.StepsCompleted);
+			if (dialogResult != null)
+				dialogResult.UpdateLabelResult (string.Format ("{0} / {1}", fpcm.StepsCompleted, fpcm.StepsTotal));
+		}
 
 		if(! fourPlatformsCaptureThread.IsAlive || fourPlatformsProcessFinish || fourPlatformsProcessCancel // || fourPlatformsProcessError) //capture ends
 			|| (fpcm != null && fpcm.Finish))

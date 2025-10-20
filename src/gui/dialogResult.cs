@@ -34,7 +34,10 @@ public class DialogResult
 	Gtk.SpinButton spin_font_size;
 	// <---- at glade
 
-	int fontSizeAtGui;
+	//public bool Visible;
+	public Gtk.Button FakeButtonClose;
+
+	private int fontSizeAtGui;
 
 	public DialogResult (string title, int width, int height, string resultStr, int fontSizeAtGui,
 			Person person, string testName)
@@ -85,6 +88,8 @@ public class DialogResult
 		spin_font_size.Value = Constants.FontSizeExternalWindow;
 		on_spin_font_size_value_changed (new object (), new EventArgs ());
 		label_result.Text = resultStr;
+		//Visible = true;
+		FakeButtonClose = new Gtk.Button();
 
 		dialog_result.Show();
 	}
@@ -103,13 +108,21 @@ public class DialogResult
 	public void on_close_button_clicked (object obj, EventArgs args)
 	{
 		//Visible = false;
+		//dialog_result.Visible = false;
+
+		FakeButtonClose.Click ();
 		dialog_result.Destroy ();
 	}
 
 	private void on_delete_event (object o, DeleteEventArgs args)
 	{
 		//Visible = false;
+		//dialog_result.Visible = false;
+
+		FakeButtonClose.Click ();
 		dialog_result.Destroy ();
+
+		//args.RetVal = true;
 	}
 
 	private void connectWidgets (Gtk.Builder builder)

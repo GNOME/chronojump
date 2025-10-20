@@ -189,6 +189,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label fullscreen_label_exercise;
 	Gtk.Label fullscreen_label_message;
 	Gtk.DrawingArea fullscreen_capture_drawingarea_cairo;
+	Gtk.Button button_external_window_contacts;
 
 	Gtk.VPaned vpaned_tests;
 	Gtk.HBox hbox_contacts_graph_table_controls;
@@ -4876,10 +4877,19 @@ public partial class ChronoJumpWindow
 
 	private void on_button_external_window_contacts_clicked (object o, EventArgs args)
 	{
+		button_external_window_contacts.Sensitive = false;
+
 		dialogResult = new DialogResult ("Results for mode: " + Constants.ModePrint (current_mode),
 				800, 600, "----", preferences.fontSizeAtGui,
 				currentPerson, getCurrentTestTypeForThisMode ()
 				);
+
+		dialogResult.FakeButtonClose.Clicked -= new EventHandler (on_button_external_window_contacts_closed);
+		dialogResult.FakeButtonClose.Clicked += new EventHandler (on_button_external_window_contacts_closed);
+	}
+	private void on_button_external_window_contacts_closed (object o, EventArgs args)
+	{
+		button_external_window_contacts.Sensitive = true;
 	}
 
 	/*
@@ -8686,6 +8696,7 @@ public partial class ChronoJumpWindow
 		fullscreen_label_exercise = (Gtk.Label) builder.GetObject ("fullscreen_label_exercise");
 		fullscreen_label_message = (Gtk.Label) builder.GetObject ("fullscreen_label_message");
 		fullscreen_capture_drawingarea_cairo = (Gtk.DrawingArea) builder.GetObject ("fullscreen_capture_drawingarea_cairo");
+		button_external_window_contacts = (Gtk.Button) builder.GetObject ("button_external_window_contacts");
 
 		hbox_contacts_graph_table_controls = (Gtk.HBox) builder.GetObject ("hbox_contacts_graph_table_controls");
 		vpaned_tests = (Gtk.VPaned) builder.GetObject ("vpaned_tests");

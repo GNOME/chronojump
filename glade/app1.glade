@@ -7942,7 +7942,6 @@ last capture</property>
                                                             </child>
                                                             <child>
                                                             <object class="GtkButton" id="button_dialog_result_contacts">
-                                                            <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="can-default">True</property>
                                                             <property name="receives-default">True</property>
@@ -27807,6 +27806,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -3423,6 +3423,14 @@ public partial class ChronoJumpWindow
 
 		fullscreen_button_fullscreen_contacts.Visible = false;
 
+		button_dialog_result_contacts.Visible = (
+				m == Constants.Modes.JUMPSSIMPLE ||
+				m == Constants.Modes.JUMPSREACTIVE ||
+				m == Constants.Modes.RUNSSIMPLE ||
+				m == Constants.Modes.RUNSINTERVALLIC ||
+				m == Constants.Modes.OTHER); //FourPlatforms
+
+
 		//blank exercise options: useful for changing from jumps or runs to forceSensor, runEncoder, reaction time, other
 		label_contacts_exercise_selected_name.Visible = true; //will not be visible when all the contacts_top combo is implemented
 		label_contacts_exercise_selected_options_blank ();

@@ -5134,9 +5134,6 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		if (dialogResult != null && dialogResult.Visible)
-			dialog_result_set_labels ();
-
 		/*
 		 * We need to do this to ensure no cancel_clicked calls accumulate
 		 * if we don't do tue -= now, after 10 tests, if we cancel last one,
@@ -5175,6 +5172,9 @@ public partial class ChronoJumpWindow
 			
 			on_run_interval_activate(canCaptureC, wireless);
 		}
+
+		if (dialogResult != null && dialogResult.Visible)
+			dialog_result_set_labels ();
 	}
 
 	private void contactsShowCaptureDoingButtons(bool captureDoing)

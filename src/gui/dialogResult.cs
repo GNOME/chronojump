@@ -155,8 +155,12 @@ public partial class ChronoJumpWindow
 
 	private void dialog_result_set_labels ()
 	{
+		string str = "";
+		if (currentEventExecute != null)
+			str = currentEventExecute.GetDialogResultString ();
+
 		dialogResult.SetLabels ("Results for mode: " + Constants.ModePrint (current_mode),
-				"----", currentPerson, getCurrentTestTypeForThisMode ());
+				str, currentPerson, getCurrentTestTypeForThisMode ());
 	}
 
 	private void on_button_dialog_result_contacts_closed (object o, EventArgs args)

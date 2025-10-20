@@ -677,6 +677,12 @@ public class EventExecute
 		get { return eventDone; }
 	}
 
+	// used on runI for dialogResult
+	public virtual string GetDialogResultString ()
+	{
+		return "";
+	}
+
 	// multi Chronopic stuff
 	public int Chronopics { get { return chronopics; } }
 

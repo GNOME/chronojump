@@ -616,5 +616,10 @@ public class RunIntervalExecute : RunExecute
 		((IDisposable)writer).Dispose();
 	}
 
+	public override string GetDialogResultString ()
+	{
+		return string.Format ("{0} / {1}", tracks, limitAsDouble);
+	}
+
 	~RunIntervalExecute() {}
 }

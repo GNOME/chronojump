@@ -1137,6 +1137,12 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.type,
 							currentPerson.Name, feedbackRunsI);
 					drawingarea_results_realtime.QueueDraw ();
+
+					if (dialogResult != null && dialogResult.Visible)
+					{
+						if (currentRunIntervalType.TracksLimited)
+							dialogResult.UpdateLabelResult (currentEventExecute.GetDialogResultString ());
+					}
 				}
 				break;
 		}

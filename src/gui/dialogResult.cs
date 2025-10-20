@@ -142,26 +142,26 @@ public class DialogResult
 
 public partial class ChronoJumpWindow
 {
-	private void on_button_external_window_contacts_clicked (object o, EventArgs args)
+	private void on_button_dialog_result_contacts_clicked (object o, EventArgs args)
 	{
-		button_external_window_contacts.Sensitive = false;
+		button_dialog_result_contacts.Sensitive = false;
 
 		dialogResult = new DialogResult (preferences.fontSizeAtGui, 800, 600);
-		external_window_set_labels ();
+		dialog_result_set_labels ();
 
-		dialogResult.FakeButtonClose.Clicked -= new EventHandler (on_button_external_window_contacts_closed);
-		dialogResult.FakeButtonClose.Clicked += new EventHandler (on_button_external_window_contacts_closed);
+		dialogResult.FakeButtonClose.Clicked -= new EventHandler (on_button_dialog_result_contacts_closed);
+		dialogResult.FakeButtonClose.Clicked += new EventHandler (on_button_dialog_result_contacts_closed);
 	}
 
-	private void external_window_set_labels ()
+	private void dialog_result_set_labels ()
 	{
 		dialogResult.SetLabels ("Results for mode: " + Constants.ModePrint (current_mode),
 				"----", currentPerson, getCurrentTestTypeForThisMode ());
 	}
 
-	private void on_button_external_window_contacts_closed (object o, EventArgs args)
+	private void on_button_dialog_result_contacts_closed (object o, EventArgs args)
 	{
-		button_external_window_contacts.Sensitive = true;
+		button_dialog_result_contacts.Sensitive = true;
 	}
 
 }

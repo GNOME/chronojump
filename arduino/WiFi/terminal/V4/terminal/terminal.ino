@@ -212,13 +212,9 @@ bool unlimitedMode = true; // sensorOnce deactivate the unlimited mode
   buzzer_off;
   pinMode(SENSOR_PIN, INPUT_PULLUP); //Sensor
 
-/*
   red_off;
   green_off;
   blue_off;
-*/
-red_off;
-green_on;
 
 
   //  noInterrupts();   //Don't watch the sensor state

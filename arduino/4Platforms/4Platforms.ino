@@ -98,7 +98,7 @@ void setup() {
   for(int i=0; i<=3; i++)
   {
     pinMode(sensorPin[i], INPUT_PULLDOWN);
-    rgbLeds.setPixelColor(i, rgbLeds.Color(0,150,0));
+    rgbLeds.setPixelColor(i, rgbLeds.Color(0,0,25));
   }
 
   //When the input pin changes the function changedPin() is called
@@ -137,11 +137,11 @@ void loop() {
       lastSensorState[i] = sensorState[i];
 
       //Change the sign of the time value to know in which sense the change has accurred
-      if (sensorState[i] == LOW) {
+      if (sensorState[i] == HIGH) {
         lastPhaseDuration[i] = - lastPhaseDuration[i];
-        rgbLeds.setPixelColor(i, rgbLeds.Color(150,0,0));
+        rgbLeds.setPixelColor(i, rgbLeds.Color(0,0,25));
       } else {
-        rgbLeds.setPixelColor(i, rgbLeds.Color(0,150,0));
+        rgbLeds.setPixelColor(i, rgbLeds.Color(121,55,0));
       }
       sensorChange[i] = false;
       Serial.println(lastPhaseDuration[i]);

@@ -78,8 +78,14 @@ public class FourPlatformsCaptureManage
 
 	public bool Init ()
 	{
-		fpcManageSteps = new FourPlatformsCaptureManageSteps (captureType, stepsTotal,
-				ref stepsBottom_l, ref stepsTop_l);
+		if (captureType == CaptureEnum.FROM1TO2 ||
+				captureType == CaptureEnum.FROM1TO3 ||
+				captureType == CaptureEnum.FROM1TO4)
+			fpcManageSteps = new FourPlatformsCaptureManageSteps (
+					captureType, stepsTotal, ref stepsBottom_l, ref stepsTop_l);
+		else if (captureType == CaptureEnum.FROMLOWTOHIGH)
+			fpcManageSteps = new FourPlatformsCaptureManageStepsLowHigh (
+					captureType, stepsTotal, ref stepsBottom_l, ref stepsTop_l);
 
 		finish = false;
 		cancel = false;
@@ -139,10 +145,9 @@ public class FourPlatformsCaptureManage
 					//steps stuff
 					if (captureType == CaptureEnum.FROM1TO2 ||
 							captureType == CaptureEnum.FROM1TO3 ||
-							captureType == CaptureEnum.FROM1TO4)
+							captureType == CaptureEnum.FROM1TO4 ||
+							captureType == CaptureEnum.FROMLOWTOHIGH)
 						fpcManageSteps.UpdateSteps (fpe, timeAccu_l, y);
-					//else if (captureType == CaptureEnum.FROMLOWTOHIGH && yPre != -1)
-					//	updateStepsCaptureVariablesLowHigh (fpe, timeAccu_l, yPre, y);
 					else {
 						//1st contact will update timeStart
 						if (timeStart == 0)
@@ -166,7 +171,7 @@ public class FourPlatformsCaptureManage
 
 				yPre = y; // for FROMLOWTOHIGH
 
-				if (fpcManageSteps.StepsCompleted >= stepsTotal)
+				if (fpcManageSteps != null && fpcManageSteps.StepsCompleted >= stepsTotal)
 					finish = true;
 			}
 		}
@@ -200,7 +205,11 @@ public class FourPlatformsCaptureManage
 		get { return idName_l; }
 	}
 	public int StepsCompleted {
-		get { return fpcManageSteps.StepsCompleted; }
+		get {
+			if (fpcManageSteps == null)
+				return 0; // precaution for the future
+
+			return fpcManageSteps.StepsCompleted; }
 	}
 	public int StepsTotal {
 		get { return stepsTotal; }
@@ -209,7 +218,8 @@ public class FourPlatformsCaptureManage
 		get {
 			if (captureType == CaptureEnum.FROM1TO2 ||
 					captureType == CaptureEnum.FROM1TO3 ||
-					captureType == CaptureEnum.FROM1TO4)
+					captureType == CaptureEnum.FROM1TO4 ||
+					captureType == CaptureEnum.FROMLOWTOHIGH)
 				return fpcManageSteps.TimeStart;
 			else
 				return timeStart;
@@ -220,7 +230,8 @@ public class FourPlatformsCaptureManage
 		get {
 			if (captureType == CaptureEnum.FROM1TO2 ||
 					captureType == CaptureEnum.FROM1TO3 ||
-					captureType == CaptureEnum.FROM1TO4)
+					captureType == CaptureEnum.FROM1TO4 ||
+					captureType == CaptureEnum.FROMLOWTOHIGH)
 				return fpcManageSteps.TimeEnd;
 			else
 				return timeEnd;
@@ -249,6 +260,12 @@ public class FourPlatformsCaptureManageSteps
 	protected double timeEnd;
 	protected int stepsCompleted;
 
+
+	// constructor (needed for inherit)
+	public FourPlatformsCaptureManageSteps ()
+	{
+	}
+
 	// constructor
 	public FourPlatformsCaptureManageSteps (
 			FourPlatformsCaptureManage.CaptureEnum captureType, int stepsTotal,
@@ -271,7 +288,7 @@ public class FourPlatformsCaptureManageSteps
 		stepsCompleted = 0;
 	}
 
-	public void UpdateSteps (FourPlatformsEvent fpe, List<double> timeAccu_l, int y)
+	public virtual void UpdateSteps (FourPlatformsEvent fpe, List<double> timeAccu_l, int y)
 	{
 		//mark the bottom
 		if (stepsStatus != StepsStatusEnum.DONEBOTTOM && y == 1 && fpe.Time < 0)
@@ -314,11 +331,10 @@ public class FourPlatformsCaptureManageSteps
 }
 
 
-/* DOING
 public class FourPlatformsCaptureManageStepsLowHigh : FourPlatformsCaptureManageSteps
 {
-	public enum StepLastEnum { NOTSTARTED, LOW1, LOW2, HIGH3, HIGH4 };
-	protected StepLastEnum stepLast;
+	List<PointF> on_l; // when landed
+	List<PointF> off_l; // when lift off
 
 	// constructor
 	public FourPlatformsCaptureManageStepsLowHigh (
@@ -326,64 +342,89 @@ public class FourPlatformsCaptureManageStepsLowHigh : FourPlatformsCaptureManage
 			ref List<PointF> stepsBottom_l, ref List<PointF> stepsTop_l)
 	{
 		init (captureType, stepsTotal, stepsBottom_l, stepsTop_l);
-		stepLast = StepLastEnum.NOTSTARTED;
+
+		on_l = new List<PointF> ();
+		off_l = new List<PointF> ();
 	}
 
-	private void updateSteps (FourPlatformsEvent fpe, List<double> timeAccu_l, int y)
+	public override void UpdateSteps (FourPlatformsEvent fpe, List<double> timeAccu_l, int y)
 	{
-//		if (stepLast == StepLastsEnum.NOTSTARTED)
-//		{
-			if (y == 1 && fpe.Time < 0)
-			{
-				stepLast = LOW1;
-				return;
-			}
-			else if (y == 2 && fpe.Time < 0)
-			{
-				stepLast = LOW2;
-				return;
-			}
-			else if (y == 3 && fpe.Time > 0)
-			{
-				stepLast = HIGH3;
-				return;
-			}
-			else if (y == 4 && fpe.Time > 0)
-			{
-				stepLast = HIGH4;
-				return;
-			}
-//		}
+		// 1 update lists
+		if (fpe.Time > 0) // is contact (in positive we have time flying)
+			on_l.Add (new PointF (timeAccu_l[fpe.Button], y));
+		else
+			off_l.Add (new PointF (timeAccu_l[fpe.Button], y));
 
-		//mark the bottom
-		if (y == 1 && stepsStatusEnum != StepsStatusEnum.DONELOW1 && fpe.Time < 0)
+		// 2 exit if less than 4 contacts
+		if (on_l.Count < 4)
+			return;
+
+		// 3 exit if we cannot find the flight after the onLast4
+		PointF ol4go = onLast4GetOff;
+		if (ol4go.Y < 0)
+			return;
+
+		// 4 check if step is completed
+		if (
+				onLast.Y >= 3 && onLast2.Y >= 3 && 	// last two contacts are 3 or 4
+				onLast.Y != onLast2.Y &&		// last two contacts are different
+				onLast3.Y <= 2 && onLast4.Y <= 2 &&
+				onLast3.Y != onLast4.Y)
 		{
-			stepsBottom_l.Add (new PointF (timeAccu_l[fpe.Button], y));
-			if(stepsCompleted == 0)
-				timeStart = timeAccu_l[fpe.Button];
+			stepsBottom_l.Add (ol4go);
+			stepsTop_l.Add (onLast);
 
-			stepsStatusEnum = StepsStatusEnum.DONEBOTTOM;
-		}
-		//update the bottom as maybe has been repeated later
-		else if (stepsStatusEnum == StepsStatusEnum.DONEBOTTOM && ysAreLow && fpe.Time < 0)
-		{
-			stepsBottom_l[stepsBottom_l.Count -1] = new PointF (timeAccu_l[fpe.Button], y);
-			if(stepsCompleted == 0)
-				timeStart = timeAccu_l[fpe.Button];
+			if (stepsCompleted == 0)
+				timeStart = ol4go.X;
 
-			stepsStatusEnum = StepsStatusEnum.DONEBOTTOM;
-		}
-
-		//do the top
-		if (stepsStatusEnum == StepsStatusEnum.DONEBOTTOM && ysAreHigh && fpe.Time > 0)
-		{
-			stepsTop_l.Add (new PointF (timeAccu_l[fpe.Button], y));
-			stepsStatusEnum = StepsStatusEnum.DONETOP;
 			stepsCompleted ++;
 
 			if (stepsCompleted >= stepsTotal)
-				timeEnd = timeAccu_l[fpe.Button];
+				timeEnd = onLast.X;
+
+			// reset on_l, off_l to not count again on next contact
+			on_l = new List<PointF> ();
+			off_l = new List<PointF> ();
+		}
+	}
+
+	// get the off of onLast4 (maybe cannot use offLast4 because there could be any change on the feet)
+	private PointF onLast4GetOff
+	{
+		get {
+			foreach (PointF p in off_l)
+				if (p.X > onLast4.X && p.Y == onLast4.Y)
+					return p;
+
+			return new PointF (-1, -1);
+		}
+	}
+
+	// last contact
+	private PointF onLast {
+		get {
+			return (on_l[on_l.Count -1]);
+		}
+	}
+
+	// previous (penultimate) contact
+	private PointF onLast2 {
+		get {
+			return (on_l[on_l.Count -2]);
+		}
+	}
+
+	// before
+	private PointF onLast3 {
+		get {
+			return (on_l[on_l.Count -3]);
+		}
+	}
+
+	// before
+	private PointF onLast4 {
+		get {
+			return (on_l[on_l.Count -4]);
 		}
 	}
 }
-*/

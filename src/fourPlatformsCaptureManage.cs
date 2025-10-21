@@ -333,8 +333,10 @@ public class FourPlatformsCaptureManageSteps
 
 public class FourPlatformsCaptureManageStepsLowHigh : FourPlatformsCaptureManageSteps
 {
-	List<PointF> on_l; // when landed
-	List<PointF> off_l; // when lift off
+	List<PointF> on_l; // when landed: all contacts
+	List<PointF> off_l; // when lift off: all lifts
+
+	//List<PointF> onLast4Relevant_l; // when landed (if 1, 2a, 2b, 3a, 3b, 4) a, b are two contacts on same platform, it will take just first one
 
 	// constructor
 	public FourPlatformsCaptureManageStepsLowHigh (
@@ -345,6 +347,7 @@ public class FourPlatformsCaptureManageStepsLowHigh : FourPlatformsCaptureManage
 
 		on_l = new List<PointF> ();
 		off_l = new List<PointF> ();
+		//onLast4Relevant_l = new List<PointF> ();
 	}
 
 	public override void UpdateSteps (FourPlatformsEvent fpe, List<double> timeAccu_l, int y)
@@ -359,20 +362,28 @@ public class FourPlatformsCaptureManageStepsLowHigh : FourPlatformsCaptureManage
 		if (on_l.Count < 4)
 			return;
 
+		// 3 create onLast4Relevant_l list omitting same sensor consecutive repeated values
+		List<PointF> onLast4Relevant_l = createLast4RelevantList ();
+
+		// 2 exit if less than 4 relevant contacts
+		if (onLast4Relevant_l.Count < 4)
+			return;
+
+		//TODO: continue
 		// 3 exit if we cannot find the flight after the onLast4
-		PointF ol4go = onLast4GetOff;
+		PointF ol4go = getStepStartOff (onLast4Relevant_l[3]);
 		if (ol4go.Y < 0)
 			return;
 
 		// 4 check if step is completed
 		if (
-				onLast.Y >= 3 && onLast2.Y >= 3 && 	// last two contacts are 3 or 4
-				onLast.Y != onLast2.Y &&		// last two contacts are different
-				onLast3.Y <= 2 && onLast4.Y <= 2 &&
-				onLast3.Y != onLast4.Y)
+				onLast4Relevant_l[0].Y >= 3 && onLast4Relevant_l[1].Y >= 3 && 	// Last two contacts are 3 or 4
+				onLast4Relevant_l[0].Y != onLast4Relevant_l[1].Y &&		// Last two contacts are different
+				onLast4Relevant_l[2].Y <= 2 && onLast4Relevant_l[3].Y <= 2 &&
+				onLast4Relevant_l[2].Y != onLast4Relevant_l[3].Y)
 		{
 			stepsBottom_l.Add (ol4go);
-			stepsTop_l.Add (onLast);
+			stepsTop_l.Add (onLast4Relevant_l[0]);
 
 			if (stepsCompleted == 0)
 				timeStart = ol4go.X;
@@ -380,51 +391,65 @@ public class FourPlatformsCaptureManageStepsLowHigh : FourPlatformsCaptureManage
 			stepsCompleted ++;
 
 			if (stepsCompleted >= stepsTotal)
-				timeEnd = onLast.X;
+				timeEnd = onLast4Relevant_l[0].X;
 
 			// reset on_l, off_l to not count again on next contact
 			on_l = new List<PointF> ();
 			off_l = new List<PointF> ();
+			//onLast4Relevant_l = new List<PointF> ();
 		}
 	}
 
-	// get the off of onLast4 (maybe cannot use offLast4 because there could be any change on the feet)
-	private PointF onLast4GetOff
+	// omit same sensor consecutive repeated values
+	// if the penultimate or antepenultimate have duplicated contacts (with same sensor) take the first one
+	// and manage correctly the pos for the next relavant contacts
+	private List<PointF> createLast4RelevantList ()
 	{
-		get {
-			foreach (PointF p in off_l)
-				if (p.X > onLast4.X && p.Y == onLast4.Y)
-					return p;
+		List<PointF> l = new List<PointF> ();
 
-			return new PointF (-1, -1);
-		}
+		// last (take current)
+		int pos = on_l.Count -1;
+		l.Add (on_l[pos]);
+
+		// penultimate
+		pos --;
+		int found = pos;
+		for (int i = pos-1; i >= 0 && on_l[i].Y == on_l[pos].Y; i --)
+			found --;
+
+		if (found < 0)
+			return l;
+
+		pos = found;
+		l.Add (on_l[pos]);
+
+		// antepenultimate
+		pos --;
+		found = pos;
+		for (int i = pos-1; i >= 0 && on_l[i].Y == on_l[pos].Y; i --)
+			found --;
+
+		if (found < 0)
+			return l;
+
+		pos = found;
+		l.Add (on_l[pos]);
+
+		// first (take always the more at right)
+		pos --;
+		if (pos < 0)
+			return l;
+
+		l.Add (on_l[pos]);
+		return l;
 	}
 
-	// last contact
-	private PointF onLast {
-		get {
-			return (on_l[on_l.Count -1]);
-		}
-	}
+	private PointF getStepStartOff (PointF stepStartContact)
+	{
+		foreach (PointF p in off_l)
+			if (p.X > stepStartContact.X && p.Y == stepStartContact.Y)
+				return p;
 
-	// previous (penultimate) contact
-	private PointF onLast2 {
-		get {
-			return (on_l[on_l.Count -2]);
-		}
-	}
-
-	// before
-	private PointF onLast3 {
-		get {
-			return (on_l[on_l.Count -3]);
-		}
-	}
-
-	// before
-	private PointF onLast4 {
-		get {
-			return (on_l[on_l.Count -4]);
-		}
+		return new PointF (-1, -1);
 	}
 }

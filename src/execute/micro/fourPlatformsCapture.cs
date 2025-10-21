@@ -192,6 +192,10 @@ public class FourPlatformsCapture: ArduinoCapture
 
 	public FourPlatformsEvent FourPlatformsCaptureReadNext()
 	{
+		// by a thread problem the list could be emptied while we are reading, even having checked with CanReadFromList so let's be careful
+		if (list.Count <= readedPos +1)
+			return new FourPlatformsEvent ("-1:-1");
+
 		return list[readedPos++];
 	}
 

@@ -1404,12 +1404,12 @@ public partial class ChronoJumpWindow
 				if(fsAI.Gmaiw.Error == "")
 					tvFS_other.SetMaxAvgInWindow (Math.Round(fsAI.Gmaiw.Max, 1).ToString(), isAB);
 				else
-					tvFS_other.SetMaxAvgInWindow ("----", isAB);
+					tvFS_other.SetMaxAvgInWindow ("", isAB);
 
 				if(fsAI.Briw.Error == "")
 					tvFS_other.SetBestRFDInWindow (Math.Round(fsAI.Briw.Max, 1).ToString(), isAB);
 				else
-					tvFS_other.SetBestRFDInWindow ("----", isAB);
+					tvFS_other.SetBestRFDInWindow ("", isAB);
 
 				tvFS_other.ShowColumn (true, isAB);
 			} else {
@@ -2281,8 +2281,8 @@ public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 
 		if (showColumnAB && showColumnCD)
 		{
-			double ab = Convert.ToDouble (Util.CDSNoZero (impulseAB));
-			double cd = Convert.ToDouble (Util.CDSNoZero (impulseCD));
+			double ab = Convert.ToDouble (Util.CDS (impulseAB));
+			double cd = Convert.ToDouble (Util.CDS (impulseCD));
 
 			return new String [] { Catalog.GetString ("Impulse"),
 				impulseAB + unitsStr,
@@ -2303,8 +2303,8 @@ public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 
 		if (showColumnAB && showColumnCD)
 		{
-			double ab = Convert.ToDouble (Util.CDSNoZero (variabilityAB));
-			double cd = Convert.ToDouble (Util.CDSNoZero (variabilityCD));
+			double ab = Convert.ToDouble (Util.CDS (variabilityAB));
+			double cd = Convert.ToDouble (Util.CDS (variabilityCD));
 
 			return new String [] {
 				Catalog.GetString ("Variability") + " (" + variabilityMethod + ")",
@@ -2333,8 +2333,8 @@ public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 
 		if (showColumnAB && showColumnCD)
 		{
-			double ab = Convert.ToDouble (Util.CDSNoZero (variabilityBestInWindowAB));
-			double cd = Convert.ToDouble (Util.CDSNoZero (variabilityBestInWindowCD));
+			double ab = Convert.ToDouble (Util.CDS (variabilityBestInWindowAB));
+			double cd = Convert.ToDouble (Util.CDS (variabilityBestInWindowCD));
 
 			return new String [] {
 				string.Format("    Lowest in {0} s",
@@ -2365,8 +2365,8 @@ public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 
 		if (showColumnAB && showColumnCD)
 		{
-			double ab = Convert.ToDouble (Util.CDSNoZero (feedbackAB));
-			double cd = Convert.ToDouble (Util.CDSNoZero (feedbackCD));
+			double ab = Convert.ToDouble (Util.CDS (feedbackAB));
+			double cd = Convert.ToDouble (Util.CDS (feedbackCD));
 
 			return new String [] { Catalog.GetString ("Feedback"),
 				feedbackAB + unitsStr,
@@ -2387,8 +2387,8 @@ public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 
 		if (showColumnAB && showColumnCD)
 		{
-			double ab = Convert.ToDouble (Util.CDSNoZero (maxAvgInWindowAB));
-			double cd = Convert.ToDouble (Util.CDSNoZero (maxAvgInWindowCD));
+			double ab = Convert.ToDouble (Util.CDS (maxAvgInWindowAB));
+			double cd = Convert.ToDouble (Util.CDS (maxAvgInWindowCD));
 
 			return new String [] { maxAvgInWindowName,
 				maxAvgInWindowAB + unitsStr,
@@ -2409,8 +2409,8 @@ public class TreeviewFSAnalyzeOther : TreeviewSAbstract
 
 		if (showColumnAB && showColumnCD)
 		{
-			double ab = Convert.ToDouble (Util.CDSNoZero (bestRFDInWindowAB));
-			double cd = Convert.ToDouble (Util.CDSNoZero (bestRFDInWindowCD));
+			double ab = Convert.ToDouble (Util.CDS (bestRFDInWindowAB));
+			double cd = Convert.ToDouble (Util.CDS (bestRFDInWindowCD));
 
 			return new String [] { Catalog.GetString ("Best RFD") + " (50 ms avg)",
 				bestRFDInWindowAB + unitsStr,

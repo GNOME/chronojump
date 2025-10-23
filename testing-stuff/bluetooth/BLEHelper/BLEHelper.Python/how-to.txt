@@ -1,20 +1,47 @@
-# Read me
+1. Prerequisite
 
-* Run on Windows: call runner-win.bat
+(1) Install full version of Python 3.12;
 
-* Run on macOS: ./runner-mac.bat
+(2) Enable Bluetooth on computer.
 
-* Run on Linux: ./runner-linux.bat
+2. How to run on Windows
 
-* Execute the following command before running on macOS: 
-dos2unix runner-mac.sh
-chmod +x runner-mac.sh
+(1) In cmd:
 
-* Execute the following command before running on Linux: 
-dos2unix runner-linux.sh
-chmod +x runner-linux.sh
+call ble-runner-win.bat
 
+(2) In vscode terminal or powershell:
 
-# Troubleshooting
+./ble-runner-win.bat
 
-* https://bleak.readthedocs.io/en/latest/troubleshooting.html
+(3) Double-click "ble-runner-win.bat" to run it directly.
+
+3. How to run on macOS
+
+(1) In Terminal:
+
+dos2unix ble-runner-mac.sh
+chmod +x ble-runner-mac.sh
+./ble-runner-mac.sh
+
+4. How to run on Linux:
+
+(1) In Terminal:
+
+dos2unix ble-runner-linux.sh
+chmod +x ble-runner-linux.sh
+./ble-runner-linux.sh
+
+5. Troubleshooting on Bleak
+
+https://bleak.readthedocs.io/en/latest/troubleshooting.html
+
+6. About which devices to watch
+
+  In file "ble.py", modify the following lines to set which devices to watch. I will modify the program to support listing searched devices and watching specified devices later.
+
+...
+watching_devices['ESP32'] = ['85bc9e6c-9501-4bf4-819e-4f40b5e56372', '1a2ae85a-8118-4644-9e3b-387122d8cd9e'] #Key of "watching_devices" is device name or device address, value is characteristic uuid of the device to notify.
+...
+deserialization_ways['85bc9e6c-9501-4bf4-819e-4f40b5e56372'] = 'utf8' # Key of "deserialization_ways" is characteristic uuid, value is decoding way: utf8 or hex.
+deserialization_ways['1a2ae85a-8118-4644-9e3b-387122d8cd9e'] = 'utf8'

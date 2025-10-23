@@ -1,10 +1,18 @@
-* Execute the following command before running on macOS: 
-dos2unix runner-mac.sh
-chmod +x runner-mac.sh
+1. Prerequisite
 
-* Execute the following command before running on Linux: 
-dos2unix runner-linux.sh
-chmod +x runner-linux.sh
+(1) Install full version of Python 3.12;
+
+(2) Enable Bluetooth on computer.
+
+(3) Execute the following command before running on macOS: 
+dos2unix ble-runner-mac.sh
+chmod +x ble-runner-mac.sh
+
+(4) Execute the following command before running on Linux: 
+dos2unix ble-runner-linux.sh
+chmod +x ble-runner-linux.sh
+
+2. How to invoke in C#
 
 BluetoothLE.OnDataChanged += BluetoothLE_OnDataChanged; //Subscribe BluetoothLE data changed event anywhere else that needs to read BluetoothLE data.
 BluetoothLE.Start();//Start BluetoothLE before the main window is created (Before "Application.Run();"), python path has been changed or anywhere else that needs BluetoothLE.
@@ -24,3 +32,5 @@ private void BluetoothLE_OnDataChanged(object sender, BluetoothLE.DataChangedEve
 {
 	Console.WriteLine(e.Value);
 }
+
+3. Build and run "BLEHelper.Python.Invoker.csproj" to test C# demo.

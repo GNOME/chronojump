@@ -210,13 +210,11 @@ public class CairoGraphFourPlatforms : CairoXY
 
 	private void doPlot (PlotTypes plotType)
 	{
-		g.SetSourceColor (white);
-
 		g.SetSourceColor (gray);
 		for (int i = 1; i <= 4; i ++)
 		{
-			g.MoveTo (leftMargin, calculatePaintY (i));
-			g.LineTo (graphWidth - rightMargin, calculatePaintY (i));
+			g.MoveTo (leftMargin, calculatePaintY (changeYIfNeeded (i)));
+			g.LineTo (graphWidth - rightMargin, calculatePaintY (changeYIfNeeded (i)));
 		}
 		g.Stroke ();
 
@@ -230,7 +228,7 @@ public class CairoGraphFourPlatforms : CairoXY
 					printText (leftMargin/2, calculatePaintY (5 -i +.7), 0, textHeight +4,
 							idName_l[i-1].Name, g, alignTypes.LEFT);
 			} else //(mode == Constants.Modes.OTHER)
-				printText (leftMargin/2, calculatePaintY (i), 0, textHeight +4,
+				printText (leftMargin/2, calculatePaintY (changeYIfNeeded (i)), 0, textHeight +4,
 					i.ToString (), g, alignTypes.CENTER);
 
 			g.Stroke (); //needed because if not the move to on printText makes after show a line to the following points
@@ -250,8 +248,10 @@ public class CairoGraphFourPlatforms : CairoXY
 					{
 						for (int j = 0 ; j < stepsBottom_l.Count && j < stepsTop_l.Count ; j ++)
 						{
-							g.MoveTo (calculatePaintX (stepsBottom_l[j].X), calculatePaintY (stepsBottom_l[j].Y));
-							g.LineTo (calculatePaintX (stepsTop_l[j].X), calculatePaintY (stepsTop_l[j].Y));
+							g.MoveTo (calculatePaintX (stepsBottom_l[j].X),
+									calculatePaintY (changeYIfNeeded (stepsBottom_l[j].Y)));
+							g.LineTo (calculatePaintX (stepsTop_l[j].X),
+									calculatePaintY (changeYIfNeeded (stepsTop_l[j].Y)));
 							g.Stroke ();
 						}
 					}
@@ -304,7 +304,7 @@ public class CairoGraphFourPlatforms : CairoXY
 			if (points_ll[i][j].Y > 5-i) 	//ON: filled
 			{
 				drawCircle (g, calculatePaintX (points_ll[i][j].X),
-						calculatePaintY (i),
+						calculatePaintY (changeYIfNeeded (i)),
 						pointsRadius, black, true);
 
 				continue;
@@ -313,7 +313,7 @@ public class CairoGraphFourPlatforms : CairoXY
 			if (points_ll[i][j].Y < 5-i) //if OFF, should be empty and draw the line to ON at left
 			{
 				drawCircle (g, calculatePaintX (points_ll[i][j].X),
-						calculatePaintY (i),
+						calculatePaintY (changeYIfNeeded(i)),
 						pointsRadius, black, white);
 
 				//double drawLineToX = calculatePaintX (0);
@@ -322,19 +322,36 @@ public class CairoGraphFourPlatforms : CairoXY
 						points_ll[i][j-1].X >= points_ll[0][startAt].X)
 				{
 					drawCircle (g, calculatePaintX (points_ll[i][j-1].X),
-							calculatePaintY (i),
+							calculatePaintY (changeYIfNeeded(i)),
 							pointsRadius, black, true);
 					drawLineToX = calculatePaintX (points_ll[i][j-1].X) + pointsRadius;
 				}
 
 				if (drawLine && calculatePaintX (points_ll[i][j].X) - pointsRadius - drawLineToX > 0)
 				{
-					g.MoveTo (calculatePaintX (points_ll[i][j].X) - pointsRadius, calculatePaintY (i));
-					g.LineTo (drawLineToX, calculatePaintY (i));
+					g.MoveTo (calculatePaintX (points_ll[i][j].X) - pointsRadius,
+							calculatePaintY (changeYIfNeeded(i)));
+					g.LineTo (drawLineToX, calculatePaintY (changeYIfNeeded(i)));
 					g.Stroke ();
 				}
 			}
 		}
+	}
+
+	private double changeYIfNeeded (double y)
+	{
+		if (mode != Constants.Modes.OTHER)
+			return y;
+		if (fourPlatformsCaptureType != FourPlatformsCaptureManage.CaptureEnum.FROMLOWTOHIGH)
+			return y;
+
+		// have bottom lines (1,2) closer
+		if (y == 2)
+			return y -.33;
+		// have top lines (3,4) closer
+		if (y == 3)
+			return y +.33;
+		return y;
 	}
 
 	protected override void writeTitle()

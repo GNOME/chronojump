@@ -149,6 +149,31 @@ public class FourPlatforms : Event
 		bAll_l.Add (b3_0_l);
 	}
 
+	// used on getStepsBottomStepsTopLowHigh ()
+	private List<PointF> pointFSorted_l ()
+	{
+		List<PointF> p_l = new List<PointF> ();
+		foreach (double d in b0_0_l)
+			p_l.Add (new PointF (d, -1));
+		foreach (double d in b0_1_l)
+			p_l.Add (new PointF (d, 1));
+		foreach (double d in b1_0_l)
+			p_l.Add (new PointF (d, -2));
+		foreach (double d in b1_1_l)
+			p_l.Add (new PointF (d, 2));
+		foreach (double d in b2_0_l)
+			p_l.Add (new PointF (d, -3));
+		foreach (double d in b2_1_l)
+			p_l.Add (new PointF (d, 3));
+		foreach (double d in b3_0_l)
+			p_l.Add (new PointF (d, -4));
+		foreach (double d in b3_1_l)
+			p_l.Add (new PointF (d, 4));
+
+		// 3 sort the list by time (ascending)
+		return PointF.ReverseList (PointF.SortListXDescending (p_l));
+	}
+
 	private List<double> getList (int channel, bool isOn)
 	{
 		if (channel == 0 && isOn)
@@ -274,14 +299,25 @@ public class FourPlatforms : Event
 	//TODO move this to FourPlatformsCaptureManageSteps or inherited class, call statically if no other option
 	private enum StepsStatusEnum { NOTSTARTED, DONEBOTTOM, DONETOP };
 
-	// gets a reconstructed stepsBottom_l, stepsTop_l the created while capture in FourPlatformsCaptureManageSteps.updateSteps ()
-	// TODO: implement this with FROMLOWTOHIGH
+	// using b0_0_l, b1_1_l, b2_1_l, b3_1_l gets a reconstructed stepsBottom_l, stepsTop_l
+	// like the created while capture in FourPlatformsCaptureManageSteps.updateSteps ()
 	public void GetStepsBottomStepsTop (ref List<PointF> stepsBottom_l, ref List<PointF> stepsTop_l)
 	{
 		// 1 exit if no data and assign dTop_l
 		if (exerciseID == 0)
 			return;
 
+		if (exerciseID >= 1 && exerciseID <= 3)
+			getStepsBottomStepsTopTwoPlatforms (ref stepsBottom_l, ref stepsTop_l);
+		else if (exerciseID == 4)
+			getStepsBottomStepsTopLowHigh (ref stepsBottom_l, ref stepsTop_l);
+	}
+
+	// note this method is a rewrite of FourPlatformsCaptureManageSteps.UpdateSteps
+	// better do like below method: getStepsBottomStepsTopLowHigh
+	// that prepares data and uses FourPlatformsCaptureManageStepsLowHigh like if we were capturing
+	private void getStepsBottomStepsTopTwoPlatforms (ref List<PointF> stepsBottom_l, ref List<PointF> stepsTop_l)
+	{
 		int y = exerciseID +1; //where it goes the dTop line
 		List<double> dTop_l = new List<double> ();
 		if (exerciseID == 1)
@@ -331,6 +367,34 @@ public class FourPlatforms : Event
 		}
 	}
 
+	// this method provides the data to FourPlatformsCaptureManageStepsLowHigh like if we were capturing
+	private void getStepsBottomStepsTopLowHigh (ref List<PointF> stepsBottom_l, ref List<PointF> stepsTop_l)
+	{
+		// 1 create the FourPlatformsCaptureManageStepsLowHigh object
+		FourPlatformsCaptureManageStepsLowHigh fpcms = new FourPlatformsCaptureManageStepsLowHigh (
+				FourPlatformsCaptureManage.CaptureEnum.FROMLOWTOHIGH, -1,
+				ref stepsBottom_l, ref stepsTop_l);
+
+		List<double> timeAccu_l = new List<double> (); //double to use PointF (in seconds)
+		for (int i = 0; i <= 3 ; i ++)
+			timeAccu_l.Add (0);
+
+		foreach (PointF p in pointFSorted_l ())
+		{
+			FourPlatformsEvent fpe = new FourPlatformsEvent ("");
+			if (p.Y < 0)
+				fpe = new FourPlatformsEvent (string.Format ("{0}:{1}",
+							(-1 * p.Y) -1, -1 * Convert.ToInt32 (p.X * 1000)));
+			else
+				fpe = new FourPlatformsEvent (string.Format ("{0}:{1}",
+							p.Y -1, Convert.ToInt32 (p.X * 1000)));
+
+			//LogB.Information ("fpe: " + fpe.ToString ());
+			timeAccu_l[fpe.Button] = p.X;
+			fpcms.UpdateSteps (fpe, timeAccu_l, fpe.Button +1);
+		}
+	}
+
 	public FourPlatformsCaptureManage.CaptureEnum GetCaptureEnum ()
 	{
 		if (exerciseID == 0)
@@ -353,8 +417,6 @@ public class FourPlatforms : Event
 		return FourPlatformsCaptureManage.CaptureEnumStr (GetCaptureEnum ());
 	}
 
-	public double TotalTime
-	{
-		get { return totalTime; }
-	}
+	public int ExerciseID { get { return exerciseID; } }
+	public double TotalTime { get { return totalTime; } }
 }

@@ -100,7 +100,8 @@ public partial class ChronoJumpWindow
 			//reconstruct the lines
 			cairoGraphFourPlatformsStepsBottom_l = new List<PointF> ();
 			cairoGraphFourPlatformsStepsTop_l = new List<PointF> ();
-			currentFourPlatforms.GetStepsBottomStepsTop (ref cairoGraphFourPlatformsStepsBottom_l, ref cairoGraphFourPlatformsStepsTop_l);
+			if (currentFourPlatforms.ExerciseID >= 1)
+				currentFourPlatforms.GetStepsBottomStepsTop (ref cairoGraphFourPlatformsStepsBottom_l, ref cairoGraphFourPlatformsStepsTop_l);
 		}
 		 drawingarea_results_realtime.QueueDraw ();
 

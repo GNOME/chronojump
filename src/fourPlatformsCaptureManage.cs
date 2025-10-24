@@ -359,6 +359,9 @@ public class FourPlatformsCaptureManageStepsLowHigh : FourPlatformsCaptureManage
 
 	public override void UpdateSteps (FourPlatformsEvent fpe, List<double> timeAccu_l, int y)
 	{
+		//LogB.Information ("timeAccu_l:");
+		//LogB.Information (UtilList.ListDoubleToString (timeAccu_l, 2, " "));
+
 		// 1 update lists
 		if (fpe.Time > 0) // is contact (in positive we have time flying)
 			on_l.Add (new PointF (timeAccu_l[fpe.Button], y));

@@ -4013,12 +4013,17 @@ public partial class ChronoJumpWindow
 		hpaned_contacts_graph_table_center_if_needed ();
 
 		if (check_contacts_capture_graph.Active || check_contacts_capture_table.Active)
+		{
 			box_contacts_capture_show_need_one.Visible = false;
-		else
+			GLib.Timeout.Add (50, new GLib.TimeoutHandler (vpaned_tests_center_if_max_pos));
+		} else
 		{
 			label_contacts_capture_show_need_one.Text = "<b>" + Catalog.GetString("Select at least one") + "</b>";
 			label_contacts_capture_show_need_one.UseMarkup = true;
 			box_contacts_capture_show_need_one.Visible = true;
+
+			//vpaned_tests.Position = vpaned_tests.MaxPosition; // does not work
+			GLib.Timeout.Add (50, new GLib.TimeoutHandler (vpaned_tests_max_pos)); // work
 		}
 
 		/*
@@ -4031,9 +4036,23 @@ public partial class ChronoJumpWindow
 				check_contacts_capture_graph.Active);
 	}
 
+	private bool vpaned_tests_max_pos()
+	{
+		vpaned_tests.Position = vpaned_tests.MaxPosition;
+		return false;
+	}
+
 	private bool vpaned_tests_center ()
 	{
 		vpaned_tests.Position = Convert.ToInt32 (vpaned_tests.Allocation.Height / 2.0);
+		return false;
+	}
+
+	private bool vpaned_tests_center_if_max_pos ()
+	{
+		if (vpaned_tests.Position == vpaned_tests.MaxPosition)
+			vpaned_tests.Position = Convert.ToInt32 (vpaned_tests.Allocation.Height / 2.0);
+
 		return false;
 	}
 

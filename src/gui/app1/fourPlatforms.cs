@@ -32,6 +32,7 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_fourPlatforms;
 	Gtk.Entry entry_fourPlatforms_port;
 	Gtk.Button button_four_platforms_capture_default;
+	Gtk.SpinButton spin_four_platforms_capture_n;
 	Gtk.Button button_four_platforms_capture_1_2;
 	Gtk.Button button_four_platforms_capture_1_3;
 	Gtk.Button button_four_platforms_capture_1_4;
@@ -70,13 +71,13 @@ public partial class ChronoJumpWindow
 		button_four_platforms_capture_default.Label =
 			FourPlatformsCaptureManage.CaptureEnumStr (FourPlatformsCaptureManage.CaptureEnum.DEFAULT);
 		button_four_platforms_capture_1_2.Label =
-			FourPlatformsCaptureManage.CaptureEnumStr (FourPlatformsCaptureManage.CaptureEnum.FROM1TO2) + " (15 reps)";
+			FourPlatformsCaptureManage.CaptureEnumStr (FourPlatformsCaptureManage.CaptureEnum.FROM1TO2);
 		button_four_platforms_capture_1_3.Label =
-			FourPlatformsCaptureManage.CaptureEnumStr (FourPlatformsCaptureManage.CaptureEnum.FROM1TO3) + " (15 reps)";
+			FourPlatformsCaptureManage.CaptureEnumStr (FourPlatformsCaptureManage.CaptureEnum.FROM1TO3);
 		button_four_platforms_capture_1_4.Label =
-			FourPlatformsCaptureManage.CaptureEnumStr (FourPlatformsCaptureManage.CaptureEnum.FROM1TO4) + " (15 reps)";
+			FourPlatformsCaptureManage.CaptureEnumStr (FourPlatformsCaptureManage.CaptureEnum.FROM1TO4);
 		button_four_platforms_capture_low_high.Label =
-			FourPlatformsCaptureManage.CaptureEnumStr (FourPlatformsCaptureManage.CaptureEnum.FROMLOWTOHIGH) + " (15 reps)";
+			FourPlatformsCaptureManage.CaptureEnumStr (FourPlatformsCaptureManage.CaptureEnum.FROMLOWTOHIGH);
 	}
 
 	//methods used on discoverWin closed, person changed, and Chronojump start (changeMode)
@@ -99,7 +100,9 @@ public partial class ChronoJumpWindow
 		cairoGraphFourPlatformsStepsTop_l = new List<PointF>();
 
 		fpcm = new FourPlatformsCaptureManage (current_mode,
-				FourPlatformsCaptureManage.CaptureEnum.DEFAULT, null,
+				FourPlatformsCaptureManage.CaptureEnum.DEFAULT,
+				Convert.ToInt32 (spin_four_platforms_capture_n.Value),
+				null,
 				ref cairoGraphFourPlatformsPoints_ll,
 				ref cairoGraphFourPlatformsStepsBottom_l,
 				ref cairoGraphFourPlatformsStepsTop_l,
@@ -206,7 +209,9 @@ public partial class ChronoJumpWindow
 					chronopicRegister.GetSelectedForMode (current_mode).Port);
 
 		fpcm = new FourPlatformsCaptureManage (current_mode,
-				fourPlatformsCaptureType, fpc,
+				fourPlatformsCaptureType,
+				Convert.ToInt32 (spin_four_platforms_capture_n.Value),
+				fpc,
 				ref cairoGraphFourPlatformsPoints_ll,
 				ref cairoGraphFourPlatformsStepsBottom_l,
 				ref cairoGraphFourPlatformsStepsTop_l,
@@ -473,6 +478,7 @@ public partial class ChronoJumpWindow
 		box_fourPlatforms = (Gtk.Box) builder.GetObject ("box_fourPlatforms");
 		entry_fourPlatforms_port = (Gtk.Entry) builder.GetObject ("entry_fourPlatforms_port");
 		button_four_platforms_capture_default = (Gtk.Button) builder.GetObject ("button_four_platforms_capture_default");
+		spin_four_platforms_capture_n = (Gtk.SpinButton) builder.GetObject ("spin_four_platforms_capture_n");
 		button_four_platforms_capture_1_2 = (Gtk.Button) builder.GetObject ("button_four_platforms_capture_1_2");
 		button_four_platforms_capture_1_3 = (Gtk.Button) builder.GetObject ("button_four_platforms_capture_1_3");
 		button_four_platforms_capture_1_4 = (Gtk.Button) builder.GetObject ("button_four_platforms_capture_1_4");

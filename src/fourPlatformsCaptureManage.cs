@@ -41,8 +41,7 @@ public class FourPlatformsCaptureManage
 	private List<PointF> stepsTop_l;
 
 	private FourPlatformsCaptureManageSteps fpcManageSteps;
-	//private int stepsTotal = 15;
-	private int stepsTotal = 3; // to debug now
+	private int stepsTotal;
 
 	//both these will be used to record final time
 	private double timeStart; //on steps is start of the 1st valid step. On default (not steps) is first on or off.
@@ -51,6 +50,7 @@ public class FourPlatformsCaptureManage
 	public FourPlatformsCaptureManage (
 			Constants.Modes mode,
 			CaptureEnum captureType,
+			int stepsTotal,
 			FourPlatformsCapture fpc,
 			ref List<List<PointF>> points_ll,
 			ref List<PointF> stepsBottom_l,
@@ -60,6 +60,7 @@ public class FourPlatformsCaptureManage
 	{
 		this.mode = mode;
 		this.captureType = captureType;
+		this.stepsTotal = stepsTotal;
 		this.fpc = fpc;
 		this.points_ll = points_ll;
 		this.stepsBottom_l = stepsBottom_l;

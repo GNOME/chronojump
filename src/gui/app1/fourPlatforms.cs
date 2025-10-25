@@ -374,6 +374,8 @@ public partial class ChronoJumpWindow
 			exerciseID = 2;
 		else if (fourPlatformsCaptureType == FourPlatformsCaptureManage.CaptureEnum.FROM1TO4)
 			exerciseID = 3;
+		else if (fourPlatformsCaptureType == FourPlatformsCaptureManage.CaptureEnum.FROMLOWTOHIGH)
+			exerciseID = 4;
 
 		currentFourPlatforms = new FourPlatforms (
 				-1,

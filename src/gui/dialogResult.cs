@@ -190,10 +190,21 @@ public partial class ChronoJumpWindow
 
 	private void on_button_dialog_result_update_font_size (object o, EventArgs args)
 	{
-		if (currentEventExecute != null && currentEventExecute.IsThreadRunning ()) // capturing: do it on GTK thread
+		if (current_mode == Constants.Modes.OTHER)
+		{
+			if (capturingFourPlatforms == arduinoCaptureStatus.CAPTURING)
+			{
+				fourPlatformsNeedCallApplyCSSExternalWindow = true;
+				return;
+			}
+		}
+		else if (currentEventExecute != null && currentEventExecute.IsThreadRunning ()) // capturing: do it on GTK thread
+		{
 			currentEventExecute.NeedCallApplyCSSExternalWindow = true;
-		else
-			UtilGtk.ApplyCSSExternalWindow ();
+			return;
+		}
+
+		UtilGtk.ApplyCSSExternalWindow ();
 	}
 
 	private void on_button_dialog_result_contacts_closed (object o, EventArgs args)

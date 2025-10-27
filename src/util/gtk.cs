@@ -771,7 +771,6 @@ public class UtilGtk
 
 		applyCssDo (cssStr);
 	}
-
 	public static void ApplyCSSExternalWindow ()
 	{
 		string cssStr = applyCssGetStringExternalWindow ();

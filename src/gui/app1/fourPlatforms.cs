@@ -62,6 +62,7 @@ public partial class ChronoJumpWindow
 
 	static FourPlatformsCaptureManage fpcm;
 	FourPlatformsCapture fpc;
+	private bool fourPlatformsNeedCallApplyCSSExternalWindow;
 
 	private FourPlatformsCaptureManage.CaptureEnum fourPlatformsCaptureType;
 
@@ -353,6 +354,12 @@ public partial class ChronoJumpWindow
 
 				if(fourPlatformsPulseMessage == capturingMessage)
 					event_execute_button_finish.Sensitive = true;
+
+				if (fourPlatformsNeedCallApplyCSSExternalWindow)
+				{
+					fourPlatformsNeedCallApplyCSSExternalWindow = false;
+					UtilGtk.ApplyCSSExternalWindow ();
+				}
 			}
 		}
 

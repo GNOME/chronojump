@@ -503,7 +503,6 @@ public partial class ChronoJumpWindow
 		if (current_mode == Constants.Modes.UNDEFINED)
 			return "";
 
-		// TODO: at the moment just runs interval and 4platforms
 		switch (current_mode)
 		{
 			case Constants.Modes.JUMPSSIMPLE :
@@ -526,6 +525,8 @@ public partial class ChronoJumpWindow
 					return currentRunIntervalType.Name;
 				else
 					return "";
+			case Constants.Modes.OTHER : // fourPlatforms
+				return fourPlatformsCaptureType.ToString ();
 		}
 
 		return "";

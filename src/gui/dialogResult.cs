@@ -36,6 +36,7 @@ public class DialogResult
 	// <---- at glade
 
 	public bool Visible;
+	public Gtk.Button FakeButtonUpdateFontSize;
 	public Gtk.Button FakeButtonClose;
 
 	private int fontSizeAtGui;
@@ -86,6 +87,7 @@ public class DialogResult
 		spin_font_size.Value = Constants.FontSizeExternalWindow;
 		on_spin_font_size_value_changed (new object (), new EventArgs ());
 		Visible = true;
+		FakeButtonUpdateFontSize = new Gtk.Button();
 		FakeButtonClose = new Gtk.Button();
 
 		dialog_result.Show();
@@ -109,7 +111,9 @@ public class DialogResult
 	public void on_spin_font_size_value_changed (object o, EventArgs args)
 	{
 		Constants.FontSizeExternalWindow = (int) spin_font_size.Value;
-		UtilGtk.ApplyCSS (fontSizeAtGui);
+
+		if (FakeButtonUpdateFontSize != null)
+			FakeButtonUpdateFontSize.Click (); //to be called by gtk thread
 	}
 
 	public void UpdateLabelResult (string str)
@@ -160,6 +164,9 @@ public partial class ChronoJumpWindow
 		dialogResult = new DialogResult (preferences.fontSizeAtGui, 800, 600);
 		dialog_result_set_labels ();
 
+		dialogResult.FakeButtonUpdateFontSize.Clicked -= new EventHandler (on_button_dialog_result_update_font_size);
+		dialogResult.FakeButtonUpdateFontSize.Clicked += new EventHandler (on_button_dialog_result_update_font_size);
+
 		dialogResult.FakeButtonClose.Clicked -= new EventHandler (on_button_dialog_result_contacts_closed);
 		dialogResult.FakeButtonClose.Clicked += new EventHandler (on_button_dialog_result_contacts_closed);
 	}
@@ -179,6 +186,14 @@ public partial class ChronoJumpWindow
 
 		dialogResult.SetLabels ("Chronojump external results", Constants.ModePrint (current_mode),
 				exAndUnits, currentPerson, resultStr);
+	}
+
+	private void on_button_dialog_result_update_font_size (object o, EventArgs args)
+	{
+		if (currentEventExecute != null && currentEventExecute.IsThreadRunning ()) // capturing: do it on GTK thread
+			currentEventExecute.NeedCallApplyCSSExternalWindow = true;
+		else
+			UtilGtk.ApplyCSSExternalWindow ();
 	}
 
 	private void on_button_dialog_result_contacts_closed (object o, EventArgs args)

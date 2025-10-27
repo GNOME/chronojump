@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -267,7 +267,7 @@ public class EventExecute
 	}
 
 	//used on Chronojump exit (if user wants to close program while it is capturing
-	public bool IsThreadRunning() {
+	public bool IsThreadRunning () {
 		if (thread != null && thread.IsAlive)
 			return true;
 
@@ -415,9 +415,20 @@ public class EventExecute
 		if(shouldFinishByTime()) {
 			finish = true;
 			updateProgressBarForFinish();
-		} 
+		}
+
+		if (needCallApplyCSSExternalWindow)
+		{
+			needCallApplyCSSExternalWindow = false;
+			UtilGtk.ApplyCSSExternalWindow ();
+		}
 	}
-	
+
+	private bool needCallApplyCSSExternalWindow;
+	public bool NeedCallApplyCSSExternalWindow {
+		set { needCallApplyCSSExternalWindow = value; }
+	}
+
 	// races specific --------------------------------->
 
 	private void runATouchPlatform() {

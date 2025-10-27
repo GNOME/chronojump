@@ -766,8 +766,28 @@ public class UtilGtk
 	//TODO: have all the css names as enums in order to fail in compile if names like darkCss have any typo
 	public static void ApplyCSS (int fontSizeAtGui)
 	{
-		CssProvider css = new CssProvider ();
+		string cssStr = applyCssGetStringAll (fontSizeAtGui);
+		cssStr += applyCssGetStringExternalWindow ();
 
+		applyCssDo (cssStr);
+	}
+
+	public static void ApplyCSSExternalWindow ()
+	{
+		string cssStr = applyCssGetStringExternalWindow ();
+		applyCssDo (cssStr);
+	}
+
+	private static void applyCssDo (string cssStr)
+	{
+		CssProvider css = new CssProvider ();
+		css.LoadFromData (cssStr);
+		Gtk.StyleContext.RemoveProviderForScreen (Gdk.Screen.Default, css); //needed
+		Gtk.StyleContext.AddProviderForScreen (Gdk.Screen.Default, css, 800); //needed
+	}
+
+	private static string applyCssGetStringAll (int fontSizeAtGui)
+	{
 		string colBgS = Config.ColorBackground.ToString ();
 		string colShiftedS = Config.ColorBackgroundShifted.ToString ();
 
@@ -811,11 +831,10 @@ public class UtilGtk
 			labelFontSize = string.Format ("font-size: {0}pt;", defaultFontSize); //we need to restore it if user selected custom previously
 			labelFontSizeBig = string.Format ("font-size: {0}pt;", Convert.ToInt32 (defaultFontSize * 1.6)); //we need to restore it if user selected custom previously
 		}
-		string labelFontSizeExternalWindow = string.Format ("font-size: {0}pt;", Constants.FontSizeExternalWindow);
 
 		// <---- font size at gui
 
-		var data =
+		string cssStr =
 			//LABELS
 			//labels lightCss in light color
 			"label#lightCss {" +
@@ -852,16 +871,6 @@ public class UtilGtk
 			"label#big_monospace_darkCss {" +
 				"color: #222222;" +
 				labelFontSizeBig +
-				"font-family: monospace;" +
-			"}" +
-			"label#externalWindow_monospace_lightCss {" +
-				"color: " + GetRGBAs (Colors.WHITE) + ";" +
-				labelFontSizeExternalWindow +
-				"font-family: monospace;" +
-			"}" +
-			"label#externalWindow_monospace_darkCss {" +
-				"color: #222222;" +
-				labelFontSizeExternalWindow +
 				"font-family: monospace;" +
 			"}" +
 			"label#labelAlertCss {" +
@@ -1083,10 +1092,24 @@ public class UtilGtk
 			"textview#fontSize9 {" +
 			"	font-size: 9pt;" +
 			"}";
-		css.LoadFromData(data);
 
-		Gtk.StyleContext.RemoveProviderForScreen (Gdk.Screen.Default, css); //needed
-		Gtk.StyleContext.AddProviderForScreen (Gdk.Screen.Default, css, 800); //needed
+		return cssStr;
+	}
+
+	// separated because it could be called multiple times on spinbutton change
+	private static string applyCssGetStringExternalWindow ()
+	{
+		string labelFontSizeExternalWindow = string.Format ("font-size: {0}pt;", Constants.FontSizeExternalWindow);
+		return "label#externalWindow_monospace_lightCss {" +
+				"color: " + GetRGBAs (Colors.WHITE) + ";" +
+				labelFontSizeExternalWindow +
+				"font-family: monospace;" +
+			"}" +
+			"label#externalWindow_monospace_darkCss {" +
+				"color: #222222;" +
+				labelFontSizeExternalWindow +
+				"font-family: monospace;" +
+			"}";
 	}
 
 	public static bool LogoBlueOrWhite (RGBA bg)

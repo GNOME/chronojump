@@ -70,12 +70,20 @@ public class CairoBars1Series : CairoBars
 
 	protected override void findMaximums()
 	{
+		bool first = true;
 		foreach(PointF p in barMain_l)
 		{
 			if(p.Y > maxY)
 				maxY = p.Y;
 			if(p.Y < minY)
 				minY = p.Y;
+
+			if (first || p.Y > maxYForBoxplotShadow)
+				maxYForBoxplotShadow = p.Y;
+			if (first || p.Y < minYForBoxplotShadow)
+				minYForBoxplotShadow = p.Y;
+
+			first = false;
 		}
 
 		if(cairoBarsGuideManage != null  && cairoBarsGuideManage.GetMax() > maxY)

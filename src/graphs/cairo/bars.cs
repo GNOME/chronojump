@@ -75,9 +75,13 @@ public abstract class CairoBars : CairoGeneric
 	protected double minY = 1000000;
 	protected double maxY = 0;
 
+	protected double maxYForBoxplotShadow;
+	protected double minYForBoxplotShadow;
+
 	protected Cairo.Color black;
 	protected Cairo.Color gray99;
 	protected Cairo.Color gray153; //light
+	protected Cairo.Color gray180; //lighter
 	protected Cairo.Color white;
 	protected Cairo.Color greenDark;
 	protected Cairo.Color blue;
@@ -171,18 +175,18 @@ public abstract class CairoBars : CairoGeneric
 
 	protected void drawBoxplots (Cairo.Color color)
 	{
-		g.SetSourceColor (color);
+		//g.SetSourceColor (color);
 
 		int xStart = 6;
 
 		if(usePersonGuides)
-			drawBoxplot (boxplotPerson, xStart+6);
+			drawBoxplot (boxplotPerson, xStart+6, color);
 
 		if(usePersonGuides && useGroupGuides)
 			xStart += (24 + 8);
 
 		if(useGroupGuides)
-			drawBoxplot (boxplotSession, xStart+6);
+			drawBoxplot (boxplotSession, xStart+6, color);
 
 		// drawn here because if done above then boxplots are not drawn
 		if (boxplotPerson != null && boxplotPerson.Calculated)
@@ -192,7 +196,7 @@ public abstract class CairoBars : CairoGeneric
 			drawGroupIcon (xStart);
 	}
 
-	protected void drawBoxplot (Boxplot bp, int xStart)
+	protected void drawBoxplot (Boxplot bp, int xStart, Cairo.Color color)
 	{
 		if (bp == null || ! bp.Calculated)
 			return;
@@ -203,6 +207,13 @@ public abstract class CairoBars : CairoGeneric
 		g.LineWidth = 1;
 		int x = graphWidth - rightMargin +xStart +6;
 
+		// shadowed rectangle showing area of coverage of the boxplot
+		g.SetSourceColor (gray180); //to have contrast with the bar
+		g.Rectangle (x-width, calculatePaintY (maxYForBoxplotShadow),
+				2*width, calculatePaintY (minYForBoxplotShadow) - calculatePaintY (maxYForBoxplotShadow));
+		g.Fill ();
+
+		g.SetSourceColor (color);
 		// iqr rectangle
 		g.Rectangle (x-width, calculatePaintY (bp.Quartiles.Item3),
 				2*width, calculatePaintY (bp.Quartiles.Item1) -calculatePaintY (bp.Quartiles.Item3));
@@ -304,6 +315,7 @@ public abstract class CairoBars : CairoGeneric
 		black = colorFromRGB(0,0,0);
 		gray99 = colorFromRGB(99,99,99);
 		gray153 = colorFromRGB(153,153,153);
+		gray180 = colorFromRGB(180,180,180);
 		white = colorFromRGB(255,255,255);
 		greenDark = colorFromRGB(0,140,0);
 		blue = colorFromRGB(178, 223, 238); //lightblue

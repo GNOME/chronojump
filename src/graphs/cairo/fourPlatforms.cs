@@ -86,6 +86,7 @@ public class CairoGraphFourPlatforms : CairoXY
 			bool forceRedraw, PlotTypes plotType,
 			Gdk.RGBA colorBalls, Gdk.RGBA colorSteps)
 	{
+		//LogB.Information (string.Format ("capturing: {0}, showLastSeconds: {1}", capturing, showLastSeconds));
 		if (doSendingList (font,
 					mode,
 					title,

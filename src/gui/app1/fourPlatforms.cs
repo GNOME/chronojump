@@ -150,6 +150,7 @@ public partial class ChronoJumpWindow
 		sensitiveLastTestButtons(false);
 
 		capturingFourPlatforms = arduinoCaptureStatus.STARTING;
+		LogB.Information ("capturingFourPlatforms: STARTING");
 
 		blankFourPlatformsGraphs ();
 
@@ -219,9 +220,15 @@ public partial class ChronoJumpWindow
 
 		if (fpcm.Init ())
 		{
-			capturingFourPlatforms = arduinoCaptureStatus.CAPTURING;
 			fourPlatformsPulseMessage = capturingMessage;
-			fpcm.Capture ();
+
+			LogB.Information ("--- capturingFourPlatforms after init A: " + capturingFourPlatforms.ToString ());
+			if (capturingFourPlatforms != arduinoCaptureStatus.STOP) // to fix cancelled just when arduino was starting
+			{
+				capturingFourPlatforms = arduinoCaptureStatus.CAPTURING;
+				fpcm.Capture ();
+			}
+			LogB.Information ("--- capturingFourPlatforms after init B: " + capturingFourPlatforms.ToString ());
 		}
 	}
 
@@ -313,6 +320,7 @@ public partial class ChronoJumpWindow
 
 			blinkCapture.End ();
 			capturingFourPlatforms = arduinoCaptureStatus.STOP;
+			LogB.Information ("capturingFourPlatforms: STOP");
 			showHideBlinkIcon (blinkCapture, false);
 
 			contactsShowCaptureDoingButtons(false);

@@ -36,6 +36,8 @@ public class CairoGraphFourPlatforms : CairoXY
 	private int marginAfterInSeconds;
 	private FourPlatformsCaptureManage.CaptureEnum fourPlatformsCaptureType;
 	private bool capturing;
+	private Cairo.Color colorBalls;
+	private Cairo.Color colorSteps;
 
 	public CairoGraphFourPlatforms (DrawingArea area)//, bool horizontal))
 	{
@@ -81,7 +83,8 @@ public class CairoGraphFourPlatforms : CairoXY
 			bool capturing,
 			bool videoShow, double videoPlayTimeInSeconds,
 			int showLastSeconds,
-			bool forceRedraw, PlotTypes plotType)
+			bool forceRedraw, PlotTypes plotType,
+			Gdk.RGBA colorBalls, Gdk.RGBA colorSteps)
 	{
 		if (doSendingList (font,
 					mode,
@@ -93,7 +96,8 @@ public class CairoGraphFourPlatforms : CairoXY
 					capturing,
 					videoShow, videoPlayTimeInSeconds,
 					showLastSeconds,
-					forceRedraw, plotType))
+					forceRedraw, plotType,
+					colorFromRGBA (colorBalls), colorFromRGBA (colorSteps)))
 			endGraphDisposing(g, surface, area.Window);
 	}
 
@@ -107,7 +111,8 @@ public class CairoGraphFourPlatforms : CairoXY
 			bool capturing,
 			bool videoShow, double videoPlayTimeInSeconds,
 			int showLastSeconds,
-			bool forceRedraw, PlotTypes plotType)
+			bool forceRedraw, PlotTypes plotType,
+			Cairo.Color colorBalls, Cairo.Color colorSteps)
 	{
 		this.mode = mode;
 		this.points_ll = points_ll;
@@ -116,6 +121,8 @@ public class CairoGraphFourPlatforms : CairoXY
 		this.idName_l = idName_l;
 		this.fourPlatformsCaptureType = fourPlatformsCaptureType;
 		this.capturing = capturing;
+		this.colorBalls = colorBalls;
+		this.colorSteps = colorSteps;
 
 		//force show all set when not capturing
 		if (! capturing)
@@ -246,6 +253,7 @@ public class CairoGraphFourPlatforms : CairoXY
 					doPlotMarksOther (i, fourPlatformsCaptureType == FourPlatformsCaptureManage.CaptureEnum.DEFAULT);
 					if (stepsBottom_l.Count > 0)
 					{
+						g.SetSourceColor (colorSteps);
 						for (int j = 0 ; j < stepsBottom_l.Count && j < stepsTop_l.Count ; j ++)
 						{
 							g.MoveTo (calculatePaintX (stepsBottom_l[j].X),
@@ -305,7 +313,7 @@ public class CairoGraphFourPlatforms : CairoXY
 			{
 				drawCircle (g, calculatePaintX (points_ll[i][j].X),
 						calculatePaintY (changeYIfNeeded (i)),
-						pointsRadius, black, true);
+						pointsRadius, colorSteps, colorBalls);
 
 				continue;
 			}
@@ -314,7 +322,7 @@ public class CairoGraphFourPlatforms : CairoXY
 			{
 				drawCircle (g, calculatePaintX (points_ll[i][j].X),
 						calculatePaintY (changeYIfNeeded(i)),
-						pointsRadius, black, white);
+						pointsRadius, colorSteps, white);
 
 				//double drawLineToX = calculatePaintX (0);
 				double drawLineToX = calculatePaintX (points_ll[0][startAt].X) + pointsRadius;
@@ -323,7 +331,7 @@ public class CairoGraphFourPlatforms : CairoXY
 				{
 					drawCircle (g, calculatePaintX (points_ll[i][j-1].X),
 							calculatePaintY (changeYIfNeeded(i)),
-							pointsRadius, black, true);
+							pointsRadius, colorBalls, true);
 					drawLineToX = calculatePaintX (points_ll[i][j-1].X) + pointsRadius;
 				}
 

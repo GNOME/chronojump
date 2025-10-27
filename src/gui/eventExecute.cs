@@ -365,7 +365,9 @@ public partial class ChronoJumpWindow
 						capturingFourPlatforms == arduinoCaptureStatus.CAPTURING,
 						false, 0,
 						10, //but if no capturing it will be -1 (all set)
-						true, CairoXY.PlotTypes.POINTSFILL);
+						true, CairoXY.PlotTypes.POINTSFILL,
+						Config.ColorBackgroundShifted, Config.ColorBackground
+						);
 			}
 		} else if(current_mode == Constants.Modes.WILIGHT)
 		{

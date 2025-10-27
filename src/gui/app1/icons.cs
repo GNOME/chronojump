@@ -666,6 +666,9 @@ public partial class ChronoJumpWindow
 		force_sensor_exercise_filter_image.Pixbuf = pixbuf;
 		force_sensor_exercise_filter_top_image.Pixbuf = pixbuf;
 
+		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "filter_on.png");
+		image_resultsSession_limit.Pixbuf = pixbuf;
+
 
 		/*
 		 * <------ end of material design icons

@@ -631,7 +631,7 @@ public class UtilGtk
 
 	public enum Colors {
 		BLACK, BLUE_CHRONOJUMP, BLUE_LIGHT, BLUE_PLOTS,
-		GRAY, GRAY_LIGHT, GREEN_PLOTS, GREEN_LIGHT, GREEN_DARK,
+		GRAY, GRAY_LIGHT, GRAY_180, GREEN_PLOTS, GREEN_LIGHT, GREEN_DARK,
 		RED_PLOTS, RED_DARK, YELLOW, YELLOW_LIGHT, WHITE }
 
 	public static RGBA GetRGBA (Colors colname)
@@ -650,6 +650,8 @@ public class UtilGtk
 			color.Parse ("#666666");
 		else if (colname == Colors.GRAY_LIGHT)
 			color.Parse ("#999999");
+		else if (colname == Colors.GRAY_180)
+			color.Parse ("#b4b4b4");
 		else if (colname == Colors.GREEN_PLOTS)
 			color.Parse ("#00c800");
 		else if (colname == Colors.GREEN_LIGHT)
@@ -967,6 +969,9 @@ public class UtilGtk
 			"*#whiteBgCss {" +
 				"background: #ffffff;" +
 			"}" +
+			"*#gray180Css {" +
+				"background: #b4b4b4;" +
+			"}" +
 			"*#alertCss {" +
 				"background-color: #8c0000;" +
 				//"color: #8c0000;" +
@@ -1175,6 +1180,11 @@ public class UtilGtk
 	public static void ViewportColorWhite (Gtk.Viewport v)
 	{
 		v.Name = "whiteCss";
+	}
+
+	public static void WidgetColorGray180 (Gtk.Widget w)
+	{
+		w.Name = "gray180Css";
 	}
 
 	public static void WidgetColor (Gtk.Widget w, RGBA color)

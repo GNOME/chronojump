@@ -1257,6 +1257,8 @@ public partial class ChronoJumpWindow
 					Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_chronopic_connect.png");
 		}
 
+		UtilGtk.WidgetColorGray180 (box_resultsSession_limit);
+
 		LogB.Information(string.Format("UseSystemColor: {0}, ColorBackgroundIsDark: {1}", Config.UseSystemColor, Config.ColorBackgroundIsDark));
 		if(! Config.UseSystemColor && Config.ColorBackgroundIsDark)
 		{

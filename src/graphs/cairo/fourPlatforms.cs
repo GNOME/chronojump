@@ -242,30 +242,22 @@ public class CairoGraphFourPlatforms : CairoXY
 			g.Stroke (); //needed because if not the move to on printText makes after show a line to the following points
 		}
 
-		g.LineWidth = 2;
+		if (stepsBottom_l.Count > 0 && fourPlatformsCaptureType == FourPlatformsCaptureManage.CaptureEnum.FROMLOWTOHIGH) //area at bg
+			paintStepsFromLowToHigh ();
 
+		g.SetSourceColor (black);
+		g.LineWidth = 2;
 		if (points_ll[0].Count > 0)
 			for (int i = 1; i <= 4; i ++)
 			{
 				if (mode == Constants.Modes.JUMPSSIMPLE)
 					doPlotMarksJumpsSimple (i);
 				else //(mode == Constants.Modes.OTHER)
-				{
 					doPlotMarksOther (i, fourPlatformsCaptureType == FourPlatformsCaptureManage.CaptureEnum.DEFAULT);
-					if (stepsBottom_l.Count > 0)
-					{
-						g.SetSourceColor (colorSteps);
-						for (int j = 0 ; j < stepsBottom_l.Count && j < stepsTop_l.Count ; j ++)
-						{
-							g.MoveTo (calculatePaintX (stepsBottom_l[j].X),
-									calculatePaintY (changeYIfNeeded (stepsBottom_l[j].Y)));
-							g.LineTo (calculatePaintX (stepsTop_l[j].X),
-									calculatePaintY (changeYIfNeeded (stepsTop_l[j].Y)));
-							g.Stroke ();
-						}
-					}
-				}
 			}
+
+		if (stepsBottom_l.Count > 0 && fourPlatformsCaptureType != FourPlatformsCaptureManage.CaptureEnum.FROMLOWTOHIGH)
+			paintStepsOthers ();
 
 		/*
 		//debug with points_ll[0]
@@ -274,6 +266,56 @@ public class CairoGraphFourPlatforms : CairoXY
 
 		g.SetSourceColor (yellow);
 		points_l_painted = points_ll[0].Count;
+	}
+
+	private void paintStepsFromLowToHigh ()
+	{
+		Cairo.Color colorLine_yellow = new Cairo.Color (0.906, 0.745, 0.098, 1); //Chronojump yellow
+		Cairo.Color colorArea_yellowTransp = new Cairo.Color (0.9, 0.9, 0.01, .15);
+
+		for (int j = 0 ; j < stepsBottom_l.Count && j < stepsTop_l.Count ; j ++)
+		{
+			//CairoUtil.PaintVerticalLinesAndRectangle (g, graphHeight,
+			//based on CairoUtil.PaintVerticalLinesAndRectangle ...
+			g.SetSourceColor (colorLine_yellow);
+			g.MoveTo (calculatePaintX (stepsBottom_l[j].X), calculatePaintY (1));
+			g.LineTo (calculatePaintX (stepsBottom_l[j].X), calculatePaintY (4) -2.5*pointsRadius);
+			g.Stroke ();
+			g.MoveTo (calculatePaintX (stepsTop_l[j].X), calculatePaintY (1));
+			g.LineTo (calculatePaintX (stepsTop_l[j].X), calculatePaintY (4) -2.5*pointsRadius);
+			g.Stroke ();
+
+			// print the num
+			printText (
+					UtilAll.DivideSafe (
+						calculatePaintX (stepsBottom_l[j].X) + calculatePaintX (stepsTop_l[j].X),
+						2),
+					calculatePaintY (4) -2.5*pointsRadius,
+					0, textHeight, (j+1).ToString (), g, alignTypes.CENTER);
+
+			g.SetSourceColor (colorArea_yellowTransp);
+			if (stepsTop_l[j].X > stepsBottom_l[j].X)
+			{
+				g.Rectangle (calculatePaintX (stepsBottom_l[j].X),
+						calculatePaintY (4),
+						calculatePaintX (stepsTop_l[j].X) - calculatePaintX (stepsBottom_l[j].X),
+						calculatePaintY (1) - calculatePaintY (4));
+				g.Fill();
+			}
+		}
+	}
+
+	private void paintStepsOthers ()
+	{
+		g.SetSourceColor (colorSteps);
+		for (int j = 0 ; j < stepsBottom_l.Count && j < stepsTop_l.Count ; j ++)
+		{
+			g.MoveTo (calculatePaintX (stepsBottom_l[j].X),
+					calculatePaintY (changeYIfNeeded (stepsBottom_l[j].Y)));
+			g.LineTo (calculatePaintX (stepsTop_l[j].X),
+					calculatePaintY (changeYIfNeeded (stepsTop_l[j].Y)));
+			g.Stroke ();
+		}
 	}
 
 	private void doPlotMarksJumpsSimple (int i) //person (row)

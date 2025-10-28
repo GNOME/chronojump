@@ -309,6 +309,8 @@ namespace Chronojump
 			new ResourceFix ("p_outline_blue_1x.png" , "image_person_outline.png"),
 			new ResourceFix ("image_group_outline.png" , "image_group_outline.png"),
 			new ResourceFix ("outline_mouse_black_18dp.png" , "mouse.png"),
+			new ResourceFix ("outline_mouse_black_18dp_2_buttons.png" , "mouse_2_buttons.png"),
+			new ResourceFix ("outline_mouse_black_18dp_1_button.png" , "mouse_1_button.png"),
 			new ResourceFix ("weekend_blue_1x.png" , "image_rest.png"),
 			new ResourceFix ("weekend_blue_inactive_1x.png" , "image_rest_inactive.png"),
 			new ResourceFix ("weekend_yellow_1x.png" , "image_rest_yellow.png"),

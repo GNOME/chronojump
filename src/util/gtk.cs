@@ -605,6 +605,7 @@ public class UtilGtk
 	public static Gdk.Color BLUE_CLEAR2 = new Gdk.Color(0x02,0x4e,0x69); //used on background of start buttons (modes)
 	public static Gdk.Color YELLOW = new Gdk.Color(0xff,0xcc,0x01);
 	public static Gdk.Color YELLOW_LIGHT = new Gdk.Color(0xf3,0xde,0x8c);
+	public static Gdk.Color YELLOW_MID = new Gdk.Color(0xed,0xce,0x52);
 	public static Gdk.Color YELLOW_DARK = new Gdk.Color(0xcd,0xcd,0x00);
 	public static Gdk.Color ORANGE_DARK = new Gdk.Color(0xff,0x7f,0x00);
 	
@@ -632,7 +633,7 @@ public class UtilGtk
 	public enum Colors {
 		BLACK, BLUE_CHRONOJUMP, BLUE_LIGHT, BLUE_PLOTS,
 		GRAY, GRAY_LIGHT, GRAY_180, GREEN_PLOTS, GREEN_LIGHT, GREEN_DARK,
-		RED_PLOTS, RED_DARK, YELLOW, YELLOW_LIGHT, WHITE }
+		RED_PLOTS, RED_DARK, YELLOW, YELLOW_LIGHT, YELLOW_MID, WHITE }
 
 	public static RGBA GetRGBA (Colors colname)
 	{
@@ -666,6 +667,8 @@ public class UtilGtk
 			color.Parse ("#ffcc01");
 		else if (colname == Colors.YELLOW_LIGHT)
 			color.Parse ("#f3de8c");
+		else if (colname == Colors.YELLOW_MID)
+			color.Parse ("#edce52");
 		else if (colname == Colors.WHITE)
 			color.Parse ("#ffffff");
 
@@ -941,6 +944,12 @@ public class UtilGtk
 			"entry:insensitive {" +
 			    "background: #cccccc;" +
 			    "background-color: #cccccc;" +
+			"}" +
+
+			// treeview
+			"treeview.view:selected {" +
+				"color: " + GetRGBAs (Colors.BLACK) + ";" +
+				"background: " + GetRGBAs (Colors.YELLOW_MID) + ";" +
 			"}" +
 
 			//PROGRESSBAR

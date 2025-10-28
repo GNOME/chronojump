@@ -442,6 +442,9 @@ public partial class ChronoJumpWindow
 	private void on_drawingarea_results_session_button_press_event (object o, ButtonPressEventArgs args)
 	{
 		LogB.Information("on_drawingarea_results_session_button_press_event");
+
+		Gdk.EventButton eventButton = args.Event;
+
 		if (
 				current_mode != Constants.Modes.JUMPSSIMPLE &&
 				current_mode != Constants.Modes.JUMPSREACTIVE &&
@@ -480,6 +483,12 @@ public partial class ChronoJumpWindow
 		}
 
 		selectResultsSessionId (id, true);
+
+		// show edit, repair?, delete
+		if (eventButton.Button == 3)
+			treeviewResultsContextMenu (
+					(current_mode == Constants.Modes.JUMPSREACTIVE || current_mode == Constants.Modes.RUNSINTERVALLIC), //hasRepair
+					"");
 	}
 
 	// simple and DJ jump	

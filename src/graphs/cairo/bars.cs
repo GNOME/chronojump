@@ -38,7 +38,7 @@ public abstract class CairoBars : CairoGeneric
 	protected int fontHeightAboveBar; //will be reduced if does not fit. On encoder is bigger than other places, pass -1 if don't want to define
 	protected int fontHeightForBottomNames;
 	protected int marginForBottomNames;
-	protected bool clickable;
+	protected MouseClickable clickable;
 	protected bool paintAxis;
 	protected bool paintGrid; //if paint grid, then paint a rectangle below barResult (on encoder: false)
 

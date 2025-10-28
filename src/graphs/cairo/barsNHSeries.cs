@@ -56,7 +56,7 @@ public class CairoBarsNHSeries : CairoBars
 	}
 
 	//regular constructor
-	public CairoBarsNHSeries (DrawingArea area, Type type, bool showLegend, bool clickable, bool paintAxis, bool paintGrid)
+	public CairoBarsNHSeries (DrawingArea area, Type type, bool showLegend, MouseClickable clickable, bool paintAxis, bool paintGrid)
 	{
 		this.area = area;
 		this.type = type;
@@ -660,8 +660,7 @@ public class CairoBarsNHSeries : CairoBars
 		if(showLegend)
 			writeLegend ();
 
-		if(clickable)
-			addClickableMark (g);
+		addClickableMarkIfNeeded (clickable, g);
 
 		if (screenshotURL != "")
 			CairoUtil.GetScreenshotFromDrawingArea (area, g, screenshotURL);

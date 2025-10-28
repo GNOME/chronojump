@@ -172,7 +172,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		plotRealPoints(PlotTypes.POINTSFILL);
 
 		writeTitle();
-		addClickableMark(g);
+		addClickableMarkIfNeeded (MouseClickable.CLICKL, g);
 
 		if(mouseX >= 0 && mouseY >= 0)
 			calculateAndWriteRealXY ();

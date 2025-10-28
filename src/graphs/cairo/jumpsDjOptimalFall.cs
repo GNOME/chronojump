@@ -103,7 +103,7 @@ public class JumpsDjOptimalFallGraph : CairoXY
 			writeTextNeed3PointsWithDifferentFall();
 		}
 		writeTitle();
-		addClickableMark(g);
+		addClickableMarkIfNeeded (MouseClickable.CLICKL, g);
 
 		if(mouseX >= 0 && mouseY >= 0)
 			calculateAndWriteRealXY ();

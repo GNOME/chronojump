@@ -109,7 +109,7 @@ public class JumpsRjFatigueGraph : CairoXY
 		divideAndPlotAverage (divideIn, true);
 		g.SetSourceColor(black);
 
-		addClickableMark(g);
+		addClickableMarkIfNeeded (MouseClickable.CLICKL, g);
 
 		if(mouseX >= 0 && mouseY >= 0)
 			calculateAndWriteRealXY ();

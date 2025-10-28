@@ -48,7 +48,7 @@ public class CairoBars1Series : CairoBars
 	}
 
 	//regular constructor
-	public CairoBars1Series (DrawingArea area, Type type, bool clickable, bool paintAxis, bool paintGrid)
+	public CairoBars1Series (DrawingArea area, Type type, MouseClickable clickable, bool paintAxis, bool paintGrid)
 	{
 		this.area = area;
 		this.type = type;
@@ -367,8 +367,7 @@ public class CairoBars1Series : CairoBars
 		if (bestExThis > 0)
 			drawBestEx (bestExThis);
 
-		if(clickable)
-			addClickableMark (g);
+		addClickableMarkIfNeeded (clickable, g);
 
 		if (screenshotURL != "")
 			CairoUtil.GetScreenshotFromDrawingArea (area, g, screenshotURL);

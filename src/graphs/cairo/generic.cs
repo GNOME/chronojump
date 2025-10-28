@@ -52,7 +52,8 @@ public abstract class CairoGeneric
 	protected Cairo.Color brown = new Cairo.Color (0.588, 0.294, 0, 1); //964b00 //if this changes, change on ApplyCss
 	protected Cairo.Color caramel = new Cairo.Color (0.81, 0.49, 0, 1); //cf7d00 brown yellowish
 
-
+	// All UNSPECIFIED will be moved to CLICKL or CLICKLR
+	public enum MouseClickable { NO, UNSPECIFIED, CLICKL, CLICKLR };
 
 	/*
 	   need to dispose because Cairo does not clean ok on win and mac:
@@ -564,9 +565,20 @@ public abstract class CairoGeneric
 			g.SetSourceRGB(0,0,0);
 	}
 
-	protected void addClickableMark (Cairo.Context g)
+	//new method
+	protected void addClickableMarkIfNeeded (MouseClickable clickable, Cairo.Context g)
 	{
-		Gdk.Pixbuf pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "mouse.png"); //18px
+		if (clickable == MouseClickable.NO)
+			return;
+
+		Gdk.Pixbuf pixbuf;
+		if (clickable == MouseClickable.CLICKL)
+			pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "mouse_1_button.png"); //18px
+		else if (clickable == MouseClickable.CLICKLR)
+			pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "mouse_2_buttons.png"); //18px
+		else //if (clickable == MouseClickable.UNSPECIFIED)
+			pixbuf = Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "mouse.png"); //18px
+
 		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf, graphWidth -18, graphHeight -20);
 		g.Paint();
 	}

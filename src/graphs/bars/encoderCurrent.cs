@@ -601,10 +601,14 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 
 	private void paintSpecificDo ()
 	{
+		CairoGeneric.MouseClickable mc = CairoGeneric.MouseClickable.NO;
+		if (! pegbe.capturing)
+			mc = CairoGeneric.MouseClickable.CLICKL;
+
 		if(pegbe.eccon == "c")
-			cb = new CairoBars1Series (darea, CairoBars.Type.ENCODER, ! pegbe.capturing, false, false);
+			cb = new CairoBars1Series (darea, CairoBars.Type.ENCODER, mc, false, false);
 		else
-			cb = new CairoBarsNHSeries (darea, CairoBars.Type.ENCODER, false, ! pegbe.capturing, false, false);
+			cb = new CairoBarsNHSeries (darea, CairoBars.Type.ENCODER, false, mc, false, false);
 
 		//LogB.Information("data_l.Count: " + data_l.Count.ToString());
 		//cb.GraphInit(fontStr, true, false); //usePersonGuides, useGroupGuides

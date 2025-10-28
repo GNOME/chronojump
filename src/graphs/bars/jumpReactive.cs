@@ -55,9 +55,9 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 	{
 		// on rj use heights we only show jump height (and not fall data) because both values are shown (usually at same place)
 		if (UseHeights)
-			cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, true, true, true);
+			cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, CairoGeneric.MouseClickable.CLICKLR, true, true);
 		else
-			cb = new CairoBarsNHSeries (darea, CairoBars.Type.NORMAL, true, true, true, true);
+			cb = new CairoBarsNHSeries (darea, CairoBars.Type.NORMAL, true, CairoGeneric.MouseClickable.CLICKLR, true, true);
 
 		if(UseHeights) {
 			cb.YVariable = Catalog.GetString("Jump height");

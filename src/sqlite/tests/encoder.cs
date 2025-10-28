@@ -381,7 +381,17 @@ class SqliteEncoder : SqliteTests
 
 	    List<double> d_l = new List<double> ();
 	    while (reader.Read())
+	    {
+		    // TODO: in the future use hasInertia (see SessionTestsByPerson) ---->
+		    EncoderConfiguration econf = getEconf (reader[1].ToString ());
+		    //if encoderGI != ALL discard non wanted repetitions
+		    if (encoderGI == Constants.EncoderGI.GRAVITATORY && econf.has_inertia)
+			    continue;
+		    else if (encoderGI == Constants.EncoderGI.INERTIAL && !econf.has_inertia)
+			    continue;
+
 		    d_l.Add (Convert.ToDouble (Util.ChangeDecimalSeparator (reader [0].ToString ())));
+	    }
 
 	    reader.Close();
 	    closeIfNeeded (dbconOpened);
@@ -504,7 +514,8 @@ class SqliteEncoder : SqliteTests
 
 	string selectRow1 = "SELECT " + encT + ".*, " + encExT + ".name ";
 	if (selectParam != "")
-		selectRow1 = "SELECT " + encT + "." + selectParam + " ";
+		selectRow1 = "SELECT " + encT + "." + selectParam + 	// select the param
+			", " + encT + ".encoderConfiguration "; 	// select also encoderConfiguration to discard by encoderGI
 
         dbcmd.CommandText = selectRow1 +
             fromString +
@@ -515,15 +526,22 @@ class SqliteEncoder : SqliteTests
 	    orderByStr;
     }
 
+    private static EncoderConfiguration getEconf (string str)
+    {
+            string[] strFull = str.ToString().Split(new char[] { ':' });
+            EncoderConfiguration econf = new EncoderConfiguration (
+                (EncoderConfiguration.Names)
+                Enum.Parse (typeof (EncoderConfiguration.Names), strFull[0]));
+
+            econf.ReadParamsFromSQL (strFull);
+	    return econf;
+    }
+
     private static EncoderSQL getEncoderSQL (SQLiteDataReader reader, Constants.EncoderGI encoderGI)
     {
-	    // TODO: in the future use hasInertia (see SessionTestsByPerson) ---->
-            string[] strFull = reader[15].ToString().Split(new char[] { ':' });
-            EncoderConfiguration econf = new EncoderConfiguration(
-                (EncoderConfiguration.Names)
-                Enum.Parse(typeof(EncoderConfiguration.Names), strFull[0]));
-            econf.ReadParamsFromSQL(strFull);
+	    EncoderConfiguration econf = getEconf (reader[15].ToString ());
 
+	    // TODO: in the future use hasInertia (see SessionTestsByPerson) ---->
             //if encoderGI != ALL discard non wanted repetitions
             if (encoderGI == Constants.EncoderGI.GRAVITATORY && econf.has_inertia)
                 return null;

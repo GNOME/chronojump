@@ -139,6 +139,7 @@ public class PrepareEventGraphJumpSimple : PrepareEventGraphTest
 	public string type; //jumpType (useful to know if "all jumps" (type == "")
 	public bool showHeights;
 	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
+	public Jump selectedJump;
 	private Sqlite.Orders_by orderBy;
 
 	public PrepareEventGraphJumpSimple() {
@@ -175,6 +176,18 @@ public class PrepareEventGraphJumpSimple : PrepareEventGraphTest
 				orderBy, limit,
 				allPersons, 	//show names on comments only if "all persons"
 				false); 	//! onlyBestInSession
+
+		// get the selectedJump to show it if it's not aready shown by the limit
+		selectedJump = null;
+		if (selectedID >= 0)
+		{
+			foreach (Jump jump in jumpsAtSQL)
+				if (jump.UniqueID == selectedID)
+					selectedJump = jump;
+
+			if (selectedJump == null)
+				selectedJump = SqliteJump.SelectJumpData (selectedID, false);
+		}
 
 		string param = "tv";
 		if (showHeights)

@@ -285,6 +285,10 @@ public class CairoBars1Series : CairoBars
 				g.Paint();
 			}
 		}
+
+		// add the selectedDouble if is not a bar shown by limit
+		if (selectedDoubleDefined && ! UtilList.FoundInListDouble (selectedForBoxplot_l, calculatePaintY (selectedDouble)))
+			selectedForBoxplot_l.Add (calculatePaintY (selectedDouble));
 	}
 
 	//done here and not in the constructor because most of this variables are known after construction

@@ -93,6 +93,8 @@ public abstract class CairoBars : CairoGeneric
 	protected List<int> id_l; //to pass the uniqueID of some test, eg: RunInterval executions and then find it using mouseLimits
 	protected int selectedPos;
 	protected List<int> selectedPos_l; //used on encder curves
+	protected double selectedDouble;
+	protected bool selectedDoubleDefined;
 	protected List<double> color_l;
 	protected List<bool> personIcon_l;
 
@@ -141,6 +143,8 @@ public abstract class CairoBars : CairoGeneric
 		encoderTitle = false;
 		selectedPos = -1;
 		selectedPos_l = new List<int> ();
+		selectedDouble = -1;
+		selectedDoubleDefined = false;
 		screenshotURL = "";
 	}
 
@@ -1178,6 +1182,15 @@ public abstract class CairoBars : CairoGeneric
 	public List<int> SelectedPos_l {
 		get { return selectedPos_l; }
 		set { selectedPos_l = value; }
+	}
+
+	// used to draw on boxplot values if they are not part of the shown bars
+	// on encoder will be a list
+	public double SelectedDouble {
+		set {
+			selectedDouble = value;
+			selectedDoubleDefined = true;
+		}
 	}
 
 	public List<double> Color_l {

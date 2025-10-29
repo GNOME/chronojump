@@ -169,6 +169,15 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 
 		cb.PassBoxplots (eventGraphJumpsStored.BoxplotPerson, eventGraphJumpsStored.BoxplotSession);
 
+		// pass selectedJump to plot if it's not part of the shown jumps
+		if (eventGraphJumpsStored.selectedJump != null)
+		{
+			if (UseHeights)
+				cb.SelectedDouble = Util.GetHeightInCentimeters (eventGraphJumpsStored.selectedJump.Tv); //jump height
+			else
+				cb.SelectedDouble = eventGraphJumpsStored.selectedJump.Tv;
+		}
+
 		if(showBarA && showBarB) //Dja, Djna
 		{
 			List<List<PointF>> barsSecondary_ll = new List<List<PointF>>();

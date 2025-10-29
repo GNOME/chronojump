@@ -93,6 +93,7 @@ public abstract class PrepareEventGraphTest
 		boxplotSession.Do ();
 	}
 
+	protected abstract void getSelected ();
 	protected abstract List<double> boxplotSelectPerson (string param);
 	protected abstract List<double> boxplotSelectSession (string param);
 
@@ -178,22 +179,27 @@ public class PrepareEventGraphJumpSimple : PrepareEventGraphTest
 				false); 	//! onlyBestInSession
 
 		// get the selectedJump to show it if it's not aready shown by the limit
-		selectedJump = null;
-		if (selectedID >= 0)
-		{
-			foreach (Jump jump in jumpsAtSQL)
-				if (jump.UniqueID == selectedID)
-					selectedJump = jump;
-
-			if (selectedJump == null)
-				selectedJump = SqliteJump.SelectJumpData (selectedID, false);
-		}
+		getSelected ();
 
 		string param = "tv";
 		if (showHeights)
 			param = "100*4.9*(tv/2)*(tv/2)";
 
 		boxplotsDo (param);
+	}
+
+	protected override void getSelected ()
+	{
+		selectedJump = null;
+		if (selectedID >= 0)
+		{
+			foreach (Jump j in jumpsAtSQL)
+				if (j.UniqueID == selectedID)
+					selectedJump = j;
+
+			if (selectedJump == null)
+				selectedJump = SqliteJump.SelectJumpData (selectedID, false);
+		}
 	}
 
 	protected override List<double> boxplotSelectPerson (string param)
@@ -229,6 +235,7 @@ public class PrepareEventGraphJumpReactive : PrepareEventGraphTest
 	public double sessionMINAtSQL;
 	public bool showHeights; //if showHeights graph falling height and jump height
 	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
+	public JumpRj selectedJumpRj;
 	private Sqlite.Orders_by orderBy;
 
 	public PrepareEventGraphJumpReactive () {
@@ -286,9 +293,25 @@ public class PrepareEventGraphJumpReactive : PrepareEventGraphTest
 		jumpsAtSQL = SqliteJumpRj.SelectJumps (true, sessionID, personIDTemp, type,
 				orderBy, limit, allPersons); 	//show names on comments only if "all persons"
 
+		getSelected ();
+
 		boxplotsDo (sqlRangeSelect);
 
 		Sqlite.Close(); // < -----------------
+	}
+
+	protected override void getSelected ()
+	{
+		selectedJumpRj = null;
+		if (selectedID >= 0)
+		{
+			foreach (JumpRj j in jumpsAtSQL)
+				if (j.UniqueID == selectedID)
+					selectedJumpRj = j;
+
+			if (selectedJumpRj == null)
+				selectedJumpRj = SqliteJumpRj.SelectJumpData (Constants.JumpRjTable, selectedID, false, true);
+		}
 	}
 
 	protected override List<double> boxplotSelectPerson (string param)
@@ -404,6 +427,11 @@ public class PrepareEventGraphRunSimple : PrepareEventGraphTest
 		Sqlite.Close();
 	}
 
+	protected override void getSelected ()
+	{
+		// TODO
+	}
+
 	// need to use orderBy to correctly order time for boxplot
 	protected override List<double> boxplotSelectPerson (string param)
 	{
@@ -487,6 +515,11 @@ public class PrepareEventGraphRunInterval : PrepareEventGraphTest
 		boxplotsDo (sqlSelect);
 
 		Sqlite.Close(); // < -----------------
+	}
+
+	protected override void getSelected ()
+	{
+		// TODO
 	}
 
 	// need to use orderBy to correctly order time for boxplot
@@ -582,6 +615,11 @@ public class PrepareEventGraphRunEncoder : PrepareEventGraphTest
 			sqlSelect = "maxAvgSpeed1s";
 
 		boxplotsDo (sqlSelect);
+	}
+
+	protected override void getSelected ()
+	{
+		// TODO
 	}
 
 	protected override List<double> boxplotSelectPerson (string param)
@@ -745,6 +783,11 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 		this.selectedID = selectedID;
 	}
 
+	protected override void getSelected ()
+	{
+		// TODO
+	}
+
 	protected override List<double> boxplotSelectPerson (string param)
 	{
 		return SqliteForceSensor.Select (false, param, -1, personID, sessionID, elastic, exerciseID,
@@ -887,6 +930,11 @@ public class PrepareEventGraphEncoderSession : PrepareEventGraphTest
 
 		orderBy = Sqlite.Orders_by.BEST; 	//for boxplots use order_by.BEST
 		boxplotsDo (Constants.GetEncoderVariablesCaptureAsSQLField (encoderVariablesCapture));
+	}
+
+	protected override void getSelected ()
+	{
+		// TODO
 	}
 
 	protected override List<double> boxplotSelectPerson (string param)

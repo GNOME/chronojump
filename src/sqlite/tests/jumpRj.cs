@@ -314,7 +314,7 @@ class SqliteJumpRj : SqliteJump
 		return myJumps;
 	}
 
-	//table is Constants.JumpTable or Constants.TempJumpRjTable
+	//table is Constants.JumpRjTable or Constants.TempJumpRjTable
 	public static JumpRj SelectJumpData(string table, int uniqueID, bool personNameInComment, bool dbconOpened)
 	{
 		if(!dbconOpened)

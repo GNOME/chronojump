@@ -151,6 +151,14 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 		cb.PersonIcon_l = personIcon_l;
 
 		cb.PassBoxplots (eventGraphJumpsRjStored.BoxplotPerson, eventGraphJumpsRjStored.BoxplotSession);
+		// pass selectedJump to plot if it's not part of the shown jumps
+		if (eventGraphJumpsRjStored.selectedJumpRj != null)
+		{
+			if (UseHeights)
+				cb.SelectedDouble = UtilList.GetAverage (eventGraphJumpsRjStored.selectedJumpRj.HeightList);
+			else
+				cb.SelectedDouble = eventGraphJumpsRjStored.selectedJumpRj.TvAvg;
+		}
 
 		if (UseHeights)
 		{

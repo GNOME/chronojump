@@ -48,7 +48,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 
 	protected override bool haveDataToPlot()
 	{
-		return (eventGraphJumpsStored.jumpsAtSQL.Count > 0);
+		return (eventGraphJumpsStored.rowsAtSQL.Count > 0);
 	}
 
 	protected override void paintSpecific()
@@ -59,7 +59,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 		 */
 		bool showBarA = false; //tc or fall
 		bool showBarB = false; //tv or height
-		foreach(Jump jump in eventGraphJumpsStored.jumpsAtSQL)
+		foreach(Jump jump in eventGraphJumpsStored.rowsAtSQL)
 		{
 			if(jump.Fall > 0 || jump.Tc > 0) //jump.Tc to include takeOff, takeOffWeiht
 				showBarA = true;
@@ -102,17 +102,17 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
 		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides
 
-		List<Event> events = Jump.JumpListToEventList(eventGraphJumpsStored.jumpsAtSQL);
+		List<Event> events = Jump.JumpListToEventList(eventGraphJumpsStored.rowsAtSQL);
 
 		//find if there is a simulated
 		bool thereIsASimulated = false;
-		for(int i=0 ; i < eventGraphJumpsStored.jumpsAtSQL.Count; i++)
+		for(int i=0 ; i < eventGraphJumpsStored.rowsAtSQL.Count; i++)
 		{
-			if(eventGraphJumpsStored.jumpsAtSQL[i].Simulated == -1)
+			if(eventGraphJumpsStored.rowsAtSQL[i].Simulated == -1)
 				thereIsASimulated = true;
 
 			if(! ShowPersonNames)
-				eventGraphJumpsStored.jumpsAtSQL[i].Description = ""; //to avoid showing description
+				eventGraphJumpsStored.rowsAtSQL[i].Description = ""; //to avoid showing description
 		}
 
 		calculateBottomParams (events, eventGraphJumpsStored.type == "", "",
@@ -124,8 +124,8 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 		List<bool> personIcon_l = new List<bool>();
 		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
 
-		int countToDraw = eventGraphJumpsStored.jumpsAtSQL.Count;
-		foreach(Jump jump in eventGraphJumpsStored.jumpsAtSQL)
+		int countToDraw = eventGraphJumpsStored.rowsAtSQL.Count;
+		foreach(Jump jump in eventGraphJumpsStored.rowsAtSQL)
 		{
 			//LogB.Information("jump: " + jump.ToString());
 			// 1) Add data
@@ -161,7 +161,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 
 
 			if (eventGraphJumpsStored.selectedID == jump.UniqueID)
-				cb.SelectedPos = eventGraphJumpsStored.jumpsAtSQL.Count -countToDraw -1;
+				cb.SelectedPos = eventGraphJumpsStored.rowsAtSQL.Count -countToDraw -1;
 		}
 
 		cb.Id_l = id_l;
@@ -170,12 +170,12 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 		cb.PassBoxplots (eventGraphJumpsStored.BoxplotPerson, eventGraphJumpsStored.BoxplotSession);
 
 		// pass selectedJump to plot if it's not part of the shown jumps
-		if (eventGraphJumpsStored.selectedJump != null)
+		if (eventGraphJumpsStored.selectedEvent != null)
 		{
 			if (UseHeights)
-				cb.SelectedDouble = Util.GetHeightInCentimeters (eventGraphJumpsStored.selectedJump.Tv); //jump height
+				cb.SelectedDouble = Util.GetHeightInCentimeters (((Jump) eventGraphJumpsStored.selectedEvent).Tv); //jump height
 			else
-				cb.SelectedDouble = eventGraphJumpsStored.selectedJump.Tv;
+				cb.SelectedDouble = ((Jump) eventGraphJumpsStored.selectedEvent).Tv;
 		}
 
 		if(showBarA && showBarB) //Dja, Djna

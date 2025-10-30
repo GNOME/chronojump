@@ -91,15 +91,11 @@ public abstract class PrepareEventGraphTest
 	{
 		selectedEvent = null;
 		if (selectedID >= 0)
-		{
-			selectEventFromList ();
-
-			if (selectedEvent == null)
+			if (! selectEventFromList ())
 				selectEventFromSQL ();
-		}
 	}
 
-	protected abstract void selectEventFromList ();
+	protected abstract bool selectEventFromList ();
 	protected abstract void selectEventFromSQL ();
 
 	protected void boxplotsDo (string param)
@@ -203,11 +199,15 @@ public class PrepareEventGraphJumpSimple : PrepareEventGraphTest
 		boxplotsDo (param);
 	}
 
-	protected override void selectEventFromList ()
+	protected override bool selectEventFromList ()
 	{
 		foreach (Jump e in rowsAtSQL)
 			if (e.UniqueID == selectedID)
+			{
 				selectedEvent = e;
+				return true;
+			}
+		return false;
 	}
 
 	protected override void selectEventFromSQL ()
@@ -311,11 +311,15 @@ public class PrepareEventGraphJumpReactive : PrepareEventGraphTest
 		Sqlite.Close(); // < -----------------
 	}
 
-	protected override void selectEventFromList ()
+	protected override bool selectEventFromList ()
 	{
 		foreach (JumpRj e in rowsAtSQL)
 			if (e.UniqueID == selectedID)
+			{
 				selectedEvent = e;
+				return true;
+			}
+		return false;
 	}
 
 	protected override void selectEventFromSQL ()
@@ -435,9 +439,9 @@ public class PrepareEventGraphRunSimple : PrepareEventGraphTest
 		Sqlite.Close();
 	}
 
-	protected override void selectEventFromList ()
+	protected override bool selectEventFromList ()
 	{
-		// TODO
+		return false; // TODO
 	}
 	protected override void selectEventFromSQL ()
 	{
@@ -528,9 +532,9 @@ public class PrepareEventGraphRunInterval : PrepareEventGraphTest
 		Sqlite.Close(); // < -----------------
 	}
 
-	protected override void selectEventFromList ()
+	protected override bool selectEventFromList ()
 	{
-		// TODO
+		return false; // TODO
 	}
 	protected override void selectEventFromSQL ()
 	{
@@ -631,9 +635,9 @@ public class PrepareEventGraphRunEncoder : PrepareEventGraphTest
 		boxplotsDo (sqlSelect);
 	}
 
-	protected override void selectEventFromList ()
+	protected override bool selectEventFromList ()
 	{
-		// TODO
+		return false; // TODO
 	}
 	protected override void selectEventFromSQL ()
 	{
@@ -800,9 +804,9 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 		this.selectedID = selectedID;
 	}
 
-	protected override void selectEventFromList ()
+	protected override bool selectEventFromList ()
 	{
-		// TODO
+		return false; // TODO
 	}
 	protected override void selectEventFromSQL ()
 	{
@@ -953,9 +957,9 @@ public class PrepareEventGraphEncoderSession : PrepareEventGraphTest
 		boxplotsDo (Constants.GetEncoderVariablesCaptureAsSQLField (encoderVariablesCapture));
 	}
 
-	protected override void selectEventFromList ()
+	protected override bool selectEventFromList ()
 	{
-		// TODO
+		return false; // TODO
 	}
 	protected override void selectEventFromSQL ()
 	{

@@ -511,9 +511,6 @@ public class CairoBarsNHSeries : CairoBars
 				barsXCenter_l.Add(resultOnBarsThisIteration_l[j].X);
 
 				above = ! above;
-
-				if (isSelected)
-					selectedForBoxplot_l.Add (resultOnBarsThisIteration_l[j].Y);
 			}
 
 			//videoPlayTimeInSeconds
@@ -575,8 +572,7 @@ public class CairoBarsNHSeries : CairoBars
 			}
 		}
 
-		// add the selectedDouble if is not a bar shown by limit
-		if (selectedDoubleDefined && ! UtilList.FoundInListDouble (selectedForBoxplot_l, calculatePaintY (selectedDouble)))
+		if (selectedDoubleDefined)
 			selectedForBoxplot_l.Add (calculatePaintY (selectedDouble));
 	}
 

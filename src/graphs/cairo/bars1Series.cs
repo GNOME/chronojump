@@ -219,8 +219,6 @@ public class CairoBars1Series : CairoBars
 				isSelected = i == selectedPos;
 
 			barResult_l.Add (new BarResult (new Point3F(x + barWidth/2, y, p.Y), isSelected, true, black));
-			if (isSelected)
-				selectedForBoxplot_l.Add (y);
 
 			if (barsOrPoints == BarsOrPoints.BARS)
 				mouseLimits.AddInPos (i, x, y, x+barWidth, graphHeight -bottomMargin);
@@ -286,8 +284,7 @@ public class CairoBars1Series : CairoBars
 			}
 		}
 
-		// add the selectedDouble if is not a bar shown by limit
-		if (selectedDoubleDefined && ! UtilList.FoundInListDouble (selectedForBoxplot_l, calculatePaintY (selectedDouble)))
+		if (selectedDoubleDefined)
 			selectedForBoxplot_l.Add (calculatePaintY (selectedDouble));
 	}
 

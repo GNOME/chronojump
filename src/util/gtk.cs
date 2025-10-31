@@ -946,11 +946,23 @@ public class UtilGtk
 			    "background-color: #cccccc;" +
 			"}" +
 
-			// treeview
-			"treeview.view:selected {" +
-				"color: " + GetRGBAs (Colors.BLACK) + ";" +
-				"background: " + GetRGBAs (Colors.YELLOW_MID) + ";" +
+                       // treeview
+                       "treeview.view:selected {" + //the selected line
+                               "color: " + GetRGBAs (Colors.BLACK) + ";" +
+                               "background: " + GetRGBAs (Colors.YELLOW_LIGHT) + ";" +
 			"}" +
+			"treeview*:checked {" + // the active checkbutton on treeview_encoder_capture_curves
+				"color: " + GetRGBAs (Colors.BLACK) + ";" +
+				"background: " + GetRGBAs (Colors.YELLOW_LIGHT) + ";" +
+			"}" +
+
+			/*
+			"scrollbar {" +
+				//"overlay-scrolling: FALSE;" +
+				//"overlay-indicator: FALSE;" +
+				"overlay.indicator: FALSE;" +
+			"}" +
+			*/
 
 			//PROGRESSBAR
 			"progressbar#lightCss text {" +

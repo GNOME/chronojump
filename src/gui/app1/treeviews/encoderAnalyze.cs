@@ -53,14 +53,14 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("Series") + "\n",
 			Catalog.GetString("Exercise") + "\n",
 			Catalog.GetString("Laterality") + "\n",
-			Catalog.GetString("Extra weight") + "\n(Kg)",
-			Catalog.GetString("Total weight") + "\n(Kg)"
+			Catalog.GetString("Extra weight") + "\n(kg)",
+			Catalog.GetString("Total weight") + "\n(kg)"
 		};
 
 		string [] inertiaArray = {
-			Catalog.GetString("Inertia M.") + "\n(Kg*cm^2)", 	//inertial
+			Catalog.GetString("Inertia M.") + "\n(kg*cm^2)", 	//inertial
 			Catalog.GetString("Diameter") + "\n(cm)",		//inertial
-			Catalog.GetString("Equivalent mass") + "\n(Kg)"		//inertial
+			Catalog.GetString("Equivalent mass") + "\n(kg)"		//inertial
 		};
 
 		string [] endArray = {
@@ -325,17 +325,17 @@ public partial class ChronoJumpWindow
 	string [] treeviewEncoderAnalyzeNeuromuscularHeaders = {
 		Catalog.GetString ("Person") + "\n",
 		Catalog.GetString ("Jump") + "\n",
-		Catalog.GetString("Extra weight") + "\n(Kg)",
+		Catalog.GetString("Extra weight") + "\n(kg)",
 		"e1 range" + "\n (mm)",
 		"e1 t" + "\n (ms)",
 		"e1 fmax" + "\n (N)",
 		"e1 rfd avg" + "\n (N/s)",
-		"e1 i" + "\n (N*s/Kg)",
+		"e1 i" + "\n (N*s/kg)",
 		"ca range" + "\n (mm)",
 		"cl t" + "\n (ms)",
-		"cl rfd avg" + "\n (N/s/Kg)",
-		"cl i" + "\n (N*s/Kg)",
-		"cl f avg" + "\n (N/Kg)",
+		"cl rfd avg" + "\n (N/s/kg)",
+		"cl i" + "\n (N*s/kg)",
+		"cl f avg" + "\n (N/kg)",
 		"cl vf" + "\n (N)",
 		"cl f max" + "\n (N)",
 		"cl s avg" + "\n (m/s)",

@@ -277,14 +277,14 @@ public partial class ChronoJumpWindow
 
 		// 2) prepare the headers
                 string [] headers = {
-			"Mass\n\n(Kg)", "Height\n\n(m)", "Temperature\n\n(ºC)",
+			"Mass\n\n(kg)", "Height\n\n(m)", "Temperature\n\n(ºC)",
 			"V (wind)\n\n(m/s)", "Ka\n\n", "K\nfitted\n(s^-1)",
 			"Vmax\nfitted\n(m/s)", "Amax\nfitted\n(m/s^2)", "Fmax\nfitted\n(N)",
-			"Fmax\nrel fitted\n(N/Kg)", "Sfv\nfitted\n", "Sfv\nrel fitted\n",
+			"Fmax\nrel fitted\n(N/kg)", "Sfv\nfitted\n", "Sfv\nrel fitted\n",
 			"Sfv\nlm\n", "Sfv\nrel lm\n", "Pmax\nfitted\n(W)",
-			"Pmax\nrel fitted\n(W/Kg)", "Time to pmax\nfitted\n(s)", "F0\n\n(N)",
-			"F0\nrel\n(N/Kg)", "V0\n\n(m/s)", "Pmax\nlm\n(W)",
-			"Pmax\nrel lm\n(W/Kg)"
+			"Pmax\nrel fitted\n(W/kg)", "Time to pmax\nfitted\n(s)", "F0\n\n(N)",
+			"F0\nrel\n(N/kg)", "V0\n\n(m/s)", "Pmax\nlm\n(W)",
+			"Pmax\nrel lm\n(W/kg)"
 		};
 
 		// 3) add the dists to the headers

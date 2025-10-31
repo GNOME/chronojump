@@ -1517,7 +1517,7 @@
                                                 </child>
                                                 <child>
                                                   <object class="GtkRadioButton" id="radio_weight_kg">
-                                                    <property name="label">Kg</property>
+                                                    <property name="label">kg</property>
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">True</property>
                                                     <property name="receives-default">False</property>

@@ -68,7 +68,7 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 			if(weightPercentPreferred)
 				weightName += " %";
 			else
-				weightName += " Kg";
+				weightName += " kg";
 			serieTv.Title = translateYesNo("TF");
 			serieHeight.Title = translateYesNo("Height");
 			serieWeight.Title = weightName;
@@ -80,7 +80,7 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 			CurrentGraphData.LabelLeft = translateYesNo("TF") + "(s)";
 			CurrentGraphData.LabelRight = 
 				translateYesNo("Height") + "(cm), " +
-				translateYesNo("Weight") + "(Kg)";
+				translateYesNo("Weight") + "(kg)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});

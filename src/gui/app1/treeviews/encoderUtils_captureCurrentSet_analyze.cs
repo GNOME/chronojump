@@ -741,7 +741,7 @@ public partial class ChronoJumpWindow
 		//cells[22] laterality
 
 		//capture does not return inerta
-		//analyze returns inertia (can be different on "saved curves") comes as Kg*m^2, convert it to Kg*cm^2
+		//analyze returns inertia (can be different on "saved curves") comes as kg*m^2, convert it to kg*cm^2
 		//analyze returns also diameter and equivalentMass (both used on inertial)
 		if(! captureOrAnalyze) {
 			double inertiaInM = Convert.ToDouble(Util.ChangeDecimalSeparator(cells[23]));

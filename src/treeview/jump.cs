@@ -62,7 +62,7 @@ public class TreeViewJumps : TreeViewEvent
 		if(preferences.weightStatsPercent)
 			weightExtraName += "\n(%)";
 		else
-			weightExtraName += "\n(Kg)";
+			weightExtraName += "\n(kg)";
 
 		string [] columnsStringPre = { jumperName, 
 			Catalog.GetString("TC") + "\n(s)", 

@@ -1480,8 +1480,8 @@ public partial class ChronoJumpWindow
 			if(taringSample > 0)
 			{
 				/*
-				   In positive a 10Kg tare, will do on a 40Kg force: force = 40 -(10) = 30 Kg
-				   In negative a -10Kg tare, will do on a -40Kg force: force = -40 -(-10) = -30 Kg
+				   In positive a 10 kg tare, will do on a 40 kg force: force = 40 -(10) = 30 kg
+				   In negative a -10 kg tare, will do on a -40 kg force: force = -40 -(-10) = -30 kg
 				   */
 				forceTared = UtilAll.DivideSafe(taringSum, taringSamplesTotal);
 			}
@@ -1838,7 +1838,7 @@ public partial class ChronoJumpWindow
 		time = Convert.ToInt32(strFull[0]);
 
 		//bad tare or bad calibration or too much force
-		if (Math.Abs (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]))) > 20000) // 20000 N (2000 Kg) Chronojump force sensors are up to 5000 but we have special version with 20000
+		if (Math.Abs (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]))) > 20000) // 20000 N (2000 kg) Chronojump force sensors are up to 5000 but we have special version with 20000
 		{
 			LogB.Information ("Error. Force too big: " + strFull[1]);
 			forceTooBigMark = true;

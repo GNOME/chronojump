@@ -125,7 +125,7 @@ public class Jump : Event
 	{
 		/*
 		 * old method
-		//relative potency in Watts/Kg
+		//relative potency in Watts/kg
 		//Bosco. Pendent to find if published
 
 		//P = 24.6 * (TotalTime + FlightTime) / ContactTime

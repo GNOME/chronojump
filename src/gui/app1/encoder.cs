@@ -67,9 +67,9 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_encoder_top_weights;
 	Gtk.Label label_encoder_top_im;
 
-	//this is Kg*cm^2 because there's limitation of Glade on 3 decimals. 
-	//at SQL it's in Kg*cm^2 also because it's stored as int
-	//at graph.R is converted to Kg*m^2 ( /10000 )
+	//this is kg*cm^2 because there's limitation of Glade on 3 decimals. 
+	//at SQL it's in kg*cm^2 also because it's stored as int
+	//at graph.R is converted to kg*m^2 ( /10000 )
 	//Gtk.SpinButton spin_encoder_capture_inertial; 
 
 	Gtk.Box hbox_encoder_configuration;
@@ -1138,7 +1138,7 @@ public partial class ChronoJumpWindow
 
 		encoder_change_displaced_weight_and_1RM ();
 
-		label_encoder_top_extra_mass.Text = Util.TrimDecimals(spin_encoder_extra_weight.Value, 2) + " Kg";
+		label_encoder_top_extra_mass.Text = Util.TrimDecimals(spin_encoder_extra_weight.Value, 2) + " kg";
 	}
 
 	void encoder_change_displaced_weight_and_1RM () 
@@ -1601,7 +1601,7 @@ public partial class ChronoJumpWindow
 		if (currentEncoderSQLSet.encoderConfiguration.has_inertia)
 			title += "-(" + currentEncoderSQLSet.encoderConfiguration.inertiaTotal.ToString() + " " + Catalog.GetString("Inertia M.") + ")";
 		else
-			title += "-(" + Util.ConvertToPoint (displacedMass) + "Kg)";
+			title += "-(" + Util.ConvertToPoint (displacedMass) + "kg)";
 
 		//triggers stuff
 		if(analysisSent == "curvesAC")
@@ -2258,7 +2258,7 @@ public partial class ChronoJumpWindow
 		encoderRProcAnalyze.SendData(
 				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceAndMinusForUnderscore(currentEncoderSQLSet.ExerciseName) + 
-					"-(" + displacedMass + "Kg)",
+					"-(" + displacedMass + "kg)",
 				currentPerson.Name,
 				false, 			//do not use neuromuscularProfile script
 				preferences.RGraphsTranslate,
@@ -4925,7 +4925,7 @@ public partial class ChronoJumpWindow
 		setEcconPixbuf();
 		setLateralityPixbuf();
 
-		label_encoder_top_extra_mass.Text = spin_encoder_extra_weight.Value + " Kg";
+		label_encoder_top_extra_mass.Text = spin_encoder_extra_weight.Value + " kg";
 
 		if(label_encoder_1RM_percent.Text == "")
 			label_encoder_top_1RM_percent.Text = "";
@@ -5476,10 +5476,10 @@ public partial class ChronoJumpWindow
 			Also note it was not working because getExercisePercentBodyWeightFromTable reads analyze table that is empty on 1RMIndirect
 
 			if(load1RM != load1RMWithoutPerson)
-				myString = string.Format(Catalog.GetString("1RM found: {0} Kg."), load1RM) + "\n" +
+				myString = string.Format(Catalog.GetString("1RM found: {0} kg."), load1RM) + "\n" +
 					string.Format(Catalog.GetString("Displaced body weight in this exercise: {0}%."),
 							getExercisePercentBodyWeightFromTable()) + "\n" +
-					string.Format(Catalog.GetString("Saved 1RM without displaced body weight: {0} Kg."),
+					string.Format(Catalog.GetString("Saved 1RM without displaced body weight: {0} kg."),
 							load1RMWithoutPerson);
 			*/
 		}
@@ -5489,7 +5489,7 @@ public partial class ChronoJumpWindow
 			SqliteEncoder1RM.Insert1RM(false, currentPerson.UniqueID, currentSession.UniqueID,
 					exerciseID, load1RM);
 
-			myString = string.Format(Catalog.GetString("Saved 1RM: {0} Kg."), load1RM);
+			myString = string.Format(Catalog.GetString("Saved 1RM: {0} kg."), load1RM);
 		}
 
 		array1RMUpdate(false);
@@ -7025,9 +7025,9 @@ public partial class ChronoJumpWindow
 		label_encoder_top_weights = (Gtk.Label) builder.GetObject ("label_encoder_top_weights");
 		label_encoder_top_im = (Gtk.Label) builder.GetObject ("label_encoder_top_im");
 
-		//this is Kg*cm^2 because there's limitation of Glade on 3 decimals. 
-		//at SQL it's in Kg*cm^2 also because it's stored as int
-		//at graph.R is converted to Kg*m^2 ( /10000 )
+		//this is kg*cm^2 because there's limitation of Glade on 3 decimals. 
+		//at SQL it's in kg*cm^2 also because it's stored as int
+		//at graph.R is converted to kg*m^2 ( /10000 )
 		//spin_encoder_capture_inertial = (Gtk.SpinButton) builder.GetObject ("spin_encoder_capture_inertial"); 
 
 		hbox_encoder_configuration = (Gtk.Box) builder.GetObject ("hbox_encoder_configuration");

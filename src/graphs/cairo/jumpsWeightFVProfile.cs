@@ -88,7 +88,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		xVariable = speedStr;
 		yVariable = forceStr;
 		xUnits = "m/s";
-		yUnits = "N/Kg";
+		yUnits = "N/kg";
 
 		f0 = jwp.F0;
 		f0Rel = jwp.F0Rel;
@@ -192,7 +192,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		writeTextAtRight(++ypos, date, false);
 		ypos ++;
 
-		writeTextAtRight(++ypos, string.Format("F0: {0} N/Kg", Math.Round(f0Rel,2)), false);
+		writeTextAtRight(++ypos, string.Format("F0: {0} N/kg", Math.Round(f0Rel,2)), false);
 		writeTextAtRight(++ypos, string.Format("V0: {0} m/s", Math.Round(v0,2)), false);
 		writeTextAtRight(++ypos, string.Format("Pmax: {0} W", Math.Round(pmax,1)), false);
 
@@ -212,7 +212,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		double squat1RMPredictDiff = (.94*f0)/9.81 - personWeight - squat1RMPredict;
 		writeTextAtRight(++ypos, "Rivière & col. 2017:", false);
 		writeTextAtRight(ypos+=.5, "- Squat 1RM prediction:", false);
-		writeTextAtRight(ypos+=.5, string.Format("  {0} \u00B1{1} Kg",
+		writeTextAtRight(ypos+=.5, string.Format("  {0} \u00B1{1} kg",
 					Util.TrimDecimals(squat1RMPredict, 1),
 					Util.TrimDecimals(squat1RMPredictDiff, 1)
 					), false);
@@ -239,7 +239,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		double extraWeight = (double) l_keydouble[1].D;
 
 		writeTextAtRight(line + lineVertSpacing, "- " + heightStr + string.Format(" : {0} cm", Util.TrimDecimals(heightCm, 2)), false);
-		writeTextAtRight(line + 2*lineVertSpacing, "- " + extraWeightStr + string.Format(" : {0} Kg", Util.TrimDecimals(extraWeight, 2)), false);
+		writeTextAtRight(line + 2*lineVertSpacing, "- " + extraWeightStr + string.Format(" : {0} kg", Util.TrimDecimals(extraWeight, 2)), false);
 		writeTextAtRight(line + 3*lineVertSpacing, string.Format("- {0}: {1} {2}", xVariable, Util.TrimDecimals(pClosest.X, 2), xUnits), false);
 		writeTextAtRight(line + 4*lineVertSpacing, string.Format("- {0}: {1} {2}", yVariable, Util.TrimDecimals(pClosest.Y, 2), yUnits), false);
 	}

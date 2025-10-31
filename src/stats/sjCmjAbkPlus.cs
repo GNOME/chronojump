@@ -50,7 +50,7 @@ public class StatSjCmjAbkPlus : Stat
 		if(sessions.Count > 1) {
 			store = getStore(sessions.Count +3); //+3 (for jumper, the AVG horizontal and SD horizontal)
 		} else {
-			store = getStore(dataColumns +1); //jumper, height, TF, weight (this col has characters '%' and 'Kg') solved in sqlite
+			store = getStore(dataColumns +1); //jumper, height, TF, weight (this col has characters '%' and 'kg') solved in sqlite
 		}
 		
 		weightPercentPreferred = myStatTypeStruct.preferences.weightStatsPercent;
@@ -58,13 +58,13 @@ public class StatSjCmjAbkPlus : Stat
 		if(weightPercentPreferred)
 			weightName += " %";
 		else
-			weightName += " Kg";
+			weightName += " kg";
 
 		string [] columnsString = { Catalog.GetString("Jumper"), Catalog.GetString("Height"), 
 			Catalog.GetString("TF"), weightName };
 		/*
 		if(! percent) {
-			columnsString[3] = Catalog.GetString("Weight Kg");
+			columnsString[3] = Catalog.GetString("Weight kg");
 		}
 		*/
 		

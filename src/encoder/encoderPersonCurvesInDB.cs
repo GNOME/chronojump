@@ -32,7 +32,7 @@ public class EncoderPersonCurvesInDBDeep
 	}
 
 	public override string ToString() {
-		return count.ToString() + "*" + extraWeight.ToString();// + "Kg";
+		return count.ToString() + "*" + extraWeight.ToString();// + "kg";
 	}
 }
 public class EncoderPersonCurvesInDB

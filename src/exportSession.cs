@@ -445,7 +445,7 @@ public abstract class ExportSession
 		if(preferences.weightStatsPercent)
 			weightName += " %";
 		else
-			weightName += " Kg";
+			weightName += " kg";
 
 		if(myJumps.Length > 0 || jumps_ll.Count > 0)
 			printTitles(title);
@@ -614,7 +614,7 @@ public abstract class ExportSession
 			if(preferences.weightStatsPercent)
 				weightName += " %";
 			else
-				weightName += " Kg";
+				weightName += " kg";
 
 			//TODO: add power and stiffness
 

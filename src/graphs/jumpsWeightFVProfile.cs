@@ -70,7 +70,7 @@ public class JumpsWeightFVProfile
 			// 3 add informational height and extra weight
 			List<KeyDouble> lkd = new List<KeyDouble>();
 			lkd.Add(new KeyDouble("Height (cm)", jumpHeightM * 100.0));
-			lkd.Add(new KeyDouble("Extra weight (Kg)", personWeight * j.WeightPercent / 100.0));
+			lkd.Add(new KeyDouble("Extra weight (kg)", personWeight * j.WeightPercent / 100.0));
 			p.l_keydouble = lkd;
 
 			//4 add to point_l

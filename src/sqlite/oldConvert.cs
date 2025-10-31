@@ -245,7 +245,7 @@ class SqliteOldConvert : Sqlite
             "exerciseID INT, " +
             "eccon TEXT, " +    //"c" or "ec"
             "laterality TEXT, " +   //"left" "right" "both"
-            "extraWeight TEXT, " +  //string because can contain "33%" or "50Kg"
+            "extraWeight TEXT, " +
             "signalOrCurve TEXT, " + //"signal" or "curve"
             "filename TEXT, " +
             "url TEXT, " +
@@ -271,7 +271,7 @@ class SqliteOldConvert : Sqlite
             "exerciseID INT, " +
             "eccon TEXT, " +    //"c" or "ec"
             "laterality TEXT, " +   //"left" "right" "both"
-            "extraWeight TEXT, " +  //string because can contain "33%" or "50Kg"
+            "extraWeight TEXT, " +
             "signalOrCurve TEXT, " + //"signal" or "curve"
             "filename TEXT, " +
             "url TEXT, " +

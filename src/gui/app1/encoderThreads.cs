@@ -1255,7 +1255,7 @@ public partial class ChronoJumpWindow
 				if(imResultText == "NA" || imResultText == "-1" || imResultText == "")
 					encoder_configuration_win.Button_encoder_capture_inertial_do_ended (0, "Error capturing. Maybe more oscillations are needed.");
 				else {
-					//script calculates Kg*m^2 -> GUI needs Kg*cm^2
+					//script calculates kg*m^2 -> GUI needs kg*cm^2
 					encoder_configuration_win.Button_encoder_capture_inertial_do_ended (
 							Convert.ToDouble(imResultText) * 10000.0, Catalog.GetString("Finished"));
 				}

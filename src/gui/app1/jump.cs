@@ -333,7 +333,7 @@ public partial class ChronoJumpWindow
 			else
 				extra_window_jumps_radiobutton_kg.Active = true;
 		} else {
-			if (extra_window_jumps_option == "Kg")
+			if (extra_window_jumps_option == "kg")
 				extra_window_jumps_radiobutton_kg.Active = true;
 			else
 				extra_window_jumps_radiobutton_weight.Active = true;
@@ -522,7 +522,7 @@ public partial class ChronoJumpWindow
 				extra_window_jumps_rj_radiobutton_kg.Active = true;
 		}
 		else {
-			if (extra_window_jumps_rj_option == "Kg")
+			if (extra_window_jumps_rj_option == "kg")
 				extra_window_jumps_rj_radiobutton_kg.Active = true;
 			else
 				extra_window_jumps_rj_radiobutton_weight.Active = true;
@@ -648,7 +648,7 @@ public partial class ChronoJumpWindow
 			
 	private void on_extra_window_jumps_radiobutton_kg_toggled (object o, EventArgs args)
 	{
-		extra_window_jumps_option = "Kg";
+		extra_window_jumps_option = "kg";
 		label_extra_window_jumps_radiobutton_weight_percent_as_kg.Visible = false;
 		setLabelContactsExerciseSelectedOptionsJumpsSimple();
 	}
@@ -665,7 +665,7 @@ public partial class ChronoJumpWindow
 
 	private void on_extra_window_jumps_rj_radiobutton_kg_toggled (object o, EventArgs args)
 	{
-		extra_window_jumps_rj_option = "Kg";
+		extra_window_jumps_rj_option = "kg";
 		label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg.Visible = false;
 		setLabelContactsExerciseSelectedOptionsJumpsReactive();
 	}
@@ -764,7 +764,7 @@ public partial class ChronoJumpWindow
 		label_extra_window_jumps_radiobutton_weight_percent_as_kg.Text =
 			Util.TrimDecimals(Util.WeightFromPercentToKg (
 						(double) extra_window_jumps_spinbutton_weight.Value,
-						currentPersonSession.Weight), 1) + " Kg";
+						currentPersonSession.Weight), 1) + " kg";
 	}
 
 	private void on_extra_window_jumps_rj_spinbutton_weight_value_changed (object o, EventArgs args)
@@ -783,7 +783,7 @@ public partial class ChronoJumpWindow
 		label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg.Text =
 			Util.TrimDecimals(Util.WeightFromPercentToKg (
 						(double) extra_window_jumps_rj_spinbutton_weight.Value,
-						currentPersonSession.Weight), 1) + " Kg";
+						currentPersonSession.Weight), 1) + " kg";
 	}
 
 

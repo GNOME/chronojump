@@ -882,7 +882,7 @@
                                               <object class="GtkLabel" id="label20">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
-                                                <property name="label">Kg*cm^2</property>
+                                                <property name="label">kg*cm^2</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -2333,7 +2333,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <property name="tooltip-text" translatable="yes">Number of weights</property>
-                            <property name="label">Kg*cm^2</property>
+                            <property name="label">kg*cm^2</property>
                             <property name="xalign">0</property>
                           </object>
                           <packing>

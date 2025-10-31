@@ -122,7 +122,7 @@ public class TaskEncoder : Task
 		}
 		if (Load != -1)
 		{
-			str += sep + "Càrrega = " + Load.ToString() + " Kg";
+			str += sep + "Càrrega = " + Load.ToString() + " kg";
 			sep = "; ";
 		}
 		if (Sets != -1)

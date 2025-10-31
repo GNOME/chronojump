@@ -705,7 +705,7 @@ public class PersonAddMultipleWindow
 		Gtk.Label sexLabel = new Gtk.Label("<b>" + Catalog.GetString("Sex") + "</b>");
 		Gtk.Label clubIDLabel = new Gtk.Label("<b>" + Catalog.GetString("Club ID") + "</b>");
 		Gtk.Label weightLabel = new Gtk.Label("<b>" + Catalog.GetString("Weight") +
-				"</b> (" + Catalog.GetString("Kg") + ")" );
+				"</b> (" + Catalog.GetString("kg") + ")" );
 		Gtk.Label heightLabel = new Gtk.Label("<b>" + Catalog.GetString("Height") +
 				"</b> (" + Catalog.GetString("cm") + ")" );
 		Gtk.Label legsLengthLabel = new Gtk.Label("<b>h1</b> (" + Catalog.GetString("cm") + ")" );

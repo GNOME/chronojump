@@ -119,7 +119,7 @@ public class EditJumpWindow : EditEventWindow
 		if(weightPercentPreferred)
 			label_weight_units.Text = "%";
 		else
-			label_weight_units.Text = "Kg";
+			label_weight_units.Text = "kg";
 
 		LogB.Information(string.Format("-------------{0}", personWeight));
 
@@ -525,7 +525,7 @@ public class EditJumpRjWindow : EditJumpWindow
 		if(weightPercentPreferred)
 			label_weight_units.Text = "%";
 		else
-			label_weight_units.Text = "Kg";
+			label_weight_units.Text = "kg";
 	}
 
 	protected override string [] findTypes(Event myEvent) {

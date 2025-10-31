@@ -89,7 +89,7 @@ public class GraphDjPower : StatDjPower
 				translateYesNo("Index") + "(%), " +
 				translateYesNo("Height") + "(cm), " +
 				translateYesNo("Fall") + "(cm), " +
-				translateYesNo("Weight") + "(Kg)";
+				translateYesNo("Weight") + "(kg)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});

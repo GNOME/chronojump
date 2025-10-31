@@ -89,14 +89,14 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 			// 2) Add bottom names
 			string typeRowString = "";
 			if (eventGraphEncoderSessionStored.exerciseAll) //if "all tests" show type
-				typeRowString = eSQL.ExerciseName;// + "\n" + string.Format ("{0} Kg", eSQL.extraWeight);
+				typeRowString = eSQL.ExerciseName;// + "\n" + string.Format ("{0} kg", eSQL.extraWeight);
 			//if (eventGraphEncoderSessionStored.type == "")
 			//	typeRowString = jump.Type;
 
 			// show extraWeight, but not on inertial
 			string extraWeightStr = "";
 			if (mode == Constants.Modes.POWERGRAVITATORY)
-				extraWeightStr = string.Format ("{0} Kg", Util.TrimDecimals (eSQL.extraWeightD, 2));
+				extraWeightStr = string.Format ("{0} kg", Util.TrimDecimals (eSQL.extraWeightD, 2));
 
 			names_l.Add (createTextBelowBar(
 						extraWeightStr,

@@ -70,7 +70,7 @@ public class GraphPotency : StatPotency
 				
 			serieIndex.Title = translateYesNo("Peak Power");
 			seriePersonWeight.Title = translateYesNo("Person's Weight");
-			serieExtraWeight.Title = translateYesNo("Extra Weight") + " (Kg)";
+			serieExtraWeight.Title = translateYesNo("Extra Weight") + " (kg)";
 			serieHeight.Title = translateYesNo("Height");
 			
 			serieIndex.IsLeftAxis = true;

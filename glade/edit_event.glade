@@ -339,7 +339,7 @@ comments</property>
                   <object class="GtkLabel" id="label_weight_units">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label">Kg</property>
+                    <property name="label">kg</property>
                     <property name="xalign">0</property>
                   </object>
                   <packing>
@@ -1574,7 +1574,7 @@ minimal ROM</property>
                               <object class="GtkLabel" id="label665">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="label">Kg*cm^2</property>
+                                <property name="label">kg*cm^2</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -1621,7 +1621,7 @@ minimal ROM</property>
                               <object class="GtkLabel" id="label467">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="label">Kg</property>
+                                <property name="label">kg</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -1729,7 +1729,7 @@ minimal ROM</property>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="label">Kg</property>
+                                <property name="label">kg</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -1796,7 +1796,7 @@ minimal ROM</property>
                                   <object class="GtkLabel" id="label40">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="label">Kg</property>
+                                    <property name="label">kg</property>
                                   </object>
                                   <packing>
                                     <property name="expand">True</property>

@@ -1037,7 +1037,7 @@ public class Constants
 	{
 		return Catalog.GetString("On jumps results tab, power is calculated depending on jump type:") + "\n\n" +
 			"- " + Catalog.GetString ("Chronojump formula") + " (" + Catalog.GetString("Used on jumps with TC and TF") + ")\n\n" +
-			//Catalog.GetString("Jumps with TC & TF: Bosco Relative Power (W/Kg)") +
+			//Catalog.GetString("Jumps with TC & TF: Bosco Relative Power (W/kg)") +
 			//"\n" +
 			//Catalog.GetString("P = 24.6 * (Total time + Flight time) / Contact time") +
 			"    " + Catalog.GetString("Calculate the potential energies on fall and after the jump.") + "\n" +

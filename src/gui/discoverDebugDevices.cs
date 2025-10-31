@@ -561,7 +561,7 @@ public class DebugForceSensor : DebugDevices
 		time = Convert.ToInt32 (strFull[0]);
 
 		//bad tare or bad calibration or too much force
-		if (Math.Abs (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]))) > 20000) // 20000 N (2000 Kg) Chronojump force sensors are up to 5000 but we have special version with 20000
+		if (Math.Abs (Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]))) > 20000) // 20000 N (2000 kg) Chronojump force sensors are up to 5000 but we have special version with 20000
 		{
 			str += string.Format ("\n- Error. Force too big: " + Util.ChangeDecimalSeparator  (strFull[1]));
 			return false;

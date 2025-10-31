@@ -75,15 +75,15 @@ public class ConvertWeightWindow
 				typeof (string), //jumpType
 				typeof (string), //tf 
 				typeof (string), //tc 
-				/* following eg of a subject of 70Kg 
-				 * that has done a jump with an extra of 70Kg
+				/* following eg of a subject of 70 kg 
+				 * that has done a jump with an extra of 70 kg
 				 * and after (in same session) changes person weight to 80
 				 */
-				typeof (string), //weight % + weight kg (old) (eg: 100%-70Kg)
+				typeof (string), //weight % + weight kg (old) (eg: 100%-70kg)
 				typeof (bool), //mark new option 1
-				typeof (string), //weight % + weight kg (new option1) (eg: 100%-80Kg)
+				typeof (string), //weight % + weight kg (new option1) (eg: 100%-80kg)
 				typeof (bool), //mark new option 2
-				typeof (string) //weight % + weight kg (new option2) (eg: 87%-70Kg)
+				typeof (string) //weight % + weight kg (new option2) (eg: 87%-70kg)
 				);
 		treeview1.Model = store;
 		
@@ -98,8 +98,8 @@ public class ConvertWeightWindow
 				new ConvertWeightWindow (oldPersonWeight, newPersonWeight, jumpsSimple, jumpsReactive);
 		}
 	
-		ConvertWeightWindowBox.label_old_weight_value.Text = oldPersonWeight.ToString() + " Kg";
-		ConvertWeightWindowBox.label_new_weight_value.Text = newPersonWeight.ToString() + " Kg";
+		ConvertWeightWindowBox.label_old_weight_value.Text = oldPersonWeight.ToString() + " kg";
+		ConvertWeightWindowBox.label_new_weight_value.Text = newPersonWeight.ToString() + " kg";
 
 		ConvertWeightWindowBox.convert_weight.Show ();
 		
@@ -198,13 +198,13 @@ public class ConvertWeightWindow
 	private string createStringCalculatingKgs (double personWeightKg, double jumpWeightPercent) {
 		return jumpWeightPercent + "% " + 
 			Convert.ToDouble(Util.WeightFromPercentToKg(jumpWeightPercent, personWeightKg)).ToString()
-			+ "Kg";
+			+ "kg";
 	}
 
 	private string createStringCalculatingPercent (double oldPersonWeightKg, double newPersonWeightKg, double jumpWeightPercent) {
 		double jumpInKg = Util.WeightFromPercentToKg(jumpWeightPercent, oldPersonWeightKg);
 		double jumpPercentToNewPersonWeight = Convert.ToDouble(Util.WeightFromKgToPercent(jumpInKg, newPersonWeightKg));
-		return jumpPercentToNewPersonWeight + "% " + jumpInKg + "Kg";
+		return jumpPercentToNewPersonWeight + "% " + jumpInKg + "kg";
 	}
 
 	protected void fillTreeView (Gtk.TreeView tv, TreeStore store) 
@@ -271,12 +271,12 @@ public class ConvertWeightWindow
 				option1 = (bool) store.GetValue (iter, columnBool1);
 
 				//only change in database if option is 2
-				//because option 1 leaves the same percent and changes Kg (and database is in %)
+				//because option 1 leaves the same percent and changes kg (and database is in %)
 				if(! option1) {
 					//find the jumpID
 					jumpID = Convert.ToInt32( treeview1.Model.GetValue(iter, 0) );
 
-					//find weight (100% 80Kg)
+					//find weight (100% 80kg)
 					string weightString = (string) store.GetValue (iter, columnBool2 +1 );
 
 					//find percent (it's before the '%' sign)

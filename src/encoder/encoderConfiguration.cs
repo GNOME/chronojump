@@ -771,7 +771,7 @@ public class EncoderConfiguration
 	}
 	public double inertiaTotalLikeR
 	{
-		get { return inertiaTotal / 10000.0; } //comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
+		get { return inertiaTotal / 10000.0; } //comes in kg*cm^2 eg: 100; convert it to kg*m^2 eg: 0.010
 	}
 
 	public Pixbuf GetPixbuf

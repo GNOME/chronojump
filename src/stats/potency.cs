@@ -52,18 +52,18 @@ public class StatPotency : Stat
 		if(sessions.Count > 1) {
 			store = getStore(sessions.Count +3); //+3 (for jumper, the AVG horizontal and SD horizontal)
 		} else {
-			store = getStore(dataColumns +1); //jumper + dataColumns (weight cols have characters '%' and 'Kg') solved in sqlite
+			store = getStore(dataColumns +1); //jumper + dataColumns (weight cols have characters '%' and 'kg') solved in sqlite
 		}
 		
 
 		string [] columnsString = { Catalog.GetString("Jumper"), 
 			Catalog.GetString("Peak Power"), 
 			Catalog.GetString("Person's Weight"), 
-			Catalog.GetString("Extra Weight") + " (Kg)", 
+			Catalog.GetString("Extra Weight") + " (kg)", 
 			Catalog.GetString("Height") };
 		/*
 		if(! percent) {
-			columnsString[3] = Catalog.GetString("Weight Kg");
+			columnsString[3] = Catalog.GetString("Weight kg");
 		}
 		*/
 		

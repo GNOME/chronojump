@@ -263,10 +263,10 @@ class SqliteStat : Sqlite
 			//(found a percent, and wanted percent) or (found kg and wanted kg)
 			return jumpW.Substring(0,i);
 		} else if(percentFound && ! percentDesired) {
-			//found a percent, but we wanted Kg
+			//found a percent, but we wanted kg
 			return Util.WeightFromPercentToKg(Convert.ToDouble(jumpW.Substring(0,i)), personW).ToString();
 		} else if( ! percentFound && percentDesired) {
-			//found Kg, but wanted percent
+			//found kg, but wanted percent
 			return Util.WeightFromKgToPercent(Convert.ToDouble(jumpW.Substring(0,i)), personW).ToString();
 		} else {
 			return "ERROR";
@@ -1091,7 +1091,7 @@ LogB.SQL(intervalSpeeds);
 			//http://sqlite.org/lang_expr.html
 				
 			/* now jump weight is not stores as % or kg and with the '%' or 'kg' after. Is always a %
-			" AND (j1.weight == '100%' OR j1.weight == person.weight||'" + "Kg' ) " +
+			" AND (j1.weight == '100%' OR j1.weight == person.weight||'" + "kg' ) " +
 			*/
 			" AND j1.weight = '100' " +
 			" AND j1.personID = " + tp + ".uniqueID " +

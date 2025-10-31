@@ -26,17 +26,20 @@
 //3 Back Left
 //4 Back Right
 
-#define LEDS_PIN        D4
+#define LEDS_PIN        5
 #define NUMPIXELS 4
+#define CJ_YELLOW rgbLeds.Color(45,25,0)
+#define CJ_BLUE rgbLeds.Color(0,0,50)
 
 Adafruit_NeoPixel rgbLeds(NUMPIXELS, LEDS_PIN, NEO_GRB + NEO_KHZ800);
 
-String version = "4Platforms-0.2";
+String version = "4Platforms-0.3";
 // Front Left, Front Right, Back Left, Back Right 
-int sensorPin[4] = {2, 1, 8, 9}; //Xiao ESP32S3. Hardware V1
+// int sensorPin[4] = {2, 1, 8, 9}; //Xiao ESP32S3. Hardware V1
+int sensorPin[4] = {1, 2, 9, 8}; //Xiao ESP32S3. Hardware V2
 
-// ATENTION: ESP32C3 has only 2 timers. Only pin 2 and 3 works
-// int sensorPin[4] = {2, 3, 10, 9}; //Xiao ESP32C3
+// Changing the order of the pins/RGB LEDs
+int sensorMapping[4] = {1, 0, 3, 2}; // Hardware V2
 
 volatile bool sensorState[4] = {LOW, LOW, LOW, LOW};
 volatile bool lastSensorState[4] = {LOW, LOW, LOW, LOW};
@@ -47,7 +50,7 @@ unsigned int debounceTime = 10000;   //Time in microseconds to filter spurious s
 
 int totalSensors = 3;
 
-elapsedMillis phaseTime[4] = {0, 0, 0, 0};
+elapsedMicros phaseTime[4] = {0, 0, 0, 0};
 int lastPhaseDuration[4] = {0, 0, 0, 0};                      // Negative numbers means leaving the sensor (Beam not detected -> Beam detected).
                                                               //Positive means arriving at the sensor (Beam detected -> Beam not detected).
 
@@ -59,25 +62,25 @@ int lastPhaseDuration[4] = {0, 0, 0, 0};                      // Negative number
 hw_timer_t *debounceTimer[4]= {NULL, NULL, NULL, NULL};
 
 //debounceTime microseconds after the sensor changes its state, this is the functions called
-void IRAM_ATTR FLdebounce() {
+void IRAM_ATTR debounce0() {
   debounce(0);
 }
 
-void IRAM_ATTR FRdebounce() {
+void IRAM_ATTR debounce1() {
   debounce(1);
 }
 
-void IRAM_ATTR BLdebounce() {
+void IRAM_ATTR debounce2() {
   debounce(2);
 }
 
-void IRAM_ATTR BRdebounce() {
+void IRAM_ATTR debounce3() {
   debounce(3);
 }
 
 void debounce(int i)
 {
-  sensorState[i] = !digitalRead(sensorPin[i]);
+  sensorState[i] = !digitalRead(sensorPin[ sensorMapping[i] ]);
   timerStop(debounceTimer[i]);
   if (sensorState[i] != lastSensorState[i]) {
     lastPhaseDuration[i] = phaseTime[i];
@@ -92,27 +95,27 @@ void setup() {
 
   // pinMode(LED_BUILTIN, OUTPUT);
   // digitalWrite(LED_BUILTIN, HIGH);
-  delay(100);
-  Serial.println(version);
 
   for(int i=0; i<=3; i++)
   {
-    pinMode(sensorPin[i], INPUT_PULLDOWN);
-    rgbLeds.setPixelColor(i, rgbLeds.Color(0,0,25));
+    pinMode(sensorPin[ sensorMapping[i] ], INPUT_PULLDOWN);
+    rgbLeds.setPixelColor(i, CJ_BLUE);
   }
 
   //When the input pin changes the function changedPin() is called
-  attachInterrupt(digitalPinToInterrupt(sensorPin[0]), changedFL, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(sensorPin[1]), changedFR, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(sensorPin[2]), changedBL, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(sensorPin[3]), changedBR, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(sensorPin[ sensorMapping[0] ]), changed0, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(sensorPin[ sensorMapping[1] ]), changed1, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(sensorPin[ sensorMapping[2] ]), changed2, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(sensorPin[ sensorMapping[3] ]), changed3, CHANGE);
 
   // Just to sabilize the inputPin
-  delay(100);
+  delay(1000);
+  Serial.println(version);
   for(int i=0; i<=3; i++)
   {
-    sensorState[i] = !digitalRead(sensorPin[i]);
+    sensorState[i] = !digitalRead(sensorPin[ sensorMapping[i] ]);
     lastSensorState[i] = sensorState[i];
+    Serial.println("Sensor" + String(i) + "->GPIO" + String(sensorPin[ sensorMapping[i] ] ) );
   }
 
   // digitalWrite(LED_BUILTIN, lastSensorState[1]);
@@ -139,9 +142,9 @@ void loop() {
       //Change the sign of the time value to know in which sense the change has accurred
       if (sensorState[i] == HIGH) {
         lastPhaseDuration[i] = - lastPhaseDuration[i];
-        rgbLeds.setPixelColor(i, rgbLeds.Color(0,0,25));
+        rgbLeds.setPixelColor(sensorMapping[i], CJ_BLUE);
       } else {
-        rgbLeds.setPixelColor(i, rgbLeds.Color(121,55,0));
+        rgbLeds.setPixelColor(sensorMapping[i], CJ_YELLOW);
       }
       sensorChange[i] = false;
       Serial.println(lastPhaseDuration[i]);
@@ -172,6 +175,8 @@ void processCommand(String inputString) {
     endCapture();
   } else if (commandString == "set_debounce") {
     setDebounceTime(argumentString.toInt());
+  } else if (commandString == "set_rgb") {
+    setRgb(argumentString);
   } else {
     Serial.println("Not a valid command");
   }
@@ -189,25 +194,25 @@ void getVersion()
 }
 
 // functions called when a sensor change
-void changedFL() {
+void changed0() {
   changedSensor(0);
 }
 
-void changedFR() {
+void changed1() {
   changedSensor(1);
 }
 
-void changedBL() {
+void changed2() {
   changedSensor(2);
 }
 
-void changedBR() {
+void changed3() {
   changedSensor(3);
 }
 
 //Start the debouncing process
 void changedSensor(int i) {
-  if( !digitalRead(sensorPin[i]) != lastSensorState[i]) {
+  if( !digitalRead(sensorPin[ sensorMapping[i] ]) != lastSensorState[i]) {
     timerStop(debounceTimer[i]);
     timerStart(debounceTimer[i]);
     timerWrite(debounceTimer[i],0);
@@ -239,10 +244,10 @@ void configDebounceTimers(unsigned int value) {
 
   setDebounceTime(value);
 
-  timerAttachInterrupt(debounceTimer[0], &FLdebounce);
-  timerAttachInterrupt(debounceTimer[1], &FRdebounce);
-  timerAttachInterrupt(debounceTimer[2], &BLdebounce);
-  timerAttachInterrupt(debounceTimer[3], &BRdebounce);
+  timerAttachInterrupt(debounceTimer[0], &debounce0);
+  timerAttachInterrupt(debounceTimer[1], &debounce1);
+  timerAttachInterrupt(debounceTimer[2], &debounce2);
+  timerAttachInterrupt(debounceTimer[3], &debounce3);
 
 }
 
@@ -255,4 +260,15 @@ void setDebounceTime(unsigned int value) {
   }
   Serial.print("Debounce set to: ");
   Serial.println(value);
+}
+
+void setRgb(String argumentString) {
+  int i = argumentString.substring(0, argumentString.indexOf(",")).toInt();
+  String colours = argumentString.substring(argumentString.indexOf(",") + 1, argumentString.indexOf(";"));
+  int red = colours.substring(0, colours.indexOf(",")).toInt();
+  colours = colours.substring(colours.indexOf(",") + 1, colours.indexOf(";"));
+  int green = colours.substring(0, colours.indexOf(",")).toInt();
+  colours = colours.substring(colours.indexOf(",") + 1, colours.indexOf(";"));
+  int blue = colours.substring(0, colours.indexOf(";")).toInt();
+  rgbLeds.setPixelColor(i, rgbLeds.Color(red, green, blue));
 }

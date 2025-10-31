@@ -20,6 +20,7 @@ class ServerCallbacks: public NimBLEServerCallbacks {
     void onConnect(NimBLEServer* pServer, NimBLEConnInfo& connInfo) override {
       //update period in notify? (min interval (4 * 1.25ms = 5ms))
       pServer->updateConnParams(connInfo.getConnHandle(), 24, 48, 0, 180);
+      Serial.println("Connecting...");
       deviceConnected = true;
       Serial.println("📲 Client connected:");
     };
@@ -48,7 +49,8 @@ void initializeBLE(void) {
 
   NimBLEDevice::setSecurityAuth(false, false, false);
   // Create the BLE Device
-  NimBLEDevice::init("4Platforms");
+  // NimBLEDevice::init("4Platforms");
+  NimBLEDevice::init("Chronojump");
   delay(10);
   BLEAdvertisementData advertisementData;
   advertisementData.setName("Chronojump 4Plapforms");   // Nombre completo
@@ -109,12 +111,11 @@ void initializeBLE(void) {
 }
 
 void sendToBLE(int i, int value) {
-
+  // Serial.println (String(i) + "->" + String(value));
   //Text formated for DumbDisplay [Name of Var]:[optional space][value]
-  pPlatform[i]->setValue( value );
+  pPlatform[i]->setValue( String(value) );
   // pOutput->setValue((uint8_t*)force, sizeof(force));
   pPlatform[i]->notify();
-  Serial.println(i);
 
   // TODO: Check that this is mandatory
   if (deviceConnected) {

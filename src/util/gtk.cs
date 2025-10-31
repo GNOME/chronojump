@@ -916,7 +916,7 @@ public class UtilGtk
 			"}" +
 			//radio checked
 			"radio:checked {" +
-				"color: " + Colors.YELLOW.ToString () + ";" + // background: " + Config.ColorBackgroundShifted.ToString () + ";" +
+				"color: " + GetRGBAs (Colors.YELLOW_LIGHT) + ";" + // background: " + Config.ColorBackgroundShifted.ToString () + ";" +
 			"}" +
 			"radio:insensitive {" +
 			    "background: #999999;" +
@@ -928,7 +928,7 @@ public class UtilGtk
 
 			//checkbutton checked
 			"checkbutton:checked {" +
-				"color: " + Colors.YELLOW.ToString () + ";" + // background: " + Config.ColorBackgroundShifted.ToString () + ";" +
+				"color: " + GetRGBAs (Colors.YELLOW_LIGHT) + ";" + // background: " + Config.ColorBackgroundShifted.ToString () + ";" +
 			"}" +
 			//button checked
 			"button:checked {" +

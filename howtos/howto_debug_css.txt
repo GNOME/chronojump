@@ -1,0 +1,2 @@
+export GTK_DEBUG=interactive
+run chronojump, then you can inspect

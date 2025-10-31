@@ -747,7 +747,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
 			col="grey90")
 	}
 
-	if(triggersOnList != "" && triggersOnList != -1)
+	if (triggersOnList[1] != "")
 	{
 		print("triggersOnList-xmin")
 		print(triggersOnList-xmin)
@@ -1113,7 +1113,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                 #if(legend & showAxes) {}
                 if(legend) {
                         paintVariablesLegend(showPosition, showSpeed, showAccel, showForce, showPower,
-					     (triggersOnList != "" && triggersOnList != -1))
+					     triggersOnList[1] != "")
                 }
                 if(showLabels) {
                         mtext(paste(translateToPrint("time"),"(ms)"),side=1,adj=1,line=-1,cex=.9)
@@ -3270,6 +3270,7 @@ doProcess <- function(options)
                                 abline(v=c(curves[i,1],curves[i,2])/1000, lty=3, col="grey30")
 
 				# if(! cutByTriggers(op) && op$TriggersOnList != "" && op$TriggersOnList != -1)
+				# if(! cutByTriggers(op) && op$TriggersOnList[1] != "")
 				# {
 				# 	abline(v=op$TriggersOnList/1000, col="yellow3", lwd=2, lty=2)
 				# }
@@ -3522,7 +3523,7 @@ doProcess <- function(options)
                                 mtext(i, side=3, at=(curves[i,1] + curves[i,2])/2)
                         }
 
-			if(op$TriggersOnList != "" && op$TriggersOnList != -1)
+			if (op$TriggersOnList[1] != "")
 				abline(v=op$TriggersOnList, col="yellow3", lwd=2, lty=2);
 
                         if (showSpeed)
@@ -3598,7 +3599,7 @@ doProcess <- function(options)
                                 abline(h=0,lty=3,col="black")
                         
                         paintVariablesLegend(showPosition, showSpeed && ! isInertial(op$EncoderConfigurationName), showAccel, showForce, showPower,
-					     (op$TriggersOnList != "" && op$TriggersOnList != -1))
+					     op$TriggersOnList[1] != "")
                 }
                 
                 #needed to align the AB vertical lines on C#

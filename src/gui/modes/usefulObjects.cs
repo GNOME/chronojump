@@ -806,7 +806,7 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 
 	protected override bool selectEventFromList ()
 	{
-		return false; // TODO
+		return false;
 	}
 	protected override void selectEventFromSQL ()
 	{
@@ -892,6 +892,8 @@ public class PrepareEventGraphEncoderCurrent
 
 public class PrepareEventGraphEncoderSession : PrepareEventGraphTest
 {
+	public List<Event> selectedEvent_l; // if more modes use a list, move this to PrepareEventGraphTest
+
 	//sql data of previous tests to plot graph and show stats at bottom
 	public List<EncoderSQL> rowsAtSQL;
 	public int selectedSetID; //-1 if none selected. If >= 0 then is the selected on treeview.
@@ -944,6 +946,7 @@ public class PrepareEventGraphEncoderSession : PrepareEventGraphTest
 
 		//select linkedReps (if any)
 		selectedRepID_l = new List<int> ();
+		selectedEvent_l = new List<Event> ();
 		if (selectedSetID >= 0)
 		{
 			ArrayList linkedReps = SqliteEncoderSignalCurve.SelectSignalCurve (
@@ -953,17 +956,29 @@ public class PrepareEventGraphEncoderSession : PrepareEventGraphTest
 				selectedRepID_l.Add (esc.curveID);
 		}
 
+		getSelected ();
 		orderBy = Sqlite.Orders_by.BEST; 	//for boxplots use order_by.BEST
 		boxplotsDo (Constants.GetEncoderVariablesCaptureAsSQLField (encoderVariablesCapture));
 	}
 
 	protected override bool selectEventFromList ()
 	{
-		return false; // TODO
+		// as on encoder some the reps selected could be shown by the filter and some other not. Better return false
+		// and ensure select all of them on selectEventFromSQL ()
+		return false;
 	}
 	protected override void selectEventFromSQL ()
 	{
-		// TODO
+		if (selectedSetID < 0)
+			return;
+
+		SqliteEncoder sqliteEncoder = new SqliteEncoder ();
+		List<List<EncoderSQL>> eSQL_ll = sqliteEncoder.SelectSetsAndRepsLList (false, personID, sessionID, encoderGI,
+				exerciseID, selectedSetID);
+
+		if (eSQL_ll.Count > 0 && eSQL_ll[0].Count > 1) // 1 because: 0 is the set, reps start at 1
+			for (int i = 1; i < eSQL_ll[0].Count; i ++)
+				selectedEvent_l.Add (eSQL_ll[0][i]);
 	}
 
 	protected override List<double> boxplotSelectPerson (string param)

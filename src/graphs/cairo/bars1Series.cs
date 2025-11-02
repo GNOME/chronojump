@@ -286,6 +286,10 @@ public class CairoBars1Series : CairoBars
 
 		if (selectedDoubleDefined)
 			selectedForBoxplot_l.Add (calculatePaintY (selectedDouble));
+		//encoder
+		if (selectedDouble_l.Count > 0)
+			foreach (double d in selectedDouble_l)
+				selectedForBoxplot_l.Add (calculatePaintY (d));
 	}
 
 	//done here and not in the constructor because most of this variables are known after construction

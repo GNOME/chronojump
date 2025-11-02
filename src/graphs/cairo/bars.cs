@@ -92,9 +92,10 @@ public abstract class CairoBars : CairoGeneric
 	protected RepetitionMouseLimits mouseLimits;
 	protected List<int> id_l; //to pass the uniqueID of some test, eg: RunInterval executions and then find it using mouseLimits
 	protected int selectedPos;
-	protected List<int> selectedPos_l; //used on encder curves
 	protected double selectedDouble;
 	protected bool selectedDoubleDefined;
+	protected List<int> selectedPos_l; // encoder reps
+	protected List<double> selectedDouble_l; // encoder reps
 	protected List<double> color_l;
 	protected List<bool> personIcon_l;
 
@@ -142,9 +143,10 @@ public abstract class CairoBars : CairoGeneric
 		edgeBarNums_l = new List<int>();
 		encoderTitle = false;
 		selectedPos = -1;
-		selectedPos_l = new List<int> ();
 		selectedDouble = -1;
 		selectedDoubleDefined = false;
+		selectedPos_l = new List<int> ();
+		selectedDouble_l = new List<double> ();
 		screenshotURL = "";
 	}
 
@@ -1191,6 +1193,11 @@ public abstract class CairoBars : CairoGeneric
 			selectedDouble = value;
 			selectedDoubleDefined = true;
 		}
+	}
+	public List<double> SelectedDouble_l
+	{
+		get { return selectedDouble_l; }
+		set { selectedDouble_l = value; }
 	}
 
 	public List<double> Color_l {

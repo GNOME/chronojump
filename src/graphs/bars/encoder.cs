@@ -121,6 +121,11 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 
 		cb.PassBoxplots (eventGraphEncoderSessionStored.BoxplotPerson, eventGraphEncoderSessionStored.BoxplotSession);
 
+		// add the yellow points on boxplot (can be n reps of the set)
+		if (eventGraphEncoderSessionStored.selectedEvent_l != null && eventGraphEncoderSessionStored.selectedEvent_l.Count > 0)
+			foreach (EncoderSQL eSQL in eventGraphEncoderSessionStored.selectedEvent_l)
+				cb.SelectedDouble_l.Add (eSQL.GetVariable (encoderCaptureMainVariable));
+
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,
 				-1, fontHeightForBottomNames, bottomMargin, title,

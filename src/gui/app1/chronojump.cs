@@ -4854,7 +4854,11 @@ public partial class ChronoJumpWindow
 	private void on_fullscreen_button_fullscreen_clicked (object o, EventArgs args)
 	{
 		fullscreenCaptureSignalsNoFollow = true;
-		app1.Decorated = false;
+
+		//always Decorated on Windows (fixes bug on 11 Pro)
+		if (! UtilAll.IsWindows ())
+			app1.Decorated = false;
+
 		app1.Maximize ();
 
 		notebook_start.CurrentPage = Convert.ToInt32 (notebook_start_pages.FULLSCREENCAPTURE);

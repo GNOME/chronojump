@@ -982,7 +982,8 @@ public partial class ChronoJumpWindow
 				app1.Unmaximize();
 				app1.Decorated = true;
 			} else {
-				app1.Decorated = (configChronojump.Maximized != Preferences.MaximizedTypes.YESUNDECORATED);
+				app1.Decorated = UtilAll.IsWindows () || //always Decorated on Windows (fixes bug on 11 Pro)
+					configChronojump.Maximized != Preferences.MaximizedTypes.YESUNDECORATED;
 				app1.Maximize();
 			}
 		} else //fromPreferences
@@ -993,7 +994,8 @@ public partial class ChronoJumpWindow
 				app1.Decorated = true;
 			} else
 			{
-				app1.Decorated = (preferences.maximized == Preferences.MaximizedTypes.YES);
+				app1.Decorated = UtilAll.IsWindows () || //always Decorated on Windows (fixes bug on 11 Pro)
+					preferences.maximized == Preferences.MaximizedTypes.YES;
 				app1.Maximize();
 			}
 		}

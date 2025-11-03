@@ -505,7 +505,10 @@ public class PreferencesWindow
 		}
 		else {
 			PWBox.check_appearance_maximized.Active = true;
-			PWBox.alignment_undecorated.Visible = true;
+			if (UtilAll.IsWindows ())
+				PWBox.alignment_undecorated.Visible = false;
+			else
+				PWBox.alignment_undecorated.Visible = true;
 //			PWBox.label_recommended_undecorated.Visible = true;
 			PWBox.check_appearance_maximized_undecorated.Active =
 				(preferences.maximized == Preferences.MaximizedTypes.YESUNDECORATED);
@@ -1313,7 +1316,7 @@ public class PreferencesWindow
 			return;
 
 		// A) changes on preferences gui
-		alignment_undecorated.Visible = check_appearance_maximized.Active;
+		alignment_undecorated.Visible = ! UtilAll.IsWindows () && check_appearance_maximized.Active;
 //		label_recommended_undecorated.Visible = check_appearance_maximized.Active;
 
 		// B) changes on preferences object and SqlitePreferences

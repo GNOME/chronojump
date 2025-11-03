@@ -629,6 +629,8 @@ public class PrepareEventGraphRunEncoder : PrepareEventGraphTest
 		this.selectedID = selectedID;
 		this.exerciseAll = exerciseAll;
 
+		Sqlite.Open(); // ----------------->
+
 		int personIDTemp = personID;
 		if(allPersons)
 			personIDTemp = -1;
@@ -639,37 +641,47 @@ public class PrepareEventGraphRunEncoder : PrepareEventGraphTest
 		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
 			orderBy = Sqlite.Orders_by.BEST2;
 
-		rowsAtSQL = SqliteRunEncoder.Select (false, -1, personIDTemp, sessionID, exerciseID,
+		rowsAtSQL = SqliteRunEncoder.Select (true, -1, personIDTemp, sessionID, exerciseID,
 				orderBy, limit,
 				allPersons//, 	//show names on comments only if "all persons"
 				//false 	//! onlyBestInSession
 				);
-		//LogB.Information ("rowsAtSQL count: " + (rowsAtSQL.Count).ToString ());
+
+		// get the selectedEvent to show it if it's not aready shown by the limit
+		getSelected ();
 
 		string sqlSelect = "maxSpeed";
 		if (bestSecond)
 			sqlSelect = "maxAvgSpeed1s";
 
 		boxplotsDo (sqlSelect);
+
+		Sqlite.Close(); // < -----------------
 	}
 
 	protected override bool selectEventFromList ()
 	{
-		return false; // TODO
+		foreach (RunEncoder e in rowsAtSQL)
+			if (e.UniqueID == selectedID)
+			{
+				selectedEvent = e;
+				return true;
+			}
+		return false;
 	}
 	protected override void selectEventFromSQL ()
 	{
-		// TODO
+		selectedEvent = SqliteRunEncoder.SelectData (selectedID, false, true);
 	}
 
 	protected override List<double> boxplotSelectPerson (string param)
 	{
-		return SqliteRunEncoder.Select (false, param, -1, personID, sessionID, exerciseID,
+		return SqliteRunEncoder.Select (true, param, -1, personID, sessionID, exerciseID,
 				orderBy, 0);
 	}
 	protected override List<double> boxplotSelectSession (string param)
 	{
-		return SqliteRunEncoder.Select (false, param, -1, -1, sessionID, exerciseID,
+		return SqliteRunEncoder.Select (true, param, -1, -1, sessionID, exerciseID,
 				orderBy, 0);
 	}
 

@@ -126,6 +126,14 @@ public class CairoPaintBarsPreRunEncoder : CairoPaintBarsPre
 		cb.PersonIcon_l = personIcon_l;
 
 		cb.PassBoxplots (eventGraphRunEncoderStored.BoxplotPerson, eventGraphRunEncoderStored.BoxplotSession);
+		// pass selectedEvent to plot if it's not part of the shown events
+		if (eventGraphRunEncoderStored.selectedEvent != null)
+		{
+			if (bestSecond)
+				cb.SelectedDouble = ((RunEncoder) eventGraphRunEncoderStored.selectedEvent).MaxAvgSpeed1s;
+			else
+				cb.SelectedDouble = ((RunEncoder) eventGraphRunEncoderStored.selectedEvent).MaxSpeed;
+		}
 
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,

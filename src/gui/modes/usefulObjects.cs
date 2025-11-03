@@ -475,7 +475,7 @@ public class PrepareEventGraphRunSimple : PrepareEventGraphTest
 public class PrepareEventGraphRunInterval : PrepareEventGraphTest
 {
 	//sql data of previous jumps to plot graph and show stats at bottom
-	public List<RunInterval> runsAtSQL;
+	public List<RunInterval> rowsAtSQL;
 	public string type; //jumpType (useful to know if "all jumps" (type == "")
 
 	public double personMAXAtSQL;
@@ -519,8 +519,11 @@ public class PrepareEventGraphRunInterval : PrepareEventGraphTest
 		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
 			orderBy = Sqlite.Orders_by.BEST2;
 
-		runsAtSQL = SqliteRunInterval.SelectRuns (true, sessionID, personIDTemp, type,
+		rowsAtSQL = SqliteRunInterval.SelectRuns (true, sessionID, personIDTemp, type,
 				orderBy, limit, allPersons); 	//show names on comments only if "all persons"
+
+		// get the selectedEvent to show it if it's not aready shown by the limit
+		getSelected ();
 
 		string sqlSelect = "distanceTotal/timeTotal";
 		if (times)
@@ -543,11 +546,17 @@ public class PrepareEventGraphRunInterval : PrepareEventGraphTest
 
 	protected override bool selectEventFromList ()
 	{
-		return false; // TODO
+		foreach (RunInterval e in rowsAtSQL)
+			if (e.UniqueID == selectedID)
+			{
+				selectedEvent = e;
+				return true;
+			}
+		return false;
 	}
 	protected override void selectEventFromSQL ()
 	{
-		// TODO
+		selectedEvent = SqliteRunInterval.SelectRunData (Constants.RunIntervalTable, selectedID, false, true);
 	}
 
 	// need to use orderBy to correctly order time for boxplot

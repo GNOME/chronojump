@@ -55,7 +55,7 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 
 	protected override bool haveDataToPlot()
 	{
-		return (eventGraphRunsIntervalStored.runsAtSQL.Count > 0);
+		return (eventGraphRunsIntervalStored.rowsAtSQL.Count > 0);
 	}
 
 	protected override void paintSpecific()
@@ -78,17 +78,17 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
 		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides
 
-		List<Event> events = RunInterval.RunIntervalListToEventList (eventGraphRunsIntervalStored.runsAtSQL);
+		List<Event> events = RunInterval.RunIntervalListToEventList (eventGraphRunsIntervalStored.rowsAtSQL);
 
 		//find if there is a simulated
 		bool thereIsASimulated = false;
-		for(int i=0 ; i < eventGraphRunsIntervalStored.runsAtSQL.Count; i++)
+		for(int i=0 ; i < eventGraphRunsIntervalStored.rowsAtSQL.Count; i++)
 		{
-			if(eventGraphRunsIntervalStored.runsAtSQL[i].Simulated == -1)
+			if(eventGraphRunsIntervalStored.rowsAtSQL[i].Simulated == -1)
 				thereIsASimulated = true;
 
 			if(! ShowPersonNames)
-				eventGraphRunsIntervalStored.runsAtSQL[i].Description = ""; //to avoid showing description
+				eventGraphRunsIntervalStored.rowsAtSQL[i].Description = ""; //to avoid showing description
 		}
 
 		calculateBottomParams (events, true, " - 99", //thinking on 99 tracks
@@ -99,8 +99,8 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 		List<bool> personIcon_l = new List<bool>();
 		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
 
-		int countToDraw = eventGraphRunsIntervalStored.runsAtSQL.Count;
-		foreach(RunInterval runI in eventGraphRunsIntervalStored.runsAtSQL)
+		int countToDraw = eventGraphRunsIntervalStored.rowsAtSQL.Count;
+		foreach(RunInterval runI in eventGraphRunsIntervalStored.rowsAtSQL)
 		{
 			// 1) Add data
 			runI.MetersSecondsPreferred = metersSecondsPreferred;
@@ -130,13 +130,25 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 			id_l.Add(runI.UniqueID);
 
 			if (eventGraphRunsIntervalStored.selectedID == runI.UniqueID)
-				cb.SelectedPos = eventGraphRunsIntervalStored.runsAtSQL.Count -countToDraw -1;
+				cb.SelectedPos = eventGraphRunsIntervalStored.rowsAtSQL.Count -countToDraw -1;
 		}
 
 		cb.Id_l = id_l;
 		cb.PersonIcon_l = personIcon_l;
 
 		cb.PassBoxplots (eventGraphRunsIntervalStored.BoxplotPerson, eventGraphRunsIntervalStored.BoxplotSession);
+		// pass selectedEvent to plot if it's not part of the shown events
+		if (eventGraphRunsIntervalStored.selectedEvent != null)
+		{
+			if (runTimes)
+				cb.SelectedDouble = ((RunInterval) eventGraphRunsIntervalStored.selectedEvent).TimeTotal;
+			else {
+				//cb.SelectedDouble = ((RunInterval) eventGraphRunsIntervalStored.selectedEvent).Speed; //note this will be always Km/h
+				RunInterval r = (RunInterval) eventGraphRunsIntervalStored.selectedEvent;
+				r.MetersSecondsPreferred = metersSecondsPreferred;
+				cb.SelectedDouble = r.Speed;
+			}
+		}
 
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,

@@ -131,6 +131,15 @@ public class CairoPaintBarsPreForceSensor : CairoPaintBarsPre
 			cb.BestExAll = eventGraphForceSensorStored.HistoricalExAllBest;
 
 		cb.PassBoxplots (eventGraphForceSensorStored.BoxplotPerson, eventGraphForceSensorStored.BoxplotSession);
+		// pass selectedEvent to plot if it's not part of the shown events
+		if (eventGraphForceSensorStored.selectedEvent != null)
+		{
+			if (bestSecond)
+				cb.SelectedDouble = ((ForceSensor) eventGraphForceSensorStored.selectedEvent).MaxAvgForce1s;
+			else {
+				cb.SelectedDouble = ((ForceSensor) eventGraphForceSensorStored.selectedEvent).MaxForceRaw;
+			}
+		}
 
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,

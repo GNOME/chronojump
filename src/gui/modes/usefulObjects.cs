@@ -63,6 +63,10 @@ public abstract class PrepareEventGraphTest
 	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
 	public Event selectedEvent;
 
+	// to show on X axis
+	public enum OrderXEnum { Best, Last, Weight }; // Not capitals because it will be printed
+	public OrderXEnum OrderX;
+
 	protected int sessionID;
 	protected int personID;
 	protected bool allPersons;
@@ -181,8 +185,12 @@ public class PrepareEventGraphJumpSimple : PrepareEventGraphTest
 			personIDTemp = -1;
 
 		orderBy = Sqlite.Orders_by.BEST;
+		OrderX = OrderXEnum.Best;
 		if (! showBest)
+		{
 			orderBy = Sqlite.Orders_by.ID_ASC;
+			OrderX = OrderXEnum.Last;
+		}
 
 		rowsAtSQL = SqliteJump.SelectJumps (sessionID, personIDTemp, type,
 				orderBy, limit,
@@ -276,6 +284,7 @@ public class PrepareEventGraphJumpReactive : PrepareEventGraphTest
 			personIDTemp = -1;
 
 		orderBy = Sqlite.Orders_by.ID_ASC;
+		OrderX = OrderXEnum.Last;
 		string sqlRangeSelect = "";
 		if (resultsSessionCriteria == Constants.ResultsSessionCriteria.LAST)
 		{
@@ -288,15 +297,18 @@ public class PrepareEventGraphJumpReactive : PrepareEventGraphTest
 		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST)
 		{
 			orderBy = Sqlite.Orders_by.BEST;
+			OrderX = OrderXEnum.Best;
 			sqlRangeSelect = "tvAvg";
 		} else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
 		{
 			orderBy = Sqlite.Orders_by.BEST2;
+			OrderX = OrderXEnum.Best;
 			//sqlRangeSelect = "tvAvg/tcAvg";
 			sqlRangeSelect = "tvAvg"; //bars show tvAvg (not Q), so use this on Y
 		} else // if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST3)
 		{
 			orderBy = Sqlite.Orders_by.BEST3;
+			OrderX = OrderXEnum.Best;
 			sqlRangeSelect = "heightAvg";
 		}
 
@@ -408,10 +420,15 @@ public class PrepareEventGraphRunSimple : PrepareEventGraphTest
 			personIDTemp = -1;
 
 		orderBy = Sqlite.Orders_by.ID_ASC;
+		OrderX = OrderXEnum.Last;
 		if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST)
+		{
 			orderBy = Sqlite.Orders_by.BEST;
-		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
+			OrderX = OrderXEnum.Best;
+		} else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2) {
 			orderBy = Sqlite.Orders_by.BEST2;
+			OrderX = OrderXEnum.Best;
+		}
 
 		LogB.Information ("resultsSessionCriteria = " + resultsSessionCriteria.ToString ());
 
@@ -514,10 +531,15 @@ public class PrepareEventGraphRunInterval : PrepareEventGraphTest
 			personIDTemp = -1;
 
 		orderBy = Sqlite.Orders_by.ID_ASC;
+		OrderX = OrderXEnum.Last;
 		if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST)
+		{
 			orderBy = Sqlite.Orders_by.BEST;
-		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
+			OrderX = OrderXEnum.Best;
+		} else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2) {
 			orderBy = Sqlite.Orders_by.BEST2;
+			OrderX = OrderXEnum.Best;
+		}
 
 		rowsAtSQL = SqliteRunInterval.SelectRuns (true, sessionID, personIDTemp, type,
 				orderBy, limit, allPersons); 	//show names on comments only if "all persons"
@@ -636,10 +658,15 @@ public class PrepareEventGraphRunEncoder : PrepareEventGraphTest
 			personIDTemp = -1;
 
 		orderBy = Sqlite.Orders_by.ID_ASC;
+		OrderX = OrderXEnum.Last;
 		if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST)
+		{
 			orderBy = Sqlite.Orders_by.BEST;
-		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
+			OrderX = OrderXEnum.Best;
+		} else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2) {
 			orderBy = Sqlite.Orders_by.BEST2;
+			OrderX = OrderXEnum.Best;
+		}
 
 		rowsAtSQL = SqliteRunEncoder.Select (true, -1, personIDTemp, sessionID, exerciseID,
 				orderBy, limit,
@@ -797,10 +824,15 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 			elastic = 1;
 
 		orderBy = Sqlite.Orders_by.ID_ASC;
+		OrderX = OrderXEnum.Last;
 		if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST)
+		{
 			orderBy = Sqlite.Orders_by.BEST;
-		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
+			OrderX = OrderXEnum.Best;
+		} else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2) {
 			orderBy = Sqlite.Orders_by.BEST2;
+			OrderX = OrderXEnum.Best;
+		}
 
 		rowsAtSQL = SqliteForceSensor.Select (true, -1, personIDTemp, sessionID, elastic, exerciseID,
 				orderBy, limit,
@@ -969,10 +1001,15 @@ public class PrepareEventGraphEncoderSession : PrepareEventGraphTest
 			personIDTemp = -1;
 
 		orderBy = Sqlite.Orders_by.ID_ASC;
+		OrderX = OrderXEnum.Last;
 		if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST)
+		{
 			orderBy = Sqlite.Orders_by.BEST;
-		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
+			OrderX = OrderXEnum.Best;
+		} else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2) {
 			orderBy = Sqlite.Orders_by.BEST2;
+			OrderX = OrderXEnum.Weight;
+		}
 
 		rowsAtSQL = SqliteEncoder.SelectList (false, -1, personIDTemp, sessionID, encoderGI,
 				exerciseID, "curve", EncoderSQL.Eccons.ALL,

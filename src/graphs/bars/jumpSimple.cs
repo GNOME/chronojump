@@ -98,6 +98,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 				cb.VariableSerieB = Catalog.GetString("Flight time");
 			}
 		}
+		cb.XVariable = Catalog.GetString (eventGraphJumpsStored.OrderX.ToString ());
 
 		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
 		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides

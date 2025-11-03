@@ -65,6 +65,7 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 
 		cb.YVariable = Catalog.GetString (Constants.GetEncoderVariablesCapture (encoderCaptureMainVariable));
 		cb.YUnits = Constants.GetEncoderVariablesCaptureUnits (encoderCaptureMainVariable);
+		cb.XVariable = Catalog.GetString (eventGraphEncoderSessionStored.OrderX.ToString ());
 
 		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
 		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides

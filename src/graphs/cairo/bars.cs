@@ -391,7 +391,7 @@ public abstract class CairoBars : CairoGeneric
 	//this combined with paintVerticalGridLine is different on RaceAnalyzer
 	protected virtual void printXAxisText()
 	{
-		printText(graphWidth - Convert.ToInt32(leftMargin/2), graphHeight - 2*bottomMargin, 0, textHeight -2,
+		printText(graphWidth -rightMargin +6, graphHeight -bottomMargin -2, 0, textHeight,
 				getXAxisLabel(), g, alignTypes.LEFT);
 	}
 
@@ -1137,6 +1137,9 @@ public abstract class CairoBars : CairoGeneric
 		encoderTitle = true;
 	}
 
+	public string XVariable {
+		set { xVariable = value; }
+	}
 	public string YVariable {
 		set { yVariable = value; }
 	}

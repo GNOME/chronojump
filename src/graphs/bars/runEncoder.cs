@@ -69,6 +69,7 @@ public class CairoPaintBarsPreRunEncoder : CairoPaintBarsPre
 			cb.YVariable = Catalog.GetString("Best second");
 
 		cb.YUnits = "m/s";
+		cb.XVariable = Catalog.GetString (eventGraphRunEncoderStored.OrderX.ToString ());
 
 		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
 		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides

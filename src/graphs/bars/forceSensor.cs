@@ -69,6 +69,7 @@ public class CairoPaintBarsPreForceSensor : CairoPaintBarsPre
 			cb.YVariable = Catalog.GetString("Best second");
 
 		cb.YUnits = "N";
+		cb.XVariable = Catalog.GetString (eventGraphForceSensorStored.OrderX.ToString ());
 
 		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
 		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides

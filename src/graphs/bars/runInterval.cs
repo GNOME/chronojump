@@ -74,6 +74,7 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 			else
 				cb.YUnits = "Km/h";
 		}
+		cb.XVariable = Catalog.GetString (eventGraphRunsIntervalStored.OrderX.ToString ());
 
 		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
 		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides

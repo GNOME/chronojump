@@ -68,6 +68,7 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 			cb.VariableSerieA = Catalog.GetString("Contact time") + " (" + Catalog.GetString("AVG") + ") ";
 			cb.VariableSerieB = Catalog.GetString("Flight time") + " (" + Catalog.GetString("AVG") + ") ";
 		}
+		cb.XVariable = Catalog.GetString (eventGraphJumpsRjStored.OrderX.ToString ());
 
 		//cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
 		cb.GraphInit(fontStr, true, true); //usePersonGuides, useGroupGuides

@@ -151,7 +151,7 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 		cb.PersonIcon_l = personIcon_l;
 
 		cb.PassBoxplots (eventGraphJumpsRjStored.BoxplotPerson, eventGraphJumpsRjStored.BoxplotSession);
-		// pass selectedJump to plot if it's not part of the shown jumps
+		// pass selectedEvent to plot if it's not part of the shown events
 		if (eventGraphJumpsRjStored.selectedEvent != null)
 		{
 			if (UseHeights)

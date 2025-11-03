@@ -366,7 +366,7 @@ public class PrepareEventGraphJumpReactiveRealtimeCapture
 public class PrepareEventGraphRunSimple : PrepareEventGraphTest
 {
 	//sql data of previous runs to plot graph and show stats at bottom
-	public List<Run> runsAtSQL;
+	public List<Run> rowsAtSQL;
 
 	public double personMAXAtSQLAllSessions;
 	public double personMAXAtSQL;
@@ -416,10 +416,13 @@ public class PrepareEventGraphRunSimple : PrepareEventGraphTest
 		LogB.Information ("resultsSessionCriteria = " + resultsSessionCriteria.ToString ());
 
 		//obtain data
-		runsAtSQL = SqliteRun.SelectRuns (true, sessionID, personIDTemp, type,
+		rowsAtSQL = SqliteRun.SelectRuns (true, sessionID, personIDTemp, type,
 				orderBy, limit,
 				allPersons, false); //show names on comments only if "all persons"
-		
+
+		// get the selectedEvent to show it if it's not aready shown by the limit
+		getSelected ();
+
 		string sqlSelect = "distance/time";
 		if (times)
 			sqlSelect = "time";
@@ -441,11 +444,17 @@ public class PrepareEventGraphRunSimple : PrepareEventGraphTest
 
 	protected override bool selectEventFromList ()
 	{
-		return false; // TODO
+		foreach (Run e in rowsAtSQL)
+			if (e.UniqueID == selectedID)
+			{
+				selectedEvent = e;
+				return true;
+			}
+		return false;
 	}
 	protected override void selectEventFromSQL ()
 	{
-		// TODO
+		selectedEvent = SqliteRun.SelectRunData (selectedID, true);
 	}
 
 	// need to use orderBy to correctly order time for boxplot

@@ -159,7 +159,6 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			if(showBarA && showBarB) //there are jumps like Dja, Djna
 				id_l.Add(jump.UniqueID);
 
-
 			if (eventGraphJumpsStored.selectedID == jump.UniqueID)
 				cb.SelectedPos = eventGraphJumpsStored.rowsAtSQL.Count -countToDraw -1;
 		}
@@ -168,8 +167,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 		cb.PersonIcon_l = personIcon_l;
 
 		cb.PassBoxplots (eventGraphJumpsStored.BoxplotPerson, eventGraphJumpsStored.BoxplotSession);
-
-		// pass selectedJump to plot if it's not part of the shown jumps
+		// pass selectedEvent to plot if it's not part of the shown events
 		if (eventGraphJumpsStored.selectedEvent != null)
 		{
 			if (UseHeights)

@@ -1,4 +1,25 @@
-﻿using System.Diagnostics;
+﻿/*
+ * This file is part of ChronoJump
+ *
+ * ChronoJump is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or   
+ *    (at your option) any later version.
+ *    
+ * ChronoJump is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ *    GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Copyright (C) 2025   Yang Dejiu <joeries.young@gmail.com>
+ * Copyright (C) 2025   Xavier de Blas <xaviblas@gmail.com>
+ */
+
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 /// <summary>
@@ -77,7 +98,8 @@ public static class BluetoothLE
     {
         if (Util.operatingSystem == UtilAll.OperatingSystems.WINDOWS)
         {
-            pythonScriptPath = "ble-runner-win.bat";
+            //pythonScriptPath = "ble-runner-win.bat";
+            pythonScriptPath = @"C:\Users\xavi\chronojump\src\bin\Debug\net7.0\ble-runner-win.bat"; // hardcoded!
         }
         else if (Util.operatingSystem == UtilAll.OperatingSystems.MACOSX)
         {
@@ -116,6 +138,8 @@ public static class BluetoothLE
             try
             {
                 processStartInfo.Arguments = Preferences.GetPythonExecutable(Preferences.pythonVersionEnum.Python3);
+		LogB.Debug ("BluetoothLE Start FileName: " + processStartInfo.FileName);
+		LogB.Debug ("BluetoothLE Arguments: " + processStartInfo.Arguments);
                 using (pythonProcess = Process.Start(processStartInfo))
                 {
                     if (null == pythonProcess)
@@ -129,7 +153,7 @@ public static class BluetoothLE
                     {
                         if (!string.IsNullOrEmpty(e.Data))
                         {
-                            LogB.Warning($"[BluetoothLE] {e.Data}");
+                            LogB.Warning($"[BluetoothLE] error: {e.Data}");
                         }
                     };
                     pythonProcess.OutputDataReceived += (sender, e) =>
@@ -140,7 +164,7 @@ public static class BluetoothLE
                                 !e.Data.StartsWith("Device Connected: ") &&
                                 !e.Data.StartsWith("Data Changed: "))
                             {
-                                LogB.Information($"[BluetoothLE] {e.Data}");
+                                LogB.Information($"[BluetoothLE] output: {e.Data}");
                             }
                             var m = regexData.Match(e.Data);
                             if (m.Success)
@@ -148,6 +172,9 @@ public static class BluetoothLE
                                 OnDataChanged?.Invoke(null, new DataChangedEventArgs(
                                     m.Groups[1].Value,
                                     m.Groups[2].Value));
+                                
+				LogB.Information (string.Format ("[BluetoothLE] Characteristic: {0}, Data: {1}",
+						m.Groups[1].Value, m.Groups[2].Value));
                             }
                         }
                     };
@@ -159,7 +186,7 @@ public static class BluetoothLE
             }
             catch (Exception ex)
             {
-                LogB.Error($"[BluetoothLE] Failed to Start.", ex.ToString());
+                LogB.Error($"[BluetoothLE] Catched!. Reason: " + ex.ToString());
                 throw;
             }
         }, cts.Token);

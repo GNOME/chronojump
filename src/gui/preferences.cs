@@ -4013,6 +4013,7 @@ public class PreferencesWindow
 		*/
 
 		//Subscribe to BluetoothLE data changed event
+		BluetoothLE.OnDataChanged -= BluetoothLE_OnDataChanged;
 		BluetoothLE.OnDataChanged += BluetoothLE_OnDataChanged;
 		//Start BluetoothLE service
 		BluetoothLE.Start();

@@ -4011,8 +4011,9 @@ public class PreferencesWindow
 	private bool bluetoothReading = false;
 	//use the string to not have crash by manipulating the TextBuffer outside the pulse thread
 	static string tbBluetoothText = "";
-	//static bool needToUpdateTextViewBluetooth;
+	static bool needToUpdateTextViewBluetooth;
 	TextBuffer tbBluetooth = new TextBuffer (new TextTagTable());
+	static Thread threadBluetooth;
 
 	private void on_button_bluetooth_start_clicked (object o, EventArgs args)
 	{
@@ -4024,12 +4025,39 @@ public class PreferencesWindow
 
 		textview_bluetooth.Name = "fontSize9";
 
+		bluetooth_textview_update ("Enviant coses al textview");
+
+		threadBluetooth = new Thread (new ThreadStart (bluetoothDo));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseBluetooth));
+
+		LogB.ThreadStart();
+		threadBluetooth.Start();
+	}
+
+	private void bluetoothDo ()
+	{
 		//Subscribe to BluetoothLE data changed event
 		BluetoothLE.OnDataChanged -= BluetoothLE_OnDataChanged;
 		BluetoothLE.OnDataChanged += BluetoothLE_OnDataChanged;
 		//Start BluetoothLE service
 		BluetoothLE.Start();
 		bluetoothReading = true;
+	}
+
+	// by GTK thread
+	private bool pulseBluetooth ()
+	{
+		if (needToUpdateTextViewBluetooth)
+		{
+			tbBluetooth.Text = tbBluetoothText;
+			textview_bluetooth.Buffer = tbBluetooth;
+			UtilGtk.TextViewScrollToEnd (textview_bluetooth);
+			needToUpdateTextViewBluetooth = false;
+		}
+
+		LogB.Information(" Cur:" + threadBluetooth.ThreadState.ToString());
+		Thread.Sleep (50);
+		return true;
 	}
 
 	private void on_button_bluetooth_end_clicked (object o, EventArgs args)
@@ -4048,10 +4076,7 @@ public class PreferencesWindow
 	private void bluetooth_textview_update (string str)
 	{
 		tbBluetoothText += str;
-		//needToUpdateTextViewBluetooth = true;
-		textview_bluetooth.Buffer = tbBluetooth;
-		UtilGtk.TextViewScrollToEnd (textview_bluetooth);
-		//needToUpdateTextViewWilight = false;
+		needToUpdateTextViewBluetooth = true;
 	}
 
 	/// <summary>
@@ -4062,8 +4087,7 @@ public class PreferencesWindow
 	/// <param name="e">The event data containing the updated value.</param>
 	private void BluetoothLE_OnDataChanged(object sender, BluetoothLE.DataChangedEventArgs e)
 	{
-		//LogB.Information($"[BluetoothLE] {e.Value}");
-		bluetooth_textview_update ($"[BluetoothLE] {e.Value}");
+		bluetooth_textview_update ($"\n {e.CharacteristicUUID} {e.Value}");
 	}
 	
 	/* ---------------------

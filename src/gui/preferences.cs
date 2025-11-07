@@ -4023,9 +4023,10 @@ public class PreferencesWindow
 		bl.TestInit ();
 		*/
 
+		bluetoothReading = true;
 		textview_bluetooth.Name = "fontSize9";
-
-		bluetooth_textview_update ("Enviant coses al textview");
+		tbBluetoothText = "";
+		bluetooth_textview_update ("\nConnecting... ");
 
 		threadBluetooth = new Thread (new ThreadStart (bluetoothDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseBluetooth));
@@ -4036,12 +4037,14 @@ public class PreferencesWindow
 
 	private void bluetoothDo ()
 	{
-		//Subscribe to BluetoothLE data changed event
+		//Subscribe to BluetoothLE data changed, device changed events
 		BluetoothLE.OnDataChanged -= BluetoothLE_OnDataChanged;
 		BluetoothLE.OnDataChanged += BluetoothLE_OnDataChanged;
+		BluetoothLE.OnDeviceChanged -= BluetoothLE_OnDeviceChanged;
+		BluetoothLE.OnDeviceChanged += BluetoothLE_OnDeviceChanged;
+
 		//Start BluetoothLE service
 		BluetoothLE.Start();
-		bluetoothReading = true;
 	}
 
 	// by GTK thread
@@ -4054,8 +4057,10 @@ public class PreferencesWindow
 			UtilGtk.TextViewScrollToEnd (textview_bluetooth);
 			needToUpdateTextViewBluetooth = false;
 		}
+		if (! bluetoothReading)
+			return false;
 
-		LogB.Information(" Cur:" + threadBluetooth.ThreadState.ToString());
+		LogB.Debug (" pulseBluetooth:" + threadBluetooth.ThreadState.ToString());
 		Thread.Sleep (50);
 		return true;
 	}
@@ -4088,6 +4093,10 @@ public class PreferencesWindow
 	private void BluetoothLE_OnDataChanged(object sender, BluetoothLE.DataChangedEventArgs e)
 	{
 		bluetooth_textview_update ($"\n {e.CharacteristicUUID} {e.Value}");
+	}
+	private void BluetoothLE_OnDeviceChanged(object sender, BluetoothLE.DeviceEventArgs e)
+	{
+		bluetooth_textview_update ($"\n {e.Action} {e.Ip} {e.Value}");
 	}
 	
 	/* ---------------------

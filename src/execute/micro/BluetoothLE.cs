@@ -27,6 +27,8 @@ using System.Text.RegularExpressions;
 /// </summary>
 public static class BluetoothLE
 {
+    // ---- DatChanged ---->
+
     /// <summary>
     /// DataChangedEventArgs is used to pass data when a characteristic changes.
     /// </summary>
@@ -59,7 +61,7 @@ public static class BluetoothLE
     /// Event that is raised when data changes in a BLE characteristic.
     /// </summary>
     public static event DataChangedHandler OnDataChanged;
-
+    
     /// <summary>
     /// Regex to match the output from the Python script that indicates data has changed.
     /// Format:
@@ -70,6 +72,32 @@ public static class BluetoothLE
     ///     Data Changed: 85bc9e6c-9501-4bf4-819e-4f40b5e56372 = A0 78 D5 90
     /// </summary>
     private static readonly Regex regexData = new Regex(@"^Data Changed: ([\dA-Za-z\-]+) = (.+)$");
+
+    // <---- DataChanged ---->
+
+    // ---- DeviceEvent ---->
+    
+    public class DeviceEventArgs : EventArgs
+    {
+        public string Action { get; set; } //scanned or connected
+        public string Ip { get; set; }
+        public string Value { get; set; }
+
+        public DeviceEventArgs(string action, string ip, string value)
+        {
+            Action = action;
+	    Ip = ip;
+            Value = value;
+        }
+    }
+    public delegate void DeviceHandler(object sender, DeviceEventArgs e);
+    public static event DeviceHandler OnDeviceChanged;
+    private static readonly Regex regexDeviceScanned = new Regex(@"^Device Scanned: (..:..:..:..:..:..:) .*local_name='(.*)', rssi.*$");
+    private static readonly Regex regexDeviceConnected = new Regex(@"^Device Connected: (..:..:..:..:..:..:) (.*)$");
+    
+    // <---- DeviceEvent ----
+
+
 
     /// <summary>
     /// CancellationTokenSource is used to cancel the operation of reading data from BLE devices.
@@ -166,15 +194,32 @@ public static class BluetoothLE
                             {
                                 LogB.Information($"[BluetoothLE] output: {e.Data}");
                             }
-                            var m = regexData.Match(e.Data);
-                            if (m.Success)
+                            
+                            if (e.Data.StartsWith("Device Scanned: "))
+			    {
+				    LogB.Information ("scanned: "  + e.Data.ToString ());
+                            	    var match = regexDeviceScanned.Match(e.Data);
+				    if (match.Success)
+					    OnDeviceChanged?.Invoke(null, new DeviceEventArgs(
+								    "Scanned", match.Groups[1].Value, match.Groups[2].Value));		   
+			    } if (e.Data.StartsWith("Device Connected: "))
+				    {
+				    LogB.Information ("Connected: "  + e.Data.ToString ());
+                            	    var match = regexDeviceConnected.Match(e.Data);
+				    if (match.Success)
+					    OnDeviceChanged?.Invoke(null, new DeviceEventArgs(
+								    "Connected", match.Groups[1].Value, match.Groups[2].Value));		   
+			    }
+
+                            var matchD = regexData.Match(e.Data);
+                            if (matchD.Success)
                             {
                                 OnDataChanged?.Invoke(null, new DataChangedEventArgs(
-                                    m.Groups[1].Value,
-                                    m.Groups[2].Value));
+                                    matchD.Groups[1].Value,
+                                    matchD.Groups[2].Value));
                                 
 				LogB.Information (string.Format ("[BluetoothLE] Characteristic: {0}, Data: {1}",
-						m.Groups[1].Value, m.Groups[2].Value));
+						matchD.Groups[1].Value, matchD.Groups[2].Value));
                             }
                         }
                     };

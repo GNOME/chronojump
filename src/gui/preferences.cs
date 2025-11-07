@@ -317,6 +317,10 @@ public class PreferencesWindow
 	Gtk.Entry entry_silicon_cloud_view_path;
 	Gtk.Label label_silicon_cloud_path_does_not_exists;
 
+	Gtk.Button button_bluetooth_start;
+	Gtk.Button button_bluetooth_end;
+	Gtk.TextView textview_bluetooth;
+
 	Gtk.Button button_debug_mode;
 
 	Gtk.Entry entry_send_log;
@@ -3709,11 +3713,7 @@ public class PreferencesWindow
 		*/
 
 		if (bluetoothReading)
-		{
-			//Stop the BluetoothLE service if it was started
-			BluetoothLE.Stop();
-			bluetoothReading = false;
-		}
+			bluetooth_stop ();
 
 		PWBox.preferences_win.Hide();
 		PWBox = null;
@@ -4003,14 +4003,26 @@ public class PreferencesWindow
 		FakeButtonDeleteDevices.Click ();
 	}
 
+
+	/* ---------------------
+	 * bluetooth start ---->
+	 * -------------------*/
+
 	private bool bluetoothReading = false;
-	private void on_button_test_bluetooth_clicked (object o, EventArgs args)
+	//use the string to not have crash by manipulating the TextBuffer outside the pulse thread
+	static string tbBluetoothText = "";
+	//static bool needToUpdateTextViewBluetooth;
+	TextBuffer tbBluetooth = new TextBuffer (new TextTagTable());
+
+	private void on_button_bluetooth_start_clicked (object o, EventArgs args)
 	{
 		//TODO:
 		/*
 		Bluetooth bl = new Bluetooth ();
 		bl.TestInit ();
 		*/
+
+		textview_bluetooth.Name = "fontSize9";
 
 		//Subscribe to BluetoothLE data changed event
 		BluetoothLE.OnDataChanged -= BluetoothLE_OnDataChanged;
@@ -4019,6 +4031,29 @@ public class PreferencesWindow
 		BluetoothLE.Start();
 		bluetoothReading = true;
 	}
+
+	private void on_button_bluetooth_end_clicked (object o, EventArgs args)
+	{
+		if (bluetoothReading)
+			bluetooth_stop ();
+	}
+
+	private void bluetooth_stop ()
+	{
+		//Stop the BluetoothLE service if it was started
+		BluetoothLE.Stop();
+		bluetoothReading = false;
+	}
+
+	private void bluetooth_textview_update (string str)
+	{
+		tbBluetoothText += str;
+		//needToUpdateTextViewBluetooth = true;
+		textview_bluetooth.Buffer = tbBluetooth;
+		UtilGtk.TextViewScrollToEnd (textview_bluetooth);
+		//needToUpdateTextViewWilight = false;
+	}
+
 	/// <summary>
 	/// Handles the event triggered when the Bluetooth LE data changes.
 	/// </summary>
@@ -4027,8 +4062,14 @@ public class PreferencesWindow
 	/// <param name="e">The event data containing the updated value.</param>
 	private void BluetoothLE_OnDataChanged(object sender, BluetoothLE.DataChangedEventArgs e)
 	{
-		LogB.Information($"[BluetoothLE] {e.Value}");
+		//LogB.Information($"[BluetoothLE] {e.Value}");
+		bluetooth_textview_update ($"[BluetoothLE] {e.Value}");
 	}
+	
+	/* ---------------------
+	 * <---- bluetooth end 
+	 * -------------------*/
+
 
 	private void on_entry_database_name_changed (object o, EventArgs args)
 	{
@@ -4341,6 +4382,10 @@ public class PreferencesWindow
 		entry_silicon_cloud_capture_path = (Gtk.Entry) builder.GetObject ("entry_silicon_cloud_capture_path");
 		entry_silicon_cloud_view_path = (Gtk.Entry) builder.GetObject ("entry_silicon_cloud_view_path");
 		label_silicon_cloud_path_does_not_exists = (Gtk.Label) builder.GetObject ("label_silicon_cloud_path_does_not_exists");
+
+		button_bluetooth_start = (Gtk.Button) builder.GetObject ("button_bluetooth_start");
+		button_bluetooth_end = (Gtk.Button) builder.GetObject ("button_bluetooth_end");
+		textview_bluetooth = (Gtk.TextView) builder.GetObject ("textview_bluetooth");
 
 		button_debug_mode = (Gtk.Button) builder.GetObject ("button_debug_mode");
 

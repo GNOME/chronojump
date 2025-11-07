@@ -7,13 +7,18 @@ scanned_devices_dict = dict()
 connected_devices_dict = dict()
 watching_devices = dict()
 #watching_devices['ESP32'] = ['85bc9e6c-9501-4bf4-819e-4f40b5e56372', '1a2ae85a-8118-4644-9e3b-387122d8cd9e']
-watching_devices['4P'] = ['588dc235-7184-4550-9053-0e6a82f37cee', '378b5d62-1fd3-4266-bbf7-6fec024d59a9']
+watching_devices['4P'] = ['588dc235-7184-4550-9053-0e6a82f37cee',
+                          '378b5d62-1fd3-4266-bbf7-6fec024d59a9',
+                          'bde4d6e2-b970-42ff-b498-aeeca541ee07',
+                          'e7331566-3aec-4a47-b8f1-d6f27850ad87']
 changed_characteristics_dict = dict()
 deserialization_ways = dict()
 #deserialization_ways['85bc9e6c-9501-4bf4-819e-4f40b5e56372'] = 'utf8'
 #deserialization_ways['1a2ae85a-8118-4644-9e3b-387122d8cd9e'] = 'utf8'
 deserialization_ways['588dc235-7184-4550-9053-0e6a82f37cee'] = 'utf8'
 deserialization_ways['378b5d62-1fd3-4266-bbf7-6fec024d59a9'] = 'utf8'
+deserialization_ways['bde4d6e2-b970-42ff-b498-aeeca541ee07'] = 'utf8'
+deserialization_ways['e7331566-3aec-4a47-b8f1-d6f27850ad87'] = 'utf8'
 
 
 async def scan(stop_event: asyncio.Event):

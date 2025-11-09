@@ -205,14 +205,17 @@ public class CairoBarsNHSeries : CairoBars
 		bool first = true;
 		foreach(PointF p in barMain_l)
 		{
-			if(p != null && p.Y > maxY) //on ec at capturing if last is ecc, a con is send as null
+			if (p == null)
+				continue; //needed check
+
+			if (p.Y > maxY) //on ec at capturing if last is ecc, a con is send as null
 				maxY = p.Y;
-			if(p != null && p.Y < minY) //on ec at capturing if last is ecc, a con is send as null
+			if (p.Y < minY) //on ec at capturing if last is ecc, a con is send as null
 				minY = p.Y;
 
-			if (first || (p != null && p.Y > maxYForBoxplotShadow))
+			if (first || p.Y > maxYForBoxplotShadow)
 				maxYForBoxplotShadow = p.Y;
-			if (first || (p != null && p.Y < minYForBoxplotShadow))
+			if (first || p.Y < minYForBoxplotShadow)
 				minYForBoxplotShadow = p.Y;
 
 			first = false;

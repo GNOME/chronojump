@@ -20,7 +20,7 @@ sh autogen.sh --prefix [chronojump path]/chronojump/package/linux/deps
 
 Note on autogen and make. Call these only the first time, any makefile file changed, git tag changed or "package/linux/deps" deleted:
 autogen
-make
+make (if you get "Error 127" try doing make again)
 make install
 (Note make install better without sudo if possible. If there is any folder that needs root permissions, better change the permissions of that folder)
 

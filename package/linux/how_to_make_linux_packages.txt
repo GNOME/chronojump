@@ -25,7 +25,7 @@ cd "/***/chronojump"
 sh autogen.sh --prefix /***/chronojump/package/linux/deps
 (if dotnet has been run but linux datetime is in the future, when put datetime back ok, need to do again previous command in order to version be really compiled)
 
-make (sometimes 1st time fails: /bin/bash: línia 4: -nowarn:0278: no s'ha trobat l'ordre... ; repeat make and it works)
+make (sometimes 1st time fails: /bin/bash: línia 4: -nowarn:0278: no s'ha trobat l'ordre... Error 127; repeat make and it works)
 make install
 
 3. When no git tags, please modify "src/AssemblyInfo.cs" to add version number like 1.0.0.0

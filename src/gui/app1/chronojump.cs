@@ -7705,7 +7705,7 @@ public partial class ChronoJumpWindow
 							mainVariableStr, mainVariableHigher, mainVariableLower,
 							secondaryVariableStr, preferences.encoderCaptureShowLoss,
 							false, //not capturing
-							findEcconFromSQL (true),
+							findEcconFromCurrentSet (true),
 							findDisplacedMassFromSQL (),
 							feedbackEncoder,
 							currentEncoderSQLSet.encoderConfiguration.has_inertia,

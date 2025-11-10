@@ -562,7 +562,7 @@ public partial class ChronoJumpWindow
 		{
 			TreePath path = encoderCaptureListStore.GetPath(iter);
 			EncoderCurve curve = (EncoderCurve) encoderCaptureListStore.GetValue (iter, 0);
-			string eccon = findEcconFromSQL (true);
+			string eccon = findEcconFromCurrentSet (true);
 
 			if(eccon == "c") {
 				if(Convert.ToDouble(curve.Start) <= msCentral && 

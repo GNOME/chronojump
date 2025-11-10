@@ -1088,7 +1088,7 @@ public partial class ChronoJumpWindow
 				if (action == encoderActions.LOAD || action == encoderActions.RECALCULATE)
 				{
 					exerciseID = currentEncoderSQLSet.exerciseID;
-					eccon = findEcconFromSQL (true);
+					eccon = findEcconFromCurrentSet (true);
 					displacedMass = findDisplacedMassFromSQL ();
 					encoderConfiguration = currentEncoderSQLSet.encoderConfiguration;
 					laterality = currentEncoderSQLSet.Laterality;

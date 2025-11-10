@@ -1565,7 +1565,7 @@ public partial class ChronoJumpWindow
 		int percentWeight = getExercisePercentBodyWeightFromID (currentEncoderSQLSet.exerciseID);
 		double bodyWeight = findMassFromGui (Constants.MassType.BODY); //from gui is ok for all encoderActions, as it just take person weight
 		double extraWeight = currentEncoderSQLSet.extraWeightD;
-		string eccon = findEcconFromSQL (true);
+		string eccon = findEcconFromCurrentSet (true);
 
 		EncoderParams ep = new EncoderParams (
 				currentEncoderSQLSet.minHeight,
@@ -1628,7 +1628,7 @@ public partial class ChronoJumpWindow
 			//store this to show 1,2,3,4,… or 1e,1c,2e,2c,… in RenderN
 			//if is not stored, it can change when changed eccon radiobutton on cursor is in treeview
 		{
-			ecconLast = findEcconFromSQL (false);
+			ecconLast = findEcconFromCurrentSet (false);
 		}
 		else {
 			encoderProcessProblems = true;
@@ -2230,7 +2230,7 @@ public partial class ChronoJumpWindow
 				getExercisePercentBodyWeightFromID (currentEncoderSQLSet.exerciseID),
 				Util.ConvertToPoint (findMassFromGui (Constants.MassType.BODY)), //from gui is ok, as it just take person weight
 				Util.ConvertToPoint (currentEncoderSQLSet.extraWeightD),
-				findEcconFromSQL (false),
+				findEcconFromCurrentSet (false),
 				"exportCSV",
 				"none",						//analysisVariables (not needed in create curves). Cannot be blank
 				analysisOptions,
@@ -4803,7 +4803,7 @@ public partial class ChronoJumpWindow
 		*/
 	}
 
-	private string findEcconFromSQL (bool forceEcconSeparated)
+	private string findEcconFromCurrentSet (bool forceEcconSeparated)
 	{
 		if (forceEcconSeparated && currentEncoderSQLSet.eccon == "ec")
 			return "ecS";
@@ -6213,7 +6213,7 @@ public partial class ChronoJumpWindow
 					mainVariable, mainVariableHigher, mainVariableLower,
 					secondaryVariable, preferences.encoderCaptureShowLoss,
 					false, //not capturing
-					findEcconFromSQL (true),
+					findEcconFromCurrentSet (true),
 					findDisplacedMassFromSQL (),
 					feedbackEncoder,
 					currentEncoderSQLSet.encoderConfiguration.has_inertia,
@@ -6352,7 +6352,7 @@ public partial class ChronoJumpWindow
 		if (capturingCsharp == encoderCaptureProcess.CAPTURING)
 			eccon = findEcconFromGui (true);
 		else if (currentEncoderSQLSet != null)
-			eccon = findEcconFromSQL (true);
+			eccon = findEcconFromCurrentSet (true);
 
 		int discardNReps = 0;
 		if (current_mode == Constants.Modes.POWERINERTIAL)

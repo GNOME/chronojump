@@ -1021,6 +1021,9 @@ public class PreferencesWindow
 		PWBox.image_advanced_bluetooth.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "bluetooth.png");
 
 		PWBox.entry_bluetooth_url.Text = BluetoothLE.GetScriptURL ();
+		PWBox.entry_bluetooth_url.Sensitive = true;
+		PWBox.button_bluetooth_start.Sensitive = true;
+		PWBox.button_bluetooth_end.Sensitive = false;
 
 		PWBox.signalsNoFollow = true;
 		if (PWBox.configAtPrefs.CopyToCloudFullPath !=  "")
@@ -4028,6 +4031,17 @@ public class PreferencesWindow
 		bl.TestInit ();
 		*/
 
+		if(! File.Exists (entry_bluetooth_url.Text))
+		{
+			tbBluetooth.Text = Catalog.GetString ("Error. File not found.");
+			textview_bluetooth.Buffer = tbBluetooth;
+			bluetoothSensitiveDoing (false);
+
+			return;
+		}
+
+		bluetoothSensitiveDoing (true);
+
 		bluetoothReading = true;
 		textview_bluetooth.Name = "fontSize9";
 		tbBluetoothText = "";
@@ -4038,6 +4052,13 @@ public class PreferencesWindow
 
 		LogB.ThreadStart();
 		threadBluetooth.Start();
+	}
+
+	private void bluetoothSensitiveDoing (bool doing)
+	{
+		entry_bluetooth_url.Sensitive = ! doing;
+		button_bluetooth_start.Sensitive = ! doing;
+		button_bluetooth_end.Sensitive = doing;
 	}
 
 	private void bluetoothDo ()
@@ -4074,7 +4095,10 @@ public class PreferencesWindow
 	private void on_button_bluetooth_end_clicked (object o, EventArgs args)
 	{
 		if (bluetoothReading)
+		{
 			bluetooth_stop ();
+			bluetoothSensitiveDoing (false);
+		}
 	}
 
 	private void bluetooth_stop ()

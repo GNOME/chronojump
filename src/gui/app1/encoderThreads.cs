@@ -201,7 +201,7 @@ public partial class ChronoJumpWindow
 					preferences.encoderCaptureTime,
 					preferences.encoderCaptureInactivityEndTime,
 					preferences.encoderCaptureInfinite,
-					findEcconFromGui (true), //so ecc-con will always be ecS
+					findEcconFromCaptureGui (true), //so ecc-con will always be ecS
 					portName,
 					(current_mode == Constants.Modes.POWERINERTIAL && eCaptureInertialBG != null),
 					encoderConfigurationNewCapture.IsInverted (),
@@ -294,7 +294,7 @@ public partial class ChronoJumpWindow
 				preferences.encoderCaptureTimeIM, //two minutes max capture
 				EncoderCaptureIMCalc.InactivityEndTime, //3 seconds
 				false,
-				findEcconFromGui (true),
+				findEcconFromCaptureGui (true),
 				chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port,
 				false,
 				false,
@@ -575,7 +575,7 @@ public partial class ChronoJumpWindow
 				if(encoderRhythmExecute != null && ! encoderRhythmExecute.FirstPhaseDone)
 				{
 					bool upOrDown = true;
-					string myEccon = findEcconFromGui (false);
+					string myEccon = findEcconFromCaptureGui (false);
 					if (myEccon == "c")
 						upOrDown = true;
 					else if (myEccon == "ec" || myEccon == "ecS")
@@ -609,7 +609,7 @@ public partial class ChronoJumpWindow
 						mainVariable, mainVariableHigher, mainVariableLower,
 						secondaryVariable, preferences.encoderCaptureShowLoss,
 						true, //capturing
-						findEcconFromGui (true),
+						findEcconFromCaptureGui (true),
 						findMassFromGui (Constants.MassType.DISPLACED),
 						feedbackEncoder,
 						current_mode == Constants.Modes.POWERINERTIAL,
@@ -1097,7 +1097,7 @@ public partial class ChronoJumpWindow
 				else if (action == encoderActions.CURVES_AC)
 				{
 					exerciseID = getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE);
-					eccon = findEcconFromGui (true);	//force ecS (ecc-conc separated)
+					eccon = findEcconFromCaptureGui (true);	//force ecS (ecc-conc separated)
 					displacedMass = findMassFromGui (Constants.MassType.DISPLACED);
 					encoderConfiguration = encoderConfigurationNewCapture;
 					laterality = getLateralityFromGui (true);

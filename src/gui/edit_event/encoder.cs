@@ -363,7 +363,7 @@ public class EditEncoderWindow : EditEventWindow
 		eSQL.exerciseID = exIdNew;
 
 		// set phase
-		// note all the encoder sets are c or ecS. findEcconFromGui on capture is true (forceEcconSeparated)
+		// note all the encoder sets are c or ecS. findEcconFromCaptureGui on capture is true (forceEcconSeparated)
 		if (radio_encoder_eccon_concentric.Active)
 			eSQL.eccon = "c";
 		else

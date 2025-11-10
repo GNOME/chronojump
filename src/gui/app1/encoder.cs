@@ -1520,7 +1520,7 @@ public partial class ChronoJumpWindow
 				currentPerson.UniqueID,
 				currentSession.UniqueID,
 				getExerciseIDFromEncoderCombo (exerciseCombos.CAPTURE),
-				findEcconFromGui (true), 	//force ecS (ecc-conc separated)
+				findEcconFromCaptureGui (true), 	//force ecS (ecc-conc separated)
 				laterality,
 				Util.ConvertToPoint (findMassFromGui (Constants.MassType.EXTRA)), //when save on sql, do not include person weight
 				"",	//signalOrCurve,
@@ -4057,7 +4057,7 @@ public partial class ChronoJumpWindow
 					getExercisePercentBodyWeightFromID (currentEncoderSQLSet.exerciseID),
 					Util.ConvertToPoint (findMassFromGui (Constants.MassType.BODY)), //no problem, set is of current person
 					Util.ConvertToPoint (currentEncoderSQLSet.extraWeightD),
-					findEcconFromGui (false),	//do not force ecS (ecc-conc separated)
+					findEcconFromAnalyzeGui (false),	//do not force ecS (ecc-conc separated)
 					sendAnalysis,
 					analysisVariables, 
 					analysisOptions,
@@ -4113,7 +4113,7 @@ public partial class ChronoJumpWindow
 			encoderSendedAnalysis = sendAnalysis;
 
 		//triggers only on concentric
-		if (triggerListEncoder == null || findEcconFromGui (false) != "c")
+		if (triggerListEncoder == null || findEcconFromAnalyzeGui (false) != "c")
 			triggerListEncoder = new TriggerList();
 
 		encoderRProcAnalyze.SendData(
@@ -4143,7 +4143,7 @@ public partial class ChronoJumpWindow
 			check_encoder_analyze_eccon_together.Active = false;
 		}
 		else if( 
-				( radio_encoder_analyze_individual_current_set.Active && findEcconFromGui (false) == "c" ) || // 2
+				( radio_encoder_analyze_individual_current_set.Active && findEcconFromAnalyzeGui (false) == "c" ) || // 2
 				( radiobutton_encoder_analyze_instantaneous.Active &&
 				(radiobutton_encoder_analyze_single.Active ||
 					radiobutton_encoder_analyze_side.Active ||
@@ -4766,8 +4766,10 @@ public partial class ChronoJumpWindow
 	}
 	*/
 
-	// from Gui
-	private string findEcconFromGui (bool forceEcconSeparated)
+	// ---- findEccon ---->
+
+	// only used on capture
+	private string findEcconFromCaptureGui (bool forceEcconSeparated)
 	{
 		/*
 		LogB.Information ("called findEcconFromGui from method: ");
@@ -4775,41 +4777,44 @@ public partial class ChronoJumpWindow
 		LogB.Information ((stackTrace.GetFrame(1).GetMethod().Name));
 		*/
 
-		if(radio_encoder_eccon_concentric.Active)
-		{
-			LogB.Information ("eccon: c");
+		if (radio_encoder_eccon_concentric.Active)
 			return "c";
-		}
-		else
-		{
-			if(forceEcconSeparated || ! check_encoder_analyze_eccon_together.Active) {
-				LogB.Information ("eccon: ecS");
+		else {
+			if (forceEcconSeparated)
 				return "ecS";
-			} else {
-				LogB.Information ("eccon: ec");
+			else
 				return "ec";
-			}
 		}
-		/*
-		 * unavailable until find while concentric data on concentric is the same than in ecc-con,
-		 * but is very different than in con-ecc
-		else //Constants.ConcentricEccentric
-		{
-			if(forceEcconSeparated || ! check_encoder_analyze_eccon_together.Active)
-				return "ceS";
-			else 
-				return "ce";
-		}
-		*/
+	}
+	private string findEcconFromAnalyzeGui (bool forceEcconSeparated)
+	{
+		// 1st check eccon of current set:
+		string eccon = findEcconFromCurrentSet (forceEcconSeparated);
+
+		if (eccon == "c")
+			return eccon;
+
+		// if !c then decide with: forceEcconSeparated & check_encoder_analyze_eccon_together
+		if (forceEcconSeparated || ! check_encoder_analyze_eccon_together.Active)
+			return "ecS";
+		else
+			return "ec";
 	}
 
 	private string findEcconFromCurrentSet (bool forceEcconSeparated)
 	{
+		// just to be safe
+		if (currentEncoderSQLSet == null)
+			return "c";
+
 		if (forceEcconSeparated && currentEncoderSQLSet.eccon == "ec")
 			return "ecS";
 
 		return currentEncoderSQLSet.eccon;
 	}
+
+	// <---- findEccon ----
+
 
 	private int getEncoderMinHeightOnGuiCapture ()
 	{
@@ -5392,7 +5397,7 @@ public partial class ChronoJumpWindow
 				foreach (EncoderCurve ec in array)
 				{
 					string phase = "";
-					if(radio_encoder_analyze_individual_current_set.Active && findEcconFromGui (false) == "ecS" && ec.IsNumberN())
+					if(radio_encoder_analyze_individual_current_set.Active && findEcconFromAnalyzeGui (false) == "ecS" && ec.IsNumberN())
 					{
 						phase = "e";
 						if(Util.IsEven(Convert.ToInt32(ec.N)))
@@ -6350,7 +6355,7 @@ public partial class ChronoJumpWindow
 
 		string eccon = "c";
 		if (capturingCsharp == encoderCaptureProcess.CAPTURING)
-			eccon = findEcconFromGui (true);
+			eccon = findEcconFromCaptureGui (true);
 		else if (currentEncoderSQLSet != null)
 			eccon = findEcconFromCurrentSet (true);
 
@@ -6481,7 +6486,7 @@ public partial class ChronoJumpWindow
 				getExercisePercentBodyWeightFromComboCapture (),
 				Util.ConvertToPoint (findMassFromGui (Constants.MassType.BODY)),
 				Util.ConvertToPoint (findMassFromGui (Constants.MassType.EXTRA)),
-				findEcconFromGui (true),			//force ecS (ecc-conc separated)
+				findEcconFromCaptureGui (true),			//force ecS (ecc-conc separated)
 				"-",		//analysis
 				"none",		//analysisVariables (not needed in create curves). Cannot be blank
 				getEncoderAnalysisOptions(),	//used on capture for pass the 'p' of propulsive

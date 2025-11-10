@@ -83,7 +83,7 @@ public partial class ChronoJumpWindow
 	{
 		//do this in order to have ecconLast useful for RenderN when capturing
 		if(capturingCsharp == encoderCaptureProcess.CAPTURING)
-			ecconLast = findEcconFromGui (false);
+			ecconLast = findEcconFromCaptureGui (false);
 
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 	
@@ -140,7 +140,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 		
-		if(radio_encoder_analyze_individual_current_set.Active && findEcconFromGui (false) == "ecS")
+		if(radio_encoder_analyze_individual_current_set.Active && findEcconFromCurrentSet (false) == "ecS")
 		{
 			string phase = "e";
 			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));
@@ -150,7 +150,7 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Text = 
 				decimal.Truncate((Convert.ToInt32(curve.N) +1) /2).ToString() + phase;
 		}
-		else if(radio_encoder_analyze_individual_current_set.Active && findEcconFromGui (false) == "ceS")
+		else if(radio_encoder_analyze_individual_current_set.Active && findEcconFromCurrentSet (false) == "ceS")
 		{
 			string phase = "c";
 			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));

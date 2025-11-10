@@ -317,6 +317,7 @@ public class PreferencesWindow
 	Gtk.Entry entry_silicon_cloud_view_path;
 	Gtk.Label label_silicon_cloud_path_does_not_exists;
 
+	Gtk.Image image_advanced_bluetooth;
 	Gtk.Button button_bluetooth_start;
 	Gtk.Button button_bluetooth_end;
 	Gtk.TextView textview_bluetooth;
@@ -1016,6 +1017,7 @@ public class PreferencesWindow
 		PWBox.image_button_send_log.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "send_blue.png");
 		PWBox.image_advanced_r.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "language-r.png");
 		PWBox.image_advanced_python.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "language-python.png");
+		PWBox.image_advanced_bluetooth.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "bluetooth.png");
 
 		PWBox.signalsNoFollow = true;
 		if (PWBox.configAtPrefs.CopyToCloudFullPath !=  "")
@@ -4416,6 +4418,7 @@ public class PreferencesWindow
 		entry_silicon_cloud_view_path = (Gtk.Entry) builder.GetObject ("entry_silicon_cloud_view_path");
 		label_silicon_cloud_path_does_not_exists = (Gtk.Label) builder.GetObject ("label_silicon_cloud_path_does_not_exists");
 
+		image_advanced_bluetooth = (Gtk.Image) builder.GetObject ("image_advanced_bluetooth");
 		button_bluetooth_start = (Gtk.Button) builder.GetObject ("button_bluetooth_start");
 		button_bluetooth_end = (Gtk.Button) builder.GetObject ("button_bluetooth_end");
 		textview_bluetooth = (Gtk.TextView) builder.GetObject ("textview_bluetooth");

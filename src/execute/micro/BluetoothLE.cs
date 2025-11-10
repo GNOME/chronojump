@@ -107,12 +107,13 @@ public static class BluetoothLE
     /// <summary>
     /// pythonScriptPath is the path to the Python script that will be executed.
     /// </summary>
-    private static readonly string pythonScriptPath;
+    //private static readonly string pythonScriptPath;
 
     /// <summary>
     /// processStartInfo is used to configure the process that runs the Python script.
     /// </summary>
-    private static readonly ProcessStartInfo processStartInfo;
+    //private static readonly ProcessStartInfo processStartInfo;
+    private static ProcessStartInfo processStartInfo;
 
     /// <summary>
     /// pythonProcess is the process that runs the Python script.
@@ -124,33 +125,36 @@ public static class BluetoothLE
     /// </summary>
     static BluetoothLE()
     {
-        if (Util.operatingSystem == UtilAll.OperatingSystems.WINDOWS)
-        {
-            //pythonScriptPath = "ble-runner-win.bat";
-            pythonScriptPath = @"C:\Users\xavi\chronojump\src\bin\Debug\net7.0\ble-runner-win.bat"; // hardcoded!
-        }
-        else if (Util.operatingSystem == UtilAll.OperatingSystems.MACOSX)
-        {
-            pythonScriptPath = "ble-runner-mac.sh";
-        }
-        else
-        {
-            pythonScriptPath = "ble-runner-linux.sh";
-        }
+    }
 
-        processStartInfo = new ProcessStartInfo
-        {
-            FileName = pythonScriptPath,
-            Arguments = "",
-            RedirectStandardInput = true,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            UseShellExecute = false,
-            CreateNoWindow = true,
-            StandardInputEncoding = System.Text.Encoding.UTF8,
-            StandardOutputEncoding = System.Text.Encoding.UTF8,
-            StandardErrorEncoding = System.Text.Encoding.UTF8
-        };
+    public static string GetScriptURL ()
+    {
+	    if (Util.operatingSystem == UtilAll.OperatingSystems.WINDOWS)
+	    {
+		    return "ble-runner-win.bat";
+		    //return = @"C:\Users\xavi\chronojump\src\bin\Debug\net7.0\ble-runner-win.bat"; // hardcoded!
+	    }
+	    else if (Util.operatingSystem == UtilAll.OperatingSystems.MACOSX)
+		    return "ble-runner-mac.sh";
+	    else
+		    return "ble-runner-linux.sh";
+    }
+
+    public static void SetProcess (string scriptURL)
+    {
+	    processStartInfo = new ProcessStartInfo
+	    {
+		    FileName = scriptURL,
+			     Arguments = "",
+			     RedirectStandardInput = true,
+			     RedirectStandardOutput = true,
+			     RedirectStandardError = true,
+			     UseShellExecute = false,
+			     CreateNoWindow = true,
+			     StandardInputEncoding = System.Text.Encoding.UTF8,
+			     StandardOutputEncoding = System.Text.Encoding.UTF8,
+			     StandardErrorEncoding = System.Text.Encoding.UTF8
+	    };
     }
 
     /// <summary>

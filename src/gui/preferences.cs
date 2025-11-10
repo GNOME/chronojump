@@ -318,6 +318,7 @@ public class PreferencesWindow
 	Gtk.Label label_silicon_cloud_path_does_not_exists;
 
 	Gtk.Image image_advanced_bluetooth;
+	Gtk.Entry entry_bluetooth_url;
 	Gtk.Button button_bluetooth_start;
 	Gtk.Button button_bluetooth_end;
 	Gtk.TextView textview_bluetooth;
@@ -1018,6 +1019,8 @@ public class PreferencesWindow
 		PWBox.image_advanced_r.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "language-r.png");
 		PWBox.image_advanced_python.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "language-python.png");
 		PWBox.image_advanced_bluetooth.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "bluetooth.png");
+
+		PWBox.entry_bluetooth_url.Text = BluetoothLE.GetScriptURL ();
 
 		PWBox.signalsNoFollow = true;
 		if (PWBox.configAtPrefs.CopyToCloudFullPath !=  "")
@@ -4046,7 +4049,8 @@ public class PreferencesWindow
 		BluetoothLE.OnDeviceChanged += BluetoothLE_OnDeviceChanged;
 
 		//Start BluetoothLE service
-		BluetoothLE.Start();
+		BluetoothLE.SetProcess (entry_bluetooth_url.Text);
+		BluetoothLE.Start ();
 	}
 
 	// by GTK thread
@@ -4419,6 +4423,7 @@ public class PreferencesWindow
 		label_silicon_cloud_path_does_not_exists = (Gtk.Label) builder.GetObject ("label_silicon_cloud_path_does_not_exists");
 
 		image_advanced_bluetooth = (Gtk.Image) builder.GetObject ("image_advanced_bluetooth");
+		entry_bluetooth_url = (Gtk.Entry) builder.GetObject ("entry_bluetooth_url");
 		button_bluetooth_start = (Gtk.Button) builder.GetObject ("button_bluetooth_start");
 		button_bluetooth_end = (Gtk.Button) builder.GetObject ("button_bluetooth_end");
 		textview_bluetooth = (Gtk.TextView) builder.GetObject ("textview_bluetooth");

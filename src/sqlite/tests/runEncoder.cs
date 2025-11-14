@@ -293,7 +293,12 @@ class SqliteRunEncoder : SqliteTests
 
 	public static RunEncoder SelectData (int uniqueID, bool getExerciseName, bool dbconOpened)
 	{
-		RunEncoder re = new RunEncoder (selectTestData (uniqueID, dbconOpened, tableStatic, 16));
+		//to manage problems at deleting and updating treeview/bars
+		string [] testData = selectTestData (uniqueID, dbconOpened, tableStatic, 16);
+		if (testData == null)
+			return new RunEncoder ();
+
+		RunEncoder re = new RunEncoder (testData);
 
 		if (getExerciseName)
 		{

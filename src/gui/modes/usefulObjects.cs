@@ -698,6 +698,12 @@ public class PrepareEventGraphRunEncoder : PrepareEventGraphTest
 	}
 	protected override void selectEventFromSQL ()
 	{
+		RunEncoder sel = SqliteRunEncoder.SelectData (selectedID, false, true);
+		if (sel.UniqueID < 0)
+			selectedEvent = null; //to manage problems at deleting and updating treeview/bars
+		else
+			selectedEvent = sel;
+
 		selectedEvent = SqliteRunEncoder.SelectData (selectedID, false, true);
 	}
 
@@ -883,11 +889,11 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 	}
 	protected override void selectEventFromSQL ()
 	{
-		ForceSensor fs = SqliteForceSensor.SelectData (selectedID, false, true);
-		if (fs.UniqueID < 0)
+		ForceSensor sel = SqliteForceSensor.SelectData (selectedID, false, true);
+		if (sel.UniqueID < 0)
 			selectedEvent = null; //to manage problems at deleting and updating treeview/bars
 		else
-			selectedEvent = fs;
+			selectedEvent = sel;
 	}
 
 	protected override List<double> boxplotSelectPerson (string param)

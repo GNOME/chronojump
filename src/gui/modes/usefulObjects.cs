@@ -883,7 +883,11 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 	}
 	protected override void selectEventFromSQL ()
 	{
-		selectedEvent = SqliteForceSensor.SelectData (selectedID, false, true);
+		ForceSensor fs = SqliteForceSensor.SelectData (selectedID, false, true);
+		if (fs.UniqueID < 0)
+			selectedEvent = null; //to manage problems at deleting and updating treeview/bars
+		else
+			selectedEvent = fs;
 	}
 
 	protected override List<double> boxplotSelectPerson (string param)

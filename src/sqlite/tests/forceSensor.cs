@@ -309,7 +309,12 @@ class SqliteForceSensor : SqliteTests
 
     public static ForceSensor SelectData (int uniqueID, bool getExerciseName, bool dbconOpened)
     {
-	    ForceSensor fs = new ForceSensor (selectTestData (uniqueID, dbconOpened, tableStatic, 16));
+	    //to manage problems at deleting and updating treeview/bars
+	    string [] testData = selectTestData (uniqueID, dbconOpened, tableStatic, 16);
+	    if (testData == null)
+		    return new ForceSensor ();
+
+	    ForceSensor fs = new ForceSensor (testData);
 
 	    if (getExerciseName)
 	    {

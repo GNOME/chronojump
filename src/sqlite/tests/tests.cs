@@ -205,9 +205,16 @@ class SqliteTests : Sqlite
 
 		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
-		reader.Read();
 
-		string [] testData = DataReaderToStringArray (reader, columns);
+		string [] testData = null;
+		if (reader.Read())
+		{
+			try {
+				testData = DataReaderToStringArray (reader, columns);
+			} catch {
+				LogB.Information ("catched at selectTestData ()");
+			}
+		}
 
 		reader.Close();
 		if(!dbconOpened)
@@ -277,7 +284,8 @@ class SqliteTests : Sqlite
 		return name;
 	}
 
-	protected static string [] DataReaderToStringArray (SQLiteDataReader reader, int columns) {
+	protected static string [] DataReaderToStringArray (SQLiteDataReader reader, int columns)
+	{
 		string [] myReaderStr = new String[columns];
 		for (int i=0; i < columns; i ++)
 			myReaderStr[i] = reader[i].ToString();

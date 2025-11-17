@@ -62,22 +62,21 @@ public class TreeViewEncoder : TreeViewEvent
 						// "UNIQUEID" //just for debug
 			};
 		} else {
-			idColumn = 13; //column where the uniqueID of event will be (and will be hidden)
-			descriptionColumn = 12;
+			idColumn = 9; //column where the uniqueID of event will be (and will be hidden)
+			descriptionColumn = 8;
 
 			columnsString = new string[] {
-				personName,
-					lateralityName,
+				"Exercise" + "\nRepetitions:",
+					lateralityName + "\n" + Constants.RangeAbsolute,
+					Catalog.GetString ("Contraction") + "\n" + Catalog.GetString ("Mean speed"),
 					//Catalog.GetString ("Encoder configuration"),
-					Catalog.GetString ("Contraction"),
-					Constants.RangeAbsolute,
-					Catalog.GetString ("Mean speed"), Catalog.GetString ("Max speed"),
-					Catalog.GetString ("Mean power"), Catalog.GetString ("Peak power"),
-					Catalog.GetString ("Mean force"), Catalog.GetString ("Max force"),
-					datetimeName,
-					videoName,
-					descriptionName
-						// "UNIQUEID" //just for debug
+					"Diameter" + "\n" + Catalog.GetString ("Max speed"),
+					"Weights" + "\n" + Catalog.GetString ("Mean power"),
+					"Equivalent mass" + "\n" + Catalog.GetString ("Peak power"),
+					datetimeName + "\n" + Catalog.GetString ("Mean force"),
+					videoName + "\n" + Catalog.GetString ("Max force"),
+					descriptionName + "\n"
+					// "UNIQUEID" //just for debug
 			};
 		}
 
@@ -268,13 +267,21 @@ public class TreeViewEncoder : TreeViewEvent
 		if (gravitatory)
 			myData[count++] = Util.TrimDecimals (eSQL.extraWeight, 2);
 		myData[count++] = eSQL.ecconLong;
-		myData[count++] = ""; //rangeAbsolute
-		myData[count++] = ""; //meanSpeed
-		myData[count++] = ""; //maxSpeed
-		myData[count++] = ""; //meanPower
-		myData[count++] = ""; //peakPower
-		myData[count++] = ""; //meanForce
-		myData[count++] = ""; //maxForce
+		if (gravitatory)
+		{
+			myData[count++] = ""; //rangeAbsolute
+			myData[count++] = ""; //meanSpeed
+			myData[count++] = ""; //maxSpeed
+			myData[count++] = ""; //meanPower
+			myData[count++] = ""; //peakPower
+			myData[count++] = ""; //meanForce
+			myData[count++] = ""; //maxForce
+		} else {
+			myData[count++] = Util.TrimDecimals (eSQL.encoderConfiguration.d, 2);
+			myData[count++] = eSQL.encoderConfiguration.extraWeightN.ToString ();
+			myData[count++] = Util.TrimDecimals (UtilEncoder.CalculateEquivalentMass (eSQL.encoderConfiguration), 2);
+		}
+
 		myData[count++] = eSQL.GetDatetimeStr (true);
 
 		if (UtilList.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.ENCODER, eSQL.UniqueID)))
@@ -296,21 +303,33 @@ public class TreeViewEncoder : TreeViewEvent
 		int count = 0;
 
 		myData[count++] = ""; // i.ToString ()  better not show a number now as it gets confused with the number of repetition on current set table.
-		myData[count++] = ""; //Catalog.GetString (eSQL.laterality);
 		if (gravitatory)
-			myData[count++] = ""; //eSQL.extraWeight;
-		myData[count++] = ""; //eSQL.ecconLong;
-		myData[count++] = Util.TrimDecimals (UtilAll.DivideSafe (eSQL.rangeAbs, 10), 2); // mm -> cm
-		myData[count++] = Util.TrimDecimals (eSQL.meanSpeed, 2);
-		myData[count++] = Util.TrimDecimals (eSQL.maxSpeed, 2);
-		myData[count++] = Util.TrimDecimals (eSQL.meanPower, 2);
-		myData[count++] = Util.TrimDecimals (eSQL.maxPower, 2);
-		myData[count++] = Util.TrimDecimals (eSQL.meanForce, 2);
-		myData[count++] = Util.TrimDecimals (eSQL.maxForce, 2);
-		myData[count++] = ""; //datetime
-		myData[count++] = ""; //eSQL.videoURL;
-		myData[count++] = ""; //eSQL.Description;
-		myData[count++] = MarkNonSelectRowSubEvent.ToString ();
+		{
+			myData[count++] = ""; //Catalog.GetString (eSQL.laterality);
+			myData[count++] = ""; //eSQL.extraWeight (only on gravitatory)
+			myData[count++] = ""; //eSQL.ecconLong;
+			myData[count++] = Util.TrimDecimals (UtilAll.DivideSafe (eSQL.rangeAbs, 10), 2); // mm -> cm
+			myData[count++] = Util.TrimDecimals (eSQL.meanSpeed, 2);
+			myData[count++] = Util.TrimDecimals (eSQL.maxSpeed, 2);
+			myData[count++] = Util.TrimDecimals (eSQL.meanPower, 2);
+			myData[count++] = Util.TrimDecimals (eSQL.maxPower, 2);
+			myData[count++] = Util.TrimDecimals (eSQL.meanForce, 2);
+			myData[count++] = Util.TrimDecimals (eSQL.maxForce, 2);
+			myData[count++] = ""; //datetime
+			myData[count++] = ""; //eSQL.videoURL;
+			myData[count++] = ""; //eSQL.Description;
+			myData[count++] = MarkNonSelectRowSubEvent.ToString ();
+		} else {
+			myData[count++] = Util.TrimDecimals (UtilAll.DivideSafe (eSQL.rangeAbs, 10), 2); // mm -> cm
+			myData[count++] = Util.TrimDecimals (eSQL.meanSpeed, 2);
+			myData[count++] = Util.TrimDecimals (eSQL.maxSpeed, 2);
+			myData[count++] = Util.TrimDecimals (eSQL.meanPower, 2);
+			myData[count++] = Util.TrimDecimals (eSQL.maxPower, 2);
+			myData[count++] = Util.TrimDecimals (eSQL.meanForce, 2);
+			myData[count++] = Util.TrimDecimals (eSQL.maxForce, 2);
+			myData[count++] = ""; //eSQL.Description;
+			myData[count++] = MarkNonSelectRowSubEvent.ToString ();
+		}
 
 		return myData;
 	}

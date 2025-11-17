@@ -3340,7 +3340,7 @@ public partial class ChronoJumpWindow
 		frame_jumps_automatic.Visible = false;
 		box_wilight.Visible = false;
 		box_wilight_commands.Visible = false;
-		box_fourPlatforms.Visible = false;
+		grid_fourPlatforms.Visible = false;
 		box_event_execute_label_message.Visible = true;
 		hbox_encoder_show_signal_table.Visible = Constants.ModeIsENCODER (m);
 		box_contacts_graph_exercise.Visible = true;
@@ -3833,7 +3833,7 @@ public partial class ChronoJumpWindow
 
 			radio_change_modes_contacts_fourPlatforms.Visible = true;
 
-			box_fourPlatforms.Visible = true;
+			grid_fourPlatforms.Visible = true;
 			box_contacts_graph_exercise.Visible = false; //selection of exercise
 
 			box_capture_current.Visible = true;

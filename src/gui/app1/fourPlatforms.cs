@@ -29,7 +29,7 @@ public partial class ChronoJumpWindow
 {
 	// at glade ---->
 	Gtk.Box box_start_fourPlatforms;
-	Gtk.Box box_fourPlatforms;
+	Gtk.Grid grid_fourPlatforms;
 	Gtk.Entry entry_fourPlatforms_port;
 	Gtk.Button button_four_platforms_capture_default;
 	Gtk.SpinButton spin_four_platforms_capture_n;
@@ -490,7 +490,7 @@ public partial class ChronoJumpWindow
 	private void connectWidgetsFourPlatforms (Gtk.Builder builder)
 	{
 		box_start_fourPlatforms = (Gtk.Box) builder.GetObject ("box_start_fourPlatforms");
-		box_fourPlatforms = (Gtk.Box) builder.GetObject ("box_fourPlatforms");
+		grid_fourPlatforms = (Gtk.Grid) builder.GetObject ("grid_fourPlatforms");
 		entry_fourPlatforms_port = (Gtk.Entry) builder.GetObject ("entry_fourPlatforms_port");
 		button_four_platforms_capture_default = (Gtk.Button) builder.GetObject ("button_four_platforms_capture_default");
 		spin_four_platforms_capture_n = (Gtk.SpinButton) builder.GetObject ("spin_four_platforms_capture_n");

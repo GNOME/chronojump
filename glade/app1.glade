@@ -10483,7 +10483,7 @@ on Cloud-view mode</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <!-- n-columns=2 n-rows=2 -->
+                                                            <!-- n-columns=3 n-rows=2 -->
                                                             <object class="GtkGrid" id="grid_fourPlatforms">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -10564,6 +10564,7 @@ on Cloud-view mode</property>
                                                             <object class="GtkBox" id="box_fourPlatforms_capture_buttons">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">start</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_four_platforms_capture_default">
@@ -10667,7 +10668,7 @@ on Cloud-view mode</property>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="halign">center</property>
+                                                            <property name="halign">start</property>
                                                             <property name="spacing">30</property>
                                                             <child>
                                                             <object class="GtkButton" id="button_dialog_result_contacts_4p">
@@ -10744,12 +10745,25 @@ on Cloud-view mode</property>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">start</property>
                                                             <property name="spacing">6</property>
+                                                            <child>
+                                                            <object class="GtkEntry" id="entry_fourPlatforms_bluetooth_url">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
                                                             <child>
                                                             <object class="GtkButton" id="button_fourPlatforms_bluetooth_connect">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>
+                                                            <signal name="clicked" handler="on_button_fourPlatforms_bluetooth_connect_clicked" swapped="no"/>
                                                             <child>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
@@ -10785,7 +10799,7 @@ on Cloud-view mode</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">0</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -10820,13 +10834,38 @@ on Cloud-view mode</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">1</property>
                                                             <property name="top-attach">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkScrolledWindow" id="scrolled_fourPlatforms_bluetooth">
+                                                            <property name="width-request">200</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="hscrollbar-policy">never</property>
+                                                            <property name="shadow-type">in</property>
+                                                            <child>
+                                                            <object class="GtkTextView" id="textview_fourPlatforms_bluetooth">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="pixels-below-lines">2</property>
+                                                            <property name="editable">False</property>
+                                                            <property name="cursor-visible">False</property>
+                                                            <property name="accepts-tab">False</property>
+                                                            <property name="monospace">True</property>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">2</property>
+                                                            <property name="top-attach">0</property>
+                                                            <property name="height">2</property>
                                                             </packing>
                                                             </child>
                                                             </object>

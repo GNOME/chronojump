@@ -41,6 +41,11 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_fourPlatforms_cancel_finish;
 	Gtk.Button button_fourPlatforms_test_finish;
 	Gtk.Button button_fourPlatforms_test_cancel;
+
+	//bluetooth
+	Gtk.Entry entry_fourPlatforms_bluetooth_url;
+	Gtk.Button button_fourPlatforms_bluetooth_connect;
+	Gtk.TextView textview_fourPlatforms_bluetooth;
 	// <---- at glade
 
 
@@ -79,6 +84,8 @@ public partial class ChronoJumpWindow
 			FourPlatformsCaptureManage.CaptureEnumStr (FourPlatformsCaptureManage.CaptureEnum.FROM1TO4);
 		button_four_platforms_capture_low_high.Label =
 			FourPlatformsCaptureManage.CaptureEnumStr (FourPlatformsCaptureManage.CaptureEnum.FROMLOWTOHIGH);
+
+		entry_fourPlatforms_bluetooth_url.Text = BluetoothLE.GetScriptURL ();
 	}
 
 	//methods used on discoverWin closed, person changed, and Chronojump start (changeMode)
@@ -124,6 +131,17 @@ public partial class ChronoJumpWindow
 
 		cairoGraphFourPlatformsStepsBottom_l = new List<PointF>();
 		cairoGraphFourPlatformsStepsTop_l = new List<PointF>();
+	}
+
+	BluetoothCapture bluetoothCapture;
+	private void on_button_fourPlatforms_bluetooth_connect_clicked (object o, EventArgs args)
+	{
+		bluetoothCapture = new BluetoothCapture (
+				entry_fourPlatforms_bluetooth_url,
+				button_fourPlatforms_bluetooth_connect,
+				textview_fourPlatforms_bluetooth);
+
+		bluetoothCapture.Start ();
 	}
 
 	//note this is used by modes: JUMPSSIMPLE and OTHER (FOURPLATFORMS)
@@ -502,6 +520,11 @@ public partial class ChronoJumpWindow
 		box_fourPlatforms_cancel_finish = (Gtk.Box) builder.GetObject ("box_fourPlatforms_cancel_finish");
 		button_fourPlatforms_test_finish = (Gtk.Button) builder.GetObject ("button_fourPlatforms_test_finish");
 		button_fourPlatforms_test_cancel = (Gtk.Button) builder.GetObject ("button_fourPlatforms_test_cancel");
+
+		//bluetooth
+		entry_fourPlatforms_bluetooth_url = (Gtk.Entry) builder.GetObject ("entry_fourPlatforms_bluetooth_url");
+		button_fourPlatforms_bluetooth_connect = (Gtk.Button) builder.GetObject ("button_fourPlatforms_bluetooth_connect");
+		textview_fourPlatforms_bluetooth = (Gtk.TextView) builder.GetObject ("textview_fourPlatforms_bluetooth");
 	}
 }
 

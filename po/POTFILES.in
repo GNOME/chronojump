@@ -37,6 +37,7 @@ glade/run_type_add.glade
 glade/session_upload.glade
 glade/splash_window.glade
 glade/stats_select_sessions.glade
+src/bluetoothCapture.cs
 src/chronojump.cs
 src/chronojumpImporter.cs
 src/chronopic2016.cs

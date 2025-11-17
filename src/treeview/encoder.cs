@@ -66,15 +66,15 @@ public class TreeViewEncoder : TreeViewEvent
 			descriptionColumn = 8;
 
 			columnsString = new string[] {
-				"Exercise" + "\nRepetitions:",
-					lateralityName + "\n" + Constants.RangeAbsolute,
-					Catalog.GetString ("Contraction") + "\n" + Catalog.GetString ("Mean speed"),
+				"Exercise" + "\n\\ Repetitions:",
+					lateralityName + "\n\\ " + Constants.RangeAbsolute,
+					Catalog.GetString ("Contraction") + "\n\\ " + Catalog.GetString ("Mean speed"),
 					//Catalog.GetString ("Encoder configuration"),
-					"Diameter" + "\n" + Catalog.GetString ("Max speed"),
-					"Weights" + "\n" + Catalog.GetString ("Mean power"),
-					"Equivalent mass" + "\n" + Catalog.GetString ("Peak power"),
-					datetimeName + "\n" + Catalog.GetString ("Mean force"),
-					videoName + "\n" + Catalog.GetString ("Max force"),
+					"Diameter" + "\n \\ " + Catalog.GetString ("Max speed"),
+					"Weights" + "\n \\ " + Catalog.GetString ("Mean power"),
+					"Equivalent mass" + "\n\\ " + Catalog.GetString ("Peak power"),
+					datetimeName + "\n\\ " + Catalog.GetString ("Mean force"),
+					videoName + "\n\\ " + Catalog.GetString ("Max force"),
 					descriptionName + "\n"
 					// "UNIQUEID" //just for debug
 			};

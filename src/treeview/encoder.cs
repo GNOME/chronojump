@@ -66,15 +66,15 @@ public class TreeViewEncoder : TreeViewEvent
 			descriptionColumn = 8;
 
 			columnsString = new string[] {
-				"Exercise" + "\n\\ Repetitions:",
-					lateralityName + "\n\\ " + Constants.RangeAbsolute,
-					Catalog.GetString ("Contraction") + "\n\\ " + Catalog.GetString ("Mean speed"),
+				"Exercise" + "\n   Repetitions:",
+					lateralityName + "\n   " + Constants.RangeAbsolute,
+					Catalog.GetString ("Contraction") + "\n   " + Catalog.GetString ("Mean speed"),
 					//Catalog.GetString ("Encoder configuration"),
-					"Diameter" + "\n \\ " + Catalog.GetString ("Max speed"),
-					"Weights" + "\n \\ " + Catalog.GetString ("Mean power"),
-					"Equivalent mass" + "\n\\ " + Catalog.GetString ("Peak power"),
-					datetimeName + "\n\\ " + Catalog.GetString ("Mean force"),
-					videoName + "\n\\ " + Catalog.GetString ("Max force"),
+					"Diameter" + "\n   " + Catalog.GetString ("Max speed"),
+					"Weights" + "\n   " + Catalog.GetString ("Mean power"),
+					"Equivalent mass" + "\n   " + Catalog.GetString ("Peak power"),
+					datetimeName + "\n   " + Catalog.GetString ("Mean force"),
+					videoName + "\n   " + Catalog.GetString ("Max force"),
 					descriptionName + "\n"
 					// "UNIQUEID" //just for debug
 			};
@@ -83,6 +83,59 @@ public class TreeViewEncoder : TreeViewEvent
 		store = getStore (columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
+	}
+
+	protected override void prepareHeaders (string [] columnsString)
+	{
+		treeview.HeadersVisible=true;
+		int i=0;
+		foreach (string myCol in columnsString)
+		{
+			if (i == 0) // to show person name in bold if is currentPerson
+			{
+				Gtk.TreeViewColumn personNameColumn = new Gtk.TreeViewColumn ();
+				CellRendererText personNameCell = new CellRendererText();
+				personNameColumn.Title = myCol;
+				personNameColumn.PackStart (personNameCell, true);
+				personNameColumn.SetCellDataFunc (personNameCell, new Gtk.TreeCellDataFunc (RenderPersonName));
+				treeview.AppendColumn (personNameColumn);
+				i ++;
+			}
+			else if (! gravitatory)
+			{
+				Gtk.TreeViewColumn col1 = new Gtk.TreeViewColumn ();
+				CellRendererText cell1 = new CellRendererText();
+				col1.Title = myCol;
+				col1.PackStart (cell1, true);
+				col1.SetCellDataFunc (cell1, new Gtk.TreeCellDataFunc (RenderInertialCols));
+				treeview.AppendColumn (col1);
+				i ++;
+			} else
+				treeview.AppendColumn (myCol, new CellRendererText(), "text", i++);
+		}
+	}
+
+	private void RenderInertialCols (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
+	{
+		if(! (cell is CellRendererText))
+			return;
+
+		// get the colID to use just this RenderInertialCols for all cols
+		int colID = 0;
+		for (int i = 0; i < columnsString.Length; i ++)
+			if (column.Title == columnsString[i])
+				colID = i;
+
+		string text = (string) model.GetValue (iter, colID);
+		int id = -1;
+		if (model.GetValue (iter, idColumn) != null)
+			if (Util.IsNumber ((string) (model.GetValue (iter, idColumn)), false))
+				id = Convert.ToInt32 ( (string) model.GetValue (iter, idColumn));
+
+		if (id == MarkNonSelectRowSubEvent)
+			(cell as Gtk.CellRendererText).Markup = "<span foreground=\"#666666\">" + "   " + text + "</span>";
+		else
+			(cell as Gtk.CellRendererText).Text = text;
 	}
 
 	public override void FillEncoder (List<List<EncoderSQL>> eSQL_ll, string filterExercise, List<string> videos_l)

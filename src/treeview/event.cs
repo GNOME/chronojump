@@ -108,7 +108,7 @@ public class TreeViewEvent
 		return myStore;
 	}
 	
-	protected void prepareHeaders(string [] columnsString)
+	protected virtual void prepareHeaders(string [] columnsString)
 	{
 		treeview.HeadersVisible=true;
 		int i=0;
@@ -128,7 +128,7 @@ public class TreeViewEvent
 		}
 	}
 
-	private void RenderPersonName (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
+	protected void RenderPersonName (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		if(! (cell is CellRendererText))
 			return;

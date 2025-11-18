@@ -144,6 +144,7 @@ public class CairoGraphFourPlatforms : CairoXY
 			//absoluteMaxY = +4;
 			if (showLastSeconds > 0 && absoluteMaxX < showLastSeconds)
 				absoluteMaxX = showLastSeconds;
+
 			minY = 1 - .25;
 			absoluteMaxY = 4 + .25;
 		}
@@ -348,7 +349,7 @@ public class CairoGraphFourPlatforms : CairoXY
 		{
 			/*
 			LogB.Information (string.Format (
-						"i: {0}, j: {1}, points_ll[i][j].X: {2}, points_ll[i][j].Y: {3}",
+						"points doPlotMarksOther i: {0}, j: {1}, points_ll[i][j].X: {2}, points_ll[i][j].Y: {3}",
 						i, j, points_ll[i][j].X, points_ll[i][j].Y));
 			*/
 

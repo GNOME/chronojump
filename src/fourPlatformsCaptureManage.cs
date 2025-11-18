@@ -127,14 +127,14 @@ public class FourPlatformsCaptureManage
 
 				//fpe.Time *= -1; //first buttons prototype board has the buttons behaviour opposite than the final board
 
-				int timeNow = fpe.Time; //millis
+				int timeNow = fpe.Time; //micros
 
 				//int button = fpe.Button + 1; //from 0-3 to 1-4
 				//have button as positive or negative and put timeNow as positive
 				if (timeNow < 0)
 					timeNow = Math.Abs (timeNow);
 
-				timeAccu_l[fpe.Button] += UtilAll.DivideSafe (timeNow, 1000);
+				timeAccu_l[fpe.Button] += UtilAll.DivideSafe (timeNow, 1000000);
 
 				int y = fpe.Button + 1; //1 - 4
 				double ySign;

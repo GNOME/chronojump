@@ -904,6 +904,8 @@ public abstract class CairoXY : CairoGeneric
 
 		int startAt = PointF.FindSampleAtTimeToEnd (points_l, (seconds -rightMarginSeconds) * multiplier);
 		minX = points_l[startAt].X;
+		//LogB.Information (string.Format ("lastTime: {0}, absoluteMaxX: {1}, startAt: {2}, minX: {3}",
+		//			lastTime, absoluteMaxX, startAt, minX));
 
 		return startAt;
 	}

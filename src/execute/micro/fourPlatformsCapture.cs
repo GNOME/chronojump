@@ -192,11 +192,17 @@ public class FourPlatformsCapture: ArduinoCapture
 
 	public FourPlatformsEvent FourPlatformsCaptureReadNext()
 	{
-		// by a thread problem the list could be emptied while we are reading, even having checked with CanReadFromList so let's be careful
-		if (list.Count <= readedPos +1)
-			return new FourPlatformsEvent ("-1:-1");
+		FourPlatformsEvent fpeError = new FourPlatformsEvent ("-1:-1");
+		if (list.Count <= readedPos)
+			return fpeError;
 
-		return list[readedPos++];
+		FourPlatformsEvent fpe;
+		try {
+			fpe = list[readedPos++];
+		} catch {
+			return fpeError;
+		}
+		return fpe;
 	}
 
 	// protected stuff ---->
@@ -216,6 +222,10 @@ public class FourPlatformsEvent
 	public int Button; //Button -1 means error reading
 	public int Time; //always is time since last event. Negative is a button off, Positive on.
 
+	public FourPlatformsEvent ()
+	{
+	}
+
 	public FourPlatformsEvent (string str)
 	{
                 str = str.Trim(); 	//Trim str (to remove newline char)
@@ -230,6 +240,8 @@ public class FourPlatformsEvent
 			this.Button = Convert.ToInt32 (strFull[0]);
 			this.Time = Convert.ToInt32 (strFull[1]);
 		}
+		//LogB.Information ("Button: " + Button.ToString ());
+		//LogB.Information ("Time: " + Time.ToString ());
 	}
 
 	public override string ToString()

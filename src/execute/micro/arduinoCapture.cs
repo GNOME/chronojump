@@ -58,7 +58,7 @@ public abstract class ArduinoCapture : MicroComms
 
 	protected void initialize ()
 	{
-		readedPos = 0;
+		readedPos = 0; //note when nothing is readed (at start) is 0 (not -1)
 		micro.Response = "";
 
 		emptyList();

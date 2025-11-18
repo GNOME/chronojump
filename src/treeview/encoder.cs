@@ -53,17 +53,20 @@ public class TreeViewEncoder : TreeViewEvent
 					//Catalog.GetString ("Encoder configuration"),
 					Catalog.GetString ("Contraction"),
 					Constants.RangeAbsolute + " (cm)",
-					Catalog.GetString ("Mean speed") + " (m/s)", Catalog.GetString ("Max speed") + " (m/s)",
-					Catalog.GetString ("Mean power") + " (W)", Catalog.GetString ("Peak power") + " (W)",
-					Catalog.GetString ("Mean force") + " (N)", Catalog.GetString ("Max force") + " (N)",
+					Catalog.GetString ("Mean speed") + " (m/s)",
+					Catalog.GetString ("Max speed") + " (m/s)",
+					Catalog.GetString ("Mean power") + " (W)",
+					Catalog.GetString ("Peak power") + " (W)",
+					Catalog.GetString ("Mean force") + " (N)",
+					Catalog.GetString ("Max force") + " (N)",
 					datetimeName,
 					videoName,
 					descriptionName
 						// "UNIQUEID" //just for debug
 			};
 		} else {
-			idColumn = 9; //column where the uniqueID of event will be (and will be hidden)
-			descriptionColumn = 8;
+			idColumn = 10; //column where the uniqueID of event will be (and will be hidden)
+			descriptionColumn = 9;
 
 			columnsString = new string[] {
 				"Exercise" + "\n   Repetitions:",
@@ -72,9 +75,10 @@ public class TreeViewEncoder : TreeViewEvent
 					//Catalog.GetString ("Encoder configuration"),
 					"Diameter (cm)" + "\n   " + Catalog.GetString ("Max speed") + " (m/s)",
 					"Weights" + "\n   " + Catalog.GetString ("Mean power") + " (W)",
-					"Equivalent mass (kg*cm^2)" + "\n   " + Catalog.GetString ("Peak power") + " (W)",
-					datetimeName + "\n   " + Catalog.GetString ("Mean force") + " (N)",
-					videoName + "\n   " + Catalog.GetString ("Max force") + " (N)",
+					"Inertia M. (kg*cm^2)" + "\n   " + Catalog.GetString ("Peak power") + " (W)",
+					"Equivalent mass (kg)" + "\n   " + Catalog.GetString ("Mean force") + " (N)",
+					datetimeName + "\n   " + Catalog.GetString ("Max force") + " (N)",
+					videoName + "\n",
 					descriptionName + "\n"
 					// "UNIQUEID" //just for debug
 			};
@@ -150,6 +154,7 @@ public class TreeViewEncoder : TreeViewEvent
 		foreach (List<EncoderSQL> eSQL_l in eSQL_ll)
 		{
 			EncoderSQL eSQL0 = (EncoderSQL) eSQL_l[0]; //to have code a bit clearer
+			//LogB.Information (eSQL0.ToString ());
 
 			//show always the names of persons ...
 			if (tempPersonID != eSQL0.PersonID)
@@ -332,6 +337,7 @@ public class TreeViewEncoder : TreeViewEvent
 		} else {
 			myData[count++] = Util.TrimDecimals (eSQL.encoderConfiguration.d, 2);
 			myData[count++] = eSQL.encoderConfiguration.extraWeightN.ToString ();
+			myData[count++] = Util.TrimDecimals (UtilEncoder.CalculeInertiaTotal (eSQL.encoderConfiguration), 2);
 			myData[count++] = Util.TrimDecimals (UtilEncoder.CalculateEquivalentMass (eSQL.encoderConfiguration), 2);
 		}
 
@@ -380,6 +386,7 @@ public class TreeViewEncoder : TreeViewEvent
 			myData[count++] = Util.TrimDecimals (eSQL.maxPower, 2);
 			myData[count++] = Util.TrimDecimals (eSQL.meanForce, 2);
 			myData[count++] = Util.TrimDecimals (eSQL.maxForce, 2);
+			myData[count++] = ""; //videoName;
 			myData[count++] = ""; //eSQL.Description;
 			myData[count++] = MarkNonSelectRowSubEvent.ToString ();
 		}

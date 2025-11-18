@@ -52,10 +52,10 @@ public class TreeViewEncoder : TreeViewEvent
 					weightExtraName,
 					//Catalog.GetString ("Encoder configuration"),
 					Catalog.GetString ("Contraction"),
-					Constants.RangeAbsolute,
-					Catalog.GetString ("Mean speed"), Catalog.GetString ("Max speed"),
-					Catalog.GetString ("Mean power"), Catalog.GetString ("Peak power"),
-					Catalog.GetString ("Mean force"), Catalog.GetString ("Max force"),
+					Constants.RangeAbsolute + " (cm)",
+					Catalog.GetString ("Mean speed") + " (m/s)", Catalog.GetString ("Max speed") + " (m/s)",
+					Catalog.GetString ("Mean power") + " (W)", Catalog.GetString ("Peak power") + " (W)",
+					Catalog.GetString ("Mean force") + " (N)", Catalog.GetString ("Max force") + " (N)",
 					datetimeName,
 					videoName,
 					descriptionName
@@ -67,14 +67,14 @@ public class TreeViewEncoder : TreeViewEvent
 
 			columnsString = new string[] {
 				"Exercise" + "\n   Repetitions:",
-					lateralityName + "\n   " + Constants.RangeAbsolute,
-					Catalog.GetString ("Contraction") + "\n   " + Catalog.GetString ("Mean speed"),
+					lateralityName + "\n   " + Constants.RangeAbsolute + " (cm)",
+					Catalog.GetString ("Contraction") + "\n   " + Catalog.GetString ("Mean speed") + " (m/s)",
 					//Catalog.GetString ("Encoder configuration"),
-					"Diameter" + "\n   " + Catalog.GetString ("Max speed"),
-					"Weights" + "\n   " + Catalog.GetString ("Mean power"),
-					"Equivalent mass" + "\n   " + Catalog.GetString ("Peak power"),
-					datetimeName + "\n   " + Catalog.GetString ("Mean force"),
-					videoName + "\n   " + Catalog.GetString ("Max force"),
+					"Diameter (cm)" + "\n   " + Catalog.GetString ("Max speed") + " (m/s)",
+					"Weights" + "\n   " + Catalog.GetString ("Mean power") + " (W)",
+					"Equivalent mass (kg*cm^2)" + "\n   " + Catalog.GetString ("Peak power") + " (W)",
+					datetimeName + "\n   " + Catalog.GetString ("Mean force") + " (N)",
+					videoName + "\n   " + Catalog.GetString ("Max force") + " (N)",
 					descriptionName + "\n"
 					// "UNIQUEID" //just for debug
 			};

@@ -28,6 +28,7 @@ using Mono.Unix;
 public class TreeViewEncoder : TreeViewEvent
 {
 	bool gravitatory; //on gravitatory show extraWeight, on inertial hide it
+	private string repHtab = "   "; // horizontal spaces on reps data
 
 	public TreeViewEncoder (Gtk.TreeView treeview, int newPrefsDigitsNumber, bool gravitatory, ExpandStates expandState)
 	{
@@ -43,25 +44,19 @@ public class TreeViewEncoder : TreeViewEvent
 
 		if (gravitatory)
 		{
-			idColumn = 14; //column where the uniqueID of event will be (and will be hidden)
-			descriptionColumn = 13;
+			idColumn = 8; //column where the uniqueID of event will be (and will be hidden)
+			descriptionColumn = 6;
 
 			columnsString = new string[] {
-				personName,
-					lateralityName,
-					weightExtraName,
+				"Exercise" + "\n" + repHtab + "Repetitions:",
+					lateralityName + "\n" + repHtab + Constants.RangeAbsolute + " (cm)",
+					weightExtraName + "\n" + repHtab + Catalog.GetString ("Mean speed") + " (m/s)",
 					//Catalog.GetString ("Encoder configuration"),
-					Catalog.GetString ("Contraction"),
-					Constants.RangeAbsolute + " (cm)",
-					Catalog.GetString ("Mean speed") + " (m/s)",
-					Catalog.GetString ("Max speed") + " (m/s)",
-					Catalog.GetString ("Mean power") + " (W)",
-					Catalog.GetString ("Peak power") + " (W)",
-					Catalog.GetString ("Mean force") + " (N)",
-					Catalog.GetString ("Max force") + " (N)",
-					datetimeName,
-					videoName,
-					descriptionName
+					Catalog.GetString ("Contraction") + "\n" + repHtab + Catalog.GetString ("Max speed") + " (m/s)",
+					datetimeName + "\n" + repHtab + Catalog.GetString ("Mean power") + " (W)",
+					videoName + "\n" + repHtab + Catalog.GetString ("Peak power") + " (W)",
+					descriptionName + "\n" + repHtab + Catalog.GetString ("Mean force") + " (N)",
+					"\n" + repHtab + Catalog.GetString ("Max force") + " (N)"
 						// "UNIQUEID" //just for debug
 			};
 		} else {
@@ -69,15 +64,15 @@ public class TreeViewEncoder : TreeViewEvent
 			descriptionColumn = 9;
 
 			columnsString = new string[] {
-				"Exercise" + "\n   Repetitions:",
-					lateralityName + "\n   " + Constants.RangeAbsolute + " (cm)",
-					Catalog.GetString ("Contraction") + "\n   " + Catalog.GetString ("Mean speed") + " (m/s)",
+				"Exercise" + "\n" + repHtab + "Repetitions:",
+					lateralityName + "\n" + repHtab + Constants.RangeAbsolute + " (cm)",
+					Catalog.GetString ("Contraction") + "\n" + repHtab + Catalog.GetString ("Mean speed") + " (m/s)",
 					//Catalog.GetString ("Encoder configuration"),
-					"Diameter (cm)" + "\n   " + Catalog.GetString ("Max speed") + " (m/s)",
-					"Weights" + "\n   " + Catalog.GetString ("Mean power") + " (W)",
-					"Inertia M. (kg*cm^2)" + "\n   " + Catalog.GetString ("Peak power") + " (W)",
-					"Equivalent mass (kg)" + "\n   " + Catalog.GetString ("Mean force") + " (N)",
-					datetimeName + "\n   " + Catalog.GetString ("Max force") + " (N)",
+					"Diameter (cm)" + "\n" + repHtab + Catalog.GetString ("Max speed") + " (m/s)",
+					"Weights" + "\n" + repHtab + Catalog.GetString ("Mean power") + " (W)",
+					"Inertia M. (kg*cm^2)" + "\n" + repHtab + Catalog.GetString ("Peak power") + " (W)",
+					"Equivalent mass (kg)" + "\n" + repHtab + Catalog.GetString ("Mean force") + " (N)",
+					datetimeName + "\n" + repHtab + Catalog.GetString ("Max force") + " (N)",
 					videoName + "\n",
 					descriptionName + "\n"
 					// "UNIQUEID" //just for debug
@@ -104,22 +99,19 @@ public class TreeViewEncoder : TreeViewEvent
 				personNameColumn.SetCellDataFunc (personNameCell, new Gtk.TreeCellDataFunc (RenderPersonName));
 				treeview.AppendColumn (personNameColumn);
 				i ++;
-			}
-			else if (! gravitatory)
-			{
-				Gtk.TreeViewColumn col1 = new Gtk.TreeViewColumn ();
-				CellRendererText cell1 = new CellRendererText();
-				col1.Title = myCol;
-				col1.PackStart (cell1, true);
-				col1.SetCellDataFunc (cell1, new Gtk.TreeCellDataFunc (RenderInertialCols));
-				treeview.AppendColumn (col1);
+			} else {
+				Gtk.TreeViewColumn col = new Gtk.TreeViewColumn ();
+				CellRendererText cell = new CellRendererText();
+				col.Title = myCol;
+				col.PackStart (cell, true);
+				col.SetCellDataFunc (cell, new Gtk.TreeCellDataFunc (RenderEncoderCols));
+				treeview.AppendColumn (col);
 				i ++;
-			} else
-				treeview.AppendColumn (myCol, new CellRendererText(), "text", i++);
+			}
 		}
 	}
 
-	private void RenderInertialCols (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
+	private void RenderEncoderCols (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
 	{
 		if(! (cell is CellRendererText))
 			return;
@@ -137,7 +129,7 @@ public class TreeViewEncoder : TreeViewEvent
 				id = Convert.ToInt32 ( (string) model.GetValue (iter, idColumn));
 
 		if (id == MarkNonSelectRowSubEvent)
-			(cell as Gtk.CellRendererText).Markup = "<span foreground=\"#666666\">" + "   " + text + "</span>";
+			(cell as Gtk.CellRendererText).Markup = "<span foreground=\"#666666\">" + repHtab + text + "</span>";
 		else
 			(cell as Gtk.CellRendererText).Text = text;
 	}
@@ -221,6 +213,7 @@ public class TreeViewEncoder : TreeViewEvent
 		LogB.Information ("treeview_encoder UpdateReps end");
 	}
 
+	//TODO: check there is no crash with recent changes
 	public override void AddEncoder (int personID, string pName, List<List<EncoderSQL>> eSQL_ll, string videoStr)
 	{
 		if (eSQL_ll.Count == 0)
@@ -325,16 +318,9 @@ public class TreeViewEncoder : TreeViewEvent
 		if (gravitatory)
 			myData[count++] = Util.TrimDecimals (eSQL.extraWeight, 2);
 		myData[count++] = eSQL.ecconLong;
-		if (gravitatory)
+
+		if (! gravitatory)
 		{
-			myData[count++] = ""; //rangeAbsolute
-			myData[count++] = ""; //meanSpeed
-			myData[count++] = ""; //maxSpeed
-			myData[count++] = ""; //meanPower
-			myData[count++] = ""; //peakPower
-			myData[count++] = ""; //meanForce
-			myData[count++] = ""; //maxForce
-		} else {
 			myData[count++] = Util.TrimDecimals (eSQL.encoderConfiguration.d, 2);
 			myData[count++] = eSQL.encoderConfiguration.extraWeightN.ToString ();
 			myData[count++] = Util.TrimDecimals (UtilEncoder.CalculeInertiaTotal (eSQL.encoderConfiguration), 2);
@@ -349,6 +335,8 @@ public class TreeViewEncoder : TreeViewEvent
 			myData[count++] = Catalog.GetString ("No");
 
 		myData[count++] = eSQL.Description;
+		if (gravitatory)
+			myData[count++] = ""; //empty column (on set)
 		myData[count++] = eSQL.UniqueID.ToString ();
 
 		return myData;
@@ -362,34 +350,19 @@ public class TreeViewEncoder : TreeViewEvent
 		int count = 0;
 
 		myData[count++] = ""; // i.ToString ()  better not show a number now as it gets confused with the number of repetition on current set table.
-		if (gravitatory)
+		myData[count++] = Util.TrimDecimals (UtilAll.DivideSafe (eSQL.rangeAbs, 10), 2); // mm -> cm
+		myData[count++] = Util.TrimDecimals (eSQL.meanSpeed, 2);
+		myData[count++] = Util.TrimDecimals (eSQL.maxSpeed, 2);
+		myData[count++] = Util.TrimDecimals (eSQL.meanPower, 2);
+		myData[count++] = Util.TrimDecimals (eSQL.maxPower, 2);
+		myData[count++] = Util.TrimDecimals (eSQL.meanForce, 2);
+		myData[count++] = Util.TrimDecimals (eSQL.maxForce, 2);
+		if (! gravitatory)
 		{
-			myData[count++] = ""; //Catalog.GetString (eSQL.laterality);
-			myData[count++] = ""; //eSQL.extraWeight (only on gravitatory)
-			myData[count++] = ""; //eSQL.ecconLong;
-			myData[count++] = Util.TrimDecimals (UtilAll.DivideSafe (eSQL.rangeAbs, 10), 2); // mm -> cm
-			myData[count++] = Util.TrimDecimals (eSQL.meanSpeed, 2);
-			myData[count++] = Util.TrimDecimals (eSQL.maxSpeed, 2);
-			myData[count++] = Util.TrimDecimals (eSQL.meanPower, 2);
-			myData[count++] = Util.TrimDecimals (eSQL.maxPower, 2);
-			myData[count++] = Util.TrimDecimals (eSQL.meanForce, 2);
-			myData[count++] = Util.TrimDecimals (eSQL.maxForce, 2);
-			myData[count++] = ""; //datetime
-			myData[count++] = ""; //eSQL.videoURL;
-			myData[count++] = ""; //eSQL.Description;
-			myData[count++] = MarkNonSelectRowSubEvent.ToString ();
-		} else {
-			myData[count++] = Util.TrimDecimals (UtilAll.DivideSafe (eSQL.rangeAbs, 10), 2); // mm -> cm
-			myData[count++] = Util.TrimDecimals (eSQL.meanSpeed, 2);
-			myData[count++] = Util.TrimDecimals (eSQL.maxSpeed, 2);
-			myData[count++] = Util.TrimDecimals (eSQL.meanPower, 2);
-			myData[count++] = Util.TrimDecimals (eSQL.maxPower, 2);
-			myData[count++] = Util.TrimDecimals (eSQL.meanForce, 2);
-			myData[count++] = Util.TrimDecimals (eSQL.maxForce, 2);
 			myData[count++] = ""; //videoName;
 			myData[count++] = ""; //eSQL.Description;
-			myData[count++] = MarkNonSelectRowSubEvent.ToString ();
 		}
+		myData[count++] = MarkNonSelectRowSubEvent.ToString ();
 
 		return myData;
 	}

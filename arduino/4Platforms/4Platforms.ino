@@ -26,7 +26,7 @@
 //3 Back Left
 //4 Back Right
 
-#define LEDS_PIN        5
+#define LEDS_PIN        D4
 #define NUMPIXELS 4
 #define CJ_YELLOW rgbLeds.Color(45,25,0)
 #define CJ_BLUE rgbLeds.Color(0,0,50)
@@ -36,7 +36,7 @@ Adafruit_NeoPixel rgbLeds(NUMPIXELS, LEDS_PIN, NEO_GRB + NEO_KHZ800);
 String version = "4Platforms-0.3";
 // Front Left, Front Right, Back Left, Back Right 
 // int sensorPin[4] = {2, 1, 8, 9}; //Xiao ESP32S3. Hardware V1
-int sensorPin[4] = {1, 2, 9, 8}; //Xiao ESP32S3. Hardware V2
+int sensorPin[4] = {D0, D1, D10, D9}; //Xiao ESP32S3. Hardware V2
 
 // Changing the order of the pins/RGB LEDs
 int sensorMapping[4] = {1, 0, 3, 2}; // Hardware V2

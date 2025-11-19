@@ -254,7 +254,9 @@ public class CairoGraphFourPlatforms : CairoXY
 				if (mode == Constants.Modes.JUMPSSIMPLE)
 					doPlotMarksJumpsSimple (i);
 				else //(mode == Constants.Modes.OTHER)
-					doPlotMarksOther (i, fourPlatformsCaptureType == FourPlatformsCaptureManage.CaptureEnum.DEFAULT);
+					doPlotMarksOther (i,
+							fourPlatformsCaptureType == FourPlatformsCaptureManage.CaptureEnum.DEFAULT ||
+							fourPlatformsCaptureType == FourPlatformsCaptureManage.CaptureEnum.FROMLOWTOHIGH);
 			}
 
 		if (stepsBottom_l.Count > 0 && fourPlatformsCaptureType != FourPlatformsCaptureManage.CaptureEnum.FROMLOWTOHIGH)

@@ -146,6 +146,7 @@ public partial class ChronoJumpWindow
 	Gtk.RadioButton radio_mode_contacts_sprint;
 	Gtk.RadioButton radio_mode_contacts_advanced;
 	Gtk.RadioButton radio_mode_contacts_export_csv;
+	Gtk.Notebook notebook_analyze_export_csv_data;
 
 	Gtk.RadioButton radio_contacts_export_individual_current_session;
 	Gtk.RadioButton radio_contacts_export_individual_all_sessions;
@@ -516,6 +517,7 @@ public partial class ChronoJumpWindow
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE,
 		JUMPSASYMMETRY, JUMPSEVOLUTION, JUMPSRJFATIGUE,
 		RUNSEVOLUTION, SPRINT, CONTACTS_EXPORT_CSV, SIGNAL_AI, ENCODER}
+	private enum notebook_analyze_export_csv_data_pages { JUMPS, RUNS, OTHER }
 
 	private string runningFileName; //useful for knowing if there are two chronojump instances
 
@@ -3504,11 +3506,10 @@ public partial class ChronoJumpWindow
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
 			on_radio_contacts_graph_test_toggled (new object (), new EventArgs ()); //to ensure data is updated
 
-			box_contacts_export_data_jumps.Visible = true;
+			notebook_analyze_export_csv_data.CurrentPage = Convert.ToInt32 (notebook_analyze_export_csv_data_pages.JUMPS);
 			check_contacts_export_jumps_simple.Active = (m == Constants.Modes.JUMPSSIMPLE);
 			check_contacts_export_jumps_simple_mean_max_tables.Active = (m == Constants.Modes.JUMPSSIMPLE);
 			check_contacts_export_jumps_reactive.Active = (m == Constants.Modes.JUMPSREACTIVE);
-			box_contacts_export_data_runs.Visible = false;
 			radio_contacts_export_individual_current_session.Active = true;
 			on_radio_contacts_export_individual_current_session_toggled (new object (), new EventArgs ());
 
@@ -3578,8 +3579,7 @@ public partial class ChronoJumpWindow
 					radio_mode_contacts_analyze_buttons_visible (m);
 			}
 
-			box_contacts_export_data_jumps.Visible = false;
-			box_contacts_export_data_runs.Visible = true;
+			notebook_analyze_export_csv_data.CurrentPage = Convert.ToInt32 (notebook_analyze_export_csv_data_pages.RUNS);
 			check_contacts_export_runs_simple.Active = (m == Constants.Modes.RUNSSIMPLE);
 			check_contacts_export_runs_intervallic.Active = (m == Constants.Modes.RUNSINTERVALLIC);
 			radio_contacts_export_individual_current_session.Active = true;
@@ -3829,7 +3829,7 @@ public partial class ChronoJumpWindow
 		{
 			//similar to WILIGHT
 			notebooks_change(m);
-			radio_mode_contacts_analyze.Visible = false;
+			//radio_mode_contacts_analyze.Visible = false;
 
 			radio_change_modes_contacts_fourPlatforms.Visible = true;
 
@@ -3837,6 +3837,9 @@ public partial class ChronoJumpWindow
 			box_contacts_graph_exercise.Visible = false; //selection of exercise
 
 			box_capture_current.Visible = true;
+
+			//analyze has just export_csv
+			notebook_analyze_export_csv_data.CurrentPage = Convert.ToInt32 (notebook_analyze_export_csv_data_pages.OTHER);
 			//wilightApp1Init ();
 		}
 
@@ -8032,6 +8035,10 @@ public partial class ChronoJumpWindow
 			else if(radio_encoder_analyze_groupal_current_session.Active)
 				on_radio_encoder_analyze_groupal_current_session (o, args);
 		}
+		else if(current_mode == Constants.Modes.OTHER)
+		{
+			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.CONTACTS_EXPORT_CSV);
+		}
 		else
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
 
@@ -8677,6 +8684,7 @@ public partial class ChronoJumpWindow
 		radio_mode_contacts_sprint = (Gtk.RadioButton) builder.GetObject ("radio_mode_contacts_sprint");
 		radio_mode_contacts_advanced = (Gtk.RadioButton) builder.GetObject ("radio_mode_contacts_advanced");
 		radio_mode_contacts_export_csv = (Gtk.RadioButton) builder.GetObject ("radio_mode_contacts_export_csv");
+		notebook_analyze_export_csv_data = (Gtk.Notebook) builder.GetObject ("notebook_analyze_export_csv_data");
 
 		radio_contacts_export_individual_current_session = (Gtk.RadioButton) builder.GetObject ("radio_contacts_export_individual_current_session");
 		radio_contacts_export_individual_all_sessions = (Gtk.RadioButton) builder.GetObject ("radio_contacts_export_individual_all_sessions");

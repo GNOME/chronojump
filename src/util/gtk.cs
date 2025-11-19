@@ -387,6 +387,10 @@ public class UtilGtk
 	{
 		return idColumnCompareByCol (model, iter1, iter2, 3);
 	}
+	public static int IdColumnCompareCol4 (ITreeModel model, TreeIter iter1, TreeIter iter2)
+	{
+		return idColumnCompareByCol (model, iter1, iter2, 4);
+	}
 	//can select the col
 	private static int idColumnCompareByCol (ITreeModel model, TreeIter iter1, TreeIter iter2, int col)
 	{

@@ -115,7 +115,7 @@ public class TreeViewPersons
 			if (i == colClubID)
 				store.SetSortFunc (i, UtilGtk.IdColumnCompareCol1);
 			else if (i == colN)
-				store.SetSortFunc (i, UtilGtk.IdColumnCompareCol3);
+				store.SetSortFunc (i, UtilGtk.IdColumnCompareCol4);
 
 			visible = true;
 		}

@@ -111,11 +111,13 @@ void setup() {
   // Just to sabilize the inputPin
   delay(1000);
   Serial.println(version);
+
+  // Initial state of sensors
   for(int i=0; i<=3; i++)
   {
     sensorState[i] = !digitalRead(sensorPin[ sensorMapping[i] ]);
     lastSensorState[i] = sensorState[i];
-    Serial.println("Sensor" + String(i) + "->GPIO" + String(sensorPin[ sensorMapping[i] ] ) );
+    // Serial.println("Sensor" + String(i) + "->GPIO" + String(sensorPin[ sensorMapping[i] ] ) ); //For debugging pin mapping
   }
 
   // digitalWrite(LED_BUILTIN, lastSensorState[1]);
@@ -258,8 +260,7 @@ void setDebounceTime(unsigned int value) {
     timerAlarm(debounceTimer[i], value, true,0);
     timerStop(debounceTimer[i]);
   }
-  Serial.print("Debounce set to: ");
-  Serial.println(value);
+  Serial.printf("Debounce set to: %u us\n", value);
 }
 
 void setRgb(String argumentString) {

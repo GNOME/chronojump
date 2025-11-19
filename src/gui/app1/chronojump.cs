@@ -2840,14 +2840,23 @@ public partial class ChronoJumpWindow
 					check_contacts_export_jumps_simple.Active,
 					jumpsSimpleMeanMaxTables,
 					check_contacts_export_jumps_reactive.Active,
-					false, false);
+					false, false,
+					false);
 		} else if (current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
 			contactsExportCSV = new ExportSessionCSV (currentSession, app1, preferences,
 					"races", personID, personName, sessionID,
 					false, false, false,
 					check_contacts_export_runs_simple.Active,
-					check_contacts_export_runs_intervallic.Active);
+					check_contacts_export_runs_intervallic.Active,
+					false);
+		} else if (current_mode == Constants.Modes.OTHER)
+		{
+			contactsExportCSV = new ExportSessionCSV (currentSession, app1, preferences,
+					"fourPlatforms", personID, personName, sessionID,
+					false, false, false,
+					false, false,
+					true);
 		}
 
 		contactsExportCSV.FakeButtonDone.Clicked -= new EventHandler (on_button_contacts_export_done);

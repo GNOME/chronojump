@@ -42,6 +42,7 @@ public abstract class ExportSession
 	protected string [] myJumpsRj;
 	protected string [] myRuns;
 	protected string [] myRunsInterval;
+	protected string [] myFourPlatforms;
 	/*
 	protected string [] myReactionTimes;
 	protected string [] myPulses;
@@ -64,6 +65,7 @@ public abstract class ExportSession
 	protected bool jumpsReactive;
 	protected bool runsSimple;
 	protected bool runsIntervallic;
+	protected bool fourPlatformsTime;
 
 	protected void checkFile (string formatFile)
 	{
@@ -273,6 +275,15 @@ public abstract class ExportSession
 				hasData = true;
 		}
 
+		if (fourPlatformsTime) {
+			SqliteFourPlatforms sfp = new SqliteFourPlatforms ();
+			myFourPlatforms = sfp.SelectSA (true, sessionID, personID,
+					false, Constants.FourPlatformsTable,
+					Sqlite.Orders_by.ID_ASC, 0);
+			if (myFourPlatforms.Length > 0)
+				hasData = true;
+		}
+
 		/*
 		myReactionTimes = SqliteReactionTime.SelectReactionTimes(true, mySession.UniqueID, -1, "",
 				Sqlite.Orders_by.DEFAULT, -1);
@@ -318,6 +329,9 @@ public abstract class ExportSession
 		if (runsIntervallic)
 			printRunsInterval (true, Catalog.GetString("interval races") +
 					" (" + Catalog.GetString("with laps") + ")");
+
+		if (fourPlatformsTime)
+			printFourPlatforms ("FourPlatforms");
 
 		/*
 		printReactionTimes(Catalog.GetString("Reaction times"));
@@ -959,7 +973,50 @@ public abstract class ExportSession
 			writeData(myData);
 		}
 	}
+
+	protected void printFourPlatforms (string title)
+	{
+		int dec = preferences.digitsNumber; //decimals
+
+		if(myFourPlatforms.Length > 0)
+		{
+			printTitles(title);
+			printFourPlatformsFullData (dec);
+		}
+	}
 	
+	// add the moment just some columns
+	void printFourPlatformsFullData (int dec)
+	{
+		ArrayList myData = new ArrayList(1);
+		myData.Add( "\n" +
+				Catalog.GetString("Person ID") + ":::" +
+				Catalog.GetString("Person name") + ":::" +
+				Catalog.GetString("Session ID") + ":::" +
+				Catalog.GetString("ID") + ":::" +
+				Catalog.GetString("Type") + ":::" +
+				Catalog.GetString("Date") + ":::" +
+				Catalog.GetString("Time") + ":::" +
+				Catalog.GetString("Totaltime") );
+
+		foreach (string str in myFourPlatforms)
+		{
+			string [] myStr = str.Split(new char[] {':'});
+			myData.Add (
+					myStr[2] + ":::" +  myStr[0] + ":::" +  //person.UniqueID, person.Name
+					myStr[3] + ":::" + 			//session.UniqueID
+					myStr[1] + ":::" +  			//uniqueID
+					myStr[4] + ":::" +			//type
+					UtilDate.ToDateSQL (UtilDate.FromFile (myStr[13])) + ":::" +
+					UtilDate.ToTimeColons (UtilDate.FromFile (myStr[13])) + ":::" +  // Note time has colons
+					myStr[16]				//type
+				   );
+		}
+
+		writeData(myData);
+		writeData("VERTICAL-SPACE");
+	}
+
 	/*
 	protected void printReactionTimes(string title)
 	{
@@ -1212,10 +1269,11 @@ public class ExportSessionCSV : ExportSession
 	{
 	}
 
+	// TODO: instead of all this bools and modeForFilename, have some inheritance for the different modes
 	public ExportSessionCSV (Session mySession, Gtk.Window app1, Preferences preferences,
 			string modeForFilename, int personID, string personName, int sessionID,
 			bool jumpsSimple, bool jumpsSimpleMeanMaxTables, bool jumpsReactive,
-			bool runsSimple, bool runsIntervallic)
+			bool runsSimple, bool runsIntervallic, bool fourPlatformsTime)
 	{
 		this.mySession = mySession;
 		this.preferences = preferences;
@@ -1228,6 +1286,7 @@ public class ExportSessionCSV : ExportSession
 		this.jumpsReactive = jumpsReactive;
 		this.runsSimple = runsSimple;
 		this.runsIntervallic = runsIntervallic;
+		this.fourPlatformsTime = fourPlatformsTime;
 
 		//spreadsheetString = Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
 		fakeButtonDone = new Gtk.Button ();

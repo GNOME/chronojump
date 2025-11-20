@@ -79,7 +79,8 @@ public class FourPlatformsCapture: ArduinoCapture
 		micro.Opened = true;
 
 		LogB.Information ("version: |" + firmwareVersion + "|");
-		double versionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(firmwareVersion));
+		//TODO: disabled (crashed on time) and is not used right now
+		//double versionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(firmwareVersion));
 
 		//LogB.Information(string.Format("arduinoCapture portName: {0}, bauds: {1}", portName, bauds));
 

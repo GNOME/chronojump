@@ -31510,7 +31510,7 @@ Concentric</property>
                                                             <property name="spacing">12</property>
                                                             <child>
                                                             <object class="GtkCheckButton" id="check_contacts_export_fourPlatforms_time">
-                                                            <property name="label" translatable="yes">Tiempo del test</property>
+                                                            <property name="label" translatable="yes">Test time</property>
                                                             <property name="visible">True</property>
                                                             <property name="sensitive">False</property>
                                                             <property name="can-focus">True</property>
@@ -31525,8 +31525,8 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkCheckButton" id="ccheck_contacts_export_fourPlatforms_allEvents">
-                                                            <property name="label" translatable="yes">Todos los contactos</property>
+                                                            <object class="GtkCheckButton" id="check_contacts_export_fourPlatforms_allEvents">
+                                                            <property name="label" translatable="yes">All events</property>
                                                             <property name="sensitive">False</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>

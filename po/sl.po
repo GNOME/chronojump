@@ -11,18 +11,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2025-11-19 16:38+0000\n"
-"PO-Revision-Date: 2025-11-19 23:03+0100\n"
+"POT-Creation-Date: 2025-11-20 14:56+0000\n"
+"PO-Revision-Date: 2025-11-20 18:22+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
+"n%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 3.8\n"
 
 #: ../glade/app1.glade.h:1 ../glade/error_window.glade.h:1
 #: ../glade/force_sensor_elastic_bands.glade.h:1
@@ -291,7 +291,7 @@ msgid "Start automatic mode"
 msgstr "Začni samodejni način"
 
 #: ../glade/app1.glade.h:53 ../glade/execute_auto.glade.h:4
-#: ../glade/feedback.glade.h:59 ../glade/preferences_win.glade.h:220
+#: ../glade/feedback.glade.h:59 ../glade/preferences_win.glade.h:219
 msgid "page 1"
 msgstr "stran 1"
 
@@ -316,7 +316,7 @@ msgid "End automatic mode"
 msgstr "Končaj samodejni način"
 
 #: ../glade/app1.glade.h:59 ../glade/execute_auto.glade.h:15
-#: ../glade/feedback.glade.h:60 ../glade/preferences_win.glade.h:223
+#: ../glade/feedback.glade.h:60 ../glade/preferences_win.glade.h:222
 msgid "page 2"
 msgstr "stran 2"
 
@@ -636,7 +636,7 @@ msgstr "Umeri"
 #: ../glade/dialog_about.glade.h:2 ../glade/dialog_shortcuts.glade.h:2
 #: ../glade/force_sensor_elastic_bands.glade.h:13
 #: ../glade/person_select_window.glade.h:24
-#: ../glade/preferences_win.glade.h:222 ../src/gui/app1/encoder.cs:1236
+#: ../glade/preferences_win.glade.h:221 ../src/gui/app1/encoder.cs:1236
 #: ../src/gui/app1/encoder.cs:1850 ../src/gui/app1/encoder.cs:5882
 #: ../src/gui/app1/forceSensor.cs:2293 ../src/gui/app1/forceSensor.cs:3829
 #: ../src/gui/app1/runEncoder.cs:1259 ../src/gui/app1/runEncoder.cs:2824
@@ -1321,7 +1321,7 @@ msgstr "Teki / čas"
 msgid "Sprint"
 msgstr "Šprint"
 
-#: ../glade/app1.glade.h:245 ../glade/preferences_win.glade.h:219
+#: ../glade/app1.glade.h:245 ../glade/preferences_win.glade.h:218
 #: ../src/gui/discover.cs:297
 msgid "Advanced"
 msgstr "Napredno"
@@ -1808,14 +1808,12 @@ msgid "Intervallic runs"
 msgstr "Intervalni teki"
 
 #: ../glade/app1.glade.h:358
-#, fuzzy
-msgid "Tiempo del test"
-msgstr "Čas preizkusa"
+msgid "Test time"
+msgstr "Čas preskusa"
 
 #: ../glade/app1.glade.h:359
-#, fuzzy
-msgid "Todos los contactos"
-msgstr "Vsi stiki"
+msgid "All events"
+msgstr "Vsi dogodki"
 
 #: ../glade/app1.glade.h:360
 msgid "Analyze current set"
@@ -2266,7 +2264,7 @@ msgstr "Uporabi isto podatkovno zbirko"
 msgid "Open database file"
 msgstr "Odpri datoteko podatkovne zbirke"
 
-#: ../glade/app1.glade.h:466 ../glade/preferences_win.glade.h:218
+#: ../glade/app1.glade.h:466 ../glade/preferences_win.glade.h:217
 #: ../src/gui/app1/session/backup.cs:171
 msgid "More"
 msgstr "Več"
@@ -2984,6 +2982,10 @@ msgstr "Naloge na tej postaji"
 msgid "Other stations with assigned tasks"
 msgstr "Druge postaje z dodeljenimi nalogami"
 
+#: ../glade/dialog_result.glade.h:1
+msgid "Font size"
+msgstr "Velikost pisave"
+
 #: ../glade/dialog_shortcuts.glade.h:3
 msgid "Filter persons by name"
 msgstr "Filtriraj osebe po imenu"
@@ -3536,7 +3538,7 @@ msgstr "Opis (izbirno)"
 msgid "Exercises"
 msgstr "Vaje"
 
-#: ../glade/execute_auto.glade.h:23 ../glade/preferences_win.glade.h:224
+#: ../glade/execute_auto.glade.h:23 ../glade/preferences_win.glade.h:223
 msgid "page 3"
 msgstr "stran 3"
 
@@ -5141,86 +5143,82 @@ msgid "Python file"
 msgstr "Datoteka Python"
 
 #: ../glade/preferences_win.glade.h:200
-msgid "Bluetooth"
-msgstr "Bluetooth"
-
-#: ../glade/preferences_win.glade.h:201
 msgid "Allow to change devices"
 msgstr "Dovoli spreminjanje naprav"
 
-#: ../glade/preferences_win.glade.h:202
+#: ../glade/preferences_win.glade.h:201
 msgid "Open temp folder"
 msgstr "Odpri začasno mapo"
 
-#: ../glade/preferences_win.glade.h:203
+#: ../glade/preferences_win.glade.h:202
 msgid "Delete stored devices"
 msgstr "Izbriši shranjene naprave"
 
-#: ../glade/preferences_win.glade.h:204
+#: ../glade/preferences_win.glade.h:203
 msgid "Enter debug mode"
 msgstr "Omogoči razhroščevalni način"
 
-#: ../glade/preferences_win.glade.h:205
+#: ../glade/preferences_win.glade.h:204
 msgid "SQL tests"
 msgstr "Preskusi SQL"
 
-#: ../glade/preferences_win.glade.h:206
+#: ../glade/preferences_win.glade.h:205
 msgid "Short"
 msgstr "Kratko"
 
-#: ../glade/preferences_win.glade.h:207
+#: ../glade/preferences_win.glade.h:206
 msgid "Long"
 msgstr "Dolgo"
 
-#: ../glade/preferences_win.glade.h:208
+#: ../glade/preferences_win.glade.h:207
 msgid "Database ID"
 msgstr "ID zbirke podatkov"
 
-#: ../glade/preferences_win.glade.h:209
+#: ../glade/preferences_win.glade.h:208
 msgid "Database name"
 msgstr "Ime zbirke podatkov"
 
-#: ../glade/preferences_win.glade.h:210
+#: ../glade/preferences_win.glade.h:209
 msgid "Decimal places"
 msgstr "Decimalna števila"
 
-#: ../glade/preferences_win.glade.h:211
+#: ../glade/preferences_win.glade.h:210
 msgid "Applies to most of the tests and export data"
 msgstr "Velja za večino testov in izvoznih podatkov"
 
-#: ../glade/preferences_win.glade.h:212
+#: ../glade/preferences_win.glade.h:211
 msgid "Do not write debug messages"
 msgstr "Ne zapisuj razhroščevalnih sporočil"
 
-#: ../glade/preferences_win.glade.h:213
+#: ../glade/preferences_win.glade.h:212
 msgid "Mute logs"
 msgstr "Utišaj dnevnike"
 
-#: ../glade/preferences_win.glade.h:214
+#: ../glade/preferences_win.glade.h:213
 msgid "default: False"
 msgstr "privzeto: napak"
 
-#: ../glade/preferences_win.glade.h:215
+#: ../glade/preferences_win.glade.h:214
 msgid "Ask for confirm test deletion"
 msgstr "Vprašaj za potrditev brisanja"
 
-#: ../glade/preferences_win.glade.h:216
+#: ../glade/preferences_win.glade.h:215
 msgid "Ask user if really wants to delete a test"
 msgstr "Vpraša uporabnika ali res želi izbrisati test"
 
-#: ../glade/preferences_win.glade.h:217
+#: ../glade/preferences_win.glade.h:216
 msgid "Python version"
 msgstr "Različica Python"
 
-#: ../glade/preferences_win.glade.h:221
+#: ../glade/preferences_win.glade.h:220
 msgid "Small screens"
 msgstr "Manjši zasloni"
 
-#: ../glade/preferences_win.glade.h:225
+#: ../glade/preferences_win.glade.h:224
 msgid "View more tabs"
 msgstr "Poglej več zavihkov"
 
-#: ../glade/preferences_win.glade.h:226
+#: ../glade/preferences_win.glade.h:225
 msgid "Restart Chronojump to apply changes."
 msgstr "Znova zaženite Chronojump, da uveljavite spremembe."
 
@@ -9303,10 +9301,6 @@ msgid "Seems there's a header row and you have not marked it."
 msgstr ""
 "Zdi se, da je v podatkih tudi vrstica glave stolpcev, vendar tega niste "
 "označili."
-
-#: ../src/gui/person/addMultiple.cs:708
-msgid "kg"
-msgstr "kg"
 
 #. errors
 #: ../src/gui/person/addMultiple.cs:787

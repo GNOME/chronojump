@@ -9397,7 +9397,7 @@ It starts before and arrives there with some speed.</property>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">Bluetooth</property>
+                                <property name="label">Bluetooth</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>

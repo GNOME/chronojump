@@ -48,7 +48,7 @@ for ** UPDATE ** , i do:
 */
 
 1.- check creating a .pot (creates chronojump.pot)
-chronojump/po $ intltool-update -p
+chronojump/po $ ./intltool-update -p
 
 2.- merge chronojump.pot with old catalan translation
 mv ca.po ca_old.po

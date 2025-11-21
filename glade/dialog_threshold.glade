@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
+<!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="adjustment1">
     <property name="lower">1</property>
-    <property name="upper">10</property>
+    <property name="upper">20</property>
     <property name="value">5</property>
     <property name="step-increment">1</property>
     <property name="page-increment">1</property>
@@ -61,48 +61,65 @@
             <property name="border-width">4</property>
             <property name="spacing">16</property>
             <child>
-              <object class="GtkAlignment" id="alignment1">
+              <!-- n-columns=2 n-rows=2 -->
+              <object class="GtkGrid">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="top-padding">10</property>
+                <property name="margin-top">10</property>
+                <property name="margin-bottom">4</property>
+                <property name="hexpand">True</property>
+                <property name="row-spacing">6</property>
+                <property name="column-spacing">20</property>
+                <child>
+                  <object class="GtkLabel" id="label_threshold_name">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="halign">start</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHScale" id="hscale_threshold">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="hexpand">True</property>
+                    <property name="adjustment">adjustment1</property>
+                    <property name="restrict-to-fill-level">False</property>
+                    <property name="fill-level">0</property>
+                    <property name="digits">0</property>
+                    <property name="draw-value">False</property>
+                    <signal name="value-changed" handler="on_hscale_threshold_value_changed" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left-attach">1</property>
+                    <property name="top-attach">0</property>
+                  </packing>
+                </child>
                 <child>
                   <object class="GtkHBox" id="hbox1">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="spacing">12</property>
+                    <property name="halign">start</property>
+                    <property name="spacing">20</property>
                     <child>
-                      <object class="GtkLabel" id="label_threshold_name">
+                      <object class="GtkLabel" id="label_threshold_value_ms">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="label">50</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHScale" id="hscale_threshold">
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="adjustment">adjustment1</property>
-                        <property name="restrict-to-fill-level">False</property>
-                        <property name="fill-level">0</property>
-                        <property name="digits">0</property>
-                        <property name="draw-value">False</property>
-                        <signal name="value-changed" handler="on_hscale_threshold_value_changed" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="label_threshold_value">
+                      <object class="GtkLabel" id="label_threshold_value_cm">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label">50</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -111,11 +128,27 @@
                       </packing>
                     </child>
                   </object>
+                  <packing>
+                    <property name="left-attach">1</property>
+                    <property name="top-attach">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label_selected">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="halign">end</property>
+                    <property name="label" translatable="yes">Selected</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
@@ -163,7 +196,7 @@
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="position">2</property>
               </packing>
             </child>
             <child>
@@ -359,7 +392,7 @@
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
-                <property name="position">2</property>
+                <property name="position">3</property>
               </packing>
             </child>
           </object>

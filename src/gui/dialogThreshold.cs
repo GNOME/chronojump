@@ -37,8 +37,10 @@ public class DialogThreshold
 	Gtk.RadioButton radio_other;
 
 	Gtk.Label label_threshold_name;
+	Gtk.Label label_selected;
 
-	Gtk.Label label_threshold_value;
+	Gtk.Label label_threshold_value_ms;
+	Gtk.Label label_threshold_value_cm;
 	Gtk.HScale hscale_threshold;
 
 	//just for the colors
@@ -57,6 +59,7 @@ public class DialogThreshold
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_threshold.glade", "dialog_threshold", null);
 		gladeXML.Autoconnect(this);
 		*/
+		LogB.Information ("thresholdCurrent: " + thresholdCurrent.ToString ());
 		Gtk.Builder builder = new Gtk.Builder (null, Util.GetGladePath () + "dialog_threshold.glade", null);
 		connectWidgets (builder);
 		builder.Autoconnect(this);
@@ -69,7 +72,9 @@ public class DialogThreshold
 		{
 			UtilGtk.DialogColor(dialog_threshold, Config.ColorBackground);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_threshold_name);
-			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_threshold_value);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_selected);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_threshold_value_ms);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_threshold_value_cm);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_about);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_radio_jumps);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_radio_races);
@@ -80,7 +85,8 @@ public class DialogThreshold
 
 		this.thresholdCurrent = thresholdCurrent;
 		hscale_threshold.Value = Convert.ToInt32(thresholdCurrent / 10);
-		label_threshold_value.Text = thresholdCurrent.ToString() + " ms";
+		label_threshold_value_ms.Text = thresholdCurrent.ToString() + " ms";
+		label_threshold_value_cm.Text = Util.TrimDecimals (msToCm (thresholdCurrent), 2) + " cm";
 
 		writeTexts();
 
@@ -108,7 +114,13 @@ public class DialogThreshold
 	private void on_hscale_threshold_value_changed(object o, EventArgs arg)
 	{
 		thresholdCurrent = 10 * Convert.ToInt32(hscale_threshold.Value);
-		label_threshold_value.Text = thresholdCurrent.ToString() + " ms";
+		label_threshold_value_ms.Text = thresholdCurrent.ToString() + " ms";
+		label_threshold_value_cm.Text = Util.TrimDecimals (msToCm (thresholdCurrent), 3) + " cm";
+	}
+
+	private double msToCm (int thresholdCurrent)
+	{
+		return (1.22625 * (Math.Pow (thresholdCurrent/100.0, 2)));
 	}
 
 	private void writeTexts()
@@ -125,20 +137,21 @@ public class DialogThreshold
 		textview_about.Buffer = tb_about;
 
 		TextBuffer tb_jumps = new TextBuffer (new TextTagTable());
-		tb_jumps.Text =  Catalog.GetString("Default value: 50 ms.") +
-			"\n\n" + Catalog.GetString("On jumps with contact platforms a value of 50 ms (3 cm jump approximately) is enough to solve electronical problems.") +
+		tb_jumps.Text =  Catalog.GetString("Default value:") + " 150 ms." +
+			"\n\n" + string.Format (Catalog.GetString ("On jumps with contact platforms a value of {0} ms"), "150") +
+			" (" + Catalog.GetString ("2.76 mm") + ") " + Catalog.GetString ("is enough to solve electronical problems.") +
 			"\n\n" + Catalog.GetString("You may change this value if you have a jumper that loses pressure with the platform while going down previous to a CMJ or ABK jump.") +
 			"\n" +   Catalog.GetString("This jumper should change his technique, but if it's difficult, a solution is to increase threshold.");
 		textview_jumps.Buffer = tb_jumps;
 
 		TextBuffer tb_races = new TextBuffer (new TextTagTable());
-		tb_races.Text =  Catalog.GetString("Default value: 10 ms.") +
+		tb_races.Text =  Catalog.GetString("Default value:") + " 10 ms." +
 			"\n\n" + Catalog.GetString("On races with photocells a value of 10 ms is the default value.") +
 			"\n\n" + Catalog.GetString("As Chronojump manages double contacts on photocells, changing threshold value is not very common.");
 		textview_races.Buffer = tb_races;
 
 		TextBuffer tb_other = new TextBuffer (new TextTagTable());
-		tb_other.Text =  Catalog.GetString("Default value: 50 ms.") +
+		tb_other.Text =  Catalog.GetString("Default value:") + " 50 ms." +
 			"\n\n" + Catalog.GetString("Depending on the test, user could change values.");
 		textview_other.Buffer = tb_other;
 	}
@@ -196,7 +209,9 @@ public class DialogThreshold
 		radio_races = (Gtk.RadioButton) builder.GetObject ("radio_races");
 		radio_other = (Gtk.RadioButton) builder.GetObject ("radio_other");
 		label_threshold_name = (Gtk.Label) builder.GetObject ("label_threshold_name");
-		label_threshold_value = (Gtk.Label) builder.GetObject ("label_threshold_value");
+		label_selected = (Gtk.Label) builder.GetObject ("label_selected");
+		label_threshold_value_ms = (Gtk.Label) builder.GetObject ("label_threshold_value_ms");
+		label_threshold_value_cm = (Gtk.Label) builder.GetObject ("label_threshold_value_cm");
 		hscale_threshold = (Gtk.HScale) builder.GetObject ("hscale_threshold");
 		label_about = (Gtk.Label) builder.GetObject ("label_about");
 		label_radio_jumps = (Gtk.Label) builder.GetObject ("label_radio_jumps");

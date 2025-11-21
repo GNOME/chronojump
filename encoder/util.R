@@ -107,7 +107,7 @@ assignOptions <- function(options) {
 
 cutByTriggers <- function(op)
 {
-	if(op$TriggersCut == TRUE && op$TriggersOnList != -1)
+	if(op$TriggersCut == TRUE && op$TriggersOnList[1] != "")
 		return(TRUE);
 
 	return(FALSE);

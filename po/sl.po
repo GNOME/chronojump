@@ -11,18 +11,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2025-11-20 14:56+0000\n"
-"PO-Revision-Date: 2025-11-20 18:22+0100\n"
+"POT-Creation-Date: 2025-11-22 14:01+0000\n"
+"PO-Revision-Date: 2025-11-22 20:15+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
-"n%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
+"%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: ../glade/app1.glade.h:1 ../glade/error_window.glade.h:1
 #: ../glade/force_sensor_elastic_bands.glade.h:1
@@ -90,7 +90,7 @@ msgstr "Kaže, da kamera snema"
 msgid "Stop"
 msgstr "Zaustavi"
 
-#: ../glade/app1.glade.h:15 ../glade/dialog_threshold.glade.h:3
+#: ../glade/app1.glade.h:15 ../glade/dialog_threshold.glade.h:4
 #: ../glade/preferences_win.glade.h:40 ../glade/report_window.glade.h:10
 #: ../src/exportSession.cs:655 ../src/gui/app1/chronojump.cs:5777
 #: ../src/gui/modes/jump.cs:775 ../src/gui/modes/jump.cs:830
@@ -99,7 +99,7 @@ msgstr "Zaustavi"
 msgid "Jumps"
 msgstr "Skoki"
 
-#: ../glade/app1.glade.h:16 ../glade/dialog_threshold.glade.h:4
+#: ../glade/app1.glade.h:16 ../glade/dialog_threshold.glade.h:5
 #: ../glade/preferences_win.glade.h:58 ../glade/report_window.glade.h:11
 msgid "Races"
 msgstr "Teki"
@@ -1359,12 +1359,12 @@ msgstr "označi zaporedne"
 msgid "mark best 'n' consecutives"
 msgstr "označi najboljših 'n' zaporednih"
 
-#: ../glade/app1.glade.h:254 ../src/graphs/cairo/xy.cs:737
-#: ../src/gui/genericWindow.cs:530 ../src/gui/genericWindow.cs:560
-#: ../src/gui/genericWindow.cs:566 ../src/gui/genericWindow.cs:1086
-#: ../src/gui/person/recuperate.cs:375 ../src/gui/person/recuperate.cs:508
-#: ../src/gui/person/recuperate.cs:562 ../src/gui/stats.cs:221
-#: ../src/gui/stats.cs:529 ../src/gui/stats.cs:986
+#: ../glade/app1.glade.h:254 ../glade/dialog_threshold.glade.h:2
+#: ../src/graphs/cairo/xy.cs:737 ../src/gui/genericWindow.cs:530
+#: ../src/gui/genericWindow.cs:560 ../src/gui/genericWindow.cs:566
+#: ../src/gui/genericWindow.cs:1086 ../src/gui/person/recuperate.cs:375
+#: ../src/gui/person/recuperate.cs:508 ../src/gui/person/recuperate.cs:562
+#: ../src/gui/stats.cs:221 ../src/gui/stats.cs:529 ../src/gui/stats.cs:986
 msgid "Selected"
 msgstr "Izbrano"
 
@@ -3054,11 +3054,11 @@ msgstr "Testi"
 msgid "Chronojump threshold"
 msgstr "Prag Chronojump"
 
-#: ../glade/dialog_threshold.glade.h:2
+#: ../glade/dialog_threshold.glade.h:3
 msgid "About threshold"
 msgstr "O pragu"
 
-#: ../glade/dialog_threshold.glade.h:5
+#: ../glade/dialog_threshold.glade.h:6
 msgid "Other tests"
 msgstr "Drugi testi"
 
@@ -8293,23 +8293,23 @@ msgstr ""
 "Nova teža\n"
 "možnost 2"
 
-#: ../src/gui/dialogThreshold.cs:89
+#: ../src/gui/dialogThreshold.cs:95
 msgid "Threshold for jumps"
 msgstr "Prag za skoke"
 
-#: ../src/gui/dialogThreshold.cs:94
+#: ../src/gui/dialogThreshold.cs:100
 msgid "Threshold for runs"
 msgstr "Prag za tek"
 
-#: ../src/gui/dialogThreshold.cs:99
+#: ../src/gui/dialogThreshold.cs:105
 msgid "Threshold for other tests"
 msgstr "Prag za druge teste"
 
-#: ../src/gui/dialogThreshold.cs:117
+#: ../src/gui/dialogThreshold.cs:129
 msgid "Spurious signals are common on electronics."
 msgstr "Neželeni signali so v elektroniki pogosti."
 
-#: ../src/gui/dialogThreshold.cs:118
+#: ../src/gui/dialogThreshold.cs:130
 msgid ""
 "Threshold refers to the minimum value measurable and is the common way to "
 "clean this spurious signals."
@@ -8317,11 +8317,11 @@ msgstr ""
 "Prag se nanaša na najmanjšo merljivo vrednost in je običajen način čiščenja "
 "teh neželenih signalov."
 
-#: ../src/gui/dialogThreshold.cs:119
+#: ../src/gui/dialogThreshold.cs:131
 msgid "Threshold should be a value lower than expected values."
 msgstr "Prag mora biti vrednost, ki je nižja od pričakovanih vrednosti."
 
-#: ../src/gui/dialogThreshold.cs:121
+#: ../src/gui/dialogThreshold.cs:133
 msgid ""
 "On database three different thresholds are stored: jumps, races and other "
 "tests."
@@ -8329,11 +8329,11 @@ msgstr ""
 "V podatkovni zbirki so shranjeni trije različni pragovi: skoki, dirke in "
 "drugi testi."
 
-#: ../src/gui/dialogThreshold.cs:122
+#: ../src/gui/dialogThreshold.cs:134
 msgid "If you change these values they will be stored once test is executed."
 msgstr "Če te vrednosti spremenite, bodo shranjene, ko bo test izveden."
 
-#: ../src/gui/dialogThreshold.cs:124
+#: ../src/gui/dialogThreshold.cs:136
 msgid ""
 "Usually threshold values should not be changed but this option is useful for "
 "special cases."
@@ -8341,19 +8341,25 @@ msgstr ""
 "Običajno mejnih vrednosti ni mogoče spreminjati, vendar je ta možnost v "
 "posebnih primerih uporabna."
 
-#: ../src/gui/dialogThreshold.cs:128 ../src/gui/dialogThreshold.cs:141
-msgid "Default value: 50 ms."
-msgstr "Privzeta vrednost: 50 ms."
+#: ../src/gui/dialogThreshold.cs:140 ../src/gui/dialogThreshold.cs:148
+#: ../src/gui/dialogThreshold.cs:154
+msgid "Default value:"
+msgstr "Privzeta vrednost:"
 
-#: ../src/gui/dialogThreshold.cs:129
-msgid ""
-"On jumps with contact platforms a value of 50 ms (3 cm jump approximately) "
-"is enough to solve electronical problems."
-msgstr ""
-"Pri skokih s kontaktnimi ploščami je vrednost 50 ms (približno 3 cm skoka) "
-"dovolj, da se odpravijo težave z elektroniko."
+#: ../src/gui/dialogThreshold.cs:141
+#, csharp-format
+msgid "On jumps with contact platforms a value of {0} ms"
+msgstr "Pri skokih s kontaktnimi platformami je vrednost {0} ms"
 
-#: ../src/gui/dialogThreshold.cs:130
+#: ../src/gui/dialogThreshold.cs:142
+msgid "2.76 mm"
+msgstr "2,76 mm"
+
+#: ../src/gui/dialogThreshold.cs:142
+msgid "is enough to solve electronical problems."
+msgstr "dovolj za reševanje elektronskih problemov."
+
+#: ../src/gui/dialogThreshold.cs:143
 msgid ""
 "You may change this value if you have a jumper that loses pressure with the "
 "platform while going down previous to a CMJ or ABK jump."
@@ -8361,7 +8367,7 @@ msgstr ""
 "To vrednost lahko spremenite, če ima skakalec, ki med spuščanjem izgubi "
 "pritisk na ploščad pred skokom CMJ ali ABK."
 
-#: ../src/gui/dialogThreshold.cs:131
+#: ../src/gui/dialogThreshold.cs:144
 msgid ""
 "This jumper should change his technique, but if it's difficult, a solution "
 "is to increase threshold."
@@ -8369,15 +8375,11 @@ msgstr ""
 "Ta skakalec bi moral spremeniti tehniko, če pa to ni enostavno izvedljivo, "
 "je rešitev lahko povečanje praga."
 
-#: ../src/gui/dialogThreshold.cs:135
-msgid "Default value: 10 ms."
-msgstr "Privzeta vrednost: 10 ms."
-
-#: ../src/gui/dialogThreshold.cs:136
+#: ../src/gui/dialogThreshold.cs:149
 msgid "On races with photocells a value of 10 ms is the default value."
 msgstr "Pri tekih z uporabo fotocelic je privzeta vrednost 10 ms."
 
-#: ../src/gui/dialogThreshold.cs:137
+#: ../src/gui/dialogThreshold.cs:150
 msgid ""
 "As Chronojump manages double contacts on photocells, changing threshold "
 "value is not very common."
@@ -8385,7 +8387,7 @@ msgstr ""
 "Ker Chronojump upravlja dvojne kontakte na fotocelicah, spreminjanje "
 "vrednosti praga ni zelo pogosto."
 
-#: ../src/gui/dialogThreshold.cs:142
+#: ../src/gui/dialogThreshold.cs:155
 msgid "Depending on the test, user could change values."
 msgstr "Odvisno od testa lahko uporabnik spremeni vrednosti."
 

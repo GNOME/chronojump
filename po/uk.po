@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2025-11-20 17:24+0000\n"
-"PO-Revision-Date: 2025-11-20 23:07+0200\n"
+"POT-Creation-Date: 2025-11-21 19:51+0000\n"
+"PO-Revision-Date: 2025-11-22 15:57+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -85,7 +85,7 @@ msgstr "Здається, камера записує"
 msgid "Stop"
 msgstr "Зупинити"
 
-#: ../glade/app1.glade.h:15 ../glade/dialog_threshold.glade.h:3
+#: ../glade/app1.glade.h:15 ../glade/dialog_threshold.glade.h:4
 #: ../glade/preferences_win.glade.h:40 ../glade/report_window.glade.h:10
 #: ../src/exportSession.cs:655 ../src/gui/app1/chronojump.cs:5777
 #: ../src/gui/modes/jump.cs:775 ../src/gui/modes/jump.cs:830
@@ -94,7 +94,7 @@ msgstr "Зупинити"
 msgid "Jumps"
 msgstr "Стрибки"
 
-#: ../glade/app1.glade.h:16 ../glade/dialog_threshold.glade.h:4
+#: ../glade/app1.glade.h:16 ../glade/dialog_threshold.glade.h:5
 #: ../glade/preferences_win.glade.h:58 ../glade/report_window.glade.h:11
 msgid "Races"
 msgstr "Дистанції"
@@ -1350,12 +1350,12 @@ msgstr "позначати послідовні"
 msgid "mark best 'n' consecutives"
 msgstr "позначати найкращі «n» послідовні"
 
-#: ../glade/app1.glade.h:254 ../src/graphs/cairo/xy.cs:737
-#: ../src/gui/genericWindow.cs:530 ../src/gui/genericWindow.cs:560
-#: ../src/gui/genericWindow.cs:566 ../src/gui/genericWindow.cs:1086
-#: ../src/gui/person/recuperate.cs:375 ../src/gui/person/recuperate.cs:508
-#: ../src/gui/person/recuperate.cs:562 ../src/gui/stats.cs:221
-#: ../src/gui/stats.cs:529 ../src/gui/stats.cs:986
+#: ../glade/app1.glade.h:254 ../glade/dialog_threshold.glade.h:2
+#: ../src/graphs/cairo/xy.cs:737 ../src/gui/genericWindow.cs:530
+#: ../src/gui/genericWindow.cs:560 ../src/gui/genericWindow.cs:566
+#: ../src/gui/genericWindow.cs:1086 ../src/gui/person/recuperate.cs:375
+#: ../src/gui/person/recuperate.cs:508 ../src/gui/person/recuperate.cs:562
+#: ../src/gui/stats.cs:221 ../src/gui/stats.cs:529 ../src/gui/stats.cs:986
 msgid "Selected"
 msgstr "Вибрано"
 
@@ -1802,12 +1802,10 @@ msgid "Intervallic runs"
 msgstr "Інтервальні забіги"
 
 #: ../glade/app1.glade.h:358
-#| msgid "Total time"
 msgid "Test time"
 msgstr "Час тесту"
 
 #: ../glade/app1.glade.h:359
-#| msgid "All tests"
 msgid "All events"
 msgstr "Усі події"
 
@@ -3049,11 +3047,11 @@ msgstr "Тести"
 msgid "Chronojump threshold"
 msgstr "Поріг Chronojump"
 
-#: ../glade/dialog_threshold.glade.h:2
+#: ../glade/dialog_threshold.glade.h:3
 msgid "About threshold"
 msgstr "Про порігAbout threshold"
 
-#: ../glade/dialog_threshold.glade.h:5
+#: ../glade/dialog_threshold.glade.h:6
 msgid "Other tests"
 msgstr "Інші тести"
 
@@ -3111,8 +3109,10 @@ msgid "Sit to stand"
 msgstr "З сидячи у стоячи"
 
 #: ../glade/edit_event.glade.h:52
-msgid "Able to stand up without using hands in a steady and controlled action."
-msgstr "Може встати без використання рук у стабільний і контрольований спосіб."
+msgid ""
+"Able to stand up without using hands in a steady and controlled action."
+msgstr ""
+"Може встати без використання рук у стабільний і контрольований спосіб."
 
 #: ../glade/edit_event.glade.h:53
 msgid "Able to stand up using hands in a steady and controlled action."
@@ -3456,7 +3456,8 @@ msgstr "Інфрачервоний"
 
 #: ../glade/evaluator_window.glade.h:28
 msgid "To buy or build these devices see website:"
-msgstr "Дані щодо придбання та збирання цих пристроїв наведено на цьому сайті:"
+msgstr ""
+"Дані щодо придбання та збирання цих пристроїв наведено на цьому сайті:"
 
 #: ../glade/execute_auto.glade.h:2
 msgid "Load sequence"
@@ -7527,7 +7528,8 @@ msgstr ""
 
 #: ../src/gui/app1/encoder.cs:4689
 msgid "Drive: Perform exercises where force is developed during more time."
-msgstr "Забіг: виконати вправи, де зусилля розвивається протягом певного часу."
+msgstr ""
+"Забіг: виконати вправи, де зусилля розвивається протягом певного часу."
 
 #. TODO: translate
 #: ../src/gui/app1/encoder.cs:4692
@@ -8204,7 +8206,8 @@ msgstr[3] "Знайдено один пристрій."
 
 #: ../src/gui/chronopicRegister.cs:358
 #, csharp-format
-msgid "One device is not configured. Please, configure it clicking the arrows."
+msgid ""
+"One device is not configured. Please, configure it clicking the arrows."
 msgid_plural ""
 "{0} devices are not configured. Please, configure them clicking the arrows."
 msgstr[0] ""
@@ -8293,23 +8296,23 @@ msgstr ""
 "Нова вага\n"
 "варіант 2"
 
-#: ../src/gui/dialogThreshold.cs:89
+#: ../src/gui/dialogThreshold.cs:95
 msgid "Threshold for jumps"
 msgstr "Поріг для стрибків"
 
-#: ../src/gui/dialogThreshold.cs:94
+#: ../src/gui/dialogThreshold.cs:100
 msgid "Threshold for runs"
 msgstr "Поріг для підходів"
 
-#: ../src/gui/dialogThreshold.cs:99
+#: ../src/gui/dialogThreshold.cs:105
 msgid "Threshold for other tests"
 msgstr "Поріг для інших тестів"
 
-#: ../src/gui/dialogThreshold.cs:117
+#: ../src/gui/dialogThreshold.cs:129
 msgid "Spurious signals are common on electronics."
 msgstr "Хибні сигнали є поширеними у електроніці."
 
-#: ../src/gui/dialogThreshold.cs:118
+#: ../src/gui/dialogThreshold.cs:130
 msgid ""
 "Threshold refers to the minimum value measurable and is the common way to "
 "clean this spurious signals."
@@ -8317,11 +8320,12 @@ msgstr ""
 "Порогове значення стосується мінімально вимірюваного значення і є поширеним "
 "способом відсіювання хибних сигналів."
 
-#: ../src/gui/dialogThreshold.cs:119
+#: ../src/gui/dialogThreshold.cs:131
 msgid "Threshold should be a value lower than expected values."
-msgstr "Порогове значення має бути значенням, яке нижче за очікувані значення."
+msgstr ""
+"Порогове значення має бути значенням, яке нижче за очікувані значення."
 
-#: ../src/gui/dialogThreshold.cs:121
+#: ../src/gui/dialogThreshold.cs:133
 msgid ""
 "On database three different thresholds are stored: jumps, races and other "
 "tests."
@@ -8329,12 +8333,12 @@ msgstr ""
 "У базі даних зберігаються три різних порогових значення: стрибки, підходи та "
 "інші тести."
 
-#: ../src/gui/dialogThreshold.cs:122
+#: ../src/gui/dialogThreshold.cs:134
 msgid "If you change these values they will be stored once test is executed."
 msgstr ""
 "Якщо ви внесете зміни до цих значень, їх буде збережено при виконанні тесту."
 
-#: ../src/gui/dialogThreshold.cs:124
+#: ../src/gui/dialogThreshold.cs:136
 msgid ""
 "Usually threshold values should not be changed but this option is useful for "
 "special cases."
@@ -8342,25 +8346,34 @@ msgstr ""
 "Зазвичай, потреби у зміні порогових значень немає, але у певних випадках цей "
 "пункт може бути корисним."
 
-#: ../src/gui/dialogThreshold.cs:128 ../src/gui/dialogThreshold.cs:141
-msgid "Default value: 50 ms."
-msgstr "Типове значення: 50 мс."
+#: ../src/gui/dialogThreshold.cs:140 ../src/gui/dialogThreshold.cs:148
+#: ../src/gui/dialogThreshold.cs:154
+#| msgid "Default angle"
+msgid "Default value:"
+msgstr "Типове значення:"
 
-#: ../src/gui/dialogThreshold.cs:129
-msgid ""
-"On jumps with contact platforms a value of 50 ms (3 cm jump approximately) "
-"is enough to solve electronical problems."
+#: ../src/gui/dialogThreshold.cs:141
+#, csharp-format
+msgid "On jumps with contact platforms a value of {0} ms"
+msgstr "При стрибках із контактними платформами значення у {0} мс"
+
+#: ../src/gui/dialogThreshold.cs:142
+msgid "2.76 mm"
+msgstr "2.76 мм"
+
+#: ../src/gui/dialogThreshold.cs:142
+msgid "is enough to solve electronical problems."
 msgstr ""
-"При стрибках із контактними платформами для вирішення проблем із "
-"електронікою достатньо значення у 50 мс (приблизний стрибок у 3 см)."
+"достатньо для вирішення проблем із "
+"електронікою."
 
-#: ../src/gui/dialogThreshold.cs:130
+#: ../src/gui/dialogThreshold.cs:143
 msgid ""
 "You may change this value if you have a jumper that loses pressure with the "
 "platform while going down previous to a CMJ or ABK jump."
 msgstr ""
 
-#: ../src/gui/dialogThreshold.cs:131
+#: ../src/gui/dialogThreshold.cs:144
 msgid ""
 "This jumper should change his technique, but if it's difficult, a solution "
 "is to increase threshold."
@@ -8368,15 +8381,11 @@ msgstr ""
 "Цей стрибун має змінити свою техніку, але якщо це складно, вирішенням є "
 "збільшення порогового значення."
 
-#: ../src/gui/dialogThreshold.cs:135
-msgid "Default value: 10 ms."
-msgstr "Типове значення: 10 мс."
-
-#: ../src/gui/dialogThreshold.cs:136
+#: ../src/gui/dialogThreshold.cs:149
 msgid "On races with photocells a value of 10 ms is the default value."
 msgstr "У підходах із фотоелементами типовим є значення 10 мс."
 
-#: ../src/gui/dialogThreshold.cs:137
+#: ../src/gui/dialogThreshold.cs:150
 msgid ""
 "As Chronojump manages double contacts on photocells, changing threshold "
 "value is not very common."
@@ -8384,7 +8393,7 @@ msgstr ""
 "Як Chronojump обробляє подвійні контакти на фотоелементах, зміна порогового "
 "значення є нестандартною для більшості випадків."
 
-#: ../src/gui/dialogThreshold.cs:142
+#: ../src/gui/dialogThreshold.cs:155
 msgid "Depending on the test, user could change values."
 msgstr "Залежно від тесту, користувач між змінити значення."
 
@@ -9321,7 +9330,8 @@ msgstr "Особ буде створено із типовими значенн�
 
 #: ../src/gui/person/merge.cs:237
 #, csharp-format
-msgid "All tests of person '{0}' will be permanently assigned to person '{1}'."
+msgid ""
+"All tests of person '{0}' will be permanently assigned to person '{1}'."
 msgstr "Усі тести особи «{0}» буде остаточно пов'язано із особою «{1}»."
 
 #: ../src/gui/person/merge.cs:348
@@ -9468,7 +9478,8 @@ msgstr ""
 "Якщо позначено, повторення буде вирізано із набору за допомогою тригерів."
 
 #: ../src/gui/preferences.cs:3235
-msgid "Trigger signal will be produced by a button connected to the Chronopic."
+msgid ""
+"Trigger signal will be produced by a button connected to the Chronopic."
 msgstr "Сигнал тригера буде створено кнопкою, яку з'єднано із Chronopic."
 
 #: ../src/gui/preferences.cs:3236
@@ -9895,7 +9906,8 @@ msgstr "Відкриваємо порт…"
 
 #: ../src/Mini/chronojump_mini.cs:132
 msgid "Please touch the platform or click Chronopic TEST button"
-msgstr "Будь ласка, торкніться платформи або натисніть кнопку «TEST» Chronopic"
+msgstr ""
+"Будь ласка, торкніться платформи або натисніть кнопку «TEST» Chronopic"
 
 #: ../src/Mini/chronojump_mini.cs:142
 msgid "Error opening serial port"
@@ -12056,6 +12068,19 @@ msgstr "Помилка. {0} не вдалося зберегти відео."
 #: ../src/webcam/webcamFfmpeg.cs:405
 msgid "\"Preview. Press any key to exit.\""
 msgstr "\"Попередній перегляд. Натисніть будь-яку клавішу, щоб вийти.\""
+
+#~ msgid "Default value: 50 ms."
+#~ msgstr "Типове значення: 50 мс."
+
+#~ msgid ""
+#~ "On jumps with contact platforms a value of 50 ms (3 cm jump "
+#~ "approximately) is enough to solve electronical problems."
+#~ msgstr ""
+#~ "При стрибках із контактними платформами для вирішення проблем із "
+#~ "електронікою достатньо значення у 50 мс (приблизний стрибок у 3 см)."
+
+#~ msgid "Default value: 10 ms."
+#~ msgstr "Типове значення: 10 мс."
 
 #~ msgid "Tiempo del test"
 #~ msgstr "Темп тестування"

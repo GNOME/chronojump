@@ -262,6 +262,7 @@ public partial class ChronoJumpWindow
 	{
 		on_cancel_clicked_2_other ();
 
+		blankFourPlatformsGraphs ();
 		box_fourPlatforms_capture_buttons.Sensitive = true;
 		box_fourPlatforms_cancel_finish.Sensitive = false;
 	}

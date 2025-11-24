@@ -115,7 +115,7 @@ public class FourPlatformsCaptureManageStepsLowHigh : FourPlatformsCaptureManage
 	List<PointF> off2_l; // when leave: contact 2
 
 	private bool lastContactIs3;
-	private bool firstOffIs1;
+	//private bool firstOffIs1;
 
 	// constructor
 	public FourPlatformsCaptureManageStepsLowHigh (
@@ -128,10 +128,12 @@ public class FourPlatformsCaptureManageStepsLowHigh : FourPlatformsCaptureManage
 
 	public override void UpdateSteps (FourPlatformsEvent fpe, List<double> timeAccu_l, int y) //y is 1-4
 	{
+		/*
 		LogB.Information ("timeAccu_l:");
 		LogB.Information (UtilList.ListDoubleToString (timeAccu_l, 2, " "));
 		LogB.Information ("fpe:");
 		LogB.Information (fpe.ToString ());
+		*/
 
 		// 1 update lists
 		bool processSteps = false; // if not process, just return
@@ -184,7 +186,7 @@ public class FourPlatformsCaptureManageStepsLowHigh : FourPlatformsCaptureManage
 		if (PointF.Last (off2_l).X > PointF.Last (on3_l).X && PointF.Last (off2_l).X > PointF.Last (on4_l).X)
 			return;
 
-		LogB.Information ("no off more at right than ons");
+		LogB.Information ("no Off more at right than Ons");
 		// 3 create onLast4Relevant_l list omitting same sensor consecutive repeated values
 		List<PointF> last4Relevant_l = createLast4RelevantList ();
 
@@ -208,14 +210,6 @@ public class FourPlatformsCaptureManageStepsLowHigh : FourPlatformsCaptureManage
 		resetLists (); // reset lists to not count again on next contact
 	}
 
-	// check last two ON on 3, 4
-	// check last two OFF on 1, 2
-	// there should be an ON on absolute right
-	// there should be an OFF on absolute left
-	// TODO:
-	// 	if repeated on the same channel, on ON take the left
-	// 	if repeated on the same channel, on OFF take the right
-
 	private void resetLists ()
 	{
 		on_l = new List<PointF> ();
@@ -227,35 +221,36 @@ public class FourPlatformsCaptureManageStepsLowHigh : FourPlatformsCaptureManage
 		off2_l = new List<PointF> ();
 	}
 
+	/*
+	 * add last two ON on 3, 4
+	 * add last two OFF on 1, 2
+	 */
 	private List<PointF> createLast4RelevantList ()
 	{
 		List<PointF> l = new List<PointF> (); //from newest (right) to oldest (left)
 
-		lastContactIs3 = false;
 		if (PointF.Last (on3_l).X > PointF.Last (on4_l).X)
+		{
 			lastContactIs3 = true;
-		
-		firstOffIs1 = false;
-		if (PointF.Last (off1_l).X < PointF.Last (off2_l).X)
-			firstOffIs1 = true;
+			l.Add (PointF.Last (on3_l));
+			l.Add (PointF.Last (on4_l));
+		} else {
+			lastContactIs3 = false;
+			l.Add (PointF.Last (on4_l));
+			l.Add (PointF.Last (on3_l));
+		}
 
-		if (lastContactIs3) //TODO: add this code above
+		if (PointF.Last (off1_l).X < PointF.Last (off2_l).X)
 		{
-			l.Add (PointF.Last (on3_l));
-			l.Add (PointF.Last (on4_l));
-		} else {
-			l.Add (PointF.Last (on4_l));
-			l.Add (PointF.Last (on3_l));
-		}
-			
-		if (firstOffIs1) //TODO: add this code above
-		{
+			//firstOffIs1 = true;
 			l.Add (PointF.Last (off2_l));
 			l.Add (PointF.Last (off1_l));
 		} else {
+			//firstOffIs1 = false;
 			l.Add (PointF.Last (off1_l));
 			l.Add (PointF.Last (off2_l));
 		}
+
 		return l;
 	}
 

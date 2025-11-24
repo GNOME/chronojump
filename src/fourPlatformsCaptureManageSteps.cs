@@ -177,9 +177,10 @@ public class FourPlatformsCaptureManageStepsLowHigh : FourPlatformsCaptureManage
 			return;
 
 		LogB.Information ("4 lists not empty");
-		// if off on 1 and 2 are more on the right than 3 on or 4 on (strange, but ...) return
+		// if channel 1 off is more at right than 3 on and 4 on (strange, but ...) return
 		if (PointF.Last (off1_l).X > PointF.Last (on3_l).X && PointF.Last (off1_l).X > PointF.Last (on4_l).X)
 			return;
+		// if channel 2 off is more at the right than 3 on and 4 on (strange, but ...) return
 		if (PointF.Last (off2_l).X > PointF.Last (on3_l).X && PointF.Last (off2_l).X > PointF.Last (on4_l).X)
 			return;
 
@@ -266,6 +267,7 @@ public class FourPlatformsCaptureManageStepsLowHigh : FourPlatformsCaptureManage
 			previousTopSensor = 4; // 1-4
 
 		// check if previousTopSensor has lift and after there is a contact on 1 or 2
+		//LogB.Information ("searching off at right of: " + last4Relevant_l[1].X.ToString ());
 		double previousTopOffX = -1;
 		foreach (PointF p in off_l)
 		{
@@ -279,9 +281,13 @@ public class FourPlatformsCaptureManageStepsLowHigh : FourPlatformsCaptureManage
 		if (previousTopOffX < 0)
 			return false;
 
-		foreach (PointF p in off_l)
+		//LogB.Information ("searching on at right of previousTopOffX: " + previousTopOffX.ToString ());
+		foreach (PointF p in on_l)
+		{
+			//LogB.Information ("p: " + p.ToString ());
 			if (p.Y <= 2 && p.X >= previousTopOffX)
 				return true;
+		}
 
 		return false;
 	}

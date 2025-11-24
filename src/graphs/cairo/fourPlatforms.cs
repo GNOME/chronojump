@@ -200,6 +200,7 @@ public class CairoGraphFourPlatforms : CairoXY
 		if (points_ll[0].Count > 0)
 		{
 			verticalGridLineUnits = " s";
+			//gridNiceSeps = 20; // just to debug
 			paintGridNiceAutoValues (g,
 					points_ll[0][startAt].X,
 					absoluteMaxX, minY, absoluteMaxY, gridNiceSeps, gridTypes.VERTICALLINES, 0, textHeight);

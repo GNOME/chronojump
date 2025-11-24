@@ -204,7 +204,7 @@ public class FourPlatformsCaptureManageStepsLowHigh : FourPlatformsCaptureManage
 
 		stepsCompleted ++;
 
-		if (stepsCompleted >= stepsTotal)
+		//if (stepsCompleted >= stepsTotal) // commented to allow have timeTotal even on Finish (without finishing steps
 			timeEnd = last4Relevant_l[0].X;
 
 		resetLists (); // reset lists to not count again on next contact

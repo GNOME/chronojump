@@ -94,7 +94,7 @@ public class FourPlatformsCaptureManageSteps
 			stepsStatus = StepsStatusEnum.DONETOP;
 			stepsCompleted ++;
 
-			if (stepsCompleted >= stepsTotal)
+			//if (stepsCompleted >= stepsTotal) // commented to allow have timeTotal even on Finish (without finishing steps
 				timeEnd = timeAccu_l[fpe.Button];
 		}
 	}

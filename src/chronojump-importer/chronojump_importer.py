@@ -21,6 +21,9 @@ debugFile = ""
 g_sourceBaseDirectory = ""
 g_destinationBaseDirectory = ""
 
+g_sourceSessionID = ""
+g_destinationSessionID = ""
+
 
 """
 /*
@@ -320,6 +323,11 @@ class Database:
 
             if table.name == "ForceSensorExercise":
                 self.copyExerciseImages ("forceSensor", str(row.get('uniqueID')), str(new_id))
+            if table.name == "Encoder": # TODO: pass also the rest of the tables
+                global g_sourceSessionID
+                global g_destinationSessionID
+                self.copyVideos (str(g_sourceSessionID), str(g_destinationSessionID), "ENCODER-",
+                                 str(row.get('uniqueID')), str(new_id))
 
         self._print_summary(table)
 
@@ -347,6 +355,27 @@ class Database:
 
         if os.path.exists (imageOriginPath + ".jpg"):
             shutil.copy (imageOriginPath + ".jpg", imageDestinationPath + ".jpg")
+
+    @staticmethod
+    def copyVideos (sourceSessionDirStr, destinationSessionDirStr, filenameStarts, oldIdStr, newIdStr):
+        # to use the global variable on this function
+        global g_sourceBaseDirectory
+        global g_destinationBaseDirectory
+
+        originPath = os.path.join (g_sourceBaseDirectory, "multimedia",
+                                   "videos", sourceSessionDirStr,
+                                   filenameStarts + oldIdStr)
+        destinationFolderPath = os.path.join (g_destinationBaseDirectory, "multimedia",
+                                              "videos", destinationSessionDirStr)
+        destinationPath = os.path.join (g_destinationBaseDirectory, "multimedia",
+                                        "videos", destinationSessionDirStr,
+                                        filenameStarts + newIdStr)
+
+        if os.path.exists (originPath + ".mp4"):
+            if not os.path.exists(destinationFolderPath):
+                os.makedirs(destinationFolderPath)
+            shutil.copy (originPath + ".mp4", destinationPath + ".mp4")
+
 
     @staticmethod
     def increment_suffix(value):
@@ -480,6 +509,9 @@ class ImportSession:
     def import_as_new_session(self, source_session):
         self.source_session = source_session
         self.new_session_id = self._import_session()
+
+        global g_destinationSessionID
+        g_destinationSessionID = self.new_session_id
 
         self._import_sport()
         self._import_speciality()
@@ -1169,6 +1201,9 @@ def process_command_line():
             g_destinationBaseDirectory = os.path.abspath (g_destinationBaseDirectory)
             if(DEBUGTOFILE):
                 debugFile.write("g_destinationBaseDirectory: " + g_destinationBaseDirectory + "\n")
+
+            global g_sourceSessionID
+            g_sourceSessionID = args.source_session
 
             importer = ImportSession(args.source, args.destination, source_base_directory, args.source_temp_directory)
 

@@ -618,7 +618,18 @@ public class RunIntervalExecute : RunExecute
 
 	public override string GetDialogResultString ()
 	{
-		return string.Format ("{0} / {1}", tracks, limitAsDouble);
+		if (type.ToLower () == "forestals")
+		{
+			if (tracks < 1)
+				return string.Format ("Bloc 0\n____");
+			if (tracks < 9)
+				return string.Format ("Bloc 1\n{0} / 9", tracks);
+			else if (tracks < 19)
+				return string.Format ("Bloc 2\n{0} / 10", tracks -9);
+			else
+				return string.Format ("Bloc 3\n{0} / 12", tracks -19);
+		} else
+			return string.Format ("{0} / {1}", tracks, limitAsDouble);
 	}
 
 	~RunIntervalExecute() {}

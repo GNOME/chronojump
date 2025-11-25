@@ -1,5 +1,18 @@
 1. Open terminal and execute the following commands (Only when the first time. Please replace "/***" with the real path of chronojump)
 
+On Debian 13 Trixie:
+----
+downloading a .deb fails because libgtk3.0-cil does not exists
+
+so we use the sources:
+
+#add bookworkm backports: add to /etc/apt/sources.list
+deb http://ftp.de.debian.org/debian bookworm main
+
+sudo apt update
+----
+
+
 sudo apt-get update
 cd "/***/chronojump"
 #cd build

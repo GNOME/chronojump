@@ -1,18 +1,43 @@
 ### For building a Linux package read "package/linux/How to Make Linux Packages.txt"
 
 
-# Install needed packages
+
+
+# 1.A) Debian 13 Trixie: Install needed packages
+
+downloading a .deb fails because libgtk3.0-cil does not exists
+
+so we use the sources:
+
+#add bookworkm backports: add to /etc/apt/sources.list
+deb http://ftp.de.debian.org/debian bookworm main
+
+sudo apt update
+sudo apt install wget
+
+wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+# note debian/13 has not dotnet-sdk-7.0
+
+sudo dpkg -i packages-microsoft-prod.deb
+rm packages-microsoft-prod.deb
+sudo apt update
+sudo apt install git python3 autoconf libtool intltool pkg-config build-essential libglib2.0-dev gtk-sharp3 dotnet-sdk-7.0 r-base 7zip dos2unix
+
+
+
+# 1.B) Debian 12 Bookworm: Install needed packages
 sudo apt update
 sudo apt install git python3 autoconf libtool intltool pkg-config build-essential libglib2.0-dev gtk-sharp3 dotnet-sdk-7.0 r-base 7zip dos2unix
 # If dotnet-sdk-7.0 is not in the repositories (Ubuntu 24.04 based distributions) , you can add it with
 sudo add-apt-repository ppa:dotnet/backports
 sudo apt install -y dotnet-sdk-7.0
 
-# Download Chronojump from the repo
+
+# 2) Download Chronojump from the repo
 git clone https://gitlab.gnome.org/GNOME/chronojump.git
 cd chronojump
 
-# Substitute [chronojump path] with the real path where you cloned the repo
+# 3) Substitute [chronojump path] with the real path where you cloned the repo
 sh autogen.sh --prefix [chronojump path]/chronojump/package/linux/deps
 ####if dotnet has been run but linux datetime is in the future, when put datetime back ok, need to do again previous command in order to version be really compiled
 #### If using the git code but not making the package, this dir will not exist: /package/linux/deps just do this to update version on the software:
@@ -24,7 +49,7 @@ make (if you get "Error 127" try doing make again)
 make install
 (Note make install better without sudo if possible. If there is any folder that needs root permissions, better change the permissions of that folder)
 
-# Grant the access to the serial port. Change "[username]" by the real unername
+# 4) Grant the access to the serial port. Change "[username]" by the real unername
 sudo usermod -a -G dialout [username]
 
 # cd to src

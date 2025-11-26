@@ -64,8 +64,7 @@ public partial class ChronoJumpWindow
 		LogB.Information ("fillTreeViewrunEncoder calling Fill");
 		treeViewResultsSession.Fill (runEncoderSA,
 				filterExercise,
-				//Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.RUN));
-			new List<string> ());
+				Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.RACEANALYZER));
 
 		//if show just one person, have it expanded
 		if (! radio_contacts_results_personAll.Active && currentPerson != null)

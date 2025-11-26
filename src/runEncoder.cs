@@ -82,12 +82,13 @@ public class RunEncoder : Event
 	}
 
 	// constructor for TreeViewRunEncoder.getObjectFromString ()
-	public RunEncoder (int uniqueID, double maxSpeed, double maxAvgSpeed1s, string dateTime, string description, string exerciseName)
+	public RunEncoder (int uniqueID, double maxSpeed, double maxAvgSpeed1s, string dateTime, string videoURL, string description, string exerciseName)
 	{
 		this.uniqueID = uniqueID;
 		this.maxSpeed = maxSpeed;
 		this.maxAvgSpeed1s = maxAvgSpeed1s;
 		this.dateTime = dateTime;
+		this.videoURL = videoURL;
 		this.description = description;
 		this.exerciseName = exerciseName;
 		this.type = exerciseName;

@@ -42,12 +42,13 @@ public class TreeViewRunEncoder : TreeViewEvent
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 17; //position of type in the data to be printed.
 		allEventsName = Constants.AllTestsNameStr();
-		idColumn = 5; //column where the uniqueID of event will be (and will be hidden).
+		idColumn = 6; //column where the uniqueID of event will be (and will be hidden).
 		columnsString = new string[] { 
 			personName,
 			Catalog.GetString ("Max speed"),
 			Catalog.GetString ("Best second"),
 			datetimeName,
+			videoName,
 			descriptionName};
 			//,"ID delete"	}; //just for debug
 
@@ -70,6 +71,7 @@ public class TreeViewRunEncoder : TreeViewEvent
 				Convert.ToDouble (str[15]), 	//maxSpeed
 			 	Convert.ToDouble (str[16]),	//maxAvgSpeed1s (Best second)
 				str[10], //dateTime
+				str[12], //videoURL
 				str[11], //description
 				str[17] //exerciseName
 				);
@@ -88,6 +90,12 @@ public class TreeViewRunEncoder : TreeViewEvent
 		myData[count++] = Util.TrimDecimals (re.MaxSpeed, 3);
 		myData[count++] = Util.TrimDecimals (re.MaxAvgSpeed1s, 3);
 		myData[count++] = re.DateTimePublic;
+
+		if (UtilList.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.RACEANALYZER, re.UniqueID)))
+			myData[count++] = Catalog.GetString ("Yes");
+		else
+			myData[count++] = Catalog.GetString ("No");
+
 		myData[count++] = re.Description;
 		myData[count++] = re.UniqueID.ToString ();
 

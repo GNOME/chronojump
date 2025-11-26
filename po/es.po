@@ -63,11 +63,11 @@ msgstr "Base de datos"
 
 #: ../glade/app1.glade.h:8 ../glade/dialog_shortcuts.glade.h:4
 msgid "Select previous person"
-msgstr "Seleccionar el atleta anterior"
+msgstr "Seleccionar la persona anterior"
 
 #: ../glade/app1.glade.h:9 ../glade/dialog_shortcuts.glade.h:5
 msgid "Select next person"
-msgstr "Seleccionar el atleta siguiente"
+msgstr "Seleccionar la persona siguiente"
 
 #: ../glade/app1.glade.h:10 ../glade/dialog_shortcuts.glade.h:6
 #: ../glade/person_multiple_infinite.glade.h:13
@@ -75,7 +75,7 @@ msgstr "Seleccionar el atleta siguiente"
 #: ../src/exportSession.cs:316 ../src/gui/app1/session/loadAndImport.cs:325
 #: ../src/report.cs:173
 msgid "Persons"
-msgstr "Atletas"
+msgstr "Personas"
 
 #: ../glade/app1.glade.h:11
 msgid "Modes"
@@ -205,7 +205,7 @@ msgstr "Analizar"
 #: ../src/gui/overview.cs:303 ../src/stats/runIntervallic.cs:64
 #: ../src/treeview/event.cs:49
 msgid "Person"
-msgstr "Atleta"
+msgstr "Persona"
 
 #. do not exists, create it
 #: ../glade/app1.glade.h:36 ../src/gui/networks.cs:778
@@ -306,11 +306,11 @@ msgstr "Ver orden"
 
 #: ../glade/app1.glade.h:55
 msgid "Skip this person (will perform tests at the end)"
-msgstr "Omitir este atleta (realizará la prueba al final)"
+msgstr "Omitir esta persona (realizará la prueba al final)"
 
 #: ../glade/app1.glade.h:56
 msgid "Remove this person from automatic sequence"
-msgstr "Quitar este atleta de la secuencia automática"
+msgstr "Quitar esta persona de la secuencia automática"
 
 #: ../glade/app1.glade.h:57 ../glade/preferences_win.glade.h:199
 msgid "End"
@@ -1371,11 +1371,11 @@ msgstr "Límite"
 
 #: ../glade/app1.glade.h:257
 msgid "Person's average"
-msgstr "Promedios del atleta"
+msgstr "Promedios de la persona"
 
 #: ../glade/app1.glade.h:258
 msgid "Person's bests"
-msgstr "Mejores resultados del atleta"
+msgstr "Mejores resultados de la persona"
 
 #: ../glade/app1.glade.h:259 ../glade/person_select_window.glade.h:19
 msgid "Show tests"
@@ -2459,7 +2459,7 @@ msgstr "Niveles diferentes"
 
 #: ../glade/app1.glade.h:503
 msgid "Person's data"
-msgstr "Datos de los atletas"
+msgstr "Datos de la persona"
 
 #: ../glade/app1.glade.h:504
 msgid ""
@@ -2669,12 +2669,12 @@ msgstr ""
 
 #: ../glade/app1.glade.h:552 ../glade/person_select_window.glade.h:2
 msgid "Manage persons"
-msgstr "Gestionar atletas"
+msgstr "Gestionar personas"
 
 #: ../glade/app1.glade.h:553 ../glade/person_select_window.glade.h:4
 #: ../glade/person_win.glade.h:1 ../src/gui/person/addModify.cs:276
 msgid "New person"
-msgstr "Nuevo atleta"
+msgstr "Nueva persona"
 
 #: ../glade/app1.glade.h:554
 msgid "Create new person"
@@ -2682,12 +2682,12 @@ msgstr "Crear persona nueva"
 
 #: ../glade/app1.glade.h:555 ../glade/person_select_window.glade.h:6
 msgid "New persons (multiple)"
-msgstr "Nuevos atletas (múltiple)"
+msgstr "Nuevas personas (múltiple)"
 
 #: ../glade/app1.glade.h:556 ../glade/person_select_window.glade.h:11
 #: ../glade/person_win.glade.h:47
 msgid "Load person"
-msgstr "Cargar atleta"
+msgstr "Cargar persona"
 
 #: ../glade/app1.glade.h:557 ../glade/person_select_window.glade.h:10
 msgid "Load into session"
@@ -2696,7 +2696,7 @@ msgstr "Cargar en la sesión"
 #: ../glade/app1.glade.h:558 ../glade/person_select_window.glade.h:12
 #: ../src/gui/person/recuperate.cs:408
 msgid "Load persons from other session"
-msgstr "Cargar atletas de otra sesión"
+msgstr "Cargar personas de otra sesión"
 
 #: ../glade/app1.glade.h:559 ../glade/person_select_window.glade.h:8
 msgid ""
@@ -2712,7 +2712,7 @@ msgstr "Esta persona:"
 
 #: ../glade/app1.glade.h:562 ../glade/person_select_window.glade.h:16
 msgid "Edit selected person"
-msgstr "Editar atleta seleccionado"
+msgstr "Editar persona seleccionada"
 
 #: ../glade/app1.glade.h:563
 msgid "Delete person from this session."
@@ -2720,7 +2720,7 @@ msgstr "Eliminar persona de esta sesión."
 
 #: ../glade/app1.glade.h:564
 msgid "Show all tests of any person"
-msgstr "Mostrar todas las pruebas de cualquier atleta"
+msgstr "Mostrar todas las pruebas de cualquier persona"
 
 #. this strings will be used on merge persons code. Now are here just to be translated in the meantime.
 #: ../glade/app1.glade.h:565 ../glade/person_merge.glade.h:1
@@ -3471,7 +3471,7 @@ msgstr "Crear secuencia nueva"
 
 #: ../glade/execute_auto.glade.h:5
 msgid "By persons"
-msgstr "Por atletas"
+msgstr "Por personas"
 
 #: ../glade/execute_auto.glade.h:6
 msgid "By tests"
@@ -3486,16 +3486,16 @@ msgid ""
 "First person perform all the tests,\n"
 "second person perform all the tests …"
 msgstr ""
-"El primer atleta realiza todas las pruebas,\n"
-"el segundo atleta realiza todas las pruebas…"
+"La primera persona realiza todas las pruebas,\n"
+"la segunda persona realiza todas las pruebas…"
 
 #: ../glade/execute_auto.glade.h:10
 msgid ""
 "All the persons perform first test,\n"
 "all the persons perform second test …"
 msgstr ""
-"Todos los atletas realizan la primera pruebas,\n"
-"todos los atletas realizan la segunda prueba…"
+"Todas las personas realizan la primera pruebas,\n"
+"todas las personas realizan la segunda prueba…"
 
 #: ../glade/execute_auto.glade.h:12
 msgid ""
@@ -3503,8 +3503,8 @@ msgid ""
 "all the persons perform second set …\n"
 "One set can contain several tests."
 msgstr ""
-"Todos los atletas realizan la primera serie,\n"
-"todos los atletas realizan la segunda serie…\n"
+"Todas las personas realizan la primera serie,\n"
+"todas las personas realizan la segunda serie…\n"
 "Una serie puede contener varias pruebas."
 
 #: ../glade/execute_auto.glade.h:16
@@ -3606,7 +3606,7 @@ msgstr "esta serie"
 #: ../glade/feedback.glade.h:21
 msgid "historical of this person on same exercise and encoder configuration"
 msgstr ""
-"histórico de este atleta en el mismo ejercicio y configuración del codificador"
+"histórico de esta persona en el mismo ejercicio y configuración del codificador"
 
 #: ../glade/feedback.glade.h:22
 msgid "On eccentric-concentric have feedback …"
@@ -4189,7 +4189,7 @@ msgstr "Repeticiones"
 
 #: ../glade/overview.glade.h:5
 msgid "Select this person"
-msgstr "Seleccionar este atleta"
+msgstr "Seleccionar esta persona"
 
 #: ../glade/person_merge.glade.h:2
 msgid ""
@@ -4214,7 +4214,7 @@ msgstr "Filtro de búsqueda"
 
 #: ../glade/person_merge.glade.h:8 ../glade/person_show_all_events.glade.h:5
 msgid "Person:"
-msgstr "Atleta:"
+msgstr "Persona:"
 
 #: ../glade/person_merge.glade.h:10
 msgid "Check differences"
@@ -4222,7 +4222,7 @@ msgstr "Comprobar las diferencias"
 
 #: ../glade/person_multiple_infinite.glade.h:1
 msgid "Add multiple persons"
-msgstr "Añadir múltiples atletas"
+msgstr "Añadir múltiples personas"
 
 #: ../glade/person_multiple_infinite.glade.h:3 ../glade/person_win.glade.h:2
 msgid "Full name"
@@ -4234,7 +4234,7 @@ msgstr "Sexo"
 
 #: ../glade/person_multiple_infinite.glade.h:5 ../src/stats/potency.cs:61
 msgid "Person's Weight"
-msgstr "Peso del atleta"
+msgstr "Peso de la persona"
 
 #. A club can have many players on Chronojump database - "Club ID" means the ID of the player on the club - It does not mean a ID of a club (compared with others club)  So if unsure, translate this: "Person
 #: ../glade/person_multiple_infinite.glade.h:6 ../glade/person_win.glade.h:9
@@ -4245,7 +4245,7 @@ msgstr "ID del club"
 
 #: ../glade/person_multiple_infinite.glade.h:7 ../glade/person_win.glade.h:20
 msgid "Person's height"
-msgstr "Altura del atleta"
+msgstr "Altura de la persona"
 
 #: ../glade/person_multiple_infinite.glade.h:8 ../glade/person_win.glade.h:24
 #: ../src/exportSession.cs:411 ../src/gui/person/addMultiple.cs:932
@@ -4308,15 +4308,15 @@ msgstr "Otro comentario"
 
 #: ../glade/person_recuperate.glade.h:1
 msgid "Load persons"
-msgstr "Cargar atletas"
+msgstr "Cargar personas"
 
 #: ../glade/person_recuperate.glade.h:2
 msgid ""
 "Select persons you want to load.\n"
 "(Persons in current session are not listed)"
 msgstr ""
-"Seleccione los atletas que desee cargar.\n"
-"(No se muestran los atletas cargados ya en la sesión actual)"
+"Seleccione las personas que desee cargar.\n"
+"(No se muestran las personas cargadas ya en la sesión actual)"
 
 #: ../glade/person_recuperate.glade.h:4
 msgid "From session"
@@ -4332,7 +4332,7 @@ msgstr "Más de 1000 resultados. Por favor, refine su búsqueda."
 
 #: ../glade/person_select_window.glade.h:1
 msgid "Select person"
-msgstr "Seleccionar atleta"
+msgstr "Seleccionar persona"
 
 #: ../glade/person_select_window.glade.h:3
 msgid "Create new"
@@ -4344,7 +4344,7 @@ msgstr "Uno"
 
 #: ../glade/person_select_window.glade.h:18
 msgid "Show all tests of this person"
-msgstr "Mostrar todas las pruebas de este atleta"
+msgstr "Mostrar todas las pruebas de esta persona"
 
 #: ../glade/person_select_window.glade.h:21
 msgid "Merge"
@@ -4356,7 +4356,7 @@ msgstr "Mostrar imágenes"
 
 #: ../glade/person_show_all_events.glade.h:1
 msgid "Show all tests of a person"
-msgstr "Mostrar todas las pruebas de un atleta"
+msgstr "Mostrar todas las pruebas de una persona"
 
 #: ../glade/person_show_all_events.glade.h:2
 msgid "In current session"
@@ -4461,11 +4461,11 @@ msgstr "Continente"
 
 #: ../glade/person_win.glade.h:35
 msgid "Data of person"
-msgstr "Datos del atleta"
+msgstr "Datos de la persona"
 
 #: ../glade/person_win.glade.h:41
 msgid "Data of person in this session"
-msgstr "Datos del atleta en esta sesión"
+msgstr "Datos de la persona en esta sesión"
 
 #: ../glade/person_win.glade.h:42
 msgid "Other data"
@@ -6423,8 +6423,8 @@ msgstr "Codificador de fricción de rotación en la máquina de inercia."
 msgid ""
 "Rotary friction encoder on inertial machine when person is moving horizontally."
 msgstr ""
-"Codificador rotatorio de fricción de rotación en máquina inercial cuando el "
-"atleta se mueve horizontalmente."
+"Codificador rotatorio de fricción de rotación en máquina inercial cuando la "
+"persona se mueve horizontalmente."
 
 #: ../src/encoder/encoderConfiguration.cs:422
 #: ../src/encoder/encoderConfiguration.cs:462
@@ -6459,7 +6459,7 @@ msgstr "Codificador del eje de rotación de la máquina de inercia."
 msgid ""
 "Rotary axis encoder on inertial machine when person is moving horizontally."
 msgstr ""
-"Codificador rotatorio de eje en máquina inercial cuando el atleta se mueve "
+"Codificador rotatorio de eje en máquina inercial cuando la persona se mueve "
 "horizontalmente."
 
 #: ../src/encoder/encoderConfiguration.cs:521
@@ -6471,7 +6471,7 @@ msgid ""
 "Rotary axis encoder on inertial machine geared up when person is moving "
 "horizontally."
 msgstr ""
-"Codificador rotatorio de eje en máquina inercial multiplicada en que el atleta "
+"Codificador rotatorio de eje en máquina inercial multiplicada en que la persona "
 "se mueve horizontalmente."
 
 #: ../src/encoder/encoderRhythm.cs:400 ../src/encoder/encoderRhythm.cs:457
@@ -6711,7 +6711,7 @@ msgstr "Alturas máximas"
 #: ../src/exportSession.cs:638 ../src/exportSession.cs:819
 #: ../src/exportSession.cs:879 ../src/exportSession.cs:993
 msgid "Person ID"
-msgstr "ID de atleta"
+msgstr "ID de la persona"
 
 #. checkboxes
 #: ../src/exportSession.cs:487 ../src/exportSession.cs:527
@@ -6719,7 +6719,7 @@ msgstr "ID de atleta"
 #: ../src/exportSession.cs:880 ../src/exportSession.cs:994
 #: ../src/gui/modes/encoderSelectRepetitions.cs:613
 msgid "Person name"
-msgstr "Nombre de atleta"
+msgstr "Nombre de la persona"
 
 #: ../src/exportSession.cs:528 ../src/exportSession.cs:640
 #: ../src/exportSession.cs:821 ../src/exportSession.cs:881
@@ -6910,11 +6910,11 @@ msgstr "Ver:"
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:119
 msgid "Need to fill person's leg parameters."
-msgstr "Debe rellenar los parámetros de la pierna del atleta."
+msgstr "Debe rellenar los parámetros de la pierna de la persona."
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:121
 msgid "Person's leg parameters are incorrect."
-msgstr "Los parámetros de la pierna del atleta no son correctos."
+msgstr "Los parámetros de la pierna de la persona no son correctos."
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:123
 msgid "Need to execute jumps SJl and/or SJ."
@@ -7040,7 +7040,7 @@ msgstr ""
 #. feedback (more in 1st session created)
 #: ../src/gui/app1/chronojump.cs:2578
 msgid "Session created, now add or load persons."
-msgstr "Sesión creada, ahora es necesario crear o cargar atletas."
+msgstr "Sesión creada, ahora es necesario crear o cargar personas."
 
 #: ../src/gui/app1/chronojump.cs:2874 ../src/gui/app1/encoder.cs:2758
 #: ../src/gui/app1/encoder.cs:2956 ../src/gui/app1/encoder.cs:2964
@@ -7160,17 +7160,17 @@ msgid ""
 "(jumps, races, pulses, …) from this session?\n"
 "(His/her personal data and tests in other sessions will remain intact.)"
 msgstr ""
-"¿Seguro que desea eliminar el atleta actual de esta sesión y todas sus pruebas "
+"¿Seguro que desea eliminar la persona actual de esta sesión y todas sus pruebas "
 "(saltos, carreras, series,…) de esta sesión?\n"
 "(Sus datos personales y pruebas de otras sesiones no se modificarán)"
 
 #: ../src/gui/app1/chronojumpPersons.cs:577
 msgid "Current Person: "
-msgstr "Atleta actual: "
+msgstr "Persona actual: "
 
 #: ../src/gui/app1/chronojumpPersons.cs:584
 msgid "Deleted person and all his/her tests on this session."
-msgstr "Eliminado el atleta actual y todas sus pruebas de esta sesión."
+msgstr "Eliminada la persona actual y todas sus pruebas de esta sesión."
 
 #: ../src/gui/app1/contactsExercise.cs:172
 msgid "Select an image"
@@ -7281,7 +7281,7 @@ msgstr "Seleccionar la serie del atleta {0} en esta sesión."
 #: ../src/gui/app1/encoder.cs:1839 ../src/gui/app1/forceSensor.cs:2280
 #: ../src/gui/app1/runEncoder.cs:1246
 msgid "Change person"
-msgstr "Cambiar de atleta"
+msgstr "Cambiar persona"
 
 #.
 #. old (before Chronojump 2.2.2): create a Unnamed and if exists, a Unnamed_copy, _copy2, ...
@@ -8690,7 +8690,7 @@ msgstr "Comparar personas"
 #. don't show now
 #: ../src/gui/modes/encoderSelectRepetitions.cs:634
 msgid "Select persons to compare"
-msgstr "Seleccionar los atletas que comparar"
+msgstr "Seleccionar las personas a comparar"
 
 #: ../src/gui/modes/event.cs:160
 msgid "There are tests of that type on database on sessions:"
@@ -8758,7 +8758,7 @@ msgstr ""
 
 #: ../src/gui/modes/forceSensorExercise.cs:434
 msgid "When you want the resultant of all the forces exerted by the person."
-msgstr "Cuando quiere el resultado de todas las fuerzas ejercidas por el atleta."
+msgstr "Cuando quiere el resultado de todas las fuerzas ejercidas por la persona."
 
 #: ../src/gui/modes/forceSensorExercise.cs:435
 msgid ""
@@ -9181,22 +9181,22 @@ msgstr "Guardar criterio de excéntrico-concéntrico"
 #: ../src/gui/person/addModify.cs:168 ../src/gui/person/merge.cs:236
 #, csharp-format
 msgid "Merge persons '{0}' with '{1}' in all sessions."
-msgstr "Combinar atleta «{0}» con «{1}» en todas las sesiones."
+msgstr "Combinar persona «{0}» con «{1}» en todas las sesiones."
 
 #: ../src/gui/person/addModify.cs:169
 #, csharp-format
 msgid "All tests of person '{0}' will be assigned to person '{1}'."
-msgstr "Todas las pruebas del atleta «{0}» se asignarán al atleta «{1}»."
+msgstr "Todas las pruebas de la persona «{0}» se asignarán a la persona «{1}»."
 
 #. Are you sure?
 #: ../src/gui/person/addModify.cs:171
 msgid "Please, choose person's parameters."
-msgstr "Elija los parámetros del atleta."
+msgstr "Elija los parámetros de la persona."
 
 #: ../src/gui/person/addModify.cs:172
 #, csharp-format
 msgid "Please, choose person's parameters at session {0}."
-msgstr "Elija los parámetros del atleta en la sesión {0}."
+msgstr "Elija los parámetros de la persona en la sesión {0}."
 
 #: ../src/gui/person/addModify.cs:279
 msgid "Edit person"
@@ -9217,7 +9217,7 @@ msgstr "Complete el peso de la persona."
 #: ../src/gui/person/addModify.cs:1108
 #, csharp-format
 msgid "Person: '{0}' exists. Please, use another name."
-msgstr "El atleta: '{0} ya existe. Por favor use otro nombre."
+msgstr "La persona: '{0} ya existe. Por favor use otro nombre."
 
 #: ../src/gui/person/addModify.cs:1111
 msgid "Or load this person from another session using this button:"
@@ -9307,18 +9307,18 @@ msgstr "Sin peso"
 
 #: ../src/gui/person/addMultiple.cs:920
 msgid "Persons will be created with default session values"
-msgstr "Los atletas serán creados con los valores predeterminados de la sesión"
+msgstr "Las personas serán creadas con los valores predeterminados de la sesión"
 
 #: ../src/gui/person/merge.cs:237
 #, csharp-format
 msgid "All tests of person '{0}' will be permanently assigned to person '{1}'."
 msgstr ""
-"Todas las pruebas del atleta «{0}» se asignarán permanentemente al atleta "
+"Todas las pruebas de la persona «{0}» se asignarán permanentemente a la persona "
 "«{1}»."
 
 #: ../src/gui/person/merge.cs:348
 msgid "Differences between persons"
-msgstr "Diferencias entre atletas"
+msgstr "Diferencias entre personas"
 
 #: ../src/gui/person/merge.cs:356
 msgid "Differences in session"
@@ -9332,14 +9332,14 @@ msgstr "Usar estos valores"
 #: ../src/gui/person/personSelect.cs:497
 #, csharp-format
 msgid "Delete person '{0}' from this session"
-msgstr "Eliminar atleta «{0}» de esta sesión"
+msgstr "Eliminar persona «{0}» de esta sesión"
 
 #: ../src/gui/person/recuperate.cs:708
 #, csharp-format
 msgid "Successfully added one person."
 msgid_plural "Successfully added {0} persons."
-msgstr[0] "Añadido un atleta."
-msgstr[1] "Añadidos {0} atletas."
+msgstr[0] "Añadido una persona."
+msgstr[1] "Añadidas {0} personas."
 
 #: ../src/gui/person/recuperate.cs:781
 msgid "Include / Discard athletes"
@@ -9351,9 +9351,9 @@ msgid ""
 "her tests on this session.\n"
 "If you want that a person is not uploaded, just uncheck it."
 msgstr ""
-"Todos los atleta marcados en la primera columna, se subirán al servidor con "
+"Todas las personas marcadas en la primera columna, se subirán al servidor con "
 "sus pruebas en esta sesión.\n"
-"Si no desea subir un atleta, desmárquelo."
+"Si no desea subir una persona, desmárquela."
 
 #: ../src/gui/person/showAllEvents.cs:239
 msgid ""
@@ -9557,7 +9557,7 @@ msgstr ""
 
 #: ../src/gui/preferences.cs:3846
 msgid "This will let the person to have more time to start movement."
-msgstr "Esto permitirá al atleta tener más tiempo para empezar el movimiento."
+msgstr "Esto permitirá a la persona tener más tiempo para empezar el movimiento."
 
 #: ../src/gui/preferences.cs:3847
 msgid ""
@@ -10213,7 +10213,7 @@ msgstr ""
 "desde que el atleta llega por primera vez a la marca de 5m, hasta que vuelve a "
 "pisar dicha marcas  (o sea, el tiempo que ha necesitado para recorrer los 5m "
 "de ida y vuelta - 10m en total). Se registra el mejor de dos intentos. Se debe "
-"registrar la capacidad en el giro con cada pierna. Se le anima al atleta a no "
+"registrar la capacidad en el giro con cada pierna. Se anima a la persona a no "
 "«pisar demasiado» la línea, ya que esto aumentaría el tiempo."
 
 #: ../src/runType.cs:218
@@ -10250,9 +10250,9 @@ msgid ""
 "indicated, without knocking the cones over, to the finish line, at which the "
 "timing is stopped."
 msgstr ""
-"Los atletas se tumbarán boca abajo (con la cabeza en la línea de salida) y las "
-"manos en sus hombros. A la señal de «Salida» se inicia el cronómetro y el "
-"atleta se levanta tan rápido como puede y corre la carrera en la dirección "
+"Las personas se tumbarán boca abajo (con la cabeza en la línea de salida) y las "
+"manos en sus hombros. A la señal de «Salida» se inicia el cronómetro y la "
+"persona se levanta tan rápido como puede y corre la carrera en la dirección "
 "indicada, sin tirar ningún cono, hasta la línea de final, momento en que se "
 "para el reloj."
 
@@ -10395,7 +10395,7 @@ msgid ""
 msgstr ""
 "El procedimiento de la prueba puede variar cambiando el número de tramos "
 "ejecutados, la distancia entre tramos (algunos usan 10 metros en lugar de 30 "
-"pies) y quitando la necesidad de que el atleta tenga que recoger y llevar "
+"pies) y quitando la necesidad de que la persona tenga que recoger y llevar "
 "objetos en los puntos de giro."
 
 #: ../src/runType.cs:282
@@ -10524,8 +10524,8 @@ msgid ""
 msgstr ""
 "Los relojes se activaron con la palabra «caminar» y el botón que guardó los "
 "intervalos de tiempo se pulsó también después de las siguientes etapas: cuando "
-"el atleta se levantó y golpeó la pelota; cuando la pelota pasó la línea de los "
-"8 m; y cuando el atleta volvió a la posición sentada en la misma silla (42 cm "
+"la persona se levantó y golpeó la pelota; cuando la pelota pasó la línea de los "
+"8 m; y cuando la persona volvió a la posición sentada en la misma silla (42 cm "
 "de altura del asiento al suelo). El tiempo total requerido para realizar la "
 "prueba proporcionó una evaluación cuantitativa del rendimiento. Se realizó una "
 "evaluación cualitativa al rellenar un cuestionario de evaluación. Este "
@@ -11955,7 +11955,7 @@ msgstr "Valor"
 #: ../src/stats/global.cs:119
 #, csharp-format
 msgid " for person {0}({1})"
-msgstr " para atleta {0}({1})"
+msgstr " para persona {0}({1})"
 
 #: ../src/stats/global.cs:122
 #, csharp-format
@@ -12001,7 +12001,7 @@ msgstr "Todos los valores"
 
 #: ../src/stats/main.cs:87
 msgid "Avg values of each person"
-msgstr "Valores medios de cada atleta"
+msgstr "Valores medios de cada persona"
 
 #: ../src/stats/main.cs:1332
 msgid "Dispersion"

@@ -323,11 +323,20 @@ class Database:
 
             if table.name == "ForceSensorExercise":
                 self.copyExerciseImages ("forceSensor", str(row.get('uniqueID')), str(new_id))
-            if table.name == "Encoder": # TODO: pass also the rest of the tables
-                global g_sourceSessionID
-                global g_destinationSessionID
-                self.copyVideos (str(g_sourceSessionID), str(g_destinationSessionID), "ENCODER-",
-                                 str(row.get('uniqueID')), str(new_id))
+
+            # copy videos
+            global g_sourceSessionID
+            global g_destinationSessionID
+            tablesWithVideos = ['Jump', 'JumpRj', 'Run', 'RunInterval',
+                                'RunEncoder', 'ForceSensor', 'Encoder']
+            tablesWithVideosName = ['JUMP', 'JUMP_RJ', 'RUN', 'RUN_I',
+                                'RACEANALYZER', 'FORCESENSOR', 'ENCODER']
+            for i in range(len(tablesWithVideos)):
+                if table.name == tablesWithVideos[i]:
+                    self.copyVideo (str(g_sourceSessionID),
+                                    str(g_destinationSessionID),
+                                    tablesWithVideosName [i] + '-',
+                                    str(row.get('uniqueID')), str(new_id))
 
         self._print_summary(table)
 
@@ -357,7 +366,7 @@ class Database:
             shutil.copy (imageOriginPath + ".jpg", imageDestinationPath + ".jpg")
 
     @staticmethod
-    def copyVideos (sourceSessionDirStr, destinationSessionDirStr, filenameStarts, oldIdStr, newIdStr):
+    def copyVideo (sourceSessionDirStr, destinationSessionDirStr, filenameStarts, oldIdStr, newIdStr):
         # to use the global variable on this function
         global g_sourceBaseDirectory
         global g_destinationBaseDirectory

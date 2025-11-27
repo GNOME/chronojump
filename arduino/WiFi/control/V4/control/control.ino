@@ -43,6 +43,10 @@
 String version = "Wifi-Controller-"; //"Wifi-Controller-" is mandatori. Chronojump expects it
 int firmwareVersion = 8;
 
+bool andMode = false;
+bool andTerminal1State = true;
+bool andTerminal2State = true;
+bool lastAndState = true;
 // Set up nRF24L01 radio on SPI bus plus pins  (CE & CS)
 RF24 radio(A3, A4);
 
@@ -322,6 +326,11 @@ void serialEvent()
         setRcaMode(output);
       } else if(commandString == "set_rca_mode:input") {
         setRcaMode(input);
+      } else if(commandString == "set_and_mode:on") {
+        setAndMode(true);
+      } else if(commandString == "set_and_mode:off") {
+        setAndMode(false);
+        Serial.println("AND mode OFF");
       } else {
           Serial.println("Wrong local command");
       }
@@ -489,26 +498,40 @@ void discoverTerminals(int maxTries) {
 
 bool readSample(void) {
   bool readed = false;
-  if (radio.available()) //Some terminal has sent a response
-  {
-    radio.read(  &sample, sample_size);
-    readed = true;
-    blinkStop();
 
-    // Testing the response time in a ping
-    // responseTime = micros() - responseTime;
-    // if (responseTime > 1000) {
-    //   Serial.println(responseTime);
-    // }
-    printSample();
-  }
 
   if (flagint) {
     flagint = false;
     readed = true;
     printSample();
   }
-  return (readed);
+  // If none of the terminals has sent a response, exit
+  if (!radio.available()) {return readed;} 
+  
+  radio.read(  &sample, sample_size);
+  readed = true;
+  blinkStop();
+
+  // Testing the response time in a ping
+  // responseTime = micros() - responseTime;
+  // if (responseTime > 1000) {
+  //   Serial.println(responseTime);
+  // }
+  if (andMode) {
+    if (sample.termNum == 1) {andTerminal1State = sample.state;}
+    if (sample.termNum == 2) {andTerminal2State = sample.state;}
+    // if ( (andTerminal1State == 0) && (andTerminal2State == 0) ) {
+    if ( (andTerminal1State == andTerminal2State) && (andTerminal1State != lastAndState) ) {
+      sample.state = andTerminal1State;
+      lastAndState = sample.state;
+      printSample();
+    }
+    return (readed);
+
+  } else {
+    printSample();
+    return (readed);
+  }
 }
 
 void printSample() {
@@ -569,4 +592,45 @@ void setRcaMode(enum pinMode mode) {
 // Check that the string has a new line character ( '\n' ).
 bool lineHasNL(String &inputString) {
   return(inputString.indexOf('\n') != -1);
+}
+
+void setAndMode(bool mode) {
+  bool found = false;
+  radio.flush_tx();
+  radio.flush_rx();
+
+  if (mode) {
+    andMode = mode;
+    found = findTerm(1);
+    // if (!found) return;
+    found = findTerm(2);
+    // if (!found) return;
+    lastAndState = andTerminal1State && andTerminal2State;
+  }
+  Serial.print("AND mode ");
+  if (andMode) {Serial.println("ON");}
+  else {Serial.println("OFF");}
+}
+
+bool findTerm(int termNum) {
+  bool readed = false;
+  instruction.command = ping;
+  instruction.termNum = termNum;
+  for (int i = 0; i< 10; i++) {
+    waitingData = true;
+    sendInstruction(&instruction);
+    waitingData = true;
+    delay(radioDelay+20);
+    readed = readSample();
+    if (andMode && readed) {
+      if (termNum == 1) andTerminal1State = sample.state;
+      if (termNum == 2) andTerminal1State = sample.state;
+      break;
+    }
+  }
+
+  if (!readed) {
+    Serial.println("Terminal " + String(termNum) + " not found");
+  }
+  return(readed);
 }

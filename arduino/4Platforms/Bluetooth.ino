@@ -110,7 +110,7 @@ void initializeBLE(void) {
   Serial.println("Waiting a client connection to notify...");
 }
 
-void sendToBLE(int i, int value) {
+void sendToBLE(int i, long value) {
   // Serial.println (String(i) + "->" + String(value));
   //Text formated for DumbDisplay [Name of Var]:[optional space][value]
   pPlatform[i]->setValue( String(value) );

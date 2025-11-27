@@ -51,7 +51,7 @@ unsigned int debounceTime = 10000;   //Time in microseconds to filter spurious s
 int totalSensors = 3;
 
 elapsedMicros phaseTime[4] = {0, 0, 0, 0};
-int lastPhaseDuration[4] = {0, 0, 0, 0};                      // Negative numbers means leaving the sensor (Beam not detected -> Beam detected).
+long lastPhaseDuration[4] = {0, 0, 0, 0};                      // Negative numbers means leaving the sensor (Beam not detected -> Beam detected).
                                                               //Positive means arriving at the sensor (Beam detected -> Beam not detected).
 
 // debounceTimer used for debouncing
@@ -84,7 +84,7 @@ void debounce(int i)
   timerStop(debounceTimer[i]);
   if (sensorState[i] != lastSensorState[i]) {
     lastPhaseDuration[i] = phaseTime[i];
-    phaseTime[i] = 0;
+    phaseTime[i] = 0; //Comment for absolute time. Uncomnmnent for relative time (time of phase)
     sensorChange[i] = true;
   }
 }

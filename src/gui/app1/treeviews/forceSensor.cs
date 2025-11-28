@@ -71,8 +71,7 @@ public partial class ChronoJumpWindow
 		LogB.Information ("fillTreeView_forceSensor calling Fill");
 		treeViewResultsSession.Fill (forceSensorSA,
 				filterExercise,
-				//Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.RUN));
-			new List<string> ());
+				Util.GetVideosOfSessionAndMode (currentSession.UniqueID, Constants.TestTypes.FORCESENSOR));
 
 		//if show just one person, have it expanded
 		if (! radio_contacts_results_personAll.Active && currentPerson != null)

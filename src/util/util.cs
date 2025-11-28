@@ -1007,7 +1007,8 @@ public class Util
 
 		return url;
 	}
-	public static string MakeURLrelative(string url) {
+	public static string MakeURLrelative(string url)
+	{
 		string parentDir = Util.GetLocalDataDir(true); //add final '/' or '\'
 		if( url.StartsWith(parentDir) )
 			url = url.Replace(parentDir, "");

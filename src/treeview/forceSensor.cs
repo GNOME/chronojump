@@ -42,13 +42,14 @@ public class TreeViewForceSensor : TreeViewEvent
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 17; //position of type in the data to be printed.
 		allEventsName = Constants.AllTestsNameStr();
-		idColumn = 6; //column where the uniqueID of event will be (and will be hidden).
+		idColumn = 7; //column where the uniqueID of event will be (and will be hidden).
 		columnsString = new string[] { 
 			personName,
 			lateralityName,
 			Catalog.GetString ("Max force"),
 			Catalog.GetString ("Best second"),
 			datetimeName,
+			videoName,
 			descriptionName
 			//	, "UNIQUEID" //just for debug
 		};
@@ -73,6 +74,7 @@ public class TreeViewForceSensor : TreeViewEvent
 				Convert.ToDouble (str[15]), 	//maxForceRaw
 			 	Convert.ToDouble (str[16]),	//maxAvgForce1s
 				str[10], //dateTime
+				str[12], //videoURL
 				str[11], //description
 				str[17] //exerciseName
 				);
@@ -92,6 +94,12 @@ public class TreeViewForceSensor : TreeViewEvent
 		myData[count++] = Util.TrimDecimals (fs.MaxForceRaw, 3);
 		myData[count++] = Util.TrimDecimals (fs.MaxAvgForce1s, 3);
 		myData[count++] = fs.DateTimePublic;
+
+		if (UtilList.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.FORCESENSOR, fs.UniqueID)))
+			myData[count++] = Catalog.GetString ("Yes");
+		else
+			myData[count++] = Catalog.GetString ("No");
+
 		myData[count++] = fs.Description;
 		myData[count++] = fs.UniqueID.ToString ();
 

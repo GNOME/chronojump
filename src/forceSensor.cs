@@ -100,7 +100,8 @@ public class ForceSensor : Event
 	}
 
 	// constructor for TreeViewForceSensor.getObjectFromString ()
-	public ForceSensor (int uniqueID, string laterality, double maxForceRaw, double maxAvgForce1s, string dateTime, string description, string exerciseName)
+	public ForceSensor (int uniqueID, string laterality, double maxForceRaw, double maxAvgForce1s,
+			string dateTime, string videoURL, string description, string exerciseName)
 	{
 		this.uniqueID = uniqueID;
 		this.laterality = laterality;
@@ -108,6 +109,7 @@ public class ForceSensor : Event
 		this.maxAvgForce1s = maxAvgForce1s;
 		this.dateTime = dateTime;
 		this.description = description;
+		this.videoURL = videoURL;
 		this.exerciseName = exerciseName;
 		this.type = exerciseName;
 	}

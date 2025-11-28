@@ -1,4 +1,4 @@
-V3
+3
 ---------
 First commercial version.
 The firmware matches the hardware version 3
@@ -20,3 +20,7 @@ Separated the version of hardware and firmware.
 Now it accepts the hardware V3.
 Version in format "Wifi-Controller-[HardwareVersion].[FirmwareVersion]
 The pipes are associated to the controlNumber in order to isolate multiple sets of controler-terminals
+
+V[3-4].9
+--------
+Added the option of use terminal 1 and 2 in AND mode. The change is considered when both terminals are in the same state

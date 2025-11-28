@@ -241,6 +241,11 @@ public abstract class CairoBars : CairoGeneric
 		g.MoveTo (x, calculatePaintY (bp.Quartiles.Item1));
 		g.LineTo (x, calculatePaintY (bp.MinAccepted));
 		g.Stroke ();
+
+		// mean
+		g.Rectangle (x-3, calculatePaintY (bp.Average) -3, 6, 6);
+		g.Fill ();
+
 		// outliers
 		foreach (double d in bp.Outlier_l)
 		{

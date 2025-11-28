@@ -2222,6 +2222,7 @@ public class Boxplot
 	private double maxAccepted;
 	private double minAbsolute; // can be an outlier
 	private double maxAbsolute; // can be an outlier
+	private double average;
 	private List<double> outlier_l;
 	private bool calculated; //false if list empty
 
@@ -2236,6 +2237,7 @@ public class Boxplot
 		maxAccepted = 0;
 		minAbsolute = 0;
 		maxAbsolute = 0;
+		average = 0;
 		outlier_l = new List<double> ();
 		calculated = false;
 	}
@@ -2285,6 +2287,8 @@ public class Boxplot
 
 		// note on Tukey when fences are found, quartiles are not re-done
 
+		average = UtilList.GetAverage (dSorted_l);
+
 		calculated = true;
 		return true;
 	}
@@ -2331,6 +2335,10 @@ public class Boxplot
 	}
 	public double MaxAbsolute {
 		get { return maxAbsolute; }
+	}
+
+	public double Average {
+		get { return average; }
 	}
 
 	public List<double> Outlier_l {

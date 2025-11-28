@@ -749,9 +749,11 @@ public abstract class ExportSession
 				myData.Add( " " + ":::" + Catalog.GetString("TC") + 
 						":::" + Catalog.GetString("TF") + 
 						":::" + Catalog.GetString("Height") + 
-						":::" + "RSI" +
 						":::" + Catalog.GetString("Power") + 
-						":::" + Catalog.GetString("Stiffness") 
+						":::" + Catalog.GetString("Stiffness") +
+						":::" + Catalog.GetString ("Initial Speed") +
+						":::" + "RSI" +
+						":::" + Catalog.GetString ("Q Index")
 						);
 
 				//print Total, AVG, SD
@@ -787,12 +789,14 @@ public abstract class ExportSession
 						fall = Convert.ToDouble(Util.GetHeightInCentimeters(tvString[count -1].ToString()));
 
 					myData.Add((count+1).ToString() + ":::" + 
-							Util.TrimDecimals(tc, dec) + ":::" + 
-							Util.TrimDecimals(tv, dec) + ":::" +
-							Util.TrimDecimals(Util.GetHeightInCentimeters(tv.ToString()), dec) + ":::" +
-							Util.TrimDecimals(Jump.CalculateRSI(tv, tc), dec) + ":::" +
-							Util.TrimDecimals(getPower(tc, tv, personWeight, extraWeightInKg, fall), dec) + ":::" +
-							Util.TrimDecimals(Util.GetStiffness(personWeight, extraWeightInKg, tv, tc), dec)
+							Util.TrimDecimals (tc, dec) + ":::" +
+							Util.TrimDecimals (tv, dec) + ":::" +
+							Util.TrimDecimals (Util.GetHeightInCentimeters(tv.ToString()), dec) + ":::" +
+							Util.TrimDecimals (getPower(tc, tv, personWeight, extraWeightInKg, fall), dec) + ":::" +
+							Util.TrimDecimals (Util.GetStiffness(personWeight, extraWeightInKg, tv, tc), dec) + ":::" +
+							Util.TrimDecimals (Jump.GetInitialSpeed (tv, preferences.metersSecondsPreferred), dec)  + ":::" +
+							Util.TrimDecimals (Jump.CalculateRSI(tv, tc), dec) + ":::" +
+							Util.TrimDecimals (tv/tc, dec)
 						  );
 					count ++;
 				}

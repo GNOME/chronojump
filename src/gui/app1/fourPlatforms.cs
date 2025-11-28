@@ -165,6 +165,9 @@ public partial class ChronoJumpWindow
 			//tests 1_2 1_3 1_4 have no finish button as it needs to count 15 (to save correctly from the 1st to the 15th). It will finish automatically
 			//button_fourPlatforms_test_finish.Visible = (b == button_four_platforms_capture_default); commented to allow finish work if desired
 			button_fourPlatforms_test_finish.Visible = true;
+
+			if (dialogResult != null && dialogResult.Visible)
+				dialog_result_set_labels ();
 		}
 
 		sensitiveLastTestButtons(false);

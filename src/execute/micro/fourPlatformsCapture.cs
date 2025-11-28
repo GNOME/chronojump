@@ -220,7 +220,7 @@ public class FourPlatformsCapture: ArduinoCapture
 
 public class FourPlatformsEvent
 {
-	public int Button; //Button -1 means error reading
+	public int Button; //Button -1 means error reading. From 0 to 3.
 	public int Time; //always is time since last event. Negative is a button off, Positive on.
 
 	public FourPlatformsEvent ()

@@ -161,6 +161,8 @@ namespace Chronojump
 			new ResourceFix ("mini/run_simple.png" , "mini/run_simple.png"),
 			new ResourceFix ("run_interval.png" , "run_interval.png"),
 			new ResourceFix ("mini/run_interval.png" , "mini/run_interval.png"),
+			new ResourceFix ("rondo-test.jpg" , "rondo-test.jpg"),
+			new ResourceFix ("mini/rondo-test.jpg" , "mini/rondo-test.jpg"),
 			new ResourceFix ("margaria.png" , "margaria.png"),
 			new ResourceFix ("mini/margaria.png" , "mini/margaria.png"),
 			new ResourceFix ("gesell_dbt.png" , "gesell_dbt.png"),

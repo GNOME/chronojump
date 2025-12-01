@@ -4388,6 +4388,24 @@ class Sqlite
 		return id;
 	}
 
+	// call here when creating a test that already exists (created by the user) in order to find a new name
+	// note the user created test will be renamed. better to not having problem on exports
+	private static string findNameSuffixDoesNotExist (string tableName, string findName)
+	{
+		int num = 1;
+		string suffix = "";
+		bool success = false;
+		do {
+			suffix = string.Format ("-{0}", num);
+			if (Exists (true, tableName, findName + suffix))
+				num ++;
+			else
+				success = true;
+		} while (! success);
+
+		return findName + suffix;
+	}
+
 	private static void fixDuplicatedExercises (string table)
 	{
 		// 1) find duplicates

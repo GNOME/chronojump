@@ -124,6 +124,12 @@ class SqliteRunInterval : SqliteRun
 					Constants.RunIntervalTable);
 		else if (order == Orders_by.BEST2) //time
 		{
+			orderBestStr = string.Format(" ORDER BY {0}.timeTotal DESC ",
+					Constants.RunIntervalTable);
+			order = Orders_by.BEST; // to actually use orderBestStr
+		}
+		else if (order == Orders_by.BEST2REV) //time asc (for boxplots)
+		{
 			orderBestStr = string.Format(" ORDER BY {0}.timeTotal ",
 					Constants.RunIntervalTable);
 			order = Orders_by.BEST; // to actually use orderBestStr
@@ -213,14 +219,15 @@ class SqliteRunInterval : SqliteRun
 
 		string orderBestStr = "";
 		if (order == Orders_by.BEST) //speed
-				orderBestStr = string.Format(" ORDER BY {0}.distanceTotal/{0}.timeTotal ",
+			orderBestStr = string.Format(" ORDER BY {0}.distanceTotal/{0}.timeTotal ",
 					Constants.RunIntervalTable);
 		else if (order == Orders_by.BEST2) //time
 		{
 			orderBestStr = string.Format(" ORDER BY {0}.timeTotal DESC ",
 					Constants.RunIntervalTable);
 			order = Orders_by.BEST; // to actually use orderBestStr
-		} else if (order == Orders_by.BEST2REV) //time asc (for boxplots)
+		}
+		else if (order == Orders_by.BEST2REV) //time asc (for boxplots)
 		{
 			orderBestStr = string.Format(" ORDER BY {0}.timeTotal ",
 					Constants.RunIntervalTable);

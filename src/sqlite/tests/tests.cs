@@ -164,6 +164,7 @@ class SqliteTests : Sqlite
 			andExerciseStr = string.Format (" AND {0}.exerciseID = {1}.uniqueID ", t, exerciseTable);
 		}
 
+		//LogB.Information ("At selectRunsCreateSelection order: " + order.ToString ());
 		string orderByString = string.Format(" ORDER BY upper({0}.name), {1}.uniqueID ", tp, t);
 		if(order == Orders_by.ID_ASC)
 			orderByString = string.Format(" ORDER BY {0}.uniqueID ", t);
@@ -173,6 +174,7 @@ class SqliteTests : Sqlite
 			orderByString = string.Format(" ORDER BY {0}.sessionID, {0}.distance/{0}.time DESC ", t);
 		if(order == Orders_by.BEST)
 			orderByString = orderByBestStr;
+		//LogB.Information ("At selectRunsCreateSelection orderByString: " + orderByString);
 
 		string limitString = "";
 		if(limit > 0)

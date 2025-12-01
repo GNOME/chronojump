@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -52,6 +52,7 @@ public class RunType : EventType
 			"20m10times", "7m30seconds", "20m endurance", 
 			"MTGUG", "Gesell-DBT",
 			"Agility-3L3R",
+			"Rondo-Test",
 			"RSA 8-4-R3-5", 		//this is not used anymore (it was just a test)
 			"RSA Aziz 2000 40, R30 x 8",
 			"RSA Balsom 15, R30 x 40",
@@ -399,6 +400,28 @@ public class RunType : EventType
 			imageFileName = "agility_3l3r.png";
 			distancesString = "24.14-24.14";	//this intervallic run has different distance for each track
 			longDescription = "";
+		} else if(name == "Rondo-Test") {
+			hasIntervals 	= true;
+			distance 	= 10;
+			tracksLimited 	= true;
+			fixedValue 	= 8;
+			unlimited 	= false;
+			description	= "A reliable, valid and accessible tool to assess functional progress in footballers";
+			imageFileName = "rondo-test.jpg";
+			distancesString = "24.14-24.14";	//this intervallic run has different distance for each track
+			longDescription = "Starting point: The athlete stands 1 meter from the centre of the rondo above the line of Sector 2." + "\n" +
+				"They freely begin the attempt, running forward in the direction of Sector 1." + "\n" +
+				"The time starts when they break the photoelectric beam." + "\n" +
+				"Additionally, an acoustic signal is emitted to confirm that the beam has been adequately broken every time they pass through the centre." + "\n\n" +
+				"- " + "Sector 1 (Forward/Backward): Run forward to the pole and go backward around it. / Run backward to the centre." + "\n" +
+				"- " + "Sector 2: Move sideways to the ground marker and step on it / Go back to the centre." + "\n" +
+				"- " + "Sector 3: Go around the outside of each cone and the pole. / Go back while doing a lateral support on each cone." + "\n" +
+				"- " + "Sector 4: Jump over the 2 mini-hurdles and receive the ball with any limb. Go around the pole. / Jump over the first mini-hurdle and receive the ball with the same limb. Jump over the second mini-hurdle and land on the other limb." + "\n" +
+				"- " + "Sector 5: Take the ball and dribble linearly with the same limb. Go around the pole. / Dribble linearly with the other limb." + "\n" +
+				"- " + "Sector 6: Dribble with 1 limb and go around the cones and the pole. / Dribble with the other limb and go around the cones." + "\n" +
+				"- " + "Sector 7: Dribble freely up to the 3-m line from the mini-goal. Kick the ball into the goal with 1 limb. / Take the second ball located at the 3-m line from the mini-goal and dribble freely while returning to the centre." + "\n" +
+				"- " + "Sector 8: Dribble freely until the next 3-m line from the second mini-goal. Kick the ball into the goal. / Go back to the centre as fast as possible to finish the test" + "\n\n" +
+				"J Funct Morphol Kinesiol. 2024 Dec 25;10(1):3. doi: 10.3390/jfmk10010003";
 		} else if(name == "RSA 8-4-R3-5") { 	//this is not used anymore (it was just a test)
 			hasIntervals 	= true; 
 			distance 	= -1;
@@ -475,6 +498,7 @@ public class RunType : EventType
 				fixedValue 	= 14;
 				distancesString = "34.2-R25";
 			}
+			// if adding a new test and want the longDescription to be shown, remember to add on FindIfIsPredefined ()
 		}
 
 		isPredefined = FindIfIsPredefined();

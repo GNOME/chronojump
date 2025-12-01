@@ -178,7 +178,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.71";
+	static string lastChronojumpDatabaseVersion = "2.72";
 
 	public Sqlite()
 	{
@@ -3781,6 +3781,24 @@ class Sqlite
 
 			currentVersion = updateVersion("2.71");
 		}
+		if(currentVersion == "2.71")
+		{
+			LogB.SQL("Adding Rondo-Test");
+
+			RunType type = new RunType("Rondo-Test");
+
+			if (Exists (true, Constants.RunIntervalTypeTable, "Rondo-Test"))
+			{
+				string newName = findNameSuffixDoesNotExist (Constants.RunIntervalTypeTable, "Rondo-Test");
+				Update (true, Constants.RunIntervalTypeTable, "name", "Rondo-Test", newName, "", "");
+				Update (true, Constants.RunIntervalTable, "type", "Rondo-Test", newName, "", "");
+			}
+
+			SqliteRunIntervalType.Insert (type, Constants.RunIntervalTypeTable, true);
+			SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "Rondo-Test", "rondo-test.jpg", true);
+
+			currentVersion = updateVersion ("2.72");
+		}
 
 
 		/*
@@ -4029,6 +4047,7 @@ class Sqlite
 		//
 		//
 
+		//2.71 - 2.72 Converted DB to 2.72 Adding Rondo-Test
 		//2.70 - 2.71 Converted DB to 2.71 Added preferences: machineName
 		//2.69 - 2.70 Converted DB to 2.70 Doing person77 generating muuids
 		//2.68 - 2.69 Converted DB to 2.69 Doing alter table person77 adding muuid

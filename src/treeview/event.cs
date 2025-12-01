@@ -45,6 +45,7 @@ public class TreeViewEvent
 	//EventSelectedID >= 0 a test; -1 a person: -2 a subtest (do not select)
 	public const int MarkRowIsPerson = -1;
 	public const int MarkNonSelectRowSubEvent = -2;
+	protected const string boldMark = "_BOLD_";
 
 	protected string personName = Catalog.GetString ("Person");
 	protected string lateralityName = Catalog.GetString ("Laterality");
@@ -63,6 +64,7 @@ public class TreeViewEvent
 	protected List<string> videos_l;
 
 	protected string [] columnsString;
+	protected bool barsAreSpeeds;
 
 	public enum ExpandStates {
 		MINIMIZED, OPTIMAL, MAXIMIZED
@@ -71,6 +73,10 @@ public class TreeViewEvent
 	public ExpandStates expandState;
 
 	private static int lastPersonID;
+
+	public bool BarsAreSpeeds {
+		set { barsAreSpeeds = value; }
+	}
 
 	public TreeViewEvent ()
 	{
@@ -162,6 +168,10 @@ public class TreeViewEvent
 					return;
 				}
 		} while (treeview.Model.IterNext (ref iter));
+	}
+
+	public virtual void ResultsInBarsRowChanged ()
+	{
 	}
 
 	//to know if is person. If has no parents it is top level

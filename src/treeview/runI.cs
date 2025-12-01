@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -28,13 +28,15 @@ using Mono.Unix;
 public class TreeViewRunsInterval : TreeViewRuns
 {
 	RunType runType;
+	List<int> boldableColumns_l = new List<int> ();
 
-	public TreeViewRunsInterval (Gtk.TreeView treeview, int newPrefsDigitsNumber, bool metersSecondsPreferred, ExpandStates expandState)
+	public TreeViewRunsInterval (Gtk.TreeView treeview, int newPrefsDigitsNumber, bool metersSecondsPreferred, ExpandStates expandState, bool barsAreSpeeds)
 	{
 		this.treeview = treeview;
 		this.pDN = newPrefsDigitsNumber;
 		this.metersSecondsPreferred = metersSecondsPreferred;
 		this.expandState = expandState;
+		this.barsAreSpeeds = barsAreSpeeds;
 
 		string runnerName = Catalog.GetString("Runner");
 		string speedName = Catalog.GetString("Speed");
@@ -50,6 +52,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllRunsNameStr();
+		boldableColumns = new List<int> { 1, 2 }; //speed, laptime
 		idColumn = 7; //column where the uniqueID of event will be (and will be hidden)
 		
 		columnsString = new string[]{runnerName, speedName, lapTimeName, splitTimeName, datetimeName, videoName, descriptionName};
@@ -59,7 +62,91 @@ public class TreeViewRunsInterval : TreeViewRuns
 		prepareHeaders(columnsString);
 	}
 
-	
+	// TODO: move this to TreeViewEvent
+	protected override void prepareHeaders(string [] columnsString)
+	{
+		treeview.HeadersVisible=true;
+		int i=0;
+		foreach (string colStr in columnsString)
+		{
+			if (i <= 2)
+			{
+				Gtk.TreeViewColumn col = new Gtk.TreeViewColumn ();
+				CellRendererText cell = new CellRendererText();
+				col.Title = colStr;
+				col.PackStart (cell, true);
+
+				if (i == 0)	// to show person name in bold if is currentPerson
+					col.SetCellDataFunc (cell, new Gtk.TreeCellDataFunc (RenderPersonName));
+				else // if (i == 1 || i == 2)
+					col.SetCellDataFunc (cell, new Gtk.TreeCellDataFunc (RenderSpeedLaptimeCols));
+
+				treeview.AppendColumn (col);
+				i ++;
+			} else
+				treeview.AppendColumn (colStr, new CellRendererText(), "text", i++);
+		}
+	}
+
+	// TODO have this in parent, and  here just a method to check:
+	// (barsAreSpeeds && column.Title.StartsWith (Catalog.GetString ("Speed"))) ||
+	// (! barsAreSpeeds && column.Title.StartsWith (Catalog.GetString ("Lap time")))
+	private void RenderSpeedLaptimeCols (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
+	{
+		if(! (cell is CellRendererText))
+			return;
+
+		// get the colID to use just this for all cols
+		int colID = 0;
+		for (int i = 0; i < columnsString.Length; i ++)
+			if (column.Title == columnsString[i])
+				colID = i;
+
+		string text = (string) model.GetValue (iter, colID);
+
+		if (text.StartsWith (boldMark))
+		{
+			text = Util.RemoveSubstring (text, boldMark);
+			if (
+					(barsAreSpeeds && column.Title.StartsWith (Catalog.GetString ("Speed"))) ||
+					(! barsAreSpeeds && column.Title.StartsWith (Catalog.GetString ("Lap time")))
+			   )
+				(cell as Gtk.CellRendererText).Markup = "<span weight=\"bold\">" + text + "</span>";
+			else
+				(cell as Gtk.CellRendererText).Text = text;
+		} else
+			(cell as Gtk.CellRendererText).Text = text;
+	}
+
+	// result cells than can be in bold to match the results shown on bars
+	public override void ResultsInBarsRowChanged ()
+	{
+		TreeIter iter = new TreeIter();
+		if(! treeview.Model.GetIterFirst (out iter))
+			return;
+
+		do {
+			TreeIter iterDeep = new TreeIter ();
+			treeview.Model.IterChildren (out iterDeep, iter);
+			do {
+				TreeIter iterDeep2 = new TreeIter ();
+				treeview.Model.IterChildren (out iterDeep2, iterDeep);
+				for (int i = 0; i <= 1; i ++) // related statistic info is in row 0 or 1
+				{
+					foreach (int j in boldableColumns_l)
+						if (treeview.Model.GetValue (iterDeep2, j) != null &&
+								((string) treeview.Model.GetValue (iterDeep2, j)).StartsWith (boldMark))
+						{
+							TreePath path = store.GetPath (iterDeep2);
+							//LogB.Information ("EmitRowChanged: " + path.ToString ());
+							treeview.Model.EmitRowChanged (path, iterDeep2);
+						}
+					treeview.Model.IterNext (ref iterDeep2);
+				}
+			} while (treeview.Model.IterNext (ref iterDeep));
+		} while (treeview.Model.IterNext (ref iter));
+	}
+
 	protected override System.Object getObjectFromString(string [] myStringOfData) {
 		RunInterval myRunI = new RunInterval();
 		myRunI.UniqueID = Convert.ToInt32(myStringOfData[1].ToString()); 
@@ -181,7 +268,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		int count = 0;
 		myData[count++] = Catalog.GetString("Total");
 		myData[count++] = "";
-		myData[count++] = Util.TrimDecimals( newRunI.TimeTotal.ToString(), pDN ); //lapTime
+		myData[count++] = boldMark + Util.TrimDecimals( newRunI.TimeTotal.ToString(), pDN ); //lapTime
 		myData[count++] = "";							//splitTime
 		myData[count++] = "";							//datetime
 		myData[count++] = "";							//video
@@ -199,7 +286,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		string [] myData = new String [getColsNum()];
 		int count = 0;
 		myData[count++] = Catalog.GetString("AVG");
-		myData[count++] = Util.TrimDecimals(Util.GetSpeed(
+		myData[count++] = boldMark + Util.TrimDecimals(Util.GetSpeed(
 					newRunI.DistanceTotal.ToString(),
 					newRunI.TimeTotal.ToString(),
 					metersSecondsPreferred), 

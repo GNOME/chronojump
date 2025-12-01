@@ -30,6 +30,7 @@ public class CairoBars1Series : CairoBars
 	private List<PointF> barMain_l;
 	private List<Cairo.Color> colorMain_l;
 	private List<string> names_l;
+	private List<List<double>> barMainIntervals_l; // on jumpR, runI each or the tracks
 
 	//constructor when there are no points
 	public CairoBars1Series (DrawingArea area, Type type, string font, string message)
@@ -206,10 +207,31 @@ public class CairoBars1Series : CairoBars
 				barColor = ccGradient.GetColor (color_l[i]);
 
 			if (barsOrPoints == BarsOrPoints.BARS)
-				drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
-						UtilList.FoundInListInt (best_l, i),
-						UtilList.FoundInListInt (worst_l, i));
-			else
+			{
+				if (barMainIntervals_l != null && barMainIntervals_l.Count > i && barMainIntervals_l[i].Count > 1)
+				{
+					// rectangle not rounded (radius = 4) to show correctly the inner color
+					drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 0, g, barColor,
+							UtilList.FoundInListInt (best_l, i),
+							UtilList.FoundInListInt (worst_l, i));
+
+					g.SetSourceColor (colorFromRGBA (Config.ColorBackgroundShifted));
+					double accu = 0;
+					for (int j = 0; j < barMainIntervals_l[i].Count; j ++)
+					{
+						accu += barMainIntervals_l[i][j];
+						if (j >= 1 && ! Util.IsEven (j))
+						{
+							g.Rectangle (x+2, calculatePaintY (accu) +2, // +1 on Y to allow showing the top of the bar in blue color
+								barWidth -4, graphHeight -calculatePaintY (barMainIntervals_l[i][j]) -bottomMargin);
+							g.Fill();
+						}
+					}
+				} else
+					drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor,
+							UtilList.FoundInListInt (best_l, i),
+							UtilList.FoundInListInt (worst_l, i));
+			} else
 				drawCircle (g, x + adjustXonPOINTS, y, POINTS_SIZE, black, barColor);
 
 			bool isSelected = false;
@@ -295,6 +317,7 @@ public class CairoBars1Series : CairoBars
 	//done here and not in the constructor because most of this variables are known after construction
 	public override void PassData1Serie (List<PointF> barMain_l,
 			List<Cairo.Color> colorMain_l, List<string> names_l,
+			List<List<double>> barMainIntervals_l,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
 			string titleStr, List<int> best_l, List<int> worst_l,
 			BarsOrPoints barsOrPoints)
@@ -302,6 +325,7 @@ public class CairoBars1Series : CairoBars
 		this.barMain_l = barMain_l;
 		this.colorMain_l = colorMain_l;
 		this.names_l = names_l;
+		this.barMainIntervals_l = barMainIntervals_l;
 		this.fontHeightAboveBar = fontHeightAboveBar;
 		this.fontHeightForBottomNames = fontHeightForBottomNames;
 		this.marginForBottomNames = marginForBottomNames;

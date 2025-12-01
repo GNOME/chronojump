@@ -190,11 +190,13 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 		} else if (showBarA) //takeOff, takeOffWeight
 			cb.PassData1Serie (pointA_l,
 					new List<Cairo.Color>(), names_l,
+					new List<List<double>> (),
 					-1, fontHeightForBottomNames, bottomMargin, title,
 					new List<int> (), new List<int> (), barsOrPoints);
 		else //rest of the jumps: sj, cmj, ..
 			cb.PassData1Serie (pointB_l,
 					new List<Cairo.Color>(), names_l,
+					new List<List<double>> (),
 					-1, fontHeightForBottomNames, bottomMargin, title,
 					new List<int> (), new List<int> (), barsOrPoints);
 

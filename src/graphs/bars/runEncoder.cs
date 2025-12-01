@@ -138,6 +138,7 @@ public class CairoPaintBarsPreRunEncoder : CairoPaintBarsPre
 
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,
+				new List<List<double>> (),
 				-1, fontHeightForBottomNames, bottomMargin, title,
 				new List<int> (), new List<int> (), barsOrPoints);
 

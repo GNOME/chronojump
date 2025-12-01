@@ -232,6 +232,7 @@ public partial class ChronoJumpWindow
 
 				cb.PassData1Serie (point_l,
 						new List<Cairo.Color>(), names_l,
+						new List<List<double>> (),
 						-1, 14, 10, "hola", new List<int> (), new List<int> (), CairoBars.BarsOrPoints.BARS);
 				cb.GraphDo();
 			} else {

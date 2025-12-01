@@ -225,6 +225,7 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 		if (UseHeights)
 			cb.PassData1Serie (pointB_l,
 					colorMain_l, names_l,
+					new List<List<double>> (),
 					-1, 14, 8,
 					title, best_l, worst_l, CairoBars.BarsOrPoints.BARS);
 		else {

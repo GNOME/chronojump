@@ -674,6 +674,7 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 		if(pegbe.eccon == "c")
 			cb.PassData1Serie (barA_l,
 					colorMain_l, names_l,
+					new List<List<double>> (),
 					preferences.encoderCaptureBarplotFontSize, 14, 8, "",
 					new List<int> (), new List<int> (), CairoBars.BarsOrPoints.BARS);
 		else {

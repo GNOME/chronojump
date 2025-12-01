@@ -271,6 +271,7 @@ public abstract class CairoBars : CairoGeneric
 
 	public virtual void PassData1Serie (List<PointF> barMain_l,
 			List<Cairo.Color> colorMain_l, List<string> names_l,
+			List<List<double>> interval_l,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
 			string titleStr, List<int> best_l, List<int> worst_l,
 			BarsOrPoints barsOrPoints)

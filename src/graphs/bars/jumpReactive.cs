@@ -1,4 +1,4 @@
-/*
+ /*
  * This file is part of ChronoJump
  *
  * ChronoJump is free software; you can redistribute it and/or modify
@@ -165,6 +165,7 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 		{
 			cb.PassData1Serie (pointB_l,
 					new List<Cairo.Color>(), names_l,
+					new List<List<double>> (),
 					-1, fontHeightForBottomNames, bottomMargin, title,
 					new List<int> (), new List<int> (), barsOrPoints);
 		} else {

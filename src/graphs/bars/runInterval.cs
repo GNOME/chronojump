@@ -97,6 +97,7 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 
 		List<PointF> point_l = new List<PointF>();
 		List<string> names_l = new List<string>();
+		List<List<double>> intervals_l = new List<List<double>>();
 		List<bool> personIcon_l = new List<bool>();
 		List<int> id_l = new List<int>(); //the uniqueIDs for knowing them on bar selection
 
@@ -106,9 +107,13 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 			// 1) Add data
 			runI.MetersSecondsPreferred = metersSecondsPreferred;
 			if (runTimes)
+			{
 				point_l.Add(new PointF(countToDraw --, runI.TimeTotal));
-			else
+				intervals_l.Add (runI.TimeList);
+			} else {
 				point_l.Add(new PointF(countToDraw --, runI.Speed));
+				// TODO: intervals_l
+			}
 
 			// 2) Add bottom names
 			/*
@@ -153,6 +158,7 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 
 		cb.PassData1Serie (point_l,
 				new List<Cairo.Color>(), names_l,
+				intervals_l,
 				-1, fontHeightForBottomNames, bottomMargin, title,
 				new List<int> (), new List<int> (), barsOrPoints);
 

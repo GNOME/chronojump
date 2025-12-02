@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2025-11-22 14:01+0000\n"
-"PO-Revision-Date: 2025-11-22 20:15+0100\n"
+"POT-Creation-Date: 2025-12-02 17:02+0000\n"
+"PO-Revision-Date: 2025-12-02 20:43+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -33,7 +33,7 @@ msgstr "Chronojump"
 
 #: ../glade/app1.glade.h:2 ../glade/report_window.glade.h:9
 #: ../src/exportSession.cs:313 ../src/gui/app1/encoder.cs:5896
-#: ../src/gui/app1/forceSensor.cs:3843 ../src/gui/app1/runEncoder.cs:2838
+#: ../src/gui/app1/forceSensor.cs:3846 ../src/gui/app1/runEncoder.cs:2841
 #: ../src/gui/app1/session/backup.cs:171 ../src/report.cs:168
 msgid "Session"
 msgstr "Seja"
@@ -173,7 +173,7 @@ msgstr "Preskusi izometrične sile"
 
 #: ../glade/app1.glade.h:31 ../glade/force_sensor_exercise.glade.h:12
 #: ../glade/preferences_win.glade.h:76 ../src/constants.cs:1200
-#: ../src/gui/app1/forceSensor.cs:2195
+#: ../src/gui/app1/forceSensor.cs:2198
 #: ../src/gui/app1/session/loadAndImport.cs:348
 #: ../src/gui/modes/forceSensorExercise.cs:506
 #: ../src/gui/person/showAllEvents.cs:245
@@ -195,12 +195,12 @@ msgstr "Preuči"
 
 #: ../glade/app1.glade.h:35 ../glade/edit_event.glade.h:4
 #: ../glade/generic_window.glade.h:7 ../src/gui/app1/encoder.cs:1190
-#: ../src/gui/app1/encoder.cs:5895 ../src/gui/app1/forceSensor.cs:3842
-#: ../src/gui/app1/runEncoder.cs:2837
+#: ../src/gui/app1/encoder.cs:5895 ../src/gui/app1/forceSensor.cs:3845
+#: ../src/gui/app1/runEncoder.cs:2840
 #: ../src/gui/app1/treeviews/encoderAnalyze.cs:326
 #: ../src/gui/executeAuto.cs:522 ../src/gui/overview.cs:98
 #: ../src/gui/overview.cs:294 ../src/gui/overview.cs:303
-#: ../src/stats/runIntervallic.cs:64 ../src/treeview/event.cs:49
+#: ../src/stats/runIntervallic.cs:64 ../src/treeview/event.cs:51
 msgid "Person"
 msgstr "Testiranec"
 
@@ -219,9 +219,9 @@ msgstr "Nastavi vajo"
 
 #: ../glade/app1.glade.h:39 ../glade/edit_event.glade.h:7
 #: ../src/gui/app1/encoder.cs:1191 ../src/gui/app1/encoder.cs:1802
-#: ../src/gui/app1/encoder.cs:5875 ../src/gui/app1/forceSensor.cs:2193
-#: ../src/gui/app1/forceSensor.cs:3760 ../src/gui/app1/forceSensor.cs:3775
-#: ../src/gui/app1/runEncoder.cs:1167 ../src/gui/app1/runEncoder.cs:2817
+#: ../src/gui/app1/encoder.cs:5875 ../src/gui/app1/forceSensor.cs:2196
+#: ../src/gui/app1/forceSensor.cs:3763 ../src/gui/app1/forceSensor.cs:3778
+#: ../src/gui/app1/runEncoder.cs:1167 ../src/gui/app1/runEncoder.cs:2820
 #: ../src/gui/app1/treeviews/encoderAnalyze.cs:54
 #: ../src/gui/modes/encoderSelectRepetitions.cs:222 ../src/gui/overview.cs:100
 #: ../src/gui/overview.cs:297 ../src/gui/overview.cs:306
@@ -332,15 +332,16 @@ msgstr "Samodejni način"
 #: ../src/gui/person/addMultiple.cs:709 ../src/stats/djIndex.cs:33
 #: ../src/stats/djPower.cs:33 ../src/stats/djQ.cs:33 ../src/stats/potency.cs:63
 #: ../src/stats/sjCmjAbk.cs:53 ../src/stats/sjCmjAbkPlus.cs:63
-#: ../src/treeview/jump.cs:31
+#: ../src/treeview/jump.cs:31 ../src/treeview/jump.cs:180
+#: ../src/treeview/jumpRj.cs:71
 msgid "Height"
 msgstr "Višina"
 
 #: ../glade/app1.glade.h:62 ../glade/edit_event.glade.h:14
 #: ../src/encoder/encoderAnalyzeInstant.cs:212 ../src/exportSession.cs:542
-#: ../src/exportSession.cs:659 ../src/exportSession.cs:828
-#: ../src/exportSession.cs:891 ../src/exportSession.cs:999
-#: ../src/forceSensor.cs:2186 ../src/graphs/bars/fourPlatforms.cs:59
+#: ../src/exportSession.cs:659 ../src/exportSession.cs:832
+#: ../src/exportSession.cs:895 ../src/exportSession.cs:1003
+#: ../src/forceSensor.cs:2188 ../src/graphs/bars/fourPlatforms.cs:59
 #: ../src/graphs/bars/jumpReactive.cs:66
 #: ../src/graphs/bars/jumpReactiveCurrent.cs:162
 #: ../src/graphs/bars/jumpSimple.cs:93 ../src/graphs/bars/runInterval.cs:67
@@ -348,13 +349,13 @@ msgstr "Višina"
 #: ../src/graphs/bars/runSimple.cs:67 ../src/graphs/bars/wilight.cs:58
 #: ../src/graphs/cairo/xy.cs:110 ../src/gui/app1/forceSensorAnalyze.cs:1945
 #: ../src/gui/app1/forceSensorAnalyze.cs:2102
-#: ../src/gui/app1/runEncoderAnalyze.cs:528 ../src/gui/eventExecute.cs:1043
+#: ../src/gui/app1/runEncoderAnalyze.cs:528 ../src/gui/eventExecute.cs:1061
 #: ../src/stats/rjPotencyBosco.cs:36 ../src/stats/runSimple.cs:53
 #: ../src/treeview/fourPlatforms.cs:38 ../src/treeview/fourPlatforms.cs:39
 #: ../src/treeview/fourPlatforms.cs:40 ../src/treeview/fourPlatforms.cs:41
 #: ../src/treeview/fourPlatforms.cs:42 ../src/treeview/fourPlatforms.cs:43
 #: ../src/treeview/fourPlatforms.cs:44 ../src/treeview/fourPlatforms.cs:45
-#: ../src/treeview/run.cs:57
+#: ../src/treeview/run.cs:61 ../src/treeview/run.cs:76
 msgid "Time"
 msgstr "Čas"
 
@@ -504,16 +505,17 @@ msgstr "Trenutni niz"
 
 #: ../glade/app1.glade.h:93 ../glade/edit_event.glade.h:15
 #: ../glade/feedback.glade.h:41 ../src/constants.cs:1648
-#: ../src/encoder/encoderAnalyzeInstant.cs:214 ../src/exportSession.cs:826
-#: ../src/forceSensor.cs:2192 ../src/graphs/bars/runInterval.cs:65
+#: ../src/encoder/encoderAnalyzeInstant.cs:214 ../src/exportSession.cs:830
+#: ../src/forceSensor.cs:2194 ../src/graphs/bars/runInterval.cs:65
 #: ../src/graphs/bars/runIntervalCurrent.cs:190
 #: ../src/graphs/bars/runSimple.cs:65 ../src/graphs/cairo/radial.cs:147
 #: ../src/graphs/cairo/xy.cs:105 ../src/gui/app1/forceSensorAnalyze.cs:2106
-#: ../src/gui/app1/runEncoderAnalyze.cs:529 ../src/gui/app1/runEncoder.cs:3030
-#: ../src/gui/eventExecute.cs:1041 ../src/gui/overview.cs:312
+#: ../src/gui/app1/runEncoderAnalyze.cs:529 ../src/gui/app1/runEncoder.cs:3033
+#: ../src/gui/eventExecute.cs:1059 ../src/gui/overview.cs:312
 #: ../src/stats/runIntervallic.cs:65 ../src/stats/runIntervallic.cs:70
 #: ../src/stats/runIntervallic.cs:74 ../src/stats/runSimple.cs:52
-#: ../src/treeview/run.cs:50 ../src/treeview/runI.cs:40
+#: ../src/treeview/run.cs:54 ../src/treeview/run.cs:73
+#: ../src/treeview/runI.cs:42 ../src/treeview/runI.cs:67
 msgid "Speed"
 msgstr "Hitrost"
 
@@ -550,7 +552,7 @@ msgid "Save image"
 msgstr "Shrani sliko"
 
 #: ../glade/app1.glade.h:102 ../glade/feedback.glade.h:80
-#: ../src/encoder/encoderAnalyzeInstant.cs:246 ../src/forceSensor.cs:2260
+#: ../src/encoder/encoderAnalyzeInstant.cs:246 ../src/forceSensor.cs:2262
 #: ../src/gui/app1/forceSensorAnalyze.cs:2006
 #: ../src/gui/app1/runEncoderAnalyze.cs:590 ../src/gui/feedback.cs:1438
 msgid "Maximum"
@@ -566,9 +568,10 @@ msgid "Minimum"
 msgstr "Najnižji"
 
 #: ../glade/app1.glade.h:105 ../src/graphs/bars/forceSensor.cs:69
-#: ../src/graphs/bars/runEncoder.cs:69 ../src/gui/eventExecute.cs:1050
-#: ../src/gui/eventExecute.cs:1061 ../src/treeview/forceSensor.cs:50
-#: ../src/treeview/runEncoder.cs:49
+#: ../src/graphs/bars/runEncoder.cs:69 ../src/gui/eventExecute.cs:1068
+#: ../src/gui/eventExecute.cs:1079 ../src/treeview/forceSensor.cs:54
+#: ../src/treeview/forceSensor.cs:75 ../src/treeview/runEncoder.cs:53
+#: ../src/treeview/runEncoder.cs:73
 msgid "Best second"
 msgstr "Drugi najboljši"
 
@@ -638,8 +641,8 @@ msgstr "Umeri"
 #: ../glade/person_select_window.glade.h:24
 #: ../glade/preferences_win.glade.h:221 ../src/gui/app1/encoder.cs:1236
 #: ../src/gui/app1/encoder.cs:1850 ../src/gui/app1/encoder.cs:5882
-#: ../src/gui/app1/forceSensor.cs:2293 ../src/gui/app1/forceSensor.cs:3829
-#: ../src/gui/app1/runEncoder.cs:1259 ../src/gui/app1/runEncoder.cs:2824
+#: ../src/gui/app1/forceSensor.cs:2296 ../src/gui/app1/forceSensor.cs:3832
+#: ../src/gui/app1/runEncoder.cs:1259 ../src/gui/app1/runEncoder.cs:2827
 #: ../src/gui/app1/session/backup.cs:195 ../src/gui/app1/session/backup.cs:424
 #: ../src/gui/app1/session/backup.cs:477 ../src/gui/chronopicRegister.cs:402
 #: ../src/gui/discover.cs:222 ../src/gui/discover.cs:684
@@ -686,7 +689,7 @@ msgstr "Predvajaj posnetek"
 msgid "Edit"
 msgstr "Uredi"
 
-#: ../glade/app1.glade.h:128 ../src/gui/app1/treeviews/resultsSession.cs:325
+#: ../glade/app1.glade.h:128 ../src/gui/app1/treeviews/resultsSession.cs:327
 msgid "Repair selected"
 msgstr "Izbrano je popravljanje"
 
@@ -706,8 +709,8 @@ msgid "Group"
 msgstr "Skupina"
 
 #: ../glade/app1.glade.h:132 ../src/encoder/encoderAnalyzeInstant.cs:237
-#: ../src/forceSensor.cs:2238 ../src/gui/app1/forceSensorAnalyze.cs:1997
-#: ../src/gui/app1/runEncoderAnalyze.cs:582 ../src/runType.cs:241
+#: ../src/forceSensor.cs:2240 ../src/gui/app1/forceSensorAnalyze.cs:1997
+#: ../src/gui/app1/runEncoderAnalyze.cs:582 ../src/runType.cs:242
 msgid "Average"
 msgstr "Povprečno"
 
@@ -730,8 +733,8 @@ msgstr "Zadnji podatek ritma"
 #. don't plot AVG and SD rows
 #. if multisession, add AVG and SD cols
 #. don't plot AVG row on multisession
-#: ../glade/app1.glade.h:137 ../src/exportSession.cs:761
-#: ../src/exportSession.cs:938 ../src/graphs/bars/jumpReactive.cs:68
+#: ../glade/app1.glade.h:137 ../src/exportSession.cs:763
+#: ../src/exportSession.cs:942 ../src/graphs/bars/jumpReactive.cs:68
 #: ../src/graphs/bars/jumpReactive.cs:69 ../src/stats/graphs/djIndex.cs:111
 #: ../src/stats/graphs/djPower.cs:116 ../src/stats/graphs/djQ.cs:111
 #: ../src/stats/graphs/fv.cs:109 ../src/stats/graphs/fv.cs:149
@@ -748,16 +751,16 @@ msgstr "Zadnji podatek ritma"
 #: ../src/stats/rjAVGSD.cs:34 ../src/stats/rjEvolution.cs:219
 #: ../src/stats/rjIndex.cs:33 ../src/stats/rjIndex.cs:34
 #: ../src/stats/rjPotencyBosco.cs:33 ../src/stats/rjPotencyBosco.cs:34
-#: ../src/stats/runIntervallic.cs:207 ../src/treeview/event.cs:384
-#: ../src/treeview/jumpRj.cs:277 ../src/treeview/jumpRj.cs:279
-#: ../src/treeview/runI.cs:201
+#: ../src/stats/runIntervallic.cs:207 ../src/treeview/event.cs:456
+#: ../src/treeview/jumpRj.cs:294 ../src/treeview/jumpRj.cs:296
+#: ../src/treeview/runI.cs:215
 msgid "AVG"
 msgstr "Srednja vrednost"
 
 #: ../glade/app1.glade.h:138 ../src/graphs/bars/jumpReactive.cs:63
 #: ../src/graphs/bars/jumpReactiveCurrent.cs:160
 #: ../src/graphs/bars/jumpSimple.cs:85 ../src/graphs/bars/jumpSimple.cs:90
-#: ../src/gui/eventExecute.cs:1022
+#: ../src/gui/eventExecute.cs:1040
 msgid "Jump height"
 msgstr "Višina skoka"
 
@@ -767,15 +770,16 @@ msgstr "Čas skoka"
 
 #. Catalog.GetString ("Encoder configuration"),
 #: ../glade/app1.glade.h:140 ../src/graphs/bars/runEncoder.cs:67
-#: ../src/gui/eventExecute.cs:1048 ../src/treeview/encoder.cs:55
-#: ../src/treeview/encoder.cs:71 ../src/treeview/runEncoder.cs:48
+#: ../src/gui/eventExecute.cs:1066 ../src/treeview/encoder.cs:59
+#: ../src/treeview/encoder.cs:75 ../src/treeview/encoder.cs:161
+#: ../src/treeview/runEncoder.cs:52 ../src/treeview/runEncoder.cs:70
 msgid "Max speed"
 msgstr "Največja hitrost"
 
 #: ../glade/app1.glade.h:141 ../src/graphs/bars/forceSensor.cs:67
-#: ../src/gui/app1/forceSensor.cs:2198 ../src/gui/eventExecute.cs:1059
-#: ../src/treeview/encoder.cs:59 ../src/treeview/encoder.cs:75
-#: ../src/treeview/forceSensor.cs:49
+#: ../src/gui/app1/forceSensor.cs:2201 ../src/gui/eventExecute.cs:1077
+#: ../src/treeview/encoder.cs:63 ../src/treeview/encoder.cs:79
+#: ../src/treeview/forceSensor.cs:53 ../src/treeview/forceSensor.cs:72
 msgid "Max force"
 msgstr "Največja sila"
 
@@ -910,8 +914,8 @@ msgstr "Prevladujoč"
 #.
 #: ../glade/app1.glade.h:170 ../glade/edit_event.glade.h:79
 #: ../glade/jump_type_add.glade.h:15 ../glade/run_type_add.glade.h:16
-#: ../src/exportSession.cs:530 ../src/exportSession.cs:823
-#: ../src/exportSession.cs:883 ../src/exportSession.cs:997
+#: ../src/exportSession.cs:530 ../src/exportSession.cs:827
+#: ../src/exportSession.cs:887 ../src/exportSession.cs:1001
 #: ../src/gui/app1/treeviews/sprint.cs:45 ../src/gui/chronopicRegister.cs:225
 #: ../src/gui/convertWeight.cs:118 ../src/gui/discover.cs:292
 #: ../src/gui/report.cs:177
@@ -1042,14 +1046,14 @@ msgstr "Projekcija uporabljene sile"
 #. Catalog.GetString("Device"),
 #: ../glade/app1.glade.h:192 ../glade/edit_event.glade.h:13
 #: ../glade/run_type_add.glade.h:7 ../src/constants.cs:1654
-#: ../src/exportSession.cs:824 ../src/graphs/cairo/radial.cs:153
+#: ../src/exportSession.cs:828 ../src/graphs/cairo/radial.cs:153
 #: ../src/graphs/cairo/radial.cs:180 ../src/graphs/cairo/xy.cs:111
-#: ../src/gui/app1/runEncoder.cs:1169 ../src/gui/app1/runEncoder.cs:2942
+#: ../src/gui/app1/runEncoder.cs:1169 ../src/gui/app1/runEncoder.cs:2945
 #: ../src/gui/app1/treeviews/encoderAnalyze.cs:69
 #: ../src/gui/app1/treeviews/encoderCaptureCurrentSet.cs:75
 #: ../src/gui/modes/run.cs:448 ../src/gui/modes/run.cs:645
 #: ../src/gui/modes/runType.cs:151 ../src/stats/runSimple.cs:53
-#: ../src/treeview/run.cs:56
+#: ../src/treeview/run.cs:60
 msgid "Distance"
 msgstr "Razdalja"
 
@@ -1087,13 +1091,13 @@ msgstr "Ime"
 #: ../glade/person_multiple_infinite.glade.h:10 ../glade/person_win.glade.h:34
 #: ../glade/run_type_add.glade.h:4 ../src/exportSession.cs:409
 #: ../src/exportSession.cs:543 ../src/exportSession.cs:660
-#: ../src/exportSession.cs:829 ../src/exportSession.cs:892
+#: ../src/exportSession.cs:833 ../src/exportSession.cs:896
 #: ../src/gui/executeAuto.cs:209 ../src/gui/modes/encoderConfiguration.cs:670
 #: ../src/gui/modes/jump.cs:516 ../src/gui/modes/jump.cs:742
 #: ../src/gui/modes/run.cs:449 ../src/gui/modes/run.cs:648
 #: ../src/gui/person/addMultiple.cs:713 ../src/gui/person/recuperate.cs:143
-#: ../src/runType.cs:196 ../src/runType.cs:230 ../src/runType.cs:270
-#: ../src/runType.cs:298 ../src/treeview/event.cs:54
+#: ../src/runType.cs:197 ../src/runType.cs:231 ../src/runType.cs:271
+#: ../src/runType.cs:299 ../src/treeview/event.cs:56
 msgid "Description"
 msgstr "Opis"
 
@@ -1163,8 +1167,8 @@ msgid "Phase"
 msgstr "Faza"
 
 #: ../glade/app1.glade.h:213 ../src/constants.cs:1678
-#: ../src/gui/app1/encoder.cs:1803 ../src/gui/app1/forceSensor.cs:2197
-#: ../src/gui/app1/treeviews/encoderAnalyze.cs:55 ../src/treeview/event.cs:50
+#: ../src/gui/app1/encoder.cs:1803 ../src/gui/app1/forceSensor.cs:2200
+#: ../src/gui/app1/treeviews/encoderAnalyze.cs:55 ../src/treeview/event.cs:52
 msgid "Laterality"
 msgstr "Lateralno"
 
@@ -1188,9 +1192,9 @@ msgstr "Dodatno"
 
 #. print Total, AVG, SD
 #: ../glade/app1.glade.h:217 ../glade/edit_event.glade.h:47
-#: ../src/exportSession.cs:758 ../src/exportSession.cs:935
-#: ../src/treeview/event.cs:377 ../src/treeview/jumpRj.cs:233
-#: ../src/treeview/runI.cs:182
+#: ../src/exportSession.cs:760 ../src/exportSession.cs:939
+#: ../src/treeview/event.cs:449 ../src/treeview/jumpRj.cs:250
+#: ../src/treeview/runI.cs:196
 msgid "Total"
 msgstr "Skupaj"
 
@@ -1228,7 +1232,7 @@ msgstr "Ekvivalentna masa"
 
 #. checkboxes
 #: ../glade/app1.glade.h:224 ../src/constants.cs:1666
-#: ../src/forceSensor.cs:2185 ../src/gui/app1/treeviews/encoderAnalyze.cs:52
+#: ../src/forceSensor.cs:2187 ../src/gui/app1/treeviews/encoderAnalyze.cs:52
 #: ../src/gui/modes/encoderSelectRepetitions.cs:221
 msgid "Repetition"
 msgstr "Ponovitev"
@@ -1698,8 +1702,9 @@ msgstr "Le najboljši skok vsake seje"
 #: ../src/stats/graphs/rjEvolution.cs:105 ../src/stats/rjEvolution.cs:73
 #: ../src/stats/rjEvolution.cs:78 ../src/stats/rjIndex.cs:33
 #: ../src/stats/rjPotencyBosco.cs:33 ../src/stats/sjCmjAbk.cs:53
-#: ../src/stats/sjCmjAbkPlus.cs:64 ../src/treeview/jump.cs:69
-#: ../src/treeview/jumpRj.cs:50
+#: ../src/stats/sjCmjAbkPlus.cs:64 ../src/treeview/jump.cs:71
+#: ../src/treeview/jump.cs:183 ../src/treeview/jumpRj.cs:51
+#: ../src/treeview/jumpRj.cs:76
 msgid "TF"
 msgstr "čL"
 
@@ -1717,8 +1722,8 @@ msgstr "Čas stika"
 #: ../src/stats/djPower.cs:35 ../src/stats/djQ.cs:35
 #: ../src/stats/graphs/rjEvolution.cs:104 ../src/stats/rjEvolution.cs:72
 #: ../src/stats/rjEvolution.cs:77 ../src/stats/rjIndex.cs:34
-#: ../src/stats/rjPotencyBosco.cs:34 ../src/treeview/jump.cs:68
-#: ../src/treeview/jumpRj.cs:49
+#: ../src/stats/rjPotencyBosco.cs:34 ../src/treeview/jump.cs:70
+#: ../src/treeview/jumpRj.cs:50 ../src/treeview/jumpRj.cs:75
 msgid "TC"
 msgstr "čS"
 
@@ -1890,7 +1895,7 @@ msgstr "Strogo uporabljaj A za začetek in B za konec"
 msgid "Start and duration"
 msgstr "Začetek in trajanje"
 
-#: ../glade/app1.glade.h:378 ../src/forceSensor.cs:2188
+#: ../glade/app1.glade.h:378 ../src/forceSensor.cs:2190
 msgid "RFD"
 msgstr "Eksplozivna moč RFD"
 
@@ -1949,14 +1954,14 @@ msgid "RFD calculation"
 msgstr "Izračun eksplozivne moči RFD"
 
 #: ../glade/app1.glade.h:392 ../glade/feedback.glade.h:110
-#: ../src/encoder/encoderAnalyzeInstant.cs:215 ../src/forceSensor.cs:2193
+#: ../src/encoder/encoderAnalyzeInstant.cs:215 ../src/forceSensor.cs:2195
 #: ../src/graphs/cairo/xy.cs:106 ../src/gui/app1/forceSensorAnalyze.cs:2107
 msgid "Acceleration"
 msgstr "Pospešek"
 
 #: ../glade/app1.glade.h:393 ../glade/feedback.glade.h:44
 #: ../src/constants.cs:1650 ../src/encoder/encoderAnalyzeInstant.cs:216
-#: ../src/forceSensor.cs:2187 ../src/graphs/cairo/xy.cs:107
+#: ../src/forceSensor.cs:2189 ../src/graphs/cairo/xy.cs:107
 #: ../src/gui/app1/forceSensorAnalyze.cs:1946
 #: ../src/gui/app1/forceSensorAnalyze.cs:2103 ../src/gui/overview.cs:313
 msgid "Force"
@@ -1965,7 +1970,7 @@ msgstr "Sila"
 #: ../glade/app1.glade.h:394 ../glade/feedback.glade.h:47
 #: ../glade/preferences_win.glade.h:30 ../src/constants.cs:1651
 #: ../src/encoder/encoderAnalyzeInstant.cs:217 ../src/exportSession.cs:536
-#: ../src/exportSession.cs:753 ../src/forceSensor.cs:2194
+#: ../src/exportSession.cs:752 ../src/forceSensor.cs:2196
 #: ../src/graphs/cairo/xy.cs:108 ../src/gui/app1/forceSensorAnalyze.cs:2108
 #: ../src/gui/overview.cs:311 ../src/gui/preferences.cs:3224
 #: ../src/stats/djPower.cs:32 ../src/treeview/jump.cs:32
@@ -2118,7 +2123,7 @@ msgstr "Prekini opravilo"
 msgid "Option:"
 msgstr "Možnost:"
 
-#: ../glade/app1.glade.h:431 ../src/forceSensor.cs:2191
+#: ../glade/app1.glade.h:431 ../src/forceSensor.cs:2193
 #: ../src/gui/app1/forceSensorAnalyze.cs:2105
 msgid "Position"
 msgstr "Položaj"
@@ -2145,7 +2150,7 @@ msgstr "Razmestitev"
 
 #. double rfdDiff = rfdB - rfdA;
 #: ../glade/app1.glade.h:437 ../src/encoder/encoderAnalyzeInstant.cs:224
-#: ../src/forceSensor.cs:2217 ../src/gui/app1/forceSensorAnalyze.cs:1988
+#: ../src/forceSensor.cs:2219 ../src/gui/app1/forceSensorAnalyze.cs:1988
 #: ../src/gui/app1/runEncoderAnalyze.cs:574
 msgid "Difference"
 msgstr "Razlika"
@@ -2301,7 +2306,7 @@ msgstr "Stolpci tipal"
 
 #: ../glade/app1.glade.h:474 ../glade/feedback.glade.h:87
 #: ../glade/person_recuperate.glade.h:8 ../src/gui/app1/encoder.cs:1849
-#: ../src/gui/app1/forceSensor.cs:2255 ../src/gui/app1/forceSensor.cs:2292
+#: ../src/gui/app1/forceSensor.cs:2258 ../src/gui/app1/forceSensor.cs:2295
 #: ../src/gui/app1/runEncoder.cs:1221 ../src/gui/app1/runEncoder.cs:1258
 #: ../src/gui/feedback.cs:1504 ../src/gui/person/addMultiple.cs:439
 msgid "Load"
@@ -2375,16 +2380,16 @@ msgstr "Mesto"
 #. tv.AppendColumn ( Catalog.GetString ("Date"), new CellRendererText(), "text", count++);
 #: ../glade/app1.glade.h:489 ../glade/edit_event.glade.h:50
 #: ../src/exportSession.cs:361 ../src/exportSession.cs:541
-#: ../src/exportSession.cs:658 ../src/exportSession.cs:827
-#: ../src/exportSession.cs:890 ../src/exportSession.cs:998
+#: ../src/exportSession.cs:658 ../src/exportSession.cs:831
+#: ../src/exportSession.cs:894 ../src/exportSession.cs:1002
 #: ../src/graphs/cairo/xy.cs:109 ../src/gui/app1/encoder.cs:1807
-#: ../src/gui/app1/encoder.cs:5896 ../src/gui/app1/forceSensor.cs:2200
-#: ../src/gui/app1/forceSensor.cs:3843 ../src/gui/app1/runEncoder.cs:1170
-#: ../src/gui/app1/runEncoder.cs:2838
+#: ../src/gui/app1/encoder.cs:5896 ../src/gui/app1/forceSensor.cs:2203
+#: ../src/gui/app1/forceSensor.cs:3846 ../src/gui/app1/runEncoder.cs:1170
+#: ../src/gui/app1/runEncoder.cs:2841
 #: ../src/gui/app1/session/loadAndImport.cs:306
 #: ../src/gui/modes/encoderSelectRepetitions.cs:230
 #: ../src/gui/person/showAllEvents.cs:236 ../src/gui/session/selectStats.cs:86
-#: ../src/report.cs:259 ../src/treeview/event.cs:53
+#: ../src/report.cs:259 ../src/treeview/event.cs:55
 msgid "Date"
 msgstr "Datum"
 
@@ -2415,8 +2420,8 @@ msgstr "Upravljanje"
 #: ../src/exportSession.cs:413 ../src/gui/app1/session/loadAndImport.cs:366
 #: ../src/gui/modes/forceSensorElasticBands.cs:223
 #: ../src/gui/session/selectStats.cs:87 ../src/report.cs:260
-#: ../src/runType.cs:201 ../src/runType.cs:217 ../src/runType.cs:284
-#: ../src/runType.cs:304
+#: ../src/runType.cs:202 ../src/runType.cs:218 ../src/runType.cs:285
+#: ../src/runType.cs:305
 msgid "Comments"
 msgstr "Razlage"
 
@@ -2845,30 +2850,32 @@ msgstr "Odgovor"
 
 #: ../glade/chronopic_test.glade.h:5 ../glade/edit_event.glade.h:19
 #: ../src/constants.cs:1010 ../src/encoder/encoderSQL.cs:281
-#: ../src/forceSensor.cs:234 ../src/gui/edit_event/event.cs:419
+#: ../src/forceSensor.cs:236 ../src/gui/edit_event/event.cs:419
 #: ../src/gui/genericWindow.cs:957 ../src/gui/modes/jump.cs:531
 #: ../src/gui/modes/jump.cs:536 ../src/gui/modes/jump.cs:573
 #: ../src/gui/modes/jump.cs:576 ../src/gui/modes/jump.cs:605
 #: ../src/gui/modes/jump.cs:608 ../src/gui/modes/jump.cs:757
 #: ../src/gui/modes/jump.cs:762 ../src/gui/modes/jump.cs:841
 #: ../src/gui/modes/jump.cs:844 ../src/gui/modes/jump.cs:891
-#: ../src/gui/modes/jump.cs:894 ../src/runEncoder.cs:228
-#: ../src/treeview/encoder.cs:333 ../src/treeview/fourPlatforms.cs:114
-#: ../src/treeview/jump.cs:265 ../src/treeview/jumpRj.cs:130
-#: ../src/treeview/run.cs:113 ../src/treeview/runI.cs:101
+#: ../src/gui/modes/jump.cs:894 ../src/runEncoder.cs:229
+#: ../src/treeview/encoder.cs:401 ../src/treeview/forceSensor.cs:114
+#: ../src/treeview/fourPlatforms.cs:114 ../src/treeview/jump.cs:279
+#: ../src/treeview/jumpRj.cs:147 ../src/treeview/run.cs:128
+#: ../src/treeview/runEncoder.cs:110 ../src/treeview/runI.cs:115
 msgid "Yes"
 msgstr "Da"
 
 #. aka == -1.0
 #: ../glade/chronopic_test.glade.h:6 ../src/constants.cs:1006
-#: ../src/encoder/encoderSQL.cs:283 ../src/forceSensor.cs:236
-#: ../src/forceSensor.cs:246 ../src/gui/edit_event/event.cs:423
+#: ../src/encoder/encoderSQL.cs:283 ../src/forceSensor.cs:238
+#: ../src/forceSensor.cs:248 ../src/gui/edit_event/event.cs:423
 #: ../src/gui/modes/jump.cs:533 ../src/gui/modes/jump.cs:538
 #: ../src/gui/modes/jump.cs:759 ../src/gui/modes/jump.cs:764
-#: ../src/runEncoder.cs:230 ../src/treeview/encoder.cs:335
-#: ../src/treeview/fourPlatforms.cs:116 ../src/treeview/jump.cs:267
-#: ../src/treeview/jumpRj.cs:132 ../src/treeview/run.cs:115
-#: ../src/treeview/runI.cs:103
+#: ../src/runEncoder.cs:231 ../src/treeview/encoder.cs:403
+#: ../src/treeview/forceSensor.cs:116 ../src/treeview/fourPlatforms.cs:116
+#: ../src/treeview/jump.cs:281 ../src/treeview/jumpRj.cs:149
+#: ../src/treeview/run.cs:130 ../src/treeview/runEncoder.cs:112
+#: ../src/treeview/runI.cs:117
 msgid "No"
 msgstr "Ne"
 
@@ -3080,8 +3087,8 @@ msgstr ""
 
 #: ../glade/edit_event.glade.h:8 ../src/graphs/bars/jumpReactive.cs:69
 #: ../src/graphs/bars/jumpReactiveCurrent.cs:166
-#: ../src/graphs/bars/jumpSimple.cs:98 ../src/gui/eventExecute.cs:1024
-#: ../src/gui/eventExecute.cs:1030
+#: ../src/graphs/bars/jumpSimple.cs:98 ../src/gui/eventExecute.cs:1042
+#: ../src/gui/eventExecute.cs:1048
 msgid "Flight time"
 msgstr "Čas leta"
 
@@ -3089,10 +3096,10 @@ msgstr "Čas leta"
 #: ../src/graphs/cairo/xy.cs:103 ../src/gui/app1/encoder.cs:1804
 #: ../src/gui/app1/treeviews/encoderAnalyze.cs:56
 #: ../src/gui/app1/treeviews/encoderAnalyze.cs:328
-#: ../src/gui/eventExecute.cs:1071
+#: ../src/gui/eventExecute.cs:1089
 #: ../src/gui/modes/encoderSelectRepetitions.cs:224
 #: ../src/gui/modes/jump.cs:515 ../src/gui/modes/jump.cs:741
-#: ../src/stats/sjCmjAbkPlus.cs:57 ../src/treeview/event.cs:51
+#: ../src/stats/sjCmjAbkPlus.cs:57 ../src/treeview/event.cs:53
 msgid "Extra weight"
 msgstr "Dodatna obtežitev"
 
@@ -3909,7 +3916,7 @@ msgstr "Dodaj nov elastični trak ali cev"
 
 #: ../glade/force_sensor_elastic_bands.glade.h:6
 #: ../glade/preferences_win.glade.h:32 ../src/exportSession.cs:538
-#: ../src/exportSession.cs:754 ../src/gui/modes/forceSensorElasticBands.cs:220
+#: ../src/exportSession.cs:753 ../src/gui/modes/forceSensorElasticBands.cs:220
 #: ../src/gui/preferences.cs:3227 ../src/treeview/jump.cs:34
 msgid "Stiffness"
 msgstr "Togost"
@@ -3978,7 +3985,7 @@ msgstr "Samo za elastični način"
 msgid "What force do you want to show?"
 msgstr "Kakšno silo želite pokazati?"
 
-#: ../glade/force_sensor_exercise.glade.h:9 ../src/gui/app1/forceSensor.cs:2198
+#: ../glade/force_sensor_exercise.glade.h:9 ../src/gui/app1/forceSensor.cs:2201
 #: ../src/gui/modes/forceSensorExercise.cs:502
 msgid "Raw data"
 msgstr "Surove podatke"
@@ -4080,7 +4087,7 @@ msgid "session"
 msgstr " seja "
 
 #: ../glade/generic_window.glade.h:8 ../src/gui/app1/encoder.cs:1809
-#: ../src/gui/app1/forceSensor.cs:2202 ../src/gui/app1/runEncoder.cs:1172
+#: ../src/gui/app1/forceSensor.cs:2205 ../src/gui/app1/runEncoder.cs:1172
 #: ../src/gui/modes/encoderSelectRepetitions.cs:231 ../src/gui/report.cs:185
 msgid "Comment"
 msgstr "Razlaga"
@@ -4169,7 +4176,7 @@ msgstr "Pregled"
 
 #. not shown, unused
 #: ../glade/overview.glade.h:2 ../src/gui/app1/encoder.cs:5895
-#: ../src/gui/app1/forceSensor.cs:3842 ../src/gui/app1/runEncoder.cs:2837
+#: ../src/gui/app1/forceSensor.cs:3845 ../src/gui/app1/runEncoder.cs:2840
 #: ../src/gui/app1/session/loadAndImport.cs:351
 #: ../src/gui/app1/session/loadAndImport.cs:355 ../src/gui/overview.cs:101
 #: ../src/gui/overview.cs:301 ../src/gui/person/showAllEvents.cs:247
@@ -4977,8 +4984,8 @@ msgid "<b>Advanced</b>"
 msgstr "<b>Napredne možnosti</b>"
 
 #: ../glade/preferences_win.glade.h:152 ../src/gui/app1/encoder.cs:1808
-#: ../src/gui/app1/forceSensor.cs:2201 ../src/gui/app1/runEncoder.cs:1171
-#: ../src/treeview/event.cs:52
+#: ../src/gui/app1/forceSensor.cs:2204 ../src/gui/app1/runEncoder.cs:1171
+#: ../src/treeview/event.cs:54
 msgid "Video"
 msgstr "Video"
 
@@ -5234,7 +5241,7 @@ msgstr "Dodaj za"
 msgid "Notes"
 msgstr "Opombe"
 
-#: ../glade/repair_sub_event.glade.h:4 ../src/exportSession.cs:1000
+#: ../glade/repair_sub_event.glade.h:4 ../src/exportSession.cs:1004
 msgid "Totaltime"
 msgstr "Skupni čas"
 
@@ -5794,8 +5801,8 @@ msgstr "Prosimo, izvedite potrebne skoke, označene z rdečo zgoraj."
 #: ../src/constants.cs:456 ../src/constants.cs:468 ../src/constants.cs:479
 #: ../src/constants.cs:497 ../src/constants.cs:509 ../src/constants.cs:521
 #: ../src/constants.cs:533 ../src/constants.cs:538 ../src/constants.cs:546
-#: ../src/constants.cs:551 ../src/treeview/encoder.cs:57
-#: ../src/treeview/encoder.cs:73
+#: ../src/constants.cs:551 ../src/treeview/encoder.cs:61
+#: ../src/treeview/encoder.cs:77 ../src/treeview/encoder.cs:167
 msgid "Peak power"
 msgstr "Končna moč"
 
@@ -5995,8 +6002,8 @@ msgstr "Testi so <b>simulirani</b>, dokler je naprava kronopik povezana."
 #. thinking on 99 jumps
 #. thinking on 99 tracks
 #: ../src/constants.cs:885 ../src/exportSession.cs:545
-#: ../src/exportSession.cs:662 ../src/exportSession.cs:830
-#: ../src/exportSession.cs:893 ../src/graphs/bars/bars.cs:487
+#: ../src/exportSession.cs:662 ../src/exportSession.cs:834
+#: ../src/exportSession.cs:897 ../src/graphs/bars/bars.cs:487
 #: ../src/graphs/bars/jumpReactive.cs:90 ../src/graphs/bars/jumpSimple.cs:120
 #: ../src/graphs/bars/runInterval.cs:96 ../src/graphs/bars/runSimple.cs:96
 #: ../src/gui/eventExecute.cs:175
@@ -6707,8 +6714,8 @@ msgstr "s krogi"
 msgid "SessionID"
 msgstr "ID Seje"
 
-#: ../src/exportSession.cs:407 ../src/exportSession.cs:996
-#: ../src/gui/app1/encoder.cs:1800 ../src/gui/app1/forceSensor.cs:2191
+#: ../src/exportSession.cs:407 ../src/exportSession.cs:1000
+#: ../src/gui/app1/encoder.cs:1800 ../src/gui/app1/forceSensor.cs:2194
 #: ../src/gui/app1/runEncoder.cs:1165 ../src/gui/convertWeight.cs:112
 #: ../src/gui/modes/encoderSelectRepetitions.cs:219
 #: ../src/gui/modes/encoderSelectRepetitions.cs:438
@@ -6726,22 +6733,22 @@ msgid "Height maximums"
 msgstr "Najvišje višine"
 
 #: ../src/exportSession.cs:486 ../src/exportSession.cs:526
-#: ../src/exportSession.cs:638 ../src/exportSession.cs:819
-#: ../src/exportSession.cs:879 ../src/exportSession.cs:993
+#: ../src/exportSession.cs:638 ../src/exportSession.cs:823
+#: ../src/exportSession.cs:883 ../src/exportSession.cs:997
 msgid "Person ID"
 msgstr "ID testiranca"
 
 #. checkboxes
 #: ../src/exportSession.cs:487 ../src/exportSession.cs:527
-#: ../src/exportSession.cs:639 ../src/exportSession.cs:820
-#: ../src/exportSession.cs:880 ../src/exportSession.cs:994
+#: ../src/exportSession.cs:639 ../src/exportSession.cs:824
+#: ../src/exportSession.cs:884 ../src/exportSession.cs:998
 #: ../src/gui/modes/encoderSelectRepetitions.cs:613
 msgid "Person name"
 msgstr "Ime testiranca"
 
 #: ../src/exportSession.cs:528 ../src/exportSession.cs:640
-#: ../src/exportSession.cs:821 ../src/exportSession.cs:881
-#: ../src/exportSession.cs:995
+#: ../src/exportSession.cs:825 ../src/exportSession.cs:885
+#: ../src/exportSession.cs:999
 msgid "Session ID"
 msgstr "ID seje"
 
@@ -6753,8 +6760,9 @@ msgstr "ID skoka"
 msgid "Power formula"
 msgstr "Formula moči"
 
-#: ../src/exportSession.cs:539 ../src/exportSession.cs:831
-#: ../src/exportSession.cs:894 ../src/treeview/jump.cs:35
+#: ../src/exportSession.cs:539 ../src/exportSession.cs:754
+#: ../src/exportSession.cs:835 ../src/exportSession.cs:898
+#: ../src/treeview/jump.cs:35
 msgid "Initial Speed"
 msgstr "Začetna hitrost"
 
@@ -6794,16 +6802,20 @@ msgstr "Srednja višina"
 msgid "AVG Initial Speed"
 msgstr "Srednja začetna hitrost"
 
-#: ../src/exportSession.cs:656 ../src/exportSession.cs:825
+#: ../src/exportSession.cs:656 ../src/exportSession.cs:829
 #: ../src/gui/app1/treeviews/sprint.cs:49 ../src/treeview/wilight.cs:30
 msgid "Total time"
 msgstr "Skupni čas"
 
-#: ../src/exportSession.cs:657 ../src/exportSession.cs:889
+#: ../src/exportSession.cs:657 ../src/exportSession.cs:893
 msgid "Limited"
 msgstr "Omejeno"
 
-#: ../src/exportSession.cs:764 ../src/exportSession.cs:942
+#: ../src/exportSession.cs:756 ../src/stats/djQ.cs:32
+msgid "Q Index"
+msgstr "Indeks Q"
+
+#: ../src/exportSession.cs:766 ../src/exportSession.cs:946
 #: ../src/stats/graphs/djIndex.cs:163 ../src/stats/graphs/djPower.cs:174
 #: ../src/stats/graphs/djQ.cs:164 ../src/stats/graphs/fv.cs:149
 #: ../src/stats/graphs/global.cs:108 ../src/stats/graphs/global.cs:165
@@ -6817,54 +6829,54 @@ msgstr "Omejeno"
 #: ../src/stats/main.cs:683 ../src/stats/main.cs:754 ../src/stats/main.cs:776
 #: ../src/stats/main.cs:803 ../src/stats/rjAVGSD.cs:35
 #: ../src/stats/rjEvolution.cs:219 ../src/stats/runIntervallic.cs:207
-#: ../src/treeview/event.cs:394 ../src/treeview/jumpRj.cs:385
-#: ../src/treeview/jumpRj.cs:387 ../src/treeview/runI.cs:226
+#: ../src/treeview/event.cs:466 ../src/treeview/jumpRj.cs:402
+#: ../src/treeview/jumpRj.cs:404 ../src/treeview/runI.cs:240
 msgid "SD"
 msgstr "SD"
 
-#: ../src/exportSession.cs:822
+#: ../src/exportSession.cs:826
 msgid "Race ID"
 msgstr "ID teka"
 
-#: ../src/exportSession.cs:882
+#: ../src/exportSession.cs:886
 msgid "run ID"
 msgstr "ID teka"
 
-#: ../src/exportSession.cs:884
+#: ../src/exportSession.cs:888
 msgid "Distance total"
 msgstr "Skupna razdalja"
 
-#: ../src/exportSession.cs:885
+#: ../src/exportSession.cs:889
 msgid "Time total"
 msgstr "Skupni čas"
 
-#: ../src/exportSession.cs:886
+#: ../src/exportSession.cs:890
 msgid "Average speed"
 msgstr "Povprečna hitrost"
 
-#: ../src/exportSession.cs:887
+#: ../src/exportSession.cs:891
 msgid "Distance interval"
 msgstr "Interval razdalje"
 
-#: ../src/exportSession.cs:888 ../src/gui/app1/chronojump.cs:6231
+#: ../src/exportSession.cs:892 ../src/gui/app1/chronojump.cs:6231
 #: ../src/gui/modes/run.cs:679 ../src/gui/modes/run.cs:747
 #: ../src/gui/modes/run.cs:799
 msgid "Laps"
 msgstr "Krogi"
 
-#: ../src/exportSession.cs:931
+#: ../src/exportSession.cs:935
 msgid "Interval speed"
 msgstr "Hitrost intervala"
 
-#: ../src/exportSession.cs:932
+#: ../src/exportSession.cs:936
 msgid "interval times"
 msgstr "časi intervalov"
 
-#: ../src/forceSensor.cs:2181
+#: ../src/forceSensor.cs:2183
 msgid "Statistics"
 msgstr "Statistični podatki"
 
-#: ../src/forceSensor.cs:2183
+#: ../src/forceSensor.cs:2185
 msgid "Sample"
 msgstr "Vzorec"
 
@@ -7065,9 +7077,9 @@ msgstr "Seja je ustvarjena, sedaj je mogoče dodati ali naložiti testirance."
 #: ../src/gui/app1/encoder.cs:2956 ../src/gui/app1/encoder.cs:2964
 #: ../src/gui/app1/encoder.cs:2971 ../src/gui/app1/encoder.cs:2978
 #: ../src/gui/app1/encoder.cs:2986 ../src/gui/app1/encoder.cs:2993
-#: ../src/gui/app1/encoder.cs:3001 ../src/gui/app1/forceSensor.cs:3420
-#: ../src/gui/app1/forceSensor.cs:3432 ../src/gui/app1/forceSensor.cs:3454
-#: ../src/gui/app1/graphs/jumpsAsymmetry.cs:298
+#: ../src/gui/app1/encoder.cs:3001 ../src/gui/app1/forceSensor.cs:3423
+#: ../src/gui/app1/forceSensor.cs:3435 ../src/gui/app1/forceSensor.cs:3457
+#: ../src/gui/app1/graphs/jumpsAsymmetry.cs:299
 #: ../src/gui/app1/graphs/jumpsDjOptimalFall.cs:159
 #: ../src/gui/app1/graphs/jumpsProfile.cs:123
 #: ../src/gui/app1/graphs/jumpsRjFatigue.cs:293
@@ -7076,7 +7088,7 @@ msgstr "Seja je ustvarjena, sedaj je mogoče dodati ali naložiti testirance."
 #: ../src/gui/app1/graphs/jumpsWeightFVProfile.cs:223
 #: ../src/gui/app1/jump.cs:858 ../src/gui/app1/run.cs:579
 #: ../src/gui/app1/runEncoderAnalyze.cs:272
-#: ../src/gui/app1/runEncoderAnalyze.cs:322 ../src/gui/app1/runEncoder.cs:3199
+#: ../src/gui/app1/runEncoderAnalyze.cs:322 ../src/gui/app1/runEncoder.cs:3202
 #: ../src/gui/modes/encoderConfiguration.cs:865
 #: ../src/gui/modes/encoderConfiguration.cs:892 ../src/gui/modes/sprint.cs:180
 #: ../src/gui/modes/sprint.cs:220
@@ -7163,7 +7175,7 @@ msgstr ""
 "Matej Dremelj\n"
 "Andrej Žnidaršič"
 
-#: ../src/gui/app1/chronojump.cs:8573
+#: ../src/gui/app1/chronojump.cs:8576
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr "Končano za testiranje. Program ChronoJump bo končan z napako."
 
@@ -7209,9 +7221,9 @@ msgstr "Umerjeno"
 
 #: ../src/gui/app1/encoder.cs:939 ../src/gui/app1/encoder.cs:5604
 #: ../src/gui/app1/encoder.cs:5863 ../src/gui/app1/forceSensor.cs:433
-#: ../src/gui/app1/forceSensor.cs:3744 ../src/gui/app1/forceSensor.cs:3808
-#: ../src/gui/app1/runEncoder.cs:357 ../src/gui/app1/runEncoder.cs:2564
-#: ../src/gui/app1/runEncoder.cs:2803
+#: ../src/gui/app1/forceSensor.cs:3747 ../src/gui/app1/forceSensor.cs:3811
+#: ../src/gui/app1/runEncoder.cs:357 ../src/gui/app1/runEncoder.cs:2567
+#: ../src/gui/app1/runEncoder.cs:2806
 msgid "Need to create/select an exercise."
 msgstr "Ustvariti oziroma izbrati je treba vajo."
 
@@ -7251,7 +7263,7 @@ msgstr "Dodaj 1 vrednost mejne teže"
 msgid "Any laterality"
 msgstr "Vsakršna lateralnost/bočnost"
 
-#: ../src/gui/app1/encoder.cs:1801 ../src/gui/app1/forceSensor.cs:2192
+#: ../src/gui/app1/encoder.cs:1801 ../src/gui/app1/forceSensor.cs:2195
 #: ../src/gui/app1/runEncoder.cs:1166
 msgid "Set"
 msgstr "Niz"
@@ -7264,7 +7276,7 @@ msgstr "Nastavitev kodirnika"
 #. Catalog.GetString ("Encoder configuration"),
 #: ../src/gui/app1/encoder.cs:1806
 #: ../src/gui/modes/encoderSelectRepetitions.cs:229 ../src/gui/overview.cs:310
-#: ../src/treeview/encoder.cs:55 ../src/treeview/encoder.cs:69
+#: ../src/treeview/encoder.cs:59 ../src/treeview/encoder.cs:73
 msgid "Contraction"
 msgstr "Krčenje"
 
@@ -7284,7 +7296,7 @@ msgstr "Krčenje"
 #. a2.Add(Constants.GenericWindowShow.COMBO); a2.Add(true); a2.Add("");
 #. bigArray.Add(a2);
 #.
-#: ../src/gui/app1/encoder.cs:1823 ../src/gui/app1/forceSensor.cs:2244
+#: ../src/gui/app1/encoder.cs:1823 ../src/gui/app1/forceSensor.cs:2247
 #: ../src/gui/app1/runEncoder.cs:1210
 #, csharp-format
 msgid "Select set of athlete {0} on this session."
@@ -7292,7 +7304,7 @@ msgstr "Izberite niz atleta {0} za to sejo."
 
 #. genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected set") +
 #. " (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
-#: ../src/gui/app1/encoder.cs:1839 ../src/gui/app1/forceSensor.cs:2280
+#: ../src/gui/app1/encoder.cs:1839 ../src/gui/app1/forceSensor.cs:2283
 #: ../src/gui/app1/runEncoder.cs:1246
 msgid "Change person"
 msgstr "Zamenjaj testiranca"
@@ -7327,7 +7339,7 @@ msgid "Unnamed"
 msgstr "Neimenovano"
 
 #: ../src/gui/app1/encoder.cs:2068 ../src/gui/app1/encoder.cs:3045
-#: ../src/gui/app1/forceSensor.cs:2628 ../src/gui/app1/forceSensor.cs:2666
+#: ../src/gui/app1/forceSensor.cs:2631 ../src/gui/app1/forceSensor.cs:2669
 #: ../src/gui/app1/runEncoder.cs:1725 ../src/gui/app1/runEncoder.cs:1762
 msgid "Are you sure you want to delete this set?"
 msgstr "Ali ste prepričani, da želite izbrisati ta niz?"
@@ -7369,9 +7381,9 @@ msgstr "Datoteka je morda že odprta v drugem programu."
 
 #: ../src/gui/app1/encoder.cs:2777 ../src/gui/app1/encoder.cs:2944
 #: ../src/gui/app1/encoder.cs:5304 ../src/gui/app1/encoder.cs:5328
-#: ../src/gui/app1/encoder.cs:5416 ../src/gui/app1/forceSensor.cs:3412
-#: ../src/gui/app1/forceSensor.cs:3446 ../src/gui/app1/runEncoderAnalyze.cs:263
-#: ../src/gui/app1/runEncoderAnalyze.cs:313 ../src/gui/app1/runEncoder.cs:3191
+#: ../src/gui/app1/encoder.cs:5416 ../src/gui/app1/forceSensor.cs:3415
+#: ../src/gui/app1/forceSensor.cs:3449 ../src/gui/app1/runEncoderAnalyze.cs:263
+#: ../src/gui/app1/runEncoderAnalyze.cs:313 ../src/gui/app1/runEncoder.cs:3194
 #: ../src/gui/modes/encoderConfiguration.cs:872 ../src/gui/modes/sprint.cs:171
 #: ../src/gui/modes/sprint.cs:211 ../src/gui/person/addModify.cs:415
 #, csharp-format
@@ -7608,32 +7620,32 @@ msgstr "Ta vaja je bila uporabljena na inertnih nizih."
 msgid "This exercise has been used on gravitatory sets."
 msgstr "Ta vaja je bila uporabljena na gravitacijskih nizih."
 
-#: ../src/gui/app1/encoder.cs:5774 ../src/gui/app1/runEncoder.cs:2736
+#: ../src/gui/app1/encoder.cs:5774 ../src/gui/app1/runEncoder.cs:2739
 #: ../src/gui/modes/forceSensorExercise.cs:792
 msgid "Error: Missing name of exercise."
 msgstr "Napaka: manjka ime vaje."
 
 #. if we add, check that this name does not exists
 #: ../src/gui/app1/encoder.cs:5780 ../src/gui/app1/encoder.cs:5795
-#: ../src/gui/app1/runEncoder.cs:2742 ../src/gui/app1/runEncoder.cs:2752
+#: ../src/gui/app1/runEncoder.cs:2745 ../src/gui/app1/runEncoder.cs:2755
 #: ../src/gui/modes/forceSensorExercise.cs:799
 #: ../src/gui/modes/forceSensorExercise.cs:809
 #, csharp-format
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Napaka: vaja z imenom {0} že obstaja."
 
-#: ../src/gui/app1/encoder.cs:5876 ../src/gui/app1/forceSensor.cs:3823
-#: ../src/gui/app1/runEncoder.cs:2818
+#: ../src/gui/app1/encoder.cs:5876 ../src/gui/app1/forceSensor.cs:3826
+#: ../src/gui/app1/runEncoder.cs:2821
 msgid "Exercise name:"
 msgstr "Ime vaje:"
 
-#: ../src/gui/app1/encoder.cs:5886 ../src/gui/app1/forceSensor.cs:3833
-#: ../src/gui/app1/runEncoder.cs:2828
+#: ../src/gui/app1/encoder.cs:5886 ../src/gui/app1/forceSensor.cs:3836
+#: ../src/gui/app1/runEncoder.cs:2831
 msgid "Sorry, this exercise cannot be deleted until these tests are deleted:"
 msgstr "Vaje ni mogoče izbrisati, dokler niso izbrisani navedeni testi:"
 
-#: ../src/gui/app1/encoder.cs:5912 ../src/gui/app1/forceSensor.cs:3858
-#: ../src/gui/app1/runEncoder.cs:2850
+#: ../src/gui/app1/encoder.cs:5912 ../src/gui/app1/forceSensor.cs:3861
+#: ../src/gui/app1/runEncoder.cs:2853
 msgid "Exercise deleted."
 msgstr "Vaja je izbrisana."
 
@@ -7726,7 +7738,7 @@ msgstr "Čiščenje naprave …"
 #. if preferences butterworth changed, the graph will be updated
 #. need to also update the grid before the return
 #. forceSensorGridLegendColors ();
-#: ../src/gui/app1/forceSensor.cs:444 ../src/gui/app1/forceSensor.cs:2712
+#: ../src/gui/app1/forceSensor.cs:444 ../src/gui/app1/forceSensor.cs:2715
 msgid "Need to configure fixture to know stiffness of this elastic exercise."
 msgstr ""
 "Morate prilagoditi vpenjalo, da boste poznali togost te elastične vaje."
@@ -7805,40 +7817,40 @@ msgstr "Priprava zajema ..."
 msgid "Taring; …"
 msgstr "Poteka tehtanje; …"
 
-#: ../src/gui/app1/forceSensor.cs:2004
+#: ../src/gui/app1/forceSensor.cs:2007
 #, csharp-format
 msgid "Error. Force too big: {0} N"
 msgstr "Napaka. Sila je prevelika: {0} N"
 
-#: ../src/gui/app1/forceSensor.cs:2005
+#: ../src/gui/app1/forceSensor.cs:2008
 msgid "Bad calibration or too much force for this sensor."
 msgstr "Slaba kalibracija ali prevelika sila za to tipalo."
 
-#: ../src/gui/app1/forceSensor.cs:2006
+#: ../src/gui/app1/forceSensor.cs:2009
 msgid "Stopped."
 msgstr "Ustavljeno."
 
-#: ../src/gui/app1/forceSensor.cs:2196
+#: ../src/gui/app1/forceSensor.cs:2199
 msgid "Capture option"
 msgstr "Možnosti zajemanja"
 
-#: ../src/gui/app1/forceSensor.cs:2199
+#: ../src/gui/app1/forceSensor.cs:2202
 #, csharp-format
 msgid "Max AVG Force in {0} s"
 msgstr "Največja POVP sila v {0} s"
 
-#: ../src/gui/app1/forceSensor.cs:2252 ../src/gui/app1/runEncoder.cs:1218
+#: ../src/gui/app1/forceSensor.cs:2255 ../src/gui/app1/runEncoder.cs:1218
 msgid "Select set to compare"
 msgstr "Izberite niz za primerjavo"
 
-#: ../src/gui/app1/forceSensor.cs:2458
+#: ../src/gui/app1/forceSensor.cs:2461
 msgid ""
 "Loaded set used elastic bands removed from database or with changed values."
 msgstr ""
 "Naloženi niz je uporabljal elastične trakove, odstranjene iz zbirke podatkov "
 "ali s spremenjenimi vrednostmi."
 
-#: ../src/gui/app1/forceSensor.cs:2459
+#: ../src/gui/app1/forceSensor.cs:2462
 msgid ""
 "Stiffness calculation is correct but stiffness configuration window will not "
 "be able to match elastic bands and total stiffness."
@@ -7847,47 +7859,47 @@ msgstr ""
 "ustrezati elastičnim trakom in skupni togosti."
 
 #. event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
-#: ../src/gui/app1/forceSensor.cs:2500
+#: ../src/gui/app1/forceSensor.cs:2503
 msgid "Loaded:"
 msgstr "Naloženo:"
 
-#: ../src/gui/app1/forceSensor.cs:2868
+#: ../src/gui/app1/forceSensor.cs:2871
 msgid "Error doing graph."
 msgstr "Prišlo je do napake pri izrisovanju diagrama."
 
-#: ../src/gui/app1/forceSensor.cs:2869
+#: ../src/gui/app1/forceSensor.cs:2872
 msgid "Probably not sustained force."
 msgstr "Verjetno ne trajna sila."
 
-#: ../src/gui/app1/forceSensor.cs:3470
+#: ../src/gui/app1/forceSensor.cs:3473
 msgid "If you want to calibrate, please tare first."
 msgstr "Če želite umerjati, najprej stehtajte."
 
-#: ../src/gui/app1/forceSensor.cs:3755 ../src/gui/app1/forceSensor.cs:3770
+#: ../src/gui/app1/forceSensor.cs:3758 ../src/gui/app1/forceSensor.cs:3773
 msgid "Isometric exercise"
 msgstr "Izometrična vaja"
 
-#: ../src/gui/app1/forceSensor.cs:3757 ../src/gui/app1/forceSensor.cs:3772
+#: ../src/gui/app1/forceSensor.cs:3760 ../src/gui/app1/forceSensor.cs:3775
 msgid "Elastic exercise"
 msgstr "Elastična vaja"
 
-#: ../src/gui/app1/forceSensor.cs:3822
+#: ../src/gui/app1/forceSensor.cs:3825
 msgid "Delete exercise"
 msgstr "Izbriši vajo"
 
-#: ../src/gui/app1/forceSensor.cs:3887
+#: ../src/gui/app1/forceSensor.cs:3890
 msgid "Stiffness configuration"
 msgstr "Nastavitev togosti"
 
-#: ../src/gui/app1/forceSensor.cs:3887
+#: ../src/gui/app1/forceSensor.cs:3890
 msgid "Configure attached elastic bands/tubes"
 msgstr "Prilagodi pritrjene elastične trakove/cevi"
 
-#: ../src/gui/app1/forceSensor.cs:3899
+#: ../src/gui/app1/forceSensor.cs:3902
 msgid "Configure bands/tubes"
 msgstr "Prilagodi trakove/cevi"
 
-#: ../src/gui/app1/forceSensor.cs:3902
+#: ../src/gui/app1/forceSensor.cs:3905
 msgid "Stiffness:"
 msgstr "Togost:"
 
@@ -7937,7 +7949,7 @@ msgstr "Dolžina steze"
 msgid "Error, weight of the person cannot be 0"
 msgstr "Napaka, masa osebe ne more biti 0"
 
-#: ../src/gui/app1/runEncoder.cs:2624
+#: ../src/gui/app1/runEncoder.cs:2627
 msgid ""
 "In a sprint exercise, maximum acceleration is performed at the beginning and "
 "maximum sustained speed at a later time."
@@ -7945,24 +7957,24 @@ msgstr ""
 "Pri sprinterski vaji se največji pospešek izvede na začetku in največja "
 "trajna hitrost se vzpostavi kasneje."
 
-#: ../src/gui/app1/runEncoder.cs:2631
+#: ../src/gui/app1/runEncoder.cs:2634
 msgid "Default angle of this exercise."
 msgstr "Privzeti kot te vaje."
 
-#: ../src/gui/app1/runEncoder.cs:2632
+#: ../src/gui/app1/runEncoder.cs:2635
 msgid "90 means go vertically up."
 msgstr "90 predstavlja smer navpično navzgor."
 
-#: ../src/gui/app1/runEncoder.cs:2633
+#: ../src/gui/app1/runEncoder.cs:2636
 msgid "-90 means go vertically down."
 msgstr "-90 predstavlja smer navpično navzdol."
 
-#: ../src/gui/app1/runEncoder.cs:2634
+#: ../src/gui/app1/runEncoder.cs:2637
 #, csharp-format
 msgid "Possible range goes from {0} to {1}."
 msgstr "Možen razpon sega od {0} do {1}."
 
-#: ../src/gui/app1/runEncoder.cs:3113
+#: ../src/gui/app1/runEncoder.cs:3116
 msgid "Accel"
 msgstr "Pospeš"
 
@@ -8152,13 +8164,13 @@ msgstr "Pokaži vse teste"
 msgid "Delete {0} from this session"
 msgstr "Izbrisan je {0} iz te seje"
 
-#: ../src/gui/app1/treeviews/resultsSession.cs:319
+#: ../src/gui/app1/treeviews/resultsSession.cs:321
 #: ../src/gui/modes/encoderConfiguration.cs:982
 #: ../src/gui/modes/forceSensorElasticBands.cs:288
 msgid "Edit selected"
 msgstr "Izbrano je urejanje"
 
-#: ../src/gui/app1/treeviews/resultsSession.cs:333
+#: ../src/gui/app1/treeviews/resultsSession.cs:335
 #: ../src/gui/executeAuto.cs:255
 msgid "Delete selected"
 msgstr "Izbran je brisanje"
@@ -8528,7 +8540,7 @@ msgstr "Žal ta niz »{0}« že obstaja v zbirki podatkov."
 msgid "Serie"
 msgstr "Niz"
 
-#: ../src/gui/feedback.cs:326 ../src/runType.cs:162
+#: ../src/gui/feedback.cs:326 ../src/runType.cs:163
 msgid "Protocol"
 msgstr "Protokol"
 
@@ -9103,7 +9115,8 @@ msgstr[3] "Ta vrsta teka je omejena na {0} sekunde."
 msgid "Totaltime cannot be greater."
 msgstr "Skupni čas ne more biti večji."
 
-#: ../src/gui/modes/run.cs:156 ../src/treeview/runI.cs:46
+#: ../src/gui/modes/run.cs:156 ../src/treeview/runI.cs:48
+#: ../src/treeview/runI.cs:70
 msgid "Lap time"
 msgstr "Čas kroga"
 
@@ -10013,104 +10026,104 @@ msgstr "brez stez"
 msgid "Evolution."
 msgstr "Napredek"
 
-#: ../src/runType.cs:94
+#: ../src/runType.cs:95
 msgid "Variable distance running"
 msgstr "Teki različnih dolžin"
 
-#: ../src/runType.cs:101
+#: ../src/runType.cs:102
 msgid "Run 20 meters"
 msgstr "Tek na 20 metrov"
 
-#: ../src/runType.cs:108
+#: ../src/runType.cs:109
 msgid "Run 100 meters"
 msgstr "Tek na 100 metrov"
 
-#: ../src/runType.cs:115
+#: ../src/runType.cs:116
 msgid "Run 200 meters"
 msgstr "Tek na 200 metrov"
 
-#: ../src/runType.cs:122
+#: ../src/runType.cs:123
 msgid "Run 400 meters"
 msgstr "Tek na 400 metrov"
 
-#: ../src/runType.cs:129
+#: ../src/runType.cs:130
 msgid "Run 1000 meters"
 msgstr "Tek na 1000 metrov"
 
-#: ../src/runType.cs:136
+#: ../src/runType.cs:137
 msgid "Run 2000 meters"
 msgstr "Tek na 2000 metrov"
 
-#: ../src/runType.cs:147
+#: ../src/runType.cs:148
 msgid "Note on measurement"
 msgstr "Opomba o meritvah"
 
-#: ../src/runType.cs:148
+#: ../src/runType.cs:149
 msgid "Measured time will be the time between two platforms"
 msgstr "Izmerjen čas je čas med dvema merilnima podlogama."
 
-#: ../src/runType.cs:149
+#: ../src/runType.cs:150
 msgid "Short description"
 msgstr "Kratek opis"
 
-#: ../src/runType.cs:150
+#: ../src/runType.cs:151
 msgid "Subjects had to walk over the bar as fast as possible."
 msgstr "Merjenci morajo stopati preko prečke, kakor hitro je to mogoče."
 
-#: ../src/runType.cs:151
+#: ../src/runType.cs:152
 msgid "From one platform to another without falling down."
 msgstr "Od ene merilne podloge do druge brez padca."
 
-#: ../src/runType.cs:152
+#: ../src/runType.cs:153
 msgid "If they touched the ground they had to continue."
 msgstr "V primeru, da se dotaknejo tal, morajo nadaljevati."
 
-#: ../src/runType.cs:153
+#: ../src/runType.cs:154
 msgid "The hands were on their waist."
 msgstr "Roke so bile ob bokih."
 
-#: ../src/runType.cs:154 ../src/runType.cs:164
+#: ../src/runType.cs:155 ../src/runType.cs:165
 msgid "Without shoes."
 msgstr "Brez obuval."
 
-#: ../src/runType.cs:155 ../src/runType.cs:173
+#: ../src/runType.cs:156 ../src/runType.cs:174
 msgid "Every ground contact is penalized with 2 seconds."
 msgstr ""
 "Vsak dotik tal se kaznuje z dodatkom dveh sekund k skupnemu času testa."
 
-#: ../src/runType.cs:156
+#: ../src/runType.cs:157
 msgid "The best of 2 attempts were recorded."
 msgstr "Zabeležen bo najboljši rezultat dveh poskusov."
 
-#: ../src/runType.cs:158
+#: ../src/runType.cs:159
 msgid "Gesell's Bar"
 msgstr "Gesellova prečka"
 
-#: ../src/runType.cs:159
+#: ../src/runType.cs:160
 msgid "Length: 2.5 m."
 msgstr "Dolžina: 2,5 m."
 
-#: ../src/runType.cs:160
+#: ../src/runType.cs:161
 msgid "Wide: 4 cm."
 msgstr "Širina: 4 cm."
 
-#: ../src/runType.cs:163
+#: ../src/runType.cs:164
 msgid "CONDITIONS: "
 msgstr "RAZMERE: "
 
-#: ../src/runType.cs:165
+#: ../src/runType.cs:166
 msgid "Hands on their waist."
 msgstr "Roke na boke."
 
-#: ../src/runType.cs:166
+#: ../src/runType.cs:167
 msgid "In front of a wall in order to avoid distractions."
 msgstr "Pred zidom v izogibanje odvračanja pozornosti."
 
-#: ../src/runType.cs:167
+#: ../src/runType.cs:168
 msgid "INSTRUCTIONS AND DEMONSTRATION: "
 msgstr "NAVODILA IN PRIKAZ: "
 
-#: ../src/runType.cs:168
+#: ../src/runType.cs:169
 msgid ""
 "You have to walk on this bar as fast as possible 'like this', if you touch "
 "the ground just continue."
@@ -10118,7 +10131,7 @@ msgstr ""
 "Po prečki je treba hoditi, kakor hitro je le mogoče 'na tak način'. V "
 "primeru, da se dotaknete tal, enostavno nadaljujte s hojo."
 
-#: ../src/runType.cs:169
+#: ../src/runType.cs:170
 msgid ""
 "'Like this' means normal, with a foot in front of the other, not side by "
 "side."
@@ -10126,11 +10139,11 @@ msgstr ""
 "'Na tak način' pomeni, da hodite normalno, z enim stopalom pred drugim in ne "
 "bočno s stopalom ob stopalu."
 
-#: ../src/runType.cs:171
+#: ../src/runType.cs:172
 msgid "SCORE: "
 msgstr "REZULTAT: "
 
-#: ../src/runType.cs:172
+#: ../src/runType.cs:173
 msgid ""
 "Time will start since first platform is touched, and will stop when second "
 "platform is reached."
@@ -10138,19 +10151,19 @@ msgstr ""
 "Čas bo začel teči ob dotiku prve merilne podloge in bo zaustavljen ob dotiku "
 "druge."
 
-#: ../src/runType.cs:174
+#: ../src/runType.cs:175
 msgid "The best of 2 attempts will be recorded."
 msgstr "Zabeležen bo najboljši rezultat dveh poskusov."
 
-#: ../src/runType.cs:176 ../src/runType.cs:387
+#: ../src/runType.cs:177 ../src/runType.cs:388
 msgid "Reference:"
 msgstr "Sklic:"
 
-#: ../src/runType.cs:189
+#: ../src/runType.cs:190
 msgid "20Yard Agility test"
 msgstr "20 jardni test agilnosti"
 
-#: ../src/runType.cs:191
+#: ../src/runType.cs:192
 msgid ""
 "This test is part of a battery for the USA Women's Soccer Team. The NFL use "
 "a very similar test for the NFL Combine Testing, the 20 yard shuttle."
@@ -10158,11 +10171,11 @@ msgstr ""
 "Test uporablja ženska nogometna ekipa ZDA. Organizacija NFL uporablja zelo "
 "podoben test za lastna testiranja; 20 jardni Shuttle run test."
 
-#: ../src/runType.cs:193 ../src/runType.cs:267
+#: ../src/runType.cs:194 ../src/runType.cs:268
 msgid "Purpose"
 msgstr "Namen"
 
-#: ../src/runType.cs:194
+#: ../src/runType.cs:195
 msgid ""
 "The 20 yard agility race is a simple measure of an athlete’s ability to "
 "accelerate, decelerate, change direction, and to accelerate again."
@@ -10170,12 +10183,12 @@ msgstr ""
 "20 jardni test agilnosti je enostavno merilo sposobnosti pospeševanja, "
 "zaustavljanja, spreminjanja smeri gibanja in ponovnega pospeševanja."
 
-#: ../src/runType.cs:196 ../src/runType.cs:214 ../src/runType.cs:233
-#: ../src/runType.cs:270 ../src/runType.cs:298
+#: ../src/runType.cs:197 ../src/runType.cs:215 ../src/runType.cs:234
+#: ../src/runType.cs:271 ../src/runType.cs:299
 msgid "Procedure"
 msgstr "Postopek"
 
-#: ../src/runType.cs:197
+#: ../src/runType.cs:198
 msgid ""
 "Set up three marker cones in a straight line, exactly five yards apart - "
 "cones B, A(center) and C. At each cone place a line across using marking "
@@ -10197,15 +10210,15 @@ msgstr ""
 "Časomer je zagnan ob prvem premiku merjenca in se zaustavi, ko ta s prsi "
 "prečka središčno črto."
 
-#: ../src/runType.cs:199 ../src/runType.cs:274
+#: ../src/runType.cs:200 ../src/runType.cs:275
 msgid "Scoring"
 msgstr "Točkovanje"
 
-#: ../src/runType.cs:200
+#: ../src/runType.cs:201
 msgid "Record the best time of two trials."
 msgstr "Zabeleži najboljši čas dveh poskusov."
 
-#: ../src/runType.cs:202
+#: ../src/runType.cs:203
 msgid ""
 "Encourage athletes to accelerate through the finish line to maximize their "
 "result."
@@ -10213,16 +10226,16 @@ msgstr ""
 "Spodbudite merjence, da pospešijo skozi ciljno črto za doseganje boljših "
 "rezultatov."
 
-#: ../src/runType.cs:204 ../src/runType.cs:220 ../src/runType.cs:254
-#: ../src/runType.cs:287 ../src/runType.cs:308
+#: ../src/runType.cs:205 ../src/runType.cs:221 ../src/runType.cs:255
+#: ../src/runType.cs:288 ../src/runType.cs:309
 msgid "Cited with permission."
 msgstr "Navedeno z dovoljenjem."
 
-#: ../src/runType.cs:212
+#: ../src/runType.cs:213
 msgid "505 Agility test"
 msgstr "Test agilnosti 505"
 
-#: ../src/runType.cs:215
+#: ../src/runType.cs:216
 msgid ""
 "Markers are set up 5 and 15 meters from a line marked on the ground. The "
 "athlete runs from the 15 meter marker towards the line (run in distance to "
@@ -10243,7 +10256,7 @@ msgstr ""
 "obeh nog. Merjenca je treba opomniti, da črte ne prestopi preveč, saj se bo "
 "s tem povečal čas teka."
 
-#: ../src/runType.cs:218
+#: ../src/runType.cs:219
 msgid ""
 "This is a test of 180 degree turning ability. This ability may not be "
 "applicable to some sports."
@@ -10251,11 +10264,11 @@ msgstr ""
 "Test je namenjen merjenju sposobnosti obračanja za 180 stopinj. Rezultat "
 "tega testa zmožnosti za nekatere športe ni uporaben."
 
-#: ../src/runType.cs:228
+#: ../src/runType.cs:229
 msgid "Illinois Agility test"
 msgstr "Test agilnosti Illinois"
 
-#: ../src/runType.cs:231
+#: ../src/runType.cs:232
 msgid ""
 "The length of the course is 10 meters and the width (distance between the "
 "start and finish points) is 5 meters. Four cones are used to mark the start, "
@@ -10268,7 +10281,7 @@ msgstr ""
 "cilja in dveh točk obračanja. Dodatni štirje stožci so postavljeni na "
 "sredino v enakem razmiku 3,3 metra narazen."
 
-#: ../src/runType.cs:234
+#: ../src/runType.cs:235
 msgid ""
 "Subjects should lie on their front (head to the start line) and hands by "
 "their shoulders. On the 'Go' command the stopwatch is started, and the "
@@ -10281,47 +10294,47 @@ msgstr ""
 "vstane in steče po progi in okoli stožcev brez dotika do ciljne črte, ko se "
 "merjenje časa zaustavi."
 
-#: ../src/runType.cs:236
+#: ../src/runType.cs:237
 msgid "Results"
 msgstr "Rezultati"
 
-#: ../src/runType.cs:237
+#: ../src/runType.cs:238
 msgid "The table below gives some rating scores (in seconds) for the test"
 msgstr "V spodnji razpredelnici so podane ocene rezultatov testa (v sekundah)"
 
-#: ../src/runType.cs:238
+#: ../src/runType.cs:239
 msgid "Rating"
 msgstr "Ocena"
 
-#: ../src/runType.cs:238
+#: ../src/runType.cs:239
 msgid "Males"
 msgstr "Moški"
 
-#: ../src/runType.cs:238
+#: ../src/runType.cs:239
 msgid "Females"
 msgstr "Ženske"
 
-#: ../src/runType.cs:239
+#: ../src/runType.cs:240
 msgid "Excellent"
 msgstr "Odlično"
 
-#: ../src/runType.cs:240
+#: ../src/runType.cs:241
 msgid "Good"
 msgstr "Dobro"
 
-#: ../src/runType.cs:242
+#: ../src/runType.cs:243
 msgid "Fair"
 msgstr "Zadovoljivo"
 
-#: ../src/runType.cs:243
+#: ../src/runType.cs:244
 msgid "Poor"
 msgstr "Slabo"
 
-#: ../src/runType.cs:245 ../src/runType.cs:281
+#: ../src/runType.cs:246 ../src/runType.cs:282
 msgid "Advantages"
 msgstr "Prednosti"
 
-#: ../src/runType.cs:246
+#: ../src/runType.cs:247
 msgid ""
 "This is a simple test to administer, requiring little equipment. Can test "
 "players ability to turn in different directions, and different angles."
@@ -10329,11 +10342,11 @@ msgstr ""
 "To je enostaven test za izvajanje in zahteva malo opreme. S testom preverimo "
 "sposobnosti obračanja v različne smeri pod različnimi koti."
 
-#: ../src/runType.cs:248
+#: ../src/runType.cs:249
 msgid "Disadvantages"
 msgstr "Slabosti"
 
-#: ../src/runType.cs:249
+#: ../src/runType.cs:250
 msgid ""
 "Choice of footwear and surface of area can effect times greatly. Results can "
 "be subject to timing inconsistencies, which may be overcome by using timing "
@@ -10344,11 +10357,11 @@ msgstr ""
 "izboljšati z uporabo časovnih vrstc. Ni mogoče ločiti med zmožnostjo "
 "obračanja levo in desno."
 
-#: ../src/runType.cs:251 ../src/runType.cs:277
+#: ../src/runType.cs:252 ../src/runType.cs:278
 msgid "Variations"
 msgstr "Odstopanja"
 
-#: ../src/runType.cs:252
+#: ../src/runType.cs:253
 msgid ""
 "The starting and finishing sides can be swapped, so that turning direction "
 "is changed."
@@ -10356,11 +10369,11 @@ msgstr ""
 "Mesto začetka in konca je mogoče poljubno zamenjati, s čimer se zamenja tudi "
 "smer zavoja."
 
-#: ../src/runType.cs:263
+#: ../src/runType.cs:264
 msgid "Shuttle Run Agility test"
 msgstr "Shuttle Run test agilnosti"
 
-#: ../src/runType.cs:265
+#: ../src/runType.cs:266
 msgid ""
 "This test describes the procedures as used in the President's Challenge "
 "Fitness Awards. The variations listed give other ways to also perform this "
@@ -10369,11 +10382,11 @@ msgstr ""
 "Test je povzet po postopku testa 'President's Challenge Fitness Awards'. "
 "Našteta odstopanja kažejo na vzporedne načine izvajanja tega testa."
 
-#: ../src/runType.cs:268
+#: ../src/runType.cs:269
 msgid "This is a test of speed and agility, important in many sports."
 msgstr "To je test hitrosti in agilnosti, pomembnih pri veliko športih."
 
-#: ../src/runType.cs:271
+#: ../src/runType.cs:272
 msgid ""
 "This test requires the person to run back and forth between two parallel "
 "lines as fast as possible. Set up two lines of cones 30 feet apart or use "
@@ -10391,7 +10404,7 @@ msgstr ""
 "se znova vrne in pobere drugi leseni predmet ter z njim steče nazaj čez "
 "začetno črto."
 
-#: ../src/runType.cs:275
+#: ../src/runType.cs:276
 msgid ""
 "Two or more trails may be performed, and the quickest time is recorded. "
 "Results are recorded to the nearest tenth of a second."
@@ -10399,11 +10412,11 @@ msgstr ""
 "Priporočeno je izvesti več kot eno ponovitev testa in zabeležiti najhitrejši "
 "dosežen čas. Rezultate je priporočeno zaokrožiti na desetinko sekunde."
 
-#: ../src/runType.cs:277 ../src/runType.cs:301
+#: ../src/runType.cs:278 ../src/runType.cs:302
 msgid "Modifications"
 msgstr "Spremembe"
 
-#: ../src/runType.cs:278
+#: ../src/runType.cs:279
 msgid ""
 "The test procedure can be varied by changing the number of shuttles "
 "performed, the distance between turns (some use 10 meters rather than 30 "
@@ -10415,7 +10428,7 @@ msgstr ""
 "metrov) in z odstranitvijo potrebe po pobiranju in vračanju predmetov s točk "
 "obračanja."
 
-#: ../src/runType.cs:282
+#: ../src/runType.cs:283
 msgid ""
 "This test can be conducted on large groups relatively quickly with minimal "
 "equipment required."
@@ -10423,7 +10436,7 @@ msgstr ""
 "Test je mogoče hitro izvesti z večjimi skupinami z zelo malo zahtevane "
 "opreme."
 
-#: ../src/runType.cs:285
+#: ../src/runType.cs:286
 msgid ""
 "The blocks should be placed at the line, not thrown across them. Also make "
 "sure the participants run through the finish line to maximize their score."
@@ -10432,11 +10445,11 @@ msgstr ""
 "treba spodbujati merjence, da skozi ciljno črto tečejo za čim boljši "
 "rezultat."
 
-#: ../src/runType.cs:296
+#: ../src/runType.cs:297
 msgid "ZigZag Agility test"
 msgstr "Test agilnosti Cik-Cak"
 
-#: ../src/runType.cs:299
+#: ../src/runType.cs:300
 msgid ""
 "Similar to the Shuttle Run test, this test requires the athlete to run a "
 "course in the shortest possible time. A standard zig zag course is with four "
@@ -10453,7 +10466,7 @@ msgstr ""
 "stranici in je središčni stožec C, se test začne pri 1, nato na C, 2, 3, C, "
 "4 in nazaj na 1."
 
-#: ../src/runType.cs:302
+#: ../src/runType.cs:303
 msgid ""
 "This test procedure can be modified by changing the distance between cones, "
 "and the number of circuits performed."
@@ -10461,7 +10474,7 @@ msgstr ""
 "Test je mogoče prilagoditi s spremembo razdalje med stožci in številom "
 "krogov teka."
 
-#: ../src/runType.cs:305
+#: ../src/runType.cs:306
 msgid ""
 "The total distance run should not be too great so that fatigue does not "
 "become a factor."
@@ -10469,40 +10482,40 @@ msgstr ""
 "Skupna dolžina teka ne sme biti prevelika, da utrujenost ne postane dejavnik "
 "pri merjenju."
 
-#: ../src/runType.cs:325
+#: ../src/runType.cs:326
 msgid "Margaria-Kalamen"
 msgstr "Margaria-Kalamen test"
 
-#: ../src/runType.cs:333
+#: ../src/runType.cs:334
 msgid "Run n laps x distance"
 msgstr "Pretecite n krogov na razdalji x metrov"
 
-#: ../src/runType.cs:340
+#: ../src/runType.cs:341
 msgid "Make max laps in n seconds"
 msgstr "Pretecite čim več krogov v n sekundah"
 
-#: ../src/runType.cs:348
+#: ../src/runType.cs:349
 msgid "Continue running in n distance"
 msgstr "Nadaljujte s tekom na razdalji n metrov"
 
-#: ../src/runType.cs:355
+#: ../src/runType.cs:356
 msgid "Run 10 times a 20m distance"
 msgstr "Pretecite 10 krat razdaljo 20 metrov"
 
-#: ../src/runType.cs:362
+#: ../src/runType.cs:363
 msgid "Make max laps in 30 seconds"
 msgstr "Pretecite čim več krogov v 30 sekundah"
 
-#: ../src/runType.cs:370
+#: ../src/runType.cs:371
 msgid "Continue running in 20m distance"
 msgstr "Nadaljujte s tekom na 20 metrov"
 
-#: ../src/runType.cs:378
+#: ../src/runType.cs:379
 msgid "Modified time Getup and Go test"
 msgstr "Spremenjen čas testa Vstani in steci"
 
 #. this intervallic race has different distance for each lap
-#: ../src/runType.cs:381
+#: ../src/runType.cs:382
 msgid ""
 "The instructions given to perform the test were as follows: \"Sit down with "
 "your back resting on the back of the chair and with your two arms resting on "
@@ -10521,7 +10534,7 @@ msgstr ""
 "nazaj do svojega stola s stopanjem v obroče. Poskusite se izogniti dotikanju "
 "obročev. Na koncu se poskusite ponovno usesti brez uporabe rok\"."
 
-#: ../src/runType.cs:383
+#: ../src/runType.cs:384
 msgid ""
 "The stopwatches were activated on the word 'go' and the button that saved "
 "the time intervals was pressed also after the following stages: when the "
@@ -10551,11 +10564,11 @@ msgstr ""
 "(4) hoja okoli stožcev, (5) hoja med stopanjem v obroče in (6) ponovno "
 "usedanje."
 
-#: ../src/runType.cs:384
+#: ../src/runType.cs:385
 msgid "Assessment questionnaire"
 msgstr "Ocenjevalni vprašalnik"
 
-#: ../src/runType.cs:385
+#: ../src/runType.cs:386
 msgid ""
 "Once the test finishes proceed to edit and you will be able to complete the "
 "assessment questionnaire."
@@ -10563,11 +10576,11 @@ msgstr ""
 "Ko se test konča, nadaljujte z urejanjem in izpolnili boste vprašalnik za "
 "ocenjevanje."
 
-#: ../src/runType.cs:389
+#: ../src/runType.cs:390
 msgid "Abstract:"
 msgstr "Povzetek:"
 
-#: ../src/runType.cs:398
+#: ../src/runType.cs:399
 msgid "Turn left three times and turn right three times"
 msgstr "Obrnite se trikrat levo in trikrat desno"
 
@@ -11953,10 +11966,6 @@ msgstr ""
 "{0} v moči Dj [masa * g * (višinaPadca + 1,22625 * (tf^2) ) / tc], "
 "uporabljeno za {1} na {2}"
 
-#: ../src/stats/djQ.cs:32
-msgid "Q Index"
-msgstr "Indeks Q"
-
 #: ../src/stats/djQ.cs:133
 #, csharp-format
 msgid "{0} in Q Index [tf/tc] applied to {1} on {2}"
@@ -12108,23 +12117,30 @@ msgstr "{0} v {1} skok na {2}"
 msgid "{0} in {1} on {2}"
 msgstr "{0} v {1} na {2}"
 
-#: ../src/treeview/encoder.cs:53 ../src/treeview/encoder.cs:69
+#: ../src/treeview/encoder.cs:57 ../src/treeview/encoder.cs:73
+#: ../src/treeview/encoder.cs:158
 msgid "Mean speed"
 msgstr "Povprečna hitrost"
 
-#: ../src/treeview/encoder.cs:56 ../src/treeview/encoder.cs:72
+#: ../src/treeview/encoder.cs:60 ../src/treeview/encoder.cs:76
+#: ../src/treeview/encoder.cs:164
 msgid "Mean power"
 msgstr "Povprečna moč"
 
-#: ../src/treeview/encoder.cs:58 ../src/treeview/encoder.cs:74
+#: ../src/treeview/encoder.cs:62 ../src/treeview/encoder.cs:78
+#: ../src/treeview/encoder.cs:170
 msgid "Mean force"
 msgstr "Povprečna sila"
 
-#: ../src/treeview/jumpRj.cs:157
+#: ../src/treeview/encoder.cs:173
+msgid "Peak force"
+msgstr "Največja sila"
+
+#: ../src/treeview/jumpRj.cs:174
 msgid "First photocell"
 msgstr "Prva fotocelica"
 
-#: ../src/treeview/jumpRj.cs:277 ../src/treeview/jumpRj.cs:385
+#: ../src/treeview/jumpRj.cs:294 ../src/treeview/jumpRj.cs:402
 msgid "photocells not included"
 msgstr "fotocelice niso dodane"
 
@@ -12132,12 +12148,13 @@ msgstr "fotocelice niso dodane"
 msgid "Rest"
 msgstr "Odmor"
 
+#. speed, time
 #. column where the uniqueID of event will be (and will be hidden)
-#: ../src/treeview/run.cs:49 ../src/treeview/runI.cs:39
+#: ../src/treeview/run.cs:53 ../src/treeview/runI.cs:41
 msgid "Runner"
 msgstr "Tekač"
 
-#: ../src/treeview/runI.cs:47
+#: ../src/treeview/runI.cs:49
 msgid "Split time"
 msgstr "Vmesni čas"
 

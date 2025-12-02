@@ -27,21 +27,25 @@ using Mono.Unix;
 
 public class TreeViewForceSensor : TreeViewEvent
 {
+	protected bool barsAreForceMax;
+
 	public TreeViewForceSensor ()
 	{
 	}
 	
-	public TreeViewForceSensor (Gtk.TreeView treeview, int pDN, ExpandStates expandState)
+	public TreeViewForceSensor (Gtk.TreeView treeview, int pDN, ExpandStates expandState, bool barsAreForceMax)
 	{
 		LogB.Information ("At TreeViewForceSensor constructor");
 		this.treeview = treeview;
 		this.pDN = pDN;
 		this.expandState = expandState;
+		this.barsAreForceMax = barsAreForceMax;
 		
 		treeviewHasTwoLevels = false;
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 17; //position of type in the data to be printed.
 		allEventsName = Constants.AllTestsNameStr();
+		boldableColumns_l = new List<int> { 2, 3 }; //forceMax, bestSecond
 		idColumn = 7; //column where the uniqueID of event will be (and will be hidden).
 		columnsString = new string[] { 
 			personName,
@@ -61,6 +65,17 @@ public class TreeViewForceSensor : TreeViewEvent
 		
 		//on creation, treeview is minimized
 		expandState = ExpandStates.MINIMIZED;
+	}
+
+	protected override bool shouldRenderBoldable (string columnTitle)
+	{
+		if (barsAreForceMax && columnTitle.StartsWith (Catalog.GetString ("Max force")))
+			return true;
+
+		if (! barsAreForceMax && columnTitle.StartsWith (Catalog.GetString ("Best second")))
+			return true;
+
+		return false;
 	}
 
 	protected override System.Object getObjectFromString (string [] str)
@@ -91,8 +106,8 @@ public class TreeViewForceSensor : TreeViewEvent
 
 		myData[count++] = fs.ExerciseName;
 		myData[count++] = Catalog.GetString (fs.Laterality);
-		myData[count++] = Util.TrimDecimals (fs.MaxForceRaw, 3);
-		myData[count++] = Util.TrimDecimals (fs.MaxAvgForce1s, 3);
+		myData[count++] = boldMark + Util.TrimDecimals (fs.MaxForceRaw, 3);
+		myData[count++] = boldMark + Util.TrimDecimals (fs.MaxAvgForce1s, 3);
 		myData[count++] = fs.DateTimePublic;
 
 		if (UtilList.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.FORCESENSOR, fs.UniqueID)))
@@ -105,4 +120,9 @@ public class TreeViewForceSensor : TreeViewEvent
 
 		return myData;
 	}
+
+	public bool BarsAreForceMax {
+		set { barsAreForceMax = value; }
+	}
+
 }

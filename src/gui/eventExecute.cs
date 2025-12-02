@@ -991,6 +991,9 @@ public partial class ChronoJumpWindow
 	{
 		resultsSession_bestLast_controls ();
 		updateGraphResultsSessionByMode ();
+
+		((TreeViewForceSensor) treeViewResultsSession).BarsAreForceMax = radio_resultsSession_force_max.Active;
+		treeViewResultsSession.ResultsInBarsRowChanged ();
 	}
 
 	private void on_radio_resultsSession_bestLast_toggled (object o, EventArgs args)

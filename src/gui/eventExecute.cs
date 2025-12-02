@@ -961,6 +961,12 @@ public partial class ChronoJumpWindow
 
 		resultsSession_bestLast_controls ();
 		updateGraphResultsSessionByMode ();
+
+		if (current_mode == Constants.Modes.JUMPSSIMPLE)
+			((TreeViewJumps) treeViewResultsSession).BarsAreDistance = radio_resultsSession_jump_heights.Active;
+		//else if (current_mode == Constants.Modes.JUMPSREACTIVE)
+		//	((TreeViewJumpsRj) treeViewResultsSession).BarsAreDistance = radio_resultsSession_jump_heights.Active;
+		treeViewResultsSession.ResultsInBarsRowChanged ();
 	}
 	private void on_radio_resultsSession_runVar_toggled (object o, EventArgs args)
 	{
@@ -968,9 +974,9 @@ public partial class ChronoJumpWindow
 		updateGraphResultsSessionByMode ();
 
 		if (current_mode == Constants.Modes.RUNSSIMPLE)
-			((TreeViewRuns) treeViewResultsSession).BarsAreSpeeds = radio_resultsSession_run_speeds.Active; // TODO: or Runs
+			((TreeViewRuns) treeViewResultsSession).BarsAreSpeeds = radio_resultsSession_run_speeds.Active;
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
-			((TreeViewRunsInterval) treeViewResultsSession).BarsAreSpeeds = radio_resultsSession_run_speeds.Active; // TODO: or Runs
+			((TreeViewRunsInterval) treeViewResultsSession).BarsAreSpeeds = radio_resultsSession_run_speeds.Active;
 		treeViewResultsSession.ResultsInBarsRowChanged ();
 	}
 	private void on_radio_resultsSession_raVar_toggled (object o, EventArgs args)

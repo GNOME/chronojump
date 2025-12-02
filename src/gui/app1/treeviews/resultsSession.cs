@@ -46,7 +46,7 @@ public partial class ChronoJumpWindow
 		TreeViewEvent.ExpandStates minimized = TreeViewEvent.ExpandStates.MINIMIZED;
 
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
-			treeViewResultsSession = new TreeViewJumps (tv, preferences, minimized);
+			treeViewResultsSession = new TreeViewJumps (tv, preferences, minimized, radio_resultsSession_jump_heights.Active);
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
 			treeViewResultsSession = new TreeViewJumpsRj (tv, preferences, minimized);
 		else if (current_mode == Constants.Modes.RUNSSIMPLE)
@@ -67,7 +67,7 @@ public partial class ChronoJumpWindow
 		else if (current_mode == Constants.Modes.OTHER)
 			treeViewResultsSession = new TreeViewFourPlatforms (tv, pdn, minimized );
 		else
-			treeViewResultsSession = new TreeViewJumps (tv, preferences, minimized); //default to fix any temporary crash at start (seems there is a personChanged but still not mode)
+			treeViewResultsSession = new TreeViewJumps (tv, preferences, minimized, radio_resultsSession_jump_heights.Active); //default to fix any temporary crash at start (seems there is a personChanged but still not mode)
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		tv.CursorChanged -= on_treeview_results_session_cursor_changed;
@@ -258,7 +258,7 @@ public partial class ChronoJumpWindow
 		TreeViewEvent.ExpandStates expandState = treeViewResultsSession.ExpandState;
 
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
-			treeViewResultsSession = new TreeViewJumps (treeview_results_session, preferences, expandState);
+			treeViewResultsSession = new TreeViewJumps (treeview_results_session, preferences, expandState, radio_resultsSession_jump_heights.Active);
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
 			treeViewResultsSession = new TreeViewJumpsRj (treeview_results_session, preferences, expandState);
 		else if (current_mode == Constants.Modes.RUNSSIMPLE)

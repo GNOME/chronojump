@@ -40,17 +40,19 @@ public class TreeViewJumps : TreeViewEvent
 	//one of both indexes can be shown if selected on preferences
 	protected string qIndexName = "Q Index" + "\n(%)";
 	protected string djIndexName = "Dj Index" + "\n(%)";
+	protected bool barsAreDistance;
 
 	public TreeViewJumps ()
 	{
 	}
 	
-	public TreeViewJumps (Gtk.TreeView treeview, Preferences preferences, ExpandStates expandState)
+	public TreeViewJumps (Gtk.TreeView treeview, Preferences preferences, ExpandStates expandState, bool barsAreDistance)
 	{
 		this.treeview = treeview;
 		this.preferences = preferences;
 		this.expandState = expandState;
-		
+		this.barsAreDistance = barsAreDistance;
+
 		this.pDN = preferences.digitsNumber; //pDN short and very used name
 		
 		treeviewHasTwoLevels = false;
@@ -75,6 +77,7 @@ public class TreeViewJumps : TreeViewEvent
 	
 		//columnsString = Util.AddToArrayString (columnsString, new List<string> () {"ID remove this"}); //just for debug
 
+		boldableColumns_l = new List<int> { 2, 5 }; //tf, height
 		idColumn = columnsString.Length ; //column where the uniqueID of event will be (and will be hidden). 
 		//idColumn = columnsString.Length -1; //column where the uniqueID of event will be (and will be hidden).  (with the ID)
 
@@ -171,7 +174,18 @@ public class TreeViewJumps : TreeViewEvent
 
 		return columnsString;
 	}
-	
+
+	protected override bool shouldRenderBoldable (string columnTitle)
+	{
+		if (barsAreDistance && columnTitle.StartsWith (Catalog.GetString ("Height")))
+			return true;
+
+		if (! barsAreDistance && columnTitle.StartsWith (Catalog.GetString ("TF")))
+			return true;
+
+		return false;
+	}
+
 	protected override System.Object getObjectFromString(string [] myStringOfData) {
 		Jump myJump = new Jump();
 		myJump.UniqueID = Convert.ToInt32(myStringOfData[1].ToString()); 
@@ -206,7 +220,7 @@ public class TreeViewJumps : TreeViewEvent
 		//myData[count++] = newJump.Type;
 		myData[count++] = title;
 		myData[count++] = Util.TrimDecimals(newJump.Tc.ToString(), pDN);
-		myData[count++] = Util.TrimDecimals(newJump.Tv.ToString(), pDN);
+		myData[count++] = boldMark + Util.TrimDecimals(newJump.Tv.ToString(), pDN);
 		
 		//we calculate weightInKg again because can be changed in edit jump, and then treeview is no re-done
 		//but we do not calculate again person weight, because if it changes treeview is created again
@@ -223,7 +237,7 @@ public class TreeViewJumps : TreeViewEvent
 			myData[count++] = Util.TrimDecimals (weightInKg.ToString (), pDN);
 
 		myData[count++] = Util.TrimDecimals(newJump.Fall.ToString(), pDN);
-		myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(newJump.Tv.ToString()), pDN);
+		myData[count++] = boldMark + Util.TrimDecimals(Util.GetHeightInCentimeters(newJump.Tv.ToString()), pDN);
 
 		
 
@@ -273,4 +287,9 @@ public class TreeViewJumps : TreeViewEvent
 		myData[count++] = newJump.UniqueID.ToString();
 		return myData;
 	}
+
+	public bool BarsAreDistance {
+		set { barsAreDistance = value; }
+	}
+
 }

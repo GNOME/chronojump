@@ -2179,6 +2179,7 @@ public partial class ChronoJumpWindow
 					if (radio_ai_2sets.Active)
 						radio_ai_cd.Sensitive = true;
 
+					string videoStr = "";
 					if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
 					{
 						bool success = webcamEndingSaveFile (Constants.TestTypes.RACEANALYZER, currentRunEncoder.UniqueID);
@@ -2189,12 +2190,14 @@ public partial class ChronoJumpWindow
 									Constants.TestTypes.RACEANALYZER,
 									currentRunEncoder.UniqueID);
 							currentRunEncoder.UpdateSQL(false);
+							videoStr = string.Format ("{0}-{1}", Constants.TestTypes.RACEANALYZER,
+									currentRunEncoder.UniqueID);
 						}
 						webcamRestoreGui (success);
 					}
 
 					updateGraphRunEncoderBars();
-					treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentRunEncoder, "");
+					treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentRunEncoder, videoStr);
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 					sensitiveLastTestButtons(true);
 					contactsShowCaptureDoingButtons(false);

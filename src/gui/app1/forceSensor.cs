@@ -1932,6 +1932,7 @@ LogB.Information(" fs C ");
 					if (radio_ai_2sets.Active)
 						radio_ai_cd.Sensitive = true;
 
+					string videoStr = "";
 					if (webcamStatusEnum == WebcamStatusEnum.STOPPED)
 					{
 						bool success = webcamEndingSaveFile (Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID);
@@ -1942,12 +1943,14 @@ LogB.Information(" fs C ");
 									Constants.TestTypes.FORCESENSOR,
 									currentForceSensor.UniqueID);
 							currentForceSensor.UpdateSQL(false);
+							videoStr = string.Format ("{0}-{1}", Constants.TestTypes.FORCESENSOR,
+									currentForceSensor.UniqueID);
 						}
 						webcamRestoreGui (success);
 					}
 
 					updateGraphForceSensorBars();
-					treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentForceSensor, "");
+					treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentForceSensor, videoStr);
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 
 					showHideActionEventButtons (true);

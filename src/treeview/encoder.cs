@@ -29,19 +29,23 @@ public class TreeViewEncoder : TreeViewEvent
 {
 	bool gravitatory; //on gravitatory show extraWeight, on inertial hide it
 	private string repHtab = "   "; // horizontal spaces on reps data
+	Constants.EncoderVariablesCapture encoderCaptureMainVariable;
 
-	public TreeViewEncoder (Gtk.TreeView treeview, int newPrefsDigitsNumber, bool gravitatory, ExpandStates expandState)
+	public TreeViewEncoder (Gtk.TreeView treeview, int newPrefsDigitsNumber,
+			bool gravitatory, ExpandStates expandState, Constants.EncoderVariablesCapture encoderCaptureMainVariable)
 	{
 		this.treeview = treeview;
 		this.pDN = newPrefsDigitsNumber;
 		this.gravitatory = gravitatory;
 		this.expandState = expandState;
+		this.encoderCaptureMainVariable = encoderCaptureMainVariable;
 
 		treeviewHasTwoLevels = true;
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllTestsNameStr();
 
+		boldableColumns_l = new List<int> { 1, 2, 3, 4, 5, 6, 7 };
 		if (gravitatory)
 		{
 			idColumn = 8; //column where the uniqueID of event will be (and will be hidden)
@@ -129,9 +133,73 @@ public class TreeViewEncoder : TreeViewEvent
 				id = Convert.ToInt32 ( (string) model.GetValue (iter, idColumn));
 
 		if (id == MarkNonSelectRowSubEvent)
-			(cell as Gtk.CellRendererText).Markup = "<span foreground=\"#666666\">" + repHtab + text + "</span>";
-		else
+		{
+			if (text.StartsWith (boldMark))
+			{
+				text = Util.RemoveSubstring (text, boldMark);
+				if (shouldRenderBoldable (column.Title))
+				{
+					(cell as Gtk.CellRendererText).Markup = "<span weight=\"600\">" + repHtab + text + "</span>";
+				}
+				else
+					(cell as Gtk.CellRendererText).Markup = "<span foreground=\"#666666\">" + repHtab + text + "</span>";
+			} else
+				(cell as Gtk.CellRendererText).Markup = "<span foreground=\"#666666\">" + repHtab + text + "</span>";
+		} else
 			(cell as Gtk.CellRendererText).Text = text;
+	}
+
+	protected override bool shouldRenderBoldable (string columnTitle)
+	{
+		if (encoderCaptureMainVariable == Constants.EncoderVariablesCapture.RangeAbsolute &&
+				columnTitle.Contains (Constants.RangeAbsolute))
+			return true;
+		if (encoderCaptureMainVariable == Constants.EncoderVariablesCapture.MeanSpeed &&
+				columnTitle.Contains (Catalog.GetString ("Mean speed")))
+			return true;
+		if (encoderCaptureMainVariable == Constants.EncoderVariablesCapture.MaxSpeed &&
+				columnTitle.Contains (Catalog.GetString ("Max speed")))
+			return true;
+		if (encoderCaptureMainVariable == Constants.EncoderVariablesCapture.MeanPower &&
+				columnTitle.Contains (Catalog.GetString ("Mean power")))
+			return true;
+		if (encoderCaptureMainVariable == Constants.EncoderVariablesCapture.PeakPower &&
+				columnTitle.Contains (Catalog.GetString ("Peak power")))
+			return true;
+		if (encoderCaptureMainVariable == Constants.EncoderVariablesCapture.MeanForce &&
+				columnTitle.Contains (Catalog.GetString ("Mean force")))
+			return true;
+		if (encoderCaptureMainVariable == Constants.EncoderVariablesCapture.MaxForce &&
+				columnTitle.Contains (Catalog.GetString ("Peak force")))
+			return true;
+
+		return false;
+	}
+
+	protected override void resultsInBarsRowChangedTwoLevels ()
+	{
+		TreeIter iter = new TreeIter();
+		if(! treeview.Model.GetIterFirst (out iter))
+			return;
+
+		do {
+			TreeIter iterDeep = new TreeIter ();
+			treeview.Model.IterChildren (out iterDeep, iter);
+			do {
+				TreeIter iterDeep2 = new TreeIter ();
+				treeview.Model.IterChildren (out iterDeep2, iterDeep);
+				do {
+					foreach (int j in boldableColumns_l)
+						if (treeview.Model.GetValue (iterDeep2, j) != null &&
+								((string) treeview.Model.GetValue (iterDeep2, j)).StartsWith (boldMark))
+						{
+							TreePath path = store.GetPath (iterDeep2);
+							//LogB.Information ("EmitRowChanged: " + path.ToString ());
+							treeview.Model.EmitRowChanged (path, iterDeep2);
+						}
+				} while (treeview.Model.IterNext (ref iterDeep2));
+			} while (treeview.Model.IterNext (ref iterDeep));
+		} while (treeview.Model.IterNext (ref iter));
 	}
 
 	public override void FillEncoder (List<List<EncoderSQL>> eSQL_ll, string filterExercise, List<string> videos_l)
@@ -350,13 +418,13 @@ public class TreeViewEncoder : TreeViewEvent
 		int count = 0;
 
 		myData[count++] = ""; // i.ToString ()  better not show a number now as it gets confused with the number of repetition on current set table.
-		myData[count++] = Util.TrimDecimals (UtilAll.DivideSafe (eSQL.rangeAbs, 10), 2); // mm -> cm
-		myData[count++] = Util.TrimDecimals (eSQL.meanSpeed, 2);
-		myData[count++] = Util.TrimDecimals (eSQL.maxSpeed, 2);
-		myData[count++] = Util.TrimDecimals (eSQL.meanPower, 2);
-		myData[count++] = Util.TrimDecimals (eSQL.maxPower, 2);
-		myData[count++] = Util.TrimDecimals (eSQL.meanForce, 2);
-		myData[count++] = Util.TrimDecimals (eSQL.maxForce, 2);
+		myData[count++] = boldMark + Util.TrimDecimals (UtilAll.DivideSafe (eSQL.rangeAbs, 10), 2); // mm -> cm
+		myData[count++] = boldMark + Util.TrimDecimals (eSQL.meanSpeed, 2);
+		myData[count++] = boldMark + Util.TrimDecimals (eSQL.maxSpeed, 2);
+		myData[count++] = boldMark + Util.TrimDecimals (eSQL.meanPower, 2);
+		myData[count++] = boldMark + Util.TrimDecimals (eSQL.maxPower, 2);
+		myData[count++] = boldMark + Util.TrimDecimals (eSQL.meanForce, 2);
+		myData[count++] = boldMark + Util.TrimDecimals (eSQL.maxForce, 2);
 		if (! gravitatory)
 		{
 			myData[count++] = ""; //videoName;
@@ -365,5 +433,9 @@ public class TreeViewEncoder : TreeViewEvent
 		myData[count++] = MarkNonSelectRowSubEvent.ToString ();
 
 		return myData;
+	}
+
+	public Constants.EncoderVariablesCapture EncoderCaptureMainVariable {
+		set { encoderCaptureMainVariable = value; }
 	}
 }

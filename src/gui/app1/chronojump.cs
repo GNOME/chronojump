@@ -7609,6 +7609,9 @@ public partial class ChronoJumpWindow
 			}
 			string mainVariableStr = Constants.GetEncoderVariablesCapture(mainVariable);
 
+			((TreeViewEncoder) treeViewResultsSession).EncoderCaptureMainVariable = mainVariable;
+			treeViewResultsSession.ResultsInBarsRowChanged (); //to update treeViewResultsSession bold values
+
 			//secondaryVariable
 			Constants.EncoderVariablesCapture secondaryVariable = Constants.SetEncoderVariablesCapture(
 					feedbackWin.GetSecondaryVariable);

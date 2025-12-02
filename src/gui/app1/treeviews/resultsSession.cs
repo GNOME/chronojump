@@ -61,7 +61,8 @@ public partial class ChronoJumpWindow
 			treeViewResultsSession = new TreeViewForceSensor (tv, pdn, minimized, radio_resultsSession_force_max.Active);
 		else if (Constants.ModeIsENCODER (current_mode))
 			treeViewResultsSession = new TreeViewEncoder (tv, pdn,
-					current_mode == Constants.Modes.POWERGRAVITATORY, minimized);
+					current_mode == Constants.Modes.POWERGRAVITATORY, minimized,
+					preferences.encoderCaptureMainVariable);
 		else if (current_mode == Constants.Modes.WILIGHT)
 			treeViewResultsSession = new TreeViewWilight (tv, pdn, minimized );
 		else if (current_mode == Constants.Modes.OTHER)
@@ -275,7 +276,8 @@ public partial class ChronoJumpWindow
 			treeViewResultsSession = new TreeViewForceSensor (treeview_results_session, pdn, expandState, radio_resultsSession_force_max.Active);
 		else if (Constants.ModeIsENCODER (current_mode))
 			treeViewResultsSession = new TreeViewEncoder (treeview_results_session, pdn,
-					current_mode == Constants.Modes.POWERGRAVITATORY, expandState);
+					current_mode == Constants.Modes.POWERGRAVITATORY, expandState,
+					preferences.encoderCaptureMainVariable);
 		else if (current_mode == Constants.Modes.WILIGHT)
 			treeViewResultsSession = new TreeViewWilight (treeview_results_session, pdn, expandState);
 		else if (current_mode == Constants.Modes.OTHER)

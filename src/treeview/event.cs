@@ -208,7 +208,7 @@ public abstract class TreeViewEvent
 		} while (treeview.Model.IterNext (ref iter));
 	}
 
-	private void resultsInBarsRowChangedTwoLevels ()
+	protected virtual void resultsInBarsRowChangedTwoLevels ()
 	{
 		TreeIter iter = new TreeIter();
 		if(! treeview.Model.GetIterFirst (out iter))

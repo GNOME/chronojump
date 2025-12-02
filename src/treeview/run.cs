@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -28,22 +28,26 @@ using Mono.Unix;
 public class TreeViewRuns : TreeViewEvent
 {
 	protected bool metersSecondsPreferred;
+	protected bool barsAreSpeeds;
 
 	public TreeViewRuns ()
 	{
 	}
 	
-	public TreeViewRuns (Gtk.TreeView treeview, int newPrefsDigitsNumber, bool metersSecondsPreferred, ExpandStates expandState)
+	public TreeViewRuns (Gtk.TreeView treeview, int newPrefsDigitsNumber,
+			bool metersSecondsPreferred, ExpandStates expandState, bool barsAreSpeeds)
 	{
 		this.treeview = treeview;
 		this.pDN = newPrefsDigitsNumber;
 		this.metersSecondsPreferred = metersSecondsPreferred;
 		this.expandState = expandState;
+		this.barsAreSpeeds = barsAreSpeeds;
 
 		treeviewHasTwoLevels = false;
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllRunsNameStr();
+		boldableColumns_l = new List<int> { 1, 3 }; //speed, time
 		idColumn = 7; //column where the uniqueID of event will be (and will be hidden)
 	
 		string runnerName = Catalog.GetString("Runner");
@@ -57,15 +61,26 @@ public class TreeViewRuns : TreeViewEvent
 		string timeName = Catalog.GetString("Time") + "\n(s)";
 
 		columnsString = new string[]{ runnerName, speedName, distanceName, timeName, datetimeName, videoName, descriptionName};
-			//,"ID delete"	}; // just for debug
+			//,"ID delete"	; // just for debug
 
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
 	}
 
-	
-	protected override System.Object getObjectFromString(string [] myStringOfData) {
+	protected override bool shouldRenderBoldable (string columnTitle)
+	{
+		if (barsAreSpeeds && columnTitle.StartsWith (Catalog.GetString ("Speed")))
+			return true;
+
+		if (! barsAreSpeeds && columnTitle.StartsWith (Catalog.GetString ("Time")))
+			return true;
+
+		return false;
+	}
+
+	protected override System.Object getObjectFromString(string [] myStringOfData)
+	{
 		Run myRun = new Run();
 		myRun.UniqueID = Convert.ToInt32(myStringOfData[1].ToString()); 
 		myRun.Type = myStringOfData[4].ToString();
@@ -95,7 +110,7 @@ public class TreeViewRuns : TreeViewEvent
 		if(newRun.Type == "Margaria") 
 			myData[count++] = ""; //don't show speed, because has no sense on Margaria
 		else {
-			myData[count++] = Util.TrimDecimals(Util.GetSpeed(
+			myData[count++] = boldMark + Util.TrimDecimals(Util.GetSpeed(
 						newRun.Distance.ToString(),
 						newRun.Time.ToString(),
 						metersSecondsPreferred ), pDN);
@@ -106,7 +121,7 @@ public class TreeViewRuns : TreeViewEvent
 			distanceUnits = " mm";
 		myData[count++]	= Util.TrimDecimals(newRun.Distance.ToString(), pDN) + distanceUnits;
 
-		myData[count++] = Util.TrimDecimals(newRun.Time.ToString(), pDN);
+		myData[count++] = boldMark + Util.TrimDecimals(newRun.Time.ToString(), pDN);
 		myData[count++] = UtilDate.GetDatetimePrint(UtilDate.FromFile(newRun.Datetime));
 
 		if (UtilList.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.RUN, newRun.UniqueID)))
@@ -118,4 +133,9 @@ public class TreeViewRuns : TreeViewEvent
 		myData[count++] = newRun.UniqueID.ToString();
 		return myData;
 	}
+
+	public bool BarsAreSpeeds {
+		set { barsAreSpeeds = value; }
+	}
+
 }

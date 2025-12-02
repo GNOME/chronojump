@@ -28,9 +28,9 @@ using Mono.Unix;
 public class TreeViewRunsInterval : TreeViewRuns
 {
 	RunType runType;
-	private bool barsAreSpeeds;
 
-	public TreeViewRunsInterval (Gtk.TreeView treeview, int newPrefsDigitsNumber, bool metersSecondsPreferred, ExpandStates expandState, bool barsAreSpeeds)
+	public TreeViewRunsInterval (Gtk.TreeView treeview, int newPrefsDigitsNumber,
+			bool metersSecondsPreferred, ExpandStates expandState, bool barsAreSpeeds)
 	{
 		this.treeview = treeview;
 		this.pDN = newPrefsDigitsNumber;
@@ -73,36 +73,8 @@ public class TreeViewRunsInterval : TreeViewRuns
 		return false;
 	}
 
-	// result cells than can be in bold to match the results shown on bars
-	public override void ResultsInBarsRowChanged ()
+	protected override System.Object getObjectFromString(string [] myStringOfData)
 	{
-		TreeIter iter = new TreeIter();
-		if(! treeview.Model.GetIterFirst (out iter))
-			return;
-
-		do {
-			TreeIter iterDeep = new TreeIter ();
-			treeview.Model.IterChildren (out iterDeep, iter);
-			do {
-				TreeIter iterDeep2 = new TreeIter ();
-				treeview.Model.IterChildren (out iterDeep2, iterDeep);
-				for (int i = 0; i <= 1; i ++) // related statistic info is in row 0 or 1
-				{
-					foreach (int j in boldableColumns_l)
-						if (treeview.Model.GetValue (iterDeep2, j) != null &&
-								((string) treeview.Model.GetValue (iterDeep2, j)).StartsWith (boldMark))
-						{
-							TreePath path = store.GetPath (iterDeep2);
-							//LogB.Information ("EmitRowChanged: " + path.ToString ());
-							treeview.Model.EmitRowChanged (path, iterDeep2);
-						}
-					treeview.Model.IterNext (ref iterDeep2);
-				}
-			} while (treeview.Model.IterNext (ref iterDeep));
-		} while (treeview.Model.IterNext (ref iter));
-	}
-
-	protected override System.Object getObjectFromString(string [] myStringOfData) {
 		RunInterval myRunI = new RunInterval();
 		myRunI.UniqueID = Convert.ToInt32(myStringOfData[1].ToString()); 
 		myRunI.Type = myStringOfData[4].ToString();
@@ -280,10 +252,6 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myData[count++] = MarkNonSelectRowSubEvent.ToString (); //mark to non select here, select first line
 		
 		return myData;
-	}
-
-	public bool BarsAreSpeeds {
-		set { barsAreSpeeds = value; }
 	}
 
 }

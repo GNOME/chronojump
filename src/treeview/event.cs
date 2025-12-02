@@ -144,8 +144,10 @@ public abstract class TreeViewEvent
 		{
 			text = Util.RemoveSubstring (text, boldMark);
 			if (shouldRenderBoldable (column.Title))
-				(cell as Gtk.CellRendererText).Markup = "<span weight=\"bold\">" + text + "</span>";
-			else
+			{
+				// (cell as Gtk.CellRendererText).Markup = "<span weight=\"bold\">" + text + "</span>"; //bold
+				(cell as Gtk.CellRendererText).Markup = "<span weight=\"600\">" + text + "</span>"; //demibold
+			} else
 				(cell as Gtk.CellRendererText).Text = text;
 		} else
 			(cell as Gtk.CellRendererText).Text = text;
@@ -175,8 +177,63 @@ public abstract class TreeViewEvent
 		} while (treeview.Model.IterNext (ref iter));
 	}
 
-	public virtual void ResultsInBarsRowChanged ()
+	// result cells than can be in bold to match the results shown on bars
+	public void ResultsInBarsRowChanged ()
 	{
+		if (treeviewHasTwoLevels)
+			resultsInBarsRowChangedTwoLevels ();
+		else
+			resultsInBarsRowChangedOneLevel ();
+	}
+
+	private void resultsInBarsRowChangedOneLevel ()
+	{
+		TreeIter iter = new TreeIter();
+		if(! treeview.Model.GetIterFirst (out iter))
+			return;
+
+		do {
+			TreeIter iterDeep = new TreeIter ();
+			treeview.Model.IterChildren (out iterDeep, iter);
+			do {
+				foreach (int j in boldableColumns_l)
+					if (treeview.Model.GetValue (iterDeep, j) != null &&
+							((string) treeview.Model.GetValue (iterDeep, j)).StartsWith (boldMark))
+					{
+						TreePath path = store.GetPath (iterDeep);
+						LogB.Information ("EmitRowChanged: " + path.ToString ());
+						treeview.Model.EmitRowChanged (path, iterDeep);
+					}
+			} while (treeview.Model.IterNext (ref iterDeep));
+		} while (treeview.Model.IterNext (ref iter));
+	}
+
+	private void resultsInBarsRowChangedTwoLevels ()
+	{
+		TreeIter iter = new TreeIter();
+		if(! treeview.Model.GetIterFirst (out iter))
+			return;
+
+		do {
+			TreeIter iterDeep = new TreeIter ();
+			treeview.Model.IterChildren (out iterDeep, iter);
+			do {
+				TreeIter iterDeep2 = new TreeIter ();
+				treeview.Model.IterChildren (out iterDeep2, iterDeep);
+				for (int i = 0; i <= 1; i ++) // related statistic info is in row 0 or 1
+				{
+					foreach (int j in boldableColumns_l)
+						if (treeview.Model.GetValue (iterDeep2, j) != null &&
+								((string) treeview.Model.GetValue (iterDeep2, j)).StartsWith (boldMark))
+						{
+							TreePath path = store.GetPath (iterDeep2);
+							//LogB.Information ("EmitRowChanged: " + path.ToString ());
+							treeview.Model.EmitRowChanged (path, iterDeep2);
+						}
+					treeview.Model.IterNext (ref iterDeep2);
+				}
+			} while (treeview.Model.IterNext (ref iterDeep));
+		} while (treeview.Model.IterNext (ref iter));
 	}
 
 	//to know if is person. If has no parents it is top level

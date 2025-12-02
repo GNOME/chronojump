@@ -26,7 +26,7 @@ using System.Collections.Generic; //List
 using Mono.Unix;
 
 
-public class TreeViewEvent
+public abstract class TreeViewEvent
 {
 	protected TreeStore store;
 	protected Gtk.TreeView treeview;
@@ -46,6 +46,7 @@ public class TreeViewEvent
 	public const int MarkRowIsPerson = -1;
 	public const int MarkNonSelectRowSubEvent = -2;
 	protected const string boldMark = "_BOLD_";
+	protected List<int> boldableColumns_l = new List<int> ();
 
 	protected string personName = Catalog.GetString ("Person");
 	protected string lateralityName = Catalog.GetString ("Laterality");
@@ -64,7 +65,6 @@ public class TreeViewEvent
 	protected List<string> videos_l;
 
 	protected string [] columnsString;
-	protected bool barsAreSpeeds;
 
 	public enum ExpandStates {
 		MINIMIZED, OPTIMAL, MAXIMIZED
@@ -74,35 +74,6 @@ public class TreeViewEvent
 
 	private static int lastPersonID;
 
-	public bool BarsAreSpeeds {
-		set { barsAreSpeeds = value; }
-	}
-
-	public TreeViewEvent ()
-	{
-	}
-	
-	public TreeViewEvent (Gtk.TreeView treeview, int newPrefsDigitsNumber, ExpandStates expandState)
-	{
-		this.treeview = treeview;
-		this.pDN = newPrefsDigitsNumber;
-		this.expandState = expandState;
-
-		//orientative values, used for Run class
-		treeviewHasTwoLevels = false;
-		dataLineNamePosition = 0;
-		dataLineTypePosition = 4;
-		allEventsName = "";
-		idColumn = 4;
-		currentPersonID = -1;
-
-		columnsString = new string[0];
-	
-		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
-		treeview.Model = store;
-		prepareHeaders(columnsString);
-	}
-	
 	protected TreeStore getStore (int columns)
 	{
 		//prepares the TreeStore for required columns
@@ -113,24 +84,29 @@ public class TreeViewEvent
 		TreeStore myStore = new TreeStore(types);
 		return myStore;
 	}
-	
-	protected virtual void prepareHeaders(string [] columnsString)
+
+	protected virtual void prepareHeaders (string [] columnsString)
 	{
 		treeview.HeadersVisible=true;
 		int i=0;
-		foreach (string myCol in columnsString)
+		foreach (string colStr in columnsString)
 		{
-			if (i == 0) // to show person name in bold if is currentPerson
+			if (i == 0 || UtilList.FoundInListInt (boldableColumns_l, i))
 			{
-				Gtk.TreeViewColumn personNameColumn = new Gtk.TreeViewColumn ();
-				CellRendererText personNameCell = new CellRendererText();
-				personNameColumn.Title = myCol;
-				personNameColumn.PackStart (personNameCell, true);
-				personNameColumn.SetCellDataFunc (personNameCell, new Gtk.TreeCellDataFunc (RenderPersonName));
-				treeview.AppendColumn (personNameColumn);
+				Gtk.TreeViewColumn col = new Gtk.TreeViewColumn ();
+				CellRendererText cell = new CellRendererText();
+				col.Title = colStr;
+				col.PackStart (cell, true);
+
+				if (i == 0)	// to show person name in bold if is currentPerson
+					col.SetCellDataFunc (cell, new Gtk.TreeCellDataFunc (RenderPersonName));
+				else
+					col.SetCellDataFunc (cell, new Gtk.TreeCellDataFunc (RenderBoldableCols));
+
+				treeview.AppendColumn (col);
 				i ++;
 			} else
-				treeview.AppendColumn (myCol, new CellRendererText(), "text", i++);
+				treeview.AppendColumn (colStr, new CellRendererText(), "text", i++);
 		}
 	}
 
@@ -149,6 +125,35 @@ public class TreeViewEvent
 			(cell as Gtk.CellRendererText).Markup = "<span weight=\"bold\">" + text + "</span>";
 		else
 			(cell as Gtk.CellRendererText).Text = text;
+	}
+
+	protected void RenderBoldableCols (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
+	{
+		if(! (cell is CellRendererText))
+			return;
+
+		// get the colID to use just this for all cols
+		int colNum = 0;
+		for (int i = 0; i < columnsString.Length; i ++)
+			if (column.Title == columnsString[i])
+				colNum = i;
+
+		string text = (string) model.GetValue (iter, colNum);
+
+		if (text.StartsWith (boldMark))
+		{
+			text = Util.RemoveSubstring (text, boldMark);
+			if (shouldRenderBoldable (column.Title))
+				(cell as Gtk.CellRendererText).Markup = "<span weight=\"bold\">" + text + "</span>";
+			else
+				(cell as Gtk.CellRendererText).Text = text;
+		} else
+			(cell as Gtk.CellRendererText).Text = text;
+	}
+
+	protected virtual bool shouldRenderBoldable (string columnTitle)
+	{
+		return false;
 	}
 
 	public void PersonEmitRowChanged (int personID)
@@ -781,6 +786,7 @@ public class TreeViewEvent
 		get { return currentPersonID; }
 		set { currentPersonID = value; }
 	}
+
 	public static int LastPersonID {
 		set { lastPersonID = value; }
 		get { return lastPersonID; }

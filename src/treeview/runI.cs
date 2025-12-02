@@ -28,7 +28,7 @@ using Mono.Unix;
 public class TreeViewRunsInterval : TreeViewRuns
 {
 	RunType runType;
-	List<int> boldableColumns_l = new List<int> ();
+	private bool barsAreSpeeds;
 
 	public TreeViewRunsInterval (Gtk.TreeView treeview, int newPrefsDigitsNumber, bool metersSecondsPreferred, ExpandStates expandState, bool barsAreSpeeds)
 	{
@@ -52,70 +52,25 @@ public class TreeViewRunsInterval : TreeViewRuns
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllRunsNameStr();
-		boldableColumns = new List<int> { 1, 2 }; //speed, laptime
+		boldableColumns_l = new List<int> { 1, 2 }; //speed, laptime
 		idColumn = 7; //column where the uniqueID of event will be (and will be hidden)
 		
 		columnsString = new string[]{runnerName, speedName, lapTimeName, splitTimeName, datetimeName, videoName, descriptionName};
-			//,"ID delete"	}; //just for debug
+			//,"ID delete" //just for debug
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
 	}
 
-	// TODO: move this to TreeViewEvent
-	protected override void prepareHeaders(string [] columnsString)
+	protected override bool shouldRenderBoldable (string columnTitle)
 	{
-		treeview.HeadersVisible=true;
-		int i=0;
-		foreach (string colStr in columnsString)
-		{
-			if (i <= 2)
-			{
-				Gtk.TreeViewColumn col = new Gtk.TreeViewColumn ();
-				CellRendererText cell = new CellRendererText();
-				col.Title = colStr;
-				col.PackStart (cell, true);
+		if (barsAreSpeeds && columnTitle.StartsWith (Catalog.GetString ("Speed")))
+			return true;
 
-				if (i == 0)	// to show person name in bold if is currentPerson
-					col.SetCellDataFunc (cell, new Gtk.TreeCellDataFunc (RenderPersonName));
-				else // if (i == 1 || i == 2)
-					col.SetCellDataFunc (cell, new Gtk.TreeCellDataFunc (RenderSpeedLaptimeCols));
+		if (! barsAreSpeeds && columnTitle.StartsWith (Catalog.GetString ("Lap time")))
+			return true;
 
-				treeview.AppendColumn (col);
-				i ++;
-			} else
-				treeview.AppendColumn (colStr, new CellRendererText(), "text", i++);
-		}
-	}
-
-	// TODO have this in parent, and  here just a method to check:
-	// (barsAreSpeeds && column.Title.StartsWith (Catalog.GetString ("Speed"))) ||
-	// (! barsAreSpeeds && column.Title.StartsWith (Catalog.GetString ("Lap time")))
-	private void RenderSpeedLaptimeCols (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.ITreeModel model, Gtk.TreeIter iter)
-	{
-		if(! (cell is CellRendererText))
-			return;
-
-		// get the colID to use just this for all cols
-		int colID = 0;
-		for (int i = 0; i < columnsString.Length; i ++)
-			if (column.Title == columnsString[i])
-				colID = i;
-
-		string text = (string) model.GetValue (iter, colID);
-
-		if (text.StartsWith (boldMark))
-		{
-			text = Util.RemoveSubstring (text, boldMark);
-			if (
-					(barsAreSpeeds && column.Title.StartsWith (Catalog.GetString ("Speed"))) ||
-					(! barsAreSpeeds && column.Title.StartsWith (Catalog.GetString ("Lap time")))
-			   )
-				(cell as Gtk.CellRendererText).Markup = "<span weight=\"bold\">" + text + "</span>";
-			else
-				(cell as Gtk.CellRendererText).Text = text;
-		} else
-			(cell as Gtk.CellRendererText).Text = text;
+		return false;
 	}
 
 	// result cells than can be in bold to match the results shown on bars
@@ -326,4 +281,9 @@ public class TreeViewRunsInterval : TreeViewRuns
 		
 		return myData;
 	}
+
+	public bool BarsAreSpeeds {
+		set { barsAreSpeeds = value; }
+	}
+
 }

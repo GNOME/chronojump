@@ -54,7 +54,7 @@ public partial class ChronoJumpWindow
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 			treeViewResultsSession = new TreeViewRunsInterval (tv, pdn, preferences.metersSecondsPreferred, minimized, radio_resultsSession_run_speeds.Active);
 		else if (current_mode == Constants.Modes.RUNSENCODER)
-			treeViewResultsSession = new TreeViewRunEncoder (tv, pdn, minimized);
+			treeViewResultsSession = new TreeViewRunEncoder (tv, pdn, minimized, radio_resultsSession_ra_speeds.Active);
 		else if (current_mode == Constants.Modes.BEEPTEST)
 			treeViewResultsSession = new TreeViewBeepTest (tv, pdn, minimized );
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
@@ -268,7 +268,7 @@ public partial class ChronoJumpWindow
 			treeViewResultsSession = new TreeViewRunsInterval (
 					treeview_results_session, pdn, preferences.metersSecondsPreferred, expandState, radio_resultsSession_run_speeds.Active);
 		else if (current_mode == Constants.Modes.RUNSENCODER)
-			treeViewResultsSession = new TreeViewRunEncoder (treeview_results_session, pdn, expandState);
+			treeViewResultsSession = new TreeViewRunEncoder (treeview_results_session, pdn, expandState, radio_resultsSession_ra_speeds.Active);
 		else if (current_mode == Constants.Modes.BEEPTEST)
 			treeViewResultsSession = new TreeViewBeepTest (treeview_results_session, pdn, expandState);
 		else if (Constants.ModeIsFORCESENSOR (current_mode))

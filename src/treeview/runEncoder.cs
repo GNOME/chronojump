@@ -27,21 +27,25 @@ using Mono.Unix;
 
 public class TreeViewRunEncoder : TreeViewEvent
 {
+	private bool barsAreSpeeds;
+
 	public TreeViewRunEncoder ()
 	{
 	}
 	
-	public TreeViewRunEncoder (Gtk.TreeView treeview, int pDN, ExpandStates expandState)
+	public TreeViewRunEncoder (Gtk.TreeView treeview, int pDN, ExpandStates expandState, bool barsAreSpeeds)
 	{
 		LogB.Information ("At TreeViewRunEncoder constructor");
 		this.treeview = treeview;
 		this.pDN = pDN;
 		this.expandState = expandState;
+		this.barsAreSpeeds = barsAreSpeeds;
 		
 		treeviewHasTwoLevels = false;
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 17; //position of type in the data to be printed.
 		allEventsName = Constants.AllTestsNameStr();
+		boldableColumns_l = new List<int> { 1, 2 }; //maxspeed, bestSecond
 		idColumn = 6; //column where the uniqueID of event will be (and will be hidden).
 		columnsString = new string[] { 
 			personName,
@@ -59,6 +63,17 @@ public class TreeViewRunEncoder : TreeViewEvent
 		
 		//on creation, treeview is minimized
 		expandState = ExpandStates.MINIMIZED;
+	}
+
+	protected override bool shouldRenderBoldable (string columnTitle)
+	{
+		if (barsAreSpeeds && columnTitle.StartsWith (Catalog.GetString ("Max speed")))
+			return true;
+
+		if (! barsAreSpeeds && columnTitle.StartsWith (Catalog.GetString ("Best second")))
+			return true;
+
+		return false;
 	}
 
 	protected override System.Object getObjectFromString (string [] str)
@@ -87,8 +102,8 @@ public class TreeViewRunEncoder : TreeViewEvent
 		int count = 0;
 
 		myData[count++] = re.ExerciseName;
-		myData[count++] = Util.TrimDecimals (re.MaxSpeed, 3);
-		myData[count++] = Util.TrimDecimals (re.MaxAvgSpeed1s, 3);
+		myData[count++] = boldMark + Util.TrimDecimals (re.MaxSpeed, 3);
+		myData[count++] = boldMark + Util.TrimDecimals (re.MaxAvgSpeed1s, 3);
 		myData[count++] = re.DateTimePublic;
 
 		if (UtilList.StartsWithInListString (videos_l, string.Format ("{0}-{1}", Constants.TestTypes.RACEANALYZER, re.UniqueID)))
@@ -101,4 +116,9 @@ public class TreeViewRunEncoder : TreeViewEvent
 
 		return myData;
 	}
+
+	public bool BarsAreSpeeds {
+		set { barsAreSpeeds = value; }
+	}
+
 }

@@ -983,6 +983,9 @@ public partial class ChronoJumpWindow
 	{
 		resultsSession_bestLast_controls ();
 		updateGraphResultsSessionByMode ();
+
+		((TreeViewRunEncoder) treeViewResultsSession).BarsAreSpeeds = radio_resultsSession_ra_speeds.Active;
+		treeViewResultsSession.ResultsInBarsRowChanged ();
 	}
 	private void on_radio_resultsSession_forceVar_toggled (object o, EventArgs args)
 	{

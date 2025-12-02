@@ -48,7 +48,7 @@ public partial class ChronoJumpWindow
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
 			treeViewResultsSession = new TreeViewJumps (tv, preferences, minimized, radio_resultsSession_jump_heights.Active);
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
-			treeViewResultsSession = new TreeViewJumpsRj (tv, preferences, minimized);
+			treeViewResultsSession = new TreeViewJumpsRj (tv, preferences, minimized, radio_resultsSession_jump_heights.Active);
 		else if (current_mode == Constants.Modes.RUNSSIMPLE)
 			treeViewResultsSession = new TreeViewRuns (tv, pdn, preferences.metersSecondsPreferred, minimized, radio_resultsSession_run_speeds.Active);
 		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
@@ -260,7 +260,7 @@ public partial class ChronoJumpWindow
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
 			treeViewResultsSession = new TreeViewJumps (treeview_results_session, preferences, expandState, radio_resultsSession_jump_heights.Active);
 		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
-			treeViewResultsSession = new TreeViewJumpsRj (treeview_results_session, preferences, expandState);
+			treeViewResultsSession = new TreeViewJumpsRj (treeview_results_session, preferences, expandState, radio_resultsSession_jump_heights.Active);
 		else if (current_mode == Constants.Modes.RUNSSIMPLE)
 			treeViewResultsSession = new TreeViewRuns (
 					treeview_results_session, pdn, preferences.metersSecondsPreferred, expandState, radio_resultsSession_run_speeds.Active);

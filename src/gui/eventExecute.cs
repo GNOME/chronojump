@@ -964,8 +964,8 @@ public partial class ChronoJumpWindow
 
 		if (current_mode == Constants.Modes.JUMPSSIMPLE)
 			((TreeViewJumps) treeViewResultsSession).BarsAreDistance = radio_resultsSession_jump_heights.Active;
-		//else if (current_mode == Constants.Modes.JUMPSREACTIVE)
-		//	((TreeViewJumpsRj) treeViewResultsSession).BarsAreDistance = radio_resultsSession_jump_heights.Active;
+		else if (current_mode == Constants.Modes.JUMPSREACTIVE)
+			((TreeViewJumpsRj) treeViewResultsSession).BarsAreDistance = radio_resultsSession_jump_heights.Active;
 		treeViewResultsSession.ResultsInBarsRowChanged ();
 	}
 	private void on_radio_resultsSession_runVar_toggled (object o, EventArgs args)

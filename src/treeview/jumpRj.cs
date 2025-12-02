@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -26,11 +26,12 @@ using Mono.Unix;
 
 public class TreeViewJumpsRj : TreeViewJumps
 {
-	public TreeViewJumpsRj (Gtk.TreeView treeview, Preferences preferences, ExpandStates expandState)
+	public TreeViewJumpsRj (Gtk.TreeView treeview, Preferences preferences, ExpandStates expandState, bool barsAreDistance)
 	{
 		this.treeview = treeview;
 		this.preferences = preferences;
 		this.expandState = expandState;
+		this.barsAreDistance = barsAreDistance;
 		
 		this.pDN = preferences.digitsNumber; //pDN short and very used name
 		
@@ -55,6 +56,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 
 		//columnsString = Util.AddToArrayString (columnsString, new List<string> () {"ID remove this"}); //just for debug
 
+		boldableColumns_l = new List<int> { 1, 2, 5 }; //tc, tf, height
 		idColumn = columnsString.Length ; //column where the uniqueID of event will be (and will be hidden). 
 		//idColumn = columnsString.Length -1; //column where the uniqueID of event will be (and will be hidden).  (with the ID)
 
@@ -63,8 +65,23 @@ public class TreeViewJumpsRj : TreeViewJumps
 		treeview.Model = store;
 		prepareHeaders(columnsString);
 	}
-	
-	protected override System.Object getObjectFromString(string [] myStringOfData) {
+
+	protected override bool shouldRenderBoldable (string columnTitle)
+	{
+		if (barsAreDistance && columnTitle.StartsWith (Catalog.GetString ("Height")))
+			return true;
+
+		if (! barsAreDistance && (
+					columnTitle.StartsWith (Catalog.GetString ("TC")) ||
+					columnTitle.StartsWith (Catalog.GetString ("TF"))
+					))
+			return true;
+
+		return false;
+	}
+
+	protected override System.Object getObjectFromString(string [] myStringOfData)
+	{
 		JumpRj myJumpRj = new JumpRj();
 		myJumpRj.UniqueID = Convert.ToInt32(myStringOfData[1].ToString()); 
 		myJumpRj.Type = myStringOfData[4].ToString();
@@ -278,14 +295,14 @@ public class TreeViewJumpsRj : TreeViewJumps
 		else
 			myData[count++] = Catalog.GetString("AVG");
 
-		myData[count++] = Util.TrimDecimals(tcAVGDouble.ToString(), pDN);
-		myData[count++] = Util.TrimDecimals(tvAVGDouble.ToString(), pDN);
+		myData[count++] = boldMark + Util.TrimDecimals(tcAVGDouble.ToString(), pDN);
+		myData[count++] = boldMark + Util.TrimDecimals(tvAVGDouble.ToString(), pDN);
 		myData[count++] = ""; //weight
 		myData[count++] = ""; //fall
 
 		//this values are calculated using the AVG of the tcs or tvs, not as an avg of individual values
 
-		myData[count++] = Util.TrimDecimals (
+		myData[count++] = boldMark + Util.TrimDecimals (
 				UtilList.GetAverage (newJumpRj.HeightList)
 				, pDN);
 

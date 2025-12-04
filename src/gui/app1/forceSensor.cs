@@ -1562,7 +1562,19 @@ public partial class ChronoJumpWindow
 					force = simulatedForce;
 					simulatedForceGoingPositive = (forceChange >= 0);
 				} else {
-					str = portFS.ReadLine();
+					try {
+						str = portFS.ReadLine();
+					} catch {
+						LogB.Information ("forceSensor seems has disconnected");
+						forceProcessError = true;
+						forceProcessErrorType = forceProcessErrorEnum.DISCONNECTED;
+
+						// this will call sendEndCaptureForceSensorFirstCapture to clean the device (that is still capturing)
+						// in order to be able to read correctly the transmission_format and other messages at next capture
+						firstCapture = true;
+
+						return;
+					}
 					//LogB.Information ("forceSensor captured str: " + str);
 					if(! forceSensorProcessCapturedLine(str, out time, out force,
 								readTriggers, out triggerCode))

@@ -497,10 +497,12 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
-	private void on_edit_current_person_accepted (object o, EventArgs args) {
+	private void on_edit_current_person_accepted (object o, EventArgs args)
+	{
 		if (personAddModifyWin.CurrentPerson != null)
 		{
 			currentPerson = personAddModifyWin.CurrentPerson;
+			int personID = currentPerson.UniqueID; //store now to solve problems with filter
 			currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 
 			if(personAddModifyWin.Units != preferences.units) {
@@ -510,9 +512,24 @@ public partial class ChronoJumpWindow
 
 			label_person_change();
 			treeview_persons_storeReset();
-			fillTreeView_persons();
-			
-			int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
+			fillTreeView_persons(); //this is what makes currentPerson == null
+
+			int rowToSelect = -1;
+			if (currentPerson == null)
+			{
+				if (person_search.Text != "")
+				{
+					/*
+					 * person has changed name, the filter showed that person
+					 * but now no persons fill that filter, so currentPerson is null
+					 * better disable the filter
+					 */
+					person_search.Text = ""; // this will update the treeview and assign first person
+					rowToSelect = myTreeViewPersons.FindRow (personID);
+				}
+			} else
+				rowToSelect = myTreeViewPersons.FindRow (currentPerson.UniqueID);
+
 			if(rowToSelect != -1) {
 				selectRowTreeView_persons(treeview_persons, rowToSelect);
 				sensitiveGuiYesPerson();

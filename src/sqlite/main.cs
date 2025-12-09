@@ -2738,9 +2738,9 @@ class Sqlite
 			LogB.SQL("Inserted 5 vars into preferences: EncoderCaptureMainVariable...");
 
 			SqlitePreferences.Insert (SqlitePreferences.EncoderCaptureMainVariableThisSetOrHistorical, "True");
-			SqlitePreferences.Insert (SqlitePreferences.EncoderCaptureMainVariableGreaterActive, "False");
+			SqlitePreferences.Insert (SqlitePreferences.EncoderCaptureMainVariableGreaterActive, "True");
 			SqlitePreferences.Insert (SqlitePreferences.EncoderCaptureMainVariableGreaterValue, "90");
-			SqlitePreferences.Insert (SqlitePreferences.EncoderCaptureMainVariableLowerActive, "False");
+			SqlitePreferences.Insert (SqlitePreferences.EncoderCaptureMainVariableLowerActive, "True");
 			SqlitePreferences.Insert (SqlitePreferences.EncoderCaptureMainVariableLowerValue, "70");
 
 			currentVersion = updateVersion("1.85");

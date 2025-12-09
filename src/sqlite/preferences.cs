@@ -333,9 +333,9 @@ class SqlitePreferences : Sqlite
 				Insert (EncoderCaptureFeedbackEccon, Preferences.EncoderPhasesEnum.BOTH.ToString(), dbcmdTr);
 				Insert (EncoderCaptureInertialEccOverloadMode, Preferences.encoderCaptureEccOverloadModes.SHOW_LINE.ToString(), dbcmdTr);
 				Insert (EncoderCaptureMainVariableThisSetOrHistorical, "True", dbcmdTr);
-				Insert (EncoderCaptureMainVariableGreaterActive, "False", dbcmdTr);
+				Insert (EncoderCaptureMainVariableGreaterActive, "True", dbcmdTr);
 				Insert (EncoderCaptureMainVariableGreaterValue, "90", dbcmdTr);
-				Insert (EncoderCaptureMainVariableLowerActive, "False", dbcmdTr);
+				Insert (EncoderCaptureMainVariableLowerActive, "True", dbcmdTr);
 				Insert (EncoderCaptureMainVariableLowerValue, "70", dbcmdTr);
 				Insert (EncoderCaptureShowLoss, "True", dbcmdTr);
 				Insert ("encoderCaptureMinHeightGravitatory", "20", dbcmdTr);

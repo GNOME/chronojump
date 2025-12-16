@@ -217,6 +217,7 @@ public class IDNameIDDoubleListOfLists
 	}
 }
 
+
 public class IntInt
 {
 	public int a;
@@ -226,5 +227,46 @@ public class IntInt
 	{
 		this.a = a;
 		this.b = b;
+	}
+}
+
+public class IntIntList
+{
+	List<IntInt> l;
+
+	//constructor
+	public IntIntList ()
+	{
+		l = new List<IntInt> ();
+	}
+
+	public void Add (IntInt ii)
+	{
+		l.Add (ii);
+	}
+
+	public bool ExistsA (int aSearched)
+	{
+		foreach (IntInt ii in l)
+			if (ii.a == aSearched)
+				return true;
+
+		return false;
+	}
+
+	public int GetB (int aSearched)
+	{
+		foreach (IntInt ii in l)
+			if (ii.a == aSearched)
+				return ii.b;
+
+		return -1;
+	}
+
+	public void IncB (int aSearched)
+	{
+		foreach (IntInt ii in l) //TODO: hauria de ser un for
+			if (ii.a == aSearched)
+				ii.b ++;
 	}
 }

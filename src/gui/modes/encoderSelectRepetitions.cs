@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -544,21 +544,38 @@ public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepeti
 			EncoderCompareInter = new ArrayList ();
 	}
 
+	// this method has only one SQL call (much faster) instead of previous to 2025 des 16
+	// that code had a Select for each person (even if they have no curves)
 	protected override void getData() 
 	{
 		ArrayList dataPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID,
 				false); //means: do not returnPersonAndPSlist
 		data = new ArrayList();
-		
+
+		List<EncoderSQL> eSQL_l = SqliteEncoder.SelectList (
+				false, -1, -1, currentSession.UniqueID, encoderGI,
+				exerciseID, "curve", EncoderSQL.Eccons.ALL, lateralityCode,
+				false, Sqlite.Orders_by.ID_ASC,
+				Constants.EncoderVariablesCapture.MeanPower, //this is not used on this call
+				true,
+				0, false);
+
+		IntIntList pidCount_l = new IntIntList (); //first int is personID, 2nd is number of curves
+		foreach (EncoderSQL eSQL in eSQL_l)
+		{
+			if (! pidCount_l.ExistsA (eSQL.PersonID))
+				pidCount_l.Add (new IntInt (eSQL.PersonID, 1));
+			else
+				pidCount_l.IncB (eSQL.PersonID);
+		}
+
 		nonSensitiveRows = new ArrayList();
 		int j = 0;	//list of added persons
-		foreach(Person p in dataPre) {
-			ArrayList eSQLarray = SqliteEncoder.Select(
-					false, -1, p.UniqueID, currentSession.UniqueID, encoderGI,
-					exerciseID, "curve", EncoderSQL.Eccons.ALL, lateralityCode,
-					false, true, true);
-
-			int allCurves = eSQLarray.Count;
+		foreach (Person p in dataPre)
+		{
+			int allCurves = 0;
+			if (pidCount_l.ExistsA (p.UniqueID))
+				allCurves = pidCount_l.GetB (p.UniqueID);
 
 			string [] s = { p.UniqueID.ToString(), "", p.Name,
 				//activeCurves.ToString(), 

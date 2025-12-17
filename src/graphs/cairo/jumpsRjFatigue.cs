@@ -106,7 +106,10 @@ public class JumpsRjFatigueGraph : CairoXY
 
 		writeTitle();
 		g.SetSourceColor(gray99);
+
 		divideAndPlotAverage (divideIn, true);
+		calculateBoscoFibers ();
+
 		g.SetSourceColor(black);
 
 		addClickableMarkIfNeeded (MouseClickable.CLICKL, g);
@@ -199,7 +202,6 @@ public class JumpsRjFatigueGraph : CairoXY
 						Util.TrimDecimals (UtilAll.DivideSafe (endAvg, iniAvg), 2)),
 					true);
 		}
-
 	}
 
 	private List<List<PointF>> divideAndPlotAverageByTime (int parts)
@@ -210,6 +212,41 @@ public class JumpsRjFatigueGraph : CairoXY
 	private List<List<PointF>> divideAndPlotAverageByJumps (int parts)
 	{
 		return splitListByJumps (point_l, Convert.ToInt32(Math.Floor(point_l.Count / (1.0 * parts))));
+	}
+	
+	private void calculateBoscoFibers ()
+	{
+		if (UtilList.Sum (tc_l) + UtilList.Sum (tv_l) >= 15)
+		{
+			// 1. take the 1st 15 s
+			double timeAccuTotal = 0;
+			double timeAccuTv = 0;
+			int jumps = 0;
+			for (int i = 0; i < tc_l.Count && i < tv_l.Count && timeAccuTotal < 15; i ++)
+			{
+				timeAccuTotal += tc_l[i] + tv_l[i];
+				timeAccuTv += tv_l[i];
+				jumps ++;
+			}
+
+			// 2. calculate relative power
+			// 9.81^2*TV*TT / (4*jumps*(TT-TV))
+			double tt = timeAccuTotal;
+			double tf = timeAccuTv;
+			double boscoPower = (Math.Pow (9.81,2) * tf * tt) / (4.0 * jumps * (tt -tf));
+			LogB.Information (string.Format ("jumps: {0}, tt: {1}, tf: {2}", jumps, tt, tf));
+
+			// 3. calculate % fibers
+			ypos ++;
+			writeTextAtRight (ypos++,
+					string.Format ("Power (rel) 0-15 s: {0} W",
+						Util.TrimDecimals (boscoPower, 2)),
+					false);
+			writeTextAtRight (ypos++,
+					string.Format ("Fast fibers 0-15 s: {0} %",
+						Util.TrimDecimals (3.2 * boscoPower - 52, 2)), //TODO: check this
+					true);
+		}
 	}
 
 	private void paintHorizSegment (double xa, double xb, double y, string centerText, bool segmentOfJustOnePoint)

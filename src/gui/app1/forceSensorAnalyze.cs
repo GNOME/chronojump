@@ -242,7 +242,7 @@ public partial class ChronoJumpWindow
 	private enum notebook_ai_top_pages { CURRENTSETSIGNAL, CURRENTSETMODEL, CURRENTSESSION, AUTOMATICOPTIONS }
 
 
-	//on analyze CD we load a set but it does not change the currentPerson and curretnForceSensor...
+	//on analyze CD we load a set but it does not change the currentPerson and currentForceSensor...
 	//so we need to store these variables on load to be able to calculate correctly the CD graph
 	private static string lastForceSensorFullPath_2SetsCD = "";
 	private ForceSensorExercise currentForceSensorExercise_2SetsCD; //only for analyze cd (when 2sets)
@@ -1120,7 +1120,7 @@ public partial class ChronoJumpWindow
 				preferences.forceSensorButterworth (current_mode),
 				zoomFrameA, zoomFrameB,
 				currentForceSensorExercise, currentPersonSession.Weight,
-				getForceSensorCaptureOptionsFromMainGui(), currentForceSensor.Stiffness,
+				currentForceSensor.CaptureOption, currentForceSensor.Stiffness,
 				eccMinDispl, conMinDispl
 				);
 
@@ -1143,7 +1143,7 @@ public partial class ChronoJumpWindow
 					preferences.forceSensorButterworth (current_mode),
 					zoomFrameA, zoomFrameB,
 					currentForceSensorExercise, currentPersonSession.Weight,
-					getForceSensorCaptureOptionsFromMainGui (), currentForceSensor.Stiffness,
+					currentForceSensor.CaptureOption, currentForceSensor.Stiffness,
 					eccMinDispl, conMinDispl
 					);
 

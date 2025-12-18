@@ -114,6 +114,10 @@ public abstract class PrepareEventGraphTest
 	protected abstract List<double> boxplotSelectPerson (string param);
 	protected abstract List<double> boxplotSelectSession (string param);
 
+	public string Type {
+		get { return type; }
+	}
+
 	public double HistoricalExThisBest {
 		get { return historicalExThisBest; }
 	}
@@ -154,7 +158,6 @@ public class PrepareEventGraphJumpSimple : PrepareEventGraphTest
 	//current data
 	public double tv;
 	public double tc;
-	public string type; //jumpType (useful to know if "all jumps" (type == "")
 	public bool showHeights;
 	private Sqlite.Orders_by orderBy;
 
@@ -244,7 +247,6 @@ public class PrepareEventGraphJumpReactive : PrepareEventGraphTest
 	//sql data of previous jumps to plot graph and show stats at bottom
 	public List<JumpRj> rowsAtSQL;
 
-	public string type; //jumpType (useful to know if "all jumps" (type == "")
 
 	public double personMAXAtSQL;
 	public double sessionMAXAtSQL;
@@ -392,7 +394,6 @@ public class PrepareEventGraphRunSimple : PrepareEventGraphTest
 
 	public double time;
 	public double speed;
-	public string type; //jumpType (useful to know if "all jumps" (type == "")
 	private Sqlite.Orders_by orderBy;
 
 	public PrepareEventGraphRunSimple() {
@@ -493,7 +494,6 @@ public class PrepareEventGraphRunInterval : PrepareEventGraphTest
 {
 	//sql data of previous jumps to plot graph and show stats at bottom
 	public List<RunInterval> rowsAtSQL;
-	public string type; //jumpType (useful to know if "all jumps" (type == "")
 
 	public double personMAXAtSQL;
 	public double sessionMAXAtSQL;

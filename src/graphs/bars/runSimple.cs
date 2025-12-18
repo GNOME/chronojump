@@ -92,7 +92,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 				eventGraphRunsStored.rowsAtSQL[i].Description = ""; //to avoid showing description
 		}
 
-		calculateBottomParams (events, eventGraphRunsStored.type == "", "",
+		calculateBottomParams (events, eventGraphRunsStored.Type == "", "",
 				"(" + Catalog.GetString("Simulated") + ")", thereIsASimulated, false);
 
 		List<PointF> point_l = new List<PointF>();
@@ -112,7 +112,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 
 			// 2) Add bottom names
 			string typeRowString = "";
-			if (eventGraphRunsStored.type == "") //if "all runs" show run.Type
+			if (eventGraphRunsStored.Type == "") //if "all runs" show run.Type
 				typeRowString = run.Type;
 
 			names_l.Add(createTextBelowBar(

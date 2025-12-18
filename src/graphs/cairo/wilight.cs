@@ -27,7 +27,7 @@ using Mono.Unix;
 
 public class CairoGraphWilight : CairoXY
 {
-	private int points_l_painted;
+	//private int points_l_painted; //never used
 	private List<CairoGraphWilightTerminal> wt_l;
 
 	public CairoGraphWilight (Gtk.DrawingArea area, string font)
@@ -50,7 +50,7 @@ public class CairoGraphWilight : CairoXY
 		//this.horizontal = horizontal;
 		this.colorBackground = colorFromRGBA(Config.ColorBackground); //but note if we are using system colors, this will not match
 
-		points_l_painted = 0;
+		//points_l_painted = 0;
 
 
 		yVariable = "";

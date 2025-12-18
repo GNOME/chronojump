@@ -2116,7 +2116,7 @@ public partial class ChronoJumpWindow
 		pre_fillTreeView_resultsSession ();
 	}
 	
-	private int treeViewResultsSessionLastPersonID = -1;
+	//private int treeViewResultsSessionLastPersonID = -1; //never used
 	private void pre_fillTreeView_resultsSession ()
 	{
 		if (pre_fillTreeView_resultsSession_NO)

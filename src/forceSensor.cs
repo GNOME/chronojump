@@ -385,10 +385,6 @@ public class ForceSensor : Event
 		}
 	}
 
-	public string DateTimePublic
-	{
-		get { return dateTime; }
-	}
 	public string DatePublic
 	{
 		get {

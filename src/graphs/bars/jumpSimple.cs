@@ -116,7 +116,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 				eventGraphJumpsStored.rowsAtSQL[i].Description = ""; //to avoid showing description
 		}
 
-		calculateBottomParams (events, eventGraphJumpsStored.type == "", "",
+		calculateBottomParams (events, eventGraphJumpsStored.Type == "", "",
 				"(" + Catalog.GetString("Simulated") + ")", thereIsASimulated, false);
 
 		List<PointF> pointA_l = new List<PointF>();
@@ -144,7 +144,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			// 2) Add bottom names
 			//names_l.Add(Catalog.GetString(jump.Type));
 			string typeRowString = "";
-			if (eventGraphJumpsStored.type == "") //if "all runs" show run.Type
+			if (eventGraphJumpsStored.Type == "") //if "all runs" show run.Type
 				typeRowString = jump.Type;
 
 			names_l.Add(createTextBelowBar(

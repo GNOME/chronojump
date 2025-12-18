@@ -922,11 +922,11 @@ public class UtilGtk
 			"radio:checked {" +
 				"color: " + GetRGBAs (Colors.YELLOW_LIGHT) + ";" + // background: " + Config.ColorBackgroundShifted.ToString () + ";" +
 			"}" +
-			"radio:insensitive {" +
+			"radio:disabled {" +
 			    "background: #999999;" +
 			    "background-color: #999999;" +
 			"}" +
-			"radio:insensitive label {" +
+			"radio:disabled label {" +
 			    "color: #666666;" + //this is not working, maybe label is not in radio
 			"}" +
 
@@ -938,14 +938,14 @@ public class UtilGtk
 			"button:checked {" +
 				"background: " + GetRGBAs (Colors.YELLOW_LIGHT) + ";" + //TODO: try a YELLOW_MID
 			"}" +
-			"button:insensitive {" +
+			"button:disabled {" +
 			    "background: #cccccc;" +
 			    "background-color: #cccccc;" +
 			"}" +
-			"button:insensitive label {" +
+			"button:disabled label {" +
 			    "color: #666666;" +
 			"}" +
-			"entry:insensitive {" +
+			"entry:disabled {" +
 			    "background: #cccccc;" +
 			    "background-color: #cccccc;" +
 			"}" +

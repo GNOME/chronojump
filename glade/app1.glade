@@ -12521,6 +12521,20 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
+                                                            <object class="GtkCheckButton" id="check_force_capture_raw">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            <signal name="toggled" handler="on_check_force_capture_raw_toggled" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <object class="GtkSeparator" id="separator_force_capture_raw">
                                                             <property name="width-request">20</property>
                                                             <property name="height-request">3</property>
@@ -12532,7 +12546,7 @@ on Cloud-view mode</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">0</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -12545,7 +12559,7 @@ on Cloud-view mode</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -12561,6 +12575,20 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
+                                                            <object class="GtkCheckButton" id="check_force_capture_unfiltered">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            <signal name="toggled" handler="on_check_force_capture_unfiltered_toggled" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <object class="GtkSeparator" id="separator_force_capture_unfiltered">
                                                             <property name="width-request">20</property>
                                                             <property name="height-request">3</property>
@@ -12572,7 +12600,7 @@ on Cloud-view mode</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">0</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -12585,7 +12613,7 @@ on Cloud-view mode</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -28070,6 +28098,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

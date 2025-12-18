@@ -59,6 +59,8 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_force_sensor_value_best_second;
 	Gtk.Label label_force_sensor_value_rfd;
 	Gtk.Grid force_capture_grid_legend;
+	Gtk.CheckButton check_force_capture_raw;
+	Gtk.CheckButton check_force_capture_unfiltered;
 	Gtk.Separator separator_force_capture_raw;
 	Gtk.Separator separator_force_capture_unfiltered;
 	Gtk.Separator separator_force_capture_butterworth;
@@ -3092,6 +3094,15 @@ LogB.Information(" fs R ");
 		fsMagnitudesSignalsNoFollow = false;
 	}
 
+	public void on_check_force_capture_raw_toggled (object o, EventArgs args)
+	{
+		force_capture_drawingarea_cairo.QueueDraw ();
+	}
+	public void on_check_force_capture_unfiltered_toggled (object o, EventArgs args)
+	{
+		force_capture_drawingarea_cairo.QueueDraw ();
+	}
+
 	public void on_button_force_capture_grid_legend_info_clicked (object o, EventArgs args)
 	{
 		new DialogMessage (Constants.MessageTypes.INFO, 850, 400,
@@ -3321,6 +3332,11 @@ LogB.Information(" fs R ");
 			//LogB.Information ("videoFrames", videoFrames);
 			//LogB.Information ("spCairoFECopyToDraw.Force_l.Count", spCairoFECopyToDraw.Force_l.Count);
 		}
+
+		if (! check_force_capture_raw.Active)
+			spCairoFECopyToDraw_Raw = null;
+		if (! check_force_capture_unfiltered.Active)
+			spCairoFECopyToDraw_Unfiltered = null;
 
 		//LogB.Information ("updateForceSensorCaptureSignalCairo 4");
 		cairoGraphForceSensorSignal.DoSendingList (
@@ -4126,6 +4142,8 @@ LogB.Information(" fs R ");
 		label_force_sensor_value_best_second = (Gtk.Label) builder.GetObject ("label_force_sensor_value_best_second");
 		label_force_sensor_value_rfd = (Gtk.Label) builder.GetObject ("label_force_sensor_value_rfd");
 		force_capture_grid_legend = (Gtk.Grid) builder.GetObject ("force_capture_grid_legend");
+		check_force_capture_raw = (Gtk.CheckButton) builder.GetObject ("check_force_capture_raw");
+		check_force_capture_unfiltered = (Gtk.CheckButton) builder.GetObject ("check_force_capture_unfiltered");
 		separator_force_capture_raw = (Gtk.Separator) builder.GetObject ("separator_force_capture_raw");
 		separator_force_capture_unfiltered = (Gtk.Separator) builder.GetObject ("separator_force_capture_unfiltered");
 		separator_force_capture_butterworth = (Gtk.Separator) builder.GetObject ("separator_force_capture_butterworth");

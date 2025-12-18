@@ -352,16 +352,16 @@ public class CairoGraphForceSensorSignal : CairoGraphForceSensor
 			bool forceRedraw, PlotTypes plotType)
 	{
 		if (spCairoFE_unfiltered != null)
-		{
-			this.points_l = spCairoFE.Force_l;
 			this.unfiltered_l = spCairoFE_unfiltered.Force_l;
-		} else {
-			this.points_l = spCairoFE.Force_l;
+		else
 			this.unfiltered_l = new List <PointF> ();
-		}
 
 		if (spCairoFE_raw != null)
 			this.raw_l = spCairoFE_raw.Force_l;
+		else
+			this.raw_l = new List <PointF> ();
+
+		this.points_l = spCairoFE.Force_l;
 
 		this.capturing = capturing;
 		this.showAccuracy = showAccuracy;

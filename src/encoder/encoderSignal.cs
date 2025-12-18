@@ -359,6 +359,10 @@ public class EncoderSignalCurve
 	{
 		return this.ToString() == evalString.ToString();
 	}
+	public override int GetHashCode ()
+	{
+		return this.ToString().GetHashCode();
+	}
 
 	~EncoderSignalCurve() {}
 }

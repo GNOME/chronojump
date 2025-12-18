@@ -211,7 +211,7 @@ class SqliteRunInterval : SqliteRun
 		return ri_l;
 	}
 
-	public static List<double> SelectRuns (bool dbconOpened, string param, int sessionID, int personID, string runType,
+	public new static List<double> SelectRuns (bool dbconOpened, string param, int sessionID, int personID, string runType,
 			Orders_by order, int limit)
 	{
 		if(!dbconOpened)

@@ -4828,7 +4828,7 @@ public partial class ChronoJumpWindow
 	
 	
 	string [] encoderExercisesTranslationAndBodyPWeight;
-	string [] encoderCaptureCurvesSaveOptionsTranslation;
+	//string [] encoderCaptureCurvesSaveOptionsTranslation;
 //	string [] encoderEcconTranslation;
 //	string [] encoderLateralityTranslation;
 	string [] encoderAnalyzeCrossTranslation;

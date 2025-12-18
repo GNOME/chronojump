@@ -39,8 +39,6 @@ public abstract class EncoderPTForceCaptureTests: EncoderPTForceCapture
 
 		return true;
 	}
-
-	protected abstract bool readSample ();
 }
 
 public class EncoderPTForceCaptureTestsBinary12Num: EncoderPTForceCaptureTests

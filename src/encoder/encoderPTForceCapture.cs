@@ -131,10 +131,12 @@ public class EncoderPTForceCaptureManage : EncoderPTCaptureManage
 
 	public override void Capture ()
 	{
+		/* not used... yet
 		double timePre = -1;
 		double speedPre = -1;
 		bool timePreSet = false;
 		bool speedPreSet = false;
+		*/
 
 		TextWriter writer = null;
 		if (csvURL != "")

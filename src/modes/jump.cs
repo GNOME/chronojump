@@ -22,7 +22,6 @@ using System;
 using System.Data;
 using System.Text; //StringBuilder
 using System.Collections.Generic; //List
-using Mono.Unix;
 
 #if MICROSOFT_DATA_SQLITE
 using Microsoft.Data.Sqlite;

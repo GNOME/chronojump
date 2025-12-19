@@ -60,7 +60,6 @@ src/exportFiles/fs.cs
 src/exportFiles/re.cs
 src/exportFiles/sprint.cs
 src/exportSession.cs
-src/forceSensor.cs
 src/graphs/bars/bars.cs
 src/graphs/bars/encoder.cs
 src/graphs/bars/encoderCurrent.cs
@@ -158,10 +157,11 @@ src/json/compujumpOther.cs
 src/json/json.cs
 src/jumpType.cs
 src/Mini/chronojump_mini.cs
+src/modes/forceSensor.cs
+src/modes/runEncoder.cs
 src/networks.cs
 src/person.cs
 src/report.cs
-src/runEncoder.cs
 src/runType.cs
 src/serverPing.cs
 src/sprint.cs

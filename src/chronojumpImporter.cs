@@ -217,8 +217,9 @@ LogB.Information("import H ");
 		/* if it fails here and ends on next return
 		   probably is because on windows it lacks the msvcr100.dll
 		   It is documented on howto_new_version.txt
+		   these import I0-I6b are for debugging better this error
 		   */
-LogB.Information("import I ");
+LogB.Information("import I0 ");
 		if (! sourceDatabaseVersion.success)
 		{
 			if (UtilAll.IsWindows())
@@ -228,6 +229,7 @@ LogB.Information("import I ");
 			return sourceDatabaseVersion;
 		}
 
+LogB.Information("import I1 ");
 		if (! destinationDatabaseVersion.success)
 		{
 			if (UtilAll.IsWindows())
@@ -237,24 +239,30 @@ LogB.Information("import I ");
 			return destinationDatabaseVersion;
 		}
 
+LogB.Information("import I2 ");
 		float destinationDatabaseVersionNum = float.Parse (destinationDatabaseVersion.output);
+LogB.Information("import I3 ");
 		float sourceDatabaseVersionNum = float.Parse (sourceDatabaseVersion.output);
+LogB.Information("import I4 ");
 
 		//3 check version of database to be imported
 
 		MessageToPulsebar = "Checking version";
 		if (destinationDatabaseVersionNum < sourceDatabaseVersionNum)
 		{
+LogB.Information("import I5 ");
 			MessageToPulsebar = Catalog.GetString("Please update Chronojump");
 			return new Result (false, "", Catalog.GetString ("Trying to import a newer database version than this Chronojump\n" +
 				"Please, update the running Chronojump."));
 		} else if (destinationDatabaseVersionNum > sourceDatabaseVersionNum)
 		{
+LogB.Information("import I6a ");
 			LogB.Debug ("chronojump-importer version before update: ", sourceDatabaseVersion.output);
 			MessageToPulsebar = "Updating database";
 			updateDatabase (temporarySourceFile);
 			string versionAfterUpdate = getDatabaseVersionFromFile (temporarySourceFile).output;
 			LogB.Debug ("chronojump-importer version after update: ", versionAfterUpdate);
+LogB.Information("import I6b ");
 		}
 
 LogB.Information("import J ");

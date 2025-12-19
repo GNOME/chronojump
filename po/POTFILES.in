@@ -119,7 +119,9 @@ src/gui/discover.cs
 src/gui/edit_event/encoder.cs
 src/gui/edit_event/event.cs
 src/gui/edit_event/jump.cs
+src/gui/edit_event/jumpRj.cs
 src/gui/edit_event/run.cs
+src/gui/edit_event/runInterval.cs
 src/gui/evaluator.cs
 src/gui/eventExecute.cs
 src/gui/executeAuto.cs

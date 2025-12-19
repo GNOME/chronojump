@@ -569,7 +569,6 @@ public abstract class CairoBars : CairoGeneric
 			return;
 
 		g.SetSourceColor (greenDark);
-		double yValues = UtilAll.DivideSafe(calculatePaintY(maxY), 2);
 		foreach(CairoBarsArrow cba in eccOverload_l)
 		{
 			LogB.Information("eccOverload: " + cba.ToString());
@@ -590,7 +589,7 @@ public abstract class CairoBars : CairoGeneric
 						//calculatePaintY(cba.y1) -1.5*resultFontHeight + resultFontHeight/2,
 						//up the bar values, ok, but maybe better all on same Y
 						//calculatePaintY(cba.y1) -2*resultFontHeight,
-						yValues,
+						2*textHeight,
 						0, resultFontHeight,
 						Util.TrimDecimals(100.0 * UtilAll.DivideSafe(cba.y1 - cba.y0, cba.y0), 0) + "%",
 						g, alignTypes.CENTER);

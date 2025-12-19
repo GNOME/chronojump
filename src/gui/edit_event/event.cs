@@ -373,8 +373,8 @@ public class EditEventWindow
 			spin_mistakes.Hide();
 		}
 
-		label_date.Hide();
-		label_date_value.Hide();
+		label_date.Visible = true;
+		label_date_value.Visible = true;
 
 		if (showDescription) {
 			//also remove new line for old descriptions that used a textview
@@ -409,7 +409,7 @@ public class EditEventWindow
 		// used on encoder to know total weight when body mass is displaced
 		personSession_l = SqlitePersonSession.SelectPersonSessionList (false, -1, myEvent.SessionID);
 
-		fillDialogSpecific (myEvent); //forceSensor, raceAnalyzer and encoder (TODO)
+		fillDialogSpecific (myEvent);
 
 		if (showVideo)
 		{

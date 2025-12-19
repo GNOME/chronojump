@@ -89,6 +89,8 @@ public class EditRunEncoderWindow : EditEventWindow
 		spin_race_analyzer_distance.Value = Convert.ToInt32 (re.Distance);
 		spin_race_analyzer_angle.Value = Convert.ToInt32 (re.Angle);
 		spin_race_analyzer_temperature.Value = Convert.ToInt32 (re.Temperature);
+
+		label_date_value.Text = re.DateTimePublic;
 	}
 
 	protected override string [] findTypes (Event myEvent)

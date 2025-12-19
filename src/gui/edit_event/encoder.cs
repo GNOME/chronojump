@@ -127,6 +127,8 @@ public class EditEncoderWindow : EditEventWindow
 	{
 		image_encoder_selected_type.Pixbuf = eSQL.encoderConfiguration.GetPixbuf;
 		label_encoder_selected.Text = string.Format ("{0} ({1})", eSQL.encoderConfiguration.name, eSQL.encoderConfiguration.code);
+
+		label_date_value.Text = eSQL.GetDatetimeStr (false);
 	}
 
 	private void fillDialogSpecificEccon ()

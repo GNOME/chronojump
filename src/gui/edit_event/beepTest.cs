@@ -65,6 +65,12 @@ public class EditBeepTestWindow : EditEventWindow
 		typeOfTest = Constants.TestTypes.BEEPTEST;
 	}
 
+	protected override void fillDialogSpecific (Event myEvent)
+	{
+		BeepTest bp = (BeepTest) myEvent;
+		label_date_value.Text = bp.DateTimePublic;
+	}
+
 	protected override string [] findTypes (Event myEvent)
 	{
 		//TODO

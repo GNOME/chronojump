@@ -92,6 +92,12 @@ public class EditJumpRjWindow : EditJumpWindow
 			label_weight_units.Text = "kg";
 	}
 
+	protected override void fillDialogSpecific (Event myEvent)
+	{
+		Jump myJump = (JumpRj) myEvent;
+		label_date_value.Text = myJump.Datetime;
+	}
+
 	protected override string [] findTypes(Event myEvent) {
 		//type cannot change on jumpRj
 		combo_eventType.Sensitive=false;

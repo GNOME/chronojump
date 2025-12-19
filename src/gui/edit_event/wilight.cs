@@ -67,6 +67,12 @@ public class EditWilightWindow : EditEventWindow
 		showDescription = false;
 	}
 
+	protected override void fillDialogSpecific (Event myEvent)
+	{
+		Wilight wilight = (Wilight) myEvent;
+		label_date_value.Text = wilight.DateTimePublic;
+	}
+
 	protected override string [] findTypes (Event myEvent)
 	{
 		//TODO

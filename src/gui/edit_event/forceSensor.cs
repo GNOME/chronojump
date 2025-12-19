@@ -114,8 +114,6 @@ public class EditForceSensorWindow : EditEventWindow
 		box_laterality.Visible = true;
 
 		label_date_value.Text = fs.DateTimePublic;
-		label_date.Visible = true;
-		label_date_value.Visible = true;
 	}
 
 	protected override void on_exercise_filter_changed (object o, EventArgs args)

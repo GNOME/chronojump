@@ -66,6 +66,12 @@ public class EditFourPlatformsWindow : EditEventWindow
 		typeOfTest = Constants.TestTypes.FOURPLATFORMS;
 	}
 
+	protected override void fillDialogSpecific (Event myEvent)
+	{
+		FourPlatforms fp = (FourPlatforms) myEvent;
+		label_date_value.Text = fp.DateTimePublic;
+	}
+
 	protected override string [] findTypes (Event myEvent)
 	{
 		//TODO

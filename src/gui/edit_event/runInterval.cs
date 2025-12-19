@@ -141,6 +141,12 @@ public class EditRunIntervalWindow : EditRunWindow
 			label_speed_units.Text = "km/h";
 	}
 
+	protected override void fillDialogSpecific (Event myEvent)
+	{
+		RunInterval myRun = (RunInterval) myEvent;
+		label_date_value.Text = myRun.Datetime;
+	}
+
 	//this disallows loops on radio actions	
 	private bool toggleRaisesSignal = true;
 

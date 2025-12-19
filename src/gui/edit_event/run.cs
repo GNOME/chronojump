@@ -104,6 +104,12 @@ public class EditRunWindow : EditEventWindow
 		combo_exercise_has_signal = true;
 	}
 
+	protected override void fillDialogSpecific (Event myEvent)
+	{
+		Run myRun = (Run) myEvent;
+		label_date_value.Text = myRun.Datetime;
+	}
+
 	protected override string [] findTypes(Event myEvent) {
 		string [] myTypes = SqliteRunType.SelectRunTypes("", true); //don't show allRunsName row, only select name
 		return myTypes;

@@ -123,6 +123,12 @@ public class EditJumpWindow : EditEventWindow
 		combo_exercise_has_signal = true;
 	}
 
+	protected override void fillDialogSpecific (Event myEvent)
+	{
+		Jump myJump = (Jump) myEvent;
+		label_date_value.Text = myJump.Datetime;
+	}
+
 	protected override string [] findTypes(Event myEvent) {
 		Jump myJump = (Jump) myEvent;
 		string [] myTypes;

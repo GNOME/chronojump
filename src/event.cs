@@ -107,7 +107,7 @@ public class Event
 		set { personName = value; }
 	}
 
-	//note this was string DateTime but this gets confused with DatTime type
+	//note this was string DateTime but this gets confused with DateTime type
 	public string DateTimePublic {
 		get { return dateTime; }
 	}

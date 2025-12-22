@@ -178,7 +178,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.72";
+	static string lastChronojumpDatabaseVersion = "2.73";
 
 	public Sqlite()
 	{
@@ -3799,6 +3799,17 @@ class Sqlite
 
 			currentVersion = updateVersion ("2.72");
 		}
+		if(currentVersion == "2.72")
+		{
+			LogB.SQL("Inserted 4 vars into preferences: JumpsRjRelToBest...");
+
+			SqlitePreferences.Insert (SqlitePreferences.JumpsRjRelToBestGreaterActive, "True");
+			SqlitePreferences.Insert (SqlitePreferences.JumpsRjRelToBestGreaterValue, "90");
+			SqlitePreferences.Insert (SqlitePreferences.JumpsRjRelToBestLowerActive, "True");
+			SqlitePreferences.Insert (SqlitePreferences.JumpsRjRelToBestLowerValue, "70");
+
+			currentVersion = updateVersion("2.73");
+		}
 
 
 		/*
@@ -4047,6 +4058,7 @@ class Sqlite
 		//
 		//
 
+		//2.72 - 2.73 Converted DB to 2.73 Inserted 4 vars into preferences: JumpsRjRelToBest...
 		//2.71 - 2.72 Converted DB to 2.72 Adding Rondo-Test
 		//2.70 - 2.71 Converted DB to 2.71 Added preferences: machineName
 		//2.69 - 2.70 Converted DB to 2.70 Doing person77 generating muuids

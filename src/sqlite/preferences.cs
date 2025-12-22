@@ -93,6 +93,10 @@ class SqlitePreferences : Sqlite
 	public const string JumpsRjFeedbackTcLower = "jumpsRjFeedbackTcLower";
 	public const string JumpsRjFeedbackTvTcGreater = "jumpsRjFeedbackTvTcGreater";
 	public const string JumpsRjFeedbackTvTcLower = "jumpsRjFeedbackTvTcLower";
+	public const string JumpsRjRelToBestGreaterActive = "jumpsRjRelToBestGreaterActive";
+	public const string JumpsRjRelToBestGreaterValue = "jumpsRjRelToBestGreaterValue";
+	public const string JumpsRjRelToBestLowerActive = "jumpsRjRelToBestLowerActive";
+	public const string JumpsRjRelToBestLowerValue = "jumpsRjRelToBestLowerValue";
 
 	public const string RunsIFeedbackShowBestSpeed = "runsIFeedbackShowBestSpeed"; //speed
 	public const string RunsIFeedbackShowWorstSpeed = "runsIFeedbackShowWorstSpeed"; //speed
@@ -319,6 +323,10 @@ class SqlitePreferences : Sqlite
 				SqlitePreferences.Insert (JumpsFVProfileOnlyBestInWeight, "True", dbcmdTr);
 				SqlitePreferences.Insert (JumpsFVProfileShowFullGraph, "True", dbcmdTr);
 				SqlitePreferences.Insert (JumpsEvolutionOnlyBestInSession, "False", dbcmdTr);
+				Insert (JumpsRjRelToBestGreaterActive, "True", dbcmdTr);
+				Insert (JumpsRjRelToBestGreaterValue, "90", dbcmdTr);
+				Insert (JumpsRjRelToBestLowerActive, "True", dbcmdTr);
+				Insert (JumpsRjRelToBestLowerValue, "70", dbcmdTr);
 
 				//runs
 				SqlitePreferences.Insert (RunsEvolutionOnlyBestInSession, "False", dbcmdTr);
@@ -811,6 +819,14 @@ class SqlitePreferences : Sqlite
 			else if (reader[0].ToString () == JumpsRjFeedbackTvTcLower)
 				preferences.jumpsRjFeedbackTvTcLower = Convert.ToDouble (
 						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if(reader[0].ToString() == JumpsRjRelToBestGreaterActive)
+				preferences.jumpsRjRelToBestGreaterActive = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == JumpsRjRelToBestGreaterValue)
+				preferences.jumpsRjRelToBestGreaterValue = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == JumpsRjRelToBestLowerActive)
+				preferences.jumpsRjRelToBestLowerActive = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == JumpsRjRelToBestLowerValue)
+				preferences.jumpsRjRelToBestLowerValue = Convert.ToInt32(reader[1].ToString());
 
 			//runsI
 			else if (reader[0].ToString () == RunsIFeedbackShowBestSpeed) //speed

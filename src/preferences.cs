@@ -333,6 +333,10 @@ public class Preferences
 	public bool jumpsFVProfileOnlyBestInWeight;
 	public bool jumpsFVProfileShowFullGraph;
 	public bool jumpsEvolutionOnlyBestInSession;
+	public bool jumpsRjRelToBestGreaterActive;
+	public int jumpsRjRelToBestGreaterValue;
+	public bool jumpsRjRelToBestLowerActive;
+	public int jumpsRjRelToBestLowerValue;
 
 	//runs
 	public bool runsEvolutionOnlyBestInSession;

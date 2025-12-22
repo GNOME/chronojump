@@ -966,7 +966,9 @@ public class FeedbackWindow
 					checkbutton_height_greater.Active || checkbutton_height_lower.Active ||
 					checkbutton_jump_tf_tc_best.Active || checkbutton_jump_tf_tc_worst.Active ||
 					checkbutton_tf_greater.Active || checkbutton_tf_lower.Active ||
-					checkbutton_tc_lower.Active || checkbutton_tc_greater.Active //||
+					checkbutton_tc_lower.Active || checkbutton_tc_greater.Active ||
+					checkbutton_jumpRj_relToBest_greater.Active ||
+					checkbutton_jumpRj_relToBest_lower.Active //||
 					//checkbutton_tf_tc_greater.Active || checkbutton_tf_tc_lower.Active
 					)
 				return true;

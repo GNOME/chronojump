@@ -58,6 +58,16 @@ public class FeedbackWindow
 	//Gtk.SpinButton spinbutton_tf_tc_greater;
 	//Gtk.SpinButton spinbutton_tf_tc_lower;
 
+	Gtk.Frame frame_jumpRj_relToBest;
+	Gtk.SpinButton spinbutton_jumpRj_relToBest_greater;
+	Gtk.SpinButton spinbutton_jumpRj_relToBest_lower;
+	Gtk.Button button_jumpRj_relToBest_greater_minus_1;
+	Gtk.Button button_jumpRj_relToBest_greater_plus_1;
+	Gtk.Button button_jumpRj_relToBest_lower_minus_1;
+	Gtk.Button button_jumpRj_relToBest_lower_plus_1;
+	Gtk.CheckButton checkbutton_jumpRj_relToBest_greater;
+	Gtk.CheckButton checkbutton_jumpRj_relToBest_lower;
+
 	/* runs */	
 	Gtk.Box hbox_run_conditions_speed;
 	Gtk.Box hbox_run_conditions_time;
@@ -491,6 +501,7 @@ public class FeedbackWindow
 			bool signalDirectionHorizontal
 				)
 	{
+		frame_jumpRj_relToBest.Visible = false;
 		hbox_jump_best_worst.Hide();
 		grid_run_best_worst.Hide();
 		hbox_jump_conditions.Hide();
@@ -530,6 +541,8 @@ public class FeedbackWindow
 				checkbutton_tf_lower.Active = jumpsRjFeedbackTvLowerActive;
 				checkbutton_tc_greater.Active = jumpsRjFeedbackTcGreaterActive;
 				checkbutton_tc_lower.Active = jumpsRjFeedbackTcLowerActive;
+
+				frame_jumpRj_relToBest.Visible = true;
 			}
 			else if(bellMode == Constants.BellModes.RUNS)
 			{
@@ -1961,6 +1974,16 @@ public class FeedbackWindow
 		spinbutton_tc_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_tc_lower");
 		//spinbutton_tf_tc_greater = (Gtk.SpinButton) builder.GetObject ("spinbutton_tf_tc_greater");
 		//spinbutton_tf_tc_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_tf_tc_lower");
+
+		frame_jumpRj_relToBest = (Gtk.Frame) builder.GetObject ("frame_jumpRj_relToBest");
+		spinbutton_jumpRj_relToBest_greater = (Gtk.SpinButton) builder.GetObject ("spinbutton_jumpRj_relToBest_greater");
+		spinbutton_jumpRj_relToBest_lower = (Gtk.SpinButton) builder.GetObject ("spinbutton_jumpRj_relToBest_lower");
+		button_jumpRj_relToBest_greater_minus_1 = (Gtk.Button) builder.GetObject ("button_jumpRj_relToBest_greater_minus_1");
+		button_jumpRj_relToBest_greater_plus_1 = (Gtk.Button) builder.GetObject ("button_jumpRj_relToBest_greater_plus_1");
+		button_jumpRj_relToBest_lower_minus_1 = (Gtk.Button) builder.GetObject ("button_jumpRj_relToBest_lower_minus_1");
+		button_jumpRj_relToBest_lower_plus_1 = (Gtk.Button) builder.GetObject ("button_jumpRj_relToBest_lower_plus_1");
+		checkbutton_jumpRj_relToBest_greater = (Gtk.CheckButton) builder.GetObject ("checkbutton_jumpRj_relToBest_greater");
+		checkbutton_jumpRj_relToBest_lower = (Gtk.CheckButton) builder.GetObject ("checkbutton_jumpRj_relToBest_lower");
 
 		/* runs */	
 		hbox_run_conditions_speed = (Gtk.Box) builder.GetObject ("hbox_run_conditions_speed");

@@ -3333,7 +3333,7 @@ public partial class ChronoJumpWindow
 		radio_change_modes_contacts_wilight.Visible = false;
 		radio_change_modes_contacts_fourPlatforms.Visible = false;
 
-		button_contacts_bells.Sensitive = false;
+		button_contacts_bells.Visible = false;
 
 		radio_mode_contacts_capture.Active = true; //it is safe to change to capture, because analyze has different graphs depending on mode
 
@@ -3499,7 +3499,7 @@ public partial class ChronoJumpWindow
 				showHideFourPlatformsJumpsDrawingArea ();
 			} else {
 				notebooks_change(m);
-				button_contacts_bells.Sensitive = true;
+				button_contacts_bells.Visible = true;
 				on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
 
 				box_resultsSession_bestLast.Visible = true;
@@ -3567,7 +3567,7 @@ public partial class ChronoJumpWindow
 			else
 			{
 				notebooks_change(m);
-				button_contacts_bells.Sensitive = true;
+				button_contacts_bells.Visible = true;
 				on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
 
 				//show icon but have it unsensitive until there's a run
@@ -3744,7 +3744,7 @@ public partial class ChronoJumpWindow
 			//combos should show exercises (isometric or elastic)
 			updateForceExerciseCombo ();
 
-			button_contacts_bells.Sensitive = true;
+			button_contacts_bells.Visible = true;
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			button_threshold.Visible = false;
 			button_force_sensor_adjust.Visible = true;
@@ -3791,7 +3791,7 @@ public partial class ChronoJumpWindow
 			notebooks_change(m);
 			box_capture_current.Visible = true;
 
-			button_contacts_bells.Sensitive = true;
+			button_contacts_bells.Visible = true;
 
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			button_threshold.Visible = false;

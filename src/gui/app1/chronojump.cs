@@ -7505,6 +7505,30 @@ public partial class ChronoJumpWindow
 						SqlitePreferences.JumpsRjFeedbackTcLower,
 						preferences.jumpsRjFeedbackTcLower,
 						feedbackWin.JumpsRjFeedbackTcLower);
+
+				preferences.jumpsRjRelToBestGreaterActive = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjRelToBestGreaterActive,
+						preferences.jumpsRjRelToBestGreaterActive,
+						feedbackWin.JumpsRjRelToBestHigherActive);
+
+				preferences.jumpsRjRelToBestGreaterValue = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjRelToBestGreaterValue,
+						preferences.jumpsRjRelToBestGreaterValue,
+						feedbackWin.JumpsRjRelToBestHigherValue);
+
+				preferences.jumpsRjRelToBestLowerActive = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjRelToBestLowerActive,
+						preferences.jumpsRjRelToBestLowerActive,
+						feedbackWin.JumpsRjRelToBestLowerActive);
+
+				preferences.jumpsRjRelToBestLowerValue = Preferences.PreferencesChange(
+						true,
+						SqlitePreferences.JumpsRjRelToBestLowerValue,
+						preferences.jumpsRjRelToBestLowerValue,
+						feedbackWin.JumpsRjRelToBestLowerValue);
 			}
 			else if(m == Constants.Modes.RUNSINTERVALLIC)
 			{

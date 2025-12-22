@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -155,6 +155,7 @@ public class FeedbackWindow
 	Gtk.Button button_close;
 
 	//bells good (green)
+	Gtk.Image image_repetitive_jumpRj_relToBest_greater;
 	Gtk.Image image_repetitive_best_tf_tc;
 	Gtk.Image image_repetitive_best_speed;
 	Gtk.Image image_repetitive_best_time;
@@ -174,6 +175,7 @@ public class FeedbackWindow
 	Gtk.Image image_encoder_peakpower_higher;
 	Gtk.Image image_repetitive_test_good;
 	//bells bad (red)
+	Gtk.Image image_repetitive_jumpRj_relToBest_lower;
 	Gtk.Image image_repetitive_worst_tf_tc;
 	Gtk.Image image_repetitive_worst_speed;
 	Gtk.Image image_repetitive_worst_time;
@@ -299,6 +301,7 @@ public class FeedbackWindow
 	public enum BestSetValueEnum { CAPTURE_MAIN_VARIABLE, AUTOMATIC_FEEDBACK}
 	private double bestSetValueCaptureMainVariable;
 	private double bestSetValueAutomaticFeedback;
+	private bool update_checkbuttons_jumpRj_relToBest;
 	private bool update_checkbuttons_encoder_automatic;
 	private string forceSensorFeedbackQuestionnaireFile;
 	
@@ -370,6 +373,10 @@ public class FeedbackWindow
 				preferences.jumpsRjFeedbackTvLower,
 				preferences.jumpsRjFeedbackTcGreater,
 				preferences.jumpsRjFeedbackTcLower,
+				preferences.jumpsRjRelToBestGreaterActive,
+				preferences.jumpsRjRelToBestGreaterValue,
+				preferences.jumpsRjRelToBestLowerActive,
+				preferences.jumpsRjRelToBestLowerValue,
 				preferences.runsIFeedbackShowBestSpeed,
 				preferences.runsIFeedbackShowWorstSpeed,
 				preferences.runsIFeedbackShowBest,
@@ -454,6 +461,10 @@ public class FeedbackWindow
 			double jumpsRjFeedbackTvLower,
 			double jumpsRjFeedbackTcGreater,
 			double jumpsRjFeedbackTcLower,
+			bool jumpsRjRelToBestGreaterActive,
+			double jumpsRjRelToBestGreaterValue,
+			bool jumpsRjRelToBestLowerActive,
+			double jumpsRjRelToBestLowerValue,
 			bool runsIFeedbackShowBestSpeed,
 			bool runsIFeedbackShowWorstSpeed,
 			bool runsIFeedbackShowBest,
@@ -543,6 +554,13 @@ public class FeedbackWindow
 				checkbutton_tc_lower.Active = jumpsRjFeedbackTcLowerActive;
 
 				frame_jumpRj_relToBest.Visible = true;
+
+				update_checkbuttons_jumpRj_relToBest = false;
+				checkbutton_jumpRj_relToBest_greater.Active = jumpsRjRelToBestGreaterActive;
+				spinbutton_jumpRj_relToBest_greater.Value = jumpsRjRelToBestGreaterValue;
+				checkbutton_jumpRj_relToBest_lower.Active = jumpsRjRelToBestLowerActive;
+				spinbutton_jumpRj_relToBest_lower.Value = jumpsRjRelToBestLowerValue;
+				update_checkbuttons_jumpRj_relToBest = true;
 			}
 			else if(bellMode == Constants.BellModes.RUNS)
 			{
@@ -848,6 +866,7 @@ public class FeedbackWindow
 	private void putNonStandardIcons() {
 		Pixbuf pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_green.png");
+		image_repetitive_jumpRj_relToBest_greater.Pixbuf = pixbuf;
 		image_repetitive_best_tf_tc.Pixbuf = pixbuf;
 		image_repetitive_best_speed.Pixbuf = pixbuf;
 		image_repetitive_best_time.Pixbuf = pixbuf;
@@ -868,6 +887,7 @@ public class FeedbackWindow
 		image_repetitive_test_good.Pixbuf = pixbuf;
 		
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "stock_bell_red.png");
+		image_repetitive_jumpRj_relToBest_lower.Pixbuf = pixbuf;
 		image_repetitive_worst_tf_tc.Pixbuf = pixbuf;
 		image_repetitive_worst_speed.Pixbuf = pixbuf;
 		image_repetitive_worst_time.Pixbuf = pixbuf;
@@ -1026,6 +1046,36 @@ public class FeedbackWindow
 	void on_spinbutton_tf_tc_lower_value_changed (object o, EventArgs args) {
 		checkbutton_tf_tc_lower.Active = true;
 	}
+
+	//jumpRj_relToBest
+	void on_spinbutton_jumpRj_relToBest_greater_value_changed (object o, EventArgs args)
+	{
+		if(update_checkbuttons_jumpRj_relToBest)
+			checkbutton_jumpRj_relToBest_greater.Active = true;
+	}
+	void on_spinbutton_jumpRj_relToBest_lower_value_changed (object o, EventArgs args)
+	{
+		if(update_checkbuttons_jumpRj_relToBest)
+			checkbutton_jumpRj_relToBest_lower.Active = true;
+	}
+
+	void on_button_jumpRj_relToBest_greater_minus_1_clicked (object o, EventArgs args)
+	{
+		spinbutton_jumpRj_relToBest_greater.Value --;
+	}
+	void on_button_jumpRj_relToBest_greater_plus_1_clicked (object o, EventArgs args)
+	{
+		spinbutton_jumpRj_relToBest_greater.Value ++;
+	}
+	void on_button_jumpRj_relToBest_lower_minus_1_clicked (object o, EventArgs args)
+	{
+		spinbutton_jumpRj_relToBest_lower.Value --;
+	}
+	void on_button_jumpRj_relToBest_lower_plus_1_clicked (object o, EventArgs args)
+	{
+		spinbutton_jumpRj_relToBest_lower.Value ++;
+	}
+
 
 	/*runs*/
 	void on_spinbutton_speed_greater_value_changed (object o, EventArgs args) {
@@ -1673,6 +1723,19 @@ public class FeedbackWindow
 	}
 	*/
 
+	public bool JumpsRjRelToBestHigherActive {
+		get { return checkbutton_jumpRj_relToBest_greater.Active; }
+	}
+	public int JumpsRjRelToBestHigherValue {
+		get { return Convert.ToInt32(spinbutton_jumpRj_relToBest_greater.Value); }
+	}
+	public bool JumpsRjRelToBestLowerActive {
+		get { return checkbutton_jumpRj_relToBest_lower.Active; }
+	}
+	public int JumpsRjRelToBestLowerValue {
+		get { return Convert.ToInt32(spinbutton_jumpRj_relToBest_lower.Value); }
+	}
+
 	/* RUNS */
 	public bool RunsIFeedbackSpeedBestActive {
 		get { return checkbutton_run_speed_best.Active; }
@@ -2065,6 +2128,7 @@ public class FeedbackWindow
 		button_close = (Gtk.Button) builder.GetObject ("button_close");
 
 		//bells good (green)
+		image_repetitive_jumpRj_relToBest_greater = (Gtk.Image) builder.GetObject ("image_repetitive_jumpRj_relToBest_greater");
 		image_repetitive_best_tf_tc = (Gtk.Image) builder.GetObject ("image_repetitive_best_tf_tc");
 		image_repetitive_best_speed = (Gtk.Image) builder.GetObject ("image_repetitive_best_speed");
 		image_repetitive_best_time = (Gtk.Image) builder.GetObject ("image_repetitive_best_time");
@@ -2084,6 +2148,7 @@ public class FeedbackWindow
 		image_encoder_peakpower_higher = (Gtk.Image) builder.GetObject ("image_encoder_peakpower_higher");
 		image_repetitive_test_good = (Gtk.Image) builder.GetObject ("image_repetitive_test_good");
 		//bells bad (red)
+		image_repetitive_jumpRj_relToBest_lower = (Gtk.Image) builder.GetObject ("image_repetitive_jumpRj_relToBest_lower");
 		image_repetitive_worst_tf_tc = (Gtk.Image) builder.GetObject ("image_repetitive_worst_tf_tc");
 		image_repetitive_worst_speed = (Gtk.Image) builder.GetObject ("image_repetitive_worst_speed");
 		image_repetitive_worst_time = (Gtk.Image) builder.GetObject ("image_repetitive_worst_time");

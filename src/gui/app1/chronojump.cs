@@ -3377,14 +3377,14 @@ public partial class ChronoJumpWindow
 					m == Constants.Modes.WILIGHT);
 
 			box_capture_current_forceSensor.Visible = false;
-			hbox_capture_current_runEncoder.Visible = false;
+			vbox_race_analyzer_capture_graphs.Visible = false;
 			box_beepTest.Visible = false;
 			vbox_capture_current_encoder.Visible = false;
 
 			if (Constants.ModeIsFORCESENSOR (m))
 				box_capture_current_forceSensor.Visible = true;
 			else if(m == Constants.Modes.RUNSENCODER)
-				hbox_capture_current_runEncoder.Visible = true;
+				vbox_race_analyzer_capture_graphs.Visible = true;
 			else if (m == Constants.Modes.BEEPTEST)
 				box_beepTest.Visible = true;
 			else if (Constants.ModeIsENCODER (m))

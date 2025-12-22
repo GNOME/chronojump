@@ -67,6 +67,9 @@ public partial class ChronoJumpWindow
 	Gtk.CheckButton check_race_analyzer_capture_smooth_graphs;
 	Gtk.HScale hscale_race_analyzer_capture_smooth_graphs;
 	Gtk.Label label_race_analyzer_capture_smooth_graphs;
+	Gtk.Image image_race_analyzer_capture_show_power;
+	Gtk.Image image_race_analyzer_capture_show_force;
+	Gtk.Image image_race_analyzer_capture_show_accel;
 
 	Gtk.Frame frame_run_encoder_exercise;
 	Gtk.Entry entry_run_encoder_exercise_name;
@@ -3302,6 +3305,9 @@ public partial class ChronoJumpWindow
 		radio_race_analyzer_capture_graph_starts_0 = (Gtk.RadioButton) builder.GetObject ("radio_race_analyzer_capture_graph_starts_0");
 		radio_race_analyzer_capture_graph_starts_grav = (Gtk.RadioButton) builder.GetObject ("radio_race_analyzer_capture_graph_starts_grav");
 		label_race_analyzer_capture_smooth_graphs = (Gtk.Label) builder.GetObject ("label_race_analyzer_capture_smooth_graphs");
+		image_race_analyzer_capture_show_power = (Gtk.Image) builder.GetObject ("image_race_analyzer_capture_show_power");
+		image_race_analyzer_capture_show_force = (Gtk.Image) builder.GetObject ("image_race_analyzer_capture_show_force");
+		image_race_analyzer_capture_show_accel = (Gtk.Image) builder.GetObject ("image_race_analyzer_capture_show_accel");
 
 		frame_run_encoder_exercise = (Gtk.Frame) builder.GetObject ("frame_run_encoder_exercise");
 		entry_run_encoder_exercise_name = (Gtk.Entry) builder.GetObject ("entry_run_encoder_exercise_name");

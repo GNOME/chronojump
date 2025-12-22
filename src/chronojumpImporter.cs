@@ -226,6 +226,7 @@ LogB.Information("import I0 ");
 				sourceDatabaseVersion.AddErrorComment ("This error can be caused by a faulty Windows installation of msvcr100.dll."
 						+ "\n" + "Contact Chronojump to solve it."); //TODO: translate this
 
+LogB.Information("import I0-exit ");
 			return sourceDatabaseVersion;
 		}
 
@@ -236,6 +237,7 @@ LogB.Information("import I1 ");
 				sourceDatabaseVersion.AddErrorComment ("This error can be caused by a faulty Windows installation of msvcr100.dll."
 						+ "\n" + "Contact Chronojump to solve it."); //TODO: translate this
 
+LogB.Information("import I1-exit ");
 			return destinationDatabaseVersion;
 		}
 

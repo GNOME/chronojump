@@ -58,13 +58,13 @@ public class FeedbackJumpsRj : Feedback
 		setBarColors ();
 	}
 
-	public bool HeightGreen (double heightInCm)
+	private bool heightGreen (double heightInCm)
 	{
 		return (preferences.jumpsRjFeedbackHeightGreaterActive &&
 				heightInCm >= preferences.jumpsRjFeedbackHeightGreater);
 	}
 
-	public bool HeightRed (double heightInCm)
+	private bool heightRed (double heightInCm)
 	{
 		return (preferences.jumpsRjFeedbackHeightLowerActive &&
 				heightInCm <= preferences.jumpsRjFeedbackHeightLower);
@@ -92,9 +92,9 @@ public class FeedbackJumpsRj : Feedback
 
 	public Cairo.Color AssignColorMainByHeight (double heightInCm)
 	{
-		if (HeightGreen (heightInCm))
+		if (heightGreen (heightInCm))
 			return (mainGreen);
-		else if (HeightRed (heightInCm))
+		else if (heightRed (heightInCm))
 			return (mainRed);
 		else
 			return (CairoGeneric.colorFromRGBA (Config.ColorBackground));

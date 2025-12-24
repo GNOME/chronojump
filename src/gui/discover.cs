@@ -853,6 +853,7 @@ public class DiscoverWindow
 			else //if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE)
 				debugThread = new Thread (new ThreadStart (debugForceSensor));
 
+			button_micro_discover_refresh.Sensitive = false;
 			GLib.Idle.Add (new GLib.IdleHandler (pulseDebugGTK));
 			debugThread.Start();
 		}
@@ -1092,6 +1093,7 @@ public class DiscoverWindow
 			grid_micro_discover.Sensitive = true;
 			check_discover_advanced.Sensitive = true;
 			button_micro_discover_cancel_close.Sensitive = true;
+			button_micro_discover_refresh.Sensitive = true;
 
 			return false;
 		}

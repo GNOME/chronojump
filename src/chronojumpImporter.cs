@@ -242,6 +242,10 @@ LogB.Information("import I1-exit ");
 		}
 
 LogB.Information("import I2 ");
+LogB.Information("import I2 destinationDatabaseVersion output:");
+LogB.Information(destinationDatabaseVersion.output);
+LogB.Information("import I2 destinationDatabaseVersion error:");
+LogB.Information(destinationDatabaseVersion.error);
 		float destinationDatabaseVersionNum = float.Parse (destinationDatabaseVersion.output);
 LogB.Information("import I3 ");
 		float sourceDatabaseVersionNum = float.Parse (sourceDatabaseVersion.output);
@@ -374,12 +378,15 @@ LogB.Information("import L ");
 			try {
 				JsonValue.Parse (result.output);
 			} catch (Exception e) {
+				LogB.Information ("getImporterInformation invalid JSON content");
 				return new Result(false, "", String.Format("getDatabaseVersionFromFile: invalid JSON content:\n{0}\nException. {1}", result.output, e.Message));
 			}
 
+			LogB.Information ("getImporterInformation ok");
 			return new Result (true, result.output);
 
 		} else {
+			LogB.Information ("getImporterInformation no success fetching the database version");
 			return new Result(false, "", String.Format("getDatabaseVersionFromFile: no success fetching the database version of:\n{0}\nError: {1}", filePath, result.error));
 		}
 	}
@@ -415,9 +422,11 @@ LogB.Information("import L ");
 		Result information = getImporterInformation (filePath, pythonVersion);
 
 		if (information.success) {
+			LogB.Information ("getDatabaseVersionFromFile information success");
 			JsonValue json = JsonValue.Parse (information.output);
 			return new Result (true, JsonUtils.ValueOrDefault(json, "databaseVersion", "0"));
 		} else {
+			LogB.Information ("getDatabaseVersionFromFile information fail");
 			return information;
 		}
 	}

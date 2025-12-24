@@ -271,11 +271,6 @@ public class FeedbackWindow
 	Gtk.RadioButton radio_signal_direction_vertical;
 	Gtk.Box box_radio_signal_direction;
 	Gtk.Label label_signal_direction_horizontal;
-
-	//runsEncoder
-	Gtk.RadioButton radio_run_encoder_power;
-	Gtk.RadioButton radio_run_encoder_force;
-	//Gtk.RadioButton radio_run_encoder_accel;
 	// <---- at glade
 
 
@@ -289,7 +284,6 @@ public class FeedbackWindow
 	const int ENCODERRHYTHMPAGE = 3;
 	const int SIGNALPAGE = 4;
 	const int TESTBELLSPAGE = 5;
-	const int RUNSENCODERPAGE = 6;
 
 	public Gtk.Button FakeButtonClose;
 	public Gtk.Button FakeButtonQuestionnaireLoad;
@@ -525,7 +519,6 @@ public class FeedbackWindow
 		notebook_main.GetNthPage(ENCODERRHYTHMPAGE).Hide();
 		notebook_main.GetNthPage(SIGNALPAGE).Hide();
 		notebook_main.GetNthPage(TESTBELLSPAGE).Hide();
-		notebook_main.GetNthPage(RUNSENCODERPAGE).Hide();
 		notebook_main.ShowTabs = false;
 
 		if(bellMode == Constants.BellModes.JUMPS || bellMode == Constants.BellModes.RUNS)
@@ -770,10 +763,6 @@ public class FeedbackWindow
 
 			notebook_main.GetNthPage(SIGNALPAGE).Show();
 		}
-		else if(bellMode == Constants.BellModes.RUNSENCODER)
-		{
-			notebook_main.GetNthPage(RUNSENCODERPAGE).Show();
-		}
 
 		label_test_sound_result.Text = "";
 	}
@@ -998,17 +987,6 @@ public class FeedbackWindow
 			return check_force_sensor_capture_feedback_yes.Active;
 
 		return false;
-	}
-
-	public enum RunsEncoderMainVariableTypes { POWER, FORCE, ACCELERATION };
-	public RunsEncoderMainVariableTypes GetRunsEncoderMainVariable ()
-	{
-		if(radio_run_encoder_power.Active)
-			return RunsEncoderMainVariableTypes.POWER;
-		else if(radio_run_encoder_force.Active)
-			return RunsEncoderMainVariableTypes.FORCE;
-		else // if(radio_run_encoder_accel.Active)
-			return RunsEncoderMainVariableTypes.ACCELERATION;
 	}
 
 	public bool VolumeOn {
@@ -2252,11 +2230,6 @@ public class FeedbackWindow
 		radio_signal_direction_vertical = (Gtk.RadioButton) builder.GetObject ("radio_signal_direction_vertical");
 		box_radio_signal_direction = (Gtk.Box) builder.GetObject ("box_radio_signal_direction");
 		label_signal_direction_horizontal = (Gtk.Label) builder.GetObject ("label_signal_direction_horizontal");
-
-		//runsEncoder
-		radio_run_encoder_power = (Gtk.RadioButton) builder.GetObject ("radio_run_encoder_power");
-		radio_run_encoder_force = (Gtk.RadioButton) builder.GetObject ("radio_run_encoder_force");
-		//radio_run_encoder_accel = (Gtk.RadioButton) builder.GetObject ("radio_run_encoder_accel");
 	}
 }
 

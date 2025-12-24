@@ -3799,8 +3799,6 @@ public partial class ChronoJumpWindow
 			notebooks_change(m);
 			box_capture_current.Visible = true;
 
-			button_contacts_bells.Visible = true;
-
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			button_threshold.Visible = false;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
@@ -3820,7 +3818,6 @@ public partial class ChronoJumpWindow
 
 			on_combo_run_encoder_exercise_changed (new object(), new EventArgs ());
 
-			feedbackWin.View(Constants.BellModes.RUNSENCODER, preferences, encoderRhythm, false); //not viewWindow
 			createComboSelectContactsTop ();
 			label_contacts_exercise_selected_name.Visible = false;
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
@@ -5278,8 +5275,6 @@ public partial class ChronoJumpWindow
 			return Constants.BellModes.ENCODERINERTIAL;
 		else if (Constants.ModeIsFORCESENSOR (m))
 			return Constants.BellModes.FORCESENSOR;
-		else if(m == Constants.Modes.RUNSENCODER)
-			return Constants.BellModes.RUNSENCODER;
 
 		//default to JUMPSREACTIVE
 		return Constants.BellModes.JUMPS;

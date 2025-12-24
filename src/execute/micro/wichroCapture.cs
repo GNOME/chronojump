@@ -217,6 +217,11 @@ public class WichroCapture: ArduinoCapture
 		return true;
 	}
 
+	public bool GetChannel ()
+	{
+		return sendCommand ("local:get_channel;", "Error doing local:get_channel");
+	}
+
 	public bool SensorOnce (int terminal)
 	{
 		//1 is the sensorOnce command

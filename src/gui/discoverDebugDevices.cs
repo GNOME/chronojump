@@ -255,10 +255,52 @@ public class DebugWichro : DebugDevices
 		if (! getVersionArduino ("local:get_version:", "Wifi-Controller"))
 			return;
 
+		flush (); //need to flush for not reading channel info when receiving the rest of the get_version output lines
+		if (! discoverChannel ())
+			return;
+
 		if (! discoverTerminals ()) // TODO: maybe in the future this will be shown on another button
 			return;
 
 		portClose ();
+	}
+
+	private void flush ()
+	{
+		Thread.Sleep (100);
+		if (port.BytesToRead > 0)
+			port.ReadExisting ();
+	}
+
+	private bool discoverChannel ()
+	{
+		str += "\n\n- Getting channel …";
+		// send message
+		try {
+			port.WriteLine ("local:get_channel;");
+			//port.WriteLine ("local:get_version;");
+		}
+		catch (Exception ex)
+		{
+			if(ex is System.IO.IOException || ex is System.TimeoutException)
+			{
+				str += "\n- Failed at sending message. Error: " + ex.ToString ();
+				return false;
+			}
+		}
+
+		// read response
+		string s = "";
+		Thread.Sleep(100); //sleep to let arduino start reading
+		try {
+			s = port.ReadLine().Trim();
+		} catch (Exception ex) {
+			str += "\n- Failed at receiving message. Error: " + ex.ToString ();
+			return false;
+		}
+
+		str += "\n- Channel found is: " + s;
+		return true;
 	}
 
 	private bool discoverTerminals ()

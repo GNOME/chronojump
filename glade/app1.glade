@@ -33615,7 +33615,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkHBox" id="hbox_force_general_analysis">
+                                                            <object class="GtkHBox" id="hbox_ai_general_analysis">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">6</property>

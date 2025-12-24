@@ -33,6 +33,11 @@ using System.Collections.Generic; //List<T>
 public partial class ChronoJumpWindow
 {
 	// at glade ---->
+	Gtk.Notebook notebook_ai_top;
+	Gtk.HBox hbox_ai_general_analysis;
+	Gtk.Button button_signal_analyze_load_ab;
+	Gtk.Button button_signal_analyze_load_cd;
+	Gtk.Button button_ai_move_cd_pre;
 	Gtk.Box box_ai_move_cd_accept;
 	Gtk.Box box_ai_move_cd_buttons;
 
@@ -154,6 +159,7 @@ public partial class ChronoJumpWindow
 			box_race_analyzer_analyze_magnitudes.Visible = false;
 		} else //if (current_mode == Constants.Modes.RUNSENCODER)
 		{
+			hbox_ai_general_analysis.Sensitive = true;
 			box_force_sensor_analyze_magnitudes.Visible = false;
 			box_race_analyzer_analyze_magnitudes.Visible = true;
 		}
@@ -1311,6 +1317,11 @@ public partial class ChronoJumpWindow
 	{
 		LogB.Information ("connectWidgetsSignalAnalyze");
 
+		notebook_ai_top = (Gtk.Notebook) builder.GetObject ("notebook_ai_top");
+		hbox_ai_general_analysis = (Gtk.HBox) builder.GetObject ("hbox_ai_general_analysis");
+		button_signal_analyze_load_ab = (Gtk.Button) builder.GetObject ("button_signal_analyze_load_ab");
+		button_signal_analyze_load_cd = (Gtk.Button) builder.GetObject ("button_signal_analyze_load_cd");
+		button_ai_move_cd_pre = (Gtk.Button) builder.GetObject ("button_ai_move_cd_pre");
 		box_ai_move_cd_accept = (Gtk.Box) builder.GetObject ("box_ai_move_cd_accept");
 		box_ai_move_cd_buttons = (Gtk.Box) builder.GetObject ("box_ai_move_cd_buttons");
 

@@ -624,7 +624,7 @@ public partial class ChronoJumpWindow
 		lastForceSensorFullPath = null;
 		lastForceSensorFullPath_2SetsCD = null;
 
-		hbox_force_general_analysis.Sensitive = false;
+		hbox_ai_general_analysis.Sensitive = false;
 		check_ai_chained_hscales.Sensitive = false;
 		button_ai_model.Sensitive = false;
 		button_contacts_delete_selected.Sensitive = false;
@@ -1982,7 +1982,7 @@ LogB.Information(" fs C ");
 
 					button_contacts_delete_selected.Sensitive = true;
 					button_force_sensor_image_save_signal.Sensitive = true;
-					hbox_force_general_analysis.Sensitive = true;
+					hbox_ai_general_analysis.Sensitive = true;
 					button_ai_model_options_close_and_analyze.Sensitive = true;
 					check_ai_chained_hscales.Sensitive = true;
 					button_ai_model.Sensitive = true;
@@ -2518,7 +2518,7 @@ LogB.Information(" fs R ");
 
 		hbox_force_sensor_analyze_ai_sliders_and_buttons.Sensitive = true;
 
-		hbox_force_general_analysis.Sensitive = true;
+		hbox_ai_general_analysis.Sensitive = true;
 		button_ai_model_options_close_and_analyze.Sensitive = true;
 
 		//notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);

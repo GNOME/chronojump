@@ -39,11 +39,6 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_force_sensor_analyze_individual_all_sessions;
 	Gtk.Image image_force_sensor_analyze_groupal_current_session;
 
-	Gtk.Notebook notebook_ai_top;
-	Gtk.HBox hbox_force_general_analysis;
-	Gtk.Button button_signal_analyze_load_ab;
-	Gtk.Button button_signal_analyze_load_cd;
-	Gtk.Button button_ai_move_cd_pre;
 	Gtk.Button button_force_sensor_image_save_rfd_manual;
 
 	Gtk.RadioButton radio_force_rfd_search_optimized_ab;
@@ -1700,11 +1695,6 @@ public partial class ChronoJumpWindow
 		image_force_sensor_analyze_individual_all_sessions = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_individual_all_sessions");
 		image_force_sensor_analyze_groupal_current_session = (Gtk.Image) builder.GetObject ("image_force_sensor_analyze_groupal_current_session");
 
-		notebook_ai_top = (Gtk.Notebook) builder.GetObject ("notebook_ai_top");
-		hbox_force_general_analysis = (Gtk.HBox) builder.GetObject ("hbox_force_general_analysis");
-		button_signal_analyze_load_ab = (Gtk.Button) builder.GetObject ("button_signal_analyze_load_ab");
-		button_signal_analyze_load_cd = (Gtk.Button) builder.GetObject ("button_signal_analyze_load_cd");
-		button_ai_move_cd_pre = (Gtk.Button) builder.GetObject ("button_ai_move_cd_pre");
 		button_force_sensor_image_save_rfd_manual = (Gtk.Button) builder.GetObject ("button_force_sensor_image_save_rfd_manual");
 
 		radio_force_rfd_search_optimized_ab = (Gtk.RadioButton) builder.GetObject ("radio_force_rfd_search_optimized_ab");

@@ -12954,7 +12954,7 @@ on Cloud-view mode</property>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="spacing">8</property>
+                                                            <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
@@ -13081,6 +13081,7 @@ on Cloud-view mode</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw-indicator">False</property>
+                                                            <signal name="toggled" handler="on_radio_race_analyzer_capture_show_power_toggled" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_race_analyzer_capture_show_power">
                                                             <property name="visible">True</property>
@@ -13103,6 +13104,7 @@ on Cloud-view mode</property>
                                                             <property name="active">True</property>
                                                             <property name="draw-indicator">False</property>
                                                             <property name="group">radio_race_analyzer_capture_show_power</property>
+                                                            <signal name="toggled" handler="on_radio_race_analyzer_capture_show_force_toggled" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_race_analyzer_capture_show_force">
                                                             <property name="visible">True</property>
@@ -13125,6 +13127,7 @@ on Cloud-view mode</property>
                                                             <property name="active">True</property>
                                                             <property name="draw-indicator">False</property>
                                                             <property name="group">radio_race_analyzer_capture_show_power</property>
+                                                            <signal name="toggled" handler="on_radio_race_analyzer_capture_show_accel_toggled" swapped="no"/>
                                                             <child>
                                                             <object class="GtkImage" id="image_race_analyzer_capture_show_accel">
                                                             <property name="visible">True</property>
@@ -28189,6 +28192,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -2948,7 +2948,7 @@ public partial class ChronoJumpWindow
 					Catalog.GetString("Distance"), "m",
 					isSprint, false, false,
 					segmentCalcs,
-					false, feedbackWin.GetRunsEncoderMainVariable (),
+					false, preferences.runEncoderCaptureShow,
 					true);
 
 		int smoothGui = getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ();
@@ -3036,7 +3036,7 @@ public partial class ChronoJumpWindow
 					Catalog.GetString("Speed"), "m/s",
 					isSprint, true, true,
 					segmentCalcs,
-					true, feedbackWin.GetRunsEncoderMainVariable (),
+					true, preferences.runEncoderCaptureShow,
 					false);
 
 		int smoothGui = getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ();
@@ -3119,7 +3119,7 @@ public partial class ChronoJumpWindow
 					Catalog.GetString("Accel"), "m/s^2",
 					isSprint, false, false,
 					segmentCalcs,
-					false, feedbackWin.GetRunsEncoderMainVariable (),
+					false, preferences.runEncoderCaptureShow,
 					false);
 
 		cairoGraphRaceAnalyzer_at.DoSendingList (preferences.fontTypeToGraph(),
@@ -3181,6 +3181,31 @@ public partial class ChronoJumpWindow
 		drawingarea_race_analyzer_capture_position_time.QueueDraw ();
 		drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
 		drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
+	}
+
+	private void on_radio_race_analyzer_capture_show_power_toggled (object o, EventArgs args)
+	{
+		preferences.runEncoderCaptureShow = Preferences.RunEncoderCaptureShowEnum.POWER;
+		SqlitePreferences.Update (SqlitePreferences.RunEncoderCaptureShowStr,
+				Preferences.RunEncoderCaptureShowEnum.POWER.ToString (), false);
+
+		drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
+	}
+	private void on_radio_race_analyzer_capture_show_force_toggled (object o, EventArgs args)
+	{
+		preferences.runEncoderCaptureShow = Preferences.RunEncoderCaptureShowEnum.FORCE;
+		SqlitePreferences.Update (SqlitePreferences.RunEncoderCaptureShowStr,
+				Preferences.RunEncoderCaptureShowEnum.FORCE.ToString (), false);
+
+		drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
+	}
+	private void on_radio_race_analyzer_capture_show_accel_toggled (object o, EventArgs args)
+	{
+		preferences.runEncoderCaptureShow = Preferences.RunEncoderCaptureShowEnum.ACCEL;
+		SqlitePreferences.Update (SqlitePreferences.RunEncoderCaptureShowStr,
+				Preferences.RunEncoderCaptureShowEnum.ACCEL.ToString (), false);
+
+		drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
 	}
 
 	private void on_button_race_analyzer_capture_save_image_clicked (object o, EventArgs args)

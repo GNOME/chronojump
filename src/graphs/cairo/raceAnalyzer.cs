@@ -40,9 +40,9 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	private bool useMaxAvgInWindow;
 	private RunEncoderSegmentCalcs segmentCalcs;
 
-	//plotSegmentBars will plot power, force or accel according to mainVariable
+	//plotSegmentBars will plot power, force or accel according to runEncoderCaptureShow
 	private bool plotSegmentBars;
-	private FeedbackWindow.RunsEncoderMainVariableTypes mainVariable;
+	private Preferences.RunEncoderCaptureShowEnum runEncoderCaptureShow;
 
 	private bool useListOfDoublesOnY;
 
@@ -56,7 +56,8 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			string yVariable, string yUnits,
 			bool isSprint, bool plotMaxMark, bool useMaxAvgInWindow,
 			RunEncoderSegmentCalcs segmentCalcs,
-			bool plotSegmentBars, FeedbackWindow.RunsEncoderMainVariableTypes mainVariable,
+			bool plotSegmentBars,
+			Preferences.RunEncoderCaptureShowEnum runEncoderCaptureShow,
 			bool useListOfDoublesOnY) //for pos/time graph
 	{
 		this.setExists = setExists;
@@ -74,7 +75,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		this.useMaxAvgInWindow = useMaxAvgInWindow;
 		this.segmentCalcs = segmentCalcs;
 		this.plotSegmentBars = plotSegmentBars;
-		this.mainVariable = mainVariable;
+		this.runEncoderCaptureShow = runEncoderCaptureShow;
 		this.useListOfDoublesOnY = useListOfDoublesOnY;
 		
 //		doing = false;
@@ -275,23 +276,23 @@ public class CairoGraphRaceAnalyzer : CairoXY
 					if(plotSegmentBars)
 					{
 						List<double> data_l = new List<double> ();
-						string mainVariableStr;
+						string runEncoderCaptureShowStr;
 						string unitsStr;
-						if(mainVariable == FeedbackWindow.RunsEncoderMainVariableTypes.POWER)
+						if (runEncoderCaptureShow == Preferences.RunEncoderCaptureShowEnum.POWER)
 						{
 							data_l = segmentCalcs.Power_l;
-							mainVariableStr = powerStr;
+							runEncoderCaptureShowStr = powerStr;
 							unitsStr = "W";
 						}
-						else if(mainVariable == FeedbackWindow.RunsEncoderMainVariableTypes.FORCE)
+						else if (runEncoderCaptureShow == Preferences.RunEncoderCaptureShowEnum.FORCE)
 						{
 							data_l = segmentCalcs.Force_l;
-							mainVariableStr = forceStr;
+							runEncoderCaptureShowStr = forceStr;
 							unitsStr = "N";
-						} else //if(mainVariable == FeedbackWindow.RunsEncoderMainVariableTypes.ACCELERATION)
+						} else // if (runEncoderCaptureShow == Preferences.RunEncoderCaptureShowEnum.ACCELERATION)
 						{
 							data_l = segmentCalcs.Accel_l;
-							mainVariableStr = accelStr;
+							runEncoderCaptureShowStr = accelStr;
 							unitsStr = "m/s^2";
 						}
 
@@ -305,7 +306,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 						g.Stroke ();
 						g.SetSourceColor (black);
 						printText(calculatePaintX (points_l[points_l.Count -1].X), calculatePaintYProportion (powerPropAt0) - .66*textHeight,
-								0, textHeight-3, mainVariableStr, g, alignTypes.LEFT);
+								0, textHeight-3, runEncoderCaptureShowStr, g, alignTypes.LEFT);
 						printText(calculatePaintX (points_l[points_l.Count -1].X), calculatePaintYProportion (powerPropAt0) + .66*textHeight,
 								0, textHeight-3, "0 " + unitsStr, g, alignTypes.LEFT);
 

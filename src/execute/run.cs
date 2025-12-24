@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -236,7 +236,7 @@ public class RunExecute : EventExecute
 		return true;
 	}
 
-	private void manageIniWireless()
+	private bool manageIniWireless()
 	{
 		/*
 		 * on wireless we cannot know if on start we are in contact or not
@@ -262,6 +262,19 @@ public class RunExecute : EventExecute
 
 		if (type == "Rondo-Test") // this should only work on controllers 4.9 or above
 		{
+			double firmwareVersion = wichroCapture.GetVersion ();
+			if (firmwareVersion < 4.9)
+			{
+				LogB.Information ("WICHRO Firmware version too old for Rondo-Test:" + firmwareVersion.ToString ());
+				new DialogMessage (Constants.MessageTypes.WARNING, 450, 300,
+						"WICHRO Firmware version too old for Rondo-Test." +
+						"\n\n- " + string.Format ("Current firmware: {0}", firmwareVersion) +
+						"\n- " + string.Format ("Minimum firmware for Rondo-Test: {0}", Util.ChangeDecimalSeparator ("4.9")));
+				Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
+
+				return false;
+			}
+
 			LogB.Information ("Calling SensorSetAndOn for Rondo-Test");
 			bool sensorSetAndOnSuccess = wichroCapture.SensorSetAndOn ();
 			LogB.Information ("sensorSetAndOn succeded = " + sensorSetAndOnSuccess.ToString ());
@@ -288,6 +301,8 @@ public class RunExecute : EventExecute
 			runChangeImage.Current = RunChangeImage.Types.RUNNING;
 		}
 		*/
+
+		return true;
 	}
 
 	private bool manageIniNotWireless()
@@ -409,8 +424,10 @@ public class RunExecute : EventExecute
 				chronopicDisconnected = true;
 				wichroCapture.Disconnect ();
 				cancel = true; //problem reading line (capturing)
-			} else
-				manageIniWireless();
+			} else {
+				if (! manageIniWireless())
+					cancel = true; //problem with Rondo-Test and version
+			}
 		}
 
 		bool firstFromChronopicReceived = false;

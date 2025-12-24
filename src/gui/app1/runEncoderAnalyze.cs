@@ -32,6 +32,13 @@ public partial class ChronoJumpWindow
 	Gtk.CheckButton check_run_encoder_analyze_accel;
 	Gtk.CheckButton check_run_encoder_analyze_force;
 	Gtk.CheckButton check_run_encoder_analyze_power;
+	Gtk.Box box_race_analyzer_analyze_magnitudes;
+	Gtk.RadioButton radio_race_analyzer_show_power;
+	Gtk.RadioButton radio_race_analyzer_show_force;
+	Gtk.RadioButton radio_race_analyzer_show_accel;
+	Gtk.Image image_race_analyzer_show_power;
+	Gtk.Image image_race_analyzer_show_force;
+	Gtk.Image image_race_analyzer_show_accel;
 	Gtk.Button button_run_encoder_image_save;
 
 	//export
@@ -149,6 +156,34 @@ public partial class ChronoJumpWindow
 			combo.Visible = true;
 		}
 		combo.Active = UtilGtk.ComboMakeActive(combo, lsql.TranslatedCurrent);
+	}
+
+	private void on_radio_race_analyzer_show_power_toggled (object o, EventArgs args)
+	{
+		preferences.runEncoderCaptureShow = Preferences.RunEncoderCaptureShowEnum.POWER;
+		SqlitePreferences.Update (SqlitePreferences.RunEncoderCaptureShowStr,
+				Preferences.RunEncoderCaptureShowEnum.POWER.ToString (), false);
+
+		//drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
+		ai_drawingarea_cairo.QueueDraw ();
+	}
+	private void on_radio_race_analyzer_show_force_toggled (object o, EventArgs args)
+	{
+		preferences.runEncoderCaptureShow = Preferences.RunEncoderCaptureShowEnum.FORCE;
+		SqlitePreferences.Update (SqlitePreferences.RunEncoderCaptureShowStr,
+				Preferences.RunEncoderCaptureShowEnum.FORCE.ToString (), false);
+
+		//drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
+		ai_drawingarea_cairo.QueueDraw ();
+	}
+	private void on_radio_race_analyzer_show_accel_toggled (object o, EventArgs args)
+	{
+		preferences.runEncoderCaptureShow = Preferences.RunEncoderCaptureShowEnum.ACCEL;
+		SqlitePreferences.Update (SqlitePreferences.RunEncoderCaptureShowStr,
+				Preferences.RunEncoderCaptureShowEnum.ACCEL.ToString (), false);
+
+		//drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
+		ai_drawingarea_cairo.QueueDraw ();
 	}
 
 	private void on_check_run_encoder_analyze_accel_clicked (object o, EventArgs args)
@@ -480,6 +515,13 @@ public partial class ChronoJumpWindow
 		check_run_encoder_analyze_accel = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_analyze_accel");
 		check_run_encoder_analyze_force = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_analyze_force");
 		check_run_encoder_analyze_power = (Gtk.CheckButton) builder.GetObject ("check_run_encoder_analyze_power");
+		box_race_analyzer_analyze_magnitudes = (Gtk.Box) builder.GetObject ("box_race_analyzer_analyze_magnitudes");
+		radio_race_analyzer_show_power = (Gtk.RadioButton) builder.GetObject ("radio_race_analyzer_show_power");
+		radio_race_analyzer_show_force = (Gtk.RadioButton) builder.GetObject ("radio_race_analyzer_show_force");
+		radio_race_analyzer_show_accel = (Gtk.RadioButton) builder.GetObject ("radio_race_analyzer_show_accel");
+		image_race_analyzer_show_power = (Gtk.Image) builder.GetObject ("image_race_analyzer_show_power");
+		image_race_analyzer_show_force = (Gtk.Image) builder.GetObject ("image_race_analyzer_show_force");
+		image_race_analyzer_show_accel = (Gtk.Image) builder.GetObject ("image_race_analyzer_show_accel");
 		button_run_encoder_image_save = (Gtk.Button) builder.GetObject ("button_run_encoder_image_save");
 
 		//export

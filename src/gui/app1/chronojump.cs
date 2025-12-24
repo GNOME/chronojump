@@ -1525,6 +1525,14 @@ public partial class ChronoJumpWindow
 		check_runs_evolution_only_best_in_session.Active = preferences.runsEvolutionOnlyBestInSession;
 		check_runs_evolution_show_time.Active = preferences.runsEvolutionShowTime;
 
+		//---- runEncoder ---
+		if (preferences.runEncoderCaptureShow == Preferences.RunEncoderCaptureShowEnum.POWER)
+			radio_race_analyzer_show_power.Active = true;
+		else if (preferences.runEncoderCaptureShow == Preferences.RunEncoderCaptureShowEnum.FORCE)
+			radio_race_analyzer_show_force.Active = true;
+		else //if (preferences.runEncoderCaptureShow == Preferences.RunEncoderCaptureShowEnum.ACCEL)
+			radio_race_analyzer_show_accel.Active = true;
+
 		//---- video ----
 
 		//don't raise the signal	

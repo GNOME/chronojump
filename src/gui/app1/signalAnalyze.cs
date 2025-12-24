@@ -150,10 +150,12 @@ public partial class ChronoJumpWindow
 	{
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
-			// depend if set is elastic: box_force_sensor_analyze_magnitudes.Visible = true;
+			// it depends if set is elastic: box_force_sensor_analyze_magnitudes.Visible = true;
+			box_race_analyzer_analyze_magnitudes.Visible = false;
 		} else //if (current_mode == Constants.Modes.RUNSENCODER)
 		{
 			box_force_sensor_analyze_magnitudes.Visible = false;
+			box_race_analyzer_analyze_magnitudes.Visible = true;
 		}
 		manage_ai_table_visibilities ();
 	}

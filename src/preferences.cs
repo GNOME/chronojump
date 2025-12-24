@@ -215,6 +215,7 @@ public class Preferences
 	public bool runEncoderCaptureDisplaySimpleStored;
 	public double runEncoderMinAccel;
 	public double runEncoderPPS;
+	// note these are named capture but they are only shown at analyze tab (to not show too much info on capture (and a bit irrelevant)
 	public enum RunEncoderCaptureShowEnum { POWER, FORCE, ACCEL };
 	public RunEncoderCaptureShowEnum runEncoderCaptureShow;
 

@@ -67,9 +67,6 @@ public partial class ChronoJumpWindow
 	Gtk.CheckButton check_race_analyzer_capture_smooth_graphs;
 	Gtk.HScale hscale_race_analyzer_capture_smooth_graphs;
 	Gtk.Label label_race_analyzer_capture_smooth_graphs;
-	Gtk.Image image_race_analyzer_capture_show_power;
-	Gtk.Image image_race_analyzer_capture_show_force;
-	Gtk.Image image_race_analyzer_capture_show_accel;
 
 	Gtk.Frame frame_run_encoder_exercise;
 	Gtk.Entry entry_run_encoder_exercise_name;
@@ -3024,10 +3021,13 @@ public partial class ChronoJumpWindow
 		}
 
 		Gtk.DrawingArea da;
+		bool plotSegmentBarsOnSpeed = false;
 		if (notebook_capture_analyze.CurrentPage == 0)
 			da = drawingarea_race_analyzer_capture_speed_time;
-		else
+		else {
 			da = ai_drawingarea_cairo;
+			plotSegmentBarsOnSpeed = true; //only show on analyze
+		}
 
 		if(cairoGraphRaceAnalyzer_st == null || forceRedraw)
 			cairoGraphRaceAnalyzer_st = new CairoGraphRaceAnalyzer(
@@ -3036,7 +3036,7 @@ public partial class ChronoJumpWindow
 					Catalog.GetString("Speed"), "m/s",
 					isSprint, true, true,
 					segmentCalcs,
-					true, preferences.runEncoderCaptureShow,
+					plotSegmentBarsOnSpeed, preferences.runEncoderCaptureShow,
 					false);
 
 		int smoothGui = getSmoothFrom_gui_at_race_analyzer_capture_smooth_graphs ();
@@ -3183,31 +3183,6 @@ public partial class ChronoJumpWindow
 		drawingarea_race_analyzer_capture_accel_time.QueueDraw ();
 	}
 
-	private void on_radio_race_analyzer_capture_show_power_toggled (object o, EventArgs args)
-	{
-		preferences.runEncoderCaptureShow = Preferences.RunEncoderCaptureShowEnum.POWER;
-		SqlitePreferences.Update (SqlitePreferences.RunEncoderCaptureShowStr,
-				Preferences.RunEncoderCaptureShowEnum.POWER.ToString (), false);
-
-		drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
-	}
-	private void on_radio_race_analyzer_capture_show_force_toggled (object o, EventArgs args)
-	{
-		preferences.runEncoderCaptureShow = Preferences.RunEncoderCaptureShowEnum.FORCE;
-		SqlitePreferences.Update (SqlitePreferences.RunEncoderCaptureShowStr,
-				Preferences.RunEncoderCaptureShowEnum.FORCE.ToString (), false);
-
-		drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
-	}
-	private void on_radio_race_analyzer_capture_show_accel_toggled (object o, EventArgs args)
-	{
-		preferences.runEncoderCaptureShow = Preferences.RunEncoderCaptureShowEnum.ACCEL;
-		SqlitePreferences.Update (SqlitePreferences.RunEncoderCaptureShowStr,
-				Preferences.RunEncoderCaptureShowEnum.ACCEL.ToString (), false);
-
-		drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
-	}
-
 	private void on_button_race_analyzer_capture_save_image_clicked (object o, EventArgs args)
 	{
 		checkFile(Constants.CheckFileOp.RUNENCODER_CAPTURE_SAVE_IMAGE);
@@ -3330,9 +3305,6 @@ public partial class ChronoJumpWindow
 		radio_race_analyzer_capture_graph_starts_0 = (Gtk.RadioButton) builder.GetObject ("radio_race_analyzer_capture_graph_starts_0");
 		radio_race_analyzer_capture_graph_starts_grav = (Gtk.RadioButton) builder.GetObject ("radio_race_analyzer_capture_graph_starts_grav");
 		label_race_analyzer_capture_smooth_graphs = (Gtk.Label) builder.GetObject ("label_race_analyzer_capture_smooth_graphs");
-		image_race_analyzer_capture_show_power = (Gtk.Image) builder.GetObject ("image_race_analyzer_capture_show_power");
-		image_race_analyzer_capture_show_force = (Gtk.Image) builder.GetObject ("image_race_analyzer_capture_show_force");
-		image_race_analyzer_capture_show_accel = (Gtk.Image) builder.GetObject ("image_race_analyzer_capture_show_accel");
 
 		frame_run_encoder_exercise = (Gtk.Frame) builder.GetObject ("frame_run_encoder_exercise");
 		entry_run_encoder_exercise_name = (Gtk.Entry) builder.GetObject ("entry_run_encoder_exercise_name");

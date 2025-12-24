@@ -217,6 +217,21 @@ public class WichroCapture: ArduinoCapture
 		return true;
 	}
 
+	// used on Rondo-Test just before capture. To check if it's at least 4.9
+	public double GetVersion ()
+	{
+		List<string> responseExpected_l = new List<string>();
+		responseExpected_l.Add("Wifi-Controller-");
+		if(! getVersion ("local:get_version;", responseExpected_l, false, 2000, true))
+			return -1;
+
+		string versionStr = Util.ChangeDecimalSeparator (Util.RemoveSubstring (micro.Response.Trim (), "Wifi-Controller-"));
+		if (Util.IsNumber (versionStr, true))
+			return Convert.ToDouble (versionStr);
+		else
+			return -1;
+	}
+
 	public bool GetChannel ()
 	{
 		return sendCommand ("local:get_channel;", "Error doing local:get_channel");

@@ -212,7 +212,8 @@ public abstract class DebugDevices
 		}
 		while(! s.Contains(responseExpected));
 
-		str += "\n- Version found is: " + s;
+		//if returns garbage and then the responseExpected, GetFromSubstring () removes the initial garbage. That garbage made the dialogMessage not shown anything from there.
+		str += "\n- Version found is: " + Util.GetFromSubstring (s, responseExpected);
 		return true;
 	}
 

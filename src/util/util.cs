@@ -486,6 +486,26 @@ public class Util
 		return s;
 	}
 
+	public static int GetPosOfSubstring (string s, string search)
+	{
+		return s.IndexOf (search);
+	}
+	public static string GetFromSubstring (string s, string search)
+	{
+		int pos = GetPosOfSubstring (s, search);
+		if (pos > 0)
+			return s.Substring (pos);
+		else
+			return s;
+	}
+	public static void GetFromSubstringTests ()
+	{
+		LogB.Information ("Should be 'good day!': " + GetFromSubstring ("Hello good day!", "good day!"));
+		LogB.Information ("Should be 'good day!': " + GetFromSubstring ("Hello good day!", "good"));
+		LogB.Information ("Should be 'Hello good day!:' " + GetFromSubstring ("Hello good day!", "bad"));
+		LogB.Information ("Should be 'Hello good day!': " + GetFromSubstring ("Hello good day!", "Hello good"));
+	}
+
 	//use on of this two methods
 	//this is the default, used by almost all methods: change to an space
 	public static string RemoveChar(string s, char c)

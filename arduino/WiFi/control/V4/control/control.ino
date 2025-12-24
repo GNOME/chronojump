@@ -41,7 +41,7 @@
 //          GND        NRf24L01
 
 String version = "Wifi-Controller-"; //"Wifi-Controller-" is mandatori. Chronojump expects it
-int firmwareVersion = 8;
+int firmwareVersion = 9;
 
 bool andMode = false;
 bool andTerminal1State = true;

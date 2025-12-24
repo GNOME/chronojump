@@ -178,7 +178,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.73";
+	static string lastChronojumpDatabaseVersion = "2.74";
 
 	public Sqlite()
 	{
@@ -3810,6 +3810,15 @@ class Sqlite
 
 			currentVersion = updateVersion("2.73");
 		}
+		if(currentVersion == "2.73")
+		{
+			LogB.SQL("Inserted into preferences: runEncoderCaptureShow");
+
+			SqlitePreferences.Insert (SqlitePreferences.RunEncoderCaptureShowStr,
+					Preferences.RunEncoderCaptureShowEnum.POWER.ToString ());
+
+			currentVersion = updateVersion("2.74");
+		}
 
 
 		/*
@@ -4058,6 +4067,7 @@ class Sqlite
 		//
 		//
 
+		//2.73 - 2.74 Converted DB to 2.74 Inserted into preferences: runEncoderCaptureShow
 		//2.72 - 2.73 Converted DB to 2.73 Inserted 4 vars into preferences: JumpsRjRelToBest...
 		//2.71 - 2.72 Converted DB to 2.72 Adding Rondo-Test
 		//2.70 - 2.71 Converted DB to 2.71 Added preferences: machineName

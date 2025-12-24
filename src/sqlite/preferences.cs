@@ -191,6 +191,7 @@ class SqlitePreferences : Sqlite
 	//runEncoder
 	public const string RunEncoderMinAccel = "runEncoderMinAccel";
 	public const string RunEncoderPPS = "runEncoderPPS";
+	public const string RunEncoderCaptureShowStr = "runEncoderCaptureShow";
 
 	//advanced
 	//
@@ -433,6 +434,7 @@ class SqlitePreferences : Sqlite
 				//runEncoder
 				Insert (RunEncoderMinAccel, "10.0", dbcmdTr);
 				Insert (RunEncoderPPS, "10", dbcmdTr);
+				Insert (RunEncoderCaptureShowStr, Preferences.RunEncoderCaptureShowEnum.POWER.ToString (), dbcmdTr);
 
 				Insert (Preferences.runEncoderAnalyzeAccel.Name,
 					Preferences.runEncoderAnalyzeAccel.SqlDefaultName, dbcmdTr);
@@ -1141,6 +1143,9 @@ class SqlitePreferences : Sqlite
 						Util.ChangeDecimalSeparator(reader[1].ToString()));
 			else if(reader[0].ToString() == RunEncoderPPS)
 				preferences.runEncoderPPS = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == RunEncoderCaptureShowStr)
+				preferences.runEncoderCaptureShow = (Preferences.RunEncoderCaptureShowEnum)
+					Enum.Parse(typeof(Preferences.RunEncoderCaptureShowEnum), reader[1].ToString());
 
 			else if(reader[0].ToString() == Preferences.runEncoderAnalyzeAccel.Name)
 				Preferences.runEncoderAnalyzeAccel.SetCurrentFromSQL(reader[1].ToString());

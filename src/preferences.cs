@@ -213,9 +213,10 @@ public class Preferences
 	//runEncoder
 	public bool runEncoderCaptureDisplaySimple;
 	public bool runEncoderCaptureDisplaySimpleStored;
-
 	public double runEncoderMinAccel;
 	public double runEncoderPPS;
+	public enum RunEncoderCaptureShowEnum { POWER, FORCE, ACCEL };
+	public RunEncoderCaptureShowEnum runEncoderCaptureShow;
 
 	public static string runEncoderAnalyzeAFPSqlNO = "NO";
 	public static string runEncoderAnalyzeAFPSqlFITTED = "FITTED";

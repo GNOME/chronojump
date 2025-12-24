@@ -260,6 +260,13 @@ public class RunExecute : EventExecute
 			LogB.Information ("sensorOnce succeded = " + sensorOnceSuccess.ToString ());
 		}
 
+		if (type == "Rondo-Test") // this should only work on controllers 4.9 or above
+		{
+			LogB.Information ("Calling SensorSetAndOn for Rondo-Test");
+			bool sensorSetAndOnSuccess = wichroCapture.SensorSetAndOn ();
+			LogB.Information ("sensorSetAndOn succeded = " + sensorSetAndOnSuccess.ToString ());
+		}
+
 		feedbackMessage = Catalog.GetString("RUN when prepared!");
 		needShowFeedbackMessage = true;
 		Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
@@ -623,6 +630,12 @@ public class RunExecute : EventExecute
 				LogB.Information ("Calling SensorAll with terminal: " + sensorOnceB.ToString ());
 				bool sensorAllSuccess = wichroCapture.SensorAll (sensorOnceB);
 				LogB.Information ("sensorAll succeded = " + sensorAllSuccess.ToString ());
+			}
+			if (type == "Rondo-Test") // this should only work on controllers 4.9 or above
+			{
+				LogB.Information ("Calling SensorSetAndOff for Rondo-Test");
+				bool sensorSetAndOffSuccess = wichroCapture.SensorSetAndOff ();
+				LogB.Information ("sensorSetAndOff succeded = " + sensorSetAndOffSuccess.ToString ());
 			}
 
 			wichroCapture.Stop(); //Should we do a disconnect here?

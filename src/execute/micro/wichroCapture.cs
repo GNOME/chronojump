@@ -228,6 +228,15 @@ public class WichroCapture: ArduinoCapture
 		return sendCommand (string.Format ("{0}:256;", terminal), "Error doing sensorAll");
 	}
 
+	public bool SensorSetAndOn () //to the controller, for having terminal 1,2 with AND for Rondo-Test
+	{
+		return sendCommand ("local:set_and_mode:on;", "Error doing local:set_and_mode:on");
+	}
+	public bool SensorSetAndOff () //to the controller, for having terminal 1,2 with AND for Rondo-Test
+	{
+		return sendCommand ("local:set_and_mode:off;", "Error doing local:set_and_mode:off");
+	}
+
 	public bool WilightSendCommand (string str)
 	{
 		return sendCommand (str, "Error sending: " + str);

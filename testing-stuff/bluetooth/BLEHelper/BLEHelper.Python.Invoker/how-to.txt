@@ -30,6 +30,8 @@ BluetoothLE.Stop();//Stop BluetoothLE after the main window is destroyed (After 
 /// <param name="e">DataChangedEventArgs</param>
 private void BluetoothLE_OnDataChanged(object sender, BluetoothLE.DataChangedEventArgs e)
 {
+	Console.WriteLine(e.Service);
+	Console.WriteLine(e.Characteristic);
 	Console.WriteLine(e.Value);
 }
 

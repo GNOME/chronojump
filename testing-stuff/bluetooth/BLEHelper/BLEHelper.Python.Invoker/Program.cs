@@ -25,6 +25,8 @@ namespace BLEHelper.Python.Invoker
         /// <param name="e">DataChangedEventArgs</param>
         private static void BluetoothLE_OnDataChanged(object sender, BluetoothLE.DataChangedEventArgs e)
         {
+            Console.WriteLine(e.ServiceUUID);
+            Console.WriteLine(e.CharacteristicUUID);
             Console.WriteLine(e.Value);
         }
     }

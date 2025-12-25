@@ -14,6 +14,10 @@ public static class BluetoothLE
     public class DataChangedEventArgs : EventArgs
     {
         /// <summary>
+        /// The UUID of the service that has changed.
+        /// </summary>
+        public string ServiceUUID { get; set; }
+        /// <summary>
         /// The UUID of the characteristic that has changed.
         /// </summary>
         public string CharacteristicUUID { get; set; }
@@ -22,8 +26,9 @@ public static class BluetoothLE
         /// </summary>
         public string Value { get; set; }
 
-        public DataChangedEventArgs(string characteristicUUID, string value)
+        public DataChangedEventArgs(string serviceUUID, string characteristicUUID, string value)
         {
+            ServiceUUID = serviceUUID;
             CharacteristicUUID = characteristicUUID;
             Value = value;
         }
@@ -50,7 +55,7 @@ public static class BluetoothLE
     ///     Data Changed: 85bc9e6c-9501-4bf4-819e-4f40b5e56372 = force: 83.66
     ///     Data Changed: 85bc9e6c-9501-4bf4-819e-4f40b5e56372 = A0 78 D5 90
     /// </summary>
-    private static readonly Regex regexData = new Regex(@"^Data Changed: ([\dA-Za-z\-]+) = (.+)$");
+    private static readonly Regex regexData = new Regex(@"^\[Data Changed\] Service=([\dA-Za-z\-]+), Characteristic=([\dA-Za-z\-]+), Value=(.+)$");
 
     /// <summary>
     /// CancellationTokenSource is used to cancel the operation of reading data from BLE devices.
@@ -146,9 +151,7 @@ public static class BluetoothLE
                     {
                         if (!string.IsNullOrEmpty(e.Data))
                         {
-                            if (!e.Data.StartsWith("Device Scanned: ") &&
-                                !e.Data.StartsWith("Device Connected: ") &&
-                                !e.Data.StartsWith("Data Changed: "))
+                            if (!e.Data.StartsWith("[Data Changed] "))
                             {
                                 Console.WriteLine($"[BluetoothLE] {e.Data}");
                             }
@@ -157,7 +160,8 @@ public static class BluetoothLE
                             {
                                 OnDataChanged?.Invoke(null, new DataChangedEventArgs(
                                     m.Groups[1].Value,
-                                    m.Groups[2].Value));
+                                    m.Groups[2].Value,
+                                    m.Groups[3].Value));
                             }
                         }
                     };

@@ -41,7 +41,7 @@ https://bleak.readthedocs.io/en/latest/troubleshooting.html
   In file "ble.py", modify the following lines to set which devices to watch. I will modify the program to support listing searched devices and watching specified devices later.
 
 ...
-watching_devices['ESP32'] = ['85bc9e6c-9501-4bf4-819e-4f40b5e56372', '1a2ae85a-8118-4644-9e3b-387122d8cd9e'] #Key of "watching_devices" is device name or device address, value is characteristic uuid of the device to notify.
+watching_devices['ESP32'] = ['85bc9e6c-9501-4bf4-819e-4f40b5e56372', '1a2ae85a-8118-4644-9e3b-387122d8cd9e'] #Key of "watching_devices" is device name, value is characteristic uuid of the device to notify. Key "*" stands for all available devices and all available characteristics.
 ...
-deserialization_ways['85bc9e6c-9501-4bf4-819e-4f40b5e56372'] = 'utf8' # Key of "deserialization_ways" is characteristic uuid, value is decoding way: utf8 or hex.
+deserialization_ways['85bc9e6c-9501-4bf4-819e-4f40b5e56372'] = 'utf8' # Key of "deserialization_ways" is characteristic uuid, value is decoding way: utf8 or hex. Default as utf8.
 deserialization_ways['1a2ae85a-8118-4644-9e3b-387122d8cd9e'] = 'utf8'

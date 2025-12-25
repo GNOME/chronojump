@@ -2,6 +2,7 @@ import asyncio
 from bleak import BleakScanner, BleakClient, BleakGATTCharacteristic
 from bleak.exc import BleakDeviceNotFoundError
 import threading
+import platform
 
 
 scanned_devices_dict = dict()
@@ -18,6 +19,10 @@ changed_characteristics_dict = dict()
 deserialization_ways = dict()
 #deserialization_ways[''] = 'hex'
 #deserialization_ways[''] = 'utf8' #Default as UTF-8
+
+
+def is_linux():
+    return platform.system().lower() == 'linux'
 
 
 async def stop_notify(client: BleakClient, service_uuid: str, characteristic_uuid: str):
@@ -89,7 +94,10 @@ async def scanned_callback(device, advertising_data):
             return
         
         try:
-            client = BleakClient(address_or_ble_device = device.address, disconnected_callback = disconnected_callback, timeout = 30, pair = False)
+            if is_linux():
+                client = BleakClient(address_or_ble_device = device, disconnected_callback = disconnected_callback, timeout = 30, pair = False)
+            else:
+                client = BleakClient(address_or_ble_device = device.address, disconnected_callback = disconnected_callback, timeout = 30, pair = False)
             print(f"[Device Queued] Address={device.address}, Name={device.name}", flush = True)
             try:
                 await client.pair()
@@ -101,7 +109,8 @@ async def scanned_callback(device, advertising_data):
                 print(f"[Error Occurred] Location=connect, Exception={repr(ex)}, Address={device.address}, Name={device.name}", flush = True)
                 return
             except BaseException as ex:
-                del scanned_devices_dict[device.address]
+                if device.address in scanned_devices_dict:
+                    del scanned_devices_dict[device.address]
                 print(f"[Error Occurred] Location=connect, Exception={repr(ex)}, Address={device.address}, Name={device.name}", flush = True)
                 return
                             
@@ -156,7 +165,8 @@ async def scanned_callback(device, advertising_data):
             connected_devices_dict[device.address] = client
             print(f"[Device Connected] Address={device.address}, Name={device.name}", flush = True)
         except BaseException as ex:
-            del scanned_devices_dict[device.address]
+            if device.address in scanned_devices_dict:
+                del scanned_devices_dict[device.address]
             print(f"[Error Occurred] Location=scanned_callback, Exception={repr(ex)}, Address={device.address}, Name={device.name}", flush = True)
 
 

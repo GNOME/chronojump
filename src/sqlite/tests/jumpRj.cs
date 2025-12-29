@@ -339,7 +339,7 @@ class SqliteJumpRj : SqliteJump
 
 		JumpRj myJump = new JumpRj(DataReaderToStringArray(reader, 20));
 		if(personNameInComment)
-			myJump.Description = reader[19].ToString(); //person.Name
+			myJump.Description = reader[20].ToString(); //person.Name
 
 		reader.Close();
 		if(!dbconOpened)

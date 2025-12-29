@@ -431,6 +431,7 @@
                                         <property name="visible">True</property>
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
+                                        <property name="width-chars">5</property>
                                         <property name="text">70</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
@@ -588,6 +589,7 @@
                                         <property name="visible">True</property>
                                         <property name="can-focus">True</property>
                                         <property name="invisible-char">●</property>
+                                        <property name="width-chars">5</property>
                                         <property name="text">90</property>
                                         <property name="primary-icon-activatable">False</property>
                                         <property name="secondary-icon-activatable">False</property>
@@ -2811,6 +2813,7 @@
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">True</property>
                                                     <property name="invisible-char">●</property>
+                                                    <property name="width-chars">5</property>
                                                     <property name="text">70</property>
                                                     <property name="primary-icon-activatable">False</property>
                                                     <property name="secondary-icon-activatable">False</property>
@@ -2968,6 +2971,7 @@
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">True</property>
                                                     <property name="invisible-char">●</property>
+                                                    <property name="width-chars">5</property>
                                                     <property name="text">90</property>
                                                     <property name="primary-icon-activatable">False</property>
                                                     <property name="secondary-icon-activatable">False</property>

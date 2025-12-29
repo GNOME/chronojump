@@ -69,6 +69,7 @@ public class Preferences
 	public enum UnitsEnum { METRIC, IMPERIAL };
 	public UnitsEnum units;
 
+	public Constants.ResultsSessionCriteria resultsSessionCriteria;
 	public ContactsCaptureDisplay contactsCaptureDisplay;
 	public ContactsCaptureDisplay contactsCaptureDisplayStored; //to update sql on exit if changed
 

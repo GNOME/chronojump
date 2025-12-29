@@ -1093,7 +1093,7 @@ public partial class ChronoJumpWindow
 	}
 
 
-	// used on forceSensor
+	// used on forceSensor and on Application.Quit
 	private Constants.ResultsSessionCriteria get_radio_resultsSession_criteria ()
 	{
 		if (radio_resultsSession_last.Active)
@@ -1107,6 +1107,18 @@ public partial class ChronoJumpWindow
 
 		// if (radio_resultsSession_best2.Active)
 		return Constants.ResultsSessionCriteria.BEST2;
+	}
+
+	// used at after Preferences.LoadAllFromSqlite()
+	private void setAtBoot_radio_resultsSession_criteria ()
+	{
+		if (preferences.resultsSessionCriteria == Constants.ResultsSessionCriteria.LAST)
+			radio_resultsSession_last.Active = true;
+		else if (preferences.resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST)
+			radio_resultsSession_best.Active = true;
+		else if (preferences.resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2 ||
+				preferences.resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST3)
+			radio_resultsSession_best2.Active = true;
 	}
 
 	private void on_spin_resultsSession_limit_value_changed (object o, EventArgs args)

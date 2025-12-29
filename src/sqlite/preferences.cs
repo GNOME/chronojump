@@ -64,6 +64,8 @@ class SqlitePreferences : Sqlite
 	public const string SocialNetwork = "socialNetwork";
 	public const string SocialNetworkDatetime = "socialNetworkDatetime"; //"": not answered, -1: should be sent when there's network (after a ping)
 
+	public const string ResultsSessionCriteriaStr = "resultsSessionCriteria";
+
 	//contacts
 	public const string ContactsCaptureDisplayStr = "contactsCaptureDisplay";
 	public const string RunEncoderCaptureDisplaySimple = "runEncoderCaptureDisplaySimple";
@@ -319,6 +321,9 @@ class SqlitePreferences : Sqlite
 				Insert ("machineName", "", dbcmdTr);
 
 				Insert ("multimediaStorage", Constants.MultimediaStorage.BYSESSION.ToString(), dbcmdTr);
+
+				Insert (SqlitePreferences.ResultsSessionCriteriaStr,
+						Constants.ResultsSessionCriteria.LAST.ToString (), dbcmdTr);
 
 				//jumps
 				SqlitePreferences.Insert (JumpsFVProfileOnlyBestInWeight, "True", dbcmdTr);
@@ -732,6 +737,9 @@ class SqlitePreferences : Sqlite
 					Enum.Parse(typeof(Preferences.UnitsEnum), reader[1].ToString());
 			else if(reader[0].ToString() == EncoderCaptureInfinite)
 				preferences.encoderCaptureInfinite = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == ResultsSessionCriteriaStr)
+				preferences.resultsSessionCriteria = (Constants.ResultsSessionCriteria)
+					Enum.Parse(typeof(Constants.ResultsSessionCriteria), reader[1].ToString());
 			else if(reader[0].ToString() == ContactsCaptureDisplayStr)
 			{
 				preferences.contactsCaptureDisplay = new ContactsCaptureDisplay(Convert.ToInt32(reader[1].ToString()));

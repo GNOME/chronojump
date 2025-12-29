@@ -1502,6 +1502,8 @@ public partial class ChronoJumpWindow
 
 		configInitFromPreferences();
 
+		setAtBoot_radio_resultsSession_criteria ();
+
 		//---- encoder ----
 
 		encoderRhythm = new EncoderRhythm(
@@ -2450,6 +2452,31 @@ public partial class ChronoJumpWindow
 		if(portREOpened)
 			portRE.Close();
 
+		sqliteGuiUpdatedBeforeQuit ();
+
+		LogB.Information("Bye3!");
+
+		//TODO: if camera is opened close it! Note that this is intended to kill a remaining ffmpeg process
+		//but maybe we will kill any ffmpeg instance open by any other possible program on the computer
+		//maybe better kill ffmpeg before opening other instance
+		//and at end check if it is running that process and kill the last one ffmpeg instance
+		//LogB.Information("Bye4!");
+
+		if (configChronojump.ReadFromCloudMainPath != "" && storedDBFilename != "")
+			Util.FileCopySafe (
+					Path.Combine(Util.GetCloudReadTempDir (), "database", "chronojump.db"),
+					Path.Combine(storedDBFilename, "database", "chronojump.db"),
+					true); //overwrite
+
+		Log.End();
+
+		Application.Quit();
+
+		//Environment.Exit(Environment.ExitCode);
+	}
+
+	private void sqliteGuiUpdatedBeforeQuit ()
+	{
 		LogB.Information("Updates on SQL");
 		//as display stuff can be changed during capture, store at SQL here
 
@@ -2471,27 +2498,11 @@ public partial class ChronoJumpWindow
 		//if user maximizes (not using preferences window), the sqlite variable gets not updated, update here on exit
 		SqlitePreferences.Update ("maximized", preferences.maximized.ToString(), false);
 
-		LogB.Information("Bye3!");
-
-		//TODO: if camera is opened close it! Note that this is intended to kill a remaining ffmpeg process
-		//but maybe we will kill any ffmpeg instance open by any other possible program on the computer
-		//maybe better kill ffmpeg before opening other instance
-		//and at end check if it is running that process and kill the last one ffmpeg instance
-		//LogB.Information("Bye4!");
-
-		if (configChronojump.ReadFromCloudMainPath != "" && storedDBFilename != "")
-			Util.FileCopySafe (
-					Path.Combine(Util.GetCloudReadTempDir (), "database", "chronojump.db"),
-					Path.Combine(storedDBFilename, "database", "chronojump.db"),
-					true); //overwrite
-
-		Log.End();
-
-		Application.Quit();
-		
-		//Environment.Exit(Environment.ExitCode);
+		if (preferences.resultsSessionCriteria != get_radio_resultsSession_criteria ())
+			SqlitePreferences.Update (SqlitePreferences.ResultsSessionCriteriaStr,
+					get_radio_resultsSession_criteria ().ToString (), false);
 	}
-	
+
 	/* ---------------------------------------------------------
 	 * ----------------  SESSION NEW, LOAD, EXPORT, DELETE -----
 	 *  --------------------------------------------------------

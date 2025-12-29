@@ -241,15 +241,23 @@ LogB.Information("import I1-exit ");
 			return destinationDatabaseVersion;
 		}
 
-LogB.Information("import I2 ");
-LogB.Information("import I2 destinationDatabaseVersion output:");
-LogB.Information(destinationDatabaseVersion.output);
-LogB.Information("import I2 destinationDatabaseVersion error:");
-LogB.Information(destinationDatabaseVersion.error);
-		float destinationDatabaseVersionNum = float.Parse (destinationDatabaseVersion.output);
-LogB.Information("import I3 ");
-		float sourceDatabaseVersionNum = float.Parse (sourceDatabaseVersion.output);
-LogB.Information("import I4 ");
+		LogB.Information("import I2 ");
+		LogB.Information("import I2 destinationDatabaseVersion output:");
+		LogB.Information(destinationDatabaseVersion.output);
+		LogB.Information("import I2 destinationDatabaseVersion error:");
+
+		LogB.Information(destinationDatabaseVersion.error);
+		//on some Windows 11 French (and maybe silicon, this fails with a 2.74, but on linux it works)
+		//float destinationDatabaseVersionNum = float.Parse (destinationDatabaseVersion.output);
+		float destinationDatabaseVersionNum = float.Parse (Util.CDS (destinationDatabaseVersion.output));
+		LogB.Information("import I2 destinationDatabaseVersionNum: " + destinationDatabaseVersionNum.ToString ());
+
+		LogB.Information("import I3 ");
+		//float sourceDatabaseVersionNum = float.Parse (sourceDatabaseVersion.output);
+		float sourceDatabaseVersionNum = float.Parse (Util.CDS (sourceDatabaseVersion.output));
+		LogB.Information("import I3 sourceDatabaseVersionNum: " + sourceDatabaseVersionNum.ToString ());
+
+		LogB.Information("import I4 ");
 
 		//3 check version of database to be imported
 

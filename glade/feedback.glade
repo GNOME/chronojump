@@ -724,7 +724,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">Relative to best jump</property>
+                        <property name="label" translatable="yes">Relative to best jump height</property>
                       </object>
                     </child>
                   </object>

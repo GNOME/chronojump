@@ -52,9 +52,13 @@ public abstract class Feedback
 
 public class FeedbackJumpsRj : Feedback
 {
+	double bestSetValue;
+
 	public FeedbackJumpsRj (Preferences preferences)
 	{
 		this.preferences = preferences; //TODO: check if this has to be updated also on other public calls
+		bestSetValue = 0;
+
 		setBarColors ();
 	}
 
@@ -90,8 +94,28 @@ public class FeedbackJumpsRj : Feedback
 		return (preferences.jumpsRjFeedbackTcGreaterActive && tc >= preferences.jumpsRjFeedbackTcGreater);
 	}
 
+	// relToBest
+	public void ResetBestSetValue ()
+	{
+		bestSetValue = 0;
+	}
+	// relToBest
+	public void UpdateBestSetValue (double d)
+	{
+		if (d > bestSetValue)
+			bestSetValue = d;
+	}
+
 	public Cairo.Color AssignColorMainByHeight (double heightInCm)
 	{
+		// relToBest
+		if (preferences.jumpsRjRelToBestGreaterActive && preferences.jumpsRjRelToBestGreaterValue > 0 &&
+				heightInCm > bestSetValue * preferences.jumpsRjRelToBestGreaterValue / 100.0)
+			return (mainGreen);
+		if (preferences.jumpsRjRelToBestLowerActive && preferences.jumpsRjRelToBestLowerValue > 0 &&
+				heightInCm < bestSetValue * preferences.jumpsRjRelToBestLowerValue / 100.0)
+			return (mainRed);
+
 		if (heightGreen (heightInCm))
 			return (mainGreen);
 		else if (heightRed (heightInCm))
@@ -102,6 +126,8 @@ public class FeedbackJumpsRj : Feedback
 
 	public Cairo.Color AssignColorMain (double tv)
 	{
+		// TODO: relToBest. If implemented will be tv/tc, so maybe will not be managed on this method
+
 		if (TvGreen (tv))
 			return (mainGreen);
 		else if (TvRed (tv))

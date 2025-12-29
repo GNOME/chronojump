@@ -203,10 +203,27 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 			//get min (only of tv)
 			if(b < min)
 				min = b;
+		}
+
+		feedbackJumpsRj.ResetBestSetValue ();
+		feedbackJumpsRj.UpdateBestSetValue (max);
+
+		for(int i = 0; i < main_l.Count; i ++)
+		{
+			double a = 0;
+			double b = 0;
 
 			if (UseHeights)
-				colorMain_l.Add (feedbackJumpsRj.AssignColorMainByHeight (b));
+				b = Util.GetHeightInCm (Convert.ToDouble(main_l[i]));
 			else {
+				a = Convert.ToDouble(secondary_l[i]);
+				b = Convert.ToDouble(main_l[i]);
+			}
+
+			if (UseHeights)
+			{
+				colorMain_l.Add (feedbackJumpsRj.AssignColorMainByHeight (b));
+			} else {
 				colorMain_l.Add (feedbackJumpsRj.AssignColorMain (b));
 				colorSecondary_l.Add (feedbackJumpsRj.AssignColorSecondary (a));
 			}

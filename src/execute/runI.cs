@@ -631,7 +631,10 @@ public class RunIntervalExecute : RunExecute
 			else
 				return string.Format ("Fí de\nla prova");
 		} else
-			return string.Format ("{0} / {1}", tracks, limitAsDouble);
+			return string.Format ("{0} / {1}\n{2} s",
+					tracks, limitAsDouble,
+					Util.TrimDecimals (Util.GetTotalTime (intervalTimesString), 2)
+					);
 	}
 
 	~RunIntervalExecute() {}

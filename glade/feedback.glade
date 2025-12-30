@@ -398,61 +398,73 @@
                         <property name="left-padding">10</property>
                         <property name="right-padding">10</property>
                         <child>
-                          <object class="GtkTable" id="table_jumpRj_relToBest">
+                          <object class="GtkBox">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="n-rows">2</property>
-                            <property name="column-spacing">10</property>
-                            <property name="row-spacing">6</property>
+                            <property name="spacing">16</property>
                             <child>
-                              <object class="GtkHBox" id="hbox76">
+                              <object class="GtkTable" id="table_jumpRj_relToBest">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="spacing">10</property>
+                                <property name="n-rows">2</property>
+                                <property name="column-spacing">10</property>
+                                <property name="row-spacing">6</property>
                                 <child>
-                                  <object class="GtkLabel" id="label97">
+                                  <object class="GtkHBox" id="hbox76">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="label">&lt;=</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkHBox" id="hbox77">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="spacing">2</property>
+                                    <property name="spacing">10</property>
                                     <child>
-                                      <object class="GtkSpinButton" id="spinbutton_jumpRj_relToBest_lower">
+                                      <object class="GtkLabel" id="label97">
                                         <property name="visible">True</property>
-                                        <property name="can-focus">True</property>
-                                        <property name="invisible-char">●</property>
-                                        <property name="width-chars">5</property>
-                                        <property name="text">70</property>
-                                        <property name="primary-icon-activatable">False</property>
-                                        <property name="secondary-icon-activatable">False</property>
-                                        <property name="adjustment">adjustment51</property>
-                                        <property name="climb-rate">10</property>
-                                        <property name="snap-to-ticks">True</property>
-                                        <property name="numeric">True</property>
-                                        <property name="value">70</property>
-                                        <signal name="value-changed" handler="on_spinbutton_jumpRj_relToBest_lower_value_changed" swapped="no"/>
+                                        <property name="can-focus">False</property>
+                                        <property name="label">&lt;=</property>
                                       </object>
                                       <packing>
-                                        <property name="expand">True</property>
-                                        <property name="fill">True</property>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
                                         <property name="position">0</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkLabel" id="label98">
+                                      <object class="GtkHBox" id="hbox77">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="label">%</property>
+                                        <property name="spacing">2</property>
+                                        <child>
+                                          <object class="GtkSpinButton" id="spinbutton_jumpRj_relToBest_lower">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="invisible-char">●</property>
+                                            <property name="width-chars">5</property>
+                                            <property name="text">70</property>
+                                            <property name="primary-icon-activatable">False</property>
+                                            <property name="secondary-icon-activatable">False</property>
+                                            <property name="adjustment">adjustment51</property>
+                                            <property name="climb-rate">10</property>
+                                            <property name="snap-to-ticks">True</property>
+                                            <property name="numeric">True</property>
+                                            <property name="value">70</property>
+                                            <signal name="value-changed" handler="on_spinbutton_jumpRj_relToBest_lower_value_changed" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel" id="label98">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="label">%</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -460,262 +472,275 @@
                                         <property name="position">1</property>
                                       </packing>
                                     </child>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkHBox" id="hbox78">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="spacing">6</property>
                                     <child>
-                                      <object class="GtkButton" id="button_jumpRj_relToBest_lower_minus_1">
-                                        <property name="label"> -1 </property>
-                                        <property name="width-request">40</property>
-                                        <property name="height-request">40</property>
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">True</property>
-                                        <property name="receives-default">True</property>
-                                        <property name="has-tooltip">True</property>
-                                        <signal name="clicked" handler="on_button_jumpRj_relToBest_lower_minus_1_clicked" swapped="no"/>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">True</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">0</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkButton" id="button_jumpRj_relToBest_lower_plus_1">
-                                        <property name="label"> +1 </property>
-                                        <property name="width-request">40</property>
-                                        <property name="height-request">40</property>
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">True</property>
-                                        <property name="receives-default">True</property>
-                                        <property name="has-tooltip">True</property>
-                                        <signal name="clicked" handler="on_button_jumpRj_relToBest_lower_plus_1_clicked" swapped="no"/>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">True</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">1</property>
-                                      </packing>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">True</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">2</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkCheckButton" id="checkbutton_jumpRj_relToBest_lower">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">True</property>
-                                    <property name="receives-default">False</property>
-                                    <property name="has-tooltip">True</property>
-                                    <property name="tooltip-text" translatable="yes">Bell bad</property>
-                                    <property name="draw-indicator">True</property>
-                                    <child>
-                                      <object class="GtkAlignment" id="alignment36">
+                                      <object class="GtkHBox" id="hbox78">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="xscale">0</property>
-                                        <property name="yscale">0</property>
+                                        <property name="spacing">6</property>
                                         <child>
-                                          <object class="GtkHBox" id="hbox79">
+                                          <object class="GtkButton" id="button_jumpRj_relToBest_lower_minus_1">
+                                            <property name="label"> -1 </property>
+                                            <property name="width-request">40</property>
+                                            <property name="height-request">40</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">True</property>
+                                            <property name="has-tooltip">True</property>
+                                            <signal name="clicked" handler="on_button_jumpRj_relToBest_lower_minus_1_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="button_jumpRj_relToBest_lower_plus_1">
+                                            <property name="label"> +1 </property>
+                                            <property name="width-request">40</property>
+                                            <property name="height-request">40</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">True</property>
+                                            <property name="has-tooltip">True</property>
+                                            <signal name="clicked" handler="on_button_jumpRj_relToBest_lower_plus_1_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">2</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="checkbutton_jumpRj_relToBest_lower">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">False</property>
+                                        <property name="has-tooltip">True</property>
+                                        <property name="tooltip-text" translatable="yes">Bell bad</property>
+                                        <property name="draw-indicator">True</property>
+                                        <child>
+                                          <object class="GtkAlignment" id="alignment36">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
-                                            <property name="spacing">2</property>
+                                            <property name="xscale">0</property>
+                                            <property name="yscale">0</property>
                                             <child>
-                                              <object class="GtkImage" id="image_repetitive_jumpRj_relToBest_lower">
+                                              <object class="GtkHBox" id="hbox79">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
+                                                <property name="spacing">2</property>
+                                                <child>
+                                                  <object class="GtkImage" id="image_repetitive_jumpRj_relToBest_lower">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
                                               </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="position">0</property>
-                                              </packing>
                                             </child>
                                           </object>
                                         </child>
                                       </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="padding">20</property>
+                                        <property name="position">3</property>
+                                      </packing>
                                     </child>
                                   </object>
                                   <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="padding">20</property>
-                                    <property name="position">3</property>
+                                    <property name="top-attach">1</property>
+                                    <property name="bottom-attach">2</property>
+                                    <property name="x-options"/>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkHBox" id="hbox80">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="spacing">10</property>
+                                    <child>
+                                      <object class="GtkLabel" id="label99">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="label">&gt;=</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkHBox" id="hbox81">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="spacing">2</property>
+                                        <child>
+                                          <object class="GtkSpinButton" id="spinbutton_jumpRj_relToBest_greater">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="invisible-char">●</property>
+                                            <property name="width-chars">5</property>
+                                            <property name="text">90</property>
+                                            <property name="primary-icon-activatable">False</property>
+                                            <property name="secondary-icon-activatable">False</property>
+                                            <property name="adjustment">adjustment50</property>
+                                            <property name="climb-rate">10</property>
+                                            <property name="snap-to-ticks">True</property>
+                                            <property name="numeric">True</property>
+                                            <property name="value">90</property>
+                                            <signal name="value-changed" handler="on_spinbutton_jumpRj_relToBest_greater_value_changed" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel" id="label100">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="label">%</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkHBox" id="hbox82">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="spacing">6</property>
+                                        <child>
+                                          <object class="GtkButton" id="button_jumpRj_relToBest_greater_minus_1">
+                                            <property name="label"> -1 </property>
+                                            <property name="width-request">40</property>
+                                            <property name="height-request">40</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">True</property>
+                                            <property name="has-tooltip">True</property>
+                                            <signal name="clicked" handler="on_button_jumpRj_relToBest_greater_minus_1_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="button_jumpRj_relToBest_greater_plus_1">
+                                            <property name="label"> +1 </property>
+                                            <property name="width-request">40</property>
+                                            <property name="height-request">40</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">True</property>
+                                            <property name="has-tooltip">True</property>
+                                            <signal name="clicked" handler="on_button_jumpRj_relToBest_greater_plus_1_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">2</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="checkbutton_jumpRj_relToBest_greater">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">False</property>
+                                        <property name="has-tooltip">True</property>
+                                        <property name="tooltip-text" translatable="yes">Bell good</property>
+                                        <property name="draw-indicator">True</property>
+                                        <child>
+                                          <object class="GtkAlignment" id="alignment37">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="xscale">0</property>
+                                            <property name="yscale">0</property>
+                                            <child>
+                                              <object class="GtkHBox" id="hbox83">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="spacing">2</property>
+                                                <child>
+                                                  <object class="GtkImage" id="image_repetitive_jumpRj_relToBest_greater">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="padding">20</property>
+                                        <property name="position">3</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="x-options"/>
                                   </packing>
                                 </child>
                               </object>
                               <packing>
-                                <property name="top-attach">1</property>
-                                <property name="bottom-attach">2</property>
-                                <property name="x-options"/>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkHBox" id="hbox80">
+                              <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="spacing">10</property>
-                                <child>
-                                  <object class="GtkLabel" id="label99">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label">&gt;=</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkHBox" id="hbox81">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="spacing">2</property>
-                                    <child>
-                                      <object class="GtkSpinButton" id="spinbutton_jumpRj_relToBest_greater">
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">True</property>
-                                        <property name="invisible-char">●</property>
-                                        <property name="width-chars">5</property>
-                                        <property name="text">90</property>
-                                        <property name="primary-icon-activatable">False</property>
-                                        <property name="secondary-icon-activatable">False</property>
-                                        <property name="adjustment">adjustment50</property>
-                                        <property name="climb-rate">10</property>
-                                        <property name="snap-to-ticks">True</property>
-                                        <property name="numeric">True</property>
-                                        <property name="value">90</property>
-                                        <signal name="value-changed" handler="on_spinbutton_jumpRj_relToBest_greater_value_changed" swapped="no"/>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">True</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">0</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel" id="label100">
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">False</property>
-                                        <property name="label">%</property>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">1</property>
-                                      </packing>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkHBox" id="hbox82">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="spacing">6</property>
-                                    <child>
-                                      <object class="GtkButton" id="button_jumpRj_relToBest_greater_minus_1">
-                                        <property name="label"> -1 </property>
-                                        <property name="width-request">40</property>
-                                        <property name="height-request">40</property>
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">True</property>
-                                        <property name="receives-default">True</property>
-                                        <property name="has-tooltip">True</property>
-                                        <signal name="clicked" handler="on_button_jumpRj_relToBest_greater_minus_1_clicked" swapped="no"/>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">True</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">0</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkButton" id="button_jumpRj_relToBest_greater_plus_1">
-                                        <property name="label"> +1 </property>
-                                        <property name="width-request">40</property>
-                                        <property name="height-request">40</property>
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">True</property>
-                                        <property name="receives-default">True</property>
-                                        <property name="has-tooltip">True</property>
-                                        <signal name="clicked" handler="on_button_jumpRj_relToBest_greater_plus_1_clicked" swapped="no"/>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">True</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">1</property>
-                                      </packing>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">True</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">2</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkCheckButton" id="checkbutton_jumpRj_relToBest_greater">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">True</property>
-                                    <property name="receives-default">False</property>
-                                    <property name="has-tooltip">True</property>
-                                    <property name="tooltip-text" translatable="yes">Bell good</property>
-                                    <property name="draw-indicator">True</property>
-                                    <child>
-                                      <object class="GtkAlignment" id="alignment37">
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">False</property>
-                                        <property name="xscale">0</property>
-                                        <property name="yscale">0</property>
-                                        <child>
-                                          <object class="GtkHBox" id="hbox83">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">False</property>
-                                            <property name="spacing">2</property>
-                                            <child>
-                                              <object class="GtkImage" id="image_repetitive_jumpRj_relToBest_greater">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="position">0</property>
-                                              </packing>
-                                            </child>
-                                          </object>
-                                        </child>
-                                      </object>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="padding">20</property>
-                                    <property name="position">3</property>
-                                  </packing>
-                                </child>
+                                <property name="label" translatable="yes">Values between both conditions
+will be shown in blue.</property>
                               </object>
                               <packing>
-                                <property name="x-options"/>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
                               </packing>
                             </child>
                           </object>
@@ -2780,61 +2805,73 @@
                                     <property name="can-focus">False</property>
                                     <property name="spacing">14</property>
                                     <child>
-                                      <object class="GtkTable" id="table_encoder_automatic">
+                                      <object class="GtkBox">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="n-rows">2</property>
-                                        <property name="column-spacing">10</property>
-                                        <property name="row-spacing">6</property>
+                                        <property name="spacing">16</property>
                                         <child>
-                                          <object class="GtkHBox" id="hbox35">
+                                          <object class="GtkTable" id="table_encoder_automatic">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
-                                            <property name="spacing">10</property>
+                                            <property name="n-rows">2</property>
+                                            <property name="column-spacing">10</property>
+                                            <property name="row-spacing">6</property>
                                             <child>
-                                              <object class="GtkLabel" id="label9">
+                                              <object class="GtkHBox" id="hbox35">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
-                                                <property name="label">&lt;=</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="position">0</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkHBox" id="hbox45">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="spacing">2</property>
+                                                <property name="spacing">10</property>
                                                 <child>
-                                                  <object class="GtkSpinButton" id="spinbutton_encoder_automatic_lower">
+                                                  <object class="GtkLabel" id="label9">
                                                     <property name="visible">True</property>
-                                                    <property name="can-focus">True</property>
-                                                    <property name="invisible-char">●</property>
-                                                    <property name="width-chars">5</property>
-                                                    <property name="text">70</property>
-                                                    <property name="primary-icon-activatable">False</property>
-                                                    <property name="secondary-icon-activatable">False</property>
-                                                    <property name="adjustment">adjustment11</property>
-                                                    <property name="climb-rate">10</property>
-                                                    <property name="snap-to-ticks">True</property>
-                                                    <property name="numeric">True</property>
-                                                    <property name="value">70</property>
-                                                    <signal name="value-changed" handler="on_spinbutton_encoder_automatic_lower_value_changed" swapped="no"/>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="label">&lt;=</property>
                                                   </object>
                                                   <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
                                                     <property name="position">0</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <object class="GtkLabel" id="label12">
+                                                  <object class="GtkHBox" id="hbox45">
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
-                                                    <property name="label">%</property>
+                                                    <property name="spacing">2</property>
+                                                    <child>
+                                                      <object class="GtkSpinButton" id="spinbutton_encoder_automatic_lower">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">True</property>
+                                                        <property name="invisible-char">●</property>
+                                                        <property name="width-chars">5</property>
+                                                        <property name="text">70</property>
+                                                        <property name="primary-icon-activatable">False</property>
+                                                        <property name="secondary-icon-activatable">False</property>
+                                                        <property name="adjustment">adjustment11</property>
+                                                        <property name="climb-rate">10</property>
+                                                        <property name="snap-to-ticks">True</property>
+                                                        <property name="numeric">True</property>
+                                                        <property name="value">70</property>
+                                                        <signal name="value-changed" handler="on_spinbutton_encoder_automatic_lower_value_changed" swapped="no"/>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkLabel" id="label12">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">False</property>
+                                                        <property name="label">%</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
                                                   </object>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -2842,262 +2879,275 @@
                                                     <property name="position">1</property>
                                                   </packing>
                                                 </child>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="position">1</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkHBox" id="hbox47">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="spacing">6</property>
                                                 <child>
-                                                  <object class="GtkButton" id="button_encoder_automatic_lower_minus_1">
-                                                    <property name="label"> -1 </property>
-                                                    <property name="width-request">40</property>
-                                                    <property name="height-request">40</property>
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">True</property>
-                                                    <property name="receives-default">True</property>
-                                                    <property name="has-tooltip">True</property>
-                                                    <signal name="clicked" handler="on_button_encoder_automatic_lower_minus_1_clicked" swapped="no"/>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkButton" id="button_encoder_automatic_lower_plus_1">
-                                                    <property name="label"> +1 </property>
-                                                    <property name="width-request">40</property>
-                                                    <property name="height-request">40</property>
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">True</property>
-                                                    <property name="receives-default">True</property>
-                                                    <property name="has-tooltip">True</property>
-                                                    <signal name="clicked" handler="on_button_encoder_automatic_lower_plus_1_clicked" swapped="no"/>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">1</property>
-                                                  </packing>
-                                                </child>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">True</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">2</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkCheckButton" id="checkbutton_encoder_automatic_lower">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">True</property>
-                                                <property name="receives-default">False</property>
-                                                <property name="has-tooltip">True</property>
-                                                <property name="tooltip-text" translatable="yes">Bell bad</property>
-                                                <property name="draw-indicator">True</property>
-                                                <child>
-                                                  <object class="GtkAlignment" id="alignment20">
+                                                  <object class="GtkHBox" id="hbox47">
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
-                                                    <property name="xscale">0</property>
-                                                    <property name="yscale">0</property>
+                                                    <property name="spacing">6</property>
                                                     <child>
-                                                      <object class="GtkHBox" id="hbox36">
+                                                      <object class="GtkButton" id="button_encoder_automatic_lower_minus_1">
+                                                        <property name="label"> -1 </property>
+                                                        <property name="width-request">40</property>
+                                                        <property name="height-request">40</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">True</property>
+                                                        <property name="receives-default">True</property>
+                                                        <property name="has-tooltip">True</property>
+                                                        <signal name="clicked" handler="on_button_encoder_automatic_lower_minus_1_clicked" swapped="no"/>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkButton" id="button_encoder_automatic_lower_plus_1">
+                                                        <property name="label"> +1 </property>
+                                                        <property name="width-request">40</property>
+                                                        <property name="height-request">40</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">True</property>
+                                                        <property name="receives-default">True</property>
+                                                        <property name="has-tooltip">True</property>
+                                                        <signal name="clicked" handler="on_button_encoder_automatic_lower_plus_1_clicked" swapped="no"/>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">2</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkCheckButton" id="checkbutton_encoder_automatic_lower">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">True</property>
+                                                    <property name="receives-default">False</property>
+                                                    <property name="has-tooltip">True</property>
+                                                    <property name="tooltip-text" translatable="yes">Bell bad</property>
+                                                    <property name="draw-indicator">True</property>
+                                                    <child>
+                                                      <object class="GtkAlignment" id="alignment20">
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">False</property>
-                                                        <property name="spacing">2</property>
+                                                        <property name="xscale">0</property>
+                                                        <property name="yscale">0</property>
                                                         <child>
-                                                          <object class="GtkImage" id="image_repetitive_encoder_automatic_lower">
+                                                          <object class="GtkHBox" id="hbox36">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                          </object>
-                                                          <packing>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_repetitive_encoder_automatic_lower">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            </object>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
-                                                          </packing>
+                                                            </packing>
+                                                            </child>
+                                                          </object>
                                                         </child>
                                                       </object>
                                                     </child>
                                                   </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="padding">20</property>
+                                                    <property name="position">3</property>
+                                                  </packing>
                                                 </child>
                                               </object>
                                               <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="padding">20</property>
-                                                <property name="position">3</property>
+                                                <property name="top-attach">1</property>
+                                                <property name="bottom-attach">2</property>
+                                                <property name="x-options"/>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkHBox" id="hbox33">
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">False</property>
+                                                <property name="spacing">10</property>
+                                                <child>
+                                                  <object class="GtkLabel" id="label8">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="label">&gt;=</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkHBox" id="hbox44">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="spacing">2</property>
+                                                    <child>
+                                                      <object class="GtkSpinButton" id="spinbutton_encoder_automatic_greater">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">True</property>
+                                                        <property name="invisible-char">●</property>
+                                                        <property name="width-chars">5</property>
+                                                        <property name="text">90</property>
+                                                        <property name="primary-icon-activatable">False</property>
+                                                        <property name="secondary-icon-activatable">False</property>
+                                                        <property name="adjustment">adjustment12</property>
+                                                        <property name="climb-rate">10</property>
+                                                        <property name="snap-to-ticks">True</property>
+                                                        <property name="numeric">True</property>
+                                                        <property name="value">90</property>
+                                                        <signal name="value-changed" handler="on_spinbutton_encoder_automatic_greater_value_changed" swapped="no"/>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkLabel" id="label7">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">False</property>
+                                                        <property name="label">%</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkHBox" id="hbox46">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="spacing">6</property>
+                                                    <child>
+                                                      <object class="GtkButton" id="button_encoder_automatic_greater_minus_1">
+                                                        <property name="label"> -1 </property>
+                                                        <property name="width-request">40</property>
+                                                        <property name="height-request">40</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">True</property>
+                                                        <property name="receives-default">True</property>
+                                                        <property name="has-tooltip">True</property>
+                                                        <signal name="clicked" handler="on_button_encoder_automatic_greater_minus_1_clicked" swapped="no"/>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkButton" id="button_encoder_automatic_greater_plus_1">
+                                                        <property name="label"> +1 </property>
+                                                        <property name="width-request">40</property>
+                                                        <property name="height-request">40</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">True</property>
+                                                        <property name="receives-default">True</property>
+                                                        <property name="has-tooltip">True</property>
+                                                        <signal name="clicked" handler="on_button_encoder_automatic_greater_plus_1_clicked" swapped="no"/>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">2</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkCheckButton" id="checkbutton_encoder_automatic_greater">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">True</property>
+                                                    <property name="receives-default">False</property>
+                                                    <property name="has-tooltip">True</property>
+                                                    <property name="tooltip-text" translatable="yes">Bell good</property>
+                                                    <property name="draw-indicator">True</property>
+                                                    <child>
+                                                      <object class="GtkAlignment" id="alignment28">
+                                                        <property name="visible">True</property>
+                                                        <property name="can-focus">False</property>
+                                                        <property name="xscale">0</property>
+                                                        <property name="yscale">0</property>
+                                                        <child>
+                                                          <object class="GtkHBox" id="hbox34">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <object class="GtkImage" id="image_repetitive_encoder_automatic_greater">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                          </object>
+                                                        </child>
+                                                      </object>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="padding">20</property>
+                                                    <property name="position">3</property>
+                                                  </packing>
+                                                </child>
+                                              </object>
+                                              <packing>
+                                                <property name="x-options"/>
                                               </packing>
                                             </child>
                                           </object>
                                           <packing>
-                                            <property name="top-attach">1</property>
-                                            <property name="bottom-attach">2</property>
-                                            <property name="x-options"/>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkHBox" id="hbox33">
+                                          <object class="GtkLabel">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
-                                            <property name="spacing">10</property>
-                                            <child>
-                                              <object class="GtkLabel" id="label8">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="label">&gt;=</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="position">0</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkHBox" id="hbox44">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="spacing">2</property>
-                                                <child>
-                                                  <object class="GtkSpinButton" id="spinbutton_encoder_automatic_greater">
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">True</property>
-                                                    <property name="invisible-char">●</property>
-                                                    <property name="width-chars">5</property>
-                                                    <property name="text">90</property>
-                                                    <property name="primary-icon-activatable">False</property>
-                                                    <property name="secondary-icon-activatable">False</property>
-                                                    <property name="adjustment">adjustment12</property>
-                                                    <property name="climb-rate">10</property>
-                                                    <property name="snap-to-ticks">True</property>
-                                                    <property name="numeric">True</property>
-                                                    <property name="value">90</property>
-                                                    <signal name="value-changed" handler="on_spinbutton_encoder_automatic_greater_value_changed" swapped="no"/>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkLabel" id="label7">
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">False</property>
-                                                    <property name="label">%</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">1</property>
-                                                  </packing>
-                                                </child>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="position">1</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkHBox" id="hbox46">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="spacing">6</property>
-                                                <child>
-                                                  <object class="GtkButton" id="button_encoder_automatic_greater_minus_1">
-                                                    <property name="label"> -1 </property>
-                                                    <property name="width-request">40</property>
-                                                    <property name="height-request">40</property>
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">True</property>
-                                                    <property name="receives-default">True</property>
-                                                    <property name="has-tooltip">True</property>
-                                                    <signal name="clicked" handler="on_button_encoder_automatic_greater_minus_1_clicked" swapped="no"/>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkButton" id="button_encoder_automatic_greater_plus_1">
-                                                    <property name="label"> +1 </property>
-                                                    <property name="width-request">40</property>
-                                                    <property name="height-request">40</property>
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">True</property>
-                                                    <property name="receives-default">True</property>
-                                                    <property name="has-tooltip">True</property>
-                                                    <signal name="clicked" handler="on_button_encoder_automatic_greater_plus_1_clicked" swapped="no"/>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">1</property>
-                                                  </packing>
-                                                </child>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">True</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">2</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkCheckButton" id="checkbutton_encoder_automatic_greater">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">True</property>
-                                                <property name="receives-default">False</property>
-                                                <property name="has-tooltip">True</property>
-                                                <property name="tooltip-text" translatable="yes">Bell good</property>
-                                                <property name="draw-indicator">True</property>
-                                                <child>
-                                                  <object class="GtkAlignment" id="alignment28">
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">False</property>
-                                                    <property name="xscale">0</property>
-                                                    <property name="yscale">0</property>
-                                                    <child>
-                                                      <object class="GtkHBox" id="hbox34">
-                                                        <property name="visible">True</property>
-                                                        <property name="can-focus">False</property>
-                                                        <property name="spacing">2</property>
-                                                        <child>
-                                                          <object class="GtkImage" id="image_repetitive_encoder_automatic_greater">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                          </object>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                </child>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="padding">20</property>
-                                                <property name="position">3</property>
-                                              </packing>
-                                            </child>
+                                            <property name="label" translatable="yes">Values between both conditions
+will be shown in blue.</property>
                                           </object>
                                           <packing>
-                                            <property name="x-options"/>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
                                           </packing>
                                         </child>
                                       </object>

@@ -48150,6 +48150,11 @@ on Cloud-view mode</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <child>
                                                             <object class="GtkVButtonBox" id="vbuttonbox5">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -48196,6 +48201,26 @@ on Cloud-view mode</property>
                                                             <property name="expand">True</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="app1s_label_backup_select_silicon">
+                                                            <property name="name">n\ow</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
+                                                            <property name="label" translatable="yes">Destination:</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </object>
@@ -48293,6 +48318,12 @@ on Cloud-view mode</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">10</property>
+                                                            <child>
                                                             <object class="GtkHBox" id="hbox426">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -48312,6 +48343,27 @@ on Cloud-view mode</property>
                                                             <object class="GtkProgressBar" id="app1s_pulsebarBackupActivity">
                                                             <property name="width-request">50</property>
                                                             <property name="can-focus">False</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="app1s_button_backup_done_open_folder">
+                                                            <property name="label" translatable="yes">Open folder</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <property name="halign">center</property>
+                                                            <signal name="clicked" handler="on_app1s_button_backup_done_open_folder_clicked" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>

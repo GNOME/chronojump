@@ -179,7 +179,9 @@ public partial class ChronoJumpWindow
 	Gtk.CheckButton app1s_check_backup_include_config;
 	Gtk.Label app1s_label_backup_estimated_size;
 	Gtk.Button app1s_button_backup_select;
+	Gtk.Label app1s_label_backup_select_silicon;
 	Gtk.Button app1s_button_backup_start;
+	Gtk.Button app1s_button_backup_done_open_folder;
 	Gtk.Button app1s_button_backup_cancel_close;
 	Gtk.Label app1s_label_backup_cancel_close;
 	Gtk.EventBox app1s_eventbox_button_backup_cancel_close;
@@ -571,7 +573,9 @@ public partial class ChronoJumpWindow
 		app1s_check_backup_include_config = (Gtk.CheckButton) builder.GetObject ("app1s_check_backup_include_config");
 		app1s_label_backup_estimated_size = (Gtk.Label) builder.GetObject ("app1s_label_backup_estimated_size");
 		app1s_button_backup_select = (Gtk.Button) builder.GetObject ("app1s_button_backup_select");
+		app1s_label_backup_select_silicon = (Gtk.Label) builder.GetObject ("app1s_label_backup_select_silicon");
 		app1s_button_backup_start = (Gtk.Button) builder.GetObject ("app1s_button_backup_start");
+		app1s_button_backup_done_open_folder = (Gtk.Button) builder.GetObject ("app1s_button_backup_done_open_folder");
 		app1s_button_backup_cancel_close = (Gtk.Button) builder.GetObject ("app1s_button_backup_cancel_close");
 		app1s_label_backup_cancel_close = (Gtk.Label) builder.GetObject ("app1s_label_backup_cancel_close");
 		app1s_eventbox_button_backup_cancel_close = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_backup_cancel_close");

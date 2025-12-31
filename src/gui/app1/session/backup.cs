@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2020-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2020-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -74,6 +74,7 @@ public partial class ChronoJumpWindow
 		app1s_button_backup_select.Sensitive = true;
 		app1s_button_backup_start.Sensitive = false;
 		app1s_button_delete_old_incomplete.Visible = false;
+		app1s_button_backup_done_open_folder.Visible = false;
 		app1s_button_backup_cancel_close.Sensitive = true;
 		image_app1s_button_backup_cancel_close.Pixbuf =
 				Chronojump.MyPixbuf.Get (null, Util.GetImagePath(false) + "image_cancel.png");
@@ -84,6 +85,18 @@ public partial class ChronoJumpWindow
 		app1s_check_backup_include_config.Visible = File.Exists (Util.GetConfigFileName(false));
 
 		showBackupEstimatedSize ();
+
+		// on mac silicon user cannot select dir.
+		// We will export to temp and user will open the folder with a button (also for rest of plataforms)
+		if (UtilAll.IsMacSilicon ())
+		{
+			backupFolderSelected_PrepareVarsAndGui (Util.GetTempExportDirMacSilicon (""));
+			app1s_button_backup_select.Visible = false;
+			app1s_label_backup_select_silicon.Visible = true;
+		} else {
+			app1s_button_backup_select.Visible = true;
+			app1s_label_backup_select_silicon.Visible = false;
+		}
 	}
 
 	private void on_app1s_check_backup_include_logs_clicked (object o, EventArgs args)
@@ -228,36 +241,34 @@ public partial class ChronoJumpWindow
 
 	private void on_app1s_button_backup_select_clicked (object o, EventArgs args)
 	{
-		FileChooserAction action = FileChooserAction.SelectFolder;
-		//mac arm64 crashes on SelectFolder, use Open. The problem in Open is it cannot select a folder that has contents. Only an empty folder
-		if (UtilAll.IsMacSilicon ())
-			action = FileChooserAction.Open;
-
 		app1s_fc = new Gtk.FileChooserNative (Catalog.GetString("Copy database to:"),
 				app1,
-				action,
+				FileChooserAction.SelectFolder,
 				Catalog.GetString("Select"),
 				Catalog.GetString("Cancel")
 				);
 
-		app1s_fc.SetCurrentFolder(preferences.lastBackupDir);
+		app1s_fc.SetCurrentFolder (preferences.lastBackupDir);
 
 		if (app1s_fc.Run() == (int)ResponseType.Accept)
-		{
-			app1s_parentCopy = app1s_fc.Filename;
-			app1s_fileCopy = "chronojump_" + UtilDate.ToFile();
-			app1s_tmpCopy = Path.Combine (Path.GetTempPath (), app1s_fileCopy);
-			app1s_fullPathCopy = Path.Combine (app1s_fc.Filename, app1s_fileCopy + ".7z");
-
-			app1s_label_backup_destination.Text = app1s_fullPathCopy;
-
-			app1s_button_backup_start.Sensitive = true;
-		}
+			backupFolderSelected_PrepareVarsAndGui (app1s_fc.Filename);
 
 		app1s_fc.Hide ();
 
 		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		app1s_fc.Destroy();
+	}
+
+	private void backupFolderSelected_PrepareVarsAndGui (string url)
+	{
+		app1s_parentCopy = url;
+		app1s_fileCopy = "chronojump_" + UtilDate.ToFile();
+		app1s_tmpCopy = Path.Combine (Path.GetTempPath (), app1s_fileCopy);
+		app1s_fullPathCopy = Path.Combine (url, app1s_fileCopy + ".7z");
+
+		app1s_label_backup_destination.Text = app1s_fullPathCopy;
+
+		app1s_button_backup_start.Sensitive = true;
 	}
 
 	private void on_app1s_button_backup_start_clicked (object o, EventArgs args)
@@ -382,9 +393,11 @@ public partial class ChronoJumpWindow
 			str = string.Format(Catalog.GetString("Copied in {0} ms."),
 					Math.Round (UtilAll.DivideSafe (app1s_copyRecursiveElapsedMs, 1000), 1));
 			if (app1s_copyCompressSuccess)
+			{
 				str += " " + string.Format(Catalog.GetString("Compressed in {0} s."),
 						Math.Round (UtilAll.DivideSafe (app1s_copyCompressElapsedMs, 1000), 1));
-			else
+				app1s_button_backup_done_open_folder.Visible = true;
+			} else
 				str += " " + Catalog.GetString("Failed at compress.");
 		} else
 			str = Catalog.GetString("Copy failed, maybe the disk is full.");
@@ -637,6 +650,14 @@ public partial class ChronoJumpWindow
 		}
 	}
 	*/
+
+	private void on_app1s_button_backup_done_open_folder_clicked (object o, EventArgs args)
+	{
+		string path = app1s_parentCopy;
+		if (! Util.OpenURL (path))
+			new DialogMessage (Constants.MessageTypes.WARNING,
+					Constants.DirectoryCannotOpenStr() + "\n\n" + path);
+	}
 
 	private void on_app1s_button_backup_cancel_or_close_clicked (object o, EventArgs args)
 	{

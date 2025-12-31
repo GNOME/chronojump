@@ -210,6 +210,7 @@ public partial class ChronoJumpWindow
 
 	//notebook tab 8 (export)
 	Gtk.Button app1s_button_export_select;
+	Gtk.Label app1s_label_export_select_silicon;
 	Gtk.Button app1s_button_export_start;
 	Gtk.Button app1s_button_export_cancel;
 	Gtk.Button app1s_button_export_close;
@@ -218,6 +219,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image app1s_image_button_export_select;
 	Gtk.Label app1s_label_export_destination;
 	Gtk.Label app1s_label_export_progress;
+	Gtk.Button app1s_button_export_done_open_folder;
 	Gtk.Image image_app1s_button_export_cancel;
 	Gtk.Image image_app1s_button_export_close;
 	Gtk.ProgressBar app1s_pulsebarExportActivity;
@@ -600,7 +602,9 @@ public partial class ChronoJumpWindow
 
 		//notebook tab 8 (export)
 		app1s_button_export_select = (Gtk.Button) builder.GetObject ("app1s_button_export_select");
+		app1s_label_export_select_silicon = (Gtk.Label) builder.GetObject ("app1s_label_export_select_silicon");
 		app1s_button_export_start = (Gtk.Button) builder.GetObject ("app1s_button_export_start");
+		app1s_button_export_done_open_folder = (Gtk.Button) builder.GetObject ("app1s_button_export_done_open_folder");
 		app1s_button_export_cancel = (Gtk.Button) builder.GetObject ("app1s_button_export_cancel");
 		app1s_button_export_close = (Gtk.Button) builder.GetObject ("app1s_button_export_close");
 		app1s_eventbox_button_export_cancel = (Gtk.EventBox) builder.GetObject ("app1s_eventbox_button_export_cancel");

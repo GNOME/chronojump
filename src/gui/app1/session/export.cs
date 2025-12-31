@@ -37,7 +37,9 @@ public partial class ChronoJumpWindow
 	   so better export on app1s_fileCopyPre, then copy dir to app1s_fileCopy and then compress
 	   this will be on a temp file because it also cannot be deleted on export end
 	   */
-	string app1s_fileCopyPre;
+	private string app1s_fileCopyPre;
+
+	private string app1s_fileCopyAtDir; //to be able to open folder at end (very useful on Silicon)
 
 	private void on_button_session_export_pre_clicked (object o, EventArgs args)
 	{
@@ -53,17 +55,33 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		app1s_fileCopyAtDir = "";
+
 		app1s_label_export_destination.Text = "";
 		app1s_label_export_progress.Text = "";
 		app1s_exportText = "";
 		app1s_button_export_select.Sensitive = true;
 		app1s_button_export_start.Sensitive = false;
+		app1s_button_export_done_open_folder.Visible = false;
 		app1s_button_export_cancel.Visible = false;
 		app1s_button_export_close.Visible = true;
 	
 		app1s_notebook.CurrentPage = app1s_PAGE_EXPORT;
+
+		// on mac silicon user cannot select dir.
+		// We will export to temp and user will open the folder with a button (also for rest of plataforms)
+		if (UtilAll.IsMacSilicon ())
+		{
+			folderSelected_PrepareVarsAndGui (Util.GetTempExportDirMacSilicon (""));
+			app1s_button_export_select.Visible = false;
+			app1s_label_export_select_silicon.Visible = true;
+		} else {
+			app1s_button_export_select.Visible = true;
+			app1s_label_export_select_silicon.Visible = false;
+		}
 	}
 
+	// not in mac silicon
 	private void on_app1s_button_export_select_clicked (object o, EventArgs args)
 	{
 		if(currentSession == null || currentSession.UniqueID == -1) {
@@ -72,9 +90,6 @@ public partial class ChronoJumpWindow
 		}
 
 		FileChooserAction action = FileChooserAction.SelectFolder;
-		//mac arm64 crashes on SelectFolder, use Open. The problem in Open is it cannot select a folder that has contents. Only an empty folder
-		if (UtilAll.IsMacSilicon ())
-			action = FileChooserAction.Open;
 
 		app1s_fc = new Gtk.FileChooserNative (Catalog.GetString("Export session to:"),
 				app1,
@@ -84,21 +99,25 @@ public partial class ChronoJumpWindow
 				);
 
 		if (app1s_fc.Run() == (int)ResponseType.Accept)
-		{
-			app1s_fileCopy = app1s_fc.Filename + Path.DirectorySeparatorChar + "chronojump_" + currentSession.Name + "_" + UtilDate.ToFile();
-			app1s_fileCopyPre = Path.Combine (Path.GetTempPath (), "chronojumpCopyPre_" + currentSession.Name + "_" + UtilDate.ToFile()); //on temp because on Windows cannot be deleted
-
-			app1s_label_export_destination.Text = app1s_fileCopy;
-			if (exportImportCompressed)
-				app1s_label_export_destination.Text += ".7z";
-
-			app1s_button_export_start.Sensitive = true;
-		}
+			folderSelected_PrepareVarsAndGui (app1s_fc.Filename);
 
 		app1s_fc.Hide ();
 
 		//Don't forget to call Destroy() or the FileChooserNative window won't get closed.
 		app1s_fc.Destroy();
+	}
+
+	private void folderSelected_PrepareVarsAndGui (string url)
+	{
+		app1s_fileCopyAtDir = url;
+		app1s_fileCopy = url + Path.DirectorySeparatorChar + "chronojump_" + currentSession.Name + "_" + UtilDate.ToFile();
+		app1s_fileCopyPre = Path.Combine (Path.GetTempPath (), "chronojumpCopyPre_" + currentSession.Name + "_" + UtilDate.ToFile()); //on temp because on Windows cannot be deleted
+
+		app1s_label_export_destination.Text = app1s_fileCopy;
+		if (exportImportCompressed)
+			app1s_label_export_destination.Text += ".7z";
+
+		app1s_button_export_start.Sensitive = true;
 	}
 
 	private void on_app1s_button_export_start_clicked (object o, EventArgs args)
@@ -188,10 +207,13 @@ public partial class ChronoJumpWindow
 		if(cancelExport)
 			app1s_label_export_progress.Text =
 				Catalog.GetString("Cancelled.");
-		else
+		else {
 			app1s_label_export_progress.Text =
 				string.Format(Catalog.GetString("Exported in {0} s"),
 						Math.Round(UtilAll.DivideSafe(app1s_exportElapsedMs, 1000.0), 1));
+
+			app1s_button_export_done_open_folder.Visible = true;
+		}
 
 		app1s_export_doing_sensitive_start_end(false);
 	}
@@ -385,6 +407,14 @@ public partial class ChronoJumpWindow
 			Util.FileDelete (s);
 			Util.FileDelete (Path.Combine (imagesDir, "small", filename));
 		}
+	}
+
+	private void on_app1s_button_export_done_open_folder_clicked (object o, EventArgs args)
+	{
+		string path = app1s_fileCopyAtDir;
+		if (! Util.OpenURL (path))
+			new DialogMessage (Constants.MessageTypes.WARNING,
+					Constants.DirectoryCannotOpenStr() + "\n\n" + path);
 	}
 
 	private void on_app1s_button_export_cancel_clicked (object o, EventArgs args)

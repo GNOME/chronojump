@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2022-2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2022-2025   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -72,7 +72,7 @@ public partial class ChronoJumpWindow
 		// We will export to temp and user will open the folder with a button (also for rest of plataforms)
 		if (UtilAll.IsMacSilicon ())
 		{
-			folderSelected_PrepareVarsAndGui (Util.GetTempExportDirMacSilicon (""));
+			exportFolderSelected_PrepareVarsAndGui (Util.GetTempExportDirMacSilicon (""));
 			app1s_button_export_select.Visible = false;
 			app1s_label_export_select_silicon.Visible = true;
 		} else {
@@ -89,17 +89,15 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		FileChooserAction action = FileChooserAction.SelectFolder;
-
 		app1s_fc = new Gtk.FileChooserNative (Catalog.GetString("Export session to:"),
 				app1,
-				action,
+				FileChooserAction.SelectFolder,
 				Catalog.GetString("Export"),
 				Catalog.GetString("Cancel")
 				);
 
 		if (app1s_fc.Run() == (int)ResponseType.Accept)
-			folderSelected_PrepareVarsAndGui (app1s_fc.Filename);
+			exportFolderSelected_PrepareVarsAndGui (app1s_fc.Filename);
 
 		app1s_fc.Hide ();
 
@@ -107,7 +105,7 @@ public partial class ChronoJumpWindow
 		app1s_fc.Destroy();
 	}
 
-	private void folderSelected_PrepareVarsAndGui (string url)
+	private void exportFolderSelected_PrepareVarsAndGui (string url)
 	{
 		app1s_fileCopyAtDir = url;
 		app1s_fileCopy = url + Path.DirectorySeparatorChar + "chronojump_" + currentSession.Name + "_" + UtilDate.ToFile();

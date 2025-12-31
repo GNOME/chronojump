@@ -6,9 +6,11 @@
 #define PLATFORM1_CHARACTERISTIC_UUID "378b5d62-1fd3-4266-bbf7-6fec024d59a9"
 #define PLATFORM2_CHARACTERISTIC_UUID "bde4d6e2-b970-42ff-b498-aeeca541ee07"
 #define PLATFORM3_CHARACTERISTIC_UUID "e7331566-3aec-4a47-b8f1-d6f27850ad87"
+#define BATTLEV_CHARACTERISTIC_UUID "a2317307-e74a-4efe-b8ae-d615cd3be489"
 
 NimBLECharacteristic* pCommand = nullptr;
 NimBLECharacteristic* pPlatform[4] = {nullptr, nullptr, nullptr, nullptr};
+NimBLECharacteristic* pBattLev = nullptr;
 
 // BLE stuff
 NimBLEServer* pServer = nullptr;
@@ -87,6 +89,9 @@ void initializeBLE(void) {
   pPlatform[3] = pService->createCharacteristic(
                        PLATFORM3_CHARACTERISTIC_UUID,
                        NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::NOTIFY);
+  pBattLev = pService->createCharacteristic(
+                       BATTLEV_CHARACTERISTIC_UUID,
+                       NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::NOTIFY);
 
 
   // https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.descriptor.gatt.client_characteristic_configuration.xml
@@ -134,4 +139,9 @@ void sendToBLE(int i, long value) {
     // do stuff here on connecting
     oldDeviceConnected = deviceConnected;
   }
+}
+
+void updateBatteryCharacteristic (int i) {
+  pBattLev->setValue( String(i));
+  pBattLev->notify();
 }

@@ -25,18 +25,23 @@
 //2 Front Right
 //3 Back Left
 //4 Back Right
-
-#define LEDS_PIN        D4
+#define LEDS_PIN        5
 #define NUMPIXELS 4
 #define CJ_YELLOW rgbLeds.Color(45,25,0)
 #define CJ_BLUE rgbLeds.Color(0,0,50)
 
+#define CHARGE_ON digitalWrite(4, LOW);
+#define CHARGE_OFF digitalWrite(4, HIGH);
+
+#define BATT_LEV_PIN 14
+
 Adafruit_NeoPixel rgbLeds(NUMPIXELS, LEDS_PIN, NEO_GRB + NEO_KHZ800);
 
-String version = "4Platforms-0.3";
+String version = "4Platforms-0.4";
 // Front Left, Front Right, Back Left, Back Right 
 // int sensorPin[4] = {2, 1, 8, 9}; //Xiao ESP32S3. Hardware V1
-int sensorPin[4] = {D0, D1, D10, D9}; //Xiao ESP32S3. Hardware V2
+//int sensorPin[4] = {D0, D1, D10, D9}; //Xiao ESP32S3. Hardware V2
+int sensorPin[4] = {1, 2, 9, 8}; //ESP32S3. Hardware V4
 
 // Changing the order of the pins/RGB LEDs
 int sensorMapping[4] = {1, 0, 3, 2}; // Hardware V2
@@ -60,6 +65,9 @@ long lastPhaseDuration[4] = {0, 0, 0, 0};                      // Negative numbe
 // hw_timer_t *BLTimer= NULL;
 // hw_timer_t *BRTimer= NULL;
 hw_timer_t *debounceTimer[4]= {NULL, NULL, NULL, NULL};
+
+int battLev = 0;
+elapsedMillis batteryCycle = 0;
 
 //debounceTime microseconds after the sensor changes its state, this is the functions called
 void IRAM_ATTR debounce0() {
@@ -102,6 +110,8 @@ void setup() {
     rgbLeds.setPixelColor(i, CJ_BLUE);
   }
 
+  pinMode(4, OUTPUT);
+
   //When the input pin changes the function changedPin() is called
   attachInterrupt(digitalPinToInterrupt(sensorPin[ sensorMapping[0] ]), changed0, CHANGE);
   attachInterrupt(digitalPinToInterrupt(sensorPin[ sensorMapping[1] ]), changed1, CHANGE);
@@ -126,6 +136,8 @@ void setup() {
   configDebounceTimers(debounceTime);
   initializeBLE();
   Serial.flush();
+  updateBatteryLevel();
+  Serial.printf("Battery: %i\n", battLev);
 }
 
 void loop() {
@@ -148,12 +160,18 @@ void loop() {
       } else {
         rgbLeds.setPixelColor(sensorMapping[i], CJ_YELLOW);
       }
+      rgbLeds.show();
       sensorChange[i] = false;
       Serial.println(lastPhaseDuration[i]);
       sendToBLE(i, lastPhaseDuration[i]);
     }
   }
-  rgbLeds.show();
+
+  if (batteryCycle >= 60000) {
+    updateBatteryLevel();
+    batteryCycle = 0;
+  }
+  
   //check if there's incoming data in the serial port
   if (Serial.available()) {
     processSerial();
@@ -179,6 +197,8 @@ void processCommand(String inputString) {
     setDebounceTime(argumentString.toInt());
   } else if (commandString == "set_rgb") {
     setRgb(argumentString);
+  } else if (commandString == "get_battery_level") {
+    Serial.printf("Battery: %i\n", battLev);
   } else {
     Serial.println("Not a valid command");
   }
@@ -272,4 +292,15 @@ void setRgb(String argumentString) {
   colours = colours.substring(colours.indexOf(",") + 1, colours.indexOf(";"));
   int blue = colours.substring(0, colours.indexOf(";")).toInt();
   rgbLeds.setPixelColor(i, rgbLeds.Color(red, green, blue));
+}
+
+void updateBatteryLevel() {
+  CHARGE_OFF;
+  for (int i = 0; i<10; i++) {
+    battLev = battLev + analogRead(BATT_LEV_PIN);
+  }
+  battLev = battLev / 10;
+  updateBatteryCharacteristic(battLev);
+  CHARGE_ON;
+  // Serial.println(battLev);
 }

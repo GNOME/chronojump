@@ -240,6 +240,7 @@ public class RunInterval : Run
 	public List<int> Photocell_l
 	{
 		get { return photocell_l; }
+		set { photocell_l = value; }
 	}
 	/*
 	public string Photocell_l_str

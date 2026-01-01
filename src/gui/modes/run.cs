@@ -52,6 +52,10 @@ public class RepairRunIntervalWindow
 	RunInterval runInterval; //used on button_accept
 	private int pDN;
 
+	private int phStartCol = 1;
+	private int phEndCol = 2;
+	private int laptimeCol = 3;
+	private int splittimeCol = 4;
 
 	RepairRunIntervalWindow (Gtk.Window parent, RunInterval myRun, int pDN)
 	{
@@ -84,7 +88,7 @@ public class RepairRunIntervalWindow
 		
 		createTreeView(treeview_subevents);
 		//count, time
-		store = new TreeStore(typeof (string), typeof (string), typeof (string));
+		store = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string));
 		treeview_subevents.Model = store;
 		fillTreeView (treeview_subevents, store, myRun);
 	
@@ -153,7 +157,8 @@ public class RepairRunIntervalWindow
 		int count = 0;
 
 		myTreeView.AppendColumn ( Catalog.GetString ("Count"), new CellRendererText(), "text", count++);
-		//myTreeView.AppendColumn ( Catalog.GetString ("Time"), new CellRendererText(), "text", count++);
+		myTreeView.AppendColumn ( "Photoc. Start", new CellRendererText(), "text", count++);
+		myTreeView.AppendColumn ( "Photoc. End", new CellRendererText(), "text", count++);
 
 		Gtk.TreeViewColumn laptimeColumn = new Gtk.TreeViewColumn ();
 		laptimeColumn.Title = Catalog.GetString("Lap time");
@@ -176,12 +181,12 @@ public class RepairRunIntervalWindow
 			//and new seconds are bigger than allowed, return
 			if(type.FixedValue > 0 && ! type.TracksLimited &&
 					getTotalTime() //current total time in treeview
-					- Convert.ToDouble((string) treeview_subevents.Model.GetValue(iter,1)) //-old cell
+					- Convert.ToDouble((string) treeview_subevents.Model.GetValue (iter, laptimeCol)) //-old cell
 					+ Convert.ToDouble(args.NewText) //+new cell
 					> type.FixedValue) {	//bigger than allowed
 				return;
 			} else {
-				store.SetValue(iter, 1, args.NewText);
+				store.SetValue (iter, laptimeCol, args.NewText);
 				valuesUpdate ();
 			}
 		}
@@ -198,9 +203,9 @@ public class RepairRunIntervalWindow
 		bool iterOk = store.GetIterFirst (out iter);
 		if (iterOk) {
 			do {
-				double myTime = Convert.ToDouble((string) treeview_subevents.Model.GetValue (iter, 1));
+				double myTime = Convert.ToDouble((string) treeview_subevents.Model.GetValue (iter, laptimeCol));
 				splitTime += myTime;
-				store.SetValue (iter, 2, Util.TrimDecimals (splitTime, pDN));
+				store.SetValue (iter, splittimeCol, Util.TrimDecimals (splitTime, pDN));
 			} while (store.IterNext (ref iter));
 		}
 		label_totaltime_value.Text = Util.TrimDecimals (splitTime, pDN) + " " + Catalog.GetString("seconds");
@@ -213,7 +218,7 @@ public class RepairRunIntervalWindow
 		bool iterOk = store.GetIterFirst (out myIter);
 		if(iterOk) {
 			do {
-				double myTime = Convert.ToDouble((string) treeview_subevents.Model.GetValue(myIter, 1));
+				double myTime = Convert.ToDouble((string) treeview_subevents.Model.GetValue (myIter, laptimeCol));
 				totalTime += myTime;
 			} while (store.IterNext (ref myIter));
 		}
@@ -228,12 +233,31 @@ public class RepairRunIntervalWindow
 
 			int count = 0;
 			double splitTime = 0;
+			int phN = 0; // photocellN
 			foreach (string laptimeStr in laptimeArray)
 			{
+				LogB.Information ("is not null: " + (myRun.Photocell_l != null).ToString ());
+				if (myRun.Photocell_l != null)
+				{
+				       LogB.Information ("count: " + myRun.Photocell_l.Count.ToString ());
+				       LogB.Information (UtilList.ListIntToSQLString (myRun.Photocell_l, ","));
+				}
+
+				// get the photocell for start/end of every row
+				int phStart = 0;
+				int phEnd = 0;
+				if (myRun.Photocell_l != null && myRun.Photocell_l.Count > phN +1)
+				{
+					phStart = myRun.Photocell_l[phN ++];
+					phEnd = myRun.Photocell_l[phN];
+				}
+
 				double lapTime = Convert.ToDouble (Util.CDS (laptimeStr));
 				splitTime += lapTime;
 				store.AppendValues (
 						(count+1).ToString(),
+						phStart.ToString (),
+						phEnd.ToString (),
 						Util.TrimDecimals (lapTime, pDN),
 						Util.TrimDecimals (splitTime, pDN)
 						);
@@ -242,7 +266,8 @@ public class RepairRunIntervalWindow
 		}
 	}
 
-	void onSelectionEntry (object o, EventArgs args) {
+	void onSelectionEntry (object o, EventArgs args)
+	{
 		ITreeModel model;
 		TreeIter iter;
 		
@@ -268,13 +293,16 @@ public class RepairRunIntervalWindow
 		}
 	}
 
-	void on_button_add_before_clicked (object o, EventArgs args) {
+	void on_button_add_before_clicked (object o, EventArgs args)
+	{
 		ITreeModel model; 
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
 			int position = Convert.ToInt32( (string) model.GetValue (iter, 0) ) -1; //count starts at '0'
 			iter = store.InsertNode(position);
-			store.SetValue(iter, 1, "0");
+			store.SetValue (iter, phStartCol, "-1");
+			store.SetValue (iter, phEndCol, "-1");
+			store.SetValue (iter, laptimeCol, "0");
 			putRowNumbers(store);
 		}
 	}
@@ -286,7 +314,9 @@ public class RepairRunIntervalWindow
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
 			int position = Convert.ToInt32( (string) model.GetValue (iter, 0) ); //count starts at '0'
 			iter = store.InsertNode(position);
-			store.SetValue(iter, 1, "0");
+			store.SetValue (iter, phStartCol, "-1");
+			store.SetValue (iter, phEndCol, "-1");
+			store.SetValue (iter, laptimeCol, "0");
 			putRowNumbers(store);
 		}
 	}
@@ -324,12 +354,23 @@ public class RepairRunIntervalWindow
 		//foreach all lines... extrac intervalTimesString
 		TreeIter myIter;
 		string timeString = "";
-		
+
+		List<int> photocell_l = new List<int> ();
+		bool first = true;
+
 		bool iterOk = store.GetIterFirst (out myIter);
-		if(iterOk) {
-			string equal= ""; //first iteration should not appear '='
+		if(iterOk)
+		{
+			string equal = ""; //first iteration should not appear '='
 			do {
-				timeString = timeString + equal + (string) treeview_subevents.Model.GetValue (myIter, 1);
+				if (first)
+				{
+					photocell_l.Add (Convert.ToInt32 (treeview_subevents.Model.GetValue (myIter, phStartCol)));
+					first = false;
+				}
+				photocell_l.Add (Convert.ToInt32 (treeview_subevents.Model.GetValue (myIter, phEndCol)));
+
+				timeString = timeString + equal + (string) treeview_subevents.Model.GetValue (myIter, laptimeCol);
 				equal = "=";
 			} while (store.IterNext (ref myIter));
 		}
@@ -345,7 +386,7 @@ public class RepairRunIntervalWindow
 			distancesString = type.DistancesString;
 
 		runInterval.DistanceTotal = Util.GetRunITotalDistance(runInterval.DistanceInterval, distancesString, runInterval.Tracks);
-
+		runInterval.Photocell_l = photocell_l;
 
 		if(timeString != runInterval.IntervalTimesString)
 			runInterval.IntervalTimesString = timeString;

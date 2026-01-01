@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2025-12-30 19:10+0000\n"
-"PO-Revision-Date: 2025-12-30 21:32+0100\n"
+"POT-Creation-Date: 2025-12-31 14:42+0000\n"
+"PO-Revision-Date: 2026-01-01 14:32+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -34,7 +34,7 @@ msgstr "Chronojump"
 #: ../glade/app1.glade.h:2 ../glade/report_window.glade.h:9
 #: ../src/exportSession.cs:313 ../src/gui/app1/encoder.cs:5896
 #: ../src/gui/app1/forceSensor.cs:3874 ../src/gui/app1/runEncoder.cs:2841
-#: ../src/gui/app1/session/backup.cs:171 ../src/report.cs:168
+#: ../src/gui/app1/session/backup.cs:184 ../src/report.cs:168
 msgid "Session"
 msgstr "Seja"
 
@@ -377,8 +377,8 @@ msgstr "Prekliči test"
 #: ../glade/person_merge.glade.h:9 ../glade/person_select_window.glade.h:13
 #: ../src/exportSession.cs:129 ../src/gui/app1/contactsExercise.cs:176
 #: ../src/gui/app1/encoder.cs:2514 ../src/gui/app1/encoder.cs:2852
-#: ../src/gui/app1/session/backup.cs:80 ../src/gui/app1/session/backup.cs:240
-#: ../src/gui/app1/session/backup.cs:465 ../src/gui/app1/session/export.cs:83
+#: ../src/gui/app1/session/backup.cs:81 ../src/gui/app1/session/backup.cs:248
+#: ../src/gui/app1/session/backup.cs:478 ../src/gui/app1/session/export.cs:96
 #: ../src/gui/app1/session/loadAndImport.cs:443 ../src/gui/discover.cs:200
 #: ../src/gui/feedback.cs:1547 ../src/gui/modes/encoderConfiguration.cs:784
 #: ../src/gui/modes/encoderConfiguration.cs:840
@@ -645,8 +645,8 @@ msgstr "Umeri"
 #: ../src/gui/app1/encoder.cs:1850 ../src/gui/app1/encoder.cs:5882
 #: ../src/gui/app1/forceSensor.cs:2310 ../src/gui/app1/forceSensor.cs:3860
 #: ../src/gui/app1/runEncoder.cs:1259 ../src/gui/app1/runEncoder.cs:2827
-#: ../src/gui/app1/session/backup.cs:195 ../src/gui/app1/session/backup.cs:424
-#: ../src/gui/app1/session/backup.cs:477 ../src/gui/chronopicRegister.cs:402
+#: ../src/gui/app1/session/backup.cs:208 ../src/gui/app1/session/backup.cs:437
+#: ../src/gui/app1/session/backup.cs:490 ../src/gui/chronopicRegister.cs:402
 #: ../src/gui/discover.cs:222 ../src/gui/discover.cs:684
 #: ../src/gui/executeAuto.cs:323 ../src/gui/genericWindow.cs:1173
 #: ../src/gui/modes/encoderSelectRepetitions.cs:289
@@ -1335,7 +1335,7 @@ msgid "Advanced"
 msgstr "Napredno"
 
 #: ../glade/app1.glade.h:246 ../glade/encoder_configuration.glade.h:24
-#: ../src/exportSession.cs:128 ../src/gui/app1/session/export.cs:82
+#: ../src/exportSession.cs:128 ../src/gui/app1/session/export.cs:95
 msgid "Export"
 msgstr "Izvozi"
 
@@ -2274,7 +2274,7 @@ msgid "Open database file"
 msgstr "Odpri datoteko podatkovne zbirke"
 
 #: ../glade/app1.glade.h:466 ../glade/preferences_win.glade.h:217
-#: ../src/gui/app1/session/backup.cs:171
+#: ../src/gui/app1/session/backup.cs:184
 msgid "More"
 msgstr "Več"
 
@@ -2496,42 +2496,50 @@ msgid "Select destination"
 msgstr "Izbor cilja"
 
 #: ../glade/app1.glade.h:508
+msgid "Destination:"
+msgstr "Cilj:"
+
+#: ../glade/app1.glade.h:509
 msgid "Start backup"
 msgstr "Začni varnostno kopiranje"
 
-#: ../glade/app1.glade.h:509
+#: ../glade/app1.glade.h:510
+msgid "Open folder"
+msgstr "Odpri mapo"
+
+#: ../glade/app1.glade.h:511
 msgid "Directory"
 msgstr "Mapa"
 
-#: ../glade/app1.glade.h:510
+#: ../glade/app1.glade.h:512
 msgid "Subdirectory"
 msgstr "Podmapa"
 
-#: ../glade/app1.glade.h:511
+#: ../glade/app1.glade.h:513
 msgid "Delete old incomplete backups"
 msgstr "Izbriši stare nepopolne varnostne kopije"
 
-#: ../glade/app1.glade.h:512
+#: ../glade/app1.glade.h:514
 msgid "Do you want to do a full Chronojump data backup?"
 msgstr "Ali želite pripraviti polno varnostno kopijo vseh podatkov Chronojump?"
 
-#: ../glade/app1.glade.h:513
+#: ../glade/app1.glade.h:515
 msgid "Make the backup now!"
 msgstr "Ustvari varnostno kopijo!"
 
-#: ../glade/app1.glade.h:514
+#: ../glade/app1.glade.h:516
 msgid "Remind me next time"
 msgstr "Opomni me čez čas"
 
-#: ../glade/app1.glade.h:515
+#: ../glade/app1.glade.h:517
 msgid "Remind me in … days"
 msgstr "Opomni me čez … dni"
 
-#: ../glade/app1.glade.h:516
+#: ../glade/app1.glade.h:518
 msgid "Don't ask me again"
 msgstr "Ne vprašaj več"
 
-#: ../glade/app1.glade.h:517
+#: ../glade/app1.glade.h:519
 msgid ""
 "Versions prior to Chronojump 2.1.3 performed automatic backups at each "
 "Chronojump boot but did not include the raw data.\n"
@@ -2543,131 +2551,131 @@ msgstr ""
 "Z različico Chronojump 2.1.3 se v varnostne kopije kopirajo popolni nabori "
 "podatkov."
 
-#: ../glade/app1.glade.h:519
+#: ../glade/app1.glade.h:521
 msgid "Do you want to delete old incomplete backups?"
 msgstr "Ali želite izbrisati stare nepopolne varnostne kopije?"
 
-#: ../glade/app1.glade.h:520
+#: ../glade/app1.glade.h:522
 msgid "Delete them"
 msgstr "Izbriši jih"
 
-#: ../glade/app1.glade.h:521
+#: ../glade/app1.glade.h:523
 msgid "Deleted."
 msgstr "Kopije so izbrisane."
 
-#: ../glade/app1.glade.h:522
+#: ../glade/app1.glade.h:524
 msgid "Backup"
 msgstr "Varnostna kopija"
 
-#: ../glade/app1.glade.h:523
+#: ../glade/app1.glade.h:525
 msgid "Start export"
 msgstr "Začni izvoz"
 
-#: ../glade/app1.glade.h:524
+#: ../glade/app1.glade.h:526
 msgid "Select whether you want to view the Chronojump generic data folder …"
 msgstr ""
 "Izberite, ali si želite ogledati mapo s splošnimi podatki Chronojump ..."
 
-#: ../glade/app1.glade.h:525
+#: ../glade/app1.glade.h:527
 msgid "View generic data folder"
 msgstr "Pokaži mapo s splošnimi podatki"
 
-#: ../glade/app1.glade.h:526
+#: ../glade/app1.glade.h:528
 msgid "… or the data folder of the current mode and session:"
 msgstr "… ali podatkovno mapo trenutnega načina in seje:"
 
-#: ../glade/app1.glade.h:527
+#: ../glade/app1.glade.h:529
 msgid "View specific data folder"
 msgstr "Pokaži določeno podatkovno mapo"
 
-#: ../glade/app1.glade.h:528
+#: ../glade/app1.glade.h:530
 msgid "Import from CSV"
 msgstr "Uvozi iz CSV"
 
-#: ../glade/app1.glade.h:529
+#: ../glade/app1.glade.h:531
 msgid "Encoder disconnected."
 msgstr "Kodirnik ni povezan."
 
-#: ../glade/app1.glade.h:530
+#: ../glade/app1.glade.h:532
 msgid "Please, connect it and click here:"
 msgstr "Kodirnik je treba povezati in nato klikniti na:"
 
-#: ../glade/app1.glade.h:531
+#: ../glade/app1.glade.h:533
 msgid "Check connection"
 msgstr "Preveri povezavo"
 
-#: ../glade/app1.glade.h:532 ../src/constants.cs:294
+#: ../glade/app1.glade.h:534 ../src/constants.cs:294
 msgid "RFID has been disconnected!"
 msgstr "RFID je bil prekinjen!"
 
-#: ../glade/app1.glade.h:533 ../src/constants.cs:295
+#: ../glade/app1.glade.h:535 ../src/constants.cs:295
 msgid "Please, connect it and restart Chronojump."
 msgstr "Napravo povežite in ponovno zaženite program."
 
-#: ../glade/app1.glade.h:534 ../src/gui/preferences.cs:429
+#: ../glade/app1.glade.h:536 ../src/gui/preferences.cs:429
 #: ../src/gui/preferences.cs:3116 ../src/gui/preferences.cs:3127
 msgid "Preferences"
 msgstr "Možnosti"
 
-#: ../glade/app1.glade.h:535
+#: ../glade/app1.glade.h:537
 msgid "Utilities"
 msgstr "Pripomočki"
 
-#: ../glade/app1.glade.h:536
+#: ../glade/app1.glade.h:538
 msgid "Documents"
 msgstr "Dokumenti"
 
-#: ../glade/app1.glade.h:537 ../glade/dialog_shortcuts.glade.h:1
+#: ../glade/app1.glade.h:539 ../glade/dialog_shortcuts.glade.h:1
 msgid "Shortcuts"
 msgstr "Tipkovne bližnjice"
 
-#: ../glade/app1.glade.h:538 ../glade/dialog_about.glade.h:1
+#: ../glade/app1.glade.h:540 ../glade/dialog_about.glade.h:1
 msgid "About"
 msgstr "O programu"
 
-#: ../glade/app1.glade.h:539
+#: ../glade/app1.glade.h:541
 msgid "English"
 msgstr "Angleščina"
 
-#: ../glade/app1.glade.h:540
+#: ../glade/app1.glade.h:542
 msgid "Spanish"
 msgstr "Španščina"
 
-#: ../glade/app1.glade.h:541
+#: ../glade/app1.glade.h:543
 msgid "Open in browser"
 msgstr "Odpri v brskalniku"
 
-#: ../glade/app1.glade.h:542 ../src/constants.cs:947
+#: ../glade/app1.glade.h:544 ../src/constants.cs:947
 msgid "Sorry, cannot open website."
 msgstr "Spletišča ni mogoče odpreti."
 
-#: ../glade/app1.glade.h:543
+#: ../glade/app1.glade.h:545
 msgid "Refresh"
 msgstr "Osveži"
 
-#: ../glade/app1.glade.h:544 ../glade/dialog_person_popup.glade.h:3
+#: ../glade/app1.glade.h:546 ../glade/dialog_person_popup.glade.h:3
 msgid "label"
 msgstr "oznaka"
 
-#: ../glade/app1.glade.h:545 ../src/gui/discover.cs:174
+#: ../glade/app1.glade.h:547 ../src/gui/discover.cs:174
 #: ../src/gui/discover.cs:519
 msgid "Show advanced"
 msgstr "Pokaži napredno"
 
 #. NC means: Not Compatible
-#: ../glade/app1.glade.h:547
+#: ../glade/app1.glade.h:549
 msgid "NC:"
 msgstr "Ni združljivo:"
 
-#: ../glade/app1.glade.h:548
+#: ../glade/app1.glade.h:550
 msgid "Not compatible with"
 msgstr "Ni združljivo z"
 
-#: ../glade/app1.glade.h:549 ../src/gui/discover.cs:95
+#: ../glade/app1.glade.h:551 ../src/gui/discover.cs:95
 msgid "Assign manually"
 msgstr "Ročna dodelitev"
 
-#: ../glade/app1.glade.h:550
+#: ../glade/app1.glade.h:552
 msgid ""
 "Chronojump detects devices automatically. However, if for some reason your "
 "device isn't detected correctly, you can assign it manually."
@@ -2675,7 +2683,7 @@ msgstr ""
 "Chronojump samodejno zazna naprave. Če pa naprava iz kakršnega koli razloga "
 "ni pravilno zaznana, jo lahko dodelite ročno."
 
-#: ../glade/app1.glade.h:551
+#: ../glade/app1.glade.h:553
 msgid ""
 "Please note that if you manually assigned an incorrect device, you can "
 "always forget it using the Forget button."
@@ -2683,38 +2691,38 @@ msgstr ""
 "Upoštevajte, da če ročno dodelite napačno napravo, jo lahko vedno pozabite z "
 "gumbom Pozabi."
 
-#: ../glade/app1.glade.h:552 ../glade/person_select_window.glade.h:2
+#: ../glade/app1.glade.h:554 ../glade/person_select_window.glade.h:2
 msgid "Manage persons"
 msgstr "Upravljaj testirance"
 
-#: ../glade/app1.glade.h:553 ../glade/person_select_window.glade.h:4
+#: ../glade/app1.glade.h:555 ../glade/person_select_window.glade.h:4
 #: ../glade/person_win.glade.h:1 ../src/gui/person/addModify.cs:276
 msgid "New person"
 msgstr "Nov testiranec"
 
-#: ../glade/app1.glade.h:554
+#: ../glade/app1.glade.h:556
 msgid "Create new person"
 msgstr "Ustvari novega testiranca"
 
-#: ../glade/app1.glade.h:555 ../glade/person_select_window.glade.h:6
+#: ../glade/app1.glade.h:557 ../glade/person_select_window.glade.h:6
 msgid "New persons (multiple)"
 msgstr "Novi testiranci"
 
-#: ../glade/app1.glade.h:556 ../glade/person_select_window.glade.h:11
+#: ../glade/app1.glade.h:558 ../glade/person_select_window.glade.h:11
 #: ../glade/person_win.glade.h:47
 msgid "Load person"
 msgstr "Naloži testiranca"
 
-#: ../glade/app1.glade.h:557 ../glade/person_select_window.glade.h:10
+#: ../glade/app1.glade.h:559 ../glade/person_select_window.glade.h:10
 msgid "Load into session"
 msgstr "Naloži v sejo"
 
-#: ../glade/app1.glade.h:558 ../glade/person_select_window.glade.h:12
+#: ../glade/app1.glade.h:560 ../glade/person_select_window.glade.h:12
 #: ../src/gui/person/recuperate.cs:408
 msgid "Load persons from other session"
 msgstr "Naloži testirance iz druge seje"
 
-#: ../glade/app1.glade.h:559 ../glade/person_select_window.glade.h:8
+#: ../glade/app1.glade.h:561 ../glade/person_select_window.glade.h:8
 msgid ""
 "Create person disabled\n"
 "on Cloud-view mode"
@@ -2722,117 +2730,113 @@ msgstr ""
 "Ustvarjanje osebe je onemogočeno\n"
 "v načinu pogleda v oblaku"
 
-#: ../glade/app1.glade.h:561
+#: ../glade/app1.glade.h:563
 msgid "This person:"
 msgstr "Ta oseba:"
 
-#: ../glade/app1.glade.h:562 ../glade/person_select_window.glade.h:16
+#: ../glade/app1.glade.h:564 ../glade/person_select_window.glade.h:16
 msgid "Edit selected person"
 msgstr "Uredi izbranega testiranca"
 
-#: ../glade/app1.glade.h:563
+#: ../glade/app1.glade.h:565
 msgid "Delete person from this session."
 msgstr "Izbriši testiranca iz te seje."
 
-#: ../glade/app1.glade.h:564
+#: ../glade/app1.glade.h:566
 msgid "Show all tests of any person"
 msgstr "Pokaži vse teste osebe"
 
 #. this strings will be used on merge persons code. Now are here just to be translated in the meantime.
-#: ../glade/app1.glade.h:565 ../glade/person_merge.glade.h:1
+#: ../glade/app1.glade.h:567 ../glade/person_merge.glade.h:1
 #: ../glade/person_select_window.glade.h:20 ../src/gui/person/addModify.cs:167
 msgid "Merge with another person"
 msgstr "Združi z drugo osebo"
 
-#: ../glade/app1.glade.h:566
+#: ../glade/app1.glade.h:568
 msgid "Export persons"
 msgstr "Izvozi testirance"
 
-#: ../glade/app1.glade.h:567
+#: ../glade/app1.glade.h:569
 msgid "persons in the current session"
 msgstr "testirancev na tekoči seji"
 
-#: ../glade/app1.glade.h:568
+#: ../glade/app1.glade.h:570
 msgid "persons in any session"
 msgstr "testirancev na vseh sejah"
 
-#: ../glade/app1.glade.h:569 ../glade/report_window.glade.h:23
+#: ../glade/app1.glade.h:571 ../glade/report_window.glade.h:23
 msgid "Open file"
 msgstr "Odpri datoteko"
 
-#: ../glade/app1.glade.h:570
-msgid "Open folder"
-msgstr "Odpri mapo"
-
-#: ../glade/app1.glade.h:571
+#: ../glade/app1.glade.h:572
 msgid "Database:"
 msgstr "Zbirka podatkov:"
 
-#: ../glade/app1.glade.h:572
+#: ../glade/app1.glade.h:573
 msgid "Select another database"
 msgstr "Izberite drugo zbirko podatkov"
 
-#: ../glade/app1.glade.h:573
+#: ../glade/app1.glade.h:574
 msgid "View selected database"
 msgstr "Pokaži izbrano zbirko podatkov"
 
-#: ../glade/app1.glade.h:574 ../glade/preferences_win.glade.h:187
+#: ../glade/app1.glade.h:575 ../glade/preferences_win.glade.h:187
 msgid "Your email"
 msgstr "Elektronski naslov"
 
-#: ../glade/app1.glade.h:575
+#: ../glade/app1.glade.h:576
 msgid "Preferred response language "
 msgstr "Prednostni jezik ozdiva "
 
-#: ../glade/app1.glade.h:576
+#: ../glade/app1.glade.h:577
 msgid "Portuguese"
 msgstr "Portugalščina"
 
-#: ../glade/app1.glade.h:577
+#: ../glade/app1.glade.h:578
 msgid "Catalan"
 msgstr "Katalonščina\t"
 
-#: ../glade/app1.glade.h:578 ../glade/preferences_win.glade.h:188
+#: ../glade/app1.glade.h:579 ../glade/preferences_win.glade.h:188
 msgid "Add comments"
 msgstr "Dodaj opombe"
 
-#: ../glade/app1.glade.h:579 ../src/chronojump.cs:1004
+#: ../glade/app1.glade.h:580 ../src/chronojump.cs:1004
 msgid "Send error log"
 msgstr "Pošlji dnevnik napak"
 
-#: ../glade/app1.glade.h:580
+#: ../glade/app1.glade.h:581
 msgid "Check last version"
 msgstr "Preveri zadnjo različico"
 
-#: ../glade/app1.glade.h:581
+#: ../glade/app1.glade.h:582
 msgid "Open Chronojump"
 msgstr "Odpri ChronoJump"
 
-#: ../glade/app1.glade.h:582
+#: ../glade/app1.glade.h:583
 msgid "Are you sure you want to exit Chronojump?"
 msgstr "Ali ste prepričani, da želite končati program Chronojump?"
 
-#: ../glade/app1.glade.h:583
+#: ../glade/app1.glade.h:584
 msgid "Please, help us to provide videos on the most suitable platforms."
 msgstr "Pomagajte nam pripraviti videoposnetke na najprimernejših platformah."
 
-#: ../glade/app1.glade.h:584
+#: ../glade/app1.glade.h:585
 msgid "What social network do you use to watch videos?"
 msgstr "Katero družbeno omrežje uporabljate za gledanje videoposnetkov?"
 
-#: ../glade/app1.glade.h:585
+#: ../glade/app1.glade.h:586
 msgid "I don't use social networks or don't want to respond"
 msgstr "Ne uporabljam družbenih omrežij oziroma ne želim povedati"
 
-#: ../glade/app1.glade.h:586
+#: ../glade/app1.glade.h:587
 msgid "Other (which)"
 msgstr "Drugo (katero)"
 
-#: ../glade/app1.glade.h:587
+#: ../glade/app1.glade.h:588
 msgid "Send poll"
 msgstr "Pošlji anketo"
 
-#: ../glade/app1.glade.h:588
+#: ../glade/app1.glade.h:589
 msgid "Exit fullscreen"
 msgstr "Izhod iz celozaslonskega načina"
 
@@ -6051,12 +6055,12 @@ msgid "Not enough data."
 msgstr "Premalo podatkov."
 
 #: ../src/constants.cs:943 ../src/gui/app1/session/backup.cs:61
-#: ../src/gui/app1/session/export.cs:46
+#: ../src/gui/app1/session/export.cs:48
 msgid "Error. Cannot find database."
 msgstr "Napaka. Ni mogoče najti podatkovne zbirke."
 
-#: ../src/constants.cs:951 ../src/gui/app1/session/main.cs:342
-#: ../src/gui/app1/session/main.cs:372 ../src/gui/app1/session/main.cs:380
+#: ../src/constants.cs:951 ../src/gui/app1/session/main.cs:346
+#: ../src/gui/app1/session/main.cs:376 ../src/gui/app1/session/main.cs:384
 #: ../src/gui/report.cs:552 ../src/gui/splash.cs:164
 msgid "Error. Cannot open directory."
 msgstr "Napaka: ni mogoče odprti mape."
@@ -6642,7 +6646,7 @@ msgstr[2] "Zavržena {0} niza."
 msgstr[3] "Zavrženi {0} nizi."
 
 #: ../src/exportFiles/exportFiles.cs:173 ../src/gui/app1/chronojump.cs:2899
-#: ../src/gui/app1/session/export.cs:190
+#: ../src/gui/app1/session/export.cs:207
 #: ../src/gui/modes/encoderConfiguration.cs:878 ../src/gui/report.cs:540
 msgid "Cancelled."
 msgstr "Preklicano."
@@ -6656,10 +6660,10 @@ msgstr "Manjkajo podatki."
 msgid "Error doing operation."
 msgstr "Napaka pri delovanju."
 
-#: ../src/exportFiles/exportFiles.cs:179 ../src/gui/app1/session/backup.cs:311
-#: ../src/gui/app1/session/backup.cs:456 ../src/gui/app1/session/backup.cs:708
-#: ../src/gui/app1/session/backup.cs:830 ../src/gui/app1/session/export.cs:138
-#: ../src/gui/app1/session/export.cs:240
+#: ../src/exportFiles/exportFiles.cs:179 ../src/gui/app1/session/backup.cs:322
+#: ../src/gui/app1/session/backup.cs:469 ../src/gui/app1/session/backup.cs:729
+#: ../src/gui/app1/session/backup.cs:851 ../src/gui/app1/session/export.cs:155
+#: ../src/gui/app1/session/export.cs:260
 #, csharp-format
 msgid "Cannot copy to {0} "
 msgstr "Ni mogoče kopirati v {0} "
@@ -7204,7 +7208,7 @@ msgid "Select an image"
 msgstr "Izberite sliko"
 
 #: ../src/gui/app1/contactsExercise.cs:175
-#: ../src/gui/app1/session/backup.cs:239 ../src/gui/preferences.cs:2653
+#: ../src/gui/app1/session/backup.cs:247 ../src/gui/preferences.cs:2653
 #: ../src/gui/preferences.cs:3044
 msgid "Select"
 msgstr "Izberi"
@@ -7360,7 +7364,7 @@ msgid "Export repetition in CSV format"
 msgstr "Izvozi ponovitve v zapis CSV"
 
 #: ../src/gui/app1/encoder.cs:2563 ../src/gui/app1/encoder.cs:2893
-#: ../src/gui/app1/session/backup.cs:284 ../src/gui/app1/session/export.cs:118
+#: ../src/gui/app1/session/backup.cs:295 ../src/gui/app1/session/export.cs:135
 msgid "Are you sure you want to overwrite: "
 msgstr "Ali ste prepričani, da želite prepisati datoteko:"
 
@@ -7667,7 +7671,7 @@ msgstr "Kopice"
 
 #. to allow hslides and table
 #: ../src/gui/app1/encoderThreads.cs:399 ../src/gui/app1/encoderThreads.cs:809
-#: ../src/gui/app1/session/backup.cs:407
+#: ../src/gui/app1/session/backup.cs:420
 msgid "Please, wait."
 msgstr "Počakajte."
 
@@ -8003,22 +8007,22 @@ msgstr "Šport '{0}' že obstaja v podatkovni zbirki."
 msgid "Session: '{0}' exists. Please, use another name"
 msgstr "Seja '{0}'že obstaja. Uporabite drugo ime."
 
-#: ../src/gui/app1/session/backup.cs:97
+#: ../src/gui/app1/session/backup.cs:110
 #, csharp-format
 msgid "Estimated size: {0} MB (uncompressed)."
 msgstr "Ocenjena velikost: {0} MB (nestisnjeno)."
 
-#: ../src/gui/app1/session/backup.cs:161
+#: ../src/gui/app1/session/backup.cs:174
 msgid "You will be prompted for a backup the next time you start Chronojump."
 msgstr ""
 "Ko naslednjič zaženete Chronojump, boste pozvani k varnostnemu kopiranju."
 
-#: ../src/gui/app1/session/backup.cs:163
+#: ../src/gui/app1/session/backup.cs:176
 #, csharp-format
 msgid "You will be prompted for a backup in {0} days."
 msgstr "V {0} dneh boste pozvani k varnostnemu kopiranju."
 
-#: ../src/gui/app1/session/backup.cs:170
+#: ../src/gui/app1/session/backup.cs:183
 msgid ""
 "You will no longer be bothered with scheduled backups, but you can continue "
 "backing up by clicking on"
@@ -8026,15 +8030,15 @@ msgstr ""
 "Načrtovane varnostno kopiranje vas ne bo več motilo, lahko pa nadaljujete z "
 "varnostnim kopiranjem s klikom na"
 
-#: ../src/gui/app1/session/backup.cs:236
+#: ../src/gui/app1/session/backup.cs:244
 msgid "Copy database to:"
 msgstr "Kopiraj podatkovno zbirko v:"
 
-#: ../src/gui/app1/session/backup.cs:348
+#: ../src/gui/app1/session/backup.cs:359
 msgid "Compressing …"
 msgstr "Stiskanje ..."
 
-#: ../src/gui/app1/session/backup.cs:350
+#: ../src/gui/app1/session/backup.cs:361
 #, csharp-format
 msgid "Please, wait approximately 1 minute."
 msgid_plural "Please, wait approximately {0} minutes."
@@ -8043,34 +8047,34 @@ msgstr[1] "Prosimo, počakajte približno {0} minuto."
 msgstr[2] "Prosimo, počakajte približno {0} minuti."
 msgstr[3] "Prosimo, počakajte približno {0} minute."
 
-#: ../src/gui/app1/session/backup.cs:382
+#: ../src/gui/app1/session/backup.cs:393
 #, csharp-format
 msgid "Copied in {0} ms."
 msgstr "Kopirano v {0} ms."
 
-#: ../src/gui/app1/session/backup.cs:385
+#: ../src/gui/app1/session/backup.cs:397
 #, csharp-format
 msgid "Compressed in {0} s."
 msgstr "Stisnjeno v {0} s."
 
-#: ../src/gui/app1/session/backup.cs:388
+#: ../src/gui/app1/session/backup.cs:401
 msgid "Failed at compress."
 msgstr "Stiskanje je spodletelo."
 
-#: ../src/gui/app1/session/backup.cs:390
+#: ../src/gui/app1/session/backup.cs:403
 msgid "Copy failed, maybe the disk is full."
 msgstr "Kopiranje ni uspelo, morda je disk poln."
 
-#: ../src/gui/app1/session/export.cs:79
+#: ../src/gui/app1/session/export.cs:92
 msgid "Export session to:"
 msgstr "Izvozi sejo v:"
 
-#: ../src/gui/app1/session/export.cs:193
+#: ../src/gui/app1/session/export.cs:210
 #, csharp-format
 msgid "Exported in {0} s"
 msgstr "Izvoženo v {0} s"
 
-#: ../src/gui/app1/session/export.cs:256
+#: ../src/gui/app1/session/export.cs:276
 msgid "Copying files"
 msgstr "Kopiranje datotek"
 
@@ -8112,7 +8116,7 @@ msgstr "Prišlo je do napake uvoza podatkov."
 msgid "Open another database"
 msgstr "Odpri dodatno podatkovno zbirko"
 
-#: ../src/gui/app1/session/main.cs:356
+#: ../src/gui/app1/session/main.cs:360
 msgid "No data. Please, perform tests."
 msgstr "Ni podatkov. Prosimo, opravite teste."
 

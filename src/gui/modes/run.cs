@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -50,7 +50,8 @@ public class RepairRunIntervalWindow
 
 	RunType type;
 	RunInterval runInterval; //used on button_accept
-	
+	private int pDN;
+
 
 	RepairRunIntervalWindow (Gtk.Window parent, RunInterval myRun, int pDN)
 	{
@@ -69,7 +70,8 @@ public class RepairRunIntervalWindow
 		UtilGtk.IconWindow(repair_sub_event);
 
 		this.runInterval = myRun;
-	
+		this.pDN = pDN;
+
 		repair_sub_event.Title = Catalog.GetString("Repair intervallic race");
 		label_header.Text = Constants.GetRepairWindowMessage ();
 	
@@ -82,15 +84,15 @@ public class RepairRunIntervalWindow
 		
 		createTreeView(treeview_subevents);
 		//count, time
-		store = new TreeStore(typeof (string), typeof (string));
+		store = new TreeStore(typeof (string), typeof (string), typeof (string));
 		treeview_subevents.Model = store;
-		fillTreeView (treeview_subevents, store, myRun, pDN);
+		fillTreeView (treeview_subevents, store, myRun);
 	
 		button_add_before.Sensitive = false;
 		button_add_after.Sensitive = false;
 		button_delete.Sensitive = false;
 		
-		label_totaltime_value.Text = getTotalTime().ToString() + " " + Catalog.GetString("seconds");
+		label_totaltime_value.Text = Util.TrimDecimals (getTotalTime(), pDN) + " " + Catalog.GetString("seconds");
 		
 		treeview_subevents.Selection.Changed += onSelectionEntry;
 	}
@@ -145,24 +147,27 @@ public class RepairRunIntervalWindow
 	}
 
 	
-	private void createTreeView (Gtk.TreeView myTreeView) {
+	private void createTreeView (Gtk.TreeView myTreeView)
+	{
 		myTreeView.HeadersVisible=true;
 		int count = 0;
 
 		myTreeView.AppendColumn ( Catalog.GetString ("Count"), new CellRendererText(), "text", count++);
 		//myTreeView.AppendColumn ( Catalog.GetString ("Time"), new CellRendererText(), "text", count++);
 
-		Gtk.TreeViewColumn timeColumn = new Gtk.TreeViewColumn ();
-		timeColumn.Title = Catalog.GetString("Lap time");
-		Gtk.CellRendererText timeCell = new Gtk.CellRendererText ();
-		timeCell.Editable = true;
-		timeCell.Edited += timeCellEdited;
-		timeColumn.PackStart (timeCell, true);
-		timeColumn.AddAttribute(timeCell, "text", count ++);
-		myTreeView.AppendColumn ( timeColumn );
+		Gtk.TreeViewColumn laptimeColumn = new Gtk.TreeViewColumn ();
+		laptimeColumn.Title = Catalog.GetString("Lap time");
+		Gtk.CellRendererText laptimeCell = new Gtk.CellRendererText ();
+		laptimeCell.Editable = true;
+		laptimeCell.Edited += laptimeCellEdited;
+		laptimeColumn.PackStart (laptimeCell, true);
+		laptimeColumn.AddAttribute(laptimeCell, "text", count ++);
+		myTreeView.AppendColumn ( laptimeColumn );
+
+		myTreeView.AppendColumn ( Catalog.GetString ("Split time"), new CellRendererText(), "text", count++);
 	}
 	
-	private void timeCellEdited (object o, Gtk.EditedArgs args)
+	private void laptimeCellEdited (object o, Gtk.EditedArgs args)
 	{
 		Gtk.TreeIter iter;
 		store.GetIter (out iter, new Gtk.TreePath (args.Path));
@@ -179,14 +184,15 @@ public class RepairRunIntervalWindow
 				store.SetValue(iter, 1, args.NewText);
 
 				//update the totaltime label
-				label_totaltime_value.Text = getTotalTime().ToString() + " " + Catalog.GetString("seconds");
+				label_totaltime_value.Text = Util.TrimDecimals (getTotalTime(), pDN) + " " + Catalog.GetString("seconds");
 			}
 		}
 		
 		//if is not number or if it was -1, the old data will remain
 	}
 
-	private double getTotalTime() {
+	private double getTotalTime()
+	{
 		TreeIter myIter;
 		double totalTime = 0;
 		bool iterOk = store.GetIterFirst (out myIter);
@@ -199,14 +205,23 @@ public class RepairRunIntervalWindow
 		return totalTime;
 	}
 	
-	private void fillTreeView (Gtk.TreeView tv, TreeStore store, RunInterval myRun, int pDN)
+	private void fillTreeView (Gtk.TreeView tv, TreeStore store, RunInterval myRun)
 	{
-		if(myRun.IntervalTimesString.Length > 0) {
-			string [] timeArray = myRun.IntervalTimesString.Split(new char[] {'='});
+		if(myRun.IntervalTimesString.Length > 0)
+		{
+			string [] laptimeArray = myRun.IntervalTimesString.Split(new char[] {'='});
 
 			int count = 0;
-			foreach (string myTime in timeArray) {
-				store.AppendValues ( (count+1).ToString(), Util.TrimDecimals(myTime, pDN) );
+			double splitTime = 0;
+			foreach (string laptimeStr in laptimeArray)
+			{
+				double lapTime = Convert.ToDouble (Util.CDS (laptimeStr));
+				splitTime += lapTime;
+				store.AppendValues (
+						(count+1).ToString(),
+						Util.TrimDecimals (lapTime, pDN),
+						Util.TrimDecimals (splitTime, pDN)
+						);
 				count ++;
 			}
 		}
@@ -278,7 +293,7 @@ public class RepairRunIntervalWindow
 			store.Remove(ref iter);
 			putRowNumbers(store);
 		
-			label_totaltime_value.Text = getTotalTime().ToString() + " " + Catalog.GetString("seconds");
+			label_totaltime_value.Text = Util.TrimDecimals (getTotalTime(), pDN) + " " + Catalog.GetString("seconds");
 
 			button_add_before.Sensitive = false;
 			button_add_after.Sensitive = false;

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -1066,7 +1066,8 @@ public class Constants
 	{
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		return string.Format(Catalog.GetString("Use this window to repair this test.\nDouble clic any cell to edit it (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator) +
+		return Catalog.GetString ("Use this window to repair this test.") + "\n" +
+			string.Format (Catalog.GetString ("Double clic a cell to edit it (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator) +
 			"\n" + Catalog.GetString ("Press enter or tab after editing a cell.");
 	}
 

@@ -182,13 +182,28 @@ public class RepairRunIntervalWindow
 				return;
 			} else {
 				store.SetValue(iter, 1, args.NewText);
-
-				//update the totaltime label
-				label_totaltime_value.Text = Util.TrimDecimals (getTotalTime(), pDN) + " " + Catalog.GetString("seconds");
+				valuesUpdate ();
 			}
 		}
 		
 		//if is not number or if it was -1, the old data will remain
+	}
+
+	// laptime has been edited (or some row added, deleted)
+	// need to change splittime and totaltime
+	private void valuesUpdate ()
+	{
+		TreeIter iter;
+		double splitTime = 0; //at end will be totalTime
+		bool iterOk = store.GetIterFirst (out iter);
+		if (iterOk) {
+			do {
+				double myTime = Convert.ToDouble((string) treeview_subevents.Model.GetValue (iter, 1));
+				splitTime += myTime;
+				store.SetValue (iter, 2, Util.TrimDecimals (splitTime, pDN));
+			} while (store.IterNext (ref iter));
+		}
+		label_totaltime_value.Text = Util.TrimDecimals (splitTime, pDN) + " " + Catalog.GetString("seconds");
 	}
 
 	private double getTotalTime()
@@ -264,7 +279,8 @@ public class RepairRunIntervalWindow
 		}
 	}
 	
-	void on_button_add_after_clicked (object o, EventArgs args) {
+	void on_button_add_after_clicked (object o, EventArgs args)
+	{
 		ITreeModel model; 
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
@@ -275,7 +291,8 @@ public class RepairRunIntervalWindow
 		}
 	}
 	
-	private void putRowNumbers(TreeStore myStore) {
+	private void putRowNumbers(TreeStore myStore)
+	{
 		TreeIter myIter;
 		bool iterOk = myStore.GetIterFirst (out myIter);
 		if(iterOk) {
@@ -286,14 +303,15 @@ public class RepairRunIntervalWindow
 		}
 	}
 		
-	void on_button_delete_clicked (object o, EventArgs args) {
+	void on_button_delete_clicked (object o, EventArgs args)
+	{
 		ITreeModel model; 
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
 			store.Remove(ref iter);
 			putRowNumbers(store);
-		
-			label_totaltime_value.Text = Util.TrimDecimals (getTotalTime(), pDN) + " " + Catalog.GetString("seconds");
+
+			valuesUpdate ();
 
 			button_add_before.Sensitive = false;
 			button_add_after.Sensitive = false;

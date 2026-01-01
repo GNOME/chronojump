@@ -236,12 +236,14 @@ public class RepairRunIntervalWindow
 			int phN = 0; // photocellN
 			foreach (string laptimeStr in laptimeArray)
 			{
+				/* debug
 				LogB.Information ("is not null: " + (myRun.Photocell_l != null).ToString ());
 				if (myRun.Photocell_l != null)
 				{
 				       LogB.Information ("count: " + myRun.Photocell_l.Count.ToString ());
 				       LogB.Information (UtilList.ListIntToSQLString (myRun.Photocell_l, ","));
 				}
+				*/
 
 				// get the photocell for start/end of every row
 				int phStart = 0;

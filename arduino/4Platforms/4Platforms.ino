@@ -144,7 +144,6 @@ void setup() {
   initializeBLE();
   Serial.flush();
   updateBatteryLevel();
-  Serial.printf("Battery: %i\n", battLev);
 }
 
 void loop() {
@@ -306,8 +305,14 @@ void updateBatteryLevel() {
   for (int i = 0; i<10; i++) {
     battLev = battLev + analogRead(BATT_LEV_PIN);
   }
+  CHARGE_ON;
   battLev = battLev / 10;
   updateBatteryCharacteristic(battLev);
-  CHARGE_ON;
-  // Serial.println(battLev);
+  Serial.print(battLev);
+  battLev = map(battLev, 2200, 2640, 0, 100);
+  if (battLev > 100) 
+    battLev = 100;
+  if (battLev <0 )
+    battLev = 0;
+  Serial.printf(";%i%%\n", battLev);
 }

@@ -127,8 +127,15 @@ void setup() {
   {
     sensorState[i] = !digitalRead(sensorPin[ sensorMapping[i] ]);
     lastSensorState[i] = sensorState[i];
+    if (sensorState[i] == HIGH) {
+      lastPhaseDuration[i] = - lastPhaseDuration[i];
+      rgbLeds.setPixelColor(sensorMapping[i], CJ_BLUE);
+    } else {
+      rgbLeds.setPixelColor(sensorMapping[i], CJ_YELLOW);
+    }
     // Serial.println("Sensor" + String(i) + "->GPIO" + String(sensorPin[ sensorMapping[i] ] ) ); //For debugging pin mapping
   }
+  rgbLeds.show();
 
   // digitalWrite(LED_BUILTIN, lastSensorState[1]);
 

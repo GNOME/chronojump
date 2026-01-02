@@ -1067,7 +1067,7 @@ public class Constants
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
 		return Catalog.GetString ("Use this window to repair this test.") + "\n" +
-			string.Format (Catalog.GetString ("Double clic a cell to edit it (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator) +
+			string.Format (Catalog.GetString ("Double click a cell to edit it (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator) +
 			"\n" + Catalog.GetString ("Press enter or tab after editing a cell.");
 	}
 

@@ -467,10 +467,9 @@ msgstr "Ρυθμός"
 
 #: ../glade/app1.glade.h:81
 msgid "Capturing with triggers"
-msgstr "Λήψη με σκανδάλες"
+msgstr "Καταγραφή με εναύσματα"
 
 #: ../glade/app1.glade.h:82 ../src/constants.cs:797
-#| msgid "Detecting ..."
 msgid "Detecting …"
 msgstr "Ανίχνευση …"
 
@@ -1001,19 +1000,19 @@ msgstr "Πλευρικός"
 #: ../glade/app1.glade.h:179 ../glade/edit_event.glade.h:16
 #: ../src/gui/modes/jump.cs:738 ../src/gui/modes/run.cs:646
 msgid "Limited by"
-msgstr "Περιορισμένο κατά"
+msgstr "Περιορίζεται από"
 
 #: ../glade/app1.glade.h:180
 msgid "Allow finish after time"
-msgstr "Να επιτρέπεται ο τερματισμός μετά τον χρόνο"
+msgstr "Να επιτρέπεται ο τερματισμός μετά το πέρας του χρόνου"
 
 #: ../glade/app1.glade.h:181
 msgid ""
 "If a multiple jump is limited by time, and time has running out, allow "
 "finish jump"
 msgstr ""
-"Αν ένα πολλαπλό άλμα περιορίζεται από τον χρόνο, και ο χρόνος έχει "
-"τελειώσει, να επιτρέπεται ο τερματισμός του άλματος"
+"Αν ένα πολλαπλό άλμα περιορίζεται από τον χρόνο και ο χρόνος εκπνεύσει, να "
+"επιτρέπεται η ολοκλήρωση του άλματος"
 
 #: ../glade/app1.glade.h:182
 msgid "Measure reaction time"
@@ -1225,7 +1224,7 @@ msgstr "Επιπλέον"
 #: ../src/treeview/event.cs:449 ../src/treeview/jumpRj.cs:250
 #: ../src/treeview/runI.cs:196
 msgid "Total"
-msgstr "Συνολικά"
+msgstr "Σύνολο"
 
 #: ../glade/app1.glade.h:218 ../glade/edit_event.glade.h:48
 msgid "Total mass"
@@ -1565,7 +1564,8 @@ msgstr "<b>Αντιδραστική-αντανακλαστική</b>"
 msgid ""
 "Related to the part of the absolute force that can be activated voluntarily."
 msgstr ""
-"Σχετίζεται με το μέρος της απόλυτης δύναμης που μπορεί να ενεργοποιηθεί εκούσια."
+"Σχετίζεται με το μέρος της απόλυτης δύναμης που μπορεί να ενεργοποιηθεί "
+"εκούσια."
 
 #: ../glade/app1.glade.h:295
 msgid "Ability to mobilise a submaximal load at a maximum speed."
@@ -1577,7 +1577,8 @@ msgid ""
 "Increasing of strength due to the elastic energy accumulated during the "
 "stretch-shortening cycle."
 msgstr ""
-"Αύξηση της ισχύος λόγω της ελαστικής ενέργειας που συσσωρεύεται κατά τη διάρκεια του κύκλου διάτασης-βράχυνσης."
+"Αύξηση της ισχύος λόγω της ελαστικής ενέργειας που συσσωρεύεται κατά τη "
+"διάρκεια του κύκλου διάτασης-βράχυνσης."
 
 #: ../glade/app1.glade.h:297
 msgid "Increasing of strength due to arm movement."
@@ -1588,7 +1589,8 @@ msgid ""
 "Increasing of strength by previous falling from height (reflex mechanisms "
 "activation)."
 msgstr ""
-"Αύξηση της ισχύος μέσω προηγούμενης πτώσης από ύψος (ενεργοποίηση αντανακλαστικών μηχανισμών)."
+"Αύξηση της ισχύος μέσω προηγούμενης πτώσης από ύψος (ενεργοποίηση "
+"αντανακλαστικών μηχανισμών)."
 
 #: ../glade/app1.glade.h:299
 msgid "All the definitions are related to jumps."
@@ -1892,7 +1894,7 @@ msgstr "Πίσω"
 
 #: ../glade/app1.glade.h:369
 msgid "Show triggers"
-msgstr "Εμφάνιση triggers"
+msgstr "Εμφάνιση εναυσμάτων"
 
 #: ../glade/app1.glade.h:370
 msgid "Include instantaneous data"
@@ -1907,7 +1909,6 @@ msgid "Using the model"
 msgstr "Χρήση του μοντέλου"
 
 #: ../glade/app1.glade.h:373
-#| msgid "0 seconds"
 msgid "Until this seconds:"
 msgstr "Μέχρι αυτά τα δευτερόλεπτα:"
 
@@ -1924,7 +1925,6 @@ msgid "Strictly use A for start and B for end"
 msgstr "Αυστηρή χρήση του Α για την έναρξη και του Β για το τέλος"
 
 #: ../glade/app1.glade.h:377
-#| msgid "Total duration"
 msgid "Start and duration"
 msgstr "Έναρξη και διάρκεια"
 
@@ -1933,7 +1933,6 @@ msgid "RFD"
 msgstr "RFD"
 
 #: ../glade/app1.glade.h:379
-#| msgid "Auto"
 msgid "At"
 msgstr "Σε"
 
@@ -1960,7 +1959,6 @@ msgid "Add RFD"
 msgstr "Προσθήκη RFD"
 
 #: ../glade/app1.glade.h:387
-#| msgid "Remove"
 msgid "Remove RFD"
 msgstr "Αφαίρεση RFD"
 
@@ -1973,7 +1971,6 @@ msgstr "Αφαίρεση RFD"
 #: ../src/gui/app1/forceSensorAnalyze.cs:2287
 #: ../src/gui/app1/treeviews/encoderAnalyze.cs:83
 #: ../src/gui/app1/treeviews/encoderCaptureCurrentSet.cs:89
-#| msgid "pulse"
 msgid "Impulse"
 msgstr "Ώθηση"
 
@@ -2018,19 +2015,14 @@ msgid "Calculations"
 msgstr "Υπολογισμοί"
 
 #: ../glade/app1.glade.h:396
-#| msgid "Chronopic window"
 msgid "Close and analyze"
 msgstr "Κλείσιμο και ανάλυση"
 
 #: ../glade/app1.glade.h:397
-#| msgid "Export set to CSV (Spreadsheet)"
 msgid "Export (to raw data)"
 msgstr "Εξαγωγή (σε ακατέργαστα δεδομένα)"
 
 #: ../glade/app1.glade.h:398
-#| msgid ""
-#| "Selected\n"
-#| "repetitions"
 msgid "Select repetitions"
 msgstr "Επιλογή επαναλήψεων"
 
@@ -2060,7 +2052,6 @@ msgid "Neuromuscular profile"
 msgstr "Νευρομυϊκό προφίλ"
 
 #: ../glade/app1.glade.h:405
-#| msgid "delete current session"
 msgid "Change current session"
 msgstr "Αλλαγή τρέχουσας συνεδρίας"
 
@@ -2077,7 +2068,6 @@ msgid "Analyze mean values"
 msgstr "Ανάλυση μέσων τιμών"
 
 #: ../glade/app1.glade.h:409
-#| msgid "Analyze mean values"
 msgid "Mean values"
 msgstr "Μέσες τιμές"
 
@@ -2090,7 +2080,6 @@ msgid "Max values"
 msgstr "Μέγιστες τιμές"
 
 #: ../glade/app1.glade.h:412
-#| msgid "Date of birth"
 msgid "Date on X"
 msgstr "Ημερομηνία στον άξονα Χ"
 
@@ -2103,7 +2092,6 @@ msgid "By days"
 msgstr "Ανά ημέρες"
 
 #: ../glade/app1.glade.h:415
-#| msgid "Select session date"
 msgid "Separate session by days"
 msgstr "Διαχωρισμός συνεδρίας ανά ημέρες"
 
@@ -2112,7 +2100,6 @@ msgid "Show:"
 msgstr "Εμφάνιση:"
 
 #: ../glade/app1.glade.h:417
-#| msgid "Show time"
 msgid "Show impulse"
 msgstr "Εμφάνιση ώθησης"
 
@@ -2179,7 +2166,6 @@ msgid "Side compare"
 msgstr "Πλευρική σύγκριση"
 
 #: ../glade/app1.glade.h:433 ../src/gui/app1/encoder.cs:4619
-#| msgid "Purpose"
 msgid "Superpose"
 msgstr "Υπέρθεση"
 
@@ -2215,12 +2201,10 @@ msgid "Export repetition from A to B"
 msgstr "Εξαγωγή επανάληψης από το Α στο Β"
 
 #: ../glade/app1.glade.h:441
-#| msgid "Person average on this test"
 msgid "Triggers found on this set"
 msgstr "Βρέθηκαν εναύσματα (triggers) σε αυτό το σετ"
 
 #: ../glade/app1.glade.h:442
-#| msgid "Load persons"
 msgid "Manage sessions"
 msgstr "Διαχείριση συνεδριών"
 
@@ -2229,7 +2213,6 @@ msgid "New session"
 msgstr "Νέα συνεδρία"
 
 #: ../glade/app1.glade.h:444
-#| msgid "Create new sequence"
 msgid "Create new session"
 msgstr "Δημιουργία νέας συνεδρίας"
 
@@ -2260,12 +2243,10 @@ msgid "Delete session"
 msgstr "Διαγραφή συνεδρίας"
 
 #: ../glade/app1.glade.h:451
-#| msgid "Make a copy of the database"
 msgid "Export to another Chronojump"
 msgstr "Εξαγωγή σε άλλο Chronojump"
 
 #: ../glade/app1.glade.h:452
-#| msgid "Load persons from other session"
 msgid "Import from another Chronojump"
 msgstr "Εισαγωγή από άλλο Chronojump"
 
@@ -2274,7 +2255,6 @@ msgid "Import jumps or runs from CSV"
 msgstr "Εισαγωγή αλμάτων ή δρόμων από CSV"
 
 #: ../glade/app1.glade.h:454
-#| msgid "Export session"
 msgid "Export/Import session"
 msgstr "Εξαγωγή/Εισαγωγή συνεδρίας"
 
@@ -2287,7 +2267,6 @@ msgid "Backup all data"
 msgstr "Αντίγραφο ασφαλείας όλων των δεδομένων"
 
 #: ../glade/app1.glade.h:457
-#| msgid "Open data folder"
 msgid "View data folder"
 msgstr "Προβολή φακέλου δεδομένων"
 
@@ -2296,12 +2275,10 @@ msgid "Show advanced controls"
 msgstr "Εμφάνιση προηγμένων στοιχείων ελέγχου"
 
 #: ../glade/app1.glade.h:459
-#| msgid "Make a copy of the database"
 msgid "Import a session from another database"
 msgstr "Εισαγωγή συνεδρίας από άλλη βάση δεδομένων"
 
 #: ../glade/app1.glade.h:460
-#| msgid "Are you sure you want to overwrite: "
 msgid "Where do you want to import?"
 msgstr "Πού θέλετε να κάνετε την εισαγωγή;"
 
@@ -2310,7 +2287,6 @@ msgid "Import into a new session"
 msgstr "Εισαγωγή σε νέα συνεδρία"
 
 #: ../glade/app1.glade.h:462
-#| msgid "delete current session"
 msgid "Import into the current session"
 msgstr "Εισαγωγή στην τρέχουσα συνεδρία"
 
@@ -2323,7 +2299,6 @@ msgid "Use same database"
 msgstr "Χρήση της ίδιας βάσης δεδομένων"
 
 #: ../glade/app1.glade.h:465
-#| msgid "Open data folder"
 msgid "Open database file"
 msgstr "Άνοιγμα αρχείου βάσης δεδομένων"
 
@@ -2338,7 +2313,6 @@ msgid "Import"
 msgstr "Εισαγωγή"
 
 #: ../glade/app1.glade.h:468
-#| msgid "Filename"
 msgid "Filter by name"
 msgstr "Φιλτράρισμα κατά όνομα"
 
@@ -2347,7 +2321,6 @@ msgid "Filter by tag"
 msgstr "Φιλτράρισμα κατά ετικέτα"
 
 #: ../glade/app1.glade.h:470
-#| msgid "Manage"
 msgid "Manage tags"
 msgstr "Διαχείριση ετικετών"
 
@@ -2356,7 +2329,6 @@ msgid "Filter sessions by sensor data"
 msgstr "Φιλτράρισμα συνεδριών κατά δεδομένα αισθητήρα"
 
 #: ../glade/app1.glade.h:472
-#| msgid "New person"
 msgid "View person columns"
 msgstr "Προβολή στηλών ατόμου"
 
@@ -2385,7 +2357,6 @@ msgid "From file:"
 msgstr "Από αρχείο:"
 
 #: ../glade/app1.glade.h:478
-#| msgid "Will be imported into the current session."
 msgid "Will be imported into the current session."
 msgstr "Θα εισαχθούν στην τρέχουσα συνεδρία."
 
@@ -2399,12 +2370,10 @@ msgid "Accept"
 msgstr "Αποδοχή"
 
 #: ../glade/app1.glade.h:480
-#| msgid "Imported to a new session."
 msgid "Imported to a new session."
 msgstr "Εισήχθη σε νέα συνεδρία."
 
 #: ../glade/app1.glade.h:481
-#| msgid "Data merged into the open session."
 msgid "Data merged into the open session."
 msgstr "Τα δεδομένα συγχωνεύτηκαν στην ανοιχτή συνεδρία."
 
@@ -2414,7 +2383,6 @@ msgid "Result"
 msgstr "Αποτέλεσμα"
 
 #: ../glade/app1.glade.h:483
-#| msgid "Import another session"
 msgid "Import another session"
 msgstr "Εισαγωγή άλλης συνεδρίας"
 
@@ -2427,7 +2395,6 @@ msgid "and all the session tests?"
 msgstr "και όλες τις δοκιμές της συνεδρίας;"
 
 #: ../glade/app1.glade.h:486 ../src/constants.cs:283
-#| msgid "Sorry, this session cannot be modified."
 msgid "Sorry, this session cannot be modified."
 msgstr "Συγγνώμη, αυτή η συνεδρία δεν μπορεί να τροποποιηθεί."
 
@@ -2491,7 +2458,6 @@ msgid "Comments"
 msgstr "Σχόλια"
 
 #: ../glade/app1.glade.h:494
-#| msgid "Session data"
 msgid "Session data"
 msgstr "Δεδομένα συνεδρίας"
 
@@ -2502,7 +2468,6 @@ msgid "Sport"
 msgstr "Άθλημα"
 
 #: ../glade/app1.glade.h:496
-#| msgid "Different sports"
 msgid "Different sports"
 msgstr "Διαφορετικά αθλήματα"
 
@@ -2521,7 +2486,6 @@ msgid "Specialty"
 msgstr "Ειδικότητα"
 
 #: ../glade/app1.glade.h:500
-#| msgid "Different specialties"
 msgid "Different specialties"
 msgstr "Διαφορετικές ειδικότητες"
 
@@ -2532,7 +2496,6 @@ msgid "Level"
 msgstr "Επίπεδο"
 
 #: ../glade/app1.glade.h:502
-#| msgid "Different levels"
 msgid "Different levels"
 msgstr "Διαφορετικά επίπεδα"
 
@@ -2549,17 +2512,14 @@ msgstr ""
 "σημαντικά αρχεία σας ασφαλή από τυχόν απώλεια δεδομένων."
 
 #: ../glade/app1.glade.h:505
-#| msgid "Include tracks"
 msgid "Include logs"
 msgstr "Συμπερίληψη αρχείων καταγραφής (logs)"
 
 #: ../glade/app1.glade.h:506
-#| msgid "Include tracks"
 msgid "Include config files"
 msgstr "Συμπερίληψη αρχείων ρυθμίσεων"
 
 #: ../glade/app1.glade.h:507
-#| msgid "Select destination"
 msgid "Select destination"
 msgstr "Επιλογή προορισμού"
 
@@ -2580,12 +2540,12 @@ msgid "Delete old incomplete backups"
 msgstr "Διαγραφή παλιών ημιτελών αντιγράφων ασφαλείας"
 
 #: ../glade/app1.glade.h:512
-#| msgid "Do you want to do a full Chronojump data backup?"
 msgid "Do you want to do a full Chronojump data backup?"
-msgstr "Θέλετε να δημιουργήσετε ένα πλήρες αντίγραφο ασφαλείας δεδομένων του Chronojump;"
+msgstr ""
+"Θέλετε να δημιουργήσετε ένα πλήρες αντίγραφο ασφαλείας δεδομένων του "
+"Chronojump;"
 
 #: ../glade/app1.glade.h:513
-#| msgid "Make the backup now!"
 msgid "Make the backup now!"
 msgstr "Δημιουργία αντιγράφου ασφαλείας τώρα!"
 
@@ -2607,22 +2567,19 @@ msgid ""
 "Chronojump boot but did not include the raw data.\n"
 "Since Chronojump 2.1.3, backups contain the complete data."
 msgstr ""
-"Οι εκδόσεις πριν από το Chronojump 2.1.3 εκτελούσαν αυτόματα αντίγραφα ασφαλείας "
-"σε κάθε εκκίνηση, αλλά δεν περιλάμβαναν τα ακατέργαστα δεδομένα.\n"
+"Οι εκδόσεις πριν από το Chronojump 2.1.3 εκτελούσαν αυτόματα αντίγραφα "
+"ασφαλείας σε κάθε εκκίνηση, αλλά δεν περιλάμβαναν τα ακατέργαστα δεδομένα.\n"
 "Από την έκδοση 2.1.3, τα αντίγραφα ασφαλείας περιέχουν τα πλήρη δεδομένα."
 
 #: ../glade/app1.glade.h:519
-#| msgid "Do you want to delete old incomplete backups?"
 msgid "Do you want to delete old incomplete backups?"
 msgstr "Θέλετε να διαγράψετε τα παλιά ημιτελή αντίγραφα ασφαλείας;"
 
 #: ../glade/app1.glade.h:520
-#| msgid "Delete them"
 msgid "Delete them"
 msgstr "Διαγραφή τους"
 
 #: ../glade/app1.glade.h:521
-#| msgid "Deleted."
 msgid "Deleted."
 msgstr "Διαγράφηκαν."
 
@@ -2631,41 +2588,35 @@ msgid "Backup"
 msgstr "Αντίγραφο ασφαλείας"
 
 #: ../glade/app1.glade.h:523
-#| msgid "Start export"
 msgid "Start export"
 msgstr "Έναρξη εξαγωγής"
 
 #: ../glade/app1.glade.h:524
 msgid "Select whether you want to view the Chronojump generic data folder …"
-msgstr "Επιλέξτε αν θέλετε να προβάλετε τον γενικό φάκελο δεδομένων του Chronojump …"
+msgstr ""
+"Επιλέξτε αν θέλετε να προβάλετε τον γενικό φάκελο δεδομένων του Chronojump …"
 
 #: ../glade/app1.glade.h:525
-#| msgid "View generic data folder"
 msgid "View generic data folder"
 msgstr "Προβολή γενικού φακέλου δεδομένων"
 
 #: ../glade/app1.glade.h:526
-#| msgid "… or the data folder of the current mode and session:"
 msgid "… or the data folder of the current mode and session:"
 msgstr "… ή τον φάκελο δεδομένων της τρέχουσας λειτουργίας και συνεδρίας:"
 
 #: ../glade/app1.glade.h:527
-#| msgid "View specific data folder"
 msgid "View specific data folder"
 msgstr "Προβολή συγκεκριμένου φακέλου δεδομένων"
 
 #: ../glade/app1.glade.h:528
-#| msgid "Import from CSV"
 msgid "Import from CSV"
 msgstr "Εισαγωγή από CSV"
 
 #: ../glade/app1.glade.h:529
-#| msgid "Encoder disconnected."
 msgid "Encoder disconnected."
 msgstr "Ο κωδικοποιητής αποσυνδέθηκε."
 
 #: ../glade/app1.glade.h:530
-#| msgid "Please, connect it and click here:"
 msgid "Please, connect it and click here:"
 msgstr "Παρακαλούμε, συνδέστε τον και κάντε κλικ εδώ:"
 
@@ -2678,7 +2629,6 @@ msgid "RFID has been disconnected!"
 msgstr "Το RFID αποσυνδέθηκε!"
 
 #: ../glade/app1.glade.h:533 ../src/constants.cs:295
-#| msgid "Please, connect it and restart Chronojump."
 msgid "Please, connect it and restart Chronojump."
 msgstr "Παρακαλούμε, συνδέστε το και επανεκκινήστε το Chronojump."
 
@@ -2696,7 +2646,6 @@ msgid "Documents"
 msgstr "Έγγραφα"
 
 #: ../glade/app1.glade.h:537 ../glade/dialog_shortcuts.glade.h:1
-#| msgid "Shortcuts"
 msgid "Shortcuts"
 msgstr "Συντομεύσεις"
 
@@ -2713,7 +2662,6 @@ msgid "Spanish"
 msgstr "Ισπανικά"
 
 #: ../glade/app1.glade.h:541
-#| msgid "Open in browser"
 msgid "Open in browser"
 msgstr "Άνοιγμα στον περιηγητή"
 
@@ -2731,7 +2679,6 @@ msgstr "ετικέτα"
 
 #: ../glade/app1.glade.h:545 ../src/gui/discover.cs:174
 #: ../src/gui/discover.cs:519
-#| msgid "Show advanced"
 msgid "Show advanced"
 msgstr "Εμφάνιση προηγμένων"
 
@@ -2745,20 +2692,26 @@ msgid "Not compatible with"
 msgstr "Μη συμβατό με"
 
 #: ../glade/app1.glade.h:549 ../src/gui/discover.cs:95
-#| msgid "Assign manually"
 msgid "Assign manually"
 msgstr "Χειροκίνητη αντιστοίχιση"
 
 #: ../glade/app1.glade.h:550
-msgid "Chronojump detects devices automatically. However, if for some reason your device isn't detected correctly, you can assign it manually."
-msgstr "Το Chronojump εντοπίζει τις συσκευές αυτόματα. Ωστόσο, αν για κάποιο λόγο η συσκευή σας δεν εντοπιστεί σωστά, μπορείτε να την αντιστοιχίσετε χειροκίνητα."
+msgid ""
+"Chronojump detects devices automatically. However, if for some reason your "
+"device isn't detected correctly, you can assign it manually."
+msgstr ""
+"Το Chronojump εντοπίζει τις συσκευές αυτόματα. Ωστόσο, αν για κάποιο λόγο η "
+"συσκευή σας δεν εντοπιστεί σωστά, μπορείτε να την αντιστοιχίσετε χειροκίνητα."
 
 #: ../glade/app1.glade.h:551
-msgid "Please note that if you manually assigned an incorrect device, you can always forget it using the Forget button."
-msgstr "Σημειώστε ότι αν αντιστοιχίσατε χειροκίνητα μια λανθασμένη συσκευή, μπορείτε πάντα να την καταργήσετε χρησιμοποιώντας το κουμπί 'Παράλειψη'."
+msgid ""
+"Please note that if you manually assigned an incorrect device, you can "
+"always forget it using the Forget button."
+msgstr ""
+"Σημειώστε ότι αν αντιστοιχίσατε χειροκίνητα μια λανθασμένη συσκευή, μπορείτε "
+"πάντα να την καταργήσετε χρησιμοποιώντας το κουμπί 'Παράλειψη'."
 
 #: ../glade/app1.glade.h:552 ../glade/person_select_window.glade.h:2
-#| msgid "Manage persons"
 msgid "Manage persons"
 msgstr "Διαχείριση ατόμων"
 
@@ -2768,7 +2721,6 @@ msgid "New person"
 msgstr "Νέο άτομο"
 
 #: ../glade/app1.glade.h:554
-#| msgid "Create new person"
 msgid "Create new person"
 msgstr "Δημιουργία νέου ατόμου"
 
@@ -2782,7 +2734,6 @@ msgid "Load person"
 msgstr "Φόρτωση ατόμου"
 
 #: ../glade/app1.glade.h:557 ../glade/person_select_window.glade.h:10
-#| msgid "Load into session"
 msgid "Load into session"
 msgstr "Φόρτωση στη συνεδρία"
 
@@ -2792,11 +2743,14 @@ msgid "Load persons from other session"
 msgstr "Φόρτωση ατόμων από άλλη συνεδρία"
 
 #: ../glade/app1.glade.h:559 ../glade/person_select_window.glade.h:8
-msgid "Create person disabled\non Cloud-view mode"
-msgstr "Η δημιουργία ατόμου είναι απενεργοποιημένη\nστη λειτουργία προβολής Cloud"
+msgid ""
+"Create person disabled\n"
+"on Cloud-view mode"
+msgstr ""
+"Η δημιουργία ατόμου είναι απενεργοποιημένη\n"
+"στη λειτουργία προβολής Cloud"
 
 #: ../glade/app1.glade.h:561
-#| msgid "This person:"
 msgid "This person:"
 msgstr "Αυτό το άτομο:"
 
@@ -2809,54 +2763,44 @@ msgid "Delete person from this session."
 msgstr "Διαγραφή ατόμου από αυτή τη συνεδρία."
 
 #: ../glade/app1.glade.h:564
-#| msgid "Show all tests of any person"
 msgid "Show all tests of any person"
 msgstr "Εμφάνιση όλων των δοκιμών οποιουδήποτε ατόμου"
 
 #. this strings will be used on merge persons code. Now are here just to be translated in the meantime.
 #: ../glade/app1.glade.h:565 ../glade/person_merge.glade.h:1
 #: ../glade/person_select_window.glade.h:20 ../src/gui/person/addModify.cs:167
-#| msgid "Merge with another person"
 msgid "Merge with another person"
 msgstr "Συγχώνευση με άλλο άτομο"
 
 #: ../glade/app1.glade.h:566
-#| msgid "Export persons"
 msgid "Export persons"
 msgstr "Εξαγωγή ατόμων"
 
 #: ../glade/app1.glade.h:567
-#| msgid "persons in the current session"
 msgid "persons in the current session"
 msgstr "άτομα στην τρέχουσα συνεδρία"
 
 #: ../glade/app1.glade.h:568
-#| msgid "persons in any session"
 msgid "persons in any session"
 msgstr "άτομα σε οποιαδήποτε συνεδρία"
 
 #: ../glade/app1.glade.h:569 ../glade/report_window.glade.h:23
-#| msgid "Open file"
 msgid "Open file"
 msgstr "Άνοιγμα αρχείου"
 
 #: ../glade/app1.glade.h:570
-#| msgid "Open folder"
 msgid "Open folder"
 msgstr "Άνοιγμα φακέλου"
 
 #: ../glade/app1.glade.h:571
-#| msgid "Database:"
 msgid "Database:"
 msgstr "Βάση δεδομένων:"
 
 #: ../glade/app1.glade.h:572
-#| msgid "Select another database"
 msgid "Select another database"
 msgstr "Επιλογή άλλης βάσης δεδομένων"
 
 #: ../glade/app1.glade.h:573
-#| msgid "View selected database"
 msgid "View selected database"
 msgstr "Προβολή επιλεγμένης βάσης δεδομένων"
 
@@ -2893,13 +2837,13 @@ msgid "Open Chronojump"
 msgstr "Άνοιγμα Chronojump"
 
 #: ../glade/app1.glade.h:582
-#| msgid "Are you sure you want to exit Chronojump?"
 msgid "Are you sure you want to exit Chronojump?"
 msgstr "Είστε βέβαιοι ότι θέλετε να εξέλθετε από το Chronojump;"
 
 #: ../glade/app1.glade.h:583
 msgid "Please, help us to provide videos on the most suitable platforms."
-msgstr "Παρακαλούμε, βοηθήστε μας να παρέχουμε βίντεο στις καταλληλότερες πλατφόρμες."
+msgstr ""
+"Παρακαλούμε, βοηθήστε μας να παρέχουμε βίντεο στις καταλληλότερες πλατφόρμες."
 
 #: ../glade/app1.glade.h:584
 msgid "What social network do you use to watch videos?"
@@ -2914,7 +2858,6 @@ msgid "Other (which)"
 msgstr "Άλλο (ποιο)"
 
 #: ../glade/app1.glade.h:587
-#| msgid "Send poll"
 msgid "Send poll"
 msgstr "Αποστολή ψηφοφορίας"
 
@@ -2923,17 +2866,14 @@ msgid "Exit fullscreen"
 msgstr "Έξοδος από πλήρη οθόνη"
 
 #: ../glade/chronopic_test.glade.h:1
-#| msgid "Chronopic test"
 msgid "Chronopic test"
 msgstr "Δοκιμή Chronopic"
 
 #: ../glade/chronopic_test.glade.h:2
-#| msgid "Instructions"
 msgid "Instructions"
 msgstr "Οδηγίες"
 
 #: ../glade/chronopic_test.glade.h:3
-#| msgid "Question"
 msgid "Question"
 msgstr "Ερώτηση"
 
@@ -2951,12 +2891,10 @@ msgstr "Εικόνα"
 
 #. An email is sent, this is the reason of the email (the motivation)
 #: ../glade/chronopic_test.glade.h:11
-#| msgid "Result:"
 msgid "Result:"
 msgstr "Αποτέλεσμα:"
 
 #: ../glade/chronopic_test.glade.h:12
-#| msgid "Please, contact this email:"
 msgid "Please, contact this email:"
 msgstr "Παρακαλούμε, επικοινωνήστε σε αυτό το email:"
 
@@ -2965,7 +2903,6 @@ msgid "Note you can select underlined texts."
 msgstr "Σημειώστε ότι μπορείτε να επιλέξετε υπογραμμισμένα κείμενα."
 
 #: ../glade/chronopic_test.glade.h:14
-#| msgid "All tests ok!"
 msgid "All tests ok!"
 msgstr "Όλες οι δοκιμές είναι εντάξει!"
 
@@ -2975,7 +2912,9 @@ msgid ""
 "Weight of jumps is stored as a '%' of jumper's weight. As the weight of "
 "jumper changed, you need to solve new jump's weight."
 msgstr ""
-"Το βάρος των αλμάτων αποθηκεύεται ως ένα ποσοστό '%' του βάρους του αθλητή. Καθώς το βάρος του αθλητή αλλάζει, χρειάζεται να υπολογίσετε το νέο βάρος του άλματος."
+"Το βάρος των αλμάτων αποθηκεύεται ως ένα ποσοστό '%' του βάρους του αθλητή. "
+"Καθώς το βάρος του αθλητή αλλάζει, χρειάζεται να υπολογίσετε το νέο βάρος "
+"του άλματος."
 
 #: ../glade/convert_weight.glade.h:4
 msgid "Old jumper weight"
@@ -4881,10 +4820,8 @@ msgid "X variable to show on inertial analyze graphs"
 msgstr "Μεταβλητή Χ για εμφάνιση σε γραφήματα αδρανειακής ανάλυσης"
 
 #: ../glade/preferences_win.glade.h:115
-#, fuzzy
-#| msgid "Recommended"
 msgid "(Recommended)"
-msgstr "Συνιστάται"
+msgstr "(Συνιστάται)"
 
 #: ../glade/preferences_win.glade.h:119
 msgid "Non weighted"
@@ -4912,17 +4849,15 @@ msgstr "Πρόβλεψη 1RM"
 
 #: ../glade/preferences_win.glade.h:126
 msgid "Play sounds while capturing"
-msgstr ""
+msgstr "Αναπαραγωγή ήχων κατά τη λήψη"
 
 #: ../glade/preferences_win.glade.h:127
 msgid "Play sound (on / off)"
-msgstr "Αναπαραγωγή ήχου (ναι / όχι)"
+msgstr "Αναπαραγωγή ήχου (ενεργό / ανενεργό)"
 
 #: ../glade/preferences_win.glade.h:128
-#, fuzzy
-#| msgid "Test sound"
 msgid "System sounds"
-msgstr "Δοκιμή ήχου"
+msgstr "Ήχοι συστήματος"
 
 #: ../glade/preferences_win.glade.h:130
 msgid "Test sound"
@@ -4933,67 +4868,56 @@ msgid "Sounds"
 msgstr "Ήχοι"
 
 #: ../glade/preferences_win.glade.h:132
-#, fuzzy
-#| msgid "Chronojump profile"
 msgid "Check devices"
-msgstr "Προφίλ Chronojump"
+msgstr "Έλεγχος συσκευών"
 
 #: ../glade/preferences_win.glade.h:133
 msgid "Select camera"
-msgstr "Επιλογή της κάμερας"
+msgstr "Επιλογή κάμερας"
 
 #: ../glade/preferences_win.glade.h:134
 msgid "Resolution"
 msgstr "Ανάλυση"
 
 #: ../glade/preferences_win.glade.h:135
-#, fuzzy
-#| msgid "Camera"
 msgid "Framerate"
-msgstr "Κάμερα"
+msgstr "Ρυθμός καρέ"
 
 #: ../glade/preferences_win.glade.h:138
-#, fuzzy
-#| msgid "Platform"
 msgid "Pixel format"
-msgstr "Εξέδρα"
+msgstr "Μορφή pixel"
 
-#. Substantive
 #: ../glade/preferences_win.glade.h:140
 msgid "Format"
 msgstr "Μορφή"
 
 #: ../glade/preferences_win.glade.h:144
 msgid "On Windows at least Windows 7 is required."
-msgstr ""
+msgstr "Στα Windows απαιτείται τουλάχιστον Windows 7."
 
 #: ../glade/preferences_win.glade.h:146
 msgid "Check if camera is running"
-msgstr ""
+msgstr "Έλεγχος αν η κάμερα λειτουργεί"
 
 #: ../glade/preferences_win.glade.h:147
 msgid "Play"
-msgstr "Aναπαραγωγή"
+msgstr "Αναπαραγωγή"
 
 #: ../glade/preferences_win.glade.h:148
-#, fuzzy
-#| msgid "Force"
 msgid "Force stop"
-msgstr "Δύναμη"
+msgstr "Εξαναγκασμένη διακοπή"
 
 #: ../glade/preferences_win.glade.h:149
 msgid "Camera will be stopped n seconds after end test"
-msgstr ""
+msgstr "Η κάμερα θα σταματήσει n δευτερόλεπτα μετά το τέλος της δοκιμής"
 
 #: ../glade/preferences_win.glade.h:150
 msgid "To ensure the end of test is recorded, it is recommended 2 seconds."
-msgstr ""
+msgstr "Για να διασφαλιστεί η καταγραφή του τέλους της δοκιμής, συνιστώνται 2 δευτερόλεπτα."
 
 #: ../glade/preferences_win.glade.h:151
-#, fuzzy
-#| msgid "Advanced"
 msgid "<b>Advanced</b>"
-msgstr "Για προχωρημένους"
+msgstr "<b>Για προχωρημένους</b>"
 
 #: ../glade/preferences_win.glade.h:152 ../src/gui/app1/encoder.cs:1808
 #: ../src/gui/app1/forceSensor.cs:2218 ../src/gui/app1/runEncoder.cs:1171
@@ -5011,7 +4935,7 @@ msgstr "Γλώσσα"
 
 #: ../glade/preferences_win.glade.h:155
 msgid "Use detected language"
-msgstr "Χρήση  γλώσσας που ανιχνεύθηκε"
+msgstr "Χρήση ανιχνευόμενης γλώσσας"
 
 #: ../glade/preferences_win.glade.h:156
 msgid "Force language"
@@ -5019,11 +4943,11 @@ msgstr "Εξαναγκασμός γλώσσας"
 
 #: ../glade/preferences_win.glade.h:157
 msgid "(Note for Chinese you need to select a suitable font)"
-msgstr ""
+msgstr "(Σημείωση: για κινέζικα πρέπει να επιλέξετε κατάλληλη γραμματοσειρά)"
 
 #: ../glade/preferences_win.glade.h:158
 msgid "Spreadsheet import and export format"
-msgstr ""
+msgstr "Μορφή εισαγωγής και εξαγωγής υπολογιστικών φύλλων"
 
 #: ../glade/preferences_win.glade.h:159
 msgid "Latin"
@@ -5031,11 +4955,11 @@ msgstr "Λατινικά"
 
 #: ../glade/preferences_win.glade.h:160
 msgid "Non-Latin"
-msgstr "Μη λατινικά"
+msgstr "Μη Λατινικά"
 
 #: ../glade/preferences_win.glade.h:161
 msgid "Translate statistics graphs"
-msgstr "Μετάφραση στατιστικών των γραφημάτων"
+msgstr "Μετάφραση στατιστικών γραφημάτων"
 
 #: ../glade/preferences_win.glade.h:162
 msgid "Translate"
@@ -5043,59 +4967,51 @@ msgstr "Μετάφραση"
 
 #: ../glade/preferences_win.glade.h:163
 msgid "Do not translate"
-msgstr "Να μη γίνει μετάφραση"
+msgstr "Χωρίς μετάφραση"
 
 #: ../glade/preferences_win.glade.h:164
-#, fuzzy
-#| msgid "Import configuration"
 msgid "Default configuration."
-msgstr "Εισαγωγή διαμόρφωσης"
+msgstr "Προεπιλεγμένη διαμόρφωση."
 
 #: ../glade/preferences_win.glade.h:165
-#, fuzzy
-#| msgid "Recommended"
 msgid "Recommended."
-msgstr "Συνιστάται"
+msgstr "Συνιστάται."
 
 #: ../glade/preferences_win.glade.h:166
 msgid "Data is captured and analyzed in this computer."
-msgstr ""
+msgstr "Τα δεδομένα καταγράφονται και αναλύονται σε αυτόν τον υπολογιστή."
 
 #: ../glade/preferences_win.glade.h:167
-#, fuzzy
-#| msgid "Finish capture"
 msgid "Cloud-capture"
-msgstr "Τερματισμός λήψης"
+msgstr "Λήψη στο σύννεφο"
 
 #: ../glade/preferences_win.glade.h:168
 msgid "Data is stored on the computer and uploaded to a cloud."
-msgstr ""
+msgstr "Τα δεδομένα αποθηκεύονται στον υπολογιστή και ανεβάζονται στο σύννεφο."
 
 #: ../glade/preferences_win.glade.h:169
 msgid "Each computer will use a different folder of the cloud."
-msgstr ""
+msgstr "Κάθε υπολογιστής θα χρησιμοποιεί διαφορετικό φάκελο στο σύννεφο."
 
 #: ../glade/preferences_win.glade.h:170
 msgid "Path:"
-msgstr ""
+msgstr "Διαδρομή:"
 
 #: ../glade/preferences_win.glade.h:172
 msgid "Cloud-view"
-msgstr ""
+msgstr "Προβολή σύννεφου"
 
 #: ../glade/preferences_win.glade.h:173
 msgid "View data of each database on the cloud."
-msgstr ""
+msgstr "Προβολή δεδομένων κάθε βάσης δεδομένων στο σύννεφο."
 
 #: ../glade/preferences_win.glade.h:174
-#, fuzzy
-#| msgid "Open data folder"
 msgid "View databases"
-msgstr "Άνοιγμα φακέλου  δεδομένων"
+msgstr "Προβολή βάσεων δεδομένων"
 
 #: ../glade/preferences_win.glade.h:175
 msgid "Zoom cloud schema "
-msgstr ""
+msgstr "Εστίαση σχήματος σύννεφου "
 
 #: ../glade/preferences_win.glade.h:176
 msgid ""
@@ -5106,142 +5022,120 @@ msgid ""
 "4. Paste below on the entry box\n"
 "5. Click Apply"
 msgstr ""
+"Για να αλλάξετε μια διαδρομή πρέπει να:\n"
+"1. Ανοίξετε τον Εξερευνητή\n"
+"2. Επιλέξετε τη διαδρομή\n"
+"3. Πατήστε: Option Command c\n"
+"4. Επικολλήστε παρακάτω στο πλαίσιο εισαγωγής\n"
+"5. Κάντε κλικ στο Εφαρμογή"
 
 #: ../glade/preferences_win.glade.h:183
 msgid "Error. Directory does not exists."
-msgstr ""
+msgstr "Σφάλμα. Ο κατάλογος δεν υπάρχει."
 
 #: ../glade/preferences_win.glade.h:184
 msgid "Cloud"
-msgstr ""
+msgstr "Σύννεφο"
 
 #: ../glade/preferences_win.glade.h:185
-#, fuzzy
-#| msgid "Open Chronojump"
 msgid "Send log to Chronojump"
-msgstr "Άνοιγμα Chronojump"
+msgstr "Αποστολή αρχείου καταγραφής στο Chronojump"
 
 #: ../glade/preferences_win.glade.h:186
 msgid "Open logs folder"
 msgstr "Άνοιγμα φακέλου καταγραφών"
 
 #: ../glade/preferences_win.glade.h:189
-#, fuzzy
-#| msgid "Current"
 msgid "Current log"
-msgstr "Τρέχον"
+msgstr "Τρέχουσα καταγραφή"
 
 #: ../glade/preferences_win.glade.h:190
 msgid "Previous log"
-msgstr ""
+msgstr "Προηγούμενη καταγραφή"
 
 #: ../glade/preferences_win.glade.h:191
 msgid "Send"
-msgstr ""
+msgstr "Αποστολή"
 
 #: ../glade/preferences_win.glade.h:192
 msgid "Logs"
-msgstr ""
+msgstr "Καταγραφές"
 
 #: ../glade/preferences_win.glade.h:193
-#, fuzzy
-#| msgid "Load file"
 msgid "R file"
-msgstr "Φόρτωση αρχείου"
+msgstr "Αρχείο R"
 
 #: ../glade/preferences_win.glade.h:194
-#, fuzzy
-#| msgid "Default mode"
 msgid "Default location"
-msgstr "Προεπιλεγμένη  λειτουργία"
+msgstr "Προεπιλεγμένη τοποθεσία"
 
 #: ../glade/preferences_win.glade.h:195
-#, fuzzy
-#| msgid "Check data"
 msgid "Other location"
-msgstr "Έλεγχος δεδομένων"
+msgstr "Άλλη τοποθεσία"
 
 #: ../glade/preferences_win.glade.h:196
-#, fuzzy
-#| msgid "Auto-detect hardware"
 msgid "Autodetect"
-msgstr "Αυτόματη ανίχνευση υλικού"
+msgstr "Αυτόματη ανίχνευση"
 
 #: ../glade/preferences_win.glade.h:197
-#, fuzzy
-#| msgid "Description"
 msgid "Rscript file"
-msgstr "Περιγραφή"
+msgstr "Αρχείο Rscript"
 
 #: ../glade/preferences_win.glade.h:198
-#, fuzzy
-#| msgid "Python version"
 msgid "Python file"
-msgstr "Έκδοση Python"
+msgstr "Αρχείο Python"
 
 #: ../glade/preferences_win.glade.h:200
 msgid "Allow to change devices"
-msgstr "Να επιτρέπεται η αλλαγή συσκευών"
+msgstr "Επιτρέπεται η αλλαγή συσκευών"
 
 #: ../glade/preferences_win.glade.h:201
 msgid "Open temp folder"
 msgstr "Άνοιγμα προσωρινού φακέλου"
 
 #: ../glade/preferences_win.glade.h:202
-#, fuzzy
-#| msgid "Delete selected test"
 msgid "Delete stored devices"
-msgstr "Διαγραφή επιλεγμένης δοκιμής"
+msgstr "Διαγραφή αποθηκευμένων συσκευών"
 
 #: ../glade/preferences_win.glade.h:203
 msgid "Enter debug mode"
-msgstr "Είσοδος στη λειτουργία εντοπισμού σφαλμάτων"
+msgstr "Είσοδος σε λειτουργία εντοπισμού σφαλμάτων"
 
 #: ../glade/preferences_win.glade.h:204
-#, fuzzy
-#| msgid "Show tests"
 msgid "SQL tests"
-msgstr "Εμφάνιση εξετάσεων"
+msgstr "Δοκιμές SQL"
 
 #: ../glade/preferences_win.glade.h:205
-#, fuzzy
-#| msgid "SQL short test"
 msgid "Short"
-msgstr "σύντομο τεστ SQL"
+msgstr "Σύντομη"
 
 #: ../glade/preferences_win.glade.h:206
 msgid "Long"
-msgstr ""
+msgstr "Μεγάλη"
 
 #: ../glade/preferences_win.glade.h:207
-#, fuzzy
-#| msgid "Database"
 msgid "Database ID"
-msgstr "Βάση δεδομένων"
+msgstr "Αναγνωριστικό Βάσης Δεδομένων"
 
 #: ../glade/preferences_win.glade.h:208
-#, fuzzy
-#| msgid "Database"
 msgid "Database name"
-msgstr "Βάση δεδομένων"
+msgstr "Όνομα βάσης δεδομένων"
 
 #: ../glade/preferences_win.glade.h:209
-#, fuzzy
-#| msgid "Decimal number"
 msgid "Decimal places"
-msgstr "Δεκαδικός αριθμός"
+msgstr "Δεκαδικά ψηφία"
 
 #: ../glade/preferences_win.glade.h:210
 msgid "Applies to most of the tests and export data"
-msgstr ""
+msgstr "Ισχύει για τις περισσότερες δοκιμές και εξαγωγή δεδομένων"
 
 #: ../glade/preferences_win.glade.h:211
 msgid "Do not write debug messages"
-msgstr "Να μην εγγράφονται μηνύματα αποσφαλμάτωσης"
+msgstr "Να μην εγγράφονται μηνύματα εντοπισμού σφαλμάτων"
 
 #: ../glade/preferences_win.glade.h:212
 msgid "Mute logs"
-msgstr ""
+msgstr "Σίγαση καταγραφών"
 
 #: ../glade/preferences_win.glade.h:213
 msgid "default: False"
@@ -5249,31 +5143,27 @@ msgstr "προεπιλογή: Ψευδές"
 
 #: ../glade/preferences_win.glade.h:214
 msgid "Ask for confirm test deletion"
-msgstr "Ερώτηση για επιβεβαίωση διαγραφής εξέτασης"
+msgstr "Ερώτηση επιβεβαίωσης διαγραφής δοκιμής"
 
 #: ../glade/preferences_win.glade.h:215
 msgid "Ask user if really wants to delete a test"
-msgstr "Ερώτηση αν ο χρήστης θέλει πραγματικά να διαγράψει μια εξέταση"
+msgstr "Ρώτησε τον χρήστη αν θέλει πραγματικά να διαγράψει μια δοκιμή"
 
 #: ../glade/preferences_win.glade.h:216
 msgid "Python version"
 msgstr "Έκδοση Python"
 
 #: ../glade/preferences_win.glade.h:220
-#, fuzzy
-#| msgid "See all runs"
 msgid "Small screens"
-msgstr "Δείτε όλους τους δρόμους"
+msgstr "Μικρές οθόνες"
 
 #: ../glade/preferences_win.glade.h:224
 msgid "View more tabs"
-msgstr ""
+msgstr "Προβολή περισσότερων καρτελών"
 
 #: ../glade/preferences_win.glade.h:225
-#, fuzzy
-#| msgid "And starting Chronojump again."
 msgid "Restart Chronojump to apply changes."
-msgstr "Και ξεκινήστε πάλι το Chronojump."
+msgstr "Επανεκκινήστε το Chronojump για εφαρμογή αλλαγών."
 
 #: ../glade/repair_sub_event.glade.h:1
 msgid "Add before"
@@ -5293,15 +5183,15 @@ msgstr "Συνολικός χρόνος"
 
 #: ../glade/report_window.glade.h:1
 msgid "Chronojump Report window"
-msgstr "Παράθυρο αναφοράς Chronojump"
+msgstr "Παράθυρο Αναφοράς Chronojump"
 
 #: ../glade/report_window.glade.h:2
 msgid "Select data for HTML report"
-msgstr "Επιλογή δεδομένων για αναφορά HTML"
+msgstr "Επιλέξτε δεδομένα για αναφορά HTML"
 
 #: ../glade/report_window.glade.h:3
 msgid "show …"
-msgstr ""
+msgstr "εμφάνιση …"
 
 #: ../glade/report_window.glade.h:5 ../src/gui/convertWeight.cs:68
 #: ../src/gui/convertWeight.cs:116
@@ -5309,14 +5199,12 @@ msgid "Reactive"
 msgstr "Ενεργή"
 
 #: ../glade/report_window.glade.h:7
-#, fuzzy
-#| msgid "Include tracks"
 msgid "Include laps"
-msgstr "Συμπερίληψη διαδρομών"
+msgstr "Συμπερίληψη γύρων"
 
 #: ../glade/report_window.glade.h:8
 msgid "Include individual"
-msgstr "Συμπερίληψη ατομικού"
+msgstr "Συμπερίληψη ατομικών"
 
 #: ../glade/report_window.glade.h:14
 msgid "general data"
@@ -5324,7 +5212,7 @@ msgstr "γενικά δεδομένα"
 
 #: ../glade/report_window.glade.h:15 ../src/gui/app1/shortcuts.cs:48
 msgid "Up"
-msgstr "Επάνω"
+msgstr "Πάνω"
 
 #: ../glade/report_window.glade.h:16 ../src/gui/app1/shortcuts.cs:49
 msgid "Down"
@@ -5332,7 +5220,7 @@ msgstr "Κάτω"
 
 #: ../glade/report_window.glade.h:18
 msgid "See graph"
-msgstr "Δείτε το γράφημα"
+msgstr "Δείτε γράφημα"
 
 #: ../glade/report_window.glade.h:19 ../src/gui/report.cs:395
 msgid "Add comment"
@@ -5344,77 +5232,59 @@ msgstr "Αφαίρεση"
 
 #: ../glade/report_window.glade.h:21
 msgid "statistics data"
-msgstr "δεδομένα στατιστικών"
+msgstr "στατιστικά δεδομένα"
 
 #: ../glade/report_window.glade.h:22
 msgid "Make report"
 msgstr "Δημιουργία αναφοράς"
 
 #: ../glade/run_type_add.glade.h:1
-#, fuzzy
-#| msgid "Create new Run Type"
 msgid "Create new race type"
-msgstr "Δημιουργία νέου τύπου δρόμου"
+msgstr "Δημιουργία νέου τύπου αγώνα"
 
 #: ../glade/run_type_add.glade.h:2
-#, fuzzy
-#| msgid "Create a new run type in the database"
 msgid "Create a new race type in the database"
-msgstr "Δημιουργία νέου τύπου δρόμου στη βάση δεδομένων"
+msgstr "Δημιουργία νέου τύπου αγώνα στη βάση δεδομένων"
 
 #: ../glade/run_type_add.glade.h:8
 msgid "Variable (user will select distance at each test)"
-msgstr "Μεταβλητός (ο χρήστης θα επιλέξει απόσταση σε κάθε εξέταση)"
+msgstr "Μεταβλητός (ο χρήστης θα επιλέγει απόσταση σε κάθε δοκιμή)"
 
 #: ../glade/run_type_add.glade.h:9
 msgid "Fixed (distance will be always the same)"
 msgstr "Σταθερός (η απόσταση θα είναι πάντα η ίδια)"
 
 #: ../glade/run_type_add.glade.h:10
-#, fuzzy
-#| msgid ""
-#| "Different (each track have different distance\n"
-#| "suitable for agility tests and RSA)"
 msgid ""
 "Different (each lap have different distance\n"
 "suitable for agility tests and RSA)"
 msgstr ""
-"Διαφορετικός (κάθε διαδρομή έχει διαφορετική απόσταση\n"
-"κατάλληλη για εξετάσεις ευκινησίας και RSA)"
+"Διαφορετικός (κάθε γύρος έχει διαφορετική απόσταση\n"
+"κατάλληλο για δοκιμές ευκινησίας και RSA)"
 
 #: ../glade/run_type_add.glade.h:12
-#, fuzzy
-#| msgid "Number of different tracks"
 msgid "Number of different laps"
-msgstr "Αριθμός διαφορετικών διαδρομών"
+msgstr "Αριθμός διαφορετικών γύρων"
 
 #: ../glade/run_type_add.glade.h:13
 msgid "Help RSA"
 msgstr "Βοήθεια RSA"
 
 #: ../glade/run_type_add.glade.h:14
-#, fuzzy
-#| msgid "Distance of each track"
 msgid "Distance of each lap"
-msgstr "Απόσταση κάθε διαδρομής"
+msgstr "Απόσταση κάθε γύρου"
 
 #: ../glade/run_type_add.glade.h:15
 msgid "(m)"
 msgstr "(m)"
 
 #: ../glade/run_type_add.glade.h:17
-#, fuzzy
-#| msgid ""
-#| "Limited by\n"
-#| "(how it finishes)"
 msgid "Limited by (how it finishes)"
-msgstr ""
-"Περιορισμένο από\n"
-"(πώς τελειώνει)"
+msgstr "Περιορίζεται από (πώς τελειώνει)"
 
 #: ../glade/run_type_add.glade.h:20
 msgid "intervallic"
-msgstr "με διάλειμμα"
+msgstr "με διαλείμματα"
 
 #: ../glade/run_type_add.glade.h:22
 msgid "time (s)"
@@ -5422,7 +5292,7 @@ msgstr "χρόνος (s)"
 
 #: ../glade/session_upload.glade.h:1
 msgid "Upload session to server"
-msgstr "Αποστολή συνεδρίας στον διακομιστή"
+msgstr "Μεταφόρτωση συνεδρίας στον διακομιστή"
 
 #: ../glade/stats_select_sessions.glade.h:1
 msgid "Select sessions for statistics"
@@ -5430,7 +5300,7 @@ msgstr "Επιλογή συνεδριών για στατιστικά"
 
 #: ../glade/stats_select_sessions.glade.h:2
 msgid "unselected"
-msgstr "ανεπίλεκτο"
+msgstr "μη επιλεγμένο"
 
 #: ../glade/stats_select_sessions.glade.h:3
 msgid "selected"
@@ -5455,11 +5325,11 @@ msgstr "κανένα"
 #: ../src/bluetoothCapture.cs:62 ../src/constants.cs:955
 #: ../src/gui/preferences.cs:4036
 msgid "Error. File not found."
-msgstr "Σφάλμα. Δε βρέθηκε το αρχείο."
+msgstr "Σφάλμα. Το αρχείο δεν βρέθηκε."
 
 #: ../src/chronojump.cs:503
 msgid "Chronojump is already running"
-msgstr ""
+msgstr "Το Chronojump εκτελείται ήδη."
 
 #: ../src/chronojump.cs:504 ../src/chronojump.cs:785 ../src/chronojump.cs:1188
 #: ../src/chronojump.cs:1196
@@ -5474,8 +5344,8 @@ msgid ""
 "Your Chronojump version is: {1}"
 msgstr ""
 "\n"
-"Η νέα έκδοση του Chronojump είναι διαθέσιμη στον ιστότοπο.\n"
-"Η έκδοση σας του Chronojump είναι: {1}"
+"Νέα έκδοση του Chronojump είναι διαθέσιμη στον ιστότοπο.\n"
+"Η έκδοση του Chronojump σας είναι: {1}"
 
 #: ../src/chronojump.cs:642
 msgid "Please, update to new version."
@@ -5483,54 +5353,52 @@ msgstr "Παρακαλούμε, ενημερώστε στη νέα έκδοση.
 
 #: ../src/chronojump.cs:650
 msgid "Chronojump crashed before."
-msgstr "Το Chronojump κατέρρευσε πριν."
+msgstr "Το Chronojump κατέρρευσε προηγουμένως."
 
 #: ../src/chronojump.cs:651
 msgid "Please, update to new version: "
 msgstr "Παρακαλούμε, ενημερώστε στη νέα έκδοση: "
 
 #: ../src/chronojump.cs:687
-#, fuzzy
-#| msgid "no tables, creating ..."
+#, csharp-format
 msgid ""
 "\n"
 "\n"
 "no tables, creating …"
-msgstr "χωρίς πίνακες, δημιουργία..."
+msgstr ""
+"\n"
+"\n"
+"δεν υπάρχουν πίνακες, δημιουργία…"
 
 #: ../src/chronojump.cs:706
 msgid "All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms)."
-msgstr ""
-"Όλα τα άλματα DJ έχουν μετονομαστεί ως 'DJna' (άλματα πτώσης χωρίς "
-"βραχίονες)."
+msgstr "Όλα τα άλματα DJ έχουν μετονομαστεί σε 'DJna' (άλματα πτώσης χωρίς χρήση χεριών)."
 
 #: ../src/chronojump.cs:707
 msgid ""
 "If your Drop Jumps were executed using the arms, please rename them manually "
 "as 'DJa'."
 msgstr ""
-"Αν τα άλματα πτώσης σας εκτελέστηκαν χρησιμοποιώντας τους βραχίονες, "
-"παρακαλούμε μετονομάστε τα χειροκίνητα ως 'DJa'."
+"Αν τα άλματα πτώσης σας εκτελέστηκαν με χρήση χεριών, παρακαλούμε μετονομάστε "
+"τα χειροκίνητα σε 'DJa'."
 
 #. Console.Clear();
 #: ../src/chronojump.cs:722
 #, csharp-format
 msgid "Sorry, this Chronojump version ({0}) is too old for your database."
-msgstr ""
-"Συγνώμη, αυτή η έκδοση Chronojump ({0}) είναι υπερβολικά παλιά για τη βάση "
-"δεδομένων σας."
+msgstr "Συγνώμη, αυτή η έκδοση του Chronojump ({0}) είναι υπερβολικά παλιά για τη βάση δεδομένων σας."
 
 #: ../src/chronojump.cs:723 ../src/chronojumpImporter.cs:260
 msgid "Please update Chronojump"
-msgstr "Παρακαλούμε ενημερώστε το Chronojump"
+msgstr "Παρακαλούμε ενημερώστε το Chronojump."
 
 #: ../src/chronojump.cs:731
 msgid "tables already created"
-msgstr "οι πίνακες δημιουργήθηκαν ήδη"
+msgstr "οι πίνακες έχουν ήδη δημιουργηθεί"
 
 #: ../src/chronojump.cs:745
 msgid "Fail on database. Process: "
-msgstr ""
+msgstr "Αποτυχία στη βάση δεδομένων. Διαδικασία: "
 
 #.
 #. errorMessage += "\n\n" + string.Format(Catalog.GetString("If you have no data on your database (you just installed Chronojump), you can fix this problem deleting this file: {0}"),
@@ -5540,57 +5408,53 @@ msgstr ""
 #: ../src/chronojump.cs:751
 #, csharp-format
 msgid "Please, contact with Chronojump. Send them this file: {0}"
-msgstr ""
+msgstr "Παρακαλούμε, επικοινωνήστε με την ομάδα του Chronojump. Στείλτε τους αυτό το αρχείο: {0}"
 
 #: ../src/chronojump.cs:850
 msgid "Need permissions to read from device."
-msgstr ""
+msgstr "Απαίτηση δικαιωμάτων για ανάγνωση από τη συσκευή."
 
 #: ../src/chronojump.cs:851
-#, fuzzy
-#| msgid "Check Chronojump software website."
+#, csharp-format
 msgid "Check software page on Chronojump website"
-msgstr "Ελέγξτε  την ιστοσελίδα του λογισμικού  Chronojump . "
+msgstr "Ελέγξτε τη σελίδα του λογισμικού στον ιστότοπο του Chronojump."
 
 #: ../src/chronojump.cs:1006
 #, csharp-format
 msgid "Chronojump {0} crashed before."
-msgstr "Το Chronojump {0} κατέρρευσε πριν."
+msgstr "Το Chronojump {0} κατέρρευσε προηγουμένως."
 
 #: ../src/chronojump.cs:1007
-#, fuzzy, csharp-format
-#| msgid ""
-#| "Please, fill your email and click on 'Send error log' in order to fix "
-#| "this fast and contact you if appropriate."
+#, csharp-format
 msgid ""
 "Please, fill your email and click on '{0}' in order to fix this fast and "
 "contact you if appropriate."
 msgstr ""
-"Παρακαλούμε, συμπληρώστε τη διεύθυνση αλληλογραφίας σας και κάντε κλικ στο "
-"«Αποστολή αρχείο καταγραφής σφαλμάτων», προκειμένου να διορθωθεί γρήγορα και "
-"να επικοινωνήσουμε μαζί σας, αν χρειάζεται."
+"Παρακαλούμε, συμπληρώστε τη διεύθυνση ηλεκτρονικού ταχυδρομείου σας και κάντε "
+"κλικ στο «{0}», προκειμένου να διορθωθεί γρήγορα και να επικοινωνήσουμε μαζί "
+"σας, αν χρειάζεται."
 
 #: ../src/chronojump.cs:1008
 msgid "Your help is needed."
-msgstr "Η βοήθειά σας χρειάζεται."
+msgstr "Χρειαζόμαστε τη βοήθειά σας."
 
 #: ../src/chronojump.cs:1156
 #, csharp-format
 msgid "Cannot move database directory from {0} to {1}"
-msgstr "Αδύνατη η μετακίνηση του καταλόγου της βάσης δεδομένων από {0} σε {1}"
+msgstr "Αδύνατη η μετακίνηση του καταλόγου της βάσης δεδομένων από το {0} στο {1}"
 
 #: ../src/chronojump.cs:1158
 msgid "Trying to move/copy each file now"
-msgstr "Προσπαθήστε να μετακινήστε/αντιγράψετε κάθε αρχείο τώρα"
+msgstr "Προσπάθεια μετακίνησης/αντιγραφής κάθε αρχείου τώρα"
 
 #: ../src/chronojump.cs:1186
 #, csharp-format
 msgid "Cannot create directory {0}"
-msgstr "Αδύνατη η δημιουργία καταλόγου {0}"
+msgstr "Αδύνατη η δημιουργία του καταλόγου {0}"
 
 #: ../src/chronojump.cs:1187 ../src/chronojump.cs:1195
 msgid "Please, do it manually."
-msgstr "Παρακαλούμε, κάντε το χειροκίνητα."
+msgstr "Παρακαλούμε, εκτελέστε το χειροκίνητα."
 
 #: ../src/chronojump.cs:1194
 #, csharp-format
@@ -5604,18 +5468,20 @@ msgstr "Αδύνατη η μετακίνηση των αρχείων {0} από 
 
 #: ../src/chronojump.cs:1203
 msgid "Please, do it manually"
-msgstr "Παρακαλούμε, κάντε το χειροκίνητα"
+msgstr "Παρακαλούμε, εκτελέστε το χειροκίνητα."
 
 #: ../src/chronojump.cs:1209
 #, csharp-format
 msgid "Database is now here: {0}"
-msgstr "Η βάση δεδομένων είναι τώρα εδώ: {0}"
+msgstr "Η βάση δεδομένων βρίσκεται τώρα εδώ: {0}"
 
 #: ../src/chronojumpImporter.cs:261
 msgid ""
 "Trying to import a newer database version than this Chronojump\n"
 "Please, update the running Chronojump."
 msgstr ""
+"Προσπάθεια εισαγωγής νεότερης έκδοσης βάσης δεδομένων από αυτήν του Chronojump\n"
+"Παρακαλούμε, ενημερώστε το Chronojump που εκτελείται."
 
 #: ../src/chronojumpImporter.cs:333
 #, fuzzy, csharp-format

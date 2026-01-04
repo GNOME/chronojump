@@ -9687,7 +9687,7 @@ msgstr "Σχολιασμός αυτού του στατιστικού"
 
 #: ../src/gui/sendLogAndPoll.cs:140
 msgid "Thanks"
-msgstr "Ευχαριστίες"
+msgstr "Ευχαριστούμε"
 
 #: ../src/gui/sendLogAndPoll.cs:147
 msgid "Try again"
@@ -9695,15 +9695,15 @@ msgstr "Προσπαθήστε ξανά"
 
 #: ../src/gui/server.cs:204
 msgid "Uploaded test type"
-msgstr "Απεσταλμένος τύπος εξέτασης"
+msgstr "Μεταφορτώθηκε ο τύπος εξέτασης"
 
 #: ../src/gui/server.cs:209
 msgid "Uploaded sport"
-msgstr "Απεσταλμένο άθλημα"
+msgstr "Μεταφορτώθηκε το άθλημα"
 
 #: ../src/gui/stats.cs:186 ../src/statType.cs:344
 msgid "Average Index"
-msgstr "Μέσος όρος δείκτη"
+msgstr "Μέσος δείκτης"
 
 #.
 #. if is RjEvolution, or runIntervallic show mark consecutives, graph only with lines and transposed
@@ -9723,7 +9723,7 @@ msgstr "Χωρίς δείκτες"
 #. if selected 'male' or 'female', showSex and redo the treeview if needed
 #: ../src/gui/stats.cs:222 ../src/gui/stats.cs:532 ../src/stats/main.cs:262
 msgid "Male"
-msgstr "Άντρας"
+msgstr "Άνδρας"
 
 #: ../src/gui/stats.cs:223 ../src/gui/stats.cs:533 ../src/stats/main.cs:276
 msgid "Female"
@@ -9731,101 +9731,84 @@ msgstr "Γυναίκα"
 
 #: ../src/gui/stats.cs:1327 ../src/report.cs:309
 msgid "Jumper's best"
-msgstr "Ο καλύτερος αθλητής"
+msgstr "Το καλύτερο του άλτη"
 
 #: ../src/gui/stats.cs:1330 ../src/report.cs:312
 msgid "Jumper's average"
-msgstr "Μέσος όρος του αθλητή"
+msgstr "Μέσος όρος του άλτη"
 
 #: ../src/gui/trigger.cs:81
-#, fuzzy
-#| msgid "CSV file does not have headers"
 msgid "This set does not have any triggers."
-msgstr "Το αρχείο CSV δεν έχει κεφαλίδες"
+msgstr "Αυτό το σετ δεν έχει εναύσματα."
 
 #: ../src/gui/trigger.cs:83
-#, fuzzy
-#| msgid "Person average on this test"
 msgid "Triggers found on this set:"
-msgstr "Μέσος όρος ατόμου σε αυτήν την εξέταση"
+msgstr "Βρέθηκαν εναύσματα σε αυτό το σετ:"
 
 #: ../src/gui/webcam.cs:146 ../src/gui/webcam.cs:156
 msgid "Preparing camera"
 msgstr "Προετοιμασία κάμερας"
 
 #: ../src/gui/webcam.cs:216
-#, fuzzy
-#| msgid "Initializing"
 msgid "Initializing camera."
-msgstr "Αρχικοποίηση"
+msgstr "Αρχικοποίηση κάμερας."
 
 #: ../src/gui/webcam.cs:225
 msgid "Problems starting camera."
-msgstr ""
+msgstr "Προβλήματα κατά την εκκίνηση της κάμερας."
 
 #: ../src/gui/webcam.cs:229
-#, fuzzy
-#| msgid "Recording ..."
 msgid "Recording …"
-msgstr "Εγγραφή ..."
+msgstr "Εγγραφή …"
 
 #: ../src/gui/webcam.cs:352
 msgid "Ending video"
-msgstr "Λήξη βίντεο"
+msgstr "Τερματισμός βίντεο"
 
 #: ../src/gui/webcam.cs:628 ../src/gui/webcam.cs:661
 msgid "Video device is not configured. Check Preferences / Multimedia."
 msgstr ""
+"Η συσκευή βίντεο δεν έχει ρυθμιστεί. Ελέγξτε τις Προτιμήσεις / Πολυμέσα."
 
 #: ../src/json/compujump.cs:36
-#, fuzzy
-#| msgid "Could not get last version."
 msgid "Could not get station exercises."
-msgstr "Δεν ήταν δυνατή η λήψη της τελευταίας έκδοσης."
+msgstr "Αδυναμία λήψης ασκήσεων σταθμού."
 
 #: ../src/json/compujump.cs:286 ../src/json/compujump.cs:293
-#, fuzzy
-#| msgid "Could not get last version."
 msgid "Could not get tasks from other sessions."
-msgstr "Δεν ήταν δυνατή η λήψη της τελευταίας έκδοσης."
+msgstr "Αδυναμία λήψης εργασιών από άλλες συνεδρίες."
 
 #: ../src/json/compujump.cs:541 ../src/json/compujump.cs:549
-#, fuzzy
-#| msgid "Could not get last version."
 msgid "Could not upload sprint data."
-msgstr "Δεν ήταν δυνατή η λήψη της τελευταίας έκδοσης."
+msgstr "Αδυναμία μεταφόρτωσης δεδομένων σπριντ."
 
 #: ../src/json/compujump.cs:612 ../src/json/compujump.cs:620
-#, fuzzy
-#| msgid "Could not send file."
 msgid "Could not upload encoder data."
-msgstr "Δεν ήταν δυνατή η αποστολή του αρχείου."
+msgstr "Αδυναμία μεταφόρτωσης δεδομένων κωδικοποιητή."
 
 #: ../src/json/compujump.cs:680 ../src/json/compujump.cs:688
-#, fuzzy
-#| msgid "Could not send file."
 msgid "Could not upload force sensor data."
-msgstr "Δεν ήταν δυνατή η αποστολή του αρχείου."
+msgstr "Αδυναμία μεταφόρτωσης δεδομένων αισθητήρα δύναμης."
 
 #: ../src/json/json.cs:77
 msgid ""
 "Could not send file.\n"
 "It does not exist."
 msgstr ""
-"Δεν ήταν δυνατή η αποστολή του αρχείου. \n"
+"Αδυναμία αποστολής του αρχείου.\n"
 "Δεν υπάρχει."
 
 #: ../src/json/json.cs:110 ../src/json/json.cs:121
 msgid "Could not send file."
-msgstr "Δεν ήταν δυνατή η αποστολή του αρχείου."
+msgstr "Αδυναμία αποστολής του αρχείου."
 
 #: ../src/json/json.cs:150
 msgid "Log sent. Thank you."
-msgstr "Αποστάλθηκε το αρχείο καταγραφής . Σας ευχαριστούμε."
+msgstr "Το αρχείο καταγραφής εστάλη. Σας ευχαριστούμε."
 
 #: ../src/json/json.cs:174
 msgid "Could not get last version."
-msgstr "Δεν ήταν δυνατή η λήψη της τελευταίας έκδοσης."
+msgstr "Αδυναμία λήψης της τελευταίας έκδοσης."
 
 #: ../src/json/json.cs:200
 msgid "Installed version is: "
@@ -9833,7 +9816,7 @@ msgstr "Η εγκατεστημένη έκδοση είναι: "
 
 #: ../src/json/json.cs:201
 msgid "Last version published: "
-msgstr "Η τελευταία έκδοση δημοσιεύθηκε: "
+msgstr "Η τελευταία δημοσιευμένη έκδοση: "
 
 #: ../src/json/json.cs:706 ../src/json/json.cs:723 ../src/json/json.cs:739
 #: ../src/json/json.cs:755
@@ -9855,7 +9838,7 @@ msgstr "Απλό άλμα χωρίς ειδική τεχνική"
 
 #: ../src/jumpType.cs:84
 msgid "Squat Jump"
-msgstr "Άλμα με κάθισμα"
+msgstr "Άλμα ημικαθίσματος"
 
 #: ../src/jumpType.cs:90
 msgid "CounterMovement Jump"
@@ -9863,19 +9846,19 @@ msgstr "Άλμα αντίθετης κίνησης"
 
 #: ../src/jumpType.cs:98
 msgid "Single-leg CounterMovement Jump"
-msgstr "Άλμα αντίθετης κίνησης με ένα πόδι"
+msgstr "Μονοποδικό άλμα αντίθετης κίνησης"
 
 #: ../src/jumpType.cs:102
 msgid "Abalakov Jump"
-msgstr "Άλμα Αμπαλακόβ"
+msgstr "Άλμα Αμπαλακόφ"
 
 #: ../src/jumpType.cs:105
 msgid "Rocket Jump"
-msgstr "Άλμα εκτόξευσης"
+msgstr "Άλμα ρουκέτα"
 
 #: ../src/jumpType.cs:115
 msgid "Squat Jump with extra weight"
-msgstr "Άλμα με κάθισμα με πρόσθετο βάρος"
+msgstr "Άλμα ημικαθίσματος με πρόσθετο βάρος"
 
 #: ../src/jumpType.cs:118
 msgid "CounterMovement Jump with extra weight"
@@ -9883,7 +9866,7 @@ msgstr "Άλμα αντίθετης κίνησης με πρόσθετο βάρ�
 
 #: ../src/jumpType.cs:121
 msgid "Abalakov Jump with extra weight"
-msgstr "Άλμα Αμπαλακόβ με πρόσθετο βάρος"
+msgstr "Άλμα Αμπαλακόφ με πρόσθετο βάρος"
 
 #. for repetitive
 #. for repetitive
@@ -9901,43 +9884,45 @@ msgstr "Εκτίναξη με βάρος"
 
 #: ../src/jumpType.cs:146
 msgid "DJ Jump"
-msgstr "Άλμα DJ"
+msgstr "Άλμα DJ (Βάθους)"
 
 #: ../src/jumpType.cs:154
 msgid "DJ Jump using arms"
-msgstr "Άλμα με πτώση με χρήση βραχιόνων"
+msgstr "Άλμα DJ (Βάθους) με χρήση χεριών"
 
 #: ../src/jumpType.cs:162
 msgid "DJ Jump without using arms"
-msgstr "Άλμα με πτώση χωρίς χρήση βραχιόνων"
+msgstr "Άλμα DJ (Βάθους) χωρίς χρήση χεριών"
 
 #: ../src/jumpType.cs:171
 msgid "Reactive Jump limited by Jumps"
-msgstr "Πολλαπλό άλμα περιορισμένο από τα άλματα"
+msgstr "Αντιδραστικό άλμα περιορισμένο από τα άλματα"
 
 #: ../src/jumpType.cs:179
 msgid "Reactive Jump limited by Time"
-msgstr "Πολλαπλό άλμα περιορισμένο από τον χρόνο"
+msgstr "Αντιδραστικό άλμα περιορισμένο από τον χρόνο"
 
 #: ../src/jumpType.cs:188
 msgid "Reactive Jump unlimited (until finish button is clicked)"
-msgstr "Απεριόριστο πολλαπλό άλμα (μέχρι το πάτημα του κουμπιού τερματισμού)"
+msgstr ""
+"Απεριόριστο αντιδραστικό άλμα (μέχρι το πάτημα του κουμπιού τερματισμού)"
 
 #: ../src/jumpType.cs:199
 msgid ""
 "Run between two photocells recording contact and flight times in contact "
 "platform/s."
 msgstr ""
-"Δρόμος μεταξύ δύο φωτοκυττάρων που γράφουν τους χρόνους επαφής και πτήσης σε "
-"επαφή με τις εξέδρες."
+"Δρόμος μεταξύ δύο φωτοκυττάρων με καταγραφή χρόνων επαφής και πτήσης στις "
+"πλατφόρμες επαφής."
 
 #: ../src/jumpType.cs:200
 msgid "Until finish button is clicked."
-msgstr "Μέχρι να πατηθεί το πλήκτρο τερματισμού."
+msgstr "Μέχρι να πατηθεί το κουμπί τερματισμού."
 
 #: ../src/jumpType.cs:209
 msgid "Reactive Jump on a hexagon until three full revolutions are done"
-msgstr "Πολλαπλό άλμα σε εξάγωνο μέχρι να γίνουν τρεις πλήρεις στροφές"
+msgstr ""
+"Αντιδραστικό άλμα σε εξάγωνο μέχρι να ολοκληρωθούν τρεις πλήρεις περιστροφές"
 
 #: ../src/jumpType.cs:217
 msgid "Triple jump"
@@ -9952,15 +9937,13 @@ msgid "Print the port name where chronopic is connected:"
 msgstr "Εμφανίστε το όνομα της θύρας όπου συνδέεται το chronopic:"
 
 #: ../src/Mini/chronojump_mini.cs:131
-#, fuzzy
-#| msgid "Opening port..."
 msgid "Opening port …"
-msgstr "Άνοιγμα θύρας..."
+msgstr "Άνοιγμα θύρας …"
 
 #: ../src/Mini/chronojump_mini.cs:132
 msgid "Please touch the platform or click Chronopic TEST button"
 msgstr ""
-"Παρακαλούμε ενεργοποιήστε την εξέδρα ή πατήστε το κουμπί TEST του Chronopic "
+"Παρακαλούμε αγγίξτε την πλατφόρμα ή πατήστε το κουμπί TEST του Chronopic"
 
 #: ../src/Mini/chronojump_mini.cs:142
 msgid "Error opening serial port"
@@ -9975,15 +9958,15 @@ msgstr "Σφάλμα: {0}"
 #: ../src/Mini/chronojump_mini.cs:164
 #, csharp-format
 msgid "Platform state: {0}"
-msgstr "Κατάσταση εξέδρας: {0}"
+msgstr "Κατάσταση πλατφόρμας: {0}"
 
 #: ../src/Mini/chronojump_mini.cs:175
 msgid "Go up platform for jumping"
-msgstr "Ανεβείτε στην εξέδρα για άλμα"
+msgstr "Ανεβείτε στην πλατφόρμα για άλμα"
 
 #: ../src/Mini/chronojump_mini.cs:188
 msgid "Jump when prepared"
-msgstr "Πηδήξτε όταν είσαστε έτοιμοι"
+msgstr "Πηδήξτε όταν είστε έτοιμοι"
 
 #: ../src/Mini/chronojump_mini.cs:189
 msgid "Press CTRL-c for ending session"
@@ -9991,7 +9974,7 @@ msgstr "Πατήστε CTRL-c για τερματισμό της συνεδρί�
 
 #: ../src/Mini/chronojump_mini.cs:250
 msgid "Invalid args. Use:"
-msgstr "Άκυρα ορίσματα. Χρήση:"
+msgstr "Μη έγκυρα ορίσματα. Χρήση:"
 
 #: ../src/Mini/chronojump_mini.cs:254 ../src/Mini/chronojump_mini.cs:261
 msgid "Examples:"
@@ -9999,7 +9982,7 @@ msgstr "Παραδείγματα:"
 
 #: ../src/Mini/chronojump_mini.cs:309
 msgid "Do you want to output data to a file?"
-msgstr "Θέλετε τα δεδομένα εξόδου σε ένα αρχείο;"
+msgstr "Θέλετε να εξαγάγετε τα δεδομένα σε ένα αρχείο;"
 
 #: ../src/Mini/chronojump_mini.cs:313
 msgid ""
@@ -10009,7 +9992,7 @@ msgid ""
 msgstr ""
 "Αν θέλετε να το ανοίξετε με ένα υπολογιστικό φύλλο όπως Gnumeric, OpenOffice "
 "ή MS Office, συνιστούμε τη χρήση της επέκτασης .csv.\n"
-"πχ: 'εξέταση.csv'"
+"π.χ.: 'test.csv'"
 
 #: ../src/Mini/chronojump_mini.cs:314
 #, csharp-format
@@ -10023,12 +10006,12 @@ msgstr "Παρακαλούμε, γράψτε το όνομα του αρχείο
 #: ../src/Mini/chronojump_mini.cs:325
 #, csharp-format
 msgid "File {0} exists with attributes {1}, created at {2}"
-msgstr "Το αρχείο {0} υπάρχει με γνωρίσματα {1}, δημιουργημένο στις {2}"
+msgstr "Το αρχείο {0} υπάρχει με ιδιότητες {1}, δημιουργήθηκε στις {2}"
 
 #: ../src/Mini/chronojump_mini.cs:327
 #, csharp-format
 msgid "Are you sure you want to overwrite file: {0}"
-msgstr "Είσαστε σίγουροι ότι θέλετε να αντικαταστήσετε το αρχείο: {0}"
+msgstr "Είστε σίγουροι ότι θέλετε να αντικαταστήσετε το αρχείο: {0}"
 
 #: ../src/modes/forceSensor.cs:2179
 msgid "Statistics"
@@ -10040,33 +10023,27 @@ msgstr "Δείγμα"
 
 #: ../src/networks.cs:209
 msgid "No active Internet devices."
-msgstr ""
+msgstr "Καμία ενεργή συσκευή διαδικτύου."
 
 #: ../src/networks.cs:211
 msgid "Active Internet devices:"
-msgstr ""
+msgstr "Ενεργές συσκευές διαδικτύου:"
 
 #: ../src/person.cs:420
-#, fuzzy
-#| msgid "Load persons"
 msgid "No persons to export."
-msgstr "Φόρτωση ατόμων"
+msgstr "Δεν υπάρχουν άτομα προς εξαγωγή."
 
 #: ../src/person.cs:424
-#, fuzzy
-#| msgid "Export session to _XML"
 msgid "Exported to:"
-msgstr "Εξαγωγή συνεδρίας σε _XML"
+msgstr "Εξήχθη σε:"
 
 #: ../src/report.cs:187
 msgid "without subjumps"
-msgstr "χωρίς υποάλματα"
+msgstr "χωρίς υπο-άλματα"
 
 #: ../src/report.cs:202
-#, fuzzy
-#| msgid "without tracks"
 msgid "without laps"
-msgstr "χωρίς διαδρομές"
+msgstr "χωρίς γύρους"
 
 #: ../src/report.cs:321
 msgid "Evolution."
@@ -10074,7 +10051,7 @@ msgstr "Εξέλιξη."
 
 #: ../src/runType.cs:95
 msgid "Variable distance running"
-msgstr "Μεταβλητή απόσταση δρόμου"
+msgstr "Δρόμος μεταβλητής απόστασης"
 
 #: ../src/runType.cs:102
 msgid "Run 20 meters"
@@ -10102,11 +10079,11 @@ msgstr "Δρόμος 2000 μέτρων"
 
 #: ../src/runType.cs:148
 msgid "Note on measurement"
-msgstr "Σημείωση στη μέτρηση"
+msgstr "Σημείωση για τη μέτρηση"
 
 #: ../src/runType.cs:149
 msgid "Measured time will be the time between two platforms"
-msgstr "Ο μετρούμενος χρόνος θα είναι ο χρόνος μεταξύ δύο εξεδρών"
+msgstr "Ο μετρούμενος χρόνος θα είναι ο χρόνος μεταξύ δύο πλατφορμών"
 
 #: ../src/runType.cs:150
 msgid "Short description"
@@ -10115,19 +10092,20 @@ msgstr "Σύντομη περιγραφή"
 #: ../src/runType.cs:151
 msgid "Subjects had to walk over the bar as fast as possible."
 msgstr ""
-"Τα υποκείμενα πρέπει να βαδίσουν πάνω από τη ράβδο όσο το δυνατό πιο γρήγορα."
+"Οι εξεταζόμενοι έπρεπε να περπατήσουν πάνω από τη ράβδο όσο το δυνατόν "
+"γρηγορότερα."
 
 #: ../src/runType.cs:152
 msgid "From one platform to another without falling down."
-msgstr "Από μια εξέδρα σε μια άλλη χωρίς αστοχία."
+msgstr "Από τη μια πλατφόρμα στην άλλη χωρίς πτώση."
 
 #: ../src/runType.cs:153
 msgid "If they touched the ground they had to continue."
-msgstr "Αν ακουμπήσουν το έδαφος πρέπει να συνεχίσουν."
+msgstr "Αν ακουμπούσαν το έδαφος έπρεπε να συνεχίσουν."
 
 #: ../src/runType.cs:154
 msgid "The hands were on their waist."
-msgstr "Τα χέρια ήταν στη μέση."
+msgstr "Τα χέρια ήταν στη μέση τους."
 
 #: ../src/runType.cs:155 ../src/runType.cs:165
 msgid "Without shoes."
@@ -10135,11 +10113,11 @@ msgstr "Χωρίς παπούτσια."
 
 #: ../src/runType.cs:156 ../src/runType.cs:174
 msgid "Every ground contact is penalized with 2 seconds."
-msgstr "Κάθε επαφή με το έδαφος τιμωρείται με 2 δευτερόλεπτα."
+msgstr "Κάθε επαφή με το έδαφος επιβαρύνεται με 2 δευτερόλεπτα."
 
 #: ../src/runType.cs:157
 msgid "The best of 2 attempts were recorded."
-msgstr "Η καλύτερη από 2 προσπάθειες καταγράφεται."
+msgstr "Καταγράφηκε η καλύτερη από τις 2 προσπάθειες."
 
 #: ../src/runType.cs:159
 msgid "Gesell's Bar"
@@ -10174,32 +10152,31 @@ msgid ""
 "You have to walk on this bar as fast as possible 'like this', if you touch "
 "the ground just continue."
 msgstr ""
-"Πρέπει να βαδίσετε πάνω σε αυτή τη ράβδο όσο το δυνατό πιο γρήγορα 'όπως "
-"αυτό', αν ακουμπήσετε το έδαφος απλά συνεχίστε."
+"Πρέπει να βαδίσετε πάνω σε αυτή τη ράβδο όσο το δυνατόν πιο γρήγορα 'έτσι', "
+"αν ακουμπήσετε το έδαφος απλά συνεχίστε."
 
 #: ../src/runType.cs:170
 msgid ""
 "'Like this' means normal, with a foot in front of the other, not side by "
 "side."
 msgstr ""
-"'Όπως αυτό' σημαίνει κανονικά, με ένα πόδι μπροστά από το άλλο, όχι πλάι-"
-"πλάι."
+"'Έτσι' σημαίνει κανονικά, με το ένα πόδι μπροστά από το άλλο, όχι πλάι-πλάι."
 
 #: ../src/runType.cs:172
 msgid "SCORE: "
-msgstr "ΑΠΟΤΕΛΕΣΜΑ: "
+msgstr "ΒΑΘΜΟΛΟΓΙΑ: "
 
 #: ../src/runType.cs:173
 msgid ""
 "Time will start since first platform is touched, and will stop when second "
 "platform is reached."
 msgstr ""
-"Ο χρόνος θα ξεκινήσει μετά την επαφή με την πρώτη εξέδρα και θα σταματήσει "
-"όταν φτάσετε τη δεύτερη εξέδρα."
+"Ο χρόνος θα ξεκινήσει από τη στιγμή που θα ακουμπήσετε την πρώτη εξέδρα και "
+"θα σταματήσει όταν φτάσετε στη δεύτερη εξέδρα."
 
 #: ../src/runType.cs:175
 msgid "The best of 2 attempts will be recorded."
-msgstr "Η καλύτερη από 2 προσπάθειες καταγράφεται."
+msgstr "Θα καταγραφεί η καλύτερη από τις 2 προσπάθειες."
 
 #: ../src/runType.cs:177 ../src/runType.cs:388
 msgid "Reference:"
@@ -10207,33 +10184,29 @@ msgstr "Αναφορά:"
 
 #: ../src/runType.cs:190
 msgid "20Yard Agility test"
-msgstr "Εξέταση ευκινησίας 20 γιαρδές"
+msgstr "Δοκιμασία ευκινησίας 20 γιαρδών"
 
 #: ../src/runType.cs:192
 msgid ""
 "This test is part of a battery for the USA Women's Soccer Team. The NFL use "
 "a very similar test for the NFL Combine Testing, the 20 yard shuttle."
 msgstr ""
-"Αυτή η εξέταση είναι μέρος ενός συνόλου για την αμερικάνικη ομάδα "
-"ποδοσφαίρου γυναικών. Η NFL χρησιμοποιεί μια πολύ παρόμοια εξέταση για την "
-"συνδυασμένη εξέταση NFL, την μεταφορά 20 γιαρδών."
+"Αυτή η δοκιμασία είναι μέρος μιας σειράς δοκιμασιών για την ομάδα "
+"ποδοσφαίρου γυναικών των ΗΠΑ. Το NFL χρησιμοποιεί μια πολύ παρόμοια "
+"δοκιμασία για το NFL Combine, τον δρόμο με επιστροφή 20 γιαρδών."
 
 #: ../src/runType.cs:194 ../src/runType.cs:268
 msgid "Purpose"
 msgstr "Σκοπός"
 
 #: ../src/runType.cs:195
-#, fuzzy
-#| msgid ""
-#| "The 20 yard agility run is a simple measure of an athlete’s ability to "
-#| "accelerate, decelerate, change direction, and to accelerate again."
 msgid ""
 "The 20 yard agility race is a simple measure of an athlete’s ability to "
 "accelerate, decelerate, change direction, and to accelerate again."
 msgstr ""
 "Ο δρόμος ευκινησίας 20 γιαρδών είναι ένα απλό μέτρο της ικανότητας ενός "
-"αθλητή να επιταχύνει, να επιβραδύνει, να αλλάξει κατεύθυνση και να "
-"ξαναεπιταχύνει."
+"αθλητή να επιταχύνει, να επιβραδύνει, να αλλάζει κατεύθυνση και να "
+"επιταχύνει ξανά."
 
 #: ../src/runType.cs:197 ../src/runType.cs:215 ../src/runType.cs:234
 #: ../src/runType.cs:271 ../src/runType.cs:299
@@ -10252,17 +10225,16 @@ msgid ""
 "A. The stopwatch is started on the first movement of the athlete and stops "
 "the watch when the athlete’s torso crosses the center line."
 msgstr ""
-"Τοποθέτηση τριών σημειωμένων κώνων σε ευθεία γραμμή, σε απόσταση πέντε "
-"γιάρδες ακριβώς - κώνοι Β, Α(κέντρο) και Γ. Σε κάθε κώνο βάλτε μια γραμμή "
-"κατά πλάτος χρησιμοποιώντας μια ταινία επισήμανσης. Το χρονόμετρο "
-"τοποθετείται στο επίπεδο του κέντρου του κώνου Α, βλέποντας τον αθλητή. Ο "
-"αθλητής στέκεται με τα πόδια ανοιχτά στο κέντρο του κώνου Α με τα πόδια σε "
-"ίση απόσταση μακριά και παράλληλα με τη γραμμή των κώνων. Όταν είναι "
-"έτοιμος, ο αθλητής τρέχει προς τον κώνο Β (ακουμπώντας τη γραμμή οποιοδήποτε "
-"πόδι), στρίβει και επιταχύνει προς τον κώνο Γ (ακουμπώντας τη γραμμή) και "
-"τελειώνει επιταχύνοντας μέσα από τη γραμμή του κώνου Α. Το χρονόμετρο ξεκινά "
-"με την πρώτη κίνηση του αθλητή και σταματά το ρολόι όταν ο κορμός του αθλητή "
-"διασχίζει την κεντρική γραμμή."
+"Τοποθέτηση τριών κώνων σήμανσης σε ευθεία γραμμή, σε απόσταση πέντε γιάρδες "
+"ακριβώς - κώνοι Β, Α (κέντρο) και Γ. Σε κάθε κώνο βάλτε μια γραμμή κατά "
+"πλάτος χρησιμοποιώντας ταινία σήμανσης. Ο χρονομέτρης τοποθετείται στο "
+"επίπεδο του κεντρικού κώνου Α, βλέποντας τον αθλητή. Ο αθλητής στέκεται με "
+"τα πόδια ανοιχτά πάνω από τον κεντρικό κώνο Α σε ίση απόσταση και παράλληλα "
+"με τη γραμμή των κώνων. Όταν είναι έτοιμος, ο αθλητής τρέχει προς τον κώνο Β "
+"(ακουμπώντας τη γραμμή με οποιοδήποτε πόδι), στρίβει και επιταχύνει προς τον "
+"κώνο Γ (ακουμπώντας τη γραμμή) και τερματίζει επιταχύνοντας μέσα από τη "
+"γραμμή του κώνου Α. Το χρονόμετρο ξεκινά με την πρώτη κίνηση του αθλητή και "
+"σταματά όταν ο κορμός του αθλητή διασχίσει την κεντρική γραμμή."
 
 #: ../src/runType.cs:200 ../src/runType.cs:275
 msgid "Scoring"
@@ -10277,17 +10249,17 @@ msgid ""
 "Encourage athletes to accelerate through the finish line to maximize their "
 "result."
 msgstr ""
-"Ενθάρρυνση στους αθλητές να επιταχύνουν μέχρι την γραμμή τερματισμού για "
-"μεγιστοποίηση του αποτελέσματός τους."
+"Ενθαρρύνετε τους αθλητές να επιταχύνουν περνώντας τη γραμμή τερματισμού για "
+"να μεγιστοποιήσουν το αποτέλεσμά τους."
 
 #: ../src/runType.cs:205 ../src/runType.cs:221 ../src/runType.cs:255
 #: ../src/runType.cs:288 ../src/runType.cs:309
 msgid "Cited with permission."
-msgstr "Αναφορά με άδεια."
+msgstr "Παρατίθεται κατόπιν αδείας."
 
 #: ../src/runType.cs:213
 msgid "505 Agility test"
-msgstr "Εξέταση ευκινησίας 505"
+msgstr "Δοκιμασία ευκινησίας 505"
 
 #: ../src/runType.cs:216
 msgid ""
@@ -10303,26 +10275,26 @@ msgid ""
 msgstr ""
 "Τα σημάδια τοποθετούνται 5 και 15 μέτρα από μια γραμμή σημειωμένη στο "
 "έδαφος. Ο αθλητής τρέχει από το σημάδι των 15 μέτρων προς τη γραμμή (τρέξιμο "
-"σε απόσταση για αύξηση της ταχύτητας) και από τα σημάδια των 5 m, φτάνει στη "
-"γραμμή και τρέχει πίσω προς τα σημάδια των 5 m. Ο χρόνος καταγράφεται από "
-"τότε που οι αθλητές τρέχουν πρώτα από τα σημάδια των 5 μέτρων και σταματά "
-"όταν επιστρέφουν σε αυτά τα σημάδια (δηλαδή, ο χρόνος που πέρασε για την "
-"κάλυψη της απόστασης των 5 m μπρος και πίσω - 10 m συνολικά). Η καλύτερη από "
-"τις δυο προσπάθειες καταγράφεται. Η ικανότητα στροφής σε κάθε πόδι πρέπει να "
-"ελεγχθεί. Το άτομο πρέπει να ενθαρρύνεται να μην ξεπεράσει τη γραμμή "
-"υπερβολικά, καθώς αυτό θα αυξήσει τον χρόνο του."
+"από απόσταση για ανάπτυξη ταχύτητας) και περνώντας από τα σημάδια των 5 m, "
+"στρίβει στη γραμμή και τρέχει πίσω μέσα από τα σημάδια των 5 m. Ο χρόνος "
+"καταγράφεται από τη στιγμή που ο αθλητής περνάει πρώτα από τα σημάδια των 5 "
+"μέτρων και σταματά όταν επιστρέφει μέσα από αυτά τα σημάδια (δηλαδή, ο "
+"χρόνος που απαιτείται για την κάλυψη της απόστασης των 5 m πήγαινε-έλα - 10 "
+"m συνολικά). Καταγράφεται η καλύτερη από τις δύο προσπάθειες. Η ικανότητα "
+"στροφής σε κάθε πόδι πρέπει να ελεγχθεί. Το άτομο πρέπει να ενθαρρύνεται να "
+"μην ξεπερνά τη γραμμή υπερβολικά, καθώς αυτό θα αυξήσει τον χρόνο του."
 
 #: ../src/runType.cs:219
 msgid ""
 "This is a test of 180 degree turning ability. This ability may not be "
 "applicable to some sports."
 msgstr ""
-"Αυτή είναι μια εξέταση της ικανότητας στροφής κατά 180 μοίρες. Αυτή η "
+"Αυτή είναι μια δοκιμασία της ικανότητας στροφής κατά 180 μοίρες. Αυτή η "
 "ικανότητα μπορεί να μην εφαρμόζεται σε κάποια αθλήματα."
 
 #: ../src/runType.cs:229
 msgid "Illinois Agility test"
-msgstr "Εξέταση ευκινησίας Ιλινόις"
+msgstr "Δοκιμασία ευκινησίας Ιλινόις"
 
 #: ../src/runType.cs:232
 msgid ""
@@ -10335,8 +10307,8 @@ msgstr ""
 "Το μήκος της διαδρομής είναι 10 μέτρα και το πλάτος (απόσταση μεταξύ των "
 "σημείων εκκίνησης και τερματισμού) είναι 5 μέτρα. Τέσσερις κώνοι "
 "χρησιμοποιούνται για να σημειώσουν την εκκίνηση, τον τερματισμό και τα δύο "
-"σημεία στροφής. Άλλοι τέσσερις κώνοι τοποθετούνται σε ίση απόσταση γύρω από "
-"το κέντρο. Κάθε κώνος στο κέντρο τοποθετείται 3,3 μέτρα μακριά."
+"σημεία στροφής. Άλλοι τέσσερις κώνοι τοποθετούνται κατά μήκος του κέντρου "
+"σε ίση απόσταση μεταξύ τους. Κάθε κώνος στο κέντρο απέχει 3,3 μέτρα."
 
 #: ../src/runType.cs:235
 msgid ""
@@ -10346,11 +10318,11 @@ msgid ""
 "direction indicated, without knocking the cones over, to the finish line, at "
 "which the timing is stopped."
 msgstr ""
-"Τα άτομα πρέπει να ξαπλώσουν μπρούμυτα (το κεφάλι στη γραμμή εκκίνησης) και "
-"τα χέρια στους ώμους. Με την εντολή 'Εκκίνηση' το χρονόμετρο ξεκινά και ο "
+"Τα άτομα πρέπει να ξαπλώσουν μπρούμυτα (με το κεφάλι στη γραμμή εκκίνησης) "
+"και τα χέρια στους ώμους. Με την εντολή 'Πάμε' το χρονόμετρο ξεκινά και ο "
 "αθλητής σηκώνεται όσο πιο γρήγορα μπορεί και τρέχει γύρω από τη διαδρομή "
-"στην προβλεπόμενη κατεύθυνση, χωρίς να χτυπήσει τους κώνους, μέχρι τη γραμμή "
-"τερματισμού, όπου σταματά ο χρόνος."
+"στην προβλεπόμενη κατεύθυνση, χωρίς να ρίξει τους κώνους, μέχρι τη γραμμή "
+"τερματισμού, όπου σταματά η χρονομέτρηση."
 
 #: ../src/runType.cs:237
 msgid "Results"
@@ -10359,8 +10331,8 @@ msgstr "Αποτελέσματα"
 #: ../src/runType.cs:238
 msgid "The table below gives some rating scores (in seconds) for the test"
 msgstr ""
-"Ο παρακάτω πίνακας δίνει κάποια βαθμολογία αποτελεσμάτων (σε δευτερόλεπτα) "
-"για την εξέταση"
+"Ο παρακάτω πίνακας δίνει κάποια βαθμολογία αξιολόγησης (σε δευτερόλεπτα) για "
+"τη δοκιμασία"
 
 #: ../src/runType.cs:239
 msgid "Rating"
@@ -10399,8 +10371,8 @@ msgid ""
 "This is a simple test to administer, requiring little equipment. Can test "
 "players ability to turn in different directions, and different angles."
 msgstr ""
-"Αυτό είναι μια απλή εξέταση για διαχείριση, που απαιτεί λίγο εξοπλισμό. "
-"Μπορεί να δοκιμάσει την ικανότητα των παιχτών να στρίβουν σε διαφορετικές "
+"Αυτή είναι μια απλή δοκιμασία στη διαχείριση, που απαιτεί λίγο εξοπλισμό. "
+"Μπορεί να ελέγξει την ικανότητα των παικτών να στρίβουν σε διαφορετικές "
 "κατευθύνσεις και διαφορετικές γωνίες."
 
 #: ../src/runType.cs:249
@@ -10413,10 +10385,11 @@ msgid ""
 "be subject to timing inconsistencies, which may be overcome by using timing "
 "gates. Cannot distinguish between left and right turning ability."
 msgstr ""
-"Η επιλογή υπόδησης και επιφάνειας της περιοχής μπορεί να επηρεάσει τους "
-"χρόνους πολύ. Τα αποτελέσματα μπορεί να υπόκεινται σε ασυνέπειες χρονισμού, "
-"που μπορεί να ξεπεραστεί χρησιμοποιώντας πύλες χρονισμού. Αδύνατη η διάκριση "
-"μεταξύ αριστερής και δεξιάς στροφικής ικανότητας."
+"Η επιλογή υποδημάτων και επιφάνειας της περιοχής μπορεί να επηρεάσει τους "
+"χρόνους πολύ. Τα αποτελέσματα μπορεί να υπόκεινται σε ασυνέπειες "
+"χρονομέτρησης, που μπορούν να ξεπεραστούν χρησιμοποιώντας πύλες "
+"χρονομέτρησης. Δεν μπορεί να διακρίνει μεταξύ αριστερής και δεξιάς στροφικής "
+"ικανότητας."
 
 #: ../src/runType.cs:252 ../src/runType.cs:278
 msgid "Variations"
@@ -10427,12 +10400,12 @@ msgid ""
 "The starting and finishing sides can be swapped, so that turning direction "
 "is changed."
 msgstr ""
-"Η αρχική και τελική πλευρά μπορούν να εναλλαχτούν, έτσι ώστε η κατεύθυνση "
-"στροφής να αλλάξει."
+"Η πλευρά εκκίνησης και τερματισμού μπορούν να εναλλαχθούν, έτσι ώστε να "
+"αλλάξει η κατεύθυνση στροφής."
 
 #: ../src/runType.cs:264
 msgid "Shuttle Run Agility test"
-msgstr "Εξέταση ευκινησίας δρόμου με επιστροφή"
+msgstr "Δοκιμασία ευκινησίας δρόμου με επιστροφή"
 
 #: ../src/runType.cs:266
 msgid ""
@@ -10440,14 +10413,15 @@ msgid ""
 "Fitness Awards. The variations listed give other ways to also perform this "
 "test."
 msgstr ""
-"Αυτή η εξέταση περιγράφει τις διαδικασίες όπως χρησιμοποιούνται στα βραβεία "
-"φυσικής κατάστασης του προέδρου. Οι καταχωρισμένες παραλλαγές δίνουν άλλους "
-"τρόπους εκτέλεσης αυτής της εξέτασης."
+"Αυτή η δοκιμασία περιγράφει τις διαδικασίες όπως χρησιμοποιούνται στα "
+"βραβεία φυσικής κατάστασης President's Challenge. Οι παραλλαγές που "
+"παρατίθενται δίνουν άλλους τρόπους εκτέλεσης αυτής της δοκιμασίας."
 
 #: ../src/runType.cs:269
 msgid "This is a test of speed and agility, important in many sports."
 msgstr ""
-"Αυτή είναι μια εξέταση ταχύτητας και ευκινησίας, σημαντική σε πολλά αθλήματα."
+"Αυτή είναι μια δοκιμασία ταχύτητας και ευκινησίας, σημαντική σε πολλά "
+"αθλήματα."
 
 #: ../src/runType.cs:272
 msgid ""
@@ -10459,23 +10433,24 @@ msgid ""
 "returns to place it behind the starting line, then returns to pick up the "
 "second block, then runs with it back across the line."
 msgstr ""
-"Αυτή η εξέταση απαιτεί το άτομο να τρέξει μπρος και πίσω μεταξύ δύο "
-"παράλληλων γραμμών όσο το δυνατό πιο γρήγορα. Βάλτε δύο γραμμές κώνων 30 "
-"πόδια μακριά ή χρησιμοποιήστε σημάδια γραμμής και βάλτε δύο κομμάτια ξύλου ή "
-"παρόμοιου αντικειμένου πίσω από μία από τις γραμμές. Ξεκινώντας από την "
-"αντίθετη γραμμή από τα κομμάτια, με το σήμα 'Έτοιμος; Εκκίνηση' ο συμμετέχων "
-"τρέχει προς την άλλη γραμμή, σηκώνει ένα κομμάτι και επιστρέφει στη θέση του "
-"πίσω από την γραμμή εκκίνησης, έπειτα επιστρέφει για να σηκώσει το δεύτερο "
-"κομμάτι, έπειτα τρέχει με αυτό πίσω στη γραμμή."
+"Αυτή η δοκιμασία απαιτεί από το άτομο να τρέξει μπρος και πίσω μεταξύ δύο "
+"παράλληλων γραμμών όσο το δυνατόν πιο γρήγορα. Τοποθετήστε δύο γραμμές κώνων "
+"σε απόσταση 30 ποδιών ή χρησιμοποιήστε διαγραμμίσεις και τοποθετήστε δύο "
+"ξύλινους κύβους ή παρόμοιο αντικείμενο πίσω από μία από τις γραμμές. "
+"Ξεκινώντας από τη γραμμή απέναντι από τους κύβους, με το σήμα 'Έτοιμοι; "
+"Πάμε!' ο συμμετέχων τρέχει προς την άλλη γραμμή, σηκώνει έναν κύβο και "
+"επιστρέφει για να τον τοποθετήσει πίσω από τη γραμμή εκκίνησης, έπειτα "
+"επιστρέφει για να σηκώσει τον δεύτερο κύβο και τρέχει με αυτόν πίσω περνώντας "
+"τη γραμμή."
 
 #: ../src/runType.cs:276
 msgid ""
 "Two or more trails may be performed, and the quickest time is recorded. "
 "Results are recorded to the nearest tenth of a second."
 msgstr ""
-"Δύο ή περισσότερες προσπάθειες μπορούν να εκτελεστούν και η πιο γρήγορη "
-"καταγράφεται. Τα αποτελέσματα γράφονται στο πλησιέστερο δέκατο του "
-"δευτερολέπτου."
+"Δύο ή περισσότερες προσπάθειες μπορούν να εκτελεστούν και καταγράφεται ο "
+"γρηγορότερος χρόνος. Τα αποτελέσματα καταγράφονται στο πλησιέστερο δέκατο "
+"του δευτερολέπτου."
 
 #: ../src/runType.cs:278 ../src/runType.cs:302
 msgid "Modifications"
@@ -10488,17 +10463,17 @@ msgid ""
 "feet) and by removing the need for the person pick up and return objects "
 "from the turning points."
 msgstr ""
-"Η διαδικασία εξέτασης μπορεί να μεταβληθεί αλλάζοντας τον αριθμό των "
-"εκτελούμενων πήγαινε-έλα, την απόσταση μεταξύ στοφών (κάποιοι χρησιμοποιούν "
-"10 μέτρα αντί για 30 πόδια) και αφαιρώντας την ανάγκη για το άτομο να "
-"σηκώσει και να επιστρέψει τα αντικείμενα από τα σημεία στροφής."
+"Η διαδικασία της δοκιμασίας μπορεί να παραλλαχθεί αλλάζοντας τον αριθμό των "
+"διαδρομών που εκτελούνται, την απόσταση μεταξύ των στροφών (κάποιοι "
+"χρησιμοποιούν 10 μέτρα αντί για 30 πόδια) και αφαιρώντας την ανάγκη να "
+"σηκώσει και να επιστρέψει το άτομο αντικείμενα από τα σημεία στροφής."
 
 #: ../src/runType.cs:283
 msgid ""
 "This test can be conducted on large groups relatively quickly with minimal "
 "equipment required."
 msgstr ""
-"Αυτή η εξέταση μπορεί να διεξαχθεί σε μεγάλες ομάδες σχετικά γρήγορα με "
+"Αυτή η δοκιμασία μπορεί να διεξαχθεί σε μεγάλες ομάδες σχετικά γρήγορα με "
 "ελάχιστο απαιτούμενο εξοπλισμό."
 
 #: ../src/runType.cs:286
@@ -10506,13 +10481,13 @@ msgid ""
 "The blocks should be placed at the line, not thrown across them. Also make "
 "sure the participants run through the finish line to maximize their score."
 msgstr ""
-"Τα κομμάτια πρέπει να τοποθετηθούν στη γραμμή, όχι να ριχτούν κατά πλάτος. "
-"Επίσης βεβαιωθείτε ότι οι συμμετέχοντες περνούν την γραμμή τερματισμού για "
-"να μεγιστοποιήσουν το αποτέλεσμα."
+"Οι κύβοι πρέπει να τοποθετούνται στη γραμμή, όχι να ρίχνονται πέρα από αυτή. "
+"Επίσης βεβαιωθείτε ότι οι συμμετέχοντες διασχίζουν τη γραμμή τερματισμού για "
+"να μεγιστοποιήσουν το αποτέλεσμά τους."
 
 #: ../src/runType.cs:297
 msgid "ZigZag Agility test"
-msgstr "Εξέταση ευκινησίας τεθλασμένης"
+msgstr "Δοκιμασία ευκινησίας Ζιγκ-Ζαγκ"
 
 #: ../src/runType.cs:300
 msgid ""
@@ -10523,29 +10498,29 @@ msgid ""
 "going along the longer side first, and the centre cone is C, the test begins "
 "at 1, then to C, 2, 3, C, 4, then back to 1."
 msgstr ""
-"Παρόμοια με την εξέταση δρόμου με επιστροφή, αυτή η εξέταση απαιτεί από τον "
-"αθλητή να τρέξει μια διαδρομή στον πιο σύντομο δυνατό χρόνο. Μια τυπική "
-"διαδρομή τεθλασμένης με τέσσερις κώνους τοποθετημένους στις γωνίες ενός "
-"ορθογωνίου 10 επί 16 πόδια, με έναν ή περισσότερους κώνους τοποθετημένους "
-"στο κέντρο. Αν οι κώνοι έχουν ετικέτες 1 έως 4 γύρω από το ορθογώνιο "
-"πηγαίνοντας κατά μήκος της μεγαλύτερης πλευράς πρώτα και ο κεντρικός κώνος "
-"είναι Κ, η εξέταση ξεκινά στο 1, έπειτα Κ, 2, 3, Κ, 4 και έπειτα πίσω στο 1."
+"Παρόμοια με τη δοκιμασία δρόμου με επιστροφή, αυτή η δοκιμασία απαιτεί από "
+"τον αθλητή να τρέξει μια διαδρομή στον συντομότερο δυνατό χρόνο. Μια τυπική "
+"διαδρομή ζιγκ-ζαγκ γίνεται με τέσσερις κώνους τοποθετημένους στις γωνίες "
+"ενός ορθογωνίου 10 επί 16 πόδια, με έναν ακόμη κώνο τοποθετημένο στο κέντρο. "
+"Αν οι κώνοι έχουν ετικέτες 1 έως 4 γύρω από το ορθογώνιο πηγαίνοντας κατά "
+"μήκος της μεγαλύτερης πλευράς πρώτα και ο κεντρικός κώνος είναι ο C, η "
+"δοκιμασία ξεκινά στο 1, έπειτα C, 2, 3, C, 4 και έπειτα πίσω στο 1."
 
 #: ../src/runType.cs:303
 msgid ""
 "This test procedure can be modified by changing the distance between cones, "
 "and the number of circuits performed."
 msgstr ""
-"Αυτή η διαδικασία εξέτασης μπορεί να τροποποιηθεί αλλάζοντας την απόσταση "
-"μεταξύ των κώνων και του αριθμού των εκτελούμενων γύρων."
+"Αυτή η διαδικασία δοκιμασίας μπορεί να τροποποιηθεί αλλάζοντας την απόσταση "
+"μεταξύ των κώνων και τον αριθμό των εκτελούμενων γύρων."
 
 #: ../src/runType.cs:306
 msgid ""
 "The total distance run should not be too great so that fatigue does not "
 "become a factor."
 msgstr ""
-"Η συνολική απόσταση του δρόμου δεν πρέπει να είναι υπερβολικά μεγάλη έτσι "
-"ώστε η κόπωση να γίνει ένας συντελεστής."
+"Η συνολική απόσταση δρόμου δεν πρέπει να είναι υπερβολικά μεγάλη ώστε η "
+"κόπωση να μην αποτελέσει παράγοντα."
 
 #: ../src/runType.cs:326
 msgid "Margaria-Kalamen"
@@ -10577,7 +10552,7 @@ msgstr "Συνέχιση δρόμου για απόσταση 20m"
 
 #: ../src/runType.cs:379
 msgid "Modified time Getup and Go test"
-msgstr "Τροποποιημένος χρόνος εξέτασης ανόρθωσης και εκκίνησης"
+msgstr "Τροποποιημένη χρονομετρημένη δοκιμασία Έγερσης και Βάδισης"
 
 #. this intervallic race has different distance for each lap
 #: ../src/runType.cs:382
@@ -10591,16 +10566,16 @@ msgid ""
 "touching it, and go back to your seat, stepping into the circles, trying not "
 "to touch any of them. Finally, sit down again, trying not to use your arms\"."
 msgstr ""
-"Οι δοσμένες οδηγίες για εκτέλεση της εξέτασης ήταν ως εξής: \"Καθίστε με την "
-"πλάτη σας να ακουμπά στην πλάτη της καρέκλας και με τους δύο βραχίονες να "
-"ακουμπούν στα πόδια. Όταν ακούσετε τη λέξη 'εκκίνηση', σηκωθείτε χωρίς τη "
-"χρήση των βραχιόνων σας, κλοτσήστε τη μπάλα μπροστά σας όσο πιο δυνατά "
-"μπορείτε, χρησιμοποιώντας το πάνω μέρος του ποδιού που αισθάνεστε πιο "
+"Οι οδηγίες που δόθηκαν για την εκτέλεση της δοκιμασίας ήταν οι εξής: "
+"\"Καθίστε με την πλάτη σας να ακουμπά στην πλάτη της καρέκλας και με τα δύο "
+"χέρια σας να ακουμπούν στα πόδια. Όταν ακούσετε τη λέξη 'πάμε', σηκωθείτε "
+"χωρίς τη χρήση των χεριών σας, κλοτσήστε τη μπάλα μπροστά σας όσο πιο δυνατά "
+"μπορείτε, χρησιμοποιώντας το κουτεπιέ του ποδιού που αισθάνεστε πιο "
 "ασφαλές. Έπειτα βαδίστε με τον κανονικό ρυθμό ενώ μετράτε αντίστροφα από το "
-"15 μέχρι το 0 δυνατά. Ξαναγυρίστε γύρω από τον κώνο, χωρίς να τον "
-"ακουμπήσετε και επιστρέψτε στη θέση σας, βαδίζοντας με κύκλους, προσπαθώντας "
-"να μην τους ακουμπήσετε. Τελικά, καθίστε πάλι, προσπαθώντας να μη "
-"χρησιμοποιήσετε τους βραχίονές σας\"."
+"15 μέχρι το 0 δυνατά. Γυρίστε πίσω από τον κώνο, χωρίς να τον ακουμπήσετε "
+"και επιστρέψτε στη θέση σας, πατώντας μέσα στους κύκλους, προσπαθώντας να "
+"μην ακουμπήσετε κανέναν από αυτούς. Τέλος, καθίστε πάλι, προσπαθώντας να μη "
+"χρησιμοποιήσετε τα χέρια σας\"."
 
 #: ../src/runType.cs:384
 msgid ""
@@ -10619,36 +10594,32 @@ msgid ""
 "the cone, (5) walking whilst stepping into the circles, and (6) sitting back "
 "down again."
 msgstr ""
-"Τα χρονόμετρα ενεργοποιήθηκαν με τη λέξη 'εκκίνηση' και το κουμπί που "
-"αποθηκεύει τα διαστήματα του χρόνου πατήθηκε επίσης μετά τα ακόλουθα στάδια: "
-"όταν το άτομο σηκώθηκε και κλότσησε τη μπάλα· όταν η μπάλα πέρασε τη γραμμή "
-"των 8 m· και όταν το άτομο επέστρεψε στη θέση καθίσματος στην ίδια καρέκλα "
-"(42 cm ύψος από τη θέση μέχρι το έδαφος). Ο συνολικός απαιτούμενος χρόνος "
-"εκτέλεσης της εξέτασης παρέχει μια ποσοτική εκτίμηση της απόδοσης. Μια "
-"ποιοτική εκτίμηση εκτελέστηκε με την ολοκλήρωση ενός AQ. Αυτό το AQ "
-"αξιολογεί 6 στοιχεία με μια κλίμακα Likert από 0 μέχρι 3, όπου 0 είναι το "
-"ισοδύναμο της ανάγκης βοήθειας για την εκτέλεση της άσκησης και το 3 "
-"ισοδυναμεί με την εκτέλεση της άσκησης χωρίς βοήθεια και χωρίς λάθη. Η "
-"μέγιστη βαθμολογία που μπορεί να επιτευχθεί είναι 18. Τα αξιολογούμενα "
-"στοιχεία είναι: (1) σήκωμα από την καρέκλα, (2) λάκτισμα της μπάλας, (3) "
-"βάδιση με μέτρηση αντίστροφα από 15 μέχρι 0, (4) βάδιση γύρω από τον κώνο, "
-"(5) βάδιση κατά την είσοδο στους κύκλους και (6) κάθισμα πάλι πίσω."
+"Τα χρονόμετρα ενεργοποιήθηκαν με τη λέξη 'πάμε' και το κουμπί που αποθηκεύει "
+"τα χρονικά διαστήματα πατήθηκε επίσης μετά τα ακόλουθα στάδια: όταν το άτομο "
+"σηκώθηκε και κλότσησε τη μπάλα, όταν η μπάλα πέρασε τη γραμμή των 8 m, και "
+"όταν το άτομο επέστρεψε στη θέση καθίσματος στην ίδια καρέκλα (42 cm ύψος "
+"από το κάθισμα μέχρι το έδαφος). Ο συνολικός απαιτούμενος χρόνος εκτέλεσης "
+"της δοκιμασίας παρείχε μια ποσοτική αξιολόγηση της απόδοσης. Μια ποιοτική "
+"αξιολόγηση πραγματοποιήθηκε με τη συμπλήρωση ενός Ερωτηματολογίου "
+"Αξιολόγησης (AQ). Αυτό το AQ αξιολογεί 6 στοιχεία με μια κλίμακα Likert από "
+"0 μέχρι 3, όπου 0 ισοδυναμεί με την ανάγκη βοήθειας για την εκτέλεση της "
+"άσκησης και το 3 ισοδυναμεί με την εκτέλεση της άσκησης αβοήθητος και χωρίς "
+"λάθη. Η μέγιστη βαθμολογία που μπορεί να επιτευχθεί είναι 18. Τα "
+"αξιολογούμενα στοιχεία ήταν: (1) σήκωμα από την καρέκλα, (2) λάκτισμα της "
+"μπάλας, (3) βάδιση με μέτρηση αντίστροφα από 15 μέχρι 0, (4) βάδιση γύρω από "
+"τον κώνο, (5) βάδιση πατώντας μέσα στους κύκλους και (6) κάθισμα πάλι πίσω."
 
 #: ../src/runType.cs:385
 msgid "Assessment questionnaire"
-msgstr "Ερωτηματολόγιο εκτίμησης"
+msgstr "Ερωτηματολόγιο αξιολόγησης"
 
 #: ../src/runType.cs:386
-#, fuzzy
-#| msgid ""
-#| "Once the test finishes proceed to edit and you will be able to complete "
-#| "the assesment questionnaire."
 msgid ""
 "Once the test finishes proceed to edit and you will be able to complete the "
 "assessment questionnaire."
 msgstr ""
-"Αφού η εξέταση τελειώσει συνεχίστε για την επεξεργασία και θα μπορέσετε να "
-"συμπληρώσετε το ερωτηματολόγιο εκτίμησης."
+"Μόλις ολοκληρωθεί η δοκιμασία, προχωρήστε σε επεξεργασία και θα μπορέσετε να "
+"συμπληρώσετε το ερωτηματολόγιο αξιολόγησης."
 
 #: ../src/runType.cs:390
 msgid "Abstract:"
@@ -10660,12 +10631,14 @@ msgstr "Στροφή αριστερά τρεις φορές και στροφή 
 
 #: ../src/serverPing.cs:55
 msgid "Uploaded"
-msgstr "Απεστάλη"
+msgstr "Μεταφορτώθηκε"
 
 #: ../src/sprint.cs:176
 #, csharp-format
 msgid "Track {0} ({1} m/s) is much faster than track {2} ({3} m/s)."
 msgstr ""
+"Η διαδρομή {0} ({1} m/s) είναι πολύ γρηγορότερη από τη διαδρομή {2} ({3} m/"
+"s)."
 
 #. true or false means if it has speciallities
 #. will be 1 (it's also written in Constants.CountryUndefinedID
@@ -10699,11 +10672,11 @@ msgstr "Καμερούν"
 
 #: ../src/sqlite/country.cs:213
 msgid "Cape Verde"
-msgstr "Πράσινο ακρωτήριο"
+msgstr "Πράσινο Ακρωτήριο"
 
 #: ../src/sqlite/country.cs:214
 msgid "Central African Republic"
-msgstr "Κεντρικοαφρικανική Δημοκρατία"
+msgstr "Κεντροαφρικανική Δημοκρατία"
 
 #: ../src/sqlite/country.cs:215
 msgid "Chad"
@@ -10715,15 +10688,13 @@ msgstr "Κομόρες"
 
 #: ../src/sqlite/country.cs:217
 msgid "Congo, Democratic Republic of the"
-msgstr "Κονγκό, Λαϊκή Δημοκρατία του"
+msgstr "Λαϊκή Δημοκρατία του Κονγκό"
 
 #: ../src/sqlite/country.cs:218
 msgid "Congo, Republic of the"
-msgstr "Κονγκό, Δημοκρατία του"
+msgstr "Δημοκρατία του Κονγκό"
 
 #: ../src/sqlite/country.cs:219
-#, fuzzy
-#| msgid "Cote d'Ivoire"
 msgid "Cote d Ivoire"
 msgstr "Ακτή Ελεφαντοστού"
 
@@ -10741,7 +10712,7 @@ msgstr "Ισημερινή Γουινέα"
 
 #: ../src/sqlite/country.cs:223
 msgid "Eritrea"
-msgstr "Ερυθρέα"
+msgstr "Ερυθραία"
 
 #: ../src/sqlite/country.cs:224
 msgid "Ethiopia"
@@ -10761,7 +10732,7 @@ msgstr "Γκάνα"
 
 #: ../src/sqlite/country.cs:228
 msgid "Guinea-Bissau"
-msgstr "Γουινέα Μπισάου"
+msgstr "Γουινέα-Μπισάου"
 
 #: ../src/sqlite/country.cs:229
 msgid "Guinea"
@@ -10841,7 +10812,7 @@ msgstr "Αγία Ελένη"
 
 #: ../src/sqlite/country.cs:248
 msgid "Sao Tome and Principe"
-msgstr "Σάο Τόμε και πρινσίπε"
+msgstr "Σάο Τομέ και Πρίνσιπε"
 
 #: ../src/sqlite/country.cs:249
 msgid "Senegal"
@@ -10849,7 +10820,7 @@ msgstr "Σενεγάλη"
 
 #: ../src/sqlite/country.cs:250
 msgid "Seychelles"
-msgstr "Σευχέλλες"
+msgstr "Σεϋχέλλες"
 
 #: ../src/sqlite/country.cs:251
 msgid "Sierra Leone"
@@ -10881,7 +10852,7 @@ msgstr "Τανζανία"
 
 #: ../src/sqlite/country.cs:258
 msgid "Togo"
-msgstr "Τόνγκο"
+msgstr "Τόγκο"
 
 #: ../src/sqlite/country.cs:259
 msgid "Tunisia"
@@ -10909,15 +10880,15 @@ msgstr "Ανταρκτική (το έδαφος νότια των 60 μοιρώ�
 
 #: ../src/sqlite/country.cs:265
 msgid "Bouvet Island (Bouvetoya)"
-msgstr "Νησί Μπουβέ (Μποβετόγια)"
+msgstr "Νήσος Μπουβέ (Bouvetøya)"
 
 #: ../src/sqlite/country.cs:266
 msgid "French Southern Territories"
-msgstr "Γαλλικές Νότιες Περιοχές"
+msgstr "Γαλλικά Νότια Εδάφη"
 
 #: ../src/sqlite/country.cs:267
 msgid "Heard Island and McDonald Islands"
-msgstr "Νησί Χερντ και Νήσοι ΜακΝτόναλντ"
+msgstr "Νήσοι Χερντ και ΜακΝτόναλντ"
 
 #: ../src/sqlite/country.cs:268
 msgid "South Georgia and the South Sandwich Islands"
@@ -10949,7 +10920,7 @@ msgstr "Μπουτάν"
 
 #: ../src/sqlite/country.cs:275
 msgid "British Indian Ocean Territory (Chagos Archipelago)"
-msgstr "Βρετανικό έδαφος ινδικού ωκεανού (αρχιπέλαγος Τσάγκοους)"
+msgstr "Βρετανικό Έδαφος Ινδικού Ωκεανού (Αρχιπέλαγος Τσάγκος)"
 
 #: ../src/sqlite/country.cs:276
 msgid "Brunei Darussalam"
@@ -10969,7 +10940,7 @@ msgstr "Νησί των Χριστουγέννων"
 
 #: ../src/sqlite/country.cs:280
 msgid "Cocos (Keeling) Islands"
-msgstr "Νήσοι Κόκος (Κήλιγκ)"
+msgstr "Νήσοι Κόκος (Κίλινγκ)"
 
 #: ../src/sqlite/country.cs:281
 msgid "Georgia"
@@ -11012,10 +10983,8 @@ msgid "Kazakhstan"
 msgstr "Καζακστάν"
 
 #: ../src/sqlite/country.cs:291
-#, fuzzy
-#| msgid "Korea, Democratic People's Republic of"
 msgid "Korea, Democratic People s Republic of"
-msgstr "Κορέα, Λαϊκή Δημοκρατία"
+msgstr "Κορέα, Λαϊκή Δημοκρατία της"
 
 #: ../src/sqlite/country.cs:292
 msgid "Korea, Republic of"
@@ -11027,11 +10996,9 @@ msgstr "Κουβέιτ"
 
 #: ../src/sqlite/country.cs:294
 msgid "Kyrgyz Republic"
-msgstr "Κιργιζία"
+msgstr "Δημοκρατία της Κιργιζίας"
 
 #: ../src/sqlite/country.cs:295
-#, fuzzy
-#| msgid "Lao People's Democratic Republic"
 msgid "Lao People s Democratic Republic"
 msgstr "Λαϊκή Δημοκρατία του Λάος"
 
@@ -11049,7 +11016,7 @@ msgstr "Μαλαισία"
 
 #: ../src/sqlite/country.cs:299
 msgid "Maldives"
-msgstr "Μαλβίδες"
+msgstr "Μαλδίβες"
 
 #: ../src/sqlite/country.cs:300
 msgid "Mongolia"
@@ -11097,7 +11064,7 @@ msgstr "Σρι Λάνκα"
 
 #: ../src/sqlite/country.cs:311
 msgid "Syrian Arab Republic"
-msgstr "Συρία"
+msgstr "Συριακή Αραβική Δημοκρατία"
 
 #: ../src/sqlite/country.cs:312
 msgid "Taiwan"
@@ -11113,7 +11080,7 @@ msgstr "Ταϊλάνδη"
 
 #: ../src/sqlite/country.cs:315
 msgid "Timor-Leste"
-msgstr "Τιμόρ, Ανατολικό"
+msgstr "Ανατολικό Τιμόρ"
 
 #: ../src/sqlite/country.cs:316
 msgid "Turkey"
@@ -11125,7 +11092,7 @@ msgstr "Τουρκμενιστάν"
 
 #: ../src/sqlite/country.cs:318
 msgid "United Arab Emirates"
-msgstr "Ενωμένα Αραβικά Εμιράτα"
+msgstr "Ηνωμένα Αραβικά Εμιράτα"
 
 #: ../src/sqlite/country.cs:319
 msgid "Uzbekistan"
@@ -11165,7 +11132,7 @@ msgstr "Βέλγιο"
 
 #: ../src/sqlite/country.cs:328
 msgid "Bosnia and Herzegovina"
-msgstr "Βοσνία και Εζεργοβίνη"
+msgstr "Βοσνία και Ερζεγοβίνη"
 
 #: ../src/sqlite/country.cs:329
 msgid "Bulgaria"
@@ -11181,7 +11148,7 @@ msgstr "Κύπρος"
 
 #: ../src/sqlite/country.cs:332
 msgid "Czech Republic"
-msgstr "Τσέχικη Δημοκρατία"
+msgstr "Τσεχική Δημοκρατία"
 
 #: ../src/sqlite/country.cs:333
 msgid "Denmark"
@@ -11193,7 +11160,7 @@ msgstr "Εσθονία"
 
 #: ../src/sqlite/country.cs:335
 msgid "Faroe Islands"
-msgstr "Νησιά Φερόες"
+msgstr "Νήσοι Φερόες"
 
 #: ../src/sqlite/country.cs:336
 msgid "Finland"
@@ -11209,7 +11176,7 @@ msgstr "Γερμανία"
 
 #: ../src/sqlite/country.cs:339
 msgid "Gibraltar"
-msgstr "Γιβλαρτάρ"
+msgstr "Γιβραλτάρ"
 
 #: ../src/sqlite/country.cs:340
 msgid "Greece"
@@ -11221,7 +11188,7 @@ msgstr "Γκέρνσεϊ"
 
 #: ../src/sqlite/country.cs:342
 msgid "Holy See (Vatican City State)"
-msgstr "Αγία Έδρα (Κράτος της πόλης του Βατικανού)"
+msgstr "Αγία Έδρα (Κράτος της Πόλης του Βατικανού)"
 
 #: ../src/sqlite/country.cs:343
 msgid "Hungary"
@@ -11237,7 +11204,7 @@ msgstr "Ιρλανδία"
 
 #: ../src/sqlite/country.cs:346
 msgid "Isle of Man"
-msgstr "Νήσος του Man"
+msgstr "Νήσος του Μαν"
 
 #: ../src/sqlite/country.cs:347
 msgid "Italy"
@@ -11245,7 +11212,7 @@ msgstr "Ιταλία"
 
 #: ../src/sqlite/country.cs:348
 msgid "Jersey"
-msgstr "Τζέρσεϋ"
+msgstr "Τζέρσεϊ"
 
 #: ../src/sqlite/country.cs:349
 msgid "Latvia"
@@ -11309,7 +11276,7 @@ msgstr "Ρωσική Ομοσπονδία"
 
 #: ../src/sqlite/country.cs:364
 msgid "San Marino"
-msgstr "Σαν Μαρίνο"
+msgstr "Άγιος Μαρίνος"
 
 #: ../src/sqlite/country.cs:365
 msgid "Serbia"
@@ -11317,7 +11284,7 @@ msgstr "Σερβία"
 
 #: ../src/sqlite/country.cs:366
 msgid "Slovakia (Slovak Republic)"
-msgstr "Σλοβακία"
+msgstr "Σλοβακία (Σλοβακική Δημοκρατία)"
 
 #: ../src/sqlite/country.cs:367
 msgid "Slovenia"
@@ -11345,11 +11312,11 @@ msgstr "Ουκρανία"
 
 #: ../src/sqlite/country.cs:373
 msgid "United Kingdom of Great Britain & Northern Ireland"
-msgstr "Ενωμένο Βασίλειο"
+msgstr "Ηνωμένο Βασίλειο της Μεγάλης Βρετανίας και της Βόρειας Ιρλανδίας"
 
 #: ../src/sqlite/country.cs:374
 msgid "Anguilla"
-msgstr "Αγκίλα"
+msgstr "Ανγκουίλα"
 
 #: ../src/sqlite/country.cs:375
 msgid "Antigua and Barbuda"
@@ -11377,7 +11344,7 @@ msgstr "Βερμούδες"
 
 #: ../src/sqlite/country.cs:381
 msgid "British Virgin Islands"
-msgstr "Βρετανικοί παρθένοι νήσοι"
+msgstr "Βρετανικές Παρθένοι Νήσοι"
 
 #: ../src/sqlite/country.cs:382
 msgid "Canada"
@@ -11385,7 +11352,7 @@ msgstr "Καναδάς"
 
 #: ../src/sqlite/country.cs:383
 msgid "Cayman Islands"
-msgstr "Νησιά Κέυμαν"
+msgstr "Νησιά Κέιμαν"
 
 #: ../src/sqlite/country.cs:384
 msgid "Costa Rica"
@@ -11397,7 +11364,7 @@ msgstr "Κούβα"
 
 #: ../src/sqlite/country.cs:386
 msgid "Dominica, Commonwealth of"
-msgstr "Ντομίνικα, κράτος της"
+msgstr "Ντομίνικα, Κοινοπολιτεία της"
 
 #: ../src/sqlite/country.cs:387
 msgid "Dominican Republic"
@@ -11473,7 +11440,7 @@ msgstr "Άγιος Χριστόφορος και Νέβις"
 
 #: ../src/sqlite/country.cs:405
 msgid "Saint Lucia"
-msgstr "Αγία Λουτσία"
+msgstr "Αγία Λουκία"
 
 #: ../src/sqlite/country.cs:406
 msgid "Saint Martin"
@@ -11505,7 +11472,7 @@ msgstr "Αμερικανικές Παρθένοι Νήσοι"
 
 #: ../src/sqlite/country.cs:413
 msgid "American Samoa"
-msgstr "Αμερικάνικη Σαμόα"
+msgstr "Αμερικανική Σαμόα"
 
 #: ../src/sqlite/country.cs:414
 msgid "Australia"
@@ -11513,7 +11480,7 @@ msgstr "Αυστραλία"
 
 #: ../src/sqlite/country.cs:415
 msgid "Cook Islands"
-msgstr "Νησιά Κουκ"
+msgstr "Νήσοι Κουκ"
 
 #: ../src/sqlite/country.cs:416
 msgid "Fiji"
@@ -11533,7 +11500,7 @@ msgstr "Κιριμπάτι"
 
 #: ../src/sqlite/country.cs:420
 msgid "Marshall Islands"
-msgstr "Νησιά Μάρσαλ"
+msgstr "Νήσοι Μάρσαλ"
 
 #: ../src/sqlite/country.cs:421
 msgid "Micronesia"
@@ -11541,7 +11508,7 @@ msgstr "Μικρονησία"
 
 #: ../src/sqlite/country.cs:422
 msgid "Nauru"
-msgstr "Ναούρου"
+msgstr "Ναουρού"
 
 #: ../src/sqlite/country.cs:423
 msgid "New Caledonia"
@@ -11557,7 +11524,7 @@ msgstr "Νιούε"
 
 #: ../src/sqlite/country.cs:426
 msgid "Norfolk Island"
-msgstr "Νήσοι Νόρφολκ"
+msgstr "Νήσος Νόρφολκ"
 
 #: ../src/sqlite/country.cs:427
 msgid "Northern Mariana Islands"
@@ -11581,7 +11548,7 @@ msgstr "Σαμόα"
 
 #: ../src/sqlite/country.cs:432
 msgid "Solomon Islands"
-msgstr "Νησιά Σολομώντα"
+msgstr "Νήσοι Σολομώντα"
 
 #: ../src/sqlite/country.cs:433
 msgid "Tokelau"
@@ -11597,7 +11564,7 @@ msgstr "Τουβαλού"
 
 #: ../src/sqlite/country.cs:436
 msgid "United States Minor Outlying Islands"
-msgstr "Ελάσσονες απομακρυσμένοι νήσοι Ηνωμένων Πολιτειών"
+msgstr "Ελάσσονες απομακρυσμένες νήσοι Ηνωμένων Πολιτειών"
 
 #: ../src/sqlite/country.cs:437
 msgid "Vanuatu"
@@ -11633,7 +11600,7 @@ msgstr "Ισημερινός"
 
 #: ../src/sqlite/country.cs:445
 msgid "Falkland Islands (Malvinas)"
-msgstr "Νήσοι Φάλκλαντ (Μαλβίνες)"
+msgstr "Νήσοι Φώκλαντ (Μαλβίνες)"
 
 #: ../src/sqlite/country.cs:446
 msgid "French Guiana"
@@ -11660,15 +11627,13 @@ msgid "Venezuela"
 msgstr "Βενεζουέλα"
 
 #: ../src/sqlite/session.cs:253
-#, fuzzy
-#| msgid "Deleted session and all its tests."
 msgid "Use this session to simulate tests."
-msgstr "Διαγράφτηκε η συνεδρία και όλες οι εξετάσεις της."
+msgstr "Χρησιμοποιήστε αυτή τη συνεδρία για προσομοίωση εξετάσεων."
 
 #. "-1:" + Constants.SpeciallityUndefined + ":" + Catalog.GetString(Constants.SpeciallityUndefined),
 #: ../src/sqlite/speciallity.cs:178
 msgid "Diving"
-msgstr "Κατάδυση"
+msgstr "Καταδύσεις"
 
 #: ../src/sqlite/speciallity.cs:179
 msgid "Swimming"
@@ -11676,7 +11641,7 @@ msgstr "Κολύμβηση"
 
 #: ../src/sqlite/speciallity.cs:180
 msgid "Synchronized Swimming"
-msgstr "Συγχρονισμένη κολύμβηση"
+msgstr "Συγχρονισμένη Κολύμβηση"
 
 #: ../src/sqlite/speciallity.cs:181
 msgid "Waterpolo"
@@ -11684,15 +11649,15 @@ msgstr "Υδατοσφαίριση"
 
 #: ../src/sqlite/speciallity.cs:183
 msgid "Runs, Sprints"
-msgstr "Δρόμοι, ταχύτητες"
+msgstr "Δρόμοι, Ταχύτητες"
 
 #: ../src/sqlite/speciallity.cs:184
 msgid "Runs, Middle-distance"
-msgstr "Δρόμοι, ημιαντοχή"
+msgstr "Δρόμοι, Ημιαντοχή"
 
 #: ../src/sqlite/speciallity.cs:185
 msgid "Runs, Long-distance"
-msgstr "Δρόμοι, μεγάλες αποστάσεις"
+msgstr "Δρόμοι, Μεγάλες Αποστάσεις"
 
 #: ../src/sqlite/speciallity.cs:187
 msgid "Throws"
@@ -11700,7 +11665,7 @@ msgstr "Ρίψεις"
 
 #: ../src/sqlite/speciallity.cs:188
 msgid "Combined"
-msgstr "Σύνθετα αγωνίσματα"
+msgstr "Σύνθετα"
 
 #: ../src/sqlite/speciallity.cs:190 ../src/sqlite/sport.cs:243
 msgid "Bobsleigh"
@@ -11712,7 +11677,7 @@ msgstr "Σκελετός"
 
 #: ../src/sqlite/speciallity.cs:193
 msgid "Flatwater"
-msgstr "Φλατγουότερ"
+msgstr "Ήρεμα νερά"
 
 #: ../src/sqlite/speciallity.cs:194
 msgid "Slalom"
@@ -11724,23 +11689,23 @@ msgstr "Ποδηλασία BMX"
 
 #: ../src/sqlite/speciallity.cs:197
 msgid "Cycling Road"
-msgstr "Ποδηλασία δρόμου"
+msgstr "Ποδηλασία Δρόμου"
 
 #: ../src/sqlite/speciallity.cs:198
 msgid "Cycling Track"
-msgstr "Ποδηλασία πίστας"
+msgstr "Ποδηλασία Πίστας"
 
 #: ../src/sqlite/speciallity.cs:199
 msgid "Mountain Bike"
-msgstr "Ποδήλατο βουνού"
+msgstr "Ποδηλασία Βουνού"
 
 #: ../src/sqlite/speciallity.cs:201
 msgid "Dressage"
-msgstr "Ντρεσάζ"
+msgstr "Ιππική δεξιοτεχνία (Ντρεσάζ)"
 
 #: ../src/sqlite/speciallity.cs:202
 msgid "Eventing"
-msgstr "Τρίαθλο"
+msgstr "Ιππικό τρίαθλο"
 
 #: ../src/sqlite/speciallity.cs:203
 msgid "jumping"
@@ -11764,7 +11729,7 @@ msgstr "Καλλιτεχνικό πατινάζ"
 
 #: ../src/sqlite/speciallity.cs:210
 msgid "Short Track Speed Skating"
-msgstr "Πατινάζ ταχύτητας σύντομης πίστας"
+msgstr "Πατινάζ ταχύτητας μικρής πίστας"
 
 #: ../src/sqlite/speciallity.cs:211
 msgid "Speed skating"
@@ -11788,7 +11753,7 @@ msgstr "Σκανδιναβικός συνδυασμός"
 
 #: ../src/sqlite/speciallity.cs:217
 msgid "Ski Jumping"
-msgstr "Χιονοδρομικό άλμα"
+msgstr "Άλμα με σκι"
 
 #: ../src/sqlite/speciallity.cs:218
 msgid "Snowboard"
@@ -11804,7 +11769,7 @@ msgstr "Πετοσφαίριση"
 
 #: ../src/sqlite/speciallity.cs:223
 msgid "Freestyle"
-msgstr "Ελεύθερη"
+msgstr "Ελεύθερη πάλη"
 
 #: ../src/sqlite/speciallity.cs:224
 msgid "Greco-Roman"
@@ -11843,7 +11808,7 @@ msgstr "Καλαθοσφαίριση"
 
 #: ../src/sqlite/sport.cs:242
 msgid "Biathlon"
-msgstr "Τρίαθλο"
+msgstr "Δίαθλο"
 
 #: ../src/sqlite/sport.cs:244
 msgid "Boxing"
@@ -11895,7 +11860,7 @@ msgstr "Τζούντο"
 
 #: ../src/sqlite/sport.cs:256
 msgid "Luge"
-msgstr "Χιονολισθητικό όχημα"
+msgstr "Λουτζ"
 
 #: ../src/sqlite/sport.cs:257
 msgid "Modern Pentathlon"
@@ -11965,7 +11930,7 @@ msgstr "F μέγιστη"
 
 #: ../src/stats/chronojumpProfile.cs:33
 msgid "F explosive"
-msgstr ""
+msgstr "F εκρηκτική"
 
 #: ../src/stats/chronojumpProfile.cs:34
 msgid "Elastic cap."
@@ -11973,13 +11938,11 @@ msgstr "Ελαστικό κάλυμμα."
 
 #: ../src/stats/chronojumpProfile.cs:35
 msgid "Arms use."
-msgstr "Χρήση βραχιόνων."
+msgstr "Χρήση χεριών."
 
 #: ../src/stats/chronojumpProfile.cs:36
-#, fuzzy
-#| msgid "Reactive"
 msgid "F reactive"
-msgstr "Ενεργή"
+msgstr "F αντιδραστική"
 
 #: ../src/stats/djIndex.cs:32
 msgid "Dj Index"
@@ -12037,16 +12000,13 @@ msgid "{0} in Dj Index [(tf-tc)/tc * 100] applied to {1} on {2}"
 msgstr "{0} στον δείκτη Dj [(tf-tc)/tc * 100] που εφαρμόστηκε στο {1} του {2}"
 
 #: ../src/stats/djPower.cs:135
-#, fuzzy, csharp-format
-#| msgid ""
-#| "{0} in Dj Power [mass * g * (fallHeight + 1.226 * (tv^2) ) / (tc+tv)] "
-#| "applied to {1} on {2}"
+#, csharp-format
 msgid ""
 "{0} in Dj Power [mass * g * (fallHeight + 1.22625 * (tf^2) ) / tc] applied "
 "to {1} on {2}"
 msgstr ""
-"{0} σε ισχύ Dj [μάζα * g * (fallHeight + 1.226 * (tv^2) ) / (tc+tv)] που "
-"εφαρμόστηκε στο {1} του {2}"
+"{0} στην Ισχύ Dj [μάζα * g * (ύψοςΠτώσης + 1.22625 * (tf^2) ) / tc] που εφαρμόστηκε "
+"στο {1} του {2}"
 
 #: ../src/stats/djQ.cs:133
 #, csharp-format
@@ -12070,7 +12030,7 @@ msgstr " για άτομο {0}({1})"
 #: ../src/stats/global.cs:122
 #, csharp-format
 msgid "{0} in some jumps and statistics on {1}{2}"
-msgstr "{0} σε κάποια άλματα και στατιστικές στο {1}{2}"
+msgstr "{0} σε κάποια άλματα και στατιστικά στο {1}{2}"
 
 #.
 #. } else {
@@ -12102,7 +12062,7 @@ msgstr "{0} στον δείκτη {1} του {2}"
 #: ../src/stats/jumpSimpleSubtraction.cs:129
 #, csharp-format
 msgid "{0} in test {1} - test {2} on {3}"
-msgstr "{0} στην εξέταση {1} - εξέταση {2} στο {3}"
+msgstr "{0} στη δοκιμασία {1} - δοκιμασία {2} στο {3}"
 
 #. for toString() in every stat
 #: ../src/stats/main.cs:86
@@ -12153,14 +12113,11 @@ msgstr[1] ""
 #: ../src/stats/rjEvolution.cs:285
 #, csharp-format
 msgid "{0} in Rj Evolution applied to {1} on {2}{3}"
-msgstr "{0} στην εξέλιξη Rj που εφαρμόστηκε στο {1} του {2}{3}"
+msgstr "{0} στην Εξέλιξη Rj που εφαρμόστηκε στο {1} του {2}{3}"
 
 #: ../src/stats/rjEvolution.cs:286
-#, fuzzy
-#| msgid "{0} in Rj Index [(tfavg-tcavg)/tcavg *100] applied to {1} on {2}"
 msgid "Index is [(tfavg-tcavg)/tcavg *100]"
-msgstr ""
-"{0} στον δείκτη Rj [(tfavg-tcavg)/tcavg *100] που εφαρμόστηκε στο {1} του {2}"
+msgstr "Ο δείκτης είναι [(tfavg-tcavg)/tcavg *100]"
 
 #: ../src/stats/rjIndex.cs:135
 #, csharp-format
@@ -12169,27 +12126,23 @@ msgstr ""
 "{0} στον δείκτη Rj [(tfavg-tcavg)/tcavg *100] που εφαρμόστηκε στο {1} του {2}"
 
 #: ../src/stats/runIntervallic.cs:265
-#, fuzzy, csharp-format
-#| msgid " (best run marked)"
-#| msgid_plural " (best {0} consecutive runs marked)"
+#, csharp-format
 msgid " (best race marked)"
 msgid_plural " (best {0} consecutive laps marked)"
-msgstr[0] " (καλύτερος σημειωμένος δρόμος)"
-msgstr[1] " (καλύτεροι {0} διαδοχικοί σημειωμένοι δρόμοι)"
+msgstr[0] " (ο καλύτερος δρόμος σημειώθηκε)"
+msgstr[1] " (οι καλύτεροι {0} διαδοχικοί γύροι σημειώθηκαν)"
 
 #: ../src/stats/runIntervallic.cs:271
-#, fuzzy, csharp-format
-#| msgid "{0} in Run Intervallic applied to {1} on {2}{3}"
+#, csharp-format
 msgid "{0} in Intervallic races applied to {1} on {2}{3}"
-msgstr "{0} σε δρόμο με διαλείμματα που εφαρμόστηκε στο {1} του {2}{3}"
+msgstr "{0} στους Διαλειμματικούς δρόμους που εφαρμόστηκε στο {1} του {2}{3}"
 
 #: ../src/stats/runSimple.cs:52
 msgid "Race"
-msgstr ""
+msgstr "Δρόμος"
 
 #: ../src/stats/runSimple.cs:131
-#, fuzzy, csharp-format
-#| msgid "{0} in {1} run on {2}"
+#, csharp-format
 msgid "{0} in {1} race on {2}"
 msgstr "{0} στον δρόμο {1} του {2}"
 
@@ -12205,30 +12158,22 @@ msgstr "{0} στο {1} του {2}"
 
 #: ../src/treeview/encoder.cs:57 ../src/treeview/encoder.cs:73
 #: ../src/treeview/encoder.cs:158
-#, fuzzy
-#| msgid "Max Initial Speed"
 msgid "Mean speed"
-msgstr "Μέγιστη αρχική ταχύτητα"
+msgstr "Μέση ταχύτητα"
 
 #: ../src/treeview/encoder.cs:60 ../src/treeview/encoder.cs:76
 #: ../src/treeview/encoder.cs:164
-#, fuzzy
-#| msgid "Mean Power"
 msgid "Mean power"
 msgstr "Μέση ισχύς"
 
 #: ../src/treeview/encoder.cs:62 ../src/treeview/encoder.cs:78
 #: ../src/treeview/encoder.cs:170
-#, fuzzy
-#| msgid "Mean Power"
 msgid "Mean force"
-msgstr "Μέση ισχύς"
+msgstr "Μέση δύναμη"
 
 #: ../src/treeview/encoder.cs:173
-#, fuzzy
-#| msgid "Peak power"
 msgid "Peak force"
-msgstr "Μέγιστη ισχύς"
+msgstr "Μέγιστη δύναμη"
 
 #: ../src/treeview/jumpRj.cs:174
 msgid "First photocell"
@@ -12240,7 +12185,7 @@ msgstr "τα φωτοκύτταρα δεν συμπεριλαμβάνονται"
 
 #: ../src/treeview/person.cs:61
 msgid "Rest"
-msgstr ""
+msgstr "Ανάπαυση"
 
 #. speed, time
 #. column where the uniqueID of event will be (and will be hidden)
@@ -12254,25 +12199,23 @@ msgstr "Χρόνος τμήματος"
 
 #: ../src/webcam/webcam.cs:101 ../src/webcam/webcam.cs:103
 #: ../src/webcam/webcam.cs:105 ../src/webcam/webcam.cs:107
-#, fuzzy, csharp-format
-#| msgid "Maybe R is not installed."
+#, csharp-format
 msgid "Error. {0} is not installed."
-msgstr "Ίσως το R δεν είναι εγκατεστημένο."
+msgstr "Σφάλμα. Το {0} δεν είναι εγκατεστημένο."
 
 #: ../src/webcam/webcam.cs:109
 #, csharp-format
 msgid "Error. {0} has been closed."
-msgstr ""
+msgstr "Σφάλμα. Το {0} έκλεισε."
 
 #: ../src/webcam/webcam.cs:111
-#, fuzzy, csharp-format
-#| msgid "Error. Cannot open directory."
+#, csharp-format
 msgid "Error. {0} cannot save video."
-msgstr "Σφάλμα. Αδυναμία ανοίγματος καταλόγου."
+msgstr "Σφάλμα. Το {0} δεν μπορεί να αποθηκεύσει βίντεο."
 
 #: ../src/webcam/webcamFfmpeg.cs:405
 msgid "\"Preview. Press any key to exit.\""
-msgstr ""
+msgstr "\"Προεπισκόπηση. Πατήστε οποιοδήποτε πλήκτρο για έξοδο.\""
 
 #~ msgid "Help"
 #~ msgstr "Βοήθεια"

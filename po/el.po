@@ -3145,7 +3145,9 @@ msgstr "Ικανότητα λακτίσματος μπάλας χωρίς απώ
 
 #: ../glade/edit_event.glade.h:60
 msgid "Able to kick ball but needs to take a step to get back on balance."
-msgstr "Ικανότητα λακτίσματος μπάλας, αλλά χρειάζεται να κάνει ένα βήμα για να επανέλθει στην ισορροπία."
+msgstr ""
+"Ικανότητα λακτίσματος μπάλας, αλλά χρειάζεται να κάνει ένα βήμα για να "
+"επανέλθει στην ισορροπία."
 
 #: ../glade/edit_event.glade.h:61
 msgid "Able to kick ball with difficulty finding balance."
@@ -3166,7 +3168,8 @@ msgstr "Ικανότητα συντονισμού βαδίσματος με μέ
 #: ../glade/edit_event.glade.h:65
 msgid ""
 "Poor coordination between walking and counting with more than one mistake."
-msgstr "Κακός συντονισμός μεταξύ βαδίσματος και μέτρησης με περισσότερα από ένα λάθη."
+msgstr ""
+"Κακός συντονισμός μεταξύ βαδίσματος και μέτρησης με περισσότερα από ένα λάθη."
 
 #: ../glade/edit_event.glade.h:66
 msgid "Needs help or cannot perform the counting task."
@@ -3180,7 +3183,9 @@ msgstr "Περιφορά γύρω από τον κώνο"
 msgid ""
 "Able to go around the cone without touching it, without going outside the "
 "marked area, but slowing down the pace."
-msgstr "Ικανότητα περιφοράς γύρω από τον κώνο χωρίς να τον αγγίζει, χωρίς να βγαίνει έξω από τη σημειωμένη περιοχή, αλλά επιβραδύνοντας τον ρυθμό."
+msgstr ""
+"Ικανότητα περιφοράς γύρω από τον κώνο χωρίς να τον αγγίζει, χωρίς να βγαίνει "
+"έξω από τη σημειωμένη περιοχή, αλλά επιβραδύνοντας τον ρυθμό."
 
 #: ../glade/edit_event.glade.h:69
 msgid "Able to go around with obvious signs of insecurity."
@@ -3190,7 +3195,9 @@ msgstr "Ικανότητα περιφοράς με εμφανή σημάδια �
 msgid ""
 "Able to go around the cone without touching it, without going outside the "
 "marked area, and keeping up the pace."
-msgstr "Ικανότητα περιφοράς γύρω από τον κώνο χωρίς να τον αγγίζει, χωρίς να βγαίνει έξω από τη σημειωμένη περιοχή και διατηρώντας τον ρυθμό."
+msgstr ""
+"Ικανότητα περιφοράς γύρω από τον κώνο χωρίς να τον αγγίζει, χωρίς να βγαίνει "
+"έξω από τη σημειωμένη περιοχή και διατηρώντας τον ρυθμό."
 
 #: ../glade/edit_event.glade.h:71
 msgid "Step into circles"
@@ -3200,19 +3207,27 @@ msgstr "Βηματισμός σε κύκλους"
 msgid ""
 "Able to walk, stepping one foot into each circle without touching them and "
 "without losing balance."
-msgstr "Ικανότητα βαδίσματος, βάζοντας ένα πόδι σε κάθε κύκλο χωρίς να τους αγγίζει και χωρίς απώλεια ισορροπίας."
+msgstr ""
+"Ικανότητα βαδίσματος, βάζοντας ένα πόδι σε κάθε κύκλο χωρίς να τους αγγίζει "
+"και χωρίς απώλεια ισορροπίας."
 
 #: ../glade/edit_event.glade.h:73
 msgid ""
 "Able to walk, stepping one foot into each circle, touching one or needing to "
 "take an extra step outside the rings to regain balance."
-msgstr "Ικανότητα βαδίσματος, βάζοντας ένα πόδι σε κάθε κύκλο, αγγίζοντας έναν ή χρειάζονται να κάνουν ένα επιπλέον βήμα έξω από τους δακτυλίους για να επαναφέρουν την ισορροπία."
+msgstr ""
+"Ικανότητα βαδίσματος, βάζοντας ένα πόδι σε κάθε κύκλο, αγγίζοντας έναν ή "
+"χρειάζονται να κάνουν ένα επιπλέον βήμα έξω από τους δακτυλίους για να "
+"επαναφέρουν την ισορροπία."
 
 #: ../glade/edit_event.glade.h:74
 msgid ""
 "Able to walk stepping one foot in each circle, touching more than one, or "
 "needing more than one extra step to regain balance."
-msgstr "Ικανότητα βαδίσματος βάζοντας ένα πόδι σε κάθε κύκλο, αγγίζοντας περισσότερους από έναν ή χρειάζονται περισσότερα από ένα επιπλέον βήμα για να επαναφέρουν την ισορροπία."
+msgstr ""
+"Ικανότητα βαδίσματος βάζοντας ένα πόδι σε κάθε κύκλο, αγγίζοντας "
+"περισσότερους από έναν ή χρειάζονται περισσότερα από ένα επιπλέον βήμα για "
+"να επαναφέρουν την ισορροπία."
 
 #: ../glade/edit_event.glade.h:75
 msgid "Sit back down"
@@ -3248,7 +3263,7 @@ msgstr "Συνδεδεμένο στον άξονα"
 
 #: ../glade/encoder_configuration.glade.h:4
 msgid "Rotary axis"
-msgstr "Περιστροφικός άξονα"
+msgstr "Περιστροφικός άξονας"
 
 #: ../glade/encoder_configuration.glade.h:6 ../glade/generic_window.glade.h:10
 #: ../glade/person_select_window.glade.h:15 ../src/gui/chronopicRegister.cs:286
@@ -3263,7 +3278,9 @@ msgstr "Αριθμός σημείων στερέωσης"
 msgid ""
 "Average diameter (cm) of the cone or axis where the rope is wrapped on each "
 "anchorage."
-msgstr "Μέση διάμετρος (cm) του κώνου ή του άξονα όπου το σχοινί τυλίγεται σε κάθε σημείο στερέωσης."
+msgstr ""
+"Μέση διάμετρος (cm) του κώνου ή του άξονα όπου το σχοινί τυλίγεται σε κάθε "
+"σημείο στερέωσης."
 
 #: ../glade/encoder_configuration.glade.h:9
 msgid "Push angle"
@@ -3285,7 +3302,9 @@ msgstr "Μάζα κάθε πρόσθετου φορτίου"
 msgid ""
 "Distance from the center of the axis\n"
 "to the center of the loads."
-msgstr "Απόσταση από το κέντρο του άξονα\nστο κέντρο των φορτίων."
+msgstr ""
+"Απόσταση από το κέντρο του άξονα\n"
+"στο κέντρο των φορτίων."
 
 #: ../glade/encoder_configuration.glade.h:16
 msgid "Distance: center-loads"
@@ -3295,7 +3314,9 @@ msgstr "Απόσταση: κέντρο-φορτία"
 msgid ""
 "Machine speed / Person speed ratio.\n"
 "Eg. value = 2, means person does twice force at half speed."
-msgstr "Λόγος ταχύτητας μηχανής / ταχύτητας ατόμου.\nΠ.χ. τιμή = 2 σημαίνει ότι το άτομο ασκεί διπλάσια δύναμη στη μισή ταχύτητα."
+msgstr ""
+"Λόγος ταχύτητας μηχανής / ταχύτητας ατόμου.\n"
+"Π.χ. τιμή = 2 σημαίνει ότι το άτομο ασκεί διπλάσια δύναμη στη μισή ταχύτητα."
 
 #: ../glade/encoder_configuration.glade.h:19
 msgid "Force multiplier"
@@ -3911,8 +3932,10 @@ msgid ""
 "but if you want to recalculate it (changing any parameters),\n"
 "you will have to create again the elastic band."
 msgstr ""
-"Εάν διαγράψετε αυτό το ελαστικό λουρί, μπορείτε να φορτώσετε τα δεδομένα με ασφάλεια,\n"
-"αλλά εάν θέλετε να τα υπολογίσετε ξανά (αλλάζοντας οποιεσδήποτε παραμέτρους),\n"
+"Εάν διαγράψετε αυτό το ελαστικό λουρί, μπορείτε να φορτώσετε τα δεδομένα με "
+"ασφάλεια,\n"
+"αλλά εάν θέλετε να τα υπολογίσετε ξανά (αλλάζοντας οποιεσδήποτε "
+"παραμέτρους),\n"
 "θα πρέπει να δημιουργήσετε ξανά το ελαστικό λουρί."
 
 #: ../glade/force_sensor_elastic_bands.glade.h:21
@@ -3925,8 +3948,10 @@ msgid ""
 "During the conversion, this exercise has been assigned to both modes.\n"
 "Do you want to have it in only one mode?"
 msgstr ""
-"Το Chronojump 2.2.2 διαχώρισε τη λειτουργία αισθητήρα δύναμης σε ισομετρική και ελαστική λειτουργία.\n"
-"Κατά τη μετατροπή, αυτή η άσκηση έχει αντιστοιχηθεί και στις δύο λειτουργίες.\n"
+"Το Chronojump 2.2.2 διαχώρισε τη λειτουργία αισθητήρα δύναμης σε ισομετρική "
+"και ελαστική λειτουργία.\n"
+"Κατά τη μετατροπή, αυτή η άσκηση έχει αντιστοιχηθεί και στις δύο "
+"λειτουργίες.\n"
 "Θέλετε να υπάρχει μόνο σε μία λειτουργία;"
 
 #: ../glade/force_sensor_exercise.glade.h:5
@@ -4157,7 +4182,9 @@ msgstr "Επιλογή αυτού του ατόμου"
 msgid ""
 "If you have two records in Chronojump for the same person, merge them with "
 "this tool."
-msgstr "Εάν έχετε δύο εγγραφές στο Chronojump για το ίδιο άτομο, ενώστε τις με αυτό το εργαλείο."
+msgstr ""
+"Εάν έχετε δύο εγγραφές στο Chronojump για το ίδιο άτομο, ενώστε τις με αυτό "
+"το εργαλείο."
 
 #: ../glade/person_merge.glade.h:3
 msgid "Select the person to merge with:"
@@ -4247,7 +4274,8 @@ msgstr "Μονάδες:"
 #: ../glade/person_multiple_infinite.glade.h:19
 msgid ""
 "The name of the columns is not relevant, the important thing is the order."
-msgstr "Το όνομα των στηλών δεν είναι σημαντικό, αυτό που μετράει είναι η σειρά."
+msgstr ""
+"Το όνομα των στηλών δεν είναι σημαντικό, αυτό που μετράει είναι η σειρά."
 
 #: ../glade/person_multiple_infinite.glade.h:20 ../glade/person_win.glade.h:10
 #: ../src/constants.cs:1659 ../src/exportSession.cs:410
@@ -4286,7 +4314,8 @@ msgstr "Έλεγχος"
 
 #: ../glade/person_recuperate.glade.h:7
 msgid "More than 1000 results. Please, refine your search."
-msgstr "Περισσότερα από 1000 αποτελέσματα. Παρακαλώ, περιορίστε την αναζήτησή σας."
+msgstr ""
+"Περισσότερα από 1000 αποτελέσματα. Παρακαλώ, περιορίστε την αναζήτησή σας."
 
 #: ../glade/person_select_window.glade.h:1
 msgid "Select person"
@@ -4476,7 +4505,8 @@ msgstr "Μεγιστοποίηση παραθύρου Chronojump"
 
 #: ../glade/preferences_win.glade.h:10
 msgid "Undecorated (remove title bar and resize controls)"
-msgstr "Χωρίς διακόσμηση (αφαίρεση γραμμής τίτλου και στοιχείων αλλαγής μεγέθους)"
+msgstr ""
+"Χωρίς διακόσμηση (αφαίρεση γραμμής τίτλου και στοιχείων αλλαγής μεγέθους)"
 
 #: ../glade/preferences_win.glade.h:11
 msgid "This change may need restarting Chronojump"
@@ -4515,7 +4545,7 @@ msgid "Main"
 msgstr "Κύρια"
 
 #: ../glade/preferences_win.glade.h:20
-msgid "Persons on top  (manage them by clicking a button)"
+msgid "Persons on top  (manage them by clicking a button)"
 msgstr "Άτομα στην κορυφή (διαχείρισή τους με κλικ σε κουμπί)"
 
 #: ../glade/preferences_win.glade.h:21
@@ -4584,7 +4614,8 @@ msgid ""
 "first platform or photocell.\n"
 "It starts before and arrives there with some speed."
 msgstr ""
-"«Έναρξη ταχύτητας» σημαίνει όταν ο αθλητής δεν ξεκινά με «επαφή» στην πρώτη πλατφόρμα ή φωτοκύτταρο.\n"
+"«Έναρξη ταχύτητας» σημαίνει όταν ο αθλητής δεν ξεκινά με «επαφή» στην πρώτη "
+"πλατφόρμα ή φωτοκύτταρο.\n"
 "Ξεκινά νωρίτερα και φτάνει εκεί με κάποια ταχύτητα."
 
 #: ../glade/preferences_win.glade.h:44
@@ -4593,7 +4624,8 @@ msgstr "Τι να κάνετε σε έναρξη ταχύτητας ή μέτρ�
 
 #: ../glade/preferences_win.glade.h:45
 msgid "Race time starts on arrival at first device or pressing push button"
-msgstr "Ο χρόνος αγώνα ξεκινά με την άφιξη στην πρώτη συσκευή ή πατώντας το κουμπί"
+msgstr ""
+"Ο χρόνος αγώνα ξεκινά με την άφιξη στην πρώτη συσκευή ή πατώντας το κουμπί"
 
 #: ../glade/preferences_win.glade.h:46
 msgid "Race time starts on leaving first device"
@@ -4913,7 +4945,9 @@ msgstr "Η κάμερα θα σταματήσει n δευτερόλεπτα μ�
 
 #: ../glade/preferences_win.glade.h:150
 msgid "To ensure the end of test is recorded, it is recommended 2 seconds."
-msgstr "Για να διασφαλιστεί η καταγραφή του τέλους της δοκιμής, συνιστώνται 2 δευτερόλεπτα."
+msgstr ""
+"Για να διασφαλιστεί η καταγραφή του τέλους της δοκιμής, συνιστώνται 2 "
+"δευτερόλεπτα."
 
 #: ../glade/preferences_win.glade.h:151
 msgid "<b>Advanced</b>"
@@ -5372,7 +5406,9 @@ msgstr ""
 
 #: ../src/chronojump.cs:706
 msgid "All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms)."
-msgstr "Όλα τα άλματα DJ έχουν μετονομαστεί σε 'DJna' (άλματα πτώσης χωρίς χρήση χεριών)."
+msgstr ""
+"Όλα τα άλματα DJ έχουν μετονομαστεί σε 'DJna' (άλματα πτώσης χωρίς χρήση "
+"χεριών)."
 
 #: ../src/chronojump.cs:707
 msgid ""
@@ -5386,7 +5422,9 @@ msgstr ""
 #: ../src/chronojump.cs:722
 #, csharp-format
 msgid "Sorry, this Chronojump version ({0}) is too old for your database."
-msgstr "Συγνώμη, αυτή η έκδοση του Chronojump ({0}) είναι υπερβολικά παλιά για τη βάση δεδομένων σας."
+msgstr ""
+"Συγνώμη, αυτή η έκδοση του Chronojump ({0}) είναι υπερβολικά παλιά για τη "
+"βάση δεδομένων σας."
 
 #: ../src/chronojump.cs:723 ../src/chronojumpImporter.cs:260
 msgid "Please update Chronojump"
@@ -5408,16 +5446,17 @@ msgstr "Αποτυχία στη βάση δεδομένων. Διαδικασί�
 #: ../src/chronojump.cs:751
 #, csharp-format
 msgid "Please, contact with Chronojump. Send them this file: {0}"
-msgstr "Παρακαλούμε, επικοινωνήστε με την ομάδα του Chronojump. Στείλτε τους αυτό το αρχείο: {0}"
+msgstr ""
+"Παρακαλούμε, επικοινωνήστε με το Chronojump. Στείλτε τους αυτό το αρχείο: {0}"
 
 #: ../src/chronojump.cs:850
 msgid "Need permissions to read from device."
-msgstr "Απαίτηση δικαιωμάτων για ανάγνωση από τη συσκευή."
+msgstr "Απαιτούνται δικαιώματα για ανάγνωση από τη συσκευή."
 
 #: ../src/chronojump.cs:851
 #, csharp-format
 msgid "Check software page on Chronojump website"
-msgstr "Ελέγξτε τη σελίδα του λογισμικού στον ιστότοπο του Chronojump."
+msgstr "Ελέγξτε τη σελίδα λογισμικού στον ιστότοπο του Chronojump"
 
 #: ../src/chronojump.cs:1006
 #, csharp-format
@@ -5430,9 +5469,8 @@ msgid ""
 "Please, fill your email and click on '{0}' in order to fix this fast and "
 "contact you if appropriate."
 msgstr ""
-"Παρακαλούμε, συμπληρώστε τη διεύθυνση ηλεκτρονικού ταχυδρομείου σας και κάντε "
-"κλικ στο «{0}», προκειμένου να διορθωθεί γρήγορα και να επικοινωνήσουμε μαζί "
-"σας, αν χρειάζεται."
+"Παρακαλούμε, συμπληρώστε το email σας και κάντε κλικ στο '{0}' ώστε να "
+"διορθωθεί γρήγορα και να επικοινωνήσουμε μαζί σας αν χρειαστεί."
 
 #: ../src/chronojump.cs:1008
 msgid "Your help is needed."
@@ -5441,7 +5479,8 @@ msgstr "Χρειαζόμαστε τη βοήθειά σας."
 #: ../src/chronojump.cs:1156
 #, csharp-format
 msgid "Cannot move database directory from {0} to {1}"
-msgstr "Αδύνατη η μετακίνηση του καταλόγου της βάσης δεδομένων από το {0} στο {1}"
+msgstr ""
+"Αδυναμία μετακίνησης του καταλόγου της βάσης δεδομένων από το {0} στο {1}"
 
 #: ../src/chronojump.cs:1158
 msgid "Trying to move/copy each file now"
@@ -5450,25 +5489,25 @@ msgstr "Προσπάθεια μετακίνησης/αντιγραφής κάθ�
 #: ../src/chronojump.cs:1186
 #, csharp-format
 msgid "Cannot create directory {0}"
-msgstr "Αδύνατη η δημιουργία του καταλόγου {0}"
+msgstr "Αδυναμία δημιουργίας καταλόγου {0}"
 
 #: ../src/chronojump.cs:1187 ../src/chronojump.cs:1195
 msgid "Please, do it manually."
-msgstr "Παρακαλούμε, εκτελέστε το χειροκίνητα."
+msgstr "Παρακαλούμε, κάντε το χειροκίνητα."
 
 #: ../src/chronojump.cs:1194
 #, csharp-format
 msgid "Cannot copy {0} files from {1} to {2}"
-msgstr "Αδύνατη η αντιγραφή των αρχείων {0} από το {1} στο {2}"
+msgstr "Αδυναμία αντιγραφής {0} αρχείων από το {1} στο {2}"
 
 #: ../src/chronojump.cs:1202
 #, csharp-format
 msgid "Cannot move {0} files from {1} to {2}"
-msgstr "Αδύνατη η μετακίνηση των αρχείων {0} από το {1} στο {2}"
+msgstr "Αδυναμία μετακίνησης {0} αρχείων από το {1} στο {2}"
 
 #: ../src/chronojump.cs:1203
 msgid "Please, do it manually"
-msgstr "Παρακαλούμε, εκτελέστε το χειροκίνητα."
+msgstr "Παρακαλούμε, κάντε το χειροκίνητα"
 
 #: ../src/chronojump.cs:1209
 #, csharp-format
@@ -5480,35 +5519,35 @@ msgid ""
 "Trying to import a newer database version than this Chronojump\n"
 "Please, update the running Chronojump."
 msgstr ""
-"Προσπάθεια εισαγωγής νεότερης έκδοσης βάσης δεδομένων από αυτήν του Chronojump\n"
-"Παρακαλούμε, ενημερώστε το Chronojump που εκτελείται."
+"Προσπάθεια εισαγωγής νεότερης έκδοσης βάσης δεδομένων από αυτό το "
+"Chronojump\n"
+"Παρακαλούμε, ενημερώστε το τρέχον Chronojump."
 
 #: ../src/chronojumpImporter.cs:333
-#, fuzzy, csharp-format
-#| msgid "Cannot copy {0} files from {1} to {2}"
+#, csharp-format
 msgid "Cannot copy files from {0} to {1}."
-msgstr "Αδύνατη η αντιγραφή των αρχείων {0} από το {1} στο {2}"
+msgstr "Αδυναμία αντιγραφής αρχείων από το {0} στο {1}."
 
 #: ../src/chronojumpImporter.cs:336
 msgid ""
 "The disk may be full or the files may be copying from a cloud service but "
 "have not been downloaded."
 msgstr ""
+"Ο δίσκος μπορεί να είναι γεμάτος ή τα αρχεία μπορεί να αντιγράφονται από μια "
+"υπηρεσία cloud αλλά να μην έχουν ληφθεί."
 
 #. return Catalog.GetString("Not configured");
 #: ../src/chronopicRegister.cs:76
 msgid "Click on right arrow!"
-msgstr ""
+msgstr "Κάντε κλικ στο δεξί βέλος!"
 
 #: ../src/chronopicRegister.cs:78
-#, fuzzy
-#| msgid "Jumps: Reactive"
 msgid "Jumps/Races"
-msgstr "Άλματα: πολλαπλά"
+msgstr "Άλματα/Αγώνες"
 
 #: ../src/chronopicRegister.cs:84
 msgid "Force sensor"
-msgstr ""
+msgstr "Αισθητήρας δύναμης"
 
 #: ../src/constants.cs:52
 msgid "Main developer."
@@ -5516,29 +5555,23 @@ msgstr "Κύριος προγραμματιστής."
 
 #: ../src/constants.cs:54 ../src/constants.cs:56
 msgid "Installation support: Autotools, packaging, bundle."
-msgstr "Υποστήριξη εγκατάστασης: αυτόματα εργαλεία, συσκευασία, δέσμη."
+msgstr "Υποστήριξη εγκατάστασης: Autotools, πακετάρισμα, δέσμη."
 
 #: ../src/constants.cs:58
 msgid "R scripts."
-msgstr ""
+msgstr "Δέσμες ενεργειών R."
 
 #: ../src/constants.cs:60
-#, fuzzy
-#| msgid "Main developer."
 msgid "Backend developer."
-msgstr "Κύριος προγραμματιστής."
+msgstr "Προγραμματιστής υποστήριξης (backend)."
 
 #: ../src/constants.cs:60
-#, fuzzy
-#| msgid " session "
 msgid "Import sessions."
-msgstr " συνεδρία "
+msgstr "Εισαγωγή συνεδριών."
 
 #: ../src/constants.cs:65
-#, fuzzy
-#| msgid "Main developer."
 msgid "Full Stack developer."
-msgstr "Κύριος προγραμματιστής."
+msgstr "Προγραμματιστής Full Stack."
 
 #: ../src/constants.cs:67
 msgid "Django developer."
@@ -5546,35 +5579,31 @@ msgstr "Προγραμματιστής Django."
 
 #: ../src/constants.cs:69
 msgid "Django migration."
-msgstr ""
+msgstr "Μετανάστευση Django."
 
 #: ../src/constants.cs:71
-#, fuzzy
-#| msgid "Server actions"
 msgid "Client-Server integration."
-msgstr "Ενέργειες διακομιστή"
+msgstr "Ενσωμάτωση Πελάτη-Διακομιστή."
 
 #: ../src/constants.cs:71
 msgid "First Flask iteration."
-msgstr ""
+msgstr "Πρώτη επανάληψη Flask."
 
 #: ../src/constants.cs:73
 msgid "Web services support."
-msgstr ""
+msgstr "Υποστήριξη διαδικτυακών υπηρεσιών."
 
 #: ../src/constants.cs:78
-#, fuzzy
-#| msgid "Female sports sciences students"
 msgid "Sports sciences"
-msgstr "Φοιτήτριες αθλητικών επιστημών"
+msgstr "Αθλητικές επιστήμες"
 
 #: ../src/constants.cs:78 ../src/constants.cs:80
 msgid "Engineering"
-msgstr ""
+msgstr "Μηχανική"
 
 #: ../src/constants.cs:82
 msgid "Electronics"
-msgstr "Ηλεκτρονική"
+msgstr "Ηλεκτρονικά"
 
 #: ../src/constants.cs:84 ../src/constants.cs:86
 msgid "Maths and statistics"
@@ -5582,19 +5611,19 @@ msgstr "Μαθηματικά και στατιστική"
 
 #: ../src/constants.cs:100
 msgid "Chronojump Manual English translation."
-msgstr "Αγγλική μετάφραση του εγχειριδίου Chronojump"
+msgstr "Αγγλική μετάφραση εγχειριδίου Chronojump."
 
 #: ../src/constants.cs:105
 msgid "Translation of Firmware to C."
-msgstr "μετάφραση του υλικολογισμικού σε C."
+msgstr "Μετάφραση υλικολογισμικού σε C."
 
 #: ../src/constants.cs:106
 msgid "New firmware features."
-msgstr "Νέα γνωρίσματα υλικολογισμικού."
+msgstr "Νέα χαρακτηριστικά υλικολογισμικού."
 
 #: ../src/constants.cs:107
 msgid "Encoder hardware layer."
-msgstr "Στρώση υλικού κωδικοποιητή."
+msgstr "Επίπεδο υλικού κωδικοποιητή."
 
 #: ../src/constants.cs:108
 msgid "Skypic, Chronopic, connection between hardware and software."
@@ -5606,28 +5635,24 @@ msgid "Chronopic3 industrial prototype."
 msgstr "Βιομηχανικό πρωτότυπο Chronopic3."
 
 #: ../src/constants.cs:111
-#, fuzzy
-#| msgid "Is Chronopic connected?"
 msgid "Chronopic validation."
-msgstr "Είναι συνδεμένο το Chronopic;"
+msgstr "Επικύρωση Chronopic."
 
 #: ../src/constants.cs:112 ../src/constants.cs:115
 msgid "Chronopic reaction time advanced implementation."
-msgstr ""
+msgstr "Προηγμένη υλοποίηση χρόνου αντίδρασης Chronopic."
 
 #: ../src/constants.cs:113
 msgid "Other functionalities."
-msgstr ""
+msgstr "Άλλες λειτουργίες."
 
 #: ../src/constants.cs:114
 msgid "Improved timers."
-msgstr ""
+msgstr "Βελτιωμένοι χρονομετρητές."
 
 #: ../src/constants.cs:121
-#, fuzzy
-#| msgid "Python version"
 msgid "Mac version"
-msgstr "Έκδοση Python"
+msgstr "Έκδοση Mac"
 
 #: ../src/constants.cs:139
 msgid "Chronojump profile"
@@ -5637,11 +5662,11 @@ msgstr "Προφίλ Chronojump"
 #. pragma warning is to avoid warnings of "defined and not used" for these variables.
 #: ../src/constants.cs:231
 msgid "Any"
-msgstr "Οποιαδήποτε"
+msgstr "Οποιοδήποτε"
 
 #: ../src/constants.cs:232
 msgid "--Undefined"
-msgstr "--Αόριστο"
+msgstr "--Απροσδιόριστο"
 
 #: ../src/constants.cs:233
 msgid "--Any"
@@ -5653,11 +5678,11 @@ msgstr "-Κανένα"
 
 #: ../src/constants.cs:237
 msgid "Sedentary/Occasional practice"
-msgstr "Καθιστική/περιστασιακή άσκηση"
+msgstr "Καθιστική/Περιστασιακή άσκηση"
 
 #: ../src/constants.cs:238
 msgid "Bench press"
-msgstr "Πάγκος άρσης βαρών"
+msgstr "Πιέσεις πάγκου"
 
 #: ../src/constants.cs:239
 msgid "Squat"
@@ -5670,44 +5695,39 @@ msgid ""
 "Always remember to touch platform at ending. If you don't do it, Chronojump "
 "will crash at next execution."
 msgstr ""
-"Να θυμάστε πάντα να ακουμπάτε την εξέδρα στο τέλος. Αν δεν το κάνετε, το "
+"Να θυμάστε πάντα να αγγίζετε την πλατφόρμα στο τέλος. Αν δεν το κάνετε, το "
 "Chronojump θα καταρρεύσει στην επόμενη εκτέλεση."
 
 #: ../src/constants.cs:244
 msgid "This Run Analysis is not valid because there are no strides."
 msgstr ""
-"Αυτή η ανάλυση δρόμου δεν είναι έγκυρη επειδή δεν υπάρχουν δρασκελισμοί."
+"Αυτή η Ανάλυση Δρόμου δεν είναι έγκυρη επειδή δεν υπάρχουν δρασκελισμοί."
 
 #: ../src/constants.cs:287
-#, fuzzy
-#| msgid "Is Chronopic connected?"
 msgid "Chronopic is disconnected."
-msgstr "Είναι συνδεμένο το Chronopic;"
+msgstr "Το Chronopic είναι αποσυνδεδεμένο."
 
 #: ../src/constants.cs:288
-#, fuzzy, csharp-format
-#| msgid "Are you sure you want to delete the current session"
+#, csharp-format
 msgid "If you want to simulate tests, use {0} session."
-msgstr "Είστε σίγουροι ότι θέλετε την διαγραφή της τρέχουσας συνεδρίας"
+msgstr "Εάν θέλετε να προσομοιώσετε δοκιμές, χρησιμοποιήστε τη συνεδρία {0}."
 
 #: ../src/constants.cs:299
 msgid "This RFID is not registered on server."
-msgstr ""
+msgstr "Αυτό το RFID δεν είναι καταχωρημένο στον διακομιστή."
 
 #: ../src/constants.cs:303
-#, fuzzy
-#| msgid "Cancel connection with server"
 msgid "Cannot connect with server!"
-msgstr "Ακύρωση σύνδεσης με τον διακομιστή"
+msgstr "Αδυναμία σύνδεσης με τον διακομιστή!"
 
 #: ../src/constants.cs:313
 msgid "Server is connected."
-msgstr "Ο διακομιστής είναι συνδεμένος."
+msgstr "Ο διακομιστής είναι συνδεδεμένος."
 
 #: ../src/constants.cs:317
 msgid "Sorry, server is currently offline. Try later."
 msgstr ""
-"Συγνώμη, ο διακομιστής είναι προς το παρόν εκτός σύνδεσης. Δοκιμάστε "
+"Συγγνώμη, ο διακομιστής είναι αυτή τη στιγμή εκτός σύνδεσης. Δοκιμάστε "
 "αργότερα."
 
 #: ../src/constants.cs:318
@@ -5715,52 +5735,45 @@ msgid ""
 "Or maybe you are not connected to the Internet or your firewall is "
 "restricting connections"
 msgstr ""
-"Ή μπορεί να μην είσαστε συνδεμένοι στο διαδίκτυο ή ο τείχος προστασίας σας "
+"Ή μπορεί να μην είστε συνδεδεμένοι στο Διαδίκτυο ή το τείχος προστασίας σας "
 "να περιορίζει τις συνδέσεις"
 
 #: ../src/constants.cs:361
-#, fuzzy
-#| msgid "Sorry, R software is not installed."
 msgid "Your software is updated!"
-msgstr " Συγνώμη, το λογισμικό R δεν είναι εγκατεστημένο."
+msgstr "Το λογισμικό σας είναι ενημερωμένο!"
 
 #: ../src/constants.cs:365
 #, csharp-format
 msgid "Update software at {0}"
-msgstr "Ενημέρωση λογισμικού σε {0}"
+msgstr "Ενημέρωση λογισμικού στο {0}"
 
 #: ../src/constants.cs:369
 msgid "Your software is more updated than last published version."
 msgstr ""
+"Το λογισμικό σας είναι πιο ενημερωμένο από την τελευταία δημοσιευμένη έκδοση."
 
 #: ../src/constants.cs:369
-#, fuzzy
-#| msgid "Please, do it manually"
 msgid "Please, don't update!"
-msgstr "Παρακαλούμε, κάντε το χειροκίνητα"
+msgstr "Παρακαλώ, μην ενημερώσετε!"
 
 #: ../src/constants.cs:378
-#, fuzzy
-#| msgid ""
-#| "Import persons from an spreadsheet. Eg. Excel, LibreOffice, Google Drive."
 msgid "Importing from your spreadsheet (LibreOffice, R, MS Excel, …)"
 msgstr ""
-"Εισαγωγή ατόμων από ένα υπολογιστικό φύλλο. Π.χ. Excel, LibreOffice, Google "
-"Drive."
+"Εισαγωγή από το υπολογιστικό φύλλο σας (LibreOffice, R, MS Excel, ...)"
 
 #: ../src/constants.cs:379
 msgid "Remember the separator character is:"
-msgstr ""
+msgstr "Θυμηθείτε ότι ο χαρακτήρας διαχωρισμού είναι:"
 
 #: ../src/constants.cs:380
-#, fuzzy
-#| msgid "This can be changed on preferences."
 msgid "This can be changed at preferences."
 msgstr "Αυτό μπορεί να αλλάξει στις προτιμήσεις."
 
 #: ../src/constants.cs:385
 msgid "Please, perform the needed jumps marked in red above."
 msgstr ""
+"Παρακαλούμε, εκτελέστε τα απαραίτητα άλματα που επισημαίνονται με κόκκινο "
+"παραπάνω."
 
 #: ../src/constants.cs:395 ../src/constants.cs:434 ../src/constants.cs:445
 #: ../src/constants.cs:456 ../src/constants.cs:468 ../src/constants.cs:479
@@ -5769,7 +5782,7 @@ msgstr ""
 #: ../src/constants.cs:551 ../src/treeview/encoder.cs:61
 #: ../src/treeview/encoder.cs:77 ../src/treeview/encoder.cs:167
 msgid "Peak power"
-msgstr "Μέγιστη ισχύς"
+msgstr "Κορυφαία ισχύς"
 
 #: ../src/constants.cs:395
 msgid "(Watts)"
@@ -5780,14 +5793,14 @@ msgstr "(Watts)"
 #: ../src/constants.cs:504 ../src/constants.cs:516 ../src/constants.cs:528
 #: ../src/constants.cs:541 ../src/constants.cs:553
 msgid "body weight"
-msgstr "βάρος σώματος"
+msgstr "σωματικό βάρος"
 
 #: ../src/constants.cs:400 ../src/constants.cs:440 ../src/constants.cs:451
 #: ../src/constants.cs:462 ../src/constants.cs:474 ../src/constants.cs:485
 #: ../src/constants.cs:504 ../src/constants.cs:516 ../src/constants.cs:528
 #: ../src/constants.cs:541 ../src/constants.cs:553
 msgid "extra weight"
-msgstr "πρόσθετο βάρος"
+msgstr "επιπλέον βάρος"
 
 #: ../src/constants.cs:400 ../src/constants.cs:439 ../src/constants.cs:450
 #: ../src/constants.cs:461 ../src/constants.cs:473 ../src/constants.cs:484
@@ -5800,15 +5813,15 @@ msgstr "ύψος"
 
 #: ../src/constants.cs:502
 msgid "Male applicants to a Faculty of Sport Sciences"
-msgstr "Άνδρες υποψήφιοι για ένα τμήμα αθλητικών επιστημών"
+msgstr "Άνδρες υποψήφιοι για Σχολή Επιστήμης Φυσικής Αγωγής"
 
 #: ../src/constants.cs:514
 msgid "Female elite volleyball"
-msgstr "Γυναικεία ελίτ πετοσφαίρισης"
+msgstr "Γυναίκες ελίτ βόλεϊ"
 
 #: ../src/constants.cs:526
 msgid "Female medium volleyball"
-msgstr "Πετόσφαιρα μέτριων γυναικών"
+msgstr "Γυναίκες μεσαίου επιπέδου βόλεϊ"
 
 #: ../src/constants.cs:539
 msgid "Female sports sciences students"
@@ -5820,7 +5833,7 @@ msgstr "Φοιτήτριες πανεπιστημίου"
 
 #: ../src/constants.cs:560 ../src/constants.cs:1653 ../src/stats/potency.cs:60
 msgid "Peak Power"
-msgstr "Μέγιστη ισχύς"
+msgstr "Κορυφαία Ισχύς"
 
 #: ../src/constants.cs:575
 msgid "Session summary"
@@ -5836,19 +5849,15 @@ msgstr "Απλό με TC"
 
 #: ../src/constants.cs:591
 msgid "Jumps: Reactive"
-msgstr "Άλματα: πολλαπλά"
+msgstr "Άλματα: Αντιδραστικά"
 
 #: ../src/constants.cs:595
-#, fuzzy
-#| msgid "Runs: Simple"
 msgid "Races: Simple"
-msgstr "Δρόμοι: απλοί"
+msgstr "Αγώνες: Απλοί"
 
 #: ../src/constants.cs:600
-#, fuzzy
-#| msgid "Runs: Intervallic"
 msgid "Races: Intervallic"
-msgstr "Δρόμοι: Με διαλείμματα"
+msgstr "Αγώνες: Διαλειμματικοί"
 
 #: ../src/constants.cs:609
 msgid "tracks"
@@ -5856,43 +5865,39 @@ msgstr "διαδρομές"
 
 #: ../src/constants.cs:615
 msgid "See all jumps"
-msgstr "Δείτε όλα τα άλματα"
+msgstr "Προβολή όλων των αλμάτων"
 
 #: ../src/constants.cs:619
-#, fuzzy
-#| msgid "See all runs"
 msgid "See all races"
-msgstr "Δείτε όλους τους δρόμους"
+msgstr "Προβολή όλων των αγώνων"
 
 #: ../src/constants.cs:623
 msgid "See all pulses"
-msgstr "Δείτε όλους τους παλμούς"
+msgstr "Προβολή όλων των παλμών"
 
 #: ../src/constants.cs:627
-#, fuzzy
-#| msgid "See all runs"
 msgid "See all tests"
-msgstr "Δείτε όλους τους δρόμους"
+msgstr "Προβολή όλων των δοκιμών"
 
 #: ../src/constants.cs:765
 msgid "Typical serial and USB-serial ports on Windows:"
-msgstr "Τυπικές σειριακές και USB σειριακές θύρες σε Windows:"
+msgstr "Τυπικές σειριακές και USB-σειριακές θύρες σε Windows:"
 
 #: ../src/constants.cs:767
 msgid "Also, these are possible:"
-msgstr "Επίσης, είναι δυνατά τα:"
+msgstr "Επίσης, αυτές είναι πιθανές:"
 
 #: ../src/constants.cs:774
 msgid "Typical serial ports on GNU/Linux:"
-msgstr "Τυπικές σειριακές θύρες σε GNU/Λίνουξ:"
+msgstr "Τυπικές σειριακές θύρες σε GNU/Linux:"
 
 #: ../src/constants.cs:776
 msgid "Typical USB-serial ports on GNU/Linux:"
-msgstr "Τυπικές σειριακές θύρες USB σε GNU/Λίνουξ:"
+msgstr "Τυπικές USB-σειριακές θύρες σε GNU/Linux:"
 
 #: ../src/constants.cs:778
 msgid "If you use Chronopic3, you will have an USB-serial port."
-msgstr "Αν χρησιμοποιείτε Chronopic3, θα έχετε μια σειριακή θύρα USB."
+msgstr "Αν χρησιμοποιείτε Chronopic3, θα έχετε μια USB-σειριακή θύρα."
 
 #: ../src/constants.cs:784
 msgid "Serial ports found:"
@@ -5900,15 +5905,15 @@ msgstr "Βρέθηκαν σειριακές θύρες:"
 
 #: ../src/constants.cs:788
 msgid "USB-serial ports found:"
-msgstr "Βρέθηκαν σειριακές θύρες USB:"
+msgstr "Βρέθηκαν USB-σειριακές θύρες:"
 
 #: ../src/constants.cs:792
 msgid "Not found any USB-serial ports."
-msgstr "Δεν βρέθηκαν σειριακές θύρες USB."
+msgstr "Δεν βρέθηκαν USB-σειριακές θύρες."
 
 #: ../src/constants.cs:792
 msgid "Is Chronopic connected?"
-msgstr "Είναι συνδεμένο το Chronopic;"
+msgstr "Είναι συνδεδεμένο το Chronopic;"
 
 #: ../src/constants.cs:801
 msgid "Touch device."
@@ -5916,7 +5921,7 @@ msgstr "Συσκευή αφής."
 
 #: ../src/constants.cs:806
 msgid "Chronopic driver has to be installed."
-msgstr "Ο οδηγός του Chronopic πρέπει να εγκατασταθεί."
+msgstr "Ο οδηγός Chronopic πρέπει να εγκατασταθεί."
 
 #: ../src/constants.cs:811
 msgid ""
@@ -5924,17 +5929,17 @@ msgid ""
 "<b>driver</b> installed at 'Windows Start Menu / Chronojump / Install "
 "Chronopic driver'."
 msgstr ""
-"Αν έχετε προβλήματα σύνδεσης με το Chronopic, βεβαιωθείτε ότι έχετε "
-"εγκαταστήσει τον <b>οδηγό</b> στο 'Windows Μενού έναρξης / Chronojump / "
+"Εάν έχετε προβλήματα σύνδεσης με το Chronopic, βεβαιωθείτε ότι έχετε "
+"εγκαταστήσει τον <b>οδηγό</b> στο 'Μενού Έναρξης Windows / Chronojump / "
 "Εγκατάσταση οδηγού Chronopic'."
 
 #: ../src/constants.cs:815 ../src/constants.cs:819
 msgid "Check Chronojump software website."
-msgstr "Ελέγξτε την ιστοσελίδα του λογισμικού Chronojump."
+msgstr "Ελέγξτε τον ιστότοπο λογισμικού Chronojump."
 
 #: ../src/constants.cs:823
 msgid "Error. Nothing has been captured."
-msgstr ""
+msgstr "Σφάλμα. Δεν έχει καταγραφεί τίποτα."
 
 #: ../src/constants.cs:868
 msgid "Africa"
@@ -5967,7 +5972,7 @@ msgstr "Νότια Αμερική"
 #: ../src/constants.cs:881
 msgid "Tests are <b>simulated</b> until Chronopic is connected."
 msgstr ""
-"Οι εξετάσεις είναι <b>προσομοιωμένες</b> μέχρι να συνδεθεί το Chronopic."
+"Οι δοκιμές είναι <b>προσομοιωμένες</b> μέχρι να συνδεθεί το Chronopic."
 
 #. Catalog.GetString("Angle") + ":::" +
 #. Catalog.GetString("Angles") + ":::" +
@@ -5984,11 +5989,11 @@ msgstr "Προσομοιωμένο"
 
 #: ../src/constants.cs:890
 msgid "All tests available except MultiChronopic."
-msgstr "Όλες οι εξετάσεις διαθέσιμες εκτός από το MultiChronopic."
+msgstr "Όλες οι δοκιμές διαθέσιμες εκτός από το MultiChronopic."
 
 #: ../src/constants.cs:894
 msgid "All tests available."
-msgstr "Όλες οι εξετάσεις διαθέσιμες."
+msgstr "Όλες οι δοκιμές διαθέσιμες."
 
 #: ../src/constants.cs:899
 msgid "Default"
@@ -5996,15 +6001,15 @@ msgstr "Προεπιλογή"
 
 #: ../src/constants.cs:914
 msgid "Regular practice"
-msgstr "Συστηματική άσκηση"
+msgstr "Τακτική εξάσκηση"
 
 #: ../src/constants.cs:915
 msgid "Competition"
-msgstr "Ερασιτεχνικό επίπεδο"
+msgstr "Ανταγωνισμός"
 
 #: ../src/constants.cs:916
 msgid "Elite"
-msgstr "Πρωταθλητισμός"
+msgstr "Ελίτ"
 
 #: ../src/constants.cs:939 ../src/constants.cs:1667
 #: ../src/gui/app1/chronojump.cs:2890 ../src/gui/app1/encoder.cs:5432
@@ -6015,7 +6020,7 @@ msgstr "Ανεπαρκή δεδομένα."
 #: ../src/constants.cs:943 ../src/gui/app1/session/backup.cs:61
 #: ../src/gui/app1/session/export.cs:46
 msgid "Error. Cannot find database."
-msgstr "Σφάλμα. Αδύνατη η εύρεση της βάσης δεδομένων."
+msgstr "Σφάλμα. Αδυναμία εύρεσης βάσης δεδομένων."
 
 #: ../src/constants.cs:951 ../src/gui/app1/session/main.cs:342
 #: ../src/gui/app1/session/main.cs:372 ../src/gui/app1/session/main.cs:380
@@ -6033,60 +6038,54 @@ msgstr "Σφάλμα. Αδυναμία αντιγραφής αρχείου."
 
 #: ../src/constants.cs:967
 msgid "Error. File cannot be saved."
-msgstr "Σφάλμα. Το αρχείο δεν αποθηκεύτηκε."
+msgstr "Σφάλμα. Το αρχείο δεν μπορεί να αποθηκευτεί."
 
 #: ../src/constants.cs:971
-#, fuzzy, csharp-format
-#| msgid "Sorry, this graph is not supported yet."
+#, csharp-format
 msgid "Sorry, this graph cannot be done with test {0}."
-msgstr "Συγνώμη, αυτό το γράφημα δεν υποστηρίζεται ακόμα."
+msgstr "Συγγνώμη, αυτό το γράφημα δεν μπορεί να γίνει με τη δοκιμή {0}."
 
 #: ../src/constants.cs:975
 msgid "This graphic needs more height."
-msgstr ""
+msgstr "Αυτό το γραφικό χρειάζεται περισσότερο ύψος."
 
 #: ../src/constants.cs:979
 msgid ""
 "Maybe this file is opened by an SpreadSheet software like Excel. Please, "
 "close that program."
 msgstr ""
-"Ίσως αυτό το αρχείο είναι ανοιγμένο με το λογισμικό υπολογιστικών φύλλων "
-"όπως το Excel. Παρακαλούμε, κλείστε αυτό το πρόγραμμα."
+"Ίσως αυτό το αρχείο είναι ανοιχτό από λογισμικό υπολογιστικών φύλλων όπως το "
+"Excel. Παρακαλούμε, κλείστε αυτό το πρόγραμμα."
 
 #: ../src/constants.cs:1018
 msgid "Out"
-msgstr "Έξοδος"
+msgstr "Εκτός"
 
 #: ../src/constants.cs:1038
 msgid "On jumps results tab, power is calculated depending on jump type:"
 msgstr ""
 "Στην καρτέλα αποτελεσμάτων αλμάτων, η ισχύς υπολογίζεται ανάλογα με τον τύπο "
-"του άλματος:"
+"άλματος:"
 
 #: ../src/constants.cs:1039
-#, fuzzy
-#| msgid "Chronojump graph"
 msgid "Chronojump formula"
-msgstr "Γράφημα Chronojump"
+msgstr "Τύπος Chronojump"
 
 #: ../src/constants.cs:1039
-#, fuzzy
-#| msgid "Jumps with TC and TF:"
 msgid "Used on jumps with TC and TF"
-msgstr "Άλματα με TC & TF:"
+msgstr "Χρησιμοποιείται σε άλματα με TC και TF"
 
 #. Catalog.GetString("Jumps with TC & TF: Bosco Relative Power (W/kg)") +
 #. "\n" +
 #. Catalog.GetString("P = 24.6 * (Total time + Flight time) / Contact time") +
 #: ../src/constants.cs:1043
-#, fuzzy
-#| msgid "Calcule the potential energies on fall and after the jump."
 msgid "Calculate the potential energies on fall and after the jump."
-msgstr "Υπολογίστε τις πιθανές ενέργειες στην πτώση και μετά το άλμα"
+msgstr ""
+"Υπολογίστε τις δυναμικές ενέργειες στην πτώση και μετά το άλμα."
 
 #: ../src/constants.cs:1044
 msgid "Divide them by time during force is applied."
-msgstr "Διαιρέστε με τον χρόνο κατά την εφαρμογή της δύναμης"
+msgstr "Διαιρέστε τες με τον χρόνο κατά τον οποίο ασκείται δύναμη."
 
 #. P = mass * g * ( fallHeight + 1.22625 * Math.Pow(tf,2) ) / (Double)tt;
 #: ../src/constants.cs:1046
@@ -6103,37 +6102,35 @@ msgstr "χρόνος πτήσης"
 
 #: ../src/constants.cs:1047
 msgid "contact time"
-msgstr "Χρόνος επαφής"
+msgstr "χρόνος επαφής"
 
 #: ../src/constants.cs:1048
-#, fuzzy
-#| msgid "Jumps without TC: Lewis Peak Power 1974 (W)"
 msgid "Used on jumps without TC: Lewis Peak Power 1974 (W)"
-msgstr "Άλματα χωρίς TC: Μέγιστη ισχύς του Lewis 1974 (W)"
+msgstr "Χρησιμοποιείται σε άλματα χωρίς TC: Κορυφαία Ισχύς Lewis 1974 (W)"
 
 #: ../src/constants.cs:1049
 msgid ""
 "P = SQRT(4.9) * 9.8 * (body weight+extra weight) * SQRT(jump height in "
 "meters)"
 msgstr ""
-"P = SQRT(4.9) * 9.8 * (βάρος σώματος+πρόσθετο βάρος) * SQRT(ύψος άλματος σε "
-"μέτρα)"
+"P = SQRT(4.9) * 9.8 * (σωματικό βάρος+επιπλέον βάρος) * SQRT(ύψος άλματος "
+"σε μέτρα)"
 
 #: ../src/constants.cs:1051
 msgid "If you want to use other formulas, go to Analyze."
-msgstr "Αν θέλετε να χρησιμοποιήσετε άλλους τύπους, μεταβείτε στην Ανάλυση."
+msgstr "Αν θέλετε να χρησιμοποιήσετε άλλους τύπους, πηγαίνετε στην Ανάλυση."
 
 #: ../src/constants.cs:1057
 msgid "Contact Time"
-msgstr "Χρόνος επαφής"
+msgstr "Χρόνος Επαφής"
 
 #: ../src/constants.cs:1058
 msgid "Flight Time"
-msgstr "Χρόνος πτήσης"
+msgstr "Χρόνος Πτήσης"
 
 #: ../src/constants.cs:1059
 msgid "See:"
-msgstr "Δείτε:"
+msgstr "Βλέπε:"
 
 #: ../src/constants.cs:1069
 #, csharp-format
@@ -6141,29 +6138,29 @@ msgid ""
 "Use this window to repair this test.\n"
 "Double clic any cell to edit it (decimal separator: '{0}')"
 msgstr ""
-"Χρησιμοποιήστε αυτό το παράθυρο για επισκευή αυτής της εξέτασης.\n"
-"Διπλοπατήστε οποιοδήποτε κελί για να το επεξεργαστείτε (δεκαδικό "
-"διαχωριστικό: '{0}')"
+"Χρησιμοποιήστε αυτό το παράθυρο για να επιδιορθώσετε αυτή τη δοκιμή.\n"
+"Κάντε διπλό κλικ σε οποιοδήποτε κελί για να το επεξεργαστείτε (διαχωριστικό "
+"δεκαδικών: '{0}')"
 
 #: ../src/constants.cs:1070
 msgid "Press enter or tab after editing a cell."
-msgstr ""
+msgstr "Πατήστε enter ή tab μετά την επεξεργασία ενός κελιού."
 
 #: ../src/constants.cs:1094
 msgid "Sorry, this multimedia file does not exists."
-msgstr "Συγνώμη, αυτό το αρχείο πολυμέσων δεν υπάρχει."
+msgstr "Συγγνώμη, αυτό το αρχείο πολυμέσων δεν υπάρχει."
 
 #: ../src/constants.cs:1101
 msgid "Running start. Started with initial speed."
-msgstr "Εκτέλεση έναρξης. Έναρξη με αρχική ταχύτητα."
+msgstr "Εκκίνηση εν κινήσει. Ξεκίνησε με αρχική ταχύτητα."
 
 #: ../src/constants.cs:1105
 msgid "Standing start. Started without initial speed."
-msgstr "Στατική εκκίνηση. Εκκίνηση χωρίς αρχική ταχύτητα."
+msgstr "Εκκίνηση από στάση. Ξεκίνησε χωρίς αρχική ταχύτητα."
 
 #: ../src/constants.cs:1110
 msgid "Sorry, no cameras found."
-msgstr "Συγνώμη, δεν βρέθηκαν κάμερες."
+msgstr "Συγγνώμη, δεν βρέθηκαν κάμερες."
 
 #: ../src/constants.cs:1182 ../src/gui/app1/encoder.cs:2427
 #: ../src/gui/app1/session/loadAndImport.cs:332
@@ -6171,39 +6168,25 @@ msgid "Jumps simple"
 msgstr "Απλά άλματα"
 
 #: ../src/constants.cs:1184 ../src/gui/app1/encoder.cs:2429
-#, fuzzy
-#| msgid "Jump multiple"
 msgid "Jumps multiple"
-msgstr "Πολλαπλό άλμα"
+msgstr "Άλματα πολλαπλά"
 
 #: ../src/constants.cs:1186 ../src/gui/app1/encoder.cs:2431
 #: ../src/gui/app1/session/loadAndImport.cs:336
-#, fuzzy
-#| msgid "Runs simple"
 msgid "Races simple"
-msgstr "Απλοί δρόμοι"
+msgstr "Αγώνες απλοί"
 
 #: ../src/constants.cs:1188 ../src/gui/app1/encoder.cs:2433
-#, fuzzy
-#| msgid ""
-#| "Runs\n"
-#| "intervallic"
 msgid "Races intervallic"
-msgstr ""
-"Δρόμοι\n"
-"με διαλείμματα"
+msgstr "Αγώνες διαλειμματικοί"
 
 #: ../src/constants.cs:1194
-#, fuzzy
-#| msgid "Encoder repetitions"
 msgid "Encoder (gravitatory)"
-msgstr "Επαναλήψεις κωδικοποιητή"
+msgstr "Κωδικοποιητής (βαρυτικός)"
 
 #: ../src/constants.cs:1196
-#, fuzzy
-#| msgid "Not inertial"
 msgid "Encoder (inertial)"
-msgstr "Χωρίς αδράνεια"
+msgstr "Κωδικοποιητής (αδρανειακός)"
 
 #: ../src/constants.cs:1645 ../src/gui/edit_event/jump.cs:68
 msgid "jump"
@@ -6223,7 +6206,7 @@ msgstr "Επιτάχυνση"
 
 #: ../src/constants.cs:1652
 msgid "Average Power"
-msgstr "Μέση ισχύς"
+msgstr "Μέση Ισχύς"
 
 #: ../src/constants.cs:1658
 msgid "distance"
@@ -6258,16 +6241,12 @@ msgid "prediction"
 msgstr "πρόβλεψη"
 
 #: ../src/constants.cs:1670
-#, fuzzy
-#| msgid "Concentric mean speed on bench press 1RM is"
 msgid "Concentric mean speed on bench press 1RM ="
-msgstr "Η μέση ταχύτητα ομόκεντρων σε πάγκο άρσης βαρών 1RM είναι"
+msgstr "Η μέση ταχύτητα ομόκεντρης σε πάγκο άρσης βαρών 1RM ="
 
 #: ../src/constants.cs:1671
-#, fuzzy
-#| msgid "Concentric mean speed on bench press 1RM is"
 msgid "Concentric mean speed on squat 1RM ="
-msgstr "Η μέση ταχύτητα ομόκεντρων σε πάγκο άρσης βαρών 1RM είναι"
+msgstr "Η μέση ταχύτητα ομόκεντρης σε βαθύ κάθισμα 1RM ="
 
 #: ../src/constants.cs:1672
 msgid "Estimated percentual load ="
@@ -6279,21 +6258,19 @@ msgstr "Προσαρμοσμένο από"
 
 #: ../src/constants.cs:1674
 msgid "Mean speed in concentric propulsive phase"
-msgstr "Η μέση ταχύτητα σε ομόκεντρα προωθητικής φάσης"
+msgstr "Μέση ταχύτητα στην ομόκεντρη προωθητική φάση"
 
 #: ../src/constants.cs:1675 ../src/gui/app1/encoder.cs:1441
 msgid "Sorry, no repetitions matched your criteria."
-msgstr "Συγνώμη, δεν υπάρχουν επαναλήψεις που να ταιριάζουν στα κριτήριά σας."
+msgstr "Συγγνώμη, καμία επανάληψη δεν ταίριαξε με τα κριτήριά σας."
 
 #: ../src/constants.cs:1676
 msgid "Need at least three jumps"
-msgstr "Χρειάζεται τουλάχιστον τρία άλματα"
+msgstr "Χρειάζονται τουλάχιστον τρία άλματα"
 
 #: ../src/constants.cs:1677
-#, fuzzy
-#| msgid "Need at least three jumps"
 msgid "Need at least three eccentric-concentric jumps"
-msgstr "Χρειάζεται τουλάχιστον τρία άλματα"
+msgstr "Χρειάζονται τουλάχιστον τρία έκκεντρα-ομόκεντρα άλματα"
 
 #: ../src/constants.cs:1678 ../src/sqlite/main.cs:2003
 #: ../src/sqlite/main.cs:2004
@@ -6312,17 +6289,15 @@ msgstr "L"
 
 #: ../src/constants.cs:1680
 msgid "Maximum mean power using the F-V profile"
-msgstr ""
+msgstr "Μέγιστη μέση ισχύς χρησιμοποιώντας το προφίλ F-V"
 
 #: ../src/constants.cs:1681
 msgid "Mean power parabole using the Power-Load data"
-msgstr ""
+msgstr "Μέση παραβολή ισχύος χρησιμοποιώντας τα δεδομένα Ισχύος-Φορτίου"
 
 #: ../src/constants.cs:1683
-#, fuzzy
-#| msgid "Propulsive"
 msgid "Non propulsive"
-msgstr "Προωθητική"
+msgstr "Μη προωθητική"
 
 #. this is the inertia without the disc
 #. see methods: GearedUpDisplay() SetGearedDownFromDisplay(string gearedUpStr)
@@ -6336,22 +6311,22 @@ msgstr "Προωθητική"
 #: ../src/encoder/encoderConfiguration.cs:258
 #: ../src/encoder/encoderConfiguration.cs:280
 msgid "Linear encoder attached to a barbell."
-msgstr "Γραμμικός κωδικοποιητής που συνδέεται σε μια μπάρα."
+msgstr "Γραμμικός κωδικοποιητής προσαρτημένος σε μια μπάρα."
 
 #: ../src/encoder/encoderConfiguration.cs:214
 msgid "Also common gym tests like jumps or chin-ups."
-msgstr "Επίσης κοινές ασκήσεις γυμναστηρίου όπως άλματα ή chin-ups."
+msgstr "Επίσης κοινές δοκιμές γυμναστηρίου όπως άλματα ή έλξεις."
 
 #: ../src/encoder/encoderConfiguration.cs:251
 #: ../src/encoder/encoderConfiguration.cs:269
 #: ../src/encoder/encoderConfiguration.cs:291
 msgid "Linear encoder inverted attached to a barbell."
-msgstr "Γραμμικός κωδικοποιητής που συνδέεται ανεστραμμένα σε μια μπάρα."
+msgstr "Ανεστραμμένος γραμμικός κωδικοποιητής προσαρτημένος σε μια μπάρα."
 
 #: ../src/encoder/encoderConfiguration.cs:259
 #: ../src/encoder/encoderConfiguration.cs:270
 msgid "Barbell is connected to a weighted moving pulley."
-msgstr "Η μπάρα συνδέεται με μία σταθμισμένη κινούμενη τροχαλία."
+msgstr "Η μπάρα συνδέεται σε μια σταθμισμένη κινούμενη τροχαλία."
 
 #: ../src/encoder/encoderConfiguration.cs:260
 #: ../src/encoder/encoderConfiguration.cs:271
@@ -6360,7 +6335,7 @@ msgstr "Η μπάρα συνδέεται με μία σταθμισμένη κι
 #: ../src/encoder/encoderConfiguration.cs:303
 #: ../src/encoder/encoderConfiguration.cs:489
 msgid "Mass is geared down by 2."
-msgstr "Η μάζα είναι προσανατολισμένη προς τα κάτω από τον 2."
+msgstr "Η μάζα μειώνεται με λόγο μετάδοσης 2."
 
 #: ../src/encoder/encoderConfiguration.cs:281
 #: ../src/encoder/encoderConfiguration.cs:292
@@ -6368,34 +6343,28 @@ msgid ""
 "Barbell is connected to a fixed pulley that is connected to a weighted "
 "moving pulley."
 msgstr ""
-"Η μπάρα συνδέεται με μία σταθερή τροχαλία, που συνδέεται με μία σταθμισμένη "
+"Η μπάρα συνδέεται σε μια σταθερή τροχαλία που συνδέεται σε μια σταθμισμένη "
 "κινούμενη τροχαλία."
 
 #: ../src/encoder/encoderConfiguration.cs:302
 msgid "Linear encoder attached to a weighted moving pulley."
-msgstr ""
-"Γραμμικός κωδικοποιητής που συνδέεται σε σταθμισμένη κινούμενη τροχαλία."
+msgstr "Γραμμικός κωδικοποιητής προσαρτημένος σε σταθμισμένη κινούμενη τροχαλία."
 
 #: ../src/encoder/encoderConfiguration.cs:312
-#, fuzzy
-#| msgid "Linear encoder on a inclinated plane."
 msgid "Linear encoder on a inclined plane."
-msgstr "Γραμμικός κωδικοποιητής σε ένα κεκλιμένο επίπεδο."
+msgstr "Γραμμικός κωδικοποιητής σε κεκλιμένο επίπεδο."
 
 #: ../src/encoder/encoderConfiguration.cs:313
 #: ../src/encoder/encoderConfiguration.cs:324
 #: ../src/encoder/encoderConfiguration.cs:335
 msgid "Suitable also for horizontal movement. Just set a 0 push angle."
-msgstr ""
+msgstr "Κατάλληλο επίσης για οριζόντια κίνηση. Απλά ορίστε γωνία ώθησης 0."
 
 #: ../src/encoder/encoderConfiguration.cs:323
 #: ../src/encoder/encoderConfiguration.cs:334
-#, fuzzy
-#| msgid ""
-#| "Linear encoder on a inclinated plane moving a weight in different angle."
 msgid "Linear encoder on a inclined plane moving a weight in different angle."
 msgstr ""
-"Γραμμικός κωδικοποιητής σε ένα κεκλιμένο επίπεδο κινώντας ένα βάρος σε "
+"Γραμμικός κωδικοποιητής σε κεκλιμένο επίπεδο που μετακινεί βάρος σε "
 "διαφορετική γωνία."
 
 #: ../src/encoder/encoderConfiguration.cs:336
@@ -6403,19 +6372,23 @@ msgid ""
 "Force demultiplier refers to the times the rope comes in and comes out from "
 "the moving pulley attached to the extra load."
 msgstr ""
+"Ο πολλαπλασιαστής μείωσης δύναμης αναφέρεται στις φορές που το σκοινί εισέρχεται και εξέρχεται από "
+"την κινούμενη τροχαλία που είναι προσαρτημένη στο επιπλέον φορτίο."
 
 #: ../src/encoder/encoderConfiguration.cs:337
 msgid "In the example image demultiplier is 2, hence multiplier is 1/2."
 msgstr ""
+"Στην εικόνα του παραδείγματος ο πολλαπλασιαστής μείωσης είναι 2, άρα ο "
+"πολλαπλασιαστής είναι 1/2."
 
 #: ../src/encoder/encoderConfiguration.cs:358
 msgid "Linear encoder on inertia machine."
-msgstr "Γραμμικός κωδικοποιητής σε αδρανειακή μηχανή."
+msgstr "Γραμμικός κωδικοποιητής σε μηχανή αδράνειας."
 
 #: ../src/encoder/encoderConfiguration.cs:359
 msgid "Configuration NOT Recommended! Please use a rotary encoder."
 msgstr ""
-"Η ρύθμιση ΔΕΝ Συνιστάται! Παρακαλούμε χρησιμοποιήστε έναν περιστροφικό "
+"Η διαμόρφωση ΔΕΝ συνιστάται! Παρακαλώ χρησιμοποιήστε έναν περιστροφικό "
 "κωδικοποιητή."
 
 #: ../src/encoder/encoderConfiguration.cs:360
@@ -6433,16 +6406,16 @@ msgid ""
 "On inertial machines, 'd' means the average diameter where the pull-push "
 "string is rolled"
 msgstr ""
-"Σε αδρανειακές μηχανές, το 'd' είναι η μέση διάμετρος του κορδονιού που "
-"τυλίγεται κατά την έλξη-ώθηση"
+"Στις αδρανειακές μηχανές, το 'd' σημαίνει τη μέση διάμετρο όπου τυλίγεται το "
+"σκοινί έλξης-ώθησης"
 
 #: ../src/encoder/encoderConfiguration.cs:372
 msgid "Rotary friction encoder on pulley."
-msgstr "Περιστροφικός κωδικοποιητής τριβής στην τροχαλία."
+msgstr "Περιστροφικός κωδικοποιητής τριβής σε τροχαλία."
 
 #: ../src/encoder/encoderConfiguration.cs:379
 msgid "Rotary friction encoder on pulley axis."
-msgstr "Περιστροφικός κωδικοποιητής τριβής στον άξονα της τροχαλίας."
+msgstr "Περιστροφικός κωδικοποιητής τριβής σε άξονα τροχαλίας."
 
 #: ../src/encoder/encoderConfiguration.cs:389
 msgid "Rotary friction encoder on weighted moving pulley."
@@ -6450,34 +6423,33 @@ msgstr "Περιστροφικός κωδικοποιητής τριβής σε 
 
 #: ../src/encoder/encoderConfiguration.cs:398
 msgid "Rotary friction encoder on inertial machine side."
-msgstr "Περιστροφικός κωδικοποιητής τριβής στο πλάι της αδρανειακής μηχανής"
+msgstr "Περιστροφικός κωδικοποιητής τριβής στην πλευρά της αδρανειακής μηχανής."
 
 #: ../src/encoder/encoderConfiguration.cs:410
 #: ../src/encoder/encoderConfiguration.cs:450
-#, fuzzy
-#| msgid "Rotary friction encoder on inertial machine side."
 msgid ""
 "Rotary friction encoder on inertial machine when person is moving "
 "horizontally."
-msgstr "Περιστροφικός κωδικοποιητής τριβής στο πλάι της αδρανειακής μηχανής"
+msgstr ""
+"Περιστροφικός κωδικοποιητής τριβής σε αδρανειακή μηχανή όταν το άτομο "
+"κινείται οριζόντια."
 
 #: ../src/encoder/encoderConfiguration.cs:422
 #: ../src/encoder/encoderConfiguration.cs:462
-#, fuzzy
-#| msgid "Rotary friction encoder on inertial machine side."
 msgid "Rotary friction encoder on inertial machine geared up."
-msgstr "Περιστροφικός κωδικοποιητής τριβής στο πλάι της αδρανειακής μηχανής"
+msgstr ""
+"Περιστροφικός κωδικοποιητής τριβής σε αδρανειακή μηχανή με αύξηση σχέσης μετάδοσης."
 
 #: ../src/encoder/encoderConfiguration.cs:424
 #: ../src/encoder/encoderConfiguration.cs:464
 #: ../src/encoder/encoderConfiguration.cs:523
 #: ../src/encoder/encoderConfiguration.cs:536
 msgid "Inertial machine rolls twice faster than body."
-msgstr ""
+msgstr "Η αδρανειακή μηχανή κυλάει δύο φορές γρηγορότερα από το σώμα."
 
 #: ../src/encoder/encoderConfiguration.cs:438
 msgid "Rotary friction encoder on inertial machine axis."
-msgstr "Περιστροφικός κωδικοποιητής τριβής σε άξονα αδρανειακής μηχανής"
+msgstr "Περιστροφικός κωδικοποιητής τριβής σε άξονα αδρανειακής μηχανής."
 
 #: ../src/encoder/encoderConfiguration.cs:479
 msgid "Rotary axis encoder on pulley axis."
@@ -6492,38 +6464,37 @@ msgid "Rotary axis encoder on inertial machine."
 msgstr "Περιστροφικός κωδικοποιητής άξονα σε αδρανειακή μηχανή."
 
 #: ../src/encoder/encoderConfiguration.cs:510
-#, fuzzy
-#| msgid "Rotary axis encoder on inertial machine."
 msgid ""
 "Rotary axis encoder on inertial machine when person is moving horizontally."
-msgstr "Περιστροφικός κωδικοποιητής άξονα σε αδρανειακή μηχανή."
+msgstr ""
+"Περιστροφικός κωδικοποιητής άξονα σε αδρανειακή μηχανή όταν το άτομο "
+"κινείται οριζόντια."
 
 #: ../src/encoder/encoderConfiguration.cs:521
-#, fuzzy
-#| msgid "Rotary axis encoder on inertial machine."
 msgid "Rotary axis encoder on inertial machine geared up."
-msgstr "Περιστροφικός κωδικοποιητής άξονα σε αδρανειακή μηχανή."
+msgstr ""
+"Περιστροφικός κωδικοποιητής άξονα σε αδρανειακή μηχανή με αύξηση σχέσης μετάδοσης."
 
 #: ../src/encoder/encoderConfiguration.cs:534
-#, fuzzy
-#| msgid "Rotary axis encoder on inertial machine."
 msgid ""
 "Rotary axis encoder on inertial machine geared up when person is moving "
 "horizontally."
-msgstr "Περιστροφικός κωδικοποιητής άξονα σε αδρανειακή μηχανή."
+msgstr ""
+"Περιστροφικός κωδικοποιητής άξονα σε αδρανειακή μηχανή με αύξηση σχέσης μετάδοσης όταν το "
+"άτομο κινείται οριζόντια."
 
 #: ../src/encoder/encoderRhythm.cs:400 ../src/encoder/encoderRhythm.cs:457
 #, csharp-format
 msgid "Resting {0} s"
-msgstr ""
+msgstr "Ανάπαυση {0} δευτ."
 
 #: ../src/encoder/encoderSQL.cs:177 ../src/sqlite/tests/encoder.cs:1125
 msgid "Eccentric-concentric"
-msgstr "Έκκεντρα-ομόκεντρα"
+msgstr "Έκκεντρη-ομόκεντρη"
 
 #: ../src/encoder/encoderSQL.cs:179
 msgid "Concentric-eccentric"
-msgstr "Ομόκεντρα-έκκεντρα"
+msgstr "Ομόκεντρη-έκκεντρη"
 
 #.
 #. ErrorWindow errorWin;
@@ -6531,39 +6502,32 @@ msgstr "Ομόκεντρα-έκκεντρα"
 #. Catalog.GetString("Chronopic seems disconnected."));
 #.
 #: ../src/execute/event.cs:633 ../src/gui/app1/wilight.cs:215
-#, fuzzy
-#| msgid "Server is disconnected."
 msgid "Device seems disconnected."
-msgstr "Ο διακομιστής είναι αποσυνδεμένος."
+msgstr "Η συσκευή φαίνεται αποσυνδεδεμένη."
 
 #: ../src/execute/jump.cs:190 ../src/execute/jump.cs:265
 #: ../src/execute/jump.cs:406 ../src/execute/jumpRj.cs:162
 #: ../src/execute/jumpRj.cs:261
 msgid "You are IN, JUMP when prepared!"
-msgstr "Είσαστε ΜΕΣΑ, ΠΗΔΗΞΤΕ όταν είσαστε έτοιμοι!"
+msgstr "Είστε ΜΕΣΑ, ΠΗΔΗΞΤΕ όταν είστε έτοιμοι!"
 
 #: ../src/execute/jump.cs:204 ../src/execute/jump.cs:283
 #: ../src/execute/jumpRj.cs:169
-#, fuzzy
-#| msgid ""
-#| "You are OUT, please enter the platform, prepare for jump and press the "
-#| "'accept' button"
 msgid "You are OUT, please enter the platform, and then jump when prepared!"
 msgstr ""
-"Είσαστε ΕΞΩ, παρακαλούμε μπείτε στην εξέδρα, προετοιμαστείτε για άλμα και "
-"πατήστε το κουμπί 'αποδοχής'"
+"Είστε ΕΚΤΟΣ, παρακαλώ εισέλθετε στην πλατφόρμα και μετά πηδήξτε όταν είστε "
+"έτοιμοι!"
 
 #: ../src/execute/jump.cs:262 ../src/execute/jump.cs:422
 #: ../src/execute/jumpRj.cs:156 ../src/execute/jumpRj.cs:277
 msgid "You are OUT, JUMP when prepared!"
-msgstr "Είσαστε ΕΞΩ, ΠΗΔΗΞΤΕ όταν είσαστε έτοιμοι!"
+msgstr "Είστε ΕΚΤΟΣ, ΠΗΔΗΞΤΕ όταν είστε έτοιμοι!"
 
 #: ../src/execute/jump.cs:289 ../src/execute/jumpRj.cs:175
-#, fuzzy
-#| msgid "You are IN, please leave the platform, and press the 'accept' button"
 msgid "You are IN, please leave the platform, and then jump when prepared!"
 msgstr ""
-"Είσαστε ΜΕΣΑ, παρακαλούμε αφήστε την εξέδρα και πατήστε το κουμπί 'αποδοχής'"
+"Είστε ΜΕΣΑ, παρακαλώ φύγετε από την πλατφόρμα και μετά πηδήξτε όταν είστε "
+"έτοιμοι!"
 
 #. commented because it was assigned but never used
 #. limited = limitString; //define limited because it's checked in treeviewJump, and possibly it's not the initial defined time (specially when allowFinishRjAfterTime is true)
@@ -6582,77 +6546,74 @@ msgid ""
 "Exception:\n"
 "{2}"
 msgstr ""
+"Αδυναμία εκκίνησης:\n"
+"{0}\n"
+"με τις παραμέτρους:{1}\n"
+"Εξαίρεση:\n"
+"{2}"
 
 #: ../src/executeProcess.cs:537 ../src/gui/app1/chronojump.cs:4019
 #: ../src/gui/app1/encoderThreads.cs:197
-#, fuzzy, csharp-format
-#| msgid "Sorry, R software is not installed."
+#, csharp-format
 msgid "Sorry, {0} software is not installed."
-msgstr "Συγνώμη, το λογισμικό R δεν είναι εγκατεστημένο."
+msgstr "Συγγνώμη, το λογισμικό {0} δεν είναι εγκατεστημένο."
 
 #: ../src/execute/run.cs:283
-#, fuzzy
-#| msgid "Jump when prepared"
 msgid "RUN when prepared!"
-msgstr "Πηδήξτε όταν είσαστε έτοιμοι"
+msgstr "ΤΡΕΞΤΕ όταν είστε έτοιμοι!"
 
 #: ../src/execute/run.cs:320
 msgid "You are IN, RUN when prepared!"
-msgstr "Είσαστε ΜΕΣΑ, ΤΡΕΞΤΕ όταν είσαστε έτοιμοι!"
+msgstr "Είστε ΜΕΣΑ, ΤΡΕΞΤΕ όταν είστε έτοιμοι!"
 
 #: ../src/execute/run.cs:329
 msgid "You are OUT, RUN when prepared!"
-msgstr "Είσαστε ΕΞΩ, ΤΡΕΞΤΕ όταν είσαστε έτοιμοι!"
+msgstr "Είστε ΕΚΤΟΣ, ΤΡΕΞΤΕ όταν είστε έτοιμοι!"
 
 #: ../src/execute/run.cs:417 ../src/gui/networks.cs:1073
 msgid "Please, wait!"
-msgstr "Παρακαλούμε, περιμένετε!"
+msgstr "Παρακαλώ, περιμένετε!"
 
 #: ../src/execute/run.cs:1099
-#, fuzzy
-#| msgid "Include tracks"
 msgid "Included on race time"
-msgstr "Συμπερίληψη διαδρομών"
+msgstr "Περιλαμβάνεται στον χρόνο αγώνα"
 
 #: ../src/execute/run.cs:1100
 msgid "Not included on race time"
-msgstr ""
+msgstr "Δεν περιλαμβάνεται στον χρόνο αγώνα"
 
 #: ../src/execute/runI.cs:131
 msgid "Included on race time of first track"
-msgstr ""
+msgstr "Περιλαμβάνεται στον χρόνο αγώνα της πρώτης διαδρομής"
 
 #: ../src/execute/runI.cs:132
 msgid "Not included on race time of first track"
-msgstr ""
+msgstr "Δεν περιλαμβάνεται στον χρόνο αγώνα της πρώτης διαδρομής"
 
 #: ../src/execute/runI.cs:338
 msgid "Go!"
-msgstr "Εκκίνηση!"
+msgstr "Πάμε!"
 
 #: ../src/execute/runI.cs:341
 #, csharp-format
 msgid "Wait 1 second."
 msgid_plural "Wait {0} seconds."
-msgstr[0] "Αναμονή 1 δευτερολέπτου."
-msgstr[1] "Αναμονή {0} δευτερολέπτων."
+msgstr[0] "Περιμένετε 1 δευτερόλεπτο."
+msgstr[1] "Περιμένετε {0} δευτερόλεπτα."
 
 #. this dialog can make crash the software because the non-gui part calls it
 #. new DialogMessage(Constants.MessageTypes.WARNING,
 #. Catalog.GetString("Race will not be recorded, 1st lap is out of time"));
 #: ../src/execute/runI.cs:466
-#, fuzzy
-#| msgid "Run will not be recorded. Out of time."
 msgid "Race will not be recorded. Out of time."
-msgstr "Η κίνηση δεν θα καταγραφεί. Τέλος χρόνου."
+msgstr "Ο αγώνας δεν θα καταγραφεί. Εκτός χρόνου."
 
 #: ../src/exportFiles/exportFiles.cs:168
-#, fuzzy, csharp-format
-#| msgid "Capture"
+#, csharp-format
 msgid "Discarded 1 set."
 msgid_plural "Discarded {0} sets."
-msgstr[0] "Λήψη"
-msgstr[1] "Λήψη"
+msgstr[0] "Απορρίφθηκε 1 σετ."
+msgstr[1] "Απορρίφθηκαν {0} σετ."
 
 #: ../src/exportFiles/exportFiles.cs:173 ../src/gui/app1/chronojump.cs:2888
 #: ../src/gui/app1/session/export.cs:190
@@ -6666,10 +6627,8 @@ msgid "Missing data."
 msgstr "Λείπουν δεδομένα."
 
 #: ../src/exportFiles/exportFiles.cs:177 ../src/gui/app1/encoder.cs:5442
-#, fuzzy
-#| msgid "Error importing data."
 msgid "Error doing operation."
-msgstr "Σφάλμα εισαγωγής δεδομένων."
+msgstr "Σφάλμα κατά την εκτέλεση της λειτουργίας."
 
 #: ../src/exportFiles/exportFiles.cs:179 ../src/gui/app1/session/backup.cs:311
 #: ../src/gui/app1/session/backup.cs:456 ../src/gui/app1/session/backup.cs:708
@@ -6677,44 +6636,39 @@ msgstr "Σφάλμα εισαγωγής δεδομένων."
 #: ../src/gui/app1/session/export.cs:240
 #, csharp-format
 msgid "Cannot copy to {0} "
-msgstr "Αδύνατη η αντιγραφή στο {0} "
+msgstr "Αδυναμία αντιγραφής στο {0} "
 
 #: ../src/exportFiles/exportFiles.cs:182
-#, fuzzy, csharp-format
-#| msgid "Export set in CSV format"
+#, csharp-format
 msgid "Exported to {0}"
-msgstr "Εξαγωγή σετ σε μορφή CSV"
+msgstr "Εξήχθη στο {0}"
 
 #: ../src/exportFiles/exportFiles.cs:240
-#, fuzzy, csharp-format
-#| msgid "Export set in CSV format"
+#, csharp-format
 msgid "Exporting {0}/{1}"
-msgstr "Εξαγωγή σετ σε μορφή CSV"
+msgstr "Εξαγωγή {0}/{1}"
 
 #: ../src/exportFiles/fs.cs:147
 #, csharp-format
 msgid "Preparing sets {0}/{1}"
-msgstr ""
+msgstr "Προετοιμασία σετ {0}/{1}"
 
 #: ../src/exportFiles/fs.cs:454
-#, fuzzy, csharp-format
-#| msgid "Export repetition from A to B"
+#, csharp-format
 msgid "Exporting repetition {0}/{1}"
-msgstr "Εξαγωγή επανάληψης από το Α στο Β"
+msgstr "Εξαγωγή επανάληψης {0}/{1}"
 
 #: ../src/exportFiles/re.cs:77
 msgid "Reason: test being too short."
-msgstr ""
+msgstr "Αιτία: η δοκιμή είναι πολύ σύντομη."
 
 #: ../src/exportFiles/sprint.cs:58
 msgid "Reason: having less than three tracks needed for model."
-msgstr ""
+msgstr "Αιτία: υπάρχουν λιγότερες από τρεις διαδρομές που απαιτούνται για το μοντέλο."
 
 #: ../src/exportSession.cs:119
-#, fuzzy
-#| msgid "Save report as..."
 msgid "Save report as …"
-msgstr "Αποθήκευση αναφοράς ως..."
+msgstr "Αποθήκευση αναφοράς ως …"
 
 #: ../src/exportSession.cs:121
 msgid "Export session in format "
@@ -6722,33 +6676,27 @@ msgstr "Εξαγωγή συνεδρίας σε μορφή "
 
 #: ../src/exportSession.cs:170 ../src/gui/modes/encoderConfiguration.cs:857
 msgid "Are you sure you want to overwrite file: "
-msgstr "Είσαστε σίγουροι ότι θέλετε να αντικαταστήσετε το αρχείο: "
+msgstr "Είστε βέβαιοι ότι θέλετε να αντικαταστήσετε το αρχείο: "
 
 #: ../src/exportSession.cs:324 ../src/report.cs:184
 msgid "with subjumps"
 msgstr "με υποάλματα"
 
 #: ../src/exportSession.cs:327 ../src/report.cs:193
-#, fuzzy
-#| msgid "Simple runs"
 msgid "Simple races"
-msgstr "Απλοί δρόμοι"
+msgstr "Αγώνες απλοί"
 
 #: ../src/exportSession.cs:330 ../src/report.cs:198 ../src/report.cs:201
-#, fuzzy
-#| msgid "interval runs"
 msgid "interval races"
-msgstr "δρόμοι με διαλείμματα"
+msgstr "αγώνες διαλειμματικοί"
 
 #: ../src/exportSession.cs:331 ../src/report.cs:199
-#, fuzzy
-#| msgid "with tracks"
 msgid "with laps"
-msgstr "με διαδρομές"
+msgstr "με γύρους"
 
 #: ../src/exportSession.cs:358 ../src/report.cs:258
 msgid "SessionID"
-msgstr "Αναγνωριστικό συνεδρίας"
+msgstr "ID Συνεδρίας"
 
 #: ../src/exportSession.cs:407 ../src/exportSession.cs:1000
 #: ../src/gui/app1/encoder.cs:1800 ../src/gui/app1/forceSensor.cs:2208
@@ -6758,25 +6706,21 @@ msgstr "Αναγνωριστικό συνεδρίας"
 #: ../src/gui/modes/encoderSelectRepetitions.cs:628
 #: ../src/gui/person/recuperate.cs:138
 msgid "ID"
-msgstr "Αναγνωριστικό"
+msgstr "ID"
 
 #: ../src/exportSession.cs:480
-#, fuzzy
-#| msgid "Take average"
 msgid "Height averages"
-msgstr "Λήψη μέσου όρου"
+msgstr "Μέσοι όροι ύψους"
 
 #: ../src/exportSession.cs:482
-#, fuzzy
-#| msgid "Height (cm)"
 msgid "Height maximums"
-msgstr "Ύψος (cm)"
+msgstr "Μέγιστα ύψη"
 
 #: ../src/exportSession.cs:486 ../src/exportSession.cs:526
 #: ../src/exportSession.cs:638 ../src/exportSession.cs:823
 #: ../src/exportSession.cs:883 ../src/exportSession.cs:997
 msgid "Person ID"
-msgstr "Αναγνωριστικό ατόμου"
+msgstr "ID Ατόμου"
 
 #. checkboxes
 #: ../src/exportSession.cs:487 ../src/exportSession.cs:527
@@ -6789,64 +6733,58 @@ msgstr "Όνομα ατόμου"
 #: ../src/exportSession.cs:528 ../src/exportSession.cs:640
 #: ../src/exportSession.cs:825 ../src/exportSession.cs:885
 #: ../src/exportSession.cs:999
-#, fuzzy
-#| msgid "SessionID"
 msgid "Session ID"
-msgstr "Αναγνωριστικό συνεδρίας"
+msgstr "ID Συνεδρίας"
 
 #: ../src/exportSession.cs:529 ../src/exportSession.cs:641
-#, fuzzy
-#| msgid "jump ID"
 msgid "Jump ID"
-msgstr "αναγνωριστικό άλματος"
+msgstr "ID Άλματος"
 
 #: ../src/exportSession.cs:537 ../src/treeview/jump.cs:33
-#, fuzzy
-#| msgid "Power / Load"
 msgid "Power formula"
-msgstr "Ισχύς / φορτίο"
+msgstr "Τύπος ισχύος"
 
 #: ../src/exportSession.cs:539 ../src/exportSession.cs:754
 #: ../src/exportSession.cs:835 ../src/exportSession.cs:898
 #: ../src/treeview/jump.cs:35
 msgid "Initial Speed"
-msgstr "Αρχική ταχύτητα"
+msgstr "Αρχική Ταχύτητα"
 
 #: ../src/exportSession.cs:642
 msgid "jump Type"
-msgstr "τύπος άλματος"
+msgstr "Τύπος άλματος"
 
 #: ../src/exportSession.cs:643
 msgid "TC Max"
-msgstr "Μέγιστο TC"
+msgstr "Μέγιστος ΧΕ"
 
 #: ../src/exportSession.cs:644
 msgid "TF Max"
-msgstr "Μέγιστο TF"
+msgstr "Μέγιστος ΧΠ"
 
 #: ../src/exportSession.cs:645
 msgid "Max Height"
-msgstr "Μέγιστο ύψος"
+msgstr "Μέγιστο Ύψος"
 
 #: ../src/exportSession.cs:646
 msgid "Max Initial Speed"
-msgstr "Μέγιστη αρχική ταχύτητα"
+msgstr "Μέγιστη Αρχική Ταχύτητα"
 
 #: ../src/exportSession.cs:648
 msgid "TC AVG"
-msgstr "Μέσο TC"
+msgstr "Μέσος Όρος ΧΕ"
 
 #: ../src/exportSession.cs:649
 msgid "TF AVG"
-msgstr "Μέσο TF"
+msgstr "Μέσος Όρος ΧΠ"
 
 #: ../src/exportSession.cs:650
 msgid "AVG Height"
-msgstr "Μέσο ύψος"
+msgstr "Μέσο Ύψος"
 
 #: ../src/exportSession.cs:651
 msgid "AVG Initial Speed"
-msgstr "Μέση αρχική ταχύτητα"
+msgstr "Μέση Αρχική Ταχύτητα"
 
 #: ../src/exportSession.cs:656 ../src/exportSession.cs:829
 #: ../src/gui/app1/treeviews/sprint.cs:49 ../src/treeview/wilight.cs:30
@@ -6878,17 +6816,15 @@ msgstr "Δείκτης Q"
 #: ../src/treeview/event.cs:466 ../src/treeview/jumpRj.cs:402
 #: ../src/treeview/jumpRj.cs:404 ../src/treeview/runI.cs:240
 msgid "SD"
-msgstr "SD"
+msgstr "ΤΑ"
 
 #: ../src/exportSession.cs:826
-#, fuzzy
-#| msgid "Reaction time ID"
 msgid "Race ID"
-msgstr "Αναγνωριστικό χρόνου αντίδρασης"
+msgstr "ID Αγώνα"
 
 #: ../src/exportSession.cs:886
 msgid "run ID"
-msgstr "Αναγνωριστικό δρόμου"
+msgstr "ID Δρόμου"
 
 #: ../src/exportSession.cs:888
 msgid "Distance total"
@@ -6904,7 +6840,7 @@ msgstr "Μέση ταχύτητα"
 
 #: ../src/exportSession.cs:891
 msgid "Distance interval"
-msgstr "Μεσοδιάστημα απόστασης"
+msgstr "Διάστημα απόστασης"
 
 #: ../src/exportSession.cs:892 ../src/gui/app1/chronojump.cs:6234
 #: ../src/gui/modes/run.cs:679 ../src/gui/modes/run.cs:747
@@ -6914,69 +6850,59 @@ msgstr "Γύροι"
 
 #: ../src/exportSession.cs:935
 msgid "Interval speed"
-msgstr "Μεσοδιάστημα ταχύτητας"
+msgstr "Ταχύτητα διαστήματος"
 
 #: ../src/exportSession.cs:936
 msgid "interval times"
-msgstr "χρόνοι διαλειμμάτων"
+msgstr "χρόνοι διαστήματος"
 
 #: ../src/graphs/bars/bars.cs:202
-#, fuzzy, csharp-format
-#| msgid "Deleted person and all his/her tests on this session."
+#, csharp-format
 msgid "{0} has not made any {1} test in this session."
-msgstr "Διαγραμμένο άτομο και όλες οι εξετάσεις του σε αυτήν τη συνεδρία."
+msgstr "Ο/Η {0} δεν έχει κάνει καμία δοκιμή {1} σε αυτήν τη συνεδρία."
 
 #: ../src/graphs/bars/bars.cs:205
-#, fuzzy, csharp-format
-#| msgid "Data of person in this session"
+#, csharp-format
 msgid "{0} has not made any test in this session."
-msgstr "Δεδομένα ατόμου σε αυτήν τη συνεδρία"
+msgstr "Ο/Η {0} δεν έχει κάνει καμία δοκιμή σε αυτήν τη συνεδρία."
 
 #: ../src/graphs/bars/bars.cs:209
-#, fuzzy, csharp-format
-#| msgid "Select set of athlete {0} on this session."
+#, csharp-format
 msgid "There are no {0} tests in this session."
-msgstr "Επιλογή σετ του αθλητή {0} σε αυτήν τη συνεδρία."
+msgstr "Δεν υπάρχουν δοκιμές {0} σε αυτήν τη συνεδρία."
 
 #: ../src/graphs/bars/bars.cs:212
-#, fuzzy
-#| msgid "Data of person in this session"
 msgid "No tests in this session."
-msgstr "Δεδομένα ατόμου σε αυτήν τη συνεδρία"
+msgstr "Καμία δοκιμή σε αυτήν τη συνεδρία."
 
 #: ../src/graphs/bars/bars.cs:221
-#, fuzzy, csharp-format
-#| msgid "Saved repetitions of athlete {0} on this session."
+#, csharp-format
 msgid "{0} has not saved any repetitions in the {1} test of this session."
-msgstr "Οι αποθηκευμένες επαναλήψεις του αθλητή {0} σε αυτήν τη συνεδρία."
+msgstr ""
+"Ο/Η {0} δεν έχει αποθηκεύσει καμία επανάληψη στη δοκιμή {1} αυτής της "
+"συνεδρίας."
 
 #: ../src/graphs/bars/bars.cs:224
-#, fuzzy, csharp-format
-#| msgid "Saved repetitions of athlete {0} on this session."
+#, csharp-format
 msgid "{0} has not saved any repetitions in this session."
-msgstr "Οι αποθηκευμένες επαναλήψεις του αθλητή {0} σε αυτήν τη συνεδρία."
+msgstr "Ο/Η {0} δεν έχει αποθηκεύσει καμία επανάληψη σε αυτήν τη συνεδρία."
 
 #: ../src/graphs/bars/bars.cs:228
-#, fuzzy, csharp-format
-#| msgid "Saved repetitions of athlete {0} on this session."
+#, csharp-format
 msgid "No {0} test repetitions have been saved in this session."
-msgstr "Οι αποθηκευμένες επαναλήψεις του αθλητή {0} σε αυτήν τη συνεδρία."
+msgstr "Καμία επανάληψη δοκιμής {0} δεν έχει αποθηκευτεί σε αυτήν τη συνεδρία."
 
 #: ../src/graphs/bars/bars.cs:231
-#, fuzzy
-#| msgid "Saved repetitions of athlete {0} on this session."
 msgid "No repetitions have been saved in this session."
-msgstr "Οι αποθηκευμένες επαναλήψεις του αθλητή {0} σε αυτήν τη συνεδρία."
+msgstr "Καμία επανάληψη δεν έχει αποθηκευτεί σε αυτήν τη συνεδρία."
 
 #: ../src/graphs/bars/encoderCurrent.cs:147
-#, fuzzy
-#| msgid "Main variable"
 msgid "Main variable:"
-msgstr "Βασική μεταβλητή"
+msgstr "Κύρια μεταβλητή:"
 
 #: ../src/graphs/bars/encoderCurrent.cs:148
 msgid "The bars are not shown because the displaced mass is 0."
-msgstr ""
+msgstr "Οι μπάρες δεν εμφανίζονται επειδή η μετατοπισμένη μάζα είναι 0."
 
 #: ../src/graphs/bars/encoderCurrent.cs:557
 msgid "saved"
@@ -6984,102 +6910,80 @@ msgstr "αποθηκευμένο"
 
 #: ../src/graphs/bars/jumpReactiveCurrent.cs:62
 #: ../src/graphs/bars/runIntervalCurrent.cs:71
-#, fuzzy
-#| msgid "SQL short test"
 msgid "Last test:"
-msgstr "σύντομο τεστ SQL"
+msgstr "Τελευταία δοκιμή:"
 
 #: ../src/graphs/bars/jumpReactiveCurrent.cs:64
-#, fuzzy
-#| msgid "View"
 msgid "Viewing:"
-msgstr "Προβολή"
+msgstr "Προβολή:"
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:119
 msgid "Need to fill person's leg parameters."
-msgstr ""
+msgstr "Χρειάζεται να συμπληρωθούν οι παράμετροι ποδιών του ατόμου."
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:121
 msgid "Person's leg parameters are incorrect."
-msgstr ""
+msgstr "Οι παράμετροι ποδιών του ατόμου είναι λανθασμένες."
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:123
-#, fuzzy
-#| msgid "Need at least three jumps"
 msgid "Need to execute jumps SJl and/or SJ."
-msgstr "Χρειάζεται τουλάχιστον τρία άλματα"
+msgstr "Χρειάζεται να εκτελεστούν άλματα SJl και/ή SJ."
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:125
-#, fuzzy
-#| msgid "Need at least three jumps"
 msgid "Need to execute jumps with different weights."
-msgstr "Χρειάζεται τουλάχιστον τρία άλματα"
+msgstr "Χρειάζεται να εκτελεστούν άλματα με διαφορετικά βάρη."
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:127
 msgid "F0 and V0 are not > 0."
-msgstr ""
+msgstr "Το F0 και το V0 δεν είναι > 0."
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:129
 msgid "F0 is not > 0."
-msgstr ""
+msgstr "Το F0 δεν είναι > 0."
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:131
 msgid "V0 is not > 0."
-msgstr ""
+msgstr "Το V0 δεν είναι > 0."
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:205
 msgid "Need to develop force"
-msgstr ""
+msgstr "Ανάγκη ανάπτυξης δύναμης"
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:207
 msgid "Need to develop speed"
-msgstr ""
+msgstr "Ανάγκη ανάπτυξης ταχύτητας"
 
 #: ../src/graphs/cairo/radial.cs:174
-#, fuzzy
-#| msgid "Max Initial Speed"
 msgid "Max Speed"
-msgstr "Μέγιστη αρχική ταχύτητα"
+msgstr "Μέγιστη Ταχύτητα"
 
 #. cross slope line with margins will have this length
 #. translated strings
 #. done to use Catalog just only on gui/cairo/xy.cs
 #. but jumpsWeightFVProfile has many messages, so done also there, and also on radial
 #: ../src/graphs/cairo/xy.cs:98
-#, fuzzy
-#| msgid "Need at least three jumps"
 msgid "Need to execute jumps:"
-msgstr "Χρειάζεται τουλάχιστον τρία άλματα"
+msgstr "Χρειάζεται να εκτελεστούν άλματα:"
 
 #: ../src/graphs/cairo/xy.cs:99
-#, fuzzy
-#| msgid "Need at least three jumps"
 msgid "Need to execute races:"
-msgstr "Χρειάζεται τουλάχιστον τρία άλματα"
+msgstr "Χρειάζεται να εκτελεστούν αγώνες:"
 
 #: ../src/graphs/cairo/xy.cs:100
-#, fuzzy
-#| msgid "Totaltime cannot be greater."
 msgid "Jumps cannot be the same."
-msgstr "Ο συνολικός χρόνος δεν μπορεί να είναι μεγαλύτερος."
+msgstr "Τα άλματα δεν μπορούν να είναι τα ίδια."
 
 #: ../src/graphs/cairo/xy.cs:101
-#, fuzzy
-#| msgid "Minimal height"
 msgid "Optimal fall height"
-msgstr "Ελάχιστο ύψος"
+msgstr "Βέλτιστο ύψος πτώσης"
 
 #: ../src/graphs/cairo/xy.cs:115
-#, fuzzy
-#| msgid "jump Type"
 msgid "Jump type:"
-msgstr "τύπος άλματος"
+msgstr "Τύπος άλματος:"
 
 #: ../src/graphs/cairo/xy.cs:116
-#, fuzzy
-#| msgid "Add run type"
 msgid "Race type:"
-msgstr "Προσθήκη τύπου δρόμου"
+msgstr "Τύπος αγώνα:"
 
 #: ../src/graphs/cairo/xy.cs:640 ../src/graphs/cairo/xy.cs:646
 #: ../src/gui/modes/sprint.cs:79 ../src/gui/person/addMultiple.cs:702
@@ -7090,38 +6994,32 @@ msgstr "Σφάλμα"
 
 #: ../src/graphs/cairo/xy.cs:641
 msgid "Parabole is concave"
-msgstr ""
+msgstr "Η παραβολή είναι κοίλη"
 
 #: ../src/graphs/cairo/xy.cs:647
-#, fuzzy
-#| msgid "Need at least three jumps"
 msgid "Need at least 3 points"
-msgstr "Χρειάζεται τουλάχιστον τρία άλματα"
+msgstr "Χρειάζονται τουλάχιστον 3 σημεία"
 
 #: ../src/graphs/cairo/xy.cs:648
-#, fuzzy
-#| msgid "falling height"
 msgid "with different falling heights"
-msgstr "ύψος πτώσης"
+msgstr "με διαφορετικά ύψη πτώσης"
 
 #: ../src/graphs/jumpsProfile.cs:77
-#, fuzzy
-#| msgid "Need at least three jumps"
 msgid "Need to execute jump/s"
-msgstr "Χρειάζεται τουλάχιστον τρία άλματα"
+msgstr "Πρέπει να εκτελεστούν άλμα/τα"
 
 #: ../src/graphs/jumpsProfile.cs:79
 #, csharp-format
 msgid "Negative index: {0} is higher than {1}"
-msgstr ""
+msgstr "Αρνητικός δείκτης: το {0} είναι υψηλότερο από το {1}"
 
 #: ../src/graphs/jumpsProfile.cs:267
 msgid "Cannot predict SJl at 100% body weight. Jump height would be negative."
-msgstr ""
+msgstr "Αδυναμία πρόβλεψης SJl στο 100% του σωματικού βάρους. Το ύψος άλματος θα ήταν αρνητικό."
 
 #: ../src/graphs/jumpsProfile.cs:269
 msgid "Problems calculating SJl at 100% body weight."
-msgstr ""
+msgstr "Προβλήματα υπολογισμού SJl στο 100% του σωματικού βάρους."
 
 #: ../src/gui/app1/chronojump.cs:1500
 #, csharp-format
@@ -7130,12 +7028,12 @@ msgstr "Αρχείο έκδοσης βάσης δεδομένων του Chronoj
 
 #: ../src/gui/app1/chronojump.cs:1560
 msgid "Preferences loaded"
-msgstr "Φορτωμένες προτιμήσεις"
+msgstr "Οι προτιμήσεις φορτώθηκαν"
 
 #: ../src/gui/app1/chronojump.cs:1692
 #, csharp-format
 msgid "Sprints of {0}"
-msgstr ""
+msgstr "Σπριντ των {0}"
 
 #: ../src/gui/app1/chronojump.cs:2409
 #, csharp-format
@@ -7172,17 +7070,17 @@ msgstr "Δημιουργήθηκε η συνεδρία, τώρα προσθέσ�
 #: ../src/gui/modes/sprint.cs:220
 #, csharp-format
 msgid "Saved to {0}"
-msgstr "Αποθηκευμένο στο {0}"
+msgstr "Αποθηκεύτηκε στο {0}"
 
 #: ../src/gui/app1/chronojump.cs:2892 ../src/gui/report.cs:544
 #: ../src/person.cs:422
 #, csharp-format
 msgid "Cannot export to file {0} "
-msgstr "Αδύνατη η εξαγωγή σε αρχείο {0} "
+msgstr "Αδύνατη η εξαγωγή στο αρχείο {0} "
 
 #: ../src/gui/app1/chronojump.cs:2991
 msgid "Changes on cloud options force to restart Chronojump to apply changes"
-msgstr ""
+msgstr "Οι αλλαγές στις επιλογές cloud απαιτούν επανεκκίνηση του Chronojump για να εφαρμοστούν"
 
 #: ../src/gui/app1/chronojump.cs:4006 ../src/gui/app1/chronojump.cs:4014
 msgid "Sorry, R software is not installed."
@@ -7191,69 +7089,58 @@ msgstr "Συγνώμη, το λογισμικό R δεν είναι εγκατε
 #: ../src/gui/app1/chronojump.cs:4007 ../src/gui/app1/encoderThreads.cs:1025
 #: ../src/stats/main.cs:1515
 msgid "Please, install it from here:"
-msgstr "Παρακαλούμε, να το εγκαταστήσετε από εδώ:"
+msgstr "Παρακαλούμε, εγκαταστήστε το από εδώ:"
 
 #: ../src/gui/app1/chronojump.cs:4040
-#, fuzzy
-#| msgid "Select next person"
 msgid "Select at least one"
-msgstr "Επιλογή επόμενου ατόμου"
+msgstr "Επιλέξτε τουλάχιστον ένα"
 
 #: ../src/gui/app1/chronojump.cs:4392
-#, fuzzy
-#| msgid "Contact platform"
 msgid "Measured by a contact platform"
-msgstr "Πλατφόρμα επικοινωνίας"
+msgstr "Μετρήθηκε από πλατφόρμα επαφής"
 
 #: ../src/gui/app1/chronojump.cs:4419
 msgid "Force exercises measured by a force sensor"
-msgstr ""
+msgstr "Ασκήσεις δύναμης μετρούμενες με αισθητήρα δύναμης"
 
 #: ../src/gui/app1/chronojump.cs:4425
 msgid "Speed/power exercises displacing weights measured by an encoder"
-msgstr ""
+msgstr "Ασκήσεις ταχύτητας/ισχύος με μετατόπιση βαρών μετρούμενες με κωδικοποιητή"
 
 #: ../src/gui/app1/chronojump.cs:4431
 msgid ""
 "Speed/power exercises rotating an inertial machine and measured by an encoder"
 msgstr ""
+"Ασκήσεις ταχύτητας/ισχύος με περιστροφή αδρανειακής μηχανής μετρούμενες με κωδικοποιητή"
 
 #: ../src/gui/app1/chronojump.cs:4740
 #, csharp-format
 msgid "Detect devices compatible with: <b>{0}</b>"
-msgstr ""
+msgstr "Εντοπισμός συσκευών συμβατών με: <b>{0}</b>"
 
 #: ../src/gui/app1/chronojump.cs:5065 ../src/gui/chronopicRegister.cs:366
 msgid "Device not found"
-msgstr "Δεν βρέθηκε η συσκευή"
+msgstr "Δεν βρέθηκε συσκευή"
 
 #: ../src/gui/app1/chronojump.cs:5215
 msgid "Sorry, RSA tests cannot be simulated."
-msgstr "Συγνώμη, οι δοκιμές RSA δεν μπορούν να προσομοιωθούν."
+msgstr "Συγνώμη, οι δοκιμασίες RSA δεν μπορούν να προσομοιωθούν."
 
 #: ../src/gui/app1/chronojump.cs:6733
-#, fuzzy
-#| msgid "Added simple jump."
 msgid "Added simple jump type."
-msgstr "Προσθήκη απλού άλματος."
+msgstr "Προστέθηκε τύπος απλού άλματος."
 
 #: ../src/gui/app1/chronojump.cs:6743
-#, fuzzy
-#| msgid "Added reactive jump."
 msgid "Added reactive jump type."
-msgstr "Προσθήκη πολλαπλού άλματος."
+msgstr "Προστέθηκε τύπος αντιδραστικού άλματος."
 
 #: ../src/gui/app1/chronojump.cs:6774
-#, fuzzy
-#| msgid "Added simple run."
 msgid "Added simple race type."
-msgstr "Προσθήκη απλού δρόμου."
+msgstr "Προστέθηκε τύπος απλού δρόμου."
 
 #: ../src/gui/app1/chronojump.cs:6783
-#, fuzzy
-#| msgid "Added intervallic run."
 msgid "Added intervallic race type."
-msgstr "Προσθήκη δρόμου με διαλείμματα."
+msgstr "Προστέθηκε τύπος διαλειμματικού δρόμου."
 
 #: ../src/gui/app1/chronojump.cs:7381
 msgid "translator-credits"
@@ -7269,22 +7156,17 @@ msgstr ""
 
 #: ../src/gui/app1/chronojump.cs:8603
 msgid "Done for testing purposes. Chronojump will exit badly"
-msgstr "Έτοιμο για σκοπούς εξέτασης. Το Chronojump θα τερματίσει άσχημα"
+msgstr "Έγινε για σκοπούς ελέγχου. Το Chronojump θα τερματίσει βίαια"
 
 #: ../src/gui/app1/chronojumpPersons.cs:593
-#, fuzzy
-#| msgid ""
-#| "Are you sure you want to delete the current person and all his/her tests "
-#| "(jumps, runs, pulses, ...) from this session?\n"
-#| "(His/her personal data and tests in other sessions will remain intact.)"
 msgid ""
 "Are you sure you want to delete the current person and all his/her tests "
 "(jumps, races, pulses, …) from this session?\n"
 "(His/her personal data and tests in other sessions will remain intact.)"
 msgstr ""
-"Είσαστε σίγουροι ότι θέλετε να διαγράψετε το τρέχον άτομο και όλες τις "
-"εξετάσεις του (άλματα, δρόμους, παλμούς, ...) από αυτήν τη συνεδρία;\n"
-"(Τα προσωπικά του δεδομένα και οι εξετάσεις στις άλλες συνεδρίες θα "
+"Είστε σίγουροι ότι θέλετε να διαγράψετε το τρέχον άτομο και όλες τις "
+"δοκιμασίες του (άλματα, δρόμους, παλμούς, …) από αυτήν τη συνεδρία;\n"
+"(Τα προσωπικά του δεδομένα και οι δοκιμασίες στις άλλες συνεδρίες θα "
 "παραμείνουν ανέπαφα.)"
 
 #: ../src/gui/app1/chronojumpPersons.cs:594
@@ -7293,13 +7175,11 @@ msgstr "Τρέχον άτομο: "
 
 #: ../src/gui/app1/chronojumpPersons.cs:601
 msgid "Deleted person and all his/her tests on this session."
-msgstr "Διαγραμμένο άτομο και όλες οι εξετάσεις του σε αυτήν τη συνεδρία."
+msgstr "Διαγράφηκε το άτομο και όλες οι δοκιμασίες του σε αυτήν τη συνεδρία."
 
 #: ../src/gui/app1/contactsExercise.cs:172
-#, fuzzy
-#| msgid "Select camera"
 msgid "Select an image"
-msgstr "Επιλογή της κάμερας"
+msgstr "Επιλογή εικόνας"
 
 #: ../src/gui/app1/contactsExercise.cs:175
 #: ../src/gui/app1/session/backup.cs:239 ../src/gui/preferences.cs:2653
@@ -7308,16 +7188,12 @@ msgid "Select"
 msgstr "Επιλογή"
 
 #: ../src/gui/app1/contactsExercise.cs:231
-#, fuzzy
-#| msgid "Could not get last version."
 msgid "Need to create an exercise."
-msgstr "Δεν ήταν δυνατή η λήψη της τελευταίας έκδοσης."
+msgstr "Πρέπει να δημιουργήσετε μια άσκηση."
 
 #: ../src/gui/app1/encoder.cs:764
-#, fuzzy
-#| msgid "Encoder connected"
 msgid "More than 1 encoders are connected"
-msgstr "Ο κωδικοποιητής είναι συνδεμένος."
+msgstr "Είναι συνδεδεμένοι περισσότεροι από 1 κωδικοποιητές"
 
 #: ../src/gui/app1/encoder.cs:788
 msgid "Calibrated"
@@ -7329,7 +7205,7 @@ msgstr "Βαθμονομήθηκε"
 #: ../src/gui/app1/runEncoder.cs:357 ../src/gui/app1/runEncoder.cs:2567
 #: ../src/gui/app1/runEncoder.cs:2806
 msgid "Need to create/select an exercise."
-msgstr ""
+msgstr "Πρέπει να δημιουργήσετε/επιλέξετε μια άσκηση."
 
 #: ../src/gui/app1/encoder.cs:1192
 msgid "Load 1RM"
@@ -7342,41 +7218,30 @@ msgstr "Ημερομηνία συνεδρίας"
 
 #. don't show now
 #: ../src/gui/app1/encoder.cs:1212
-#, fuzzy, csharp-format
-#| msgid "Saved 1RM values of athlete {0} on this session."
+#, csharp-format
 msgid "Saved 1RM values of athlete {0} in {1} exercise."
-msgstr "Οι αποθηκευμένες τιμές 1RM του αθλητή {0} σε αυτήν τη συνεδρία."
+msgstr "Αποθηκεύτηκαν οι τιμές 1RM του αθλητή {0} στην άσκηση {1}."
 
 #: ../src/gui/app1/encoder.cs:1214
 #: ../src/gui/modes/encoderSelectRepetitions.cs:266
 msgid "If you want to delete a row, right click on it."
-msgstr "Αν θέλετε να διαγράψετε μια γραμμή, δεξιοπατήστε την."
+msgstr "Αν θέλετε να διαγράψετε μια γραμμή, κάντε δεξί κλικ σε αυτήν."
 
 #: ../src/gui/app1/encoder.cs:1215
-#, fuzzy
-#| msgid ""
-#| "If there is more than one value for an exercise,\n"
-#| "the used value is the top one."
 msgid "If there is more than one value, top one will be used."
-msgstr ""
-"Αν υπάρχουν περισσότερες από μία τιμές για μια άσκηση,\n"
-"η χρησιμοποιούμενη τιμή είναι η κορυφαία."
+msgstr "Αν υπάρχουν περισσότερες από μία τιμές, θα χρησιμοποιηθεί η πρώτη."
 
 #: ../src/gui/app1/encoder.cs:1219
 msgid "Manually add"
-msgstr "Προσθήκη με το χέρι"
+msgstr "Χειροκίνητη προσθήκη"
 
 #: ../src/gui/app1/encoder.cs:1222
-#, fuzzy
-#| msgid "Save 1RM value"
 msgid "Add 1RM value"
-msgstr "Αποθήκευση τιμής 1RM"
+msgstr "Προσθήκη τιμής 1RM"
 
 #: ../src/gui/app1/encoder.cs:1706 ../src/gui/app1/encoder.cs:4947
-#, fuzzy
-#| msgid "Laterality"
 msgid "Any laterality"
-msgstr "Πλαγίωση"
+msgstr "Οποιαδήποτε πλευρίωση"
 
 #: ../src/gui/app1/encoder.cs:1801 ../src/gui/app1/forceSensor.cs:2209
 #: ../src/gui/app1/runEncoder.cs:1166
@@ -7385,10 +7250,8 @@ msgstr "Σετ"
 
 #: ../src/gui/app1/encoder.cs:1805 ../src/gui/overview.cs:296
 #: ../src/gui/overview.cs:305
-#, fuzzy
-#| msgid "Select encoder configuration"
 msgid "Encoder configuration"
-msgstr "Επιλογή ρυθμίσεων κωδικοποιητή"
+msgstr "Διαμόρφωση κωδικοποιητή"
 
 #. Catalog.GetString ("Encoder configuration"),
 #: ../src/gui/app1/encoder.cs:1806
@@ -7423,10 +7286,8 @@ msgstr "Επιλογή σετ του αθλητή {0} σε αυτήν τη συ�
 #. " (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
 #: ../src/gui/app1/encoder.cs:1839 ../src/gui/app1/forceSensor.cs:2297
 #: ../src/gui/app1/runEncoder.cs:1246
-#, fuzzy
-#| msgid "Load persons"
 msgid "Change person"
-msgstr "Φόρτωση ατόμων"
+msgstr "Αλλαγή ατόμου"
 
 #.
 #. old (before Chronojump 2.2.2): create a Unnamed and if exists, a Unnamed_copy, _copy2, ...
@@ -7455,7 +7316,7 @@ msgstr "Φόρτωση ατόμων"
 #.
 #: ../src/gui/app1/encoder.cs:1944
 msgid "Unnamed"
-msgstr "Χωρίς όνομα"
+msgstr "Ανώνυμο"
 
 #: ../src/gui/app1/encoder.cs:2068 ../src/gui/app1/encoder.cs:3045
 #: ../src/gui/app1/forceSensor.cs:2645 ../src/gui/app1/forceSensor.cs:2683
@@ -7466,7 +7327,7 @@ msgstr "Είστε σίγουροι ότι θέλετε να διαγράψετ�
 #: ../src/gui/app1/encoder.cs:2068 ../src/gui/app1/encoder.cs:3045
 msgid "Saved repetitions related to this set will also be deleted."
 msgstr ""
-"Αποθηκευμένες επαναλήψεις που σχετίζονται με αυτό το σετ θα διαγραφούν "
+"Οι αποθηκευμένες επαναλήψεις που σχετίζονται με αυτό το σετ θα διαγραφούν "
 "επίσης."
 
 #: ../src/gui/app1/encoder.cs:2306
@@ -7483,22 +7344,21 @@ msgid "Are you sure you want to overwrite: "
 msgstr "Είστε σίγουροι ότι θέλετε να αντικαταστήσετε το αρχείο: "
 
 #: ../src/gui/app1/encoder.cs:2771
-#, fuzzy, csharp-format
-#| msgid "Cannot save file {0} "
+#, csharp-format
 msgid "Cannot save file {0}"
-msgstr "Αδύνατη η αποθήκευση αρχείου {0} "
+msgstr "Αδύνατη η αποθήκευση του αρχείου {0}"
 
 #: ../src/gui/app1/encoder.cs:2772
 msgid "Possible causes:"
-msgstr ""
+msgstr "Πιθανές αιτίες:"
 
 #: ../src/gui/app1/encoder.cs:2773
 msgid "The disk may be full."
-msgstr ""
+msgstr "Ο δίσκος μπορεί να είναι γεμάτος."
 
 #: ../src/gui/app1/encoder.cs:2774
 msgid "The file may already be open in another application."
-msgstr ""
+msgstr "Το αρχείο μπορεί να είναι ήδη ανοιχτό σε άλλη εφαρμογή."
 
 #: ../src/gui/app1/encoder.cs:2777 ../src/gui/app1/encoder.cs:2944
 #: ../src/gui/app1/encoder.cs:5304 ../src/gui/app1/encoder.cs:5328
@@ -7509,27 +7369,25 @@ msgstr ""
 #: ../src/gui/modes/sprint.cs:211 ../src/gui/person/addModify.cs:415
 #, csharp-format
 msgid "Cannot save file {0} "
-msgstr "Αδύνατη η αποθήκευση αρχείου {0} "
+msgstr "Αδύνατη η αποθήκευση του αρχείου {0} "
 
 #: ../src/gui/app1/encoder.cs:2848
-#, fuzzy
-#| msgid "Export set in CSV format"
 msgid "Export data and graphs"
-msgstr "Εξαγωγή σετ σε μορφή CSV"
+msgstr "Εξαγωγή δεδομένων και γραφημάτων"
 
 #: ../src/gui/app1/encoder.cs:3064
 msgid "Set deleted"
-msgstr "Διεγράφηκε το σετ"
+msgstr "Το σετ διαγράφηκε"
 
 #: ../src/gui/app1/encoder.cs:3234
 #: ../src/gui/app1/treeviews/encoderCaptureCurrentSet.cs:191
 #: ../src/gui/executeAuto.cs:470
 msgid "Saved"
-msgstr "Αποθηκευμένο"
+msgstr "Αποθηκεύτηκε"
 
 #: ../src/gui/app1/encoder.cs:3413
 msgid "Set saved"
-msgstr "Αποθηκεύτηκε το σετ"
+msgstr "Το σετ αποθηκεύτηκε"
 
 #: ../src/gui/app1/encoder.cs:3432
 msgid "Sorry, video cannot be stored."
@@ -7537,7 +7395,7 @@ msgstr "Συγνώμη, το βίντεο δεν μπορεί να αποθηκ�
 
 #: ../src/gui/app1/encoder.cs:3444
 msgid "Set updated"
-msgstr "Ενημερώθηκε το σετ"
+msgstr "Το σετ ενημερώθηκε"
 
 #: ../src/gui/app1/encoder.cs:3464
 msgid "Sorry, no repetitions selected."
@@ -7548,19 +7406,17 @@ msgstr "Συγνώμη, δεν επιλέχτηκαν επαναλήψεις."
 #: ../src/gui/app1/encoder.cs:3530 ../src/gui/app1/encoder.cs:3573
 #: ../src/gui/app1/encoder.cs:4869
 msgid "1RM Any exercise"
-msgstr "Οποιαδήποτε άσκηση 1RM"
+msgstr "1RM Οποιαδήποτε άσκηση"
 
 #: ../src/gui/app1/encoder.cs:3479 ../src/gui/app1/encoder.cs:3575
 #: ../src/gui/app1/encoder.cs:4869
 msgid "1RM Bench Press"
-msgstr "Πάγκο άρσης βαρών 1RM"
+msgstr "1RM Πιέσεις πάγκου"
 
 #: ../src/gui/app1/encoder.cs:3481 ../src/gui/app1/encoder.cs:3577
 #: ../src/gui/app1/encoder.cs:4870
-#, fuzzy
-#| msgid "Squat"
 msgid "1RM Squat"
-msgstr "Βαθύ κάθισμα"
+msgstr "1RM Βαθύ κάθισμα"
 
 #: ../src/gui/app1/encoder.cs:3498
 msgid "Sorry, cannot calculate 1RM of different exercises."
@@ -7568,7 +7424,7 @@ msgstr "Συγνώμη, αδύνατος ο υπολογισμός 1RM διαφ�
 
 #: ../src/gui/app1/encoder.cs:3499
 msgid "Please select repetitions of only one exercise type."
-msgstr "Παρακαλούμε επιλέξτε επαναλήψεις για μόνο ένα τύπο άσκησης."
+msgstr "Παρακαλούμε επιλέξτε επαναλήψεις μόνο ενός τύπου άσκησης."
 
 #: ../src/gui/app1/encoder.cs:3514
 #, csharp-format
@@ -7576,23 +7432,21 @@ msgid ""
 "Sorry, parameter: 'speed at 1RM' on exercise: '{0}' cannot be 0 for this "
 "analysis."
 msgstr ""
+"Συγνώμη, η παράμετρος: 'ταχύτητα σε 1RM' στην άσκηση: '{0}' δεν μπορεί να είναι 0 για αυτήν την "
+"ανάλυση."
 
 #: ../src/gui/app1/encoder.cs:3516
 msgid "Please edit exercise parameters on capture tab."
-msgstr ""
+msgstr "Παρακαλούμε επεξεργαστείτε τις παραμέτρους άσκησης στην καρτέλα καταγραφής."
 
 #: ../src/gui/app1/encoder.cs:3533
-#, fuzzy
-#| msgid "Sorry, cannot calculate 1RM of different exercises."
 msgid "Sorry, cannot calculate this 1RM test on one set."
-msgstr "Συγνώμη, αδύνατος ο υπολογισμός 1RM διαφορετικών ασκήσεων."
+msgstr "Συγνώμη, αδύνατος ο υπολογισμός αυτής της δοκιμασίας 1RM σε ένα σετ."
 
 #. will not be translated
 #: ../src/gui/app1/encoder.cs:3551 ../src/gui/app1/encoder.cs:5074
-#, fuzzy
-#| msgid "Speed,Power / Load"
 msgid "(Speed,Power) - Load"
-msgstr "Ταχύτητα, ισχύς / φορτίο"
+msgstr "(Ταχύτητα,Ισχύς) - Φορτίο"
 
 #: ../src/gui/app1/encoder.cs:3554 ../src/gui/app1/encoder.cs:3581
 #: ../src/gui/app1/encoder.cs:3602
@@ -7606,19 +7460,19 @@ msgstr "Όλα τα βάρη"
 
 #: ../src/gui/app1/encoder.cs:4675
 msgid "About Neuromuscular Profile"
-msgstr "Περί νευρομυϊκού προφίλ"
+msgstr "Σχετικά με το Νευρομυϊκό Προφίλ"
 
 #: ../src/gui/app1/encoder.cs:4676
 msgid "Load = Average eccentric RFD (Ratio of Force Development)"
-msgstr "Φόρτιση = Μέσος όρος εκκεντρικών RFD (Λόγος της Δύναμης Ανάπτυξης)"
+msgstr "Φορτίο = Μέσος όρος έκκεντρων RFD (Ρυθμός Ανάπτυξης Δύναμης)"
 
 #: ../src/gui/app1/encoder.cs:4677
 msgid "Explode = Average relative concentric RFD"
-msgstr "Ανατίναγμα = Μέσος όρος σχετικών ομόκεντρων RFD"
+msgstr "Εκρηκτικότητα = Μέσος όρος σχετικών ομόκεντρων RFD"
 
 #: ../src/gui/app1/encoder.cs:4678
 msgid "Drive = Average relative concentric Impulse"
-msgstr "Κίνηση = Μέσος όρος σχετικών ομόκεντρων ωθήσεων"
+msgstr "Ωθήση = Μέσος όρος σχετικής ομόκεντρης Ώσης"
 
 #: ../src/gui/app1/encoder.cs:4679
 msgid ""
@@ -7626,9 +7480,9 @@ msgid ""
 "(always add individual considerations as previous or actual injuries, sport "
 "specificity, muscular chains, etc.)."
 msgstr ""
-"Γενικές τάσεις είναι η προσπάθεια ανάπτυξης ενός «εξισορροπημένου» "
-"νευρομυϊκού προφίλ (πάντα να προσθέτετε επιμέρους ζητήματα, όπως "
-"προηγούμενους ή πραγματικούς τραυματισμούς, εξειδίκευση αθλήματος, μυϊκές "
+"Γενικές τάσεις για την προσπάθεια ανάπτυξης ενός «ισορροπημένου» "
+"νευρομυϊκού προφίλ (πάντα να συνυπολογίζετε ατομικούς παράγοντες όπως "
+"προηγούμενους ή τρέχοντες τραυματισμούς, εξειδίκευση αθλήματος, μυϊκές "
 "αλυσίδες, κ.λπ.)."
 
 #: ../src/gui/app1/encoder.cs:4680
@@ -7636,8 +7490,8 @@ msgid ""
 "If one of the metrics is under developed (weak) compared with the other two, "
 "prescribe exercises that emphasize its development."
 msgstr ""
-"Εάν μία από τις μετρήσεις είναι υπανάπτυκτη (ασθενής) σε σύγκριση με τις "
-"άλλες δύο, καθορίστε ασκήσεις που τονίζουν την ανάπτυξή της."
+"Εάν μία από τις μετρήσεις είναι υπανάπτυκτη (αδύναμη) σε σύγκριση με τις "
+"άλλες δύο, καθορίστε ασκήσεις που δίνουν έμφαση στην ανάπτυξή της."
 
 #: ../src/gui/app1/encoder.cs:4681
 msgid ""
@@ -7646,8 +7500,8 @@ msgid ""
 "flexibility and relaxation of over working muscles."
 msgstr ""
 "Εάν μία από τις μετρήσεις είναι υπερανεπτυγμένη (ακραία) σε σύγκριση με τις "
-"άλλες δύο, καθορίστε ασκήσεις που να τις τονίζουν, αλλά δίνοντας προσοχή "
-"στην ευελιξία και τη χαλάρωση των υπερφορτωμένων μυών."
+"άλλες δύο, καθορίστε ασκήσεις που δίνουν έμφαση στις άλλες, αλλά δίνοντας προσοχή "
+"στην ευλυγισία και τη χαλάρωση των υπερφορτωμένων μυών."
 
 #: ../src/gui/app1/encoder.cs:4683
 msgid "General guidelines to improve the neuromuscular profile:"
@@ -7658,27 +7512,26 @@ msgid ""
 "Load: Perform exercises that develop maximum force (eccentric, isometric or "
 "concentric)."
 msgstr ""
-"Φόρτιση: Εκτελέστε ασκήσεις που δημιουργούν μέγιστη δύναμη (έκκεντρη, "
-"ισομετρική ή ομόκεντρη)"
+"Φορτίο: Εκτελέστε ασκήσεις που αναπτύσσουν μέγιστη δύναμη (έκκεντρη, "
+"ισομετρική ή ομόκεντρη)."
 
 #: ../src/gui/app1/encoder.cs:4686
 msgid "Then switch to exercises that develop eccentric force in short time."
 msgstr ""
-"Έπειτε αλλάξτε σε ασκήσεις που αναπτύσσουν δύναμη σε μικρό χρονικό διάστημα."
+"Στη συνέχεια, αλλάξτε σε ασκήσεις που αναπτύσσουν έκκεντρη δύναμη σε σύντομο χρονικό διάστημα."
 
 #: ../src/gui/app1/encoder.cs:4688
 msgid ""
 "Explode: Perform exercises that develop force in short time, and maximum "
 "force."
 msgstr ""
-"Ανατίναγμα: Εκτελέστε ασκήσεις που δημιουργούν δύναμη σε μικρό χρονικό "
+"Εκρηκτικότητα: Εκτελέστε ασκήσεις που αναπτύσσουν δύναμη σε σύντομο χρονικό "
 "διάστημα, και μέγιστη δύναμη."
 
 #: ../src/gui/app1/encoder.cs:4689
 msgid "Drive: Perform exercises where force is developed during more time."
 msgstr ""
-"Κίνηση: Εκτελέστε ασκήσεις όπου η δύναμη δημιουργείτε κατά τη διάρκεια "
-"περισσότερου χρόνου."
+"Ώθηση: Εκτελέστε ασκήσεις όπου η δύναμη αναπτύσσεται για περισσότερο χρόνο."
 
 #. TODO: translate
 #: ../src/gui/app1/encoder.cs:4692
@@ -7688,99 +7541,74 @@ msgstr ""
 "'ύψος άλματος'."
 
 #: ../src/gui/app1/encoder.cs:4870
-#, fuzzy
-#| msgid "1RM prediction"
 msgid "1RM Indirect"
-msgstr "Πρόβλεψη 1RM"
+msgstr "1RM Έμμεσο"
 
 #: ../src/gui/app1/encoder.cs:5042 ../src/gui/app1/encoder.cs:5045
-#, fuzzy
-#| msgid "Select exercises"
 msgid "All exercises"
-msgstr "Επιλέξτε ασκήσεις"
+msgstr "Όλες οι ασκήσεις"
 
 #: ../src/gui/app1/encoder.cs:5070
-#, fuzzy
-#| msgid "Power / Load"
 msgid "Power - Load"
-msgstr "Ισχύς / φορτίο"
+msgstr "Ισχύς - Φορτίο"
 
 #: ../src/gui/app1/encoder.cs:5071
-#, fuzzy
-#| msgid "Speed / Load"
 msgid "Speed - Load"
-msgstr "Ταχύτητα / φορτίο"
+msgstr "Ταχύτητα - Φορτίο"
 
 #: ../src/gui/app1/encoder.cs:5072
-#, fuzzy
-#| msgid "Force / Load"
 msgid "Force - Load"
-msgstr "Δύναμη / φορτίο"
+msgstr "Δύναμη - Φορτίο"
 
 #: ../src/gui/app1/encoder.cs:5075
-#, fuzzy
-#| msgid "Power / Speed"
 msgid "(Force,Power) - Speed"
-msgstr "Ισχύς / ταχύτητα"
+msgstr "(Δύναμη,Ισχύς) - Ταχύτητα"
 
 #: ../src/gui/app1/encoder.cs:5076
-#, fuzzy
-#| msgid "Loaded"
 msgid "Load - Speed"
-msgstr "Φορτωμένο"
+msgstr "Φορτίο - Ταχύτητα"
 
 #: ../src/gui/app1/encoder.cs:5077
-#, fuzzy
-#| msgid "Power / Speed"
 msgid "Power - Speed"
-msgstr "Ισχύς / ταχύτητα"
+msgstr "Ισχύς - Ταχύτητα"
 
 #: ../src/gui/app1/encoder.cs:5087
-#, fuzzy
-#| msgid "Power / Date"
 msgid "Power - Date"
-msgstr "Ισχύς / Ημερομηνία"
+msgstr "Ισχύς - Ημερομηνία"
 
 #: ../src/gui/app1/encoder.cs:5088
-#, fuzzy
-#| msgid "Speed / Date"
 msgid "Speed - Date"
-msgstr "Ταχύτητα / Ημερομηνία"
+msgstr "Ταχύτητα - Ημερομηνία"
 
 #: ../src/gui/app1/encoder.cs:5089
-#, fuzzy
-#| msgid "Force / Date"
 msgid "Force - Date"
-msgstr "Δύναμη / Ημερομηνία"
+msgstr "Δύναμη - Ημερομηνία"
 
 #: ../src/gui/app1/encoder.cs:5443
-#, fuzzy
-#| msgid "Cancelled."
 msgid "Operation cancelled."
-msgstr "Ακυρώθηκε."
+msgstr "Η λειτουργία ακυρώθηκε."
 
 #: ../src/gui/app1/encoder.cs:5497
-#, fuzzy, csharp-format
-#| msgid "1RM found: {0} Kg."
+#, csharp-format
 msgid "Saved 1RM: {0} kg."
-msgstr "Βρέθηκε 1RM: {0} κιλά."
+msgstr "Αποθηκεύτηκε 1RM: {0} κιλά."
 
 #: ../src/gui/app1/encoder.cs:5644
 msgid "This exercise has been used on gravitatory and inertial sets."
-msgstr ""
+msgstr "Αυτή η άσκηση έχει χρησιμοποιηθεί σε βαρυτικά και αδρανειακά σετ."
 
 #: ../src/gui/app1/encoder.cs:5656
 msgid "This exercise has been used on inertial sets."
-msgstr ""
+msgstr "Αυτή η άσκηση έχει χρησιμοποιηθεί σε αδρανειακά σετ."
 
 #: ../src/gui/app1/encoder.cs:5668
 msgid "This exercise has been used on gravitatory sets."
-msgstr ""
+msgstr "Αυτή η άσκηση έχει χρησιμοποιηθεί σε βαρυτικά σετ."
 
 #: ../src/gui/app1/encoder.cs:5774 ../src/gui/app1/runEncoder.cs:2739
 #: ../src/gui/modes/forceSensorExercise.cs:792
 msgid "Error: Missing name of exercise."
-msgstr "Σφάλμα: λείπει το όνομα της άσκησης."
+msgstr "Σφάλμα: Λείπει το όνομα της άσκησης."
 
 #. if we add, check that this name does not exists
 #: ../src/gui/app1/encoder.cs:5780 ../src/gui/app1/encoder.cs:5795
@@ -7793,22 +7621,18 @@ msgstr "Σφάλμα: Μια άσκηση με όνομα '{0}' υπάρχει �
 
 #: ../src/gui/app1/encoder.cs:5876 ../src/gui/app1/forceSensor.cs:3854
 #: ../src/gui/app1/runEncoder.cs:2821
-#, fuzzy
-#| msgid "Encoder exercise name:"
 msgid "Exercise name:"
-msgstr "Όνομα άσκησης κωδικοποιητή:"
+msgstr "Όνομα άσκησης:"
 
 #: ../src/gui/app1/encoder.cs:5886 ../src/gui/app1/forceSensor.cs:3864
 #: ../src/gui/app1/runEncoder.cs:2831
-#, fuzzy
-#| msgid "Sorry, this exercise cannot be deleted."
 msgid "Sorry, this exercise cannot be deleted until these tests are deleted:"
-msgstr "Δυστυχώς, αυτή η άσκηση δεν μπορεί να διαγραφεί."
+msgstr "Συγνώμη, αυτή η άσκηση δεν μπορεί να διαγραφεί μέχρι να διαγραφούν αυτές οι δοκιμασίες:"
 
 #: ../src/gui/app1/encoder.cs:5912 ../src/gui/app1/forceSensor.cs:3889
 #: ../src/gui/app1/runEncoder.cs:2853
 msgid "Exercise deleted."
-msgstr "Διεγράφηκε η άσκηση"
+msgstr "Η άσκηση διαγράφηκε."
 
 #. forceSensorOtherMessage = string.Format("Please pull the band/tube to {0} cm from its length without tension. You have 10 seconds.", distanceCm);
 #: ../src/gui/app1/encoderThreads.cs:148 ../src/gui/app1/forceSensor.cs:1078
@@ -7817,14 +7641,12 @@ msgid "Capturing"
 msgstr "Σύλληψη"
 
 #: ../src/gui/app1/encoderThreads.cs:194 ../src/gui/app1/encoderThreads.cs:307
-#, fuzzy
-#| msgid "Sorry, video cannot be stored."
 msgid "Sorry, cannot start capture."
-msgstr "Συγνώμη, το βίντεο δεν μπορεί να αποθηκευτεί."
+msgstr "Συγνώμη, αδυναμία έναρξης καταγραφής."
 
 #: ../src/gui/app1/encoderThreads.cs:255
 msgid "Clusters"
-msgstr ""
+msgstr "Συστάδες"
 
 #. to allow hslides and table
 #: ../src/gui/app1/encoderThreads.cs:399 ../src/gui/app1/encoderThreads.cs:809
@@ -7834,11 +7656,11 @@ msgstr "Παρακαλούμε, περιμένετε."
 
 #: ../src/gui/app1/encoderThreads.cs:828
 msgid "R tasks done"
-msgstr "Ολοκλήρωση των εργασιών R"
+msgstr "Ολοκληρώθηκαν οι εργασίες R"
 
 #: ../src/gui/app1/encoderThreads.cs:840
 msgid "Repetitions processed"
-msgstr "Επεξεργασμένες επαναλήψεις"
+msgstr "Επεξεργάστηκαν οι επαναλήψεις"
 
 #: ../src/gui/app1/encoderThreads.cs:847
 msgid "Starting process"
@@ -7854,7 +7676,7 @@ msgstr "Έναρξη R"
 
 #: ../src/gui/app1/encoderThreads.cs:1023 ../src/stats/main.cs:1513
 msgid "Sorry. Error doing graph."
-msgstr "Συγνώμη. Σφάλμα κατά την δημιουργία του γραφήματος."
+msgstr "Συγνώμη. Σφάλμα κατά τη δημιουργία του γραφήματος."
 
 #: ../src/gui/app1/encoderThreads.cs:1024 ../src/stats/main.cs:1514
 msgid "Maybe R is not installed."
@@ -7876,29 +7698,27 @@ msgstr "Ολοκληρώθηκε"
 
 #: ../src/gui/app1/encoderThreads.cs:1309
 msgid "Set corrected. string was not fully extended at the beginning."
-msgstr ""
+msgstr "Το σετ διορθώθηκε. Το νήμα δεν είχε εκταθεί πλήρως στην αρχή."
 
 #: ../src/gui/app1/forceSensor.cs:168
 msgid "Force sensor is not detected!"
-msgstr ""
+msgstr "Δεν εντοπίστηκε αισθητήρας δύναμης!"
 
 #: ../src/gui/app1/forceSensor.cs:169 ../src/gui/app1/runEncoder.cs:171
 msgid "Plug cable and click on 'device' button."
-msgstr ""
+msgstr "Συνδέστε το καλώδιο και κάντε κλικ στο κουμπί 'συσκευή'."
 
 #: ../src/gui/app1/forceSensor.cs:171
-#, fuzzy
-#| msgid "Limited value"
 msgid "Incorrect captured value."
-msgstr "Περιορισμένη τιμή"
+msgstr "Λανθασμένη τιμή λήψης."
 
 #: ../src/gui/app1/forceSensor.cs:172
 msgid "The sensor is incorrectly calibrated."
-msgstr ""
+msgstr "Ο αισθητήρας έχει βαθμονομηθεί εσφαλμένα."
 
 #: ../src/gui/app1/forceSensor.cs:317 ../src/gui/app1/forceSensor.cs:336
 msgid "Cleaning device …"
-msgstr ""
+msgstr "Καθαρισμός συσκευής …"
 
 #. if preferences butterworth changed, the graph will be updated
 #. need to also update the grid before the return
@@ -7906,244 +7726,202 @@ msgstr ""
 #: ../src/gui/app1/forceSensor.cs:446 ../src/gui/app1/forceSensor.cs:2729
 msgid "Need to configure fixture to know stiffness of this elastic exercise."
 msgstr ""
+"Πρέπει να ρυθμίσετε το εξάρτημα για να γνωρίζετε την ακαμψία αυτής της "
+"ελαστικής άσκησης."
 
 #: ../src/gui/app1/forceSensor.cs:573
-#, fuzzy
-#| msgid "Legend"
 msgid "Legend:"
-msgstr "Υπόμνημα"
+msgstr "Υπόμνημα:"
 
 #: ../src/gui/app1/forceSensor.cs:574
 msgid "Length without tension"
-msgstr ""
+msgstr "Μήκος χωρίς τάση"
 
 #: ../src/gui/app1/forceSensor.cs:575
-#, fuzzy
-#| msgid "Continue running in n distance"
 msgid "Minimum working distance"
-msgstr "Συνέχιση δρόμου για απόσταση ν"
+msgstr "Ελάχιστη απόσταση εργασίας"
 
 #: ../src/gui/app1/forceSensor.cs:576
-#, fuzzy
-#| msgid "Runs, Long-distance"
 msgid "Maximum working distance"
-msgstr "Δρόμοι, μεγάλες αποστάσεις"
+msgstr "Μέγιστη απόσταση εργασίας"
 
 #: ../src/gui/app1/forceSensor.cs:786
 msgid "Taring will start in …"
-msgstr ""
+msgstr "Ο μηδενισμός θα ξεκινήσει σε …"
 
 #: ../src/gui/app1/forceSensor.cs:797
-#, fuzzy
-#| msgid "Starting R"
 msgid "Taring …"
-msgstr "Έναρξη R"
+msgstr "Μηδενισμός …"
 
 #: ../src/gui/app1/forceSensor.cs:828 ../src/gui/app1/forceSensor.cs:898
-#, fuzzy
-#| msgid "Checking database"
 msgid "Checking …"
-msgstr "Έλεγχος βάσης δεδομένων"
+msgstr "Έλεγχος …"
 
 #: ../src/gui/app1/forceSensor.cs:855
 msgid "Calibrating will start in …"
-msgstr ""
+msgstr "Η βαθμονόμηση θα ξεκινήσει σε …"
 
 #: ../src/gui/app1/forceSensor.cs:866
-#, fuzzy
-#| msgid "Calibrate"
 msgid "Calibrating …"
-msgstr "Βαθμονόμηση"
+msgstr "Γίνεται βαθμονόμηση …"
 
 #: ../src/gui/app1/forceSensor.cs:921
 msgid "Version of the firmware:"
 msgstr "Έκδοση του υλικολογισμικού:"
 
 #: ../src/gui/app1/forceSensor.cs:932 ../src/gui/app1/forceSensor.cs:959
-#, fuzzy
-#| msgid "Check last version"
 msgid "Checking version …"
-msgstr "Έλεγχος τελευταίας έκδοσης"
+msgstr "Έλεγχος έκδοσης …"
 
 #: ../src/gui/app1/forceSensor.cs:1008 ../src/gui/app1/forceSensor.cs:1031
 msgid "Capture will start in …"
-msgstr ""
+msgstr "Η λήψη θα ξεκινήσει σε …"
 
 #. 1 send tare command
 #: ../src/gui/app1/forceSensor.cs:1060 ../src/gui/app1/forceSensor.cs:1203
-#, fuzzy
-#| msgid "Please, wait!"
 msgid "Please, wait …"
-msgstr "Παρακαλούμε, περιμένετε!"
+msgstr "Παρακαλούμε, περιμένετε …"
 
 #: ../src/gui/app1/forceSensor.cs:1123 ../src/gui/app1/forceSensor.cs:1143
 #: ../src/gui/app1/forceSensor.cs:1744 ../src/gui/app1/forceSensor.cs:1775
-#, fuzzy
-#| msgid "On results tab:"
 msgid "Ending capture …"
-msgstr "Στην καρτέλα αποτελεσμάτων:"
+msgstr "Τερματισμός λήψης …"
 
 #: ../src/gui/app1/forceSensor.cs:1160
 msgid "Checking transmission format …"
-msgstr ""
+msgstr "Έλεγχος μορφής μετάδοσης …"
 
 #: ../src/gui/app1/forceSensor.cs:1201
 msgid "The tare will soon begin"
-msgstr ""
+msgstr "Ο μηδενισμός θα ξεκινήσει σύντομα"
 
 #: ../src/gui/app1/forceSensor.cs:1359
-#, fuzzy
-#| msgid "Preparing camera"
 msgid "Preparing capture …"
-msgstr "Προετοιμασία κάμερας"
+msgstr "Προετοιμασία λήψης …"
 
 #: ../src/gui/app1/forceSensor.cs:1452
 msgid "Taring; …"
-msgstr ""
+msgstr "Μηδενισμός …"
 
 #: ../src/gui/app1/forceSensor.cs:2021
 #, csharp-format
 msgid "Error. Force too big: {0} N"
-msgstr ""
+msgstr "Σφάλμα. Η δύναμη είναι πολύ μεγάλη: {0} N"
 
 #: ../src/gui/app1/forceSensor.cs:2022
 msgid "Bad calibration or too much force for this sensor."
-msgstr ""
+msgstr "Κακή βαθμονόμηση ή υπερβολική δύναμη για αυτόν τον αισθητήρα."
 
 #: ../src/gui/app1/forceSensor.cs:2023
-#, fuzzy
-#| msgid "Stop"
 msgid "Stopped."
-msgstr "Διακοπή"
+msgstr "Διακόπηκε."
 
 #: ../src/gui/app1/forceSensor.cs:2213
-#, fuzzy
-#| msgid "Encoder capture options"
 msgid "Capture option"
-msgstr "Επιλογές λήψης κωδικοποιητή"
+msgstr "Επιλογή λήψης"
 
 #: ../src/gui/app1/forceSensor.cs:2216
-#, fuzzy, csharp-format
-#| msgid "Export set in CSV format"
+#, csharp-format
 msgid "Max AVG Force in {0} s"
-msgstr "Εξαγωγή σετ σε μορφή CSV"
+msgstr "Μέγιστη Μ.Ο. Δύναμη σε {0} δευτ."
 
 #: ../src/gui/app1/forceSensor.cs:2269 ../src/gui/app1/runEncoder.cs:1218
-#, fuzzy
-#| msgid "Select persons to compare to {0}."
 msgid "Select set to compare"
-msgstr "Επιλογή ατόμων για σύγκριση με το {0}."
+msgstr "Επιλογή σετ προς σύγκριση"
 
 #: ../src/gui/app1/forceSensor.cs:2475
 msgid ""
 "Loaded set used elastic bands removed from database or with changed values."
 msgstr ""
+"Το φορτωμένο σετ χρησιμοποίησε ελαστικούς ιμάντες που αφαιρέθηκαν από τη "
+"βάση δεδομένων ή έχουν αλλαγμένες τιμές."
 
 #: ../src/gui/app1/forceSensor.cs:2476
 msgid ""
 "Stiffness calculation is correct but stiffness configuration window will not "
 "be able to match elastic bands and total stiffness."
 msgstr ""
+"Ο υπολογισμός της ακαμψίας είναι σωστός, αλλά το παράθυρο διαμόρφωσης "
+"ακαμψίας δεν θα μπορεί να αντιστοιχίσει τους ελαστικούς ιμάντες με τη "
+"συνολική ακαμψία."
 
 #. event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
 #: ../src/gui/app1/forceSensor.cs:2517
-#, fuzzy
-#| msgid "Loaded"
 msgid "Loaded:"
-msgstr "Φορτωμένο"
+msgstr "Φορτώθηκε:"
 
 #: ../src/gui/app1/forceSensor.cs:2885
 msgid "Error doing graph."
-msgstr "Σφάλμα κατά την δημιουργία του γραφήματος."
+msgstr "Σφάλμα κατά τη δημιουργία του γραφήματος."
 
 #: ../src/gui/app1/forceSensor.cs:2886
 msgid "Probably not sustained force."
-msgstr ""
+msgstr "Πιθανώς μη συνεχόμενη δύναμη."
 
 #: ../src/gui/app1/forceSensor.cs:3501
-#, fuzzy
-#| msgid "Do you want to delete this test?"
 msgid "If you want to calibrate, please tare first."
-msgstr "Θέλετε να διαγραφεί αυτή η εξέταση;"
+msgstr "Αν θέλετε να κάνετε βαθμονόμηση, παρακαλούμε κάντε πρώτα μηδενισμό."
 
 #: ../src/gui/app1/forceSensor.cs:3786 ../src/gui/app1/forceSensor.cs:3801
-#, fuzzy
-#| msgid "Select exercises"
 msgid "Isometric exercise"
-msgstr "Επιλέξτε ασκήσεις"
+msgstr "Ισομετρική άσκηση"
 
 #: ../src/gui/app1/forceSensor.cs:3788 ../src/gui/app1/forceSensor.cs:3803
-#, fuzzy
-#| msgid "Select exercises"
 msgid "Elastic exercise"
-msgstr "Επιλέξτε ασκήσεις"
+msgstr "Ελαστική άσκηση"
 
 #: ../src/gui/app1/forceSensor.cs:3853
-#, fuzzy
-#| msgid "Select exercises"
 msgid "Delete exercise"
-msgstr "Επιλέξτε ασκήσεις"
+msgstr "Διαγραφή άσκησης"
 
 #: ../src/gui/app1/forceSensor.cs:3918
-#, fuzzy
-#| msgid "Import configuration"
 msgid "Stiffness configuration"
-msgstr "Εισαγωγή διαμόρφωσης"
+msgstr "Διαμόρφωση ακαμψίας"
 
 #: ../src/gui/app1/forceSensor.cs:3918
 msgid "Configure attached elastic bands/tubes"
-msgstr ""
+msgstr "Διαμόρφωση προσαρτημένων ελαστικών ιμάντων/σωλήνων"
 
 #: ../src/gui/app1/forceSensor.cs:3930
-#, fuzzy
-#| msgid "Configure feedback"
 msgid "Configure bands/tubes"
-msgstr "Διαμόρφωση ανάδρασης"
+msgstr "Διαμόρφωση ιμάντων/σωλήνων"
 
 #: ../src/gui/app1/forceSensor.cs:3933
-#, fuzzy
-#| msgid "Stiffness"
 msgid "Stiffness:"
-msgstr "Ακαμψία"
+msgstr "Ακαμψία:"
 
 #: ../src/gui/app1/graphs/jumpsAsymmetry.cs:185
 msgid "higher"
-msgstr ""
+msgstr "υψηλότερο"
 
 #: ../src/gui/app1/graphs/jumpsAsymmetry.cs:186
-#, fuzzy
-#| msgid "Power"
 msgid "lower"
-msgstr "Ισχύς"
+msgstr "χαμηλότερο"
 
 #: ../src/gui/app1/graphs/jumpsAsymmetry.cs:187
 msgid "Find daily higher of jumps:"
-msgstr ""
+msgstr "Εύρεση ημερήσιου υψηλότερου άλματος:"
 
 #: ../src/gui/app1/graphs/jumpsProfile.cs:129
-#, fuzzy
-#| msgid "Need at least three jumps"
 msgid ""
 "Need at least one SJl jump with 100% body weight or two SJl jumps with "
 "different weights."
-msgstr "Χρειάζεται τουλάχιστον τρία άλματα"
+msgstr ""
+"Χρειάζεται τουλάχιστον ένα άλμα SJl με 100% σωματικό βάρος ή δύο άλματα SJl "
+"με διαφορετικά βάρη."
 
 #: ../src/gui/app1/run.cs:466 ../src/gui/app1/run.cs:481
-#, fuzzy
-#| msgid "Track distance (between platforms)"
 msgid "Lap distance (between barriers)"
-msgstr "Απόσταση διαδρομής (μεταξύ εξεδρών)"
+msgstr "Απόσταση γύρου (μεταξύ εμποδίων)"
 
 #: ../src/gui/app1/run.cs:467 ../src/gui/app1/run.cs:482
 msgid "Distance in meters"
 msgstr "Απόσταση σε μέτρα"
 
 #: ../src/gui/app1/run.cs:471
-#, fuzzy
-#| msgid ""
-#| "Vertical distance between\n"
-#| "stairs third and nine."
-msgid "Vertical distance between stairs third and nine."
+msgid ""
+"Vertical distance between\n"
+"stairs third and nine."
 msgstr ""
 "Κατακόρυφη απόσταση μεταξύ\n"
 "τρίτου και ένατου σκαλιού."
@@ -8153,47 +7931,39 @@ msgid "Distance in millimeters"
 msgstr "Απόσταση σε χιλιοστά"
 
 #: ../src/gui/app1/run.cs:492
-#, fuzzy
-#| msgid "Total distance"
 msgid "Track distance"
-msgstr "Συνολική απόσταση"
+msgstr "Απόσταση διαδρομής"
 
 #: ../src/gui/app1/runEncoder.cs:363 ../src/gui/modes/sprint.cs:92
 msgid "Error, weight of the person cannot be 0"
-msgstr ""
+msgstr "Σφάλμα, το βάρος του ατόμου δεν μπορεί να είναι 0"
 
 #: ../src/gui/app1/runEncoder.cs:2627
 msgid ""
 "In a sprint exercise, maximum acceleration is performed at the beginning and "
 "maximum sustained speed at a later time."
 msgstr ""
+"Σε μια άσκηση σπριντ, η μέγιστη επιτάχυνση πραγματοποιείται στην αρχή και η "
+"μέγιστη διατηρούμενη ταχύτητα αργότερα."
 
 #: ../src/gui/app1/runEncoder.cs:2634
-#, fuzzy
-#| msgid "Write the name of the encoder exercise:"
 msgid "Default angle of this exercise."
-msgstr "Εγγραφή του ονόματος της άσκησης κωδικοποιητή:"
+msgstr "Προεπιλεγμένη γωνία αυτής της άσκησης."
 
 #: ../src/gui/app1/runEncoder.cs:2635
-#, fuzzy
-#| msgid "Horizontal"
 msgid "90 means go vertically up."
-msgstr "Οριζόντιος"
+msgstr "90 σημαίνει κίνηση κατακόρυφα προς τα πάνω."
 
 #: ../src/gui/app1/runEncoder.cs:2636
-#, fuzzy
-#| msgid "Horizontal"
 msgid "-90 means go vertically down."
-msgstr "Οριζόντιος"
+msgstr "-90 σημαίνει κίνηση κατακόρυφα προς τα κάτω."
 
 #: ../src/gui/app1/runEncoder.cs:2637
 #, csharp-format
 msgid "Possible range goes from {0} to {1}."
-msgstr ""
+msgstr "Το πιθανό εύρος κυμαίνεται από {0} έως {1}."
 
 #: ../src/gui/app1/runEncoder.cs:3119
-#, fuzzy
-#| msgid "Accel."
 msgid "Accel"
 msgstr "Επιτάχυνση"
 
@@ -8223,22 +7993,26 @@ msgstr "Συνεδρία: Το '{0}' υπάρχει. Παρακαλούμε, χ�
 #: ../src/gui/app1/session/backup.cs:97
 #, csharp-format
 msgid "Estimated size: {0} MB (uncompressed)."
-msgstr ""
+msgstr "Εκτιμώμενο μέγεθος: {0} MB (ασυμπίεστο)."
 
 #: ../src/gui/app1/session/backup.cs:161
 msgid "You will be prompted for a backup the next time you start Chronojump."
 msgstr ""
+"Θα σας ζητηθεί να κάνετε αντίγραφο ασφαλείας την επόμενη φορά που θα "
+"εκκινήσετε το Chronojump."
 
 #: ../src/gui/app1/session/backup.cs:163
 #, csharp-format
 msgid "You will be prompted for a backup in {0} days."
-msgstr ""
+msgstr "Θα σας ζητηθεί να κάνετε αντίγραφο ασφαλείας σε {0} ημέρες."
 
 #: ../src/gui/app1/session/backup.cs:170
 msgid ""
 "You will no longer be bothered with scheduled backups, but you can continue "
 "backing up by clicking on"
 msgstr ""
+"Δεν θα ενοχλείστε πλέον για προγραμματισμένα αντίγραφα ασφαλείας, αλλά "
+"μπορείτε να συνεχίσετε τη λήψη αντιγράφων κάνοντας κλικ στο"
 
 #: ../src/gui/app1/session/backup.cs:236
 msgid "Copy database to:"
@@ -8246,46 +8020,41 @@ msgstr "Αντιγραφή της βάσης δεδομένων σε:"
 
 #: ../src/gui/app1/session/backup.cs:348
 msgid "Compressing …"
-msgstr ""
+msgstr "Συμπίεση …"
 
 #: ../src/gui/app1/session/backup.cs:350
 #, csharp-format
 msgid "Please, wait approximately 1 minute."
 msgid_plural "Please, wait approximately {0} minutes."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Παρακαλούμε, περιμένετε περίπου 1 λεπτό."
+msgstr[1] "Παρακαλούμε, περιμένετε περίπου {0} λεπτά."
 
 #: ../src/gui/app1/session/backup.cs:382
-#, fuzzy, csharp-format
-#| msgid "Copied to {0}"
+#, csharp-format
 msgid "Copied in {0} ms."
-msgstr "Αντιγραμμένο στο {0}"
+msgstr "Αντιγράφηκε σε {0} ms."
 
 #: ../src/gui/app1/session/backup.cs:385
-#, fuzzy, csharp-format
-#| msgid "Copied to {0}"
+#, csharp-format
 msgid "Compressed in {0} s."
-msgstr "Αντιγραμμένο στο {0}"
+msgstr "Συμπιέστηκε σε {0} δευτ."
 
 #: ../src/gui/app1/session/backup.cs:388
 msgid "Failed at compress."
-msgstr ""
+msgstr "Αποτυχία κατά τη συμπίεση."
 
 #: ../src/gui/app1/session/backup.cs:390
 msgid "Copy failed, maybe the disk is full."
-msgstr ""
+msgstr "Η αντιγραφή απέτυχε, ίσως ο δίσκος είναι γεμάτος."
 
 #: ../src/gui/app1/session/export.cs:79
-#, fuzzy
-#| msgid "Export session to _XML"
 msgid "Export session to:"
-msgstr "Εξαγωγή συνεδρίας σε _XML"
+msgstr "Εξαγωγή συνεδρίας σε:"
 
 #: ../src/gui/app1/session/export.cs:193
-#, fuzzy, csharp-format
-#| msgid "Export set in CSV format"
+#, csharp-format
 msgid "Exported in {0} s"
-msgstr "Εξαγωγή σετ σε μορφή CSV"
+msgstr "Εξήχθη σε {0} δευτ."
 
 #: ../src/gui/app1/session/export.cs:256
 msgid "Copying files"
@@ -8294,10 +8063,8 @@ msgstr "Αντιγραφή αρχείων"
 #. app1s_label_import.Text = "<b>" + Catalog.GetString ("Import session") + "</b>";
 #. app1s_label_import.UseMarkup = true;
 #: ../src/gui/app1/session/loadAndImport.cs:125
-#, fuzzy
-#| msgid " session "
 msgid "Import session"
-msgstr " συνεδρία "
+msgstr "Εισαγωγή συνεδρίας"
 
 #: ../src/gui/app1/session/loadAndImport.cs:299
 #: ../src/gui/session/selectStats.cs:83
@@ -8306,24 +8073,20 @@ msgstr "Αριθμός"
 
 #: ../src/gui/app1/session/loadAndImport.cs:333
 msgid "Jumps reactive"
-msgstr "Πολλαπλά άλματα"
+msgstr "Αντιδραστικά άλματα"
 
 #: ../src/gui/app1/session/loadAndImport.cs:337
-#, fuzzy
-#| msgid "Runs interval"
 msgid "Races interval"
-msgstr "Δρόμοι με διαλείμματα"
+msgstr "Διαλειμματικοί δρόμοι"
 
 #: ../src/gui/app1/session/loadAndImport.cs:339
 msgid "Multi-stage tests"
-msgstr ""
+msgstr "Δοκιμασίες πολλαπλών σταδίων"
 
 #. TODO: try it with Gtk.FileChooserWidget, then we do not need to pass app1 (parent)
 #: ../src/gui/app1/session/loadAndImport.cs:441
-#, fuzzy
-#| msgid "Chronojump database version file: {0}"
 msgid "Choose Chronojump database to import from"
-msgstr "Αρχείο έκδοσης βάσης δεδομένων του Chronojump: {0}"
+msgstr "Επιλέξτε βάση δεδομένων Chronojump για εισαγωγή"
 
 #: ../src/gui/app1/session/loadAndImport.cs:489
 #: ../src/gui/modes/encoderConfiguration.cs:826
@@ -8332,50 +8095,36 @@ msgid "Error importing data."
 msgstr "Σφάλμα εισαγωγής δεδομένων."
 
 #: ../src/gui/app1/session/loadAndImport.cs:1196
-#, fuzzy
-#| msgid "Make a copy of the database"
 msgid "Open another database"
-msgstr "Δημιουργία αντιγράφου της βάσης δεδομένων"
+msgstr "Άνοιγμα άλλης βάσης δεδομένων"
 
 #: ../src/gui/app1/session/main.cs:356
 msgid "No data. Please, perform tests."
-msgstr ""
+msgstr "Χωρίς δεδομένα. Παρακαλούμε, εκτελέστε δοκιμασίες."
 
 #: ../src/gui/app1/session/tagSessionSelect.cs:150
-#, fuzzy
-#| msgid "Create new"
 msgid "Create new tag"
-msgstr "Δημιουργία νέου"
+msgstr "Δημιουργία νέας ετικέτας"
 
 #: ../src/gui/app1/session/tagSessionSelect.cs:151
-#, fuzzy
-#| msgid "Create new"
 msgid "Create"
-msgstr "Δημιουργία νέου"
+msgstr "Δημιουργία"
 
 #: ../src/gui/app1/session/tagSessionSelect.cs:154
-#, fuzzy
-#| msgid "Delete {0} from this session"
 msgid "Select tags for this session"
-msgstr "Διαγραφή του {0} από αυτήν τη συνεδρία"
+msgstr "Επιλογή ετικετών για αυτή τη συνεδρία"
 
 #: ../src/gui/app1/session/tagSessionSelect.cs:156
-#, fuzzy
-#| msgid "Select session date"
 msgid "Select tags for session: "
-msgstr "Επιλογή ημερομηνίας συνεδρίας"
+msgstr "Επιλογή ετικετών για συνεδρία: "
 
 #: ../src/gui/app1/session/tagSessionSelect.cs:160
-#, fuzzy
-#| msgid "Change date"
 msgid "Change name"
-msgstr "Ημερομηνία αλλαγής"
+msgstr "Αλλαγή ονόματος"
 
 #: ../src/gui/app1/session/tagSessionSelect.cs:309
-#, fuzzy
-#| msgid "Are you sure you want to delete this set?"
 msgid "Are you sure you want to delete this tag?"
-msgstr "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το σετ;"
+msgstr "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτή την ετικέτα;"
 
 #: ../src/gui/app1/treeviews/encoderAnalyze.cs:53
 msgid "Series"
@@ -8396,7 +8145,7 @@ msgstr "n"
 
 #: ../src/gui/app1/treeviews/persons.cs:48
 msgid "Show all tests of"
-msgstr "Εμφάνιση όλων των εξετάσεων του"
+msgstr "Εμφάνιση όλων των δοκιμασιών του"
 
 #: ../src/gui/app1/treeviews/persons.cs:55
 #, csharp-format
@@ -8419,52 +8168,41 @@ msgid "Distances"
 msgstr "Αποστάσεις"
 
 #: ../src/gui/app1/treeviews/sprint.cs:48
-#, fuzzy
-#| msgid "Split time"
 msgid "Split times"
-msgstr "Χρόνος τμήματος"
+msgstr "Ενδιάμεσοι χρόνοι"
 
 #: ../src/gui/chronopic.cs:133
-#, fuzzy
-#| msgid "Please touch the platform or click Chronopic TEST button"
 msgid "Please, touch the platform or click Chronopic TEST button."
-msgstr ""
-"Παρακαλούμε ενεργοποιήστε την εξέδρα ή πατήστε το κουμπί TEST του Chronopic "
+msgstr "Παρακαλούμε, αγγίξτε την πλατφόρμα ή πατήστε το κουμπί TEST του Chronopic."
 
 #: ../src/gui/chronopic.cs:136
-#, fuzzy
-#| msgid "Please touch the platform or click Chronopic TEST button"
 msgid "Please, cut photocell barrier or click Chronopic TEST button."
 msgstr ""
-"Παρακαλούμε ενεργοποιήστε την εξέδρα ή πατήστε το κουμπί TEST του Chronopic "
+"Παρακαλούμε, διακόψτε τη δέσμη του φωτοκυττάρου ή πατήστε το κουμπί TEST του "
+"Chronopic."
 
 #: ../src/gui/chronopic.cs:155 ../src/gui/chronopic.cs:176
 msgid "Applied"
-msgstr ""
+msgstr "Εφαρμόστηκε"
 
 #: ../src/gui/chronopic.cs:158
-#, fuzzy
-#| msgid "Connect Chronopics"
 msgid "Connected to Chronopic"
-msgstr "Σύνδεση Chronopic"
+msgstr "Συνδέθηκε στο Chronopic"
 
 #: ../src/gui/chronopic.cs:178
 msgid "Failed"
 msgstr "Απέτυχε"
 
 #: ../src/gui/chronopicRegister.cs:178
-#, fuzzy
-#| msgid "Chronojump profile"
 msgid "Chronojump devices"
-msgstr "Προφίλ Chronojump"
+msgstr "Συσκευές Chronojump"
 
 #: ../src/gui/chronopicRegister.cs:349
-#, fuzzy, csharp-format
-#| msgid "Touch device."
+#, csharp-format
 msgid "Found 1 device."
 msgid_plural "Found {0} devices."
-msgstr[0] "Συσκευή αφής."
-msgstr[1] "Συσκευή αφής."
+msgstr[0] "Βρέθηκε 1 συσκευή."
+msgstr[1] "Βρέθηκαν {0} συσκευές."
 
 #: ../src/gui/chronopicRegister.cs:358
 #, csharp-format
@@ -8472,59 +8210,57 @@ msgid "One device is not configured. Please, configure it clicking the arrows."
 msgid_plural ""
 "{0} devices are not configured. Please, configure them clicking the arrows."
 msgstr[0] ""
+"Μία συσκευή δεν έχει ρυθμιστεί. Παρακαλούμε, ρυθμίστε την κάνοντας κλικ στα "
+"βέλη."
 msgstr[1] ""
+"{0} συσκευές δεν έχουν ρυθμιστεί. Παρακαλούμε, ρυθμίστε τις κάνοντας κλικ "
+"στα βέλη."
 
 #: ../src/gui/chronopicRegister.cs:366
 msgid "Connect and reopen device window."
-msgstr ""
+msgstr "Συνδέστε και ανοίξτε ξανά το παράθυρο συσκευής."
 
 #: ../src/gui/chronopic_test.cs:136
 msgid "Remove the RCA cable. Then, check LED D1."
-msgstr ""
+msgstr "Αφαιρέστε το καλώδιο RCA. Στη συνέχεια, ελέγξτε το LED D1."
 
 #: ../src/gui/chronopic_test.cs:137 ../src/gui/chronopic_test.cs:158
 msgid "Is the green LED D1 on?"
-msgstr ""
+msgstr "Είναι αναμμένο το πράσινο LED D1;"
 
 #: ../src/gui/chronopic_test.cs:143
-#, fuzzy
-#| msgid "Then press this button:\n"
 msgid "Press test button."
-msgstr "Έπειτα πατήστε αυτό το κουμπί:\n"
+msgstr "Πατήστε το κουμπί δοκιμής."
 
 #: ../src/gui/chronopic_test.cs:144
 msgid "When test button is pressed, is the green LED D1 off?"
-msgstr ""
+msgstr "Όταν πατηθεί το κουμπί δοκιμής, σβήνει το πράσινο LED D1;"
 
 #: ../src/gui/chronopic_test.cs:149
-#, fuzzy
-#| msgid "Connect encoder"
 msgid "Connect RCA cable."
-msgstr "Σύνδεση κωδικοποιητή"
+msgstr "Συνδέστε το καλώδιο RCA."
 
 #: ../src/gui/chronopic_test.cs:150
 msgid "Touch the tip and teeth of RCA with a metallic object (like a key)."
 msgstr ""
+"Ακουμπήστε την άκρη και τα δόντια του RCA με ένα μεταλλικό αντικείμενο (όπως "
+"ένα κλειδί)."
 
 #: ../src/gui/chronopic_test.cs:151 ../src/gui/chronopic_test.cs:164
 msgid "Is the green LED D1 off?"
-msgstr ""
+msgstr "Είναι σβηστό το πράσινο LED D1;"
 
 #: ../src/gui/chronopic_test.cs:156
 msgid "Connect Chronopic with the platform using the RCA."
-msgstr ""
+msgstr "Συνδέστε το Chronopic με την πλατφόρμα χρησιμοποιώντας το RCA."
 
 #: ../src/gui/chronopic_test.cs:157
-#, fuzzy
-#| msgid "Contact platform"
 msgid "Do not stand on the platform."
-msgstr "Πλατφόρμα επικοινωνίας"
+msgstr "Μην στέκεστε πάνω στην πλατφόρμα."
 
 #: ../src/gui/chronopic_test.cs:163
-#, fuzzy
-#| msgid "Hands on their waist."
 msgid "Stand on the platform."
-msgstr "Τα χέρια στη μέση."
+msgstr "Σταθείτε πάνω στην πλατφόρμα."
 
 #: ../src/gui/confirm.cs:53 ../src/gui/confirm.cs:140
 msgid "Confirm"
@@ -8556,190 +8292,186 @@ msgstr ""
 
 #: ../src/gui/dialogThreshold.cs:95
 msgid "Threshold for jumps"
-msgstr ""
+msgstr "Κατώφλι για άλματα"
 
 #: ../src/gui/dialogThreshold.cs:100
 msgid "Threshold for runs"
-msgstr ""
+msgstr "Κατώφλι για δρόμους"
 
 #: ../src/gui/dialogThreshold.cs:105
 msgid "Threshold for other tests"
-msgstr ""
+msgstr "Κατώφλι για άλλες δοκιμασίες"
 
 #: ../src/gui/dialogThreshold.cs:129
 msgid "Spurious signals are common on electronics."
-msgstr ""
+msgstr "Τα ψευδή σήματα είναι κοινά στα ηλεκτρονικά."
 
 #: ../src/gui/dialogThreshold.cs:130
 msgid ""
 "Threshold refers to the minimum value measurable and is the common way to "
 "clean this spurious signals."
 msgstr ""
+"Το κατώφλι αναφέρεται στην ελάχιστη μετρήσιμη τιμή και είναι ο κοινός τρόπος "
+"καθαρισμού αυτών των ψευδών σημάτων."
 
 #: ../src/gui/dialogThreshold.cs:131
 msgid "Threshold should be a value lower than expected values."
 msgstr ""
+"Το κατώφλι θα πρέπει να είναι μια τιμή χαμηλότερη από τις αναμενόμενες τιμές."
 
 #: ../src/gui/dialogThreshold.cs:133
 msgid ""
 "On database three different thresholds are stored: jumps, races and other "
 "tests."
 msgstr ""
+"Στη βάση δεδομένων αποθηκεύονται τρία διαφορετικά κατώφλια: άλματα, δρόμοι "
+"και άλλες δοκιμασίες."
 
 #: ../src/gui/dialogThreshold.cs:134
 msgid "If you change these values they will be stored once test is executed."
 msgstr ""
+"Αν αλλάξετε αυτές τις τιμές, θα αποθηκευτούν μόλις εκτελεστεί η δοκιμασία."
 
 #: ../src/gui/dialogThreshold.cs:136
 msgid ""
 "Usually threshold values should not be changed but this option is useful for "
 "special cases."
 msgstr ""
+"Συνήθως οι τιμές κατωφλίου δεν πρέπει να αλλάζουν, αλλά αυτή η επιλογή είναι "
+"χρήσιμη για ειδικές περιπτώσεις."
 
 #: ../src/gui/dialogThreshold.cs:140 ../src/gui/dialogThreshold.cs:148
 #: ../src/gui/dialogThreshold.cs:154
-#, fuzzy
-#| msgid "Default value: 50 ms."
 msgid "Default value:"
-msgstr "Προεπιλεγμένη τιμή: 50 ms."
+msgstr "Προεπιλεγμένη τιμή:"
 
 #: ../src/gui/dialogThreshold.cs:141
 #, csharp-format
 msgid "On jumps with contact platforms a value of {0} ms"
-msgstr ""
+msgstr "Στα άλματα με πλατφόρμες επαφής μια τιμή {0} ms"
 
 #: ../src/gui/dialogThreshold.cs:142
 msgid "2.76 mm"
-msgstr ""
+msgstr "2,76 mm"
 
 #: ../src/gui/dialogThreshold.cs:142
 msgid "is enough to solve electronical problems."
-msgstr ""
+msgstr "είναι αρκετή για την επίλυση ηλεκτρονικών προβλημάτων."
 
 #: ../src/gui/dialogThreshold.cs:143
 msgid ""
 "You may change this value if you have a jumper that loses pressure with the "
 "platform while going down previous to a CMJ or ABK jump."
 msgstr ""
+"Μπορείτε να αλλάξετε αυτήν την τιμή εάν έχετε έναν άλτη που χάνει την πίεση "
+"με την πλατφόρμα καθώς κατεβαίνει πριν από ένα άλμα CMJ ή ABK."
 
 #: ../src/gui/dialogThreshold.cs:144
 msgid ""
 "This jumper should change his technique, but if it's difficult, a solution "
 "is to increase threshold."
 msgstr ""
+"Αυτός ο άλτης θα πρέπει να αλλάξει την τεχνική του, αλλά αν αυτό είναι "
+"δύσκολο, μια λύση είναι η αύξηση του κατωφλίου."
 
 #: ../src/gui/dialogThreshold.cs:149
 msgid "On races with photocells a value of 10 ms is the default value."
-msgstr ""
+msgstr "Στους δρόμους με φωτοκύτταρα η τιμή των 10 ms είναι η προεπιλεγμένη."
 
 #: ../src/gui/dialogThreshold.cs:150
 msgid ""
 "As Chronojump manages double contacts on photocells, changing threshold "
 "value is not very common."
 msgstr ""
+"Καθώς το Chronojump διαχειρίζεται τις διπλές επαφές στα φωτοκύτταρα, η "
+"αλλαγή της τιμής κατωφλίου δεν είναι πολύ συνηθισμένη."
 
 #: ../src/gui/dialogThreshold.cs:155
 msgid "Depending on the test, user could change values."
-msgstr ""
+msgstr "Ανάλογα με τη δοκιμασία, ο χρήστης θα μπορούσε να αλλάξει τις τιμές."
 
 #: ../src/gui/discover.cs:91
-#, fuzzy
-#| msgid "Select"
 msgid "Select!"
-msgstr "Επιλογή"
+msgstr "Επιλέξτε!"
 
 #: ../src/gui/discover.cs:92
-#, fuzzy
-#| msgid "Test"
 msgid "Test it!"
-msgstr "Δοκιμή"
+msgstr "Δοκιμάστε το!"
 
 #: ../src/gui/discover.cs:93
 msgid "Forget it!"
-msgstr ""
+msgstr "Ξεχάστε το!"
 
 #: ../src/gui/discover.cs:94
 msgid "Forgotten"
-msgstr ""
+msgstr "Ξεχάστηκε"
 
 #: ../src/gui/discover.cs:96
-#, fuzzy
-#| msgid "Add entries manually"
 msgid "Assigned manually: "
-msgstr "Προσθήκη καταχωρήσεων χειροκίνητα"
+msgstr "Ανατέθηκε χειροκίνητα: "
 
 #: ../src/gui/discover.cs:171 ../src/gui/discover.cs:516
-#, fuzzy
-#| msgid "Advanced"
 msgid "Hide advanced"
-msgstr "Για προχωρημένους"
+msgstr "Απόκρυψη προχωρημένων"
 
 #: ../src/gui/discover.cs:217
-#, fuzzy
-#| msgid "Device not found"
 msgid "Device not found."
-msgstr "Δεν βρέθηκε η συσκευή"
+msgstr "Δεν βρέθηκε η συσκευή."
 
 #: ../src/gui/discover.cs:294
-#, fuzzy
-#| msgid "Detecting ..."
 msgid "Action"
-msgstr "Ανίχνευση ..."
+msgstr "Ενέργεια"
 
 #: ../src/gui/discover.cs:316 ../src/gui/discover.cs:319
 #: ../src/gui/discover.cs:414 ../src/gui/discover.cs:632
 msgid "NC"
-msgstr ""
+msgstr "Μ/Σ"
 
 #: ../src/gui/discover.cs:582
-#, fuzzy
-#| msgid "Cancel"
 msgid "Cancelling"
-msgstr "Ακύρωση"
+msgstr "Γίνεται ακύρωση"
 
 #: ../src/gui/discover.cs:655
-#, fuzzy
-#| msgid "Cancel connection with server"
 msgid "Cannot connect to ports:"
-msgstr "Ακύρωση σύνδεσης με τον διακομιστή"
+msgstr "Αδυναμία σύνδεσης στις θύρες:"
 
 #: ../src/gui/discover.cs:970
 msgid "Assign as:"
-msgstr ""
+msgstr "Ανάθεση ως:"
 
 #: ../src/gui/discover.cs:974
 msgid "Chronopic"
 msgstr "Chronopic"
 
 #: ../src/gui/discover.cs:979
-#, fuzzy
-#| msgid "First photocell"
 msgid "Old cabled photocells"
-msgstr "Πρώτο φωτοκύτταρο"
+msgstr "Παλιά ενσύρματα φωτοκύτταρα"
 
 #: ../src/gui/edit_event/encoder.cs:248
-#, fuzzy
-#| msgid "Repetition"
 msgid ""
 "Repetition\n"
 "minimal ROM"
-msgstr "Επανάληψη"
+msgstr ""
+"Επανάληψη\n"
+"ελάχιστο εύρος κίνησης (ROM)"
 
 #: ../src/gui/edit_event/encoder.cs:249
 msgid "Minimal Range of Movement"
-msgstr ""
+msgstr "Ελάχιστο Εύρος Κίνησης"
 
 #: ../src/gui/edit_event/encoder.cs:256
-#, fuzzy
-#| msgid "Minimal height"
 msgid ""
 "Repetition\n"
 "minimal length"
-msgstr "Ελάχιστο ύψος"
+msgstr ""
+"Επανάληψη\n"
+"ελάχιστο μήκος"
 
 #: ../src/gui/edit_event/encoder.cs:292
 msgid "Changing to Ecc-con will remove the triggers of this set."
 msgstr ""
+"Η αλλαγή σε Έκκεντρη-Ομόκεντρη θα αφαιρέσει τα εναύσματα (triggers) αυτού "
+"του σετ."
 
 #: ../src/gui/edit_event/event.cs:469
 msgid "Video available here:"
@@ -8766,17 +8498,15 @@ msgstr ""
 
 #: ../src/gui/edit_event/jumpRj.cs:47
 msgid "reactive jump"
-msgstr "πολλαπλό άλμα"
+msgstr "αντιδραστικό άλμα"
 
 #: ../src/gui/edit_event/run.cs:53
 msgid "race"
-msgstr ""
+msgstr "δρόμος"
 
 #: ../src/gui/edit_event/runInterval.cs:90
-#, fuzzy
-#| msgid "intervallic run"
 msgid "intervallic race"
-msgstr "δρόμος με διαλείμματα"
+msgstr "διαλειμματικός δρόμος"
 
 #: ../src/gui/edit_event/runInterval.cs:381
 msgid "Total Time"
@@ -8784,11 +8514,11 @@ msgstr "Συνολικός χρόνος"
 
 #: ../src/gui/evaluator.cs:348
 msgid "Select of Birth"
-msgstr "Επιλογή της γέννησης"
+msgstr "Επιλογή ημερομηνίας γέννησης"
 
 #: ../src/gui/executeAuto.cs:208
 msgid "Mode"
-msgstr "Κατάσταση"
+msgstr "Λειτουργία"
 
 #: ../src/gui/executeAuto.cs:473
 #, csharp-format
@@ -8805,23 +8535,24 @@ msgstr "Πρωτόκολλο"
 
 #: ../src/gui/feedback.cs:923 ../src/gui/preferences.cs:3442
 msgid "Sound working"
-msgstr "Ο ήχος δουλεύει"
+msgstr "Ο ήχος λειτουργεί"
 
 #: ../src/gui/feedback.cs:925 ../src/gui/preferences.cs:3444
 msgid "Sound not working"
-msgstr "Ο ήχος δεν δουλεύει"
+msgstr "Ο ήχος δεν λειτουργεί"
 
 #: ../src/gui/feedback.cs:930
-#, fuzzy
-#| msgid "You need to activate sounds in main window"
 msgid "You need to activate sounds in preferences / multimedia."
-msgstr "Χρειάζεται να ενεργοποιήσετε τους ήχους στο κύριο παράθυρο"
+msgstr ""
+"Χρειάζεται να ενεργοποιήσετε τους ήχους στις προτιμήσεις / πολυμέσα."
 
 #: ../src/gui/feedback.cs:1311
 msgid ""
 "Use clusters in order to group repetitions inside a set separated by rest "
 "time."
 msgstr ""
+"Χρησιμοποιήστε συστάδες (clusters) για να ομαδοποιήσετε επαναλήψεις εντός "
+"ενός σετ που χωρίζονται από χρόνο ξεκούρασης."
 
 #: ../src/gui/feedback.cs:1313
 msgid ""
@@ -8829,6 +8560,9 @@ msgid ""
 "the encoder during this time:\n"
 "1.5 * Rest between clusters"
 msgstr ""
+"Το σετ θα τερματιστεί όταν ο χρήστης πατήσει Τέλος ή Ακύρωση ή όταν δεν "
+"υπάρχει αλλαγή στον κωδικοποιητή κατά τη διάρκεια αυτού του χρόνου:\n"
+"1.5 * Ξεκούραση μεταξύ συστάδων"
 
 #: ../src/gui/feedback.cs:1544
 msgid "Load file"
@@ -8840,10 +8574,8 @@ msgid "Loaded"
 msgstr "Φορτωμένο"
 
 #: ../src/gui/feedback.cs:1572
-#, fuzzy
-#| msgid "Error. File not found."
 msgid "Error. File not compatible."
-msgstr "Σφάλμα. Δε βρέθηκε το αρχείο."
+msgstr "Σφάλμα. Το αρχείο δεν είναι συμβατό."
 
 #. put none in combo
 #: ../src/gui/genericWindow.cs:528 ../src/gui/genericWindow.cs:595
@@ -8872,10 +8604,6 @@ msgstr ""
 "της διαμέτρου του κώνου ως μεταβλητή."
 
 #: ../src/gui/modes/encoderConfiguration.cs:591
-#, fuzzy
-#| msgid ""
-#| "Future versions will include a better way to calcule this. Sorry for the "
-#| "inconvenience."
 msgid ""
 "Future versions will include a better way to calculate this. Sorry for the "
 "inconvenience."
@@ -8884,36 +8612,32 @@ msgstr ""
 "υπολογισμό. Λυπούμαστε για την ταλαιπωρία."
 
 #: ../src/gui/modes/encoderConfiguration.cs:781
-#, fuzzy
-#| msgid "Select of Birth"
 msgid "Select file to import"
-msgstr "Επιλογή της γέννησης"
+msgstr "Επιλογή αρχείου για εισαγωγή"
 
 #: ../src/gui/modes/encoderConfiguration.cs:801
 msgid "Chronojump is currently in gravitory mode."
-msgstr ""
+msgstr "Το Chronojump βρίσκεται τώρα σε βαρυτική λειτουργία."
 
 #: ../src/gui/modes/encoderConfiguration.cs:802
-#, fuzzy
-#| msgid "Select conditions for beep signals"
 msgid "Selected configuration is inertial."
-msgstr "Επιλογή συνθηκών για σήματα ήχου"
+msgstr "Η επιλεγμένη διαμόρφωση είναι αδρανειακή."
 
 #: ../src/gui/modes/encoderConfiguration.cs:803
 msgid "If you still want to import it, change to inertial mode."
-msgstr ""
+msgstr "Αν θέλετε ακόμα να την εισάγετε, αλλάξτε σε αδρανειακή λειτουργία."
 
 #: ../src/gui/modes/encoderConfiguration.cs:806
 msgid "Chronojump is currently in inertial mode."
-msgstr ""
+msgstr "Το Chronojump βρίσκεται τώρα σε αδρανειακή λειτουργία."
 
 #: ../src/gui/modes/encoderConfiguration.cs:807
 msgid "Selected configuration is gravitatory."
-msgstr ""
+msgstr "Η επιλεγμένη διαμόρφωση είναι βαρυτική."
 
 #: ../src/gui/modes/encoderConfiguration.cs:808
 msgid "If you still want to import it, change to gravitatory mode."
-msgstr ""
+msgstr "Αν θέλετε ακόμα να την εισάγετε, αλλάξτε σε βαρυτική λειτουργία."
 
 #. add more suffixes until name is unique
 #.
@@ -8931,16 +8655,12 @@ msgid "copy"
 msgstr "αντιγραφή"
 
 #: ../src/gui/modes/encoderConfiguration.cs:837
-#, fuzzy
-#| msgid "Cannot export to file {0} "
 msgid "Export to file"
-msgstr "Αδύνατη η εξαγωγή σε αρχείο {0} "
+msgstr "Εξαγωγή σε αρχείο"
 
 #: ../src/gui/modes/encoderConfiguration.cs:1043
-#, fuzzy
-#| msgid "Sorry, this exercise cannot be deleted."
 msgid "Sorry, cannot delete all rows."
-msgstr "Δυστυχώς, αυτή η άσκηση δεν μπορεί να διαγραφεί."
+msgstr "Συγνώμη, αδυναμία διαγραφής όλων των γραμμών."
 
 #: ../src/gui/modes/encoderConfiguration.cs:1122
 #, csharp-format
@@ -8948,26 +8668,21 @@ msgid "Max time: {0} s."
 msgstr "Μέγιστος χρόνος: {0} s."
 
 #: ../src/gui/modes/encoderConfiguration.cs:1123
-#, fuzzy, csharp-format
-#| msgid "End at n inactivity seconds"
+#, csharp-format
 msgid "Ends at inactivity during {0} s."
-msgstr "Τερματισμός σε n δευτερόλεπτα αδρανείας "
+msgstr "Τερματισμός σε αδράνεια διάρκειας {0} δευτ."
 
 #: ../src/gui/modes/encoderSelectRepetitions.cs:225
 msgid "Mean Power"
 msgstr "Μέση ισχύς"
 
 #: ../src/gui/modes/encoderSelectRepetitions.cs:226
-#, fuzzy
-#| msgid "Max Initial Speed"
 msgid "Mean Speed"
-msgstr "Μέγιστη αρχική ταχύτητα"
+msgstr "Μέση Ταχύτητα"
 
 #: ../src/gui/modes/encoderSelectRepetitions.cs:227
-#, fuzzy
-#| msgid "Mean Power"
 msgid "Mean Force"
-msgstr "Μέση ισχύς"
+msgstr "Μέση Δύναμη"
 
 #. don't show now
 #: ../src/gui/modes/encoderSelectRepetitions.cs:263
@@ -8993,30 +8708,21 @@ msgstr "Όνομα συνεδρίας"
 
 #. don't show now	//TODO: change message
 #: ../src/gui/modes/encoderSelectRepetitions.cs:463
-#, fuzzy
-#| msgid ""
-#| "Compare repetitions of {0} from this session with the following sessions."
 msgid "Compare repetitions between the following sessions"
-msgstr ""
-"Σύγκριση επαναλήψεων του {0} από αυτήν τη συνεδρία με τις ακόλουθες "
-"συνεδρίες."
+msgstr "Σύγκριση επαναλήψεων μεταξύ των ακόλουθων συνεδριών"
 
 #: ../src/gui/modes/encoderSelectRepetitions.cs:650
-#, fuzzy
-#| msgid "No compare"
 msgid "Persons compare"
-msgstr "Χωρίς σύγκριση"
+msgstr "Σύγκριση ατόμων"
 
 #. don't show now
 #: ../src/gui/modes/encoderSelectRepetitions.cs:651
-#, fuzzy
-#| msgid "Select persons to compare to {0}."
 msgid "Select persons to compare"
-msgstr "Επιλογή ατόμων για σύγκριση με το {0}."
+msgstr "Επιλογή ατόμων για σύγκριση"
 
 #: ../src/gui/modes/event.cs:160
 msgid "There are tests of that type on database on sessions:"
-msgstr "Υπάρχουν εξετάσεις αυτού του τύπου στη βάση δεδομένων σε συνεδρίες:"
+msgstr "Υπάρχουν δοκιμασίες αυτού του τύπου στη βάση δεδομένων στις συνεδρίες:"
 
 #: ../src/gui/modes/event.cs:162
 msgid "please first edit or delete them."
@@ -9024,7 +8730,7 @@ msgstr "παρακαλούμε πρώτα επεξεργαστείτε ή δια
 
 #: ../src/gui/modes/event.cs:165
 msgid "Are you sure you want to delete this test type?"
-msgstr "Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτόν τον τύπο εξέτασης;"
+msgstr "Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτόν τον τύπο δοκιμασίας;"
 
 #: ../src/gui/modes/forceSensorElasticBands.cs:222
 msgid "Color"
@@ -9035,10 +8741,12 @@ msgid ""
 "In some cases the force registered by the Force Sensor is not directly the "
 "force that the person is exerting."
 msgstr ""
+"Σε ορισμένες περιπτώσεις η δύναμη που καταγράφεται από τον Αισθητήρα Δύναμης "
+"δεν είναι άμεσα η δύναμη που ασκεί το άτομο."
 
 #: ../src/gui/modes/forceSensorExercise.cs:411
 msgid "How the force is transmitted to the sensor"
-msgstr ""
+msgstr "Πώς μεταδίδεται η δύναμη στον αισθητήρα"
 
 #: ../src/gui/modes/forceSensorExercise.cs:413
 msgid ""
@@ -9046,18 +8754,25 @@ msgid ""
 "(mass of the person and the extra load) can affect the sensor measuring. "
 "Select how to manage this effect."
 msgstr ""
+"Ανάλογα με την άσκηση και τη διαμόρφωση της δοκιμασίας, η συνολική μάζα "
+"(μάζα του ατόμου και το επιπλέον φορτίο) μπορεί να επηρεάσει τη μέτρηση του "
+"αισθητήρα. Επιλέξτε πώς να διαχειριστείτε αυτό το φαινόμενο."
 
 #: ../src/gui/modes/forceSensorExercise.cs:420
 msgid ""
 "In current exercise configuration, it is necessary to enter the angle in "
 "which the sensor is measuring."
 msgstr ""
+"Στην τρέχουσα διαμόρφωση άσκησης, είναι απαραίτητο να εισάγετε τη γωνία στην "
+"οποία μετράει ο αισθητήρας."
 
 #: ../src/gui/modes/forceSensorExercise.cs:422
 msgid ""
 "In current exercise configuration, angle is merely descriptive (not used in "
 "calculations)."
 msgstr ""
+"Στην τρέχουσα διαμόρφωση άσκησης, η γωνία είναι απλώς περιγραφική (δεν "
+"χρησιμοποιείται στους υπολογισμούς)."
 
 #: ../src/gui/modes/forceSensorExercise.cs:432
 msgid ""
@@ -9065,28 +8780,38 @@ msgid ""
 "This option do NOT take into account the effect of the weight or the "
 "acceleration of a mass."
 msgstr ""
+"Όταν ενδιαφέρεστε μόνο για τη δύναμη που μεταδίδεται στον αισθητήρα δύναμης. "
+"Αυτή η επιλογή ΔΕΝ λαμβάνει υπόψη την επίδραση του βάρους ή της επιτάχυνσης "
+"μιας μάζας."
 
 #: ../src/gui/modes/forceSensorExercise.cs:434
 msgid "When you want the resultant of all the forces exerted by the person."
 msgstr ""
+"Όταν θέλετε τη συνισταμένη όλων των δυνάμεων που ασκούνται από το άτομο."
 
 #: ../src/gui/modes/forceSensorExercise.cs:435
 msgid ""
 "Chronojump needs to know the involved mass (usually person's mass) and the "
 "angle."
 msgstr ""
+"Το Chronojump πρέπει να γνωρίζει την εμπλεκόμενη μάζα (συνήθως τη μάζα του "
+"ατόμου) και τη γωνία."
 
 #: ../src/gui/modes/forceSensorExercise.cs:436
 msgid ""
 "This option allows to take into account the effect of the weight or the "
 "acceleration of a mass."
 msgstr ""
+"Αυτή η επιλογή επιτρέπει να ληφθεί υπόψη η επίδραση του βάρους ή της "
+"επιτάχυνσης μιας μάζας."
 
 #: ../src/gui/modes/forceSensorExercise.cs:437
 msgid ""
 "Projection of exerted force is calculated as the sum of forces projected in "
 "the direction defined by the exercise."
 msgstr ""
+"Η προβολή της ασκούμενης δύναμης υπολογίζεται ως το άθροισμα των δυνάμεων "
+"που προβάλλονται στην κατεύθυνση που ορίζεται από την άσκηση."
 
 #: ../src/gui/modes/forceSensorExercise.cs:439
 msgid ""
@@ -9095,17 +8820,25 @@ msgid ""
 "elements allows to calculate positions, velocities and accelerations during "
 "the exercise"
 msgstr ""
+"Εάν, κατά την άσκηση δύναμης, κάποιο στοιχείο επιμηκύνεται σημαντικά, αυτό "
+"σημαίνει ότι χρησιμοποιείτε ελαστικά στοιχεία. Η γνώση των χαρακτηριστικών "
+"των ελαστικών στοιχείων επιτρέπει τον υπολογισμό θέσεων, ταχυτήτων και "
+"επιταχύνσεων κατά τη διάρκεια της άσκησης"
 
 #: ../src/gui/modes/forceSensorExercise.cs:441
 msgid ""
 "If exerting a force there's no significant elongation you are using not "
 "elastic elements."
 msgstr ""
+"Εάν κατά την άσκηση δύναμης δεν υπάρχει σημαντική επιμήκυνση, δεν "
+"χρησιμοποιείτε ελαστικά στοιχεία."
 
 #: ../src/gui/modes/forceSensorExercise.cs:443
 msgid ""
 "When the mass doesn't affect the sensor data but it must be added to it."
 msgstr ""
+"Όταν η μάζα δεν επηρεάζει τα δεδομένα του αισθητήρα αλλά πρέπει να "
+"προστεθεί σε αυτά."
 
 #: ../src/gui/modes/forceSensorExercise.cs:445
 msgid ""
@@ -9113,6 +8846,9 @@ msgid ""
 "not a force that the subject is exerting. In this case, the sensor will be "
 "tared before starting the test."
 msgstr ""
+"Σε ορισμένες περιπτώσεις το βάρος της μάζας υποστηρίζεται από τον αισθητήρα "
+"αλλά δεν είναι δύναμη που ασκεί το υποκείμενο. Σε αυτή την περίπτωση, ο "
+"αισθητήρας θα μηδενιστεί πριν την έναρξη της δοκιμασίας."
 
 #: ../src/gui/modes/forceSensorExercise.cs:447
 msgid ""
@@ -9120,45 +8856,50 @@ msgid ""
 "supported by the measured limb. If the effect of the mass is not "
 "significant, use this option also."
 msgstr ""
+"Σε ορισμένες περιπτώσεις το βάρος μεταδίδεται στον αισθητήρα και "
+"υποστηρίζεται επίσης από το μετρούμενο μέλος. Εάν η επίδραση της μάζας δεν "
+"είναι σημαντική, χρησιμοποιήστε επίσης αυτήν την επιλογή."
 
 #: ../src/gui/modes/forceSensorExercise.cs:448
 msgid "This configuration is the same as raw data."
-msgstr ""
+msgstr "Αυτή η διαμόρφωση είναι ίδια με τα πρωτογενή δεδομένα."
 
 #: ../src/gui/modes/forceSensorExercise.cs:450
 msgid ""
 "If user changes values on preferences, these values will automatically "
 "change."
 msgstr ""
+"Εάν ο χρήστης αλλάξει τιμές στις προτιμήσεις, αυτές οι τιμές θα αλλάξουν "
+"αυτόματα."
 
 #: ../src/gui/modes/forceSensorExercise.cs:452
 msgid "These values will be used to detect repetitions."
-msgstr ""
+msgstr "Αυτές οι τιμές θα χρησιμοποιηθούν για τον εντοπισμό επαναλήψεων."
 
 #: ../src/gui/modes/forceSensorExercise.cs:454
 msgid ""
 "Detected repetitions will show only the phase in which the force increases "
 "or also where decreases."
 msgstr ""
+"Οι ανιχνευμένες επαναλήψεις θα εμφανίζουν μόνο τη φάση κατά την οποία η "
+"δύναμη αυξάνεται ή και όπου μειώνεται."
 
 #. if(o == Options.OTHER)
 #: ../src/gui/modes/forceSensorExercise.cs:456
-#, fuzzy
-#| msgid "Horizontal"
 msgid "0 means horizontally"
-msgstr "Οριζόντιος"
+msgstr "0 σημαίνει οριζόντια"
 
 #: ../src/gui/modes/forceSensorExercise.cs:457
 msgid "90 means vertically with the person above the sensor"
-msgstr ""
+msgstr "90 σημαίνει κατακόρυφα με το άτομο πάνω από τον αισθητήρα"
 
 #: ../src/gui/modes/forceSensorExercise.cs:458
 msgid "-90 means vertically with the person below the sensor"
-msgstr ""
+msgstr "-90 σημαίνει κατακόρυφα με το άτομο κάτω από τον αισθητήρα"
 
 #: ../src/gui/modes/forceSensorExercise.cs:469
 msgid "Isometric Leg Extension."
-msgstr ""
+msgstr "Ισομετρική έκταση ποδιών."
 
 #. if (chronojumpMode == Constants.Modes.FORCESENSORELASTIC)
 #: ../src/gui/modes/forceSensorExercise.cs:471
@@ -9166,40 +8907,38 @@ msgid ""
 "Upper limb movements against a rubber if the displaced mass is considered "
 "insignificant."
 msgstr ""
+"Κινήσεις άνω άκρων ενάντια σε λάστιχο εάν η μετατοπιζόμενη μάζα θεωρείται "
+"ασήμαντη."
 
 #: ../src/gui/modes/forceSensorExercise.cs:473
-#, fuzzy
-#| msgid "Vertical"
 msgid "Vertical:"
-msgstr "Κατακόρυφος"
+msgstr "Κατακόρυφη:"
 
 #: ../src/gui/modes/forceSensorExercise.cs:473
 msgid "Squat with the force sensor fixed between the floor and the body."
 msgstr ""
+"Βαθύ κάθισμα με τον αισθητήρα δύναμης στερεωμένο μεταξύ του δαπέδου και του "
+"σώματος."
 
 #: ../src/gui/modes/forceSensorExercise.cs:474
-#, fuzzy
-#| msgid "Horizontal"
 msgid "Horizontal:"
-msgstr "Οριζόντιος"
+msgstr "Οριζόντια:"
 
 #: ../src/gui/modes/forceSensorExercise.cs:474
 msgid "Movements where a significant mass is accelerated."
-msgstr ""
+msgstr "Κινήσεις όπου επιταχύνεται μια σημαντική μάζα."
 
 #: ../src/gui/modes/forceSensorExercise.cs:475
 msgid "Diagonal movement:"
-msgstr ""
+msgstr "Διαγώνια κίνηση:"
 
 #: ../src/gui/modes/forceSensorExercise.cs:475
-#, fuzzy
-#| msgid "Lateral"
 msgid "Lateral squat."
-msgstr "Πλευρικός"
+msgstr "Πλευρικό βαθύ κάθισμα."
 
 #: ../src/gui/modes/forceSensorExercise.cs:477
 msgid "Rubber bands, springs, flexible material …"
-msgstr ""
+msgstr "Λάστιχα, ελατήρια, εύκαμπτο υλικό …"
 
 #: ../src/gui/modes/forceSensorExercise.cs:479
 #: ../src/gui/modes/forceSensorExercise.cs:481
@@ -9208,6 +8947,10 @@ msgid ""
 "body, increasing the mass don't affect the measure of the sensor because the "
 "weight is supported by the lower limbs, not the sensor."
 msgstr ""
+"Σε ένα ισομετρικό βαθύ κάθισμα με τον αισθητήρα δύναμης στερεωμένο μεταξύ "
+"του δαπέδου και του σώματος, η αύξηση της μάζας δεν επηρεάζει τη μέτρηση του "
+"αισθητήρα επειδή το βάρος υποστηρίζεται από τα κάτω άκρα, όχι από τον "
+"αισθητήρα."
 
 #: ../src/gui/modes/forceSensorExercise.cs:483
 msgid ""
@@ -9215,6 +8958,10 @@ msgid ""
 "to the sensor. The weight of the leg is affecting the measure of the force "
 "transmitted to the sensor but this is not a force exerted by the subject."
 msgstr ""
+"Δοκιμασία οπίσθιων μηριαίων όπου η φτέρνα του ατόμου αιωρείται σε έναν "
+"ιμάντα συνδεδεμένο στον αισθητήρα. Το βάρος του ποδιού επηρεάζει τη μέτρηση "
+"της δύναμης που μεταδίδεται στον αισθητήρα, αλλά αυτή δεν είναι δύναμη που "
+"ασκείται από το υποκείμενο."
 
 #: ../src/gui/modes/forceSensorExercise.cs:485
 msgid ""
@@ -9222,62 +8969,56 @@ msgid ""
 "ankle, the weight affects the values of the sensor but this weight is "
 "supported by the hamstrings we are measuring."
 msgstr ""
+"Σκανδιναβική άσκηση οπίσθιων μηριαίων (Nordic hamstring). Σε μια "
+"σκανδιναβική άσκηση οπίσθιων μηριαίων με τον αισθητήρα προσαρτημένο στον "
+"αστράγαλο, το βάρος επηρεάζει τις τιμές του αισθητήρα, αλλά αυτό το βάρος "
+"υποστηρίζεται από τους οπίσθιους μηριαίους που μετράμε."
 
 #: ../src/gui/modes/forceSensorExercise.cs:486
 msgid ""
 "Pulling on a TRX. Pulling from a TRX implies overcome the body weight. This "
 "body weight is also measured by the sensor."
 msgstr ""
+"Έλξη σε TRX. Η έλξη από ένα TRX συνεπάγεται υπερνίκηση του σωματικού βάρους. "
+"Αυτό το σωματικό βάρος μετράται επίσης από τον αισθητήρα."
 
 #: ../src/gui/modes/forceSensorExercise.cs:508
-#, fuzzy
-#| msgid "Elastic cap."
 msgid "Not Elastic"
-msgstr "Ελαστικό κάλυμμα."
+msgstr "Μη ελαστικό"
 
 #: ../src/gui/modes/forceSensorExercise.cs:510
 msgid "Add mass"
 msgstr "Προσθήκη μάζας"
 
 #: ../src/gui/modes/forceSensorExercise.cs:512
-#, fuzzy
-#| msgid "Extra mass"
 msgid "Subtract mass"
-msgstr "Επιπλέον μάζα"
+msgstr "Αφαίρεση μάζας"
 
 #: ../src/gui/modes/forceSensorExercise.cs:514
 msgid "Mass is included"
 msgstr "Συμπεριλαμβάνεται η μάζα"
 
 #: ../src/gui/modes/forceSensorExercise.cs:516
-#, fuzzy
-#| msgid "Repetition number"
 msgid "Repetitions according to preferences"
-msgstr "Αριθμός επαναλήψεων"
+msgstr "Επαναλήψεις σύμφωνα με τις προτιμήσεις"
 
 #: ../src/gui/modes/forceSensorExercise.cs:518
-#, fuzzy
-#| msgid "Repetition number"
 msgid "Repetitions using custom values"
-msgstr "Αριθμός επαναλήψεων"
+msgstr "Επαναλήψεις με χρήση προσαρμοσμένων τιμών"
 
 #. if(o == Options.OTHER)
 #: ../src/gui/modes/forceSensorExercise.cs:522
-#, fuzzy
-#| msgid "Single repetition"
 msgid "Angle explanation"
-msgstr "Απλή επανάληψη"
+msgstr "Επεξήγηση γωνίας"
 
 #: ../src/gui/modes/forceSensorExercise.cs:525
-#, fuzzy
-#| msgid "Examples:"
 msgid "Examples of:"
 msgstr "Παραδείγματα:"
 
 #. this.pDN = pDN;
 #: ../src/gui/modes/jump.cs:75
 msgid "Repair reactive jump"
-msgstr "Διόρθωση πολλαπλού άλματος"
+msgstr "Διόρθωση αντιδραστικού άλματος"
 
 #: ../src/gui/modes/jump.cs:121
 #, csharp-format
@@ -9320,7 +9061,7 @@ msgstr "Αριθμός"
 #: ../src/gui/modes/jump.cs:482 ../src/gui/modes/jump.cs:706
 #: ../src/gui/modes/run.cs:417 ../src/gui/modes/run.cs:617
 msgid "Delete test type defined by user"
-msgstr "Διαγράψτε τον τύπο εξέτασης που ορίστηκε από τον χρήστη"
+msgstr "Διαγραφή τύπου δοκιμασίας ορισμένου από τον χρήστη"
 
 #: ../src/gui/modes/jump.cs:739 ../src/gui/modes/run.cs:647
 msgid "Limited value"
@@ -9340,42 +9081,35 @@ msgstr "Δευτερόλεπτα"
 
 #: ../src/gui/modes/jump.cs:984 ../src/gui/modes/jump.cs:1000
 msgid "Do you want to delete this jump?"
-msgstr "Θέλετε να διαγραφεί αυτό το άλμα;"
+msgstr "Θέλετε να διαγράψετε αυτό το άλμα;"
 
-#. string myString =  Catalog.GetString ("Jump type: '") +
+#. string myString =  Catalog.GetString ("Jump type: '") +
 #. Util.RemoveTildeAndColonAndDot(entry_name.Text) +
 #. Catalog.GetString ("' exists. Please, use another name");
 #: ../src/gui/modes/jumpType.cs:194
 #, csharp-format
 msgid "Jump type: '{0}' exists. Please, use another name"
 msgstr ""
-"Τύπος άλματος: '{0}' υπάρχει. Παρακαλούμε, χρησιμοποιήστε ένα άλλο όνομα"
+"Ο τύπος άλματος '{0}' υπάρχει. Παρακαλούμε, χρησιμοποιήστε ένα άλλο όνομα"
 
 #: ../src/gui/modes/run.cs:73
-#, fuzzy
-#| msgid "Repair intervallic run"
 msgid "Repair intervallic race"
-msgstr "Διόρθωση δρόμου με διαλείμματα"
+msgstr "Διόρθωση διαλειμματικού δρόμου"
 
 #: ../src/gui/modes/run.cs:120
-#, fuzzy, csharp-format
-#| msgid "RunType: {0}."
+#, csharp-format
 msgid "RaceType: {0}."
-msgstr "Τύπος εκτέλεσης: {0}."
+msgstr "Τύπος δρόμου: {0}."
 
 #: ../src/gui/modes/run.cs:128
-#, fuzzy, csharp-format
-#| msgid "This run type is fixed to one run."
-#| msgid_plural "This run type is fixed to {0} runs."
+#, csharp-format
 msgid "This race type is fixed to one lap."
 msgid_plural "This race type is fixed to {0} laps."
-msgstr[0] "Αυτός ο τύπος δρόμου ορίστηκε σε έναν δρόμο."
-msgstr[1] "Αυτός ο τύπος δρόμου ορίστηκε σε {0} δρόμους."
+msgstr[0] "Αυτός ο τύπος δρόμου ορίστηκε σε έναν γύρο."
+msgstr[1] "Αυτός ο τύπος δρόμου ορίστηκε σε {0} γύρους."
 
 #: ../src/gui/modes/run.cs:137
-#, fuzzy, csharp-format
-#| msgid "This run type is fixed to one second."
-#| msgid_plural "This run type is fixed to {0} seconds."
+#, csharp-format
 msgid "This race type is fixed to one second."
 msgid_plural "This race type is fixed to {0} seconds."
 msgstr[0] "Αυτός ο τύπος δρόμου ορίστηκε σε ένα δευτερόλεπτο."
@@ -9394,36 +9128,26 @@ msgstr "Χρόνος γύρου"
 #: ../src/gui/modes/run.cs:529 ../src/gui/modes/run.cs:665
 #: ../src/gui/modes/run.cs:734 ../src/gui/modes/run.cs:786
 msgid "Not defined"
-msgstr "Αόριστο"
+msgstr "Μη καθορισμένο"
 
 #: ../src/gui/modes/run.cs:889 ../src/gui/modes/run.cs:907
-#, fuzzy
-#| msgid "Do you want to delete this run?"
 msgid "Do you want to delete this race?"
-msgstr "Θέλετε να διαγραφεί αυτός ο δρόμος;"
+msgstr "Θέλετε να διαγράψετε αυτόν τον δρόμο;"
 
 #: ../src/gui/modes/runType.cs:187
-#, fuzzy, csharp-format
-#| msgid ""
-#| "\n"
-#| "(decimal separator: '{0}')"
+#, csharp-format
 msgid "(decimal separator: '{0}')"
-msgstr ""
-"\n"
-"(δεκαδικό διαχωριστικό: '{0}')"
+msgstr "(δεκαδικό διαχωριστικό: '{0}')"
 
 #: ../src/gui/modes/runType.cs:231
-#, fuzzy, csharp-format
-#| msgid "Run type: '{0}' exists. Please, use another name"
+#, csharp-format
 msgid "Race type: '{0}' exists. Please, use another name"
 msgstr ""
-"Τύπος δρόμου: '{0}' υπάρχει. Παρακαλούμε, χρησιμοποιήστε ένα άλλο όνομα"
+"Ο τύπος δρόμου '{0}' υπάρχει. Παρακαλούμε, χρησιμοποιήστε ένα άλλο όνομα"
 
 #: ../src/gui/modes/runType.cs:415
-#, fuzzy
-#| msgid "On RSA tests, rest time counts as a \"track\"."
 msgid "On RSA tests, rest time counts as a \"lap\"."
-msgstr "Σε εξετάσεις RSA, ο χρόνος ανάπαυσης μετρά ως \"διαδρομή\"."
+msgstr "Στις δοκιμασίες RSA, ο χρόνος ανάπαυσης μετράει ως \"γύρος\"."
 
 #: ../src/gui/modes/runType.cs:416
 msgid ""
@@ -9435,107 +9159,90 @@ msgstr ""
 #: ../src/gui/modes/runType.cs:417
 msgid "Eg. Aziz et al. (2000) test repeats 8 times the following sequence:"
 msgstr ""
-"Πχ. Aziz κ.α. (2000) η εξέταση επαναλαμβάνει 8 φορές την ακόλουθη σειρά:"
+"Π.χ. Η δοκιμασία των Aziz κ.ά. (2000) επαναλαμβάνει 8 φορές την ακόλουθη "
+"ακολουθία:"
 
 #: ../src/gui/modes/runType.cs:418
 msgid "Run 40 meters, rest 30 seconds."
 msgstr "Δρόμος 40 μέτρα, ανάπαυση 30 δευτερόλεπτα."
 
 #: ../src/gui/modes/runType.cs:419
-#, fuzzy
-#| msgid "Will be limited by tracks with a fixed value of 16"
 msgid "Will be limited by laps with a fixed value of 16"
-msgstr "Θα περιορίζεται από διαδρομές με μια σταθερή τιμή 16"
+msgstr "Θα περιορίζεται από γύρους με μια σταθερή τιμή 16"
 
 #: ../src/gui/modes/runType.cs:420
-#, fuzzy
-#| msgid "because there are 16 tracks:"
 msgid "because there are 16 laps:"
-msgstr "επειδή υπάρχουν 16 διαδρομές:"
+msgstr "επειδή υπάρχουν 16 γύροι:"
 
 #: ../src/gui/modes/runType.cs:421
-#, fuzzy
-#| msgid "2 different tracks: ('Run' and 'rest') x 8 times"
 msgid "2 different laps: ('Run' and 'rest') x 8 times"
-msgstr "2 διαφορετικές διαδρομές: ('δρόμος' και 'ανάπαυση') x 8 φορές"
+msgstr "2 διαφορετικοί γύροι: ('Δρόμος' και 'ανάπαυση') x 8 φορές"
 
 #: ../src/gui/modes/runType.cs:422
-#, fuzzy
-#| msgid "And the 'distance' of each different track will be:"
 msgid "And the 'distance' of each different lap will be:"
-msgstr "Και η 'απόσταση' κάθε διαφορετικής διαδρομής θα είναι:"
+msgstr "Και η 'απόσταση' κάθε διαφορετικού γύρου θα είναι:"
 
 #: ../src/gui/modes/sprint.cs:99
 msgid "Error, height of the person cannot be 0"
-msgstr ""
+msgstr "Σφάλμα, το ύψος του ατόμου δεν μπορεί να είναι 0"
 
 #: ../src/gui/modes/sprint.cs:106 ../src/gui/modes/sprint.cs:124
 msgid "This data does not seem a sprint."
-msgstr ""
+msgstr "Αυτά τα δεδομένα δεν μοιάζουν με σπριντ."
 
 #: ../src/gui/networks.cs:747 ../src/gui/preferences.cs:2784
-#, fuzzy
-#| msgid "Not found any USB-serial ports."
 msgid "Not found any database at path:"
-msgstr "Δεν βρέθηκαν σειριακές θύρες USB."
+msgstr "Δεν βρέθηκε καμία βάση δεδομένων στη διαδρομή:"
 
 #: ../src/gui/networks.cs:1112
 #, csharp-format
 msgid "Identify with admin ID wristband before {0} s."
-msgstr ""
+msgstr "Ταυτοποίηση με περικάρδιο ID διαχειριστή εντός {0} δευτ."
 
 #. show a Read message nice if the network is slow or there is any problem with the web services
 #: ../src/gui/networks.cs:1133
 msgid "The wristband has been read."
-msgstr ""
+msgstr "Το περικάρδιο αναγνώστηκε."
 
 #: ../src/gui/networks.cs:1134
-#, fuzzy
-#| msgid "Connecting to server"
 msgid "Connecting to server …"
-msgstr "Σύνδεση στο διακομιστή"
+msgstr "Σύνδεση στον διακομιστή …"
 
 #: ../src/gui/overview.cs:261 ../src/gui/overview.cs:263
-#, fuzzy
-#| msgid "Encoder sets"
 msgid "Encoder Overview"
-msgstr "Σετ κωδικοποιητή"
+msgstr "Επισκόπηση κωδικοποιητή"
 
 #: ../src/gui/overview.cs:299
 msgid "Displaced mass"
-msgstr "Εκτοπισμένη μάζα"
+msgstr "Μετατοπισμένη μάζα"
 
 #: ../src/gui/overview.cs:314
-#, fuzzy
-#| msgid "Eccentric-concentric"
 msgid "Save criteria on eccentric-concentric"
-msgstr "Έκκεντρα-ομόκεντρα"
+msgstr "Κριτήρια αποθήκευσης σε έκκεντρη-ομόκεντρη"
 
 #: ../src/gui/person/addModify.cs:168 ../src/gui/person/merge.cs:236
 #, csharp-format
 msgid "Merge persons '{0}' with '{1}' in all sessions."
-msgstr ""
+msgstr "Συγχώνευση ατόμων '{0}' με '{1}' σε όλες τις συνεδρίες."
 
 #: ../src/gui/person/addModify.cs:169
 #, csharp-format
 msgid "All tests of person '{0}' will be assigned to person '{1}'."
-msgstr ""
+msgstr "Όλες οι δοκιμασίες του ατόμου '{0}' θα ανατεθούν στο άτομο '{1}'."
 
 #. Are you sure?
 #: ../src/gui/person/addModify.cs:171
 msgid "Please, choose person's parameters."
-msgstr ""
+msgstr "Παρακαλούμε, επιλέξτε παραμέτρους ατόμου."
 
 #: ../src/gui/person/addModify.cs:172
 #, csharp-format
 msgid "Please, choose person's parameters at session {0}."
-msgstr ""
+msgstr "Παρακαλούμε, επιλέξτε παραμέτρους ατόμου στη συνεδρία {0}."
 
 #: ../src/gui/person/addModify.cs:279
-#, fuzzy
-#| msgid "Load person"
 msgid "Edit person"
-msgstr "Φόρτωση ατόμου"
+msgstr "Επεξεργασία ατόμου"
 
 #: ../src/gui/person/addModify.cs:382
 msgid "Select file"
@@ -9550,16 +9257,14 @@ msgid "Please, complete the weight of the person."
 msgstr "Παρακαλούμε, συμπληρώστε το βάρος του ατόμου."
 
 #: ../src/gui/person/addModify.cs:1108
-#, fuzzy, csharp-format
-#| msgid "Person: '{0}' exists. Please, use another name"
+#, csharp-format
 msgid "Person: '{0}' exists. Please, use another name."
-msgstr "Άτομο: Το '{0}' υπάρχει. Παρακαλούμε, χρησιμοποιήστε ένα άλλο όνομα"
+msgstr "Το άτομο '{0}' υπάρχει. Παρακαλούμε, χρησιμοποιήστε ένα άλλο όνομα."
 
 #: ../src/gui/person/addModify.cs:1111
-#, fuzzy
-#| msgid "Load persons from other session"
 msgid "Or load this person from another session using this button:"
-msgstr "Φόρτωση ατόμων από άλλη συνεδρία"
+msgstr ""
+"Ή φορτώστε αυτό το άτομο από άλλη συνεδρία χρησιμοποιώντας αυτό το κουμπί:"
 
 #: ../src/gui/person/addMultiple.cs:289 ../src/gui/person/addMultiple.cs:366
 msgid "CSV file has headers"
@@ -9574,37 +9279,24 @@ msgid "CSV file does not have headers"
 msgstr "Το αρχείο CSV δεν έχει κεφαλίδες"
 
 #: ../src/gui/person/addMultiple.cs:381
-#, fuzzy
-#| msgid ""
-#| "This can be changed using the buttons on the top of this window.\n"
-#| "\n"
-#| "To differentiate between male and female, use the values 1/0, or m/f, or "
-#| "M/F on the genre column."
 msgid ""
 "To differentiate between male and female,\n"
 "use any of these on the sex column:"
 msgstr ""
-"Αυτό μπορεί να αλλάξει χρησιμοποιώντας τα κουμπιά στο πάνω μέρος του "
-"παραθύρου.\n"
-"\n"
-"Για να γίνει διάκριση μεταξύ ανδρών και γυναικών, χρησιμοποιήστε τις τιμές "
-"1/0 ή α/γ, ή Α/Γ στη στήλη είδος."
+"Για να ξεχωρίσετε μεταξύ άνδρα και γυναίκας,\n"
+"χρησιμοποιήστε οποιοδήποτε από τα παρακάτω στη στήλη φύλου:"
 
 #: ../src/gui/person/addMultiple.cs:382
 msgid "Unspecified/Unknown:"
-msgstr ""
+msgstr "Ακαθόριστο/Άγνωστο:"
 
 #: ../src/gui/person/addMultiple.cs:383
-#, fuzzy
-#| msgid "Male"
 msgid "Male:"
-msgstr "Άντρας"
+msgstr "Άνδρας:"
 
 #: ../src/gui/person/addMultiple.cs:384
-#, fuzzy
-#| msgid "Female"
 msgid "Female:"
-msgstr "Γυναίκα"
+msgstr "Γυναίκα:"
 
 #: ../src/gui/person/addMultiple.cs:386
 msgid "Save the spreadsheet as CSV (Comma Separated Values)."
@@ -9614,13 +9306,11 @@ msgstr ""
 #: ../src/gui/person/addMultiple.cs:388
 #, csharp-format
 msgid "Expected column separator character is '{0}'"
-msgstr ""
+msgstr "Ο αναμενόμενος χαρακτήρας διαχωρισμού στηλών είναι '{0}'"
 
 #: ../src/gui/person/addMultiple.cs:389
-#, fuzzy
-#| msgid "This can be changed on preferences."
 msgid "You can change this on Preferences / Language."
-msgstr "Αυτό μπορεί να αλλάξει στις προτιμήσεις."
+msgstr "Μπορείτε να το αλλάξετε αυτό στις Προτιμήσεις / Γλώσσα."
 
 #: ../src/gui/person/addMultiple.cs:405
 msgid "Full name in two columns"
@@ -9636,30 +9326,26 @@ msgstr "Φαίνεται ότι υπάρχει μια γραμμή κεφαλί�
 
 #. errors
 #: ../src/gui/person/addMultiple.cs:787
-#, fuzzy
-#| msgid "delete current session"
 msgid ""
 "Name already\n"
 "in session"
-msgstr "διαγραφή τρέχουσας συνεδρίας"
+msgstr ""
+"Το όνομα υπάρχει ήδη\n"
+"στη συνεδρία"
 
 #: ../src/gui/person/addMultiple.cs:788
-#, fuzzy
-#| msgid "Creating database"
 msgid ""
 "Name already\n"
 "in database"
-msgstr "Δημιουργία βάσης δεδομένων"
+msgstr ""
+"Το όνομα υπάρχει ήδη\n"
+"στη βάση δεδομένων"
 
 #: ../src/gui/person/addMultiple.cs:790
-#, fuzzy
-#| msgid "Create new"
 msgid "Repeated name"
-msgstr "Δημιουργία νέου"
+msgstr "Επαναλαμβανόμενο όνομα"
 
 #: ../src/gui/person/addMultiple.cs:791
-#, fuzzy
-#| msgid "Non weighted"
 msgid "No weight"
 msgstr "Χωρίς βάρος"
 
@@ -9671,31 +9357,25 @@ msgstr "Τα άτομα θα δημιουργηθούν με προεπιλεγ�
 #, csharp-format
 msgid "All tests of person '{0}' will be permanently assigned to person '{1}'."
 msgstr ""
+"Όλες οι δοκιμασίες του ατόμου '{0}' θα ανατεθούν μόνιμα στο άτομο '{1}'."
 
 #: ../src/gui/person/merge.cs:348
-#, fuzzy
-#| msgid "Between persons"
 msgid "Differences between persons"
-msgstr "Μεταξύ ατόμων"
+msgstr "Διαφορές μεταξύ ατόμων"
 
 #: ../src/gui/person/merge.cs:356
-#, fuzzy
-#| msgid "Delete session"
 msgid "Differences in session"
-msgstr "Διαγραφή συνεδρίας"
+msgstr "Διαφορές στη συνεδρία"
 
 #: ../src/gui/person/merge.cs:387 ../src/gui/person/merge.cs:388
 #: ../src/gui/person/merge.cs:404 ../src/gui/person/merge.cs:405
-#, fuzzy
-#| msgid "Please fill these values."
 msgid "Use these values"
-msgstr "Παρακαλούμε συμπληρώστε αυτές τις τιμές."
+msgstr "Χρήση αυτών των τιμών"
 
 #: ../src/gui/person/personSelect.cs:497
-#, fuzzy, csharp-format
-#| msgid "Delete person from this session."
+#, csharp-format
 msgid "Delete person '{0}' from this session"
-msgstr "Διαγραφή ατόμου από αυτήν τη συνεδρία."
+msgstr "Διαγραφή ατόμου '{0}' από αυτήν τη συνεδρία"
 
 #: ../src/gui/person/recuperate.cs:708
 #, csharp-format
@@ -9706,7 +9386,7 @@ msgstr[1] "Επιτυχής προσθήκη {0} ατόμων."
 
 #: ../src/gui/person/recuperate.cs:781
 msgid "Include / Discard athletes"
-msgstr "Περιλαμβάνει / απορρίπτει αθλητές"
+msgstr "Συμπερίληψη / Απόρριψη αθλητών"
 
 #: ../src/gui/person/recuperate.cs:790
 msgid ""
@@ -9714,9 +9394,9 @@ msgid ""
 "her tests on this session.\n"
 "If you want that a person is not uploaded, just uncheck it."
 msgstr ""
-"Όλα τα σημειωμένα άτομα στην πρώτη στήλη θα αποσταλούν στη βάση δεδομένων με "
-"τις εξετάσεις τους σε αυτή την συνεδρία.\n"
-"Αν θέλετε αυτό το άτομο να μην αποσταλεί, απλά αποεπιλέξτε το."
+"Όλα τα επιλεγμένα άτομα στην πρώτη στήλη θα μεταφορτωθούν στη βάση δεδομένων "
+"μαζί με τις δοκιμασίες τους σε αυτή τη συνεδρία.\n"
+"Εάν δεν θέλετε να μεταφορτωθεί ένα άτομο, απλά αποεπιλέξτε το."
 
 #: ../src/gui/person/showAllEvents.cs:239
 msgid ""
@@ -9732,176 +9412,167 @@ msgid ""
 "reactive"
 msgstr ""
 "Άλματα\n"
-"πολλαπλά"
+"αντιδραστικά"
 
 #: ../src/gui/person/showAllEvents.cs:241
-#, fuzzy
-#| msgid ""
-#| "Runs\n"
-#| "simple"
 msgid ""
 "Races\n"
 "simple"
 msgstr ""
-"Απλοί\n"
-"δρόμοι"
+"Δρόμοι\n"
+"απλοί"
 
 #: ../src/gui/person/showAllEvents.cs:242
-#, fuzzy
-#| msgid ""
-#| "Runs\n"
-#| "interval"
 msgid ""
 "Races\n"
 "interval"
 msgstr ""
 "Δρόμοι\n"
-"με διαλείμματα"
+"διαλειμματικοί"
 
 #: ../src/gui/preferences.cs:1208
-#, fuzzy
-#| msgid "Select camera"
 msgid "Select color"
-msgstr "Επιλογή της κάμερας"
+msgstr "Επιλογή χρώματος"
 
 #: ../src/gui/preferences.cs:1737
 msgid "At the end of the capture, save the best repetition."
-msgstr ""
+msgstr "Στο τέλος της λήψης, αποθήκευση της καλύτερης επανάληψης."
 
 #: ../src/gui/preferences.cs:1740
 msgid "At the end of the capture, save the best n repetitions."
-msgstr ""
+msgstr "Στο τέλος της λήψης, αποθήκευση των καλύτερων n επαναλήψεων."
 
 #: ../src/gui/preferences.cs:1743
 msgid "At the end of the capture, save the best n consecutive repetitions."
-msgstr ""
+msgstr "Στο τέλος της λήψης, αποθήκευση των καλύτερων n συνεχόμενων επαναλήψεων."
 
 #: ../src/gui/preferences.cs:1746
 msgid "At the end of the capture, save all repetitions."
-msgstr ""
+msgstr "Στο τέλος της λήψης, αποθήκευση όλων των επαναλήψεων."
 
 #: ../src/gui/preferences.cs:1749
 msgid "At the end of the capture, save all repetitions except the last one."
 msgstr ""
+"Στο τέλος της λήψης, αποθήκευση όλων των επαναλήψεων εκτός από την τελευταία."
 
 #: ../src/gui/preferences.cs:1752
 msgid "At the end of the capture, do not automatically save any repetition."
 msgstr ""
+"Στο τέλος της λήψης, να μην γίνεται αυτόματη αποθήκευση καμίας επανάληψης."
 
 #: ../src/gui/preferences.cs:2272
 #, csharp-format
 msgid "{0} pps is equivalent to a resolution of {1} cm."
-msgstr ""
+msgstr "{0} pps ισοδυναμούν με ανάλυση {1} cm."
 
 #: ../src/gui/preferences.cs:2275
 #, csharp-format
 msgid "{0} pps allows to record up to {1} m/s."
-msgstr ""
+msgstr "{0} pps επιτρέπουν την καταγραφή έως και {1} m/s."
 
 #: ../src/gui/preferences.cs:2650
-#, fuzzy
-#| msgid "Select of Birth"
 msgid "Select cloud directory"
-msgstr "Επιλογή της γέννησης"
+msgstr "Επιλογή καταλόγου cloud"
 
 #: ../src/gui/preferences.cs:2667
-#, fuzzy
-#| msgid "Maybe R is not installed."
 msgid "Error. This path is not valid."
-msgstr "Ίσως το R δεν είναι εγκατεστημένο."
+msgstr "Σφάλμα. Αυτή η διαδρομή δεν είναι έγκυρη."
 
 #: ../src/gui/preferences.cs:2802
-#, fuzzy
-#| msgid "Chronojump profile"
 msgid "Chronojump cloud schema"
-msgstr "Προφίλ Chronojump"
+msgstr "Σχήμα cloud Chronojump"
 
 #: ../src/gui/preferences.cs:2835
-#, fuzzy
-#| msgid "Please, write filename:"
 msgid "Please, select R file"
-msgstr "Παρακαλούμε, γράψτε το όνομα του αρχείου:"
+msgstr "Παρακαλούμε, επιλέξτε αρχείο R"
 
 #: ../src/gui/preferences.cs:2906
-#, fuzzy
-#| msgid "Please, write filename:"
 msgid "Please, select Rscript file"
-msgstr "Παρακαλούμε, γράψτε το όνομα του αρχείου:"
+msgstr "Παρακαλούμε, επιλέξτε αρχείο Rscript"
 
 #: ../src/gui/preferences.cs:2988
 msgid "Please, select Python file"
-msgstr ""
+msgstr "Παρακαλούμε, επιλέξτε αρχείο Python"
 
 #: ../src/gui/preferences.cs:3234
 msgid "If active, repetitions will be cut from set using triggers."
 msgstr ""
+"Εάν είναι ενεργό, οι επαναλήψεις θα κόβονται από το σετ χρησιμοποιώντας "
+"εναύσματα (triggers)."
 
 #: ../src/gui/preferences.cs:3235
 msgid "Trigger signal will be produced by a button connected to the Chronopic."
 msgstr ""
+"Το σήμα έναυσης θα παράγεται από ένα κουμπί συνδεδεμένο στο Chronopic."
 
 #: ../src/gui/preferences.cs:3236
 msgid "This will be only used on gravitatory mode, concentric contraction."
 msgstr ""
+"Αυτό θα χρησιμοποιείται μόνο στη βαρυτική λειτουργία, ομόκεντρη σύσπαση."
 
 #: ../src/gui/preferences.cs:3237
 msgid ""
 "If \"Cut by triggers\" is inactive, repetitions will be cut automatically "
 "(default behaviour),"
 msgstr ""
+"Εάν η \"Αποκοπή με εναύσματα\" είναι ανενεργή, οι επαναλήψεις θα κόβονται "
+"αυτόματα (προεπιλεγμένη συμπεριφορά),"
 
 #: ../src/gui/preferences.cs:3238
 msgid ""
 "but pressing trigger button while capturing will plot vertical lines during "
 "analyze instant graphs."
 msgstr ""
+"αλλά το πάτημα του κουμπιού έναυσης κατά τη λήψη θα σχεδιάσει κάθετες "
+"γραμμές κατά τη διάρκεια της ανάλυσης στιγμιαίων γραφημάτων."
 
 #: ../src/gui/preferences.cs:3239
 msgid "Encoder Chronopics have trigger functionality since 2017."
 msgstr ""
+"Τα Chronopics κωδικοποιητή έχουν λειτουργικότητα έναυσης από το 2017."
 
 #: ../src/gui/preferences.cs:3240
 msgid ""
 "You can check if your encoder Chronopic accepts triggers pressing test "
 "button."
 msgstr ""
+"Μπορείτε να ελέγξετε αν το Chronopic κωδικοποιητή σας δέχεται εναύσματα "
+"πατώντας το κουμπί δοκιμής."
 
 #: ../src/gui/preferences.cs:3241
 msgid ""
 "Your Chronopic is ready for triggers if the green light at the side of "
 "Chronopic test button changes it's state on pressing this button."
 msgstr ""
+"Το Chronopic σας είναι έτοιμο για εναύσματα αν το πράσινο φως στο πλάι του "
+"κουμπιού δοκιμής Chronopic αλλάζει κατάσταση με το πάτημα αυτού του κουμπιού."
 
 #: ../src/gui/preferences.cs:3242
 msgid ""
 "At Chronojump website there's a hand push button for using triggers with "
 "ease."
 msgstr ""
+"Στον ιστότοπο Chronojump υπάρχει ένα κουμπί χειρός για εύκολη χρήση "
+"εναυσμάτων."
 
 #: ../src/gui/preferences.cs:3455
-#, fuzzy
-#| msgid "Error. Cannot open directory."
 msgid "Error. Could not check video devices."
-msgstr "Σφάλμα. Αδυναμία ανοίγματος καταλόγου."
+msgstr "Σφάλμα. Αδυναμία ελέγχου συσκευών βίντεο."
 
 #: ../src/gui/preferences.cs:3590 ../src/gui/preferences.cs:3591
 #: ../src/gui/preferences.cs:3621 ../src/gui/preferences.cs:3632
 msgid "Not running"
-msgstr ""
+msgstr "Δεν εκτελείται"
 
 #. runningFfmpeg = true;
 #. runningFfplay = true;
 #: ../src/gui/preferences.cs:3602 ../src/gui/preferences.cs:3609
-#, fuzzy
-#| msgid "Runner"
 msgid "Running"
-msgstr "Δρομέας"
+msgstr "Εκτελείται"
 
 #: ../src/gui/preferences.cs:3699
-#, fuzzy
-#| msgid "Note on measurement"
 msgid "Race measurement"
-msgstr "Σημείωση στη μέτρηση"
+msgstr "Μέτρηση δρόμου"
 
 #: ../src/gui/preferences.cs:3778
 msgid "Cannot create directory."
@@ -9909,23 +9580,21 @@ msgstr "Αδυναμία δημιουργίας καταλόγου."
 
 #: ../src/gui/preferences.cs:3805
 msgid "Import configuration file"
-msgstr "Εισαγωγή αρχείου ρυθμίσεων "
+msgstr "Εισαγωγή αρχείου ρυθμίσεων"
 
 #: ../src/gui/preferences.cs:3837
 msgid "Successfully imported."
 msgstr "Επιτυχής εισαγωγή."
 
 #: ../src/gui/preferences.cs:3843
-#, fuzzy
-#| msgid "End at n inactivity seconds"
 msgid "End capture by inactivity"
-msgstr "Τερματισμός σε n δευτερόλεπτα αδράνειας"
+msgstr "Τερματισμός λήψης λόγω αδράνειας"
 
 #: ../src/gui/preferences.cs:3844
 msgid ""
 "If a repetition has been found, test will end at selected inactivity seconds."
 msgstr ""
-"Αν έχει βρεθεί μια επανάληψη, η δοκιμή θα τελειώσει σε επιλεγμένα "
+"Αν έχει βρεθεί μια επανάληψη, η δοκιμασία θα τελειώσει στα επιλεγμένα "
 "δευτερόλεπτα αδράνειας."
 
 #: ../src/gui/preferences.cs:3845
@@ -9933,37 +9602,46 @@ msgid ""
 "If a repetition has not been found, test will end at selected inactivity "
 "seconds (x2)."
 msgstr ""
-"Αν δεν έχει βρεθεί μια επανάληψη, η δοκιμή θα τελειώσει σε επιλεγμένα "
+"Αν δεν έχει βρεθεί μια επανάληψη, η δοκιμασία θα τελειώσει στα επιλεγμένα "
 "δευτερόλεπτα αδράνειας (x2)."
 
 #: ../src/gui/preferences.cs:3846
 msgid "This will let the person to have more time to start movement."
 msgstr ""
-"Αυτό θα αφήσει το άτομο να έχει περισσότερο χρόνο για να αρχίσει η κίνηση."
+"Αυτό θα επιτρέψει στο άτομο να έχει περισσότερο χρόνο για να ξεκινήσει την "
+"κίνηση."
 
 #: ../src/gui/preferences.cs:3847
 msgid ""
 "On inertial, to avoid never ending capture because cone is slowly moving at "
 "the end, this criteria is added:"
 msgstr ""
+"Στα αδρανειακά, για να αποφευχθεί η ατέρμονη λήψη επειδή ο κώνος κινείται "
+"αργά στο τέλος, προστίθεται αυτό το κριτήριο:"
 
 #: ../src/gui/preferences.cs:3848
 msgid ""
 "If passed the double of configured inactivity seconds since last phase, "
 "capture will end."
 msgstr ""
+"Εάν περάσει το διπλάσιο των ρυθμισμένων δευτερολέπτων αδράνειας από την "
+"τελευταία φάση, η λήψη θα τερματιστεί."
 
 #: ../src/gui/preferences.cs:3858
 msgid ""
 "The equivalent mass is a measure of the resistance of a body to change its "
 "linear or rotary velocity."
 msgstr ""
+"Η ισοδύναμη μάζα είναι ένα μέτρο της αντίστασης ενός σώματος στην αλλαγή της "
+"γραμμικής ή περιστροφικής του ταχύτητας."
 
 #: ../src/gui/preferences.cs:3859
 msgid ""
 "From the point of view of a person pulling from a rope, the situation in the "
 "image is equivalent to a rotary inertial machine."
 msgstr ""
+"Από την πλευρά ενός ατόμου που τραβάει ένα σχοινί, η κατάσταση στην εικόνα "
+"είναι ισοδύναμη με μια περιστροφική αδρανειακή μηχανή."
 
 #: ../src/gui/preferences.cs:3860
 msgid ""
@@ -9971,18 +9649,21 @@ msgid ""
 "inertial machine (diameters, inertia momentum, extra weights and force "
 "multipliers)."
 msgstr ""
+"Η ισοδύναμη μάζα λαμβάνει υπόψη τις διαφορετικές διαμορφώσεις μιας "
+"αδρανειακής μηχανής (διαμέτρους, ροπή αδράνειας, επιπλέον βάρη και "
+"πολλαπλασιαστές δύναμης)."
 
 #: ../src/gui/preferences.cs:3861
 msgid ""
 "This way it is possible to compare the resistance of diferent configurations "
 "on diferent machines."
 msgstr ""
+"Με αυτόν τον τρόπο είναι δυνατή η σύγκριση της αντίστασης διαφορετικών "
+"διαμορφώσεων σε διαφορετικές μηχανές."
 
 #: ../src/gui/preferences.cs:4010
-#, fuzzy
-#| msgid "Delete selected test"
 msgid "Deleted stored devices."
-msgstr "Διαγραφή επιλεγμένης δοκιμής"
+msgstr "Διαγράφηκαν οι αποθηκευμένες συσκευές."
 
 #: ../src/gui/report.cs:180
 msgid "Session/s"
@@ -9993,9 +9674,8 @@ msgid "Show jumps"
 msgstr "Εμφάνιση αλμάτων"
 
 #: ../src/gui/report.cs:183
-#, fuzzy
 msgid "Checked rows"
-msgstr "σημειωμένες γραμμές"
+msgstr "Σημειωμένες γραμμές"
 
 #: ../src/gui/report.cs:184
 msgid "Graph Options"

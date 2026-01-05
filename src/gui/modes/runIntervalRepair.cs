@@ -286,6 +286,7 @@ public class RepairRunIntervalWindow
 				if(lastRow == type.FixedValue) {
 					button_add_before.Sensitive = false;
 					button_add_after.Sensitive = false;
+					button_delete.Sensitive = false;
 				}
 			}
 		}

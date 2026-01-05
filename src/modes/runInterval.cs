@@ -237,6 +237,18 @@ public class RunInterval : Run
 		}
 	}
 
+	// on Wichro the photocells have a num. If they are all -1 is definitevely not wichro
+	public bool IsWichro
+	{
+		get {
+			foreach (int i in photocell_l)
+				if (i >= 0)
+					return true;
+
+			return false;
+		}
+	}
+
 	public List<int> Photocell_l
 	{
 		get { return photocell_l; }

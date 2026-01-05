@@ -48,10 +48,13 @@ public class RepairRunIntervalWindow
 	RunInterval runInterval; //used on button_accept
 	private int pDN;
 
-	private int phStartCol = 1;
-	private int phEndCol = 2;
+	private int wichroStartCol = 1;
+	private int wichroEndCol = 2;
 	private int laptimeCol = 3;
 	private int splittimeCol = 4;
+
+	// if isWichro it will show wichroStartCol, wichroEndCol
+	private bool isWichro; //maybe in the future separated this class in 2 (inherit)
 
 	RepairRunIntervalWindow (Gtk.Window parent, RunInterval myRun, int pDN)
 	{
@@ -72,6 +75,12 @@ public class RepairRunIntervalWindow
 		this.runInterval = myRun;
 		this.pDN = pDN;
 
+		if (! runInterval.IsWichro)
+		{
+			laptimeCol -= 2;
+			splittimeCol -= 2;
+		}
+
 		repair_sub_event.Title = Catalog.GetString("Repair intervallic race");
 		label_header.Text = Constants.GetRepairWindowMessage ();
 	
@@ -84,7 +93,11 @@ public class RepairRunIntervalWindow
 		
 		createTreeView(treeview_subevents);
 		//count, time
+
 		store = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string));
+		if (! runInterval.IsWichro)
+			store = new TreeStore(typeof (string), typeof (string), typeof (string));
+
 		treeview_subevents.Model = store;
 		fillTreeView (treeview_subevents, store, myRun);
 	
@@ -117,15 +130,16 @@ public class RepairRunIntervalWindow
 		return RepairRunIntervalWindowBox;
 	}
 	
-	private string createTextForTextView (RunType myRunType) {
+	private string createTextForTextView (RunType myRunType)
+	{
 		string runTypeString = string.Format(Catalog.GetString(
 					"RaceType: {0}."), myRunType.Name);
 
-		string fixedString = "";
+		string specificString = "";
 		if(myRunType.FixedValue > 0) {
 			if(myRunType.TracksLimited) {
 				//if it's a run type runsLimited with a fixed value, then don't allow the creation of more runs
-				fixedString = "\n" +  string.Format(
+				specificString = "\n" +  string.Format(
 						Catalog.GetPluralString(
 							"This race type is fixed to one lap.",
 							"This race type is fixed to {0} laps.",
@@ -134,7 +148,7 @@ public class RepairRunIntervalWindow
 					Catalog.GetString("You cannot add more.");
 			} else {
 				//if it's a run type timeLimited with a fixed value, then complain when the total time is higher
-				fixedString = "\n" + string.Format(
+				specificString = "\n" + string.Format(
 						Catalog.GetPluralString(
 							"This race type is fixed to one second.",
 							"This race type is fixed to {0} seconds.",
@@ -143,7 +157,8 @@ public class RepairRunIntervalWindow
 					Catalog.GetString("Totaltime cannot be greater.");
 			}
 		}
-		return runTypeString + fixedString;
+
+		return runTypeString + specificString;
 	}
 
 	
@@ -153,8 +168,12 @@ public class RepairRunIntervalWindow
 		int count = 0;
 
 		myTreeView.AppendColumn ( Catalog.GetString ("Track"), new CellRendererText(), "text", count++);
-		myTreeView.AppendColumn ( "WICHRO " + Catalog.GetString ("start"), new CellRendererText(), "text", count++);
-		myTreeView.AppendColumn ( "WICHRO " + Catalog.GetString ("end"), new CellRendererText(), "text", count++);
+
+		if (runInterval.IsWichro)
+		{
+			myTreeView.AppendColumn ( "WICHRO " + Catalog.GetString ("start"), new CellRendererText(), "text", count++);
+			myTreeView.AppendColumn ( "WICHRO " + Catalog.GetString ("end"), new CellRendererText(), "text", count++);
+		}
 
 		Gtk.TreeViewColumn laptimeColumn = new Gtk.TreeViewColumn ();
 		laptimeColumn.Title = Catalog.GetString("Lap time");
@@ -241,24 +260,35 @@ public class RepairRunIntervalWindow
 				}
 				*/
 
-				// get the photocell for start/end of every row
-				int phStart = 0;
-				int phEnd = 0;
-				if (myRun.Photocell_l != null && myRun.Photocell_l.Count > phN +1)
-				{
-					phStart = myRun.Photocell_l[phN ++];
-					phEnd = myRun.Photocell_l[phN];
-				}
-
 				double lapTime = Convert.ToDouble (Util.CDS (laptimeStr));
 				splitTime += lapTime;
-				store.AppendValues (
-						(count+1).ToString(),
-						phStart.ToString (),
-						phEnd.ToString (),
-						Util.TrimDecimals (lapTime, pDN),
-						Util.TrimDecimals (splitTime, pDN)
-						);
+
+				if (myRun.IsWichro)
+				{
+					// get the photocell for start/end of every row
+					int phStart = 0;
+					int phEnd = 0;
+					if (myRun.Photocell_l != null && myRun.Photocell_l.Count > phN +1)
+					{
+						phStart = myRun.Photocell_l[phN ++];
+						phEnd = myRun.Photocell_l[phN];
+					}
+
+					store.AppendValues (
+							(count+1).ToString(),
+							phStart.ToString (),
+							phEnd.ToString (),
+							Util.TrimDecimals (lapTime, pDN),
+							Util.TrimDecimals (splitTime, pDN)
+							);
+				}
+				else
+					store.AppendValues (
+							(count+1).ToString(),
+							Util.TrimDecimals (lapTime, pDN),
+							Util.TrimDecimals (splitTime, pDN)
+							);
+
 				count ++;
 			}
 		}
@@ -296,11 +326,16 @@ public class RepairRunIntervalWindow
 	{
 		ITreeModel model; 
 		TreeIter iter; 
-		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
+		if (treeview_subevents.Selection.GetSelected (out model, out iter))
+		{
 			int position = Convert.ToInt32( (string) model.GetValue (iter, 0) ) -1; //count starts at '0'
 			iter = store.InsertNode(position);
-			store.SetValue (iter, phStartCol, "-1");
-			store.SetValue (iter, phEndCol, "-1");
+
+			if (runInterval.IsWichro)
+			{
+				store.SetValue (iter, wichroStartCol, "-1");
+				store.SetValue (iter, wichroEndCol, "-1");
+			}
 			store.SetValue (iter, laptimeCol, "0");
 			putRowNumbers(store);
 		}
@@ -310,11 +345,16 @@ public class RepairRunIntervalWindow
 	{
 		ITreeModel model; 
 		TreeIter iter; 
-		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
+		if (treeview_subevents.Selection.GetSelected (out model, out iter))
+		{
 			int position = Convert.ToInt32( (string) model.GetValue (iter, 0) ); //count starts at '0'
 			iter = store.InsertNode(position);
-			store.SetValue (iter, phStartCol, "-1");
-			store.SetValue (iter, phEndCol, "-1");
+
+			if (runInterval.IsWichro)
+			{
+				store.SetValue (iter, wichroStartCol, "-1");
+				store.SetValue (iter, wichroEndCol, "-1");
+			}
 			store.SetValue (iter, laptimeCol, "0");
 			putRowNumbers(store);
 		}
@@ -364,10 +404,16 @@ public class RepairRunIntervalWindow
 			do {
 				if (first)
 				{
-					photocell_l.Add (Convert.ToInt32 (treeview_subevents.Model.GetValue (myIter, phStartCol)));
+					if (runInterval.IsWichro)
+						photocell_l.Add (Convert.ToInt32 (treeview_subevents.Model.GetValue (myIter, wichroStartCol)));
+					else
+						photocell_l.Add (-1);
 					first = false;
 				}
-				photocell_l.Add (Convert.ToInt32 (treeview_subevents.Model.GetValue (myIter, phEndCol)));
+				if (runInterval.IsWichro)
+					photocell_l.Add (Convert.ToInt32 (treeview_subevents.Model.GetValue (myIter, wichroEndCol)));
+				else
+					photocell_l.Add (-1);
 
 				timeString = timeString + equal + (string) treeview_subevents.Model.GetValue (myIter, laptimeCol);
 				equal = "=";

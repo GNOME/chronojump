@@ -152,9 +152,9 @@ public class RepairRunIntervalWindow
 		myTreeView.HeadersVisible=true;
 		int count = 0;
 
-		myTreeView.AppendColumn ( Catalog.GetString ("Count"), new CellRendererText(), "text", count++);
-		myTreeView.AppendColumn ( "Photoc. Start", new CellRendererText(), "text", count++);
-		myTreeView.AppendColumn ( "Photoc. End", new CellRendererText(), "text", count++);
+		myTreeView.AppendColumn ( Catalog.GetString ("Track"), new CellRendererText(), "text", count++);
+		myTreeView.AppendColumn ( "WICHRO " + Catalog.GetString ("start"), new CellRendererText(), "text", count++);
+		myTreeView.AppendColumn ( "WICHRO " + Catalog.GetString ("end"), new CellRendererText(), "text", count++);
 
 		Gtk.TreeViewColumn laptimeColumn = new Gtk.TreeViewColumn ();
 		laptimeColumn.Title = Catalog.GetString("Lap time");

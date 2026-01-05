@@ -135,7 +135,10 @@ src/gui/modes/forceSensorExercise.cs
 src/gui/modes/jump.cs
 src/gui/modes/jumpType.cs
 src/gui/modes/run.cs
-src/gui/modes/runType.cs
+src/gui/modes/runIntervalRepair.cs
+src/gui/modes/runIntervalMore.cs
+src/gui/modes/runMore.cs
+src/gui/modes/runTypeAdd.cs
 src/gui/modes/sprint.cs
 src/gui/networks.cs
 src/gui/overview.cs

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2026-01-02 12:14+0000\n"
-"PO-Revision-Date: 2026-01-03 21:34+0200\n"
+"POT-Creation-Date: 2026-01-05 15:48+0000\n"
+"PO-Revision-Date: 2026-01-05 22:13+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -88,8 +88,8 @@ msgstr "Зупинити"
 #: ../glade/app1.glade.h:15 ../glade/dialog_threshold.glade.h:4
 #: ../glade/preferences_win.glade.h:40 ../glade/report_window.glade.h:10
 #: ../src/exportSession.cs:655 ../src/gui/app1/chronojump.cs:5791
-#: ../src/gui/modes/jump.cs:775 ../src/gui/modes/jump.cs:830
-#: ../src/gui/modes/jump.cs:880 ../src/sqlite/speciallity.cs:186
+#: ../src/gui/modes/jumpRjMore.cs:128 ../src/gui/modes/jumpRjMore.cs:183
+#: ../src/gui/modes/jumpRjMore.cs:233 ../src/sqlite/speciallity.cs:186
 #: ../src/stats/rjAVGSD.cs:36 ../src/stats/rjPotencyBosco.cs:35
 msgid "Jumps"
 msgstr "Стрибки"
@@ -872,7 +872,7 @@ msgstr "% від ваги тіла"
 
 #: ../glade/app1.glade.h:164 ../glade/jump_type_add.glade.h:16
 #: ../src/gui/app1/jump.cs:197 ../src/gui/app1/jump.cs:286
-#: ../src/gui/modes/jump.cs:514 ../src/gui/modes/jump.cs:740
+#: ../src/gui/modes/jumpMore.cs:86 ../src/gui/modes/jumpRjMore.cs:93
 msgid "Start inside"
 msgstr "Почати зсередини"
 
@@ -964,7 +964,7 @@ msgid "Lateral"
 msgstr "Бічний"
 
 #: ../glade/app1.glade.h:179 ../glade/edit_event.glade.h:16
-#: ../src/gui/modes/jump.cs:738 ../src/gui/modes/run.cs:722
+#: ../src/gui/modes/jumpRjMore.cs:91 ../src/gui/modes/runIntervalMore.cs:89
 msgid "Limited by"
 msgstr "Обмежено"
 
@@ -992,9 +992,10 @@ msgstr "кола"
 #. update the totaltime label
 #: ../glade/app1.glade.h:184 ../glade/edit_event.glade.h:9
 #: ../glade/feedback.glade.h:57 ../src/gui/app1/jump.cs:473
-#: ../src/gui/modes/jump.cs:94 ../src/gui/modes/jump.cs:197
-#: ../src/gui/modes/jump.cs:221 ../src/gui/modes/jump.cs:355
-#: ../src/gui/modes/run.cs:99 ../src/gui/modes/run.cs:211
+#: ../src/gui/modes/jumpRjRepair.cs:90 ../src/gui/modes/jumpRjRepair.cs:193
+#: ../src/gui/modes/jumpRjRepair.cs:217 ../src/gui/modes/jumpRjRepair.cs:351
+#: ../src/gui/modes/runIntervalRepair.cs:108
+#: ../src/gui/modes/runIntervalRepair.cs:226
 msgid "seconds"
 msgstr "секунд"
 
@@ -1044,8 +1045,8 @@ msgstr "Проєкція напруженої сили"
 #: ../src/gui/app1/runEncoder.cs:1169 ../src/gui/app1/runEncoder.cs:2945
 #: ../src/gui/app1/treeviews/encoderAnalyze.cs:69
 #: ../src/gui/app1/treeviews/encoderCaptureCurrentSet.cs:75
-#: ../src/gui/modes/run.cs:524 ../src/gui/modes/run.cs:721
-#: ../src/gui/modes/runType.cs:151 ../src/stats/runSimple.cs:53
+#: ../src/gui/modes/runIntervalMore.cs:88 ../src/gui/modes/runMore.cs:85
+#: ../src/gui/modes/runTypeAdd.cs:151 ../src/stats/runSimple.cs:53
 #: ../src/treeview/run.cs:60
 msgid "Distance"
 msgstr "Відстань"
@@ -1072,8 +1073,8 @@ msgstr "запустити кодувальник"
 #: ../src/gui/app1/session/loadAndImport.cs:311
 #: ../src/gui/app1/session/tagSessionSelect.cs:118
 #: ../src/gui/executeAuto.cs:207 ../src/gui/modes/encoderConfiguration.cs:669
-#: ../src/gui/modes/jump.cs:513 ../src/gui/modes/jump.cs:737
-#: ../src/gui/modes/run.cs:523 ../src/gui/modes/run.cs:720
+#: ../src/gui/modes/jumpMore.cs:85 ../src/gui/modes/jumpRjMore.cs:90
+#: ../src/gui/modes/runIntervalMore.cs:87 ../src/gui/modes/runMore.cs:84
 #: ../src/gui/server.cs:167 ../src/gui/session/selectStats.cs:84
 #: ../src/report.cs:258
 msgid "Name"
@@ -1086,8 +1087,8 @@ msgstr "Назва"
 #: ../src/exportSession.cs:543 ../src/exportSession.cs:660
 #: ../src/exportSession.cs:833 ../src/exportSession.cs:896
 #: ../src/gui/executeAuto.cs:209 ../src/gui/modes/encoderConfiguration.cs:670
-#: ../src/gui/modes/jump.cs:516 ../src/gui/modes/jump.cs:742
-#: ../src/gui/modes/run.cs:525 ../src/gui/modes/run.cs:724
+#: ../src/gui/modes/jumpMore.cs:88 ../src/gui/modes/jumpRjMore.cs:95
+#: ../src/gui/modes/runIntervalMore.cs:91 ../src/gui/modes/runMore.cs:86
 #: ../src/gui/person/addMultiple.cs:713 ../src/gui/person/recuperate.cs:143
 #: ../src/runType.cs:197 ../src/runType.cs:231 ../src/runType.cs:271
 #: ../src/runType.cs:299 ../src/treeview/event.cs:56
@@ -1694,7 +1695,7 @@ msgstr "Лише найкращий стрибок у кожному з сеан
 #: ../glade/app1.glade.h:334 ../glade/feedback.glade.h:14
 #: ../src/exportSession.cs:532 ../src/exportSession.cs:750
 #: ../src/graphs/cairo/xy.cs:112 ../src/gui/convertWeight.cs:120
-#: ../src/gui/modes/jump.cs:171 ../src/stats/djIndex.cs:34
+#: ../src/gui/modes/jumpRjRepair.cs:167 ../src/stats/djIndex.cs:34
 #: ../src/stats/djPower.cs:34 ../src/stats/djQ.cs:34
 #: ../src/stats/graphs/rjEvolution.cs:105 ../src/stats/rjEvolution.cs:73
 #: ../src/stats/rjEvolution.cs:78 ../src/stats/rjIndex.cs:33
@@ -1715,7 +1716,7 @@ msgstr "Час контакту"
 #: ../glade/app1.glade.h:336 ../glade/feedback.glade.h:15
 #: ../src/exportSession.cs:531 ../src/exportSession.cs:749
 #: ../src/graphs/cairo/xy.cs:113 ../src/gui/convertWeight.cs:128
-#: ../src/gui/modes/jump.cs:162 ../src/stats/djIndex.cs:35
+#: ../src/gui/modes/jumpRjRepair.cs:158 ../src/stats/djIndex.cs:35
 #: ../src/stats/djPower.cs:35 ../src/stats/djQ.cs:35
 #: ../src/stats/graphs/rjEvolution.cs:104 ../src/stats/rjEvolution.cs:72
 #: ../src/stats/rjEvolution.cs:77 ../src/stats/rjIndex.cs:34
@@ -2851,12 +2852,12 @@ msgstr "Відповідь"
 #: ../glade/chronopic_test.glade.h:5 ../glade/edit_event.glade.h:19
 #: ../src/constants.cs:1010 ../src/encoder/encoderSQL.cs:281
 #: ../src/gui/edit_event/event.cs:419 ../src/gui/genericWindow.cs:957
-#: ../src/gui/modes/jump.cs:531 ../src/gui/modes/jump.cs:536
-#: ../src/gui/modes/jump.cs:573 ../src/gui/modes/jump.cs:576
-#: ../src/gui/modes/jump.cs:605 ../src/gui/modes/jump.cs:608
-#: ../src/gui/modes/jump.cs:757 ../src/gui/modes/jump.cs:762
-#: ../src/gui/modes/jump.cs:841 ../src/gui/modes/jump.cs:844
-#: ../src/gui/modes/jump.cs:891 ../src/gui/modes/jump.cs:894
+#: ../src/gui/modes/jumpMore.cs:103 ../src/gui/modes/jumpMore.cs:108
+#: ../src/gui/modes/jumpMore.cs:145 ../src/gui/modes/jumpMore.cs:148
+#: ../src/gui/modes/jumpMore.cs:177 ../src/gui/modes/jumpMore.cs:180
+#: ../src/gui/modes/jumpRjMore.cs:110 ../src/gui/modes/jumpRjMore.cs:115
+#: ../src/gui/modes/jumpRjMore.cs:194 ../src/gui/modes/jumpRjMore.cs:197
+#: ../src/gui/modes/jumpRjMore.cs:244 ../src/gui/modes/jumpRjMore.cs:247
 #: ../src/modes/forceSensor.cs:236 ../src/modes/runEncoder.cs:229
 #: ../src/treeview/encoder.cs:401 ../src/treeview/forceSensor.cs:114
 #: ../src/treeview/fourPlatforms.cs:114 ../src/treeview/jump.cs:279
@@ -2868,8 +2869,8 @@ msgstr "Так"
 #. aka == -1.0
 #: ../glade/chronopic_test.glade.h:6 ../src/constants.cs:1006
 #: ../src/encoder/encoderSQL.cs:283 ../src/gui/edit_event/event.cs:423
-#: ../src/gui/modes/jump.cs:533 ../src/gui/modes/jump.cs:538
-#: ../src/gui/modes/jump.cs:759 ../src/gui/modes/jump.cs:764
+#: ../src/gui/modes/jumpMore.cs:105 ../src/gui/modes/jumpMore.cs:110
+#: ../src/gui/modes/jumpRjMore.cs:112 ../src/gui/modes/jumpRjMore.cs:117
 #: ../src/modes/forceSensor.cs:238 ../src/modes/forceSensor.cs:248
 #: ../src/modes/runEncoder.cs:231 ../src/treeview/encoder.cs:403
 #: ../src/treeview/forceSensor.cs:116 ../src/treeview/fourPlatforms.cs:116
@@ -3098,7 +3099,7 @@ msgstr "Час польоту"
 #: ../src/gui/app1/treeviews/encoderAnalyze.cs:328
 #: ../src/gui/eventExecute.cs:1091
 #: ../src/gui/modes/encoderSelectRepetitions.cs:224
-#: ../src/gui/modes/jump.cs:515 ../src/gui/modes/jump.cs:741
+#: ../src/gui/modes/jumpMore.cs:87 ../src/gui/modes/jumpRjMore.cs:94
 #: ../src/stats/sjCmjAbkPlus.cs:57 ../src/treeview/event.cs:53
 msgid "Extra weight"
 msgstr "Додаткова вага"
@@ -6162,19 +6163,15 @@ msgid "See:"
 msgstr "Див.:"
 
 #: ../src/constants.cs:1069
-#| msgid "Use this window to edit a {0}."
 msgid "Use this window to repair this test."
 msgstr "Скористайтеся цим вікном для відновлення цього тестування."
 
 #: ../src/constants.cs:1070
 #, csharp-format
-#| msgid ""
-#| "Use this window to repair this test.\n"
-#| "Double clic any cell to edit it (decimal separator: '{0}')"
 msgid "Double click a cell to edit it (decimal separator: '{0}')"
 msgstr ""
-"Двічі клацніть на комірці, щоб редагувати її (роздільник дробової частини:"
-" «{0}»)"
+"Двічі клацніть на комірці, щоб редагувати її (роздільник дробової частини: "
+"«{0}»)"
 
 #: ../src/constants.cs:1071
 msgid "Press enter or tab after editing a cell."
@@ -6882,8 +6879,9 @@ msgid "Distance interval"
 msgstr "Інтервал відстані"
 
 #: ../src/exportSession.cs:892 ../src/gui/app1/chronojump.cs:6245
-#: ../src/gui/modes/run.cs:755 ../src/gui/modes/run.cs:823
-#: ../src/gui/modes/run.cs:875
+#: ../src/gui/modes/runIntervalMore.cs:122
+#: ../src/gui/modes/runIntervalMore.cs:190
+#: ../src/gui/modes/runIntervalMore.cs:242
 msgid "Laps"
 msgstr "Кола"
 
@@ -9023,17 +9021,43 @@ msgstr "Пояснення кута"
 msgid "Examples of:"
 msgstr "Приклади:"
 
+#: ../src/gui/modes/jump.cs:46 ../src/gui/modes/jump.cs:62
+msgid "Do you want to delete this jump?"
+msgstr "Хочете вилучити цей стрибок?"
+
+#: ../src/gui/modes/jumpMore.cs:54 ../src/gui/modes/jumpRjMore.cs:59
+#: ../src/gui/modes/runIntervalMore.cs:60 ../src/gui/modes/runMore.cs:54
+msgid "Delete test type defined by user"
+msgstr "Вилучити тип тесту, визначений користувачем"
+
+#: ../src/gui/modes/jumpRjMore.cs:92 ../src/gui/modes/runIntervalMore.cs:90
+msgid "Limited value"
+msgstr "Обмежене значення"
+
+#. check if it's unlimited
+#. unlimited mark
+#: ../src/gui/modes/jumpRjMore.cs:125 ../src/gui/modes/jumpRjMore.cs:176
+#: ../src/gui/modes/jumpRjMore.cs:226 ../src/gui/modes/runIntervalMore.cs:119
+#: ../src/gui/modes/runIntervalMore.cs:186
+#: ../src/gui/modes/runIntervalMore.cs:238
+msgid "Unlimited"
+msgstr "Не обмежено"
+
+#: ../src/gui/modes/jumpRjMore.cs:130 ../src/gui/modes/runIntervalMore.cs:124
+msgid "Seconds"
+msgstr "Секунди"
+
 #. this.pDN = pDN;
-#: ../src/gui/modes/jump.cs:75
+#: ../src/gui/modes/jumpRjRepair.cs:71
 msgid "Repair reactive jump"
 msgstr "Відновлювальний реактивний стрибок"
 
-#: ../src/gui/modes/jump.cs:121
+#: ../src/gui/modes/jumpRjRepair.cs:117
 #, csharp-format
 msgid "JumpType: {0}."
 msgstr "Тип стрибків: {0}."
 
-#: ../src/gui/modes/jump.cs:126
+#: ../src/gui/modes/jumpRjRepair.cs:122
 msgid ""
 "\n"
 "This jump type starts inside, the first time should be a flight time."
@@ -9041,7 +9065,7 @@ msgstr ""
 "\n"
 "Це тип стрибка починається всередині, першим часом має бути час польоту."
 
-#: ../src/gui/modes/jump.cs:135
+#: ../src/gui/modes/jumpRjRepair.cs:131
 #, csharp-format
 msgid "This jump type is fixed to one jump."
 msgid_plural "This jump type is fixed to {0} jumps."
@@ -9050,12 +9074,12 @@ msgstr[1] "Цей тип стрибків зафіксовано на {0} стр
 msgstr[2] "Цей тип стрибків зафіксовано на {0} стрибках."
 msgstr[3] "Цей тип стрибків зафіксовано на {0} стрибку."
 
-#: ../src/gui/modes/jump.cs:139 ../src/gui/modes/jump.cs:148
-#: ../src/gui/modes/run.cs:138
+#: ../src/gui/modes/jumpRjRepair.cs:135 ../src/gui/modes/jumpRjRepair.cs:144
+#: ../src/gui/modes/runIntervalRepair.cs:148
 msgid "You cannot add more."
 msgstr "Більше додавати не можна."
 
-#: ../src/gui/modes/jump.cs:144
+#: ../src/gui/modes/jumpRjRepair.cs:140
 #, csharp-format
 msgid "This jump type is fixed to one second."
 msgid_plural "This jump type is fixed to {0} seconds."
@@ -9064,35 +9088,10 @@ msgstr[1] "Цей тип стрибка зафіксовано на {0} секу
 msgstr[2] "Цей тип стрибка зафіксовано на {0} секундах."
 msgstr[3] "Цей тип стрибка зафіксовано на {0} секунді."
 
-#: ../src/gui/modes/jump.cs:159 ../src/gui/modes/run.cs:159
-#: ../src/stats/rjEvolution.cs:70 ../src/stats/runIntervallic.cs:68
+#: ../src/gui/modes/jumpRjRepair.cs:155 ../src/stats/rjEvolution.cs:70
+#: ../src/stats/runIntervallic.cs:68
 msgid "Count"
 msgstr "Кількість"
-
-#: ../src/gui/modes/jump.cs:482 ../src/gui/modes/jump.cs:706
-#: ../src/gui/modes/run.cs:493 ../src/gui/modes/run.cs:693
-msgid "Delete test type defined by user"
-msgstr "Вилучити тип тесту, визначений користувачем"
-
-#: ../src/gui/modes/jump.cs:739 ../src/gui/modes/run.cs:723
-msgid "Limited value"
-msgstr "Обмежене значення"
-
-#. check if it's unlimited
-#. unlimited mark
-#: ../src/gui/modes/jump.cs:772 ../src/gui/modes/jump.cs:823
-#: ../src/gui/modes/jump.cs:873 ../src/gui/modes/run.cs:752
-#: ../src/gui/modes/run.cs:819 ../src/gui/modes/run.cs:871
-msgid "Unlimited"
-msgstr "Не обмежено"
-
-#: ../src/gui/modes/jump.cs:777 ../src/gui/modes/run.cs:757
-msgid "Seconds"
-msgstr "Секунди"
-
-#: ../src/gui/modes/jump.cs:984 ../src/gui/modes/jump.cs:1000
-msgid "Do you want to delete this jump?"
-msgstr "Хочете вилучити цей стрибок?"
 
 #. string myString =  Catalog.GetString ("Jump type: '") +
 #. Util.RemoveTildeAndColonAndDot(entry_name.Text) +
@@ -9102,16 +9101,20 @@ msgstr "Хочете вилучити цей стрибок?"
 msgid "Jump type: '{0}' exists. Please, use another name"
 msgstr "Тип стрибка: «{0}» вже існує. Будь ласка, скористайтеся іншою назвою"
 
-#: ../src/gui/modes/run.cs:79
+#: ../src/gui/modes/run.cs:46 ../src/gui/modes/run.cs:64
+msgid "Do you want to delete this race?"
+msgstr "Хочете вилучити цей забіг?"
+
+#: ../src/gui/modes/runIntervalRepair.cs:84
 msgid "Repair intervallic race"
 msgstr "Відновити інтервальний підхід"
 
-#: ../src/gui/modes/run.cs:126
+#: ../src/gui/modes/runIntervalRepair.cs:136
 #, csharp-format
 msgid "RaceType: {0}."
 msgstr "Тип підходу: {0}."
 
-#: ../src/gui/modes/run.cs:134
+#: ../src/gui/modes/runIntervalRepair.cs:144
 #, csharp-format
 msgid "This race type is fixed to one lap."
 msgid_plural "This race type is fixed to {0} laps."
@@ -9120,7 +9123,7 @@ msgstr[1] "Цей тип забігу зафіксовано за {0} колам
 msgstr[2] "Цей тип забігу зафіксовано за {0} колами."
 msgstr[3] "Цей тип забігу зафіксовано за {0} колом."
 
-#: ../src/gui/modes/run.cs:143
+#: ../src/gui/modes/runIntervalRepair.cs:153
 #, csharp-format
 msgid "This race type is fixed to one second."
 msgid_plural "This race type is fixed to {0} seconds."
@@ -9129,73 +9132,85 @@ msgstr[1] "Цей тип забігу зафіксовано за {0} секун
 msgstr[2] "Цей тип забігу зафіксовано за {0} секундами."
 msgstr[3] "Цей тип забігу зафіксовано за {0} секундою."
 
-#: ../src/gui/modes/run.cs:147
+#: ../src/gui/modes/runIntervalRepair.cs:157
 msgid "Totaltime cannot be greater."
 msgstr "Загальний час не може бути більшим."
 
-#: ../src/gui/modes/run.cs:164 ../src/treeview/runI.cs:48
+#: ../src/gui/modes/runIntervalRepair.cs:170
+#| msgid "tracks"
+msgid "Track"
+msgstr "Доріжка"
+
+#: ../src/gui/modes/runIntervalRepair.cs:174
+#| msgid "Start"
+msgid "start"
+msgstr "початок"
+
+#: ../src/gui/modes/runIntervalRepair.cs:175
+#| msgid "Send"
+msgid "end"
+msgstr "кінець"
+
+#: ../src/gui/modes/runIntervalRepair.cs:179 ../src/treeview/runI.cs:48
 #: ../src/treeview/runI.cs:70
 msgid "Lap time"
 msgstr "Час кола"
 
-#: ../src/gui/modes/run.cs:172 ../src/treeview/runI.cs:49
+#: ../src/gui/modes/runIntervalRepair.cs:187 ../src/treeview/runI.cs:49
 msgid "Split time"
 msgstr "Час поділу"
 
-#: ../src/gui/modes/run.cs:540 ../src/gui/modes/run.cs:574
-#: ../src/gui/modes/run.cs:605 ../src/gui/modes/run.cs:741
-#: ../src/gui/modes/run.cs:810 ../src/gui/modes/run.cs:862
+#: ../src/gui/modes/runIntervalMore.cs:108
+#: ../src/gui/modes/runIntervalMore.cs:177
+#: ../src/gui/modes/runIntervalMore.cs:229 ../src/gui/modes/runMore.cs:101
+#: ../src/gui/modes/runMore.cs:135 ../src/gui/modes/runMore.cs:166
 msgid "Not defined"
 msgstr "Не визначено"
 
-#: ../src/gui/modes/run.cs:965 ../src/gui/modes/run.cs:983
-msgid "Do you want to delete this race?"
-msgstr "Хочете вилучити цей забіг?"
-
-#: ../src/gui/modes/runType.cs:187
+#: ../src/gui/modes/runTypeAdd.cs:187
 #, csharp-format
 msgid "(decimal separator: '{0}')"
 msgstr "(десятковий роздільник: «{0}»)"
 
-#: ../src/gui/modes/runType.cs:231
+#: ../src/gui/modes/runTypeAdd.cs:231
 #, csharp-format
 msgid "Race type: '{0}' exists. Please, use another name"
 msgstr "Тип підходу: «{0}» вже існує. Будь ласка, скористайтеся іншою назвою"
 
-#: ../src/gui/modes/runType.cs:415
+#: ../src/gui/modes/runTypeAdd.cs:415
 msgid "On RSA tests, rest time counts as a \"lap\"."
 msgstr "У тестах RSA час відпочинку вважається «колом»."
 
-#: ../src/gui/modes/runType.cs:416
+#: ../src/gui/modes/runTypeAdd.cs:416
 msgid ""
 "You should write the time in seconds after a capital 'R' (meaning \"Rest\")."
 msgstr ""
 "Вам слід вписати час у секундах після великої літери «R» (означає «Rest/"
 "Відпочинок»)."
 
-#: ../src/gui/modes/runType.cs:417
+#: ../src/gui/modes/runTypeAdd.cs:417
 msgid "Eg. Aziz et al. (2000) test repeats 8 times the following sequence:"
 msgstr ""
 "Наприклад, у тесті Aziz et al. (2000) 8 разів повторюється така "
 "послідовність:"
 
-#: ../src/gui/modes/runType.cs:418
+#: ../src/gui/modes/runTypeAdd.cs:418
 msgid "Run 40 meters, rest 30 seconds."
 msgstr "Пробіжіть 40 метрів, відпочиньте 30 секунд."
 
-#: ../src/gui/modes/runType.cs:419
+#: ../src/gui/modes/runTypeAdd.cs:419
 msgid "Will be limited by laps with a fixed value of 16"
 msgstr "Буде обмежено колами із фіксованим значенням 16"
 
-#: ../src/gui/modes/runType.cs:420
+#: ../src/gui/modes/runTypeAdd.cs:420
 msgid "because there are 16 laps:"
 msgstr "оскільки маємо 16 кіл:"
 
-#: ../src/gui/modes/runType.cs:421
+#: ../src/gui/modes/runTypeAdd.cs:421
 msgid "2 different laps: ('Run' and 'rest') x 8 times"
 msgstr "2 різних кола: («забіг» і «відпочинок») x 8 разів"
 
-#: ../src/gui/modes/runType.cs:422
+#: ../src/gui/modes/runTypeAdd.cs:422
 msgid "And the 'distance' of each different lap will be:"
 msgstr "І «відстань» для кожного кола буде:"
 
@@ -9564,6 +9579,8 @@ msgid ""
 "Your Chronopic is ready for triggers if the green light at the side of "
 "Chronopic test button changes it's state on pressing this button."
 msgstr ""
+"Ваш Chronopic готовий до запуску, якщо зелений індикатор збоку від тестової"
+" кнопки Chronopic змінює свій стан після натискання цієї кнопки."
 
 #: ../src/gui/preferences.cs:3242
 msgid ""
@@ -9655,6 +9672,8 @@ msgid ""
 "From the point of view of a person pulling from a rope, the situation in the "
 "image is equivalent to a rotary inertial machine."
 msgstr ""
+"З точки зору людини, яка тягне за мотузку, ситуація на зображенні"
+" еквівалентна обертовій інерційній машині."
 
 #: ../src/gui/preferences.cs:3860
 msgid ""

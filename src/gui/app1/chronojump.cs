@@ -5832,6 +5832,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		selectedJumpRj = null; // fixes #1162
 		thisJumpIsSimple = false; //used by: on_event_execute_update_graph_in_progress_clicked
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
@@ -5852,7 +5853,6 @@ public partial class ChronoJumpWindow
 		if ( ! currentEventExecute.Cancel )
 		{
 			currentJumpRj = (JumpRj) currentEventExecute.EventDone;
-			selectedJumpRj = currentJumpRj;
 
 			//if user clicked in finish earlier
 			if(currentEventExecute.Finish) {
@@ -5865,6 +5865,7 @@ public partial class ChronoJumpWindow
 				}
 			}
 
+			selectedJumpRj = currentJumpRj;
 			
 			if(createdStatsWin) {
 				showUpdateStatsAndHideData(true);
@@ -6298,6 +6299,7 @@ public partial class ChronoJumpWindow
 		if(wireless && currentEventExecute.ChronopicDisconnected)
 			button_detect_show_hide (true);
 
+		selectedRunInterval = null; // fixes #1162
 		thisRunIsSimple = false; //used by: on_event_execute_update_graph_in_progress_clicked
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);

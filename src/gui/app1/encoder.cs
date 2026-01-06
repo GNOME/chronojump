@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 using System;
 using System.IO; 
@@ -1437,8 +1437,15 @@ public partial class ChronoJumpWindow
 
 				if(//configChronojump.EncoderCaptureShowOnlyBars &&
 						! preferences.encoderCaptureInfinite)
-					new DialogMessage(Constants.MessageTypes.WARNING,
-							Catalog.GetString("Sorry, no repetitions matched your criteria."));
+				{
+					string minStr = Catalog.GetString ("Minimal range of movement");
+					if (current_mode == Constants.Modes.POWERINERTIAL)
+						minStr = Catalog.GetString ("Minimal length");
+
+					new DialogMessage (Constants.MessageTypes.WARNING, 500, 300,
+							Catalog.GetString("Sorry, no repetitions matched your criteria.") + "\n\n" +
+							minStr + ": " + currentEncoderSQLSet.minHeight.ToString () + " cm");
+				}
 			}
 			else {
 				if (currentEncoderSQLSet.eccon != "c")

@@ -2471,7 +2471,7 @@ LogB.Information(" fs R ");
 			{
 				//TODO: improve this message and apply any needed change on ForceSensorElasticBandsWindow
 				//when is definitive mark to be translated with Catalog
-				new DialogMessage(Constants.MessageTypes.WARNING,
+				new DialogMessage(Constants.MessageTypes.WARNING, 500, 300,
 						Catalog.GetString("Loaded set used elastic bands removed from database or with changed values.") + "\n\n" +
 						Catalog.GetString("Stiffness calculation is correct but stiffness configuration window will not be able to match elastic bands and total stiffness."));
 

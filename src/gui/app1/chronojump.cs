@@ -24,7 +24,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -1591,7 +1591,7 @@ public partial class ChronoJumpWindow
 	private void personChanged()
 	{
 		LogB.Information ("personChanged start ---->");
-		sensitiveLastTestButtons(false);
+		sensitiveSelectedTestButtons (false);
 
 		if (currentPerson == null)
 			LogB.Information ("currentPerson == null" + (currentPerson == null).ToString ());
@@ -1973,7 +1973,7 @@ public partial class ChronoJumpWindow
 		comboSelectContactsTopNoFollow = false;
 		//<---- two combobox are linked
 
-		sensitiveLastTestButtons(false);
+		sensitiveSelectedTestButtons (false);
 
 		string myText = UtilGtk.ComboGetActive(combo);
 		LogB.Information("Selected: " + myText);
@@ -2026,7 +2026,7 @@ public partial class ChronoJumpWindow
 		comboSelectContactsTopNoFollow = false;
 		//<---- two combobox are linked
 
-		sensitiveLastTestButtons(false);
+		sensitiveSelectedTestButtons (false);
 
 		string myText = UtilGtk.ComboGetActive(combo);
 		LogB.Information("Selected: " + myText); 
@@ -2067,7 +2067,7 @@ public partial class ChronoJumpWindow
 		comboSelectContactsTopNoFollow = false;
 		//<---- two combobox are linked
 
-		sensitiveLastTestButtons(false);
+		sensitiveSelectedTestButtons (false);
 
 		string myText = UtilGtk.ComboGetActive(combo);
 		LogB.Information("Selected: " + myText); 
@@ -2108,7 +2108,7 @@ public partial class ChronoJumpWindow
 		comboSelectContactsTopNoFollow = false;
 		//<---- two combobox are linked
 
-		sensitiveLastTestButtons(false);
+		sensitiveSelectedTestButtons (false);
 
 		string myText = UtilGtk.ComboGetActive(combo);
 		LogB.Information("Selected: " + myText); 
@@ -3293,18 +3293,12 @@ public partial class ChronoJumpWindow
 		//run simple will be the only one with its drawing area
 		button_inspect_last_test_run_simple.Visible = false;
 
-		sensitiveLastTestButtons(false);
-
-		//contacts delete test buttons: edit, delete (visible)
+		//contacts delete test buttons: edit, delete, ... (visible)
 		button_contacts_edit_selected.Visible = true;
 		button_contacts_delete_selected.Visible = true;
-
-		//contacts test buttons: edit, delete (sensitive)
-		button_contacts_edit_selected.Sensitive = false;
-		button_contacts_delete_selected.Sensitive = false;
-
 		button_contacts_repair_selected.Visible = (m == Constants.Modes.JUMPSREACTIVE || m == Constants.Modes.RUNSINTERVALLIC);
-		button_contacts_repair_selected.Sensitive = false;
+		//contacts delete test buttons: edit, delete, ... (sensitive)
+		sensitiveSelectedTestButtons (false);
 
 		//show capture graph and/or table
 		alignment_contacts_show_graph_table.Visible = true;
@@ -5522,7 +5516,7 @@ public partial class ChronoJumpWindow
 	private void on_jump_finished ()
 	{
 		//test can be deleted if not cancelled
-		sensitiveLastTestButtons(! currentEventExecute.Cancel);
+		sensitiveSelectedTestButtons (! currentEventExecute.Cancel);
 
 		if ( ! currentEventExecute.Cancel ) {
 			currentJump = (Jump) currentEventExecute.EventDone;
@@ -5582,7 +5576,7 @@ public partial class ChronoJumpWindow
 
 		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
 		//this has to be after webcamRecordEnd in order to see if video is created
-		showHideActionEventButtons(true); //show
+		sensitiveSelectedTestButtons (true);
 
 		if (remoteTest != null && configChronojump.RemoteTestJumpSimpleFile != "")
 			remoteTest.Captured (configChronojump.RemoteTestJumpSimpleFile);
@@ -5842,13 +5836,13 @@ public partial class ChronoJumpWindow
 
 		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_jumpSM_runSI_finished_can_touch_gtk);
 	}
-		
+
 	private void on_jump_rj_finished ()
 	{
 		LogB.Information("ON JUMP RJ FINISHED");
 		
 		//test can be deleted if not cancelled
-		sensitiveLastTestButtons(! currentEventExecute.Cancel);
+		sensitiveSelectedTestButtons (! currentEventExecute.Cancel);
 
 		if ( ! currentEventExecute.Cancel )
 		{
@@ -5899,7 +5893,7 @@ public partial class ChronoJumpWindow
 
 		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
 		//this has to be after webcamRecordEnd in order to see if video is created
-		showHideActionEventButtons(true); //show
+		sensitiveSelectedTestButtons (true);
 	}
 
 	/* ---------------------------------------------------------
@@ -6016,7 +6010,7 @@ public partial class ChronoJumpWindow
 	private void on_run_finished ()
 	{
 		//test can be deleted if not cancelled
-		sensitiveLastTestButtons(! currentEventExecute.Cancel);
+		sensitiveSelectedTestButtons (! currentEventExecute.Cancel);
 		button_inspect_last_test_run_simple.Sensitive = ! currentEventExecute.Cancel;
 
 		if ( ! currentEventExecute.Cancel )
@@ -6034,7 +6028,7 @@ public partial class ChronoJumpWindow
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created
-			showHideActionEventButtons(true); //show
+			sensitiveSelectedTestButtons (true);
 
 			if(createdStatsWin) {
 				showUpdateStatsAndHideData(true);
@@ -6314,7 +6308,7 @@ public partial class ChronoJumpWindow
 	private void on_run_interval_finished ()
 	{
 		//test can be deleted if not cancelled
-		sensitiveLastTestButtons(! currentEventExecute.Cancel);
+		sensitiveSelectedTestButtons (! currentEventExecute.Cancel);
 		button_inspect_last_test_run_intervallic.Sensitive = ! currentEventExecute.Cancel;
 
 		if ( ! currentEventExecute.Cancel )
@@ -6350,7 +6344,7 @@ public partial class ChronoJumpWindow
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created
-			showHideActionEventButtons(true); //show
+			sensitiveSelectedTestButtons (true);
 
 			if(createdStatsWin) {
 				showUpdateStatsAndHideData(true);
@@ -6648,7 +6642,7 @@ public partial class ChronoJumpWindow
 	 */
 
 	private void deleted_last_test_update_widgets() {
-		sensitiveLastTestButtons(false);
+		sensitiveSelectedTestButtons (false);
 	}
 
 	private void on_button_tests_delete_selected_clicked (object o, EventArgs args)
@@ -7624,7 +7618,6 @@ public partial class ChronoJumpWindow
 			}
 
 			Sqlite.Close(); // <------
-
 			drawingarea_results_realtime.QueueDraw ();
 		}
 		else if (Constants.ModeIsENCODER (m))
@@ -8230,7 +8223,7 @@ public partial class ChronoJumpWindow
 
 		vbox_stats.Sensitive = false;
 		
-		sensitiveLastTestButtons(false);
+		sensitiveSelectedTestButtons (false);
 		vbox_execute_test.Sensitive = false;
 		button_execute_test.Sensitive = false;
 		button_auto_start.Sensitive = false;
@@ -8324,7 +8317,7 @@ public partial class ChronoJumpWindow
 		menuPersonSelectedSensitive(true);
 	
 		//unsensitive edit, delete, repair events because no event is initially selected
-		showHideActionEventButtons (false);
+		sensitiveSelectedTestButtons (false);
 
 		combo_select_jumps.Sensitive = true;
 		combo_select_jumps_rj.Sensitive = true;
@@ -8376,7 +8369,7 @@ public partial class ChronoJumpWindow
 		hbox_jumps_rj.Sensitive = false;
 		vbox_runs.Sensitive = false;
 		hbox_runs_interval_all.Sensitive = false;
-		sensitiveLastTestButtons(false);
+		sensitiveSelectedTestButtons (false);
 
 		//do not allow to touch session graph/table buttons
 		hbox_contacts_graph_table_controls.Sensitive = false;
@@ -8458,39 +8451,27 @@ public partial class ChronoJumpWindow
 		//forceSensor and runEncoder does not use currentEventExecute
 		if (Constants.ModeIsFORCESENSOR (current_mode))
 		{
-			sensitiveLastTestButtons(! forceProcessCancel && ! forceProcessError);
+			sensitiveSelectedTestButtons (! forceProcessCancel && ! forceProcessError);
 			LogB.Information(" sensitiveGuiEventDone end (forceSensor)");
 			return;
 		} else if(current_mode == Constants.Modes.RUNSENCODER)
 		{
-			sensitiveLastTestButtons(! runEncoderProcessCancel && ! runEncoderProcessError);
+			sensitiveSelectedTestButtons (! runEncoderProcessCancel && ! runEncoderProcessError);
 			LogB.Information(" sensitiveGuiEventDone end (runsEncoder)");
 			return;
 		}
 
-		sensitiveLastTestButtons(true);
+		sensitiveSelectedTestButtons (true);
 
 		// encoder has not currentEventExecute
 		if (Constants.ModeIsENCODER (current_mode))
 			return;
 
 		//allow repeat last jump or run (check also if it wasn't cancelled)
-		if(currentEventExecute != null && ! currentEventExecute.Cancel)
-			button_contacts_delete_selected.Sensitive = true;
-		else
-			sensitiveLastTestButtons(false);
-
+		sensitiveSelectedTestButtons (currentEventExecute != null && ! currentEventExecute.Cancel);
 		LogB.Information (string.Format (" sensitiveGuiEventDone end mode: {0}", current_mode));
 	}
 
-	//TODO: remove this and use showHideActionEventButtons, and rename it
-	//to sensitive on and off the play_this_test and delete_this_test
-	private void sensitiveLastTestButtons(bool sensitive)
-	{
-		LogB.Information("sensitiveLastTestButtons: " + sensitive.ToString());
-		//vbox_last_test_buttons.Sensitive = sensitive; TODO:
-		button_contacts_delete_selected.Sensitive = sensitive;
-	}
 	/*
 	 * sensitive GUI on executeAuto methods 
 	 */
@@ -8578,7 +8559,7 @@ public partial class ChronoJumpWindow
 		//when start, put button delete_last_test as not sensitive
 		//(just for the test previous to the auto process)
 		if(start)
-			button_contacts_delete_selected.Sensitive = false;
+			sensitiveSelectedTestButtons (false);
 	}
 	
 	//true: executing a test; false: waiting a test to be executed
@@ -8587,20 +8568,17 @@ public partial class ChronoJumpWindow
 		button_contacts_devices_networks.Sensitive 	= ! execute;
 		button_threshold.Sensitive 		= ! execute;
 		button_execute_test.Sensitive 		= ! execute;
-		sensitiveLastTestButtons(! execute);
+		sensitiveSelectedTestButtons (! execute);
 	}
 
-	private void showHideActionEventButtons (bool show)
+	private void sensitiveSelectedTestButtons (bool sensitive)
 	{
-		//bool success = false;
-		//bool recordedVideo = false;
-
-		button_contacts_edit_selected.Sensitive = show;
+		button_contacts_edit_selected.Sensitive = sensitive;
 
 		if (current_mode == Constants.Modes.JUMPSREACTIVE || current_mode == Constants.Modes.RUNSINTERVALLIC)
-			button_contacts_repair_selected.Sensitive = show;
+			button_contacts_repair_selected.Sensitive = sensitive;
 
-		button_contacts_delete_selected.Sensitive = show;
+		button_contacts_delete_selected.Sensitive = sensitive;
 		button_video_play_selected_test (current_mode);
 		//LogB.Information("recordedVideo = " + recordedVideo.ToString());
 	}

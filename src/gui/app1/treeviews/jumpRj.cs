@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -65,13 +65,13 @@ public partial class ChronoJumpWindow
 	private void on_treeview_jumps_rj_cursor_changed (object o, EventArgs args)
 	{
 		LogB.Information ("on_treeview_jumps_rj_cursor_changed");
-		sensitiveLastTestButtons(false);
+		sensitiveSelectedTestButtons (false);
 
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who jumps
 		if (treeViewResultsSession.EventSelectedID == TreeViewEvent.MarkRowIsPerson)
 		{
-			showHideActionEventButtons(false);
+			sensitiveSelectedTestButtons (false);
 
 			selectedJumpRj = null;
 			blankJumpReactiveRealtimeCaptureGraph ();
@@ -82,7 +82,7 @@ public partial class ChronoJumpWindow
 		if (treeViewResultsSession.EventSelectedID == TreeViewEvent.MarkNonSelectRowSubEvent)
 			treeViewResultsSession.SelectEventHeaderLine();
 
-		showHideActionEventButtons(true);
+		sensitiveSelectedTestButtons (true);
 
 		//graph the jump on realtime cairo graph. Using selectedJumpRj to avoid SQL select continuously
 		if(selectedJumpRj == null || selectedJumpRj.UniqueID != treeViewResultsSession.EventSelectedID)

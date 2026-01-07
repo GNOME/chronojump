@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -488,7 +488,7 @@ public partial class ChronoJumpWindow
 			radio_signal_analyze_current_set.Active = true;
 
 			forceSensorButtonsSensitive(false);
-			showHideActionEventButtons (false);
+			sensitiveSelectedTestButtons (false);
 			contactsShowCaptureDoingButtons(true);
 			image_ai_model_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
 
@@ -627,7 +627,7 @@ public partial class ChronoJumpWindow
 		hbox_ai_general_analysis.Sensitive = false;
 		check_ai_chained_hscales.Sensitive = false;
 		button_ai_model.Sensitive = false;
-		button_contacts_delete_selected.Sensitive = false;
+		sensitiveSelectedTestButtons (false);
 
 		// if on RFD model graph shown, go back to signal
 		if (notebook_ai_top.CurrentPage ==
@@ -1967,7 +1967,7 @@ LogB.Information(" fs C ");
 					treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentForceSensor, videoStr);
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 
-					showHideActionEventButtons (true);
+					sensitiveSelectedTestButtons (true);
 					contactsShowCaptureDoingButtons(false);
 
 					forceSensorDoSignalGraphPlot ();
@@ -1980,7 +1980,7 @@ LogB.Information(" fs C ");
 
 					hbox_force_sensor_analyze_ai_sliders_and_buttons.Sensitive = true;
 
-					button_contacts_delete_selected.Sensitive = true;
+					sensitiveSelectedTestButtons (true);
 					button_force_sensor_image_save_signal.Sensitive = true;
 					hbox_ai_general_analysis.Sensitive = true;
 					button_ai_model_options_close_and_analyze.Sensitive = true;
@@ -2013,7 +2013,7 @@ LogB.Information(" fs C ");
 					webcamRestoreGui (false);
 				}
 
-				showHideActionEventButtons (false);
+				sensitiveSelectedTestButtons (false);
 				contactsShowCaptureDoingButtons(false);
 
 				if (forceTooBigMark)
@@ -2041,7 +2041,7 @@ LogB.Information(" fs C ");
 				button_ai_model.Sensitive = false;
 				button_ai_model_save_image.Sensitive = false;
 				button_force_sensor_image_save_rfd_manual.Sensitive = false;
-				button_contacts_delete_selected.Sensitive = false;
+				sensitiveSelectedTestButtons (false);
 			}
 			else
 					event_execute_label_message.Text = "";
@@ -2507,7 +2507,7 @@ LogB.Information(" fs R ");
 		notebook_ai_top.CurrentPage = Convert.ToInt32(notebook_ai_top_pages.CURRENTSETSIGNAL);
 
 		button_video_play_this_test.Sensitive = (fs.VideoURL != "");
-		showHideActionEventButtons (true);
+		sensitiveSelectedTestButtons (true);
 
 		forceSensorZoomDefaultValues();
 		forceSensorPrepareGraphAI ();

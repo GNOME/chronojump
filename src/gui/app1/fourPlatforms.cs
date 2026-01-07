@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -170,7 +170,7 @@ public partial class ChronoJumpWindow
 				dialog_result_set_labels ();
 		}
 
-		sensitiveLastTestButtons(false);
+		sensitiveSelectedTestButtons (false);
 
 		capturingFourPlatforms = arduinoCaptureStatus.STARTING;
 		LogB.Information ("capturingFourPlatforms: STARTING");
@@ -323,7 +323,7 @@ public partial class ChronoJumpWindow
 					treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentFourPlatforms, "");
 				}
 
-				showHideActionEventButtons(true);
+				sensitiveSelectedTestButtons (true);
 			}
 			//this is finish from arrive to stepsTotal steps
 			else if (fpcm != null && fpcm.Finish)
@@ -337,7 +337,7 @@ public partial class ChronoJumpWindow
 
 				treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentFourPlatforms, "");
 
-				showHideActionEventButtons(true);
+				sensitiveSelectedTestButtons (true);
 				box_fourPlatforms_capture_buttons.Sensitive = true;
 				box_fourPlatforms_cancel_finish.Sensitive = false;
 			}

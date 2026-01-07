@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2018-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -376,7 +376,7 @@ public partial class ChronoJumpWindow
 
 		runEncoderPulseMessage = "";
 		runEncoderButtonsSensitive(false);
-		sensitiveLastTestButtons(false);
+		sensitiveSelectedTestButtons (false);
 
 		//reset capture tab graphs
 		if(cairoRadial != null)
@@ -481,7 +481,7 @@ public partial class ChronoJumpWindow
 
 		check_ai_chained_hscales.Sensitive = false;
 		button_ai_model.Sensitive = false;
-		button_contacts_delete_selected.Sensitive = false;
+		sensitiveSelectedTestButtons (false);
 		button_ai_model_save_image.Sensitive = false;
 		button_video_play_this_test.Sensitive = false;
 
@@ -706,13 +706,12 @@ public partial class ChronoJumpWindow
 			blinkCapture.End ();
 			showHideBlinkIcon (blinkCapture, false);
 
-			sensitiveLastTestButtons(false);
+			sensitiveSelectedTestButtons (false);
 			contactsShowCaptureDoingButtons(false);
 			button_ai_model_options_close_and_analyze.Sensitive = false;
 			check_ai_chained_hscales.Sensitive = false;
 			button_ai_model.Sensitive = false;
 			button_ai_model_save_image.Sensitive = false;
-			button_contacts_delete_selected.Sensitive = false;
 
 			LogB.ThreadEnding();
 			LogB.Mute = preferences.muteLogs;
@@ -1475,7 +1474,7 @@ public partial class ChronoJumpWindow
 			//also showing that graph while analyze tab has not shown first time is buggy
 
 			button_video_play_this_test.Sensitive = (re.VideoURL != "");
-			sensitiveLastTestButtons(true);
+			sensitiveSelectedTestButtons (true);
 
 			image_ai_model_graph.Visible = false;
 			check_ai_chained_hscales.Sensitive = true;
@@ -2199,7 +2198,7 @@ public partial class ChronoJumpWindow
 					updateGraphRunEncoderBars();
 					treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentRunEncoder, videoStr);
 					Thread.Sleep (250); //Wait a bit to ensure is copied
-					sensitiveLastTestButtons(true);
+					sensitiveSelectedTestButtons (true);
 					contactsShowCaptureDoingButtons(false);
 
 					//do not analyze after capture, to be able to show the message: no person height
@@ -2215,7 +2214,6 @@ public partial class ChronoJumpWindow
 					check_ai_chained_hscales.Sensitive = true;
 					button_ai_model.Sensitive = true;
 					button_ai_model_save_image.Sensitive = true;
-					button_contacts_delete_selected.Sensitive = true;
 
 					drawingarea_race_analyzer_capture_position_time.QueueDraw ();
 					drawingarea_race_analyzer_capture_speed_time.QueueDraw ();
@@ -2238,13 +2236,13 @@ public partial class ChronoJumpWindow
 					webcamRestoreGui (false);
 				}
 
-				sensitiveLastTestButtons(false);
+				sensitiveSelectedTestButtons (false);
 				contactsShowCaptureDoingButtons(false);
 				button_ai_model_options_close_and_analyze.Sensitive = false;
 				check_ai_chained_hscales.Sensitive = false;
 				button_ai_model.Sensitive = false;
 				button_ai_model_save_image.Sensitive = false;
-				button_contacts_delete_selected.Sensitive = false;
+				sensitiveSelectedTestButtons (false);
 
 				if(runEncoderProcessCancel)
 					event_execute_label_message.Text = "Cancelled.";

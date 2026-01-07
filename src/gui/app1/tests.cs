@@ -50,7 +50,7 @@ public partial class ChronoJumpWindow
 		/*
 		 * TODO:
 		 * - manage selected test and testType
-		 * - showHideActionEventButtons (false);
+		 * - sensitiveSelectedTestButtons (false);
 		 * - delete video
 		 * - deleted_last_test_update_widgets
 		 */

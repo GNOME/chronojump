@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -64,14 +64,14 @@ public partial class ChronoJumpWindow
 	
 	private void on_treeview_runs_interval_cursor_changed (object o, EventArgs args)
 	{
-		sensitiveLastTestButtons(false);
+		sensitiveSelectedTestButtons (false);
 
 		//LogB.Information ("treeViewResultsSession.EventSelectedID: " + treeViewResultsSession.EventSelectedID.ToString ());
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who runs
 		if (treeViewResultsSession.EventSelectedID == TreeViewEvent.MarkRowIsPerson)
 		{
-			showHideActionEventButtons(false);
+			sensitiveSelectedTestButtons (false);
 
 			selectedRunInterval = null;
 			blankRunIntervalRealtimeCaptureGraph ();
@@ -82,7 +82,7 @@ public partial class ChronoJumpWindow
 		if (treeViewResultsSession.EventSelectedID == TreeViewEvent.MarkNonSelectRowSubEvent)
 			treeViewResultsSession.SelectEventHeaderLine();
 
-		showHideActionEventButtons(true);
+		sensitiveSelectedTestButtons (true);
 		button_inspect_last_test_run_intervallic.Sensitive = false;
 
 		//graph the run on realtime cairo graph. Using selectedRunInterval to avoid SQL select continuously

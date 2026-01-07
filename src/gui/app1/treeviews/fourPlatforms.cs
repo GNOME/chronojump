@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -72,13 +72,13 @@ public partial class ChronoJumpWindow
 
 	private void on_treeview_fourPlatforms_cursor_changed (object o, EventArgs args)
 	{
-		sensitiveLastTestButtons(false);
+		sensitiveSelectedTestButtons (false);
 
 		// don't select if it's a person,
 		// is for not confusing with the person treeviews that controls who runs
 		if (treeViewResultsSession.EventSelectedID == TreeViewEvent.MarkRowIsPerson)
 		{
-			showHideActionEventButtons(false);
+			sensitiveSelectedTestButtons (false);
 			blankFourPlatformsGraphs ();
 			return;
 		}
@@ -86,7 +86,7 @@ public partial class ChronoJumpWindow
 		if (treeViewResultsSession.EventSelectedID == TreeViewEvent.MarkNonSelectRowSubEvent)
 			treeViewResultsSession.SelectEventHeaderLine();
 
-		showHideActionEventButtons(true);
+		sensitiveSelectedTestButtons (true);
 
 		//graph the run on realtime cairo graph. Using currentFourPlatforms to avoid SQL select continuously
 		if(currentFourPlatforms == null || //currentFourPlatformsType == null ||

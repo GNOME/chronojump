@@ -17,7 +17,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -179,13 +179,13 @@ public partial class ChronoJumpWindow
 
 	private void on_treeview_test_cursor_changed (bool loadSet)
 	{
-		sensitiveLastTestButtons(false);
+		sensitiveSelectedTestButtons (false);
 
 		// don't select if it's a person
 		// is for not confusing with the person treeviews that controls who does the test
 		if (treeViewResultsSession.EventSelectedID == TreeViewEvent.MarkRowIsPerson)
 		{
-			showHideActionEventButtons(false); //hide
+			sensitiveSelectedTestButtons (false);
 
 			if (Constants.ModeIsFORCESENSOR (current_mode))
 				blankForceSensorInterface ();
@@ -213,7 +213,7 @@ public partial class ChronoJumpWindow
 					runEncoderLoadSetDo (treeViewResultsSession.EventSelectedID, -1, currentSession.UniqueID, false);
 			}
 
-			showHideActionEventButtons(true); //show
+			sensitiveSelectedTestButtons (true);
 			updateGraphResultsSessionByMode (); //to show the selected bar
 		}
 

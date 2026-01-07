@@ -80,7 +80,7 @@ public partial class ChronoJumpWindow
 		updatePersonTestsN (false);
 		selectedRunInterval = null;
 		selectedRunIntervalType = null;
-		showHideActionEventButtons(false);
+		sensitiveSelectedTestButtons (false);
 		button_inspect_last_test_run_simple.Sensitive = false;
 		
 		if(createdStatsWin) {
@@ -108,7 +108,7 @@ public partial class ChronoJumpWindow
 		treeViewResultsSession.DelEvent(id);
 		updatePersonTestsN (false);
 		selectedRunInterval = null;
-		showHideActionEventButtons(false);
+		sensitiveSelectedTestButtons (false);
 		button_inspect_last_test_run_intervallic.Sensitive = false;
 
 		if(createdStatsWin) {

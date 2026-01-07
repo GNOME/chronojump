@@ -768,7 +768,7 @@ public abstract class CairoBars : CairoGeneric
 	{
 		// 1) set marginBetweenTexts to 1.0 character
 		Cairo.TextExtents te = g.TextExtents("A");
-		double marginBetweenTexts = 1.0 * te.Width;
+		double marginBetweenTexts = 2.0 * te.Width; //1.0 creates overlaps. This fixes #1107
 
 		// 2) find longestWord width
 		te = g.TextExtents(longestWord);

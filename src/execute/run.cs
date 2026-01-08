@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -830,7 +830,14 @@ public class RunExecute : EventExecute
 			}
 
 			//store because runDC.GetTrackTimeInSecondsAndUpdateStartPos() will change it
-			int photocellAtStartPos = runDC.GetPhotocellAtStartPos();
+			int photocellAtStartPos = -1;
+
+			//check also when if track starts on leaving device
+			if (speedStart && ! speedStartArrival 		//speed start and leaving
+					&& ! runDC.FirstTrackDone)
+				photocellAtStartPos = runDC.GetPhotocellBeforeStartPos();
+			else
+				photocellAtStartPos = runDC.GetPhotocellAtStartPos();
 
 			trackTime = runDC.GetTrackTimeInSecondsAndUpdateStartPos(); //will come in seconds
 

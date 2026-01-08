@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2022  Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2026  Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -309,6 +309,17 @@ public class RunPhaseInfoManage
 		 */
 
 		startPos = bigTCPosition;
+	}
+
+	public int GetPhotocellBeforeStartPos ()
+	{
+		if(startPos >= list.Count)
+			return -1;
+
+		if (startPos > 0)
+			return ((RunPhaseInfo) list[startPos -1]).photocell; // this is what we want
+		else
+			return ((RunPhaseInfo) list[startPos]).photocell; // this is cautious to avoid any future crash
 	}
 
 	public int GetPhotocellAtStartPos ()

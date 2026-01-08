@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2022  Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2026  Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -147,7 +147,13 @@ public class RunDoubleContact
 		rpim.UpdateStartPos(newPos);
 	}
 
-	public int GetPhotocellAtStartPos () //TODO; or maybe before
+	// used on speedStart && ! speedStartArrival  //speed start and leaving
+	public int GetPhotocellBeforeStartPos ()
+	{
+		return rpim.GetPhotocellBeforeStartPos();
+	}
+
+	public int GetPhotocellAtStartPos ()
 	{
 		return rpim.GetPhotocellAtStartPos();
 	}

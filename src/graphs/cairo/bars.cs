@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -997,15 +997,19 @@ public abstract class CairoBars : CairoGeneric
 		double y = calculatePaintY (best);
 
 		// 1) line
-		g.Save();
+		g.Save ();
+		g.SetSourceColor (yellow); //to have contrast with the bar
 		g.LineWidth = 2;
-		g.SetDash(new double[]{2, 2}, 0);
+		g.SetDash (new double[]{2, 2}, 0);
 
-		g.MoveTo(0, y);
-		g.LineTo(graphWidth, y);
-		g.Stroke ();
+		g.MoveTo (leftMargin, y);
+		g.LineTo (graphWidth-rightMargin, y);
+		g.Stroke  ();
 
-		g.Restore();
+		g.Restore ();
+		g.SetSourceColor (gray99); //to have contrast with the bottom names
+		printText (leftMargin, graphHeight -textHeight, 0, textHeight,
+				"Person's historical best on this exercise: value (date)", g, alignTypes.LEFT);
 	}
 
 	//encoder !relativeToSet

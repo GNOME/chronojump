@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -31,6 +31,7 @@ public class CairoBars1Series : CairoBars
 	private List<Cairo.Color> colorMain_l;
 	private List<string> names_l;
 	private List<List<double>> barMainIntervals_l; // on jumpR, runI each or the tracks
+	private int historicalBestY = 24; // px reserved at bottom if bestEx
 
 	//constructor when there are no points
 	public CairoBars1Series (DrawingArea area, Type type, string font, string message)
@@ -102,10 +103,14 @@ public class CairoBars1Series : CairoBars
 		if(maxIntersession >= maxY)
 			maxY = maxIntersession;
 
+		/*
 		if (bestExAll > maxY)
 			maxY = bestExAll;
 		if (bestExThis > maxY)
 			maxY = bestExThis;
+			*/
+		if (bestExAll > 0 || bestExThis > 0)
+			bottomMargin += historicalBestY;
 
 		//points X start at 1
 		minX = 0;
@@ -280,8 +285,11 @@ public class CairoBars1Series : CairoBars
 			//print the type at bottom
 			//printTextMultiline (x + barWidth/2, graphHeight -bottomMargin + fontHeightForBottomNames/2, 0, fontHeightForBottomNames,
 			g.SetSourceColor (black);
-			printTextMultiline (x + barWidth/2,
-					graphHeight - fontHeightForBottomNames * 2/3,
+			int textY = graphHeight - fontHeightForBottomNames * 2/3;
+			if (bestExAll > 0 || bestExThis > 0)
+				textY -= historicalBestY;
+
+			printTextMultiline (x + barWidth/2, textY,
 					0, fontHeightForBottomNames,
 					names_l[i] + videoPlayingStr, g, alignTypes.CENTER,
 					UtilList.FoundInListInt(saved_l, i));

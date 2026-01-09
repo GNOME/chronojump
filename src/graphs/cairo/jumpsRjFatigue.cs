@@ -108,7 +108,7 @@ public class JumpsRjFatigueGraph : CairoXY
 		g.SetSourceColor(gray99);
 
 		divideAndPlotAverage (divideIn, true);
-		calculateBoscoFibers ();
+		// calculateBoscoFibers (); disabled until checked further
 
 		g.SetSourceColor(black);
 
@@ -214,6 +214,8 @@ public class JumpsRjFatigueGraph : CairoXY
 		return splitListByJumps (point_l, Convert.ToInt32(Math.Floor(point_l.Count / (1.0 * parts))));
 	}
 	
+	/*
+	 * disabled until checked better
 	private void calculateBoscoFibers ()
 	{
 		if (UtilList.Sum (tc_l) + UtilList.Sum (tv_l) >= 15)
@@ -248,6 +250,7 @@ public class JumpsRjFatigueGraph : CairoXY
 					true);
 		}
 	}
+	*/
 
 	private void paintHorizSegment (double xa, double xb, double y, string centerText, bool segmentOfJustOnePoint)
 	{

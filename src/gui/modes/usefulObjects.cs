@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -83,9 +83,9 @@ public abstract class PrepareEventGraphTest
 	protected void initVariables () //add also sessionID, personID, ...
 	{
 		historicalExThisBest = 0;
-		historicalExThisDefined = true;
+		historicalExThisDefined = false;
 		historicalExAllBest = 0;
-		historicalExAllDefined = true;
+		historicalExAllDefined = false;
 	}
 
 	//need to be private of each class, if public orprotected says: Inconsistent accessibility)
@@ -863,18 +863,28 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 		}
 		boxplotsDo (sqlSelect);
 
-		/*
-		 * TODO: fix this. If we have an exercise selected on Exercise, then use it. if not, use -1
-		 *
-		// person exercise (si està algun seleccionat, i revisar més condicions)
-		historicalExThisDefined = SqliteSession.SelectMAXEventsOfAType (false, -1, personID,
-				Constants.ForceSensorTable, "", exerciseID, Constants.ForceSensorExerciseTable, sqlSelect, out historicalExThisBest);
-		// person all exercises
-		historicalExAllDefined = SqliteSession.SelectMAXEventsOfAType (false, -1, personID,
-				Constants.ForceSensorTable, "", -1, Constants.ForceSensorExerciseTable, sqlSelect, out historicalExAllBest);
-		*/
+		getHistoricalVariables (sqlSelect);
 
 		Sqlite.Close(); // < -----------------
+	}
+
+	private void getHistoricalVariables (string sqlSelect)
+	{
+		// TODO: comprovar que aquest personID té aquest exercici en més sessions
+		if (exerciseID >= 0)
+		{
+			if (SqliteSession.HaveEventsInOtherSessions (false, sessionID, personID,
+					Constants.ForceSensorTable, "", exerciseID, Constants.ForceSensorExerciseTable))
+				historicalExThisDefined = SqliteSession.SelectMAXEventsOfAType (false, -1, personID,
+						Constants.ForceSensorTable, "", exerciseID, Constants.ForceSensorExerciseTable,
+						sqlSelect, out historicalExThisBest);
+		} else {
+			if (SqliteSession.HaveEventsInOtherSessions (false, sessionID, personID,
+						Constants.ForceSensorTable, "", -1, Constants.ForceSensorExerciseTable))
+				historicalExAllDefined = SqliteSession.SelectMAXEventsOfAType (false, -1, personID,
+						Constants.ForceSensorTable, "", -1, Constants.ForceSensorExerciseTable,
+						sqlSelect, out historicalExAllBest);
+		}
 	}
 
 	protected override bool selectEventFromList ()

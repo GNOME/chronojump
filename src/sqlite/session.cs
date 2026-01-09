@@ -915,7 +915,67 @@ class SqliteSession : Sqlite
 		return 0;
 	}
 
-    //called from gui/event.cs for doing the graph
+	// in order to use or not historical values, first check if there are tests of this person, exercise on other sessions than sessionID
+	public static bool HaveEventsInOtherSessions (bool dbconOpened, int sessionID, int personID,
+			string table, string type, int exerciseID, string exerciseTable)
+	{
+		openIfNeeded (dbconOpened); // ----->
+
+		string connector = " WHERE "; //WHERE or AND
+
+		string sessionIDString = "";
+		if (sessionID != -1)
+		{
+			sessionIDString = connector + "sessionID != " + sessionID; // note we search for values NOT in sessionID
+			connector = " AND ";
+		}
+
+		string personIDString = "";
+		if (personID != -1)
+		{
+			personIDString = connector + "personID = " + personID;
+			connector = " AND ";
+		}
+
+		string typeString = "";
+		string tableExercise = "";
+		if (type != "")
+		{
+			typeString = connector + "type = '" + type + "'";
+			connector = " AND ";
+		} else if (exerciseID >= 0 && exerciseTable != "")
+		{
+			typeString = connector + "exerciseID = " + exerciseID +
+				" AND " + table + ".exerciseID = " + exerciseTable + ".uniqueID";
+			tableExercise = ", " + exerciseTable;
+			connector = " AND ";
+		}
+
+		dbcmd.CommandText = "SELECT COUNT (*) FROM " + table + tableExercise +
+			sessionIDString + personIDString + typeString;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SQLiteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		int exists = 0;
+		if (reader.Read()) {
+			//sqlite3 returns a line (without data) if there's no data. Converting to int the line makes chronojump crash
+			try {
+				exists = Convert.ToInt32(reader[0]);
+			} catch { exists = 0; }
+		}
+		LogB.SQL(string.Format("exists = {0}", exists.ToString()));
+		reader.Close();
+
+		closeIfNeeded (dbconOpened); // <-----
+
+		return (exists > 0);
+	}
+
+	//called from gui/event.cs for doing the graph
     //we need to know the avg of events of a type (SJ, CMJ, free (pulse).. of a person, or of all persons on the session
     //from 2.0 type can be "" so all types
     public static bool SelectMAXEventsOfAType (bool dbconOpened, int sessionID, int personID,

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -351,14 +351,21 @@ public class EditEncoderWindow : EditEventWindow
 	{
 		LogB.Information ("EditEncoderWindow updateSQL start");
 
+		Sqlite.Open(); // ------>
+
 		// set person
-		eSQL.PersonID = personID;
+		bool personChanged = false;
+		if (eSQL.PersonID != personID)
+		{
+			eSQL.PersonID = personID;
+			personChanged = true;
+		}
 
 		// set encoder
 		// note eSQL.encoderConfiguration is already updated at: on_encoder_configuration_win_closed
 
 		// set exercise
-		int exIdNew = Sqlite.ExistsAndGetUniqueID (false,
+		int exIdNew = Sqlite.ExistsAndGetUniqueID (true,
 				Constants.EncoderExerciseTable,
 				UtilGtk.ComboGetActive (combo_eventType));
 
@@ -398,8 +405,17 @@ public class EditEncoderWindow : EditEventWindow
 		// set description
 		eSQL.Description = description;
 
-		// update
-		SqliteEncoder.Update (false, eSQL);
+		// update set
+		SqliteEncoder.Update (true, eSQL);
+
+		// update repetitions personID if changed
+		if (personChanged)
+		{
+			SqliteTests st = new SqliteEncoder ();
+			st.UpdateFromEditEncoder (eventID, personID);
+		}
+
+		Sqlite.Close(); // <------
 
 		LogB.Information ("EditEncoderWindow updateSQL end");
 	}

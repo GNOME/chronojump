@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System.Collections; //ArrayList
@@ -322,7 +322,8 @@ class SqliteTests : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		updateSpecific (uniqueID, personID); 	// used on encoder to update related curves
+		// Thought for being used on encoder to update related curves. But is not used because encoder is very different and is not using UpdateFromEdit. It is using UpdateFromEditEncoder that just changes personID
+		// updateSpecific (uniqueID, personID);
 
 		Sqlite.Close();
 	}
@@ -332,6 +333,12 @@ class SqliteTests : Sqlite
 	{
 	}
 	*/
+
+	// just to change the person on encoder, because the other params are very different
+	public void UpdateFromEditEncoder (int uniqueID, int personID)
+	{
+		updateSpecific (uniqueID, personID);
+	}
 
 	protected virtual void updateSpecific (int uniqueID, int personID)
 	{

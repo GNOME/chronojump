@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -126,10 +126,8 @@ public class CairoPaintBarsPreForceSensor : CairoPaintBarsPre
 		cb.Id_l = id_l;
 		cb.PersonIcon_l = personIcon_l;
 
-		if (eventGraphForceSensorStored.HistoricalExThisDefined)
-			cb.BestExThis = eventGraphForceSensorStored.HistoricalExThisBest;
-		if (eventGraphForceSensorStored.HistoricalExAllDefined)
-			cb.BestExAll = eventGraphForceSensorStored.HistoricalExAllBest;
+		if (eventGraphForceSensorStored.HistoricalExStr != "")
+			cb.BestPersonExerciseHistoricalStr = eventGraphForceSensorStored.HistoricalExStr;
 
 		cb.PassBoxplots (eventGraphForceSensorStored.BoxplotPerson, eventGraphForceSensorStored.BoxplotSession);
 		// pass selectedEvent to plot if it's not part of the shown events
@@ -151,6 +149,15 @@ public class CairoPaintBarsPreForceSensor : CairoPaintBarsPre
 		passDataForScreenshotIfNeeded ();
 
 		cb.GraphDo();
+	}
+
+	// to show historic data even if in this session user has not data on that ex.
+	protected override string getHistoricStr ()
+	{
+		if (eventGraphForceSensorStored.HistoricalExStr == "")
+			return "";
+		else
+			return eventGraphForceSensorStored.HistoricalExStr;
 	}
 }
 

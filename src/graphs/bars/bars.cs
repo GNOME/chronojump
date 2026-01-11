@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -169,7 +169,10 @@ public abstract class CairoPaintBarsPre
 		if(! haveDataToPlot())
 		{
 			try {
-				new CairoBars1Series (darea, CairoBars.Type.NORMAL, fontStr, testsNotFound());
+				if (getHistoricStr () == "")
+					new CairoBars1Series (darea, CairoBars.Type.NORMAL, fontStr, testsNotFound());
+				else
+					new CairoBars1Series (darea, CairoBars.Type.NORMAL, fontStr, testsNotFound(), getHistoricStr ());
 			} catch {
 				LogB.Information("saved crash at with cairo paint at !haveDataToPlot");
 			}
@@ -235,6 +238,12 @@ public abstract class CairoPaintBarsPre
 	protected abstract bool storeCreated ();
 	protected abstract bool haveDataToPlot ();
 	protected abstract void paintSpecific();
+
+	// to show historic data even if in this session user has not data on that ex.
+	protected virtual string getHistoricStr ()
+	{
+		return "";
+	}
 
 	protected string generateTitle ()
 	{

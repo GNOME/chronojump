@@ -108,8 +108,8 @@ public abstract class CairoBars : CairoGeneric
 	protected Preferences.EncoderRepetitionCriteria maxIntersessionEcconCriteria;
 	protected string maxIntersessionValueStr; //with correct decimals and units
 	protected string maxIntersessionDate;
-	protected double bestExThis;
-	protected double bestExAll;
+
+	protected string bestPersonExerciseHistoricalStr;
 
 	// ---- values can be passed from outside via accessors ---->
 	protected string xVariable = "";
@@ -355,8 +355,7 @@ public abstract class CairoBars : CairoGeneric
 		maxIntersession = 0;
 		maxIntersessionValueStr = "";
 		maxIntersessionDate = "";
-		bestExThis = 0;
-		bestExAll = 0;
+		bestPersonExerciseHistoricalStr = "";
 	}
 
 	private void leftRightMarginsSet ()
@@ -992,24 +991,13 @@ public abstract class CairoBars : CairoGeneric
 		g.Restore();
 	}
 
-	protected void drawBestEx (double best)
+	protected void printBestPersonExerciseHistorical ()
 	{
-		double y = calculatePaintY (best);
-
-		// 1) line
-		g.Save ();
-		g.SetSourceColor (yellow); //to have contrast with the bar
-		g.LineWidth = 2;
-		g.SetDash (new double[]{2, 2}, 0);
-
-		g.MoveTo (leftMargin, y);
-		g.LineTo (graphWidth-rightMargin, y);
-		g.Stroke  ();
-
-		g.Restore ();
-		g.SetSourceColor (gray99); //to have contrast with the bottom names
-		printText (leftMargin, graphHeight -textHeight, 0, textHeight,
-				"Person's historical best on this exercise: value (date)", g, alignTypes.LEFT);
+		printBestPersonExerciseHistorical (bestPersonExerciseHistoricalStr);
+	}
+	protected void printBestPersonExerciseHistorical (string str)
+	{
+		printText (leftMargin, graphHeight -textHeight, 0, textHeight-2, str, g, alignTypes.LEFT);
 	}
 
 	//encoder !relativeToSet
@@ -1248,11 +1236,8 @@ public abstract class CairoBars : CairoGeneric
 		set { maxIntersessionDate = value; }
 	}
 
-	public double BestExThis {
-		set { bestExThis = value; }
-	}
-	public double BestExAll {
-		set { bestExAll = value; }
+	public string BestPersonExerciseHistoricalStr {
+		set { bestPersonExerciseHistoricalStr = value; }
 	}
 
 	public int Decs {

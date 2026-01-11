@@ -4063,9 +4063,7 @@ LogB.Information(" fs R ");
 			);
 
 		string typeTemp = "";
-		int exerciseID = -1;
-		if (! radio_contacts_graph_allTests.Active)
-			exerciseID = getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false);
+		int exerciseID = getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false);
 
 		int selectedID = -1;
 		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
@@ -4084,7 +4082,7 @@ LogB.Information(" fs R ");
 
 		PrepareEventGraphForceSensor eventGraph = new PrepareEventGraphForceSensor (
 				currentSession.UniqueID,
-				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
+				currentPerson.UniqueID, currentPerson.Name, radio_contacts_results_personAll.Active,
 				//get_radio_resultsSession_criteria (), radio_resultsSession_force_best_second.Active,
 				resultsSessionCriteria, radio_resultsSession_force_best_second.Active,
 				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit

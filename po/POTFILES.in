@@ -143,6 +143,7 @@ src/gui/modes/runIntervalMore.cs
 src/gui/modes/runMore.cs
 src/gui/modes/runTypeAdd.cs
 src/gui/modes/sprint.cs
+src/gui/modes/usefulObjects.cs
 src/gui/networks.cs
 src/gui/overview.cs
 src/gui/person/addModify.cs

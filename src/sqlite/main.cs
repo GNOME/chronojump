@@ -24,7 +24,7 @@ for example on a merge, we will know from which computers are the persons create
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System.Collections; //ArrayList
@@ -5521,6 +5521,11 @@ public class SqliteStruct
 			this.date = date;
 			this.type = type;
 			this.result = result;
+		}
+
+		public static DateTypeResult Init ()
+		{
+			return new DateTypeResult ("", "", -1);
 		}
 	};
 

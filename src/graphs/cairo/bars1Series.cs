@@ -31,10 +31,15 @@ public class CairoBars1Series : CairoBars
 	private List<Cairo.Color> colorMain_l;
 	private List<string> names_l;
 	private List<List<double>> barMainIntervals_l; // on jumpR, runI each or the tracks
-	private int historicalBestY = 24; // px reserved at bottom if bestEx
+	private int historicalBestY = 30; // px reserved at bottom if bestPersonExerciseHistoricalStr != ""
 
 	//constructor when there are no points
 	public CairoBars1Series (DrawingArea area, Type type, string font, string message)
+	{
+		new CairoBars1Series (area, type, font, message, "");
+	}
+
+	public CairoBars1Series (DrawingArea area, Type type, string font, string message, string historicalStr)
 	{
 		this.area = area;
 		this.type = type;
@@ -45,6 +50,9 @@ public class CairoBars1Series : CairoBars
 
 		if(message != "")
 			writeMessageAtCenter(message);
+
+		if (historicalStr != "")
+			printBestPersonExerciseHistorical (historicalStr);
 
 		endGraphDisposing(g, surface, area.Window);
 	}
@@ -103,13 +111,7 @@ public class CairoBars1Series : CairoBars
 		if(maxIntersession >= maxY)
 			maxY = maxIntersession;
 
-		/*
-		if (bestExAll > maxY)
-			maxY = bestExAll;
-		if (bestExThis > maxY)
-			maxY = bestExThis;
-			*/
-		if (bestExAll > 0 || bestExThis > 0)
+		if (bestPersonExerciseHistoricalStr != "")
 			bottomMargin += historicalBestY;
 
 		//points X start at 1
@@ -286,7 +288,7 @@ public class CairoBars1Series : CairoBars
 			//printTextMultiline (x + barWidth/2, graphHeight -bottomMargin + fontHeightForBottomNames/2, 0, fontHeightForBottomNames,
 			g.SetSourceColor (black);
 			int textY = graphHeight - fontHeightForBottomNames * 2/3;
-			if (bestExAll > 0 || bestExThis > 0)
+			if (bestPersonExerciseHistoricalStr != "")
 				textY -= historicalBestY;
 
 			printTextMultiline (x + barWidth/2, textY,
@@ -399,10 +401,8 @@ public class CairoBars1Series : CairoBars
 		if(maxIntersession > 0)
 			writePersonsBest (); //encoder !relativeToSet
 
-		if (bestExAll > 0)
-			drawBestEx (bestExAll);
-		if (bestExThis > 0)
-			drawBestEx (bestExThis);
+		if (bestPersonExerciseHistoricalStr != "")
+			printBestPersonExerciseHistorical ();
 
 		addClickableMarkIfNeeded (clickable, g);
 

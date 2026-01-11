@@ -183,6 +183,8 @@ public class PrepareEventGraphJumpSimple : PrepareEventGraphTest
 		this.showHeights = showHeights;
 		this.selectedID = selectedID;
 
+		Sqlite.Open(); // ----------------->
+
 		int personIDTemp = personID;
 		if(allPersons)
 			personIDTemp = -1;
@@ -195,7 +197,7 @@ public class PrepareEventGraphJumpSimple : PrepareEventGraphTest
 			OrderX = OrderXEnum.Last;
 		}
 
-		rowsAtSQL = SqliteJump.SelectJumps (sessionID, personIDTemp, type,
+		rowsAtSQL = SqliteJump.SelectJumps (true, sessionID, personIDTemp, type,
 				orderBy, limit,
 				allPersons, 	//show names on comments only if "all persons"
 				false); 	//! onlyBestInSession
@@ -208,6 +210,8 @@ public class PrepareEventGraphJumpSimple : PrepareEventGraphTest
 			param = "100*4.9*(tv/2)*(tv/2)";
 
 		boxplotsDo (param);
+
+		Sqlite.Close(); // < -----------------
 	}
 
 	protected override bool selectEventFromList ()
@@ -223,18 +227,18 @@ public class PrepareEventGraphJumpSimple : PrepareEventGraphTest
 
 	protected override void selectEventFromSQL ()
 	{
-		selectedEvent = SqliteJump.SelectJumpData (selectedID, false);
+		selectedEvent = SqliteJump.SelectJumpData (selectedID, true);
 	}
 
 	protected override List<double> boxplotSelectPerson (string param)
 	{
-		return SqliteJump.SelectJumps (param, sessionID, personID, type,
+		return SqliteJump.SelectJumps (true, param, sessionID, personID, type,
 				Sqlite.Orders_by.BEST, 0, // no limit
 				false); 	//! onlyBestInSession
 	}
 	protected override List<double> boxplotSelectSession (string param)
 	{
-		return SqliteJump.SelectJumps (param, sessionID, -1, type,
+		return SqliteJump.SelectJumps (true, param, sessionID, -1, type,
 				Sqlite.Orders_by.BEST, 0, // no limit
 				false); 	//! onlyBestInSession
 	}

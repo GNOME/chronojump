@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -240,9 +240,9 @@ class SqliteJump : SqliteTests
 	 *   because event.PersonName makes individual SQL SELECTs
 	 * this returns a List<Jump>
 	 */
-	public static List<Jump> SelectJumps (int sID, int pID, string jumpType, Orders_by order, int limit, bool personNameInComment, bool onlyBestInSession)
+	public static List<Jump> SelectJumps (bool dbconOpened, int sID, int pID, string jumpType, Orders_by order, int limit, bool personNameInComment, bool onlyBestInSession)
 	{
-		Sqlite.Open(); //  -------------------->
+		openIfNeeded (dbconOpened); //  -------------------->
 
 		//jumps previous to DB 1.82 have no datetime on jump
 		//find session datetime for that jumps
@@ -264,7 +264,7 @@ class SqliteJump : SqliteTests
 		List<Jump> jmp_l = DataReaderToJump (reader, session_l, person_l, personNameInComment);
 
 		reader.Close();
-		Sqlite.Close(); // <--------------------
+		closeIfNeeded (dbconOpened); // <--------------------
 
 		//get last values on negative limit
 		if (limit < 0 && jmp_l.Count + limit >= 0)
@@ -274,9 +274,9 @@ class SqliteJump : SqliteTests
 	}
 
 	// same as above but this returns a List<double>, and without the personNameInComment
-	public static List<double> SelectJumps (string selectParam, int sID, int pID, string jumpType, Orders_by order, int limit, bool onlyBestInSession)
+	public static List<double> SelectJumps (bool dbconOpened, string selectParam, int sID, int pID, string jumpType, Orders_by order, int limit, bool onlyBestInSession)
 	{
-		Sqlite.Open(); //  -------------------->
+		openIfNeeded (dbconOpened); //  -------------------->
 
 		dbcmd.CommandText = "SELECT " + selectParam + " FROM jump " +
 			selectDo (sID, pID, jumpType, order, limit, onlyBestInSession);
@@ -293,7 +293,7 @@ class SqliteJump : SqliteTests
 			d_l.Add (Convert.ToDouble (Util.ChangeDecimalSeparator (reader [0].ToString ())));
 
 		reader.Close();
-		Sqlite.Close(); // <--------------------
+		closeIfNeeded (dbconOpened); // <--------------------
 
 		//get last values on negative limit
 		if (limit < 0 && d_l.Count + limit >= 0)

@@ -7247,7 +7247,7 @@ msgstr "Tartekako lasterketaren mota gehitu da."
 
 #: ../src/gui/app1/chronojump.cs:7297
 msgid "translator-credits"
-msgstr "translator-credits"
+msgstr ""
 "Maitane Ibañez <maitaneibanez@gmail.com> 2026\n"
 "Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2019-2023"
 

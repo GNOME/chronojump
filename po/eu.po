@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
 "POT-Creation-Date: 2025-09-10 12:00+0000\n"
-"PO-Revision-Date: 2026-01-05 12:01+0100\n"
+"PO-Revision-Date: 2026-01-12 17:46+0100\n"
 "Last-Translator: Maitane Ibañez <maitaneibanez@gmail.com>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -449,11 +449,11 @@ msgstr "Konektatu kodetzailea"
 
 #: ../glade/app1.glade.h:82
 msgid "Controller"
-msgstr ""
+msgstr "Kontrolatzailea"
 
 #: ../glade/app1.glade.h:83
 msgid "Terminals"
-msgstr ""
+msgstr "Terminalak"
 
 #: ../glade/app1.glade.h:84 ../glade/preferences_win.glade.h:182
 msgid "Apply"
@@ -492,13 +492,11 @@ msgstr "Hasiera"
 
 #: ../glade/app1.glade.h:92
 msgid "Start speed: 8 Km/h"
-msgstr ""
+msgstr "Hasierako abiadura: 8 Km/h"
 
 #: ../glade/app1.glade.h:93
-#, fuzzy
-#| msgid "Edit selected"
 msgid "Exempt selected"
-msgstr "Editatu hautatu"
+msgstr "Salbuetsi hautatua"
 
 #: ../glade/app1.glade.h:94 ../src/treeview/person.cs:63
 #, fuzzy
@@ -508,7 +506,7 @@ msgstr "Egoera"
 
 #: ../glade/app1.glade.h:95
 msgid "Warnings"
-msgstr ""
+msgstr "Kontuz"
 
 #: ../glade/app1.glade.h:96 ../src/gui/app1/encoder.cs:2328
 msgid "Save image"
@@ -546,7 +544,7 @@ msgstr "RFD onena"
 
 #: ../glade/app1.glade.h:102
 msgid "Raw"
-msgstr ""
+msgstr "Seinale gordina"
 
 #: ../glade/app1.glade.h:103
 #, fuzzy
@@ -580,7 +578,7 @@ msgstr "Estatistika honen grafikoa"
 
 #: ../glade/app1.glade.h:109
 msgid ">= min accel"
-msgstr ""
+msgstr ">= azel. min"
 
 #: ../glade/app1.glade.h:110
 #, fuzzy
@@ -590,7 +588,7 @@ msgstr "Gutxieneko azelerazioa"
 
 #: ../glade/app1.glade.h:111
 msgid "v,p,f are averages of propulsive phase."
-msgstr ""
+msgstr "v, p, f fase propulsiboaren batezbestekoak dira"
 
 #: ../glade/app1.glade.h:112
 msgid ""
@@ -739,8 +737,9 @@ msgid "Jump height"
 msgstr "Jauziaren altuera"
 
 #: ../glade/app1.glade.h:134
+#, fuzzy
 msgid "Jump time"
-msgstr ""
+msgstr "Jauzi denbora"
 
 #. Catalog.GetString("Selected\nrepetitions"),
 #. Catalog.GetString("All\nrepetitions")
@@ -756,7 +755,7 @@ msgstr "Honen arabera ordenatu"
 
 #: ../glade/app1.glade.h:137
 msgid "best"
-msgstr "Hoberena"
+msgstr "hoberena"
 
 #: ../glade/app1.glade.h:138
 msgid "Last"
@@ -1138,7 +1137,7 @@ msgstr "Masa"
 #: ../src/gui/app1/encoder.cs:4914
 #: ../src/gui/app1/treeviews/encoderAnalyze.cs:61
 msgid "Inertia M."
-msgstr "Inertzia-momentua"
+msgstr "Inertzia-m."
 
 #: ../glade/app1.glade.h:209 ../glade/edit_event.glade.h:46
 msgid "Extra"
@@ -1257,7 +1256,7 @@ msgstr "Jauzien profila"
 
 #: ../glade/app1.glade.h:232
 msgid "Dj optimal fall"
-msgstr ""
+msgstr "Dj eror-altuera hoberena"
 
 #: ../glade/app1.glade.h:233
 msgid "FV Profile"
@@ -1295,11 +1294,11 @@ msgstr "Azpimota"
 
 #: ../glade/app1.glade.h:241 ../src/gui/report.cs:179
 msgid "Apply to"
-msgstr "Aplikatu honi:"
+msgstr "Aplikatu honi"
 
 #: ../glade/app1.glade.h:242
 msgid "Subtraction between"
-msgstr "Honakoen arteko kenketa:"
+msgstr "Honakoen arteko kenketa"
 
 #: ../glade/app1.glade.h:243
 msgid "and"
@@ -1697,7 +1696,7 @@ msgstr "TC"
 
 #: ../glade/app1.glade.h:331
 msgid "Divide into"
-msgstr "Zatitu hauetan:"
+msgstr "Zatitu hauetan"
 
 #: ../glade/app1.glade.h:332
 msgid "Run type"
@@ -1828,7 +1827,7 @@ msgstr "Bilatu hasiera/amaiera onena AB barrutian"
 
 #: ../glade/app1.glade.h:363
 msgid "Using the model"
-msgstr ""
+msgstr "Honako modeloa erabiliz"
 
 #: ../glade/app1.glade.h:364
 msgid "Until this seconds:"
@@ -1840,7 +1839,7 @@ msgstr "Hau gehieneko indarrean jaisten den arte:"
 
 #: ../glade/app1.glade.h:366
 msgid "Using the threshold of n Standard Deviations"
-msgstr ""
+msgstr "n desbideratze tipikoen atalasea erabili da"
 
 #: ../glade/app1.glade.h:367
 msgid "Strictly use A for start and B for end"
@@ -1878,13 +1877,11 @@ msgstr "Barnekoa"
 
 #: ../glade/app1.glade.h:377
 msgid "Add RFD"
-msgstr ""
+msgstr "Gehitu RFDa"
 
 #: ../glade/app1.glade.h:378
-#, fuzzy
-#| msgid "Remove"
 msgid "Remove RFD"
-msgstr "Kendu"
+msgstr "Kendu RFDa"
 
 #. impulse
 #. if (showColumnCD)
@@ -2155,16 +2152,16 @@ msgid "New session"
 msgstr "Saio berria"
 
 #: ../glade/app1.glade.h:436
-#, fuzzy
-#| msgid "Create new person"
 msgid "Create new session"
-msgstr "Sortu pertsona berria"
+msgstr "Sortu saio berria"
 
 #: ../glade/app1.glade.h:437
 msgid ""
 "Create session disabled\n"
 "on Cloud-view mode"
 msgstr ""
+"Saioa sortu ezinduta\n"
+"Hodei ikuspegi moduan"
 
 #. app1s_label_load.Text = "<b>" + Catalog.GetString ("Load session") + "</b>";
 #. app1s_label_load.UseMarkup = true;
@@ -2185,26 +2182,20 @@ msgid "Delete session"
 msgstr "Ezabatu saioa"
 
 #: ../glade/app1.glade.h:443
-#, fuzzy
-#| msgid "Export to another database"
 msgid "Export to another Chronojump"
-msgstr "Esportatu beste datu-base batera"
+msgstr "Esportatu veste Chronojump batera"
 
 #: ../glade/app1.glade.h:444
-#, fuzzy
-#| msgid "Import another session"
 msgid "Import from another Chronojump"
-msgstr "Inportatu beste saio bat"
+msgstr "Inportatu beste Chronojump batetik"
 
 #: ../glade/app1.glade.h:445
 msgid "Import jumps or runs from CSV"
-msgstr ""
+msgstr "Inportatu jauziak edo lasterketak CSVtik "
 
 #: ../glade/app1.glade.h:446
-#, fuzzy
-#| msgid "Export session"
 msgid "Export/Import session"
-msgstr "Esportatu saioa"
+msgstr "Esportatu/Importatu saioa"
 
 #: ../glade/app1.glade.h:447
 msgid "Make a copy of all the data"
@@ -2497,7 +2488,7 @@ msgstr "Chronojump-en datuen babeskopia osoa egin nahi al duzu?"
 
 #: ../glade/app1.glade.h:505
 msgid "Make the backup now!"
-msgstr "Egin babeskopia orain"
+msgstr "Egin babeskopia orain!"
 
 #: ../glade/app1.glade.h:506
 msgid "Remind me next time"
@@ -2560,14 +2551,12 @@ msgid "View specific data folder"
 msgstr "Ikusi datuen karpeta espezifikoa"
 
 #: ../glade/app1.glade.h:520
-#, fuzzy
-#| msgid "Export to CSV"
 msgid "Import from CSV"
-msgstr "Esportatu CSV formatura"
+msgstr "Inportatu CSVtik"
 
 #: ../glade/app1.glade.h:521
 msgid "Encoder disconnected."
-msgstr "Kodetzailea deskonektatuta."
+msgstr "Encoder-a deskonektatuta."
 
 #: ../glade/app1.glade.h:522
 msgid "Please, connect it and click here:"
@@ -2579,7 +2568,7 @@ msgstr "Egiaztatu konexioa"
 
 #: ../glade/app1.glade.h:524 ../src/constants.cs:294
 msgid "RFID has been disconnected!"
-msgstr "RFID deskonektatu egin da."
+msgstr "RFID deskonektatu egin da!"
 
 #: ../glade/app1.glade.h:525 ../src/constants.cs:295
 msgid "Please, connect it and restart Chronojump."
@@ -2591,8 +2580,9 @@ msgid "Preferences"
 msgstr "Hobespenak"
 
 #: ../glade/app1.glade.h:527
+#, fuzzy
 msgid "Utilities"
-msgstr ""
+msgstr "Erabilgarritasuna"
 
 #: ../glade/app1.glade.h:528
 msgid "Documents"
@@ -2620,11 +2610,11 @@ msgstr "Ireki arakatzailean"
 
 #: ../glade/app1.glade.h:534 ../src/constants.cs:943
 msgid "Sorry, cannot open website."
-msgstr "Ezin da webgunea ireki"
+msgstr "Barkatu, ezin da webgunea ireki."
 
 #: ../glade/app1.glade.h:535
 msgid "Refresh"
-msgstr ""
+msgstr "Freskatu"
 
 #: ../glade/app1.glade.h:536 ../glade/dialog_person_popup.glade.h:3
 msgid "label"
@@ -2659,12 +2649,16 @@ msgid ""
 "Chronojump detects devices automatically. However, if for some reason your "
 "device isn't detected correctly, you can assign it manually."
 msgstr ""
+"Chronojump-ek automatikoki antzematen ditu gailuak. Hala ere, nolabait ere "
+"zure gailua ez badu antzeman, eskuz egokitzeko aukera daukazu."
 
 #: ../glade/app1.glade.h:543
 msgid ""
 "Please note that if you manually assigned an incorrect device, you can "
 "always forget it using the Forget button."
 msgstr ""
+"Gailu okerra eskuz egokitu baduzu, Forget button botoiaren bidez ahazteko "
+"aukera daukazu."
 
 #: ../glade/app1.glade.h:544 ../glade/person_select_window.glade.h:2
 msgid "Manage persons"
@@ -2702,6 +2696,8 @@ msgid ""
 "Create person disabled\n"
 "on Cloud-view mode"
 msgstr ""
+"Pertsona sortu ezinduta\n"
+"Hodei ikuspegi moduan"
 
 #: ../glade/app1.glade.h:553
 #, fuzzy
@@ -2876,7 +2872,7 @@ msgstr "Mesedez, idatzi email honetara:"
 
 #: ../glade/chronopic_test.glade.h:13
 msgid "Note you can select underlined texts."
-msgstr ""
+msgstr "Azpimarratutako testua aukera dezakezu."
 
 #: ../glade/chronopic_test.glade.h:14
 #, fuzzy
@@ -3220,6 +3216,8 @@ msgid ""
 "Able to walk stepping one foot in each circle, touching more than one, or "
 "needing more than one extra step to regain balance."
 msgstr ""
+"Ibiltzeko gai oin bat borobil bakoitzean sartuta, bat baino gehiago ikutuz, "
+"edo oreka berreskuratzeko beste pauso bat baino gehiago beharrez gero."
 
 #: ../glade/edit_event.glade.h:74
 msgid "Sit back down"
@@ -3595,7 +3593,7 @@ msgstr "Aldagai nagusia"
 
 #: ../glade/feedback.glade.h:19
 msgid "Feedback relative to the maximum repetition of …"
-msgstr ""
+msgstr "Azteraelikadura hau ariketa honen errepikapen maximoarekiko da:"
 
 #: ../glade/feedback.glade.h:20
 msgid "this set"
@@ -3659,11 +3657,11 @@ msgstr "Erabili balio pertsonalizatua"
 
 #: ../glade/feedback.glade.h:34
 msgid "Max Y"
-msgstr ""
+msgstr "Max Y"
 
 #: ../glade/feedback.glade.h:35
 msgid "Min Y"
-msgstr ""
+msgstr "Min Y"
 
 #: ../glade/feedback.glade.h:36
 #, fuzzy
@@ -3975,6 +3973,10 @@ msgid ""
 "During the conversion, this exercise has been assigned to both modes.\n"
 "Do you want to have it in only one mode?"
 msgstr ""
+"Chronojump 2.2.2 bertsioak indar sentsorearen modua bitan banatzen du: "
+"isometrikoa eta elastikoa.\n"
+"Bihurketa horretan zehar, ariketa hau bi moduetan egokitu da.\n"
+"Modu bakarrean egotea nahiko zenuke?"
 
 #: ../glade/force_sensor_exercise.glade.h:5
 msgid "Continue in both modes"
@@ -4279,7 +4281,7 @@ msgstr "Hanka-luzera"
 #: ../glade/person_multiple_infinite.glade.h:9 ../glade/person_win.glade.h:26
 #: ../src/exportSession.cs:397 ../src/gui/person/addMultiple.cs:935
 msgid "Hips height on SJ flexion"
-msgstr ""
+msgstr "Aldakaren altuera SJn makurtuta"
 
 #: ../glade/person_multiple_infinite.glade.h:11
 msgid "Add entries from CSV (spreadsheet)"
@@ -4357,7 +4359,7 @@ msgstr "Egiaztatu"
 
 #: ../glade/person_recuperate.glade.h:7
 msgid "More than 1000 results. Please, refine your search."
-msgstr ""
+msgstr "1000 emaitza baino gehiago. Mesedez, findu zure bilaketa."
 
 #: ../glade/person_select_window.glade.h:1
 msgid "Select person"
@@ -4582,7 +4584,7 @@ msgstr "Grafikoetan erabilitako letra-tipoak:"
 
 #: ../glade/preferences_win.glade.h:16
 msgid "(Recommended for Chinese language)"
-msgstr ""
+msgstr "(Txinatar hizkuntzarentzat gomendatua)"
 
 #: ../glade/preferences_win.glade.h:17
 msgid "Show animated logo"
@@ -4672,10 +4674,13 @@ msgid ""
 "first platform or photocell.\n"
 "It starts before and arrives there with some speed."
 msgstr ""
+"\"Speed start\"-ek kirolaria lehenengo plataforma edo fotozelularekin "
+"\"kontaktuan\" hasten ez dela esan nahi du.\n"
+"Hau da, lehenago hasi eta bertara abiadura batekin iristen da."
 
 #: ../glade/preferences_win.glade.h:44
 msgid "What to do on speed start or reaction time measurement?"
-msgstr ""
+msgstr "Zer egin speed start-arekin edo erreakzio denbora neurtzean?"
 
 #: ../glade/preferences_win.glade.h:45
 msgid "Race time starts on arrival at first device or pressing push button"
@@ -4692,7 +4697,7 @@ msgstr "Eragotzi kontaktu bikoitzak (gomendatua)"
 
 #: ../glade/preferences_win.glade.h:48
 msgid "Fix if found two or more contacts in"
-msgstr ""
+msgstr "Konpondu bi edo kontaktu gehiago aurkituz gero"
 
 #: ../glade/preferences_win.glade.h:49
 msgid "ms"
@@ -4730,7 +4735,7 @@ msgstr "Lasterketen analizatzailea"
 
 #: ../glade/preferences_win.glade.h:59
 msgid "Butterworth low-pass filter"
-msgstr ""
+msgstr "Butterworth low-pass filtroa"
 
 #: ../glade/preferences_win.glade.h:60
 #, fuzzy
@@ -4813,7 +4818,7 @@ msgstr "Baztertu lehen errepikapenak"
 
 #: ../glade/preferences_win.glade.h:89
 msgid "Criteria for automatically saving repetitions"
-msgstr ""
+msgstr "Errepikapenak automatikoki gordetzeko irizpideak"
 
 #: ../glade/preferences_win.glade.h:90
 msgid "3"
@@ -5039,7 +5044,7 @@ msgstr "Behartu hizkuntza"
 
 #: ../glade/preferences_win.glade.h:157
 msgid "(Note for Chinese you need to select a suitable font)"
-msgstr ""
+msgstr "(Adi, txinatarrez letra-tipo egokia hautatu behar da)"
 
 #: ../glade/preferences_win.glade.h:158
 msgid "Spreadsheet import and export format"
@@ -5103,7 +5108,7 @@ msgstr "Bidea"
 
 #: ../glade/preferences_win.glade.h:172
 msgid "Cloud-view"
-msgstr ""
+msgstr "Hodei-bista"
 
 #: ../glade/preferences_win.glade.h:173
 msgid "View data of each database on the cloud."
@@ -5116,10 +5121,12 @@ msgid "View databases"
 msgstr "Ikusi datuen karpeta"
 
 #: ../glade/preferences_win.glade.h:175
+#, fuzzy
 msgid "Zoom cloud schema "
-msgstr ""
+msgstr "Zoom hodei eskema"
 
 #: ../glade/preferences_win.glade.h:176
+#, fuzzy
 msgid ""
 "In order to change a path you need to:\n"
 "1. Open Finder\n"
@@ -5128,10 +5135,16 @@ msgid ""
 "4. Paste below on the entry box\n"
 "5. Click Apply"
 msgstr ""
+"Path-a aldatzeko honakoa egin behar duzu:\n"
+"1. Finder zabaldu\n"
+"2. Path- hautatu\n"
+"3. Sakatu: Option command\n"
+"4. Azpian itsatsi sarrera laukitxoan\n"
+"5. Sakatu: Apply"
 
 #: ../glade/preferences_win.glade.h:183
 msgid "Error. Directory does not exists."
-msgstr ""
+msgstr "Akatsa. Direktorioa ez da existitzen."
 
 #: ../glade/preferences_win.glade.h:184
 msgid "Cloud"
@@ -5154,8 +5167,9 @@ msgid "Current log"
 msgstr "Unekoa"
 
 #: ../glade/preferences_win.glade.h:190
+#, fuzzy
 msgid "Previous log"
-msgstr ""
+msgstr "Aurreko erregistroa (log)"
 
 #: ../glade/preferences_win.glade.h:191
 #, fuzzy
@@ -5164,8 +5178,9 @@ msgid "Send"
 msgstr "Bidali inkesta"
 
 #: ../glade/preferences_win.glade.h:192
+#, fuzzy
 msgid "Logs"
-msgstr ""
+msgstr "Erregistroak (logs)"
 
 #: ../glade/preferences_win.glade.h:193
 #, fuzzy
@@ -5186,8 +5201,9 @@ msgid "Other location"
 msgstr "Beste datu batzuk"
 
 #: ../glade/preferences_win.glade.h:196
+#, fuzzy
 msgid "Autodetect"
-msgstr ""
+msgstr "Antzemate automatikoa"
 
 #: ../glade/preferences_win.glade.h:197
 #, fuzzy
@@ -5232,8 +5248,9 @@ msgid "Short"
 msgstr "Lasterbideak"
 
 #: ../glade/preferences_win.glade.h:205
+#, fuzzy
 msgid "Long"
-msgstr ""
+msgstr "Luzea"
 
 #: ../glade/preferences_win.glade.h:206
 msgid "Do not write debug messages"
@@ -5260,8 +5277,9 @@ msgid "Decimal places"
 msgstr "Dezimalak"
 
 #: ../glade/preferences_win.glade.h:212
+#, fuzzy
 msgid "Applies to most of the tests and export data"
-msgstr ""
+msgstr "Proba gehienei aplikatu eta datuak esportatu"
 
 #: ../glade/preferences_win.glade.h:213
 msgid "Python version"
@@ -5381,6 +5399,8 @@ msgid ""
 "Different (each lap have different distance\n"
 "suitable for agility tests and RSA)"
 msgstr ""
+"Desberdina (buelta bakoitzak distantzia desberdina dauka\n"
+"bizkortasun probak eta RSA egiteko egokia)"
 
 #: ../glade/run_type_add.glade.h:12
 msgid "Number of different laps"
@@ -5513,7 +5533,7 @@ msgstr "taulak sortu dira jadanik"
 
 #: ../src/chronojump.cs:745
 msgid "Fail on database. Process: "
-msgstr ""
+msgstr "Akatsa datu-basean. Prozesatu:"
 
 #.
 #. errorMessage += "\n\n" + string.Format(Catalog.GetString("If you have no data on your database (you just installed Chronojump), you can fix this problem deleting this file: {0}"),
@@ -5524,6 +5544,8 @@ msgstr ""
 #, csharp-format
 msgid "Please, contact with Chronojump. Send them this file: {0}"
 msgstr ""
+"Mesedez, harremanetan jarri Chronojump-ekin. Bidali iezadazu fitxategi hay: "
+"{0}"
 
 #: ../src/chronojump.cs:850
 msgid "Need permissions to read from device."
@@ -5594,6 +5616,8 @@ msgid ""
 "Trying to import a newer database version than this Chronojump\n"
 "Please, update the running Chronojump."
 msgstr ""
+"Chronojump hau baino berriagoa den datu-base bat inportatzen saiatzen\n"
+"Mesedez, eguneratu zabalik dagoen Chronojump."
 
 #: ../src/chronojumpImporter.cs:319
 #, csharp-format
@@ -5687,7 +5711,7 @@ msgstr "Chronojump eskuliburuaren ingelesezko itzulpena."
 
 #: ../src/constants.cs:105
 msgid "Translation of Firmware to C."
-msgstr ""
+msgstr "Firmware-aren C-rako itzulpena."
 
 #: ../src/constants.cs:106
 msgid "New firmware features."
@@ -5773,8 +5797,9 @@ msgstr ""
 "kraskatu egingo da hurrengo exekuzioan."
 
 #: ../src/constants.cs:244
+#, fuzzy
 msgid "This Run Analysis is not valid because there are no strides."
-msgstr ""
+msgstr "Lasterketa analisi hau ez da baliozkoa ez baitaude pausorik."
 
 #: ../src/constants.cs:287
 msgid "Chronopic is disconnected."
@@ -5912,7 +5937,7 @@ msgstr "Jauzilariaren laburpena"
 
 #: ../src/constants.cs:587
 msgid "Simple with TC"
-msgstr ""
+msgstr "KD simplearekin"
 
 #: ../src/constants.cs:591
 msgid "Jumps: Reactive"
@@ -5950,7 +5975,7 @@ msgstr "Ikusi lasterketa guztiak"
 
 #: ../src/constants.cs:765
 msgid "Typical serial and USB-serial ports on Windows:"
-msgstr ""
+msgstr "Windows-en serie eta USB-serie portu ohikoak:"
 
 #: ../src/constants.cs:767
 msgid "Also, these are possible:"
@@ -5998,6 +6023,9 @@ msgid ""
 "<b>driver</b> installed at 'Windows Start Menu / Chronojump / Install "
 "Chronopic driver'."
 msgstr ""
+"Chronopic-arekin konektatzen arazoak badauzkazu, zirutatu <b>driver-a </b> "
+"instalatuta dagoela 'Windows Start Menu / Chronojump / Install Chronopic "
+"drive' kokapenean."
 
 #: ../src/constants.cs:815
 msgid "Check Chronojump software website."
@@ -6116,7 +6144,7 @@ msgstr "Grafiko hori ezin da egin {0} probarekin."
 
 #: ../src/constants.cs:971
 msgid "This graphic needs more height."
-msgstr ""
+msgstr "Grafiko honek altuera gehiago behar du."
 
 #: ../src/constants.cs:975
 msgid ""
@@ -6141,7 +6169,7 @@ msgstr "Chronojump grafikoa"
 
 #: ../src/constants.cs:1035
 msgid "Used on jumps with TC and TF"
-msgstr ""
+msgstr "KD eta HD daukaten jauziakin erabilia"
 
 #. Catalog.GetString("Jumps with TC & TF: Bosco Relative Power (W/Kg)") +
 #. "\n" +
@@ -6173,7 +6201,7 @@ msgstr "kontaktu-denbora"
 
 #: ../src/constants.cs:1044
 msgid "Used on jumps without TC: Lewis Peak Power 1974 (W)"
-msgstr ""
+msgstr "KD daukaten jauziekin erabilia: Lewis Peak Power 1974 (W)"
 
 #: ../src/constants.cs:1045
 msgid ""
@@ -6312,7 +6340,7 @@ msgstr ""
 
 #: ../src/constants.cs:1666
 msgid "Estimated percentual load ="
-msgstr ""
+msgstr "Ehunekotan kalkulatutako karga ="
 
 #: ../src/constants.cs:1667
 msgid "Adapted from"
@@ -6320,7 +6348,7 @@ msgstr "Hemendik moldatua:"
 
 #: ../src/constants.cs:1668
 msgid "Mean speed in concentric propulsive phase"
-msgstr ""
+msgstr "Batezbesteko abiadura fase propulsibo kontzentrikoan"
 
 #: ../src/constants.cs:1669 ../src/gui/app1/encoder.cs:1441
 msgid "Sorry, no repetitions matched your criteria."
@@ -6461,19 +6489,19 @@ msgstr ""
 
 #: ../src/encoder/encoderConfiguration.cs:372
 msgid "Rotary friction encoder on pulley."
-msgstr ""
+msgstr "Birakordun marruskadura encoder-a polean."
 
 #: ../src/encoder/encoderConfiguration.cs:379
 msgid "Rotary friction encoder on pulley axis."
-msgstr ""
+msgstr "Birakordun marruskadura encoder-a polea ardatzean."
 
 #: ../src/encoder/encoderConfiguration.cs:389
 msgid "Rotary friction encoder on weighted moving pulley."
-msgstr ""
+msgstr "Birakordun marruskadura encoder-a polea pisudun mugikorrean."
 
 #: ../src/encoder/encoderConfiguration.cs:398
 msgid "Rotary friction encoder on inertial machine side."
-msgstr ""
+msgstr "Birakordun marruskadura encoder-a makina inertzialaren alboan."
 
 #: ../src/encoder/encoderConfiguration.cs:410
 #: ../src/encoder/encoderConfiguration.cs:450
@@ -6481,11 +6509,13 @@ msgid ""
 "Rotary friction encoder on inertial machine when person is moving "
 "horizontally."
 msgstr ""
+"Birakordun marruskadura encoder-a makina inertzialean persona horizontalki "
+"mugitzean."
 
 #: ../src/encoder/encoderConfiguration.cs:422
 #: ../src/encoder/encoderConfiguration.cs:462
 msgid "Rotary friction encoder on inertial machine geared up."
-msgstr ""
+msgstr "Birakordun marruskadura encoder-a makina inertziala prest dagonean."
 
 #: ../src/encoder/encoderConfiguration.cs:424
 #: ../src/encoder/encoderConfiguration.cs:464
@@ -6496,39 +6526,43 @@ msgstr ""
 
 #: ../src/encoder/encoderConfiguration.cs:438
 msgid "Rotary friction encoder on inertial machine axis."
-msgstr ""
+msgstr "Birakordun marruskadura encoder-a makina inertzialaren ardatzean."
 
 #: ../src/encoder/encoderConfiguration.cs:479
 msgid "Rotary axis encoder on pulley axis."
-msgstr ""
+msgstr "Ardatz birakordun encoder-a polea mugikorrean."
 
 #: ../src/encoder/encoderConfiguration.cs:488
 msgid "Rotary axis encoder on weighted moving pulley."
-msgstr ""
+msgstr "Ardatz birakordun encoder-a pisudun polea mugikorrean."
 
 #: ../src/encoder/encoderConfiguration.cs:499
 msgid "Rotary axis encoder on inertial machine."
-msgstr ""
+msgstr "Ardatz birakordun encoder-a makina inertzialean."
 
 #: ../src/encoder/encoderConfiguration.cs:510
 msgid ""
 "Rotary axis encoder on inertial machine when person is moving horizontally."
 msgstr ""
+"Ardatz birakordun encoder-a makina inertzialean persona horizontalki "
+"mugitzean."
 
 #: ../src/encoder/encoderConfiguration.cs:521
 msgid "Rotary axis encoder on inertial machine geared up."
-msgstr ""
+msgstr "Ardatz birakordun encoder-a makina inertziala prest dagonenean."
 
 #: ../src/encoder/encoderConfiguration.cs:534
 msgid ""
 "Rotary axis encoder on inertial machine geared up when person is moving "
 "horizontally."
 msgstr ""
+"Ardatz birakordun encoder-a makina inertziala prest dagoenean eta pertsona "
+"horizontalki mugitzean."
 
 #: ../src/encoder/encoderRhythm.cs:400 ../src/encoder/encoderRhythm.cs:457
 #, csharp-format
 msgid "Resting {0} s"
-msgstr ""
+msgstr "Atseden hartzen {0} s"
 
 #: ../src/encoder/encoderSQL.cs:177 ../src/sqlite/tests/encoder.cs:1068
 msgid "Eccentric-concentric"
@@ -6553,21 +6587,25 @@ msgstr "Zerbitzaria konektatuta dago."
 #: ../src/execute/jump.cs:406 ../src/execute/jumpRj.cs:162
 #: ../src/execute/jumpRj.cs:261
 msgid "You are IN, JUMP when prepared!"
-msgstr ""
+msgstr "BARRUAN zaude, JAUZI EGIN prest zaudenean!"
 
 #: ../src/execute/jump.cs:204 ../src/execute/jump.cs:283
 #: ../src/execute/jumpRj.cs:169
 msgid "You are OUT, please enter the platform, and then jump when prepared!"
 msgstr ""
+"KANPOAN zaude, mesedez sartu plataforman, eta orduan jauzi egin prest "
+"zaudenean!"
 
 #: ../src/execute/jump.cs:262 ../src/execute/jump.cs:422
 #: ../src/execute/jumpRj.cs:156 ../src/execute/jumpRj.cs:277
 msgid "You are OUT, JUMP when prepared!"
-msgstr ""
+msgstr "KANPOAN zaude, JAUZI EGIN prest zaudenean!"
 
 #: ../src/execute/jump.cs:289 ../src/execute/jumpRj.cs:175
 msgid "You are IN, please leave the platform, and then jump when prepared!"
 msgstr ""
+"BARRUAN zaude, mesedez irten plataformatik, eta orduan jauzi egin prest "
+"zaudenean!"
 
 #. commented because it was assigned but never used
 #. limited = limitString; //define limited because it's checked in treeviewJump, and possibly it's not the initial defined time (specially when allowFinishRjAfterTime is true)
@@ -6575,7 +6613,7 @@ msgstr ""
 #: ../src/execute/jumpRj.cs:563 ../src/execute/jumpRj.cs:583
 #, csharp-format
 msgid "Initially selected {0} seconds"
-msgstr ""
+msgstr "Hasieran hautatuko {0} segundu"
 
 #: ../src/executeProcess.cs:127 ../src/executeProcess.cs:214
 #, csharp-format
@@ -6594,15 +6632,15 @@ msgstr ""
 
 #: ../src/execute/run.cs:263
 msgid "RUN when prepared!"
-msgstr ""
+msgstr "KORRIKA egin prest zaudenean!"
 
 #: ../src/execute/run.cs:298
 msgid "You are IN, RUN when prepared!"
-msgstr ""
+msgstr "BARRUAN zaude, KORRIKA egin prest zaudenean!"
 
 #: ../src/execute/run.cs:307
 msgid "You are OUT, RUN when prepared!"
-msgstr ""
+msgstr "KANPOAN zaude, KORRIKA egin prest zaudenean!"
 
 #: ../src/execute/run.cs:395 ../src/gui/networks.cs:1071
 msgid "Please, wait!"
@@ -6618,11 +6656,11 @@ msgstr "Lasterketa-denboran ez sartua"
 
 #: ../src/execute/runI.cs:131
 msgid "Included on race time of first track"
-msgstr ""
+msgstr "Lehengo lasterketaren denboran kontuan izan da."
 
 #: ../src/execute/runI.cs:132
 msgid "Not included on race time of first track"
-msgstr ""
+msgstr "Ez da lehengo lasterketaren denboran kontuan izan."
 
 #: ../src/execute/runI.cs:338
 msgid "Go!"
@@ -6646,8 +6684,8 @@ msgstr "Lasterketa ez da grabatuko. Denboraz kanpo."
 #, csharp-format
 msgid "Discarded 1 set."
 msgid_plural "Discarded {0} sets."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Set 1 baztertu da."
+msgstr[1] "{0} set baztertu dira."
 
 #: ../src/exportFiles/exportFiles.cs:173 ../src/gui/app1/chronojump.cs:2856
 #: ../src/gui/app1/session/export.cs:190
@@ -6670,43 +6708,43 @@ msgstr "Errorea eragiketa gauzatzean."
 #: ../src/gui/app1/session/export.cs:240
 #, csharp-format
 msgid "Cannot copy to {0} "
-msgstr ""
+msgstr "{0}-ra ezin kopiatu"
 
 #: ../src/exportFiles/exportFiles.cs:182
 #, csharp-format
 msgid "Exported to {0}"
-msgstr ""
+msgstr "{0}-ta esportatua"
 
 #: ../src/exportFiles/exportFiles.cs:240
 #, csharp-format
 msgid "Exporting {0}/{1}"
-msgstr ""
+msgstr " {0}/{1} esportatzen"
 
 #: ../src/exportFiles/fs.cs:147
 #, csharp-format
 msgid "Preparing sets {0}/{1}"
-msgstr ""
+msgstr "{0}/{1} setak prestatzen"
 
 #: ../src/exportFiles/fs.cs:453
 #, csharp-format
 msgid "Exporting repetition {0}/{1}"
-msgstr ""
+msgstr "{0}/{1} errepikapena esportatzen"
 
 #: ../src/exportFiles/re.cs:77
 msgid "Reason: test being too short."
-msgstr ""
+msgstr "Arrazoia: proba motzegia da."
 
 #: ../src/exportFiles/sprint.cs:58
 msgid "Reason: having less than three tracks needed for model."
-msgstr ""
+msgstr "Arrazoia: modeloa egiteko hiru tarte behar dira."
 
 #: ../src/exportSession.cs:117
 msgid "Save report as …"
-msgstr ""
+msgstr "Txostena hala gorde ..."
 
 #: ../src/exportSession.cs:119
 msgid "Export session in format "
-msgstr ""
+msgstr "Saioa formatu hontan esportatu:"
 
 #: ../src/exportSession.cs:168 ../src/gui/modes/encoderConfiguration.cs:857
 msgid "Are you sure you want to overwrite file: "
@@ -6793,35 +6831,35 @@ msgstr "jauzi mota"
 
 #: ../src/exportSession.cs:629
 msgid "TC Max"
-msgstr ""
+msgstr "KD Max"
 
 #: ../src/exportSession.cs:630
 msgid "TF Max"
-msgstr ""
+msgstr "HD Max"
 
 #: ../src/exportSession.cs:631
 msgid "Max Height"
-msgstr ""
+msgstr "Altuera Max"
 
 #: ../src/exportSession.cs:632
 msgid "Max Initial Speed"
-msgstr ""
+msgstr "Hasierako abiadura Max"
 
 #: ../src/exportSession.cs:634
 msgid "TC AVG"
-msgstr ""
+msgstr "Baztezbesteko KD"
 
 #: ../src/exportSession.cs:635
 msgid "TF AVG"
-msgstr ""
+msgstr "Batezbesteko HD"
 
 #: ../src/exportSession.cs:636
 msgid "AVG Height"
-msgstr ""
+msgstr "Baztezbesteko altuera"
 
 #: ../src/exportSession.cs:637
 msgid "AVG Initial Speed"
-msgstr ""
+msgstr "Batezbesteko hasierako abiadura"
 
 #: ../src/exportSession.cs:642 ../src/exportSession.cs:811
 #: ../src/gui/app1/treeviews/sprint.cs:49 ../src/treeview/wilight.cs:30
@@ -6857,7 +6895,7 @@ msgstr "Lasterketaren IDa"
 
 #: ../src/exportSession.cs:868
 msgid "run ID"
-msgstr ""
+msgstr "korrika IDa"
 
 #: ../src/exportSession.cs:870
 msgid "Distance total"
@@ -6900,17 +6938,17 @@ msgstr "Lagina"
 #: ../src/graphs/bars/bars.cs:202
 #, csharp-format
 msgid "{0} has not made any {1} test in this session."
-msgstr ""
+msgstr "{0}k ez ditu {1} testik egin saio honetan."
 
 #: ../src/graphs/bars/bars.cs:205
 #, csharp-format
 msgid "{0} has not made any test in this session."
-msgstr ""
+msgstr "{0}k ez du testik egin saio honetan."
 
 #: ../src/graphs/bars/bars.cs:209
 #, csharp-format
 msgid "There are no {0} tests in this session."
-msgstr ""
+msgstr "Ez daude {0} testik saio honetan."
 
 #: ../src/graphs/bars/bars.cs:212
 msgid "No tests in this session."
@@ -6992,16 +7030,17 @@ msgid "Need to execute jumps with different weights."
 msgstr "Jauziak pisu desberdinekin exekutatu behar dira."
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:127
+#, fuzzy
 msgid "F0 and V0 are not > 0."
-msgstr ""
+msgstr "F0 eta V0 es dira > 0."
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:129
 msgid "F0 is not > 0."
-msgstr ""
+msgstr "F0 ez da > 0."
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:131
 msgid "V0 is not > 0."
-msgstr ""
+msgstr "V0 ez da > 0."
 
 #: ../src/graphs/cairo/jumpsWeightFVProfile.cs:205
 msgid "Need to develop force"
@@ -7033,7 +7072,7 @@ msgstr "Jauziek ezin dute jauzi bera izan."
 
 #: ../src/graphs/cairo/xy.cs:101
 msgid "Optimal fall height"
-msgstr ""
+msgstr "Erortzeko altuera hoberena"
 
 #: ../src/graphs/cairo/xy.cs:115
 msgid "Jump type:"
@@ -7091,7 +7130,7 @@ msgstr "Hobespenak kargatu dira"
 #: ../src/gui/app1/chronojump.cs:1669
 #, csharp-format
 msgid "Sprints of {0}"
-msgstr ""
+msgstr "{0}-ko esprintak"
 
 #: ../src/gui/app1/chronojump.cs:2386
 #, csharp-format
@@ -7126,14 +7165,14 @@ msgstr "Saioa sortu da, orain gehitu edo kargatu pertsonak."
 #: ../src/gui/modes/encoderConfiguration.cs:865
 #: ../src/gui/modes/encoderConfiguration.cs:892 ../src/gui/modes/sprint.cs:180
 #: ../src/gui/modes/sprint.cs:220
-#, csharp-format
+#, fuzzy, csharp-format
 msgid "Saved to {0}"
-msgstr ""
+msgstr "{0}-(e)an gordeta"
 
 #: ../src/gui/app1/chronojump.cs:2860 ../src/gui/report.cs:544
 #, csharp-format
 msgid "Cannot export to file {0} "
-msgstr ""
+msgstr "Ezin da {0} fitxategira esportatu"
 
 #: ../src/gui/app1/chronojump.cs:2959
 msgid "Changes on cloud options force to restart Chronojump to apply changes"
@@ -7208,7 +7247,7 @@ msgstr "Tartekako lasterketaren mota gehitu da."
 
 #: ../src/gui/app1/chronojump.cs:7297
 msgid "translator-credits"
-msgstr ""
+msgstr "translator-credits"
 "Maitane Ibañez <maitaneibanez@gmail.com> 2026\n"
 "Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2019-2023"
 
@@ -7458,12 +7497,12 @@ msgstr "Ez da errepikapenik hautatu."
 #: ../src/gui/app1/encoder.cs:3508 ../src/gui/app1/encoder.cs:3551
 #: ../src/gui/app1/encoder.cs:4842
 msgid "1RM Any exercise"
-msgstr ""
+msgstr "1RM edozein ariketa"
 
 #: ../src/gui/app1/encoder.cs:3457 ../src/gui/app1/encoder.cs:3553
 #: ../src/gui/app1/encoder.cs:4842
 msgid "1RM Bench Press"
-msgstr ""
+msgstr "1RM banku prentsa"
 
 #: ../src/gui/app1/encoder.cs:3459 ../src/gui/app1/encoder.cs:3555
 #: ../src/gui/app1/encoder.cs:4843
@@ -7689,7 +7728,7 @@ msgstr "Itxaron."
 
 #: ../src/gui/app1/encoderThreads.cs:815
 msgid "R tasks done"
-msgstr ""
+msgstr "R lanak eginda."
 
 #: ../src/gui/app1/encoderThreads.cs:827
 msgid "Repetitions processed"
@@ -7782,11 +7821,11 @@ msgstr "Gehieneko laneko distantzia"
 
 #: ../src/gui/app1/forceSensor.cs:784
 msgid "Taring will start in …"
-msgstr ""
+msgstr "Tara goiz hasiko da..."
 
 #: ../src/gui/app1/forceSensor.cs:795
 msgid "Taring …"
-msgstr ""
+msgstr "Taratzen ..."
 
 #: ../src/gui/app1/forceSensor.cs:826 ../src/gui/app1/forceSensor.cs:896
 msgid "Checking …"
@@ -7830,7 +7869,7 @@ msgstr "Transmizio-formatua egiaztatzen…"
 
 #: ../src/gui/app1/forceSensor.cs:1199
 msgid "The tare will soon begin"
-msgstr ""
+msgstr "Tara hemendik gutxira hasiko da"
 
 #: ../src/gui/app1/forceSensor.cs:1357
 msgid "Preparing capture …"
@@ -7838,7 +7877,7 @@ msgstr "Kaptura prestatzen…"
 
 #: ../src/gui/app1/forceSensor.cs:1450
 msgid "Taring; …"
-msgstr ""
+msgstr "Taratzen; ..."
 
 #: ../src/gui/app1/forceSensor.cs:2004
 #, csharp-format
@@ -7860,7 +7899,7 @@ msgstr "Kaptura-aukera"
 #: ../src/gui/app1/forceSensor.cs:2199
 #, csharp-format
 msgid "Max AVG Force in {0} s"
-msgstr ""
+msgstr "Batezbesteko indar Max {0} s-tan"
 
 #: ../src/gui/app1/forceSensor.cs:2252 ../src/gui/app1/runEncoder.cs:1218
 msgid "Select set to compare"
@@ -8036,7 +8075,7 @@ msgstr ""
 
 #: ../src/gui/app1/session/backup.cs:236
 msgid "Copy database to:"
-msgstr ""
+msgstr "Datu-baseak hona kopiatu:"
 
 #: ../src/gui/app1/session/backup.cs:348
 msgid "Compressing …"
@@ -8052,12 +8091,12 @@ msgstr[1] "Itxaron {0} minutu gorabehera."
 #: ../src/gui/app1/session/backup.cs:382
 #, csharp-format
 msgid "Copied in {0} ms."
-msgstr ""
+msgstr "{0} ms-tan kopiatuta."
 
 #: ../src/gui/app1/session/backup.cs:385
 #, csharp-format
 msgid "Compressed in {0} s."
-msgstr ""
+msgstr "{0} s-tan konprimituta."
 
 #: ../src/gui/app1/session/backup.cs:388
 msgid "Failed at compress."
@@ -8074,7 +8113,7 @@ msgstr "Esportatu saioa hona:"
 #: ../src/gui/app1/session/export.cs:193
 #, csharp-format
 msgid "Exported in {0} s"
-msgstr ""
+msgstr "{0} s-tan esportatuta."
 
 #: ../src/gui/app1/session/export.cs:256
 msgid "Copying files"
@@ -8201,11 +8240,11 @@ msgstr ""
 
 #: ../src/gui/chronopic.cs:155 ../src/gui/chronopic.cs:176
 msgid "Applied"
-msgstr ""
+msgstr "Aplikatuta"
 
 #: ../src/gui/chronopic.cs:158
 msgid "Connected to Chronopic"
-msgstr ""
+msgstr "Chronopic-era konektatuta"
 
 #: ../src/gui/chronopic.cs:178
 msgid "Failed"
@@ -8236,19 +8275,19 @@ msgstr "Konektatu eta ireki berriro gailuaren leihoa."
 
 #: ../src/gui/chronopic_test.cs:136
 msgid "Remove the RCA cable. Then, check LED D1."
-msgstr ""
+msgstr "RCA kablea deskonektatu. Ondoren, LED D1 konprobatu."
 
 #: ../src/gui/chronopic_test.cs:137 ../src/gui/chronopic_test.cs:158
 msgid "Is the green LED D1 on?"
-msgstr ""
+msgstr "LED D1 argia piztuta al dago?"
 
 #: ../src/gui/chronopic_test.cs:143
 msgid "Press test button."
-msgstr ""
+msgstr "Sakatu botoia."
 
 #: ../src/gui/chronopic_test.cs:144
 msgid "When test button is pressed, is the green LED D1 off?"
-msgstr ""
+msgstr "Botoia sakatuta dagoenean, LED D1 verdea itzalita al dago?"
 
 #: ../src/gui/chronopic_test.cs:149
 #, fuzzy
@@ -8259,14 +8298,16 @@ msgstr "Konektatu kodetzailea"
 #: ../src/gui/chronopic_test.cs:150
 msgid "Touch the tip and teeth of RCA with a metallic object (like a key)."
 msgstr ""
+"Metalezko objektu baten bidez (giltz baten modukoa), ikutu RCA kablearen "
+"larakoko punta eta inguruko borobila aldi berean."
 
 #: ../src/gui/chronopic_test.cs:151 ../src/gui/chronopic_test.cs:164
 msgid "Is the green LED D1 off?"
-msgstr ""
+msgstr "LED D1 verdea itzalita al dago?"
 
 #: ../src/gui/chronopic_test.cs:156
 msgid "Connect Chronopic with the platform using the RCA."
-msgstr ""
+msgstr "RCA kablearen bidez Chronopic-a eta plataforma konektatu."
 
 #: ../src/gui/chronopic_test.cs:157
 #, fuzzy
@@ -8314,7 +8355,7 @@ msgstr "Jauzietarako atalasea"
 
 #: ../src/gui/dialogThreshold.cs:94
 msgid "Threshold for runs"
-msgstr ""
+msgstr "Lasterketetarako atalasea"
 
 #: ../src/gui/dialogThreshold.cs:99
 msgid "Threshold for other tests"
@@ -8404,11 +8445,11 @@ msgstr "Probatu"
 
 #: ../src/gui/discover.cs:93
 msgid "Forget it!"
-msgstr ""
+msgstr "Ahaztu!"
 
 #: ../src/gui/discover.cs:94
 msgid "Forgotten"
-msgstr ""
+msgstr "Ahaztuta."
 
 #: ../src/gui/discover.cs:96
 #, fuzzy
@@ -8449,7 +8490,7 @@ msgstr "Ezin da zerbitzariarekin konektatu."
 
 #: ../src/gui/discover.cs:969
 msgid "Assign as:"
-msgstr ""
+msgstr "Hau bezala izendatu:"
 
 #: ../src/gui/discover.cs:973
 #, fuzzy
@@ -8516,15 +8557,15 @@ msgstr "jauzi erreaktiboa"
 
 #: ../src/gui/edit_event/run.cs:55
 msgid "race"
-msgstr ""
+msgstr "lasterketa"
 
 #: ../src/gui/edit_event/run.cs:275
 msgid "intervallic race"
-msgstr ""
+msgstr "lasterketa interbalikoa"
 
 #: ../src/gui/edit_event/run.cs:560
 msgid "Total Time"
-msgstr ""
+msgstr "Guztirako denbora"
 
 #: ../src/gui/evaluator.cs:348
 msgid "Select of Birth"
@@ -8668,7 +8709,7 @@ msgstr "Ezin dira errenkada guztiak ezabatu"
 #: ../src/gui/modes/encoderConfiguration.cs:1122
 #, csharp-format
 msgid "Max time: {0} s."
-msgstr ""
+msgstr "Denbora Max: {0} s."
 
 #: ../src/gui/modes/encoderConfiguration.cs:1123
 #, csharp-format
@@ -9041,7 +9082,7 @@ msgstr ""
 #: ../src/gui/modes/run.cs:120
 #, csharp-format
 msgid "RaceType: {0}."
-msgstr ""
+msgstr "Lasterketa mota: {0}."
 
 #: ../src/gui/modes/run.cs:128
 #, csharp-format
@@ -9063,13 +9104,13 @@ msgstr ""
 
 #: ../src/gui/modes/run.cs:156 ../src/treeview/runI.cs:46
 msgid "Lap time"
-msgstr ""
+msgstr "Buelta bakoitzeko denbora"
 
 #: ../src/gui/modes/run.cs:464 ../src/gui/modes/run.cs:498
 #: ../src/gui/modes/run.cs:529 ../src/gui/modes/run.cs:665
 #: ../src/gui/modes/run.cs:734 ../src/gui/modes/run.cs:786
 msgid "Not defined"
-msgstr ""
+msgstr "Definitu gabea"
 
 #: ../src/gui/modes/run.cs:889 ../src/gui/modes/run.cs:907
 msgid "Do you want to delete this race?"
@@ -9429,11 +9470,11 @@ msgstr "Hautatu fitxategia"
 
 #: ../src/gui/preferences.cs:2883
 msgid "Please, select Rscript file"
-msgstr ""
+msgstr "Mesedez, hautatu Rscript fitxategia"
 
 #: ../src/gui/preferences.cs:2965
 msgid "Please, select Python file"
-msgstr ""
+msgstr "Mesedez, hautatu Python fitxategia"
 
 #: ../src/gui/preferences.cs:3211
 msgid "If active, repetitions will be cut from set using triggers."
@@ -9576,23 +9617,23 @@ msgstr "Detektatu gailua"
 
 #: ../src/gui/report.cs:180
 msgid "Session/s"
-msgstr ""
+msgstr "Saioa(k)"
 
 #: ../src/gui/report.cs:181
 msgid "Show jumps"
-msgstr ""
+msgstr "Jauziak erakutsi"
 
 #: ../src/gui/report.cs:183
 msgid "Checked rows"
-msgstr ""
+msgstr "Konprobatutako ilarak"
 
 #: ../src/gui/report.cs:184
 msgid "Graph Options"
-msgstr ""
+msgstr "Grafiko aukerak"
 
 #: ../src/gui/report.cs:396
 msgid "Comment this statistic"
-msgstr ""
+msgstr "Estatistika hauek iruzkindu"
 
 #: ../src/gui/sendLogAndPoll.cs:140
 msgid "Thanks"
@@ -9680,29 +9721,31 @@ msgstr ""
 
 #: ../src/json/compujump.cs:36
 msgid "Could not get station exercises."
-msgstr ""
+msgstr "Ezin izan dira estazio honen ariketak lortu."
 
 #: ../src/json/compujump.cs:286 ../src/json/compujump.cs:293
 msgid "Could not get tasks from other sessions."
-msgstr ""
+msgstr "Ezin izan dira beste saioetako egitekoak lortu."
 
 #: ../src/json/compujump.cs:541 ../src/json/compujump.cs:549
 msgid "Could not upload sprint data."
-msgstr ""
+msgstr "Ezin izan dira esprint-en datuak kargatu."
 
 #: ../src/json/compujump.cs:612 ../src/json/compujump.cs:620
 msgid "Could not upload encoder data."
-msgstr ""
+msgstr "Ezin izan dira encoder-aren datuak kargatu."
 
 #: ../src/json/compujump.cs:680 ../src/json/compujump.cs:688
 msgid "Could not upload force sensor data."
-msgstr ""
+msgstr "Ezin izan dira indar sentsorearen datuak kargatu."
 
 #: ../src/json/json.cs:74
 msgid ""
 "Could not send file.\n"
 "It does not exist."
 msgstr ""
+"Ezin izan da fitxategia bidali.\n"
+"Ez da existitzen."
 
 #: ../src/json/json.cs:107 ../src/json/json.cs:118
 msgid "Could not send file."
@@ -9731,6 +9774,8 @@ msgid ""
 "You are not connected to the Internet\n"
 "or {0} server is down."
 msgstr ""
+"Ez zaude internetera konektatuta\n"
+"edo {0} server-a erori da."
 
 #: ../src/jumpType.cs:79
 msgid "Free Jump"
@@ -9746,19 +9791,19 @@ msgstr ""
 
 #: ../src/jumpType.cs:90
 msgid "CounterMovement Jump"
-msgstr ""
+msgstr "Jauzia kontramugimenduarekin"
 
 #: ../src/jumpType.cs:98
 msgid "Single-leg CounterMovement Jump"
-msgstr ""
+msgstr "Hanka bateko jauzia kontramugimenduarekin"
 
 #: ../src/jumpType.cs:102
 msgid "Abalakov Jump"
-msgstr ""
+msgstr "Abalakov jauzia"
 
 #: ../src/jumpType.cs:105
 msgid "Rocket Jump"
-msgstr ""
+msgstr "Suziri jauzia"
 
 #: ../src/jumpType.cs:115
 msgid "Squat Jump with extra weight"
@@ -9777,38 +9822,38 @@ msgstr ""
 #. for repetitive
 #: ../src/jumpType.cs:130
 msgid "Take off"
-msgstr ""
+msgstr "Aireratzea"
 
 #. for repetitive
 #. for repetitive
 #. for repetitive
 #: ../src/jumpType.cs:138
 msgid "Take off with weight"
-msgstr ""
+msgstr "Aireratzea pisuarekin"
 
 #: ../src/jumpType.cs:146
 msgid "DJ Jump"
-msgstr ""
+msgstr "DJ jauzia"
 
 #: ../src/jumpType.cs:154
 msgid "DJ Jump using arms"
-msgstr ""
+msgstr "DJ jauzia besoak erabiliz"
 
 #: ../src/jumpType.cs:162
 msgid "DJ Jump without using arms"
-msgstr ""
+msgstr "DJ jauzia besoak erabili gabe"
 
 #: ../src/jumpType.cs:171
 msgid "Reactive Jump limited by Jumps"
-msgstr ""
+msgstr "Jauzi erreaktiboa jauzi kopuruarekin mugatua"
 
 #: ../src/jumpType.cs:179
 msgid "Reactive Jump limited by Time"
-msgstr ""
+msgstr "Jauzi erreaktiboa denborarekin mugatua"
 
 #: ../src/jumpType.cs:188
 msgid "Reactive Jump unlimited (until finish button is clicked)"
-msgstr ""
+msgstr "Jauzi erreaktiboa mugik gabe (botoi bat sakatu harte)"
 
 #: ../src/jumpType.cs:199
 msgid ""
@@ -9826,7 +9871,7 @@ msgstr ""
 
 #: ../src/jumpType.cs:217
 msgid "Triple jump"
-msgstr ""
+msgstr "Jauzi hirukoitza"
 
 #: ../src/Mini/chronojump_mini.cs:109
 msgid "More information on Chronojump manual"
@@ -9865,7 +9910,7 @@ msgstr ""
 
 #: ../src/Mini/chronojump_mini.cs:188
 msgid "Jump when prepared"
-msgstr ""
+msgstr "Jauzi egin prest zaudenean"
 
 #: ../src/Mini/chronojump_mini.cs:189
 msgid "Press CTRL-c for ending session"
@@ -9897,7 +9942,7 @@ msgstr ""
 
 #: ../src/Mini/chronojump_mini.cs:315
 msgid "Please, write filename:"
-msgstr ""
+msgstr "Mesedez, idatzi fitxategiaren izena:"
 
 #: ../src/Mini/chronojump_mini.cs:325
 #, csharp-format
@@ -9907,7 +9952,7 @@ msgstr ""
 #: ../src/Mini/chronojump_mini.cs:327
 #, csharp-format
 msgid "Are you sure you want to overwrite file: {0}"
-msgstr ""
+msgstr "Ziur zaude honako fitxategi hau berridatzi nahi duzula: {0}"
 
 #: ../src/networks.cs:209
 msgid "No active Internet devices."
@@ -9995,11 +10040,11 @@ msgstr ""
 
 #: ../src/runType.cs:156
 msgid "The best of 2 attempts were recorded."
-msgstr ""
+msgstr "2 saiakera hoberenak gorde dira."
 
 #: ../src/runType.cs:158
 msgid "Gesell's Bar"
-msgstr ""
+msgstr "Gesell-en barra"
 
 #: ../src/runType.cs:159
 msgid "Length: 2.5 m."
@@ -10023,7 +10068,7 @@ msgstr ""
 
 #: ../src/runType.cs:167
 msgid "INSTRUCTIONS AND DEMONSTRATION: "
-msgstr ""
+msgstr "ARGIBIDEAK ETA ADIBIDEAK: "
 
 #: ../src/runType.cs:168
 msgid ""
@@ -10039,7 +10084,7 @@ msgstr ""
 
 #: ../src/runType.cs:171
 msgid "SCORE: "
-msgstr ""
+msgstr "PUNTUAZIOA: "
 
 #: ../src/runType.cs:172
 msgid ""
@@ -10057,7 +10102,7 @@ msgstr "Erreferentzia:"
 
 #: ../src/runType.cs:189
 msgid "20Yard Agility test"
-msgstr ""
+msgstr "20Yard-ako bizkortsaun proba"
 
 #: ../src/runType.cs:191
 msgid ""
@@ -10110,11 +10155,11 @@ msgstr ""
 #: ../src/runType.cs:204 ../src/runType.cs:220 ../src/runType.cs:254
 #: ../src/runType.cs:287 ../src/runType.cs:308
 msgid "Cited with permission."
-msgstr ""
+msgstr "Baimenarekin aipatuta."
 
 #: ../src/runType.cs:212
 msgid "505 Agility test"
-msgstr ""
+msgstr "505 bizkortasun proba"
 
 #: ../src/runType.cs:215
 msgid ""
@@ -10137,7 +10182,7 @@ msgstr ""
 
 #: ../src/runType.cs:228
 msgid "Illinois Agility test"
-msgstr ""
+msgstr "Illinois bizkortasun proba"
 
 #: ../src/runType.cs:231
 msgid ""
@@ -10226,7 +10271,7 @@ msgstr ""
 
 #: ../src/runType.cs:263
 msgid "Shuttle Run Agility test"
-msgstr ""
+msgstr "Shuttle Run bizkortasun proba"
 
 #: ../src/runType.cs:265
 msgid ""
@@ -10282,7 +10327,7 @@ msgstr ""
 
 #: ../src/runType.cs:296
 msgid "ZigZag Agility test"
-msgstr ""
+msgstr "ZigZag bizkortasun proba"
 
 #: ../src/runType.cs:299
 msgid ""
@@ -11943,8 +11988,9 @@ msgid "photocells not included"
 msgstr "fotozelulak sartu gabe"
 
 #: ../src/treeview/person.cs:61
+#, fuzzy
 msgid "Rest"
-msgstr ""
+msgstr "Deskantsatu"
 
 #. column where the uniqueID of event will be (and will be hidden)
 #: ../src/treeview/run.cs:49 ../src/treeview/runI.cs:39

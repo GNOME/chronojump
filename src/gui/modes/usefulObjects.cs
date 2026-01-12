@@ -70,6 +70,8 @@ public abstract class PrepareEventGraphTest
 
 	protected int sessionID;
 	protected int personID;
+	protected int currentPersonID; //personID will be -1 if all persons, but we need to know also who is the currentPerson
+	protected string currentPersonName;
 	protected bool allPersons;
 	protected string type;
 
@@ -110,6 +112,33 @@ public abstract class PrepareEventGraphTest
 
 	protected abstract List<double> boxplotSelectPerson (string param);
 	protected abstract List<double> boxplotSelectSession (string param);
+
+	protected void personHistoricalBest (string sqlSelect)
+	{
+		if (! personHistoricalBestHaveData ())
+			return;
+
+		SqliteStruct.DateTypeResult dtr = personHistoricalBestGetData (sqlSelect);
+
+		if (dtr.date == "" || dtr.type == "")
+			return;
+
+		historicalExD = dtr.result;
+		historicalExStr = string.Format (
+				Catalog.GetString ("Best {0} achieved by {1}:"),
+				dtr.type, currentPersonName) + " " +
+			string.Format ("{0} N ({1})", Util.TrimDecimals (dtr.result, 2),
+					UtilDate.GetDatetimePrint (UtilDate.FromFile (dtr.date)));
+	}
+
+	public virtual bool personHistoricalBestHaveData ()
+	{
+		return false;
+	}
+	public virtual SqliteStruct.DateTypeResult personHistoricalBestGetData (string sqlSelect)
+	{
+		return SqliteStruct.DateTypeResult.Init ();
+	}
 
 	public string Type {
 		get { return type; }
@@ -788,8 +817,6 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 {
 	//sql data of previous tests to plot graph and show stats at bottom
 	public List<ForceSensor> rowsAtSQL;
-	private int currentPersonID; //personID will be -1 if all persons, but we need to know also who is the currentPerson
-	private string currentPersonName;
 	private Sqlite.Orders_by orderBy;
 	private	int elastic;
 	private int currentExerciseID; //selected on top
@@ -866,34 +893,26 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 		}
 		boxplotsDo (sqlSelect);
 
-		getPersonHistoricalBest (sqlSelect);
+		personHistoricalBest (sqlSelect);
 
 		Sqlite.Close(); // < -----------------
 	}
 
-	// TODO: have this in the parent (for all the sensors) just check if MAX or MIN
-	private void getPersonHistoricalBest (string sqlSelect)
+	public override bool personHistoricalBestHaveData ()
 	{
 		if (currentExerciseID < 0)
-			return;
+			return false;
 
 		SqliteBest sb = new SqliteBest ();
-		if (! sb.HaveEventsInOtherSessions (true, sessionID, currentPersonID,
-					Constants.ForceSensorTable, "", currentExerciseID, Constants.ForceSensorExerciseTable))
-			return;
-
-		SqliteStruct.DateTypeResult dtr =
-			sb.Select_MAX_EventsOfAType (true, -1, currentPersonID,
-					Constants.ForceSensorTable, "", currentExerciseID,
-					Constants.ForceSensorExerciseTable, sqlSelect);
-
-		if (dtr.date != "" && dtr.type != "")
-		{
-			historicalExD = dtr.result;
-			historicalExStr = string.Format (Catalog.GetString ("Best {0} achieved by {1}:"), dtr.type, currentPersonName) + " " +
-				string.Format ("{0} N ({1})", Util.TrimDecimals (dtr.result, 2),
-						UtilDate.GetDatetimePrint (UtilDate.FromFile (dtr.date)));
-		}
+		return sb.HaveEventsInOtherSessions (true, sessionID, currentPersonID,
+					Constants.ForceSensorTable, "", currentExerciseID, Constants.ForceSensorExerciseTable);
+	}
+	public override SqliteStruct.DateTypeResult personHistoricalBestGetData (string sqlSelect)
+	{
+		SqliteBest sb = new SqliteBest ();
+		return sb.Select_MAX_EventsOfAType (true, -1, currentPersonID,
+				Constants.ForceSensorTable, "", currentExerciseID,
+				Constants.ForceSensorExerciseTable, sqlSelect);
 	}
 
 	protected override bool selectEventFromList ()

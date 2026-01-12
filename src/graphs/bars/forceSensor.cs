@@ -127,7 +127,10 @@ public class CairoPaintBarsPreForceSensor : CairoPaintBarsPre
 		cb.PersonIcon_l = personIcon_l;
 
 		if (eventGraphForceSensorStored.HistoricalExStr != "")
-			cb.BestPersonExerciseHistoricalStr = eventGraphForceSensorStored.HistoricalExStr;
+		{
+			cb.BestPersonExHistoricalD = eventGraphForceSensorStored.HistoricalExD;
+			cb.BestPersonExHistoricalStr = eventGraphForceSensorStored.HistoricalExStr;
+		}
 
 		cb.PassBoxplots (eventGraphForceSensorStored.BoxplotPerson, eventGraphForceSensorStored.BoxplotSession);
 		// pass selectedEvent to plot if it's not part of the shown events
@@ -152,6 +155,10 @@ public class CairoPaintBarsPreForceSensor : CairoPaintBarsPre
 	}
 
 	// to show historic data even if in this session user has not data on that ex.
+	protected override double getHistoricD ()
+	{
+		return eventGraphForceSensorStored.HistoricalExD;
+	}
 	protected override string getHistoricStr ()
 	{
 		if (eventGraphForceSensorStored.HistoricalExStr == "")

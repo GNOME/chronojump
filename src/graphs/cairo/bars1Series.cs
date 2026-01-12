@@ -31,15 +31,15 @@ public class CairoBars1Series : CairoBars
 	private List<Cairo.Color> colorMain_l;
 	private List<string> names_l;
 	private List<List<double>> barMainIntervals_l; // on jumpR, runI each or the tracks
-	private int historicalBestY = 30; // px reserved at bottom if bestPersonExerciseHistoricalStr != ""
+	private int historicalBestY = 30; // px reserved at bottom if bestPersonExHistoricalStr != ""
 
 	//constructor when there are no points
 	public CairoBars1Series (DrawingArea area, Type type, string font, string message)
 	{
-		new CairoBars1Series (area, type, font, message, "");
+		new CairoBars1Series (area, type, font, message, 0, "");
 	}
 
-	public CairoBars1Series (DrawingArea area, Type type, string font, string message, string historicalStr)
+	public CairoBars1Series (DrawingArea area, Type type, string font, string message, double historicalD, string historicalStr)
 	{
 		this.area = area;
 		this.type = type;
@@ -52,7 +52,7 @@ public class CairoBars1Series : CairoBars
 			writeMessageAtCenter(message);
 
 		if (historicalStr != "")
-			printBestPersonExerciseHistorical (historicalStr);
+			printBestPersonExHistorical (historicalD, historicalStr);
 
 		endGraphDisposing(g, surface, area.Window);
 	}
@@ -111,8 +111,12 @@ public class CairoBars1Series : CairoBars
 		if(maxIntersession >= maxY)
 			maxY = maxIntersession;
 
-		if (bestPersonExerciseHistoricalStr != "")
+		if (bestPersonExHistoricalStr != "")
+		{
 			bottomMargin += historicalBestY;
+			if (bestPersonExHistoricalD > maxY)
+				maxY = bestPersonExHistoricalD;
+		}
 
 		//points X start at 1
 		minX = 0;
@@ -288,7 +292,7 @@ public class CairoBars1Series : CairoBars
 			//printTextMultiline (x + barWidth/2, graphHeight -bottomMargin + fontHeightForBottomNames/2, 0, fontHeightForBottomNames,
 			g.SetSourceColor (black);
 			int textY = graphHeight - fontHeightForBottomNames * 2/3;
-			if (bestPersonExerciseHistoricalStr != "")
+			if (bestPersonExHistoricalStr != "")
 				textY -= historicalBestY;
 
 			printTextMultiline (x + barWidth/2, textY,
@@ -401,8 +405,8 @@ public class CairoBars1Series : CairoBars
 		if(maxIntersession > 0)
 			writePersonsBest (); //encoder !relativeToSet
 
-		if (bestPersonExerciseHistoricalStr != "")
-			printBestPersonExerciseHistorical ();
+		if (bestPersonExHistoricalStr != "")
+			printBestPersonExHistorical ();
 
 		addClickableMarkIfNeeded (clickable, g);
 

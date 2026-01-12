@@ -172,7 +172,8 @@ public abstract class CairoPaintBarsPre
 				if (getHistoricStr () == "")
 					new CairoBars1Series (darea, CairoBars.Type.NORMAL, fontStr, testsNotFound());
 				else
-					new CairoBars1Series (darea, CairoBars.Type.NORMAL, fontStr, testsNotFound(), getHistoricStr ());
+					new CairoBars1Series (darea, CairoBars.Type.NORMAL, fontStr, testsNotFound(),
+							getHistoricD (), getHistoricStr ());
 			} catch {
 				LogB.Information("saved crash at with cairo paint at !haveDataToPlot");
 			}
@@ -240,6 +241,10 @@ public abstract class CairoPaintBarsPre
 	protected abstract void paintSpecific();
 
 	// to show historic data even if in this session user has not data on that ex.
+	protected virtual double getHistoricD ()
+	{
+		return 0;
+	}
 	protected virtual string getHistoricStr ()
 	{
 		return "";

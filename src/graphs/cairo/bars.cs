@@ -109,7 +109,8 @@ public abstract class CairoBars : CairoGeneric
 	protected string maxIntersessionValueStr; //with correct decimals and units
 	protected string maxIntersessionDate;
 
-	protected string bestPersonExerciseHistoricalStr;
+	protected double bestPersonExHistoricalD;
+	protected string bestPersonExHistoricalStr;
 
 	// ---- values can be passed from outside via accessors ---->
 	protected string xVariable = "";
@@ -355,7 +356,8 @@ public abstract class CairoBars : CairoGeneric
 		maxIntersession = 0;
 		maxIntersessionValueStr = "";
 		maxIntersessionDate = "";
-		bestPersonExerciseHistoricalStr = "";
+		bestPersonExHistoricalD = 0;
+		bestPersonExHistoricalStr = "";
 	}
 
 	private void leftRightMarginsSet ()
@@ -991,13 +993,38 @@ public abstract class CairoBars : CairoGeneric
 		g.Restore();
 	}
 
-	protected void printBestPersonExerciseHistorical ()
+	// this is the call when there is data
+	protected void printBestPersonExHistorical ()
 	{
-		printBestPersonExerciseHistorical (bestPersonExerciseHistoricalStr);
+		printBestPersonExHistorical (bestPersonExHistoricalD, bestPersonExHistoricalStr, textHeight -2, true);
 	}
-	protected void printBestPersonExerciseHistorical (string str)
+	// this is the call when there is no data
+	protected void printBestPersonExHistorical (double d, string str)
 	{
-		printText (leftMargin, graphHeight -textHeight, 0, textHeight-2, str, g, alignTypes.LEFT);
+		printBestPersonExHistorical (d, str, textHeight, false);
+	}
+	// this is regular call with data
+	protected void printBestPersonExHistorical (double d, string str, int textH, bool graph)
+	{
+		g.SetSourceColor (greenDark);
+		printText (leftMargin, graphHeight -textHeight, 0, textH, str, g, alignTypes.LEFT);
+
+		if (graph)
+		{
+			// 1) line
+			/*
+			g.Save();
+			g.LineWidth = 2;
+			g.SetDash(new double[]{2, 2}, 0);
+			*/
+
+			g.MoveTo(leftMargin, calculatePaintY (d));
+			g.LineTo(graphWidth-rightMargin, calculatePaintY (d));
+			g.Stroke ();
+
+			//g.Restore();
+		}
+		g.SetSourceColor (black);
 	}
 
 	//encoder !relativeToSet
@@ -1236,8 +1263,11 @@ public abstract class CairoBars : CairoGeneric
 		set { maxIntersessionDate = value; }
 	}
 
-	public string BestPersonExerciseHistoricalStr {
-		set { bestPersonExerciseHistoricalStr = value; }
+	public double BestPersonExHistoricalD {
+		set { bestPersonExHistoricalD = value; }
+	}
+	public string BestPersonExHistoricalStr {
+		set { bestPersonExHistoricalStr = value; }
 	}
 
 	public int Decs {

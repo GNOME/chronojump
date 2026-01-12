@@ -73,7 +73,7 @@ public abstract class PrepareEventGraphTest
 	protected bool allPersons;
 	protected string type;
 
-	// TODO: maybe better just historicalBest & historicalDefined and there will be a text showing if is this test or all, depending on exerciseID >= 0
+	protected double historicalExD;
 	protected string historicalExStr;
 
 	protected Boxplot boxplotPerson;
@@ -81,6 +81,7 @@ public abstract class PrepareEventGraphTest
 
 	protected void initVariables () //add also sessionID, personID, ...
 	{
+		historicalExD = 0;
 		historicalExStr = "";
 	}
 
@@ -122,6 +123,9 @@ public abstract class PrepareEventGraphTest
 		get { return boxplotSession; }
 	}
 
+	public double HistoricalExD {
+		get { return historicalExD; }
+	}
 	public string HistoricalExStr {
 		get { return historicalExStr; }
 	}
@@ -884,9 +888,12 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 					Constants.ForceSensorExerciseTable, sqlSelect);
 
 		if (dtr.date != "" && dtr.type != "")
+		{
+			historicalExD = dtr.result;
 			historicalExStr = string.Format (Catalog.GetString ("Best {0} achieved by {1}:"), dtr.type, currentPersonName) + " " +
 				string.Format ("{0} N ({1})", Util.TrimDecimals (dtr.result, 2),
 						UtilDate.GetDatetimePrint (UtilDate.FromFile (dtr.date)));
+		}
 	}
 
 	protected override bool selectEventFromList ()

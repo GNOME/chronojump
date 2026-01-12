@@ -52,11 +52,20 @@ void initializeBLE(void) {
   NimBLEDevice::setSecurityAuth(false, false, false);
   // Create the BLE Device
   // NimBLEDevice::init("4Platforms");
-  NimBLEDevice::init("Chronojump");
+  NimBLEDevice::init("4P");
   delay(10);
   BLEAdvertisementData advertisementData;
-  advertisementData.setName("Chronojump 4Plapforms");   // Nombre completo
-  advertisementData.setShortName("4P");  // Nombre corto (opcional)
+
+  //Read the Bluetooth mac address
+  BLEAddress addr = NimBLEDevice::getAddress();
+  String addressString = addr.toString().c_str();
+  addressString = "CP-" + addressString.substring(6,17);
+  
+  Serial.print("BLE MAC Address: ");
+  Serial.println(addressString);
+
+  advertisementData.setName("Chronopic");   // Nombre completo
+  // advertisementData.setShortName("CP-" + addressString.c_str());  // Nombre corto (opcional)
   advertisementData.setManufacturerData("Asociación Chronojump");  // Datos de fabricante
 
   // Create the BLE Server
@@ -112,6 +121,7 @@ void initializeBLE(void) {
   // pAdvertising->setScanResponse(false);
   // pAdvertising->setMinPreferred(0x0);  // set value to 0x00 to not advertise this parameter
   // BLEDevice::startAdvertising();
+
   Serial.println("Waiting a client connection to notify...");
 }
 

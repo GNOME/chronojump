@@ -109,6 +109,7 @@ public abstract class CairoBars : CairoGeneric
 	protected string maxIntersessionValueStr; //with correct decimals and units
 	protected string maxIntersessionDate;
 
+	protected int bestPersonExHistoricalYpx = 30; // px reserved at bottom if bestPersonExHistoricalStr != ""
 	protected double bestPersonExHistoricalD;
 	protected string bestPersonExHistoricalStr;
 
@@ -1007,24 +1008,20 @@ public abstract class CairoBars : CairoGeneric
 	protected void printBestPersonExHistorical (double d, string str, int textH, bool graph)
 	{
 		g.SetSourceColor (greenDark);
+		/*
+		LogB.Information ("is null d?");
+		LogB.Information ((d == null).ToString ());
+		LogB.Information ("is null str?");
+		LogB.Information ((str == null).ToString ());
+		*/
 		printText (leftMargin, graphHeight -textHeight, 0, textH, str, g, alignTypes.LEFT);
 
 		if (graph)
 		{
-			// 1) line
-			/*
-			g.Save();
-			g.LineWidth = 2;
-			g.SetDash(new double[]{2, 2}, 0);
-			*/
-
 			g.MoveTo(leftMargin, calculatePaintY (d));
 			g.LineTo(graphWidth-rightMargin, calculatePaintY (d));
 			g.Stroke ();
-
-			//g.Restore();
 		}
-		g.SetSourceColor (black);
 	}
 
 	//encoder !relativeToSet

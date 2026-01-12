@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -42,8 +42,12 @@ public class CairoBarsNHSeries : CairoBars
 	private bool oneRowLegend;
 	private int boxWidth = 10; //px. Same as boxHeight. box - text sep is .5 boxWidth. 1st text - 2nd box sep is 2*boxWidth
 
-	//constructor when there are no points
+	//constructors when there are no points
 	public CairoBarsNHSeries (DrawingArea area, Type type, string font)
+	{
+		new CairoBarsNHSeries (area, type, font, 0, "");
+	}
+	public CairoBarsNHSeries (DrawingArea area, Type type, string font, double historicalD, string historicalStr)
 	{
 		this.area = area;
 		this.type = type;
@@ -51,6 +55,9 @@ public class CairoBarsNHSeries : CairoBars
 		LogB.Information("constructor without points, area is null:" + (area == null).ToString());
 		LogB.Information("constructor without points, area.Window is null:" + (area.Window == null).ToString());
 		initGraph(font, 1); //.8 to have title at right
+
+		if (historicalStr != "")
+			printBestPersonExHistorical (historicalD, historicalStr);
 
 		endGraphDisposing(g, surface, area.Window);
 	}
@@ -234,6 +241,13 @@ public class CairoBarsNHSeries : CairoBars
 
 		if(maxIntersession >= maxY)
 			maxY = maxIntersession;
+
+		if (bestPersonExHistoricalStr != "")
+		{
+			bottomMargin += bestPersonExHistoricalYpx;
+			if (bestPersonExHistoricalD > maxY)
+				maxY = bestPersonExHistoricalD;
+		}
 
 		//points X start at 1
 		minX = 0;
@@ -541,9 +555,12 @@ public class CairoBarsNHSeries : CairoBars
 
 			//print text at bottom
 			g.SetSourceColor (black);
+			int textY = graphHeight - fontHeightForBottomNames * 2/3;
+			if (bestPersonExHistoricalStr != "")
+				textY -= bestPersonExHistoricalYpx;
+
 			printTextMultiline(
-					x +adjustXonBARS +adjustXonPOINTS,
-					graphHeight -fontHeightForBottomNames * 2/3,
+					x +adjustXonBARS +adjustXonPOINTS, textY,
 					0, fontHeightForBottomNames,
 					names_l[i] + videoPlayingStr, g, alignTypes.CENTER,
 					UtilList.FoundInListInt(saved_l, i));
@@ -636,6 +653,9 @@ public class CairoBarsNHSeries : CairoBars
 		if(cairoBarsGuideManage != null)
 			drawGuides(colorSerieB);
 		*/
+
+		if (bestPersonExHistoricalStr != "")
+			printBestPersonExHistorical ();
 
 		g.SetSourceColor(black);
 

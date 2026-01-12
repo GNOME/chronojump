@@ -69,14 +69,20 @@ public abstract class PrepareEventGraphTest
 	public OrderXEnum OrderX;
 
 	protected int sessionID;
-	protected int personID;
+
+	protected int personID; //this will no longer be used
+	protected int personIDForGraph;
 	protected int currentPersonID; //personID will be -1 if all persons, but we need to know also who is the currentPerson
 	protected string currentPersonName;
 	protected bool allPersons;
-	protected string type;
+
+	protected string type; //this will no longer be used
+	protected string typeCurrent;
+	protected string typeForGraph;
 
 	protected double historicalExD;
 	protected string historicalExStr;
+	protected string historicalExUnits;
 
 	protected Boxplot boxplotPerson;
 	protected Boxplot boxplotSession;
@@ -85,6 +91,7 @@ public abstract class PrepareEventGraphTest
 	{
 		historicalExD = 0;
 		historicalExStr = "";
+		historicalExUnits = "";
 	}
 
 	//need to be private of each class, if public orprotected says: Inconsistent accessibility)
@@ -127,7 +134,9 @@ public abstract class PrepareEventGraphTest
 		historicalExStr = string.Format (
 				Catalog.GetString ("Best {0} achieved by {1}:"),
 				dtr.type, currentPersonName) + " " +
-			string.Format ("{0} N ({1})", Util.TrimDecimals (dtr.result, 2),
+			string.Format ("{0} {1} ({2})",
+					Util.TrimDecimals (dtr.result, 2),
+					historicalExUnits,
 					UtilDate.GetDatetimePrint (UtilDate.FromFile (dtr.date)));
 	}
 
@@ -140,8 +149,12 @@ public abstract class PrepareEventGraphTest
 		return SqliteStruct.DateTypeResult.Init ();
 	}
 
+	// TODO: Type will disappear
 	public string Type {
 		get { return type; }
+	}
+	public string TypeForGraph {
+		get { return typeForGraph; }
 	}
 
 	public Boxplot BoxplotPerson {
@@ -180,34 +193,43 @@ public class PrepareEventGraphJumpSimple : PrepareEventGraphTest
 	public double tc;
 	public bool showHeights;
 	private Sqlite.Orders_by orderBy;
+	private bool exerciseAll;
 
 	public PrepareEventGraphJumpSimple() {
 	}
 
 	//allPersons is for searching the jumps of current of allpersons
-	//personID we need to the personsMAX/AVG sql calls
+	//personIDForGraph we need to the personsMAX/AVG sql calls
 	//type can be "" for all jumps, then write it under bar
 	public PrepareEventGraphJumpSimple (
 			double tv, double tc, int sessionID,
-			int personID, bool allPersons,
+			int currentPersonID, string currentPersonName, bool allPersons,
 			bool showHeights,
 			bool showBest, int limit,
-			string table, string type, int selectedID)
+			string typeCurrent, int selectedID, bool exerciseAll)
 	{
 		this.sessionID = sessionID;
-		this.personID = personID;
+		this.currentPersonID = currentPersonID;
+		this.currentPersonName = currentPersonName;
 		this.allPersons = allPersons;
-		this.type = type;
+		this.typeCurrent = typeCurrent;
 		this.tv = tv;
 		this.tc = tc;
 		this.showHeights = showHeights;
 		this.selectedID = selectedID;
+		this.exerciseAll = exerciseAll;
+
+		initVariables ();
 
 		Sqlite.Open(); // ----------------->
 
-		int personIDTemp = personID;
-		if(allPersons)
-			personIDTemp = -1;
+		personIDForGraph = currentPersonID;
+		if (allPersons)
+			personIDForGraph = -1;
+
+		typeForGraph = typeCurrent;
+		if (exerciseAll)
+			typeForGraph = "";
 
 		orderBy = Sqlite.Orders_by.BEST;
 		OrderX = OrderXEnum.Best;
@@ -217,7 +239,7 @@ public class PrepareEventGraphJumpSimple : PrepareEventGraphTest
 			OrderX = OrderXEnum.Last;
 		}
 
-		rowsAtSQL = SqliteJump.SelectJumps (true, sessionID, personIDTemp, type,
+		rowsAtSQL = SqliteJump.SelectJumps (true, sessionID, personIDForGraph, typeForGraph,
 				orderBy, limit,
 				allPersons, 	//show names on comments only if "all persons"
 				false); 	//! onlyBestInSession
@@ -226,10 +248,15 @@ public class PrepareEventGraphJumpSimple : PrepareEventGraphTest
 		getSelected ();
 
 		string param = "tv";
+		historicalExUnits = "s";
 		if (showHeights)
+		{
 			param = "100*4.9*(tv/2)*(tv/2)";
+			historicalExUnits = "cm";
+		}
 
 		boxplotsDo (param);
+		personHistoricalBest (param);
 
 		Sqlite.Close(); // < -----------------
 	}
@@ -252,15 +279,32 @@ public class PrepareEventGraphJumpSimple : PrepareEventGraphTest
 
 	protected override List<double> boxplotSelectPerson (string param)
 	{
-		return SqliteJump.SelectJumps (true, param, sessionID, personID, type,
+		return SqliteJump.SelectJumps (true, param, sessionID, personIDForGraph, typeForGraph,
 				Sqlite.Orders_by.BEST, 0, // no limit
 				false); 	//! onlyBestInSession
 	}
 	protected override List<double> boxplotSelectSession (string param)
 	{
-		return SqliteJump.SelectJumps (true, param, sessionID, -1, type,
+		return SqliteJump.SelectJumps (true, param, sessionID, -1, typeForGraph,
 				Sqlite.Orders_by.BEST, 0, // no limit
 				false); 	//! onlyBestInSession
+	}
+
+	public override bool personHistoricalBestHaveData ()
+	{
+		if (typeCurrent == "")
+			return false;
+
+		SqliteBest sb = new SqliteBest ();
+		return sb.HaveEventsInOtherSessions (true, sessionID, currentPersonID,
+					Constants.JumpTable, typeCurrent, -1, Constants.JumpTypeTable);
+	}
+	public override SqliteStruct.DateTypeResult personHistoricalBestGetData (string sqlSelect)
+	{
+		SqliteBest sb = new SqliteBest ();
+		return sb.Select_MAX_EventsOfAType (true, -1, currentPersonID,
+				Constants.JumpTable, typeCurrent, -1,
+				Constants.JumpTypeTable, sqlSelect);
 	}
 
 	~PrepareEventGraphJumpSimple() {}
@@ -428,7 +472,7 @@ public class PrepareEventGraphRunSimple : PrepareEventGraphTest
 			int personID, bool allPersons,
 			Constants.ResultsSessionCriteria resultsSessionCriteria, bool times,
 			int limit,
-			string table, string type, int selectedID)
+			string type, int selectedID)
 	{
 		this.sessionID = sessionID;
 		this.personID = personID;
@@ -820,7 +864,7 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 	private Sqlite.Orders_by orderBy;
 	private	int elastic;
 	private int currentExerciseID; //selected on top
-	private int exerciseID; // will be currentExerciseID or -1 (if exerciseAll)
+	private int exerciseIDForGraph; // will be currentExerciseID or -1 (if exerciseAll)
 	private bool bestSecond;
 
 	public bool exerciseAll; //all tests
@@ -844,13 +888,13 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 
 		Sqlite.Open(); // ----------------->
 
-		personID = currentPersonID;
+		personIDForGraph = currentPersonID;
 		if (allPersons)
-			personID = -1;
+			personIDForGraph = -1;
 
-		exerciseID = currentExerciseID;
+		exerciseIDForGraph = currentExerciseID;
 		if (exerciseAll)
-			exerciseID = -1;
+			exerciseIDForGraph = -1;
 
 		// see ForceSensor.GetElasticIntFromMode ()
 		elastic = -1;
@@ -870,7 +914,7 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 			OrderX = OrderXEnum.Best;
 		}
 
-		rowsAtSQL = SqliteForceSensor.Select (true, -1, personID, sessionID, elastic, exerciseID,
+		rowsAtSQL = SqliteForceSensor.Select (true, -1, personIDForGraph, sessionID, elastic, exerciseIDForGraph,
 				orderBy, limit,
 				allPersons//, 	//show names on comments only if "all persons"
 				//false 	//! onlyBestInSession
@@ -884,6 +928,8 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 		if (bestSecond)
 			sqlSelect = "maxAvgForce1s";
 
+		historicalExUnits = "N";
+
 		// if ID_ASC, order correctly the boxplot
 		if (orderBy == Sqlite.Orders_by.ID_ASC)
 		{
@@ -891,28 +937,11 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 			if (bestSecond)
 				orderBy = Sqlite.Orders_by.BEST2;
 		}
-		boxplotsDo (sqlSelect);
 
+		boxplotsDo (sqlSelect);
 		personHistoricalBest (sqlSelect);
 
 		Sqlite.Close(); // < -----------------
-	}
-
-	public override bool personHistoricalBestHaveData ()
-	{
-		if (currentExerciseID < 0)
-			return false;
-
-		SqliteBest sb = new SqliteBest ();
-		return sb.HaveEventsInOtherSessions (true, sessionID, currentPersonID,
-					Constants.ForceSensorTable, "", currentExerciseID, Constants.ForceSensorExerciseTable);
-	}
-	public override SqliteStruct.DateTypeResult personHistoricalBestGetData (string sqlSelect)
-	{
-		SqliteBest sb = new SqliteBest ();
-		return sb.Select_MAX_EventsOfAType (true, -1, currentPersonID,
-				Constants.ForceSensorTable, "", currentExerciseID,
-				Constants.ForceSensorExerciseTable, sqlSelect);
 	}
 
 	protected override bool selectEventFromList ()
@@ -936,13 +965,30 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 
 	protected override List<double> boxplotSelectPerson (string param)
 	{
-		return SqliteForceSensor.Select (true, param, -1, personID, sessionID, elastic, exerciseID,
+		return SqliteForceSensor.Select (true, param, -1, personIDForGraph, sessionID, elastic, exerciseIDForGraph,
 				orderBy, 0);
 	}
 	protected override List<double> boxplotSelectSession (string param)
 	{
-		return SqliteForceSensor.Select (true, param, -1, -1, sessionID, elastic, exerciseID,
+		return SqliteForceSensor.Select (true, param, -1, -1, sessionID, elastic, exerciseIDForGraph,
 				orderBy, 0);
+	}
+
+	public override bool personHistoricalBestHaveData ()
+	{
+		if (currentExerciseID < 0)
+			return false;
+
+		SqliteBest sb = new SqliteBest ();
+		return sb.HaveEventsInOtherSessions (true, sessionID, currentPersonID,
+					Constants.ForceSensorTable, "", currentExerciseID, Constants.ForceSensorExerciseTable);
+	}
+	public override SqliteStruct.DateTypeResult personHistoricalBestGetData (string sqlSelect)
+	{
+		SqliteBest sb = new SqliteBest ();
+		return sb.Select_MAX_EventsOfAType (true, -1, currentPersonID,
+				Constants.ForceSensorTable, "", currentExerciseID,
+				Constants.ForceSensorExerciseTable, sqlSelect);
 	}
 
 	~PrepareEventGraphForceSensor() {}

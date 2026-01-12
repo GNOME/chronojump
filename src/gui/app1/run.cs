@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -233,7 +233,7 @@ public partial class ChronoJumpWindow
 				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
 				resultsSessionCriteria, radio_resultsSession_run_times.Active,
 				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
-				Constants.RunTable, typeTemp, selectedID);
+				typeTemp, selectedID);
 		
 		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.runsAtSQL.Count > 0)
 		//	PrepareRunSimpleGraph(eventGraph, false); //don't animate

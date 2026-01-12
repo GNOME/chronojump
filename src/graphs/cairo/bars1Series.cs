@@ -31,14 +31,12 @@ public class CairoBars1Series : CairoBars
 	private List<Cairo.Color> colorMain_l;
 	private List<string> names_l;
 	private List<List<double>> barMainIntervals_l; // on jumpR, runI each or the tracks
-	private int historicalBestY = 30; // px reserved at bottom if bestPersonExHistoricalStr != ""
 
-	//constructor when there are no points
+	//constructors when there are no points
 	public CairoBars1Series (DrawingArea area, Type type, string font, string message)
 	{
 		new CairoBars1Series (area, type, font, message, 0, "");
 	}
-
 	public CairoBars1Series (DrawingArea area, Type type, string font, string message, double historicalD, string historicalStr)
 	{
 		this.area = area;
@@ -113,7 +111,7 @@ public class CairoBars1Series : CairoBars
 
 		if (bestPersonExHistoricalStr != "")
 		{
-			bottomMargin += historicalBestY;
+			bottomMargin += bestPersonExHistoricalYpx;
 			if (bestPersonExHistoricalD > maxY)
 				maxY = bestPersonExHistoricalD;
 		}
@@ -293,7 +291,7 @@ public class CairoBars1Series : CairoBars
 			g.SetSourceColor (black);
 			int textY = graphHeight - fontHeightForBottomNames * 2/3;
 			if (bestPersonExHistoricalStr != "")
-				textY -= historicalBestY;
+				textY -= bestPersonExHistoricalYpx;
 
 			printTextMultiline (x + barWidth/2, textY,
 					0, fontHeightForBottomNames,
@@ -382,6 +380,9 @@ public class CairoBars1Series : CairoBars
 			drawGuides(colorSerieA);
 			*/
 
+		if (bestPersonExHistoricalStr != "")
+			printBestPersonExHistorical ();
+
 		g.SetSourceColor(black);
 
 		selectedForBoxplot_l = new List <double> ();
@@ -404,9 +405,6 @@ public class CairoBars1Series : CairoBars
 
 		if(maxIntersession > 0)
 			writePersonsBest (); //encoder !relativeToSet
-
-		if (bestPersonExHistoricalStr != "")
-			printBestPersonExHistorical ();
 
 		addClickableMarkIfNeeded (clickable, g);
 

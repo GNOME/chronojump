@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -116,7 +116,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 				eventGraphJumpsStored.rowsAtSQL[i].Description = ""; //to avoid showing description
 		}
 
-		calculateBottomParams (events, eventGraphJumpsStored.Type == "", "",
+		calculateBottomParams (events, eventGraphJumpsStored.TypeForGraph == "", "",
 				"(" + Catalog.GetString("Simulated") + ")", thereIsASimulated, false);
 
 		List<PointF> pointA_l = new List<PointF>();
@@ -144,7 +144,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			// 2) Add bottom names
 			//names_l.Add(Catalog.GetString(jump.Type));
 			string typeRowString = "";
-			if (eventGraphJumpsStored.Type == "") //if "all runs" show run.Type
+			if (eventGraphJumpsStored.TypeForGraph == "") //if "all jumps" show jump.Type
 				typeRowString = jump.Type;
 
 			names_l.Add(createTextBelowBar(
@@ -166,6 +166,12 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 
 		cb.Id_l = id_l;
 		cb.PersonIcon_l = personIcon_l;
+
+		if (eventGraphJumpsStored.HistoricalExStr != "")
+		{
+			cb.BestPersonExHistoricalD = eventGraphJumpsStored.HistoricalExD;
+			cb.BestPersonExHistoricalStr = eventGraphJumpsStored.HistoricalExStr;
+		}
 
 		cb.PassBoxplots (eventGraphJumpsStored.BoxplotPerson, eventGraphJumpsStored.BoxplotSession);
 		// pass selectedEvent to plot if it's not part of the shown events
@@ -203,6 +209,19 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 		passDataForScreenshotIfNeeded ();
 
 		cb.GraphDo();
+	}
+
+	// to show historic data even if in this session user has not data on that ex.
+	protected override double getHistoricD ()
+	{
+		return eventGraphJumpsStored.HistoricalExD;
+	}
+	protected override string getHistoricStr ()
+	{
+		if (eventGraphJumpsStored.HistoricalExStr == "")
+			return "";
+		else
+			return eventGraphJumpsStored.HistoricalExStr;
 	}
 }
 

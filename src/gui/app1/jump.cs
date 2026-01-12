@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -374,10 +374,6 @@ public partial class ChronoJumpWindow
 			currentJumpType.Name 
 			);
 
-		string typeTemp = currentEventType.Name;
-		if(radio_contacts_graph_allTests.Active)
-			typeTemp = "";
-
 		int selectedID = -1;
 		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
 		{
@@ -391,14 +387,18 @@ public partial class ChronoJumpWindow
 
 		PrepareEventGraphJumpSimple eventGraph = new PrepareEventGraphJumpSimple (
 				tv, tc, currentSession.UniqueID,
-				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
+				currentPerson.UniqueID, currentPerson.Name, radio_contacts_results_personAll.Active,
 				radio_resultsSession_jump_heights.Active,
 				radio_resultsSession_best.Active,
 				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
-				Constants.JumpTable, typeTemp, selectedID);
+				currentEventType.Name, selectedID, radio_contacts_graph_allTests.Active);
 		
 		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.jumpsAtSQL.Count > 0)
 		//	PrepareJumpSimpleGraph(eventGraph, false); //don't animate
+
+		string typeTemp = currentEventType.Name;
+		if(radio_contacts_graph_allTests.Active)
+			typeTemp = "";
 
 		string personStr = "";
 		if(! radio_contacts_results_personAll.Active)

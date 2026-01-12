@@ -133,7 +133,7 @@ bool read13Commands = false; //note making this true is a big problem because th
 void setup(void)
 {
   Serial.begin(115200);
-
+  delay(500);
   // version = [device type]-[hardware version].[firmware version]
   version += String(hardwareVersion) + "." + String(firmwareVersion);
 

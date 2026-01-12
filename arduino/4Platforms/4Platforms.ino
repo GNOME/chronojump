@@ -205,6 +205,10 @@ void processCommand(String inputString) {
     setRgb(argumentString);
   } else if (commandString == "get_battery_level") {
     Serial.printf("Battery: %i\n", battLev);
+  } else if (commandString == "disable_charge") {
+    CHARGE_OFF;
+  } else if (commandString == "enable_charge") {
+    CHARGE_ON;
   } else {
     Serial.println("Not a valid command");
   }
@@ -307,12 +311,12 @@ void updateBatteryLevel() {
   }
   CHARGE_ON;
   battLev = battLev / 10;
-  updateBatteryCharacteristic(battLev);
   Serial.print(battLev);
-  battLev = map(battLev, 2200, 2640, 0, 100);
+  battLev = map(battLev, 2000, 2400, 0, 100);
   if (battLev > 100) 
     battLev = 100;
   if (battLev <0 )
     battLev = 0;
+  updateBatteryCharacteristic(battLev);
   Serial.printf(";%i%%\n", battLev);
 }

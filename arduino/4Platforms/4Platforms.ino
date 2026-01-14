@@ -37,7 +37,7 @@
 
 Adafruit_NeoPixel rgbLeds(NUMPIXELS, LEDS_PIN, NEO_GRB + NEO_KHZ800);
 
-String version = "4Platforms-0.4";
+String version = "Chronopic-4.0";
 // Front Left, Front Right, Back Left, Back Right 
 // int sensorPin[4] = {2, 1, 8, 9}; //Xiao ESP32S3. Hardware V1
 //int sensorPin[4] = {D0, D1, D10, D9}; //Xiao ESP32S3. Hardware V2

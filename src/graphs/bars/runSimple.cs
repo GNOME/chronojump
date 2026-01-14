@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -92,7 +92,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 				eventGraphRunsStored.rowsAtSQL[i].Description = ""; //to avoid showing description
 		}
 
-		calculateBottomParams (events, eventGraphRunsStored.Type == "", "",
+		calculateBottomParams (events, eventGraphRunsStored.TypeForGraph == "", "",
 				"(" + Catalog.GetString("Simulated") + ")", thereIsASimulated, false);
 
 		List<PointF> point_l = new List<PointF>();
@@ -112,7 +112,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 
 			// 2) Add bottom names
 			string typeRowString = "";
-			if (eventGraphRunsStored.Type == "") //if "all runs" show run.Type
+			if (eventGraphRunsStored.TypeForGraph == "") //if "all runs" show run.Type
 				typeRowString = run.Type;
 
 			names_l.Add(createTextBelowBar(
@@ -132,6 +132,12 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 
 		cb.Id_l = id_l;
 		cb.PersonIcon_l = personIcon_l;
+
+		if (eventGraphRunsStored.HistoricalExStr != "")
+		{
+			cb.BestPersonExHistoricalD = eventGraphRunsStored.HistoricalExD;
+			cb.BestPersonExHistoricalStr = eventGraphRunsStored.HistoricalExStr;
+		}
 
 		cb.PassBoxplots (eventGraphRunsStored.BoxplotPerson, eventGraphRunsStored.BoxplotSession);
 		// pass selectedEvent to plot if it's not part of the shown events
@@ -156,5 +162,18 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 		passDataForScreenshotIfNeeded ();
 
 		cb.GraphDo();
+	}
+
+	// to show historic data even if in this session user has not data on that ex.
+	protected override double getHistoricD ()
+	{
+		return eventGraphRunsStored.HistoricalExD;
+	}
+	protected override string getHistoricStr ()
+	{
+		if (eventGraphRunsStored.HistoricalExStr == "")
+			return "";
+		else
+			return eventGraphRunsStored.HistoricalExStr;
 	}
 }

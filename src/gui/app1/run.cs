@@ -202,10 +202,6 @@ public partial class ChronoJumpWindow
 			currentRunType.Name 
 			);
 
-		string typeTemp = currentEventType.Name;
-		if(radio_contacts_graph_allTests.Active)
-			typeTemp = "";
-
 		int selectedID = -1;
 		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
 		{
@@ -230,13 +226,17 @@ public partial class ChronoJumpWindow
 		PrepareEventGraphRunSimple eventGraph = new PrepareEventGraphRunSimple(
 				1, 1, //both unused
 				currentSession.UniqueID,
-				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
+				currentPerson.UniqueID, currentPerson.Name, radio_contacts_results_personAll.Active,
 				resultsSessionCriteria, radio_resultsSession_run_times.Active,
 				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
-				typeTemp, selectedID);
+				currentEventType.Name, selectedID, radio_contacts_graph_allTests.Active);
 		
 		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.runsAtSQL.Count > 0)
 		//	PrepareRunSimpleGraph(eventGraph, false); //don't animate
+
+		string typeTemp = currentEventType.Name;
+		if(radio_contacts_graph_allTests.Active)
+			typeTemp = "";
 
 		string personStr = "";
 		if(! radio_contacts_results_personAll.Active)

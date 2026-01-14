@@ -116,6 +116,15 @@ class SqliteBest : Sqlite
 				"MAX", valueToSelect);
 	}
 
+	public SqliteStruct.DateTypeResult Select_MIN_EventsOfAType (bool dbconOpened, int sessionID, int personID,
+			string table, string type, int exerciseID, string exerciseTable,
+			string valueToSelect)
+	{
+		return selectEventsOfAType (dbconOpened, sessionID, personID,
+				table, type, exerciseID, exerciseTable,
+				"MIN", valueToSelect);
+	}
+
 	private SqliteStruct.DateTypeResult selectEventsOfAType (bool dbconOpened, int sessionID, int personID,
 			string table, string type, int exerciseID, string exerciseTable,
 			string stat, string valueToSelect)

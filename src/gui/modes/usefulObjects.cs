@@ -299,12 +299,12 @@ public class PrepareEventGraphJumpSimple : PrepareEventGraphTest
 		return sb.HaveEventsInOtherSessions (true, sessionID, currentPersonID,
 					Constants.JumpTable, typeCurrent, -1, Constants.JumpTypeTable);
 	}
-	public override SqliteStruct.DateTypeResult personHistoricalBestGetData (string sqlSelect)
+	public override SqliteStruct.DateTypeResult personHistoricalBestGetData (string param)
 	{
 		SqliteBest sb = new SqliteBest ();
 		return sb.Select_MAX_EventsOfAType (true, -1, currentPersonID,
 				Constants.JumpTable, typeCurrent, -1,
-				Constants.JumpTypeTable, sqlSelect);
+				Constants.JumpTypeTable, param);
 	}
 
 	~PrepareEventGraphJumpSimple() {}
@@ -463,30 +463,39 @@ public class PrepareEventGraphRunSimple : PrepareEventGraphTest
 	public double time;
 	public double speed;
 	private Sqlite.Orders_by orderBy;
+	private bool exerciseAll;
 
 	public PrepareEventGraphRunSimple() {
 	}
 
 	public PrepareEventGraphRunSimple (
 			double time, double speed, int sessionID,
-			int personID, bool allPersons,
+			int currentPersonID, string currentPersonName, bool allPersons,
 			Constants.ResultsSessionCriteria resultsSessionCriteria, bool times,
 			int limit,
-			string type, int selectedID)
+			string typeCurrent, int selectedID, bool exerciseAll)
 	{
 		this.sessionID = sessionID;
-		this.personID = personID;
+		this.currentPersonID = currentPersonID;
+		this.currentPersonName = currentPersonName;
 		this.allPersons = allPersons;
-		this.type = type;
+		this.typeCurrent = typeCurrent;
 		this.time = time;
 		this.speed = speed;
 		this.selectedID = selectedID;
+		this.exerciseAll = exerciseAll;
+
+		initVariables ();
 
 		Sqlite.Open(); // ----------------->
 		
-		int personIDTemp = personID;
-		if(allPersons)
-			personIDTemp = -1;
+		personIDForGraph = currentPersonID;
+		if (allPersons)
+			personIDForGraph = -1;
+
+		typeForGraph = typeCurrent;
+		if (exerciseAll)
+			typeForGraph = "";
 
 		orderBy = Sqlite.Orders_by.ID_ASC;
 		OrderX = OrderXEnum.Last;
@@ -502,16 +511,20 @@ public class PrepareEventGraphRunSimple : PrepareEventGraphTest
 		LogB.Information ("resultsSessionCriteria = " + resultsSessionCriteria.ToString ());
 
 		//obtain data
-		rowsAtSQL = SqliteRun.SelectRuns (true, sessionID, personIDTemp, type,
+		rowsAtSQL = SqliteRun.SelectRuns (true, sessionID, personIDForGraph, typeForGraph,
 				orderBy, limit,
 				allPersons, false); //show names on comments only if "all persons"
 
 		// get the selectedEvent to show it if it's not aready shown by the limit
 		getSelected ();
 
-		string sqlSelect = "distance/time";
+		string param = "distance/time";
+		historicalExUnits = "m/s";
 		if (times)
-			sqlSelect = "time";
+		{
+			param = "time";
+			historicalExUnits = "s";
+		}
 
 		// if ID_ASC, order correctly the boxplot
 		if (orderBy == Sqlite.Orders_by.ID_ASC)
@@ -523,7 +536,8 @@ public class PrepareEventGraphRunSimple : PrepareEventGraphTest
 		else if (orderBy == Sqlite.Orders_by.BEST2)
 			orderBy = Sqlite.Orders_by.BEST2REV; //boxplot have to be selected asc
 
-		boxplotsDo (sqlSelect);
+		boxplotsDo (param);
+		personHistoricalBest (param);
 
 		Sqlite.Close(); // < -----------------
 	}
@@ -546,13 +560,35 @@ public class PrepareEventGraphRunSimple : PrepareEventGraphTest
 	// need to use orderBy to correctly order time for boxplot
 	protected override List<double> boxplotSelectPerson (string param)
 	{
-		return SqliteRun.SelectRuns (true, param, sessionID, personID, type,
+		return SqliteRun.SelectRuns (true, param, sessionID, personIDForGraph, typeForGraph,
 				orderBy, 0); // no limit
 	}
 	protected override List<double> boxplotSelectSession (string param)
 	{
-		return SqliteRun.SelectRuns (true, param, sessionID, -1, type,
+		return SqliteRun.SelectRuns (true, param, sessionID, -1, typeForGraph,
 				orderBy, 0); // no limit
+	}
+
+	public override bool personHistoricalBestHaveData ()
+	{
+		if (typeCurrent == "")
+			return false;
+
+		SqliteBest sb = new SqliteBest ();
+		return sb.HaveEventsInOtherSessions (true, sessionID, currentPersonID,
+					Constants.RunTable, typeCurrent, -1, Constants.RunTypeTable);
+	}
+	public override SqliteStruct.DateTypeResult personHistoricalBestGetData (string param)
+	{
+		SqliteBest sb = new SqliteBest ();
+		if (param == "time")
+			return sb.Select_MIN_EventsOfAType (true, -1, currentPersonID,
+					Constants.RunTable, typeCurrent, -1,
+					Constants.RunTypeTable, param);
+		else
+			return sb.Select_MAX_EventsOfAType (true, -1, currentPersonID,
+					Constants.RunTable, typeCurrent, -1,
+					Constants.RunTypeTable, param);
 	}
 
 	~PrepareEventGraphRunSimple() {}

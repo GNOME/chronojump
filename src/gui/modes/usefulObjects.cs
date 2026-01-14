@@ -608,6 +608,7 @@ public class PrepareEventGraphRunInterval : PrepareEventGraphTest
 	public double personMINAtSQL;
 	public double sessionMINAtSQL;
 	private Sqlite.Orders_by orderBy;
+	private bool exerciseAll;
 
 	public PrepareEventGraphRunInterval () {
 	}
@@ -616,23 +617,31 @@ public class PrepareEventGraphRunInterval : PrepareEventGraphTest
 	//personID we need to the personsMAX/AVG sql calls
 	//type can be "" for all jumps, then write it under bar
 	public PrepareEventGraphRunInterval (
-			int sessionID, int personID, bool allPersons,
+			int sessionID, int currentPersonID, string currentPersonName, bool allPersons,
 			Constants.ResultsSessionCriteria resultsSessionCriteria, bool times,
 			int limit,
-			string type, int selectedID)
+			string typeCurrent, int selectedID, bool exerciseAll)
 	{
 		// 1) assign variables
 		this.sessionID = sessionID;
-		this.personID = personID;
+		this.currentPersonID = currentPersonID;
+		this.currentPersonName = currentPersonName;
 		this.allPersons = allPersons;
-		this.type = type;
+		this.typeCurrent = typeCurrent;
 		this.selectedID = selectedID;
+		this.exerciseAll = exerciseAll;
+
+		initVariables ();
 
 		Sqlite.Open(); // ----------------->
 
-		int personIDTemp = personID;
-		if(allPersons)
-			personIDTemp = -1;
+		personIDForGraph = currentPersonID;
+		if (allPersons)
+			personIDForGraph = -1;
+
+		typeForGraph = typeCurrent;
+		if (exerciseAll)
+			typeForGraph = "";
 
 		orderBy = Sqlite.Orders_by.ID_ASC;
 		OrderX = OrderXEnum.Last;
@@ -645,15 +654,19 @@ public class PrepareEventGraphRunInterval : PrepareEventGraphTest
 			OrderX = OrderXEnum.Best;
 		}
 
-		rowsAtSQL = SqliteRunInterval.SelectRuns (true, sessionID, personIDTemp, type,
+		rowsAtSQL = SqliteRunInterval.SelectRuns (true, sessionID, personIDForGraph, typeForGraph,
 				orderBy, limit, allPersons); 	//show names on comments only if "all persons"
 
 		// get the selectedEvent to show it if it's not aready shown by the limit
 		getSelected ();
 
-		string sqlSelect = "distanceTotal/timeTotal";
+		string param = "distanceTotal/timeTotal";
+		historicalExUnits = "m/s";
 		if (times)
-			sqlSelect = "timeTotal";
+		{
+			param = "timeTotal";
+			historicalExUnits = "s";
+		}
 
 		// if ID_ASC, order correctly the boxplot
 		if (orderBy == Sqlite.Orders_by.ID_ASC)
@@ -665,7 +678,8 @@ public class PrepareEventGraphRunInterval : PrepareEventGraphTest
 		if (orderBy == Sqlite.Orders_by.BEST2)
 			orderBy = Sqlite.Orders_by.BEST2REV; //boxplot have to be selected asc
 
-		boxplotsDo (sqlSelect);
+		boxplotsDo (param);
+		personHistoricalBest (param);
 
 		Sqlite.Close(); // < -----------------
 	}
@@ -695,6 +709,28 @@ public class PrepareEventGraphRunInterval : PrepareEventGraphTest
 	{
 		return SqliteRunInterval.SelectRuns (true, param, sessionID, -1, type,
 				orderBy, 0); // no limit
+	}
+
+	public override bool personHistoricalBestHaveData ()
+	{
+		if (typeCurrent == "")
+			return false;
+
+		SqliteBest sb = new SqliteBest ();
+		return sb.HaveEventsInOtherSessions (true, sessionID, currentPersonID,
+					Constants.RunIntervalTable, typeCurrent, -1, Constants.RunIntervalTypeTable);
+	}
+	public override SqliteStruct.DateTypeResult personHistoricalBestGetData (string param)
+	{
+		SqliteBest sb = new SqliteBest ();
+		if (param == "timeTotal")
+			return sb.Select_MIN_EventsOfAType (true, -1, currentPersonID,
+					Constants.RunIntervalTable, typeCurrent, -1,
+					Constants.RunIntervalTypeTable, param);
+		else
+			return sb.Select_MAX_EventsOfAType (true, -1, currentPersonID,
+					Constants.RunIntervalTable, typeCurrent, -1,
+					Constants.RunIntervalTypeTable, param);
 	}
 
 	~PrepareEventGraphRunInterval () {}

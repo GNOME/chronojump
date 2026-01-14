@@ -24,3 +24,7 @@ The pipes are associated to the controlNumber in order to isolate multiple sets 
 V[3-4].9
 --------
 Added the option of use terminal 1 and 2 in AND mode. The change is considered when both terminals are in the same state
+
+V[3-4].10
+--------
+Added a delay of 500 ms after Serial.begin() in order to have a stable serial port and avoid problems detecting the port.

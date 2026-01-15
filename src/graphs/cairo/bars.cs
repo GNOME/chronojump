@@ -774,10 +774,11 @@ public abstract class CairoBars : CairoGeneric
 
 		// 2) find longestWord width
 		te = g.TextExtents(longestWord);
+		//LogB.Information (string.Format ("longestWord: {0} te.Width: {1}", longestWord, te.Width));
 
 		// 3) if longestWord * events.Count does not fit, iterate to find correct font size
 		int optimalFontHeight = textHeight;
-		for(int i = textHeight; events.Count * (te.Width + marginBetweenTexts) > graphWidth && i > 0; i --)
+		for (int i = textHeight; events.Count * (te.Width + marginBetweenTexts) > (graphWidth -leftMargin -rightMargin) && i > 0; i --)
 		{
 			g.SetFontSize(i);
 			te = g.TextExtents(longestWord);

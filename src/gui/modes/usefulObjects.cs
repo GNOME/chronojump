@@ -59,6 +59,10 @@ public class ExecutingGraphData
 	}
 }	
 
+/*
+ * note some of the inherited classes have an string: type (like jump, jumpRj, run, runI)
+ * and other classes have the exerciseID (like forceSensor, encoder, runEncoder)
+ */
 public abstract class PrepareEventGraphTest
 {
 	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
@@ -119,12 +123,12 @@ public abstract class PrepareEventGraphTest
 	protected abstract List<double> boxplotSelectPerson (string param);
 	protected abstract List<double> boxplotSelectSession (string param);
 
-	protected void personHistoricalBest (string sqlSelect)
+	protected void personHistoricalBest (string param)
 	{
 		if (! personHistoricalBestHaveData ())
 			return;
 
-		SqliteStruct.DateTypeResult dtr = personHistoricalBestGetData (sqlSelect);
+		SqliteStruct.DateTypeResult dtr = personHistoricalBestGetData (param);
 
 		if (dtr.date == "" || dtr.type == "")
 			return;
@@ -143,7 +147,7 @@ public abstract class PrepareEventGraphTest
 	{
 		return false;
 	}
-	public virtual SqliteStruct.DateTypeResult personHistoricalBestGetData (string sqlSelect)
+	public virtual SqliteStruct.DateTypeResult personHistoricalBestGetData (string param)
 	{
 		return SqliteStruct.DateTypeResult.Init ();
 	}
@@ -801,7 +805,8 @@ public class PrepareEventGraphRunEncoder : PrepareEventGraphTest
 	//sql data of previous tests to plot graph and show stats at bottom
 	public List<RunEncoder> rowsAtSQL;
 	private Sqlite.Orders_by orderBy;
-	private int exerciseID;
+	private int currentExerciseID;
+	private int exerciseIDForGraph;
 	private bool bestSecond;
 
 	public bool exerciseAll; //all tests
@@ -809,22 +814,29 @@ public class PrepareEventGraphRunEncoder : PrepareEventGraphTest
 	public PrepareEventGraphRunEncoder() {
 	}
 
-	public PrepareEventGraphRunEncoder (int sessionID, int personID, bool allPersons,
+	public PrepareEventGraphRunEncoder (int sessionID, int currentPersonID, string currentPersonName, bool allPersons,
 			Constants.ResultsSessionCriteria resultsSessionCriteria, bool bestSecond, int limit,
-			int exerciseID, int selectedID, Constants.Modes mode, bool exerciseAll)
+			int currentExerciseID, int selectedID, Constants.Modes mode, bool exerciseAll)
 	{
 		this.sessionID = sessionID;
-		this.personID = personID;
-		this.exerciseID = exerciseID;
+		this.currentPersonID = currentPersonID;
+		this.currentPersonName = currentPersonName;
+		this.currentExerciseID = currentExerciseID;
 		this.bestSecond = bestSecond;
 		this.selectedID = selectedID;
 		this.exerciseAll = exerciseAll;
 
+		initVariables ();
+
 		Sqlite.Open(); // ----------------->
 
-		int personIDTemp = personID;
-		if(allPersons)
-			personIDTemp = -1;
+		personIDForGraph = currentPersonID;
+		if (allPersons)
+			personIDForGraph = -1;
+
+		exerciseIDForGraph = currentExerciseID;
+		if (exerciseAll)
+			exerciseIDForGraph = -1;
 
 		orderBy = Sqlite.Orders_by.ID_ASC;
 		OrderX = OrderXEnum.Last;
@@ -837,7 +849,7 @@ public class PrepareEventGraphRunEncoder : PrepareEventGraphTest
 			OrderX = OrderXEnum.Best;
 		}
 
-		rowsAtSQL = SqliteRunEncoder.Select (true, -1, personIDTemp, sessionID, exerciseID,
+		rowsAtSQL = SqliteRunEncoder.Select (true, -1, personIDForGraph, sessionID, exerciseIDForGraph,
 				orderBy, limit,
 				allPersons//, 	//show names on comments only if "all persons"
 				//false 	//! onlyBestInSession
@@ -846,11 +858,14 @@ public class PrepareEventGraphRunEncoder : PrepareEventGraphTest
 		// get the selectedEvent to show it if it's not aready shown by the limit
 		getSelected ();
 
-		string sqlSelect = "maxSpeed";
+		string param = "maxSpeed";
 		if (bestSecond)
-			sqlSelect = "maxAvgSpeed1s";
+			param = "maxAvgSpeed1s";
 
-		boxplotsDo (sqlSelect);
+		historicalExUnits = "m/s";
+
+		boxplotsDo (param);
+		personHistoricalBest (param);
 
 		Sqlite.Close(); // < -----------------
 	}
@@ -872,19 +887,34 @@ public class PrepareEventGraphRunEncoder : PrepareEventGraphTest
 			selectedEvent = null; //to manage problems at deleting and updating treeview/bars
 		else
 			selectedEvent = sel;
-
-		selectedEvent = SqliteRunEncoder.SelectData (selectedID, false, true);
 	}
 
 	protected override List<double> boxplotSelectPerson (string param)
 	{
-		return SqliteRunEncoder.Select (true, param, -1, personID, sessionID, exerciseID,
+		return SqliteRunEncoder.Select (true, param, -1, personIDForGraph, sessionID, exerciseIDForGraph,
 				orderBy, 0);
 	}
 	protected override List<double> boxplotSelectSession (string param)
 	{
-		return SqliteRunEncoder.Select (true, param, -1, -1, sessionID, exerciseID,
+		return SqliteRunEncoder.Select (true, param, -1, -1, sessionID, exerciseIDForGraph,
 				orderBy, 0);
+	}
+
+	public override bool personHistoricalBestHaveData ()
+	{
+		if (currentExerciseID < 0)
+			return false;
+
+		SqliteBest sb = new SqliteBest ();
+		return sb.HaveEventsInOtherSessions (true, sessionID, currentPersonID,
+					Constants.RunEncoderTable, "", currentExerciseID, Constants.RunEncoderExerciseTable);
+	}
+	public override SqliteStruct.DateTypeResult personHistoricalBestGetData (string param)
+	{
+		SqliteBest sb = new SqliteBest ();
+		return sb.Select_MAX_EventsOfAType (true, -1, currentPersonID,
+				Constants.RunEncoderTable, "", currentExerciseID,
+				Constants.RunEncoderExerciseTable, param);
 	}
 
 	~PrepareEventGraphRunEncoder() {}
@@ -1025,9 +1055,9 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 		// get the selectedEvent to show it if it's not aready shown by the limit
 		getSelected ();
 
-		string sqlSelect = "maxForceRaw";
+		string param = "maxForceRaw";
 		if (bestSecond)
-			sqlSelect = "maxAvgForce1s";
+			param = "maxAvgForce1s";
 
 		historicalExUnits = "N";
 
@@ -1039,8 +1069,8 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 				orderBy = Sqlite.Orders_by.BEST2;
 		}
 
-		boxplotsDo (sqlSelect);
-		personHistoricalBest (sqlSelect);
+		boxplotsDo (param);
+		personHistoricalBest (param);
 
 		Sqlite.Close(); // < -----------------
 	}
@@ -1084,12 +1114,12 @@ public class PrepareEventGraphForceSensor : PrepareEventGraphTest
 		return sb.HaveEventsInOtherSessions (true, sessionID, currentPersonID,
 					Constants.ForceSensorTable, "", currentExerciseID, Constants.ForceSensorExerciseTable);
 	}
-	public override SqliteStruct.DateTypeResult personHistoricalBestGetData (string sqlSelect)
+	public override SqliteStruct.DateTypeResult personHistoricalBestGetData (string param)
 	{
 		SqliteBest sb = new SqliteBest ();
 		return sb.Select_MAX_EventsOfAType (true, -1, currentPersonID,
 				Constants.ForceSensorTable, "", currentExerciseID,
-				Constants.ForceSensorExerciseTable, sqlSelect);
+				Constants.ForceSensorExerciseTable, param);
 	}
 
 	~PrepareEventGraphForceSensor() {}

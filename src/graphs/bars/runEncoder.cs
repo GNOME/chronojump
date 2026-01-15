@@ -126,6 +126,12 @@ public class CairoPaintBarsPreRunEncoder : CairoPaintBarsPre
 		cb.Id_l = id_l;
 		cb.PersonIcon_l = personIcon_l;
 
+		if (eventGraphRunEncoderStored.HistoricalExStr != "")
+		{
+			cb.BestPersonExHistoricalD = eventGraphRunEncoderStored.HistoricalExD;
+			cb.BestPersonExHistoricalStr = eventGraphRunEncoderStored.HistoricalExStr;
+		}
+
 		cb.PassBoxplots (eventGraphRunEncoderStored.BoxplotPerson, eventGraphRunEncoderStored.BoxplotSession);
 		// pass selectedEvent to plot if it's not part of the shown events
 		if (eventGraphRunEncoderStored.selectedEvent != null)
@@ -145,5 +151,18 @@ public class CairoPaintBarsPreRunEncoder : CairoPaintBarsPre
 		passDataForScreenshotIfNeeded ();
 
 		cb.GraphDo();
+	}
+
+	// to show historic data even if in this session user has not data on that ex.
+	protected override double getHistoricD ()
+	{
+		return eventGraphRunEncoderStored.HistoricalExD;
+	}
+	protected override string getHistoricStr ()
+	{
+		if (eventGraphRunEncoderStored.HistoricalExStr == "")
+			return "";
+		else
+			return eventGraphRunEncoderStored.HistoricalExStr;
 	}
 }

@@ -3222,9 +3222,7 @@ public partial class ChronoJumpWindow
 			);
 
 		string typeTemp = "";
-		int exerciseID = -1;
-		if (! radio_contacts_graph_allTests.Active)
-			exerciseID = getExerciseIDFromAnyCombo (combo_run_encoder_exercise, runEncoderComboExercisesString, false);
+		int exerciseID = getExerciseIDFromAnyCombo (combo_run_encoder_exercise, runEncoderComboExercisesString, false);
 
 		int selectedID = -1;
 		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
@@ -3242,7 +3240,7 @@ public partial class ChronoJumpWindow
 
 		PrepareEventGraphRunEncoder eventGraph = new PrepareEventGraphRunEncoder (
 				currentSession.UniqueID,
-				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
+				currentPerson.UniqueID, currentPerson.Name, radio_contacts_results_personAll.Active,
 				//get_radio_resultsSession_criteria (),
 				resultsSessionCriteria, radio_resultsSession_ra_best_second.Active,
 				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit

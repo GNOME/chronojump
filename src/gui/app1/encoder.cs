@@ -6427,7 +6427,6 @@ public partial class ChronoJumpWindow
 			"" //type
 			);
 
-		string typeTemp = "";
 		int exerciseID = -1;
 		if (! radio_contacts_graph_allTests.Active)
 			exerciseID = getExerciseIDFromAnyCombo (combo_encoder_exercise_capture, encoderExercisesTranslationAndBodyPWeight, false);
@@ -6450,6 +6449,10 @@ public partial class ChronoJumpWindow
 		//LogB.Information ("debugging");
 		//foreach (EncoderSQL eSQL in eventGraph.rowsAtSQL)
 		//	LogB.Information (eSQL.ToString ());
+
+		string typeTemp = "";
+		if(! radio_contacts_graph_allTests.Active)
+			typeTemp = UtilGtk.ComboGetActive (combo_encoder_exercise_capture);
 
 		string personStr = "";
 		if(! radio_contacts_results_personAll.Active)

@@ -4062,7 +4062,6 @@ LogB.Information(" fs R ");
 			"" //type
 			);
 
-		string typeTemp = "";
 		int exerciseID = getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false);
 
 		int selectedID = -1;
@@ -4091,6 +4090,10 @@ LogB.Information(" fs R ");
 
 		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.runsAtSQL.Count > 0)
 		//	PrepareRunSimpleGraph(eventGraph, false); //don't animate
+
+		string typeTemp = "";
+		if(! radio_contacts_graph_allTests.Active)
+			typeTemp = UtilGtk.ComboGetActive (combo_force_sensor_exercise);
 
 		string personStr = "";
 		if(! radio_contacts_results_personAll.Active)

@@ -3221,7 +3221,6 @@ public partial class ChronoJumpWindow
 			"" //type
 			);
 
-		string typeTemp = "";
 		int exerciseID = getExerciseIDFromAnyCombo (combo_run_encoder_exercise, runEncoderComboExercisesString, false);
 
 		int selectedID = -1;
@@ -3249,6 +3248,10 @@ public partial class ChronoJumpWindow
 
 		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.runsAtSQL.Count > 0)
 		//	PrepareRunSimpleGraph(eventGraph, false); //don't animate
+
+		string typeTemp = "";
+		if(! radio_contacts_graph_allTests.Active)
+			typeTemp = UtilGtk.ComboGetActive (combo_run_encoder_exercise);
 
 		string personStr = "";
 		if(! radio_contacts_results_personAll.Active)

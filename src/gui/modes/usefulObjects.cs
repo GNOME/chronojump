@@ -74,7 +74,6 @@ public abstract class PrepareEventGraphTest
 
 	protected int sessionID;
 
-	protected int personID; //this will no longer be used
 	protected int personIDForGraph;
 	protected int currentPersonID; //personID will be -1 if all persons, but we need to know also who is the currentPerson
 	protected string currentPersonName;
@@ -924,6 +923,7 @@ public class PrepareEventGraphWilight
 {
 	//sql data of previous jumps to plot graph and show stats at bottom
 	public List<Wilight> rowsAtSQL;
+	private int personID;
 	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
 
 	//public double lastTime;
@@ -958,6 +958,7 @@ public class PrepareEventGraphFourPlatforms
 {
 	//sql data of previous jumps to plot graph and show stats at bottom
 	public List<FourPlatforms> rowsAtSQL;
+	private int personID;
 	public int selectedID; //-1 if none selected. If >= 0 then is the selected on treeview.
 
 	//public double lastTime;
@@ -1194,6 +1195,7 @@ public class PrepareEventGraphEncoderSession : PrepareEventGraphTest
 
 	//sql data of previous tests to plot graph and show stats at bottom
 	public List<EncoderSQL> rowsAtSQL;
+	private int personID;
 	public int selectedSetID; //-1 if none selected. If >= 0 then is the selected on treeview.
 	public List<int> selectedRepID_l; //need to match with the bars, as the bars are going to be repetitions
 	private Sqlite.Orders_by orderBy;

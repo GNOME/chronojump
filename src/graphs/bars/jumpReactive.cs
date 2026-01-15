@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -151,6 +151,12 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 		cb.Id_l = id_l;
 		cb.PersonIcon_l = personIcon_l;
 
+		if (eventGraphJumpsRjStored.HistoricalExStr != "")
+		{
+			cb.BestPersonExHistoricalD = eventGraphJumpsRjStored.HistoricalExD;
+			cb.BestPersonExHistoricalStr = eventGraphJumpsRjStored.HistoricalExStr;
+		}
+
 		cb.PassBoxplots (eventGraphJumpsRjStored.BoxplotPerson, eventGraphJumpsRjStored.BoxplotSession);
 		// pass selectedEvent to plot if it's not part of the shown events
 		if (eventGraphJumpsRjStored.selectedEvent != null)
@@ -181,5 +187,18 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 
 		passDataForScreenshotIfNeeded ();
 		cb.GraphDo();
+	}
+
+	// to show historic data even if in this session user has not data on that ex.
+	protected override double getHistoricD ()
+	{
+		return eventGraphJumpsRjStored.HistoricalExD;
+	}
+	protected override string getHistoricStr ()
+	{
+		if (eventGraphJumpsRjStored.HistoricalExStr == "")
+			return "";
+		else
+			return eventGraphJumpsRjStored.HistoricalExStr;
 	}
 }

@@ -326,6 +326,7 @@ public class PrepareEventGraphJumpReactive : PrepareEventGraphTest
 	public double sessionMINAtSQL;
 	public bool showHeights; //if showHeights graph falling height and jump height
 	private Sqlite.Orders_by orderBy;
+	private bool exerciseAll;
 
 	public PrepareEventGraphJumpReactive () {
 	}
@@ -334,61 +335,77 @@ public class PrepareEventGraphJumpReactive : PrepareEventGraphTest
 	//personID we need to the personsMAX/AVG sql calls
 	//type can be "" for all jumps, then write it under bar
 	public PrepareEventGraphJumpReactive (
-			int sessionID, int personID, bool allPersons,
+			int sessionID, int currentPersonID, string currentPersonName, bool allPersons,
 			bool showHeights,
 			Constants.ResultsSessionCriteria resultsSessionCriteria, int limit,
-			string type, int selectedID)
+			string typeCurrent, int selectedID, bool exerciseAll)
 	{
 		// 1) assign variables
 		this.sessionID = sessionID;
-		this.personID = personID;
+		this.currentPersonID = currentPersonID;
+		this.currentPersonName = currentPersonName;
 		this.allPersons = allPersons;
-		this.type = type;
+		this.typeCurrent = typeCurrent;
 		this.selectedID = selectedID;
 		this.showHeights = showHeights;
+		this.exerciseAll = exerciseAll;
+
+		initVariables ();
 
 		Sqlite.Open(); // ----------------->
 
-		int personIDTemp = personID;
-		if(allPersons)
-			personIDTemp = -1;
+		personIDForGraph = currentPersonID;
+		if (allPersons)
+			personIDForGraph = -1;
+
+		typeForGraph = typeCurrent;
+		if (exerciseAll)
+			typeForGraph = "";
 
 		orderBy = Sqlite.Orders_by.ID_ASC;
 		OrderX = OrderXEnum.Last;
-		string sqlRangeSelect = "";
+		string param = "";
 		if (resultsSessionCriteria == Constants.ResultsSessionCriteria.LAST)
 		{
 			orderBy = Sqlite.Orders_by.ID_ASC;
 			if (showHeights)
-				sqlRangeSelect = "heightAvg";
-			else
-				sqlRangeSelect = "tvAvg";
+			{
+				param = "heightAvg";
+				historicalExUnits = "cm";
+			} else {
+				param = "tvAvg";
+				historicalExUnits = "s";
+			}
 		}
 		else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST)
 		{
 			orderBy = Sqlite.Orders_by.BEST;
 			OrderX = OrderXEnum.Best;
-			sqlRangeSelect = "tvAvg";
+			param = "tvAvg";
+			historicalExUnits = "s";
 		} else if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST2)
 		{
 			orderBy = Sqlite.Orders_by.BEST2;
 			OrderX = OrderXEnum.Best;
-			//sqlRangeSelect = "tvAvg/tcAvg";
-			sqlRangeSelect = "tvAvg"; //bars show tvAvg (not Q), so use this on Y
+			//param = "tvAvg/tcAvg";
+			param = "tvAvg"; //bars show tvAvg (not Q), so use this on Y
+			historicalExUnits = "s";
 		} else // if (resultsSessionCriteria == Constants.ResultsSessionCriteria.BEST3)
 		{
 			orderBy = Sqlite.Orders_by.BEST3;
 			OrderX = OrderXEnum.Best;
-			sqlRangeSelect = "heightAvg";
+			param = "heightAvg";
+			historicalExUnits = "cm";
 		}
 
 		LogB.Information (string.Format ("LIMIT: " + limit));
-		rowsAtSQL = SqliteJumpRj.SelectJumps (true, sessionID, personIDTemp, type,
+		rowsAtSQL = SqliteJumpRj.SelectJumps (true, sessionID, personIDForGraph, typeForGraph,
 				orderBy, limit, allPersons); 	//show names on comments only if "all persons"
 
 		getSelected ();
 
-		boxplotsDo (sqlRangeSelect);
+		boxplotsDo (param);
+		personHistoricalBest (param);
 
 		Sqlite.Close(); // < -----------------
 	}
@@ -418,6 +435,23 @@ public class PrepareEventGraphJumpReactive : PrepareEventGraphTest
 	{
 		return SqliteJumpRj.SelectJumps (true, param, sessionID, -1, type,
 				Sqlite.Orders_by.BEST, 0); // no limit
+	}
+
+	public override bool personHistoricalBestHaveData ()
+	{
+		if (typeCurrent == "")
+			return false;
+
+		SqliteBest sb = new SqliteBest ();
+		return sb.HaveEventsInOtherSessions (true, sessionID, currentPersonID,
+					Constants.JumpRjTable, typeCurrent, -1, Constants.JumpRjTypeTable);
+	}
+	public override SqliteStruct.DateTypeResult personHistoricalBestGetData (string param)
+	{
+		SqliteBest sb = new SqliteBest ();
+		return sb.Select_MAX_EventsOfAType (true, -1, currentPersonID,
+				Constants.JumpRjTable, typeCurrent, -1,
+				Constants.JumpRjTypeTable, param);
 	}
 
 	~PrepareEventGraphJumpReactive () {}

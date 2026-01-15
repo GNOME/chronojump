@@ -430,21 +430,21 @@ public partial class ChronoJumpWindow
 			currentJumpRjType.Name
 			);
 
-		string typeTemp = currentEventType.Name;
-		if(radio_contacts_graph_allTests.Active)
-			typeTemp = "";
-
 		int selectedID = -1;
 		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
 			selectedID = treeViewResultsSession.EventSelectedID;
 
 		PrepareEventGraphJumpReactive eventGraph = new PrepareEventGraphJumpReactive (
-				currentSession.UniqueID, currentPerson.UniqueID,
+				currentSession.UniqueID, currentPerson.UniqueID, currentPerson.Name,
 				radio_contacts_results_personAll.Active,
 				radio_resultsSession_jump_heights.Active,
 				get_radio_resultsSession_criteria (),
 				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
-				typeTemp, selectedID);
+				currentEventType.Name, selectedID, radio_contacts_graph_allTests.Active);
+
+		string typeTemp = currentEventType.Name;
+		if(radio_contacts_graph_allTests.Active)
+			typeTemp = "";
 
 		string personStr = "";
 		if(! radio_contacts_results_personAll.Active)

@@ -1,0 +1,112 @@
+----------
+----------
+----------
+done until Nov 3 included
+----------
+----------
+----------
+
+Version 2.6.0 2026-Jan-12 (Differences from 2.5.2-63 2025-Sept-2)
+
+New features for all modes:
+<ul>
+	<li>Boxplots on session results:</li>
+	<ul>
+		<li>All the resultsSession graphs have boxplots.</li>
+		<li>Boxplots show quartiles, median, mean and outliers.</li>
+		<li>Unseen data (eg. show with a filter 7 jumps when there are 10 on session, it will show the other 3 as diamonds. This is very useful for encoder as saved repetitions of one set can be shown or not on the graph. The diamonds help to understand that.</li>
+		<li>Seen data is shown with a gray rectangle. And the limit spinbutton it is also on grey to help understand this behaviour.</li>
+		<li>This characteristics help to don't feel lost when a jump so low is done but it is not shown on graph because is sorted by height and limited to n jumps.</li>
+		<li>Removed old max/min arrows.</li>
+	</ul>
+	<li>All <b>selected data on tables/graphs is shown in yellow</b>. Even yellow rhombus on resultsSession graphs.<li>
+	<li>Persons management:</li>
+	<ul>
+		<li>Person has now <b>name and surname</b>: shown on all parts of the program. It can be sorted by name or surname on left of the screen. Fixed all the add/load/import persons methods.</li>
+		<li>Persons can be exported to a csv file (including just persons from session or all persons).</li>
+		<li>To fix migrations between persons in different devices, now persons now have also a muuid with machineID and person UUID. Database name can be edited (preferences/advanced).</li>
+	</ul>
+	<li>External window:</li>
+	<ul>
+		<li>External window at capture for jumps and races. It shows the progress and the final result.</li>
+		<li>Useful for showing in another screen for the runner or the audience.</li>
+	</ul>
+	<li>Selected row in any data treeview is in yellow. It helps to identify better the test we are evaluating, editing, ...</li>
+	<li>At session results graph now we can right click to edit/delete/repair. This behaviour is distinctive with a mouse icon with two colorized buttons.</li>
+	<li>Added Bluetooth tests on preferences/advanced.</li>
+	<li>On editing a test date is shown and can be selectable.</li>
+	<li>After importing jumps, runs .csv, the persons treeview n is updated now.</li>
+	<li>Fixed a crash on migration of DB 2.64->2.65 when there are no persons. This affected to few people who have Chronojump installed, they have no persons in the db (no data at all) and they updated to 2.5.2</li>
+	<li><b>DB version: 2.75</b> (DB of 2.5.2-63 was 2.66)</li>
+	<li>Fixed bad behaviour on Windows 11 after capture full screen where some icons got misaligned and user cannot click. Now that fullscreen is always decorated (with windows controls) and then on restore windows misalign does not happen.</li>
+	<li>getNews disabled until fixed problems on Linux with faulty Eduroam.</li>
+	<li>Fixed "Kg" to "kg" on many parts of the program.</li>
+	<li></li>
+	<li></li>
+</ul>
+
+Encoder:
+<ul>
+	<li>Encoder if cannot capture (usually drivers windows) prevents crash and show message.</li>
+	<li>Fixes on edit a encoder test (Thanks to Kishore for all the debugging):</li>
+	<ul>
+		<li>Encoder edit a test does not update max force, max power on DB (and on resultsSession treeview).</li>
+		<li>If encoder set weight is decimal it gets incorrectly shown on edit_event.</li>
+	</ul>
+	<li>Fixes problems with triggers since last versions.</li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+</ul>
+
+Force Sensor:
+<ul>	
+	<li>Improvements on analyze model:</li>
+	<ul>
+		<li>maximumIsometricForce.R manages better sdMethod problems.</li>
+		<li>Improvements on analyze: optimized model by sd: Fixes on model, shows error if any, store on DB, better gui.</li>
+		<li>RFD SD start sample method now finds the most stable second.</li>
+	</ul>
+	<li>Force sensor resultsSession graph shows only 1 bar (max/bestSecond).</li>
+	<li>In force sensor analysis, show differences of two sets. Before it was showing only AB and CD data, now it shows also the diff and the diff%.</li>
+	<li></li>
+	<li></li>
+	<li></li>
+</ul>
+
+Race Analyzer:
+<ul>
+	<li>RaceAnalyzer resultsSession graph shows only 1 bar (speed/bestSecond).</li>
+	<li>On Sprint export, shown "This will export only Sprint data." </li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+</ul>
+
+Jumps:
+<ul>	
+	<li>Shown time after capture at top right</li>
+	<li>Jump height use always 1.22625</li>
+</ul>
+
+WICHRO:
+<ul>	
+	<li>Run with tracks can show speed/time on current set graph</li>
+	<li>Run with/without tracks can show speed/time on resultsSession graphs</li>
+	<li>Shown time after capture at top right</li>
+</ul>
+
+Multi-stage tests:
+<ul>	
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-flag-o fa-2x"></i>  Updated translations</span></p>
+<ul>
+	<li>Updated translations on: Brazilian portuguese, Dutch, Georgian, Slovenian, Ukrainian.</li>
+</ul>

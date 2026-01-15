@@ -76,7 +76,6 @@ public abstract class PrepareEventGraphTest
 	protected string currentPersonName;
 	protected bool allPersons;
 
-	protected string type; //this will no longer be used
 	protected string typeCurrent;
 	protected string typeForGraph;
 
@@ -149,10 +148,6 @@ public abstract class PrepareEventGraphTest
 		return SqliteStruct.DateTypeResult.Init ();
 	}
 
-	// TODO: Type will disappear
-	public string Type {
-		get { return type; }
-	}
 	public string TypeForGraph {
 		get { return typeForGraph; }
 	}
@@ -428,12 +423,12 @@ public class PrepareEventGraphJumpReactive : PrepareEventGraphTest
 
 	protected override List<double> boxplotSelectPerson (string param)
 	{
-		return SqliteJumpRj.SelectJumps (true, param, sessionID, personID, type,
+		return SqliteJumpRj.SelectJumps (true, param, sessionID, personIDForGraph, typeForGraph,
 				Sqlite.Orders_by.BEST, 0); // no limit
 	}
 	protected override List<double> boxplotSelectSession (string param)
 	{
-		return SqliteJumpRj.SelectJumps (true, param, sessionID, -1, type,
+		return SqliteJumpRj.SelectJumps (true, param, sessionID, -1, typeForGraph,
 				Sqlite.Orders_by.BEST, 0); // no limit
 	}
 
@@ -736,12 +731,12 @@ public class PrepareEventGraphRunInterval : PrepareEventGraphTest
 	// need to use orderBy to correctly order time for boxplot
 	protected override List<double> boxplotSelectPerson (string param)
 	{
-		return SqliteRunInterval.SelectRuns (true, param, sessionID, personID, type,
+		return SqliteRunInterval.SelectRuns (true, param, sessionID, personIDForGraph, typeForGraph,
 				orderBy, 0); // no limit
 	}
 	protected override List<double> boxplotSelectSession (string param)
 	{
-		return SqliteRunInterval.SelectRuns (true, param, sessionID, -1, type,
+		return SqliteRunInterval.SelectRuns (true, param, sessionID, -1, typeForGraph,
 				orderBy, 0); // no limit
 	}
 

@@ -623,6 +623,7 @@ public partial class ChronoJumpWindow
 		//constructor for showing a blank graph
 		cairoPaintBarsPreCurrent = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
 				drawingarea_results_realtime, preferences.fontTypeToGraph());
+		drawingarea_results_realtime.QueueDraw ();
 	}
 
 	public void PrepareJumpReactiveRealtimeCaptureGraph (double lastTv, double lastTc, string tvString, string tcString,
@@ -759,6 +760,7 @@ public partial class ChronoJumpWindow
 		//constructor for showing a blank graph
 		cairoPaintBarsPreCurrent = new CairoPaintBarsPreRunIntervalRealtimeCapture(
 				drawingarea_results_realtime, preferences.fontTypeToGraph());
+		drawingarea_results_realtime.QueueDraw ();
 	}
 
 	public void PrepareRunIntervalRealtimeCaptureGraph (string timesString,

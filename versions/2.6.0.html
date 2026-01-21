@@ -1,8 +1,6 @@
 ----------
 ----------
-----------
-done until Nov 3 included
-----------
+done until Dec 23 (included)
 ----------
 ----------
 
@@ -10,20 +8,22 @@ Version 2.6.0 2026-Jan-12 (Differences from 2.5.2-63 2025-Sept-2)
 
 New features for all modes:
 <ul>
-	<li>Boxplots on session results:</li>
+	<li>Session results graph and table:</li>
 	<ul>
 		<li>All the resultsSession graphs have boxplots.</li>
 		<li>Boxplots show quartiles, median, mean and outliers.</li>
-		<li>Unseen data (eg. show with a filter 7 jumps when there are 10 on session, it will show the other 3 as diamonds. This is very useful for encoder as saved repetitions of one set can be shown or not on the graph. The diamonds help to understand that.</li>
-		<li>Seen data is shown with a gray rectangle. And the limit spinbutton it is also on grey to help understand this behaviour.</li>
-		<li>This characteristics help to don't feel lost when a jump so low is done but it is not shown on graph because is sorted by height and limited to n jumps.</li>
-		<li>Removed old max/min arrows.</li>
+		<li>The variable shown in session results graph is shown in bold at session results table.</li>
+		<li>Unseen data on graph (eg. show with a filter 7 jumps when there are 10 on session, it will show the other 3 as diamonds. This is very useful for encoder as saved repetitions of one set can be shown or not on the graph. The diamonds help to understand that.</li>
+		<li>Seen data on graph is shown with a gray rectangle. And the limit spinbutton it is also on grey to help understand this behaviour. This characteristics help to don't feel lost when a jump so low is done but it is not shown on graph because is sorted by height and limited to n jumps.</li>
+		<li>Removed old max/min arrows from graph.</li>
+		<li>Edit event (all modes) show datetime. It can be copy/pasted, nice for debug and some researchers.</li>
 	</ul>
 	<li>All <b>selected data on tables/graphs is shown in yellow</b>. Even yellow rhombus on resultsSession graphs.<li>
 	<li>Persons management:</li>
 	<ul>
 		<li>Person has now <b>name and surname</b>: shown on all parts of the program. It can be sorted by name or surname on left of the screen. Fixed all the add/load/import persons methods.</li>
 		<li>Persons can be exported to a csv file (including just persons from session or all persons).</li>
+		<li>fixed a crash on personTreeview by changing person name while filter is active.</li>
 		<li>To fix migrations between persons in different devices, now persons now have also a muuid with machineID and person UUID. Database name can be edited (preferences/advanced).</li>
 	</ul>
 	<li>External window:</li>
@@ -31,9 +31,11 @@ New features for all modes:
 		<li>External window at capture for jumps and races. It shows the progress and the final result.</li>
 		<li>Useful for showing in another screen for the runner or the audience.</li>
 	</ul>
+	<li>Person's table on the left can be sorted also by the num or tests on each mode.</li>
 	<li>Selected row in any data treeview is in yellow. It helps to identify better the test we are evaluating, editing, ...</li>
+	<li>Import session now imports the videos (on any mode).</li>
 	<li>At session results graph now we can right click to edit/delete/repair. This behaviour is distinctive with a mouse icon with two colorized buttons.</li>
-	<li>Added Bluetooth tests on preferences/advanced.</li>
+	<li>Added Bluetooth tests on preferences/advanced with some widgets. Other Bluetooth improvements.</li>
 	<li>On editing a test date is shown and can be selectable.</li>
 	<li>After importing jumps, runs .csv, the persons treeview n is updated now.</li>
 	<li>Fixed a crash on migration of DB 2.64->2.65 when there are no persons. This affected to few people who have Chronojump installed, they have no persons in the db (no data at all) and they updated to 2.5.2</li>
@@ -53,12 +55,21 @@ Encoder:
 		<li>Encoder edit a test does not update max force, max power on DB (and on resultsSession treeview).</li>
 		<li>If encoder set weight is decimal it gets incorrectly shown on edit_event.</li>
 	</ul>
+	<li>Session results table changes:</li>
+	<ul>
+		<li>headers for sets are different than headers for reps (two header rows).</li>
+		<li>added units on column headers.</li>
+		<li>repetitions in different color to be easier to distinguish from sets.</li>
+		<li>on inertial sets now shows n weights, diameter, inertia moment, equivalent mass.</li>
+		<li>on all modes show now if there is a video of that test or not.</li>
+	</ul>
+	<li>On intertial now it is shown the load on each set.</li>
+	<li>On inertial: eccentric overload % is written correctly under title now.</li>
+	<li>Encoder feedback is now active by default.</li>
+	<li>Fixed slow behaviour of some encoder analyze actions.</li>
+	<li>Fixed forceSensorAnalyze treeviews not taking in account captureOption.</li>
 	<li>Fixes problems with triggers since last versions.</li>
-	<li></li>
-	<li></li>
-	<li></li>
-	<li></li>
-	<li></li>
+	<li>Fixed a bug that makes (under certain situations) analyze using concentric when should use eccentric-concentric.</li>
 	<li></li>
 	<li></li>
 	<li></li>
@@ -74,8 +85,9 @@ Force Sensor:
 	</ul>
 	<li>Force sensor resultsSession graph shows only 1 bar (max/bestSecond).</li>
 	<li>In force sensor analysis, show differences of two sets. Before it was showing only AB and CD data, now it shows also the diff and the diff%.</li>
-	<li></li>
-	<li></li>
+	<li>Now it can be hidden the raw and unfiltered signal (in isometric and in elastic).</li>
+	<li>ForceSensor does not crash on cable disconnect. And cleans device for next capture.</li>
+	<li>Fixed crash on deleting test since recent code (maybe users never experienced this problem).</li>
 	<li></li>
 </ul>
 
@@ -86,12 +98,18 @@ Race Analyzer:
 	<li></li>
 	<li></li>
 	<li></li>
-	<li></li>
+	<li>Fixed crash on deleting test since recent code (maybe users never experienced this problem).</li>
 </ul>
 
 Jumps:
 <ul>	
+	<li>In multiple jumps added feedback referred to the best jump in the set (like in encoder).</li>
 	<li>Shown time after capture at top right</li>
+	<li>Jumps threshold increased from 50 ms to 200 ms: (2.9 cm).</li>
+	<li>Multiple jumps export to CSV now has columns for initial speed and Q index.</li>
+	<li></li>
+	<li></li>
+	<li></li>
 	<li>Jump height use always 1.22625</li>
 </ul>
 
@@ -99,7 +117,13 @@ WICHRO:
 <ul>	
 	<li>Run with tracks can show speed/time on current set graph</li>
 	<li>Run with/without tracks can show speed/time on resultsSession graphs</li>
+	<li>Added Rondo-Test test with image and uses special AND of first two WICHRO terminals (only on controllers with firmware: 3.9 or 4.9
 	<li>Shown time after capture at top right</li>
+	<li>Fixed reverse time sort on races with intervals.</li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
 </ul>
 
 Multi-stage tests:
@@ -108,5 +132,5 @@ Multi-stage tests:
 
 <p><span class="highlight2"><i class="fa fa-flag-o fa-2x"></i>  Updated translations</span></p>
 <ul>
-	<li>Updated translations on: Brazilian portuguese, Dutch, Georgian, Slovenian, Ukrainian.</li>
+	<li>Updated translations on: Brazilian portuguese, Catalan, Dutch, Georgian, Slovenian, Spanish, Ukrainian.</li>
 </ul>

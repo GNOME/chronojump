@@ -16,6 +16,7 @@ New features for all modes:
 		<li>Unseen data on graph (eg. show with a filter 7 jumps when there are 10 on session, it will show the other 3 as diamonds. This is very useful for encoder as saved repetitions of one set can be shown or not on the graph. The diamonds help to understand that.</li>
 		<li>Seen data on graph is shown with a gray rectangle. And the limit spinbutton it is also on grey to help understand this behaviour. This characteristics help to don't feel lost when a jump so low is done but it is not shown on graph because is sorted by height and limited to n jumps.</li>
 		<li>Removed old max/min arrows from graph.</li>
+		<li>Graphs sorted by Last by default.</li>
 		<li>Edit event (all modes) show datetime. It can be copy/pasted, nice for debug and some researchers.</li>
 	</ul>
 	<li>All <b>selected data on tables/graphs is shown in yellow</b>. Even yellow rhombus on resultsSession graphs.<li>
@@ -30,20 +31,25 @@ New features for all modes:
 	<ul>
 		<li>External window at capture for jumps and races. It shows the progress and the final result.</li>
 		<li>Useful for showing in another screen for the runner or the audience.</li>
+		<li>Special messages for catalan fireman tests.</li>
 	</ul>
 	<li>Person's table on the left can be sorted also by the num or tests on each mode.</li>
 	<li>Selected row in any data treeview is in yellow. It helps to identify better the test we are evaluating, editing, ...</li>
-	<li>Import session now imports the videos (on any mode).</li>
+	<li>Import sessions</li>
+	<ul>
+		<li>Import session now imports the videos (on any mode). Also import now has more debug info to solve future problems.</li>
+		<li>Fixed issue with chronojumpImporter.cs related to . on latin win (and maybe silicon)</li>
+	</ul>
+	<li>After importing jumps, runs .csv, the persons treeview n is updated now.</li>
 	<li>At session results graph now we can right click to edit/delete/repair. This behaviour is distinctive with a mouse icon with two colorized buttons.</li>
 	<li>Added Bluetooth tests on preferences/advanced with some widgets. Other Bluetooth improvements.</li>
 	<li>On editing a test date is shown and can be selectable.</li>
-	<li>After importing jumps, runs .csv, the persons treeview n is updated now.</li>
 	<li>Fixed a crash on migration of DB 2.64->2.65 when there are no persons. This affected to few people who have Chronojump installed, they have no persons in the db (no data at all) and they updated to 2.5.2</li>
 	<li><b>DB version: 2.75</b> (DB of 2.5.2-63 was 2.66)</li>
 	<li>Fixed bad behaviour on Windows 11 after capture full screen where some icons got misaligned and user cannot click. Now that fullscreen is always decorated (with windows controls) and then on restore windows misalign does not happen.</li>
 	<li>getNews disabled until fixed problems on Linux with faulty Eduroam.</li>
 	<li>Fixed "Kg" to "kg" on many parts of the program.</li>
-	<li></li>
+	<li>On Arduino devices better connection at start or after crash: getVersion now removes initial garbage (if any)</li>
 	<li></li>
 </ul>
 
@@ -95,9 +101,9 @@ Race Analyzer:
 <ul>
 	<li>RaceAnalyzer resultsSession graph shows only 1 bar (speed/bestSecond).</li>
 	<li>On Sprint export, shown "This will export only Sprint data." </li>
+	<li>On RaceAnalyzer power/force/accel bars moved from capture tab to analyze tab. Removed from feedback window and activable now by a radiobutton. Which variable is shown it is stored on SQL.</li>
 	<li></li>
-	<li></li>
-	<li></li>
+	<li>Fixed unsensitivity of RaceAnalyzer analyze after elastic with no data.</li>
 	<li>Fixed crash on deleting test since recent code (maybe users never experienced this problem).</li>
 </ul>
 
@@ -107,8 +113,8 @@ Jumps:
 	<li>Shown time after capture at top right</li>
 	<li>Jumps threshold increased from 50 ms to 200 ms: (2.9 cm).</li>
 	<li>Multiple jumps export to CSV now has columns for initial speed and Q index.</li>
-	<li></li>
-	<li></li>
+	<li>Ensure realtime graph is drawn on jumps multiple heigt/time radio.</li>
+	<li>Jumps multiple drawingarea_results_realtime title show personName correctly</li>
 	<li></li>
 	<li>Jump height use always 1.22625</li>
 </ul>
@@ -117,10 +123,10 @@ WICHRO:
 <ul>	
 	<li>Run with tracks can show speed/time on current set graph</li>
 	<li>Run with/without tracks can show speed/time on resultsSession graphs</li>
-	<li>Added Rondo-Test test with image and uses special AND of first two WICHRO terminals (only on controllers with firmware: 3.9 or 4.9
+	<li>Added Rondo-Test test with image and uses special AND of first two WICHRO terminals (only on controllers with firmware: 4.9. Note before the test it is checked if the firmware is updated and if it is not, a message is shown to the user (and test is automatically cancelled).</li>
 	<li>Shown time after capture at top right</li>
 	<li>Fixed reverse time sort on races with intervals.</li>
-	<li></li>
+	<li>Debug "Test It" shows channel and unsensitivizes refresh icon.</li>
 	<li></li>
 	<li></li>
 	<li></li>
@@ -130,7 +136,16 @@ Multi-stage tests:
 <ul>	
 </ul>
 
+Mac:
+<ul>
+	<li>Silicon: Fixed export session (folder open issue)</li>
+	<li>Silicon: Fixed backup database (folder open issue)</li>
+	<li></li>
+	<li></li>
+	<li></li>
+</ul>
+
 <p><span class="highlight2"><i class="fa fa-flag-o fa-2x"></i>  Updated translations</span></p>
 <ul>
-	<li>Updated translations on: Brazilian portuguese, Catalan, Dutch, Georgian, Slovenian, Spanish, Ukrainian.</li>
+	<li>Updated translations on: Brazilian portuguese, Catalan, Dutch, Georgian, Greek, Slovenian, Spanish, Ukrainian.</li>
 </ul>

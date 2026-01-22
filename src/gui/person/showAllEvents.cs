@@ -37,6 +37,8 @@ public class PersonShowAllEventsWindow
 	Gtk.RadioButton radio_session_all;
 	Gtk.Label label_radio_session_current;
 	Gtk.Label label_radio_session_all;
+	Gtk.Spinner spinner_search_all_persons;
+	Gtk.Label label_wait;
 	Gtk.HBox hbox_filter;
 	Gtk.Label label_filter;
 	Gtk.Entry entry_filter;
@@ -82,6 +84,7 @@ public class PersonShowAllEventsWindow
 			UtilGtk.WindowColor(person_show_all_events, Config.ColorBackground);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_radio_session_current);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_radio_session_all);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_wait);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_filter);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_person);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_person_name);
@@ -208,7 +211,19 @@ public class PersonShowAllEventsWindow
 	private void radio_session_toggled_do ()
 	{
 		hbox_filter.Visible = radio_session_all.Active;
+		//spinner_search_all_persons.Visible = radio_session_all.Active;
 
+		if (radio_session_all.Active)
+		{
+			//label_wait.Visible = true;
+			GLib.Timeout.Add (0, new GLib.TimeoutHandler (labelWaitVisible));
+		}
+
+		//GLib.Timeout.Add (0, new GLib.TimeoutHandler (spinnerStart));
+		GLib.Timeout.Add (100, new GLib.TimeoutHandler (radio_session_toggled_do_cont));
+	}
+	private bool radio_session_toggled_do_cont ()
+	{
 		string myText = UtilGtk.ComboGetActive (combo_persons);
 		combo_persons.Destroy();
 
@@ -221,7 +236,26 @@ public class PersonShowAllEventsWindow
 		on_combo_persons_changed (0, new EventArgs ());	//called for updating the treeview ifcombo_persons.Entry changed
 
 		button_load_session.Visible = radio_session_all.Active;
+
+		//spinner_search_all_persons.Stop ();
+		if (radio_session_all.Active && label_wait.Visible)
+			label_wait.Visible = false;
+
+		return false;
 	}
+	/*
+	private bool spinnerStart ()  //GLib.Timeout
+	{
+		spinner_search_all_persons.Start ();
+		return false;
+	}
+	*/
+	private bool labelWaitVisible ()  //GLib.Timeout
+	{
+		label_wait.Visible = true;
+		return false;
+	}
+
 	
 	private void createTreeView (Gtk.TreeView tv)
 	{
@@ -366,6 +400,8 @@ public class PersonShowAllEventsWindow
 		radio_session_all = (Gtk.RadioButton) builder.GetObject ("radio_session_all");
 		label_radio_session_current = (Gtk.Label) builder.GetObject ("label_radio_session_current");
 		label_radio_session_all = (Gtk.Label) builder.GetObject ("label_radio_session_all");
+		spinner_search_all_persons = (Gtk.Spinner) builder.GetObject ("spinner_search_all_persons");
+		label_wait = (Gtk.Label) builder.GetObject ("label_wait");
 		hbox_filter = (Gtk.HBox) builder.GetObject ("hbox_filter");
 		label_filter = (Gtk.Label) builder.GetObject ("label_filter");
 		entry_filter = (Gtk.Entry) builder.GetObject ("entry_filter");

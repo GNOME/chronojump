@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
+<!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkWindow" id="person_show_all_events">
@@ -21,7 +21,7 @@
           <object class="GtkHBox" id="hbox_session_radios">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="spacing">6</property>
+            <property name="spacing">12</property>
             <child>
               <object class="GtkRadioButton" id="radio_session_current">
                 <property name="visible">True</property>
@@ -45,20 +45,53 @@
               </packing>
             </child>
             <child>
-              <object class="GtkRadioButton" id="radio_session_all">
+              <object class="GtkBox">
                 <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">False</property>
-                <property name="active">True</property>
-                <property name="draw-indicator">True</property>
-                <property name="group">radio_session_current</property>
-                <signal name="toggled" handler="on_radio_session_toggled" swapped="no"/>
+                <property name="can-focus">False</property>
+                <property name="spacing">8</property>
                 <child>
-                  <object class="GtkLabel" id="label_radio_session_all">
+                  <object class="GtkRadioButton" id="radio_session_all">
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">In all sessions</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
+                    <property name="active">True</property>
+                    <property name="draw-indicator">True</property>
+                    <property name="group">radio_session_current</property>
+                    <signal name="toggled" handler="on_radio_session_toggled" swapped="no"/>
+                    <child>
+                      <object class="GtkLabel" id="label_radio_session_all">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">In all sessions</property>
+                      </object>
+                    </child>
                   </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSpinner" id="spinner_search_all_persons">
+                    <property name="can-focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label_wait">
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Please, wait!</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
                 </child>
               </object>
               <packing>

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2018-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -798,13 +798,6 @@ public partial class ChronoJumpWindow
 		return new ForceSensorImpulse(active, function, type, num1, num2);
 	}
 
-	private void setForceSensorAnalyzeABSliderIncrements()
-	{
-		label_hscale_ai_a_pre_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
-		label_hscale_ai_a_post_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
-		label_hscale_ai_b_pre_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
-		label_hscale_ai_b_post_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
-	}
 	private void setForceSensorAnalyzeMaxAVGInWindow()
 	{
 		tvFS_other.MaxAvgInWindowName = string.Format("Max AVG Force in {0} s",

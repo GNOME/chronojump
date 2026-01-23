@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2023-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2023-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -75,10 +75,15 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_hscale_ai_b_post_1s;
 	Gtk.Button button_hscale_ai_b_last;
 
-	Gtk.Button button_ai_ab_options;
+	Gtk.Grid grid_radios_ai;
 	Gtk.HBox hbox_ai_b_right_default;
 	Gtk.Box box_ai_b_right_custom;
 	Gtk.SpinButton spin_hscale_ai_b_right_custom;
+	Gtk.Button button_ai_ab_options;
+	Gtk.Box box_ai_ab_options;
+	//TODO: need to set default values from preferences
+	Gtk.SpinButton spin_analyze_ab_slider_increment;
+	Gtk.CheckButton check_analyze_ai_b_right_custom;
 
 	Gtk.HScale hscale_ai_a;
 	Gtk.HScale hscale_ai_b;
@@ -1268,12 +1273,6 @@ public partial class ChronoJumpWindow
 		notebook_ai_load.Sensitive = sensitive;
 	}
 
-	private void setAnalyzeAIBDefaultCustom ()
-	{
-		hbox_ai_b_right_default.Visible = ! preferences.analyzeAIBRightCustom;
-		box_ai_b_right_custom.Visible = preferences.analyzeAIBRightCustom;
-	}
-
 	private int notebook_ai_top_LastPage;
 	private void on_button_ai_model_options_clicked (object o, EventArgs args)
 	{
@@ -1331,7 +1330,47 @@ public partial class ChronoJumpWindow
 
 	private void on_button_ai_ab_options_clicked (object o, EventArgs args)
 	{
-		//TODO
+		grid_radios_ai.Visible = false;
+		box_ai_ab_options.Visible = true;
+	}
+
+	private void on_button_ai_ab_options_close_clicked (object o, EventArgs args)
+	{
+		// A) gui visible
+		box_ai_ab_options.Visible = false;
+		grid_radios_ai.Visible = true;
+
+		// B) changes on preferences object and SqlitePreferences
+		preferences.forceSensorAnalyzeABSliderIncrement = Preferences.PreferencesChange(
+				false,
+				SqlitePreferences.ForceSensorAnalyzeABSliderIncrement,
+				preferences.forceSensorAnalyzeABSliderIncrement,
+				UtilGtk.GetSpinButtonDouble (spin_analyze_ab_slider_increment, 1));
+
+		if (preferences.analyzeAIBRightCustom != check_analyze_ai_b_right_custom.Active)
+		{
+			SqlitePreferences.Update (SqlitePreferences.AnalyzeAIBRightCustom,
+					check_analyze_ai_b_right_custom.Active.ToString(), false);
+			preferences.analyzeAIBRightCustom = check_analyze_ai_b_right_custom.Active;
+		}
+
+		// C) gui changes according to preferences (just changed)
+		setAnalyzeABSliderIncrements();
+		setAnalyzeAIBDefaultCustom ();
+	}
+
+	private void setAnalyzeABSliderIncrements()
+	{
+		label_hscale_ai_a_pre_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
+		label_hscale_ai_a_post_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
+		label_hscale_ai_b_pre_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
+		label_hscale_ai_b_post_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
+	}
+
+	private void setAnalyzeAIBDefaultCustom ()
+	{
+		hbox_ai_b_right_default.Visible = ! preferences.analyzeAIBRightCustom;
+		box_ai_b_right_custom.Visible = preferences.analyzeAIBRightCustom;
 	}
 
 	private void on_ai_export_not_set_clicked (object o, EventArgs args)
@@ -1404,10 +1443,14 @@ public partial class ChronoJumpWindow
 		button_hscale_ai_b_post_1s = (Gtk.Button) builder.GetObject ("button_hscale_ai_b_post_1s");
 		button_hscale_ai_b_last = (Gtk.Button) builder.GetObject ("button_hscale_ai_b_last");
 
-		button_ai_ab_options = (Gtk.Button) builder.GetObject ("button_ai_ab_options");
+		grid_radios_ai = (Gtk.Grid) builder.GetObject ("grid_radios_ai");
 		hbox_ai_b_right_default = (Gtk.HBox) builder.GetObject ("hbox_ai_b_right_default");
 		box_ai_b_right_custom = (Gtk.Box) builder.GetObject ("box_ai_b_right_custom");
 		spin_hscale_ai_b_right_custom = (Gtk.SpinButton) builder.GetObject ("spin_hscale_ai_b_right_custom");
+		button_ai_ab_options = (Gtk.Button) builder.GetObject ("button_ai_ab_options");
+		box_ai_ab_options = (Gtk.Box) builder.GetObject ("box_ai_ab_options");
+		spin_analyze_ab_slider_increment = (Gtk.SpinButton) builder.GetObject ("spin_analyze_ab_slider_increment");
+		check_analyze_ai_b_right_custom = (Gtk.CheckButton) builder.GetObject ("check_analyze_ai_b_right_custom");
 
 		hscale_ai_a = (Gtk.HScale) builder.GetObject ("hscale_ai_a");
 		hscale_ai_b = (Gtk.HScale) builder.GetObject ("hscale_ai_b");

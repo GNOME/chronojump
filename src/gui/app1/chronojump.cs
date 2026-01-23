@@ -1535,6 +1535,12 @@ public partial class ChronoJumpWindow
 		else //if (preferences.runEncoderCaptureShow == Preferences.RunEncoderCaptureShowEnum.ACCEL)
 			radio_race_analyzer_show_accel.Active = true;
 
+		// AI analyze
+		spin_analyze_ab_slider_increment.Value = preferences.forceSensorAnalyzeABSliderIncrement;
+		check_analyze_ai_b_right_custom.Active = preferences.analyzeAIBRightCustom;
+		setAnalyzeABSliderIncrements();
+		setAnalyzeAIBDefaultCustom ();
+
 		//---- video ----
 
 		//don't raise the signal	
@@ -3100,7 +3106,6 @@ public partial class ChronoJumpWindow
 		// ---------- force sensor changes -------------->
 
 		//TODO: only if have changed
-		setForceSensorAnalyzeABSliderIncrements();
 		setForceSensorAnalyzeMaxAVGInWindow();
 
 		// update force_capture_drawingarea
@@ -3111,9 +3116,6 @@ public partial class ChronoJumpWindow
 
 			forceSensorPrepareGraphAI ();
 		}
-
-		// forceSensor raceAnalyzer AI
-		setAnalyzeAIBDefaultCustom ();
 
 		// <---------- end of force sensor changes --------------
 	}

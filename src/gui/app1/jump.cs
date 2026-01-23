@@ -375,6 +375,7 @@ public partial class ChronoJumpWindow
 			);
 
 		int selectedID = -1;
+		string type;
 		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
 		{
 			selectedID = treeViewResultsSession.EventSelectedID;
@@ -382,8 +383,11 @@ public partial class ChronoJumpWindow
 			box_jump_simple_height.Visible = true;
 			Jump myJump = SqliteJump.SelectJumpData (selectedID, false);
 			label_jump_simple_height_value.Text = Util.TrimDecimals (myJump.Height, 2) + " cm";
-		} else
+			type = myJump.Type;
+		} else {
 			box_jump_simple_height.Visible = false;
+			type = currentEventType.Name;
+		}
 
 		PrepareEventGraphJumpSimple eventGraph = new PrepareEventGraphJumpSimple (
 				tv, tc, currentSession.UniqueID,
@@ -391,7 +395,7 @@ public partial class ChronoJumpWindow
 				radio_resultsSession_jump_heights.Active,
 				radio_resultsSession_best.Active,
 				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
-				currentEventType.Name, selectedID, radio_contacts_graph_allTests.Active);
+				type, selectedID, radio_contacts_graph_allTests.Active);
 		
 		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.jumpsAtSQL.Count > 0)
 		//	PrepareJumpSimpleGraph(eventGraph, false); //don't animate

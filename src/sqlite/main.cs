@@ -178,7 +178,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.75";
+	static string lastChronojumpDatabaseVersion = "2.76";
 
 	public Sqlite()
 	{
@@ -3828,6 +3828,14 @@ class Sqlite
 
 			currentVersion = updateVersion("2.75");
 		}
+		if(currentVersion == "2.75")
+		{
+			LogB.SQL("Inserted into preferences: analyzeAIBRightCustom");
+
+			SqlitePreferences.Insert (SqlitePreferences.AnalyzeAIBRightCustom, "False");
+
+			currentVersion = updateVersion("2.76");
+		}
 
 
 		/*
@@ -4076,6 +4084,7 @@ class Sqlite
 		//
 		//
 
+		//2.75 - 2.76 Converted DB to 2.76 Inserted into preferences: analyzeAIBRightCustom
 		//2.74 - 2.75 Converted DB to 2.75 Inserted into preferences: resultsSessionCriteria
 		//2.73 - 2.74 Converted DB to 2.74 Inserted into preferences: runEncoderCaptureShow
 		//2.72 - 2.73 Converted DB to 2.73 Inserted 4 vars into preferences: JumpsRjRelToBest...

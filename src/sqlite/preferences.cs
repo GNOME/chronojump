@@ -175,6 +175,9 @@ class SqlitePreferences : Sqlite
 	public const string ForceSensorAnalyzeBestStabilityInWindow = "forceSensorAnalyzeBestStabilityInWindow";
 	public const string ForceSensorAnalyzeMaxAVGInWindow = "forceSensorAnalyzeMaxAVGInWindow";
 
+	//all this forceSensorAnalyze are also for race analzyer and in the future for encoder
+	public const string AnalyzeAIBRightCustom = "analyzeAIBRightCustom";
+
 	//forceSensor feedback
 	public const string ForceSensorCaptureFeedbackActive = "forceSensorCaptureFeedbackActive";
 	//rectangle
@@ -433,6 +436,7 @@ class SqlitePreferences : Sqlite
 				Insert (ForceSensorMIFDurationSeconds, "2", dbcmdTr);
 				Insert (ForceSensorMIFDurationPercent, "5", dbcmdTr);
 				Insert (ForceSensorAnalyzeABSliderIncrement, "1", dbcmdTr);
+				Insert (AnalyzeAIBRightCustom, "False", dbcmdTr);
 				Insert (ForceSensorAnalyzeBestStabilityInWindow, "1", dbcmdTr);
 				Insert (ForceSensorAnalyzeMaxAVGInWindow, "1", dbcmdTr);
 
@@ -1131,6 +1135,9 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == ForceSensorAnalyzeABSliderIncrement)
 				preferences.forceSensorAnalyzeABSliderIncrement = Convert.ToDouble(
 						Util.ChangeDecimalSeparator(reader[1].ToString()));
+
+			else if(reader[0].ToString() == AnalyzeAIBRightCustom)
+				preferences.analyzeAIBRightCustom = reader[1].ToString() == "True";
 
 			else if(reader[0].ToString() == ForceSensorAnalyzeBestStabilityInWindow)
 				preferences.forceSensorAnalyzeBestStabilityInWindow = Convert.ToDouble(

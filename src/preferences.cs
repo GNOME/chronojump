@@ -207,6 +207,7 @@ public class Preferences
 	public VariabilityMethodEnum forceSensorVariabilityMethod;
 	public int forceSensorVariabilityLag;
 	public double forceSensorAnalyzeABSliderIncrement;
+	public bool analyzeAIBRightCustom; //do not need to save value in SQL because everytime user will be changing it
 	public double forceSensorAnalyzeBestStabilityInWindow; //seconds
 	public double forceSensorAnalyzeMaxAVGInWindow; //seconds
 	public int forceSensorGraphsLineWidth;

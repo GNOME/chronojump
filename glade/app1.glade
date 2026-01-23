@@ -11069,7 +11069,7 @@ on Cloud-view mode</property>
                                                             <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkDrawingArea" id="drawingarea_results_realtime">
-                                                            <property name="height-request">125</property>
+                                                            <property name="height-request">150</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="hexpand">True</property>
@@ -11850,6 +11850,7 @@ on Cloud-view mode</property>
                                                             <property name="spacing">8</property>
                                                             <child>
                                                             <object class="GtkDrawingArea" id="force_capture_drawingarea_cairo">
+                                                            <property name="height-request">150</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <signal name="draw" handler="on_force_capture_drawingarea_cairo_draw" swapped="no"/>
@@ -14436,6 +14437,7 @@ then click this button.</property>
                                                             <child>
                                                             <object class="GtkDrawingArea" id="drawingarea_results_session">
                                                             <property name="width-request">150</property>
+                                                            <property name="height-request">150</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <signal name="button-press-event" handler="on_drawingarea_results_session_button_press_event" swapped="no"/>

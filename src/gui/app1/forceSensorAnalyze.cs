@@ -252,7 +252,6 @@ public partial class ChronoJumpWindow
 
 	private void forceSensorAnalyzeOptionsSensitivity(bool s) //s for sensitive. When show options frame is ! s
 	{
-		button_ai_model_options.Sensitive = s;
 		button_signal_analyze_load_ab.Sensitive = s;
 		button_signal_analyze_load_cd.Sensitive = s;
 		if (! s)
@@ -957,7 +956,6 @@ public partial class ChronoJumpWindow
 		button_ai_export_result_open.Visible = false;
 		forceSensorButtonsSensitive(false);
 		hbox_ai_export_top_modes.Sensitive = false;
-		button_ai_model_options.Sensitive = false;
 		hbox_ai_export_images.Sensitive = false;
 
 		//store new width/height if changed
@@ -1038,7 +1036,6 @@ public partial class ChronoJumpWindow
 		if(! selectedFile) {
 			forceSensorButtonsSensitive(true);
 			hbox_ai_export_top_modes.Sensitive = true;
-			button_ai_model_options.Sensitive = true;
 			hbox_ai_export_images.Sensitive = true;
 		}
 	}
@@ -1053,7 +1050,6 @@ public partial class ChronoJumpWindow
 
 		forceSensorButtonsSensitive(true);
 		hbox_ai_export_top_modes.Sensitive = true;
-		button_ai_model_options.Sensitive = true;
 		hbox_ai_export_images.Sensitive = true;
 
 		if(forceSensorExport != null && forceSensorExport.AllOk)

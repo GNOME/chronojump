@@ -101,7 +101,6 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_ai_model;
 	Gtk.Notebook notebook_ai_model_options;
 	Gtk.Button button_ai_model_options_close_and_analyze;
-	Gtk.Button button_ai_model_options;
 	Gtk.Label label_model_analyze;
 	Gtk.Viewport viewport_ai_model_graph;
 	Gtk.Image image_ai_model_graph;
@@ -1329,6 +1328,11 @@ public partial class ChronoJumpWindow
 			on_button_run_encoder_image_save_model_clicked (o, args);
 	}
 
+	private void on_button_ai_ab_options_clicked (object o, EventArgs args)
+	{
+		//TODO
+	}
+
 	private void on_ai_export_not_set_clicked (object o, EventArgs args)
 	{
 		if (Constants.ModeIsFORCESENSOR (current_mode))
@@ -1425,7 +1429,6 @@ public partial class ChronoJumpWindow
 		button_ai_model = (Gtk.Button) builder.GetObject ("button_ai_model");
 		notebook_ai_model_options = (Gtk.Notebook) builder.GetObject ("notebook_ai_model_options");
 		button_ai_model_options_close_and_analyze = (Gtk.Button) builder.GetObject ("button_ai_model_options_close_and_analyze");
-		button_ai_model_options = (Gtk.Button) builder.GetObject ("button_ai_model_options");
 		label_model_analyze = (Gtk.Label) builder.GetObject ("label_model_analyze");
 		viewport_ai_model_graph = (Gtk.Viewport) builder.GetObject ("viewport_ai_model_graph");
 		image_ai_model_graph = (Gtk.Image) builder.GetObject ("image_ai_model_graph");

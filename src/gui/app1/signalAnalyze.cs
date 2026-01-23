@@ -75,6 +75,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_hscale_ai_b_post_1s;
 	Gtk.Button button_hscale_ai_b_last;
 
+	Gtk.Button button_ai_ab_options;
 	Gtk.HBox hbox_ai_b_right_default;
 	Gtk.Box box_ai_b_right_custom;
 	Gtk.SpinButton spin_hscale_ai_b_right_custom;
@@ -1403,6 +1404,7 @@ public partial class ChronoJumpWindow
 		button_hscale_ai_b_post_1s = (Gtk.Button) builder.GetObject ("button_hscale_ai_b_post_1s");
 		button_hscale_ai_b_last = (Gtk.Button) builder.GetObject ("button_hscale_ai_b_last");
 
+		button_ai_ab_options = (Gtk.Button) builder.GetObject ("button_ai_ab_options");
 		hbox_ai_b_right_default = (Gtk.HBox) builder.GetObject ("hbox_ai_b_right_default");
 		box_ai_b_right_custom = (Gtk.Box) builder.GetObject ("box_ai_b_right_custom");
 		spin_hscale_ai_b_right_custom = (Gtk.SpinButton) builder.GetObject ("spin_hscale_ai_b_right_custom");

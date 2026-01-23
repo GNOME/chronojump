@@ -627,6 +627,7 @@ public partial class ChronoJumpWindow
 
 		hbox_ai_general_analysis.Sensitive = false;
 		check_ai_chained_hscales.Sensitive = false;
+		button_ai_ab_options.Sensitive = false;
 		button_ai_model.Sensitive = false;
 		sensitiveSelectedTestButtons (false);
 
@@ -1220,6 +1221,7 @@ public partial class ChronoJumpWindow
 		fullscreen_button_fullscreen_contacts.Sensitive = true;
 		button_force_sensor_image_save_signal.Sensitive = false;
 		check_ai_chained_hscales.Sensitive = false;
+		button_ai_ab_options.Sensitive = false;
 		button_ai_model.Sensitive = false;
 		hbox_contacts_graph_table_controls.Sensitive = false;
 		frame_contacts_graph_table.Sensitive = false;
@@ -1986,6 +1988,7 @@ LogB.Information(" fs C ");
 					hbox_ai_general_analysis.Sensitive = true;
 					button_ai_model_options_close_and_analyze.Sensitive = true;
 					check_ai_chained_hscales.Sensitive = true;
+					button_ai_ab_options.Sensitive = true;
 					button_ai_model.Sensitive = true;
 					hbox_contacts_graph_table_controls.Sensitive = true;
 					frame_contacts_graph_table.Sensitive = true;
@@ -2039,6 +2042,7 @@ LogB.Information(" fs C ");
 
 				button_force_sensor_image_save_signal.Sensitive = false;
 				check_ai_chained_hscales.Sensitive = false;
+				button_ai_ab_options.Sensitive = false;
 				button_ai_model.Sensitive = false;
 				button_ai_model_save_image.Sensitive = false;
 				button_force_sensor_image_save_rfd_manual.Sensitive = false;
@@ -3374,6 +3378,7 @@ LogB.Information(" fs R ");
 			//LogB.Information ("updateForceSensorCaptureSignalCairo 6");
 			button_force_sensor_image_save_signal.Sensitive = true;
 			check_ai_chained_hscales.Sensitive = true;
+			button_ai_ab_options.Sensitive = true;
 			button_ai_model.Sensitive = true;
 		}
 	}
@@ -3404,6 +3409,7 @@ LogB.Information(" fs R ");
 		label_force_sensor_value_best_second.Text = string.Format("{0:0.##}", forceSensorValues.BestRFD);
 		button_force_sensor_image_save_signal.Sensitive = true;
 		check_ai_chained_hscales.Sensitive = true;
+		button_ai_ab_options.Sensitive = true;
 		button_ai_model.Sensitive = true;
 	}
 

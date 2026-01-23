@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -1675,5 +1675,12 @@ public class UtilGtk
 			foreach(Pango.FontFace faces in ff.Faces)
 				LogB.Information("- " + faces.FaceName);
 		}
+	}
+
+	// avoids problems like converting a 1.8 into 1.8000000000000003 when doing:
+	// Convert.ToDouble(spin_force_sensor_analyze_ab_slider_increment.Value)
+	public static double GetSpinButtonDouble (Gtk.SpinButton spin, int decimals)
+	{
+		return Math.Round (Convert.ToDouble (spin.Value), decimals);
 	}
 }

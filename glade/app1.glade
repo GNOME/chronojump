@@ -5903,7 +5903,6 @@
                                                         <property name="orientation">vertical</property>
                                                         <child>
                                                           <object class="GtkBox" id="box_contacts_capture_top">
-                                                            <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <child>
                                                             <object class="GtkHBox" id="hbox_contacts_capture_top">
@@ -8297,7 +8296,6 @@ last capture</property>
                                                         </child>
                                                         <child>
                                                           <object class="GtkHBox" id="hbox_encoder_capture_top">
-                                                            <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">16</property>
                                                             <child>
@@ -10027,7 +10025,6 @@ on Cloud-view mode</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <object class="GtkBox" id="box_wilight">
-                                                            <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="halign">center</property>
                                                             <property name="orientation">vertical</property>
@@ -10498,7 +10495,6 @@ on Cloud-view mode</property>
                                                             <child>
                                                             <!-- n-columns=3 n-rows=2 -->
                                                             <object class="GtkGrid" id="grid_fourPlatforms">
-                                                            <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="halign">center</property>
                                                             <property name="valign">start</property>

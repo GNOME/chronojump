@@ -244,6 +244,7 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_hscale_force_sensor_ai_b_pre_1s;
 	Gtk.Image image_hscale_force_sensor_ai_b_post;
 	Gtk.Image image_hscale_force_sensor_ai_b_post_1s;
+	Gtk.Image image_hscale_ai_b_right_custom;
 
 	//race encoder
 	Gtk.Image image_button_contacts_run_encoder_capture_save_image_chart;
@@ -1070,6 +1071,7 @@ public partial class ChronoJumpWindow
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "right.png");
 		image_hscale_force_sensor_ai_a_post.Pixbuf = pixbuf;
 		image_hscale_force_sensor_ai_b_post.Pixbuf = pixbuf;
+		image_hscale_ai_b_right_custom.Pixbuf = pixbuf;
 		image_presentation_right.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "right_cut.png");
 		image_hscale_force_sensor_ai_a_post_1s.Pixbuf = pixbuf;
@@ -1352,6 +1354,7 @@ public partial class ChronoJumpWindow
 		image_hscale_force_sensor_ai_b_pre_1s = (Gtk.Image) builder.GetObject ("image_hscale_force_sensor_ai_b_pre_1s");
 		image_hscale_force_sensor_ai_b_post = (Gtk.Image) builder.GetObject ("image_hscale_force_sensor_ai_b_post");
 		image_hscale_force_sensor_ai_b_post_1s = (Gtk.Image) builder.GetObject ("image_hscale_force_sensor_ai_b_post_1s");
+		image_hscale_ai_b_right_custom = (Gtk.Image) builder.GetObject ("image_hscale_ai_b_right_custom");
 
 		//race encoder
 		image_button_contacts_run_encoder_capture_save_image_chart = (Gtk.Image) builder.GetObject ("image_button_contacts_run_encoder_capture_save_image_chart");

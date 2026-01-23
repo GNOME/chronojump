@@ -75,6 +75,10 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_hscale_ai_b_post_1s;
 	Gtk.Button button_hscale_ai_b_last;
 
+	Gtk.HBox hbox_ai_b_right_default;
+	Gtk.Box box_ai_b_right_custom;
+	Gtk.SpinButton spin_hscale_ai_b_right_custom;
+
 	Gtk.HScale hscale_ai_a;
 	Gtk.HScale hscale_ai_b;
 	Gtk.HScale hscale_ai_c;
@@ -1000,6 +1004,7 @@ public partial class ChronoJumpWindow
 		button_hscale_ai_b_last.Sensitive = (sAI != null && hsRight.Value < sAI.GetLength() -1);
 		button_hscale_ai_b_post_1s.Sensitive = (sAI != null && hsRight.Value < sAI.GetLength() -1);
 		button_hscale_ai_b_post.Sensitive = (sAI != null && hsRight.Value < sAI.GetLength() -1);
+		box_ai_b_right_custom.Sensitive = (sAI != null && hsRight.Value < sAI.GetLength() -1);
 
 		//if not in zoom, diff have to be more than one pixel
 		check_ai_zoom.Sensitive = (AiVars.zoomApplied || Math.Abs(hsLeft.Value - hsRight.Value) > 1);
@@ -1155,6 +1160,35 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	private void on_button_hscale_ai_b_right_custom_clicked (object o, EventArgs args)
+	{
+		AnalyzeInstant sAI = getCorrectAI ();
+		if(sAI == null || sAI.GetLength() == 0)
+			return;
+
+		int msDesired = Convert.ToInt32 (spin_hscale_ai_b_right_custom.Value);
+
+		Gtk.HScale hs = getHScaleABCD (false);
+		int startB = Convert.ToInt32(hs.Value);
+		double startBMs = sAI.GetTimeMS(startB);
+		for(int i = startB; i < sAI.GetLength() -1; i ++)
+		{
+			if(sAI.GetTimeMS(i) - startBMs >= msDesired)
+			{
+				//hscale_ai_b.Value += i - startB;
+				if(MathUtil.PassedSampleIsCloserToCriteria (
+						sAI.GetTimeMS(i) - startBMs, sAI.GetTimeMS(i-1) - startBMs,
+						preferences.forceSensorAnalyzeABSliderIncrement * msDesired))
+					hs.Value += (i - startB);
+				else
+					hs.Value += (i-1 - startB);
+
+				return;
+			}
+		}
+	}
+
+
 	private void on_radio_ai_sets_toggled (object o, EventArgs args)
 	{
 		if (o == null || ! ((Gtk.RadioButton) o).Active)
@@ -1232,6 +1266,12 @@ public partial class ChronoJumpWindow
 		radio_ai_ab.Sensitive = sensitive;
 		radio_ai_cd.Sensitive = sensitive;
 		notebook_ai_load.Sensitive = sensitive;
+	}
+
+	private void setAnalyzeAIBDefaultCustom ()
+	{
+		hbox_ai_b_right_default.Visible = ! preferences.analyzeAIBRightCustom;
+		box_ai_b_right_custom.Visible = preferences.analyzeAIBRightCustom;
 	}
 
 	private int notebook_ai_top_LastPage;
@@ -1358,6 +1398,10 @@ public partial class ChronoJumpWindow
 		button_hscale_ai_b_post = (Gtk.Button) builder.GetObject ("button_hscale_ai_b_post");
 		button_hscale_ai_b_post_1s = (Gtk.Button) builder.GetObject ("button_hscale_ai_b_post_1s");
 		button_hscale_ai_b_last = (Gtk.Button) builder.GetObject ("button_hscale_ai_b_last");
+
+		hbox_ai_b_right_default = (Gtk.HBox) builder.GetObject ("hbox_ai_b_right_default");
+		box_ai_b_right_custom = (Gtk.Box) builder.GetObject ("box_ai_b_right_custom");
+		spin_hscale_ai_b_right_custom = (Gtk.SpinButton) builder.GetObject ("spin_hscale_ai_b_right_custom");
 
 		hscale_ai_a = (Gtk.HScale) builder.GetObject ("hscale_ai_a");
 		hscale_ai_b = (Gtk.HScale) builder.GetObject ("hscale_ai_b");

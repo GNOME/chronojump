@@ -190,6 +190,7 @@ public partial class ChronoJumpWindow
 		setRFDValues();
 		setImpulseValue();
 		setForceSensorAnalyzeABSliderIncrements();
+		setAnalyzeAIBDefaultCustom (); //TODO: also on runEncoder? manage this on changeMode
 		updateGraphForceSensorBars ();
 
 		aiButtonsHscaleZoomSensitiveness();

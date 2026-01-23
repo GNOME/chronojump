@@ -3112,6 +3112,9 @@ public partial class ChronoJumpWindow
 			forceSensorPrepareGraphAI ();
 		}
 
+		// forceSensor raceAnalyzer AI
+		setAnalyzeAIBDefaultCustom ();
+
 		// <---------- end of force sensor changes --------------
 	}
 

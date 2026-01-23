@@ -3158,15 +3158,17 @@ It starts before and arrives there with some speed.</property>
                                         <property name="can-focus">False</property>
                                         <property name="spacing">20</property>
                                         <child>
-                                          <object class="GtkHBox" id="hbox82">
+                                          <object class="GtkBox">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
-                                            <property name="spacing">6</property>
+                                            <property name="orientation">vertical</property>
+                                            <property name="spacing">8</property>
                                             <child>
-                                              <object class="GtkLabel" id="label143">
+                                              <object class="GtkLabel">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
-                                                <property name="label" translatable="yes">A, B slider increment</property>
+                                                <property name="halign">start</property>
+                                                <property name="label" translatable="yes">A, B slider</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -3175,82 +3177,123 @@ It starts before and arrives there with some speed.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <object class="GtkSpinButton" id="spin_force_sensor_analyze_ab_slider_increment">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">True</property>
-                                                <property name="has-tooltip">True</property>
-                                                <property name="invisible-char">●</property>
-                                                <property name="width-chars">4</property>
-                                                <property name="primary-icon-activatable">False</property>
-                                                <property name="secondary-icon-activatable">False</property>
-                                                <property name="adjustment">adjustment17</property>
-                                                <property name="climb-rate">1</property>
-                                                <property name="digits">1</property>
-                                                <property name="snap-to-ticks">True</property>
-                                                <property name="numeric">True</property>
-                                                <signal name="value-changed" handler="on_spin_force_sensor_analyze_ab_slider_increment_value_changed" swapped="no"/>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="position">1</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkLabel" id="label145">
+                                              <object class="GtkHBox" id="hbox82">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
-                                                <property name="label" translatable="yes">s</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="position">2</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkAlignment" id="alignment27">
-                                                <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <property name="left-padding">20</property>
+                                                <property name="spacing">6</property>
                                                 <child>
-                                                  <object class="GtkHBox" id="hbox83">
+                                                  <object class="GtkLabel" id="label143">
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">False</property>
-                                                    <property name="spacing">6</property>
+                                                    <property name="margin-left">30</property>
+                                                    <property name="label" translatable="yes">Increment</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkSpinButton" id="spin_force_sensor_analyze_ab_slider_increment">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">True</property>
+                                                    <property name="has-tooltip">True</property>
+                                                    <property name="invisible-char">●</property>
+                                                    <property name="width-chars">4</property>
+                                                    <property name="primary-icon-activatable">False</property>
+                                                    <property name="secondary-icon-activatable">False</property>
+                                                    <property name="adjustment">adjustment17</property>
+                                                    <property name="climb-rate">1</property>
+                                                    <property name="digits">1</property>
+                                                    <property name="snap-to-ticks">True</property>
+                                                    <property name="numeric">True</property>
+                                                    <signal name="value-changed" handler="on_spin_force_sensor_analyze_ab_slider_increment_value_changed" swapped="no"/>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkLabel" id="label145">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="label" translatable="yes">s</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">2</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkAlignment" id="alignment27">
+                                                    <property name="visible">True</property>
+                                                    <property name="can-focus">False</property>
+                                                    <property name="left-padding">20</property>
                                                     <child>
-                                                      <object class="GtkLabel" id="label146">
+                                                      <object class="GtkHBox" id="hbox83">
                                                         <property name="visible">True</property>
                                                         <property name="can-focus">False</property>
-                                                        <property name="label" translatable="yes">Default:</property>
-                                                        <property name="xalign">0</property>
+                                                        <property name="spacing">6</property>
+                                                        <child>
+                                                          <object class="GtkLabel" id="label146">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Default:</property>
+                                                            <property name="xalign">0</property>
+                                                          </object>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <object class="GtkLabel" id="label147">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label">1 s</property>
+                                                            <property name="xalign">0</property>
+                                                          </object>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
                                                       </object>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">False</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkLabel" id="label147">
-                                                        <property name="visible">True</property>
-                                                        <property name="can-focus">False</property>
-                                                        <property name="label">1 s</property>
-                                                        <property name="xalign">0</property>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">False</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
                                                     </child>
                                                   </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">3</property>
+                                                  </packing>
                                                 </child>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="position">3</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkCheckButton" id="check_analyze_ai_b_right_custom">
+                                                <property name="label" translatable="yes">Have a custom button to manage B displacement</property>
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="receives-default">False</property>
+                                                <property name="margin-left">30</property>
+                                                <property name="draw-indicator">True</property>
+                                                <signal name="clicked" handler="on_check_analyze_ai_b_right_custom_clicked" swapped="no"/>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">2</property>
                                               </packing>
                                             </child>
                                           </object>

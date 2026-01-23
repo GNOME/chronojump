@@ -209,6 +209,7 @@ public class PreferencesWindow
 	Gtk.SpinButton spin_force_sensor_variability_lag;
 	Gtk.SpinButton spin_force_sensor_analyze_best_stability_in_window;
 	Gtk.SpinButton spin_force_sensor_analyze_ab_slider_increment;
+	Gtk.CheckButton check_analyze_ai_b_right_custom;
 	Gtk.SpinButton spin_force_sensor_analyze_max_avg_force_in_window;
 
 	//runEncoder tab
@@ -855,6 +856,7 @@ public class PreferencesWindow
 		PWBox.spin_force_sensor_variability_lag.Value = preferences.forceSensorVariabilityLag;
 
 		PWBox.spin_force_sensor_analyze_ab_slider_increment.Value = preferences.forceSensorAnalyzeABSliderIncrement;
+		PWBox.check_analyze_ai_b_right_custom.Active = preferences.analyzeAIBRightCustom;
 		PWBox.spin_force_sensor_analyze_best_stability_in_window.Value = preferences.forceSensorAnalyzeBestStabilityInWindow;
 		PWBox.spin_force_sensor_analyze_max_avg_force_in_window.Value = preferences.forceSensorAnalyzeMaxAVGInWindow;
 
@@ -2219,7 +2221,18 @@ public class PreferencesWindow
 				false,
 				SqlitePreferences.ForceSensorAnalyzeABSliderIncrement,
 				preferences.forceSensorAnalyzeABSliderIncrement,
-				Convert.ToDouble(spin_force_sensor_analyze_ab_slider_increment.Value));
+				UtilGtk.GetSpinButtonDouble (spin_force_sensor_analyze_ab_slider_increment, 1));
+	}
+
+	private void on_check_analyze_ai_b_right_custom_clicked (object o, EventArgs args)
+	{
+		// B) changes on preferences object and SqlitePreferences
+		if (preferences.analyzeAIBRightCustom != PWBox.check_analyze_ai_b_right_custom.Active )
+		{
+			SqlitePreferences.Update (SqlitePreferences.AnalyzeAIBRightCustom,
+					PWBox.check_analyze_ai_b_right_custom.Active.ToString(), false);
+			preferences.analyzeAIBRightCustom = PWBox.check_analyze_ai_b_right_custom.Active;
+		}
 	}
 
 	private void on_spin_force_sensor_analyze_best_stability_in_window_value_changed (object o, EventArgs args)
@@ -4341,6 +4354,7 @@ public class PreferencesWindow
 		spin_force_sensor_variability_lag = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_variability_lag");
 		spin_force_sensor_analyze_best_stability_in_window = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_analyze_best_stability_in_window");
 		spin_force_sensor_analyze_ab_slider_increment = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_analyze_ab_slider_increment");
+		check_analyze_ai_b_right_custom = (Gtk.CheckButton) builder.GetObject ("check_analyze_ai_b_right_custom");
 		spin_force_sensor_analyze_max_avg_force_in_window = (Gtk.SpinButton) builder.GetObject ("spin_force_sensor_analyze_max_avg_force_in_window");
 
 		//runEncoder tab

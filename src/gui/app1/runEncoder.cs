@@ -3217,7 +3217,9 @@ public partial class ChronoJumpWindow
 		if(currentPerson == null || currentSession == null)
 			return;
 
-		//intializeVariables if not done before
+		// 1. prepare eventGraph object needed for the graph
+
+		//initalizeVariables if not done before
 		event_execute_initializeVariables(
 			(! cp2016.StoredCanCaptureContacts && ! cp2016.StoredWireless), //is simulated
 			currentPerson.UniqueID,
@@ -3227,11 +3229,15 @@ public partial class ChronoJumpWindow
 			"" //type
 			);
 
-		int exerciseID = getExerciseIDFromAnyCombo (combo_run_encoder_exercise, runEncoderComboExercisesString, false);
-
 		int selectedID = -1;
+		int exerciseID; //if test is selected on resultsSession will be this. If not will be the combo on gui for next test
+
 		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
+		{
 			selectedID = treeViewResultsSession.EventSelectedID;
+			exerciseID = SqliteRunEncoder.SelectData (selectedID, false, false).ExerciseID;
+		} else
+			exerciseID = getExerciseIDFromAnyCombo (combo_run_encoder_exercise, runEncoderComboExercisesString, false);
 
 		Constants.ResultsSessionCriteria resultsSessionCriteria;
 		if (radio_resultsSession_last.Active)
@@ -3254,6 +3260,8 @@ public partial class ChronoJumpWindow
 
 		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.runsAtSQL.Count > 0)
 		//	PrepareRunSimpleGraph(eventGraph, false); //don't animate
+
+		// 2. Do the graph
 
 		string typeTemp = "";
 		if(! radio_contacts_graph_allTests.Active)

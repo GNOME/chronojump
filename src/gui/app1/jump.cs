@@ -355,6 +355,8 @@ public partial class ChronoJumpWindow
 		if(currentPerson == null || currentSession == null || currentJumpType == null) //currentJumpType needed if there are no jumpTypes
 			return;
 
+		// 1. prepare eventGraph object needed for the graph
+
 		double tc = 0.0;
 		if(! currentJumpType.StartIn)
 			tc = 1; //just a mark meaning that tc has to be shown
@@ -375,7 +377,7 @@ public partial class ChronoJumpWindow
 			);
 
 		int selectedID = -1;
-		string type;
+		string typeTemp; //if test is selected on resultsSession will be this. If not will be the combo on gui for next test
 		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
 		{
 			selectedID = treeViewResultsSession.EventSelectedID;
@@ -383,10 +385,10 @@ public partial class ChronoJumpWindow
 			box_jump_simple_height.Visible = true;
 			Jump myJump = SqliteJump.SelectJumpData (selectedID, false);
 			label_jump_simple_height_value.Text = Util.TrimDecimals (myJump.Height, 2) + " cm";
-			type = myJump.Type;
+			typeTemp = myJump.Type;
 		} else {
 			box_jump_simple_height.Visible = false;
-			type = currentEventType.Name;
+			typeTemp = currentEventType.Name;
 		}
 
 		PrepareEventGraphJumpSimple eventGraph = new PrepareEventGraphJumpSimple (
@@ -395,12 +397,14 @@ public partial class ChronoJumpWindow
 				radio_resultsSession_jump_heights.Active,
 				radio_resultsSession_best.Active,
 				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
-				type, selectedID, radio_contacts_graph_allTests.Active);
+				typeTemp, selectedID, radio_contacts_graph_allTests.Active);
 		
 		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.jumpsAtSQL.Count > 0)
 		//	PrepareJumpSimpleGraph(eventGraph, false); //don't animate
 
-		string typeTemp = currentEventType.Name;
+		// 2. Do the graph
+
+		typeTemp = currentEventType.Name;
 		if(radio_contacts_graph_allTests.Active)
 			typeTemp = "";
 
@@ -423,6 +427,8 @@ public partial class ChronoJumpWindow
 		if(currentPerson == null || currentSession == null)
 			return;
 
+		// 1. prepare eventGraph object needed for the graph
+
 		//we do not plot graph
 		//intializeVariables if not done before
 		event_execute_initializeVariables(
@@ -435,8 +441,13 @@ public partial class ChronoJumpWindow
 			);
 
 		int selectedID = -1;
+		string typeTemp; //if test is selected on resultsSession will be this. If not will be the combo on gui for next test
 		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
+		{
 			selectedID = treeViewResultsSession.EventSelectedID;
+			typeTemp = SqliteJumpRj.SelectJumpData (Constants.JumpRjTable, selectedID, false, false).Type;
+		} else
+			typeTemp =  currentEventType.Name;
 
 		PrepareEventGraphJumpReactive eventGraph = new PrepareEventGraphJumpReactive (
 				currentSession.UniqueID, currentPerson.UniqueID, currentPerson.Name,
@@ -444,9 +455,11 @@ public partial class ChronoJumpWindow
 				radio_resultsSession_jump_heights.Active,
 				get_radio_resultsSession_criteria (),
 				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
-				currentEventType.Name, selectedID, radio_contacts_graph_allTests.Active);
+				typeTemp, selectedID, radio_contacts_graph_allTests.Active);
 
-		string typeTemp = currentEventType.Name;
+		// 2. Do the graph
+
+		typeTemp = currentEventType.Name;
 		if(radio_contacts_graph_allTests.Active)
 			typeTemp = "";
 

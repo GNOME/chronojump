@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -612,11 +612,7 @@ public class FeedbackWindow
 			hbox_combo_encoder_secondary_variable.Visible = check_encoder_show_secondary_variable.Active;
 
 			//MeanPower, MeanSpeed, MeanFOrce can be historical
-			if(encoderCaptureMainVariableThisSetOrHistorical || (
-						encoderMainVariable != Constants.EncoderVariablesCapture.MeanPower &&
-						encoderMainVariable != Constants.EncoderVariablesCapture.MeanSpeed &&
-						encoderMainVariable != Constants.EncoderVariablesCapture.MeanForce
-					  ) )
+			if (encoderCaptureMainVariableThisSetOrHistorical)
 			{
 				radio_encoder_relative_to_set.Active = true;
 
@@ -626,8 +622,7 @@ public class FeedbackWindow
 					radio_encoder_eccon_con.Active = true;
 				else
 					radio_encoder_eccon_both.Active = true;
-			} else
-			{
+			} else {
 				radio_encoder_relative_to_historical.Active = true;
 
 				radio_encoder_eccon_both.Active = true;
@@ -776,7 +771,6 @@ public class FeedbackWindow
 		hbox_combo_encoder_main_variable.PackStart(combo_encoder_main_variable, false, false, 0);
 		hbox_combo_encoder_main_variable.ShowAll();
 		combo_encoder_main_variable.Sensitive = true;
-		combo_encoder_main_variable.Changed += new EventHandler (on_combo_encoder_main_variable_changed);
 
 		//1 secondaryVariable
 		combo_encoder_secondary_variable = new ComboBoxText ();
@@ -792,17 +786,6 @@ public class FeedbackWindow
 		string [] values = { Constants.RangeAbsolute, Constants.MeanSpeed, Constants.MaxSpeed, Constants.MeanForce, Constants.MaxForce, Constants.MeanPower, Constants.PeakPower };
 
 		UtilGtk.ComboUpdate(combo, values, "");
-	}
-
-	private void on_combo_encoder_main_variable_changed (object o, EventArgs args)
-	{
-		string mainVariable = UtilGtk.ComboGetActive(combo_encoder_main_variable);
-
-		radio_encoder_relative_to_historical.Visible =
-			(mainVariable == "Mean power" || mainVariable == "Mean speed" || mainVariable == "Mean force");
-
-		if(mainVariable != "Mean power" && mainVariable != "Mean speed" && mainVariable != "Mean force")
-			radio_encoder_relative_to_set.Active = true;
 	}
 
 	// feedback automatic secondary variable ---->

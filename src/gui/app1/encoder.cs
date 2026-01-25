@@ -384,12 +384,7 @@ public partial class ChronoJumpWindow
 	bool firstSetOfCont; //used to don't erase the screen on cont after first set
 	bool encoderInertialCalibratedFirstTime; //allow showing the recalibrate button
 
-	private double maxPowerIntersession;
-	private double maxSpeedIntersession;
-	private double maxForceIntersession;
-	private string maxPowerIntersessionDatetime;
-	private string maxSpeedIntersessionDatetime;
-	private string maxForceIntersessionDatetime;
+	private double encoderMaxIntersessionForCapture = 0;
 
 	/* 
 	 * this contains last EncoderSQL captured, recalculated or loaded
@@ -672,74 +667,6 @@ public partial class ChronoJumpWindow
 	}
 	*/
 
-	// find best historical values for feedback on meanPower, meanSpeed, meanForce
-	// called on encoderActions.CAPTURE,  encoderActions.CURVES_AC encoderConfiguration will be encoderConfigurationNewCapture 
-	// called on encoderActions.LOAD,  encoderActions.RECALCULATE encoderConfiguration will be currentEncoderSQLSet.encoderConfiguration
-	private void findMaxPowerSpeedForceIntersession (int exerciseID, EncoderConfiguration encoderConfiguration, string laterality, double extraWeight)
-	{
-		//finding historical maxPower of a person in an exercise
-		Constants.EncoderGI encGI = getEncoderGI();
-		ArrayList arrayTemp = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, -1, encGI,
-					exerciseID, "curve",
-					EncoderSQL.Eccons.ALL, laterality,
-					false, false, false);
-
-		maxPowerSpeedForceInterSessionReset ();
-		bool dataInOtherSessions = false;
-
-		//TODO: do a regression to find maxPower with a value of extraWeight unused
-		if(encGI == Constants.EncoderGI.INERTIAL)
-			extraWeight = 0;
-
-		foreach(EncoderSQL es in arrayTemp)
-		{
-			if(
-					( encGI == Constants.EncoderGI.GRAVITATORY &&
-					 es.repCriteria == preferences.encoderRepetitionCriteriaGravitatory &&
-					 Util.SimilarDouble(Convert.ToDouble(Util.ChangeDecimalSeparator(es.extraWeight)), extraWeight) ) ||
-					( encGI == Constants.EncoderGI.INERTIAL &&
-					 es.repCriteria == preferences.encoderRepetitionCriteriaInertial &&
-					 encoderConfiguration.Equals (es.encoderConfiguration) )
-			  ) {
-				if (currentSession != null && es.SessionID != currentSession.UniqueID)
-					dataInOtherSessions = true;
-
-				if(Convert.ToDouble(es.meanPower) > maxPowerIntersession)
-				{
-					maxPowerIntersession = Convert.ToDouble(es.meanPower);
-					maxPowerIntersessionDatetime = es.GetDatetimeStr (true);
-				}
-				if(Convert.ToDouble(es.meanSpeed) > maxSpeedIntersession)
-				{
-					maxSpeedIntersession = Convert.ToDouble(es.meanSpeed);
-					maxSpeedIntersessionDatetime = es.GetDatetimeStr (true);
-				}
-				
-				if(Convert.ToDouble(es.meanForce) > maxForceIntersession)
-				{
-					maxForceIntersession = Convert.ToDouble(es.meanForce);
-					maxForceIntersessionDatetime = es.GetDatetimeStr (true);
-				}
-			}
-		}
-
-		// only show this intersession if there is data in other sessions
-		if (! dataInOtherSessions)
-			maxPowerSpeedForceInterSessionReset ();
-
-		LogB.Information(string.Format("maxPowerIntersession: {0}, date: {1}",
-					maxPowerIntersession, maxPowerIntersessionDatetime));
-	}
-	private void maxPowerSpeedForceInterSessionReset ()
-	{
-		maxPowerIntersession = 0;
-		maxSpeedIntersession = 0;
-		maxForceIntersession = 0;
-		maxPowerIntersessionDatetime = "";
-		maxSpeedIntersessionDatetime = "";
-		maxForceIntersessionDatetime = "";
-	}
-
 	bool canCaptureEncoder()
 	{
 		if (Config.SimulatedCapture)
@@ -980,12 +907,14 @@ public partial class ChronoJumpWindow
 
 		firstSetOfCont = firstSet;
 
-		findMaxPowerSpeedForceIntersession (
-				getExerciseIDFromEncoderCombo (exerciseCombos.CAPTURE),
-				encoderConfigurationNewCapture,
-				getLateralityFromGui (true),
-				Convert.ToDouble (spin_encoder_extra_weight.Value));
-		//LogB.Information("maxPower: " + maxPowerIntersession);
+		// if ! relativeToSet, then unselect the treeview to use values of the capture gui on updateGraphEncoderSessionBars
+		// and get the maximum intersession. This will be sent to PrepareEventGraphEncoderCurrent.
+		if(! feedbackWin.EncoderRelativeToSet)
+		{
+			if (treeViewResultsSession != null)
+				treeViewResultsSession.Unselect ();
+			updateGraphEncoderSessionBars ();
+		}
 
 		if(encoderThreadBG != null && encoderThreadBG.IsAlive) //if we are capturing on the background …
 		{
@@ -1906,17 +1835,6 @@ public partial class ChronoJumpWindow
 			if(success)
 			{
 				currentEncoderSQLSet = eSQL;
-
-				/*
-				 * maxPowerIntersession it's defined (Sqlite select) on capture and after capture
-				 * if we have not captured yet, just Sqlite select now
-				 */
-				if(! feedbackWin.EncoderRelativeToSet)
-					findMaxPowerSpeedForceIntersession (
-							currentEncoderSQLSet.exerciseID,
-							currentEncoderSQLSet.encoderConfiguration,
-							currentEncoderSQLSet.Laterality,
-							currentEncoderSQLSet.extraWeightD);
 
 				//TODO: show info to user in a dialog,
 				//but check if more info have to be shown on this process
@@ -5950,7 +5868,6 @@ public partial class ChronoJumpWindow
 		
 		array1RMUpdate(false);
 		encoder_change_displaced_weight_and_1RM ();
-	
 		blankEncoderInterface();
 		updateEncoderAnalyzeExercisesPre ();
 	}
@@ -6245,8 +6162,7 @@ public partial class ChronoJumpWindow
 					captureCurvesBarsData_l,
 					encoderCaptureListStore,
 					preferences.encoderCaptureMainVariableThisSetOrHistorical,
-					sendMaxPowerSpeedForceIntersession (preferences.encoderCaptureMainVariable),
-					//sendMaxPowerSpeedForceIntersessionDatetime (preferences.encoderCaptureMainVariable),
+					encoderMaxIntersessionForCapture,
 					preferences.encoderCaptureInertialDiscardFirstN,
 					preferences.encoderCaptureShowNRepetitions,
 					preferences.volumeOn,
@@ -6393,29 +6309,6 @@ public partial class ChronoJumpWindow
 				forceRedraw, CairoXY.PlotTypes.LINES);
 	}
 
-	private double sendMaxPowerSpeedForceIntersession(Constants.EncoderVariablesCapture evc)
-	{
-		if(evc == Constants.EncoderVariablesCapture.MeanPower)
-		       return maxPowerIntersession;
-		else if(evc == Constants.EncoderVariablesCapture.MeanSpeed)
-		       return maxSpeedIntersession;
-		else if(evc == Constants.EncoderVariablesCapture.MeanForce)
-		       return maxForceIntersession;
-
-		return maxPowerIntersession; //default if any problem
-	}
-	private string sendMaxPowerSpeedForceIntersessionDatetime(Constants.EncoderVariablesCapture evc)
-	{
-		if(evc == Constants.EncoderVariablesCapture.MeanPower)
-		       return maxPowerIntersessionDatetime;
-		else if(evc == Constants.EncoderVariablesCapture.MeanSpeed)
-		       return maxSpeedIntersessionDatetime;
-		else if(evc == Constants.EncoderVariablesCapture.MeanForce)
-		       return maxForceIntersessionDatetime;
-
-		return maxPowerIntersessionDatetime; //default if any problem
-	}
-
 	/*
 	 * <------ barplot current set ------
 	 */
@@ -6471,6 +6364,8 @@ public partial class ChronoJumpWindow
 				exerciseID,
 				UtilGtk.ComboGetActive (combo_encoder_exercise_capture),
 				selectedID, selectedWeight, selectedEconf, current_mode, radio_contacts_graph_allTests.Active);
+
+		encoderMaxIntersessionForCapture = eventGraph.HistoricalExD;
 
 		// debug
 		//LogB.Information ("debugging");

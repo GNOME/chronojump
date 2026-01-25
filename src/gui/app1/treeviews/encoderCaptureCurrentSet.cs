@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -356,13 +356,6 @@ public partial class ChronoJumpWindow
 
 			saveOrDeleteCurveFromCaptureTreeView(false, rowNum, curve, ! val);
 
-			//maybe changed repetition updates the max, so check it:
-			findMaxPowerSpeedForceIntersession (
-					currentEncoderSQLSet.exerciseID,
-					currentEncoderSQLSet.encoderConfiguration,
-					currentEncoderSQLSet.Laterality,
-					currentEncoderSQLSet.extraWeightD);
-			
 			//on ec, ecS need to [un]select second row
 			if (ecconLast == "ec" || ecconLast == "ecS") {
 				path.Next();

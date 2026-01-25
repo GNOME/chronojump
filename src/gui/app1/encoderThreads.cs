@@ -617,8 +617,7 @@ public partial class ChronoJumpWindow
 						captureCurvesBarsData_l,
 						encoderCaptureListStore,
 						preferences.encoderCaptureMainVariableThisSetOrHistorical,
-						sendMaxPowerSpeedForceIntersession (preferences.encoderCaptureMainVariable),
-						//sendMaxPowerSpeedForceIntersessionDatetime (preferences.encoderCaptureMainVariable),
+						encoderMaxIntersessionForCapture,
 						preferences.encoderCaptureInertialDiscardFirstN,
 						preferences.encoderCaptureShowNRepetitions,
 						preferences.volumeOn,
@@ -1104,8 +1103,6 @@ public partial class ChronoJumpWindow
 					extraWeight = Convert.ToDouble (spin_encoder_extra_weight.Value);
 				}
 
-				findMaxPowerSpeedForceIntersession (exerciseID, encoderConfiguration, laterality, extraWeight);
-
 				//Cairo
 				prepareEventGraphEncoderCurrent = new PrepareEventGraphEncoderCurrent (
 						mainVariable, mainVariableHigher, mainVariableLower,
@@ -1119,8 +1116,7 @@ public partial class ChronoJumpWindow
 						captureCurvesBarsData_l,
 						encoderCaptureListStore,
 						preferences.encoderCaptureMainVariableThisSetOrHistorical,
-						sendMaxPowerSpeedForceIntersession (preferences.encoderCaptureMainVariable),
-						//sendMaxPowerSpeedForceIntersessionDatetime (preferences.encoderCaptureMainVariable),
+						encoderMaxIntersessionForCapture,
 						preferences.encoderCaptureInertialDiscardFirstN,
 						preferences.encoderCaptureShowNRepetitions,
 						preferences.volumeOn,

@@ -6416,7 +6416,9 @@ public partial class ChronoJumpWindow
 		if(currentPerson == null || currentSession == null)
 			return;
 
-		//intializeVariables if not done before
+		// 1. prepare eventGraph object needed for the graph
+
+		//initalizeVariables if not done before
 		event_execute_initializeVariables(
 			(! cp2016.StoredCanCaptureContacts && ! cp2016.StoredWireless), //is simulated
 			currentPerson.UniqueID,
@@ -6426,28 +6428,43 @@ public partial class ChronoJumpWindow
 			"" //type
 			);
 
-		int exerciseID = -1;
-		if (! radio_contacts_graph_allTests.Active)
-			exerciseID = getExerciseIDFromAnyCombo (combo_encoder_exercise_capture, encoderExercisesTranslationAndBodyPWeight, false);
-
 		int selectedID = -1;
+		double selectedWeight = -1; //gravitatory
+		EncoderConfiguration selectedEconf; //inertial
+
+		int exerciseID; //if test is selected on resultsSession will be this. If not will be the combo on gui for next test
+
 		if (treeViewResultsSession != null && treeViewResultsSession.EventSelectedID >= 0)
+		{
 			selectedID = treeViewResultsSession.EventSelectedID;
+			EncoderSQL eSQL = SqliteEncoder.SelectData (selectedID, false);
+			exerciseID = eSQL.exerciseID;
+			selectedWeight = eSQL.extraWeightD;
+			selectedEconf = eSQL.encoderConfiguration;
+		} else {
+			exerciseID = getExerciseIDFromAnyCombo (combo_encoder_exercise_capture, encoderExercisesTranslationAndBodyPWeight, false);
+			selectedWeight = Convert.ToDouble (spin_encoder_extra_weight.Value);
+			selectedEconf = encoderConfigurationNewCapture;
+		}
 
 		PrepareEventGraphEncoderSession eventGraph = new PrepareEventGraphEncoderSession (
 				currentSession.UniqueID,
-				currentPerson.UniqueID, radio_contacts_results_personAll.Active,
+				currentPerson.UniqueID, currentPerson.Name, radio_contacts_results_personAll.Active,
 				currentEncoderGI,
 				get_radio_resultsSession_criteria (),
 				preferences.encoderCaptureMainVariable,
 				-1 * Convert.ToInt32 (spin_resultsSession_limit.Value), //negative: end limit
 				//Constants.EncoderTable, typeTemp,
-				exerciseID, selectedID, current_mode, radio_contacts_graph_allTests.Active);
+				exerciseID,
+				UtilGtk.ComboGetActive (combo_encoder_exercise_capture),
+				selectedID, selectedWeight, selectedEconf, current_mode, radio_contacts_graph_allTests.Active);
 
 		// debug
 		//LogB.Information ("debugging");
 		//foreach (EncoderSQL eSQL in eventGraph.rowsAtSQL)
 		//	LogB.Information (eSQL.ToString ());
+
+		// 2. Do the graph
 
 		string typeTemp = "";
 		if(! radio_contacts_graph_allTests.Active)

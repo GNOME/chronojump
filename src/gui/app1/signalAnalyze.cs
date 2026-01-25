@@ -81,7 +81,6 @@ public partial class ChronoJumpWindow
 	Gtk.SpinButton spin_hscale_ai_b_right_custom;
 	Gtk.Button button_ai_ab_options;
 	Gtk.Box box_ai_ab_options;
-	//TODO: need to set default values from preferences
 	Gtk.SpinButton spin_analyze_ab_slider_increment;
 	Gtk.CheckButton check_analyze_ai_b_right_custom;
 

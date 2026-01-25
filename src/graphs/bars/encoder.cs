@@ -120,6 +120,13 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 		cb.Color_l = color_l;
 		cb.PersonIcon_l = personIcon_l;
 
+		if (eventGraphEncoderSessionStored.HistoricalExStr != "")
+		{
+			cb.BestPersonExHistoricalD = eventGraphEncoderSessionStored.HistoricalExD;
+			cb.BestPersonExHistoricalStr = eventGraphEncoderSessionStored.HistoricalExStr;
+			LogB.Information ("HistoricalExStr: " + eventGraphEncoderSessionStored.HistoricalExStr);
+		}
+
 		cb.PassBoxplots (eventGraphEncoderSessionStored.BoxplotPerson, eventGraphEncoderSessionStored.BoxplotSession);
 
 		// add the yellow points on boxplot (can be n reps of the set)
@@ -136,5 +143,18 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 		passDataForScreenshotIfNeeded ();
 
 		cb.GraphDo();
+	}
+
+	// to show historic data even if in this session user has not data on that ex.
+	protected override double getHistoricD ()
+	{
+		return eventGraphEncoderSessionStored.HistoricalExD;
+	}
+	protected override string getHistoricStr ()
+	{
+		if (eventGraphEncoderSessionStored.HistoricalExStr == "")
+			return "";
+		else
+			return eventGraphEncoderSessionStored.HistoricalExStr;
 	}
 }

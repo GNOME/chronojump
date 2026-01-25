@@ -137,13 +137,13 @@ src/gui/modes/jumpMore.cs
 src/gui/modes/jumpRjMore.cs
 src/gui/modes/jumpRjRepair.cs
 src/gui/modes/jumpType.cs
+src/gui/modes/prepareEventGraph.cs
 src/gui/modes/run.cs
 src/gui/modes/runIntervalRepair.cs
 src/gui/modes/runIntervalMore.cs
 src/gui/modes/runMore.cs
 src/gui/modes/runTypeAdd.cs
 src/gui/modes/sprint.cs
-src/gui/modes/usefulObjects.cs
 src/gui/networks.cs
 src/gui/overview.cs
 src/gui/person/addModify.cs

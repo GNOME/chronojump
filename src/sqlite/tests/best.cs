@@ -49,7 +49,7 @@ class SqliteBest : Sqlite
 
 	// in order to use or not historical values, first check if there are tests of this person, exercise on other sessions than sessionID
 	public bool HaveEventsInOtherSessions (bool dbconOpened, int sessionID, int personID,
-			string table, string type, int exerciseID, string exerciseTable)
+			string table, string type, int exerciseID, string exerciseTable, string andSecondaryStr)
 	{
 		openIfNeeded (dbconOpened); // ----->
 
@@ -84,7 +84,7 @@ class SqliteBest : Sqlite
 		}
 
 		dbcmd.CommandText = "SELECT COUNT (*) FROM " + table + tableExercise +
-			sessionIDString + personIDString + typeString;
+			sessionIDString + personIDString + typeString + andSecondaryStr;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -109,25 +109,25 @@ class SqliteBest : Sqlite
 
 	public SqliteStruct.DateTypeResult Select_MAX_EventsOfAType (bool dbconOpened, int sessionID, int personID,
 			string table, string type, int exerciseID, string exerciseTable,
-			string valueToSelect)
+			string valueToSelect, string andSecondaryStr)
 	{
 		return selectEventsOfAType (dbconOpened, sessionID, personID,
 				table, type, exerciseID, exerciseTable,
-				"MAX", valueToSelect);
+				"MAX", valueToSelect, andSecondaryStr);
 	}
 
 	public SqliteStruct.DateTypeResult Select_MIN_EventsOfAType (bool dbconOpened, int sessionID, int personID,
 			string table, string type, int exerciseID, string exerciseTable,
-			string valueToSelect)
+			string valueToSelect, string andSecondaryStr)
 	{
 		return selectEventsOfAType (dbconOpened, sessionID, personID,
 				table, type, exerciseID, exerciseTable,
-				"MIN", valueToSelect);
+				"MIN", valueToSelect, andSecondaryStr);
 	}
 
 	private SqliteStruct.DateTypeResult selectEventsOfAType (bool dbconOpened, int sessionID, int personID,
 			string table, string type, int exerciseID, string exerciseTable,
-			string stat, string valueToSelect)
+			string stat, string valueToSelect, string andSecondaryStr)
 	{
 		if (! dbconOpened)
 			Sqlite.Open();
@@ -151,15 +151,19 @@ class SqliteBest : Sqlite
 		string selectString = "";
 		string typeString = "";
 		string tableExercise = "";
+		string dateVariable = "datetime";
+		if (table == Constants.EncoderTable)
+			dateVariable = "substr(filename,-23,19)"; //on encoder table date is part of the filename
+
 		if (type != "")
 		{
-			selectString = string.Format ("{0}({1}), datetime, type", stat, valueToSelect);
+			selectString = string.Format ("{0}({1}), {2}, type", stat, valueToSelect, dateVariable);
 			typeString = connector + "type = '" + type + "'";
 			connector = " AND ";
 		}
 		else if (exerciseID >= 0 && exerciseTable != "")
 		{
-			selectString = string.Format ("{0}({1}), datetime, {2}.name", stat, valueToSelect, exerciseTable);
+			selectString = string.Format ("{0}({1}), {2}, {3}.name", stat, valueToSelect, dateVariable, exerciseTable);
 			typeString = connector + "exerciseID = " + exerciseID +
 				" AND " + table + ".exerciseID = " + exerciseTable + ".uniqueID";
 			tableExercise = ", " + exerciseTable;
@@ -167,7 +171,7 @@ class SqliteBest : Sqlite
 		}
 
 		dbcmd.CommandText = "SELECT " + selectString + " FROM " + table + tableExercise +
-			sessionIDString + personIDString + typeString;
+			sessionIDString + personIDString + typeString + andSecondaryStr;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

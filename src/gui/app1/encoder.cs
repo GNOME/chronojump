@@ -6232,8 +6232,8 @@ public partial class ChronoJumpWindow
 					captureCurvesBarsData_l,
 					encoderCaptureListStore,
 					preferences.encoderCaptureMainVariableThisSetOrHistorical,
-					sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
-					sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable),
+					sendMaxPowerSpeedForceIntersession (preferences.encoderCaptureMainVariable),
+					//sendMaxPowerSpeedForceIntersessionDatetime (preferences.encoderCaptureMainVariable),
 					preferences.encoderCaptureInertialDiscardFirstN,
 					preferences.encoderCaptureShowNRepetitions,
 					preferences.volumeOn,
@@ -6391,16 +6391,16 @@ public partial class ChronoJumpWindow
 
 		return maxPowerIntersession; //default if any problem
 	}
-	private string sendMaxPowerSpeedForceIntersessionDate(Constants.EncoderVariablesCapture evc)
+	private string sendMaxPowerSpeedForceIntersessionDatetime(Constants.EncoderVariablesCapture evc)
 	{
 		if(evc == Constants.EncoderVariablesCapture.MeanPower)
-		       return maxPowerIntersessionDate;
+		       return maxPowerIntersessionDatetime;
 		else if(evc == Constants.EncoderVariablesCapture.MeanSpeed)
-		       return maxSpeedIntersessionDate;
+		       return maxSpeedIntersessionDatetime;
 		else if(evc == Constants.EncoderVariablesCapture.MeanForce)
-		       return maxForceIntersessionDate;
+		       return maxForceIntersessionDatetime;
 
-		return maxPowerIntersessionDate; //default if any problem
+		return maxPowerIntersessionDatetime; //default if any problem
 	}
 
 	/*

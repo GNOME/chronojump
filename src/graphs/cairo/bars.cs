@@ -106,8 +106,8 @@ public abstract class CairoBars : CairoGeneric
 	protected List<int> saved_l;
 	protected double maxIntersession;
 	protected Preferences.EncoderRepetitionCriteria maxIntersessionEcconCriteria;
-	protected string maxIntersessionValueStr; //with correct decimals and units
-	protected string maxIntersessionDate;
+	//protected string maxIntersessionValueStr; //with correct decimals and units
+	//protected string maxIntersessionDate;
 
 	protected int bestPersonExHistoricalYpx = 30; // px reserved at bottom if bestPersonExHistoricalStr != ""
 	protected double bestPersonExHistoricalD;
@@ -355,8 +355,8 @@ public abstract class CairoBars : CairoGeneric
 		eccOverloadWriteValue = false;
 		saved_l = new List<int>();
 		maxIntersession = 0;
-		maxIntersessionValueStr = "";
-		maxIntersessionDate = "";
+		//maxIntersessionValueStr = "";
+		//maxIntersessionDate = "";
 		bestPersonExHistoricalD = 0;
 		bestPersonExHistoricalStr = "";
 	}
@@ -1030,6 +1030,7 @@ public abstract class CairoBars : CairoGeneric
 	{
 		double y = calculatePaintY(maxIntersession);
 
+		/*
 		// 1) line
 		g.Save();
 		g.LineWidth = 2;
@@ -1050,6 +1051,12 @@ public abstract class CairoBars : CairoGeneric
 			printText(graphWidth, y -titleTextHeight, 0, titleTextHeight,
 					maxIntersessionValueStr + " (" + maxIntersessionDate + ")",
 					g, alignTypes.RIGHT);
+		*/
+		g.SetSourceColor (greenDark);
+		g.MoveTo (leftMargin, y);
+		g.LineTo (graphWidth-rightMargin, y);
+		g.Stroke ();
+
 	}
 
 	protected void writeMessageAtCenter(string message)
@@ -1254,12 +1261,14 @@ public abstract class CairoBars : CairoGeneric
 	public Preferences.EncoderRepetitionCriteria MaxIntersessionEcconCriteria {
 		set { maxIntersessionEcconCriteria = value; }
 	}
+	/*
 	public string MaxIntersessionValueStr {
 		set { maxIntersessionValueStr = value; }
 	}
 	public string MaxIntersessionDate {
 		set { maxIntersessionDate = value; }
 	}
+	*/
 
 	public double BestPersonExHistoricalD {
 		set { bestPersonExHistoricalD = value; }

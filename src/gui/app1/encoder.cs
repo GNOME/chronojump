@@ -387,9 +387,9 @@ public partial class ChronoJumpWindow
 	private double maxPowerIntersession;
 	private double maxSpeedIntersession;
 	private double maxForceIntersession;
-	private string maxPowerIntersessionDate;
-	private string maxSpeedIntersessionDate;
-	private string maxForceIntersessionDate;
+	private string maxPowerIntersessionDatetime;
+	private string maxSpeedIntersessionDatetime;
+	private string maxForceIntersessionDatetime;
 
 	/* 
 	 * this contains last EncoderSQL captured, recalculated or loaded
@@ -684,12 +684,8 @@ public partial class ChronoJumpWindow
 					EncoderSQL.Eccons.ALL, laterality,
 					false, false, false);
 
-		maxPowerIntersession = 0;
-		maxSpeedIntersession = 0;
-		maxForceIntersession = 0;
-		maxPowerIntersessionDate = "";
-		maxSpeedIntersessionDate = "";
-		maxForceIntersessionDate = "";
+		maxPowerSpeedForceInterSessionReset ();
+		bool dataInOtherSessions = false;
 
 		//TODO: do a regression to find maxPower with a value of extraWeight unused
 		if(encGI == Constants.EncoderGI.INERTIAL)
@@ -705,26 +701,43 @@ public partial class ChronoJumpWindow
 					 es.repCriteria == preferences.encoderRepetitionCriteriaInertial &&
 					 encoderConfiguration.Equals (es.encoderConfiguration) )
 			  ) {
+				if (currentSession != null && es.SessionID != currentSession.UniqueID)
+					dataInOtherSessions = true;
+
 				if(Convert.ToDouble(es.meanPower) > maxPowerIntersession)
 				{
 					maxPowerIntersession = Convert.ToDouble(es.meanPower);
-					maxPowerIntersessionDate = es.GetDateStr();
+					maxPowerIntersessionDatetime = es.GetDatetimeStr (true);
 				}
 				if(Convert.ToDouble(es.meanSpeed) > maxSpeedIntersession)
 				{
 					maxSpeedIntersession = Convert.ToDouble(es.meanSpeed);
-					maxSpeedIntersessionDate = es.GetDateStr();
+					maxSpeedIntersessionDatetime = es.GetDatetimeStr (true);
 				}
+				
 				if(Convert.ToDouble(es.meanForce) > maxForceIntersession)
 				{
 					maxForceIntersession = Convert.ToDouble(es.meanForce);
-					maxForceIntersessionDate = es.GetDateStr();
+					maxForceIntersessionDatetime = es.GetDatetimeStr (true);
 				}
 			}
 		}
 
-		//LogB.Information(string.Format("maxPowerIntersession: {0}, date: {1}",
-		//			maxPowerIntersession, maxPowerIntersessionDate));
+		// only show this intersession if there is data in other sessions
+		if (! dataInOtherSessions)
+			maxPowerSpeedForceInterSessionReset ();
+
+		LogB.Information(string.Format("maxPowerIntersession: {0}, date: {1}",
+					maxPowerIntersession, maxPowerIntersessionDatetime));
+	}
+	private void maxPowerSpeedForceInterSessionReset ()
+	{
+		maxPowerIntersession = 0;
+		maxSpeedIntersession = 0;
+		maxForceIntersession = 0;
+		maxPowerIntersessionDatetime = "";
+		maxSpeedIntersessionDatetime = "";
+		maxForceIntersessionDatetime = "";
 	}
 
 	bool canCaptureEncoder()

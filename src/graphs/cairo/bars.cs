@@ -108,8 +108,6 @@ public abstract class CairoBars : CairoGeneric
 	protected double maxThisSetSaved;
 	protected double maxIntersession;
 	protected Preferences.EncoderRepetitionCriteria maxIntersessionEcconCriteria;
-	//protected string maxIntersessionValueStr; //with correct decimals and units
-	//protected string maxIntersessionDate;
 
 	protected int bestPersonExHistoricalYpx = 30; // px reserved at bottom if bestPersonExHistoricalStr != ""
 	protected double bestPersonExHistoricalD;
@@ -365,8 +363,6 @@ public abstract class CairoBars : CairoGeneric
 		saved_l = new List<int>();
 		maxThisSetSaved = 0;
 		maxIntersession = 0;
-		//maxIntersessionValueStr = "";
-		//maxIntersessionDate = "";
 		bestPersonExHistoricalD = 0;
 		bestPersonExHistoricalStr = "";
 	}
@@ -1046,28 +1042,6 @@ public abstract class CairoBars : CairoGeneric
 	{
 		double y = calculatePaintY (maxIntersession);
 
-		/*
-		// 1) line
-		g.Save();
-		g.LineWidth = 2;
-		g.SetDash(new double[]{2, 2}, 0);
-
-		g.MoveTo(0, y);
-		g.LineTo(graphWidth, y);
-		g.Stroke ();
-
-		g.Restore();
-
-		// 2) texts
-		printText(0, y -titleTextHeight, 0, titleTextHeight,
-				string.Format ("Person's historical best {0} saved repetition", maxIntersessionEcconCriteria),
-				g, alignTypes.LEFT);
-
-		if(maxIntersessionValueStr != "")
-			printText(graphWidth, y -titleTextHeight, 0, titleTextHeight,
-					maxIntersessionValueStr + " (" + maxIntersessionDate + ")",
-					g, alignTypes.RIGHT);
-		*/
 		g.SetSourceColor (brownAntiqueRuby);
 		g.MoveTo (leftMargin +24, y);
 		g.LineTo (graphWidth-rightMargin, y);
@@ -1283,14 +1257,6 @@ public abstract class CairoBars : CairoGeneric
 	public Preferences.EncoderRepetitionCriteria MaxIntersessionEcconCriteria {
 		set { maxIntersessionEcconCriteria = value; }
 	}
-	/*
-	public string MaxIntersessionValueStr {
-		set { maxIntersessionValueStr = value; }
-	}
-	public string MaxIntersessionDate {
-		set { maxIntersessionDate = value; }
-	}
-	*/
 	// <---- encoder ----
 
 	public double BestPersonExHistoricalD {

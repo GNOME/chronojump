@@ -655,16 +655,16 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 
 		if(! pegbe.relativeToSet)
 		{
-			if (maxThisSetSaved >= pegbe.maxPowerSpeedForceIntersession)
-			{
-				cb.MaxIntersession = maxThisSetSaved;
+			//if (maxThisSetSaved >= pegbe.maxPowerSpeedForceIntersession)
+			//{
+			//	cb.MaxIntersession = maxThisSetSaved;
 				//cb.MaxIntersessionValueStr = "";//Util.TrimDecimals (maxThisSetSaved, decs) + " " + units;
 				//cb.MaxIntersessionDate = "";
-			} else {
+			//} else {
 				cb.MaxIntersession = pegbe.maxPowerSpeedForceIntersession;
 				//cb.MaxIntersessionValueStr = Util.TrimDecimals(pegbe.maxPowerSpeedForceIntersession, decs) + " " + units;
 				//cb.MaxIntersessionDate = pegbe.maxPowerSpeedForceIntersessionDate;
-			}
+			//}
 			cb.MaxIntersessionEcconCriteria = preferences.GetEncoderRepetitionCriteria (pegbe.hasInertia);
 		}
 

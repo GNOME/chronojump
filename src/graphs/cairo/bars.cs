@@ -105,6 +105,7 @@ public abstract class CairoBars : CairoGeneric
 	protected List<CairoBarsArrow> eccOverload_l;
 	protected bool eccOverloadWriteValue;
 	protected List<int> saved_l;
+	protected double maxThisSetSaved;
 	protected double maxIntersession;
 	protected Preferences.EncoderRepetitionCriteria maxIntersessionEcconCriteria;
 	//protected string maxIntersessionValueStr; //with correct decimals and units
@@ -362,6 +363,7 @@ public abstract class CairoBars : CairoGeneric
 		eccOverload_l = new List<CairoBarsArrow>();
 		eccOverloadWriteValue = false;
 		saved_l = new List<int>();
+		maxThisSetSaved = 0;
 		maxIntersession = 0;
 		//maxIntersessionValueStr = "";
 		//maxIntersessionDate = "";
@@ -1042,7 +1044,7 @@ public abstract class CairoBars : CairoGeneric
 	//encoder !relativeToSet
 	protected void writePersonsBest ()
 	{
-		double y = calculatePaintY(maxIntersession);
+		double y = calculatePaintY (maxIntersession);
 
 		/*
 		// 1) line
@@ -1271,6 +1273,10 @@ public abstract class CairoBars : CairoGeneric
 		set { saved_l = value; }
 	}
 
+	// ---- encoder ---->
+	public double MaxThisSetSaved {
+		set { maxThisSetSaved = value; }
+	}
 	public double MaxIntersession {
 		set { maxIntersession = value; }
 	}
@@ -1285,6 +1291,7 @@ public abstract class CairoBars : CairoGeneric
 		set { maxIntersessionDate = value; }
 	}
 	*/
+	// <---- encoder ----
 
 	public double BestPersonExHistoricalD {
 		set { bestPersonExHistoricalD = value; }

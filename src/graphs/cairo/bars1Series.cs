@@ -105,7 +105,9 @@ public class CairoBars1Series : CairoBars
 				minY = boxplotSession.MinAbsolute;
 		}
 
-		// this is only encoder
+		// this is only on encoderCurrent
+		if(maxThisSetSaved >= maxY)
+			maxY = maxThisSetSaved;
 		if(maxIntersession >= maxY)
 			maxY = maxIntersession;
 

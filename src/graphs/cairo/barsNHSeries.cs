@@ -239,6 +239,9 @@ public class CairoBarsNHSeries : CairoBars
 				minY = boxplotSession.MinAbsolute;
 		}
 
+		// this is only on encoderCurrent
+		if(maxThisSetSaved >= maxY)
+			maxY = maxThisSetSaved;
 		if(maxIntersession >= maxY)
 			maxY = maxIntersession;
 
@@ -677,6 +680,7 @@ public class CairoBarsNHSeries : CairoBars
 
 		writeTitleAtTop ();
 
+		// this is only on encoderCurrent
 		if(maxIntersession > 0)
 			writePersonsBest (); //encoder !relativeToSet
 

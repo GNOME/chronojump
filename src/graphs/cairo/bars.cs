@@ -1066,11 +1066,13 @@ public abstract class CairoBars : CairoGeneric
 					maxIntersessionValueStr + " (" + maxIntersessionDate + ")",
 					g, alignTypes.RIGHT);
 		*/
-		g.SetSourceColor (greenDark);
-		g.MoveTo (leftMargin, y);
+		g.SetSourceColor (brownAntiqueRuby);
+		g.MoveTo (leftMargin +24, y);
 		g.LineTo (graphWidth-rightMargin, y);
 		g.Stroke ();
 
+		// if done before then previous texts are not shown
+		drawHistoryIcon (leftMargin, Convert.ToInt32 (y)-12); //left of the line
 	}
 
 	protected void writeMessageAtCenter(string message)

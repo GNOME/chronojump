@@ -2520,6 +2520,10 @@ public partial class ChronoJumpWindow
 		button_combo_select_contacts_top_left.Sensitive = (combo_run_encoder_exercise.Active > 0);
 		button_combo_select_contacts_top_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_run_encoder_exercise);
 
+		// unselect in order to use combo value on PrepareEventGraph type
+		if (treeViewResultsSession != null)
+			treeViewResultsSession.Unselect ();
+
 		radio_contacts_graph_currentTest.Label = exTemp.Name;
                 //update the treeview
                 pre_fillTreeView_resultsSession ();

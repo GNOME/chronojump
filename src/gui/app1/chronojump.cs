@@ -1990,6 +1990,10 @@ public partial class ChronoJumpWindow
 		button_combo_select_contacts_top_left.Sensitive = (combo_select_jumps.Active > 0);
 		button_combo_select_contacts_top_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_select_jumps);
 
+		// unselect in order to use combo value on PrepareEventGraph type
+		if (treeViewResultsSession != null)
+			treeViewResultsSession.Unselect ();
+
 		//show extra window options
 		on_extra_window_jumps_test_changed(o, args);
 
@@ -2043,6 +2047,10 @@ public partial class ChronoJumpWindow
 		button_combo_select_contacts_top_left.Sensitive = (combo_select_jumps_rj.Active > 0);
 		button_combo_select_contacts_top_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_select_jumps_rj);
 
+		// unselect in order to use combo value on PrepareEventGraph type
+		if (treeViewResultsSession != null)
+			treeViewResultsSession.Unselect ();
+
 		//show extra window options
 		on_extra_window_jumps_rj_test_changed(o, args);
 
@@ -2084,6 +2092,10 @@ public partial class ChronoJumpWindow
 		button_combo_select_contacts_top_left.Sensitive = (combo_select_runs.Active > 0);
 		button_combo_select_contacts_top_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_select_runs);
 
+		// unselect in order to use combo value on PrepareEventGraph type
+		if (treeViewResultsSession != null)
+			treeViewResultsSession.Unselect ();
+
 		//show extra window options
 		on_extra_window_runs_test_changed(o, args);
 
@@ -2124,6 +2136,10 @@ public partial class ChronoJumpWindow
 		button_combo_runs_interval_exercise_capture_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_select_runs_interval);
 		button_combo_select_contacts_top_left.Sensitive = (combo_select_runs_interval.Active > 0);
 		button_combo_select_contacts_top_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_select_runs_interval);
+
+		// unselect in order to use combo value on PrepareEventGraph type
+		if (treeViewResultsSession != null)
+			treeViewResultsSession.Unselect ();
 
 		//show extra window options
 		on_extra_window_runs_interval_test_changed(o, args);

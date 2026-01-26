@@ -3719,6 +3719,10 @@ LogB.Information(" fs R ");
 
 		combo_force_sensor_button_sensitive_exercise(true);
 
+		// unselect in order to use combo value on PrepareEventGraph type
+		if (treeViewResultsSession != null)
+			treeViewResultsSession.Unselect ();
+
 		radio_contacts_graph_currentTest.Label = fse.Name;
                 //update the treeview
                 pre_fillTreeView_resultsSession ();

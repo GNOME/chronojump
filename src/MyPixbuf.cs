@@ -353,6 +353,7 @@ namespace Chronojump
 			new ResourceFix ("arrow_forward_blue.png" , "arrow_forward.png"),
 			new ResourceFix ("arrow_backward_blue.png" , "arrow_backward.png"),
 			new ResourceFix ("arrow_forward_red_yellow.png" , "arrow_forward_emphasis.png"),
+			new ResourceFix ("history_brownAntiqueRuby.png" , "history_brownAntiqueRuby.png"),
 			new ResourceFix ("inertial_rolled.png" , "inertial_rolled.png"),
 			new ResourceFix ("inertial_half_rolled.png" , "inertial_half_rolled.png"),
 			new ResourceFix ("inertial_extended.png" , "inertial_extended.png"),

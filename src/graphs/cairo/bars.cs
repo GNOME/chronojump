@@ -84,6 +84,7 @@ public abstract class CairoBars : CairoGeneric
 	protected Cairo.Color gray180; //lighter
 	protected Cairo.Color white;
 	protected Cairo.Color greenDark;
+	protected Cairo.Color brownAntiqueRuby; //history
 	protected Cairo.Color blue;
 	//protected Cairo.Color blueChronojump;
 	//protected Cairo.Color bluePlots;
@@ -172,6 +173,12 @@ public abstract class CairoBars : CairoGeneric
 	{
 		Gdk.Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_group_outline.png");
 		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf, graphWidth -rightMargin +xStart, topMargin -24);
+		g.Paint();
+	}
+	protected void drawHistoryIcon (int x, int y)
+	{
+		Gdk.Pixbuf pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "history_brownAntiqueRuby.png");
+		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf, x, y);
 		g.Paint();
 	}
 
@@ -332,6 +339,7 @@ public abstract class CairoBars : CairoGeneric
 		gray180 = colorFromRGB(180,180,180);
 		white = colorFromRGB(255,255,255);
 		greenDark = colorFromRGB(0,140,0);
+		brownAntiqueRuby  = colorFromRGB(82,34,31);
 		blue = colorFromRGB(178, 223, 238); //lightblue
 		//blueChronojump = colorFromRGB(14, 30, 70);
 		//bluePlots = colorFromRGB(0, 0, 200);
@@ -998,31 +1006,37 @@ public abstract class CairoBars : CairoGeneric
 	// this is the call when there is data
 	protected void printBestPersonExHistorical ()
 	{
-		printBestPersonExHistorical (bestPersonExHistoricalD, bestPersonExHistoricalStr, textHeight -2, true);
+		printBestPersonExHistorical (bestPersonExHistoricalD, bestPersonExHistoricalStr, textHeight -1, true);
 	}
 	// this is the call when there is no data
 	protected void printBestPersonExHistorical (double d, string str)
 	{
-		printBestPersonExHistorical (d, str, textHeight, false);
+		printBestPersonExHistorical (d, str, textHeight +1, false);
 	}
 	// this is regular call with data
 	protected void printBestPersonExHistorical (double d, string str, int textH, bool graph)
 	{
-		g.SetSourceColor (greenDark);
+		g.SetSourceColor (brownAntiqueRuby);
 		/*
 		LogB.Information ("is null d?");
 		LogB.Information ((d == null).ToString ());
 		LogB.Information ("is null str?");
 		LogB.Information ((str == null).ToString ());
 		*/
-		printText (leftMargin, graphHeight -textHeight, 0, textH, str, g, alignTypes.LEFT);
+
+		//printText (leftMargin +24, graphHeight -textHeight, 0, textH, str, g, alignTypes.LEFT);
+		printText (leftMargin +24, graphHeight -12, 0, textH, str, g, alignTypes.LEFT);
 
 		if (graph)
 		{
-			g.MoveTo(leftMargin, calculatePaintY (d));
-			g.LineTo(graphWidth-rightMargin, calculatePaintY (d));
+			g.MoveTo (leftMargin +24, calculatePaintY (d));
+			g.LineTo (graphWidth-rightMargin, calculatePaintY (d));
 			g.Stroke ();
+
+			// if done before then previous texts are not shown
+			drawHistoryIcon (leftMargin, Convert.ToInt32 (calculatePaintY (d))-12); //left of the line
 		}
+		drawHistoryIcon (leftMargin, graphHeight -24); //at bottom, left of the text
 	}
 
 	//encoder !relativeToSet

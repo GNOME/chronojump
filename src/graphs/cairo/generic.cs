@@ -16,7 +16,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2023   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -247,11 +247,21 @@ public abstract class CairoGeneric
 	protected enum gridTypes { BOTH, HORIZONTALLINES, HORIZONTALLINESATRIGHT, VERTICALLINES }
 	protected void paintGridNiceAutoValues (Cairo.Context g, double minX, double maxX, double minY, double maxY, int seps, gridTypes gridType, int shiftRight, int fontH)
 	{
-		bool errorX;
-		bool errorY;
+		bool errorX = false;
+		bool errorY = false;
+		var gridXTuple = new Tuple<double, double, double>(0, 0, 0);
+		var gridYTuple = new Tuple<double, double, double>(0, 0, 0);
 
-		var gridXTuple = getGridStepAndBoundaries ((decimal) minX, (decimal) maxX, seps, out errorX);
-		var gridYTuple = getGridStepAndBoundaries ((decimal) minY, (decimal) maxY, seps, out errorY);
+		//check Value was either too large or too small for a Decimal.
+		if (MathUtil.DecimalTooShortOrLarge (minX) || MathUtil.DecimalTooShortOrLarge (maxX))
+			errorX = true;
+		else
+			gridXTuple = getGridStepAndBoundaries ((decimal) minX, (decimal) maxX, seps, out errorX);
+
+		if (MathUtil.DecimalTooShortOrLarge (minY) || MathUtil.DecimalTooShortOrLarge (maxY))
+			errorY = true;
+		else
+			gridYTuple = getGridStepAndBoundaries ((decimal) minY, (decimal) maxY, seps, out errorY);
 
 		g.Save();
 		g.SetDash(new double[]{1, 2}, 0);

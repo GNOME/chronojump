@@ -629,7 +629,7 @@ public class RunIntervalExecute : RunExecute
 			else if (tracks < 31)
 				return string.Format ("Bloc 3\n{0} / 12", tracks -18);
 			else
-				return string.Format ("Fí de\nla prova");
+				return string.Format ("Fi de\nla prova");
 		} else
 			return string.Format ("{0} / {1}\n{2} s",
 					tracks, limitAsDouble,

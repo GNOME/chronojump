@@ -70,7 +70,7 @@ public class Config
 		JsonUploadNeedsButton, JsonUploadJumpSimpleTestScript, JsonUploadRunSimpleTestScript, JsonUploadRunSimpleRankingScript, JsonUploadRunIntervalTestScript, JsonUploadRunIntervalRankingScript, CanInsertTests, //json upload
 		RemoteTestJumpSimpleFile, RemoteTestRunIntervalFile, RemoteTestCancelFile, RemotePersonNextFile, //remote execution
 		RUserURL, RscriptUserURL, PythonUserURL, //User executables locations
-		EncoderPT, FourPlatforms, WichroSensorOnceA, WichroSensorOnceB, Wilight, WilightExerciseID, WilightCommandsURL, WilightLayoutURL, //modes
+		EncoderPT, FourPlatforms, FourPlatformsCaptureTwice, WichroSensorOnceA, WichroSensorOnceB, Wilight, WilightExerciseID, WilightCommandsURL, WilightLayoutURL, //modes
 		SessionMode, FTDIalways, Raspberry, LowHeight, LowCPU,  GuiTest, NoSendLog, //other
 		Exhibition, ExhibitionStationType, PlaySoundsFromFile //outdated or not working
 	};
@@ -225,6 +225,9 @@ public class Config
 	}
 	public bool FourPlatforms {
 		get { return configList.GetBool (OpEnum.FourPlatforms); }
+	}
+	public bool FourPlatformsCaptureTwice {  // Starts a 2nd capture 10s after ending first. Useful for catalan firemans.
+		get { return configList.GetBool (OpEnum.FourPlatformsCaptureTwice); }
 	}
 	public int WichroSensorOnceA {
 		get { return configList.GetInt (OpEnum.WichroSensorOnceA); }
@@ -726,6 +729,8 @@ public class ConfigList
 					"Encoder as Pulse,Time, managed by runEncoder mode"));
 		list.Add (new ConfigOptionBool (Config.OpEnum.FourPlatforms,
 					"Show experimental FourPlatforms mode"));
+		list.Add (new ConfigOptionBool (Config.OpEnum.FourPlatformsCaptureTwice,
+					"FourPlatforms: Starts a 2nd capture 10s after ending first. Useful for catalan firemans."));
 		list.Add (new ConfigOptionInt (Config.OpEnum.WichroSensorOnceA,
 					"Set sensorOnce at Wichro terminal at one terminal."));
 		list.Add (new ConfigOptionInt (Config.OpEnum.WichroSensorOnceB,

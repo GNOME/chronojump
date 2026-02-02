@@ -21,6 +21,7 @@
 using System;
 using Gtk;
 //using Glade;
+using System.Diagnostics;  //Stopwatch
 using System.Text; //StringBuilder
 using System.Threading;
 
@@ -70,7 +71,8 @@ public partial class ChronoJumpWindow
 	private bool fourPlatformsNeedCallApplyCSSExternalWindow;
 
 	private FourPlatformsCaptureManage.CaptureEnum fourPlatformsCaptureType;
-
+	private bool fourPlatformsCaptureTwiceDo = false;
+	private Stopwatch fourPlatformsCaptureTwiceSw;
 
 	private void fourPlatformsInit1Time ()
 	{
@@ -158,6 +160,12 @@ public partial class ChronoJumpWindow
 		else if (b == button_four_platforms_capture_low_high)
 			fourPlatformsCaptureType = FourPlatformsCaptureManage.CaptureEnum.FROMLOWTOHIGH;
 
+		fourPlatformsCaptureTwiceDo = true;
+		on_four_platforms_capture_clicked_do ();
+	}
+
+	private void on_four_platforms_capture_clicked_do ()
+	{
 		if (current_mode == Constants.Modes.OTHER)
 		{
 			box_fourPlatforms_capture_buttons.Sensitive = false;
@@ -210,7 +218,28 @@ public partial class ChronoJumpWindow
 
 		LogB.ThreadStart();
 		fourPlatformsCaptureThread.Start();
-		//return true;
+
+		//return true; 
+	}
+
+	// called on Timeout after a capture depending on config options
+	private bool on_four_platforms_capture_clicked_again ()
+	{
+		fourPlatformsCaptureTwiceDo = false; //to not be called again
+		box_fourPlatforms_capture_buttons.Sensitive = false;
+
+		// display countdown and return true
+		if (fourPlatformsCaptureTwiceSw.ElapsedMilliseconds <= 9000) // 9s because this is called for the first time 1s later
+		{
+			event_execute_label_message.Text = string.Format ("Calling again in {0} s",
+					Convert.ToInt32 (10 -fourPlatformsCaptureTwiceSw.ElapsedMilliseconds/1000));
+			Thread.Sleep (100);
+			return true;
+		}
+
+		// countdown ended, call capture, and return false
+		on_four_platforms_capture_clicked_do ();
+		return false;
 	}
 
 	private List<IDName> getSelectedPersonAndNext3 ()
@@ -364,6 +393,15 @@ public partial class ChronoJumpWindow
 				updateGraphJumpsSimple();
 			else //if (current_mode == Constants.Modes.OTHER) //FOURPLATFORMS
 				updateGraphFourPlatformsBars ();
+
+			//repeat capture 3s after
+			if (configChronojump.FourPlatformsCaptureTwice && fourPlatformsCaptureTwiceDo)
+			{
+				fourPlatformsCaptureTwiceSw = new Stopwatch ();
+				fourPlatformsCaptureTwiceSw.Start ();
+
+				GLib.Timeout.Add (1000, new GLib.TimeoutHandler (on_four_platforms_capture_clicked_again));
+			}
 
 			return false;
 		} else {

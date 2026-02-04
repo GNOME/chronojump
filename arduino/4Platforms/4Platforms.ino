@@ -30,8 +30,10 @@
 #define CJ_YELLOW rgbLeds.Color(45,25,0)
 #define CJ_BLUE rgbLeds.Color(0,0,50)
 
+/*
 #define CHARGE_ON digitalWrite(4, LOW);
 #define CHARGE_OFF digitalWrite(4, HIGH);
+*/
 
 #define BATT_LEV_PIN 14
 
@@ -205,10 +207,15 @@ void processCommand(String inputString) {
     setRgb(argumentString);
   } else if (commandString == "get_battery_level") {
     Serial.printf("Battery: %i\n", battLev);
+    /* The option of enabling/disabling charge is discarded
+    // The measure of the charge level is not affected by this
   } else if (commandString == "disable_charge") {
     CHARGE_OFF;
+    Serial.println("Not charging");
   } else if (commandString == "enable_charge") {
     CHARGE_ON;
+    Serial.println("Charging");
+    */
   } else {
     Serial.println("Not a valid command");
   }
@@ -305,11 +312,11 @@ void setRgb(String argumentString) {
 }
 
 void updateBatteryLevel() {
-  CHARGE_OFF;
+  // CHARGE_OFF;
   for (int i = 0; i<10; i++) {
     battLev = battLev + analogRead(BATT_LEV_PIN);
   }
-  CHARGE_ON;
+  // CHARGE_ON;
   battLev = battLev / 10;
   Serial.print(battLev);
   battLev = map(battLev, 2000, 2400, 0, 100);

@@ -15,7 +15,7 @@
 #   along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
-#   Copyright (C) 2004-2024  	Xavier de Blas <xaviblas@gmail.com>
+#   Copyright (C) 2004-2026  	Xavier de Blas <xaviblas@gmail.com>
 #   Copyright (C) 2014-2020   	Xavier Padullés <x.padulles@gmail.com>
 # 
 
@@ -2404,8 +2404,8 @@ paint1RMBySingleRep <- function (exercise, paf, title, outputData1)
         curvesSpeed = (paf[,findPosInPaf("Speed", "mean")])	#mean speed Y
         
         par(mar=c(5,6,3,4))
-        
-        loadPercent <- seq(30,100, by=5)
+       
+        minPercent <- 30 # Bench & Squat starts at 30 %
         
         #variables that are different on each exercise. Declare them here
         msp = NULL #msp: mean speed propulsive
@@ -2427,11 +2427,11 @@ paint1RMBySingleRep <- function (exercise, paf, title, outputData1)
                 loadPercentCalc <- 8.4326*curvesSpeed^2 - 73.501*curvesSpeed + 112.33
                 subtitle <- translateToPrint("Concentric mean speed on bench press 1RM =")
                 speed1RM <- 0.185
-                speed1RMText <- " 0.185m/s"
+                speed1RMText <- " 0.185 m/s"
                 formula <- paste(" 8.4326 * ", translateToPrint("speed"), " ^2 - 73.501 * ", translateToPrint("speed"), " + 112.33")
                 reference <- " Gonzalez-Badillo, Sanchez-Medina (2010)"
-        } else
-        { # == "SQUAT"
+        } else if(exercise == "SQUAT")
+        {
                 #a = -2.079, b = -59.5, c = 120.5
                 msp <- c(1.4477703, 1.3712719, 1.2943984, 1.2171443, 1.1395039, 1.0614714, 0.9830407,
                          0.9042056, 0.8249600, 0.7452972, 0.6652106, 0.5846934, 0.5037386, 0.4223390, 0.3404870)
@@ -2441,11 +2441,26 @@ paint1RMBySingleRep <- function (exercise, paf, title, outputData1)
                 #Note this prediction uses 0.340 as 1RM concentric speed on squat, but same authors found 0.310 on other articles
                 #reason seem to be: this prediction is calculated on full squat
                 speed1RM <- 0.340
-                speed1RMText <- " 0.34m/s"
+                speed1RMText <- " 0.34 m/s"
                 formula <- paste("-2.079 * ", translateToPrint("speed"), " ^2 - 59.5 * ", translateToPrint("speed"), " + 120.5")
                 reference <- " Gonzalez-Badillo, Sanchez-Medina (2015)"
-        }
-        
+        } else
+        { # == "DEADLIFT"
+		# 40 %1RM to 100 %1RM
+        	minPercent <- 40
+		# Analysis of the Load-Velocity Relationship in Deadlift Exercise (2020)
+		# Table 1 col: MPV
+                msp <- c(1.09, 1.02, 0.96, 0.90, 0.83, 0.77, 0.71, 0.64, 0.58, 0.52, 0.45, 0.39, 0.33)
+                
+                loadPercentCalc <- -71.681*curvesSpeed +121.118
+                subtitle <- translateToPrint("Concentric mean speed on squat 1RM =")
+                speed1RM <- 0.33
+                speed1RMText <- " 0.33 m/s"
+                formula <- paste("-71.681 * ", translateToPrint("speed"), " + 121.118")
+                reference <- " Benavides-Ubric, A., Díez-Fernández, D. M., Rodríguez-Pérez, M. A., Ortega-Becerra, M., & Pareja-Blanco, F. (2020)"
+	}
+
+        loadPercent <- seq(minPercent,100, by=5)
         maxy=max(c(msp,curvesSpeed))
         miny=min(c(msp,curvesSpeed))
         
@@ -3978,6 +3993,9 @@ doProcess <- function(options)
                 }
                 else if(op$Analysis == "1RMBySingleRepSquat") {
                         paint1RMBySingleRep("SQUAT", paf, op$Title, op$OutputData1)
+                } 
+                else if(op$Analysis == "1RMBySingleRepDeadlift") {
+                        paint1RMBySingleRep("DEADLIFT", paf, op$Title, op$OutputData1)
                 } 
                 else if(op$Analysis == "neuromuscularProfile")
 		{

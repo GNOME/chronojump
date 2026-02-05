@@ -3415,7 +3415,9 @@ public partial class ChronoJumpWindow
 						nameTemp == "1RM Bench Press" ||
 						nameTemp == Catalog.GetString("1RM Bench Press") ||
 						nameTemp == "1RM Squat" ||
-						nameTemp == Catalog.GetString("1RM Squat")
+						nameTemp == Catalog.GetString("1RM Squat") ||
+						nameTemp == "1RM Deadlift" ||
+						nameTemp == Catalog.GetString("1RM Deadlift")
 						//no 1RM Indirect because cannot be done with saved curves
 				  ) {
 					bool differentExercises = false;
@@ -3511,7 +3513,9 @@ public partial class ChronoJumpWindow
 						 nameTemp == "1RM Bench Press" ||
 						 nameTemp == Catalog.GetString("1RM Bench Press") ||
 						 nameTemp == "1RM Squat" ||
-						 nameTemp == Catalog.GetString("1RM Squat")
+						 nameTemp == Catalog.GetString("1RM Squat") ||
+						 nameTemp == "1RM Deadlift" ||
+						 nameTemp == Catalog.GetString("1RM Deadlift")
 						 //no 1RM Indirect because cannot be done with saved curves
 						)) {
 					new DialogMessage(Constants.MessageTypes.WARNING, 
@@ -3519,7 +3523,8 @@ public partial class ChronoJumpWindow
 							"\n\nIntersession or Interperson" +
 							"\n- 1RM Any exercise" +
 							"\n- 1RM Bench Press" +
-							"\n- 1RM Squat"
+							"\n- 1RM Squat" +
+							"\n- 1RM Deadlift"
 							//no 1RM Indirect because cannot be done with saved curves
 							);
 
@@ -3724,6 +3729,9 @@ public partial class ChronoJumpWindow
 			} else if(my1RMName == "1RM Squat") {
 				sendAnalysis = "1RMBySingleRepSquat";
 				analysisOptions = "p";
+			} else if(my1RMName == "1RM Deadlift") {
+				sendAnalysis = "1RMBySingleRepDeadlift";
+				analysisOptions = "p";
 			}
 		}
 		
@@ -3821,7 +3829,7 @@ public partial class ChronoJumpWindow
 			//because is 1RM of a person on an exercise
 			//this is checked at: "on_button_encoder_analyze_clicked()"
 			if(encoderSelectedAnalysis == "1RM" &&
-					(my1RMName == "1RM Bench Press" || my1RMName == "1RM Squat" || my1RMName == "1RM Any exercise") )
+					(my1RMName == "1RM Bench Press" || my1RMName == "1RM Squat" || my1RMName == "1RM Deadlift" || my1RMName == "1RM Any exercise") )
 			{
 				//get exercise ID
 				int exID = -1;
@@ -4801,13 +4809,14 @@ public partial class ChronoJumpWindow
 		createComboEncoderAnalyzeWeights(true);	//first creation
 
 		//create combo analyze 1RM
-		string [] comboAnalyze1RMOptions = { "1RM Any exercise", "1RM Bench Press", "1RM Squat", "1RM Indirect" };
+		string [] comboAnalyze1RMOptions = { "1RM Any exercise", "1RM Bench Press", "1RM Squat", "1RM Deadlift", "1RM Indirect" };
 		string [] comboAnalyze1RMOptionsTranslated = { 
 			Catalog.GetString("1RM Any exercise"), Catalog.GetString("1RM Bench Press"),
-			Catalog.GetString("1RM Squat"), Catalog.GetString("1RM Indirect")
+			Catalog.GetString("1RM Squat"), Catalog.GetString("1RM Deadlift"),
+			Catalog.GetString("1RM Indirect")
 		}; //if added more, change the int in the 'for' below
 		encoderAnalyze1RMTranslation = new String [comboAnalyze1RMOptions.Length];
-		for(int j=0; j < 4 ; j++)
+		for(int j=0; j < comboAnalyze1RMOptions.Length ; j++)
 			encoderAnalyze1RMTranslation[j] = 
 				comboAnalyze1RMOptions[j] + ":" + comboAnalyze1RMOptionsTranslated[j];
 		combo_encoder_analyze_1RM = new ComboBoxText ();

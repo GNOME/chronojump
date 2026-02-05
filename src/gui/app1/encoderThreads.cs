@@ -1400,7 +1400,7 @@ public partial class ChronoJumpWindow
 						encoderAnalyze1RMTranslation);
 			button_encoder_analyze_1RM_save.Visible = 
 				(radiobutton_encoder_analyze_1RM.Active &&
-				(my1RMName == "1RM Bench Press" || my1RMName == "1RM Squat" ||
+				(my1RMName == "1RM Bench Press" || my1RMName == "1RM Squat" || my1RMName == "1RM Deadlift" ||
 				 my1RMName == "1RM Any exercise" || my1RMName == "1RM Indirect") );
 			/*
 			 * TODO: currently disabled because 

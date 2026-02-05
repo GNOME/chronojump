@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2016-2023   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2016-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -137,12 +137,15 @@ public class DialogThreshold
 		textview_about.Buffer = tb_about;
 
 		TextBuffer tb_jumps = new TextBuffer (new TextTagTable());
-		tb_jumps.Text =  Catalog.GetString("Default value:") + " 150 ms." +
-			"\n\n" + string.Format (Catalog.GetString ("On jumps with contact platforms a value of {0} ms"), "150") +
-			" (" + Catalog.GetString ("2.76 mm") + ") " + Catalog.GetString ("is enough to solve electronical problems.") +
-			"\n\n" + Catalog.GetString("You may change this value if you have a jumper that loses pressure with the platform while going down previous to a CMJ or ABK jump.") +
-			"\n" +   Catalog.GetString("This jumper should change his technique, but if it's difficult, a solution is to increase threshold.");
+		tb_jumps.Text =  Catalog.GetString("Default value:") + " 50 ms." +
+			"\n\n" + Catalog.GetString ("A higher threshold value helps to solve electronical problems.") +
+			"\n" + Catalog.GetString("You may change this if you have a jumper that loses pressure with the platform while going down previous to a CMJ or ABK jump.") +
+			"\n" + Catalog.GetString("This jumper should change his technique, but if it's difficult, a solution is to increase threshold.") +
+			"\n\n" + Catalog.GetString("About drop jumps and multiple jumps:") +
+			"\n" + string.Format (Catalog.GetString ("Please note that the contact time can be as low as {0} ms."), "80") +
+			"\n" + string.Format (Catalog.GetString ("Having a threshold higher than {0} can be a problem in detecting drop jumps and multiple jumps."), "80");
 		textview_jumps.Buffer = tb_jumps;
+			
 
 		TextBuffer tb_races = new TextBuffer (new TextTagTable());
 		tb_races.Text =  Catalog.GetString("Default value:") + " 10 ms." +

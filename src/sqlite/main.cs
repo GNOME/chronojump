@@ -2116,7 +2116,7 @@ class Sqlite
 		if(currentVersion == "1.33") {
 			LogB.SQL("Added thresholdJumps, thresholdRuns, thresholdOther to preferences");
 
-			SqlitePreferences.Insert ("thresholdJumps", "150");
+			SqlitePreferences.Insert ("thresholdJumps", "50");
 			SqlitePreferences.Insert ("thresholdRuns", "10");
 			SqlitePreferences.Insert ("thresholdOther", "50");
 

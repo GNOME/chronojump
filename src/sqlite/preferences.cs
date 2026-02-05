@@ -314,7 +314,7 @@ class SqlitePreferences : Sqlite
 						Constants.DoubleContact.AVERAGE.ToString(), dbcmdTr); 
 				Insert ("runIDoubleContactsMS", "300", dbcmdTr);
 
-				Insert ("thresholdJumps", "150", dbcmdTr);
+				Insert ("thresholdJumps", "50", dbcmdTr);
 				Insert ("thresholdRuns", "10", dbcmdTr);
 				Insert ("thresholdOther", "50", dbcmdTr);
 

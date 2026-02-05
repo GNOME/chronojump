@@ -2397,7 +2397,7 @@ paintCrossVariablesNumsPrint <- function (singleFile, Eccon, x, y, adjHor, cexNu
 
 
 #propulsive!!!!
-paint1RMBadilloExercise <- function (exercise, paf, title, outputData1)
+paint1RMBySingleRep <- function (exercise, paf, title, outputData1)
 {
         curvesLoadTotal = (paf[,findPosInPaf("Load","")]) 		#mass: X
         curvesLoadExtra = (paf[,findPosInPaf("MassExtra","")])
@@ -2421,7 +2421,7 @@ paint1RMBadilloExercise <- function (exercise, paf, title, outputData1)
         {
                 #a = 8.4326, b = - 73.501, c = 112.33
                 msp <- c(1.33, 1.235, 1.145, 1.055, 0.965, 0.88, 0.795,
-                         0.715, 0.635, 0.555, 0.475, 0.405, 0.325, 0.255, 0.185)
+                         0.715, 0.635, 0.555, 0.475, 0.405, 0.325, 0.255, 0.185) #from table1 (avg of T1, T2)
                 #variation <- c(0.08, 0.07, 0.06, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.04, 0.04, 0.04, 0.04, 0.03, 0.04)
                 
                 loadPercentCalc <- 8.4326*curvesSpeed^2 - 73.501*curvesSpeed + 112.33
@@ -3786,7 +3786,7 @@ doProcess <- function(options)
         
         if(
                 op$Analysis == "powerBars" || op$Analysis == "cross" || 
-                op$Analysis == "1RMBadillo2010" || op$Analysis == "1RMAnyExercise" || 
+                op$Analysis == "1RMBySingleRep" || op$Analysis == "1RMAnyExercise" || 
                 op$Analysis == "curves" || op$Analysis == "curvesAC" || op$Analysis == "curvesProcessMultiDB" ||
                 op$Analysis == "neuromuscularProfile" ||
                 op$Analysis == "pfvProfileEvolution" ||
@@ -3805,7 +3805,7 @@ doProcess <- function(options)
                         
                         if(! singleFile) {
                                 #only use concentric data	
-                                if( (op$Analysis == "1RMBadillo2010" || op$Analysis == "1RMAnyExercise" ||
+                                if( (op$Analysis == "1RMBySingleRep" || op$Analysis == "1RMAnyExercise" ||
 				     (op$Analysis == "cross" && op$AnalysisVariables[1] == "Pmax(F0,V0)")
 				     ) && repOp$eccon == "e")
 				{
@@ -3814,12 +3814,12 @@ doProcess <- function(options)
                                         next;
                                 }
                         } else {
-                                if( (op$Analysis == "1RMBadillo2010" || op$Analysis == "1RMAnyExercise") & repOp$eccon == "ecS" & i%%2 == 1) {
+                                if( (op$Analysis == "1RMBySingleRep" || op$Analysis == "1RMAnyExercise") & repOp$eccon == "ecS" & i%%2 == 1) {
                                         discardedCurves = c(i,discardedCurves)
                                         discardingCurves = TRUE
                                         next;
                                 }
-                                else if( (op$Analysis == "1RMBadillo2010" || op$Analysis == "1RMAnyExercise") & repOp$eccon == "ceS" & i%%2 == 0) {
+                                else if( (op$Analysis == "1RMBySingleRep" || op$Analysis == "1RMAnyExercise") & repOp$eccon == "ceS" & i%%2 == 0) {
                                         discardedCurves = c(i,discardedCurves)
                                         discardingCurves = TRUE
                                         next;
@@ -3856,7 +3856,7 @@ doProcess <- function(options)
                         )))
                 }
                 
-                #on 1RMBadillo discard curves "e", because paf has this curves discarded
+                #on 1RMBySingleRep discard curves "e", because paf has this curves discarded
                 #and produces error on the cbinds below			
                 if(discardingCurves)
                         curves = curves[-discardedCurves,]
@@ -3973,11 +3973,11 @@ doProcess <- function(options)
                                             op$AnalysisVariables[1], op$AnalysisVariables[2], #speed1RM, method
                                             op$OutputData1) 
                 }
-                else if(op$Analysis == "1RMBadilloBench") {
-                        paint1RMBadilloExercise("BENCH", paf, op$Title, op$OutputData1)
+                else if(op$Analysis == "1RMBySingleRepBench") {
+                        paint1RMBySingleRep("BENCH", paf, op$Title, op$OutputData1)
                 }
-                else if(op$Analysis == "1RMBadilloSquat") {
-                        paint1RMBadilloExercise("SQUAT", paf, op$Title, op$OutputData1)
+                else if(op$Analysis == "1RMBySingleRepSquat") {
+                        paint1RMBySingleRep("SQUAT", paf, op$Title, op$OutputData1)
                 } 
                 else if(op$Analysis == "neuromuscularProfile")
 		{

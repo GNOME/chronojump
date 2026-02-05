@@ -3657,7 +3657,7 @@ public partial class ChronoJumpWindow
 		//use this send because we change it to send it to R
 		//but we don't want to change encoderSelectedAnalysis because we want to know again if == "cross" (or "1RM")
 		//encoderSelectedAnalysis can be "cross" and sendAnalysis be "Speed / Load"
-		//encoderSelectedAnalysis can be "1RM" and sendAnalysis be "1RMBadilloBench, …
+		//encoderSelectedAnalysis can be "1RM" and sendAnalysis be "1RMBySingleRepBench, …
 		string sendAnalysis = encoderSelectedAnalysis;
 
 		//see doProcess at encoder/graph.R
@@ -3719,10 +3719,10 @@ public partial class ChronoJumpWindow
 			
 			//(my1RMName == "1RM Any exercise") done below different for curve and signal
 			if(my1RMName == "1RM Bench Press") {
-				sendAnalysis = "1RMBadilloBench";
+				sendAnalysis = "1RMBySingleRepBench";
 				analysisOptions = "p";
 			} else if(my1RMName == "1RM Squat") {
-				sendAnalysis = "1RMBadilloSquat";
+				sendAnalysis = "1RMBySingleRepSquat";
 				analysisOptions = "p";
 			}
 		}

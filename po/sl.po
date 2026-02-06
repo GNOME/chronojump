@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2026-02-05 22:32+0000\n"
-"PO-Revision-Date: 2026-02-06 08:04+0100\n"
+"POT-Creation-Date: 2026-02-06 16:02+0000\n"
+"PO-Revision-Date: 2026-02-06 23:31+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -5338,12 +5338,12 @@ msgid "Variable (user will select distance at each test)"
 msgstr "Spremenljiva (uporabnik izbere razdaljo pred vsakim testom)"
 
 #: ../glade/run_type_add.glade.h:9
-msgid "Fixed (distance will be always the same)"
+msgid "Fixed (distance will always be the same)"
 msgstr "Nespremenljivo (razdalja bo vedno enaka)"
 
 #: ../glade/run_type_add.glade.h:10
 msgid ""
-"Different (each lap have different distance\n"
+"Different (each lap has different distance\n"
 "suitable for agility tests and RSA)"
 msgstr ""
 "Različna (vsak krog je različne razdalje,\n"
@@ -8398,7 +8398,6 @@ msgstr ""
 "je rešitev lahko povečanje praga."
 
 #: ../src/gui/dialogThreshold.cs:144
-#, fuzzy
 msgid "About drop jumps and multiple jumps:"
 msgstr "O skokih z odskokom in zaporednih skokih:"
 
@@ -8408,12 +8407,12 @@ msgid "Please note that the contact time can be as low as {0} ms."
 msgstr "Upoštevajte, da lahko kontaktni čas znaša tudi samo {0} ms."
 
 #: ../src/gui/dialogThreshold.cs:146
-#, fuzzy, csharp-format
+#, csharp-format
 msgid ""
 "Having a threshold higher than {0} can be a problem in detecting drop jumps "
 "and multiple jumps."
 msgstr ""
-"Prag, višji od {0}, lahko predstavlja problem pri zaznavanju skokov z "
+"Prag, višji od {0}, lahko predstavlja težavo pri zaznavanju skokov z "
 "odskokom in zaporednih skokov."
 
 #: ../src/gui/dialogThreshold.cs:152

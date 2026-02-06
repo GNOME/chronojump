@@ -157,7 +157,7 @@ options</property>
                         </child>
                         <child>
                           <object class="GtkRadioButton" id="radiobutton_dist_fixed">
-                            <property name="label" translatable="yes">Fixed (distance will be always the same)</property>
+                            <property name="label" translatable="yes">Fixed (distance will always be the same)</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">False</property>
@@ -223,7 +223,7 @@ options</property>
                         </child>
                         <child>
                           <object class="GtkRadioButton" id="radiobutton_dist_different">
-                            <property name="label" translatable="yes">Different (each lap have different distance
+                            <property name="label" translatable="yes">Different (each lap has different distance
 suitable for agility tests and RSA)</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>

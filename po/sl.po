@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
 "POT-Creation-Date: 2026-02-06 16:02+0000\n"
-"PO-Revision-Date: 2026-02-06 23:31+0100\n"
+"PO-Revision-Date: 2026-02-07 09:48+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -7451,10 +7451,8 @@ msgstr "Počep z mejno težo"
 
 #: ../src/gui/app1/encoder.cs:3420 ../src/gui/app1/encoder.cs:3518
 #: ../src/gui/app1/encoder.cs:4815
-#, fuzzy
-#| msgid "1RM prediction"
 msgid "1RM Deadlift"
-msgstr "Napoved mejne teže"
+msgstr "Mrtvi dvig mejne obtežitve"
 
 #: ../src/gui/app1/encoder.cs:3437
 msgid "Sorry, cannot calculate 1RM of different exercises."

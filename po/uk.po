@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2026-02-05 16:40+0000\n"
-"PO-Revision-Date: 2026-02-05 23:42+0200\n"
+"POT-Creation-Date: 2026-02-07 08:53+0000\n"
+"PO-Revision-Date: 2026-02-07 22:54+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -5338,12 +5338,16 @@ msgid "Variable (user will select distance at each test)"
 msgstr "Змінна (користувач вибиратиме відстань на кожному тесті)"
 
 #: ../glade/run_type_add.glade.h:9
-msgid "Fixed (distance will be always the same)"
+#| msgid "Fixed (distance will be always the same)"
+msgid "Fixed (distance will always be the same)"
 msgstr "Фіксована (відстань завжди буде однаковою)"
 
 #: ../glade/run_type_add.glade.h:10
+#| msgid ""
+#| "Different (each lap have different distance\n"
+#| "suitable for agility tests and RSA)"
 msgid ""
-"Different (each lap have different distance\n"
+"Different (each lap has different distance\n"
 "suitable for agility tests and RSA)"
 msgstr ""
 "Різні (усі кола мають різну відстань,\n"
@@ -7456,7 +7460,6 @@ msgstr "Присідання 1RM"
 
 #: ../src/gui/app1/encoder.cs:3420 ../src/gui/app1/encoder.cs:3518
 #: ../src/gui/app1/encoder.cs:4815
-#| msgid "1RM prediction"
 msgid "1RM Deadlift"
 msgstr "Невдала спроба 1RM"
 
@@ -8398,14 +8401,10 @@ msgid "Default value:"
 msgstr "Типове значення:"
 
 #: ../src/gui/dialogThreshold.cs:141
-#| msgid "is enough to solve electronical problems."
 msgid "A higher threshold value helps to solve electronical problems."
 msgstr "Вище порогове значення допомагає вирішити проблеми з електронікою."
 
 #: ../src/gui/dialogThreshold.cs:142
-#| msgid ""
-#| "You may change this value if you have a jumper that loses pressure with "
-#| "the platform while going down previous to a CMJ or ABK jump."
 msgid ""
 "You may change this if you have a jumper that loses pressure with the "
 "platform while going down previous to a CMJ or ABK jump."
@@ -8422,7 +8421,6 @@ msgstr ""
 "збільшення порогового значення."
 
 #: ../src/gui/dialogThreshold.cs:144
-#| msgid "- In multiple jumps."
 msgid "About drop jumps and multiple jumps:"
 msgstr "Щодо стрибків з падінням і кратних стрибків:"
 
@@ -8437,8 +8435,8 @@ msgid ""
 "Having a threshold higher than {0} can be a problem in detecting drop jumps "
 "and multiple jumps."
 msgstr ""
-"Збільшення порогового значення до понад {0} може спричинити проблеми з"
-" виявленням стрибків з падінням та кратних стрибків."
+"Збільшення порогового значення до понад {0} може спричинити проблеми з "
+"виявленням стрибків з падінням та кратних стрибків."
 
 #: ../src/gui/dialogThreshold.cs:152
 msgid "On races with photocells a value of 10 ms is the default value."

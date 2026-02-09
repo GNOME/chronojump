@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2025   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -95,7 +95,7 @@ public class TreeViewBeepTest : TreeViewEvent
 		myData[count++] = beepTest.ExerciseName;
 		myData[count++] = beepTest.GetAchievedStageName;
 		myData[count++] = (beepTest.Laps +1).ToString ();
-		myData[count++] = beepTest.MaxSpeed.ToString ();
+		myData[count++] = Util.TrimDecimals (beepTest.MaxSpeed, 3);
 
 		string vo2MaxStr = "";
 		if (beepTest.GetVo2Max > 0)

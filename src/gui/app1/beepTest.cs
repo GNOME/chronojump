@@ -131,7 +131,7 @@ public partial class ChronoJumpWindow
 		button_beepTest_finish_selected.Sensitive = true;
 		button_beepTest_finish_all.Sensitive = true;
 
-		double customIncrementalSpeed = Convert.ToDouble (spin_beepTest_custom_incremental.Value);
+		double customIncrementalSpeed = UtilGtk.GetSpinButtonDouble (spin_beepTest_custom_incremental, 3);
 		if (! check_beepTest_custom_incremental.Active)
 			customIncrementalSpeed = 0;
 
@@ -140,7 +140,7 @@ public partial class ChronoJumpWindow
 				Convert.ToInt32 (spin_beepTest_start_at.Value),
 				check_beepTest_start8kmh.Active,
 				Convert.ToInt32 (spin_beepTest_custom_distM.Value),
-				Convert.ToDouble (spin_beepTest_custom_speed.Value),
+				UtilGtk.GetSpinButtonDouble (spin_beepTest_custom_speed, 3),
 				Convert.ToInt32 (spin_beepTest_custom_totalLaps.Value),
 				customIncrementalSpeed
 				);
@@ -192,14 +192,14 @@ public partial class ChronoJumpWindow
 			tbBeepTest.Text += string.Format ("\n {0,5} | {1,5} | {2,5} | {3,6} | {4}",
 					slStatus.stageName,
 					string.Format ("{0}/{1}", slStatus.lap + 1, slStatus.lapsOfThisStage),
-					Util.TrimDecimals (slStatus.speedKmh, 1),
+					Util.TrimDecimals (slStatus.speedKmh, 3),
 					Util.TrimDecimals (beepTestCM.Vo2max (), 2),
 					personName);
 		else
 			tbBeepTest.Text += string.Format ("\n {0,5} | {1,5} | {2,5} | {3}",
 					slStatus.stageName,
 					string.Format ("{0}/{1}", slStatus.lap + 1, slStatus.lapsOfThisStage),
-					Util.TrimDecimals (slStatus.speedKmh, 1),
+					Util.TrimDecimals (slStatus.speedKmh, 3),
 					personName);
 
                 textview_beepTest.Buffer = tbBeepTest;
@@ -309,7 +309,7 @@ public partial class ChronoJumpWindow
 		label_beepTest_stage.Text = slStatus.stageName;
 		label_beepTest_lap.Text = string.Format ("{0} / {1}",
 				slStatus.lap + 1, slStatus.lapsOfThisStage);
-		label_beepTest_speed.Text = Util.TrimDecimals(slStatus.speedKmh, 1);
+		label_beepTest_speed.Text = Util.TrimDecimals(slStatus.speedKmh, 3);
 
 		if (slStatus.resting)
 			label_beepTest_runStatus_value.Text = "Resting";

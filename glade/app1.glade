@@ -11269,26 +11269,21 @@ on Cloud-view mode</property>
                                                             <property name="orientation">vertical</property>
                                                             <property name="spacing">20</property>
                                                             <child>
-                                                            <object class="GtkBox" id="box_beepTest_type_and_options">
+                                                            <!-- n-columns=7 n-rows=2 -->
+                                                            <object class="GtkGrid" id="grid_beepTest_type_and_options">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="spacing">25</property>
-                                                            <child>
-                                                            <object class="GtkBox">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">8</property>
+                                                            <property name="row-spacing">6</property>
+                                                            <property name="column-spacing">12</property>
                                                             <child>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="halign">start</property>
-                                                            <property name="label">Type:</property>
+                                                            <property name="label">Type</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -11298,98 +11293,116 @@ on Cloud-view mode</property>
                                                             <signal name="changed" handler="on_combo_beepTest_type_changed" swapped="no"/>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkBox">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">8</property>
-                                                            <child>
-                                                            <object class="GtkLabel">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="halign">start</property>
-                                                            <property name="label" translatable="yes">Options:</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkBox" id="box_beepTest_start_at">
-                                                            <property name="name">box_beepTest_start_at</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <object class="GtkLabel">
-                                                            <property name="visible">True</property>
+                                                            <object class="GtkLabel" id="label_beepTest_start_at">
                                                             <property name="can-focus">False</property>
                                                             <property name="label" translatable="yes">Start at</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
+                                                            <property name="left-attach">1</property>
+                                                            <property name="top-attach">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkCheckButton" id="check_beepTest_start8kmh">
+                                                            <property name="label" translatable="yes">Start speed: 8 km/h</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">2</property>
+                                                            <property name="top-attach">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
                                                             <object class="GtkSpinButton" id="spin_beepTest_start_at">
-                                                            <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="text">1</property>
                                                             <property name="adjustment">adjustment162</property>
                                                             <property name="value">1</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="left-attach">1</property>
+                                                            <property name="top-attach">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkCheckButton" id="check_beepTest_start8kmh">
-                                                            <property name="label" translatable="yes">Start speed: 8 Km/h</property>
+                                                            <object class="GtkLabel" id="label_beepTest_options">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Options</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">2</property>
+                                                            <property name="top-attach">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_beepTest_custom_totalLaps">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Total laps</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">6</property>
+                                                            <property name="top-attach">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkSpinButton" id="spin_beepTest_custom_totalLaps">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
-                                                            <property name="receives-default">False</property>
-                                                            <property name="draw-indicator">True</property>
+                                                            <property name="width-chars">6</property>
+                                                            <property name="text">50</property>
+                                                            <property name="adjustment">adjustment161</property>
+                                                            <property name="numeric">True</property>
+                                                            <property name="value">50</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">6</property>
+                                                            <property name="top-attach">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkBox" id="box_beepTest_custom_distM">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Lap distance</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkBox" id="box_beepTest_custom_options">
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">12</property>
-                                                            <child>
-                                                            <object class="GtkBox">
+                                                            <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="spacing">4</property>
+                                                            <property name="label">(m)</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">3</property>
+                                                            <property name="top-attach">0</property>
+                                                            </packing>
+                                                            </child>
                                                             <child>
                                                             <object class="GtkSpinButton" id="spin_beepTest_custom_distM">
                                                             <property name="visible">True</property>
@@ -11401,6 +11414,23 @@ on Cloud-view mode</property>
                                                             <property name="value">20</property>
                                                             </object>
                                                             <packing>
+                                                            <property name="left-attach">3</property>
+                                                            <property name="top-attach">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkBox" id="box_beepTest_custom_speed">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="halign">center</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Lap speed</property>
+                                                            </object>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">0</property>
@@ -11410,7 +11440,7 @@ on Cloud-view mode</property>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label">lap m</property>
+                                                            <property name="label">(km/h)</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -11420,16 +11450,10 @@ on Cloud-view mode</property>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
+                                                            <property name="left-attach">4</property>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
-                                                            <child>
-                                                            <object class="GtkBox">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <object class="GtkSpinButton" id="spin_beepTest_custom_speed">
                                                             <property name="visible">True</property>
@@ -11442,78 +11466,20 @@ on Cloud-view mode</property>
                                                             <property name="value">10</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
+                                                            <property name="left-attach">4</property>
+                                                            <property name="top-attach">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkLabel">
+                                                            <object class="GtkBox" id="box_beepTest_custom_incremental">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label">Km/h</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkBox">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
+                                                            <property name="tooltip-text" translatable="yes">Add x km/h each lap</property>
+                                                            <property name="halign">center</property>
                                                             <property name="spacing">4</property>
                                                             <child>
-                                                            <object class="GtkSpinButton" id="spin_beepTest_custom_totalLaps">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">True</property>
-                                                            <property name="width-chars">6</property>
-                                                            <property name="text">50</property>
-                                                            <property name="adjustment">adjustment161</property>
-                                                            <property name="numeric">True</property>
-                                                            <property name="value">50</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label">Total laps</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkBox">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
                                                             <object class="GtkCheckButton" id="check_beepTest_custom_incremental">
-                                                            <property name="label" translatable="yes">Incremental speed</property>
+                                                            <property name="label" translatable="yes">Incremental</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">False</property>
@@ -11527,73 +11493,37 @@ on Cloud-view mode</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkBox" id="box_beepTest_custom_incremental">
-                                                            <property name="can-focus">False</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Add</property>
+                                                            <property name="label">(km/h)</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">0</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">5</property>
+                                                            <property name="top-attach">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
                                                             <object class="GtkSpinButton" id="spin_beepTest_custom_incremental">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
+                                                            <property name="tooltip-text" translatable="yes">Add x km/h each lap</property>
                                                             <property name="width-chars">6</property>
+                                                            <property name="text" translatable="yes">0,010</property>
                                                             <property name="adjustment">adjustment168</property>
                                                             <property name="digits">3</property>
+                                                            <property name="value">0.01</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkLabel">
-                                                            <property name="visible">True</property>
-                                                            <property name="can-focus">False</property>
-                                                            <property name="label" translatable="yes">Km/h each lap</property>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">3</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">3</property>
-                                                            </packing>
-                                                            </child>
-                                                            </object>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="left-attach">5</property>
+                                                            <property name="top-attach">1</property>
                                                             </packing>
                                                             </child>
                                                             </object>

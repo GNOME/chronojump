@@ -29,18 +29,23 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_mode_race_beepTest;
 	Gtk.Image image_change_modes_contacts_runs_beepTest;
 	Gtk.Box box_beepTest;
-	Gtk.Box box_beepTest_type_and_options;
+	Gtk.Grid grid_beepTest_type_and_options;
 	Gtk.ComboBoxText combo_beepTest_type;
-	Gtk.Box box_beepTest_start_at;
+	Gtk.Label label_beepTest_start_at;
 	Gtk.SpinButton spin_beepTest_start_at;
+	Gtk.Label label_beepTest_options;
 	Gtk.CheckButton check_beepTest_start8kmh;
-	Gtk.Box box_beepTest_custom_options;
+	//custom ->
+	Gtk.Box box_beepTest_custom_distM;
 	Gtk.SpinButton spin_beepTest_custom_distM;
+	Gtk.Box box_beepTest_custom_speed;
 	Gtk.SpinButton spin_beepTest_custom_speed;
-	Gtk.SpinButton spin_beepTest_custom_totalLaps;
-	Gtk.CheckButton check_beepTest_custom_incremental;
 	Gtk.Box box_beepTest_custom_incremental;
+	Gtk.CheckButton check_beepTest_custom_incremental;
 	Gtk.SpinButton spin_beepTest_custom_incremental;
+	Gtk.Label label_beepTest_custom_totalLaps;
+	Gtk.SpinButton spin_beepTest_custom_totalLaps;
+	//<- custom
 	Gtk.Button button_beepTest_start;
 	Gtk.Button button_beepTest_warn_selected;
 	Gtk.Button button_beepTest_exempt_selected;
@@ -73,8 +78,10 @@ public partial class ChronoJumpWindow
 	private void on_combo_beepTest_type_changed (object o, EventArgs args)
 	{
 		//Leger
+		label_beepTest_start_at.Visible = false;
+		spin_beepTest_start_at.Visible = false;
+		label_beepTest_options.Visible = false;
 		check_beepTest_start8kmh.Visible = false;
-		box_beepTest_start_at.Visible = false;
 
 		//YoYo Intermitent
 		label_beepTest_runStatus.Visible = false;
@@ -82,14 +89,16 @@ public partial class ChronoJumpWindow
 		label_beepTest_runStatus_value.Text = "";
 
 		//Custom
-		box_beepTest_custom_options.Visible = false;
+		custom_visible (false);
 
 		string str = UtilGtk.ComboGetActive (combo_beepTest_type);
 
 		if (str == BeepTestCM.Leger20Name || str == BeepTestCM.Leger15Name)
 		{
+			label_beepTest_start_at.Visible = true;
+			spin_beepTest_start_at.Visible = true;
+			label_beepTest_options.Visible = true;
 			check_beepTest_start8kmh.Visible = true;
-			box_beepTest_start_at.Visible = true;
 		}
 		else if (str == BeepTestCM.YYIE1Name || str == BeepTestCM.YYIE2Name ||
 				str == BeepTestCM.YYIR1Name || str == BeepTestCM.YYIR2Name)
@@ -98,7 +107,7 @@ public partial class ChronoJumpWindow
 			label_beepTest_runStatus_value.Visible = true;
 		}
 		else if (str == BeepTestCM.CustomName)
-			box_beepTest_custom_options.Visible = true;
+			custom_visible (true);
 
 		radio_contacts_graph_currentTest.Label = str;
 
@@ -106,9 +115,21 @@ public partial class ChronoJumpWindow
 		pre_fillTreeView_resultsSession ();
 	}
 
+	private void custom_visible (bool visible)
+	{
+		box_beepTest_custom_distM.Visible = visible;
+		spin_beepTest_custom_distM.Visible = visible;
+		box_beepTest_custom_speed.Visible = visible;
+		spin_beepTest_custom_speed.Visible = visible;
+		box_beepTest_custom_incremental.Visible = visible;
+		spin_beepTest_custom_incremental.Visible = (visible && check_beepTest_custom_incremental.Active);
+		label_beepTest_custom_totalLaps.Visible = visible;
+		spin_beepTest_custom_totalLaps.Visible = visible;
+	}
+
 	private void on_check_beepTest_custom_incremental_clicked (object o, EventArgs args)
 	{
-		box_beepTest_custom_incremental.Visible = check_beepTest_custom_incremental.Active;
+		spin_beepTest_custom_incremental.Visible = check_beepTest_custom_incremental.Active;
 	}
 
 	BeepTestRunners beepTestRunners;
@@ -124,7 +145,7 @@ public partial class ChronoJumpWindow
 		//put status of all persons as Running (on treeview_persons)
 		myTreeViewPersons.UpdateStatus (-1, RunnerStatus.StatusEnum.Running);
 
-		box_beepTest_type_and_options.Sensitive = false;
+		grid_beepTest_type_and_options.Sensitive = false;
 		button_beepTest_start.Sensitive = false;
 		button_beepTest_warn_selected.Sensitive = true;
 		button_beepTest_exempt_selected.Sensitive = true;
@@ -293,7 +314,7 @@ public partial class ChronoJumpWindow
 	{
 		if (! threadBeepTest.IsAlive)
 		{
-			box_beepTest_type_and_options.Sensitive = true;
+			grid_beepTest_type_and_options.Sensitive = true;
 			button_beepTest_start.Sensitive = true;
 			button_beepTest_warn_selected.Sensitive = false;
 			button_beepTest_exempt_selected.Sensitive = false;
@@ -344,18 +365,23 @@ public partial class ChronoJumpWindow
 		image_mode_race_beepTest = (Gtk.Image) builder.GetObject ("image_mode_race_beepTest");
 		image_change_modes_contacts_runs_beepTest = (Gtk.Image) builder.GetObject ("image_change_modes_contacts_runs_beepTest");
 		box_beepTest = (Gtk.Box) builder.GetObject ("box_beepTest");
-		box_beepTest_type_and_options = (Gtk.Box) builder.GetObject ("box_beepTest_type_and_options");
+		grid_beepTest_type_and_options = (Gtk.Grid) builder.GetObject ("grid_beepTest_type_and_options");
 		combo_beepTest_type = (Gtk.ComboBoxText) builder.GetObject ("combo_beepTest_type");
-		check_beepTest_start8kmh = (Gtk.CheckButton) builder.GetObject ("check_beepTest_start8kmh");
-		box_beepTest_start_at = (Gtk.Box) builder.GetObject ("box_beepTest_start_at");
+		label_beepTest_start_at = (Gtk.Label) builder.GetObject ("label_beepTest_start_at");
 		spin_beepTest_start_at = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_start_at");
-		box_beepTest_custom_options = (Gtk.Box) builder.GetObject ("box_beepTest_custom_options");
+		label_beepTest_options = (Gtk.Label) builder.GetObject ("label_beepTest_options");
+		check_beepTest_start8kmh = (Gtk.CheckButton) builder.GetObject ("check_beepTest_start8kmh");
+		//custom ->
+		box_beepTest_custom_distM = (Gtk.Box) builder.GetObject ("box_beepTest_custom_distM");
 		spin_beepTest_custom_distM = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_custom_distM");
+		box_beepTest_custom_speed = (Gtk.Box) builder.GetObject ("box_beepTest_custom_speed");
 		spin_beepTest_custom_speed = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_custom_speed");
-		spin_beepTest_custom_totalLaps = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_custom_totalLaps");
 		check_beepTest_custom_incremental = (Gtk.CheckButton) builder.GetObject ("check_beepTest_custom_incremental");
 		box_beepTest_custom_incremental = (Gtk.Box) builder.GetObject ("box_beepTest_custom_incremental");
 		spin_beepTest_custom_incremental = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_custom_incremental");
+		label_beepTest_custom_totalLaps = (Gtk.Label) builder.GetObject ("label_beepTest_custom_totalLaps");
+		spin_beepTest_custom_totalLaps = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_custom_totalLaps");
+		//<- custom
 		button_beepTest_start = (Gtk.Button) builder.GetObject ("button_beepTest_start");
 		button_beepTest_warn_selected = (Gtk.Button) builder.GetObject ("button_beepTest_warn_selected");
 		button_beepTest_exempt_selected = (Gtk.Button) builder.GetObject ("button_beepTest_exempt_selected");

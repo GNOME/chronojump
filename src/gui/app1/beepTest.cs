@@ -38,6 +38,9 @@ public partial class ChronoJumpWindow
 	Gtk.SpinButton spin_beepTest_custom_distM;
 	Gtk.SpinButton spin_beepTest_custom_speed;
 	Gtk.SpinButton spin_beepTest_custom_totalLaps;
+	Gtk.CheckButton check_beepTest_custom_incremental;
+	Gtk.Box box_beepTest_custom_incremental;
+	Gtk.SpinButton spin_beepTest_custom_incremental;
 	Gtk.Button button_beepTest_start;
 	Gtk.Button button_beepTest_warn_selected;
 	Gtk.Button button_beepTest_exempt_selected;
@@ -103,6 +106,11 @@ public partial class ChronoJumpWindow
 		pre_fillTreeView_resultsSession ();
 	}
 
+	private void on_check_beepTest_custom_incremental_clicked (object o, EventArgs args)
+	{
+		box_beepTest_custom_incremental.Visible = check_beepTest_custom_incremental.Active;
+	}
+
 	BeepTestRunners beepTestRunners;
 	public void on_button_beepTest_start_clicked (object o, EventArgs args)
 	{
@@ -123,13 +131,18 @@ public partial class ChronoJumpWindow
 		button_beepTest_finish_selected.Sensitive = true;
 		button_beepTest_finish_all.Sensitive = true;
 
+		double customIncrementalSpeed = Convert.ToDouble (spin_beepTest_custom_incremental.Value);
+		if (! check_beepTest_custom_incremental.Active)
+			customIncrementalSpeed = 0;
+
 		beepTestCM = BeepTestCM.Factory (
 				UtilGtk.ComboGetActive (combo_beepTest_type),
 				Convert.ToInt32 (spin_beepTest_start_at.Value),
 				check_beepTest_start8kmh.Active,
 				Convert.ToInt32 (spin_beepTest_custom_distM.Value),
 				Convert.ToDouble (spin_beepTest_custom_speed.Value),
-				Convert.ToInt32 (spin_beepTest_custom_totalLaps.Value)
+				Convert.ToInt32 (spin_beepTest_custom_totalLaps.Value),
+				customIncrementalSpeed
 				);
 
 		if (beepTestCM.HasVo2max)
@@ -337,6 +350,9 @@ public partial class ChronoJumpWindow
 		spin_beepTest_custom_distM = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_custom_distM");
 		spin_beepTest_custom_speed = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_custom_speed");
 		spin_beepTest_custom_totalLaps = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_custom_totalLaps");
+		check_beepTest_custom_incremental = (Gtk.CheckButton) builder.GetObject ("check_beepTest_custom_incremental");
+		box_beepTest_custom_incremental = (Gtk.Box) builder.GetObject ("box_beepTest_custom_incremental");
+		spin_beepTest_custom_incremental = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_custom_incremental");
 		button_beepTest_start = (Gtk.Button) builder.GetObject ("button_beepTest_start");
 		button_beepTest_warn_selected = (Gtk.Button) builder.GetObject ("button_beepTest_warn_selected");
 		button_beepTest_exempt_selected = (Gtk.Button) builder.GetObject ("button_beepTest_exempt_selected");

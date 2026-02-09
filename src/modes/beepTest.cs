@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2025   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -107,7 +107,7 @@ public class BeepTest : Event
 			BeepTestCM btcm = BeepTestCM.Factory (
 					ExerciseName,
 					0, true,
-					0, 0, 0);
+					0, 0, 0, 0);
 
 			LogB.Information ("btcm is " + btcm.ToString ());
 			return btcm.GetStageNameOfStage (stages);
@@ -120,7 +120,7 @@ public class BeepTest : Event
 			BeepTestCM btcm = BeepTestCM.Factory (
 					ExerciseName,
 					0, (options == "Speed1stStage=8"),
-					0, 0, 0);
+					0, 0, 0, 0);
 
 			return btcm.Vo2max (stages, laps);
 		}

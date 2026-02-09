@@ -407,7 +407,7 @@ public abstract class BeepTestCM
 		};
 	}
 
-	public static BeepTestCM Factory (string name, int leggerStartAt, bool leggerStart8kmh, int customDistM, double customSpeed, int customTotalLaps)
+	public static BeepTestCM Factory (string name, int leggerStartAt, bool leggerStart8kmh, int customDistM, double customSpeed, int customTotalLaps, double customIncrementalSpeed)
 	{
 		if (name == Leger20Name)
 			return new BeepTestLeger20m (leggerStartAt, leggerStart8kmh);
@@ -422,7 +422,7 @@ public abstract class BeepTestCM
 		else if (name == YYIR2Name)
 			return new BeepTestYYIR2 ();
 		else //if (name == CustomName)
-			return new BeepTestCustom (customDistM, customSpeed, customTotalLaps);
+			return new BeepTestCustom (customDistM, customSpeed, customTotalLaps, customIncrementalSpeed);
 
 	}
 
@@ -1148,13 +1148,15 @@ public class BeepTestCustom : BeepTestCM
 {
 	private double speedKmh;
 	private int laps;
+	private double incrementalSpeed;
 
-	public BeepTestCustom (int lapMeters, double speedKmh, int laps)
+	public BeepTestCustom (int lapMeters, double speedKmh, int laps, double incrementalSpeed)
 	{
 		exerciseID = 6;
 		this.lapMeters = lapMeters;
 		this.speedKmh = speedKmh;
 		this.laps = laps;
+		this.incrementalSpeed = incrementalSpeed;
 
 		initialize ();
 	}
@@ -1163,9 +1165,18 @@ public class BeepTestCustom : BeepTestCM
 	protected override List<double> stageSpeedKm_l
 	{
 		get {
+			// note get{} is called multiple times, so don't do this at each iteration:
+			// speedKmh += incrementalSpeed;
+			// do this:
+			double speedHere = speedKmh;
+
 			List<double> l = new List<double> ();
 			for (int i = 0; i < laps; i ++)
-				l.Add (speedKmh);
+			{
+				//LogB.Information ("speed: " + speedHere);
+				l.Add (speedHere);
+				speedHere += incrementalSpeed;
+			}
 			return (l);
 		}
 	}

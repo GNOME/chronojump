@@ -284,6 +284,9 @@ public partial class ChronoJumpWindow
 		while (! beepTestCM.Finished)
 		{
 		}
+
+		// save all the runners (all that have not been exempt and have not finished yet)
+		on_button_beepTest_finish_all_clicked (new object (), new EventArgs ());
 	}
 
 	private bool pulseBeepTest ()

@@ -934,6 +934,9 @@ public class UtilGtk
 			"checkbutton:checked {" +
 				"color: " + GetRGBAs (Colors.YELLOW_LIGHT) + ";" + // background: " + Config.ColorBackgroundShifted.ToString () + ";" +
 			"}" +
+			"checkbutton:disabled check {" +
+			    "background: #cccccc;" +
+			"}" +
 			//button checked
 			"button:checked {" +
 				"background: " + GetRGBAs (Colors.YELLOW_LIGHT) + ";" + //TODO: try a YELLOW_MID

@@ -11376,16 +11376,16 @@ on Cloud-view mode</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <object class="GtkBox" id="box_beepTest_constant_options">
+                                                            <object class="GtkBox" id="box_beepTest_custom_options">
                                                             <property name="can-focus">False</property>
-                                                            <property name="spacing">8</property>
+                                                            <property name="spacing">12</property>
                                                             <child>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
-                                                            <object class="GtkSpinButton" id="spin_beepTest_constant_distM">
+                                                            <object class="GtkSpinButton" id="spin_beepTest_custom_distM">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="width-chars">6</property>
@@ -11425,7 +11425,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
-                                                            <object class="GtkSpinButton" id="spin_beepTest_constant_speed">
+                                                            <object class="GtkSpinButton" id="spin_beepTest_custom_speed">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="width-chars">6</property>
@@ -11466,7 +11466,7 @@ on Cloud-view mode</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
-                                                            <object class="GtkSpinButton" id="spin_beepTest_constant_totalLaps">
+                                                            <object class="GtkSpinButton" id="spin_beepTest_custom_totalLaps">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="width-chars">6</property>
@@ -28125,6 +28125,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2024   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -34,10 +34,10 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_beepTest_start_at;
 	Gtk.SpinButton spin_beepTest_start_at;
 	Gtk.CheckButton check_beepTest_start8kmh;
-	Gtk.Box box_beepTest_constant_options;
-	Gtk.SpinButton spin_beepTest_constant_distM;
-	Gtk.SpinButton spin_beepTest_constant_speed;
-	Gtk.SpinButton spin_beepTest_constant_totalLaps;
+	Gtk.Box box_beepTest_custom_options;
+	Gtk.SpinButton spin_beepTest_custom_distM;
+	Gtk.SpinButton spin_beepTest_custom_speed;
+	Gtk.SpinButton spin_beepTest_custom_totalLaps;
 	Gtk.Button button_beepTest_start;
 	Gtk.Button button_beepTest_warn_selected;
 	Gtk.Button button_beepTest_exempt_selected;
@@ -78,8 +78,8 @@ public partial class ChronoJumpWindow
 		label_beepTest_runStatus_value.Visible = false;
 		label_beepTest_runStatus_value.Text = "";
 
-		//Constant speed
-		box_beepTest_constant_options.Visible = false;
+		//Custom
+		box_beepTest_custom_options.Visible = false;
 
 		string str = UtilGtk.ComboGetActive (combo_beepTest_type);
 
@@ -94,8 +94,8 @@ public partial class ChronoJumpWindow
 			label_beepTest_runStatus.Visible = true;
 			label_beepTest_runStatus_value.Visible = true;
 		}
-		else if (str == BeepTestCM.ConstantSpeedName)
-			box_beepTest_constant_options.Visible = true;
+		else if (str == BeepTestCM.CustomName)
+			box_beepTest_custom_options.Visible = true;
 
 		radio_contacts_graph_currentTest.Label = str;
 
@@ -127,9 +127,9 @@ public partial class ChronoJumpWindow
 				UtilGtk.ComboGetActive (combo_beepTest_type),
 				Convert.ToInt32 (spin_beepTest_start_at.Value),
 				check_beepTest_start8kmh.Active,
-				Convert.ToInt32 (spin_beepTest_constant_distM.Value),
-				Convert.ToDouble (spin_beepTest_constant_speed.Value),
-				Convert.ToInt32 (spin_beepTest_constant_totalLaps.Value)
+				Convert.ToInt32 (spin_beepTest_custom_distM.Value),
+				Convert.ToDouble (spin_beepTest_custom_speed.Value),
+				Convert.ToInt32 (spin_beepTest_custom_totalLaps.Value)
 				);
 
 		if (beepTestCM.HasVo2max)
@@ -333,10 +333,10 @@ public partial class ChronoJumpWindow
 		check_beepTest_start8kmh = (Gtk.CheckButton) builder.GetObject ("check_beepTest_start8kmh");
 		box_beepTest_start_at = (Gtk.Box) builder.GetObject ("box_beepTest_start_at");
 		spin_beepTest_start_at = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_start_at");
-		box_beepTest_constant_options = (Gtk.Box) builder.GetObject ("box_beepTest_constant_options");
-		spin_beepTest_constant_distM = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_constant_distM");
-		spin_beepTest_constant_speed = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_constant_speed");
-		spin_beepTest_constant_totalLaps = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_constant_totalLaps");
+		box_beepTest_custom_options = (Gtk.Box) builder.GetObject ("box_beepTest_custom_options");
+		spin_beepTest_custom_distM = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_custom_distM");
+		spin_beepTest_custom_speed = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_custom_speed");
+		spin_beepTest_custom_totalLaps = (Gtk.SpinButton) builder.GetObject ("spin_beepTest_custom_totalLaps");
 		button_beepTest_start = (Gtk.Button) builder.GetObject ("button_beepTest_start");
 		button_beepTest_warn_selected = (Gtk.Button) builder.GetObject ("button_beepTest_warn_selected");
 		button_beepTest_exempt_selected = (Gtk.Button) builder.GetObject ("button_beepTest_exempt_selected");

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2024   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -392,7 +392,7 @@ public abstract class BeepTestCM
 	public static string YYIE2Name = "Yo Yo Intermitent Endurance 2";
 	public static string YYIR1Name = "Yo Yo Intermitent Recovery 1";
 	public static string YYIR2Name = "Yo Yo Intermitent Recovery 2";
-	public static string ConstantSpeedName = "Constant speed";
+	public static string CustomName = "Custom";
 	//TODO: have a bool translated like in ForceSensorRFD.FunctionsArray
 	public static string [] TypesArray ()
 	{
@@ -403,11 +403,11 @@ public abstract class BeepTestCM
 			YYIE2Name,
 			YYIR1Name,
 			YYIR2Name,
-			ConstantSpeedName
+			CustomName
 		};
 	}
 
-	public static BeepTestCM Factory (string name, int leggerStartAt, bool leggerStart8kmh, int constantDistM, double constantSpeed, int constantTotalLaps)
+	public static BeepTestCM Factory (string name, int leggerStartAt, bool leggerStart8kmh, int customDistM, double customSpeed, int customTotalLaps)
 	{
 		if (name == Leger20Name)
 			return new BeepTestLeger20m (leggerStartAt, leggerStart8kmh);
@@ -421,8 +421,8 @@ public abstract class BeepTestCM
 			return new BeepTestYYIR1 ();
 		else if (name == YYIR2Name)
 			return new BeepTestYYIR2 ();
-		else //if (name == ConstantSpeedName)
-			return new BeepTestConstantSpeed (constantDistM, constantSpeed, constantTotalLaps);
+		else //if (name == CustomName)
+			return new BeepTestCustom (customDistM, customSpeed, customTotalLaps);
 
 	}
 
@@ -631,7 +631,7 @@ public abstract class BeepTestCM
 			return stageName_l[stage];
 		}
 
-		return (stage+1).ToString (); //used on Constant Speed
+		return (stage+1).ToString (); //used on Custom
 	}
 
 	public BeepNowEnum ShouldBeepNow
@@ -1144,12 +1144,12 @@ public class BeepTestYYIR2 : BeepTestYYI
 	}
 }
 
-public class BeepTestConstantSpeed : BeepTestCM
+public class BeepTestCustom : BeepTestCM
 {
 	private double speedKmh;
 	private int laps;
 
-	public BeepTestConstantSpeed (int lapMeters, double speedKmh, int laps)
+	public BeepTestCustom (int lapMeters, double speedKmh, int laps)
 	{
 		exerciseID = 6;
 		this.lapMeters = lapMeters;

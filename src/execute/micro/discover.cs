@@ -50,6 +50,9 @@ public class MicroDiscover : MicroComms
 
 	private List<ChronopicRegisterPort> toDiscover_l;
 
+	public enum RacesDevices { ALL, WICHRO, OLDPHOTOCELLS };
+	private RacesDevices racesDevicesDetect;
+
 	//devices discovered compatible with current mode
 	private static List<ChronopicRegisterPort.Types> discovered_l;
 	
@@ -67,6 +70,7 @@ public class MicroDiscover : MicroComms
 		micro_l = new List<Micro> ();
 		microDiscoverManage_l = new List<MicroDiscoverManage> ();
 		progressBar_l = new List<Status> ();
+		racesDevicesDetect = RacesDevices.ALL;
 
 		cancel = false;
 
@@ -128,19 +132,25 @@ public class MicroDiscover : MicroComms
 			{
 				//if we need to test low speed and high speed, better try first low
 				//a 9600 device can get saturated if 115200 connection is done, will need to remove usb
-				micro.Bauds = 9600;
-				if(connectAndSleep ())
-				{
-					flush(); //after connect
-					LogB.Information("calling discoverMultitest");
-					success = discoverMultitest ();
-					LogB.Information("ended discoverMultitest");
-				} else
-					connectError_l.Add (micro.PortName);
 
-				if (! success)
+				if (racesDevicesDetect != RacesDevices.WICHRO)
 				{
-					micro.ClosePort ();
+					micro.Bauds = 9600;
+					if(connectAndSleep ())
+					{
+						flush(); //after connect
+						LogB.Information("calling discoverMultitest");
+						success = discoverMultitest ();
+						LogB.Information("ended discoverMultitest");
+					} else
+						connectError_l.Add (micro.PortName);
+				}
+
+				if (racesDevicesDetect != RacesDevices.OLDPHOTOCELLS && ! success)
+				{
+					if (racesDevicesDetect == RacesDevices.ALL)
+						micro.ClosePort ();
+
 					micro.Bauds = 115200;
 					if (! micro.PortName.ToLower().Contains("acm"))
 					{
@@ -153,7 +163,8 @@ public class MicroDiscover : MicroComms
 							LogB.Information("ended discoverWichro");
 						} else
 							connectError_l.Add (micro.PortName);
-					}
+					} else // see CreateSerialPort comment on WILIGHT
+						connectNotSleep ();
 				}
 				LogB.Information("success: " + success.ToString());
 			}
@@ -174,7 +185,9 @@ public class MicroDiscover : MicroComms
 						connectError_l.Add (micro.PortName);
 				} else {
 					//need to CreateSerialPort, because if not the ClosePort below will crash
+					// no need now, there is a try/catch there
 					connectNotSleep ();
+					//yes, because if not it crashes after on a missing list
 				}
 			}
 			else {
@@ -206,7 +219,11 @@ public class MicroDiscover : MicroComms
 					connectError_l.Add (micro.PortName);
 			}
 
-			micro.ClosePort (); //close even connect failed?
+			try {
+				micro.ClosePort (); //close even connect failed?
+			} catch {
+				LogB.Information ("Catched closing port at DiscoverOneMode");
+			}
 
 			//add to list only the relevant, eg in races will be Wichro (and maybe Chronopic multitest)
 			if(success)
@@ -603,6 +620,10 @@ public class MicroDiscover : MicroComms
 
 	public List<string> ConnectError_l {
 		get { return connectError_l; }
+	}
+
+	public RacesDevices RacesDevicesDetect {
+		set { racesDevicesDetect = value; }
 	}
 }
 

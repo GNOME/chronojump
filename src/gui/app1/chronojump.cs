@@ -301,10 +301,12 @@ public partial class ChronoJumpWindow
 	Gtk.ButtonBox buttonbox_micro_discover_assign_manually;
 	Gtk.Button button_micro_discover_refresh;
 	Gtk.Image image_micro_discover_refresh;
+	Gtk.Box box_micro_discover_races_choose;
 	Gtk.Grid grid_micro_discover;
 	Gtk.Box box_micro_discover_nc;
 	Gtk.Label label_micro_discover_nc_current_mode;
 	Gtk.Label label_micro_discover_connect_error;
+	Gtk.Label label_micro_discover_nc_comment;
 	Gtk.Box hbox_contacts_detect_and_execute;
 	Gtk.Box hbox_encoder_detect_and_execute;
 	Gtk.Button button_contacts_detect;
@@ -4768,9 +4770,15 @@ public partial class ChronoJumpWindow
 		box_micro_discover_nc.Visible = false;
 		label_micro_discover_nc_current_mode.Text = Constants.ModePrint (current_mode);
 		label_micro_discover_connect_error.Visible = false;
+		label_micro_discover_nc_comment.Text = "";
+		label_micro_discover_nc_comment.Visible = false;
+
+		box_micro_discover_races_choose.Visible = (operatingSystem == UtilAll.OperatingSystems.WINDOWS &&
+				(current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC));
 
 		discoverWin = new DiscoverWindow (app1,
-				current_mode, chronopicRegister,
+				operatingSystem, current_mode,
+				chronopicRegister,
 				vbox_micro_discover_main,
 				button_micro_discover_refresh,
 				image_micro_discover_refresh,
@@ -4779,6 +4787,7 @@ public partial class ChronoJumpWindow
 				label_micro_discover_not_found,
 				grid_micro_discover,
 				box_micro_discover_nc,
+				label_micro_discover_nc_comment,
 				button_micro_discover_cancel_close,
 				image_button_micro_discover_cancel_close,
 				label_button_micro_discover_cancel_close,
@@ -4800,6 +4809,29 @@ public partial class ChronoJumpWindow
 	private void on_button_micro_discover_refresh_clicked (object o, EventArgs args)
 	{
 		detect_devices_do ();
+	}
+
+	private void on_button_discover_detect_wichro_clicked (object o, EventArgs args)
+	{
+		if (discoverWin != null)
+		{
+			label_micro_discover_nc_current_mode.Text = "WICHRO";
+
+			//TODO: only show this if no WICHRO is found
+			label_micro_discover_nc_comment.Text = Catalog.GetString ("Before trying again, better unplug/plug USB");
+			discoverWin.DetectWichro ();
+		}
+	}
+	private void on_button_discover_detect_old_photocells_clicked (object o, EventArgs args)
+	{
+		if (discoverWin != null)
+		{
+			label_micro_discover_nc_current_mode.Text = Catalog.GetString ("Old cabled photocells");
+
+			//TODO: only show this if no "old photocells" is found
+			label_micro_discover_nc_comment.Text = Catalog.GetString ("Before trying again, better unplug/plug USB");
+			discoverWin.DetectOldPhotocells ();
+		}
 	}
 
 	private void on_check_discover_advanced_toggled (object o, EventArgs args)
@@ -8893,10 +8925,12 @@ public partial class ChronoJumpWindow
 		image_micro_discover_refresh = (Gtk.Image) builder.GetObject ("image_micro_discover_refresh");
 		box_micro_discover_assign_manually = (Gtk.Box) builder.GetObject ("box_micro_discover_assign_manually");
 		buttonbox_micro_discover_assign_manually = (Gtk.ButtonBox) builder.GetObject ("buttonbox_micro_discover_assign_manually");
+		box_micro_discover_races_choose = (Gtk.Box) builder.GetObject ("box_micro_discover_races_choose");
 		grid_micro_discover = (Gtk.Grid) builder.GetObject ("grid_micro_discover");
 		box_micro_discover_nc = (Gtk.Box) builder.GetObject ("box_micro_discover_nc");
 		label_micro_discover_nc_current_mode = (Gtk.Label) builder.GetObject ("label_micro_discover_nc_current_mode");
 		label_micro_discover_connect_error = (Gtk.Label) builder.GetObject ("label_micro_discover_connect_error");
+		label_micro_discover_nc_comment = (Gtk.Label) builder.GetObject ("label_micro_discover_nc_comment");
 		hbox_contacts_detect_and_execute = (Gtk.Box) builder.GetObject ("hbox_contacts_detect_and_execute");
 		hbox_encoder_detect_and_execute = (Gtk.Box) builder.GetObject ("hbox_encoder_detect_and_execute");
 		button_contacts_detect = (Gtk.Button) builder.GetObject ("button_contacts_detect");

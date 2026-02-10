@@ -29089,6 +29089,12 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -52321,6 +52327,58 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">12</property>
                                                             <child>
+                                                            <object class="GtkBox" id="box_micro_discover_races_choose">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="margin-bottom">12</property>
+                                                            <property name="spacing">12</property>
+                                                            <child>
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Detect:</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_discover_detect_wichro">
+                                                            <property name="label">WICHRO</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <signal name="clicked" handler="on_button_discover_detect_wichro_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_discover_detect_old_photocells">
+                                                            <property name="label" translatable="yes">Old cabled photocells</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <signal name="clicked" handler="on_button_discover_detect_old_photocells_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <object class="GtkLabel" id="label_micro_discover_not_found">
                                                             <property name="can-focus">False</property>
                                                             <property name="label" translatable="yes">label</property>
@@ -52328,7 +52386,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">0</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -52381,7 +52439,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -52427,11 +52485,17 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             <child>
                                                             <object class="GtkBox" id="box_micro_discover_nc">
+                                                            <property name="can-focus">False</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
@@ -52472,8 +52536,27 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel" id="label_micro_discover_nc_comment">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="halign">start</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">3</property>
+                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -52483,7 +52566,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">4</property>
+                                                            <property name="position">5</property>
                                                             </packing>
                                                             </child>
                                                             </object>

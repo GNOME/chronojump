@@ -76,6 +76,7 @@ public class DiscoverWindow
 	private Gtk.ButtonBox buttonbox_micro_discover_assign_manually;
 	private Gtk.Grid grid_micro_discover;
 	private Gtk.Box box_micro_discover_nc;
+	private Gtk.Label label_micro_discover_nc_comment;
 	private Gtk.Button button_micro_discover_cancel_close;
 	private Gtk.Image image_button_micro_discover_cancel_close;
 	private Gtk.Label label_button_micro_discover_cancel_close;
@@ -102,7 +103,8 @@ public class DiscoverWindow
 	private ChronopicRegisterPort portSelected;
 
 	public DiscoverWindow (Gtk.Window parentWin,
-			Constants.Modes current_mode, ChronopicRegister chronopicRegister,
+			UtilAll.OperatingSystems operatingSystem, Constants.Modes current_mode,
+			ChronopicRegister chronopicRegister,
 			Gtk.VBox vbox_micro_discover_main,
 			Gtk.Button button_micro_discover_refresh,
 			Gtk.Image image_micro_discover_refresh,
@@ -111,6 +113,7 @@ public class DiscoverWindow
 			Gtk.Label label_micro_discover_not_found,
 			Gtk.Grid grid_micro_discover,
 			Gtk.Box box_micro_discover_nc,
+			Gtk.Label label_micro_discover_nc_comment,
 			Gtk.Button button_micro_discover_cancel_close,
 			Gtk.Image image_button_micro_discover_cancel_close,
 			Gtk.Label label_button_micro_discover_cancel_close,
@@ -132,6 +135,7 @@ public class DiscoverWindow
 		this.buttonbox_micro_discover_assign_manually = buttonbox_micro_discover_assign_manually;
 		this.grid_micro_discover = grid_micro_discover;
 		this.box_micro_discover_nc = box_micro_discover_nc;
+		this.label_micro_discover_nc_comment = label_micro_discover_nc_comment;
 		this.button_micro_discover_cancel_close = button_micro_discover_cancel_close;
 		this.image_button_micro_discover_cancel_close = image_button_micro_discover_cancel_close;
 		this.label_button_micro_discover_cancel_close = label_button_micro_discover_cancel_close;
@@ -205,12 +209,13 @@ public class DiscoverWindow
 
 			label_micro_discover_not_found.Visible = false;
 			setup_grid_micro_discover_l (alreadyDiscovered_l, notDiscovered_l);
-			discoverCloseAfterCancel = false;
-			button_micro_discover_refresh.Sensitive = false;
 
-			discoverThread = new Thread (new ThreadStart (discoverDo));
-			GLib.Idle.Add (new GLib.IdleHandler (pulseDiscoverGTK));
-			discoverThread.Start();
+			if (operatingSystem == UtilAll.OperatingSystems.WINDOWS &&
+					(current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC))
+			{
+				// do nothing, user will click on WICHRO or Old cabled photocells
+			} else
+				discoverStart ();
 		} else {
 			UtilGtk.RemoveChildren (grid_micro_discover);
 
@@ -237,7 +242,35 @@ public class DiscoverWindow
 		//cDebug.StopAndPrint();
 	}
 
+	// separated as in Windows Races it is called after user interaction
+	private void discoverStart ()
+	{
+		discoverCloseAfterCancel = false;
+		button_micro_discover_refresh.Sensitive = false;
 
+		discoverThread = new Thread (new ThreadStart (discoverDo));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseDiscoverGTK));
+		discoverThread.Start();
+	}
+
+	// Races on Windows 11 problem if detect first chronopic (9600) and then WICHRO (115200)
+	// now checking what to detect, and if no success, tell user to unplug/plug usb before try the other type
+	public void DetectWichro ()
+	{
+		if (microDiscover == null)
+			return;
+
+		microDiscover.RacesDevicesDetect = MicroDiscover.RacesDevices.WICHRO;
+		discoverStart ();
+	}
+	public void DetectOldPhotocells ()
+	{
+		if (microDiscover == null)
+			return;
+
+		microDiscover.RacesDevicesDetect = MicroDiscover.RacesDevices.OLDPHOTOCELLS;
+		discoverStart ();
+	}
 
 	private void setup_grid_micro_discover_l (
 			List<ChronopicRegisterPort> alreadyDiscovered_l,
@@ -414,6 +447,7 @@ public class DiscoverWindow
 				label.Text = Catalog.GetString ("NC");
 
 				box_micro_discover_nc.Visible = true;
+				label_micro_discover_nc_comment.Visible = true;
 			}
 
 			// we can forget a device that has been assigned to current_mode or others
@@ -645,6 +679,7 @@ public class DiscoverWindow
 						buttonManuallyAssign_notDiscovered_l[i].Clicked += new EventHandler (on_discover_manuallyAssign_this_clicked);
 
 						box_micro_discover_nc.Visible = true;
+						label_micro_discover_nc_comment.Visible = true;
 					}
 				}
 			}

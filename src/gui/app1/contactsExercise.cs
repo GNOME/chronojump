@@ -68,6 +68,7 @@ public partial class ChronoJumpWindow
 		combo_select_contacts_top.Sensitive = false;
 		frame_contacts_exercise.Sensitive = false;
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = false;
+		hbox_encoder_capture_top.Sensitive = false;
 		hbox_top_person.Sensitive = false;
 
 		//do not show the image on runEncoder
@@ -94,6 +95,7 @@ public partial class ChronoJumpWindow
 		combo_select_contacts_top.Sensitive = true;
 		frame_contacts_exercise.Sensitive = true;
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = true;
+		hbox_encoder_capture_top.Sensitive = true;
 		hbox_top_person.Sensitive = true;
 
 		// ---->

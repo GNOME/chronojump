@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2026-02-09 12:33+0000\n"
-"PO-Revision-Date: 2026-02-09 21:18+0200\n"
+"POT-Creation-Date: 2026-02-10 16:40+0000\n"
+"PO-Revision-Date: 2026-02-10 21:57+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -87,7 +87,7 @@ msgstr "Зупинити"
 
 #: ../glade/app1.glade.h:15 ../glade/dialog_threshold.glade.h:4
 #: ../glade/preferences_win.glade.h:40 ../glade/report_window.glade.h:10
-#: ../src/exportSession.cs:655 ../src/gui/app1/chronojump.cs:5806
+#: ../src/exportSession.cs:655 ../src/gui/app1/chronojump.cs:5838
 #: ../src/gui/modes/jumpRjMore.cs:128 ../src/gui/modes/jumpRjMore.cs:183
 #: ../src/gui/modes/jumpRjMore.cs:233 ../src/sqlite/speciallity.cs:186
 #: ../src/stats/rjAVGSD.cs:36 ../src/stats/rjPotencyBosco.cs:35
@@ -250,7 +250,7 @@ msgstr "Виявити пристрій"
 #. 3) create widgets, lists, attach to table and show all
 #. 3a) create table header row
 #: ../glade/app1.glade.h:45 ../glade/evaluator_window.glade.h:29
-#: ../src/gui/chronopicRegister.cs:224 ../src/gui/discover.cs:279
+#: ../src/gui/chronopicRegister.cs:224 ../src/gui/discover.cs:312
 msgid "Device"
 msgstr "Пристрій"
 
@@ -370,11 +370,11 @@ msgstr "Скасувати тест"
 #: ../glade/force_sensor_elastic_bands.glade.h:15
 #: ../glade/force_sensor_exercise.glade.h:37 ../glade/generic_window.glade.h:9
 #: ../glade/person_merge.glade.h:9 ../glade/person_select_window.glade.h:13
-#: ../src/exportSession.cs:129 ../src/gui/app1/contactsExercise.cs:176
+#: ../src/exportSession.cs:129 ../src/gui/app1/contactsExercise.cs:178
 #: ../src/gui/app1/encoder.cs:2452 ../src/gui/app1/encoder.cs:2790
 #: ../src/gui/app1/session/backup.cs:81 ../src/gui/app1/session/backup.cs:248
 #: ../src/gui/app1/session/backup.cs:478 ../src/gui/app1/session/export.cs:96
-#: ../src/gui/app1/session/loadAndImport.cs:443 ../src/gui/discover.cs:200
+#: ../src/gui/app1/session/loadAndImport.cs:443 ../src/gui/discover.cs:204
 #: ../src/gui/feedback.cs:1530 ../src/gui/modes/encoderConfiguration.cs:784
 #: ../src/gui/modes/encoderConfiguration.cs:840
 #: ../src/gui/person/addModify.cs:385 ../src/gui/person/addMultiple.cs:226
@@ -388,8 +388,8 @@ msgstr "Скасувати"
 msgid "Fullscreen"
 msgstr "На увесь екран"
 
-#: ../glade/app1.glade.h:68 ../src/gui/app1/chronojump.cs:5471
-#: ../src/gui/app1/chronojump.cs:5965 ../src/gui/app1/jump.cs:374
+#: ../glade/app1.glade.h:68 ../src/gui/app1/chronojump.cs:5503
+#: ../src/gui/app1/chronojump.cs:5997 ../src/gui/app1/jump.cs:374
 #: ../src/gui/app1/jump.cs:438 ../src/gui/app1/run.cs:202
 #: ../src/gui/app1/run.cs:282
 msgid "Phases"
@@ -524,22 +524,18 @@ msgid "Start at"
 msgstr "Почати з"
 
 #: ../glade/app1.glade.h:96
-#| msgid "Start speed: 8 Km/h"
 msgid "Start speed: 8 km/h"
 msgstr "Початкова швидкість: 8 км/год"
 
 #: ../glade/app1.glade.h:97
-#| msgid "Total mass"
 msgid "Total laps"
 msgstr "Загалом кіл"
 
 #: ../glade/app1.glade.h:98
-#| msgid "Jump distance"
 msgid "Lap distance"
 msgstr "Відстань кола"
 
 #: ../glade/app1.glade.h:99
-#| msgid "Max speed"
 msgid "Lap speed"
 msgstr "Швидкість кола"
 
@@ -666,7 +662,7 @@ msgstr "Калібрувати"
 #: ../src/gui/app1/runEncoder.cs:1260 ../src/gui/app1/runEncoder.cs:2835
 #: ../src/gui/app1/session/backup.cs:208 ../src/gui/app1/session/backup.cs:437
 #: ../src/gui/app1/session/backup.cs:490 ../src/gui/chronopicRegister.cs:402
-#: ../src/gui/discover.cs:222 ../src/gui/discover.cs:684
+#: ../src/gui/discover.cs:227 ../src/gui/discover.cs:719
 #: ../src/gui/executeAuto.cs:323 ../src/gui/genericWindow.cs:1173
 #: ../src/gui/modes/encoderSelectRepetitions.cs:289
 msgid "Close"
@@ -680,8 +676,8 @@ msgstr "Калібрувати знову"
 msgid "Session results"
 msgstr "Результати сеансу"
 
-#: ../glade/app1.glade.h:128 ../src/gui/app1/chronojump.cs:2811
-#: ../src/gui/app1/chronojump.cs:2819 ../src/gui/app1/forceSensorAnalyze.cs:897
+#: ../glade/app1.glade.h:128 ../src/gui/app1/chronojump.cs:2813
+#: ../src/gui/app1/chronojump.cs:2821 ../src/gui/app1/forceSensorAnalyze.cs:897
 #: ../src/gui/app1/forceSensorAnalyze.cs:904 ../src/gui/genericWindow.cs:527
 #: ../src/gui/genericWindow.cs:580 ../src/gui/person/recuperate.cs:373
 #: ../src/gui/person/recuperate.cs:521 ../src/gui/stats.cs:218
@@ -937,7 +933,7 @@ msgstr "Домінація"
 #: ../src/exportSession.cs:530 ../src/exportSession.cs:827
 #: ../src/exportSession.cs:887 ../src/exportSession.cs:1001
 #: ../src/gui/app1/treeviews/sprint.cs:45 ../src/gui/chronopicRegister.cs:225
-#: ../src/gui/convertWeight.cs:118 ../src/gui/discover.cs:292
+#: ../src/gui/convertWeight.cs:118 ../src/gui/discover.cs:325
 #: ../src/gui/report.cs:177
 msgid "Type"
 msgstr "Тип"
@@ -1009,7 +1005,7 @@ msgid "Measure reaction time"
 msgstr "Вимірювати час реакції"
 
 #: ../glade/app1.glade.h:188 ../glade/run_type_add.glade.h:21
-#: ../src/gui/app1/contactsExercise.cs:417
+#: ../src/gui/app1/contactsExercise.cs:419
 msgid "laps"
 msgstr "кола"
 
@@ -1345,7 +1341,7 @@ msgid "Sprint"
 msgstr "Спринт"
 
 #: ../glade/app1.glade.h:250 ../glade/preferences_win.glade.h:217
-#: ../src/gui/discover.cs:297
+#: ../src/gui/discover.cs:330
 msgid "Advanced"
 msgstr "Додатково"
 
@@ -2688,29 +2684,39 @@ msgstr "Вибачте, не вдалося відкрити сайт."
 msgid "Refresh"
 msgstr "Освіжити"
 
-#: ../glade/app1.glade.h:556 ../glade/dialog_person_popup.glade.h:3
+#: ../glade/app1.glade.h:556
+#| msgid "Detection"
+msgid "Detect:"
+msgstr "Виявлення:"
+
+#: ../glade/app1.glade.h:557 ../src/gui/app1/chronojump.cs:4829
+#: ../src/gui/discover.cs:1014
+msgid "Old cabled photocells"
+msgstr "Застарілі кабельні фотоелементи"
+
+#: ../glade/app1.glade.h:558 ../glade/dialog_person_popup.glade.h:3
 msgid "label"
 msgstr "мітка"
 
-#: ../glade/app1.glade.h:557 ../src/gui/discover.cs:174
-#: ../src/gui/discover.cs:519
+#: ../glade/app1.glade.h:559 ../src/gui/discover.cs:178
+#: ../src/gui/discover.cs:553
 msgid "Show advanced"
 msgstr "Показувати додаткові"
 
 #. NC means: Not Compatible
-#: ../glade/app1.glade.h:559
+#: ../glade/app1.glade.h:561
 msgid "NC:"
 msgstr "НС:"
 
-#: ../glade/app1.glade.h:560
+#: ../glade/app1.glade.h:562
 msgid "Not compatible with"
 msgstr "Є несумісним з"
 
-#: ../glade/app1.glade.h:561 ../src/gui/discover.cs:95
+#: ../glade/app1.glade.h:563 ../src/gui/discover.cs:96
 msgid "Assign manually"
 msgstr "Призначити вручну"
 
-#: ../glade/app1.glade.h:562
+#: ../glade/app1.glade.h:564
 msgid ""
 "Chronojump detects devices automatically. However, if for some reason your "
 "device isn't detected correctly, you can assign it manually."
@@ -2719,7 +2725,7 @@ msgstr ""
 "пристрій не було виявлено належним чином, ви можете призначити його "
 "автоматично."
 
-#: ../glade/app1.glade.h:563
+#: ../glade/app1.glade.h:565
 msgid ""
 "Please note that if you manually assigned an incorrect device, you can "
 "always forget it using the Forget button."
@@ -2728,38 +2734,38 @@ msgstr ""
 "завжди можете наказати програмі забути про нього за допомогою кнопки "
 "«Забути»."
 
-#: ../glade/app1.glade.h:564 ../glade/person_select_window.glade.h:2
+#: ../glade/app1.glade.h:566 ../glade/person_select_window.glade.h:2
 msgid "Manage persons"
 msgstr "Керування особами"
 
-#: ../glade/app1.glade.h:565 ../glade/person_select_window.glade.h:4
+#: ../glade/app1.glade.h:567 ../glade/person_select_window.glade.h:4
 #: ../glade/person_win.glade.h:1 ../src/gui/person/addModify.cs:276
 msgid "New person"
 msgstr "Нова особа"
 
-#: ../glade/app1.glade.h:566
+#: ../glade/app1.glade.h:568
 msgid "Create new person"
 msgstr "Створити запис особи"
 
-#: ../glade/app1.glade.h:567 ../glade/person_select_window.glade.h:6
+#: ../glade/app1.glade.h:569 ../glade/person_select_window.glade.h:6
 msgid "New persons (multiple)"
 msgstr "Нові особи (декілька)"
 
-#: ../glade/app1.glade.h:568 ../glade/person_select_window.glade.h:11
+#: ../glade/app1.glade.h:570 ../glade/person_select_window.glade.h:11
 #: ../glade/person_win.glade.h:47
 msgid "Load person"
 msgstr "Завантажити особу"
 
-#: ../glade/app1.glade.h:569 ../glade/person_select_window.glade.h:10
+#: ../glade/app1.glade.h:571 ../glade/person_select_window.glade.h:10
 msgid "Load into session"
 msgstr "Завантажити до сеансу"
 
-#: ../glade/app1.glade.h:570 ../glade/person_select_window.glade.h:12
+#: ../glade/app1.glade.h:572 ../glade/person_select_window.glade.h:12
 #: ../src/gui/person/recuperate.cs:408
 msgid "Load persons from other session"
 msgstr "Завантажити особи з іншого сеансу"
 
-#: ../glade/app1.glade.h:571 ../glade/person_select_window.glade.h:8
+#: ../glade/app1.glade.h:573 ../glade/person_select_window.glade.h:8
 msgid ""
 "Create person disabled\n"
 "on Cloud-view mode"
@@ -2767,113 +2773,113 @@ msgstr ""
 "Створення осіб вимкнено\n"
 "у режимі перегляду хмари"
 
-#: ../glade/app1.glade.h:573
+#: ../glade/app1.glade.h:575
 msgid "This person:"
 msgstr "Ця особа:"
 
-#: ../glade/app1.glade.h:574 ../glade/person_select_window.glade.h:16
+#: ../glade/app1.glade.h:576 ../glade/person_select_window.glade.h:16
 msgid "Edit selected person"
 msgstr "Редагувати позначену особу"
 
-#: ../glade/app1.glade.h:575
+#: ../glade/app1.glade.h:577
 msgid "Delete person from this session."
 msgstr "Вилучити особу з цього сеансу."
 
-#: ../glade/app1.glade.h:576
+#: ../glade/app1.glade.h:578
 msgid "Show all tests of any person"
 msgstr "Показати усі тести для будь-якої особи"
 
 #. this strings will be used on merge persons code. Now are here just to be translated in the meantime.
-#: ../glade/app1.glade.h:577 ../glade/person_merge.glade.h:1
+#: ../glade/app1.glade.h:579 ../glade/person_merge.glade.h:1
 #: ../glade/person_select_window.glade.h:20 ../src/gui/person/addModify.cs:167
 msgid "Merge with another person"
 msgstr "Об'єднати із іншою особою"
 
-#: ../glade/app1.glade.h:578
+#: ../glade/app1.glade.h:580
 msgid "Export persons"
 msgstr "Експортувати особи"
 
-#: ../glade/app1.glade.h:579
+#: ../glade/app1.glade.h:581
 msgid "persons in the current session"
 msgstr "особи у поточному сеансі"
 
-#: ../glade/app1.glade.h:580
+#: ../glade/app1.glade.h:582
 msgid "persons in any session"
 msgstr "особи в усіх сеансах"
 
-#: ../glade/app1.glade.h:581 ../glade/report_window.glade.h:23
+#: ../glade/app1.glade.h:583 ../glade/report_window.glade.h:23
 msgid "Open file"
 msgstr "Відкрити файл"
 
-#: ../glade/app1.glade.h:582
+#: ../glade/app1.glade.h:584
 msgid "Database:"
 msgstr "База даних:"
 
-#: ../glade/app1.glade.h:583
+#: ../glade/app1.glade.h:585
 msgid "Select another database"
 msgstr "Вибрати іншу базу даних"
 
-#: ../glade/app1.glade.h:584
+#: ../glade/app1.glade.h:586
 msgid "View selected database"
 msgstr "Переглянути позначену базу даних"
 
-#: ../glade/app1.glade.h:585 ../glade/preferences_win.glade.h:186
+#: ../glade/app1.glade.h:587 ../glade/preferences_win.glade.h:186
 msgid "Your email"
 msgstr "Ваша адреса ел. пошти"
 
-#: ../glade/app1.glade.h:586
+#: ../glade/app1.glade.h:588
 msgid "Preferred response language "
 msgstr "Бажана мова відповіді "
 
-#: ../glade/app1.glade.h:587
+#: ../glade/app1.glade.h:589
 msgid "Portuguese"
 msgstr "португальська"
 
-#: ../glade/app1.glade.h:588
+#: ../glade/app1.glade.h:590
 msgid "Catalan"
 msgstr "каталонська"
 
-#: ../glade/app1.glade.h:589 ../glade/preferences_win.glade.h:187
+#: ../glade/app1.glade.h:591 ../glade/preferences_win.glade.h:187
 msgid "Add comments"
 msgstr "Додати коментарі"
 
-#: ../glade/app1.glade.h:590 ../src/chronojump.cs:1004
+#: ../glade/app1.glade.h:592 ../src/chronojump.cs:1004
 msgid "Send error log"
 msgstr "Надіслати журнал помилок"
 
-#: ../glade/app1.glade.h:591
+#: ../glade/app1.glade.h:593
 msgid "Check last version"
 msgstr "Виконати пошук свіжішої версії"
 
-#: ../glade/app1.glade.h:592
+#: ../glade/app1.glade.h:594
 msgid "Open Chronojump"
 msgstr "Відкрити Chronojump"
 
-#: ../glade/app1.glade.h:593
+#: ../glade/app1.glade.h:595
 msgid "Are you sure you want to exit Chronojump?"
 msgstr "Ви справді хочете вийти з Chronojump?"
 
-#: ../glade/app1.glade.h:594
+#: ../glade/app1.glade.h:596
 msgid "Please, help us to provide videos on the most suitable platforms."
 msgstr "Будь ласка, допоможіть нам із відео для найпридатніших платформ."
 
-#: ../glade/app1.glade.h:595
+#: ../glade/app1.glade.h:597
 msgid "What social network do you use to watch videos?"
 msgstr "Якими соціальними мережами ви користуєтеся для перегляду відео?"
 
-#: ../glade/app1.glade.h:596
+#: ../glade/app1.glade.h:598
 msgid "I don't use social networks or don't want to respond"
 msgstr "Я не користуюся соціальними мережами або не хочу відповідати"
 
-#: ../glade/app1.glade.h:597
+#: ../glade/app1.glade.h:599
 msgid "Other (which)"
 msgstr "Інше (яке)"
 
-#: ../glade/app1.glade.h:598
+#: ../glade/app1.glade.h:600
 msgid "Send poll"
 msgstr "Надіслати результати опитування"
 
-#: ../glade/app1.glade.h:599
+#: ../glade/app1.glade.h:601
 msgid "Exit fullscreen"
 msgstr "Вийти з повноекранного режиму"
 
@@ -3159,7 +3165,7 @@ msgstr "Помилки"
 #. notebook_encoder_capture_extra_mass.CurrentPage = 0;
 #. notebook_encoder_capture_extra_mass.CurrentPage = 1;
 #: ../glade/edit_event.glade.h:35 ../glade/preferences_win.glade.h:140
-#: ../src/gui/app1/chronojump.cs:3681 ../src/gui/app1/chronojump.cs:3724
+#: ../src/gui/app1/chronojump.cs:3683 ../src/gui/app1/chronojump.cs:3726
 msgid "Configure"
 msgstr "Налаштувати"
 
@@ -4205,7 +4211,7 @@ msgid "repetitive"
 msgstr "повторення"
 
 #: ../glade/jump_type_add.glade.h:22 ../src/constants.cs:605
-#: ../src/gui/app1/contactsExercise.cs:336 ../src/gui/app1/jump.cs:489
+#: ../src/gui/app1/contactsExercise.cs:338 ../src/gui/app1/jump.cs:489
 msgid "jumps"
 msgstr "стрибки"
 
@@ -6080,7 +6086,7 @@ msgid "Elite"
 msgstr "Еліта"
 
 #: ../src/constants.cs:939 ../src/constants.cs:1668
-#: ../src/gui/app1/chronojump.cs:2923 ../src/gui/app1/encoder.cs:5378
+#: ../src/gui/app1/chronojump.cs:2925 ../src/gui/app1/encoder.cs:5378
 #: ../src/gui/app1/encoder.cs:5396 ../src/gui/report.cs:542
 msgid "Not enough data."
 msgstr "Недостатньо даних."
@@ -6621,7 +6627,7 @@ msgstr ""
 "Виключення:\n"
 "{2}"
 
-#: ../src/executeProcess.cs:537 ../src/gui/app1/chronojump.cs:4045
+#: ../src/executeProcess.cs:537 ../src/gui/app1/chronojump.cs:4047
 #: ../src/gui/app1/encoderThreads.cs:197
 #, csharp-format
 msgid "Sorry, {0} software is not installed."
@@ -6684,7 +6690,7 @@ msgstr[1] "Відкинуто {0} набори."
 msgstr[2] "Відкинуто {0} наборів."
 msgstr[3] "Відкинуто {0} набір."
 
-#: ../src/exportFiles/exportFiles.cs:173 ../src/gui/app1/chronojump.cs:2921
+#: ../src/exportFiles/exportFiles.cs:173 ../src/gui/app1/chronojump.cs:2923
 #: ../src/gui/app1/session/export.cs:207
 #: ../src/gui/modes/encoderConfiguration.cs:878 ../src/gui/report.cs:540
 msgid "Cancelled."
@@ -6911,7 +6917,7 @@ msgstr "Середня швидкість"
 msgid "Distance interval"
 msgstr "Інтервал відстані"
 
-#: ../src/exportSession.cs:892 ../src/gui/app1/chronojump.cs:6261
+#: ../src/exportSession.cs:892 ../src/gui/app1/chronojump.cs:6293
 #: ../src/gui/modes/runIntervalMore.cs:122
 #: ../src/gui/modes/runIntervalMore.cs:190
 #: ../src/gui/modes/runIntervalMore.cs:242
@@ -7090,21 +7096,21 @@ msgstr ""
 msgid "Problems calculating SJl at 100% body weight."
 msgstr "Проблеми із обчисленням SJl при 100% ваги тіла."
 
-#: ../src/gui/app1/chronojump.cs:1500
+#: ../src/gui/app1/chronojump.cs:1502
 #, csharp-format
 msgid "Chronojump database version file: {0}"
 msgstr "Файл версії бази даних Chronojump: {0}"
 
-#: ../src/gui/app1/chronojump.cs:1568
+#: ../src/gui/app1/chronojump.cs:1570
 msgid "Preferences loaded"
 msgstr "Завантажені налаштування"
 
-#: ../src/gui/app1/chronojump.cs:1700
+#: ../src/gui/app1/chronojump.cs:1702
 #, csharp-format
 msgid "Sprints of {0}"
 msgstr "Спринти {0}"
 
-#: ../src/gui/app1/chronojump.cs:2433
+#: ../src/gui/app1/chronojump.cs:2435
 #, csharp-format
 msgid ""
 "Could not delete file:\n"
@@ -7114,11 +7120,11 @@ msgstr ""
 "{0}"
 
 #. feedback (more in 1st session created)
-#: ../src/gui/app1/chronojump.cs:2619
+#: ../src/gui/app1/chronojump.cs:2621
 msgid "Session created, now add or load persons."
 msgstr "Створено сеанс, тепер додайте або завантажте записи осіб."
 
-#: ../src/gui/app1/chronojump.cs:2915 ../src/gui/app1/encoder.cs:2696
+#: ../src/gui/app1/chronojump.cs:2917 ../src/gui/app1/encoder.cs:2696
 #: ../src/gui/app1/encoder.cs:2894 ../src/gui/app1/encoder.cs:2902
 #: ../src/gui/app1/encoder.cs:2909 ../src/gui/app1/encoder.cs:2916
 #: ../src/gui/app1/encoder.cs:2924 ../src/gui/app1/encoder.cs:2931
@@ -7141,86 +7147,92 @@ msgstr "Створено сеанс, тепер додайте або заван
 msgid "Saved to {0}"
 msgstr "Збережено до {0}"
 
-#: ../src/gui/app1/chronojump.cs:2925 ../src/gui/report.cs:544
+#: ../src/gui/app1/chronojump.cs:2927 ../src/gui/report.cs:544
 #: ../src/person.cs:422
 #, csharp-format
 msgid "Cannot export to file {0} "
 msgstr "Не вдалося експортувати до файла {0} "
 
-#: ../src/gui/app1/chronojump.cs:3024
+#: ../src/gui/app1/chronojump.cs:3026
 msgid "Changes on cloud options force to restart Chronojump to apply changes"
 msgstr ""
 "Зміни у параметрах хмари призведуть до примусового перезапуску Chronojump "
 "для застосування змін"
 
-#: ../src/gui/app1/chronojump.cs:4032 ../src/gui/app1/chronojump.cs:4040
+#: ../src/gui/app1/chronojump.cs:4034 ../src/gui/app1/chronojump.cs:4042
 msgid "Sorry, R software is not installed."
 msgstr "Вибачте, не встановлено пакунки R."
 
-#: ../src/gui/app1/chronojump.cs:4033 ../src/gui/app1/encoderThreads.cs:1024
+#: ../src/gui/app1/chronojump.cs:4035 ../src/gui/app1/encoderThreads.cs:1024
 #: ../src/stats/main.cs:1515
 msgid "Please, install it from here:"
 msgstr "Будь ласка, встановіть його звідси:"
 
-#: ../src/gui/app1/chronojump.cs:4066
+#: ../src/gui/app1/chronojump.cs:4068
 msgid "Select at least one"
 msgstr "Виберіть принаймні один варіант"
 
 #
-#: ../src/gui/app1/chronojump.cs:4418
+#: ../src/gui/app1/chronojump.cs:4420
 msgid "Measured by a contact platform"
 msgstr "Виміряно за допомогою кодувальника"
 
-#: ../src/gui/app1/chronojump.cs:4445
+#: ../src/gui/app1/chronojump.cs:4447
 msgid "Force exercises measured by a force sensor"
 msgstr "Вправи з зусиллям, виміряно динамометром"
 
-#: ../src/gui/app1/chronojump.cs:4451
+#: ../src/gui/app1/chronojump.cs:4453
 msgid "Speed/power exercises displacing weights measured by an encoder"
 msgstr ""
 "Вправи на швидкість/потужність із переміщенням ваги, виміряно кодувальником"
 
-#: ../src/gui/app1/chronojump.cs:4457
+#: ../src/gui/app1/chronojump.cs:4459
 msgid ""
 "Speed/power exercises rotating an inertial machine and measured by an encoder"
 msgstr ""
 "Вправи на швидкість/потужність із обертанням на інерційній машині та "
 "вимірюванням кодувальником"
 
-#: ../src/gui/app1/chronojump.cs:4766
+#: ../src/gui/app1/chronojump.cs:4768
 #, csharp-format
 msgid "Detect devices compatible with: <b>{0}</b>"
 msgstr "Виявити пристрої, сумісні з: <b>{0}</b>"
 
-#: ../src/gui/app1/chronojump.cs:5091 ../src/gui/chronopicRegister.cs:366
+#. TODO: only show this if no WICHRO is found
+#. TODO: only show this if no "old photocells" is found
+#: ../src/gui/app1/chronojump.cs:4821 ../src/gui/app1/chronojump.cs:4832
+msgid "Before trying again, better unplug/plug USB"
+msgstr "Перш ніж повторювати спроби, від'єднайте і з'єднайте кабель USB"
+
+#: ../src/gui/app1/chronojump.cs:5123 ../src/gui/chronopicRegister.cs:366
 msgid "Device not found"
 msgstr "Пристрій не знайдено"
 
-#: ../src/gui/app1/chronojump.cs:5241
+#: ../src/gui/app1/chronojump.cs:5273
 msgid "Sorry, RSA tests cannot be simulated."
 msgstr "Вибачте, тести RSA не можна імітувати."
 
-#: ../src/gui/app1/chronojump.cs:6761
+#: ../src/gui/app1/chronojump.cs:6793
 msgid "Added simple jump type."
 msgstr "Додано простий тип стрибків."
 
-#: ../src/gui/app1/chronojump.cs:6771
+#: ../src/gui/app1/chronojump.cs:6803
 msgid "Added reactive jump type."
 msgstr "Додано реактивний тип стрибків."
 
-#: ../src/gui/app1/chronojump.cs:6802
+#: ../src/gui/app1/chronojump.cs:6834
 msgid "Added simple race type."
 msgstr "Додано простий тип забігів."
 
-#: ../src/gui/app1/chronojump.cs:6811
+#: ../src/gui/app1/chronojump.cs:6843
 msgid "Added intervallic race type."
 msgstr "Додано інтервальний тип забігів."
 
-#: ../src/gui/app1/chronojump.cs:7409
+#: ../src/gui/app1/chronojump.cs:7441
 msgid "translator-credits"
 msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2020"
 
-#: ../src/gui/app1/chronojump.cs:8614
+#: ../src/gui/app1/chronojump.cs:8646
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr ""
 "Створено з метою тестування. Chronojump завершить роботу у нештатному режимі"
@@ -7243,17 +7255,17 @@ msgstr "Поточна особа: "
 msgid "Deleted person and all his/her tests on this session."
 msgstr "Вилучено запис особи і усі його/її тести з цього сеансу."
 
-#: ../src/gui/app1/contactsExercise.cs:172
+#: ../src/gui/app1/contactsExercise.cs:174
 msgid "Select an image"
 msgstr "Виберіть зображення"
 
-#: ../src/gui/app1/contactsExercise.cs:175
+#: ../src/gui/app1/contactsExercise.cs:177
 #: ../src/gui/app1/session/backup.cs:247 ../src/gui/preferences.cs:2641
 #: ../src/gui/preferences.cs:3032
 msgid "Select"
 msgstr "Вибрати"
 
-#: ../src/gui/app1/contactsExercise.cs:231
+#: ../src/gui/app1/contactsExercise.cs:233
 msgid "Need to create an exercise."
 msgstr "Слід створити вправу."
 
@@ -7757,7 +7769,7 @@ msgstr "Можливо, R не встановлено."
 #. signal is raised and managed in gui/encoder.cs
 #: ../src/gui/app1/encoderThreads.cs:1031
 #: ../src/gui/app1/encoderThreads.cs:1032
-#: ../src/gui/app1/encoderThreads.cs:1318 ../src/gui/discover.cs:672
+#: ../src/gui/app1/encoderThreads.cs:1318 ../src/gui/discover.cs:707
 #: ../src/gui/modes/encoderConfiguration.cs:1160
 msgid "Cancelled"
 msgstr "Скасовано"
@@ -8478,62 +8490,58 @@ msgstr ""
 msgid "Depending on the test, user could change values."
 msgstr "Залежно від тесту, користувач між змінити значення."
 
-#: ../src/gui/discover.cs:91
+#: ../src/gui/discover.cs:92
 msgid "Select!"
 msgstr "Вибрати!"
 
-#: ../src/gui/discover.cs:92
+#: ../src/gui/discover.cs:93
 msgid "Test it!"
 msgstr "Тестувати!"
 
-#: ../src/gui/discover.cs:93
+#: ../src/gui/discover.cs:94
 msgid "Forget it!"
 msgstr "Забути!"
 
-#: ../src/gui/discover.cs:94
+#: ../src/gui/discover.cs:95
 msgid "Forgotten"
 msgstr "Забуто"
 
-#: ../src/gui/discover.cs:96
+#: ../src/gui/discover.cs:97
 msgid "Assigned manually: "
 msgstr "Призначено автоматично:"
 
-#: ../src/gui/discover.cs:171 ../src/gui/discover.cs:516
+#: ../src/gui/discover.cs:175 ../src/gui/discover.cs:550
 msgid "Hide advanced"
 msgstr "Приховати додаткові"
 
-#: ../src/gui/discover.cs:217
+#: ../src/gui/discover.cs:222
 msgid "Device not found."
 msgstr "Пристрій не знайдено."
 
-#: ../src/gui/discover.cs:294
+#: ../src/gui/discover.cs:327
 msgid "Action"
 msgstr "Дія"
 
-#: ../src/gui/discover.cs:316 ../src/gui/discover.cs:319
-#: ../src/gui/discover.cs:414 ../src/gui/discover.cs:632
+#: ../src/gui/discover.cs:349 ../src/gui/discover.cs:352
+#: ../src/gui/discover.cs:447 ../src/gui/discover.cs:666
 msgid "NC"
 msgstr "НС"
 
-#: ../src/gui/discover.cs:582
+#: ../src/gui/discover.cs:616
 msgid "Cancelling"
 msgstr "Скасування"
 
-#: ../src/gui/discover.cs:655
+#: ../src/gui/discover.cs:690
 msgid "Cannot connect to ports:"
 msgstr "Не вдалося встановити з'єднання з портами:"
 
-#: ../src/gui/discover.cs:970
+#: ../src/gui/discover.cs:1005
 msgid "Assign as:"
 msgstr "Призначити як:"
 
-#: ../src/gui/discover.cs:974
+#: ../src/gui/discover.cs:1009
 msgid "Chronopic"
 msgstr "Chronopic"
-
-#: ../src/gui/discover.cs:979
-msgid "Old cabled photocells"
-msgstr "Застарілі кабельні фотоелементи"
 
 #: ../src/gui/edit_event/encoder.cs:248
 msgid ""

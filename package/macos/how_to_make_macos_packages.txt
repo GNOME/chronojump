@@ -13,7 +13,7 @@ Double-click the downloaded certificates and add them into macOS Keychain Access
 
 1. Install Homebrew (Only when the first time.)
 
-/bin/bash -c "$(curl -fsSL https://raw.githubcontent.com/Homebrew/install/HEAD/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 #Note this also installs xcode command line tools (at least on m2)
 #Then added homebrew to the path (as brew asked to do)
@@ -22,7 +22,7 @@ brew update
 
 2. Execute the following commands (Only when the first time. Please replace "~/Desktop" with the real path of chronojump.)
 
-brew install git, automake, autoconf, libtool, intltool, pkg-config, gettext, glib, python3, gtk+3, librsvg, dos2unix, adwaita-icon-theme
+brew install git automake autoconf libtool intltool pkg-config gettext glib python3 gtk+3 librsvg dos2unix adwaita-icon-theme
 
 #brew install dotnet-sdk  (this is 8.0)
 On arm64 we have download sdk 7 from: https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-7.0.410-macos-arm64-installer

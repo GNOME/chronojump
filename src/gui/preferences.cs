@@ -4051,7 +4051,9 @@ public class PreferencesWindow
 
 	private void bluetoothDo ()
 	{
-		//Subscribe to BluetoothLE data changed, device changed events
+		//Subscribe to BluetoothLE Bleak version, data changed, device changed events
+		BluetoothLE.OnBleakVersion -= BluetoothLE_OnBleakVersion;
+		BluetoothLE.OnBleakVersion += BluetoothLE_OnBleakVersion;
 		BluetoothLE.OnDataChanged -= BluetoothLE_OnDataChanged;
 		BluetoothLE.OnDataChanged += BluetoothLE_OnDataChanged;
 		BluetoothLE.OnDeviceChanged -= BluetoothLE_OnDeviceChanged;
@@ -4075,7 +4077,7 @@ public class PreferencesWindow
 		if (! bluetoothReading)
 			return false;
 
-		LogB.Debug (" pulseBluetooth:" + threadBluetooth.ThreadState.ToString());
+		//LogB.Debug (" pulseBluetooth:" + threadBluetooth.ThreadState.ToString());
 		Thread.Sleep (50);
 		return true;
 	}
@@ -4105,9 +4107,10 @@ public class PreferencesWindow
 	/// <summary>
 	/// Handles the event triggered when the Bluetooth LE data changes.
 	/// </summary>
-	/// <remarks>This method processes the updated data received from a Bluetooth LE device.  Use the <see cref="BluetoothLE.DataChangedEventArgs.Value"/> property of <paramref name="e"/>  to access the new data.</remarks>
-	/// <param name="sender">The source of the event, typically the Bluetooth LE device.</param>
-	/// <param name="e">The event data containing the updated value.</param>
+	private void BluetoothLE_OnBleakVersion(object sender, BluetoothLE.BleakVersionEventArgs e)
+	{
+		bluetooth_textview_update ($"\n Bleak version: {e.Value}");
+	}
 	private void BluetoothLE_OnDataChanged(object sender, BluetoothLE.DataChangedEventArgs e)
 	{
 		bluetooth_textview_update ($"\n {e.CharacteristicUUID} {e.Value}");

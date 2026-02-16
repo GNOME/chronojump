@@ -16,7 +16,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Copyright (C) 2025   Yang Dejiu <joeries.young@gmail.com>
- * Copyright (C) 2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2025-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System.Diagnostics;
@@ -73,7 +73,24 @@ public static class BluetoothLE
     /// </summary>
     private static readonly Regex regexData = new Regex(@"^Data Changed: ([\dA-Za-z\-]+) = (.+)$");
 
-    // <---- DataChanged ---->
+    // <---- DataChanged ----
+
+    // ---- BleakVersion ---->
+    public class BleakVersionEventArgs : EventArgs
+    {
+        public string Value { get; set; }
+
+        public BleakVersionEventArgs(string value)
+        {
+            Value = value;
+        }
+    }
+    public delegate void BleakVersionHandler(object sender, BleakVersionEventArgs e);
+    public static event BleakVersionHandler OnBleakVersion;
+
+    private static readonly Regex regexBleakVersion = new Regex(@"^Version: (.*)");
+
+    // <---- BleakVersion ----
 
     // ---- DeviceEvent ---->
     
@@ -199,6 +216,13 @@ public static class BluetoothLE
                                 LogB.Information($"[BluetoothLE] output: {e.Data}");
                             }
                             
+                            if (e.Data.StartsWith("Version: ")) // Bleak version
+			    {
+				    LogB.Information ("Bleak Version: "  + e.Data.ToString ());
+				    var match = regexBleakVersion.Match(e.Data);
+				    if (match.Success)
+					    OnBleakVersion?.Invoke(null, new BleakVersionEventArgs(match.Groups[1].Value));
+			    }
                             if (e.Data.StartsWith("Device Scanned: "))
 			    {
 				    LogB.Information ("scanned: "  + e.Data.ToString ());

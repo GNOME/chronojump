@@ -1162,8 +1162,7 @@ public partial class ChronoJumpWindow
 
 			//encoder
 			UtilGtk.WidgetColor (spinner_set_loading, Config.ColorBackgroundShifted);
-			//all the labels inside the grid grid_encoder_analyze_instant have a white bg, so should call
-			UtilGtk.ContrastLabelsGrid (false, grid_encoder_analyze_instant);
+			UtilGtk.ContrastLabelsGrid (Config.ColorBackgroundShiftedIsDark, grid_encoder_analyze_instant);
 
 			//persons (main)
 			//UtilGtk.WidgetColor (vbox_persons, Config.ColorBackgroundShifted);

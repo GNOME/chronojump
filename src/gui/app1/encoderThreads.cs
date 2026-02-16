@@ -1376,6 +1376,15 @@ public partial class ChronoJumpWindow
 					//ranges should have max value the number of the lines of csv file minus the header
 					hscale_encoder_analyze_a.SetRange(1, eai.speed.Count);
 					hscale_encoder_analyze_b.SetRange(1, eai.speed.Count);
+
+					/*
+					   will update alll the a, b, range labels
+					   range is done two times but note this label will disappear in the future
+					   and some treeview will be used
+					   */
+					on_hscale_encoder_analyze_a_value_changed (new object (), new EventArgs ());
+					if (checkbutton_encoder_analyze_b.Active)
+						on_hscale_encoder_analyze_b_value_changed (new object (), new EventArgs ());
 					//eai.PrintDebug();
 				}
 

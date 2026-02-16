@@ -6602,8 +6602,11 @@ public partial class ChronoJumpWindow
 	
 	Pixbuf drawingarea_encoder_analyze_cairo_pixbuf;
 	
-	void on_hscale_encoder_analyze_a_value_changed (object o, EventArgs args) {
-		if(eai != null) {
+	void on_hscale_encoder_analyze_a_value_changed (object o, EventArgs args)
+	{
+		if(eai == null)
+			return;
+
 			int ms = Convert.ToInt32(hscale_encoder_analyze_a.Value);
 			label_encoder_analyze_time_a.Text = ms.ToString();
 			label_encoder_analyze_displ_a.Text = Util.TrimDecimals(eai.GetParam("displ",ms), 1); //mm
@@ -6616,23 +6619,24 @@ public partial class ChronoJumpWindow
 				encoder_analyze_instant_calculate_params();
 		
 			drawingarea_encoder_analyze_instant.QueueDraw(); //will fire ExposeEvent
-		}
 	}
 
-	void on_hscale_encoder_analyze_b_value_changed (object o, EventArgs args) {
-		if(eai != null) {
-			int msb = Convert.ToInt32(hscale_encoder_analyze_b.Value);
-			label_encoder_analyze_time_b.Text = msb.ToString();
-			label_encoder_analyze_displ_b.Text = Util.TrimDecimals(eai.GetParam("displ",msb), 1); //mm
-			label_encoder_analyze_speed_b.Text = Util.TrimDecimals(eai.GetParam("speed",msb), 2);
-			label_encoder_analyze_accel_b.Text = Util.TrimDecimals(eai.GetParam("accel",msb), 2);
-			label_encoder_analyze_force_b.Text = Util.TrimDecimals(eai.GetParam("force",msb), 1);
-			label_encoder_analyze_power_b.Text = Util.TrimDecimals(eai.GetParam("power",msb), 1);
+	void on_hscale_encoder_analyze_b_value_changed (object o, EventArgs args)
+	{
+		if(eai == null)
+			return;
 
-			encoder_analyze_instant_calculate_params();
-		
-			drawingarea_encoder_analyze_instant.QueueDraw(); //will fire ExposeEvent
-		}
+		int msb = Convert.ToInt32(hscale_encoder_analyze_b.Value);
+		label_encoder_analyze_time_b.Text = msb.ToString();
+		label_encoder_analyze_displ_b.Text = Util.TrimDecimals(eai.GetParam("displ",msb), 1); //mm
+		label_encoder_analyze_speed_b.Text = Util.TrimDecimals(eai.GetParam("speed",msb), 2);
+		label_encoder_analyze_accel_b.Text = Util.TrimDecimals(eai.GetParam("accel",msb), 2);
+		label_encoder_analyze_force_b.Text = Util.TrimDecimals(eai.GetParam("force",msb), 1);
+		label_encoder_analyze_power_b.Text = Util.TrimDecimals(eai.GetParam("power",msb), 1);
+
+		encoder_analyze_instant_calculate_params();
+
+		drawingarea_encoder_analyze_instant.QueueDraw(); //will fire ExposeEvent
 	}
 
 	void on_button_hscale_encoder_analyze_a_pre_clicked(object o, EventArgs args) {
@@ -6648,30 +6652,32 @@ public partial class ChronoJumpWindow
 		hscale_encoder_analyze_b.Value += 1;
 	}
 
-	void encoder_analyze_instant_calculate_params() {
+	void encoder_analyze_instant_calculate_params()
+	{
 		int msa = Convert.ToInt32(hscale_encoder_analyze_a.Value);
 		int msb = Convert.ToInt32(hscale_encoder_analyze_b.Value);
-		bool success = eai.CalculateRangeParams(msa, msb);
-		if(success) {
-			label_encoder_analyze_time_diff.Text = (msb - msa).ToString();
-			label_encoder_analyze_displ_diff.Text = Util.TrimDecimals(eai.GetParam("displ",msb) - eai.GetParam("displ",msa), 1);
-			label_encoder_analyze_speed_diff.Text = Util.TrimDecimals(eai.GetParam("speed",msb) - eai.GetParam("speed",msa), 2);
-			label_encoder_analyze_accel_diff.Text = Util.TrimDecimals(eai.GetParam("accel",msb) - eai.GetParam("accel",msa), 2);
-			label_encoder_analyze_force_diff.Text = Util.TrimDecimals(eai.GetParam("force",msb) - eai.GetParam("force",msa), 1);
-			label_encoder_analyze_power_diff.Text = Util.TrimDecimals(eai.GetParam("power",msb) - eai.GetParam("power",msa), 1);
 
-			label_encoder_analyze_displ_average.Text = Util.TrimDecimals(eai.displAverageLast, 1);
-			label_encoder_analyze_speed_average.Text = Util.TrimDecimals(eai.speedAverageLast, 2);
-			label_encoder_analyze_accel_average.Text = Util.TrimDecimals(eai.accelAverageLast, 2);
-			label_encoder_analyze_force_average.Text = Util.TrimDecimals(eai.forceAverageLast, 1);
-			label_encoder_analyze_power_average.Text = Util.TrimDecimals(eai.powerAverageLast, 1);
+		if (! eai.CalculateRangeParams(msa, msb))
+			return;
 
-			label_encoder_analyze_displ_max.Text = Util.TrimDecimals(eai.displMaxLast, 1);
-			label_encoder_analyze_speed_max.Text = Util.TrimDecimals(eai.speedMaxLast, 2);
-			label_encoder_analyze_accel_max.Text = Util.TrimDecimals(eai.accelMaxLast, 2);
-			label_encoder_analyze_force_max.Text = Util.TrimDecimals(eai.forceMaxLast, 1);
-			label_encoder_analyze_power_max.Text = Util.TrimDecimals(eai.powerMaxLast, 1);
-		}
+		label_encoder_analyze_time_diff.Text = (msb - msa).ToString();
+		label_encoder_analyze_displ_diff.Text = Util.TrimDecimals(eai.GetParam("displ",msb) - eai.GetParam("displ",msa), 1);
+		label_encoder_analyze_speed_diff.Text = Util.TrimDecimals(eai.GetParam("speed",msb) - eai.GetParam("speed",msa), 2);
+		label_encoder_analyze_accel_diff.Text = Util.TrimDecimals(eai.GetParam("accel",msb) - eai.GetParam("accel",msa), 2);
+		label_encoder_analyze_force_diff.Text = Util.TrimDecimals(eai.GetParam("force",msb) - eai.GetParam("force",msa), 1);
+		label_encoder_analyze_power_diff.Text = Util.TrimDecimals(eai.GetParam("power",msb) - eai.GetParam("power",msa), 1);
+
+		label_encoder_analyze_displ_average.Text = Util.TrimDecimals(eai.displAverageLast, 1);
+		label_encoder_analyze_speed_average.Text = Util.TrimDecimals(eai.speedAverageLast, 2);
+		label_encoder_analyze_accel_average.Text = Util.TrimDecimals(eai.accelAverageLast, 2);
+		label_encoder_analyze_force_average.Text = Util.TrimDecimals(eai.forceAverageLast, 1);
+		label_encoder_analyze_power_average.Text = Util.TrimDecimals(eai.powerAverageLast, 1);
+
+		label_encoder_analyze_displ_max.Text = Util.TrimDecimals(eai.displMaxLast, 1);
+		label_encoder_analyze_speed_max.Text = Util.TrimDecimals(eai.speedMaxLast, 2);
+		label_encoder_analyze_accel_max.Text = Util.TrimDecimals(eai.accelMaxLast, 2);
+		label_encoder_analyze_force_max.Text = Util.TrimDecimals(eai.forceMaxLast, 1);
+		label_encoder_analyze_power_max.Text = Util.TrimDecimals(eai.powerMaxLast, 1);
 	}
 
 	void on_checkbutton_encoder_analyze_b_toggled (object o, EventArgs args) {

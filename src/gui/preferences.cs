@@ -411,6 +411,7 @@ public class PreferencesWindow
 	static private WebcamDeviceList wd_list;
 	private WebcamFfmpegSupportedModes wfsm;
 
+	private static bool bluetoothHandlersAssigned; // to not have double feedback at 2nd preferences open
 
 	PreferencesWindow ()
 	{
@@ -437,6 +438,17 @@ public class PreferencesWindow
 		FakeButtonColorsChanged = new Gtk.Button ();
 		FakeButtonDebugModeStart = new Gtk.Button();
 		FakeButtonDeleteDevices = new Gtk.Button ();
+
+		if (! bluetoothHandlersAssigned)
+		{
+			BluetoothLE.OnBleakVersion -= BluetoothLE_OnBleakVersion;
+			BluetoothLE.OnBleakVersion += BluetoothLE_OnBleakVersion;
+			BluetoothLE.OnDataChanged -= BluetoothLE_OnDataChanged;
+			BluetoothLE.OnDataChanged += BluetoothLE_OnDataChanged;
+			BluetoothLE.OnDeviceChanged -= BluetoothLE_OnDeviceChanged;
+			BluetoothLE.OnDeviceChanged += BluetoothLE_OnDeviceChanged;
+			bluetoothHandlersAssigned = true;
+		}
 	}
 
 	static public PreferencesWindow Show (
@@ -4021,6 +4033,7 @@ public class PreferencesWindow
 
 		if(! File.Exists (entry_bluetooth_url.Text))
 		{
+			LogB.Information ("Error. Bluetooth start file not found: " + entry_bluetooth_url.Text);
 			tbBluetooth.Text = Catalog.GetString ("Error. File not found.");
 			textview_bluetooth.Buffer = tbBluetooth;
 			bluetoothSensitiveDoing (false);
@@ -4051,14 +4064,6 @@ public class PreferencesWindow
 
 	private void bluetoothDo ()
 	{
-		//Subscribe to BluetoothLE Bleak version, data changed, device changed events
-		BluetoothLE.OnBleakVersion -= BluetoothLE_OnBleakVersion;
-		BluetoothLE.OnBleakVersion += BluetoothLE_OnBleakVersion;
-		BluetoothLE.OnDataChanged -= BluetoothLE_OnDataChanged;
-		BluetoothLE.OnDataChanged += BluetoothLE_OnDataChanged;
-		BluetoothLE.OnDeviceChanged -= BluetoothLE_OnDeviceChanged;
-		BluetoothLE.OnDeviceChanged += BluetoothLE_OnDeviceChanged;
-
 		//Start BluetoothLE service
 		BluetoothLE.SetProcess (entry_bluetooth_url.Text);
 		BluetoothLE.Start ();
@@ -4077,7 +4082,7 @@ public class PreferencesWindow
 		if (! bluetoothReading)
 			return false;
 
-		//LogB.Debug (" pulseBluetooth:" + threadBluetooth.ThreadState.ToString());
+		//LogB.Debug (" \npulseBluetooth:" + threadBluetooth.ThreadState.ToString());
 		Thread.Sleep (50);
 		return true;
 	}

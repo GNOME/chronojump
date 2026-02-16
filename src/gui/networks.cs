@@ -941,9 +941,13 @@ public partial class ChronoJumpWindow
 					currentSession = SqliteSession.SelectByName(yearMonthStr);
 			}
 			
-			createTreeView_resultsSession (treeview_results_session);
+			/*
+			   this will be done later (at end of ChronoJumpWindow method)
+			   because on_load_session_accepted () manages many objects, most of them still not defined
+
 			on_load_session_accepted();
 			sensitiveGuiYesSession();
+			*/
 		}
 
 		//TODO

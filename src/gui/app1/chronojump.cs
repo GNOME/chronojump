@@ -870,6 +870,13 @@ public partial class ChronoJumpWindow
 		//done before configInitRead because that will change some Tooltips
 		addShortcutsToTooltips(operatingSystem == UtilAll.OperatingSystems.MACOSX);
 
+		if (configChronojump.SessionMode == Config.SessionModeEnum.UNIQUE ||
+				configChronojump.SessionMode == Config.SessionModeEnum.MONTHLY)
+		{
+			on_load_session_accepted();
+			sensitiveGuiYesSession();
+		}
+
 		LogB.Information("Calling configInitRead from gui / ChronojumpWindow");
 		configInitDoAtBoot ();
 
@@ -911,8 +918,13 @@ public partial class ChronoJumpWindow
 			LogB.Information("Ping discarded (Compujump)");
 
 
-		if(preferences.loadLastSessionAtStart && preferences.lastSessionID > 0 && ! configChronojump.Compujump)
+		if(preferences.loadLastSessionAtStart && preferences.lastSessionID > 0 &&
+				! configChronojump.Compujump &&
+				configChronojump.SessionMode != Config.SessionModeEnum.UNIQUE &&
+				configChronojump.SessionMode != Config.SessionModeEnum.MONTHLY)
+		{
 			changeSessionAtStartOrCloudViewChangeDB ();
+		}
 
 		initialize_menu_or_menu_tiny();
 		vbox_persons_bottom.Visible = preferences.personPhoto && ! check_menu_session.Active;

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -941,6 +941,7 @@ public partial class ChronoJumpWindow
 					currentSession = SqliteSession.SelectByName(yearMonthStr);
 			}
 			
+			createTreeView_resultsSession (treeview_results_session);
 			on_load_session_accepted();
 			sensitiveGuiYesSession();
 		}

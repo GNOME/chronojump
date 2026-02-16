@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.40.0 -->
+<!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="adjustment1">
@@ -9256,6 +9256,8 @@ It starts before and arrives there with some speed.</property>
                                     <property name="can-focus">True</property>
                                     <property name="pixels-below-lines">2</property>
                                     <property name="editable">False</property>
+                                    <property name="left-margin">2</property>
+                                    <property name="right-margin">2</property>
                                     <property name="cursor-visible">False</property>
                                     <property name="accepts-tab">False</property>
                                     <property name="monospace">True</property>

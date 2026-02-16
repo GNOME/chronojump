@@ -75,6 +75,24 @@ public static class BluetoothLE
 
     // <---- DataChanged ----
 
+ 
+    // ---- Installing ---->
+    public class InstallingEventArgs : EventArgs
+    {
+        public string Value { get; set; }
+
+        public InstallingEventArgs(string value)
+        {
+            Value = value;
+        }
+    }
+    public delegate void InstallingHandler(object sender, InstallingEventArgs e);
+    public static event InstallingHandler OnInstalling;
+
+    private static readonly Regex regexInstalling = new Regex(@"Installing (.*)");
+    // <---- Installing ----
+
+ 
     // ---- BleakVersion ---->
     public class BleakVersionEventArgs : EventArgs
     {
@@ -89,9 +107,16 @@ public static class BluetoothLE
     public static event BleakVersionHandler OnBleakVersion;
 
     private static readonly Regex regexBleakVersion = new Regex(@"^Version: (.*)");
-
     // <---- BleakVersion ----
 
+ 
+    // ---- Scanning ---->
+    public delegate void ScanningHandler(object sender);
+    public static event ScanningHandler OnScanning;
+    private static readonly Regex regexScanning = new Regex(@"scanning");
+    // <---- Scanning ----
+
+ 
     // ---- DeviceEvent ---->
     
     public class DeviceEventArgs : EventArgs
@@ -216,12 +241,37 @@ public static class BluetoothLE
                                 LogB.Information($"[BluetoothLE] output: {e.Data}");
                             }
                             
+                            if (e.Data.Contains("Installing"))
+			    {
+				    LogB.Information ("Installing: "  + e.Data.ToString ());
+				    var match = regexInstalling.Match(e.Data);
+				    if (match.Success)
+					    OnInstalling?.Invoke(null, new InstallingEventArgs(match.Groups[1].Value));
+			    }
                             if (e.Data.StartsWith("Version: ")) // Bleak version
 			    {
 				    LogB.Information ("Bleak Version: "  + e.Data.ToString ());
 				    var match = regexBleakVersion.Match(e.Data);
 				    if (match.Success)
 					    OnBleakVersion?.Invoke(null, new BleakVersionEventArgs(match.Groups[1].Value));
+			    }
+			    /*
+				TODO:
+			    //No powered Bluetooth adapters found
+                            if (e.Data.Contains("POWERED_OFF") || //TODO other errors
+			    {
+				    LogB.Information ("Scanning: "  + e.Data.ToString ());
+				    var match = regexScanning.Match(e.Data);
+				    if (match.Success)
+					    OnScanning?.Invoke(null, new ScanningEventArgs(match.Groups[1].Value));
+			    }
+			    */
+                            if (e.Data.Contains("scanning"))
+			    {
+				    LogB.Information ("Scanning: "  + e.Data.ToString ());
+				    var match = regexScanning.Match(e.Data);
+				    if (match.Success)
+					    OnScanning?.Invoke(null);
 			    }
                             if (e.Data.StartsWith("Device Scanned: "))
 			    {

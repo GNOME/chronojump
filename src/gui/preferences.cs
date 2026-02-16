@@ -441,11 +441,10 @@ public class PreferencesWindow
 
 		if (! bluetoothHandlersAssigned)
 		{
-			BluetoothLE.OnBleakVersion -= BluetoothLE_OnBleakVersion;
+			BluetoothLE.OnInstalling += BluetoothLE_OnInstalling;
 			BluetoothLE.OnBleakVersion += BluetoothLE_OnBleakVersion;
-			BluetoothLE.OnDataChanged -= BluetoothLE_OnDataChanged;
+			BluetoothLE.OnScanning += BluetoothLE_OnScanning;
 			BluetoothLE.OnDataChanged += BluetoothLE_OnDataChanged;
-			BluetoothLE.OnDeviceChanged -= BluetoothLE_OnDeviceChanged;
 			BluetoothLE.OnDeviceChanged += BluetoothLE_OnDeviceChanged;
 			bluetoothHandlersAssigned = true;
 		}
@@ -4046,7 +4045,7 @@ public class PreferencesWindow
 		bluetoothReading = true;
 		textview_bluetooth.Name = "fontSize9";
 		tbBluetoothText = "";
-		bluetooth_textview_update ("\nConnecting... ");
+		bluetooth_textview_update ("\nStarting communication... ");
 
 		threadBluetooth = new Thread (new ThreadStart (bluetoothDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseBluetooth));
@@ -4111,18 +4110,27 @@ public class PreferencesWindow
 
 	/// <summary>
 	/// Handles the event triggered when the Bluetooth LE data changes.
+	/// check above: bluetoothHandlersAssigned
 	/// </summary>
+	private void BluetoothLE_OnInstalling(object sender, BluetoothLE.InstallingEventArgs e)
+	{
+		bluetooth_textview_update ($"\nInstalling: {e.Value}");
+	}
 	private void BluetoothLE_OnBleakVersion(object sender, BluetoothLE.BleakVersionEventArgs e)
 	{
-		bluetooth_textview_update ($"\n Bleak version: {e.Value}");
+		bluetooth_textview_update ($"\nBleak version: {e.Value}");
+	}
+	private void BluetoothLE_OnScanning(object sender)
+	{
+		bluetooth_textview_update ($"\nStart scanning ...");
 	}
 	private void BluetoothLE_OnDataChanged(object sender, BluetoothLE.DataChangedEventArgs e)
 	{
-		bluetooth_textview_update ($"\n {e.CharacteristicUUID} {e.Value}");
+		bluetooth_textview_update ($"\n{e.CharacteristicUUID} {e.Value}");
 	}
 	private void BluetoothLE_OnDeviceChanged(object sender, BluetoothLE.DeviceEventArgs e)
 	{
-		bluetooth_textview_update ($"\n {e.Action} {e.Ip} {e.Value}");
+		bluetooth_textview_update ($"\n{e.Action} {e.Ip} {e.Value}");
 	}
 	
 	/* ---------------------

@@ -51,8 +51,7 @@ void initializeBLE(void) {
 
   NimBLEDevice::setSecurityAuth(false, false, false);
   // Create the BLE Device
-  // NimBLEDevice::init("4Platforms");
-  NimBLEDevice::init("Chronopic4");
+  NimBLEDevice::init("CJ-CP4");
   delay(10);
   BLEAdvertisementData advertisementData;
 
@@ -61,9 +60,10 @@ void initializeBLE(void) {
   String addressString = addr.toString().c_str();
   Serial.print("BLE MAC Address: ");
   Serial.println(addressString);
-  addressString = "CP4-" + addressString.substring(6,17);
+  addressString = "CJ-CP4-" + addressString.substring(12,17);
   Serial.print("BLE name: ");
   Serial.println(addressString);
+  NimBLEDevice::setDeviceName(addressString.c_str());
   advertisementData.setName(addressString.c_str());   // Nombre completo
   // advertisementData.setShortName("CP-" + addressString.c_str());  // Nombre corto (opcional)
   advertisementData.setManufacturerData("Asociación Chronojump");  // Datos de fabricante

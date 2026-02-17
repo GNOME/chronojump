@@ -27,8 +27,7 @@ using System.Text.RegularExpressions;
 /// </summary>
 public static class BluetoothLE
 {
-    // ---- DatChanged ---->
-
+    // ---- DataChanged ---->
     /// <summary>
     /// DataChangedEventArgs is used to pass data when a characteristic changes.
     /// </summary>
@@ -90,7 +89,6 @@ public static class BluetoothLE
     ///     Data Changed: 85bc9e6c-9501-4bf4-819e-4f40b5e56372 = A0 78 D5 90
     /// </summary>
     private static readonly Regex regexData = new Regex(@"^Data Changed: ([\dA-Za-z\-]+) = (.+)$");
-
     // <---- DataChanged ----
 
  
@@ -134,25 +132,8 @@ public static class BluetoothLE
     private static readonly Regex regexScanning = new Regex(@"scanning");
     // <---- Scanning ----
 
-    // ---- Error ---->
-    public class ErrorEventArgs : EventArgs
-    {
-        public string Action { get; set; } //scanned or connected
-        public string Value { get; set; }
-
-        public ErrorEventArgs(string action, string value)
-        {
-            Action = action;
-            Value = value;
-        }
-    }
-    public delegate void ErrorHandler(object sender, ErrorEventArgs e);
-    public static event ErrorHandler OnError;
-    private static readonly Regex regexError = new Regex(@"^Error Occurred:.*'(.*)',");
-    // <---- BleakVersion ----
  
     // ---- DeviceEvent ---->
-    
     public class DeviceEventArgs : EventArgs
     {
         public string Action { get; set; } //scanned or connected
@@ -171,9 +152,25 @@ public static class BluetoothLE
     //private static readonly Regex regexDeviceScanned = new Regex(@"^Device Scanned: (..:..:..:..:..:..:) .*local_name='(.*)', rssi.*$");
     private static readonly Regex regexDeviceScanned = new Regex(@"^Device Scanned: (..:..:..:..:..:..:) .*local_name='(.*)', service_uuids.*rssi.*$");
     private static readonly Regex regexDeviceConnected = new Regex(@"^Device Connected: (..:..:..:..:..:..:) (.*)$");
-    
     // <---- DeviceEvent ----
 
+
+    // ---- Error ---->
+    public class ErrorEventArgs : EventArgs
+    {
+        public string Action { get; set; } //scanned or connected
+        public string Value { get; set; }
+
+        public ErrorEventArgs(string action, string value)
+        {
+            Action = action;
+            Value = value;
+        }
+    }
+    public delegate void ErrorHandler(object sender, ErrorEventArgs e);
+    public static event ErrorHandler OnError;
+    private static readonly Regex regexError = new Regex(@"^Error Occurred:.*'(.*)',");
+    // <---- Error ----
 
 
     /// <summary>

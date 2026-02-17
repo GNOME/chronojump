@@ -1064,6 +1064,9 @@ public class UtilGtk
 			"notebook#bgCss tab:checked label {" +
 				"color: " + colLabelContrastBgCss + ";" + //TODO: try a YELLOW_MID
 			"}" +
+			"notebook#bgCss tab:checked {" +			// needed for KDE
+				"background-color: " + colBgS + ";" +
+			"}" +
 			//bg of the tab (hover)
 			"notebook#bgCss tab:hover {" +
 				"background-color: " + colBgS + ";" +
@@ -1097,6 +1100,9 @@ public class UtilGtk
 			//label of the tab (checked)
 			"notebook#shiftedCss tab:checked label {" +
 				"color: " + colLabelContrastShiftedCss + ";" + //TODO: try a YELLOW_MID
+			"}" +
+			"notebook#shiftedCss tab:checked {" + 			// needed for KDE
+				"background-color: " + colShiftedS + ";" +
 			"}" +
 			//bg of the tab (hover)
 			"notebook#shiftedCss tab:hover {" +

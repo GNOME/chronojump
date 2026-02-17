@@ -134,6 +134,22 @@ public static class BluetoothLE
     private static readonly Regex regexScanning = new Regex(@"scanning");
     // <---- Scanning ----
 
+    // ---- Error ---->
+    public class ErrorEventArgs : EventArgs
+    {
+        public string Action { get; set; } //scanned or connected
+        public string Value { get; set; }
+
+        public ErrorEventArgs(string action, string value)
+        {
+            Action = action;
+            Value = value;
+        }
+    }
+    public delegate void ErrorHandler(object sender, ErrorEventArgs e);
+    public static event ErrorHandler OnError;
+    private static readonly Regex regexError = new Regex(@"^Error Occurred:.*'(.*)',");
+    // <---- BleakVersion ----
  
     // ---- DeviceEvent ---->
     
@@ -197,8 +213,10 @@ public static class BluetoothLE
 	    }
 	    else if (Util.operatingSystem == UtilAll.OperatingSystems.MACOSX)
 		    return "ble-runner-mac.sh";
-	    else
+	    else {
 		    return "ble-runner-linux.sh";
+		    //"/home/xavier/informatica/progs_meus/chronojump/src/bin/Debug/net7.0/ble-runner-linux.sh"
+	    }
     }
 
     public static void SetProcess (string scriptURL)
@@ -274,17 +292,6 @@ public static class BluetoothLE
 				    if (match.Success)
 					    OnBleakVersion?.Invoke(null, new BleakVersionEventArgs(match.Groups[1].Value));
 			    }
-			    /*
-				TODO:
-			    //No powered Bluetooth adapters found
-                            if (e.Data.Contains("POWERED_OFF") || //TODO other errors
-			    {
-				    LogB.Information ("Scanning: "  + e.Data.ToString ());
-				    var match = regexScanning.Match(e.Data);
-				    if (match.Success)
-					    OnScanning?.Invoke(null, new ScanningEventArgs(match.Groups[1].Value));
-			    }
-			    */
                             if (e.Data.Contains("scanning"))
 			    {
 				    LogB.Information ("Scanning: "  + e.Data.ToString ());
@@ -298,14 +305,23 @@ public static class BluetoothLE
                             	    var match = regexDeviceScanned.Match(e.Data);
 				    if (match.Success)
 					    OnDeviceChanged?.Invoke(null, new DeviceEventArgs(
-								    "Scanned", match.Groups[1].Value, match.Groups[2].Value));		   
-			    } if (e.Data.StartsWith("Device Connected: "))
+								    "Scanned", match.Groups[1].Value, match.Groups[2].Value));
+			    }
+			    if (e.Data.StartsWith("Device Connected: "))
 				    {
 				    LogB.Information ("Connected: "  + e.Data.ToString ());
                             	    var match = regexDeviceConnected.Match(e.Data);
 				    if (match.Success)
 					    OnDeviceChanged?.Invoke(null, new DeviceEventArgs(
 								    "Connected", match.Groups[1].Value, match.Groups[2].Value));		   
+			    }
+                            if (e.Data.StartsWith("Error Occurred: "))
+			    {
+				    LogB.Information ("Error Occurred: "  + e.Data.ToString ());
+				    var match = regexError.Match(e.Data);
+				    if (match.Success)
+					    OnError?.Invoke(null, new ErrorEventArgs(
+								    "Error", match.Groups[1].Value));
 			    }
 
                             var matchD = regexData.Match(e.Data);

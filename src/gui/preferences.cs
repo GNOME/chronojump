@@ -446,6 +446,7 @@ public class PreferencesWindow
 			BluetoothLE.OnScanning += BluetoothLE_OnScanning;
 			BluetoothLE.OnDataChanged += BluetoothLE_OnDataChanged;
 			BluetoothLE.OnDeviceChanged += BluetoothLE_OnDeviceChanged;
+			BluetoothLE.OnError += BluetoothLE_OnError;
 			bluetoothHandlersAssigned = true;
 		}
 	}
@@ -4045,7 +4046,7 @@ public class PreferencesWindow
 		bluetoothReading = true;
 		textview_bluetooth.Name = "fontSize9";
 		tbBluetoothText = "";
-		bluetooth_textview_update ("\nStarting communication... ");
+		bluetooth_textview_update ("Starting communication... ");
 
 		threadBluetooth = new Thread (new ThreadStart (bluetoothDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseBluetooth));
@@ -4132,6 +4133,10 @@ public class PreferencesWindow
 	private void BluetoothLE_OnDeviceChanged(object sender, BluetoothLE.DeviceEventArgs e)
 	{
 		bluetooth_textview_update ($"\n{e.Action} {e.Ip} {e.Value}");
+	}
+	private void BluetoothLE_OnError(object sender, BluetoothLE.ErrorEventArgs e)
+	{
+		bluetooth_textview_update ($"\n{e.Action} {e.Value}");
 	}
 	
 	/* ---------------------

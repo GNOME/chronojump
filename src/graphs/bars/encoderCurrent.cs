@@ -54,7 +54,7 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 	//we need the position to draw the loss line and maybe to manage that the min should be after the max (for being real loss)
 	private int maxThisSetValidAndConPos;
 	private int minThisSetValidAndConPos;
-	double workTotal; //can be J or Kcal (shown in cal)
+	double workTotal; //can be J or kcal (shown in cal)
 	double impulseTotal;
 
 	private List<PointF> barA_l; //data is related to mainVariable (barplot)
@@ -279,7 +279,7 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 		sumValid = 0;
 		sumSaved = 0;
 		countSaved = 0;
-		workTotal = 0; //can be J or Kcal (shown in cal)
+		workTotal = 0; //can be J or kcal (shown in cal)
 		impulseTotal = 0;
 
 		foreach(double d in data)
@@ -580,7 +580,7 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 		//work
 		workStr = "]    " + Catalog.GetString("Work") + ": " + Util.TrimDecimals(workTotal, decimals);
 		if(preferences.encoderWorkKcal)
-			workStr += " Kcal";
+			workStr += " kcal";
 		else
 			workStr += " J";
 

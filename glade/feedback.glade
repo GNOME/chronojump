@@ -3204,7 +3204,7 @@ will be shown in blue.</property>
                                                 </child>
                                                 <child>
                                                   <object class="GtkRadioButton" id="radio_encoder_relative_to_historical">
-                                                    <property name="label" translatable="yes">historical of this person on same exercise and encoder configuration</property>
+                                                    <property name="label" translatable="yes">Personal historical best on same exercise and encoder configuration</property>
                                                     <property name="visible">True</property>
                                                     <property name="can-focus">True</property>
                                                     <property name="receives-default">False</property>
@@ -3243,7 +3243,7 @@ will be shown in blue.</property>
                                           <object class="GtkLabel" id="label41">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
-                                            <property name="label" translatable="yes">On eccentric-concentric have feedback …</property>
+                                            <property name="label" translatable="yes">For eccentric-concentric repetitions, show feedback …</property>
                                             <property name="xalign">0</property>
                                           </object>
                                           <packing>
@@ -3330,7 +3330,7 @@ will be shown in blue.</property>
                                         <property name="spacing">20</property>
                                         <child>
                                           <object class="GtkCheckButton" id="check_encoder_inertial_ecc_overload">
-                                            <property name="label" translatable="yes">Show eccentric overload on inertial</property>
+                                            <property name="label" translatable="yes">Show eccentric overload in inertial</property>
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
                                             <property name="receives-default">False</property>

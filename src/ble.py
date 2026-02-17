@@ -6,20 +6,19 @@ import threading
 scanned_devices_dict = dict()
 connected_devices_dict = dict()
 watching_devices = dict()
-#watching_devices['ESP32'] = ['85bc9e6c-9501-4bf4-819e-4f40b5e56372', '1a2ae85a-8118-4644-9e3b-387122d8cd9e']
-watching_devices['4P'] = ['588dc235-7184-4550-9053-0e6a82f37cee',
+#watching_devices['CJ-CP4-12:5d'] = ['588dc235-7184-4550-9053-0e6a82f37cee', #xaviP
+watching_devices['CJ-CP4-0e:e5'] = ['588dc235-7184-4550-9053-0e6a82f37cee', #meu
                           '378b5d62-1fd3-4266-bbf7-6fec024d59a9',
                           'bde4d6e2-b970-42ff-b498-aeeca541ee07',
-                          'e7331566-3aec-4a47-b8f1-d6f27850ad87']
+                          'e7331566-3aec-4a47-b8f1-d6f27850ad87',
+                          'a2317307-e74a-4efe-b8ae-d615cd3be489']
 changed_characteristics_dict = dict()
 deserialization_ways = dict()
-#deserialization_ways['85bc9e6c-9501-4bf4-819e-4f40b5e56372'] = 'utf8'
-#deserialization_ways['1a2ae85a-8118-4644-9e3b-387122d8cd9e'] = 'utf8'
 deserialization_ways['588dc235-7184-4550-9053-0e6a82f37cee'] = 'utf8'
 deserialization_ways['378b5d62-1fd3-4266-bbf7-6fec024d59a9'] = 'utf8'
 deserialization_ways['bde4d6e2-b970-42ff-b498-aeeca541ee07'] = 'utf8'
 deserialization_ways['e7331566-3aec-4a47-b8f1-d6f27850ad87'] = 'utf8'
-
+deserialization_ways['a2317307-e74a-4efe-b8ae-d615cd3be489'] = 'utf8'
 
 async def scan(stop_event: asyncio.Event):
     def disconnected_callback(client: BleakClient):
@@ -68,22 +67,30 @@ async def scan(stop_event: asyncio.Event):
             
             try:
                 client = BleakClient(address_or_ble_device = device, disconnected_callback = disconnected_callback)
-                #print(f"Device Matched: {device} {advertising_data}", flush = True)
-                try:
-                    await client.pair()
-                except:
-                    pass
+                print(f"Device Matched: {device} {advertising_data}", flush = True)
+                print(f"A device.name: {device.name}", flush = True) #advertisementData name
+                #ble don't need to pair
+                #try:
+                #    await client.pair()
+                #except:
+                #    pass
                 await client.connect()
                                 
                 watching_characteristics_count = 0
+                print(f"B device.name: {device.name}", flush = True) #NimBLE device
+                print(f"watching_devices[device.name]: {watching_devices[device.name]}", flush = True)
                 if device.name in watching_devices and len(watching_devices[device.name]) > 0:
+                    print(f"isChronojump", flush = True)
                     for service in client.services:
+                        print(f"service: {service}", flush = True)
                         for watching_characteristic_uuid in watching_devices[device.name]:
                             if service.get_characteristic(watching_characteristic_uuid) != None:
                                 await client.start_notify(char_specifier = watching_characteristic_uuid, callback = changed_callbak)      
                                 watching_characteristics_count += 1
                                 continue
-                if device.address in watching_devices and len(watching_devices[device.address]) > 0:
+                print(f"device.address: {device.address}", flush = True)
+                #print(f"watching_devices[device.address]: {watching_devices[device.address]}", flush = True)
+                if device.address in watching_devices:# and len(watching_devices[device.address]) > 0:
                     for service in client.services:
                         for watching_characteristic_uuid in watching_devices[device.address]:
                             if service.get_characteristic(watching_characteristic_uuid) != None:
@@ -91,10 +98,12 @@ async def scan(stop_event: asyncio.Event):
                                 watching_characteristics_count += 1
                                 continue
                 if watching_characteristics_count == 0:
-                    try:
-                        await client.unpair()
-                    except:
-                        await client.disconnect()
+                    #ble don't need to pair
+                    #try:
+                    #    await client.unpair()
+                    #except:
+                    #    await client.disconnect()
+                    #await client.disconnect()
                     print(f"Device Mismatched: {device} {advertising_data}", flush = True)
                     return
 

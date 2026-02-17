@@ -19,6 +19,7 @@
 
 #include <elapsedMillis.h>
 #include <Adafruit_NeoPixel.h>
+#include "config.h"
 
 
 //1 Front Left
@@ -29,6 +30,8 @@
 #define NUMPIXELS 4
 #define CJ_YELLOW rgbLeds.Color(45,25,0)
 #define CJ_BLUE rgbLeds.Color(0,0,50)
+#define BLACK rgbLeds.Color(0,0,0)
+#define RED rgbLeds.Color(255,0,0)
 
 /*
 #define CHARGE_ON digitalWrite(4, LOW);
@@ -36,8 +39,12 @@
 */
 
 #define BATT_LEV_PIN 14
+#define CHARGE_STATE_PIN 4
 
 Adafruit_NeoPixel rgbLeds(NUMPIXELS, LEDS_PIN, NEO_GRB + NEO_KHZ800);
+
+// How was the system previously. ON->true    OFF->false
+RTC_DATA_ATTR bool systemOn = true;
 
 String version = "Chronopic-4.0";
 // Front Left, Front Right, Back Left, Back Right 
@@ -103,26 +110,26 @@ void setup() {
   Serial.begin(115200);
   rgbLeds.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
 
-  // pinMode(LED_BUILTIN, OUTPUT);
-  // digitalWrite(LED_BUILTIN, HIGH);
-
+  pinMode(4, OUTPUT);
   for(int i=0; i<=3; i++)
   {
     pinMode(sensorPin[ sensorMapping[i] ], INPUT_PULLDOWN);
     rgbLeds.setPixelColor(i, CJ_BLUE);
   }
 
-  pinMode(4, OUTPUT);
-
-  //When the input pin changes the function changedPin() is called
+  // // //When the input pin changes the function changedPin() is called
   attachInterrupt(digitalPinToInterrupt(sensorPin[ sensorMapping[0] ]), changed0, CHANGE);
   attachInterrupt(digitalPinToInterrupt(sensorPin[ sensorMapping[1] ]), changed1, CHANGE);
   attachInterrupt(digitalPinToInterrupt(sensorPin[ sensorMapping[2] ]), changed2, CHANGE);
   attachInterrupt(digitalPinToInterrupt(sensorPin[ sensorMapping[3] ]), changed3, CHANGE);
 
-  // Just to sabilize the inputPin
-  delay(1000);
-  Serial.println(version);
+  // Delay needed to stabilize the pins and serial.
+  // During the pause some lights will indicate the power On process
+  powerLeds();
+
+  powerConfig();
+
+  if ( systemOn) Serial.println(version);
 
   // Initial state of sensors
   for(int i=0; i<=3; i++)
@@ -135,17 +142,14 @@ void setup() {
     } else {
       rgbLeds.setPixelColor(sensorMapping[i], CJ_YELLOW);
     }
-    // Serial.println("Sensor" + String(i) + "->GPIO" + String(sensorPin[ sensorMapping[i] ] ) ); //For debugging pin mapping
   }
   rgbLeds.show();
 
-  // digitalWrite(LED_BUILTIN, lastSensorState[1]);
-
-  //Configuring the timer for debouncing
-  configDebounceTimers(debounceTime);
   initializeBLE();
+  // //Configuring the timer for debouncing
+  configDebounceTimers(debounceTime);
   Serial.flush();
-  updateBatteryLevel();
+  // updateBatteryLevel();
 }
 
 void loop() {
@@ -156,7 +160,6 @@ void loop() {
     if (sensorChange[i]) {
       Serial.print(i);
       Serial.print(":");
-      // digitalWrite(LED_BUILTIN, sensorState[i]);
 
       //save the stable state as the true one as it has survived the debounce process
       lastSensorState[i] = sensorState[i];
@@ -175,6 +178,9 @@ void loop() {
     }
   }
 
+  checkPowerButton();
+
+ //Uncomment to test battery every minute
   if (batteryCycle >= 60000) {
     updateBatteryLevel();
     batteryCycle = 0;
@@ -297,7 +303,7 @@ void setDebounceTime(unsigned int value) {
     timerAlarm(debounceTimer[i], value, true,0);
     timerStop(debounceTimer[i]);
   }
-  Serial.printf("Debounce set to: %u us\n", value);
+  if (systemOn)  Serial.printf("Debounce set to: %u us\n", value);
 }
 
 void setRgb(String argumentString) {
@@ -309,21 +315,4 @@ void setRgb(String argumentString) {
   colours = colours.substring(colours.indexOf(",") + 1, colours.indexOf(";"));
   int blue = colours.substring(0, colours.indexOf(";")).toInt();
   rgbLeds.setPixelColor(i, rgbLeds.Color(red, green, blue));
-}
-
-void updateBatteryLevel() {
-  // CHARGE_OFF;
-  for (int i = 0; i<10; i++) {
-    battLev = battLev + analogRead(BATT_LEV_PIN);
-  }
-  // CHARGE_ON;
-  battLev = battLev / 10;
-  Serial.print(battLev);
-  battLev = map(battLev, 2000, 2400, 0, 100);
-  if (battLev > 100) 
-    battLev = 100;
-  if (battLev <0 )
-    battLev = 0;
-  updateBatteryCharacteristic(battLev);
-  Serial.printf(";%i%%\n", battLev);
 }

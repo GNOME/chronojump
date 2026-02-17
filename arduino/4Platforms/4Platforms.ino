@@ -21,26 +21,6 @@
 #include <Adafruit_NeoPixel.h>
 #include "config.h"
 
-
-//1 Front Left
-//2 Front Right
-//3 Back Left
-//4 Back Right
-#define LEDS_PIN        5
-#define NUMPIXELS 4
-#define CJ_YELLOW rgbLeds.Color(45,25,0)
-#define CJ_BLUE rgbLeds.Color(0,0,50)
-#define BLACK rgbLeds.Color(0,0,0)
-#define RED rgbLeds.Color(255,0,0)
-
-/*
-#define CHARGE_ON digitalWrite(4, LOW);
-#define CHARGE_OFF digitalWrite(4, HIGH);
-*/
-
-#define BATT_LEV_PIN 14
-#define CHARGE_STATE_PIN 4
-
 Adafruit_NeoPixel rgbLeds(NUMPIXELS, LEDS_PIN, NEO_GRB + NEO_KHZ800);
 
 // How was the system previously. ON->true    OFF->false

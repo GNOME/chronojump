@@ -24,7 +24,11 @@ using System.Threading;
 using System.Text.RegularExpressions; //Regex
 
 /* this code was in my stash 14: Tue Oct 10 12:30:48 2023 */
-
+/*
+ * this code used btmon to capture.
+ * it has never been used
+ * use class BluetoothLE
+ *
 public class Bluetooth
 {
        private Process bluetoothCaptureProcess;
@@ -95,4 +99,5 @@ public class Bluetooth
                        LogB.Information ("match: " + match.ToString ());
        }
 }
+*/
 

@@ -276,50 +276,17 @@ public static class BluetoothLE
                             }
                             
                             if (e.Data.Contains("Installing"))
-			    {
-				    LogB.Information ("Installing: "  + e.Data.ToString ());
-				    var match = regexInstalling.Match(e.Data);
-				    if (match.Success)
-					    OnInstalling?.Invoke(null, new InstallingEventArgs(match.Groups[1].Value));
-			    }
+				    sendInstalling (e.Data);
                             if (e.Data.StartsWith("Version: ")) // Bleak version
-			    {
-				    LogB.Information ("Bleak Version: "  + e.Data.ToString ());
-				    var match = regexBleakVersion.Match(e.Data);
-				    if (match.Success)
-					    OnBleakVersion?.Invoke(null, new BleakVersionEventArgs(match.Groups[1].Value));
-			    }
+				    sendVersion (e.Data);
                             if (e.Data.Contains("scanning"))
-			    {
-				    LogB.Information ("Scanning: "  + e.Data.ToString ());
-				    var match = regexScanning.Match(e.Data);
-				    if (match.Success)
-					    OnScanning?.Invoke(null);
-			    }
+				    sendScanning (e.Data);
                             if (e.Data.StartsWith("Device Scanned: "))
-			    {
-				    LogB.Information ("scanned: "  + e.Data.ToString ());
-                            	    var match = regexDeviceScanned.Match(e.Data);
-				    if (match.Success)
-					    OnDeviceChanged?.Invoke(null, new DeviceEventArgs(
-								    "Scanned", match.Groups[1].Value, match.Groups[2].Value));
-			    }
+				    sendScanned (e.Data);
 			    if (e.Data.StartsWith("Device Connected: "))
-				    {
-				    LogB.Information ("Connected: "  + e.Data.ToString ());
-                            	    var match = regexDeviceConnected.Match(e.Data);
-				    if (match.Success)
-					    OnDeviceChanged?.Invoke(null, new DeviceEventArgs(
-								    "Connected", match.Groups[1].Value, match.Groups[2].Value));		   
-			    }
+				    sendConnected (e.Data);
                             if (e.Data.StartsWith("Error Occurred: "))
-			    {
-				    LogB.Information ("Error Occurred: "  + e.Data.ToString ());
-				    var match = regexError.Match(e.Data);
-				    if (match.Success)
-					    OnError?.Invoke(null, new ErrorEventArgs(
-								    "Error", match.Groups[1].Value));
-			    }
+				    sendError (e.Data);
 
                             var matchD = regexData.Match(e.Data);
                             if (matchD.Success)
@@ -346,6 +313,52 @@ public static class BluetoothLE
             }
         }, cts.Token);
         return !task.IsFaulted;
+    }
+
+    //private static void doInstalling (EventArgs e)
+    private static void sendInstalling (string str)
+    {
+	    var match = regexInstalling.Match (str);
+	    if (match.Success)
+		    OnInstalling?.Invoke (null, new InstallingEventArgs (match.Groups[1].Value));
+    }
+
+    private static void sendVersion (string str)
+    {
+	    var match = regexBleakVersion.Match (str);
+	    if (match.Success)
+		    OnBleakVersion?.Invoke (null, new BleakVersionEventArgs (match.Groups[1].Value));
+    }
+
+    private static void sendScanning (string str)
+    {
+	    var match = regexScanning.Match (str);
+	    if (match.Success)
+		    OnScanning?.Invoke (null);
+    }
+
+    private static void sendScanned (string str)
+    {
+	    var match = regexDeviceScanned.Match (str);
+	    if (match.Success)
+		    OnDeviceChanged?.Invoke (null, new DeviceEventArgs (
+					    "Scanned", match.Groups[1].Value, match.Groups[2].Value));
+    }
+
+    private static void sendConnected (string str)
+    {
+	    var match = regexDeviceConnected.Match (str);
+	    if (match.Success)
+		    OnDeviceChanged?.Invoke (null, new DeviceEventArgs (
+					    "Connected", match.Groups[1].Value, match.Groups[2].Value));
+    }
+
+    private static void sendError (string str)
+    {
+	    var match = regexError.Match (str);
+	    if (match.Success)
+		    OnError?.Invoke (null, new ErrorEventArgs (
+					    "Error", match.Groups[1].Value));
     }
 
     /// <summary>

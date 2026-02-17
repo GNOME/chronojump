@@ -218,7 +218,7 @@ public partial class ChronoJumpWindow
 			return;
 		} else {
 			if (bars) {
-				CairoBars cb = new CairoBars1Series (drawingarea_jumps_asymmetry, CairoBars.Type.NORMAL, CairoGeneric.MouseClickable.NO, true, false);
+				CairoBars cb = new CairoBars1Series (drawingarea_jumps_asymmetry, CairoBars.Type.NORMAL, CairoGeneric.MouseClickable.NO, true, CairoBars.PaintGridEnum.NO);
 				cb.GraphInit (preferences.fontTypeToGraph (), false, false);
 
 				List<PointF> point_l = new List<PointF>();

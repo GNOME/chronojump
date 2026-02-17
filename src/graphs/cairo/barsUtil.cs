@@ -232,6 +232,7 @@ public class CairoBarsSecondaryLineData
 {
 	public string units;
 	public List<double> data_l;
+	public bool left; //false: at right
 	public double yMax;
 	public double yMin;
 	public string magnitude;
@@ -242,9 +243,10 @@ public class CairoBarsSecondaryLineData
 	}
 
 	public CairoBarsSecondaryLineData (
-			List<double> data_l, double yMax, double yMin, string magnitude)
+			List<double> data_l, bool left, double yMax, double yMin, string magnitude)
 	{
 		this.data_l = data_l;
+		this.left = left;
 
 		//manage problems if both values are the same of min > max
 		if (yMax == yMin) {

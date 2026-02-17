@@ -341,9 +341,9 @@ public abstract class CairoXY : CairoGeneric
 		g.LineWidth = 1; //to allow to be shown the red arrows on jumpsWeightFVProfile
 
 		if(niceAutoValues)
-			paintGridNiceAutoValues (g, minX, absoluteMaxX, minY, absoluteMaxY, gridNiceSeps, gridType, shiftRight, textHeight);
+			paintGridNiceAutoValues (g, minX, absoluteMaxX, minY, absoluteMaxY, gridNiceSeps, gridType, shiftRight, textHeight, true);
 		else
-			paintGridInt (g, minX, absoluteMaxX, minY, absoluteMaxY, 1, gridType, shiftRight, textHeight);
+			paintGridInt (g, minX, absoluteMaxX, minY, absoluteMaxY, 1, gridType, shiftRight, textHeight, true);
 	}
 
 	protected void paintAxis()

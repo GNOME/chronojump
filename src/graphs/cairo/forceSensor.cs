@@ -143,7 +143,7 @@ public abstract class CairoGraphForceSensor : CairoXY
 				absoluteMaxX - minX);
         }
 
-	protected override void paintHorizontalGridLine (Cairo.Context g, int ytemp, string text, int fontH, bool atRight, int shiftRight)
+	protected override void paintHorizontalGridLine (Cairo.Context g, int ytemp, string text, int fontH, bool atRight, int shiftRight, bool showText)
 	{
 		if (atRight) //atRight do not write the line
 		{
@@ -151,7 +151,8 @@ public abstract class CairoGraphForceSensor : CairoXY
 			//g.LineTo(graphWidth - rightMargin, ytemp);
 			//g.SetDash(new double[] {10,5}, 0);
 
-			printText (graphWidth -rightMargin + shiftRight, ytemp, 0, fontH, text, g, alignTypes.LEFT);
+			if (showText)
+				printText (graphWidth -rightMargin + shiftRight, ytemp, 0, fontH, text, g, alignTypes.LEFT);
 
 			return;
 		}
@@ -159,6 +160,8 @@ public abstract class CairoGraphForceSensor : CairoXY
 		g.MoveTo(leftMargin, ytemp);
 		g.LineTo(graphWidth - rightMargin, ytemp);
 
+		if (! showText)
+			return;
 		if (! horizontal && Util.IsNumber (text, false))
 		{
 			double micros = Convert.ToDouble (text);
@@ -166,7 +169,7 @@ public abstract class CairoGraphForceSensor : CairoXY
 		}
 		printText (leftMargin/2, ytemp, 0, fontH, text, g, alignTypes.CENTER);
 	}
-	protected override void paintVerticalGridLine(Cairo.Context g, int xtemp, string text, int fontH)
+	protected override void paintVerticalGridLine(Cairo.Context g, int xtemp, string text, int fontH, bool showText)
 	{
 		if(fontH < 1)
 			fontH = 1;
@@ -174,6 +177,8 @@ public abstract class CairoGraphForceSensor : CairoXY
 		g.MoveTo(xtemp, topMargin);
 		g.LineTo(xtemp, graphHeight - bottomMargin);
 
+		if (! showText)
+			return;
 		if (horizontal && Util.IsNumber (text, false))
 		{
 			double micros = Convert.ToDouble (text);

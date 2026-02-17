@@ -185,7 +185,7 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 		//if(ifRSAstartRest)
 		//	return;
 
-		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, CairoGeneric.MouseClickable.NO, true, true);
+		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, CairoGeneric.MouseClickable.NO, true, CairoBars.PaintGridEnum.ALL);
 
 		cb.YVariable = Catalog.GetString("Speed");
 		if (runTimes)

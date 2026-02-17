@@ -233,7 +233,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 					for(int i = 0 ; i < segmentCalcs.Count ; i ++)
 					{
 						double yValue = segmentCalcs.Dist_l[i];
-						paintHorizontalGridLine (g, Convert.ToInt32(calculatePaintY(yValue)), yValue.ToString(), textHeight -3, false, 0);
+						paintHorizontalGridLine (g, Convert.ToInt32(calculatePaintY(yValue)), yValue.ToString(), textHeight -3, false, 0, true);
 					}
 					g.Stroke ();
 					g.Restore();
@@ -254,7 +254,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 						double xGraph = calculatePaintX(segmentCalcs.TimeEnd_l[i]/1000000.0);
 
 						if(useListOfDoublesOnY)
-							paintVerticalGridLine(g, Convert.ToInt32(xGraph), xTextBottom, textHeight-3);
+							paintVerticalGridLine(g, Convert.ToInt32(xGraph), xTextBottom, textHeight-3, true);
 						else
 							paintVerticalGridLineTopBottom (g, Convert.ToInt32(xGraph), xTextTop, xTextBottom, textHeight-3);
 

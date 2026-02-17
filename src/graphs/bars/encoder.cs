@@ -61,7 +61,7 @@ public class CairoPaintBarsPreEncoderSession : CairoPaintBarsPre
 
 	protected override void paintSpecific()
 	{
-		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, CairoGeneric.MouseClickable.CLICKLR, true, true);
+		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, CairoGeneric.MouseClickable.CLICKLR, true, CairoBars.PaintGridEnum.ALL);
 
 		cb.YVariable = Catalog.GetString (Constants.GetEncoderVariablesCapture (encoderCaptureMainVariable));
 		cb.YUnits = Constants.GetEncoderVariablesCaptureUnits (encoderCaptureMainVariable);

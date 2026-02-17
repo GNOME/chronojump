@@ -150,9 +150,9 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 			return;
 
 		if (UseHeights)
-			cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, CairoGeneric.MouseClickable.NO, true, true);
+			cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, CairoGeneric.MouseClickable.NO, true, CairoBars.PaintGridEnum.ALL);
 		else
-			cb = new CairoBarsNHSeries (darea, CairoBars.Type.NORMAL, true, CairoGeneric.MouseClickable.NO, true, true);
+			cb = new CairoBarsNHSeries (darea, CairoBars.Type.NORMAL, true, CairoGeneric.MouseClickable.NO, true, CairoBars.PaintGridEnum.ALL);
 
 		if(UseHeights) {
 			cb.YVariable = Catalog.GetString("Height");

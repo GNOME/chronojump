@@ -40,7 +40,8 @@ public abstract class CairoBars : CairoGeneric
 	protected int marginForBottomNames;
 	protected MouseClickable clickable;
 	protected bool paintAxis;
-	protected bool paintGrid; //if paint grid, then paint a rectangle below barResult (on encoder: false)
+	public enum PaintGridEnum { NO, ONLYLINES, ALL };
+	protected PaintGridEnum paintGrid;
 
 	protected string titleStr;
 	protected List<int> best_l;
@@ -100,7 +101,8 @@ public abstract class CairoBars : CairoGeneric
 	protected List<double> color_l;
 	protected List<bool> personIcon_l;
 
-	protected CairoBarsSecondaryLineData cbsld; //related to secondary variable (by default range)
+	protected CairoBarsSecondaryLineData cbsld; // related to secondary variable (by default range)
+	protected CairoBarsSecondaryLineData cbsld2; // on encoder capture current shown variable at left
 
 	protected List<CairoBarsArrow> eccOverload_l;
 	protected bool eccOverloadWriteValue;
@@ -357,6 +359,7 @@ public abstract class CairoBars : CairoGeneric
 		personIcon_l = new List<bool>();
 
 		cbsld = new CairoBarsSecondaryLineData ();
+		cbsld2 = new CairoBarsSecondaryLineData ();
 
 		eccOverload_l = new List<CairoBarsArrow>();
 		eccOverloadWriteValue = false;
@@ -371,9 +374,8 @@ public abstract class CairoBars : CairoGeneric
 	{
 		if(type == Type.ENCODER)
 		{
-			//to just show the mice icon
-			leftMargin = 18;
-			rightMargin = 18;
+			leftMargin = 34; // need to show secondary axis at left
+			rightMargin = 42; //need to show secondary axis at right and mice icon
 		}
 		else {
 			leftMargin = 26;
@@ -634,8 +636,10 @@ public abstract class CairoBars : CairoGeneric
 		if(barsXCenter_l.Count != sld.data_l.Count)
 			return;
 
-		//g.SetSourceColor (yellow); //to have contrast with the bar
-		g.SetSourceColor (caramel);
+		if (sld.left)
+			g.SetSourceColor (black);
+		else
+			g.SetSourceColor (caramel);
 
 		if (sld.yMin < 0 && sld.yMax < 0) //means detect y range automatically
 		{
@@ -670,31 +674,44 @@ public abstract class CairoBars : CairoGeneric
 			g.SetSourceColor (white);
 			g.Stroke();
 		}
-		g.SetSourceColor (caramel);
+		if (sld.left)
+			g.SetSourceColor (black);
+		else
+			g.SetSourceColor (caramel);
 
 		// 3) axis
+		double x = leftMargin -6;
+		double xTick = x -4;
+		double xText = x -9;
+		if (! sld.left)
+		{
+			x = graphWidth -rightMargin +6;
+			xTick = x +4;
+			xText = x +15;
+		}
+
 		double yMaxPaint = calculatePaintY (sld.yMax, sld.yMax, sld.yMin, 1.1);
 		double yMinPaint = calculatePaintY (sld.yMin, sld.yMax, sld.yMin, 1.1);
 
-		g.MoveTo (leftMargin +4, yMinPaint);
-		g.LineTo (leftMargin, yMinPaint);
-		g.LineTo (leftMargin, yMaxPaint);
-		g.LineTo (leftMargin +4, yMaxPaint);
+		g.MoveTo (xTick, yMinPaint);
+		g.LineTo (x, yMinPaint);
+		g.LineTo (x, yMaxPaint);
+		g.LineTo (xTick, yMaxPaint);
 		g.Stroke ();
 
 		string str = sld.magnitude + " (" + sld.units + ")";
 		Cairo.TextExtents te = g.TextExtents (str);
-		printTextRotated (leftMargin -4, (yMaxPaint + yMinPaint)/2 +te.Width/2, 0, textHeight -2,
+		printTextRotated (xText, (yMaxPaint + yMinPaint)/2 +te.Width/2, 0, textHeight -2,
 				str, g, false);
 
 		str = Util.TrimDecimals (sld.yMin, 2);
 		te = g.TextExtents (str);
-		printTextRotated (leftMargin -4, yMinPaint +te.Width/2, 0, textHeight -2,
+		printTextRotated (xText, yMinPaint +te.Width/2, 0, textHeight -2,
 				str, g, false);
 
 		str = Util.TrimDecimals (sld.yMax, 2);
 		te = g.TextExtents (str);
-		printTextRotated (leftMargin -4, yMaxPaint +te.Width/2, 0, textHeight -2,
+		printTextRotated (xText, yMaxPaint +te.Width/2, 0, textHeight -2,
 				str, g, false);
 
 		g.Stroke ();
@@ -899,7 +916,7 @@ public abstract class CairoBars : CairoGeneric
 			yStart = alto - te.Height;
 		*/
 
-		if(paintGrid)
+		if (paintGrid != PaintGridEnum.NO)
 		{
 			if(textAboveBar)
 				g.SetSourceColor(white); //to just hide the horizontal grid
@@ -1101,7 +1118,7 @@ public abstract class CairoBars : CairoGeneric
 	*/
 
 	//reccomended to 1st paint the grid, then the axis
-	protected void paintGridDo (gridTypes gridType, bool niceAutoValues)
+	protected void paintGridDo (gridTypes gridType, bool niceAutoValues, bool showText)
 	{
 		if(minY == maxY)
 			return;
@@ -1109,9 +1126,9 @@ public abstract class CairoBars : CairoGeneric
 		g.LineWidth = 1; //to allow to be shown the red arrows on jumpsWeightFVProfile
 
 		if(niceAutoValues)
-			paintGridNiceAutoValues (g, minX, maxX, minY, maxY, 5, gridType, 0, textHeight -2);
+			paintGridNiceAutoValues (g, minX, maxX, minY, maxY, 5, gridType, 0, textHeight -2, showText);
 		else
-			paintGridInt (g, minX, maxX, minY, maxY, 1, gridType, 0, textHeight -2);
+			paintGridInt (g, minX, maxX, minY, maxY, 1, gridType, 0, textHeight -2, showText);
 	}
 
 	//return the bar num from 0 (left bar) to the last bar
@@ -1234,6 +1251,9 @@ public abstract class CairoBars : CairoGeneric
 
 	public CairoBarsSecondaryLineData Cbsld {
 		set { cbsld = value; }
+	}
+	public CairoBarsSecondaryLineData Cbsld2 {
+		set { cbsld2 = value; }
 	}
 
 	public List<CairoBarsArrow> EccOverload_l {

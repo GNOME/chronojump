@@ -245,7 +245,7 @@ public abstract class CairoGeneric
 
 	//TODO: fix if min == max (crashes)
 	protected enum gridTypes { BOTH, HORIZONTALLINES, HORIZONTALLINESATRIGHT, VERTICALLINES }
-	protected void paintGridNiceAutoValues (Cairo.Context g, double minX, double maxX, double minY, double maxY, int seps, gridTypes gridType, int shiftRight, int fontH)
+	protected void paintGridNiceAutoValues (Cairo.Context g, double minX, double maxX, double minY, double maxY, int seps, gridTypes gridType, int shiftRight, int fontH, bool showText)
 	{
 		bool errorX = false;
 		bool errorY = false;
@@ -273,7 +273,7 @@ public abstract class CairoGeneric
 				if(xtemp <= leftMargin || xtemp >= graphWidth - rightMargin)
 					continue;
 
-				paintVerticalGridLine(g, xtemp, Util.TrimDecimals(i, 2), fontH);
+				paintVerticalGridLine(g, xtemp, Util.TrimDecimals(i, 2), fontH, showText);
 			}
 
 		if (! errorY && (gridType == gridTypes.BOTH || gridType == gridTypes.HORIZONTALLINES || gridType == gridTypes.HORIZONTALLINESATRIGHT))
@@ -284,7 +284,7 @@ public abstract class CairoGeneric
 					continue;
 
 				paintHorizontalGridLine (g, ytemp, Util.TrimDecimals(i, 2), fontH,
-						(gridType == gridTypes.HORIZONTALLINESATRIGHT), shiftRight);
+						(gridType == gridTypes.HORIZONTALLINESATRIGHT), shiftRight, showText);
 			}
 
 		g.Stroke ();
@@ -292,7 +292,7 @@ public abstract class CairoGeneric
 	}
 
 	//for a grid of integers
-	protected void paintGridInt (Cairo.Context g, double minX, double maxX, double minY, double maxY, int by, gridTypes gridType, int shiftRight, int fontH)
+	protected void paintGridInt (Cairo.Context g, double minX, double maxX, double minY, double maxY, int by, gridTypes gridType, int shiftRight, int fontH, bool showText)
 	{
 		g.Save();
 		g.SetDash(new double[]{1, 2}, 0);
@@ -303,7 +303,7 @@ public abstract class CairoGeneric
 				if(xtemp <= leftMargin || xtemp >= graphWidth -rightMargin)
 					continue;
 
-				paintVerticalGridLine(g, xtemp, Util.TrimDecimals(i, 2), fontH);
+				paintVerticalGridLine(g, xtemp, Util.TrimDecimals(i, 2), fontH, showText);
 			}
 
 		if(gridType == gridTypes.BOTH || gridType == gridTypes.HORIZONTALLINES || gridType == gridTypes.HORIZONTALLINESATRIGHT)
@@ -314,13 +314,13 @@ public abstract class CairoGeneric
 					continue;
 
 				paintHorizontalGridLine (g, ytemp, Util.TrimDecimals(i, 2), fontH,
-						(gridType == gridTypes.HORIZONTALLINESATRIGHT), shiftRight);
+						(gridType == gridTypes.HORIZONTALLINESATRIGHT), shiftRight, showText);
 			}
 		g.Stroke ();
 		g.Restore();
 	}
 
-	protected virtual void paintHorizontalGridLine (Cairo.Context g, int ytemp, string text, int fontH, bool atRight, int shiftRight)
+	protected virtual void paintHorizontalGridLine (Cairo.Context g, int ytemp, string text, int fontH, bool atRight, int shiftRight, bool showText)
 	{
 		if (atRight) //atRight do not write the line
 		{
@@ -328,7 +328,8 @@ public abstract class CairoGeneric
 			//g.LineTo(graphWidth - rightMargin, ytemp);
 			//g.SetDash(new double[] {10,5}, 0);
 
-			printText (graphWidth -rightMargin + shiftRight, ytemp, 0, fontH, text, g, alignTypes.LEFT);
+			if (showText)
+				printText (graphWidth -rightMargin + shiftRight, ytemp, 0, fontH, text, g, alignTypes.LEFT);
 
 			return;
 		}
@@ -336,13 +337,14 @@ public abstract class CairoGeneric
 		g.MoveTo(leftMargin, ytemp);
 		g.LineTo(graphWidth - rightMargin, ytemp);
 
-		printText (leftMargin/2, ytemp, 0, fontH, text, g, alignTypes.CENTER);
+		if (showText)
+			printText (leftMargin/2, ytemp, 0, fontH, text, g, alignTypes.CENTER);
 	}
 
 	//this is different on forceSensor: ms to s (and with 's')
 	//this combined with printXAxisText is different on RaceAnalyzer
 	protected string verticalGridLineUnits = "";
-	protected virtual void paintVerticalGridLine(Cairo.Context g, int xtemp, string text, int fontH)
+	protected virtual void paintVerticalGridLine(Cairo.Context g, int xtemp, string text, int fontH, bool showText)
 	{
 		if(fontH < 1)
 			fontH = 1;
@@ -350,8 +352,9 @@ public abstract class CairoGeneric
 		g.MoveTo(xtemp, topMargin);
 		g.LineTo(xtemp, graphHeight - bottomMargin);
 
-		printText(xtemp, graphHeight -bottomMargin/2, 0, fontH, text + verticalGridLineUnits,
-				g, alignTypes.CENTER);
+		if (showText)
+			printText(xtemp, graphHeight -bottomMargin/2, 0, fontH, text + verticalGridLineUnits,
+					g, alignTypes.CENTER);
 		//LogB.Information("pvgl fontH: " + fontH.ToString());
 	}
 

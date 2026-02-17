@@ -75,11 +75,11 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			UseHeights = false;
 
 		if(showBarA && showBarB) //Dja, Djna
-			cb = new CairoBarsNHSeries (darea, CairoBars.Type.NORMAL, true, CairoGeneric.MouseClickable.CLICKLR, true, true);
+			cb = new CairoBarsNHSeries (darea, CairoBars.Type.NORMAL, true, CairoGeneric.MouseClickable.CLICKLR, true, CairoBars.PaintGridEnum.ALL);
 		else if (showBarA) //takeOff, takeOffWeight
-			cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, CairoGeneric.MouseClickable.CLICKLR, true, true);
+			cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, CairoGeneric.MouseClickable.CLICKLR, true, CairoBars.PaintGridEnum.ALL);
 		else //rest of the jumps: sj, cmj, ..
-			cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, CairoGeneric.MouseClickable.CLICKLR, true, true);
+			cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, CairoGeneric.MouseClickable.CLICKLR, true, CairoBars.PaintGridEnum.ALL);
 
 		if(UseHeights) {
 			cb.YVariable = Catalog.GetString("Jump height");

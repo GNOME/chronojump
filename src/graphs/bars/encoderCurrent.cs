@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -36,7 +36,7 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 	private Preferences preferences;
 
 	//copied from gui/encoderGraphObjects (using ArrayList)
-	private ArrayList data; //data is related to mainVariable (barplot)
+	private List<double> data_l; //data_l is related to mainVariable (barplot)
 	private List<double> lineData_l; //related to secondary variable (by default range (mm))
 	private List<double> dataStart_l; //used on video (in seconds)
 	private List<double> dataDuration_l; //used on video (in seconds)
@@ -161,7 +161,7 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 
 	private void fillArraysDiscardingReps () //copied from gui/encoderGraphObjects fillDataVariables()
 	{
-		data = new ArrayList (pegbe.encoderBarsData_l.Count); //data is related to mainVariable (barplot)
+		data_l = new List<double>();
 		lineData_l = new List<double>(); //lineData_l is related to secondary variable (by default range)
 		dataStart_l = new List<double> ();
 		dataDuration_l = new List<double> ();
@@ -178,7 +178,7 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 			//when capture ended, show all repetitions
 			if(pegbe.showNRepetitions == -1 || ! pegbe.capturing)
 			{
-				data.Add(ebd.GetValue(pegbe.mainVariable));
+				data_l.Add(ebd.GetValue(pegbe.mainVariable));
 				if(pegbe.secondaryVariable != "")
 					lineData_l.Add(ebd.GetValue(pegbe.secondaryVariable));
 				dataStart_l.Add (UtilAll.DivideSafe (ebd.GetValue (Constants.Start), 1000));
@@ -191,7 +191,7 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 				if(pegbe.eccon == "c" && ( pegbe.encoderBarsData_l.Count <= pegbe.showNRepetitions || 	//total repetitions are less than show repetitions threshold ||
 						count >= pegbe.encoderBarsData_l.Count - pegbe.showNRepetitions ) ) 	//count is from the last group of reps (reps that have to be shown)
 				{
-					data.Add(ebd.GetValue(pegbe.mainVariable));
+					data_l.Add(ebd.GetValue(pegbe.mainVariable));
 					if(pegbe.secondaryVariable != "")
 						lineData_l.Add(ebd.GetValue(pegbe.secondaryVariable));
 					dataStart_l.Add (UtilAll.DivideSafe (ebd.GetValue (Constants.Start), 1000));
@@ -207,7 +207,7 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 					if(! Util.IsEven(count +1))  	//if it is "impar"
 					{
 						LogB.Information("added ecc");
-						data.Add(ebd.GetValue(pegbe.mainVariable));
+						data_l.Add(ebd.GetValue(pegbe.mainVariable));
 						if(pegbe.secondaryVariable != "")
 							lineData_l.Add(ebd.GetValue(pegbe.secondaryVariable));
 						dataStart_l.Add (UtilAll.DivideSafe (ebd.GetValue (Constants.Start), 1000));
@@ -219,7 +219,7 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 					} else {  			//it is "par"
 						if(lastIsEcc)
 						{
-							data.Add(ebd.GetValue(pegbe.mainVariable));
+							data_l.Add(ebd.GetValue(pegbe.mainVariable));
 							if(pegbe.secondaryVariable != "")
 								lineData_l.Add(ebd.GetValue(pegbe.secondaryVariable));
 							dataStart_l.Add (UtilAll.DivideSafe (ebd.GetValue (Constants.Start), 1000));
@@ -282,7 +282,7 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 		workTotal = 0; //can be J or kcal (shown in cal)
 		impulseTotal = 0;
 
-		foreach(double d in data)
+		foreach(double d in data_l)
 		{
 			if(d > maxThisSetForGraph)
 				maxThisSetForGraph = d;
@@ -374,10 +374,10 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 		//for (int count = 0; count < pegbe.encoderBarsData_l.Count; count ++)
 //		int countNames = 0;
 
-		//we used data because this array has only the reps not discarded by showNRepetitions
-		for (count = 0; count < data.Count ; count ++)
+		//we used data_l because this array has only the reps not discarded by showNRepetitions
+		for (count = 0; count < data_l.Count ; count ++)
 		{
-			double mainVariableValue = Convert.ToDouble(data[count]);
+			double mainVariableValue = Convert.ToDouble(data_l[count]);
 
 			// 1) get phase (for color)
 			Preferences.EncoderPhasesEnum phaseEnum = Preferences.EncoderPhasesEnum.BOTH; // (eccon == "c")
@@ -405,7 +405,7 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 			{
 				colorPhase = UtilGtk.GetRGBA (UtilGtk.Colors.GREEN_PLOTS);
 				//play sound if value is high, volumeOn == true, is last value, capturing
-				if (pegbe.volumeOn && count == data.Count -1 && pegbe.capturing && ! UtilList.FoundInListInt (RepetitionsPlayed_l, count))
+				if (pegbe.volumeOn && count == data_l.Count -1 && pegbe.capturing && ! UtilList.FoundInListInt (RepetitionsPlayed_l, count))
 				{
 					Util.PlaySound (Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
 					RepetitionsPlayed_l.Add (count);
@@ -415,7 +415,7 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 			{
 				colorPhase = UtilGtk.GetRGBA (UtilGtk.Colors.RED_PLOTS);
 				//play sound if value is low, volumeOn == true, is last value, capturing
-				if (pegbe.volumeOn && count == data.Count -1 && pegbe.capturing && ! UtilList.FoundInListInt (RepetitionsPlayed_l, count))
+				if (pegbe.volumeOn && count == data_l.Count -1 && pegbe.capturing && ! UtilList.FoundInListInt (RepetitionsPlayed_l, count))
 				{
 					Util.PlaySound (Constants.SoundTypes.BAD, pegbe.volumeOn, pegbe.gstreamer);
 					RepetitionsPlayed_l.Add (count);
@@ -458,14 +458,14 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 			{
 				barA_l.Add(new PointF(count +1, mainVariableValue));
 				colorMain_l.Add(colorBar);
-				names_l.Add((pegbe.encoderBarsData_l.Count -data.Count +(count+1)).ToString());
+				names_l.Add((pegbe.encoderBarsData_l.Count -data_l.Count +(count+1)).ToString());
 			} else
 			{
 				if(! Util.IsEven(count +1))  	//if it is "impar"
 				{
 					barA_l.Add(new PointF(UtilAll.DivideSafe(count+1,2), mainVariableValue));
 					colorSecondary_l.Add(colorBar);
-					names_l.Add((UtilAll.DivideSafe(pegbe.encoderBarsData_l.Count -data.Count +count,2)+1).ToString());
+					names_l.Add((UtilAll.DivideSafe(pegbe.encoderBarsData_l.Count -data_l.Count +count,2)+1).ToString());
 				} else {// "par"
 					barB_l.Add(new PointF(UtilAll.DivideSafe(count+1,2), mainVariableValue));
 					colorMain_l.Add(colorBar);
@@ -606,9 +606,9 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 			mc = CairoGeneric.MouseClickable.CLICKL;
 
 		if(pegbe.eccon == "c")
-			cb = new CairoBars1Series (darea, CairoBars.Type.ENCODER, mc, false, false);
+			cb = new CairoBars1Series (darea, CairoBars.Type.ENCODER, mc, false, CairoBars.PaintGridEnum.ONLYLINES);
 		else
-			cb = new CairoBarsNHSeries (darea, CairoBars.Type.ENCODER, false, mc, false, false);
+			cb = new CairoBarsNHSeries (darea, CairoBars.Type.ENCODER, false, mc, false, CairoBars.PaintGridEnum.ONLYLINES);
 
 		//LogB.Information("data_l.Count: " + data_l.Count.ToString());
 		//cb.GraphInit(fontStr, true, false); //usePersonGuides, useGroupGuides
@@ -631,15 +631,24 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 			if (! preferences.encoderCaptureSecondaryVariableYAxisCustom)
 				cb.Cbsld = new CairoBarsSecondaryLineData (
 						lineData_l,
+						false,
 						-1,
 						-1,
 						pegbe.secondaryVariable);
 			else
 				cb.Cbsld = new CairoBarsSecondaryLineData (
 						lineData_l,
+						false,
 						preferences.encoderCaptureSecondaryVariableYAxisCustomMax,
 						preferences.encoderCaptureSecondaryVariableYAxisCustomMin,
 						pegbe.secondaryVariable);
+
+			cb.Cbsld2 = new CairoBarsSecondaryLineData (
+					data_l,
+					true,
+					-1,
+					-1,
+					pegbe.mainVariable);
 		}
 
 		if(eccOverload_l != null && eccOverload_l.Count > 0)

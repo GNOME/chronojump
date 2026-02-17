@@ -56,7 +56,7 @@ public class CairoBars1Series : CairoBars
 	}
 
 	//regular constructor
-	public CairoBars1Series (DrawingArea area, Type type, MouseClickable clickable, bool paintAxis, bool paintGrid)
+	public CairoBars1Series (DrawingArea area, Type type, MouseClickable clickable, bool paintAxis, PaintGridEnum paintGrid)
 	{
 		this.area = area;
 		this.type = type;
@@ -373,8 +373,8 @@ public class CairoBars1Series : CairoBars
 		if(paintAxis)
 			paintAxisDo (2);
 
-		if(paintGrid)
-			paintGridDo (gridTypes.HORIZONTALLINES, true);
+		if (paintGrid != PaintGridEnum.NO)
+			paintGridDo (gridTypes.HORIZONTALLINES, true, paintGrid == PaintGridEnum.ALL);
 		//g.SetFontSize(textHeight);
 
 		/*
@@ -397,6 +397,8 @@ public class CairoBars1Series : CairoBars
 
 		if (cbsld.data_l.Count > 0)
 			plotAlternativeLine (cbsld);
+		if (cbsld2.data_l.Count > 0)
+			plotAlternativeLine (cbsld2);
 
 		if (edgeBarNums_l.Count > 0)
 			plotEdgeBarNums ();

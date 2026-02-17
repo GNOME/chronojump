@@ -240,9 +240,9 @@ public class CairoGraphEncoderSignal : CairoXY
 		{
 			int divBy = 5;
 			if (horizontal && absoluteMaxY - minY > divBy)
-				paintGridInt (g, minX, absoluteMaxX, minY, absoluteMaxY, Convert.ToInt32 ((absoluteMaxY - minY)/divBy), gridTypes.HORIZONTALLINES, 0, textHeight);
+				paintGridInt (g, minX, absoluteMaxX, minY, absoluteMaxY, Convert.ToInt32 ((absoluteMaxY - minY)/divBy), gridTypes.HORIZONTALLINES, 0, textHeight, true);
 			if (! horizontal && absoluteMaxX - minX > divBy)
-				paintGridInt (g, minX, absoluteMaxX, minY, absoluteMaxY, Convert.ToInt32 ((absoluteMaxX - minX)/divBy), gridTypes.VERTICALLINES, 0, textHeight);
+				paintGridInt (g, minX, absoluteMaxX, minY, absoluteMaxY, Convert.ToInt32 ((absoluteMaxX - minX)/divBy), gridTypes.VERTICALLINES, 0, textHeight, true);
 
 			plotSpecific ();
 

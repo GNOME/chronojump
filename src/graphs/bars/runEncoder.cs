@@ -62,7 +62,7 @@ public class CairoPaintBarsPreRunEncoder : CairoPaintBarsPre
 		 * check if one bar has to be shown or two
 		 * this is important when we are showing multitests
 		 */
-		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, CairoGeneric.MouseClickable.CLICKLR, true, true);
+		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, CairoGeneric.MouseClickable.CLICKLR, true, CairoBars.PaintGridEnum.ALL);
 
 		cb.YVariable = Catalog.GetString("Max speed");
 		if (bestSecond)

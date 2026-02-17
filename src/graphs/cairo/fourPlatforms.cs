@@ -203,7 +203,7 @@ public class CairoGraphFourPlatforms : CairoXY
 			//gridNiceSeps = 20; // just to debug
 			paintGridNiceAutoValues (g,
 					points_ll[0][startAt].X,
-					absoluteMaxX, minY, absoluteMaxY, gridNiceSeps, gridTypes.VERTICALLINES, 0, textHeight);
+					absoluteMaxX, minY, absoluteMaxY, gridNiceSeps, gridTypes.VERTICALLINES, 0, textHeight, true);
 		}
 
 		if (title != "")

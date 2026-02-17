@@ -53,7 +53,7 @@ public class CairoPaintBarsWilight : CairoPaintBarsPre
 
 	protected override void paintSpecific()
 	{
-		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, CairoGeneric.MouseClickable.CLICKL, true, true);
+		cb = new CairoBars1Series (darea, CairoBars.Type.NORMAL, CairoGeneric.MouseClickable.CLICKL, true, CairoBars.PaintGridEnum.ALL);
 
 		cb.YVariable = Catalog.GetString("Time");
 		cb.YUnits = "s";

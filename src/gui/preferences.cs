@@ -4126,7 +4126,8 @@ public class PreferencesWindow
 	}
 	private void BluetoothLE_OnDataChanged(object sender, BluetoothLE.DataChangedEventArgs e)
 	{
-		bluetooth_textview_update ($"\n{e.CharacteristicUUID} {e.Value}");
+		//bluetooth_textview_update ($"\n{e.CharacteristicUUID} {e.CharacteristicName} {e.Value}");
+		bluetooth_textview_update ($"\n{e.CharacteristicName} {e.Value}");
 	}
 	private void BluetoothLE_OnDeviceChanged(object sender, BluetoothLE.DeviceEventArgs e)
 	{

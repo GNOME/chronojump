@@ -39,6 +39,24 @@ public static class BluetoothLE
         /// </summary>
         public string CharacteristicUUID { get; set; }
         /// <summary>
+        /// The name of the characteristic that has changed.
+        /// </summary>
+        public string CharacteristicName {
+		get {
+			if (CharacteristicUUID == "588dc235-7184-4550-9053-0e6a82f37cee")
+				return "Light1";
+			else if (CharacteristicUUID == "378b5d62-1fd3-4266-bbf7-6fec024d59a9")
+				return "Light2";
+			else if (CharacteristicUUID == "bde4d6e2-b970-42ff-b498-aeeca541ee07")
+				return "Light3";
+			else if (CharacteristicUUID == "e7331566-3aec-4a47-b8f1-d6f27850ad87")
+				return "Light4";
+			else if (CharacteristicUUID == "a2317307-e74a-4efe-b8ae-d615cd3be489")
+				return "Battery";
+			return "";
+		}
+	}
+        /// <summary>
         /// The value of the characteristic that has changed, decoded as a UTF-8 string or a space-separated HEX string.
         /// </summary>
         public string Value { get; set; }
@@ -61,7 +79,7 @@ public static class BluetoothLE
     /// Event that is raised when data changes in a BLE characteristic.
     /// </summary>
     public static event DataChangedHandler OnDataChanged;
-    
+
     /// <summary>
     /// Regex to match the output from the Python script that indicates data has changed.
     /// Format:
@@ -134,7 +152,8 @@ public static class BluetoothLE
     }
     public delegate void DeviceHandler(object sender, DeviceEventArgs e);
     public static event DeviceHandler OnDeviceChanged;
-    private static readonly Regex regexDeviceScanned = new Regex(@"^Device Scanned: (..:..:..:..:..:..:) .*local_name='(.*)', rssi.*$");
+    //private static readonly Regex regexDeviceScanned = new Regex(@"^Device Scanned: (..:..:..:..:..:..:) .*local_name='(.*)', rssi.*$");
+    private static readonly Regex regexDeviceScanned = new Regex(@"^Device Scanned: (..:..:..:..:..:..:) .*local_name='(.*)', service_uuids.*rssi.*$");
     private static readonly Regex regexDeviceConnected = new Regex(@"^Device Connected: (..:..:..:..:..:..:) (.*)$");
     
     // <---- DeviceEvent ----

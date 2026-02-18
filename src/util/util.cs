@@ -80,27 +80,31 @@ public class Util
 	}
 
 	//shorter
-	public static string CTP (double myDouble)
+	public static string CTP (double d)
 	{
-		return ConvertToPoint (myDouble.ToString ());
+		return ConvertToPoint (d.ToString ());
 	}
 	//all numbers are saved in database with '.' as decimal separator (method for numbers)
-	public static string ConvertToPoint (double myDouble)
+	public static string ConvertToPoint (double d)
 	{
-		return ConvertToPoint (myDouble.ToString ());
+		return ConvertToPoint (d.ToString ());
 	}
 	//all numbers are saved in database with '.' as decimal separator
-	public static string ConvertToPoint (string myString)
+	public static string ConvertToPoint (string str)
 	{
-		StringBuilder myStringBuilder = new StringBuilder(myString);
-		myStringBuilder.Replace(",", ".");
+		StringBuilder myStringBuilder = new StringBuilder (str);
+		myStringBuilder.Replace (",", ".");
 		return myStringBuilder.ToString();
 	}
 	
-	public static string ConvertToComma (string myString)
+	public static string ConvertToComma (double d)
 	{
-		StringBuilder myStringBuilder = new StringBuilder(myString);
-		myStringBuilder.Replace(".", ",");
+		return ConvertToComma (d.ToString ());
+	}
+	public static string ConvertToComma (string str)
+	{
+		StringBuilder myStringBuilder = new StringBuilder (str);
+		myStringBuilder.Replace (".", ",");
 		return myStringBuilder.ToString();
 	}
 	

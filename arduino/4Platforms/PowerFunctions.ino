@@ -123,7 +123,7 @@ void updateBatteryLevel() {
   if (battLev <0 )
     battLev = 0;
   updateBatteryCharacteristic(battLev);
-  // Serial.printf(";%i%%\n", battLev);
+  // Serial.printf(";%i%%;", battLev);
 }
 
 void powerLeds() {
@@ -137,4 +137,18 @@ void powerLeds() {
     rgbLeds.show();
     delay(250);
   }
+}
+
+void updateChargeState() {
+    int chargeState = analogRead(CHARGE_STATE_PIN);
+    // Serial.println(chargeState);
+    if (chargeState > 1200 && chargeState < 1300) {
+      digitalWrite(CHARGE_LED_PIN, HIGH);
+    } else if (chargeState > 2000 && chargeState < 3000) {
+      // Fully charged
+      digitalWrite(CHARGE_LED_PIN, HIGH);
+    } else if (chargeState > 3000) {
+      // Charging
+      digitalWrite(CHARGE_LED_PIN, LOW);
+    }
 }

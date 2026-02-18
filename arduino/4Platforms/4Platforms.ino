@@ -91,6 +91,8 @@ void setup() {
   rgbLeds.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
 
   pinMode(4, OUTPUT);
+  pinMode(CHARGE_LED_PIN, OUTPUT);
+
   for(int i=0; i<=3; i++)
   {
     pinMode(sensorPin[ sensorMapping[i] ], INPUT_PULLDOWN);
@@ -164,6 +166,8 @@ void loop() {
   if (batteryCycle >= 60000) {
     updateBatteryLevel();
     batteryCycle = 0;
+    updateChargeState();
+
   }
   
   //check if there's incoming data in the serial port

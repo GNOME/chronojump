@@ -11,3 +11,4 @@
 
 #define BATT_LEV_PIN 14
 #define CHARGE_STATE_PIN 4
+#define CHARGE_LED_PIN 42

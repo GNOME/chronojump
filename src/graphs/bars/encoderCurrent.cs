@@ -551,10 +551,10 @@ public class CairoPaintBarsPreEncoderCurrent : CairoPaintBarsPre
 		//add avg and avg of saved values
 		titleStr = Catalog.GetString (pegbe.mainVariable) + " [X: " +
 			Util.TrimDecimals( (sumValid / countValid), decimals) +
-			" " + units + "; ";
+			" " + units;
 
 		if(countSaved > 0)
-			titleStr += "X" + Catalog.GetString("saved") + ": " +
+			titleStr += "; X" + Catalog.GetString("saved") + ": " +
 				Util.TrimDecimals( (sumSaved / countSaved), decimals) +
 				" " + units;
 

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -171,23 +171,6 @@ public class Person
 			nameFirst + "', '" + nameLast + "', '" + muuid + "'";
 	}
 
-	public static string ExportHeader (char sep)
-	{
-		return string.Format ("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}",
-				"ID", sep, "MUUID_m", sep, "MUUID_id", sep,
-				"NameFirst", sep, "NameLast", sep, "Sex");
-	}
-	public string Export (char sep)
-	{
-		string muuidFix = muuid;
-		if (sep == ';')
-			muuidFix = muuid;
-		return string.Format ("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}",
-				uniqueID, sep, getMuuidMachine (), sep, getMuuidId (), sep,
-				nameFirst, sep, nameLast, sep, sex);
-	}
-	
-
 	public override bool Equals(object evalString)
 	{
 		return this.ToString() == evalString.ToString();
@@ -312,7 +295,7 @@ public class Person
 	}
 
 	// gets the first part of muuid
-	private string getMuuidMachine ()
+	public string GetMuuidMachine ()
 	{
 		string [] sFull = muuid.Split(new char[] {';'});
 		if (sFull.Length != 2)
@@ -321,7 +304,7 @@ public class Person
 		return sFull[0];
 	}
 	// gets the second part of muuid
-	private string getMuuidId ()
+	public string GetMuuidId ()
 	{
 		string [] sFull = muuid.Split(new char[] {';'});
 		if (sFull.Length != 2)
@@ -374,7 +357,7 @@ public class PersonsExport
 {
 	private string destination;
 	private char colDelim;
-	private List<Person> person_l;
+	private ArrayList personAndPS_a;
 	private enum doneEnumType { NOPERSONS, CANNOTCOPY, SUCCESS };
 	private doneEnumType doneEnum;
 
@@ -384,12 +367,15 @@ public class PersonsExport
 		this.destination = destination;
 		this.colDelim = colDelim;
 
-		person_l = SqlitePersonSession.SelectCurrentSessionPersonsAsList (false, sessionID);
+		//this will Open/Close db
+		personAndPS_a = SqlitePersonSession.SelectCurrentSessionPersons (
+				sessionID,	// can be -1
+				true); 		// return personAndPS
 	}
 
 	public bool Do ()
 	{
-		if (person_l.Count == 0)
+		if (personAndPS_a.Count == 0)
 		{
 			doneEnum = doneEnumType.NOPERSONS;
 			return false;
@@ -404,9 +390,9 @@ public class PersonsExport
 			return false;
 		}
 
-		writer.WriteLine (Person.ExportHeader (colDelim));
-		foreach (Person p in person_l)
-			writer.WriteLine (p.Export (colDelim));
+		writer.WriteLine (PersonAndPS.ExportHeader (colDelim));
+		foreach (PersonAndPS paps in personAndPS_a)
+			writer.WriteLine (paps.Export (colDelim));
 
 		writer.Close ();
 
@@ -446,6 +432,39 @@ public class PersonAndPS
 	public override string ToString ()
 	{
 		return string.Format ("Person: {0};\nPersonSession: {1}", p, ps);
+	}
+
+	public static string ExportHeader (char sep)
+	{
+		return string.Format (
+				"{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}" +  	// person
+				"{8}{0}{9}{0}{10}{0}{11}", 				// personSession
+				sep, "ID", "MUUID_m", "MUUID_id", "ClubID", "NameFirst", "NameLast", "Sex",
+				"Height", "Weight", "TrochanterToe", "TrochanterFloorOnFlexion"
+				);
+	}
+
+	public string Export (char sep)
+	{
+		// if sep == ; dec is , else dec is .
+		string heightStr = Util.ConvertToPoint (ps.Height);
+		string weightStr = Util.ConvertToPoint (ps.Weight);
+		string trochanterToeStr = Util.ConvertToPoint (ps.TrochanterToe);
+		string trochanterFloorOnFlexionStr = Util.ConvertToPoint (ps.TrochanterFloorOnFlexion);
+		if (sep == ';')
+		{
+			heightStr = Util.ConvertToComma (ps.Height);
+			weightStr = Util.ConvertToComma (ps.Weight);
+			trochanterToeStr = Util.ConvertToComma (ps.TrochanterToe);
+			trochanterFloorOnFlexionStr = Util.ConvertToComma (ps.TrochanterFloorOnFlexion);
+		}
+
+		return string.Format (
+				"{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}" +  	// person
+				"{8}{0}{9}{0}{10}{0}{11}", 				// personSession
+				sep, p.UniqueID, p.GetMuuidMachine (), p.GetMuuidId (), p.ClubID, p.NameFirst, p.NameLast, p.Sex,
+				heightStr, weightStr, trochanterToeStr, trochanterFloorOnFlexionStr
+				);
 	}
 
 	~PersonAndPS() {}

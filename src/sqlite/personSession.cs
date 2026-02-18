@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -361,6 +361,7 @@ class SqlitePersonSession : Sqlite
 		return selectCurrentSessionPersonsDo (dbcon, sessionID, returnPersonAndPSlist, "");
 	}
 	//sessionID can be -1
+	//if returnPersonAndPSlist and session == -1 then add only the row of last sessionID
 	private static ArrayList selectCurrentSessionPersonsDo (SQLiteConnection dbcon, int sessionID, bool returnPersonAndPSlist, string filterName)
 	{
 		// This method should NOT use Sqlite.open() / Sqlite.close(): it should only use dbcon to connect to the database.
@@ -381,20 +382,30 @@ class SqlitePersonSession : Sqlite
 		if (filterName != "")
 			filterNameString = " AND LOWER(" + tp + ".name) LIKE LOWER ('%" + filterName + "%') ";
 
+		string orderByStr = " ORDER BY upper(" + tp + ".name)";
+		if (sessionID == -1 && returnPersonAndPSlist) // TODO: not sure if need to check last condition
+			orderByStr = string.Format (" ORDER BY {0}.uniqueID, {1}.sessionID DESC", tp, tps);
+
 		dbcmd = dbcon.CreateCommand();
 		dbcmd.CommandText = "SELECT " + tp + ".*" + tpsString +
 			" FROM " + tp + ", " + tps + 
 			" WHERE " + sessionIDString +
 			tp + ".uniqueID = " + tps + ".personID " +
-			filterNameString +
-			" ORDER BY upper(" + tp + ".name)";
+			filterNameString + orderByStr;
+
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		SQLiteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
 		ArrayList myArray = new ArrayList(1);
-		while(reader.Read()) {
+		int lastPersonID = -1;
+		while(reader.Read())
+		{
+			if (sessionID == -1 && returnPersonAndPSlist && // TODO: not sure if need to check last condition
+					lastPersonID >= 0 && Convert.ToInt32(reader[0].ToString()) == lastPersonID)
+				continue;
+
 			Person person = new Person(
 					Convert.ToInt32(reader[0].ToString()),	//uniqueID
 					reader[1].ToString(),			//name
@@ -429,6 +440,8 @@ class SqlitePersonSession : Sqlite
 				myArray.Add(new PersonAndPS(person, ps));
 			} else
 				myArray.Add (person);
+
+			lastPersonID = person.UniqueID;
 		}
 		reader.Close();
 		return myArray;

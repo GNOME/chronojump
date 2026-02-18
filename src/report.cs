@@ -111,7 +111,10 @@ public class Report : ExportSession
 		}
 
 		if(ShowCurrentSessionJumpers) {
-			myPersonsAndPS = SqlitePersonSession.SelectCurrentSessionPersons(sessionID, true);
+			myPersonsAndPS = SqlitePersonSession.SelectCurrentSessionPersons (
+					sessionID,
+					true, 	// ifAllSessionsGetLastOfEachPerson
+					true);
 		}
 		
 		//Leave SQL opened in all this process

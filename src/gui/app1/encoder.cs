@@ -1166,6 +1166,7 @@ public partial class ChronoJumpWindow
 		//find all persons in current session
 		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID,
+				true, 	// ifAllSessionsGetLastOfEachPerson
 				false); //means: do not returnPersonAndPSlist
 
 		string [] persons = new String[personsPre.Count];
@@ -1776,6 +1777,7 @@ public partial class ChronoJumpWindow
 
 		//find all persons in current session
 		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID,
+				true, 	// ifAllSessionsGetLastOfEachPerson
 				false); //means: do not returnPersonAndPSlist
 
 		string [] persons = new String[personsPre.Count];

@@ -124,7 +124,7 @@ public class ForceSensorExport : ExportFiles
 		int elastic = ForceSensor.GetElasticIntFromMode (mode);
 
 		fs_l = SqliteForceSensor.Select(false, -1, personID, sessionID, elastic);
-		personSession_l = SqlitePersonSession.SelectCurrentSessionPersons(sessionID, true);
+		personSession_l = SqlitePersonSession.SelectCurrentSessionPersons (sessionID, true, true);
 		fsEx_l = SqliteForceSensorExercise.Select (false, -1, elastic, false, "", Sqlite.Orders_by.ID_ASC);
 		totalRepsToExport = 0;
 

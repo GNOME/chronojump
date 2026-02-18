@@ -339,30 +339,36 @@ class SqlitePersonSession : Sqlite
 	}
 
 	//normal Chronojump calls
-	public static ArrayList SelectCurrentSessionPersons (int sessionID, bool returnPersonAndPSlist)
+	public static ArrayList SelectCurrentSessionPersons (int sessionID, bool ifAllSessionsGetLastOfEachPerson, bool returnPersonAndPSlist)
 	{
 		Sqlite.Open();
-		ArrayList array = selectCurrentSessionPersonsDo (dbcon, sessionID, returnPersonAndPSlist, "");
+		ArrayList array = selectCurrentSessionPersonsDo (dbcon, sessionID, ifAllSessionsGetLastOfEachPerson, returnPersonAndPSlist, "");
 		Sqlite.Close();
 
 		return array;
 	}
-	public static ArrayList SelectCurrentSessionPersons (int sessionID, bool returnPersonAndPSlist, string filterName)
+	public static ArrayList SelectCurrentSessionPersons (int sessionID, bool ifAllSessionsGetLastOfEachPerson, bool returnPersonAndPSlist, string filterName)
 	{
 		Sqlite.Open();
-		ArrayList array = selectCurrentSessionPersonsDo (dbcon, sessionID, returnPersonAndPSlist, filterName);
+		ArrayList array = selectCurrentSessionPersonsDo (dbcon, sessionID, ifAllSessionsGetLastOfEachPerson, returnPersonAndPSlist, filterName);
 		Sqlite.Close();
 
 		return array;
 	}
-	//importer call
-	public static ArrayList SelectCurrentSessionPersons (SQLiteConnection dbcon, int sessionID, bool returnPersonAndPSlist)
+	//importer call sending the session we want to import
+	public static ArrayList SelectCurrentSessionPersons (SQLiteConnection dbcon, int sessionID, bool ifAllSessionsGetLastOfEachPerson, bool returnPersonAndPSlist)
 	{
-		return selectCurrentSessionPersonsDo (dbcon, sessionID, returnPersonAndPSlist, "");
+		return selectCurrentSessionPersonsDo (dbcon, sessionID, ifAllSessionsGetLastOfEachPerson, returnPersonAndPSlist, "");
 	}
-	//sessionID can be -1
-	//if returnPersonAndPSlist and session == -1 then add only the row of last sessionID
-	private static ArrayList selectCurrentSessionPersonsDo (SQLiteConnection dbcon, int sessionID, bool returnPersonAndPSlist, string filterName)
+
+	/*
+	 * sessionID can be -1
+	 * if session == -1 and ifAllSessionsGetLastOfEachPerson then add only the row of last sessionID of that person.
+	 * Having ifAllSessionsGetLastOfEachPerson false is good for importSessionCheckConflicts and it want to check all sessions of this person
+	 */
+	private static ArrayList selectCurrentSessionPersonsDo (
+			SQLiteConnection dbcon, int sessionID, bool ifAllSessionsGetLastOfEachPerson,
+			bool returnPersonAndPSlist, string filterName)
 	{
 		// This method should NOT use Sqlite.open() / Sqlite.close(): it should only use dbcon to connect to the database.
 		// This method is used by the importer after opening an arbitrary Chronojump qlite database
@@ -383,7 +389,7 @@ class SqlitePersonSession : Sqlite
 			filterNameString = " AND LOWER(" + tp + ".name) LIKE LOWER ('%" + filterName + "%') ";
 
 		string orderByStr = " ORDER BY upper(" + tp + ".name)";
-		if (sessionID == -1 && returnPersonAndPSlist) // TODO: not sure if need to check last condition
+		if (sessionID == -1 && ifAllSessionsGetLastOfEachPerson)
 			orderByStr = string.Format (" ORDER BY {0}.uniqueID, {1}.sessionID DESC", tp, tps);
 
 		dbcmd = dbcon.CreateCommand();
@@ -402,7 +408,7 @@ class SqlitePersonSession : Sqlite
 		int lastPersonID = -1;
 		while(reader.Read())
 		{
-			if (sessionID == -1 && returnPersonAndPSlist && // TODO: not sure if need to check last condition
+			if (sessionID == -1 && ifAllSessionsGetLastOfEachPerson &&
 					lastPersonID >= 0 && Convert.ToInt32(reader[0].ToString()) == lastPersonID)
 				continue;
 

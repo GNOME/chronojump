@@ -125,7 +125,7 @@ public class SqliteSessionSwitcher
 
             SQLiteConnection dbcon = sqliteGeneral.connection;
 
-            return SqlitePersonSession.SelectCurrentSessionPersons (dbcon, sessionID, true);
+            return SqlitePersonSession.SelectCurrentSessionPersons (dbcon, sessionID, true, true);
     }
 
     public Session Select(string myUniqueID)

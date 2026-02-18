@@ -64,6 +64,7 @@ public partial class ChronoJumpWindow
 
 		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID, 
+				true, 	// ifAllSessionsGetLastOfEachPerson
 				false, //means: do not returnPersonAndPSlist
 				person_search.Text);
 
@@ -415,6 +416,7 @@ public partial class ChronoJumpWindow
 	{
 		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID,
+				true, 	// ifAllSessionsGetLastOfEachPerson
 				false); //means: do not returnPersonAndPSlist
 		personSelectWin.Update(myPersons, currentPerson);
 	}
@@ -546,6 +548,7 @@ public partial class ChronoJumpWindow
 			if(person_edit_single_called_from_person_select_window) {
 				ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
 						currentSession.UniqueID, 
+						true, 	// ifAllSessionsGetLastOfEachPerson
 						false); //means: do not returnPersonAndPSlist
 				personSelectWin.Update(myPersons, currentPerson);
 			}
@@ -633,6 +636,7 @@ public partial class ChronoJumpWindow
 		//if not compujump show person change window
 		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID, 
+				true, 	// ifAllSessionsGetLastOfEachPerson
 				false); //means: do not returnPersonAndPSlist
 
 		personSelectWin = PersonSelectWindow.Show(app1, myPersons, currentPerson, preferences.colorBackground,
@@ -713,6 +717,7 @@ public partial class ChronoJumpWindow
 
 		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID,
+				true, 	// ifAllSessionsGetLastOfEachPerson
 				false); //means: do not returnPersonAndPSlist
 		personSelectWin.Update(myPersons);
 	}
@@ -742,6 +747,7 @@ public partial class ChronoJumpWindow
 
 		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID, 
+				true, 	// ifAllSessionsGetLastOfEachPerson
 				false); //means: do not returnPersonAndPSlist
 		personSelectWin.Update(myPersons, currentPerson);
 

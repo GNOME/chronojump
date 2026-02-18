@@ -550,8 +550,9 @@ public class ExecuteAutoWindow
 			notebook_main.NextPage();
 		}
 		else if(notebook_main.CurrentPage == 1) {
-			ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(
+			ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons (
 					sessionID,
+					true, 	// ifAllSessionsGetLastOfEachPerson
 					false); //means: do not returnPersonAndPSlist
 			orderedData = ExecuteAuto.CreateOrder(mode, persons,  
 					treeviewSerie1Array, treeviewSerie2Array, treeviewSerie3Array);

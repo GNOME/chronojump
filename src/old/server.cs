@@ -194,6 +194,7 @@ public class Server
 			//upload persons (updating also person.serverUniqueID locally)
 			ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(
 					serverSession.UniqueID,
+					true,
 					false); //means: do not returnPersonAndPSlist
 			
 			Constants.UploadCodes uCode;

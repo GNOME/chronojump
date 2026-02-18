@@ -277,6 +277,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 		//find all persons in current session
 		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID,
+				true, 	// ifAllSessionsGetLastOfEachPerson
 				false); //means: do not returnPersonAndPSlist
 		
 		string [] persons = new String[personsPre.Count];
@@ -548,7 +549,9 @@ public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepeti
 	// that code had a Select for each person (even if they have no curves)
 	protected override void getData() 
 	{
-		ArrayList dataPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID,
+		ArrayList dataPre = SqlitePersonSession.SelectCurrentSessionPersons (
+				currentSession.UniqueID,
+				true, 	// ifAllSessionsGetLastOfEachPerson
 				false); //means: do not returnPersonAndPSlist
 		data = new ArrayList();
 

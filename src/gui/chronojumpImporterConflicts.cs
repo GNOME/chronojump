@@ -34,7 +34,10 @@ public partial class ChronoJumpWindow
 	private List<PersonImportConflict> importSessionCheckConflicts (string databasePath, int sourceSession)
 	{
 		//select all persons on current database
-		ArrayList arrayDB = SqlitePersonSession.SelectCurrentSessionPersons (-1, true);
+		ArrayList arrayDB = SqlitePersonSession.SelectCurrentSessionPersons (
+				-1, 	// all sessions
+				false, 	// false ifAllSessionsGetLastOfEachPerson: means get all rows of all sessions of each person
+				true); 	// returnPersonAndPSlist
 
 		//select all sessions on current database
 		List<Session> sessionsDB_l = SqliteSession.SelectAll (false, Sqlite.Orders_by.ID_ASC);

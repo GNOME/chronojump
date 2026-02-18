@@ -69,6 +69,7 @@ public partial class ChronoJumpWindow
 			//recreate list
 			ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
 					currentSession.UniqueID,
+					true, 	// ifAllSessionsGetLastOfEachPerson
 					false); //means: do not returnPersonAndPSlist
 			personSelectWin.Update(myPersons);
 

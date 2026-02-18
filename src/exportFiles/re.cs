@@ -96,7 +96,7 @@ public class RunEncoderExport : ExportFiles
 	protected override bool getData ()
 	{
 		re_l = SqliteRunEncoder.Select(false, -1, personID, sessionID);
-		personSession_l = SqlitePersonSession.SelectCurrentSessionPersons(sessionID, true);
+		personSession_l = SqlitePersonSession.SelectCurrentSessionPersons (sessionID, true, true);
 		reEx_l = SqliteRunEncoderExercise.Select (false, -1);
 
 		//get all the triggers to not be opening and closing sqlite on processSets

@@ -580,8 +580,9 @@ public partial class ChronoJumpWindow
 			UtilGtk.ComboUpdate(combo_stats_stat_subtype, nullOptions, "");
 			combo_stats_stat_subtype.Sensitive = false;
 			
-			ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(
+			ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons (
 					currentSession.UniqueID,
+					true, 	// ifAllSessionsGetLastOfEachPerson
 					false); //means: do not returnPersonAndPSlist
 
 			string [] personsStrings = new String[persons.Count];

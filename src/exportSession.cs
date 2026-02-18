@@ -234,7 +234,7 @@ public abstract class ExportSession
 	
 	protected virtual bool getData()
 	{
-		myPersonsAndPS = SqlitePersonSession.SelectCurrentSessionPersons(mySession.UniqueID, true);
+		myPersonsAndPS = SqlitePersonSession.SelectCurrentSessionPersons (mySession.UniqueID, true, true);
 
 		//Leave SQL opened in all this process
 		Sqlite.Open(); // ------------------------------

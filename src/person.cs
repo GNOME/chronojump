@@ -370,6 +370,7 @@ public class PersonsExport
 		//this will Open/Close db
 		personAndPS_a = SqlitePersonSession.SelectCurrentSessionPersons (
 				sessionID,	// can be -1
+				true, 	// ifAllSessionsGetLastOfEachPerson (this is used to export to mobile as .csv, we want to receive there a row of each person)
 				true); 		// return personAndPS
 	}
 

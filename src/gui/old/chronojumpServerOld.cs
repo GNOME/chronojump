@@ -194,6 +194,7 @@ public partial class ChronoJumpWindow
 		ArrayList notToUpload = SqlitePersonSessionNotUpload.SelectAll(currentSession.UniqueID);
 		ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID,
+				true, 	// ifAllSessionsGetLastOfEachPerson
 				false); //means: do not returnPersonAndPSlist
 
 		foreach (Person person in persons) 

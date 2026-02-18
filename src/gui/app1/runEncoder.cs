@@ -1234,7 +1234,9 @@ public partial class ChronoJumpWindow
 			genericWin.SetTreeview (colStr, false, dataPrint, new ArrayList(), GenericWindow.EditActions.EDITPLAYDELETE, true);
 
 			//find all persons in current session
-			ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID,
+			ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons (
+					currentSession.UniqueID,
+					true, 	// ifAllSessionsGetLastOfEachPerson
 					false); //means: do not returnPersonAndPSlist
 
 			string [] persons = new String[personsPre.Count];

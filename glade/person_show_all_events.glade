@@ -116,7 +116,7 @@
               <object class="GtkLabel" id="label_filter">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Search filter</property>
+                <property name="label" translatable="yes">People search filter</property>
               </object>
               <packing>
                 <property name="expand">False</property>

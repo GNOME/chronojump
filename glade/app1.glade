@@ -29101,6 +29101,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -53622,6 +53625,7 @@ on Cloud-view mode</property>
                                                             <property name="receives-default">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw-indicator">True</property>
+                                                            <signal name="toggled" handler="on_radio_export_persons_session_toggled" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -53638,6 +53642,7 @@ on Cloud-view mode</property>
                                                             <property name="active">True</property>
                                                             <property name="draw-indicator">True</property>
                                                             <property name="group">radio_export_persons_current_session</property>
+                                                            <signal name="toggled" handler="on_radio_export_persons_session_toggled" swapped="no"/>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>

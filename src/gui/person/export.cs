@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2025   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2025-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -50,6 +50,19 @@ public partial class ChronoJumpWindow
 		buttonbox_person_export_feedback.Visible = false;
 	}
 
+	private void on_radio_export_persons_session_toggled (object o, EventArgs args)
+	{
+		persons_export_feedback_blank ();
+	}
+
+	private void persons_export_feedback_blank ()
+	{
+		persons_export_feedback_message.Text = "";
+		persons_export_feedback_ok_url.Text = "";
+		persons_export_feedback_ok_url.TooltipText = "";
+		buttonbox_person_export_feedback.Visible = false;
+	}
+
 	private void on_button_persons_export_clicked (object o, EventArgs args)
 	{
 		if (radio_export_persons_current_session.Active)
@@ -78,11 +91,7 @@ public partial class ChronoJumpWindow
 
 	private void persons_export_do (int sessionID, string destination)
 	{
-		persons_export_feedback_message.Text = "";
-		persons_export_feedback_ok_url.Text = "";
-		persons_export_feedback_ok_url.TooltipText = "";
-		buttonbox_person_export_feedback.Visible = false;
-
+		persons_export_feedback_blank ();
 		personsExport = new PersonsExport (sessionID, destination, preferences.CSVColumnDelimiter);
 		bool success = personsExport.Do ();
 

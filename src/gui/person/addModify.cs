@@ -750,7 +750,7 @@ public class PersonAddModifyWindow
 			entryLastName.Text = currentPerson.NameLast;
 			fullName.Text = currentPerson.Name;
 
-			entry_club_id.Text = currentPerson.Future2;
+			entry_club_id.Text = currentPerson.ClubID;
 			if (currentPerson.Sex == Constants.SexU)
 				radiobutton_sex_u.Active = true;
 			else if (currentPerson.Sex == Constants.SexM)

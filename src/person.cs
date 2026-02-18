@@ -254,7 +254,7 @@ public class Person
 	}
 
 	//clubID
-	public string Future2 {
+	public string ClubID {
 		get { return future2; }
 		set { future2 = value; }
 	}

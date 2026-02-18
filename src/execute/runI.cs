@@ -602,7 +602,7 @@ public class RunIntervalExecute : RunExecute
 		string jsonStr =
 			"{\n" +
 			"\"Name\":\"" + p.Name + "\",\n" +
-			"\"No\":\"(" + p.Future2 + ")\",\n" +
+			"\"No\":\"(" + p.ClubID + ")\",\n" +
 			"\"Photo\":\"" + description + "\",\n" +
 			"\"Test\":\"Speed\",\n" +
 			"\"Time\":" + Util.ConvertToPoint (Util.TrimDecimals (timeTotal, 2)) + ",\n" +

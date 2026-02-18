@@ -100,8 +100,8 @@ public class DialogResult
 
 		label_mode.Text = modeName;
 		label_exercise.Text = testName;
-		if (person.Future2 != "")
-			label_person.Text = string.Format ("{0}:{1}", person.Future2, person.Name);
+		if (person.ClubID != "")
+			label_person.Text = string.Format ("{0}:{1}", person.ClubID, person.Name);
 		else
 			label_person.Text = string.Format ("{0}", person.Name);
 

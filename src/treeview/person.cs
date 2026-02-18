@@ -213,7 +213,7 @@ public class TreeViewPersons
 
 			store.AppendValues ( new String [] {
 					person.UniqueID.ToString(),
-					person.Future2,			//ClubID
+					person.ClubID,			//future2: ClubID
 					person.NameFirst,
 					person.NameLast,
 					"0",
@@ -367,14 +367,14 @@ public class TreeViewPersons
 			iter2 = store.InsertNode (found);
 			//first ID, then Name
 			store.SetValue (iter2, colID, p.UniqueID);
-			store.SetValue (iter2, colClubID, p.Future2);
+			store.SetValue (iter2, colClubID, p.ClubID);
 			store.SetValue (iter2, colNameFirst, p.NameFirst);
 			store.SetValue (iter2, colNameLast, p.NameLast);
 			store.SetValue (iter2, colN, "0");
 			store.SetValue (iter2, colRestOrStatus, "");
 		} else {
 			//first ID, then Name
-			iter2 = store.AppendValues (p.UniqueID, p.Future2, p.NameFirst, p.NameLast, "0", "");
+			iter2 = store.AppendValues (p.UniqueID, p.ClubID, p.NameFirst, p.NameLast, "0", "");
 		}
 			
 		//scroll treeview if needed

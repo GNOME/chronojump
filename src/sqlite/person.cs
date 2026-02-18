@@ -693,7 +693,7 @@ finishForeach:
 			", countryID = " + myPerson.CountryID +
 			", description = '" + myPerson.Description +
 			"', future1 = '" + myPerson.Future1 + 		//rfid
-			"', future2 = '" + myPerson.Future2 + 		//clubID
+			"', future2 = '" + myPerson.ClubID + 		//future2: clubID
 			"', serverUniqueID = " + myPerson.ServerUniqueID +
 			", linkServerImage = '" + myPerson.LinkServerImage + //linkServerImage
 			"', nameFirst = '" + myPerson.NameFirst +

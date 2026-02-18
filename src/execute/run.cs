@@ -1068,7 +1068,7 @@ public class RunExecute : EventExecute
 		string jsonStr =
 			"{\n" +
 			"\"Name\":\"" + p.Name + "\",\n" +
-			"\"No\":\"(" + p.Future2 + ")\",\n" +
+			"\"No\":\"(" + p.ClubID + ")\",\n" +
 			"\"Photo\":\"" + description + "\",\n" +
 			"\"Test\":\"Chut\",\n" +
 			"\"Speed\":" + Util.ConvertToPoint (Util.TrimDecimals (

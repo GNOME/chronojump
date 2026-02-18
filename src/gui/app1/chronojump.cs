@@ -2926,7 +2926,7 @@ public partial class ChronoJumpWindow
 		if (success)
 		{
 			label_contacts_export_result.Text = string.Format (Catalog.GetString ("Saved to {0}"), contactsExportCSV.Filename) +
-				Constants.GetSpreadsheetString (preferences.CSVExportDecimalSeparator);
+				Constants.GetSpreadsheetString (true, preferences.CSVExportDecimalSeparator);
 			label_contacts_export_result.UseMarkup = true;
 			button_contacts_export_result_open.Visible = true;
 		} else {

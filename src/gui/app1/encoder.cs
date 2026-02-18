@@ -2699,7 +2699,7 @@ public partial class ChronoJumpWindow
 								checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB ||
 								checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB ||
 								checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_CD)
-							myString += Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
+							myString += Constants.GetSpreadsheetString (true, preferences.CSVExportDecimalSeparator);
 						new DialogMessage(Constants.MessageTypes.INFO, myString);
 					}
 				}
@@ -2892,7 +2892,7 @@ public partial class ChronoJumpWindow
 			return;
 
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), 
-				exportFileName) + Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
+				exportFileName) + Constants.GetSpreadsheetString (true, preferences.CSVExportDecimalSeparator);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 	private void on_overwrite_file_encoder_capture_save_image_accepted(object o, EventArgs args)
@@ -2914,7 +2914,7 @@ public partial class ChronoJumpWindow
 		on_button_encoder_save_AB_file_selected (exportFileName);
 
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), 
-				exportFileName) + Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
+				exportFileName) + Constants.GetSpreadsheetString (true, preferences.CSVExportDecimalSeparator);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 	private void on_overwrite_file_encoder_save_table_accepted(object o, EventArgs args)
@@ -2929,7 +2929,7 @@ public partial class ChronoJumpWindow
 		on_button_force_sensor_save_AB_file_selected (exportFileName);
 
 		string myString = string.Format(Catalog.GetString("Saved to {0}"),
-				exportFileName) + Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
+				exportFileName) + Constants.GetSpreadsheetString (true, preferences.CSVExportDecimalSeparator);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 	private void on_overwrite_file_forcesensor_save_CD_accepted(object o, EventArgs args)
@@ -2937,7 +2937,7 @@ public partial class ChronoJumpWindow
 		on_button_force_sensor_save_CD_file_selected (exportFileName);
 
 		string myString = string.Format(Catalog.GetString("Saved to {0}"),
-				exportFileName) + Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
+				exportFileName) + Constants.GetSpreadsheetString (true, preferences.CSVExportDecimalSeparator);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 
@@ -2956,7 +2956,7 @@ public partial class ChronoJumpWindow
 
 		/*
 		string myString = string.Format(Catalog.GetString("Saved to {0}"),
-				exportFileName) + Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
+				exportFileName) + Constants.GetSpreadsheetString (true, preferences.CSVExportDecimalSeparator);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 		*/
 	}

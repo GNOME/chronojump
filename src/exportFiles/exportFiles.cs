@@ -180,7 +180,7 @@ public abstract class ExportFiles
 			else
 			{
 				labelResult.Text = string.Format(Catalog.GetString("Exported to {0}"), exportURL);// +
-						//Constants.GetSpreadsheetString(CSVExportDecimalSeparator)
+						//Constants.GetSpreadsheetString (true, CSVExportDecimalSeparator)
 						//);
 
 				allOk = true;

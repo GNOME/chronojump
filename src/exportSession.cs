@@ -1292,7 +1292,7 @@ public class ExportSessionCSV : ExportSession
 		this.runsIntervallic = runsIntervallic;
 		this.fourPlatformsTime = fourPlatformsTime;
 
-		//spreadsheetString = Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
+		//spreadsheetString = Constants.GetSpreadsheetString (true, preferences.CSVExportDecimalSeparator);
 		fakeButtonDone = new Gtk.Button ();
 		filename = "";
 	}

@@ -32,6 +32,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label persons_export_feedback_message;
 	Gtk.Label persons_export_feedback_ok_url;
 	Gtk.ButtonBox buttonbox_person_export_feedback;
+	Gtk.Label label_persons_export_csv_delim;
         // <---- at glade
 
 	private enum notebook_persons_export_pages { MAIN, EXPORT }
@@ -44,6 +45,8 @@ public partial class ChronoJumpWindow
 		persons_export_feedback_message.Text = "";
 		persons_export_feedback_ok_url.Text = "";
 		persons_export_feedback_ok_url.TooltipText = "";
+		label_persons_export_csv_delim.Text = Constants.GetSpreadsheetString (false, preferences.CSVExportDecimalSeparator);
+		label_persons_export_csv_delim.UseMarkup = true;
 		buttonbox_person_export_feedback.Visible = false;
 	}
 
@@ -123,5 +126,6 @@ public partial class ChronoJumpWindow
 		persons_export_feedback_message = (Gtk.Label) builder.GetObject ("persons_export_feedback_message");
 		persons_export_feedback_ok_url = (Gtk.Label) builder.GetObject ("persons_export_feedback_ok_url");
 		buttonbox_person_export_feedback = (Gtk.ButtonBox) builder.GetObject ("buttonbox_person_export_feedback");
+		label_persons_export_csv_delim = (Gtk.Label) builder.GetObject ("label_persons_export_csv_delim");
 	}
 }

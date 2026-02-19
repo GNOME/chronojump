@@ -2052,7 +2052,9 @@ public class Util
 				if(operatingSystem == UtilAll.OperatingSystems.WINDOWS)
 				{
 					//if(System.Environment.Is64BitProcess)
-						pBin = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay.exe");
+						pBin = System.IO.Path.Combine (
+								Util.GetPrefixDir(),
+								"bin" + Path.DirectorySeparatorChar + "ffplay.exe");
 					//else
 					//	pBin = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/i386/ffplay.exe"); i386 is no longer updated/included
 				}
@@ -2062,7 +2064,9 @@ public class Util
 				string timesStr = "";
 				if (times > 1)
 					timesStr = string.Format (" -loop {0}", times);
-				pinfo.Arguments = fileName + " -nodisp -nostats -hide_banner -autoexit" + timesStr;
+
+				// The "\"" fileName + "\"" is needed for calling the .wav with the space on C:\Program Files\...
+				pinfo.Arguments = "\"" + fileName + "\"" + " -nodisp -nostats -hide_banner -autoexit" + timesStr;
 			}
 
 			pinfo.FileName=pBin;
@@ -2086,7 +2090,10 @@ public class Util
 		{
 			string stderr = p.StandardError.ReadToEnd ().TrimEnd ('\n');
 			if(stderr != "")
+			{
+				LogB.Information ("stderr: " + stderr);
 				return SoundCodes.PROBLEM_OTHER;
+			}
 		}
 
 		return SoundCodes.OK;

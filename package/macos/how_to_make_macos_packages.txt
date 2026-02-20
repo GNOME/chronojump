@@ -32,6 +32,10 @@ git clone chronojump:
 (not ssh:)
 git clone https://gitlab.gnome.org/GNOME/chronojump.git
 
+ffmpeg files are not anymore on git. We could mark them as LFS but finally we moved here:
+https://innolab.inefc.net/nextcloud/index.php/s/Bg49QWo75XwsifX
+download them and put them on binariesMac folder
+
 #Use Mono to compile and build gtk-sharp which is required by autotools as autotools checks whether it exists. But it's not used while running Chronojump.
 brew install mono
 cd "~/Desktop/chronojump"

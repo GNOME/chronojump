@@ -122,6 +122,11 @@ async def scan(stop_event: asyncio.Event):
             if args.mode == "SCAN" or (args.mode == "CONNECT" and not device.name.startswith (scanDevices)):
                 return
 
+            #this allows to connect when we called with CONNECT CJ/CP4 and not the specific device
+            if args.value == 'ALL' or args.value == 'CJ' or args.value == 'CP4':
+                print(f"fixing!", flush = True)
+                watching_devices[device.name] = watching_devices[scanDevices]
+
             print(f"Trying to connect: {device} {advertising_data} ...", flush = True)
 
             try:

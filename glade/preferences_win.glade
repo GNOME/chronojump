@@ -9260,7 +9260,7 @@ It starts before and arrives there with some speed.</property>
                                         </child>
                                         <child>
                                           <object class="GtkRadioButton" id="radio_bluetooth_mode_scan_connect">
-                                            <property name="label">Scan &amp; connect (only working now with "This device name")</property>
+                                            <property name="label">Scan &amp; connect</property>
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
                                             <property name="receives-default">False</property>

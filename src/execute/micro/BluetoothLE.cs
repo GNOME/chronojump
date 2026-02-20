@@ -236,7 +236,7 @@ public static class BluetoothLE
     /// <summary>
     /// Start the Python script to read data from BLE devices.
     /// </summary>
-    public static bool Start()
+    public static bool Start (string mode, string val)
     {
         Stop();
 
@@ -245,7 +245,11 @@ public static class BluetoothLE
         {
             try
             {
-                processStartInfo.Arguments = Preferences.GetPythonExecutable(Preferences.pythonVersionEnum.Python3);
+                processStartInfo.Arguments =
+			Preferences.GetPythonExecutable (Preferences.pythonVersionEnum.Python3) +
+			//string.Format (" --mode {0} --value {1}", mode, val);
+			string.Format (" {0} {1}", mode, val);
+
 		LogB.Debug ("BluetoothLE Start FileName: " + processStartInfo.FileName);
 		LogB.Debug ("BluetoothLE Arguments: " + processStartInfo.Arguments);
                 using (pythonProcess = Process.Start(processStartInfo))

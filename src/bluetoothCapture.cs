@@ -107,7 +107,7 @@ public class BluetoothCapture
 
 		//Start BluetoothLE service
 		BluetoothLE.SetProcess (entry_url.Text);
-		BluetoothLE.Start ();
+		BluetoothLE.Start ("SCAN", "CJ");
 	}
 
 	// by GTK thread

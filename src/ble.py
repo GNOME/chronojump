@@ -28,7 +28,6 @@ import threading
 parser = ArgumentParser()
 parser.add_argument("--mode", help="mode is {SCAN/CONNECT}")
 parser.add_argument("--value", help="on SCAN can be {ALL/CJ/CP4/or the devicename} for {All devices/Chronojump devices/Chronopic4/your device}\non CONNECT this is the name of the client")
-#continuar provant si scan el devicename concret funciona i posant millor el help
 args = parser.parse_args()
 if args.mode is None:
     args.mode = "SCAN"
@@ -45,14 +44,13 @@ watching_devices = dict()
 #"CJ-CP4-0e:e5" # xaviB
 
 scanDevices = ""
-if args.mode == "SCAN":
-    if args.value == "CJ":
-        scanDevices = "CJ-"
-    elif args.value == "CP4":
-        scanDevices = "CJ-CP4-"
-    else:
-        scanDevices = args.value
-elif args.mode == "CONNECT":
+if args.value == "ALL":
+    scanDevices = ""
+elif args.value == "CJ":
+    scanDevices = "CJ-"
+elif args.value == "CP4":
+    scanDevices = "CJ-CP4-"
+else:
     scanDevices = args.value
 
 watching_devices[scanDevices] = ['588dc235-7184-4550-9053-0e6a82f37cee', #meu

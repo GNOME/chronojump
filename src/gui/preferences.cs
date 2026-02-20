@@ -316,11 +316,20 @@ public class PreferencesWindow
 	Gtk.Entry entry_silicon_cloud_view_path;
 	Gtk.Label label_silicon_cloud_path_does_not_exists;
 
+	// bluetooth
 	Gtk.Image image_advanced_bluetooth;
 	Gtk.Entry entry_bluetooth_url;
 	Gtk.Button button_bluetooth_start;
 	Gtk.Button button_bluetooth_end;
 	Gtk.TextView textview_bluetooth;
+	Gtk.RadioButton radio_bluetooth_mode_scan;
+	Gtk.RadioButton radio_bluetooth_mode_scan_connect;
+	Gtk.RadioButton radio_bluetooth_value_all;
+	Gtk.RadioButton radio_bluetooth_value_chronojump;
+	Gtk.RadioButton radio_bluetooth_value_chronopic4;
+	Gtk.RadioButton radio_bluetooth_value_this_device;
+	Gtk.Box box_bluetooth_value_this_device;
+	Gtk.Entry entry_bluetooth_value_this_device;
 
 	Gtk.Button button_debug_mode;
 
@@ -4016,6 +4025,11 @@ public class PreferencesWindow
 	 * bluetooth start ---->
 	 * -------------------*/
 
+	private void on_radio_bluetooth_value_toggled (object o, EventArgs args)
+	{
+		entry_bluetooth_value_this_device.Sensitive = radio_bluetooth_value_this_device.Active;
+	}
+
 	private bool bluetoothReading = false;
 	//use the string to not have crash by manipulating the TextBuffer outside the pulse thread
 	static string tbBluetoothText = "";
@@ -4066,7 +4080,20 @@ public class PreferencesWindow
 	{
 		//Start BluetoothLE service
 		BluetoothLE.SetProcess (entry_bluetooth_url.Text);
-		BluetoothLE.Start ();
+
+		string mode = "SCAN";
+		if (radio_bluetooth_mode_scan_connect.Active)
+			mode = "CONNECT";
+
+		string val = "ALL";
+		if (radio_bluetooth_value_chronojump.Active)
+			val = "CJ";
+		else if (radio_bluetooth_value_chronopic4.Active)
+			val = "CP4";
+		else if (radio_bluetooth_value_this_device.Active && entry_bluetooth_value_this_device.Text != "")
+			val = entry_bluetooth_value_this_device.Text;
+
+		BluetoothLE.Start (mode, val);
 	}
 
 	// by GTK thread
@@ -4460,6 +4487,14 @@ public class PreferencesWindow
 		button_bluetooth_start = (Gtk.Button) builder.GetObject ("button_bluetooth_start");
 		button_bluetooth_end = (Gtk.Button) builder.GetObject ("button_bluetooth_end");
 		textview_bluetooth = (Gtk.TextView) builder.GetObject ("textview_bluetooth");
+		radio_bluetooth_mode_scan = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_mode_scan");
+		radio_bluetooth_mode_scan_connect = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_mode_scan_connect");
+		radio_bluetooth_value_all = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_value_all");
+		radio_bluetooth_value_chronojump = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_value_chronojump");
+		radio_bluetooth_value_chronopic4 = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_value_chronopic4");
+		radio_bluetooth_value_this_device = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_value_this_device");
+		box_bluetooth_value_this_device = (Gtk.Box) builder.GetObject ("box_bluetooth_value_this_device");
+		entry_bluetooth_value_this_device = (Gtk.Entry) builder.GetObject ("entry_bluetooth_value_this_device");
 
 		button_debug_mode = (Gtk.Button) builder.GetObject ("button_debug_mode");
 

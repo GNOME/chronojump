@@ -1,13 +1,40 @@
 import asyncio
 from bleak import BleakScanner, BleakClient, BleakGATTCharacteristic
+from argparse import ArgumentParser
 import threading
 
+
+parser = ArgumentParser()
+parser.add_argument("--mode", help="mode is {SCAN/CONNECT}")
+parser.add_argument("--value", help="on SCAN can be {ALL/CJ/CP4/or the devicename} for {All devices/Chronojump devices/Chronopic4/your device}\non CONNECT this is the name of the client")
+#continuar provant si scan el devicename concret funciona i posant millor el help
+args = parser.parse_args()
+if args.mode is None:
+    args.mode = "SCAN"
+if args.value is None:
+    args.value = "CJ"
+
+print(f"args.mode: {args.mode}; args.value: {args.value}", flush = True)
+print(f"press enter to quit\n", flush = True)
 
 scanned_devices_dict = dict()
 connected_devices_dict = dict()
 watching_devices = dict()
-#watching_devices['CJ-CP4-12:5d'] = ['588dc235-7184-4550-9053-0e6a82f37cee', #xaviP
-watching_devices['CJ-CP4-0e:e5'] = ['588dc235-7184-4550-9053-0e6a82f37cee', #meu
+#"CJ-CP4-12:5d" # xaviP
+#"CJ-CP4-0e:e5" # xaviB
+
+scanDevices = ""
+if args.mode == "SCAN":
+    if args.value == "CJ":
+        scanDevices = "CJ-"
+    elif args.value == "CP4":
+        scanDevices = "CJ-CP4-"
+    else:
+        scanDevices = args.value
+elif args.mode == "CONNECT":
+    scanDevices = args.value
+
+watching_devices[scanDevices] = ['588dc235-7184-4550-9053-0e6a82f37cee', #meu
                           '378b5d62-1fd3-4266-bbf7-6fec024d59a9',
                           'bde4d6e2-b970-42ff-b498-aeeca541ee07',
                           'e7331566-3aec-4a47-b8f1-d6f27850ad87',
@@ -20,6 +47,13 @@ deserialization_ways['bde4d6e2-b970-42ff-b498-aeeca541ee07'] = 'utf8'
 deserialization_ways['e7331566-3aec-4a47-b8f1-d6f27850ad87'] = 'utf8'
 deserialization_ways['a2317307-e74a-4efe-b8ae-d615cd3be489'] = 'utf8'
 
+
+def deviceIsInWatchingDevices (deviceName):
+    for wd in watching_devices:
+        if deviceName.startswith (wd):
+                return True
+    return False
+
 async def scan(stop_event: asyncio.Event):
     def disconnected_callback(client: BleakClient):
         #client.set_disconnected_callback(None)
@@ -27,7 +61,7 @@ async def scan(stop_event: asyncio.Event):
         if client.address in connected_devices_dict:
             try:
                 device = connected_devices_dict[client.address]
-                if device.name in watching_devices and len(watching_devices[device.name]) > 0:
+                if deviceIsInWatchingDevices (device.name) and len(watching_devices[device.name]) > 0:
                     for service in client.services:
                             for watching_characteristic_uuid in watching_devices[device.name]:
                                 if service.get_characteristic(watching_characteristic_uuid) != None:
@@ -59,16 +93,20 @@ async def scan(stop_event: asyncio.Event):
     async def scanned_callback(device, advertising_data):
         if device.address not in scanned_devices_dict:
             scanned_devices_dict[device.address] = device
-            print(f"Device Scanned: {device} {advertising_data}", flush = True) 
 
-            if device.name not in watching_devices and device.address not in watching_devices:
-                #print(f"Device Ignored: {device} {advertising_data}", flush = True)
+            if not deviceIsInWatchingDevices (device.name) and device.address not in watching_devices:
+                print(f"Device Ignored: {device} {advertising_data}", flush = True)
                 return
-            
+
+            print(f"\nDevice Scanned: {device} {advertising_data}", flush = True)
+
+            if args.mode == "SCAN" or (args.mode == "CONNECT" and not device.name.startswith (scanDevices)):
+                return
+
+            print(f"Trying to connect: {device} {advertising_data} ...", flush = True)
+
             try:
                 client = BleakClient(address_or_ble_device = device, disconnected_callback = disconnected_callback)
-                print(f"Device Matched: {device} {advertising_data}", flush = True)
-                print(f"A device.name: {device.name}", flush = True) #advertisementData name
                 #ble don't need to pair
                 #try:
                 #    await client.pair()
@@ -77,18 +115,18 @@ async def scan(stop_event: asyncio.Event):
                 await client.connect()
                                 
                 watching_characteristics_count = 0
-                print(f"B device.name: {device.name}", flush = True) #NimBLE device
+                #print(f"B device.name: {device.name}", flush = True) #NimBLE device
                 print(f"watching_devices[device.name]: {watching_devices[device.name]}", flush = True)
-                if device.name in watching_devices and len(watching_devices[device.name]) > 0:
-                    print(f"isChronojump", flush = True)
+                if deviceIsInWatchingDevices (device.name) and len(watching_devices[device.name]) > 0:
+                    print(f"is in watching_devices", flush = True)
                     for service in client.services:
-                        print(f"service: {service}", flush = True)
+                        #print(f"service: {service}", flush = True)
                         for watching_characteristic_uuid in watching_devices[device.name]:
                             if service.get_characteristic(watching_characteristic_uuid) != None:
                                 await client.start_notify(char_specifier = watching_characteristic_uuid, callback = changed_callbak)      
                                 watching_characteristics_count += 1
                                 continue
-                print(f"device.address: {device.address}", flush = True)
+                #print(f"device.address: {device.address}", flush = True)
                 #print(f"watching_devices[device.address]: {watching_devices[device.address]}", flush = True)
                 if device.address in watching_devices:# and len(watching_devices[device.address]) > 0:
                     for service in client.services:
@@ -135,6 +173,7 @@ async def scan(stop_event: asyncio.Event):
 def quit(stop_event: asyncio.Event):
     try:
         input()
+        print(f"Exiting ...", flush = True)
         # TODO: add something that calls stop_event.set()
         stop_event.set()
     except:

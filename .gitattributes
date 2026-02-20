@@ -1,4 +1,1 @@
 win32/** filter=lfs diff=lfs merge=lfs -text
-binariesMac/** filter=lfs diff=lfs merge=lfs -text
-binariesMac !text !filter !merge !diff
-binariesMac/** !text !filter !merge !diff

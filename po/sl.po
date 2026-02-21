@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2026-02-18 16:48+0000\n"
-"PO-Revision-Date: 2026-02-18 22:02+0100\n"
+"POT-Creation-Date: 2026-02-20 20:34+0000\n"
+"PO-Revision-Date: 2026-02-21 18:25+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -255,7 +255,8 @@ msgstr "Zaznaj napravo"
 #. 3) create widgets, lists, attach to table and show all
 #. 3a) create table header row
 #: ../glade/app1.glade.h:45 ../glade/evaluator_window.glade.h:29
-#: ../src/gui/chronopicRegister.cs:224 ../src/gui/discover.cs:312
+#: ../glade/preferences_win.glade.h:199 ../src/gui/chronopicRegister.cs:224
+#: ../src/gui/discover.cs:312
 msgid "Device"
 msgstr "Naprava"
 
@@ -291,7 +292,7 @@ msgid "Start automatic mode"
 msgstr "Začni samodejni način"
 
 #: ../glade/app1.glade.h:53 ../glade/execute_auto.glade.h:4
-#: ../glade/feedback.glade.h:62 ../glade/preferences_win.glade.h:218
+#: ../glade/feedback.glade.h:62 ../glade/preferences_win.glade.h:222
 msgid "page 1"
 msgstr "stran 1"
 
@@ -307,7 +308,7 @@ msgstr "Preskoči osebo (preizkuse bo izvedla na koncu)"
 msgid "Remove this person from automatic sequence"
 msgstr "Odstrani testiranca iz samodejnega zaporedja"
 
-#: ../glade/app1.glade.h:57 ../glade/preferences_win.glade.h:198
+#: ../glade/app1.glade.h:57 ../glade/preferences_win.glade.h:202
 msgid "End"
 msgstr "Konec"
 
@@ -316,7 +317,7 @@ msgid "End automatic mode"
 msgstr "Končaj samodejni način"
 
 #: ../glade/app1.glade.h:59 ../glade/execute_auto.glade.h:15
-#: ../glade/feedback.glade.h:63 ../glade/preferences_win.glade.h:221
+#: ../glade/feedback.glade.h:63 ../glade/preferences_win.glade.h:225
 msgid "page 2"
 msgstr "stran 2"
 
@@ -384,8 +385,8 @@ msgstr "Prekliči test"
 #: ../src/gui/modes/encoderConfiguration.cs:840
 #: ../src/gui/person/addModify.cs:385 ../src/gui/person/addMultiple.cs:226
 #: ../src/gui/person/addMultiple.cs:243 ../src/gui/person/addMultiple.cs:439
-#: ../src/gui/preferences.cs:2654 ../src/gui/preferences.cs:3044
-#: ../src/gui/preferences.cs:3808
+#: ../src/gui/preferences.cs:2663 ../src/gui/preferences.cs:3053
+#: ../src/gui/preferences.cs:3817
 msgid "Cancel"
 msgstr "Prekliči"
 
@@ -661,7 +662,7 @@ msgstr "Umeri"
 #: ../glade/dialog_about.glade.h:2 ../glade/dialog_shortcuts.glade.h:2
 #: ../glade/force_sensor_elastic_bands.glade.h:13
 #: ../glade/person_select_window.glade.h:24
-#: ../glade/preferences_win.glade.h:220 ../src/gui/app1/encoder.cs:1179
+#: ../glade/preferences_win.glade.h:224 ../src/gui/app1/encoder.cs:1179
 #: ../src/gui/app1/encoder.cs:1801 ../src/gui/app1/encoder.cs:5830
 #: ../src/gui/app1/forceSensor.cs:2315 ../src/gui/app1/forceSensor.cs:3871
 #: ../src/gui/app1/runEncoder.cs:1262 ../src/gui/app1/runEncoder.cs:2837
@@ -1249,7 +1250,7 @@ msgstr "Vztrajnostni moment"
 #: ../glade/app1.glade.h:228 ../glade/edit_event.glade.h:45
 #: ../glade/preferences_win.glade.h:113
 #: ../src/gui/app1/treeviews/encoderAnalyze.cs:63
-#: ../src/gui/preferences.cs:3855
+#: ../src/gui/preferences.cs:3864
 msgid "Equivalent mass"
 msgstr "Ekvivalentna masa"
 
@@ -1349,7 +1350,7 @@ msgstr "Teki / čas"
 msgid "Sprint"
 msgstr "Šprint"
 
-#: ../glade/app1.glade.h:250 ../glade/preferences_win.glade.h:217
+#: ../glade/app1.glade.h:250 ../glade/preferences_win.glade.h:221
 #: ../src/gui/discover.cs:330
 msgid "Advanced"
 msgstr "Napredno"
@@ -2012,7 +2013,7 @@ msgstr "Sila"
 #: ../src/encoder/encoderAnalyzeInstant.cs:217 ../src/exportSession.cs:536
 #: ../src/exportSession.cs:752 ../src/graphs/cairo/xy.cs:108
 #: ../src/gui/app1/forceSensorAnalyze.cs:2087 ../src/gui/overview.cs:311
-#: ../src/gui/preferences.cs:3224 ../src/modes/forceSensor.cs:2192
+#: ../src/gui/preferences.cs:3233 ../src/modes/forceSensor.cs:2192
 #: ../src/stats/djPower.cs:32 ../src/treeview/jump.cs:32
 msgid "Power"
 msgstr "Moč"
@@ -2313,13 +2314,13 @@ msgstr "Uporabi isto podatkovno zbirko"
 msgid "Open database file"
 msgstr "Odpri datoteko podatkovne zbirke"
 
-#: ../glade/app1.glade.h:476 ../glade/preferences_win.glade.h:216
+#: ../glade/app1.glade.h:476 ../glade/preferences_win.glade.h:220
 #: ../src/gui/app1/session/backup.cs:184
 msgid "More"
 msgstr "Več"
 
 #: ../glade/app1.glade.h:477 ../glade/encoder_configuration.glade.h:23
-#: ../src/gui/preferences.cs:3808
+#: ../src/gui/preferences.cs:3817
 msgid "Import"
 msgstr "Uvozi"
 
@@ -2652,8 +2653,8 @@ msgstr "RFID je bil prekinjen!"
 msgid "Please, connect it and restart Chronojump."
 msgstr "Napravo povežite in ponovno zaženite program."
 
-#: ../glade/app1.glade.h:546 ../src/gui/preferences.cs:429
-#: ../src/gui/preferences.cs:3116 ../src/gui/preferences.cs:3127
+#: ../glade/app1.glade.h:546 ../src/gui/preferences.cs:438
+#: ../src/gui/preferences.cs:3125 ../src/gui/preferences.cs:3136
 msgid "Preferences"
 msgstr "Možnosti"
 
@@ -3602,7 +3603,7 @@ msgstr "Opis (izbirno)"
 msgid "Exercises"
 msgstr "Vaje"
 
-#: ../glade/execute_auto.glade.h:23 ../glade/preferences_win.glade.h:222
+#: ../glade/execute_auto.glade.h:23 ../glade/preferences_win.glade.h:226
 msgid "page 3"
 msgstr "stran 3"
 
@@ -3981,7 +3982,7 @@ msgstr "Dodaj nov elastični trak ali cev"
 #: ../glade/force_sensor_elastic_bands.glade.h:6
 #: ../glade/preferences_win.glade.h:32 ../src/exportSession.cs:538
 #: ../src/exportSession.cs:753 ../src/gui/modes/forceSensorElasticBands.cs:220
-#: ../src/gui/preferences.cs:3227 ../src/treeview/jump.cs:34
+#: ../src/gui/preferences.cs:3236 ../src/treeview/jump.cs:34
 msgid "Stiffness"
 msgstr "Togost"
 
@@ -4126,7 +4127,7 @@ msgstr "Skupaj"
 msgid "Separated"
 msgstr "Ločeno"
 
-#: ../glade/force_sensor_exercise.glade.h:35 ../src/gui/preferences.cs:3116
+#: ../glade/force_sensor_exercise.glade.h:35 ../src/gui/preferences.cs:3125
 msgid "Help:"
 msgstr "Pomoč:"
 
@@ -4588,9 +4589,9 @@ msgid "System color"
 msgstr "Sistemska barva"
 
 #. A) changes on preferences gui
-#: ../glade/preferences_win.glade.h:6 ../src/gui/preferences.cs:2374
-#: ../src/gui/preferences.cs:2376 ../src/gui/preferences.cs:2394
-#: ../src/gui/preferences.cs:3567 ../src/gui/preferences.cs:3575
+#: ../glade/preferences_win.glade.h:6 ../src/gui/preferences.cs:2383
+#: ../src/gui/preferences.cs:2385 ../src/gui/preferences.cs:2403
+#: ../src/gui/preferences.cs:3576 ../src/gui/preferences.cs:3584
 msgid "Custom"
 msgstr "Po meri"
 
@@ -4710,7 +4711,7 @@ msgstr "Uporabi čas leta"
 msgid "Speed units:"
 msgstr "Enote hitrosti:"
 
-#: ../glade/preferences_win.glade.h:42 ../src/gui/preferences.cs:3701
+#: ../glade/preferences_win.glade.h:42 ../src/gui/preferences.cs:3710
 msgid ""
 "\"Speed start\" means when athlete does not start with \"contact\" on the "
 "first platform or photocell.\n"
@@ -5209,83 +5210,95 @@ msgstr "Datoteka Rscript"
 msgid "Python file"
 msgstr "Datoteka Python"
 
-#: ../glade/preferences_win.glade.h:199
+#: ../glade/preferences_win.glade.h:198 ../src/gui/executeAuto.cs:208
+msgid "Mode"
+msgstr "Način"
+
+#: ../glade/preferences_win.glade.h:200
+msgid "Any Chronojump device"
+msgstr "Poljubna naprava Chronojump"
+
+#: ../glade/preferences_win.glade.h:201
+msgid "Any Chronopic4"
+msgstr "Poljubni Kronopik4"
+
+#: ../glade/preferences_win.glade.h:203
 msgid "Allow to change devices"
 msgstr "Dovoli spreminjanje naprav"
 
-#: ../glade/preferences_win.glade.h:200
+#: ../glade/preferences_win.glade.h:204
 msgid "Open temp folder"
 msgstr "Odpri začasno mapo"
 
-#: ../glade/preferences_win.glade.h:201
+#: ../glade/preferences_win.glade.h:205
 msgid "Delete stored devices"
 msgstr "Izbriši shranjene naprave"
 
-#: ../glade/preferences_win.glade.h:202
+#: ../glade/preferences_win.glade.h:206
 msgid "Enter debug mode"
 msgstr "Omogoči razhroščevalni način"
 
-#: ../glade/preferences_win.glade.h:203
+#: ../glade/preferences_win.glade.h:207
 msgid "SQL tests"
 msgstr "Preskusi SQL"
 
-#: ../glade/preferences_win.glade.h:204
+#: ../glade/preferences_win.glade.h:208
 msgid "Short"
 msgstr "Kratko"
 
-#: ../glade/preferences_win.glade.h:205
+#: ../glade/preferences_win.glade.h:209
 msgid "Long"
 msgstr "Dolgo"
 
-#: ../glade/preferences_win.glade.h:206
+#: ../glade/preferences_win.glade.h:210
 msgid "Database ID"
 msgstr "ID zbirke podatkov"
 
-#: ../glade/preferences_win.glade.h:207
+#: ../glade/preferences_win.glade.h:211
 msgid "Database name"
 msgstr "Ime zbirke podatkov"
 
-#: ../glade/preferences_win.glade.h:208
+#: ../glade/preferences_win.glade.h:212
 msgid "Decimal places"
 msgstr "Decimalna števila"
 
-#: ../glade/preferences_win.glade.h:209
+#: ../glade/preferences_win.glade.h:213
 msgid "Applies to most of the tests and export data"
 msgstr "Velja za večino testov in izvoznih podatkov"
 
-#: ../glade/preferences_win.glade.h:210
+#: ../glade/preferences_win.glade.h:214
 msgid "Do not write debug messages"
 msgstr "Ne zapisuj razhroščevalnih sporočil"
 
-#: ../glade/preferences_win.glade.h:211
+#: ../glade/preferences_win.glade.h:215
 msgid "Mute logs"
 msgstr "Utišaj dnevnike"
 
-#: ../glade/preferences_win.glade.h:212
+#: ../glade/preferences_win.glade.h:216
 msgid "default: False"
 msgstr "privzeto: napak"
 
-#: ../glade/preferences_win.glade.h:213
+#: ../glade/preferences_win.glade.h:217
 msgid "Ask for confirm test deletion"
 msgstr "Vprašaj za potrditev brisanja"
 
-#: ../glade/preferences_win.glade.h:214
+#: ../glade/preferences_win.glade.h:218
 msgid "Ask user if really wants to delete a test"
 msgstr "Vpraša uporabnika ali res želi izbrisati test"
 
-#: ../glade/preferences_win.glade.h:215
+#: ../glade/preferences_win.glade.h:219
 msgid "Python version"
 msgstr "Različica Python"
 
-#: ../glade/preferences_win.glade.h:219
+#: ../glade/preferences_win.glade.h:223
 msgid "Small screens"
 msgstr "Manjši zasloni"
 
-#: ../glade/preferences_win.glade.h:223
+#: ../glade/preferences_win.glade.h:227
 msgid "View more tabs"
 msgstr "Poglej več zavihkov"
 
-#: ../glade/preferences_win.glade.h:224
+#: ../glade/preferences_win.glade.h:228
 msgid "Restart Chronojump to apply changes."
 msgstr "Znova zaženite Chronojump, da uveljavite spremembe."
 
@@ -5447,7 +5460,7 @@ msgid "none"
 msgstr "brez"
 
 #: ../src/bluetoothCapture.cs:62 ../src/constants.cs:959
-#: ../src/gui/preferences.cs:4037
+#: ../src/gui/preferences.cs:4051
 msgid "Error. File not found."
 msgstr "Napaka: datoteke ni mogoče najti."
 
@@ -7058,8 +7071,8 @@ msgstr "Vrsta teka:"
 
 #: ../src/graphs/cairo/xy.cs:640 ../src/graphs/cairo/xy.cs:646
 #: ../src/gui/modes/sprint.cs:79 ../src/gui/person/addMultiple.cs:702
-#: ../src/gui/preferences.cs:3777 ../src/gui/preferences.cs:3784
-#: ../src/gui/preferences.cs:3799 ../src/gui/preferences.cs:3829
+#: ../src/gui/preferences.cs:3786 ../src/gui/preferences.cs:3793
+#: ../src/gui/preferences.cs:3808 ../src/gui/preferences.cs:3838
 msgid "Error"
 msgstr "Napaka"
 
@@ -7257,8 +7270,8 @@ msgid "Select an image"
 msgstr "Izberite sliko"
 
 #: ../src/gui/app1/contactsExercise.cs:177
-#: ../src/gui/app1/session/backup.cs:247 ../src/gui/preferences.cs:2653
-#: ../src/gui/preferences.cs:3044
+#: ../src/gui/app1/session/backup.cs:247 ../src/gui/preferences.cs:2662
+#: ../src/gui/preferences.cs:3053
 msgid "Select"
 msgstr "Izberi"
 
@@ -8162,7 +8175,7 @@ msgstr "Izberite zbirko podatkov Chronojump za uvoz"
 
 #: ../src/gui/app1/session/loadAndImport.cs:489
 #: ../src/gui/modes/encoderConfiguration.cs:826
-#: ../src/gui/person/addMultiple.cs:613 ../src/gui/preferences.cs:3830
+#: ../src/gui/person/addMultiple.cs:613 ../src/gui/preferences.cs:3839
 msgid "Error importing data."
 msgstr "Prišlo je do napake uvoza podatkov."
 
@@ -8592,10 +8605,6 @@ msgstr "Skupni čas"
 msgid "Select of Birth"
 msgstr "Izbor dneva rojstva"
 
-#: ../src/gui/executeAuto.cs:208
-msgid "Mode"
-msgstr "Način"
-
 #: ../src/gui/executeAuto.cs:473
 #, csharp-format
 msgid "Sorry, this sequence '{0}' already exists in database"
@@ -8609,11 +8618,11 @@ msgstr "Niz"
 msgid "Protocol"
 msgstr "Protokol"
 
-#: ../src/gui/feedback.cs:906 ../src/gui/preferences.cs:3442
+#: ../src/gui/feedback.cs:906 ../src/gui/preferences.cs:3451
 msgid "Sound working"
 msgstr "Zvok deluje"
 
-#: ../src/gui/feedback.cs:908 ../src/gui/preferences.cs:3444
+#: ../src/gui/feedback.cs:908 ../src/gui/preferences.cs:3453
 msgid "Sound not working"
 msgstr "Zvok ne deluje"
 
@@ -9271,7 +9280,7 @@ msgstr "Napaka, višina osebe ne more biti 0"
 msgid "This data does not seem a sprint."
 msgstr "Ti podatki se ne zdijo za sprint."
 
-#: ../src/gui/networks.cs:747 ../src/gui/preferences.cs:2784
+#: ../src/gui/networks.cs:747 ../src/gui/preferences.cs:2793
 msgid "Not found any database at path:"
 msgstr "Na poti ni bilo mogoče najti nobene zbirke podatkov:"
 
@@ -9513,82 +9522,82 @@ msgstr ""
 "Teki\n"
 "intervalni"
 
-#: ../src/gui/preferences.cs:1217
+#: ../src/gui/preferences.cs:1226
 msgid "Select color"
 msgstr "Izbor barve"
 
-#: ../src/gui/preferences.cs:1746
+#: ../src/gui/preferences.cs:1755
 msgid "At the end of the capture, save the best repetition."
 msgstr "Na koncu zajema shrani najboljšo ponovitev."
 
-#: ../src/gui/preferences.cs:1749
+#: ../src/gui/preferences.cs:1758
 msgid "At the end of the capture, save the best n repetitions."
 msgstr "Na koncu zajema shrani najboljših n ponovitev."
 
-#: ../src/gui/preferences.cs:1752
+#: ../src/gui/preferences.cs:1761
 msgid "At the end of the capture, save the best n consecutive repetitions."
 msgstr "Na koncu zajema shrani najboljših n zaporednih ponovitev."
 
-#: ../src/gui/preferences.cs:1755
+#: ../src/gui/preferences.cs:1764
 msgid "At the end of the capture, save all repetitions."
 msgstr "Na koncu zajema shrani vse ponovitve."
 
-#: ../src/gui/preferences.cs:1758
+#: ../src/gui/preferences.cs:1767
 msgid "At the end of the capture, save all repetitions except the last one."
 msgstr "Na koncu zajema shrani vse ponovitve, razen zadnje."
 
-#: ../src/gui/preferences.cs:1761
+#: ../src/gui/preferences.cs:1770
 msgid "At the end of the capture, do not automatically save any repetition."
 msgstr "Na koncu zajema samodejno ne shranjuje nobene ponovitve."
 
-#: ../src/gui/preferences.cs:2272
+#: ../src/gui/preferences.cs:2281
 #, csharp-format
 msgid "{0} pps is equivalent to a resolution of {1} cm."
 msgstr "{0} pps je enakovredno ločljivosti {1} cm."
 
-#: ../src/gui/preferences.cs:2275
+#: ../src/gui/preferences.cs:2284
 #, csharp-format
 msgid "{0} pps allows to record up to {1} m/s."
 msgstr "{0} pps omogoča snemanje do {1} m/s."
 
-#: ../src/gui/preferences.cs:2650
+#: ../src/gui/preferences.cs:2659
 msgid "Select cloud directory"
 msgstr "Izberite mapo v oblaku"
 
-#: ../src/gui/preferences.cs:2667
+#: ../src/gui/preferences.cs:2676
 msgid "Error. This path is not valid."
 msgstr "Napaka. Ta pot ni veljavna."
 
-#: ../src/gui/preferences.cs:2802
+#: ../src/gui/preferences.cs:2811
 msgid "Chronojump cloud schema"
 msgstr "Shema v oblaku Chronojump"
 
-#: ../src/gui/preferences.cs:2835
+#: ../src/gui/preferences.cs:2844
 msgid "Please, select R file"
 msgstr "Izberite datoteko R"
 
-#: ../src/gui/preferences.cs:2906
+#: ../src/gui/preferences.cs:2915
 msgid "Please, select Rscript file"
 msgstr "Izberite datoteko Rscript"
 
-#: ../src/gui/preferences.cs:2988
+#: ../src/gui/preferences.cs:2997
 msgid "Please, select Python file"
 msgstr "Izberite datoteko Python"
 
-#: ../src/gui/preferences.cs:3234
+#: ../src/gui/preferences.cs:3243
 msgid "If active, repetitions will be cut from set using triggers."
 msgstr "Če je aktivno, bodo ponovitve iz nabora izrezane z uporabo sprožilcev."
 
-#: ../src/gui/preferences.cs:3235
+#: ../src/gui/preferences.cs:3244
 msgid "Trigger signal will be produced by a button connected to the Chronopic."
 msgstr "Sprožilni signal bo ustvaril gumb, povezan s Chronopicom."
 
-#: ../src/gui/preferences.cs:3236
+#: ../src/gui/preferences.cs:3245
 msgid "This will be only used on gravitatory mode, concentric contraction."
 msgstr ""
 "To se bo uporabljalo samo v gravitacijskem načinu, koncentrični kontrakciji."
 
-#: ../src/gui/preferences.cs:3237
+#: ../src/gui/preferences.cs:3246
 msgid ""
 "If \"Cut by triggers\" is inactive, repetitions will be cut automatically "
 "(default behaviour),"
@@ -9596,7 +9605,7 @@ msgstr ""
 "Če je »Odreži po sprožilcih« neaktiven, se ponovitve samodejno izrežejo "
 "(privzeto vedenje),"
 
-#: ../src/gui/preferences.cs:3238
+#: ../src/gui/preferences.cs:3247
 msgid ""
 "but pressing trigger button while capturing will plot vertical lines during "
 "analyze instant graphs."
@@ -9604,11 +9613,11 @@ msgstr ""
 "Toda pritisk na sprožilni gumb med zajemanjem bo med analizo takojšnjih "
 "grafov risal navpične črte."
 
-#: ../src/gui/preferences.cs:3239
+#: ../src/gui/preferences.cs:3248
 msgid "Encoder Chronopics have trigger functionality since 2017."
 msgstr "Kodirnik Chronopics ima funkcijo sprožilca od leta 2017."
 
-#: ../src/gui/preferences.cs:3240
+#: ../src/gui/preferences.cs:3249
 msgid ""
 "You can check if your encoder Chronopic accepts triggers pressing test "
 "button."
@@ -9616,7 +9625,7 @@ msgstr ""
 "Preverite lahko, ali vaš kodirnik Chronopic sprejema sprožilce, ki "
 "pritisnejo testni gumb."
 
-#: ../src/gui/preferences.cs:3241
+#: ../src/gui/preferences.cs:3250
 msgid ""
 "Your Chronopic is ready for triggers if the green light at the side of "
 "Chronopic test button changes it's state on pressing this button."
@@ -9624,7 +9633,7 @@ msgstr ""
 "Vaš Chronopic je pripravljen na sprožilce, če zelena lučka ob strani "
 "testnega gumba Chronopic spremeni stanje ob pritisku na ta gumb."
 
-#: ../src/gui/preferences.cs:3242
+#: ../src/gui/preferences.cs:3251
 msgid ""
 "At Chronojump website there's a hand push button for using triggers with "
 "ease."
@@ -9632,49 +9641,49 @@ msgstr ""
 "Na spletnem mestu Chronojump je na voljo ročni gumb za enostavno uporabo "
 "sprožilcev."
 
-#: ../src/gui/preferences.cs:3455
+#: ../src/gui/preferences.cs:3464
 msgid "Error. Could not check video devices."
 msgstr "Napaka. Video naprav ni bilo mogoče preveriti."
 
-#: ../src/gui/preferences.cs:3590 ../src/gui/preferences.cs:3591
-#: ../src/gui/preferences.cs:3621 ../src/gui/preferences.cs:3632
+#: ../src/gui/preferences.cs:3599 ../src/gui/preferences.cs:3600
+#: ../src/gui/preferences.cs:3630 ../src/gui/preferences.cs:3641
 msgid "Not running"
 msgstr "V teko"
 
 #. runningFfmpeg = true;
 #. runningFfplay = true;
-#: ../src/gui/preferences.cs:3602 ../src/gui/preferences.cs:3609
+#: ../src/gui/preferences.cs:3611 ../src/gui/preferences.cs:3618
 msgid "Running"
 msgstr "Ne teče"
 
-#: ../src/gui/preferences.cs:3699
+#: ../src/gui/preferences.cs:3708
 msgid "Race measurement"
 msgstr "Merjenje teka"
 
-#: ../src/gui/preferences.cs:3778
+#: ../src/gui/preferences.cs:3787
 msgid "Cannot create directory."
 msgstr "Ni mogoče ustvariti mape."
 
-#: ../src/gui/preferences.cs:3805
+#: ../src/gui/preferences.cs:3814
 msgid "Import configuration file"
 msgstr "Uvozi nastavitveno datoteko"
 
-#: ../src/gui/preferences.cs:3837
+#: ../src/gui/preferences.cs:3846
 msgid "Successfully imported."
 msgstr "Podatki so uspešno uvoženi."
 
-#: ../src/gui/preferences.cs:3843
+#: ../src/gui/preferences.cs:3852
 msgid "End capture by inactivity"
 msgstr "Končaj zajemanje zaradi nedejavnosti"
 
-#: ../src/gui/preferences.cs:3844
+#: ../src/gui/preferences.cs:3853
 msgid ""
 "If a repetition has been found, test will end at selected inactivity seconds."
 msgstr ""
 "Če je bila najdena ponovitev, se bo test končal v izbranih sekundah "
 "neaktivnosti."
 
-#: ../src/gui/preferences.cs:3845
+#: ../src/gui/preferences.cs:3854
 msgid ""
 "If a repetition has not been found, test will end at selected inactivity "
 "seconds (x2)."
@@ -9682,11 +9691,11 @@ msgstr ""
 "Če ponovitve ni bilo mogoče najti, se bo test končal v izbranih sekundah "
 "neaktivnosti (x2)."
 
-#: ../src/gui/preferences.cs:3846
+#: ../src/gui/preferences.cs:3855
 msgid "This will let the person to have more time to start movement."
 msgstr "S tem bo imel testiranec več časa za začetek gibanja."
 
-#: ../src/gui/preferences.cs:3847
+#: ../src/gui/preferences.cs:3856
 msgid ""
 "On inertial, to avoid never ending capture because cone is slowly moving at "
 "the end, this criteria is added:"
@@ -9694,7 +9703,7 @@ msgstr ""
 "Da bi se izognili neskončnemu zajemanju pri vztrajnostnem, ker se stožec na "
 "koncu počasi premika, bo dodan naslednji kriterij:"
 
-#: ../src/gui/preferences.cs:3848
+#: ../src/gui/preferences.cs:3857
 msgid ""
 "If passed the double of configured inactivity seconds since last phase, "
 "capture will end."
@@ -9702,7 +9711,7 @@ msgstr ""
 "Če preteče dvakrat več kot nastavljenih sekund neaktivnosti od zadnje faze, "
 "se zajemanje konča."
 
-#: ../src/gui/preferences.cs:3858
+#: ../src/gui/preferences.cs:3867
 msgid ""
 "The equivalent mass is a measure of the resistance of a body to change its "
 "linear or rotary velocity."
@@ -9710,7 +9719,7 @@ msgstr ""
 "Ekvivalentna masa je merilo upora telesa pri spreminjanju linearne ali "
 "rotacijske hitrosti."
 
-#: ../src/gui/preferences.cs:3859
+#: ../src/gui/preferences.cs:3868
 msgid ""
 "From the point of view of a person pulling from a rope, the situation in the "
 "image is equivalent to a rotary inertial machine."
@@ -9718,7 +9727,7 @@ msgstr ""
 "Z vidika osebe, ki vleče vrv, je situacija na sliki enakovredna rotacijski "
 "vztrajnostni napravi."
 
-#: ../src/gui/preferences.cs:3860
+#: ../src/gui/preferences.cs:3869
 msgid ""
 "The equivalent mass takes in account the different configurations of a "
 "inertial machine (diameters, inertia momentum, extra weights and force "
@@ -9727,7 +9736,7 @@ msgstr ""
 "Ekvivalentna masa upošteva različne konfiguracije vztrajnostne naprave "
 "(premeri, vztrajnostni moment, dodatne uteži in multiplikatorji sile)."
 
-#: ../src/gui/preferences.cs:3861
+#: ../src/gui/preferences.cs:3870
 msgid ""
 "This way it is possible to compare the resistance of diferent configurations "
 "on diferent machines."
@@ -9735,7 +9744,7 @@ msgstr ""
 "Tako je mogoče primerjati odpornost različnih konfiguracij na različnih "
 "napravah."
 
-#: ../src/gui/preferences.cs:4010
+#: ../src/gui/preferences.cs:4019
 msgid "Deleted stored devices."
 msgstr "Izbrisane shranjene naprave."
 

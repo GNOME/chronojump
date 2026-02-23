@@ -296,6 +296,7 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_micro_discover_title;
 	Gtk.Label label_micro_discover_not_found;
 	Gtk.Frame frame_micro_discover;
+	Gtk.Notebook notebook_micro_discover;
 	Gtk.VBox vbox_micro_discover_main;
 	Gtk.Box	box_micro_discover_assign_manually;
 	Gtk.ButtonBox buttonbox_micro_discover_assign_manually;
@@ -4787,12 +4788,18 @@ public partial class ChronoJumpWindow
 		label_micro_discover_nc_comment.Text = "";
 		label_micro_discover_nc_comment.Visible = false;
 
-		box_micro_discover_races_choose.Visible = (operatingSystem == UtilAll.OperatingSystems.WINDOWS &&
-				(current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC));
+		if (
+				operatingSystem == UtilAll.OperatingSystems.WINDOWS &&
+				(current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC)
+				) // TODO: do it also on 4platforms to ask bluetooth
+			notebook_micro_discover.CurrentPage = Convert.ToInt32 (DiscoverWindow.Notebook_micro_discover_pages.ASK);
+		else
+			notebook_micro_discover.CurrentPage = Convert.ToInt32 (DiscoverWindow.Notebook_micro_discover_pages.USB);
 
 		discoverWin = new DiscoverWindow (app1,
 				operatingSystem, current_mode,
 				chronopicRegister,
+				notebook_micro_discover,
 				vbox_micro_discover_main,
 				button_micro_discover_refresh,
 				image_micro_discover_refresh,
@@ -4829,6 +4836,7 @@ public partial class ChronoJumpWindow
 	{
 		if (discoverWin != null)
 		{
+			notebook_micro_discover.CurrentPage = Convert.ToInt32 (DiscoverWindow.Notebook_micro_discover_pages.USB);
 			label_micro_discover_nc_current_mode.Text = "WICHRO";
 
 			//TODO: only show this if no WICHRO is found
@@ -4840,6 +4848,7 @@ public partial class ChronoJumpWindow
 	{
 		if (discoverWin != null)
 		{
+			notebook_micro_discover.CurrentPage = Convert.ToInt32 (DiscoverWindow.Notebook_micro_discover_pages.USB);
 			label_micro_discover_nc_current_mode.Text = Catalog.GetString ("Old cabled photocells");
 
 			//TODO: only show this if no "old photocells" is found
@@ -4857,7 +4866,7 @@ public partial class ChronoJumpWindow
 	private void on_button_micro_discover_assign_manually_cancel_clicked (object o, EventArgs args)
 	{
 		if (discoverWin != null)
-			discoverWin.ShowAssignManuallyBox (false);
+			notebook_micro_discover.CurrentPage = Convert.ToInt32 (DiscoverWindow.Notebook_micro_discover_pages.USB);
 	}
 
 	private void on_button_micro_discover_cancel_close_clicked (object o, EventArgs args)
@@ -8941,6 +8950,7 @@ public partial class ChronoJumpWindow
 		label_micro_discover_title = (Gtk.Label) builder.GetObject ("label_micro_discover_title");
 		label_micro_discover_not_found = (Gtk.Label) builder.GetObject ("label_micro_discover_not_found");
 		frame_micro_discover = (Gtk.Frame) builder.GetObject ("frame_micro_discover");
+		notebook_micro_discover = (Gtk.Notebook) builder.GetObject ("notebook_micro_discover");
 		vbox_micro_discover_main = (Gtk.VBox) builder.GetObject ("vbox_micro_discover_main");
 		button_micro_discover_refresh = (Gtk.Button) builder.GetObject ("button_micro_discover_refresh");
 		image_micro_discover_refresh = (Gtk.Image) builder.GetObject ("image_micro_discover_refresh");

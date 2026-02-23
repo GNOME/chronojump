@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2016-2025   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2016-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -69,6 +69,7 @@ public class DiscoverWindow
 	private Gtk.Window parentWin;
 	private Constants.Modes current_mode;
 	private ChronopicRegister chronopicRegister;
+	private Gtk.Notebook notebook_micro_discover;
 	private Gtk.VBox vbox_micro_discover_main;
 	private Gtk.Button button_micro_discover_refresh;
 	private Gtk.Image image_micro_discover_refresh;
@@ -96,6 +97,7 @@ public class DiscoverWindow
 	private string manuallyAssignThisStr = Catalog.GetString ("Assign manually");
 	private string manuallyAssignedStr = Catalog.GetString ("Assigned manually: ");
 
+	public enum Notebook_micro_discover_pages { ASK, USB, ASSIGN } // TODO BLUETOOTH
 	private Gtk.Button button_manually_assign1;
 	private Gtk.Button button_manually_assign2;
 	ChronopicRegisterPort crpManuallyAssign;
@@ -105,6 +107,7 @@ public class DiscoverWindow
 	public DiscoverWindow (Gtk.Window parentWin,
 			UtilAll.OperatingSystems operatingSystem, Constants.Modes current_mode,
 			ChronopicRegister chronopicRegister,
+			Gtk.Notebook notebook_micro_discover,
 			Gtk.VBox vbox_micro_discover_main,
 			Gtk.Button button_micro_discover_refresh,
 			Gtk.Image image_micro_discover_refresh,
@@ -128,6 +131,7 @@ public class DiscoverWindow
 		this.parentWin = parentWin;
 		this.current_mode = current_mode;
 		this.chronopicRegister = chronopicRegister;
+		this.notebook_micro_discover = notebook_micro_discover;
 		this.vbox_micro_discover_main = vbox_micro_discover_main;
 		this.button_micro_discover_refresh = button_micro_discover_refresh;
 		this.image_micro_discover_refresh = image_micro_discover_refresh;
@@ -150,7 +154,6 @@ public class DiscoverWindow
 		// 1) set up gui
 
 		vbox_micro_discover_main.Visible = true;
-		box_micro_discover_assign_manually.Visible = false;
 
 		// create manually assign buttons
 		crpManuallyAssign = new ChronopicRegisterPort ("");
@@ -1024,15 +1027,7 @@ public class DiscoverWindow
 			button_manually_assign1.Label = assignAsStr +
 				ChronopicRegisterPort.TypePrint (ChronopicRegisterPort.Types.ENCODER);
 
-		ShowAssignManuallyBox (true);
-	}
-
-	//private void on_button_micro_discover_assign_manually_cancel_clicked (object o, EventArgs args)
-	public void ShowAssignManuallyBox (bool show)
-	{
-		vbox_micro_discover_main.Visible = ! show;
-		box_micro_discover_assign_manually.Visible = show;
-		button_micro_discover_cancel_close.Sensitive = ! show;
+		notebook_micro_discover.CurrentPage = Convert.ToInt32 (DiscoverWindow.Notebook_micro_discover_pages.ASSIGN);
 	}
 
 	private void on_button_manually_assign1_clicked (object o, EventArgs args)
@@ -1071,7 +1066,7 @@ public class DiscoverWindow
 			if (buttonManuallyAssign_notDiscovered_crp_l[i] == crpManuallyAssign)
 				guiMarkNotDiscoveredCrpAsManuallyAssigned (i, crpManuallyAssign);
 
-		ShowAssignManuallyBox (false);
+		notebook_micro_discover.CurrentPage = Convert.ToInt32 (DiscoverWindow.Notebook_micro_discover_pages.USB);
 	}
 
 	private void guiMarkNotDiscoveredCrpAsManuallyAssigned (int i, ChronopicRegisterPort crp)

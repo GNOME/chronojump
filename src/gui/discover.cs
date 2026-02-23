@@ -1005,26 +1005,25 @@ public class DiscoverWindow
 
 		button_manually_assign1.Visible = true;
 		button_manually_assign2.Visible = false;
-		string assignAsStr = Catalog.GetString ("Assign as:") + " ";
 
 		//TODO: fourPlatforms
 		if (current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE)
-			button_manually_assign1.Label = assignAsStr + Catalog.GetString ("Chronopic");
+			button_manually_assign1.Label = Catalog.GetString ("Chronopic");
 		else if (current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC) {
-			button_manually_assign1.Label = assignAsStr +
+			button_manually_assign1.Label =
 				ChronopicRegisterPort.TypePrint (ChronopicRegisterPort.Types.RUN_WIRELESS); //WICHRO
-			button_manually_assign2.Label = assignAsStr +
+			button_manually_assign2.Label =
 				Catalog.GetString ("Old cabled photocells");
 			button_manually_assign2.Visible = true;
 		}
 		else if (current_mode == Constants.Modes.RUNSENCODER)
-			button_manually_assign1.Label = assignAsStr +
+			button_manually_assign1.Label =
 				ChronopicRegisterPort.TypePrint (ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER);
 		else if (Constants.ModeIsFORCESENSOR (current_mode))
-			button_manually_assign1.Label = assignAsStr +
+			button_manually_assign1.Label =
 				ChronopicRegisterPort.TypePrint (ChronopicRegisterPort.Types.ARDUINO_FORCE);
 		else if (Constants.ModeIsENCODER (current_mode))
-			button_manually_assign1.Label = assignAsStr +
+			button_manually_assign1.Label =
 				ChronopicRegisterPort.TypePrint (ChronopicRegisterPort.Types.ENCODER);
 
 		notebook_micro_discover.CurrentPage = Convert.ToInt32 (DiscoverWindow.Notebook_micro_discover_pages.ASSIGN);

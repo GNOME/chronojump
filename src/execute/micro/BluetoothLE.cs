@@ -27,7 +27,7 @@ using System.Text.RegularExpressions;
 /// </summary>
 public static class BluetoothLE
 {
-    public static string BatteryName = "Battery"; // TODO: need to be static?
+    public static string BatteryName = "Battery";
 
     // ---- DataChanged ---->
     /// <summary>

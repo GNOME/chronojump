@@ -10697,7 +10697,7 @@ on Cloud-view mode</property>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label">Bluetooth capture</property>
+                                                            <property name="label">Connect</property>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -10721,7 +10721,6 @@ on Cloud-view mode</property>
                                                             <property name="spacing">2</property>
                                                             <child>
                                                             <object class="GtkImage" id="image_fourPlatforms_bluetooth_status">
-                                                            <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             </object>
@@ -10751,7 +10750,7 @@ on Cloud-view mode</property>
                                                             </child>
                                                             <child>
                                                             <object class="GtkButton" id="button_fourPlatforms_bluetooth_disconnect">
-                                                            <property name="label">Stop</property>
+                                                            <property name="label">Disconnect</property>
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="receives-default">True</property>

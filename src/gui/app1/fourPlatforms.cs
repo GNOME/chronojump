@@ -70,6 +70,8 @@ public partial class ChronoJumpWindow
 	FourPlatformsCapture fpc;
 	private bool fourPlatformsNeedCallApplyCSSExternalWindow;
 
+	TextBuffer tbBluetooth = new TextBuffer (new TextTagTable());
+
 	private FourPlatformsCaptureManage.CaptureEnum fourPlatformsCaptureType;
 	private bool fourPlatformsCaptureTwiceDo = false;
 	private Stopwatch fourPlatformsCaptureTwiceSw;
@@ -88,6 +90,7 @@ public partial class ChronoJumpWindow
 			FourPlatformsCaptureManage.CaptureEnumStr (FourPlatformsCaptureManage.CaptureEnum.FROMLOWTOHIGH);
 
 		entry_fourPlatforms_bluetooth_url.Text = BluetoothLE.GetScriptURL ();
+		tbBluetooth.Text = "";
 	}
 
 	//methods used on discoverWin closed, person changed, and Chronojump start (changeMode)
@@ -140,11 +143,7 @@ public partial class ChronoJumpWindow
 	BluetoothCapture bluetoothCapture;
 	private void on_button_fourPlatforms_bluetooth_connect_clicked (object o, EventArgs args)
 	{
-		// just in case
-		if (bluetoothCapture == null)
-			bluetoothCapture = new BluetoothCapture ();
-
-		bluetoothCapture.Start ();
+		bluetoothCapture.Start (entry_fourPlatforms_bluetooth_url.Text);
 	}
 
 	private void on_button_fourPlatforms_bluetooth_disconnect_clicked (object o, EventArgs args)
@@ -437,6 +436,16 @@ public partial class ChronoJumpWindow
 					UtilGtk.ApplyCSSExternalWindow ();
 				}
 			}
+		}
+
+		// note textview will not be updated until capture started
+		// we can fix this having eg. a FakePulseButton on bluetoothCapture
+		if (bluetoothCapture != null && bluetoothCapture.BluetoothReading &&
+				bluetoothCapture.Bm_l.CanReadFromList ())
+		{
+			tbBluetooth.Text += bluetoothCapture.Bm_l.ReadNext ();
+			textview_fourPlatforms_bluetooth.Buffer = tbBluetooth;
+			UtilGtk.TextViewScrollToEnd (textview_fourPlatforms_bluetooth);
 		}
 
 		Thread.Sleep (50);

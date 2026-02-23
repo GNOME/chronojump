@@ -64,7 +64,7 @@ public class BluetoothCapture
 		}
 	}
 
-	public bool Start ()
+	public bool Start (string scriptURL)
 	{
 		bluetoothReading = false;
 
@@ -82,7 +82,8 @@ public class BluetoothCapture
 		bm_l = new BluetoothMessageList ();
 
 		bluetoothReading = true;
-		bluetoothDo ();
+		bluetoothDo (scriptURL);
+
 		return true;
 	}
 
@@ -92,11 +93,10 @@ public class BluetoothCapture
 			bluetooth_stop ();
 	}
 
-	private void bluetoothDo ()
+	private void bluetoothDo (string scriptURL)
 	{
 		//Start BluetoothLE service
-		//BluetoothLE.SetProcess (entry_url.Text);
-		BluetoothLE.SetProcess ("/home/xavier/informatica/progs_meus/chronojump/src/ble-runner-linux.sh"); // TODO: hardcoded
+		BluetoothLE.SetProcess (scriptURL);
 		BluetoothLE.Start ("CONNECT", "CP4");
 	}
 
@@ -125,14 +125,10 @@ public class BluetoothCapture
 	}
 	private void BluetoothLE_OnDataChanged(object sender, BluetoothLE.DataChangedEventArgs e)
 	{
-		//bluetooth_textview_update ($"\n{e.CharacteristicUUID} {e.CharacteristicName} {e.Value}");
-	//	bluetooth_textview_update ($"\n{e.CharacteristicName} {e.Value}");
-
-		if (e.CharacteristicName != BluetoothLE.BatteryName)
+		if (e.CharacteristicName == BluetoothLE.BatteryName)
+			bm_l.Add ($"\nBattery: {e.Value}");
+		else
 			bd_l.Add (new BluetoothData (e.CharacteristicName, e.Value));
-
-		//LogB.Information ("bd_l:");
-		//LogB.Information (bd_l.ToString ());
 	}
 	private void BluetoothLE_OnDeviceChanged(object sender, BluetoothLE.DeviceEventArgs e)
 	{

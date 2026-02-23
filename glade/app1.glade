@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.40.0 -->
+<!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="adjustment1">
@@ -10655,6 +10655,7 @@ on Cloud-view mode</property>
                                                             </child>
                                                             <child>
                                                             <object class="GtkBox">
+                                                            <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
                                                             <property name="halign">start</property>
                                                             <property name="spacing">6</property>
@@ -10748,6 +10749,20 @@ on Cloud-view mode</property>
                                                             <property name="position">2</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_fourPlatforms_bluetooth_disconnect">
+                                                            <property name="label">Stop</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <signal name="clicked" handler="on_button_fourPlatforms_bluetooth_disconnect_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="left-attach">1</property>
@@ -10757,6 +10772,7 @@ on Cloud-view mode</property>
                                                             <child>
                                                             <object class="GtkScrolledWindow" id="scrolled_fourPlatforms_bluetooth">
                                                             <property name="width-request">200</property>
+                                                            <property name="visible">True</property>
                                                             <property name="can-focus">True</property>
                                                             <property name="hscrollbar-policy">never</property>
                                                             <property name="shadow-type">in</property>
@@ -28137,6 +28153,9 @@ Concentric</property>
                                                             <property name="left-attach">3</property>
                                                             <property name="right-attach">4</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

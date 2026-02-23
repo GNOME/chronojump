@@ -112,6 +112,8 @@ public partial class ChronoJumpWindow
 		fpcm = new FourPlatformsCaptureManage (current_mode,
 				FourPlatformsCaptureManage.CaptureEnum.DEFAULT,
 				Convert.ToInt32 (spin_four_platforms_capture_n.Value),
+				false,
+				new BluetoothDataList (),
 				null,
 				ref cairoGraphFourPlatformsPoints_ll,
 				ref cairoGraphFourPlatformsStepsBottom_l,
@@ -138,12 +140,17 @@ public partial class ChronoJumpWindow
 	BluetoothCapture bluetoothCapture;
 	private void on_button_fourPlatforms_bluetooth_connect_clicked (object o, EventArgs args)
 	{
-		bluetoothCapture = new BluetoothCapture (
-				entry_fourPlatforms_bluetooth_url,
-				button_fourPlatforms_bluetooth_connect,
-				textview_fourPlatforms_bluetooth);
+		// just in case
+		if (bluetoothCapture == null)
+			bluetoothCapture = new BluetoothCapture ();
 
 		bluetoothCapture.Start ();
+	}
+
+	private void on_button_fourPlatforms_bluetooth_disconnect_clicked (object o, EventArgs args)
+	{
+		if (bluetoothCapture != null && bluetoothCapture.BluetoothReading)
+			bluetoothCapture.Stop ();
 	}
 
 	//note this is used by modes: JUMPSSIMPLE and OTHER (FOURPLATFORMS)
@@ -256,7 +263,13 @@ public partial class ChronoJumpWindow
 	{
 		fourPlatformsPulseMessage = "Please wait";
 
-		if (fpc == null ||
+		bool bluetoothUse = false;
+		if (bluetoothCapture != null && bluetoothCapture.BluetoothReading)
+		{
+			bluetoothUse = true;
+			fpc = null;
+		}
+		else if (fpc == null ||
 				fpc.PortName != chronopicRegister.GetSelectedForMode (current_mode).Port)
 			fpc = new FourPlatformsCapture (
 					chronopicRegister.GetSelectedForMode (current_mode).Port);
@@ -264,6 +277,8 @@ public partial class ChronoJumpWindow
 		fpcm = new FourPlatformsCaptureManage (current_mode,
 				fourPlatformsCaptureType,
 				Convert.ToInt32 (spin_four_platforms_capture_n.Value),
+				bluetoothUse,
+				bluetoothCapture.Bd_l, 	// the growing list of data
 				fpc,
 				ref cairoGraphFourPlatformsPoints_ll,
 				ref cairoGraphFourPlatformsStepsBottom_l,

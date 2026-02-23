@@ -27,6 +27,8 @@ public class FourPlatformsCaptureManage
 
 	private Constants.Modes mode;
 	private CaptureEnum captureType;
+	private bool bluetoothUse;
+	private BluetoothDataList bluetoothDataList;
 	private FourPlatformsCapture fpc;
 	private bool finish;
 	private bool cancel;
@@ -51,6 +53,8 @@ public class FourPlatformsCaptureManage
 			Constants.Modes mode,
 			CaptureEnum captureType,
 			int stepsTotal,
+			bool bluetoothUse,
+			BluetoothDataList bluetoothDataList, 	// the growing list of data
 			FourPlatformsCapture fpc,
 			ref List<List<PointF>> points_ll,
 			ref List<PointF> stepsBottom_l,
@@ -61,6 +65,8 @@ public class FourPlatformsCaptureManage
 		this.mode = mode;
 		this.captureType = captureType;
 		this.stepsTotal = stepsTotal;
+		this.bluetoothUse = bluetoothUse;
+		this.bluetoothDataList = bluetoothDataList;
 		this.fpc = fpc;
 		this.points_ll = points_ll;
 		this.stepsBottom_l = stepsBottom_l;
@@ -92,9 +98,12 @@ public class FourPlatformsCaptureManage
 		cancel = false;
 		//error = false;
 
-		fpc.Reset ();
-		if (! fpc.CaptureStart ())
-			return false;
+		if (! bluetoothUse)
+		{
+			fpc.Reset ();
+			if (! fpc.CaptureStart ())
+				return false;
+		}
 
 		return true;
 	}
@@ -108,82 +117,96 @@ public class FourPlatformsCaptureManage
 			timeAccu_l.Add (0);
 
 		int yPre = -1; //for FROMLOWTOHIGH
+		FourPlatformsEvent fpe;
 
 		while (! finish && ! cancel)// && ! error)
 		{
-			if(! fpc.CaptureSample ())
-				cancel = true; //problem reading line (capturing)
-
-			if (fpc.CanReadFromList ())
+			// 1) read fpe
+			if (bluetoothUse)
 			{
-				FourPlatformsEvent fpe = fpc.FourPlatformsCaptureReadNext();
-				LogB.Information("fpe: " + fpe.ToString());
-
-				if (fpe.Button < 0)
-				{
-					LogB.Information("problem reading");
+				if (! bluetoothDataList.CanReadFromList ())
 					continue;
-				}
 
-				//fpe.Time *= -1; //first buttons prototype board has the buttons behaviour opposite than the final board
+				fpe = (bluetoothDataList.ReadNext ()).ToFourPlatformsEvent ();
+			} else {
+				if(! fpc.CaptureSample ())
+					cancel = true; //problem reading line (capturing)
 
-				int timeNow = fpe.Time; //micros
+				if (! fpc.CanReadFromList ())
+					continue;
 
-				//int button = fpe.Button + 1; //from 0-3 to 1-4
-				//have button as positive or negative and put timeNow as positive
-				if (timeNow < 0)
-					timeNow = Math.Abs (timeNow);
-
-				timeAccu_l[fpe.Button] += UtilAll.DivideSafe (timeNow, 1000000);
-
-				int y = fpe.Button + 1; //1 - 4
-				double ySign;
-
-				if (mode == Constants.Modes.JUMPSSIMPLE)
-				{
-					ySign = 0;
-					if (fpe.Time < 0)
-						ySign = .4;
-				} else { //(mode == Constants.Modes.OTHER)
-					ySign = .2;
-					if (fpe.Time < 0)
-						ySign = -.2;
-
-					//steps stuff
-					if (captureType == CaptureEnum.FROM1TO2 ||
-							captureType == CaptureEnum.FROM1TO3 ||
-							captureType == CaptureEnum.FROM1TO4 ||
-							captureType == CaptureEnum.FROMLOWTOHIGH)
-						fpcManageSteps.UpdateSteps (fpe, timeAccu_l, y);
-					else {
-						//1st contact will update timeStart
-						if (timeStart == 0)
-							timeStart = timeAccu_l[fpe.Button];
-
-						//all contacts will update timeEnd
-						timeEnd = timeAccu_l[fpe.Button];
-					}
-				}
-
-				if (fpe.Time < 0)
-					timesOff_ll[fpe.Button].Add (timeAccu_l[fpe.Button]); //0-3 each of the sensors
-				else
-					timesOn_ll[fpe.Button].Add (timeAccu_l[fpe.Button]); //0-3 each of the sensors
-
-				//LogB.Information ("fpe.Button: " + fpe.Button);
-				//LogB.Information ("y: " + y);
-				//in seconds
-				points_ll[0].Add (new PointF (timeAccu_l[fpe.Button], .1)); //0 has all //to debug
-				points_ll[y].Add (new PointF (timeAccu_l[fpe.Button], 5-y+ySign)); //1-4 each of the sensors
-
-				yPre = y; // for FROMLOWTOHIGH
-
-				if (fpcManageSteps != null && fpcManageSteps.StepsCompleted >= stepsTotal)
-					finish = true;
+				fpe = fpc.FourPlatformsCaptureReadNext ();
 			}
+			LogB.Information("fpe: " + fpe.ToString());
+
+			if (fpe.Button < 0)
+			{
+				LogB.Information("problem reading");
+				continue;
+			}
+			//fpe.Time *= -1; //first buttons prototype board has the buttons behaviour opposite than the final board
+
+			// 2) process fpe
+			int timeNow = fpe.Time; //micros
+
+			//int button = fpe.Button + 1; //from 0-3 to 1-4
+			//have button as positive or negative and put timeNow as positive
+			if (timeNow < 0)
+				timeNow = Math.Abs (timeNow);
+
+			timeAccu_l[fpe.Button] += UtilAll.DivideSafe (timeNow, 1000000);
+
+			int y = fpe.Button + 1; //1 - 4
+			double ySign;
+
+			if (mode == Constants.Modes.JUMPSSIMPLE)
+			{
+				ySign = 0;
+				if (fpe.Time < 0)
+					ySign = .4;
+			} else { //(mode == Constants.Modes.OTHER)
+				ySign = .2;
+				if (fpe.Time < 0)
+					ySign = -.2;
+
+				//steps stuff
+				if (captureType == CaptureEnum.FROM1TO2 ||
+						captureType == CaptureEnum.FROM1TO3 ||
+						captureType == CaptureEnum.FROM1TO4 ||
+						captureType == CaptureEnum.FROMLOWTOHIGH)
+					fpcManageSteps.UpdateSteps (fpe, timeAccu_l, y);
+				else {
+					//1st contact will update timeStart
+					if (timeStart == 0)
+						timeStart = timeAccu_l[fpe.Button];
+
+					//all contacts will update timeEnd
+					timeEnd = timeAccu_l[fpe.Button];
+				}
+			}
+
+			if (fpe.Time < 0)
+				timesOff_ll[fpe.Button].Add (timeAccu_l[fpe.Button]); //0-3 each of the sensors
+			else
+				timesOn_ll[fpe.Button].Add (timeAccu_l[fpe.Button]); //0-3 each of the sensors
+
+			//LogB.Information ("fpe.Button: " + fpe.Button);
+			//LogB.Information ("y: " + y);
+			//in seconds
+			points_ll[0].Add (new PointF (timeAccu_l[fpe.Button], .1)); //0 has all //to debug
+			points_ll[y].Add (new PointF (timeAccu_l[fpe.Button], 5-y+ySign)); //1-4 each of the sensors
+
+			yPre = y; // for FROMLOWTOHIGH
+
+			if (fpcManageSteps != null && fpcManageSteps.StepsCompleted >= stepsTotal)
+				finish = true;
 		}
-		LogB.Information ("calling Stop");
-		fpc.Stop ();
+
+		if (! bluetoothUse)
+		{
+			LogB.Information ("calling Stop");
+			fpc.Stop ();
+		}
 	}
 
 	public static string CaptureEnumStr (CaptureEnum cEnum)

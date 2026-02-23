@@ -35,11 +35,6 @@ using System.Text.RegularExpressions; //Regex
 
 public class BluetoothCapture
 {
-	// passed GTK widgets
-	Gtk.Entry entry_url;
-	Gtk.Button button_start;
-	Gtk.TextView textview;
-
 	private bool bluetoothReading = false;
 	//use the string to not have crash by manipulating the TextBuffer outside the pulse thread
 	static string tbBluetoothText = "";
@@ -47,85 +42,62 @@ public class BluetoothCapture
 	TextBuffer tbBluetooth = new TextBuffer (new TextTagTable());
 	static Thread threadBluetooth;
 
+	private static bool bluetoothHandlersAssigned; // to not have double feedback if opened again
+	BluetoothDataList bd_l;
+	BluetoothMessageList bm_l;
+
 	// constructor
-	public BluetoothCapture (Gtk.Entry entry_url, Gtk.Button button_start, Gtk.TextView textview)
+	// called at Chronojump start and only once
+	public BluetoothCapture ()
 	{
-		this.entry_url = entry_url;
-		this.button_start = button_start;
-		this.textview = textview;
+		bluetoothReading = false;
+
+		if (! bluetoothHandlersAssigned)
+		{
+			BluetoothLE.OnInstalling += BluetoothLE_OnInstalling;
+			BluetoothLE.OnBleakVersion += BluetoothLE_OnBleakVersion;
+			BluetoothLE.OnScanning += BluetoothLE_OnScanning;
+			BluetoothLE.OnDataChanged += BluetoothLE_OnDataChanged;
+			BluetoothLE.OnDeviceChanged += BluetoothLE_OnDeviceChanged;
+			BluetoothLE.OnError += BluetoothLE_OnError;
+			bluetoothHandlersAssigned = true;
+		}
 	}
 
-	public void Start ()
+	public bool Start ()
 	{
+		bluetoothReading = false;
+
+		/*
 		if(! File.Exists (entry_url.Text))
 		{
-			tbBluetooth.Text = Catalog.GetString ("Error. File not found.");
-			textview.Buffer = tbBluetooth;
-			bluetoothSensitiveDoing (false);
+			//tbBluetooth.Text = Catalog.GetString ("Error. File not found.");
+			//textview.Buffer = tbBluetooth;
 
-			return;
+			return false;
 		}
+		*/
 
-		bluetoothSensitiveDoing (true);
+		bd_l = new BluetoothDataList ();
+		bm_l = new BluetoothMessageList ();
 
 		bluetoothReading = true;
-		textview.Name = "fontSize9";
-		tbBluetoothText = "";
-		bluetooth_textview_update ("\nConnecting... ");
-
-		threadBluetooth = new Thread (new ThreadStart (bluetoothDo));
-		GLib.Idle.Add (new GLib.IdleHandler (pulseBluetooth));
-
-		LogB.ThreadStart();
-		threadBluetooth.Start();
+		bluetoothDo ();
+		return true;
 	}
 
-	public void End ()
+	public void Stop ()
 	{
 		if (bluetoothReading)
-		{
 			bluetooth_stop ();
-			bluetoothSensitiveDoing (false);
-		}
-	}
-
-
-	private void bluetoothSensitiveDoing (bool doing)
-	{
-		entry_url.Sensitive = ! doing;
-		button_start.Sensitive = ! doing;
-		//button_end.Sensitive = doing;
 	}
 
 	private void bluetoothDo ()
 	{
-		//Subscribe to BluetoothLE data changed, device changed events
-		BluetoothLE.OnDataChanged -= BluetoothLE_OnDataChanged;
-		BluetoothLE.OnDataChanged += BluetoothLE_OnDataChanged;
-		BluetoothLE.OnDeviceChanged -= BluetoothLE_OnDeviceChanged;
-		BluetoothLE.OnDeviceChanged += BluetoothLE_OnDeviceChanged;
-
 		//Start BluetoothLE service
-		BluetoothLE.SetProcess (entry_url.Text);
-		BluetoothLE.Start ("SCAN", "CJ");
-	}
-
-	// by GTK thread
-	private bool pulseBluetooth ()
-	{
-		if (needToUpdateTextViewBluetooth)
-		{
-			tbBluetooth.Text = tbBluetoothText;
-			textview.Buffer = tbBluetooth;
-			UtilGtk.TextViewScrollToEnd (textview);
-			needToUpdateTextViewBluetooth = false;
-		}
-		if (! bluetoothReading)
-			return false;
-
-		//LogB.Debug (" pulseBluetooth:" + threadBluetooth.ThreadState.ToString());
-		Thread.Sleep (50);
-		return true;
+		//BluetoothLE.SetProcess (entry_url.Text);
+		BluetoothLE.SetProcess ("/home/xavier/informatica/progs_meus/chronojump/src/ble-runner-linux.sh"); // TODO: hardcoded
+		BluetoothLE.Start ("CONNECT", "CP4");
 	}
 
 	private void bluetooth_stop ()
@@ -135,25 +107,185 @@ public class BluetoothCapture
 		bluetoothReading = false;
 	}
 
-	private void bluetooth_textview_update (string str)
-	{
-		tbBluetoothText += str;
-		needToUpdateTextViewBluetooth = true;
-	}
-
 	/// <summary>
 	/// Handles the event triggered when the Bluetooth LE data changes.
+	/// check above: bluetoothHandlersAssigned
 	/// </summary>
-	/// <remarks>This method processes the updated data received from a Bluetooth LE device.  Use the <see cref="BluetoothLE.DataChangedEventArgs.Value"/> property of <paramref name="e"/>  to access the new data.</remarks>
-	/// <param name="sender">The source of the event, typically the Bluetooth LE device.</param>
-	/// <param name="e">The event data containing the updated value.</param>
+	private void BluetoothLE_OnInstalling(object sender, BluetoothLE.InstallingEventArgs e)
+	{
+		bm_l.Add ($"\nInstalling: {e.Value}");
+	}
+	private void BluetoothLE_OnBleakVersion(object sender, BluetoothLE.BleakVersionEventArgs e)
+	{
+		bm_l.Add ($"\nBleak version: {e.Value}");
+	}
+	private void BluetoothLE_OnScanning(object sender)
+	{
+		bm_l.Add ($"\nStart scanning ...");
+	}
 	private void BluetoothLE_OnDataChanged(object sender, BluetoothLE.DataChangedEventArgs e)
 	{
-		bluetooth_textview_update ($"\n {e.CharacteristicUUID} {e.Value}");
+		//bluetooth_textview_update ($"\n{e.CharacteristicUUID} {e.CharacteristicName} {e.Value}");
+	//	bluetooth_textview_update ($"\n{e.CharacteristicName} {e.Value}");
+
+		if (e.CharacteristicName != BluetoothLE.BatteryName)
+			bd_l.Add (new BluetoothData (e.CharacteristicName, e.Value));
+
+		//LogB.Information ("bd_l:");
+		//LogB.Information (bd_l.ToString ());
 	}
 	private void BluetoothLE_OnDeviceChanged(object sender, BluetoothLE.DeviceEventArgs e)
 	{
-		bluetooth_textview_update ($"\n {e.Action} {e.Ip} {e.Value}");
+		bm_l.Add ($"\n{e.Action} {e.Ip} {e.Value}");
+	}
+	private void BluetoothLE_OnError(object sender, BluetoothLE.ErrorEventArgs e)
+	{
+		bm_l.Add ($"\n{e.Action} {e.Value}");
+	}
+
+	public bool BluetoothReading {
+		get { return bluetoothReading; }
+	}
+
+	public BluetoothDataList Bd_l {
+		get { return bd_l; }
+	}
+	public BluetoothMessageList Bm_l {
+		get { return bm_l; }
+	}
+}
+
+// this will have inheritance for all modes
+public class BluetoothDataList
+{
+	List<BluetoothData> list;
+	private int readedPos; //position already readed from list
+
+	public BluetoothDataList ()
+	{
+		readedPos = 0; //note when nothing is readed (at start) is 0 (not -1)
+		list = new List<BluetoothData>();
+	}
+
+	public void Add (BluetoothData bd)
+	{
+		list.Add (bd);
+	}
+
+	public bool CanReadFromList ()
+	{
+		return (list.Count > readedPos);
+	}
+
+	public BluetoothData ReadNext ()
+	{
+		LogB.Information ("ReadNext A");
+		LogB.Information ("list count: " + list.Count.ToString ());
+		LogB.Information ("readedPost: " + readedPos.ToString ());
+		try {
+			LogB.Information ("ReadNext B");
+			return list[readedPos++];
+			LogB.Information ("ReadNext C");
+		} catch {
+			LogB.Information ("ReadNext D");
+			return new BluetoothData ("-1", "-1");
+		}
+		LogB.Information ("ReadNext E");
+	}
+
+	// debug
+	public override string ToString ()
+	{
+		string str = "";
+		foreach (BluetoothData bd in list)
+			str += "\n" + bd.ToString ();
+
+		return str;
+	}
+
+	public int ReadedPos
+	{
+		get { return readedPos; }
+	}
+}
+
+public class BluetoothData
+{
+	string charName; // charactaristic
+	string val;
+
+	public BluetoothData (string charName, string val)
+	{
+		this.charName = charName;
+		this.val = val;
+	}
+
+	public FourPlatformsEvent ToFourPlatformsEvent ()
+	{
+		return new FourPlatformsEvent (this);
+	}
+
+	public override string ToString ()
+	{
+		return string.Format ("{0} {1}", charName, val);
 	}
 	
+	public string CharName { get { return charName; } }
+	public string Val { get { return val; } }
+}
+
+public class BluetoothMessageList
+{
+	//List<BluetoothMessage> list; //in the future maybe separate by the different messages
+	List<string> list;
+	private int readedPos; //position already readed from list
+
+	public BluetoothMessageList ()
+	{
+		readedPos = 0; //note when nothing is readed (at start) is 0 (not -1)
+		//list = new List<BluetoothMessage>();
+		list = new List<string>();
+	}
+
+	//public void Add (BluetoothMessage bd)
+	public void Add (string str)
+	{
+		//list.Add (bd);
+		list.Add (str);
+	}
+
+	public bool CanReadFromList ()
+	{
+		return (list.Count > readedPos);
+	}
+
+	//public BluetoothMessage ReadNext ()
+	public string ReadNext ()
+	{
+		LogB.Information ("ReadNext A");
+		LogB.Information ("list count: " + list.Count.ToString ());
+		LogB.Information ("readedPost: " + readedPos.ToString ());
+		try {
+			return list[readedPos++];
+		} catch {
+			return "";
+		}
+	}
+
+	// debug
+	public override string ToString ()
+	{
+		string str = "";
+		//foreach (BluetoothMessage bd in list)
+		//	str += "\n" + bd.ToString ();
+		foreach (string s in list)
+			str += "\n" + s;
+
+		return str;
+	}
+
+	public int ReadedPos
+	{
+		get { return readedPos; }
+	}
 }

@@ -227,6 +227,7 @@ public class FourPlatformsEvent
 	{
 	}
 
+	// serial port
 	public FourPlatformsEvent (string str)
 	{
                 str = str.Trim(); 	//Trim str (to remove newline char)
@@ -243,6 +244,21 @@ public class FourPlatformsEvent
 		}
 		//LogB.Information ("Button: " + Button.ToString ());
 		//LogB.Information ("Time: " + Time.ToString ());
+	}
+
+	// from BluetoothCapture
+	public FourPlatformsEvent (BluetoothData bd)
+	{
+		if (bd.CharName == "Light1")
+			this.Button = 0;
+		else if (bd.CharName == "Light2")
+			this.Button = 1;
+		else if (bd.CharName == "Light3")
+			this.Button = 2;
+		else //if (bd.CharName == "Light4")
+			this.Button = 3;
+
+		this.Time = Convert.ToInt32 (bd.Val);
 	}
 
 	public override string ToString()

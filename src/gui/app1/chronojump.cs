@@ -1455,6 +1455,9 @@ public partial class ChronoJumpWindow
 
 		//MathUtil.QuartilesTest ();
 		//Boxplot.Test ();
+
+		// note this has to be called at Chronojump start
+		bluetoothCapture = new BluetoothCapture ();
     }
 
     /// <summary>
@@ -5070,6 +5073,13 @@ public partial class ChronoJumpWindow
 			/*
 			 * FourPlatforms is not FTDI
 			 */
+
+			//TODO bluetooth will also be managed on chronopicRegister
+			if (bluetoothCapture != null && bluetoothCapture.BluetoothReading)
+			{
+				on_four_platforms_capture_clicked (o);
+				return;
+			}
 
 			if (chronopicRegister.GetSelectedForMode (current_mode).Port == "")
 				on_button_detect_clicked (o, args); //open discover win

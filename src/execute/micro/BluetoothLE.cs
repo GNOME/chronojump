@@ -23,10 +23,12 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 /// <summary>
-/// Read data from BLE (Bluetooth Low Energy) devices using Python scripts.
+/// This class reads data from BLE (Bluetooth Low Energy) devices using Python scripts.
 /// </summary>
 public static class BluetoothLE
 {
+    public static string BatteryName = "Battery"; // TODO: need to be static?
+
     // ---- DataChanged ---->
     /// <summary>
     /// DataChangedEventArgs is used to pass data when a characteristic changes.
@@ -40,6 +42,7 @@ public static class BluetoothLE
         /// <summary>
         /// The name of the characteristic that has changed.
         /// </summary>
+	// related to fourPlatforms now
         public string CharacteristicName {
 		get {
 			if (CharacteristicUUID == "588dc235-7184-4550-9053-0e6a82f37cee")
@@ -51,7 +54,7 @@ public static class BluetoothLE
 			else if (CharacteristicUUID == "e7331566-3aec-4a47-b8f1-d6f27850ad87")
 				return "Light4";
 			else if (CharacteristicUUID == "a2317307-e74a-4efe-b8ae-d615cd3be489")
-				return "Battery";
+				return BatteryName;
 			return "";
 		}
 	}
@@ -370,27 +373,28 @@ public static class BluetoothLE
     /// </summary>
     public static void Stop()
     {
-        if (null != cts)
-        {
-            cts.Cancel();
-            cts = null;
-        }
+	    if (null != cts)
+	    {
+		    cts.Cancel();
+		    cts = null;
+	    }
 
-        if (pythonProcess != null)
-        {
-            pythonProcess.EnableRaisingEvents = false;
-            try
-            {
-                if (!pythonProcess.HasExited)
-                {
-                    pythonProcess.CancelOutputRead();
-                    pythonProcess.CancelErrorRead();
-                    pythonProcess.Kill();
-                }
-            }
-            catch { }
-            pythonProcess.Dispose();
-            pythonProcess = null;
-        }
+	    if (pythonProcess != null)
+	    {
+		    pythonProcess.EnableRaisingEvents = false;
+		    try
+		    {
+			    if (!pythonProcess.HasExited)
+			    {
+				    pythonProcess.CancelOutputRead();
+				    pythonProcess.CancelErrorRead();
+				    pythonProcess.Kill();
+			    }
+		    }
+		    catch {
+		    }
+		    pythonProcess.Dispose();
+		    pythonProcess = null;
+	    }
     }
 }

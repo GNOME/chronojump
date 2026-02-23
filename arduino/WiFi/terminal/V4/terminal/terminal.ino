@@ -340,6 +340,9 @@ void debounce() {
     flagint = HIGH;
     sample.state = pinState;
     lastPinState = pinState;
+    #ifdef WICHRO
+      digitalWrite(RED_PIN, pinState);
+    #endif
   }
 }
 

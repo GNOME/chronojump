@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
- * Copyright (C) 2022-2025  Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2022-2026  Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -43,7 +43,8 @@ public class MicroDiscover : MicroComms
 	private string raceAnalyzerStr = "Race_Analyzer-";
 	private string wichroStr = "Wifi-Controller-"; //Will be used for Wichro and Quick, then user will decide. "local:get_channel;" to know the channel
 	private string encoderStr = "J"; //for encoder send a J and receive a J
-	private string fourPlatformsStr = "4Platforms-";
+	private string fourPlatformsStr = "Chronopic-4.0"; // current devices
+	private string fourPlatformsOldStr = "4Platforms-"; // first devices
 
 	public enum Status { NotStarted, Connecting, Detecting, Done };
 	private List<Status> progressBar_l; //progressBars status
@@ -475,6 +476,7 @@ public class MicroDiscover : MicroComms
 		bool success = false;
 		List<string> responseExpected_l = new List<string>();
 		responseExpected_l.Add(fourPlatformsStr);
+		responseExpected_l.Add(fourPlatformsOldStr);
 
 		Thread.Sleep(1500); //wait 1500 ms after open to be able to receive commands
 		if(cancel)
@@ -483,7 +485,7 @@ public class MicroDiscover : MicroComms
 		if(getVersion ("get_version:", responseExpected_l, false, 2000, true))
 		{
 			LogB.Information("Discover found this 4Platforms device: " + micro.Response);
-			if(micro.Response.Contains(fourPlatformsStr))
+			if (micro.Response.Contains(fourPlatformsStr) || micro.Response.Contains(fourPlatformsOldStr))
 			{
 				micro.Discovered = ChronopicRegisterPort.Types.FOURPLATFORMS;
 				success = true;

@@ -116,6 +116,7 @@ src/gui/confirm.cs
 src/gui/convertWeight.cs
 src/gui/dialogThreshold.cs
 src/gui/discover.cs
+src/gui/discoverCallbacks.cs
 src/gui/edit_event/encoder.cs
 src/gui/edit_event/event.cs
 src/gui/edit_event/jump.cs

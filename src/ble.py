@@ -21,6 +21,7 @@
 
 import asyncio
 from bleak import BleakScanner, BleakClient, BleakGATTCharacteristic
+from importlib.metadata import version #to know version if not using venv/ble
 from argparse import ArgumentParser
 import threading
 
@@ -34,6 +35,7 @@ if args.mode is None:
 if args.value is None:
     args.value = "CJ"
 
+print(f"bleak version: {version('bleak')}", flush = True) #to know version if not using venv/ble
 print(f"args.mode: {args.mode}; args.value: {args.value}", flush = True)
 print(f"press enter to quit\n", flush = True)
 
@@ -68,6 +70,8 @@ deserialization_ways['a2317307-e74a-4efe-b8ae-d615cd3be489'] = 'utf8'
 
 
 def deviceIsInWatchingDevices (deviceName):
+    if deviceName is None:
+         return False
     for wd in watching_devices:
         if deviceName.startswith (wd):
                 return True
@@ -119,7 +123,12 @@ async def scan(stop_event: asyncio.Event):
 
             print(f"\nDevice Scanned: {device} {advertising_data}", flush = True)
 
-            if args.mode == "SCAN" or (args.mode == "CONNECT" and not device.name.startswith (scanDevices)):
+            if args.mode == "SCAN":
+                return
+            # args.mode == "CONNECT"
+            if device.name is None:
+                return
+            if not device.name.startswith (scanDevices):
                 return
 
             #this allows to connect when we called with CONNECT CJ/CP4 and not the specific device

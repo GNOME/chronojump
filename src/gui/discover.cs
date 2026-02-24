@@ -97,7 +97,7 @@ public class DiscoverWindow
 	private string manuallyAssignThisStr = Catalog.GetString ("Assign manually");
 	private string manuallyAssignedStr = Catalog.GetString ("Assigned manually: ");
 
-	public enum Notebook_micro_discover_pages { ASK, USB, ASSIGN } // TODO BLUETOOTH
+	public enum Notebook_micro_discover_pages { ASK_BT_OR_USB, ASK_RACES, USB, BLUETOOTH, USB_ASSIGN_MANUALLY }
 	private Gtk.Button button_manually_assign1;
 	private Gtk.Button button_manually_assign2;
 	ChronopicRegisterPort crpManuallyAssign;
@@ -213,7 +213,11 @@ public class DiscoverWindow
 			label_micro_discover_not_found.Visible = false;
 			setup_grid_micro_discover_l (alreadyDiscovered_l, notDiscovered_l);
 
-			if (operatingSystem == UtilAll.OperatingSystems.WINDOWS &&
+			if (current_mode == Constants.Modes.OTHER) // 4platforms
+			{
+				// do nothing, user will click on BLUETOOTH or USB
+			}
+			else if (operatingSystem == UtilAll.OperatingSystems.WINDOWS &&
 					(current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC))
 			{
 				// do nothing, user will click on WICHRO or Old cabled photocells
@@ -272,6 +276,19 @@ public class DiscoverWindow
 			return;
 
 		microDiscover.RacesDevicesDetect = MicroDiscover.RacesDevices.OLDPHOTOCELLS;
+		discoverStart ();
+	}
+
+	/*
+	public void DetectBluetooth ()
+	{
+	}
+	*/
+	public void DetectUSB ()
+	{
+		if (microDiscover == null)
+			return;
+
 		discoverStart ();
 	}
 
@@ -1026,7 +1043,7 @@ public class DiscoverWindow
 			button_manually_assign1.Label =
 				ChronopicRegisterPort.TypePrint (ChronopicRegisterPort.Types.ENCODER);
 
-		notebook_micro_discover.CurrentPage = Convert.ToInt32 (DiscoverWindow.Notebook_micro_discover_pages.ASSIGN);
+		notebook_micro_discover.CurrentPage = Convert.ToInt32 (DiscoverWindow.Notebook_micro_discover_pages.USB_ASSIGN_MANUALLY);
 	}
 
 	private void on_button_manually_assign1_clicked (object o, EventArgs args)

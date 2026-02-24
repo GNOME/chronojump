@@ -56,6 +56,21 @@ public partial class ChronoJumpWindow
 	Gtk.Label label_button_micro_discover_cancel_close;
 	Gtk.Image image_button_micro_discover_assign_manually_cancel;
 	//Gtk.Image image_micro_discover_mode;
+
+	//bluetooth
+	Gtk.Image image_advanced_bluetooth;
+	Gtk.Entry entry_bluetooth_url;
+	Gtk.Button button_bluetooth_start;
+	Gtk.Button button_bluetooth_end;
+	Gtk.TextView textview_bluetooth;
+	Gtk.RadioButton radio_bluetooth_mode_scan;
+	Gtk.RadioButton radio_bluetooth_mode_scan_connect;
+	Gtk.RadioButton radio_bluetooth_value_all;
+	Gtk.RadioButton radio_bluetooth_value_chronojump;
+	Gtk.RadioButton radio_bluetooth_value_chronopic4;
+	Gtk.RadioButton radio_bluetooth_value_this_device;
+	Gtk.Box box_bluetooth_value_this_device;
+	Gtk.Entry entry_bluetooth_value_this_device;
 	// <---- at glade
 
 	//also manages if networks or not, on networks do not show
@@ -122,7 +137,9 @@ public partial class ChronoJumpWindow
 				operatingSystem == UtilAll.OperatingSystems.WINDOWS &&
 				(current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC)
 				) // TODO: do it also on 4platforms to ask bluetooth
-			notebook_micro_discover.CurrentPage = Convert.ToInt32 (DiscoverWindow.Notebook_micro_discover_pages.ASK);
+			notebook_micro_discover.CurrentPage = Convert.ToInt32 (DiscoverWindow.Notebook_micro_discover_pages.ASK_RACES);
+		else if (current_mode == Constants.Modes.OTHER) // 4platforms
+			notebook_micro_discover.CurrentPage = Convert.ToInt32 (DiscoverWindow.Notebook_micro_discover_pages.ASK_BT_OR_USB);
 		else
 			notebook_micro_discover.CurrentPage = Convert.ToInt32 (DiscoverWindow.Notebook_micro_discover_pages.USB);
 
@@ -162,6 +179,141 @@ public partial class ChronoJumpWindow
 		detect_devices_do ();
 	}
 
+	private void on_button_discover_detect_bluetooth_clicked (object o, EventArgs args)
+	{
+		entry_bluetooth_url.Text = BluetoothLE.GetScriptURL ();
+
+		notebook_micro_discover.CurrentPage = Convert.ToInt32 (DiscoverWindow.Notebook_micro_discover_pages.BLUETOOTH);
+	}
+	private void on_button_discover_detect_usb_clicked (object o, EventArgs args)
+	{
+		notebook_micro_discover.CurrentPage = Convert.ToInt32 (DiscoverWindow.Notebook_micro_discover_pages.USB);
+
+		if (discoverWin != null)
+			discoverWin.DetectWichro ();
+	}
+
+	// ---- bluetooth callbacks ---->
+	// TODO: adaptant tot això a bluetoothCapture.cs
+	// TODO: move most of this to src/discover.cs
+	static Thread discoverBluetoothThread;
+
+	private void on_radio_bluetooth_value_toggled (object o, EventArgs args)
+	{
+		entry_bluetooth_value_this_device.Sensitive = radio_bluetooth_value_this_device.Active;
+	}
+
+	private void on_button_bluetooth_start_clicked (object o, EventArgs args)
+	{
+		/*
+		if(! File.Exists (entry_bluetooth_url.Text))
+		{
+			LogB.Information ("Error. Bluetooth start file not found: " + entry_bluetooth_url.Text);
+			tbBluetooth.Text = Catalog.GetString ("Error. File not found.");
+			textview_bluetooth.Buffer = tbBluetooth;
+			bluetoothSensitiveDoing (false);
+
+			return;
+		}
+		*/
+
+		bluetoothSensitiveDoing (true);
+
+		//bluetoothReading = true;
+		textview_bluetooth.Name = "fontSize9";
+		//tbBluetoothText = "";
+		tbBluetooth.Text = "Starting communication... ";
+		textview_bluetooth.Buffer = tbBluetooth;
+
+		discoverBluetoothThread = new Thread (new ThreadStart (bluetoothDo));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseBluetooth));
+
+		LogB.ThreadStart();
+		discoverBluetoothThread.Start();
+	}
+
+	private void bluetoothSensitiveDoing (bool doing)
+	{
+		entry_bluetooth_url.Sensitive = ! doing;
+		button_bluetooth_start.Sensitive = ! doing;
+		button_bluetooth_end.Sensitive = doing;
+	}
+
+	private void bluetoothDo ()
+	{
+		//Start BluetoothLE service
+		BluetoothLE.SetProcess (entry_bluetooth_url.Text);
+
+		string mode = "SCAN";
+		if (radio_bluetooth_mode_scan_connect.Active)
+			mode = "CONNECT";
+
+		string val = "ALL";
+		if (radio_bluetooth_value_chronojump.Active)
+			val = "CJ";
+		else if (radio_bluetooth_value_chronopic4.Active)
+			val = "CP4";
+		else if (radio_bluetooth_value_this_device.Active && entry_bluetooth_value_this_device.Text != "")
+			val = entry_bluetooth_value_this_device.Text;
+
+		//BluetoothLE.Start (mode, val);
+		bluetoothCapture.Start (entry_bluetooth_url.Text, mode, val);
+	}
+
+	// by GTK thread
+	private bool pulseBluetooth ()
+	{
+		/*
+		if (needToUpdateTextViewBluetooth)
+		{
+			tbBluetooth.Text = tbBluetoothText;
+			textview_bluetooth.Buffer = tbBluetooth;
+			UtilGtk.TextViewScrollToEnd (textview_bluetooth);
+			needToUpdateTextViewBluetooth = false;
+		}
+		*/
+		//if (! bluetoothReading)
+		//	return false;
+		if (bluetoothCapture != null && bluetoothCapture.BluetoothReading &&
+				bluetoothCapture.Bm_l.CanReadFromList ())
+		{
+			tbBluetooth.Text += bluetoothCapture.Bm_l.ReadNext ();
+			textview_bluetooth.Buffer = tbBluetooth;
+			UtilGtk.TextViewScrollToEnd (textview_bluetooth);
+		}
+
+		//LogB.Debug (" \npulseBluetooth:" + discoverBluetoothThread.ThreadState.ToString());
+		Thread.Sleep (50);
+		return true;
+	}
+
+	private void on_button_bluetooth_end_clicked (object o, EventArgs args)
+	{
+		//if (bluetoothReading)
+		//{
+			bluetooth_stop ();
+			bluetoothSensitiveDoing (false);
+		//}
+	}
+
+	private void bluetooth_stop ()
+	{
+		//Stop the BluetoothLE service if it was started
+		BluetoothLE.Stop();
+		//bluetoothReading = false;
+	}
+
+	/*
+	private void bluetooth_textview_update (string str)
+	{
+		tbBluetoothText += str;
+		needToUpdateTextViewBluetooth = true;
+	}
+	*/
+
+	// <---- bluetooth callbacks ----
+
+	// ---- races ---->
 	private void on_button_discover_detect_wichro_clicked (object o, EventArgs args)
 	{
 		if (discoverWin != null)
@@ -186,6 +338,7 @@ public partial class ChronoJumpWindow
 			discoverWin.DetectOldPhotocells ();
 		}
 	}
+	// <---- races ----
 
 	private void on_check_discover_advanced_toggled (object o, EventArgs args)
 	{
@@ -276,5 +429,20 @@ public partial class ChronoJumpWindow
 		label_button_micro_discover_cancel_close = (Gtk.Label) builder.GetObject ("label_button_micro_discover_cancel_close");
 		image_button_micro_discover_assign_manually_cancel = (Gtk.Image) builder.GetObject ("image_button_micro_discover_assign_manually_cancel");
 		//image_micro_discover_mode = (Gtk.Image) builder.GetObject ("image_micro_discover_mode");
+
+		//bluetooth
+		image_advanced_bluetooth = (Gtk.Image) builder.GetObject ("image_advanced_bluetooth");
+		entry_bluetooth_url = (Gtk.Entry) builder.GetObject ("entry_bluetooth_url");
+		button_bluetooth_start = (Gtk.Button) builder.GetObject ("button_bluetooth_start");
+		button_bluetooth_end = (Gtk.Button) builder.GetObject ("button_bluetooth_end");
+		textview_bluetooth = (Gtk.TextView) builder.GetObject ("textview_bluetooth");
+		radio_bluetooth_mode_scan = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_mode_scan");
+		radio_bluetooth_mode_scan_connect = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_mode_scan_connect");
+		radio_bluetooth_value_all = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_value_all");
+		radio_bluetooth_value_chronojump = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_value_chronojump");
+		radio_bluetooth_value_chronopic4 = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_value_chronopic4");
+		radio_bluetooth_value_this_device = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_value_this_device");
+		box_bluetooth_value_this_device = (Gtk.Box) builder.GetObject ("box_bluetooth_value_this_device");
+		entry_bluetooth_value_this_device = (Gtk.Entry) builder.GetObject ("entry_bluetooth_value_this_device");
 	}
 }

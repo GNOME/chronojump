@@ -141,11 +141,12 @@ public partial class ChronoJumpWindow
 	}
 
 	BluetoothCapture bluetoothCapture;
+	// TODO: remove this method (it is implemented on discover)
 	private void on_button_fourPlatforms_bluetooth_connect_clicked (object o, EventArgs args)
 	{
-		bluetoothCapture.Start (entry_fourPlatforms_bluetooth_url.Text);
+		bluetoothCapture.Start (entry_fourPlatforms_bluetooth_url.Text, "CONNECT", "CP4");
 	}
-
+	// TODO: remove this method (it is implemented on discover)
 	private void on_button_fourPlatforms_bluetooth_disconnect_clicked (object o, EventArgs args)
 	{
 		if (bluetoothCapture != null && bluetoothCapture.BluetoothReading)

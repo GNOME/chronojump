@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
+<!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="adjustment1">
@@ -29120,6 +29120,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </object>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -52354,6 +52357,65 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="show-tabs">False</property>
                                                             <property name="show-border">False</property>
                                                             <child>
+                                                            <object class="GtkBox" id="box_micro_discover_bluetooth_or_usb">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="valign">start</property>
+                                                            <property name="margin-bottom">12</property>
+                                                            <property name="spacing">12</property>
+                                                            <child>
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Detect:</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_discover_detect_bluetooth">
+                                                            <property name="label">Bluetooth</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <signal name="clicked" handler="on_button_discover_detect_bluetooth_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_discover_detect_usb">
+                                                            <property name="label">USB</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <signal name="clicked" handler="on_button_discover_detect_usb_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            </child>
+                                                            <child type="tab">
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label">ask Bluetooth or USB</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="tab-fill">False</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
@@ -52412,14 +52474,18 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </packing>
                                                             </child>
                                                             </object>
+                                                            <packing>
+                                                            <property name="position">1</property>
+                                                            </packing>
                                                             </child>
                                                             <child type="tab">
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label">ask</property>
+                                                            <property name="label">ask races</property>
                                                             </object>
                                                             <packing>
+                                                            <property name="position">1</property>
                                                             <property name="tab-fill">False</property>
                                                             </packing>
                                                             </child>
@@ -52624,7 +52690,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             <child type="tab">
@@ -52634,7 +52700,325 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <property name="label">USB</property>
                                                             </object>
                                                             <packing>
+                                                            <property name="position">2</property>
+                                                            <property name="tab-fill">False</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="margin-top">16</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">12</property>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="orientation">vertical</property>
+                                                            <property name="spacing">10</property>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">30</property>
+                                                            <child>
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label">Bluetooth script</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkEntry" id="entry_bluetooth_url">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <!-- n-columns=2 n-rows=2 -->
+                                                            <object class="GtkGrid">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="row-spacing">12</property>
+                                                            <property name="column-spacing">10</property>
+                                                            <child>
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Mode</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label" translatable="yes">Device</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">0</property>
+                                                            <property name="top-attach">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <object class="GtkRadioButton" id="radio_bluetooth_mode_scan">
+                                                            <property name="label">Scan</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkRadioButton" id="radio_bluetooth_mode_scan_connect">
+                                                            <property name="label">Scan &amp; connect</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            <property name="group">radio_bluetooth_mode_scan</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">1</property>
+                                                            <property name="top-attach">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <object class="GtkRadioButton" id="radio_bluetooth_value_all">
+                                                            <property name="label">All</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            <signal name="toggled" handler="on_radio_bluetooth_value_toggled" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkRadioButton" id="radio_bluetooth_value_chronojump">
+                                                            <property name="label">Chronojump</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="tooltip-text" translatable="yes">Any Chronojump device</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            <property name="group">radio_bluetooth_value_all</property>
+                                                            <signal name="toggled" handler="on_radio_bluetooth_value_toggled" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkRadioButton" id="radio_bluetooth_value_chronopic4">
+                                                            <property name="label">Chronopic 4</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="tooltip-text" translatable="yes">Any Chronopic4</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            <property name="group">radio_bluetooth_value_all</property>
+                                                            <signal name="toggled" handler="on_radio_bluetooth_value_toggled" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkBox" id="box_bluetooth_value_this_device">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <object class="GtkRadioButton" id="radio_bluetooth_value_this_device">
+                                                            <property name="label">This device name</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">False</property>
+                                                            <property name="draw-indicator">True</property>
+                                                            <property name="group">radio_bluetooth_value_all</property>
+                                                            <signal name="toggled" handler="on_radio_bluetooth_value_toggled" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkEntry" id="entry_bluetooth_value_this_device">
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can-focus">True</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="left-attach">1</property>
+                                                            <property name="top-attach">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButtonBox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="spacing">25</property>
+                                                            <property name="layout-style">center</property>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_bluetooth_start">
+                                                            <property name="label">Start</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <signal name="clicked" handler="on_button_bluetooth_start_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkButton" id="button_bluetooth_end">
+                                                            <property name="label" translatable="yes">End</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="receives-default">True</property>
+                                                            <signal name="clicked" handler="on_button_bluetooth_end_clicked" swapped="no"/>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <object class="GtkScrolledWindow" id="scrolled_bluetooth">
+                                                            <property name="width-request">200</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="vexpand">True</property>
+                                                            <property name="hscrollbar-policy">never</property>
+                                                            <property name="shadow-type">in</property>
+                                                            <child>
+                                                            <object class="GtkTextView" id="textview_bluetooth">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">True</property>
+                                                            <property name="pixels-below-lines">2</property>
+                                                            <property name="editable">False</property>
+                                                            <property name="left-margin">2</property>
+                                                            <property name="right-margin">2</property>
+                                                            <property name="cursor-visible">False</property>
+                                                            <property name="accepts-tab">False</property>
+                                                            <property name="monospace">True</property>
+                                                            </object>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child type="tab">
+                                                            <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can-focus">False</property>
+                                                            <property name="label">Bluetooth</property>
+                                                            </object>
+                                                            <packing>
+                                                            <property name="position">3</property>
                                                             <property name="tab-fill">False</property>
                                                             </packing>
                                                             </child>
@@ -52807,17 +53191,17 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             </child>
                                                             </object>
                                                             <packing>
-                                                            <property name="position">2</property>
+                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                             <child type="tab">
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="label">Assign manually</property>
+                                                            <property name="label">USB Assign manually</property>
                                                             </object>
                                                             <packing>
-                                                            <property name="position">2</property>
+                                                            <property name="position">4</property>
                                                             <property name="tab-fill">False</property>
                                                             </packing>
                                                             </child>

@@ -64,11 +64,12 @@ public class BluetoothCapture
 		}
 	}
 
-	public bool Start (string scriptURL)
+	public bool Start (string scriptURL, string mode, string val)
 	{
 		bluetoothReading = false;
 
 		/*
+		 * TODO: study why this is always false
 		if(! File.Exists (entry_url.Text))
 		{
 			//tbBluetooth.Text = Catalog.GetString ("Error. File not found.");
@@ -82,7 +83,7 @@ public class BluetoothCapture
 		bm_l = new BluetoothMessageList ();
 
 		bluetoothReading = true;
-		bluetoothDo (scriptURL);
+		bluetoothDo (scriptURL, mode, val);
 
 		return true;
 	}
@@ -93,11 +94,12 @@ public class BluetoothCapture
 			bluetooth_stop ();
 	}
 
-	private void bluetoothDo (string scriptURL)
+	private void bluetoothDo (string scriptURL, string mode, string val)
 	{
 		//Start BluetoothLE service
 		BluetoothLE.SetProcess (scriptURL);
-		BluetoothLE.Start ("CONNECT", "CP4");
+		//BluetoothLE.Start ("CONNECT", "CP4");
+		BluetoothLE.Start (mode, val);
 	}
 
 	private void bluetooth_stop ()

@@ -56,6 +56,7 @@ public class FourPlatformsCapture: ArduinoCapture
 		List<string> responseExpected_l = new List<string>();
 		if(! micro.Opened)
 		{
+			responseExpected_l.Add("Chronopic-4.0");
 			responseExpected_l.Add("4Platforms-");
 
 			if(! portConnect (true))
@@ -69,9 +70,15 @@ public class FourPlatformsCapture: ArduinoCapture
 			LogB.Information ("response: |" + micro.Response + "|");
 			firmwareVersion = micro.Response;
 
-			Match match = Regex.Match (firmwareVersion, @"4Platforms-(\d+\.\d+)");
-			if(match.Groups.Count == 2)
+			//new name
+			Match match = Regex.Match (firmwareVersion, @"Chronopic-4\.(\d+)");
+			if (match.Groups.Count == 2)
 				firmwareVersion = match.Groups[1].ToString();
+			else { //old name
+				match = Regex.Match (firmwareVersion, @"4Platforms-(\d+\.\d+)");
+				if(match.Groups.Count == 2)
+					firmwareVersion = match.Groups[1].ToString();
+			}
 
 			//wait a bit before sending the start_capture:
 			Thread.Sleep (1000);

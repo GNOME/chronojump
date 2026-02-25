@@ -190,10 +190,6 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_encoder_capture_inertial_ecc;
 	Gtk.Image image_encoder_capture_inertial_con;
 
-	//fourPlatforms
-	Gtk.Image image_fourPlatforms_bluetooth;
-	Gtk.Image image_fourPlatforms_bluetooth_status;
-
 	//force sensor
 	//Gtk.Image image_selector_start_force_sensor;
 	Gtk.Image image_force_sensor_adjust_help;
@@ -393,8 +389,8 @@ public partial class ChronoJumpWindow
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "muscle-excentric-concentric.png");
 		image_encoder_eccon_eccentric_concentric.Pixbuf = pixbuf;
 
-
-		image_fourPlatforms_bluetooth.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "bluetooth.png");
+		image_bluetooth.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "bluetooth.png");
+		image_usb.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "usb.png");
 
 		image_forceSensor_capture_standard.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "signal_standard.png");
 		image_forceSensor_capture_absolute.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "signal_absolute.png");
@@ -1302,10 +1298,6 @@ public partial class ChronoJumpWindow
 		image_encoder_analyze_check = (Gtk.Image) builder.GetObject ("image_encoder_analyze_check");
 		image_encoder_capture_inertial_ecc = (Gtk.Image) builder.GetObject ("image_encoder_capture_inertial_ecc");
 		image_encoder_capture_inertial_con = (Gtk.Image) builder.GetObject ("image_encoder_capture_inertial_con");
-
-		//fourPlatforms
-		image_fourPlatforms_bluetooth = (Gtk.Image) builder.GetObject ("image_fourPlatforms_bluetooth");
-		image_fourPlatforms_bluetooth_status = (Gtk.Image) builder.GetObject ("image_fourPlatforms_bluetooth_status");
 
 		//force sensor
 		image_force_sensor_adjust_help = (Gtk.Image) builder.GetObject ("image_force_sensor_adjust_help");

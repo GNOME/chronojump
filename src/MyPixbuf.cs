@@ -525,6 +525,7 @@ namespace Chronojump
 			new ResourceFix ("language-r.png" , "language-r.png"),
 			new ResourceFix ("language-python.png" , "language-python.png"),
 			new ResourceFix ("bluetooth.png" , "bluetooth.png"),
+			new ResourceFix ("usb_24px.png" , "usb.png"),
 			new ResourceFix ("bluetooth_connected.png" , "bluetooth_connected.png"),
 			new ResourceFix ("bluetooth_disabled.png" , "bluetooth_disabled.png"),
 			new ResourceFix ("bluetooth_searching.png" , "bluetooth_searching.png"),

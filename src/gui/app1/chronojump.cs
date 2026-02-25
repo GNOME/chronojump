@@ -860,6 +860,9 @@ public partial class ChronoJumpWindow
 
 		videoCaptureInitialize();
 
+		// note this has to be called at Chronojump start
+		bluetoothCapture = new BluetoothCapture ();
+
 		initializeRestTimeLabels();
 		restTime = new RestTime();
 		updatingRestTimes = true;
@@ -1424,9 +1427,6 @@ public partial class ChronoJumpWindow
 
 		//MathUtil.QuartilesTest ();
 		//Boxplot.Test ();
-
-		// note this has to be called at Chronojump start
-		bluetoothCapture = new BluetoothCapture ();
     }
 
     /// <summary>

@@ -58,7 +58,8 @@ public partial class ChronoJumpWindow
 	//Gtk.Image image_micro_discover_mode;
 
 	//bluetooth
-	Gtk.Image image_advanced_bluetooth;
+	Gtk.Image image_bluetooth;
+	Gtk.Image image_usb;
 	Gtk.Entry entry_bluetooth_url;
 	Gtk.Button button_bluetooth_start;
 	Gtk.Button button_bluetooth_end;
@@ -72,6 +73,8 @@ public partial class ChronoJumpWindow
 	Gtk.Box box_bluetooth_value_this_device;
 	Gtk.Entry entry_bluetooth_value_this_device;
 	// <---- at glade
+
+	BluetoothCapture bluetoothCapture;
 
 	//also manages if networks or not, on networks do not show
 	private void button_detect_show_hide (bool show)
@@ -431,7 +434,8 @@ public partial class ChronoJumpWindow
 		//image_micro_discover_mode = (Gtk.Image) builder.GetObject ("image_micro_discover_mode");
 
 		//bluetooth
-		image_advanced_bluetooth = (Gtk.Image) builder.GetObject ("image_advanced_bluetooth");
+		image_bluetooth = (Gtk.Image) builder.GetObject ("image_bluetooth");
+		image_usb = (Gtk.Image) builder.GetObject ("image_usb");
 		entry_bluetooth_url = (Gtk.Entry) builder.GetObject ("entry_bluetooth_url");
 		button_bluetooth_start = (Gtk.Button) builder.GetObject ("button_bluetooth_start");
 		button_bluetooth_end = (Gtk.Button) builder.GetObject ("button_bluetooth_end");

@@ -44,8 +44,6 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_fourPlatforms_test_cancel;
 
 	//bluetooth
-	Gtk.Entry entry_fourPlatforms_bluetooth_url;
-	Gtk.Button button_fourPlatforms_bluetooth_connect;
 	Gtk.TextView textview_fourPlatforms_bluetooth;
 	// <---- at glade
 
@@ -89,7 +87,6 @@ public partial class ChronoJumpWindow
 		button_four_platforms_capture_low_high.Label =
 			FourPlatformsCaptureManage.CaptureEnumStr (FourPlatformsCaptureManage.CaptureEnum.FROMLOWTOHIGH);
 
-		entry_fourPlatforms_bluetooth_url.Text = BluetoothLE.GetScriptURL ();
 		tbBluetooth.Text = "";
 	}
 
@@ -138,19 +135,6 @@ public partial class ChronoJumpWindow
 
 		cairoGraphFourPlatformsStepsBottom_l = new List<PointF>();
 		cairoGraphFourPlatformsStepsTop_l = new List<PointF>();
-	}
-
-	BluetoothCapture bluetoothCapture;
-	// TODO: remove this method (it is implemented on discover)
-	private void on_button_fourPlatforms_bluetooth_connect_clicked (object o, EventArgs args)
-	{
-		bluetoothCapture.Start (entry_fourPlatforms_bluetooth_url.Text, "CONNECT", "CP4");
-	}
-	// TODO: remove this method (it is implemented on discover)
-	private void on_button_fourPlatforms_bluetooth_disconnect_clicked (object o, EventArgs args)
-	{
-		if (bluetoothCapture != null && bluetoothCapture.BluetoothReading)
-			bluetoothCapture.Stop ();
 	}
 
 	//note this is used by modes: JUMPSSIMPLE and OTHER (FOURPLATFORMS)
@@ -590,8 +574,6 @@ public partial class ChronoJumpWindow
 		button_fourPlatforms_test_cancel = (Gtk.Button) builder.GetObject ("button_fourPlatforms_test_cancel");
 
 		//bluetooth
-		entry_fourPlatforms_bluetooth_url = (Gtk.Entry) builder.GetObject ("entry_fourPlatforms_bluetooth_url");
-		button_fourPlatforms_bluetooth_connect = (Gtk.Button) builder.GetObject ("button_fourPlatforms_bluetooth_connect");
 		textview_fourPlatforms_bluetooth = (Gtk.TextView) builder.GetObject ("textview_fourPlatforms_bluetooth");
 	}
 }

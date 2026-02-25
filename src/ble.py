@@ -117,7 +117,7 @@ async def scan(stop_event: asyncio.Event):
         if device.address not in scanned_devices_dict:
             scanned_devices_dict[device.address] = device
 
-            if not deviceIsInWatchingDevices (device.name) and device.address not in watching_devices:
+            if args.value != "ALL" and not deviceIsInWatchingDevices (device.name) and device.address not in watching_devices:
                 print(f"Device Ignored: {device} {advertising_data}", flush = True)
                 return
 

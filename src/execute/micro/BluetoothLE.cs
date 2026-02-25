@@ -157,6 +157,7 @@ public static class BluetoothLE
     public static event DeviceHandler OnDeviceChanged;
     //private static readonly Regex regexDeviceScanned = new Regex(@"^Device Scanned: (..:..:..:..:..:..:) .*local_name='(.*)', rssi.*$");
     private static readonly Regex regexDeviceScanned = new Regex(@"^Device Scanned: (..:..:..:..:..:..:) .*local_name='(.*)', service_uuids.*rssi.*$");
+    private static readonly Regex regexDeviceScannedWithoutName = new Regex(@"^Device Scanned: (..:..:..:..:..:..:) (.*) AdvertisementData");
     private static readonly Regex regexDeviceConnected = new Regex(@"^Device Connected: (..:..:..:..:..:..:) (.*)$");
     // <---- DeviceEvent ----
 
@@ -351,8 +352,19 @@ public static class BluetoothLE
     {
 	    var match = regexDeviceScanned.Match (str);
 	    if (match.Success)
+	    {
 		    OnDeviceChanged?.Invoke (null, new DeviceEventArgs (
 					    ScannedName, match.Groups[1].Value, match.Groups[2].Value));
+		    return;
+	    }
+
+	    match = regexDeviceScannedWithoutName.Match (str);
+	    if (match.Success)
+	    {
+		    OnDeviceChanged?.Invoke (null, new DeviceEventArgs (
+					    ScannedName, match.Groups[1].Value, match.Groups[2].Value));
+		    return;
+	    }
     }
 
     private static void sendConnected (string str)

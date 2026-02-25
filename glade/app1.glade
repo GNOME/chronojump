@@ -52672,11 +52672,12 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <object class="GtkBox">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
-                                                            <property name="spacing">30</property>
+                                                            <property name="spacing">12</property>
                                                             <child>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">start</property>
                                                             <property name="label">Bluetooth script</property>
                                                             </object>
                                                             <packing>
@@ -52714,6 +52715,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">start</property>
                                                             <property name="label" translatable="yes">Mode</property>
                                                             </object>
                                                             <packing>
@@ -52725,6 +52727,7 @@ Since Chronojump 2.1.3, backups contain the complete data.</property>
                                                             <object class="GtkLabel">
                                                             <property name="visible">True</property>
                                                             <property name="can-focus">False</property>
+                                                            <property name="halign">start</property>
                                                             <property name="label" translatable="yes">Device</property>
                                                             </object>
                                                             <packing>

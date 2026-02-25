@@ -200,11 +200,10 @@ public class DiscoverWindow
 					notDiscovered_l.Add (crp);
 			}
 
-		image_button_micro_discover_cancel_close.Pixbuf =
-			Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
+		Image_cancel_close_isCancel ();
+
 		image_button_micro_discover_assign_manually_cancel.Pixbuf =
 			Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
-		label_button_micro_discover_cancel_close.Text = Catalog.GetString("Cancel");
 
 		if (alreadyDiscovered_l.Count > 0 || notDiscovered_l.Count > 0)
 		{
@@ -228,10 +227,7 @@ public class DiscoverWindow
 
 			label_micro_discover_not_found.Text = Catalog.GetString ("Device not found.");
 			label_micro_discover_not_found.Visible = true;
-
-			image_button_micro_discover_cancel_close.Pixbuf =
-				Chronojump.MyPixbuf.Get (null, Util.GetImagePath (false) + "image_close.png");
-			label_button_micro_discover_cancel_close.Text = Catalog.GetString("Close");
+			Image_cancel_close_isClose ();
 		}
 
 		if (current_mode == Constants.Modes.OTHER)
@@ -290,6 +286,19 @@ public class DiscoverWindow
 			return;
 
 		discoverStart ();
+	}
+
+	public void Image_cancel_close_isCancel ()
+	{
+		image_button_micro_discover_cancel_close.Pixbuf =
+			Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_cancel.png");
+		label_button_micro_discover_cancel_close.Text = Catalog.GetString("Cancel");
+	}
+	public void Image_cancel_close_isClose ()
+	{
+		image_button_micro_discover_cancel_close.Pixbuf =
+			Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
+		label_button_micro_discover_cancel_close.Text = Catalog.GetString("Close");
 	}
 
 	private void setup_grid_micro_discover_l (
@@ -734,9 +743,7 @@ public class DiscoverWindow
 					(c1_progressbar_microNotDiscovered_l[i]).Text = "";
 			}
 
-			image_button_micro_discover_cancel_close.Pixbuf =
-				Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_close.png");
-			label_button_micro_discover_cancel_close.Text = Catalog.GetString("Close");
+			Image_cancel_close_isClose ();
 
 			if (discoverCloseAfterCancel)
 			{

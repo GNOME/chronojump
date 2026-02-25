@@ -28,6 +28,9 @@ using System.Text.RegularExpressions;
 public static class BluetoothLE
 {
     public static string BatteryName = "Battery";
+    public static string ScannedName = "Scanned";
+    public static string ConnectedName = "Connected";
+    public static string ErrorName = "Error";
 
     // ---- DataChanged ---->
     /// <summary>
@@ -349,7 +352,7 @@ public static class BluetoothLE
 	    var match = regexDeviceScanned.Match (str);
 	    if (match.Success)
 		    OnDeviceChanged?.Invoke (null, new DeviceEventArgs (
-					    "Scanned", match.Groups[1].Value, match.Groups[2].Value));
+					    ScannedName, match.Groups[1].Value, match.Groups[2].Value));
     }
 
     private static void sendConnected (string str)
@@ -357,7 +360,7 @@ public static class BluetoothLE
 	    var match = regexDeviceConnected.Match (str);
 	    if (match.Success)
 		    OnDeviceChanged?.Invoke (null, new DeviceEventArgs (
-					    "Connected", match.Groups[1].Value, match.Groups[2].Value));
+					    ConnectedName, match.Groups[1].Value, match.Groups[2].Value));
     }
 
     private static void sendError (string str)
@@ -365,7 +368,7 @@ public static class BluetoothLE
 	    var match = regexError.Match (str);
 	    if (match.Success)
 		    OnError?.Invoke (null, new ErrorEventArgs (
-					    "Error", match.Groups[1].Value));
+					    ErrorName, match.Groups[1].Value));
     }
 
     /// <summary>

@@ -280,7 +280,12 @@ public partial class ChronoJumpWindow
 		if (bluetoothCapture != null && bluetoothCapture.BluetoothReading &&
 				bluetoothCapture.Bm_l.CanReadFromList ())
 		{
-			tbBluetooth.Text += bluetoothCapture.Bm_l.ReadNext ();
+			string currentCommand = bluetoothCapture.Bm_l.ReadNext ();
+			//LogB.Information ("currentCommand: " + currentCommand);
+			if (currentCommand.Contains (BluetoothLE.ConnectedName))
+				discoverWin.Image_cancel_close_isClose ();
+
+			tbBluetooth.Text += currentCommand;
 			textview_bluetooth.Buffer = tbBluetooth;
 			UtilGtk.TextViewScrollToEnd (textview_bluetooth);
 		}

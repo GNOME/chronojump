@@ -33,7 +33,8 @@ String version = "Chronopic-4.0";
 int sensorPin[4] = {1, 2, 9, 8}; //ESP32S3. Hardware V4
 
 // Changing the order of the pins/RGB LEDs
-int sensorMapping[4] = {1, 0, 3, 2}; // Hardware V2
+// int sensorMapping[4] = {1, 0, 3, 2}; // Hardware V2
+int sensorMapping[4] = {1, 3, 2, 0};
 
 volatile bool sensorState[4] = {LOW, LOW, LOW, LOW};
 volatile bool lastSensorState[4] = {LOW, LOW, LOW, LOW};

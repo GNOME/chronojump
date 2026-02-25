@@ -69,7 +69,7 @@ public class BluetoothCapture
 		bluetoothReading = false;
 
 		/*
-		 * TODO: study why this is always false
+		 * This can fail if used a managed file
 		if(! File.Exists (entry_url.Text))
 		{
 			//tbBluetooth.Text = Catalog.GetString ("Error. File not found.");
@@ -172,23 +172,21 @@ public class BluetoothDataList
 
 	public bool CanReadFromList ()
 	{
-		return (list.Count > readedPos);
+		// this produces crashes as an element can be assigned to the list and still be null because creation has not finished
+		//return (list.Count > readedPos);
+
+		// solution
+		int count = list.Count;
+		return (count > readedPos && list[count -1] != null);
 	}
 
 	public BluetoothData ReadNext ()
 	{
-		LogB.Information ("ReadNext A");
-		LogB.Information ("list count: " + list.Count.ToString ());
-		LogB.Information ("readedPost: " + readedPos.ToString ());
-		try {
-			LogB.Information ("ReadNext B");
+		//try {
 			return list[readedPos++];
-			LogB.Information ("ReadNext C");
-		} catch {
-			LogB.Information ("ReadNext D");
-			return new BluetoothData ("-1", "-1");
-		}
-		LogB.Information ("ReadNext E");
+		//} catch {
+		//	return new BluetoothData ("-1", "-1");
+		//}
 	}
 
 	// debug
@@ -260,9 +258,6 @@ public class BluetoothMessageList
 	//public BluetoothMessage ReadNext ()
 	public string ReadNext ()
 	{
-		LogB.Information ("ReadNext A");
-		LogB.Information ("list count: " + list.Count.ToString ());
-		LogB.Information ("readedPost: " + readedPos.ToString ());
 		try {
 			return list[readedPos++];
 		} catch {

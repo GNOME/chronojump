@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -97,14 +97,12 @@ public class PersonAddMultipleWindow
 	
 	Gtk.Image image_csv_headers;
 	Gtk.Image image_csv_noheaders;
-	Gtk.Label label_csv;
-	Gtk.Label label_name;
 
 	Gtk.Image image_name1;
 	Gtk.Image image_name2;
 
-	Gtk.CheckButton check_headers;
-	Gtk.CheckButton check_fullname_1_col;
+	Gtk.RadioButton radio_csv_headers;
+	Gtk.RadioButton radio_csv_fullname_1_col;
 	Gtk.CheckButton check_clubID;
 	Gtk.CheckButton check_person_height;
 	Gtk.CheckButton check_legsLength;
@@ -285,9 +283,6 @@ public class PersonAddMultipleWindow
 		image_name1.Pixbuf = pixbuf;
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + Constants.FileNameCSVName2Icon);
 		image_name2.Pixbuf = pixbuf;
-
-		label_csv.Text = Catalog.GetString("CSV file has headers");
-		label_name.Text = Catalog.GetString("Full name in one column");
 	}
 	
 	void tableHeaderBold ()
@@ -318,61 +313,63 @@ public class PersonAddMultipleWindow
 	void tableLabelsVisibility ()
 	{
 		// 1) fullname vs name surname
-		label_t_fullname.Visible = (check_headers.Active && check_fullname_1_col.Active);
-		label_t_name.Visible = (check_headers.Active && ! check_fullname_1_col.Active);
-		label_t_surname.Visible = (check_headers.Active && ! check_fullname_1_col.Active);
-		label_t_fullname_june.Visible = check_fullname_1_col.Active;
-		label_t_name_june.Visible = ! check_fullname_1_col.Active;
-		label_t_surname_june.Visible = ! check_fullname_1_col.Active;
-		label_t_fullname_johnny.Visible = check_fullname_1_col.Active;
-		label_t_name_johnny.Visible = ! check_fullname_1_col.Active;
-		label_t_surname_johnny.Visible = ! check_fullname_1_col.Active;
+		label_t_fullname.Visible = (radio_csv_headers.Active && radio_csv_fullname_1_col.Active);
+		label_t_name.Visible = (radio_csv_headers.Active && ! radio_csv_fullname_1_col.Active);
+		label_t_surname.Visible = (radio_csv_headers.Active && ! radio_csv_fullname_1_col.Active);
+		label_t_fullname_june.Visible = radio_csv_fullname_1_col.Active;
+		label_t_name_june.Visible = ! radio_csv_fullname_1_col.Active;
+		label_t_surname_june.Visible = ! radio_csv_fullname_1_col.Active;
+		label_t_fullname_johnny.Visible = radio_csv_fullname_1_col.Active;
+		label_t_name_johnny.Visible = ! radio_csv_fullname_1_col.Active;
+		label_t_surname_johnny.Visible = ! radio_csv_fullname_1_col.Active;
 
 		// 2) Genre, Weight row headers
-		label_t_genre.Visible = check_headers.Active;
-		label_t_weight.Visible = check_headers.Active;
+		label_t_genre.Visible = radio_csv_headers.Active;
+		label_t_weight.Visible = radio_csv_headers.Active;
 
 		// 3) clubID
-		label_t_clubID.Visible = (check_headers.Active && check_clubID.Active);
+		label_t_clubID.Visible = (radio_csv_headers.Active && check_clubID.Active);
 		label_t_clubID_june.Visible = check_clubID.Active;
 		label_t_clubID_johnny.Visible = check_clubID.Active;
 
 		// 4) Height
-		label_t_height.Visible = (check_headers.Active && check_person_height.Active);
+		label_t_height.Visible = (radio_csv_headers.Active && check_person_height.Active);
 		label_t_height_june.Visible = check_person_height.Active;
 		label_t_height_johnny.Visible = check_person_height.Active;
 
 		// 5) legsLength
-		label_t_legsLength.Visible = (check_headers.Active && check_legsLength.Active);
+		label_t_legsLength.Visible = (radio_csv_headers.Active && check_legsLength.Active);
 		label_t_legsLength_june.Visible = check_legsLength.Active;
 		label_t_legsLength_johnny.Visible = check_legsLength.Active;
 
 		// 6) hipsHeight
-		label_t_hipsHeight.Visible = (check_headers.Active && check_hipsHeight.Active);
+		label_t_hipsHeight.Visible = (radio_csv_headers.Active && check_hipsHeight.Active);
 		label_t_hipsHeight_june.Visible = check_hipsHeight.Active;
 		label_t_hipsHeight_johnny.Visible = check_hipsHeight.Active;
 
 		// 7) description
-		label_t_description.Visible = (check_headers.Active && check_description.Active);
+		label_t_description.Visible = (radio_csv_headers.Active && check_description.Active);
 		label_t_description_june.Visible = check_description.Active;
 		label_t_description_johnny.Visible = check_description.Active;
 	}
 
-	void on_check_headers_toggled (object obj, EventArgs args)
+	private void on_radio_csv_headers_toggled (object o, EventArgs args)
 	{
-		if(check_headers.Active) {
-			image_csv_headers.Visible = true;
-			image_csv_noheaders.Visible = false;
-			label_csv.Text = Catalog.GetString("CSV file has headers");
-			label_columns_order.Visible = true;
+		label_columns_order.Visible = true;
+		tableLabelsVisibility();
+	}
+	private void on_radio_csv_noheaders_toggled (object o, EventArgs args)
+	{
+		label_columns_order.Visible = false;
+		tableLabelsVisibility();
+	}
 
-		} else {
-			image_csv_headers.Visible = false;
-			image_csv_noheaders.Visible = true;
-			label_csv.Text = Catalog.GetString("CSV file does not have headers");
-			label_columns_order.Visible = false;
-		}
-
+	private void on_radio_csv_fullname_1_col_toggled (object o, EventArgs args)
+	{
+		tableLabelsVisibility();
+	}
+	private void on_radio_csv_fullname_2_col_toggled (object o, EventArgs args)
+	{
 		tableLabelsVisibility();
 	}
 
@@ -391,21 +388,6 @@ public class PersonAddMultipleWindow
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.Text = s1 + "\n\n" + s2;
 		textview.Buffer = tb;
-	}
-
-	void on_check_fullname_1_col_toggled (object obj, EventArgs args)
-	{
-		if(check_fullname_1_col.Active) {
-			image_name1.Visible = true;
-			image_name2.Visible = false;
-			label_name.Text = Catalog.GetString("Full name in one column");
-		} else {
-			image_name1.Visible = false;
-			image_name2.Visible = true;
-			label_name.Text = Catalog.GetString("Full name in two columns");
-		}
-		
-		tableLabelsVisibility();
 	}
 
 	private void on_check_person_other_variables_toggled (object o, EventArgs args)
@@ -460,8 +442,8 @@ public class PersonAddMultipleWindow
 				return;
 			}
 
-			bool headersActive = check_headers.Active;
-			bool fullnameIn1Col = check_fullname_1_col.Active;
+			bool headersActive = radio_csv_headers.Active;
+			bool fullnameIn1Col = radio_csv_fullname_1_col.Active;
 			bool useClubIDCol = check_clubID.Active;
 			bool useHeightCol = check_person_height.Active;
 			bool useLegsLengthCol = check_legsLength.Active;
@@ -611,7 +593,7 @@ public class PersonAddMultipleWindow
 						if (errorsReading)
 						{
 							string message = Catalog.GetString("Error importing data.");
-							if( ! check_headers.Active && row == 0)
+							if( ! radio_csv_headers.Active && row == 0)
 								message += "\n" + Catalog.GetString("Seems there's a header row and you have not marked it.");
 
 							new DialogMessage(Constants.MessageTypes.WARNING, message);
@@ -1340,14 +1322,12 @@ public class PersonAddMultipleWindow
 
 		image_csv_headers = (Gtk.Image) builder.GetObject ("image_csv_headers");
 		image_csv_noheaders = (Gtk.Image) builder.GetObject ("image_csv_noheaders");
-		label_csv = (Gtk.Label) builder.GetObject ("label_csv");
-		label_name = (Gtk.Label) builder.GetObject ("label_name");
 
 		image_name1 = (Gtk.Image) builder.GetObject ("image_name1");
 		image_name2 = (Gtk.Image) builder.GetObject ("image_name2");
 
-		check_headers = (Gtk.CheckButton) builder.GetObject ("check_headers");
-		check_fullname_1_col = (Gtk.CheckButton) builder.GetObject ("check_fullname_1_col");
+		radio_csv_headers = (Gtk.RadioButton) builder.GetObject ("radio_csv_headers");
+		radio_csv_fullname_1_col = (Gtk.RadioButton) builder.GetObject ("radio_csv_fullname_1_col");
 		check_clubID = (Gtk.CheckButton) builder.GetObject ("check_clubID");
 		check_person_height = (Gtk.CheckButton) builder.GetObject ("check_person_height");
 		check_legsLength = (Gtk.CheckButton) builder.GetObject ("check_legsLength");

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.40.0 -->
+<!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="adjustment1">
@@ -73,6 +73,8 @@
                                   <object class="GtkHBox" id="hbox6">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
+                                    <property name="halign">center</property>
+                                    <property name="spacing">40</property>
                                     <property name="homogeneous">True</property>
                                     <child>
                                       <object class="GtkVBox" id="vbox8">
@@ -86,6 +88,7 @@
                                             <property name="sensitive">False</property>
                                             <property name="can-focus">True</property>
                                             <property name="receives-default">False</property>
+                                            <property name="halign">start</property>
                                             <property name="active">True</property>
                                             <property name="draw-indicator">True</property>
                                           </object>
@@ -102,6 +105,7 @@
                                             <property name="sensitive">False</property>
                                             <property name="can-focus">True</property>
                                             <property name="receives-default">False</property>
+                                            <property name="halign">start</property>
                                             <property name="active">True</property>
                                             <property name="draw-indicator">True</property>
                                           </object>
@@ -112,19 +116,36 @@
                                           </packing>
                                         </child>
                                         <child>
+                                          <object class="GtkCheckButton" id="check_clubID">
+                                            <property name="label" translatable="yes">Club ID</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">False</property>
+                                            <property name="halign">start</property>
+                                            <property name="draw-indicator">True</property>
+                                            <signal name="toggled" handler="on_check_person_other_variables_toggled" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">2</property>
+                                          </packing>
+                                        </child>
+                                        <child>
                                           <object class="GtkCheckButton" id="checkbutton3">
                                             <property name="label" translatable="yes">Person's Weight</property>
                                             <property name="visible">True</property>
                                             <property name="sensitive">False</property>
                                             <property name="can-focus">True</property>
                                             <property name="receives-default">False</property>
+                                            <property name="halign">start</property>
                                             <property name="active">True</property>
                                             <property name="draw-indicator">True</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
-                                            <property name="position">2</property>
+                                            <property name="position">3</property>
                                           </packing>
                                         </child>
                                       </object>
@@ -140,26 +161,12 @@
                                         <property name="can-focus">False</property>
                                         <property name="spacing">8</property>
                                         <child>
-                                          <object class="GtkCheckButton" id="check_clubID">
-                                            <property name="label" translatable="yes">Club ID</property>
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">True</property>
-                                            <property name="receives-default">False</property>
-                                            <property name="draw-indicator">True</property>
-                                            <signal name="toggled" handler="on_check_person_other_variables_toggled" swapped="no"/>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
                                           <object class="GtkCheckButton" id="check_person_height">
                                             <property name="label" translatable="yes">Person's height</property>
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
                                             <property name="receives-default">False</property>
+                                            <property name="halign">start</property>
                                             <property name="draw-indicator">True</property>
                                             <signal name="toggled" handler="on_check_person_other_variables_toggled" swapped="no"/>
                                           </object>
@@ -175,6 +182,7 @@
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
                                             <property name="receives-default">False</property>
+                                            <property name="halign">start</property>
                                             <property name="draw-indicator">True</property>
                                             <signal name="toggled" handler="on_check_person_other_variables_toggled" swapped="no"/>
                                           </object>
@@ -190,6 +198,7 @@
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
                                             <property name="receives-default">False</property>
+                                            <property name="halign">start</property>
                                             <property name="draw-indicator">True</property>
                                             <signal name="toggled" handler="on_check_person_other_variables_toggled" swapped="no"/>
                                           </object>
@@ -205,6 +214,7 @@
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
                                             <property name="receives-default">False</property>
+                                            <property name="halign">start</property>
                                             <property name="draw-indicator">True</property>
                                             <signal name="toggled" handler="on_check_person_other_variables_toggled" swapped="no"/>
                                           </object>

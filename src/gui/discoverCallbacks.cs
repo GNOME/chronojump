@@ -64,6 +64,7 @@ public partial class ChronoJumpWindow
 	Gtk.Button button_bluetooth_scan;
 	Gtk.Button button_bluetooth_scan_connect;
 	Gtk.Button button_bluetooth_end;
+	Gtk.ProgressBar progressbar_bluetooth;
 	Gtk.TextView textview_bluetooth;
 	Gtk.RadioButton radio_bluetooth_value_all;
 	Gtk.RadioButton radio_bluetooth_value_chronojump;
@@ -214,6 +215,8 @@ public partial class ChronoJumpWindow
 		bluetooth_start (true);
 	}
 
+	private bool bluetoothReading;
+	private bool bluetoothConnected; //just for the pulsebar. In the future implement better.
 	private void bluetooth_start (bool connect)
 	{
 		/*
@@ -230,7 +233,9 @@ public partial class ChronoJumpWindow
 
 		bluetoothSensitiveDoing (true);
 
-		//bluetoothReading = true;
+		bluetoothReading = true;
+		bluetoothConnected = false;
+		progressbar_bluetooth.Fraction = 0;
 		textview_bluetooth.Name = "fontSize9";
 		//tbBluetoothText = "";
 		tbBluetooth.Text = "Starting communication... ";
@@ -285,20 +290,31 @@ public partial class ChronoJumpWindow
 			needToUpdateTextViewBluetooth = false;
 		}
 		*/
-		//if (! bluetoothReading)
-		//	return false;
 		if (bluetoothCapture != null && bluetoothCapture.BluetoothReading &&
 				bluetoothCapture.Bm_l.CanReadFromList ())
 		{
 			string currentCommand = bluetoothCapture.Bm_l.ReadNext ();
 			//LogB.Information ("currentCommand: " + currentCommand);
 			if (currentCommand.Contains (BluetoothLE.ConnectedName))
+			{
 				discoverWin.Image_cancel_close_isClose ();
+				bluetoothConnected = true;
+				progressbar_bluetooth.Fraction = 1.0;
+			}
 
 			tbBluetooth.Text += currentCommand;
 			textview_bluetooth.Buffer = tbBluetooth;
 			UtilGtk.TextViewScrollToEnd (textview_bluetooth);
 		}
+
+		if (! bluetoothReading)
+		{
+			progressbar_bluetooth.Fraction = 1.0;
+			return false;
+		}
+
+		if (! bluetoothConnected)
+			progressbar_bluetooth.Pulse ();
 
 		//LogB.Debug (" \npulseBluetooth:" + discoverBluetoothThread.ThreadState.ToString());
 		Thread.Sleep (50);
@@ -318,7 +334,7 @@ public partial class ChronoJumpWindow
 	{
 		//Stop the BluetoothLE service if it was started
 		BluetoothLE.Stop();
-		//bluetoothReading = false;
+		bluetoothReading = false;
 	}
 
 	/*
@@ -455,6 +471,7 @@ public partial class ChronoJumpWindow
 		button_bluetooth_scan = (Gtk.Button) builder.GetObject ("button_bluetooth_scan");
 		button_bluetooth_scan_connect = (Gtk.Button) builder.GetObject ("button_bluetooth_scan_connect");
 		button_bluetooth_end = (Gtk.Button) builder.GetObject ("button_bluetooth_end");
+		progressbar_bluetooth = (Gtk.ProgressBar) builder.GetObject ("progressbar_bluetooth");
 		textview_bluetooth = (Gtk.TextView) builder.GetObject ("textview_bluetooth");
 		radio_bluetooth_value_all = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_value_all");
 		radio_bluetooth_value_chronojump = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_value_chronojump");

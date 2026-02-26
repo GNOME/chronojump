@@ -61,11 +61,10 @@ public partial class ChronoJumpWindow
 	Gtk.Image image_bluetooth;
 	Gtk.Image image_usb;
 	Gtk.Entry entry_bluetooth_url;
-	Gtk.Button button_bluetooth_start;
+	Gtk.Button button_bluetooth_scan;
+	Gtk.Button button_bluetooth_scan_connect;
 	Gtk.Button button_bluetooth_end;
 	Gtk.TextView textview_bluetooth;
-	Gtk.RadioButton radio_bluetooth_mode_scan;
-	Gtk.RadioButton radio_bluetooth_mode_scan_connect;
 	Gtk.RadioButton radio_bluetooth_value_all;
 	Gtk.RadioButton radio_bluetooth_value_chronojump;
 	Gtk.RadioButton radio_bluetooth_value_chronopic4;
@@ -206,7 +205,16 @@ public partial class ChronoJumpWindow
 		entry_bluetooth_value_this_device.Sensitive = radio_bluetooth_value_this_device.Active;
 	}
 
-	private void on_button_bluetooth_start_clicked (object o, EventArgs args)
+	private void on_button_bluetooth_scan_clicked (object o, EventArgs args)
+	{
+		bluetooth_start (false);
+	}
+	private void on_button_bluetooth_scan_connect_clicked (object o, EventArgs args)
+	{
+		bluetooth_start (true);
+	}
+
+	private void bluetooth_start (bool connect)
 	{
 		/*
 		if(! File.Exists (entry_bluetooth_url.Text))
@@ -228,7 +236,8 @@ public partial class ChronoJumpWindow
 		tbBluetooth.Text = "Starting communication... ";
 		textview_bluetooth.Buffer = tbBluetooth;
 
-		discoverBluetoothThread = new Thread (new ThreadStart (bluetoothDo));
+		//discoverBluetoothThread = new Thread (new ThreadStart (bluetoothDo));
+		discoverBluetoothThread = new Thread (new ThreadStart (() => bluetoothDo (connect)));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseBluetooth));
 
 		LogB.ThreadStart();
@@ -238,17 +247,18 @@ public partial class ChronoJumpWindow
 	private void bluetoothSensitiveDoing (bool doing)
 	{
 		entry_bluetooth_url.Sensitive = ! doing;
-		button_bluetooth_start.Sensitive = ! doing;
+		button_bluetooth_scan.Sensitive = ! doing;
+		button_bluetooth_scan_connect.Sensitive = ! doing;
 		button_bluetooth_end.Sensitive = doing;
 	}
 
-	private void bluetoothDo ()
+	private void bluetoothDo (bool connect)
 	{
 		//Start BluetoothLE service
 		BluetoothLE.SetProcess (entry_bluetooth_url.Text);
 
 		string mode = "SCAN";
-		if (radio_bluetooth_mode_scan_connect.Active)
+		if (connect)
 			mode = "CONNECT";
 
 		string val = "ALL";
@@ -442,11 +452,10 @@ public partial class ChronoJumpWindow
 		image_bluetooth = (Gtk.Image) builder.GetObject ("image_bluetooth");
 		image_usb = (Gtk.Image) builder.GetObject ("image_usb");
 		entry_bluetooth_url = (Gtk.Entry) builder.GetObject ("entry_bluetooth_url");
-		button_bluetooth_start = (Gtk.Button) builder.GetObject ("button_bluetooth_start");
+		button_bluetooth_scan = (Gtk.Button) builder.GetObject ("button_bluetooth_scan");
+		button_bluetooth_scan_connect = (Gtk.Button) builder.GetObject ("button_bluetooth_scan_connect");
 		button_bluetooth_end = (Gtk.Button) builder.GetObject ("button_bluetooth_end");
 		textview_bluetooth = (Gtk.TextView) builder.GetObject ("textview_bluetooth");
-		radio_bluetooth_mode_scan = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_mode_scan");
-		radio_bluetooth_mode_scan_connect = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_mode_scan_connect");
 		radio_bluetooth_value_all = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_value_all");
 		radio_bluetooth_value_chronojump = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_value_chronojump");
 		radio_bluetooth_value_chronopic4 = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_value_chronopic4");

@@ -67,6 +67,7 @@ public class PreferencesWindow
 	Gtk.CheckButton check_appearance_maximized;
 	Gtk.CheckButton check_appearance_maximized_undecorated;
 	Gtk.CheckButton check_appearance_person_win_hide;
+	Gtk.CheckButton check_appearance_person_win_shrink;
 	Gtk.CheckButton check_appearance_person_clubID;
 	Gtk.CheckButton check_appearance_person_photo;
 	Gtk.RadioButton radio_font_size_default;
@@ -546,6 +547,9 @@ public class PreferencesWindow
 			PWBox.check_appearance_person_win_hide.Active = true;
 		else
 			PWBox.check_appearance_person_win_hide.Active = false;
+
+		PWBox.check_appearance_person_win_shrink.Visible = ! preferences.personWinHide;
+		PWBox.check_appearance_person_win_shrink.Active = preferences.personWinShrink;
 
 		PWBox.check_appearance_person_photo.Sensitive = ! preferences.personWinHide;
 
@@ -1378,6 +1382,7 @@ public class PreferencesWindow
 	{
 		// A) changes on preferences gui
 		check_appearance_person_photo.Sensitive = ! check_appearance_person_win_hide.Active;
+		check_appearance_person_win_shrink.Visible = ! check_appearance_person_win_hide.Active;
 
 		// B) changes on preferences object and SqlitePreferences
 		if( preferences.personWinHide != PWBox.check_appearance_person_win_hide.Active ) {
@@ -1385,6 +1390,16 @@ public class PreferencesWindow
 			preferences.personWinHide = PWBox.check_appearance_person_win_hide.Active;
 			FakeButtonPersonWin.Click ();
 		}
+	}
+
+	private void on_check_appearance_person_win_shrink_toggled (object obj, EventArgs args)
+	{
+		// A) changes on preferences gui
+
+		// B) changes on preferences object and SqlitePreferences
+		preferences.personWinShrink = PWBox.check_appearance_person_win_shrink.Active;
+		FakeButtonPersonWin.Click ();
+		//TODO: SQL
 	}
 
 	private void on_check_appearance_person_clubID_toggled (object obj, EventArgs args)
@@ -4236,6 +4251,7 @@ public class PreferencesWindow
 		check_appearance_maximized = (Gtk.CheckButton) builder.GetObject ("check_appearance_maximized");
 		check_appearance_maximized_undecorated = (Gtk.CheckButton) builder.GetObject ("check_appearance_maximized_undecorated");
 		check_appearance_person_win_hide = (Gtk.CheckButton) builder.GetObject ("check_appearance_person_win_hide");
+		check_appearance_person_win_shrink = (Gtk.CheckButton) builder.GetObject ("check_appearance_person_win_shrink");
 		check_appearance_person_clubID = (Gtk.CheckButton) builder.GetObject ("check_appearance_person_clubID");
 		check_appearance_person_photo = (Gtk.CheckButton) builder.GetObject ("check_appearance_person_photo");
 		radio_font_size_custom = (Gtk.RadioButton) builder.GetObject ("radio_font_size_custom");

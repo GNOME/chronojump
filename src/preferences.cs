@@ -34,6 +34,7 @@ public class Preferences
 	public enum MaximizedTypes { NO, YES, YESUNDECORATED};
 	public MaximizedTypes maximized;
 	public bool personWinHide;
+	public bool personWinShrink;
 	public bool personClubID; //show Club ID
 	public bool personPhoto;
 	//public string colorBackgroundString = "#0e1e46";

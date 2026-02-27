@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -58,6 +58,7 @@ public class Config
 	public EncoderCaptureDisplay EncoderCaptureShowOnlyBars;
 	public bool EncoderUpdateTreeViewWhileCapturing = true; //user can change the 3 show checkboxes, so have it true to be updated
 	public bool PersonWinHide;
+	public bool PersonWinShrink;
 	public string RunScriptOnExit;
 
 	//remember to change the fill method if this list grows

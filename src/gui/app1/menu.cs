@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2018-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 //this file has methods of ChronoJumpWindow related to manage menu
@@ -155,7 +155,7 @@ public partial class ChronoJumpWindow
 		if (compacted)
 		{
 			//LogB.Information ("KKA: " + box_align_with_db_and_session.SizeRequest().Width.ToString ());
-			person_search.WidthChars = 12;
+			person_search.WidthChars = 15;
 			box_person_plus_minus.Orientation = Orientation.Vertical;
 			button_persons_up.Name = "button_small";
 			button_persons_down.Name = "button_small";
@@ -168,7 +168,6 @@ public partial class ChronoJumpWindow
 			button_persons_down.Name = "";
 			//LogB.Information ("KKD: " + box_align_with_db_and_session.SizeRequest().Width.ToString ());
 		}
-		UtilGtk.ApplyCSS (preferences.fontSizeAtGui);
 	}
 
 	private void menuInitialize ()

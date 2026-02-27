@@ -845,6 +845,7 @@ public partial class ChronoJumpWindow
 		LogB.Information ("at configInitFromPreferences, configChronojump null? " + (configChronojump == null).ToString ());
 		configChronojump.Maximized = preferences.maximized;
 		configChronojump.PersonWinHide = preferences.personWinHide;
+		configChronojump.PersonWinShrink = preferences.personWinShrink;
 		configChronojump.EncoderCaptureShowOnlyBars = preferences.encoderCaptureShowOnlyBars;
 
 		configDo();
@@ -905,7 +906,8 @@ public partial class ChronoJumpWindow
 
 		encoderUpdateTreeViewWhileCapturing = configChronojump.EncoderUpdateTreeViewWhileCapturing;
 
-		showPersonsOnTop(configChronojump.PersonWinHide);
+		showPersonsOnTop (configChronojump.PersonWinHide);
+		person_search_compacted (configChronojump.PersonWinShrink);
 		showPersonPhoto(preferences.personPhoto);
 
 		if(currentSession == null && //this is going to be called one time because currentSession will change

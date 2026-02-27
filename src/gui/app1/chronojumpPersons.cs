@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2018-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 //this file has methods of ChronoJumpWindow related to manage persons
@@ -92,12 +92,10 @@ public partial class ChronoJumpWindow
 	}
 
 	private void on_treeview_persons_up (object o, EventArgs args) {
-		//person_search_compacted (true); //TODO: remove
 		myTreeViewPersons.SelectPreviousRow(currentPerson.UniqueID);
 	}
 	
 	private void on_treeview_persons_down (object o, EventArgs args) {
-		//person_search_compacted (false); //TODO: remove
 		myTreeViewPersons.SelectNextRow(currentPerson.UniqueID);
 	}
 

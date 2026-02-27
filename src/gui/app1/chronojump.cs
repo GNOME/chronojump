@@ -862,6 +862,8 @@ public partial class ChronoJumpWindow
 
 		// note this has to be called at Chronojump start
 		bluetoothCapture = new BluetoothCapture ();
+		// default radio is Chronopic4
+		radio_bluetooth_value_chronopic4.Active = true;
 
 		initializeRestTimeLabels();
 		restTime = new RestTime();

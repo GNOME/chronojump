@@ -154,19 +154,20 @@ public partial class ChronoJumpWindow
 	{
 		if (compacted)
 		{
-			//LogB.Information ("KKA: " + box_align_with_db_and_session.SizeRequest().Width.ToString ());
-			person_search.WidthChars = 15;
-			box_person_plus_minus.Orientation = Orientation.Vertical;
 			button_persons_up.Name = "button_small";
 			button_persons_down.Name = "button_small";
-			//LogB.Information ("KKAB: " + box_align_with_db_and_session.SizeRequest().Width.ToString ());
+			box_person_plus_minus.Orientation = Orientation.Vertical;
+
+			int minWidth = 3*UtilGtk.WidgetGetMinSize (button_menu_exit) + 2*4 + 2+2; //3 buttons, 2 spaces of 4 px, 2+2 margins left/right
+			int searchWChars = person_search.WidthChars;
+			int searchWidh = UtilGtk.WidgetGetMinSize (person_search);
+			//LogB.Information (string.Format ("desired width chars:  {0} {1} {2}", minWidth, searchWChars, searchWidh));
+			person_search.WidthChars = searchWChars * minWidth / searchWidh;
 		} else {
-			//LogB.Information ("KKC: " + box_align_with_db_and_session.SizeRequest().Width.ToString ());
-			person_search.WidthChars = -1;
+			person_search.WidthChars = 20;
 			box_person_plus_minus.Orientation = Orientation.Horizontal;
 			button_persons_up.Name = "";
 			button_persons_down.Name = "";
-			//LogB.Information ("KKD: " + box_align_with_db_and_session.SizeRequest().Width.ToString ());
 		}
 	}
 

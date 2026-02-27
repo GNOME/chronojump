@@ -1400,6 +1400,19 @@ public class UtilGtk
 	}
 	*/
 	
+	// gtk3
+	// this replaces deprecated SizeRequest()
+	public static int WidgetGetMinSize (Gtk.Widget w)
+	{
+		w.GetPreferredSize (out Gtk.Requisition minSize, out Gtk.Requisition natSize);
+		return minSize.Width;
+	}
+	public static int WidgetGetNativeSize (Gtk.Widget w)
+	{
+		w.GetPreferredSize (out Gtk.Requisition minSize, out Gtk.Requisition natSize);
+		return natSize.Width;
+	}
+
 	public static int WidgetWidth(Gtk.Widget w) {
 		return w.Allocation.Width;
 	}

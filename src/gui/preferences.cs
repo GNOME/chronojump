@@ -317,21 +317,6 @@ public class PreferencesWindow
 	Gtk.Entry entry_silicon_cloud_view_path;
 	Gtk.Label label_silicon_cloud_path_does_not_exists;
 
-	// bluetooth
-	Gtk.Image image_advanced_bluetooth;
-	Gtk.Entry entry_bluetooth_url;
-	Gtk.Button button_bluetooth_start;
-	Gtk.Button button_bluetooth_end;
-	Gtk.TextView textview_bluetooth;
-	Gtk.RadioButton radio_bluetooth_mode_scan;
-	Gtk.RadioButton radio_bluetooth_mode_scan_connect;
-	Gtk.RadioButton radio_bluetooth_value_all;
-	Gtk.RadioButton radio_bluetooth_value_chronojump;
-	Gtk.RadioButton radio_bluetooth_value_chronopic4;
-	Gtk.RadioButton radio_bluetooth_value_this_device;
-	Gtk.Box box_bluetooth_value_this_device;
-	Gtk.Entry entry_bluetooth_value_this_device;
-
 	Gtk.Button button_debug_mode;
 
 	Gtk.Entry entry_send_log;
@@ -421,8 +406,6 @@ public class PreferencesWindow
 	static private WebcamDeviceList wd_list;
 	private WebcamFfmpegSupportedModes wfsm;
 
-	private static bool bluetoothHandlersAssigned; // to not have double feedback at 2nd preferences open
-
 	PreferencesWindow ()
 	{
 		/*
@@ -448,17 +431,6 @@ public class PreferencesWindow
 		FakeButtonColorsChanged = new Gtk.Button ();
 		FakeButtonDebugModeStart = new Gtk.Button();
 		FakeButtonDeleteDevices = new Gtk.Button ();
-
-		if (! bluetoothHandlersAssigned)
-		{
-			BluetoothLE.OnInstalling += BluetoothLE_OnInstalling;
-			BluetoothLE.OnBleakVersion += BluetoothLE_OnBleakVersion;
-			BluetoothLE.OnScanning += BluetoothLE_OnScanning;
-			BluetoothLE.OnDataChanged += BluetoothLE_OnDataChanged;
-			BluetoothLE.OnDeviceChanged += BluetoothLE_OnDeviceChanged;
-			BluetoothLE.OnError += BluetoothLE_OnError;
-			bluetoothHandlersAssigned = true;
-		}
 	}
 
 	static public PreferencesWindow Show (
@@ -1040,12 +1012,6 @@ public class PreferencesWindow
 		PWBox.image_button_send_log.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "send_blue.png");
 		PWBox.image_advanced_r.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "language-r.png");
 		PWBox.image_advanced_python.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "language-python.png");
-		PWBox.image_advanced_bluetooth.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "bluetooth.png");
-
-		PWBox.entry_bluetooth_url.Text = BluetoothLE.GetScriptURL ();
-		PWBox.entry_bluetooth_url.Sensitive = true;
-		PWBox.button_bluetooth_start.Sensitive = true;
-		PWBox.button_bluetooth_end.Sensitive = false;
 
 		PWBox.signalsNoFollow = true;
 		if (PWBox.configAtPrefs.CopyToCloudFullPath !=  "")
@@ -3744,9 +3710,6 @@ public class PreferencesWindow
 		}
 		*/
 
-		if (bluetoothReading)
-			bluetooth_stop ();
-
 		PWBox.preferences_win.Hide();
 		PWBox = null;
 	}
@@ -4034,156 +3997,6 @@ public class PreferencesWindow
 		label_advanced_feedback.Text = Catalog.GetString ("Deleted stored devices.");
 		FakeButtonDeleteDevices.Click ();
 	}
-
-
-	/* ---------------------
-	 * bluetooth start ---->
-	 * -------------------*/
-
-	private void on_radio_bluetooth_value_toggled (object o, EventArgs args)
-	{
-		entry_bluetooth_value_this_device.Sensitive = radio_bluetooth_value_this_device.Active;
-	}
-
-	private bool bluetoothReading = false;
-	//use the string to not have crash by manipulating the TextBuffer outside the pulse thread
-	static string tbBluetoothText = "";
-	static bool needToUpdateTextViewBluetooth;
-	TextBuffer tbBluetooth = new TextBuffer (new TextTagTable());
-	static Thread threadBluetooth;
-
-	private void on_button_bluetooth_start_clicked (object o, EventArgs args)
-	{
-		//TODO:
-		/*
-		Bluetooth bl = new Bluetooth ();
-		bl.TestInit ();
-		*/
-
-		if(! File.Exists (entry_bluetooth_url.Text))
-		{
-			LogB.Information ("Error. Bluetooth start file not found: " + entry_bluetooth_url.Text);
-			tbBluetooth.Text = Catalog.GetString ("Error. File not found.");
-			textview_bluetooth.Buffer = tbBluetooth;
-			bluetoothSensitiveDoing (false);
-
-			return;
-		}
-
-		bluetoothSensitiveDoing (true);
-
-		bluetoothReading = true;
-		textview_bluetooth.Name = "fontSize9";
-		tbBluetoothText = "";
-		bluetooth_textview_update ("Starting communication... ");
-
-		threadBluetooth = new Thread (new ThreadStart (bluetoothDo));
-		GLib.Idle.Add (new GLib.IdleHandler (pulseBluetooth));
-
-		LogB.ThreadStart();
-		threadBluetooth.Start();
-	}
-
-	private void bluetoothSensitiveDoing (bool doing)
-	{
-		entry_bluetooth_url.Sensitive = ! doing;
-		button_bluetooth_start.Sensitive = ! doing;
-		button_bluetooth_end.Sensitive = doing;
-	}
-
-	private void bluetoothDo ()
-	{
-		//Start BluetoothLE service
-		BluetoothLE.SetProcess (entry_bluetooth_url.Text);
-
-		string mode = "SCAN";
-		if (radio_bluetooth_mode_scan_connect.Active)
-			mode = "CONNECT";
-
-		string val = "ALL";
-		if (radio_bluetooth_value_chronojump.Active)
-			val = "CJ";
-		else if (radio_bluetooth_value_chronopic4.Active)
-			val = "CP4";
-		else if (radio_bluetooth_value_this_device.Active && entry_bluetooth_value_this_device.Text != "")
-			val = entry_bluetooth_value_this_device.Text;
-
-		BluetoothLE.Start (mode, val);
-	}
-
-	// by GTK thread
-	private bool pulseBluetooth ()
-	{
-		if (needToUpdateTextViewBluetooth)
-		{
-			tbBluetooth.Text = tbBluetoothText;
-			textview_bluetooth.Buffer = tbBluetooth;
-			UtilGtk.TextViewScrollToEnd (textview_bluetooth);
-			needToUpdateTextViewBluetooth = false;
-		}
-		if (! bluetoothReading)
-			return false;
-
-		//LogB.Debug (" \npulseBluetooth:" + threadBluetooth.ThreadState.ToString());
-		Thread.Sleep (50);
-		return true;
-	}
-
-	private void on_button_bluetooth_end_clicked (object o, EventArgs args)
-	{
-		if (bluetoothReading)
-		{
-			bluetooth_stop ();
-			bluetoothSensitiveDoing (false);
-		}
-	}
-
-	private void bluetooth_stop ()
-	{
-		//Stop the BluetoothLE service if it was started
-		BluetoothLE.Stop();
-		bluetoothReading = false;
-	}
-
-	private void bluetooth_textview_update (string str)
-	{
-		tbBluetoothText += str;
-		needToUpdateTextViewBluetooth = true;
-	}
-
-	/// <summary>
-	/// Handles the event triggered when the Bluetooth LE data changes.
-	/// check above: bluetoothHandlersAssigned
-	/// </summary>
-	private void BluetoothLE_OnInstalling(object sender, BluetoothLE.InstallingEventArgs e)
-	{
-		bluetooth_textview_update ($"\nInstalling: {e.Value}");
-	}
-	private void BluetoothLE_OnBleakVersion(object sender, BluetoothLE.BleakVersionEventArgs e)
-	{
-		bluetooth_textview_update ($"\nBleak version: {e.Value}");
-	}
-	private void BluetoothLE_OnScanning(object sender)
-	{
-		bluetooth_textview_update ($"\nStart scanning ...");
-	}
-	private void BluetoothLE_OnDataChanged(object sender, BluetoothLE.DataChangedEventArgs e)
-	{
-		//bluetooth_textview_update ($"\n{e.CharacteristicUUID} {e.CharacteristicName} {e.Value}");
-		bluetooth_textview_update ($"\n{e.CharacteristicName} {e.Value}");
-	}
-	private void BluetoothLE_OnDeviceChanged(object sender, BluetoothLE.DeviceEventArgs e)
-	{
-		bluetooth_textview_update ($"\n{e.Action} {e.Ip} {e.Value}");
-	}
-	private void BluetoothLE_OnError(object sender, BluetoothLE.ErrorEventArgs e)
-	{
-		bluetooth_textview_update ($"\n{e.Action} {e.Value}");
-	}
-	
-	/* ---------------------
-	 * <---- bluetooth end 
-	 * -------------------*/
 
 
 	private void on_entry_database_name_changed (object o, EventArgs args)
@@ -4497,20 +4310,6 @@ public class PreferencesWindow
 		entry_silicon_cloud_capture_path = (Gtk.Entry) builder.GetObject ("entry_silicon_cloud_capture_path");
 		entry_silicon_cloud_view_path = (Gtk.Entry) builder.GetObject ("entry_silicon_cloud_view_path");
 		label_silicon_cloud_path_does_not_exists = (Gtk.Label) builder.GetObject ("label_silicon_cloud_path_does_not_exists");
-
-		image_advanced_bluetooth = (Gtk.Image) builder.GetObject ("image_advanced_bluetooth");
-		entry_bluetooth_url = (Gtk.Entry) builder.GetObject ("entry_bluetooth_url");
-		button_bluetooth_start = (Gtk.Button) builder.GetObject ("button_bluetooth_start");
-		button_bluetooth_end = (Gtk.Button) builder.GetObject ("button_bluetooth_end");
-		textview_bluetooth = (Gtk.TextView) builder.GetObject ("textview_bluetooth");
-		radio_bluetooth_mode_scan = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_mode_scan");
-		radio_bluetooth_mode_scan_connect = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_mode_scan_connect");
-		radio_bluetooth_value_all = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_value_all");
-		radio_bluetooth_value_chronojump = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_value_chronojump");
-		radio_bluetooth_value_chronopic4 = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_value_chronopic4");
-		radio_bluetooth_value_this_device = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_value_this_device");
-		box_bluetooth_value_this_device = (Gtk.Box) builder.GetObject ("box_bluetooth_value_this_device");
-		entry_bluetooth_value_this_device = (Gtk.Entry) builder.GetObject ("entry_bluetooth_value_this_device");
 
 		button_debug_mode = (Gtk.Button) builder.GetObject ("button_debug_mode");
 

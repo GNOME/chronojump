@@ -1141,6 +1141,13 @@ public class Constants
 		return (mode == Modes.FORCESENSORISOMETRIC || mode == Modes.FORCESENSORELASTIC);
 	}
 
+	public static bool ModeCanHaveBluetooth (Modes mode)
+	{
+		return (mode == Constants.Modes.JUMPSSIMPLE ||
+				mode == Constants.Modes.JUMPSREACTIVE ||
+				mode == Constants.Modes.OTHER); // 4platforms
+	}
+
 	public static string ModeFolder (Constants.Modes mode)
 	{
 		if(mode == Constants.Modes.RUNSENCODER)

@@ -212,7 +212,7 @@ public class DiscoverWindow
 			label_micro_discover_not_found.Visible = false;
 			setup_grid_micro_discover_l (alreadyDiscovered_l, notDiscovered_l);
 
-			if (current_mode == Constants.Modes.OTHER) // 4platforms
+			if (Constants.ModeCanHaveBluetooth (current_mode))
 			{
 				// do nothing, user will click on BLUETOOTH or USB
 			}

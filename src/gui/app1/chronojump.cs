@@ -4510,9 +4510,7 @@ public partial class ChronoJumpWindow
 			blinkCapture.End ();
 
 		if (cp2016.StoredWireless && currentEventExecute != null && currentEventExecute.ChronopicDisconnected)
-		{
 			button_detect_show_hide (true);
-		}
 
 		ChronopicRegisterPort crp = chronopicRegister.GetSelectedForMode (current_mode);
 

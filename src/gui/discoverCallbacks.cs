@@ -139,9 +139,9 @@ public partial class ChronoJumpWindow
 		if (
 				operatingSystem == UtilAll.OperatingSystems.WINDOWS &&
 				(current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC)
-				) // TODO: do it also on 4platforms to ask bluetooth
+				)
 			notebook_micro_discover.CurrentPage = Convert.ToInt32 (DiscoverWindow.Notebook_micro_discover_pages.ASK_RACES);
-		else if (current_mode == Constants.Modes.OTHER) // 4platforms
+		else if (Constants.ModeCanHaveBluetooth (current_mode))
 			notebook_micro_discover.CurrentPage = Convert.ToInt32 (DiscoverWindow.Notebook_micro_discover_pages.ASK_BT_OR_USB);
 		else
 			notebook_micro_discover.CurrentPage = Convert.ToInt32 (DiscoverWindow.Notebook_micro_discover_pages.USB);
@@ -391,7 +391,8 @@ public partial class ChronoJumpWindow
 		if (discoverWin != null)
 		{
 			discoverWin.CancelCloseFromUser ();
-			button_detect_show_hide (true); //as closed without use this, then show the big button again
+			if (! bluetoothConnected)
+				button_detect_show_hide (true); //as closed without use this, then show the big button again
 		}
 	}
 
@@ -400,7 +401,7 @@ public partial class ChronoJumpWindow
 		chronopicRegister = discoverWin.ChronopicRegisterGet;
 
 		//if(discoverWin.PortSelected != "")
-		if(discoverWin.PortSelected.Port != "")
+		if (bluetoothConnected || discoverWin.PortSelected.Port != "")
 		{
 			chronopicRegister.SetSelectedForMode (discoverWin.PortSelected, current_mode);
 			button_detect_show_hide (false);

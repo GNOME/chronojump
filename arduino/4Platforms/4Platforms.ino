@@ -132,7 +132,8 @@ void setup() {
   // //Configuring the timer for debouncing
   configDebounceTimers(debounceTime);
   Serial.flush();
-  // updateBatteryLevel();
+  updateBatteryLevel();
+  updateChargeState();
 }
 
 void loop() {

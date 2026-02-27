@@ -22,7 +22,9 @@ void goToSleep() {
 }
 
 void powerButtonChanged() {
-
+  detachInterrupt(digitalPinToInterrupt(POWER_PIN));
+   Serial.println("<powerButtonChanged");
+  delay(10);
   // If the button is pressed start measuring how long it is pressed
   if ( !digitalRead(POWER_PIN) ) {
     startPowerTimer();
@@ -75,7 +77,7 @@ void powerConfig() {
       powerPressTime = 0;
       goToSleep();
     } else {
-      // Serial.println("Button pressed.");
+      Serial.println("Button pressed.");
       startPowerTimer();
     }
   }
@@ -142,13 +144,14 @@ void powerLeds() {
 void updateChargeState() {
     int chargeState = analogRead(CHARGE_STATE_PIN);
     // Serial.println(chargeState);
-    if (chargeState > 1200 && chargeState < 1300) {
-      digitalWrite(CHARGE_LED_PIN, HIGH);
-    } else if (chargeState > 2000 && chargeState < 3000) {
-      // Fully charged
+    if (chargeState > 1800 && chargeState < 2000) {
+      // No USB
+      digitalWrite(CHARGE_LED_PIN, LOW);
+    } else if (chargeState > 1200 && chargeState < 1300) {
+      // Charging
       digitalWrite(CHARGE_LED_PIN, HIGH);
     } else if (chargeState > 3000) {
-      // Charging
+      // Fully charged
       digitalWrite(CHARGE_LED_PIN, LOW);
     }
 }

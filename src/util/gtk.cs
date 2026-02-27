@@ -948,13 +948,12 @@ public class UtilGtk
 			"button:disabled label {" +
 			    "color: #666666;" +
 			"}" +
-			/* it makes it shorter (in width) maybe implement in the future in buttons like signal ai move
+			// it makes it shorter (in width) maybe implement in the future in buttons like signal ai move
 			"button#button_small {" +
 			    "padding: 0px;" +
 			    "min-height: 0px;" +
 			    "min-width: 0px;" +
 			"}" +
-			*/
 			"entry:disabled {" +
 			    "background: #cccccc;" +
 			    "background-color: #cccccc;" +

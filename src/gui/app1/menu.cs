@@ -28,6 +28,8 @@ using System.Collections.Generic; //List
 
 public partial class ChronoJumpWindow
 {
+	Gtk.Box box_person_plus_minus;
+	Gtk.Box box_align_with_db_and_session;
 	Gtk.Arrow arrow_menu_show_database_left;
 	Gtk.Arrow arrow_menu_show_database_right;
 	Gtk.Arrow arrow_menu_show_session_left;
@@ -148,12 +150,33 @@ public partial class ChronoJumpWindow
 		menus_and_mode_sensitive(danger);
 	}
 
+	private void person_search_compacted (bool compacted)
+	{
+		if (compacted)
+		{
+			//LogB.Information ("KKA: " + box_align_with_db_and_session.SizeRequest().Width.ToString ());
+			person_search.WidthChars = 12;
+			box_person_plus_minus.Orientation = Orientation.Vertical;
+			button_persons_up.Name = "button_small";
+			button_persons_down.Name = "button_small";
+			//LogB.Information ("KKAB: " + box_align_with_db_and_session.SizeRequest().Width.ToString ());
+		} else {
+			//LogB.Information ("KKC: " + box_align_with_db_and_session.SizeRequest().Width.ToString ());
+			person_search.WidthChars = -1;
+			box_person_plus_minus.Orientation = Orientation.Horizontal;
+			button_persons_up.Name = "";
+			button_persons_down.Name = "";
+			//LogB.Information ("KKD: " + box_align_with_db_and_session.SizeRequest().Width.ToString ());
+		}
+		UtilGtk.ApplyCSS (preferences.fontSizeAtGui);
+	}
+
 	private void menuInitialize ()
 	{
 		menuSetColors();
 
 		//LogB.Information("hpaned MinPosition: " + hpaned_main.MinPosition.ToString());
-
+		//hpaned_main.AddNotification("position", (o, args) => hpaned_main_resized (o, args));
 		/*
 		//do 1 and then 2 to ensure menu is shrinked after changing to icons
 		//1
@@ -203,6 +226,14 @@ public partial class ChronoJumpWindow
 
 //		viewport_menu_top.SetSizeRequest(maxWidth, -1); //-1 is height
 	}
+
+	/*
+	private void hpaned_main_resized (Object o, EventArgs args)
+	{
+		LogB.Information ("XXposA: " + hpaned_main.Position.ToString ());
+		LogB.Information ("XXposB: " + args.ToString ());
+	}
+	*/
 
 	/*
 	   unused on 2.1.3 but maybe use it for menu session
@@ -454,6 +485,8 @@ public partial class ChronoJumpWindow
 
 	private void connectWidgetsMenu (Gtk.Builder builder)
 	{
+		box_person_plus_minus = (Gtk.Box) builder.GetObject ("box_person_plus_minus");
+		box_align_with_db_and_session = (Gtk.Box) builder.GetObject ("box_align_with_db_and_session");
 		arrow_menu_show_database_left = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_database_left");
 		arrow_menu_show_database_right = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_database_right");
 		arrow_menu_show_session_left = (Gtk.Arrow) builder.GetObject ("arrow_menu_show_session_left");

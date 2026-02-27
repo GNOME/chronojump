@@ -92,10 +92,12 @@ public partial class ChronoJumpWindow
 	}
 
 	private void on_treeview_persons_up (object o, EventArgs args) {
+		//person_search_compacted (true); //TODO: remove
 		myTreeViewPersons.SelectPreviousRow(currentPerson.UniqueID);
 	}
 	
 	private void on_treeview_persons_down (object o, EventArgs args) {
+		//person_search_compacted (false); //TODO: remove
 		myTreeViewPersons.SelectNextRow(currentPerson.UniqueID);
 	}
 

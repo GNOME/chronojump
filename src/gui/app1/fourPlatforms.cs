@@ -403,6 +403,7 @@ public partial class ChronoJumpWindow
 				GLib.Timeout.Add (1000, new GLib.TimeoutHandler (on_four_platforms_capture_clicked_again));
 			}
 
+			fourPlatformsCaptureThread = null;
 			return false;
 		} else {
 			if (capturingFourPlatforms == arduinoCaptureStatus.CAPTURING)

@@ -393,8 +393,9 @@ public partial class ChronoJumpWindow
 			else //if (current_mode == Constants.Modes.OTHER) //FOURPLATFORMS
 				updateGraphFourPlatformsBars ();
 
-			//repeat capture 3s after
-			if (configChronojump.FourPlatformsCaptureTwice && fourPlatformsCaptureTwiceDo)
+			// on fourPlatforms repeat capture 3s after
+			if (current_mode == Constants.Modes.OTHER && //FOURPLATFORMS
+					configChronojump.FourPlatformsCaptureTwice && fourPlatformsCaptureTwiceDo)
 			{
 				fourPlatformsCaptureTwiceSw = new Stopwatch ();
 				fourPlatformsCaptureTwiceSw.Start ();

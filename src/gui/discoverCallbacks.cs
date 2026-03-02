@@ -63,7 +63,7 @@ public partial class ChronoJumpWindow
 	Gtk.Entry entry_bluetooth_url;
 	Gtk.Button button_bluetooth_scan;
 	Gtk.Button button_bluetooth_scan_connect;
-	Gtk.Button button_bluetooth_end;
+	Gtk.Button button_bluetooth_stop_scanning;
 	Gtk.ProgressBar progressbar_bluetooth;
 	Gtk.TextView textview_bluetooth;
 	Gtk.RadioButton radio_bluetooth_value_all;
@@ -254,7 +254,7 @@ public partial class ChronoJumpWindow
 		entry_bluetooth_url.Sensitive = ! doing;
 		button_bluetooth_scan.Sensitive = ! doing;
 		button_bluetooth_scan_connect.Sensitive = ! doing;
-		button_bluetooth_end.Sensitive = doing;
+		button_bluetooth_stop_scanning.Sensitive = doing;
 	}
 
 	private void bluetoothDo (bool connect)
@@ -297,6 +297,7 @@ public partial class ChronoJumpWindow
 			//LogB.Information ("currentCommand: " + currentCommand);
 			if (currentCommand.Contains (BluetoothLE.ConnectedName))
 			{
+				button_bluetooth_stop_scanning.Sensitive = false;
 				discoverWin.Image_cancel_close_isClose ();
 				bluetoothConnected = true;
 				progressbar_bluetooth.Fraction = 1.0;
@@ -309,6 +310,7 @@ public partial class ChronoJumpWindow
 
 		if (! bluetoothReading)
 		{
+			button_bluetooth_stop_scanning.Sensitive = false;
 			progressbar_bluetooth.Fraction = 1.0;
 			return false;
 		}
@@ -321,7 +323,7 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
-	private void on_button_bluetooth_end_clicked (object o, EventArgs args)
+	private void on_button_bluetooth_stop_scanning_clicked (object o, EventArgs args)
 	{
 		//if (bluetoothReading)
 		//{
@@ -471,7 +473,7 @@ public partial class ChronoJumpWindow
 		entry_bluetooth_url = (Gtk.Entry) builder.GetObject ("entry_bluetooth_url");
 		button_bluetooth_scan = (Gtk.Button) builder.GetObject ("button_bluetooth_scan");
 		button_bluetooth_scan_connect = (Gtk.Button) builder.GetObject ("button_bluetooth_scan_connect");
-		button_bluetooth_end = (Gtk.Button) builder.GetObject ("button_bluetooth_end");
+		button_bluetooth_stop_scanning = (Gtk.Button) builder.GetObject ("button_bluetooth_stop_scanning");
 		progressbar_bluetooth = (Gtk.ProgressBar) builder.GetObject ("progressbar_bluetooth");
 		textview_bluetooth = (Gtk.TextView) builder.GetObject ("textview_bluetooth");
 		radio_bluetooth_value_all = (Gtk.RadioButton) builder.GetObject ("radio_bluetooth_value_all");

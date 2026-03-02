@@ -412,6 +412,14 @@ public partial class ChronoJumpWindow
 					blinkCapture.Start (); //TODO: but note here is still connecting
 				showHideBlinkIcon (blinkCapture, true);
 
+				//  show person/platform icon
+				if (current_mode == Constants.Modes.JUMPSSIMPLE)
+				{
+					//for (int i = 1; i <= 4; i ++)
+					//	updateJumpIcon (i);
+					updateJumpIcon (1);
+				}
+
 				drawingarea_results_realtime.QueueDraw ();
 
 				if(fourPlatformsPulseMessage == capturingMessage)
@@ -438,6 +446,21 @@ public partial class ChronoJumpWindow
 		Thread.Sleep (50);
 		//LogB.Information("FourPlatforms:"+ fourPlatformsCaptureThread.ThreadState.ToString());
 		return true;
+	}
+
+	private void updateJumpIcon (int i)
+	{
+		if (cairoGraphFourPlatformsPoints_ll[i].Count == 0)
+			return;
+
+		PointF p = PointF.Last (cairoGraphFourPlatformsPoints_ll[i]);
+		if (p == null)
+			return;
+
+		//LogB.Information ("Last is: " + p.ToString ());
+		// 1st sensor Y on 4.0 and 4.4 (check if they are above or below 4.2)
+		image_jump_execute_land.Visible = (p.Y < 5.2 -i);
+		image_jump_execute_air.Visible = (p.Y > 5.2 -i);
 	}
 
 	private List<Jump> fourPlatformsInsertToSQLJumpSimple ()

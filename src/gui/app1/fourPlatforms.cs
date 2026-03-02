@@ -267,6 +267,7 @@ public partial class ChronoJumpWindow
 			fpc = new FourPlatformsCapture (
 					chronopicRegister.GetSelectedForMode (current_mode).Port);
 
+		fpcm = null; // fix to eventual crash on jumps 2nd capture
 		fpcm = new FourPlatformsCaptureManage (current_mode,
 				fourPlatformsCaptureType,
 				Convert.ToInt32 (spin_four_platforms_capture_n.Value),

@@ -2497,6 +2497,13 @@ public class Util
 			return false;
 	}
 
+	public static bool StringIntToBool (string myString) {
+		if(myString == "1")
+			return true;
+		else
+			return false;
+	}
+
 	public static bool StringToBool (string myString) {
 		if(myString.ToUpper() == "TRUE")
 			return true;

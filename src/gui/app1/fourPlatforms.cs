@@ -197,6 +197,9 @@ public partial class ChronoJumpWindow
 
 			event_execute_ButtonCancel.Clicked -= new EventHandler (on_cancel_clicked);
 			event_execute_ButtonCancel.Clicked += new EventHandler (on_cancel_clicked);
+
+			image_jump_execute_land.Visible = false;
+			image_jump_execute_air.Visible = false;
 		}
 
 		blinkCapture = new BlinkImage (image_no_capturing, image_capturing);
@@ -414,11 +417,7 @@ public partial class ChronoJumpWindow
 
 				//  show person/platform icon
 				if (current_mode == Constants.Modes.JUMPSSIMPLE)
-				{
-					//for (int i = 1; i <= 4; i ++)
-					//	updateJumpIcon (i);
-					updateJumpIcon (1);
-				}
+					updateJumpIcons ();
 
 				drawingarea_results_realtime.QueueDraw ();
 
@@ -448,19 +447,32 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
-	private void updateJumpIcon (int i)
+	private void updateJumpIcons ()
 	{
-		if (cairoGraphFourPlatformsPoints_ll[i].Count == 0)
-			return;
+		// for each of the four sensors
+		//for (int i = 1; i <= 4; i ++) //TODO 1 to 4
+		for (int i = 1; i <= 1; i ++)
+		{
+			// if we still have not any event on this sensor ...
+			if (cairoGraphFourPlatformsPoints_ll[i].Count == 0)
+			{
+				// ... show initial status (list from 0 to 3)
+				if (fpc.InitialStatus_l == null || fpc.InitialStatus_l.Count != 4)
+					continue;
 
-		PointF p = PointF.Last (cairoGraphFourPlatformsPoints_ll[i]);
-		if (p == null)
-			return;
+				image_jump_execute_land.Visible = ! fpc.InitialStatus_l[i-1];
+				image_jump_execute_air.Visible = fpc.InitialStatus_l[i-1];
+			}
 
-		//LogB.Information ("Last is: " + p.ToString ());
-		// 1st sensor Y on 4.0 and 4.4 (check if they are above or below 4.2)
-		image_jump_execute_land.Visible = (p.Y < 5.2 -i);
-		image_jump_execute_air.Visible = (p.Y > 5.2 -i);
+			PointF p = PointF.Last (cairoGraphFourPlatformsPoints_ll[i]);
+			if (p == null)
+				continue;
+
+			//LogB.Information ("Last is: " + p.ToString ());
+			// 1st sensor Y on 4.0 and 4.4 (check if they are above or below 4.2)
+			image_jump_execute_land.Visible = (p.Y < 5.2 -i);
+			image_jump_execute_air.Visible = (p.Y > 5.2 -i);
+		}
 	}
 
 	private List<Jump> fourPlatformsInsertToSQLJumpSimple ()

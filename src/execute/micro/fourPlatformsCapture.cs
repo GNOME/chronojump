@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
- * Copyright (C) 2024  Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2024-2026  Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -29,6 +29,7 @@ public class FourPlatformsCapture: ArduinoCapture
 	private int bauds = 115200;
 	private string firmwareVersion;
 	private string portName;
+	private List<bool> initialStatus_l; // list from 0 to 3, used on jump to show if the person is in or out before first event
 
 	//constructor
 	public FourPlatformsCapture (string portName)
@@ -47,12 +48,15 @@ public class FourPlatformsCapture: ArduinoCapture
 	public void Reset ()
 	{
 		initialize ();
+		initialStatus_l = null;
 	}
 
 	public override bool CaptureStart()
 	{
 		LogB.Information("CaptureStart, micro.Opened: " + micro.Opened);
 		// 0 connect if needed
+
+		initialStatus_l = new List<bool> ();
 		List<string> responseExpected_l = new List<string>();
 		if(! micro.Opened)
 		{
@@ -117,15 +121,13 @@ public class FourPlatformsCapture: ArduinoCapture
 		if (waitResponse (responseExpected_l, false, 2000, false))
 		{
 			string [] strEnded = micro.Response.Split(new char[] {':'});
-			string [] strEndedStatus = strEnded[1].Split(new char[] {';'});
-			/*
-			if(strEndedStatus.Length == 3 && Util.IsNumber(strEnded[2], false))
-			{
-				LogB.Information (string.Format ("runEncoderTotalTime: {0}", strEnded[2]));
-				runEncoderTotalTime = Convert.ToInt32 (strEnded[2]);
-			}
-			*/
 			LogB.Information (string.Format ("micro.Response: {0}", micro.Response));
+
+			Match match = Regex.Match (strEnded[1], @"(\d);(\d);(\d);(\d)");
+			if (match.Groups.Count == 5)
+				for (int i = 1; i <= 4; i ++)
+					if (match.Groups[i].ToString() == "0" || match.Groups[i].ToString() == "1")
+						initialStatus_l.Add (Util.StringIntToBool (match.Groups[i].ToString ()));
 			return true;
 		}
 
@@ -222,6 +224,10 @@ public class FourPlatformsCapture: ArduinoCapture
 
 	public string PortName {
 		get { return portName; }
+	}
+
+	public List<bool> InitialStatus_l {
+		get { return initialStatus_l; }
 	}
 }
 

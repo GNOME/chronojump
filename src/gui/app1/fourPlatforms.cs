@@ -29,6 +29,13 @@ using System.Threading;
 public partial class ChronoJumpWindow 
 {
 	// at glade ---->
+
+	// jumps (simple)
+	Gtk.Box box_jumps_chronopic4;
+	Gtk.RadioButton radio_jumps_chronopic4_1;
+	Gtk.RadioButton radio_jumps_chronopic4_signal;
+
+	// other: fourPlatforms
 	Gtk.Box box_start_fourPlatforms;
 	Gtk.Grid grid_fourPlatforms;
 	Gtk.Entry entry_fourPlatforms_port;
@@ -111,6 +118,7 @@ public partial class ChronoJumpWindow
 
 		fpcm = new FourPlatformsCaptureManage (current_mode,
 				FourPlatformsCaptureManage.CaptureEnum.DEFAULT,
+				false,
 				Convert.ToInt32 (spin_four_platforms_capture_n.Value),
 				false,
 				new BluetoothDataList (),
@@ -270,6 +278,7 @@ public partial class ChronoJumpWindow
 		fpcm = null; // fix to eventual crash on jumps 2nd capture
 		fpcm = new FourPlatformsCaptureManage (current_mode,
 				fourPlatformsCaptureType,
+				radio_jumps_chronopic4_1.Active,
 				Convert.ToInt32 (spin_four_platforms_capture_n.Value),
 				bluetoothUse,
 				bluetoothCapture.Bd_l, 	// the growing list of data
@@ -628,6 +637,12 @@ public partial class ChronoJumpWindow
 
 	private void connectWidgetsFourPlatforms (Gtk.Builder builder)
 	{
+		// jumps (simple)
+		box_jumps_chronopic4 = (Gtk.Box) builder.GetObject ("box_jumps_chronopic4");
+		radio_jumps_chronopic4_1 = (Gtk.RadioButton) builder.GetObject ("radio_jumps_chronopic4_1");
+		radio_jumps_chronopic4_signal = (Gtk.RadioButton) builder.GetObject ("radio_jumps_chronopic4_signal");
+
+		// other: fourPlatforms
 		box_start_fourPlatforms = (Gtk.Box) builder.GetObject ("box_start_fourPlatforms");
 		grid_fourPlatforms = (Gtk.Grid) builder.GetObject ("grid_fourPlatforms");
 		entry_fourPlatforms_port = (Gtk.Entry) builder.GetObject ("entry_fourPlatforms_port");

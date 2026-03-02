@@ -42,6 +42,7 @@ public class FourPlatformsCaptureManage
 	private List<PointF> stepsBottom_l;
 	private List<PointF> stepsTop_l;
 
+	private bool oneJump; // mode for jumps simple like Chronopic
 	private FourPlatformsCaptureManageSteps fpcManageSteps;
 	private int stepsTotal;
 
@@ -52,6 +53,7 @@ public class FourPlatformsCaptureManage
 	public FourPlatformsCaptureManage (
 			Constants.Modes mode,
 			CaptureEnum captureType,
+			bool oneJump,
 			int stepsTotal,
 			bool bluetoothUse,
 			BluetoothDataList bluetoothDataList, 	// the growing list of data
@@ -64,6 +66,7 @@ public class FourPlatformsCaptureManage
 	{
 		this.mode = mode;
 		this.captureType = captureType;
+		this.oneJump = oneJump;
 		this.stepsTotal = stepsTotal;
 		this.bluetoothUse = bluetoothUse;
 		this.bluetoothDataList = bluetoothDataList;
@@ -199,7 +202,7 @@ public class FourPlatformsCaptureManage
 
 			yPre = y; // for FROMLOWTOHIGH
 
-			if (mode == Constants.Modes.JUMPSSIMPLE)
+			if (mode == Constants.Modes.JUMPSSIMPLE && oneJump)
 			{
 				if (fpePre != null && fpe.Time > 0)
 					finish = true;

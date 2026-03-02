@@ -3372,6 +3372,8 @@ public partial class ChronoJumpWindow
 		frame_jumps_automatic.Visible = false;
 		box_wilight.Visible = false;
 		box_wilight_commands.Visible = false;
+
+		box_jumps_chronopic4.Visible = false;
 		grid_fourPlatforms.Visible = false;
 		box_event_execute_label_message.Visible = true;
 		hbox_encoder_show_signal_table.Visible = Constants.ModeIsENCODER (m);
@@ -3518,6 +3520,7 @@ public partial class ChronoJumpWindow
 					radio_mode_contacts_analyze_buttons_visible (m);
 
 				showHideFourPlatformsJumpsDrawingArea ();
+				box_jumps_chronopic4.Visible = true; // TODO: show this only when Chronopic4 is detected
 			} else {
 				notebooks_change(m);
 				button_contacts_bells.Visible = true;
